@@ -613,6 +613,22 @@ AWARDS = {
 		"color": "text-gold",
 		"price": 50000
 	},
+	"firework": {
+		"kind": "firework",
+		"title": "Fireworks",
+		"description": "TEST",
+		"icon": "fas fa-party-horn",
+		"color": "text-blue-200",
+		"price": 300
+	},
+	"confetti": {
+		"kind": "confetti",
+		"title": "Confetti",
+		"description": "TEST",
+		"icon": "fas fa-pinata",
+		"color": "text-blue-200",
+		"price": 300
+	},
 }
 
 if SITE_NAME == 'PCM':
