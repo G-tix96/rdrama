@@ -60,42 +60,39 @@
 {% if p.award_count("confetti") %}
 	<script src="/assets/js/confetti-js-master/dist/index.min.js"></script>
 	<script src = "/assets/js/confetti.js"></script>
-    <canvas id="confetti"></canvas>
+    <canvas id="confetti-canvas"></canvas>
 {% endif %}
 
 {% if p.award_count("firework") %}
     <script defer src="/assets/js/fireworks.js?v=1"></script>
-	<style>
-		.firework {
-			position:fixed;
-			z-index:9999;
-			pointer-events: none;
-			width: 100% !important;
-			height: 100% !important;
-		}
-	</style>
-	<div class="firework" height="100%" width="100%">
+	<div class="firework">
 		<img src="">
 	</div>
 
 	{% if p.award_count("firework") > 1 %}
-		<div class="firework" height="100%" width="100%">
+		<div class="firework">
 			<img src="">
 		</div>
 	{% endif %}
 
 	{% if p.award_count("firework") > 2 %}
-		<div class="firework" height="100%" width="100%">
+		<div class="firework">
 			<img src="">
 		</div>
 	{% endif %}
 
 	{% if p.award_count("firework") > 3 %}
-		<div class="firework" height="100%" width="100%">
+		<div class="firework">
 			<img src="">
 		</div>
 	{% endif %}
+{% endif %}
 
+{% if p.award_count("ricardo") %}
+	<script src="/assets/js/ricardo.js"></script>
+	<div class="ricardo ricardoleft">
+		<img src="/assets/images/ricardo1.gif" style="max-height:300px">
+	</div>
 {% endif %}
 
 {% if g.inferior_browser %}

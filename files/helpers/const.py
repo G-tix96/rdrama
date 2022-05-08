@@ -617,13 +617,21 @@ AWARDS = {
 		"kind": "firework",
 		"title": "Fireworks",
 		"description": "TEST",
-		"icon": "fas fa-party-horn",
+		"icon": "fas fa-bahai",
 		"color": "text-blue-200",
 		"price": 300
 	},
 	"confetti": {
 		"kind": "confetti",
 		"title": "Confetti",
+		"description": "TEST",
+		"icon": "fas fa-party-horn",
+		"color": "text-blue-200",
+		"price": 300
+	},
+	"ricardo": {
+		"kind": "ricardo",
+		"title": "Stripper Cake",
 		"description": "TEST",
 		"icon": "fas fa-pinata",
 		"color": "text-blue-200",
