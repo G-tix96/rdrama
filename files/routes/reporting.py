@@ -39,7 +39,7 @@ def api_flag_post(pid, v):
 			_note=f'"{post.flair}"'
 		)
 		g.db.add(ma)
-	elif reason.startswith('/h/') and v.admin_level > 2:
+	elif reason.startswith('/h/') and v.admin_level > 1:
 		post.sub = reason[3:]
 		g.db.add(post)
 		ma=ModAction(
