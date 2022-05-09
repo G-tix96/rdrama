@@ -1409,7 +1409,7 @@ def sticky_post(post_id, v):
 
 	post = g.db.query(Submission).filter_by(id=post_id).one_or_none()
 	if post and not post.stickied:
-		pins = g.db.query(Submission.id).filter(Submission.stickied != None, Submission.is_banned == False).count()
+		pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
 		if pins > 2:
 			if v.admin_level > 2:
 				post.stickied = v.username

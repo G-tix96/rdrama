@@ -229,13 +229,13 @@ def post_id(pid, anything=None, v=None, sub=None):
 			for comment in comments:
 				comments2.append(comment)
 				ids.add(comment.id)
-				count += g.db.query(Comment.id).filter_by(parent_submission=post.id, top_comment_id=comment.id).count() + 1
+				count += g.db.query(Comment).filter_by(parent_submission=post.id, top_comment_id=comment.id).count() + 1
 				if count > 50: break
 		else:
 			for comment in comments:
 				comments2.append(comment)
 				ids.add(comment.id)
-				count += g.db.query(Comment.id).filter_by(parent_submission=post.id, parent_comment_id=comment.id).count() + 1
+				count += g.db.query(Comment).filter_by(parent_submission=post.id, parent_comment_id=comment.id).count() + 1
 				if count > 10: break
 
 		if len(comments) == len(comments2): offset = 0
@@ -353,13 +353,13 @@ def viewmore(v, pid, sort, offset):
 		for comment in comments:
 			comments2.append(comment)
 			ids.add(comment.id)
-			count += g.db.query(Comment.id).filter_by(parent_submission=post.id, top_comment_id=comment.id).count() + 1
+			count += g.db.query(Comment).filter_by(parent_submission=post.id, top_comment_id=comment.id).count() + 1
 			if count > 50: break
 	else:
 		for comment in comments:
 			comments2.append(comment)
 			ids.add(comment.id)
-			count += g.db.query(Comment.id).filter_by(parent_submission=post.id, parent_comment_id=comment.id).count() + 1
+			count += g.db.query(Comment).filter_by(parent_submission=post.id, parent_comment_id=comment.id).count() + 1
 			if count > 10: break
 	
 	if len(comments) == len(comments2): offset = 0
@@ -1362,7 +1362,7 @@ def submit_post(v, sub=None):
 			post.comment_count += 1
 			post.replies = [c]
 
-	v.post_count = g.db.query(Submission.id).filter_by(author_id=v.id, is_banned=False, deleted_utc=0).count()
+	v.post_count = g.db.query(Submission).filter_by(author_id=v.id, is_banned=False, deleted_utc=0).count()
 	g.db.add(v)
 
 	if v.id == PIZZASHILL_ID:

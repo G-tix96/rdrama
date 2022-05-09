@@ -282,7 +282,7 @@ def api_comment(v):
 							g.db.add(marsey)
 							g.db.flush()
 
-							all_by_author = g.db.query(Marsey.author_id).filter_by(author_id=user.id).count()
+							all_by_author = g.db.query(Marsey).filter_by(author_id=user.id).count()
 
 							if all_by_author >= 10 and not user.has_badge(16):
 								new_badge = Badge(badge_id=16, user_id=user.id)
@@ -636,7 +636,7 @@ def api_comment(v):
 
 	cache.delete_memoized(comment_idlist)
 
-	v.comment_count = g.db.query(Comment.id).filter(Comment.author_id == v.id, Comment.parent_submission != None).filter_by(is_banned=False, deleted_utc=0).count()
+	v.comment_count = g.db.query(Comment).filter(Comment.author_id == v.id, Comment.parent_submission != None).filter_by(is_banned=False, deleted_utc=0).count()
 	g.db.add(v)
 
 	c.voted = 1

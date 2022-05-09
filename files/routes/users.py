@@ -1075,7 +1075,7 @@ def follow_user(username, v):
 	g.db.add(new_follow)
 
 	g.db.flush()
-	target.stored_subscriber_count = g.db.query(Follow.target_id).filter_by(target_id=target.id).count()
+	target.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=target.id).count()
 	g.db.add(target)
 
 	send_notification(target.id, f"@{v.username} has followed you!")
@@ -1103,7 +1103,7 @@ def unfollow_user(username, v):
 		g.db.delete(follow)
 		
 		g.db.flush()
-		target.stored_subscriber_count = g.db.query(Follow.target_id).filter_by(target_id=target.id).count()
+		target.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=target.id).count()
 		g.db.add(target)
 
 		send_notification(target.id, f"@{v.username} has unfollowed you!")
@@ -1126,7 +1126,7 @@ def remove_follow(username, v):
 	g.db.delete(follow)
 	
 	g.db.flush()
-	v.stored_subscriber_count = g.db.query(Follow.target_id).filter_by(target_id=v.id).count()
+	v.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=v.id).count()
 	g.db.add(v)
 
 	send_repeatable_notification(target.id, f"@{v.username} has removed your follow!")
