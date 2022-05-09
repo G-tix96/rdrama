@@ -1344,6 +1344,9 @@ def unban_post(post_id, v):
 
 	post = g.db.query(Submission).filter_by(id=post_id).one_or_none()
 
+	if post.author.agendaposter and AGENDAPOSTER_PHRASE not in post.body.lower():
+		return {"error": "You can't bypass the chud award!"}
+
 	if not post:
 		abort(400)
 
