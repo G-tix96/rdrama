@@ -62,7 +62,7 @@ def marsey_list():
 @auth_desired
 def sidebar(v):
 	if not v and not request.path.startswith('/logged_out'): return redirect(f"/logged_out{request.full_path}")
-	if v and request.path.startswith('/logged_out'): v = None
+	if v and request.path.startswith('/logged_out'): return redirect(request.full_path.replace('/logged_out',''))
 
 	return render_template('sidebar.html', v=v)
 
