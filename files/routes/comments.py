@@ -700,31 +700,29 @@ def edit_comment(cid, v):
 		if v.agendaposter and not v.marseyawarded:
 			body = torture_ap(body, v.username)
 
-		if not c.options:
-			for i in poll_regex.finditer(body):
-				body = body.replace(i.group(0), "")
-				c_option = Comment(author_id=AUTOPOLLER_ID,
-					parent_submission=c.parent_submission,
-					parent_comment_id=c.id,
-					level=c.level+1,
-					body_html=filter_emojis_only(i.group(1)),
-					upvotes=0,
-					is_bot=True
-					)
-				g.db.add(c_option)
+		for i in poll_regex.finditer(body):
+			body = body.replace(i.group(0), "")
+			c_option = Comment(author_id=AUTOPOLLER_ID,
+				parent_submission=c.parent_submission,
+				parent_comment_id=c.id,
+				level=c.level+1,
+				body_html=filter_emojis_only(i.group(1)),
+				upvotes=0,
+				is_bot=True
+				)
+			g.db.add(c_option)
 
-		if not c.choices:
-			for i in choice_regex.finditer(body):
-				body = body.replace(i.group(0), "")
-				c_choice = Comment(author_id=AUTOCHOICE_ID,
-					parent_submission=c.parent_submission,
-					parent_comment_id=c.id,
-					level=c.level+1,
-					body_html=filter_emojis_only(i.group(1)),
-					upvotes=0,
-					is_bot=True
-					)
-				g.db.add(c_choice)
+		for i in choice_regex.finditer(body):
+			body = body.replace(i.group(0), "")
+			c_choice = Comment(author_id=AUTOCHOICE_ID,
+				parent_submission=c.parent_submission,
+				parent_comment_id=c.id,
+				level=c.level+1,
+				body_html=filter_emojis_only(i.group(1)),
+				upvotes=0,
+				is_bot=True
+				)
+			g.db.add(c_choice)
 
 		body_html = sanitize(body, edit=True)
 

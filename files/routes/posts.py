@@ -476,29 +476,27 @@ def edit_post(pid, v):
 	if body != p.body:
 		if v.id == p.author_id and v.agendaposter and not v.marseyawarded: body = torture_ap(body, v.username)
 
-		if not p.options:
-			for i in poll_regex.finditer(body):
-				body = body.replace(i.group(0), "")
-				c = Comment(author_id=AUTOPOLLER_ID,
-					parent_submission=p.id,
-					level=1,
-					body_html=filter_emojis_only(i.group(1)),
-					upvotes=0,
-					is_bot=True
-					)
-				g.db.add(c)
+		for i in poll_regex.finditer(body):
+			body = body.replace(i.group(0), "")
+			c = Comment(author_id=AUTOPOLLER_ID,
+				parent_submission=p.id,
+				level=1,
+				body_html=filter_emojis_only(i.group(1)),
+				upvotes=0,
+				is_bot=True
+				)
+			g.db.add(c)
 
-		if not p.choices:
-			for i in choice_regex.finditer(body):
-				body = body.replace(i.group(0), "")
-				c = Comment(author_id=AUTOCHOICE_ID,
-					parent_submission=p.id,
-					level=1,
-					body_html=filter_emojis_only(i.group(1)),
-					upvotes=0,
-					is_bot=True
-					)
-				g.db.add(c)
+		for i in choice_regex.finditer(body):
+			body = body.replace(i.group(0), "")
+			c = Comment(author_id=AUTOCHOICE_ID,
+				parent_submission=p.id,
+				level=1,
+				body_html=filter_emojis_only(i.group(1)),
+				upvotes=0,
+				is_bot=True
+				)
+			g.db.add(c)
 
 		body_html = sanitize(body, edit=True)
 
