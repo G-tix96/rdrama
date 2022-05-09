@@ -26,6 +26,9 @@ defaulttheme = environ.get("DEFAULT_THEME", "midnight").strip()
 defaulttimefilter = environ.get("DEFAULT_TIME_FILTER", "all").strip()
 cardview = bool(int(environ.get("CARD_VIEW", 1)))
 
+if SITE_NAME in ('Cringetopia', 'WPD'): patron_default = 7
+else: patron_default = 0
+
 class User(Base):
 	__tablename__ = "users"
 
@@ -48,7 +51,7 @@ class User(Base):
 	profileurl = Column(String)
 	bannerurl = Column(String)
 	house = Column(String)
-	patron = Column(Integer, default=0)
+	patron = Column(Integer, default=patron_default)
 	patron_utc = Column(Integer, default=0)
 	verified = Column(String)
 	verifiedcolor = Column(String)
