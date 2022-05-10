@@ -394,8 +394,6 @@ def gumroad(v):
 	v.procoins += procoins
 	send_repeatable_notification(v.id, f"You have received {procoins} Marseybux! You can use them to buy awards in the [shop](/shop).")
 
-	if v.patron > 1 and v.verified == None: v.verified = "Verified"
-
 	g.db.add(v)
 
 	if not v.has_badge(20+tier):
@@ -879,7 +877,7 @@ def settings_title_change(v):
 	
 	new_name=request.values.get("title").strip()[:100].replace("𒐪","")
 
-	if new_name==v.customtitle: return render_template("settings_profile.html", v=v, error="You didn't change anything")
+	if new_name == v.customtitle: return render_template("settings_profile.html", v=v, error="You didn't change anything")
 
 	v.customtitleplain = new_name
 
@@ -888,6 +886,27 @@ def settings_title_change(v):
 	if len(v.customtitle) < 1000:
 		g.db.add(v)
 		g.db.commit()
+
+	return redirect("/settings/profile")
+
+
+@app.post("/settings/checkmark_text")
+@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@auth_required
+def settings_checkmark_text(v):
+
+	if not v.verified: abort(403)
+	
+	new_name=request.values.get("title").strip()[:100].replace("𒐪","")
+
+	if not new_name: abort(400)
+
+	if new_name == v.verified: return render_template("settings_profile.html", v=v, error="You didn't change anything")
+
+	v.verified = new_name
+	g.db.add(v)
+	g.db.commit()
 
 	return redirect("/settings/profile")
 

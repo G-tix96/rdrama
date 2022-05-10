@@ -1098,42 +1098,6 @@ def unshadowban(user_id, v):
 	g.db.commit()
 	return {"message": "User unshadowbanned!"}
 
-@app.post("/admin/verify/<user_id>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(3)
-def verify(user_id, v):
-	user = g.db.query(User).filter_by(id=user_id).one_or_none()
-	user.verified = "Verified"
-	g.db.add(user)
-
-	ma = ModAction(
-		kind="check",
-		user_id=v.id,
-		target_user_id=user.id,
-	)
-	g.db.add(ma)
-
-	g.db.commit()
-	return {"message": "User verfied!"}
-
-@app.post("/admin/unverify/<user_id>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(3)
-def unverify(user_id, v):
-	user = g.db.query(User).filter_by(id=user_id).one_or_none()
-	user.verified = None
-	g.db.add(user)
-
-	ma = ModAction(
-		kind="uncheck",
-		user_id=v.id,
-		target_user_id=user.id,
-	)
-	g.db.add(ma)
-
-	g.db.commit()
-	return {"message": "User unverified!"}
-
 
 @app.post("/admin/title_change/<user_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")

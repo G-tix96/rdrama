@@ -347,6 +347,8 @@ def award_post(pid, v):
 			g.db.add(badge)
 			g.db.flush()
 			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({badge.path})\n\n{badge.name}")
+	elif kind == "checkmark":
+		author.verified = "Verified"
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1
@@ -586,6 +588,8 @@ def award_comment(cid, v):
 			g.db.add(badge)
 			g.db.flush()
 			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({badge.path})\n\n{badge.name}")
+	elif kind == "checkmark":
+		author.verified = "Verified"
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1

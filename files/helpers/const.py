@@ -614,6 +614,14 @@ AWARDS = {
 		"color": "text-gold",
 		"price": 50000
 	},
+	"checkmark": {
+		"kind": "checkmark",
+		"title": "Checkmark",
+		"description": "Gives the recipient a checkmark.",
+		"icon": "fas fa-badge-check",
+		"color": "checkmark",
+		"price": 100000
+	},
 }
 
 if SITE_NAME == 'PCM':
