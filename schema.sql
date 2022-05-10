@@ -593,7 +593,7 @@ CREATE TABLE public.users (
     patron integer DEFAULT 0 NOT NULL,
     controversial boolean DEFAULT false NOT NULL,
     background character varying(20),
-    verified character varying(20),
+    verified character varying(100),
     cardview boolean NOT NULL,
     received_award_count integer DEFAULT 0 NOT NULL,
     highlightcomments boolean DEFAULT true NOT NULL,
