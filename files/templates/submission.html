@@ -90,9 +90,21 @@
 
 {% if p.award_count("ricardo") %}
 	<script src="/assets/js/ricardo.js"></script>
-	<div class="ricardo ricardoleft">
-		<img src="/assets/images/ricardo1.gif" style="max-height:300px">
+	<div id="ricardo1" class="ricardo ricardoleft">
+		<img src="/assets/images/ricardo1.gif">
 	</div>
+
+	{% if p.award_count("ricardo") > 1 %}
+		<div id="ricardo2" class="ricardo">
+			<img src="/assets/images/ricardo2.gif" style="max-height:200px">
+		</div>
+	{% endif %}
+
+	{% if p.award_count("ricardo") > 2 %}
+		<div id="ricardo3" class="ricardo">
+			<img src="/assets/images/ricardo3.gif" style="max-height:150px">
+		</div>
+	{% endif %}
 {% endif %}
 
 {% if g.inferior_browser %}
