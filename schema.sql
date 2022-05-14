@@ -10,7 +10,7 @@ SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
+SELECT pg_catalog.set_config('search_path', 'public', false);
 SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
@@ -105,10 +105,10 @@ CREATE TABLE public.submissions (
 
 
 --
--- Name: bump_utc(public.submissions); Type: FUNCTION; Schema: public; Owner: -
+-- Name: bump_utc(submissions); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION public.bump_utc(public.submissions) RETURNS integer
+CREATE FUNCTION public.bump_utc(submissions) RETURNS integer
     LANGUAGE sql IMMUTABLE STRICT
     AS $_$
       SELECT CREATED_UTC
@@ -682,49 +682,49 @@ CREATE TABLE public.votes (
 -- Name: award_relationships id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.award_relationships ALTER COLUMN id SET DEFAULT nextval('public.award_relationships_id_seq'::regclass);
+ALTER TABLE ONLY public.award_relationships ALTER COLUMN id SET DEFAULT nextval('award_relationships_id_seq'::regclass);
 
 
 --
 -- Name: badge_defs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.badge_defs ALTER COLUMN id SET DEFAULT nextval('public.badge_defs_id_seq'::regclass);
+ALTER TABLE ONLY public.badge_defs ALTER COLUMN id SET DEFAULT nextval('badge_defs_id_seq'::regclass);
 
 
 --
 -- Name: comments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.comments_id_seq'::regclass);
+ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq'::regclass);
 
 
 --
 -- Name: modactions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.modactions ALTER COLUMN id SET DEFAULT nextval('public.modactions_id_seq'::regclass);
+ALTER TABLE ONLY public.modactions ALTER COLUMN id SET DEFAULT nextval('modactions_id_seq'::regclass);
 
 
 --
 -- Name: oauth_apps id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.oauth_apps ALTER COLUMN id SET DEFAULT nextval('public.oauth_apps_id_seq'::regclass);
+ALTER TABLE ONLY public.oauth_apps ALTER COLUMN id SET DEFAULT nextval('oauth_apps_id_seq'::regclass);
 
 
 --
 -- Name: submissions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.submissions ALTER COLUMN id SET DEFAULT nextval('public.submissions_id_seq'::regclass);
+ALTER TABLE ONLY public.submissions ALTER COLUMN id SET DEFAULT nextval('submissions_id_seq'::regclass);
 
 
 --
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
 --
@@ -1117,7 +1117,7 @@ CREATE INDEX discord_id_idx ON public.users USING btree (discord_id);
 -- Name: domains_domain_trgm_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX domains_domain_trgm_idx ON public.banneddomains USING gin (domain public.gin_trgm_ops);
+CREATE INDEX domains_domain_trgm_idx ON public.banneddomains USING gin (domain gin_trgm_ops);
 
 
 --
@@ -1397,7 +1397,7 @@ CREATE INDEX users_created_utc_index ON public.users USING btree (created_utc);
 -- Name: users_original_username_trgm_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX users_original_username_trgm_idx ON public.users USING gin (original_username public.gin_trgm_ops);
+CREATE INDEX users_original_username_trgm_idx ON public.users USING gin (original_username gin_trgm_ops);
 
 
 --
@@ -1418,7 +1418,7 @@ CREATE INDEX users_unbanutc_idx ON public.users USING btree (unban_utc DESC);
 -- Name: users_username_trgm_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX users_username_trgm_idx ON public.users USING gin (username public.gin_trgm_ops);
+CREATE INDEX users_username_trgm_idx ON public.users USING gin (username gin_trgm_ops);
 
 
 --
@@ -1440,7 +1440,7 @@ CREATE INDEX votes_type_index ON public.votes USING btree (vote_type);
 --
 
 ALTER TABLE ONLY public.alts
-    ADD CONSTRAINT alt_user1_fkey FOREIGN KEY (user1) REFERENCES public.users(id);
+    ADD CONSTRAINT alt_user1_fkey FOREIGN KEY (user1) REFERENCES users(id);
 
 
 --
@@ -1448,7 +1448,7 @@ ALTER TABLE ONLY public.alts
 --
 
 ALTER TABLE ONLY public.alts
-    ADD CONSTRAINT alt_user2_fkey FOREIGN KEY (user2) REFERENCES public.users(id);
+    ADD CONSTRAINT alt_user2_fkey FOREIGN KEY (user2) REFERENCES users(id);
 
 
 --
@@ -1456,7 +1456,7 @@ ALTER TABLE ONLY public.alts
 --
 
 ALTER TABLE ONLY public.oauth_apps
-    ADD CONSTRAINT app_author_id_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
+    ADD CONSTRAINT app_author_id_fkey FOREIGN KEY (author_id) REFERENCES users(id);
 
 
 --
@@ -1464,7 +1464,7 @@ ALTER TABLE ONLY public.oauth_apps
 --
 
 ALTER TABLE ONLY public.award_relationships
-    ADD CONSTRAINT award_comment_fkey FOREIGN KEY (comment_id) REFERENCES public.comments(id);
+    ADD CONSTRAINT award_comment_fkey FOREIGN KEY (comment_id) REFERENCES comments(id);
 
 
 --
@@ -1472,7 +1472,7 @@ ALTER TABLE ONLY public.award_relationships
 --
 
 ALTER TABLE ONLY public.award_relationships
-    ADD CONSTRAINT award_submission_fkey FOREIGN KEY (submission_id) REFERENCES public.submissions(id);
+    ADD CONSTRAINT award_submission_fkey FOREIGN KEY (submission_id) REFERENCES submissions(id);
 
 
 --
@@ -1480,7 +1480,7 @@ ALTER TABLE ONLY public.award_relationships
 --
 
 ALTER TABLE ONLY public.award_relationships
-    ADD CONSTRAINT award_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT award_user_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1488,7 +1488,7 @@ ALTER TABLE ONLY public.award_relationships
 --
 
 ALTER TABLE ONLY public.badges
-    ADD CONSTRAINT badges_badge_id_fkey FOREIGN KEY (badge_id) REFERENCES public.badge_defs(id);
+    ADD CONSTRAINT badges_badge_id_fkey FOREIGN KEY (badge_id) REFERENCES badge_defs(id);
 
 
 --
@@ -1496,7 +1496,7 @@ ALTER TABLE ONLY public.badges
 --
 
 ALTER TABLE ONLY public.badges
-    ADD CONSTRAINT badges_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT badges_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1504,7 +1504,7 @@ ALTER TABLE ONLY public.badges
 --
 
 ALTER TABLE ONLY public.userblocks
-    ADD CONSTRAINT block_target_fkey FOREIGN KEY (target_id) REFERENCES public.users(id);
+    ADD CONSTRAINT block_target_fkey FOREIGN KEY (target_id) REFERENCES users(id);
 
 
 --
@@ -1512,7 +1512,7 @@ ALTER TABLE ONLY public.userblocks
 --
 
 ALTER TABLE ONLY public.userblocks
-    ADD CONSTRAINT block_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT block_user_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1520,7 +1520,7 @@ ALTER TABLE ONLY public.userblocks
 --
 
 ALTER TABLE ONLY public.client_auths
-    ADD CONSTRAINT client_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT client_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1528,7 +1528,7 @@ ALTER TABLE ONLY public.client_auths
 --
 
 ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT comment_approver_fkey FOREIGN KEY (is_approved) REFERENCES public.users(id);
+    ADD CONSTRAINT comment_approver_fkey FOREIGN KEY (is_approved) REFERENCES users(id);
 
 
 --
@@ -1536,7 +1536,7 @@ ALTER TABLE ONLY public.comments
 --
 
 ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT comment_parent_comment_fkey FOREIGN KEY (parent_comment_id) REFERENCES public.comments(id);
+    ADD CONSTRAINT comment_parent_comment_fkey FOREIGN KEY (parent_comment_id) REFERENCES comments(id);
 
 
 --
@@ -1544,7 +1544,7 @@ ALTER TABLE ONLY public.comments
 --
 
 ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT comment_parent_submission_fkey FOREIGN KEY (parent_submission) REFERENCES public.submissions(id);
+    ADD CONSTRAINT comment_parent_submission_fkey FOREIGN KEY (parent_submission) REFERENCES submissions(id);
 
 
 --
@@ -1552,7 +1552,7 @@ ALTER TABLE ONLY public.comments
 --
 
 ALTER TABLE ONLY public.comment_save_relationship
-    ADD CONSTRAINT comment_save_relationship_comment_fkey FOREIGN KEY (comment_id) REFERENCES public.comments(id) MATCH FULL;
+    ADD CONSTRAINT comment_save_relationship_comment_fkey FOREIGN KEY (comment_id) REFERENCES comments(id) MATCH FULL;
 
 
 --
@@ -1560,7 +1560,7 @@ ALTER TABLE ONLY public.comment_save_relationship
 --
 
 ALTER TABLE ONLY public.comment_save_relationship
-    ADD CONSTRAINT comment_save_relationship_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
+    ADD CONSTRAINT comment_save_relationship_user_fkey FOREIGN KEY (user_id) REFERENCES users(id) MATCH FULL;
 
 
 --
@@ -1568,7 +1568,7 @@ ALTER TABLE ONLY public.comment_save_relationship
 --
 
 ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT comment_sentto_fkey FOREIGN KEY (sentto) REFERENCES public.users(id);
+    ADD CONSTRAINT comment_sentto_fkey FOREIGN KEY (sentto) REFERENCES users(id);
 
 
 --
@@ -1576,7 +1576,7 @@ ALTER TABLE ONLY public.comments
 --
 
 ALTER TABLE ONLY public.commentflags
-    ADD CONSTRAINT commentflags_comment_id_fkey FOREIGN KEY (comment_id) REFERENCES public.comments(id);
+    ADD CONSTRAINT commentflags_comment_id_fkey FOREIGN KEY (comment_id) REFERENCES comments(id);
 
 
 --
@@ -1584,7 +1584,7 @@ ALTER TABLE ONLY public.commentflags
 --
 
 ALTER TABLE ONLY public.commentflags
-    ADD CONSTRAINT commentflags_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT commentflags_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1592,7 +1592,7 @@ ALTER TABLE ONLY public.commentflags
 --
 
 ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT comments_author_id_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
+    ADD CONSTRAINT comments_author_id_fkey FOREIGN KEY (author_id) REFERENCES users(id);
 
 
 --
@@ -1600,7 +1600,7 @@ ALTER TABLE ONLY public.comments
 --
 
 ALTER TABLE ONLY public.commentvotes
-    ADD CONSTRAINT commentvote_comment_fkey FOREIGN KEY (comment_id) REFERENCES public.comments(id) MATCH FULL;
+    ADD CONSTRAINT commentvote_comment_fkey FOREIGN KEY (comment_id) REFERENCES comments(id) MATCH FULL;
 
 
 --
@@ -1608,7 +1608,7 @@ ALTER TABLE ONLY public.commentvotes
 --
 
 ALTER TABLE ONLY public.commentvotes
-    ADD CONSTRAINT commentvote_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT commentvote_user_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1616,7 +1616,7 @@ ALTER TABLE ONLY public.commentvotes
 --
 
 ALTER TABLE ONLY public.exiles
-    ADD CONSTRAINT exile_exiler_fkey FOREIGN KEY (exiler_id) REFERENCES public.users(id);
+    ADD CONSTRAINT exile_exiler_fkey FOREIGN KEY (exiler_id) REFERENCES users(id);
 
 
 --
@@ -1624,7 +1624,7 @@ ALTER TABLE ONLY public.exiles
 --
 
 ALTER TABLE ONLY public.exiles
-    ADD CONSTRAINT exile_sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name);
+    ADD CONSTRAINT exile_sub_fkey FOREIGN KEY (sub) REFERENCES subs(name);
 
 
 --
@@ -1632,7 +1632,7 @@ ALTER TABLE ONLY public.exiles
 --
 
 ALTER TABLE ONLY public.exiles
-    ADD CONSTRAINT exile_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT exile_user_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1640,7 +1640,7 @@ ALTER TABLE ONLY public.exiles
 --
 
 ALTER TABLE ONLY public.flags
-    ADD CONSTRAINT flags_post_id_fkey FOREIGN KEY (post_id) REFERENCES public.submissions(id);
+    ADD CONSTRAINT flags_post_id_fkey FOREIGN KEY (post_id) REFERENCES submissions(id);
 
 
 --
@@ -1648,7 +1648,7 @@ ALTER TABLE ONLY public.flags
 --
 
 ALTER TABLE ONLY public.flags
-    ADD CONSTRAINT flags_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT flags_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1656,7 +1656,7 @@ ALTER TABLE ONLY public.flags
 --
 
 ALTER TABLE ONLY public.follows
-    ADD CONSTRAINT follow_target_fkey FOREIGN KEY (target_id) REFERENCES public.users(id);
+    ADD CONSTRAINT follow_target_fkey FOREIGN KEY (target_id) REFERENCES users(id);
 
 
 --
@@ -1664,7 +1664,7 @@ ALTER TABLE ONLY public.follows
 --
 
 ALTER TABLE ONLY public.follows
-    ADD CONSTRAINT follow_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT follow_user_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1672,7 +1672,7 @@ ALTER TABLE ONLY public.follows
 --
 
 ALTER TABLE ONLY public.marseys
-    ADD CONSTRAINT marsey_author_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
+    ADD CONSTRAINT marsey_author_fkey FOREIGN KEY (author_id) REFERENCES users(id);
 
 
 --
@@ -1680,7 +1680,7 @@ ALTER TABLE ONLY public.marseys
 --
 
 ALTER TABLE ONLY public.mods
-    ADD CONSTRAINT mod_sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name);
+    ADD CONSTRAINT mod_sub_fkey FOREIGN KEY (sub) REFERENCES subs(name);
 
 
 --
@@ -1688,7 +1688,7 @@ ALTER TABLE ONLY public.mods
 --
 
 ALTER TABLE ONLY public.modactions
-    ADD CONSTRAINT modactions_comment_fkey FOREIGN KEY (target_comment_id) REFERENCES public.comments(id);
+    ADD CONSTRAINT modactions_comment_fkey FOREIGN KEY (target_comment_id) REFERENCES comments(id);
 
 
 --
@@ -1696,7 +1696,7 @@ ALTER TABLE ONLY public.modactions
 --
 
 ALTER TABLE ONLY public.modactions
-    ADD CONSTRAINT modactions_submission_fkey FOREIGN KEY (target_submission_id) REFERENCES public.submissions(id);
+    ADD CONSTRAINT modactions_submission_fkey FOREIGN KEY (target_submission_id) REFERENCES submissions(id);
 
 
 --
@@ -1704,7 +1704,7 @@ ALTER TABLE ONLY public.modactions
 --
 
 ALTER TABLE ONLY public.modactions
-    ADD CONSTRAINT modactions_user_fkey FOREIGN KEY (target_user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT modactions_user_fkey FOREIGN KEY (target_user_id) REFERENCES users(id);
 
 
 --
@@ -1712,7 +1712,7 @@ ALTER TABLE ONLY public.modactions
 --
 
 ALTER TABLE ONLY public.notifications
-    ADD CONSTRAINT notifications_comment_id_fkey FOREIGN KEY (comment_id) REFERENCES public.comments(id);
+    ADD CONSTRAINT notifications_comment_id_fkey FOREIGN KEY (comment_id) REFERENCES comments(id);
 
 
 --
@@ -1720,7 +1720,7 @@ ALTER TABLE ONLY public.notifications
 --
 
 ALTER TABLE ONLY public.notifications
-    ADD CONSTRAINT notifications_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT notifications_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1728,7 +1728,7 @@ ALTER TABLE ONLY public.notifications
 --
 
 ALTER TABLE ONLY public.client_auths
-    ADD CONSTRAINT oauth_client_fkey FOREIGN KEY (oauth_client) REFERENCES public.oauth_apps(id);
+    ADD CONSTRAINT oauth_client_fkey FOREIGN KEY (oauth_client) REFERENCES oauth_apps(id);
 
 
 --
@@ -1736,7 +1736,7 @@ ALTER TABLE ONLY public.client_auths
 --
 
 ALTER TABLE ONLY public.save_relationship
-    ADD CONSTRAINT save_relationship_submission_fkey FOREIGN KEY (submission_id) REFERENCES public.submissions(id) MATCH FULL;
+    ADD CONSTRAINT save_relationship_submission_fkey FOREIGN KEY (submission_id) REFERENCES submissions(id) MATCH FULL;
 
 
 --
@@ -1744,7 +1744,7 @@ ALTER TABLE ONLY public.save_relationship
 --
 
 ALTER TABLE ONLY public.save_relationship
-    ADD CONSTRAINT save_relationship_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
+    ADD CONSTRAINT save_relationship_user_fkey FOREIGN KEY (user_id) REFERENCES users(id) MATCH FULL;
 
 
 --
@@ -1752,7 +1752,7 @@ ALTER TABLE ONLY public.save_relationship
 --
 
 ALTER TABLE ONLY public.sub_blocks
-    ADD CONSTRAINT sub_blocks_sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name) MATCH FULL;
+    ADD CONSTRAINT sub_blocks_sub_fkey FOREIGN KEY (sub) REFERENCES subs(name) MATCH FULL;
 
 
 --
@@ -1760,7 +1760,7 @@ ALTER TABLE ONLY public.sub_blocks
 --
 
 ALTER TABLE ONLY public.sub_blocks
-    ADD CONSTRAINT sub_blocks_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
+    ADD CONSTRAINT sub_blocks_user_fkey FOREIGN KEY (user_id) REFERENCES users(id) MATCH FULL;
 
 
 --
@@ -1768,7 +1768,7 @@ ALTER TABLE ONLY public.sub_blocks
 --
 
 ALTER TABLE ONLY public.submissions
-    ADD CONSTRAINT sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name);
+    ADD CONSTRAINT sub_fkey FOREIGN KEY (sub) REFERENCES subs(name);
 
 
 --
@@ -1776,7 +1776,7 @@ ALTER TABLE ONLY public.submissions
 --
 
 ALTER TABLE ONLY public.submissions
-    ADD CONSTRAINT submissions_approver_fkey FOREIGN KEY (is_approved) REFERENCES public.users(id);
+    ADD CONSTRAINT submissions_approver_fkey FOREIGN KEY (is_approved) REFERENCES users(id);
 
 
 --
@@ -1784,7 +1784,7 @@ ALTER TABLE ONLY public.submissions
 --
 
 ALTER TABLE ONLY public.submissions
-    ADD CONSTRAINT submissions_author_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
+    ADD CONSTRAINT submissions_author_fkey FOREIGN KEY (author_id) REFERENCES users(id);
 
 
 --
@@ -1792,7 +1792,7 @@ ALTER TABLE ONLY public.submissions
 --
 
 ALTER TABLE ONLY public.subscriptions
-    ADD CONSTRAINT subscription_submission_fkey FOREIGN KEY (submission_id) REFERENCES public.submissions(id);
+    ADD CONSTRAINT subscription_submission_fkey FOREIGN KEY (submission_id) REFERENCES submissions(id);
 
 
 --
@@ -1800,7 +1800,7 @@ ALTER TABLE ONLY public.subscriptions
 --
 
 ALTER TABLE ONLY public.subscriptions
-    ADD CONSTRAINT subscription_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT subscription_user_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1808,7 +1808,7 @@ ALTER TABLE ONLY public.subscriptions
 --
 
 ALTER TABLE ONLY public.mods
-    ADD CONSTRAINT user_mod_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT user_mod_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1816,7 +1816,7 @@ ALTER TABLE ONLY public.mods
 --
 
 ALTER TABLE ONLY public.users
-    ADD CONSTRAINT user_referrer_fkey FOREIGN KEY (referred_by) REFERENCES public.users(id);
+    ADD CONSTRAINT user_referrer_fkey FOREIGN KEY (referred_by) REFERENCES users(id);
 
 
 --
@@ -1824,7 +1824,7 @@ ALTER TABLE ONLY public.users
 --
 
 ALTER TABLE ONLY public.viewers
-    ADD CONSTRAINT view_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT view_user_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1832,7 +1832,7 @@ ALTER TABLE ONLY public.viewers
 --
 
 ALTER TABLE ONLY public.viewers
-    ADD CONSTRAINT view_viewer_fkey FOREIGN KEY (viewer_id) REFERENCES public.users(id);
+    ADD CONSTRAINT view_viewer_fkey FOREIGN KEY (viewer_id) REFERENCES users(id);
 
 
 --
@@ -1840,7 +1840,7 @@ ALTER TABLE ONLY public.viewers
 --
 
 ALTER TABLE ONLY public.votes
-    ADD CONSTRAINT vote_submission_key FOREIGN KEY (submission_id) REFERENCES public.submissions(id);
+    ADD CONSTRAINT vote_submission_key FOREIGN KEY (submission_id) REFERENCES submissions(id);
 
 
 --
@@ -1848,5 +1848,5 @@ ALTER TABLE ONLY public.votes
 --
 
 ALTER TABLE ONLY public.votes
-    ADD CONSTRAINT vote_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT vote_user_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
