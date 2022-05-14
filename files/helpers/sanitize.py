@@ -327,7 +327,7 @@ def filter_emojis_only(title, edit=False, graceful=False):
 
 	title = strikethrough_regex.sub(r'<del>\1</del>', title)
 
-	sanitized = bleach.clean(title, tags=['img','del'], attributes=allowed_attributes_emojis, protocols=['http','https'])
+	title = bleach.clean(title, tags=['img','del'], attributes=allowed_attributes_emojis, protocols=['http','https'])
 
 	signal.alarm(0)
 

@@ -119,7 +119,7 @@ def after_request(response):
 
 if app.config["SERVER_NAME"] == 'localhost':
 	from files.routes import *
-	from files.routes.chat import *
+	# from files.routes.chat import *
 elif "load_chat" in argv:
 	from files.routes.chat import *
 else:
