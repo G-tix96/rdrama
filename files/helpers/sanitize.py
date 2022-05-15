@@ -252,7 +252,8 @@ def sanitize(sanitized, alert=False, comment=False, edit=False):
 	if '#factcheck' in sanitized:
 		sanitized = sanitized.replace('#factcheck', '')
 		sanitized += '\n\n<p>' + choice(FACTCHECK_REPLIES) + '</p>'
-		
+
+	sanitized = sanitized.replace('<p></p>', '')
 	sanitized = sanitized.replace('&amp;','&')
 	sanitized = utm_regex.sub('', sanitized)
 	sanitized = utm_regex2.sub('', sanitized)
