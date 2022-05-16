@@ -9,8 +9,7 @@ from files.helpers.jinja2 import *
 from files.__main__ import app
 
 @app.get('/rss/<sort>/<t>')
-@auth_required
-def feeds_user(v=None, sort='hot', t='all'):
+def feeds_user(sort='hot', t='all'):
 
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
