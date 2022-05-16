@@ -95,9 +95,9 @@ else:
 		"pedocord": "discord (actually a pretty cool service)",
 		"i hate carp": "i love Carp",
 		"manlet": "little king",
-		"gamer": "g*mer",
-		"journalist": "journ*list",
-		"journalism": "journ*lism",
+		"gamer": "g\*mer",
+		"journalist": "journ\*list",
+		"journalism": "journ\*lism",
 		"wuhan flu": "SARS-CoV-2 syndemic",
 		"china flu": "SARS-CoV-2 syndemic",
 		"china virus": "SARS-CoV-2 syndemic",
@@ -886,6 +886,7 @@ approved_embed_hosts = [
 	'googleapis.com',
 	'bing.com',
 	'typekit.net',
+	'postimg.cc'
 	]
 
 hosts = "|".join(approved_embed_hosts).replace('.','\.')
