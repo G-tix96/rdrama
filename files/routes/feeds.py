@@ -8,6 +8,8 @@ from files.helpers.jinja2 import *
 
 from files.__main__ import app
 
+@app.get('/rss')
+@app.get('/feed')
 @app.get('/rss/<sort>/<t>')
 def feeds_user(sort='hot', t='all'):
 
