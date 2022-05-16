@@ -106,7 +106,9 @@
 							<span>{{ma.string | safe}}</span>
 						</div>
 
-						<div class="text-gray-500">{{ma.age_string}} <a href="{{ma.permalink}}"><i class="far fa-link ml-1 text-muted"></i></a>
+						<div class="text-gray-500">
+							<span class="log--item-age" title="{{ ma.created_string }}">{{ma.age_string}}</span>
+							<a href="{{ma.permalink}}"><i class="far fa-link ml-1 text-muted"></i></a>
 							<a role="button" class="copy-link" role="button" data-clipboard-text="{{ma.permalink}}"><i class="far fa-copy ml-1 text-muted"></i></a>
 						</div>
 
