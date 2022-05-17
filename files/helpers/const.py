@@ -26,6 +26,15 @@ AJ_REPLACEMENTS = {
 
 	' YOUR ': " YOU'RE ",
 	' TO ': " TOO ",
+
+	'anybody': 'anypony',
+	'everybody': 'everypony',
+
+	'Anybody': 'Anypony',
+	'Everybody': 'Everypony',
+
+	'ANYBODY': 'ANYPONY',
+	'EVERYBODY': 'EVERYPONY',
 }
 
 if SITE_NAME == 'rDrama':
