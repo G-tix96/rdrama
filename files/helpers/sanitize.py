@@ -42,8 +42,7 @@ def allowed_attributes(tag, name, value):
 		if name == 'loading' and value == 'lazy': return True
 		if name == 'referrpolicy' and value == 'no-referrer': return True
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
-		if name in ['alt','title','g','b','pat']: return True
-		if name == 'class' and value == 'pat-hand': return True
+		if name in ['alt','title','g','b']: return True
 		return False
 
 	if tag == 'lite-youtube':
@@ -71,7 +70,6 @@ def allowed_attributes(tag, name, value):
 		return False
 
 	if tag == 'span':
-		if name == 'class' and value in ['pat-container', 'pat-hand']: return True
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
 		if name == 'title': return True
 		if name == 'alt': return True
@@ -81,7 +79,16 @@ def allowed_attributes(tag, name, value):
 url_re = build_url_re(tlds=TLDS, protocols=['http', 'https'])
 
 def callback(attrs, new=False):
+	if (None, "href") not in attrs:
+		return # Incorrect <a> tag
+
 	href = attrs[(None, "href")]
+
+	# \ in href right after / makes most browsers ditch site hostname and allows for a host injection bypassing the check, see <a href="/\google.com">cool</a>
+	if "\\" in href:
+		attrs["_text"] = href # Laugh at this user
+		del attrs[(None, "href")] # Make unclickable and reset harmful payload
+		return attrs
 
 	if not href.startswith('/') and not href.startswith(f'{SITE_FULL}/'):
 		attrs[(None, "target")] = "_blank"
@@ -117,17 +124,16 @@ def render_emoji(html, regexp, edit, marseys_used=set(), b=False):
 
 		if emoji.endswith('pat'):
 			if path.isfile(f"files/assets/images/emojis/{emoji.replace('pat','')}.webp"):
-				attrs += ' pat'
-				emoji_html = f'<span class="pat-container" data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/assets/images/hand.webp" class="pat-hand">{emoji_partial_pat.format(old, f"/e/{emoji[:-3]}.webp", attrs)}</span>'
+				emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/assets/images/hand.webp">{emoji_partial_pat.format(old, f"/e/{emoji[:-3]}.webp", attrs)}</span>'
 			elif emoji.startswith('@'):
 				if u := get_user(emoji[1:-3], graceful=True):
-					attrs += ' pat'
-					emoji_html = f'<span class="pat-container" data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/assets/images/hand.webp" class="pat-hand">{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
+					emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/assets/images/hand.webp">{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
 		elif path.isfile(f'files/assets/images/emojis/{emoji}.webp'):
 			emoji_html = emoji_partial.format(old, f'/e/{emoji}.webp', attrs)
 
 
 		if emoji_html:
+			marseys_used.add(emoji)
 			html = re.sub(f'(?<!"){i.group(0)}', emoji_html, html)
 	return html
 
@@ -320,6 +326,12 @@ def allowed_attributes_emojis(tag, name, value):
 		if name == 'loading' and value == 'lazy': return True
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
 		if name in ['src','alt','title','g']: return True
+
+	if tag == 'span':
+		if name == 'data-bs-toggle' and value == 'tooltip': return True
+		if name == 'title': return True
+		if name == 'alt': return True
+		return False
 	return False
 
 
@@ -334,7 +346,7 @@ def filter_emojis_only(title, edit=False, graceful=False):
 
 	title = strikethrough_regex.sub(r'<del>\1</del>', title)
 
-	title = bleach.clean(title, tags=['img','del'], attributes=allowed_attributes_emojis, protocols=['http','https'])
+	title = bleach.clean(title, tags=['img','del','span'], attributes=allowed_attributes_emojis, protocols=['http','https'])
 
 	signal.alarm(0)
 

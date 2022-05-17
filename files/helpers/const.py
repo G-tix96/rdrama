@@ -26,25 +26,18 @@ AJ_REPLACEMENTS = {
 
 	' YOUR ': " YOU'RE ",
 	' TO ': " TOO ",
+
+	'anybody': 'anypony',
+	'everybody': 'everypony',
+
+	'Anybody': 'Anypony',
+	'Everybody': 'Everypony',
+
+	'ANYBODY': 'ANYPONY',
+	'EVERYBODY': 'EVERYPONY',
 }
 
-if SITE_NAME == 'Cringetopia':
-	SLURS = {
-		"retarded": "neurodivergent",
-		"retard": "neurodivergent",
-		"faggot": "cute twink",
-		"fag": "cute twink",
-		"n1gger": "🏀",
-		"nlgger": "🏀",
-		"nigger": "🏀",
-		"uss liberty incident": "tragic accident aboard the USS Liberty",
-		"lavon affair": "Lavon Misunderstanding",
-		"i hate marsey": "i love marsey",
-		"autistic": "neurodivergent",
-		"holohoax": "i tried to claim the Holocaust didn't happen because I am a pencil-dicked imbecile and the word filter caught me lol",
-		"i hate carp": "i love Carp",
-		"heil hitler": "hello kitty",	}
-else:
+if SITE_NAME == 'rDrama':
 	SLURS = {
 		"california": "commiefornia",
 		"hollywood": "hollyweird",
@@ -95,9 +88,9 @@ else:
 		"pedocord": "discord (actually a pretty cool service)",
 		"i hate carp": "i love Carp",
 		"manlet": "little king",
-		"gamer": "g\*mer",
-		"journalist": "journ\*list",
-		"journalism": "journ\*lism",
+		"gamer": "g*mer",
+		"journalist": "journ*list",
+		"journalism": "journ*lism",
 		"wuhan flu": "SARS-CoV-2 syndemic",
 		"china flu": "SARS-CoV-2 syndemic",
 		"china virus": "SARS-CoV-2 syndemic",
@@ -110,6 +103,23 @@ else:
 		" kys ": " keep yourself safe ",
 		" pedo ": " libertarian ",
 		" pedos ": " libertarians ",
+	}
+else:
+	SLURS = {
+		"retarded": "neurodivergent",
+		"retard": "neurodivergent",
+		"faggot": "cute twink",
+		"fag": "cute twink",
+		"n1gger": "🏀",
+		"nlgger": "🏀",
+		"nigger": "🏀",
+		"uss liberty incident": "tragic accident aboard the USS Liberty",
+		"lavon affair": "Lavon Misunderstanding",
+		"i hate marsey": "i love marsey",
+		"autistic": "neurodivergent",
+		"holohoax": "i tried to claim the Holocaust didn't happen because I am a pencil-dicked imbecile and the word filter caught me lol",
+		"i hate carp": "i love Carp",
+		"heil hitler": "hello kitty",
 	}
 
 single_words = "|".join([slur.lower() for slur in SLURS.keys()])

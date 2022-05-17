@@ -788,8 +788,8 @@ def settings_name_change(v):
 	return redirect("/settings/profile")
 
 @app.post("/settings/song_change")
-@limiter.limit("2/second;10/day")
-@limiter.limit("2/second;10/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit("3/second;10/day")
+@limiter.limit("3/second;10/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
 def settings_song_change(v):
 	song=request.values.get("song").strip()
