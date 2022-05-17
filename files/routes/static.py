@@ -244,8 +244,8 @@ def cached_chart(kind, site):
 											 )
 	today_cutoff = calendar.timegm(midnight_this_morning)
 
-	if kind == "daily": day_cutoffs = [today_cutoff - 86400 * i for i in range(47)][1:]
-	else: day_cutoffs = [today_cutoff - 86400 * 7 * i for i in range(47)][1:]
+	if kind == "daily": day_cutoffs = [today_cutoff - 86400 * i for i in range(55)][1:]
+	else: day_cutoffs = [today_cutoff - 86400 * 7 * i for i in range(55)][1:]
 
 	day_cutoffs.insert(0, calendar.timegm(now))
 
