@@ -81,15 +81,21 @@ def buy(v, award):
 			send_notification(v.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
 		g.db.add(v)
 
-
 	if award == "lootbox":
-		send_repeatable_notification(995, f"@{v.username} bought a lootbox!")
+		if CARP_ID and v.id != CARP_ID:
+			send_repeatable_notification(CARP_ID, f"@{v.username} bought a lootbox!")
+		lootbox_items = []
 		for i in [1,2,3,4,5]:
-			award = random.choice(["snow", "gingerbread", "lights", "candycane", "fireplace"])
+			award = random.choice(["firework", "confetti", "ricardo", "wholesome", "shit", "fireflies", "scooter", "train"])
+			lootbox_items.append(AWARDS[award]['title'])
 			award = AwardRelationship(user_id=v.id, kind=award)
 			g.db.add(award)
 			g.db.flush()
+
 		v.lootboxes_bought += 1
+		lootbox_msg = "You open your lootbox and receive: " + ', '.join(lootbox_items)
+		send_repeatable_notification(v.id, lootbox_msg)
+
 		if v.lootboxes_bought == 10 and not v.has_badge(76):
 			new_badge = Badge(badge_id=76, user_id=v.id)
 			g.db.add(new_badge)

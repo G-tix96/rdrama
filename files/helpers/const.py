@@ -280,7 +280,7 @@ AWARDS = {
 	"ghost": {
 		"kind": "ghost",
 		"title": "Ghost",
-		"description": "???",
+		"description": "",
 		"icon": "fas fa-ghost",
 		"color": "text-white",
 		"price": 3000
@@ -288,7 +288,7 @@ AWARDS = {
 	"nword": {
 		"kind": "nword",
 		"title": "Nword Pass",
-		"description": "???",
+		"description": "",
 		"icon": "fas fa-edit",
 		"color": "text-success",
 		"price": 10000
@@ -296,7 +296,7 @@ AWARDS = {
 	"snow": {
 		"kind": "snow",
 		"title": "Snow",
-		"description": "???",
+		"description": "",
 		"icon": "fas fa-snowflake",
 		"color": "text-blue-200",
 		"price": 300
@@ -304,7 +304,7 @@ AWARDS = {
 	"gingerbread": {
 		"kind": "gingerbread",
 		"title": "Gingerbread",
-		"description": "???",
+		"description": "",
 		"icon": "fas fa-gingerbread-man",
 		"color": "",
 		"price": 300
@@ -312,7 +312,7 @@ AWARDS = {
 	"lights": {
 		"kind": "lights",
 		"title": "Lights",
-		"description": "???",
+		"description": "",
 		"icon": "fas fa-lights-holiday",
 		"color": "",
 		"price": 300
@@ -320,7 +320,7 @@ AWARDS = {
 	"candycane": {
 		"kind": "candycane",
 		"title": "Candy Cane",
-		"description": "???",
+		"description": "",
 		"icon": "fas fa-candy-cane",
 		"color": "",
 		"price": 400
@@ -328,7 +328,7 @@ AWARDS = {
 	"fireplace": {
 		"kind": "fireplace",
 		"title": "Fireplace",
-		"description": "???",
+		"description": "",
 		"icon": "fas fa-fireplace",
 		"color": "",
 		"price": 600
@@ -336,7 +336,7 @@ AWARDS = {
 	"grinch": {
 		"kind": "grinch",
 		"title": "Grinch",
-		"description": "???",
+		"description": "",
 		"icon": "fas fa-angry",
 		"color": "text-green-500",
 		"price": 1000
@@ -344,7 +344,7 @@ AWARDS = {
 	"haunt": {
 		"kind": "haunt",
 		"title": "Haunt",
-		"description": "???",
+		"description": "",
 		"icon": "fas fa-book-dead",
 		"color": "text-warning",
 		"price": 500
@@ -352,7 +352,7 @@ AWARDS = {
 	"upsidedown": {
 		"kind": "upsidedown",
 		"title": "The Upside Down",
-		"description": "???",
+		"description": "",
 		"icon": "fas fa-lights-holiday",
 		"color": "",
 		"price": 400
@@ -360,7 +360,7 @@ AWARDS = {
 	"stab": {
 		"kind": "stab",
 		"title": "Stab",
-		"description": "???",
+		"description": "",
 		"icon": "fas fa-knife-kitchen",
 		"color": "text-danger",
 		"price": 300
@@ -368,7 +368,7 @@ AWARDS = {
 	"spiders": {
 		"kind": "spiders",
 		"title": "Spiders",
-		"description": "???",
+		"description": "",
 		"icon": "fas fa-spider",
 		"color": "text-black",
 		"price": 200
@@ -376,17 +376,17 @@ AWARDS = {
 	"fog": {
 		"kind": "fog",
 		"title": "Fog",
-		"description": "???",
+		"description": "",
 		"icon": "fas fa-smoke",
 		"color": "text-gray",
 		"price": 200
 	},
 	"lootbox": {
 		"kind": "lootbox",
-		"title": "Lootstocking",
+		"title": "Lootbox",
 		"description": "???",
-		"icon": "fas fa-stocking",
-		"color": "text-danger",
+		"icon": "fas fa-box-open",
+		"color": "text-blue",
 		"price": 1000
 	},
 	"shit": {
@@ -670,7 +670,7 @@ if SITE_NAME == 'PCM':
 
 AWARDS2 = deepcopy(AWARDS)
 for k, val in AWARDS.items():
-	if val['description'] == '???' and not (k == 'ghost' and SITE_NAME == 'PCM'): AWARDS2.pop(k)
+	if val['description'] == '' and not (k == 'ghost' and SITE_NAME == 'PCM'): AWARDS2.pop(k)
 	if SITE == 'pcmemes.net' and k in ('ban','pizzashill','marsey','bird','grass','chud'): AWARDS2.pop(k)
 
 
