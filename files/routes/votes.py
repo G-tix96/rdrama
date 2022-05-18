@@ -72,17 +72,24 @@ def api_vote_post(post_id, new, v):
 	if v.id == post.author.id:
 		coin_delta = 0
 
+	coin_mult = 1
+	if DOUBLE_XP_ENABLED > 0:
+		if not existing and int(time.time()) > DOUBLE_XP_ENABLED:
+			coin_mult = 2
+		elif existing and existing.created_utc > DOUBLE_XP_ENABLED:
+			coin_mult = 2
+
 	if existing and existing.vote_type == new: return "", 204
 
 	if existing:
 		if existing.vote_type == 0 and new != 0:
-			post.author.coins += coin_delta
+			post.author.coins += coin_delta * coin_mult
 			post.author.truecoins += coin_delta
 			g.db.add(post.author)
 			existing.vote_type = new
 			g.db.add(existing)
 		elif existing.vote_type != 0 and new == 0:
-			post.author.coins -= coin_delta
+			post.author.coins -= coin_delta * coin_mult
 			post.author.truecoins -= coin_delta
 			g.db.add(post.author)
 			g.db.delete(existing)
@@ -90,7 +97,7 @@ def api_vote_post(post_id, new, v):
 			existing.vote_type = new
 			g.db.add(existing)
 	elif new != 0:
-		post.author.coins += coin_delta
+		post.author.coins += coin_delta * coin_mult
 		post.author.truecoins += coin_delta
 		g.db.add(post.author)
 
@@ -141,17 +148,24 @@ def api_vote_comment(comment_id, new, v):
 	if v.id == comment.author_id:
 		coin_delta = 0
 
+	coin_mult = 1
+	if DOUBLE_XP_ENABLED > 0:
+		if not existing and int(time.time()) > DOUBLE_XP_ENABLED:
+			coin_mult = 2
+		elif existing and existing.created_utc > DOUBLE_XP_ENABLED:
+			coin_mult = 2
+
 	if existing and existing.vote_type == new: return "", 204
 
 	if existing:
 		if existing.vote_type == 0 and new != 0:
-			comment.author.coins += coin_delta
+			comment.author.coins += coin_delta * coin_mult
 			comment.author.truecoins += coin_delta
 			g.db.add(comment.author)
 			existing.vote_type = new
 			g.db.add(existing)
 		elif existing.vote_type != 0 and new == 0:
-			comment.author.coins -= coin_delta
+			comment.author.coins -= coin_delta * coin_mult
 			comment.author.truecoins -= coin_delta
 			g.db.add(comment.author)
 			g.db.delete(existing)
@@ -159,7 +173,7 @@ def api_vote_comment(comment_id, new, v):
 			existing.vote_type = new
 			g.db.add(existing)
 	elif new != 0:
-		comment.author.coins += coin_delta
+		comment.author.coins += coin_delta * coin_mult
 		comment.author.truecoins += coin_delta
 		g.db.add(comment.author)
 

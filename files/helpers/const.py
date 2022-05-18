@@ -678,6 +678,8 @@ AWARDS3 = {}
 for k, val in AWARDS2.items():
 	if val['price'] == 300: AWARDS3[k] = val
 
+DOUBLE_XP_ENABLED = -1 # set to unixtime for when DXP begins, -1 to disable
+
 TROLLTITLES = [
 	"how will @{username} ever recover?",
 	"@{username} BTFO",
