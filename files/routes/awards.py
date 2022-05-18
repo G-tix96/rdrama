@@ -82,8 +82,6 @@ def buy(v, award):
 		g.db.add(v)
 
 	if award == "lootbox":
-		if CARP_ID and v.id != CARP_ID:
-			send_repeatable_notification(CARP_ID, f"@{v.username} bought a lootbox!")
 		lootbox_items = []
 		for i in [1,2,3,4,5]:
 			award = random.choice(["firework", "confetti", "ricardo", "wholesome", "shit", "fireflies", "scooter", "train"])
