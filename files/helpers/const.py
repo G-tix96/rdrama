@@ -616,7 +616,7 @@ AWARDS = {
 	"firework": {
 		"kind": "firework",
 		"title": "Fireworks",
-		"description": "TEST",
+		"description": "PARTY TIME!",
 		"icon": "fas fa-bahai",
 		"color": "text-blue-200",
 		"price": 300
@@ -624,7 +624,7 @@ AWARDS = {
 	"confetti": {
 		"kind": "confetti",
 		"title": "Confetti",
-		"description": "TEST",
+		"description": "PARTY TIME!",
 		"icon": "fas fa-party-horn",
 		"color": "text-blue-200",
 		"price": 300
@@ -632,10 +632,10 @@ AWARDS = {
 	"ricardo": {
 		"kind": "ricardo",
 		"title": "Stripper Cake",
-		"description": "TEST",
+		"description": "PARTY TIME!",
 		"icon": "fas fa-pinata",
 		"color": "text-blue-200",
-		"price": 300
+		"price": 500
 	},
 }
 
