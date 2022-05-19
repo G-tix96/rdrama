@@ -392,10 +392,11 @@ class Comment(Base):
 			if not self.total_poll_voted(v): body += ' d-none'	
 			body += f'"> - <a href="/votes?link=t3_{c.id}"><span id="poll-{c.id}">{c.upvotes}</span> votes</a></span></label></div>'
 
-		curr = self.total_choice_voted(v)
-		if curr: curr = " value=" + str(curr[0].comment_id)
-		else: curr = ''
-		body += f'<input class="d-none" id="current-{self.id}"{curr}>'
+		if self.choices:
+			curr = self.total_choice_voted(v)
+			if curr: curr = " value=" + str(curr[0].comment_id)
+			else: curr = ''
+			body += f'<input class="d-none" id="current-{self.id}"{curr}>'
 
 		for c in self.choices:
 			body += f'''<div class="custom-control"><input name="choice-{self.id}" autocomplete="off" class="custom-control-input" type="radio" id="{c.id}" onchange="choice_vote('{c.id}','{self.id}')"'''
@@ -478,7 +479,7 @@ class Comment(Base):
 		wager = int(split_result[4])
 		try: kind = split_result[5]
 		except: kind = "coins"
-		currency_kind = "Coins" if kind == "coins" else "Marseybucks"
+		currency_kind = "Coins" if kind == "coins" else "Marseybux"
 
 		try: is_insured = split_result[6]
 		except: is_insured = "0"

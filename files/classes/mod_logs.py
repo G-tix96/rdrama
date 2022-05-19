@@ -60,6 +60,10 @@ class ModAction(Base):
 			years = int(months / 12)
 			return f"{years}yr ago"
 
+	@property
+	@lazy
+	def created_string(self):
+		return time.strftime('%d %b %Y %H:%M:%S UTC', time.gmtime(self.created_utc))
 
 	@property
 	def note(self):

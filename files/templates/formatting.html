@@ -79,7 +79,7 @@ Text 2
 		<tr>
 			<td>Video Files</td>
 			<td>https://files.catbox.moe/v4om92.mp4</td>
-			<td><video controls preload="none" class="vid"><source referrerpolicy="no-referrer" src="https://files.catbox.moe/v4om92.mp4" type="video/mp4"></video></td>
+			<td><video controls preload="none"><source referrerpolicy="no-referrer" src="https://files.catbox.moe/v4om92.mp4" type="video/mp4"></video></td>
 		</tr>
 		<tr>
 			<td>Emojis</td>
@@ -102,6 +102,16 @@ Text 2
 			<td><img loading="lazy" data-bs-toggle="tooltip" b alt=":!marseylove:" title=":!marseylove:" src="/e/marseylove.webp"></td>
 		</tr>
 		<tr>
+			<td>Pat Emojis</td>
+			<td>:marseylovepat:</td>
+			<td><span alt=":marseylovepat:" data-bs-toggle="tooltip" title=":marseylovepat:"><img  src="/assets/images/hand.webp"><img alt=":marseylovepat:" b="" loading="lazy" pat="" src="/e/marseylove.webp"></span></td>
+		</tr>
+		<tr>
+			<td>Pat User</td>
+			<td>:@snappypat:</td>
+			<td><span alt=":@snappypat:" data-bs-toggle="tooltip" title="" data-bs-original-title=":@snappypat:" aria-label=":@snappypat:"><img src="/assets/images/hand.webp"><img alt=":@snappypat:" b="" loading="lazy" pat="" src="/pp/3"></span></td>
+		</tr>
+		<tr>
 			<td>Random Marsey</td>
 			<td>:marseyrandom:</td>
 			<td>???</td>
@@ -111,10 +121,19 @@ Text 2
 			<td>#fortune</td>
 			<td>???</td>
 		</tr>
-
 		<tr>
-			<td>Poll Options (can select multiple options)</td>
-			<td>$$bussy$$ $$gussy$$</td>
+			<td>Random Factcheck</td>
+			<td>#factcheck</td>
+			<td>???</td>
+		</tr>
+		<tr>
+			<td>
+				Poll — Pick Multiple<br>
+				<span style="font-style: italic; font-weight: normal;">
+					* Polls always appear at end of post.
+				</span>				
+			</td>
+			<td>$$bussy$$<br>$$gussy$$</td>
 			<td>
 				<div class="custom-control">
 					<input autocomplete="off" type="checkbox" class="custom-control-input" id="422741">
@@ -127,8 +146,13 @@ Text 2
 			</td>
 		</tr>
 		<tr>
-			<td>Poll Options (can select only 1 option)</td>
-			<td>&&bussy&& &&gussy&&</td>
+			<td>
+				Poll — Pick One<br>
+				<span style="font-style: italic; font-weight: normal;">
+					* Polls always appear at end of post.
+				</span>
+			</td>
+			<td>&&bussy&&<br>&&gussy&&</td>
 			<td>
 				<div class="custom-control">
 					<input name="choice" autocomplete="off" type="radio" class="custom-control-input" id="1338113">
@@ -569,18 +593,22 @@ line breaks
 			<td>!slots100</td>
 			<td>Play slots using coins - minimum 100 coins</td>
 		</tr>
-		<tr>
-			<td>!slotsmb100</td>
-			<td>Play slots using marseybux - minimum 100 marseybux</td>
-		</tr>
+		{% if SITE_NAME not in ('Cringetopia', 'WPD') %}
+			<tr>
+				<td>!slotsmb100</td>
+				<td>Play slots using marseybux - minimum 100 marseybux</td>
+			</tr>
+		{% endif %}
 		<tr>
 			<td>!blackjack100</td>
 			<td>Play blackjack using coins - minimum 100 coins</td>
 		</tr>
-		<tr>
-			<td>!blackjackmb100</td>
-			<td>Play blackjack using marseybux - minimum 100 marseybux</td>
-		</tr>
+		{% if SITE_NAME not in ('Cringetopia', 'WPD') %}
+			<tr>
+				<td>!blackjackmb100</td>
+				<td>Play blackjack using marseybux - minimum 100 marseybux</td>
+			</tr>
+		{% endif %}
 		<tr>
 			<td>!wordle</td>
 			<td>Play wordle</td>

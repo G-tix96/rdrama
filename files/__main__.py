@@ -32,10 +32,11 @@ app.config["SERVER_NAME"] = environ.get("DOMAIN").strip()
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 3153600
 app.config["SESSION_COOKIE_NAME"] = "session_" + environ.get("SITE_NAME").strip().lower()
 app.config["VERSION"] = "1.0.0"
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
 app.config["SESSION_COOKIE_SECURE"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["PERMANENT_SESSION_LIFETIME"] = 60 * 60 * 24 * 365
+app.config['SESSION_REFRESH_EACH_REQUEST'] = False
 app.config["DEFAULT_COLOR"] = environ.get("DEFAULT_COLOR", "ff0000").strip()
 app.config["DEFAULT_THEME"] = environ.get("DEFAULT_THEME", "midnight").strip()
 app.config["FORCE_HTTPS"] = 1
@@ -117,7 +118,10 @@ def after_request(response):
 	response.headers.add("X-Frame-Options", "deny")
 	return response
 
-if "load_chat" in argv:
+if app.config["SERVER_NAME"] == 'localhost':
+	from files.routes import *
+	# from files.routes.chat import *
+elif "load_chat" in argv:
 	from files.routes.chat import *
 else:
 	from files.routes import *

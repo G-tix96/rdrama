@@ -40,6 +40,7 @@
 					<div class="d-md-flex text-center text-md-left">
 						<div>
 							<a rel="nofollow noopener noreferrer" href="{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}"><img loading="lazy" src="{{u.profile_url}}" class="profile-pic profile-pic-100 mb-5"></a>
+							{% if u.is_cakeday %}<img class="party-hat2" src="/assets/images/party-hat.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title="I’ve spent another year rotting my brain with dramaposting, please ridicule me 🤓">{% endif %}
 						</div>
 						<div id="profilestuff" class="ml-3 w-100">
 							{% if u.is_suspended %}
@@ -114,8 +115,10 @@
 					<span id="profile-coins-amount">{{u.coins}}</span>
 					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="20" src="/assets/images/{{SITE_NAME}}/coins.webp?v=2">&nbsp;&nbsp;
 
-					<span id="profile-bux-amount">{{u.procoins}}</span>
-					<img alt="marseybux" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="20" width="46" src="/assets/images/marseybux.webp?v=1008">&nbsp;&nbsp;
+					{% if SITE_NAME not in ('Cringetopia', 'WPD') %}
+						<span id="profile-bux-amount">{{u.procoins}}</span>
+						<img alt="marseybux" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="20" width="46" src="/assets/images/marseybux.webp?v=1008">&nbsp;&nbsp;
+					{% endif %}
 
 					<a href="/@{{u.username}}/followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a>&nbsp;&nbsp;
 
@@ -175,7 +178,9 @@
 
 						<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/suicide')">Get them help</a>
 						<a class="btn btn-primary" role="button" onclick="toggleElement('coin-transfer', 'coin-transfer-amount')">Gift coins</a>
-						<a class="btn btn-primary" role="button" onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</a>
+						{% if SITE_NAME not in ('Cringetopia', 'WPD') %}
+							<a class="btn btn-primary" role="button" onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</a>
+						{% endif %}
 
 						{% if v.admin_level > 2 %}
 							<a id="admin" class="{% if u.admin_level > 1 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast2(this,'/@{{u.username}}/make_admin','admin','unadmin')">Make admin</a>
@@ -288,11 +293,6 @@
 
 
 						<pre></pre>
-						
-						{% if v.admin_level > 2 %}
-							<a id="verify" class="{% if u.verified %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast2(this,'/admin/verify/{{u.id}}','verify','unverify')">Verify</a>
-							<a id="unverify" class="{% if not u.verified %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast2(this,'/admin/unverify/{{u.id}}','verify','unverify')">Unverify</a>
-						{% endif %}
 
 						<pre></pre>
 						<form action="/admin/unnuke_user" method="post">
@@ -365,6 +365,7 @@
 		<div class="col">
 			<div style="margin-top: -34px;">
 				<a rel="nofollow noopener noreferrer" href="{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}"><img loading="lazy" src="{{u.profile_url}}" class="profile-pic-65 bg-white border-2 border-white mb-2"></a>
+				{% if u.is_cakeday %}<img class="party-hat3" src="/assets/images/party-hat.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title="I’ve spent another year rotting my brain with dramaposting, please ridicule me 🤓">{% endif %}
 			</div>
 			<div class="mt-n3 py-3">
 				{% if u.is_suspended %}
@@ -411,8 +412,10 @@
 					<span id="profile-coins-amount-mobile" class="font-weight-bold">{{u.coins}}</span>
 					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="15" src="/assets/images/{{SITE_NAME}}/coins.webp?v=2">&nbsp;&nbsp;
 
-					<span id="profile-bux-amount-mobile" class="font-weight-bold">{{u.procoins}}</span>
-					<img alt="marseybux" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="15" width="35" src="/assets/images/marseybux.webp?v=1008">&nbsp;&nbsp;
+					{% if SITE_NAME not in ('Cringetopia', 'WPD') %}
+						<span id="profile-bux-amount-mobile" class="font-weight-bold">{{u.procoins}}</span>
+						<img alt="marseybux" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="15" width="35" src="/assets/images/marseybux.webp?v=1008">&nbsp;&nbsp;
+					{% endif %}
 
 					<a href="/@{{u.username}}/followers" class="font-weight-bold">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a>&nbsp;&nbsp;
 
@@ -486,7 +489,9 @@
 					<a class="btn btn-primary" role="button" onclick="toggleElement('message-mobile', 'input-message-mobile')">Message</a>
 					<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/suicide')">Get them help</a>
 					<a class="btn btn-primary" role="button" onclick="toggleElement('coin-transfer-mobile', 'coin-transfer-amount-mobile')">Gift coins</a>
-					<a class="btn btn-primary" role="button" onclick="toggleElement('bux-transfer-mobile', 'bux-transfer-amount-mobile')">Gift Marseybux</a>
+					{% if SITE_NAME not in ('Cringetopia', 'WPD') %}
+						<a class="btn btn-primary" role="button" onclick="toggleElement('bux-transfer-mobile', 'bux-transfer-amount-mobile')">Gift Marseybux</a>
+					{% endif %}
 
 					{% if v.admin_level > 2 %} 
 						<a id="admin2" class="{% if u.admin_level > 1 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast2(this,'/@{{u.username}}/make_admin','admin2','unadmin2')">Make admin</a>
@@ -597,11 +602,6 @@
 
 
 						<pre></pre>
-
-						{% if v.admin_level > 2 %}
-							<a id="verify2" class="{% if u.verified %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast2(this,'/admin/verify/{{u.id}}','verify2','unverify2')">Verify</a>
-							<a id="unverify2" class="{% if not u.verified %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast2(this,'/admin/unverify/{{u.id}}','verify2','unverify2')">Unverify</a>
-						{% endif %}
 
 						<pre></pre>
 						<form action="/admin/unnuke_user" method="post">
@@ -769,7 +769,7 @@
 </nav>
 {% endif %}
 
-<script src="/assets/js/marked.js?v=251"></script>
+<script src="/assets/js/marked.js?v=253"></script>
 
 
 {% if v and v.id != u.id and '/comments' not in request.path %}

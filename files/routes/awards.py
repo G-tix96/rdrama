@@ -81,6 +81,7 @@ def buy(v, award):
 			send_notification(v.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
 		g.db.add(v)
 
+
 	if award == "lootbox":
 		lootbox_items = []
 		for i in [1,2,3,4,5]:
@@ -93,7 +94,7 @@ def buy(v, award):
 		v.lootboxes_bought += 1
 		lootbox_msg = "You open your lootbox and receive: " + ', '.join(lootbox_items)
 		send_repeatable_notification(v.id, lootbox_msg)
-
+		
 		if v.lootboxes_bought == 10 and not v.has_badge(76):
 			new_badge = Badge(badge_id=76, user_id=v.id)
 			g.db.add(new_badge)
@@ -351,6 +352,8 @@ def award_post(pid, v):
 			g.db.add(badge)
 			g.db.flush()
 			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({badge.path})\n\n{badge.name}")
+	elif kind == "checkmark":
+		author.verified = "Verified"
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1
@@ -590,6 +593,8 @@ def award_comment(cid, v):
 			g.db.add(badge)
 			g.db.flush()
 			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({badge.path})\n\n{badge.name}")
+	elif kind == "checkmark":
+		author.verified = "Verified"
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1

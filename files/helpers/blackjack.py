@@ -6,7 +6,7 @@ deck_count = 4
 ranks = ("2", "3", "4", "5", "6", "7", "8", "9", "X", "J", "Q", "K", "A")
 suits = ("♠️", "♥️", "♣️", "♦️")
 coins_command_word = "!blackjack"
-marseybucks_command_word = "!blackjackmb"
+marseybux_command_word = "!blackjackmb"
 minimum_bet = 100
 maximum_bet = INFINITY
 
@@ -51,7 +51,7 @@ def format_all(player_hand, dealer_hand, deck, status, wager, kind, is_insured=0
 
 
 def check_for_blackjack_commands(in_text, from_user, from_comment):
-	for command_word in (coins_command_word, marseybucks_command_word):
+	for command_word in (coins_command_word, marseybux_command_word):
 		currency_prop = "coins" if command_word == coins_command_word else "procoins"
 		currency_value = getattr(from_user, currency_prop, 0)
 
@@ -107,7 +107,8 @@ def player_stayed(from_comment):
 	deck = deck.split("/")
 
 	if dealer_value == 21 and is_insured == "1":
-		from_comment.author.coins += int(wager)
+		currency_value = getattr(from_comment.author, kind, 0)
+		setattr(from_comment.author, kind, currency_value + int(wager))
 	else:
 		while dealer_value < 17 and dealer_value != -1:
 			next = deck.pop(0)
@@ -126,12 +127,13 @@ def player_doubled_down(from_comment):
 	# When doubling down, the player receives one additional card (a "hit") and their initial bet is doubled.
 	player_hand, dealer_hand, deck, status, wager, kind, is_insured = from_comment.blackjack_result.split("_")
 	wager_value = int(wager)
+	currency_value = getattr(from_comment.author, kind, 0)
 
 	# Gotsta have enough coins
-	if (from_comment.author.coins < wager_value): return
+	if (currency_value < wager_value): return
 
 	# Double the initial wager
-	from_comment.author.coins -= wager_value
+	setattr(from_comment.author, kind, currency_value - wager_value)
 	wager_value *= 2
 
 	# Apply the changes to the stored hand.
@@ -148,12 +150,13 @@ def player_bought_insurance(from_comment):
 	player_hand, dealer_hand, deck, status, wager, kind, is_insured = from_comment.blackjack_result.split("_")
 	wager_value = int(wager)
 	insurance_cost = wager_value / 2
+	currency_value = getattr(from_comment.author, kind, 0)
 
 	# Gotsta have enough coins
-	if (from_comment.author.coins < insurance_cost): return
+	if (currency_value < insurance_cost): return
 
 	# Charge for (and grant) insurance
-	from_comment.author.coins -= insurance_cost
+	setattr(from_comment.author, kind, currency_value - insurance_cost)
 	is_insured = 1
 
 	# Apply the changes to the stored hand.

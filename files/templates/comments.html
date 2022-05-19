@@ -207,7 +207,7 @@
 					{% if not c.author %}
 						{{c.print()}}
 					{% endif %}
-					<a class="user-name text-decoration-none" onclick='popclick({{c.author.json_popover(v) | tojson}})' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="click" data-content-id="popover" role="button" tabindex="0" style="color:#{{c.author.namecolor}}; font-size:12px; font-weight:bold;"><img loading="lazy" src="{{c.author.profile_url}}" class="profile-pic-25 mr-2"><img class="party-hat" src="/assets/images/party-hat.png"><span {% if c.author.patron and not c.distinguish_level %}class="patron" style="background-color:#{{c.author.namecolor}};"{% elif c.distinguish_level %}class="mod"{% endif %}>{{c.author_name}}</span></a>
+					<a class="user-name text-decoration-none" onclick='popclick({{c.author.json_popover(v) | tojson}})' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="click" data-content-id="popover" role="button" tabindex="0" style="color:#{{c.author.namecolor}}; font-size:12px; font-weight:bold;"><img loading="lazy" src="{{c.author.profile_url}}" class="profile-pic-25 mr-2">{% if c.author.is_cakeday or True %}<img class="party-hat" src="/assets/images/party-hat.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title="I’ve spent another year rotting my brain with dramaposting, please ridicule me 🤓">{% endif %}<span {% if c.author.patron and not c.distinguish_level %}class="patron" style="background-color:#{{c.author.namecolor}};"{% elif c.distinguish_level %}class="mod"{% endif %}>{{c.author_name}}</span></a>
 					{% if c.author.customtitle %}&nbsp;<bdi style="color: #{{c.author.titlecolor}}">&nbsp;{{c.author.customtitle | safe}}</bdi>{% endif %}
 				{% endif %}
 
@@ -599,9 +599,7 @@
 						<input type="hidden" name="formkey" value="{{v.formkey}}"> 
 						<textarea required autocomplete="off" minlength="1" maxlength="10000" name="body" form="reply-to-t3_{{c.id}}" data-id="{{c.id}}" class="comment-box form-control rounded" id="reply-form-body-{{c.id}}" aria-label="With textarea" rows="3" oninput="markdown('reply-form-body-{{c.id}}', 'message-reply-{{c.id}}')"></textarea> 
 						<div class="comment-format" id="comment-format-bar-{{c.id}}"> 
-							<label class="btn btn-secondary m-0 mt-3 mr-1" onclick="loadEmojis('reply-form-body-{{c.id}}')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji">
-								<i class="fas fa-smile-beam"></i>
-							</label>
+							<div onclick="loadEmojis('reply-form-body-{{c.id}}')" class="btn btn-secondary m-0 mt-3 mr-1" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>	
 
 							{% if c.sentto == 2 %}
 								<label class="btn btn-secondary m-0 mt-3" for="file-upload">
@@ -847,8 +845,8 @@
 	{% endif %}
 
 	{% if v %}
-		<script src="/assets/js/marked.js?v=251"></script>
-		<script src="/assets/js/comments_v.js?v=266"></script>
+		<script src="/assets/js/marked.js?v=253"></script>
+		<script src="/assets/js/comments_v.js?v=269"></script>
 	{% endif %}
 
 	<script src="/assets/js/clipboard.js?v=250"></script>
@@ -860,7 +858,7 @@
 	{% include "expanded_image_modal.html" %}
 
 	<script src="/assets/js/comments+submission_listing.js?v=257"></script>
-	<script src="/assets/js/comments.js?v=256"></script>
+	<script src="/assets/js/comments.js?v=257"></script>
 
 	<script>
 		{% if p and (not v or v.highlightcomments) %}

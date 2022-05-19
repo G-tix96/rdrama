@@ -1,49 +1,32 @@
 <div id="form" class="d-none"></div>
 <div class="modal fade" id="emojiModal" tabindex="-1" role="dialog" aria-labelledby="emojiModalTitle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered p-2 py-5 emoji-modal" role="document">
+	<style>
+		#emojiTabs {height: 80%;}
+		@media (max-height: 650px) {
+			#emojiTabs {height: 100%;}
+			#emojiModalInternalDivIDK {margin-top: 0 !important; margin-bottom: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important;}
+		
+			#emoji-modal-tabs-container {
+				overflow-x: auto;
+			}
+
+			#emoji-modal-tabs {
+				white-space: nowrap;
+				flex-wrap: nowrap;
+			}
+
+			#emoji-modal-tabs li {
+				display: inline-block;
+			}
+		}
+	</style>
+	<div id="emojiModalInternalDivIDK" class="modal-dialog modal-dialog-scrollable modal-dialog-centered p-2 py-5 emoji-modal" role="document">
 		<div class="modal-content" id="emojiTabs">
 			<div class="modal-header">
-				<div>
-					<ul class="nav nav-pills py-2">
+				<div id="emoji-modal-tabs-container">
+					<ul class="nav nav-pills py-2" id="emoji-modal-tabs">
 						<li class="nav-item">
-							<a class="nav-link active emojitab" data-bs-toggle="tab" href="#emoji-tab-favorite">Favorite</a>
-						</li>
-
-						{% if SITE_NAME == 'Cringetopia' %}
-							<li class="nav-item">
-								<a class="nav-link emojitab" data-bs-toggle="tab" href="#emoji-tab-cringetopia">Cringetopia</a>
-							</li>
-						{% endif %}
-
-						<li class="nav-item">
-							<a class="nav-link emojitab" data-bs-toggle="tab" href="#emoji-tab-marsey">Marsey</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link emojitab" data-bs-toggle="tab" href="#emoji-tab-marseyalphabet">Marsey Alphabet</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link emojitab" data-bs-toggle="tab" href="#emoji-tab-platy">Platy</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link emojitab" data-bs-toggle="tab" href="#emoji-tab-wolf">Zombie Wolf</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link emojitab" data-bs-toggle="tab" href="#emoji-tab-tay">Tay</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link emojitab" data-bs-toggle="tab" href="#emoji-tab-classic">Classic</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link emojitab" data-bs-toggle="tab" href="#emoji-tab-rage">Rage</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link emojitab" data-bs-toggle="tab" href="#emoji-tab-wojak">Wojak</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link emojitab" data-bs-toggle="tab" href="#emoji-tab-flags">Flags</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link emojitab" data-bs-toggle="tab" href="#emoji-tab-misc">Misc</a>
+							<a class="nav-link active emojitab" data-class-name="favorite" data-bs-toggle="tab" href="#" onclick="switchEmojiTab(event)">⭐ Favorite ⭐</a>
 						</li>
 					</ul>
 				</div>
@@ -52,51 +35,65 @@
 				</button>
 			</div>
 
-			<div class="px-3"><input autocomplete="off" class="form-control px-2" type="text" id="emoji_search" placeholder="Search.."></div>
+			<div class="px-3">
+				<input disabled autocomplete="off" class="form-control px-2" type="text" id="emoji_search" placeholder="Search..">
+			</div>
+			<div class="px-3 d-flex flex-row">
+				<fieldset class="p-2">
+					<label style="display: inline">Options:</legend>
+
+					<div style="display: inline" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Makes the emoji larger">
+						<input type="checkbox" id="emoji-sel-0" value="#" class="emoji-suffix">
+						<label for="emoji-sel-0">Large</label>
+					</div>
+
+					<div style="display: inline" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Mirror the emoji along the Y axis">
+						<input type="checkbox" id="emoji-sel-1" value="!" class="emoji-suffix">
+						<label for="emoji-sel-1">Mirror</label>
+					</div>
+
+					<div style="display: inline" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Adds a hand that pats the emoji">
+						<input type="checkbox" id="emoji-sel-2" value="pat" class="emoji-postfix">
+						<label for="emoji-sel-2">Pat</label>
+					</div>
+				</fieldset>
+				<fieldset class="p-2">
+					<label style="display: inline">Search:</legend>
+					<div style="display: inline" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Iterate through all substrings of the query. YIKES">
+						<input type="checkbox" id="emoji-complete-search">
+						<label for="emoji-complete-search">complete</label>
+					</div>
+				</fieldset>
+			</div>
 
 			<div style="overflow-y: scroll;">
 				<div class="modal-body p-0" id="emoji-modal-body">
-					<div id="emoji-tab-search"></div>
-					<div id="no-emojis-found"></div>
-					<div id="tab-content" class="tab-content">
-						<div class="tab-pane fade show active" id="emoji-tab-favorite">
-							<div class="d-flex flex-wrap py-3 pl-2" id="EMOJIS_favorite"></div>
-						</div>
-						{% if SITE_NAME == 'Cringetopia' %}
-							<div class="tab-pane fade" id="emoji-tab-cringetopia">
-								<div class="d-flex flex-wrap py-3 pl-2" id="EMOJIS_cringetopia"></div>
-							</div>
-						{% endif %}
-						<div class="tab-pane fade" id="emoji-tab-marsey">
-							<div class="d-flex flex-wrap py-3 pl-2" id="EMOJIS_marsey"></div>
-						</div>
-						<div class="tab-pane fade" id="emoji-tab-marseyalphabet">
-							<div class="d-flex flex-wrap py-3 pl-2" id="EMOJIS_marseyalphabet"></div>
-						</div>
-						<div class="tab-pane fade" id="emoji-tab-platy">
-							<div class="d-flex flex-wrap py-3 pl-2" id="EMOJIS_platy"></div>
-						</div>
-						<div class="tab-pane fade" id="emoji-tab-wolf">
-							<div class="d-flex flex-wrap py-3 pl-2" id="EMOJIS_wolf"></div>
-						</div>
-						<div class="tab-pane fade" id="emoji-tab-tay">
-							<div class="d-flex flex-wrap py-3 pl-2" id="EMOJIS_tay"></div>
-						</div>
-						<div class="tab-pane fade" id="emoji-tab-classic">
-							<div class="d-flex flex-wrap py-3 pl-2" id="EMOJIS_classic"></div>
-						</div>
-						<div class="tab-pane fade" id="emoji-tab-rage">
-							<div class="d-flex flex-wrap py-3 pl-2" id="EMOJIS_rage"></div>
-						</div>
-						<div class="tab-pane fade" id="emoji-tab-wojak">
-							<div class="d-flex flex-wrap py-3 pl-2" id="EMOJIS_wojak"></div>
-						</div>
-						<div class="tab-pane fade" id="emoji-tab-flags">
-							<div class="d-flex flex-wrap py-3 pl-2" id="EMOJIS_flags"></div>
-						</div>
-						<div class="tab-pane fade" id="emoji-tab-misc">
-							<div class="d-flex flex-wrap py-3 pl-2" id="EMOJIS_misc"></div>
-						</div>
+					<div id="no-emojis-found" class="tab-content py-3 pl-2" hidden>
+						No results... Next time be better with your query. 💅
+					</div>
+					<div id="emojis-work" class="tab-content py-3 pl-2">
+						I am working as hard as I can, sweety... 🚴
+					</div>
+					<div id="emoji-new-user" class="tab-content py-3 pl-2" hidden>
+						👋 Hello! This is the first time you're using the emoji system on this device 📱.<br>
+						I've took the liberty to populate this tab with a selection of Anton's emojis 😽. Next time you'll find the ones you used the most in there 📚
+					</div>
+					<div id="tab-content" class="tab-content d-flex flex-wrap py-3 pl-2" hidden>
+						<style>
+							.emoji2 {
+								/*background: None!important;*/
+								width:60px; 
+								height: 85px;
+								overflow: hidden;
+								border: none
+							}
+						</style>
+						<template id="emoji-button-template">
+							<button class="btn m-1 px-0 emoji2" data-bs-toggle="tooltip" delay:="0">
+								<img loading="lazy" width=50>
+							</button>
+						</template>
+
 					</div>
 				</div>
 			</div>
@@ -104,4 +101,4 @@
 	</div>
 </div>
 
-<script src="/assets/js/emoji_modal.js?v=271"></script>
+<script src="/assets/js/emoji_modal.js?v=281"></script>

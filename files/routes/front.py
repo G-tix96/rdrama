@@ -128,7 +128,7 @@ def notifications(v):
 					for x in c.replies2:
 						if x.replies2 == None: x.replies2 = []
 				count = 0
-				while count < 50 and c.parent_comment and (c.parent_comment.author_id == v.id or c.parent_comment.id in cids):
+				while count < 10 and c.parent_comment and (c.parent_comment.author_id == v.id or c.parent_comment.id in cids):
 					count += 1
 					c = c.parent_comment
 					if c.replies2 == None:
@@ -161,15 +161,23 @@ def notifications(v):
 @app.get("/catalog")
 @app.get("/h/<sub>")
 @app.get("/s/<sub>")
-@limiter.limit("3/second;30/minute;1000/hour;5000/day")
+@app.get("/logged_out")
+@app.get("/logged_out/catalog")
+@app.get("/logged_out/h/<sub>")
+@app.get("/logged_out/s/<sub>")
+@limiter.limit("3/second;30/minute;5000/hour;10000/day")
 @auth_desired
 def front_all(v, sub=None, subdomain=None):
-	if sub: sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
-	
-	if (request.path.startswith('/h/') or request.path.startswith('/s/')) and not sub: abort(404)
 
 	if g.webview and not session.get("session_id"):
 		session["session_id"] = secrets.token_hex(49)
+
+	if not v and not request.path.startswith('/logged_out'): return redirect(f"/logged_out{request.full_path}")
+	if v and request.path.startswith('/logged_out'): return redirect(request.full_path.replace('/logged_out',''))
+
+	if sub: sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	
+	if (request.path.startswith('/h/') or request.path.startswith('/s/')) and not sub: abort(404)
 
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: abort(400)
@@ -345,7 +353,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 		posts = posts.join(User, User.id == Submission.author_id).filter(User.shadowbanned == None)
 
 	if request.host == 'rdrama.net': num = 5
-	else: num = 1
+	else: num = 0.5
 
 	if sort == "hot":
 		ti = int(time.time()) + 3600

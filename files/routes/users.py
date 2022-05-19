@@ -13,6 +13,7 @@ from pusher_push_notifications import PushNotifications
 from collections import Counter
 import gevent
 from sys import stdout
+import os
 
 if PUSHER_ID != 'blahblahblah':
 	beams_client = PushNotifications(instance_id=PUSHER_ID, secret_key=PUSHER_KEY)
@@ -85,7 +86,7 @@ gevent.spawn(leaderboard_thread())
 @auth_required
 def upvoters_posts(v, username, uid):
 	u = get_user(username)
-	if u.is_private and v.id != u.id: abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	id = u.id
 	uid = int(uid)
 
@@ -106,7 +107,7 @@ def upvoters_posts(v, username, uid):
 @auth_required
 def upvoters_comments(v, username, uid):
 	u = get_user(username)
-	if u.is_private and v.id != u.id: abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	id = u.id
 	uid = int(uid)
 
@@ -127,7 +128,7 @@ def upvoters_comments(v, username, uid):
 @auth_required
 def downvoters_posts(v, username, uid):
 	u = get_user(username)
-	if u.is_private and v.id != u.id: abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	id = u.id
 	uid = int(uid)
 
@@ -148,7 +149,7 @@ def downvoters_posts(v, username, uid):
 @auth_required
 def downvoters_comments(v, username, uid):
 	u = get_user(username)
-	if u.is_private and v.id != u.id: abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	id = u.id
 	uid = int(uid)
 
@@ -172,7 +173,7 @@ def downvoters_comments(v, username, uid):
 @auth_required
 def upvoting_posts(v, username, uid):
 	u = get_user(username)
-	if u.is_private and v.id != u.id: abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	id = u.id
 	uid = int(uid)
 
@@ -193,7 +194,7 @@ def upvoting_posts(v, username, uid):
 @auth_required
 def upvoting_comments(v, username, uid):
 	u = get_user(username)
-	if u.is_private and v.id != u.id: abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	id = u.id
 	uid = int(uid)
 
@@ -214,7 +215,7 @@ def upvoting_comments(v, username, uid):
 @auth_required
 def downvoting_posts(v, username, uid):
 	u = get_user(username)
-	if u.is_private and v.id != u.id: abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	id = u.id
 	uid = int(uid)
 
@@ -235,7 +236,7 @@ def downvoting_posts(v, username, uid):
 @auth_required
 def downvoting_comments(v, username, uid):
 	u = get_user(username)
-	if u.is_private and v.id != u.id: abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	id = u.id
 	uid = int(uid)
 
@@ -541,8 +542,9 @@ def leaderboard(v):
 @app.get("/@<username>/css")
 def get_css(username):
 	user = get_user(username)
-	resp=make_response(user.css or "")
-	resp.headers.add("Content-Type", "text/css")
+	resp = make_response(user.css or "")
+	resp.headers["Content-Type"] = "text/css"
+	resp.headers["Referrer-Policy"] = "no-referrer"
 	return resp
 
 @app.get("/@<username>/profilecss")
@@ -550,8 +552,19 @@ def get_profilecss(username):
 	user = get_user(username)
 	if user.profilecss: profilecss = user.profilecss
 	else: profilecss = ""
-	resp=make_response(profilecss)
-	resp.headers.add("Content-Type", "text/css")
+	resp = make_response(profilecss)
+	resp.headers["Content-Type"] = "text/css"
+	resp.headers["Referrer-Policy"] = "no-referrer"
+	return resp
+
+@app.get("/id/<id>/profilecss")
+def get_profilecss_id(id):
+	user = get_account(id)
+	if user.profilecss: profilecss = user.profilecss
+	else: profilecss = ""
+	resp = make_response(profilecss)
+	resp.headers["Content-Type"] = "text/css"
+	resp.headers["Referrer-Policy"] = "no-referrer"
 	return resp
 
 @app.get("/@<username>/song")
@@ -685,19 +698,19 @@ def messagereply(v):
 		if file.content_type.startswith('image/'):
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			file.save(name)
-			url = process_image(name)
+			url = process_image(v.patron, name)
 			body_html += f'<img data-bs-target="#expandImageModal" data-bs-toggle="modal" onclick="expandDesktopImage(this.src)" class="img" src="{url}" loading="lazy">'
 		elif file.content_type.startswith('video/'):
-			file.save("video.mp4")
+			if file.content_type == 'video/webm':
+				file.save("video.mp4")
+			else:
+				file.save("unsanitized.mp4")
+				os.system(f'ffmpeg -y -loglevel warning -i unsanitized.mp4 -map_metadata -1 -c:v copy -c:a copy video.mp4')
 			with open("video.mp4", 'rb') as f:
-				try: req = requests.request("POST", "https://api.imgur.com/3/upload", headers={'Authorization': f'Client-ID {IMGUR_KEY}'}, files=[('video', f)], timeout=5).json()['data']
-				except requests.Timeout: return {"error": "Video upload timed out, please try again!"}
-				try: url = req['link']
-				except:
-					error = req['error']
-					if error == 'File exceeds max duration': error += ' (60 seconds)'
-					return {"error": error}, 400
-			if url.endswith('.'): url += 'mp4'
+				try: req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=5).json()
+				except requests.exceptions.ConnectionError: return {"error": "Video upload timed out, please try again!"}
+				try: url = req['files'][0]['url']
+				except: return {"error": req['description']}, 400
 			body_html += f"<p>{url}</p>"
 		else: return {"error": "Image/Video files only"}, 400
 
@@ -767,7 +780,8 @@ def messagereply(v):
 			g.db.add(notif)
 
 		ids = [c.top_comment.id] + [x.id for x in c.top_comment.replies]
-		notifications = g.db.query(Notification).filter(Notification.comment_id.in_(ids))
+		uids = [x.id for x in admins]
+		notifications = g.db.query(Notification).filter(Notification.comment_id.in_(ids), Notification.user_id.in_(uids))
 		for n in notifications:
 			g.db.delete(n)
 
@@ -853,9 +867,12 @@ def visitors(v):
 
 
 @app.get("/@<username>")
+@app.get("/logged_out/@<username>")
 @auth_desired
 def u_username(username, v=None):
 
+	if not v and not request.path.startswith('/logged_out'): return redirect(f"/logged_out{request.full_path}")
+	if v and request.path.startswith('/logged_out'): return redirect(request.full_path.replace('/logged_out',''))
 
 	u = get_user(username, v=v)
 
@@ -939,8 +956,12 @@ def u_username(username, v=None):
 
 
 @app.get("/@<username>/comments")
+@app.get("/logged_out/@<username>/comments")
 @auth_desired
 def u_username_comments(username, v=None):
+
+	if not v and not request.path.startswith('/logged_out'): return redirect(f"/logged_out{request.full_path}")
+	if v and request.path.startswith('/logged_out'): return redirect(request.full_path.replace('/logged_out',''))
 
 	user = get_user(username, v=v)
 
@@ -1062,7 +1083,7 @@ def follow_user(username, v):
 	g.db.add(new_follow)
 
 	g.db.flush()
-	target.stored_subscriber_count = g.db.query(Follow.target_id).filter_by(target_id=target.id).count()
+	target.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=target.id).count()
 	g.db.add(target)
 
 	send_notification(target.id, f"@{v.username} has followed you!")
@@ -1090,7 +1111,7 @@ def unfollow_user(username, v):
 		g.db.delete(follow)
 		
 		g.db.flush()
-		target.stored_subscriber_count = g.db.query(Follow.target_id).filter_by(target_id=target.id).count()
+		target.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=target.id).count()
 		g.db.add(target)
 
 		send_notification(target.id, f"@{v.username} has unfollowed you!")
@@ -1113,7 +1134,7 @@ def remove_follow(username, v):
 	g.db.delete(follow)
 	
 	g.db.flush()
-	v.stored_subscriber_count = g.db.query(Follow.target_id).filter_by(target_id=v.id).count()
+	v.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=v.id).count()
 	g.db.add(v)
 
 	send_repeatable_notification(target.id, f"@{v.username} has removed your follow!")
@@ -1125,9 +1146,15 @@ def remove_follow(username, v):
 @app.get("/pp/<id>")
 @app.get("/uid/<id>/pic")
 @app.get("/uid/<id>/pic/profile")
+@app.get("/logged_out/pp/<id>")
+@app.get("/logged_out/uid/<id>/pic")
+@app.get("/logged_out/uid/<id>/pic/profile")
 @limiter.exempt
 @auth_desired
 def user_profile_uid(v, id):
+	if not v and not request.path.startswith('/logged_out'): return redirect(f"/logged_out{request.full_path}")
+	if v and request.path.startswith('/logged_out'): return redirect(request.full_path.replace('/logged_out',''))
+
 	try: id = int(id)
 	except:
 		try: id = int(id, 36)
@@ -1197,11 +1224,11 @@ def saved_comments(v, username):
 def fp(v, fp):
 	v.fp = fp
 	users = g.db.query(User).filter(User.fp == fp, User.id != v.id).all()
-	if users: print(f'{v.username}: fp {v.fp}')
+	if users: print(f'{v.username}: fp')
 	if v.email and v.is_activated:
 		alts = g.db.query(User).filter(User.email == v.email, User.is_activated, User.id != v.id).all()
 		if alts:
-			print(f'{v.username}: email {v.email}')
+			print(f'{v.username}: email')
 			users += alts
 	for u in users:
 		li = [v.id, u.id]

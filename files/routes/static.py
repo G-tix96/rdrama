@@ -4,7 +4,7 @@ from files.helpers.alerts import *
 from files.helpers.const import *
 from files.classes.award import AWARDS
 from sqlalchemy import func
-from os import path
+import os
 import calendar
 import matplotlib.pyplot as plt
 from files.classes.mod_logs import ACTIONTYPES, ACTIONTYPES2
@@ -15,24 +15,6 @@ from files.classes.badges import BadgeDef
 def rdrama(id, title):
 	id = ''.join(f'{x}/' for x in id)
 	return redirect(f'/archives/drama/comments/{id}{title}.html')
-
-@app.get('/logged_out/')
-@app.get('/logged_out/<path:old>')
-def logged_out(old = ""):
-	# Remove trailing question mark from request.full_path which flask adds if there are no query parameters
-	redirect_url = request.full_path.replace("/logged_out", "", 1)
-	if redirect_url.endswith("?"):
-		redirect_url = redirect_url[:-1]
-
-	# Handle cases like /logged_out?asdf by adding a slash to the beginning
-	if not redirect_url.startswith('/'):
-		redirect_url = f"/{redirect_url}"
-
-	# Prevent redirect loop caused by visiting /logged_out/logged_out/logged_out/etc...
-	if redirect_url.startswith('/logged_out'):
-		abort(400)
-
-	return redirect(redirect_url)
 
 
 @app.get("/marseys")
@@ -47,29 +29,53 @@ def marseys(v):
 		marseys = g.db.query(Marsey).order_by(Marsey.count.desc())
 	return render_template("marseys.html", v=v, marseys=marseys)
 
-@app.get("/marsey_list")
-@cache.memoize(timeout=600, make_name=make_name)
+@app.get("/marsey_list.json")
+@cache.memoize(timeout=600)
 def marsey_list():
-	if SITE_NAME == 'rDrama':
-		marseys = [f"{x.name} : {y} {x.tags}" for x, y in g.db.query(Marsey, User.username).join(User, User.id==Marsey.author_id).order_by(Marsey.count.desc())]
-	else:
-		marseys = [f"{x.name} : {x.tags}" for x in g.db.query(Marsey).order_by(Marsey.count.desc())]
+	# From database
+	emojis = [{
+		"name": emoji.name,
+		"author": author if SITE_NAME == 'rDrama' or author == "anton-d" else None,
+		# yikes, I don't really like this DB schema. Next time be better
+		"tags": emoji.tags.split(" ") + [emoji.name[len("marsey"):] if emoji.name.startswith("marsey") else emoji.name],
+		"count": emoji.count,
+		"class": "Marsey"
+	} for emoji, author in g.db.query(Marsey, User.username).join(User, User.id==Marsey.author_id).order_by(Marsey.count.desc())]
 
-	return str(marseys).replace("'",'"')
+	# Stastic shit
+	shit = open("files/assets/shit emojis.json", "r", encoding="utf-8")
+	emojis = emojis + json.load(shit)
+	shit.close()
+
+	if SITE_NAME == 'Cringetopia':
+		shit = open("files/assets/shit emojis.cringetopia.json", "r", encoding="utf-8")
+		emojis = emojis + json.load(shit)
+		shit.close()
+
+	# return str(marseys).replace("'",'"')
+	return jsonify(emojis)
 
 @app.get('/rules')
 @app.get('/sidebar')
+@app.get('/logged_out/rules')
+@app.get('/logged_out/sidebar')
 @auth_desired
 def sidebar(v):
+	if not v and not request.path.startswith('/logged_out'): return redirect(f"/logged_out{request.full_path}")
+	if v and request.path.startswith('/logged_out'): return redirect(request.full_path.replace('/logged_out',''))
+
 	return render_template('sidebar.html', v=v)
 
 
 @app.get("/stats")
 @auth_required
-@cache.memoize(timeout=86400, make_name=make_name)
 def participation_stats(v):
 
+	return render_template("admin/content_stats.html", v=v, title="Content Statistics", data=stats(site=SITE))
 
+
+@cache.memoize(timeout=86400)
+def stats(site=None):
 	day = int(time.time()) - 86400
 
 	week = int(time.time()) - 604800
@@ -80,42 +86,42 @@ def participation_stats(v):
 
 	active_users = set(posters) | set(commenters) | set(voters) | set(commentvoters)
 
-	stats = {"marseys": g.db.query(Marsey.name).count(),
-			"users": g.db.query(User.id).count(),
-			"private users": g.db.query(User.id).filter_by(is_private=True).count(),
-			"banned users": g.db.query(User.id).filter(User.is_banned > 0).count(),
-			"verified email users": g.db.query(User.id).filter_by(is_activated=True).count(),
+	stats = {"marseys": g.db.query(Marsey).count(),
+			"users": g.db.query(User).count(),
+			"private users": g.db.query(User).filter_by(is_private=True).count(),
+			"banned users": g.db.query(User).filter(User.is_banned > 0).count(),
+			"verified email users": g.db.query(User).filter_by(is_activated=True).count(),
 			"coins in circulation": g.db.query(func.sum(User.coins)).scalar(),
 			"total shop sales": g.db.query(func.sum(User.coins_spent)).scalar(),
-			"signups last 24h": g.db.query(User.id).filter(User.created_utc > day).count(),
-			"total posts": g.db.query(Submission.id).count(),
+			"signups last 24h": g.db.query(User).filter(User.created_utc > day).count(),
+			"total posts": g.db.query(Submission).count(),
 			"posting users": g.db.query(Submission.author_id).distinct().count(),
-			"listed posts": g.db.query(Submission.id).filter_by(is_banned=False).filter(Submission.deleted_utc == 0).count(),
-			"removed posts (by admins)": g.db.query(Submission.id).filter_by(is_banned=True).count(),
-			"deleted posts (by author)": g.db.query(Submission.id).filter(Submission.deleted_utc > 0).count(),
-			"posts last 24h": g.db.query(Submission.id).filter(Submission.created_utc > day).count(),
-			"total comments": g.db.query(Comment.id).filter(Comment.author_id.notin_((AUTOJANNY_ID,NOTIFICATIONS_ID))).count(),
+			"listed posts": g.db.query(Submission).filter_by(is_banned=False).filter(Submission.deleted_utc == 0).count(),
+			"removed posts (by admins)": g.db.query(Submission).filter_by(is_banned=True).count(),
+			"deleted posts (by author)": g.db.query(Submission).filter(Submission.deleted_utc > 0).count(),
+			"posts last 24h": g.db.query(Submission).filter(Submission.created_utc > day).count(),
+			"total comments": g.db.query(Comment).filter(Comment.author_id.notin_((AUTOJANNY_ID,NOTIFICATIONS_ID))).count(),
 			"commenting users": g.db.query(Comment.author_id).distinct().count(),
-			"removed comments (by admins)": g.db.query(Comment.id).filter_by(is_banned=True).count(),
-			"deleted comments (by author)": g.db.query(Comment.id).filter(Comment.deleted_utc > 0).count(),
-			"comments last_24h": g.db.query(Comment.id).filter(Comment.created_utc > day, Comment.author_id.notin_((AUTOJANNY_ID,NOTIFICATIONS_ID))).count(),
-			"post votes": g.db.query(Vote.submission_id).count(),
+			"removed comments (by admins)": g.db.query(Comment).filter_by(is_banned=True).count(),
+			"deleted comments (by author)": g.db.query(Comment).filter(Comment.deleted_utc > 0).count(),
+			"comments last_24h": g.db.query(Comment).filter(Comment.created_utc > day, Comment.author_id.notin_((AUTOJANNY_ID,NOTIFICATIONS_ID))).count(),
+			"post votes": g.db.query(Vote).count(),
 			"post voting users": g.db.query(Vote.user_id).distinct().count(),
-			"comment votes": g.db.query(CommentVote.comment_id).count(),
+			"comment votes": g.db.query(CommentVote).count(),
 			"comment voting users": g.db.query(CommentVote.user_id).distinct().count(),
-			"total upvotes": g.db.query(Vote.submission_id).filter_by(vote_type=1).count() + g.db.query(CommentVote.comment_id).filter_by(vote_type=1).count(),
-			"total downvotes": g.db.query(Vote.submission_id).filter_by(vote_type=-1).count() + g.db.query(CommentVote.comment_id).filter_by(vote_type=-1).count(),
-			"total awards": g.db.query(AwardRelationship.id).count(),
-			"awards given": g.db.query(AwardRelationship.id).filter(or_(AwardRelationship.submission_id != None, AwardRelationship.comment_id != None)).count(),
+			"total upvotes": g.db.query(Vote).filter_by(vote_type=1).count() + g.db.query(CommentVote.comment_id).filter_by(vote_type=1).count(),
+			"total downvotes": g.db.query(Vote).filter_by(vote_type=-1).count() + g.db.query(CommentVote.comment_id).filter_by(vote_type=-1).count(),
+			"total awards": g.db.query(AwardRelationship).count(),
+			"awards given": g.db.query(AwardRelationship).filter(or_(AwardRelationship.submission_id != None, AwardRelationship.comment_id != None)).count(),
 			"users who posted, commented, or voted in the past 7 days": len(active_users),
 			}
 
 
 	if SITE_NAME == 'rDrama':
-		furries1 = g.db.query(User.id).filter(User.house.like('Furry%')).count()
-		femboys1 = g.db.query(User.id).filter(User.house.like('Femboy%')).count()
-		vampires1 = g.db.query(User.id).filter(User.house.like('Vampire%')).count()
-		racists1 = g.db.query(User.id).filter(User.house.like('Racist%')).count()
+		furries1 = g.db.query(User).filter(User.house.like('Furry%')).count()
+		femboys1 = g.db.query(User).filter(User.house.like('Femboy%')).count()
+		vampires1 = g.db.query(User).filter(User.house.like('Vampire%')).count()
+		racists1 = g.db.query(User).filter(User.house.like('Racist%')).count()
 
 		furries2 = g.db.query(func.sum(User.truecoins)).filter(User.house.like('Furry%')).scalar()
 		femboys2 = g.db.query(func.sum(User.truecoins)).filter(User.house.like('Femboy%')).scalar()
@@ -200,7 +206,7 @@ def participation_stats(v):
 
 	g.db.commit()
 
-	return render_template("admin/content_stats.html", v=v, title="Content Statistics", data=stats)
+	return stats
 
 
 @app.get("/chart")
@@ -238,18 +244,18 @@ def cached_chart(kind, site):
 											 )
 	today_cutoff = calendar.timegm(midnight_this_morning)
 
-	if kind == "daily": day_cutoffs = [today_cutoff - 86400 * i for i in range(47)][1:]
-	else: day_cutoffs = [today_cutoff - 86400 * 7 * i for i in range(47)][1:]
+	if kind == "daily": day_cutoffs = [today_cutoff - 86400 * i for i in range(55)][1:]
+	else: day_cutoffs = [today_cutoff - 86400 * 7 * i for i in range(55)][1:]
 
 	day_cutoffs.insert(0, calendar.timegm(now))
 
 	daily_times = [time.strftime("%d/%m", time.gmtime(day_cutoffs[i + 1])) for i in range(len(day_cutoffs) - 1)][::-1]
 
-	daily_signups = [g.db.query(User.id).filter(User.created_utc < day_cutoffs[i], User.created_utc > day_cutoffs[i + 1]).count() for i in range(len(day_cutoffs) - 1)][::-1]
+	daily_signups = [g.db.query(User).filter(User.created_utc < day_cutoffs[i], User.created_utc > day_cutoffs[i + 1]).count() for i in range(len(day_cutoffs) - 1)][::-1]
 
-	post_stats = [g.db.query(Submission.id).filter(Submission.created_utc < day_cutoffs[i], Submission.created_utc > day_cutoffs[i + 1], Submission.is_banned == False).count() for i in range(len(day_cutoffs) - 1)][::-1]
+	post_stats = [g.db.query(Submission).filter(Submission.created_utc < day_cutoffs[i], Submission.created_utc > day_cutoffs[i + 1], Submission.is_banned == False).count() for i in range(len(day_cutoffs) - 1)][::-1]
 
-	comment_stats = [g.db.query(Comment.id).filter(Comment.created_utc < day_cutoffs[i], Comment.created_utc > day_cutoffs[i + 1],Comment.is_banned == False, Comment.author_id.notin_((AUTOJANNY_ID,NOTIFICATIONS_ID))).count() for i in range(len(day_cutoffs) - 1)][::-1]
+	comment_stats = [g.db.query(Comment).filter(Comment.created_utc < day_cutoffs[i], Comment.created_utc > day_cutoffs[i + 1],Comment.is_banned == False, Comment.author_id.notin_((AUTOJANNY_ID,NOTIFICATIONS_ID))).count() for i in range(len(day_cutoffs) - 1)][::-1]
 
 	plt.rcParams["figure.figsize"] = (30, 20)
 
@@ -280,10 +286,6 @@ def cached_chart(kind, site):
 	posts_chart.set_ylabel("Posts")
 	comments_chart.set_ylabel("Comments")
 	comments_chart.set_xlabel("Time (UTC)")
-
-	signup_chart.legend(loc='upper left', frameon=True)
-	posts_chart.legend(loc='upper left', frameon=True)
-	comments_chart.legend(loc='upper left', frameon=True)
 
 	file = f"/{SITE}_{kind}.png"
 
@@ -399,19 +401,19 @@ def submit_contact(v):
 		if file.content_type.startswith('image/'):
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			file.save(name)
-			url = process_image(name)
+			url = process_image(v.patron, name)
 			body_html += f'<img data-bs-target="#expandImageModal" data-bs-toggle="modal" onclick="expandDesktopImage(this.src)" class="img" src="{url}" loading="lazy">'
 		elif file.content_type.startswith('video/'):
-			file.save("video.mp4")
+			if file.content_type == 'video/webm':
+				file.save("video.mp4")
+			else:
+				file.save("unsanitized.mp4")
+				os.system(f'ffmpeg -y -loglevel warning -i unsanitized.mp4 -map_metadata -1 -c:v copy -c:a copy video.mp4')
 			with open("video.mp4", 'rb') as f:
-				try: req = requests.request("POST", "https://api.imgur.com/3/upload", headers={'Authorization': f'Client-ID {IMGUR_KEY}'}, files=[('video', f)], timeout=5).json()['data']
+				try: req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=5).json()
 				except requests.Timeout: return {"error": "Video upload timed out, please try again!"}
-				try: url = req['link']
-				except:
-					error = req['error']
-					if error == 'File exceeds max duration': error += ' (60 seconds)'
-					return {"error": error}, 400
-			if url.endswith('.'): url += 'mp4'
+				try: url = req['files'][0]['url']
+				except: return {"error": req['description']}, 400
 			body_html += f"<p>{url}</p>"
 		else: return {"error": "Image/Video files only"}, 400
 
@@ -493,18 +495,24 @@ def robots_txt():
 		abort(404)
 	return f
 
-@app.get("/badges")
-@auth_required
-@cache.memoize(timeout=3600, make_name=make_name)
-def badges(v):
-	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
+no = (21,22,23,24,25,26,27)
+
+@cache.memoize(timeout=3600)
+def badge_list(site):
+	badges = g.db.query(BadgeDef).filter(BadgeDef.id.notin_(no)).order_by(BadgeDef.id).all()
 	counts_raw = g.db.query(Badge.badge_id, func.count()).group_by(Badge.badge_id).all()
-	users = g.db.query(User.id).count()
+	users = g.db.query(User).count()
 
 	counts = {}
 	for c in counts_raw:
 		counts[c[0]] = (c[1], float(c[1]) * 100 / max(users, 1))
+	
+	return badges, counts
 
+@app.get("/badges")
+@auth_required
+def badges(v):
+	badges, counts = badge_list(SITE)
 	return render_template("badges.html", v=v, badges=badges, counts=counts)
 
 @app.get("/blocks")

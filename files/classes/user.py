@@ -26,6 +26,9 @@ defaulttheme = environ.get("DEFAULT_THEME", "midnight").strip()
 defaulttimefilter = environ.get("DEFAULT_TIME_FILTER", "all").strip()
 cardview = bool(int(environ.get("CARD_VIEW", 1)))
 
+if SITE_NAME in ('Cringetopia', 'WPD'): patron_default = 7
+else: patron_default = 0
+
 class User(Base):
 	__tablename__ = "users"
 
@@ -48,7 +51,7 @@ class User(Base):
 	profileurl = Column(String)
 	bannerurl = Column(String)
 	house = Column(String)
-	patron = Column(Integer, default=0)
+	patron = Column(Integer, default=patron_default)
 	patron_utc = Column(Integer, default=0)
 	verified = Column(String)
 	verifiedcolor = Column(String)
@@ -181,6 +184,21 @@ class User(Base):
 
 		return time.strftime("%d %b %Y", time.gmtime(self.created_utc))
 
+
+	@property
+	@lazy
+	def is_cakeday(self):
+		if time.time() - self.created_utc > 363 * 86400:
+			date = time.strftime("%d %b", time.gmtime(self.created_utc))
+			now = time.strftime("%d %b", time.gmtime())
+			if date == now:
+				if not self.has_badge(134):
+					new_badge = Badge(badge_id=134, user_id=self.id)
+					g.db.add(new_badge)
+					g.db.commit()
+				return True
+		return False
+
 	@property
 	@lazy
 	def discount(self):
@@ -190,6 +208,7 @@ class User(Base):
 		elif self.patron == 4: discount = 0.75
 		elif self.patron == 5: discount = 0.70
 		elif self.patron == 6: discount = 0.65
+		elif self.patron == 7: discount = 0.60
 		else: discount = 1
 
 		for badge in discounts:
@@ -306,7 +325,7 @@ class User(Base):
 	@property
 	@lazy
 	def follow_count(self):
-		return g.db.query(Follow.target_id).filter_by(user_id=self.id).count()
+		return g.db.query(Follow).filter_by(user_id=self.id).count()
 
 	@property
 	@lazy
@@ -406,7 +425,7 @@ class User(Base):
 	@lazy
 	def modaction_num(self):
 		if self.admin_level < 2: return 0
-		return g.db.query(ModAction.id).filter_by(user_id=self.id).count()
+		return g.db.query(ModAction).filter_by(user_id=self.id).count()
 
 	@property
 	@lazy
@@ -421,12 +440,12 @@ class User(Base):
 	@property
 	@lazy
 	def post_notifications_count(self):
-		return g.db.query(Notification.user_id).join(Comment).filter(Notification.user_id == self.id, Notification.read == False, Comment.author_id == AUTOJANNY_ID).count()
+		return g.db.query(Notification).join(Comment).filter(Notification.user_id == self.id, Notification.read == False, Comment.author_id == AUTOJANNY_ID).count()
 
 	@property
 	@lazy
 	def reddit_notifications_count(self):
-		return g.db.query(Notification.user_id).join(Comment).filter(Notification.user_id == self.id, Notification.read == False, Comment.is_banned == False, Comment.deleted_utc == 0, Comment.body_html.like('%<p>New site mention: <a href="https://old.reddit.com/r/%'), Comment.parent_submission == None, Comment.author_id == NOTIFICATIONS_ID).count()
+		return g.db.query(Notification).join(Comment).filter(Notification.user_id == self.id, Notification.read == False, Comment.is_banned == False, Comment.deleted_utc == 0, Comment.body_html.like('%<p>New site mention: <a href="https://old.reddit.com/r/%'), Comment.parent_submission == None, Comment.author_id == NOTIFICATIONS_ID).count()
 
 	@property
 	@lazy

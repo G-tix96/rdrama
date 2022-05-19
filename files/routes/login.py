@@ -315,14 +315,16 @@ def sign_up_post(v):
 
 	ref_id = int(request.values.get("referred_by", 0))
 
-	id_1 = g.db.query(User.id).filter_by(id=9).count()
-	users_count = g.db.query(User.id).count()
+	id_1 = g.db.query(User).filter_by(id=9).count()
+	users_count = g.db.query(User).count()
 	if id_1 == 0 and users_count == 8:
 		admin_level=3
 		session["history"] = []
 	else: admin_level=0
 
 	profileurl = '/e/' + random.choice(marseys_const) + '.webp'
+
+	if SITE == "watchpeopledie.co": print(f'1: {username}')
 
 	new_user = User(
 		username=username,
@@ -335,8 +337,12 @@ def sign_up_post(v):
 		profileurl=profileurl
 		)
 
+	if SITE == "watchpeopledie.co": print(f'2: {username}')
+
 	g.db.add(new_user)
 	g.db.flush()
+
+	if SITE == "watchpeopledie.co": print(f'3: {username}')
 
 	if ref_id:
 		ref_user = g.db.query(User).filter_by(id=ref_id).one_or_none()
@@ -367,8 +373,12 @@ def sign_up_post(v):
 	session.permanent = True
 	session["session_id"] = token_hex(49)
 	session["lo_user"] = new_user.id
+	
+	if SITE == "watchpeopledie.co": print(f'4: {username}')
 
 	g.db.commit()
+
+	if SITE == "watchpeopledie.co": print(f'5: {username}')
 
 	return redirect(SITE_FULL)
 

@@ -5,10 +5,11 @@
 	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' ajax.cloudflare.com; connect-src 'self' tls-use1.fpapi.io api.fpjs.io {% if PUSHER_ID != 'blahblahblah' %}{{PUSHER_ID}}.pushnotifications.pusher.com{% endif %}; object-src 'none';">
 
 	<script src="/assets/js/bootstrap.js?v=245"></script>
+	<script src="/assets/js/shortcut handler.js?v=2"></script>
 	{% if v %}
 		<style>:root{--primary:#{{v.themecolor}}}</style>
-		<link rel="stylesheet" href="/assets/css/main.css?v=251">
-		<link rel="stylesheet" href="/assets/css/{{v.theme}}.css?v=56">
+		<link rel="stylesheet" href="/assets/css/main.css?v=268">
+		<link rel="stylesheet" href="/assets/css/{{v.theme}}.css?v=58">
 		<link rel="stylesheet" href="/assets/css/awards.css">
 		{% if v.agendaposter %}
 			<style>
@@ -33,8 +34,8 @@
 		{% endif %}
 	{% else %}
 		<style>:root{--primary:#{{config('DEFAULT_COLOR')}}</style>
-		<link rel="stylesheet" href="/assets/css/main.css?v=251">
-		<link rel="stylesheet" href="/assets/css/{{config('DEFAULT_THEME')}}.css?v=56">
+		<link rel="stylesheet" href="/assets/css/main.css?v=268">
+		<link rel="stylesheet" href="/assets/css/{{config('DEFAULT_THEME')}}.css?v=57">
 		<link rel="stylesheet" href="/assets/css/awards.css">
 	{% endif %}
 
@@ -351,7 +352,7 @@
 	<script src="/assets/js/formatting.js?v=240"></script>
 {% endif %}
 
-<script src="/assets/js/lite-youtube.js?v=240"></script>
+<script src="/assets/js/lite-youtube.js?v=241"></script>
 
 </body>
 

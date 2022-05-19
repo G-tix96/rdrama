@@ -12,6 +12,7 @@ from files.helpers.sanitize import filter_emojis_only
 from files.helpers.discord import add_role
 from shutil import copyfile
 import requests
+import tldextract
 
 GUMROAD_TOKEN = environ.get("GUMROAD_TOKEN", "").strip()
 GUMROAD_ID = environ.get("GUMROAD_ID", "tfcvri").strip()
@@ -213,19 +214,19 @@ def settings_profile_post(v):
 			if file.content_type.startswith('image/'):
 				name = f'/images/{time.time()}'.replace('.','') + '.webp'
 				file.save(name)
-				url = process_image(name)
+				url = process_image(v.patron, name)
 				bio += f"\n\n![]({url})"
 			elif file.content_type.startswith('video/'):
-				file.save("video.mp4")
+				if file.content_type == 'video/webm':
+					file.save("video.mp4")
+				else:
+					file.save("unsanitized.mp4")
+					os.system(f'ffmpeg -y -loglevel warning -i unsanitized.mp4 -map_metadata -1 -c:v copy -c:a copy video.mp4')
 				with open("video.mp4", 'rb') as f:
-					try: req = requests.request("POST", "https://api.imgur.com/3/upload", headers={'Authorization': f'Client-ID {IMGUR_KEY}'}, files=[('video', f)], timeout=5).json()['data']
+					try: req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=5).json()
 					except requests.Timeout: return {"error": "Video upload timed out, please try again!"}
-					try: url = req['link']
-					except:
-						error = req['error']
-						if error == 'File exceeds max duration': error += ' (60 seconds)'
-						return {"error": error}, 400
-				if url.endswith('.'): url += 'mp4'
+					try: url = req['files'][0]['url']
+					except: return {"error": req['description']}, 400
 				bio += f"\n\n{url}"
 			else:
 				if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": "Image/Video files only"}, 400
@@ -397,8 +398,6 @@ def gumroad(v):
 	v.procoins += procoins
 	send_repeatable_notification(v.id, f"You have received {procoins} Marseybux! You can use them to buy awards in the [shop](/shop).")
 
-	if v.patron > 1 and v.verified == None: v.verified = "Verified"
-
 	g.db.add(v)
 
 	if not v.has_badge(20+tier):
@@ -555,13 +554,13 @@ def settings_images_profile(v):
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
-	highres = process_image(name)
+	highres = process_image(v.patron, name)
 
 	if not highres: abort(400)
 
 	name2 = name.replace('.webp', 'r.webp')
 	copyfile(name, name2)
-	imageurl = process_image(name2, resize=100)
+	imageurl = process_image(v.patron, name2, resize=100)
 
 	if not imageurl: abort(400)
 
@@ -591,7 +590,7 @@ def settings_images_banner(v):
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
-	bannerurl = process_image(name)
+	bannerurl = process_image(v.patron, name)
 
 	if bannerurl:
 		if v.bannerurl and '/images/' in v.bannerurl:
@@ -641,6 +640,18 @@ def settings_profilecss_get(v):
 @auth_required
 def settings_profilecss(v):
 	profilecss = request.values.get("profilecss").strip().replace('\\', '').strip()[:4000]
+
+
+	urls = list(css_regex.finditer(profilecss)) + list(css_regex2.finditer(profilecss))
+	for i in urls:
+		url = i.group(1)
+		if url.startswith('/'): continue
+		domain = tldextract.extract(url).registered_domain
+		if domain not in approved_embed_hosts:
+			error = f"The domain '{domain}' is not allowed, please use one of these domains\n\n{approved_embed_hosts}."
+			return render_template("settings_profilecss.html", error=error, v=v)
+
+
 	v.profilecss = profilecss
 	g.db.add(v)
 	g.db.commit()
@@ -781,14 +792,14 @@ def settings_name_change(v):
 	return redirect("/settings/profile")
 
 @app.post("/settings/song_change")
-@limiter.limit("2/second;10/day")
-@limiter.limit("2/second;10/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit("3/second;10/day")
+@limiter.limit("3/second;10/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
 def settings_song_change(v):
 	song=request.values.get("song").strip()
 
 	if song == "" and v.song:
-		if path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User.id).filter_by(song=v.song).count() == 1:
+		if path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:
 			os.remove(f"/songs/{v.song}.mp3")
 		v.song = None
 		g.db.add(v)
@@ -827,7 +838,7 @@ def settings_song_change(v):
 			return render_template("settings_profile.html", v=v, error="Duration of the video must not exceed 15 minutes.")
 
 
-	if v.song and path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User.id).filter_by(song=v.song).count() == 1:
+	if v.song and path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:
 		os.remove(f"/songs/{v.song}.mp3")
 
 	ydl_opts = {
@@ -870,7 +881,7 @@ def settings_title_change(v):
 	
 	new_name=request.values.get("title").strip()[:100].replace("𒐪","")
 
-	if new_name==v.customtitle: return render_template("settings_profile.html", v=v, error="You didn't change anything")
+	if new_name == v.customtitle: return render_template("settings_profile.html", v=v, error="You didn't change anything")
 
 	v.customtitleplain = new_name
 
@@ -879,6 +890,27 @@ def settings_title_change(v):
 	if len(v.customtitle) < 1000:
 		g.db.add(v)
 		g.db.commit()
+
+	return redirect("/settings/profile")
+
+
+@app.post("/settings/checkmark_text")
+@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@auth_required
+def settings_checkmark_text(v):
+
+	if not v.verified: abort(403)
+	
+	new_name=request.values.get("title").strip()[:100].replace("𒐪","")
+
+	if not new_name: abort(400)
+
+	if new_name == v.verified: return render_template("settings_profile.html", v=v, error="You didn't change anything")
+
+	v.verified = new_name
+	g.db.add(v)
+	g.db.commit()
 
 	return redirect("/settings/profile")
 
@@ -892,6 +924,4 @@ def settings(v):
 @app.get("/settings/profile")
 @auth_required
 def settings_profile(v):
-	if v.flairchanged: ti = datetime.utcfromtimestamp(v.flairchanged).strftime('%Y-%m-%d %H:%M:%S')
-	else: ti = ''
-	return render_template("settings_profile.html", v=v, ti=ti)
+	return render_template("settings_profile.html", v=v)

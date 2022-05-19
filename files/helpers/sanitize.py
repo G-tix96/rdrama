@@ -14,7 +14,7 @@ import requests
 
 TLDS = ('ac','ad','ae','aero','af','ag','ai','al','am','an','ao','aq','ar','arpa','as','asia','at','au','aw','ax','az','ba','bb','bd','be','bf','bg','bh','bi','biz','bj','bm','bn','bo','br','bs','bt','bv','bw','by','bz','ca','cafe','cat','cc','cd','cf','cg','ch','ci','ck','cl','club','cm','cn','co','com','coop','cr','cu','cv','cx','cy','cz','de','dj','dk','dm','do','dz','ec','edu','ee','eg','er','es','et','eu','fi','fj','fk','fm','fo','fr','ga','gb','gd','ge','gf','gg','gh','gi','gl','gm','gn','gov','gp','gq','gr','gs','gt','gu','gw','gy','hk','hm','hn','hr','ht','hu','id','ie','il','im','in','info','int','io','iq','ir','is','it','je','jm','jo','jobs','jp','ke','kg','kh','ki','km','kn','kp','kr','kw','ky','kz','la','lb','lc','li','lk','lr','ls','lt','lu','lv','ly','ma','mc','md','me','mg','mh','mil','mk','ml','mm','mn','mo','mobi','mp','mq','mr','ms','mt','mu','museum','mv','mw','mx','my','mz','na','name','nc','ne','net','nf','ng','ni','nl','no','np','nr','nu','nz','om','org','pa','pe','pf','pg','ph','pk','pl','pm','pn','post','pr','pro','ps','pt','pw','py','qa','re','ro','rs','ru','rw','sa','sb','sc','sd','se','sg','sh','si','sj','sk','sl','sm','sn','so','social','sr','ss','st','su','sv','sx','sy','sz','tc','td','tel','tf','tg','th','tj','tk','tl','tm','tn','to','tp','tr','travel','tt','tv','tw','tz','ua','ug','uk','us','uy','uz','va','vc','ve','vg','vi','vn','vu','wf','win','ws','xn','xxx','xyz','ye','yt','yu','za','zm','zw')
 
-allowed_tags = ('b','blockquote','br','code','del','em','h1','h2','h3','h4','h5','h6','hr','i','li','ol','p','pre','strong','sub','sup','table','tbody','th','thead','td','tr','ul','marquee','a','span','ruby','rp','rt','spoiler','img','lite-youtube','video','source')
+allowed_tags = ('b','blockquote','br','code','del','em','h1','h2','h3','h4','h5','h6','hr','i','li','ol','p','pre','strong','sub','sup','table','tbody','th','thead','td','tr','ul','marquee','a','span','ruby','rp','rt','spoiler','img','lite-youtube','video','source','audio')
 
 def allowed_attributes(tag, name, value):
 
@@ -40,10 +40,10 @@ def allowed_attributes(tag, name, value):
 			else: return False
 
 		if name == 'loading' and value == 'lazy': return True
-		if name == 'referrpolicy' and value == 'no-referrer': return True
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
-		if name in ['alt','title','g','b','pat']: return True
-		if name == 'class' and value == 'pat-hand': return True
+		if name in ['g','b'] and not value: return True
+		if name in ['alt','title']: return True
+		if name == 'referrpolicy' and value == 'no-referrer': return True
 		return False
 
 	if tag == 'lite-youtube':
@@ -60,12 +60,17 @@ def allowed_attributes(tag, name, value):
 		if name == 'src' and embed_fullmatch_regex.fullmatch(value): return True
 		return False
 
+	if tag == 'audio':
+		if name == 'controls' and value == '': return True
+		if name == 'preload' and value == 'none': return True
+		if name == 'src' and embed_fullmatch_regex.fullmatch(value): return True
+		return False
+
 	if tag == 'p':
 		if name == 'class' and value == 'mb-0': return True
 		return False
 
 	if tag == 'span':
-		if name == 'class' and value in ['pat-container', 'pat-hand']: return True
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
 		if name == 'title': return True
 		if name == 'alt': return True
@@ -75,7 +80,16 @@ def allowed_attributes(tag, name, value):
 url_re = build_url_re(tlds=TLDS, protocols=['http', 'https'])
 
 def callback(attrs, new=False):
+	if (None, "href") not in attrs:
+		return # Incorrect <a> tag
+
 	href = attrs[(None, "href")]
+
+	# \ in href right after / makes most browsers ditch site hostname and allows for a host injection bypassing the check, see <a href="/\google.com">cool</a>
+	if "\\" in href:
+		attrs["_text"] = href # Laugh at this user
+		del attrs[(None, "href")] # Make unclickable and reset harmful payload
+		return attrs
 
 	if not href.startswith('/') and not href.startswith(f'{SITE_FULL}/'):
 		attrs[(None, "target")] = "_blank"
@@ -111,17 +125,16 @@ def render_emoji(html, regexp, edit, marseys_used=set(), b=False):
 
 		if emoji.endswith('pat'):
 			if path.isfile(f"files/assets/images/emojis/{emoji.replace('pat','')}.webp"):
-				attrs += ' pat'
-				emoji_html = f'<span class="pat-container" data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/assets/images/hand.webp" class="pat-hand">{emoji_partial_pat.format(old, f"/e/{emoji[:-3]}.webp", attrs)}</span>'
+				emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/assets/images/hand.webp">{emoji_partial_pat.format(old, f"/e/{emoji[:-3]}.webp", attrs)}</span>'
 			elif emoji.startswith('@'):
 				if u := get_user(emoji[1:-3], graceful=True):
-					attrs += ' pat'
-					emoji_html = f'<span class="pat-container" data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/assets/images/hand.webp" class="pat-hand">{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
+					emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/assets/images/hand.webp">{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
 		elif path.isfile(f'files/assets/images/emojis/{emoji}.webp'):
 			emoji_html = emoji_partial.format(old, f'/e/{emoji}.webp', attrs)
 
 
 		if emoji_html:
+			marseys_used.add(emoji)
 			html = re.sub(f'(?<!"){i.group(0)}', emoji_html, html)
 	return html
 
@@ -131,11 +144,14 @@ def sanitize(sanitized, alert=False, comment=False, edit=False):
 	signal.signal(signal.SIGALRM, handler)
 	signal.alarm(1)
 
-	sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
+	if not sanitized.startswith('<pre>'):
+		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
 
 	sanitized = image_regex.sub(r'\1![](\2)\4', sanitized)
 
 	sanitized = image_check_regex.sub(r'\1', sanitized)
+
+	sanitized = link_fix_regex.sub(r'\2https://\3', sanitized)
 
 	sanitized = markdown(sanitized)
 
@@ -246,6 +262,11 @@ def sanitize(sanitized, alert=False, comment=False, edit=False):
 		sanitized = sanitized.replace('#fortune', '')
 		sanitized += '\n\n<p>' + choice(FORTUNE_REPLIES) + '</p>'
 
+	if '#factcheck' in sanitized:
+		sanitized = sanitized.replace('#factcheck', '')
+		sanitized += '\n\n<p>' + choice(FACTCHECK_REPLIES) + '</p>'
+
+	sanitized = sanitized.replace('<p></p>', '')
 	sanitized = sanitized.replace('&amp;','&')
 	sanitized = utm_regex.sub('', sanitized)
 	sanitized = utm_regex2.sub('', sanitized)
@@ -303,9 +324,17 @@ def sanitize(sanitized, alert=False, comment=False, edit=False):
 def allowed_attributes_emojis(tag, name, value):
 
 	if tag == 'img':
+		if name == 'src' and value.startswith('/'): return True
 		if name == 'loading' and value == 'lazy': return True
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
-		if name in ['src','alt','title','g']: return True
+		if name == 'g' and not value: return True
+		if name in ['alt','title']: return True
+
+	if tag == 'span':
+		if name == 'data-bs-toggle' and value == 'tooltip': return True
+		if name == 'title': return True
+		if name == 'alt': return True
+		return False
 	return False
 
 
@@ -320,7 +349,7 @@ def filter_emojis_only(title, edit=False, graceful=False):
 
 	title = strikethrough_regex.sub(r'<del>\1</del>', title)
 
-	sanitized = bleach.clean(title, tags=['img','del'], attributes=allowed_attributes_emojis, protocols=['http','https'])
+	title = bleach.clean(title, tags=['img','del','span'], attributes=allowed_attributes_emojis, protocols=['http','https'])
 
 	signal.alarm(0)
 

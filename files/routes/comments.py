@@ -19,6 +19,7 @@ from collections import Counter
 from enchant import Dict
 import gevent
 from sys import stdout
+import os
 
 d = Dict("en_US")
 
@@ -59,8 +60,15 @@ def pusher_thread(interests, c, username):
 @app.get("/post/<pid>/<anything>/<cid>")
 @app.get("/h/<sub>/comment/<cid>")
 @app.get("/h/<sub>/post/<pid>/<anything>/<cid>")
+@app.get("/logged_out/comment/<cid>")
+@app.get("/logged_out/post/<pid>/<anything>/<cid>")
+@app.get("/logged_out/h/<sub>/comment/<cid>")
+@app.get("/logged_out/h/<sub>/post/<pid>/<anything>/<cid>")
 @auth_desired
 def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
+
+	if not v and not request.path.startswith('/logged_out'): return redirect(f"/logged_out{request.full_path}")
+	if v and request.path.startswith('/logged_out'): return redirect(request.full_path.replace('/logged_out',''))
 
 	try: cid = int(cid)
 	except: abort(404)
@@ -75,8 +83,6 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 			g.db.commit()
 
 	if comment.post and comment.post.club and not (v and (v.paid_dues or v.id in [comment.author_id, comment.post.author_id])): abort(403)
-
-	if comment.post and comment.post.private and not (v and (v.admin_level > 1 or v.id == comment.post.author.id)): abort(403)
 
 	if not comment.parent_submission and not (v and (comment.author.id == v.id or comment.sentto == v.id)) and not (v and v.admin_level > 1) : abort(403)
 	
@@ -216,17 +222,23 @@ def api_comment(v):
 			if file.content_type.startswith('image/'):
 				oldname = f'/images/{time.time()}'.replace('.','') + '.webp'
 				file.save(oldname)
-				image = process_image(oldname)
+				image = process_image(v.patron, oldname)
 				if image == "": return {"error":"Image upload failed"}
 				if v.admin_level > 2 and level == 1:
 					if parent_post.id == 37696:
-						filename = 'files/assets/images/rDrama/sidebar/' + str(len(listdir('files/assets/images/rDrama/sidebar'))+1) + '.webp'
+						li = sorted(os.listdir('files/assets/images/rDrama/sidebar'),
+							key=lambda e: int(e.split('.webp')[0]))[-1]
+						num = int(li.split('.webp')[0]) + 1
+						filename = f'files/assets/images/rDrama/sidebar/{num}.webp'
 						copyfile(oldname, filename)
-						process_image(filename, 400)
+						process_image(v.patron, filename, 400)
 					elif parent_post.id == 37697:
-						filename = 'files/assets/images/rDrama/banners/' + str(len(listdir('files/assets/images/rDrama/banners'))+1) + '.webp'
+						li = sorted(os.listdir('files/assets/images/rDrama/banners'),
+							key=lambda e: int(e.split('.webp')[0]))[-1]
+						num = int(li.split('.webp')[0]) + 1
+						filename = f'files/assets/images/rDrama/banners/{num}.webp'
 						copyfile(oldname, filename)
-						process_image(filename)
+						process_image(v.patron, filename)
 					elif parent_post.id == 37833:
 						try:
 							badge_def = loads(body)
@@ -240,7 +252,7 @@ def api_comment(v):
 							g.db.flush()
 							filename = f'files/assets/images/badges/{badge.id}.webp'
 							copyfile(oldname, filename)
-							process_image(filename, 200)
+							process_image(v.patron, filename, 200)
 							requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, data={'files': [f"https://{request.host}/assets/images/badges/{badge.id}.webp"]}, timeout=5)
 						except Exception as e:
 							return {"error": str(e)}, 400
@@ -262,13 +274,13 @@ def api_comment(v):
 
 							filename = f'files/assets/images/emojis/{name}.webp'
 							copyfile(oldname, filename)
-							process_image(filename, 200)
+							process_image(v.patron, filename, 200)
 
 							marsey = Marsey(name=name, author_id=user.id, tags=tags, count=0)
 							g.db.add(marsey)
 							g.db.flush()
 
-							all_by_author = g.db.query(Marsey.author_id).filter_by(author_id=user.id).count()
+							all_by_author = g.db.query(Marsey).filter_by(author_id=user.id).count()
 
 							if all_by_author >= 10 and not user.has_badge(16):
 								new_badge = Badge(badge_id=16, user_id=user.id)
@@ -299,16 +311,16 @@ def api_comment(v):
 							return {"error": str(e)}, 400
 				body += f"\n\n![]({image})"
 			elif file.content_type.startswith('video/'):
-				file.save("video.mp4")
+				if file.content_type == 'video/webm':
+					file.save("video.mp4")
+				else:
+					file.save("unsanitized.mp4")
+					os.system(f'ffmpeg -y -loglevel warning -i unsanitized.mp4 -map_metadata -1 -c:v copy -c:a copy video.mp4')
 				with open("video.mp4", 'rb') as f:
-					try: req = requests.request("POST", "https://api.imgur.com/3/upload", headers={'Authorization': f'Client-ID {IMGUR_KEY}'}, files=[('video', f)], timeout=5).json()['data']
+					try: req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=5).json()
 					except requests.Timeout: return {"error": "Video upload timed out, please try again!"}
-					try: url = req['link']
-					except:
-						error = req['error']
-						if error == 'File exceeds max duration': error += ' (60 seconds)'
-						return {"error": error}, 400
-				if url.endswith('.'): url += 'mp4'
+					try: url = req['files'][0]['url']
+					except: return {"error": req['description']}, 400
 				body += f"\n\n{url}"
 			else: return {"error": "Image/Video files only"}, 400
 
@@ -486,7 +498,7 @@ def api_comment(v):
 			g.db.add(n)
 
 
-		if SITE_NAME == 'rDrama' and len(c.body) >= 1000 and "<" not in body and "</blockquote>" not in body_html:
+		if SITE_NAME == 'rDrama' and len(c.body.split()) >= 200 and "<" not in body and "</blockquote>" not in body_html:
 		
 			body = random.choice(LONGPOST_REPLIES)
 
@@ -626,7 +638,7 @@ def api_comment(v):
 
 	cache.delete_memoized(comment_idlist)
 
-	v.comment_count = g.db.query(Comment.id).filter(Comment.author_id == v.id, Comment.parent_submission != None).filter_by(is_banned=False, deleted_utc=0).count()
+	v.comment_count = g.db.query(Comment).filter(Comment.author_id == v.id, Comment.parent_submission != None).filter_by(is_banned=False, deleted_utc=0).count()
 	g.db.add(v)
 
 	c.voted = 1
@@ -690,31 +702,29 @@ def edit_comment(cid, v):
 		if v.agendaposter and not v.marseyawarded:
 			body = torture_ap(body, v.username)
 
-		if not c.options:
-			for i in poll_regex.finditer(body):
-				body = body.replace(i.group(0), "")
-				c_option = Comment(author_id=AUTOPOLLER_ID,
-					parent_submission=c.parent_submission,
-					parent_comment_id=c.id,
-					level=c.level+1,
-					body_html=filter_emojis_only(i.group(1)),
-					upvotes=0,
-					is_bot=True
-					)
-				g.db.add(c_option)
+		for i in poll_regex.finditer(body):
+			body = body.replace(i.group(0), "")
+			c_option = Comment(author_id=AUTOPOLLER_ID,
+				parent_submission=c.parent_submission,
+				parent_comment_id=c.id,
+				level=c.level+1,
+				body_html=filter_emojis_only(i.group(1)),
+				upvotes=0,
+				is_bot=True
+				)
+			g.db.add(c_option)
 
-		if not c.choices:
-			for i in choice_regex.finditer(body):
-				body = body.replace(i.group(0), "")
-				c_choice = Comment(author_id=AUTOCHOICE_ID,
-					parent_submission=c.parent_submission,
-					parent_comment_id=c.id,
-					level=c.level+1,
-					body_html=filter_emojis_only(i.group(1)),
-					upvotes=0,
-					is_bot=True
-					)
-				g.db.add(c_choice)
+		for i in choice_regex.finditer(body):
+			body = body.replace(i.group(0), "")
+			c_choice = Comment(author_id=AUTOCHOICE_ID,
+				parent_submission=c.parent_submission,
+				parent_comment_id=c.id,
+				level=c.level+1,
+				body_html=filter_emojis_only(i.group(1)),
+				upvotes=0,
+				is_bot=True
+				)
+			g.db.add(c_choice)
 
 		body_html = sanitize(body, edit=True)
 
@@ -758,19 +768,19 @@ def edit_comment(cid, v):
 				if file.content_type.startswith('image/'):
 					name = f'/images/{time.time()}'.replace('.','') + '.webp'
 					file.save(name)
-					url = process_image(name)
+					url = process_image(v.patron, name)
 					body += f"\n\n![]({url})"
 				elif file.content_type.startswith('video/'):
-					file.save("video.mp4")
+					if file.content_type == 'video/webm':
+						file.save("video.mp4")
+					else:
+						file.save("unsanitized.mp4")
+						os.system(f'ffmpeg -y -loglevel warning -i unsanitized.mp4 -map_metadata -1 -c:v copy -c:a copy video.mp4')
 					with open("video.mp4", 'rb') as f:
-						try: req = requests.request("POST", "https://api.imgur.com/3/upload", headers={'Authorization': f'Client-ID {IMGUR_KEY}'}, files=[('video', f)], timeout=5).json()['data']
+						try: req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=5).json()
 						except requests.Timeout: return {"error": "Video upload timed out, please try again!"}
-						try: url = req['link']
-						except:
-							error = req['error']
-							if error == 'File exceeds max duration': error += ' (60 seconds)'
-							return {"error": error}, 400
-					if url.endswith('.'): url += 'mp4'
+						try: url = req['files'][0]['url']
+						except: return {"error": req['description']}, 400
 					body += f"\n\n{url}"
 				else: return {"error": "Image/Video files only"}, 400
 

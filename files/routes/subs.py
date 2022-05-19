@@ -3,8 +3,7 @@ from files.helpers.alerts import *
 from files.helpers.wrappers import *
 from files.classes import *
 from .front import frontlist
-
-
+import tldextract
 
 @app.post("/exile/post/<pid>")
 @is_not_permabanned
@@ -224,7 +223,7 @@ def remove_mod(v, sub):
 @app.get("/create_sub")
 @is_not_permabanned
 def create_sub(v):
-	if SITE_NAME == 'rDrama' and v.admin_level < 3: abort(403)
+	if SITE_NAME != 'PCM' and v.admin_level < 3: abort(403)
 
 	if request.host == 'rdrama.net': cost = 0
 	else:
@@ -336,9 +335,22 @@ def post_sub_css(v, sub):
 	
 	if not v.mods(sub.name): abort(403)
 
-	sub.css = request.values.get('css', '').strip()
-	g.db.add(sub)
+	css = request.values.get('css', '').strip()
 
+
+	urls = list(css_regex.finditer(css)) + list(css_regex2.finditer(css))
+	for i in urls:
+		url = i.group(1)
+		if url.startswith('/'): continue
+		domain = tldextract.extract(url).registered_domain
+		if domain not in approved_embed_hosts:
+			error = f"The domain '{domain}' is not allowed, please use one of these domains\n\n{approved_embed_hosts}."
+			return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, error=error)
+
+
+
+	sub.css = css
+	g.db.add(sub)
 	g.db.commit()
 
 	return redirect(f'/h/{sub.name}/settings')
@@ -369,7 +381,7 @@ def sub_banner(v, sub):
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
-	bannerurl = process_image(name)
+	bannerurl = process_image(v.patron, name)
 
 	if bannerurl:
 		if sub.bannerurl and '/images/' in sub.bannerurl:
@@ -396,7 +408,7 @@ def sub_sidebar(v, sub):
 	file = request.files["sidebar"]
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
-	sidebarurl = process_image(name)
+	sidebarurl = process_image(v.patron, name)
 
 	if sidebarurl:
 		if sub.sidebarurl and '/images/' in sub.sidebarurl:

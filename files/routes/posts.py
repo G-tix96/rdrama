@@ -4,7 +4,7 @@ import requests
 from files.helpers.wrappers import *
 from files.helpers.sanitize import *
 from files.helpers.alerts import *
-from files.helpers.discord import send_discord_message, send_cringetopia_message
+from files.helpers.discord import send_discord_message
 from files.helpers.const import *
 from files.helpers.slots import *
 from files.classes import *
@@ -18,7 +18,7 @@ from os import path
 import requests
 from shutil import copyfile
 from sys import stdout
-
+import os
 
 if SITE_NAME == 'PCM': snappyquotes = []
 else: snappyquotes = [f':#{x}:' for x in marseys_const2]
@@ -90,9 +90,7 @@ def publish(pid, v):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
 
-	if SITE == 'cringetopia.org':
-		send_cringetopia_message(post.permalink)
-	elif v.admin_level > 0 and ("[changelog]" in post.title.lower() or "(changelog)" in post.title.lower()):
+	if v.admin_level > 0 and ("[changelog]" in post.title.lower() or "(changelog)" in post.title.lower()):
 		send_discord_message(post.permalink)
 		cache.delete_memoized(changeloglist)
 
@@ -114,8 +112,15 @@ def submit_get(v, sub=None):
 @app.get("/post/<pid>/<anything>")
 @app.get("/h/<sub>/post/<pid>")
 @app.get("/h/<sub>/post/<pid>/<anything>")
+@app.get("/logged_out/post/<pid>")
+@app.get("/logged_out/post/<pid>/<anything>")
+@app.get("/logged_out/h/<sub>/post/<pid>")
+@app.get("/logged_out/h/<sub>/post/<pid>/<anything>")
 @auth_desired
 def post_id(pid, anything=None, v=None, sub=None):
+
+	if not v and not request.path.startswith('/logged_out'): return redirect(f"/logged_out{request.full_path}")
+	if v and request.path.startswith('/logged_out'): return redirect(request.full_path.replace('/logged_out',''))
 
 	try: pid = int(pid)
 	except Exception as e: pass
@@ -224,13 +229,13 @@ def post_id(pid, anything=None, v=None, sub=None):
 			for comment in comments:
 				comments2.append(comment)
 				ids.add(comment.id)
-				count += g.db.query(Comment.id).filter_by(parent_submission=post.id, top_comment_id=comment.id).count() + 1
+				count += g.db.query(Comment).filter_by(parent_submission=post.id, top_comment_id=comment.id).count() + 1
 				if count > 50: break
 		else:
 			for comment in comments:
 				comments2.append(comment)
 				ids.add(comment.id)
-				count += g.db.query(Comment.id).filter_by(parent_submission=post.id, parent_comment_id=comment.id).count() + 1
+				count += g.db.query(Comment).filter_by(parent_submission=post.id, parent_comment_id=comment.id).count() + 1
 				if count > 10: break
 
 		if len(comments) == len(comments2): offset = 0
@@ -348,13 +353,13 @@ def viewmore(v, pid, sort, offset):
 		for comment in comments:
 			comments2.append(comment)
 			ids.add(comment.id)
-			count += g.db.query(Comment.id).filter_by(parent_submission=post.id, top_comment_id=comment.id).count() + 1
+			count += g.db.query(Comment).filter_by(parent_submission=post.id, top_comment_id=comment.id).count() + 1
 			if count > 50: break
 	else:
 		for comment in comments:
 			comments2.append(comment)
 			ids.add(comment.id)
-			count += g.db.query(Comment.id).filter_by(parent_submission=post.id, parent_comment_id=comment.id).count() + 1
+			count += g.db.query(Comment).filter_by(parent_submission=post.id, parent_comment_id=comment.id).count() + 1
 			if count > 10: break
 	
 	if len(comments) == len(comments2): offset = 0
@@ -456,48 +461,46 @@ def edit_post(pid, v):
 			if file.content_type.startswith('image/'):
 				name = f'/images/{time.time()}'.replace('.','') + '.webp'
 				file.save(name)
-				url = process_image(name)
+				url = process_image(v.patron, name)
 				body += f"\n\n![]({url})"
 			elif file.content_type.startswith('video/'):
-				file.save("video.mp4")
+				if file.content_type == 'video/webm':
+					file.save("video.mp4")
+				else:
+					file.save("unsanitized.mp4")
+					os.system(f'ffmpeg -y -loglevel warning -i unsanitized.mp4 -map_metadata -1 -c:v copy -c:a copy video.mp4')
 				with open("video.mp4", 'rb') as f:
-					try: req = requests.request("POST", "https://api.imgur.com/3/upload", headers={'Authorization': f'Client-ID {IMGUR_KEY}'}, files=[('video', f)], timeout=5).json()['data']
+					try: req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=5).json()
 					except requests.Timeout: return {"error": "Video upload timed out, please try again!"}
-					try: url = req['link']
-					except:
-						error = req['error']
-						if error == 'File exceeds max duration': error += ' (60 seconds)'
-						return {"error": error}, 400
-				if url.endswith('.'): url += 'mp4'
+					try: url = req['files'][0]['url']
+					except: return {"error": req['description']}, 400
 				body += f"\n\n{url}"
 			else: return {"error": "Image/Video files only"}, 400
 
 	if body != p.body:
 		if v.id == p.author_id and v.agendaposter and not v.marseyawarded: body = torture_ap(body, v.username)
 
-		if not p.options:
-			for i in poll_regex.finditer(body):
-				body = body.replace(i.group(0), "")
-				c = Comment(author_id=AUTOPOLLER_ID,
-					parent_submission=p.id,
-					level=1,
-					body_html=filter_emojis_only(i.group(1)),
-					upvotes=0,
-					is_bot=True
-					)
-				g.db.add(c)
+		for i in poll_regex.finditer(body):
+			body = body.replace(i.group(0), "")
+			c = Comment(author_id=AUTOPOLLER_ID,
+				parent_submission=p.id,
+				level=1,
+				body_html=filter_emojis_only(i.group(1)),
+				upvotes=0,
+				is_bot=True
+				)
+			g.db.add(c)
 
-		if not p.choices:
-			for i in choice_regex.finditer(body):
-				body = body.replace(i.group(0), "")
-				c = Comment(author_id=AUTOCHOICE_ID,
-					parent_submission=p.id,
-					level=1,
-					body_html=filter_emojis_only(i.group(1)),
-					upvotes=0,
-					is_bot=True
-					)
-				g.db.add(c)
+		for i in choice_regex.finditer(body):
+			body = body.replace(i.group(0), "")
+			c = Comment(author_id=AUTOCHOICE_ID,
+				parent_submission=p.id,
+				level=1,
+				body_html=filter_emojis_only(i.group(1)),
+				upvotes=0,
+				is_bot=True
+				)
+			g.db.add(c)
 
 		body_html = sanitize(body, edit=True)
 
@@ -702,7 +705,7 @@ def thumbnail_thread(pid):
 		for chunk in image_req.iter_content(1024):
 			file.write(chunk)
 
-	post.thumburl = process_image(name, resize=100)
+	post.thumburl = process_image(0, name, resize=100)
 	db.add(post)
 	db.commit()
 
@@ -817,7 +820,7 @@ def api_is_repost():
 
 	if "/i.imgur.com/" in url: url = url.replace(".png", ".webp").replace(".jpg", ".webp").replace(".jpeg", ".webp")
 	elif "/media.giphy.com/" in url or "/c.tenor.com/" in url: url = url.replace(".gif", ".webp")
-	elif "/i.ibb.com/" in url: url = url.replace(".png", ".webp").replace(".jpg", ".webp").replace(".jpeg", ".webp").replace(".gif", ".webp")
+	elif "/i.ibb.co/" in url: url = url.replace(".png", ".webp").replace(".jpg", ".webp").replace(".jpeg", ".webp").replace(".gif", ".webp")
 
 	if url.startswith("https://streamable.com/") and not url.startswith("https://streamable.com/e/"): url = url.replace("https://streamable.com/", "https://streamable.com/e/")
 
@@ -913,7 +916,7 @@ def submit_post(v, sub=None):
 
 		if "/i.imgur.com/" in url: url = url.replace(".png", ".webp").replace(".jpg", ".webp").replace(".jpeg", ".webp")
 		elif "/media.giphy.com/" in url or "/c.tenor.com/" in url: url = url.replace(".gif", ".webp")
-		elif "/i.ibb.com/" in url: url = url.replace(".png", ".webp").replace(".jpg", ".webp").replace(".jpeg", ".webp").replace(".gif", ".webp")
+		elif "/i.ibb.co/" in url: url = url.replace(".png", ".webp").replace(".jpg", ".webp").replace(".jpeg", ".webp").replace(".gif", ".webp")
 
 		if url.startswith("https://streamable.com/") and not url.startswith("https://streamable.com/e/"): url = url.replace("https://streamable.com/", "https://streamable.com/e/")
 
@@ -1076,18 +1079,18 @@ def submit_post(v, sub=None):
 			if file.content_type.startswith('image/'):
 				name = f'/images/{time.time()}'.replace('.','') + '.webp'
 				file.save(name)
-				body += f"\n\n![]({process_image(name)})"
+				body += f"\n\n![]({process_image(v.patron, name)})"
 			elif file.content_type.startswith('video/'):
-				file.save("video.mp4")
+				if file.content_type == 'video/webm':
+					file.save("video.mp4")
+				else:
+					file.save("unsanitized.mp4")
+					os.system(f'ffmpeg -y -loglevel warning -i unsanitized.mp4 -map_metadata -1 -c:v copy -c:a copy video.mp4')
 				with open("video.mp4", 'rb') as f:
-					try: req = requests.request("POST", "https://api.imgur.com/3/upload", headers={'Authorization': f'Client-ID {IMGUR_KEY}'}, files=[('video', f)], timeout=5).json()['data']
-					except requests.Timeout: return error("Video upload timed out, please try again!")
-					try: url = req['link']
-					except:
-						err = req['error']
-						if err == 'File exceeds max duration': err += ' (60 seconds)'
-						return error(err)
-				if url.endswith('.'): url += 'mp4'
+					try: req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=5).json()
+					except requests.Timeout: return {"error": "Video upload timed out, please try again!"}
+					try: url = req['files'][0]['url']
+					except: return {"error": req['description']}, 400
 				body += f"\n\n{url}"
 			else:
 				return error("Image/Video files only.")
@@ -1181,22 +1184,22 @@ def submit_post(v, sub=None):
 		if file.content_type.startswith('image/'):
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			file.save(name)
-			post.url = process_image(name)
+			post.url = process_image(v.patron, name)
 
 			name2 = name.replace('.webp', 'r.webp')
 			copyfile(name, name2)
-			post.thumburl = process_image(name2, resize=100)	
+			post.thumburl = process_image(v.patron, name2, resize=100)	
 		elif file.content_type.startswith('video/'):
-			file.save("video.mp4")
+			if file.content_type == 'video/webm':
+				file.save("video.mp4")
+			else:
+				file.save("unsanitized.mp4")
+				os.system(f'ffmpeg -y -loglevel warning -i unsanitized.mp4 -map_metadata -1 -c:v copy -c:a copy video.mp4')
 			with open("video.mp4", 'rb') as f:
-				try: req = requests.request("POST", "https://api.imgur.com/3/upload", headers={'Authorization': f'Client-ID {IMGUR_KEY}'}, files=[('video', f)], timeout=5).json()['data']
-				except requests.Timeout: return error("Video upload timed out, please try again!")
-				try: url = req['link']
-				except:
-					err = req['error']
-					if err == 'File exceeds max duration': err += ' (60 seconds)'
-					return error(err)
-			if url.endswith('.'): url += 'mp4'
+				try: req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=5).json()
+				except requests.Timeout: return {"error": "Video upload timed out, please try again!"}
+				try: url = req['files'][0]['url']
+				except: return {"error": req['description']}, 400
 			post.url = url
 		else:
 			return error("Image/Video files only.")
@@ -1284,6 +1287,9 @@ def submit_post(v, sub=None):
 				if body.startswith('OP is a Trump supporter'):
 					flag = Flag(post_id=post.id, user_id=SNAPPY_ID, reason='Trump supporter')
 					g.db.add(flag)
+				elif body.startswith('You had your chance. Downvoted and reported'):
+					flag = Flag(post_id=post.id, user_id=SNAPPY_ID, reason='Retard')
+					g.db.add(flag)
 			elif body.startswith('▲'):
 				body = body[1:]
 				vote = Vote(user_id=SNAPPY_ID,
@@ -1303,7 +1309,7 @@ def submit_post(v, sub=None):
 				rev = f"* [unddit.com](https://unddit.com/{rev})\n"
 			elif post.url.startswith("https://old.reddit.com/u/"):
 				rev = post.url.replace('https://old.reddit.com/u/', '')
-				rev = f"* [camas.github.io](https://camas.github.io/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
+				rev = f"* [search.marsey.cat](https://search.marsey.cat/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
 			else: rev = ''
 			
 			newposturl = post.url
@@ -1325,14 +1331,18 @@ def submit_post(v, sub=None):
 			if f'**[{title}]({href})**:\n\n' not in body:
 				body += f'**[{title}]({href})**:\n\n'
 				if href.startswith('https://old.reddit.com/r/'):
-					body += f'* [unddit.com](https://unddit.com/{href.replace("https://old.reddit.com/", "")})\n'
+					rev = href.replace('https://old.reddit.com/', '')
+					body += f'* [unddit.com](https://unddit.com/{rev})\n'
 				if href.startswith('https://old.reddit.com/u/'):
-					rev = post.url.replace('https://old.reddit.com/u/', '')
-					body += f"* [camas.github.io](https://camas.github.io/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
+					rev = href.replace('https://old.reddit.com/u/', '')
+					body += f"* [search.marsey.cat](https://search.marsey.cat/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
 				body += f'* [archive.org](https://web.archive.org/{href})\n'
 				body += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n'
 				body += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)}) (click to archive)\n\n'
 				gevent.spawn(archiveorg, href)
+
+		if body == '!slots':
+			body = f'!slots{snappy.coins}'
 
 		body_html = sanitize(body)
 
@@ -1354,8 +1364,12 @@ def submit_post(v, sub=None):
 			snappy.coins += 1
 			g.db.add(snappy)
 			
-			if body.startswith('!slots1000'):
+			if body.startswith('!slots'):
 				check_for_slots_command(body, snappy, c)
+
+			if body.startswith(':#marseypin'):
+				post.stickied = "Snappy"
+				post.stickied_utc = int(time.time()) + 3600
 
 			g.db.flush()
 
@@ -1364,7 +1378,7 @@ def submit_post(v, sub=None):
 			post.comment_count += 1
 			post.replies = [c]
 
-	v.post_count = g.db.query(Submission.id).filter_by(author_id=v.id, is_banned=False, deleted_utc=0).count()
+	v.post_count = g.db.query(Submission).filter_by(author_id=v.id, is_banned=False, deleted_utc=0).count()
 	g.db.add(v)
 
 	if v.id == PIZZASHILL_ID:
@@ -1382,9 +1396,7 @@ def submit_post(v, sub=None):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
 
-	if SITE == 'cringetopia.org':
-		send_cringetopia_message(post.permalink)
-	elif v.admin_level > 0 and ("[changelog]" in post.title.lower() or "(changelog)" in post.title.lower()) and not post.private:
+	if v.admin_level > 0 and ("[changelog]" in post.title.lower() or "(changelog)" in post.title.lower()) and not post.private:
 		send_discord_message(post.permalink)
 		cache.delete_memoized(changeloglist)
 

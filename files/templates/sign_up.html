@@ -31,8 +31,8 @@
 		<title>{% if ref_user %}{{ref_user.username}} invites you to {{SITE_NAME}}{% else %}Sign up - {{SITE_NAME}}{% endif %}</title>
 
 		<style>:root{--primary:#{{config('DEFAULT_COLOR')}}</style>
-		<link rel="stylesheet" href="/assets/css/main.css?v=251">
-		<link rel="stylesheet" href="/assets/css/{{config('DEFAULT_THEME')}}.css?v=56">
+		<link rel="stylesheet" href="/assets/css/main.css?v=267">
+		<link rel="stylesheet" href="/assets/css/{{config('DEFAULT_THEME')}}.css?v=57">
 
 </head>
 
@@ -111,7 +111,7 @@
 												required="">
 												<div class="custom-control custom-checkbox mt-4">
 														<input autocomplete="off" type="checkbox" class="custom-control-input" id="termsCheck" required>
-														<label class="custom-control-label terms" for="termsCheck">I accept the <a href="/sidebar">rules</a></label>
+														<label class="custom-control-label terms" for="termsCheck">I accept the <a href="/logged_out/sidebar">rules</a></label>
 												</div>
 
 												{% if hcaptcha %}

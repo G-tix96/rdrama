@@ -1,4 +1,5 @@
 import time
+import re
 from os import remove
 from PIL import Image as IMAGE
 
@@ -408,7 +409,7 @@ def monthly(v):
 	emails = [x['email'] for x in requests.get(f'https://api.gumroad.com/v2/products/{GUMROAD_ID}/subscribers', data=data, timeout=5).json()["subscribers"]]
 
 	for u in g.db.query(User).filter(User.patron > 0, User.patron_utc == 0).all():
-		if u.patron > 4 or u.email and u.email.lower() in emails:
+		if u.email and u.email.lower() in emails:
 			procoins = procoins_li[u.patron]
 			u.procoins += procoins
 			g.db.add(u)
@@ -520,8 +521,28 @@ def admin_home(v):
 	else: response = requests.get(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, timeout=5).json()['result']['value']
 	under_attack = response == 'under_attack'
 
-	return render_template("admin/admin_home.html", v=v, under_attack=under_attack, site_settings=app.config['SETTINGS'])
+	gitref = admin_git_head()
+	
+	return render_template("admin/admin_home.html", v=v, 
+		under_attack=under_attack, 
+		site_settings=app.config['SETTINGS'],
+		gitref=gitref)
 
+def admin_git_head():
+	short_len = 12
+	# Note: doing zero sanitization. Git branch names are extremely permissive.
+	# However, they forbid '..', so I don't see an obvious dir traversal attack.
+	# Also, a malicious branch name would mean someone already owned the server
+	# or repo, so I think this isn't a weak link.
+	try:
+		with open('.git/HEAD') as head_f:
+			head_txt = head_f.read()
+			head_path = re.match('ref: (refs/.+)', head_txt).group(1)
+			with open('.git/' + head_path) as ref_f:
+				gitref = ref_f.read()[0:short_len]
+	except:
+		return '<unable to read>'
+	return gitref
 
 @app.post("/admin/site_settings/<setting>")
 @admin_level_required(3)
@@ -710,11 +731,7 @@ def users_list(v):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 
-	users = g.db.query(User).filter_by(is_banned=0
-									   ).order_by(User.created_utc.desc()
-												  ).offset(25 * (page - 1)).limit(26)
-
-	users = [x for x in users]
+	users = g.db.query(User).order_by(User.id.desc()).offset(25 * (page - 1)).limit(26).all()
 
 	next_exists = (len(users) > 25)
 	users = users[:25]
@@ -725,6 +742,30 @@ def users_list(v):
 						   next_exists=next_exists,
 						   page=page,
 						   )
+
+
+@app.get("/badge_owners/<bid>")
+@auth_required
+def bid_list(v, bid):
+
+	try: bid = int(bid)
+	except: abort(400)
+
+	try: page = int(request.values.get("page", 1))
+	except: page = 1
+
+	users = g.db.query(User).join(Badge, Badge.user_id == User.id).filter(Badge.badge_id==bid).offset(25 * (page - 1)).limit(26).all()
+
+	next_exists = (len(users) > 25)
+	users = users[:25]
+
+	return render_template("admin/new_users.html",
+						   v=v,
+						   users=users,
+						   next_exists=next_exists,
+						   page=page,
+						   )
+
 
 @app.get("/admin/alt_votes")
 @admin_level_required(2)
@@ -1057,42 +1098,6 @@ def unshadowban(user_id, v):
 	g.db.commit()
 	return {"message": "User unshadowbanned!"}
 
-@app.post("/admin/verify/<user_id>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(3)
-def verify(user_id, v):
-	user = g.db.query(User).filter_by(id=user_id).one_or_none()
-	user.verified = "Verified"
-	g.db.add(user)
-
-	ma = ModAction(
-		kind="check",
-		user_id=v.id,
-		target_user_id=user.id,
-	)
-	g.db.add(ma)
-
-	g.db.commit()
-	return {"message": "User verfied!"}
-
-@app.post("/admin/unverify/<user_id>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(3)
-def unverify(user_id, v):
-	user = g.db.query(User).filter_by(id=user_id).one_or_none()
-	user.verified = None
-	g.db.add(user)
-
-	ma = ModAction(
-		kind="uncheck",
-		user_id=v.id,
-		target_user_id=user.id,
-	)
-	g.db.add(ma)
-
-	g.db.commit()
-	return {"message": "User unverified!"}
-
 
 @app.post("/admin/title_change/<user_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -1303,6 +1308,9 @@ def unban_post(post_id, v):
 
 	post = g.db.query(Submission).filter_by(id=post_id).one_or_none()
 
+	if post.author.agendaposter and AGENDAPOSTER_PHRASE not in post.body.lower():
+		return {"error": "You can't bypass the chud award!"}
+
 	if not post:
 		abort(400)
 
@@ -1368,7 +1376,7 @@ def sticky_post(post_id, v):
 
 	post = g.db.query(Submission).filter_by(id=post_id).one_or_none()
 	if post and not post.stickied:
-		pins = g.db.query(Submission.id).filter(Submission.stickied != None, Submission.is_banned == False).count()
+		pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
 		if pins > 2:
 			if v.admin_level > 2:
 				post.stickied = v.username

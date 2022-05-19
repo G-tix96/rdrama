@@ -20,9 +20,11 @@ qrcode
 redis
 requests
 SQLAlchemy
+tldextract
 psycopg2-binary
 pusher_push_notifications
 pyenchant
+pytest
 youtube-dl
 yattag
 webptools

@@ -26,29 +26,23 @@ AJ_REPLACEMENTS = {
 
 	' YOUR ': " YOU'RE ",
 	' TO ': " TOO ",
+
+	'anybody': 'anypony',
+	'everybody': 'everypony',
+
+	'Anybody': 'Anypony',
+	'Everybody': 'Everypony',
+
+	'ANYBODY': 'ANYPONY',
+	'EVERYBODY': 'EVERYPONY',
 }
 
-if SITE_NAME == 'Cringetopia':
+if SITE_NAME == 'rDrama':
 	SLURS = {
-		"retarded": "neurodivergent",
-		"retard": "neurodivergent",
-		"faggotry": "cute twinkry",
-		"faggot": "cute twink",
-		"n1gger": "🏀",
-		"nlgger": "🏀",
-		"nigger": "🏀",
-		"uss liberty incident": "tragic accident aboard the USS Liberty",
-		"lavon affair": "Lavon Misunderstanding",
-		"i hate marsey": "i love marsey",
-		"autistic": "neurodivergent",
-		"holohoax": "i tried to claim the Holocaust didn't happen because I am a pencil-dicked imbecile and the word filter caught me lol",
-		"i hate carp": "i love Carp",
-		"heil hitler": "hello kitty",
-
-		" fag ": " cute twink ",
-	}
-else:
-	SLURS = {
+		"california": "commiefornia",
+		"hollywood": "hollyweird",
+		"tiananmen square": "tiananmen square didn't happen (but it should have)",
+		"dasha": "beautiful angelic perfect Dasha/future Mrs. Carp",
 		"retarded": "r-slurred",
 		"retard": "r-slur",
 		"gayfag": "gaystrag",
@@ -56,8 +50,8 @@ else:
 		"richfag": "richstrag",
 		"newfag": "newstrag",
 		"oldfag": "oldstrag",
-		"faggotry": "cute twinkry",
 		"faggot": "cute twink",
+		"fag": "cute twink",
 		"pedophile": "libertarian",
 		"kill yourself": "keep yourself safe",
 		"n1gger": "BIPOC",
@@ -104,14 +98,31 @@ else:
 		"elon musk": "rocket daddy",
 		"fake and gay": "fake and straight",
 
-		" rapist ": " male feminist ",
-		" pedo ": " libertarian ",
+		" rapist": " male feminist",
+
 		" kys ": " keep yourself safe ",
-		" fag ": " cute twink ",
+		" pedo ": " libertarian ",
+		" pedos ": " libertarians ",
+	}
+else:
+	SLURS = {
+		"retarded": "neurodivergent",
+		"retard": "neurodivergent",
+		"faggot": "cute twink",
+		"fag": "cute twink",
+		"n1gger": "🏀",
+		"nlgger": "🏀",
+		"nigger": "🏀",
+		"uss liberty incident": "tragic accident aboard the USS Liberty",
+		"lavon affair": "Lavon Misunderstanding",
+		"i hate marsey": "i love marsey",
+		"autistic": "neurodivergent",
+		"holohoax": "i tried to claim the Holocaust didn't happen because I am a pencil-dicked imbecile and the word filter caught me lol",
+		"i hate carp": "i love Carp",
+		"heil hitler": "hello kitty",
 	}
 
 single_words = "|".join([slur.lower() for slur in SLURS.keys()])
-
 
 LONGPOST_REPLIES = ('Wow, you must be a JP fan.', 'This is one of the worst posts I have EVER seen. Delete it.', "No, don't reply like this, please do another wall of unhinged rant please.", '# 😴😴😴', "Ma'am we've been over this before. You need to stop.", "I've known more coherent downies.", "Your pulitzer's in the mail", "That's great and all, but I asked for my burger without cheese.", 'That degree finally paying off', "That's nice sweaty. Why don't you have a seat in the time out corner with Pizzashill until you calm down, then you can have your Capri Sun.", "All them words won't bring your pa back.", "You had a chance to not be completely worthless, but it looks like you threw it away. At least you're consistent.", 'Some people are able to display their intelligence by going on at length on a subject and never actually saying anything. This ability is most common in trades such as politics, public relations, and law. You have impressed me by being able to best them all, while still coming off as an absolute idiot.', "You can type 10,000 characters and you decided that these were the one's that you wanted.", 'Have you owned the libs yet?', "I don't know what you said, because I've seen another human naked.", 'Impressive. Normally people with such severe developmental disabilities struggle to write much more than a sentence or two. He really has exceded our expectations for the writing portion. Sadly the coherency of his writing, along with his abilities in the social skills and reading portions, are far behind his peers with similar disabilities.', "This is a really long way of saying you don't fuck.", "Sorry ma'am, looks like his delusions have gotten worse. We'll have to admit him.", ':#marseywoah:', 'If only you could put that energy into your relationships', 'Posts like this is why I do Heroine.', 'still unemployed then?', 'K', 'look im gunna have 2 ask u 2 keep ur giant dumps in the toilet not in my replys 😷😷😷', "Mommy is soooo proud of you, sweaty. Let's put this sperg out up on the fridge with all your other failures.", "Good job bobby, here's a star", "That was a mistake. You're about to find out the hard way why.", f'You sat down and wrote all this shit. You could have done so many other things with your life. What happened to your life that made you decide writing novels of bullshit on {SITE} was the best option?', "I don't have enough spoons to read this shit", "All those words won't bring daddy back.", 'OUT!', "Damn, you're really mad over this, but thanks for the effort you put into typing that all out! Sadly I won't read it all.", "Jesse what the fuck are you talking about??", "▼you're fucking bananas if you think I'm reading all that, take my downvote and shut up idiot", "Are you feeling okay bud?")
 
@@ -130,6 +141,7 @@ if SITE in {'rdrama.net','devrama.xyz'}:
 	AUTOCHOICE_ID = 9167
 	BASEDBOT_ID = 0
 
+	SCHIZO_ID = 8494
 	A_ID = 1230
 	KIPPY_ID = 7150
 	GIFT_NOTIF_ID = 995
@@ -173,6 +185,7 @@ elif SITE == "pcmemes.net":
 	AUTOCHOICE_ID = 2072
 	BASEDBOT_ID = 800
 
+	SCHIZO_ID = 0
 	A_ID = 0
 	KIPPY_ID = 1592
 	PIZZASHILL_ID = 0
@@ -205,6 +218,7 @@ elif SITE == 'cringetopia.org':
 	AUTOCHOICE_ID = 8
 	BASEDBOT_ID = 0
 
+	SCHIZO_ID = 0
 	A_ID = 0
 	KIPPY_ID = 0
 	GIFT_NOTIF_ID = 43
@@ -248,6 +262,7 @@ else:
 	AUTOCHOICE_ID = 8
 	BASEDBOT_ID = 0
 
+	SCHIZO_ID = 0
 	A_ID = 0
 	KIPPY_ID = 0
 	GIFT_NOTIF_ID = 9
@@ -613,6 +628,14 @@ AWARDS = {
 		"color": "text-gold",
 		"price": 50000
 	},
+	"checkmark": {
+		"kind": "checkmark",
+		"title": "Checkmark",
+		"description": "Gives the recipient a checkmark.",
+		"icon": "fas fa-badge-check",
+		"color": "checkmark",
+		"price": 100000
+	},
 	"firework": {
 		"kind": "firework",
 		"title": "Fireworks",
@@ -671,7 +694,7 @@ if SITE_NAME == 'PCM':
 AWARDS2 = deepcopy(AWARDS)
 for k, val in AWARDS.items():
 	if val['description'] == '' and not (k == 'ghost' and SITE_NAME == 'PCM'): AWARDS2.pop(k)
-	if SITE == 'pcmemes.net' and k in ('ban','pizzashill','marsey','bird','grass','chud'): AWARDS2.pop(k)
+	if SITE == 'pcmemes.net' and k in ('ban','pizzashill','marsey','bird','grass','chud','unblockable'): AWARDS2.pop(k)
 
 
 AWARDS3 = {}
@@ -704,9 +727,13 @@ NOTIFIED_USERS = {
 	'kippy': KIPPY_ID,
 	'the_homocracy': HOMO_ID,
 	'soren': SOREN_ID,
+	'schizocel': SCHIZO_ID,
+	'scitzocel': SCHIZO_ID
 }
 
 FORTUNE_REPLIES = ('<b style="color:#6023f8">Your fortune: Allah Wills It</b>','<b style="color:#d302a7">Your fortune: Inshallah, Only Good Things Shall Come To Pass</b>','<b style="color:#e7890c">Your fortune: Allah Smiles At You This Day</b>','<b style="color:#7fec11">Your fortune: Your Bussy Is In For A Blasting</b>','<b style="color:#43fd3b">Your fortune: You Will Be Propositioned By A High-Tier Twink</b>','<b style="color:#9d05da">Your fortune: Repent, You Have Displeased Allah And His Vengeance Is Nigh</b>','<b style="color:#f51c6a">Your fortune: Reply Hazy, Try Again</b>','<b style="color:#00cbb0">Your fortune: lmao you just lost 100 coins</b>','<b style="color:#2a56fb">Your fortune: Yikes 😬</b>','<b style="color:#0893e1">Your fortune: You Will Be Blessed With Many Black Bulls</b>','<b style="color:#16f174">Your fortune: NEETmax, The Day Is Lost If You Venture Outside</b>','<b style="color:#fd4d32">Your fortune: A Taste Of Jannah Awaits You Today</b>','<b style="color:#bac200">Your fortune: Watch Your Back</b>','<b style="color:#6023f8">Your fortune: Outlook good</b>','<b style="color:#d302a7">Your fortune: Godly Luck</b>','<b style="color:#e7890c">Your fortune: Good Luck</b>','<b style="color:#7fec11">Your fortune: Bad Luck</b>','<b style="color:#43fd3b">Your fortune: Good news will come to you by mail</b>','<b style="color:#9d05da">Your fortune: Very Bad Luck</b>','<b style="color:#00cbb0">Your fortune: ｷﾀ━━━━━━(ﾟ∀ﾟ)━━━━━━ !!!!</b>','<b style="color:#2a56fb">Your fortune: Better not tell you now</b>','<b style="color:#0893e1">Your fortune: You will meet a dark handsome stranger</b>','<b style="color:#16f174">Your fortune: （　´_ゝ`）ﾌｰﾝ</b>','<b style="color:#fd4d32">Your fortune: Excellent Luck</b>','<b style="color:#bac200">Your fortune: Average Luck</b>')
+
+FACTCHECK_REPLIES = ('<b style="color:#6023f8">Factcheck: This claim has been confirmed as correct by experts. </b>','<b style="color:#d302a7">Factcheck: This claim has been classified as misogynistic.</b>','<b style="color:#e7890c">Factcheck: This claim is currently being debunked.</b>','<b style="color:#7fec11">Factcheck: This claim is 100% true.</b>','<b style="color:#9d05da">Factcheck: This claim hurts trans lives.</b>','<b style="color:#f51c6a">Factcheck: [REDACTED].</b>','<b style="color:#00cbb0">Factcheck: This claim is both true and false.</b>','<b style="color:#2a56fb">Factcheck: You really believe that shit? Lmao dumbass nigga 🤣</b>','<b style="color:#0893e1">Factcheck: None of this is real.</b>','<b style="color:#16f174">Factcheck: Yes.</b>','<b style="color:#fd4d32">Factcheck: This claim has not been approved by experts.</b>','<b style="color:#bac200">Factcheck: This claim is a gross exageration of reality.</b>','<b style="color:#ff2200">Factcheck: WARNING! THIS CLAIM HAS BEEN CLASSIFIED AS DANGEROUS. PLEASE REMAIN STILL, AN AGENT WILL COME TO MEET YOU SHORTLY.</b>')
 
 if SITE_NAME == 'rDrama': patron = 'Paypig'
 else: patron = 'Patron'
@@ -808,6 +835,7 @@ slur_regex = re.compile(f"({single_words})(?![^<]*>)", flags=re.I|re.A)
 slur_regex_upper = re.compile(f"({single_words.upper()})(?![^<]*>)", flags=re.A)
 torture_regex = re.compile('(^|\s)(i|me) ', flags=re.I|re.A)
 torture_regex2 = re.compile("(^|\s)i'm ", flags=re.I|re.A)
+torture_regex_exclude = re.compile('^\s*>', flags=re.A)
 
 def sub_matcher(match):
 	return SLURS[match.group(0).lower()]
@@ -822,15 +850,21 @@ def censor_slurs(body, logged_user):
 	return body
 
 def torture_ap(body, username):
-	for k, l in AJ_REPLACEMENTS.items():
-		body = body.replace(k, l)
-	body = torture_regex.sub(rf'\1@{username} ', body)
-	body = torture_regex2.sub(rf'\1@{username} is ', body)
-	return body
+	lines = body.splitlines(keepends=True)
+
+	for i in range(len(lines)):
+		if torture_regex_exclude.match(lines[i]):
+			continue
+		for k, l in AJ_REPLACEMENTS.items():
+			lines[i] = lines[i].replace(k, l)
+		lines[i] = torture_regex.sub(rf'\1@{username} ', lines[i])
+		lines[i] = torture_regex2.sub(rf'\1@{username} is ', lines[i])
+
+	return ''.join(lines)
 
 YOUTUBE_KEY = environ.get("YOUTUBE_KEY", "").strip()
 
-ADMIGGERS = (37696,37697,37749,37833,37838)
+ADMIGGERS = (37696,37697,37749,37833,37838,39413)
 
 proxies = {"http":"http://127.0.0.1:18080","https":"http://127.0.0.1:18080"}
 
@@ -840,9 +874,9 @@ approved_embed_hosts = [
 	'rdrama.net',
 	'pcmemes.net',
 	'cringetopia.org',
+	'watchpeopledie.co',
 	'devrama.xyz',
 	'imgur.com',
-	'ibb.co',
 	'lain.la',
 	'pngfind.com',
 	'kym-cdn.com',
@@ -887,7 +921,13 @@ approved_embed_hosts = [
 	'githubusercontent.com',
 	'unilad.co.uk',
 	'grrrgraphics.com',
-	'redditmedia.com'
+	'redditmedia.com',
+	'deviantart.com',
+	'deviantart.net',
+	'googleapis.com',
+	'bing.com',
+	'typekit.net',
+	'postimg.cc'
 	]
 
 hosts = "|".join(approved_embed_hosts).replace('.','\.')
@@ -905,6 +945,11 @@ youtube_regex = re.compile('(<p>[^<]*)(https:\/\/youtube\.com\/watch\?v\=([a-z0-
 yt_id_regex = re.compile('[a-z0-9-_]{5,20}', flags=re.I|re.A)
 
 image_regex = re.compile("(^|\s)(https:\/\/[\w\-.#&/=\?@%;+]{5,250}(\.png|\.jpg|\.jpeg|\.gif|\.webp|maxwidth=9999|fidelity=high))($|\s)", flags=re.I|re.A)
+
+link_fix_regex = re.compile("(?!.*(http|\/))(.*\[[^\]]+\]\()([^)]+\))", flags=re.A)
+
+css_regex = re.compile('''url\(['"]?(.*?)['"]?\)''', flags=re.I|re.A)
+css_regex2 = re.compile('''['"](http.*?)['"]''', flags=re.I|re.A)
 
 procoins_li = (0,2500,5000,10000,25000,50000,125000,250000)
 

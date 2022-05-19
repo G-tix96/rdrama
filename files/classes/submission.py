@@ -165,8 +165,6 @@ class Submission(Base):
 	@lazy
 	def edited_string(self):
 
-		if not self.edited_utc: return "never"
-
 		age = int(time.time()) - self.edited_utc
 
 		if age < 60:
@@ -184,11 +182,13 @@ class Submission(Base):
 		now = time.gmtime()
 		ctd = time.gmtime(self.edited_utc)
 		months = now.tm_mon - ctd.tm_mon + 12 * (now.tm_year - ctd.tm_year)
+		if now.tm_mday < ctd.tm_mday:
+			months -= 1
 
 		if months < 12:
 			return f"{months}mo ago"
 		else:
-			years = now.tm_year - ctd.tm_year
+			years = int(months / 12)
 			return f"{years}yr ago"
 
 
@@ -452,7 +452,7 @@ class Submission(Base):
 	def realtitle(self, v):
 		if self.club and not (v and (v.paid_dues or v.id == self.author_id)):
 			if v: return random.choice(TROLLTITLES).format(username=v.username)
-			elif SITE == 'cringetopia.org': return f'Please make an account to see this post'
+			elif dues == -2: return f'Please make an account to see this post'
 			else: return f'{CC} MEMBERS ONLY'
 		elif self.title_html: title = self.title_html
 		else: title = self.title
