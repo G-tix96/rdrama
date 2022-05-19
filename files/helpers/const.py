@@ -721,11 +721,16 @@ REDDIT_NOTIFS = {
 }
 
 discounts = {
+	# Big Spender badges, 2pp additive discount each
 	69: 0.02,
-	70: 0.04,
-	71: 0.06,
-	72: 0.08,
-	73: 0.10,
+	70: 0.02,
+	71: 0.02,
+	72: 0.02,
+	73: 0.02,
+	# Lootbox badges, 1pp additive discount each
+	76: 0.01,
+	77: 0.01,
+	78: 0.01,
 }
 
 CF_KEY = environ.get("CF_KEY", "").strip()

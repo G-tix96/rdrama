@@ -192,7 +192,7 @@ class User(Base):
 		elif self.patron == 6: discount = 0.65
 		else: discount = 1
 
-		for badge in [69,70,71,72,73]:
+		for badge in discounts:
 			if self.has_badge(badge): discount -= discounts[badge]
 
 		return discount
