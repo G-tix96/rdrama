@@ -404,8 +404,11 @@ def submit_contact(v):
 			url = process_image(v.patron, name)
 			body_html += f'<img data-bs-target="#expandImageModal" data-bs-toggle="modal" onclick="expandDesktopImage(this.src)" class="img" src="{url}" loading="lazy">'
 		elif file.content_type.startswith('video/'):
-			file.save("unsanitized.mp4")
-			os.system(f'ffmpeg -y -loglevel warning -i unsanitized.mp4 -map_metadata -1 -c:v copy -c:a copy video.mp4')
+			if file.content_type == 'video/webm':
+				file.save("video.mp4")
+			else:
+				file.save("unsanitized.mp4")
+				os.system(f'ffmpeg -y -loglevel warning -i unsanitized.mp4 -map_metadata -1 -c:v copy -c:a copy video.mp4')
 			with open("video.mp4", 'rb') as f:
 				try: req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=5).json()
 				except requests.Timeout: return {"error": "Video upload timed out, please try again!"}
