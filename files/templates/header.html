@@ -27,8 +27,13 @@
 		</div>
 	{% endif %}
 
-	<div class="navbar navbar-expand-md navbar-light" id="navbar" style="background: url('/assets/images/balloons.webp') !important;">
-		<div class="container-fluid" style="padding:0; background: transparent !important">
+	{% if SITE_NAME == 'rDrama' %}
+		<div class="navbar navbar-expand-md navbar-light" id="navbar" style="background: url('/assets/images/balloons.webp') !important;">
+			<div class="container-fluid" style="padding:0; background: transparent !important">
+	{% else %}
+		<div class="navbar navbar-expand-md navbar-light" id="navbar">
+			<div class="container-fluid" style="padding:0;">
+	{% endif %}
 			<a href="/" class="navbar-brand mr-auto {% if SITE_NAME in ('PCM','WPD') and not sub %}flex-grow-1{% endif %}">
 				{% if SITE_NAME == 'rDrama' %} {# birthgay only #}
 				<img alt="header icon" height=33 src="/assets/images/emojis/marseyparty.webp?v=birthgay">
