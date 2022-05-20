@@ -86,7 +86,6 @@ if SITE_NAME == 'rDrama':
 		"groomercord": "discord (actually a pretty cool service)",
 		"pedocord": "discord (actually a pretty cool service)",
 		"i hate carp": "i love Carp",
-		"manlet": "little king",
 		"gamer": "g*mer",
 		"journalist": "journ*list",
 		"journalism": "journ*lism",
