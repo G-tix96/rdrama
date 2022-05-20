@@ -79,7 +79,6 @@ if SITE_NAME == 'rDrama':
 		"dancing israelis": "i love Israel",
 		"sodomite": "total dreamboat",
 		"pajeet": "sexy Indian dude",
-		"landlord": "landchad",
 		"tenant": "renthog",
 		"renter": "rentoid",
 		"autistic": "neurodivergent",
