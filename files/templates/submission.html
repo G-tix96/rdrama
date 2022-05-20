@@ -528,7 +528,7 @@
 
 
 
-{% if p.award_count("tilt") %}
+{% if p.award_count("tilt") and not p.distinguish_level %}
 	<style>
 		@keyframes post-tilt {
 			0% {transform: rotate(0deg);}
