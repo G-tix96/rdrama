@@ -27,7 +27,7 @@ def pusher_thread2(interests, notifbody, username):
 					'title': f'New message from @{username}',
 					'body': notifbody,
 					'deep_link': f'{SITE_FULL}/notifications?messages=true',
-					'icon': f'{SITE_FULL}/assets/images/{SITE_NAME}/icon.webp?v=1015',
+					'icon': f'{SITE_FULL}/assets/images/{SITE_NAME}/icon.png?v=1015',
 				}
 			},
 			'fcm': {
@@ -757,7 +757,7 @@ def messagereply(v):
 							'title': f'New message from @{v.username}',
 							'body': notifbody,
 							'deep_link': f'{SITE_FULL}/notifications?messages=true',
-							'icon': f'{SITE_FULL}/assets/images/{SITE_NAME}/icon.webp"a=1015',
+							'icon': f'{SITE_FULL}/assets/images/{SITE_NAME}/icon.png"a=1015',
 						}
 					},
 					'fcm': {

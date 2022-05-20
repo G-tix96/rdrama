@@ -40,7 +40,7 @@ def pusher_thread(interests, c, username):
 					'title': f'New reply by @{username}',
 					'body': notifbody,
 					'deep_link': f'{SITE_FULL}/comment/{c.id}?context=8&read=true#context',
-					'icon': f'{SITE_FULL}/assets/images/{SITE_NAME}/icon.webp?v=1015',
+					'icon': f'{SITE_FULL}/assets/images/{SITE_NAME}/icon.png?v=1015',
 				}
 			},
 			'fcm': {
