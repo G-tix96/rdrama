@@ -324,8 +324,6 @@ def sign_up_post(v):
 
 	profileurl = '/e/' + random.choice(marseys_const) + '.webp'
 
-	if SITE == "watchpeopledie.co": print(f'1: {username}')
-
 	new_user = User(
 		username=username,
 		original_username = username,
@@ -337,12 +335,8 @@ def sign_up_post(v):
 		profileurl=profileurl
 		)
 
-	if SITE == "watchpeopledie.co": print(f'2: {username}')
-
 	g.db.add(new_user)
 	g.db.flush()
-
-	if SITE == "watchpeopledie.co": print(f'3: {username}')
 
 	if ref_id:
 		ref_user = g.db.query(User).filter_by(id=ref_id).one_or_none()
@@ -374,11 +368,7 @@ def sign_up_post(v):
 	session["session_id"] = token_hex(49)
 	session["lo_user"] = new_user.id
 	
-	if SITE == "watchpeopledie.co": print(f'4: {username}')
-
 	g.db.commit()
-
-	if SITE == "watchpeopledie.co": print(f'5: {username}')
 
 	return redirect(SITE_FULL)
 
