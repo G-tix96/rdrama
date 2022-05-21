@@ -93,10 +93,14 @@ def player_hit(from_comment, did_double_down=False):
 	if player_value == -1:
 		status = 'bust'
 		apply_game_result(from_comment, wager, status, kind)
+	elif len(player_hand) >= 5:
+		status = 'won'
+		apply_game_result(from_comment, wager, status, kind)
 
 	from_comment.blackjack_result = format_all(player_hand, dealer_hand, deck, status, wager, kind, int(is_insured))
 
-	if (did_double_down or player_value == 21): player_stayed(from_comment)
+	if (did_double_down or player_value == 21) and status == 'active':
+		player_stayed(from_comment)
 
 def player_stayed(from_comment):
 	player_hand, dealer_hand, deck, status, wager, kind, is_insured = from_comment.blackjack_result.split("_")
