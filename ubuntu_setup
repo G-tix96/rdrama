@@ -6,8 +6,8 @@ apt -y upgrade
 apt -y install git postgresql postgresql-contrib redis-server python3-pip libenchant1c2a ffmpeg tmux nginx snapd ufw
 cp pg_hba.conf /etc/postgresql/12/main/pg_hba.conf
 service postgresql restart
-psql -U postgres -f schema.sql postgres
-psql -U postgres -f seed-db.sql postgres
+# psql -U postgres -f schema.sql postgres
+# psql -U postgres -f seed-db.sql postgres
 pip3 install -r requirements.txt
 mkdir /songs
 mkdir /images
@@ -29,4 +29,5 @@ ufw allow from 104.24.0.0/14
 ufw allow from 172.64.0.0/13
 ufw allow from 131.0.72.0/22
 echo "y" | ufw enable
+curl https://rclone.org/install.sh | sudo bash
 . imei.sh
