@@ -441,6 +441,7 @@ def archives(path):
 	return resp
 
 @app.get('/e/<emoji>')
+@limiter.exempt
 def emoji(emoji):
 	if not emoji.endswith('.webp'): abort(404)
 	resp = make_response(send_from_directory('assets/images/emojis', emoji))
@@ -452,6 +453,7 @@ def emoji(emoji):
 
 @app.get('/assets/<path:path>')
 @app.get('/static/assets/<path:path>')
+@limiter.exempt
 def static_service(path):
 	resp = make_response(send_from_directory('assets', path))
 	if request.path.endswith('.webp') or request.path.endswith('.gif') or request.path.endswith('.ttf') or request.path.endswith('.woff2'):
@@ -467,6 +469,7 @@ def static_service(path):
 @app.get('/images/<path>')
 @app.get('/hostedimages/<path>')
 @app.get("/static/images/<path>")
+@limiter.exempt
 def images(path):
 	resp = make_response(send_from_directory('/images', path.replace('.WEBP','.webp')))
 	resp.headers.remove("Cache-Control")
@@ -476,6 +479,7 @@ def images(path):
 	return resp
 
 @app.get('/videos/<path>')
+@limiter.exempt
 def videos(path):
 	resp = make_response(send_from_directory('/videos', path.replace('.MP4','.mp4')))
 	resp.headers.remove("Cache-Control")

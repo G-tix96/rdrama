@@ -1141,6 +1141,7 @@ def remove_follow(username, v):
 @app.get("/logged_out/pp/<id>")
 @app.get("/logged_out/uid/<id>/pic")
 @app.get("/logged_out/uid/<id>/pic/profile")
+@limiter.exempt
 @auth_desired
 def user_profile_uid(v, id):
 	if not v and not request.path.startswith('/logged_out'): return redirect(f"/logged_out{request.full_path}")
@@ -1155,6 +1156,7 @@ def user_profile_uid(v, id):
 	return redirect(x.profile_url)
 
 @app.get("/@<username>/pic")
+@limiter.exempt
 @auth_required
 def user_profile_name(v, username):
 	x = get_user(username)
