@@ -11,7 +11,8 @@ from .const import *
 def process_video(file):
 	name = f'/videos/{time.time()}'.replace('.','')
 	file.save(name)
-	os.system(f'ffmpeg -y -loglevel warning -i {name} -map_metadata -1 {name}.mp4')
+	spider = os.system(f'ffmpeg -y -loglevel warning -i {name} -map_metadata -1 {name}.mp4')
+	if spider: print(f'ffmpeg returned {spider}')
 	os.remove(name)
 
 	with open(f"{name}.mp4", 'rb') as f:
