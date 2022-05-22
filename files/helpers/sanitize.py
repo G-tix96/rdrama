@@ -229,6 +229,7 @@ def sanitize(sanitized, alert=False, comment=False, edit=False):
 
 	sanitized = sanitized.replace("nitter.net", "twitter.com").replace("old.reddit.com/gallery", "reddit.com/gallery").replace("https://youtu.be/", "https://youtube.com/watch?v=").replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=").replace("https://streamable.com/", "https://streamable.com/e/").replace("https://youtube.com/shorts/", "https://youtube.com/watch?v=").replace("https://mobile.twitter", "https://twitter").replace("https://m.facebook", "https://facebook").replace("m.wikipedia.org", "wikipedia.org").replace("https://m.youtube", "https://youtube").replace("https://www.youtube", "https://youtube").replace("https://www.twitter", "https://twitter").replace("https://www.instagram", "https://instagram").replace("https://www.tiktok", "https://tiktok")
 
+	sanitized = sanitized.replace('&amp;','&')
 
 	if "https://youtube.com/watch?v=" in sanitized: sanitized = sanitized.replace("?t=", "&t=")
 
@@ -237,7 +238,7 @@ def sanitize(sanitized, alert=False, comment=False, edit=False):
 		if i.group(0) in captured: continue
 		captured.append(i.group(0))
 
-		params = parse_qs(urlparse(i.group(2).replace('&amp;','&')).query)
+		params = parse_qs(urlparse(i.group(2)).query)
 		t = params.get('t', params.get('start', [0]))[0]
 		if isinstance(t, str): t = t.replace('s','')
 
@@ -263,7 +264,6 @@ def sanitize(sanitized, alert=False, comment=False, edit=False):
 		sanitized += '\n\n<p>' + choice(FACTCHECK_REPLIES) + '</p>'
 
 	sanitized = sanitized.replace('<p></p>', '')
-	sanitized = sanitized.replace('&amp;','&')
 	sanitized = utm_regex.sub('', sanitized)
 	sanitized = utm_regex2.sub('', sanitized)
 
