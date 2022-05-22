@@ -62,6 +62,11 @@ def speak(data, v):
 	
 	if v.shadowbanned:
 		emit('speak', data)
+	elif blackjack and any(i in text.lower() for i in blackjack.split()):
+		emit('speak', data)
+		v.shadowbanned = 'AutoJanny'
+		g.db.add(v)
+		g.db.commit()
 	else:
 		emit('speak', data, broadcast=True)
 		messages.append(data)
