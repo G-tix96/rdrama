@@ -704,7 +704,9 @@ def messagereply(v):
 			value = process_video(file)
 			if type(value) is str: body_html += f"<p>{value}</p>"
 			else: return value
-		else: return {"error": "Image/Video files only"}, 400
+		elif file.content_type.startswith('audio/'):
+			body_html += f"<p>{process_audio(v.patron, file)}</p>"
+		else: return {"error": "Image/Video/Audio files only"}, 400
 
 
 	c = Comment(author_id=v.id,

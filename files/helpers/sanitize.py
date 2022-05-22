@@ -249,6 +249,7 @@ def sanitize(sanitized, alert=False, comment=False, edit=False):
 		sanitized = sanitized.replace(i.group(0), htmlsource)
 
 	sanitized = video_sub_regex.sub(r'\1<video controls preload="none"><source src="\2"></video>', sanitized)
+	sanitized = audio_sub_regex.sub(r'\1<audio controls preload="none" src="\2"></audio>', sanitized)
 
 	if comment:
 		for marsey in g.db.query(Marsey).filter(Marsey.name.in_(marseys_used)).all():

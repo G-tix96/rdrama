@@ -467,7 +467,9 @@ def edit_post(pid, v):
 				value = process_video(file)
 				if type(value) is str: body += f"\n\n{value}"
 				else: return value
-			else: return {"error": "Image/Video files only"}, 400
+			elif file.content_type.startswith('audio/'):
+				body += f"\n\n{process_audio(v.patron, file)}"
+			else: return {"error": "Image/Video/Audio files only"}, 400
 
 	body = body.strip()
 
@@ -1078,8 +1080,10 @@ def submit_post(v, sub=None):
 				value = process_video(file)
 				if type(value) is str: body += f"\n\n{value}"
 				else: return error(value['error'])
+			elif file.content_type.startswith('audio/'):
+				body += f"\n\n{process_audio(v.patron, file)}"
 			else:
-				return error("Image/Video files only.")
+				return error("Image/Video/Audio files only.")
 
 	body = body.strip()
 
@@ -1181,8 +1185,10 @@ def submit_post(v, sub=None):
 			value = process_video(file)
 			if type(value) is str: post.url = value
 			else: return error(value['error'])
+		elif file.content_type.startswith('audio/'):
+			post.url = process_audio(v.patron, file)
 		else:
-			return error("Image/Video files only.")
+			return error("Image/Video/Audio files only.")
 		
 	if not post.thumburl and post.url:
 		gevent.spawn(thumbnail_thread, post.id)

@@ -869,6 +869,7 @@ proxies = {"http":"http://127.0.0.1:18080","https":"http://127.0.0.1:18080"}
 blackjack = environ.get("BLACKJACK", "").strip()
 
 approved_embed_hosts = [
+	SITE,
 	'rdrama.net',
 	'pcmemes.net',
 	'cringetopia.org',
@@ -935,6 +936,7 @@ image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/([a-z0-9-]+\.)*({hosts})\
 embed_fullmatch_regex = re.compile(f'https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*', flags=re.A)
 
 video_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp4|webm|mov))', flags=re.A)
+audio_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp3|wav|ogg|aac))', flags=re.A)
 
 imgur_regex = re.compile('(https://i\.imgur\.com/([a-z0-9]+))\.(jpg|png|jpeg|webp)(?!<\/(code|pre|a)>)', flags=re.I|re.A)
 

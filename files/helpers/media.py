@@ -8,6 +8,17 @@ import requests
 import time
 from .const import *
 
+
+def process_audio(patron, file):
+	name = f'/audio/{time.time()}'.replace('.','') + '.mp3'
+	file.save(name)
+	size = os.stat(name).st_size
+	if size > 16 * 1024 * 1024 or not patron and size > 8 * 1024 * 1024:
+		os.remove(name)
+		abort(413)
+	return f'{SITE_FULL}{name}'
+
+
 def process_video(file):
 	name = f'/videos/{time.time()}'.replace('.','')
 	file.save(name)

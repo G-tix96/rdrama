@@ -310,7 +310,9 @@ def api_comment(v):
 				value = process_video(file)
 				if type(value) is str: body += f"\n\n{value}"
 				else: return value
-			else: return {"error": "Image/Video files only"}, 400
+			elif file.content_type.startswith('audio/'):
+				body += f"\n\n{process_audio(v.patron, file)}"
+			else: return {"error": "Image/Video/Audio files only"}, 400
 
 	body = body.strip()
 	
@@ -768,7 +770,9 @@ def edit_comment(cid, v):
 					value = process_video(file)
 					if type(value) is str: body += f"\n\n{value}"
 					else: return value
-				else: return {"error": "Image/Video files only"}, 400
+				elif file.content_type.startswith('audio/'):
+					body += f"\n\n{process_audio(v.patron, file)}"
+				else: return {"error": "Image/Video/Audio files only"}, 400
 
 			body = body.strip()
 

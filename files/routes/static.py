@@ -407,7 +407,9 @@ def submit_contact(v):
 			value = process_video(file)
 			if type(value) is str: body_html += f"<p>{value}</p>"
 			else: return value
-		else: return {"error": "Image/Video files only"}, 400
+		elif file.content_type.startswith('audio/'):
+			body_html += f"<p>{process_audio(v.patron, file)}</p>"
+		else: return {"error": "Image/Video/Audio files only"}, 400
 
 
 
@@ -486,6 +488,16 @@ def videos(path):
 	resp.headers.add("Cache-Control", "public, max-age=3153600")
 	resp.headers.remove("Content-Type")
 	resp.headers.add("Content-Type", "video/mp4")
+	return resp
+
+@app.get('/audio/<path>')
+@limiter.exempt
+def audio(path):
+	resp = make_response(send_from_directory('/audio', path.replace('.mp3','.mp3')))
+	resp.headers.remove("Cache-Control")
+	resp.headers.add("Cache-Control", "public, max-age=3153600")
+	resp.headers.remove("Content-Type")
+	resp.headers.add("Content-Type", "audio/mpeg")
 	return resp
 
 @app.get("/robots.txt")

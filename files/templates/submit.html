@@ -26,7 +26,7 @@
 		{% block stylesheets %}
 		{% if v %}
 			<style>:root{--primary:#{{v.themecolor}}}</style>
-			<link rel="stylesheet" href="/assets/css/main.css?v=271">
+			<link rel="stylesheet" href="/assets/css/main.css?v=272">
 			<link rel="stylesheet" href="/assets/css/{{v.theme}}.css?v=49">
 			{% if v.agendaposter %}
 				<style>
@@ -51,7 +51,7 @@
 			{% endif %}
 		{% else %}
 			<style>:root{--primary:#{{config('DEFAULT_COLOR')}}</style>
-			<link rel="stylesheet" href="/assets/css/main.css?v=271">
+			<link rel="stylesheet" href="/assets/css/main.css?v=272">
 			<link rel="stylesheet" href="/assets/css/{{config('DEFAULT_THEME')}}.css?v=49">
 		{% endif %}
 		{% endblock %}
@@ -109,7 +109,7 @@
 													<img loading="lazy" id="image-preview" style="max-width:50%">
 													<label class="btn btn-secondary m-0" for="file-upload">
 														<div id="filename-show">Select File</div>
-														<input autocomplete="off" id="file-upload" type="file" name="file" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} accept="image/*, video/*" hidden>
+														<input autocomplete="off" id="file-upload" type="file" name="file" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} accept="image/*, video/*, audio/*" hidden>
 													</label>
 													<small class="form-text text-muted">Optional if you have text.</small>
 													<small class="form-text text-muted">You can upload images or videos up to 60 seconds.</small>
@@ -147,8 +147,8 @@
 												<div onclick="loadEmojis('post-text')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>
 																
 												<label class="format btn btn-secondary m-0 ml-1 {% if v %}d-inline-block{% else %}d-none{% endif %}" for="file-upload-submit">
-													<div id="filename-show-submit"><i class="far fa-image"></i></div>
-													<input autocomplete="off" id="file-upload-submit" multiple="multiple" type="file" name="file2" accept="image/*, video/*" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show-submit','file-upload-submit');checkForRequired()" hidden>
+													<div id="filename-show-submit"><i class="fas fa-file"></i></div>
+													<input autocomplete="off" id="file-upload-submit" multiple="multiple" type="file" name="file2" accept="image/*, video/*, audio/*" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show-submit','file-upload-submit');checkForRequired()" hidden>
 												</label>		
 
 												<div id="preview" class="preview my-3"></div>
