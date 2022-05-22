@@ -95,20 +95,20 @@
 {% endif %}
 
 {% if p.award_count("ricardo") %}
-	<script src="/assets/js/ricardo.js"></script>
+	<script src="/assets/js/ricardo.js?v=2"></script>
 	<div id="ricardo1" class="ricardo ricardoleft">
-		<img src="/assets/images/ricardo1.gif">
+		<img src="/assets/images/ricardo1.webp">
 	</div>
 
 	{% if p.award_count("ricardo") > 1 %}
 		<div id="ricardo2" class="ricardo">
-			<img src="/assets/images/ricardo2.gif" style="max-height:200px">
+			<img src="/assets/images/ricardo2.webp" style="max-height:200px">
 		</div>
 	{% endif %}
 
 	{% if p.award_count("ricardo") > 2 %}
 		<div id="ricardo3" class="ricardo">
-			<img src="/assets/images/ricardo3.gif" style="max-height:150px">
+			<img src="/assets/images/ricardo3.webp" style="max-height:150px">
 		</div>
 	{% endif %}
 {% endif %}
