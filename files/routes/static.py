@@ -354,6 +354,7 @@ def log(v):
 	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, next_exists=next_exists, page=page)
 
 @app.get("/log/<id>")
+@limiter.limit("1/day")
 @auth_required
 def log_item(id, v):
 
@@ -373,9 +374,9 @@ def log_item(id, v):
 
 
 @app.get("/api")
-@limiter.limit("1/day")
-def api():
-	return render_template("api.html")
+@auth_required
+def api(v):
+	return render_template("api.html", v=v)
 
 @app.get("/contact")
 @app.get("/press")
