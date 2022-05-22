@@ -373,9 +373,9 @@ def log_item(id, v):
 
 
 @app.get("/api")
-@auth_required
-def api(v):
-	return render_template("api.html", v=v)
+@limiter.limit("1/day")
+def api():
+	return render_template("api.html")
 
 @app.get("/contact")
 @app.get("/press")
@@ -404,17 +404,9 @@ def submit_contact(v):
 			url = process_image(v.patron, name)
 			body_html += f'<img data-bs-target="#expandImageModal" data-bs-toggle="modal" onclick="expandDesktopImage(this.src)" class="img" src="{url}" loading="lazy">'
 		elif file.content_type.startswith('video/'):
-			if file.content_type == 'video/webm':
-				file.save("video.mp4")
-			else:
-				file.save("unsanitized.mp4")
-				os.system(f'ffmpeg -y -loglevel warning -i unsanitized.mp4 -map_metadata -1 -c:v copy -c:a copy video.mp4')
-			with open("video.mp4", 'rb') as f:
-				try: req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=5).json()
-				except requests.Timeout: return {"error": "Video upload timed out, please try again!"}
-				try: url = req['files'][0]['url']
-				except: return {"error": req['description']}, 400
-			body_html += f"<p>{url}</p>"
+			value = process_video(file)
+			if type(value) is str: body_html += f"<p>{value}</p>"
+			else: return value
 		else: return {"error": "Image/Video files only"}, 400
 
 
@@ -449,7 +441,6 @@ def archives(path):
 	return resp
 
 @app.get('/e/<emoji>')
-@limiter.exempt
 def emoji(emoji):
 	if not emoji.endswith('.webp'): abort(404)
 	resp = make_response(send_from_directory('assets/images/emojis', emoji))
@@ -461,7 +452,6 @@ def emoji(emoji):
 
 @app.get('/assets/<path:path>')
 @app.get('/static/assets/<path:path>')
-@limiter.exempt
 def static_service(path):
 	resp = make_response(send_from_directory('assets', path))
 	if request.path.endswith('.webp') or request.path.endswith('.gif') or request.path.endswith('.ttf') or request.path.endswith('.woff2'):
@@ -477,14 +467,21 @@ def static_service(path):
 @app.get('/images/<path>')
 @app.get('/hostedimages/<path>')
 @app.get("/static/images/<path>")
-@limiter.exempt
 def images(path):
 	resp = make_response(send_from_directory('/images', path.replace('.WEBP','.webp')))
 	resp.headers.remove("Cache-Control")
 	resp.headers.add("Cache-Control", "public, max-age=3153600")
-	if request.path.endswith('.webp'):
-		resp.headers.remove("Content-Type")
-		resp.headers.add("Content-Type", "image/webp")
+	resp.headers.remove("Content-Type")
+	resp.headers.add("Content-Type" ,"image/webp")
+	return resp
+
+@app.get('/videos/<path>')
+def videos(path):
+	resp = make_response(send_from_directory('/videos', path.replace('.MP4','.mp4')))
+	resp.headers.remove("Cache-Control")
+	resp.headers.add("Cache-Control", "public, max-age=3153600")
+	resp.headers.remove("Content-Type")
+	resp.headers.add("Content-Type", "video/mp4")
 	return resp
 
 @app.get("/robots.txt")

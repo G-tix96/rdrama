@@ -701,17 +701,9 @@ def messagereply(v):
 			url = process_image(v.patron, name)
 			body_html += f'<img data-bs-target="#expandImageModal" data-bs-toggle="modal" onclick="expandDesktopImage(this.src)" class="img" src="{url}" loading="lazy">'
 		elif file.content_type.startswith('video/'):
-			if file.content_type == 'video/webm':
-				file.save("video.mp4")
-			else:
-				file.save("unsanitized.mp4")
-				os.system(f'ffmpeg -y -loglevel warning -i unsanitized.mp4 -map_metadata -1 -c:v copy -c:a copy video.mp4')
-			with open("video.mp4", 'rb') as f:
-				try: req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=5).json()
-				except requests.exceptions.ConnectionError: return {"error": "Video upload timed out, please try again!"}
-				try: url = req['files'][0]['url']
-				except: return {"error": req['description']}, 400
-			body_html += f"<p>{url}</p>"
+			value = process_video(file)
+			if type(value) is str: body_html += f"<p>{value}</p>"
+			else: return value
 		else: return {"error": "Image/Video files only"}, 400
 
 
@@ -1149,7 +1141,6 @@ def remove_follow(username, v):
 @app.get("/logged_out/pp/<id>")
 @app.get("/logged_out/uid/<id>/pic")
 @app.get("/logged_out/uid/<id>/pic/profile")
-@limiter.exempt
 @auth_desired
 def user_profile_uid(v, id):
 	if not v and not request.path.startswith('/logged_out'): return redirect(f"/logged_out{request.full_path}")
@@ -1164,7 +1155,6 @@ def user_profile_uid(v, id):
 	return redirect(x.profile_url)
 
 @app.get("/@<username>/pic")
-@limiter.exempt
 @auth_required
 def user_profile_name(v, username):
 	x = get_user(username)

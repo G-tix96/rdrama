@@ -27,7 +27,6 @@ def chat( v):
 
 
 @app.get('/chat.js')
-@limiter.exempt
 def chatjs():
 	resp = make_response(send_from_directory('assets', 'js/chat.js'))
 	return resp

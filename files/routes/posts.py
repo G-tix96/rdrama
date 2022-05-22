@@ -464,17 +464,9 @@ def edit_post(pid, v):
 				url = process_image(v.patron, name)
 				body += f"\n\n![]({url})"
 			elif file.content_type.startswith('video/'):
-				if file.content_type == 'video/webm':
-					file.save("video.mp4")
-				else:
-					file.save("unsanitized.mp4")
-					os.system(f'ffmpeg -y -loglevel warning -i unsanitized.mp4 -map_metadata -1 -c:v copy -c:a copy video.mp4')
-				with open("video.mp4", 'rb') as f:
-					try: req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=5).json()
-					except requests.Timeout: return {"error": "Video upload timed out, please try again!"}
-					try: url = req['files'][0]['url']
-					except: return {"error": req['description']}, 400
-				body += f"\n\n{url}"
+				value = process_video(file)
+				if type(value) is str: body += f"\n\n{value}"
+				else: return value
 			else: return {"error": "Image/Video files only"}, 400
 
 	body = body.strip()
@@ -1083,17 +1075,9 @@ def submit_post(v, sub=None):
 				file.save(name)
 				body += f"\n\n![]({process_image(v.patron, name)})"
 			elif file.content_type.startswith('video/'):
-				if file.content_type == 'video/webm':
-					file.save("video.mp4")
-				else:
-					file.save("unsanitized.mp4")
-					os.system(f'ffmpeg -y -loglevel warning -i unsanitized.mp4 -map_metadata -1 -c:v copy -c:a copy video.mp4')
-				with open("video.mp4", 'rb') as f:
-					try: req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=5).json()
-					except requests.Timeout: return {"error": "Video upload timed out, please try again!"}
-					try: url = req['files'][0]['url']
-					except: return {"error": req['description']}, 400
-				body += f"\n\n{url}"
+				value = process_video(file)
+				if type(value) is str: body += f"\n\n{value}"
+				else: return error(value['error'])
 			else:
 				return error("Image/Video files only.")
 
@@ -1194,17 +1178,9 @@ def submit_post(v, sub=None):
 			copyfile(name, name2)
 			post.thumburl = process_image(v.patron, name2, resize=100)	
 		elif file.content_type.startswith('video/'):
-			if file.content_type == 'video/webm':
-				file.save("video.mp4")
-			else:
-				file.save("unsanitized.mp4")
-				os.system(f'ffmpeg -y -loglevel warning -i unsanitized.mp4 -map_metadata -1 -c:v copy -c:a copy video.mp4')
-			with open("video.mp4", 'rb') as f:
-				try: req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=5).json()
-				except requests.Timeout: return {"error": "Video upload timed out, please try again!"}
-				try: url = req['files'][0]['url']
-				except: return {"error": req['description']}, 400
-			post.url = url
+			value = process_video(file)
+			if type(value) is str: post.url = value
+			else: return error(value['error'])
 		else:
 			return error("Image/Video files only.")
 		
