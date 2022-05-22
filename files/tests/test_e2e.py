@@ -30,7 +30,7 @@ def test_signup():
 			"formkey": formkey,
 			"now": form_timestamp
 		})
-		print(f"Signing up as {username}")
+		print(f"Signing up as {username}", flush=True)
 		assert signup_post_response.status_code == 302
 		assert "error" not in signup_post_response.location
 

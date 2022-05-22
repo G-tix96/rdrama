@@ -18,9 +18,9 @@ was_running = docker_inspect == "running"
 
 # update containers, just in case they're out of date
 if was_running:
-    print("Updating containers . . .")
+    print("Updating containers . . .", flush=True)
 else:
-    print("Starting containers . . .")
+    print("Starting containers . . .", flush=True)
 subprocess.run([
             "docker-compose",
             "up",
@@ -31,7 +31,7 @@ subprocess.run([
     )
 
 # run the test
-print("Running test . . .")
+print("Running test . . .", flush=True)
 result = subprocess.run([
         "docker",
         "exec",
@@ -41,7 +41,7 @@ result = subprocess.run([
 
 if not was_running:
     # shut down, if we weren't running in the first place
-    print("Shutting down containers . . .")
+    print("Shutting down containers . . .", flush=True)
     subprocess.run([
             "docker-compose",
             "stop",

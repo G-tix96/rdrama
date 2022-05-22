@@ -419,10 +419,6 @@ class Comment(Base):
 
 		return censor_slurs(body, v)
 
-	def print(self):
-		print(f'post: {self.id}, comment: {self.author_id}', flush=True)
-		return ''
-
 	@lazy
 	def collapse_for_user(self, v, path):
 		if v and self.author_id == v.id: return False

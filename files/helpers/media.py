@@ -28,7 +28,7 @@ def process_video(file):
 	else:
 		spider = os.system(f'ffmpeg -y -loglevel warning -i {name} -map_metadata -1 -c:v copy -c:a copy {name}.mp4')
 
-	if spider: print(f'ffmpeg returned {spider}')
+	if spider: print(f'ffmpeg returned {spider}', flush=True)
 	os.remove(name)
 
 	with open(f"{name}.mp4", 'rb') as f:

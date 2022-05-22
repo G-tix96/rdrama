@@ -99,7 +99,7 @@ def callback(attrs, new=False):
 
 
 def handler(signum, frame):
-	print("Timeout!")
+	print("Timeout!", flush=True)
 	raise Exception("Timeout")
 
 def render_emoji(html, regexp, edit, marseys_used=set(), b=False):

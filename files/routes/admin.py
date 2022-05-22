@@ -419,7 +419,7 @@ def monthly(v):
 			u.procoins += procoins
 			g.db.add(u)
 			send_repeatable_notification(u.id, f"@{v.username} has given you {procoins} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
-		else: print(u.username)
+		else: print(u.username, flush=True)
 
 	if request.host == 'pcmemes.net':
 		u = g.db.query(User).filter_by(id=KIPPY_ID).one()

@@ -850,7 +850,7 @@ def settings_song_change(v):
 	with youtube_dl.YoutubeDL(ydl_opts) as ydl:
 		try: ydl.download([f"https://youtube.com/watch?v={id}"])
 		except Exception as e:
-			print(e)
+			print(e, flush=True)
 			return render_template("settings_profile.html",
 						   v=v,
 						   error="Age-restricted videos aren't allowed.")
