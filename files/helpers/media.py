@@ -15,8 +15,7 @@ def process_video(file):
 	os.remove(name)
 
 	with open(f"{name}.mp4", 'rb') as f:
-		if SITE_NAME != 'rDrama' or os.stat(f'{name}.mp4').st_size > 8 * 1024 * 1024:
-			os.remove(f"{name}.mp4")
+		if SITE_NAME != 'rDrama' or os.stat(f'{name}.mp4').st_size > 8 * 1024 * 1024: os.remove(f"{name}.mp4")
 		try: req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=20).json()
 		except requests.Timeout: return {"error": "Video upload timed out, please try again!"}
 		try: return req['files'][0]['url']
