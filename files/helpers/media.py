@@ -20,8 +20,10 @@ def process_video(file):
 		
 	try: url = req['files'][0]['url']
 	except: return {"error": req['description']}
+
 	if SITE_NAME != 'rDrama' or os.stat(f'{name}.mp4').st_size > 8 * 1024 * 1024:
 		os.remove(f"{name}.mp4")
+
 	return url
 
 
