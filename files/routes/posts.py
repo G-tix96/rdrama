@@ -477,6 +477,8 @@ def edit_post(pid, v):
 				body += f"\n\n{url}"
 			else: return {"error": "Image/Video files only"}, 400
 
+	body = body.strip()
+
 	if body != p.body:
 		if v.id == p.author_id and v.agendaposter and not v.marseyawarded: body = torture_ap(body, v.username)
 
@@ -1094,6 +1096,8 @@ def submit_post(v, sub=None):
 				body += f"\n\n{url}"
 			else:
 				return error("Image/Video files only.")
+
+	body = body.strip()
 
 	body_html = sanitize(body)
 

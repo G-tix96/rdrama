@@ -320,10 +320,11 @@ def api_comment(v):
 				body += f"\n\n{url}"
 			else: return {"error": "Image/Video files only"}, 400
 
+	body = body.strip()
+	
 	if v.admin_level > 2 and parent_post.id == 37749 and level == 1:
 		with open(f"snappy_{SITE_NAME}.txt", "a", encoding="utf-8") as f:
 			f.write('\n{[para]}\n' + body)
-
 
 	if v.agendaposter and not v.marseyawarded and parent_post.id not in ADMIGGERS:
 		body = torture_ap(body, v.username)
@@ -784,6 +785,8 @@ def edit_comment(cid, v):
 						except: return {"error": req['description']}, 400
 					body += f"\n\n{url}"
 				else: return {"error": "Image/Video files only"}, 400
+
+			body = body.strip()
 
 			body_html = sanitize(body, edit=True)
 

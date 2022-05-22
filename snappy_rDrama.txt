@@ -3815,6 +3815,4 @@ This is your fate. This is what you chose. There is no turning back. You are the
 {[para]}
 #fortune
 {[para]}
-
-
 ![](/images/16532150566811156.webp)

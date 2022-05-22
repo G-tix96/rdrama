@@ -231,7 +231,9 @@ def settings_profile_post(v):
 			else:
 				if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": "Image/Video files only"}, 400
 				return render_template("settings_profile.html", v=v, error="Image/Video files only."), 400
-		
+
+		bio = bio.strip()
+
 		bio_html = sanitize(bio)
 
 		if len(bio_html) > 10000:
