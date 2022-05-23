@@ -12,10 +12,14 @@ from .const import *
 def process_audio(patron, file):
 	name = f'/audio/{time.time()}'.replace('.','') + '.mp3'
 	file.save(name)
+
 	size = os.stat(name).st_size
 	if size > 16 * 1024 * 1024 or not patron and size > 8 * 1024 * 1024:
-		os.remove(name)
-		abort(413)
+		with open(name, 'rb') as f:
+			os.remove(name)
+			req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=20).json()
+		return req['files'][0]['url']
+
 	return f'{SITE_FULL}{name}'
 
 
