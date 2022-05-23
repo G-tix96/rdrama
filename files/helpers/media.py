@@ -23,10 +23,7 @@ def process_video(file):
 	name = f'/videos/{time.time()}'.replace('.','')
 	file.save(name)
 
-	if SITE_NAME == 'rDrama' and file.content_type == 'video/webm':
-		spider = os.system(f'ffmpeg -y -loglevel warning -i {name} -map_metadata -1 {name}.mp4')
-	else:
-		spider = os.system(f'ffmpeg -y -loglevel warning -i {name} -map_metadata -1 -c:v copy -c:a copy {name}.mp4')
+	spider = os.system(f'ffmpeg -y -loglevel warning -i {name} -map_metadata -1 -c:v copy -c:a copy {name}.mp4')
 
 	if spider: print(f'ffmpeg returned {spider}', flush=True)
 	os.remove(name)
