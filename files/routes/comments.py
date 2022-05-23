@@ -249,7 +249,8 @@ def api_comment(v):
 							filename = f'files/assets/images/badges/{badge.id}.webp'
 							copyfile(oldname, filename)
 							process_image(v.patron, filename, 200)
-							requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, data={'files': [f"https://{request.host}/assets/images/badges/{badge.id}.webp"]}, timeout=5)
+							requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
+								data='{"files": ["https://%s/assets/images/badges/%s.webp"]}' % (request.host, badge.id), timeout=5)
 						except Exception as e:
 							return {"error": str(e)}, 400
 					elif v.admin_level > 2 and parent_post.id == 37838:
@@ -300,7 +301,8 @@ def api_comment(v):
 
 
 
-							requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, data={'files': [f"https://{request.host}/e/{name}.webp"]}, timeout=5)
+							requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
+								data='{"files": ["https://%s/e/%s.webp"]}' % (request.host, name), timeout=5)
 							cache.delete_memoized(marsey_list)
 
 						except Exception as e:
