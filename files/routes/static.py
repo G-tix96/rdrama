@@ -408,7 +408,7 @@ def submit_contact(v):
 			if type(value) is str: body_html += f"<p>{value}</p>"
 			else: return value
 		elif file.content_type.startswith('audio/'):
-			body_html += f"<p>{process_audio(v.patron, file)}</p>"
+			body_html += f"<p>{process_audio(file)}</p>"
 		else: return {"error": "Image/Video/Audio files only"}, 400
 
 

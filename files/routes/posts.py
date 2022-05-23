@@ -468,7 +468,7 @@ def edit_post(pid, v):
 				if type(value) is str: body += f"\n\n{value}"
 				else: return value
 			elif file.content_type.startswith('audio/'):
-				body += f"\n\n{process_audio(v.patron, file)}"
+				body += f"\n\n{process_audio(file)}"
 			else: return {"error": "Image/Video/Audio files only"}, 400
 
 	body = body.strip()
@@ -1081,7 +1081,7 @@ def submit_post(v, sub=None):
 				if type(value) is str: body += f"\n\n{value}"
 				else: return error(value['error'])
 			elif file.content_type.startswith('audio/'):
-				body += f"\n\n{process_audio(v.patron, file)}"
+				body += f"\n\n{process_audio(file)}"
 			else:
 				return error("Image/Video/Audio files only.")
 
@@ -1186,7 +1186,7 @@ def submit_post(v, sub=None):
 			if type(value) is str: post.url = value
 			else: return error(value['error'])
 		elif file.content_type.startswith('audio/'):
-			post.url = process_audio(v.patron, file)
+			post.url = process_audio(file)
 		else:
 			return error("Image/Video/Audio files only.")
 		

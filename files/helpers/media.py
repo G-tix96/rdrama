@@ -9,12 +9,12 @@ import time
 from .const import *
 
 
-def process_audio(patron, file):
+def process_audio(file):
 	name = f'/audio/{time.time()}'.replace('.','') + '.mp3'
 	file.save(name)
 
 	size = os.stat(name).st_size
-	if size > 16 * 1024 * 1024 or not patron and size > 8 * 1024 * 1024:
+	if size > 8 * 1024 * 1024:
 		with open(name, 'rb') as f:
 			os.remove(name)
 			req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=20).json()
@@ -27,19 +27,18 @@ def process_video(file):
 	name = f'/videos/{time.time()}'.replace('.','')
 	file.save(name)
 
-	spider = os.system(f'ffmpeg -y -loglevel warning -i {name} -map_metadata -1 -c:v copy -c:a copy {name}.mp4')
-
-	if spider: print(f'ffmpeg returned {spider}', flush=True)
+	os.system(f'ffmpeg -y -loglevel warning -i {name} -map_metadata -1 -c:v copy -c:a copy {name}.mp4')
 	os.remove(name)
+	name += '.mp4'
 
-	with open(f"{name}.mp4", 'rb') as f:
-		if SITE_NAME != 'rDrama' or os.stat(f'{name}.mp4').st_size > 8 * 1024 * 1024:
-			os.remove(f"{name}.mp4")
-		try: req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=20).json()
-		except requests.Timeout: return {"error": "Video upload timed out, please try again!"}
-		
-	try: return req['files'][0]['url']
-	except: return {"error": req['description']}
+	size = os.stat(name).st_size
+	if size > 8 * 1024 * 1024:
+		with open(name, 'rb') as f:
+			os.remove(name)
+			req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=20).json()
+		return req['files'][0]['url']
+
+	return f'{SITE_FULL}{name}'
 
 
 def process_image(patron, filename=None, resize=0):

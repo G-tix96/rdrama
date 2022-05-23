@@ -221,7 +221,7 @@ def settings_profile_post(v):
 				if type(value) is str: bio += f"\n\n{value}"
 				else: return value
 			elif file.content_type.startswith('audio/'):
-				bio += f"\n\n{process_audio(v.patron, file)}"
+				bio += f"\n\n{process_audio(file)}"
 			else:
 				if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": "Image/Video/Audio files only"}, 400
 				return render_template("settings_profile.html", v=v, error="Image/Video/Audio files only."), 400
