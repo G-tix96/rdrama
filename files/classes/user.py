@@ -188,8 +188,6 @@ class User(Base):
 	@property
 	@lazy
 	def is_cakeday(self):
-		if SITE_NAME == 'rDrama': return True
-		else: return False
 		if time.time() - self.created_utc > 363 * 86400:
 			date = time.strftime("%d %b", time.gmtime(self.created_utc))
 			now = time.strftime("%d %b", time.gmtime())

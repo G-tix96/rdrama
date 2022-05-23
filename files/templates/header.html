@@ -8,15 +8,6 @@
 					padding-top: 69.55px !important
 				}
 			}
-		
-			/* Birthgay specific */
-			#navbar i, #navbar .nav-link {
-				text-shadow: 1px 1px 0 black, 1px -1px 0 black, -1px 1px 0 black, -1px -1px 0 black;
-			}
-			.navbar-light .navbar-nav .nav-link, .navbar-light .navbar-nav .nav-link:hover {
-				color: #FFF !important;
-			}
-			/* End birthgay specific */
 		</style>
 	{% else %}
 		<style>
@@ -30,25 +21,13 @@
 	{% endif %}
 
 	{% if SITE_NAME == 'rDrama' %}
-		{# include "journoid_banner.html" #}
-		<div class="srd">
-		<a id="srd-link" class="text-small-mobile" style="color:white">🎉🎉🎉 Happy birthday rDrama! 🎉🎉🎉</a>
-		</div>
+		{% include "journoid_banner.html" %}
 	{% endif %}
 
-	{% if SITE_NAME == 'rDrama' %}
-		<div class="navbar navbar-expand-md navbar-light" id="navbar" style="background: url('/assets/images/balloons.webp') !important;">
-			<div class="container-fluid" style="padding:0; background: transparent !important">
-	{% else %}
 		<div class="navbar navbar-expand-md navbar-light" id="navbar">
 			<div class="container-fluid" style="padding:0;">
-	{% endif %}
 			<a href="/" class="navbar-brand mr-auto {% if SITE_NAME in ('PCM','WPD') and not sub %}flex-grow-1{% endif %}">
-				{% if SITE_NAME == 'rDrama' %} {# birthgay only #}
-				<img alt="header icon" height=33 src="/assets/images/emojis/marseyparty.webp?v=birthgay">
-				{% else %}
 				<img alt="header icon" height=33 src="/assets/images/{{SITE_NAME}}/headericon.webp?v=1019">
-				{% endif %}
 			</a>
 			
 			{% if sub %}

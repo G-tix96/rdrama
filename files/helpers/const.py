@@ -397,7 +397,7 @@ AWARDS = {
 	"lootbox": {
 		"kind": "lootbox",
 		"title": "Lootbox",
-		"description": "???",
+		"description": "",
 		"icon": "fas fa-box-open",
 		"color": "text-blue",
 		"price": 1000
@@ -441,6 +441,30 @@ AWARDS = {
 		"icon": "fas fa-smile-beam",
 		"color": "text-yellow",
 		"price": 300
+	},
+	"firework": {
+		"kind": "firework",
+		"title": "Fireworks",
+		"description": "Summons fireworks on the post.",
+		"icon": "fas fa-bahai",
+		"color": "text-danger",
+		"price": 300
+	},
+	"confetti": {
+		"kind": "confetti",
+		"title": "Confetti",
+		"description": "Summons confetti to fall on the post.",
+		"icon": "fas fa-party-horn",
+		"color": "text-yellow",
+		"price": 300
+	},
+	"ricardo": {
+		"kind": "ricardo",
+		"title": "Stripper Cake",
+		"description": "Summons Ricardo to dance on the post.",
+		"icon": "fas fa-pinata",
+		"color": "text-pink",
+		"price": 500
 	},
 	"tilt": {
 		"kind": "tilt",
@@ -634,30 +658,6 @@ AWARDS = {
 		"color": "checkmark",
 		"price": 100000
 	},
-	"firework": {
-		"kind": "firework",
-		"title": "Fireworks",
-		"description": "PARTY TIME!",
-		"icon": "fas fa-bahai",
-		"color": "text-blue-200",
-		"price": 300
-	},
-	"confetti": {
-		"kind": "confetti",
-		"title": "Confetti",
-		"description": "PARTY TIME!",
-		"icon": "fas fa-party-horn",
-		"color": "text-blue-200",
-		"price": 300
-	},
-	"ricardo": {
-		"kind": "ricardo",
-		"title": "Stripper Cake",
-		"description": "PARTY TIME!",
-		"icon": "fas fa-pinata",
-		"color": "text-blue-200",
-		"price": 500
-	},
 }
 
 if SITE_NAME == 'PCM':
@@ -699,7 +699,7 @@ AWARDS3 = {}
 for k, val in AWARDS2.items():
 	if val['price'] == 300: AWARDS3[k] = val
 
-DOUBLE_XP_ENABLED = 1652997600 # set to unixtime for when DXP begins, -1 to disable
+DOUBLE_XP_ENABLED = -1 # set to unixtime for when DXP begins, -1 to disable
 
 TROLLTITLES = [
 	"how will @{username} ever recover?",
