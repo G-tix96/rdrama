@@ -14,7 +14,7 @@ def get_logged_in_user():
 
 	counter = 0
 	for val in sessions.values():
-		if g.timestamp - val < 60:
+		if g.timestamp - val < 15*60:
 			counter += 1
 	g.counter = counter
 
