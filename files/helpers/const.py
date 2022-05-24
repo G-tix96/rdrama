@@ -54,9 +54,8 @@ if SITE_NAME == 'rDrama':
 		"fag": "cute twink",
 		"pedophile": "libertarian",
 		"kill yourself": "keep yourself safe",
-		"n1gger": "BIPOC",
-		"nlgger": "BIPOC",
 		"nigger": "BIPOC",
+		"niglet": "BIPOClet",
 		"steve akins": "penny verity oaken",
 		"trannie": "🚂🚃🚃",
 		"tranny": "🚂🚃🚃",
@@ -936,7 +935,7 @@ image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/([a-z0-9-]+\.)*({hosts})\
 embed_fullmatch_regex = re.compile(f'https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*', flags=re.A)
 
 video_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp4|webm|mov))', flags=re.A)
-audio_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp3|wav|ogg|aac|m4a))', flags=re.A)
+audio_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp3|wav|ogg|aac|m4a|flac))', flags=re.A)
 
 imgur_regex = re.compile('(https://i\.imgur\.com/([a-z0-9]+))\.(jpg|png|jpeg|webp)(?!<\/(code|pre|a)>)', flags=re.I|re.A)
 
