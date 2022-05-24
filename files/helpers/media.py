@@ -24,7 +24,7 @@ def process_audio(file):
 
 def process_video(file):
 	old = f'/videos/{time.time()}'.replace('.','')
-	extension = file.filename.split('.')[-1]
+	extension = file.filename.split('.')[-1].lower()
 	new = old + '.' + extension
 
 	if extension == 'webm':
