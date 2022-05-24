@@ -569,6 +569,8 @@
 <meta property="og:image" content="{% if p.is_image %}{{p.realurl(v)}}{% elif p.has_thumb%}{{p.thumb_url}}{% else %}{{SITE_NAME}}/assets/images/{{SITE_NAME}}/site_preview.webp?v=1015{% endif %}">
 {% if p.is_video %}
 	<meta property="og:video" content="{{p.realurl(v)}}">
+{% elif p.is_audio %}
+	<meta property="og:audio" content="{{p.realurl(v)}}">
 {% endif %}
 <meta property="og:url" content="{{comment_info.permalink}}">
 <meta property="og:site_name" content="{{request.host}}">
@@ -592,9 +594,6 @@
 {% if p.author %}<meta property="og:author" name="author" content="{{'@'+p.author_name}}">{% endif %}
 <meta property="og:title" content="{{p.plaintitle(v)}} - {{SITE_NAME}}">
 <meta property="og:image" content="{% if p.is_image %}{{p.realurl(v)}}{% elif p.has_thumb%}{{p.thumb_url}}{% else %}{{SITE_NAME}}/assets/images/{{SITE_NAME}}/site_preview.webp?v=1015{% endif %}">
-{% if p.url and p.is_video %}
-<meta property="og:video" content="{{p.realurl(v)}}">
-{% endif %}
 <meta property="og:url" content="{{p.permalink}}">
 <meta property="og:site_name" content="{{request.host}}">
 
@@ -714,7 +713,7 @@
 							<a class="user-name text-decoration-none" href="{{p.author.url}}" data-pop-info='{{p.author.json_popover(v) | tojson}}' onclick='popclick(event)' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="click" data-content-id="popover" role="button" tabindex="0" style="color: #{{p.author.namecolor}}; font-weight: bold"class="user-name"><img loading="lazy" src="{{p.author.profile_url}}" class="profile-pic-25 mr-2">{% if p.author.is_cakeday %}<img class="party-hat" src="/assets/images/party-hat.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title="I’ve spent another year rotting my brain with dramaposting, please ridicule me 🤓">{% endif %}<span {% if p.author.patron and not p.distinguish_level %}class="patron" style="background-color:#{{p.author.namecolor}};"{% elif p.distinguish_level %}class="mod"{% endif %}>{{p.author_name}}</span></a>{% if p.author.customtitle %}&nbsp;<bdi style="color: #{{p.author.titlecolor}}">&nbsp;{{p.author.customtitle | safe}}</bdi>{% endif %}
 						{% endif %}
 						<span data-bs-toggle="tooltip" data-bs-placement="bottom" id="timestamp" onmouseover="timestamp('timestamp','{{p.created_utc}}')">&nbsp;{{p.age_string}}</span>
-						({% if p.is_image %}image post{% elif p.is_video %}video post{% elif p.domain %}<a href="/search/posts/?q=domain%3A{{p.domain}}&sort=new&t=all" {% if not v or v.newtabexternal %}target="_blank"{% endif %}>{{p.domain}}</a>{% else %}text post{% endif %})
+						({% if p.is_image %}image post{% elif p.is_video %}video post{% elif p.is_audio %}audio post{% elif p.domain %}<a href="/search/posts/?q=domain%3A{{p.domain}}&sort=new&t=all" {% if not v or v.newtabexternal %}target="_blank"{% endif %}>{{p.domain}}</a>{% else %}text post{% endif %})
 
 						{% if p.edited_utc %}
 							&nbsp;&nbsp;Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('edited_timestamp','{{p.edited_utc}}')" id="edited_timestamp">{{p.edited_string}}</span>
@@ -748,7 +747,7 @@
 
 					<div id="post-body" class="post-body mt-3">
 						{% if p.realurl(v) %}
-							{% if not p.embed_url and not p.is_image and not p.is_video %}
+							{% if not p.embed_url and not p.is_image and not p.is_video and not p.is_audio %}
 								<a rel="nofollow noopener noreferrer" href="{{p.realurl(v)}}" {% if not v or v.newtabexternal %}target="_blank"{% endif %}>
 									<div class="d-flex d-md-none justify-content-between align-items-center border rounded p-2{% if p.realbody(v) %} mb-3{% endif %}">
 										<span>{{p.domain|truncate(30, True)}}</span>
@@ -787,8 +786,15 @@
 								<div class="row no-gutters">
 									<div class="col">
 										<video controls preload="none">
-											<source src="{{p.realurl(v)}}" type="video/mp4">
+											<source src="{{p.realurl(v)}}">
 										</video>
+									</div>
+								</div>
+								<pre></pre>
+							{% elif p.is_audio %}
+								<div class="row no-gutters">
+									<div class="col">
+										<audio controls preload="none" src="{{p.realurl(v)}}"></audio>
 									</div>
 								</div>
 								<pre></pre>
@@ -903,7 +909,7 @@
 
 		</div>
 
-		{% if not p.is_image and not p.is_video %}
+		{% if not p.is_image and not p.is_video and not p.is_audio %}
 			<div class="row no-gutters d-md-none">
 				<div class="col">
 					<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener noreferrer" href="{{p.realurl(v)}}"></a>

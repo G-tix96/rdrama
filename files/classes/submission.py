@@ -258,7 +258,8 @@ class Submission(Base):
 		elif self.thumburl: 
 			if self.thumburl.startswith('/'): return SITE_FULL + self.thumburl
 			return self.thumburl
-		elif self.is_youtube or self.is_video: return f"{SITE_FULL}/assets/images/default_thumb_yt.webp?v=1"
+		elif self.is_youtube or self.is_video: return f"{SITE_FULL}/assets/images/default_thumb_video.webp?v=1"
+		elif self.is_audio: return f"{SITE_FULL}/assets/images/default_thumb_audio.webp?v=1"
 		else: return f"{SITE_FULL}/assets/images/default_thumb_link.webp?v=1"
 
 	@property
@@ -472,6 +473,11 @@ class Submission(Base):
 	@lazy
 	def is_video(self):
 		return self.url and any((self.url.lower().endswith(x) for x in ('.mp4','.webm','.mov'))) and embed_fullmatch_regex.fullmatch(self.url)
+
+	@property
+	@lazy
+	def is_audio(self):
+		return self.url and any((self.url.lower().endswith(x) for x in ('.mp3','.wav','.ogg','.aac','.m4a','.flac'))) and embed_fullmatch_regex.fullmatch(self.url)
 
 	@property
 	@lazy
