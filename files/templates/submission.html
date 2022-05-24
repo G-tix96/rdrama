@@ -811,7 +811,6 @@
 					{% if v and (v.id==p.author_id or v.admin_level > 2) and not v.is_suspended %}
 						<div id="edit-post-body-{{p.id}}" class="d-none comment-write collapsed child">
 							<form id="post-edit-form-{{p.id}}" action="/edit_post/{{p.id}}" method="post" enctype="multipart/form-data">
-								<div class="d-flex flex-column">
 									<input type="hidden" name="formkey" value="{{v.formkey}}">
 									<input type="hidden" name="current_page" value="{{request.path}}">
 									<textarea autocomplete="off" max-length="500" name="title" class="comment-box form-control rounded" required placeholder="title">{{p.title}}</textarea>
@@ -832,7 +831,6 @@
 										</label>
 						
 										<small class="format d-none"><i class="fas fa-link" aria-hidden="true"></i></small> 
-									</div>
 								</div>
 								<button form="post-edit-form-{{p.id}}" class="btn btn-primary ml-2 fl-r">Save Edit</button>
 								<a role="button" onclick="togglePostEdit('{{p.id}}')" class="btn btn-link text-muted ml-auto cancel-form fl-r">Cancel</a> 
