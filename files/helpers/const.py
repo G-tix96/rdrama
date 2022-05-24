@@ -615,7 +615,7 @@ AWARDS = {
 		"description": "Makes the recipient unblockable and removes all blocks on them.",
 		"icon": "far fa-laugh-squint",
 		"color": "text-lightgreen",
-		"price": 10000
+		"price": 20000
 	},
 	"fish": {
 		"kind": "fish",
