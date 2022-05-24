@@ -281,6 +281,12 @@ def sanitize(sanitized, alert=False, comment=False, edit=False):
 		sanitized = sanitized.replace('#fortune', '')
 		sanitized += '\n\n<p>' + choice(FORTUNE_REPLIES) + '</p>'
 
+	if '#8ball' in sanitized:
+		(b8txt, b8knd) = choice(EIGHTBALL_REPLIES)
+		b8color = EIGHTBALL_COLORS[b8knd]
+		sanitized = sanitized.replace('#8ball', '')
+		sanitized += '\n\n<p><span style="font-weight: bold; color: %s;">The 8-Ball Says: %s</span></p>' % (b8color, b8txt)
+
 	if '#factcheck' in sanitized:
 		sanitized = sanitized.replace('#factcheck', '')
 		sanitized += '\n\n<p>' + choice(FACTCHECK_REPLIES) + '</p>'
