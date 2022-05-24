@@ -3,7 +3,7 @@
 	{% if sub %}
 		{% set image=sub.sidebar_url %}
 	{% else %}
-		{% set image='/assets/images/' + SITE_NAME + '/sidebar.webp?v=1' %}
+		{% set image='/assets/images/' + SITE_NAME + '/sidebar.webp?v=2' %}
 	{% endif %}
 
 	<img class="mb-4" alt="sidebar image" role="button" data-bs-toggle="modal" data-bs-target="#expandImageModal" onclick="expandDesktopImage('{{image}}')" loading="lazy" src="{{image}}" width=100%>
@@ -22,9 +22,6 @@
 		<a class="btn btn-primary btn-block mb-3" href="/h/{{sub.name}}/exilees">HOLE EXILEES</a>
 		<a class="btn btn-primary btn-block mb-3" href="/h/{{sub.name}}/blockers">HOLE BLOCKERS</a>
 	{% else %}
-		<a class="btn btn-primary btn-block mb-3" href="/create_sub">CREATE HOLE</a>
-		<a class="btn btn-primary btn-block mb-3" href="/holes">BROWSE HOLES</a>
-
 		<div class="mt-4">
 			<h3>Rules:</h3><br>
 

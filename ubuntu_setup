@@ -1,3 +1,4 @@
+update-locale LANG=en_US.utf8
 cd /rDrama
 cp ./env /env
 . /env
