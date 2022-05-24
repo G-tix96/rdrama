@@ -5,6 +5,21 @@ from files.__main__ import db_session
 from random import randint
 
 def get_logged_in_user():
+
+	if not session.get("session_id"):
+		session["session_id"] = secrets.token_hex(49)
+
+	sessions = cache.get(f'{SITE}_sessions') or {}
+	sessions[session["session_id"]] = g.timestamp
+
+	counter = 0
+	for val in sessions.values():
+		if g.timestamp - val < 60:
+			counter += 1
+	g.counter = counter
+
+	cache.set(f'{SITE}_sessions', sessions)
+
 	if not (hasattr(g, 'db') and g.db): g.db = db_session()
 
 	v = None

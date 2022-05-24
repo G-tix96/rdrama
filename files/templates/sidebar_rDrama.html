@@ -13,6 +13,8 @@
 		<img class="mb-4" alt="sidebar image" role="button" data-bs-toggle="modal" data-bs-target="#expandImageModal" onclick="expandDesktopImage('{{image}}')" loading="lazy" src="{{image}}" width=100%>
 	{% endif %}
 
+	{{g.counter}} USERS HERE NOW<br><br>
+	
 	{% if sub %}
 		{% if sub.sidebar_html %}
 			<div class="mb-4">{{sub.sidebar_html|safe}}</div>
