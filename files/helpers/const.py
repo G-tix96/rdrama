@@ -54,9 +54,8 @@ if SITE_NAME == 'rDrama':
 		"fag": "cute twink",
 		"pedophile": "libertarian",
 		"kill yourself": "keep yourself safe",
-		"n1gger": "BIPOC",
-		"nlgger": "BIPOC",
 		"nigger": "BIPOC",
+		"niglet": "BIPOClet",
 		"steve akins": "penny verity oaken",
 		"trannie": "🚂🚃🚃",
 		"tranny": "🚂🚃🚃",
@@ -408,7 +407,7 @@ AWARDS = {
 		"description": "Makes flies swarm the post.",
 		"icon": "fas fa-poop",
 		"color": "text-black-50",
-		"price": 300
+		"price": 500
 	},
 	"fireflies": {
 		"kind": "fireflies",
@@ -416,7 +415,7 @@ AWARDS = {
 		"description": "Makes fireflies swarm the post.",
 		"icon": "fas fa-sparkles",
 		"color": "text-warning",
-		"price": 300
+		"price": 500
 	},
 	"train": {
 		"kind": "train",
@@ -424,7 +423,7 @@ AWARDS = {
 		"description": "Summons a train on the post.",
 		"icon": "fas fa-train",
 		"color": "text-pink",
-		"price": 300
+		"price": 500
 	},
 	"scooter": {
 		"kind": "scooter",
@@ -432,7 +431,7 @@ AWARDS = {
 		"description": "Summons a scooter on the post.",
 		"icon": "fas fa-flag-usa",
 		"color": "text-muted",
-		"price": 300
+		"price": 500
 	},
 	"wholesome": {
 		"kind": "wholesome",
@@ -440,7 +439,7 @@ AWARDS = {
 		"description": "Summons a wholesome marsey on the post.",
 		"icon": "fas fa-smile-beam",
 		"color": "text-yellow",
-		"price": 300
+		"price": 500
 	},
 	"firework": {
 		"kind": "firework",
@@ -448,7 +447,7 @@ AWARDS = {
 		"description": "Summons fireworks on the post.",
 		"icon": "fas fa-bahai",
 		"color": "text-danger",
-		"price": 300
+		"price": 500
 	},
 	"confetti": {
 		"kind": "confetti",
@@ -456,7 +455,7 @@ AWARDS = {
 		"description": "Summons confetti to fall on the post.",
 		"icon": "fas fa-party-horn",
 		"color": "text-yellow",
-		"price": 300
+		"price": 500
 	},
 	"ricardo": {
 		"kind": "ricardo",
@@ -472,7 +471,7 @@ AWARDS = {
 		"description": "Tilts the post or comment",
 		"icon": "fas fa-car-tilt",
 		"color": "text-blue",
-		"price": 300
+		"price": 500
 	},
 	"glowie": {
         "kind": "glowie",
@@ -480,7 +479,7 @@ AWARDS = {
         "description": "Indicates that the recipient can be seen when driving. Just run them over.",
         "icon": "fas fa-user-secret",
         "color": "text-green",
-        "price": 300
+        "price": 500
     },
 	"rehab": {
 		"kind": "rehab",
@@ -936,7 +935,7 @@ image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/([a-z0-9-]+\.)*({hosts})\
 embed_fullmatch_regex = re.compile(f'https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*', flags=re.A)
 
 video_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp4|webm|mov))', flags=re.A)
-audio_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp3|wav|ogg|aac|m4a))', flags=re.A)
+audio_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp3|wav|ogg|aac|m4a|flac))', flags=re.A)
 
 imgur_regex = re.compile('(https://i\.imgur\.com/([a-z0-9]+))\.(jpg|png|jpeg|webp)(?!<\/(code|pre|a)>)', flags=re.I|re.A)
 

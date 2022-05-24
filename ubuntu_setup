@@ -2,11 +2,17 @@ update-locale LANG=en_US.utf8
 cd /rDrama
 cp ./env /env
 . /env
-apt update
+apt -y update
 apt -y upgrade
-apt -y install git postgresql postgresql-contrib redis-server python3-pip libenchant1c2a ffmpeg tmux nginx snapd ufw
-cp pg_hba.conf /etc/postgresql/12/main/pg_hba.conf
+apt -y install git redis-server python3-pip libenchant1c2a ffmpeg tmux nginx snapd ufw
+
+sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+apt -y update
+apt -y install postgresql-14
+cp pg_hba.conf /etc/postgresql/14/main/pg_hba.conf
 service postgresql restart
+
 # psql -U postgres -f schema.sql postgres
 # psql -U postgres -f seed-db.sql postgres
 pip3 install -r requirements.txt

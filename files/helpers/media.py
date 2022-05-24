@@ -10,7 +10,7 @@ from .const import *
 
 
 def process_audio(file):
-	name = f'/audio/{time.time()}'.replace('.','') + '.mp3'
+	name = f'/audio/{time.time()}'.replace('.','') + '.' + file.filename.split('.')[-1]
 	file.save(name)
 
 	if SITE_NAME == 'WPD' or os.stat(name).st_size > 8 * 1024 * 1024:
@@ -28,7 +28,7 @@ def process_video(file):
 
 	os.system(f'ffmpeg -y -loglevel warning -i {name} -map_metadata -1 -c:v copy -c:a copy {name}.mp4')
 	os.remove(name)
-	name += '.mp4'
+	name += '.' + file.filename.split('.')[-1]
 
 	size = os.stat(name).st_size
 	if SITE_NAME == 'WPD' or os.stat(name).st_size > 8 * 1024 * 1024:

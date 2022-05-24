@@ -473,7 +473,7 @@ def static_service(path):
 @app.get("/static/images/<path>")
 @limiter.exempt
 def images(path):
-	resp = make_response(send_from_directory('/images', path.replace('.WEBP','.webp')))
+	resp = make_response(send_from_directory('/images', path))
 	resp.headers.remove("Cache-Control")
 	resp.headers.add("Cache-Control", "public, max-age=3153600")
 	resp.headers.remove("Content-Type")
@@ -483,21 +483,17 @@ def images(path):
 @app.get('/videos/<path>')
 @limiter.exempt
 def videos(path):
-	resp = make_response(send_from_directory('/videos', path.replace('.MP4','.mp4')))
+	resp = make_response(send_from_directory('/videos', path))
 	resp.headers.remove("Cache-Control")
 	resp.headers.add("Cache-Control", "public, max-age=3153600")
-	resp.headers.remove("Content-Type")
-	resp.headers.add("Content-Type", "video/mp4")
 	return resp
 
 @app.get('/audio/<path>')
 @limiter.exempt
 def audio(path):
-	resp = make_response(send_from_directory('/audio', path.replace('.mp3','.mp3')))
+	resp = make_response(send_from_directory('/audio', path))
 	resp.headers.remove("Cache-Control")
 	resp.headers.add("Cache-Control", "public, max-age=3153600")
-	resp.headers.remove("Content-Type")
-	resp.headers.add("Content-Type", "audio/mpeg")
 	return resp
 
 @app.get("/robots.txt")
