@@ -24,14 +24,13 @@ def process_audio(file):
 
 def process_video(file):
 	old = f'/videos/{time.time()}'.replace('.','')
-	file.save(old)
-
 	extension = file.content_type.split('/')[1]
 	new = old + '.' + extension
 
 	if extension == 'webm':
-		os.rename(old, new)
+		file.save(new)
 	else:
+		file.save(old)
 		os.system(f'ffmpeg -y -loglevel warning -i {old} -map_metadata -1 -c:v copy -c:a copy {new}')
 		os.remove(old)
 
