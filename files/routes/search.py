@@ -55,12 +55,12 @@ def searchposts(v):
 
 
 
-	posts = g.db.query(Submission.id)
+	posts = g.db.query(Submission.id).filter(Submission.author_id.notin_(v.userblocks))
 	
 	if not v.paid_dues: posts = posts.filter_by(club=False)
 	
 	if v.admin_level < 2:
-		posts = posts.filter(Submission.deleted_utc == 0, Submission.is_banned == False, Submission.private == False, Submission.author_id.notin_(v.userblocks))
+		posts = posts.filter(Submission.deleted_utc == 0, Submission.is_banned == False, Submission.private == False)
 
 	
 
@@ -188,7 +188,7 @@ def searchcomments(v):
 
 	criteria = searchparse(query)
 
-	comments = g.db.query(Comment.id).filter(Comment.parent_submission != None)
+	comments = g.db.query(Comment.id).filter(Comment.parent_submission != None, Comment.author_id.notin_(v.userblocks))
 
 	if 'author' in criteria:
 		comments = comments.filter(Comment.ghost == False)
@@ -230,7 +230,7 @@ def searchcomments(v):
 	if v.admin_level < 2:
 		private = [x[0] for x in g.db.query(Submission.id).filter(Submission.private == True).all()]
 
-		comments = comments.filter(Comment.author_id.notin_(v.userblocks), Comment.is_banned==False, Comment.deleted_utc == 0, Comment.parent_submission.notin_(private))
+		comments = comments.filter(Comment.is_banned==False, Comment.deleted_utc == 0, Comment.parent_submission.notin_(private))
 
 
 	if not v.paid_dues:

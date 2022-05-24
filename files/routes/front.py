@@ -335,7 +335,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	if (sort == "hot" or (v and v.id == Q_ID)) and ccmode == "false" and not gt and not lt:
 		posts = posts.filter_by(stickied=None)
 
-	if v and v.admin_level < 2:
+	if v:
 		posts = posts.filter(Submission.author_id.notin_(v.userblocks))
 
 	if not (v and v.changelogsub):
@@ -384,8 +384,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 		if sub: pins = pins.filter_by(sub=sub.name)
 		elif v:
 			pins = pins.filter(or_(Submission.sub == None, Submission.sub.notin_(v.all_blocks)))
-			if v.admin_level < 2:
-				pins = pins.filter(Submission.author_id.notin_(v.userblocks))
+			pins = pins.filter(Submission.author_id.notin_(v.userblocks))
 
 		pins = pins.all()
 
@@ -435,10 +434,9 @@ def changelog(v):
 @cache.memoize(timeout=86400)
 def changeloglist(v=None, sort="new", page=1, t="all", site=None):
 
-	posts = g.db.query(Submission.id).filter_by(is_banned=False, private=False,).filter(Submission.deleted_utc == 0)
+	posts = g.db.query(Submission.id).filter_by(is_banned=False, private=False, deleted_utc=0)
 
-	if v.admin_level < 2:
-		posts = posts.filter(Submission.author_id.notin_(v.userblocks))
+	posts = posts.filter(Submission.author_id.notin_(v.userblocks))
 
 	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level > 0).all()]
 	posts = posts.filter(Submission.title.ilike('_changelog%'), Submission.author_id.in_(admins))
@@ -540,12 +538,12 @@ def all_comments(v):
 @cache.memoize(timeout=86400)
 def comment_idlist(page=1, v=None, nsfw=False, sort="new", t="all", gt=0, lt=0, site=None):
 
-	comments = g.db.query(Comment.id).filter(Comment.parent_submission != None)
+	comments = g.db.query(Comment.id).filter(Comment.parent_submission != None, Comment.author_id.notin_(v.userblocks))
 
 	if v.admin_level < 2:
 		private = [x[0] for x in g.db.query(Submission.id).filter(Submission.private == True).all()]
 
-		comments = comments.filter(Comment.author_id.notin_(v.userblocks), Comment.is_banned==False, Comment.deleted_utc == 0, Comment.parent_submission.notin_(private))
+		comments = comments.filter(Comment.is_banned==False, Comment.deleted_utc == 0, Comment.parent_submission.notin_(private))
 
 
 	if not v.paid_dues:
