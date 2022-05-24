@@ -10,7 +10,7 @@ from .const import *
 
 
 def process_audio(file):
-	name = f'/audio/{time.time()}'.replace('.','') + '.' + file.content_type.split('/')[1]
+	name = f'/audio/{time.time()}'.replace('.','') + '.' + file.filename.split('.')[-1].lower()
 	file.save(name)
 
 	if SITE_NAME == 'WPD' or os.stat(name).st_size > 8 * 1024 * 1024:
@@ -24,7 +24,7 @@ def process_audio(file):
 
 def process_video(file):
 	old = f'/videos/{time.time()}'.replace('.','')
-	extension = file.content_type.split('/')[1]
+	extension = file.filename.split('.')[-1]
 	new = old + '.' + extension
 
 	if extension == 'webm':
