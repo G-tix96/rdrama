@@ -787,6 +787,34 @@ def settings_name_change(v):
 
 	return redirect("/settings/profile")
 
+
+
+@app.post("/settings/song_change_mp3")
+@limiter.limit("3/second;10/day")
+@limiter.limit("3/second;10/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@auth_required
+def settings_song_change_mp3(v):
+
+	file = request.files['file']
+	if file.content_type != 'audio/mpeg':
+		return render_template("settings_profile.html", v=v, error="Not a valid MP3 file")
+
+	name = f'/songs/{v.id}.mp3'
+	file.save(name)
+
+	size = os.stat(name).st_size
+	if size > 8 * 1024 * 1024:
+		os.remove(name)
+		return render_template("settings_profile.html", v=v, error="MP3 file must be smaller than 8MB")
+
+	v.song = v.id
+	g.db.add(v)
+	g.db.commit()
+
+	return redirect("/settings/profile")
+
+
+
 @app.post("/settings/song_change")
 @limiter.limit("3/second;10/day")
 @limiter.limit("3/second;10/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
