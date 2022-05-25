@@ -6,23 +6,6 @@ from random import randint
 
 def get_logged_in_user():
 
-	if not session.get("session_id"):
-		session.permanent = True
-		session["session_id"] = secrets.token_hex(49)
-
-	timestamp = int(time.time())
-
-	sessions = cache.get(f'{SITE}_sessions') or {}
-	sessions[session["session_id"]] = timestamp
-
-	counter = 0
-	for val in sessions.values():
-		if timestamp - val < 15*60:
-			counter += 1
-	g.counter = counter
-
-	cache.set(f'{SITE}_sessions', sessions)
-
 	if not (hasattr(g, 'db') and g.db): g.db = db_session()
 
 	v = None
@@ -52,6 +35,31 @@ def get_logged_in_user():
 
 	if request.method.lower() != "get" and app.config['SETTINGS']['Read-only mode'] and not (v and v.admin_level):
 		abort(403)
+
+
+
+
+	if not session.get("session_id"):
+		session.permanent = True
+		session["session_id"] = secrets.token_hex(49)
+	
+	sessions = cache.get(f'{SITE}_sessions') or {}
+
+	timestamp = int(time.time())
+
+	sessions[session["session_id"]] = (bool(v), timestamp)
+
+	g.loggedin_counter = 0
+	g.loggedout_counter = 0
+
+	for val in sessions.values():
+		if timestamp - val[1] < 15*60:
+			if val[0]: g.loggedin_counter += 1
+			else: g.loggedout_counter += 1
+
+
+	cache.set(f'{SITE}_sessions', sessions)
+
 
 	return v
 

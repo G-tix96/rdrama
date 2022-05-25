@@ -10,10 +10,10 @@
 	</style>
 
 	<div class="srd">
-		{%- if SITE_NAME == 'rDrama' -%}
-		{% include "journoid_banner.html" %}
+		{% if SITE == 'rdrama.net' %}
+			{% include "journoid_banner.html" %}
 		{%- else -%}
-		<i class="fas fa-globe px-1"></i> {{g.counter}} PEOPLE HERE NOW
+			<i class="fas fa-globe px-1"></i> PEOPLE HERE NOW: {{g.loggedin_counter}} logged in, {{g.loggedout_counter}} logged out
 		{%- endif -%}
 	</div>
 
