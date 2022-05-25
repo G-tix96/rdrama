@@ -933,7 +933,8 @@ approved_embed_hosts = [
 	'googleapis.com',
 	'bing.com',
 	'typekit.net',
-	'postimg.cc'
+	'postimg.cc',
+	'archive.org'
 	]
 
 hosts = "|".join(approved_embed_hosts).replace('.','\.')
