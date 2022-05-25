@@ -337,7 +337,7 @@ def sign_up_post(v):
 		)
 
 	g.db.add(new_user)
-	g.db.flush()
+	g.db.commit()
 
 	if ref_id:
 		ref_user = g.db.query(User).filter_by(id=ref_id).one_or_none()
