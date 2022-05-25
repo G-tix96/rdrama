@@ -129,6 +129,7 @@ AGENDAPOSTER_PHRASE = 'trans lives matter'
 AGENDAPOSTER_MSG = """Hi @{username},\n\nYour {type} has been automatically removed because you forgot to include `{AGENDAPOSTER_PHRASE}`.\n\nDon't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards the trans community. Feel free to resubmit your {type} with `{AGENDAPOSTER_PHRASE}` included. \n\n*This is an automated message; if you need help, you can message us [here](/contact).*"""
 
 if SITE in {'rdrama.net','devrama.xyz'}:
+	HOLE_COST = 200000
 	NOTIFICATIONS_ID = 1046
 	AUTOJANNY_ID = 2360
 	SNAPPY_ID = 261
@@ -173,6 +174,7 @@ if SITE in {'rdrama.net','devrama.xyz'}:
 		"7": "886781932430565418",
 	}
 elif SITE == "pcmemes.net":
+	HOLE_COST = 10000
 	NOTIFICATIONS_ID = 1046
 	AUTOJANNY_ID = 1050
 	SNAPPY_ID = 261
@@ -206,6 +208,7 @@ elif SITE == "pcmemes.net":
 	WELCOME_MSG = "Welcome to pcmemes.net! Don't forget to turn off the slur filter [here](/settings/content#slurreplacer)"
 	ROLES={}
 elif SITE == 'cringetopia.org':
+	HOLE_COST = 10000
 	NOTIFICATIONS_ID = 1
 	AUTOJANNY_ID = 2
 	SNAPPY_ID = 3
@@ -250,6 +253,7 @@ elif SITE == 'cringetopia.org':
 		"7": "886781932430565418",
 	}
 else:
+	HOLE_COST = 10000
 	NOTIFICATIONS_ID = 1
 	AUTOJANNY_ID = 2
 	SNAPPY_ID = 3
