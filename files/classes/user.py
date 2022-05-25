@@ -89,6 +89,7 @@ class User(Base):
 	unmutable = Column(Boolean)
 	eye = Column(Boolean)
 	alt = Column(Boolean)
+	profileeye = Column(Boolean)
 	frontsize = Column(Integer, default=25)
 	controversial = Column(Boolean, default=False)
 	bio = deferred(Column(String))
@@ -216,7 +217,11 @@ class User(Base):
 			if self.has_badge(badge): discount -= discounts[badge]
 
 		return discount
-		
+	
+	@property
+	@lazy
+	def can_see_visitors(self):
+		return self.admin_level >= 2 or self.patron or self.profileeye
 
 	@property
 	@lazy
