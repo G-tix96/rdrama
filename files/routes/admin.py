@@ -30,7 +30,7 @@ def loggedin_list(v):
 	ids = cache.get(f'{SITE}_loggedin').keys()
 	users = g.db.query(User).filter(User.id.in_(ids)) \
 		.order_by(User.admin_level.desc(), User.truecoins.desc()).all()
-	return render_template("agendaposters.html", v=v, users=users)
+	return render_template("loggedin.html", v=v, users=users)
 
 
 @app.get('/admin/merge/<id1>/<id2>')
