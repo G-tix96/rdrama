@@ -1366,6 +1366,9 @@ def submit_post(v, sub=None):
 		post.upvotes += 3
 		g.db.add(post)
 
+	if request.host == 'rdrama.net' and v.id == CARP_ID:
+		send_repeatable_notification(AEVANN_ID, post.permalink)
+
 	g.db.commit()
 
 	cache.delete_memoized(frontlist)

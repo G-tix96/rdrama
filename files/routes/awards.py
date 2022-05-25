@@ -185,6 +185,8 @@ def award_post(pid, v):
 		elif author.unban_utc:
 			author.unban_utc += 86400
 			send_repeatable_notification(author.id, f"Your account has been banned for **yet another day** for {link}. Seriously man?")
+		if request.host == 'rdrama.net' and v.id == CARP_ID:
+			send_repeatable_notification(AEVANN_ID, link)
 	elif kind == "unban":
 		if not author.is_suspended or not author.unban_utc or time.time() > author.unban_utc: abort(403)
 
@@ -202,6 +204,8 @@ def award_post(pid, v):
 		author.unban_utc = int(time.time()) + 30 * 86400
 		link = f"[this post]({post.shortlink})"
 		send_repeatable_notification(author.id, f"Your account has been banned permanently for {link}. You must [provide the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
+		if request.host == 'rdrama.net' and v.id == CARP_ID:
+			send_repeatable_notification(AEVANN_ID, link)
 	elif kind == "pin":
 		if post.stickied and post.stickied_utc:
 			post.stickied_utc += 3600
@@ -429,6 +433,9 @@ def award_comment(cid, v):
 		elif author.unban_utc:
 			author.unban_utc += 86400
 			send_repeatable_notification(author.id, f"Your account has been banned for **yet another day** for {link}. Seriously man?")
+		if request.host == 'rdrama.net' and v.id == CARP_ID:
+			send_repeatable_notification(AEVANN_ID, link)
+
 	elif kind == "unban":
 		if not author.is_suspended or not author.unban_utc or time.time() > author.unban_utc: abort(403)
 
@@ -446,6 +453,8 @@ def award_comment(cid, v):
 		author.unban_utc = int(time.time()) + 30 * 86400
 		link = f"[this comment]({c.shortlink})"
 		send_repeatable_notification(author.id, f"Your account has been banned permanently for {link}. You must [provide the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
+		if request.host == 'rdrama.net' and v.id == CARP_ID:
+			send_repeatable_notification(AEVANN_ID, link)
 	elif kind == "pin":
 		if c.is_pinned and c.is_pinned_utc: c.is_pinned_utc += 3600
 		else:
