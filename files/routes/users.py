@@ -867,7 +867,8 @@ def following(username, v):
 @app.get("/views")
 @auth_required
 def visitors(v):
-	if v.admin_level < 2 and not v.patron: return render_template("errors/patron.html", v=v)
+	if not v.can_see_visitors: 
+		return render_template("errors/patron.html", v=v)
 	viewers=sorted(v.viewers, key = lambda x: x.last_view_utc, reverse=True)
 	return render_template("viewers.html", v=v, viewers=viewers)
 

@@ -229,7 +229,7 @@
 
 					{% elif v and v.id == u.id %}
 						<a href="/settings/profile" class="btn btn-secondary">Edit profile</a>
-						<a href="/views" class="btn btn-secondary">Profile views</a>
+						{% if v.can_see_visitors %}<a href="/views" class="btn btn-secondary">Profile views</a>{% endif %}
 					{% endif %}
 
 					{% if u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
@@ -479,7 +479,7 @@
 				</div>
 				{% if v and v.id == u.id %}
 					<a href="/settings/profile" class="btn btn-secondary ">Edit profile</a>
-					<a href="/views" class="btn btn-secondary">Profile views</a>
+					{% if v.can_see_visitors %}<a href="/views" class="btn btn-secondary">Profile views</a>{% endif %}
 				{% endif %}
 
 				{% if u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
