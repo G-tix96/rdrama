@@ -585,7 +585,7 @@ def thumbnail_thread(pid):
 			return f"https://{fragment_url.split('https://')[1]}"
 		elif fragment_url.startswith('//'):
 			return f"https:{fragment_url}"
-		elif fragment_url.startswith('/') and '\\' not in url:
+		elif fragment_url.startswith('/') and '\\' not in fragment_url:
 			parsed_url = urlparse(post_url)
 			return f"https://{parsed_url.netloc}{fragment_url}"
 		else:
@@ -601,7 +601,7 @@ def thumbnail_thread(pid):
 	
 	fetch_url = post.url
 
-	if fetch_url.startswith('/') and '\\' not in url:
+	if fetch_url.startswith('/') and '\\' not in fetch_url:
 		fetch_url = f"{SITE_FULL}{fetch_url}"
 
 	headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
