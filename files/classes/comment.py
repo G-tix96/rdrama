@@ -218,9 +218,9 @@ class Comment(Base):
 	def replies(self):
 		if self.replies2 != None: return [x for x in self.replies2 if not x.author.shadowbanned]
 		if not self.parent_submission:
-			return self.child_comments.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None).order_by(Comment.id).all()
-		return self.child_comments.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID))).order_by(Comment.realupvotes.desc()).all()
-
+			return [x for x in self.child_comments.order_by(Comment.id) if not x.author.shadowbanned]
+		return [x for x in self.child_comments.filter(Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID))).order_by(Comment.realupvotes.desc()) if not x.author.shadowbanned]
+		
 
 	@property
 	def replies3(self):
