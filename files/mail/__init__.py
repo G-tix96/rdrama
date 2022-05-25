@@ -61,6 +61,7 @@ def activate(v):
 
 
 	id = request.values.get("id", "").strip()
+	if not id: abort(400)
 	timestamp = int(request.values.get("time", "0"))
 	token = request.values.get("token", "").strip()
 
