@@ -18,7 +18,8 @@
 	{%- if users12 %}<a href="#leaderboard-marseys">Marseys</a> &bull; {% endif -%}
 	{%- if users13 %}<a href="#leaderboard-upgiven">Upvotes Given</a> &bull; {% endif -%}
 	<a href="#leaderboard-winnings">Winnings</a> &bull; 
-	<a href="#leaderboard-losses">Losses</a>
+	<a href="#leaderboard-losses">Losses</a> &bull; 
+	<a href="#leaderboard-blocked">Blocked</a>
 </div>
 
 <h5 style="font-weight:bold;text-align: center"><a id="leaderboard-coins">Top 25 by coins</a></h5>
@@ -491,6 +492,30 @@
 		<td>{{v.winnings}}</td>
 	</tr>
 {% endif %}
+</table>
+
+
+<pre>
+
+
+</pre>
+<h5 style="font-weight:bold;text-align: center"><a id="leaderboard-blocked">Top 25 Most Blocked</a></h5>
+<pre></pre>
+<div class="overflow-x-auto"><table class="table table-striped mb-5">
+<thead class="bg-primary text-white">
+	<tr>
+		<th>#</th>
+		<th>Name</th>
+		<th>Blocked By</th>
+	</tr>
+</thead>
+{% for user in usersBlk %}
+	<tr {% if v.id == user.id %}class="self"{% endif %}>
+		<td>{{loop.index}}</td>
+		<td><a style="color:#{{user.namecolor}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.namecolor}}"{% endif %}>{{user.username}}</span></a></td>
+		<td>{{user.blocked_by}}</td>
+	</tr>
+{% endfor %}
 </table>
 
 

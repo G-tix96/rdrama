@@ -9,6 +9,7 @@ from files.helpers.const import *
 from files.mail import *
 from flask import *
 from files.__main__ import app, limiter, db_session
+import sqlalchemy
 from pusher_push_notifications import PushNotifications
 from collections import Counter
 import gevent
@@ -537,7 +538,15 @@ def leaderboard(v):
 	sq = g.db.query(User.id, func.rank().over(order_by=User.winnings).label("rank")).subquery()
 	pos15 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
 
-	return render_template("leaderboard.html", v=v, users1=users1, pos1=pos1, users2=users2, pos2=pos2, users3=users3, pos3=pos3, users4=users4, pos4=pos4, users5=users5, pos5=pos5, users6=users6, pos6=pos6, users7=users7, pos7=pos7, users9=users9_25, pos9=pos9, users10=users10, pos10=pos10, users11=users11, pos11=pos11, users12=users12, pos12=pos12, users13=users13_25, pos13=pos13, users14=users14, pos14=pos14, users15=users15, pos15=pos15)
+	usersBlk = g.db.query(UserBlock.target_id, func.count().label('blocked_by')) \
+				 .group_by(UserBlock.target_id).order_by(sqlalchemy.desc('blocked_by')).limit(25).all()
+
+	return render_template("leaderboard.html", v=v, users1=users1, pos1=pos1, users2=users2, pos2=pos2, 
+		users3=users3, pos3=pos3, users4=users4, pos4=pos4, users5=users5, pos5=pos5, 
+		users6=users6, pos6=pos6, users7=users7, pos7=pos7, users9=users9_25, pos9=pos9, 
+		users10=users10, pos10=pos10, users11=users11, pos11=pos11, users12=users12, pos12=pos12, 
+		users13=users13_25, pos13=pos13, users14=users14, pos14=pos14, users15=users15, pos15=pos15,
+		usersBlk=usersBlk)
 
 @app.get("/@<username>/css")
 def get_css(username):
