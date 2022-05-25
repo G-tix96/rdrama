@@ -15,7 +15,6 @@ lxml
 mistletoe
 matplotlib
 Pillow
-psutil
 pyotp
 qrcode
 redis
