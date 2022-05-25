@@ -3,8 +3,6 @@
 # update-locale LC_ALL=en_US.utf8
 # reboot
 git config --global credential.helper store
-git config --global user.name "Aevann1"
-git config --global user.email "randomname42029@gmail.com"
 cd /rDrama
 cp ./env /env
 . /env
