@@ -21,7 +21,7 @@ class Flag(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<Flag(id={self.id})>"
+		return f"<Flag(user_id={self.user_id}, post_id={self.post_id})>"
 
 	@property
 	@lazy
@@ -54,7 +54,7 @@ class CommentFlag(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<CommentFlag(id={self.id})>"
+		return f"<CommentFlag(user_id={self.user_id}, comment_id={self.comment_id})>"
 
 	@property
 	@lazy

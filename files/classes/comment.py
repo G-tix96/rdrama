@@ -91,15 +91,12 @@ class Comment(Base):
 	@property
 	@lazy
 	def options(self):
-		li = [x for x in self.child_comments if x.author_id == AUTOPOLLER_ID]
-		return sorted(li, key=lambda x: x.id)
-
+		return self.child_comments.filter_by(author_id=AUTOPOLLER_ID).order_by(Comment.id).all()
 
 	@property
 	@lazy
 	def choices(self):
-		li = [x for x in self.child_comments if x.author_id == AUTOCHOICE_ID]
-		return sorted(li, key=lambda x: x.id)
+		return self.child_comments.filter_by(author_id=AUTOCHOICE_ID).order_by(Comment.id).all()
 
 
 	def total_poll_voted(self, v):
@@ -221,15 +218,17 @@ class Comment(Base):
 	def replies(self):
 		if self.replies2 != None: return [x for x in self.replies2 if not x.author.shadowbanned]
 		if not self.parent_submission:
-			return sorted((x for x in self.child_comments if x.author and not x.author.shadowbanned), key=lambda x: x.created_utc)
-		return sorted((x for x in self.child_comments if x.author and not x.author.shadowbanned and x.author_id not in (AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)), key=lambda x: x.realupvotes, reverse=True)
+			return self.child_comments.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None).order_by(Comment.id).all()
+		return self.child_comments.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID))).order_by(Comment.realupvotes.desc()).all()
+
 
 	@property
 	def replies3(self):
 		if self.replies2 != None: return self.replies2
 		if not self.parent_submission:
-			return sorted(self.child_comments, key=lambda x: x.created_utc)
-		return sorted((x for x in self.child_comments if x.author_id not in (AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)), key=lambda x: x.realupvotes, reverse=True)
+			return self.child_comments.order_by(Comment.id).all()
+		return self.child_comments.filter(Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID))).order_by(Comment.realupvotes.desc()).all()
+
 
 	@property
 	def replies2(self):

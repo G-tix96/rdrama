@@ -188,7 +188,7 @@ class User(Base):
 	@property
 	@lazy
 	def is_cakeday(self):
-		if time.time() - self.created_utc > 365 * 86400:
+		if self.created_utc and time.time() - self.created_utc > 365 * 86400:
 			if not self.has_badge(134):
 				new_badge = Badge(badge_id=134, user_id=self.id)
 				g.db.add(new_badge)
@@ -602,7 +602,7 @@ class User(Base):
 	@property
 	@lazy
 	def applications(self):
-		return g.db.query(OauthApp).filter_by(author_id=self.id).order_by(OauthApp.id)
+		return g.db.query(OauthApp).filter_by(author_id=self.id).order_by(OauthApp.id).all()
 
 	@property
 	@lazy

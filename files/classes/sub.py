@@ -20,7 +20,7 @@ class Sub(Base):
 	bannerurl = Column(String)
 	css = Column(String)
 
-	blocks = relationship("SubBlock", lazy="dynamic", primaryjoin="SubBlock.sub==Sub.name", viewonly=True)
+	blocks = relationship("SubBlock", primaryjoin="SubBlock.sub==Sub.name", viewonly=True)
 
 
 	def __repr__(self):
@@ -46,4 +46,4 @@ class Sub(Base):
 	@property
 	@lazy
 	def block_num(self):
-		return self.blocks.count()
+		return len(self.blocks)
