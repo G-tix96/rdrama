@@ -70,10 +70,12 @@
 		<label class="custom-control-label" for="bots">Bots</label>
 	</div>
 
+	{% if SITE_NAME == 'rDrama' %}
 	<div class="custom-control custom-switch">
 		<input autocomplete="off" type="checkbox" class="custom-control-input" id="Fart mode" {% if site_settings['Fart mode']  %}checked{% endif %} onchange="post_toast(this,'/admin/site_settings/Fart mode');">
 		<label class="custom-control-label" for="Fart mode">Fart mode</label>
 	</div>
+	{% endif %}
 
 	<div class="custom-control custom-switch">
 		<input autocomplete="off" type="checkbox" class="custom-control-input" id="Read-only mode" {% if site_settings['Read-only mode']  %}checked{% endif %} onchange="post_toast(this,'/admin/site_settings/Read-only mode');">
