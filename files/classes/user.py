@@ -514,7 +514,7 @@ class User(Base):
 	@property
 	@lazy
 	def profile_url(self):
-		if self.agendaposter: return f"{SITE_FULL}/assets/images/astolfo.webp?v=1"
+		if self.agendaposter: return f"{SITE_FULL}/assets/images/pfps/agendaposter/{random.randint(1, 57)}.webp?v=1"
 		if self.profileurl: 
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl
