@@ -38,7 +38,7 @@ set VISITORS_HERE_FLAVOR = [
 
 	<div style="font-size: 1rem; margin-bottom: 1rem;">
 		<img src="/e/marseylowpoly.webp" style="height: 1.5em;">
-		<span style="display: inline;">{{g.counter}} {{ VISITORS_HERE_FLAVOR|random|safe }}</span>
+		<span style="display: inline;">PEOPLE HERE NOW: {{g.loggedin_counter}} logged in, {{g.loggedout_counter}} logged out</span>
 	</div>
 
 	{% if sub %}
