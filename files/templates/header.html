@@ -9,7 +9,13 @@
 		}
 	</style>
 
-	{% include "journoid_banner.html" %}
+	<div class="srd">
+		{%- if SITE_NAME == 'rDrama' -%}
+		{% include "journoid_banner.html" %}
+		{%- else -%}
+		<i class="fas fa-globe px-1"></i> {{g.counter}} PEOPLE HERE NOW
+		{%- endif -%}
+	</div>
 
 		<div class="navbar navbar-expand-md navbar-light" id="navbar">
 			<div class="container-fluid" style="padding:0;">
