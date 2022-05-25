@@ -477,7 +477,6 @@
 						{% endif %}
 					{% endfor %}
 				</div>
-				<div id="profile--actionbtns">
 				{% if v and v.id == u.id %}
 					<a href="/settings/profile" class="btn btn-secondary ">Edit profile</a>
 					<a href="/views" class="btn btn-secondary">Profile views</a>
@@ -510,7 +509,6 @@
 							<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/revert_actions')">Revert admin actions</a>
 						{% endif %}
 					{% endif %}
-				</div>
 
 					<form class="d-none toggleable" id='message-mobile' action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
 						<pre></pre>
