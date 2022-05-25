@@ -36,8 +36,10 @@ set VISITORS_HERE_FLAVOR = [
 		<img class="mb-4" alt="sidebar image" role="button" data-bs-toggle="modal" data-bs-target="#expandImageModal" onclick="expandDesktopImage('{{image}}')" loading="lazy" src="{{image}}" width=100%>
 	{% endif %}
 
-	<div style="font-size: 1rem; margin-bottom: 1rem;">
-		<span style="display: inline;">People here now: {{g.loggedin_counter}} logged in, {{g.loggedout_counter}} logged out</span>
+	<div class="text-center text-lg mb-4 font-weight-bold">
+		<img src="/e/marseylowpoly.webp" style="height: 1.5em;">
+		<span>PEOPLE HERE NOW</span>
+		<p class="mt-1 text-lg">{{g.loggedin_counter}} logged in, {{g.loggedout_counter}} logged out</p>
 	</div>
 
 	{% if sub %}
