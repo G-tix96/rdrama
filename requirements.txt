@@ -21,6 +21,7 @@ qrcode
 redis
 requests
 SQLAlchemy
+tinycss2
 tldextract
 psycopg2-binary
 pusher_push_notifications

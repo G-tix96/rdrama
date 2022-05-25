@@ -8,7 +8,7 @@ cp ./env /env
 . /env
 apt -y update
 apt -y upgrade
-apt -y install git redis-server python3-pip libenchant1c2a ffmpeg tmux nginx snapd ufw
+apt -y install git redis-server python3-pip libenchant1c2a ffmpeg tmux nginx snapd ufw gpg-agent
 
 sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
@@ -16,9 +16,11 @@ apt -y update
 apt -y install postgresql-14
 sudo rm /etc/postgresql/14/main/pg_hba.conf
 sudo cp pg_hba.conf /etc/postgresql/14/main/pg_hba.conf
-chown postgres:postgres /etc/postgresql/14/main/pg_hba.conf
 service postgresql restart
+chown postgres:postgres /etc/postgresql/14/main/pg_hba.conf
 
+sudo rm /etc/nginx/sites-available -r
+sudo rm /etc/nginx/sites-enabled/default
 # psql -U postgres -f schema.sql postgres
 # psql -U postgres -f seed-db.sql postgres
 pip3 install -r requirements.txt
