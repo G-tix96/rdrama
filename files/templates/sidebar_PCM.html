@@ -1,10 +1,5 @@
 <div class="col sidebar text-left d-none d-lg-block pt-3 bg-white" style="max-width:300px">
 
-	<div style="text-align: center; font-size: initial;">
-		<i class="fas fa-globe px-1"></i> {{g.counter}} VISITORS HERE NOW
-	</div>	
-	<br>
-
 	{% if sub %}
 		{% if sub.sidebar_html %}
 			<div class="mb-4">{{sub.sidebar_html|safe}}</div>
