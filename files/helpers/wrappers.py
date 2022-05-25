@@ -75,7 +75,7 @@ def auth_desired(f):
 def auth_required(f):
 
 	def wrapper(*args, **kwargs):
-
+		g.timestamp = int(time.time())
 		v = get_logged_in_user()
 		if not v: abort(401)
 
