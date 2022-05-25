@@ -221,7 +221,7 @@ class User(Base):
 	@property
 	@lazy
 	def can_see_visitors(self):
-		return self.admin_level >= 2 or self.patron or self.profileeye
+		return self.admin_level >= 2 or self.profileeye
 
 	@property
 	@lazy
