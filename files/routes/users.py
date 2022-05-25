@@ -10,6 +10,7 @@ from files.mail import *
 from flask import *
 from files.__main__ import app, limiter, db_session
 import sqlalchemy
+from sqlalchemy import text
 from pusher_push_notifications import PushNotifications
 from collections import Counter
 import gevent
@@ -538,8 +539,10 @@ def leaderboard(v):
 	sq = g.db.query(User.id, func.rank().over(order_by=User.winnings).label("rank")).subquery()
 	pos15 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
 
-	usersBlk = g.db.query(UserBlock.target_id, func.count().label('blocked_by')) \
-				 .group_by(UserBlock.target_id).order_by(sqlalchemy.desc('blocked_by')).limit(25).all()
+	usersBlk = g.db.execute(text('SELECT \
+		blk.target_id, blk.n, users.username, users.namecolor, users.patron \
+		FROM (SELECT target_id, count(target_id) AS n FROM userblocks GROUP BY target_id) AS blk \
+		JOIN users ON users.id = blk.target_id ORDER BY blk.n DESC LIMIT 25'))
 
 	return render_template("leaderboard.html", v=v, users1=users1, pos1=pos1, users2=users2, pos2=pos2, 
 		users3=users3, pos3=pos3, users4=users4, pos4=pos4, users5=users5, pos5=pos5, 
