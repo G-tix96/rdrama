@@ -139,8 +139,6 @@ def login_post():
 	else:
 		abort(400)
 
-	session.permanent = True
-	session["session_id"] = token_hex(49)
 	session["lo_user"] = account.id
 	session["login_nonce"] = account.login_nonce
 	if account.id == AEVANN_ID: session["verified"] = time.time()
@@ -173,7 +171,6 @@ def me(v):
 @auth_required
 def logout(v):
 
-	session.pop("session_id", None)
 	session.pop("lo_user", None)
 
 	return {"message": "Logout successful!"}
@@ -364,8 +361,6 @@ def sign_up_post(v):
 
 	send_notification(new_user.id, WELCOME_MSG)
 
-	session.permanent = True
-	session["session_id"] = token_hex(49)
 	session["lo_user"] = new_user.id
 	
 	g.db.commit()

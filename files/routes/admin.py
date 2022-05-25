@@ -31,7 +31,6 @@ def merge(v, id1, id2):
 	if v.id != AEVANN_ID: abort(403)
 
 	if time.time() - session.get('verified', 0) > 3:
-		session.pop("session_id", None)
 		session.pop("lo_user", None)
 		path = request.path
 		qs = urlencode(dict(request.values))
@@ -91,7 +90,6 @@ def merge_all(v, id):
 	if v.id != AEVANN_ID: abort(403)
 
 	if time.time() - session.get('verified', 0) > 3:
-		session.pop("session_id", None)
 		session.pop("lo_user", None)
 		path = request.path
 		qs = urlencode(dict(request.values))

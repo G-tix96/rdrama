@@ -7,14 +7,17 @@ from random import randint
 def get_logged_in_user():
 
 	if not session.get("session_id"):
+		session.permanent = True
 		session["session_id"] = secrets.token_hex(49)
 
+	timestamp = int(time.time())
+
 	sessions = cache.get(f'{SITE}_sessions') or {}
-	sessions[session["session_id"]] = g.timestamp
+	sessions[session["session_id"]] = timestamp
 
 	counter = 0
 	for val in sessions.values():
-		if g.timestamp - val < 15*60:
+		if timestamp - val < 15*60:
 			counter += 1
 	g.counter = counter
 
@@ -75,7 +78,6 @@ def auth_desired(f):
 def auth_required(f):
 
 	def wrapper(*args, **kwargs):
-		g.timestamp = int(time.time())
 		v = get_logged_in_user()
 		if not v: abort(401)
 
