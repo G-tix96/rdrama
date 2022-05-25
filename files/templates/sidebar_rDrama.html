@@ -1,7 +1,7 @@
 {%-
 set VISITORS_HERE_FLAVOR = [
 	' incels currently stalking roasties',
-	' gooners currently edging to <img src="/e/marseycumjar3.webp" style="height: 1.5em">',
+	' gooners currently edging to <img src="/e/marseycumjar3.webp" style="height: 1.5em;">',
 	' fanboys currently obsessing over Carp',
 	' postmodern obscurantists currently whistling for dogs',
 	' NEETs currently LDARmaxxing',
@@ -36,8 +36,9 @@ set VISITORS_HERE_FLAVOR = [
 		<img class="mb-4" alt="sidebar image" role="button" data-bs-toggle="modal" data-bs-target="#expandImageModal" onclick="expandDesktopImage('{{image}}')" loading="lazy" src="{{image}}" width=100%>
 	{% endif %}
 
-	<div style="text-align: center; font-size: initial; margin-bottom: 1rem;">
-		<i class="fas fa-globe px-1"></i> {{g.counter}} {{ VISITORS_HERE_FLAVOR|random|safe }}
+	<div style="text-align: center; font-size: 1rem; margin-bottom: 1rem;">
+		<img src="/e/marseylowpoly.webp" style="height: 1.5em;">
+		<span style="display: inline;">{{g.counter}} {{ VISITORS_HERE_FLAVOR|random|safe }}</span>
 	</div>
 
 	{% if sub %}
