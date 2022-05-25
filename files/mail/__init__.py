@@ -6,6 +6,7 @@ from urllib.parse import quote
 from files.helpers.security import *
 from files.helpers.wrappers import *
 from files.helpers.const import *
+from files.helpers.get import *
 from files.classes import *
 from files.__main__ import app, mail, limiter
 from flask_mail import Message
@@ -61,7 +62,6 @@ def activate(v):
 
 
 	id = request.values.get("id", "").strip()
-	if not id: abort(400)
 	timestamp = int(request.values.get("time", "0"))
 	token = request.values.get("token", "").strip()
 
@@ -69,12 +69,10 @@ def activate(v):
 		return render_template("message.html", v=v, title="Verification link expired.",
 							   message="That link has expired. Visit your settings to send yourself another verification email."), 410
 
+	user = get_account(id)
+
 	if not validate_hash(f"{email}+{id}+{timestamp}", token):
 		abort(403)
-
-	user = g.db.query(User).filter_by(id=id).one_or_none()
-	if not user:
-		abort(404)
 
 	if user.is_activated and user.email == email:
 		return render_template("message_success.html", v=v, title="Email already verified.", message="Email already verified."), 404
