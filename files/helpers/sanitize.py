@@ -251,7 +251,7 @@ def sanitize(sanitized, alert=False, comment=False, edit=False):
 	for rd in ["://reddit.com", "://new.reddit.com", "://www.reddit.com", "://redd.it", "://libredd.it", "://teddit.net"]:
 		sanitized = sanitized.replace(rd, "://old.reddit.com")
 
-	sanitized = sanitized.replace("nitter.net", "twitter.com").replace("old.reddit.com/gallery", "reddit.com/gallery").replace("https://youtu.be/", "https://youtube.com/watch?v=").replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=").replace("https://streamable.com/", "https://streamable.com/e/").replace("https://youtube.com/shorts/", "https://youtube.com/watch?v=").replace("https://mobile.twitter", "https://twitter").replace("https://m.facebook", "https://facebook").replace("m.wikipedia.org", "wikipedia.org").replace("https://m.youtube", "https://youtube").replace("https://www.youtube", "https://youtube").replace("https://www.twitter", "https://twitter").replace("https://www.instagram", "https://instagram").replace("https://www.tiktok", "https://tiktok")
+	sanitized = normalize_url(sanitized)
 
 	sanitized = sanitized.replace('&amp;','&')
 
@@ -380,3 +380,31 @@ def filter_emojis_only(title, edit=False, graceful=False):
 
 	if len(title) > 1500 and not graceful: abort(400)
 	else: return title
+
+def normalize_url(url):
+	url = url.replace("nitter.net", "twitter.com") \
+			 .replace("old.reddit.com/gallery", "reddit.com/gallery") \
+			 .replace("https://youtu.be/", "https://youtube.com/watch?v=") \
+			 .replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=") \
+			 .replace("https://youtube.com/shorts/", "https://youtube.com/watch?v=") \
+			 .replace("https://mobile.twitter", "https://twitter") \
+			 .replace("https://m.facebook", "https://facebook") \
+			 .replace("m.wikipedia.org", "wikipedia.org") \
+			 .replace("https://m.youtube", "https://youtube") \
+			 .replace("https://www.youtube", "https://youtube") \
+			 .replace("https://www.twitter", "https://twitter") \
+			 .replace("https://www.instagram", "https://instagram") \
+			 .replace("https://www.tiktok", "https://tiktok")
+
+	if "/i.imgur.com/" in url:
+		url = url.replace(".png", ".webp").replace(".jpg", ".webp").replace(".jpeg", ".webp")
+	elif "/media.giphy.com/" in url or "/c.tenor.com/" in url:
+		url = url.replace(".gif", ".webp")
+	elif "/i.ibb.co/" in url:
+		url = url.replace(".png", ".webp").replace(".jpg", ".webp")\
+				 .replace(".jpeg", ".webp").replace(".gif", ".webp")
+
+	if url.startswith("https://streamable.com/") and not url.startswith("https://streamable.com/e/"): 
+		url = url.replace("https://streamable.com/", "https://streamable.com/e/")
+
+	return url
