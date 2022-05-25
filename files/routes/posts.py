@@ -585,7 +585,7 @@ def thumbnail_thread(pid):
 			return f"https://{fragment_url.split('https://')[1]}"
 		elif fragment_url.startswith('//'):
 			return f"https:{fragment_url}"
-		elif fragment_url.startswith('/'):
+		elif fragment_url.startswith('/') and '\\' not in url:
 			parsed_url = urlparse(post_url)
 			return f"https://{parsed_url.netloc}{fragment_url}"
 		else:
@@ -601,7 +601,8 @@ def thumbnail_thread(pid):
 	
 	fetch_url = post.url
 
-	if fetch_url.startswith('/'): fetch_url = f"{SITE_FULL}{fetch_url}"
+	if fetch_url.startswith('/') and '\\' not in url:
+		fetch_url = f"{SITE_FULL}{fetch_url}"
 
 	headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
 
@@ -854,9 +855,11 @@ def api_is_repost():
 @auth_required
 def submit_post(v, sub=None):
 
-	title = request.values.get("title", "").strip()[:500].replace('‎','')
-
 	url = request.values.get("url", "").strip()
+
+	if '\\' in url: abort(400)
+
+	title = request.values.get("title", "").strip()[:500].replace('‎','')
 	
 	body = request.values.get("body", "").strip().replace('‎','')
 
@@ -1516,7 +1519,7 @@ def api_pin_post(post_id, v):
 def get_post_title(v):
 
 	url = request.values.get("url")
-	if not url: abort(400)
+	if not url or '\\' in url: abort(400)
 
 	try: x = requests.get(url, headers=titleheaders, timeout=5, proxies=proxies)
 	except: abort(400)

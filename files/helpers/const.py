@@ -6,6 +6,7 @@ from files.__main__ import db_session
 from files.classes.sub import Sub
 from files.classes.marsey import Marsey
 from flask import request
+import tldextract
 
 SITE = environ.get("DOMAIN", '').strip()
 SITE_NAME = environ.get("SITE_NAME", '').strip()
@@ -875,7 +876,7 @@ proxies = {"http":"http://127.0.0.1:18080","https":"http://127.0.0.1:18080"}
 
 blackjack = environ.get("BLACKJACK", "").strip()
 
-approved_embed_hosts = [
+approved_embed_hosts = {
 	SITE,
 	'rdrama.net',
 	'pcmemes.net',
@@ -935,13 +936,16 @@ approved_embed_hosts = [
 	'typekit.net',
 	'postimg.cc',
 	'archive.org'
-	]
+	}
+
+
+def is_safe_url(url):
+	return '\\' not in url and (url.startswith('/') or tldextract.extract(url).registered_domain in approved_embed_hosts)
+
 
 hosts = "|".join(approved_embed_hosts).replace('.','\.')
 
 image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/([a-z0-9-]+\.)*({hosts})\/|\/)).*?)\)', flags=re.A)
-
-embed_fullmatch_regex = re.compile(f'https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*', flags=re.A)
 
 video_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp4|webm|mov))', flags=re.A)
 audio_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp3|wav|ogg|aac|m4a|flac))', flags=re.A)

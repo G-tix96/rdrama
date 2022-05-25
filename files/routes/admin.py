@@ -660,6 +660,8 @@ def badge_grant_post(v):
 	if desc: new_badge.description = desc
 
 	url = request.values.get("url")
+	if '\\' in url: abort(400)
+
 	if url: new_badge.url = url
 
 	g.db.add(new_badge)

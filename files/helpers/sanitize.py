@@ -53,16 +53,13 @@ def allowed_attributes(tag, name, value):
 		return False
 	
 	if tag == 'a':
-		if name == 'href': return True
+		if name == 'href' and '\\' not in value: return True
 		if name == 'rel' and value == 'nofollow noopener noreferrer': return True
 		if name == 'target' and value == '_blank': return True
 		return False
 
 	if tag == 'img':
-		if name in ['src','data-src']:
-			if value.startswith('/') or value.startswith(f'{SITE_FULL}/') or embed_fullmatch_regex.fullmatch(value): return True
-			else: return False
-
+		if name in ['src','data-src']: return is_safe_url(value)
 		if name == 'loading' and value == 'lazy': return True
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
 		if name in ['g','b'] and not value: return True
@@ -81,13 +78,12 @@ def allowed_attributes(tag, name, value):
 		return False
 
 	if tag == 'source':
-		if name == 'src' and embed_fullmatch_regex.fullmatch(value): return True
-		return False
+		if name == 'src': return is_safe_url(value)
 
 	if tag == 'audio':
+		if name == 'src': return is_safe_url(value)
 		if name == 'controls' and value == '': return True
 		if name == 'preload' and value == 'none': return True
-		if name == 'src' and embed_fullmatch_regex.fullmatch(value): return True
 		return False
 
 	if tag == 'p':
@@ -349,7 +345,7 @@ def sanitize(sanitized, alert=False, comment=False, edit=False):
 def allowed_attributes_emojis(tag, name, value):
 
 	if tag == 'img':
-		if name == 'src' and value.startswith('/'): return True
+		if name == 'src' and value.startswith('/') and '\\' not in value: return True
 		if name == 'loading' and value == 'lazy': return True
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
 		if name == 'g' and not value: return True
