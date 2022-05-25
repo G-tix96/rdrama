@@ -337,7 +337,6 @@ def sign_up_post(v):
 		)
 
 	g.db.add(new_user)
-	g.db.commit()
 
 	if ref_id:
 		ref_user = g.db.query(User).filter_by(id=ref_id).one_or_none()
@@ -359,9 +358,11 @@ def sign_up_post(v):
 				g.db.flush()
 				send_notification(ref_user.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
 
-	check_for_alts(new_user.id)
-
 	if email: send_verification_email(new_user)
+
+	g.db.commit()
+
+	check_for_alts(new_user.id)
 
 	send_notification(new_user.id, WELCOME_MSG)
 
