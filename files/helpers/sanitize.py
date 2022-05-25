@@ -1,5 +1,6 @@
 import bleach
 from bs4 import BeautifulSoup
+from bleach.css_sanitizer import CSSSanitizer
 from bleach.linkifier import LinkifyFilter, build_url_re
 from functools import partial
 from .get import *
@@ -36,6 +37,8 @@ TLDS = ( # Original gTLDs and ccTLDs
 allowed_tags = ('b','blockquote','br','code','del','em','h1','h2','h3','h4','h5','h6','hr','i',
 	'li','ol','p','pre','strong','sub','sup','table','tbody','th','thead','td','tr','ul',
 	'marquee','a','span','ruby','rp','rt','spoiler','img','lite-youtube','video','source','audio')
+
+allowed_styles = ['color', 'background-color', 'font-weight', 'text-align',]
 
 def allowed_attributes(tag, name, value):
 
@@ -298,16 +301,14 @@ def sanitize(sanitized, alert=False, comment=False, edit=False):
 
 	sanitized = sanitized.replace('<html><body>','').replace('</body></html>','')
 
-
-
+	css_sanitizer = CSSSanitizer(allowed_css_properties=allowed_styles)
 	sanitized = bleach.Cleaner(tags=allowed_tags,
 								attributes=allowed_attributes,
 								protocols=['http', 'https'],
-								styles=['color', 'background-color', 'font-weight', 'text-align'],
-								filters=[partial(LinkifyFilter, skip_tags=["pre"], parse_email=False, callbacks=[callback], url_re=url_re)]
+								css_sanitizer=css_sanitizer,
+								filters=[partial(LinkifyFilter, skip_tags=["pre"], 
+									parse_email=False, callbacks=[callback], url_re=url_re)]
 								).clean(sanitized)
-
-
 
 	soup = BeautifulSoup(sanitized, 'lxml')
 
