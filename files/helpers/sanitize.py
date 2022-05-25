@@ -404,7 +404,4 @@ def normalize_url(url):
 		url = url.replace(".png", ".webp").replace(".jpg", ".webp")\
 				 .replace(".jpeg", ".webp").replace(".gif", ".webp")
 
-	if url.startswith("https://streamable.com/") and not url.startswith("https://streamable.com/e/"): 
-		url = url.replace("https://streamable.com/", "https://streamable.com/e/")
-
 	return url
