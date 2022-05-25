@@ -37,28 +37,26 @@ def get_logged_in_user():
 		abort(403)
 
 
-
-
 	if not session.get("session_id"):
 		session.permanent = True
 		session["session_id"] = secrets.token_hex(49)
-	
-	sessions = cache.get(f'{SITE}_sessions') or {}
-
-	timestamp = int(time.time())
-
-	sessions[session["session_id"]] = (bool(v), timestamp)
-
+		
+	loggedin = cache.get(f'{SITE}_loggedin') or {}
+	loggedout = cache.get(f'{SITE}_loggedout') or {}
 	g.loggedin_counter = 0
 	g.loggedout_counter = 0
 
-	for val in sessions.values():
-		if timestamp - val[1] < 15*60:
-			if val[0]: g.loggedin_counter += 1
-			else: g.loggedout_counter += 1
-
-
-	cache.set(f'{SITE}_sessions', sessions)
+	timestamp = int(time.time())
+	if v:
+		if session["session_id"] in loggedout: del loggedout[session["session_id"]]
+		loggedin[v.id] = timestamp
+	else:
+		loggedout[session["session_id"]] = timestamp
+	
+	g.loggedin_counter = len([x for x in loggedin.values() if timestamp-x<15*60])
+	cache.set(f'{SITE}_loggedin', loggedin)
+	g.loggedout_counter = len([x for x in loggedout.values() if timestamp-x<15*60])
+	cache.set(f'{SITE}_loggedout', loggedout)
 
 
 	return v

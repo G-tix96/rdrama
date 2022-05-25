@@ -282,7 +282,7 @@ def searchusers(v):
 	
 	total=users.count()
 	
-	users=[x for x in users.offset(25 * (page-1)).limit(26)]
+	users = users.offset(25 * (page-1)).limit(26).all()
 	next_exists=(len(users)>25)
 	users=users[:25]
 

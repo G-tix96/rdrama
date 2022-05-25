@@ -24,6 +24,13 @@ GUMROAD_TOKEN = environ.get("GUMROAD_TOKEN", "").strip()
 
 month = datetime.now().strftime('%B')
 
+@app.get('/admin/loggedin')
+@admin_level_required(2)
+def loggedin_list(v):
+	ids = cache.get(f'{SITE}_loggedin').keys()
+	users = g.db.query(User).filter(User.id.in_(ids)).all()
+	return render_template("agendaposters.html", v=v, users=users)
+
 
 @app.get('/admin/merge/<id1>/<id2>')
 @admin_level_required(3)
@@ -444,7 +451,7 @@ def monthly(v):
 @auth_required
 def shadowbanned(v):
 	if not (v and v.admin_level > 1): abort(404)
-	users = [x for x in g.db.query(User).filter(User.shadowbanned != None).order_by(User.shadowbanned).all()]
+	users = g.db.query(User).filter(User.shadowbanned != None).order_by(User.shadowbanned).all()
 	return render_template("shadowbanned.html", v=v, users=users)
 
 

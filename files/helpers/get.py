@@ -279,7 +279,7 @@ def get_domain(s):
 
 		domain_list.add(new_domain)
 
-	doms = [x for x in g.db.query(BannedDomain).filter(BannedDomain.domain.in_(domain_list)).all()]
+	doms = g.db.query(BannedDomain).filter(BannedDomain.domain.in_(domain_list)).all()
 
 	if not doms:
 		return None

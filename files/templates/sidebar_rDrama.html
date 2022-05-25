@@ -41,7 +41,11 @@ set VISITORS_HERE_FLAVOR = [
 		<span>PEOPLE HERE NOW</span>
 	</div>
 
-	<p class="mt-1 ml-1 mb-4 text-center text-lg">{{g.loggedin_counter}} logged in, {{g.loggedout_counter}} logged out</p>
+	{% if v and v.admin_level > 1 %}
+		<p class="mt-1 ml-1 mb-4 text-center text-lg"><a href="/admin/loggedin">{{g.loggedin_counter}} logged in</a>, {{g.loggedout_counter}} logged out</p>
+	{% else %}
+		<p class="mt-1 ml-1 mb-4 text-center text-lg">{{g.loggedin_counter}} logged in, {{g.loggedout_counter}} logged out</p>
+	{% endif %}
 
 	{% if sub %}
 		{% if sub.sidebar_html %}

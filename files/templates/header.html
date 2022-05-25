@@ -14,7 +14,12 @@
 			{% include "journoid_banner.html" %}
 		{%- else -%}
 			<img src="/e/marseylowpoly.webp" style="height: 1em">
-			PEOPLE HERE NOW: {{g.loggedin_counter}} logged in, {{g.loggedout_counter}} logged out
+
+			{% if v and v.admin_level > 1 %}
+				PEOPLE HERE NOW: <a href="/admin/loggedin">{{g.loggedin_counter}} logged in</a>, {{g.loggedout_counter}} logged out
+			{% else %}
+				PEOPLE HERE NOW: {{g.loggedin_counter}} logged in, {{g.loggedout_counter}} logged out
+			{% endif %}
 		{%- endif -%}
 	</div>
 

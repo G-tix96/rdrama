@@ -487,7 +487,6 @@ class User(Base):
 			User.id != self.id
 		).order_by(User.username).all()
 
-		data = [x for x in data]
 		output = []
 		for x in data:
 			user = x[0]
