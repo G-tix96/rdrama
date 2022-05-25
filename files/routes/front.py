@@ -169,7 +169,10 @@ def notifications(v):
 @auth_desired
 def front_all(v, sub=None, subdomain=None):
 
-	if not v and not request.path.startswith('/logged_out'): return redirect(f"/logged_out{request.path}")
+	if not v and not request.path.startswith('/logged_out'):
+		r = request.full_path
+		if r == '/?': r = '/'
+		return redirect(f"/logged_out{r}")
 	if v and request.path.startswith('/logged_out'): return redirect(request.full_path.replace('/logged_out',''))
 
 	if sub: sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
