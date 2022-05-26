@@ -970,9 +970,8 @@ def admin_removed_comments(v):
 def agendaposter(user_id, v):
 	user = g.db.query(User).filter_by(id=user_id).one_or_none()
 
-	days = min(request.values.get("days", 30), 30)
+	days = min(float(request.values.get("days", 30.0)), 30.0)
 
-	expiry = float(days)
 	expiry = int(time.time() + expiry*60*60*24)
 
 	user.agendaposter = expiry
