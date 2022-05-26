@@ -54,7 +54,7 @@ def get_logged_in_user():
 		if session["session_id"] in loggedout: del loggedout[session["session_id"]]
 		loggedin[v.id] = timestamp
 	else:
-		ua = str(user_agents.parse(request.headers.get("User-Agent")))
+		ua = str(user_agents.parse(g.agent))
 		if not ua.startswith('Spider'):
 			loggedout[session["session_id"]] = (timestamp, ua)
 	

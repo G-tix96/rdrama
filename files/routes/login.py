@@ -204,7 +204,7 @@ def sign_up_get(v):
 	token = token_hex(16)
 	session["signup_token"] = token
 
-	formkey_hashstr = str(now) + token + agent
+	formkey_hashstr = str(now) + token + g.agent
 
 	formkey = hmac.new(key=bytes(environ.get("MASTER_KEY"), "utf-16"),
 					   msg=bytes(formkey_hashstr, "utf-16"),
@@ -237,7 +237,7 @@ def sign_up_post(v):
 	submitted_token = session.get("signup_token", "")
 	if not submitted_token: abort(400)
 
-	correct_formkey_hashstr = form_timestamp + submitted_token + agent
+	correct_formkey_hashstr = form_timestamp + submitted_token + g.agent
 
 	correct_formkey = hmac.new(key=bytes(environ.get("MASTER_KEY"), "utf-16"),
 								msg=bytes(correct_formkey_hashstr, "utf-16"),

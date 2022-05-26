@@ -85,9 +85,10 @@ mail = Mail(app)
 @app.before_request
 def before_request():
 
-	ua = request.headers.get("User-Agent")
-	if not ua: abort(403)
-	ua = ua.lower()
+	g.agent = request.headers.get("User-Agent")
+	if not g.agent: abort(403)
+
+	ua = g.agent.lower()
 
 	with open('site_settings.json', 'r') as f:
 		app.config['SETTINGS'] = json.load(f)
