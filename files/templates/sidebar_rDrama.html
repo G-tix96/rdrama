@@ -43,7 +43,7 @@ set VISITORS_HERE_FLAVOR = [
 
 	<p class="mt-1 ml-2 mb-4 text-center text-lg">
 		{% if v and v.admin_level > 1 %}
-			<a href="/admin/loggedin">{{g.loggedin_counter}} logged in</a>, {{g.loggedout_counter}} logged out
+			<a href="/admin/loggedin">{{g.loggedin_counter}} logged in</a>, <a href="/admin/loggedout">{{g.loggedout_counter}} logged out</a>
 		{% else %}
 			{{g.loggedin_counter}} logged in, {{g.loggedout_counter}} logged out
 		{% endif %}
