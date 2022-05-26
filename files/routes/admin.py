@@ -34,7 +34,7 @@ def loggedin_list(v):
 @app.get('/admin/loggedout')
 @admin_level_required(2)
 def loggedout_list(v):
-	users = [val[1] for x,val in cache.get(f'{SITE}_loggedout').items() if time.time()-val[0]<15*60]
+	users = sorted([val[1] for x,val in cache.get(f'{SITE}_loggedout').items() if time.time()-val[0]<15*60])
 	return render_template("loggedout.html", v=v, users=users)
 
 @app.get('/admin/merge/<id1>/<id2>')

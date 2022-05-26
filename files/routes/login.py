@@ -188,9 +188,6 @@ def sign_up_get(v):
 
 	if v: return redirect(SITE_FULL)
 
-	agent = request.headers.get("User-Agent")
-	if not agent: abort(403)
-
 	ref = request.values.get("ref")
 
 	if ref:
@@ -233,9 +230,6 @@ def sign_up_post(v):
 		return {"error": "New account registration is currently closed. Please come back later."}, 403
 
 	if v: abort(403)
-
-	agent = request.headers.get("User-Agent")
-	if not agent: abort(403)
 
 	form_timestamp = request.values.get("now", '0')
 	form_formkey = request.values.get("formkey", "none")

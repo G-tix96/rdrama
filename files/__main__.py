@@ -84,7 +84,11 @@ mail = Mail(app)
 
 @app.before_request
 def before_request():
-	
+
+	ua = request.headers.get("User-Agent")
+	if not ua: abort(403)
+	ua = ua.lower()
+
 	with open('site_settings.json', 'r') as f:
 		app.config['SETTINGS'] = json.load(f)
 
@@ -94,8 +98,6 @@ def before_request():
 	if not app.config['SETTINGS']['Bots'] and request.headers.get("Authorization"): abort(503)
 
 	g.db = db_session()
-
-	ua = request.headers.get("User-Agent","").lower()
 
 	if '; wv) ' in ua: g.webview = True
 	else: g.webview = False
