@@ -6,6 +6,8 @@ from random import randint
 
 def get_logged_in_user():
 
+	if hasattr(g, 'v'): return g.v
+
 	if not (hasattr(g, 'db') and g.db): g.db = db_session()
 
 	v = None
@@ -58,6 +60,7 @@ def get_logged_in_user():
 	g.loggedout_counter = len([x for x in loggedout.values() if timestamp-x<15*60])
 	cache.set(f'{SITE}_loggedout', loggedout)
 
+	g.v = v
 
 	return v
 
@@ -74,7 +77,6 @@ def auth_desired(f):
 
 		check_ban_evade(v)
 
-		g.v = v
 		return make_response(f(*args, v=v, **kwargs))
 
 	wrapper.__name__ = f.__name__
@@ -89,7 +91,6 @@ def auth_required(f):
 
 		check_ban_evade(v)
 
-		g.v = v
 		return make_response(f(*args, v=v, **kwargs))
 
 	wrapper.__name__ = f.__name__
@@ -109,7 +110,6 @@ def is_not_permabanned(f):
 		if v.is_banned and v.unban_utc == 0:
 			return {"error": "Interal server error"}, 500
 
-		g.v = v
 		return make_response(f(*args, v=v, **kwargs))
 
 	wrapper.__name__ = f.__name__
@@ -128,7 +128,6 @@ def admin_level_required(x):
 
 			if v.admin_level < x: abort(403)
 			
-			g.v = v
 			return make_response(f(*args, v=v, **kwargs))
 
 		wrapper.__name__ = f.__name__
