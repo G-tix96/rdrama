@@ -86,7 +86,7 @@ mail = Mail(app)
 def before_request():
 
 	g.agent = request.headers.get("User-Agent")
-	if not g.agent: abort(403)
+	if not g.agent: return 'Please use a "User-Agent" header!', 403
 
 	ua = g.agent.lower()
 

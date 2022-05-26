@@ -1443,8 +1443,8 @@ def sticky_comment(cid, v):
 	
 	comment = get_comment(cid, v=v)
 
-	if not comment.is_pinned:
-		comment.is_pinned = v.username
+	if not comment.stickied:
+		comment.stickied = v.username
 		g.db.add(comment)
 
 		ma=ModAction(
@@ -1468,10 +1468,10 @@ def unsticky_comment(cid, v):
 	
 	comment = get_comment(cid, v=v)
 	
-	if comment.is_pinned:
-		if comment.is_pinned.endswith("(pin award)"): return {"error": "Can't unpin award pins!"}, 403
+	if comment.stickied:
+		if comment.stickied.endswith("(pin award)"): return {"error": "Can't unpin award pins!"}, 403
 
-		comment.is_pinned = None
+		comment.stickied = None
 		g.db.add(comment)
 
 		ma=ModAction(

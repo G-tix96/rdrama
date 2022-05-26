@@ -896,11 +896,11 @@ def pin_comment(cid, v):
 	
 	comment = get_comment(cid, v=v)
 	
-	if not comment.is_pinned:
+	if not comment.stickied:
 		if v.id != comment.post.author_id: abort(403)
 		
-		if comment.post.ghost: comment.is_pinned = "(OP)"
-		else: comment.is_pinned = v.username + " (OP)"
+		if comment.post.ghost: comment.stickied = "(OP)"
+		else: comment.stickied = v.username + " (OP)"
 
 		g.db.add(comment)
 
@@ -919,13 +919,13 @@ def unpin_comment(cid, v):
 	
 	comment = get_comment(cid, v=v)
 	
-	if comment.is_pinned:
+	if comment.stickied:
 		if v.id != comment.post.author_id: abort(403)
 
-		if not comment.is_pinned.endswith(" (OP)"): 
+		if not comment.stickied.endswith(" (OP)"): 
 			return {"error": "You can only unpin comments you have pinned!"}
 
-		comment.is_pinned = None
+		comment.stickied = None
 		g.db.add(comment)
 
 		if v.id != comment.author_id:
@@ -941,10 +941,10 @@ def mod_pin(cid, v):
 	
 	comment = get_comment(cid, v=v)
 	
-	if not comment.is_pinned:
+	if not comment.stickied:
 		if not (comment.post.sub and v.mods(comment.post.sub)): abort(403)
 		
-		comment.is_pinned = v.username + " (Mod)"
+		comment.stickied = v.username + " (Mod)"
 
 		g.db.add(comment)
 
@@ -962,10 +962,10 @@ def mod_unpin(cid, v):
 	
 	comment = get_comment(cid, v=v)
 	
-	if comment.is_pinned:
+	if comment.stickied:
 		if not (comment.post.sub and v.mods(comment.post.sub)): abort(403)
 
-		comment.is_pinned = None
+		comment.stickied = None
 		g.db.add(comment)
 
 		if v.id != comment.author_id:
