@@ -662,14 +662,6 @@ AWARDS = {
 		"color": "checkmark",
 		"price": 100000
 	},
-	"profileeye": {
-		"kind": "profileeye",
-		"title": "Y'all Seein' Eye",
-		"description": "Gives the recipient the ability to see who visited their profile.",
-		"icon": "fas fa-eyes",
-		"color": "text-silver",
-		"price": 150000,
-	},
 }
 
 if SITE_NAME == 'PCM':

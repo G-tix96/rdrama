@@ -305,13 +305,6 @@ def award_post(pid, v):
 			g.db.add(new_badge)
 			g.db.flush()
 			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
-	elif kind == "profileeye":
-		author.profileeye = True
-		if not author.has_badge(136):
-			new_badge = Badge(badge_id=136, user_id=author.id)
-			g.db.add(new_badge)
-			g.db.flush()
-			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
 	elif kind == "unblockable":
 		author.unblockable = True
 		if not author.has_badge(87):
@@ -555,13 +548,6 @@ def award_comment(cid, v):
 		author.alt = True
 		if not author.has_badge(84):
 			new_badge = Badge(badge_id=84, user_id=author.id)
-			g.db.add(new_badge)
-			g.db.flush()
-			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
-	elif kind == "profileeye":
-		author.profileeye = True
-		if not author.has_badge(136):
-			new_badge = Badge(badge_id=136, user_id=author.id)
 			g.db.add(new_badge)
 			g.db.flush()
 			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
