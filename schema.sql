@@ -629,8 +629,7 @@ CREATE TABLE public.users (
     house character varying(16),
     subs_created integer DEFAULT 0 NOT NULL,
     deflector integer,
-    reddit character varying(15) NOT NULL,
-    profileeye boolean
+    reddit character varying(15) NOT NULL
 );
 
 
