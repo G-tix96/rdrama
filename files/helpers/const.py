@@ -701,7 +701,7 @@ for k, val in AWARDS.items():
 
 AWARDS3 = {}
 for k, val in AWARDS2.items():
-	if val['price'] == 300: AWARDS3[k] = val
+	if val['price'] <= 500: AWARDS3[k] = val
 
 DOUBLE_XP_ENABLED = -1 # set to unixtime for when DXP begins, -1 to disable
 
@@ -964,8 +964,7 @@ image_regex = re.compile("(^|\s)(https:\/\/[\w\-.#&/=\?@%;+]{5,250}(\.png|\.jpg|
 
 link_fix_regex = re.compile("(?!.*(http|\/))(.*\[[^\]]+\]\()([^)]+\))", flags=re.A)
 
-css_regex = re.compile('''url\(['"]?(.*?)['"]?\)''', flags=re.I|re.A)
-css_regex2 = re.compile('''['"](http.*?)['"]''', flags=re.I|re.A)
+css_regex = re.compile('https?:\/\/[\w:~,()\-.#&\/=?@%;+]*', flags=re.I|re.A)
 
 procoins_li = (0,2500,5000,10000,25000,50000,125000,250000)
 

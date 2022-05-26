@@ -332,9 +332,8 @@ def post_sub_css(v, sub):
 	css = request.values.get('css', '').strip()
 
 
-	urls = list(css_regex.finditer(css)) + list(css_regex2.finditer(css))
-	for i in urls:
-		url = i.group(1)
+	for i in css_regex.finditer(css):
+		url = i.group(0)
 		if not is_safe_url(url):
 			domain = tldextract.extract(url).registered_domain
 			error = f"The domain '{domain}' is not allowed, please use one of these domains\n\n{approved_embed_hosts}."

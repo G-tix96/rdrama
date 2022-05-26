@@ -28,10 +28,14 @@ month = datetime.now().strftime('%B')
 @admin_level_required(2)
 def loggedin_list(v):
 	ids = [x for x,val in cache.get(f'{SITE}_loggedin').items() if time.time()-val<15*60]
-	users = g.db.query(User).filter(User.id.in_(ids)) \
-		.order_by(User.admin_level.desc(), User.truecoins.desc()).all()
+	users = g.db.query(User).filter(User.id.in_(ids)).order_by(User.admin_level.desc(), User.truecoins.desc()).all()
 	return render_template("loggedin.html", v=v, users=users)
 
+@app.get('/admin/loggedout')
+@admin_level_required(2)
+def loggedout_list(v):
+	users = [val[1] for x,val in cache.get(f'{SITE}_loggedout').items() if time.time()-val[0]<15*60]
+	return render_template("loggedout.html", v=v, users=users)
 
 @app.get('/admin/merge/<id1>/<id2>')
 @admin_level_required(3)
@@ -966,7 +970,8 @@ def admin_removed_comments(v):
 def agendaposter(user_id, v):
 	user = g.db.query(User).filter_by(id=user_id).one_or_none()
 
-	days = request.values.get("days") or 30
+	days = min(request.values.get("days", 30), 30)
+
 	expiry = float(days)
 	expiry = int(time.time() + expiry*60*60*24)
 

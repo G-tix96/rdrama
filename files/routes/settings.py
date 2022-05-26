@@ -638,9 +638,8 @@ def settings_profilecss(v):
 	profilecss = request.values.get("profilecss").strip().replace('\\', '').strip()[:4000]
 
 
-	urls = list(css_regex.finditer(profilecss)) + list(css_regex2.finditer(profilecss))
-	for i in urls:
-		url = i.group(1)
+	for i in css_regex.finditer(profilecss):
+		url = i.group(0)
 		if not is_safe_url(url):
 			domain = tldextract.extract(url).registered_domain
 			error = f"The domain '{domain}' is not allowed, please use one of these domains\n\n{approved_embed_hosts}."

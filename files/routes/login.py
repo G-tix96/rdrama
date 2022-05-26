@@ -128,7 +128,7 @@ def login_post():
 			return redirect("/login")
 
 		if not account.validate_2fa(request.values.get("2fa_token", "").strip()):
-			hash = generate_hash(f"{account.id}+{time}+2fachallenge")
+			hash = generate_hash(f"{account.id}+{now}+2fachallenge")
 			return render_template("login_2fa.html",
 								   v=account,
 								   time=now,

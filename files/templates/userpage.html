@@ -61,7 +61,7 @@
 								{% endif %}
 
 								{% if SITE_NAME=='rDrama' and u.house %}
-									<img class="ml-3" id="profile--house" src="/assets/images/{{SITE_NAME}}/houses/{{u.house}}.webp?v=7" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{u.house}}" alt="House {{u.house}}">
+									<img loading="lazy" class="ml-3" id="profile--house" src="/assets/images/{{SITE_NAME}}/houses/{{u.house}}.webp?v=7" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{u.house}}" alt="House {{u.house}}">
 								{% endif %}
 
 								{% if u.verified %}
@@ -386,7 +386,7 @@
 				{% endif %}
 
 				{% if SITE_NAME=='rDrama' and u.house %}
-					<img class="ml-2" id="profile--house" src="/assets/images/{{SITE_NAME}}/houses/{{u.house}}.webp?v=7" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{u.house}}" alt="House {{u.house}}">
+					<img loading="lazy" class="ml-2" id="profile--house" src="/assets/images/{{SITE_NAME}}/houses/{{u.house}}.webp?v=7" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{u.house}}" alt="House {{u.house}}">
 				{% endif %}
 
 				{% if u.verified %}
