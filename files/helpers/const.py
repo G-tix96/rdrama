@@ -701,7 +701,7 @@ for k, val in AWARDS.items():
 
 AWARDS3 = {}
 for k, val in AWARDS2.items():
-	if val['price'] == 500: AWARDS3[k] = val
+	if val['price'] <= 500: AWARDS3[k] = val
 
 DOUBLE_XP_ENABLED = -1 # set to unixtime for when DXP begins, -1 to disable
 
