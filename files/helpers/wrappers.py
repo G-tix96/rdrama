@@ -3,6 +3,7 @@ from .alerts import *
 from files.helpers.const import *
 from files.__main__ import db_session
 from random import randint
+import user_agents
 
 def get_logged_in_user():
 
@@ -53,11 +54,12 @@ def get_logged_in_user():
 		if session["session_id"] in loggedout: del loggedout[session["session_id"]]
 		loggedin[v.id] = timestamp
 	else:
-		loggedout[session["session_id"]] = timestamp
+		loggedout[session["session_id"]] = (timestamp, str(user_agents.parse(request.headers.get("User-Agent"))))
 	
 	g.loggedin_counter = len([x for x in loggedin.values() if timestamp-x<15*60])
 	cache.set(f'{SITE}_loggedin', loggedin)
-	g.loggedout_counter = len([x for x in loggedout.values() if timestamp-x<15*60])
+
+	g.loggedout_counter = len([x for x in loggedout.values() if timestamp-x[0]<15*60])
 	cache.set(f'{SITE}_loggedout', loggedout)
 
 	g.v = v
