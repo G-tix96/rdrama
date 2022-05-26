@@ -18,7 +18,6 @@ from files.helpers.discord import add_role
 from datetime import datetime
 import requests
 from urllib.parse import quote, urlencode
-import httpagentparser
 
 GUMROAD_ID = environ.get("GUMROAD_ID", "tfcvri").strip()
 GUMROAD_TOKEN = environ.get("GUMROAD_TOKEN", "").strip()
