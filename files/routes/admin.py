@@ -18,6 +18,7 @@ from files.helpers.discord import add_role
 from datetime import datetime
 import requests
 from urllib.parse import quote, urlencode
+import httpagentparser
 
 GUMROAD_ID = environ.get("GUMROAD_ID", "tfcvri").strip()
 GUMROAD_TOKEN = environ.get("GUMROAD_TOKEN", "").strip()
@@ -939,6 +940,9 @@ def admin_removed(v):
 @app.get("/admin/removed/comments")
 @admin_level_required(2)
 def admin_removed_comments(v):
+	
+
+	print(request.headers, flush=true)
 
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
