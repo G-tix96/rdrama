@@ -181,9 +181,9 @@ def post_id(pid, anything=None, v=None, sub=None):
 			comment.is_blocked = c[3] or 0
 			output.append(comment)
 		
-		pinned = [c[0] for c in comments.filter(Comment.is_pinned != None).all()]
+		pinned = [c[0] for c in comments.filter(Comment.stickied != None).all()]
 		
-		comments = comments.filter(Comment.level == 1, Comment.is_pinned == None)
+		comments = comments.filter(Comment.level == 1, Comment.stickied == None)
 
 		if sort == "new":
 			comments = comments.order_by(Comment.created_utc.desc())
@@ -200,9 +200,9 @@ def post_id(pid, anything=None, v=None, sub=None):
 		second = [c[0] for c in comments.filter(or_(Comment.slots_result != None, Comment.blackjack_result != None, Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()]
 		comments = first + second
 	else:
-		pinned = g.db.query(Comment).filter(Comment.parent_submission == post.id, Comment.is_pinned != None).all()
+		pinned = g.db.query(Comment).filter(Comment.parent_submission == post.id, Comment.stickied != None).all()
 
-		comments = g.db.query(Comment).join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.parent_submission == post.id, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)), Comment.level == 1, Comment.is_pinned == None)
+		comments = g.db.query(Comment).join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.parent_submission == post.id, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)), Comment.level == 1, Comment.stickied == None)
 
 		if sort == "new":
 			comments = comments.order_by(Comment.created_utc.desc())
@@ -243,9 +243,9 @@ def post_id(pid, anything=None, v=None, sub=None):
 		comments = comments2
 
 	for pin in pinned:
-		if pin.is_pinned_utc and int(time.time()) > pin.is_pinned_utc:
-			pin.is_pinned = None
-			pin.is_pinned_utc = None
+		if pin.stickied_utc and int(time.time()) > pin.stickied_utc:
+			pin.stickied = None
+			pin.stickied_utc = None
 			g.db.add(pin)
 			pinned.remove(pin)
 
@@ -285,7 +285,7 @@ def viewmore(v, pid, sort, offset):
 			votes.c.vote_type,
 			blocking.c.target_id,
 			blocked.c.target_id,
-		).filter(Comment.parent_submission == pid, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)), Comment.is_pinned == None, Comment.id.notin_(ids))
+		).filter(Comment.parent_submission == pid, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)), Comment.stickied == None, Comment.id.notin_(ids))
 		
 		if not (v and v.shadowbanned) and not (v and v.admin_level > 2):
 			comments = comments.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None)
@@ -329,7 +329,7 @@ def viewmore(v, pid, sort, offset):
 		second = [c[0] for c in comments.filter(or_(Comment.slots_result != None, Comment.blackjack_result != None, Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()]
 		comments = first + second
 	else:
-		comments = g.db.query(Comment).join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.parent_submission == pid, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)), Comment.level == 1, Comment.is_pinned == None, Comment.id.notin_(ids))
+		comments = g.db.query(Comment).join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.parent_submission == pid, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)), Comment.level == 1, Comment.stickied == None, Comment.id.notin_(ids))
 
 		if sort == "new":
 			comments = comments.order_by(Comment.created_utc.desc())
@@ -532,7 +532,7 @@ def edit_post(pid, v):
 				over_18=False,
 				is_bot=True,
 				app_id=None,
-				is_pinned='AutoJanny',
+				stickied='AutoJanny',
 				distinguish_level=6,
 				body_html=body_jannied_html,
 				ghost=p.ghost
@@ -1224,7 +1224,7 @@ def submit_post(v, sub=None):
 			over_18=False,
 			is_bot=True,
 			app_id=None,
-			is_pinned='AutoJanny',
+			stickied='AutoJanny',
 			distinguish_level=6,
 			body_html=body_jannied_html,
 		)

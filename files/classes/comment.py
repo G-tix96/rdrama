@@ -34,8 +34,8 @@ class Comment(Base):
 	top_comment_id = Column(Integer)
 	over_18 = Column(Boolean, default=False)
 	is_bot = Column(Boolean, default=False)
-	is_pinned = Column(String)
-	is_pinned_utc = Column(Integer)
+	stickied = Column(String)
+	stickied_utc = Column(Integer)
 	sentto = Column(Integer, ForeignKey("users.id"))
 	app_id = Column(Integer, ForeignKey("oauth_apps.id"))
 	upvotes = Column(Integer, default=1)
@@ -278,7 +278,7 @@ class Comment(Base):
 			'deleted_utc': self.deleted_utc,
 			'is_nsfw': self.over_18,
 			'permalink': f'/comment/{self.id}',
-			'is_pinned': self.is_pinned,
+			'stickied': self.stickied,
 			'distinguish_level': self.distinguish_level,
 			'post_id': self.post.id if self.post else 0,
 			'score': self.score,
