@@ -40,7 +40,10 @@ def api_flag_post(pid, v):
 		)
 		g.db.add(ma)
 	elif reason.startswith('/h/') and v.admin_level > 1:
-		post.sub = reason[3:]
+		sub = reason[3:].strip().lower()
+		sub = g.db.query(Sub).filter_by(name=sub).one_or_none()
+		if not sub: abort(404)
+		post.sub = sub.name
 		g.db.add(post)
 		ma=ModAction(
 			kind="move_hole",
