@@ -972,7 +972,7 @@ def agendaposter(user_id, v):
 
 	days = min(float(request.values.get("days", 30.0)), 30.0)
 
-	expiry = int(time.time() + expiry*60*60*24)
+	expiry = int(time.time() + days*60*60*24)
 
 	user.agendaposter = expiry
 	g.db.add(user)
