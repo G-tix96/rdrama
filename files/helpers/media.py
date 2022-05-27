@@ -13,7 +13,7 @@ def process_audio(file):
 	name = f'/audio/{time.time()}'.replace('.','') + '.' + file.filename.split('.')[-1].lower()
 	file.save(name)
 
-	if SITE_NAME == 'WPD' or os.stat(name).st_size > 8 * 1024 * 1024:
+	if os.stat(name).st_size > 8 * 1024 * 1024:
 		with open(name, 'rb') as f:
 			os.remove(name)
 			req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=20).json()
@@ -35,7 +35,7 @@ def process_video(file):
 		os.remove(old)
 
 	size = os.stat(new).st_size
-	if SITE_NAME == 'WPD' or os.stat(new).st_size > 8 * 1024 * 1024:
+	if os.stat(new).st_size > 8 * 1024 * 1024:
 		with open(new, 'rb') as f:
 			os.remove(new)
 			req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=20).json()
