@@ -55,7 +55,7 @@ def get_logged_in_user():
 		loggedin[v.id] = timestamp
 	else:
 		ua = str(user_agents.parse(g.agent))
-		if not ua.startswith('Spider'):
+		if not ua.startswith('Spider') and 'bot' not in ua.lower():
 			loggedout[session["session_id"]] = (timestamp, ua)
 	
 	g.loggedin_counter = len([x for x in loggedin.values() if timestamp-x<15*60])
