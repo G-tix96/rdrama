@@ -1,0 +1,8 @@
+{%-
+set CACHE_VER = {
+	'css/main.css': 276,
+}
+-%}
+{%- macro asset(name) -%}
+/assets/{{name}}?v={{ CACHE_VER[name] }}
+{%- endmacro -%}
