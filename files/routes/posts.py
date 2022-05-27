@@ -1118,7 +1118,7 @@ def submit_post(v, sub=None):
 	if blackjack and any(i in f'{post.body} {post.title} {post.url}'.lower() for i in blackjack.split()):
 		v.shadowbanned = 'AutoJanny'
 		g.db.add(v)
-		if CARP_ID: send_repeatable_notification(CARP_ID, post.permalink)
+		send_repeatable_notification(CARP_ID, post.permalink)
 
 	if v and v.admin_level > 2:
 		for option in bet_options:
