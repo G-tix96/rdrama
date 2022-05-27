@@ -127,7 +127,7 @@ class User(Base):
 	referred_by = Column(Integer, ForeignKey("users.id"))
 	subs_created = Column(Integer, default=0)
 
-	badges = relationship("Badge", order_by="Badge.ctid", viewonly=True)
+	badges = relationship("Badge", viewonly=True)
 	subscriptions = relationship("Subscription", viewonly=True)
 	following = relationship("Follow", primaryjoin="Follow.user_id==User.id", viewonly=True)
 	followers = relationship("Follow", primaryjoin="Follow.target_id==User.id", viewonly=True)
