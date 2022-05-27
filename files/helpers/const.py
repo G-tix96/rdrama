@@ -693,15 +693,20 @@ if SITE_NAME == 'PCM':
 	}
 	AWARDS = {**PCM_AWARDS, **AWARDS}
 
-AWARDS2 = deepcopy(AWARDS)
-for k, val in AWARDS.items():
-	if val['description'] == '' and not (k == 'ghost' and SITE_NAME == 'PCM'): AWARDS2.pop(k)
-	if SITE == 'pcmemes.net' and k in ('ban','pizzashill','marsey','bird','grass','chud','unblockable'): AWARDS2.pop(k)
+# Disable unused awards, and site-specific award inclusion/exclusion.
+AWARDS_DISABLED = [
+	'ghost', 'nword', 'lootbox', # Generic
+	'snow', 'gingerbread', 'lights', 'candycane', 'fireplace', # Fistmas
+	'grinch', 'haunt', 'upsidedown', 'stab', 'spiders', 'fog', # Homoween
+]
+if SITE == 'pcmemes.net':
+	AWARDS_DISABLED.extend(['ban','pizzashill','marsey','bird','grass','chud','unblockable',])
+	AWARDS_DISABLED.remove('ghost')
+elif SITE_NAME == 'WPD':
+	AWARDS_DISABLED.remove('lootbox')
 
-
-AWARDS3 = {}
-for k, val in AWARDS2.items():
-	if val['price'] <= 500: AWARDS3[k] = val
+AWARDS2 = {x: AWARDS[x] for x in AWARDS if x not in AWARDS_DISABLED}
+AWARDS3 = {x: AWARDS2[x] for x in AWARDS2 if AWARDS2[x]['price'] <= 500}
 
 DOUBLE_XP_ENABLED = -1 # set to unixtime for when DXP begins, -1 to disable
 
