@@ -1353,7 +1353,7 @@ def submit_post(v, sub=None):
 			post.comment_count += 1
 			post.replies = [c]
 
-	v.post_count = g.db.query(Submission).filter_by(author_id=v.id, is_banned=False, deleted_utc=0).count()
+	v.post_count = g.db.query(Submission).filter_by(author_id=v.id).count()
 	g.db.add(v)
 
 	if v.id == PIZZASHILL_ID:

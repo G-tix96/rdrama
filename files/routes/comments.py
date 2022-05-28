@@ -636,7 +636,7 @@ def api_comment(v):
 
 	cache.delete_memoized(comment_idlist)
 
-	v.comment_count = g.db.query(Comment).filter(Comment.author_id == v.id, Comment.parent_submission != None).filter_by(is_banned=False, deleted_utc=0).count()
+	v.comment_count = g.db.query(Comment).filter(Comment.author_id == v.id, Comment.parent_submission != None).count()
 	g.db.add(v)
 
 	c.voted = 1
