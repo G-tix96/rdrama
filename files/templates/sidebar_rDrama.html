@@ -17,7 +17,7 @@ set VISITORS_HERE_FLAVOR = [
 	' chuds currently agendaposting',
 	' coomers currently gooning',
 	' oopsie woopsie fucko boingos narwhaling bacons',
-	' well behaved rule following goodthinkers',
+	' well-behaved rule following goodthinkers',
 	' throwing shade right now',
 ]
 -%}
@@ -42,11 +42,14 @@ set VISITORS_HERE_FLAVOR = [
 	</div>
 
 	<p class="mt-1 ml-2 mb-4 text-center text-lg">
-		{% if v and v.admin_level > 1 %}
-			<a href="/admin/loggedin">{{g.loggedin_counter}} logged in</a>, <a href="/admin/loggedout">{{g.loggedout_counter}} logged out</a>
-		{% else %}
-			{{g.loggedin_counter}} logged in, {{g.loggedout_counter}} logged out
-		{% endif %}
+		<span id="sidebar--counter--total">{{ g.loggedin_counter + g.loggedout_counter }}</span>
+		<span id="sidebar--counter--flavor">{{ VISITORS_HERE_FLAVOR|random|safe }}</span>
+		<span id="sidebar--counter-loggedin">({{ g.loggedin_counter }} logged in)</span>
+		{% if v and v.admin_level >= 2 -%}
+			<span id="sidebar--counter--admin" style="text-align: center; display: block; font-size: 1rem;">
+				<a href="/admin/loggedin">Logged In</a> | <a href="/admin/loggedout">Logged Out</a>
+			</span>
+		{%- endif %}
 	</p>
 
 	{% if sub %}
