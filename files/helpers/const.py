@@ -321,6 +321,9 @@ else:
 	WELCOME_MSG = f"Welcome to {SITE_NAME}!"
 	ROLES={}
 
+
+bots = {NOTIFICATIONS_ID, AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID, BASEDBOT_ID}
+
 IMGUR_KEY = environ.get("IMGUR_KEY").strip()
 PUSHER_ID = environ.get("PUSHER_ID", "").strip()
 PUSHER_KEY = environ.get("PUSHER_KEY", "").strip()

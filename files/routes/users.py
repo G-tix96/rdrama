@@ -667,10 +667,11 @@ def message2(v, username):
 
 	c.top_comment_id = c.id
 
-	notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user.id).one_or_none()
-	if not notif:
-		notif = Notification(comment_id=c.id, user_id=user.id)
-		g.db.add(notif)
+	if user.id not in bots:
+		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user.id).one_or_none()
+		if not notif:
+			notif = Notification(comment_id=c.id, user_id=user.id)
+			g.db.add(notif)
 
 	g.db.commit()
 
@@ -741,7 +742,7 @@ def messagereply(v):
 			g.db.add(notif)
 			g.db.flush()
 
-	if user_id and user_id != v.id and user_id != 2:
+	if user_id and user_id not in (v.id, 2, bots):
 		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()
 		if not notif:
 			notif = Notification(comment_id=c.id, user_id=user_id)

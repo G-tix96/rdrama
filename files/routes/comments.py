@@ -613,10 +613,10 @@ def api_comment(v):
 			
 			for x in g.db.query(Subscription.user_id).filter_by(submission_id=c.parent_submission).all(): notify_users.add(x[0])
 			
-			if parent.author.id not in (v.id, BASEDBOT_ID, AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, AUTOPOLLER_ID, AUTOCHOICE_ID):
+			if parent.author.id != v.id:
 				notify_users.add(parent.author.id)
 
-			for x in notify_users:
+			for x in notify_users-bots:
 				n = Notification(comment_id=c.id, user_id=x)
 				g.db.add(n)
 
@@ -835,7 +835,7 @@ def edit_comment(cid, v):
 		
 		notify_users = NOTIFY_USERS(body, v)
 		
-		for x in notify_users:
+		for x in notify_users-bots:
 			notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=x).one_or_none()
 			if not notif:
 				n = Notification(comment_id=c.id, user_id=x)
