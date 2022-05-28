@@ -169,6 +169,8 @@ def notifications(v):
 @auth_desired
 def front_all(v, sub=None, subdomain=None):
 
+	if v and v.id == 8494: print(request.headers.get('CF-Connecting-IP'))
+
 	if not v and not request.path.startswith('/logged_out'):
 		r = request.full_path
 		if r == '/?': r = '/'
