@@ -702,7 +702,7 @@
 						{% endif %}
 
 						{% if p.ghost %}
-							👻
+							<span {% if p.distinguish_level %}class="mod"{% endif %}>👻</span>
 						{% else %}
 							{% if SITE_NAME=='rDrama' and p.author.house %}
 								<img loading="lazy" src="/assets/images/{{SITE_NAME}}/houses/{{p.author.house}}.webp?v=7" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{p.author.house}}" alt="House {{p.author.house}}">

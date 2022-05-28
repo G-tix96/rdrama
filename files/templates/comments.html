@@ -196,7 +196,7 @@
 				{% if c.is_blocked %}<i class="fas fa-user-minus text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="This user is blocking you."></i>{% endif %}
 
 				{% if c.ghost %}
-					👻
+					<span {% if c.distinguish_level %}class="mod"{% endif %}>👻</span>
 				{% else %}
 					{% if SITE_NAME=='rDrama' and c.author.house %}
 						<img loading="lazy" src="/assets/images/{{SITE_NAME}}/houses/{{c.author.house}}.webp?v=7" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{c.author.house}}" alt="House {{c.author.house}}">
