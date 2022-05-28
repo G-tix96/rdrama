@@ -57,6 +57,7 @@
             type="button"
             class="btn btn-success lottery-modal--action"
             id="purchaseTicket"
+            onclick="purchaseLotteryTicket()"
           >
             Purchase 1 for
             <img
@@ -71,10 +72,71 @@
               data-bs-original-title="coins"
             />
 
-            10
+            12
           </button>
+          <script>
+            const userCoinCount = {{v.coins}};
+            const ticketCost = 12;
+
+            if (userCoinCount < ticketCost) {
+              const purchaseTicketButton = document.getElementById('purchaseTicket');
+              purchaseTicketButton.disabled = true;
+            }
+          </script>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Success -->
+  <div
+    class="toast"
+    id="lottery-post-success"
+    style="
+      position: fixed;
+      bottom: 1.5rem;
+      margin: 0 auto;
+      left: 0;
+      right: 0;
+      width: 275px;
+      z-index: 1000;
+    "
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+    data-bs-animation="true"
+    data-bs-autohide="true"
+    data-bs-delay="5000"
+  >
+    <div class="toast-body bg-success text-center text-white">
+      <i class="fas fa-comment-alt-smile mr-2"></i
+      ><span id="lottery-post-success-text"></span>
+    </div>
+  </div>
+
+  <!-- Error -->
+  <div
+    class="toast"
+    id="lottery-post-error"
+    style="
+      position: fixed;
+      bottom: 1.5rem;
+      margin: 0 auto;
+      left: 0;
+      right: 0;
+      width: 275px;
+      z-index: 1000;
+    "
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+    data-bs-animation="true"
+    data-bs-autohide="true"
+    data-bs-delay="5000"
+  >
+    <div class="toast-body bg-danger text-center text-white">
+      <i class="fas fa-exclamation-circle mr-2"></i
+      ><span id="lottery-post-error-text"></span>
     </div>
   </div>
 </div>
