@@ -69,13 +69,9 @@
 								{% endif %}
 
 								{% if u.admin_level > 1 or (u.admin_level == 1 and not(v and v.admin_level > 1)) %}
-								<span id="profile--mop">
-									<i class="fas fa-broom text-admin align-middle ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin"></i>
-								</span>
-								{% elif u.admin_level == 1 and v and v.admin_level > 1 %}
-								<span id="profile--mop">
-									<i class="fas fa-broom align-middle ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Meme Admin"></i>
-								</span>
+									<span id="profile--mop">
+										<i class="fas fa-broom text-admin align-middle ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin"></i>
+									</span>
 								{% endif %}
 								{% if v and v.has_follower(u) %}
 									<span class="followsyou badge badge-secondary text-small align-middle ml-2" id="profile--follows-you">Follows you</span>
@@ -187,9 +183,6 @@
 							<a id="admin" class="{% if u.admin_level > 1 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast2(this,'/@{{u.username}}/make_admin','admin','unadmin')">Make admin</a>
 
 							<a id="unadmin" class="{% if u.admin_level < 2 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast2(this,'/@{{u.username}}/remove_admin','admin','unadmin')">Remove admin</a>
-
-							<a id="memeadmin" class="{% if u.admin_level == 1%}d-none{% endif %} btn btn-primary" role="button" onclick="post_toast2(this,'/@{{u.username}}/make_meme_admin','memeadmin','unmemeadmin')">Make meme admin</a>
-							<a id="unmemeadmin" class="{% if u.admin_level != 1 %}d-none{% endif %} btn btn-primary" role="button" onclick="post_toast2(this,'/@{{u.username}}/remove_meme_admin','memeadmin','unmemeadmin')">Remove meme admin</a>
 
 							{% if u.admin_level > 1 %}
 								<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/revert_actions')">Revert admin actions</a>
@@ -394,13 +387,9 @@
 				{% endif %}
 
 				{% if u.admin_level > 1 or (u.admin_level == 1 and not(v and v.admin_level > 1)) %}
-				<span id="profile--mop">
-					<i class="fas fa-broom text-admin align-middle ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin"></i>
-				</span>
-				{% elif u.admin_level == 1 and v and v.admin_level > 1 %}
-				<span id="profile--mop">
-					<i class="fas fa-broom align-middle ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Meme Admin"></i>
-				</span>
+					<span id="profile--mop">
+						<i class="fas fa-broom text-admin align-middle ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin"></i>
+					</span>
 				{% endif %}
 				{% if v and v.has_follower(u) and not v.is_nofollow %}
 					<span class="followsyou badge badge-secondary text-small align-middle mx-1" id="profile--follows-you">Follows you</span>
@@ -501,9 +490,6 @@
 						<a id="admin2" class="{% if u.admin_level > 1 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast2(this,'/@{{u.username}}/make_admin','admin2','unadmin2')">Make admin</a>
 
 						<a id="unadmin2" class="{% if u.admin_level < 2 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast2(this,'/@{{u.username}}/remove_admin','admin2','unadmin2')">Remove admin</a>
-
-						<a id="memeadmin2" class="{% if u.admin_level == 1%}d-none{% endif %} btn btn-primary" role="button" onclick="post_toast2(this,'/@{{u.username}}/make_meme_admin','memeadmin2','unmemeadmin2')">Make meme admin</a>
-						<a id="unmemeadmin2" class="{% if u.admin_level != 1 %}d-none{% endif %} btn btn-primary" role="button" onclick="post_toast2(this,'/@{{u.username}}/remove_meme_admin','memeadmin2','unmemeadmin2')">Remove meme admin</a>
 
 						{% if u.admin_level > 1 %}
 							<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/revert_actions')">Revert admin actions</a>
