@@ -181,7 +181,7 @@
 								{% if SITE_NAME == 'rDrama' %}
 									<a class="dropdown-item" href="/discord"><i class="fab fa-discord fa-fw mr-3"></i>Discord</a>
 								{% endif %}
-								{% if SITE_NAME != 'Cringetopia' %}
+								{% if SITE_NAME not in ('Cringetopia', 'WPD') %}
 									<a class="dropdown-item" rel="nofollow noopener noreferrer" href="{{config('GUMROAD_LINK')}}"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 								{% endif %}
 								{% if SITE_NAME == 'rDrama' %}
@@ -239,7 +239,7 @@
 				{% if SITE_NAME == 'rDrama' %}
 					<a class="nav-item nav-link" href="/discord"><i class="fab fa-discord fa-fw mr-3"></i>Discord</a>
 				{% endif %}
-				{% if SITE_NAME != 'Cringetopia' %}
+				{% if SITE_NAME not in ('Cringetopia', 'WPD') %}
 					<a class="nav-item nav-link" rel="nofollow noopener noreferrer" href="{{config('GUMROAD_LINK')}}"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 				{% endif %}
 				{% if SITE_NAME == 'rDrama' %}<a class="nav-item nav-link" href="/archives"><i class="fas fa-book fa-fw mr-3"></i>Archives</a>{% endif %}

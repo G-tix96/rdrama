@@ -28,13 +28,13 @@ AJ_REPLACEMENTS = {
 	' YOUR ': " YOU'RE ",
 	' TO ': " TOO ",
 
-	'anybody': 'anypony',
+	'everyone': 'everypony',
 	'everybody': 'everypony',
 
-	'Anybody': 'Anypony',
+	'Everyone': 'Everypony',
 	'Everybody': 'Everypony',
 
-	'ANYBODY': 'ANYPONY',
+	'EVERYONE': 'EVERYPONY',
 	'EVERYBODY': 'EVERYPONY',
 }
 
