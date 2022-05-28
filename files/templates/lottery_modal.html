@@ -1,0 +1,210 @@
+<style>
+  .lottery-modal--dialog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lottery-modal--content {
+    max-width: 850px;
+  }
+
+  .lottery-modal--close {
+    position: absolute;
+    top: 4px;
+    right: 12px;
+    z-index: 10;
+  }
+
+  .lottery-modal--wrapper {
+    display: flex;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .lottery-modal--wrapper > div {
+    height: 400px;
+  }
+
+  .lottery-modal--image {
+    width: 400px;
+    height: 400px;
+    position: relative;
+  }
+
+  .lottery-modal--image > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 400px;
+    height: 400px;
+  }
+
+  @media screen and (max-width: 1530px) {
+    .lottery-modal--wrapper > div {
+      height: 300px;
+    }
+
+    .lottery-modal--image {
+      width: 300px;
+      height: 300px;
+    }
+
+    .lottery-modal--image > img {
+      width: 300px;
+      height: 300px;
+    }
+  }
+
+  .lottery-modal--action {
+    border-width: 2px;
+    font-size: 1.4rem;
+  }
+
+  .lottery-modal--stats {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    flex: 1;
+    margin-left: 2rem;
+  }
+
+  .lottery-modal--stat {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #32383e;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+
+  .lottery-modal--stat-keys {
+    color: #ffb2d4;
+    font-variant: small-caps;
+    font-weight: 400;
+    margin-right: 2rem;
+  }
+
+  .lottery-modal--stat-values {
+    text-align: right;
+  }
+
+  @media screen and (max-width: 1330px) {
+    .lottery-modal--content {
+      width: 400px;
+    }
+
+    .lottery-modal--wrapper {
+      flex-direction: column;
+    }
+
+    .lottery-modal--image {
+      margin-bottom: 1rem;
+    }
+
+    .lottery-modal--stats {
+      margin-left: 0;
+      width: 300px;
+      flex-direction: column-reverse;
+    }
+
+    .lottery-modal--stat,
+    .lottery-modal--action {
+      margin-bottom: 1rem;
+    }
+  }
+</style>
+
+<div
+  class="modal fade"
+  id="lotteryModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="lotteryModalTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog lottery-modal--dialog" role="document">
+    <div class="modal-content lottery-modal--content">
+      <button
+        class="close lottery-modal--close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      >
+        <span aria-hidden="true"><i class="far fa-times"></i></span>
+      </button>
+      <div class="lottery-modal--wrapper">
+        <div class="lottery-modal--image">
+          <img src="/assets/images/rDrama/lotterymodal.webp?v=2" />
+          <img
+            id="lotteryTicketPulled"
+            src="/assets/images/rDrama/lotterymodalactive.gif?v=2"
+            style="display: none"
+          />
+        </div>
+        <div class="lottery-modal--stats">
+          <div class="lottery-modal--stat">
+            <div class="lottery-modal--stat-keys">
+              <div>Grand Prize</div>
+              <div>Session Ends</div>
+              <div>Unique Participants</div>
+              <div>Tickets Sold (Session)</div>
+              <div>Tickets Sold (Total)</div>
+            </div>
+            <div class="lottery-modal--stat-values">
+              <div>0</div>
+              <div>0:00:00</div>
+              <div>0</div>
+              <div>0</div>
+              <div>0</div>
+            </div>
+          </div>
+          <div class="lottery-modal--stat">
+            <div class="lottery-modal--stat-keys">
+              <div>Tickets Owned (Session)</div>
+              <div>Tickets Owned (Total)</div>
+              <div>Total Earnings</div>
+            </div>
+            <div class="lottery-modal--stat-values">
+              <div>0</div>
+              <div>0</div>
+              <div>0</div>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="btn btn-success lottery-modal--action"
+            id="purchaseTicket"
+          >
+            Purchase 1 for
+            <img
+              alt="coins"
+              class="mr-1 ml-1"
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              height="13"
+              src="/assets/images/rDrama/coins.webp?v=2"
+              title=""
+              aria-label="coins"
+              data-bs-original-title="coins"
+            />
+
+            10
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById("purchaseTicket").addEventListener("click", () => {
+    // Show ticket being pulled.
+    document.getElementById("lotteryTicketPulled").style.display = "block";
+
+    setTimeout(() => {
+      document.getElementById("lotteryTicketPulled").style.display = "none";
+    }, 1600);
+  });
+</script>
