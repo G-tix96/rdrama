@@ -140,9 +140,9 @@ def stats(site=None):
 
 		stats.update(stats2)
 
-		bots = g.db.query(User).filter(User.id.in_(bots))
+		accs = g.db.query(User).filter(User.id.in_(bots))
 
-		for u in bots:
+		for u in accs:
 			g.db.add(u)
 
 			if u.patron_utc and u.patron_utc < time.time():
