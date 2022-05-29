@@ -26,7 +26,10 @@
         </div>
         <div class="lottery-modal--stats">
           {% if v.admin_level > 2 %}
-          <div class="lottery-modal--stat" style="position: relative; padding-top: 1rem;">
+          <div
+            class="lottery-modal--stat"
+            style="position: relative; padding-top: 1rem"
+          >
             <i
               class="fas fa-broom"
               style="
@@ -41,7 +44,7 @@
               type="button"
               class="btn btn-danger"
               id="endLotterySession"
-              
+              style="display: none"
               onclick="endLotterySession()"
             >
               End Current Session
@@ -50,6 +53,7 @@
               type="button"
               class="btn btn-success"
               id="startLotterySession"
+              style="display: none"
               onclick="startLotterySession()"
             >
               Start New Session
@@ -58,28 +62,42 @@
           {% endif %}
           <div class="lottery-modal--stat">
             <div class="lottery-modal--stat-keys">
-              <div>Grand Prize</div>
-              <div>Session Ends</div>
-              <div>Tickets Sold (Session)</div>
-              <div>Tickets Sold (Total)</div>
+              <div>Prize</div>
+              <div>Time Remaining</div>
+              <div>Tickets Sold This Session</div>
+              <div>Participants This Session</div>
             </div>
             <div class="lottery-modal--stat-values">
-              <div>0</div>
-              <div>0:00:00</div>
-              <div>0</div>
-              <div>0</div>
+              <div>
+                <img
+                  id="prize-image"
+                  alt="coins"
+                  class="mr-1 ml-1"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  height="13"
+                  src="/assets/images/rDrama/coins.webp?v=2"
+                  title=""
+                  aria-label="coins"
+                  data-bs-original-title="coins"
+                  style="display: none; position: relative; top: -2px;"
+                /> <span id="prize">-</span>
+              </div>
+              <div id="timeLeft">-</div>
+              <div id="ticketsSoldThisSession">-</div>
+              <div id="participantsThisSession">-</div>
             </div>
           </div>
           <div class="lottery-modal--stat">
             <div class="lottery-modal--stat-keys">
-              <div>Tickets Owned (Session)</div>
-              <div>Tickets Owned (Total)</div>
-              <div>Total Earnings</div>
+              <div>Tickets Owned This Session</div>
+              <div>Total Tickets Owned</div>
+              <div>Total Winnings</div>
             </div>
             <div class="lottery-modal--stat-values">
-              <div>0</div>
-              <div>0</div>
-              <div>0</div>
+              <div id="ticketsHeldCurrent">-</div>
+              <div id="ticketsHeldTotal">-</div>
+              <div id="winnings">-</div>
             </div>
           </div>
           <button
@@ -87,6 +105,7 @@
             class="btn btn-success lottery-modal--action"
             id="purchaseTicket"
             onclick="purchaseLotteryTicket()"
+            disabled="true"
           >
             Purchase 1 for
             <img

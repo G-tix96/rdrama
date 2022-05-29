@@ -42,4 +42,5 @@ def lottery_buy(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @auth_required
 def lottery_active(v):
-    return {"message": {"user": v.lottery_stats, "lottery": get_active_lottery_stats(g)}}
+    lottery, participants = get_active_lottery_stats(g)
+    return {"message": "", "stats": {"user": v.lottery_stats, "lottery": lottery, "participants": participants}}
