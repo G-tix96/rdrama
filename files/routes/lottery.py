@@ -9,15 +9,21 @@ from files.helpers.lottery import *
 @app.post("/lottery/end")
 @auth_required
 def lottery_end(v):
-    end_lottery_session(g)
-    return {"message": "Lottery ended."}
+    if v.admin_level > 2:
+        success, message = end_lottery_session(g)
+        return {"message": message} if success else {"error": message}
+    else:
+        return {"error": "JL3+ or higher required to start and end lotteries."}, 401
 
 
 @app.post("/lottery/start")
 @auth_required
 def lottery_start(v):
-    start_new_lottery_session(g)
-    return {"message": "Lottery started."}
+    if v.admin_level > 2:
+        start_new_lottery_session(g)
+        return {"message": "Lottery started."}
+    else:
+        return {"error": "JL3+ or higher required to start and end lotteries."}, 401
 
 
 @app.post("/lottery/buy")
@@ -36,9 +42,4 @@ def lottery_buy(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @auth_required
 def lottery_active(v):
-    most_recent_lottery = get_most_recent_lottery(g)
-
-    if most_recent_lottery is None or not most_recent_lottery.is_active:
-        return {"message": "There is no active lottery."}
-
-    return {"message": most_recent_lottery.stats}
+    return {"message": {"user": v.lottery_stats, "lottery": get_active_lottery_stats(g)}}
