@@ -162,7 +162,7 @@
 
 <div class="row no-gutters {% if listing %}mt-md-3{% elif not listing %}my-md-3{% endif %}">
 
-	<div class="col-12">
+	<div class="col-12 {% if request.path=='/catalog' %}catalog{% endif %}">
 
 		<div class="posts" id="posts">
 
