@@ -99,8 +99,13 @@ def before_request():
 	if not app.config['SETTINGS']['Bots'] and request.headers.get("Authorization"): abort(503)
 
 	g.db = db_session()
-	g.webview = '; wv) ' in ua
-	g.inferior_browser = 'iphone' in ua or 'ipad' in ua or 'ipod' in ua or 'mac os' in ua or ' firefox/' in ua
+
+	if '; wv) ' in ua: g.webview = True
+	else: g.webview = False
+
+	if 'iphone' in ua or 'ipad' in ua or 'ipod' in ua or 'mac os' in ua or ' firefox/' in ua: g.inferior_browser = True
+	else: g.inferior_browser = False
+
 
 @app.teardown_appcontext
 def teardown_request(error):
