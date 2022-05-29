@@ -126,6 +126,9 @@ class User(Base):
 	original_username = deferred(Column(String))
 	referred_by = Column(Integer, ForeignKey("users.id"))
 	subs_created = Column(Integer, default=0)
+	currently_held_lottery_tickets = Column(Integer, default=0)
+	total_held_lottery_tickets = Column(Integer, default=0)
+	total_lottery_winnings = Column(Integer, default=0)
 
 	badges = relationship("Badge", viewonly=True)
 	subscriptions = relationship("Subscription", viewonly=True)
@@ -655,3 +658,8 @@ class User(Base):
 		l = [i.strip() for i in self.custom_filter_list.split('\n')] if self.custom_filter_list else []
 		l = [i for i in l if i]
 		return l
+
+	@property
+	@lazy
+	def lottery_stats(self):
+		return { "winnings": self.total_lottery_winnings, "ticketsHeld": { "current": self.currently_held_lottery_tickets , "total": self.total_held_lottery_tickets } }

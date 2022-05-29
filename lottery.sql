@@ -1,7 +1,7 @@
 CREATE TABLE public.lotteries (
-    id integer NOT NULL,
+    id SERIAL PRIMARY KEY,
     is_active boolean DEFAULT false NOT NULL,
-    ends_at timestamptz NOT NULL,
+    ends_at integer NOT NULL,
     prize integer DEFAULT 0 NOT NULL,
     tickets_sold integer DEFAULT 0 NOT NULL
 );

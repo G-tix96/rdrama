@@ -25,6 +25,37 @@
           />
         </div>
         <div class="lottery-modal--stats">
+          {% if v.admin_level > 2 %}
+          <div class="lottery-modal--stat" style="position: relative; padding-top: 1rem;">
+            <i
+              class="fas fa-broom"
+              style="
+                position: absolute;
+                top: -8px;
+                right: -8px;
+                font-size: 20px;
+              "
+            >
+            </i>
+            <button
+              type="button"
+              class="btn btn-danger"
+              id="endLotterySession"
+              
+              onclick="endLotterySession()"
+            >
+              End Current Session
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              id="startLotterySession"
+              onclick="startLotterySession()"
+            >
+              Start New Session
+            </button>
+          </div>
+          {% endif %}
           <div class="lottery-modal--stat">
             <div class="lottery-modal--stat-keys">
               <div>Grand Prize</div>
