@@ -13,6 +13,7 @@ class Lottery(Base):
     ends_at = Column(Integer)
     prize = Column(Integer, default=0)
     tickets_sold = Column(Integer, default=0)
+    winner_id = Column(Integer, ForeignKey("users.id"))
 
     @property
     @lazy
