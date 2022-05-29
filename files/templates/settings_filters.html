@@ -281,6 +281,24 @@
 
 					</div>
 
+					<div class="d-lg-flex border-bottom">
+
+						<div class="title w-lg-25">
+							<label for="animations">Animations</label>
+						</div>
+
+						<div class="body w-lg-100">
+
+							<div class="custom-control custom-switch">
+								<input autocomplete="off" type="checkbox" class="custom-control-input" id="animations" name="animations"{% if v.animations %} checked{% endif %} onchange="post_toast(this,'/settings/profile?animations='+document.getElementById('animations').checked);">
+								<label class="custom-control-label" for="animations"></label>
+							</div>
+
+							<span class="text-small-extra text-muted">Enables animations for user interface elements. No effect on award animations.</span>
+
+						</div>
+
+					</div>
 
 					<div class="d-lg-flex border-bottom">
 
