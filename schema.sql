@@ -629,7 +629,8 @@ CREATE TABLE public.users (
     house character varying(16),
     subs_created integer DEFAULT 0 NOT NULL,
     deflector integer,
-    reddit character varying(15) NOT NULL
+    reddit character varying(15) NOT NULL,
+    animations boolean DEFAULT true NOT NULL
 );
 
 
