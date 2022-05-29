@@ -82,11 +82,11 @@ def start_new_lottery_session(g):
 
 def purchase_lottery_ticket(g, v):
     if (v.coins < LOTTERY_TICKET_COST):
-        return False, f'Lottery tickets cost {LOTTERY_TICKET_COST} dramacoins each.', None
+        return False, f'Lottery tickets cost {LOTTERY_TICKET_COST} dramacoins each.'
 
     most_recent_lottery = get_active_lottery(g)
     if (most_recent_lottery is None):
-        return False, "There is no active lottery.", None
+        return False, "There is no active lottery."
 
     v.coins -= LOTTERY_TICKET_COST
     v.currently_held_lottery_tickets += 1
@@ -104,4 +104,4 @@ def purchase_lottery_ticket(g, v):
 
     g.db.commit()
 
-    return True, 'Successfully purchased a lottery ticket!', most_recent_lottery.stats
+    return True, 'Successfully purchased a lottery ticket!'

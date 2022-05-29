@@ -30,12 +30,13 @@ def lottery_start(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @auth_required
 def lottery_buy(v):
-    success, message, lottery_stats = purchase_lottery_ticket(g, v)
+    success, message = purchase_lottery_ticket(g, v)
+    lottery, participants = get_active_lottery_stats(g)
 
     if success:
-        return {"message": message, "stats": {"user": v.lottery_stats, "lottery": lottery_stats}}
+        return {"message": message, "stats": {"user": v.lottery_stats, "lottery": lottery, "participants": participants}}
     else:
-        return {"error": message, "stats": {"user": v.lottery_stats, "lottery": lottery_stats}}
+        return {"error": message, "stats": {"user": v.lottery_stats, "lottery": lottery, "participants": participants}}
 
 
 @app.get("/lottery/active")
