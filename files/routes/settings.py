@@ -59,6 +59,10 @@ def settings_profile_post(v):
 		updated = True
 		v.slurreplacer = request.values.get("slurreplacer") == 'true'
 
+	elif request.values.get("animations", v.animations) != v.animations:
+		updated = True
+		v.animations = request.values.get("animations") == 'true'
+
 	elif request.values.get("hidevotedon", v.hidevotedon) != v.hidevotedon:
 		updated = True
 		v.hidevotedon = request.values.get("hidevotedon") == 'true'

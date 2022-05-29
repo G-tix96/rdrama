@@ -1,8 +1,12 @@
 {%-
 set CACHE_VER = {
-	'css/main.css': 278,
+	'css/main.css': 281,
+	'js/award_modal.js': 251,
+	'js/bootstrap.js': 257,
+	'js/header.js': 268,
+	'images/badges/': 1017,
 }
 -%}
-{%- macro asset(name) -%}
-/assets/{{name}}?v={{ CACHE_VER[name] }}
+{%- macro asset(name, file='') -%}
+/assets/{{name}}{{file}}?v={{ CACHE_VER[name] }}
 {%- endmacro -%}
