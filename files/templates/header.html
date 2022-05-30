@@ -10,7 +10,7 @@
 	</style>
 
 	<div class="srd">
-		{% if SITE == 'rdrama.net' %}
+		{% if SITE_NAME == 'rDrama' %}
 			{% include "journoid_banner.html" %}
 		{%- else -%}
 			<img src="/e/marseylowpoly.webp" height=18 width=28>
@@ -74,9 +74,21 @@
 				{% endif %}
 			{% endif %}
 			
-			{% if not err %}
-				<a class="mobile-nav-icon d-md-none" href="/random_user"><i class="fas fa-music align-middle text-gray-500 black"></i></a>
-				<a class="mobile-nav-icon d-md-none" href="/random_post"><i class="fas fa-random align-middle text-gray-500 black"></i></a>
+		{% if not err %}
+			{% if v and v.admin_level > 1 %}
+				<a class="mobile-nav-icon d-md-none" href="/admin"><i class="fas fa-crown align-middle text-gray-500 black"></i></a>
+			{% endif %}
+
+			{% if v %}
+				<a class="mobile-nav-icon d-md-none" href="{% if sub %}/h/{{sub.name}}{% endif %}/submit"><i class="fas fa-feather-alt align-middle text-gray-500 black"></i></a>
+			{% else %}
+				<a class="mobile-nav-icon d-md-none" href="/login"><i class="fas fa-feather-alt align-middle text-gray-500 black"></i></a>
+			{% endif %}
+
+			{% if v -%}
+				<a class="mobile-nav-icon d-md-none" href="/chat"><i class="fas fa-messages align-middle text-gray-500 black"></i></a>
+			{%- endif %}
+
 			{% if v and LOTTERY_ENABLED %}
 			<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lottershe">
 				<a
@@ -89,15 +101,7 @@
 				</a>
 			</span>
 			{% endif %}
-			{% if v and v.admin_level > 1 %}
-				<a class="mobile-nav-icon d-md-none" href="/admin"><i class="fas fa-crown align-middle text-gray-500 black"></i></a>
-			{% endif %}
 
-			{% if v %}
-				<a class="mobile-nav-icon d-md-none" href="{% if sub %}/h/{{sub.name}}{% endif %}/submit"><i class="fas fa-feather-alt align-middle text-gray-500 black"></i></a>
-			{% else %}
-				<a class="mobile-nav-icon d-md-none" href="/login"><i class="fas fa-feather-alt align-middle text-gray-500 black"></i></a>
-			{% endif %}
 			<button class="navbar-toggler" role="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
 			aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon {% if v and v.notifications_count %}position-relative{% endif %}"><i class="fal fa-bars text-gray-500 black"></i>
@@ -107,55 +111,22 @@
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto d-none d-md-flex">
 
-				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
-					<a class="nav-link" href="/random_user/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Random user"><i class="fas fa-music"></i></a>
-				</li>
-
-				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
-					<a class="nav-link" href="/random_post/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Random post"><i class="fas fa-random"></i></a>
-				</li>
-
-				{% if v and LOTTERY_ENABLED %}
-				<li
-					class="nav-item d-flex align-items-center justify-content-center text-center mx-1"
-					data-bs-toggle="tooltip"
-					data-bs-placement="bottom"
-					title="Lottershe">
-					<a
-						href="#"
-						class="nav-link"
-						data-bs-toggle="modal"
-						data-bs-dismiss="modal"
-						data-bs-target="#lotteryModal"> 
-						<i class="fas fa-ticket"></i>
-					</a>
-				</li>
-				{% endif %}
-
-				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
-					<a class="nav-link" href="/chat/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"><i class="fas fa-messages"></i></a>
-				</li>
-
-				{% if v and v.admin_level > 1 %}
-				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
-					<a class="nav-link" href="/admin/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin tools"><i class="fas fa-crown{% if v.has_report_queue %} text-success{% endif %}"></i></a>
-				</li>
-				{% endif %}
-
-				{% if v %}
+			{% if v %}
 
 				{% if v.notifications_count %}
-
 				<li class="nav-item d-flex align-items-center text-center justify-content-center mx-1">
 					<a class="nav-link position-relative" href="/notifications{% if v.do_posts %}?posts=true{% elif v.do_reddit %}?reddit=true{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><i class="fas fa-bell text-danger" {% if v.do_posts %}style="color:blue!important"{% elif v.do_reddit %}style="color:#805ad5!important"{% endif %}></i><span class="notif-count ml-1" style="padding-left: 4.5px;{% if v.do_posts %}background:blue{% elif v.do_reddit %}background:#805ad5{% endif %}">{{v.notifications_count}}</span></a>
 				</li>
-
 				{% else %}
-
 				<li class="nav-item d-flex align-items-center text-center justify-content-center mx-1">
 					<a class="nav-link" href="/notifications" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><i class="fas fa-bell"></i></a>
 				</li>
+				{% endif %}
 
+				{% if v.admin_level > 1 %}
+				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
+					<a class="nav-link" href="/admin/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin tools"><i class="fas fa-crown{% if v.has_report_queue %} text-success{% endif %}"></i></a>
+				</li>
 				{% endif %}
 
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
@@ -163,12 +134,30 @@
 				</li>
 
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
-					<a class="nav-link" href="/comments" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comments"><i class="fas fa-comment-dots"></i></a>
+					<a class="nav-link" href="/chat/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"><i class="fas fa-messages"></i></a>
 				</li>
 
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
-					<a class="nav-link" href="/leaderboard" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users"><i class="fas fa-trophy"></i></a>
+					<a class="nav-link" href="/leaderboard" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Leaderboard"><i class="fas fa-trophy"></i></a>
 				</li>
+
+				{% if LOTTERY_ENABLED %}
+				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
+					<span 
+						data-bs-toggle="tooltip"
+						data-bs-placement="bottom"
+						title="Lottershe">
+						<a
+							href="#"
+							class="nav-link"
+							data-bs-toggle="modal"
+							data-bs-dismiss="modal"
+							data-bs-target="#lotteryModal"> 
+							<i class="fas fa-ticket"></i>
+						</a>
+					</span>
+				</li>
+				{% endif %}
 
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
 					<a class="nav-link" href="/shop" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Shop"><i class="fas fa-store"></i></a>
@@ -226,7 +215,7 @@
 						</div>
 					</div>
 				</li>
-				{% else %}
+			{% else %}
 				<li class="nav-item d-flex align-items-center justify-content-center mx-1">
 				<a class="btn btn-primary" href="/contact">Contact us</a>
 			</li>

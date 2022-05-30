@@ -52,6 +52,14 @@ set VISITORS_HERE_FLAVOR = [
 		{%- endif %}
 	</p>
 
+	<p class="text-center text-md mb-4">
+		<a class="sidebar-link" href="/marseys" data-bs-toggle="tooltip" data-bs-placement="top" title="Marseys"><i class="fas fa-cat"></i></a>
+		<a class="sidebar-link" href="/badges" data-bs-toggle="tooltip" data-bs-placement="top" title="Badges"><i class="fas fa-hexagon"></i></a>
+		<a class="sidebar-link" href="/random_user/" data-bs-toggle="tooltip" data-bs-placement="top" title="Random User"><i class="fas fa-music"></i></a>
+		<a class="sidebar-link" href="/random_post/" data-bs-toggle="tooltip" data-bs-placement="top" title="Random Post"><i class="fas fa-random"></i></a>
+		<a class="sidebar-link" href="/comments" data-bs-toggle="tooltip" data-bs-placement="top" title="All Comments"><i class="fas fa-comment-dots"></i></a>
+	</p>
+
 	{% if sub %}
 		{% if sub.sidebar_html %}
 			<div class="mb-4">{{sub.sidebar_html|safe}}</div>
