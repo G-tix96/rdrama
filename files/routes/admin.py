@@ -1271,6 +1271,10 @@ def ban_post(post_id, v):
 	v.coins += 1
 	g.db.add(v)
 
+	if SITE == 'rdrama.net' and v.id != AEVANN_ID:
+		message = f"@{v.username} has removed [{post.title}]({post.shortlink})"
+		send_repeatable_notification(AEVANN_ID, message)
+
 	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, json={'files': [f"{SITE_FULL}/logged_out/"]}, timeout=5)
 
 	g.db.commit()
@@ -1473,6 +1477,11 @@ def api_ban_comment(c_id, v):
 		target_comment_id=comment.id,
 		)
 	g.db.add(ma)
+
+	if SITE == 'rdrama.net' and v.id != AEVANN_ID:
+		message = f"@{v.username} has removed [comment]({comment.shortlink})"
+		send_repeatable_notification(AEVANN_ID, message)
+
 	g.db.commit()
 	return {"message": "Comment removed!"}
 
