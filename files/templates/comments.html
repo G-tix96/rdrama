@@ -225,14 +225,18 @@
 				{% endif %}
 
 				{% if c.treasure_amount and c.treasure_amount != '0' %}
-				<img class="treasure" alt="treasure" src="/assets/images/chest.webp" width="20" />
-					{% if '-' in c.treasure_amount %}
-					<em>A Mimic Ate {{c.treasure_amount.replace('-', '')}} Coins!</em>
-					{% else %}
-					<em>Found {{c.treasure_amount}} Coins!</em>
-					{% endif %}
+				{% if c.treasure_amount.startswith('l') %}
+				<img class="treasure" alt="treasure" src="/assets/images/rDrama/treasure_tickets.gif" width="20" />
+				<em>Found {{c.treasure_amount.replace('l', '')}} Lottershe Tickets!</em>
+				{% elif '-' in c.treasure_amount %}	
+				<img class="treasure" alt="treasure" src="/assets/images/rDrama/treasure_mimic.gif" width="20" />
+				<em>A Mimic Ate {{c.treasure_amount.replace('-', '')}} Coins!</em>
+				{% else %}
+				<img class="treasure" alt="treasure" src="/assets/images/rDrama/treasure_coins.gif" width="20" />
+				<em>Found {{c.treasure_amount}} Coins!</em>
 				{% endif %}
-
+				{% endif %}
+				
 				{% if c.slots_result %}
 				<em style="position: relative; top: 2px; margin-left: 0.5rem">{{c.slots_result}}</em>
 				{% endif %}
