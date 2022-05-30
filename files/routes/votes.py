@@ -235,6 +235,7 @@ def api_vote_poll(comment_id, v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @is_not_permabanned
 def bet(comment_id, v):
+	if not v.can_gamble: return {"error": "You have gambling disabled!"}
 	
 	if v.coins < 200: return {"error": "You don't have 200 coins!"}
 

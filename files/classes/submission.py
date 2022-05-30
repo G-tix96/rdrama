@@ -414,7 +414,7 @@ class Submission(Base):
 		for c in self.bet_options:
 			body += f'''<div class="custom-control mt-3"><input autocomplete="off" class="custom-control-input bet" type="radio" id="{c.id}" onchange="bet_vote('{c.id}')"'''
 			if c.poll_voted(v): body += " checked "
-			if not (v and v.coins > 200) or self.total_bet_voted(v): body += " disabled "
+			if not (v and v.coins > 200) or self.total_bet_voted(v) or not v.can_gamble: body += " disabled "
 			body += f'''><label class="custom-control-label" for="{c.id}">{c.body_html} - <a href="/votes?link=t3_{c.id}"><span id="bet-{c.id}">{c.upvotes}</span> bets</a>'''
 			if not self.total_bet_voted(v):
 				body += '''<span class="cost"> (cost of entry: 200 coins)</span>'''
