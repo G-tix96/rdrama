@@ -173,6 +173,7 @@ if SITE in {'rdrama.net','devrama.xyz'}:
 		"6": "947236351445725204",
 		"7": "886781932430565418",
 	}
+
 elif SITE == "pcmemes.net":
 	HOLE_COST = 10000
 	NOTIFICATIONS_ID = 1046
@@ -1013,3 +1014,20 @@ procoins_li = (0,2500,5000,10000,25000,50000,125000,250000)
 linefeeds_regex = re.compile("([^\n])\n([^\n])", flags=re.A)
 
 def make_name(*args, **kwargs): return request.base_url
+
+# Lottery
+LOTTERY_TICKET_COST = 12
+
+# The amount of dramacoins permanently removed from the economy to reduce expected value
+LOTTERY_SINK_RATE = 3
+
+# The amount of dramacoins the lottery founders receive
+LOTTERY_ROYALTY_RATE = 1
+
+# The account in which royalties are to be deposited
+LOTTERY_ROYALTY_ACCOUNT_ID = 9
+# LOTTERY_ROYALTY_ACCOUNT_ID = 8239 # (McCoxmaul)
+
+# The account in which the prize is held to be accessed by anyone
+LOTTERY_MANAGER_ACCOUNT_ID = 3
+# LOTTERY_MANAGER_ACCOUNT_ID = 11651 (Lottershe)

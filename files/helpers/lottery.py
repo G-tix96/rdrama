@@ -3,50 +3,39 @@ from random import choice
 from sqlalchemy import *
 from files.helpers.alerts import *
 from files.helpers.wrappers import *
-
-LOTTERY_TICKET_COST = 12
-
-# The amount of dramacoins permanently removed from the economy to reduce expected value
-SINK_RATE = 3
-
-# The amount of dramacoins the lottery founders receive
-ROYALTY_RATE = 1
-
-# The account in which royalties are to be deposited
-ROYALTY_ACCOUNT_ID = 9
-
-# The account in which the prize is held to be accessed by anyone
-MANAGER_ACCOUNT_ID = 3
+from flask import g
+from .const import *
 
 
-def get_active_lottery(g):
+def get_active_lottery():
     return g.db.query(Lottery).order_by(Lottery.id.desc()).filter(Lottery.is_active).one_or_none()
 
 
-def get_users_participating_in_lottery(g):
+def get_users_participating_in_lottery():
     return g.db.query(User).filter(User.currently_held_lottery_tickets > 0).all()
 
 
-def get_active_lottery_stats(g):
-    active_lottery = get_active_lottery(g)
-    participating_users = get_users_participating_in_lottery(g)
+def get_active_lottery_stats():
+    active_lottery = get_active_lottery()
+    participating_users = get_users_participating_in_lottery()
 
     return None if active_lottery is None else active_lottery.stats,  len(participating_users)
 
 
-def end_lottery_session(g):
-    active_lottery = get_active_lottery(g)
+def end_lottery_session():
+    active_lottery = get_active_lottery()
 
     if (active_lottery is None):
         return False, "There is no active lottery."
 
-    participating_users = get_users_participating_in_lottery(g)
+    participating_users = get_users_participating_in_lottery()
     raffle = []
     for user in participating_users:
         for _ in range(user.currently_held_lottery_tickets):
             raffle.append(user.id)
 
     winner = choice(raffle)
+    active_lottery.winner_id = winner
     winning_user = next(filter(lambda x: x.id == winner, participating_users))
     winning_user.coins += active_lottery.prize
     winning_user.total_lottery_winnings += active_lottery.prize
@@ -59,7 +48,7 @@ def end_lottery_session(g):
 
     active_lottery.is_active = False
 
-    manager = g.db.query(User).get(MANAGER_ACCOUNT_ID)
+    manager = g.db.query(User).get(LOTTERY_MANAGER_ACCOUNT_ID)
     manager.coins -= active_lottery.prize
 
     g.db.commit()
@@ -67,24 +56,25 @@ def end_lottery_session(g):
     return True, f'{winning_user.username} won {active_lottery.prize} dramacoins!'
 
 
-def start_new_lottery_session(g):
-    end_lottery_session(g)
+def start_new_lottery_session():
+    end_lottery_session()
 
     lottery = Lottery()
     epoch_time = int(time.time())
     one_week_from_now = epoch_time + 60 * 60 * 24 * 7
     lottery.ends_at = one_week_from_now
     lottery.is_active = True
+    lottery.winner_id = 1
 
     g.db.add(lottery)
     g.db.commit()
 
 
-def purchase_lottery_ticket(g, v):
+def purchase_lottery_ticket(v):
     if (v.coins < LOTTERY_TICKET_COST):
         return False, f'Lottery tickets cost {LOTTERY_TICKET_COST} dramacoins each.'
 
-    most_recent_lottery = get_active_lottery(g)
+    most_recent_lottery = get_active_lottery()
     if (most_recent_lottery is None):
         return False, "There is no active lottery."
 
@@ -92,15 +82,16 @@ def purchase_lottery_ticket(g, v):
     v.currently_held_lottery_tickets += 1
     v.total_held_lottery_tickets += 1
 
-    net_ticket_value = LOTTERY_TICKET_COST - SINK_RATE - ROYALTY_RATE
+    net_ticket_value = LOTTERY_TICKET_COST - \
+        LOTTERY_SINK_RATE - LOTTERY_ROYALTY_RATE
     most_recent_lottery.prize += net_ticket_value
     most_recent_lottery.tickets_sold += 1
 
-    manager = g.db.query(User).get(MANAGER_ACCOUNT_ID)
+    manager = g.db.query(User).get(LOTTERY_MANAGER_ACCOUNT_ID)
     manager.coins += net_ticket_value
 
-    beneficiary = g.db.query(User).get(ROYALTY_ACCOUNT_ID)
-    beneficiary.coins += ROYALTY_RATE
+    beneficiary = g.db.query(User).get(LOTTERY_ROYALTY_ACCOUNT_ID)
+    beneficiary.coins += LOTTERY_ROYALTY_RATE
 
     g.db.commit()
 

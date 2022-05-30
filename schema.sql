@@ -1850,3 +1850,20 @@ ALTER TABLE ONLY public.votes
 ALTER TABLE ONLY public.votes
     ADD CONSTRAINT vote_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
+
+CREATE TABLE public.lotteries (
+    id SERIAL PRIMARY KEY,
+    is_active boolean DEFAULT false NOT NULL,
+    ends_at integer DEFAULT 0 NOT NULL,
+    prize integer DEFAULT 0 NOT NULL,
+    tickets_sold integer DEFAULT 0 NOT NULL,
+    winner_id integer DEFAULT 0 NOT NULL
+);
+
+ALTER TABLE ONLY public.lotteries
+    ADD CONSTRAINT fk_winner FOREIGN KEY (winner_id) REFERENCES public.users(id);
+
+ALTER TABLE public.users
+    ADD currently_held_lottery_tickets integer DEFAULT 0 NOT NULL,
+    ADD total_held_lottery_tickets integer DEFAULT 0 NOT NULL,
+    ADD total_lottery_winnings integer DEFAULT 0 NOT NULL; 
