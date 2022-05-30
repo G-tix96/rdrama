@@ -357,6 +357,40 @@ CREATE TABLE public.follows (
 
 
 --
+-- Name: lotteries; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.lotteries (
+    id integer NOT NULL,
+    is_active boolean DEFAULT false NOT NULL,
+    ends_at integer DEFAULT 0 NOT NULL,
+    prize integer DEFAULT 0 NOT NULL,
+    tickets_sold integer DEFAULT 0 NOT NULL,
+    winner_id integer
+);
+
+
+--
+-- Name: lotteries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.lotteries_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: lotteries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.lotteries_id_seq OWNED BY public.lotteries.id;
+
+
+--
 -- Name: marseys; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -630,7 +664,10 @@ CREATE TABLE public.users (
     subs_created integer DEFAULT 0 NOT NULL,
     deflector integer,
     reddit character varying(15) NOT NULL,
-    animations boolean DEFAULT true NOT NULL
+    animations boolean DEFAULT true NOT NULL,
+    currently_held_lottery_tickets integer DEFAULT 0 NOT NULL,
+    total_held_lottery_tickets integer DEFAULT 0 NOT NULL,
+    total_lottery_winnings integer DEFAULT 0 NOT NULL
 );
 
 
@@ -698,6 +735,13 @@ ALTER TABLE ONLY public.badge_defs ALTER COLUMN id SET DEFAULT nextval('public.b
 --
 
 ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.comments_id_seq'::regclass);
+
+
+--
+-- Name: lotteries id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.lotteries ALTER COLUMN id SET DEFAULT nextval('public.lotteries_id_seq'::regclass);
 
 
 --
@@ -846,6 +890,14 @@ ALTER TABLE ONLY public.flags
 
 ALTER TABLE ONLY public.follows
     ADD CONSTRAINT follows_pkey PRIMARY KEY (target_id, user_id);
+
+
+--
+-- Name: lotteries lotteries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.lotteries
+    ADD CONSTRAINT lotteries_pkey PRIMARY KEY (id);
 
 
 --
@@ -1637,6 +1689,14 @@ ALTER TABLE ONLY public.exiles
 
 
 --
+-- Name: lotteries fk_winner; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.lotteries
+    ADD CONSTRAINT fk_winner FOREIGN KEY (winner_id) REFERENCES public.users(id);
+
+
+--
 -- Name: flags flags_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1850,3 +1910,4 @@ ALTER TABLE ONLY public.votes
 
 ALTER TABLE ONLY public.votes
     ADD CONSTRAINT vote_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
