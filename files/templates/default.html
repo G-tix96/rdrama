@@ -14,7 +14,7 @@
 	{% if v %}
 		<style>:root{--primary:#{{v.themecolor}}}</style>
 		<link rel="stylesheet" href="{{asset('css/main.css')}}">
-		<link rel="stylesheet" href="/assets/css/{{v.theme}}.css?v=58">
+		<link rel="stylesheet" href="{{asset('css/' + v.theme + '.css')}}">
 		<link rel="stylesheet" href="/assets/css/awards.css?v=7">
 		{% if v.agendaposter %}
 			<style>
