@@ -413,7 +413,8 @@ def api_comment(v):
 			level=level+1,
 			body_html=filter_emojis_only(option),
 			upvotes=0,
-			is_bot=True
+			is_bot=True,
+			ghost=c.ghost
 			)
 
 		g.db.add(c_option)
@@ -425,7 +426,8 @@ def api_comment(v):
 			level=level+1,
 			body_html=filter_emojis_only(choice),
 			upvotes=0,
-			is_bot=True
+			is_bot=True,
+			ghost=c.ghost
 			)
 
 		g.db.add(c_choice)
@@ -454,7 +456,7 @@ def api_comment(v):
 			is_bot=True,
 			body_html=body_based_html,
 			top_comment_id=c.top_comment_id,
-			ghost=parent_post.ghost
+			ghost=c.ghost
 			)
 
 		g.db.add(c_based)
@@ -486,7 +488,7 @@ def api_comment(v):
 				is_bot=True,
 				body_html=body_jannied_html,
 				top_comment_id=c.top_comment_id,
-				ghost=parent_post.ghost
+				ghost=c.ghost
 				)
 
 			g.db.add(c_jannied)
@@ -522,7 +524,7 @@ def api_comment(v):
 				is_bot=True,
 				body_html=body_html2,
 				top_comment_id=c.top_comment_id,
-				ghost=parent_post.ghost
+				ghost=c.ghost
 				)
 
 			g.db.add(c2)
@@ -553,7 +555,7 @@ def api_comment(v):
 				is_bot=True,
 				body_html=body_html2,
 				top_comment_id=c.top_comment_id,
-				ghost=parent_post.ghost,
+				ghost=c.ghost,
 				distinguish_level=6
 				)
 
@@ -578,7 +580,7 @@ def api_comment(v):
 				is_bot=True,
 				body_html=body_html2,
 				top_comment_id=c.top_comment_id,
-				ghost=parent_post.ghost,
+				ghost=c.ghost,
 				distinguish_level=6
 				)
 
@@ -596,7 +598,7 @@ def api_comment(v):
 				is_bot=True,
 				body_html=body_html2,
 				top_comment_id=c.top_comment_id,
-				ghost=parent_post.ghost,
+				ghost=c.ghost,
 				distinguish_level=6
 				)
 
@@ -708,7 +710,8 @@ def edit_comment(cid, v):
 				level=c.level+1,
 				body_html=filter_emojis_only(i.group(1)),
 				upvotes=0,
-				is_bot=True
+				is_bot=True,
+				ghost=c.ghost
 				)
 			g.db.add(c_option)
 
@@ -720,7 +723,8 @@ def edit_comment(cid, v):
 				level=c.level+1,
 				body_html=filter_emojis_only(i.group(1)),
 				upvotes=0,
-				is_bot=True
+				is_bot=True,
+				ghost=c.ghost
 				)
 			g.db.add(c_choice)
 

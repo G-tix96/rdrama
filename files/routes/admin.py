@@ -932,17 +932,15 @@ def admin_removed_comments(v):
 def agendaposter(user_id, v):
 	user = g.db.query(User).filter_by(id=user_id).one_or_none()
 
-	days = min(float(request.values.get("days", 30.0)), 30.0)
+	days = request.values.get("days")
+	if not days: days = 30.0
+	days = float(days)
+	days = min(days, 30.0)
 
 	expiry = int(time.time() + days*60*60*24)
 
 	user.agendaposter = expiry
 	g.db.add(user)
-
-	for alt in user.alts:
-		if alt.admin_level: return {"error": "User is an admin!"}
-		alt.agendaposter = expiry
-		g.db.add(alt)
 
 	note = f"for {days} days"
 
@@ -1123,16 +1121,19 @@ def ban_user(user_id, v):
 	days = float(request.values.get("days")) if request.values.get('days') else 0
 
 	reason = request.values.get("reason", "").strip()[:256]
-	passed_reason = filter_emojis_only(reason)
+	reason = filter_emojis_only(reason)
 
-	if len(passed_reason) > 256: passed_reason = reason
+	if reason.startswith("/") and '\\' not in reason: 
+		reason = f'<a href="{reason.split()[0]}">{reason}</a>'
 
-	user.ban(admin=v, reason=passed_reason, days=days)
+	if len(reason) > 256: reason = reason
+
+	user.ban(admin=v, reason=reason, days=days)
 
 	if request.values.get("alts"):
 		for x in user.alts:
 			if x.admin_level: break
-			x.ban(admin=v, reason=passed_reason, days=days)
+			x.ban(admin=v, reason=reason, days=days)
 
 	if days:
 		if reason: text = f"@{v.username} has banned you for **{days}** days for the following reason:\n\n> {reason}"
@@ -1267,6 +1268,10 @@ def ban_post(post_id, v):
 
 	v.coins += 1
 	g.db.add(v)
+
+	if SITE == 'rdrama.net' and v.id != AEVANN_ID:
+		message = f"@{v.username} has removed [{post.title}]({post.shortlink})"
+		send_repeatable_notification(AEVANN_ID, message)
 
 	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, json={'files': [f"{SITE_FULL}/logged_out/"]}, timeout=5)
 
@@ -1470,6 +1475,11 @@ def api_ban_comment(c_id, v):
 		target_comment_id=comment.id,
 		)
 	g.db.add(ma)
+
+	if SITE == 'rdrama.net' and v.id != AEVANN_ID:
+		message = f"@{v.username} has removed [comment]({comment.shortlink})"
+		send_repeatable_notification(AEVANN_ID, message)
+
 	g.db.commit()
 	return {"message": "Comment removed!"}
 

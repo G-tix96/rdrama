@@ -173,6 +173,7 @@ if SITE in {'rdrama.net','devrama.xyz'}:
 		"6": "947236351445725204",
 		"7": "886781932430565418",
 	}
+
 elif SITE == "pcmemes.net":
 	HOLE_COST = 10000
 	NOTIFICATIONS_ID = 1046
@@ -1013,3 +1014,19 @@ procoins_li = (0,2500,5000,10000,25000,50000,125000,250000)
 linefeeds_regex = re.compile("([^\n])\n([^\n])", flags=re.A)
 
 def make_name(*args, **kwargs): return request.base_url
+
+# Lottery
+if SITE_NAME == 'rDrama':
+	LOTTERY_ENABLED = True
+	LOTTERY_TICKET_COST = 12
+	LOTTERY_SINK_RATE = 3
+	LOTTERY_ROYALTY_RATE = 1
+	LOTTERY_ROYALTY_ACCOUNT_ID = 8239 # (McCoxmaul)
+	LOTTERY_MANAGER_ACCOUNT_ID = 11651 # (Lottershe)
+else:
+	LOTTERY_ENABLED = False
+	LOTTERY_TICKET_COST = 0
+	LOTTERY_SINK_RATE = 0
+	LOTTERY_ROYALTY_RATE = 0
+	LOTTERY_ROYALTY_ACCOUNT_ID = 0
+	LOTTERY_MANAGER_ACCOUNT_ID = 0

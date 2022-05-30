@@ -19,3 +19,4 @@ from .saves import *
 from .views import *
 from .notifications import *
 from .follows import *
+from .lottery import *

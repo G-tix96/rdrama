@@ -44,12 +44,14 @@
 						</div>
 						<div id="profilestuff" class="ml-3 w-100">
 							{% if u.is_suspended %}
-								<h5 class="text-primary" id="profile--banned">BANNED USER{% if u.ban_reason %}:
-									{% if u.ban_reason_link %}<a href="{{u.ban_reason_link}}"><i class="fas fa-link"></i>{% endif %}
+								<h5 class="text-primary" id="profile--banned">BANNED USER
+									{% if u.ban_reason %}:
 										{{u.ban_reason | safe}}
-									{% if u.ban_reason_link %}</a>{% endif %}
-								{% endif %}</h5>
-								{% if u.unban_utc %}<h5 class="text-primary" id="profile--unban">{{u.unban_string}}</h5>{% endif %}
+									{% endif %}
+								</h5>
+								{% if u.unban_utc %}
+									<h5 class="text-primary" id="profile--unban">{{u.unban_string}}</h5>
+								{% endif %}
 							{% endif %}
 							<div class="d-flex align-items-center mt-1 mb-2">
 								<h1 class="font-weight-bolder h3 mb-0" id="profile--name" style="color: #{{u.namecolor}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.namecolor}}"{% endif %}>{{u.username}}</span></h1>
@@ -68,7 +70,7 @@
 									<span id="profile--verified"><i class="fas fa-badge-check align-middle ml-2 {% if u.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if u.verifiedcolor %}#{{u.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.verified}}"></i></span>
 								{% endif %}
 
-								{% if u.admin_level > 1 or (u.admin_level == 1 and not(v and v.admin_level > 1)) %}
+								{% if u.admin_level > 1 %}
 									<span id="profile--mop">
 										<i class="fas fa-broom text-admin align-middle ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin"></i>
 									</span>
@@ -388,7 +390,7 @@
 					<span id="profile--verified"><i class="fas fa-badge-check align-middle ml-2 {% if u.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if u.verifiedcolor %}#{{u.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.verified}}"></i></span>&nbsp;
 				{% endif %}
 
-				{% if u.admin_level > 1 or (u.admin_level == 1 and not(v and v.admin_level > 1)) %}
+				{% if u.admin_level > 1 %}
 					<span id="profile--mop">
 						<i class="fas fa-broom text-admin align-middle ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin"></i>
 					</span>
