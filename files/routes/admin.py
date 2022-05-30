@@ -1123,16 +1123,19 @@ def ban_user(user_id, v):
 	days = float(request.values.get("days")) if request.values.get('days') else 0
 
 	reason = request.values.get("reason", "").strip()[:256]
-	passed_reason = filter_emojis_only(reason)
+	reason = filter_emojis_only(reason)
 
-	if len(passed_reason) > 256: passed_reason = reason
+	if reason.startswith("/") and '\\' not in reason: 
+		reason = f'<a href="{reason.split()[0]}">{reason}</a>'
 
-	user.ban(admin=v, reason=passed_reason, days=days)
+	if len(reason) > 256: reason = reason
+
+	user.ban(admin=v, reason=reason, days=days)
 
 	if request.values.get("alts"):
 		for x in user.alts:
 			if x.admin_level: break
-			x.ban(admin=v, reason=passed_reason, days=days)
+			x.ban(admin=v, reason=reason, days=days)
 
 	if days:
 		if reason: text = f"@{v.username} has banned you for **{days}** days for the following reason:\n\n> {reason}"
