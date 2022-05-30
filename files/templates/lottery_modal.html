@@ -1,3 +1,4 @@
+{% if LOTTERY_ENABLED %}
 <div
   class="modal fade"
   id="lotteryModal"
@@ -80,8 +81,9 @@
                   title=""
                   aria-label="coins"
                   data-bs-original-title="coins"
-                  style="display: none; position: relative; top: -2px;"
-                /> <span id="prize">-</span>
+                  style="display: none; position: relative; top: -2px"
+                />
+                <span id="prize">-</span>
               </div>
               <div id="timeLeft">-</div>
               <div id="ticketsSoldThisSession">-</div>
@@ -181,3 +183,4 @@
 </div>
 
 <script src="/assets/js/lottery_modal.js?v=249" data-cfasync="false"></script>
+{% endif %}

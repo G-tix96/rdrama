@@ -1857,13 +1857,13 @@ CREATE TABLE public.lotteries (
     ends_at integer DEFAULT 0 NOT NULL,
     prize integer DEFAULT 0 NOT NULL,
     tickets_sold integer DEFAULT 0 NOT NULL,
-    winner_id integer DEFAULT 0 NOT NULL
+    winner_id integer DEFAULT null NULL
 );
 
 ALTER TABLE ONLY public.lotteries
     ADD CONSTRAINT fk_winner FOREIGN KEY (winner_id) REFERENCES public.users(id);
 
-ALTER TABLE public.users
+ALTER TABLE ONLY public.users
     ADD currently_held_lottery_tickets integer DEFAULT 0 NOT NULL,
     ADD total_held_lottery_tickets integer DEFAULT 0 NOT NULL,
     ADD total_lottery_winnings integer DEFAULT 0 NOT NULL; 

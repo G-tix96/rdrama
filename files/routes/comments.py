@@ -669,7 +669,6 @@ def api_comment(v):
 		parent_post.comment_count += 1
 		g.db.add(parent_post)
 
-	v.coins += 20000
 	g.db.commit()
 
 	if request.headers.get("Authorization"): return c.json

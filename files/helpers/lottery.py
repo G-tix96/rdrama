@@ -64,7 +64,6 @@ def start_new_lottery_session():
     one_week_from_now = epoch_time + 60 * 60 * 24 * 7
     lottery.ends_at = one_week_from_now
     lottery.is_active = True
-    lottery.winner_id = 1
 
     g.db.add(lottery)
     g.db.commit()
@@ -82,8 +81,7 @@ def purchase_lottery_ticket(v):
     v.currently_held_lottery_tickets += 1
     v.total_held_lottery_tickets += 1
 
-    net_ticket_value = LOTTERY_TICKET_COST - \
-        LOTTERY_SINK_RATE - LOTTERY_ROYALTY_RATE
+    net_ticket_value = LOTTERY_TICKET_COST - LOTTERY_SINK_RATE - LOTTERY_ROYALTY_RATE
     most_recent_lottery.prize += net_ticket_value
     most_recent_lottery.tickets_sold += 1
 

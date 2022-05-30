@@ -1016,18 +1016,19 @@ linefeeds_regex = re.compile("([^\n])\n([^\n])", flags=re.A)
 def make_name(*args, **kwargs): return request.base_url
 
 # Lottery
-LOTTERY_TICKET_COST = 12
-
-# The amount of dramacoins permanently removed from the economy to reduce expected value
-LOTTERY_SINK_RATE = 3
-
-# The amount of dramacoins the lottery founders receive
-LOTTERY_ROYALTY_RATE = 1
-
-# The account in which royalties are to be deposited
-LOTTERY_ROYALTY_ACCOUNT_ID = 9
-# LOTTERY_ROYALTY_ACCOUNT_ID = 8239 # (McCoxmaul)
-
-# The account in which the prize is held to be accessed by anyone
-LOTTERY_MANAGER_ACCOUNT_ID = 3
-# LOTTERY_MANAGER_ACCOUNT_ID = 11651 (Lottershe)
+if SITE_NAME == 'rDrama':
+	LOTTERY_ENABLED = True
+	LOTTERY_TICKET_COST = 12
+	LOTTERY_SINK_RATE = 3
+	LOTTERY_ROYALTY_RATE = 1
+	LOTTERY_ROYALTY_ACCOUNT_ID = 9
+	# LOTTERY_ROYALTY_ACCOUNT_ID = 8239 # (McCoxmaul)
+	LOTTERY_MANAGER_ACCOUNT_ID = 3
+	# LOTTERY_MANAGER_ACCOUNT_ID = 11651 (Lottershe)
+else:
+	LOTTERY_ENABLED = False
+	LOTTERY_TICKET_COST = 0
+	LOTTERY_SINK_RATE = 0
+	LOTTERY_ROYALTY_RATE = 0
+	LOTTERY_ROYALTY_ACCOUNT_ID = 0
+	LOTTERY_MANAGER_ACCOUNT_ID = 0
