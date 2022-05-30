@@ -483,7 +483,8 @@ def edit_post(pid, v):
 				level=1,
 				body_html=filter_emojis_only(i.group(1)),
 				upvotes=0,
-				is_bot=True
+				is_bot=True,
+				ghost=p.ghost
 				)
 			g.db.add(c)
 
@@ -494,7 +495,8 @@ def edit_post(pid, v):
 				level=1,
 				body_html=filter_emojis_only(i.group(1)),
 				upvotes=0,
-				is_bot=True
+				is_bot=True,
+				ghost=p.ghost
 				)
 			g.db.add(c)
 
@@ -1138,7 +1140,8 @@ def submit_post(v, sub=None):
 			level=1,
 			body_html=filter_emojis_only(option),
 			upvotes=0,
-			is_bot=True
+			is_bot=True,
+			ghost=post.ghost
 			)
 		g.db.add(c)
 
@@ -1148,7 +1151,8 @@ def submit_post(v, sub=None):
 			level=1,
 			body_html=filter_emojis_only(choice),
 			upvotes=0,
-			is_bot=True
+			is_bot=True,
+			ghost=post.ghost
 			)
 		g.db.add(c)
 
@@ -1227,6 +1231,7 @@ def submit_post(v, sub=None):
 			stickied='AutoJanny',
 			distinguish_level=6,
 			body_html=body_jannied_html,
+			ghost=post.ghost
 		)
 
 		g.db.add(c_jannied)
@@ -1329,7 +1334,8 @@ def submit_post(v, sub=None):
 				over_18=False,
 				is_bot=True,
 				app_id=None,
-				body_html=body_html
+				body_html=body_html,
+				ghost=post.ghost
 				)
 
 			g.db.add(c)
