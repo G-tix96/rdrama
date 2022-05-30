@@ -36,20 +36,25 @@ set VISITORS_HERE_FLAVOR = [
 		<img class="mb-4" alt="sidebar image" role="button" data-bs-toggle="modal" data-bs-target="#expandImageModal" onclick="expandDesktopImage('{{image}}')" loading="lazy" src="{{image}}" width=100%>
 	{% endif %}
 
-	<div class="text-center text-lg font-weight-bold">
+	<p class="mt-1 ml-2 mb-4 text-center">
 		<img src="/e/marseylowpoly.webp" height=18 width=28>
-		<span>PEOPLE HERE NOW</span>
-	</div>
-
-	<p class="mt-1 ml-2 mb-4 text-center text-lg">
 		<span id="sidebar--counter--total">{{ g.loggedin_counter + g.loggedout_counter }}</span>
 		<span id="sidebar--counter--flavor">{{ VISITORS_HERE_FLAVOR|random|safe }}</span>
-		<span id="sidebar--counter-loggedin">({{ g.loggedin_counter }} logged in)</span>
+		<span id="sidebar--counter--loggedin">({{ g.loggedin_counter }} logged in)</span>
 		{% if v and v.admin_level >= 2 -%}
-			<span id="sidebar--counter--admin" style="text-align: center; display: block; font-size: 1rem;">
+			<span id="sidebar--counter--admin">
 				<a href="/admin/loggedin">Logged In</a> | <a href="/admin/loggedout">Logged Out</a>
 			</span>
 		{%- endif %}
+	</p>
+
+	<p class="text-center text-md mb-4">
+		<a class="sidebar-link" href="/marseys" data-bs-toggle="tooltip" data-bs-placement="top" title="Marseys"><i class="fas fa-cat"></i></a>
+		<a class="sidebar-link" href="/badges" data-bs-toggle="tooltip" data-bs-placement="top" title="Badges"><i class="fas fa-hexagon"></i></a>
+		<a class="sidebar-link" href="/log" data-bs-toggle="tooltip" data-bs-placement="top" title="Moderation Log"><i class="fas fa-scroll-old"></i></a>
+		<a class="sidebar-link" href="/random_user/" data-bs-toggle="tooltip" data-bs-placement="top" title="Random User"><i class="fas fa-music"></i></a>
+		<a class="sidebar-link" href="/random_post/" data-bs-toggle="tooltip" data-bs-placement="top" title="Random Post"><i class="fas fa-random"></i></a>
+		<a class="sidebar-link" href="/comments" data-bs-toggle="tooltip" data-bs-placement="top" title="All Comments"><i class="fas fa-comment-dots"></i></a>
 	</p>
 
 	{% if sub %}

@@ -247,7 +247,7 @@ def sanitize(sanitized, alert=False, comment=False, edit=False):
 	for rd in ["://reddit.com", "://new.reddit.com", "://www.reddit.com", "://redd.it", "://libredd.it", "://teddit.net"]:
 		sanitized = sanitized.replace(rd, "://old.reddit.com")
 
-	sanitized = sanitized.replace("nitter.net", "twitter.com").replace("old.reddit.com/gallery", "reddit.com/gallery").replace("https://youtu.be/", "https://youtube.com/watch?v=").replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=").replace("https://streamable.com/", "https://streamable.com/e/").replace("https://youtube.com/shorts/", "https://youtube.com/watch?v=").replace("https://mobile.twitter", "https://twitter").replace("https://m.facebook", "https://facebook").replace("m.wikipedia.org", "wikipedia.org").replace("https://m.youtube", "https://youtube").replace("https://www.youtube", "https://youtube").replace("https://www.twitter", "https://twitter").replace("https://www.instagram", "https://instagram").replace("https://www.tiktok", "https://tiktok")
+	sanitized = sanitize_url(sanitized)
 
 	sanitized = sanitized.replace('&amp;','&')
 
@@ -377,7 +377,8 @@ def filter_emojis_only(title, edit=False, graceful=False):
 	if len(title) > 1500 and not graceful: abort(400)
 	else: return title
 
-def normalize_url(url):
+def sanitize_url(url):
+	# NB: Used in this file to sanitize all URLs in bulk text.
 	url = url.replace("nitter.net", "twitter.com") \
 			 .replace("old.reddit.com/gallery", "reddit.com/gallery") \
 			 .replace("https://youtu.be/", "https://youtube.com/watch?v=") \
@@ -391,6 +392,11 @@ def normalize_url(url):
 			 .replace("https://www.twitter", "https://twitter") \
 			 .replace("https://www.instagram", "https://instagram") \
 			 .replace("https://www.tiktok", "https://tiktok")
+
+	return url
+
+def normalize_url(url):
+	url = sanitize_url(url)
 
 	if "/i.imgur.com/" in url:
 		url = url.replace(".png", ".webp").replace(".jpg", ".webp").replace(".jpeg", ".webp")

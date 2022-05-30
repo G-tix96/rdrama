@@ -24,7 +24,7 @@ def lottery_start(v):
 
 
 @app.post("/lottery/buy")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit("3/second;100/minute;500/hour;1000/day")
 @auth_required
 @lottery_required
 def lottery_buy(v):
@@ -38,7 +38,7 @@ def lottery_buy(v):
 
 
 @app.get("/lottery/active")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit("3/second;100/minute;500/hour;1000/day")
 @auth_required
 @lottery_required
 def lottery_active(v):

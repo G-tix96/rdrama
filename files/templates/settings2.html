@@ -40,7 +40,7 @@
 	{% if v %}
 		<style>:root{--primary:#{{v.themecolor}}}</style>
 		<link rel="stylesheet" href="{{asset('css/main.css')}}">
-		<link rel="stylesheet" href="/assets/css/{{v.theme}}.css?v=57">
+		<link rel="stylesheet" href="{{asset('css/' + v.theme + '.css')}}">
 	{% else %}
 		<style>:root{--primary:#{{config('DEFAULT_COLOR')}}</style>
 		<link rel="stylesheet" href="{{asset('css/main.css')}}">

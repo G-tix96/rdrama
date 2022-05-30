@@ -33,23 +33,29 @@ def feeds_user(sort='hot', t='all'):
 		with tag("title", type="text"):
 			text(f"{sort} posts from {domain}")
 
-		doc.stag("link", href=SITE_FULL + request.full_path)
-		doc.stag("link", href=SITE_FULL)
+		with tag("id"):
+			text(SITE_FULL + request.full_path)
+		with tag("updated"):
+			text(datetime.now().isoformat()+"Z")
+		doc.stag("link", rel="self", type="application/atom+xml", href=SITE_FULL + request.full_path)
+		doc.stag("link", rel="alternate", type="text/html", href=SITE_FULL)
 
 		for post in posts:
 			with tag("entry", ("xml:base", SITE_FULL + request.full_path)):
-				with tag("title", type="text"):
+				with tag("title", type="html"):
 					text(post.realtitle(None))
 
 				with tag("id"):
-					text(post.fullname)
+					text(post.permalink)
 
 				if (post.edited_utc):
 					with tag("updated"):
-						text(datetime.utcfromtimestamp(post.edited_utc).isoformat())
+						text(datetime.utcfromtimestamp(post.edited_utc).isoformat()+"Z")
+				else:
+					text(datetime.utcfromtimestamp(post.created_utc).isoformat()+"Z")
 
 				with tag("published"):
-					text(datetime.utcfromtimestamp(post.created_utc).isoformat())
+					text(datetime.utcfromtimestamp(post.created_utc).isoformat()+"Z")
 				
 				with tag("author"):
 					with tag("name"):
@@ -65,6 +71,6 @@ def feeds_user(sort='hot', t='all'):
 
 				if len(post.body_html):
 					with tag("content", type="html"):
-						doc.cdata(f'''<img alt="{post.realtitle(None)}" loading="lazy" src={image_url}><br>{post.realbody(None)}''')
+						doc.cdata(f'''<img alt="{post.realtitle(None)}" loading="lazy" src="{image_url}"><br>{post.realbody(None)}''')
 
 	return Response( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+ doc.getvalue(), mimetype="application/xml")

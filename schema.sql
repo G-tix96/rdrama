@@ -667,7 +667,8 @@ CREATE TABLE public.users (
     animations boolean DEFAULT true NOT NULL,
     currently_held_lottery_tickets integer DEFAULT 0 NOT NULL,
     total_held_lottery_tickets integer DEFAULT 0 NOT NULL,
-    total_lottery_winnings integer DEFAULT 0 NOT NULL
+    total_lottery_winnings integer DEFAULT 0 NOT NULL,
+    can_gamble boolean DEFAULT true NOT NULL
 );
 
 
