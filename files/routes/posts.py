@@ -1434,12 +1434,21 @@ def undelete_post_pid(pid, v):
 @app.post("/toggle_comment_nsfw/<cid>")
 @auth_required
 def toggle_comment_nsfw(cid, v):
-
 	comment = g.db.query(Comment).filter_by(id=cid).one_or_none()
-	if comment.author_id != v.id and not v.admin_level > 1: abort(403)
+
+	if comment.author_id != v.id and not v.admin_level > 1:
+		abort(403)
+
 	comment.over_18 = not comment.over_18
 	g.db.add(comment)
 
+	if comment.author_id != v.id:
+		ma = ModAction(
+				kind = "set_nsfw_comment" if comment.over_18 else "unset_nsfw_comment",
+				user_id = v.id,
+				target_comment_id = comment.id,
+				)
+		g.db.add(ma)
 	g.db.commit()
 
 	if comment.over_18: return {"message": "Comment has been marked as +18!"}
@@ -1448,7 +1457,6 @@ def toggle_comment_nsfw(cid, v):
 @app.post("/toggle_post_nsfw/<pid>")
 @auth_required
 def toggle_post_nsfw(pid, v):
-
 	post = get_post(pid)
 
 	if post.author_id != v.id and not v.admin_level > 1:
@@ -1457,14 +1465,13 @@ def toggle_post_nsfw(pid, v):
 	post.over_18 = not post.over_18
 	g.db.add(post)
 
-	if post.author_id!=v.id:
-		ma=ModAction(
-			kind="set_nsfw" if post.over_18 else "unset_nsfw",
-			user_id=v.id,
-			target_submission_id=post.id,
-			)
+	if post.author_id != v.id:
+		ma = ModAction(
+				kind = "set_nsfw" if post.over_18 else "unset_nsfw",
+				user_id = v.id,
+				target_submission_id = post.id,
+				)
 		g.db.add(ma)
-
 	g.db.commit()
 
 	if post.over_18: return {"message": "Post has been marked as +18!"}

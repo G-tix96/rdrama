@@ -339,6 +339,11 @@ ACTIONTYPES = {
 		"icon": 'fa-eye-evil', 
 		"color": 'bg-danger'
 	},
+	'set_nsfw_comment': {
+		"str": 'set nsfw on a {self.target_link}', 
+		"icon": 'fa-eye-evil', 
+		"color": 'bg-danger'
+	},
 	'shadowban': {
 		"str": 'shadowbanned {self.target_link}', 
 		"icon": 'fa-eye-slash', 
@@ -401,6 +406,11 @@ ACTIONTYPES = {
 	},
 	'unset_nsfw': {
 		"str": 'un-set nsfw on post {self.target_link}', 
+		"icon": 'fa-eye-evil', 
+		"color": 'bg-success'
+	},
+	'unset_nsfw_comment': {
+		"str": 'un-set nsfw on a {self.target_link}', 
 		"icon": 'fa-eye-evil', 
 		"color": 'bg-success'
 	},
