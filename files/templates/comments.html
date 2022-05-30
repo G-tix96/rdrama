@@ -463,9 +463,10 @@
 						{% if v %}
 							<button style="margin-top:0.2rem" class="btn caction py-0 nobackground px-1 text-muted" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h fa-fw"></i></button>
 							<ul class="dropdown-menu">
+
 {% if v.admin_level and v.id==c.author_id %}
-<button id="undistinguish-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.distinguish_level %}d-md-block{% endif %} text-info"  onclick="post_toast3(this,'/distinguish_comment/{{c.id}}','distinguish-{{c.id}}','undistinguish-{{c.id}}','no')"><i class="fas fa-id-badge text-info fa-fw"></i>Undistinguish</button>
-<button id="distinguish-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.distinguish_level %}d-md-block{% endif %} text-info" onclick="post_toast3(this,'/distinguish_comment/{{c.id}}','distinguish-{{c.id}}','undistinguish-{{c.id}}','yes')"><i class="fas fa-id-badge text-info fa-fw"></i>Distinguish</button>
+	<button id="undistinguish-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.distinguish_level %}d-md-block{% endif %} text-info"  onclick="post_toast3(this,'/distinguish_comment/{{c.id}}','distinguish-{{c.id}}','undistinguish-{{c.id}}')"><i class="fas fa-id-badge text-info fa-fw"></i>Undistinguish</button>
+	<button id="distinguish-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.distinguish_level %}d-md-block{% endif %} text-info" onclick="post_toast3(this,'/distinguish_comment/{{c.id}}','distinguish-{{c.id}}','undistinguish-{{c.id}}')"><i class="fas fa-id-badge text-info fa-fw"></i>Distinguish</button>
 {% endif %}
 
 {% if v.id != c.author_id and not c.ghost %}
@@ -841,7 +842,7 @@
 
 	{% if v %}
 		<script src="/assets/js/marked.js?v=256"></script>
-		<script src="/assets/js/comments_v.js?v=271"></script>
+		<script src="/assets/js/comments_v.js?v=272"></script>
 	{% endif %}
 
 	<script src="/assets/js/clipboard.js?v=250"></script>
