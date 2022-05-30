@@ -42,7 +42,7 @@ def feeds_user(sort='hot', t='all'):
 
 		for post in posts:
 			with tag("entry", ("xml:base", SITE_FULL + request.full_path)):
-				with tag("title", type="text"):
+				with tag("title", type="html"):
 					text(post.realtitle(None))
 
 				with tag("id"):
@@ -51,6 +51,8 @@ def feeds_user(sort='hot', t='all'):
 				if (post.edited_utc):
 					with tag("updated"):
 						text(datetime.utcfromtimestamp(post.edited_utc).isoformat()+"Z")
+				else:
+					text(datetime.utcfromtimestamp(post.created_utc).isoformat()+"Z")
 
 				with tag("published"):
 					text(datetime.utcfromtimestamp(post.created_utc).isoformat()+"Z")
@@ -69,6 +71,6 @@ def feeds_user(sort='hot', t='all'):
 
 				if len(post.body_html):
 					with tag("content", type="html"):
-						doc.cdata(f'''<img alt="{post.realtitle(None)}" loading="lazy" src={image_url}><br>{post.realbody(None)}''')
+						doc.cdata(f'''<img alt="{post.realtitle(None)}" loading="lazy" src="{image_url}"><br>{post.realbody(None)}''')
 
 	return Response( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+ doc.getvalue(), mimetype="application/xml")
