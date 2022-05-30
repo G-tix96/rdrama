@@ -11,22 +11,16 @@ from files.helpers.lottery import *
 @admin_level_required(3)
 @lottery_required
 def lottery_end(v):
-    if v.admin_level > 2:
-        success, message = end_lottery_session()
-        return {"message": message} if success else {"error": message}
-    else:
-        return {"error": "JL3+ or higher required to start and end lotteries."}, 401
+    success, message = end_lottery_session()
+    return {"message": message} if success else {"error": message}
 
 
 @app.post("/lottery/start")
 @admin_level_required(3)
 @lottery_required
 def lottery_start(v):
-    if v.admin_level > 2:
-        start_new_lottery_session()
-        return {"message": "Lottery started."}
-    else:
-        return {"error": "JL3+ or higher required to start and end lotteries."}, 401
+    start_new_lottery_session()
+    return {"message": "Lottery started."}
 
 
 @app.post("/lottery/buy")
