@@ -932,17 +932,15 @@ def admin_removed_comments(v):
 def agendaposter(user_id, v):
 	user = g.db.query(User).filter_by(id=user_id).one_or_none()
 
-	days = min(float(request.values.get("days", 30.0)), 30.0)
+	days = request.values.get("days")
+	if not days: days = 30.0
+	days = float(days)
+	days = min(days, 30.0)
 
 	expiry = int(time.time() + days*60*60*24)
 
 	user.agendaposter = expiry
 	g.db.add(user)
-
-	for alt in user.alts:
-		if alt.admin_level: return {"error": "User is an admin!"}
-		alt.agendaposter = expiry
-		g.db.add(alt)
 
 	note = f"for {days} days"
 
