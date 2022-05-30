@@ -83,7 +83,7 @@
 						{% endif %}
 						{{t | capitalize}}
 					</button>
-					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px);">
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px;">
 						{% if t != "hour" %}<a class="dropdown-item" href="?sort={{sort}}&t=hour&ccmode={{ccmode}}"><i class="fas fa-clock mr-2 "></i>Hour</a>{% endif %}
 						{% if t != "day" %}<a class="dropdown-item" href="?sort={{sort}}&t=day&ccmode={{ccmode}}"><i class="fas fa-calendar-day mr-2 "></i>Day</a>{% endif %}
 						{% if t != "week" %}<a class="dropdown-item" href="?sort={{sort}}&t=week&ccmode={{ccmode}}"><i class="fas fa-calendar-week mr-2 "></i>Week</a>{% endif %}
@@ -105,7 +105,7 @@
 						{% if sort=="comments" %}<i class="fas fa-comments mr-2 "></i>{% endif %}
 						{{sort | capitalize}}
 					</button>
-					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton2" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px);">
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton2" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px;">
 						{% if sort != "hot" %}<a class="dropdown-item" href="?sort=hot&t={{t}}&ccmode={{ccmode}}"><i class="fas fa-fire mr-2 "></i>Hot</a>{% endif %}
 						{% if sort != "bump" %}<a class="dropdown-item" href="?sort=bump&t={{t}}&ccmode={{ccmode}}"><i class="fas fa-arrow-up mr-2 "></i>Bump</a>{% endif %}
 						{% if sort != "top" %}<a class="dropdown-item" href="?sort=top&t={{t}}&ccmode={{ccmode}}"><i class="fas fa-arrow-alt-circle-up mr-2 "></i>Top</a>{% endif %}
@@ -162,7 +162,7 @@
 
 <div class="row no-gutters {% if listing %}mt-md-3{% elif not listing %}my-md-3{% endif %}">
 
-	<div class="col-12">
+	<div class="col-12 {% if request.path=='/catalog' %}catalog{% endif %}">
 
 		<div class="posts" id="posts">
 
