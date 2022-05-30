@@ -10,6 +10,11 @@ standard_max = 100
 lotterizer_rate = 33
 
 def check_for_treasure(in_text, from_comment):
+	user = from_comment.author
+
+	if not user.can_gamble:
+		return
+
 	if '!slots' not in in_text and '!blackjack' not in in_text and '!wordle' not in in_text:
 		seed = randint(1, 1000)
 		is_special = seed == 1000
@@ -21,14 +26,11 @@ def check_for_treasure(in_text, from_comment):
 		elif is_standard:
 			amount = randint(standard_min, standard_max)
 			if randint(1, 100) > 90:
-				user = from_comment.author
 				if amount > user.coins: amount = user.coins
 				amount = -amount
 
 
 		if amount != 0:
-			user = from_comment.author
-
 			if amount > 0:
 				active_lottery = get_active_lottery()
 				lottery_tickets_seed = randint(1, 100)

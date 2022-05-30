@@ -83,6 +83,10 @@ def settings_profile_post(v):
 		updated = True
 		v.newtabexternal = request.values.get("newtabexternal") == 'true'
 
+	elif request.values.get("can_gamble", v.can_gamble) != v.can_gamble:
+		updated = True
+		v.can_gamble = request.values.get("can_gamble") == 'true'
+
 	elif request.values.get("nitter", v.nitter) != v.nitter:
 		updated = True
 		v.nitter = request.values.get("nitter") == 'true'

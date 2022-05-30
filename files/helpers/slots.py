@@ -19,6 +19,9 @@ def shuffle(stuff):
 	return stuff
 
 def check_for_slots_command(in_text, from_user, from_comment):
+	if not from_user.can_gamble:
+		return
+
 	in_text = in_text.lower()
 	if command_word in in_text:
 		for word in in_text.split():
