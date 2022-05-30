@@ -85,10 +85,6 @@
 				<a class="mobile-nav-icon d-md-none" href="/login"><i class="fas fa-feather-alt align-middle text-gray-500 black"></i></a>
 			{% endif %}
 
-			{% if v -%}
-				<a class="mobile-nav-icon d-md-none" href="/chat"><i class="fas fa-messages align-middle text-gray-500 black"></i></a>
-			{%- endif %}
-
 			{% if v and v.can_gamble and LOTTERY_ENABLED %}
 			<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lottershe">
 				<a
