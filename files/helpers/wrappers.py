@@ -7,6 +7,10 @@ import user_agents
 
 @limiter.request_filter
 def limiter_whitelist_admins():
+	if not hasattr(g, 'agent') or not g.agent:
+		return False
+	if not hasattr(g, 'db') or not g.db:
+		return False
 	v = get_logged_in_user()
 	if not v:
 		return False
