@@ -1,3 +1,4 @@
+{%- from 'util/assetcache.html' import asset -%}
 {% if not ajax %}
 	{% if comment_info and not request.full_path.endswith('#context') %}
 		<script>
