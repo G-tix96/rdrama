@@ -1356,11 +1356,11 @@ def sticky_post(post_id, v):
 	post = g.db.query(Submission).filter_by(id=post_id).one_or_none()
 	if post and not post.stickied:
 		pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
-		if pins > 2:
+		if pins >= PIN_LIMIT:
 			if v.admin_level > 2:
 				post.stickied = v.username
 				post.stickied_utc = int(time.time()) + 3600
-			else: return {"error": "Can't exceed 3 pinned posts limit!"}, 403
+			else: return {"error": f"Can't exceed {PIN_LIMIT} pinned posts limit!"}, 403
 		else: post.stickied = v.username
 		g.db.add(post)
 
