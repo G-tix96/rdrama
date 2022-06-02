@@ -1912,3 +1912,143 @@ ALTER TABLE ONLY public.votes
 ALTER TABLE ONLY public.votes
     ADD CONSTRAINT vote_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
+
+--
+-- PostgreSQL database dump complete
+--
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.7
+-- Dumped by pg_dump version 14.2 (Ubuntu 14.2-1.pgdg20.04+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Data for Name: badge_defs; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.badge_defs (id, name, description) FROM stdin;
+136	TRAIN 2022	Beware: Found to be one of the most transmisic commenters on the site!
+137	Lottershe Winner	This user won the Lottershe grand prize.
+4	White Hat	Discreetly reported an exploit
+1	Alpha User	Joined during open alpha
+2	Verified Email	Verified Email
+3	Code Contributor	Contributed to the site's source code
+6	Beta User	Joined during open beta
+7	Bug Chaser	Found a bug
+10	Bronze Recruiter	Recruited 1 friend to join the site
+11	Silver Recruiter	Recruited 10 friends to join the site
+12	Gold Recruiter	Recruited 100 friends to join the site
+15	Idea Maker	Had a good idea for the site which was implemented by the developers
+16	Marsey Master	Contributed 10 (or more!!!!) Marsey emojis ✨
+17	Marsey Artisan	Contributed a Marsey emoji ✨
+18	Artisan	Contributed to site artwork
+21	Paypig	Contributed at least $5
+22	Renthog	Contributed at least $10
+23	Landchad	Contributed at least $20
+24	Terminally online turboautist	Contributed at least $50
+85	Sigma User	
+60	Unironically Retarded	Demonstrated a wholesale inability to read the room
+61	Lab Rat	Helped test features in development
+62	Master Baiter	For outstanding achievement in the field of catching fish
+63	Balls	I wrote carp on my balls as a sign of submission
+64	The Other Kind Of Good Journalist	Contributed positive media attention to the site
+65	2021 Spooooooky Marsey Artist	Contributed a VERY SCARY Marsey for Halloween 2021!
+66	Sk8r Boi	Certifies that this user is NOT a poser
+67	Unpausable	Spent 40,000 coins on an unpausable profile anthem
+68	Pause Button	Spent 20,000 coins on a profile anthem pause button
+69	Little Big Spender	Dropped 10,000 coins at the shop
+70	Big Spender	Dropped 100,000 coins at the shop
+71	Big Big Spender	Dropped 250,000 coins at the shop
+72	Big Big Big Spender	Dropped 500,000 coins at the shop
+73	Le Rich Gentlesir	Spent a fucking million coins at the shop
+74	Grass Toucher	Awarded for molesting plant life
+75	Halloween 21	Awarded for surviving Homoween 2021
+76	Low Roller	Bought 10 lootboxes
+77	Middle Roller	Bought 50 lootboxes
+78	High Roller	Bought 150 lootboxes
+79	Merchant	Contributed a new line of product to Marsey's Coin Emporium
+80	Artist Laureate	
+81	Patron of the Arts	Sponsored the creation of an approved Marsey
+83	All-Seeing Eye	Can view private profiles
+84	Alt-Seeing Eye	Can see alts
+86	Holly Jolly Marsey Artist	Contributed a VERY JOLLY Marsey for Christmas 2021!
+87	Unblockable	This user is unblockable
+88	Provider	This user provided a bountiful feast for Thanksgiving
+89	Dinner	Yes, it is edible
+90	Fish	This user cannot be unfollowed
+91	Grinch	This user is a joyless grinch who pays money to avoid having fun
+92	NFT Artist	Drew a marsey that was used as an NFT
+93	NFT Owner	Bought a marsey NFT
+94	Progressive Stack Award	Upvotes/downvotes on this user's posts and comments have double the ranking effect
+95	Bird Site Award	This user is limited to 140 characters
+96	Flairlock Award	This user's flair has been locked by someone else
+97	Pizzashill Award	This user has to make their posts and comments more than 280 characters
+98	Marsey Award	This user is limited to posting marseys
+99	Sidebar Artist	Contributed artwork featured on the sidebar
+100	True Believer	This user sees through communist lies
+101	Banner Artist	Contributed a banner image to the site
+102	Christmas 21	Awarded for surviving Fistmas 2021
+103	Benefactor	Gave the Benefactor award to someone
+104	BADASS OUTLAW	Bad boy who does not play by the rules
+105	SCAM	lmao get fucked retard
+107	Certified BIPOC	The mayocide starts now
+108	Nword Pass	With great power comes great responsibility
+110	Wolf Artisan	Contributed a Zombie Wolf emoji ✨
+111	Wolf Master	Contributed 10 (or more!!!!) Zombie Wolf emojis ✨
+112	Platy Artisan	Contributed a Platy emoji ✨
+113	Platy Master	Contributed 10 (or more!!!!) Platy emojis ✨
+109	Rehab Award	Prevented from gambling
+114	Capy Artisan	Contributed a Capy emoji ✨
+115	Capy Master	Contributed 10 (or more!!!!) Capy emojis ✨
+116	Outreach Award	Brought invaluable drama to the starving masses off-site
+128	Fart-Free	This user does NOT fart.
+117	Stone Skeptic	This user rejects igneous lies
+129	Misinformation Superspreader	This poster was fact checked by real American patriots
+130	Columbine Enthusiast (TEMPORAL FLUX EDITION)	This user is an acclaimed Reb+VoDKa slash author
+28	Chud	Marked as a chud
+59	Lolcow	Beautiful and valid milk provider
+25	Marsey's Sugar Daddy	Contributed at least $100
+26	JIDF Bankroller	Donated at least $250
+27	Rich Bich	Contributed at least $500
+118	Hit!	Confirmed removal of a r/stupidpol post for hate speech or threatening violence
+119	BIG Hit!	Confirmed removal of a /r/stupidpol MODERATOR'S post for hate speech or threatening violence
+120	Msar Bomba	Confirmed ban of a r/stupidpol user
+121	Order of Marsey, 2nd Class	Confirmed temp ban of a r/stupidpol moderator
+122	Order of Marsey, 1st Class	Confirmed permanent ban of a /r/stupidpol moderator
+123	Hero of the Marsey Union	Awarded to all soldiers who served during the Special Military Operation to de-nazify r/stupidpol
+124	COOL GUY	This user does NOT watch anime
+125	Certified LOSER	This user watches anime
+126	Survivor	This user braved the Oregon Trail and lived to tell the tale
+127	Wagonfire	This user braved the Oregon Trail and fucking died lmao
+131	21st Century Hitlerite (TEMPORAL FLUX EDITION)	This user lost the love of their life in 1940s Berlin
+132	Duterte's Most Wanted (TEMPORAL FLUX EDITION)	dude weed lmao what year is it
+133	Rockstar	This user submitted an original piece to the song contest
+134	1 Year Old 🥰	This user has wasted an ENTIRE YEAR of their life here! Happy birthday!
+135	1st Birthgay Bash Survivor	Awarded for surviving rDrama’s first annual Birthgay Bash
+\.
+
+
+--
+-- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 137, true);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
