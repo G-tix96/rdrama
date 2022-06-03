@@ -129,6 +129,7 @@ AGENDAPOSTER_PHRASE = 'trans lives matter'
 AGENDAPOSTER_MSG = """Hi @{username},\n\nYour {type} has been automatically removed because you forgot to include `{AGENDAPOSTER_PHRASE}`.\n\nDon't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards the trans community. Feel free to resubmit your {type} with `{AGENDAPOSTER_PHRASE}` included. \n\n*This is an automated message; if you need help, you can message us [here](/contact).*"""
 
 PIN_LIMIT = 3
+POST_RATE_LIMIT = "1/second;2/minute;10/hour;50/day"
 
 if SITE in {'rdrama.net','devrama.xyz'}:
 	HOLE_COST = 200000
@@ -179,6 +180,7 @@ if SITE in {'rdrama.net','devrama.xyz'}:
 elif SITE == "pcmemes.net":
 	HOLE_COST = 10000
 	PIN_LIMIT = 6
+	POST_RATE_LIMIT = "1/second;4/minute;20/hour;100/day"
 	NOTIFICATIONS_ID = 1046
 	AUTOJANNY_ID = 1050
 	SNAPPY_ID = 261

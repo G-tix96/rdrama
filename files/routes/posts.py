@@ -852,8 +852,8 @@ def api_is_repost():
 
 @app.post("/submit")
 @app.post("/h/<sub>/submit")
-@limiter.limit("1/second;2/minute;10/hour;50/day")
-@limiter.limit("1/second;2/minute;10/hour;50/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(POST_RATE_LIMIT)
+@limiter.limit(POST_RATE_LIMIT, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
 def submit_post(v, sub=None):
 
