@@ -31,7 +31,8 @@ TLDS = ( # Original gTLDs and ccTLDs
 	'tr','travel','tt','tv','tw','tz','ua','ug','uk','us','uy','uz','va','vc','ve','vg','vi','vn',
 	'vu','wf','ws','xn','xxx','ye','yt','yu','za','zm','zw',
 	# New gTLDs
-	'club','florist','fun','gay','lgbt','lol','moe','monster','win','wtf','xyz',
+	'cleaning','club','florist','fun','gay','lgbt','life','lol',
+	'moe','mom','monster','pics','win','wtf','xyz',
 	)
 
 allowed_tags = ('b','blockquote','br','code','del','em','h1','h2','h3','h4','h5','h6','hr','i',
