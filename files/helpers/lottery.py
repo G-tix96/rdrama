@@ -100,11 +100,11 @@ def purchase_lottery_tickets(v, quantity=1):
 
     return True, f'Successfully purchased {quantity} lottery tickets!'
 
-def grant_lottery_proceeds_to_manager(amount):
+def grant_lottery_proceeds_to_manager(prize_value):
     manager = g.db.query(User).get(LOTTERY_MANAGER_ACCOUNT_ID)
     
     if manager:
-        manager.coins += amount
+        manager.coins += prize_value
 
 def grant_lottery_tickets_to_user(v, amount):
     active_lottery = get_active_lottery()
@@ -117,6 +117,6 @@ def grant_lottery_tickets_to_user(v, amount):
         active_lottery.prize += prize_value
         active_lottery.tickets_sold += amount
 
-        grant_lottery_proceeds_to_manager(amount)
+        grant_lottery_proceeds_to_manager(prize_value)
 
         g.db.commit()
