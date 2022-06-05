@@ -1075,10 +1075,11 @@ def unshadowban(user_id, v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(2)
 def admin_title_change(user_id, v):
-	if CARP_ID > 0 and user_id == CARP_ID:
-		abort(403)
 
 	user = g.db.query(User).filter_by(id=user_id).one_or_none()
+
+	if CARP_ID > 0 and user.id == CARP_ID:
+		abort(403)
 
 	new_name=request.values.get("title").strip()[:256]
 
