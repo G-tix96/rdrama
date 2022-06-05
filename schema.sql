@@ -1942,6 +1942,7 @@ SET row_security = off;
 COPY public.badge_defs (id, name, description) FROM stdin;
 136	TRAIN 2022	Beware: Found to be one of the most transmisic commenters on the site!
 137	Lottershe Winner	This user won the Lottershe grand prize.
+138	Dan	This user is a Certified Dan Enthusiast.
 4	White Hat	Discreetly reported an exploit
 1	Alpha User	Joined during open alpha
 2	Verified Email	Verified Email
@@ -2045,7 +2046,7 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 137, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 138, true);
 
 
 --
