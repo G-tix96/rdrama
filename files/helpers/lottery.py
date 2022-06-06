@@ -3,9 +3,11 @@ from random import choice
 from sqlalchemy import *
 from files.helpers.alerts import *
 from files.helpers.wrappers import *
+from files.helpers.actions import badge_grant
 from flask import g
 from .const import *
 
+LOTTERY_WINNER_BADGE_ID = 137
 
 def get_active_lottery():
     return g.db.query(Lottery).order_by(Lottery.id.desc()).filter(Lottery.is_active).one_or_none()
@@ -41,10 +43,16 @@ def end_lottery_session():
     winning_user = next(filter(lambda x: x.id == winner, participating_users))
     winning_user.coins += active_lottery.prize
     winning_user.total_lottery_winnings += active_lottery.prize
+    badge_grant(winner, LOTTERY_WINNER_BADGE_ID)
 
     for user in participating_users:
         chance_to_win = user.currently_held_lottery_tickets / len(raffle) * 100
-        notification_text = f'You won {active_lottery.prize} dramacoins in the lottery! Congratulations!\nOdds of winning: {chance_to_win}%' if user.id == winner else "You did not win the lottery. Better luck next time!\nOdds of winning: {chance_to_win}%"
+        if user.id == winner:
+            notification_text = f'You won {active_lottery.prize} dramacoins in the lottery! ' \
+                + f'Congratulations!\nOdds of winning: {chance_to_win}%' 
+        else:
+            notification_text = f'You did not win the lottery. Better luck next time!\n' \
+                + f'Odds of winning: {chance_to_win}%'
         send_repeatable_notification(user.id, notification_text)
         user.currently_held_lottery_tickets = 0
 
