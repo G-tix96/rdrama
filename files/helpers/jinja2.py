@@ -55,4 +55,7 @@ def inject_constants():
 			"CC":CC, "CC_TITLE":CC_TITLE, "listdir":listdir, "MOOSE_ID":MOOSE_ID, "AEVANN_ID":AEVANN_ID, 
 			"PIZZASHILL_ID":PIZZASHILL_ID, "config":app.config.get, "DEFAULT_COLOR":DEFAULT_COLOR, 
 			"COLORS":COLORS, "ADMIGGERS":ADMIGGERS, "datetime":datetime, "time":time,
-			"LOTTERY_ENABLED": LOTTERY_ENABLED}
+			"LOTTERY_ENABLED": LOTTERY_ENABLED,
+			# Below this line really should be refactored as params to render_template
+			"USER_TITLE_COST": USER_TITLE_COST,
+			}
