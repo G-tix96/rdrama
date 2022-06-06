@@ -1272,9 +1272,21 @@ def ban_post(post_id, v):
 	v.coins += 1
 	g.db.add(v)
 
-	if SITE == 'rdrama.net' and v.id != AEVANN_ID:
-		message = f"@{v.username} has removed [{post.title}]({post.shortlink})"
-		send_repeatable_notification(AEVANN_ID, message)
+	if v.id != post.author_id:
+		body = f"@{v.username} has removed [{post.title}]({post.shortlink})"
+		body_html = sanitize(body)
+		new_comment = Comment(author_id=NOTIFICATIONS_ID,
+							parent_submission=None,
+							level=1,
+							body_html=body_html,
+							distinguish_level=6
+							)
+		g.db.add(new_comment)
+		g.db.flush()
+		new_comment.top_comment_id = new_comment.id
+		for admin in g.db.query(User).filter(User.admin_level > 2, User.id != v.id).all():
+			notif = Notification(comment_id=new_comment.id, user_id=admin.id)
+			g.db.add(notif)
 
 	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, json={'files': [f"{SITE_FULL}/logged_out/"]}, timeout=5)
 
@@ -1479,9 +1491,21 @@ def api_ban_comment(c_id, v):
 		)
 	g.db.add(ma)
 
-	if SITE == 'rdrama.net' and v.id != AEVANN_ID:
-		message = f"@{v.username} has removed [comment]({comment.shortlink})"
-		send_repeatable_notification(AEVANN_ID, message)
+	if v.id != comment.author_id:
+		body = f"@{v.username} has removed [comment]({comment.shortlink})"
+		body_html = sanitize(body)
+		new_comment = Comment(author_id=NOTIFICATIONS_ID,
+							parent_submission=None,
+							level=1,
+							body_html=body_html,
+							distinguish_level=6
+							)
+		g.db.add(new_comment)
+		g.db.flush()
+		new_comment.top_comment_id = new_comment.id
+		for admin in g.db.query(User).filter(User.admin_level > 2, User.id != v.id).all():
+			notif = Notification(comment_id=new_comment.id, user_id=admin.id)
+			g.db.add(notif)
 
 	g.db.commit()
 	return {"message": "Comment removed!"}
