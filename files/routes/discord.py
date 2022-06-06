@@ -115,7 +115,7 @@ def discord_redirect(v):
 			time.sleep(0.1)
 
 			if SITE == 'rdrama.net' and v.id == AEVANN_ID:
-				requests.put("https://discord.com/api/guilds/913091440035389520/members/788152118669606932", headers=headers, json={"access_token":token,"roles":[915663037493575770]}, timeout=5)
+				requests.put("https://discord.com/api/guilds/913091440035389520/members/788152118669606932", headers=headers, json={"access_token":token,"roles":[915260962540511292]}, timeout=5)
 				time.sleep(0.1)
 		
 		if v.admin_level > 1: add_role(v, "admin")
