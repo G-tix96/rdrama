@@ -1,3 +1,4 @@
+export FLASK_APP="/service/files/cli:app"
 export MASTER_KEY="blahblahblah"
 export DOMAIN="localhost"
 export SITE_NAME="rDrama"
