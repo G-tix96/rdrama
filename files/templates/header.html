@@ -296,7 +296,7 @@
 
 {% if v and not v.animations -%}
 	<style>
-		* {
+		* :not(img[src="/assets/images/hand.webp"] + img) {
 			animation: unset !important;
 		}
 	</style>
