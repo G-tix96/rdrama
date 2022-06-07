@@ -101,19 +101,20 @@ def remove_report_post(v, pid, uid):
 		uid = int(uid)
 	except: abort(400)
 
-	report = g.db.query(Flag).filter_by(post_id=pid, user_id=uid).one()
-	
-	g.db.delete(report)
+	report = g.db.query(Flag).filter_by(post_id=pid, user_id=uid).one_or_none()
 
-	ma=ModAction(
-		kind="delete_report",
-		user_id=v.id,
-		target_submission_id=pid
-	)
+	if report:
+		g.db.delete(report)
 
-	g.db.add(ma)
+		ma=ModAction(
+			kind="delete_report",
+			user_id=v.id,
+			target_submission_id=pid
+		)
 
-	g.db.commit()
+		g.db.add(ma)
+
+		g.db.commit()
 
 	return {"message": "Report removed successfully!"}
 
@@ -126,18 +127,19 @@ def remove_report_comment(v, cid, uid):
 	cid = int(cid)
 	uid = int(uid)
 	
-	report = g.db.query(CommentFlag).filter_by(comment_id=cid, user_id=uid).one()
+	report = g.db.query(CommentFlag).filter_by(comment_id=cid, user_id=uid).one_or_none()
 	
-	g.db.delete(report)
+	if report:
+		g.db.delete(report)
 
-	ma=ModAction(
-		kind="delete_report",
-		user_id=v.id,
-		target_comment_id=cid
-	)
+		ma=ModAction(
+			kind="delete_report",
+			user_id=v.id,
+			target_comment_id=cid
+		)
 
-	g.db.add(ma)
+		g.db.add(ma)
 
-	g.db.commit()
+		g.db.commit()
 
 	return {"message": "Report removed successfully!"}
