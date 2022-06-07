@@ -131,8 +131,11 @@ AGENDAPOSTER_MSG = """Hi @{username},\n\nYour {type} has been automatically remo
 PIN_LIMIT = 3
 POST_RATE_LIMIT = "1/second;2/minute;10/hour;50/day"
 
+USER_TITLE_COST = 0
+
 if SITE in {'rdrama.net','devrama.xyz'}:
 	HOLE_COST = 200000
+	USER_TITLE_COST = 25
 	NOTIFICATIONS_ID = 1046
 	AUTOJANNY_ID = 2360
 	SNAPPY_ID = 261
