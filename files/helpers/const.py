@@ -799,14 +799,21 @@ FACTCHECK_REPLIES = ('<b style="color:#6023f8">Factcheck: This claim has been co
 if SITE_NAME == 'rDrama': patron = 'Paypig'
 else: patron = 'Patron'
 
-REDDIT_NOTIFS = {
-	'idio3': IDIO_ID,
-	'aevann': AEVANN_ID,
-	'carpflo': CARP_ID,
-	'carpathianflorist': CARP_ID,
-	'carpathian florist': CARP_ID,
-	'the_homocracy': HOMO_ID
-}
+REDDIT_NOTIFS_SITE = []
+REDDIT_NOTIFS_USERS = {}
+
+if SITE_NAME == 'rDrama':
+	REDDIT_NOTIFS_SITE = ['rdrama', 'marsey',]
+	REDDIT_NOTIFS_USERS = {
+		'idio3': IDIO_ID,
+		'aevann': AEVANN_ID,
+		'carpflo': CARP_ID,
+		'carpathianflorist': CARP_ID,
+		'carpathian florist': CARP_ID,
+		'the_homocracy': HOMO_ID,
+	}
+elif SITE_NAME == 'PCM':
+	REDDIT_NOTIFS_SITE = ['pcmemes.net',]
 
 discounts = {
 	# Big Spender badges, 2pp additive discount each

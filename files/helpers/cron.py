@@ -1,7 +1,9 @@
 from files.cli import g, app, db_session
 import click
 import files.helpers.const as const
+
 import files.helpers.lottery as lottery
+import files.helpers.offsitementions as offsitementions
 import files.helpers.stats as stats
 
 @app.cli.command('cron', help='Run scheduled tasks.')
@@ -13,6 +15,7 @@ def cron(every_5m, every_1h, every_1d):
 
 	if every_5m:
 		lottery.check_if_end_lottery_task()
+		offsitementions.offsite_mentions_task()
 
 	if every_1h:
 		pass
