@@ -329,8 +329,12 @@ def log(v):
 	if kind not in types: kind = None
 
 	actions = g.db.query(ModAction)
-	if not (v and v.admin_level > 1): 
-		actions = actions.filter(ModAction.kind.notin_(["shadowban","unshadowban","flair_post","edit_post"]))
+	if not (v and v.admin_level >= 2): 
+		actions = actions.filter(ModAction.kind.notin_([
+			"shadowban","unshadowban","flair_post","edit_post"]))
+	if not (v and v.admin_level >= 3): 
+		actions = actions.filter(ModAction.kind.notin_([
+			'ban_domain', 'unban_domain',]))
 	
 	if admin_id:
 		actions = actions.filter_by(user_id=admin_id)
@@ -345,7 +349,7 @@ def log(v):
 	next_exists=len(actions)>25
 	actions=actions[:25]
 
-	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level > 1).order_by(User.username).all()]
+	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= 2).order_by(User.username).all()]
 
 	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, next_exists=next_exists, page=page)
 
