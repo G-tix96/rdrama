@@ -240,9 +240,7 @@ def award_thing(v, thing_type, id):
 			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({badge.path})\n\n{badge.name}")
 	elif kind == "flairlock":
 		new_name = note[:100].replace("𒐪","")
-		if CARP_ID > 0 and author.id == CARP_ID:
-			send_repeatable_notification(v.id, "Carp's title is sacred and inviolable. You just wasted a flairlock!")
-		elif not new_name and author.flairchanged:
+		if not new_name and author.flairchanged:
 			author.flairchanged += 86400
 		else:
 			author.customtitleplain = new_name
