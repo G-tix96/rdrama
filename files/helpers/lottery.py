@@ -94,7 +94,9 @@ def check_if_end_lottery_task():
 
 
 def purchase_lottery_tickets(v, quantity=1):
-    if (v.coins < LOTTERY_TICKET_COST * quantity):
+    if quantity < 1:
+        return False, "Must purchase one or more lottery tickets."
+    elif (v.coins < LOTTERY_TICKET_COST * quantity):
         return False, f'Lottery tickets cost {LOTTERY_TICKET_COST} dramacoins each.'
 
     most_recent_lottery = get_active_lottery()
