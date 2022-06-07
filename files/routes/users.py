@@ -420,6 +420,7 @@ def transfer_coins(v, username):
 		
 		notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount-tax} coins!"
 		if reason:
+			if len(reason) > 200: return {"error": "Reason is too long, max 200 characters"},400
 			notif_text += f"\n\n> {reason}"
 
 		send_repeatable_notification(receiver.id, notif_text)
