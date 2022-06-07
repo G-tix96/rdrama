@@ -81,6 +81,18 @@ def start_new_lottery_session():
     g.db.commit()
 
 
+def check_if_end_lottery_task():
+    active_lottery = get_active_lottery()
+
+    if active_lottery is None:
+        return False
+    elif active_lottery.timeleft > 0:
+        return False
+
+    start_new_lottery_session()
+    return True
+
+
 def purchase_lottery_tickets(v, quantity=1):
     if (v.coins < LOTTERY_TICKET_COST * quantity):
         return False, f'Lottery tickets cost {LOTTERY_TICKET_COST} dramacoins each.'
