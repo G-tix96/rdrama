@@ -1,4 +1,11 @@
 {% extends "default.html" %}
+{%- set SHOP_FLAVOR = {
+		'rDrama': 'Stir drama.',
+		'PCM': 'Watch IP2.',
+		'Cringetopia': 'Look at cringe.',
+		'WPD': 'Watch people die.',
+	}[SITE_NAME]
+-%}
 
 <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-html="true" title="<img src='/assets/images/chest.webp' width='20'>">
 	Tooltip with HTML
@@ -13,7 +20,7 @@
 {% block Banner %}
 	<header class="container pb-1 text-center">
 		<img alt="shop banner" src="/assets/images/shop.webp" width="50%">
-		<h3 class="mt-4">Stir drama. Earn coins.</h5>
+		<h3 class="mt-4">{{SHOP_FLAVOR}} Earn coins.</h5>
 		<h5 class="mt-4">Total sales: {{sales}} coins</h5>
 		<h5 class="mt-4">Coins spent by you: {{v.coins_spent}} coins</h5>
 		<h5 class="mt-4">Lootboxes bought by you: {{v.lootboxes_bought}} lootbox{{'es' if v.lootboxes_bought != 1}}</h5>
