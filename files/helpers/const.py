@@ -899,17 +899,21 @@ email_regex = re.compile('[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}', flags=re.A|re.
 utm_regex = re.compile('utm_[a-z]+=[a-z0-9_]+&', flags=re.A)
 utm_regex2 = re.compile('[?&]utm_[a-z]+=[a-z0-9_]+', flags=re.A)
 
-slur_regex = re.compile(f"({single_words})(?![^<]*>)", flags=re.I|re.A)
-slur_regex_upper = re.compile(f"({single_words.upper()})(?![^<]*>)", flags=re.A)
+slur_regex = re.compile(f"(<[^>]*>)|({single_words})", flags=re.I|re.A)
+slur_regex_upper = re.compile(f"(<[^>]*>)|({single_words.upper()})", flags=re.A)
 torture_regex = re.compile('(^|\s)(i|me) ', flags=re.I|re.A)
 torture_regex2 = re.compile("(^|\s)i'm ", flags=re.I|re.A)
 torture_regex_exclude = re.compile('^\s*>', flags=re.A)
 
-def sub_matcher(match):
-	return SLURS[match.group(0).lower()]
+def sub_matcher(match, upper=False):
+	if match.group(1):
+		return match.group(1)
+	else: # implies match.group(2)
+		repl = SLURS[match.group(2).lower()]
+		return repl if not upper else repl.upper()
 
 def sub_matcher_upper(match):
-	return SLURS[match.group(0).lower()].upper()
+	return sub_matcher(match, upper=True)
 
 def censor_slurs(body, logged_user):
 	if not logged_user or logged_user == 'chat' or logged_user.slurreplacer:
