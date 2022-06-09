@@ -11,7 +11,6 @@ if SITE == "localhost": SITE_FULL = 'http://' + SITE
 else: SITE_FULL = 'https://' + SITE
 
 class Sub(Base):
-
 	__tablename__ = "subs"
 	name = Column(String, primary_key=True)
 	sidebar = Column(String)
@@ -20,8 +19,10 @@ class Sub(Base):
 	bannerurl = Column(String)
 	css = Column(String)
 
-	blocks = relationship("SubBlock", primaryjoin="SubBlock.sub==Sub.name", viewonly=True)
-
+	blocks = relationship("SubBlock", 
+		primaryjoin="SubBlock.sub==Sub.name", viewonly=True)
+	followers = relationship("SubSubscription", 
+		primaryjoin="SubSubscription.sub==Sub.name", viewonly=True)
 
 	def __repr__(self):
 		return f"<Sub(name={self.name})>"

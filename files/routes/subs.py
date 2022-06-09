@@ -121,6 +121,35 @@ def unblock_sub(v, sub):
 
 	return {"message": "Sub unblocked successfully!"}
 
+@app.post("/h/<sub>/follow")
+@auth_required
+def follow_sub(v, sub):
+	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	if not sub: abort(404)
+
+	existing = g.db.query(SubSubscription) \
+		.filter_by(user_id=v.id, sub=sub.name).one_or_none()
+	if not existing:
+		subscription = SubSubscription(user_id=v.id, sub=sub.name)
+		g.db.add(subscription)
+		g.db.commit()
+
+	return {"message": "Sub followed successfully!"}
+
+@app.post("/h/<sub>/unfollow")
+@auth_required
+def unfollow_sub(v, sub):
+	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	if not sub: abort(404)
+
+	subscription = g.db.query(SubSubscription) \
+		.filter_by(user_id=v.id, sub=sub.name).one_or_none()
+	if subscription:
+		g.db.delete(subscription)
+		g.db.commit()
+
+	return {"message": "Sub unfollowed successfully!"}
+
 @app.get("/h/<sub>/mods")
 @auth_required
 def mods(v, sub):
@@ -134,7 +163,7 @@ def mods(v, sub):
 
 @app.get("/h/<sub>/exilees")
 @auth_required
-def exilees(v, sub):
+def sub_exilees(v, sub):
 	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
 
@@ -145,14 +174,27 @@ def exilees(v, sub):
 
 @app.get("/h/<sub>/blockers")
 @auth_required
-def blockers(v, sub):
+def sub_blockers(v, sub):
 	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
 
 	users = g.db.query(User).join(SubBlock, SubBlock.user_id==User.id).filter_by(sub=sub.name).all()
 
-	return render_template("sub/blockers.html", v=v, sub=sub, users=users)
+	return render_template("sub/blockers.html", 
+		v=v, sub=sub, users=users, verb="blocking")
 
+@app.get("/h/<sub>/followers")
+@auth_required
+def sub_followers(v, sub):
+	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	if not sub: abort(404)
+
+	users = g.db.query(User) \
+			.join(SubSubscription, SubSubscription.user_id==User.id) \
+			.filter_by(sub=sub.name).all()
+
+	return render_template("sub/blockers.html", 
+		v=v, sub=sub, users=users, verb="following")
 
 
 @app.post("/h/<sub>/add_mod")

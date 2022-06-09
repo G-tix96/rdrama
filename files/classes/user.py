@@ -171,6 +171,15 @@ class User(Base):
 	def blocks(self, sub):
 		return g.db.query(SubBlock).filter_by(user_id=self.id, sub=sub).one_or_none()
 
+	@property
+	@lazy
+	def all_follows(self):
+		return [x[0] for x in g.db.query(SubSubscription.sub).filter_by(user_id=self.id).all()]
+
+	@lazy
+	def follows(self, sub):
+		return g.db.query(SubSubscription).filter_by(user_id=self.id, sub=sub).one_or_none()
+
 	@lazy
 	def mod_date(self, sub):
 		if self.id == AEVANN_ID: return 1

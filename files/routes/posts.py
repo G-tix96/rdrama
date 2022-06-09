@@ -85,6 +85,16 @@ def publish(pid, v):
 				if post.club and not user.paid_dues: continue
 				add_notif(cid, user.id)
 
+		if post.sub and post.subr:
+			sub_name = post.subr.name
+			text = f"<a href='/h/{sub_name}'>/h/{sub_name}</a> has a new " \
+				 + f"post: [{post.title}]({post.shortlink})"
+			cid = notif_comment(text, autojanny=True)
+			for follow in post.subr.followers:
+				user = get_account(follow.user_id)
+				if post.club and not user.paid_dues: continue
+				add_notif(cid, user.id)
+
 	g.db.commit()
 
 	cache.delete_memoized(frontlist)
@@ -1114,9 +1124,15 @@ def submit_post(v, sub=None):
 				if post.club and not user.paid_dues: continue
 				add_notif(cid, user.id)
 
-
-
-
+		if post.sub and post.subr:
+			sub_name = post.subr.name
+			text = f"<a href='/h/{sub_name}'>/h/{sub_name}</a> has a new " \
+				 + f"post: [{post.title}]({post.shortlink})"
+			cid = notif_comment(text, autojanny=True)
+			for follow in post.subr.followers:
+				user = get_account(follow.user_id)
+				if post.club and not user.paid_dues: continue
+				add_notif(cid, user.id)
 
 	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{post.body}{post.title}'.lower():
 		post.is_banned = True
