@@ -280,7 +280,7 @@ ACTIONTYPES = {
 		"color": 'bg-success'
 	},
 	'move_hole': {
-		"str": 'moved {self.target_link} to <a href="/h/{self.target_post.sub}">/h/{self.target_post.sub}</a>', 
+		"str": 'changed hole of {self.target_link}', 
 		"icon": 'fa-manhole', 
 		"color": 'bg-primary'
 	},
