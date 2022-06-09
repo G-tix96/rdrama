@@ -262,7 +262,7 @@ def remove_mod(v, sub):
 	
 	return redirect(f'/h/{sub}/mods')
 
-@app.get("/create_sub")
+@app.get("/create_hole")
 @is_not_permabanned
 def create_sub(v):
 	num = v.subs_created + 1
@@ -270,10 +270,10 @@ def create_sub(v):
 		num += a.subs_created
 	cost = num * HOLE_COST
 	
-	return render_template("sub/create_sub.html", v=v, cost=cost)
+	return render_template("sub/create_hole.html", v=v, cost=cost)
 
 
-@app.post("/create_sub")
+@app.post("/create_hole")
 @is_not_permabanned
 def create_sub2(v):
 	if SITE_NAME == 'rDrama' and v.admin_level < 3: abort(403)
@@ -288,12 +288,12 @@ def create_sub2(v):
 	cost = num * HOLE_COST
 
 	if not valid_sub_regex.fullmatch(name):
-		return render_template("sub/create_sub.html", v=v, cost=cost, error="Sub name not allowed."), 400
+		return render_template("sub/create_hole.html", v=v, cost=cost, error="Sub name not allowed."), 400
 
 	sub = g.db.query(Sub).filter_by(name=name).one_or_none()
 	if not sub:
 		if v.coins < cost:
-			return render_template("sub/create_sub.html", v=v, cost=cost, error="You don't have enough coins!"), 403
+			return render_template("sub/create_hole.html", v=v, cost=cost, error="You don't have enough coins!"), 403
 
 		v.coins -= cost
 

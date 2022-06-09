@@ -63,7 +63,7 @@ set VISITORS_HERE_FLAVOR = [
 			<div class="mb-4">{{sub.sidebar_html|safe}}</div>
 		{% endif %}
 		{% if v %}
-			<a class="btn btn-primary btn-block mb-3" href="/create_sub">CREATE HOLE</a>
+			<a class="btn btn-primary btn-block mb-3" href="/create_hole">CREATE HOLE</a>
 			{% if v.mods(sub.name) %}
 				<a class="btn btn-primary btn-block mb-3" href="/h/{{sub.name}}/settings">HOLE SETTINGS</a>
 			{% endif %}
@@ -74,7 +74,7 @@ set VISITORS_HERE_FLAVOR = [
 		<a class="btn btn-primary btn-block mb-3" href="/h/{{sub.name}}/blockers">HOLE BLOCKERS</a>
 	{% else %}
 		{% if v %}
-			<a class="btn btn-primary btn-block mb-3" href="/create_sub">CREATE HOLE</a>
+			<a class="btn btn-primary btn-block mb-3" href="/create_hole">CREATE HOLE</a>
 		{% endif %}
 		<a class="btn btn-primary btn-block mb-3" href="/holes">BROWSE HOLES</a>
 		<a class="btn btn-primary btn-block mb-3" href="/post/16583">EMOJI MEGATHREAD</a>
