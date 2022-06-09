@@ -11,6 +11,7 @@ from files.helpers.const import *
 def generate_charts_task(site):
 	chart(kind='daily',  site=site)
 	chart(kind='weekly', site=site)
+	stats(site=site)
 
 def chart(kind, site):
 	now = time.gmtime()
