@@ -424,8 +424,8 @@ def morecomments(v, cid):
 	return render_template("comments.html", v=v, comments=comments, p=p, render_replies=True, ajax=True)
 
 @app.post("/edit_post/<pid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit("1/second;10/minute;20/hour;50/day")
+@limiter.limit("1/second;10/minute;20/hour;50/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
 def edit_post(pid, v):
 	p = get_post(pid)
