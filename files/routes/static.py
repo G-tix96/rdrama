@@ -202,8 +202,12 @@ def stats(site=None):
 			post.sub = None
 			g.db.add(post)
 
-		to_delete = g.db.query(Mod).filter(Mod.sub.in_(names)).all() + g.db.query(Exile).filter(Exile.sub.in_(names)).all() + g.db.query(SubBlock).filter(SubBlock.sub.in_(names)).all() + dead_holes
+		to_delete = g.db.query(Mod).filter(Mod.sub.in_(names)).all() + g.db.query(Exile).filter(Exile.sub.in_(names)).all() + g.db.query(SubBlock).filter(SubBlock.sub.in_(names)).all() + g.db.query(SubSubscription).filter(SubSubscription.sub.in_(names)).all()
 		for x in to_delete:
+			g.db.delete(x)
+		g.db.flush()
+
+		for x in dead_holes:
 			g.db.delete(x)
 
 	g.db.commit()
