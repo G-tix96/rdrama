@@ -1,7 +1,7 @@
 from flask import g
 import itertools
 import requests
-from sqlalchemy import _or
+from sqlalchemy import or_
 import files.helpers.const as const
 from files.classes.user import User
 from files.classes.comment import Comment
@@ -14,8 +14,8 @@ from files.classes.notifications import Notification
 
 def offsite_mentions_task():
 	if const.REDDIT_NOTIFS_SITE:
-		row_send_to = g.db.query(User.id)
-			.filter(_or(User.admin_level >= const.REDDIT_NOTIFS_JL_MIN,
+		row_send_to = g.db.query(User.id) \
+			.filter(or_(User.admin_level >= const.REDDIT_NOTIFS_JL_MIN,
 				User.offsitementions == True)).all()
 		send_to = [x[0] for x in row_send_to]
 
