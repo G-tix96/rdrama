@@ -272,8 +272,6 @@ def create_sub(v):
 @app.post("/create_hole")
 @is_not_permabanned
 def create_sub2(v):
-	if SITE_NAME == 'rDrama' and v.admin_level < 3: abort(403)
-
 	name = request.values.get('name')
 	if not name: abort(400)
 	name = name.strip().lower()
