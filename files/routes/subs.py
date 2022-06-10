@@ -461,12 +461,16 @@ def sub_inactive_purge_task():
 	dead_holes = g.db.query(Sub).filter(Sub.name.notin_(active_holes)).all()
 	names = [x.name for x in dead_holes]
 
+	mods = g.db.query(Mod).filter(Mod.sub.in_(names)).all()
+	for x in mods:
+		send_repeatable_notification(x.user_id, f":marseyrave: /h/{x.sub} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
+
 	posts = g.db.query(Submission).filter(Submission.sub.in_(names)).all()
 	for post in posts:
 		post.sub = None
 		g.db.add(post)
 
-	to_delete = g.db.query(Mod).filter(Mod.sub.in_(names)).all() \
+	to_delete = mods \
 		+ g.db.query(Exile).filter(Exile.sub.in_(names)).all() \
 		+ g.db.query(SubBlock).filter(SubBlock.sub.in_(names)).all() \
 		+ g.db.query(SubSubscription).filter(SubSubscription.sub.in_(names)).all()
