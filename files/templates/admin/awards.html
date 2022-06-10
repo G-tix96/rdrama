@@ -61,9 +61,4 @@
 		<input autocomplete="off" class="btn btn-primary mt-3" type="submit" value="Grant Awards">
 
 	</form>
-
-	<pre></pre>
-	{% if SITE_NAME != 'rDrama' or v.id == AEVANN_ID %}
-		<div><a class="btn btn-danger" role="button" onclick="post_toast(this,'/admin/monthly')">Grant Monthly Marseybux</a></div>
-	{% endif %}
 {% endblock %}

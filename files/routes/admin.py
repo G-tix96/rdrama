@@ -22,6 +22,38 @@ from urllib.parse import quote, urlencode
 GUMROAD_ID = environ.get("GUMROAD_ID", "tfcvri").strip()
 GUMROAD_TOKEN = environ.get("GUMROAD_TOKEN", "").strip()
 
+
+def give_monthly_marseybux_task():
+	month = datetime.datetime.now() + datetime.timedelta(days=5)
+	month = month.strftime('%B')
+
+	data = {'access_token': GUMROAD_TOKEN}
+
+	emails = [x['email'] for x in requests.get(f'https://api.gumroad.com/v2/products/{GUMROAD_ID}/subscribers', data=data, timeout=5).json()["subscribers"]]
+
+	for u in g.db.query(User).filter(User.patron > 0, User.patron_utc == 0).all():
+		g.db.add(u)
+		if u.id in (DAD_ID, A_ID) or u.email and u.email.lower() in emails:
+			procoins = procoins_li[u.patron]
+			u.procoins += procoins
+			send_repeatable_notification(u.id, f"@Snappy has given you {procoins} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
+		else: u.patron = 0
+
+	if SITE == 'pcmemes.net':
+		u = g.db.query(User).filter_by(id=KIPPY_ID).one()
+		u.procoins += 50000
+		g.db.add(u)
+
+	ma = ModAction(
+		kind="monthly",
+		user_id=v.id
+	)
+	g.db.add(ma)
+
+	g.db.commit()
+
+	return True
+
 @app.get('/admin/loggedin')
 @admin_level_required(2)
 def loggedin_list(v):
@@ -366,43 +398,6 @@ def club_ban(v, username):
 
 	g.db.commit()
 	return {"message": f"@{username} has been kicked from the {CC_TITLE}. Deserved."}
-
-
-@app.post("/admin/monthly")
-@limiter.limit("1/day")
-@admin_level_required(3)
-def monthly(v):
-	if SITE_NAME == 'rDrama' and v.id != AEVANN_ID: abort (403)
-
-	month = datetime.datetime.now() + datetime.timedelta(days=5)
-	month = month.strftime('%B')
-
-	data = {'access_token': GUMROAD_TOKEN}
-
-	emails = [x['email'] for x in requests.get(f'https://api.gumroad.com/v2/products/{GUMROAD_ID}/subscribers', data=data, timeout=5).json()["subscribers"]]
-
-	for u in g.db.query(User).filter(User.patron > 0, User.patron_utc == 0).all():
-		g.db.add(u)
-		if u.id in (DAD_ID, A_ID) or u.email and u.email.lower() in emails:
-			procoins = procoins_li[u.patron]
-			u.procoins += procoins
-			send_repeatable_notification(u.id, f"@{v.username} has given you {procoins} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
-		else: u.patron = 0
-
-	if request.host == 'pcmemes.net':
-		u = g.db.query(User).filter_by(id=KIPPY_ID).one()
-		u.procoins += 50000
-		g.db.add(u)
-
-	ma = ModAction(
-		kind="monthly",
-		user_id=v.id
-	)
-	g.db.add(ma)
-
-	g.db.commit()
-	
-	return {"message": "Monthly marseybux granted"}
 
 
 @app.get("/admin/shadowbanned")
