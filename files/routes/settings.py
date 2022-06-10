@@ -351,9 +351,10 @@ def changelogsub(v):
 @auth_required
 def namecolor(v):
 
-	color = str(request.values.get("color", "")).strip()
+	color = request.values.get("color", "").strip().lower()
 	if color.startswith('#'): color = color[1:]
 	if len(color) != 6: return render_template("settings_security.html", v=v, error="Invalid color code")
+	if color == '21262c': return render_template("settings_security.html", v=v, error="This color is not allowed")
 	v.namecolor = color
 	g.db.add(v)
 	g.db.commit()
@@ -420,9 +421,10 @@ def gumroad(v):
 @auth_required
 def titlecolor(v):
 
-	titlecolor = str(request.values.get("titlecolor", "")).strip()
+	titlecolor = request.values.get("titlecolor", "").strip().lower()
 	if titlecolor.startswith('#'): titlecolor = titlecolor[1:]
 	if len(titlecolor) != 6: return render_template("settings_profile.html", v=v, error="Invalid color code")
+	if titlecolor == '21262c': return render_template("settings_profile.html", v=v, error="This color is not allowed")
 	v.titlecolor = titlecolor
 	g.db.add(v)
 	g.db.commit()
