@@ -58,11 +58,6 @@ def end_lottery_session():
 
     active_lottery.is_active = False
 
-    manager = g.db.query(User).get(AUTOPOLLER_ID)
-
-    if manager:
-        manager.coins -= active_lottery.prize
-
     g.db.commit()
 
     return True, f'{winning_user.username} won {active_lottery.prize} dramacoins!'
@@ -73,7 +68,9 @@ def start_new_lottery_session():
 
     lottery = Lottery()
     epoch_time = int(time.time())
-    one_week_from_now = epoch_time + 60 * 60 * 24 * 7
+    # Subtract 4 minutes from one week so cronjob interval doesn't cause the 
+    # time to drift toward over multiple weeks.
+    one_week_from_now = epoch_time + 60 * 60 * 24 * 7 - (4 * 60)
     lottery.ends_at = one_week_from_now
     lottery.is_active = True
 
@@ -113,17 +110,9 @@ def purchase_lottery_tickets(v, quantity=1):
     most_recent_lottery.prize += net_ticket_value
     most_recent_lottery.tickets_sold += quantity
 
-    grant_lottery_proceeds_to_manager(net_ticket_value)
-
     g.db.commit()
 
     return True, f'Successfully purchased {quantity} lottery tickets!'
-
-def grant_lottery_proceeds_to_manager(prize_value):
-    manager = g.db.query(User).get(AUTOPOLLER_ID)
-    
-    if manager:
-        manager.coins += prize_value
 
 def grant_lottery_tickets_to_user(v, quantity):
     active_lottery = get_active_lottery()
@@ -135,7 +124,5 @@ def grant_lottery_tickets_to_user(v, quantity):
 
         active_lottery.prize += prize_value
         active_lottery.tickets_sold += quantity
-
-        grant_lottery_proceeds_to_manager(prize_value)
 
         g.db.commit()
