@@ -15,14 +15,12 @@ from flask import *
 from files.__main__ import app, cache, limiter
 from .front import frontlist
 from files.helpers.discord import add_role
-from datetime import datetime
+import datetime
 import requests
 from urllib.parse import quote, urlencode
 
 GUMROAD_ID = environ.get("GUMROAD_ID", "tfcvri").strip()
 GUMROAD_TOKEN = environ.get("GUMROAD_TOKEN", "").strip()
-
-month = datetime.now().strftime('%B')
 
 @app.get('/admin/loggedin')
 @admin_level_required(2)
@@ -375,6 +373,9 @@ def club_ban(v, username):
 @admin_level_required(3)
 def monthly(v):
 	if SITE_NAME == 'rDrama' and v.id != AEVANN_ID: abort (403)
+
+	month = datetime.datetime.now() + datetime.timedelta(days=5)
+	month = month.strftime('%B')
 
 	data = {'access_token': GUMROAD_TOKEN}
 
