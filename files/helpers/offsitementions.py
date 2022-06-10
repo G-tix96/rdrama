@@ -1,6 +1,7 @@
 from flask import g
 import itertools
 import requests
+from sqlalchemy import _or
 import files.helpers.const as const
 from files.classes.user import User
 from files.classes.comment import Comment
@@ -13,9 +14,9 @@ from files.classes.notifications import Notification
 
 def offsite_mentions_task():
 	if const.REDDIT_NOTIFS_SITE:
-		# Site-specific logic: send to JL1+, except on PCM JL3+
-		jl_min = 3 if const.SITE_NAME == 'PCM' else 1
-		row_send_to = g.db.query(User.id).filter(User.admin_level >= jl_min).all()
+		row_send_to = g.db.query(User.id)
+			.filter(_or(User.admin_level >= const.REDDIT_NOTIFS_JL_MIN,
+				User.offsitementions == True)).all()
 		send_to = [x[0] for x in row_send_to]
 
 		site_mentions = get_mentions(const.REDDIT_NOTIFS_SITE)

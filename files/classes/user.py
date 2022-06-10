@@ -90,6 +90,7 @@ class User(Base):
 	unmutable = Column(Boolean)
 	eye = Column(Boolean)
 	alt = Column(Boolean)
+	offsitementions = Column(Boolean, default=False, nullable=False)
 	frontsize = Column(Integer, default=25)
 	controversial = Column(Boolean, default=False)
 	bio = deferred(Column(String))
@@ -229,7 +230,11 @@ class User(Base):
 			if self.has_badge(badge): discount -= discounts[badge]
 
 		return discount
-		
+	
+	@property
+	@lazy
+	def can_view_offsitementions(self):
+		return self.offsitementions or self.admin_level >= REDDIT_NOTIFS_JL_MIN
 
 	@property
 	@lazy

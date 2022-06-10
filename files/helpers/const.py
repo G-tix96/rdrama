@@ -662,6 +662,14 @@ AWARDS = {
 		"color": "text-silver",
 		"price": 10000
 	},
+	"offsitementions": {
+		"kind": "offsitementions",
+		"title": "Y'all Seein' Eye",
+		"description": "Gives the recipient access to notifications when people off-site talk about us.",
+		"icon": "fas fa-eyes",
+		"color": "text-orange",
+		"price": 10000,
+	},
 	"unblockable": {
 		"kind": "unblockable",
 		"title": "Unblockable",
@@ -803,6 +811,7 @@ else: patron = 'Patron'
 
 REDDIT_NOTIFS_SITE = []
 REDDIT_NOTIFS_USERS = {}
+REDDIT_NOTIFS_JL_MIN = 1
 
 if SITE_NAME == 'rDrama':
 	REDDIT_NOTIFS_SITE = ['rdrama', 'marsey',]
@@ -816,6 +825,7 @@ if SITE_NAME == 'rDrama':
 	}
 elif SITE_NAME == 'PCM':
 	REDDIT_NOTIFS_SITE = ['pcmemes.net',]
+	REDDIT_NOTIFS_JL_MIN = 3
 
 discounts = {
 	# Big Spender badges, 2pp additive discount each
