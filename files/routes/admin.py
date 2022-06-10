@@ -382,26 +382,16 @@ def monthly(v):
 	emails = [x['email'] for x in requests.get(f'https://api.gumroad.com/v2/products/{GUMROAD_ID}/subscribers', data=data, timeout=5).json()["subscribers"]]
 
 	for u in g.db.query(User).filter(User.patron > 0, User.patron_utc == 0).all():
-		if u.email and u.email.lower() in emails:
+		g.db.add(u)
+		if u.id in (DAD_ID, A_ID) or u.email and u.email.lower() in emails:
 			procoins = procoins_li[u.patron]
 			u.procoins += procoins
-			g.db.add(u)
 			send_repeatable_notification(u.id, f"@{v.username} has given you {procoins} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
-		elif u.patron == 1 and u.admin_level > 0:
-			procoins = 2500
-			u.procoins += procoins
-			g.db.add(u)
-			send_repeatable_notification(u.id, f"@{v.username} has given you {procoins} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
-		else: print(u.username, flush=True)
+		else: u.patron = 0
 
 	if request.host == 'pcmemes.net':
 		u = g.db.query(User).filter_by(id=KIPPY_ID).one()
 		u.procoins += 50000
-		g.db.add(u)
-
-	if request.host == 'rdrama.net':
-		u = g.db.query(User).filter_by(id=A_ID).one()
-		u.procoins += 25000
 		g.db.add(u)
 
 	ma = ModAction(
@@ -412,7 +402,7 @@ def monthly(v):
 
 	g.db.commit()
 	
-	return {"message": "Monthly coins granted"}
+	return {"message": "Monthly marseybux granted"}
 
 
 @app.get("/admin/shadowbanned")
