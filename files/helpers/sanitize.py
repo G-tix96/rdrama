@@ -14,7 +14,7 @@ import time
 import requests
 
 TLDS = ( # Original gTLDs and ccTLDs
-	'ac','ad','ae','aero','af','ag','ai','al','am','an','ao','aq','ar','arpa','as','asia','at',
+	'ac','ad','ae','aero','af','ag','ai','al','am','an','ao','app','aq','ar','arpa','as','asia','at',
 	'au','aw','ax','az','ba','bb','bd','be','bf','bg','bh','bi','biz','bj','bm','bn','bo','br',
 	'bs','bt','bv','bw','by','bz','ca','cafe','cat','cc','cd','cf','cg','ch','ci','ck','cl',
 	'cm','cn','co','com','coop','cr','cu','cv','cx','cy','cz','de','dj','dk','dm','do','dz','ec',
