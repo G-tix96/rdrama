@@ -459,3 +459,34 @@ def sub_sidebar(v, sub):
 def subs(v):
 	subs = g.db.query(Sub, func.count(Submission.sub)).outerjoin(Submission, Sub.name == Submission.sub).group_by(Sub.name).order_by(func.count(Submission.sub).desc()).all()
 	return render_template('sub/subs.html', v=v, subs=subs)
+
+def sub_inactive_purge_task():
+	if not HOLE_INACTIVITY_DELETION:
+		return False
+
+	one_week_ago = time.time() - 604800
+	active_holes = [x[0] for x in g.db.query(Submission.sub).distinct() \
+		.filter(Submission.sub != None, Submission.created_utc > one_week_ago).all()]
+
+	dead_holes = g.db.query(Sub).filter(Sub.name.notin_(active_holes)).all()
+	names = [x.name for x in dead_holes]
+
+	posts = g.db.query(Submission).filter(Submission.sub.in_(names)).all()
+	for post in posts:
+		post.sub = None
+		g.db.add(post)
+
+	to_delete = g.db.query(Mod).filter(Mod.sub.in_(names)).all() \
+		+ g.db.query(Exile).filter(Exile.sub.in_(names)).all() \
+		+ g.db.query(SubBlock).filter(SubBlock.sub.in_(names)).all() \
+		+ g.db.query(SubSubscription).filter(SubSubscription.sub.in_(names)).all()
+
+	for x in to_delete:
+		g.db.delete(x)
+	g.db.flush()
+
+	for x in dead_holes:
+		g.db.delete(x)
+
+	g.db.commit()
+	return True
