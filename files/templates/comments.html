@@ -1,9 +1,10 @@
 {%- from 'util/assetcache.html' import asset -%}
 {%- import 'util/helpers.html' as help -%}
 {% if not ajax %}
-	{% if comment_info and not request.full_path.endswith('#context') %}
+	{% if comment_info %}
 		<script>
-			history.pushState(null, null, '#context');
+			if (location.hash != 'context')
+				location.hash = 'context'
 		</script>
 	{% endif %}
 
