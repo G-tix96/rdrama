@@ -201,7 +201,7 @@ def sanitize(sanitized, alert=False, comment=False, edit=False):
 				sanitized = sanitized.replace(i.group(0), f'''{i.group(1)}<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>''', 1)
 
 
-	sanitized = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=high', sanitized)
+	sanitized = normalize_url(sanitized)
 
 	soup = BeautifulSoup(sanitized, 'lxml')
 
@@ -244,11 +244,6 @@ def sanitize(sanitized, alert=False, comment=False, edit=False):
 	if len(emojis) > 20: edit = True
 
 	sanitized = render_emoji(sanitized, emoji_regex2, edit, marseys_used)
-
-	for rd in ["://reddit.com", "://new.reddit.com", "://www.reddit.com", "://redd.it", "://libredd.it", "://teddit.net"]:
-		sanitized = sanitized.replace(rd, "://old.reddit.com")
-
-	sanitized = sanitize_url(sanitized)
 
 	sanitized = sanitized.replace('&amp;','&')
 
@@ -378,8 +373,10 @@ def filter_emojis_only(title, edit=False, graceful=False):
 	if len(title) > 1500 and not graceful: abort(400)
 	else: return title
 
-def sanitize_url(url):
-	# NB: Used in this file to sanitize all URLs in bulk text.
+def normalize_url(url):
+	for x in ["://reddit.com", "://new.reddit.com", "://www.reddit.com", "://redd.it", "://libredd.it", "://teddit.net"]:
+		url = url.replace(x, "://old.reddit.com")
+
 	url = url.replace("nitter.net", "twitter.com") \
 			 .replace("old.reddit.com/gallery", "reddit.com/gallery") \
 			 .replace("https://youtu.be/", "https://youtube.com/watch?v=") \
@@ -397,17 +394,7 @@ def sanitize_url(url):
 			 .replace("https://streamable.com/", "https://streamable.com/e/") \
 			 .replace("https://streamable.com/e/e/", "https://streamable.com/e/")
 
-	return url
-
-def normalize_url(url):
-	url = sanitize_url(url)
-
-	if "/i.imgur.com/" in url:
-		url = url.replace(".png", ".webp").replace(".jpg", ".webp").replace(".jpeg", ".webp")
-	elif "/media.giphy.com/" in url or "/c.tenor.com/" in url:
-		url = url.replace(".gif", ".webp")
-	elif "/i.ibb.co/" in url:
-		url = url.replace(".png", ".webp").replace(".jpg", ".webp")\
-				 .replace(".jpeg", ".webp").replace(".gif", ".webp")
+	url = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=high', url)
+	url = giphy_tenor_regex.sub(r'\1.webp', url)
 
 	return url

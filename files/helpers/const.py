@@ -1031,7 +1031,8 @@ image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/([a-z0-9-]+\.)*({hosts})\
 video_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp4|webm|mov))', flags=re.A)
 audio_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp3|wav|ogg|aac|m4a|flac))', flags=re.A)
 
-imgur_regex = re.compile('(https:\/\/i\.imgur\.com\/([a-z0-9]+))\.(jpg|png|jpeg|webp)(?!<\/(code|pre|a)>)', flags=re.I|re.A)
+imgur_regex = re.compile('(https:\/\/i\.imgur\.com\/[a-z0-9]+)\.(jpg|png|jpeg|webp)(?!<\/(code|pre|a)>)', flags=re.I|re.A)
+giphy_tenor_regex = re.compile('(https:\/\/(media\.giphy\.com|c\.tenor\.com)\/[\/\-a-z0-9]+)\.gif(?!<\/(code|pre|a)>)', flags=re.I|re.A)
 
 youtube_regex = re.compile('(<p>[^<]*)(https:\/\/youtube\.com\/watch\?v\=([a-z0-9-_]{5,20})[\w\-.#&/=\?@%+]*)', flags=re.I|re.A)
 

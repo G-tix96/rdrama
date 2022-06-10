@@ -728,9 +728,6 @@ def api_is_repost():
 	url = request.values.get('url')
 	if not url: abort(400)
 
-	for rd in ("://reddit.com", "://new.reddit.com", "://www.reddit.com", "://redd.it", "://libredd.it", "://teddit.net"):
-		url = url.replace(rd, "://old.reddit.com")
-
 	url = normalize_url(url)
 	parsed_url = urlparse(url)
 
@@ -819,9 +816,6 @@ def submit_post(v, sub=None):
 	embed = None
 
 	if url:
-		for rd in ("://reddit.com", "://new.reddit.com", "://www.reddit.com", "://redd.it", "://libredd.it", "://teddit.net"):
-			url = url.replace(rd, "://old.reddit.com")
-
 		url = normalize_url(url)
 		parsed_url = urlparse(url)
 
