@@ -92,6 +92,8 @@ def check_if_end_lottery_task():
     start_new_lottery_session()
     return True
 
+def lottery_ticket_net_value():
+    return LOTTERY_TICKET_COST - LOTTERY_SINK_RATE - LOTTERY_ROYALTY_RATE
 
 def purchase_lottery_tickets(v, quantity=1):
     if quantity < 1:
@@ -107,7 +109,7 @@ def purchase_lottery_tickets(v, quantity=1):
     v.currently_held_lottery_tickets += quantity
     v.total_held_lottery_tickets += quantity
 
-    net_ticket_value = (LOTTERY_TICKET_COST - LOTTERY_SINK_RATE - LOTTERY_ROYALTY_RATE) * quantity
+    net_ticket_value = lottery_ticket_net_value() * quantity
     most_recent_lottery.prize += net_ticket_value
     most_recent_lottery.tickets_sold += quantity
 
@@ -115,7 +117,7 @@ def purchase_lottery_tickets(v, quantity=1):
 
     beneficiary = g.db.query(User).get(LOTTERY_ROYALTY_ACCOUNT_ID)
     
-    if beneficiary:
+    if beneficiary and LOTTERY_ROYALTY_RATE:
         beneficiary.coins += LOTTERY_ROYALTY_RATE * quantity
 
     g.db.commit()
@@ -128,16 +130,16 @@ def grant_lottery_proceeds_to_manager(prize_value):
     if manager:
         manager.coins += prize_value
 
-def grant_lottery_tickets_to_user(v, amount):
+def grant_lottery_tickets_to_user(v, quantity):
     active_lottery = get_active_lottery()
-    prize_value = amount * LOTTERY_TICKET_COST
+    prize_value = lottery_ticket_net_value() * quantity
 
     if active_lottery:
-        v.currently_held_lottery_tickets += amount
-        v.total_held_lottery_tickets += amount
+        v.currently_held_lottery_tickets += quantity
+        v.total_held_lottery_tickets += quantity
 
         active_lottery.prize += prize_value
-        active_lottery.tickets_sold += amount
+        active_lottery.tickets_sold += quantity
 
         grant_lottery_proceeds_to_manager(prize_value)
 

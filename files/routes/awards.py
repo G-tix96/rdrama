@@ -4,6 +4,7 @@ from files.helpers.alerts import *
 from files.helpers.get import *
 from files.helpers.const import *
 from files.helpers.discord import *
+from files.helpers.actions import badge_grant
 from files.classes.award import *
 from .front import frontlist
 from flask import g, request
@@ -301,6 +302,10 @@ def award_thing(v, thing_type, id):
 			g.db.add(new_badge)
 			g.db.flush()
 			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
+	elif kind == "offsitementions":
+		author.offsitementions = True
+		new_badge = badge_grant(user_id=author.id, badge_id=140, commit=False)
+		send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
 	elif kind == "alt":
 		author.alt = True
 		if not author.has_badge(84):
@@ -443,3 +448,4 @@ def admin_userawards_post(v):
 
 	if v.admin_level != 3: return render_template("admin/awards.html", awards=list(AWARDS3.values()), v=v)
 	return render_template("admin/awards.html", awards=list(AWARDS.values()), v=v) 
+

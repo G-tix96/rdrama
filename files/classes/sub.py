@@ -48,3 +48,8 @@ class Sub(Base):
 	@lazy
 	def block_num(self):
 		return len(self.blocks)
+
+	@property
+	@lazy
+	def follow_num(self):
+		return len(self.followers)

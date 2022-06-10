@@ -15,8 +15,8 @@
 		<th>#</th>
 		<th>Name</th>
 		<th role="button" onclick="sort_table(2)">Posts</th>
-		<th role="button" onclick="sort_table(3)">Blockers</th>
-
+		<th role="button" onclick="sort_table(3)">Followers</th>
+		<th role="button" onclick="sort_table(4)">Blockers</th>
 	</tr>
 </thead>
 {% for sub, count in subs %}
@@ -24,6 +24,7 @@
 		<td>{{loop.index}}</td>
 		<td><a href="/h/{{sub.name}}">{{sub.name}}</a></td>
 		<td><a href="/h/{{sub.name}}">{{count}}</a></td>
+		<td><a href="/h/{{sub.name}}/followers">{{sub.follow_num}}</a></td>
 		<td><a href="/h/{{sub.name}}/blockers">{{sub.block_num}}</a></td>
 	</tr>
 {% endfor %}

@@ -1,4 +1,4 @@
-from .__main__ import app, db_session
+from .__main__ import app, db_session, cache
 from flask import g
 import files.helpers.cron
 

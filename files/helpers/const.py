@@ -132,9 +132,11 @@ PIN_LIMIT = 3
 POST_RATE_LIMIT = "1/second;2/minute;10/hour;50/day"
 
 USER_TITLE_COST = 0
+HOLE_INACTIVITY_DELETION = False
 
 if SITE in {'rdrama.net','devrama.xyz'}:
 	HOLE_COST = 50000
+	HOLE_INACTIVITY_DELETION = True
 	USER_TITLE_COST = 25
 	NOTIFICATIONS_ID = 1046
 	AUTOJANNY_ID = 2360
@@ -660,6 +662,14 @@ AWARDS = {
 		"color": "text-silver",
 		"price": 10000
 	},
+	"offsitementions": {
+		"kind": "offsitementions",
+		"title": "Y'all Seein' Eye",
+		"description": "Gives the recipient access to notifications when people off-site talk about us.",
+		"icon": "fas fa-eyes",
+		"color": "text-orange",
+		"price": 10000,
+	},
 	"unblockable": {
 		"kind": "unblockable",
 		"title": "Unblockable",
@@ -799,8 +809,12 @@ FACTCHECK_REPLIES = ('<b style="color:#6023f8">Factcheck: This claim has been co
 if SITE_NAME == 'rDrama': patron = 'Paypig'
 else: patron = 'Patron'
 
+NOTIF_MODACTION_PREFIX = '[Modaction] '
+NOTIF_MODACTION_JL_MIN = 2
+
 REDDIT_NOTIFS_SITE = []
 REDDIT_NOTIFS_USERS = {}
+REDDIT_NOTIFS_JL_MIN = 1
 
 if SITE_NAME == 'rDrama':
 	REDDIT_NOTIFS_SITE = ['rdrama', 'marsey',]
@@ -814,6 +828,7 @@ if SITE_NAME == 'rDrama':
 	}
 elif SITE_NAME == 'PCM':
 	REDDIT_NOTIFS_SITE = ['pcmemes.net',]
+	REDDIT_NOTIFS_JL_MIN = 3
 
 discounts = {
 	# Big Spender badges, 2pp additive discount each
@@ -1035,17 +1050,16 @@ linefeeds_regex = re.compile("([^\n])\n([^\n])", flags=re.A)
 def make_name(*args, **kwargs): return request.base_url
 
 # Lottery
+LOTTERY_ENABLED = False
+LOTTERY_TICKET_COST = 0
+LOTTERY_SINK_RATE = 0
+LOTTERY_ROYALTY_RATE = 0
+LOTTERY_ROYALTY_ACCOUNT_ID = 0
+LOTTERY_MANAGER_ACCOUNT_ID = 0
 if SITE_NAME == 'rDrama':
 	LOTTERY_ENABLED = True
 	LOTTERY_TICKET_COST = 12
 	LOTTERY_SINK_RATE = 3
-	LOTTERY_ROYALTY_RATE = 1
+	LOTTERY_ROYALTY_RATE = 0
 	LOTTERY_ROYALTY_ACCOUNT_ID = 1387 # (Chapose)
 	LOTTERY_MANAGER_ACCOUNT_ID = 11651 # (Lottershe)
-else:
-	LOTTERY_ENABLED = False
-	LOTTERY_TICKET_COST = 0
-	LOTTERY_SINK_RATE = 0
-	LOTTERY_ROYALTY_RATE = 0
-	LOTTERY_ROYALTY_ACCOUNT_ID = 0
-	LOTTERY_MANAGER_ACCOUNT_ID = 0

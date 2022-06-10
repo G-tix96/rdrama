@@ -14,7 +14,7 @@
 
 <div class="row border-bottom bg-white w-200 pr-0" style="overflow: visible;">
   <div class="col p-0 w-100">
-	<ul class="nav settings-nav" style="padding:0 0 0 20px">
+	<ul class="nav settings-nav" style="padding:0 0 0 20px" id="notifications--nav-list">
 	<li class="nav-item">
 		<a class="nav-link py-3{% if not '=true' in request.full_path %} active{% endif %}" href="/notifications">
 		All {% if v.normal_count %} <span class="font-weight-bold" style="color:red">({{v.normal_count}})</span>{% endif %}
@@ -30,14 +30,21 @@
 		Messages
 		</a>
 	</li>
-	{% if v.admin_level > 1 %}
+	{% if v.admin_level >= NOTIF_MODACTION_JL_MIN %}
+		<li class="nav-item">
+			<a class="nav-link py-3{% if '/notifications?modactions=true' in request.full_path %} active{% endif %}" href="/notifications?modactions=true">
+			Modactions {% if v.modaction_notifications_count %}<span class="font-weight-bold" style="color:#e5990d">({{v.modaction_notifications_count}})</span>{% endif %}
+			</a>
+		</li>
+	{% endif %}
+	{% if v.admin_level >= 2 %}
 		<li class="nav-item">
 			<a class="nav-link py-3{% if '/notifications?modmail=true' in request.full_path %} active{% endif %}" href="/notifications?modmail=true">
 			Modmail
 			</a>
 		</li>
 	{% endif %}
-	{% if v.admin_level %}
+	{% if v.can_view_offsitementions %}
 		<li class="nav-item">
 			<a class="nav-link py-3{% if '/notifications?reddit=true' in request.full_path %} active{% endif %}" href="/notifications?reddit=true">
 			Reddit {% if v.reddit_notifications_count %}<span class="font-weight-bold" style="color:#805ad5">({{v.reddit_notifications_count}})</span>{% endif %}
