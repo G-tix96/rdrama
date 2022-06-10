@@ -81,11 +81,8 @@ cache = Cache(app)
 Compress(app)
 mail = Mail(app)
 
-settings = cache.get(f'{app.config["SERVER_NAME"]}_settings')
-if not settings:
-	settings = {"Bots": True, "Fart mode": False, "Read-only mode": False, "Signups": True}
-	cache.set(f'{app.config["SERVER_NAME"]}_settings', settings)
-	app.config['SETTINGS'] = settings
+if not cache.get(f'{app.config["SERVER_NAME"]}_settings'):
+	cache.set(f'{app.config["SERVER_NAME"]}_settings', {"Bots": True, "Fart mode": False, "Read-only mode": False, "Signups": True}) 
 
 @app.before_request
 def before_request():
