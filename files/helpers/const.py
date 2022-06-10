@@ -826,7 +826,7 @@ if SITE_NAME == 'rDrama':
 		'carpathian florist': CARP_ID,
 		'the_homocracy': HOMO_ID,
 	}
-else:
+elif SITE != 'localhost':
 	REDDIT_NOTIFS_SITE = [SITE]
 	REDDIT_NOTIFS_JL_MIN = 3
 
