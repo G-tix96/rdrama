@@ -58,7 +58,7 @@ def end_lottery_session():
 
     active_lottery.is_active = False
 
-    manager = g.db.query(User).get(LOTTERY_MANAGER_ACCOUNT_ID)
+    manager = g.db.query(User).get(AUTOPOLLER_ID)
 
     if manager:
         manager.coins -= active_lottery.prize
@@ -93,7 +93,7 @@ def check_if_end_lottery_task():
     return True
 
 def lottery_ticket_net_value():
-    return LOTTERY_TICKET_COST - LOTTERY_SINK_RATE - LOTTERY_ROYALTY_RATE
+    return LOTTERY_TICKET_COST - LOTTERY_SINK_RATE
 
 def purchase_lottery_tickets(v, quantity=1):
     if quantity < 1:
@@ -115,17 +115,12 @@ def purchase_lottery_tickets(v, quantity=1):
 
     grant_lottery_proceeds_to_manager(net_ticket_value)
 
-    beneficiary = g.db.query(User).get(LOTTERY_ROYALTY_ACCOUNT_ID)
-    
-    if beneficiary and LOTTERY_ROYALTY_RATE:
-        beneficiary.coins += LOTTERY_ROYALTY_RATE * quantity
-
     g.db.commit()
 
     return True, f'Successfully purchased {quantity} lottery tickets!'
 
 def grant_lottery_proceeds_to_manager(prize_value):
-    manager = g.db.query(User).get(LOTTERY_MANAGER_ACCOUNT_ID)
+    manager = g.db.query(User).get(AUTOPOLLER_ID)
     
     if manager:
         manager.coins += prize_value
