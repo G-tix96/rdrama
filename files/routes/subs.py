@@ -265,12 +265,8 @@ def remove_mod(v, sub):
 @app.get("/create_hole")
 @is_not_permabanned
 def create_sub(v):
-	num = v.subs_created + 1
-	for a in v.alts:
-		num += a.subs_created
-	cost = num * HOLE_COST
 	
-	return render_template("sub/create_hole.html", v=v, cost=cost)
+	return render_template("sub/create_hole.html", v=v, cost=HOLE_COST)
 
 
 @app.post("/create_hole")
@@ -282,22 +278,16 @@ def create_sub2(v):
 	if not name: abort(400)
 	name = name.strip().lower()
 
-	num = v.subs_created + 1
-	for a in v.alts:
-		num += a.subs_created
-	cost = num * HOLE_COST
-
 	if not valid_sub_regex.fullmatch(name):
-		return render_template("sub/create_hole.html", v=v, cost=cost, error="Sub name not allowed."), 400
+		return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error="Sub name not allowed."), 400
 
 	sub = g.db.query(Sub).filter_by(name=name).one_or_none()
 	if not sub:
-		if v.coins < cost:
-			return render_template("sub/create_hole.html", v=v, cost=cost, error="You don't have enough coins!"), 403
+		if v.coins < HOLE_COST:
+			return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error="You don't have enough coins!"), 403
 
-		v.coins -= cost
+		v.coins -= HOLE_COST
 
-		v.subs_created += 1
 		g.db.add(v)
 
 		sub = Sub(name=name)

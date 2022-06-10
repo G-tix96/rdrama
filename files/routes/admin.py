@@ -84,7 +84,7 @@ def merge(v, id1, id2):
 			g.db.add(exile)
 			g.db.flush()
 
-	for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truecoins', 'procoins', 'subs_created'):
+	for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truecoins', 'procoins'):
 		amount = getattr(user1, kind) + getattr(user2, kind)
 		setattr(user1, kind, amount)
 		setattr(user2, kind, 0)
@@ -131,7 +131,7 @@ def merge_all(v, id):
 			g.db.flush()
 
 	for alt in user.alts_unique:
-		for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truecoins', 'procoins', 'subs_created'):
+		for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truecoins', 'procoins'):
 			amount = getattr(user, kind) + getattr(alt, kind)
 			setattr(user, kind, amount)
 			setattr(alt, kind, 0)
