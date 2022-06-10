@@ -6,6 +6,7 @@ from files.helpers.lazy import lazy
 from files.helpers.const import *
 from datetime import datetime
 from json import loads
+import time
 
 class BadgeDef(Base):
 	__tablename__ = "badge_defs"
@@ -26,9 +27,15 @@ class Badge(Base):
 	badge_id = Column(Integer,  ForeignKey('badge_defs.id'), primary_key=True)
 	description = Column(String)
 	url = Column(String)
+	created_utc = Column(Integer)
 
 	user = relationship("User", viewonly=True)
 	badge = relationship("BadgeDef", primaryjoin="foreign(Badge.badge_id) == remote(BadgeDef.id)", viewonly=True)
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs:
+			kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<Badge(user_id={self.user_id}, badge_id={self.badge_id})>"
