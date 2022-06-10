@@ -298,7 +298,7 @@ elif SITE == 'watchpeopledie.co':
 	WELCOME_MSG = f"Welcome to {SITE_NAME}!"
 	ROLES={}
 else:
-	HOLE_COST = 10000
+	HOLE_COST = 0
 	NOTIFICATIONS_ID = 1
 	AUTOJANNY_ID = 2
 	SNAPPY_ID = 3
