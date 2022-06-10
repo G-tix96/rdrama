@@ -56,7 +56,6 @@ app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = environ.get("MAIL_USERNAME", "").strip()
 app.config['MAIL_PASSWORD'] = environ.get("MAIL_PASSWORD", "").strip()
 app.config['DESCRIPTION'] = environ.get("DESCRIPTION", "rdrama.net caters to drama in all forms such as: Real life, videos, photos, gossip, rumors, news sites, Reddit, and Beyond™. There isn't drama we won't touch, and we want it all!").strip()
-app.config['SETTINGS'] = {}
 
 r=redis.Redis(host=environ.get("REDIS_URL", "redis://localhost"), decode_responses=True, ssl_cert_reqs=None)
 
@@ -82,6 +81,9 @@ cache = Cache(app)
 Compress(app)
 mail = Mail(app)
 
+if not cache.get(f'{app.config["SERVER_NAME"]}_settings'):
+	cache.set(f'{app.config["SERVER_NAME"]}_settings', {"Bots": True, "Fart mode": False, "Read-only mode": False, "Signups": True}) 
+
 @app.before_request
 def before_request():
 
@@ -90,8 +92,7 @@ def before_request():
 
 	ua = g.agent.lower()
 
-	with open('site_settings.json', 'r') as f:
-		app.config['SETTINGS'] = json.load(f)
+	app.config['SETTINGS'] = cache.get(f'{app.config["SERVER_NAME"]}_settings')
 
 	if request.host != app.config["SERVER_NAME"]: return {"error":"Unauthorized host provided."}, 401
 	if request.headers.get("CF-Worker"): return {"error":"Cloudflare workers are not allowed to access this website."}, 401

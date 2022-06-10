@@ -506,9 +506,8 @@ def admin_git_head():
 @admin_level_required(3)
 def change_settings(v, setting):
 	site_settings = app.config['SETTINGS']
-	site_settings[setting] = not site_settings[setting] 
-	with open("site_settings.json", "w") as f:
-		json.dump(site_settings, f)
+	site_settings[setting] = not site_settings[setting]
+	cache.set(f'{SITE}_settings', site_settings) 
 
 	if site_settings[setting]: word = 'enable'
 	else: word = 'disable'
