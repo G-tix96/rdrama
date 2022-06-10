@@ -392,7 +392,10 @@ def sanitize_url(url):
 			 .replace("https://www.youtube", "https://youtube") \
 			 .replace("https://www.twitter", "https://twitter") \
 			 .replace("https://www.instagram", "https://instagram") \
-			 .replace("https://www.tiktok", "https://tiktok")
+			 .replace("https://www.tiktok", "https://tiktok") \
+			 .replace("https://www.streamable", "https://streamable") \
+			 .replace("https://streamable.com/", "https://streamable.com/e/") \
+			 .replace("https://streamable.com/e/e/", "https://streamable.com/e/")
 
 	return url
 
