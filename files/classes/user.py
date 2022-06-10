@@ -452,22 +452,44 @@ class User(Base):
 	@property
 	@lazy
 	def post_notifications_count(self):
-		return g.db.query(Notification).join(Comment).filter(Notification.user_id == self.id, Notification.read == False, Comment.author_id == AUTOJANNY_ID).count()
+		return g.db.query(Notification).join(Comment).filter(
+			Notification.user_id == self.id, Notification.read == False, 
+			Comment.author_id == AUTOJANNY_ID).count()
+
+	@property
+	@lazy
+	def modaction_notifications_count(self):
+		return g.db.query(Notification).join(Comment).filter(
+			Notification.user_id == self.id, Notification.read == False, 
+			Comment.is_banned == False, Comment.deleted_utc == 0, 
+			Comment.body_html.like(f'%<p>{NOTIF_MODACTION_PREFIX}%'), 
+			Comment.parent_submission == None, Comment.author_id == NOTIFICATIONS_ID).count()
 
 	@property
 	@lazy
 	def reddit_notifications_count(self):
-		return g.db.query(Notification).join(Comment).filter(Notification.user_id == self.id, Notification.read == False, Comment.is_banned == False, Comment.deleted_utc == 0, Comment.body_html.like('%<p>New site mention: <a href="https://old.reddit.com/r/%'), Comment.parent_submission == None, Comment.author_id == NOTIFICATIONS_ID).count()
+		return g.db.query(Notification).join(Comment).filter(
+			Notification.user_id == self.id, Notification.read == False, 
+			Comment.is_banned == False, Comment.deleted_utc == 0, 
+			Comment.body_html.like('%<p>New site mention: <a href="https://old.reddit.com/r/%'), 
+			Comment.parent_submission == None, Comment.author_id == NOTIFICATIONS_ID).count()
 
 	@property
 	@lazy
 	def normal_count(self):
-		return self.notifications_count - self.post_notifications_count - self.reddit_notifications_count
+		return self.notifications_count \
+			- self.post_notifications_count \
+			- self.modaction_notifications_count \
+			- self.reddit_notifications_count 
 
 	@property
 	@lazy
 	def do_posts(self):
-		return self.post_notifications_count and self.notifications_count-self.reddit_notifications_count == self.post_notifications_count
+		return self.post_notifications_count and \
+			self.post_notifications_count == (
+				self.notifications_count
+				- self.modaction_notifications_count
+				- self.reddit_notifications_count)
 
 	@property
 	@lazy

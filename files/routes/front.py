@@ -44,9 +44,10 @@ def notifications(v):
 
 	messages = request.values.get('messages')
 	modmail = request.values.get('modmail')
+	modactions = request.values.get('modactions')
 	posts = request.values.get('posts')
 	reddit = request.values.get('reddit')
-	if modmail and v.admin_level > 1:
+	if modmail and v.admin_level >= 2:
 		comments = g.db.query(Comment).filter(Comment.sentto==2).order_by(Comment.id.desc()).offset(25*(page-1)).limit(26).all()
 		next_exists = (len(comments) > 25)
 		listing = comments[:25]
@@ -73,7 +74,25 @@ def notifications(v):
 			if n.created_utc > 1620391248: c.notif_utc = n.created_utc
 			listing.append(c)
 
-		g.db.commit()
+		next_exists = (len(notifications) > len(listing))
+	elif modactions:
+		notifications = g.db.query(Notification, Comment) \
+			.join(Comment, Notification.comment_id == Comment.id) \
+			.filter(Notification.user_id == v.id, 
+				Comment.body_html.like(f'%<p>{NOTIF_MODACTION_PREFIX}%'),
+				Comment.parent_submission == None, Comment.author_id == NOTIFICATIONS_ID) \
+			.order_by(Notification.created_utc.desc()).offset(25 * (page - 1)).limit(101).all()
+		listing = []
+
+		for index, x in enumerate(notifications[:100]):
+			n, c = x
+			if n.read and index > 24: break
+			elif not n.read:
+				n.read = True
+				c.unread = True
+				g.db.add(n)
+			if n.created_utc > 1620391248: c.notif_utc = n.created_utc
+			listing.append(c)
 
 		next_exists = (len(notifications) > len(listing))
 	elif reddit:
@@ -91,8 +110,6 @@ def notifications(v):
 			if n.created_utc > 1620391248: c.notif_utc = n.created_utc
 			listing.append(c)
 
-		g.db.commit()
-
 		next_exists = (len(notifications) > len(listing))
 	else:		
 		comments = g.db.query(Comment, Notification).join(Notification, Notification.comment_id == Comment.id).filter(
@@ -100,7 +117,8 @@ def notifications(v):
 			Comment.is_banned == False,
 			Comment.deleted_utc == 0,
 			Comment.author_id != AUTOJANNY_ID,
-			Comment.body_html.notlike('%<p>New site mention: <a href="https://old.reddit.com/r/%')
+			Comment.body_html.notlike('%<p>New site mention: <a href="https://old.reddit.com/r/%'),
+			Comment.body_html.notlike(f'%<p>{NOTIF_MODACTION_PREFIX}%')
 		).order_by(Notification.created_utc.desc())
 
 		if not (v and (v.shadowbanned or v.admin_level > 2)):
@@ -154,7 +172,8 @@ def notifications(v):
 							next_exists=next_exists,
 							page=page,
 							standalone=True,
-							render_replies=True
+							render_replies=True,
+							NOTIF_MODACTION_JL_MIN=NOTIF_MODACTION_JL_MIN,
 						   )
 
 

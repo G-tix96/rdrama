@@ -527,25 +527,7 @@ def change_settings(v, setting):
 	if site_settings[setting]: word = 'enable'
 	else: word = 'disable'
 
-	body = f"@{v.username} has {word}d `{setting}` in the [admin dashboard](/admin)!"
-
-	body_html = sanitize(body)
-
-	new_comment = Comment(author_id=NOTIFICATIONS_ID,
-						  parent_submission=None,
-						  level=1,
-						  body_html=body_html,
-						  sentto=2,
-						  distinguish_level=6
-						  )
-	g.db.add(new_comment)
-	g.db.flush()
-
-	new_comment.top_comment_id = new_comment.id
-
-	for admin in g.db.query(User).filter(User.admin_level > 2, User.id != v.id).all():
-		notif = Notification(comment_id=new_comment.id, user_id=admin.id)
-		g.db.add(notif)
+	notify_mod_action(v.id, f"@{v.username} has {word}d `{setting}` in the [admin dashboard](/admin)!")
 
 	ma = ModAction(
 		kind=f"{word}_{setting}",
@@ -1018,29 +1000,7 @@ def shadowban(user_id, v):
 	g.db.add(ma)
 	
 	cache.delete_memoized(frontlist)
-
-	body = f"@{v.username} has shadowbanned @{user.username}"
-
-	body_html = sanitize(body)
-
-
-	new_comment = Comment(author_id=NOTIFICATIONS_ID,
-						  parent_submission=None,
-						  level=1,
-						  body_html=body_html,
-						  distinguish_level=6
-						  )
-	g.db.add(new_comment)
-	g.db.flush()
-
-	new_comment.top_comment_id = new_comment.id
-
-	for admin in g.db.query(User).filter(User.admin_level > 2, User.id != v.id).all():
-		notif = Notification(comment_id=new_comment.id, user_id=admin.id)
-		g.db.add(notif)
-
-
-
+	notify_mod_action(v.id, f"@{v.username} has shadowbanned @{user.username}")
 	g.db.commit()
 	return {"message": "User shadowbanned!"}
 
@@ -1176,28 +1136,7 @@ def ban_user(user_id, v):
 				g.db.add(comment)
 			except: pass
 
-
-	body = f"@{v.username} has banned @{user.username} ({note})"
-
-	body_html = sanitize(body)
-
-
-	new_comment = Comment(author_id=NOTIFICATIONS_ID,
-						  parent_submission=None,
-						  level=1,
-						  body_html=body_html,
-						  distinguish_level=6
-						  )
-	g.db.add(new_comment)
-	g.db.flush()
-
-	new_comment.top_comment_id = new_comment.id
-
-	for admin in g.db.query(User).filter(User.admin_level > 2, User.id != v.id).all():
-		notif = Notification(comment_id=new_comment.id, user_id=admin.id)
-		g.db.add(notif)
-
-
+	notify_mod_action(v.id, f"@{v.username} has banned @{user.username} ({note})")
 	g.db.commit()
 
 	if 'redir' in request.values: return redirect(user.url)
@@ -1273,23 +1212,10 @@ def ban_post(post_id, v):
 	g.db.add(v)
 
 	if v.id != post.author_id:
-		body = f"@{v.username} has removed [{post.title}]({post.shortlink})"
-		body_html = sanitize(body)
-		new_comment = Comment(author_id=NOTIFICATIONS_ID,
-							parent_submission=None,
-							level=1,
-							body_html=body_html,
-							distinguish_level=6
-							)
-		g.db.add(new_comment)
-		g.db.flush()
-		new_comment.top_comment_id = new_comment.id
-		for admin in g.db.query(User).filter(User.admin_level > 2, User.id != v.id).all():
-			notif = Notification(comment_id=new_comment.id, user_id=admin.id)
-			g.db.add(notif)
+		notify_mod_action(v.id, f"@{v.username} has removed [{post.title}]({post.shortlink})")		
 
-	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, json={'files': [f"{SITE_FULL}/logged_out/"]}, timeout=5)
-
+	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', 
+		headers=CF_HEADERS, json={'files': [f"{SITE_FULL}/logged_out/"]}, timeout=5)
 	g.db.commit()
 
 	return {"message": "Post removed!"}
@@ -1492,20 +1418,7 @@ def api_ban_comment(c_id, v):
 	g.db.add(ma)
 
 	if v.id != comment.author_id:
-		body = f"@{v.username} has removed [comment]({comment.shortlink})"
-		body_html = sanitize(body)
-		new_comment = Comment(author_id=NOTIFICATIONS_ID,
-							parent_submission=None,
-							level=1,
-							body_html=body_html,
-							distinguish_level=6
-							)
-		g.db.add(new_comment)
-		g.db.flush()
-		new_comment.top_comment_id = new_comment.id
-		for admin in g.db.query(User).filter(User.admin_level > 2, User.id != v.id).all():
-			notif = Notification(comment_id=new_comment.id, user_id=admin.id)
-			g.db.add(notif)
+		notify_mod_action(v.id, f"@{v.username} has removed [comment]({comment.shortlink})")
 
 	g.db.commit()
 	return {"message": "Comment removed!"}

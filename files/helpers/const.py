@@ -809,6 +809,9 @@ FACTCHECK_REPLIES = ('<b style="color:#6023f8">Factcheck: This claim has been co
 if SITE_NAME == 'rDrama': patron = 'Paypig'
 else: patron = 'Patron'
 
+NOTIF_MODACTION_PREFIX = '[Modaction] '
+NOTIF_MODACTION_JL_MIN = 2
+
 REDDIT_NOTIFS_SITE = []
 REDDIT_NOTIFS_USERS = {}
 REDDIT_NOTIFS_JL_MIN = 1

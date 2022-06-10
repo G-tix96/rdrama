@@ -115,3 +115,21 @@ def NOTIFY_USERS(text, v):
 		if user and v.id != user.id and not v.any_block_exists(user): notify_users.add(user.id)
 
 	return notify_users - bots
+
+def notify_mod_action(by_id, msg):
+	body_html = sanitize(NOTIF_MODACTION_PREFIX + msg)
+	new_comment = Comment(
+		author_id=NOTIFICATIONS_ID,
+		parent_submission=None,
+		level=1,
+		body_html=body_html,
+		distinguish_level=6)
+	g.db.add(new_comment)
+	g.db.flush()
+	new_comment.top_comment_id = new_comment.id
+
+	send_to = g.db.query(User).filter(
+		User.admin_level >= NOTIF_MODACTION_JL_MIN, User.id != by_id).all()
+	for admin in send_to:
+		notif = Notification(comment_id=new_comment.id, user_id=admin.id)
+		g.db.add(notif)
