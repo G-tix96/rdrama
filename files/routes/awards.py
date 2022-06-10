@@ -337,6 +337,7 @@ def award_thing(v, thing_type, id):
 			g.db.flush()
 			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({badge.path})\n\n{badge.name}")
 	elif kind == "benefactor":
+		if author.patron: return {"error": "This user is already a paypig!"}, 400
 		author.patron = 1
 		if author.patron_utc: author.patron_utc += 2629746
 		else: author.patron_utc = int(time.time()) + 2629746
