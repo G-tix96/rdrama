@@ -826,8 +826,8 @@ if SITE_NAME == 'rDrama':
 		'carpathian florist': CARP_ID,
 		'the_homocracy': HOMO_ID,
 	}
-elif SITE_NAME == 'PCM':
-	REDDIT_NOTIFS_SITE = ['pcmemes.net',]
+else:
+	REDDIT_NOTIFS_SITE = [SITE]
 	REDDIT_NOTIFS_JL_MIN = 3
 
 discounts = {
