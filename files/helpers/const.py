@@ -1002,7 +1002,6 @@ approved_embed_hosts = {
 	'tumblr.com',
 	'yarn.co',
 	'gifer.com',
-	'prnt.sc',
 	'staticflickr.com',
 	'kiwifarms.net',
 	'amazonaws.com',
@@ -1016,7 +1015,11 @@ approved_embed_hosts = {
 	'bing.com',
 	'typekit.net',
 	'postimg.cc',
-	'archive.org'
+	'archive.org',
+	'substackcdn.com',
+	'9gag.com',
+	'ifunny.co',
+	'wixmp.com',
 	}
 
 
@@ -1032,13 +1035,13 @@ video_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\
 audio_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp3|wav|ogg|aac|m4a|flac))', flags=re.A)
 
 imgur_regex = re.compile('(https:\/\/i\.imgur\.com\/[a-z0-9]+)\.(jpg|png|jpeg|webp)(?!<\/(code|pre|a)>)', flags=re.I|re.A)
-giphy_tenor_regex = re.compile('(https:\/\/(media\.giphy\.com|c\.tenor\.com)\/[\/\-a-z0-9]+)\.gif(?!<\/(code|pre|a)>)', flags=re.I|re.A)
+giphy_regex = re.compile('(https:\/\/media\.giphy\.com\/media\/[a-z0-9]+\/giphy)\.gif', flags=re.I|re.A)
 
 youtube_regex = re.compile('(<p>[^<]*)(https:\/\/youtube\.com\/watch\?v\=([a-z0-9-_]{5,20})[\w\-.#&/=\?@%+]*)', flags=re.I|re.A)
 
 yt_id_regex = re.compile('[a-z0-9-_]{5,20}', flags=re.I|re.A)
 
-image_regex = re.compile("(^|\s)(https:\/\/[\w\-.#&/=\?@%;+]{5,250}(\.png|\.jpg|\.jpeg|\.gif|\.webp|maxwidth=9999|fidelity=high))($|\s)", flags=re.I|re.A)
+image_regex = re.compile("(^|\s)(https:\/\/[\w\-.#&/=\?@%;+,:]{5,250}(\.png|\.jpg|\.jpeg|\.gif|\.webp)(\?[\w\-.#&/=\?@%;+,:]*)?)($|\s)", flags=re.I|re.A)
 
 link_fix_regex = re.compile("(?!.*(http|\/))(.*\[[^\]]+\]\()([^)]+\))", flags=re.A)
 

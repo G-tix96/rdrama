@@ -168,7 +168,7 @@ def sanitize(sanitized, alert=False, comment=False, edit=False):
 	if '```' not in sanitized and '<pre>' not in sanitized:
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
 
-	sanitized = image_regex.sub(r'\1![](\2)\4', sanitized)
+	sanitized = image_regex.sub(r'\1![](\2)\5', sanitized)
 
 	sanitized = image_check_regex.sub(r'\1', sanitized)
 
@@ -395,6 +395,6 @@ def normalize_url(url):
 			 .replace("https://streamable.com/e/e/", "https://streamable.com/e/")
 
 	url = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=high', url)
-	url = giphy_tenor_regex.sub(r'\1.webp', url)
+	url = giphy_regex.sub(r'\1.webp', url)
 
 	return url
