@@ -112,6 +112,7 @@ def purchase_lottery_tickets(v, quantity=1):
 
     g.db.commit()
 
+    if quantity == 1: return True, f'Successfully purchased {quantity} lottery ticket!'
     return True, f'Successfully purchased {quantity} lottery tickets!'
 
 def grant_lottery_tickets_to_user(v, quantity):
