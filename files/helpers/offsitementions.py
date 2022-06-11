@@ -56,7 +56,7 @@ def notify_mentions(send_to, mentions, mention_str='site mention'):
 			author_id=const.NOTIFICATIONS_ID, 
 			parent_submission=None, 
 			body_html=notif_text).one_or_none()
-		if existing_comment: break
+		if existing_comment: continue
 
 		new_comment = Comment(
 						author_id=const.NOTIFICATIONS_ID,
