@@ -52,7 +52,7 @@ def end_lottery_session():
                 + f'Congratulations!\nOdds of winning: {chance_to_win}%' 
         else:
             notification_text = f'You did not win the lottery. Better luck next time!\n' \
-                + f'Odds of winning: {chance_to_win}%\nWinner: @{winning_user.username}'
+                + f'Odds of winning: {chance_to_win}%\nWinner: @{winning_user.username} (won {active_lottery.prize} coins)'
         send_repeatable_notification(user.id, notification_text)
         user.currently_held_lottery_tickets = 0
 
