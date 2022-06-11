@@ -48,7 +48,7 @@ def end_lottery_session():
     for user in participating_users:
         chance_to_win = user.currently_held_lottery_tickets / len(raffle) * 100
         if user.id == winner:
-            notification_text = f'You won {active_lottery.prize} dramacoins in the lottery! ' \
+            notification_text = f'You won {active_lottery.prize} coins in the lottery! ' \
                 + f'Congratulations!\nOdds of winning: {chance_to_win}%' 
         else:
             notification_text = f'You did not win the lottery. Better luck next time!\n' \
@@ -60,7 +60,7 @@ def end_lottery_session():
 
     g.db.commit()
 
-    return True, f'{winning_user.username} won {active_lottery.prize} dramacoins!'
+    return True, f'{winning_user.username} won {active_lottery.prize} coins!'
 
 
 def start_new_lottery_session():
@@ -96,7 +96,7 @@ def purchase_lottery_tickets(v, quantity=1):
     if quantity < 1:
         return False, "Must purchase one or more lottery tickets."
     elif (v.coins < LOTTERY_TICKET_COST * quantity):
-        return False, f'Lottery tickets cost {LOTTERY_TICKET_COST} dramacoins each.'
+        return False, f'Lottery tickets cost {LOTTERY_TICKET_COST} coins each.'
 
     most_recent_lottery = get_active_lottery()
     if (most_recent_lottery is None):
