@@ -203,7 +203,8 @@ CREATE TABLE public.badges (
     badge_id integer NOT NULL,
     user_id integer NOT NULL,
     description character varying(256),
-    url character varying(256)
+    url character varying(256),
+    created_utc integer NOT NULL
 );
 
 
