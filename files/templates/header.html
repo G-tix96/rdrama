@@ -86,7 +86,7 @@
 			{% endif %}
 
 			{% if v and v.can_gamble and LOTTERY_ENABLED %}
-			<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lottershe">
+			<span data-bs-toggle="tooltip" data-bs-placement="bottom" title={'Lottershe' if SITE_NAME == 'rDrama' else 'Lottery'}>
 				<a
 					href="/lottery"
 					class="mobile-nav-icon d-md-none"> 
@@ -139,7 +139,7 @@
 					<span 
 						data-bs-toggle="tooltip"
 						data-bs-placement="bottom"
-						title="Lottershe">
+						title={'Lottershe' if SITE_NAME == 'rDrama' else 'Lottery'}>
 						<a
 							href="/lottery"
 							class="nav-link"> 
