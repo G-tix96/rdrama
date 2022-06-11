@@ -222,17 +222,17 @@ def api_comment(v):
 				if image == "": return {"error":"Image upload failed"}
 				if v.admin_level > 2 and level == 1:
 					if parent_post.id == 37696:
-						li = sorted(os.listdir('files/assets/images/rDrama/sidebar'),
+						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/sidebar'),
 							key=lambda e: int(e.split('.webp')[0]))[-1]
 						num = int(li.split('.webp')[0]) + 1
-						filename = f'files/assets/images/rDrama/sidebar/{num}.webp'
+						filename = f'files/assets/images/{SITE_NAME}/sidebar/{num}.webp'
 						copyfile(oldname, filename)
 						process_image(v.patron, filename, 400)
 					elif parent_post.id == 37697:
-						li = sorted(os.listdir('files/assets/images/rDrama/banners'),
+						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/banners'),
 							key=lambda e: int(e.split('.webp')[0]))[-1]
 						num = int(li.split('.webp')[0]) + 1
-						filename = f'files/assets/images/rDrama/banners/{num}.webp'
+						filename = f'files/assets/images/{SITE_NAME}/banners/{num}.webp'
 						copyfile(oldname, filename)
 						process_image(v.patron, filename)
 					elif parent_post.id == 37833:

@@ -260,9 +260,9 @@
 
 			<a href="https://secure.transequality.org/site/Donation2?df_id=1480">
 				{% if v and (v.is_banned or v.agendaposter) %}
-					<img alt="site banner" src="/assets/images/rDrama/banner2.webp?v=1" width="100%">
+					<img alt="site banner" src="/assets/images/{{SITE_NAME}}/banner2.webp?v=1" width="100%">
 				{% else %}
-					<img alt="site banner" src="{% if v %}{{image}}{% else %}/assets/images/rDrama/cached.webp?v=100{% endif %}" width="100%">
+					<img alt="site banner" src="{% if v %}{{image}}{% else %}/assets/images/{{SITE_NAME}}/cached.webp?v=100{% endif %}" width="100%">
 				{% endif %}
 			</a>
 		{% else %}
