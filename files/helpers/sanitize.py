@@ -114,7 +114,7 @@ def callback(attrs, new=False):
 
 	if not href.startswith('/') and not href.startswith(f'{SITE_FULL}/'):
 		attrs[(None, "target")] = "_blank"
-		attrs[(None, "rel")] = "nofollow noopener noreferrer"	
+		attrs[(None, "rel")] = "nofollow noopener noreferrer"
 
 	return attrs
 

@@ -1085,7 +1085,7 @@ def submit_post(v, sub=None):
 
 			name2 = name.replace('.webp', 'r.webp')
 			copyfile(name, name2)
-			post.thumburl = process_image(v.patron, name2, resize=100)	
+			post.thumburl = process_image(v.patron, name2, resize=100)
 		elif file.content_type.startswith('video/'):
 			value = process_video(file)
 			if type(value) is str: post.url = value
@@ -1212,7 +1212,7 @@ def submit_post(v, sub=None):
 			
 			newposturl = post.url
 			if newposturl.startswith('/'): newposturl = f"{SITE_FULL}{newposturl}"
-			body += f"Snapshots:\n\n{rev}* [archive.org](https://web.archive.org/{newposturl})\n* [archive.ph](https://archive.ph/?url={quote(newposturl)}&run=1) (click to archive)\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(newposturl)}) (click to archive)\n\n"			
+			body += f"Snapshots:\n\n{rev}* [archive.org](https://web.archive.org/{newposturl})\n* [archive.ph](https://archive.ph/?url={quote(newposturl)}&run=1) (click to archive)\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(newposturl)}) (click to archive)\n\n"
 			gevent.spawn(archiveorg, newposturl)
 
 		captured = []
@@ -1224,7 +1224,7 @@ def submit_post(v, sub=None):
 			if not href: continue
 
 			title = i.group(2)
-			if "Snapshots:\n\n" not in body: body += "Snapshots:\n\n"			
+			if "Snapshots:\n\n" not in body: body += "Snapshots:\n\n"
 
 			if f'**[{title}]({href})**:\n\n' not in body:
 				body += f'**[{title}]({href})**:\n\n'

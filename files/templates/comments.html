@@ -230,7 +230,7 @@
 				{% if c.treasure_amount.startswith('l') %}
 				<img class="treasure" alt="treasure" src="/assets/images/treasure_tickets.webp" width="20" />
 				<em>Found {{c.treasure_amount.replace('l', '')}} Lottershe Tickets!</em>
-				{% elif '-' in c.treasure_amount %}	
+				{% elif '-' in c.treasure_amount %}
 				<img class="treasure" alt="treasure" src="/assets/images/treasure_mimic.webp" width="20" />
 				<em>A Mimic Ate {{c.treasure_amount.replace('-', '')}} Coins!</em>
 				{% else %}
@@ -281,7 +281,7 @@
 							25% {transform: rotate({{c.award_count("tilt")/4}}deg);}
 							75% {transform: rotate(-{{c.award_count("tilt")/4}}deg);}
 							100% {transform: rotate(0deg);}
-						}					
+						}
 					}
 					.comment-{{c.id}}-only {
 						animation-name: c{{c.id}}-tilt !important;
@@ -602,12 +602,12 @@
 		{% if request.path == '/notifications' and c.level == 1 and c.sentto and not c.parent_submission and c.author_id not in (NOTIFICATIONS_ID, AUTOJANNY_ID) %}
 			<a class="btn btn-primary mt-2" role="button" onclick="openReplyBox('reply-message-{{c.id}}')">Reply</a>
 			<div id="reply-message-{{c.id}}" class="d-none">
-				<div id="comment-form-space-{{c.id}}" class="comment-write collapsed child">		
+				<div id="comment-form-space-{{c.id}}" class="comment-write collapsed child">
 					<form id="reply-to-message-{{c.id}}" action="/reply" method="post" class="input-group" enctype="multipart/form-data">
 						<input type="hidden" name="formkey" value="{{v.formkey}}"> 
 						<textarea required autocomplete="off" minlength="1" maxlength="10000" name="body" form="reply-to-t3_{{c.id}}" data-id="{{c.id}}" class="comment-box form-control rounded" id="reply-form-body-{{c.id}}" aria-label="With textarea" rows="3" oninput="markdown('reply-form-body-{{c.id}}', 'message-reply-{{c.id}}')"></textarea> 
 						<div class="comment-format" id="comment-format-bar-{{c.id}}"> 
-							<div onclick="loadEmojis('reply-form-body-{{c.id}}')" class="btn btn-secondary m-0 mt-3 mr-1" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>	
+							<div onclick="loadEmojis('reply-form-body-{{c.id}}')" class="btn btn-secondary m-0 mt-3 mr-1" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>
 
 							{% if c.sentto == 2 %}
 								<label class="btn btn-secondary m-0 mt-3" for="file-upload">

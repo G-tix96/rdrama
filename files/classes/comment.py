@@ -388,7 +388,7 @@ class Comment(Base):
 			if v: body += f''' onchange="poll_vote('{c.id}', '{self.id}')"'''
 			else: body += f''' onchange="poll_vote_no_v('{c.id}', '{self.id}')"'''
 			body += f'''><label class="custom-control-label" for="{c.id}">{c.body_html}<span class="presult-{self.id}'''
-			if not self.total_poll_voted(v): body += ' d-none'	
+			if not self.total_poll_voted(v): body += ' d-none'
 			body += f'"> - <a href="/votes?link=t3_{c.id}"><span id="poll-{c.id}">{c.upvotes}</span> votes</a></span></label></div>'
 
 		if self.choices:
@@ -401,7 +401,7 @@ class Comment(Base):
 			body += f'''<div class="custom-control"><input name="choice-{self.id}" autocomplete="off" class="custom-control-input" type="radio" id="{c.id}" onchange="choice_vote('{c.id}','{self.id}')"'''
 			if c.poll_voted(v): body += " checked "
 			body += f'''><label class="custom-control-label" for="{c.id}">{c.body_html}<span class="presult-{self.id}'''
-			if not self.total_choice_voted(v): body += ' d-none'	
+			if not self.total_choice_voted(v): body += ' d-none'
 			body += f'"> - <a href="/votes?link=t3_{c.id}"><span id="choice-{c.id}">{c.upvotes}</span> votes</a></span></label></div>'
 
 		if self.author.sig_html and (self.author_id == MOOSE_ID or (not self.ghost and not (v and v.sigs_disabled))):
