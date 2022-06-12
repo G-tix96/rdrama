@@ -166,7 +166,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 			blocked.c.target_id,
 		)
 		
-		if not (v and v.shadowbanned) and not (v and v.admin_level > 2):
+		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
 			comments = comments.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None)
  
 		comments=comments.filter(Comment.parent_submission == post.id, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID))).join(
@@ -297,7 +297,7 @@ def viewmore(v, pid, sort, offset):
 			blocked.c.target_id,
 		).filter(Comment.parent_submission == pid, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)), Comment.stickied == None, Comment.id.notin_(ids))
 		
-		if not (v and v.shadowbanned) and not (v and v.admin_level > 2):
+		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
 			comments = comments.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None)
  
 		comments=comments.join(

@@ -57,7 +57,7 @@
 {% set downs=c.downvotes %}
 {% set score=ups-downs %}
 
-{% if v and (v.shadowbanned or v.admin_level > 2) %}
+{% if v and (v.shadowbanned or v.admin_level >= 2) %}
 	{% set replies=c.replies3 %}
 {% else %}
 	{% set replies=c.replies %}
