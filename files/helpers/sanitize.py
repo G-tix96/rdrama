@@ -63,7 +63,7 @@ def allowed_attributes(tag, name, value):
 		if name in ['src','data-src']: return is_safe_url(value)
 		if name == 'loading' and value == 'lazy': return True
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
-		if name in ['g','b'] and not value: return True
+		if name in ['g','b','data-pat'] and not value: return True
 		if name in ['alt','title']: return True
 		if name == 'referrpolicy' and value == 'no-referrer': return True
 		return False
@@ -93,6 +93,7 @@ def allowed_attributes(tag, name, value):
 
 	if tag == 'span':
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
+		if name == 'data-pat' and not value: return True
 		if name == 'title': return True
 		if name == 'alt': return True
 		return False
@@ -145,11 +146,12 @@ def render_emoji(html, regexp, edit, marseys_used=set(), b=False):
 		emoji_html = None
 
 		if emoji.endswith('pat'):
+			attrs += ' data-pat'
 			if path.isfile(f"files/assets/images/emojis/{emoji.replace('pat','')}.webp"):
-				emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/assets/images/hand.webp">{emoji_partial_pat.format(old, f"/e/{emoji[:-3]}.webp", attrs)}</span>'
+				emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:" data-pat><img src="/assets/images/hand.webp">{emoji_partial_pat.format(old, f"/e/{emoji[:-3]}.webp", attrs)}</span>'
 			elif emoji.startswith('@'):
 				if u := get_user(emoji[1:-3], graceful=True):
-					emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/assets/images/hand.webp">{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
+					emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:" data-pat><img src="/assets/images/hand.webp">{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
 		elif path.isfile(f'files/assets/images/emojis/{emoji}.webp'):
 			emoji_html = emoji_partial.format(old, f'/e/{emoji}.webp', attrs)
 
