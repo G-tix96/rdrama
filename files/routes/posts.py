@@ -1160,8 +1160,8 @@ def submit_post(v, sub=None):
 		n = Notification(comment_id=c_jannied.id, user_id=v.id)
 		g.db.add(n)
 
+	snappy = g.db.query(User).get(SNAPPY_ID)
 
-	
 	if not (post.sub and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, sub=post.sub).one_or_none()):
 		if post.sub == 'dankchristianmemes':
 			body = random.choice(christian_emojis)
@@ -1172,7 +1172,7 @@ def submit_post(v, sub=None):
 			if random.random() < 0.5: body = "wow, this lawlzpost sucks!"
 			else: body = "wow, a good lawlzpost for once!"
 		else:
-			body = random.choice(snappyquotes)
+			body = random.choice(snappyquotes).strip()
 			if body.startswith('▼'):
 				body = body[1:]
 				vote = Vote(user_id=SNAPPY_ID,
@@ -1197,7 +1197,8 @@ def submit_post(v, sub=None):
 							)
 				g.db.add(vote)
 				post.upvotes += 1
-
+			elif body == '!slots':
+				body = f'!slots{snappy.coins}'
 
 		body += "\n\n"
 
@@ -1238,11 +1239,6 @@ def submit_post(v, sub=None):
 				body += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n'
 				body += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)}) (click to archive)\n\n'
 				gevent.spawn(archiveorg, href)
-
-		snappy = g.db.query(User).filter_by(id = SNAPPY_ID).one_or_none()
-		body = body.strip()
-		if body == '!slots':
-			body = f'!slots{snappy.coins}'
 
 		body_html = sanitize(body)
 
