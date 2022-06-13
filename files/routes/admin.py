@@ -1012,6 +1012,7 @@ def unshadowban(user_id, v):
 	g.db.add(ma)
 	
 	cache.delete_memoized(frontlist)
+	notify_mod_action(v.id, f"@{v.username} has unshadowbanned @{user.username}")
 
 	g.db.commit()
 	return {"message": "User unshadowbanned!"}
@@ -1160,6 +1161,7 @@ def unban_user(user_id, v):
 		)
 	g.db.add(ma)
 
+	notify_mod_action(v.id, f"@{v.username} has unbanned @{user.username} ({note})")
 	g.db.commit()
 
 	if "@" in request.referrer: return redirect(user.url)
@@ -1238,6 +1240,9 @@ def unban_post(post_id, v):
 
 	v.coins -= 1
 	g.db.add(v)
+
+	if v.id != post.author_id:
+		notify_mod_action(v.id, f"@{v.username} has approved [{post.title}]({post.shortlink})")		
 
 	g.db.commit()
 
@@ -1434,6 +1439,9 @@ def api_unban_comment(c_id, v):
 	comment.is_approved = v.id
 
 	g.db.add(comment)
+
+	if v.id != comment.author_id:
+		notify_mod_action(v.id, f"@{v.username} has approved [comment]({comment.shortlink})")
 
 	g.db.commit()
 
