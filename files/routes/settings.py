@@ -921,10 +921,6 @@ def settings_title_change(v):
 
 	v.customtitle = filter_emojis_only(new_name)
 
-	if USER_TITLE_COST and v.coins < USER_TITLE_COST:
-		return render_template("settings_profile.html", v=v, error=f"Changing flair costs {USER_TITLE_COST} DC.")
-	v.coins -= USER_TITLE_COST
-
 	if len(v.customtitle) < 1000:
 		g.db.add(v)
 		g.db.commit()
