@@ -352,7 +352,9 @@ def sign_up_post(v):
 				g.db.flush()
 				send_notification(ref_user.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
 
-	if email: send_verification_email(new_user)
+	if email:
+		try: send_verification_email(new_user)
+		except Exception as e: print(e)
 
 	existing_account = get_user(username, graceful=True)
 	if existing_account:
