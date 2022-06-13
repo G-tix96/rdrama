@@ -49,10 +49,10 @@ def end_lottery_session():
         chance_to_win = user.currently_held_lottery_tickets / len(raffle) * 100
         if user.id == winner:
             notification_text = f'You won {active_lottery.prize} coins in the lottery! ' \
-                + f'Congratulations!\nOdds of winning: {chance_to_win}%' 
+                + f'Congratulations!\nYour odds of winning were: {chance_to_win}%' 
         else:
             notification_text = f'You did not win the lottery. Better luck next time!\n' \
-                + f'Odds of winning: {chance_to_win}%\nWinner: @{winning_user.username} (won {active_lottery.prize} coins)'
+                + f'Your odds of winning were: {chance_to_win}%\nWinner: @{winning_user.username} (won {active_lottery.prize} coins)'
         send_repeatable_notification(user.id, notification_text)
         user.currently_held_lottery_tickets = 0
 
