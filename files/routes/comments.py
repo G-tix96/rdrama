@@ -325,7 +325,7 @@ def api_comment(v):
 	if v.agendaposter and not v.marseyawarded and parent_post.id not in ADMIGGERS:
 		body = torture_ap(body, v.username)
 
-	body_html = sanitize(body, comment=True)
+	body_html = sanitize(body)
 
 
 	if parent_post.id not in ADMIGGERS and '!slots' not in body.lower() and '!blackjack' not in body.lower() and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():

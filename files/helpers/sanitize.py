@@ -124,7 +124,7 @@ def handler(signum, frame):
 	print("Timeout!", flush=True)
 	raise Exception("Timeout")
 
-def render_emoji(html, regexp, edit, marseys_used=set(), b=False):
+def render_emoji(html, regexp, edit, marseys_used, b=False):
 	emojis = list(regexp.finditer(html))
 	captured = set()
 
@@ -162,7 +162,7 @@ def render_emoji(html, regexp, edit, marseys_used=set(), b=False):
 	return html
 
 
-def sanitize(sanitized, alert=False, comment=False, edit=False):
+def sanitize(sanitized, alert=False, edit=False):
 
 	signal.signal(signal.SIGALRM, handler)
 	signal.alarm(1)
@@ -269,7 +269,7 @@ def sanitize(sanitized, alert=False, comment=False, edit=False):
 	sanitized = video_sub_regex.sub(r'\1<video controls preload="none"><source src="\2"></video>', sanitized)
 	sanitized = audio_sub_regex.sub(r'\1<audio controls preload="none" src="\2"></audio>', sanitized)
 
-	if comment:
+	if not edit:
 		for marsey in g.db.query(Marsey).filter(Marsey.name.in_(marseys_used)).all():
 			marsey.count += 1
 			g.db.add(marsey)
@@ -364,7 +364,14 @@ def filter_emojis_only(title, edit=False, graceful=False):
 	
 	title = title.replace('‎','').replace('​','').replace("\ufeff", "").replace("𒐪","").replace("\n", "").replace("\r", "").replace("\t", "").replace("&", "&amp;").replace('<','&lt;').replace('>','&gt;').replace('"', '&quot;').replace("'", "&#039;").strip()
 
-	title = render_emoji(title, emoji_regex3, edit)
+	marseys_used = set()
+
+	title = render_emoji(title, emoji_regex3, edit, marseys_used)
+
+	if not edit:
+		for marsey in g.db.query(Marsey).filter(Marsey.name.in_(marseys_used)).all():
+			marsey.count += 1
+			g.db.add(marsey)
 
 	title = strikethrough_regex.sub(r'<del>\1</del>', title)
 
