@@ -89,8 +89,8 @@ def searchposts(v):
 	if 'q' in criteria:
 		words=criteria['q'].split()
 		words = criteria['q'].replace('\\', '').replace('_', '\_').replace('%', '\%').strip().split()
-		words=[Submission.title.ilike('%'+x+'%') for x in words]
-		posts=posts.filter(*words)
+		words = [or_(Submission.title.ilike('%'+x+'%'), Submission.body.ilike('%'+x+'%')) for x in words]
+		posts = posts.filter(*words)
 		
 	if 'over18' in criteria: posts = posts.filter(Submission.over_18==True)
 
