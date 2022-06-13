@@ -1161,7 +1161,7 @@ def unban_user(user_id, v):
 		)
 	g.db.add(ma)
 
-	notify_mod_action(v.id, f"@{v.username} has unbanned @{user.username} ({note})")
+	notify_mod_action(v.id, f"@{v.username} has unbanned @{user.username}")
 	g.db.commit()
 
 	if "@" in request.referrer: return redirect(user.url)
