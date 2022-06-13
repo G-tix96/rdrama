@@ -126,25 +126,27 @@ def log(v):
 	if v and v.admin_level > 1: types = ACTIONTYPES
 	else: types = ACTIONTYPES2
 
-	if kind not in types: kind = None
+	if kind and kind not in types:
+		kind = None
+		actions = []
+	else:
+		actions = g.db.query(ModAction)
+		if not (v and v.admin_level >= 2): 
+			actions = actions.filter(ModAction.kind.notin_(["shadowban","unshadowban"]))
 
-	actions = g.db.query(ModAction)
-	if not (v and v.admin_level >= 2): 
-		actions = actions.filter(ModAction.kind.notin_(["shadowban","unshadowban"]))
+		if admin_id:
+			actions = actions.filter_by(user_id=admin_id)
+			kinds = set([x.kind for x in actions])
+			types2 = {}
+			for k,val in types.items():
+				if k in kinds: types2[k] = val
+			types = types2
+		if kind: actions = actions.filter_by(kind=kind)
 
-	if admin_id:
-		actions = actions.filter_by(user_id=admin_id)
-		kinds = set([x.kind for x in actions])
-		types2 = {}
-		for k,val in types.items():
-			if k in kinds: types2[k] = val
-		types = types2
-	if kind: actions = actions.filter_by(kind=kind)
-
-	actions = actions.order_by(ModAction.id.desc()).offset(25*(page-1)).limit(26).all()
+		actions = actions.order_by(ModAction.id.desc()).offset(25*(page-1)).limit(26).all()
+	
 	next_exists=len(actions)>25
 	actions=actions[:25]
-
 	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= 2).order_by(User.username).all()]
 
 	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, next_exists=next_exists, page=page)
