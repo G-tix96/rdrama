@@ -1108,7 +1108,8 @@ def follow_user(username, v):
 	target.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=target.id).count()
 	g.db.add(target)
 
-	send_notification(target.id, f"@{v.username} has followed you!")
+	if not v.shadowbanned:
+		send_notification(target.id, f"@{v.username} has followed you!")
 
 	g.db.commit()
 
@@ -1123,7 +1124,8 @@ def unfollow_user(username, v):
 	target = get_user(username)
 
 	if target.fish:
-		send_notification(target.id, f"@{v.username} has tried to unfollow you and failed because of your fish award!")
+		if not v.shadowbanned:
+			send_notification(target.id, f"@{v.username} has tried to unfollow you and failed because of your fish award!")
 		g.db.commit()
 		return {"error": "You can't unfollow this user!"}
 
