@@ -379,7 +379,8 @@ def downvoting(v, username):
 def suicide(v, username):
 	user = get_user(username)
 	suicide = f"Hi there,\n\nA [concerned user](/id/{v.id}) reached out to us about you.\n\nWhen you're in the middle of something painful, it may feel like you don't have a lot of options. But whatever you're going through, you deserve help and there are people who are here for you.\n\nThere are resources available in your area that are free, confidential, and available 24/7:\n\n- Call, Text, or Chat with Canada's [Crisis Services Canada](https://www.crisisservicescanada.ca/en/)\n- Call, Email, or Visit the UK's [Samaritans](https://www.samaritans.org/)\n- Text CHAT to America's [Crisis Text Line](https://www.crisistextline.org/) at 741741.\nIf you don't see a resource in your area above, the moderators keep a comprehensive list of resources and hotlines for people organized by location. Find Someone Now\n\nIf you think you may be depressed or struggling in another way, don't ignore it or brush it aside. Take yourself and your feelings seriously, and reach out to someone.\n\nIt may not feel like it, but you have options. There are people available to listen to you, and ways to move forward.\n\nYour fellow users care about you and there are people who want to help."
-	send_notification(user.id, suicide)
+	if not v.shadowbanned:
+		send_notification(user.id, suicide)
 	g.db.commit()
 	return {"message": "Help message sent!"}
 
@@ -412,21 +413,22 @@ def transfer_coins(v, username):
 		if not v.patron and not receiver.patron and not v.alts_patron and not receiver.alts_patron: tax = math.ceil(amount*0.03)
 		else: tax = 0
 
-		log_message = f"@{v.username} has transferred {amount} coins to @{receiver.username}"
-		send_repeatable_notification(GIFT_NOTIF_ID, log_message)
-
-		receiver.coins += amount-tax
 		v.coins -= amount
-		
-		notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount-tax} coins!"
-		if reason:
-			if len(reason) > 200: return {"error": "Reason is too long, max 200 characters"},400
-			notif_text += f"\n\n> {reason}"
 
-		send_repeatable_notification(receiver.id, notif_text)
+		if not v.shadowbanned:
+			receiver.coins += amount - tax
+
+			log_message = f"@{v.username} has transferred {amount} coins to @{receiver.username}"
+			send_repeatable_notification(GIFT_NOTIF_ID, log_message)
+			
+			notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount-tax} coins!"
+			if reason:
+				if len(reason) > 200: return {"error": "Reason is too long, max 200 characters"},400
+				notif_text += f"\n\n> {reason}"
+			send_repeatable_notification(receiver.id, notif_text)
+
 		g.db.add(receiver)
 		g.db.add(v)
-
 		g.db.commit()
 
 		return {"message": f"{amount-tax} coins transferred!"}, 200
@@ -448,25 +450,25 @@ def transfer_bux(v, username):
 		amount = int(amount) if amount.isdigit() else None
 		reason = request.values.get("reason", "").strip()
 
-
 		if not amount or amount < 0: return {"error": "Invalid amount of marseybux."}, 400
 		if v.procoins < amount: return {"error": "You don't have enough marseybux"}, 400
 		if amount < 100: return {"error": "You have to gift at least 100 marseybux."}, 400
 
-		log_message = f"@{v.username} has transferred {amount} Marseybux to @{receiver.username}"
-		send_repeatable_notification(GIFT_NOTIF_ID, log_message)
-
-		receiver.procoins += amount
 		v.procoins -= amount
 
-		notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount} bux!"
-		if reason:
-			notif_text += f"\n\n> {reason}"
+		if not v.shadowbanned:
+			receiver.procoins += amount
 
-		send_repeatable_notification(receiver.id, notif_text)
+			log_message = f"@{v.username} has transferred {amount} Marseybux to @{receiver.username}"
+			send_repeatable_notification(GIFT_NOTIF_ID, log_message)
+
+			notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount} bux!"
+			if reason:
+				notif_text += f"\n\n> {reason}"
+			send_repeatable_notification(receiver.id, notif_text)
+
 		g.db.add(receiver)
 		g.db.add(v)
-
 		g.db.commit()
 		return {"message": f"{amount} marseybux transferred!"}, 200
 
@@ -870,14 +872,18 @@ def redditor_moment_redirect(username, v):
 @auth_required
 def followers(username, v):
 	u = get_user(username, v=v)
-	users = g.db.query(User).join(Follow, Follow.target_id == u.id).filter(Follow.user_id == User.id).order_by(Follow.created_utc).all()
+	users = g.db.query(User).join(Follow, Follow.target_id == u.id) \
+		.filter(Follow.user_id == User.id) \
+		.order_by(Follow.created_utc).all()
 	return render_template("followers.html", v=v, u=u, users=users)
 
 @app.get("/@<username>/following")
 @auth_required
 def following(username, v):
 	u = get_user(username, v=v)
-	users = g.db.query(User).join(Follow, Follow.user_id == u.id).filter(Follow.target_id == User.id).order_by(Follow.created_utc).all()
+	users = g.db.query(User).join(Follow, Follow.user_id == u.id) \
+		.filter(Follow.target_id == User.id) \
+		.order_by(Follow.created_utc).all()
 	return render_template("following.html", v=v, u=u, users=users)
 
 @app.get("/views")
@@ -905,6 +911,9 @@ def u_username(username, v=None):
 	if u.reserved:
 		if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": f"That username is reserved for: {u.reserved}"}
 		return render_template("userpage_reserved.html", u=u, v=v)
+
+	if u.shadowbanned and not (v and v.admin_level >= 2):
+		abort(404)
 
 	if v and v.id not in (u.id,DAD_ID) and (u.patron or u.admin_level > 1):
 		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
@@ -1138,7 +1147,8 @@ def unfollow_user(username, v):
 		target.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=target.id).count()
 		g.db.add(target)
 
-		send_notification(target.id, f"@{v.username} has unfollowed you!")
+		if not v.shadowbanned:
+			send_notification(target.id, f"@{v.username} has unfollowed you!")
 
 		g.db.commit()
 

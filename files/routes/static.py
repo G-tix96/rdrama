@@ -333,8 +333,11 @@ def blocks(v):
 	users = []
 	targets = []
 	for x in blocks:
-		users.append(get_account(x.user_id))
-		targets.append(get_account(x.target_id))
+		acc_user = get_account(x.user_id)
+		acc_tgt  = get_account(x.target_id)
+		if acc_user.shadowbanned or acc_tgt.shadowbanned: continue
+		users.append(acc_user)
+		targets.append(acc_tgt)
 
 	return render_template("blocks.html", v=v, users=users, targets=targets)
 
