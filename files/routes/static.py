@@ -130,12 +130,8 @@ def log(v):
 
 	actions = g.db.query(ModAction)
 	if not (v and v.admin_level >= 2): 
-		actions = actions.filter(ModAction.kind.notin_([
-			"shadowban","unshadowban","flair_post","edit_post"]))
-	if not (v and v.admin_level >= 3): 
-		actions = actions.filter(ModAction.kind.notin_([
-			'ban_domain', 'unban_domain',]))
-	
+		actions = actions.filter(ModAction.kind.notin_(["shadowban","unshadowban"]))
+
 	if admin_id:
 		actions = actions.filter_by(user_id=admin_id)
 		kinds = set([x.kind for x in actions])

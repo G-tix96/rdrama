@@ -424,5 +424,3 @@ ACTIONTYPES = {
 ACTIONTYPES2 = deepcopy(ACTIONTYPES)
 ACTIONTYPES2.pop("shadowban")
 ACTIONTYPES2.pop("unshadowban")
-ACTIONTYPES2.pop("flair_post")
-ACTIONTYPES2.pop("edit_post")
