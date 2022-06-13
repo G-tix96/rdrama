@@ -383,8 +383,10 @@ def changeloglist(v=None, sort="new", page=1, t="all", site=None):
 
 	posts = posts.filter(Submission.author_id.notin_(v.userblocks))
 
-	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level > 0).all()]
-	posts = posts.filter(Submission.title.ilike('_changelog%'), Submission.author_id.in_(admins))
+	allowed = g.db.query(User.id).filter(User.admin_level > 0).all() + g.db.query(Badge.user_id).filter_by(badge_id=3).all()
+	allowed = [x[0] for x in allowed]
+
+	posts = posts.filter(Submission.title.ilike('_changelog%'), Submission.author_id.in_(allowed))
 
 	if t != 'all':
 		cutoff = 0
