@@ -525,13 +525,13 @@ AWARDS = {
 		"price": 500
 	},
 	"glowie": {
-        "kind": "glowie",
-        "title": "Glowie",
-        "description": "Indicates that the recipient can be seen when driving. Just run them over.",
-        "icon": "fas fa-user-secret",
-        "color": "text-green",
-        "price": 500
-    },
+		"kind": "glowie",
+		"title": "Glowie",
+		"description": "Indicates that the recipient can be seen when driving. Just run them over.",
+		"icon": "fas fa-user-secret",
+		"color": "text-green",
+		"price": 500
+	},
 	"rehab": {
 		"kind": "rehab",
 		"title": "Rehab",
@@ -541,13 +541,13 @@ AWARDS = {
 		"price": 777
 	},
 	"beano": {
-        "kind": "beano",
-        "title": "Beano",
-        "description": "Stops you from embarrassing yourself with your flatulence",
-        "icon": "fas fa-gas-pump-slash",
-        "color": "text-green",
-        "price": 1000
-    },
+		"kind": "beano",
+		"title": "Beano",
+		"description": "Stops you from embarrassing yourself with your flatulence",
+		"icon": "fas fa-gas-pump-slash",
+		"color": "text-green",
+		"price": 1000
+	},
 	"progressivestack": {
 		"kind": "progressivestack",
 		"title": "Progressive Stack",

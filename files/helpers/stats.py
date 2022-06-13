@@ -63,13 +63,13 @@ def chart(kind, site):
 	plt.rcParams['figure.figsize'] = (chart_width, 20)
 
 	signup_chart   = plt.subplot2grid((chart_width, 20), ( 0, 0), rowspan=6, colspan=chart_width)
-	posts_chart    = plt.subplot2grid((chart_width, 20), (10, 0), rowspan=6, colspan=chart_width)
+	posts_chart	= plt.subplot2grid((chart_width, 20), (10, 0), rowspan=6, colspan=chart_width)
 	comments_chart = plt.subplot2grid((chart_width, 20), (20, 0), rowspan=6, colspan=chart_width)
 
 	signup_chart.grid(), posts_chart.grid(), comments_chart.grid()
 
 	signup_chart.plot  (daily_times, daily_signups, color='red')
-	posts_chart.plot   (daily_times,    post_stats, color='blue')
+	posts_chart.plot   (daily_times,	post_stats, color='blue')
 	comments_chart.plot(daily_times, comment_stats,	color='purple')
 
 	signup_chart.set_ylim(ymin=0)
