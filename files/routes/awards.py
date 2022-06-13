@@ -180,17 +180,20 @@ def award_thing(v, thing_type, id):
 			if note: msg += f"\n\n> {note}"
 			send_repeatable_notification(author.id, msg)
 
-	if kind == "ban":
-		link = f"[this {thing_type}]({thing.shortlink})"
+	link = f"[this {thing_type}]({thing.shortlink})"
 
+	if kind == "ban":
 		if not author.is_suspended:
 			author.ban(reason=f"1-Day ban award used by @{v.username} on /{thing_type}/{thing.id}", days=1)
 			send_repeatable_notification(author.id, f"Your account has been banned for **a day** for {link}. It sucked and you should feel bad.")
 		elif author.unban_utc:
 			author.unban_utc += 86400
 			send_repeatable_notification(author.id, f"Your account has been banned for **yet another day** for {link}. Seriously man?")
-		if request.host == 'rdrama.net' and v.id == CARP_ID:
-			send_repeatable_notification(AEVANN_ID, link)
+
+		if v.admin_level > 2:
+			text = f"@{v.username} has banned @{author.username} for 1 day for {link}."
+			if note: text += f" ({note})"
+			notify_mod_action(v.id, text)
 	elif kind == "unban":
 		if not author.is_suspended or not author.unban_utc or time.time() > author.unban_utc: abort(403)
 
@@ -202,14 +205,21 @@ def award_thing(v, thing_type, id):
 			author.is_banned = 0
 			author.ban_evade = 0
 			send_repeatable_notification(author.id, "You have been unbanned!")
+
+		if v.admin_level > 2:
+			text = f"@{v.username} has unbanned @{author.username} for {link}."
+			if note: text += f" ({note})"
+			notify_mod_action(v.id, text)
 	elif kind == "grass":
 		author.is_banned = AUTOJANNY_ID
 		author.ban_reason = f"grass award used by @{v.username} on /{thing_type}/{thing.id}"
 		author.unban_utc = int(time.time()) + 30 * 86400
-		link = f"[this {thing_type}]({thing.shortlink})"
 		send_repeatable_notification(author.id, f"Your account has been banned permanently for {link}. You must [provide the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
-		if request.host == 'rdrama.net' and v.id == CARP_ID:
-			send_repeatable_notification(AEVANN_ID, link)
+
+		if v.admin_level > 2:
+			text = f"@{v.username} has grassed @{author.username} for {link}."
+			if note: text += f" ({note})"
+			notify_mod_action(v.id, text)
 	elif kind == "pin":
 		if thing.stickied and thing.stickied_utc:
 			thing.stickied_utc += 3600
