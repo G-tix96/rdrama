@@ -28,7 +28,9 @@ def lottery_start(v):
 @auth_required
 @lottery_required
 def lottery_buy(v):
-	quantity = int(request.values.get("quantity"))
+	try: quantity = int(request.values.get("quantity"))
+	except: return {"error": "Invalid ticket quantity."}
+
 	success, message = purchase_lottery_tickets(v, quantity)
 	lottery, participants = get_active_lottery_stats()
 
