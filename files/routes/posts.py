@@ -1163,7 +1163,7 @@ def submit_post(v, sub=None):
 	snappy = g.db.query(User).get(SNAPPY_ID)
 
 	if not (post.sub and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, sub=post.sub).one_or_none()):
-		if post.sub == 'dankchristianmemes':
+		if post.sub == 'dankchristianmemes' or post.sub == 'truth':
 			body = random.choice(christian_emojis)
 		elif v.id == CARP_ID:
 			if random.random() < 0.02: body = "i love you carp"
