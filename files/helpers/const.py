@@ -853,7 +853,10 @@ WORDLE_LIST = ('aaron','about','above','abuse','acids','acres','actor','acute','
 
 dues = int(environ.get("DUES").strip())
 
-christian_emojis = (':#marseyjesus:',':#marseyimmaculate:',':#marseymothermary:',':#marseyfatherjoseph:',':#gigachadorthodox:',':#marseyorthodox:',':#marseyorthodoxpat:')
+christian_emojis = [':#marseyjesus:',':#marseyimmaculate:',':#marseymothermary:',
+	':#marseyfatherjoseph:',':#gigachadorthodox:',':#marseyorthodox:',':#marseyorthodoxpat:',
+	':#marseycrucified:',':#chadjesus:',':#marseyandjesus:',':#marseyjesus2:',
+	':#marseyorthodoxsmug:',':#marseypastor:',':#marseypope:',]
 
 db = db_session()
 marseys_const = [x[0] for x in db.query(Marsey.name).filter(Marsey.name!='chudsey').all()]
