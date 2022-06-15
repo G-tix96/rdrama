@@ -1560,6 +1560,8 @@ def admin_nuke_user(v):
 		)
 	g.db.add(ma)
 
+	notify_mod_action(v.id, f"@{v.username} has nuked @{user.username}")
+
 	g.db.commit()
 
 	return redirect(user.url)
@@ -1594,6 +1596,8 @@ def admin_nunuke_user(v):
 		target_user_id=user.id,
 		)
 	g.db.add(ma)
+
+	notify_mod_action(v.id, f"@{v.username} has un-nuked @{user.username}")
 
 	g.db.commit()
 
