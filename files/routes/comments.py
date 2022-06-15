@@ -5,6 +5,7 @@ from files.helpers.const import *
 from files.helpers.slots import *
 from files.helpers.blackjack import *
 from files.helpers.treasure import *
+from files.helpers.actions import *
 from files.classes import *
 from files.routes.front import comment_idlist
 from files.routes.static import marsey_list
@@ -275,30 +276,15 @@ def api_comment(v):
 
 							marsey = Marsey(name=name, author_id=user.id, tags=tags, count=0)
 							g.db.add(marsey)
-							g.db.flush()
 
 							all_by_author = g.db.query(Marsey).filter_by(author_id=user.id).count()
 
-							if all_by_author >= 10 and not user.has_badge(16):
-								new_badge = Badge(badge_id=16, user_id=user.id)
+							if all_by_author >= 9:
+								badge_grant(badge_id=16, user=user)
 
-								g.db.add(new_badge)
-								g.db.flush()
 
-								if v.id != user.id:
-									text = f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}"
-									send_notification(user.id, text)
-
-							elif all_by_author < 10 and not user.has_badge(17):
-								new_badge = Badge(badge_id=17, user_id=user.id)
-
-								g.db.add(new_badge)
-								g.db.flush()
-
-								if v.id != user.id:
-									text = f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}"
-									send_notification(user.id, text)
-
+							else:
+								badge_grant(badge_id=17, user=user)
 
 
 							requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 

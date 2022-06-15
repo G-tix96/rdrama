@@ -10,6 +10,7 @@ from files.helpers.security import *
 from files.helpers.get import *
 from files.helpers.media import *
 from files.helpers.const import *
+from files.helpers.actions import *
 from files.classes import *
 from flask import *
 from files.__main__ import app, cache, limiter
@@ -920,12 +921,7 @@ def agendaposter(user_id, v):
 	)
 	g.db.add(ma)
 
-	if not user.has_badge(28):
-		badge = Badge(user_id=user.id, badge_id=28)
-		g.db.add(badge)
-		g.db.flush()
-		send_notification(user.id, f"@AutoJanny has given you the following profile badge:\n\n![]({badge.path})\n\n{badge.name}")
-
+	badge_grant(user=user, badge_id=28)
 
 	send_repeatable_notification(user.id, f"@{v.username} has marked you as a chud ({note}).")
 

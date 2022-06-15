@@ -2,6 +2,7 @@ from urllib.parse import urlencode
 from files.mail import *
 from files.__main__ import app, limiter
 from files.helpers.const import *
+from files.helpers.actions import *
 import requests
 
 @app.get("/login")
@@ -336,21 +337,11 @@ def sign_up_post(v):
 		ref_user = g.db.query(User).filter_by(id=ref_id).one_or_none()
 
 		if ref_user:
-			if ref_user.referral_count and not ref_user.has_badge(10):
-				new_badge = Badge(user_id=ref_user.id, badge_id=10)
-				g.db.add(new_badge)
-				g.db.flush()
-				send_notification(ref_user.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
-			if ref_user.referral_count >= 10 and not ref_user.has_badge(11):
-				new_badge = Badge(user_id=ref_user.id, badge_id=11)
-				g.db.add(new_badge)
-				g.db.flush()
-				send_notification(ref_user.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
-			if ref_user.referral_count >= 100 and not ref_user.has_badge(12):
-				new_badge = Badge(user_id=ref_user.id, badge_id=12)
-				g.db.add(new_badge)
-				g.db.flush()
-				send_notification(ref_user.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
+			badge_grant(user=ref_user, badge_id=10)
+			if ref_user.referral_count >= 9:
+				badge_grant(user=ref_user, badge_id=11)
+			if ref_user.referral_count >= 99:
+				badge_grant(user=ref_user, badge_id=12)
 
 	if email:
 		try: send_verification_email(new_user)

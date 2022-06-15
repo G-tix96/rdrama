@@ -3,6 +3,7 @@ from files.helpers.alerts import *
 from files.helpers.sanitize import *
 from files.helpers.discord import remove_user, set_nick
 from files.helpers.const import *
+from files.helpers.actions import *
 from files.mail import *
 from files.__main__ import app, cache, limiter
 import youtube_dl
@@ -405,11 +406,7 @@ def gumroad(v):
 
 	g.db.add(v)
 
-	if not v.has_badge(20+tier):
-		new_badge = Badge(badge_id=20+tier, user_id=v.id)
-		g.db.add(new_badge)
-		g.db.flush()
-		send_notification(v.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
+	badge_grant(badge_id=20+tier, user=v)
 	
 	g.db.commit()
 

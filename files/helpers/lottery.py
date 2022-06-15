@@ -3,7 +3,7 @@ from random import choice
 from sqlalchemy import *
 from files.helpers.alerts import *
 from files.helpers.wrappers import *
-from files.helpers.actions import badge_grant
+from files.helpers.actions import *
 from flask import g
 from .const import *
 
@@ -43,7 +43,7 @@ def end_lottery_session():
 	winning_user = next(filter(lambda x: x.id == winner, participating_users))
 	winning_user.coins += active_lottery.prize
 	winning_user.total_lottery_winnings += active_lottery.prize
-	badge_grant(winner, LOTTERY_WINNER_BADGE_ID)
+	badge_grant(user=winning_user, badge_id=LOTTERY_WINNER_BADGE_ID)
 
 	for user in participating_users:
 		chance_to_win = user.currently_held_lottery_tickets / len(raffle) * 100

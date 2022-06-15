@@ -7,6 +7,7 @@ from files.helpers.security import *
 from files.helpers.wrappers import *
 from files.helpers.const import *
 from files.helpers.get import *
+from files.helpers.actions import *
 from files.classes import *
 from files.__main__ import app, mail, limiter
 from flask_mail import Message
@@ -80,12 +81,7 @@ def activate(v):
 	user.email = email
 	user.is_activated = True
 
-	if not any(b.badge_id == 2 for b in user.badges):
-		mail_badge = Badge(user_id=user.id, badge_id=2)
-		g.db.add(mail_badge)
-		g.db.flush()
-		send_notification(user.id, f"@AutoJanny has given you the following profile badge:\n\n![]({mail_badge.path})\n\n{mail_badge.name}")
-
+	badge_grant(user=user, badge_id=2)
 
 	g.db.add(user)
 	g.db.commit()

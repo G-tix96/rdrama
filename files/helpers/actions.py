@@ -1,27 +1,17 @@
-from flask import g, abort
-from files.classes.user import User
-from files.classes.badges import Badge, BadgeDef
+from flask import g
+from files.classes.badges import Badge
+from files.helpers.alerts import send_repeatable_notification
 
-# TODO: More sanity checks on passed parameters.
-# TODO: Add `replace=False` parameter which, when set true, removes any 
-#	   existing badge with identical id & user and replaces with new one.
-def badge_grant(user_id, badge_id, desc='', url='', commit=True):
-	user = g.db.query(User).filter(User.id == int(user_id)).one_or_none()
-	if not user:
-		return None
-	elif user.has_badge(badge_id):
-		return None
+def badge_grant(user, badge_id):
+
+	if user.has_badge(badge_id): return
 
 	badge = Badge(
 		badge_id=int(badge_id), 
-		user_id=user.id,
-		description=desc if desc != '' else None,
-		url=url if url != '' else None,
+		user_id=user.id
 	)
 
 	g.db.add(badge)
-	if commit:
-		g.db.commit()
-	else:
-		g.db.flush()
-	return badge
+	g.db.flush()
+
+	send_repeatable_notification(user.id, f"@AutoJanny has given you the following profile badge:\n\n![]({badge.path})\n\n{badge.name}")

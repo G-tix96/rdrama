@@ -4,7 +4,7 @@ from files.helpers.alerts import *
 from files.helpers.get import *
 from files.helpers.const import *
 from files.helpers.discord import *
-from files.helpers.actions import badge_grant
+from files.helpers.actions import *
 from files.classes.award import *
 from .front import frontlist
 from flask import g, request
@@ -54,32 +54,17 @@ def buy(v, award):
 		if v.coins < price: return {"error": "Not enough coins."}, 400
 		v.coins -= price
 		v.coins_spent += price
-		if v.coins_spent >= 1000000 and not v.has_badge(73):
-			new_badge = Badge(badge_id=73, user_id=v.id)
-			g.db.add(new_badge)
-			g.db.flush()
-			send_notification(v.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
-		elif v.coins_spent >= 500000 and not v.has_badge(72):
-			new_badge = Badge(badge_id=72, user_id=v.id)
-			g.db.add(new_badge)
-			g.db.flush()
-			send_notification(v.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
-		elif v.coins_spent >= 250000 and not v.has_badge(71):
+		if v.coins_spent >= 1000000:
+			badge_grant(badge_id=73, user=v)
+		elif v.coins_spent >= 500000:
+			badge_grant(badge_id=72, user=v)
+		elif v.coins_spent >= 250000:
 			
-			new_badge = Badge(badge_id=71, user_id=v.id)
-			g.db.add(new_badge)
-			g.db.flush()
-			send_notification(v.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
-		elif v.coins_spent >= 100000 and not v.has_badge(70):
-			new_badge = Badge(badge_id=70, user_id=v.id)
-			g.db.add(new_badge)
-			g.db.flush()
-			send_notification(v.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
-		elif v.coins_spent >= 10000 and not v.has_badge(69):
-			new_badge = Badge(badge_id=69, user_id=v.id)
-			g.db.add(new_badge)
-			g.db.flush()
-			send_notification(v.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
+			badge_grant(badge_id=71, user=v)
+		elif v.coins_spent >= 100000:
+			badge_grant(badge_id=70, user=v)
+		elif v.coins_spent >= 10000:
+			badge_grant(badge_id=69, user=v)
 		g.db.add(v)
 
 
@@ -96,21 +81,12 @@ def buy(v, award):
 		lootbox_msg = "You open your lootbox and receive: " + ', '.join(lootbox_items)
 		send_repeatable_notification(v.id, lootbox_msg)
 		
-		if v.lootboxes_bought == 10 and not v.has_badge(76):
-			new_badge = Badge(badge_id=76, user_id=v.id)
-			g.db.add(new_badge)
-			g.db.flush()
-			send_notification(v.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
-		elif v.lootboxes_bought == 50 and not v.has_badge(77):
-			new_badge = Badge(badge_id=77, user_id=v.id)
-			g.db.add(new_badge)
-			g.db.flush()
-			send_notification(v.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
-		elif v.lootboxes_bought == 150 and not v.has_badge(78):
-			new_badge = Badge(badge_id=78, user_id=v.id)
-			g.db.add(new_badge)
-			g.db.flush()
-			send_notification(v.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
+		if v.lootboxes_bought == 10:
+			badge_grant(badge_id=76, user=v)
+		elif v.lootboxes_bought == 50:
+			badge_grant(badge_id=77, user=v)
+		elif v.lootboxes_bought == 150:
+			badge_grant(badge_id=78, user=v)
 
 	else:
 		award_object = AwardRelationship(user_id=v.id, kind=award)
@@ -244,11 +220,7 @@ def award_thing(v, thing_type, id):
 		if author.agendaposter and time.time() < author.agendaposter: author.agendaposter += 86400
 		else: author.agendaposter = int(time.time()) + 86400
 		
-		if not author.has_badge(28):
-			badge = Badge(user_id=author.id, badge_id=28)
-			g.db.add(badge)
-			g.db.flush()
-			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({badge.path})\n\n{badge.name}")
+		badge_grant(user=author, badge_id=28)
 	elif kind == "flairlock":
 		new_name = note[:100].replace("𒐪","")
 		if not new_name and author.flairchanged:
@@ -258,94 +230,49 @@ def award_thing(v, thing_type, id):
 			author.customtitle = filter_emojis_only(new_name)
 			if len(author.customtitle) > 1000: abort(403)
 			author.flairchanged = int(time.time()) + 86400
-			if not author.has_badge(96):
-				badge = Badge(user_id=author.id, badge_id=96)
-				g.db.add(badge)
-				g.db.flush()
-				send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({badge.path})\n\n{badge.name}")
+			badge_grant(user=author, badge_id=96)
 	elif kind == "pause":
 		author.mute = True
-		if not author.has_badge(68):
-			new_badge = Badge(badge_id=68, user_id=author.id)
-			g.db.add(new_badge)
-			g.db.flush()
-			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
+		badge_grant(badge_id=68, user=author)
 	elif kind == "unpausable":
 		author.unmutable = True
-		if not author.has_badge(67):
-			new_badge = Badge(badge_id=67, user_id=author.id)
-			g.db.add(new_badge)
-			g.db.flush()
-			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
+		badge_grant(badge_id=67, user=author)
 	elif kind == "marsey":
 		if author.marseyawarded: author.marseyawarded += 86400
 		else: author.marseyawarded = int(time.time()) + 86400
-		if not author.has_badge(98):
-			badge = Badge(user_id=author.id, badge_id=98)
-			g.db.add(badge)
-			g.db.flush()
-			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({badge.path})\n\n{badge.name}")
+		badge_grant(user=author, badge_id=98)
 	elif kind == "pizzashill":
 		if author.bird:
 			return {"error": "This user is the under the effect of a conflicting award: Bird Site award."}, 404
 		if author.longpost: author.longpost += 86400
 		else: author.longpost = int(time.time()) + 86400
-		if not author.has_badge(97):
-			badge = Badge(user_id=author.id, badge_id=97)
-			g.db.add(badge)
-			g.db.flush()
-			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({badge.path})\n\n{badge.name}")
+		badge_grant(user=author, badge_id=97)
 	elif kind == "bird":
 		if author.longpost:
 			return {"error": "This user is the under the effect of a conflicting award: Pizzashill award."}, 404
 		if author.bird: author.bird += 86400
 		else: author.bird = int(time.time()) + 86400
-		if not author.has_badge(95):
-			badge = Badge(user_id=author.id, badge_id=95)
-			g.db.add(badge)
-			g.db.flush()
-			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({badge.path})\n\n{badge.name}")
+		badge_grant(user=author, badge_id=95)
 	elif kind == "eye":
 		author.eye = True
-		if not author.has_badge(83):
-			new_badge = Badge(badge_id=83, user_id=author.id)
-			g.db.add(new_badge)
-			g.db.flush()
-			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
+		badge_grant(badge_id=83, user=author)
 	elif kind == "offsitementions":
 		author.offsitementions = True
-		new_badge = badge_grant(user_id=author.id, badge_id=140, commit=False)
-		send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
+		badge_grant(user=author, badge_id=140)
 	elif kind == "alt":
 		author.alt = True
-		if not author.has_badge(84):
-			new_badge = Badge(badge_id=84, user_id=author.id)
-			g.db.add(new_badge)
-			g.db.flush()
-			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
+		badge_grant(badge_id=84, user=author)
 	elif kind == "unblockable":
 		author.unblockable = True
-		if not author.has_badge(87):
-			new_badge = Badge(badge_id=87, user_id=author.id)
-			g.db.add(new_badge)
-			g.db.flush()
-			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
+		badge_grant(badge_id=87, user=author)
 		for block in g.db.query(UserBlock).filter_by(target_id=author.id).all(): g.db.delete(block)
 	elif kind == "fish":
 		author.fish = True
-		if not author.has_badge(90):
-			new_badge = Badge(badge_id=90, user_id=author.id)
-			g.db.add(new_badge)
-			g.db.flush()
-			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}")
+		badge_grant(badge_id=90, user=author)
 	elif kind == "progressivestack":
 		if author.progressivestack: author.progressivestack += 21600
 		else: author.progressivestack = int(time.time()) + 21600
-		if not author.has_badge(94):
-			badge = Badge(user_id=author.id, badge_id=94)
-			g.db.add(badge)
-			g.db.flush()
-			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({badge.path})\n\n{badge.name}")
+		badge_grant(user=author, badge_id=94)
 	elif kind == "benefactor":
 		if author.patron: return {"error": "This user is already a paypig!"}, 400
 		author.patron = 1
@@ -353,28 +280,16 @@ def award_thing(v, thing_type, id):
 		else: author.patron_utc = int(time.time()) + 2629746
 		author.procoins += 2500
 		if author.discord_id: add_role(author, "1")
-		if not v.has_badge(103):
-			badge = Badge(user_id=v.id, badge_id=103)
-			g.db.add(badge)
-			g.db.flush()
-			send_notification(v.id, f"@AutoJanny has given you the following profile badge:\n\n![]({badge.path})\n\n{badge.name}")
+		badge_grant(user=v, badge_id=103)
 	elif kind == "rehab":
 		if author.rehab: author.rehab += 86400
 		else: author.rehab = int(time.time()) + 86400
-		if not author.has_badge(109):
-			badge = Badge(user_id=author.id, badge_id=109)
-			g.db.add(badge)
-			g.db.flush()
-			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({badge.path})\n\n{badge.name}")
+		badge_grant(user=id, badge_id=109)
 	elif kind == "deflector":
 		if author.deflector: author.deflector += 36000
 		else: author.deflector = int(time.time()) + 36000
 	elif kind == "beano":
-		if not author.has_badge(128):
-			badge = Badge(user_id=author.id, badge_id=128)
-			g.db.add(badge)
-			g.db.flush()
-			send_notification(author.id, f"@AutoJanny has given you the following profile badge:\n\n![]({badge.path})\n\n{badge.name}")
+		badge_grant(user=author, badge_id=128)
 	elif kind == "checkmark":
 		author.verified = "Verified"
 
