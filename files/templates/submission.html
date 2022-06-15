@@ -113,264 +113,111 @@
 	{% endif %}
 {% endif %}
 
-{% if g.inferior_browser %}
-	{% if p.award_count("wholesome") %}
-		<style>
+{% if p.award_count("wholesome") %}
+	<style>
+		.seal {
+			position:fixed;
+			z-index:9999;
+			pointer-events: none;
+			width: 100% !important;
+			height: 100% !important;
+		}
+		.sealimg {
+			width: 100px !important;
+			height: 89.5px !important;
+		}
+		@media (max-width: 992px) {
 			.sealimg {
-				width: 100px !important;
-				height: 89.5px !important;
+				width: 30px !important;
+				height: 27px !important;
 			}
-			@media (max-width: 992px) {
-				.sealimg {
-					width: 30px !important;
-					height: 27px !important;
-				}
-			}
-			
-			.seal {
-				position:fixed;
-				z-index:9999;
-				pointer-events: none;
-				width: 100% !important;
-				height: 100% !important;
-			}
-			
-			@keyframes moveX {
-				from { left: 0; } to { left: 98%; }
-			}
-
-			@keyframes moveY {
-				from { top: 0; } to { top: 98%; }	
-			}
-
-			.seal1 {
-				animation: moveX 4s linear 0s infinite alternate, moveY 6.8s linear 0s infinite alternate !important;
-				animation-delay:0s;
-			}
-		</style>
-		<div class="seal seal1" height="100%" width="100%">
-			<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
-		</div>
-
-		{% if p.award_count("wholesome") > 1 %}
-			<style>
-				.seal2 {
-					animation: moveX 5s linear 0s infinite alternate, moveY 8s linear 0s infinite alternate !important;
-					animation-delay:1s;
-				}
-			</style>
-			<div class="seal seal2" height="100%" width="100%">
+		}
+	</style>
+	<div class="seal" height="100%" width="100%">
+		<marquee class="seal" scrollamount=10 behavior="alternate" direction="up" height="100%" width="100%">
+			<marquee direction="right" scrollamount=10 behavior="alternate" height="100%" width="100%">
 				<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
-			</div>
-		{% endif %}
+			</marquee>
+		</marquee>
+	</div>
 
-		{% if p.award_count("wholesome") > 2 %}
-			<style>
-				.seal3 {
-					animation: moveX 4s linear 0s infinite alternate, moveY 5s linear 0s infinite alternate !important;
-					animation-delay:2s;
-				}
-			</style>
-			<div class="seal seal3" height="100%" width="100%">
+	{% if p.award_count("wholesome") > 1 %}
+		<marquee class="seal" scrollamount=10 behavior="alternate" direction="down" height="100%">
+			<marquee direction="right" scrollamount=10 behavior="alternate" width="100%">
 				<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
-			</div>
-		{% endif %}
-
-		{% if p.award_count("wholesome") > 3 %}
-			<style>
-				.seal4 {
-					animation: moveX 5s linear 0s infinite alternate, moveY 6.8s linear 0s infinite alternate !important;
-					animation-delay:3s;
-				}
-			</style>
-			<div class="seal seal4" height="100%" width="100%">
-				<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
-			</div>
-		{% endif %}
+			</marquee>
+		</marquee>
 	{% endif %}
 
-	{% if SITE_NAME == 'PCM' and p.award_count("toe") %}
-		<style>
-			.toeimg {
-				width: 100px !important;
-				height: auto !important;
-			}
-			@media (max-width: 992px) {
-				.toeimg {
-					width: 30px !important;
-					height: auto !important;
-				}
-			}
-			
-			.toe {
-				position:fixed;
-				z-index:9999;
-				pointer-events: none;
-				width: 100% !important;
-				height: 100% !important;
-			}
-			
-			@keyframes moveX {
-				from { left: 0; } to { left: 98%; }
-			}
-		
-			@keyframes moveY {
-				from { top: 0; } to { top: 98%; }	
-			}
-		
-			.toe1 {
-				animation: moveX 4s linear 0s infinite alternate, moveY 6.8s linear 0s infinite alternate !important;
-				animation-delay:0s;
-			}
-		</style>
-		<div class="toe toe1" height="100%" width="100%">
-			<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
-		</div>
-		
-		{% if p.award_count("toe") > 1 %}
-			<style>
-				.toe2 {
-					animation: moveX 5s linear 0s infinite alternate, moveY 8s linear 0s infinite alternate !important;
-					animation-delay:1s;
-				}
-			</style>
-			<div class="toe toe2" height="100%" width="100%">
-				<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
-			</div>
-		{% endif %}
-		
-		{% if p.award_count("toe") > 2 %}
-			<style>
-				.toe3 {
-					animation: moveX 4s linear 0s infinite alternate, moveY 5s linear 0s infinite alternate !important;
-					animation-delay:2s;
-				}
-			</style>
-			<div class="toe toe3" height="100%" width="100%">
-				<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
-			</div>
-		{% endif %}
-		
-		{% if p.award_count("toe") > 3 %}
-			<style>
-				.toe4 {
-					animation: moveX 5s linear 0s infinite alternate, moveY 6.8s linear 0s infinite alternate !important;
-					animation-delay:3s;
-				}
-			</style>
-			<div class="toe toe4" height="100%" width="100%">
-				<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
-			</div>
-		{% endif %}
-	{% endif %}
-{% else %}
-	{% if p.award_count("wholesome") %}
-		<style>
-			.seal {
-				position:fixed;
-				z-index:9999;
-				pointer-events: none;
-				width: 100% !important;
-				height: 100% !important;
-			}
-			.sealimg {
-				width: 100px !important;
-				height: 89.5px !important;
-			}
-			@media (max-width: 992px) {
-				.sealimg {
-					width: 30px !important;
-					height: 27px !important;
-				}
-			}
-		</style>
-		<div class="seal" height="100%" width="100%">
-			<marquee class="seal" scrollamount=10 behavior="alternate" direction="up" height="100%" width="100%">
-				<marquee direction="right" scrollamount=10 behavior="alternate" height="100%" width="100%">
-					<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
-				</marquee>
+	{% if p.award_count("wholesome") > 2 %}
+		<marquee class="seal" scrollamount=10 behavior="alternate" direction="up" height="100%">
+			<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
+				<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
 			</marquee>
-		</div>
-
-		{% if p.award_count("wholesome") > 1 %}
-			<marquee class="seal" scrollamount=10 behavior="alternate" direction="down" height="100%">
-				<marquee direction="right" scrollamount=10 behavior="alternate" width="100%">
-					<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
-				</marquee>
-			</marquee>
-		{% endif %}
-
-		{% if p.award_count("wholesome") > 2 %}
-			<marquee class="seal" scrollamount=10 behavior="alternate" direction="up" height="100%">
-				<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
-					<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
-				</marquee>
-			</marquee>
-		{% endif %}
-
-		{% if p.award_count("wholesome") > 3 %}
-			<marquee class="seal" scrollamount=10 behavior="alternate" direction="down" height="100%">
-				<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
-					<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
-				</marquee>
-			</marquee>
-		{% endif %}
+		</marquee>
 	{% endif %}
 
-	{% if SITE_NAME == 'PCM' and p.award_count("toe") %}
-		<style>
-			.toe {
-				position:fixed;
-				z-index:9999;
-				pointer-events: none;
-				width: 100% !important;
-				height: 100% !important;
-			}
-			.toeimg {
-				width: 100px !important;
-				height: auto !important;
-			}
-			@media (max-width: 992px) {
-				.toeimg {
-					width: 30px !important;
-					height: auto !important;
-				}
-			}
-		</style>
-		<div class="toe" height="100%" width="100%">
-			<marquee class="toe" scrollamount=10 behavior="alternate" direction="up" height="100%" width="100%">
-				<marquee direction="right" scrollamount=10 behavior="alternate" height="100%" width="100%">
-					<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
-				</marquee>
+	{% if p.award_count("wholesome") > 3 %}
+		<marquee class="seal" scrollamount=10 behavior="alternate" direction="down" height="100%">
+			<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
+				<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
 			</marquee>
-		</div>
-
-		{% if p.award_count("toe") > 1 %}
-			<marquee class="toe" scrollamount=10 behavior="alternate" direction="down" height="100%">
-				<marquee direction="right" scrollamount=10 behavior="alternate" width="100%">
-					<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
-				</marquee>
-			</marquee>
-		{% endif %}
-
-		{% if p.award_count("toe") > 2 %}
-			<marquee class="toe" scrollamount=10 behavior="alternate" direction="up" height="100%">
-				<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
-					<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
-				</marquee>
-			</marquee>
-		{% endif %}
-
-		{% if p.award_count("toe") > 3 %}
-			<marquee class="toe" scrollamount=10 behavior="alternate" direction="down" height="100%">
-				<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
-					<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
-				</marquee>
-			</marquee>
-		{% endif %}
+		</marquee>
 	{% endif %}
 {% endif %}
 
+{% if SITE_NAME == 'PCM' and p.award_count("toe") %}
+	<style>
+		.toe {
+			position:fixed;
+			z-index:9999;
+			pointer-events: none;
+			width: 100% !important;
+			height: 100% !important;
+		}
+		.toeimg {
+			width: 100px !important;
+			height: auto !important;
+		}
+		@media (max-width: 992px) {
+			.toeimg {
+				width: 30px !important;
+				height: auto !important;
+			}
+		}
+	</style>
+	<div class="toe" height="100%" width="100%">
+		<marquee class="toe" scrollamount=10 behavior="alternate" direction="up" height="100%" width="100%">
+			<marquee direction="right" scrollamount=10 behavior="alternate" height="100%" width="100%">
+				<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
+			</marquee>
+		</marquee>
+	</div>
+
+	{% if p.award_count("toe") > 1 %}
+		<marquee class="toe" scrollamount=10 behavior="alternate" direction="down" height="100%">
+			<marquee direction="right" scrollamount=10 behavior="alternate" width="100%">
+				<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
+			</marquee>
+		</marquee>
+	{% endif %}
+
+	{% if p.award_count("toe") > 2 %}
+		<marquee class="toe" scrollamount=10 behavior="alternate" direction="up" height="100%">
+			<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
+				<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
+			</marquee>
+		</marquee>
+	{% endif %}
+
+	{% if p.award_count("toe") > 3 %}
+		<marquee class="toe" scrollamount=10 behavior="alternate" direction="down" height="100%">
+			<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
+				<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
+			</marquee>
+		</marquee>
+	{% endif %}
+{% endif %}
 
 
 
