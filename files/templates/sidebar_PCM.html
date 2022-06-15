@@ -1,4 +1,4 @@
-<div class="col sidebar text-left d-none d-lg-block pt-3 bg-white" style="max-width:300px">
+<div class="col sidebar text-left {% if request.path != '/sidebar' %}d-none d-lg-block{% endif %} pt-3 bg-white" style="max-width:300px">
 
 	<p class="text-center text-md mb-4">
 		<a class="sidebar-link" href="/random_user/" data-bs-toggle="tooltip" data-bs-placement="top" title="Random User"><i class="fas fa-music"></i></a>
