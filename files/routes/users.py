@@ -419,12 +419,14 @@ def transfer_coins(v, username):
 			receiver.coins += amount - tax
 
 			log_message = f"@{v.username} has transferred {amount} coins to @{receiver.username}"
-			send_repeatable_notification(GIFT_NOTIF_ID, log_message)
-			
 			notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount-tax} coins!"
+
 			if reason:
 				if len(reason) > 200: return {"error": "Reason is too long, max 200 characters"},400
 				notif_text += f"\n\n> {reason}"
+				log_message += f"\n\n> {reason}"
+
+			send_repeatable_notification(GIFT_NOTIF_ID, log_message)
 			send_repeatable_notification(receiver.id, notif_text)
 
 		g.db.add(receiver)
