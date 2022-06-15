@@ -32,7 +32,7 @@ TLDS = ( # Original gTLDs and ccTLDs
 	'vu','wf','ws','xn','xxx','ye','yt','yu','za','zm','zw',
 	# New gTLDs
 	'app','cleaning','club','florist','fun','gay','lgbt','life','lol',
-	'moe','mom','monster','pics','win','wtf','xyz',
+	'moe','mom','monster','pics','pub','win','wtf','xyz',
 	)
 
 allowed_tags = ('b','blockquote','br','code','del','em','h1','h2','h3','h4','h5','h6','hr','i',

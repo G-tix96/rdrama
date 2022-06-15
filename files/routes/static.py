@@ -169,6 +169,10 @@ def log_item(id, v):
 
 	return render_template("log.html", v=v, actions=[action], next_exists=False, page=1, action=action, admins=admins, types=types)
 
+@app.get("/directory")
+@auth_required
+def static_megathread_index(v):
+	return render_template("megathread_index.html", v=v)
 
 @app.get("/api")
 @auth_required

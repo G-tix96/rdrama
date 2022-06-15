@@ -441,12 +441,22 @@ class User(Base):
 	@property
 	@lazy
 	def notifications_count(self):
-		notifs = g.db.query(Notification.user_id).join(Comment).filter(Notification.user_id == self.id, Notification.read == False, Comment.is_banned == False, Comment.deleted_utc == 0)
+		notifs = g.db.query(Notification.user_id).join(Comment).filter(
+			Notification.user_id == self.id, Notification.read == False, 
+			Comment.is_banned == False, Comment.deleted_utc == 0)
 		
 		if not self.shadowbanned and self.admin_level < 3:
 			notifs = notifs.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None)
 		
 		return notifs.count()
+
+	@property
+	@lazy
+	def normal_notifications_count(self):
+		return self.notifications_count \
+			- self.post_notifications_count \
+			- self.modaction_notifications_count \
+			- self.reddit_notifications_count 
 
 	@property
 	@lazy
@@ -475,11 +485,29 @@ class User(Base):
 
 	@property
 	@lazy
-	def normal_count(self):
-		return self.notifications_count \
-			- self.post_notifications_count \
-			- self.modaction_notifications_count \
-			- self.reddit_notifications_count 
+	def notifications_do(self):
+		# only meaningful when notifications_count > 0; otherwise falsely '' ~ normal
+		if self.normal_notifications_count > 0:
+			return ''
+		elif self.post_notifications_count > 0:
+			return 'posts'
+		elif self.modaction_notifications_count > 0:
+			return 'modactions'
+		elif self.reddit_notifications_count > 0:
+			return 'reddit'
+		return ''
+
+	@property
+	@lazy
+	def notifications_color(self):
+		colors = {
+			'': '#dc3545',
+			'posts': '#0000ff',
+			'modactions': '#e5990d',
+			'reddit': '#805ad5',
+		}
+		return colors[self.notifications_do] if self.notifications_do \
+			else colors['']
 
 	@property
 	@lazy

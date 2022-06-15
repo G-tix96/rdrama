@@ -429,7 +429,7 @@
 					<br><span id="profile--joined">joined <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.created_datetime}}" class="font-weight-bold">{{u.created_date}}</span></span>
 				</div>
 				{% if u.bio_html %}
-					<p class="text-muted text-break" id="profile--bio">{{u.bio_html | safe}}</p>
+					<div class="text-muted text-break" id="profile--bio">{{u.bio_html | safe}}</div>
 				{% endif %}
 
 				{% if u.friends_html %}
