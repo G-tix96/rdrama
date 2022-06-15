@@ -1,0 +1,64 @@
+{% extends "default.html" %}
+
+{# Title (~25char max), Description (~80char max), 
+	Icon (fa-foo-bar), Color (#ff0000), URL (/post/12345/) #}
+{%-
+set MEGATHREAD_INDEX = [
+	(
+		'Bugs / Suggestions',
+		'Something broken? Improvements?',
+		'fa-bug', '#6b8e23',
+		'/post/18459',
+	),
+	(
+		'Submit Marseys',
+		'For original Marseys or other emoji.',
+		'fa-cat', '#ffa500',
+		'/post/16583',
+	),
+	(
+		'Submit Sidebar Art',
+		'Original rDrama-themed works.',
+		'fa-image-landscape', '#87cefa',
+		'/post/75878',
+	),
+	(
+		'Submit Banner Art',
+		'Original chud-repellant works.',
+		'fa-flag-pennant', '#b22222',
+		'/post/35835',
+	),
+	(
+		'Submit Snappy Quotes',
+		'Sentient.',
+		'fa-robot', '#adff2f',
+		'/post/33652',
+	),
+	(
+		'Marsey Commissions',
+		'Request a Marsey to be made.',
+		'fa-coins', '#ffd700',
+		'/post/37677',
+	),
+	(
+		'Gambling Spam',
+		'Goomble without bothering people.',
+		'fa-dice-six', '#c9d1d9',
+		'/post/39413',
+	),
+]
+-%}
+
+{% block content %}
+<div id="directory--wrapper">
+{% for thread in MEGATHREAD_INDEX %}
+<a role="button" class="directory--link" href="{{thread[4]}}">
+	<div class="directory--link-content">
+		<i class="directory--link--icon fas {{thread[2]}}" style="color:{{thread[3]}}"></i>
+		<div class="directory--link--title">{{thread[0]|safe}}</div>
+		<div class="directory--link--description">{{thread[1]|safe}}</div>
+	</div>
+</a>
+{% endfor %}
+</div>
+{% endblock %}
