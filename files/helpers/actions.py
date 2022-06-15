@@ -3,8 +3,7 @@ from files.classes.badges import Badge
 from files.helpers.alerts import send_repeatable_notification
 
 def badge_grant(user, badge_id, description=None, url=None):
-	if not user:
-		raise ValueError('badge_grant: expected user, not None')
+	assert user != None
 	if user.has_badge(badge_id):
 		return
 

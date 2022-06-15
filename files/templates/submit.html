@@ -223,9 +223,9 @@
 			</script>
 		{% endif %}
 
-		<script src="/assets/js/marked.js?v=258"></script>
-		<script src="/assets/js/formatting.js?v=240"></script>
-		<script src="/assets/js/submit.js?v=261"></script>
+		<script src="{{asset('js/marked.js')}}"></script>
+		<script src="{{asset('js/formatting.js')}}"></script>
+		<script src="{{asset('js/submit.js')}}"></script>
 		{% include "emoji_modal.html" %}
 		{% include "gif_modal.html" %}
 
