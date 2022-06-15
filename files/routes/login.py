@@ -338,9 +338,10 @@ def sign_up_post(v):
 
 		if ref_user:
 			badge_grant(user=ref_user, badge_id=10)
-			if ref_user.referral_count >= 10:
+			# off-by-one: newly referred user isn't counted
+			if ref_user.referral_count >= 9:
 				badge_grant(user=ref_user, badge_id=11)
-			if ref_user.referral_count >= 100:
+			if ref_user.referral_count >= 99:
 				badge_grant(user=ref_user, badge_id=12)
 
 	if email:

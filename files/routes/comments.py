@@ -279,7 +279,8 @@ def api_comment(v):
 
 							all_by_author = g.db.query(Marsey).filter_by(author_id=user.id).count()
 
-							if all_by_author >= 10:
+							# off-by-one: newly added marsey isn't counted
+							if all_by_author >= 9:
 								badge_grant(badge_id=16, user=user)
 							else:
 								badge_grant(badge_id=17, user=user)
