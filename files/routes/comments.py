@@ -279,13 +279,10 @@ def api_comment(v):
 
 							all_by_author = g.db.query(Marsey).filter_by(author_id=user.id).count()
 
-							if all_by_author >= 9:
+							if all_by_author >= 10:
 								badge_grant(badge_id=16, user=user)
-
-
 							else:
 								badge_grant(badge_id=17, user=user)
-
 
 							requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
 								data='{"files": ["https://%s/e/%s.webp"]}' % (request.host, name), timeout=5)
