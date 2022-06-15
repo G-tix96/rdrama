@@ -536,14 +536,6 @@
 			75% {transform: rotate(-{{p.award_count("tilt")}}deg);}
 			100% {transform: rotate(0deg);}
 		}
-		@media (max-width: 720px) {
-			@keyframes post-tilt {
-				0% {transform: rotate(0deg);}
-				25% {transform: rotate({{p.award_count("tilt")/4}}deg);}
-				75% {transform: rotate(-{{p.award_count("tilt")/4}}deg);}
-				100% {transform: rotate(0deg);}
-			}
-		}
 		#post-root {
 			animation-name: post-tilt;
 			animation-duration: 60s !important;
