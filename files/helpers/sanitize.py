@@ -384,8 +384,7 @@ def normalize_url(url):
 	for x in ["://reddit.com", "://new.reddit.com", "://www.reddit.com", "://redd.it", "://libredd.it", "://teddit.net"]:
 		url = url.replace(x, "://old.reddit.com")
 
-	url = url.replace("nitter.net", "twitter.com") \
-			 .replace("old.reddit.com/gallery", "reddit.com/gallery") \
+	url = url.replace("old.reddit.com/gallery", "reddit.com/gallery") \
 			 .replace("https://youtu.be/", "https://youtube.com/watch?v=") \
 			 .replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=") \
 			 .replace("https://youtube.com/shorts/", "https://youtube.com/watch?v=") \
