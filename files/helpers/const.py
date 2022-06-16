@@ -976,6 +976,7 @@ approved_embed_hosts = {
 	'9gag.com',
 	'ifunny.co',
 	'wixmp.com',
+	'marsey.cat'
 	}
 
 
