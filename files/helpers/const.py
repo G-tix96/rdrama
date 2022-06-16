@@ -175,6 +175,7 @@ ROLES={}
 LOTTERY_ENABLED = True
 LOTTERY_TICKET_COST = 12
 LOTTERY_SINK_RATE = 3
+LOTTERY_DURATION = 60 * 60 * 24 * 7
 
 if SITE in {'rdrama.net', 'devrama.xyz'}:
 	HOLE_COST = 50000
@@ -244,6 +245,10 @@ elif SITE == 'pcmemes.net':
 
 	BUG_THREAD = 4103
 	WELCOME_MSG = "Welcome to pcmemes.net! Don't forget to turn off the slur filter [here](/settings/content#slurreplacer)"
+
+	LOTTERY_TICKET_COST = 12
+	LOTTERY_SINK_RATE = -8
+	LOTTERY_DURATION = 60 * 60 * 24 * 3
 elif SITE == 'cringetopia.org':
 	HOLE_COST = 10000
 
