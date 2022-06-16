@@ -283,9 +283,17 @@
 						75% {transform: rotate(-{{c.award_count("tilt")}}deg);}
 						100% {transform: rotate(0deg);}
 					}
+					@media (max-width: 720px) {
+						@keyframes c{{c.id}}-tilt {
+							0% {transform: rotate(0deg);}
+							25% {transform: rotate({{c.award_count("tilt")/4}}deg);}
+							75% {transform: rotate(-{{c.award_count("tilt")/4}}deg);}
+							100% {transform: rotate(0deg);}
+						}
+					}
 					.comment-{{c.id}}-only {
 						animation-name: c{{c.id}}-tilt;
-						animation-duration: 60s !important;
+						animation-duration: 30s !important;
 						animation-iteration-count: infinite !important;
 						animation-direction: alternate !important;
 						animation-timing-function: linear !important;
