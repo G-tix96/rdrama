@@ -68,9 +68,9 @@ def start_new_lottery_session():
 
 	lottery = Lottery()
 	epoch_time = int(time.time())
-	# Subtract 4 minutes from one week so cronjob interval doesn't cause the 
-	# time to drift toward over multiple weeks.
-	one_week_from_now = epoch_time + 60 * 60 * 24 * 7 - (4 * 60)
+	# Subtract 4 minutes from one cycle so cronjob interval doesn't cause the
+	# time to drift toward over multiple cycles.
+	one_week_from_now = epoch_time + LOTTERY_DURATION - (4 * 60)
 	lottery.ends_at = one_week_from_now
 	lottery.is_active = True
 
