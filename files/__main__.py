@@ -90,7 +90,7 @@ def before_request():
 
 	ua = g.agent.lower()
 
-	with open('site_settings.json', 'r') as f:
+	with open('site_settings.json', 'r', encoding='utf_8') as f:
 		app.config['SETTINGS'] = json.load(f)
 
 	if request.host != app.config["SERVER_NAME"]: return {"error":"Unauthorized host provided."}, 401

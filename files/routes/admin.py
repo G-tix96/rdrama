@@ -494,10 +494,10 @@ def admin_git_head():
 	# Also, a malicious branch name would mean someone already owned the server
 	# or repo, so I think this isn't a weak link.
 	try:
-		with open('.git/HEAD') as head_f:
+		with open('.git/HEAD', encoding='utf_8') as head_f:
 			head_txt = head_f.read()
 			head_path = re.match('ref: (refs/.+)', head_txt).group(1)
-			with open('.git/' + head_path) as ref_f:
+			with open('.git/' + head_path, encoding='utf_8') as ref_f:
 				gitref = ref_f.read()[0:short_len]
 	except:
 		return '<unable to read>'
@@ -508,7 +508,7 @@ def admin_git_head():
 def change_settings(v, setting):
 	site_settings = app.config['SETTINGS']
 	site_settings[setting] = not site_settings[setting] 
-	with open("site_settings.json", "w") as f:
+	with open("site_settings.json", "w", encoding='utf_8') as f:
 		json.dump(site_settings, f)
 
 	if site_settings[setting]: word = 'enable'

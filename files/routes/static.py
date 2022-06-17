@@ -372,7 +372,7 @@ def settings_security(v):
 
 @app.get("/.well-known/assetlinks.json")
 def googleplayapp():
-	with open("files/assets/assetlinks.json", "r") as f:
+	with open("files/assets/assetlinks.json", "r", encoding='utf_8') as f:
 		return Response(f.read(), mimetype='application/json')
 
 
