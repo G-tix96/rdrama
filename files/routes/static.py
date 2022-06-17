@@ -370,10 +370,10 @@ def settings_security(v):
 						   mfa_secret=pyotp.random_base32() if not v.mfa_secret else None
 						   )
 
-@app.get("/.well-known/assetlinks.json")
-def googleplayapp():
-	with open("files/assets/assetlinks.json", "r", encoding='utf_8') as f:
-		return Response(f.read(), mimetype='application/json')
+@app.get("/.well-known/cf-2fa-verify.txt")
+def cfverify():
+	with open(f"files/assets/cf/{SITE}", "r", encoding='utf_8') as f:
+		return f.read()
 
 
 
