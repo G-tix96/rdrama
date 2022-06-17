@@ -246,6 +246,21 @@
 		{% block fixedMobileBarJS %}
 		{% endblock %}
 
+		{% if 'slackernews' in request.path %}
+			<meta name="cf-2fa-verify" content="ea6d12c0fb87b3b">
+		{% elif SITE == 'rdrama.net' %}
+			<meta name="cf-2fa-verify" content="4f40ca1ca249313">
+		{% elif SITE == 'watchpeopledie.co' %}
+			<meta name="cf-2fa-verify" content="372aba5b9338e00">
+		{% elif SITE == 'pcmemes.net' %}
+			<meta name="cf-2fa-verify" content="bf22ffe56e4bcda">
+		{% elif SITE == 'cringetopia.org' %}
+			<meta name="cf-2fa-verify" content="6c8ba243eb3b5ce">
+		{% endif %}
+
+
+
+
  </head>
 
  <body id="{% if request.path != '/comments' %}{% block pagetype %}frontpage{% endblock %}{% endif %}" {% if SITE_NAME == 'rDrama' and v and (v.is_banned or v.agendaposter) %}style="overflow-x: hidden;background:url(/assets/images/backgrounds/anime/1.webp?v=3) center center fixed; background-color: var(--background)"{% elif v and v.background %}style="{% if path != '/formatting' %}overflow-x: hidden; {% endif %} background:url(/assets/images/backgrounds/{{v.background}}?v=3) center center fixed; background-color: var(--background){% if 'anime' not in v.background %};background-size: cover{% endif %}"{% endif %}>
