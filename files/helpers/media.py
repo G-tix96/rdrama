@@ -26,11 +26,11 @@ def process_video(file):
 	old = f'/videos/{time.time()}'.replace('.','')
 	new = old + '.mp4'
 
-	if extension == 'webm':
+	if file.filename.split('.')[-1].lower() == 'webm':
 		file.save(new)
 	else:
 		file.save(old)
-		os.system(f'ffmpeg -y -loglevel warning -i {old} -map_metadata -1 -c:v copy -c:a copy {new}')
+		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new])
 		os.remove(old)
 
 	size = os.stat(new).st_size
@@ -53,7 +53,7 @@ def process_image(patron, filename=None, resize=0):
 	i = Image.open(filename)
 
 	if resize and i.width > resize:
-		try: subprocess.call(["convert", filename, "-coalesce", "-resize", f"{resize}>", filename])
+		try: subprocess.run(["convert", filename, "-coalesce", "-resize", f"{resize}>", filename])
 		except: pass
 	elif i.format.lower() != "webp":
 
