@@ -10,7 +10,7 @@ from .const import *
 
 
 def process_audio(file):
-	name = f'/audio/{time.time()}'.replace('.','') + '.' + file.filename.split('.')[-1].lower()
+	name = f'/audio/{time.time()}'.replace('.','') + '.mp3'
 	file.save(name)
 
 	if os.stat(name).st_size > 8 * 1024 * 1024:
@@ -24,8 +24,7 @@ def process_audio(file):
 
 def process_video(file):
 	old = f'/videos/{time.time()}'.replace('.','')
-	extension = file.filename.split('.')[-1].lower()
-	new = old + '.' + extension
+	new = old + '.mp4'
 
 	if extension == 'webm':
 		file.save(new)
