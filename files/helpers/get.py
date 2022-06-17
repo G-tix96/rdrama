@@ -75,8 +75,8 @@ def get_users(usernames, v=None, graceful=False):
 
 	users = g.db.query(User).filter(
 		or_(
-			User.username == any_(usernames),
-			User.original_username == any_(usernames)
+			User.username.ilike(any_(usernames)),
+			User.original_username.ilike(any_(usernames))
 			)
 		).all()
 
