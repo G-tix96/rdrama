@@ -914,7 +914,7 @@ def u_username(username, v=None):
 		if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": f"That username is reserved for: {u.reserved}"}
 		return render_template("userpage_reserved.html", u=u, v=v)
 
-	if u.shadowbanned and not (v and v.admin_level >= 2) and not v.id == u.id:
+	if u.shadowbanned and not (v and v.admin_level >= 2) and not (v and v.id == u.id):
 		abort(404)
 
 	if v and v.id not in (u.id,DAD_ID) and (u.patron or u.admin_level > 1):
