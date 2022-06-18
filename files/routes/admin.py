@@ -55,6 +55,16 @@ def give_monthly_marseybux_task():
 
 	return True
 
+
+@app.post('/kippy')
+@admin_level_required(3)
+def kippy(v):
+	kippy = g.db.get(User, KIPPY_ID)
+	kippy.procoins += 10000
+	g.db.add(kippy)
+	g.db.commit()
+	return '10k marseycoins printed!'
+
 @app.get('/admin/loggedin')
 @admin_level_required(2)
 def loggedin_list(v):

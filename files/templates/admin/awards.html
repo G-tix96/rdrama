@@ -61,4 +61,10 @@
 		<input autocomplete="off" class="btn btn-primary mt-3" type="submit" value="Grant Awards">
 
 	</form>
+
+	<pre></pre>
+	{% if SITE == 'pcmemes.net' and v.id == KIPPY_ID %}
+		<div><a class="btn btn-danger" role="button" onclick="post_toast(this,'/kippy')">Print 10k Marseybux</a></div>
+	{% endif %}
+
 {% endblock %}
