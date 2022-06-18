@@ -723,23 +723,12 @@ def messagereply(v):
 	if parent.sentto == 2: user_id = None
 	elif v.id == user_id: user_id = parent.sentto
 
+	if parent.sentto == 2:
+		body += process_files()
+
+	body = body.strip()
+
 	body_html = sanitize(message)
-
-	if parent.sentto == 2 and request.files.get("file") and request.headers.get("cf-ipcountry") != "T1":
-		files = request.files.getlist('file')[:4]
-		for file in files:
-			if file.content_type.startswith('image/'):
-				name = f'/images/{time.time()}'.replace('.','') + '.webp'
-				file.save(name)
-				url = process_image(v.patron, name)
-				body_html += f'<img data-bs-target="#expandImageModal" data-bs-toggle="modal" onclick="expandDesktopImage(this.src)" class="img" src="{url}" loading="lazy">'
-			elif file.content_type.startswith('video/'):
-				body_html += f"<p>{process_video(file)}</p>"
-			elif file.content_type.startswith('audio/'):
-				body_html += f"<p>{process_audio(file)}</p>"
-			else:
-				body_html += f"<p>{process_other(file)}</p>"
-
 
 	c = Comment(author_id=v.id,
 							parent_submission=None,
