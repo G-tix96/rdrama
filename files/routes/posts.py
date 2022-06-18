@@ -1060,9 +1060,7 @@ def submit_post(v, sub=None):
 			copyfile(name, name2)
 			post.thumburl = process_image(v.patron, name2, resize=100)
 		elif file.content_type.startswith('video/'):
-			value = process_video(file)
-			if type(value) is str: post.url = value
-			else: return error(value['error'])
+			post.url = process_video(file)
 		elif file.content_type.startswith('audio/'):
 			post.url = process_audio(file)
 		else:

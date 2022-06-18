@@ -207,9 +207,7 @@ def submit_contact(v):
 				url = process_image(v.patron, name)
 				body_html += f'<img data-bs-target="#expandImageModal" data-bs-toggle="modal" onclick="expandDesktopImage(this.src)" class="img" src="{url}" loading="lazy">'
 			elif file.content_type.startswith('video/'):
-				value = process_video(file)
-				if type(value) is str: body_html += f"<p>{value}</p>"
-				else: return value
+				body_html += f"<p>{process_video(file)}</p>"
 			elif file.content_type.startswith('audio/'):
 				body_html += f"<p>{process_audio(file)}</p>"
 			else:

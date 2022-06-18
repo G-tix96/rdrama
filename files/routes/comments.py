@@ -293,9 +293,7 @@ def api_comment(v):
 							return {"error": str(e)}, 400
 				body += f"\n\n![]({image})"
 			elif file.content_type.startswith('video/'):
-				value = process_video(file)
-				if type(value) is str: body += f"\n\n{value}"
-				else: return value
+				body += f"\n\n{process_video(file)}"
 			elif file.content_type.startswith('audio/'):
 				body += f"\n\n{process_audio(file)}"
 			else:

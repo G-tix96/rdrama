@@ -20,9 +20,7 @@ def process_files():
 				url = process_image(v.patron, name)
 				body += f"\n\n![]({url})"
 			elif file.content_type.startswith('video/'):
-				value = process_video(file)
-				if type(value) is str: body += f"\n\n{value}"
-				else: return value
+				body += f"\n\n{process_video(file)}"
 			elif file.content_type.startswith('audio/'):
 				body += f"\n\n{process_audio(file)}"
 			else:
