@@ -136,11 +136,11 @@
 			}
 			
 			@keyframes moveX {
-				from {} to {transform: translateX(98vw)}	
+				from {} to {transform: translateX(98vw)}
 			}
 
 			@keyframes moveY {
-				from {} to {transform: translateY(90vh)}	
+				from {} to {transform: translateY(90vh)}
 			}
 
 			.seal1 {
@@ -226,11 +226,11 @@
 			}
 			
 			@keyframes moveX {
-				from {} to {transform: translateX(98vw)}	
+				from {} to {transform: translateX(98vw)}
 			}
 
 			@keyframes moveY {
-				from {} to {transform: translateY(90vh)}	
+				from {} to {transform: translateY(90vh)}
 			}
 
 			.toe1 {
@@ -714,7 +714,7 @@
 				
 						{% if p.bannedfor %}
 							<a role="button"><i class="fas fa-hammer-crash text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was banned for this post{% if p.author.banned_by %} by @{{p.author.banned_by.username}}{% endif %}"></i></a>
-						{% endif %}	
+						{% endif %}
 
 						{% for a in p.awards|reverse %}
 							<i class="{{a.class_list}} px-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{a.title}} Award given by @{{a.user.username}}"></i>

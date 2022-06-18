@@ -266,7 +266,7 @@
  <body id="{% if request.path != '/comments' %}{% block pagetype %}frontpage{% endblock %}{% endif %}" {% if SITE_NAME == 'rDrama' and v and (v.is_banned or v.agendaposter) %}style="overflow-x: hidden;background:url(/assets/images/backgrounds/anime/1.webp?v=3) center center fixed; background-color: var(--background)"{% elif v and v.background %}style="{% if path != '/formatting' %}overflow-x: hidden; {% endif %} background:url(/assets/images/backgrounds/{{v.background}}?v=3) center center fixed; background-color: var(--background){% if 'anime' not in v.background %};background-size: cover{% endif %}"{% endif %}>
 
 {% block Banner %}
-	{% if '@' not in request.path %}		
+	{% if '@' not in request.path %}	
 		{% if sub %}
 			<img alt="/h/{{sub.name}} banner" role="button" data-bs-toggle="modal" data-bs-target="#expandImageModal" onclick="expandDesktopImage('{{sub.banner_url}}')" loading="lazy" src="{{sub.banner_url}}" width=100% style="object-fit:cover;max-height:min(30vh,30vw)!important">
 		{% elif SITE_NAME == 'rDrama' %}
