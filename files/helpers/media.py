@@ -9,6 +9,32 @@ import time
 from .const import *
 
 
+def process_files():
+	body = ''
+	if request.files.get("file") and request.headers.get("cf-ipcountry") != "T1":
+		files = request.files.getlist('file')[:4]
+		for file in files:
+			if file.content_type.startswith('image/'):
+				name = f'/images/{time.time()}'.replace('.','') + '.webp'
+				file.save(name)
+				url = process_image(v.patron, name)
+				body += f"\n\n![]({url})"
+			elif file.content_type.startswith('video/'):
+				value = process_video(file)
+				if type(value) is str: body += f"\n\n{value}"
+				else: return value
+			elif file.content_type.startswith('audio/'):
+				body += f"\n\n{process_audio(file)}"
+			else:
+				body += f"\n\n{process_other(file)}"
+	return body
+
+
+def process_other(file):
+	req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': file}, timeout=20).json()
+	return req['files'][0]['url']
+
+
 def process_audio(file):
 	name = f'/audio/{time.time()}'.replace('.','') + '.mp3'
 	file.save(name)

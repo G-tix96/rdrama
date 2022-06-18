@@ -215,25 +215,10 @@ def settings_profile_post(v):
 							   msg="Your enemies list has been updated.")
 
 
-	elif request.values.get("bio") or request.files.get('file') and request.headers.get("cf-ipcountry") != "T1":
+	elif request.values.get("bio") or request.files.get('file'):
 		bio = request.values.get("bio")[:1500]
 
-		if request.files.get('file'):
-			file = request.files['file']
-			if file.content_type.startswith('image/'):
-				name = f'/images/{time.time()}'.replace('.','') + '.webp'
-				file.save(name)
-				url = process_image(v.patron, name)
-				bio += f"\n\n![]({url})"
-			elif file.content_type.startswith('video/'):
-				value = process_video(file)
-				if type(value) is str: bio += f"\n\n{value}"
-				else: return value
-			elif file.content_type.startswith('audio/'):
-				bio += f"\n\n{process_audio(file)}"
-			else:
-				if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": "Image/Video/Audio files only"}, 400
-				return render_template("settings_profile.html", v=v, error="Image/Video/Audio files only."), 400
+		bio += process_files()
 
 		bio = bio.strip()
 

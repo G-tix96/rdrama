@@ -165,6 +165,8 @@ def sanitize(sanitized, alert=False, edit=False):
 	signal.signal(signal.SIGALRM, handler)
 	signal.alarm(1)
 
+	sanitized = sanitized.strip()
+
 	if '```' not in sanitized and '<pre>' not in sanitized:
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
 

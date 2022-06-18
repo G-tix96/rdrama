@@ -199,19 +199,21 @@ def submit_contact(v):
 	body_html = sanitize(body)
 
 	if request.files.get("file") and request.headers.get("cf-ipcountry") != "T1":
-		file=request.files["file"]
-		if file.content_type.startswith('image/'):
-			name = f'/images/{time.time()}'.replace('.','') + '.webp'
-			file.save(name)
-			url = process_image(v.patron, name)
-			body_html += f'<img data-bs-target="#expandImageModal" data-bs-toggle="modal" onclick="expandDesktopImage(this.src)" class="img" src="{url}" loading="lazy">'
-		elif file.content_type.startswith('video/'):
-			value = process_video(file)
-			if type(value) is str: body_html += f"<p>{value}</p>"
-			else: return value
-		elif file.content_type.startswith('audio/'):
-			body_html += f"<p>{process_audio(file)}</p>"
-		else: return {"error": "Image/Video/Audio files only"}, 400
+		files = request.files.getlist('file')[:4]
+		for file in files:
+			if file.content_type.startswith('image/'):
+				name = f'/images/{time.time()}'.replace('.','') + '.webp'
+				file.save(name)
+				url = process_image(v.patron, name)
+				body_html += f'<img data-bs-target="#expandImageModal" data-bs-toggle="modal" onclick="expandDesktopImage(this.src)" class="img" src="{url}" loading="lazy">'
+			elif file.content_type.startswith('video/'):
+				value = process_video(file)
+				if type(value) is str: body_html += f"<p>{value}</p>"
+				else: return value
+			elif file.content_type.startswith('audio/'):
+				body_html += f"<p>{process_audio(file)}</p>"
+			else:
+				body_html += f"<p>{process_other(file)}</p>"
 
 
 

@@ -298,7 +298,8 @@ def api_comment(v):
 				else: return value
 			elif file.content_type.startswith('audio/'):
 				body += f"\n\n{process_audio(file)}"
-			else: return {"error": "Image/Video/Audio files only"}, 400
+			else:
+				body += f"\n\n{process_other(file)}"
 
 	body = body.strip()
 	
@@ -697,8 +698,6 @@ def edit_comment(cid, v):
 				)
 			g.db.add(c_choice)
 
-		body_html = sanitize(body, edit=True)
-
 		if '!slots' not in body.lower() and '!blackjack' not in body.lower() and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
 			now = int(time.time())
 			cutoff = now - 60 * 60 * 24
@@ -733,25 +732,11 @@ def edit_comment(cid, v):
 
 				return {"error": "Too much spam!"}, 403
 
-		if request.files.get("file") and request.headers.get("cf-ipcountry") != "T1":
-			files = request.files.getlist('file')[:4]
-			for file in files:
-				if file.content_type.startswith('image/'):
-					name = f'/images/{time.time()}'.replace('.','') + '.webp'
-					file.save(name)
-					url = process_image(v.patron, name)
-					body += f"\n\n![]({url})"
-				elif file.content_type.startswith('video/'):
-					value = process_video(file)
-					if type(value) is str: body += f"\n\n{value}"
-					else: return value
-				elif file.content_type.startswith('audio/'):
-					body += f"\n\n{process_audio(file)}"
-				else: return {"error": "Image/Video/Audio files only"}, 400
+		body += process_files()
 
-			body = body.strip()
+		body = body.strip()
 
-			body_html = sanitize(body, edit=True)
+		body_html = sanitize(body, edit=True)
 
 		if len(body_html) > 20000: abort(400)
 
