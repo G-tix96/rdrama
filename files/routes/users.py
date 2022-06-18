@@ -761,8 +761,8 @@ def messagereply(v):
 				g.db.delete(n)
 
 		if PUSHER_ID != 'blahblahblah' and not v.shadowbanned:
-			if len(message) > 500: notifbody = message[:500] + '...'
-			else: notifbody = message
+			if len(body) > 500: notifbody = body[:500] + '...'
+			else: notifbody = body
 			
 			beams_client.publish_to_interests(
 				interests=[f'{request.host}{user_id}'],
