@@ -440,10 +440,11 @@ def morecomments(v, cid):
 def edit_post(pid, v):
 	p = get_post(pid)
 
-	if time.time() - p.created_utc > 7*24*60*60:
-		return {"error":"You can't edit posts older than 1 week!"}, 403
-
-	if p.author_id != v.id and not (v.admin_level > 1 and v.admin_level > 2): abort(403)
+	if not v.admin_level >= 3:
+		if time.time() - p.created_utc > 7*24*60*60:
+			return {"error":"You can't edit posts older than 1 week!"}, 403
+		elif p.author_id != v.id:
+			abort(403)
 
 	title = request.values.get("title", "").strip().replace('‎','')
 
