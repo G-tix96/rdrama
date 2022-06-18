@@ -1021,7 +1021,10 @@ def u_username_comments(username, v=None):
 	comments = g.db.query(Comment.id).filter(Comment.author_id == u.id, Comment.parent_submission != None)
 
 	if not v or (v.id != u.id and v.admin_level < 2):
-		comments = comments.filter(Comment.deleted_utc == 0, Comment.is_banned == False, Comment.ghost == False)
+		comments = comments.filter(Comment.is_banned == False, Comment.ghost == False)
+
+	if not (v and v.admin_level > 1):
+		comments = comments.filter_by(deleted_utc=0)
 
 	now = int(time.time())
 	if t == 'hour':

@@ -1298,6 +1298,7 @@ def delete_post_pid(pid, v):
 	g.db.add(post)
 
 	cache.delete_memoized(frontlist)
+	cache.delete_memoized(User.userpagelisting)
 
 	g.db.commit()
 
@@ -1314,6 +1315,7 @@ def undelete_post_pid(pid, v):
 	g.db.add(post)
 
 	cache.delete_memoized(frontlist)
+	cache.delete_memoized(User.userpagelisting)
 
 	g.db.commit()
 
