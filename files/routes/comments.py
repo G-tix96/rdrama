@@ -460,7 +460,7 @@ def api_comment(v):
 
 			body = AGENDAPOSTER_MSG.format(username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
-			body_jannied_html = sanitize(body)
+			body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
 
 
@@ -470,6 +470,7 @@ def api_comment(v):
 				parent_comment_id=c.id,
 				level=level+1,
 				is_bot=True,
+				body=body,
 				body_html=body_jannied_html,
 				top_comment_id=c.top_comment_id,
 				ghost=c.ghost
@@ -498,15 +499,13 @@ def api_comment(v):
 				c.downvotes = 1
 
 
-
-			body_html2 = sanitize(body)
-
 			c2 = Comment(author_id=LONGPOSTBOT_ID,
 				parent_submission=parent_submission,
 				parent_comment_id=c.id,
 				level=level+1,
 				is_bot=True,
-				body_html=body_html2,
+				body=body,
+				body_html=f"<p>{body}</p>",
 				top_comment_id=c.top_comment_id,
 				ghost=c.ghost
 				)
@@ -525,19 +524,13 @@ def api_comment(v):
 
 
 		if SITE_NAME == 'rDrama' and random.random() < 0.001:
-		
-			body = "zoz"
-			body_html2 = sanitize(body)
-
-
-
-
 			c2 = Comment(author_id=ZOZBOT_ID,
 				parent_submission=parent_submission,
 				parent_comment_id=c.id,
 				level=level+1,
 				is_bot=True,
-				body_html=body_html2,
+				body="zoz",
+				body_html="<p>zoz</p>",
 				top_comment_id=c.top_comment_id,
 				ghost=c.ghost,
 				distinguish_level=6
@@ -550,19 +543,13 @@ def api_comment(v):
 
 
 
-
-		
-			body = "zle"
-			body_html2 = sanitize(body)
-
-
-
 			c3 = Comment(author_id=ZOZBOT_ID,
 				parent_submission=parent_submission,
 				parent_comment_id=c2.id,
 				level=level+2,
 				is_bot=True,
-				body_html=body_html2,
+				body="zle",
+				body_html="<p>zle</p>",
 				top_comment_id=c.top_comment_id,
 				ghost=c.ghost,
 				distinguish_level=6
@@ -571,16 +558,14 @@ def api_comment(v):
 			g.db.add(c3)
 			g.db.flush()
 			
-			body = "zozzle"
-			body_html2 = sanitize(body)
-
 
 			c4 = Comment(author_id=ZOZBOT_ID,
 				parent_submission=parent_submission,
 				parent_comment_id=c3.id,
 				level=level+3,
 				is_bot=True,
-				body_html=body_html2,
+				body="zozzle",
+				body_html="<p>zozzle</p>",
 				top_comment_id=c.top_comment_id,
 				ghost=c.ghost,
 				distinguish_level=6
@@ -794,7 +779,7 @@ def edit_comment(cid, v):
 
 			body = AGENDAPOSTER_MSG.format(username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
-			body_jannied_html = sanitize(body)
+			body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
 
 
@@ -804,6 +789,7 @@ def edit_comment(cid, v):
 				parent_comment_id=c.id,
 				level=c.level+1,
 				is_bot=True,
+				body=body,
 				body_html=body_jannied_html,
 				top_comment_id=c.top_comment_id,
 				ghost=c.ghost

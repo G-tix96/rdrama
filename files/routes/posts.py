@@ -536,7 +536,7 @@ def edit_post(pid, v):
 
 			body = AGENDAPOSTER_MSG.format(username=v.username, type='post', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
-			body_jannied_html = sanitize(body)
+			body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='post', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
 			c_jannied = Comment(author_id=NOTIFICATIONS_ID,
 				parent_submission=p.id,
@@ -546,6 +546,7 @@ def edit_post(pid, v):
 				app_id=None,
 				stickied='AutoJanny',
 				distinguish_level=6,
+				body=body,
 				body_html=body_jannied_html,
 				ghost=p.ghost
 				)
@@ -1136,8 +1137,7 @@ def submit_post(v, sub=None):
 
 		body = AGENDAPOSTER_MSG.format(username=v.username, type='post', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
-		body_jannied_html = sanitize(body)
-
+		body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='post', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
 
 		c_jannied = Comment(author_id=NOTIFICATIONS_ID,
@@ -1148,6 +1148,7 @@ def submit_post(v, sub=None):
 			app_id=None,
 			stickied='AutoJanny',
 			distinguish_level=6,
+			body=body,
 			body_html=body_jannied_html,
 			ghost=post.ghost
 		)
@@ -1250,6 +1251,7 @@ def submit_post(v, sub=None):
 				over_18=False,
 				is_bot=True,
 				app_id=None,
+				body=body,
 				body_html=body_html,
 				ghost=post.ghost
 				)
