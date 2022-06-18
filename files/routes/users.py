@@ -710,11 +710,11 @@ def message2(v, username):
 @auth_required
 def messagereply(v):
 
-	message = request.values.get("body", "").strip()[:10000].strip()
+	body = request.values.get("body", "").strip()[:10000].strip()
 
-	if not message and not request.files.get("file"): return {"error": "Message is empty!"}
+	if not body and not request.files.get("file"): return {"error": "Message is empty!"}
 
-	if 'linkedin.com' in message: return {"error": "this domain 'linkedin.com' is banned"}
+	if 'linkedin.com' in body: return {"error": "this domain 'linkedin.com' is banned"}
 
 	id = int(request.values.get("parent_id"))
 	parent = get_comment(id, v=v)
@@ -728,7 +728,7 @@ def messagereply(v):
 
 	body = body.strip()
 
-	body_html = sanitize(message)
+	body_html = sanitize(body)
 
 	c = Comment(author_id=v.id,
 							parent_submission=None,
