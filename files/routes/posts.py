@@ -465,21 +465,7 @@ def edit_post(pid, v):
 		p.title = title[:500]
 		p.title_html = title_html
 
-	if request.files.get("file") and request.headers.get("cf-ipcountry") != "T1":
-		files = request.files.getlist('file')[:4]
-		for file in files:
-			if file.content_type.startswith('image/'):
-				name = f'/images/{time.time()}'.replace('.','') + '.webp'
-				file.save(name)
-				url = process_image(v.patron, name)
-				body += f"\n\n![]({url})"
-			elif file.content_type.startswith('video/'):
-				value = process_video(file)
-				if type(value) is str: body += f"\n\n{value}"
-				else: return value
-			elif file.content_type.startswith('audio/'):
-				body += f"\n\n{process_audio(file)}"
-			else: return {"error": "Image/Video/Audio files only"}, 400
+	body += process_files()
 
 	body = body.strip()
 
@@ -536,7 +522,7 @@ def edit_post(pid, v):
 
 			body = AGENDAPOSTER_MSG.format(username=v.username, type='post', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
-			body_jannied_html = sanitize(body)
+			body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='post', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
 			c_jannied = Comment(author_id=NOTIFICATIONS_ID,
 				parent_submission=p.id,
@@ -546,6 +532,7 @@ def edit_post(pid, v):
 				app_id=None,
 				stickied='AutoJanny',
 				distinguish_level=6,
+				body=body,
 				body_html=body_jannied_html,
 				ghost=p.ghost
 				)
@@ -972,21 +959,7 @@ def submit_post(v, sub=None):
 
 	if v.agendaposter and not v.marseyawarded: body = torture_ap(body, v.username)
 
-	if request.files.get("file2") and request.headers.get("cf-ipcountry") != "T1":
-		files = request.files.getlist('file2')[:4]
-		for file in files:
-			if file.content_type.startswith('image/'):
-				name = f'/images/{time.time()}'.replace('.','') + '.webp'
-				file.save(name)
-				body += f"\n\n![]({process_image(v.patron, name)})"
-			elif file.content_type.startswith('video/'):
-				value = process_video(file)
-				if type(value) is str: body += f"\n\n{value}"
-				else: return error(value['error'])
-			elif file.content_type.startswith('audio/'):
-				body += f"\n\n{process_audio(file)}"
-			else:
-				return error("Image/Video/Audio files only.")
+	body += process_files()
 
 	body = body.strip()
 
@@ -1074,9 +1047,9 @@ def submit_post(v, sub=None):
 				)
 	g.db.add(vote)
 	
-	if request.files.get('file') and request.headers.get("cf-ipcountry") != "T1":
+	if request.files.get('file-url') and request.headers.get("cf-ipcountry") != "T1":
 
-		file = request.files['file']
+		file = request.files['file-url']
 
 		if file.content_type.startswith('image/'):
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
@@ -1093,7 +1066,7 @@ def submit_post(v, sub=None):
 		elif file.content_type.startswith('audio/'):
 			post.url = process_audio(file)
 		else:
-			return error("Image/Video/Audio files only.")
+			post.url = process_other(file)
 		
 	if not post.thumburl and post.url:
 		gevent.spawn(thumbnail_thread, post.id)
@@ -1136,8 +1109,7 @@ def submit_post(v, sub=None):
 
 		body = AGENDAPOSTER_MSG.format(username=v.username, type='post', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
-		body_jannied_html = sanitize(body)
-
+		body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='post', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
 
 		c_jannied = Comment(author_id=NOTIFICATIONS_ID,
@@ -1148,6 +1120,7 @@ def submit_post(v, sub=None):
 			app_id=None,
 			stickied='AutoJanny',
 			distinguish_level=6,
+			body=body,
 			body_html=body_jannied_html,
 			ghost=post.ghost
 		)
@@ -1240,6 +1213,8 @@ def submit_post(v, sub=None):
 				body += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)}) (click to archive)\n\n'
 				gevent.spawn(archiveorg, href)
 
+		body = body.strip()
+
 		body_html = sanitize(body)
 
 		if len(body_html) < 40000:
@@ -1250,6 +1225,7 @@ def submit_post(v, sub=None):
 				over_18=False,
 				is_bot=True,
 				app_id=None,
+				body=body,
 				body_html=body_html,
 				ghost=post.ghost
 				)

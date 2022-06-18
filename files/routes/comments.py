@@ -298,7 +298,8 @@ def api_comment(v):
 				else: return value
 			elif file.content_type.startswith('audio/'):
 				body += f"\n\n{process_audio(file)}"
-			else: return {"error": "Image/Video/Audio files only"}, 400
+			else:
+				body += f"\n\n{process_other(file)}"
 
 	body = body.strip()
 	
@@ -460,7 +461,7 @@ def api_comment(v):
 
 			body = AGENDAPOSTER_MSG.format(username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
-			body_jannied_html = sanitize(body)
+			body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
 
 
@@ -470,6 +471,7 @@ def api_comment(v):
 				parent_comment_id=c.id,
 				level=level+1,
 				is_bot=True,
+				body=body,
 				body_html=body_jannied_html,
 				top_comment_id=c.top_comment_id,
 				ghost=c.ghost
@@ -498,15 +500,13 @@ def api_comment(v):
 				c.downvotes = 1
 
 
-
-			body_html2 = sanitize(body)
-
 			c2 = Comment(author_id=LONGPOSTBOT_ID,
 				parent_submission=parent_submission,
 				parent_comment_id=c.id,
 				level=level+1,
 				is_bot=True,
-				body_html=body_html2,
+				body=body,
+				body_html=f"<p>{body}</p>",
 				top_comment_id=c.top_comment_id,
 				ghost=c.ghost
 				)
@@ -525,19 +525,13 @@ def api_comment(v):
 
 
 		if SITE_NAME == 'rDrama' and random.random() < 0.001:
-		
-			body = "zoz"
-			body_html2 = sanitize(body)
-
-
-
-
 			c2 = Comment(author_id=ZOZBOT_ID,
 				parent_submission=parent_submission,
 				parent_comment_id=c.id,
 				level=level+1,
 				is_bot=True,
-				body_html=body_html2,
+				body="zoz",
+				body_html="<p>zoz</p>",
 				top_comment_id=c.top_comment_id,
 				ghost=c.ghost,
 				distinguish_level=6
@@ -550,19 +544,13 @@ def api_comment(v):
 
 
 
-
-		
-			body = "zle"
-			body_html2 = sanitize(body)
-
-
-
 			c3 = Comment(author_id=ZOZBOT_ID,
 				parent_submission=parent_submission,
 				parent_comment_id=c2.id,
 				level=level+2,
 				is_bot=True,
-				body_html=body_html2,
+				body="zle",
+				body_html="<p>zle</p>",
 				top_comment_id=c.top_comment_id,
 				ghost=c.ghost,
 				distinguish_level=6
@@ -571,16 +559,14 @@ def api_comment(v):
 			g.db.add(c3)
 			g.db.flush()
 			
-			body = "zozzle"
-			body_html2 = sanitize(body)
-
 
 			c4 = Comment(author_id=ZOZBOT_ID,
 				parent_submission=parent_submission,
 				parent_comment_id=c3.id,
 				level=level+3,
 				is_bot=True,
-				body_html=body_html2,
+				body="zozzle",
+				body_html="<p>zozzle</p>",
 				top_comment_id=c.top_comment_id,
 				ghost=c.ghost,
 				distinguish_level=6
@@ -712,8 +698,6 @@ def edit_comment(cid, v):
 				)
 			g.db.add(c_choice)
 
-		body_html = sanitize(body, edit=True)
-
 		if '!slots' not in body.lower() and '!blackjack' not in body.lower() and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
 			now = int(time.time())
 			cutoff = now - 60 * 60 * 24
@@ -748,25 +732,11 @@ def edit_comment(cid, v):
 
 				return {"error": "Too much spam!"}, 403
 
-		if request.files.get("file") and request.headers.get("cf-ipcountry") != "T1":
-			files = request.files.getlist('file')[:4]
-			for file in files:
-				if file.content_type.startswith('image/'):
-					name = f'/images/{time.time()}'.replace('.','') + '.webp'
-					file.save(name)
-					url = process_image(v.patron, name)
-					body += f"\n\n![]({url})"
-				elif file.content_type.startswith('video/'):
-					value = process_video(file)
-					if type(value) is str: body += f"\n\n{value}"
-					else: return value
-				elif file.content_type.startswith('audio/'):
-					body += f"\n\n{process_audio(file)}"
-				else: return {"error": "Image/Video/Audio files only"}, 400
+		body += process_files()
 
-			body = body.strip()
+		body = body.strip()
 
-			body_html = sanitize(body, edit=True)
+		body_html = sanitize(body, edit=True)
 
 		if len(body_html) > 20000: abort(400)
 
@@ -794,7 +764,7 @@ def edit_comment(cid, v):
 
 			body = AGENDAPOSTER_MSG.format(username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
-			body_jannied_html = sanitize(body)
+			body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
 
 
@@ -804,6 +774,7 @@ def edit_comment(cid, v):
 				parent_comment_id=c.id,
 				level=c.level+1,
 				is_bot=True,
+				body=body,
 				body_html=body_jannied_html,
 				top_comment_id=c.top_comment_id,
 				ghost=c.ghost
