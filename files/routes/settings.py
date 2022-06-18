@@ -388,6 +388,7 @@ def gumroad(v):
 
 	if len(response) == 0: return {"error": "Email not found"}, 404
 
+	response = [x for x in response if x['variants_and_quantity']]
 	response = response[0]
 	tier = tiers[response["variants_and_quantity"]]
 	if v.patron == tier: return {"error": f"{patron} rewards already claimed"}, 400
