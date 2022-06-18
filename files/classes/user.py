@@ -353,7 +353,7 @@ class User(Base):
 	@lazy
 	def banned_by(self):
 		if not self.is_suspended: return None
-		return g.db.query(User).filter_by(id=self.is_banned).one_or_none()
+		return g.db.get(User, self.is_banned)
 
 	def has_badge(self, badge_id):
 		return g.db.query(Badge).filter_by(user_id=self.id, badge_id=badge_id).one_or_none()

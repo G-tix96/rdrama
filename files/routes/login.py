@@ -257,7 +257,7 @@ def sign_up_post(v):
 
 		args = {"error": error}
 		if request.values.get("referred_by"):
-			user = g.db.query(User).filter_by(id=request.values.get("referred_by")).one_or_none()
+			user = g.db.get(User, request.values.get("referred_by"))
 			if user: args["ref"] = user.username
 
 		return redirect(f"/signup?{urlencode(args)}")
@@ -311,9 +311,8 @@ def sign_up_post(v):
 
 	ref_id = int(request.values.get("referred_by", 0))
 
-	id_1 = g.db.query(User).filter_by(id=9).count()
 	users_count = g.db.query(User).count()
-	if id_1 == 0 and users_count == 8:
+	if users_count == 8:
 		admin_level=3
 		session["history"] = []
 	else: admin_level=0
@@ -334,7 +333,7 @@ def sign_up_post(v):
 	g.db.add(new_user)
 
 	if ref_id:
-		ref_user = g.db.query(User).filter_by(id=ref_id).one_or_none()
+		ref_user = g.db.get(User, ref_id)
 
 		if ref_user:
 			badge_grant(user=ref_user, badge_id=10)
@@ -421,7 +420,7 @@ def get_reset():
 			title="Password reset link expired",
 			error="That password reset link has expired.")
 
-	user = g.db.query(User).filter_by(id=user_id).one_or_none()
+	user = g.db.get(User, user_id)
 	
 	if not user: abort(400)
 
@@ -461,7 +460,7 @@ def post_reset(v):
 							   title="Password reset expired",
 							   error="That password reset form has expired.")
 
-	user = g.db.query(User).filter_by(id=user_id).one_or_none()
+	user = g.db.get(User, user_id)
 
 	if not validate_hash(f"{user_id}+{timestamp}+reset+{user.login_nonce}", token):
 		abort(400)

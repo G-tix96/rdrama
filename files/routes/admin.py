@@ -40,11 +40,6 @@ def give_monthly_marseybux_task():
 			send_repeatable_notification(u.id, f"@Snappy has given you {procoins} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
 		else: u.patron = 0
 
-	if SITE == 'pcmemes.net':
-		u = g.db.query(User).filter_by(id=KIPPY_ID).one()
-		u.procoins += 50000
-		g.db.add(u)
-
 	ma = ModAction(
 		kind="monthly",
 		user_id=v.id
@@ -263,13 +258,13 @@ def remove_admin(v, username):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(3)
 def distribute(v, comment):
-	autobetter = g.db.query(User).filter_by(id=AUTOBETTER_ID).one_or_none()
+	autobetter = g.db.get(User, AUTOBETTER_ID)
 	if autobetter.coins == 0: return {"error": "@AutoBetter has 0 coins"}
 
 	try: comment = int(comment)
 	except: abort(400)
 	post = g.db.query(Comment.parent_submission).filter_by(id=comment).one_or_none()[0]
-	post = g.db.query(Submission).filter_by(id=post).one_or_none()
+	post = g.db.get(Submission, post)
 
 	pool = 0
 	for option in post.bet_options: pool += option.upvotes
@@ -851,7 +846,7 @@ def admin_link_accounts(v):
 	g.db.add(ma)
 
 	g.db.commit()
-	return redirect(f"/admin/alt_votes?u1={g.db.query(User).get(u1).username}&u2={g.db.query(User).get(u2).username}")
+	return redirect(f"/admin/alt_votes?u1={g.db.get(User, u1).username}&u2={g.db.get(User, u2).username}")
 
 
 @app.get("/admin/removed/posts")
@@ -909,7 +904,7 @@ def admin_removed_comments(v):
 @app.post("/agendaposter/<user_id>")
 @admin_level_required(2)
 def agendaposter(user_id, v):
-	user = g.db.query(User).filter_by(id=user_id).one_or_none()
+	user = g.db.get(User, user_id)
 
 	days = request.values.get("days")
 	if not days: days = 30.0
@@ -944,7 +939,7 @@ def agendaposter(user_id, v):
 @app.post("/unagendaposter/<user_id>")
 @admin_level_required(2)
 def unagendaposter(user_id, v):
-	user = g.db.query(User).filter_by(id=user_id).one_or_none()
+	user = g.db.get(User, user_id)
 
 	user.agendaposter = 0
 	g.db.add(user)
@@ -974,7 +969,7 @@ def unagendaposter(user_id, v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(2)
 def shadowban(user_id, v):
-	user = g.db.query(User).filter_by(id=user_id).one_or_none()
+	user = g.db.get(User, user_id)
 	if user.admin_level != 0: abort(403)
 	user.shadowbanned = v.username
 	g.db.add(user)
@@ -1001,7 +996,7 @@ def shadowban(user_id, v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(2)
 def unshadowban(user_id, v):
-	user = g.db.query(User).filter_by(id=user_id).one_or_none()
+	user = g.db.get(User, user_id)
 	user.shadowbanned = None
 	user.ban_evade = 0
 	g.db.add(user)
@@ -1029,7 +1024,7 @@ def unshadowban(user_id, v):
 @admin_level_required(2)
 def admin_title_change(user_id, v):
 
-	user = g.db.query(User).filter_by(id=user_id).one_or_none()
+	user = g.db.get(User, user_id)
 
 	if CARP_ID > 0 and user.id == CARP_ID:
 		abort(403)
@@ -1039,7 +1034,7 @@ def admin_title_change(user_id, v):
 	user.customtitleplain=new_name
 	new_name = filter_emojis_only(new_name)
 
-	user=g.db.query(User).filter_by(id=user.id).one_or_none()
+	user=g.db.get(User, user.id)
 	user.customtitle=new_name
 	if request.values.get("locked"): user.flairchanged = int(time.time()) + 2629746
 	else:
@@ -1068,7 +1063,7 @@ def admin_title_change(user_id, v):
 @admin_level_required(2)
 def ban_user(user_id, v):
 	
-	user = g.db.query(User).filter_by(id=user_id).one_or_none()
+	user = g.db.get(User, user_id)
 
 	if not user: abort(404)
 
@@ -1141,7 +1136,7 @@ def ban_user(user_id, v):
 @admin_level_required(2)
 def unban_user(user_id, v):
 
-	user = g.db.query(User).filter_by(id=user_id).one_or_none()
+	user = g.db.get(User, user_id)
 
 	if not user or not user.is_banned: abort(400)
 
@@ -1179,7 +1174,7 @@ def unban_user(user_id, v):
 @admin_level_required(2)
 def ban_post(post_id, v):
 
-	post = g.db.query(Submission).filter_by(id=post_id).one_or_none()
+	post = g.db.get(Submission, post_id)
 
 	if not post:
 		abort(400)
@@ -1220,7 +1215,7 @@ def ban_post(post_id, v):
 @admin_level_required(2)
 def unban_post(post_id, v):
 
-	post = g.db.query(Submission).filter_by(id=post_id).one_or_none()
+	post = g.db.get(Submission, post_id)
 
 	if post.author.agendaposter and AGENDAPOSTER_PHRASE not in post.body.lower():
 		return {"error": "You can't bypass the chud award!"}
@@ -1259,7 +1254,7 @@ def unban_post(post_id, v):
 @admin_level_required(1)
 def api_distinguish_post(post_id, v):
 
-	post = g.db.query(Submission).filter_by(id=post_id).one_or_none()
+	post = g.db.get(Submission, post_id)
 
 	if not post: abort(404)
 
@@ -1291,7 +1286,7 @@ def api_distinguish_post(post_id, v):
 @admin_level_required(2)
 def sticky_post(post_id, v):
 
-	post = g.db.query(Submission).filter_by(id=post_id).one_or_none()
+	post = g.db.get(Submission, post_id)
 	if post and not post.stickied:
 		pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
 		if pins >= PIN_LIMIT:
@@ -1320,7 +1315,7 @@ def sticky_post(post_id, v):
 @admin_level_required(2)
 def unsticky_post(post_id, v):
 
-	post = g.db.query(Submission).filter_by(id=post_id).one_or_none()
+	post = g.db.get(Submission, post_id)
 	if post and post.stickied:
 		if post.stickied.endswith('(pin award)'): return {"error": "Can't unpin award pins!"}, 403
 
@@ -1399,7 +1394,7 @@ def unsticky_comment(cid, v):
 @admin_level_required(2)
 def api_ban_comment(c_id, v):
 
-	comment = g.db.query(Comment).filter_by(id=c_id).one_or_none()
+	comment = g.db.get(Comment, c_id)
 	if not comment:
 		abort(404)
 
@@ -1426,7 +1421,7 @@ def api_ban_comment(c_id, v):
 @admin_level_required(2)
 def api_unban_comment(c_id, v):
 
-	comment = g.db.query(Comment).filter_by(id=c_id).one_or_none()
+	comment = g.db.get(Comment, c_id)
 	if not comment: abort(404)
 	
 	if comment.author.agendaposter and AGENDAPOSTER_PHRASE not in comment.body.lower():

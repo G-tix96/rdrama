@@ -244,7 +244,7 @@ def remove_mod(v, sub):
 	try: uid = int(uid)
 	except: abort(400)
 
-	user = g.db.query(User).filter_by(id=uid).one_or_none()
+	user = g.db.get(User, uid)
 
 	if not user: abort(404)
 

@@ -158,7 +158,7 @@ def log_item(id, v):
 	try: id = int(id)
 	except: abort(404)
 
-	action=g.db.query(ModAction).filter_by(id=id).one_or_none()
+	action=g.db.get(ModAction, id)
 
 	if not action: abort(404)
 

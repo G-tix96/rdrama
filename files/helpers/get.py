@@ -91,7 +91,7 @@ def get_account(id, v=None):
 	try: id = int(id)
 	except: abort(404)
 
-	user = g.db.query(User).filter_by(id = id).one_or_none()
+	user = g.db.get(User, id)
 				
 	if not user: abort(404)
 
@@ -148,9 +148,7 @@ def get_post(i, v=None, graceful=False):
 		x.voted = items[1] or 0
 		x.is_blocking = items[2] or 0
 	else:
-		items = g.db.query(
-			Submission
-		).filter(Submission.id == i).one_or_none()
+		items = g.db.get(Submission, i)
 		if not items:
 			if graceful: return None
 			else: abort(404)
@@ -206,7 +204,7 @@ def get_comment(i, v=None, graceful=False):
 
 	if v:
 
-		comment=g.db.query(Comment).filter(Comment.id == i).one_or_none()
+		comment=g.db.get(Comment, i)
 
 		if not comment and not graceful: abort(404)
 
@@ -230,7 +228,7 @@ def get_comment(i, v=None, graceful=False):
 		comment.voted = vt.vote_type if vt else 0
 
 	else:
-		comment = g.db.query(Comment).filter(Comment.id == i).one_or_none()
+		comment = g.db.get(Comment, i)
 		if not comment and not graceful:abort(404)
 
 	return comment

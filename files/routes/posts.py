@@ -425,7 +425,7 @@ def morecomments(v, cid):
 			else: dump.append(comment)
 		comments = output
 	else:
-		c = g.db.query(Comment).filter_by(id=cid).one_or_none()
+		c = g.db.get(Comment, cid)
 		comments = c.replies
 
 	if comments: p = comments[0].post
@@ -603,11 +603,11 @@ def thumbnail_thread(pid):
 		else:
 			return f"{post_url}{'/' if not post_url.endswith('/') else ''}{fragment_url}"
 
-	post = db.query(Submission).filter_by(id=pid).one_or_none()
+	post = db.get(Submission, pid)
 	
 	if not post or not post.url:
 		time.sleep(5)
-		post = db.query(Submission).filter_by(id=pid).one_or_none()
+		post = db.get(Submission, pid)
 
 	if not post or not post.url: return
 	
@@ -1160,7 +1160,7 @@ def submit_post(v, sub=None):
 		n = Notification(comment_id=c_jannied.id, user_id=v.id)
 		g.db.add(n)
 
-	snappy = g.db.query(User).get(SNAPPY_ID)
+	snappy = g.db.get(User, SNAPPY_ID)
 
 	if not (post.sub and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, sub=post.sub).one_or_none()):
 		if post.sub == 'dankchristianmemes' or post.sub == 'truth':
@@ -1346,7 +1346,7 @@ def undelete_post_pid(pid, v):
 @app.post("/toggle_comment_nsfw/<cid>")
 @auth_required
 def toggle_comment_nsfw(cid, v):
-	comment = g.db.query(Comment).filter_by(id=cid).one_or_none()
+	comment = g.db.get(Comment, cid)
 
 	if comment.author_id != v.id and not v.admin_level > 1:
 		abort(403)
@@ -1426,7 +1426,7 @@ def unsave_post(pid, v):
 @auth_required
 def api_pin_post(post_id, v):
 
-	post = g.db.query(Submission).filter_by(id=post_id).one_or_none()
+	post = g.db.get(Submission, post_id)
 	if post:
 		if v.id != post.author_id: return {"error": "Only the post author's can do that!"}
 		post.is_pinned = not post.is_pinned

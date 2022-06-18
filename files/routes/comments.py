@@ -513,7 +513,7 @@ def api_comment(v):
 
 			g.db.add(c2)
 
-			longpostbot = g.db.query(User).filter_by(id = LONGPOSTBOT_ID).one_or_none()
+			longpostbot = g.db.get(User, LONGPOSTBOT_ID)
 			longpostbot.comment_count += 1
 			longpostbot.coins += 1
 			g.db.add(longpostbot)
@@ -588,7 +588,7 @@ def api_comment(v):
 
 			g.db.add(c4)
 
-			zozbot = g.db.query(User).filter_by(id = ZOZBOT_ID).one_or_none()
+			zozbot = g.db.get(User, ZOZBOT_ID)
 			zozbot.comment_count += 3
 			zozbot.coins += 3
 			g.db.add(zozbot)

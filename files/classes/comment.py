@@ -70,7 +70,7 @@ class Comment(Base):
 	@property
 	@lazy
 	def top_comment(self):
-		return g.db.query(Comment).filter_by(id=self.top_comment_id).one_or_none()
+		return g.db.get(Comment, self.top_comment_id)
 
 	@lazy
 	def flags(self, v):
@@ -206,7 +206,7 @@ class Comment(Base):
 
 		if self.level == 1: return self.post
 
-		else: return g.db.query(Comment).get(self.parent_comment_id)
+		else: return g.db.get(Comment, self.parent_comment_id)
 
 	@property
 	@lazy

@@ -781,7 +781,7 @@ def settings_name_change(v):
 						   v=v,
 						   error=f"Username `{new_name}` is already in use.")
 
-	v=g.db.query(User).filter_by(id=v.id).one_or_none()
+	v=g.db.get(User, v.id)
 
 	v.username=new_name
 	v.name_changed_utc=int(time.time())
