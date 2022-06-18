@@ -136,7 +136,7 @@
 			}
 			
 			@keyframes moveX {
-				from { left: 0; } to { left: 98%; }
+				from {} to {transform: translateX(98vw)}	
 			}
 
 			@keyframes moveY {
@@ -144,18 +144,25 @@
 			}
 
 			.seal1 {
-				animation: moveX 4s linear 0s infinite alternate, moveY 6.8s linear 0s infinite alternate !important;
+				animation: moveX 4s linear 0s infinite alternate !important;
 				animation-delay:0s;
+			}
+			.seal1 > img {
+				animation: moveY 6.8s linear 0s infinite alternate !important;
 			}
 		</style>
 		<div class="seal seal1" height="100%" width="100%">
-			<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
+			<img alt=":#marseywholesome:" class="sealimg seal1" src="{{wholesome}}">
 		</div>
 
 		{% if p.award_count("wholesome") > 1 %}
 			<style>
 				.seal2 {
-					animation: moveX 5s linear 0s infinite alternate, moveY 8s linear 0s infinite alternate !important;
+					animation: moveX 5s linear 0s infinite alternate !important;
+					animation-delay:1s;
+				}
+				.seal2 > img {
+					animation: moveY 8s linear 0s infinite alternate !important;
 					animation-delay:1s;
 				}
 			</style>
@@ -167,7 +174,11 @@
 		{% if p.award_count("wholesome") > 2 %}
 			<style>
 				.seal3 {
-					animation: moveX 4s linear 0s infinite alternate, moveY 5s linear 0s infinite alternate !important;
+					animation: moveX 4s linear 0s infinite alternate !important;
+					animation-delay:2s;
+				}
+				.seal3 > img {
+					animation: moveY 5s linear 0s infinite alternate !important;
 					animation-delay:2s;
 				}
 			</style>
@@ -179,7 +190,11 @@
 		{% if p.award_count("wholesome") > 3 %}
 			<style>
 				.seal4 {
-					animation: moveX 5s linear 0s infinite alternate, moveY 6.8s linear 0s infinite alternate !important;
+					animation: moveX 5s linear 0s infinite alternate !important;
+					animation-delay:3s;
+				}
+				.seal4 > img {
+					animation: moveY 6.8s linear 0s infinite alternate !important;
 					animation-delay:3s;
 				}
 			</style>
@@ -211,16 +226,19 @@
 			}
 			
 			@keyframes moveX {
-				from { left: 0; } to { left: 98%; }
+				from {} to {transform: translateX(98vw)}	
 			}
-		
+
 			@keyframes moveY {
 				from {} to {transform: translateY(90vh)}	
 			}
-		
+
 			.toe1 {
-				animation: moveX 4s linear 0s infinite alternate, moveY 6.8s linear 0s infinite alternate !important;
+				animation: moveX 4s linear 0s infinite alternate !important;
 				animation-delay:0s;
+			}
+			.toe1 > img {
+				animation: moveY 6.8s linear 0s infinite alternate !important;
 			}
 		</style>
 		<div class="toe toe1" height="100%" width="100%">
@@ -230,7 +248,11 @@
 		{% if p.award_count("toe") > 1 %}
 			<style>
 				.toe2 {
-					animation: moveX 5s linear 0s infinite alternate, moveY 8s linear 0s infinite alternate !important;
+					animation: moveX 5s linear 0s infinite alternate !important;
+					animation-delay:1s;
+				}
+				.toe2 > img {
+					animation: moveY 8s linear 0s infinite alternate !important;
 					animation-delay:1s;
 				}
 			</style>
@@ -242,7 +264,11 @@
 		{% if p.award_count("toe") > 2 %}
 			<style>
 				.toe3 {
-					animation: moveX 4s linear 0s infinite alternate, moveY 5s linear 0s infinite alternate !important;
+					animation: moveX 4s linear 0s infinite alternate !important;
+					animation-delay:2s;
+				}
+				.toe3 > img {
+					animation: moveY 5s linear 0s infinite alternate !important;
 					animation-delay:2s;
 				}
 			</style>
@@ -254,7 +280,11 @@
 		{% if p.award_count("toe") > 3 %}
 			<style>
 				.toe4 {
-					animation: moveX 5s linear 0s infinite alternate, moveY 6.8s linear 0s infinite alternate !important;
+					animation: moveX 5s linear 0s infinite alternate !important;
+					animation-delay:3s;
+				}
+				.toe4 > img {
+					animation: moveY 6.8s linear 0s infinite alternate !important;
 					animation-delay:3s;
 				}
 			</style>
