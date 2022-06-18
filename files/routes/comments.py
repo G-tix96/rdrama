@@ -219,7 +219,7 @@ def api_comment(v):
 			if file.content_type.startswith('image/'):
 				oldname = f'/images/{time.time()}'.replace('.','') + '.webp'
 				file.save(oldname)
-				image = process_image(v.patron, oldname)
+				image = process_image(oldname)
 				if image == "": return {"error":"Image upload failed"}
 				if v.admin_level > 2 and level == 1:
 					if parent_post.id == 37696:
@@ -228,14 +228,14 @@ def api_comment(v):
 						num = int(li.split('.webp')[0]) + 1
 						filename = f'files/assets/images/{SITE_NAME}/sidebar/{num}.webp'
 						copyfile(oldname, filename)
-						process_image(v.patron, filename, 400)
+						process_image(filename, 400)
 					elif parent_post.id == 37697:
 						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/banners'),
 							key=lambda e: int(e.split('.webp')[0]))[-1]
 						num = int(li.split('.webp')[0]) + 1
 						filename = f'files/assets/images/{SITE_NAME}/banners/{num}.webp'
 						copyfile(oldname, filename)
-						process_image(v.patron, filename)
+						process_image(filename)
 					elif parent_post.id == 37833:
 						try:
 							badge_def = loads(body)
@@ -249,7 +249,7 @@ def api_comment(v):
 							g.db.flush()
 							filename = f'files/assets/images/badges/{badge.id}.webp'
 							copyfile(oldname, filename)
-							process_image(v.patron, filename, 200)
+							process_image(filename, 200)
 							requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
 								data=f'{{"files": ["https://{request.host}/assets/images/badges/{badge.id}.webp"]}}', timeout=5)
 						except Exception as e:
@@ -272,7 +272,7 @@ def api_comment(v):
 
 							filename = f'files/assets/images/emojis/{name}.webp'
 							copyfile(oldname, filename)
-							process_image(v.patron, filename, 200)
+							process_image(filename, 200)
 
 							marsey = Marsey(name=name, author_id=user.id, tags=tags, count=0)
 							g.db.add(marsey)
