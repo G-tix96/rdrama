@@ -1265,6 +1265,15 @@ def submit_post(v, sub=None):
 		post.upvotes += 3
 		g.db.add(post)
 
+	if post.sub:
+		autovote = Vote(user_id=AEVANN_ID, submission_id=post.id, vote_type=1)
+		g.db.add(autovote)
+		v.coins += 1
+		v.truecoins += 1
+		g.db.add(v)
+		post.upvotes += 1
+		g.db.add(post)
+
 	g.db.commit()
 
 	cache.delete_memoized(frontlist)
