@@ -1068,7 +1068,7 @@ def submit_post(v, sub=None):
 		elif file.content_type.startswith('audio/'):
 			post.url = process_audio(file)
 		else:
-			post.url = process_other(file)
+			abort(415)
 		
 	if not post.thumburl and post.url:
 		gevent.spawn(thumbnail_thread, post.id)

@@ -606,7 +606,7 @@
 											&nbsp;
 											<label class="btn btn-secondary format d-inline-block m-0">
 												<div id="filename-show"><i class="fas fa-file"></i></div>
-												<input autocomplete="off" id="file-upload" type="file" name="file" multiple="multiple" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show','file-upload')" hidden>
+												<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file" multiple="multiple" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show','file-upload')" hidden>
 											</label>
 										</div>
 										<pre></pre>

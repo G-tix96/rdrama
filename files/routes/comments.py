@@ -297,7 +297,7 @@ def api_comment(v):
 			elif file.content_type.startswith('audio/'):
 				body += f"\n\n{process_audio(file)}"
 			else:
-				body += f"\n\n{process_other(file)}"
+				abort(415)
 
 	body = body.strip()
 	

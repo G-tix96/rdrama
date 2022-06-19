@@ -25,7 +25,7 @@ def process_files():
 			elif file.content_type.startswith('audio/'):
 				body += f"\n\n{process_audio(file)}"
 			else:
-				body += f"\n\n{process_other(file)}"
+				abort(415)
 	return body
 
 
