@@ -170,7 +170,7 @@ def sanitize(sanitized, alert=False, edit=False):
 	if '```' not in sanitized and '<pre>' not in sanitized:
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
 
-	sanitized = greentext_regex.sub(r'<g>\>\1</g>', sanitized)
+	sanitized = greentext_regex.sub(r'\1<g>\>\2</g>', sanitized)
 
 	sanitized = image_regex.sub(r'\1![](\2)\5', sanitized)
 
