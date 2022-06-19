@@ -1,7 +1,8 @@
 {% extends "default.html" %}
 
-{# Title (~25char max), Description (~80char max),
-	Icon (fa-foo-bar), Color (#ff0000), URL (/post/12345/) #}
+{# Title (~25char max),
+	Icon (fa-foo-bar), Color (#ff0000),
+	(URL /admin/.../, Link Name)  #}
 {%-
 set ADMIN_INDEX = [
 	(
@@ -14,17 +15,12 @@ set ADMIN_INDEX = [
 		),
 	),
 	(
-		'Users',
-		'fa-user', '#f5fffa',
+		'Statistics',
+		'fa-chart-line', '#c9d1d9',
 		(
-		    ('/admin/users','Users Feed'),
-		    ('/admin/shadowbanned','Shadowbanned Users'),
-		    ('/banned','Permabanned Users'),
-		    ('/agendaposters','Users with Chud Theme'),
-		    ('/grassed','Currently Grassed Users'),
-		    ('/patrons','Patrons / Paypigs'),
-		    ('/admin/loggedin','Currently Logged-in Users'),
-		    ('/admin/loggedout','Currently Logged-out Users'),
+		    ('/stats','Content Stats'),
+		    ('/weekly_chart','Weekly Stat Chart'),
+		    ('/daily_chart','Daily Stat Chart'),
 		),
 	),
 	(
@@ -45,23 +41,52 @@ set ADMIN_INDEX = [
 		),
 	),
 	(
+		'Users',
+		'fa-user', '#f5fffa',
+		(
+		    ('/admin/users','Users Feed'),
+		    ('/admin/shadowbanned','Shadowbanned Users'),
+		    ('/banned','Permabanned Users'),
+		    ('/agendaposters','Users with Chud Theme'),
+		    ('/grassed','Currently Grassed Users'),
+		    ('/patrons','Patrons / Paypigs'),
+		    ('/admin/loggedin','Currently Logged-in Users'),
+		    ('/admin/loggedout','Currently Logged-out Users'),
+		),
+	),
+	(
 		'API Access Control',
 		'fa-robot', 'red',
 		(
 		    ('/admin/apps','Apps'),
 		),
 	),
-	(
-		'Statistics',
-		'fa-chart-line', '#c9d1d9',
-		(
-		    ('/stats','Content Stats'),
-		    ('/weekly_chart','Weekly Stat Chart'),
-		    ('/daily_chart','Daily Stat Chart'),
-		),
-	),
 ]
 -%}
+{%- if LOTTERY_ENABLED -%}
+	{%- do ADMIN_INDEX.append(
+		(
+			'Lottery',
+			'fa-sack-dollar', '#ffd700',
+			(
+				('/admin/lottery/participants','Participants'),
+			),
+		),
+	) -%}
+{%- endif -%}
+{%- if SITE_NAME == 'PCM' -%}
+	{%- do ADMIN_INDEX.append(
+		(
+			'Configuration',
+			'fa-sidebar', '#f5fffa',
+			(
+				('/admin/sidebar','Edit Sidebar'),
+			),
+		),
+	) -%}
+{%- endif -%}
+
+{% block Banner %}{% endblock %}
 
 {% block content %}
 <div id="directory--wrapper">
@@ -70,34 +95,18 @@ set ADMIN_INDEX = [
 	<div class="directory--link-content">
 		<i class="directory--link--icon fas {{thread[1]}}" style="color:{{thread[2]}}"></i>
 		<div class="directory--link--title">{{thread[0]|safe}}</div>
-		{% for asdf in thread[3] %}
-            <a href="{{asdf[0]}}">{{asdf[1]}}</a><br>
+		{% for link in thread[3] %}
+            <a href="{{link[0]}}">{{link[1]}}</a><br>
 		{% endfor %}
 	</div>
 </div>
 {% endfor %}
-{% if LOTTERY_ENABLED -%}
+{% if v.admin_level >= 3 -%}
 <div class="directory--link">
 	<div class="directory--link-content">
-		<i class="directory--link--icon fas fa-sack-dollar" style="color:#ffd700"></i>
-		<div class="directory--link--title">Lottery</div>
-        <a href="/admin/lottery/participants">Participants</a><br>
-	</div>
-</div>
-{%- endif %}
-{% if SITE_NAME == 'PCM' %}
-<div class="directory--link">
-	<div class="directory--link-content">
-		<i class="directory--link--icon fas fa-sidebar" style="color:#f5fffa"></i>
-		<div class="directory--link--title">Configuration</div>
-        <a href="/admin/sidebar">Edit Sidebar</a><br>
-	</div>
-</div>
-{% endif %}
-</div>
+	<div class="directory--link--title">Toggles</div>
+	<div id="directory-admin--toggles">
 
-{% if v.admin_level > 2 %}
-	<pre></pre>
 	<div class="custom-control custom-switch">
 		<input autocomplete="off" type="checkbox" class="custom-control-input" id="signups" {% if site_settings['Signups'] %}checked{% endif %} onchange="post_toast(this,'/admin/site_settings/Signups');">
 		<label class="custom-control-label" for="signups">Signups</label>
@@ -125,12 +134,21 @@ set ADMIN_INDEX = [
 		<label class="custom-control-label" for="under_attack">Under attack mode</label>
 	</div>
 
-	<button class="btn btn-primary mt-3" onclick="post_toast(this,'/admin/purge_cache');" style="margin-bottom: 2em;">PURGE CACHE</button>
-{% endif %}
+	<button class="btn btn-primary mt-3" onclick="post_toast(this,'/admin/purge_cache');">PURGE CACHE</button>
 
-<h4>Server Status</h4>
-<div>
-	Live Revision: <code>{{ gitref }}</code> <br>
+	</div>
+	</div>
+</div>
+{%- endif %}
+
+<div class="directory--link">
+	<div class="directory--link-content">
+		<div class="directory--link--title">Server Status</div>
+		<div>
+			Live Revision: <code>{{ gitref }}</code> <br>
+		</div>
+	</div>
 </div>
 
+</div>
 {% endblock %}
