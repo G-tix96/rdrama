@@ -875,7 +875,7 @@ def submit_post(v, sub=None):
 			embed = str(int(id))
 
 
-	if not url and not request.values.get("body") and not request.files.get("file") and not request.files.get("file2"):
+	if not url and not request.values.get("body") and not request.files.get("file") and not request.files.get("file-url"):
 		return error("Please enter a url or some text.")
 
 	if not title:
