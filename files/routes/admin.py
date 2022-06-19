@@ -1201,7 +1201,7 @@ def ban_post(post_id, v):
 	g.db.add(v)
 
 	if v.id != post.author_id:
-		notify_mod_action(v.id, f"@{v.username} has removed [{post.title}]({post.shortlink})")		
+		notify_mod_action(v.id, f"@{v.username} has removed [{post.title}]({post.shortlink}) by @{post.author.username}")		
 
 	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', 
 		headers=CF_HEADERS, json={'files': [f"{SITE_FULL}/logged_out/"]}, timeout=5)
@@ -1243,7 +1243,7 @@ def unban_post(post_id, v):
 	g.db.add(v)
 
 	if v.id != post.author_id:
-		notify_mod_action(v.id, f"@{v.username} has approved [{post.title}]({post.shortlink})")		
+		notify_mod_action(v.id, f"@{v.username} has approved [{post.title}]({post.shortlink}) by @{post.author.username}")		
 
 	g.db.commit()
 
@@ -1410,7 +1410,7 @@ def api_ban_comment(c_id, v):
 	g.db.add(ma)
 
 	if v.id != comment.author_id:
-		notify_mod_action(v.id, f"@{v.username} has removed [comment]({comment.shortlink})")
+		notify_mod_action(v.id, f"@{v.username} has removed [comment]({comment.shortlink}) by @{comment.author.username}")
 
 	g.db.commit()
 	return {"message": "Comment removed!"}
@@ -1442,7 +1442,7 @@ def api_unban_comment(c_id, v):
 	g.db.add(comment)
 
 	if v.id != comment.author_id:
-		notify_mod_action(v.id, f"@{v.username} has approved [comment]({comment.shortlink})")
+		notify_mod_action(v.id, f"@{v.username} has approved [comment]({comment.shortlink}) by @{comment.author.username}")
 
 	g.db.commit()
 
