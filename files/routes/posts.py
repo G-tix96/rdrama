@@ -441,7 +441,7 @@ def edit_post(pid, v):
 	p = get_post(pid)
 
 	if not v.admin_level >= 3:
-		if time.time() - p.created_utc > 7*24*60*60:
+		if time.time() - p.created_utc > 7*24*60*60 and not p.private:
 			return {"error":"You can't edit posts older than 1 week!"}, 403
 		elif p.author_id != v.id:
 			abort(403)
