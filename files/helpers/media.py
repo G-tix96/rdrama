@@ -7,6 +7,7 @@ from flask import abort, g
 import requests
 import time
 from .const import *
+import gevent
 
 
 def process_files():
@@ -47,26 +48,34 @@ def process_audio(file):
 	return f'{SITE_FULL}{name}'
 
 
+def webm_to_mp4(old, new):
+	subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", new], check=True, stderr=subprocess.STDOUT)
+	os.remove(old)
+	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, json={'files': [f"{SITE_FULL}{new}"]}, timeout=5)
+
 def process_video(file):
 	old = f'/videos/{time.time()}'.replace('.','')
-	new = old + '.mp4'
 	file.save(old)
+	new = old + '.mp4'
 
 	if file.filename.split('.')[-1].lower() == 'webm':
-		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", new], check=True, stderr=subprocess.STDOUT)
+		file.save(new)
+		if os.stat(new).st_size > 16 * 1024 * 1024:
+			abort(418)
+		else:
+			gevent.spawn(webm_to_mp4, old, new)
+			return f'{SITE_FULL}{new}'
 	else:
 		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
-	
-	os.remove(old)
-	size = os.stat(new).st_size
-	if os.stat(new).st_size > 8 * 1024 * 1024:
-		with open(new, 'rb') as f:
-			os.remove(new)
-			req = requests.request("POST", "https://pomf2.lain.la/upload.php",
-				files={'files[]': f}, timeout=20).json()
-		return req['files'][0]['url']
+		os.remove(old)
+		if os.stat(new).st_size > 8 * 1024 * 1024:
+			with open(new, 'rb') as f:
+				os.remove(new)
+				req = requests.request("POST", "https://pomf2.lain.la/upload.php",
+					files={'files[]': f}, timeout=20).json()
+			return req['files'][0]['url']
+		return f'{SITE_FULL}{new}'
 
-	return f'{SITE_FULL}{new}'
 
 
 def process_image(filename=None, resize=0):

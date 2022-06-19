@@ -47,10 +47,15 @@ def error_405(e):
 
 @app.errorhandler(413)
 def error_413(e):
-	return {"error": "Max image/audio size is 8 MB (16 MB for paypigs)"}, 413
 	if request.headers.get("Authorization") or request.headers.get("xhr"):
 		return {"error": "Max image/audio size is 8 MB (16 MB for paypigs)"}, 413
 	else: return render_template('errors/413.html', err=True), 413
+
+@app.errorhandler(418)
+def error_418(e):
+	if request.headers.get("Authorization") or request.headers.get("xhr"):
+		return {"error": "WEBM videos are not allowed, please convert your video to MP4 and re-upload it!"}, 418
+	else: return render_template('errors/418.html', err=True), 418
 
 @app.errorhandler(429)
 def error_429(e):
