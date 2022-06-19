@@ -1015,7 +1015,7 @@ procoins_li = (0,2500,5000,10000,25000,50000,125000,250000)
 
 linefeeds_regex = re.compile("([^\n])\n([^\n])", flags=re.A)
 
-greentext_regex = re.compile("(\n|^)>([^ >][^\n>]*)", flags=re.A)
+greentext_regex = re.compile("(\n|^)>([^ >][^\n]*)", flags=re.A)
 
 ascii_only_regex = re.compile("[ -~]+", flags=re.A)
 
