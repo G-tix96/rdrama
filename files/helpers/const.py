@@ -1017,4 +1017,6 @@ linefeeds_regex = re.compile("([^\n])\n([^\n])", flags=re.A)
 
 greentext_regex = re.compile("(\n|^)>([^ ][^\n]*)", flags=re.A)
 
+ascii_only_regex = re.compile("[ -~]+", flags=re.A)
+
 def make_name(*args, **kwargs): return request.base_url

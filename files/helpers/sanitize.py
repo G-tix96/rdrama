@@ -54,7 +54,8 @@ def allowed_attributes(tag, name, value):
 		return False
 	
 	if tag == 'a':
-		if name == 'href' and '\\' not in value: return True
+		if name == 'href' and '\\' not in value and 'xn--' not in value:
+			return True
 		if name == 'rel' and value == 'nofollow noopener noreferrer': return True
 		if name == 'target' and value == '_blank': return True
 		return False
@@ -107,7 +108,7 @@ def callback(attrs, new=False):
 	href = attrs[(None, "href")]
 
 	# \ in href right after / makes most browsers ditch site hostname and allows for a host injection bypassing the check, see <a href="/\google.com">cool</a>
-	if "\\" in href:
+	if "\\" in href or not ascii_only_regex.fullmatch(href):
 		attrs["_text"] = href # Laugh at this user
 		del attrs[(None, "href")] # Make unclickable and reset harmful payload
 		return attrs
