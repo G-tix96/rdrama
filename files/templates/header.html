@@ -12,7 +12,7 @@
 	<div class="srd">
 		{% if SITE_NAME == 'rDrama' %}
 			{% include "journoid_banner.html" %}
-		{%- else -%}
+		{%- elif not err -%}
 			<img src="/e/marseylowpoly.webp" height=18 width=28>
 
 			{% if v and v.admin_level > 1 %}
