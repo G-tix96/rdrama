@@ -1,72 +1,100 @@
 {% extends "default.html" %}
 
-{% block title %}
-<title>{{SITE_NAME}}</title>
-
-{% endblock %}
+{# Title (~25char max), Description (~80char max),
+	Icon (fa-foo-bar), Color (#ff0000), URL (/post/12345/) #}
+{%-
+set ADMIN_INDEX = [
+	(
+		'Content',
+		'fa-book', '#6b8e23',
+		(
+		    ('/admin/image_posts','Image Posts'),
+		    ('/admin/reported/posts','Reported Posts/Comments'),
+		    ('/admin/removed/posts','Removed Posts/Comments'),
+		),
+	),
+	(
+		'Users',
+		'fa-user', '#f5fffa',
+		(
+		    ('/admin/users','Users Feed'),
+		    ('/admin/shadowbanned','Shadowbanned Users'),
+		    ('/banned','Permabanned Users'),
+		    ('/agendaposters','Users with Chud Theme'),
+		    ('/grassed','Currently Grassed Users'),
+		    ('/patrons','Patrons / Paypigs'),
+		    ('/admin/loggedin','Currently Logged-in Users'),
+		    ('/admin/loggedout','Currently Logged-out Users'),
+		),
+	),
+	(
+		'Safety',
+		'fa-shield', '#87cefa',
+		(
+		    ('/admin/banned_domains','Banned Domains'),
+		    ('/admin/alt_votes','Multi Vote Analysis'),
+		),
+	),
+	(
+		'Grant',
+		'fa-award', '#adff2f',
+		(
+		    ('/admin/awards','Give User Award'),
+		    ('/admin/badge_grant','Grant Badges'),
+		    ('/admin/badge_remove','Remove Badges'),
+		),
+	),
+	(
+		'API Access Control',
+		'fa-robot', 'red',
+		(
+		    ('/admin/apps','Apps'),
+		),
+	),
+	(
+		'Statistics',
+		'fa-chart-line', '#c9d1d9',
+		(
+		    ('/stats','Content Stats'),
+		    ('/weekly_chart','Weekly Stat Chart'),
+		    ('/daily_chart','Daily Stat Chart'),
+		),
+	),
+]
+-%}
 
 {% block content %}
-<pre></pre>
-<pre></pre>
-<h3>&nbsp;Admin Tools</h3>
-
-<h4>Content</h4>
-<ul>
-	<li><a href="/admin/image_posts">Image Posts</a></li>
-	<li><a href="/admin/reported/posts">Reported Posts/Comments</a></li>
-	<li><a href="/admin/removed/posts">Removed Posts/Comments</a></li>
-</ul>
-
-<h4>Users</h4>
-<ul>
-	<li><a href="/admin/users">Users Feed</a></li>
-	<li><a href="/admin/shadowbanned">Shadowbanned Users</a></li>
-	<li><a href="/banned">Permabanned Users</a></li>
-	<li><a href="/agendaposters">Users with Chud Theme</a></li>
-	<li><a href="/grassed">Currently Grassed Users</a></li>
-	<li><a href="/patrons">Patrons / Paypigs</a></li>
-	<li><a href="/admin/loggedin">Currently Logged-in Users</a></li>
-	<li><a href="/admin/loggedout">Currently Logged-out Users</a></li>
-</ul>
-
-<h4>Safety</h4>
-<ul>
-	<li><a href="/admin/banned_domains">Banned Domains</a></li>
-	<li><a href="/admin/alt_votes">Multi Vote Analysis</a></li>
-</ul>
-
-<h4>Grant</h4>
-<ul>
-	<li><a href="/admin/awards">Give User Award</a></li>
-	<li><a href="/admin/badge_grant">Grant Badges</a></li>
-	<li><a href="/admin/badge_remove">Remove Badges</a></li>
-</ul>
-
-<h4>API Access Control</h4>
-<ul>
-	<li><a href="/admin/apps">Apps</a></li>
-</ul>
-
+<div id="directory--wrapper">
+{% for thread in ADMIN_INDEX %}
+<div class="directory--link">
+	<div class="directory--link-content">
+		<i class="directory--link--icon fas {{thread[1]}}" style="color:{{thread[2]}}"></i>
+		<div class="directory--link--title">{{thread[0]|safe}}</div>
+		{% for asdf in thread[3] %}
+            <a href="{{asdf[0]}}">{{asdf[1]}}</a><br>
+		{% endfor %}
+	</div>
+</div>
+{% endfor %}
 {% if LOTTERY_ENABLED -%}
-<h4>Lottery</h4>
-<ul>
-	<li><a href="/admin/lottery/participants">Participants</a></li>
-</ul>
+<div class="directory--link">
+	<div class="directory--link-content">
+		<i class="directory--link--icon fas fa-sack-dollar" style="color:#ffd700"></i>
+		<div class="directory--link--title">Lottery</div>
+        <a href="/admin/lottery/participants">Participants</a><br>
+	</div>
+</div>
 {%- endif %}
-
-<h4>Statistics</h4>
-<ul>
-	<li><a href="/stats">Content Stats</a></li>
-	<li><a href="/weekly_chart">Weekly Stat Chart</a></li>
-	<li><a href="/daily_chart">Daily Stat Chart</a></li>
-</ul>
-
 {% if SITE_NAME == 'PCM' %}
-	<h4>Configuration</h4>
-	<ul>
-		<li><a href="/admin/sidebar">Edit Sidebar</a></li>
-	</ul>
+<div class="directory--link">
+	<div class="directory--link-content">
+		<i class="directory--link--icon fas fa-sidebar" style="color:#f5fffa"></i>
+		<div class="directory--link--title">Configuration</div>
+        <a href="/admin/sidebar">Edit Sidebar</a><br>
+	</div>
+</div>
 {% endif %}
+</div>
 
 {% if v.admin_level > 2 %}
 	<pre></pre>
