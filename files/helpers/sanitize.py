@@ -201,11 +201,12 @@ def sanitize(sanitized, alert=False, edit=False):
 		names = set( m.group(2) for m in matches )
 		users = get_users(names,graceful=True)
 
+		v = getattr(g, 'v', None)
 		for u in users:
 			if not u: continue
 			m = [ m for m in matches if u.username.lower() == m.group(2).lower() or u.original_username.lower() == m.group(2).lower() ]
 			for i in m:
-				if not (g.v and g.v.any_block_exists(u)) or g.v.admin_level > 1:
+				if not (v and v.any_block_exists(u)) or (v and v.admin_level >= 2):
 					sanitized = sanitized.replace(i.group(0), f'''{i.group(1)}<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>''', 1)
 
 
