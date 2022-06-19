@@ -50,14 +50,14 @@ def process_audio(file):
 def process_video(file):
 	old = f'/videos/{time.time()}'.replace('.','')
 	new = old + '.mp4'
+	file.save(old)
 
 	if file.filename.split('.')[-1].lower() == 'webm':
-		file.save(new)
+		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", new], check=True, stderr=subprocess.STDOUT)
 	else:
-		file.save(old)
 		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
-		os.remove(old)
-
+	
+	os.remove(old)
 	size = os.stat(new).st_size
 	if os.stat(new).st_size > 8 * 1024 * 1024:
 		with open(new, 'rb') as f:
