@@ -37,7 +37,7 @@ TLDS = ( # Original gTLDs and ccTLDs
 
 allowed_tags = ('b','blockquote','br','code','del','em','h1','h2','h3','h4','h5','h6','hr','i',
 	'li','ol','p','pre','strong','sub','sup','table','tbody','th','thead','td','tr','ul',
-	'marquee','a','span','ruby','rp','rt','spoiler','img','lite-youtube','video','source','audio')
+	'marquee','a','span','ruby','rp','rt','spoiler','img','lite-youtube','video','source','audio','g')
 
 allowed_styles = ['color', 'background-color', 'font-weight', 'text-align', 'filter',]
 
@@ -169,6 +169,8 @@ def sanitize(sanitized, alert=False, edit=False):
 
 	if '```' not in sanitized and '<pre>' not in sanitized:
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
+
+	sanitized = greentext_regex.sub(r'<g>\>\1</g>', sanitized)
 
 	sanitized = image_regex.sub(r'\1![](\2)\5', sanitized)
 
