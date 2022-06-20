@@ -9,7 +9,7 @@
 			</div>
 			<div class="modal-body">
 				<ul class="list-group post-actions">
-					{% if request.path.startswith('/post/') and v.admin_level > 2 %}
+					{% if (request.path.startswith('/post/') or request.path.startswith('/h/')) and v.admin_level > 2 and p.id %}
 						<button class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" onclick="togglePostEdit('{{p.id}}')"><i class="far fa-edit text-center text-muted mr-3"></i>Edit</button>
 					{% endif %}
 
