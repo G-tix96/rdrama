@@ -221,7 +221,7 @@ def sanitize(sanitized, alert=False, edit=False):
 		if tag.get("src") and not tag["src"].startswith('/pp/'):
 			tag["loading"] = "lazy"
 			tag["data-src"] = tag["src"]
-			tag["src"] = "/assets/images/loading.webp"
+			tag["src"] = "/assets/images/loading.webp?v=2"
 			tag['alt'] = f'![]({tag["data-src"]})'
 			tag['referrerpolicy'] = "no-referrer"
 

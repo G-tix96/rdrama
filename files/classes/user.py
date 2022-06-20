@@ -345,7 +345,9 @@ class User(Base):
 	@lazy
 	def bio_html_eager(self):
 		if self.bio_html == None: return ''
-		return self.bio_html.replace('data-src', 'src').replace('src="/assets/images/loading.webp"', '')
+		return self.bio_html.replace('data-src', 'src') \
+			.replace('src="/assets/images/loading.webp?v=2"', '') \
+			.replace('src="/assets/images/loading.webp"', '')
 
 	@property
 	@lazy
