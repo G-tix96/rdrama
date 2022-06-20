@@ -654,7 +654,7 @@ def edit_comment(cid, v):
 
 	c = get_comment(cid, v=v)
 
-	if time.time() - c.created_utc > 7*24*60*60:
+	if time.time() - c.created_utc > 7*24*60*60 and not (c.post and c.post.private):
 		return {"error":"You can't edit comments older than 1 week!"}, 403
 
 	if c.author_id != v.id: abort(403)
