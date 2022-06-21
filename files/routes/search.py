@@ -12,7 +12,7 @@ valid_params=[
 ]
 
 def searchparse(text):
-
+	text = text.lower()
 
 	criteria = {x[0]:x[1] for x in query_regex.findall(text)}
 
