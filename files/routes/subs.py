@@ -265,13 +265,17 @@ def remove_mod(v, sub):
 @app.get("/create_hole")
 @is_not_permabanned
 def create_sub(v):
-	
-	return render_template("sub/create_hole.html", v=v, cost=HOLE_COST)
+	if not v.can_create_hole:
+		abort(403)
 
+	return render_template("sub/create_hole.html", v=v, cost=HOLE_COST)
 
 @app.post("/create_hole")
 @is_not_permabanned
 def create_sub2(v):
+	if not v.can_create_hole:
+		abort(403)
+
 	name = request.values.get('name')
 	if not name: abort(400)
 	name = name.strip().lower()

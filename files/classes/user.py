@@ -740,3 +740,8 @@ class User(Base):
 	@lazy
 	def lottery_stats(self):
 		return { "winnings": self.total_lottery_winnings, "ticketsHeld": { "current": self.currently_held_lottery_tickets , "total": self.total_held_lottery_tickets } }
+
+	@property
+	@lazy
+	def can_create_hole(self):
+		return self.admin_level >= HOLE_CREATE_JL_MIN

@@ -140,6 +140,7 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 ################################################################################
 
 HOLE_COST = 0
+HOLE_CREATE_JL_MIN = 0
 HOLE_INACTIVITY_DELETION = False
 PIN_LIMIT = 3
 POST_RATE_LIMIT = '1/second;2/minute;10/hour;50/day'
@@ -279,7 +280,7 @@ elif SITE == 'cringetopia.org':
 		"7": "886781932430565418",
 	}
 elif SITE == 'watchpeopledie.co':
-	HOLE_COST = 10000
+	HOLE_CREATE_JL_MIN = 2
 
 	GIFT_NOTIF_ID = 13
 	CARP_ID = 13
