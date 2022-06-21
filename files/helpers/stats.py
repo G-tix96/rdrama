@@ -128,6 +128,7 @@ def stats(site=None):
 			"total awards": g.db.query(AwardRelationship).count(),
 			"awards given": g.db.query(AwardRelationship).filter(or_(AwardRelationship.submission_id != None, AwardRelationship.comment_id != None)).count(),
 			"users who posted, commented, or voted in the past 7 days": len(active_users),
+			"users online in the past 7 days": g.db.query(User).filter(User.last_active > week).count(),
 			}
 
 	if site == 'rDrama':

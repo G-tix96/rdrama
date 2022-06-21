@@ -70,6 +70,7 @@ class User(Base):
 	received_award_count = Column(Integer, default=0)
 	created_utc = Column(Integer)
 	admin_level = Column(Integer, default=0)
+	last_active = Column(Integer, default=0, nullable=False)
 	coins_spent = Column(Integer, default=0)
 	lootboxes_bought = Column(Integer, default=0)
 	agendaposter = Column(Integer, default=0)
@@ -198,6 +199,12 @@ class User(Base):
 
 		return time.strftime("%d %b %Y", time.gmtime(self.created_utc))
 
+	@property
+	@lazy
+	def last_active_date(self):
+		if self.last_active == 0:
+			return "never"
+		return str(time.strftime("%d %b %Y", time.gmtime(self.last_active)))
 
 	@property
 	@lazy
@@ -345,7 +352,9 @@ class User(Base):
 	@lazy
 	def bio_html_eager(self):
 		if self.bio_html == None: return ''
-		return self.bio_html.replace('data-src', 'src').replace('src="/assets/images/loading.webp"', '')
+		return self.bio_html.replace('data-src', 'src') \
+			.replace('src="/assets/images/loading.webp?v=2"', '') \
+			.replace('src="/assets/images/loading.webp"', '')
 
 	@property
 	@lazy
@@ -671,6 +680,13 @@ class User(Base):
 	def created_datetime(self):
 		return str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc)))
 
+	@property
+	@lazy
+	def last_active_datetime(self):
+		if self.last_active == 0:
+			return "never"
+		return str(time.strftime("%Y-%m-%d %H:%M:%SZ", time.gmtime(self.last_active)))
+
 	@lazy
 	def subscribed_idlist(self, page=1):
 		posts = g.db.query(Subscription.submission_id).filter_by(user_id=self.id).all()
@@ -724,3 +740,8 @@ class User(Base):
 	@lazy
 	def lottery_stats(self):
 		return { "winnings": self.total_lottery_winnings, "ticketsHeld": { "current": self.currently_held_lottery_tickets , "total": self.total_held_lottery_tickets } }
+
+	@property
+	@lazy
+	def can_create_hole(self):
+		return self.admin_level >= HOLE_CREATE_JL_MIN

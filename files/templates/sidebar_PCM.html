@@ -19,7 +19,9 @@
 		<a class="btn btn-primary btn-block" href="/h/{{sub.name}}/blockers">HOLE BLOCKERS</a>
 	{% endif %}
 	
-	<a class="btn btn-primary btn-block" href="/create_hole">CREATE HOLE</a>
+	{% if v and v.can_create_hole -%}
+		<a class="btn btn-primary btn-block" href="/create_hole">CREATE HOLE</a>
+	{%- endif %}
 	<a class="btn btn-primary btn-block" href="/holes">BROWSE HOLES</a>
 	<a class="btn btn-primary btn-block mt-5" href="https://ip2.network">STREAM LIST</a>
 	<a class="btn btn-primary btn-block" href="/post/4103">BUGS/SUGGESTIONS MEGATHREAD</a>

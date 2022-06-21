@@ -32,7 +32,8 @@ TLDS = ( # Original gTLDs and ccTLDs
 	'vu','wf','ws','xn','xxx','ye','yt','yu','za','zm','zw',
 	# New gTLDs
 	'app','cleaning','club','dev','florist','fun','gay','lgbt','life','lol',
-	'moe','mom','monster','pics','press','pub','win','wtf','xyz',
+	'moe','mom','monster','new','news','online','pics','press','pub','site',
+	'vip','win','wtf','xyz',
 	)
 
 allowed_tags = ('b','blockquote','br','code','del','em','h1','h2','h3','h4','h5','h6','hr','i',
@@ -221,7 +222,7 @@ def sanitize(sanitized, alert=False, edit=False):
 		if tag.get("src") and not tag["src"].startswith('/pp/'):
 			tag["loading"] = "lazy"
 			tag["data-src"] = tag["src"]
-			tag["src"] = "/assets/images/loading.webp"
+			tag["src"] = "/assets/images/loading.webp?v=2"
 			tag['alt'] = f'![]({tag["data-src"]})'
 			tag['referrerpolicy'] = "no-referrer"
 

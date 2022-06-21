@@ -53,15 +53,21 @@ def get_logged_in_user():
 	if v:
 		if session["session_id"] in loggedout: del loggedout[session["session_id"]]
 		loggedin[v.id] = timestamp
+		# Check against last_active + ACTIVE_TIME to reduce frequency of
+		# UPDATEs in exchange for a ±ACTIVE_TIME margin of error.
+		if (v.last_active + LOGGEDIN_ACTIVE_TIME) < timestamp:
+			v.last_active = timestamp
+			g.db.add(v)
+			g.db.commit()
 	else:
 		ua = str(user_agents.parse(g.agent))
 		if not ua.startswith('Spider') and 'bot' not in ua.lower():
 			loggedout[session["session_id"]] = (timestamp, ua)
 	
-	g.loggedin_counter = len([x for x in loggedin.values() if timestamp-x<15*60])
+	g.loggedin_counter = len([x for x in loggedin.values() if timestamp-x < LOGGEDIN_ACTIVE_TIME])
 	cache.set(f'{SITE}_loggedin', loggedin)
 
-	g.loggedout_counter = len([x for x in loggedout.values() if timestamp-x[0]<15*60])
+	g.loggedout_counter = len([x for x in loggedout.values() if timestamp-x[0] < LOGGEDIN_ACTIVE_TIME])
 	cache.set(f'{SITE}_loggedout', loggedout)
 
 	g.v = v
