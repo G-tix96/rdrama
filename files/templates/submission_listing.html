@@ -115,7 +115,7 @@
 		<div class="card-header bg-transparent border-0 d-flex flex-row flex-nowrap pl-2 pl-md-0 p-0 mr-md-2">
 
 			{% if not v_forbid_deleted %}
-			<div style="z-index: 3;">
+			<div class="card-thumbnail">
 				{% if p.club and not (v and (v.paid_dues or v.id == p.author_id)) %}
 					<img alt="post thumnail" loading="lazy" src="/e/marseyglow.webp" class="post-img">
 				{% elif not p.url %}
@@ -335,12 +335,6 @@
 {% endif %}
 
 
-
-
-
-
-</div>
-
 {% if (not p.club or v and (v.paid_dues or v.id == p.author_id)) and not v_forbid_deleted %}
 	{% if p.realbody(v) %}
 		<div class="d-none card rounded border pt-3 pb-2 my-2 {% if p.author.agendaposter %}agendaposter{% endif %}" id="post-text-{{p.id}}">
@@ -370,6 +364,8 @@
 		</div>
 	{% endif %}
 {% endif %}
+
+</div>
 
 {% else %}
 
