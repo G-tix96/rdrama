@@ -117,7 +117,7 @@ def NOTIFY_USERS(text, v):
 	return notify_users - bots
 
 def notify_mod_action(by_id, msg):
-	body_html = sanitize(NOTIF_MODACTION_PREFIX + msg)
+	body_html = sanitize(NOTIF_MODACTION_PREFIX + msg, alert=True)
 	new_comment = Comment(
 		author_id=NOTIFICATIONS_ID,
 		parent_submission=None,
