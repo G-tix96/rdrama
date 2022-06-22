@@ -102,6 +102,10 @@
 	</div>
 
 	<button class="btn btn-primary mt-3" onclick="post_toast(this,'/admin/purge_cache');" style="margin-bottom: 2em;">PURGE CACHE</button>
+	<br>
+	{% if SITE_NAME == 'PCM' %}
+		<button class="btn btn-primary" onclick="post_toast(this,'/kippy');" style="margin-bottom: 2em;">Print 10k Marseybux</button>
+	{% endif %}
 {% endif %}
 
 <h4>Server Status</h4>
