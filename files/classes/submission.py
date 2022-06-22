@@ -24,11 +24,11 @@ def sort_posts(sort, posts):
 	elif sort == "controversial":
 		order = (Submission.upvotes+1)/(Submission.downvotes+1) + (Submission.downvotes+1)/(Submission.upvotes+1), Submission.downvotes.desc()
 	elif sort == "bottom":
-		order = Submission.realupvotes()
+		order = Submission.realupvotes
 	elif sort == "comments":
 		order = Submission.comment_count.desc()
 	else:
-		order = Submission.realupvotes().desc()
+		order = Submission.realupvotes.desc()
 
 	return posts.order_by(order)
 
