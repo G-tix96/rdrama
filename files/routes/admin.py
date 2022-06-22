@@ -1217,7 +1217,7 @@ def unban_post(post_id, v):
 
 	post = g.db.get(Submission, post_id)
 
-	if post.author.agendaposter and AGENDAPOSTER_PHRASE not in post.body.lower():
+	if post.author.id == v.id and post.author.agendaposter and AGENDAPOSTER_PHRASE not in post.body.lower():
 		return {"error": "You can't bypass the chud award!"}
 
 	if not post:
@@ -1424,7 +1424,7 @@ def api_unban_comment(c_id, v):
 	comment = g.db.get(Comment, c_id)
 	if not comment: abort(404)
 	
-	if comment.author.agendaposter and AGENDAPOSTER_PHRASE not in comment.body.lower():
+	if comment.author.id == v.id and comment.author.agendaposter and AGENDAPOSTER_PHRASE not in comment.body.lower():
 		return {"error": "You can't bypass the chud award!"}
 
 	if comment.is_banned:
