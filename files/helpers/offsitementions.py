@@ -46,7 +46,8 @@ def get_mentions(queries):
 			if kind == 'comment':
 				text = f'<blockquote>{i["body"]}</blockquote>'
 			else:
-				text = f'<blockquote>{i["title"]}</blockquote><br><blockquote>{i["selftext"][:5000]}</blockquote>'
+				text = f'<blockquote>{i["title"]}</blockquote>'
+				if i["selftext"]: text += f'<br><blockquote>{i["selftext"][:5000]}</blockquote>'
 
 			mentions.append({
 				'permalink': i['permalink'],
