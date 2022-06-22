@@ -186,14 +186,14 @@ def api_comment(v):
 		parent = parent_post
 		parent_comment_id = None
 		level = 1
+
+		if POLL_THREAD and parent.id == POLL_THREAD and v.admin_level < 2: abort(403)
 	elif parent_fullname.startswith("t3_"):
 		parent = get_comment(parent_fullname.split("_")[1], v=v)
 		parent_comment_id = parent.id
 		level = parent.level + 1
 		if parent.author_id == v.id: rts = True
 	else: abort(400)
-
-	if POLL_THREAD and parent_post.id == POLL_THREAD and v.admin_level < 2: abort(403)
 
 	body = request.values.get("body", "").strip()[:10000]
 
@@ -583,7 +583,9 @@ def api_comment(v):
 		if not v.shadowbanned:
 			notify_users = NOTIFY_USERS(body, v)
 			
-			for x in g.db.query(Subscription.user_id).filter_by(submission_id=c.parent_submission).all(): notify_users.add(x[0])
+			if c.level == 1:
+				for x in g.db.query(Subscription.user_id).filter_by(submission_id=c.parent_submission).all():
+					notify_users.add(x[0])
 			
 			if parent.author.id != v.id:
 				notify_users.add(parent.author.id)
