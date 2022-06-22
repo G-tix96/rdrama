@@ -17,6 +17,7 @@ from .mod_logs import *
 from .mod import *
 from .exiles import *
 from .sub_block import *
+from .submission import sort_posts
 from files.__main__ import Base, cache
 from files.helpers.security import *
 import random
