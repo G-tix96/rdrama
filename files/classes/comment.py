@@ -14,6 +14,22 @@ from random import randint
 from .votes import CommentVote
 from math import floor
 
+
+def sort_comments(sort, comments):
+
+	if sort == 'new':
+		order = Comment.id.desc()
+	elif sort == 'old':
+		order = comment.id
+	elif sort == 'controversial':
+		order = (Comment.upvotes+1)/(Comment.downvotes+1) + (Comment.downvotes+1)/(Comment.upvotes+1), Comment.downvotes.desc()
+	elif sort == "bottom":
+		order = Comment.realupvotes
+	else:
+		order = Comment.realupvotes.desc()
+
+	return comments.order_by(order)
+
 class Comment(Base):
 
 	__tablename__ = "comments"
@@ -208,26 +224,30 @@ class Comment(Base):
 
 		else: return g.db.get(Comment, self.parent_comment_id)
 
-	@property
 	@lazy
 	def parent_fullname(self):
 		if self.parent_comment_id: return f"t3_{self.parent_comment_id}"
 		elif self.parent_submission: return f"t2_{self.parent_submission}"
 
-	@property
-	def replies(self):
+	@lazy
+	def replies(self, sort):
 		if self.replies2 != None: return [x for x in self.replies2 if not x.author.shadowbanned]
 		if not self.parent_submission:
 			return [x for x in self.child_comments.order_by(Comment.id) if not x.author.shadowbanned]
-		return [x for x in self.child_comments.filter(Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID))).order_by(Comment.realupvotes.desc()) if not x.author.shadowbanned]
+
+		comments = self.child_comments.filter(Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)))
+		comments = sort_comments(sort, comments)
+		return [x for x in comments if not x.author.shadowbanned]
 		
 
-	@property
-	def replies3(self):
+	@lazy
+	def replies3(self, sort):
 		if self.replies2 != None: return self.replies2
 		if not self.parent_submission:
 			return self.child_comments.order_by(Comment.id).all()
-		return self.child_comments.filter(Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID))).order_by(Comment.realupvotes.desc()).all()
+
+		comments = self.child_comments.filter(Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)))
+		return sort_comments(sort, comments)
 
 
 	@property

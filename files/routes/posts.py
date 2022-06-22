@@ -195,16 +195,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		
 		comments = comments.filter(Comment.level == 1, Comment.stickied == None)
 
-		if sort == "new":
-			comments = comments.order_by(Comment.created_utc.desc())
-		elif sort == "old":
-			comments = comments.order_by(Comment.created_utc)
-		elif sort == "controversial":
-			comments = comments.order_by((Comment.upvotes+1)/(Comment.downvotes+1) + (Comment.downvotes+1)/(Comment.upvotes+1), Comment.downvotes.desc())
-		elif sort == "top":
-			comments = comments.order_by(Comment.realupvotes.desc())
-		elif sort == "bottom":
-			comments = comments.order_by(Comment.upvotes - Comment.downvotes)
+		comments = sort_comments(sort, comments)
 
 		first = [c[0] for c in comments.filter(or_(and_(Comment.slots_result == None, Comment.blackjack_result == None, Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()]
 		second = [c[0] for c in comments.filter(or_(Comment.slots_result != None, Comment.blackjack_result != None, Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()]
@@ -214,16 +205,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 		comments = g.db.query(Comment).join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.parent_submission == post.id, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)), Comment.level == 1, Comment.stickied == None)
 
-		if sort == "new":
-			comments = comments.order_by(Comment.created_utc.desc())
-		elif sort == "old":
-			comments = comments.order_by(Comment.created_utc)
-		elif sort == "controversial":
-			comments = comments.order_by((Comment.upvotes+1)/(Comment.downvotes+1) + (Comment.downvotes+1)/(Comment.upvotes+1), Comment.downvotes.desc())
-		elif sort == "top":
-			comments = comments.order_by(Comment.realupvotes.desc())
-		elif sort == "bottom":
-			comments = comments.order_by(Comment.upvotes - Comment.downvotes)
+		comments = sort_comments(sort, comments)
 
 		first = comments.filter(or_(and_(Comment.slots_result == None, Comment.blackjack_result == None, Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()
 		second = comments.filter(or_(Comment.slots_result != None, Comment.blackjack_result != None, Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()
@@ -324,16 +306,7 @@ def viewmore(v, pid, sort, offset):
 		
 		comments = comments.filter(Comment.level == 1)
 
-		if sort == "new":
-			comments = comments.order_by(Comment.created_utc.desc())
-		elif sort == "old":
-			comments = comments.order_by(Comment.created_utc)
-		elif sort == "controversial":
-			comments = comments.order_by((Comment.upvotes+1)/(Comment.downvotes+1) + (Comment.downvotes+1)/(Comment.upvotes+1), Comment.downvotes.desc())
-		elif sort == "top":
-			comments = comments.order_by(Comment.realupvotes.desc())
-		elif sort == "bottom":
-			comments = comments.order_by(Comment.upvotes - Comment.downvotes)
+		comments = sort_comments(sort, comments)
 
 		first = [c[0] for c in comments.filter(or_(and_(Comment.slots_result == None, Comment.blackjack_result == None, Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()]
 		second = [c[0] for c in comments.filter(or_(Comment.slots_result != None, Comment.blackjack_result != None, Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()]
@@ -341,16 +314,7 @@ def viewmore(v, pid, sort, offset):
 	else:
 		comments = g.db.query(Comment).join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.parent_submission == pid, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)), Comment.level == 1, Comment.stickied == None, Comment.id.notin_(ids))
 
-		if sort == "new":
-			comments = comments.order_by(Comment.created_utc.desc())
-		elif sort == "old":
-			comments = comments.order_by(Comment.created_utc)
-		elif sort == "controversial":
-			comments = comments.order_by((Comment.upvotes+1)/(Comment.downvotes+1) + (Comment.downvotes+1)/(Comment.upvotes+1), Comment.downvotes.desc())
-		elif sort == "top":
-			comments = comments.order_by(Comment.realupvotes.desc())
-		elif sort == "bottom":
-			comments = comments.order_by(Comment.upvotes - Comment.downvotes)
+		comments = sort_comments(sort, comments)
 		
 		first = comments.filter(or_(and_(Comment.slots_result == None, Comment.blackjack_result == None, Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()
 		second = comments.filter(or_(Comment.slots_result != None, Comment.blackjack_result != None, Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()

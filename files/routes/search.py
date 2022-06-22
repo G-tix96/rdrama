@@ -240,16 +240,7 @@ def searchcomments(v):
 		comments = comments.filter(Comment.parent_submission.notin_(club))
 
 
-	if sort == "new":
-		comments = comments.order_by(Comment.created_utc.desc())
-	elif sort == "old":
-		comments = comments.order_by(Comment.created_utc)
-	elif sort == "controversial":
-		comments = comments.order_by((Comment.upvotes+1)/(Comment.downvotes+1) + (Comment.downvotes+1)/(Comment.upvotes+1), Comment.downvotes.desc())
-	elif sort == "top":
-		comments = comments.order_by(Comment.downvotes - Comment.upvotes)
-	elif sort == "bottom":
-		comments = comments.order_by(Comment.upvotes - Comment.downvotes)
+	comments = sort_comments(sort, comments)
 
 	total = comments.count()
 

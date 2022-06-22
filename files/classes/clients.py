@@ -54,7 +54,7 @@ class OauthApp(Base):
 
 		posts = g.db.query(Comment.id).filter_by(app_id=self.id)
 		
-		posts=posts.order_by(Comment.created_utc.desc())
+		posts=posts.order_by(Comment.id.desc())
 
 		posts=posts.offset(100*(page-1)).limit(101)
 

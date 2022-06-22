@@ -718,7 +718,7 @@ class User(Base):
 		if self.admin_level < 2:
 			comments = comments.filter(Comment.author_id.notin_(self.userblocks))
 
-		return [x[0] for x in comments.order_by(Comment.created_utc.desc()).offset(25 * (page - 1)).all()]
+		return [x[0] for x in comments.order_by(Comment.id.desc()).offset(25 * (page - 1)).all()]
 
 	@property
 	@lazy
