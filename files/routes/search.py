@@ -4,11 +4,11 @@ from sqlalchemy import *
 from flask import *
 from files.__main__ import app
 
-
-valid_params=[
+valid_params = [
 	'author',
 	'domain',
-	'over18'
+	'over18',
+	'hole',
 ]
 
 def searchparse(text):
@@ -116,6 +116,8 @@ def searchposts(v):
 				)
 			)
 
+	if 'hole' in criteria:
+		posts = posts.filter(Submission.sub == criteria['hole'])
 
 	if t:
 		now = int(time.time())
