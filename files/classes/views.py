@@ -46,7 +46,7 @@ class ViewerRelationship(Base):
 			return f"{days}d ago"
 
 		now = time.gmtime()
-		ctd = time.gmtime(self.last_view_since)
+		ctd = time.gmtime(age)
 
 		months = now.tm_mon - ctd.tm_mon + 12 * (now.tm_year - ctd.tm_year)
 		if now.tm_mday < ctd.tm_mday:
