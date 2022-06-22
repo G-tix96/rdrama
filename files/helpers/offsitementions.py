@@ -44,10 +44,10 @@ def get_mentions(queries):
 			if i['subreddit'] == 'PokemonGoRaids': continue
 
 			if kind == 'comment':
-				text = f'<blockquote>{i["body"]}</blockquote>'
+				text = f'<blockquote><p>{i["body"]}</p></blockquote>'
 			else:
-				text = f'<blockquote>{i["title"]}</blockquote>'
-				if i["selftext"]: text += f'<br><blockquote>{i["selftext"][:5000]}</blockquote>'
+				text = f'<blockquote><p>{i["title"]}</p></blockquote>'
+				if i["selftext"]: text += f'<br><blockquote><p>{i["selftext"][:5000]}</p></blockquote>'
 
 			mentions.append({
 				'permalink': i['permalink'],
