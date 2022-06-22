@@ -8,6 +8,7 @@ from files.helpers.discord import send_discord_message
 from files.helpers.const import *
 from files.helpers.slots import *
 from files.classes import *
+from files.routes.subs import on_post_hole_entered
 from flask import *
 from io import BytesIO
 from files.__main__ import app, limiter, cache, db_session
@@ -85,15 +86,8 @@ def publish(pid, v):
 				if post.club and not user.paid_dues: continue
 				add_notif(cid, user.id)
 
-		if post.sub and post.subr:
-			sub_name = post.subr.name
-			text = f"<a href='/h/{sub_name}'>/h/{sub_name}</a> has a new " \
-				 + f"post: [{post.title}]({post.shortlink})"
-			cid = notif_comment(text, autojanny=True)
-			for follow in post.subr.followers:
-				user = get_account(follow.user_id)
-				if post.club and not user.paid_dues: continue
-				add_notif(cid, user.id)
+	if post.sub:
+		on_post_hole_entered(post)
 
 	g.db.commit()
 
@@ -1059,15 +1053,8 @@ def submit_post(v, sub=None):
 				if post.club and not user.paid_dues: continue
 				add_notif(cid, user.id)
 
-		if post.sub and post.subr:
-			sub_name = post.subr.name
-			text = f"<a href='/h/{sub_name}'>/h/{sub_name}</a> has a new " \
-				 + f"post: [{post.title}]({post.shortlink})"
-			cid = notif_comment(text, autojanny=True)
-			for follow in post.subr.followers:
-				user = get_account(follow.user_id)
-				if post.club and not user.paid_dues: continue
-				add_notif(cid, user.id)
+	if post.sub:
+		on_post_hole_entered(post)
 
 	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{post.body}{post.title}'.lower():
 		post.is_banned = True
