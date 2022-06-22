@@ -193,6 +193,8 @@ def api_comment(v):
 		if parent.author_id == v.id: rts = True
 	else: abort(400)
 
+	if POLL_THREAD and parent_post.id == POLL_THREAD and v.admin_level < 2: abort(403)
+
 	body = request.values.get("body", "").strip()[:10000]
 
 	if parent_post.id not in ADMIGGERS:
