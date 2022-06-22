@@ -390,7 +390,7 @@ def morecomments(v, cid):
 		comments = output
 	else:
 		c = g.db.get(Comment, cid)
-		comments = c.replies
+		comments = c.replies(None)
 
 	if comments: p = comments[0].post
 	else: p = None

@@ -229,7 +229,7 @@ class Comment(Base):
 		elif self.parent_submission: return f"t2_{self.parent_submission}"
 
 	@lazy
-	def replies(self, sort):
+	def replies(self, sort=None):
 		if self.replies2 != None: return [x for x in self.replies2 if not x.author.shadowbanned]
 		if not self.parent_submission:
 			return [x for x in self.child_comments.order_by(Comment.id) if not x.author.shadowbanned]
@@ -340,7 +340,7 @@ class Comment(Base):
 			if self.level>=2: data['parent_comment_id']= self.parent_comment_id
 
 		if "replies" in self.__dict__:
-			data['replies']=[x.json_core for x in self.replies]
+			data['replies']=[x.json_core for x in self.replies(None)]
 
 		return data
 
