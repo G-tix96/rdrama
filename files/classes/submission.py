@@ -18,19 +18,17 @@ from .votes import CommentVote
 
 def sort_posts(sort, posts):
 	if sort == "new":
-		order = Submission.created_utc.desc()
+		return posts.order_by(Submission.created_utc.desc())
 	elif sort == "old":
-		order = Submission.created_utc
+		return posts.order_by(Submission.created_utc)
 	elif sort == "controversial":
-		order = (Submission.upvotes+1)/(Submission.downvotes+1) + (Submission.downvotes+1)/(Submission.upvotes+1), Submission.downvotes.desc()
+		return posts.order_by((Submission.upvotes+1)/(Submission.downvotes+1) + (Submission.downvotes+1)/(Submission.upvotes+1), Submission.downvotes.desc(), Submission.created_utc.desc())
 	elif sort == "bottom":
-		order = Submission.realupvotes
+		return posts.order_by(Submission.realupvotes, Submission.created_utc.desc())
 	elif sort == "comments":
-		order = Submission.comment_count.desc()
+		return posts.order_by(Submission.comment_count.desc(), Submission.created_utc.desc())
 	else:
-		order = Submission.realupvotes.desc()
-
-	return posts.order_by(order)
+		return posts.order_by(Submission.realupvotes.desc(), Submission.created_utc.desc())
 
 class Submission(Base):
 	__tablename__ = "submissions"

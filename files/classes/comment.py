@@ -18,17 +18,16 @@ from math import floor
 def sort_comments(sort, comments):
 
 	if sort == 'new':
-		order = Comment.id.desc()
+		return comments.order_by(Comment.id.desc())
 	elif sort == 'old':
-		order = Comment.id
+		return comments.order_by(Comment.id)
 	elif sort == 'controversial':
-		order = (Comment.upvotes+1)/(Comment.downvotes+1) + (Comment.downvotes+1)/(Comment.upvotes+1), Comment.downvotes.desc()
+		return comments.order_by((Comment.upvotes+1)/(Comment.downvotes+1) + (Comment.downvotes+1)/(Comment.upvotes+1), Comment.downvotes.desc(), Comment.id.desc())
 	elif sort == "bottom":
-		order = Comment.realupvotes
+		return comments.order_by(Comment.realupvotes, Comment.id.desc())
 	else:
-		order = Comment.realupvotes.desc()
+		return comments.order_by(Comment.realupvotes.desc(), Comment.id.desc())
 
-	return comments.order_by(order)
 
 class Comment(Base):
 
