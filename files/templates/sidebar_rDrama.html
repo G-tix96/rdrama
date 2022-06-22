@@ -66,6 +66,7 @@ set VISITORS_HERE_FLAVOR = [
 			{% if v.can_create_hole -%}
 				<a class="btn btn-primary btn-block mb-3" href="/create_hole">CREATE HOLE</a>
 			{%- endif %}
+			<a class="btn btn-primary btn-block mb-3" href="/holes">BROWSE HOLES</a>
 			{% if v.mods(sub.name) %}
 				<a class="btn btn-primary btn-block mb-3" href="/h/{{sub.name}}/settings">HOLE SETTINGS</a>
 			{% endif %}
