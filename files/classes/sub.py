@@ -31,13 +31,13 @@ class Sub(Base):
 	@lazy
 	def sidebar_url(self):
 		if self.sidebarurl: return SITE_FULL + self.sidebarurl
-		return f'/assets/images/{SITE_NAME}/sidebar.webp?v=1041'
+		return f'/i/{SITE_NAME}/sidebar.webp?v=1041'
 
 	@property
 	@lazy
 	def banner_url(self):
 		if self.bannerurl: return SITE_FULL + self.bannerurl
-		return f'/assets/images/{SITE_NAME}/banner.webp?v=1048'
+		return f'/i/{SITE_NAME}/banner.webp?v=1048'
 
 	@property
 	@lazy

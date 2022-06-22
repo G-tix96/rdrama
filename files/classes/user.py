@@ -353,8 +353,9 @@ class User(Base):
 	def bio_html_eager(self):
 		if self.bio_html == None: return ''
 		return self.bio_html.replace('data-src', 'src') \
-			.replace('src="/assets/images/loading.webp?v=2"', '') \
-			.replace('src="/assets/images/loading.webp"', '')
+			.replace('src="/i/loading.webp?v=2"', '') \
+			.replace('src="/i/loading.webp"', '') \
+			.replace('src="/i/l.webp"', '')
 
 	@property
 	@lazy
@@ -581,7 +582,7 @@ class User(Base):
 	@lazy
 	def banner_url(self):
 		if self.bannerurl: return self.bannerurl
-		else: return f"/assets/images/{SITE_NAME}/site_preview.webp?v=1016"
+		else: return f"/i/{SITE_NAME}/site_preview.webp?v=1016"
 
 	@property
 	@lazy

@@ -243,6 +243,20 @@ def emoji(emoji):
 	resp.headers.add("Content-Type", "image/webp")
 	return resp
 
+@app.get('/i/<image>')
+@limiter.exempt
+def image(image):
+	resp = make_response(send_from_directory('assets/images', image))
+	if request.path.endswith('.webp') or request.path.endswith('.gif') or request.path.endswith('.ttf') or request.path.endswith('.woff2'):
+		resp.headers.remove("Cache-Control")
+		resp.headers.add("Cache-Control", "public, max-age=3153600")
+
+	if request.path.endswith('.webp'):
+		resp.headers.remove("Content-Type")
+		resp.headers.add("Content-Type", "image/webp")
+
+	return resp
+
 @app.get('/assets/<path:path>')
 @app.get('/static/assets/<path:path>')
 @limiter.exempt

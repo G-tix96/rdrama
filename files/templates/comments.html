@@ -202,7 +202,7 @@
 					<span {% if c.distinguish_level %}class="mod"{% endif %}>👻</span>
 				{% else %}
 					{% if SITE_NAME=='rDrama' and c.author.house %}
-						<img loading="lazy" src="/assets/images/{{SITE_NAME}}/houses/{{c.author.house}}.webp?v=7" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{c.author.house}}" alt="House {{c.author.house}}">
+						<img loading="lazy" src="/i/{{SITE_NAME}}/houses/{{c.author.house}}.webp?v=7" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{c.author.house}}" alt="House {{c.author.house}}">
 					{% endif %}
 
 					{% if c.author.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if c.author.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if c.author.verifiedcolor %}#{{c.author.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.verified}}"></i>
@@ -213,7 +213,7 @@
 					<a class="user-name text-decoration-none" href="{{c.author.url}}" data-pop-info='{{c.author.json_popover(v) | tojson}}' onclick='popclick(event)' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="click" data-content-id="popover" role="button" tabindex="0" style="color:#{{c.author.namecolor}}; font-size:12px; font-weight:bold;">
 						<img loading="lazy" src="{{c.author.profile_url}}" class="profile-pic-25 mr-2">
 						{% if c.author.is_cakeday %}
-							<img class="party-hat" src="/assets/images/party-hat.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title="I’ve spent another year rotting my brain with dramaposting, please ridicule me 🤓">
+							<img class="party-hat" src="/i/party-hat.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title="I’ve spent another year rotting my brain with dramaposting, please ridicule me 🤓">
 						{% endif %}
 						<span {% if c.author.patron and not c.distinguish_level %}class="patron" style="background-color:#{{c.author.namecolor}};"{% elif c.distinguish_level %}class="mod"{% endif %}>{{c.author_name}}</span>
 					</a>
@@ -236,13 +236,13 @@
 
 				{% if c.treasure_amount and c.treasure_amount != '0' %}
 				{% if c.treasure_amount.startswith('l') %}
-				<img class="treasure" alt="treasure" src="/assets/images/treasure_tickets.webp" width="20" />
+				<img class="treasure" alt="treasure" src="/i/treasure_tickets.webp" width="20" />
 				<em>Found {{c.treasure_amount.replace('l', '')}} {{'Lottershe' if SITE_NAME == 'rDrama' else 'Lottery'}} Tickets!</em>
 				{% elif '-' in c.treasure_amount %}
-				<img class="treasure" alt="treasure" src="/assets/images/treasure_mimic.webp" width="20" />
+				<img class="treasure" alt="treasure" src="/i/treasure_mimic.webp" width="20" />
 				<em>A Mimic Ate {{c.treasure_amount.replace('-', '')}} Coins!</em>
 				{% else %}
-				<img class="treasure" alt="treasure" src="/assets/images/treasure_coins.webp" width="20" />
+				<img class="treasure" alt="treasure" src="/i/treasure_coins.webp" width="20" />
 				<em>Found {{c.treasure_amount}} Coins!</em>
 				{% endif %}
 				{% endif %}

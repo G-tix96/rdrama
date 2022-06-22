@@ -60,7 +60,7 @@
 {% endif %}
 
 {% if SITE_NAME == 'PCM' %}
-	{% set wholesome = '/assets/images/wholesome.webp' %}
+	{% set wholesome = '/i/wholesome.webp' %}
 {% else %}
 	{% set wholesome = '/e/marseywholesome.webp' %}
 {% endif %}
@@ -70,7 +70,7 @@
 {% endif %}
 
 {% if p.award_count("firework") %}
-	<script defer src="/assets/js/fireworks.js?v=4"></script>
+	<script defer src="/assets/js/fireworks.js?v=5"></script>
 	<div class="firework">
 		<img src="">
 	</div>
@@ -95,20 +95,20 @@
 {% endif %}
 
 {% if p.award_count("ricardo") %}
-	<script src="/assets/js/ricardo.js?v=5"></script>
+	<script src="/assets/js/ricardo.js?v=6"></script>
 	<div id="ricardo1" class="ricardo ricardoleft">
-		<img src="/assets/images/ricardo1.webp">
+		<img src="/i/ricardo1.webp">
 	</div>
 
 	{% if p.award_count("ricardo") > 1 %}
 		<div id="ricardo2" class="ricardo">
-			<img src="/assets/images/ricardo2.webp" style="max-height:200px">
+			<img src="/i/ricardo2.webp" style="max-height:200px">
 		</div>
 	{% endif %}
 
 	{% if p.award_count("ricardo") > 2 %}
 		<div id="ricardo3" class="ricardo">
-			<img src="/assets/images/ricardo3.webp" style="max-height:150px">
+			<img src="/i/ricardo3.webp" style="max-height:150px">
 		</div>
 	{% endif %}
 {% endif %}
@@ -242,7 +242,7 @@
 			}
 		</style>
 		<div class="toe toe1" height="100%" width="100%">
-			<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
+			<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=1">
 		</div>
 		
 		{% if p.award_count("toe") > 1 %}
@@ -257,7 +257,7 @@
 				}
 			</style>
 			<div class="toe toe2" height="100%" width="100%">
-				<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
+				<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=1">
 			</div>
 		{% endif %}
 		
@@ -273,7 +273,7 @@
 				}
 			</style>
 			<div class="toe toe3" height="100%" width="100%">
-				<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
+				<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=1">
 			</div>
 		{% endif %}
 		
@@ -289,7 +289,7 @@
 				}
 			</style>
 			<div class="toe toe4" height="100%" width="100%">
-				<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
+				<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=1">
 			</div>
 		{% endif %}
 	{% endif %}
@@ -370,7 +370,7 @@
 		<div class="toe" height="100%" width="100%">
 			<marquee class="toe" scrollamount=10 behavior="alternate" direction="up" height="100%" width="100%">
 				<marquee direction="right" scrollamount=10 behavior="alternate" height="100%" width="100%">
-					<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
+					<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=1">
 				</marquee>
 			</marquee>
 		</div>
@@ -378,7 +378,7 @@
 		{% if p.award_count("toe") > 1 %}
 			<marquee class="toe" scrollamount=10 behavior="alternate" direction="down" height="100%">
 				<marquee direction="right" scrollamount=10 behavior="alternate" width="100%">
-					<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
+					<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=1">
 				</marquee>
 			</marquee>
 		{% endif %}
@@ -386,7 +386,7 @@
 		{% if p.award_count("toe") > 2 %}
 			<marquee class="toe" scrollamount=10 behavior="alternate" direction="up" height="100%">
 				<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
-					<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
+					<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=1">
 				</marquee>
 			</marquee>
 		{% endif %}
@@ -394,7 +394,7 @@
 		{% if p.award_count("toe") > 3 %}
 			<marquee class="toe" scrollamount=10 behavior="alternate" direction="down" height="100%">
 				<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
-					<img alt="Blade's toe" class="toeimg" src="/assets/images/PCM/toe.webp?v=1">
+					<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=1">
 				</marquee>
 			</marquee>
 		{% endif %}
@@ -497,24 +497,24 @@
 	</style>
 
 	<marquee class="croag croag1" direction="left" scrollamount=10 width="100%">
-		<img alt="croag" class="croagimg mirrored" src="/assets/images/PCM/croag.webp?v=1">
+		<img alt="croag" class="croagimg mirrored" src="/i/PCM/croag.webp?v=1">
 	</marquee>
 
 	{% if p.award_count("croag") > 1 %}
 		<marquee class="croag croag2" direction="right" scrollamount=10 width="100%">
-			<img alt="croag" class="croagimg" src="/assets/images/PCM/croag.webp?v=1">
+			<img alt="croag" class="croagimg" src="/i/PCM/croag.webp?v=1">
 		</marquee>
 	{% endif %}
 
 	{% if p.award_count("croag") > 2 %}
 		<marquee class="croag croag3" direction="left" scrollamount=10 width="100%">
-			<img alt="croag" class="croagimg mirrored" src="/assets/images/PCM/croag.webp?v=1">
+			<img alt="croag" class="croagimg mirrored" src="/i/PCM/croag.webp?v=1">
 		</marquee>
 	{% endif %}
 
 	{% if p.award_count("croag") > 3 %}
 		<marquee class="croag croag4" direction="right" scrollamount=10 width="100%">
-			<img alt="croag" class="croagimg" src="/assets/images/PCM/croag.webp?v=1">
+			<img alt="croag" class="croagimg" src="/i/PCM/croag.webp?v=1">
 		</marquee>
 	{% endif %}
 {% endif %}
@@ -741,7 +741,7 @@
 							<span {% if p.distinguish_level %}class="mod"{% endif %}>👻</span>
 						{% else %}
 							{% if SITE_NAME=='rDrama' and p.author.house %}
-								<img loading="lazy" src="/assets/images/{{SITE_NAME}}/houses/{{p.author.house}}.webp?v=7" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{p.author.house}}" alt="House {{p.author.house}}">
+								<img loading="lazy" src="/i/{{SITE_NAME}}/houses/{{p.author.house}}.webp?v=7" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{p.author.house}}" alt="House {{p.author.house}}">
 							{% endif %}
 
 							{% if p.author.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if p.author.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if p.author.verifiedcolor %}#{{p.author.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.verified}}"></i>
@@ -749,7 +749,7 @@
 							<a class="user-name text-decoration-none" href="{{p.author.url}}" data-pop-info='{{p.author.json_popover(v) | tojson}}' onclick='popclick(event)' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="click" data-content-id="popover" role="button" tabindex="0" style="color: #{{p.author.namecolor}}; font-weight: bold"class="user-name">
 								<img loading="lazy" src="{{p.author.profile_url}}" class="profile-pic-25 mr-2">
 								{% if p.author.is_cakeday %}
-									<img class="party-hat" src="/assets/images/party-hat.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title="I’ve spent another year rotting my brain with dramaposting, please ridicule me 🤓">
+									<img class="party-hat" src="/i/party-hat.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title="I’ve spent another year rotting my brain with dramaposting, please ridicule me 🤓">
 								{% endif %}
 								<span {% if p.author.patron and not p.distinguish_level %}class="patron" style="background-color:#{{p.author.namecolor}};"{% elif p.distinguish_level %}class="mod"{% endif %}>{{p.author_name}}</span>
 							</a>
@@ -1186,13 +1186,13 @@
 
 {% if p.award_count("shit") %}
 	<script src="/assets/js/critters.js?v=245"></script>
-	<script src="/assets/js/bugs.js?v=245"></script>
+	<script src="/assets/js/bugs.js?v=246"></script>
 {% endif %}
 
 
 {% if p.award_count("fireflies") %}
 	<script src="/assets/js/critters.js?v=245"></script>
-	<script src="/assets/js/fireflies.js?v=245"></script>
+	<script src="/assets/js/fireflies.js?v=246"></script>
 {% endif %}
 
 

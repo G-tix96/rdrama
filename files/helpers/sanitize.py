@@ -148,10 +148,10 @@ def render_emoji(html, regexp, edit, marseys_used, b=False):
 
 		if emoji.endswith('pat'):
 			if path.isfile(f"files/assets/images/emojis/{emoji.replace('pat','')}.webp"):
-				emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/assets/images/hand.webp">{emoji_partial_pat.format(old, f"/e/{emoji[:-3]}.webp", attrs)}</span>'
+				emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/i/hand.webp">{emoji_partial_pat.format(old, f"/e/{emoji[:-3]}.webp", attrs)}</span>'
 			elif emoji.startswith('@'):
 				if u := get_user(emoji[1:-3], graceful=True):
-					emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/assets/images/hand.webp">{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
+					emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/i/hand.webp">{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
 		elif path.isfile(f'files/assets/images/emojis/{emoji}.webp'):
 			emoji_html = emoji_partial.format(old, f'/e/{emoji}.webp', attrs)
 
@@ -222,7 +222,7 @@ def sanitize(sanitized, alert=False, edit=False):
 		if tag.get("src") and not tag["src"].startswith('/pp/'):
 			tag["loading"] = "lazy"
 			tag["data-src"] = tag["src"]
-			tag["src"] = "/assets/images/loading.webp?v=2"
+			tag["src"] = "/i/l.webp"
 			tag['alt'] = f'![]({tag["data-src"]})'
 			tag['referrerpolicy'] = "no-referrer"
 
