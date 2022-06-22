@@ -35,7 +35,13 @@ def process_other(file):
 
 
 def process_audio(file):
-	name = f'/audio/{time.time()}'.replace('.','') + '.mp3'
+	name = f'/audio/{time.time()}'.replace('.','')
+
+	extension = file.filename.split('.')[-1].lower()
+	if extension not in ['aac', 'amr', 'flac', 'm4a', 'm4b', 'mp3', 'ogg', 'wav']:
+		extension = 'mp3'
+	name = name + '.' + extension
+
 	file.save(name)
 
 	if os.stat(name).st_size > 8 * 1024 * 1024:
@@ -56,7 +62,11 @@ def webm_to_mp4(old, new):
 def process_video(file):
 	old = f'/videos/{time.time()}'.replace('.','')
 	file.save(old)
-	new = old + '.mp4'
+
+	extension = file.filename.split('.')[-1].lower()
+	if extension not in ['avi', 'mp4', 'webm', 'm4v', 'mov', 'mkv']:
+		extension = 'mp4'
+	new = old + '.' + extension
 
 	if file.filename.split('.')[-1].lower() == 'webm':
 		file.save(new)
