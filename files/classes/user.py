@@ -326,19 +326,8 @@ class User(Base):
 			cutoff = 0
 		posts = posts.filter(Submission.created_utc >= cutoff)
 
-		if sort == "new":
-			posts = posts.order_by(Submission.created_utc.desc())
-		elif sort == "old":
-			posts = posts.order_by(Submission.created_utc)
-		elif sort == "controversial":
-			posts = posts.order_by((Submission.upvotes+1)/(Submission.downvotes+1) + (Submission.downvotes+1)/(Submission.upvotes+1), Submission.downvotes.desc())
-		elif sort == "top":
-			posts = posts.order_by(Submission.downvotes - Submission.upvotes)
-		elif sort == "bottom":
-			posts = posts.order_by(Submission.upvotes - Submission.downvotes)
-		elif sort == "comments":
-			posts = posts.order_by(Submission.comment_count.desc())
-
+		posts = sort_posts(sort, posts)
+	
 		posts = posts.offset(25 * (page - 1)).limit(26).all()
 
 		return [x[0] for x in posts]
