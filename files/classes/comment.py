@@ -424,11 +424,13 @@ class Comment(Base):
 
 		if path == '/admin/removed/comments': return False
 
+		if f'/{self.id}' in path: return False
+
 		if self.over_18 and not (v and v.over_18) and not (self.post and self.post.over_18): return True
 
 		if self.is_banned: return True
 
-		if '?context' not in path and (self.slots_result or self.blackjack_result or self.wordle_result) and (not self.body or len(self.body_html) <= 100) and 9 > self.level > 1: return True
+		if (self.slots_result or self.blackjack_result or self.wordle_result) and (not self.body or len(self.body_html) <= 100) and 9 > self.level > 1: return True
 			
 		if v and v.filter_words and self.body and any(x in self.body for x in v.filter_words): return True
 		
