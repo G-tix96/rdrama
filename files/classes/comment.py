@@ -20,7 +20,7 @@ def sort_comments(sort, comments):
 	if sort == 'new':
 		order = Comment.id.desc()
 	elif sort == 'old':
-		order = comment.id
+		order = Comment.id
 	elif sort == 'controversial':
 		order = (Comment.upvotes+1)/(Comment.downvotes+1) + (Comment.downvotes+1)/(Comment.upvotes+1), Comment.downvotes.desc()
 	elif sort == "bottom":
