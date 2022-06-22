@@ -227,9 +227,7 @@ def sanitize(sanitized, alert=False, edit=False):
 			tag['referrerpolicy'] = "no-referrer"
 
 	for tag in soup.find_all("a"):
-		if not tag.string or not tag.get("href"):
-			tag.decompose()
-		elif fishylinks_regex.fullmatch(str(tag.string)):
+		if tag.get("href") and fishylinks_regex.fullmatch(str(tag.string)):
 			tag.string = tag["href"]
 
 
