@@ -43,9 +43,14 @@ def get_mentions(queries):
 			# Special case: PokemonGoRaids says 'Marsey' a lot unrelated to us.
 			if i['subreddit'] == 'PokemonGoRaids': continue
 
+			if kind == 'comment':
+				text = f'<blockquote>{i["body"]}</blockquote>'
+			else:
+				text = f'<blockquote>{i["title"]}</blockquote><br><blockquote>{i["selftext"][:5000]}</blockquote>'
+
 			mentions.append({
 				'permalink': i['permalink'],
-				'text': i['body' if kind == 'comment' else 'title'],
+				'text': text,
 			})
 
 	return mentions
@@ -57,8 +62,7 @@ def notify_mentions(send_to, mentions, mention_str='site mention'):
 		notif_text = \
 			f'<p>New {mention_str}: <a href="https://old.reddit.com{permalink}' \
 			f'?context=89" rel="nofollow noopener noreferrer" target="_blank">' \
-			f'https://old.reddit.com{permalink}?context=89</a></p>' \
-			f'<blockquote>{text}</blockquote>'
+			f'https://old.reddit.com{permalink}?context=89</a></p>{text}' \
 
 		existing_comment = g.db.query(Comment.id).filter_by(
 			author_id=const.NOTIFICATIONS_ID,

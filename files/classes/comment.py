@@ -246,7 +246,7 @@ class Comment(Base):
 			return self.child_comments.order_by(Comment.id).all()
 
 		comments = self.child_comments.filter(Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)))
-		return sort_comments(sort, comments)
+		return sort_comments(sort, comments).all()
 
 
 	@property
