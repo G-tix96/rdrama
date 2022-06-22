@@ -162,7 +162,7 @@ def render_emoji(html, regexp, edit, marseys_used, b=False):
 	return html
 
 
-def sanitize(sanitized, alert=False, edit=False):
+def sanitize(sanitized, edit=False):
 
 	signal.signal(signal.SIGALRM, handler)
 	signal.alarm(1)
@@ -186,32 +186,20 @@ def sanitize(sanitized, alert=False, edit=False):
 
 	sanitized = sanitized.replace('‎','').replace('​','').replace("\ufeff", "").replace("𒐪","")
 
-	if alert:
-		matches = { g.group(1):g for g in mention_regex2.finditer(sanitized) if g }
-		users = get_users(matches.keys(),graceful=True)
+	sanitized = reddit_regex.sub(r'\1<a href="https://old.reddit.com/\2" rel="nofollow noopener noreferrer">/\2</a>', sanitized)
+	sanitized = sub_regex.sub(r'\1<a href="/\2">/\2</a>', sanitized)
 
-		captured = []
-		for u in users:
-			if u:
-				i = matches.get(u.username) or matches.get(u.original_username)
-				if i.group(0) not in captured:
-					captured.append(i.group(0))
-					sanitized = sanitized.replace(i.group(0), f'''<p><a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>''')
-	else:
-		sanitized = reddit_regex.sub(r'\1<a href="https://old.reddit.com/\2" rel="nofollow noopener noreferrer">/\2</a>', sanitized)
-		sanitized = sub_regex.sub(r'\1<a href="/\2">/\2</a>', sanitized)
+	matches = [ m for m in mention_regex.finditer(sanitized) if m ]
+	names = set( m.group(2) for m in matches )
+	users = get_users(names,graceful=True)
 
-		matches = [ m for m in mention_regex.finditer(sanitized) if m ]
-		names = set( m.group(2) for m in matches )
-		users = get_users(names,graceful=True)
-
-		v = getattr(g, 'v', None)
-		for u in users:
-			if not u: continue
-			m = [ m for m in matches if u.username.lower() == m.group(2).lower() or u.original_username.lower() == m.group(2).lower() ]
-			for i in m:
-				if not (v and v.any_block_exists(u)) or (v and v.admin_level >= 2):
-					sanitized = sanitized.replace(i.group(0), f'''{i.group(1)}<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>''', 1)
+	v = getattr(g, 'v', None)
+	for u in users:
+		if not u: continue
+		m = [ m for m in matches if u.username.lower() == m.group(2).lower() or u.original_username.lower() == m.group(2).lower() ]
+		for i in m:
+			if not (v and v.any_block_exists(u)) or (v and v.admin_level >= 2):
+				sanitized = sanitized.replace(i.group(0), f'''{i.group(1)}<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>''', 1)
 
 
 	sanitized = normalize_url(sanitized)

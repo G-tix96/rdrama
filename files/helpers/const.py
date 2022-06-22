@@ -829,13 +829,11 @@ db.close()
 if SITE_NAME == 'PCM':
 	valid_username_chars = 'a-zA-Z0-9_\-А-я'
 	valid_username_regex = re.compile("^[a-zA-Z0-9_\-А-я]{3,25}$", flags=re.A)
-	mention_regex = re.compile('(^|\s|<p>)@(([a-zA-Z0-9_\-А-я]){3,25})', flags=re.A)
-	mention_regex2 = re.compile('<p>@(([a-zA-Z0-9_\-А-я]){3,25})', flags=re.A)
+	mention_regex = re.compile('(^|\s|<p>)@(([a-zA-Z0-9_\-А-я]){3,25})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
 else:
 	valid_username_chars = 'a-zA-Z0-9_\-'
 	valid_username_regex = re.compile("^[a-zA-Z0-9_\-]{3,25}$", flags=re.A)
-	mention_regex = re.compile('(^|\s|<p>)@(([a-zA-Z0-9_\-]){1,25})', flags=re.A)
-	mention_regex2 = re.compile('<p>@(([a-zA-Z0-9_\-]){1,25})', flags=re.A)
+	mention_regex = re.compile('(^|\s|<p>)@(([a-zA-Z0-9_\-]){1,25})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
 
 valid_password_regex = re.compile("^.{8,100}$", flags=re.A)
 
@@ -865,7 +863,7 @@ fishylinks_regex = re.compile("https?://\S+", flags=re.A)
 
 spoiler_regex = re.compile('''\|\|(.+)\|\|''', flags=re.A)
 reddit_regex = re.compile('(^|\s|<p>)\/?((r|u)\/(\w|-){3,25})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
-sub_regex = re.compile('(^|\s|<p>)\/?(h\/(\w|-){3,25})', flags=re.A)
+sub_regex = re.compile('(^|\s|<p>)\/?(h\/(\w|-){3,25})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
 
 strikethrough_regex = re.compile('''~{1,2}([^~]+)~{1,2}''', flags=re.A)
 

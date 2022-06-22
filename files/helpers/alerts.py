@@ -55,7 +55,7 @@ def notif_comment(text, autojanny=False):
 		author_id = NOTIFICATIONS_ID
 		alert = False
 
-	text_html = sanitize(text, alert=alert)
+	text_html = sanitize(text)
 
 	try: existing = g.db.query(Comment.id).filter_by(author_id=author_id, parent_submission=None, body_html=text_html).one_or_none()
 	except:
@@ -85,7 +85,7 @@ def notif_comment2(p):
 	else:
 		text = f"@{p.author.username} has mentioned you: [{p.title}](/post/{p.id})"
 		if p.sub: text += f" in <a href='/h/{p.sub}'>/h/{p.sub}"
-		text_html = sanitize(text, alert=True)
+		text_html = sanitize(text)
 		return create_comment(text_html)
 
 
@@ -117,7 +117,7 @@ def NOTIFY_USERS(text, v):
 	return notify_users - bots
 
 def notify_mod_action(by_id, msg):
-	body_html = sanitize(NOTIF_MODACTION_PREFIX + msg, alert=True)
+	body_html = sanitize(NOTIF_MODACTION_PREFIX + msg)
 	new_comment = Comment(
 		author_id=NOTIFICATIONS_ID,
 		parent_submission=None,
