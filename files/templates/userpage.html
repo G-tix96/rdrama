@@ -65,7 +65,7 @@
 								{% endif %}
 
 								{% if SITE_NAME=='rDrama' and u.house %}
-									<img loading="lazy" class="ml-3" id="profile--house" src="/i/{{SITE_NAME}}/houses/{{u.house}}.webp?v=7" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{u.house}}" alt="House {{u.house}}">
+									<img loading="lazy" class="ml-3" id="profile--house" src="/i/{{SITE_NAME}}/houses/{{u.house}}.webp?v=2000" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{u.house}}" alt="House {{u.house}}">
 								{% endif %}
 
 								{% if u.verified %}
@@ -113,11 +113,11 @@
 
 				<div class="font-weight-bolder">
 					<span id="profile-coins-amount">{{u.coins}}</span>
-					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="20" src="/i/{{SITE_NAME}}/coins.webp?v=2">&nbsp;&nbsp;
+					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="20" src="/i/{{SITE_NAME}}/coins.webp?v=2000">&nbsp;&nbsp;
 
 					{% if SITE_NAME not in ('Cringetopia', 'WPD') %}
 						<span id="profile-bux-amount">{{u.procoins}}</span>
-						<img alt="marseybux" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="20" width="46" src="/i/marseybux.webp?v=1008">&nbsp;&nbsp;
+						<img alt="marseybux" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="20" width="46" src="/i/marseybux.webp?v=2000">&nbsp;&nbsp;
 					{% endif %}
 
 					<a href="/@{{u.username}}/followers" id="profile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a>&nbsp;&nbsp;
@@ -391,7 +391,7 @@
 				{% endif %}
 
 				{% if SITE_NAME=='rDrama' and u.house %}
-					<img loading="lazy" class="ml-2" id="profile--house" src="/i/{{SITE_NAME}}/houses/{{u.house}}.webp?v=7" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{u.house}}" alt="House {{u.house}}">
+					<img loading="lazy" class="ml-2" id="profile--house" src="/i/{{SITE_NAME}}/houses/{{u.house}}.webp?v=2000" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{u.house}}" alt="House {{u.house}}">
 				{% endif %}
 
 				{% if u.verified %}
@@ -415,11 +415,11 @@
 
 				<div class="font-weight-normal">
 					<span id="profile-coins-amount-mobile" class="font-weight-bold">{{u.coins}}</span>
-					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="15" src="/i/{{SITE_NAME}}/coins.webp?v=2">&nbsp;&nbsp;
+					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="15" src="/i/{{SITE_NAME}}/coins.webp?v=2000">&nbsp;&nbsp;
 
 					{% if SITE_NAME not in ('Cringetopia', 'WPD') %}
 						<span id="profile-bux-amount-mobile" class="font-weight-bold">{{u.procoins}}</span>
-						<img alt="marseybux" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="15" width="35" src="/i/marseybux.webp?v=1008">&nbsp;&nbsp;
+						<img alt="marseybux" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="15" width="35" src="/i/marseybux.webp?v=2000">&nbsp;&nbsp;
 					{% endif %}
 
 					<a href="/@{{u.username}}/followers" class="font-weight-bold" id="profile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a>&nbsp;&nbsp;

@@ -3,7 +3,7 @@
 	{% if sub %}
 		{% set image=sub.sidebar_url %}
 	{% else %}
-		{% set image='/i/' + SITE_NAME + '/sidebar.webp?v=1' %}
+		{% set image='/i/' + SITE_NAME + '/sidebar.webp?v=2000' %}
 	{% endif %}
 
 	<img class="mb-4" alt="sidebar image" role="button" data-bs-toggle="modal" data-bs-target="#expandImageModal" onclick="expandDesktopImage('{{image}}')" loading="lazy" src="{{image}}" width=100%>

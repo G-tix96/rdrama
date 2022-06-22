@@ -30,7 +30,7 @@
 		<div class="navbar navbar-expand-md navbar-light" id="navbar">
 			<div class="container-fluid" style="padding:0;">
 			<a href="/" class="navbar-brand mr-auto {% if SITE_NAME in ('PCM','WPD') and not sub %}flex-grow-1{% endif %}">
-				<img alt="header icon" height=33 src="/i/{{SITE_NAME}}/headericon.webp?v=1019">
+				<img alt="header icon" height=33 src="/i/{{SITE_NAME}}/headericon.webp?v=2000">
 			</a>
 			
 			{% if sub %}
@@ -50,7 +50,7 @@
 				</style>
 				<div id="logo-container" class="flex-grow-1 logo-container">
 				<a href="/">
-					<img class="ml-1" id="logo" alt="logo" src="/i/{{SITE_NAME}}/logo.webp?v=1013" width=70>
+					<img class="ml-1" id="logo" alt="logo" src="/i/{{SITE_NAME}}/logo.webp?v=2000" width=70>
 				</a>
 				</div>
 			{% endif %}
@@ -170,9 +170,9 @@
 							</div>
 							<div class="text-left pl-2">
 								<div style="color: #{{v.namecolor}}" class="text-small font-weight-bold {% if v.patron %}patron{% endif %}"><span {% if v.patron %}class="patron" style="background-color:#{{v.namecolor}}"{% endif %}>{{v.username}}</span></div>
-								<div class="text-small-extra"><img alt="coins" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" height="13" src="/i/{{SITE_NAME}}/coins.webp?v=2" title="coins" aria-label="coins"><span id="user-coins-amount">{{v.coins}}</span> Coin{{ help.plural(v.coins) }}</div>
+								<div class="text-small-extra"><img alt="coins" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" height="13" src="/i/{{SITE_NAME}}/coins.webp?v=2000" title="coins" aria-label="coins"><span id="user-coins-amount">{{v.coins}}</span> Coin{{ help.plural(v.coins) }}</div>
 								{% if SITE_NAME not in ('Cringetopia', 'WPD') %}
-									<div class="text-small-extra"><img alt="marseybux" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" height="13" width="30" src="/i/marseybux.webp?v=1008" title="Marseybux" aria-label="Marseybux"><span id="user-bux-amount">{{v.procoins}}</span> Marseybux</div>
+									<div class="text-small-extra"><img alt="marseybux" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" height="13" width="30" src="/i/marseybux.webp?v=2000" title="Marseybux" aria-label="Marseybux"><span id="user-bux-amount">{{v.procoins}}</span> Marseybux</div>
 								{% endif %}
 							</div>
 						</div>

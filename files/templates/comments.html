@@ -202,7 +202,7 @@
 					<span {% if c.distinguish_level %}class="mod"{% endif %}>👻</span>
 				{% else %}
 					{% if SITE_NAME=='rDrama' and c.author.house %}
-						<img loading="lazy" src="/i/{{SITE_NAME}}/houses/{{c.author.house}}.webp?v=7" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{c.author.house}}" alt="House {{c.author.house}}">
+						<img loading="lazy" src="/i/{{SITE_NAME}}/houses/{{c.author.house}}.webp?v=2000" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{c.author.house}}" alt="House {{c.author.house}}">
 					{% endif %}
 
 					{% if c.author.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if c.author.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if c.author.verifiedcolor %}#{{c.author.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.verified}}"></i>
