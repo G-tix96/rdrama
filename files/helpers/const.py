@@ -1025,4 +1025,6 @@ greentext_regex = re.compile("(\n|^)>([^ >][^\n]*)", flags=re.A)
 
 ascii_only_regex = re.compile("[ -~]+", flags=re.A)
 
+twitter_to_nitter_regex = re.compile("https:\/\/twitter.com\/(\w{4,15}(\/status\/\d+[^/]*)?)", flags=re.A)
+
 def make_name(*args, **kwargs): return request.base_url

@@ -15,6 +15,15 @@ from .votes import CommentVote
 from math import floor
 
 
+def normalize_urls_runtime(body, v):
+	
+	if v:
+		body = body.replace("https://old.reddit.com/r/", f'https://{v.reddit}/r/')
+
+		if v.nitter: body = twitter_to_nitter_regex.sub(r'https://nitter.net/\1', body)
+
+	return body
+
 def sort_comments(sort, comments):
 
 	if sort == 'new':
@@ -370,10 +379,8 @@ class Comment(Base):
 		if body:
 			body = censor_slurs(body, v)
 
-			if v:
-				body = body.replace("old.reddit.com", v.reddit)
+			body = normalize_urls_runtime(body, v)
 
-				if v.nitter and not '/i/' in body and '/retweets' not in body: body = body.replace("www.twitter.com", "nitter.net").replace("twitter.com", "nitter.net")
 
 			if v and v.controversial:
 				captured = []

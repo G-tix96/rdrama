@@ -384,22 +384,21 @@ def filter_emojis_only(title, edit=False, graceful=False):
 	else: return title
 
 def normalize_url(url):
-	for x in ["://reddit.com", "://new.reddit.com", "://www.reddit.com", "://redd.it", "://libredd.it", "://teddit.net"]:
-		url = url.replace(x, "://old.reddit.com")
+	for x in ["reddit.com", "new.reddit.com", "www.reddit.com", "redd.it", "ibredd.it", "teddit.net"]:
+		url = url.replace(f'https://{x}/r/', "https://old.reddit.com/r/")
 
-	url = url.replace("old.reddit.com/gallery", "reddit.com/gallery") \
-			 .replace("https://youtu.be/", "https://youtube.com/watch?v=") \
+	url = url.replace("https://youtu.be/", "https://youtube.com/watch?v=") \
 			 .replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=") \
 			 .replace("https://youtube.com/shorts/", "https://youtube.com/watch?v=") \
-			 .replace("https://mobile.twitter", "https://twitter") \
-			 .replace("https://m.facebook", "https://facebook") \
-			 .replace("m.wikipedia.org", "wikipedia.org") \
-			 .replace("https://m.youtube", "https://youtube") \
-			 .replace("https://www.youtube", "https://youtube") \
-			 .replace("https://www.twitter", "https://twitter") \
-			 .replace("https://www.instagram", "https://instagram") \
-			 .replace("https://www.tiktok", "https://tiktok") \
-			 .replace("https://www.streamable", "https://streamable") \
+			 .replace("https://mobile.twitter.com", "https://twitter.com") \
+			 .replace("https://m.facebook.com", "https://facebook.com") \
+			 .replace("https://m.wikipedia.org", "https://wikipedia.org") \
+			 .replace("https://m.youtube.com", "https://youtube.com") \
+			 .replace("https://www.youtube.com", "https://youtube.com") \
+			 .replace("https://www.twitter.com", "https://twitter.com") \
+			 .replace("https://www.instagram.com", "https://instagram.com") \
+			 .replace("https://www.tiktok.com", "https://tiktok.com") \
+			 .replace("https://www.streamable.com", "https://streamable.com") \
 			 .replace("https://streamable.com/", "https://streamable.com/e/") \
 			 .replace("https://streamable.com/e/e/", "https://streamable.com/e/")
 

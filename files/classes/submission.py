@@ -10,7 +10,7 @@ from files.__main__ import Base
 from files.helpers.const import *
 from files.helpers.lazy import lazy
 from .flags import Flag
-from .comment import Comment
+from .comment import Comment, normalize_urls_runtime
 from flask import g
 from .sub import *
 from .votes import CommentVote
@@ -366,21 +366,22 @@ class Submission(Base):
 
 	@lazy
 	def realurl(self, v):
-		if v and self.url and self.url.startswith("https://old.reddit.com/"):
+		url = self.url
 
-			url = self.url.replace("old.reddit.com", v.reddit)
+		if not url: return ''
 
-			if '/comments/' in url and "sort=" not in url:
-				if "?" in url: url += "&context=9" 
-				else: url += "?context=8"
-				if v.controversial: url += "&sort=controversial"
-			return url
-		elif self.url:
-			if v and v.nitter and '/i/' not in self.url and '/retweets' not in self.url: return self.url.replace("www.twitter.com", "nitter.net").replace("twitter.com", "nitter.net")
-			if self.url.startswith('/'): return SITE_FULL + self.url
-			return self.url
-		else: return ""
- 
+		if url.startswith('/'): return SITE_FULL + url
+
+		url = normalize_urls_runtime(url, v)
+
+		if url.startswith("https://old.reddit.com/r/") and '/comments/' in url and "sort=" not in url:
+			if "?" in url: url += "&context=9" 
+			else: url += "?context=8"
+			if v and v.controversial: url += "&sort=controversial"
+
+		return url
+
+
 	def realbody(self, v):
 		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"<p>{CC} ONLY</p>"
 
@@ -388,10 +389,7 @@ class Submission(Base):
 
 		body = censor_slurs(body, v)
 
-		if v:
-			body = body.replace("old.reddit.com", v.reddit)
-
-			if v.nitter and '/i/' not in body and '/retweets' not in body: body = body.replace("www.twitter.com", "nitter.net").replace("twitter.com", "nitter.net")
+		body = normalize_urls_runtime(body, v)
 
 		if v and v.shadowbanned and v.id == self.author_id and 86400 > time.time() - self.created_utc > 20:
 			ti = max(int((time.time() - self.created_utc)/60), 1)
@@ -454,11 +452,7 @@ class Submission(Base):
 
 		body = censor_slurs(body, v)
 
-		if v:
-			body = body.replace("old.reddit.com", v.reddit)
-
-			if v.nitter and '/i/' not in body and '/retweets' not in body: body = body.replace("www.twitter.com", "nitter.net").replace("twitter.com", "nitter.net")
-
+		body = normalize_urls_runtime(body, v)
 		return body
 
 	@lazy
