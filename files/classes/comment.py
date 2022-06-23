@@ -387,8 +387,8 @@ class Comment(Base):
 			if v and v.controversial:
 				captured = []
 				for i in controversial_regex.finditer(body):
-					if i.group(0) in captured: continue
-					captured.append(i.group(0))
+					if i.group(1) in captured: continue
+					captured.append(i.group(1))
 
 					url = i.group(1)
 					p = urlparse(url).query
