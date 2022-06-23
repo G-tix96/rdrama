@@ -1987,6 +1987,7 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 137	Lottershe Winner	This user won the Lottershe grand prize.
 139	Kristallmopt	This user was fired from a volunteer position
 140	Y'all Seein' Eye	Gets notified when other sites talk about us
+141	Marsey Typographer	For substantial and exceptional contributions to Marsey Alphabet.
 4	White Hat	Discreetly reported an exploit
 1	Alpha User	Joined during open alpha
 2	Verified Email	Verified Email
@@ -2090,7 +2091,7 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 140, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 141, true);
 
 
 --
