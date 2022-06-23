@@ -31,7 +31,7 @@
 	<input type="hidden" name="formkey" value="{{v.formkey}}">
 	<input autocomplete="off" name="domain" placeholder="Enter domain here.." class="form-control" required>
 	<input autocomplete="off" name="reason" placeholder="Enter ban reason here.." oninput="document.getElementById('ban-submit').disabled=false" class="form-control">
-	<input autocomplete="off" id="ban-submit" type="submit" class="btn btn-primary" value="Toggle ban" disabled>
+	<input autocomplete="off" id="ban-submit" type="submit" onclick="this.classList.add('disabled')" class="btn btn-primary" value="Toggle ban" disabled>
 </form>
 
 {% endblock %}

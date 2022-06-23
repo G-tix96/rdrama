@@ -27,7 +27,7 @@
 					<label id="notelabel" for="note" class="pt-4">Note (optional):</label>
 					<input autocomplete="off" id="kind" name="kind" value="" hidden>
 					<textarea autocomplete="off" id="note" maxlength="200" name="note" class="form-control" placeholder="Note to include in award notification..."></textarea>
-					<input autocomplete="off" id="giveaward" class="awardbtn btn btn-primary mt-3" style="float:right" type="submit" value="Give Award" disabled>
+					<input autocomplete="off" id="giveaward" class="awardbtn btn btn-primary mt-3" style="float:right" type="submit" onclick="this.classList.add('disabled')" value="Give Award" disabled>
 					<button id="buy1" class="awardbtn btn btn-primary mt-3 mx-3 {% if SITE_NAME in ('Cringetopia', 'WPD') %}d-none{% endif %}" type="button" disabled style="float:right" onclick="buy(true)">Buy with marseybux</button>
 					<button id="buy2" class="awardbtn btn btn-primary mt-3" type="button" disabled style="float:right" onclick="buy()">Buy</button>
 					<pre>
