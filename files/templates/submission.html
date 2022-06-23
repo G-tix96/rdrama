@@ -705,7 +705,11 @@
 
 					<div class="post-meta text-left mb-2">
 						{% if p.sub %}
-							<a href='/h/{{p.sub}}'>/h/{{p.sub}}</a>&nbsp;&nbsp;
+							{% if not HOLE_STYLE_FLAIR -%}
+								<a href='/h/{{p.sub}}'>/h/{{p.sub}}</a>&nbsp;&nbsp;
+							{%- else -%}
+								<a href='/h/{{p.sub}}' class="sub-flair">{{p.sub|capitalize}}</a>
+							{%- endif %}
 						{% endif %}
 
 						{% if p.sub and p.author.exiled_from(p.sub) %}

@@ -148,11 +148,15 @@
 
 			<div class="post-meta text-left x-scroll mb-md-2">
 				{% if p.sub %}
-					<a href='/h/{{p.sub}}'>/h/{{p.sub}}</a>&nbsp;&nbsp;
+					{% if not HOLE_STYLE_FLAIR -%}
+						<a href='/h/{{p.sub}}'>/h/{{p.sub}}</a>&nbsp;&nbsp;
+					{%- else -%}
+						<a href='/h/{{p.sub}}' class="sub-flair">{{p.sub|capitalize}}</a>
+					{%- endif %}
 				{% endif %}
 
 				{% if p.sub and p.author.exiled_from(p.sub) %}
-					<a role="button"><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{p.sub}}"></i></a>
+					<a role="button"><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from {% if not HOLE_STYLE_FLAIR %}/h/{% endif %}{{p.sub}}"></i></a>
 				{% endif %}
 				
 				{% if p.bannedfor %}
