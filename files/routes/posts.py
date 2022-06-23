@@ -222,7 +222,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 				comments2.append(comment)
 				ids.add(comment.id)
 				count += g.db.query(Comment).filter_by(parent_submission=post.id, parent_comment_id=comment.id).count() + 1
-				if count > 10: break
+				if count > 20: break
 
 		if len(comments) == len(comments2): offset = 0
 		else: offset = 1
@@ -328,7 +328,7 @@ def viewmore(v, pid, sort, offset):
 			comments2.append(comment)
 			ids.add(comment.id)
 			count += g.db.query(Comment).filter_by(parent_submission=post.id, parent_comment_id=comment.id).count() + 1
-			if count > 10: break
+			if count > 20: break
 	
 	if len(comments) == len(comments2): offset = 0
 	else: offset += 1
