@@ -67,8 +67,8 @@
 {% block content %}
 
 {% if v %}
-	<a id="subscribe" class="{% if v.changelogsub %}d-none{% endif %} btn btn-primary followbutton" role="button" onclick="post_toast2(this, '/changelogsub','subscribe','unsubscribe')">Subscribe</a>
-	<a id="unsubscribe" class="{% if not v.changelogsub %}d-none{% endif %} btn btn-primary followbutton" role="button" onclick="post_toast2(this, '/changelogsub','subscribe','unsubscribe')">Unsubscribe</a>
+	<a id="subscribe" class="{% if v.changelogsub %}d-none{% endif %} btn btn-primary followbutton" role="button" onclick="post_toast(this, '/changelogsub','subscribe','unsubscribe','d-none')">Subscribe</a>
+	<a id="unsubscribe" class="{% if not v.changelogsub %}d-none{% endif %} btn btn-primary followbutton" role="button" onclick="post_toast(this, '/changelogsub','subscribe','unsubscribe','d-none')">Unsubscribe</a>
 {% endif %}
 
 <div class="row no-gutters {% if listing %}mt-md-3{% elif not listing %}my-md-3{% endif %}">
@@ -103,7 +103,5 @@
 	</ul>
 </nav>
 {% endif %}
-
-<script src="/assets/js/post_toast2.js?v=243"></script>
 
 {% endblock %}
