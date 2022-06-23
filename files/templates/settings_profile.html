@@ -177,7 +177,7 @@
 					<form action="/settings/themecolor" id="color-code-form" method="post">
 						<input type="hidden" name="formkey" value="{{v.formkey}}">
 	
-						<input class="form-control" type="text" name="themecolor" id="color-code" value="{% if v.themecolor %}{{v.themecolor}}{% endif %}">
+						<input class="form-control" type="text" name="themecolor" id="color-code" minlength="6" maxlength="6" value="{% if v.themecolor %}{{v.themecolor}}{% endif %}">
 						<label class="btn btn-secondary text-capitalize mr-2 mt-2 mb-0">Update<input type="text" for="color-code" onclick="form.submit()" hidden=""></label>
 					</form>
 				</div>
@@ -452,7 +452,7 @@
 								<div class="d-flex">
 								<form action="/settings/namecolor" id="color-code-form" method="post">
 									<input type="hidden" name="formkey" value="{{v.formkey}}">
-									<input autocomplete="off" class="form-control" type="text" name="color" id="color-code" maxlength="6" value="{% if v.namecolor %}{{v.namecolor}}{% endif %}">
+									<input autocomplete="off" class="form-control" type="text" name="color" id="color-code" minlength="6" maxlength="6" value="{% if v.namecolor %}{{v.namecolor}}{% endif %}">
 									<label class="btn btn-secondary text-capitalize mr-2 mt-2 mb-0">Update<input autocomplete="off" type="text" for="color-code" onclick="form.submit()" hidden=""></label>
 								</form>
 								</div>
@@ -514,7 +514,7 @@
 								<div class="d-flex">
 								<form action="/settings/titlecolor" id="color-code-form" method="post">
 									<input type="hidden" name="formkey" value="{{v.formkey}}">
-									<input autocomplete="off" class="form-control" type="text" name="titlecolor" id="color-code" maxlength="6" value="{% if v.titlecolor %}{{v.titlecolor}}{% endif %}">
+									<input autocomplete="off" class="form-control" type="text" name="titlecolor" id="color-code" minlength="6" maxlength="6" value="{% if v.titlecolor %}{{v.titlecolor}}{% endif %}">
 									<label class="btn btn-secondary text-capitalize mr-2 mt-2 mb-0">Update<input autocomplete="off" type="text" for="color-code" onclick="form.submit()" hidden=""></label>
 								</form>
 								</div>
@@ -557,7 +557,7 @@
 									<div class="d-flex">
 									<form action="/settings/verifiedcolor" id="color-code-form" method="post">
 										<input type="hidden" name="formkey" value="{{v.formkey}}">
-										<input autocomplete="off" class="form-control" type="text" name="verifiedcolor" id="color-code" maxlength="6" value="{% if v.verifiedcolor %}{{v.verifiedcolor}}{% endif %}">
+										<input autocomplete="off" class="form-control" type="text" name="verifiedcolor" id="color-code" minlength="6" maxlength="6" value="{% if v.verifiedcolor %}{{v.verifiedcolor}}{% endif %}">
 										<label class="btn btn-secondary text-capitalize mr-2 mt-2 mb-0">Update<input autocomplete="off" type="text" for="color-code" onclick="form.submit()" hidden=""></label>
 									</form>
 									</div>
