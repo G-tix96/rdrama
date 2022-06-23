@@ -65,7 +65,7 @@ def allowed_attributes(tag, name, value):
 		if name in ['src','data-src']: return is_safe_url(value)
 		if name == 'loading' and value == 'lazy': return True
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
-		if name in ['g','b'] and not value: return True
+		if name in ['g','b','glow'] and not value: return True
 		if name in ['alt','title']: return True
 		if name == 'referrpolicy' and value == 'no-referrer': return True
 		return False
@@ -136,7 +136,9 @@ def render_emoji(html, regexp, edit, marseys_used, b=False):
 		emoji = i.group(1).lower()
 		attrs = ''
 		if b: attrs += ' b'
-		if not edit and len(emojis) <= 20 and random() < 0.0025 and ('marsey' in emoji or emoji in marseys_const2): attrs += ' g'
+		if not edit and len(emojis) <= 20 and ('marsey' in emoji or emoji in marseys_const2):
+			if random() < 0.0025: attrs += ' g'
+			elif random() < 0.00125: attrs += ' glow'
 
 		old = emoji
 		emoji = emoji.replace('!','').replace('#','')
@@ -345,7 +347,7 @@ def allowed_attributes_emojis(tag, name, value):
 		if name == 'src' and value.startswith('/') and '\\' not in value: return True
 		if name == 'loading' and value == 'lazy': return True
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
-		if name == 'g' and not value: return True
+		if name in ['g','glow'] and not value: return True
 		if name in ['alt','title']: return True
 
 	if tag == 'span':
