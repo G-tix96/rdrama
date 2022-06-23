@@ -45,7 +45,7 @@
 		<link rel="stylesheet" href="/assets/css/awards.css?v=11">
 	{% endif %}
 
-	{% if request.path == '/catalog' %}
+	{% if request.path.endswith('/catalog') %}
 		<link rel="stylesheet" href="/assets/css/catalog.css?v=1">
 	{% endif %}
 
