@@ -138,6 +138,7 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 ### SITE SPECIFIC CONSTANTS
 ################################################################################
 
+HOLE_NAME = 'hole'
 HOLE_COST = 0
 HOLE_CREATE_JL_MIN = 0
 HOLE_INACTIVITY_DELETION = False
@@ -283,6 +284,7 @@ elif SITE == 'cringetopia.org':
 		"7": "886781932430565418",
 	}
 elif SITE == 'watchpeopledie.co':
+	HOLE_NAME = 'flair'
 	HOLE_CREATE_JL_MIN = 2
 
 	GIFT_NOTIF_ID = 13

@@ -5,11 +5,13 @@ from flask import *
 from files.__main__ import app
 from files.helpers.regex import *
 
+search_operator_hole = HOLE_NAME
+
 valid_params = [
 	'author',
 	'domain',
 	'over18',
-	'hole',
+	search_operator_hole,
 ]
 
 def searchparse(text):
@@ -117,8 +119,8 @@ def searchposts(v):
 				)
 			)
 
-	if 'hole' in criteria:
-		posts = posts.filter(Submission.sub == criteria['hole'])
+	if search_operator_hole in criteria:
+		posts = posts.filter(Submission.sub == criteria[search_operator_hole])
 
 	if t:
 		now = int(time.time())
@@ -203,8 +205,8 @@ def searchcomments(v):
 
 	if 'over18' in criteria: comments = comments.filter(Comment.over_18 == True)
 
-	if 'hole' in criteria:
-		comments = comments.filter(Submission.sub == criteria['hole'])
+	if search_operator_hole in criteria:
+		comments = comments.filter(Submission.sub == criteria[search_operator_hole])
 
 	if t:
 		now = int(time.time())

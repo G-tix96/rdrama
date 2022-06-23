@@ -67,7 +67,7 @@
 		{% if SITE_NAME == 'PCM' -%}
 			<li><a href="/admin/sidebar">Edit Sidebar</a></li>
 		{%- elif SITE_NAME == 'WPD' -%}
-			<li><a href="/create_hole">Create Hole</a></li>
+			<li><a href="/create_hole">Create {{ HOLE_NAME | capitalize }}</a></li>
 		{%- endif %}
 	</ul>
 {%- endif %}

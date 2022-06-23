@@ -1,6 +1,6 @@
 {%- set search_placeholder = "Search" -%}
 {%- if sub -%}
-	{%- set search_placeholder = "Search (try 'hole:" ~ sub.name ~ "')" -%}
+	{%- set search_placeholder = "Search (try '" ~ HOLE_NAME ~ ":" ~ sub.name ~ "')" -%}
 {%- endif -%}
 
 <nav class=" shadow-md fixed-top">
