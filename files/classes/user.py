@@ -256,9 +256,11 @@ class User(Base):
 		return return_value
 
 	@property
+	@lazy
 	def referral_count(self):
 		return len(self.referrals)
 
+	@lazy
 	def is_blocking(self, target):
 		return g.db.query(UserBlock).filter_by(user_id=self.id, target_id=target.id).one_or_none()
 
@@ -358,6 +360,7 @@ class User(Base):
 		if not self.is_suspended: return None
 		return g.db.get(User, self.is_banned)
 
+	@lazy
 	def has_badge(self, badge_id):
 		return g.db.query(Badge).filter_by(user_id=self.id, badge_id=badge_id).one_or_none()
 
@@ -564,6 +567,7 @@ class User(Base):
 		modded_subs = g.db.query(Mod.sub).filter_by(user_id=self.id).all()
 		return modded_subs
 
+	@lazy
 	def has_follower(self, user):
 
 		return g.db.query(Follow).filter_by(target_id=self.id, user_id=user.id).one_or_none()
@@ -657,6 +661,7 @@ class User(Base):
 
 
 	@property
+	@lazy
 	def is_suspended(self):
 		return (self.is_banned and (self.unban_utc == 0 or self.unban_utc > time.time()))
 

@@ -122,13 +122,14 @@ class Comment(Base):
 	def choices(self):
 		return self.child_comments.filter_by(author_id=AUTOCHOICE_ID).order_by(Comment.id).all()
 
-
+	@lazy
 	def total_poll_voted(self, v):
 		if v:
 			for option in self.options:
 				if option.poll_voted(v): return True
 		return False
 
+	@lazy
 	def total_choice_voted(self, v):
 		if v:
 			return g.db.query(CommentVote).filter(CommentVote.user_id == v.id, CommentVote.comment_id.in_([x.id for x in self.choices])).all()
@@ -321,6 +322,7 @@ class Comment(Base):
 
 		return data
 
+	@lazy
 	def award_count(self, kind):
 		return len([x for x in self.awards if x.kind == kind])
 
@@ -354,7 +356,6 @@ class Comment(Base):
 		return data
 
 	@property
-	@lazy
 	def json(self):
 	
 		data=self.json_core
@@ -371,6 +372,7 @@ class Comment(Base):
 
 		return data
 
+	@lazy
 	def realbody(self, v):
 		if self.post and self.post.club and not (v and (v.paid_dues or v.id in [self.author_id, self.post.author_id])): return f"<p>{CC} ONLY</p>"
 
@@ -435,6 +437,7 @@ class Comment(Base):
 
 		return body
 
+	@lazy
 	def plainbody(self, v):
 		if self.post and self.post.club and not (v and (v.paid_dues or v.id in [self.author_id, self.post.author_id])): return f"<p>{CC} ONLY</p>"
 

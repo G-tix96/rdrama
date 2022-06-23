@@ -117,17 +117,20 @@ class Submission(Base):
 	def bet_options(self):
 		return g.db.query(Comment).filter_by(parent_submission = self.id, author_id = AUTOBETTER_ID, level=1).all()
 
+	@lazy
 	def total_poll_voted(self, v):
 		if v:
 			for option in self.options:
 				if option.poll_voted(v): return True
 		return False
 
+	@lazy
 	def total_choice_voted(self, v):
 		if v and self.choices:
 			return g.db.query(CommentVote).filter(CommentVote.user_id == v.id, CommentVote.comment_id.in_([x.id for x in self.choices])).all()
 		return False
 
+	@lazy
 	def total_bet_voted(self, v):
 		if "closed" in self.body.lower(): return True
 		if v:
@@ -361,6 +364,7 @@ class Submission(Base):
 
 		return data
 
+	@lazy
 	def award_count(self, kind):
 		return len([x for x in self.awards if x.kind == kind])
 
@@ -381,7 +385,7 @@ class Submission(Base):
 
 		return url
 
-
+	@lazy
 	def realbody(self, v):
 		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"<p>{CC} ONLY</p>"
 
@@ -443,6 +447,7 @@ class Submission(Base):
 
 		return body
 
+	@lazy
 	def plainbody(self, v):
 		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"<p>{CC} ONLY</p>"
 
