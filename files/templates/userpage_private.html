@@ -37,4 +37,8 @@
 {% endif %}
 
 <script src="{{asset('js/userpage.js')}}"></script>
+
+{% if v -%}
+	{%- include "emoji_modal.html" -%}
+{%- endif %}
 {% endblock %}
