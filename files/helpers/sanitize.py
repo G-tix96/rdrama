@@ -171,6 +171,8 @@ def sanitize(sanitized, edit=False):
 
 	sanitized = sanitized.strip()
 
+	sanitized = normalize_url(sanitized)
+
 	if '```' not in sanitized and '<pre>' not in sanitized:
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
 
@@ -202,9 +204,6 @@ def sanitize(sanitized, edit=False):
 		for i in m:
 			if not (v and v.any_block_exists(u)) or (v and v.admin_level >= 2):
 				sanitized = sanitized.replace(i.group(0), f'''{i.group(1)}<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>''', 1)
-
-
-	sanitized = normalize_url(sanitized)
 
 	soup = BeautifulSoup(sanitized, 'lxml')
 
@@ -384,8 +383,7 @@ def filter_emojis_only(title, edit=False, graceful=False):
 	else: return title
 
 def normalize_url(url):
-	for x in ["reddit.com", "new.reddit.com", "www.reddit.com", "redd.it", "ibredd.it", "teddit.net"]:
-		url = url.replace(f'https://{x}/r/', "https://old.reddit.com/r/")
+	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/r/', url)
 
 	url = url.replace("https://youtu.be/", "https://youtube.com/watch?v=") \
 			 .replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=") \

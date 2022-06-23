@@ -1004,7 +1004,7 @@ image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/([a-z0-9-]+\.)*({hosts})\
 video_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp4|webm|mov))', flags=re.A)
 audio_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp3|wav|ogg|aac|m4a|flac))', flags=re.A)
 
-imgur_regex = re.compile('(https:\/\/i\.imgur\.com\/[a-z0-9]+)\.(jpg|png|jpeg|webp)(?!<\/(code|pre|a)>)', flags=re.I|re.A)
+imgur_regex = re.compile('(https:\/\/i\.imgur\.com\/[a-z0-9]+)\.(jpg|png|jpeg|webp)', flags=re.I|re.A)
 giphy_regex = re.compile('(https:\/\/media\.giphy\.com\/media\/[a-z0-9]+\/giphy)\.gif', flags=re.I|re.A)
 
 youtube_regex = re.compile('(<p>[^<]*)(https:\/\/youtube\.com\/watch\?v\=([a-z0-9-_]{5,20})[\w\-.#&/=\?@%+]*)', flags=re.I|re.A)
@@ -1026,5 +1026,7 @@ greentext_regex = re.compile("(\n|^)>([^ >][^\n]*)", flags=re.A)
 ascii_only_regex = re.compile("[ -~]+", flags=re.A)
 
 twitter_to_nitter_regex = re.compile("https:\/\/twitter.com\/(\w{4,15}(\/status\/\d+[^/]*)?)", flags=re.A)
+
+reddit_domain_regex = re.compile("(^|\s)https:\/\/(reddit\.com|new\.reddit.com|www\.reddit.com|redd\.it|libredd\.it|teddit\.net)\/r\/", flags=re.A)
 
 def make_name(*args, **kwargs): return request.base_url
