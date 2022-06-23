@@ -1027,6 +1027,6 @@ ascii_only_regex = re.compile("[ -~]+", flags=re.A)
 
 twitter_to_nitter_regex = re.compile("https:\/\/twitter.com\/(\w{4,15}(\/status\/\d+[^/]*)?)", flags=re.A)
 
-reddit_domain_regex = re.compile("(^|\s)https:\/\/(reddit\.com|new\.reddit.com|www\.reddit.com|redd\.it|libredd\.it|teddit\.net)\/r\/", flags=re.A)
+reddit_domain_regex = re.compile("(^|\s)https:\/\/(reddit\.com|new\.reddit.com|www\.reddit.com|i\.reddit\.com|redd\.it|libredd\.it|teddit\.net)\/r\/", flags=re.A)
 
 def make_name(*args, **kwargs): return request.base_url
