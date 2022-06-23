@@ -339,8 +339,8 @@ def namecolor(v):
 
 	color = request.values.get("color", "").strip().lower()
 	if color.startswith('#'): color = color[1:]
-	if len(color) != 6: return render_template("settings_security.html", v=v, error="Invalid color code")
-	if color == '21262c': return render_template("settings_security.html", v=v, error="This color is not allowed")
+	if len(color) != 6: return render_template("settings_profile.html", v=v, error="Invalid color code")
+	if color == '21262c': return render_template("settings_profile.html", v=v, error="This color is not allowed")
 	v.namecolor = color
 	g.db.add(v)
 	g.db.commit()
@@ -354,7 +354,7 @@ def themecolor(v):
 
 	themecolor = str(request.values.get("themecolor", "")).strip()
 	if themecolor.startswith('#'): themecolor = themecolor[1:]
-	if len(themecolor) != 6: return render_template("settings_security.html", v=v, error="Invalid color code")
+	if len(themecolor) != 6: return render_template("settings_profile.html", v=v, error="Invalid color code")
 	v.themecolor = themecolor
 	g.db.add(v)
 	g.db.commit()
