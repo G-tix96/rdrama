@@ -179,7 +179,8 @@ def searchcomments(v):
 
 	criteria = searchparse(query)
 
-	comments = g.db.query(Comment.id).filter(Comment.parent_submission != None, Comment.author_id.notin_(v.userblocks))
+	comments = g.db.query(Comment.id).join(Comment.post) \
+		.filter(Comment.parent_submission != None, Comment.author_id.notin_(v.userblocks))
 
 	if 'author' in criteria:
 		comments = comments.filter(Comment.ghost == False)
@@ -200,6 +201,9 @@ def searchcomments(v):
 		comments = comments.filter(*words)
 
 	if 'over18' in criteria: comments = comments.filter(Comment.over_18 == True)
+
+	if 'hole' in criteria:
+		comments = comments.filter(Submission.sub == criteria['hole'])
 
 	if t:
 		now = int(time.time())
