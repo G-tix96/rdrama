@@ -808,7 +808,7 @@ def mfa_qr(secret, v):
 	qr = qrcode.QRCode(
 		error_correction=qrcode.constants.ERROR_CORRECT_L
 	)
-	qr.add_data(x.provisioning_uri(v.username, issuer_name=app.config["SITE_NAME"]))
+	qr.add_data(x.provisioning_uri(v.username, issuer_name=SITE_NAME))
 	img = qr.make_image(fill_color="#000000", back_color="white")
 
 	mem = io.BytesIO()

@@ -25,7 +25,7 @@ def send_verification_email(user, email=None):
 	if not email:
 		email = user.email
 
-	url = f"https://{app.config['SERVER_NAME']}/activate"
+	url = f"https://{SERVER_NAME}/activate"
 	now = int(time.time())
 
 	token = generate_hash(f"{email}+{user.id}+{now}")

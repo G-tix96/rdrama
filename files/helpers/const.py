@@ -907,3 +907,16 @@ def is_safe_url(url):
 
 
 hosts = "|".join(approved_embed_hosts).replace('.','\.')
+
+SITE_NAME = environ.get("SITE_NAME").strip()
+GUMROAD_LINK = environ.get("GUMROAD_LINK", "https://marsey1.gumroad.com/l/tfcvri").strip()
+DEFAULT_COLOR = environ.get("DEFAULT_COLOR", "ff0000").strip()
+DEFAULT_THEME = environ.get("DEFAULT_THEME", "midnight").strip()
+HCAPTCHA_SITEKEY = environ.get("HCAPTCHA_SITEKEY","").strip()
+HCAPTCHA_SECRET = environ.get("HCAPTCHA_SECRET","").strip()
+SPAM_SIMILARITY_THRESHOLD = float(environ.get("SPAM_SIMILARITY_THRESHOLD", 0.5))
+SPAM_URL_SIMILARITY_THRESHOLD = float(environ.get("SPAM_URL_SIMILARITY_THRESHOLD", 0.1))
+SPAM_SIMILAR_COUNT_THRESHOLD = int(environ.get("SPAM_SIMILAR_COUNT_THRESHOLD", 10))
+COMMENT_SPAM_SIMILAR_THRESHOLD = float(environ.get("COMMENT_SPAM_SIMILAR_THRESHOLD", 0.5))
+COMMENT_SPAM_COUNT_THRESHOLD = int(environ.get("COMMENT_SPAM_COUNT_THRESHOLD", 10))
+DESCRIPTION = environ.get("DESCRIPTION", "rdrama.net caters to drama in all forms such as: Real life, videos, photos, gossip, rumors, news sites, Reddit, and Beyond™. There isn't drama we won't touch, and we want it all!").strip()

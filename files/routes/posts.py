@@ -829,7 +829,7 @@ def submit_post(v, sub=None):
 						except: pass
 					embed += '"></lite-youtube>'
 			
-		elif app.config['SERVER_NAME'] in domain and "/post/" in url and "context" not in url:
+		elif SERVER_NAME in domain and "/post/" in url and "context" not in url:
 			id = url.split("/post/")[1]
 			if "/" in id: id = id.split("/")[0]
 			embed = str(int(id))
@@ -861,19 +861,19 @@ def submit_post(v, sub=None):
 
 	similar_posts = g.db.query(Submission).filter(
 					Submission.author_id == v.id,
-					Submission.title.op('<->')(title) < app.config["SPAM_SIMILARITY_THRESHOLD"],
+					Submission.title.op('<->')(title) < SPAM_SIMILARITY_THRESHOLD,
 					Submission.created_utc > cutoff
 	).all()
 
 	if url:
 		similar_urls = g.db.query(Submission).filter(
 					Submission.author_id == v.id,
-					Submission.url.op('<->')(url) < app.config["SPAM_URL_SIMILARITY_THRESHOLD"],
+					Submission.url.op('<->')(url) < SPAM_URL_SIMILARITY_THRESHOLD,
 					Submission.created_utc > cutoff
 		).all()
 	else: similar_urls = []
 
-	threshold = app.config["SPAM_SIMILAR_COUNT_THRESHOLD"]
+	threshold = SPAM_SIMILAR_COUNT_THRESHOLD
 	if v.age >= (60 * 60 * 24 * 7): threshold *= 3
 	elif v.age >= (60 * 60 * 24): threshold *= 2
 

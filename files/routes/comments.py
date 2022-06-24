@@ -336,11 +336,11 @@ def api_comment(v):
 		similar_comments = g.db.query(Comment).filter(
 			Comment.author_id == v.id,
 			Comment.body.op(
-				'<->')(body) < app.config["COMMENT_SPAM_SIMILAR_THRESHOLD"],
+				'<->')(body) < COMMENT_SPAM_SIMILAR_THRESHOLD,
 			Comment.created_utc > cutoff
 		).all()
 
-		threshold = app.config["COMMENT_SPAM_COUNT_THRESHOLD"]
+		threshold = COMMENT_SPAM_COUNT_THRESHOLD
 		if v.age >= (60 * 60 * 24 * 7):
 			threshold *= 3
 		elif v.age >= (60 * 60 * 24):
@@ -713,11 +713,11 @@ def edit_comment(cid, v):
 			).filter(
 				Comment.author_id == v.id,
 				Comment.body.op(
-					'<->')(body) < app.config["SPAM_SIMILARITY_THRESHOLD"],
+					'<->')(body) < SPAM_SIMILARITY_THRESHOLD,
 				Comment.created_utc > cutoff
 			).all()
 
-			threshold = app.config["SPAM_SIMILAR_COUNT_THRESHOLD"]
+			threshold = SPAM_SIMILAR_COUNT_THRESHOLD
 			if v.age >= (60 * 60 * 24 * 30):
 				threshold *= 4
 			elif v.age >= (60 * 60 * 24 * 7):

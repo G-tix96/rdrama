@@ -4,7 +4,7 @@
 <html lang="en">
 
 <head>
-	<meta name="description" content="{{config('DESCRIPTION')}}">
+	<meta name="description" content="{{DESCRIPTION}}">
 	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
 
 	<script src="{{asset('js/bootstrap.js')}}"></script>
@@ -21,7 +21,7 @@
 	<meta property="og:site_name" content="{{request.host}}">
 	<meta property="og:image" content="/i/{{SITE_NAME}}/site_preview.webp?v=2000">
 	<meta property="og:url" content="{{SITE_FULL}}{{request.full_path}}">
-	<meta property="og:description" name="description" content="{{SITE_NAME}} - {{config('DESCRIPTION')}}">
+	<meta property="og:description" name="description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
 	<meta property="og:author" name="author" content="{{SITE_FULL}}">
 	<meta property="og:site_name" content="{{request.host}}">
 
@@ -29,7 +29,7 @@
 	<meta name="twitter:site" content="{{SITE_FULL}}">
 	<meta name="twitter:title" content="{{SITE_NAME}}">
 	<meta name="twitter:creator" content="{{SITE_FULL}}">
-	<meta name="twitter:description" content="{{SITE_NAME}} - {{config('DESCRIPTION')}}">
+	<meta name="twitter:description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
 	<meta name="twitter:image" content="/i/{{SITE_NAME}}/site_preview.webp?v=2000">
 	<meta name="twitter:url" content="{{SITE_FULL}}{{request.full_path}}">
 
@@ -45,7 +45,7 @@
 	{% else %}
 		<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
 		<link rel="stylesheet" href="{{asset('css/main.css')}}">
-		<link rel="stylesheet" href="/assets/css/{{config('DEFAULT_THEME')}}.css?v=57">
+		<link rel="stylesheet" href="/assets/css/{{DEFAULT_THEME}}.css?v=57">
 	{% endif %}
 </head>
 
