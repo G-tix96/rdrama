@@ -328,7 +328,7 @@
 								{% if v.discord_id %}
 									<form action="/settings/remove_discord" method="post">
 									<input type="hidden" name="formkey" value="{{v.formkey}}">
-									<input type="submit" onclick="this.classList.add('disabled')" class="btn btn-secondary text-capitalize mr-2 mb-0 mt-2" value="Disconnect Discord">
+									<input type="submit" onclick="disable(this)" class="btn btn-secondary text-capitalize mr-2 mb-0 mt-2" value="Disconnect Discord">
 									</form>
 
 									<div class="text-small-extra text-muted mt-3">Disconnecting your Discord account will remove you from the {{SITE_NAME}} Discord server.</div>
@@ -383,7 +383,7 @@
 										<input autocomplete="off" type="text" name="name" class="form-control" value="{{v.username}}">
 										<small>3-25 characters, including letters, numbers, _ , and -</small>
 										<div class="d-flex mt-2">
-											<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="this.classList.add('disabled')" value="Change Display Name">
+											<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Change Display Name">
 										</div>
 									</form>
 								</div>
@@ -415,7 +415,7 @@
 
 										<input class="form-control" style="display:inline;max-width:75%;font-size: min(3.5vw,16px)!important" autocomplete="off" type="text" name="song" class="form-control" value="{% if v.song and v.song != v.id|string %}https://youtu.be/{{v.song}}{% endif %}" placeholder='Enter a YouTube video link here'>
 
-										<input class="btn btn-primary" style="font-size: min(3.5vw,16px)!important" autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="this.classList.add('disabled')" value="Submit">
+										<input class="btn btn-primary" style="font-size: min(3.5vw,16px)!important" autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Submit">
 									</form>
 
 									<br><small>In some browsers, users have to click at least once anywhere in the profile page for the anthem to play.</small>
@@ -475,7 +475,7 @@
 											<a class="format" role="button"><i class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('customtitlebody')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom"  title="Add Emoji"></i></a>
 											&nbsp;&nbsp;&nbsp;
 											<small>Limit of 100 characters</small>
-											<input {% if v.flairchanged %}disabled{% endif %} autocomplete="off" class="btn btn-primary ml-auto" id="titleSave" type="submit" onclick="this.classList.add('disabled')" value="Change Flair">
+											<input {% if v.flairchanged %}disabled{% endif %} autocomplete="off" class="btn btn-primary ml-auto" id="titleSave" type="submit" onclick="disable(this)" value="Change Flair">
 										</div>
 									</form>
 								</div>
@@ -575,7 +575,7 @@
 											<input minlength=1 maxlength=100 autocomplete="off" id="checkmark_text" type="text" name="title" class="form-control" placeholder='Enter text here' value="{{v.verified}}">
 											<div class="d-flex mt-2">
 												<small>Limit of 100 characters</small>
-												<input autocomplete="off" class="btn btn-primary ml-auto" id="titleSave" type="submit" onclick="this.classList.add('disabled')" value="Change Text">
+												<input autocomplete="off" class="btn btn-primary ml-auto" id="titleSave" type="submit" onclick="disable(this)" value="Change Text">
 											</div>	
 										</form>
 									</div>
@@ -612,7 +612,7 @@
 										<pre></pre>
 										<div class="d-flex">
 											<small>Limit of 1500 characters</small>
-											<input autocomplete="off" class="btn btn-primary ml-auto" id="bioSave" type="submit" onclick="this.classList.add('disabled')" value="Save Changes">
+											<input autocomplete="off" class="btn btn-primary ml-auto" id="bioSave" type="submit" onclick="disable(this)" value="Save Changes">
 										</div>
 									</form>
 								</div>
@@ -631,7 +631,7 @@
 										<pre></pre>
 										<div class="d-flex">
 											<small>Limit of 500 characters</small>
-											<input autocomplete="off" class="btn btn-primary ml-auto" id="friendsSave" type="submit" onclick="this.classList.add('disabled')" value="Save Changes">
+											<input autocomplete="off" class="btn btn-primary ml-auto" id="friendsSave" type="submit" onclick="disable(this)" value="Save Changes">
 										</div>
 									</form>
 								</div>
@@ -650,7 +650,7 @@
 										<pre></pre>
 										<div class="d-flex">
 											<small>Limit of 500 characters</small>
-											<input autocomplete="off" class="btn btn-primary ml-auto" id="enemiesSave" type="submit" onclick="this.classList.add('disabled')" value="Save Changes">
+											<input autocomplete="off" class="btn btn-primary ml-auto" id="enemiesSave" type="submit" onclick="disable(this)" value="Save Changes">
 										</div>
 									</form>
 								</div>
@@ -680,7 +680,7 @@
 										<pre></pre>
 										<div class="d-flex">
 											<small>Limit of 200 characters</small>
-											<input autocomplete="off" class="btn btn-primary ml-auto" id="sigSave" type="submit" onclick="this.classList.add('disabled')" value="Save Changes">
+											<input autocomplete="off" class="btn btn-primary ml-auto" id="sigSave" type="submit" onclick="disable(this)" value="Save Changes">
 										</div>
 									</form>
 								</div>

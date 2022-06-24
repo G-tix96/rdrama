@@ -213,7 +213,7 @@
 							&nbsp;
 							<pre class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('input-message')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></pre>
 							&nbsp;
-							<input type="submit" onclick="this.classList.add('disabled')" value="Submit" class="btn btn-primary">
+							<input type="submit" onclick="disable(this)" value="Submit" class="btn btn-primary">
 						</form>
 
 						<div id="message-preview" class="preview mt-2"></div>
@@ -257,7 +257,7 @@
 											<label class="custom-control-label" for="locked">locked</label>
 										</div>
 										&nbsp;&nbsp;&nbsp;
-										<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="this.classList.add('disabled')" value="Change Flair">
+										<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Change Flair">
 									</div>
 								</form>
 							</div>
@@ -268,7 +268,7 @@
 							<form action="/unban_user/{{u.id}}/" method="post" action="">
 								<input type="hidden" name="formkey" value="{{v.formkey}}">
 								<input type="hidden" name="redir" value="true">
-								<input type="submit" onclick="this.classList.add('disabled')" class="btn btn-success" value="Unban user">
+								<input type="submit" onclick="disable(this)" class="btn btn-success" value="Unban user">
 							</form>
 						{% else %}
 							<form action="/ban_user/{{u.id}}" method="post" action="">
@@ -280,7 +280,7 @@
 									<input autocomplete="off" type="checkbox" id="alts-2-desktop" class="custom-control-input" name="alts" value="1">
 									<label class="custom-control-label" for="alts-2-desktop">Include alts</label>
 								</div>
-								<input autocomplete="off" id="user-ban-submit" type="submit" onclick="this.classList.add('disabled')" class="btn btn-danger" value="Ban user" disabled>
+								<input autocomplete="off" id="user-ban-submit" type="submit" onclick="disable(this)" class="btn btn-danger" value="Ban user" disabled>
 							</form>
 						{% endif %}
 						<pre></pre>
@@ -288,7 +288,7 @@
 						<form id="agendaposter1" class="{% if u.agendaposter %}d-none{% endif %}" action="/agendaposter/{{u.id}}" method="post">
 							<input type="hidden" name="formkey", value="{{v.formkey}}">
 							<input autocomplete="off" type="number" step="any" name="days" class="form-control" placeholder="Days (0 or blank = permanent)">
-							<input type="submit" onclick="this.classList.add('disabled')" class="btn btn-danger" value="Lock Chud Theme">
+							<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Lock Chud Theme">
 						</form>
 						<a id="unagendaposter" class="{% if not u.agendaposter %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/unagendaposter/{{u.id}}','agendaposter1','unagendaposter','d-none')">Disable Chud Theme</a>
 
@@ -305,13 +305,13 @@
 						<form action="/admin/unnuke_user" method="post">
 							<input type="hidden" name="formkey", value="{{v.formkey}}">
 							<input type="hidden" name="user" value="{{u.username}}">
-							<input type="submit" onclick="this.classList.add('disabled')" class="btn btn-success" value="Approve User's Content">
+							<input type="submit" onclick="disable(this)" class="btn btn-success" value="Approve User's Content">
 						</form>
 						<pre></pre>
 						<form action="/admin/nuke_user" method="post">
 							<input type="hidden" name="formkey", value="{{v.formkey}}">
 							<input type="hidden" name="user" value="{{u.username}}">
-							<input type="submit" onclick="this.classList.add('disabled')" class="btn btn-danger" value="Remove User's Content">
+							<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Remove User's Content">
 						</form>
 						<pre></pre>
 						<button id="grant2" class="{% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="post_toast(this,'/@{{u.username}}/club_allow','grant2','bar2','d-none')">Grant club access</button>
@@ -527,7 +527,7 @@
 						&nbsp;
 						<pre class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('input-message-mobile')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></pre>
 						&nbsp;
-						<input type="submit" onclick="this.classList.add('disabled')" value="Submit" class="btn btn-primary">
+						<input type="submit" onclick="disable(this)" value="Submit" class="btn btn-primary">
 					</form>
 
 					<div id="message-preview-mobile" class="preview my-3"></div>
@@ -567,7 +567,7 @@
 											<label class="custom-control-label" for="locked-mobile">locked</label>
 										</div>
 										&nbsp;&nbsp;&nbsp;
-										<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="this.classList.add('disabled')" value="Change Flair">
+										<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Change Flair">
 									</div>
 								</form>
 							</div>
@@ -578,7 +578,7 @@
 							<form action="/unban_user/{{u.id}}" method="post">
 								<input type="hidden" name="formkey", value="{{v.formkey}}">
 								<input type="hidden" name="redir" value="true">
-								<input type="submit" onclick="this.classList.add('disabled')" class="btn btn-success" value="Unban user">
+								<input type="submit" onclick="disable(this)" class="btn btn-success" value="Unban user">
 							</form>
 						{% else %}
 							<form action="/ban_user/{{u.id}}/" method="post">
@@ -592,7 +592,7 @@
 									<label class="custom-control-label" for="alts-2-mobile">Include alts</label>
 								</div>
 								<br >
-								<input autocomplete="off" id="user-ban-submit2" type="submit" onclick="this.classList.add('disabled')" class="btn btn-danger" value="Ban user" disabled>
+								<input autocomplete="off" id="user-ban-submit2" type="submit" onclick="disable(this)" class="btn btn-danger" value="Ban user" disabled>
 							</form>
 						{% endif %}
 						<pre></pre>
@@ -600,7 +600,7 @@
 						<form id="agendaposter2" class="{% if u.agendaposter %}d-none{% endif %}" action="/agendaposter/{{u.id}}" method="post">
 							<input type="hidden" name="formkey", value="{{v.formkey}}">
 							<input autocomplete="off" type="number" step="any" name="days" class="form-control" placeholder="Days (0 or blank = permanent)">
-							<input type="submit" onclick="this.classList.add('disabled')" class="btn btn-danger" value="Lock Chud Theme">
+							<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Lock Chud Theme">
 						</form>
 						<a id="unagendaposter2" class="{% if not u.agendaposter %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/unagendaposter/{{u.id}}','agendaposter2','unagendaposter2','d-none')">Disable Chud Theme</a>
 
@@ -617,13 +617,13 @@
 						<form action="/admin/unnuke_user" method="post">
 							<input type="hidden" name="formkey", value="{{v.formkey}}">
 							<input type="hidden" name="user" value="{{u.username}}">
-							<input type="submit" onclick="this.classList.add('disabled')" class="btn btn-success" value="Approve User's Content">
+							<input type="submit" onclick="disable(this)" class="btn btn-success" value="Approve User's Content">
 						</form>
 						<pre></pre>
 						<form action="/admin/nuke_user" method="post">
 							<input type="hidden" name="formkey", value="{{v.formkey}}">
 							<input type="hidden" name="user" value="{{u.username}}">
-							<input type="submit" onclick="this.classList.add('disabled')" class="btn btn-danger" value="Remove User's Content">
+							<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Remove User's Content">
 						</form>
 					{% endif %}
 				{% endif %}
