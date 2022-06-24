@@ -39,7 +39,7 @@
 			<link rel="stylesheet" href="/@{{v.username}}/css">
 		{% endif %}
 	{% else %}
-		<style>:root{--primary:#{{config('DEFAULT_COLOR')}}</style>
+		<style>:root{--primary:#{{DEFAULT_COLOR)}}</style>
 		<link rel="stylesheet" href="{{asset('css/main.css')}}">
 		<link rel="stylesheet" href="/assets/css/{{config('DEFAULT_THEME')}}.css?v=57">
 		<link rel="stylesheet" href="/assets/css/awards.css?v=11">
@@ -111,9 +111,9 @@
 		<link rel="shortcut icon" href="/i/{{SITE_NAME}}/icon.webp?v=2000">
 		<meta name="apple-mobile-web-app-title" content="{{SITE_NAME}}">
 		<meta name="application-name" content="{{SITE_NAME}}">
-		<meta name="msapplication-TileColor" content="#{{config('DEFAULT_COLOR')}}">
+		<meta name="msapplication-TileColor" content="#{% if v %}{{v.themecolor}}{% else %}{{DEFAULT_COLOR)}}{% endif %}">
 		<meta name="msapplication-config" content="/assets/browserconfig.xml?v=4">
-		<meta name="theme-color" content="#{% if v %}{{v.themecolor}}{% else %}{{config('DEFAULT_COLOR')}}{% endif %}">
+		<meta name="theme-color" content="#{% if v %}{{v.themecolor}}{% else %}{{DEFAULT_COLOR)}}{% endif %}">
 
 
 
