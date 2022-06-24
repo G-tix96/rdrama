@@ -397,7 +397,7 @@ def get_coins(v, username):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @is_not_permabanned
 def transfer_coins(v, username):
-	receiver = g.db.query(User).filter_by(username=username).one_or_none()
+	receiver = get_user(username)
 
 	if receiver is None: return {"error": "That user doesn't exist."}, 404
 
@@ -443,7 +443,7 @@ def transfer_coins(v, username):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @is_not_permabanned
 def transfer_bux(v, username):
-	receiver = g.db.query(User).filter_by(username=username).one_or_none()
+	receiver = get_user(username)
 
 	if not receiver: return {"error": "That user doesn't exist."}, 404
 
