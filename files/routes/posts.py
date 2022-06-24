@@ -1144,8 +1144,6 @@ def submit_post(v, sub=None):
 			body += f"Snapshots:\n\n{rev}* [archive.org](https://web.archive.org/{newposturl})\n* [archive.ph](https://archive.ph/?url={quote(newposturl)}&run=1) (click to archive)\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(newposturl)}) (click to archive)\n\n"
 			gevent.spawn(archiveorg, newposturl)
 
-		body = body.strip()
-
 		captured = []
 		for i in list(snappy_url_regex.finditer(post.body_html)):
 			if i.group(0) in captured: continue
