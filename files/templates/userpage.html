@@ -213,7 +213,7 @@
 							&nbsp;
 							<pre class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('input-message')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></pre>
 							&nbsp;
-							<input type="submit" onclick="disable(this)" value="Submit" class="btn btn-primary">
+							<input type="submit" onclick="disable(this);remove_dialog()" value="Submit" class="btn btn-primary">
 						</form>
 
 						<div id="message-preview" class="preview mt-2"></div>
@@ -527,7 +527,7 @@
 						&nbsp;
 						<pre class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('input-message-mobile')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></pre>
 						&nbsp;
-						<input type="submit" onclick="disable(this)" value="Submit" class="btn btn-primary">
+						<input type="submit" onclick="disable(this);remove_dialog()" value="Submit" class="btn btn-primary">
 					</form>
 
 					<div id="message-preview-mobile" class="preview my-3"></div>
