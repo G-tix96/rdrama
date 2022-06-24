@@ -283,6 +283,8 @@ def upvoters(v, username):
 
 	votes = Counter(dict(votes)) + Counter(dict(votes2))
 
+	total = sum(votes.values())
+
 	users = g.db.query(User).filter(User.id.in_(votes.keys())).all()
 	users2 = []
 	for user in users: users2.append((user, votes[user.id]))
@@ -294,7 +296,10 @@ def upvoters(v, username):
 		pos = (pos+1, users[pos][1])
 	except: pos = (len(users)+1, 0)
 
-	return render_template("voters.html", v=v, users=users[:25], pos=pos, name='Up', name2=f'@{username} biggest simps')
+	if total == 1: total=f'{total} upvote received'
+	else: total=f'{total} upvotes received'
+
+	return render_template("voters.html", v=v, users=users[:25], pos=pos, name='Up', name2=f'@{username} biggest simps', total=total)
 
 
 
@@ -309,6 +314,8 @@ def downvoters(v, username):
 
 	votes = Counter(dict(votes)) + Counter(dict(votes2))
 
+	total = sum(votes.values())
+
 	users = g.db.query(User).filter(User.id.in_(votes.keys())).all()
 	users2 = []
 	for user in users: users2.append((user, votes[user.id]))
@@ -320,7 +327,10 @@ def downvoters(v, username):
 		pos = (pos+1, users[pos][1])
 	except: pos = (len(users)+1, 0)
 
-	return render_template("voters.html", v=v, users=users[:25], pos=pos, name='Down', name2=f'@{username} biggest haters')
+	if total == 1: total=f'{total} downvote received'
+	else: total=f'{total} downvotes received'
+
+	return render_template("voters.html", v=v, users=users[:25], pos=pos, name='Down', name2=f'@{username} biggest haters', total=total)
 
 @app.get("/@<username>/upvoting")
 @auth_required
@@ -333,6 +343,8 @@ def upvoting(v, username):
 
 	votes = Counter(dict(votes)) + Counter(dict(votes2))
 
+	total = sum(votes.values())
+
 	users = g.db.query(User).filter(User.id.in_(votes.keys())).all()
 	users2 = []
 	for user in users: users2.append((user, votes[user.id]))
@@ -344,7 +356,10 @@ def upvoting(v, username):
 		pos = (pos+1, users[pos][1])
 	except: pos = (len(users)+1, 0)
 
-	return render_template("voters.html", v=v, users=users[:25], pos=pos, name='Up', name2=f'Who @{username} simps for')
+	if total == 1: total=f'{total} upvote given'
+	else: total=f'{total} upvotes given'
+
+	return render_template("voters.html", v=v, users=users[:25], pos=pos, name='Up', name2=f'Who @{username} simps for', total=total)
 
 @app.get("/@<username>/downvoting")
 @auth_required
@@ -357,6 +372,8 @@ def downvoting(v, username):
 
 	votes = Counter(dict(votes)) + Counter(dict(votes2))
 
+	total = sum(votes.values())
+
 	users = g.db.query(User).filter(User.id.in_(votes.keys())).all()
 	users2 = []
 	for user in users: users2.append((user, votes[user.id]))
@@ -368,7 +385,10 @@ def downvoting(v, username):
 		pos = (pos+1, users[pos][1])
 	except: pos = (len(users)+1, 0)
 
-	return render_template("voters.html", v=v, users=users[:25], pos=pos, name='Down', name2=f'Who @{username} hates')
+	if total == 1: total=f'{total} downvote given'
+	else: total=f'{total} downvotes given'
+
+	return render_template("voters.html", v=v, users=users[:25], pos=pos, name='Down', name2=f'Who @{username} hates', total=total)
 
 
 
