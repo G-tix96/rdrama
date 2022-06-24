@@ -235,6 +235,7 @@ class Comment(Base):
 
 		else: return g.db.get(Comment, self.parent_comment_id)
 
+	@property
 	@lazy
 	def parent_fullname(self):
 		if self.parent_comment_id: return f"t3_{self.parent_comment_id}"
