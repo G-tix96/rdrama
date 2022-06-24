@@ -261,7 +261,6 @@ elif SITE == 'pcmemes.net':
 
 	LOTTERY_TICKET_COST = 12
 	LOTTERY_SINK_RATE = -8
-	LOTTERY_DURATION = 60 * 60 * 24 * 3
 elif SITE == 'cringetopia.org':
 	HOLE_COST = 10000
 
