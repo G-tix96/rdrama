@@ -2,6 +2,7 @@ from urllib.parse import urlencode
 from files.mail import *
 from files.__main__ import app, limiter
 from files.helpers.const import *
+from files.helpers.regex import *
 from files.helpers.actions import *
 from files.helpers.get import *
 import requests

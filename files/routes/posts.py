@@ -6,6 +6,7 @@ from files.helpers.sanitize import *
 from files.helpers.alerts import *
 from files.helpers.discord import send_discord_message
 from files.helpers.const import *
+from files.helpers.regex import *
 from files.helpers.slots import *
 from files.helpers.get import *
 from files.classes import *

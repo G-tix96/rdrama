@@ -3,6 +3,7 @@ import re
 from sqlalchemy import *
 from flask import *
 from files.__main__ import app
+from files.helpers.regex import *
 
 valid_params = [
 	'author',

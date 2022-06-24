@@ -2,6 +2,7 @@ from files.__main__ import app, limiter, mail
 from files.helpers.alerts import *
 from files.helpers.wrappers import *
 from files.helpers.get import *
+from files.helpers.regex import *
 from files.classes import *
 from .front import frontlist
 import tldextract

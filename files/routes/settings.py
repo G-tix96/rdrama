@@ -3,6 +3,7 @@ from files.helpers.alerts import *
 from files.helpers.sanitize import *
 from files.helpers.discord import remove_user, set_nick
 from files.helpers.const import *
+from files.helpers.regex import *
 from files.helpers.actions import *
 from files.helpers.get import *
 from files.mail import *

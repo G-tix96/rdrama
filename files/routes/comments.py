@@ -2,6 +2,7 @@ from files.helpers.wrappers import *
 from files.helpers.alerts import *
 from files.helpers.media import *
 from files.helpers.const import *
+from files.helpers.regex import *
 from files.helpers.slots import *
 from files.helpers.blackjack import *
 from files.helpers.treasure import *

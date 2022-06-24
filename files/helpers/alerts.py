@@ -2,6 +2,7 @@ from files.classes import *
 from flask import g
 from .sanitize import *
 from .const import *
+from .regex import *
 
 def create_comment(text_html, autojanny=False):
 	if autojanny: author_id = AUTOJANNY_ID
