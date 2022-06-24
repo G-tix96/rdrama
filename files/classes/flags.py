@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from files.__main__ import Base
 from files.helpers.lazy import lazy
 from files.helpers.const import *
+from files.helpers.regex import *
 import time
 
 class Flag(Base):

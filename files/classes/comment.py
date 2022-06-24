@@ -9,6 +9,7 @@ from files.__main__ import Base
 from files.classes.votes import CommentVote
 from files.helpers.const import *
 from files.helpers.regex import *
+from files.helpers.regex import *
 from files.helpers.lazy import lazy
 from .flags import CommentFlag
 from random import randint
