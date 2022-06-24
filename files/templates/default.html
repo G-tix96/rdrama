@@ -7,8 +7,9 @@
 
 	{% if v and v.id == AEVANN_ID %}
 		<script>
-			if(PerformanceNavigationTiming.type == "back_forward")
-				location.reload(true);
+			window.addEventListener( "pageshow", function (e) {
+				if (e.persisted) location.reload();
+			});
 		</script>
 	{% endif %}
 
