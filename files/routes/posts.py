@@ -1144,8 +1144,10 @@ def submit_post(v, sub=None):
 			body += f"Snapshots:\n\n{rev}* [archive.org](https://web.archive.org/{newposturl})\n* [archive.ph](https://archive.ph/?url={quote(newposturl)}&run=1) (click to archive)\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(newposturl)}) (click to archive)\n\n"
 			gevent.spawn(archiveorg, newposturl)
 
+		body = body.strip()
+
 		captured = []
-		for i in list(snappy_url_regex.finditer(post.body_html))[:20]:
+		for i in list(snappy_url_regex.finditer(post.body_html)):
 			if i.group(0) in captured: continue
 			captured.append(i.group(0))
 
@@ -1156,16 +1158,18 @@ def submit_post(v, sub=None):
 			if "Snapshots:\n\n" not in body: body += "Snapshots:\n\n"
 
 			if f'**[{title}]({href})**:\n\n' not in body:
-				body += f'**[{title}]({href})**:\n\n'
+				addition = f'**[{title}]({href})**:\n\n'
 				if href.startswith('https://old.reddit.com/r/'):
 					rev = href.replace('https://old.reddit.com/', '')
-					body += f'* [unddit.com](https://unddit.com/{rev})\n'
+					addition += f'* [unddit.com](https://unddit.com/{rev})\n'
 				if href.startswith('https://old.reddit.com/u/'):
 					rev = href.replace('https://old.reddit.com/u/', '')
-					body += f"* [search.marsey.cat](https://search.marsey.cat/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
-				body += f'* [archive.org](https://web.archive.org/{href})\n'
-				body += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n'
-				body += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)}) (click to archive)\n\n'
+					addition += f"* [search.marsey.cat](https://search.marsey.cat/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
+				addition += f'* [archive.org](https://web.archive.org/{href})\n'
+				addition += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n'
+				addition += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)}) (click to archive)\n\n'
+				if len(f'{body}{addition}') > 10000: break
+				body += addition
 				gevent.spawn(archiveorg, href)
 
 		body = body.strip()
