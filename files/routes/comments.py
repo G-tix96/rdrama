@@ -6,6 +6,7 @@ from files.helpers.slots import *
 from files.helpers.blackjack import *
 from files.helpers.treasure import *
 from files.helpers.actions import *
+from files.helpers.get import *
 from files.classes import *
 from files.routes.front import comment_idlist
 from files.routes.static import marsey_list
@@ -513,7 +514,7 @@ def api_comment(v):
 
 			g.db.add(c2)
 
-			longpostbot = g.db.get(User, LONGPOSTBOT_ID)
+			longpostbot = get_account(LONGPOSTBOT_ID)
 			longpostbot.comment_count += 1
 			longpostbot.coins += 1
 			g.db.add(longpostbot)
@@ -574,7 +575,7 @@ def api_comment(v):
 
 			g.db.add(c4)
 
-			zozbot = g.db.get(User, ZOZBOT_ID)
+			zozbot = get_account(ZOZBOT_ID)
 			zozbot.comment_count += 3
 			zozbot.coins += 3
 			g.db.add(zozbot)

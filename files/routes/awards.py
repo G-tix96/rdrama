@@ -107,8 +107,8 @@ def buy(v, award):
 @is_not_permabanned
 def award_thing(v, thing_type, id):
 
-	if thing_type == 'post': thing = g.db.get(Submission, id)
-	else: thing = g.db.get(Comment, id)
+	if thing_type == 'post': thing = get_post(id)
+	else: thing = get_comment(id)
 
 	if not thing: return {"error": f"That {thing_type} doesn't exist."}, 404
 

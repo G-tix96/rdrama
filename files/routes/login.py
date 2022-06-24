@@ -3,6 +3,7 @@ from files.mail import *
 from files.__main__ import app, limiter
 from files.helpers.const import *
 from files.helpers.actions import *
+from files.helpers.get import *
 import requests
 
 @app.get("/login")
@@ -257,7 +258,7 @@ def sign_up_post(v):
 
 		args = {"error": error}
 		if request.values.get("referred_by"):
-			user = g.db.get(User, request.values.get("referred_by"))
+			user = get_account(request.values.get("referred_by"))
 			if user: args["ref"] = user.username
 
 		return redirect(f"/signup?{urlencode(args)}")
@@ -333,7 +334,7 @@ def sign_up_post(v):
 	g.db.add(new_user)
 
 	if ref_id:
-		ref_user = g.db.get(User, ref_id)
+		ref_user = get_account(ref_id)
 
 		if ref_user:
 			badge_grant(user=ref_user, badge_id=10)
@@ -420,7 +421,7 @@ def get_reset():
 			title="Password reset link expired",
 			error="That password reset link has expired.")
 
-	user = g.db.get(User, user_id)
+	user = get_account(user_id)
 	
 	if not user: abort(400)
 
@@ -460,7 +461,7 @@ def post_reset(v):
 							   title="Password reset expired",
 							   error="That password reset form has expired.")
 
-	user = g.db.get(User, user_id)
+	user = get_account(user_id)
 
 	if not validate_hash(f"{user_id}+{timestamp}+reset+{user.login_nonce}", token):
 		abort(400)

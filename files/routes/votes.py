@@ -254,7 +254,7 @@ def bet(comment_id, v):
 
 	v.coins -= 200
 	g.db.add(v)
-	autobetter = g.db.get(User, AUTOBETTER_ID)
+	autobetter = get_account(AUTOBETTER_ID)
 	autobetter.coins += 200
 	g.db.add(autobetter)
 

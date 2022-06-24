@@ -1,6 +1,7 @@
 from .get import *
 from .alerts import *
 from files.helpers.const import *
+from files.helpers.get import *
 from files.__main__ import db_session, limiter
 from random import randint
 import user_agents
@@ -23,7 +24,7 @@ def get_logged_in_user():
 		lo_user = session.get("lo_user")
 		if lo_user:
 			id = int(lo_user)
-			v = g.db.get(User, id)
+			v = get_account(id)
 			if v:
 				nonce = session.get("login_nonce", 0)
 				if nonce < v.login_nonce or v.id != id: abort(401)

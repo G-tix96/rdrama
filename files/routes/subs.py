@@ -1,6 +1,7 @@
 from files.__main__ import app, limiter, mail
 from files.helpers.alerts import *
 from files.helpers.wrappers import *
+from files.helpers.get import *
 from files.classes import *
 from .front import frontlist
 import tldextract
@@ -244,7 +245,7 @@ def remove_mod(v, sub):
 	try: uid = int(uid)
 	except: abort(400)
 
-	user = g.db.get(User, uid)
+	user = get_account(uid)
 
 	if not user: abort(404)
 

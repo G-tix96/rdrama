@@ -92,7 +92,6 @@ def get_account(id, v=None):
 	except: abort(404)
 
 	user = g.db.get(User, id)
-				
 	if not user: abort(404)
 
 	if v:
@@ -116,18 +115,22 @@ def get_account(id, v=None):
 
 def get_post(i, v=None, graceful=False):
 
+	if not i:
+		if graceful: return None
+		else: abort(404)
+
 	if v:
 		vt = g.db.query(Vote).filter_by(
 			user_id=v.id, submission_id=i).subquery()
 		blocking = v.blocking.subquery()
 
-		items = g.db.query(
+		post = g.db.query(
 			Submission,
 			vt.c.vote_type,
 			blocking.c.target_id,
 		)
 
-		items=items.filter(Submission.id == i
+		post=post.filter(Submission.id == i
 		).join(
 			vt, 
 			vt.c.submission_id == Submission.id, 
@@ -138,21 +141,21 @@ def get_post(i, v=None, graceful=False):
 			isouter=True
 		)
 
-		items=items.one_or_none()
+		post=post.one_or_none()
 		
-		if not items:
+		if not post:
 			if graceful: return None
 			else: abort(404)
 
-		x = items[0]
-		x.voted = items[1] or 0
-		x.is_blocking = items[2] or 0
+		x = post[0]
+		x.voted = post[1] or 0
+		x.is_blocking = post[2] or 0
 	else:
-		items = g.db.get(Submission, i)
-		if not items:
+		post = g.db.get(Submission, i)
+		if not post:
 			if graceful: return None
 			else: abort(404)
-		x=items
+		x=post
 
 	return x
 
@@ -202,12 +205,16 @@ def get_posts(pids, v=None):
 
 def get_comment(i, v=None, graceful=False):
 
+	if not i:
+		if graceful: return None
+		else: abort(404)
+
+	comment=g.db.get(Comment, i)
+	if not comment:
+		if graceful: return None
+		else: abort(404)
+
 	if v:
-
-		comment=g.db.get(Comment, i)
-
-		if not comment and not graceful: abort(404)
-
 		block = g.db.query(UserBlock).filter(
 			or_(
 				and_(
@@ -226,10 +233,6 @@ def get_comment(i, v=None, graceful=False):
 		comment.is_blocking = block and block.user_id == v.id
 		comment.is_blocked = block and block.target_id == v.id
 		comment.voted = vt.vote_type if vt else 0
-
-	else:
-		comment = g.db.get(Comment, i)
-		if not comment and not graceful:abort(404)
 
 	return comment
 

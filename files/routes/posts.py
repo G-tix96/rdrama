@@ -7,6 +7,7 @@ from files.helpers.alerts import *
 from files.helpers.discord import send_discord_message
 from files.helpers.const import *
 from files.helpers.slots import *
+from files.helpers.get import *
 from files.classes import *
 from files.routes.subs import on_post_hole_entered
 from flask import *
@@ -383,7 +384,7 @@ def morecomments(v, cid):
 			else: dump.append(comment)
 		comments = output
 	else:
-		c = g.db.get(Comment, cid)
+		c = get_comment(cid)
 		comments = c.replies(None)
 
 	if comments: p = comments[0].post
@@ -1086,7 +1087,7 @@ def submit_post(v, sub=None):
 		n = Notification(comment_id=c_jannied.id, user_id=v.id)
 		g.db.add(n)
 
-	snappy = g.db.get(User, SNAPPY_ID)
+	snappy = get_account(SNAPPY_ID)
 
 	if not (post.sub and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, sub=post.sub).one_or_none()):
 		if post.sub == 'dankchristianmemes' or post.sub == 'truth':
@@ -1277,7 +1278,7 @@ def undelete_post_pid(pid, v):
 @app.post("/toggle_comment_nsfw/<cid>")
 @auth_required
 def toggle_comment_nsfw(cid, v):
-	comment = g.db.get(Comment, cid)
+	comment = get_comment(cid)
 
 	if comment.author_id != v.id and not v.admin_level > 1:
 		abort(403)
@@ -1357,7 +1358,7 @@ def unsave_post(pid, v):
 @auth_required
 def api_pin_post(post_id, v):
 
-	post = g.db.get(Submission, post_id)
+	post = get_post(post_id)
 	if post:
 		if v.id != post.author_id: return {"error": "Only the post author's can do that!"}
 		post.is_pinned = not post.is_pinned

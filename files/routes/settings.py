@@ -4,6 +4,7 @@ from files.helpers.sanitize import *
 from files.helpers.discord import remove_user, set_nick
 from files.helpers.const import *
 from files.helpers.actions import *
+from files.helpers.get import *
 from files.mail import *
 from files.__main__ import app, cache, limiter
 import youtube_dl
@@ -767,7 +768,7 @@ def settings_name_change(v):
 						   v=v,
 						   error=f"Username `{new_name}` is already in use.")
 
-	v=g.db.get(User, v.id)
+	v=get_account(v.id)
 
 	v.username=new_name
 	v.name_changed_utc=int(time.time())
