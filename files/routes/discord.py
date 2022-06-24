@@ -26,7 +26,7 @@ def join_discord(v):
 
 	state=f"{now}.{state}"
 
-	return redirect(f"https://discord.com/api/oauth2/authorize?client_id={CLIENT_ID}&redirect_uri=https%3A%2F%2F{SERVER_NAME}%2Fdiscord_redirect&response_type=code&scope=identify%20guilds.join&state={state}")
+	return redirect(f"https://discord.com/api/oauth2/authorize?client_id={CLIENT_ID}&redirect_uri=https%3A%2F%2F{SITE}%2Fdiscord_redirect&response_type=code&scope=identify%20guilds.join&state={state}")
 
 
 @app.get("/discord_redirect")
@@ -56,7 +56,7 @@ def discord_redirect(v):
 		'client_secret': CLIENT_SECRET,
 		'grant_type': 'authorization_code',
 		'code': code,
-		'redirect_uri': f"https://{SERVER_NAME}/discord_redirect",
+		'redirect_uri': f"https://{SITE}/discord_redirect",
 		'scope': 'identify guilds.join'
 	}
 	headers={

@@ -829,7 +829,7 @@ def submit_post(v, sub=None):
 						except: pass
 					embed += '"></lite-youtube>'
 			
-		elif SERVER_NAME in domain and "/post/" in url and "context" not in url:
+		elif SITE in domain and "/post/" in url and "context" not in url:
 			id = url.split("/post/")[1]
 			if "/" in id: id = id.split("/")[0]
 			embed = str(int(id))
