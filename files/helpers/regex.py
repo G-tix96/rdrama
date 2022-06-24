@@ -92,6 +92,8 @@ twitter_to_nitter_regex = re.compile("https:\/\/twitter.com\/(\w{4,15}(\/status\
 
 reddit_domain_regex = re.compile("(^|\s)https:\/\/(reddit\.com|new\.reddit.com|www\.reddit.com|i\.reddit\.com|redd\.it|libredd\.it|teddit\.net)\/r\/", flags=re.A)
 
+color_regex = re.compile("[a-z0-9]{6}", flags=re.A)
+
 
 def sub_matcher(match, upper=False):
 	if match.group(0).startswith('<'):

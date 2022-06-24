@@ -341,8 +341,10 @@ def namecolor(v):
 
 	color = request.values.get("color", "").strip().lower()
 	if color.startswith('#'): color = color[1:]
-	if len(color) != 6: return render_template("settings_profile.html", v=v, error="Invalid color code")
-	if color == '21262c': return render_template("settings_profile.html", v=v, error="This color is not allowed")
+
+	if not color_regex.fullmatch(color):
+		return render_template("settings_profile.html", v=v, error="Invalid color code")
+
 	v.namecolor = color
 	g.db.add(v)
 	g.db.commit()
@@ -356,7 +358,10 @@ def themecolor(v):
 
 	themecolor = str(request.values.get("themecolor", "")).strip()
 	if themecolor.startswith('#'): themecolor = themecolor[1:]
-	if len(themecolor) != 6: return render_template("settings_profile.html", v=v, error="Invalid color code")
+
+	if not color_regex.fullmatch(themecolor):
+		return render_template("settings_profile.html", v=v, error="Invalid color code")
+
 	v.themecolor = themecolor
 	g.db.add(v)
 	g.db.commit()
@@ -408,8 +413,9 @@ def titlecolor(v):
 
 	titlecolor = request.values.get("titlecolor", "").strip().lower()
 	if titlecolor.startswith('#'): titlecolor = titlecolor[1:]
-	if len(titlecolor) != 6: return render_template("settings_profile.html", v=v, error="Invalid color code")
-	if titlecolor == '21262c': return render_template("settings_profile.html", v=v, error="This color is not allowed")
+
+	if not color_regex.fullmatch(titlecolor):
+		return render_template("settings_profile.html", v=v, error="Invalid color code")
 	v.titlecolor = titlecolor
 	g.db.add(v)
 	g.db.commit()
