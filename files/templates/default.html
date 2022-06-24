@@ -113,7 +113,7 @@
 		<meta name="application-name" content="{{SITE_NAME}}">
 		<meta name="msapplication-TileColor" content="#{{config('DEFAULT_COLOR')}}">
 		<meta name="msapplication-config" content="/assets/browserconfig.xml?v=4">
-		<meta name="theme-color" content="#{{config('DEFAULT_COLOR')}}">
+		<meta name="theme-color" content="#{% if v %}{{v.themecolor}}{% else %}{{config('DEFAULT_COLOR')}}{% endif %}">
 
 
 
