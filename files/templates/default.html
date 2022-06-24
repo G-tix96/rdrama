@@ -5,6 +5,17 @@
 <head>
 	<meta name="description" content="{{config('DESCRIPTION')}}">
 
+	<script>
+		if (!(navigator.deviceMemory < 3))
+		{
+			const head = document.getElementsByTagName('HEAD')[0];
+			const link = document.createElement('link');
+			link.rel = 'stylesheet';
+			link.href = "/assets/css/disable_awards.css?v=1";
+			head.appendChild(link);
+		}
+    </script>
+
 	{% if v and v.id == AEVANN_ID %}
 		<script>
 			window.addEventListener( "pageshow", function (e) {
