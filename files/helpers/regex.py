@@ -48,7 +48,7 @@ emoji_regex = re.compile(f"<p>\s*(:[!#@]{{0,3}}[{valid_username_chars}]+:\s*)+<\
 emoji_regex2 = re.compile(f'(?<!"):([!#@{valid_username_chars}]{{1,31}}?):', flags=re.A)
 emoji_regex3 = re.compile(f'(?<!"):([!@{valid_username_chars}]{{1,31}}?):', flags=re.A)
 
-snappy_url_regex = re.compile('<a href="(https?:\/\/.+?)" target="_blank" rel="nofollow noopener noreferrer">(.+?)<\/a>', flags=re.A)
+snappy_url_regex = re.compile('<a href="(https?:\/\/.+?)".*?>(.+?)<\/a>', flags=re.A)
 
 email_regex = re.compile('[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}', flags=re.A|re.I)
 
