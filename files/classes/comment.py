@@ -51,7 +51,7 @@ class Comment(Base):
 	edited_utc = Column(Integer, default=0)
 	is_banned = Column(Boolean, default=False)
 	ghost = Column(Boolean, default=False)
-	bannedfor = Column(Boolean)
+	bannedfor = Column(String)
 	distinguish_level = Column(Integer, default=0)
 	deleted_utc = Column(Integer, default=0)
 	is_approved = Column(Integer, ForeignKey("users.id"))

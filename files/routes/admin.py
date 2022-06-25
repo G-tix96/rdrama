@@ -1110,19 +1110,15 @@ def ban_user(user_id, v):
 
 	if 'reason' in request.values:
 		if request.values["reason"].startswith("/post/"):
-			try:
-				post = int(request.values["reason"].split("/post/")[1].split(None, 1)[0])
-				post = get_post(post)
-				post.bannedfor = True
-				g.db.add(post)
-			except: pass
+			post = int(request.values["reason"].split("/post/")[1].split(None, 1)[0])
+			post = get_post(post)
+			post.bannedfor = duration
+			g.db.add(post)
 		elif request.values["reason"].startswith("/comment/"):
-			try:
-				comment = int(request.values["reason"].split("/comment/")[1].split(None, 1)[0])
-				comment = get_comment(comment)
-				comment.bannedfor = True
-				g.db.add(comment)
-			except: pass
+			comment = int(request.values["reason"].split("/comment/")[1].split(None, 1)[0])
+			comment = get_comment(comment)
+			comment.bannedfor = duration
+			g.db.add(comment)
 
 	notify_mod_action(v.id, f"@{v.username} has banned @{user.username} ({note})")
 	g.db.commit()

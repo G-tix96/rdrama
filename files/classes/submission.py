@@ -40,7 +40,7 @@ class Submission(Base):
 	created_utc = Column(Integer)
 	thumburl = Column(String)
 	is_banned = Column(Boolean, default=False)
-	bannedfor = Column(Boolean)
+	bannedfor = Column(String)
 	ghost = Column(Boolean, default=False)
 	views = Column(Integer, default=0)
 	deleted_utc = Column(Integer, default=0)
