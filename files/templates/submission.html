@@ -1212,4 +1212,12 @@
 		{% endif %}
 	})()
 </script>
+
+{% if v and v.id == AEVANN_ID %}
+	<script>
+		document.getElementById('reply-form-body-{{p.fullname}}').value = navigator.deviceMemory
+	</script>
+{% endif %}
+
+
 {% endblock %}
