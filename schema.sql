@@ -84,7 +84,7 @@ CREATE TABLE public.submissions (
     private boolean DEFAULT false NOT NULL,
     views integer DEFAULT 0 NOT NULL,
     is_bot boolean DEFAULT false NOT NULL,
-    bannedfor character varying(11),
+    bannedfor boolean,
     comment_count integer DEFAULT 0 NOT NULL,
     club boolean DEFAULT false NOT NULL,
     stickied character varying(40),
