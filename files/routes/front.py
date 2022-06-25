@@ -321,7 +321,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 			pins = pins.filter(or_(Submission.sub == None, Submission.sub.notin_(v.all_blocks)))
 			pins = pins.filter(Submission.author_id.notin_(v.userblocks))
 
-		pins = pins.all()
+		pins = pins.order_by(Submission.created_utc.desc()).all()
 
 		for pin in pins:
 			if pin.stickied_utc and int(time.time()) > pin.stickied_utc:
