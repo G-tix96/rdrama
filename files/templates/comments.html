@@ -172,7 +172,7 @@
 			<div class="user-info">
 				<span class="comment-collapse-icon" onclick="collapse_comment('{{c.id}}', this.parentElement.parentElement.parentElement.parentElement)"></span>
 
-				{% for a in c.awards|reverse %}
+				{% for a in c.awards %}
 					<i class="{{a.class_list}} px-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{a.title}} Award given by @{{a.user.username}}"></i>
 				{% endfor %}
 

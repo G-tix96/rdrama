@@ -81,7 +81,7 @@ class Comment(Base):
 	senttouser = relationship("User", primaryjoin="User.id==Comment.sentto", viewonly=True)
 	parent_comment = relationship("Comment", remote_side=[id], viewonly=True)
 	child_comments = relationship("Comment", lazy="dynamic", remote_side=[parent_comment_id], viewonly=True)
-	awards = relationship("AwardRelationship", viewonly=True)
+	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", viewonly=True)
 	reports = relationship("CommentFlag", viewonly=True)
 	
 	def __init__(self, *args, **kwargs):

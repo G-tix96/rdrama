@@ -14,6 +14,7 @@ class AwardRelationship(Base):
 	submission_id = Column(Integer, ForeignKey("submissions.id"))
 	comment_id = Column(Integer, ForeignKey("comments.id"))
 	kind = Column(String)
+	awarded_utc = Column(Integer)
 
 	user = relationship("User", primaryjoin="AwardRelationship.user_id==User.id", viewonly=True)
 	post = relationship("Submission", primaryjoin="AwardRelationship.submission_id==Submission.id", viewonly=True)

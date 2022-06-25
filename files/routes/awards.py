@@ -131,6 +131,7 @@ def award_thing(v, thing_type, id):
 
 	if thing_type == 'post': award.submission_id = thing.id
 	else: award.comment_id = thing.id
+	award.awarded_utc = int(time.time())
 
 	g.db.add(award)
 

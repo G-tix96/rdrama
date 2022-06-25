@@ -159,7 +159,7 @@
 					<i class="fas fa-hammer-crash text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was banned for this post{% if p.author.banned_by %} by @{{p.author.banned_by.username}}{% endif %} for {{p.bannedfor}}"></i>
 				{% endif %}
 
-				{% for a in p.awards|reverse %}
+				{% for a in p.awards %}
 					<i class="{{a.class_list}} px-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{a.title}} Award given by @{{a.user.username}}"></i>
 				{% endfor %}
 
