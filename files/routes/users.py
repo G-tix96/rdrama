@@ -275,15 +275,15 @@ def agendaposters(v):
 @app.get("/@<username>/upvoters")
 @auth_required
 def upvoters(v, username):
-	uid = get_user(username).id
+	id = get_user(username).id
 
-	votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Submission, Vote.submission_id==Submission.id).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==1, Submission.author_id==uid).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
+	votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Submission, Vote.submission_id==Submission.id).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==1, Submission.author_id==id).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
 
-	votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment, CommentVote.comment_id==Comment.id).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==1, Comment.author_id==uid).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
+	votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment, CommentVote.comment_id==Comment.id).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==1, Comment.author_id==id).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
 
 	votes = Counter(dict(votes)) + Counter(dict(votes2))
 
-	total = sum(dict(filter(lambda x: x[0] != uid, votes.items())).values())
+	total = sum(votes.values())
 
 	users = g.db.query(User).filter(User.id.in_(votes.keys())).all()
 	users2 = []
@@ -306,15 +306,15 @@ def upvoters(v, username):
 @app.get("/@<username>/downvoters")
 @auth_required
 def downvoters(v, username):
-	uid = get_user(username).id
+	id = get_user(username).id
 
-	votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Submission, Vote.submission_id==Submission.id).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==-1, Submission.author_id==uid).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
+	votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Submission, Vote.submission_id==Submission.id).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==-1, Submission.author_id==id).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
 
-	votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment, CommentVote.comment_id==Comment.id).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==-1, Comment.author_id==uid).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
+	votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment, CommentVote.comment_id==Comment.id).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==-1, Comment.author_id==id).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
 
 	votes = Counter(dict(votes)) + Counter(dict(votes2))
 
-	total = sum(dict(filter(lambda x: x[0] != uid, votes.items())).values())
+	total = sum(votes.values())
 
 	users = g.db.query(User).filter(User.id.in_(votes.keys())).all()
 	users2 = []
@@ -335,15 +335,15 @@ def downvoters(v, username):
 @app.get("/@<username>/upvoting")
 @auth_required
 def upvoting(v, username):
-	uid = get_user(username).id
+	id = get_user(username).id
 
-	votes = g.db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote, Vote.submission_id==Submission.id).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==1, Vote.user_id==uid).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
+	votes = g.db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote, Vote.submission_id==Submission.id).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==1, Vote.user_id==id).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
 
-	votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote, CommentVote.comment_id==Comment.id).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==1, CommentVote.user_id==uid).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
+	votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote, CommentVote.comment_id==Comment.id).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==1, CommentVote.user_id==id).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
 
 	votes = Counter(dict(votes)) + Counter(dict(votes2))
 
-	total = sum(dict(filter(lambda x: x[0] != uid, votes.items())).values())
+	total = sum(votes.values())
 
 	users = g.db.query(User).filter(User.id.in_(votes.keys())).all()
 	users2 = []
@@ -364,15 +364,15 @@ def upvoting(v, username):
 @app.get("/@<username>/downvoting")
 @auth_required
 def downvoting(v, username):
-	uid = get_user(username).id
+	id = get_user(username).id
 
-	votes = g.db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote, Vote.submission_id==Submission.id).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==-1, Vote.user_id==uid).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
+	votes = g.db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote, Vote.submission_id==Submission.id).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==-1, Vote.user_id==id).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
 
-	votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote, CommentVote.comment_id==Comment.id).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==-1, CommentVote.user_id==uid).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
+	votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote, CommentVote.comment_id==Comment.id).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==-1, CommentVote.user_id==id).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
 
 	votes = Counter(dict(votes)) + Counter(dict(votes2))
 
-	total = sum(dict(filter(lambda x: x[0] != uid, votes.items())).values())
+	total = sum(votes.values())
 
 	users = g.db.query(User).filter(User.id.in_(votes.keys())).all()
 	users2 = []
