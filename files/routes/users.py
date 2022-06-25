@@ -484,7 +484,7 @@ def transfer_bux(v, username):
 			log_message = f"@{v.username} has transferred {amount} Marseybux to @{receiver.username}"
 			send_repeatable_notification(GIFT_NOTIF_ID, log_message)
 
-			notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount} bux!"
+			notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount} Marseybux!"
 			if reason:
 				notif_text += f"\n\n> {reason}"
 			send_repeatable_notification(receiver.id, notif_text)
