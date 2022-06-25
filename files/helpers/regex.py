@@ -76,7 +76,7 @@ yt_id_regex = re.compile('[a-z0-9-_]{5,20}', flags=re.I|re.A)
 
 image_regex = re.compile("(^|\s)(https:\/\/[\w\-.#&/=\?@%;+,:]{5,250}(\.png|\.jpg|\.jpeg|\.gif|\.webp)(\?[\w\-.#&/=\?@%;+,:]*)?)($|\s)", flags=re.I|re.A)
 
-link_fix_regex = re.compile("(?!.*(http|\/))(.*\[[^\]]+\]\()([^)]+\))", flags=re.A)
+link_fix_regex = re.compile("(\[.*?\]\()(?!http|/)(.*?\))", flags=re.A)
 
 css_regex = re.compile('https?:\/\/[\w:~,()\-.#&\/=?@%;+]*', flags=re.I|re.A)
 

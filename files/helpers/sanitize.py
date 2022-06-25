@@ -182,7 +182,7 @@ def sanitize(sanitized, edit=False):
 
 	sanitized = image_check_regex.sub(r'\1', sanitized)
 
-	sanitized = link_fix_regex.sub(r'\2https://\3', sanitized)
+	sanitized = link_fix_regex.sub(r'\1https://\2', sanitized)
 
 	sanitized = markdown(sanitized)
 
