@@ -127,7 +127,7 @@ class Submission(Base):
 	@lazy
 	def total_choice_voted(self, v):
 		if v and self.choices:
-			return g.db.query(CommentVote).filter(CommentVote.user_id == v.id, CommentVote.comment_id.in_([x.id for x in self.choices])).count()
+			return g.db.query(CommentVote.comment_id).filter(CommentVote.user_id == v.id, CommentVote.comment_id.in_([x.id for x in self.choices])).first()
 		return False
 
 	@lazy
@@ -417,7 +417,7 @@ class Submission(Base):
 
 		if self.choices:
 			curr = self.total_choice_voted(v)
-			if curr: curr = " value=" + str(curr[0].comment_id)
+			if curr: curr = " value=" + str(curr.comment_id)
 			else: curr = ''
 			body += f'<input class="d-none" id="current-{self.id}"{curr}>'
 
