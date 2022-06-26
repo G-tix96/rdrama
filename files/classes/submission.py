@@ -26,11 +26,11 @@ def sort_posts(sort, posts):
 	elif sort == "controversial":
 		return posts.order_by((Submission.upvotes+1)/(Submission.downvotes+1) + (Submission.downvotes+1)/(Submission.upvotes+1), Submission.downvotes.desc(), Submission.created_utc.desc())
 	elif sort == "bottom":
-		return posts.order_by(Submission.realupvotes, Submission.created_utc.desc())
+		return posts.order_by(Submission.upvotes - Submission.downvotes, Submission.created_utc.desc())
 	elif sort == "comments":
 		return posts.order_by(Submission.comment_count.desc(), Submission.created_utc.desc())
 	else:
-		return posts.order_by(Submission.realupvotes.desc(), Submission.created_utc.desc())
+		return posts.order_by(Submission.downvotes - Submission.upvotes, Submission.created_utc.desc())
 
 class Submission(Base):
 	__tablename__ = "submissions"
