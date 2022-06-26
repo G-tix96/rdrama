@@ -729,6 +729,9 @@ def submit_post(v, sub=None):
 		if v.exiled_from(sub): return error(f"You're exiled from /h/{sub}")
 	else: sub = None
 
+	if not sub and HOLE_REQUIRED:
+		return error(f"You must choose a {HOLE_NAME} for your post!")
+
 	if v.is_suspended: return error("You can't perform this action while banned.")
 	
 	if v.agendaposter and not v.marseyawarded: title = torture_ap(title, v.username)
