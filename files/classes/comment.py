@@ -567,4 +567,4 @@ class Comment(Base):
 
 	@lazy
 	def is_saved(self, v):
-		return g.db.query(CommentSaveRelationship).filter_by(user_id=v.id, comment_id=self.id).first()
+		return g.db.query(CommentSaveRelationship).filter_by(user_id=v.id, comment_id=self.id).one_or_none()

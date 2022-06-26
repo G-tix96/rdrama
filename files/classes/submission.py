@@ -14,6 +14,7 @@ from .flags import Flag
 from .comment import Comment, normalize_urls_runtime
 from .saves import SaveRelationship
 from .sub import *
+from .subscriptions import *
 from .votes import CommentVote
 from flask import g
 
@@ -507,8 +508,8 @@ class Submission(Base):
 
 	@lazy
 	def is_saved(self, v):
-		return g.db.query(SaveRelationship).filter_by(user_id=v.id, submission_id=self.id).first()
+		return g.db.query(SaveRelationship).filter_by(user_id=v.id, submission_id=self.id).one_or_none()
 
 	@lazy
 	def is_subscribed(self, v):
-		return g.db.query(Subscription).filter_by(user_id=v.id, submission_id=self.id).first()
+		return g.db.query(Subscription).filter_by(user_id=v.id, submission_id=self.id).one_or_none()
