@@ -91,14 +91,6 @@ def before_request():
 	g.webview = '; wv) ' in ua
 	g.inferior_browser = 'iphone' in ua or 'ipad' in ua or 'ipod' in ua or 'mac os' in ua or ' firefox/' in ua
 
-@app.teardown_appcontext
-def teardown_request(error):
-	if hasattr(g, 'db') and g.db:
-		g.db.rollback()
-		g.db.close()
-		del g.db
-	stdout.flush()
-
 @app.after_request
 def after_request(response):
 	response.headers.add("Strict-Transport-Security", "max-age=31536000")
@@ -107,6 +99,14 @@ def after_request(response):
 	g.db.close()
 	del g.db
 	return response
+
+@app.teardown_appcontext
+def teardown_request(error):
+	if hasattr(g, 'db') and g.db:
+		g.db.rollback()
+		g.db.close()
+		del g.db
+	stdout.flush()
 
 if app.config["SERVER_NAME"] == 'localhost':
 	from files.routes import *
