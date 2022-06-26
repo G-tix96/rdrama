@@ -562,3 +562,8 @@ class Comment(Base):
 
 		body += '</span>'
 		return body
+
+
+	@lazy
+	def is_saved(self, v):
+		return g.db.query(SaveRelationship).filter_by(user_id=v.id, submission_id=self.id).first()

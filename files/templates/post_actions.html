@@ -20,8 +20,8 @@
 {% endif %}
 
 {% if v %}
-	<a id="save-{{p.id}}" class="{% if p.id in v.saved_idlist() %}d-none{% endif %} list-inline-item" role="button" onclick="post_toast(this,'/save_post/{{p.id}}','save-{{p.id}}','unsave-{{p.id}}','d-none')"><i class="fas fa-save"></i>Save</a>
-	<a id="unsave-{{p.id}}" class="{% if not p.id in v.saved_idlist() %}d-none{% endif %} list-inline-item" role="button" onclick="post_toast(this,'/unsave_post/{{p.id}}','save-{{p.id}}','unsave-{{p.id}}','d-none')"><i class="fas fa-save"></i>Unsave</a>
+	<a id="save-{{p.id}}" class="{% if p.is_saved(v) %}d-none{% endif %} list-inline-item" role="button" onclick="post_toast(this,'/save_post/{{p.id}}','save-{{p.id}}','unsave-{{p.id}}','d-none')"><i class="fas fa-save"></i>Save</a>
+	<a id="unsave-{{p.id}}" class="{% if not p.is_saved(v) %}d-none{% endif %} list-inline-item" role="button" onclick="post_toast(this,'/unsave_post/{{p.id}}','save-{{p.id}}','unsave-{{p.id}}','d-none')"><i class="fas fa-save"></i>Unsave</a>
 	
 	<a class="list-inline-item" role="button" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#reportPostModal" onclick="report_postModal('{{p.id}}')"><i class="fas fa-flag"></i>Report</a>
 {% endif %}

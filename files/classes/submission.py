@@ -501,4 +501,9 @@ class Submission(Base):
 		return False
 
 	@lazy
-	def active_flags(self, v): return len(self.flags(v))
+	def active_flags(self, v):
+		return len(self.flags(v))
+
+	@lazy
+	def is_saved(self, v):
+		return g.db.query(CommentSaveRelationship).filter_by(user_id=v.id, comment_id=self.id).first()
