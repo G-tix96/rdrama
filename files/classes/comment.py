@@ -36,7 +36,7 @@ def sort_comments(sort, comments):
 	elif sort == 'controversial':
 		return comments.order_by((Comment.upvotes+1)/(Comment.downvotes+1) + (Comment.downvotes+1)/(Comment.upvotes+1), Comment.downvotes.desc(), Comment.id.desc())
 	elif sort == "bottom":
-		return comments.order_by(Comment.realupvotes, Comment.id.desc())
+		return comments.order_by(Comment.upvotes - Comment.downvotes)
 	else:
 		return comments.order_by(Comment.realupvotes.desc(), Comment.id.desc())
 
