@@ -6,7 +6,9 @@
 {% block title %}
 
 {% if u and u.profilecss and not request.values.get('nocss') %}
-	<link rel="stylesheet" href="/@{{u.username}}/profilecss">
+	<style>
+		{{v.profilecss}}
+	</style>
 {% endif %}
 
 <title>{{u.username}}'s profile - {{SITE_NAME}}</title>

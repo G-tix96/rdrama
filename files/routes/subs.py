@@ -417,15 +417,6 @@ def post_sub_css(v, sub):
 	return redirect(f'/h/{sub.name}/settings')
 
 
-@app.get("/h/<sub>/css")
-def get_sub_css(sub):
-	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
-	if not sub: abort(404)
-	resp=make_response(sub.css or "")
-	resp.headers.add("Content-Type", "text/css")
-	return resp
-
-
 @app.post("/h/<sub>/banner")
 @limiter.limit("1/second;10/day")
 @limiter.limit("1/second;10/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')

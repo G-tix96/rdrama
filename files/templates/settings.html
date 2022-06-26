@@ -56,7 +56,9 @@
 			}
 		</style>
 	{% elif v.css and not request.path.startswith('/settings/css') %}
-		<link rel="stylesheet" href="/@{{v.username}}/css">
+		<style>
+			{{v.css}}
+		</style>
 	{% endif %}
 </head>
 
