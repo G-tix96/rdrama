@@ -733,6 +733,10 @@
 						{% if p.private %}<span class="badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
 						{% if p.active_flags(v) %}<a class="btn btn-primary" role="button" style="padding:1px 5px; font-size:10px"onclick="document.getElementById('flaggers').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{ help.plural(p.active_flags(v)) }}</a>{% endif %}
 						
+						{% if not p.author %}
+							{{p.print()}}
+						{% endif %}
+
 						{% if p.ghost %}
 							<span {% if p.distinguish_level %}class="mod"{% endif %}>👻</span>
 						{% else %}
@@ -791,7 +795,7 @@
 						{% if p.realurl(v) %}
 							{% if not p.embed_url and not p.is_image and not p.is_video and not p.is_audio %}
 								<a rel="nofollow noopener noreferrer" href="{{p.realurl(v)}}" {% if not v or v.newtabexternal %}target="_blank"{% endif %}>
-									<div class="d-flex d-md-none justify-content-between align-items-center border rounded p-2{% if p.realbody(v, show_pols=True) %} mb-3{% endif %}">
+									<div class="d-flex d-md-none justify-content-between align-items-center border rounded p-2{% if p.realbody(v) %} mb-3{% endif %}">
 										<span>{{p.domain|truncate(30, True)}}</span>
 										<i class="fas fa-external-link-alt text-small"></i>
 									</div>
@@ -841,7 +845,7 @@
 								</div>
 								<pre></pre>
 							{% endif %}
-							{{p.realbody(v, show_polls=True) | safe}}
+							{{p.realbody(v) | safe}}
 
 							{% if p.is_banned and p.ban_reason %}
 								<div class="text-removed mb-0">removed by @{{p.ban_reason}}</div>
@@ -1123,7 +1127,7 @@
 					lastCount = comments['{{p.id}}']
 					if (lastCount)
 					{
-						{% for c in p.replies %}
+						{% for c in p.comments %}
 							{% if not (v and v.id==c.author_id) and not c.voted %}
 								if ({{c.created_utc*1000}} > lastCount.t) 
 								try {document.getElementById("comment-{{c.id}}-only").classList.add('unread')}

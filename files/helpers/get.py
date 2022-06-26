@@ -120,8 +120,8 @@ def get_post(i, v=None, graceful=False):
 		else: abort(404)
 
 	if v:
-		vt = g.db.query(Vote.vote_type, Vote.submission_id).filter_by(user_id=v.id, submission_id=i).subquery()
-
+		vt = g.db.query(Vote).filter_by(
+			user_id=v.id, submission_id=i).subquery()
 		blocking = v.blocking.subquery()
 
 		post = g.db.query(
@@ -166,7 +166,7 @@ def get_posts(pids, v=None):
 		return []
 
 	if v:
-		vt = g.db.query(Vote.vote_type, Vote.submission_id).filter(
+		vt = g.db.query(Vote).filter(
 			Vote.submission_id.in_(pids), 
 			Vote.user_id==v.id
 			).subquery()
@@ -228,7 +228,8 @@ def get_comment(i, v=None, graceful=False):
 			)
 		).first()
 
-		vt = g.db.query(CommentVote.vote_type).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
+		vts = g.db.query(CommentVote).filter_by(user_id=v.id, comment_id=comment.id)
+		vt = g.db.query(CommentVote).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
 		comment.is_blocking = block and block.user_id == v.id
 		comment.is_blocked = block and block.target_id == v.id
 		comment.voted = vt.vote_type if vt else 0
@@ -241,7 +242,7 @@ def get_comments(cids, v=None, load_parent=False):
 	if not cids: return []
 
 	if v:
-		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
+		votes = g.db.query(CommentVote).filter_by(user_id=v.id).subquery()
 
 		blocking = v.blocking.subquery()
 

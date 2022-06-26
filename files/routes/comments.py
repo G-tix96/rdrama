@@ -117,7 +117,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	sort=request.values.get("sort", defaultsortingcomments)
 
 	if v:
-		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
+		votes = g.db.query(CommentVote).filter_by(user_id=v.id).subquery()
 
 		blocking = v.blocking.subquery()
 
@@ -134,7 +134,8 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 			comments = comments.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None)
 		 
 		comments=comments.filter(
-			Comment.top_comment_id == c.top_comment_id
+			Comment.parent_submission == post.id,
+			Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID))
 		).join(
 			votes,
 			votes.c.comment_id == Comment.id,

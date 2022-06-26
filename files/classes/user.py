@@ -480,7 +480,6 @@ class User(Base):
 	@property
 	@lazy
 	def modaction_notifications_count(self):
-		if not self.admin_level: return 0
 		return g.db.query(Notification).join(Comment).filter(
 			Notification.user_id == self.id, Notification.read == False, 
 			Comment.is_banned == False, Comment.deleted_utc == 0, 
@@ -490,7 +489,6 @@ class User(Base):
 	@property
 	@lazy
 	def reddit_notifications_count(self):
-		if not self.can_view_offsitementions: return 0
 		return g.db.query(Notification).join(Comment).filter(
 			Notification.user_id == self.id, Notification.read == False, 
 			Comment.is_banned == False, Comment.deleted_utc == 0, 
@@ -705,9 +703,6 @@ class User(Base):
 	def saved_idlist(self, page=1):
 
 		saved = [x[0] for x in g.db.query(SaveRelationship.submission_id).filter_by(user_id=self.id).all()]
-
-		if not saved: return []
-
 		posts = g.db.query(Submission.id).filter(Submission.id.in_(saved), Submission.is_banned == False, Submission.deleted_utc == 0)
 
 		if self.admin_level < 2:
@@ -719,9 +714,6 @@ class User(Base):
 	def saved_comment_idlist(self, page=1):
 
 		saved = [x[0] for x in g.db.query(CommentSaveRelationship.comment_id).filter_by(user_id=self.id).all()]
-
-		if not saved: return []
-
 		comments = g.db.query(Comment.id).filter(Comment.id.in_(saved), Comment.is_banned == False, Comment.deleted_utc == 0)
 
 		if self.admin_level < 2:
