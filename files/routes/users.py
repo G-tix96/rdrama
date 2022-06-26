@@ -584,32 +584,28 @@ def leaderboard(v):
 		users13=users13_25, pos13=pos13, users14=users14, pos14=pos14, users15=users15, pos15=pos15,
 		usersBlk=usersBlk)
 
-@app.get("/@<username>/css")
-def get_css(username):
-	user = get_user(username)
-	resp = make_response(user.css or "")
+@app.get("/<id>/css")
+def get_css(id):
+	try: id = int(id)
+	except: abort(404)
+
+	css = g.db.query(User.css).filter_by(id=id).one_or_none()
+	if not css: abort(404)
+
+	resp = make_response(css[0] or "")
 	resp.headers["Content-Type"] = "text/css"
-	resp.headers["Referrer-Policy"] = "no-referrer"
 	return resp
 
-@app.get("/@<username>/profilecss")
-def get_profilecss(username):
-	user = get_user(username)
-	if user.profilecss: profilecss = user.profilecss
-	else: profilecss = ""
-	resp = make_response(profilecss)
-	resp.headers["Content-Type"] = "text/css"
-	resp.headers["Referrer-Policy"] = "no-referrer"
-	return resp
+@app.get("/<id>/profilecss")
+def get_profilecss(id):
+	try: id = int(id)
+	except: abort(404)
 
-@app.get("/id/<id>/profilecss")
-def get_profilecss_id(id):
-	user = get_account(id)
-	if user.profilecss: profilecss = user.profilecss
-	else: profilecss = ""
-	resp = make_response(profilecss)
+	css = g.db.query(User.profilecss).filter_by(id=id).one_or_none()
+	if not css: abort(404)
+
+	resp = make_response(css[0] or "")
 	resp.headers["Content-Type"] = "text/css"
-	resp.headers["Referrer-Policy"] = "no-referrer"
 	return resp
 
 @app.get("/@<username>/song")
