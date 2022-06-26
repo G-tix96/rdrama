@@ -51,7 +51,6 @@ def toggle_club(pid, v):
 	post.club = not post.club
 	g.db.add(post)
 
-	g.db.commit()
 
 	if post.club: return {"message": "Post has been marked as club-only!"}
 	else: return {"message": "Post has been unmarked as club-only!"}
@@ -91,7 +90,6 @@ def publish(pid, v):
 	if post.sub:
 		on_post_hole_entered(post)
 
-	g.db.commit()
 
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
@@ -241,7 +239,6 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	post.views += 1
 	g.db.add(post)
-	g.db.commit()
 	if request.headers.get("Authorization"): return post.json
 	else:
 		if post.is_banned and not (v and (v.admin_level > 1 or post.author_id == v.id)): template = "submission_banned.html"
@@ -521,7 +518,6 @@ def edit_post(pid, v):
 		)
 		g.db.add(ma)
 
-	g.db.commit()
 
 	return redirect(p.permalink)
 
@@ -1214,7 +1210,6 @@ def submit_post(v, sub=None):
 		post.upvotes += 3
 		g.db.add(post)
 
-	g.db.commit()
 
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
@@ -1250,7 +1245,6 @@ def delete_post_pid(pid, v):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
 
-	g.db.commit()
 
 	return {"message": "Post deleted!"}
 
@@ -1267,7 +1261,6 @@ def undelete_post_pid(pid, v):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
 
-	g.db.commit()
 
 	return {"message": "Post undeleted!"}
 
@@ -1290,7 +1283,6 @@ def toggle_comment_nsfw(cid, v):
 				target_comment_id = comment.id,
 				)
 		g.db.add(ma)
-	g.db.commit()
 
 	if comment.over_18: return {"message": "Comment has been marked as +18!"}
 	else: return {"message": "Comment has been unmarked as +18!"}
@@ -1313,7 +1305,6 @@ def toggle_post_nsfw(pid, v):
 				target_submission_id = post.id,
 				)
 		g.db.add(ma)
-	g.db.commit()
 
 	if post.over_18: return {"message": "Post has been marked as +18!"}
 	else: return {"message": "Post has been unmarked as +18!"}
@@ -1331,7 +1322,6 @@ def save_post(pid, v):
 	if not save:
 		new_save=SaveRelationship(user_id=v.id, submission_id=post.id)
 		g.db.add(new_save)
-		g.db.commit()
 
 	return {"message": "Post saved!"}
 
@@ -1347,7 +1337,6 @@ def unsave_post(pid, v):
 
 	if save:
 		g.db.delete(save)
-		g.db.commit()
 
 	return {"message": "Post unsaved!"}
 
@@ -1363,7 +1352,6 @@ def api_pin_post(post_id, v):
 
 		cache.delete_memoized(User.userpagelisting)
 
-		g.db.commit()
 		if post.is_pinned: return {"message": "Post pinned!"}
 		else: return {"message": "Post unpinned!"}
 	return {"error": "Post not found!"}

@@ -46,7 +46,6 @@ def give_monthly_marseybux_task():
 	)
 	g.db.add(ma)
 
-	g.db.commit()
 
 	return True
 
@@ -57,7 +56,6 @@ def kippy(v):
 	kippy = get_account(KIPPY_ID)
 	kippy.procoins += 10000
 	g.db.add(kippy)
-	g.db.commit()
 	return '10k marseycoins printed!'
 
 @app.get('/admin/loggedin')
@@ -127,7 +125,6 @@ def merge(v, id1, id2):
 
 	g.db.add(user1)
 	g.db.add(user2)
-	g.db.commit()
 	cache.clear()
 	return redirect(user1.url)
 
@@ -174,7 +171,6 @@ def merge_all(v, id):
 		g.db.add(alt)
 
 	g.db.add(user)
-	g.db.commit()
 	cache.clear()
 	return redirect(user.url)
 
@@ -210,7 +206,6 @@ if SITE_NAME == 'PCM':
 		)
 		g.db.add(ma)
 
-		g.db.commit()
 
 		return render_template('admin/sidebar.html', v=v, sidebar=sidebar, msg='Sidebar edited successfully!')
 
@@ -232,7 +227,6 @@ def make_admin(v, username):
 	)
 	g.db.add(ma)
 
-	g.db.commit()
 	return {"message": "User has been made admin!"}
 
 
@@ -251,7 +245,6 @@ def remove_admin(v, username):
 	)
 	g.db.add(ma)
 
-	g.db.commit()
 	return {"message": "Admin removed!"}
 
 @app.post("/distribute/<comment>")
@@ -299,7 +292,6 @@ def distribute(v, comment):
 	)
 	g.db.add(ma)
 
-	g.db.commit()
 	return {"message": f"Each winner has received {coinsperperson} coins!"}
 
 @app.post("/@<username>/revert_actions")
@@ -347,7 +339,6 @@ def revert_actions(v, username):
 			send_repeatable_notification(u.id, f"@{v.username} has unbanned you!")
 			g.db.add(u)
 
-	g.db.commit()
 	return {"message": "Admin actions reverted!"}
 
 @app.post("/@<username>/club_allow")
@@ -375,7 +366,6 @@ def club_allow(v, username):
 	)
 	g.db.add(ma)
 
-	g.db.commit()
 	return {"message": f"@{username} has been allowed into the {CC_TITLE}!"}
 
 @app.post("/@<username>/club_ban")
@@ -402,7 +392,6 @@ def club_ban(v, username):
 	)
 	g.db.add(ma)
 
-	g.db.commit()
 	return {"message": f"@{username} has been kicked from the {CC_TITLE}. Deserved."}
 
 
@@ -527,7 +516,6 @@ def change_settings(v, setting):
 	)
 	g.db.add(ma)
 
-	g.db.commit()
 
 	return {'message': f"{setting} {word}d successfully!"}
 
@@ -559,7 +547,6 @@ def under_attack(v):
 			user_id=v.id,
 		)
 		g.db.add(ma)
-		g.db.commit()
 
 		response = str(requests.patch(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, data='{"value":"medium"}', timeout=5))
 		if response == "<Response [200]>": return {"message": "Under attack mode disabled!"}
@@ -570,7 +557,6 @@ def under_attack(v):
 			user_id=v.id,
 		)
 		g.db.add(ma)
-		g.db.commit()
 
 		response = str(requests.patch(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, data='{"value":"under_attack"}', timeout=5))
 		if response == "<Response [200]>": return {"message": "Under attack mode enabled!"}
@@ -627,7 +613,6 @@ def badge_grant_post(v):
 	)
 	g.db.add(ma)
 
-	g.db.commit()
 	return render_template("admin/badge_grant.html", v=v, badge_types=badges, msg="Badge granted!")
 
 
@@ -667,7 +652,6 @@ def badge_remove_post(v):
 
 	g.db.delete(badge)
 
-	g.db.commit()
 
 	return render_template("admin/badge_remove.html", v=v, badge_types=badges, msg="Badge removed!")
 
@@ -845,7 +829,6 @@ def admin_link_accounts(v):
 	)
 	g.db.add(ma)
 
-	g.db.commit()
 	return redirect(f"/admin/alt_votes?u1={get_account(u1).username}&u2={get_account(u2).username}")
 
 
@@ -930,7 +913,6 @@ def agendaposter(user_id, v):
 
 	send_repeatable_notification(user.id, f"@{v.username} has marked you as a chud ({note}).")
 
-	g.db.commit()
 	
 	return redirect(user.url)
 
@@ -961,7 +943,6 @@ def unagendaposter(user_id, v):
 
 	send_repeatable_notification(user.id, f"@{v.username} has unmarked you as a chud.")
 
-	g.db.commit()
 	return {"message": "Chud theme disabled!"}
 
 
@@ -988,7 +969,6 @@ def shadowban(user_id, v):
 	
 	cache.delete_memoized(frontlist)
 	notify_mod_action(v.id, f"@{v.username} has shadowbanned @{user.username}")
-	g.db.commit()
 	return {"message": "User shadowbanned!"}
 
 
@@ -1015,7 +995,6 @@ def unshadowban(user_id, v):
 	cache.delete_memoized(frontlist)
 	notify_mod_action(v.id, f"@{v.username} has unshadowbanned @{user.username}")
 
-	g.db.commit()
 	return {"message": "User unshadowbanned!"}
 
 
@@ -1054,7 +1033,6 @@ def admin_title_change(user_id, v):
 		_note=f'"{user.customtitleplain}"'
 		)
 	g.db.add(ma)
-	g.db.commit()
 
 	return redirect(user.url)
 
@@ -1121,7 +1099,6 @@ def ban_user(user_id, v):
 			g.db.add(comment)
 
 	notify_mod_action(v.id, f"@{v.username} has banned @{user.username} ({note})")
-	g.db.commit()
 
 	if 'redir' in request.values: return redirect(user.url)
 	else: return {"message": f"@{user.username} was banned!"}
@@ -1159,7 +1136,6 @@ def unban_user(user_id, v):
 	g.db.add(ma)
 
 	notify_mod_action(v.id, f"@{v.username} has unbanned @{user.username}")
-	g.db.commit()
 
 	if "@" in request.referrer: return redirect(user.url)
 	else: return {"message": f"@{user.username} was unbanned!"}
@@ -1201,7 +1177,6 @@ def ban_post(post_id, v):
 
 	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', 
 		headers=CF_HEADERS, json={'files': [f"{SITE_FULL}/logged_out/"]}, timeout=5)
-	g.db.commit()
 
 	return {"message": "Post removed!"}
 
@@ -1241,7 +1216,6 @@ def unban_post(post_id, v):
 	if v.id != post.author_id:
 		notify_mod_action(v.id, f"@{v.username} has approved [{post.title}]({post.shortlink}) by @{post.author.username}")		
 
-	g.db.commit()
 
 	return {"message": "Post approved!"}
 
@@ -1272,7 +1246,6 @@ def api_distinguish_post(post_id, v):
 	)
 	g.db.add(ma)
 
-	g.db.commit()
 
 	if post.distinguish_level: return {"message": "Post distinguished!"}
 	else: return {"message": "Post undistinguished!"}
@@ -1304,7 +1277,6 @@ def sticky_post(post_id, v):
 			send_repeatable_notification(post.author_id, f"@{v.username} has pinned your [post](/post/{post_id})!")
 
 		cache.delete_memoized(frontlist)
-		g.db.commit()
 	return {"message": "Post pinned!"}
 
 @app.post("/unsticky/<post_id>")
@@ -1330,7 +1302,6 @@ def unsticky_post(post_id, v):
 			send_repeatable_notification(post.author_id, f"@{v.username} has unpinned your [post](/post/{post_id})!")
 
 		cache.delete_memoized(frontlist)
-		g.db.commit()
 	return {"message": "Post unpinned!"}
 
 @app.post("/sticky_comment/<cid>")
@@ -1354,7 +1325,6 @@ def sticky_comment(cid, v):
 			message = f"@{v.username} has pinned your [comment]({comment.shortlink})!"
 			send_repeatable_notification(comment.author_id, message)
 
-		g.db.commit()
 	return {"message": "Comment pinned!"}
 	
 
@@ -1381,7 +1351,6 @@ def unsticky_comment(cid, v):
 			message = f"@{v.username} has unpinned your [comment]({comment.shortlink})!"
 			send_repeatable_notification(comment.author_id, message)
 
-		g.db.commit()
 	return {"message": "Comment unpinned!"}
 
 
@@ -1408,7 +1377,6 @@ def api_ban_comment(c_id, v):
 	if v.id != comment.author_id:
 		notify_mod_action(v.id, f"@{v.username} has removed [comment]({comment.shortlink}) by @{comment.author.username}")
 
-	g.db.commit()
 	return {"message": "Comment removed!"}
 
 
@@ -1440,7 +1408,6 @@ def api_unban_comment(c_id, v):
 	if v.id != comment.author_id:
 		notify_mod_action(v.id, f"@{v.username} has approved [comment]({comment.shortlink}) by @{comment.author.username}")
 
-	g.db.commit()
 
 	return {"message": "Comment approved!"}
 
@@ -1470,7 +1437,6 @@ def admin_distinguish_comment(c_id, v):
 	)
 	g.db.add(ma)
 
-	g.db.commit()
 
 	if comment.distinguish_level: return {"message": "Comment distinguished!"}
 	else: return {"message": "Comment undistinguished!"}
@@ -1526,7 +1492,6 @@ def admin_toggle_ban_domain(v):
 		)
 		g.db.add(ma)
 
-	g.db.commit()
 
 	return redirect("/admin/banned_domains/")
 
@@ -1563,7 +1528,6 @@ def admin_nuke_user(v):
 
 	notify_mod_action(v.id, f"@{v.username} has nuked @{user.username}")
 
-	g.db.commit()
 
 	return redirect(user.url)
 
@@ -1600,6 +1564,5 @@ def admin_nunuke_user(v):
 
 	notify_mod_action(v.id, f"@{v.username} has un-nuked @{user.username}")
 
-	g.db.commit()
 
 	return redirect(user.url)

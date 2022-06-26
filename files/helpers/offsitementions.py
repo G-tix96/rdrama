@@ -84,5 +84,4 @@ def notify_mentions(send_to, mentions, mention_str='site mention'):
 			notif = Notification(comment_id=new_comment.id, user_id=user_id)
 			g.db.add(notif)
 
-	g.db.commit()
 

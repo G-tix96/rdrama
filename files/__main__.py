@@ -94,6 +94,7 @@ def before_request():
 @app.teardown_appcontext
 def teardown_request(error):
 	if hasattr(g, 'db') and g.db:
+		g.db.commit()
 		g.db.close()
 	stdout.flush()
 

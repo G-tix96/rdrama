@@ -59,7 +59,6 @@ def get_logged_in_user():
 		if (v.last_active + LOGGEDIN_ACTIVE_TIME) < timestamp:
 			v.last_active = timestamp
 			g.db.add(v)
-			g.db.commit()
 	else:
 		ua = str(user_agents.parse(g.agent))
 		if not ua.startswith('Spider') and 'bot' not in ua.lower():
@@ -79,7 +78,6 @@ def check_ban_evade(v):
 	if v and not v.patron and v.admin_level < 2 and v.ban_evade and not v.unban_utc:
 		v.shadowbanned = "AutoJanny"
 		g.db.add(v)
-		g.db.commit()
 
 def auth_desired(f):
 	def wrapper(*args, **kwargs):

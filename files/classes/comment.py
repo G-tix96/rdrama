@@ -404,7 +404,6 @@ class Comment(Base):
 					if amount == 1:
 						self.upvotes += amount
 						g.db.add(self)
-						g.db.commit()
 
 		for c in self.options:
 			body += f'<div class="custom-control"><input type="checkbox" class="custom-control-input" id="{c.id}" name="option"'

@@ -140,6 +140,5 @@ def discord_redirect(v):
 
 		requests.patch(url, headers=headers, json=data, timeout=5)
 
-	g.db.commit()
 
 	return redirect(f"https://discord.com/channels/{SERVER_ID}/{WELCOME_CHANNEL}")

@@ -117,7 +117,6 @@ def api_vote_post(post_id, new, v):
 	post.realupvotes = g.db.query(Vote).filter_by(submission_id=post.id, real=True).count()
 	if post.author.progressivestack: post.realupvotes *= 2
 	g.db.add(post)
-	g.db.commit()
 	return "", 204
 
 @app.post("/vote/comment/<comment_id>/<new>")
@@ -194,7 +193,6 @@ def api_vote_comment(comment_id, new, v):
 	comment.realupvotes = g.db.query(CommentVote).filter_by(comment_id=comment.id, real=True).count()
 	if comment.author.progressivestack: comment.realupvotes *= 2
 	g.db.add(comment)
-	g.db.commit()
 	return "", 204
 
 
@@ -226,7 +224,6 @@ def api_vote_poll(comment_id, v):
 	g.db.flush()
 	comment.upvotes = g.db.query(CommentVote).filter_by(comment_id=comment.id, vote_type=1).count()
 	g.db.add(comment)
-	g.db.commit()
 	return "", 204
 
 
@@ -258,7 +255,6 @@ def bet(comment_id, v):
 	autobetter.coins += 200
 	g.db.add(autobetter)
 
-	g.db.commit()
 	return "", 204
 
 @app.post("/vote/choice/<comment_id>")
@@ -290,5 +286,4 @@ def api_vote_choice(comment_id, v):
 	g.db.flush()
 	comment.upvotes = g.db.query(CommentVote).filter_by(comment_id=comment.id, vote_type=1).count()
 	g.db.add(comment)
-	g.db.commit()
 	return "", 204

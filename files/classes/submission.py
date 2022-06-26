@@ -406,7 +406,6 @@ class Submission(Base):
 					self.views += amount*random.randint(3, 5)
 					self.upvotes += amount
 					g.db.add(self)
-					g.db.commit()
 
 		if show_polls:
 			for c in self.options:

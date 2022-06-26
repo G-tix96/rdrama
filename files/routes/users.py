@@ -401,7 +401,6 @@ def suicide(v, username):
 	suicide = f"Hi there,\n\nA [concerned user](/id/{v.id}) reached out to us about you.\n\nWhen you're in the middle of something painful, it may feel like you don't have a lot of options. But whatever you're going through, you deserve help and there are people who are here for you.\n\nThere are resources available in your area that are free, confidential, and available 24/7:\n\n- Call, Text, or Chat with Canada's [Crisis Services Canada](https://www.crisisservicescanada.ca/en/)\n- Call, Email, or Visit the UK's [Samaritans](https://www.samaritans.org/)\n- Text CHAT to America's [Crisis Text Line](https://www.crisistextline.org/) at 741741.\nIf you don't see a resource in your area above, the moderators keep a comprehensive list of resources and hotlines for people organized by location. Find Someone Now\n\nIf you think you may be depressed or struggling in another way, don't ignore it or brush it aside. Take yourself and your feelings seriously, and reach out to someone.\n\nIt may not feel like it, but you have options. There are people available to listen to you, and ways to move forward.\n\nYour fellow users care about you and there are people who want to help."
 	if not v.shadowbanned:
 		send_notification(user.id, suicide)
-	g.db.commit()
 	return {"message": "Help message sent!"}
 
 
@@ -451,7 +450,6 @@ def transfer_coins(v, username):
 
 		g.db.add(receiver)
 		g.db.add(v)
-		g.db.commit()
 
 		return {"message": f"{amount-tax} coins transferred!"}, 200
 
@@ -491,7 +489,6 @@ def transfer_bux(v, username):
 
 		g.db.add(receiver)
 		g.db.add(v)
-		g.db.commit()
 		return {"message": f"{amount} marseybux transferred!"}, 200
 
 	return {"message": "You can't transfer marseybux to yourself!"}, 400
@@ -636,7 +633,6 @@ def song(song):
 def subscribe(v, post_id):
 	new_sub = Subscription(user_id=v.id, submission_id=post_id)
 	g.db.add(new_sub)
-	g.db.commit()
 	return {"message": "Post subscribed!"}
 	
 @app.post("/unsubscribe/<post_id>")
@@ -647,7 +643,6 @@ def unsubscribe(v, post_id):
 	sub=g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
 	if sub:
 		g.db.delete(sub)
-		g.db.commit()
 	return {"message": "Post unsubscribed!"}
 
 @app.get("/report_bugs")
@@ -709,7 +704,6 @@ def message2(v, username):
 			notif = Notification(comment_id=c.id, user_id=user.id)
 			g.db.add(notif)
 
-	g.db.commit()
 
 	if PUSHER_ID != 'blahblahblah' and not v.shadowbanned:
 		if len(message) > 500: notifbody = message[:500] + '...'
@@ -817,7 +811,6 @@ def messagereply(v):
 		for n in notifications:
 			g.db.delete(n)
 
-	g.db.commit()
 
 	return {"comment": render_template("comments.html", v=v, comments=[c], ajax=True)}
 
@@ -930,7 +923,6 @@ def u_username(username, v=None):
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
 
 		g.db.add(view)
-		g.db.commit()
 
 		
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)):
@@ -1122,7 +1114,6 @@ def follow_user(username, v):
 	if not v.shadowbanned:
 		send_notification(target.id, f"@{v.username} has followed you!")
 
-	g.db.commit()
 
 	return {"message": "User followed!"}
 
@@ -1137,7 +1128,6 @@ def unfollow_user(username, v):
 	if target.fish:
 		if not v.shadowbanned:
 			send_notification(target.id, f"@{v.username} has tried to unfollow you and failed because of your fish award!")
-		g.db.commit()
 		return {"error": "You can't unfollow this user!"}
 
 	follow = g.db.query(Follow).filter_by(user_id=v.id, target_id=target.id).one_or_none()
@@ -1152,7 +1142,6 @@ def unfollow_user(username, v):
 		if not v.shadowbanned:
 			send_notification(target.id, f"@{v.username} has unfollowed you!")
 
-		g.db.commit()
 
 	return {"message": "User unfollowed!"}
 
@@ -1175,7 +1164,6 @@ def remove_follow(username, v):
 
 	send_repeatable_notification(target.id, f"@{v.username} has removed your follow!")
 
-	g.db.commit()
 
 	return {"message": "Follower removed!"}
 
@@ -1272,5 +1260,4 @@ def fp(v, fp):
 		g.db.flush()
 		print(v.username + ' + ' + u.username, flush=True)
 	g.db.add(v)
-	g.db.commit()
 	return '', 204

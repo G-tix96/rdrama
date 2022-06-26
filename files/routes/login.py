@@ -148,7 +148,6 @@ def login_post():
 
 	check_for_alts(account.id)
 
-	g.db.commit()
 
 	redir = request.values.get("redirect")
 	if redir:
@@ -353,7 +352,6 @@ def sign_up_post(v):
 	if existing_account:
 		return signup_error("An account with that username already exists.")
 
-	g.db.commit()
 
 	check_for_alts(new_user.id)
 
@@ -361,7 +359,6 @@ def sign_up_post(v):
 
 	session["lo_user"] = new_user.id
 	
-	g.db.commit()
 
 	return redirect(SITE_FULL)
 
@@ -479,7 +476,6 @@ def post_reset(v):
 	user.passhash = hash_password(password)
 	g.db.add(user)
 
-	g.db.commit()
 
 	return render_template("message_success.html",
 						   title="Password reset successful!",
@@ -558,7 +554,6 @@ def reset_2fa():
 
 	g.db.add(user)
 
-	g.db.commit()
 
 	return render_template("message_success.html",
 						   title="Two-factor authentication removed.",

@@ -29,7 +29,6 @@ def exile_post(v, pid):
 
 		send_notification(u.id, f"@{v.username} has exiled you from /h/{sub} for [{p.title}]({p.shortlink})")
 
-		g.db.commit()
 	
 	return {"message": "User exiled successfully!"}
 
@@ -57,7 +56,6 @@ def exile_comment(v, cid):
 
 		send_notification(u.id, f"@{v.username} has exiled you from /h/{sub} for [{c.permalink}]({c.shortlink})")
 
-		g.db.commit()
 	
 	return {"message": "User exiled successfully!"}
 
@@ -75,7 +73,6 @@ def unexile(v, sub, uid):
 
 		send_notification(u.id, f"@{v.username} has revoked your exile from /h/{sub}")
 
-		g.db.commit()
 	
 	
 	if request.headers.get("Authorization") or request.headers.get("xhr"): return {"message": "User unexiled successfully!"}
@@ -101,7 +98,6 @@ def block_sub(v, sub):
 	if not existing:
 		block = SubBlock(user_id=v.id, sub=sub)
 		g.db.add(block)
-		g.db.commit()
 		cache.delete_memoized(frontlist)
 
 	return {"message": "Sub blocked successfully!"}
@@ -118,7 +114,6 @@ def unblock_sub(v, sub):
 
 	if block:
 		g.db.delete(block)
-		g.db.commit()
 		cache.delete_memoized(frontlist)
 
 	return {"message": "Sub unblocked successfully!"}
@@ -134,7 +129,6 @@ def follow_sub(v, sub):
 	if not existing:
 		subscription = SubSubscription(user_id=v.id, sub=sub.name)
 		g.db.add(subscription)
-		g.db.commit()
 
 	return {"message": "Sub followed successfully!"}
 
@@ -148,7 +142,6 @@ def unfollow_sub(v, sub):
 		.filter_by(user_id=v.id, sub=sub.name).one_or_none()
 	if subscription:
 		g.db.delete(subscription)
-		g.db.commit()
 
 	return {"message": "Sub unfollowed successfully!"}
 
@@ -225,7 +218,6 @@ def add_mod(v, sub):
 		if v.id != user.id:
 			send_repeatable_notification(user.id, f"@{v.username} has added you as a mod to /h/{sub}")
 
-		g.db.commit()
 	
 	return redirect(f'/h/{sub}/mods')
 
@@ -260,7 +252,6 @@ def remove_mod(v, sub):
 	if v.id != user.id:
 		send_repeatable_notification(user.id, f"@{v.username} has removed you as a mod from /h/{sub}")
 
-	g.db.commit()
 	
 	return redirect(f'/h/{sub}/mods')
 
@@ -299,7 +290,6 @@ def create_sub2(v):
 		g.db.flush()
 		mod = Mod(user_id=v.id, sub=sub.name)
 		g.db.add(mod)
-		g.db.commit()
 
 	return redirect(f'/h/{sub.name}')
 
@@ -316,7 +306,6 @@ def kick(v, pid):
 
 	post.sub = None
 	g.db.add(post)
-	g.db.commit()
 
 	cache.delete_memoized(frontlist)
 
@@ -351,7 +340,6 @@ def rehole_post(v, pid, hole):
 	g.db.add(ma)
 
 	on_post_hole_entered(post)
-	g.db.commit()
 
 	return {"message": f"Post moved to {sub_to_str}!"}
 
@@ -397,7 +385,6 @@ def post_sub_sidebar(v, sub):
 
 	g.db.add(sub)
 
-	g.db.commit()
 
 	return redirect(f'/h/{sub.name}/settings')
 
@@ -426,7 +413,6 @@ def post_sub_css(v, sub):
 
 	sub.css = css
 	g.db.add(sub)
-	g.db.commit()
 
 	return redirect(f'/h/{sub.name}/settings')
 
@@ -464,7 +450,6 @@ def sub_banner(v, sub):
 			if path.isfile(fpath): os.remove(fpath)
 		sub.bannerurl = bannerurl
 		g.db.add(sub)
-		g.db.commit()
 
 	return redirect(f'/h/{sub.name}/settings')
 
@@ -491,7 +476,6 @@ def sub_sidebar(v, sub):
 			if path.isfile(fpath): os.remove(fpath)
 		sub.sidebarurl = sidebarurl
 		g.db.add(sub)
-		g.db.commit()
 
 	return redirect(f'/h/{sub.name}/settings')
 
@@ -538,5 +522,4 @@ def sub_inactive_purge_task():
 	for x in dead_holes:
 		g.db.delete(x)
 
-	g.db.commit()
 	return True
