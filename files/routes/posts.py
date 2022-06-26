@@ -149,7 +149,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	if post.club and not (v and (v.paid_dues or v.id == post.author_id)): abort(403)
 
 	if v:
-		votes = g.db.query(CommentVote).filter_by(user_id=v.id).subquery()
+		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
 
 		blocking = v.blocking.subquery()
 
@@ -165,7 +165,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
 			comments = comments.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None)
  
-		comments=comments.filter(Comment.parent_submission == post.id, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID))).join(
+		comments=comments.filter(Comment.parent_submission == post.id).join(
 			votes,
 			votes.c.comment_id == Comment.id,
 			isouter=True
@@ -189,7 +189,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		
 		pinned = [c[0] for c in comments.filter(Comment.stickied != None).all()]
 		
-		comments = comments.filter(Comment.level == 1, Comment.stickied == None)
+		comments = comments.filter(Comment.level == 1, Comment.stickied == None, Comment.author_id.notin_(poll_bots))
 
 		comments = sort_comments(sort, comments)
 
@@ -199,7 +199,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	else:
 		pinned = g.db.query(Comment).filter(Comment.parent_submission == post.id, Comment.stickied != None).all()
 
-		comments = g.db.query(Comment).join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.parent_submission == post.id, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)), Comment.level == 1, Comment.stickied == None)
+		comments = g.db.query(Comment).join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.parent_submission == post.id, Comment.author_id.notin_(poll_bots), Comment.level == 1, Comment.stickied == None)
 
 		comments = sort_comments(sort, comments)
 
@@ -262,7 +262,7 @@ def viewmore(v, pid, sort, offset):
 	except: abort(400)
 	
 	if v:
-		votes = g.db.query(CommentVote).filter_by(user_id=v.id).subquery()
+		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
 
 		blocking = v.blocking.subquery()
 
@@ -273,7 +273,7 @@ def viewmore(v, pid, sort, offset):
 			votes.c.vote_type,
 			blocking.c.target_id,
 			blocked.c.target_id,
-		).filter(Comment.parent_submission == pid, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)), Comment.stickied == None, Comment.id.notin_(ids))
+		).filter(Comment.parent_submission == pid, Comment.stickied == None, Comment.id.notin_(ids))
 		
 		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
 			comments = comments.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None)
@@ -300,7 +300,7 @@ def viewmore(v, pid, sort, offset):
 			comment.is_blocked = c[3] or 0
 			output.append(comment)
 		
-		comments = comments.filter(Comment.level == 1)
+		comments = comments.filter(Comment.level == 1, Comment.author_id.notin_(poll_bots))
 
 		comments = sort_comments(sort, comments)
 
@@ -308,7 +308,7 @@ def viewmore(v, pid, sort, offset):
 		second = [c[0] for c in comments.filter(or_(Comment.slots_result != None, Comment.blackjack_result != None, Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()]
 		comments = first + second
 	else:
-		comments = g.db.query(Comment).join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.parent_submission == pid, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)), Comment.level == 1, Comment.stickied == None, Comment.id.notin_(ids))
+		comments = g.db.query(Comment).join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.parent_submission == pid, Comment.author_id.notin_(poll_bots), Comment.level == 1, Comment.stickied == None, Comment.id.notin_(ids))
 
 		comments = sort_comments(sort, comments)
 		
@@ -349,7 +349,7 @@ def morecomments(v, cid):
 	tcid = g.db.query(Comment.top_comment_id).filter_by(id=cid).one_or_none()[0]
 
 	if v:
-		votes = g.db.query(CommentVote).filter_by(user_id=v.id).subquery()
+		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
 
 		blocking = v.blocking.subquery()
 

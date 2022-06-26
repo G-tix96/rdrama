@@ -107,13 +107,6 @@ class Comment(Base):
 					flags.remove(flag)
 		return flags
 
-	@lazy
-	def poll_voted(self, v):
-		if v:
-			vote = g.db.query(CommentVote.vote_type).filter_by(user_id=v.id, comment_id=self.id).one_or_none()
-			if vote: return vote[0]
-		return None
-
 	@property
 	@lazy
 	def options(self):
@@ -128,13 +121,13 @@ class Comment(Base):
 	def total_poll_voted(self, v):
 		if v:
 			for option in self.options:
-				if option.poll_voted(v): return True
+				if option.voted: return True
 		return False
 
 	@lazy
 	def total_choice_voted(self, v):
 		if v:
-			return g.db.query(CommentVote).filter(CommentVote.user_id == v.id, CommentVote.comment_id.in_([x.id for x in self.choices])).all()
+			return g.db.query(CommentVote).filter(CommentVote.user_id == v.id, CommentVote.comment_id.in_([x.id for x in self.choices])).count()
 		return False
 
 	@property
@@ -247,7 +240,7 @@ class Comment(Base):
 		if not self.parent_submission:
 			return [x for x in self.child_comments.order_by(Comment.id) if not x.author.shadowbanned]
 
-		comments = self.child_comments.filter(Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)))
+		comments = self.child_comments.filter(Comment.author_id.notin_(poll_bots))
 		comments = sort_comments(sort, comments)
 		return [x for x in comments if not x.author.shadowbanned]
 		
@@ -258,7 +251,7 @@ class Comment(Base):
 		if not self.parent_submission:
 			return self.child_comments.order_by(Comment.id).all()
 
-		comments = self.child_comments.filter(Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)))
+		comments = self.child_comments.filter(Comment.author_id.notin_(poll_bots))
 		return sort_comments(sort, comments).all()
 
 
@@ -415,7 +408,7 @@ class Comment(Base):
 
 		for c in self.options:
 			body += f'<div class="custom-control"><input type="checkbox" class="custom-control-input" id="{c.id}" name="option"'
-			if c.poll_voted(v): body += " checked"
+			if c.voted: body += " checked"
 			if v: body += f''' onchange="poll_vote('{c.id}', '{self.id}')"'''
 			else: body += f''' onchange="poll_vote_no_v('{c.id}', '{self.id}')"'''
 			body += f'''><label class="custom-control-label" for="{c.id}">{c.body_html}<span class="presult-{self.id}'''
@@ -430,7 +423,7 @@ class Comment(Base):
 
 		for c in self.choices:
 			body += f'''<div class="custom-control"><input name="choice-{self.id}" autocomplete="off" class="custom-control-input" type="radio" id="{c.id}" onchange="choice_vote('{c.id}','{self.id}')"'''
-			if c.poll_voted(v): body += " checked "
+			if c.voted: body += " checked "
 			body += f'''><label class="custom-control-label" for="{c.id}">{c.body_html}<span class="presult-{self.id}'''
 			if not self.total_choice_voted(v): body += ' d-none'
 			body += f'"> - <a href="/votes?link=t3_{c.id}"><span id="choice-{c.id}">{c.upvotes}</span> votes</a></span></label></div>'
