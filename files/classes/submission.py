@@ -508,3 +508,7 @@ class Submission(Base):
 	@lazy
 	def is_saved(self, v):
 		return g.db.query(SaveRelationship).filter_by(user_id=v.id, submission_id=self.id).first()
+
+	@lazy
+	def is_subscribed(self, v):
+		return g.db.query(Subscription).filter_by(user_id=v.id, submission_id=self.id).first()
