@@ -12,10 +12,10 @@ from files.helpers.regex import *
 from files.helpers.lazy import lazy
 from .flags import Flag
 from .comment import Comment, normalize_urls_runtime
-from flask import g
+from .saves import SaveRelationship
 from .sub import *
 from .votes import CommentVote
-
+from flask import g
 
 def sort_posts(sort, posts):
 	if sort == "new":
@@ -504,6 +504,7 @@ class Submission(Base):
 	def active_flags(self, v):
 		return len(self.flags(v))
 
+
 	@lazy
 	def is_saved(self, v):
-		return g.db.query(CommentSaveRelationship).filter_by(user_id=v.id, comment_id=self.id).first()
+		return g.db.query(SaveRelationship).filter_by(user_id=v.id, submission_id=self.id).first()

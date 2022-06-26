@@ -12,8 +12,9 @@ from files.helpers.regex import *
 from files.helpers.regex import *
 from files.helpers.lazy import lazy
 from .flags import CommentFlag
-from random import randint
 from .votes import CommentVote
+from .saves import CommentSaveRelationship
+from random import randint
 from math import floor
 
 
@@ -566,4 +567,4 @@ class Comment(Base):
 
 	@lazy
 	def is_saved(self, v):
-		return g.db.query(SaveRelationship).filter_by(user_id=v.id, submission_id=self.id).first()
+		return g.db.query(CommentSaveRelationship).filter_by(user_id=v.id, comment_id=self.id).first()
