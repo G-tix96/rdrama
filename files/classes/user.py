@@ -64,7 +64,7 @@ class User(Base):
 	unblockable = Column(Boolean)
 	bird = Column(Integer)
 	email = deferred(Column(String))
-	css = deferred(Column(String))
+	css = Column(String)
 	profilecss = deferred(Column(String))
 	passhash = deferred(Column(String))
 	post_count = Column(Integer, default=0)
