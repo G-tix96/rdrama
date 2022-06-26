@@ -644,6 +644,7 @@ def api_comment(v):
 		parent_post.comment_count += 1
 		g.db.add(parent_post)
 
+	g.db.flush()
 
 	if request.headers.get("Authorization"): return c.json
 	return {"comment": render_template("comments.html", v=v, comments=[c], ajax=True)}
