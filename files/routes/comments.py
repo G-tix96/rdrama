@@ -26,8 +26,8 @@ import os
 
 d = Dict("en_US")
 
-if PUSHER_ID != 'blahblahblah':
-	beams_client = PushNotifications(instance_id=PUSHER_ID, secret_key=PUSHER_KEY)
+# if PUSHER_ID != 'blahblahblah':
+# 	beams_client = PushNotifications(instance_id=PUSHER_ID, secret_key=PUSHER_KEY)
 
 WORDLE_COLOR_MAPPINGS = {-1: "🟥", 0: "🟨", 1: "🟩"}
 
@@ -595,9 +595,9 @@ def api_comment(v):
 				n = Notification(comment_id=c.id, user_id=x)
 				g.db.add(n)
 
-			if parent.author.id != v.id and PUSHER_ID != 'blahblahblah' and not v.shadowbanned:				
-				try: gevent.spawn(pusher_thread, f'{request.host}{parent.author.id}', c, c.author_name)
-				except: pass
+			# if parent.author.id != v.id and PUSHER_ID != 'blahblahblah' and not v.shadowbanned:				
+			# 	try: gevent.spawn(pusher_thread, f'{request.host}{parent.author.id}', c, c.author_name)
+			# 	except: pass
 
 				
 
