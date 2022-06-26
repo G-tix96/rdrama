@@ -17,6 +17,8 @@ def exile_post(v, pid):
 	sub = p.sub
 	if not sub: abort(400)
 
+	if sub == 'braincels': abort(403)
+
 	if not v.mods(sub): abort(403)
 
 	u = p.author
@@ -43,6 +45,8 @@ def exile_comment(v, cid):
 	c = get_comment(cid)
 	sub = c.post.sub
 	if not sub: abort(400)
+
+	if sub == 'braincels': abort(403)
 
 	if not v.mods(sub): abort(403)
 
