@@ -348,12 +348,10 @@ def sign_up_post(v):
 		try: send_verification_email(new_user)
 		except Exception as e: print(e)
 
-	existing_account = get_user(username, graceful=True)
-	if existing_account:
-		return signup_error("An account with that username already exists.")
-
 
 	check_for_alts(new_user.id)
+	
+	g.db.flush()
 
 	send_notification(new_user.id, WELCOME_MSG)
 
