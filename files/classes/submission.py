@@ -128,8 +128,8 @@ class Submission(Base):
 	@lazy
 	def total_choice_voted(self, v):
 		if v and self.choices:
-			return g.db.query(CommentVote.comment_id).filter(CommentVote.user_id == v.id, CommentVote.comment_id.in_([x.id for x in self.choices])).first()
-		return False
+			return g.db.query(CommentVote).filter(CommentVote.user_id == v.id, CommentVote.comment_id.in_([x.id for x in self.choices])).first()
+		return None
 
 	@lazy
 	def total_bet_voted(self, v):

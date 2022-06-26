@@ -278,7 +278,8 @@ def api_vote_choice(comment_id, v):
 	if comment.parent_comment: parent = comment.parent_comment
 	else: parent = comment.post
 
-	for vote in parent.total_choice_voted(v):
+	vote = parent.total_choice_voted(v)
+	if vote:
 		vote.comment.upvotes = g.db.query(CommentVote).filter_by(comment_id=vote.comment.id, vote_type=1).count() - 1
 		g.db.add(vote.comment)
 		g.db.delete(vote)
