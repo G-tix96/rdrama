@@ -134,7 +134,7 @@ class Comment(Base):
 	@lazy
 	def total_choice_voted(self, v):
 		if v:
-			return g.db.query(CommentVote).filter(CommentVote.user_id == v.id, CommentVote.comment_id.in_([x.id for x in self.choices])).all()
+			return g.db.query(CommentVote).filter(CommentVote.user_id == v.id, CommentVote.comment_id.in_([x.id for x in self.choices])).count()
 		return False
 
 	@property
@@ -247,7 +247,7 @@ class Comment(Base):
 		if not self.parent_submission:
 			return [x for x in self.child_comments.order_by(Comment.id) if not x.author.shadowbanned]
 
-		comments = self.child_comments.filter(Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)))
+		comments = self.child_comments.filter(Comment.author_id.notin_(poll_bots))
 		comments = sort_comments(sort, comments)
 		return [x for x in comments if not x.author.shadowbanned]
 		
@@ -258,7 +258,7 @@ class Comment(Base):
 		if not self.parent_submission:
 			return self.child_comments.order_by(Comment.id).all()
 
-		comments = self.child_comments.filter(Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)))
+		comments = self.child_comments.filter(Comment.author_id.notin_(poll_bots))
 		return sort_comments(sort, comments).all()
 
 

@@ -180,10 +180,6 @@
 				{% if p.private %}<span class="badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
 				{% if p.active_flags(v) %}<a class="btn btn-primary" role="button" style="padding:1px 5px; font-size:10px"onclick="document.getElementById('flaggers-{{p.id}}').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{ help.plural(p.active_flags(v)) }}</a>{% endif %}
 				
-				{% if not p.author %}
-					{{p.print()}}
-				{% endif %}
-
 				{% if p.ghost %}
 					<span {% if p.distinguish_level %}class="mod"{% endif %}>👻</span>
 				{% else %}

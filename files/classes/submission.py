@@ -74,7 +74,6 @@ class Submission(Base):
 	approved_by = relationship("User", uselist=False, primaryjoin="Submission.is_approved==User.id", viewonly=True)
 	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", viewonly=True)
 	reports = relationship("Flag", viewonly=True)
-	comments = relationship("Comment", primaryjoin="Comment.parent_submission==Submission.id")
 	subr = relationship("Sub", primaryjoin="foreign(Submission.sub)==remote(Sub.name)", viewonly=True)
 
 	bump_utc = deferred(Column(Integer, server_default=FetchedValue()))
@@ -128,7 +127,7 @@ class Submission(Base):
 	@lazy
 	def total_choice_voted(self, v):
 		if v and self.choices:
-			return g.db.query(CommentVote).filter(CommentVote.user_id == v.id, CommentVote.comment_id.in_([x.id for x in self.choices])).all()
+			return g.db.query(CommentVote).filter(CommentVote.user_id == v.id, CommentVote.comment_id.in_([x.id for x in self.choices])).count()
 		return False
 
 	@lazy
