@@ -36,3 +36,5 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 	if every_1mo:
 		give_monthly_marseybux_task()
 		g.db.commit()
+
+	g.db.close()
