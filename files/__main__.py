@@ -103,10 +103,9 @@ def teardown_request(error):
 def after_request(response):
 	response.headers.add("Strict-Transport-Security", "max-age=31536000")
 	response.headers.add("X-Frame-Options", "deny")
-	if response.status_code == 200:
-		g.db.commit()
-		g.db.close()
-		del g.db
+	g.db.commit()
+	g.db.close()
+	del g.db
 	return response
 
 if app.config["SERVER_NAME"] == 'localhost':
