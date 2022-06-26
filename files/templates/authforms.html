@@ -40,9 +40,7 @@
 					}
 				</style>
 			{% elif v.css %}
-				<style>
-					{{v.css}}
-				</style>
+				<link rel="stylesheet" href="/@{{v.username}}/css">
 			{% endif %}
 		{% else %}
 			<style>:root{--primary:#{{DEFAULT_COLOR}}</style>

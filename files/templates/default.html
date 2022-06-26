@@ -47,9 +47,7 @@
 				}
 			</style>
 		{% elif v.css %}
-			<style>
-				{{v.css}}
-			</style>
+			<link rel="stylesheet" href="/@{{v.username}}/css">
 		{% endif %}
 	{% else %}
 		<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
@@ -63,9 +61,7 @@
 	{% endif %}
 
 	{% if sub and sub.css and not request.path.endswith('settings') %}
-		<style>
-			{{sub.css}}
-		</style>
+		<link rel="stylesheet" href="/h/{{sub.name}}/css" type="text/css">
 	{% endif %}
 
 	{% if v and v.themecolor == '30409f' %}
