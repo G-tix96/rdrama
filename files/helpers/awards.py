@@ -75,7 +75,6 @@ def award_timers(v, bot=False):
 
 	if dirty:
 		g.db.add(v)
-		g.db.commit()
 
 def award_timers_bots_task():
 	accs = g.db.query(User).filter(User.id.in_(bots))

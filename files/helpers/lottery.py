@@ -58,7 +58,6 @@ def end_lottery_session():
 
 	active_lottery.is_active = False
 
-	g.db.commit()
 
 	return True, f'{winning_user.username} won {active_lottery.prize} coins!'
 
@@ -75,7 +74,6 @@ def start_new_lottery_session():
 	lottery.is_active = True
 
 	g.db.add(lottery)
-	g.db.commit()
 
 
 def check_if_end_lottery_task():
@@ -110,7 +108,6 @@ def purchase_lottery_tickets(v, quantity=1):
 	most_recent_lottery.prize += net_ticket_value
 	most_recent_lottery.tickets_sold += quantity
 
-	g.db.commit()
 
 	if quantity == 1: return True, f'Successfully purchased {quantity} lottery ticket!'
 	return True, f'Successfully purchased {quantity} lottery tickets!'
@@ -126,4 +123,3 @@ def grant_lottery_tickets_to_user(v, quantity):
 		active_lottery.prize += prize_value
 		active_lottery.tickets_sold += quantity
 
-		g.db.commit()

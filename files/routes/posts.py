@@ -30,14 +30,6 @@ if path.exists(f'snappy_{SITE_NAME}.txt'):
 	with open(f'snappy_{SITE_NAME}.txt', "r", encoding="utf-8") as f:
 		snappyquotes += f.read().split("\n{[para]}\n")
 
-discounts = {
-	69: 0.02,
-	70: 0.04,
-	71: 0.06,
-	72: 0.08,
-	73: 0.10,
-}
-
 titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
 
 
@@ -51,7 +43,6 @@ def toggle_club(pid, v):
 	post.club = not post.club
 	g.db.add(post)
 
-	g.db.commit()
 
 	if post.club: return {"message": "Post has been marked as club-only!"}
 	else: return {"message": "Post has been unmarked as club-only!"}
@@ -91,7 +82,6 @@ def publish(pid, v):
 	if post.sub:
 		on_post_hole_entered(post)
 
-	g.db.commit()
 
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
@@ -149,7 +139,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	if post.club and not (v and (v.paid_dues or v.id == post.author_id)): abort(403)
 
 	if v:
-		votes = g.db.query(CommentVote).filter_by(user_id=v.id).subquery()
+		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
 
 		blocking = v.blocking.subquery()
 
@@ -165,7 +155,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
 			comments = comments.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None)
  
-		comments=comments.filter(Comment.parent_submission == post.id, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID))).join(
+		comments=comments.filter(Comment.parent_submission == post.id, Comment.author_id.notin_(poll_bots)).join(
 			votes,
 			votes.c.comment_id == Comment.id,
 			isouter=True
@@ -199,7 +189,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	else:
 		pinned = g.db.query(Comment).filter(Comment.parent_submission == post.id, Comment.stickied != None).all()
 
-		comments = g.db.query(Comment).join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.parent_submission == post.id, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)), Comment.level == 1, Comment.stickied == None)
+		comments = g.db.query(Comment).join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.parent_submission == post.id, Comment.author_id.notin_(poll_bots), Comment.level == 1, Comment.stickied == None)
 
 		comments = sort_comments(sort, comments)
 
@@ -241,7 +231,6 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	post.views += 1
 	g.db.add(post)
-	g.db.commit()
 	if request.headers.get("Authorization"): return post.json
 	else:
 		if post.is_banned and not (v and (v.admin_level > 1 or post.author_id == v.id)): template = "submission_banned.html"
@@ -262,7 +251,7 @@ def viewmore(v, pid, sort, offset):
 	except: abort(400)
 	
 	if v:
-		votes = g.db.query(CommentVote).filter_by(user_id=v.id).subquery()
+		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
 
 		blocking = v.blocking.subquery()
 
@@ -273,7 +262,7 @@ def viewmore(v, pid, sort, offset):
 			votes.c.vote_type,
 			blocking.c.target_id,
 			blocked.c.target_id,
-		).filter(Comment.parent_submission == pid, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)), Comment.stickied == None, Comment.id.notin_(ids))
+		).filter(Comment.parent_submission == pid, Comment.author_id.notin_(poll_bots), Comment.stickied == None, Comment.id.notin_(ids))
 		
 		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
 			comments = comments.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None)
@@ -308,7 +297,7 @@ def viewmore(v, pid, sort, offset):
 		second = [c[0] for c in comments.filter(or_(Comment.slots_result != None, Comment.blackjack_result != None, Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()]
 		comments = first + second
 	else:
-		comments = g.db.query(Comment).join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.parent_submission == pid, Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)), Comment.level == 1, Comment.stickied == None, Comment.id.notin_(ids))
+		comments = g.db.query(Comment).join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.parent_submission == pid, Comment.author_id.notin_(poll_bots), Comment.level == 1, Comment.stickied == None, Comment.id.notin_(ids))
 
 		comments = sort_comments(sort, comments)
 		
@@ -349,7 +338,7 @@ def morecomments(v, cid):
 	tcid = g.db.query(Comment.top_comment_id).filter_by(id=cid).one_or_none()[0]
 
 	if v:
-		votes = g.db.query(CommentVote).filter_by(user_id=v.id).subquery()
+		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
 
 		blocking = v.blocking.subquery()
 
@@ -521,7 +510,6 @@ def edit_post(pid, v):
 		)
 		g.db.add(ma)
 
-	g.db.commit()
 
 	return redirect(p.permalink)
 
@@ -1214,7 +1202,6 @@ def submit_post(v, sub=None):
 		post.upvotes += 3
 		g.db.add(post)
 
-	g.db.commit()
 
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
@@ -1250,7 +1237,6 @@ def delete_post_pid(pid, v):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
 
-	g.db.commit()
 
 	return {"message": "Post deleted!"}
 
@@ -1267,7 +1253,6 @@ def undelete_post_pid(pid, v):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
 
-	g.db.commit()
 
 	return {"message": "Post undeleted!"}
 
@@ -1290,7 +1275,6 @@ def toggle_comment_nsfw(cid, v):
 				target_comment_id = comment.id,
 				)
 		g.db.add(ma)
-	g.db.commit()
 
 	if comment.over_18: return {"message": "Comment has been marked as +18!"}
 	else: return {"message": "Comment has been unmarked as +18!"}
@@ -1313,7 +1297,6 @@ def toggle_post_nsfw(pid, v):
 				target_submission_id = post.id,
 				)
 		g.db.add(ma)
-	g.db.commit()
 
 	if post.over_18: return {"message": "Post has been marked as +18!"}
 	else: return {"message": "Post has been unmarked as +18!"}
@@ -1331,7 +1314,6 @@ def save_post(pid, v):
 	if not save:
 		new_save=SaveRelationship(user_id=v.id, submission_id=post.id)
 		g.db.add(new_save)
-		g.db.commit()
 
 	return {"message": "Post saved!"}
 
@@ -1347,7 +1329,6 @@ def unsave_post(pid, v):
 
 	if save:
 		g.db.delete(save)
-		g.db.commit()
 
 	return {"message": "Post unsaved!"}
 
@@ -1363,7 +1344,6 @@ def api_pin_post(post_id, v):
 
 		cache.delete_memoized(User.userpagelisting)
 
-		g.db.commit()
 		if post.is_pinned: return {"message": "Post pinned!"}
 		else: return {"message": "Post unpinned!"}
 	return {"error": "Post not found!"}

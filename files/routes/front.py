@@ -14,7 +14,6 @@ def clear(v):
 	for n in notifs:
 		n.read = True
 		g.db.add(n)
-	g.db.commit()
 	return {"message": "Notifications cleared!"}
 
 @app.get("/unread")
@@ -31,7 +30,6 @@ def unread(v):
 	for n, c in listing:
 		n.read = True
 		g.db.add(n)
-	g.db.commit()
 
 	return {"data":[x[1].json for x in listing]}
 
@@ -162,7 +160,6 @@ def notifications(v):
 
 			if c not in listing: listing.append(c)
 
-	g.db.commit()
 
 	if request.headers.get("Authorization"): return {"data":[x.json for x in listing]}
 
@@ -334,7 +331,6 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 
 	if ids_only: posts = [x.id for x in posts]
 
-	g.db.commit()
 
 	return posts, next_exists
 

@@ -219,7 +219,6 @@ def submit_contact(v):
 
 
 
-	g.db.commit()
 	return render_template("contact.html", v=v, msg="Your message has been sent.")
 
 @app.get('/archives')

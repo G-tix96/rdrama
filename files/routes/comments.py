@@ -83,7 +83,6 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 		if notif:
 			notif.read = True
 			g.db.add(notif)
-			g.db.commit()
 
 	if comment.post and comment.post.club and not (v and (v.paid_dues or v.id in [comment.author_id, comment.post.author_id])): abort(403)
 
@@ -118,7 +117,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	sort=request.values.get("sort", defaultsortingcomments)
 
 	if v:
-		votes = g.db.query(CommentVote).filter_by(user_id=v.id).subquery()
+		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
 
 		blocking = v.blocking.subquery()
 
@@ -135,8 +134,8 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 			comments = comments.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None)
 		 
 		comments=comments.filter(
-			Comment.parent_submission == post.id,
-			Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID))
+			Comment.top_comment_id == c.top_comment_id,
+			Comment.author_id.notin_(poll_bots)
 		).join(
 			votes,
 			votes.c.comment_id == Comment.id,
@@ -645,7 +644,6 @@ def api_comment(v):
 		parent_post.comment_count += 1
 		g.db.add(parent_post)
 
-	g.db.commit()
 
 	if request.headers.get("Authorization"): return c.json
 	return {"comment": render_template("comments.html", v=v, comments=[c], ajax=True)}
@@ -807,7 +805,6 @@ def edit_comment(cid, v):
 				n = Notification(comment_id=c.id, user_id=x)
 				g.db.add(n)
 
-		g.db.commit()
 
 	return {"comment": c.realbody(v)}
 
@@ -830,7 +827,6 @@ def delete_comment(cid, v):
 		
 		cache.delete_memoized(comment_idlist)
 
-		g.db.commit()
 
 	return {"message": "Comment deleted!"}
 
@@ -851,7 +847,6 @@ def undelete_comment(cid, v):
 
 		cache.delete_memoized(comment_idlist)
 
-		g.db.commit()
 
 	return {"message": "Comment undeleted!"}
 
@@ -875,7 +870,6 @@ def pin_comment(cid, v):
 			else: message = f"@{v.username} (OP) has pinned your [comment]({comment.shortlink})!"
 			send_repeatable_notification(comment.author_id, message)
 
-		g.db.commit()
 	return {"message": "Comment pinned!"}
 	
 
@@ -897,7 +891,6 @@ def unpin_comment(cid, v):
 		if v.id != comment.author_id:
 			message = f"@{v.username} (OP) has unpinned your [comment]({comment.shortlink})!"
 			send_repeatable_notification(comment.author_id, message)
-		g.db.commit()
 	return {"message": "Comment unpinned!"}
 
 
@@ -918,7 +911,6 @@ def mod_pin(cid, v):
 			message = f"@{v.username} (Mod) has pinned your [comment]({comment.shortlink})!"
 			send_repeatable_notification(comment.author_id, message)
 
-		g.db.commit()
 	return {"message": "Comment pinned!"}
 	
 
@@ -937,7 +929,6 @@ def mod_unpin(cid, v):
 		if v.id != comment.author_id:
 			message = f"@{v.username} (Mod) has unpinned your [comment]({comment.shortlink})!"
 			send_repeatable_notification(comment.author_id, message)
-		g.db.commit()
 	return {"message": "Comment unpinned!"}
 
 
@@ -955,7 +946,6 @@ def save_comment(cid, v):
 		new_save=CommentSaveRelationship(user_id=v.id, comment_id=comment.id)
 		g.db.add(new_save)
 
-		g.db.commit()
 
 	return {"message": "Comment saved!"}
 
@@ -971,7 +961,6 @@ def unsave_comment(cid, v):
 
 	if save:
 		g.db.delete(save)
-		g.db.commit()
 
 	return {"message": "Comment unsaved!"}
 
@@ -992,7 +981,6 @@ def handle_blackjack_action(cid, v):
 
 		g.db.add(comment)
 		g.db.add(v)
-		g.db.commit()
 	return {"response" : comment.blackjack_html(v)}
 
 
@@ -1043,6 +1031,5 @@ def handle_wordle_action(cid, v):
 		comment.wordle_result = f'{guesses}_{status}_{answer}'
 
 		g.db.add(comment)
-		g.db.commit()
 	
 	return {"response" : comment.wordle_html(v)}

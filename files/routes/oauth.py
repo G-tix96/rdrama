@@ -30,7 +30,6 @@ def authorize(v):
 	try:
 		new_auth = ClientAuth(oauth_client = application.id, user_id = v.id, access_token=access_token)
 		g.db.add(new_auth)
-		g.db.commit()
 	except sqlalchemy.exc.IntegrityError:
 		g.db.rollback()
 		old_auth = g.db.query(ClientAuth).filter_by(oauth_client = application.id, user_id = v.id).one()
@@ -76,7 +75,6 @@ def request_api_keys(v):
 		g.db.add(notif)
 
 
-	g.db.commit()
 
 	return redirect('/settings/apps')
 
@@ -97,7 +95,6 @@ def delete_oauth_app(v, aid):
 
 	g.db.delete(app)
 
-	g.db.commit()
 
 	return redirect('/apps')
 
@@ -119,7 +116,6 @@ def edit_oauth_app(v, aid):
 
 	g.db.add(app)
 
-	g.db.commit()
 
 	return redirect('/settings/apps')
 
@@ -153,7 +149,6 @@ def admin_app_approve(v, aid):
 	)
 	g.db.add(ma)
 
-	g.db.commit()
 
 	return {"message": "Application approved"}
 
@@ -178,7 +173,6 @@ def admin_app_revoke(v, aid):
 		)
 		g.db.add(ma)
 
-		g.db.commit()
 
 	return {"message": "App revoked"}
 
@@ -204,7 +198,6 @@ def admin_app_reject(v, aid):
 		)
 		g.db.add(ma)
 
-		g.db.commit()
 
 	return {"message": "App rejected"}
 
@@ -281,6 +274,5 @@ def reroll_oauth_tokens(aid, v):
 	a.client_id = secrets.token_urlsafe(64)[:64]
 	g.db.add(a)
 
-	g.db.commit()
 
 	return {"message": "Client ID Rerolled", "id": a.client_id}

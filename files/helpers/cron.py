@@ -21,6 +21,7 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 	if every_5m:
 		lottery.check_if_end_lottery_task()
 		offsitementions.offsite_mentions_task()
+		g.db.commit()
 
 	if every_1h:
 		pass
@@ -30,6 +31,10 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 		route_static.stats_cached()
 		awards.award_timers_bots_task()
 		sub_inactive_purge_task()
+		g.db.commit()
 
 	if every_1mo:
 		give_monthly_marseybux_task()
+		g.db.commit()
+
+	g.db.close()

@@ -97,7 +97,6 @@ def buy(v, award):
 	if CARP_ID and v.id != CARP_ID and og_price >= 10000:
 		send_repeatable_notification(CARP_ID, f"@{v.username} has bought a `{award}` award!")
 
-	g.db.commit()
 
 	return {"message": "Award bought!"}
 
@@ -298,7 +297,6 @@ def award_thing(v, thing_type, id):
 	else: author.received_award_count = 1
 	g.db.add(author)
 
-	g.db.commit()
 	if request.referrer and len(request.referrer) > 1:
 		if request.referrer == f'{SITE_FULL}/submit': return redirect(thing.permalink)
 		elif request.referrer.startswith(f'{SITE_FULL}/'): return redirect(request.referrer)
@@ -371,7 +369,6 @@ def admin_userawards_post(v):
 		)
 	g.db.add(ma)
 
-	g.db.commit()
 
 	if v.admin_level != 3: return render_template("admin/awards.html", awards=list(AWARDS3.values()), v=v)
 	return render_template("admin/awards.html", awards=list(AWARDS.values()), v=v) 

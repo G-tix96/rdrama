@@ -66,7 +66,6 @@ def speak(data, v):
 		emit('speak', data)
 		v.shadowbanned = 'AutoJanny'
 		g.db.add(v)
-		g.db.commit()
 	else:
 		emit('speak', data, broadcast=True)
 		messages.append(data)

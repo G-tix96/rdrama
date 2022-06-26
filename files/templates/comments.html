@@ -207,9 +207,7 @@
 
 					{% if c.author.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if c.author.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if c.author.verifiedcolor %}#{{c.author.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.verified}}"></i>
 					{% endif %}
-					{% if not c.author %}
-						{{c.print()}}
-					{% endif %}
+
 					<a class="user-name text-decoration-none" href="{{c.author.url}}" data-pop-info='{{c.author.json_popover(v) | tojson}}' onclick='popclick(event)' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="click" data-content-id="popover" role="button" tabindex="0" style="color:#{{c.author.namecolor}}; font-size:12px; font-weight:bold;">
 						<img loading="lazy" src="{{c.author.profile_url}}" class="profile-pic-25 mr-2">
 						{% if c.author.is_cakeday %}
@@ -877,7 +875,7 @@
 			lastCount = comments['{{p.id}}']
 			if (lastCount)
 			{
-				{% for c in p.comments %}
+				{% for c in p.replies %}
 					{% if not (v and v.id==c.author_id) and not c.voted %}
 						if ({{c.created_utc*1000}} > lastCount.t) 
 						try {document.getElementById("comment-{{c.id}}-only").classList.add('unread')}
@@ -908,7 +906,7 @@
 						lastCount = comments['{{p.id}}']
 						if (lastCount)
 						{
-							{% for c in p.comments %}
+							{% for c in p.replies %}
 								{% if not (v and v.id==c.author_id) and not c.voted %}
 									if ({{c.created_utc*1000}} > lastCount.t) 
 									try {document.getElementById("comment-{{c.id}}-only").classList.add('unread')}

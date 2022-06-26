@@ -12,8 +12,9 @@ from files.helpers.regex import *
 from files.helpers.regex import *
 from files.helpers.lazy import lazy
 from .flags import CommentFlag
-from random import randint
 from .votes import CommentVote
+from .saves import CommentSaveRelationship
+from random import randint
 from math import floor
 
 
@@ -35,7 +36,7 @@ def sort_comments(sort, comments):
 	elif sort == 'controversial':
 		return comments.order_by((Comment.upvotes+1)/(Comment.downvotes+1) + (Comment.downvotes+1)/(Comment.upvotes+1), Comment.downvotes.desc(), Comment.id.desc())
 	elif sort == "bottom":
-		return comments.order_by(Comment.realupvotes, Comment.id.desc())
+		return comments.order_by(Comment.upvotes - Comment.downvotes)
 	else:
 		return comments.order_by(Comment.realupvotes.desc(), Comment.id.desc())
 
@@ -134,7 +135,7 @@ class Comment(Base):
 	@lazy
 	def total_choice_voted(self, v):
 		if v:
-			return g.db.query(CommentVote).filter(CommentVote.user_id == v.id, CommentVote.comment_id.in_([x.id for x in self.choices])).all()
+			return g.db.query(CommentVote.comment_id).filter(CommentVote.user_id == v.id, CommentVote.comment_id.in_([x.id for x in self.choices])).first()
 		return False
 
 	@property
@@ -247,7 +248,7 @@ class Comment(Base):
 		if not self.parent_submission:
 			return [x for x in self.child_comments.order_by(Comment.id) if not x.author.shadowbanned]
 
-		comments = self.child_comments.filter(Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)))
+		comments = self.child_comments.filter(Comment.author_id.notin_(poll_bots))
 		comments = sort_comments(sort, comments)
 		return [x for x in comments if not x.author.shadowbanned]
 		
@@ -258,7 +259,7 @@ class Comment(Base):
 		if not self.parent_submission:
 			return self.child_comments.order_by(Comment.id).all()
 
-		comments = self.child_comments.filter(Comment.author_id.notin_((AUTOPOLLER_ID, AUTOBETTER_ID, AUTOCHOICE_ID)))
+		comments = self.child_comments.filter(Comment.author_id.notin_(poll_bots))
 		return sort_comments(sort, comments).all()
 
 
@@ -411,7 +412,6 @@ class Comment(Base):
 					if amount == 1:
 						self.upvotes += amount
 						g.db.add(self)
-						g.db.commit()
 
 		for c in self.options:
 			body += f'<div class="custom-control"><input type="checkbox" class="custom-control-input" id="{c.id}" name="option"'
@@ -424,7 +424,7 @@ class Comment(Base):
 
 		if self.choices:
 			curr = self.total_choice_voted(v)
-			if curr: curr = " value=" + str(curr[0].comment_id)
+			if curr: curr = " value=" + str(curr.comment_id)
 			else: curr = ''
 			body += f'<input class="d-none" id="current-{self.id}"{curr}>'
 

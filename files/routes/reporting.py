@@ -46,7 +46,6 @@ def api_flag_post(pid, v):
 		flag = Flag(post_id=post.id, user_id=v.id, reason=reason)
 		g.db.add(flag)
 
-	g.db.commit()
 
 	return {"message": "Post reported!"}
 
@@ -77,7 +76,6 @@ def api_flag_comment(cid, v):
 	flag = CommentFlag(comment_id=comment.id, user_id=v.id, reason=reason)
 
 	g.db.add(flag)
-	g.db.commit()
 
 	return {"message": "Comment reported!"}
 
@@ -105,7 +103,6 @@ def remove_report_post(v, pid, uid):
 
 		g.db.add(ma)
 
-		g.db.commit()
 
 	return {"message": "Report removed successfully!"}
 
@@ -131,6 +128,5 @@ def remove_report_comment(v, cid, uid):
 
 		g.db.add(ma)
 
-		g.db.commit()
 
 	return {"message": "Report removed successfully!"}

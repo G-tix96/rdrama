@@ -732,10 +732,6 @@
 						{% if p.over_18 %}<span class="badge badge-danger text-small-extra mr-1">+18</span>{% endif %}
 						{% if p.private %}<span class="badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
 						{% if p.active_flags(v) %}<a class="btn btn-primary" role="button" style="padding:1px 5px; font-size:10px"onclick="document.getElementById('flaggers').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{ help.plural(p.active_flags(v)) }}</a>{% endif %}
-						
-						{% if not p.author %}
-							{{p.print()}}
-						{% endif %}
 
 						{% if p.ghost %}
 							<span {% if p.distinguish_level %}class="mod"{% endif %}>👻</span>
@@ -1127,7 +1123,7 @@
 					lastCount = comments['{{p.id}}']
 					if (lastCount)
 					{
-						{% for c in p.comments %}
+						{% for c in p.replies %}
 							{% if not (v and v.id==c.author_id) and not c.voted %}
 								if ({{c.created_utc*1000}} > lastCount.t) 
 								try {document.getElementById("comment-{{c.id}}-only").classList.add('unread')}

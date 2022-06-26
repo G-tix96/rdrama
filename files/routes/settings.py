@@ -38,7 +38,6 @@ tiers={
 def removebackground(v):
 	v.background = None
 	g.db.add(v)
-	g.db.commit()
 	return {"message": "Background removed!"}
 
 @app.post("/settings/profile")
@@ -118,28 +117,24 @@ def settings_profile_post(v):
 		v.bio = None
 		v.bio_html = None
 		g.db.add(v)
-		g.db.commit()
 		return render_template("settings_profile.html", v=v, msg="Your bio has been updated.")
 
 	elif request.values.get("sig") == "":
 		v.sig = None
 		v.sig_html = None
 		g.db.add(v)
-		g.db.commit()
 		return render_template("settings_profile.html", v=v, msg="Your sig has been updated.")
 
 	elif request.values.get("friends") == "":
 		v.friends = None
 		v.friends_html = None
 		g.db.add(v)
-		g.db.commit()
 		return render_template("settings_profile.html", v=v, msg="Your friends list has been updated.")
 
 	elif request.values.get("enemies") == "":
 		v.enemies = None
 		v.enemies_html = None
 		g.db.add(v)
-		g.db.commit()
 		return render_template("settings_profile.html", v=v, msg="Your enemies list has been updated.")
 
 	elif (v.patron or v.id == MOOSE_ID) and request.values.get("sig"):
@@ -155,7 +150,6 @@ def settings_profile_post(v):
 		v.sig = sig[:200]
 		v.sig_html=sig_html
 		g.db.add(v)
-		g.db.commit()
 		return render_template("settings_profile.html",
 							   v=v,
 							   msg="Your sig has been updated.")
@@ -184,7 +178,6 @@ def settings_profile_post(v):
 		v.friends = friends[:500]
 		v.friends_html=friends_html
 		g.db.add(v)
-		g.db.commit()
 		return render_template("settings_profile.html",
 							   v=v,
 							   msg="Your friends list has been updated.")
@@ -211,7 +204,6 @@ def settings_profile_post(v):
 		v.enemies = enemies[:500]
 		v.enemies_html=enemies_html
 		g.db.add(v)
-		g.db.commit()
 		return render_template("settings_profile.html",
 							   v=v,
 							   msg="Your enemies list has been updated.")
@@ -236,7 +228,6 @@ def settings_profile_post(v):
 		v.bio = bio[:1500]
 		v.bio_html=bio_html
 		g.db.add(v)
-		g.db.commit()
 		return render_template("settings_profile.html",
 							   v=v,
 							   msg="Your bio has been updated.")
@@ -300,7 +291,6 @@ def settings_profile_post(v):
 
 	if updated:
 		g.db.add(v)
-		g.db.commit()
 
 		return {"message": "Your settings have been updated."}
 
@@ -318,7 +308,6 @@ def filters(v):
 
 	v.custom_filter_list=filters
 	g.db.add(v)
-	g.db.commit()
 	return render_template("settings_filters.html", v=v, msg="Your custom filters have been updated.")
 
 @app.post("/changelogsub")
@@ -329,7 +318,6 @@ def changelogsub(v):
 
 	cache.delete_memoized(frontlist)
 
-	g.db.commit()
 	if v.changelogsub: return {"message": "You have subscribed to the changelog!"}
 	else: return {"message": "You have unsubscribed from the changelog!"}
 
@@ -347,7 +335,6 @@ def namecolor(v):
 
 	v.namecolor = color
 	g.db.add(v)
-	g.db.commit()
 	return redirect("/settings/profile")
 	
 @app.post("/settings/themecolor")
@@ -364,7 +351,6 @@ def themecolor(v):
 
 	v.themecolor = themecolor
 	g.db.add(v)
-	g.db.commit()
 	return redirect("/settings/profile")
 
 @app.post("/settings/gumroad")
@@ -401,7 +387,6 @@ def gumroad(v):
 
 	badge_grant(badge_id=20+tier, user=v)
 	
-	g.db.commit()
 
 	return {"message": f"{patron} rewards claimed!"}
 
@@ -418,7 +403,6 @@ def titlecolor(v):
 		return render_template("settings_profile.html", v=v, error="Invalid color code")
 	v.titlecolor = titlecolor
 	g.db.add(v)
-	g.db.commit()
 	return redirect("/settings/profile")
 
 @app.post("/settings/verifiedcolor")
@@ -431,7 +415,6 @@ def verifiedcolor(v):
 	if len(verifiedcolor) != 6: return render_template("settings_profile.html", v=v, error="Invalid color code")
 	v.verifiedcolor = verifiedcolor
 	g.db.add(v)
-	g.db.commit()
 	return redirect("/settings/profile")
 
 @app.post("/settings/security")
@@ -453,7 +436,6 @@ def settings_security_post(v):
 
 		g.db.add(v)
 
-		g.db.commit()
 
 		return render_template("settings_security.html", v=v, msg="Your password has been changed.")
 
@@ -497,7 +479,6 @@ def settings_security_post(v):
 		v.mfa_secret = secret
 		g.db.add(v)
 
-		g.db.commit()
 
 		return render_template("settings_security.html", v=v, msg="Two-factor authentication enabled.")
 
@@ -514,7 +495,6 @@ def settings_security_post(v):
 		v.mfa_secret = None
 		g.db.add(v)
 
-		g.db.commit()
 
 		return render_template("settings_security.html", v=v, msg="Two-factor authentication disabled.")
 
@@ -535,7 +515,6 @@ def settings_log_out_others(v):
 
 	g.db.add(v)
 
-	g.db.commit()
 
 	return render_template("settings_security.html", v=v, msg="All other devices have been logged out")
 
@@ -571,7 +550,6 @@ def settings_images_profile(v):
 	v.profileurl = imageurl
 	g.db.add(v)
 
-	g.db.commit()
 
 	return render_template("settings_profile.html", v=v, msg="Profile picture successfully updated.")
 
@@ -595,7 +573,6 @@ def settings_images_banner(v):
 			if path.isfile(fpath): os.remove(fpath)
 		v.bannerurl = bannerurl
 		g.db.add(v)
-		g.db.commit()
 
 	return render_template("settings_profile.html", v=v, msg="Banner successfully updated.")
 
@@ -622,7 +599,6 @@ def settings_css(v):
 	css = request.values.get("css").strip().replace('\\', '').strip()[:4000]
 	v.css = css
 	g.db.add(v)
-	g.db.commit()
 
 	return render_template("settings_css.html", v=v)
 
@@ -649,7 +625,6 @@ def settings_profilecss(v):
 
 	v.profilecss = profilecss
 	g.db.add(v)
-	g.db.commit()
 	return render_template("settings_profilecss.html", v=v)
 
 @app.post("/settings/block")
@@ -665,7 +640,6 @@ def settings_block_user(v):
 	if user.unblockable:
 		if not v.shadowbanned:
 			send_notification(user.id, f"@{v.username} has tried to block you and failed because of your unblockable status!")
-		g.db.commit()
 		return {"error": "This user is unblockable."}, 403
 
 	if user.id == v.id:
@@ -686,7 +660,6 @@ def settings_block_user(v):
 
 	cache.delete_memoized(frontlist)
 
-	g.db.commit()
 
 	return {"message": f"@{user.username} blocked."}
 
@@ -710,7 +683,6 @@ def settings_unblock_user(v):
 
 	cache.delete_memoized(frontlist)
 
-	g.db.commit()
 
 	return {"message": f"@{user.username} unblocked."}
 
@@ -733,7 +705,6 @@ def settings_remove_discord(v):
 	v.discord_id=None
 	g.db.add(v)
 
-	g.db.commit()
 
 	return redirect("/settings/profile")
 
@@ -784,7 +755,6 @@ def settings_name_change(v):
 
 	g.db.add(v)
 
-	g.db.commit()
 
 	return redirect("/settings/profile")
 
@@ -810,7 +780,6 @@ def settings_song_change_mp3(v):
 
 	v.song = v.id
 	g.db.add(v)
-	g.db.commit()
 
 	return redirect("/settings/profile")
 
@@ -828,7 +797,6 @@ def settings_song_change(v):
 			os.remove(f"/songs/{v.song}.mp3")
 		v.song = None
 		g.db.add(v)
-		g.db.commit()
 		return redirect("/settings/profile")
 
 	song = song.replace("https://music.youtube.com", "https://youtube.com")
@@ -845,7 +813,6 @@ def settings_song_change(v):
 	if path.isfile(f'/songs/{id}.mp3'): 
 		v.song = id
 		g.db.add(v)
-		g.db.commit()
 		return redirect("/settings/profile")
 		
 	
@@ -892,7 +859,6 @@ def settings_song_change(v):
 	v.song = id
 	g.db.add(v)
 
-	g.db.commit()
 
 	return redirect("/settings/profile")
 
@@ -914,7 +880,6 @@ def settings_title_change(v):
 
 	if len(v.customtitle) < 1000:
 		g.db.add(v)
-		g.db.commit()
 
 	return redirect("/settings/profile")
 
@@ -935,7 +900,6 @@ def settings_checkmark_text(v):
 
 	v.verified = new_name
 	g.db.add(v)
-	g.db.commit()
 
 	return redirect("/settings/profile")
 
