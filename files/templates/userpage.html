@@ -217,19 +217,23 @@
 						</form>
 
 						<div id="message-preview" class="preview mt-2"></div>
-
+						
 						<div class="d-none mt-3 toggleable" id="coin-transfer">
-							<input autocomplete="off" id="coin-transfer-amount" class="form-control" name="amount" type="number" oninput="updateTax()">
-							<input autocomplete="off" id="coin-transfer-reason" maxlength=200 type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
-							<div>{{u.username}} will receive <span id="coins-transfer-taxed">0</span> coins</div>
-							<button class="btn btn-primary mt-3" onclick="transferCoins()">Gift</button>
+							<form>
+								<input autocomplete="off" id="coin-transfer-amount" class="form-control" name="amount" type="number" oninput="updateTax()">
+								<input autocomplete="off" id="coin-transfer-reason" maxlength=200 type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
+								<div>{{u.username}} will receive <span id="coins-transfer-taxed">0</span> coins</div>
+								<button class="btn btn-primary mt-3" onclick="transferCoins()">Gift</button>
+							</form>
 						</div>
 
 						<div class="d-none mt-3 toggleable" id="bux-transfer">
-							<input autocomplete="off" id="bux-transfer-amount" class="form-control" name="amount" type="number" oninput="updateBux()">
-							<input autocomplete="off" id="bux-transfer-reason" type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
-							<div>{{u.username}} will receive <span id="bux-transfer-taxed">0</span> marseybux</div>
-							<button class="btn btn-primary mt-3" onclick="transferBux()">Gift</button>
+							<form>
+								<input autocomplete="off" id="bux-transfer-amount" class="form-control" name="amount" type="number" oninput="updateBux()">
+								<input autocomplete="off" id="bux-transfer-reason" type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
+								<div>{{u.username}} will receive <span id="bux-transfer-taxed">0</span> marseybux</div>
+								<button class="btn btn-primary mt-3" onclick="transferBux()">Gift</button>
+							</form>
 						</div>
 
 					{% elif v and v.id == u.id %}
