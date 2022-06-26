@@ -20,6 +20,7 @@ from .sub_block import *
 from .submission import sort_posts
 from files.__main__ import Base, cache
 from files.helpers.security import *
+from copy import deepcopy
 import random
 from os import environ, remove, path
 
@@ -246,12 +247,18 @@ class User(Base):
 	@property
 	@lazy
 	def user_awards(self):
-
 		return_value = list(AWARDS2.values())
 
-		user_awards = g.db.query(AwardRelationship).filter_by(user_id=self.id)
+		awards_owned = g.db.query(AwardRelationship.kind, func.count()) \
+			.filter_by(user_id=self.id, submission_id=None, comment_id=None) \
+			.group_by(AwardRelationship.kind).all()
+		awards_owned = dict(awards_owned)
 
-		for val in return_value: val['owned'] = user_awards.filter_by(kind=val['kind'], submission_id=None, comment_id=None).count()
+		for val in return_value:
+			if val['kind'] in awards_owned:
+				val['owned'] = awards_owned[val['kind']]
+			else:
+				val['owned'] = 0
 
 		return return_value
 

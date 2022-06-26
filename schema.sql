@@ -140,7 +140,8 @@ CREATE TABLE public.award_relationships (
     user_id integer NOT NULL,
     submission_id integer,
     comment_id integer,
-    kind character varying(20) NOT NULL
+    kind character varying(20) NOT NULL,
+    awarded_utc integer
 );
 
 
