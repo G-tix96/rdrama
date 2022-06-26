@@ -160,6 +160,7 @@ def notifications(v):
 
 			if c not in listing: listing.append(c)
 
+	g.db.commit()
 
 	if request.headers.get("Authorization"): return {"data":[x.json for x in listing]}
 
