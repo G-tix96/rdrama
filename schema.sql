@@ -2065,6 +2065,8 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 139	Kristallmopt	This user was fired from a volunteer position
 140	Y'all Seein' Eye	Gets notified when other sites talk about us
 141	Marsey Typographer	For substantial and exceptional contributions to Marsey Alphabet.
+142	Punching Down	This user mogs incels.
+143	Marsey God	Contributed 100 (or more!!!!) Marsey emojis ✨😻
 4	White Hat	Discreetly reported an exploit
 1	Alpha User	Joined during open alpha
 2	Verified Email	Verified Email
@@ -2168,7 +2170,7 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 141, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 143, true);
 
 
 --
