@@ -349,10 +349,10 @@ def sign_up_post(v):
 		except Exception as e: print(e)
 
 
-	check_for_alts(new_user.id)
-	
 	g.db.flush()
 
+	check_for_alts(new_user.id)
+	
 	send_notification(new_user.id, WELCOME_MSG)
 
 	session["lo_user"] = new_user.id
