@@ -72,6 +72,8 @@ def get_logged_in_user():
 
 	g.v = v
 
+	if v: v.poor = session.get('poor')
+
 	return v
 
 def check_ban_evade(v):

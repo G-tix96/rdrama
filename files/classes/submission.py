@@ -367,7 +367,7 @@ class Submission(Base):
 
 	@lazy
 	def award_count(self, kind, v):
-		if v and v.poorcel: return 0
+		if v and v.poor: return 0
 		return len([x for x in self.awards if x.kind == kind])
 
 	@lazy
@@ -444,7 +444,7 @@ class Submission(Base):
 				body += "</div>"
 
 
-			if self.author.sig_html and (self.author_id == MOOSE_ID or (not self.ghost and not (v and (v.sigs_disabled or v.poorcel)))):
+			if self.author.sig_html and (self.author_id == MOOSE_ID or (not self.ghost and not (v and (v.sigs_disabled or v.poor)))):
 				body += f"<hr>{self.author.sig_html}"
 
 		return body
