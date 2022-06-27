@@ -90,6 +90,9 @@ def publish(pid, v):
 		send_discord_message(post.permalink)
 		cache.delete_memoized(changeloglist)
 
+	if request.referrer and request.referrer.startswith(f'{SITE_FULL}/'):
+		return redirect(request.referrer)
+
 	return redirect(post.permalink)
 
 @app.get("/submit")
