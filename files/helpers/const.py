@@ -184,6 +184,7 @@ BUG_THREAD = 0
 POLL_THREAD = 0
 WELCOME_MSG = f"Welcome to {SITE_NAME}!"
 ROLES={}
+PROCOINS_ENABLED = True
 
 LOTTERY_ENABLED = True
 LOTTERY_TICKET_COST = 12
@@ -285,6 +286,7 @@ elif SITE == 'cringetopia.org':
 		"6": "947236351445725204",
 		"7": "886781932430565418",
 	}
+	PROCOINS_ENABLED = False
 elif SITE == 'watchpeopledie.co':
 	HOLE_NAME = 'flair'
 	HOLE_STYLE_FLAIR = True
@@ -295,6 +297,8 @@ elif SITE == 'watchpeopledie.co':
 	CARP_ID = 13
 	AEVANN_ID = 9
 	SNAKES_ID = 32
+
+	PROCOINS_ENABLED = False
 else: # localhost or testing environment implied
 	pass
 
@@ -727,6 +731,8 @@ if SITE == 'pcmemes.net':
 	AWARDS_DISABLED.remove('ghost')
 elif SITE_NAME == 'WPD':
 	AWARDS_DISABLED.remove('lootbox')
+if not PROCOINS_ENABLED:
+	AWARDS_DISABLED.append('benefactor')
 
 AWARDS2 = {x: AWARDS[x] for x in AWARDS if x not in AWARDS_DISABLED}
 AWARDS3 = {x: AWARDS2[x] for x in AWARDS2 if AWARDS2[x]['price'] <= 500}

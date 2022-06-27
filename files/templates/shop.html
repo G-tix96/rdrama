@@ -25,7 +25,7 @@
 		<h5 class="mt-4">Coins spent by you: {{v.coins_spent}} coins</h5>
 		<h5 class="mt-4">Lootboxes bought by you: {{v.lootboxes_bought}} lootbox{{'es' if v.lootboxes_bought != 1}}</h5>
 		<h5 class="mt-4">Your current coins: {{v.coins}}</h5>
-		{% if SITE_NAME not in ('Cringetopia', 'WPD') %}
+		{% if PROCOINS_ENABLED %}
 			<h5 class="mt-4">Your current marseybux: {{v.procoins}}</h3>
 		{% endif %}
 	</header>
