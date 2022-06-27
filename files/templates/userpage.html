@@ -369,7 +369,9 @@
 <div class="container-fluid pb-0 text-center bg-white d-md-none" style="margin-top:-6px;border-radius:0!important;">
 	<div class="row">
 		<div class="col px-0">
-			<img alt="@{{u.username}}'s banner" role="button" data-bs-toggle="modal" data-bs-target="#expandImageModal" onclick="expandDesktopImage('{{u.banner_url}}')" loading="lazy" src="{{u.banner_url}}" width=100% style="object-fit:cover;max-height:30vh!important">
+			<a href="{{u.banner_url}}">
+				<img alt="@{{u.username}}'s banner" role="button" onclick="expandDesktopImage()" loading="lazy" src="{{u.banner_url}}" width=100% style="object-fit:cover;max-height:30vh!important">
+			</a>
 		</div>
 	</div>
 	<div class="row border-bottom">

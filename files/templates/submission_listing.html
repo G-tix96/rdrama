@@ -123,14 +123,16 @@
 						<img alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 					</a>
 				{% elif p.is_image %}
-					<img role="button" data-bs-toggle="modal" data-bs-target="#expandImageModal" onclick="expandDesktopImage('{{p.realurl(v)}}')" alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+					<a href="{{p.realurl(v)}}" rel="nofollow noopener noreferrer">
+						<img onclick="expandDesktopImage('{{p.realurl(v)}}')" alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+					</a>
 				{% elif p.is_video or p.is_audio %}
-					<a role="button" onclick="togglevideo({{p.id}})">
-						<img alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+					<a href="{{p.realurl(v)}}" rel="nofollow noopener noreferrer">
+						<img onclick="togglevideo('{{p.id}}')" alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 					</a>
 				{% elif p.is_youtube %}
-					<a role="button" onclick="document.getElementById('video-{{p.id}}').classList.toggle('d-none')">
-						<img alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+					<a href="{{p.realurl(v)}}" rel="nofollow noopener noreferrer">
+						<img onclick="toggleyoutube('{{p.id}}')" alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 					</a>
 				{% else %}
 					<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener noreferrer" href="{{p.realurl(v)}}">
@@ -445,4 +447,4 @@
 
 <script src="/assets/js/clipboard.js?v=240"></script>
 <script src="{{asset('js/comments+submission_listing.js')}}"></script>
-<script src="/assets/js/submission_listing.js?v=240"></script>
+<script src="{{asset('js/submission_listing.js')}}"></script>

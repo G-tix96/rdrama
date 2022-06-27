@@ -31,9 +31,13 @@ set VISITORS_HERE_FLAVOR = [
 	{% endif %}
 
 	{% if v and (v.is_banned or v.agendaposter) %}
-		<img class="mb-4" alt="sidebar image" role="button" data-bs-toggle="modal" data-bs-target="#expandImageModal" onclick="expandDesktopImage('/i/{{SITE_NAME}}/sidebar2.webp')" loading="lazy" src="/i/{{SITE_NAME}}/sidebar2.webp" width=100%>
+		<a href="/i/{{SITE_NAME}}/sidebar2.webp">
+			<img class="mb-4" alt="sidebar image" role="button" onclick="expandDesktopImage()" loading="lazy" src="/i/{{SITE_NAME}}/sidebar2.webp" width=100%>
+		</a>
 	{% else %}
-		<img class="mb-4" alt="sidebar image" role="button" data-bs-toggle="modal" data-bs-target="#expandImageModal" onclick="expandDesktopImage('{{image}}')" loading="lazy" src="{{image}}" width=100%>
+		<a href="{{image}}">
+			<img class="mb-4" alt="sidebar image" role="button" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
+		</a>
 	{% endif %}
 
 	<p class="mt-1 ml-2 mb-4 text-center">

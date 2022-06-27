@@ -268,7 +268,9 @@
 {% block Banner %}
 	{% if '@' not in request.path %}	
 		{% if sub %}
-			<img alt="/h/{{sub.name}} banner" role="button" data-bs-toggle="modal" data-bs-target="#expandImageModal" onclick="expandDesktopImage('{{sub.banner_url}}')" loading="lazy" src="{{sub.banner_url}}" width=100% style="object-fit:cover;max-height:min(42vh,30vw)!important">
+			<a href="{{sub.banner_url}}">
+				<img alt="/h/{{sub.name}} banner" role="button" onclick="expandDesktopImage()" loading="lazy" src="{{sub.banner_url}}" width=100% style="object-fit:cover;max-height:min(42vh,30vw)!important">
+			</a>
 		{% elif SITE_NAME == 'rDrama' %}
 			{% set path = "assets/images/" + SITE_NAME + "/banners" %}
 			{% set image = "/" + path + "/" + listdir('files/' + path)|random() + '?v=25' %}
@@ -365,7 +367,7 @@
 	</div>
 </div>
 
-<script src="/assets/js/lozad.js?v=242"></script>
+<script src="{{asset('js/lozad.js')}}"></script>
 
 {% if v %}
 	<script src="{{asset('js/formatting.js')}}"></script>
