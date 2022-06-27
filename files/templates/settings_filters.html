@@ -11,6 +11,29 @@
 
 		<div class="settings">
 
+			<h2 class="h5" name="referral">Poorcel Mode</h2>
+
+			<div class="settings-section rounded">
+				<div class="d-lg-flex border-bottom">
+					<div class="title w-lg-25">
+						<label for="poorcel">Poorcel Mode</label>
+					</div>
+
+					<div class="body w-lg-100">
+
+						<div class="custom-control custom-switch">
+							<input autocomplete="off" type="checkbox" class="custom-control-input" id="poorcel" name="poorcel"{% if v.poorcel %} checked{% endif %} onchange="post_toast(this,'/settings/profile?poorcel='+document.getElementById('poorcel').checked);">
+							<label class="custom-control-label" for="poorcel"></label>
+						</div>
+
+						<span class="text-small-extra text-muted">Makes the site much faster for low-end devices.</span>
+
+					</div>
+
+				</div>
+			</div>
+
+			
 			<h2 class="h5" name="referral">Frontpage Size</h2>
 
 			<div class="settings-section rounded">
@@ -297,24 +320,6 @@
 
 					</div>
 
-					<div class="d-lg-flex border-bottom">
-
-						<div class="title w-lg-25">
-							<label for="animations">Animations</label>
-						</div>
-
-						<div class="body w-lg-100">
-
-							<div class="custom-control custom-switch">
-								<input autocomplete="off" type="checkbox" class="custom-control-input" id="animations" name="animations"{% if v.animations %} checked{% endif %} onchange="post_toast(this,'/settings/profile?animations='+document.getElementById('animations').checked);">
-								<label class="custom-control-label" for="animations"></label>
-							</div>
-
-							<span class="text-small-extra text-muted">Enables animations for user interface elements. No effect on award animations.</span>
-
-						</div>
-
-					</div>
 
 					<div class="d-lg-flex border-bottom">
 

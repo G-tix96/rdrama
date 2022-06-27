@@ -70,7 +70,7 @@
 
 		<div class="comment-body">
 
-				<div id="comment-{{c.id}}-only" class="{% if c.award_count('glowie') %}glow{% endif %} comment-{{c.id}}-only">
+				<div id="comment-{{c.id}}-only" class="{% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only">
 
 						<div class="user-info">
 							<span class="comment-collapse-icon" onclick="collapse_comment('{{c.id}}', this.parentElement.parentElement.parentElement)"></span>
@@ -167,7 +167,7 @@
 	{% endif %}
 	<div class="comment-body">
 
-		<div id="{% if comment_info and comment_info.id == c.id %}context{%else%}comment-{{c.id}}-only{% endif %}" class="{% if c.unread and not c.voted %}unread{% endif %} {% if c.award_count('glowie') %}glow{% endif %} comment-{{c.id}}-only comment-anchor {% if comment_info and comment_info.id == c.id %}context{%endif%}{% if c.is_banned %} banned{% endif %}{% if c.deleted_utc %} deleted{% endif %}">
+		<div id="{% if comment_info and comment_info.id == c.id %}context{%else%}comment-{{c.id}}-only{% endif %}" class="{% if c.unread and not c.voted %}unread{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only comment-anchor {% if comment_info and comment_info.id == c.id %}context{%endif%}{% if c.is_banned %} banned{% endif %}{% if c.deleted_utc %} deleted{% endif %}">
 
 			<div class="user-info">
 				<span class="comment-collapse-icon" onclick="collapse_comment('{{c.id}}', this.parentElement.parentElement.parentElement.parentElement)"></span>
@@ -273,19 +273,19 @@
 				<div id="comment-banned-warning" class="comment-text text-removed mb-0">removed by @{{c.ban_reason}}</div>
 			{% endif %}
 			
-			{% if c.award_count("tilt") %}
+			{% if c.award_count("tilt", v) %}
 				<style>
 					@keyframes c{{c.id}}-tilt {
 						0% {transform: rotate(0deg);}
-						25% {transform: rotate({{c.award_count("tilt")}}deg);}
-						75% {transform: rotate(-{{c.award_count("tilt")}}deg);}
+						25% {transform: rotate({{c.award_count("tilt", v)}}deg);}
+						75% {transform: rotate(-{{c.award_count("tilt", v)}}deg);}
 						100% {transform: rotate(0deg);}
 					}
 					@media (max-width: 720px) {
 						@keyframes c{{c.id}}-tilt {
 							0% {transform: rotate(0deg);}
-							25% {transform: rotate({{c.award_count("tilt")/4}}deg);}
-							75% {transform: rotate(-{{c.award_count("tilt")/4}}deg);}
+							25% {transform: rotate({{c.award_count("tilt", v)/4}}deg);}
+							75% {transform: rotate(-{{c.award_count("tilt", v)/4}}deg);}
 							100% {transform: rotate(0deg);}
 						}
 					}

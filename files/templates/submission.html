@@ -33,7 +33,7 @@
 {% endif %}
 
 
-{% if p.award_count("crab") %}
+{% if p.award_count("crab", v) %}
 	<script>
 		let audio = new Audio('/assets/media/crab.mp3');
 		audio.loop=true;
@@ -65,48 +65,48 @@
 	{% set wholesome = '/e/marseywholesome.webp' %}
 {% endif %}
 
-{% if p.award_count("confetti") %}
+{% if p.award_count("confetti", v) %}
 	<div id="post-award-confetti"></div>
 {% endif %}
 
-{% if p.award_count("firework") %}
+{% if p.award_count("firework", v) %}
 	<script defer src="/assets/js/fireworks.js?v=17"></script>
 	<div class="firework">
 		<img src="">
 	</div>
 
-	{% if p.award_count("firework") > 1 %}
+	{% if p.award_count("firework", v) > 1 %}
 		<div class="firework">
 			<img src="">
 		</div>
 	{% endif %}
 
-	{% if p.award_count("firework") > 2 %}
+	{% if p.award_count("firework", v) > 2 %}
 		<div class="firework">
 			<img src="">
 		</div>
 	{% endif %}
 
-	{% if p.award_count("firework") > 3 %}
+	{% if p.award_count("firework", v) > 3 %}
 		<div class="firework">
 			<img src="">
 		</div>
 	{% endif %}
 {% endif %}
 
-{% if p.award_count("ricardo") %}
+{% if p.award_count("ricardo", v) %}
 	<script src="/assets/js/ricardo.js?v=18"></script>
 	<div id="ricardo1" class="ricardo ricardoleft">
 		<img src="/i/ricardo1.webp">
 	</div>
 
-	{% if p.award_count("ricardo") > 1 %}
+	{% if p.award_count("ricardo", v) > 1 %}
 		<div id="ricardo2" class="ricardo">
 			<img src="/i/ricardo2.webp" style="max-height:200px">
 		</div>
 	{% endif %}
 
-	{% if p.award_count("ricardo") > 2 %}
+	{% if p.award_count("ricardo", v) > 2 %}
 		<div id="ricardo3" class="ricardo">
 			<img src="/i/ricardo3.webp" style="max-height:150px">
 		</div>
@@ -114,7 +114,7 @@
 {% endif %}
 
 {% if g.inferior_browser %}
-	{% if p.award_count("wholesome") %}
+	{% if p.award_count("wholesome", v) %}
 		<style>
 			.sealimg {
 				width: 100px !important;
@@ -155,7 +155,7 @@
 			<img alt=":#marseywholesome:" class="sealimg seal1" src="{{wholesome}}">
 		</div>
 
-		{% if p.award_count("wholesome") > 1 %}
+		{% if p.award_count("wholesome", v) > 1 %}
 			<style>
 				.seal2 {
 					animation: moveX 5s linear 0s infinite alternate !important;
@@ -171,7 +171,7 @@
 			</div>
 		{% endif %}
 
-		{% if p.award_count("wholesome") > 2 %}
+		{% if p.award_count("wholesome", v) > 2 %}
 			<style>
 				.seal3 {
 					animation: moveX 4s linear 0s infinite alternate !important;
@@ -187,7 +187,7 @@
 			</div>
 		{% endif %}
 
-		{% if p.award_count("wholesome") > 3 %}
+		{% if p.award_count("wholesome", v) > 3 %}
 			<style>
 				.seal4 {
 					animation: moveX 5s linear 0s infinite alternate !important;
@@ -204,7 +204,7 @@
 		{% endif %}
 	{% endif %}
 
-	{% if SITE_NAME == 'PCM' and p.award_count("toe") %}
+	{% if SITE_NAME == 'PCM' and p.award_count("toe", v) %}
 		<style>
 			.toeimg {
 				width: 100px !important;
@@ -245,7 +245,7 @@
 			<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=2000">
 		</div>
 		
-		{% if p.award_count("toe") > 1 %}
+		{% if p.award_count("toe", v) > 1 %}
 			<style>
 				.toe2 {
 					animation: moveX 5s linear 0s infinite alternate !important;
@@ -261,7 +261,7 @@
 			</div>
 		{% endif %}
 		
-		{% if p.award_count("toe") > 2 %}
+		{% if p.award_count("toe", v) > 2 %}
 			<style>
 				.toe3 {
 					animation: moveX 4s linear 0s infinite alternate !important;
@@ -277,7 +277,7 @@
 			</div>
 		{% endif %}
 		
-		{% if p.award_count("toe") > 3 %}
+		{% if p.award_count("toe", v) > 3 %}
 			<style>
 				.toe4 {
 					animation: moveX 5s linear 0s infinite alternate !important;
@@ -294,7 +294,7 @@
 		{% endif %}
 	{% endif %}
 {% else %}
-	{% if p.award_count("wholesome") %}
+	{% if p.award_count("wholesome", v) %}
 		<style>
 			.seal {
 				position:fixed;
@@ -322,7 +322,7 @@
 			</marquee>
 		</div>
 
-		{% if p.award_count("wholesome") > 1 %}
+		{% if p.award_count("wholesome", v) > 1 %}
 			<marquee class="seal" scrollamount=10 behavior="alternate" direction="down" height="100%">
 				<marquee direction="right" scrollamount=10 behavior="alternate" width="100%">
 					<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
@@ -330,7 +330,7 @@
 			</marquee>
 		{% endif %}
 
-		{% if p.award_count("wholesome") > 2 %}
+		{% if p.award_count("wholesome", v) > 2 %}
 			<marquee class="seal" scrollamount=10 behavior="alternate" direction="up" height="100%">
 				<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
 					<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
@@ -338,7 +338,7 @@
 			</marquee>
 		{% endif %}
 
-		{% if p.award_count("wholesome") > 3 %}
+		{% if p.award_count("wholesome", v) > 3 %}
 			<marquee class="seal" scrollamount=10 behavior="alternate" direction="down" height="100%">
 				<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
 					<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
@@ -347,7 +347,7 @@
 		{% endif %}
 	{% endif %}
 
-	{% if SITE_NAME == 'PCM' and p.award_count("toe") %}
+	{% if SITE_NAME == 'PCM' and p.award_count("toe", v) %}
 		<style>
 			.toe {
 				position:fixed;
@@ -375,7 +375,7 @@
 			</marquee>
 		</div>
 
-		{% if p.award_count("toe") > 1 %}
+		{% if p.award_count("toe", v) > 1 %}
 			<marquee class="toe" scrollamount=10 behavior="alternate" direction="down" height="100%">
 				<marquee direction="right" scrollamount=10 behavior="alternate" width="100%">
 					<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=2000">
@@ -383,7 +383,7 @@
 			</marquee>
 		{% endif %}
 
-		{% if p.award_count("toe") > 2 %}
+		{% if p.award_count("toe", v) > 2 %}
 			<marquee class="toe" scrollamount=10 behavior="alternate" direction="up" height="100%">
 				<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
 					<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=2000">
@@ -391,7 +391,7 @@
 			</marquee>
 		{% endif %}
 
-		{% if p.award_count("toe") > 3 %}
+		{% if p.award_count("toe", v) > 3 %}
 			<marquee class="toe" scrollamount=10 behavior="alternate" direction="down" height="100%">
 				<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
 					<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=2000">
@@ -405,7 +405,7 @@
 
 
 
-{% if p.award_count("train") or p.award_count("scooter") %}
+{% if p.award_count("train", v) or p.award_count("scooter", v) %}
 	<style>
 		.train {
 			position:fixed;
@@ -427,7 +427,7 @@
 	</style>
 {% endif %}
 
-{% if p.award_count("train") %}
+{% if p.award_count("train", v) %}
 	<style>
 		.trainimg {
 			width: 100px !important;
@@ -445,19 +445,19 @@
 		<img alt=":#marseytrain:" class="trainimg mirrored" src="/e/marseytrain.webp">
 	</marquee>
 
-	{% if p.award_count("train") > 1 %}
+	{% if p.award_count("train", v) > 1 %}
 		<marquee class="train train2" direction="right" scrollamount=10 width="100%">
 			<img alt=":#marseytrain:" class="trainimg" src="/e/marseytrain.webp">
 		</marquee>
 	{% endif %}
 
-	{% if p.award_count("train") > 2 %}
+	{% if p.award_count("train", v) > 2 %}
 		<marquee class="train train3" direction="left" scrollamount=10 width="100%">
 			<img alt=":#marseytrain:" class="trainimg mirrored" src="/e/marseytrain.webp">
 		</marquee>
 	{% endif %}
 
-	{% if p.award_count("train") > 3 %}
+	{% if p.award_count("train", v) > 3 %}
 		<marquee class="train train4" direction="right" scrollamount=10 width="100%">
 			<img alt=":#marseytrain:" class="trainimg" src="/e/marseytrain.webp">
 		</marquee>
@@ -465,7 +465,7 @@
 {% endif %}
 
 
-{% if SITE_NAME == 'PCM' and p.award_count("croag") %}
+{% if SITE_NAME == 'PCM' and p.award_count("croag", v) %}
 	<style>
 		.croag {
 			position:fixed;
@@ -500,19 +500,19 @@
 		<img alt="croag" class="croagimg mirrored" src="/i/PCM/croag.webp?v=2000">
 	</marquee>
 
-	{% if p.award_count("croag") > 1 %}
+	{% if p.award_count("croag", v) > 1 %}
 		<marquee class="croag croag2" direction="right" scrollamount=10 width="100%">
 			<img alt="croag" class="croagimg" src="/i/PCM/croag.webp?v=2000">
 		</marquee>
 	{% endif %}
 
-	{% if p.award_count("croag") > 2 %}
+	{% if p.award_count("croag", v) > 2 %}
 		<marquee class="croag croag3" direction="left" scrollamount=10 width="100%">
 			<img alt="croag" class="croagimg mirrored" src="/i/PCM/croag.webp?v=2000">
 		</marquee>
 	{% endif %}
 
-	{% if p.award_count("croag") > 3 %}
+	{% if p.award_count("croag", v) > 3 %}
 		<marquee class="croag croag4" direction="right" scrollamount=10 width="100%">
 			<img alt="croag" class="croagimg" src="/i/PCM/croag.webp?v=2000">
 		</marquee>
@@ -520,7 +520,7 @@
 {% endif %}
 
 
-{% if p.award_count("scooter") %}
+{% if p.award_count("scooter", v) %}
 	<style>
 		.scooterimg {
 			width: 100px !important;
@@ -537,19 +537,19 @@
 		<img alt=":#marseyscooter:" class="scooterimg" src="/e/marseyscooter.webp">
 	</marquee>
 
-	{% if p.award_count("scooter") > 1 %}
+	{% if p.award_count("scooter", v) > 1 %}
 		<marquee class="train train4" direction="left" scrollamount=10 width="100%">
 			<img alt=":#marseyscooter:" class="scooterimg mirrored" src="/e/marseyscooter.webp">
 		</marquee>
 	{% endif %}
 
-	{% if p.award_count("scooter") > 2 %}
+	{% if p.award_count("scooter", v) > 2 %}
 		<marquee class="train train1" direction="right" scrollamount=10 width="100%">
 			<img alt=":#marseyscooter:" class="scooterimg" src="/e/marseyscooter.webp">
 		</marquee>
 	{% endif %}
 
-	{% if p.award_count("scooter") > 3 %}
+	{% if p.award_count("scooter", v) > 3 %}
 		<marquee class="train train2" direction="left" scrollamount=10 width="100%">
 			<img alt=":#marseyscooter:" class="scooterimg mirrored" src="/e/marseyscooter.webp">
 		</marquee>
@@ -558,19 +558,19 @@
 
 
 
-{% if p.award_count("tilt") and not p.distinguish_level %}
+{% if p.award_count("tilt", v) and not p.distinguish_level %}
 	<style>
 		@keyframes post-tilt {
 			0% {transform: rotate(0deg);}
-			25% {transform: rotate({{p.award_count("tilt")}}deg);}
-			75% {transform: rotate(-{{p.award_count("tilt")}}deg);}
+			25% {transform: rotate({{p.award_count("tilt", v)}}deg);}
+			75% {transform: rotate(-{{p.award_count("tilt", v)}}deg);}
 			100% {transform: rotate(0deg);}
 		}
 		@media (max-width: 720px) {
 			@keyframes post-tilt {
 				0% {transform: rotate(0deg);}
-				25% {transform: rotate({{p.award_count("tilt")/4}}deg);}
-				75% {transform: rotate(-{{p.award_count("tilt")/4}}deg);}
+				25% {transform: rotate({{p.award_count("tilt", v)/4}}deg);}
+				75% {transform: rotate(-{{p.award_count("tilt", v)/4}}deg);}
 				100% {transform: rotate(0deg);}
 			}
 		}
@@ -693,7 +693,7 @@
 	<div id="post-root" class="col-12">
 
 		<div class="card border-0 mt-3{% if p.is_banned %} banned{% endif %}{% if p.stickied %} stickied{% endif %}{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
-			<div id="post-{{p.id}}" class="{% if p.award_count('tilt') %}p-3{% endif %} {% if p.award_count('glowie') %}glow{% endif %} {% if p.deleted_utc %}deleted {% endif %}d-flex flex-row-reverse flex-nowrap justify-content-end">
+			<div id="post-{{p.id}}" class="{% if p.award_count('tilt', v) %}p-3{% endif %} {% if p.award_count('glowie', v) %}glow{% endif %} {% if p.deleted_utc %}deleted {% endif %}d-flex flex-row-reverse flex-nowrap justify-content-end">
 
 				{% if not p.is_image and p.thumb_url and not p.embed_url %}
 				<div class="card-header bg-transparent border-0 d-none d-md-flex flex-row flex-nowrap pl-3 p-0">
@@ -1184,13 +1184,13 @@
 	{% include "comments.html" %}
 {% endif %}
 
-{% if p.award_count("shit") %}
+{% if p.award_count("shit", v) %}
 	<script src="/assets/js/critters.js?v=261"></script>
 	<script src="/assets/js/bugs.js?v=261"></script>
 {% endif %}
 
 
-{% if p.award_count("fireflies") %}
+{% if p.award_count("fireflies", v) %}
 	<script src="/assets/js/critters.js?v=261"></script>
 	<script src="/assets/js/fireflies.js?v=261"></script>
 {% endif %}
