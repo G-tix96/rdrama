@@ -28,7 +28,8 @@
 		<thead class="bg-primary text-white">
 			<tr>
 				<th>User</th>
-				<th role="button" onclick="sort_table(1)">User truescore</th>
+				<th role="button" onclick="sort_table(1)">User Truescore</th>
+				<th role="button" onclick="sort_table(2)">Vote Time</th>
 			</tr>
 		</thead>
 
@@ -43,6 +44,7 @@
 					</a>
 				</td>
 				<td>{{vote.user.truecoins}}</td>
+				<td>{{vote.created_datetime}}</td>
 			</tr>
 		{% endfor %}
 	</table>
@@ -54,7 +56,8 @@
 		<thead class="bg-primary text-white">
 			<tr>
 				<th>User</th>
-				<th role="button" onclick="sort_table(1)">User truescore</th>
+				<th role="button" onclick="sort_table(1)">User Truescore</th>
+				<th role="button" onclick="sort_table(2)">Vote Time</th>
 			</tr>
 		</thead>
 
@@ -69,6 +72,7 @@
 					</a>
 				</td>
 				<td>{{vote.user.truecoins}}</td>
+				<td>{{vote.created_datetime}}</td>
 			</tr>
 		{% endfor %}
 	</table>
