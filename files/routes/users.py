@@ -256,6 +256,12 @@ def downvoting_comments(v, username, uid):
 
 
 
+@app.get("/poorcels")
+@auth_required
+def poorcels(v):
+	users = g.db.query(User).filter_by(poorcel=True).all()
+
+	return render_template("poorcels.html", v=v, users=users)
 
 
 @app.get("/grassed")
