@@ -115,7 +115,7 @@
 					<span id="profile-coins-amount">{{u.coins}}</span>
 					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="20" src="/i/{{SITE_NAME}}/coins.webp?v=2000">&nbsp;&nbsp;
 
-					{% if SITE_NAME not in ('Cringetopia', 'WPD') %}
+					{% if PROCOINS_ENABLED %}
 						<span id="profile-bux-amount">{{u.procoins}}</span>
 						<img alt="marseybux" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="20" width="46" src="/i/marseybux.webp?v=2000">&nbsp;&nbsp;
 					{% endif %}
@@ -183,7 +183,7 @@
 
 						<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/suicide')">Get them help</a>
 						<a class="btn btn-primary" role="button" onclick="toggleElement('coin-transfer', 'coin-transfer-amount')">Gift coins</a>
-						{% if SITE_NAME not in ('Cringetopia', 'WPD') %}
+						{% if PROCOINS_ENABLED %}
 							<a class="btn btn-primary" role="button" onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</a>
 						{% endif %}
 
@@ -423,7 +423,7 @@
 					<span id="profile-coins-amount-mobile" class="font-weight-bold">{{u.coins}}</span>
 					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="15" src="/i/{{SITE_NAME}}/coins.webp?v=2000">&nbsp;&nbsp;
 
-					{% if SITE_NAME not in ('Cringetopia', 'WPD') %}
+					{% if PROCOINS_ENABLED %}
 						<span id="profile-bux-amount-mobile" class="font-weight-bold">{{u.procoins}}</span>
 						<img alt="marseybux" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="15" width="35" src="/i/marseybux.webp?v=2000">&nbsp;&nbsp;
 					{% endif %}
@@ -504,7 +504,7 @@
 					<a class="btn btn-primary" role="button" onclick="toggleElement('message-mobile', 'input-message-mobile')">Message</a>
 					<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/suicide')">Get them help</a>
 					<a class="btn btn-primary" role="button" onclick="toggleElement('coin-transfer-mobile', 'coin-transfer-amount-mobile')">Gift coins</a>
-					{% if SITE_NAME not in ('Cringetopia', 'WPD') %}
+					{% if PROCOINS_ENABLED %}
 						<a class="btn btn-primary" role="button" onclick="toggleElement('bux-transfer-mobile', 'bux-transfer-amount-mobile')">Gift Marseybux</a>
 					{% endif %}
 
