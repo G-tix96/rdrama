@@ -203,6 +203,9 @@ def post_id(pid, anything=None, v=None, sub=None):
 	offset = 0
 	ids = set()
 
+	if v and v.poorcel: threshold = 50
+	else: threshold = 100
+
 	if post.comment_count > 60 and not request.headers.get("Authorization") and not request.values.get("all"):
 		comments2 = []
 		count = 0
@@ -211,7 +214,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 				comments2.append(comment)
 				ids.add(comment.id)
 				count += g.db.query(Comment).filter_by(parent_submission=post.id, top_comment_id=comment.id).count() + 1
-				if count > 100: break
+				if count > 50: break
 		else:
 			for comment in comments:
 				comments2.append(comment)
