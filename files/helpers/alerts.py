@@ -3,6 +3,8 @@ from flask import g
 from .sanitize import *
 from .const import *
 from .regex import *
+from pusher_push_notifications import PushNotifications
+from sys import stdout
 
 def create_comment(text_html, autojanny=False):
 	if autojanny: author_id = AUTOJANNY_ID
@@ -134,3 +136,32 @@ def notify_mod_action(by_id, msg):
 	for admin in send_to:
 		notif = Notification(comment_id=new_comment.id, user_id=admin.id)
 		g.db.add(notif)
+
+
+if PUSHER_ID != 'blahblahblah':
+	beams_client = PushNotifications(instance_id=PUSHER_ID, secret_key=PUSHER_KEY)
+
+	def pusher_thread(interests, title, notifbody, url):
+		beams_client.publish_to_interests(
+			interests=[interests],
+			publish_body={
+				'web': {
+					'notification': {
+						'title': title,
+						'body': notifbody,
+						'deep_link': url,
+						'icon': f'{SITE_FULL}/assets/images/{SITE_NAME}/icon.webp?v=1015',
+					}
+				},
+				'fcm': {
+					'notification': {
+						'title': title,
+						'body': notifbody,
+					},
+					'data': {
+						'url': url,
+					}
+				}
+			},
+		)
+		stdout.flush()

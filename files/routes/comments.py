@@ -11,7 +11,6 @@ from files.helpers.get import *
 from files.classes import *
 from files.routes.front import comment_idlist
 from files.routes.static import marsey_list
-from pusher_push_notifications import PushNotifications
 from flask import *
 from files.__main__ import app, limiter
 from files.helpers.sanitize import filter_emojis_only
@@ -21,43 +20,11 @@ from json import loads
 from collections import Counter
 from enchant import Dict
 import gevent
-from sys import stdout
 import os
 
 d = Dict("en_US")
 
-if PUSHER_ID != 'blahblahblah':
-	beams_client = PushNotifications(instance_id=PUSHER_ID, secret_key=PUSHER_KEY)
-
 WORDLE_COLOR_MAPPINGS = {-1: "🟥", 0: "🟨", 1: "🟩"}
-
-def pusher_thread(interests, c, username):
-	if len(c.body) > 500: notifbody = c.body[:500] + '...'
-	else: notifbody = c.body
-
-	beams_client.publish_to_interests(
-		interests=[interests],
-		publish_body={
-			'web': {
-				'notification': {
-					'title': f'New reply by @{username}',
-					'body': notifbody,
-					'deep_link': f'{SITE_FULL}/comment/{c.id}?context=8&read=true#context',
-					'icon': f'{SITE_FULL}/assets/images/{SITE_NAME}/icon.webp?v=1015',
-				}
-			},
-			'fcm': {
-				'notification': {
-					'title': f'New reply by @{username}',
-					'body': notifbody,
-				},
-				'data': {
-					'url': f'/comment/{c.id}?context=8&read=true#context',
-				}
-			}
-		},
-	)
-	stdout.flush()
 
 @app.get("/comment/<cid>")
 @app.get("/post/<pid>/<anything>/<cid>")
@@ -597,9 +564,17 @@ def api_comment(v):
 				n = Notification(comment_id=c.id, user_id=x)
 				g.db.add(n)
 
-			if parent.author.id != v.id and PUSHER_ID != 'blahblahblah' and not v.shadowbanned:				
-				try: gevent.spawn(pusher_thread, f'{request.host}{parent.author.id}', c, c.author_name)
-				except: pass
+			if parent.author.id != v.id and PUSHER_ID != 'blahblahblah' and not v.shadowbanned:
+				interests = f'{request.host}{parent.author.id}'
+
+				title = f'New reply by @{c.author_name}'
+
+				if len(c.body) > 500: notifbody = c.body[:500] + '...'
+				else: notifbody = c.body
+
+				url = f'{SITE_FULL}/comment/{c.id}?context=8&read=true#context'
+
+				gevent.spawn(pusher_thread, interests, title, notifbody, url)
 
 				
 

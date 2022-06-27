@@ -11,39 +11,11 @@ from flask import *
 from files.__main__ import app, limiter, db_session
 import sqlalchemy
 from sqlalchemy import text
-from pusher_push_notifications import PushNotifications
 from collections import Counter
 import gevent
 from sys import stdout
 import os
 
-if PUSHER_ID != 'blahblahblah':
-	beams_client = PushNotifications(instance_id=PUSHER_ID, secret_key=PUSHER_KEY)
-
-def pusher_thread2(interests, notifbody, username):
-	beams_client.publish_to_interests(
-		interests=[interests],
-		publish_body={
-			'web': {
-				'notification': {
-					'title': f'New message from @{username}',
-					'body': notifbody,
-					'deep_link': f'{SITE_FULL}/notifications?messages=true',
-					'icon': f'{SITE_FULL}/assets/images/{SITE_NAME}/icon.webp?v=1015',
-				}
-			},
-			'fcm': {
-				'notification': {
-					'title': f'New message from @{username}',
-					'body': notifbody,
-				},
-				'data': {
-					'url': '/notifications?messages=true',
-				}
-			}
-		},
-	)
-	stdout.flush()
 
 def leaderboard_thread():
 	global users9, users9_25, users13, users13_25
@@ -708,11 +680,16 @@ def message2(v, username):
 
 
 	if PUSHER_ID != 'blahblahblah' and not v.shadowbanned:
+		interests = f'{request.host}{user.id}'
+
+		title = f'New message from @{username}'
+
 		if len(message) > 500: notifbody = message[:500] + '...'
 		else: notifbody = message
 
-		try: gevent.spawn(pusher_thread2, f'{request.host}{user.id}', notifbody, v.username)
-		except: pass
+		url = f'{SITE_FULL}/notifications?messages=true'
+
+		gevent.spawn(pusher_thread, interests, title, notifbody, url)
 
 	return {"message": "Message sent!"}
 
@@ -774,31 +751,17 @@ def messagereply(v):
 				g.db.delete(n)
 
 		if PUSHER_ID != 'blahblahblah' and not v.shadowbanned:
+			interests = f'{request.host}{user_id}'
+
+			title = f'New message from @{v.username}'
+
 			if len(body) > 500: notifbody = body[:500] + '...'
 			else: notifbody = body
-			
-			beams_client.publish_to_interests(
-				interests=[f'{request.host}{user_id}'],
-				publish_body={
-					'web': {
-						'notification': {
-							'title': f'New message from @{v.username}',
-							'body': notifbody,
-							'deep_link': f'{SITE_FULL}/notifications?messages=true',
-							'icon': f'{SITE_FULL}/assets/images/{SITE_NAME}/icon.webp"a=1015',
-						}
-					},
-					'fcm': {
-						'notification': {
-							'title': f'New message from @{v.username}',
-							'body': notifbody,
-						},
-						'data': {
-							'url': '/notifications?messages=true',
-						}
-					}
-				},
-			)
+
+			url = f'{SITE_FULL}/notifications?messages=true'
+
+			gevent.spawn(pusher_thread, interests, title, notifbody, url)
+
 
 
 	if c.top_comment.sentto == 2:
