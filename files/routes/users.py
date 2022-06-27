@@ -17,8 +17,8 @@ import gevent
 from sys import stdout
 import os
 
-# if PUSHER_ID != 'blahblahblah':
-# 	beams_client = PushNotifications(instance_id=PUSHER_ID, secret_key=PUSHER_KEY)
+if PUSHER_ID != 'blahblahblah':
+	beams_client = PushNotifications(instance_id=PUSHER_ID, secret_key=PUSHER_KEY)
 
 def pusher_thread2(interests, notifbody, username):
 	beams_client.publish_to_interests(
@@ -707,12 +707,12 @@ def message2(v, username):
 			g.db.add(notif)
 
 
-	# if PUSHER_ID != 'blahblahblah' and not v.shadowbanned:
-	# 	if len(message) > 500: notifbody = message[:500] + '...'
-	# 	else: notifbody = message
+	if PUSHER_ID != 'blahblahblah' and not v.shadowbanned:
+		if len(message) > 500: notifbody = message[:500] + '...'
+		else: notifbody = message
 
-	# 	try: gevent.spawn(pusher_thread2, f'{request.host}{user.id}', notifbody, v.username)
-	# 	except: pass
+		try: gevent.spawn(pusher_thread2, f'{request.host}{user.id}', notifbody, v.username)
+		except: pass
 
 	return {"message": "Message sent!"}
 
@@ -773,32 +773,32 @@ def messagereply(v):
 			for n in notifications:
 				g.db.delete(n)
 
-		# if PUSHER_ID != 'blahblahblah' and not v.shadowbanned:
-		# 	if len(body) > 500: notifbody = body[:500] + '...'
-		# 	else: notifbody = body
+		if PUSHER_ID != 'blahblahblah' and not v.shadowbanned:
+			if len(body) > 500: notifbody = body[:500] + '...'
+			else: notifbody = body
 			
-		# 	beams_client.publish_to_interests(
-		# 		interests=[f'{request.host}{user_id}'],
-		# 		publish_body={
-		# 			'web': {
-		# 				'notification': {
-		# 					'title': f'New message from @{v.username}',
-		# 					'body': notifbody,
-		# 					'deep_link': f'{SITE_FULL}/notifications?messages=true',
-		# 					'icon': f'{SITE_FULL}/assets/images/{SITE_NAME}/icon.webp"a=1015',
-		# 				}
-		# 			},
-		# 			'fcm': {
-		# 				'notification': {
-		# 					'title': f'New message from @{v.username}',
-		# 					'body': notifbody,
-		# 				},
-		# 				'data': {
-		# 					'url': '/notifications?messages=true',
-		# 				}
-		# 			}
-		# 		},
-		# 	)
+			beams_client.publish_to_interests(
+				interests=[f'{request.host}{user_id}'],
+				publish_body={
+					'web': {
+						'notification': {
+							'title': f'New message from @{v.username}',
+							'body': notifbody,
+							'deep_link': f'{SITE_FULL}/notifications?messages=true',
+							'icon': f'{SITE_FULL}/assets/images/{SITE_NAME}/icon.webp"a=1015',
+						}
+					},
+					'fcm': {
+						'notification': {
+							'title': f'New message from @{v.username}',
+							'body': notifbody,
+						},
+						'data': {
+							'url': '/notifications?messages=true',
+						}
+					}
+				},
+			)
 
 
 	if c.top_comment.sentto == 2:
