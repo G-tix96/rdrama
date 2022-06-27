@@ -95,13 +95,18 @@ def before_request():
 def after_request(response):
 	response.headers.add("Strict-Transport-Security", "max-age=31536000")
 	response.headers.add("X-Frame-Options", "deny")
+	if response.status_code < 400:
+		g.db.commit()
+		g.db.close()
+		del g.db
 	return response
 
 @app.teardown_appcontext
 def teardown_request(error):
 	if hasattr(g, 'db') and g.db:
-		g.db.commit()
+		g.db.rollback()
 		g.db.close()
+		del g.db
 	stdout.flush()
 
 if app.config["SERVER_NAME"] == 'localhost':
