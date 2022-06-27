@@ -4,11 +4,11 @@ from files.helpers.const import *
 if SITE_NAME == 'PCM':
 	valid_username_chars = 'a-zA-Z0-9_\-А-я'
 	valid_username_regex = re.compile("^[a-zA-Z0-9_\-А-я]{3,25}$", flags=re.A)
-	mention_regex = re.compile('(^|\s|<p>)@(([a-zA-Z0-9_\-А-я]){3,25})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
+	mention_regex = re.compile('(^|\s|>)@(([a-zA-Z0-9_\-А-я]){3,25})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
 else:
 	valid_username_chars = 'a-zA-Z0-9_\-'
 	valid_username_regex = re.compile("^[a-zA-Z0-9_\-]{3,25}$", flags=re.A)
-	mention_regex = re.compile('(^|\s|<p>)@(([a-zA-Z0-9_\-]){1,25})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
+	mention_regex = re.compile('(^|\s|>)@(([a-zA-Z0-9_\-]){1,25})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
 
 valid_password_regex = re.compile("^.{8,100}$", flags=re.A)
 
