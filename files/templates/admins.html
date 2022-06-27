@@ -4,28 +4,30 @@
 
 {% block content %}
 
-<script src="/assets/js/sort_table.js?v=242"></script>
+<script src="/assets/js/sort_table.js?v=243"></script>
 
 <pre class="d-none d-md-inline-block"></pre>
 <h5 style="font-weight:bold;">Admins</h5>
 <pre></pre>
 <div class="overflow-x-auto">
-<table id="sortable_table" class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>#</th>
-		<th>Name</th>
-		<th role="button" onclick="sort_table(2)" style="text-align:right;">Truescore</th>
-		<th role="button" onclick="sort_table(3)" style="text-align:right;">Mod actions</th>
-	</tr>
-</thead>
-{% for user in admins %}
-	<tr>
-		<td>{{loop.index}}</td>
-		<td><a style="color:#{{user.namecolor}}" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.namecolor}}"{% endif %}>{{user.username}}</span></a></td>
-		<td style="text-align:right;">{{user.truecoins}}</td>
-		<td style="text-align:right;"><a href="/log?admin={{user.username}}">{{user.modaction_num}}</a></td>
-	</tr>
-{% endfor %}
-</table>
+	<table class="table table-striped mb-5">
+		<thead class="bg-primary text-white">
+			<tr>
+				<th>#</th>
+				<th>Name</th>
+				<th role="button" onclick="sort_table(2)" style="text-align:right;">Truescore</th>
+				<th role="button" onclick="sort_table(3)" style="text-align:right;">Mod actions</th>
+			</tr>
+		</thead>
+
+		{% for user in admins %}
+			<tr>
+				<td>{{loop.index}}</td>
+				<td><a style="color:#{{user.namecolor}}" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.namecolor}}"{% endif %}>{{user.username}}</span></a></td>
+				<td style="text-align:right;">{{user.truecoins}}</td>
+				<td style="text-align:right;"><a href="/log?admin={{user.username}}">{{user.modaction_num}}</a></td>
+			</tr>
+		{% endfor %}
+	</table>
+</div>
 {% endblock %}

@@ -9,7 +9,7 @@
 
 {% if thing %}
 
-<script src="/assets/js/sort_table.js?v=242"></script>
+<script src="/assets/js/sort_table.js?v=243"></script>
 
 <pre>
 	
@@ -23,37 +23,42 @@
 <p><b>Downvotes: </b>{{downs | length}}</p>
 
 <h2>Upvotes</h2>
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-	<thead class="bg-primary text-white"><tr>
-		<th>User</th>
-		<th role="button" onclick="sort_table(1)">User truescore</th>
-	</tr></thead>
+<div class="overflow-x-auto">
+	<table class="table table-striped mb-5">
+		<thead class="bg-primary text-white">
+			<tr>
+				<th>User</th>
+				<th role="button" onclick="sort_table(1)">User truescore</th>
+			</tr>
+		</thead>
 
-	{% for vote in ups %}
-		<tr>
-			<td><a style="color:#{{vote.user.namecolor}};font-weight:bold" href="/@{{vote.user.username}}"><img loading="lazy" src="{{vote.user.profile_url}}" class="pp20"><span {% if vote.user.patron %}class="patron" style="background-color:#{{vote.user.namecolor}}"{% endif %}>{{vote.user.username}}</span></a></td>
-			<td>{{vote.user.truecoins}}</td>
-		</tr>
-	{% endfor %}
-</table>
+		{% for vote in ups %}
+			<tr>
+				<td><a style="color:#{{vote.user.namecolor}};font-weight:bold" href="/@{{vote.user.username}}"><img loading="lazy" src="{{vote.user.profile_url}}" class="pp20"><span {% if vote.user.patron %}class="patron" style="background-color:#{{vote.user.namecolor}}"{% endif %}>{{vote.user.username}}</span></a></td>
+				<td>{{vote.user.truecoins}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+</div>
 
 <h2>Downvotes</h2>
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-	<thead class="bg-primary text-white"><tr>
-		<th>User</th>
-		<th>User truescore</th>
-	</tr></thead>
+<div class="overflow-x-auto">
+	<table class="table table-striped mb-5">
+		<thead class="bg-primary text-white">
+			<tr>
+				<th>User</th>
+				<th>User truescore</th>
+			</tr>
+		</thead>
 
-	{% for vote in downs %}
-		<tr>
-			<td><a style="color:#{{vote.user.namecolor}};font-weight:bold" href="/@{{vote.user.username}}"><img loading="lazy" src="{{vote.user.profile_url}}" class="pp20"><span {% if vote.user.patron %}class="patron" style="background-color:#{{vote.user.namecolor}}"{% endif %}>{{vote.user.username}}</span></a></td>
-			<td>{{vote.user.truecoins}}</td>
-		</tr>
-	{% endfor %}
-</table>
-
-
-
+		{% for vote in downs %}
+			<tr>
+				<td><a style="color:#{{vote.user.namecolor}};font-weight:bold" href="/@{{vote.user.username}}"><img loading="lazy" src="{{vote.user.profile_url}}" class="pp20"><span {% if vote.user.patron %}class="patron" style="background-color:#{{vote.user.namecolor}}"{% endif %}>{{vote.user.username}}</span></a></td>
+				<td>{{vote.user.truecoins}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+</div>
 {% endif %}
 
 
