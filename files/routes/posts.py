@@ -80,7 +80,7 @@ def publish(pid, v):
 				add_notif(cid, user.id)
 
 	if post.sub:
-		on_post_hole_entered(post)
+		on_post_hole_entered(post, v)
 
 
 	cache.delete_memoized(frontlist)
@@ -1047,7 +1047,7 @@ def submit_post(v, sub=None):
 				add_notif(cid, user.id)
 
 	if post.sub:
-		on_post_hole_entered(post)
+		on_post_hole_entered(post, v)
 
 	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{post.body}{post.title}'.lower():
 		post.is_banned = True

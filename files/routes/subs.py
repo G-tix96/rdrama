@@ -315,7 +315,7 @@ def kick(v, pid):
 
 	return {"message": "Post kicked successfully!"}
 
-def on_post_hole_entered(post):
+def on_post_hole_entered(post, v):
 	if not post.sub or not post.subr:
 		return
 	hole = post.subr.name
@@ -323,9 +323,10 @@ def on_post_hole_entered(post):
 	# Notify hole followers
 	if not post.ghost and not post.private:
 		text = f"<a href='/h/{hole}'>/h/{hole}</a> has a new " \
-			 + f"post: [{post.title}]({post.shortlink})"
+			 + f"post: [{post.title}]({post.shortlink}) by @{v.username}"
 		cid = notif_comment(text, autojanny=True)
 		for follow in post.subr.followers:
+			if follow.user_id == v.id: continue
 			user = get_account(follow.user_id)
 			if post.club and not user.paid_dues: continue
 			add_notif(cid, user.id)
