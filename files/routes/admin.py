@@ -1090,12 +1090,12 @@ def ban_user(user_id, v):
 		if request.values["reason"].startswith("/post/"):
 			post = int(request.values["reason"].split("/post/")[1].split(None, 1)[0])
 			post = get_post(post)
-			post.bannedfor = duration
+			post.bannedfor = f'{duration} by @{v.username}'
 			g.db.add(post)
 		elif request.values["reason"].startswith("/comment/"):
 			comment = int(request.values["reason"].split("/comment/")[1].split(None, 1)[0])
 			comment = get_comment(comment)
-			comment.bannedfor = duration
+			comment.bannedfor = f'{duration} by @{v.username}'
 			g.db.add(comment)
 
 	notify_mod_action(v.id, f"@{v.username} has banned @{user.username} ({note})")
