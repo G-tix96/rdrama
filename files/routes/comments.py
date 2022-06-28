@@ -836,7 +836,8 @@ def undelete_comment(cid, v):
 @app.post("/pin_comment/<cid>")
 @auth_required
 def pin_comment(cid, v):
-	abort(403)
+	if not PIN_ENABLED:
+		abort(403)
 	comment = get_comment(cid, v=v)
 	
 	if not comment.stickied:
@@ -879,7 +880,8 @@ def unpin_comment(cid, v):
 @app.post("/mod_pin/<cid>")
 @auth_required
 def mod_pin(cid, v):
-	abort(403)
+	if not PIN_ENABLED:
+		abort(403)
 	comment = get_comment(cid, v=v)
 	
 	if not comment.stickied:

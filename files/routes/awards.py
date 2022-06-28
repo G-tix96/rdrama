@@ -197,7 +197,8 @@ def award_thing(v, thing_type, id):
 			if note: text += f" ({note})"
 			notify_mod_action(v.id, text)
 	elif kind == "pin":
-		abort(403)
+		if not PIN_ENABLED:
+			abort(403)
 		if thing.stickied and thing.stickied_utc:
 			thing.stickied_utc += 3600
 		else:
@@ -271,7 +272,8 @@ def award_thing(v, thing_type, id):
 		author.fish = True
 		badge_grant(badge_id=90, user=author)
 	elif kind == "progressivestack":
-		abort(403)
+		if not PIN_ENABLED:
+			abort(403)
 		if author.progressivestack: author.progressivestack += 21600
 		else: author.progressivestack = int(time.time()) + 21600
 		badge_grant(user=author, badge_id=94)

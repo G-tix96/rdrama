@@ -1254,7 +1254,9 @@ def api_distinguish_post(post_id, v):
 @app.post("/sticky/<post_id>")
 @admin_level_required(2)
 def sticky_post(post_id, v):
-	abort(403)
+	if not PIN_ENABLED:
+		abort(403)
+
 	post = get_post(post_id)
 	if post and not post.stickied:
 		pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
