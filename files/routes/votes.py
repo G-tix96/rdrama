@@ -239,8 +239,10 @@ def bet(comment_id, v):
 	vote = request.values.get("vote")
 	comment_id = int(comment_id)
 	comment = get_comment(comment_id)
-	
-	existing = g.db.query(CommentVote).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
+
+	option_ids = map(lambda x: x.id, comment.post.bet_options)
+	existing = g.db.query(CommentVote).filter_by(user_id=v.id) \
+		.filter(CommentVote.comment_id.in_(option_ids)).one_or_none()
 	if existing: return "", 204
 
 	vote = CommentVote(user_id=v.id, vote_type=1, comment_id=comment.id)
