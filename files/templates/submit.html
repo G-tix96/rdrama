@@ -126,13 +126,14 @@
 
 												<textarea form="submitform" id="post-text" class="form-control rounded" aria-label="With textarea" placeholder="Optional if you have a link or an image." rows="7" name="body" oninput="markdown('post-text','preview');charLimit('post-text','character-count-submit-text-form');checkForRequired();savetext()" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}20000{% endif %}" required></textarea>
 
-												<div class="btn btn-secondary fl-r mt-2" onclick="document.getElementById('preview').classList.toggle('d-none');">
-													Toggle preview
-												</div>
-
 												<div class="text-small font-weight-bold mt-1" id="character-count-submit-text-form" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
 												<p></p>
+
+												<div class="btn btn-secondary fl-r" onclick="document.getElementById('preview').classList.toggle('d-none');">
+													Toggle preview
+												</div>
+
 												<small  onclick="makeBold('post-text')" class="btn btn-secondary format d-inline-block m-0">
 												<i class="fas fa-bold" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Bold"></i>
 												</small>
