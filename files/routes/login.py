@@ -349,7 +349,7 @@ def sign_up_post(v):
 		except Exception as e: print(e)
 
 
-	g.db.flush()
+	g.db.commit()
 
 	check_for_alts(new_user.id)
 	
