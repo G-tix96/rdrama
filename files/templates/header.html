@@ -89,15 +89,7 @@
 				<a class="mobile-nav-icon d-md-none" href="/login"><i class="fas fa-feather-alt align-middle text-gray-500 black"></i></a>
 			{% endif %}
 
-			{% if v and v.can_gamble and LOTTERY_ENABLED %}
-			<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lottershe">
-				<a
-					href="/lottery"
-					class="mobile-nav-icon d-md-none"> 
-					<i class="fas fa-ticket align-middle text-gray-500"></i>
-				</a>
-			</span>
-			{% endif %}
+			<a class="mobile-nav-icon d-md-none" href="/random_user"><i class="fas fa-music align-middle text-gray-500 black"></i></a>
 
 			<button class="navbar-toggler" role="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
 			aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -127,7 +119,7 @@
 				{% endif %}
 
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
-					<a class="nav-link" href="{% if sub %}/h/{{sub.name}}{% endif %}/submit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Create post"><i class="fas fa-feather-alt"></i></a>
+					<a class="nav-link" href="{% if sub %}/h/{{sub.name}}{% endif %}/submit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Create Post"><i class="fas fa-feather-alt"></i></a>
 				</li>
 
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
@@ -138,20 +130,9 @@
 					<a class="nav-link" href="/leaderboard" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Leaderboard"><i class="fas fa-trophy"></i></a>
 				</li>
 
-				{% if v.can_gamble and LOTTERY_ENABLED %}
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
-					<span 
-						data-bs-toggle="tooltip"
-						data-bs-placement="bottom"
-						title="Lottershe">
-						<a
-							href="/lottery"
-							class="nav-link"> 
-							<i class="fas fa-ticket"></i>
-						</a>
-					</span>
+					<a class="nav-link" href="/random_user" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Random User"><i class="fas fa-music"></i></a>
 				</li>
-				{% endif %}
 
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
 					<a class="nav-link" href="/shop" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Shop"><i class="fas fa-store"></i></a>
