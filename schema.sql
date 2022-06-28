@@ -2067,6 +2067,8 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 141	Marsey Typographer	For substantial and exceptional contributions to Marsey Alphabet.
 142	Punching Down	This user mogs incels.
 143	Marsey God	Contributed 100 (or more!!!!) Marsey emojis ✨😻
+144	Energy Drink Enjoyer	Grip 'N Sip.
+147	Freebase Fiend	From the crack grew a glass rose.
 4	White Hat	Discreetly reported an exploit
 1	Alpha User	Joined during open alpha
 2	Verified Email	Verified Email
@@ -2085,6 +2087,8 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 23	Landchad	Contributed at least $20
 24	Terminally online turboautist	Contributed at least $50
 85	Sigma User	
+145	Amphetamine Aficionado	Totally not addicted™
+146	Coffee Consoomer	Don't talk to me until I've had my soy latte.
 60	Unironically Retarded	Demonstrated a wholesale inability to read the room
 61	Lab Rat	Helped test features in development
 62	Master Baiter	For outstanding achievement in the field of catching fish
@@ -2170,7 +2174,7 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 143, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 147, true);
 
 
 --
