@@ -186,8 +186,6 @@ def sanitize(sanitized, edit=False):
 
 	sanitized = markdown(sanitized)
 
-	sanitized = strikethrough_regex.sub(r'<del>\1</del>', sanitized)
-
 	sanitized = sanitized.replace('‎','').replace('​','').replace("\ufeff", "").replace("𒐪","")
 
 	sanitized = reddit_regex.sub(r'\1<a href="https://old.reddit.com/\2" rel="nofollow noopener noreferrer">/\2</a>', sanitized)
@@ -377,7 +375,7 @@ def filter_emojis_only(title, edit=False, graceful=False):
 			marsey.count += 1
 			g.db.add(marsey)
 
-	title = strikethrough_regex.sub(r'<del>\1</del>', title)
+	title = strikethrough_regex.sub(r'\1<del>\2</del>', title)
 
 	title = bleach.clean(title, tags=['img','del','span'], attributes=allowed_attributes_emojis, protocols=['http','https'])
 
