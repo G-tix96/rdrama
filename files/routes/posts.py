@@ -1187,9 +1187,9 @@ def submit_post(v, sub=None):
 			if body.startswith('!slots'):
 				check_for_slots_command(body, snappy, c)
 
-			if body.startswith(':#marseypin:') or body.startswith(':#marseypin2:'):
-				post.stickied = "Snappy"
-				post.stickied_utc = int(time.time()) + 3600
+			# if body.startswith(':#marseypin:') or body.startswith(':#marseypin2:'):
+			# 	post.stickied = "Snappy"
+			# 	post.stickied_utc = int(time.time()) + 3600
 
 			g.db.flush()
 

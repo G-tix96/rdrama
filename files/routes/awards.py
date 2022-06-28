@@ -197,6 +197,7 @@ def award_thing(v, thing_type, id):
 			if note: text += f" ({note})"
 			notify_mod_action(v.id, text)
 	elif kind == "pin":
+		abort(403)
 		if thing.stickied and thing.stickied_utc:
 			thing.stickied_utc += 3600
 		else:
