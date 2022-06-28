@@ -333,6 +333,7 @@ def api_comment(v):
 					)
 				g.db.add(ma)
 
+			g.db.commit()
 			return {"error": "Too much spam!"}, 403
 
 	if len(body_html) > 20000: abort(400)
@@ -715,6 +716,7 @@ def edit_comment(cid, v):
 					comment.ban_reason = "AutoJanny"
 					g.db.add(comment)
 
+				g.db.commit()
 				return {"error": "Too much spam!"}, 403
 
 		body += process_files()
