@@ -338,7 +338,7 @@ def sanitize(sanitized, edit=False):
 
 	signal.alarm(0)
 
-	return sanitized
+	return sanitized.replace('\n','')
 
 
 
@@ -384,7 +384,7 @@ def filter_emojis_only(title, edit=False, graceful=False):
 	signal.alarm(0)
 
 	if len(title) > 1500 and not graceful: abort(400)
-	else: return title
+	else: return title.replace('\n','')
 
 def normalize_url(url):
 	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/r/', url)
