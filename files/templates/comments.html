@@ -235,7 +235,7 @@
 				{% if c.treasure_amount and c.treasure_amount != '0' %}
 				{% if c.treasure_amount.startswith('l') %}
 				<img class="treasure" alt="treasure" src="/i/treasure_tickets.webp" width="20" />
-				<em>Found {{c.treasure_amount.replace('l', '')}} {{'Lottershe' if SITE_NAME == 'rDrama' else 'Lottery'}} Tickets!</em>
+				<em>Found {{c.treasure_amount.replace('l', '')}} Lottershe Tickets!</em>
 				{% elif '-' in c.treasure_amount %}
 				<img class="treasure" alt="treasure" src="/i/treasure_mimic.webp" width="20" />
 				<em>A Mimic Ate {{c.treasure_amount.replace('-', '')}} Coins!</em>

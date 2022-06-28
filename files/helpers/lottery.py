@@ -48,10 +48,10 @@ def end_lottery_session():
 	for user in participating_users:
 		chance_to_win = user.currently_held_lottery_tickets / len(raffle) * 100
 		if user.id == winner:
-			notification_text = f'You won {active_lottery.prize} coins in the lottery! ' \
+			notification_text = f'You won {active_lottery.prize} coins in the lottershe! ' \
 				+ f'Congratulations!\nYour odds of winning were: {chance_to_win}%' 
 		else:
-			notification_text = f'You did not win the lottery. Better luck next time!\n' \
+			notification_text = f'You did not win the lottershe. Better luck next time!\n' \
 				+ f'Your odds of winning were: {chance_to_win}%\nWinner: @{winning_user.username} (won {active_lottery.prize} coins)'
 		send_repeatable_notification(user.id, notification_text)
 		user.currently_held_lottery_tickets = 0
@@ -92,7 +92,7 @@ def lottery_ticket_net_value():
 
 def purchase_lottery_tickets(v, quantity=1):
 	if quantity < 1:
-		return False, "Must purchase one or more lottery tickets."
+		return False, f"Must purchase one or more lottershe tickets."
 	elif (v.coins < LOTTERY_TICKET_COST * quantity):
 		return False, f'Lottery tickets cost {LOTTERY_TICKET_COST} coins each.'
 
@@ -109,8 +109,8 @@ def purchase_lottery_tickets(v, quantity=1):
 	most_recent_lottery.tickets_sold += quantity
 
 
-	if quantity == 1: return True, f'Successfully purchased {quantity} lottery ticket!'
-	return True, f'Successfully purchased {quantity} lottery tickets!'
+	if quantity == 1: return True, f'Successfully purchased {quantity} lottershe ticket!'
+	return True, f'Successfully purchased {quantity} lottershe tickets!'
 
 def grant_lottery_tickets_to_user(v, quantity):
 	active_lottery = get_active_lottery()
