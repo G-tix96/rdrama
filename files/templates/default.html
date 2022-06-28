@@ -326,7 +326,7 @@
 
 		</div>
 		{% block sidebar %}
-			{% if home or sub and p %}
+			{% if has_sidebar %}
 				{% include "sidebar_" + SITE_NAME + ".html" %}
 			{% endif %}
 		{% endblock %}
@@ -374,6 +374,14 @@
 {% endif %}
 
 <script src="/assets/js/lite-youtube.js?v=241"></script>
+
+{% if SITE == 'funonly.xyz' %}
+	<style>
+		img {
+			display:none !important;
+		}
+	</style>
+{% endif %}
 
 </body>
 

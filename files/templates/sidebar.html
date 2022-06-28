@@ -14,7 +14,9 @@
 	<h1 class="text-muted text-uppercase">Sidebar</h5>
 
 	<div id="sidebar" class="my-3">
-		{% include "sidebar_" + SITE_NAME + ".html" %}
+		{% if has_sidebar %}
+			{% include "sidebar_" + SITE_NAME + ".html" %}
+		{% endif %}
 	</div>
 </div>
 {% endblock %}
