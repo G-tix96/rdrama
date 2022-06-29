@@ -701,7 +701,7 @@ class User(Base):
 	@property
 	@lazy
 	def userblocks(self):
-		return [x[0] for x in g.db.query(UserBlock.target_id).filter_by(user_id=self.id).all()] + [x[0] for x in g.db.query(UserBlock.user_id).filter_by(target_id=self.id).all()]
+		return [x[0] for x in g.db.query(UserBlock.target_id).filter_by(user_id=self.id).all()]
 
 	@lazy
 	def saved_idlist(self, page=1):

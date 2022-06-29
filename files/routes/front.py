@@ -368,8 +368,6 @@ def changeloglist(v=None, sort="new", page=1, t="all", site=None):
 
 	posts = g.db.query(Submission.id).filter_by(is_banned=False, private=False, deleted_utc=0)
 
-	posts = posts.filter(Submission.author_id.notin_(v.userblocks))
-
 	allowed = g.db.query(User.id).filter(User.admin_level > 0).all() + g.db.query(Badge.user_id).filter_by(badge_id=3).all()
 	allowed = [x[0] for x in allowed]
 
