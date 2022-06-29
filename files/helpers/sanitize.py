@@ -335,10 +335,14 @@ def sanitize(sanitized, edit=False):
 
 	if bans: abort(403, description=f"Remove the banned domains {bans} and try again!")
 
+	sanitized = sanitized.replace('\n','')
+
+	if len(sanitized) > 5000:
+		sanitized = showmore_regex.sub(r'\1<p><a onclick="showmore()" role="button">SHOW MORE...</a></p><div class="d-none">\2</div>', sanitized)
 
 	signal.alarm(0)
 
-	return sanitized.replace('\n','')
+	return sanitized
 
 
 

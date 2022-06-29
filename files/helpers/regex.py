@@ -94,6 +94,7 @@ reddit_domain_regex = re.compile("(^|\s)https:\/\/(reddit\.com|new\.reddit.com|w
 
 color_regex = re.compile("[a-z0-9]{6}", flags=re.A)
 
+showmore_regex = re.compile("(.{3000,40000}?</p>)(<p>.*)", flags=re.A)
 
 def sub_matcher(match, upper=False):
 	if match.group(0).startswith('<'):
