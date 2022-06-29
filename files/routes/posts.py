@@ -671,7 +671,7 @@ def api_is_repost():
 	parsed_url = urlparse(url)
 
 	domain = parsed_url.netloc
-	if domain in ('old.reddit.com','twitter.com','instagram.com','tiktok.com'):
+	if domain in ('old.reddit.com','twitter.com','instagram.com','tiktok.com') and '/search' not in url:
 		new_url = ParseResult(scheme="https",
 				netloc=parsed_url.netloc,
 				path=parsed_url.path,
