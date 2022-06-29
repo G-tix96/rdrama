@@ -70,11 +70,11 @@ class Submission(Base):
 	embed_url = Column(String)
 	new = Column(Boolean)
 
-	author = relationship("User", primaryjoin="Submission.author_id==User.id")
+	author = relationship("User", primaryjoin="Submission.author_id==User.id", lazy="joined")
 	oauth_app = relationship("OauthApp", viewonly=True)
 	approved_by = relationship("User", uselist=False, primaryjoin="Submission.is_approved==User.id", viewonly=True)
-	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", viewonly=True)
-	reports = relationship("Flag", viewonly=True)
+	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", lazy="joined", viewonly=True)
+	flags = relationship("Flag", order_by="Flag.created_utc", lazy="joined", viewonly=True)
 	comments = relationship("Comment", primaryjoin="Comment.parent_submission==Submission.id")
 	subr = relationship("Sub", primaryjoin="foreign(Submission.sub)==remote(Sub.name)", viewonly=True)
 
@@ -93,15 +93,6 @@ class Submission(Base):
 		if self.downvotes > 5 and 0.25 < self.upvotes / self.downvotes < 4: return True
 		return False
 
-	@lazy
-	def flags(self, v):
-		flags = g.db.query(Flag).filter_by(post_id=self.id).order_by(Flag.created_utc).all()
-		if not (v and (v.shadowbanned or v.admin_level >= 2)):
-			for flag in flags:
-				if flag.user.shadowbanned:
-					flags.remove(flag)
-		return flags
-	
 	@property
 	@lazy
 	def options(self):
@@ -287,7 +278,7 @@ class Submission(Base):
 	@lazy
 	def json_raw(self):
 		flags = {}
-		for f in self.flags(None): flags[f.user.username] = f.reason
+		for f in self.flags: flags[f.user.username] = f.reason
 
 		data = {'author_name': self.author_name if self.author else '',
 				'permalink': self.permalink,
@@ -506,4 +497,4 @@ class Submission(Base):
 
 	@lazy
 	def active_flags(self, v):
-		return len(self.flags(v))
+		return len(self.flags)

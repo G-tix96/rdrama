@@ -135,7 +135,7 @@ class User(Base):
 	total_held_lottery_tickets = Column(Integer, default=0)
 	total_lottery_winnings = Column(Integer, default=0)
 
-	badges = relationship("Badge", order_by="Badge.created_utc", viewonly=True)
+	badges = relationship("Badge", order_by="Badge.created_utc", lazy="joined", viewonly=True)
 	subscriptions = relationship("Subscription", viewonly=True)
 	following = relationship("Follow", primaryjoin="Follow.user_id==User.id", viewonly=True)
 	followers = relationship("Follow", primaryjoin="Follow.target_id==User.id", viewonly=True)
