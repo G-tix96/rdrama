@@ -167,7 +167,7 @@ def render_emoji(html, regexp, edit, marseys_used, b=False):
 def sanitize(sanitized, edit=False):
 
 	signal.signal(signal.SIGALRM, handler)
-	signal.alarm(1)
+	signal.alarm(2)
 
 	sanitized = sanitized.strip()
 
