@@ -53,6 +53,14 @@
 		<link rel="stylesheet" href="/h/{{sub.name}}/css" type="text/css">
 	{% endif %}
 
+	{% if SITE == 'funonly.xyz' %}
+	<style>
+		img:not([src^='/e/']) {
+			display:none !important;
+		}
+	</style>
+	{% endif %}
+
 	{% if v and v.themecolor == '30409f' %}
 		<style>
 			p a {
@@ -374,14 +382,6 @@
 {% endif %}
 
 <script src="/assets/js/lite-youtube.js?v=241"></script>
-
-{% if SITE == 'funonly.xyz' %}
-	<style>
-		img:not([src^='/e/']) {
-			display:none !important;
-		}
-	</style>
-{% endif %}
 
 </body>
 
