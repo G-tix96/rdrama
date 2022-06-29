@@ -27,7 +27,7 @@ services:
 
   postgres:
     image: postgres:12.3
-    #command: ["postgres", "-c", "log_statement=all"]
+    command: ["postgres", "-c", "log_statement=all"]
     # uncomment this if u wanna output all SQL queries to the console
     volumes:
       - "./schema.sql:/docker-entrypoint-initdb.d/00-schema.sql"
