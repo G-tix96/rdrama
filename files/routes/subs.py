@@ -353,7 +353,7 @@ def on_post_hole_entered(post, v):
 	hole = post.subr.name
 
 	# Notify hole followers
-	if not post.ghost and not post.private:
+	if not post.ghost and not post.private and not post.author.shadowbanned:
 		text = f"<a href='/h/{hole}'>/h/{hole}</a> has a new " \
 			 + f"post: [{post.title}]({post.shortlink}) by @{v.username}"
 		cid = notif_comment(text, autojanny=True)
