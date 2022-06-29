@@ -700,7 +700,9 @@ def message2(v, username):
 @auth_required
 def messagereply(v):
 
-	body = request.values.get("body", "").strip()[:10000].strip()
+	body = request.values.get("body", "").strip().replace('‎','')
+
+	body = body.replace('\r\n', '\n')[:10000]
 
 	if not body and not request.files.get("file"): return {"error": "Message is empty!"}
 

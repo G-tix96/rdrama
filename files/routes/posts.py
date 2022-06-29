@@ -399,7 +399,7 @@ def edit_post(pid, v):
 
 	body = request.values.get("body", "").strip().replace('‎','')
 
-	if len(body) > 20000: return {"error":"Character limit is 20000!"}, 403
+	body = body.replace('\r\n', '\n')[:20000]
 
 	if v.id == p.author_id:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
@@ -717,6 +717,8 @@ def submit_post(v, sub=None):
 	
 	body = request.values.get("body", "").strip().replace('‎','')
 
+	body = body.replace('\r\n', '\n')[:20000]
+
 	def error(error):
 		if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": error}, 403
 	
@@ -889,9 +891,6 @@ def submit_post(v, sub=None):
 					)
 			g.db.add(ma)
 		return redirect("/notifications")
-
-	if len(str(body)) > 20000:
-		return error("There's a 20000 character limit for text body.")
 
 	if len(url) > 2048:
 		return error("There's a 2048 character limit for URLs.")

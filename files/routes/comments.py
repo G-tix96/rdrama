@@ -163,7 +163,9 @@ def api_comment(v):
 		if parent.author_id == v.id: rts = True
 	else: abort(400)
 
-	body = request.values.get("body", "").strip()[:10000]
+	body = request.values.get("body", "").strip().replace('‎','')
+
+	body = body.replace('\r\n', '\n')[:10000]
 
 	if parent_post.id not in ADMIGGERS:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
@@ -644,7 +646,9 @@ def edit_comment(cid, v):
 
 	if c.author_id != v.id: abort(403)
 
-	body = request.values.get("body", "").strip()[:10000]
+	body = request.values.get("body", "").strip().replace('‎','')
+
+	body = body.replace('\r\n', '\n')[:10000]
 
 	if len(body) < 1 and not (request.files.get("file") and request.headers.get("cf-ipcountry") != "T1"):
 		return {"error":"You have to actually type something!"}, 400
