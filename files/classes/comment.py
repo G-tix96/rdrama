@@ -83,8 +83,8 @@ class Comment(Base):
 	parent_comment = relationship("Comment", remote_side=[id], viewonly=True)
 	child_comments = relationship("Comment", lazy="dynamic", remote_side=[parent_comment_id], viewonly=True)
 	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", viewonly=True)
-	reports = relationship("CommentFlag", viewonly=True)
-	
+	flags = relationship("CommentFlag", order_by="CommentFlag.created_utc", viewonly=True)
+
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:
 			kwargs["created_utc"] = int(time.time())
@@ -98,15 +98,6 @@ class Comment(Base):
 	@lazy
 	def top_comment(self):
 		return g.db.get(Comment, self.top_comment_id)
-
-	@lazy
-	def flags(self, v):
-		flags = g.db.query(CommentFlag).filter_by(comment_id=self.id).order_by(CommentFlag.created_utc).all()
-		if not (v and (v.shadowbanned or v.admin_level >= 2)):
-			for flag in flags:
-				if flag.user.shadowbanned:
-					flags.remove(flag)
-		return flags
 
 	@lazy
 	def poll_voted(self, v):
@@ -296,7 +287,7 @@ class Comment(Base):
 	@lazy
 	def json_raw(self):
 		flags = {}
-		for f in self.flags(None): flags[f.user.username] = f.reason
+		for f in self.flags: flags[f.user.username] = f.reason
 
 		data= {
 			'id': self.id,
@@ -473,8 +464,9 @@ class Comment(Base):
 	@lazy
 	def is_op(self): return self.author_id==self.post.author_id
 	
+	@property
 	@lazy
-	def active_flags(self, v): return len(self.flags(v))
+	def active_flags(self): return len(self.flags)
 	
 	@lazy
 	def wordle_html(self, v):

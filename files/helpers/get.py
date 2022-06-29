@@ -1,6 +1,6 @@
 from files.classes import *
 from flask import g
-
+from sqlalchemy.orm import joinedload
 
 def get_id(username, v=None, graceful=False):
 	
@@ -190,7 +190,7 @@ def get_posts(pids, v=None):
 			blocked, 
 			blocked.c.user_id == Submission.author_id, 
 			isouter=True
-		).all()
+		).options(joinedload(Submission.flags), joinedload(Submission.awards)).all()
 
 		output = [p[0] for p in query]
 		for i in range(len(output)):
