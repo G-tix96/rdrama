@@ -347,7 +347,7 @@ def rehole_post(v, pid, hole):
 
 	return {"message": f"Post moved to {sub_to_str}!"}
 
-def on_post_hole_entered(post):
+def on_post_hole_entered(post, v):
 	if not post.sub or not post.subr:
 		return
 	hole = post.subr.name
