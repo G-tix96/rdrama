@@ -2069,6 +2069,7 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 143	Marsey God	Contributed 100 (or more!!!!) Marsey emojis ✨😻
 144	Energy Drink Enjoyer	Grip 'N Sip.
 147	Freebase Fiend	From the crack grew a glass rose.
+148	Blackpilled	Proud incel ally.
 4	White Hat	Discreetly reported an exploit
 1	Alpha User	Joined during open alpha
 2	Verified Email	Verified Email
@@ -2174,7 +2175,7 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 147, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 148, true);
 
 
 --
