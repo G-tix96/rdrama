@@ -767,14 +767,16 @@ def messagereply(v):
 
 
 	if c.top_comment.sentto == 2:
-		admins = g.db.query(User).filter(User.admin_level > 2, User.id != v.id).all()
+		admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level > 2, User.id != v.id).all()]
+		if parent.author.id not in admins:
+			admins.append(parent.author.id)
+
 		for admin in admins:
-			notif = Notification(comment_id=c.id, user_id=admin.id)
+			notif = Notification(comment_id=c.id, user_id=admin)
 			g.db.add(notif)
 
 		ids = [c.top_comment.id] + [x.id for x in c.top_comment.replies(None)]
-		uids = [x.id for x in admins]
-		notifications = g.db.query(Notification).filter(Notification.comment_id.in_(ids), Notification.user_id.in_(uids))
+		notifications = g.db.query(Notification).filter(Notification.comment_id.in_(ids), Notification.user_id.in_(admins))
 		for n in notifications:
 			g.db.delete(n)
 
