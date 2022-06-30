@@ -1,4 +1,4 @@
-<div class="col sidebar text-left {% if request.path != '/sidebar' %}d-none d-lg-block{% endif %} pt-3 pb-5 bg-white" style="max-width:300px">
+<div class="col sidebar text-left {% if request.path != '/sidebar' %}d-none d-lg-block{% endif %} pt-3 pb-5 bg-white" id="sidebar-content">
 
 	{% if sub %}
 		{% set image=sub.sidebar_url %}
@@ -52,6 +52,7 @@
 		<a href="/h/cartel">Cartel</a>
 		<a href="/h/isis">ISIS</a>
 		<a href="/h/execution">Execution</a>
+		<a href="/h/maiming">Maiming</a>
 		<a href="/h/police">Police</a>
 		<a href="/h/combat">Combat</a>
 		<a href="/h/child">Child</a>
@@ -90,20 +91,4 @@
 			</li>
 		</ol>
 	</div>
-<pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-		
-</pre>
 </div>

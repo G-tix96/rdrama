@@ -2062,7 +2062,6 @@ SET row_security = off;
 COPY public.badge_defs (id, name, description) FROM stdin;
 136	TRAIN 2022	Beware: Found to be one of the most transmisic commenters on the site!
 137	Lottershe Winner	This user won the Lottershe grand prize.
-139	Kristallmopt	This user was fired from a volunteer position
 140	Y'all Seein' Eye	Gets notified when other sites talk about us
 141	Marsey Typographer	For substantial and exceptional contributions to Marsey Alphabet.
 142	Punching Down	This user mogs incels.
@@ -2070,6 +2069,8 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 144	Energy Drink Enjoyer	Grip 'N Sip.
 147	Freebase Fiend	From the crack grew a glass rose.
 148	Blackpilled	Proud incel ally.
+149	Thin	This user has verified that they are calorically disciplined.
+139	Auspicious Incident	This user was fired from a volunteer position
 4	White Hat	Discreetly reported an exploit
 1	Alpha User	Joined during open alpha
 2	Verified Email	Verified Email
@@ -2175,7 +2176,7 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 148, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 149, true);
 
 
 --

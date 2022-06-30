@@ -347,18 +347,20 @@ def rehole_post(v, pid, hole):
 
 	return {"message": f"Post moved to {sub_to_str}!"}
 
-def on_post_hole_entered(post, v):
+def on_post_hole_entered(post, v=None):
 	if not post.sub or not post.subr:
 		return
 	hole = post.subr.name
+	author = post.author
 
 	# Notify hole followers
-	if not post.ghost and not post.private:
+	if not post.ghost and not post.private and not author.shadowbanned:
 		text = f"<a href='/h/{hole}'>/h/{hole}</a> has a new " \
-			 + f"post: [{post.title}]({post.shortlink}) by @{v.username}"
+			 + f"post: [{post.title}]({post.shortlink}) by @{author.username}"
 		cid = notif_comment(text, autojanny=True)
 		for follow in post.subr.followers:
-			if follow.user_id == v.id: continue
+			if follow.user_id == author.id or (v and follow.user_id == v.id):
+				continue
 			user = get_account(follow.user_id)
 			if post.club and not user.paid_dues: continue
 			add_notif(cid, user.id)

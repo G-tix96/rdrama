@@ -21,7 +21,7 @@ set VISITORS_HERE_FLAVOR = [
 	' throwing shade right now',
 ]
 -%}
-<div class="col sidebar text-left {% if request.path != '/sidebar' %}d-none d-lg-block{% endif %} pt-3 pb-5 bg-white" style="max-width:300px">
+<div class="col sidebar text-left {% if request.path != '/sidebar' %}d-none d-lg-block{% endif %} pt-3 pb-5 bg-white" id="sidebar-content">
 
 	{% if sub %}
 		{% set image=sub.sidebar_url %}
@@ -113,20 +113,4 @@ set VISITORS_HERE_FLAVOR = [
 			<span style="color:hotpink">𝐜𝐚𝐫𝐩 𝐰𝐨𝐳 𝐞𝐫𝐞</span><br><br>
 		</div>
 	{% endif %}
-<pre>
-
-
-
-
-
-
-
-
-
-
-			
-
-
-		
-</pre>
 </div>
