@@ -90,7 +90,7 @@ ascii_only_regex = re.compile("[ -~]+", flags=re.A)
 
 twitter_to_nitter_regex = re.compile("https:\/\/twitter.com\/(\w{4,15}(\/status\/\d+[^/]*)?)", flags=re.A)
 
-reddit_domain_regex = re.compile("(^|\s)https:\/\/(reddit\.com|new\.reddit.com|www\.reddit.com|i\.reddit\.com|redd\.it|libredd\.it|teddit\.net)\/r\/", flags=re.A)
+reddit_domain_regex = re.compile("(^|\s|\()https:\/\/(reddit\.com|new\.reddit.com|www\.reddit.com|i\.reddit\.com|redd\.it|libredd\.it|teddit\.net)\/r\/", flags=re.A)
 
 color_regex = re.compile("[a-z0-9]{6}", flags=re.A)
 
