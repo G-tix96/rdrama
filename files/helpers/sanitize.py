@@ -40,7 +40,7 @@ allowed_tags = ('b','blockquote','br','code','del','em','h1','h2','h3','h4','h5'
 	'li','ol','p','pre','strong','sub','sup','table','tbody','th','thead','td','tr','ul',
 	'marquee','a','span','ruby','rp','rt','spoiler','img','lite-youtube','video','source','audio','g')
 
-allowed_styles = ['color', 'background-color', 'font-weight', 'text-align', 'filter',]
+allowed_styles = ['color', 'background-color', 'font-weight', 'text-align']
 
 def allowed_attributes(tag, name, value):
 
