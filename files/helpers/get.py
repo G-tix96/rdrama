@@ -190,7 +190,7 @@ def get_posts(pids, v=None):
 			blocked, 
 			blocked.c.user_id == Submission.author_id, 
 			isouter=True
-		).options(joinedload(Submission.flags), joinedload(Submission.awards), joinedload(Submission.author), joinedload(Submission.author, User.badges)).all()
+		).options(joinedload(Submission.flags), joinedload(Submission.awards)).all()
 
 		output = [p[0] for p in query]
 		for i in range(len(output)):
