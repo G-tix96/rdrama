@@ -1181,6 +1181,16 @@ def submit_post(v, sub=None):
 		post.upvotes += 3
 		g.db.add(post)
 
+	if request.host == 'rdrama.net' and post.sub in ('slackernews','space') and v.id != AEVANN_ID:
+		g.db.flush()
+		autovote = Vote(user_id=AEVANN_ID, submission_id=post.id, vote_type=1)
+		g.db.add(autovote)
+		v.coins += 1
+		v.truecoins += 1
+		g.db.add(v)
+		post.upvotes += 1
+		post.created_utc += 1
+		g.db.add(post)
 
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
