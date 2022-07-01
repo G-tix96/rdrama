@@ -20,6 +20,10 @@
 <button id="save2-{{p.id}}" class="{% if p.id in v.saved_idlist() %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-muted" role="button" onclick="post_toast(this,'/save_post/{{p.id}}','save2-{{p.id}}','unsave2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-save text-center text-muted mr-3"></i>Save</button>
 <button id="unsave2-{{p.id}}" class="{% if not p.id in v.saved_idlist() %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-muted" role="button" onclick="post_toast(this,'/unsave_post/{{p.id}}','save2-{{p.id}}','unsave2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-save text-center text-muted mr-3"></i>Unsave</button>
 
+{% if p.sub and v.mods(p.sub) %}
+	<button id="hole-pin2-{{p.id}}" class="{% if p.hole_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-muted" role="button" onclick="post_toast(this,'/hole_pin/{{p.id}}','hole-pin2-{{p.id}}','hole-unpin2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center text-muted mr-3"></i>Pin to /h/{{p.sub}}</button>
+	<button id="hole-unpin2-{{p.id}}" class="{% if not p.hole_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-muted" role="button" onclick="post_toast(this,'/hole_unpin/{{p.id}}','hole-pin2-{{p.id}}','hole-unpin2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center text-muted mr-3"></i>Unpin from /h/{{p.sub}}</button>
+{% endif %}
 
 {% if v.id==p.author_id %}
 	{% if request.path.startswith('/@') %}

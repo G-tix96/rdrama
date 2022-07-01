@@ -276,7 +276,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	posts = posts.filter_by(is_banned=False, private=False, deleted_utc = 0)
 
 	if (sort == "hot" or (v and v.id == Q_ID)) and ccmode == "false" and not gt and not lt:
-		posts = posts.filter_by(stickied=None)
+		posts = posts.filter_by(stickied=None, hole_pinned=None)
 
 	if v:
 		posts = posts.filter(Submission.author_id.notin_(v.userblocks))
@@ -313,20 +313,21 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	posts = posts[:size]
 
 	if (sort == "hot" or (v and v.id == Q_ID)) and page == 1 and ccmode == "false" and not gt and not lt:
-		pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False)
-		if sub: pins = pins.filter_by(sub=sub.name)
+		if sub:
+			pins = g.db.query(Submission).filter(Submission.sub == sub.name, Submission.hole_pinned != None)
 		elif v:
+			pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False)
 			pins = pins.filter(or_(Submission.sub == None, Submission.sub.notin_(v.all_blocks)))
 			pins = pins.filter(Submission.author_id.notin_(v.userblocks))
 
-		pins = pins.order_by(Submission.created_utc.desc()).all()
+			for pin in pins:
+				if pin.stickied_utc and int(time.time()) > pin.stickied_utc:
+					pin.stickied = None
+					pin.stickied_utc = None
+					g.db.add(pin)
+					pins.remove(pin)
 
-		for pin in pins:
-			if pin.stickied_utc and int(time.time()) > pin.stickied_utc:
-				pin.stickied = None
-				pin.stickied_utc = None
-				g.db.add(pin)
-				pins.remove(pin)
+		pins = pins.order_by(Submission.created_utc.desc()).all()
 
 		posts = pins + posts
 

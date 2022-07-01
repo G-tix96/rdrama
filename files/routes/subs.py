@@ -530,3 +530,31 @@ def sub_inactive_purge_task():
 		g.db.delete(x)
 
 	return True
+
+@app.post("/hole_pin/<pid>")
+@auth_required
+def hole_pin(v, pid):
+	p = get_post(pid)
+
+	if not p.sub: abort(403)
+
+	if not v.mods(p.sub): abort(403)
+
+	p.hole_pinned = v.username
+	g.db.add(p)
+
+	return {"message": f"Post pinned to /h/{p.sub}"}
+
+@app.post("/hole_unpin/<pid>")
+@auth_required
+def hole_unpin(v, pid):
+	p = get_post(pid)
+
+	if not p.sub: abort(403)
+
+	if not v.mods(p.sub): abort(403)
+
+	p.hole_pinned = None
+	g.db.add(p)
+
+	return {"message": f"Post unpinned from /h/{p.sub}"}

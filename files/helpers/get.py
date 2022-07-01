@@ -115,6 +115,9 @@ def get_account(id, v=None):
 
 def get_post(i, v=None, graceful=False, rendered=False):
 
+	try: i = int(i)
+	except: abort(404)
+
 	if not i:
 		if graceful: return None
 		else: abort(404)
@@ -206,6 +209,9 @@ def get_posts(pids, v=None):
 	return sorted(output, key=lambda x: pids.index(x.id))
 
 def get_comment(i, v=None, graceful=False):
+
+	try: i = int(i)
+	except: abort(404)
 
 	if not i:
 		if graceful: return None

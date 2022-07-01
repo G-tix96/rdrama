@@ -48,6 +48,7 @@ class Submission(Base):
 	distinguish_level = Column(Integer, default=0)
 	stickied = Column(String)
 	stickied_utc = Column(Integer)
+	hole_pinned = Column(String)
 	sub = Column(String, ForeignKey("subs.name"))
 	is_pinned = Column(Boolean, default=False)
 	private = Column(Boolean, default=False)
