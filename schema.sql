@@ -100,7 +100,8 @@ CREATE TABLE public.submissions (
     stickied_utc integer,
     ghost boolean DEFAULT false NOT NULL,
     sub character varying(20),
-    new boolean
+    new boolean,
+    hole_pinned character varying(30)
 );
 
 
