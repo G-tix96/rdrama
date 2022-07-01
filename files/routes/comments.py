@@ -64,7 +64,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	try: pid = int(pid)
 	except: abort(404)
 	
-	post = get_post(pid, v=v)
+	post = get_post(pid, v=v, rendered=True)
 	
 	if post.over_18 and not (v and v.over_18) and not session.get('over_18', 0) >= int(time.time()):
 		if request.headers.get("Authorization"): return {'error': 'This content is not suitable for some users and situations.'}

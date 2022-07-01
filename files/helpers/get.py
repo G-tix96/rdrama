@@ -113,7 +113,7 @@ def get_account(id, v=None):
 	return user
 
 
-def get_post(i, v=None, graceful=False):
+def get_post(i, v=None, graceful=False, rendered=False):
 
 	if not i:
 		if graceful: return None
@@ -139,6 +139,9 @@ def get_post(i, v=None, graceful=False):
 			blocking.c.target_id == Submission.author_id, 
 			isouter=True
 		)
+
+		if rendered:
+			posts = post.options(joinedload(Submission.flags), joinedload(Submission.awards))
 
 		post=post.one_or_none()
 		

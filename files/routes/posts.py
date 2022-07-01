@@ -128,7 +128,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	try: pid = int(pid)
 	except: abort(404)
 
-	post = get_post(pid, v=v)
+	post = get_post(pid, v=v, rendered=True)
 
 	if post.over_18 and not (v and v.over_18) and session.get('over_18', 0) < int(time.time()):
 		if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error":"Must be 18+ to view"}, 451
@@ -393,7 +393,7 @@ def morecomments(v, cid):
 @limiter.limit("1/second;10/minute;100/hour;200/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
 def edit_post(pid, v):
-	p = get_post(pid)
+	p = get_post(pid, rendered=True)
 
 	title = request.values.get("title", "").strip().replace('‎','')
 
