@@ -764,6 +764,35 @@ def submit_post(v, sub=None):
 		parsed_url = urlparse(url)
 
 		domain = parsed_url.netloc
+		if domain in ('old.reddit.com','twitter.com','instagram.com','tiktok.com') and '/search' not in url:
+			new_url = ParseResult(scheme="https",
+					netloc=parsed_url.netloc,
+					path=parsed_url.path,
+					params=parsed_url.params,
+					query=None,
+					fragment=parsed_url.fragment)
+		else:
+			qd = parse_qs(parsed_url.query)
+			filtered = {k: val for k, val in qd.items() if not k.startswith('utm_') and not k.startswith('ref_')}
+
+			new_url = ParseResult(scheme="https",
+								netloc=parsed_url.netloc,
+								path=parsed_url.path,
+								params=parsed_url.params,
+								query=urlencode(filtered, doseq=True),
+								fragment=parsed_url.fragment)
+		
+		url = urlunparse(new_url)
+
+		if url.endswith('/'): url = url[:-1]
+
+		search_url = url.replace('%', '').replace('\\', '').replace('_', '\_').strip()
+		repost = g.db.query(Submission).filter(
+			Submission.url.ilike(search_url),
+			Submission.deleted_utc == 0,
+			Submission.is_banned == False
+		).first()
+		if repost and SITE != 'localhost': return redirect(repost.permalink)
 
 		domain_obj = get_domain(domain)
 		if not domain_obj: domain_obj = get_domain(domain+parsed_url.path)
