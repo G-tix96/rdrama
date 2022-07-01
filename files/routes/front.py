@@ -315,17 +315,20 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	if (sort == "hot" or (v and v.id == Q_ID)) and page == 1 and ccmode == "false" and not gt and not lt:
 		if sub:
 			pins = g.db.query(Submission).filter(Submission.sub == sub.name, Submission.hole_pinned != None)
-		elif v:
+		else:
 			pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False)
-			pins = pins.filter(or_(Submission.sub == None, Submission.sub.notin_(v.all_blocks)))
-			pins = pins.filter(Submission.author_id.notin_(v.userblocks))
+			
+			if v:
+				pins = pins.filter(or_(Submission.sub == None, Submission.sub.notin_(v.all_blocks)))
+				for pin in pins:
+					if pin.stickied_utc and int(time.time()) > pin.stickied_utc:
+						pin.stickied = None
+						pin.stickied_utc = None
+						g.db.add(pin)
+						pins.remove(pin)
 
-			for pin in pins:
-				if pin.stickied_utc and int(time.time()) > pin.stickied_utc:
-					pin.stickied = None
-					pin.stickied_utc = None
-					g.db.add(pin)
-					pins.remove(pin)
+
+		if v: pins = pins.filter(Submission.author_id.notin_(v.userblocks))
 
 		pins = pins.order_by(Submission.created_utc.desc()).all()
 
