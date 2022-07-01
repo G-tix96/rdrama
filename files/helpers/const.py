@@ -303,6 +303,10 @@ elif SITE == 'watchpeopledie.co':
 	SNAKES_ID = 32
 
 	PROCOINS_ENABLED = False
+elif SITE == 'lgbdropthet.com':
+	HOLE_CREATE_JL_MIN = 3
+
+	SNAKES_ID = 9
 else: # localhost or testing environment implied
 	pass
 
