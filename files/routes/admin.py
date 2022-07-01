@@ -32,7 +32,7 @@ def give_monthly_marseybux_task():
 
 	emails = [x['email'] for x in requests.get(f'https://api.gumroad.com/v2/products/{GUMROAD_ID}/subscribers', data=data, timeout=5).json()["subscribers"]]
 
-	for u in g.db.query(User).filter(User.patron > 0, User.patron_utc == 0).all():
+	for u in g.db.query(User).filter(User.patron > 0, User.patron_utc == 0, User.admin_level == 0).all():
 		g.db.add(u)
 		if u.id in (DAD_ID, A_ID) or u.email and u.email.lower() in emails:
 			procoins = procoins_li[u.patron]
