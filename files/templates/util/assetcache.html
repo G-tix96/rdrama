@@ -31,6 +31,21 @@ set CACHE_VER = {
 	'images/badges/': 1022,
 }
 -%}
+{%-
+set CACHE_VER_SITEIMG = {
+	'rDrama': 2000,
+	'FunOnly': 2000,
+	'PCM': 2000,
+	'Cringetopia': 2000,
+	'WPD': 2000,
+	'LGBDropTheT': 2010,
+}
+-%}
+
 {%- macro asset(name, file='') -%}
 /assets/{{name}}{{file}}?v={{ CACHE_VER[name] }}
+{%- endmacro -%}
+
+{%- macro asset_siteimg(name) -%}
+/i/{{SITE_NAME}}/{{name}}?v={{ CACHE_VER_SITEIMG[name] }}
 {%- endmacro -%}

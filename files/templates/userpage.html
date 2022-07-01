@@ -113,7 +113,7 @@
 
 				<div class="font-weight-bolder">
 					<span id="profile-coins-amount">{{u.coins}}</span>
-					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="20" src="/i/{{SITE_NAME}}/coins.webp?v=2000">&nbsp;&nbsp;
+					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="20" src="{{asset_siteimg('coins.webp')}}">&nbsp;&nbsp;
 
 					{% if PROCOINS_ENABLED %}
 						<span id="profile-bux-amount">{{u.procoins}}</span>
@@ -417,7 +417,7 @@
 
 				<div class="font-weight-normal">
 					<span id="profile-coins-amount-mobile" class="font-weight-bold">{{u.coins}}</span>
-					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="15" src="/i/{{SITE_NAME}}/coins.webp?v=2000">&nbsp;&nbsp;
+					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="15" src="{{asset_siteimg('coins.webp')}}">&nbsp;&nbsp;
 
 					{% if PROCOINS_ENABLED %}
 						<span id="profile-bux-amount-mobile" class="font-weight-bold">{{u.procoins}}</span>

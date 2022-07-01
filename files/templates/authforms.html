@@ -1,4 +1,4 @@
-{%- from 'util/assetcache.html' import asset -%}
+{%- from 'util/assetcache.html' import asset, asset_siteimg with context -%}
 {%- import 'util/helpers.html' as help -%}
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +12,7 @@
 
 		<meta name="author" content="">
 
-		<link rel="icon" type="image/webp" href="/i/{{SITE_NAME}}/icon.webp?v=2000">
+		<link rel="icon" type="image/webp" href="{{asset_siteimg('icon.webp')}}">
 
 		<title>{% block pagetitle %}{{SITE_NAME}}{% endblock %}</title>
 

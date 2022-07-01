@@ -29,13 +29,13 @@
 
 		<div class="navbar navbar-expand-md navbar-light" id="navbar">
 			<div class="container-fluid" style="padding:0;">
-			<a href="/" class="navbar-brand mr-auto {% if SITE_NAME in ('PCM','WPD') and not sub %}flex-grow-1{% endif %}">
-				<img alt="header icon" height=33 src="/i/{{SITE_NAME}}/headericon.webp?v=2000">
+			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not sub %}flex-grow-1{% endif %}">
+				<img alt="header icon" height=33 src="{{asset_siteimg('headericon.webp')}}">
 			</a>
 			
 			{% if sub %}
 				<a href="/h/{{sub.name}}" class="font-weight-bold ml-2 flex-grow-1 mt-1" style="font-size:max(14px,1.2vw)">{% if not HOLE_STYLE_FLAIR %}/h/{% endif %}{{sub.name}}</a>
-			{% elif SITE_NAME not in ('PCM','WPD') %}
+			{% elif has_logo %}
 				<style>
 					{% if g.webview %}
 						@media (min-width: 480px) {
@@ -50,7 +50,7 @@
 				</style>
 				<div id="logo-container" class="flex-grow-1 logo-container">
 				<a href="/">
-					<img class="ml-1" id="logo" alt="logo" src="/i/{{SITE_NAME}}/logo.webp?v=2000" width=70>
+					<img class="ml-1" id="logo" alt="logo" src="{{asset_siteimg('logo.webp')}}" width=70>
 				</a>
 				</div>
 			{% endif %}
@@ -151,7 +151,7 @@
 							</div>
 							<div class="text-left pl-2">
 								<div style="color: #{{v.namecolor}}" class="text-small font-weight-bold" id="header--username"><span {% if v.patron %}class="patron" style="background-color:#{{v.namecolor}}"{% endif %}>{{v.username}}</span></div>
-								<div class="header--currency"><img alt="coins" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="/i/{{SITE_NAME}}/coins.webp?v=2000" title="coins" aria-label="coins"><span id="user-coins-amount">{{v.coins}}</span>{% if not PROCOINS_ENABLED %} Coin{{ help.plural(v.coins) }}{% endif %}</div>
+								<div class="header--currency"><img alt="coins" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{asset_siteimg('coins.webp')}}" title="coins" aria-label="coins"><span id="user-coins-amount">{{v.coins}}</span>{% if not PROCOINS_ENABLED %} Coin{{ help.plural(v.coins) }}{% endif %}</div>
 								{% if PROCOINS_ENABLED %}
 									<div class="header--currency"><img alt="marseybux" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="/i/marseybux.webp?v=2000" title="Marseybux" aria-label="Marseybux"><span id="user-bux-amount">{{v.procoins}}</span></div>
 								{% endif %}
