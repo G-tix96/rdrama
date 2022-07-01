@@ -190,7 +190,6 @@ def searchcomments(v):
 	if 'post' in criteria:
 		try: post = int(criteria['post'])
 		except: return {"error": f"Post with id {post} does not exist."}
-		print(post,flush=True)
 		comments = comments.filter(Comment.parent_submission == post)
 
 
