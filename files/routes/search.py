@@ -11,6 +11,7 @@ valid_params = [
 	'author',
 	'domain',
 	'over18',
+	"post",
 	search_operator_hole,
 ]
 
@@ -184,6 +185,14 @@ def searchcomments(v):
 
 	comments = g.db.query(Comment.id).join(Comment.post) \
 		.filter(Comment.parent_submission != None, Comment.author_id.notin_(v.userblocks))
+
+	
+	if 'post' in criteria:
+		try: post = int(criteria['post'])
+		except: return {"error": f"Post with id {post} does not exist."}
+		print(post,flush=True)
+		comments = comments.filter(Comment.parent_submission == post)
+
 
 	if 'author' in criteria:
 		comments = comments.filter(Comment.ghost == False)

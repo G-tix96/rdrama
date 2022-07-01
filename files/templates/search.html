@@ -71,8 +71,19 @@
 			</div>
 			<div class="card-body">
 				<div class="pl-md-3">
-					<div class="text-muted text-small mb-1">Advanced search parameters (with examples): "author:quadnarca", "domain:reddit.com", "over18:true", "{{HOLE_NAME}}:music"<div>
-					<br>
+					{% if not request.path.startswith('/search/users') %}
+						<strong>Advanced search parameters (with examples)</strong>
+						<ul class="mt-2">
+							<li class="mb-1">author:quadnarca</li>
+							<li class="mb-1">domain:reddit.com</li>
+							<li class="mb-1">over18:true</li>
+							<li class="mb-1">{{HOLE_NAME}}:music</li>
+							{% if request.path.startswith('/search/comments') %}
+								<li class="mb-1">post:504</li>
+							{% endif %}
+						</ul>
+						<br>
+					{% endif %}
 					<div class="text-muted text-small mb-1">Showing {% block listinglength %}{{listing | length}}{% endblock %} of {{total}} result{{'s' if total != 1 else ''}} for</div>
 					<h1 class="h4 mb-0">{{query}}</h1>
 
