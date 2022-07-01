@@ -1,4 +1,4 @@
-{%- from 'util/assetcache.html' import asset -%}
+{%- from 'util/assetcache.html' import asset, asset_siteimg with context -%}
 {%- import 'util/helpers.html' as help -%}
 <!DOCTYPE html>
 <html lang="en">
@@ -13,13 +13,13 @@
 
 	<meta name="author" content="">
 
-	<link rel="icon" type="image/webp" href="/i/{{SITE_NAME}}/icon.webp?v=2000">
+	<link rel="icon" type="image/webp" href="{{asset_siteimg('icon.webp')}}">
 
 	<title>{% block pagetitle %}Settings - {{SITE_NAME}}{% endblock %}</title>
 		<meta property="og:type" content="article">
 		<meta property="og:title" content="{{SITE_NAME}}">
 		<meta property="og:site_name" content="{{request.host}}">
-		<meta property="og:image" content="/i/{{SITE_NAME}}/site_preview.webp?v=2000">
+		<meta property="og:image" content="{{asset_siteimg('site_preview.webp')}}">
 		<meta property="og:url" content="{{request.host}}">
 		<meta property="og:description" name="description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
 		<meta property="og:author" name="author" content="{{SITE_FULL}}">
@@ -30,7 +30,7 @@
 		<meta name="twitter:title" content="{{SITE_NAME}}">
 		<meta name="twitter:creator" content="{{SITE_FULL}}">
 		<meta name="twitter:description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
-		<meta name="twitter:image" content="/i/{{SITE_NAME}}/site_preview.webp?v=2000">
+		<meta name="twitter:image" content="{{asset_siteimg('site_preview.webp')}}">
 		<meta name="twitter:url" content="{{request.host}}">
 
 

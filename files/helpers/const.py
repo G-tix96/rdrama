@@ -307,6 +307,9 @@ elif SITE == 'lgbdropthet.com':
 	HOLE_CREATE_JL_MIN = 3
 
 	SNAKES_ID = 9
+
+	PROCOINS_ENABLED = False
+	LOTTERY_ENABLED = False
 else: # localhost or testing environment implied
 	pass
 
@@ -944,3 +947,4 @@ COMMENT_SPAM_COUNT_THRESHOLD = int(environ.get("COMMENT_SPAM_COUNT_THRESHOLD", 1
 DESCRIPTION = environ.get("DESCRIPTION", "rdrama.net caters to drama in all forms such as: Real life, videos, photos, gossip, rumors, news sites, Reddit, and Beyond™. There isn't drama we won't touch, and we want it all!").strip()
 
 has_sidebar = path.exists(f'files/templates/sidebar_{SITE_NAME}.html')
+has_logo = path.exists(f'files/assets/images/{SITE_NAME}/logo.webp')
