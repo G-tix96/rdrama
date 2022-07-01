@@ -42,7 +42,7 @@ def give_monthly_marseybux_task():
 
 	ma = ModAction(
 		kind="monthly",
-		user_id=v.id
+		user_id=SNAPPY_ID,
 	)
 	g.db.add(ma)
 
