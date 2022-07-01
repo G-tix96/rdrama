@@ -598,6 +598,9 @@ def settings_css(v):
 	if v.agendaposter: return {"error": "Agendapostered users can't edit css!"}
 
 	css = request.values.get("css").strip().replace('\\', '').strip()[:4000]
+
+	if '</style>' in css.lower(): return {"error": "Please message @Aevann if you get this error"}
+
 	v.css = css
 	g.db.add(v)
 

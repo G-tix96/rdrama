@@ -36,7 +36,9 @@
 				}
 			</style>
 		{% elif v.css %}
-			<link rel="stylesheet" href="/{{v.id}}/css">
+			<style>
+				{{v.css | safe}}
+			</style>
 		{% endif %}
 	{% else %}
 		<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
