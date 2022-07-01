@@ -186,16 +186,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 		comments = sort_comments(sort, comments)
 
-		t = time.time()
 		first = [c[0] for c in comments.filter(or_(and_(Comment.slots_result == None, Comment.blackjack_result == None, Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()]
-		print(time.time() - t, flush=True)
-
-
-		t = time.time()
-		first = [c[0] for c in comments if (c[0].slots_result == None and c[0].blackjack_result == None and c[0].wordle_result == None) or len(c[0].body_html) > 100]
-		print(time.time() - t, flush=True)
-
-
 		second = [c[0] for c in comments.filter(or_(Comment.slots_result != None, Comment.blackjack_result != None, Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()]
 		comments = first + second
 	else:
