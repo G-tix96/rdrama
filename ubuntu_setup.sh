@@ -53,4 +53,6 @@ ufw allow from 172.64.0.0/13
 ufw allow from 131.0.72.0/22
 echo "y" | ufw enable
 curl https://rclone.org/install.sh | bash
+echo "psql -U postgres" > /psql
+echo "tmux a -t 0" > /c
 . imei.sh
