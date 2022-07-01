@@ -141,7 +141,7 @@ def get_post(i, v=None, graceful=False, rendered=False):
 		)
 
 		if rendered:
-			posts = post.options(joinedload(Submission.flags), joinedload(Submission.awards))
+			posts = post.options(joinedload(Submission.flags), joinedload(Submission.awards), joinedload(Submission.author))
 
 		post=post.one_or_none()
 		
@@ -193,7 +193,7 @@ def get_posts(pids, v=None):
 			blocked, 
 			blocked.c.user_id == Submission.author_id, 
 			isouter=True
-		).options(joinedload(Submission.flags), joinedload(Submission.awards)).all()
+		).options(joinedload(Submission.flags), joinedload(Submission.awards), joinedload(Submission.author)).all()
 
 		output = [p[0] for p in query]
 		for i in range(len(output)):
