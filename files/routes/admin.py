@@ -470,14 +470,15 @@ def reported_comments(v):
 @app.get("/admin")
 @admin_level_required(2)
 def admin_home(v):
-	if CF_ZONE == 'blahblahblah': response = 'high'
-	else: response = requests.get(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, timeout=5).json()['result']['value']
-	under_attack = response == 'under_attack'
+	if v.admin_level > 2:
+		if CF_ZONE == 'blahblahblah': response = 'high'
+		else: response = requests.get(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, timeout=5).json()['result']['value']
+		under_attack = response == 'under_attack'
 
 	gitref = admin_git_head()
 	
 	return render_template("admin/admin_home.html", v=v, 
-		under_attack=under_attack, 
+		under_attack=under_attack or False, 
 		site_settings=app.config['SETTINGS'],
 		gitref=gitref)
 
