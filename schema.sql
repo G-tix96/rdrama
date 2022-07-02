@@ -232,6 +232,43 @@ CREATE TABLE public.client_auths (
 
 
 --
+-- Name: comment_option_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.comment_option_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: comment_option_votes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.comment_option_votes (
+    option_id integer NOT NULL,
+    user_id integer NOT NULL,
+    created_utc integer NOT NULL,
+    comment_id integer
+);
+
+
+--
+-- Name: comment_options; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.comment_options (
+    id integer DEFAULT nextval('public.comment_option_id_seq'::regclass) NOT NULL,
+    comment_id integer NOT NULL,
+    body_html character varying(500) NOT NULL,
+    exclusive boolean NOT NULL
+);
+
+
+--
 -- Name: comment_save_relationship; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -581,6 +618,43 @@ CREATE TABLE public.sub_subscriptions (
 
 
 --
+-- Name: submission_option_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.submission_option_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: submission_option_votes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.submission_option_votes (
+    option_id integer NOT NULL,
+    user_id integer NOT NULL,
+    created_utc integer NOT NULL,
+    submission_id integer
+);
+
+
+--
+-- Name: submission_options; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.submission_options (
+    id integer DEFAULT nextval('public.submission_option_id_seq'::regclass) NOT NULL,
+    submission_id integer NOT NULL,
+    body_html character varying(500) NOT NULL,
+    exclusive boolean NOT NULL
+);
+
+
+--
 -- Name: submissions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -896,6 +970,22 @@ ALTER TABLE ONLY public.client_auths
 
 
 --
+-- Name: comment_option_votes comment_option_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_option_votes
+    ADD CONSTRAINT comment_option_votes_pkey PRIMARY KEY (option_id, user_id);
+
+
+--
+-- Name: comment_options comment_options_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_options
+    ADD CONSTRAINT comment_options_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: comment_save_relationship comment_save_relationship_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1069,6 +1159,22 @@ ALTER TABLE ONLY public.sub_blocks
 
 ALTER TABLE ONLY public.sub_subscriptions
     ADD CONSTRAINT sub_subscriptions_pkey PRIMARY KEY (user_id, sub);
+
+
+--
+-- Name: submission_option_votes submission_option_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.submission_option_votes
+    ADD CONSTRAINT submission_option_votes_pkey PRIMARY KEY (option_id, user_id);
+
+
+--
+-- Name: submission_options submission_options_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.submission_options
+    ADD CONSTRAINT submission_options_pkey PRIMARY KEY (id);
 
 
 --
@@ -1445,6 +1551,20 @@ CREATE INDEX notifications_comment_idx ON public.notifications USING btree (comm
 --
 
 CREATE INDEX notifs_user_read_idx ON public.notifications USING btree (user_id, read);
+
+
+--
+-- Name: option_comment; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX option_comment ON public.comment_options USING btree (comment_id);
+
+
+--
+-- Name: option_submission; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX option_submission ON public.submission_options USING btree (submission_id);
 
 
 --
@@ -1899,6 +2019,22 @@ ALTER TABLE ONLY public.client_auths
 
 
 --
+-- Name: comment_options option_comment_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_options
+    ADD CONSTRAINT option_comment_fkey FOREIGN KEY (comment_id) REFERENCES public.comments(id) MATCH FULL;
+
+
+--
+-- Name: submission_options option_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.submission_options
+    ADD CONSTRAINT option_submission_fkey FOREIGN KEY (submission_id) REFERENCES public.submissions(id) MATCH FULL;
+
+
+--
 -- Name: save_relationship save_relationship_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2019,6 +2155,38 @@ ALTER TABLE ONLY public.viewers
 
 
 --
+-- Name: comment_option_votes vote_comment_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_option_votes
+    ADD CONSTRAINT vote_comment_fkey FOREIGN KEY (comment_id) REFERENCES public.comments(id) MATCH FULL;
+
+
+--
+-- Name: submission_option_votes vote_option_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.submission_option_votes
+    ADD CONSTRAINT vote_option_fkey FOREIGN KEY (option_id) REFERENCES public.submission_options(id) MATCH FULL;
+
+
+--
+-- Name: comment_option_votes vote_option_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_option_votes
+    ADD CONSTRAINT vote_option_fkey FOREIGN KEY (option_id) REFERENCES public.comment_options(id) MATCH FULL;
+
+
+--
+-- Name: submission_option_votes vote_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.submission_option_votes
+    ADD CONSTRAINT vote_submission_fkey FOREIGN KEY (submission_id) REFERENCES public.submissions(id) MATCH FULL;
+
+
+--
 -- Name: votes vote_submission_key; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2032,6 +2200,22 @@ ALTER TABLE ONLY public.votes
 
 ALTER TABLE ONLY public.votes
     ADD CONSTRAINT vote_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: submission_option_votes vote_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.submission_option_votes
+    ADD CONSTRAINT vote_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
+
+
+--
+-- Name: comment_option_votes vote_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_option_votes
+    ADD CONSTRAINT vote_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
 
 
 --
