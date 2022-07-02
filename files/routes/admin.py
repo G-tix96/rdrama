@@ -56,6 +56,7 @@ def give_monthly_marseybux_task():
 def migrate_polls(v):
 	polls = g.db.query(Comment).filter_by(author_id=6176).all()
 	for c in polls:
+		if len(c.body_html) > 500: continue
 		print(c.id, flush=True)
 		option = CommentOption(
 			comment_id=c.parent_comment_id,
@@ -80,6 +81,7 @@ def migrate_polls(v):
 	print('first done', flush=True)
 	polls = g.db.query(Comment).filter_by(author_id=9167).all()
 	for c in polls:
+		if len(c.body_html) > 500: continue
 		print(c.id, flush=True)
 		option = CommentOption(
 			comment_id=c.parent_comment_id,
