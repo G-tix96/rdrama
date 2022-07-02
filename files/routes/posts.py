@@ -1135,9 +1135,10 @@ def submit_post(v, sub=None):
 			gevent.spawn(archiveorg, newposturl)
 
 		captured = []
-		for i in list(snappy_url_regex.finditer(post.body_html)):
-			if i.group(0) in captured: continue
-			captured.append(i.group(0))
+		body_for_snappy = post.body_html.replace(' data-src="', ' src="')
+		for i in list(snappy_url_regex.finditer(body_for_snappy)):
+			if i.group(1) in captured: continue
+			captured.append(i.group(1))
 
 			href = i.group(1)
 			if not href: continue

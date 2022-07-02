@@ -215,11 +215,14 @@ def sanitize(sanitized, edit=False):
 			tag['alt'] = f'![]({tag["data-src"]})'
 			tag['referrerpolicy'] = "no-referrer"
 
-			a = soup.new_tag("a", href=tag["data-src"],  rel="nofollow noopener noreferrer")
-			tag = tag.replace_with(a)
-			a.append(tag)
+			if tag.parent.name != 'a':
+				a = soup.new_tag("a", href=tag["data-src"],  rel="nofollow noopener noreferrer")
+				tag = tag.replace_with(a)
+				a.append(tag)
 
 	for tag in soup.find_all("a"):
+		if not tag.contents or not str(tag.contents[0]).strip():
+			tag.extract()
 		if tag.get("href") and fishylinks_regex.fullmatch(str(tag.string)):
 			tag.string = tag["href"]
 
