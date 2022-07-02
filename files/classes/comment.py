@@ -208,14 +208,13 @@ class Comment(Base):
 	@lazy
 	def replies(self, sort=None):
 		if self.replies2 != None:
-			return [x for x in self.replies2 if not x.author.shadowbanned]
-		
-		if not self.parent_submission:
-			return g.db.query(Comment).options(
-				joinedload(Comment.author)
-			).filter_by(parent_comment_id=self.id, shadowbanned=None).order_by(Comment.id).all()
+			replies = self.replies2
+		elif not self.parent_submission:
+			replies = g.db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.id).all()
+		else: 
+			return self.child_comments
 
-		return [x for x in self.child_comments if not x.author.shadowbanned]
+		return [x for x in replies if not x.author.shadowbanned]
 
 
 	@lazy
