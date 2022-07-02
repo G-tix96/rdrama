@@ -67,7 +67,7 @@ def allowed_attributes(tag, name, value):
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
 		if name in ['g','b','glow'] and not value: return True
 		if name in ['alt','title']: return True
-		if name == 'referrpolicy' and value == 'no-referrer': return True
+		if name == 'referrerpolicy' and value == 'no-referrer': return True
 		return False
 
 	if tag == 'lite-youtube':
@@ -213,10 +213,14 @@ def sanitize(sanitized, edit=False):
 			tag["data-src"] = tag["src"]
 			tag["src"] = "/i/l.webp"
 			tag['alt'] = f'![]({tag["data-src"]})'
-			tag['referrerpolicy'] = "no-referrer"
+
+			if not is_site_url(tag["data-src"]):
+				tag['referrerpolicy'] = "no-referrer"
 
 			if tag.parent.name != 'a':
-				a = soup.new_tag("a", href=tag["data-src"],  rel="nofollow noopener noreferrer")
+				a = soup.new_tag("a", href=tag["data-src"])
+				if not is_site_url(a["href"]):
+					a["rel"] = "nofollow noopener noreferrer"
 				tag = tag.replace_with(a)
 				a.append(tag)
 

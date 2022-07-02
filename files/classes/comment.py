@@ -81,7 +81,7 @@ class Comment(Base):
 	author = relationship("User", primaryjoin="User.id==Comment.author_id")
 	senttouser = relationship("User", primaryjoin="User.id==Comment.sentto")
 	parent_comment = relationship("Comment", remote_side=[id], back_populates="child_comments")
-	child_comments = relationship("Comment", lazy="dynamic", remote_side=[parent_comment_id], back_populates="parent_comment")
+	child_comments = relationship("Comment", remote_side=[parent_comment_id], back_populates="parent_comment")
 	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="comment")
 	flags = relationship("CommentFlag", order_by="CommentFlag.created_utc")
 	options = relationship("CommentOption", order_by="CommentOption.id")
@@ -207,19 +207,24 @@ class Comment(Base):
 
 	@lazy
 	def replies(self, sort=None):
-		if self.replies2 != None: return [x for x in self.replies2 if not x.author.shadowbanned]
-		if not self.parent_submission:
-			return [x for x in self.child_comments.order_by(Comment.id) if not x.author.shadowbanned]
-
-		comments = self.child_comments
-		return [x for x in comments if not x.author.shadowbanned]
+		if self.replies2 != None:
+			return [x for x in self.replies2 if not x.author.shadowbanned]
 		
+		if not self.parent_submission:
+			return g.db.query(Comment).options(
+				joinedload(Comment.author)
+			).filter_by(parent_comment_id=self.id, shadowbanned=None).order_by(Comment.id).all()
+
+		return [x for x in self.child_comments if not x.author.shadowbanned]
+
 
 	@lazy
 	def replies3(self, sort):
-		if self.replies2 != None: return self.replies2
+		if self.replies2 != None:
+			return self.replies2
+		
 		if not self.parent_submission:
-			return self.child_comments.order_by(Comment.id).all()
+			return g.db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.id).all()
 
 		return self.child_comments
 

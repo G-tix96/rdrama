@@ -916,8 +916,11 @@ approved_embed_hosts = {
 	}
 
 
+def is_site_url(url):
+	return '\\' not in url and (url.startswith('/') or url.startswith(f'{SITE_FULL}/'))
+
 def is_safe_url(url):
-	return '\\' not in url and (url.startswith('/') or tldextract.extract(url).registered_domain in approved_embed_hosts)
+	return is_site_url(url) or tldextract.extract(url).registered_domain in approved_embed_hosts
 
 
 hosts = "|".join(approved_embed_hosts).replace('.','\.')
