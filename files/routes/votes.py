@@ -6,7 +6,7 @@ from flask import *
 from files.__main__ import app, limiter, cache
 from os import environ
 
-@app.get("/votes/<linK>")
+@app.get("/votes/<link>")
 @auth_required
 def vote_info_get(v, link):
 	try:
