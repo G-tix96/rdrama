@@ -175,7 +175,8 @@ def post_id(pid, anything=None, v=None, sub=None):
 			joinedload(Comment.awards),
 			joinedload(Comment.author),
 			joinedload(Comment.options),
-			joinedload(Comment.options, CommentOption.votes)
+			joinedload(Comment.options, CommentOption.votes),
+			joinedload(Comment.child_comments)
 		)
 
 		output = []
