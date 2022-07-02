@@ -221,6 +221,8 @@ def sanitize(sanitized, edit=False):
 				a.append(tag)
 
 	for tag in soup.find_all("a"):
+		if not tag.contents or not str(tag.contents[0]).strip():
+			tag.extract()
 		if tag.get("href") and fishylinks_regex.fullmatch(str(tag.string)):
 			tag.string = tag["href"]
 
