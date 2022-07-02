@@ -1207,7 +1207,7 @@ def submit_post(v, sub=None):
 		post.upvotes += 3
 		g.db.add(post)
 
-	if request.host == 'rdrama.net' and post.sub in ('slackernews','space') and v.id != AEVANN_ID:
+	if request.host == 'rdrama.net' and post.sub and post.sub not in ('dankchristianmemes','fatpeoplehate','braincels','truth') and v.id != AEVANN_ID:
 		g.db.flush()
 		autovote = Vote(user_id=AEVANN_ID, submission_id=post.id, vote_type=1)
 		g.db.add(autovote)
