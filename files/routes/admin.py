@@ -54,11 +54,11 @@ def give_monthly_marseybux_task():
 @app.get('/migrate_polls')
 @admin_level_required(3)
 def migrate_polls(v):
-	polls = g.db.query(Comment).filter_by(author_id=6176, parent_comment_id=None).all()
+	polls = g.db.query(Comment).filter_by(author_id=6176).all()
 	for c in polls:
 		print(c.id, flush=True)
-		option = SubmissionOption(
-			submission_id=c.parent_submission,
+		option = CommentOption(
+			comment_id=c.parent_comment_id,
 			body_html=c.body_html,
 			exclusive = False
 		)
@@ -66,10 +66,10 @@ def migrate_polls(v):
 		g.db.flush()
 		votes = g.db.query(CommentVote).filter_by(comment_id=c.id).all()
 		for vote in votes:
-			o_vote = SubmissionOptionVote(
+			o_vote = CommentOptionVote(
 				option_id=option.id,
 				user_id=vote.user_id,
-				submission_id=c.parent_submission,
+				comment_id=c.parent_comment_id,
 			)
 			g.db.add(o_vote)
 			g.db.delete(vote)
@@ -78,11 +78,11 @@ def migrate_polls(v):
 	g.db.commit()
 
 	print('first done', flush=True)
-	polls = g.db.query(Comment).filter_by(author_id=9167, parent_comment_id=None).all()
+	polls = g.db.query(Comment).filter_by(author_id=9167).all()
 	for c in polls:
 		print(c.id, flush=True)
-		option = SubmissionOption(
-			submission_id=c.parent_submission,
+		option = CommentOption(
+			comment_id=c.parent_comment_id,
 			body_html=c.body_html,
 			exclusive = True
 		)
@@ -90,10 +90,10 @@ def migrate_polls(v):
 		g.db.flush()
 		votes = g.db.query(CommentVote).filter_by(comment_id=c.id).all()
 		for vote in votes:
-			o_vote = SubmissionOptionVote(
+			o_vote = CommentOptionVote(
 				option_id=option.id,
 				user_id=vote.user_id,
-				submission_id=c.parent_submission,
+				comment_id=c.parent_comment_id,
 			)
 			g.db.add(o_vote)
 			g.db.delete(vote)
