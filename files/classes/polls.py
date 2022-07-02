@@ -26,6 +26,7 @@ class SubmissionOption(Base):
 
 	@lazy
 	def voted(self, v):
+		if not v: return False
 		return v.id in [x.user_id for x in self.votes]
 
 
