@@ -50,8 +50,10 @@ def give_monthly_marseybux_task():
 	return True
 
 
-def migrate_polls():
 
+@app.post('/migrate_polls')
+@admin_level_required(3)
+def migrate_polls(v):
 	polls = g.db.query(Comment).filter_by(author_id=6176, parent_comment_id=None, parent_submission=77232).all()
 	for c in polls:
 		print(c.id, flush=True)
@@ -74,6 +76,7 @@ def migrate_polls():
 		g.db.delete(c)
 	
 	g.db.commit()
+	return 'test'
 
 @app.post('/kippy')
 @admin_level_required(3)
