@@ -54,7 +54,7 @@ def give_monthly_marseybux_task():
 @app.get('/migrate_polls')
 @admin_level_required(3)
 def migrate_polls(v):
-	polls = g.db.query(Comment).filter_by(author_id=6176, parent_comment_id=None, parent_submission=77232).all()
+	polls = g.db.query(Comment).filter_by(author_id=6176, parent_comment_id=None).all()
 	for c in polls:
 		print(c.id, flush=True)
 		option = SubmissionOption(
@@ -76,6 +76,33 @@ def migrate_polls(v):
 		g.db.delete(c)
 	
 	g.db.commit()
+
+	print('first done', flush=True)
+	polls = g.db.query(Comment).filter_by(author_id=9167, parent_comment_id=None).all()
+	for c in polls:
+		print(c.id, flush=True)
+		option = SubmissionOption(
+			submission_id=c.parent_submission,
+			body_html=c.body_html,
+			exclusive = True
+		)
+		g.db.add(option)
+		g.db.flush()
+		votes = g.db.query(CommentVote).filter_by(comment_id=c.id).all()
+		for vote in votes:
+			o_vote = SubmissionOptionVote(
+				option_id=option.id,
+				user_id=vote.user_id,
+				submission_id=c.parent_submission,
+			)
+			g.db.add(o_vote)
+			g.db.delete(vote)
+		g.db.delete(c)
+
+	print('second done', flush=True)
+
+	g.db.commit()
+
 	return 'test'
 
 @app.post('/kippy')
