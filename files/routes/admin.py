@@ -50,63 +50,6 @@ def give_monthly_marseybux_task():
 	return True
 
 
-
-@app.get('/migrate_polls')
-@admin_level_required(3)
-def migrate_polls(v):
-	polls = g.db.query(Comment).filter_by(author_id=6176).all()
-	for c in polls:
-		if len(c.body_html) > 500: continue
-		print(c.id, flush=True)
-		option = CommentOption(
-			comment_id=c.parent_comment_id,
-			body_html=c.body_html,
-			exclusive = False
-		)
-		g.db.add(option)
-		g.db.flush()
-		votes = g.db.query(CommentVote).filter_by(comment_id=c.id).all()
-		for vote in votes:
-			o_vote = CommentOptionVote(
-				option_id=option.id,
-				user_id=vote.user_id,
-				comment_id=c.parent_comment_id,
-			)
-			g.db.add(o_vote)
-			g.db.delete(vote)
-		g.db.delete(c)
-	
-	g.db.commit()
-
-	print('first done', flush=True)
-	polls = g.db.query(Comment).filter_by(author_id=9167).all()
-	for c in polls:
-		if len(c.body_html) > 500: continue
-		print(c.id, flush=True)
-		option = CommentOption(
-			comment_id=c.parent_comment_id,
-			body_html=c.body_html,
-			exclusive = True
-		)
-		g.db.add(option)
-		g.db.flush()
-		votes = g.db.query(CommentVote).filter_by(comment_id=c.id).all()
-		for vote in votes:
-			o_vote = CommentOptionVote(
-				option_id=option.id,
-				user_id=vote.user_id,
-				comment_id=c.parent_comment_id,
-			)
-			g.db.add(o_vote)
-			g.db.delete(vote)
-		g.db.delete(c)
-
-	print('second done', flush=True)
-
-	g.db.commit()
-
-	return 'test'
-
 @app.post('/kippy')
 @admin_level_required(3)
 def kippy(v):
