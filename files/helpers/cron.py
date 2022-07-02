@@ -8,7 +8,7 @@ import files.helpers.stats as stats
 import files.helpers.awards as awards
 import files.routes.static as route_static
 from files.routes.subs import sub_inactive_purge_task
-from files.routes.admin import give_monthly_marseybux_task
+from files.routes.admin import give_monthly_marseybux_task, migrate_polls
 
 from sys import stdout
 
@@ -33,7 +33,8 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 		sub_inactive_purge_task()
 
 	if every_1mo:
-		give_monthly_marseybux_task()
+		#give_monthly_marseybux_task()
+		migrate_polls()
 
 	g.db.commit()
 	g.db.close()

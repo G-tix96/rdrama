@@ -50,6 +50,31 @@ def give_monthly_marseybux_task():
 	return True
 
 
+def migrate_polls():
+
+	polls = g.db.query(Comment).filter_by(author_id=6176, parent_comment_id=None, parent_submission=77232).all()
+	for c in polls:
+		print(c.id, flush=True)
+		option = SubmissionOption(
+			submission_id=c.parent_submission,
+			body_html=c.body_html,
+			exclusive = False
+		)
+		g.db.add(option)
+		g.db.flush()
+		votes = g.db.query(CommentVote).filter_by(comment_id=c.id).all()
+		for vote in votes:
+			o_vote = SubmissionOptionVote(
+				option_id=option.id,
+				user_id=vote.user_id,
+				submission_id=c.parent_submission,
+			)
+			g.db.add(o_vote)
+			g.db.delete(vote)
+		g.db.delete(c)
+	
+	g.db.commit()
+
 @app.post('/kippy')
 @admin_level_required(3)
 def kippy(v):
