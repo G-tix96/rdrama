@@ -57,10 +57,12 @@
 {% set downs=c.downvotes %}
 {% set score=ups-downs %}
 
-{% if v and (v.shadowbanned or v.admin_level >= 2) %}
-	{% set replies=c.replies3(sort) %}
-{% else %}
-	{% set replies=c.replies(sort) %}
+{% if render_replies %}
+	{% if v and (v.shadowbanned or v.admin_level >= 2) %}
+		{% set replies=c.replies3(sort) %}
+	{% else %}
+		{% set replies=c.replies(sort) %}
+	{% endif %}
 {% endif %}
 
 {% if c.is_blocking or (c.is_banned or c.deleted_utc) and not (v and v.admin_level > 1) and not (v and v.id==c.author_id) %}

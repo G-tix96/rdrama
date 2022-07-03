@@ -1,6 +1,6 @@
 from files.classes import *
 from flask import g
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, undefer
 
 def get_id(username, v=None, graceful=False):
 	
@@ -24,7 +24,7 @@ def get_id(username, v=None, graceful=False):
 	return user[0]
 
 
-def get_user(username, v=None, graceful=False):
+def get_user(username, v=None, graceful=False, rendered=False):
 
 	if not username:
 		if not graceful: abort(404)
@@ -39,13 +39,25 @@ def get_user(username, v=None, graceful=False):
 			User.username.ilike(username),
 			User.original_username.ilike(username)
 			)
-		).one_or_none()
+		)
+
+	if rendered:
+		user = user.options(
+			undefer('reserved'),
+			undefer('profilecss'),
+			undefer('bio'),
+			undefer('friends_html'),
+			undefer('enemies_html'),
+			joinedload(User.badges)
+		)
+
+	user = user.one_or_none()
 
 	if not user:
 		if not graceful: abort(404)
 		else: return None
 
-	if v:
+	if rendered v and v.id != user.id:
 		block = g.db.query(UserBlock).filter(
 			or_(
 				and_(
@@ -289,6 +301,11 @@ def get_comments(cids, v=None, load_parent=False):
 			blocked,
 			blocked.c.user_id == Comment.author_id,
 			isouter=True
+		).options(
+			joinedload(Comment.post),
+			joinedload(Comment.flags),
+			joinedload(Comment.awards),
+			joinedload(Comment.options).joinedload(CommentOption.votes)
 		).all()
 
 		output = []

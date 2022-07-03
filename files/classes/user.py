@@ -128,7 +128,7 @@ class User(Base):
 	custom_filter_list = Column(String)
 	discord_id = Column(String)
 	ban_evade = Column(Integer, default=0)
-	original_username = deferred(Column(String))
+	original_username = Column(String)
 	referred_by = Column(Integer, ForeignKey("users.id"))
 	can_gamble = Column(Boolean, default=True)
 	currently_held_lottery_tickets = Column(Integer, default=0)
@@ -433,11 +433,8 @@ class User(Base):
 
 		awards = {}
 
-		posts_idlist = [x[0] for x in g.db.query(Submission.id).filter_by(author_id=self.id).all()]
-		comments_idlist = [x[0] for x in g.db.query(Comment.id).filter_by(author_id=self.id).all()]
-
-		post_awards = g.db.query(AwardRelationship).filter(AwardRelationship.submission_id.in_(posts_idlist)).all()
-		comment_awards = g.db.query(AwardRelationship).filter(AwardRelationship.comment_id.in_(comments_idlist)).all()
+		post_awards = g.db.query(AwardRelationship).join(AwardRelationship.post).filter(Submission.author_id == self.id).all()
+		comment_awards = g.db.query(AwardRelationship).join(AwardRelationship.comment).filter(Comment.author_id == self.id).all()
 
 		total_awards = post_awards + comment_awards
 

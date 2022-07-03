@@ -77,7 +77,7 @@
 										<i class="fas fa-broom text-admin align-middle ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin"></i>
 									</span>
 								{% endif %}
-								{% if v and v.has_follower(u) %}
+								{% if v and v.id != u.id and v.has_follower(u) %}
 									<span class="followsyou badge badge-secondary text-small align-middle ml-2" id="profile--follows-you">Follows you</span>
 								{% endif %}
 								<div class="profile-actions align-middle d-none ml-2">
@@ -405,7 +405,7 @@
 						<i class="fas fa-broom text-admin align-middle ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin"></i>
 					</span>
 				{% endif %}
-				{% if v and v.has_follower(u) and not v.is_nofollow %}
+				{% if v and v.id != u.id and v.has_follower(u) and not v.is_nofollow %}
 					<span class="followsyou badge badge-secondary text-small align-middle mx-1" id="profile--follows-you">Follows you</span>
 				{% endif %}
 				{% if u.customtitle %}<p style="color: #{{u.titlecolor}}" id="profile--flair">{{u.customtitle | safe}}</p>

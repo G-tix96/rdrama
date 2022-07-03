@@ -872,7 +872,14 @@ def u_username(username, v=None):
 	if not v and not request.path.startswith('/logged_out'): return redirect(f"/logged_out{request.full_path}")
 	if v and request.path.startswith('/logged_out'): return redirect(request.full_path.replace('/logged_out',''))
 
-	u = get_user(username, v=v)
+	u = get_user(username, v=v, rendered=True)
+
+	if v and username == v.username:
+		is_following = False
+		u.is_blocked = False
+		u.is_blocking = False
+	else:
+		is_following = (v and u.has_follower(v))
 
 
 	if username != u.username:
@@ -885,7 +892,7 @@ def u_username(username, v=None):
 	if u.shadowbanned and not (v and v.admin_level >= 2) and not (v and v.id == u.id):
 		abort(404)
 
-	if v and v.id not in (u.id,DAD_ID) and (u.patron or u.admin_level > 1):
+	if v and v.id not in (u.id, DAD_ID) and (u.patron or u.admin_level > 1):
 		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
 
 		if view: view.last_view_utc = int(time.time())
@@ -939,7 +946,7 @@ def u_username(username, v=None):
 												sort=sort,
 												t=t,
 												next_exists=next_exists,
-												is_following=(v and u.has_follower(v)))
+												is_following=is_following)
 
 
 
@@ -952,7 +959,7 @@ def u_username(username, v=None):
 									sort=sort,
 									t=t,
 									next_exists=next_exists,
-									is_following=(v and u.has_follower(v)))
+									is_following=is_following)
 
 
 @app.get("/@<username>/comments")
@@ -963,7 +970,14 @@ def u_username_comments(username, v=None):
 	if not v and not request.path.startswith('/logged_out'): return redirect(f"/logged_out{request.full_path}")
 	if v and request.path.startswith('/logged_out'): return redirect(request.full_path.replace('/logged_out',''))
 
-	user = get_user(username, v=v)
+	user = get_user(username, v=v, rendered=True)
+
+	if v and username == v.username:
+		is_following = False
+		user.is_blocked = False
+		user.is_blocking = False
+	else:
+		is_following = (v and user.has_follower(v))
 
 	if username != user.username: return redirect(f'/@{user.username}/comments')
 
@@ -1028,8 +1042,6 @@ def u_username_comments(username, v=None):
 	ids = ids[:25]
 
 	listing = get_comments(ids, v=v)
-
-	is_following = (v and user.has_follower(v))
 
 	if request.headers.get("Authorization"): return {"data": [c.json for c in listing]}
 	return render_template("userpage_comments.html", u=user, v=v, listing=listing, page=page, sort=sort, t=t,next_exists=next_exists, is_following=is_following, standalone=True)
