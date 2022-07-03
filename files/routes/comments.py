@@ -98,7 +98,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 		)
 
 		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
-			comments = comments.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None)
+			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
 		 
 		comments=comments.filter(
 			Comment.top_comment_id == c.top_comment_id

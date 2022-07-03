@@ -156,7 +156,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		)
 		
 		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
-			comments = comments.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None)
+			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
  
 		comments=comments.filter(Comment.parent_submission == post.id).join(
 			votes,
@@ -198,7 +198,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	else:
 		pinned = g.db.query(Comment).filter(Comment.parent_submission == post.id, Comment.stickied != None).all()
 
-		comments = g.db.query(Comment).join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.parent_submission == post.id, Comment.level == 1, Comment.stickied == None)
+		comments = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.parent_submission == post.id, Comment.level == 1, Comment.stickied == None)
 
 		comments = sort_comments(sort, comments)
 
@@ -277,7 +277,7 @@ def viewmore(v, pid, sort, offset):
 		).filter(Comment.parent_submission == pid, Comment.stickied == None, Comment.id.notin_(ids))
 		
 		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
-			comments = comments.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None)
+			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
  
 		comments=comments.join(
 			votes,
@@ -309,7 +309,7 @@ def viewmore(v, pid, sort, offset):
 		second = [c[0] for c in comments.filter(or_(Comment.slots_result != None, Comment.blackjack_result != None, Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()]
 		comments = first + second
 	else:
-		comments = g.db.query(Comment).join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.parent_submission == pid, Comment.level == 1, Comment.stickied == None, Comment.id.notin_(ids))
+		comments = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.parent_submission == pid, Comment.level == 1, Comment.stickied == None, Comment.id.notin_(ids))
 
 		comments = sort_comments(sort, comments)
 		

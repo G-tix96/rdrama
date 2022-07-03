@@ -20,7 +20,7 @@ def rdrama(id, title):
 @auth_required
 def marseys(v):
 	if SITE_NAME == 'rDrama':
-		marseys = g.db.query(Marsey, User).join(User, User.id==Marsey.author_id)
+		marseys = g.db.query(Marsey, User).join(User)
 		sort = request.values.get("sort", "usage")
 		if sort == "usage": marseys = marseys.order_by(Marsey.count.desc(), User.username)
 		else: marseys = marseys.order_by(User.username, Marsey.count.desc())
@@ -39,7 +39,7 @@ def marsey_list():
 		"tags": emoji.tags.split(" ") + [emoji.name[len("marsey"):] if emoji.name.startswith("marsey") else emoji.name],
 		"count": emoji.count,
 		"class": "Marsey"
-	} for emoji, author in g.db.query(Marsey, User.username).join(User, User.id==Marsey.author_id).order_by(Marsey.count.desc())]
+	} for emoji, author in g.db.query(Marsey, User.username).join(User).order_by(Marsey.count.desc())]
 
 	# Stastic shit
 	shit = open("files/assets/emojis.json", "r", encoding="utf-8")

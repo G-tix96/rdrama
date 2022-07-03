@@ -10,7 +10,7 @@ defaulttimefilter = environ.get("DEFAULT_TIME_FILTER", "all").strip()
 @app.post("/clear")
 @auth_required
 def clear(v):
-	notifs = g.db.query(Notification).join(Comment, Notification.comment_id == Comment.id).filter(Notification.read == False, Notification.user_id == v.id).all()
+	notifs = g.db.query(Notification).join(Notification.comment).filter(Notification.read == False, Notification.user_id == v.id).all()
 	for n in notifs:
 		n.read = True
 		g.db.add(n)
@@ -19,7 +19,7 @@ def clear(v):
 @app.get("/unread")
 @auth_required
 def unread(v):
-	listing = g.db.query(Notification, Comment).join(Comment, Notification.comment_id == Comment.id).filter(
+	listing = g.db.query(Notification, Comment).join(Notification.comment).filter(
 		Notification.read == False,
 		Notification.user_id == v.id,
 		Comment.is_banned == False,
@@ -53,12 +53,12 @@ def notifications(v):
 		if v and (v.shadowbanned or v.admin_level > 2):
 			comments = g.db.query(Comment).filter(Comment.sentto != None, or_(Comment.author_id==v.id, Comment.sentto==v.id), Comment.parent_submission == None, Comment.level == 1).order_by(Comment.id.desc()).offset(25*(page-1)).limit(26).all()
 		else:
-			comments = g.db.query(Comment).join(User, User.id == Comment.author_id).filter(User.shadowbanned == None, Comment.sentto != None, or_(Comment.author_id==v.id, Comment.sentto==v.id), Comment.parent_submission == None, Comment.level == 1).order_by(Comment.id.desc()).offset(25*(page-1)).limit(26).all()
+			comments = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.sentto != None, or_(Comment.author_id==v.id, Comment.sentto==v.id), Comment.parent_submission == None, Comment.level == 1).order_by(Comment.id.desc()).offset(25*(page-1)).limit(26).all()
 
 		next_exists = (len(comments) > 25)
 		listing = comments[:25]
 	elif posts:
-		notifications = g.db.query(Notification, Comment).join(Comment, Notification.comment_id == Comment.id).filter(Notification.user_id == v.id, Comment.author_id == AUTOJANNY_ID).order_by(Notification.created_utc.desc()).offset(25 * (page - 1)).limit(101).all()
+		notifications = g.db.query(Notification, Comment).join(Notification.comment).filter(Notification.user_id == v.id, Comment.author_id == AUTOJANNY_ID).order_by(Notification.created_utc.desc()).offset(25 * (page - 1)).limit(101).all()
 
 		listing = []
 
@@ -75,7 +75,7 @@ def notifications(v):
 		next_exists = (len(notifications) > len(listing))
 	elif modactions:
 		notifications = g.db.query(Notification, Comment) \
-			.join(Comment, Notification.comment_id == Comment.id) \
+			.join(Notification.comment) \
 			.filter(Notification.user_id == v.id, 
 				Comment.body_html.like(f'%<p>{NOTIF_MODACTION_PREFIX}%'),
 				Comment.parent_submission == None, Comment.author_id == NOTIFICATIONS_ID) \
@@ -94,7 +94,7 @@ def notifications(v):
 
 		next_exists = (len(notifications) > len(listing))
 	elif reddit:
-		notifications = g.db.query(Notification, Comment).join(Comment, Notification.comment_id == Comment.id).filter(Notification.user_id == v.id, Comment.body_html.like('%<p>New site mention: <a href="https://old.reddit.com/r/%'), Comment.parent_submission == None, Comment.author_id == NOTIFICATIONS_ID).order_by(Notification.created_utc.desc()).offset(25 * (page - 1)).limit(101).all()
+		notifications = g.db.query(Notification, Comment).join(Notification.comment).filter(Notification.user_id == v.id, Comment.body_html.like('%<p>New site mention: <a href="https://old.reddit.com/r/%'), Comment.parent_submission == None, Comment.author_id == NOTIFICATIONS_ID).order_by(Notification.created_utc.desc()).offset(25 * (page - 1)).limit(101).all()
 
 		listing = []
 
@@ -110,7 +110,7 @@ def notifications(v):
 
 		next_exists = (len(notifications) > len(listing))
 	else:		
-		comments = g.db.query(Comment, Notification).join(Notification, Notification.comment_id == Comment.id).filter(
+		comments = g.db.query(Comment, Notification).join(Notification.comment).filter(
 			Notification.user_id == v.id,
 			Comment.is_banned == False,
 			Comment.deleted_utc == 0,
@@ -120,7 +120,7 @@ def notifications(v):
 		).order_by(Notification.created_utc.desc())
 
 		if not (v and (v.shadowbanned or v.admin_level > 2)):
-			comments = comments.join(User, User.id == Comment.author_id).filter(User.shadowbanned == None)
+			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
 
 		comments = comments.offset(25 * (page - 1)).limit(26).all()
 
@@ -290,7 +290,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 			posts=posts.filter(not_(Submission.title.ilike(f'%{word}%')))
 
 	if not (v and v.shadowbanned):
-		posts = posts.join(User, User.id == Submission.author_id).filter(User.shadowbanned == None)
+		posts = posts.join(Submission.author).filter(User.shadowbanned == None)
 
 	if request.host == 'rdrama.net': num = 5
 	else: num = 0.5

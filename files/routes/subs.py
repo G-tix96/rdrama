@@ -155,7 +155,7 @@ def mods(v, sub):
 	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
 
-	users = g.db.query(User, Mod).join(Mod, Mod.user_id==User.id).filter_by(sub=sub.name).order_by(Mod.created_utc).all()
+	users = g.db.query(User, Mod).join(Mod).filter_by(sub=sub.name).order_by(Mod.created_utc).all()
 
 	return render_template("sub/mods.html", v=v, sub=sub, users=users)
 
@@ -166,7 +166,7 @@ def sub_exilees(v, sub):
 	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
 
-	users = g.db.query(User, Exile).join(Exile, Exile.user_id==User.id).filter_by(sub=sub.name).all()
+	users = g.db.query(User, Exile).join(Exile).filter_by(sub=sub.name).all()
 
 	return render_template("sub/exilees.html", v=v, sub=sub, users=users)
 
@@ -177,7 +177,7 @@ def sub_blockers(v, sub):
 	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
 
-	users = g.db.query(User).join(SubBlock, SubBlock.user_id==User.id).filter_by(sub=sub.name).all()
+	users = g.db.query(User).join(SubBlock).filter_by(sub=sub.name).all()
 
 	return render_template("sub/blockers.html", 
 		v=v, sub=sub, users=users, verb="blocking")
@@ -189,7 +189,7 @@ def sub_followers(v, sub):
 	if not sub: abort(404)
 
 	users = g.db.query(User) \
-			.join(SubSubscription, SubSubscription.user_id==User.id) \
+			.join(SubSubscription) \
 			.filter_by(sub=sub.name).all()
 
 	return render_template("sub/blockers.html", 
