@@ -273,7 +273,7 @@ class User(Base):
 		return len(self.referrals)
 
 	@lazy
-	def is_blocking(self, target):
+	def has_blocked(self, target):
 		return g.db.query(UserBlock).filter_by(user_id=self.id, target_id=target.id).one_or_none()
 
 	@property

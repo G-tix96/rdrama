@@ -629,9 +629,10 @@ def reportbugs(v):
 @limiter.limit("1/second;10/minute;20/hour;50/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @is_not_permabanned
 def message2(v, username):
-
 	user = get_user(username, v=v)
-	if hasattr(user, 'is_blocking') and user.is_blocking: return {"error": "You're blocking this user."}, 403
+
+	if hasattr(user, 'is_blocking') and user.is_blocking:
+		return {"error": "You're blocking this user."}, 403
 
 	if v.admin_level <= 1 and hasattr(user, 'is_blocked') and user.is_blocked:
 		return {"error": "This user is blocking you."}, 403
