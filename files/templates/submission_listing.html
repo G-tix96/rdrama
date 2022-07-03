@@ -396,9 +396,9 @@
 				<i class="fas fa-square text-gray-500 opacity-25 fa-stack-2x"></i>
 				<i class="fas text-gray-500 fa-ghost fa-stack-1x text-lg"></i>
 			</span>
-			<h2 class="h5">You haven't {% if "saved" in request.full_path %}saved{% else %}made{% endif %} a post yet</h2>
-			<p class="text-muted mb-md-5">Your {% if "saved" in request.full_path %}saved posts{% else %}posting history{% endif %} will show here.</p>
-			{% if "saved" not in request.full_path %}<a href="{% if sub %}/h/{{sub.name}}{% endif %}/submit" class="btn btn-primary">Create a post</a>{% endif %}
+			<h2 class="h5">You haven't {% if "/saved/" in request.path %}saved{% elif "/subscribed/" in request.path %}subscribed to{% else %}made{% endif %} a post yet</h2>
+			<p class="text-muted mb-md-5">Your {% if "/saved/" in request.path %}saved posts{% elif "/subscribed/" in request.path %}subscribed posts{% else %}posting history{% endif %} will show here.</p>
+			{% if "/saved/" not in request.path and "/subscribed/" not in request.path %}<a href="/submit" class="btn btn-primary">Create a post</a>{% endif %}
 		</div>			
 	</div>	
 </div>

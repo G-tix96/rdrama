@@ -697,10 +697,6 @@ class User(Base):
 			return "never"
 		return str(time.strftime("%Y-%m-%d %H:%M:%SZ", time.gmtime(self.last_active)))
 
-	@lazy
-	def subscribed_idlist(self, page=1):
-		posts = g.db.query(Subscription.submission_id).filter_by(user_id=self.id).all()
-		return [x[0] for x in posts]
 
 	@property
 	@lazy
@@ -709,41 +705,34 @@ class User(Base):
 
 	@lazy
 	def saved_idlist(self, page=1):
-
-		saved = [x[0] for x in g.db.query(SaveRelationship.submission_id).filter_by(user_id=self.id).all()]
-
-		if not saved: return []
-
-		posts = g.db.query(Submission.id).filter(Submission.id.in_(saved), Submission.is_banned == False, Submission.deleted_utc == 0)
-
-		if self.admin_level < 2:
-			posts = posts.filter(Submission.author_id.notin_(self.userblocks))
-
-		return [x[0] for x in posts.order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).all()]
+		posts = g.db.query(SaveRelationship.submission_id).filter_by(user_id=self.id).offset(25 * (page - 1)).all()
+		return [x[0] for x in posts]
 
 	@lazy
 	def saved_comment_idlist(self, page=1):
+		comments = g.db.query(CommentSaveRelationship.comment_id).filter_by(user_id=self.id).offset(25 * (page - 1)).all()
+		return [x[0] for x in comments]
 
-		saved = [x[0] for x in g.db.query(CommentSaveRelationship.comment_id).filter_by(user_id=self.id).all()]
+	@lazy
+	def subscribed_idlist(self, page=1):
+		posts = g.db.query(Subscription.submission_id).filter_by(user_id=self.id)
+		return [x[0] for x in posts]
 
-		if not saved: return []
-
-		comments = g.db.query(Comment.id).filter(Comment.id.in_(saved), Comment.is_banned == False, Comment.deleted_utc == 0)
-
-		if self.admin_level < 2:
-			comments = comments.filter(Comment.author_id.notin_(self.userblocks))
-
-		return [x[0] for x in comments.order_by(Comment.id.desc()).offset(25 * (page - 1)).all()]
 
 	@property
 	@lazy
 	def saved_count(self):
-		return len(self.saved_idlist())
+		return g.db.query(SaveRelationship).filter_by(user_id=self.id).count()
 
 	@property
 	@lazy
 	def saved_comment_count(self):
-		return len(self.saved_comment_idlist())
+		return g.db.query(CommentSaveRelationship).filter_by(user_id=self.id).count()
+
+	@property
+	@lazy
+	def subscribed_count(self):
+		return g.db.query(Subscription).filter_by(user_id=self.id).count()
 
 	@property
 	@lazy

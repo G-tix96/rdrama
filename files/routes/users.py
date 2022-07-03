@@ -1208,6 +1208,30 @@ def saved_comments(v, username):
 											next_exists=next_exists,
 											standalone=True)
 
+@app.get("/@<username>/subscribed/posts")
+@auth_required
+def subscribed_posts(v, username):
+
+	page=int(request.values.get("page",1))
+
+	ids=v.subscribed_idlist(page=page)
+
+	next_exists=len(ids)>25
+
+	ids=ids[:25]
+
+	listing = get_posts(ids, v=v)
+
+	if request.headers.get("Authorization"): return {"data": [x.json for x in listing]}
+	return render_template("userpage.html",
+											u=v,
+											v=v,
+											listing=listing,
+											page=page,
+											next_exists=next_exists,
+											)
+
+
 
 @app.post("/fp/<fp>")
 @auth_required
