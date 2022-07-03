@@ -124,10 +124,10 @@
 
 					<a href="/@{{u.username}}/following" id="profile--following">follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a>&nbsp;&nbsp;
 
-					<span id="profile--joined">joined <span data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--joined','{{u.created_utc}}')">{{u.created_date}}</span></span>
+					<span id="profile--joined">joined <span id="profile--joined--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--joined--time','{{u.created_utc}}')">{{u.created_date}}</span></span>
 
 					{% if v and v.admin_level >= 2 -%}
-						<span id="profile--lastactive" class="ml-2">last active <span data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--lastactive','{{u.last_active}}')">{{u.last_active_date}}</span></span>
+						<span id="profile--lastactive" class="ml-2">last active <span id="profile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--lastactive--time','{{u.last_active}}')">{{u.last_active_date}}</span></span>
 					{%- endif %}
 				</div>
 				{% if u.basedcount %}<p class="text-muted" id="profile--based">Based Count: {{u.basedcount}}</p>{% endif %}
@@ -432,10 +432,10 @@
 						<br><span id="profile--based">Based count: {{u.basedcount}}</span>
 					{% endif %}
 
-					<br><span id="profile--joined2">joined <span data-bs-toggle="tooltip" data-bs-placement="bottom"  onmouseover="timestamp('profile--joined2','{{u.created_utc}}')" class="font-weight-bold">{{u.created_date}}</span></span>
+					<br><span id="profile--joined2">joined <span id="profile--joined--time2" data-bs-toggle="tooltip" data-bs-placement="bottom"  onmouseover="timestamp('profile--joined--time2','{{u.created_utc}}')" class="font-weight-bold">{{u.created_date}}</span></span>
 
 					{% if v and v.admin_level >= 2 -%}
-						<br><span id="profile--lastactive2">last active <span data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--lastactive2','{{u.last_active}}')" class="font-weight-bold">{{u.last_active_date}}</span></span>
+						<br><span id="profile--lastactive2">last active <span id="profile--lastactive--time2" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--lastactive--time2','{{u.last_active}}')" class="font-weight-bold">{{u.last_active_date}}</span></span>
 					{%- endif %}
 				</div>
 				{% if u.bio_html %}
