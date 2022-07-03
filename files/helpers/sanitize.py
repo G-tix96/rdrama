@@ -399,10 +399,6 @@ def filter_emojis_only(title, edit=False, graceful=False):
 	else: return title.replace('\n','').strip()
 
 def normalize_url(url):
-	if '\\' in url:
-		print(url, flush=True)
-		abort(403)
-
 	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/r/', url)
 
 	url = url.replace("https://youtu.be/", "https://youtube.com/watch?v=") \
