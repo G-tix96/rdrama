@@ -50,19 +50,16 @@
 			<thead class="thead-dark">
 				<tr>
 					<th scope="col">User</th>
-					<th scope="col">Blocked since</th>
-					<th scope="col"></th>
+					<th scope="col">Unblock</th>
 				</tr>
 			</thead>
 			<tbody class="text-muted">
 				{% for block in v.blocking %}
-				<tr>
-					<td>
-						<a href="{{block.target.permalink}}">
-							<img loading="lazy" src="{{block.target.profile_url}}" class="pp20 align-top mr-2">@{{block.target.username}}</a>
-					</td>
-
-					<td>{{block.created_date}}</td>
+					<tr>
+						<td>
+							<a href="{{block.target.permalink}}">
+								<img loading="lazy" src="{{block.target.profile_url}}" class="pp20 align-top mr-2">@{{block.target.username}}</a>
+						</td>
 
 						<td>
 							<div class="dropdown float-right dropdown-actions">
@@ -75,9 +72,9 @@
 							</div>
 						</td>
 					</tr>
-					{% else %}
+				{% else %}
 					<td>There are no blocked users</td>
-					{% endfor %}
+				{% endfor %}
 				</tbody>
 			</table>
 		</div>

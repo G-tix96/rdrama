@@ -24,16 +24,6 @@ class Flag(Base):
 	def __repr__(self):
 		return f"<Flag(user_id={self.user_id}, post_id={self.post_id})>"
 
-	@property
-	@lazy
-	def created_date(self):
-		return time.strftime("%d %B %Y", time.gmtime(self.created_utc))
-
-	@property
-	@lazy
-	def created_datetime(self):
-		return str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc)))
-
 	@lazy
 	def realreason(self, v):
 		return censor_slurs(self.reason, v)
@@ -56,16 +46,6 @@ class CommentFlag(Base):
 
 	def __repr__(self):
 		return f"<CommentFlag(user_id={self.user_id}, comment_id={self.comment_id})>"
-
-	@property
-	@lazy
-	def created_date(self):
-		return time.strftime("%d %B %Y", time.gmtime(self.created_utc))
-
-	@property
-	@lazy
-	def created_datetime(self):
-		return str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc)))
 
 	@lazy
 	def realreason(self, v):

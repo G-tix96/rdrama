@@ -37,7 +37,7 @@
 					</a>
 				</td>
 				<td>{{vote.user.truecoins}}</td>
-				<td>{{vote.created_datetime}}</td>
+				<td data-time="{{vote.created_utc}}"></td>
 			</tr>
 		{% endfor %}
 	</table>

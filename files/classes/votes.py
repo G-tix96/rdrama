@@ -44,11 +44,6 @@ class Vote(Base):
 	
 		return data
 
-	@property
-	def created_datetime(self):
-		return str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc)))
-
-
 class CommentVote(Base):
 
 	__tablename__ = "commentvotes"
@@ -87,7 +82,3 @@ class CommentVote(Base):
 		data["comment"]=self.comment.json_core
 	
 		return data
-
-	@property
-	def created_datetime(self):
-		return str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc)))

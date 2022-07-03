@@ -27,16 +27,6 @@ class OauthApp(Base):
 
 	@property
 	@lazy
-	def created_date(self):
-		return time.strftime("%d %B %Y", time.gmtime(self.created_utc))
-
-	@property
-	@lazy
-	def created_datetime(self):
-		return str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc)))
-
-	@property
-	@lazy
 	def permalink(self):
 		return f"/admin/app/{self.id}"
 
@@ -77,13 +67,3 @@ class ClientAuth(Base):
 
 	def __repr__(self):
 		return f"<ClientAuth(user_id={self.user_id}, oauth_client={self.oauth_client})>"
-
-	@property
-	@lazy
-	def created_date(self):
-		return time.strftime("%d %B %Y", time.gmtime(self.created_utc))
-
-	@property
-	@lazy
-	def created_datetime(self):
-		return str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc)))

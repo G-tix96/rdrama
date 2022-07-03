@@ -17,8 +17,3 @@ class Mod(Base):
 
 	def __repr__(self):
 		return f"<Mod(user_id={self.user_id}, sub={self.sub})>"
-
-	@property
-	@lazy
-	def created_datetime(self):
-		return str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc)))

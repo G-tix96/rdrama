@@ -685,18 +685,6 @@ class User(Base):
 	def applications(self):
 		return g.db.query(OauthApp).filter_by(author_id=self.id).order_by(OauthApp.id).all()
 
-	@property
-	@lazy
-	def created_datetime(self):
-		return str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc)))
-
-	@property
-	@lazy
-	def last_active_datetime(self):
-		if self.last_active == 0:
-			return "never"
-		return str(time.strftime("%Y-%m-%d %H:%M:%SZ", time.gmtime(self.last_active)))
-
 
 	@property
 	@lazy

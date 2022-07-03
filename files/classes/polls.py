@@ -48,11 +48,6 @@ class SubmissionOptionVote(Base):
 	def __repr__(self):
 		return f"<SubmissionOptionVote(option_id={self.option_id}, user_id={self.user_id})>"
 
-	@property
-	def created_datetime(self):
-		return str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc)))
-
-
 
 class CommentOption(Base):
 
@@ -97,7 +92,3 @@ class CommentOptionVote(Base):
 
 	def __repr__(self):
 		return f"<CommentOptionVote(option_id={self.option_id}, user_id={self.user_id})>"
-
-	@property
-	def created_datetime(self):
-		return str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc)))

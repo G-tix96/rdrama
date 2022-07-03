@@ -104,11 +104,6 @@ class Submission(Base):
 
 	@property
 	@lazy
-	def created_datetime(self):
-		return str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc)))
-
-	@property
-	@lazy
 	def age_string(self):
 
 		age = int(time.time()) - self.created_utc
@@ -167,12 +162,6 @@ class Submission(Base):
 		else:
 			years = int(months / 12)
 			return f"{years}yr ago"
-
-
-	@property
-	@lazy
-	def edited_datetime(self):
-		return str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.edited_utc)))
 
 
 	@property
