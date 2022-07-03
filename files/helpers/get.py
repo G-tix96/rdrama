@@ -57,7 +57,7 @@ def get_user(username, v=None, graceful=False, rendered=False):
 		if not graceful: abort(404)
 		else: return None
 
-	if rendered v and v.id != user.id:
+	if rendered and v and v.id != user.id:
 		block = g.db.query(UserBlock).filter(
 			or_(
 				and_(
