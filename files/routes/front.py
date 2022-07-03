@@ -325,7 +325,6 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 						pin.stickied = None
 						pin.stickied_utc = None
 						g.db.add(pin)
-						pins.remove(pin)
 
 
 		if v: pins = pins.filter(Submission.author_id.notin_(v.userblocks))
