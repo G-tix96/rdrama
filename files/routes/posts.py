@@ -206,30 +206,19 @@ def post_id(pid, anything=None, v=None, sub=None):
 		second = comments.filter(or_(Comment.slots_result != None, Comment.blackjack_result != None, Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()
 		comments = first + second
 
-	offset = 0
-	ids = set()
-
 	if v and v.poorcel: threshold = 50
 	else: threshold = 100
 
-	if post.comment_count > 60 and not request.headers.get("Authorization") and not request.values.get("all"):
+	post.rest = []
+	if post.comment_count > threshold+25 and not request.headers.get("Authorization"):
 		comments2 = []
 		count = 0
-		if post.created_utc > 1638672040:
-			for comment in comments:
-				comments2.append(comment)
-				ids.add(comment.id)
-				count += g.db.query(Comment).filter_by(parent_submission=post.id, top_comment_id=comment.id).count() + 1
-				if count > 50: break
-		else:
-			for comment in comments:
-				comments2.append(comment)
-				ids.add(comment.id)
-				count += g.db.query(Comment).filter_by(parent_submission=post.id, parent_comment_id=comment.id).count() + 1
-				if count > 20: break
+		for comment in comments:
+			comments2.append(comment)
+			count += g.db.query(Comment).filter_by(parent_submission=post.id, top_comment_id=comment.id).count() + 1
+			if count > threshold: break
 
-		if len(comments) == len(comments2): offset = 0
-		else: offset = 1
+		post.rest = [i for i in comments if i not in comments2]
 		comments = comments2
 
 	for pin in pinned:
@@ -247,97 +236,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	else:
 		if post.is_banned and not (v and (v.admin_level > 1 or post.author_id == v.id)): template = "submission_banned.html"
 		else: template = "submission.html"
-		return render_template(template, v=v, p=post, ids=list(ids), sort=sort, render_replies=True, offset=offset, sub=post.subr, fart=app.config['SETTINGS']['Fart mode'])
-
-@app.get("/viewmore/<pid>/<sort>/<offset>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
-@auth_desired
-def viewmore(v, pid, sort, offset):
-	try: pid = int(pid)
-	except: abort(400)
-	post = get_post(pid, v=v)
-	if post.club and not (v and (v.paid_dues or v.id == post.author_id)): abort(403)
-
-	offset = int(offset)
-	try: ids = set(int(x) for x in request.values.get("ids").split(','))
-	except: abort(400)
-	
-	if v:
-		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
-
-		blocking = v.blocking.subquery()
-
-		blocked = v.blocked.subquery()
-
-		comments = g.db.query(
-			Comment,
-			votes.c.vote_type,
-			blocking.c.target_id,
-			blocked.c.target_id,
-		).filter(Comment.parent_submission == pid, Comment.stickied == None, Comment.id.notin_(ids))
-		
-		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
-			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
- 
-		comments=comments.join(
-			votes,
-			votes.c.comment_id == Comment.id,
-			isouter=True
-		).join(
-			blocking,
-			blocking.c.target_id == Comment.author_id,
-			isouter=True
-		).join(
-			blocked,
-			blocked.c.user_id == Comment.author_id,
-			isouter=True
-		)
-
-		output = []
-		for c in comments.all():
-			comment = c[0]
-			comment.voted = c[1] or 0
-			comment.is_blocking = c[2] or 0
-			comment.is_blocked = c[3] or 0
-			output.append(comment)
-		
-		comments = comments.filter(Comment.level == 1)
-
-		comments = sort_comments(sort, comments)
-
-		first = [c[0] for c in comments.filter(or_(and_(Comment.slots_result == None, Comment.blackjack_result == None, Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()]
-		second = [c[0] for c in comments.filter(or_(Comment.slots_result != None, Comment.blackjack_result != None, Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()]
-		comments = first + second
-	else:
-		comments = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.parent_submission == pid, Comment.level == 1, Comment.stickied == None, Comment.id.notin_(ids))
-
-		comments = sort_comments(sort, comments)
-		
-		first = comments.filter(or_(and_(Comment.slots_result == None, Comment.blackjack_result == None, Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()
-		second = comments.filter(or_(Comment.slots_result != None, Comment.blackjack_result != None, Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()
-		comments = first + second
-		comments = comments[offset:]
-
-	comments2 = []
-	count = 0
-	if post.created_utc > 1638672040:
-		for comment in comments:
-			comments2.append(comment)
-			ids.add(comment.id)
-			count += g.db.query(Comment).filter_by(parent_submission=post.id, top_comment_id=comment.id).count() + 1
-			if count > 100: break
-	else:
-		for comment in comments:
-			comments2.append(comment)
-			ids.add(comment.id)
-			count += g.db.query(Comment).filter_by(parent_submission=post.id, parent_comment_id=comment.id).count() + 1
-			if count > 20: break
-	
-	if len(comments) == len(comments2): offset = 0
-	else: offset += 1
-	comments = comments2
-
-	return render_template("comments.html", v=v, comments=comments, p=post, ids=list(ids), render_replies=True, pid=pid, sort=sort, offset=offset, ajax=True)
+		return render_template(template, v=v, p=post, sort=sort, render_replies=True, sub=post.subr, fart=app.config['SETTINGS']['Fart mode'])
 
 
 @app.get("/morecomments/<cid>")
