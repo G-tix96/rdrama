@@ -295,7 +295,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	if request.host == 'rdrama.net': num = 5
 	else: num = 0.5
 
-	if sort == "hot":
+	if sort in ("hot","warm"):
 		ti = int(time.time()) + 3600
 		posts = posts.order_by(-1000000*(Submission.realupvotes + 1 + Submission.comment_count/num)/(func.power(((ti - Submission.created_utc)/1000), 1.23)), Submission.created_utc.desc())
 	elif sort == "bump":
