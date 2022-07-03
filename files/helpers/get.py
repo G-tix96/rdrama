@@ -151,7 +151,7 @@ def get_post(i, v=None, graceful=False, rendered=False, entered=False):
 				joinedload(Submission.options).joinedload(SubmissionOption.votes)
 			)
 
-		if entered:
+		if v and entered:
 			post = post.options(joinedload(Submission.comments))
 
 		post=post.one_or_none()
