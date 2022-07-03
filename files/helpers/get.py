@@ -113,7 +113,7 @@ def get_account(id, v=None):
 	return user
 
 
-def get_post(i, v=None, graceful=False, rendered=False):
+def get_post(i, v=None, graceful=False, rendered=False, entered=False):
 
 	try: i = int(i)
 	except: abort(404)
@@ -144,12 +144,15 @@ def get_post(i, v=None, graceful=False, rendered=False):
 		)
 
 		if rendered:
-			posts = post.options(
+			post = post.options(
 				joinedload(Submission.flags),
 				joinedload(Submission.awards),
 				joinedload(Submission.author),
 				joinedload(Submission.options).joinedload(SubmissionOption.votes)
 			)
+
+		if entered:
+			post = post.options(joinedload(Submission.comments))
 
 		post=post.one_or_none()
 		
