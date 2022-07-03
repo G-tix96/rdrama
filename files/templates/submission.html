@@ -1183,7 +1183,18 @@
 
 
 {% if p.rest %}
-	<button class="mt-4 mb-3 btn btn-primary" onclick="document.getElementById('rest').classList.toggle('d-none')">
+	<script>
+		function viewmore(btn) {
+			btn.disabled = true
+			btn.classList.add('disabled');
+			document.getElementById('rest').classList.toggle('d-none')
+			setTimeout(() => {
+				btn.disabled = false;
+				btn.classList.remove('disabled');
+			}, 1000);
+		}
+	</script>
+	<button class="mt-4 mb-3 btn btn-primary" onclick="viewmore(this)">
 		VIEW MORE COMMENTS
 	</button>
 
