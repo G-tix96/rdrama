@@ -854,20 +854,20 @@
 	{% endif %}
 
 	{% if v %}
-		<script src="{{asset('js/marked.js')}}"></script>
-		<script src="/assets/js/comments_v.js?v=281"></script>
+		<script defer src="{{asset('js/marked.js')}}"></script>
+		<script defer src="/assets/js/comments_v.js?v=281"></script>
 	{% endif %}
 
-	<script src="/assets/js/clipboard.js?v=250"></script>
+	<script defer src="/assets/js/clipboard.js?v=250"></script>
 
 	{% if v and v.admin_level > 1 %}
-		<script src="/assets/js/comments_admin.js?v=251"></script>
+		<script defer src="/assets/js/comments_admin.js?v=251"></script>
 	{% endif %}
 
 	{% include "expanded_image_modal.html" %}
 
-	<script src="{{asset('js/comments+submission_listing.js')}}"></script>
-	<script src="/assets/js/comments.js?v=259"></script>
+	<script defer src="{{asset('js/comments+submission_listing.js')}}"></script>
+	<script defer src="/assets/js/comments.js?v=259"></script>
 
 	<script>
 		{% if p and (not v or v.highlightcomments) %}

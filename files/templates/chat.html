@@ -109,7 +109,7 @@
 </head>
 
 <body>
-	<script src="{{asset('js/bootstrap.js')}}"></script>
+	<script defer src="{{asset('js/bootstrap.js')}}"></script>
 
 	{% include "header.html" %}
 	
@@ -196,12 +196,12 @@
 <input id="site_name" type="hidden" value="{{SITE_NAME}}">
 <input id="slurreplacer" type="hidden" value="{{v.slurreplacer}}">
 
-<script src="/chat.js?v=23"></script>
+<script defer src="/chat.js?v=23"></script>
 
 {% include "emoji_modal.html" %}
 {% include "expanded_image_modal.html" %}
 
-<script src="{{asset('js/lozad.js')}}"></script>
-<script src="/assets/js/lite-youtube.js?v=241"></script>
+<script defer src="{{asset('js/lozad.js')}}"></script>
+<script defer src="/assets/js/lite-youtube.js?v=241"></script>
 
 </body>
