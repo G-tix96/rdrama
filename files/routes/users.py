@@ -876,8 +876,6 @@ def u_username(username, v=None):
 
 	if v and username == v.username:
 		is_following = False
-		u.is_blocked = False
-		u.is_blocking = False
 	else:
 		is_following = (v and u.has_follower(v))
 
@@ -974,8 +972,6 @@ def u_username_comments(username, v=None):
 
 	if v and username == v.username:
 		is_following = False
-		user.is_blocked = False
-		user.is_blocking = False
 	else:
 		is_following = (v and user.has_follower(v))
 

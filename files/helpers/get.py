@@ -57,21 +57,26 @@ def get_user(username, v=None, graceful=False, rendered=False):
 		if not graceful: abort(404)
 		else: return None
 
-	if rendered and v and v.id != user.id:
-		block = g.db.query(UserBlock).filter(
-			or_(
-				and_(
-					UserBlock.user_id == v.id,
-					UserBlock.target_id == user.id
-				),
-				and_(UserBlock.user_id == user.id,
-					 UserBlock.target_id == v.id
-					 )
-			)
-		).first()
+	if rendered and v:
+		if v.id == user.id:
+			user.is_blocked = False
+			user.is_blocking = False
+		else:
+			block = g.db.query(UserBlock).filter(
+				or_(
+					and_(
+						UserBlock.user_id == v.id,
+						UserBlock.target_id == user.id
+					),
+					and_(UserBlock.user_id == user.id,
+						UserBlock.target_id == v.id
+						)
+				)
+			).first()
 
-		user.is_blocking = block and block.user_id == v.id
-		user.is_blocked = block and block.target_id == v.id
+			user.is_blocking = block and block.user_id == v.id
+			user.is_blocked = block and block.target_id == v.id
+
 
 	return user
 
