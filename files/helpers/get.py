@@ -147,7 +147,7 @@ def get_post(i, v=None, graceful=False, rendered=False):
 			posts = post.options(
 				joinedload(Submission.flags),
 				joinedload(Submission.awards),
-				joinedload(Submission.author).joinedload(User.badges),
+				joinedload(Submission.author),
 				joinedload(Submission.options).joinedload(SubmissionOption.votes)
 			)
 
@@ -203,7 +203,7 @@ def get_posts(pids, v=None):
 			isouter=True
 		).options(joinedload(Submission.flags),
 			joinedload(Submission.awards),
-			joinedload(Submission.author).joinedload(User.badges),
+			joinedload(Submission.author),
 			joinedload(Submission.options).joinedload(SubmissionOption.votes)
 		).all()
 

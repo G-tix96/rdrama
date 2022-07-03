@@ -174,7 +174,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 			joinedload(Comment.child_comments),
 			joinedload(Comment.flags),
 			joinedload(Comment.awards),
-			joinedload(Comment.author).joinedload(User.badges),
+			joinedload(Comment.author),
 			joinedload(Comment.options).joinedload(CommentOption.votes)
 		)
 
