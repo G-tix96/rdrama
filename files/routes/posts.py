@@ -158,7 +158,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
 			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
  
-		comments=comments.filter(Comment.parent_submission == post.id).join(
+		comments=comments.filter(Comment.parent_submission == post.id, Comment.level < 9).join(
 			votes,
 			votes.c.comment_id == Comment.id,
 			isouter=True
