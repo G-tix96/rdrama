@@ -147,9 +147,8 @@ def get_post(i, v=None, graceful=False, rendered=False):
 			posts = post.options(
 				joinedload(Submission.flags),
 				joinedload(Submission.awards),
-				joinedload(Submission.author),
-				joinedload(Submission.options),
-				joinedload(Submission.options, SubmissionOption.votes)
+				joinedload(Submission.author).joinedload(User.badges),
+				joinedload(Submission.options).joinedload(SubmissionOption.votes)
 			)
 
 		post=post.one_or_none()
@@ -204,9 +203,8 @@ def get_posts(pids, v=None):
 			isouter=True
 		).options(joinedload(Submission.flags),
 			joinedload(Submission.awards),
-			joinedload(Submission.author),
-			joinedload(Submission.options),
-			joinedload(Submission.options, SubmissionOption.votes)
+			joinedload(Submission.author).joinedload(User.badges),
+			joinedload(Submission.options).joinedload(SubmissionOption.votes)
 		).all()
 
 		output = [p[0] for p in query]
