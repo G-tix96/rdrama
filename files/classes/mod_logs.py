@@ -61,11 +61,6 @@ class ModAction(Base):
 			return f"{years}yr ago"
 
 	@property
-	@lazy
-	def created_string(self):
-		return time.strftime('%d %b %Y %H:%M:%S UTC', time.gmtime(self.created_utc))
-
-	@property
 	def note(self):
 
 		if self.kind=="ban_user":
