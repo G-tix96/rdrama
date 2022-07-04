@@ -1,4 +1,4 @@
-<div class="col sidebar text-left {% if request.path != '/sidebar' %}d-none d-lg-block{% endif %} pt-3 pb-5 bg-white" id="sidebar-content">
+<div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3 pb-5 bg-white" id="sidebar-content">
 
 	{% if sub %}
 		{% set image=sub.sidebar_url %}
