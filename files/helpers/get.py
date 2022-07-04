@@ -47,7 +47,8 @@ def get_user(username, v=None, graceful=False, rendered=False):
 			undefer('profilecss'),
 			undefer('bio'),
 			undefer('friends_html'),
-			undefer('enemies_html')
+			undefer('enemies_html'),
+			joinedload(User.badges)
 		)
 
 	user = user.one_or_none()
