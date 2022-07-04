@@ -19,21 +19,21 @@ def searchparse(text):
 	text = text.lower()
 
 	criteria = {x[0]:x[1] for x in query_regex.findall(text)}
-
 	for x in criteria:
 		if x in valid_params:
 			text = text.replace(f"{x}:{criteria[x]}", "")
 
-	text=text.strip()
-
+	text = text.strip()
+	re_search_token = re.compile('"([^"]*)"|(\S+)')
 	if text:
-		criteria['q']=text
+		criteria['q'] = []
+		for m in re_search_token.finditer(text):
+			token = m[1] if m[1] else m[2]
+			# Escape SQL pattern matching special characters
+			token = token.replace('\\', '').replace('_', '\_').replace('%', '\%')
+			criteria['q'].append(token)
 
 	return criteria
-
-
-
-
 
 @app.get("/search/posts")
 @auth_required
@@ -50,15 +50,6 @@ def searchposts(v):
 
 
 
-
-
-
-
-
-
-
-
-
 	posts = g.db.query(Submission.id).filter(Submission.author_id.notin_(v.userblocks))
 	
 	if not v.paid_dues: posts = posts.filter_by(club=False)
@@ -66,7 +57,7 @@ def searchposts(v):
 	if v.admin_level < 2:
 		posts = posts.filter(Submission.deleted_utc == 0, Submission.is_banned == False, Submission.private == False)
 
-	
+
 
 	if 'author' in criteria:
 		posts = posts.filter(Submission.ghost == False)
@@ -91,9 +82,8 @@ def searchposts(v):
 		else: posts = posts.filter(Submission.author_id == author.id)
 
 	if 'q' in criteria:
-		words=criteria['q'].split()
-		words = criteria['q'].replace('\\', '').replace('_', '\_').replace('%', '\%').strip().split()
-		words = [or_(Submission.title.ilike('%'+x+'%'), Submission.body.ilike('%'+x+'%')) for x in words]
+		words = [or_(Submission.title.ilike('%'+x+'%'), Submission.body.ilike('%'+x+'%')) \
+					for x in criteria['q']]
 		posts = posts.filter(*words)
 		
 	if 'over18' in criteria: posts = posts.filter(Submission.over_18==True)
@@ -206,9 +196,7 @@ def searchcomments(v):
 		else: comments = comments.filter(Comment.author_id == author.id)
 
 	if 'q' in criteria:
-		words = criteria['q'].replace('\\', '').replace('_', '\_').replace('%', '\%').strip().split()
-
-		words = [Comment.body.ilike('%'+x+'%') for x in words]
+		words = [Comment.body.ilike('%'+x+'%') for x in criteria['q']]
 		comments = comments.filter(*words)
 
 	if 'over18' in criteria: comments = comments.filter(Comment.over_18 == True)
