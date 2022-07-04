@@ -315,56 +315,6 @@ def kick(v, pid):
 
 	return {"message": "Post kicked successfully!"}
 
-@app.post("/rehole/<pid>", defaults={'hole': ''})
-@app.post("/rehole/<pid>/<hole>")
-@admin_level_required(2)
-def rehole_post(v, pid, hole):
-	post = get_post(pid)
-
-	sub_from = post.sub
-	sub_to = hole.strip().lower()
-	sub_to = g.db.query(Sub).filter_by(name=sub_to).one_or_none()
-	sub_to = sub_to.name if sub_to else None
-
-	if sub_from == sub_to:
-		abort(400)
-	post.sub = sub_to
-	g.db.add(post)
-
-	sub_from_str = 'frontpage' if sub_from is None else \
-		f'<a href="/h/{sub_from}">/h/{sub_from}</a>'
-	sub_to_str = 'frontpage' if sub_to is None else \
-		f'<a href="/h/{sub_to}">/h/{sub_to}</a>'
-	ma = ModAction(
-		kind='move_hole',
-		user_id=v.id,
-		target_submission_id=post.id,
-		_note=f'{sub_from_str} → {sub_to_str}',
-	)
-	g.db.add(ma)
-
-	on_post_hole_entered(post, v)
-
-	return {"message": f"Post moved to {sub_to_str}!"}
-
-def on_post_hole_entered(post, v=None):
-	if not post.sub or not post.subr:
-		return
-	hole = post.subr.name
-	author = post.author
-
-	# Notify hole followers
-	if not post.ghost and not post.private and not author.shadowbanned:
-		text = f"<a href='/h/{hole}'>/h/{hole}</a> has a new " \
-			 + f"post: [{post.title}]({post.shortlink}) by @{author.username}"
-		cid = notif_comment(text, autojanny=True)
-		for follow in post.subr.followers:
-			if follow.user_id == author.id or (v and follow.user_id == v.id):
-				continue
-			user = get_account(follow.user_id)
-			if post.club and not user.paid_dues: continue
-			add_notif(cid, user.id)
-
 @app.get('/h/<sub>/settings')
 @is_not_permabanned
 def sub_settings(v, sub):

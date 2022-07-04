@@ -10,7 +10,6 @@ from files.helpers.regex import *
 from files.helpers.slots import *
 from files.helpers.get import *
 from files.classes import *
-from files.routes.subs import on_post_hole_entered
 from flask import *
 from io import BytesIO
 from files.__main__ import app, limiter, cache, db_session

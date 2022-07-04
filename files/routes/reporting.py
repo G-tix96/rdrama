@@ -1,10 +1,10 @@
 from files.helpers.wrappers import *
 from files.helpers.get import *
+from files.helpers.alerts import *
 from flask import g
 from files.__main__ import app, limiter
 from os import path
 from files.helpers.sanitize import filter_emojis_only
-from files.routes.subs import rehole_post
 
 @app.post("/report/post/<pid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -40,8 +40,33 @@ def api_flag_post(pid, v):
 			_note=f'"{post.flair}"'
 		)
 		g.db.add(ma)
-	elif reason.startswith('/h/') and v.admin_level >= 2:
-		rehole_post(pid=post.id, hole=reason[3:])
+	elif reason.startswith('/h/') and v.admin_level >= 2 or v.id == post.author_id:
+
+		sub_from = post.sub
+		sub_to = reason[3:].strip().lower()
+		sub_to = g.db.query(Sub).filter_by(name=sub_to).one_or_none()
+		sub_to = sub_to.name if sub_to else None
+
+		if sub_from == sub_to: abort(400)
+		post.sub = sub_to
+		g.db.add(post)
+
+		if v.admin_level and v.id != post.author_id:
+			sub_from_str = 'frontpage' if sub_from is None else \
+				f'<a href="/h/{sub_from}">/h/{sub_from}</a>'
+			sub_to_str = 'frontpage' if sub_to is None else \
+				f'<a href="/h/{sub_to}">/h/{sub_to}</a>'
+			ma = ModAction(
+				kind='move_hole',
+				user_id=v.id,
+				target_submission_id=post.id,
+				_note=f'{sub_from_str} → {sub_to_str}',
+			)
+			g.db.add(ma)
+
+		on_post_hole_entered(post, v)
+
+		return {"message": f"Post moved to /h/{post.sub}"}
 	else:
 		flag = Flag(post_id=post.id, user_id=v.id, reason=reason)
 		g.db.add(flag)
