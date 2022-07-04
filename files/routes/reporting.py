@@ -52,9 +52,9 @@ def api_flag_post(pid, v):
 		g.db.add(post)
 
 		if v.admin_level and v.id != post.author_id:
-			sub_from_str = 'frontpage' if sub_from is None else \
+			sub_from_str = 'main feed' if sub_from is None else \
 				f'<a href="/h/{sub_from}">/h/{sub_from}</a>'
-			sub_to_str = 'frontpage' if sub_to is None else \
+			sub_to_str = 'main feed' if sub_to is None else \
 				f'<a href="/h/{sub_to}">/h/{sub_to}</a>'
 			ma = ModAction(
 				kind='move_hole',
