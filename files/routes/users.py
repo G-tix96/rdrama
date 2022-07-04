@@ -1182,6 +1182,7 @@ def saved_posts(v, username):
 	ids=ids[:25]
 
 	listing = get_posts(ids, v=v)
+	listing.reverse()
 
 	if request.headers.get("Authorization"): return {"data": [x.json for x in listing]}
 	return render_template("userpage.html",
@@ -1206,7 +1207,7 @@ def saved_comments(v, username):
 	ids=ids[:25]
 
 	listing = get_comments(ids, v=v)
-
+	listing.reverse()
 
 	if request.headers.get("Authorization"): return {"data": [x.json for x in listing]}
 	return render_template("userpage_comments.html",
@@ -1230,6 +1231,7 @@ def subscribed_posts(v, username):
 	ids=ids[:25]
 
 	listing = get_posts(ids, v=v)
+	listing.reverse()
 
 	if request.headers.get("Authorization"): return {"data": [x.json for x in listing]}
 	return render_template("userpage.html",

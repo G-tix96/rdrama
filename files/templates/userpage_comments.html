@@ -20,7 +20,7 @@
 						<a class="nav-link {% if 'saved' in request.path %}active{% endif %}" href="/@{{u.username}}/saved/comments">Saved Comments <span class="count">({{u.saved_comment_count}})</span></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/@{{u.username}}/saved/posts">Subscribed <span class="count">({{u.subscribed_count}})</span></a>
+						<a class="nav-link" href="/@{{u.username}}/subscribed/posts">Subscribed <span class="count">({{u.subscribed_count}})</span></a>
 					</li>
 				{% endif %}
 			</ul>
