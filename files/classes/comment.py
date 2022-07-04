@@ -212,7 +212,7 @@ class Comment(Base):
 		elif not self.parent_submission:
 			replies = g.db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.id).all()
 		else: 
-			return self.child_comments
+			replies = self.child_comments
 
 		return [x for x in replies if not x.author.shadowbanned]
 
