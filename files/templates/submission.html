@@ -1111,6 +1111,42 @@
 	{% endwith %}
  </div>
  
+{% if offset %}
+	<script>
+		function viewmore(pid,sort,offset,ids) {
+			btn = document.getElementById("viewbtn");
+			btn.disabled = true;
+			btn.innerHTML = "Requesting...";
+			var form = new FormData();
+			const xhr = new XMLHttpRequest();
+			xhr.open("get", `/viewmore/${pid}/${sort}/${offset}?ids=${ids}`);
+			xhr.setRequestHeader('xhr', 'xhr');
+			xhr.onload=function(){
+				if (xhr.status==200) {
+					let e = document.getElementById(`viewmore-${offset}`);
+					e.innerHTML = xhr.response.replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '');
+					bs_trigger(e)
+
+					comments = JSON.parse(localStorage.getItem("old-comment-counts")) || {}
+					lastCount = comments['{{p.id}}']
+					if (lastCount)
+					{
+						{% for c in p.comments %}
+							{% if not (v and v.id==c.author_id) and not c.voted %}
+								if ({{c.created_utc*1000}} > lastCount.t) 
+								try {document.getElementById("comment-{{c.id}}-only").classList.add('unread')}
+								catch(e) {}
+							{% endif %}
+						{% endfor %}
+					}
+				}
+				btn.disabled = false;
+			}
+			xhr.send(form)
+		}
+	</script>
+{% endif %}
+
 {% elif not p.replies and p.deleted_utc == 0 %}
 	<div class="comment-section text-center py-7">
 		<span class="fa-stack fa-2x text-muted mb-4">
@@ -1180,18 +1216,4 @@
 		{% endif %}
 	})()
 </script>
-
-
-{% if p.rest %}
-	<button class="mt-4 mb-3 btn btn-primary" onclick="document.getElementById('rest').classList.toggle('d-none')">
-		VIEW MORE COMMENTS
-	</button>
-
-	<div id="rest" class="d-none">
-		{% with comments=p.rest %}
-			{% include "comments.html" %}
-		{% endwith %}
-	</div>
-{% endif %}
-
 {% endblock %}
