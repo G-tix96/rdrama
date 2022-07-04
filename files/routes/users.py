@@ -843,7 +843,7 @@ def redditor_moment_redirect(username, v):
 @auth_required
 def followers(username, v):
 	u = get_user(username, v=v)
-	users = g.db.query(User).join(User.following) \
+	users = g.db.query(User).join(Follow, Follow.target_id == u.id) \
 		.filter(Follow.user_id == User.id) \
 		.order_by(Follow.created_utc).all()
 	return render_template("followers.html", v=v, u=u, users=users)
@@ -852,7 +852,7 @@ def followers(username, v):
 @auth_required
 def following(username, v):
 	u = get_user(username, v=v)
-	users = g.db.query(User).join(User.followers) \
+	users = g.db.query(User).join(Follow, Follow.user_id == u.id) \
 		.filter(Follow.target_id == User.id) \
 		.order_by(Follow.created_utc).all()
 	return render_template("following.html", v=v, u=u, users=users)
