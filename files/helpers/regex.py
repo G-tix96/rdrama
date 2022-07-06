@@ -96,6 +96,10 @@ color_regex = re.compile("[a-z0-9]{6}", flags=re.A)
 
 showmore_regex = re.compile("(.{3000,40000}?</p>)(<p>.*)", flags=re.A)
 
+search_token_regex = re.compile('"([^"]*)"|(\S+)', flags=re.A)
+
+git_regex = re.compile("ref: (refs/.+)", flags=re.A)
+
 def sub_matcher(match, upper=False):
 	if match.group(0).startswith('<'):
 		return match.group(0)

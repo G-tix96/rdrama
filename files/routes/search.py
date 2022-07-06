@@ -24,10 +24,9 @@ def searchparse(text):
 			text = text.replace(f"{x}:{criteria[x]}", "")
 
 	text = text.strip()
-	re_search_token = re.compile('"([^"]*)"|(\S+)')
 	if text:
 		criteria['q'] = []
-		for m in re_search_token.finditer(text):
+		for m in search_token_regex.finditer(text):
 			token = m[1] if m[1] else m[2]
 			# Escape SQL pattern matching special characters
 			token = token.replace('\\', '').replace('_', '\_').replace('%', '\%')

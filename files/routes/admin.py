@@ -493,7 +493,7 @@ def admin_git_head():
 	try:
 		with open('.git/HEAD', encoding='utf_8') as head_f:
 			head_txt = head_f.read()
-			head_path = re.match('ref: (refs/.+)', head_txt).group(1)
+			head_path = git_regex.match(head_txt).group(1)
 			with open('.git/' + head_path, encoding='utf_8') as ref_f:
 				gitref = ref_f.read()[0:short_len]
 	except:
