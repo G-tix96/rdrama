@@ -326,6 +326,8 @@ def sign_up_post(v):
 
 	g.db.add(new_user)
 
+	g.db.commit()
+
 	if ref_id:
 		ref_user = get_account(ref_id)
 
@@ -341,8 +343,6 @@ def sign_up_post(v):
 		try: send_verification_email(new_user)
 		except Exception as e: print(e)
 
-
-	g.db.commit()
 
 	check_for_alts(new_user.id)
 	
