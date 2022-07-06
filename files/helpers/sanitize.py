@@ -172,7 +172,7 @@ def with_sigalrm_timeout(timeout: int):
 		raise Exception("Timeout")
 
 	def inner(func):
-		@functools.wraps(inner)
+		@functools.wraps(func)
 		def wrapped(*args, **kwargs):
 			signal.signal(signal.SIGALRM, sig_handler)
 			signal.alarm(timeout)
