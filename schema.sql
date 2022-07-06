@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.7
+-- Dumped from database version 14.4
 -- Dumped by pg_dump version 14.2 (Ubuntu 14.2-1.pgdg20.04+1)
 
 SET statement_timeout = 0;
@@ -2226,7 +2226,7 @@ ALTER TABLE ONLY public.comment_option_votes
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.7
+-- Dumped from database version 14.4
 -- Dumped by pg_dump version 14.2 (Ubuntu 14.2-1.pgdg20.04+1)
 
 SET statement_timeout = 0;
