@@ -735,4 +735,4 @@ class User(Base):
 	@property
 	@lazy
 	def can_create_hole(self):
-		return self.admin_level >= HOLE_CREATE_JL_MIN
+		return self.admin_level >= PERMS['HOLE_CREATE']
