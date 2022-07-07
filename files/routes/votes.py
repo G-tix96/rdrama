@@ -38,7 +38,7 @@ def vote_info_get(v, link):
 		if v.admin_level:
 			up_ids = [x[0] for x in g.db.query(CommentVote.user_id).filter_by(comment_id=thing_id, vote_type=1).order_by(CommentVote.created_utc).all()]
 			total_ups = g.db.query(func.sum(User.truecoins)).filter(User.id.in_(up_ids)).scalar()
-			total_ups = format(total_ups, ",")
+			total_ups = format(total_ups, ",") if total_ups else '0'
 			patrons_ups = g.db.query(User).filter(User.id.in_(up_ids), User.patron > 0).count()
 
 			return render_template("votes.html",
