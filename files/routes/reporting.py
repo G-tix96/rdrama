@@ -107,7 +107,7 @@ def api_flag_comment(cid, v):
 
 @app.post('/del_report/post/<pid>/<uid>')
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['FLAGS_REMOVE'])
 def remove_report_post(v, pid, uid):
 
 	try:
@@ -134,7 +134,7 @@ def remove_report_post(v, pid, uid):
 
 @app.post('/del_report/comment/<cid>/<uid>')
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['FLAGS_REMOVE'])
 def remove_report_comment(v, cid, uid):
 	
 	cid = int(cid)

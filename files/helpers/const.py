@@ -143,8 +143,15 @@ HOLE_NAME = 'hole'
 HOLE_STYLE_FLAIR = False
 HOLE_REQUIRED = False
 HOLE_COST = 0
-HOLE_CREATE_JL_MIN = 0
 HOLE_INACTIVITY_DELETION = False
+
+PERMS = { # Minimum admin_level to perform action.
+	'HOLE_CREATE': 0,
+	'FLAGS_VISIBLE': 0,
+	'FLAGS_VISIBLE_REPORTER': 0,
+	'FLAGS_REMOVE': 2,
+}
+
 PIN_ENABLED = True
 PIN_LIMIT = 3
 POST_RATE_LIMIT = '1/second;2/minute;10/hour;50/day'
@@ -285,7 +292,9 @@ elif SITE == 'watchpeopledie.co':
 	HOLE_NAME = 'flair'
 	HOLE_STYLE_FLAIR = True
 	HOLE_REQUIRED = True
-	HOLE_CREATE_JL_MIN = 2
+
+	PERMS['HOLE_CREATE'] = 2
+	PERMS['FLAGS_VISIBLE'] = 2
 
 	GIFT_NOTIF_ID = 13
 	CARP_ID = 13
@@ -294,8 +303,10 @@ elif SITE == 'watchpeopledie.co':
 
 	PROCOINS_ENABLED = False
 elif SITE == 'lgbdropthet.com':
-	HOLE_CREATE_JL_MIN = 3
+	PERMS['HOLE_CREATE'] = 3
+	PERMS['FLAGS_VISIBLE_REPORTER'] = 2
 
+	AEVANN_ID = 10
 	SNAKES_ID = 9
 
 	PROCOINS_ENABLED = False
@@ -796,7 +807,6 @@ if SITE != 'localhost':
 	REDDIT_NOTIFS_SITE = [SITE]
 
 if SITE_NAME == 'rDrama':
-	REDDIT_NOTIFS_JL_MIN = 1
 	REDDIT_NOTIFS_SITE.append(['rdrama', 'marsey',])
 	REDDIT_NOTIFS_USERS = {
 		'idio3': IDIO_ID,
