@@ -246,7 +246,7 @@ if SITE in {'rdrama.net', 'devrama.xyz'}:
 		"7": "886781932430565418",
 	}
 elif SITE == 'pcmemes.net':
-	HOLE_COST = 10000
+	HOLE_COST = 1000
 	PIN_LIMIT = 6
 	POST_RATE_LIMIT = '1/second;4/minute;20/hour;100/day'
 	NOTIFICATIONS_ID = 1046
