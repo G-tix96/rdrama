@@ -92,7 +92,6 @@ def notifications_posts(v):
 			Submission.author_id.in_(v.followed_users),
 			Submission.sub.in_(v.followed_subs)
 		),
-		Submission.created_utc > v.last_viewed_post_notifs,
 		Submission.deleted_utc == 0,
 		Submission.is_banned == False,
 		Submission.private == False
