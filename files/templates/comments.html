@@ -67,48 +67,37 @@
 
 {% if c.is_blocking or (c.is_banned or c.deleted_utc) and not (v and v.admin_level > 1) and not (v and v.id==c.author_id) %}
 
-<div id="comment-{{c.id}}" class="comment">
-		<span class="comment-collapse-desktop d-none d-md-block" style="border-left: 2px solid #{{c.author.namecolor}}"onclick="collapse_comment('{{c.id}}', this.parentElement)"></span>
+	<div id="comment-{{c.id}}" class="comment">
+			<span class="comment-collapse-desktop d-none d-md-block" style="border-left: 2px solid #{{c.author.namecolor}}"onclick="collapse_comment('{{c.id}}', this.parentElement)"></span>
 
-		<div class="comment-body">
+			<div class="comment-body">
 
-				<div id="comment-{{c.id}}-only" class="{% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only">
+					<div id="comment-{{c.id}}-only" class="{% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only">
 
-						<div class="user-info">
-							<span class="comment-collapse-icon" onclick="collapse_comment('{{c.id}}', this.parentElement.parentElement.parentElement)"></span>
-							{% if standalone and c.over_18 %}<span class="badge badge-danger">+18</span> {% endif %}
-							{% if c.is_banned %}removed by @{{c.ban_reason}}{% elif c.deleted_utc %}Deleted by author{% elif c.is_blocking %}You are blocking @{{c.author_name}}{% endif %}
-						</div>
+							<div class="user-info">
+								<span class="comment-collapse-icon" onclick="collapse_comment('{{c.id}}', this.parentElement.parentElement.parentElement)"></span>
+								{% if standalone and c.over_18 %}<span class="badge badge-danger">+18</span> {% endif %}
+								{% if c.is_banned %}removed by @{{c.ban_reason}}{% elif c.deleted_utc %}Deleted by author{% elif c.is_blocking %}You are blocking @{{c.author_name}}{% endif %}
+							</div>
 
+					</div>
+					
+		{% if render_replies %} 
+			{% if level<9 or request.path == '/notifications' or request.headers.get("xhr") %}
+				<div id="replies-of-{{c.id}}">
+					{% for reply in replies %}
+						{{single_comment(reply, level=level+1)}}
+					{% endfor %}
 				</div>
-				
-	{% if render_replies %} 
-		{% if level<9 %}
-			<div id="replies-of-{{c.id}}" class="">
-				{% set standalone=False %}
-				{% for reply in replies %}
-					{{single_comment(reply, level=level+1)}}
-				{% endfor %}
-			</div>
-		{% elif replies and "notifications" in request.path %}
-			<div id="replies-of-{{c.id}}" class="d-none d-md-block">
-				{% set standalone=False %}
-				{% for reply in replies %}
-					{{single_comment(reply, level=level+1)}}
-				{% endfor %}
-			</div>
-			<div id="morecomment-{{c.id}}" class="d-md-none mt-2 more-comments">
-				<a href="{{c.morecomments}}">More comments <i class="fas fa-long-arrow-right ml-1"></i></a>
-			</div>
-		{% elif replies %}
-			<div id="morecomment-{{c.id}}" class="mt-2 more-comments">
-				<button id="btn-{{c.id}}" class="d-none d-md-block btn btn-primary" onclick="morecomments('{{c.id}}')">More comments</button>
-				<a class="d-md-none" href="{{c.morecomments}}">More comments <i class="fas fa-long-arrow-right ml-1"></i></a>
-			</div>
+			{% elif replies %}
+				<div id="morecomments-{{c.id}}" class="mt-2 more-comments">
+					<button id="btn-{{c.id}}" class="d-none d-md-block btn btn-primary" onclick="morecomments('{{c.id}}')">More comments</button>
+					<a class="d-md-none" href="{{c.morecomments}}">More comments <i class="fas fa-long-arrow-right ml-1"></i></a>
+				</div>
+			{% endif %}
 		{% endif %}
-	{% endif %}
-</div>
-</div>
+	</div>
+	</div>
 
 
 {% else %}
@@ -594,7 +583,7 @@
 
 
 	{% if render_replies %} 
-		{% if level<9 or request.path == '/notifications' %}
+		{% if level<9 or request.path == '/notifications' or request.headers.get("xhr") %}
 			<div id="replies-of-{{c.id}}">
 				{% for reply in replies %}
 					{{single_comment(reply, level=level+1)}}
