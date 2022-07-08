@@ -1186,7 +1186,7 @@ def submit_post(v, sub=None):
 			post.comment_count += 1
 			post.replies = [c]
 
-	v.post_count = g.db.query(Submission).filter_by(author_id=v.id).count()
+	v.post_count = g.db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
 	g.db.add(v)
 
 	if v.id == PIZZASHILL_ID:
@@ -1234,20 +1234,22 @@ def submit_post(v, sub=None):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
 def delete_post_pid(pid, v):
-
 	post = get_post(pid)
-	if post.author_id != v.id:
-		abort(403)
+	if post.author_id != v.id: abort(403)
 
-	post.deleted_utc = int(time.time())
-	post.is_pinned = False
-	post.stickied = None
+	if not post.deleted_utc:
+		post.deleted_utc = int(time.time())
+		post.is_pinned = False
+		post.stickied = None
 
-	g.db.add(post)
+		g.db.add(post)
 
-	cache.delete_memoized(frontlist)
-	cache.delete_memoized(User.userpagelisting)
+		cache.delete_memoized(frontlist)
+		cache.delete_memoized(User.userpagelisting)
 
+		g.db.flush()
+		v.post_count = g.db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
+		g.db.add(v)
 
 	return {"message": "Post deleted!"}
 
@@ -1258,12 +1260,17 @@ def delete_post_pid(pid, v):
 def undelete_post_pid(pid, v):
 	post = get_post(pid)
 	if post.author_id != v.id: abort(403)
-	post.deleted_utc =0
-	g.db.add(post)
 
-	cache.delete_memoized(frontlist)
-	cache.delete_memoized(User.userpagelisting)
+	if post.deleted_utc:
+		post.deleted_utc = 0
+		g.db.add(post)
 
+		cache.delete_memoized(frontlist)
+		cache.delete_memoized(User.userpagelisting)
+
+		g.db.flush()
+		v.post_count = g.db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
+		g.db.add(v)
 
 	return {"message": "Post undeleted!"}
 

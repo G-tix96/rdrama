@@ -582,7 +582,11 @@ def api_comment(v):
 
 	cache.delete_memoized(comment_idlist)
 
-	v.comment_count = g.db.query(Comment).filter(Comment.author_id == v.id, Comment.parent_submission != None).count()
+	v.comment_count = g.db.query(Comment).filter(
+		Comment.author_id == v.id,
+		Comment.parent_submission != None,
+		Comment.deleted_utc == 0
+	).count()
 	g.db.add(v)
 
 	c.voted = 1
@@ -794,6 +798,13 @@ def delete_comment(cid, v):
 		
 		cache.delete_memoized(comment_idlist)
 
+		g.db.flush()
+		v.comment_count = g.db.query(Comment).filter(
+			Comment.author_id == v.id,
+			Comment.parent_submission != None,
+			Comment.deleted_utc == 0
+		).count()
+		g.db.add(v)
 
 	return {"message": "Comment deleted!"}
 
@@ -814,6 +825,13 @@ def undelete_comment(cid, v):
 
 		cache.delete_memoized(comment_idlist)
 
+		g.db.flush()
+		v.comment_count = g.db.query(Comment).filter(
+			Comment.author_id == v.id,
+			Comment.parent_submission != None,
+			Comment.deleted_utc == 0
+		).count()
+		g.db.add(v)
 
 	return {"message": "Comment undeleted!"}
 
