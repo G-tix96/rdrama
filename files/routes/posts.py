@@ -166,6 +166,8 @@ def post_id(pid, anything=None, v=None, sub=None):
 			blocked,
 			blocked.c.user_id == Comment.author_id,
 			isouter=True
+		).options(
+			joinedload(Comment.author),
 		)
 
 		output = []

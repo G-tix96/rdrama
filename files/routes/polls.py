@@ -47,7 +47,9 @@ def option_votes(option_id, v):
 
 	if not option: abort(404)
 
-	ups = g.db.query(SubmissionOptionVote).filter_by(option_id=option_id).all()
+	ups = g.db.query(SubmissionOptionVote).filter_by(option_id=option_id).options(
+		joinedload(SubmissionOptionVote.user)
+	).all()
 
 	return render_template("poll_votes.html",
 						   v=v,
@@ -97,7 +99,9 @@ def option_votes_comment(option_id, v):
 
 	if not option: abort(404)
 
-	ups = g.db.query(CommentOptionVote).filter_by(option_id=option_id).all()
+	ups = g.db.query(CommentOptionVote).filter_by(option_id=option_id).options(
+		joinedload(CommentOptionVote.user)
+	).all()
 
 	return render_template("poll_votes.html",
 						   v=v,

@@ -1,5 +1,6 @@
 from files.classes import *
 from flask import g
+from sqlalchemy.orm import joinedload, undefer
 
 def get_id(username, v=None, graceful=False):
 	
@@ -38,6 +39,15 @@ def get_user(username, v=None, graceful=False, rendered=False):
 			User.username.ilike(username),
 			User.original_username.ilike(username)
 			)
+		)
+
+	if rendered:
+		user = user.options(
+			undefer('reserved'),
+			undefer('profilecss'),
+			undefer('bio'),
+			undefer('friends_html'),
+			undefer('enemies_html')
 		)
 
 	user = user.one_or_none()
@@ -149,6 +159,11 @@ def get_post(i, v=None, graceful=False, rendered=False, entered=False):
 			isouter=True
 		)
 
+		if rendered:
+			post = post.options(
+				joinedload(Submission.author)
+			)
+
 		post=post.one_or_none()
 		
 		if not post:
@@ -199,6 +214,8 @@ def get_posts(pids, v=None):
 			blocked, 
 			blocked.c.user_id == Submission.author_id, 
 			isouter=True
+		).options(
+			joinedload(Submission.author)
 		).all()
 
 		output = [p[0] for p in query]
@@ -280,6 +297,8 @@ def get_comments(cids, v=None, load_parent=False):
 			blocked,
 			blocked.c.user_id == Comment.author_id,
 			isouter=True
+		).options(
+			joinedload(Comment.post),
 		).all()
 
 		output = []
