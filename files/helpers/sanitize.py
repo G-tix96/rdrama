@@ -145,7 +145,7 @@ def render_emoji(html, regexp, edit, marseys_used, b=False):
 		emoji_partial = '<img loading="lazy" data-bs-toggle="tooltip" alt=":{0}:" title=":{0}:" src="{1}"{2}>'
 		emoji_html = None
 
-		if emoji.endswith('pat'):
+		if emoji.endswith('pat') and emoji != 'marseyunpettablepat':
 			if path.isfile(f"files/assets/images/emojis/{emoji.replace('pat','')}.webp"):
 				emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/i/hand.webp">{emoji_partial_pat.format(old, f"/e/{emoji[:-3]}.webp", attrs)}</span>'
 			elif emoji.startswith('@'):
