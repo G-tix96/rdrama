@@ -2257,6 +2257,7 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 149	Thin	This user has verified that they are calorically disciplined.
 139	Auspicious Incident	This user was fired from a volunteer position
 150	Verified	Bought a Blue Checkmark.
+151	Responsible Citizen	This user upheld democracy by committing voter fraud.
 4	White Hat	Discreetly reported an exploit
 1	Alpha User	Joined during open alpha
 2	Verified Email	Verified Email
@@ -2362,7 +2363,7 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 150, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 151, true);
 
 
 --
