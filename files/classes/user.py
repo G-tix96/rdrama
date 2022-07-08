@@ -490,7 +490,8 @@ class User(Base):
 			Submission.created_utc > self.last_viewed_post_notifs,
 			Submission.deleted_utc == 0,
 			Submission.is_banned == False,
-			Submission.private == False
+			Submission.private == False,
+			Submission.author_id != self.id
 		).count()
 
 	@property

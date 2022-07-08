@@ -94,7 +94,8 @@ def notifications_posts(v):
 		),
 		Submission.deleted_utc == 0,
 		Submission.is_banned == False,
-		Submission.private == False
+		Submission.private == False,
+		Submission.author_id != v.id,
 	).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()]
 
 	next_exists = (len(listing) > 25)
