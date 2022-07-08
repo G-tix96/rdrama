@@ -44,6 +44,8 @@ def notifications_modmail(v):
 	next_exists = (len(comments) > 25)
 	listing = comments[:25]
 
+	g.db.commit()
+
 	if request.headers.get("Authorization"): return {"data":[x.json for x in listing]}
 
 	return render_template("notifications.html",
@@ -70,6 +72,8 @@ def notifications_messages(v):
 
 	next_exists = (len(comments) > 25)
 	listing = comments[:25]
+
+	g.db.commit()
 
 	if request.headers.get("Authorization"): return {"data":[x.json for x in listing]}
 
@@ -148,6 +152,8 @@ def notifications_modactions(v):
 
 	next_exists = (len(notifications) > len(listing))
 
+	g.db.commit()
+
 	if request.headers.get("Authorization"): return {"data":[x.json for x in listing]}
 
 	return render_template("notifications.html",
@@ -185,6 +191,7 @@ def notifications_reddit(v):
 
 	next_exists = (len(notifications) > len(listing))
 
+	g.db.commit()
 
 	if request.headers.get("Authorization"): return {"data":[x.json for x in listing]}
 
@@ -255,6 +262,7 @@ def notifications(v):
 
 		if c not in listing: listing.append(c)
 
+	g.db.commit()
 
 	if request.headers.get("Authorization"): return {"data":[x.json for x in listing]}
 
