@@ -57,7 +57,7 @@ def chart(kind, site):
 			Comment.created_utc < day_cutoffs[i], 
 			Comment.created_utc > day_cutoffs[i + 1],
 			Comment.is_banned == False, 
-			Comment.author_id.notin_((AUTOJANNY_ID,NOTIFICATIONS_ID))).count() 
+			Comment.author_id != AUTOJANNY_ID).count() 
 		for i in range(len(day_cutoffs) - 1)][::-1]
 
 	plt.rcParams['figure.figsize'] = (chart_width, 20)
@@ -114,11 +114,11 @@ def stats(site=None):
 			"removed posts (by admins)": g.db.query(Submission).filter_by(is_banned=True).count(),
 			"deleted posts (by author)": g.db.query(Submission).filter(Submission.deleted_utc > 0).count(),
 			"posts last 24h": g.db.query(Submission).filter(Submission.created_utc > day).count(),
-			"total comments": g.db.query(Comment).filter(Comment.author_id.notin_((AUTOJANNY_ID,NOTIFICATIONS_ID))).count(),
+			"total comments": g.db.query(Comment).filter(Comment.author_id != AUTOJANNY_ID).count(),
 			"commenting users": g.db.query(Comment.author_id).distinct().count(),
 			"removed comments (by admins)": g.db.query(Comment).filter_by(is_banned=True).count(),
 			"deleted comments (by author)": g.db.query(Comment).filter(Comment.deleted_utc > 0).count(),
-			"comments last_24h": g.db.query(Comment).filter(Comment.created_utc > day, Comment.author_id.notin_((AUTOJANNY_ID,NOTIFICATIONS_ID))).count(),
+			"comments last_24h": g.db.query(Comment).filter(Comment.created_utc > day, Comment.author_id != AUTOJANNY_ID).count(),
 			"post votes": g.db.query(Vote).count(),
 			"post voting users": g.db.query(Vote.user_id).distinct().count(),
 			"comment votes": g.db.query(CommentVote).count(),

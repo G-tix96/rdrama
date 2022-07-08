@@ -58,12 +58,13 @@ def request_api_keys(v):
 	body_html = sanitize(body)
 
 
-	new_comment = Comment(author_id=NOTIFICATIONS_ID,
+	new_comment = Comment(author_id=AUTOJANNY_ID,
 						  parent_submission=None,
 						  level=1,
 						  body_html=body_html,
 						  sentto=2,
-						  distinguish_level=6
+						  distinguish_level=6,
+						  is_bot=True
 						  )
 	g.db.add(new_comment)
 	g.db.flush()

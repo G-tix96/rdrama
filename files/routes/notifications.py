@@ -22,7 +22,6 @@ def unread(v):
 		Notification.user_id == v.id,
 		Comment.is_banned == False,
 		Comment.deleted_utc == 0,
-		Comment.author_id != AUTOJANNY_ID,
 	).order_by(Notification.created_utc.desc()).all()
 
 	for n, c in listing:
@@ -88,10 +87,20 @@ def notifications_posts(v):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	listing = g.db.query(Submission).filter(Submission.author_id.in_(v.following_ids)).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
+	listing = [x[0] for x in g.db.query(Submission.id).filter(
+		or_(
+			Submission.author_id.in_(self.followed_users),
+			Submission.sub.in_(self.followed_subs)
+		),
+		Submission.created_utc > self.last_viewed_post_notifs,
+		Submission.deleted_utc == 0,
+		Submission.is_banned == False,
+		Submission.private == False
+	).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()]
 
 	next_exists = (len(listing) > 25)
 	listing = listing[:25]
+	listing = get_posts(listing, v=v)
 
 	for p in listing:
 		p.unread = p.created_utc > v.last_viewed_post_notifs
@@ -121,7 +130,7 @@ def notifications_modactions(v):
 		.join(Notification.comment) \
 		.filter(Notification.user_id == v.id, 
 			Comment.body_html.like(f'%<p>{NOTIF_MODACTION_PREFIX}%'),
-			Comment.parent_submission == None, Comment.author_id == NOTIFICATIONS_ID) \
+			Comment.parent_submission == None, Comment.author_id == AUTOJANNY_ID) \
 		.order_by(Notification.created_utc.desc()).offset(25 * (page - 1)).limit(101).all()
 	listing = []
 
@@ -158,7 +167,7 @@ def notifications_reddit(v):
 
 	if not v.can_view_offsitementions: abort(403)
 
-	notifications = g.db.query(Notification, Comment).join(Notification.comment).filter(Notification.user_id == v.id, Comment.body_html.like('%<p>New site mention: <a href="https://old.reddit.com/r/%'), Comment.parent_submission == None, Comment.author_id == NOTIFICATIONS_ID).order_by(Notification.created_utc.desc()).offset(25 * (page - 1)).limit(101).all()
+	notifications = g.db.query(Notification, Comment).join(Notification.comment).filter(Notification.user_id == v.id, Comment.body_html.like('%<p>New site mention: <a href="https://old.reddit.com/r/%'), Comment.parent_submission == None, Comment.author_id == AUTOJANNY_ID).order_by(Notification.created_utc.desc()).offset(25 * (page - 1)).limit(101).all()
 
 	listing = []
 
@@ -199,7 +208,6 @@ def notifications(v):
 		Notification.user_id == v.id,
 		Comment.is_banned == False,
 		Comment.deleted_utc == 0,
-		Comment.author_id != AUTOJANNY_ID,
 		Comment.body_html.notlike('%<p>New site mention: <a href="https://old.reddit.com/r/%'),
 		Comment.body_html.notlike(f'%<p>{NOTIF_MODACTION_PREFIX}%')
 	).order_by(Notification.created_utc.desc())

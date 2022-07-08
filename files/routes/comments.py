@@ -67,7 +67,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	try: pid = int(pid)
 	except: abort(404)
 	
-	post = get_post(pid, v=v, rendered=True)
+	post = get_post(pid, v=v)
 	
 	if post.over_18 and not (v and v.over_18) and not session.get('over_18', 0) >= int(time.time()):
 		if request.headers.get("Authorization"): return {'error': 'This content is not suitable for some users and situations.'}
@@ -430,7 +430,7 @@ def api_comment(v):
 
 
 
-			c_jannied = Comment(author_id=NOTIFICATIONS_ID,
+			c_jannied = Comment(author_id=AUTOJANNY_ID,
 				parent_submission=parent_submission,
 				distinguish_level=6,
 				parent_comment_id=c.id,
@@ -747,7 +747,7 @@ def edit_comment(cid, v):
 
 
 
-			c_jannied = Comment(author_id=NOTIFICATIONS_ID,
+			c_jannied = Comment(author_id=AUTOJANNY_ID,
 				parent_submission=c.parent_submission,
 				distinguish_level=6,
 				parent_comment_id=c.id,

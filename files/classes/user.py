@@ -17,6 +17,7 @@ from .mod_logs import *
 from .mod import *
 from .exiles import *
 from .sub_block import *
+from .sub_subscription import *
 from .submission import sort_posts
 from files.__main__ import Base, cache
 from files.helpers.security import *
@@ -450,8 +451,13 @@ class User(Base):
 
 	@property
 	@lazy
-	def following_ids(self):
+	def followed_users(self):
 		return [x[0] for x in g.db.query(Follow.target_id).filter_by(user_id=self.id).all()]
+
+	@property
+	@lazy
+	def followed_subs(self):
+		return [x[0] for x in g.db.query(SubSubscription.sub).filter_by(user_id=self.id).all()]
 
 	@property
 	@lazy
@@ -476,7 +482,16 @@ class User(Base):
 	@property
 	@lazy
 	def post_notifications_count(self):
-		return g.db.query(Submission).filter(Submission.author_id.in_(self.following_ids), Submission.created_utc > self.last_viewed_post_notifs).count()
+		return g.db.query(Submission).filter(
+			or_(
+				Submission.author_id.in_(self.followed_users),
+				Submission.sub.in_(self.followed_subs)
+			),
+			Submission.created_utc > self.last_viewed_post_notifs,
+			Submission.deleted_utc == 0,
+			Submission.is_banned == False,
+			Submission.private == False
+		).count()
 
 	@property
 	@lazy
@@ -486,7 +501,7 @@ class User(Base):
 			Notification.user_id == self.id, Notification.read == False, 
 			Comment.is_banned == False, Comment.deleted_utc == 0, 
 			Comment.body_html.like(f'%<p>{NOTIF_MODACTION_PREFIX}%'), 
-			Comment.parent_submission == None, Comment.author_id == NOTIFICATIONS_ID).count()
+			Comment.parent_submission == None, Comment.author_id == AUTOJANNY_ID).count()
 
 	@property
 	@lazy
@@ -496,7 +511,7 @@ class User(Base):
 			Notification.user_id == self.id, Notification.read == False, 
 			Comment.is_banned == False, Comment.deleted_utc == 0, 
 			Comment.body_html.like('%<p>New site mention: <a href="https://old.reddit.com/r/%'), 
-			Comment.parent_submission == None, Comment.author_id == NOTIFICATIONS_ID).count()
+			Comment.parent_submission == None, Comment.author_id == AUTOJANNY_ID).count()
 
 	@property
 	@lazy

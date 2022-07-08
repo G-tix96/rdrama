@@ -72,13 +72,13 @@ def notify_mentions(send_to, mentions, mention_str='site mention'):
 			f'https://old.reddit.com{permalink}?context=89</a></p>{text}' \
 
 		existing_comment = g.db.query(Comment.id).filter_by(
-			author_id=const.NOTIFICATIONS_ID,
+			author_id=const.AUTOJANNY_ID,
 			parent_submission=None,
 			body_html=notif_text).one_or_none()
 		if existing_comment: continue
 
 		new_comment = Comment(
-						author_id=const.NOTIFICATIONS_ID,
+						author_id=const.AUTOJANNY_ID,
 						parent_submission=None,
 						body_html=notif_text,
 						distinguish_level=6)
