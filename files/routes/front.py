@@ -43,8 +43,6 @@ def front_all(v, sub=None, subdomain=None):
 	sort=request.values.get("sort", defaultsorting)
 	t=request.values.get('t', defaulttime)
 	ccmode=request.values.get('ccmode', "false").lower()
-
-	if sort == 'bump': t='all'
 	
 	try: gt=int(request.values.get("after", 0))
 	except: gt=0
