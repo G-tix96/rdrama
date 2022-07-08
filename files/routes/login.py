@@ -201,7 +201,7 @@ def sign_up_get(v):
 
 	formkey_hashstr = str(now) + token + g.agent
 
-	formkey = hmac.new(key=bytes(environ.get("MASTER_KEY"), "utf-16"),
+	formkey = hmac.new(key=bytes(MASTER_KEY, "utf-16"),
 					   msg=bytes(formkey_hashstr, "utf-16"),
 					   digestmod='md5'
 					   ).hexdigest()
@@ -234,7 +234,7 @@ def sign_up_post(v):
 
 	correct_formkey_hashstr = form_timestamp + submitted_token + g.agent
 
-	correct_formkey = hmac.new(key=bytes(environ.get("MASTER_KEY"), "utf-16"),
+	correct_formkey = hmac.new(key=bytes(MASTER_KEY, "utf-16"),
 								msg=bytes(correct_formkey_hashstr, "utf-16"),
 								digestmod='md5'
 							   ).hexdigest()

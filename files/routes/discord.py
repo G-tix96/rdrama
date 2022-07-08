@@ -4,12 +4,6 @@ from files.helpers.discord import add_role
 from files.__main__ import app
 import requests
 
-SERVER_ID = environ.get("DISCORD_SERVER_ID",'').strip()
-CLIENT_ID = environ.get("DISCORD_CLIENT_ID",'').strip()
-CLIENT_SECRET = environ.get("DISCORD_CLIENT_SECRET",'').strip()
-BOT_TOKEN = environ.get("DISCORD_BOT_TOKEN").strip()
-DISCORD_ENDPOINT = "https://discordapp.com/api/v6"
-WELCOME_CHANNEL="846509313941700618"
 
 @app.get("/discord")
 @is_not_permabanned
@@ -23,7 +17,7 @@ def join_discord(v):
 
 	state=f"{now}.{state}"
 
-	return redirect(f"https://discord.com/api/oauth2/authorize?client_id={CLIENT_ID}&redirect_uri=https%3A%2F%2F{SITE}%2Fdiscord_redirect&response_type=code&scope=identify%20guilds.join&state={state}")
+	return redirect(f"https://discord.com/api/oauth2/authorize?client_id={DISCORD_CLIENT_ID}&redirect_uri=https%3A%2F%2F{SITE}%2Fdiscord_redirect&response_type=code&scope=identify%20guilds.join&state={state}")
 
 
 @app.get("/discord_redirect")
@@ -49,8 +43,8 @@ def discord_redirect(v):
 		abort(400)
 
 	data={
-		"client_id":CLIENT_ID,
-		'client_secret': CLIENT_SECRET,
+		"client_id": DISCORD_CLIENT_ID,
+		'client_secret': DISCORD_CLIENT_SECRET,
 		'grant_type': 'authorization_code',
 		'code': code,
 		'redirect_uri': f"https://{SITE}/discord_redirect",
@@ -80,12 +74,12 @@ def discord_redirect(v):
 
 
 	headers={
-		'Authorization': f"Bot {BOT_TOKEN}",
+		'Authorization': f"Bot {DISCORD_BOT_TOKEN}",
 		'Content-Type': "application/json"
 	}
 
 	if v.discord_id and v.discord_id != x['id']:
-		url=f"https://discord.com/api/guilds/{SERVER_ID}/members/{v.discord_id}"
+		url=f"https://discord.com/api/guilds/{DISCORD_SERVER_ID}/members/{v.discord_id}"
 		requests.delete(url, headers=headers, timeout=5)
 
 	if g.db.query(User).filter(User.id!=v.id, User.discord_id==x["id"]).one_or_none():
@@ -94,7 +88,7 @@ def discord_redirect(v):
 	v.discord_id=x["id"]
 	g.db.add(v)
 
-	url=f"https://discord.com/api/guilds/{SERVER_ID}/members/{x['id']}"
+	url=f"https://discord.com/api/guilds/{DISCORD_SERVER_ID}/members/{x['id']}"
 
 	name=v.username
 
@@ -133,7 +127,7 @@ def discord_redirect(v):
 
 	if x.status_code==204:
 
-		url=f"https://discord.com/api/guilds/{SERVER_ID}/members/{v.discord_id}"
+		url=f"https://discord.com/api/guilds/{DISCORD_SERVER_ID}/members/{v.discord_id}"
 		data={
 			"nick": name
 		}
@@ -141,4 +135,4 @@ def discord_redirect(v):
 		requests.patch(url, headers=headers, json=data, timeout=5)
 
 
-	return redirect(f"https://discord.com/channels/{SERVER_ID}/{WELCOME_CHANNEL}")
+	return redirect(f"https://discord.com/channels/{DISCORD_SERVER_ID}/{DISCORD_WELCOME_CHANNEL}")

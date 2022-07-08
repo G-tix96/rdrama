@@ -17,20 +17,6 @@ from shutil import copyfile
 import requests
 import tldextract
 
-GUMROAD_TOKEN = environ.get("GUMROAD_TOKEN", "").strip()
-GUMROAD_ID = environ.get("GUMROAD_ID", "tfcvri").strip()
-
-tiers={
-	"(Paypig)": 1,
-	"(Renthog)": 2,
-	"(Landchad)": 3,
-	"(Terminally online turboautist)": 4,
-	"(Marsey's Sugar Daddy)": 5,
-	"(JIDF Bankroller)": 6,
-	"(Rich Bich)": 7,
-	"(LlamaBean)": 1,
-	}
-
 @app.post("/settings/removebackground")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')

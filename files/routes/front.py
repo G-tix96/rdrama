@@ -1,11 +1,11 @@
 from files.helpers.wrappers import *
 from files.helpers.get import *
 from files.helpers.discord import *
+from files.helpers.const import *
 from files.__main__ import app, cache, limiter
 from files.classes.submission import Submission
 from files.helpers.awards import award_timers
 
-defaulttimefilter = environ.get("DEFAULT_TIME_FILTER", "all").strip()
 
 @app.post("/clear")
 @auth_required
@@ -207,7 +207,7 @@ def front_all(v, sub=None, subdomain=None):
 	else:
 		defaultsorting = "hot"
 		if sub or SITE_NAME != 'rDrama': defaulttime = 'all'
-		else: defaulttime = defaulttimefilter
+		else: defaulttime = DEFAULT_TIME_FILTER
 
 	sort=request.values.get("sort", defaultsorting)
 	t=request.values.get('t', defaulttime)
@@ -431,7 +431,7 @@ def all_comments(v):
 	except: page = 1
 
 	sort=request.values.get("sort", "new")
-	t=request.values.get("t", defaulttimefilter)
+	t=request.values.get("t", DEFAULT_TIME_FILTER)
 
 	try: gt=int(request.values.get("after", 0))
 	except: gt=0

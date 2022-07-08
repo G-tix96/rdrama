@@ -1,5 +1,5 @@
 import re
-from files.helpers.const import *
+from .const import *
 
 if SITE_NAME == 'PCM':
 	valid_username_chars = 'a-zA-Z0-9_\-А-я'

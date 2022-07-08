@@ -1,4 +1,3 @@
-from os import environ
 import random
 import re
 import time

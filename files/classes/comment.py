@@ -1,4 +1,3 @@
-from os import environ
 import re
 import time
 from urllib.parse import urlencode, urlparse, parse_qs

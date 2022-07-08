@@ -10,7 +10,7 @@
 	</style>
 {% endif %}
 
-{% if v and environ.get("FP") %}
+{% if v and FP %}
 	{% if not v.fp %}
 		<script>
 			function fp(fp) {
@@ -30,7 +30,7 @@
 				script.src = "/assets/js/fp.js?v=240";
 				document.head.appendChild(script);
 			})
-				.then(() => FingerprintJS.load({token: '{{environ.get("FP")}}'}));
+				.then(() => FingerprintJS.load({token: '{{FP}}'}));
 
 			fpPromise
 				.then(fp => fp.get())

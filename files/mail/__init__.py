@@ -1,4 +1,3 @@
-from os import environ
 import time
 from flask import *
 from urllib.parse import quote
@@ -12,11 +11,10 @@ from files.classes import *
 from files.__main__ import app, mail, limiter
 from flask_mail import Message
 
-name = environ.get("SITE_NAME").strip()
 
 def send_mail(to_address, subject, html):
 
-	msg = Message(html=html, subject=subject, sender=f"{name}@{SITE}", recipients=[to_address])
+	msg = Message(html=html, subject=subject, sender=f"{SITE_NAME}@{SITE}", recipients=[to_address])
 	mail.send(msg)
 
 
@@ -37,7 +35,7 @@ def send_verification_email(user, email=None):
 			  html=render_template("email/email_verify.html",
 								   action_url=link,
 								   v=user),
-			  subject=f"Validate your {name} account email."
+			  subject=f"Validate your {SITE_NAME} account email."
 			  )
 
 

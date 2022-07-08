@@ -22,14 +22,7 @@ from files.__main__ import Base, cache
 from files.helpers.security import *
 from copy import deepcopy
 import random
-from os import environ, remove, path
-
-defaulttheme = environ.get("DEFAULT_THEME", "midnight").strip()
-defaulttimefilter = environ.get("DEFAULT_TIME_FILTER", "all").strip()
-cardview = bool(int(environ.get("CARD_VIEW", 1)))
-
-if SITE_NAME in ('Cringetopia', 'WPD'): patron_default = 7
-else: patron_default = 0
+from os import remove, path
 
 class User(Base):
 	__tablename__ = "users"
@@ -45,15 +38,15 @@ class User(Base):
 	customtitle = Column(String)
 	customtitleplain = deferred(Column(String))
 	titlecolor = Column(String, default=DEFAULT_COLOR)
-	theme = Column(String, default=defaulttheme)
+	theme = Column(String, default=DEFAULT_THEME)
 	themecolor = Column(String, default=DEFAULT_COLOR)
-	cardview = Column(Boolean, default=cardview)
+	cardview = Column(Boolean, default=CARD_VIEW)
 	song = Column(String)
 	highres = Column(String)
 	profileurl = Column(String)
 	bannerurl = Column(String)
 	house = Column(String)
-	patron = Column(Integer, default=patron_default)
+	patron = Column(Integer, default=PATRON_DEFAULT)
 	patron_utc = Column(Integer, default=0)
 	verified = Column(String)
 	verifiedcolor = Column(String)
@@ -123,7 +116,7 @@ class User(Base):
 	stored_subscriber_count = Column(Integer, default=0)
 	defaultsortingcomments = Column(String, default="top")
 	defaultsorting = Column(String, default="hot")
-	defaulttime = Column(String, default=defaulttimefilter)
+	defaulttime = Column(String, default=DEFAULT_TIME_FILTER)
 	is_nofollow = Column(Boolean, default=False)
 	custom_filter_list = Column(String)
 	discord_id = Column(String)

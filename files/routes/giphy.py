@@ -1,11 +1,9 @@
 from flask import *
-from os import environ
 import requests
 from files.helpers.wrappers import *
+from files.helpers.const import *
 
 from files.__main__ import app
-
-GIPHY_KEY = environ.get('GIPHY_KEY').rstrip()
 
 
 @app.get("/giphy")

@@ -4,7 +4,6 @@ from files.helpers.const import *
 from files.classes import *
 from flask import *
 from files.__main__ import app, limiter, cache
-from os import environ
 
 @app.get("/votes/<link>")
 @auth_required
@@ -64,7 +63,7 @@ def vote_info_get(v, link):
 @is_not_permabanned
 def api_vote_post(post_id, new, v):
 
-	if new == "-1" and environ.get('DISABLE_DOWNVOTES') == '1': return {"error": "forbidden."}, 403
+	if new == "-1" and DISABLE_DOWNVOTES: return {"error": "forbidden."}, 403
 
 	if new not in ["-1", "0", "1"]: abort(400)
 
@@ -134,7 +133,7 @@ def api_vote_post(post_id, new, v):
 @is_not_permabanned
 def api_vote_comment(comment_id, new, v):
 
-	if new == "-1" and environ.get('DISABLE_DOWNVOTES') == '1': return {"error": "forbidden."}, 403
+	if new == "-1" and DISABLE_DOWNVOTES: return {"error": "forbidden."}, 403
 
 	if new not in ["-1", "0", "1"]: abort(400)
 

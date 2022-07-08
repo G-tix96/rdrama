@@ -1,7 +1,6 @@
 from sqlalchemy import *
 from sqlalchemy.orm import relationship
 from files.__main__ import Base, app
-from os import environ
 from files.helpers.lazy import lazy
 from files.helpers.const import *
 from datetime import datetime

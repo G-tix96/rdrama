@@ -946,6 +946,36 @@ SPAM_SIMILAR_COUNT_THRESHOLD = int(environ.get("SPAM_SIMILAR_COUNT_THRESHOLD", 1
 COMMENT_SPAM_SIMILAR_THRESHOLD = float(environ.get("COMMENT_SPAM_SIMILAR_THRESHOLD", 0.5))
 COMMENT_SPAM_COUNT_THRESHOLD = int(environ.get("COMMENT_SPAM_COUNT_THRESHOLD", 10))
 DESCRIPTION = environ.get("DESCRIPTION", "rdrama.net caters to drama in all forms such as: Real life, videos, photos, gossip, rumors, news sites, Reddit, and Beyond™. There isn't drama we won't touch, and we want it all!").strip()
+GUMROAD_TOKEN = environ.get("GUMROAD_TOKEN", "").strip()
+GUMROAD_ID = environ.get("GUMROAD_ID", "tfcvri").strip()
+DEFAULT_THEME = environ.get("DEFAULT_THEME", "midnight").strip()
+DEFAULT_TIME_FILTER = environ.get("DEFAULT_TIME_FILTER", "all").strip()
+CARD_VIEW = bool(int(environ.get("CARD_VIEW", 1)))
+DISABLE_DOWNVOTES = bool(int(environ.get("CARD_VIEW", 0)))
+DISCORD_SERVER_ID = environ.get("DISCORD_SERVER_ID",'').strip()
+DISCORD_CLIENT_ID = environ.get("DISCORD_CLIENT_ID",'').strip()
+DISCORD_CLIENT_SECRET = environ.get("DISCORD_CLIENT_SECRET",'').strip()
+DISCORD_BOT_TOKEN = environ.get("DISCORD_BOT_TOKEN",'').strip()
+DISCORD_AUTH = environ.get("DISCORD_AUTH",'').strip()
+GIPHY_KEY = environ.get('GIPHY_KEY').strip()
+MASTER_KEY = environ.get("MASTER_KEY")
+FP = environ.get("FP")
+
+if SITE_NAME in ('Cringetopia', 'WPD'): PATRON_DEFAULT = 7
+else: PATRON_DEFAULT = 0
+
+tiers={
+	"(Paypig)": 1,
+	"(Renthog)": 2,
+	"(Landchad)": 3,
+	"(Terminally online turboautist)": 4,
+	"(Marsey's Sugar Daddy)": 5,
+	"(JIDF Bankroller)": 6,
+	"(Rich Bich)": 7,
+	"(LlamaBean)": 1,
+	}
+
+DISCORD_WELCOME_CHANNEL = "846509313941700618"
 
 has_sidebar = path.exists(f'files/templates/sidebar_{SITE_NAME}.html')
 has_logo = path.exists(f'files/assets/images/{SITE_NAME}/logo.webp')
