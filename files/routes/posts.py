@@ -510,10 +510,6 @@ def edit_post(pid, v):
 
 	return redirect(p.permalink)
 
-def archiveorg(url):
-	try: requests.get(f'https://web.archive.org/save/{url}', headers={'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}, timeout=100)
-	except: pass
-
 
 def thumbnail_thread(pid):
 

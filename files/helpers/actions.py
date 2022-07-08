@@ -5,6 +5,7 @@ from files.helpers.const import *
 from files.helpers.get import *
 from files.helpers.sanitize import *
 import random
+from urllib.parse import quote
 
 if SITE_NAME == 'PCM': snappyquotes = []
 else: snappyquotes = [f':#{x}:' for x in marseys_const2]
@@ -32,6 +33,10 @@ def badge_grant(user, badge_id, description=None, url=None):
 		f"@AutoJanny has given you the following profile badge:\n\n" +
 		f"![]({badge.path})\n\n{badge.name}")
 
+
+def archiveorg(url):
+	try: requests.get(f'https://web.archive.org/save/{url}', headers={'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}, timeout=100)
+	except: pass
 
 def execute_snappy(post, v):
 	snappy = get_account(SNAPPY_ID)
