@@ -88,7 +88,11 @@ def notifications_posts(v):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	listing = g.db.query(Submission).filter(Submission.author_id.in_(v.following_ids)).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
+	listing = g.db.query(Submission.id).filter(
+		Submission.author_id.in_(v.following_ids),
+		Submission.deleted_utc == 0,
+		Submission.is_banned == False
+	).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
 
 	next_exists = (len(listing) > 25)
 	listing = listing[:25]

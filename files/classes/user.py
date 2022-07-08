@@ -476,7 +476,7 @@ class User(Base):
 	@property
 	@lazy
 	def post_notifications_count(self):
-		return g.db.query(Submission).filter(Submission.author_id.in_(self.following_ids), Submission.created_utc > self.last_viewed_post_notifs).count()
+		return g.db.query(Submission).filter(Submission.author_id.in_(self.following_ids), Submission.created_utc > self.last_viewed_post_notifs, Submission.deleted_utc == 0, Submission.is_banned == False).count()
 
 	@property
 	@lazy
