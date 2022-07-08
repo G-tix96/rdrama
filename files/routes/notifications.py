@@ -89,10 +89,10 @@ def notifications_posts(v):
 
 	listing = [x[0] for x in g.db.query(Submission.id).filter(
 		or_(
-			Submission.author_id.in_(self.followed_users),
-			Submission.sub.in_(self.followed_subs)
+			Submission.author_id.in_(v.followed_users),
+			Submission.sub.in_(v.followed_subs)
 		),
-		Submission.created_utc > self.last_viewed_post_notifs,
+		Submission.created_utc > v.last_viewed_post_notifs,
 		Submission.deleted_utc == 0,
 		Submission.is_banned == False,
 		Submission.private == False
