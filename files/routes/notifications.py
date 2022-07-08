@@ -88,14 +88,15 @@ def notifications_posts(v):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	listing = g.db.query(Submission.id).filter(
+	listing = [x[0] for x in g.db.query(Submission.id).filter(
 		Submission.author_id.in_(v.following_ids),
 		Submission.deleted_utc == 0,
 		Submission.is_banned == False
-	).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
+	).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()]
 
 	next_exists = (len(listing) > 25)
 	listing = listing[:25]
+	listing = get_posts(listing, v=v)
 
 	for p in listing:
 		p.unread = p.created_utc > v.last_viewed_post_notifs
