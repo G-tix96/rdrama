@@ -23,7 +23,7 @@ def get_id(username, v=None, graceful=False):
 	return user[0]
 
 
-def get_user(username, v=None, graceful=False, rendered=False):
+def get_user(username, v=None, graceful=False):
 
 	if not username:
 		if not graceful: abort(404)
@@ -119,7 +119,7 @@ def get_account(id, v=None):
 	return user
 
 
-def get_post(i, v=None, graceful=False, rendered=False, entered=False):
+def get_post(i, v=None, graceful=False):
 
 	try: i = int(i)
 	except: abort(404)
