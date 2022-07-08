@@ -808,7 +808,8 @@ CREATE TABLE public.users (
     can_gamble boolean DEFAULT true NOT NULL,
     offsitementions boolean DEFAULT false NOT NULL,
     last_active integer DEFAULT 0 NOT NULL,
-    poorcel boolean DEFAULT false NOT NULL
+    poorcel boolean DEFAULT false NOT NULL,
+    last_viewed_post_notifs integer NOT NULL
 );
 
 
