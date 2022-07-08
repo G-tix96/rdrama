@@ -11,7 +11,7 @@ import requests
 @auth_desired
 def login_get(v):
 
-	redir = request.values.get("redirect")
+	redir = request.values.get("redirect", "/")
 	if redir:
 		redir = redir.replace("/logged_out", "").strip()
 		if not is_site_url(redir): redir = None
@@ -306,7 +306,7 @@ def sign_up_post(v):
 	ref_id = int(request.values.get("referred_by", 0))
 
 	users_count = g.db.query(User).count()
-	if users_count == 5:
+	if users_count == 4:
 		admin_level=3
 		session["history"] = []
 	else: admin_level=0

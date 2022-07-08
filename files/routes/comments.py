@@ -430,7 +430,7 @@ def api_comment(v):
 
 
 
-			c_jannied = Comment(author_id=NOTIFICATIONS_ID,
+			c_jannied = Comment(author_id=AUTOJANNY_ID,
 				parent_submission=parent_submission,
 				distinguish_level=6,
 				parent_comment_id=c.id,
@@ -747,7 +747,7 @@ def edit_comment(cid, v):
 
 
 
-			c_jannied = Comment(author_id=NOTIFICATIONS_ID,
+			c_jannied = Comment(author_id=AUTOJANNY_ID,
 				parent_submission=c.parent_submission,
 				distinguish_level=6,
 				parent_comment_id=c.id,

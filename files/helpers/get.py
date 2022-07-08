@@ -23,7 +23,7 @@ def get_id(username, v=None, graceful=False):
 	return user[0]
 
 
-def get_user(username, v=None, graceful=False):
+def get_user(username, v=None, graceful=False, rendered=False):
 
 	if not username:
 		if not graceful: abort(404)

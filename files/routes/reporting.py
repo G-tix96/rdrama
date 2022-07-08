@@ -64,8 +64,6 @@ def api_flag_post(pid, v):
 			)
 			g.db.add(ma)
 
-		on_post_hole_entered(post, v)
-
 		return {"message": f"Post moved to /h/{post.sub}"}
 	else:
 		flag = Flag(post_id=post.id, user_id=v.id, reason=reason)

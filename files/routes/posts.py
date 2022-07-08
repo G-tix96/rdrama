@@ -63,19 +63,6 @@ def publish(pid, v):
 			for x in notify_users:
 				add_notif(cid, x)
 
-		if v.followers:
-			text = f"@{v.username} has made a new post: [{post.title}]({post.shortlink})"
-			if post.sub: text += f" in <a href='/h/{post.sub}'>/h/{post.sub}"
-
-			cid = notif_comment(text, autojanny=True)
-			for follow in v.followers:
-				user = get_account(follow.user_id)
-				if post.club and not user.paid_dues: continue
-				add_notif(cid, user.id)
-
-	if post.sub:
-		on_post_hole_entered(post, v)
-
 
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
@@ -468,7 +455,7 @@ def edit_post(pid, v):
 
 			body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='post', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
-			c_jannied = Comment(author_id=NOTIFICATIONS_ID,
+			c_jannied = Comment(author_id=AUTOJANNY_ID,
 				parent_submission=p.id,
 				level=1,
 				over_18=False,
@@ -1016,19 +1003,6 @@ def submit_post(v, sub=None):
 			for x in notify_users:
 				add_notif(cid, x)
 
-		if (request.values.get('followers') or is_bot) and v.followers:
-			text = f"@{v.username} has made a new post: [{post.title}]({post.shortlink})"
-			if post.sub: text += f" in <a href='/h/{post.sub}'>/h/{post.sub}"
-
-			cid = notif_comment(text, autojanny=True)
-			for follow in v.followers:
-				user = get_account(follow.user_id)
-				if post.club and not user.paid_dues: continue
-				add_notif(cid, user.id)
-
-	if post.sub:
-		on_post_hole_entered(post, v)
-
 	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{post.body}{post.title}'.lower():
 		post.is_banned = True
 		post.ban_reason = "AutoJanny"
@@ -1038,7 +1012,7 @@ def submit_post(v, sub=None):
 		body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='post', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
 
-		c_jannied = Comment(author_id=NOTIFICATIONS_ID,
+		c_jannied = Comment(author_id=AUTOJANNY_ID,
 			parent_submission=post.id,
 			level=1,
 			over_18=False,

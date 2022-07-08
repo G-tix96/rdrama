@@ -639,7 +639,7 @@ def settings_block_user(v):
 	if v.has_blocked(user):
 		return {"error": f"You have already blocked @{user.username}."}, 409
 
-	if user.id == NOTIFICATIONS_ID:
+	if user.id == AUTOJANNY_ID:
 		return {"error": "You can't block this user."}, 409
 
 	new_block = UserBlock(user_id=v.id,

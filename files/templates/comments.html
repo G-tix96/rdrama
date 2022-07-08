@@ -133,8 +133,8 @@
 		{% if c.post.sub %}
 			<span class="ml-1"> in <a href="/h/{{c.post.sub}}" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>/h/{{c.post.sub}}</a></span>
 		{% endif %}
-	{% elif c.author_id==NOTIFICATIONS_ID or c.author_id==AUTOJANNY_ID %}
-	<span class="font-weight-bold">Notification</span>
+	{% elif c.author_id==AUTOJANNY_ID %}
+		<span class="font-weight-bold">Notification</span>
 	{% else %}
 		{% if c.sentto == 2 %}
 			<span class="font-weight-bold">Sent to admins</span>
@@ -596,7 +596,7 @@
 			</div>
 		{% endif %}
 
-		{% if request.path == '/notifications' and c.level == 1 and c.sentto and not c.parent_submission and c.author_id not in (NOTIFICATIONS_ID, AUTOJANNY_ID) %}
+		{% if request.path == '/notifications' and c.level == 1 and c.sentto and not c.parent_submission and c.author_id != AUTOJANNY_ID %}
 			<a class="btn btn-primary mt-2" role="button" onclick="openReplyBox('reply-message-{{c.id}}')">Reply</a>
 			<div id="reply-message-{{c.id}}" class="d-none">
 				<div id="comment-form-space-{{c.id}}" class="comment-write collapsed child">

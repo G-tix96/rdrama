@@ -66,7 +66,7 @@ def give_monthly_marseybux_task():
 		if u.admin_level or u.id == A_ID or (u.email and u.email.lower() in emails):
 			procoins = procoins_li[u.patron]
 			u.procoins += procoins
-			send_repeatable_notification(u.id, f"@Snappy has given you {procoins} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
+			send_repeatable_notification(u.id, f"@AutoJanny has given you {procoins} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
 		else: u.patron = 0
 
 	ma = ModAction(

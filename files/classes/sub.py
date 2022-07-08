@@ -4,6 +4,7 @@ from files.__main__ import Base
 from files.helpers.lazy import lazy
 from os import environ
 from .sub_block import *
+from .sub_subscription import *
 
 SITE_NAME = environ.get("SITE_NAME", '').strip()
 SITE = environ.get("DOMAIN", '').strip()
