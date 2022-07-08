@@ -81,7 +81,7 @@
 
 <div id="post-{{p.id}}" class="card{% if p.is_banned %} banned{% endif %}{% if p.deleted_utc %} deleted{% endif %}{% if p.stickied %} stickied{% endif %}{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}{% if p.over_18 %} nsfw{% endif %}">
 
-	<div class="d-flex flex-row-reverse flex-md-row flex-nowrap justify-content-end">
+	<div class="{% if p.unread %}unread{% endif %} d-flex flex-row-reverse flex-md-row flex-nowrap justify-content-end">
 
 		{% if not postembed %}
 			<div class="voting my-2 d-none d-md-block pr-2">
@@ -421,7 +421,7 @@
 </div>
 {% endif %}
 
-{% else %}
+{% elif request.path != '/notifications/posts' %}
 <div class="row no-gutters">	
 	<div class="col">			
 		<div class="text-center px-3 my-3">

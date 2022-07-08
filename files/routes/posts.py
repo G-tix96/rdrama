@@ -527,7 +527,7 @@ def thumbnail_thread(pid):
 			parsed_url = urlparse(post_url)
 			return f"https://{parsed_url.netloc}{fragment_url}"
 		else:
-			return f"{post_url}{'/' if not post_url.endswith('/') else ''}{fragment_url}"
+			return f"{post_url}/{fragment_url}"
 
 	post = db.get(Submission, pid)
 	

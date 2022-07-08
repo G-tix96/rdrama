@@ -688,7 +688,7 @@ def message2(v, username):
 		if len(message) > 500: notifbody = message[:500] + '...'
 		else: notifbody = message
 
-		url = f'{SITE_FULL}/notifications?messages=true'
+		url = f'{SITE_FULL}/notifications/messages'
 
 		gevent.spawn(pusher_thread, interests, title, notifbody, url)
 
@@ -761,7 +761,7 @@ def messagereply(v):
 			if len(body) > 500: notifbody = body[:500] + '...'
 			else: notifbody = body
 
-			url = f'{SITE_FULL}/notifications?messages=true'
+			url = f'{SITE_FULL}/notifications/messages'
 
 			gevent.spawn(pusher_thread, interests, title, notifbody, url)
 

@@ -127,6 +127,7 @@ class User(Base):
 	currently_held_lottery_tickets = Column(Integer, default=0)
 	total_held_lottery_tickets = Column(Integer, default=0)
 	total_lottery_winnings = Column(Integer, default=0)
+	last_viewed_post_notifs = Column(Integer, default=0)
 
 	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
 	subscriptions = relationship("Subscription", back_populates="user")
@@ -449,6 +450,11 @@ class User(Base):
 
 	@property
 	@lazy
+	def following_ids(self):
+		return [x[0] for x in g.db.query(Follow.target_id).filter_by(user_id=self.id).all()]
+
+	@property
+	@lazy
 	def notifications_count(self):
 		notifs = g.db.query(Notification.user_id).join(Comment).filter(
 			Notification.user_id == self.id, Notification.read == False, 
@@ -457,7 +463,7 @@ class User(Base):
 		if not self.shadowbanned and self.admin_level < 3:
 			notifs = notifs.join(Notification.user).filter(User.shadowbanned == None)
 		
-		return notifs.count()
+		return notifs.count() + self.post_notifications_count
 
 	@property
 	@lazy
@@ -470,9 +476,7 @@ class User(Base):
 	@property
 	@lazy
 	def post_notifications_count(self):
-		return g.db.query(Notification).join(Comment).filter(
-			Notification.user_id == self.id, Notification.read == False, 
-			Comment.author_id == AUTOJANNY_ID).count()
+		return g.db.query(Submission).filter(Submission.author_id.in_(self.following_ids), Submission.created_utc > self.last_viewed_post_notifs).count()
 
 	@property
 	@lazy
