@@ -2,7 +2,7 @@ from files.helpers.wrappers import *
 from files.helpers.get import *
 from files.helpers.const import *
 from files.__main__ import app
-
+import time
 
 @app.post("/clear")
 @auth_required
@@ -11,6 +11,8 @@ def clear(v):
 	for n in notifs:
 		n.read = True
 		g.db.add(n)
+	v.last_viewed_post_notifs = int(time.time())
+	g.db.add(v)
 	return {"message": "Notifications cleared!"}
 
 
