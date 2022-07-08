@@ -45,6 +45,9 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 
 	comment = get_comment(cid, v=v)
 	
+	if comment.author.shadowbanned and not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
+		abort(404)
+
 	if v and request.values.get("read"):
 		notif = g.db.query(Notification).filter_by(comment_id=cid, user_id=v.id, read=False).one_or_none()
 		if notif:
