@@ -442,45 +442,6 @@ def subs(v):
 	subs = g.db.query(Sub, func.count(Submission.sub)).outerjoin(Submission, Sub.name == Submission.sub).group_by(Sub.name).order_by(func.count(Submission.sub).desc()).all()
 	return render_template('sub/subs.html', v=v, subs=subs)
 
-def sub_inactive_purge_task():
-	if not HOLE_INACTIVITY_DELETION:
-		return False
-
-	one_week_ago = time.time() - 604800
-	active_holes = [x[0] for x in g.db.query(Submission.sub).distinct() \
-		.filter(Submission.sub != None, Submission.created_utc > one_week_ago).all()]
-
-	dead_holes = g.db.query(Sub).filter(Sub.name.notin_(active_holes)).all()
-	names = [x.name for x in dead_holes]
-
-	mods = g.db.query(Mod).filter(Mod.sub.in_(names)).all()
-	for x in mods:
-		send_repeatable_notification(x.user_id, f":marseyrave: /h/{x.sub} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
-
-	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level > 1).all()]
-	for name in names:
-		for admin in admins:
-			send_repeatable_notification(admin, f":marseyrave: /h/{name} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
-
-	posts = g.db.query(Submission).filter(Submission.sub.in_(names)).all()
-	for post in posts:
-		post.sub = None
-		g.db.add(post)
-
-	to_delete = mods \
-		+ g.db.query(Exile).filter(Exile.sub.in_(names)).all() \
-		+ g.db.query(SubBlock).filter(SubBlock.sub.in_(names)).all() \
-		+ g.db.query(SubSubscription).filter(SubSubscription.sub.in_(names)).all()
-
-	for x in to_delete:
-		g.db.delete(x)
-	g.db.flush()
-
-	for x in dead_holes:
-		g.db.delete(x)
-
-	return True
-
 @app.post("/hole_pin/<pid>")
 @auth_required
 def hole_pin(v, pid):
