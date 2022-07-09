@@ -859,6 +859,14 @@ marseys_const = [x[0] for x in db.query(Marsey.name).filter(Marsey.name!='chudse
 marseys_const2 = marseys_const + ['chudsey','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','exclamationpoint','period','questionmark']
 db.close()
 
+SNAPPY_QUOTES = []
+if not SITE_NAME in ['PCM', 'LGBDropTheT']:
+	SNAPPY_QUOTES = [f':#{x}:' for x in marseys_const2]
+
+if path.exists(f'snappy_{SITE_NAME}.txt'):
+	with open(f'snappy_{SITE_NAME}.txt', "r", encoding="utf-8") as f:
+		SNAPPY_QUOTES += f.read().split("\n{[para]}\n")
+
 YOUTUBE_KEY = environ.get("YOUTUBE_KEY", "").strip()
 
 ADMIGGERS = (37696,37697,37749,37833,37838,39413)
