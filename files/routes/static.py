@@ -31,27 +31,26 @@ def marseys(v):
 @app.get("/marsey_list.json")
 @cache.memoize(timeout=600)
 def marsey_list():
+	emojis = []
+
 	# From database
-	emojis = [{
-		"name": emoji.name,
-		"author": author if SITE_NAME == 'rDrama' or author == "anton-d" else None,
-		# yikes, I don't really like this DB schema. Next time be better
-		"tags": emoji.tags.split(" ") + [emoji.name[len("marsey"):] if emoji.name.startswith("marsey") else emoji.name],
-		"count": emoji.count,
-		"class": "Marsey"
-	} for emoji, author in g.db.query(Marsey, User.username).join(User).order_by(Marsey.count.desc())]
+	if EMOJI_MARSEYS:
+		emojis = [{
+			"name": emoji.name,
+			"author": author if SITE_NAME == 'rDrama' or author == "anton-d" else None,
+			# yikes, I don't really like this DB schema. Next time be better
+			"tags": emoji.tags.split(" ") + [emoji.name[len("marsey"):] \
+						if emoji.name.startswith("marsey") else emoji.name],
+			"count": emoji.count,
+			"class": "Marsey"
+		} for emoji, author in g.db.query(Marsey, User.username).join(User) \
+			.order_by(Marsey.count.desc())]
 
-	# Stastic shit
-	shit = open("files/assets/emojis.json", "r", encoding="utf-8")
-	emojis = emojis + json.load(shit)
-	shit.close()
+	# Static shit
+	for src in EMOJI_SRCS:
+		with open(src, "r", encoding="utf-8") as f:
+			emojis = emojis + json.load(f)
 
-	if SITE_NAME == 'Cringetopia':
-		shit = open("files/assets/emojis.cringetopia.json", "r", encoding="utf-8")
-		emojis = emojis + json.load(shit)
-		shit.close()
-
-	# return str(marseys).replace("'",'"')
 	return jsonify(emojis)
 
 @app.get('/rules')
