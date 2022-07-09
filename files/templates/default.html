@@ -11,7 +11,6 @@
 		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' ajax.cloudflare.com; connect-src 'self'; object-src 'none';">
 	{% endif %}
 
-	<script src="{{asset('js/bootstrap.js')}}"></script>
 	{% if v %}
 		<style>:root{--primary:#{{v.themecolor}}}</style>
 		<link rel="stylesheet" href="{{asset('css/main.css')}}">
@@ -376,6 +375,8 @@
 		<i class="fas fa-exclamation-circle mr-2"></i><span id="toast-post-error-text">Error, please try again later.</span>
 	</div>
 </div>
+
+<script src="{{asset('js/bootstrap.js')}}"></script>
 
 <script src="{{asset('js/lozad.js')}}"></script>
 

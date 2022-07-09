@@ -246,7 +246,7 @@ def random_user(v):
 	u = g.db.query(User.username).filter(User.song != None).order_by(func.random()).first()
 	
 	if u: u = u[0]
-	else: abort(404)
+	else: return "No users have set a profile anthem so far!"
 
 	return redirect(f"/@{u}")
 

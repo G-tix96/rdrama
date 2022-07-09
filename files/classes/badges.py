@@ -41,22 +41,31 @@ class Badge(Base):
 
 	@property
 	@lazy
+	def until(self):
+		if self.badge_id == 28: return self.user.agendaposter
+		if self.badge_id == 94: return self.user.progressivestack
+		if self.badge_id == 95: return self.user.bird
+		if self.badge_id == 96: return self.user.flairchanged
+		if self.badge_id == 97: return self.user.longpost
+		if self.badge_id == 98: return self.user.marseyawarded
+		if self.badge_id == 109: return self.user.rehab
+		return None
+
+	@property
+	@lazy
 	def text(self):
-		if self.name == "Chud":
-			ti = self.user.agendaposter
-			if ti: text = self.badge.description + " until " + datetime.utcfromtimestamp(ti).strftime('%Y-%m-%d %H:%M:%S')
+		if self.badge_id == 28:
+			if ti: text = self.badge.description + " until"
 			else: text = self.badge.description + " permanently"
 		elif self.badge_id in {94,95,96,97,98,109}:
-			if self.badge_id == 94: ti = self.user.progressivestack
-			elif self.badge_id == 95: ti = self.user.bird
-			elif self.badge_id == 96: ti = self.user.flairchanged
-			elif self.badge_id == 97: ti = self.user.longpost
-			elif self.badge_id == 98: ti = self.user.marseyawarded
-			elif self.badge_id == 109: ti = self.user.rehab
-			text = self.badge.description + " until " + datetime.utcfromtimestamp(ti).strftime('%Y-%m-%d %H:%M:%S')
-		elif self.description: text = self.description
-		elif self.badge.description: text = self.badge.description
-		else: return self.name
+			text = self.badge.description + " until"
+		elif self.description:
+			text = self.description
+		elif self.badge.description:
+			text = self.badge.description
+		else:
+			return self.name
+		
 		return f'{self.name} - {text}'
 
 	@property

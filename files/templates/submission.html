@@ -22,95 +22,10 @@
 	}
 </style>
 
-{% if success %}
-	<script>
-		history.pushState(null, null, '{{p.permalink}}');
-		localStorage.setItem("post_title", "")
-		localStorage.setItem("post_text", "")
-		localStorage.setItem("post_url", "")
-		localStorage.setItem("sub", "")
-	</script>
-{% endif %}
-
-
-{% if p.award_count("crab", v) %}
-	<script>
-		let audio = new Audio('/assets/media/crab.mp3');
-		audio.loop=true;
-
-		audio.play();
-		window.addEventListener('click', () => {
-			if (audio.paused) audio.play(); 
-		}, {once : true});
-	</script>
-{% endif %}
-
-{% if fart and not (v and v.has_badge(128)) %}
-	<script>
-		fart = Math.floor(Math.random() * 5) + 1
-		let audio = new Audio(`/assets/images/${fart}.webp`);
-
-		audio.play();
-		if (audio.paused) {
-			window.addEventListener('click', () => {
-				if (audio.paused) audio.play(); 
-			}, {once : true})
-		}
-	</script>
-{% endif %}
-
 {% if SITE_NAME == 'PCM' %}
 	{% set wholesome = '/i/wholesome.webp' %}
 {% else %}
 	{% set wholesome = '/e/marseywholesome.webp' %}
-{% endif %}
-
-{% if p.award_count("confetti", v) %}
-	<div id="post-award-confetti"></div>
-{% endif %}
-
-{% if p.award_count("firework", v) %}
-	<script src="/assets/js/fireworks.js?v=18"></script>
-	<div class="firework">
-		<img src="">
-	</div>
-
-	{% if p.award_count("firework", v) > 1 %}
-		<div class="firework">
-			<img src="">
-		</div>
-	{% endif %}
-
-	{% if p.award_count("firework", v) > 2 %}
-		<div class="firework">
-			<img src="">
-		</div>
-	{% endif %}
-
-	{% if p.award_count("firework", v) > 3 %}
-		<div class="firework">
-			<img src="">
-		</div>
-	{% endif %}
-{% endif %}
-
-{% if p.award_count("ricardo", v) %}
-	<script src="/assets/js/ricardo.js?v=18"></script>
-	<div id="ricardo1" class="ricardo ricardoleft">
-		<img src="/i/ricardo1.webp">
-	</div>
-
-	{% if p.award_count("ricardo", v) > 1 %}
-		<div id="ricardo2" class="ricardo">
-			<img src="/i/ricardo2.webp" style="max-height:200px">
-		</div>
-	{% endif %}
-
-	{% if p.award_count("ricardo", v) > 2 %}
-		<div id="ricardo3" class="ricardo">
-			<img src="/i/ricardo3.webp" style="max-height:150px">
-		</div>
-	{% endif %}
 {% endif %}
 
 {% if g.inferior_browser %}
@@ -1216,4 +1131,91 @@
 		{% endif %}
 	})()
 </script>
+
+{% if success %}
+	<script>
+		history.pushState(null, null, '{{p.permalink}}');
+		localStorage.setItem("post_title", "")
+		localStorage.setItem("post_text", "")
+		localStorage.setItem("post_url", "")
+		localStorage.setItem("sub", "")
+	</script>
+{% endif %}
+
+
+{% if p.award_count("crab", v) %}
+	<script>
+		let audio = new Audio('/assets/media/crab.mp3');
+		audio.loop=true;
+
+		audio.play();
+		window.addEventListener('click', () => {
+			if (audio.paused) audio.play(); 
+		}, {once : true});
+	</script>
+{% endif %}
+
+{% if fart and not (v and v.has_badge(128)) %}
+	<script>
+		fart = Math.floor(Math.random() * 5) + 1
+		let audio = new Audio(`/assets/images/${fart}.webp`);
+
+		audio.play();
+		if (audio.paused) {
+			window.addEventListener('click', () => {
+				if (audio.paused) audio.play(); 
+			}, {once : true})
+		}
+	</script>
+{% endif %}
+
+
+{% if p.award_count("confetti", v) %}
+	<div id="post-award-confetti"></div>
+{% endif %}
+
+{% if p.award_count("firework", v) %}
+	<script src="/assets/js/fireworks.js?v=18"></script>
+	<div class="firework">
+		<img src="">
+	</div>
+
+	{% if p.award_count("firework", v) > 1 %}
+		<div class="firework">
+			<img src="">
+		</div>
+	{% endif %}
+
+	{% if p.award_count("firework", v) > 2 %}
+		<div class="firework">
+			<img src="">
+		</div>
+	{% endif %}
+
+	{% if p.award_count("firework", v) > 3 %}
+		<div class="firework">
+			<img src="">
+		</div>
+	{% endif %}
+{% endif %}
+
+{% if p.award_count("ricardo", v) %}
+	<script src="/assets/js/ricardo.js?v=18"></script>
+	<div id="ricardo1" class="ricardo ricardoleft">
+		<img src="/i/ricardo1.webp">
+	</div>
+
+	{% if p.award_count("ricardo", v) > 1 %}
+		<div id="ricardo2" class="ricardo">
+			<img src="/i/ricardo2.webp" style="max-height:200px">
+		</div>
+	{% endif %}
+
+	{% if p.award_count("ricardo", v) > 2 %}
+		<div id="ricardo3" class="ricardo">
+			<img src="/i/ricardo3.webp" style="max-height:150px">
+		</div>
+	{% endif %}
+{% endif %}
+
 {% endblock %}

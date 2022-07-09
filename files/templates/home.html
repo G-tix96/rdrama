@@ -9,35 +9,6 @@
 		}
 	</style>
 {% endif %}
-
-{% if v and FP %}
-	{% if not v.fp %}
-		<script>
-			function fp(fp) {
-				const xhr = new XMLHttpRequest();
-				xhr.open("POST", '/fp/'+fp);
-				xhr.setRequestHeader('xhr', 'xhr');
-				var form = new FormData()
-				form.append("formkey", formkey());
-				xhr.send(form);
-			};
-
-			const fpPromise = new Promise((resolve, reject) => {
-				const script = document.createElement('script');
-				script.onload = resolve;
-				script.onerror = reject;
-				script.async = true;
-				script.src = "/assets/js/fp.js?v=240";
-				document.head.appendChild(script);
-			})
-				.then(() => FingerprintJS.load({token: '{{FP}}'}));
-
-			fpPromise
-				.then(fp => fp.get())
-				.then(result => {if (result.visitorId != '{{v.fp}}') fp(result.visitorId);})
-		</script>
-	{% endif %}
-{% endif %}
   
 <div class="row" style="overflow: visible;padding-top:5px;">
 	<div class="col">
@@ -241,6 +212,35 @@
 			inset: 0px 0px auto auto !important;
 		}
 	</style>
+{% endif %}
+
+{% if v and FP %}
+	{% if not v.fp %}
+		<script>
+			function fp(fp) {
+				const xhr = new XMLHttpRequest();
+				xhr.open("POST", '/fp/'+fp);
+				xhr.setRequestHeader('xhr', 'xhr');
+				var form = new FormData()
+				form.append("formkey", formkey());
+				xhr.send(form);
+			};
+
+			const fpPromise = new Promise((resolve, reject) => {
+				const script = document.createElement('script');
+				script.onload = resolve;
+				script.onerror = reject;
+				script.async = true;
+				script.src = "/assets/js/fp.js?v=240";
+				document.head.appendChild(script);
+			})
+				.then(() => FingerprintJS.load({token: '{{FP}}'}));
+
+			fpPromise
+				.then(fp => fp.get())
+				.then(result => {if (result.visitorId != '{{v.fp}}') fp(result.visitorId);})
+		</script>
+	{% endif %}
 {% endif %}
 
 {% endblock %}

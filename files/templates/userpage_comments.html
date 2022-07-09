@@ -117,8 +117,8 @@
 
 {% if v %}
 <div id='tax' class="d-none">{% if v.patron or u.patron %}0{% else %}0.03{% endif %}</div>
-<script src="{{asset('js/userpage_v.js')}}"></script>
 <div id="username" class="d-none">{{u.username}}</div>
+<script src="{{asset('js/userpage_v.js')}}"></script>
 {% endif %}
 
 <script src="{{asset('js/userpage.js')}}"></script>

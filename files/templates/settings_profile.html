@@ -463,14 +463,9 @@
 								<label class="text-black w-lg-25">Flair</label>
 
 								<div class="w-lg-100">
-									
-									{% if v.flairchanged %}
-										{% set ti = datetime.utcfromtimestamp(v.flairchanged).strftime('%Y-%m-%d %H:%M:%S') %}
-									{% endif %}
-								
 									<form id="profile-settings" action="/settings/title_change" method="post">
 										<input type="hidden" name="formkey" value="{{v.formkey}}">
-										<input maxlength=100 {% if v.flairchanged %}disabled{% endif %} autocomplete="off" id="customtitlebody" type="text" name="title" class="form-control" placeholder='Enter a flair here' value="{% if v.flairchanged %}Your flair has been locked until {{ti}}{% elif v.customtitleplain %}{{v.customtitleplain}}{% endif %}">
+										<input maxlength=100 {% if v.flairchanged %}disabled{% endif %} autocomplete="off" id="customtitlebody" type="text" name="title" class="form-control" placeholder='Enter a flair here' value="{% if v.customtitleplain %}{{v.customtitleplain}}{% endif %}">
 										<div class="d-flex mt-2">
 											<a class="format" role="button"><i class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('customtitlebody')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom"  title="Add Emoji"></i></a>
 											&nbsp;&nbsp;&nbsp;
@@ -738,9 +733,17 @@
 </div>
 
 
-<script src="/assets/js/settings_profile.js?v=256"></script>
-
 {% include "emoji_modal.html" %}
 {% include "gif_modal.html" %}
+
+{% if v.flairchanged %}
+	<script>
+		const date = new Date({{v.flairchanged}}*1000).toString();
+		const text = ` - Your flair has been locked until ${date}`
+		document.getElementById('customtitlebody').value += text;
+	</script>
+{% endif %}
+
+<script src="/assets/js/settings_profile.js?v=256"></script>
 
 {% endblock %}

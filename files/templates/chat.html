@@ -109,8 +109,6 @@
 </head>
 
 <body>
-	<script src="{{asset('js/bootstrap.js')}}"></script>
-
 	{% include "header.html" %}
 	
 	<div class="container pb-4">
@@ -196,6 +194,7 @@
 <input id="site_name" type="hidden" value="{{SITE_NAME}}">
 <input id="slurreplacer" type="hidden" value="{{v.slurreplacer}}">
 
+<script src="{{asset('js/bootstrap.js')}}"></script>
 <script src="/chat.js?v=23"></script>
 
 {% include "emoji_modal.html" %}
