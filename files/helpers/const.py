@@ -152,6 +152,9 @@ PERMS = { # Minimum admin_level to perform action.
 	'FLAGS_REMOVE': 2,
 }
 
+EMOJI_MARSEYS = True
+EMOJI_SRCS = ['files/assets/emojis.json']
+
 PIN_ENABLED = True
 PIN_LIMIT = 3
 POST_RATE_LIMIT = '1/second;2/minute;10/hour;50/day'
@@ -266,6 +269,8 @@ elif SITE == 'pcmemes.net':
 elif SITE == 'cringetopia.org':
 	HOLE_COST = 10000
 
+	EMOJI_SRCS = ['files/assets/emojis.json', 'files/assets/emojis.cringetopia.json']
+
 	GIFT_NOTIF_ID = 18
 	CARP_ID = 18
 	AEVANN_ID = 9
@@ -302,6 +307,9 @@ elif SITE == 'watchpeopledie.co':
 elif SITE == 'lgbdropthet.com':
 	PERMS['HOLE_CREATE'] = 3
 	PERMS['FLAGS_VISIBLE_REPORTER'] = 2
+
+	EMOJI_MARSEYS = False
+	EMOJI_SRCS = ['files/assets/emojis.lgbdropthet.json']
 
 	AEVANN_ID = 10
 	SNAKES_ID = 9
