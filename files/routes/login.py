@@ -345,6 +345,10 @@ def sign_up_post(v):
 
 
 	check_for_alts(new_user.id)
+	if new_user.has_shadowbanned_alts:
+		new_user.shadowbanned = "AutoJanny"
+		g.db.add(new_user)
+		g.db.commit()
 	
 	send_notification(new_user.id, WELCOME_MSG)
 

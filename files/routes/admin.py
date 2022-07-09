@@ -930,7 +930,7 @@ def shadowban(user_id, v):
 	g.db.add(user)
 
 	for alt in user.alts:
-		if alt.admin_level: break
+		if alt.admin_level: continue
 		alt.shadowbanned = v.username
 		g.db.add(alt)
 
