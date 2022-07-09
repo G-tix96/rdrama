@@ -274,6 +274,11 @@ elif SITE == 'cringetopia.org':
 
 	HOLE_COST = 10000
 
+	AUTOJANNY_ID = 2
+	SNAPPY_ID = 3
+	LONGPOSTBOT_ID = 4
+	ZOZBOT_ID = 5
+
 	GIFT_NOTIF_ID = 18
 	CARP_ID = 18
 	AEVANN_ID = 9
@@ -302,6 +307,11 @@ elif SITE == 'watchpeopledie.co':
 	HOLE_STYLE_FLAIR = True
 	HOLE_REQUIRED = True
 
+	AUTOJANNY_ID = 2
+	SNAPPY_ID = 3
+	LONGPOSTBOT_ID = 4
+	ZOZBOT_ID = 5
+
 	GIFT_NOTIF_ID = 13
 	CARP_ID = 13
 	AEVANN_ID = 9
@@ -315,6 +325,11 @@ elif SITE == 'lgbdropthet.com':
 
 	PROCOINS_ENABLED = False
 	PFP_DEFAULT_MARSEY = False
+
+	AUTOJANNY_ID = 1
+	SNAPPY_ID = 3
+	LONGPOSTBOT_ID = 4
+	ZOZBOT_ID = 5
 
 	AEVANN_ID = 10
 	SNAKES_ID = 9
