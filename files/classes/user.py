@@ -4,6 +4,7 @@ import pyotp
 from files.helpers.discord import remove_user
 from files.helpers.media import *
 from files.helpers.const import *
+from files.helpers.sorting_and_time import *
 from .alts import Alt
 from .saves import *
 from .notifications import Notification
@@ -18,7 +19,6 @@ from .mod import *
 from .exiles import *
 from .sub_block import *
 from .sub_subscription import *
-from .submission import sort_posts
 from files.__main__ import Base, cache
 from files.helpers.security import *
 from copy import deepcopy
@@ -322,20 +322,7 @@ class User(Base):
 		if not (v and v.admin_level > 1):
 			posts = posts.filter_by(deleted_utc=0)
 
-		now = int(time.time())
-		if t == 'hour':
-			cutoff = now - 3600
-		elif t == 'day':
-			cutoff = now - 86400
-		elif t == 'week':
-			cutoff = now - 604800
-		elif t == 'month':
-			cutoff = now - 2592000
-		elif t == 'year':
-			cutoff = now - 31536000
-		else:
-			cutoff = 0
-		posts = posts.filter(Submission.created_utc >= cutoff)
+		posts = apply_time_filter(t, posts, Submission)
 
 		posts = sort_posts(sort, posts)
 	

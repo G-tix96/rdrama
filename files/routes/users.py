@@ -6,6 +6,7 @@ from files.classes.views import ViewerRelationship
 from files.helpers.alerts import *
 from files.helpers.sanitize import *
 from files.helpers.const import *
+from files.helpers.sorting_and_time import *
 from files.mail import *
 from flask import *
 from files.__main__ import app, limiter, db_session
@@ -1015,20 +1016,7 @@ def u_username_comments(username, v=None):
 	if not (v and v.admin_level > 1):
 		comments = comments.filter_by(deleted_utc=0)
 
-	now = int(time.time())
-	if t == 'hour':
-		cutoff = now - 3600
-	elif t == 'day':
-		cutoff = now - 86400
-	elif t == 'week':
-		cutoff = now - 604800
-	elif t == 'month':
-		cutoff = now - 2592000
-	elif t == 'year':
-		cutoff = now - 31536000
-	else:
-		cutoff = 0
-	comments = comments.filter(Comment.created_utc >= cutoff)
+	comments = apply_time_filter(t, comments, Comment)
 
 	comments = sort_comments(sort, comments)
 

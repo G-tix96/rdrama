@@ -26,20 +26,6 @@ def normalize_urls_runtime(body, v):
 
 	return body
 
-def sort_comments(sort, comments):
-
-	if sort == 'new':
-		return comments.order_by(Comment.id.desc())
-	elif sort == 'old':
-		return comments.order_by(Comment.id)
-	elif sort == 'controversial':
-		return comments.order_by((Comment.upvotes+1)/(Comment.downvotes+1) + (Comment.downvotes+1)/(Comment.upvotes+1), Comment.downvotes.desc(), Comment.id.desc())
-	elif sort == "bottom":
-		return comments.order_by(Comment.upvotes - Comment.downvotes)
-	else:
-		return comments.order_by(Comment.realupvotes.desc(), Comment.id.desc())
-
-
 class Comment(Base):
 
 	__tablename__ = "comments"

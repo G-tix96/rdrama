@@ -18,20 +18,6 @@ from .votes import CommentVote
 from .polls import *
 from flask import g
 
-def sort_posts(sort, posts):
-	if sort == "new":
-		return posts.order_by(Submission.created_utc.desc())
-	elif sort == "old":
-		return posts.order_by(Submission.created_utc)
-	elif sort == "controversial":
-		return posts.order_by((Submission.upvotes+1)/(Submission.downvotes+1) + (Submission.downvotes+1)/(Submission.upvotes+1), Submission.downvotes.desc(), Submission.created_utc.desc())
-	elif sort == "bottom":
-		return posts.order_by(Submission.upvotes - Submission.downvotes, Submission.created_utc.desc())
-	elif sort == "comments":
-		return posts.order_by(Submission.comment_count.desc(), Submission.created_utc.desc())
-	else:
-		return posts.order_by(Submission.downvotes - Submission.upvotes, Submission.created_utc.desc())
-
 class Submission(Base):
 	__tablename__ = "submissions"
 

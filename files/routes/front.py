@@ -2,6 +2,7 @@ from files.helpers.wrappers import *
 from files.helpers.get import *
 from files.helpers.discord import *
 from files.helpers.const import *
+from files.helpers.sorting_and_time import *
 from files.__main__ import app, cache, limiter
 from files.classes.submission import Submission
 from files.helpers.awards import award_timers
@@ -89,15 +90,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	if lt: posts = posts.filter(Submission.created_utc < lt)
 
 	if not gt and not lt:
-		if t == 'all': cutoff = 0
-		else:
-			now = int(time.time())
-			if t == 'hour': cutoff = now - 3600
-			elif t == 'week': cutoff = now - 604800
-			elif t == 'month': cutoff = now - 2592000
-			elif t == 'year': cutoff = now - 31536000
-			else: cutoff = now - 86400
-			posts = posts.filter(Submission.created_utc >= cutoff)
+		posts = apply_time_filter(t, posts, Submission)
 
 	if (ccmode == "true"):
 		posts = posts.filter(Submission.club == True)
@@ -205,20 +198,7 @@ def changeloglist(v=None, sort="new", page=1, t="all", site=None):
 
 	posts = posts.filter(Submission.title.ilike('_changelog%'), Submission.author_id.in_(allowed))
 
-	if t != 'all':
-		cutoff = 0
-		now = int(time.time())
-		if t == 'hour':
-			cutoff = now - 3600
-		elif t == 'day':
-			cutoff = now - 86400
-		elif t == 'week':
-			cutoff = now - 604800
-		elif t == 'month':
-			cutoff = now - 2592000
-		elif t == 'year':
-			cutoff = now - 31536000
-		posts = posts.filter(Submission.created_utc >= cutoff)
+	posts = apply_time_filter(t, posts, Submission)
 
 	posts = sort_posts(sort, posts)
 
@@ -308,20 +288,7 @@ def comment_idlist(page=1, v=None, nsfw=False, sort="new", t="all", gt=0, lt=0, 
 	if lt: comments = comments.filter(Comment.created_utc < lt)
 
 	if not gt and not lt:
-		now = int(time.time())
-		if t == 'hour':
-			cutoff = now - 3600
-		elif t == 'day':
-			cutoff = now - 86400
-		elif t == 'week':
-			cutoff = now - 604800
-		elif t == 'month':
-			cutoff = now - 2592000
-		elif t == 'year':
-			cutoff = now - 31536000
-		else:
-			cutoff = 0
-		comments = comments.filter(Comment.created_utc >= cutoff)
+		comments = apply_time_filter(t, comments, Comment)
 
 	comments = sort_comments(sort, comments)
 

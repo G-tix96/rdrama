@@ -4,6 +4,7 @@ from sqlalchemy import *
 from flask import *
 from files.__main__ import app
 from files.helpers.regex import *
+from files.helpers.sorting_and_time import *
 
 search_operator_hole = HOLE_NAME
 
@@ -112,21 +113,7 @@ def searchposts(v):
 	if search_operator_hole in criteria:
 		posts = posts.filter(Submission.sub == criteria[search_operator_hole])
 
-	if t:
-		now = int(time.time())
-		if t == 'hour':
-			cutoff = now - 3600
-		elif t == 'day':
-			cutoff = now - 86400
-		elif t == 'week':
-			cutoff = now - 604800
-		elif t == 'month':
-			cutoff = now - 2592000
-		elif t == 'year':
-			cutoff = now - 31536000
-		else:
-			cutoff = 0
-		posts = posts.filter(Submission.created_utc >= cutoff)
+	posts = apply_time_filter(t, posts, Submission)
 
 	posts = sort_posts(sort, posts)
 
@@ -203,22 +190,7 @@ def searchcomments(v):
 	if search_operator_hole in criteria:
 		comments = comments.filter(Submission.sub == criteria[search_operator_hole])
 
-	if t:
-		now = int(time.time())
-		if t == 'hour':
-			cutoff = now - 3600
-		elif t == 'day':
-			cutoff = now - 86400
-		elif t == 'week':
-			cutoff = now - 604800
-		elif t == 'month':
-			cutoff = now - 2592000
-		elif t == 'year':
-			cutoff = now - 31536000
-		else:
-			cutoff = 0
-		comments = comments.filter(Comment.created_utc >= cutoff)
-
+	comments = apply_time_filter(t, comments, Comment)
 
 	if v.admin_level < 2:
 		private = [x[0] for x in g.db.query(Submission.id).filter(Submission.private == True).all()]
