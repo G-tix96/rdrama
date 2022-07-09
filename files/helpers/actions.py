@@ -7,13 +7,6 @@ from files.helpers.sanitize import *
 import random
 from urllib.parse import quote
 
-if SITE_NAME == 'PCM': snappyquotes = []
-else: snappyquotes = [f':#{x}:' for x in marseys_const2]
-
-if path.exists(f'snappy_{SITE_NAME}.txt'):
-	with open(f'snappy_{SITE_NAME}.txt', "r", encoding="utf-8") as f:
-		snappyquotes += f.read().split("\n{[para]}\n")
-
 def badge_grant(user, badge_id, description=None, url=None):
 	assert user != None
 	if user.has_badge(badge_id):
@@ -49,8 +42,10 @@ def execute_snappy(post, v):
 	elif v.id == LAWLZ_ID:
 		if random.random() < 0.5: body = "wow, this lawlzpost sucks!"
 		else: body = "wow, a good lawlzpost for once!"
+	elif len(SNAPPY_QUOTES) == 0:
+		body = ""
 	else:
-		body = random.choice(snappyquotes).strip()
+		body = random.choice(SNAPPY_QUOTES).strip()
 		if body.startswith('▼'):
 			body = body[1:]
 			vote = Vote(user_id=SNAPPY_ID,
@@ -122,8 +117,10 @@ def execute_snappy(post, v):
 			gevent.spawn(archiveorg, href)
 
 	body = body.strip()
-
 	body_html = sanitize(body)
+
+	if len(body_html) == 0:
+		return
 
 	if len(body_html) < 40000:
 		c = Comment(author_id=SNAPPY_ID,

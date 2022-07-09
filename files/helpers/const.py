@@ -139,12 +139,6 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 ### SITE SPECIFIC CONSTANTS
 ################################################################################
 
-HOLE_NAME = 'hole'
-HOLE_STYLE_FLAIR = False
-HOLE_REQUIRED = False
-HOLE_COST = 0
-HOLE_INACTIVITY_DELETION = False
-
 PERMS = { # Minimum admin_level to perform action.
 	'HOLE_CREATE': 0,
 	'FLAGS_VISIBLE': 0,
@@ -155,10 +149,18 @@ PERMS = { # Minimum admin_level to perform action.
 EMOJI_MARSEYS = True
 EMOJI_SRCS = ['files/assets/emojis.json']
 
+PROCOINS_ENABLED = True
 PIN_ENABLED = True
 PIN_LIMIT = 3
 POST_RATE_LIMIT = '1/second;2/minute;10/hour;50/day'
 LOGGEDIN_ACTIVE_TIME = 15 * 60
+PFP_DEFAULT_MARSEY = False#True
+
+HOLE_NAME = 'hole'
+HOLE_STYLE_FLAIR = False
+HOLE_REQUIRED = False
+HOLE_COST = 0
+HOLE_INACTIVITY_DELETION = False
 
 AUTOJANNY_ID = 1
 SNAPPY_ID = 2
@@ -192,7 +194,6 @@ BUG_THREAD = 0
 POLL_THREAD = 0
 WELCOME_MSG = f"Welcome to {SITE_NAME}!"
 ROLES={}
-PROCOINS_ENABLED = True
 
 LOTTERY_ENABLED = True
 LOTTERY_TICKET_COST = 12
@@ -247,9 +248,11 @@ if SITE in {'rdrama.net', 'devrama.xyz'}:
 		"7": "886781932430565418",
 	}
 elif SITE == 'pcmemes.net':
-	HOLE_COST = 2000
 	PIN_LIMIT = 6
 	POST_RATE_LIMIT = '1/second;4/minute;20/hour;100/day'
+
+	HOLE_COST = 2000
+
 	AUTOJANNY_ID = 1046
 	SNAPPY_ID = 261
 	LONGPOSTBOT_ID = 1832
@@ -267,9 +270,14 @@ elif SITE == 'pcmemes.net':
 	LOTTERY_TICKET_COST = 12
 	LOTTERY_SINK_RATE = -8
 elif SITE == 'cringetopia.org':
+	EMOJI_SRCS = ['files/assets/emojis.json', 'files/assets/emojis.cringetopia.json']
+
 	HOLE_COST = 10000
 
-	EMOJI_SRCS = ['files/assets/emojis.json', 'files/assets/emojis.cringetopia.json']
+	AUTOJANNY_ID = 2
+	SNAPPY_ID = 3
+	LONGPOSTBOT_ID = 4
+	ZOZBOT_ID = 5
 
 	GIFT_NOTIF_ID = 18
 	CARP_ID = 18
@@ -291,19 +299,23 @@ elif SITE == 'cringetopia.org':
 	}
 	PROCOINS_ENABLED = False
 elif SITE == 'watchpeopledie.co':
+	PERMS['HOLE_CREATE'] = 2
+	PERMS['FLAGS_VISIBLE'] = 2
+
+	PROCOINS_ENABLED = False
 	HOLE_NAME = 'flair'
 	HOLE_STYLE_FLAIR = True
 	HOLE_REQUIRED = True
 
-	PERMS['HOLE_CREATE'] = 2
-	PERMS['FLAGS_VISIBLE'] = 2
+	AUTOJANNY_ID = 2
+	SNAPPY_ID = 3
+	LONGPOSTBOT_ID = 4
+	ZOZBOT_ID = 5
 
 	GIFT_NOTIF_ID = 13
 	CARP_ID = 13
 	AEVANN_ID = 9
 	SNAKES_ID = 32
-
-	PROCOINS_ENABLED = False
 elif SITE == 'lgbdropthet.com':
 	PERMS['HOLE_CREATE'] = 3
 	PERMS['FLAGS_VISIBLE_REPORTER'] = 2
@@ -311,10 +323,17 @@ elif SITE == 'lgbdropthet.com':
 	EMOJI_MARSEYS = False
 	EMOJI_SRCS = ['files/assets/emojis.lgbdropthet.json']
 
+	PROCOINS_ENABLED = False
+	PFP_DEFAULT_MARSEY = False
+
+	AUTOJANNY_ID = 1
+	SNAPPY_ID = 3
+	LONGPOSTBOT_ID = 4
+	ZOZBOT_ID = 5
+
 	AEVANN_ID = 10
 	SNAKES_ID = 9
 
-	PROCOINS_ENABLED = False
 	LOTTERY_ENABLED = False
 else: # localhost or testing environment implied
 	pass
@@ -854,6 +873,14 @@ db = db_session()
 marseys_const = [x[0] for x in db.query(Marsey.name).filter(Marsey.name!='chudsey').all()]
 marseys_const2 = marseys_const + ['chudsey','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','exclamationpoint','period','questionmark']
 db.close()
+
+SNAPPY_QUOTES = []
+if not SITE_NAME in ['PCM', 'LGBDropTheT']:
+	SNAPPY_QUOTES = [f':#{x}:' for x in marseys_const2]
+
+if path.exists(f'snappy_{SITE_NAME}.txt'):
+	with open(f'snappy_{SITE_NAME}.txt', "r", encoding="utf-8") as f:
+		SNAPPY_QUOTES += f.read().split("\n{[para]}\n")
 
 YOUTUBE_KEY = environ.get("YOUTUBE_KEY", "").strip()
 
