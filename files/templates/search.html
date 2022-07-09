@@ -9,7 +9,7 @@
 {% block PseudoSubmitForm %}{% endblock %}
 
 {% block navbar %}
-	{% if not '/users/' in request.path %}
+	{% if not '/users' in request.path %}
 		<div class="mt-5 d-flex align-items-center">
 			<div class="dropdown dropdown-actions">
 				<button class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -48,7 +48,7 @@
 					{% if sort != "new" %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort=new&t={{t}}"><i class="fas fa-sparkles mr-2"></i>New</a>{% endif %}
 					{% if sort != "old" %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort=old&t={{t}}"><i class="fas fa-book mr-2"></i>Old</a>{% endif %}
 					{% if sort != "controversial" %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort=controversial&t={{t}}"><i class="fas fa-bullhorn mr-2"></i>Controversial</a>{% endif %}
-					{% if sort != "comments" and "/posts/" in request.path %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort=comments&t={{t}}"><i class="fas fa-comments mr-2"></i>Comments</a>{% endif %}
+					{% if sort != "comments" and "/posts" in request.path %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort=comments&t={{t}}"><i class="fas fa-comments mr-2"></i>Comments</a>{% endif %}
 				</div>
 			</div>
 		</div>
@@ -95,7 +95,7 @@
 </div>
 
 
-{% if not '/users/' in request.path %}
+{% if not '/users' in request.path %}
 
 <div class="flex-row tab-bar sticky d-none">
 
@@ -131,13 +131,13 @@
 			<div class="flex-row box-shadow-bottom d-flex justify-content-center justify-content-md-between align-items-center">
 				<ul class="nav settings-nav">
 					<li class="nav-item">
-						<a class="nav-link{% if '/posts/' in request.path %} active{% endif %}" href="/search/posts/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Posts</a>
+						<a class="nav-link{% if '/posts' in request.path %} active{% endif %}" href="/search/posts/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Posts</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link{% if  '/comments/' in request.path %} active{% endif %}" href="/search/comments/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Comments</a>
+						<a class="nav-link{% if  '/comments' in request.path %} active{% endif %}" href="/search/comments/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Comments</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link{% if  '/users/' in request.path %} active{% endif %}" href="/search/users/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Users</a>
+						<a class="nav-link{% if  '/users' in request.path %} active{% endif %}" href="/search/users/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Users</a>
 					</li>
 				</ul>
 			</div>
