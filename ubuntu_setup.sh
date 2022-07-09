@@ -23,8 +23,8 @@ chown postgres:postgres /etc/postgresql/14/main/pg_hba.conf
 
 sudo rm /etc/nginx/sites-available -r
 sudo rm /etc/nginx/sites-enabled/default
-# psql -U postgres -f schema.sql postgres
-# psql -U postgres -f seed-db.sql postgres
+psql -U postgres -f schema.sql postgres
+psql -U postgres -f seed-db.sql postgres
 pip3 install -r requirements.txt
 mkdir /songs
 mkdir /images
