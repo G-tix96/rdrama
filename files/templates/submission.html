@@ -28,6 +28,10 @@
 	{% set wholesome = '/e/marseywholesome.webp' %}
 {% endif %}
 
+{% if p.award_count("confetti", v) %}
+	<div id="post-award-confetti"></div>
+{% endif %}
+
 {% if g.inferior_browser %}
 	{% if p.award_count("wholesome", v) %}
 		<style>
