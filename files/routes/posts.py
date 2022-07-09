@@ -909,6 +909,8 @@ def submit_post(v, sub=None):
 		ghost = True
 	else: ghost = False
 
+	if embed: embed = embed.strip()
+
 	post = Submission(
 		private=bool(request.values.get("private","")),
 		club=club,
