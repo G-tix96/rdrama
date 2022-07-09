@@ -154,7 +154,7 @@ PIN_ENABLED = True
 PIN_LIMIT = 3
 POST_RATE_LIMIT = '1/second;2/minute;10/hour;50/day'
 LOGGEDIN_ACTIVE_TIME = 15 * 60
-PFP_DEFAULT_MARSEY = False#True
+PFP_DEFAULT_MARSEY = True
 
 HOLE_NAME = 'hole'
 HOLE_STYLE_FLAIR = False
@@ -325,6 +325,7 @@ elif SITE == 'lgbdropthet.com':
 
 	PROCOINS_ENABLED = False
 	PFP_DEFAULT_MARSEY = False
+	HOLE_NAME = 'community'
 
 	AUTOJANNY_ID = 1
 	SNAPPY_ID = 3
