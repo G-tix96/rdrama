@@ -10,6 +10,19 @@
 		<img class="mb-4" alt="sidebar image" role="button" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
 	</a>#}
 
+	<p class="mt-1 ml-2 mb-4 text-center">
+		{% if g.loggedin_counter %}
+			<span id="sidebar--counter--total">{{ g.loggedin_counter + g.loggedout_counter }}</span>
+		{% endif %}
+		<span id="sidebar--counter--flavor"> people here now</span>
+		<span id="sidebar--counter--loggedin">({{ g.loggedin_counter }} logged in)</span>
+		{% if v and v.admin_level >= 2 -%}
+			<span id="sidebar--counter--admin">
+				<a href="/admin/loggedin">Logged In</a> | <a href="/admin/loggedout">Logged Out</a>
+			</span>
+		{%- endif %}
+	</p>
+
 	<p class="text-center text-md mb-4">
 		<a class="sidebar-link" href="/admins" data-bs-toggle="tooltip" data-bs-placement="top" title="Admins"><i class="fas fa-crown"></i></a>
 		<a class="sidebar-link" href="/log" data-bs-toggle="tooltip" data-bs-placement="top" title="Moderation Log"><i class="fas fa-scroll-old"></i></a>
@@ -33,23 +46,58 @@
 		<a class="btn btn-primary btn-block mb-3" href="/h/{{sub.name}}/followers">{{HOLE_NAME|upper}} FOLLOWERS</a>
 		<a class="btn btn-primary btn-block mb-3" href="/h/{{sub.name}}/blockers">{{HOLE_NAME|upper}} BLOCKERS</a>
 	{% else %}
+		<h3 class="sidebar--heading">About Us</h3>
+		<p>The <strong>Official</strong> headquarters of the "Drop The T" movement and "LGB Drop The T".</p>
+		<p>We are a community of gay, lesbian, and bisexual men and women (and our allies) who believe that the LGB community should separate from the Transgender and Queer+ communities.</p>
+
 		<a id="sidebar--directory--btn" class="btn btn-primary btn-block mb-3" href="/directory">
 			<span id="sidebar--directory--head">DIRECTORY</span>
 			<span id="sidebar--directory--subhead">Resources | Site Help | Megathreads</span>
 		</a>
-		<a class="btn btn-primary btn-block mb-3" href="/holes">BROWSE COMMUNITIES</a>
-	{% endif %}
+		<a class="btn btn-primary btn-block mb-4" href="/holes">BROWSE COMMUNITIES</a>
 
-	<div id="sidebar--rules">
-		<h3 id="sidebar--rules--head">Rules</h3>
-		<strong>This sub enforces language and topic censoring. Mods will remove opposing viewpoints, regardless of where on the Pyramid Of Debate they may be.</strong>
-		<p>Violations may result in a permanent ban without notice.</p>
-		<ol id="sidebar--rules--list">
-			<li>General Guidelines / Civility: All LGB are welcome here. Be respectful of each other's differences. Discuss ideas, not individuals. No broad generalizations. No witch-hunting.</li>
-			<li>Appropriate Content: Why LGB and TQ+ should no longer be part of the same organization. LGB news, concerns, history, and/or personal affairs. Other topics must demonstrate applicability towards LGB or "dropping the T".</li>
-			<li>Off-Topic Posts / Comments: No anti-trans memes/mockery. We're not a debate or AMA sub - no "whataboutism" or "Keep The T!". Straight/trans allies may post as long as content is LGB-relevant - no validation threads. No derailing posts.</li>
-			<li>Disallowed Language: No implying that men/women or sexuality are defined by gender identity. No racism, anti-semitism, homophobia, or accusations of bigotry. No divisive slang that enforces another cultural/ideological belief, including slurs or crudity.</li>
-			<li>Social Media Content: Direct links to Twitter, Facebook, Instagram, Tumblr, Reddit, SaidIt, (etc) are allowed. Archiving or screenshots are encouraged. No self-advertisement posts. No posts about being banned from other subs.</li>
-		</ol>
-	</div>
+		<div id="sidebar--rules">
+			<h3 id="sidebar--rules--head" class="sidebar--heading">Rules</h3>
+			<ol id="sidebar--rules--list">
+				<li>General Guidelines / Civility:
+					<ul>
+						<li>All LGB are welcome here, regardless of background or ideology.</li>
+						<li>Be respectful of each other's differences. Discuss and debate ideas, not individuals.</li>
+						<li>No slap-fights or name-calling.</li>
+					</ul>
+				</li>
+				<li>Appropriate Content:
+					<ul>
+						<li>Why LGB and TQ+ should no longer be part of the same organization.</li>
+						<li>LGB news, concerns, history, and/or personal affairs.</li>
+						<li>Other topics must demonstrate applicability towards LGB or "dropping the T".</li>
+					</ul>
+				</li>
+				<li>Off-Topic Posts / Comments:
+					<ul>
+						<li>No anti-trans memes/mockery. Posts about "trans people behaving badly" are not allowed unless it shows a clear and direct impact on LGB.</li>
+						<li>We're not here for AMAs or outside debate - no whataboutism or "why do you want to" or "Keep The T!" posts.</li>
+						<li>Straight/trans allies may post as long as content is LGB-relevant. No validation threads.</li>
+						<li>No agenda-pushing, dividing the community, or derailing.</li>
+					</ul>
+				</li>
+				<li>Disallowed Language:
+					<ul>
+						<li>No implying that men/women are defined by gender. Men are adult human males, and women are adult human females.</li>
+						<li>No implying that sexuality is defined by gender. Sexuality is an orientation, not an identity.</li>
+						<li>No homophobia/biphobia or accusations of bigotry.</li>
+						<li>No racism or anti-semitism.</li>
+						<li>No slurs, crudity, or shock/gore.</li>
+					</ul>
+				</li>
+			</ol>
+			<h3 class="sidebar--heading">Sitewide Rules</h3>
+			<ul>
+				<li>Don't post anything illegal.</li>
+				<li>No pornography or nudity.</li>
+				<li>No sexualizing minors.</li>
+				<li>No doxxing.</li>
+			</ul>
+		</div>
+	{% endif %}
 </div>
