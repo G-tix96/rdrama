@@ -21,6 +21,7 @@ app = Flask(__name__, template_folder='templates')
 app.url_map.strict_slashes = False
 app.jinja_env.cache = {}
 app.jinja_env.auto_reload = True
+app.jinja_env.add_extension('jinja2.ext.do')
 faulthandler.enable()
 
 app.config['SECRET_KEY'] = environ.get('MASTER_KEY')
