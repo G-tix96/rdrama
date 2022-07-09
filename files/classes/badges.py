@@ -55,7 +55,7 @@ class Badge(Base):
 	@lazy
 	def text(self):
 		if self.badge_id == 28:
-			if ti: text = self.badge.description + " until"
+			if self.until: text = self.badge.description + " until"
 			else: text = self.badge.description + " permanently"
 		elif self.badge_id in {94,95,96,97,98,109}:
 			text = self.badge.description + " until"
