@@ -498,7 +498,7 @@ class User(Base):
 		return g.db.query(Notification).join(Comment).filter(
 			Notification.user_id == self.id, Notification.read == False, 
 			Comment.is_banned == False, Comment.deleted_utc == 0, 
-			Comment.body_html.like('%<p>New site mention: <a href="https://old.reddit.com/r/%'), 
+			Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'), 
 			Comment.parent_submission == None, Comment.author_id == AUTOJANNY_ID).count()
 
 	@property

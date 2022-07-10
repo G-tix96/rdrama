@@ -175,7 +175,12 @@ def notifications_reddit(v):
 
 	if not v.can_view_offsitementions: abort(403)
 
-	notifications = g.db.query(Notification, Comment).join(Notification.comment).filter(Notification.user_id == v.id, Comment.body_html.like('%<p>New site mention: <a href="https://old.reddit.com/r/%'), Comment.parent_submission == None, Comment.author_id == AUTOJANNY_ID).order_by(Notification.created_utc.desc()).offset(25 * (page - 1)).limit(101).all()
+	notifications = g.db.query(Notification, Comment).join(Notification.comment).filter(
+		Notification.user_id == v.id,
+		Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
+		Comment.parent_submission == None,
+		Comment.author_id == AUTOJANNY_ID
+	).order_by(Notification.created_utc.desc()).offset(25 * (page - 1)).limit(101).all()
 
 	listing = []
 
@@ -217,7 +222,7 @@ def notifications(v):
 		Notification.user_id == v.id,
 		Comment.is_banned == False,
 		Comment.deleted_utc == 0,
-		Comment.body_html.notlike('%<p>New site mention: <a href="https://old.reddit.com/r/%'),
+		Comment.body_html.notlike('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
 		Comment.body_html.notlike(f'%<p>{NOTIF_MODACTION_PREFIX}%')
 	).order_by(Notification.created_utc.desc())
 
