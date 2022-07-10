@@ -84,7 +84,7 @@
 
 
 			{% if p.sub and v.mods(p.sub) %}
-				<a class="dropdown-item list-inline-item text-danger" role="button" onclick="post_toast(this,'/kick/{{p.id}}')"><i class="fas fa-sign-out text-danger"></i>Remove</a>
+				<a class="dropdown-item list-inline-item text-danger" role="button" onclick="post_toast(this,'/kick/{{p.id}}')"><i class="fas fa-sign-out text-danger"></i>Kick</a>
 				
 				{% if not p.author.mods(p.sub) %}
 					<a id="exile-{{p.id}}" class="{% if p.author.exiled_from(p.sub) %}d-none{% endif %} dropdown-item list-inline-item text-danger" role="button" onclick="post_toast(this,'/exile/post/{{p.id}}','exile-{{p.id}}','unexile-{{p.id}}','d-none')"><i class="fas fa-campfire text-danger"></i>Exile user</a>
