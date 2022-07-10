@@ -4,7 +4,7 @@ import requests
 from files.helpers.wrappers import *
 from files.helpers.sanitize import *
 from files.helpers.alerts import *
-from files.helpers.discord import send_discord_message
+from files.helpers.discord import *
 from files.helpers.const import *
 from files.helpers.regex import *
 from files.helpers.slots import *
@@ -71,6 +71,9 @@ def publish(pid, v):
 	if (v.admin_level > 0 or v.has_badge(3)) and ("[changelog]" in post.title.lower() or "(changelog)" in post.title.lower()):
 		send_discord_message(post.permalink)
 		cache.delete_memoized(changeloglist)
+
+	if SITE == 'watchpeopledie.co':
+		send_wpd_message(post.permalink)
 
 	execute_snappy(post, v)
 
@@ -1078,6 +1081,9 @@ def submit_post(v, sub=None):
 	if (v.admin_level > 0 or v.has_badge(3)) and ("[changelog]" in post.title.lower() or "(changelog)" in post.title.lower()) and not post.private:
 		send_discord_message(post.permalink)
 		cache.delete_memoized(changeloglist)
+
+	if SITE == 'watchpeopledie.co':
+		send_wpd_message(post.permalink)
 
 	if request.headers.get("Authorization"): return post.json
 	else:
