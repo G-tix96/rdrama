@@ -825,13 +825,13 @@ NOTIF_MODACTION_PREFIX = '[Modaction] '
 NOTIF_MODACTION_JL_MIN = 2
 
 REDDIT_NOTIFS_JL_MIN = 1
-REDDIT_NOTIFS_SITE = []
+REDDIT_NOTIFS_SITE = [SITE_NAME]
 REDDIT_NOTIFS_USERS = {}
 
 if SITE != 'localhost':
-	REDDIT_NOTIFS_SITE = [SITE]
+	REDDIT_NOTIFS_SITE.append(SITE)
 
-if SITE_NAME == 'rDrama':
+if SITE == 'rdrama.net':
 	REDDIT_NOTIFS_SITE.append(['rdrama', 'marsey',])
 	REDDIT_NOTIFS_USERS = {
 		'idio3': IDIO_ID,
@@ -842,7 +842,7 @@ if SITE_NAME == 'rDrama':
 		'the_homocracy': HOMO_ID,
 	}
 elif SITE_NAME == 'WPD':
-	REDDIT_NOTIFS_SITE.append(['watchpeopledie', 'makemycoffin',])
+	REDDIT_NOTIFS_SITE.append(['watchpeopledie', 'makemycoffin'])
 
 discounts = {
 	# Big Spender badges, 2pp additive discount each

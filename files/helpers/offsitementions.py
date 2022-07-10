@@ -25,8 +25,6 @@ def offsite_mentions_task():
 
 	if const.REDDIT_NOTIFS_USERS:
 		for query, send_user in const.REDDIT_NOTIFS_USERS.items():
-			if not send_user: continue
-
 			user_mentions = get_mentions([query])
 			notify_mentions([send_user], user_mentions, mention_str='mention of you')
 
@@ -57,6 +55,7 @@ def get_mentions(queries):
 
 			mentions.append({
 				'permalink': i['permalink'],
+				'author': i['author'],
 				'text': text,
 			})
 
@@ -64,18 +63,17 @@ def get_mentions(queries):
 
 def notify_mentions(send_to, mentions, mention_str='site mention'):
 	for m in mentions:
+		author = m['author']
 		permalink = m['permalink']
 		text = sanitize(m['text'])
 		notif_text = \
-			f'<p>New {mention_str}: <a href="https://old.reddit.com{permalink}' \
-			f'?context=89" rel="nofollow noopener noreferrer" target="_blank">' \
-			f'https://old.reddit.com{permalink}?context=89</a></p>{text}' \
+			f"""<p>New {mention_str} by <a href="https://old.reddit.com/u/{author}" rel="nofollow noopener noreferrer" target="_blank">/u/{author}</a></p><p><a href="https://old.reddit.com{permalink}?context=89" rel="nofollow noopener noreferrer" target="_blank">https://old.reddit.com{permalink}?context=89</a></p>{text}"""
 
 		existing_comment = g.db.query(Comment.id).filter_by(
 			author_id=const.AUTOJANNY_ID,
 			parent_submission=None,
 			body_html=notif_text).one_or_none()
-		if existing_comment: continue
+		if existing_comment: break
 
 		new_comment = Comment(
 						author_id=const.AUTOJANNY_ID,
@@ -89,5 +87,3 @@ def notify_mentions(send_to, mentions, mention_str='site mention'):
 		for user_id in send_to:
 			notif = Notification(comment_id=new_comment.id, user_id=user_id)
 			g.db.add(notif)
-
-

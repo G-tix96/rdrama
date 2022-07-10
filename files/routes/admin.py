@@ -21,14 +21,6 @@ import requests
 from urllib.parse import quote, urlencode
 
 
-@app.get('/confidential')
-@admin_level_required(3)
-def confidential(v):
-	if v.id != AEVANN_ID: abort(403)
-	
-	resp = make_response(send_from_directory('assets', 'confedntial'))
-	return resp
-
 @app.post('/kippy')
 @admin_level_required(3)
 def kippy(v):
