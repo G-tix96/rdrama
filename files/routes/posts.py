@@ -1082,7 +1082,7 @@ def submit_post(v, sub=None):
 		send_discord_message(post.permalink)
 		cache.delete_memoized(changeloglist)
 
-	if SITE == 'watchpeopledie.co':
+	if not post.private and SITE == 'watchpeopledie.co':
 		send_wpd_message(post.permalink)
 
 	if request.headers.get("Authorization"): return post.json
