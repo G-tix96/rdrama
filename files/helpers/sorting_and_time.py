@@ -1,6 +1,7 @@
 import time
 from files.classes.comment import Comment
 from files.classes.submission import Submission
+from files.helpers.const import *
 
 def apply_time_filter(t, objects, Class):
 	now = int(time.time())
