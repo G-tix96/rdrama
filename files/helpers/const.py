@@ -200,7 +200,7 @@ LOTTERY_TICKET_COST = 12
 LOTTERY_SINK_RATE = 3
 LOTTERY_DURATION = 60 * 60 * 24 * 7
 
-if SITE in {'rdrama.net', 'devrama.xyz'}:
+if SITE in {'rdrama.net', 'devrama.xyz', 'chudrama.net'}:
 	HOLE_COST = 50000
 	HOLE_INACTIVITY_DELETION = True
 
@@ -898,6 +898,7 @@ approved_embed_hosts = {
 	'cringetopia.org',
 	'watchpeopledie.co',
 	'devrama.xyz',
+	'chudrama.net',
 	'imgur.com',
 	'lain.la',
 	'pngfind.com',
