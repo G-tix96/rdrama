@@ -761,7 +761,9 @@ def settings_song_change_mp3(v):
 	if file.content_type != 'audio/mpeg':
 		return render_template("settings_profile.html", v=v, error="Not a valid MP3 file")
 
-	name = f'/songs/{v.id}.mp3'
+	song = str(time.time()).replace('.','')
+
+	name = f'/songs/{song}.mp3'
 	file.save(name)
 
 	size = os.stat(name).st_size
@@ -769,7 +771,10 @@ def settings_song_change_mp3(v):
 		os.remove(name)
 		return render_template("settings_profile.html", v=v, error="MP3 file must be smaller than 8MB")
 
-	v.song = v.id
+	if path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:
+		os.remove(f"/songs/{v.song}.mp3")
+
+	v.song = song
 	g.db.add(v)
 
 	return redirect("/settings/profile")
