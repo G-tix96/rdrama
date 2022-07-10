@@ -14,7 +14,7 @@ def login_get(v):
 	redir = request.values.get("redirect", "/")
 	if redir:
 		redir = redir.replace("/logged_out", "").strip()
-		if not is_site_url(redir): redir = None
+		if not is_site_url(redir): redir = "/"
 		if v: return redirect(redir)
 
 	return render_template("login.html", failed=False, redirect=redir)
