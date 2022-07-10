@@ -137,7 +137,7 @@ if PUSHER_ID != 'blahblahblah':
 						'title': title,
 						'body': notifbody,
 						'deep_link': url,
-						'icon': f'{SITE_FULL}/assets/images/{SITE_NAME}/icon.webp?v=1015',
+						'icon': f'{SITE_FULL}/assets/images/{SITE_NAME}/icon.webp?v=3000',
 					}
 				},
 				'fcm': {

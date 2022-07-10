@@ -30,7 +30,7 @@ class Sub(Base):
 	@lazy
 	def sidebar_url(self):
 		if self.sidebarurl: return SITE_FULL + self.sidebarurl
-		return f'/i/{SITE_NAME}/sidebar.webp?v=2000'
+		return f'/i/{SITE_NAME}/sidebar.webp?v=3000'
 
 	@property
 	@lazy
