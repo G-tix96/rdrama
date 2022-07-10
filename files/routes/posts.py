@@ -74,7 +74,7 @@ def publish(pid, v):
 
 	execute_snappy(post, v)
 
-	if request.referrer and request.referrer.startswith(f'{SITE_FULL}/'):
+	if is_site_url(request.referrer):
 		return redirect(request.referrer)
 
 	return redirect(post.permalink)
