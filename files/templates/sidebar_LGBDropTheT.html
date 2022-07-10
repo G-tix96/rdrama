@@ -1,14 +1,14 @@
 <div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3 pb-5 bg-white" id="sidebar-content">
 
 	{% if sub %}
-		{% set image=sub.sidebar_url %}
+		{% set image = sub.sidebar_url %}
 	{% else %}
-		{% set image='/i/' + SITE_NAME + '/sidebar.webp?v=2000' %}
+		{% set image = asset_siteimg('sidebar.webp') %}
 	{% endif %}
 
-	{#<a href="{{image}}">
+	<a href="{{image}}">
 		<img class="mb-4" alt="sidebar image" role="button" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
-	</a>#}
+	</a>
 
 	<p class="mt-1 ml-2 mb-4 text-center">
 		{% if g.loggedin_counter %}

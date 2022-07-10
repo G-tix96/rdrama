@@ -200,7 +200,7 @@ LOTTERY_TICKET_COST = 12
 LOTTERY_SINK_RATE = 3
 LOTTERY_DURATION = 60 * 60 * 24 * 7
 
-if SITE in {'rdrama.net', 'devrama.xyz'}:
+if SITE in {'rdrama.net', 'devrama.xyz', 'chudrama.net'}:
 	HOLE_COST = 50000
 	HOLE_INACTIVITY_DELETION = True
 
@@ -274,7 +274,7 @@ elif SITE == 'cringetopia.org':
 
 	HOLE_COST = 10000
 
-	AUTOJANNY_ID = 2
+	AUTOJANNY_ID = 1
 	SNAPPY_ID = 3
 	LONGPOSTBOT_ID = 4
 	ZOZBOT_ID = 5
@@ -307,7 +307,7 @@ elif SITE == 'watchpeopledie.co':
 	HOLE_STYLE_FLAIR = True
 	HOLE_REQUIRED = True
 
-	AUTOJANNY_ID = 2
+	AUTOJANNY_ID = 1
 	SNAPPY_ID = 3
 	LONGPOSTBOT_ID = 4
 	ZOZBOT_ID = 5
@@ -898,6 +898,7 @@ approved_embed_hosts = {
 	'cringetopia.org',
 	'watchpeopledie.co',
 	'devrama.xyz',
+	'chudrama.net',
 	'imgur.com',
 	'lain.la',
 	'pngfind.com',

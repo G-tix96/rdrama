@@ -119,7 +119,10 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 
 	if sort in ("hot","warm"):
 		ti = int(time.time()) + 3600
-		posts = posts.order_by(-1000000*(Submission.realupvotes + 1 + Submission.comment_count/num)/(func.power(((ti - Submission.created_utc)/1000), 1.23)), Submission.created_utc.desc())
+		if SITE == 'watchpeopledie.co':
+			posts = posts.order_by(-1000000*(Submission.upvotes - Submission.downvotes + 1 + Submission.comment_count/num)/(func.power(((ti - Submission.created_utc)/1000), 1.23)), Submission.created_utc.desc())
+		else:
+			posts = posts.order_by(-1000000*(Submission.realupvotes + 1 + Submission.comment_count/num)/(func.power(((ti - Submission.created_utc)/1000), 1.23)), Submission.created_utc.desc())
 	elif sort == "bump":
 		posts = posts.filter(Submission.comment_count > 1).order_by(Submission.bump_utc.desc(), Submission.created_utc.desc())
 	else:
