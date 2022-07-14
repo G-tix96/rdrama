@@ -7,7 +7,7 @@
 
 			<img loading="lazy" src="{{u.profile_url}}" class="profile-pic-50 border-3 border-white" style="position: absolute; left: 15px; bottom: 15px; box-sizing: content-box;"></div>
 			<div class="card-body" style="word-wrap: break-word;">
-				<div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+				<div class="d-flex flex-wrap justify-content-between align-items-center mb-1">
 
 					<a class="card-title text-break stretched-link h5 mb-0" href="{{u.url}}">@{{u.username}}</a>
 
@@ -22,8 +22,15 @@
 					{% endif %}
 				</div>
 
+
+				<span id="profile--joined">joined <span id="profile--joined--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--joined--time','{{u.created_utc}}')">{{u.created_date}}</span></span>
+
+				{% if v.admin_level >= 2 -%}
+					<span id="profile--lastactive" class="ml-2">last active <span id="profile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--lastactive--time','{{u.last_active}}')">{{u.last_active_date}}</span></span>
+				{%- endif %}
+
 				{% if not hide_bios and u.bio_html %}
-					<div class="card-text">{{u.bio_html | safe}}</div>
+					<div class="card-text mt-3">{{u.bio_html | safe}}</div>
 				{% endif %}
 			</div>
 		</div>
