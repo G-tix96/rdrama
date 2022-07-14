@@ -1,0 +1,34 @@
+<div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3 pb-5 bg-white" id="sidebar-content">
+
+	{%- set art_path = "assets/images/" + SITE_NAME + "/sidebar/" -%}
+	{%- set sidebar_art = "/" + art_path + listdir('files/' + art_path)|random() + '?v=1' -%}
+
+	<img class="mb-4" alt="sidebar art" role="button" onclick="expandDesktopImage()" loading="lazy" src="{{sidebar_art}}" style="width: 100%">
+
+	<p class="text-center text-md mb-4">
+		<a class="sidebar-link" href="/marseys" data-bs-toggle="tooltip" data-bs-placement="top" title="Marseys"><i class="fas fa-cat"></i></a>
+		<a class="sidebar-link" href="/badges" data-bs-toggle="tooltip" data-bs-placement="top" title="Badges"><i class="fas fa-hexagon"></i></a>
+		<a class="sidebar-link" href="/admins" data-bs-toggle="tooltip" data-bs-placement="top" title="Admins"><i class="fas fa-crown"></i></a>
+		<a class="sidebar-link" href="/log" data-bs-toggle="tooltip" data-bs-placement="top" title="Moderation Log"><i class="fas fa-scroll-old"></i></a>
+		<a class="sidebar-link" href="/transfers" data-bs-toggle="tooltip" data-bs-placement="top" title="Transfers"><i class="fas fa-arrow-right-arrow-left"></i></a>
+		<a class="sidebar-link" href="/random_post/" data-bs-toggle="tooltip" data-bs-placement="top" title="Random Post"><i class="fas fa-random"></i></a>
+	</p>
+
+	{% if v and v.admin_level >= 2 -%}
+	<p class="mt-1 ml-2 mb-4 text-center">
+		<span id="sidebar--counter--admin">
+			<a href="/admin/loggedin">Logged In</a> | <a href="/admin/loggedout">Logged Out</a>
+		</span>
+	</p>
+	{%- endif %}
+
+	<div class="rules mt-3">
+		Deux must secure the existence of our people and a future for dramatic children.
+	</div>
+
+	{% if not v -%}
+	<hr>
+	<div class="small pt-2">Already signed in on rDrama on this device?</div>
+	<a class="btn btn-primary login w-100 mt-3" id="loginshared_button" href="https://rdrama.net/loginshared/auth/deuxrama.net">Sign In with rDrama</a>
+	{%- endif %}
+</div>

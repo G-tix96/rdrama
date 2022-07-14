@@ -195,7 +195,7 @@ def api_comment(v):
 				file.save(oldname)
 				image = process_image(oldname)
 				if image == "": return {"error":"Image upload failed"}
-				if v.admin_level > 2 and level == 1:
+				if v.admin_level >= PERMS['CONTENT_THREADS'] and level == 1:
 					if parent_post.id == SIDEBAR_THREAD:
 						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/sidebar'),
 							key=lambda e: int(e.split('.webp')[0]))[-1]

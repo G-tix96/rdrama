@@ -138,6 +138,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'FLAGS_VISIBLE': 0,
 	'FLAGS_VISIBLE_REPORTER': 0,
 	'FLAGS_REMOVE': 2,
+	'CONTENT_THREADS': 3,
 }
 
 EMOJI_MARSEYS = True
@@ -209,8 +210,8 @@ if SITE in ('rdrama.net', 'devrama.xyz'):
 	MARSEY_THREAD = 37838
 	GAMBLING_THREAD = 39413
 elif SITE == 'deuxrama.net':
+	SIDEBAR_THREAD = 175
 	BADGE_THREAD = 142
-
 
 if SITE in {'rdrama.net', 'devrama.xyz', 'deuxrama.net'}:
 	HOLE_COST = 50000
@@ -352,6 +353,10 @@ elif SITE == 'lgbdropthet.com':
 	LOTTERY_ENABLED = False
 else: # localhost or testing environment implied
 	pass
+
+if SITE == 'deuxrama.net':
+	PERMS['HOLE_CREATE'] = 3
+	PERMS['CONTENT_THREADS'] = 2
 
 bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, BASEDBOT_ID}
 
