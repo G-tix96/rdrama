@@ -1470,7 +1470,7 @@ def admin_nuke_user(v):
 		)
 	g.db.add(ma)
 
-	notify_mod_action(v.id, f"@{v.username} has nuked @{user.username}")
+	notify_mod_action(v.id, f"@{v.username} has has removed all content of @{user.username}")
 
 
 	return redirect(user.url)
@@ -1508,7 +1508,7 @@ def admin_nunuke_user(v):
 		)
 	g.db.add(ma)
 
-	notify_mod_action(v.id, f"@{v.username} has un-nuked @{user.username}")
+	notify_mod_action(v.id, f"@{v.username} has approved all of content of @{user.username}")
 
 
 	return redirect(user.url)
