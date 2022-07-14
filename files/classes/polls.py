@@ -59,7 +59,7 @@ class CommentOption(Base):
 	exclusive = Column(Boolean)
 
 	votes = relationship("CommentOptionVote")
-	post = relationship("Comment", back_populates="options")
+	comment = relationship("Comment", back_populates="options")
 
 	def __repr__(self):
 		return f"<CommentOption(id={self.id})>"
