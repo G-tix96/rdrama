@@ -13,14 +13,14 @@
 	
 </pre>
 
-<h3>{{thing.body_html}} - {{ups | length}} votes</h3>
+<h3>{{thing.body_html | safe}} - {{ups | length}} votes</h3>
 <div class="overflow-x-auto mt-5">
 	<table class="table table-striped mb-5">
 		<thead class="bg-primary text-white">
 			<tr>
 				<th>User</th>
 				<th role="button" onclick="sort_table(1)">User Truescore</th>
-				<th>Vote Time</th>
+				<th role="button" onclick="sort_table(2)">Vote Time</th>
 			</tr>
 		</thead>
 
@@ -41,7 +41,7 @@
 	</table>
 </div>
 
-<script src="/assets/js/sort_table.js?v=243"></script>
+<script src="/assets/js/sort_table.js?v=244"></script>
 
 {% endif %}
 
