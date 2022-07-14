@@ -162,6 +162,12 @@ def loginshared_authenticate(v, site_for):
 	if not (SITE == 'rdrama.net' and site_for == 'deuxrama.net'):
 		abort(403)
 
+	# Kludge to prevent accounts created after the DB seeding (on either site)
+	# from being improperly logged into. The only account matching we have is
+	# based on user_id, which isn't guaranteed identical post-seeding.
+	if v.id > 12335:
+		abort(500)
+
 	token = loginshared_secret_token(site_for, v.id)
 
 	# Must be https! Downgrading security leaks secrets in query string.
