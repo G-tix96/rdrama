@@ -2259,6 +2259,7 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 139	Auspicious Incident	This user was fired from a volunteer position
 150	Verified	Bought a Blue Checkmark.
 151	Responsible Citizen	This user upheld democracy by committing voter fraud.
+152	Amateur Hathead	Collected 25 unique hats
 4	White Hat	Discreetly reported an exploit
 1	Alpha User	Joined during open alpha
 2	Verified Email	Verified Email
@@ -2323,8 +2324,10 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 103	Benefactor	Gave the Benefactor award to someone
 104	BADASS OUTLAW	Bad boy who does not play by the rules
 105	SCAM	lmao get fucked retard
+153	Professional Hathead	Collected 100 unique hats
 107	Certified BIPOC	The mayocide starts now
 108	Nword Pass	With great power comes great responsibility
+154	Fiscally Irresponsible Hathead	Collected 250 unique hats
 110	Wolf Artisan	Contributed a Zombie Wolf emoji ✨
 111	Wolf Master	Contributed 10 (or more!!!!) Zombie Wolf emojis ✨
 112	Platy Artisan	Contributed a Platy emoji ✨
@@ -2364,7 +2367,7 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 151, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 154, true);
 
 
 --
