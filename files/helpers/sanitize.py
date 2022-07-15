@@ -2,7 +2,7 @@ import functools
 import bleach
 from bs4 import BeautifulSoup
 from bleach.css_sanitizer import CSSSanitizer
-from bleach.linkifier import LinkifyFilter, build_url_re
+from bleach.linkifier import LinkifyFilter
 from functools import partial
 from .get import *
 from os import path, environ
@@ -100,6 +100,35 @@ def allowed_attributes(tag, name, value):
 		if name == 'alt': return True
 		return False
 
+
+def build_url_re(tlds, protocols):
+    """Builds the url regex used by linkifier
+
+    If you want a different set of tlds or allowed protocols, pass those in
+    and stomp on the existing ``url_re``::
+
+        from bleach import linkifier
+
+        my_url_re = linkifier.build_url_re(my_tlds_list, my_protocols)
+
+        linker = LinkifyFilter(url_re=my_url_re)
+
+    """
+    return re.compile(
+        r"""\(*  # Match any opening parentheses.
+        \b(?<![@.])(?:(?:{0}):/{{0,3}}(?:(?:\w+:)?\w+@)?)?  # http://
+        ([\w-]+\.)+(?:{1})(?:\:[0-9]+)?(?!\.\w)\b   # xx.yy.tld(:##)?
+        (?:[/?][^#\s\{{\}}\|\\\^\[\]`<>"]*)?
+            # /path/zz (excluding "unsafe" chars from RFC 1738,
+            # except for ~, which happens in practice)
+        (?:\#[^#\s\|\\\^\[\]`<>"]*)?
+            # #hash (excluding "unsafe" chars from RFC 1738,
+            # except for ~, which happens in practice)
+        """.format(
+            "|".join(sorted(protocols)), "|".join(sorted(tlds))
+        ),
+        re.IGNORECASE | re.VERBOSE | re.UNICODE,
+    )
 
 url_re = build_url_re(tlds=TLDS, protocols=['http', 'https'])
 
