@@ -19,7 +19,7 @@ def rdrama(id, title):
 @app.get("/marseys")
 @auth_required
 def marseys(v):
-	if SITE_NAME == 'rDrama':
+	if SITE in ('rdrama.net','devrama.xyz','deuxrama.net'):
 		marseys = g.db.query(Marsey, User).join(User)
 		sort = request.values.get("sort", "usage")
 		if sort == "usage": marseys = marseys.order_by(Marsey.count.desc(), User.username)
