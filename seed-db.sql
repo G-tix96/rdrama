@@ -447,7 +447,7 @@ INSERT INTO public.marseys VALUES
 ('marseygodfather', 1, 'wop italy italian dego mafia', 0),
 ('marseyisraellove', 1, 'love ally israel holocaust zionism', 0),
 ('marseycarp', 1, 'beard mohawk reaction carpathianflorist monster', 0),
-('marseyfug', 1, 'benis mustache 3336 meme', 0),
+('marseyfug', 1, 'benis mustache meme', 0),
 ('marseychristmaself', 1, 'christmas xmas santa holiday happy worker', 0),
 ('marseyimpossibru', 1, 'revulsion gross yuck yikes mad icky impossible disgusted disgusting', 0),
 ('marseyhellraiser', 1, 'pinhead halloween holiday evil monster', 0),
