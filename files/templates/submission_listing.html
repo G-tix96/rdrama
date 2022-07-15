@@ -208,7 +208,7 @@
 						<span {% if p.author.patron and not p.distinguish_level %}class="patron" style="background-color:#{{p.author.namecolor}};"{% elif p.distinguish_level %}class="mod"{% endif %}>{{p.author_name}}</span>
 					</a>
 					{% if SITE_NAME == 'rDrama' %}
-						<span class="pronouns" style="background-color:#{{p.author.titlecolor}}">{{p.author.pronouns}}</span>
+						<span class="pronouns" style="color:#{{p.author.titlecolor}};border-color:#{{p.author.titlecolor}}">{{p.author.pronouns}}</span>
 					{% endif %}
 					{% if p.author.customtitle %}
 						<bdi style="color: #{{p.author.titlecolor}}">&nbsp;&nbsp;{{p.author.customtitle | safe}}</bdi>
