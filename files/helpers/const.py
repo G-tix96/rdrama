@@ -261,7 +261,7 @@ if SITE in {'rdrama.net', 'devrama.xyz', 'deuxrama.net'}:
 		"7": "886781932430565418",
 	}
 elif SITE == 'pcmemes.net':
-	PIN_LIMIT = 6
+	PIN_LIMIT = 10
 	POST_RATE_LIMIT = '1/second;4/minute;20/hour;100/day'
 
 	HOLE_COST = 2000
