@@ -81,7 +81,7 @@ def execute_snappy(post, v):
 			rev = f"* [unddit.com](https://unddit.com/{rev})\n"
 		elif post.url.startswith("https://old.reddit.com/u/"):
 			rev = post.url.replace('https://old.reddit.com/u/', '')
-			rev = f"* [search.marsey.cat](https://search.marsey.cat/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
+			rev = f"* [camas.unddit.com](https://camas.unddit.com/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
 		else: rev = ''
 		
 		newposturl = post.url
@@ -115,7 +115,7 @@ def execute_snappy(post, v):
 				addition += f'* [unddit.com](https://unddit.com/{rev})\n'
 			if href.startswith('https://old.reddit.com/u/'):
 				rev = href.replace('https://old.reddit.com/u/', '')
-				addition += f"* [search.marsey.cat](https://search.marsey.cat/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
+				addition += f"* [camas.unddit.com](https://camas.unddit.com/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
 			addition += f'* [archive.org](https://web.archive.org/{href})\n'
 			addition += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n'
 			addition += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)}) (click to archive)\n\n'
