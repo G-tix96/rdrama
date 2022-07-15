@@ -38,6 +38,18 @@ def authorize(v):
 	return redirect(f"{application.redirect_uri}?token={access_token}")
 
 
+@app.post("/rescind/<aid>")
+@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@auth_required
+def rescind(v, aid):
+
+	auth = g.db.query(ClientAuth).filter_by(oauth_client = aid, user_id = v.id).one_or_none()
+	if not auth: abort(400)
+	g.db.delete(auth)
+	return {"message": "Authorization revoked!"}
+
+
 @app.post("/api_keys")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
@@ -260,7 +272,7 @@ def admin_apps_list(v):
 	return render_template("admin/apps.html", v=v, apps=apps)
 
 
-@app.post("/oauth/reroll/<aid>")
+@app.post("/reroll/<aid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
