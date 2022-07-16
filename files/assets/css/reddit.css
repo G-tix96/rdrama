@@ -1,0 +1,85 @@
+@import 'midnight.css';
+
+:root {
+    --upvote: #ff8b60;
+    --downvote: #9393ff;
+    --sticky: #50bb50;
+    --primary: #53baff !important;
+}
+
+/*voting*/
+.score-up, .active.arrow-up::before, .arrow-up::after, .arrow-up:hover::before {
+    color: var(--upvote) !important;
+}
+
+.score-down, .active.arrow-down::before, .arrow-down::after, .arrow-down:hover::before {
+    color: var(--downvote) !important;
+}
+
+.arrow-up::before, .arrow-down::before, .score {
+    color: var(--muted);
+}
+
+.btn.caction .score-up {
+    color: var(--upvote) !important;
+}
+
+.btn.caction .score-down {
+    color: var(--downvote) !important;
+}
+
+/*frontpage*/
+#frontpage .container {
+    max-width: 1800px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color:transparent !important;
+}
+
+#frontpage .d-lg-flex, 
+#frontpage .font-weight-bold.py-3 {
+    display: none !important;
+}
+
+#frontpage .col.h-100.custom-gutters .row .col {
+    background-image: none !important;
+    background-color: transparent;
+}
+
+#frontpage .dropdown .btn {
+    text-shadow: none !important;
+    border-radius:0;
+}
+
+#frontpage .post-img {
+    border-radius:0;
+}
+
+.d-flex.justify-content-between.align-items-center.pt-3.pb-2.sorting {
+    float: left !important;
+}
+
+/*janny*/
+.fa-broom {
+    color: var(--sticky) !important;
+}
+
+.fa-thumbtack.text-admin, .card.stickied .post-title a, #frontpage .card.stickied .post-title a:visited {
+    color: var(--sticky) !important;
+}
+
+a.text-info, button.text-info {
+    color: var(--sticky) !important
+}
+
+#frontpage .settings .d-lg-flex {
+    display: block !important;
+}
+
+
+.sidebar
+{
+    background-color: unset !important;
+    border-radius: 6px;
+    margin-top: 6px;
+}

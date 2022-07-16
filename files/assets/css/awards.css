@@ -1,0 +1,90 @@
+/*confetti*/
+#post-award-confetti {
+	position: fixed;
+	z-index: 9998;
+	width: 100%;
+	height: 100%;
+	pointer-events: none !important;
+	background-image: url(/assets/images/confetti2.webp);
+	background-repeat: repeat;
+}
+
+/*fireworks*/
+.firework {
+	position:fixed;
+	z-index:9999;
+	pointer-events: none;
+	width: 100% !important;
+	height: 100% !important;
+	pointer-events: none !important;
+}
+
+.firework img {
+	max-width: 15rem;
+}
+
+/*ricardo*/
+.ricardo {
+	position: fixed;
+	z-index: 9997;
+	pointer-events: none !important;
+}
+
+.ricardo img {
+	max-height: 15rem !important;
+    max-height: min(30vw,15rem) !important;
+}
+
+.ricardoleft {
+	animation: ricardoleft 2.9s 2 alternate !important;
+}
+
+.ricardoright {
+	animation: ricardoright 2.9s 2 alternate !important;
+}
+
+@keyframes ricardoleft {
+	from {}
+	to {transform: translateX(200px);}
+}
+
+@keyframes ricardoright {
+	from {transform: translateX(110vw);}
+	to {transform: translateX(95vw);}
+}
+
+#ricardo1 {
+	top:70%;
+	left:-10%;
+}
+
+#ricardo2 {
+	top:80%;
+	left:50%;
+	animation: ricardo2 1.7s linear infinite !important;
+}
+
+#ricardo3 {
+	top:85%;
+	animation: ricardo3 10s linear infinite !important;
+}
+
+@keyframes ricardo2 {
+	0% {opacity:20%}
+	50% {opacity:100%}
+	100% {opacity:0%}
+}
+
+@keyframes ricardo3 {
+	50% {transform: translateX(105vw);}
+	51% {transform: translate(105vw,-86vh) rotate(180deg);}
+	100% {transform: translate(-15vw,-86vh) rotate(180deg);}
+}
+
+@media (max-width: 768px) {
+	@keyframes ricardo3 {
+		50% {transform: translateX(105vw);}
+		51% {transform: translate(105vw,-86vh) rotate(180deg);}
+		100% {transform: translate(-70vw,-86vh) rotate(180deg);}
+	}
+}
