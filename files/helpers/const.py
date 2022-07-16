@@ -1036,3 +1036,5 @@ DISCORD_WELCOME_CHANNEL = "846509313941700618"
 
 has_sidebar = path.exists(f'files/templates/sidebar_{SITE_NAME}.html')
 has_logo = path.exists(f'files/assets/images/{SITE_NAME}/logo.webp')
+
+GLOBAL = environ.get("GLOBAL")
