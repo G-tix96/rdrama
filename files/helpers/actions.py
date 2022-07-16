@@ -4,6 +4,7 @@ from files.helpers.alerts import send_repeatable_notification
 from files.helpers.const import *
 from files.helpers.get import *
 from files.helpers.sanitize import *
+from files.helpers.slots import *
 import random
 from urllib.parse import quote
 
