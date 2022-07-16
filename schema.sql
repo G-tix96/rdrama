@@ -1485,6 +1485,20 @@ CREATE INDEX follow_user_id_index ON public.follows USING btree (user_id);
 
 
 --
+-- Name: lowercase_original_username; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX lowercase_original_username ON public.users USING btree (lower((original_username)::text));
+
+
+--
+-- Name: lowercase_username; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX lowercase_username ON public.users USING btree (lower((username)::text));
+
+
+--
 -- Name: marseys_idx; Type: INDEX; Schema: public; Owner: -
 --
 
