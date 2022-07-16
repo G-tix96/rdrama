@@ -693,19 +693,22 @@ class User(Base):
 	def userblocks(self):
 		return [x[0] for x in g.db.query(UserBlock.target_id).filter_by(user_id=self.id).all()]
 
+	@property
 	@lazy
-	def saved_idlist(self, page=1):
-		posts = g.db.query(SaveRelationship.submission_id).filter_by(user_id=self.id).offset(25 * (page - 1)).all()
+	def saved_idlist(self):
+		posts = g.db.query(SaveRelationship.submission_id).filter_by(user_id=self.id).all()
 		return [x[0] for x in posts]
 
+	@property
 	@lazy
-	def saved_comment_idlist(self, page=1):
-		comments = g.db.query(CommentSaveRelationship.comment_id).filter_by(user_id=self.id).offset(25 * (page - 1)).all()
+	def saved_comment_idlist(self):
+		comments = g.db.query(CommentSaveRelationship.comment_id).filter_by(user_id=self.id).all()
 		return [x[0] for x in comments]
 
+	@property
 	@lazy
-	def subscribed_idlist(self, page=1):
-		posts = g.db.query(Subscription.submission_id).filter_by(user_id=self.id)
+	def subscribed_idlist(self):
+		posts = g.db.query(Subscription.submission_id).filter_by(user_id=self.id).all()
 		return [x[0] for x in posts]
 
 

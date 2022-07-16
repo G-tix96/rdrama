@@ -8,6 +8,7 @@ class Subscription(Base):
 	submission_id = Column(Integer, ForeignKey("submissions.id"), primary_key=True)
 	
 	user = relationship("User", uselist=False)
+	post = relationship("Submission", uselist=False)
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)

@@ -1173,14 +1173,13 @@ def saved_posts(v, username):
 
 	page=int(request.values.get("page",1))
 
-	ids=v.saved_idlist(page=page)
+	ids = [x[0] for x in g.db.query(SaveRelationship.submission_id).join(SaveRelationship.post).filter(SaveRelationship.user_id == v.id).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()]
 
 	next_exists=len(ids)>25
 
 	ids=ids[:25]
 
 	listing = get_posts(ids, v=v)
-	listing.reverse()
 
 	if request.headers.get("Authorization"): return {"data": [x.json for x in listing]}
 	return render_template("userpage.html",
@@ -1198,14 +1197,13 @@ def saved_comments(v, username):
 
 	page=int(request.values.get("page",1))
 
-	ids=v.saved_comment_idlist(page=page)
+	ids = [x[0] for x in g.db.query(CommentSaveRelationship.comment_id).join(CommentSaveRelationship.comment).filter(CommentSaveRelationship.user_id == v.id).order_by(Comment.id.desc()).offset(25 * (page - 1)).limit(26).all()]
 
 	next_exists=len(ids) > 25
 
 	ids=ids[:25]
 
 	listing = get_comments(ids, v=v)
-	listing.reverse()
 
 	if request.headers.get("Authorization"): return {"data": [x.json for x in listing]}
 	return render_template("userpage_comments.html",
@@ -1222,14 +1220,13 @@ def subscribed_posts(v, username):
 
 	page=int(request.values.get("page",1))
 
-	ids=v.subscribed_idlist(page=page)
+	ids = [x[0] for x in g.db.query(Subscription.submission_id).join(Subscription.post).filter(Subscription.user_id == v.id).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()]
 
 	next_exists=len(ids)>25
 
 	ids=ids[:25]
 
 	listing = get_posts(ids, v=v)
-	listing.reverse()
 
 	if request.headers.get("Authorization"): return {"data": [x.json for x in listing]}
 	return render_template("userpage.html",
