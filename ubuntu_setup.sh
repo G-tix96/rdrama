@@ -8,6 +8,8 @@ cp ./env /env
 sed -i 's/^/export /g;s/=/="/g;s/$/"/g' /env
 . /env
 
+cp ./startup.sh /s
+
 apt -y update
 apt -y upgrade
 apt -y install git redis-server python3-pip libenchant1c2a ffmpeg tmux nginx snapd ufw gpg-agent
