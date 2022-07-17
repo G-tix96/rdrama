@@ -51,7 +51,6 @@ if SITE_NAME == 'rDrama':
 		"newfag": "newstrag",
 		"oldfag": "oldstrag",
 		"faggot": "cute twink",
-		"fag": "cute twink",
 		"pedophile": "libertarian",
 		"kill yourself": "keep yourself safe",
 		"nigger": "BIPOC",
@@ -99,12 +98,16 @@ if SITE_NAME == 'rDrama':
 
 		" kys": " keep yourself safe",
 		">kys": ">keep yourself safe",
+
+		" fag": " cute twink",
+		">fag": ">cute twink",
 	}
 else:
 	SLURS = {
 		"faggot": "cute twink",
-		"fag": "cute twink",
 		"nigger": "🏀"
+		" fag": " cute twink",
+		">fag": ">cute twink",
 	}
 
 single_words = "|".join([slur.lower() for slur in SLURS.keys()])
