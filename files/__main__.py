@@ -119,3 +119,5 @@ elif "load_chat" in argv:
 	from files.routes.chat import *
 else:
 	from files.routes import *
+
+stdout.flush()
