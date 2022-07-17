@@ -5008,14 +5008,15 @@ img[glow]:not([data-src]) {
 	text-align: center;
 	font-weight: bold;
 	white-space: nowrap;
-	font-size: 1.3rem;
+	color: white;
+	font-size: min(3vw,16px);
 }
 @media (max-width: 768px) {
 	.srd {
 		font-size: 1rem;
 	}
 }
-.srd > a {
+.srd * {
 	color: white;
 }
 #srd-discuss {
