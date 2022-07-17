@@ -125,7 +125,7 @@ def settings_profile_post(v):
 		return render_template("settings_profile.html", v=v, msg="Your enemies list has been updated.")
 
 	elif (v.patron or v.id == MOOSE_ID) and request.values.get("sig"):
-		sig = request.values.get("sig")[:200]
+		sig = request.values.get("sig")[:200].replace('\n','').replace('\r','')
 
 		sig_html = sanitize(sig)
 
