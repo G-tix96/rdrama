@@ -6102,7 +6102,6 @@ g {
 {
     background-color: var(--gray-700);
     min-width: 190px;
-    max-width: 190px;
     max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
