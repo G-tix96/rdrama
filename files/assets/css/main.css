@@ -6101,6 +6101,7 @@ g {
 #speed-carot-modal
 {
     background-color: var(--gray-700);
+    max-height: 500px;
     overflow-y: auto;
     overflow-x: hidden;
     border-radius: 4px;
