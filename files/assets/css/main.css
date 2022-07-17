@@ -5011,11 +5011,6 @@ img[glow]:not([data-src]) {
 	color: white;
 	font-size: min(3vw,16px);
 }
-@media (max-width: 768px) {
-	.srd {
-		font-size: 1rem;
-	}
-}
 .srd * {
 	color: white;
 }
