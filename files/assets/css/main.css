@@ -6137,9 +6137,7 @@ g {
     display: inline-block;
     vertical-align: middle;
     margin-left: 10px;
-    width: 125px;
-    max-width: 125px;
-    text-overflow: ellipsis;
+    margin-right: 10px;
 }
 
 .rainbow-text {
