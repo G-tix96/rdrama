@@ -4376,6 +4376,9 @@ pre .com, code .com {
 	.comment-section > .comment {
 		padding-left: 12px;
 }
+	.comment {
+		margin-top: 1.5rem;
+}
 	.comment.collapsed .user-info {
 		padding-top: 0.5rem;
 }
@@ -4786,8 +4789,8 @@ input[type=radio] ~ .custom-control-label::before {
 	max-width: 90% !important 
 }
 .emj, .emoji, strong a img, img[alt^=":"]:not(img[b]):not(img[alt*="#"]) {
-	height: 30px !important;
-	width: 30px !important;
+	height: 40px !important;
+	width: 40px !important;
 }
 .bigemoji, .emoji-md, img[alt^=":"]:not(img[alt*="#"]) {
 	height: 60px;
@@ -4956,6 +4959,14 @@ lite-youtube.lyt-activated > .lty-playbtn {
 	overflow-x: auto !important;
 }
 
+@media (max-width: 768px) {
+	.comment .comment-body .comment-text {
+		padding-top: 5px;
+	}
+	p {
+		margin-bottom: 7px;
+	}
+}
 @keyframes golden {
 	from {filter: sepia(1) saturate(2)}
 	to {filter: sepia(1) saturate(3) drop-shadow(-1px 1px 3px gold)}
@@ -6072,6 +6083,12 @@ g {
 	opacity: 0.65;
 }
 
+@media (max-width: 767.98px) {
+	.post-actions {
+		margin-top: -5px;
+	}
+}
+
 .ghostdiv
 {
     display: block;
@@ -6132,23 +6149,4 @@ g {
     background-clip: text;
     -webkit-background-clip: text;
     font-weight: 700;
-}
-
-
-@media (max-width: 767.98px) {
-	.post-actions {
-		margin-top: -10px !important;
-	}
-	.comment .comment-body .user-info {
-		margin-bottom: 8px !important;
-	}
-	.comment .comment-body .comment-text {
-		padding-top: 0 !important;
-	}
-	p {
-		margin-bottom: 7px !important;
-	}
-	.comment {
-		margin-top: 16px !important;
-	}
 }
