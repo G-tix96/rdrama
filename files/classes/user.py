@@ -481,7 +481,8 @@ class User(Base):
 			Submission.is_banned == False,
 			Submission.private == False,
 			Submission.author_id != self.id,
-			Submission.ghost == False
+			Submission.ghost == False,
+			Submission.author_id.notin_(self.userblocks)
 		).count()
 
 	@property
