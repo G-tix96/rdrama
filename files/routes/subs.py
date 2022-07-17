@@ -336,9 +336,9 @@ def post_sub_sidebar(v, sub):
 	
 	if not v.mods(sub.name): abort(403)
 
-	sub.sidebar = request.values.get('sidebar', '').strip()[:500]
+	sub.sidebar = request.values.get('sidebar', '').strip()[:10000]
 	sub.sidebar_html = sanitize(sub.sidebar)
-	if len(sub.sidebar_html) > 1000: return "Sidebar is too big!"
+	if len(sub.sidebar_html) > 20000: return "Sidebar is too big!"
 
 	g.db.add(sub)
 
