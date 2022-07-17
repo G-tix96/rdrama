@@ -46,6 +46,10 @@ def get_mentions(queries):
 				text = f'<blockquote><p>{body}</p></blockquote>'
 			else:
 				title = i["title"].replace('>', '> ')
+
+				# Special case: a spambot says 'WPD' a lot unrelated to us.
+				if 'Kathrine Mclaurin' in title: continue
+
 				text = f'<blockquote><p>{title}</p></blockquote>'
 
 				if i["selftext"]:
