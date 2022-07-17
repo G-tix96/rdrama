@@ -105,7 +105,7 @@ if SITE_NAME == 'rDrama':
 else:
 	SLURS = {
 		"faggot": "cute twink",
-		"nigger": "🏀"
+		"nigger": "🏀",
 		" fag": " cute twink",
 		">fag": ">cute twink",
 	}
