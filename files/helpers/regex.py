@@ -104,6 +104,8 @@ git_regex = re.compile("ref: (refs/.+)", flags=re.A)
 
 pronouns_regex = re.compile("([a-z]{2,5}|i)/[a-z]{2,5}", flags=re.A)
 
+knowledgebase_page_regex = re.compile("[a-zA-Z0-9_\-]+", flags=re.A)
+
 def sub_matcher(match, upper=False):
 	if match.group(0).startswith('<'):
 		return match.group(0)

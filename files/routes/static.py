@@ -404,3 +404,15 @@ def transfers(v):
 	next_exists = len(comments) > 25
 	comments = comments[:25]
 	return render_template("transfers.html", v=v, page=page, comments=comments, standalone=True, next_exists=next_exists)
+
+@app.get("/kb/<page>")
+@auth_desired
+def knowledgebase(v, page):
+	if not knowledgebase_page_regex.fullmatch(page):
+		abort(404)
+
+	template_path = f'kb/{SITE_NAME}/{page}.html'
+	if not os.path.exists('files/templates/' + template_path):
+		abort(404)
+
+	return render_template(template_path, v=v)
