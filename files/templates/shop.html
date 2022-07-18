@@ -24,7 +24,7 @@
 		<h5 class="mt-4">Coins spent by you: {{v.coins_spent}} coins</h5>
 		<h5 class="mt-4">Lootboxes bought by you: {{v.lootboxes_bought}} lootbox{{'es' if v.lootboxes_bought != 1}}</h5>
 		<h5 class="mt-4">Your current coins: {{v.coins}}</h5>
-		{% if PROCOINS_ENABLED %}
+		{% if FEATURES['PROCOINS'] %}
 			<h5 class="mt-4">Your current marseybux: {{v.procoins}}</h3>
 		{% endif %}
 	</header>

@@ -1196,7 +1196,7 @@ def api_distinguish_post(post_id, v):
 @app.post("/sticky/<post_id>")
 @admin_level_required(2)
 def sticky_post(post_id, v):
-	if not PIN_ENABLED:
+	if not FEATURES['PINS']:
 		abort(403)
 
 	post = get_post(post_id)

@@ -139,11 +139,14 @@ PERMS = { # Minimum admin_level to perform action.
 	'CONTENT_THREADS': 3,
 }
 
+FEATURES = {
+	'PROCOINS': True,
+	'PINS': True,
+}
+
 EMOJI_MARSEYS = True
 EMOJI_SRCS = ['files/assets/emojis.json']
 
-PROCOINS_ENABLED = True
-PIN_ENABLED = True
 PIN_LIMIT = 3
 POST_RATE_LIMIT = '1/second;2/minute;10/hour;50/day'
 LOGGEDIN_ACTIVE_TIME = 15 * 60
@@ -287,7 +290,8 @@ elif SITE == 'watchpeopledie.co':
 	PERMS['HOLE_CREATE'] = 2
 	PERMS['FLAGS_VISIBLE'] = 2
 
-	PROCOINS_ENABLED = False
+	FEATURES['PROCOINS'] = False
+
 	HOLE_NAME = 'flair'
 	HOLE_STYLE_FLAIR = True
 	HOLE_REQUIRED = True
@@ -305,10 +309,11 @@ elif SITE == 'lgbdropthet.com':
 	PERMS['HOLE_CREATE'] = 3
 	PERMS['FLAGS_VISIBLE_REPORTER'] = 2
 
+	FEATURES['PROCOINS'] = False
+
 	EMOJI_MARSEYS = False
 	EMOJI_SRCS = ['files/assets/emojis.lgbdropthet.json']
 
-	PROCOINS_ENABLED = False
 	PFP_DEFAULT_MARSEY = False
 	HOLE_NAME = 'community'
 
@@ -758,7 +763,7 @@ if SITE == 'pcmemes.net':
 	AWARDS_DISABLED.remove('ghost')
 elif SITE_NAME == 'WPD':
 	AWARDS_DISABLED.remove('lootbox')
-if not PROCOINS_ENABLED:
+if not FEATURES['PROCOINS']:
 	AWARDS_DISABLED.append('benefactor')
 
 AWARDS2 = {x: AWARDS[x] for x in AWARDS if x not in AWARDS_DISABLED}
