@@ -84,7 +84,7 @@
 				{% set kind = a['kind'] %}
 				<td class="shop-table-actions">
 					{% if a['kind'] != "benefactor" %}<a class="d-flex btn btn-success {% if v.coins < a['price'] %}disabled{% endif %}" role="button" onclick="post_toast(this,'/buy/{{kind}}')"><span class="m-auto">Buy</span></a>{% endif %}
-					{% if SITE_NAME != 'WPD' %}
+					{% if FEATURES['PROCOINS'] %}
 						{% if a['kind'] != "grass" %}<a class="d-flex marseybux btn btn-success {% if v.procoins < a['price'] %}disabled{% endif %}" role="button" onclick="post_toast(this,'/buy/{{kind}}?mb=true')"><span class="m-auto">Buy with MBux</span></a>{% endif %}
 					{% endif %}
 				</td>
