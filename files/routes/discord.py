@@ -88,6 +88,16 @@ def discord_redirect(v):
 	v.discord_id=x["id"]
 	g.db.add(v)
 
+	if v.apps:
+		url=f"https://discord.com/api/guilds/998387482984980541/members/{x['id']}"
+		name=v.username
+		data={
+			"access_token":token,
+			"nick":name,
+		}
+		requests.put(url, headers=headers, json=data, timeout=5)
+		time.sleep(0.1)
+
 	url=f"https://discord.com/api/guilds/{DISCORD_SERVER_ID}/members/{x['id']}"
 
 	name=v.username

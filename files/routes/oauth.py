@@ -141,26 +141,27 @@ def admin_app_approve(v, aid):
 	app = g.db.get(OauthApp, aid)
 	user = app.author
 
-	app.client_id = secrets.token_urlsafe(64)[:64]
-	g.db.add(app)
+	if not app.client_id:
+		app.client_id = secrets.token_urlsafe(64)[:64]
+		g.db.add(app)
 
-	access_token = secrets.token_urlsafe(128)[:128]
-	new_auth = ClientAuth(
-		oauth_client = app.id,
-		user_id = user.id,
-		access_token=access_token
-	)
+		access_token = secrets.token_urlsafe(128)[:128]
+		new_auth = ClientAuth(
+			oauth_client = app.id,
+			user_id = user.id,
+			access_token=access_token
+		)
 
-	g.db.add(new_auth)
+		g.db.add(new_auth)
 
-	send_repeatable_notification(user.id, f"@{v.username} has approved your application `{app.app_name}`. Here's your access token: `{access_token}`\nPlease check the guide [here](/api) if you don't know what to do next.")
+		send_repeatable_notification(user.id, f"@{v.username} has approved your application `{app.app_name}`. Here's your access token: `{access_token}`\nPlease check the guide [here](/api) if you don't know what to do next, and join this [discord server](/discord) if you need help!")
 
-	ma = ModAction(
-		kind="approve_app",
-		user_id=v.id,
-		target_user_id=user.id,
-	)
-	g.db.add(ma)
+		ma = ModAction(
+			kind="approve_app",
+			user_id=v.id,
+			target_user_id=user.id,
+		)
+		g.db.add(ma)
 
 
 	return {"message": "Application approved"}

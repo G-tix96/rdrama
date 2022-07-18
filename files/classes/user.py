@@ -138,6 +138,7 @@ class User(Base):
 	blocking = relationship("UserBlock", lazy="dynamic", primaryjoin="User.id==UserBlock.user_id", back_populates="user")
 	blocked = relationship("UserBlock", lazy="dynamic", primaryjoin="User.id==UserBlock.target_id", back_populates="target")
 	authorizations = relationship("ClientAuth", back_populates="user")
+	apps = relationship("OauthApp", back_populates="author")
 	awards = relationship("AwardRelationship", primaryjoin="User.id==AwardRelationship.user_id", back_populates="user")
 	referrals = relationship("User")
 

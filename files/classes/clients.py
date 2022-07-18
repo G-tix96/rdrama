@@ -19,7 +19,7 @@ class OauthApp(Base):
 	description = Column(String)
 	author_id = Column(Integer, ForeignKey("users.id"))
 
-	author = relationship("User")
+	author = relationship("User", back_populates="apps")
 
 	def __repr__(self):
 		return f"<OauthApp(id={self.id})>"
