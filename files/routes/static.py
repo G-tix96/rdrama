@@ -327,7 +327,7 @@ def badges(v):
 	return render_template("badges.html", v=v, badges=badges, counts=counts)
 
 @app.get("/blocks")
-@auth_required
+@admin_level_required(PERMS['USER_BLOCKS_VISIBLE'])
 def blocks(v):
 
 
