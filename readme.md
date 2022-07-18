@@ -25,6 +25,10 @@ docker-compose up
 
 ------
 
+For help or guidance with setting up your rDrama instance, please join this discord server https://discord.gg/a4atrEEvvG
+
+------
+
 For returning contributors, we have noticed the following issues (if you can help fix them, we will be very grateful!):
 
 1. Docker doesn't know when we add a new Python dependency, `docker-compose build` is needed.
