@@ -210,6 +210,8 @@ if SITE in ('rdrama.net', 'devrama.xyz'):
 elif SITE == 'deuxrama.net':
 	SIDEBAR_THREAD = 175
 	BADGE_THREAD = 142
+elif SITE == 'lgbdropthet.com':
+	GAMBLING_THREAD = 25
 
 if SITE in {'rdrama.net', 'devrama.xyz', 'deuxrama.net'}:
 	HOLE_COST = 50000
@@ -318,6 +320,8 @@ elif SITE == 'lgbdropthet.com':
 	CARP_ID = 18
 	AEVANN_ID = 10
 	SNAKES_ID = 9
+
+	WELCOME_MSG = "**Welcome to LGBDropTheT!**\n\nWe are a community of gay, lesbian, and bisexual men and women (and our allies) who believe that the LGB community should separate from the Transgender and Queer+ communities.  \n\nWe believe sexuality and gender identity are distinct and unrelated concepts, and that the interests and goals of our communities are misrepresented by grouping our experiences and politics as one. LGB and TQ+ both deserve a supportive community, but neither one should be at the expense of the other. We feel our rights and protections are under attack due to the Transgender and Queer+ movements silencing and condemning our beliefs.  \n\nWe believe that men are adult human males and women are adult human females. Our orientations are based towards an individual's sex, not gender identity. The same organizations and communities that we created in order to solidify ourselves now label us as \"phobic\", \"preferential\", or \"genital fetishists\". The TQ+ dogma and rhetoric are coercing gay men, lesbians, and bisexuals to suppress same-sex attraction in favor of fluidity and non-distinction of the opposite sex. Our gender non-conforming LGB youth are being taught that they're born in the wrong body, and persuaded to take life-altering medications to correct their \"sex assigned at birth\".  \n\nThis is nothing more than homophobia and conversion therapy disguised as progress.  \n\nIt's time to reclaim our organizations and movement by and for our own people. We want to \"Drop The T\" and all the letters after it, and ensure that the needs of lesbians, gay men, and bisexuals are centered once-again.  \n\n* If you're new to our movement and how we operate, we recommend starting with our **[Rules and FAQs](https://lgbdropthet/kb/rulesfaqs)** to better understand our community guidelines. \n\n* To familiarize yourself with how the site works, we recommend visiting our **[Help and Support](https://lgbdropthet.com/h/help_and_support)** community. Feel free to make a test post of your own there so you can get used to using the features - you can always delete your post later. \n\n* Feeling a little overwhelmed and don't know where to start? Consider introducing yourself in our **[Off-Topic / Social](https://lgbdropthet.com/h/off_topic_social)** community.  \n\nThank you for being a part of our growing movement, we look forward to seeing you! \n\n**~ The LGBDropTheT team**"
 
 	LOTTERY_ENABLED = False
 else: # localhost or testing environment implied
