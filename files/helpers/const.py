@@ -150,6 +150,7 @@ FEATURES = {
 	'PRONOUNS': False,
 	'HOUSES': False,
 	'USERS_SUICIDE': True,
+	'GAMBLING': True,
 }
 
 EMOJI_MARSEYS = True
@@ -327,6 +328,7 @@ elif SITE == 'lgbdropthet.com':
 	FEATURES['PROCOINS'] = False
 	FEATURES['CHAT'] = False
 	FEATURES['USERS_SUICIDE'] = False
+	FEATURES['GAMBLING'] = False
 
 	EMOJI_MARSEYS = False
 	EMOJI_SRCS = ['files/assets/emojis.lgbdropthet.json']
@@ -349,6 +351,8 @@ elif SITE == 'lgbdropthet.com':
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
+
+	FEATURES['GAMBLING'] = False
 
 if SITE == 'deuxrama.net':
 	PERMS['HOLE_CREATE'] = 3
