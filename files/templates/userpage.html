@@ -193,6 +193,8 @@
 							<a class="btn btn-primary" role="button" onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</a>
 						{% endif %}
 
+						<a class="btn btn-primary" role="button" onclick="post_toast(this,'/settings/block?username={{u.username}}',true)">Block</a>
+
 						{% if v.admin_level > 2 %}
 							{% if SITE != 'rdrama.net' %}
 								<a id="admin" class="{% if u.admin_level > 1 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/make_admin','admin','unadmin','d-none')">Make admin</a>
@@ -514,6 +516,8 @@
 					{% if PROCOINS_ENABLED %}
 						<a class="btn btn-primary" role="button" onclick="toggleElement('bux-transfer-mobile', 'bux-transfer-amount-mobile')">Gift Marseybux</a>
 					{% endif %}
+
+					<a class="btn btn-primary" role="button" onclick="post_toast(this,'/settings/block?username={{u.username}}',true)">Block</a>
 
 					{% if v.admin_level > 2 %}
 						{% if SITE != 'rdrama.net' %}
