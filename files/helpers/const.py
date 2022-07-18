@@ -133,15 +133,20 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 
 PERMS = { # Minimum admin_level to perform action.
 	'HOLE_CREATE': 0,
+	'CONTENT_THREADS': 3,
 	'FLAGS_VISIBLE': 0,
 	'FLAGS_VISIBLE_REPORTER': 0,
 	'FLAGS_REMOVE': 2,
-	'CONTENT_THREADS': 3,
+	'VOTES_VISIBLE': 0,
 }
 
 FEATURES = {
 	'PROCOINS': True,
+	'CHAT': True,
 	'PINS': True,
+	'PRONOUNS': False,
+	'HOUSES': False,
+	'USERS_SUICIDE': True,
 }
 
 EMOJI_MARSEYS = True
@@ -217,6 +222,9 @@ elif SITE == 'lgbdropthet.com':
 	GAMBLING_THREAD = 25
 
 if SITE in {'rdrama.net', 'devrama.xyz', 'deuxrama.net'}:
+	FEATURES['PRONOUNS'] = True
+	FEATURES['HOUSES'] = True
+
 	HOLE_COST = 50000
 	HOLE_INACTIVITY_DELETION = True
 
@@ -308,8 +316,11 @@ elif SITE == 'watchpeopledie.co':
 elif SITE == 'lgbdropthet.com':
 	PERMS['HOLE_CREATE'] = 3
 	PERMS['FLAGS_VISIBLE_REPORTER'] = 2
+	PERMS['VOTES_VISIBLE'] = 2
 
 	FEATURES['PROCOINS'] = False
+	FEATURES['CHAT'] = False
+	FEATURES['USERS_SUICIDE'] = False
 
 	EMOJI_MARSEYS = False
 	EMOJI_SRCS = ['files/assets/emojis.lgbdropthet.json']
@@ -330,7 +341,8 @@ elif SITE == 'lgbdropthet.com':
 
 	LOTTERY_ENABLED = False
 else: # localhost or testing environment implied
-	pass
+	FEATURES['PRONOUNS'] = True
+	FEATURES['HOUSES'] = True
 
 if SITE == 'deuxrama.net':
 	PERMS['HOLE_CREATE'] = 3

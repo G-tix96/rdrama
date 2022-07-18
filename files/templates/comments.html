@@ -192,7 +192,7 @@
 				{% if c.ghost %}
 					<span {% if c.distinguish_level %}class="mod"{% endif %}>👻</span>
 				{% else %}
-					{% if SITE_NAME=='rDrama' and c.author.house %}
+					{% if FEATURES['HOUSES'] and c.author.house %}
 						<img loading="lazy" src="/i/{{SITE_NAME}}/houses/{{c.author.house}}.webp?v=2000" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{c.author.house}}" alt="House {{c.author.house}}">
 					{% endif %}
 
@@ -206,7 +206,7 @@
 						{% endif %}
 						<span {% if c.author.patron and not c.distinguish_level %}class="patron" style="background-color:#{{c.author.namecolor}};"{% elif c.distinguish_level %}class="mod"{% endif %}>{{c.author_name}}</span>
 					</a>
-					{% if SITE_NAME == 'rDrama' %}
+					{% if FEATURES['PRONOUNS'] %}
 						<span class="pronouns" style="color:#{{c.author.titlecolor}};border-color:#{{c.author.titlecolor}}">{{c.author.pronouns}}</span>
 					{% endif %}
 					{% if c.author.customtitle %}
@@ -437,7 +437,7 @@
 						
 						{% endif %}
 						
-						{% if not c.ghost or v.id == AEVANN_ID %}<a href="/votes/{{c.fullname}}" class="btn caction nobackground px-1 text-muted"><i class="fas fa-arrows-v"></i>Votes</a>{% endif %}
+						{% if v and ((not c.ghost and v.admin_level >= PERMS['VOTES_VISIBLE']) or v.id == AEVANN_ID) %}<a href="/votes/{{c.fullname}}" class="btn caction nobackground px-1 text-muted"><i class="fas fa-arrows-v"></i>Votes</a>{% endif %}
 						
 						<a class="btn caction nobackground px-1 text-muted" href="{{c.permalink}}"><i class="fas fa-book-open"></i>Context</a>
 
@@ -644,7 +644,7 @@
 			<div class="modal-body">
 				<ul class="list-group comment-actions">
 
-					{% if not c.ghost or v.id == AEVANN_ID %}<a href="/votes/{{c.fullname}}"><li class="list-group-item"><i class="fas fa-arrows-v mr-2"></i>Votes</li></a>{% endif %}
+					{% if v and ((not c.ghost and v.admin_level >= PERMS['VOTES_VISIBLE']) or v.id == AEVANN_ID) %}<a href="/votes/{{c.fullname}}"><li class="list-group-item"><i class="fas fa-arrows-v mr-2"></i>Votes</li></a>{% endif %}
 
 					<a class="list-group-item" href="{{c.permalink}}"><i class="fas fa-book-open mr-2"></i>Context</a>
 

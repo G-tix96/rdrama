@@ -64,7 +64,7 @@
 								</span>
 								{% endif %}
 
-								{% if SITE_NAME=='rDrama' and u.house %}
+								{% if FEATURES['HOUSES'] and u.house %}
 									<img loading="lazy" class="ml-3" id="profile--house" src="/i/{{SITE_NAME}}/houses/{{u.house}}.webp?v=2000" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{u.house}}" alt="House {{u.house}}">
 								{% endif %}
 
@@ -105,7 +105,7 @@
 					</div> 
 				</div>
 
-				{% if SITE_NAME == 'rDrama' %}
+				{% if FEATURES['PRONOUNS'] %}
 					<p class="font-weight-bolder" id="profile--pronouns" style="color: #{{u.titlecolor}}">{{u.pronouns}}</p>
 				{% endif %}
 
@@ -187,11 +187,13 @@
 						<a id="button-sub" class="btn btn-primary {% if is_following or u.is_nofollow or u.is_blocked %}d-none{% endif %}" role="button" onclick="post_toast(this,'/follow/{{u.username}}','button-unsub','button-sub','d-none')">Follow</a>						
 						<a class="btn btn-primary" role="button" onclick="toggleElement('message', 'input-message')">Message</a>
 
-						<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/suicide')">Get them help</a>
-						<a class="btn btn-primary" role="button" onclick="toggleElement('coin-transfer', 'coin-transfer-amount')">Gift coins</a>
-						{% if FEATURES['PROCOINS'] %}
+						{% if FEATURES['USERS_SUICIDE'] -%}
+						<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/suicide')">Get Them Help</a>
+						{%- endif %}
+						<a class="btn btn-primary" role="button" onclick="toggleElement('coin-transfer', 'coin-transfer-amount')">Gift Coins</a>
+						{% if FEATURES['PROCOINS'] -%}
 							<a class="btn btn-primary" role="button" onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</a>
-						{% endif %}
+						{%- endif %}
 
 						<a class="btn btn-primary" role="button" onclick="post_toast(this,'/settings/block?username={{u.username}}',true)">Block</a>
 
@@ -399,7 +401,7 @@
 					</span>
 				{% endif %}
 
-				{% if SITE_NAME=='rDrama' and u.house %}
+				{% if FEATURES['HOUSES'] and u.house %}
 					<img loading="lazy" class="ml-2" id="profile-mobile--house" src="/i/{{SITE_NAME}}/houses/{{u.house}}.webp?v=2000" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{u.house}}" alt="House {{u.house}}">
 				{% endif %}
 
@@ -416,7 +418,7 @@
 					<span class="followsyou badge badge-secondary text-small align-middle mx-1" id="profile-mobile--follows-you">Follows you</span>
 				{% endif %}
 
-				{% if SITE_NAME == 'rDrama' %}
+				{% if FEATURES['PRONOUNS'] %}
 					<p style="color: #{{u.titlecolor}}" id="profile-mobile--pronouns">{{u.pronouns}}</p>
 				{% endif %}
 
@@ -511,11 +513,13 @@
 
 					<a id="button-sub2" class="btn btn-primary {% if is_following or u.is_nofollow or u.is_blocked %}d-none{% endif %}" role="button" onclick="post_toast(this,'/follow/{{u.username}}','button-unsub2','button-sub2','d-none')">Follow</a>						
 					<a class="btn btn-primary" role="button" onclick="toggleElement('message-mobile', 'input-message-mobile')">Message</a>
-					<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/suicide')">Get them help</a>
-					<a class="btn btn-primary" role="button" onclick="toggleElement('coin-transfer-mobile', 'coin-transfer-amount-mobile')">Gift coins</a>
-					{% if FEATURES['PROCOINS'] %}
+					{% if FEATURES['USERS_SUICIDE'] -%}
+						<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/suicide')">Get Them Help</a>
+					{%- endif %}
+					<a class="btn btn-primary" role="button" onclick="toggleElement('coin-transfer-mobile', 'coin-transfer-amount-mobile')">Gift Coins</a>
+					{% if FEATURES['PROCOINS'] -%}
 						<a class="btn btn-primary" role="button" onclick="toggleElement('bux-transfer-mobile', 'bux-transfer-amount-mobile')">Gift Marseybux</a>
-					{% endif %}
+					{%- endif %}
 
 					<a class="btn btn-primary" role="button" onclick="post_toast(this,'/settings/block?username={{u.username}}',true)">Block</a>
 

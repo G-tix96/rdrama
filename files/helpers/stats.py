@@ -131,7 +131,7 @@ def stats(site=None):
 			"users online in the past 7 days": g.db.query(User).filter(User.last_active > week).count(),
 			}
 
-	if site == 'rDrama':
+	if site == 'rDrama' or FEATURES['HOUSES']:
 		stats2 = {
 			"House furry members": g.db.query(User).filter(User.house.like('Furry%')).count(),
 			"House femboy members": g.db.query(User).filter(User.house.like('Femboy%')).count(),

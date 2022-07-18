@@ -194,7 +194,7 @@
 				{% if p.ghost %}
 					<span {% if p.distinguish_level %}class="mod"{% endif %}>👻</span>
 				{% else %}
-					{% if SITE_NAME=='rDrama' and p.author.house %}
+					{% if FEATURES['HOUSES'] and p.author.house %}
 						<img loading="lazy" src="/i/{{SITE_NAME}}/houses/{{p.author.house}}.webp?v=2000" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{p.author.house}}" alt="House {{p.author.house}}">
 					{% endif %}
 
@@ -207,7 +207,7 @@
 						{% endif %}
 						<span {% if p.author.patron and not p.distinguish_level %}class="patron" style="background-color:#{{p.author.namecolor}};"{% elif p.distinguish_level %}class="mod"{% endif %}>{{p.author_name}}</span>
 					</a>
-					{% if SITE_NAME == 'rDrama' %}
+					{% if FEATURES['PRONOUNS'] %}
 						<span class="pronouns" style="color:#{{p.author.titlecolor}};border-color:#{{p.author.titlecolor}}">{{p.author.pronouns}}</span>
 					{% endif %}
 					{% if p.author.customtitle %}
