@@ -157,7 +157,7 @@
 					<div id="profile--enemies">{{u.enemies_html | safe}}</div>
 				{% endif %}
 
-				{% if u.received_awards %}
+				{% if u.received_awards and FEATURES['AWARDS'] %}
 				<div class="text-white rounded p-2 mb-3" id="profile--awards" style="background-color: rgba(50, 50, 50, 0.6); width: 30%;">
 					<p class="text-uppercase my-0" style="font-weight: bold; font-size: 12px;">Awards received</p>
 					{% for a in u.received_awards %}
@@ -352,17 +352,18 @@
 					</div>
 				</div>
 			</div>
-					<div id="profile--badges">
-						{% for b in u.badges %}
-							{% if b.url %}
-								<a rel="nofollow noopener noreferrer" href="{{b.url}}"><img alt="{{b.name}}" width=55 height=60 loading="lazy" src="{{b.path}}?v=1021" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}></a>
-							{% else %}
-								<img alt="{{b.name}}" width=55 height=60 loading="lazy" src="{{b.path}}?v=1021" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
-							{% endif %}
-						{% endfor %}
-					</div>
 
-
+			{% if FEATURES['BADGES'] -%}
+				<div id="profile--badges">
+					{% for b in u.badges %}
+						{% if b.url %}
+							<a rel="nofollow noopener noreferrer" href="{{b.url}}"><img alt="{{b.name}}" width=55 height=60 loading="lazy" src="{{b.path}}?v=1021" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}></a>
+						{% else %}
+							<img alt="{{b.name}}" width=55 height=60 loading="lazy" src="{{b.path}}?v=1021" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
+						{% endif %}
+					{% endfor %}
+				</div>
+			{%- endif %}
 		</div>
 	</div>
  </div>
@@ -471,7 +472,7 @@
 					<div id="profile-mobile--enemies">{{u.enemies_html | safe}}</div>
 				{% endif %}
 
-				{% if u.received_awards %}
+				{% if u.received_awards and FEATURES['AWARDS'] %}
 				<div class="text-white rounded p-2 my-3 text-center" id="profile-mobile--awards" style="background-color: rgba(50, 50, 50, 0.6);">
 					<p class="text-uppercase my-0" style="font-weight: bold; font-size: 12px;">Awards received</p>
 					{% for a in u.received_awards %}

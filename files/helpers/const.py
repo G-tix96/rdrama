@@ -145,9 +145,11 @@ PERMS = { # Minimum admin_level to perform action.
 
 FEATURES = {
 	'PROCOINS': True,
+	'AWARDS': True,
 	'CHAT': True,
 	'PINS': True,
 	'PRONOUNS': False,
+	'BADGES': True,
 	'HOUSES': False,
 	'USERS_SUICIDE': True,
 	'GAMBLING': True,
@@ -326,7 +328,9 @@ elif SITE == 'lgbdropthet.com':
 	PERMS['USER_VOTERS_VISIBLE'] = 2
 
 	FEATURES['PROCOINS'] = False
+	FEATURES['AWARDS'] = False
 	FEATURES['CHAT'] = False
+	FEATURES['BADGES'] = False
 	FEATURES['USERS_SUICIDE'] = False
 	FEATURES['GAMBLING'] = False
 
@@ -351,8 +355,6 @@ elif SITE == 'lgbdropthet.com':
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
-
-	FEATURES['GAMBLING'] = False
 
 if SITE == 'deuxrama.net':
 	PERMS['HOLE_CREATE'] = 3

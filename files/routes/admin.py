@@ -507,6 +507,9 @@ def under_attack(v):
 @app.get("/admin/badge_grant")
 @admin_level_required(2)
 def badge_grant_get(v):
+	if not FEATURES['BADGES']:
+		abort(404)
+
 	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
 	return render_template("admin/badge_grant.html", v=v, badge_types=badges)
 
@@ -515,6 +518,9 @@ def badge_grant_get(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(2)
 def badge_grant_post(v):
+	if not FEATURES['BADGES']:
+		abort(404)
+
 	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
 
 	user = get_user(request.values.get("username").strip(), graceful=True)
@@ -562,6 +568,9 @@ def badge_grant_post(v):
 @app.get("/admin/badge_remove")
 @admin_level_required(2)
 def badge_remove_get(v):
+	if not FEATURES['BADGES']:
+		abort(404)
+
 	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
 
 	return render_template("admin/badge_remove.html", v=v, badge_types=badges)
@@ -571,6 +580,9 @@ def badge_remove_get(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(2)
 def badge_remove_post(v):
+	if not FEATURES['BADGES']:
+		abort(404)
+	
 	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
 
 	user = get_user(request.values.get("username").strip(), graceful=True)

@@ -130,11 +130,9 @@
 			<a class="mobile-nav-icon d-md-none" href="/random_user"><i class="fas fa-music align-middle text-gray-500 black"></i></a>
 
 			{% if v and v.can_gamble and LOTTERY_ENABLED %}
-			<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lottershe">
-				<a href="/lottery" class="mobile-nav-icon d-md-none">
+				<a class="mobile-nav-icon d-md-none" href="/lottery">
 					<i class="fas fa-ticket align-middle text-gray-500"></i>
 				</a>
-			</span>
 			{% endif %}
 
 			<button class="navbar-toggler" role="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
@@ -188,9 +186,11 @@
 					</li>
 				{% endif %}
 
+				{% if FEATURES['AWARDS'] -%}
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
 					<a class="nav-link" href="/shop" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Shop"><i class="fas fa-store"></i></a>
 				</li>
+				{%- endif %}
 			
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
 					<a class="nav-link" href="/comments" data-bs-toggle="tooltip" data-bs-placement="bottom" title="All Comments"><i class="fas fa-comment-dots"></i></a>
