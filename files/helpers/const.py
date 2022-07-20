@@ -153,6 +153,7 @@ FEATURES = {
 	'HOUSES': False,
 	'USERS_SUICIDE': True,
 	'GAMBLING': True,
+	'MARKUP_COMMANDS': True,
 }
 
 EMOJI_MARSEYS = True
@@ -333,6 +334,7 @@ elif SITE == 'lgbdropthet.com':
 	FEATURES['BADGES'] = False
 	FEATURES['USERS_SUICIDE'] = False
 	FEATURES['GAMBLING'] = False
+	FEATURES['MARKUP_COMMANDS'] = False
 
 	EMOJI_MARSEYS = False
 	EMOJI_SRCS = ['files/assets/emojis.lgbdropthet.json']
