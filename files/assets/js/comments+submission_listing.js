@@ -50,7 +50,9 @@ function popclick(e) {
 		popover.getElementsByClassName('pop-banner')[0].src = author["bannerurl"]
 		popover.getElementsByClassName('pop-picture')[0].src = author["profile_url"]
 		popover.getElementsByClassName('pop-username')[0].innerHTML = author["username"]
-		popover.getElementsByClassName('pop-bio')[0].innerHTML = author["bio_html"]
+		if (popover.getElementsByClassName('pop-bio').length > 0) {
+			popover.getElementsByClassName('pop-bio')[0].innerHTML = author["bio_html"]
+		}
 		popover.getElementsByClassName('pop-postcount')[0].innerHTML = author["post_count"]
 		popover.getElementsByClassName('pop-commentcount')[0].innerHTML = author["comment_count"]
 		popover.getElementsByClassName('pop-coins')[0].innerHTML = author["coins"]

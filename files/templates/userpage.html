@@ -33,7 +33,7 @@
 
 <div class="row d-none d-md-block">
 	<div class="col px-0">
-		<div class="jumbotron jumbotron-fluid jumbotron-guild d-none d-md-block" style="background-image: url({{u.banner_url}})">
+		<div class="jumbotron jumbotron-fluid jumbotron-guild d-none d-md-block" {% if FEATURES['USERS_PROFILE_BANNER'] %}style="background-image: url({{u.banner_url}})"{% endif %}>
 			<div class="jumbotron-overlay"></div>
 			<div class="w-100 my-3">
 				<div class="container-fluid nobackground">
@@ -140,22 +140,24 @@
 				</div>
 				{% if u.basedcount %}<p class="text-muted" id="profile--based">Based Count: {{u.basedcount}}</p>{% endif %}
 
-				{% if u.bio_html %}
-					<pre></pre>
-					<div class="text-muted font-weight-bolder" id="profile--bio">{{u.bio_html | safe}}</div>
-				{% else %}
-					<p class="text-muted" id="profile--bio">No bio...</p>
-				{% endif %}
+				{% if FEATURES['USERS_PROFILE_BODYTEXT'] -%}
+					{% if u.bio_html %}
+						<pre></pre>
+						<div class="text-muted font-weight-bolder" id="profile--bio">{{u.bio_html | safe}}</div>
+					{% else %}
+						<p class="text-muted" id="profile--bio">No bio...</p>
+					{% endif %}
 
-				{% if u.friends_html %}
-					<p class="text-muted font-weight-bold">Friends:</p>
-					<div id="profile--friends">{{u.friends_html | safe}}</div>
-				{% endif %}
+					{% if u.friends_html %}
+						<p class="text-muted font-weight-bold">Friends:</p>
+						<div id="profile--friends">{{u.friends_html | safe}}</div>
+					{% endif %}
 
-				{% if u.enemies_html %}
-					<p class="text-muted font-weight-bold">Enemies:</p>
-					<div id="profile--enemies">{{u.enemies_html | safe}}</div>
-				{% endif %}
+					{% if u.enemies_html %}
+						<p class="text-muted font-weight-bold">Enemies:</p>
+						<div id="profile--enemies">{{u.enemies_html | safe}}</div>
+					{% endif %}
+				{%- endif %}
 
 				{% if u.received_awards and FEATURES['AWARDS'] %}
 				<div class="text-white rounded p-2 mb-3" id="profile--awards" style="background-color: rgba(50, 50, 50, 0.6); width: 30%;">
@@ -249,7 +251,7 @@
 						<a href="/views" class="btn btn-secondary">Profile views</a>
 					{% endif %}
 
-					{% if u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
+					{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
 						<a class="btn btn-secondary" role="button" onclick="toggle()">Toggle anthem</a>
 					{% endif %}
 
@@ -458,19 +460,22 @@
 						<br><span id="profile-mobile--lastactive">last active <span id="profile-mobile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile-mobile--lastactive--time','{{u.last_active}}')" class="font-weight-bold">{{u.last_active_date}}</span></span>
 					{%- endif %}
 				</div>
-				{% if u.bio_html %}
-					<div class="text-muted text-break" id="profile-mobile--bio">{{u.bio_html | safe}}</div>
-				{% endif %}
 
-				{% if u.friends_html %}
-					<p class="text-muted font-weight-bold mt-3">Friends:</p>
-					<div id="profile-mobile--friends">{{u.friends_html | safe}}</div>
-				{% endif %}
+				{% if FEATURES['USERS_PROFILE_BODYTEXT'] -%}
+					{% if u.bio_html %}
+						<div class="text-muted text-break" id="profile-mobile--bio">{{u.bio_html | safe}}</div>
+					{% endif %}
 
-				{% if u.enemies_html %}
-					<p class="text-muted font-weight-bold mt-3">Enemies:</p>
-					<div id="profile-mobile--enemies">{{u.enemies_html | safe}}</div>
-				{% endif %}
+					{% if u.friends_html %}
+						<p class="text-muted font-weight-bold mt-3">Friends:</p>
+						<div id="profile-mobile--friends">{{u.friends_html | safe}}</div>
+					{% endif %}
+
+					{% if u.enemies_html %}
+						<p class="text-muted font-weight-bold mt-3">Enemies:</p>
+						<div id="profile-mobile--enemies">{{u.enemies_html | safe}}</div>
+					{% endif %}
+				{%- endif %}
 
 				{% if u.received_awards and FEATURES['AWARDS'] %}
 				<div class="text-white rounded p-2 my-3 text-center" id="profile-mobile--awards" style="background-color: rgba(50, 50, 50, 0.6);">
@@ -509,7 +514,7 @@
 					<a href="/views" class="btn btn-secondary">Profile views</a>
 				{% endif %}
 
-				{% if u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
+				{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
 					<a class="btn btn-secondary" role="button" onclick="toggle()">Toggle anthem</a>
 				{% endif %}
 
@@ -770,7 +775,7 @@
 
 </div>
 
-{% if u.song %}
+{% if FEATURES['USERS_PROFILE_SONG'] and u.song %}
 	{% if v and v.id == u.id %}
 		<div id="v_username" class="d-none">{{v.username}}</div>
 	{% else %}
