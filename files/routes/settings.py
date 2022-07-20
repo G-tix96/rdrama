@@ -641,7 +641,8 @@ def settings_block_user(v):
 						  )
 	g.db.add(new_block)
 
-	send_notification(user.id, f"@{v.username} has blocked you!")
+	if user.admin_level >= PERMS['USER_BLOCKS_VISIBLE']:
+		send_notification(user.id, f"@{v.username} has blocked you!")
 
 	cache.delete_memoized(frontlist)
 
@@ -663,7 +664,7 @@ def settings_unblock_user(v):
 
 	g.db.delete(x)
 
-	if not v.shadowbanned:
+	if not v.shadowbanned and user.admin_level >= PERMS['USER_BLOCKS_VISIBLE']:
 		send_notification(user.id, f"@{v.username} has unblocked you!")
 
 	cache.delete_memoized(frontlist)
