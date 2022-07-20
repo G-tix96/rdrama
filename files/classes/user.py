@@ -278,6 +278,8 @@ class User(Base):
 	@property
 	@lazy
 	def paid_dues(self):
+		if not FEATURES['COUNTRY_CLUB']:
+			return True
 		return not self.shadowbanned and not (self.is_banned and not self.unban_utc) and (self.admin_level or self.club_allowed or (self.club_allowed != False and self.truecoins > dues))
 
 	@lazy

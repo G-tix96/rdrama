@@ -29,7 +29,7 @@
 					<span id="profile--lastactive" class="ml-2">last active <span id="profile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--lastactive--time','{{u.last_active}}')">{{u.last_active_date}}</span></span>
 				{%- endif %}
 
-				{% if not hide_bios and u.bio_html %}
+				{% if FEATURES['USERS_PROFILE_BODYTEXT'] and not hide_bios and u.bio_html %}
 					<div class="card-text mt-3">{{u.bio_html | safe}}</div>
 				{% endif %}
 			</div>

@@ -31,6 +31,8 @@ titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWe
 @app.post("/toggle_club/<pid>")
 @auth_required
 def toggle_club(pid, v):
+	if not FEATURES['COUNTRY_CLUB']:
+		abort(403)
 
 	post = get_post(pid)
 	if post.author_id != v.id and v.admin_level < 2: abort(403)
@@ -906,7 +908,9 @@ def submit_post(v, sub=None):
 
 	if len(body_html) > 40000: return error("Submission body_html too long! (max 40k characters)")
 
-	club = bool(request.values.get("club",""))
+	club = False
+	if FEATURES['COUNTRY_CLUB']:
+		club = bool(request.values.get("club",""))
 	
 	if embed and len(embed) > 1500: embed = None
 

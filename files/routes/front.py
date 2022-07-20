@@ -98,7 +98,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	if not gt and not lt:
 		posts = apply_time_filter(t, posts, Submission)
 
-	if (ccmode == "true"):
+	if (ccmode == "true") and FEATURES['COUNTRY_CLUB']:
 		posts = posts.filter(Submission.club == True)
 
 	posts = posts.filter_by(is_banned=False, private=False, deleted_utc = 0)

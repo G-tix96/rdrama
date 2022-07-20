@@ -328,8 +328,11 @@
 							<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Remove User's Content">
 						</form>
 						<pre></pre>
+						{% if FEATURES['COUNTRY_CLUB'] -%}
 						<button id="grant2" class="{% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="post_toast(this,'/@{{u.username}}/club_allow','grant2','bar2','d-none')">Grant club access</button>
 						<button id="bar2" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="post_toast(this,'/@{{u.username}}/club_ban','grant2','bar2','d-none')">Bar from club</button>
+						{%- endif %}
+
 						{% endif %}
 					<pre></pre>
 					<div id="profile--info">
@@ -579,8 +582,10 @@
 
 					{% if v.admin_level > 1 %}
 
+					{% if FEATURES['COUNTRY_CLUB'] -%}
 					<button id="grant" class="{% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="post_toast(this,'/@{{u.username}}/club_allow','grant','bar','d-none')">Grant club access</button>
 					<button id="bar" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="post_toast(this,'/@{{u.username}}/club_ban','grant','bar','d-none')">Bar from club</button>
+					{%- endif %}
 
 						<br><br>
 						<div class="body d-lg-flex border-bottom">

@@ -148,6 +148,7 @@ FEATURES = {
 	'AWARDS': True,
 	'CHAT': True,
 	'PINS': True,
+	'COUNTRY_CLUB': True,
 	'PRONOUNS': False,
 	'BADGES': True,
 	'HOUSES': False,
@@ -334,6 +335,7 @@ elif SITE == 'lgbdropthet.com':
 	FEATURES['PROCOINS'] = False
 	FEATURES['AWARDS'] = False
 	FEATURES['CHAT'] = False
+	FEATURES['COUNTRY_CLUB'] = False
 	FEATURES['BADGES'] = False
 	FEATURES['GAMBLING'] = False
 	FEATURES['USERS_PROFILE_BANNER'] = False
