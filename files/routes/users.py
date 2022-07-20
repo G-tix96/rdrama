@@ -62,6 +62,7 @@ gevent.spawn(leaderboard_thread())
 def upvoters_posts(v, username, uid):
 	u = get_user(username)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
 
@@ -83,6 +84,7 @@ def upvoters_posts(v, username, uid):
 def upvoters_comments(v, username, uid):
 	u = get_user(username)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
 
@@ -104,6 +106,7 @@ def upvoters_comments(v, username, uid):
 def downvoters_posts(v, username, uid):
 	u = get_user(username)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
 
@@ -125,6 +128,7 @@ def downvoters_posts(v, username, uid):
 def downvoters_comments(v, username, uid):
 	u = get_user(username)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
 
@@ -149,6 +153,7 @@ def downvoters_comments(v, username, uid):
 def upvoting_posts(v, username, uid):
 	u = get_user(username)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
 
@@ -170,6 +175,7 @@ def upvoting_posts(v, username, uid):
 def upvoting_comments(v, username, uid):
 	u = get_user(username)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
 
@@ -191,6 +197,7 @@ def upvoting_comments(v, username, uid):
 def downvoting_posts(v, username, uid):
 	u = get_user(username)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
 
@@ -212,6 +219,7 @@ def downvoting_posts(v, username, uid):
 def downvoting_comments(v, username, uid):
 	u = get_user(username)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
 
@@ -255,6 +263,8 @@ def agendaposters(v):
 @auth_required
 def upvoters(v, username):
 	id = get_user(username).id
+	if not (v.id == id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']):
+		abort(403)
 
 	votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Submission).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==1, Submission.author_id==id).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
 
@@ -286,6 +296,8 @@ def upvoters(v, username):
 @auth_required
 def downvoters(v, username):
 	id = get_user(username).id
+	if not (v.id == id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']):
+		abort(403)
 
 	votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Submission).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==-1, Submission.author_id==id).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
 
@@ -315,6 +327,8 @@ def downvoters(v, username):
 @auth_required
 def upvoting(v, username):
 	id = get_user(username).id
+	if not (v.id == id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']):
+		abort(403)
 
 	votes = g.db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==1, Vote.user_id==id).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
 
@@ -344,6 +358,8 @@ def upvoting(v, username):
 @auth_required
 def downvoting(v, username):
 	id = get_user(username).id
+	if not (v.id == id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']):
+		abort(403)
 
 	votes = g.db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==-1, Vote.user_id==id).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
 
@@ -376,6 +392,9 @@ def downvoting(v, username):
 @limiter.limit("1/second;5/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def suicide(v, username):
+	if not FEATURES['USERS_SUICIDE']:
+		abort(403)
+
 	user = get_user(username)
 	suicide = f"Hi there,\n\nA [concerned user](/id/{v.id}) reached out to us about you.\n\nWhen you're in the middle of something painful, it may feel like you don't have a lot of options. But whatever you're going through, you deserve help and there are people who are here for you.\n\nThere are resources available in your area that are free, confidential, and available 24/7:\n\n- Call, Text, or Chat with Canada's [Crisis Services Canada](https://www.crisisservicescanada.ca/en/)\n- Call, Email, or Visit the UK's [Samaritans](https://www.samaritans.org/)\n- Text CHAT to America's [Crisis Text Line](https://www.crisistextline.org/) at 741741.\nIf you don't see a resource in your area above, the moderators keep a comprehensive list of resources and hotlines for people organized by location. Find Someone Now\n\nIf you think you may be depressed or struggling in another way, don't ignore it or brush it aside. Take yourself and your feelings seriously, and reach out to someone.\n\nIt may not feel like it, but you have options. There are people available to listen to you, and ways to move forward.\n\nYour fellow users care about you and there are people who want to help."
 	if not v.shadowbanned:
@@ -854,6 +873,9 @@ def redditor_moment_redirect(username, v):
 @auth_required
 def followers(username, v):
 	u = get_user(username, v=v)
+	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
+		abort(403)
+
 	users = g.db.query(User).join(Follow, Follow.target_id == u.id) \
 		.filter(Follow.user_id == User.id) \
 		.order_by(Follow.created_utc).all()
@@ -863,6 +885,9 @@ def followers(username, v):
 @auth_required
 def following(username, v):
 	u = get_user(username, v=v)
+	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
+		abort(403)
+
 	users = g.db.query(User).join(Follow, Follow.user_id == u.id) \
 		.filter(Follow.target_id == User.id) \
 		.order_by(Follow.created_utc).all()

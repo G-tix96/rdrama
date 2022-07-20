@@ -599,25 +599,27 @@ line breaks
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td>!slots100</td>
-			<td>Play slots using coins - minimum 100 coins</td>
-		</tr>
-		{% if SITE_NAME != 'WPD' %}
+		{% if FEATURES['GAMBLING'] %}
 			<tr>
-				<td>!slotsmb100</td>
-				<td>Play slots using marseybux - minimum 100 marseybux</td>
+				<td>!slots100</td>
+				<td>Play slots using coins - minimum 100 coins</td>
 			</tr>
-		{% endif %}
-		<tr>
-			<td>!blackjack100</td>
-			<td>Play blackjack using coins - minimum 100 coins</td>
-		</tr>
-		{% if SITE_NAME != 'WPD' %}
+			{% if FEATURES['PROCOINS'] %}
+				<tr>
+					<td>!slotsmb100</td>
+					<td>Play slots using marseybux - minimum 100 marseybux</td>
+				</tr>
+			{% endif %}
 			<tr>
-				<td>!blackjackmb100</td>
-				<td>Play blackjack using marseybux - minimum 100 marseybux</td>
+				<td>!blackjack100</td>
+				<td>Play blackjack using coins - minimum 100 coins</td>
 			</tr>
+			{% if FEATURES['PROCOINS'] %}
+				<tr>
+					<td>!blackjackmb100</td>
+					<td>Play blackjack using marseybux - minimum 100 marseybux</td>
+				</tr>
+			{% endif %}
 		{% endif %}
 		<tr>
 			<td>!wordle</td>

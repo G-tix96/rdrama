@@ -36,13 +36,15 @@ function popclick(e) {
 		let popover = document.getElementsByClassName("popover")
 		popover = popover[popover.length-1]
 
-		const badgesDOM = popover.getElementsByClassName('pop-badges')[0];
-		badgesDOM.innerHTML = "";
-		for (const badge of author["badges"]) {
-			const badgeDOM = popClickBadgeTemplateDOM.cloneNode();
-			badgeDOM.src = badge + "?v=1021";
+		if (popover.getElementsByClassName('pop-badges').length > 0) {
+			const badgesDOM = popover.getElementsByClassName('pop-badges')[0];
+			badgesDOM.innerHTML = "";
+			for (const badge of author["badges"]) {
+				const badgeDOM = popClickBadgeTemplateDOM.cloneNode();
+				badgeDOM.src = badge + "?v=1021";
 
-			badgesDOM.append(badgeDOM);
+				badgesDOM.append(badgeDOM);
+			}
 		}
 
 		popover.getElementsByClassName('pop-banner')[0].src = author["bannerurl"]

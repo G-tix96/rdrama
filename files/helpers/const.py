@@ -133,17 +133,31 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 
 PERMS = { # Minimum admin_level to perform action.
 	'HOLE_CREATE': 0,
+	'CONTENT_THREADS': 3,
 	'FLAGS_VISIBLE': 0,
 	'FLAGS_VISIBLE_REPORTER': 0,
 	'FLAGS_REMOVE': 2,
-	'CONTENT_THREADS': 3,
+	'VOTES_VISIBLE': 0,
+	'USER_BLOCKS_VISIBLE': 0,
+	'USER_FOLLOWS_VISIBLE': 0,
+	'USER_VOTERS_VISIBLE': 0,
+}
+
+FEATURES = {
+	'PROCOINS': True,
+	'AWARDS': True,
+	'CHAT': True,
+	'PINS': True,
+	'PRONOUNS': False,
+	'BADGES': True,
+	'HOUSES': False,
+	'USERS_SUICIDE': True,
+	'GAMBLING': True,
 }
 
 EMOJI_MARSEYS = True
 EMOJI_SRCS = ['files/assets/emojis.json']
 
-PROCOINS_ENABLED = True
-PIN_ENABLED = True
 PIN_LIMIT = 3
 POST_RATE_LIMIT = '1/second;2/minute;10/hour;50/day'
 LOGGEDIN_ACTIVE_TIME = 15 * 60
@@ -210,8 +224,13 @@ if SITE in ('rdrama.net', 'devrama.xyz'):
 elif SITE == 'deuxrama.net':
 	SIDEBAR_THREAD = 175
 	BADGE_THREAD = 142
+elif SITE == 'lgbdropthet.com':
+	GAMBLING_THREAD = 25
 
 if SITE in {'rdrama.net', 'devrama.xyz', 'deuxrama.net'}:
+	FEATURES['PRONOUNS'] = True
+	FEATURES['HOUSES'] = True
+
 	HOLE_COST = 50000
 	HOLE_INACTIVITY_DELETION = True
 
@@ -285,7 +304,8 @@ elif SITE == 'watchpeopledie.co':
 	PERMS['HOLE_CREATE'] = 2
 	PERMS['FLAGS_VISIBLE'] = 2
 
-	PROCOINS_ENABLED = False
+	FEATURES['PROCOINS'] = False
+
 	HOLE_NAME = 'flair'
 	HOLE_STYLE_FLAIR = True
 	HOLE_REQUIRED = True
@@ -302,11 +322,21 @@ elif SITE == 'watchpeopledie.co':
 elif SITE == 'lgbdropthet.com':
 	PERMS['HOLE_CREATE'] = 3
 	PERMS['FLAGS_VISIBLE_REPORTER'] = 2
+	PERMS['VOTES_VISIBLE'] = 2
+	PERMS['USER_BLOCKS_VISIBLE'] = 2
+	PERMS['USER_FOLLOWS_VISIBLE'] = 2
+	PERMS['USER_VOTERS_VISIBLE'] = 2
+
+	FEATURES['PROCOINS'] = False
+	FEATURES['AWARDS'] = False
+	FEATURES['CHAT'] = False
+	FEATURES['BADGES'] = False
+	FEATURES['USERS_SUICIDE'] = False
+	FEATURES['GAMBLING'] = False
 
 	EMOJI_MARSEYS = False
 	EMOJI_SRCS = ['files/assets/emojis.lgbdropthet.json']
 
-	PROCOINS_ENABLED = False
 	PFP_DEFAULT_MARSEY = False
 	HOLE_NAME = 'community'
 
@@ -319,9 +349,12 @@ elif SITE == 'lgbdropthet.com':
 	AEVANN_ID = 10
 	SNAKES_ID = 9
 
+	WELCOME_MSG = "**Welcome to LGBDropTheT!**\n\nWe are a community of gay, lesbian, and bisexual men and women (and our allies) who believe that the LGB community should separate from the Transgender and Queer+ communities.  \n\nWe believe sexuality and gender identity are distinct and unrelated concepts, and that the interests and goals of our communities are misrepresented by grouping our experiences and politics as one. LGB and TQ+ both deserve a supportive community, but neither one should be at the expense of the other. We feel our rights and protections are under attack due to the Transgender and Queer+ movements silencing and condemning our beliefs.  \n\nWe believe that men are adult human males and women are adult human females. Our orientations are based towards an individual's sex, not gender identity. The same organizations and communities that we created in order to solidify ourselves now label us as \"phobic\", \"preferential\", or \"genital fetishists\". The TQ+ dogma and rhetoric are coercing gay men, lesbians, and bisexuals to suppress same-sex attraction in favor of fluidity and non-distinction of the opposite sex. Our gender non-conforming LGB youth are being taught that they're born in the wrong body, and persuaded to take life-altering medications to correct their \"sex assigned at birth\".  \n\nThis is nothing more than homophobia and conversion therapy disguised as progress.  \n\nIt's time to reclaim our organizations and movement by and for our own people. We want to \"Drop The T\" and all the letters after it, and ensure that the needs of lesbians, gay men, and bisexuals are centered once-again.  \n\n* If you're new to our movement and how we operate, we recommend starting with our **[Rules and FAQs](https://lgbdropthet/kb/rulesfaqs)** to better understand our community guidelines. \n\n* To familiarize yourself with how the site works, we recommend visiting our **[Help and Support](https://lgbdropthet.com/h/help_and_support)** community. Feel free to make a test post of your own there so you can get used to using the features - you can always delete your post later. \n\n* Feeling a little overwhelmed and don't know where to start? Consider introducing yourself in our **[Off-Topic / Social](https://lgbdropthet.com/h/off_topic_social)** community.  \n\nThank you for being a part of our growing movement, we look forward to seeing you! \n\n**~ The LGBDropTheT team**"
+
 	LOTTERY_ENABLED = False
 else: # localhost or testing environment implied
-	pass
+	FEATURES['PRONOUNS'] = True
+	FEATURES['HOUSES'] = True
 
 if SITE == 'deuxrama.net':
 	PERMS['HOLE_CREATE'] = 3
@@ -754,7 +787,7 @@ if SITE == 'pcmemes.net':
 	AWARDS_DISABLED.remove('ghost')
 elif SITE_NAME == 'WPD':
 	AWARDS_DISABLED.remove('lootbox')
-if not PROCOINS_ENABLED:
+if not FEATURES['PROCOINS']:
 	AWARDS_DISABLED.append('benefactor')
 
 AWARDS2 = {x: AWARDS[x] for x in AWARDS if x not in AWARDS_DISABLED}

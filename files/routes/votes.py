@@ -6,7 +6,7 @@ from flask import *
 from files.__main__ import app, limiter, cache
 
 @app.get("/votes/<link>")
-@auth_required
+@admin_level_required(PERMS['VOTES_VISIBLE'])
 def vote_info_get(v, link):
 	try:
 		if "t2_" in link: thing = get_post(int(link.split("t2_")[1]), v=v)

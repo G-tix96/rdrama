@@ -378,5 +378,6 @@
 	{"name":"wholesomeseal","class":"Misc"},
 	{"name":"gigachadglow","tags": ["chad", "glow", "fbi"],"class":"Misc"},
 	{"name":"gigachad","tags": ["chad"],"class":"Misc"},
-	{"name":"gigachad2", "tags": ["chad"], "class":"Misc"}
+	{"name":"gigachad2", "tags": ["chad"], "class":"Misc"},
+	{"name":"pedobear", "class":"Misc"}
 ]

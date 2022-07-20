@@ -12,6 +12,7 @@
 
 <h4>Content</h4>
 <ul>
+	<li><a href="/log">Moderation Log</a></li>
 	<li><a href="/admin/image_posts">Image Posts</a></li>
 	<li><a href="/admin/reported/posts">Reported Posts/Comments</a></li>
 	<li><a href="/admin/removed/posts">Removed Posts/Comments</a></li>
@@ -22,9 +23,13 @@
 	<li><a href="/admin/users">Users Feed</a></li>
 	<li><a href="/admin/shadowbanned">Shadowbanned Users</a></li>
 	<li><a href="/banned">Permabanned Users</a></li>
-	<li><a href="/agendaposters">Users with Chud Theme</a></li>
-	<li><a href="/grassed">Currently Grassed Users</a></li>
-	<li><a href="/patrons">Patrons / Paypigs</a></li>
+	{% if FEATURES['AWARDS'] -%}
+		<li><a href="/agendaposters">Users with Chud Theme</a></li>
+		<li><a href="/grassed">Currently Grassed Users</a></li>
+	{%- endif %}
+	{% if FEATURES['PROCOINS'] -%}
+		<li><a href="/patrons">Patrons / Paypigs</a></li>
+	{%- endif %}
 	<li><a href="/admin/loggedin">Currently Logged-in Users</a></li>
 	<li><a href="/admin/loggedout">Currently Logged-out Users</a></li>
 </ul>
@@ -35,12 +40,18 @@
 	<li><a href="/admin/alt_votes">Multi Vote Analysis</a></li>
 </ul>
 
+{% if FEATURES['BADGES'] or FEATURES['AWARDS'] -%}
 <h4>Grant</h4>
 <ul>
-	<li><a href="/admin/awards">Give User Award</a></li>
-	<li><a href="/admin/badge_grant">Grant Badges</a></li>
-	<li><a href="/admin/badge_remove">Remove Badges</a></li>
+	{% if FEATURES['AWARDS'] -%}
+		<li><a href="/admin/awards">Give User Award</a></li>
+	{%- endif %}
+	{% if FEATURES['BADGES'] -%}
+		<li><a href="/admin/badge_grant">Grant Badges</a></li>
+		<li><a href="/admin/badge_remove">Remove Badges</a></li>
+	{%- endif %}
 </ul>
+{%- endif %}
 
 <h4>API Access Control</h4>
 <ul>

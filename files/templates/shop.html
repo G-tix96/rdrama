@@ -24,7 +24,7 @@
 		<h5 class="mt-4">Coins spent by you: {{v.coins_spent}} coins</h5>
 		<h5 class="mt-4">Lootboxes bought by you: {{v.lootboxes_bought}} lootbox{{'es' if v.lootboxes_bought != 1}}</h5>
 		<h5 class="mt-4">Your current coins: {{v.coins}}</h5>
-		{% if PROCOINS_ENABLED %}
+		{% if FEATURES['PROCOINS'] %}
 			<h5 class="mt-4">Your current marseybux: {{v.procoins}}</h3>
 		{% endif %}
 	</header>
@@ -84,7 +84,7 @@
 				{% set kind = a['kind'] %}
 				<td class="shop-table-actions">
 					{% if a['kind'] != "benefactor" %}<a class="d-flex btn btn-success {% if v.coins < a['price'] %}disabled{% endif %}" role="button" onclick="post_toast(this,'/buy/{{kind}}')"><span class="m-auto">Buy</span></a>{% endif %}
-					{% if SITE_NAME != 'WPD' %}
+					{% if FEATURES['PROCOINS'] %}
 						{% if a['kind'] != "grass" %}<a class="d-flex marseybux btn btn-success {% if v.procoins < a['price'] %}disabled{% endif %}" role="button" onclick="post_toast(this,'/buy/{{kind}}?mb=true')"><span class="m-auto">Buy with MBux</span></a>{% endif %}
 					{% endif %}
 				</td>
