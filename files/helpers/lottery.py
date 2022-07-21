@@ -38,6 +38,10 @@ def end_lottery_session():
 		for _ in range(user.currently_held_lottery_tickets):
 			raffle.append(user.id)
 
+	if len(raffle) == 0:
+		active_lottery.is_active = False
+		return True, "Lottery ended with no participants."
+
 	winner = choice(raffle)
 	active_lottery.winner_id = winner
 	winning_user = next(filter(lambda x: x.id == winner, participating_users))
@@ -57,7 +61,6 @@ def end_lottery_session():
 		user.currently_held_lottery_tickets = 0
 
 	active_lottery.is_active = False
-
 
 	return True, f'{winning_user.username} won {active_lottery.prize} coins!'
 

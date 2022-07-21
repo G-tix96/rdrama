@@ -1,6 +1,7 @@
 from files.cli import g, app, db_session
 import click
 from files.helpers.const import *
+from files.classes import *
 
 import files.helpers.lottery as lottery
 import files.helpers.offsitementions as offsitementions
