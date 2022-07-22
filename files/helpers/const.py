@@ -236,8 +236,7 @@ elif SITE == 'lgbdropthet.com':
 	GAMBLING_THREAD = 25
 
 if SITE in {'rdrama.net', 'devrama.xyz', 'deuxrama.net'}:
-
-	HOLE_OST = 50000
+	HOLE_COST = 50000
 	HOLE_INACTIVITY_DELETION = True
 
 	AUTOJANNY_ID = 1046
