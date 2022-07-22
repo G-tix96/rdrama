@@ -21,9 +21,12 @@
 				<h5 class="pop-username text-truncate text-black"></h5>
 				</div>
 			</div>
+
+			{% if FEATURES['USERS_PROFILE_BODYTEXT'] -%}
 			<div class="px-3">
 				<span class="pop-bio popover-bio text-black"></span>
 			</div>
+			{%- endif %}
 
 			{% if FEATURES['BADGES'] -%}
 			<div class="pop-badges ml-3 mr-3 my-2">

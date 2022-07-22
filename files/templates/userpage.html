@@ -33,7 +33,7 @@
 
 <div class="row d-none d-md-block">
 	<div class="col px-0">
-		<div class="jumbotron jumbotron-fluid jumbotron-guild d-none d-md-block" style="background-image: url({{u.banner_url}})">
+		<div class="jumbotron jumbotron-fluid jumbotron-guild d-none d-md-block" {% if FEATURES['USERS_PROFILE_BANNER'] %}style="background-image: url({{u.banner_url}})"{% endif %}>
 			<div class="jumbotron-overlay"></div>
 			<div class="w-100 my-3">
 				<div class="container-fluid nobackground">
@@ -128,9 +128,11 @@
 						<img alt="marseybux" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="20" width="46" src="/i/marseybux.webp?v=2000">&nbsp;&nbsp;
 					{% endif %}
 
-					<a href="/@{{u.username}}/followers" id="profile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a>&nbsp;&nbsp;
+					{% if PERMS['USER_FOLLOWS_VISIBLE'] == 0 or (v and v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']) -%}
+						<a href="/@{{u.username}}/followers" id="profile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a>&nbsp;&nbsp;
 
-					<a href="/@{{u.username}}/following" id="profile--following">follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a>&nbsp;&nbsp;
+						<a href="/@{{u.username}}/following" id="profile--following">follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a>&nbsp;&nbsp;
+					{%- endif %}
 
 					<span id="profile--joined">joined <span id="profile--joined--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--joined--time','{{u.created_utc}}')">{{u.created_date}}</span></span>
 
@@ -140,22 +142,24 @@
 				</div>
 				{% if u.basedcount %}<p class="text-muted" id="profile--based">Based Count: {{u.basedcount}}</p>{% endif %}
 
-				{% if u.bio_html %}
-					<pre></pre>
-					<div class="text-muted font-weight-bolder" id="profile--bio">{{u.bio_html | safe}}</div>
-				{% else %}
-					<p class="text-muted" id="profile--bio">No bio...</p>
-				{% endif %}
+				{% if FEATURES['USERS_PROFILE_BODYTEXT'] -%}
+					{% if u.bio_html %}
+						<pre></pre>
+						<div class="text-muted font-weight-bolder" id="profile--bio">{{u.bio_html | safe}}</div>
+					{% else %}
+						<p class="text-muted" id="profile--bio">No bio...</p>
+					{% endif %}
 
-				{% if u.friends_html %}
-					<p class="text-muted font-weight-bold">Friends:</p>
-					<div id="profile--friends">{{u.friends_html | safe}}</div>
-				{% endif %}
+					{% if u.friends_html %}
+						<p class="text-muted font-weight-bold">Friends:</p>
+						<div id="profile--friends">{{u.friends_html | safe}}</div>
+					{% endif %}
 
-				{% if u.enemies_html %}
-					<p class="text-muted font-weight-bold">Enemies:</p>
-					<div id="profile--enemies">{{u.enemies_html | safe}}</div>
-				{% endif %}
+					{% if u.enemies_html %}
+						<p class="text-muted font-weight-bold">Enemies:</p>
+						<div id="profile--enemies">{{u.enemies_html | safe}}</div>
+					{% endif %}
+				{%- endif %}
 
 				{% if u.received_awards and FEATURES['AWARDS'] %}
 				<div class="text-white rounded p-2 mb-3" id="profile--awards" style="background-color: rgba(50, 50, 50, 0.6); width: 30%;">
@@ -249,7 +253,7 @@
 						<a href="/views" class="btn btn-secondary">Profile views</a>
 					{% endif %}
 
-					{% if u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
+					{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
 						<a class="btn btn-secondary" role="button" onclick="toggle()">Toggle anthem</a>
 					{% endif %}
 
@@ -326,8 +330,11 @@
 							<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Remove User's Content">
 						</form>
 						<pre></pre>
+						{% if FEATURES['COUNTRY_CLUB'] -%}
 						<button id="grant2" class="{% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="post_toast(this,'/@{{u.username}}/club_allow','grant2','bar2','d-none')">Grant club access</button>
 						<button id="bar2" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="post_toast(this,'/@{{u.username}}/club_ban','grant2','bar2','d-none')">Bar from club</button>
+						{%- endif %}
+
 						{% endif %}
 					<pre></pre>
 					<div id="profile--info">
@@ -444,9 +451,11 @@
 						<img alt="marseybux" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="15" width="35" src="/i/marseybux.webp?v=2000">&nbsp;&nbsp;
 					{% endif %}
 
-					<a href="/@{{u.username}}/followers" class="font-weight-bold" id="profile-mobile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a>&nbsp;&nbsp;
+					{% if PERMS['USER_FOLLOWS_VISIBLE'] == 0 or (v and v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']) -%}
+						<a href="/@{{u.username}}/followers" class="font-weight-bold" id="profile-mobile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a>&nbsp;&nbsp;
 
-					<a href="/@{{u.username}}/following" class="font-weight-bold" id="profile-mobile--following" style="display:block">follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a>&nbsp;&nbsp;
+						<a href="/@{{u.username}}/following" class="font-weight-bold" id="profile-mobile--following" style="display:block">follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a>&nbsp;&nbsp;
+					{%- endif %}
 
 					{% if u.basedcount %}
 						<br><span id="profile-mobile--based">Based count: {{u.basedcount}}</span>
@@ -458,19 +467,22 @@
 						<br><span id="profile-mobile--lastactive">last active <span id="profile-mobile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile-mobile--lastactive--time','{{u.last_active}}')" class="font-weight-bold">{{u.last_active_date}}</span></span>
 					{%- endif %}
 				</div>
-				{% if u.bio_html %}
-					<div class="text-muted text-break" id="profile-mobile--bio">{{u.bio_html | safe}}</div>
-				{% endif %}
 
-				{% if u.friends_html %}
-					<p class="text-muted font-weight-bold mt-3">Friends:</p>
-					<div id="profile-mobile--friends">{{u.friends_html | safe}}</div>
-				{% endif %}
+				{% if FEATURES['USERS_PROFILE_BODYTEXT'] -%}
+					{% if u.bio_html %}
+						<div class="text-muted text-break" id="profile-mobile--bio">{{u.bio_html | safe}}</div>
+					{% endif %}
 
-				{% if u.enemies_html %}
-					<p class="text-muted font-weight-bold mt-3">Enemies:</p>
-					<div id="profile-mobile--enemies">{{u.enemies_html | safe}}</div>
-				{% endif %}
+					{% if u.friends_html %}
+						<p class="text-muted font-weight-bold mt-3">Friends:</p>
+						<div id="profile-mobile--friends">{{u.friends_html | safe}}</div>
+					{% endif %}
+
+					{% if u.enemies_html %}
+						<p class="text-muted font-weight-bold mt-3">Enemies:</p>
+						<div id="profile-mobile--enemies">{{u.enemies_html | safe}}</div>
+					{% endif %}
+				{%- endif %}
 
 				{% if u.received_awards and FEATURES['AWARDS'] %}
 				<div class="text-white rounded p-2 my-3 text-center" id="profile-mobile--awards" style="background-color: rgba(50, 50, 50, 0.6);">
@@ -509,7 +521,7 @@
 					<a href="/views" class="btn btn-secondary">Profile views</a>
 				{% endif %}
 
-				{% if u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
+				{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
 					<a class="btn btn-secondary" role="button" onclick="toggle()">Toggle anthem</a>
 				{% endif %}
 
@@ -574,8 +586,10 @@
 
 					{% if v.admin_level > 1 %}
 
+					{% if FEATURES['COUNTRY_CLUB'] -%}
 					<button id="grant" class="{% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="post_toast(this,'/@{{u.username}}/club_allow','grant','bar','d-none')">Grant club access</button>
 					<button id="bar" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="post_toast(this,'/@{{u.username}}/club_ban','grant','bar','d-none')">Bar from club</button>
+					{%- endif %}
 
 						<br><br>
 						<div class="body d-lg-flex border-bottom">
@@ -770,7 +784,7 @@
 
 </div>
 
-{% if u.song %}
+{% if FEATURES['USERS_PROFILE_SONG'] and u.song %}
 	{% if v and v.id == u.id %}
 		<div id="v_username" class="d-none">{{v.username}}</div>
 	{% else %}

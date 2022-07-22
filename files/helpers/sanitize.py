@@ -230,7 +230,8 @@ def sanitize(sanitized, edit=False):
 
 	sanitized = link_fix_regex.sub(r'\1https://\2', sanitized)
 
-	sanitized = command_regex.sub(command_regex_matcher, sanitized)
+	if FEATURES['MARKUP_COMMANDS']:
+		sanitized = command_regex.sub(command_regex_matcher, sanitized)
 
 	sanitized = markdown(sanitized)
 

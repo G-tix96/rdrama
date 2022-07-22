@@ -116,6 +116,7 @@ Text 2
 			<td>:marseyrandom:</td>
 			<td>???</td>
 		</tr>
+		{% if FEATURES['MARKUP_COMMANDS'] -%}
 		<tr>
 			<td>Random Fortune</td>
 			<td>#fortune</td>
@@ -131,6 +132,12 @@ Text 2
 			<td>#factcheck</td>
 			<td>???</td>
 		</tr>
+		<tr>
+			<td>Roll</td>
+			<td>#roll</td>
+			<td>A number 1&ndash;9999.</td>
+		</tr>
+		{%- endif %}
 		<tr>
 			<td>
 				Poll — Pick Multiple<br>

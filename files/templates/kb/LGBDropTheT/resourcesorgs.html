@@ -2,7 +2,7 @@
 {% block content %}
 <h1><u>LGB RESOURCES AND ORGANIZATIONS</u></h1> 
 <br>
-<p>If you would like to add additional resources, or find any information on this page is out-of-date, please visit our <a href="/post/47/resources-organizations-megathread-meta">Resources & Organizations mega-thread</a>. to alert site Admins.</p> 
+<p>If you would like to add additional resources, or find any information on this page is out-of-date, please visit our <a href="/post/47/resources-organizations-megathread-meta">Resources & Organizations mega-thread</a> to alert site Admins.</p>
 <br>
 <br>
 
@@ -26,7 +26,7 @@
                 <dl><ul>
                 <li><i>About: </i>US organization that advocates for the rights of lesbians and gay men.</li>
                 </ul></dl>
-            <p><a href="#">Get The L Out</a><i> - this link will be updated from SaidIt once we get a proper Wiki on this site</i></p>    
+            <p><a href="https://saidit.net/s/GetTheLOut/wiki/gtlo_orgs">Get The L Out</a><i> - this link will be updated from SaidIt once we get a proper Wiki on this site</i></p>
                 <dl><ul>
                 <li><i>About: </i>GetTheLOut is primarily a UK-based group representing lesbians. There are a few other chapters around the world.</li>
                 </ul></dl> 
@@ -49,7 +49,7 @@
                 </ul></dl>                
                 <br>
             <p><h2><u>SUPPORTIVE / RELEVANT / ALLIES</u></h2></p>          
-            <p><a href="https://www.segm.org/">Society for Evidence-based Gender Medicine</a></p>
+            <p><a href="https://www.segm.org/">Society for Evidence-Based Gender Medicine</a></p>
                 <dl><ul>
                 <li><i>About: </i>Organization of physical and mental health practitioners, researchers and experts who are concerned about the lack of scientific evidence for popular treatments of gender dysphoria.</li>
                 <li><i>Example Article: </i><a href="https://www.segm.org/typology_of_gender_detransition">A Typology of Gender Detransition and Its Implications for Healthcare Providers</a></li>
@@ -150,51 +150,51 @@ The Tavistock’s experiment with puberty blockers, part 5: the belated results<
         margin: 2rem 1rem;
     }
 
-	/******** Hides the checkbox/radio button */ 
+    /******** Hides the checkbox/radio button */
 
-	.sources-wrapper input {
-	    position: absolute;
-	    opacity: 0;
-	    z-index: -1;
-	}
-	.sources-wrapper input[type='radio'] {
-	    display: none;
-	}
+    .sources-wrapper input {
+        position: absolute;
+        opacity: 0;
+        z-index: -1;
+    }
+    .sources-wrapper input[type='radio'] {
+        display: none;
+    }
 
-	/******** SOURCE TITLES */ 
+    /******** SOURCE TITLES */
 
-	.sources {
-	    color: var(--black);
-	    margin-bottom: 3rem;
-	}
-	.sources-label {
-	    font-size: 1.5rem;
-	    display: flex;
-	    align-items: center;
-	    justify-content: space-between;
-	    padding: 1em;
-	    color: var(--primary);
+    .sources {
+        color: var(--black);
+        margin-bottom: 3rem;
+    }
+    .sources-label {
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1em;
+        color: var(--primary);
         border: 1px solid var(--primary);
         border-radius: 1rem;
-	    font-weight: bold;
-	    cursor: pointer;
-	    user-select: none;
-	}
+        font-weight: bold;
+        cursor: pointer;
+        user-select: none;
+    }
 
-	/******** SOURCE CONTENT */ 
+    /******** SOURCE CONTENT */
 
-	.sources-content {
-	    max-height: 0;
-	    padding: 0 1em;
-	    background: transparent !important;
-	    transition: all 0.35s;
-	    display: none;
-	}
-	.sources-wrapper input:checked ~ .sources-content {
-	    max-height: 100%;
-	    padding: 1em;
-	    display: block;
-	    transition: all 0.35s;
-	}
+    .sources-content {
+        max-height: 0;
+        padding: 0 1em;
+        background: transparent !important;
+        transition: all 0.35s;
+        display: none;
+    }
+    .sources-wrapper input:checked ~ .sources-content {
+        max-height: 100%;
+        padding: 1em;
+        display: block;
+        transition: all 0.35s;
+    }
 </style>
 {% endblock %}

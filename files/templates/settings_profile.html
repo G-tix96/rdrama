@@ -242,6 +242,8 @@
 				</div>
 
 			</div>
+
+			{% if FEATURES['USERS_PROFILE_BANNER'] -%}
 			<h2 class="h5">Profile Banner</h2>
 
 			<div class="settings-section rounded">
@@ -275,6 +277,7 @@
 				</div>
 
 			</div>
+			{%- endif %}
 
 			<h2 class="h5" id="referral" name="referral">Referrals</h2>
 
@@ -389,6 +392,8 @@
 								</div>
 
 							</div>
+
+							{% if FEATURES['USERS_PROFILE_SONG'] -%}
 							<div class="body d-lg-flex border-bottom">
 
 								<label class="text-black w-lg-25">Profile Anthem</label>
@@ -422,6 +427,8 @@
 								</div>
 
 							</div>
+							{%- endif %}
+
 							<div class="body d-lg-flex border-bottom">
 
 								<label class="text-black w-lg-25">Name Color</label>
@@ -599,7 +606,7 @@
 							{% endif %}
 
 
-
+							{% if FEATURES['USERS_PROFILE_BODYTEXT'] -%}
 							<div class="body d-lg-flex border-bottom">
 								
 								<label class="text-black w-lg-25">Bio</label>
@@ -671,6 +678,7 @@
 								</div>
 							
 							</div>
+							{%- endif %}
 
 
 							{% if v.patron or v.id == MOOSE_ID %}

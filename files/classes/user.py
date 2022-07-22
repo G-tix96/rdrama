@@ -278,6 +278,8 @@ class User(Base):
 	@property
 	@lazy
 	def paid_dues(self):
+		if not FEATURES['COUNTRY_CLUB']:
+			return True
 		return not self.shadowbanned and not (self.is_banned and not self.unban_utc) and (self.admin_level or self.club_allowed or (self.club_allowed != False and self.truecoins > dues))
 
 	@lazy
@@ -592,8 +594,9 @@ class User(Base):
 	@property
 	@lazy
 	def banner_url(self):
-		if self.bannerurl: return self.bannerurl
-		else: return f"/i/{SITE_NAME}/site_preview.webp?v=3001"
+		if FEATURES['USERS_PROFILE_BANNER'] and self.bannerurl:
+			return self.bannerurl
+		return f"/i/{SITE_NAME}/site_preview.webp?v=3001"
 
 	@property
 	@lazy

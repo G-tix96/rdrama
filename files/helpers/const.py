@@ -148,11 +148,16 @@ FEATURES = {
 	'AWARDS': True,
 	'CHAT': True,
 	'PINS': True,
+	'COUNTRY_CLUB': True,
 	'PRONOUNS': False,
 	'BADGES': True,
 	'HOUSES': False,
-	'USERS_SUICIDE': True,
 	'GAMBLING': True,
+	'USERS_PROFILE_BANNER': True,
+	'USERS_PROFILE_BODYTEXT': True,
+	'USERS_PROFILE_SONG': True,
+	'USERS_SUICIDE': True,
+	'MARKUP_COMMANDS': True,
 }
 
 EMOJI_MARSEYS = True
@@ -331,9 +336,14 @@ elif SITE == 'lgbdropthet.com':
 	FEATURES['PROCOINS'] = False
 	FEATURES['AWARDS'] = False
 	FEATURES['CHAT'] = False
+	FEATURES['COUNTRY_CLUB'] = False
 	FEATURES['BADGES'] = False
-	FEATURES['USERS_SUICIDE'] = False
 	FEATURES['GAMBLING'] = False
+	FEATURES['USERS_PROFILE_BANNER'] = False
+	FEATURES['USERS_PROFILE_BODYTEXT'] = False
+	FEATURES['USERS_PROFILE_SONG'] = False
+	FEATURES['USERS_SUICIDE'] = False
+	FEATURES['MARKUP_COMMANDS'] = False
 
 	EMOJI_MARSEYS = False
 	EMOJI_SRCS = ['files/assets/emojis.lgbdropthet.json']

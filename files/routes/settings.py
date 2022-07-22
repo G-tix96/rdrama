@@ -144,7 +144,7 @@ def settings_profile_post(v):
 
 
 
-	elif request.values.get("friends"):
+	elif FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("friends"):
 		friends = request.values.get("friends")[:500]
 
 		friends_html = sanitize(friends)
@@ -170,7 +170,7 @@ def settings_profile_post(v):
 							   msg="Your friends list has been updated.")
 
 
-	elif request.values.get("enemies"):
+	elif FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("enemies"):
 		enemies = request.values.get("enemies")[:500]
 
 		enemies_html = sanitize(enemies)
@@ -196,7 +196,8 @@ def settings_profile_post(v):
 							   msg="Your enemies list has been updated.")
 
 
-	elif request.values.get("bio") or request.files.get('file'):
+	elif FEATURES['USERS_PROFILE_BODYTEXT'] and \
+			(request.values.get("bio") or request.files.get('file')):
 		bio = request.values.get("bio")[:1500]
 
 		bio += process_files()
@@ -536,6 +537,9 @@ def settings_images_profile(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def settings_images_banner(v):
+	if not FEATURES['USERS_PROFILE_BANNER']:
+		abort(403)
+
 	if request.headers.get("cf-ipcountry") == "T1": return {"error":"Image uploads are not allowed through TOR."}, 403
 
 	file = request.files["banner"]
@@ -637,7 +641,8 @@ def settings_block_user(v):
 						  )
 	g.db.add(new_block)
 
-	send_notification(user.id, f"@{v.username} has blocked you!")
+	if user.admin_level >= PERMS['USER_BLOCKS_VISIBLE']:
+		send_notification(user.id, f"@{v.username} has blocked you!")
 
 	cache.delete_memoized(frontlist)
 
@@ -659,7 +664,7 @@ def settings_unblock_user(v):
 
 	g.db.delete(x)
 
-	if not v.shadowbanned:
+	if not v.shadowbanned and user.admin_level >= PERMS['USER_BLOCKS_VISIBLE']:
 		send_notification(user.id, f"@{v.username} has unblocked you!")
 
 	cache.delete_memoized(frontlist)
@@ -746,6 +751,8 @@ def settings_name_change(v):
 @limiter.limit("3/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def settings_song_change_mp3(v):
+	if not FEATURES['USERS_PROFILE_SONG']:
+		abort(403)
 
 	file = request.files['file']
 	if file.content_type != 'audio/mpeg':
@@ -776,6 +783,9 @@ def settings_song_change_mp3(v):
 @limiter.limit("3/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def settings_song_change(v):
+	if not FEATURES['USERS_PROFILE_SONG']:
+		abort(403)
+
 	song=request.values.get("song").strip()
 
 	if song == "" and v.song:
