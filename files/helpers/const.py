@@ -215,6 +215,9 @@ MARSEY_THREAD = 0
 GAMBLING_THREAD = 0
 
 if SITE in ('rdrama.net', 'devrama.xyz'):
+	FEATURES['PRONOUNS'] = True
+	FEATURES['HOUSES'] = True
+
 	SIDEBAR_THREAD = 37696
 	BANNER_THREAD = 37697
 	BADGE_THREAD = 37833
@@ -228,10 +231,8 @@ elif SITE == 'lgbdropthet.com':
 	GAMBLING_THREAD = 25
 
 if SITE in {'rdrama.net', 'devrama.xyz', 'deuxrama.net'}:
-	FEATURES['PRONOUNS'] = True
-	FEATURES['HOUSES'] = True
 
-	HOLE_COST = 50000
+	HOLE_OST = 50000
 	HOLE_INACTIVITY_DELETION = True
 
 	AUTOJANNY_ID = 1046
