@@ -1004,7 +1004,7 @@
 						<input autocomplete="off" id="file-upload-reply-{{p.fullname}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show-reply-{{p.fullname}}','file-upload-reply-{{p.fullname}}')" hidden>
 					</label>
 				</div>
-				<a id="save-reply-to-{{p.fullname}}" role="button" form="reply-to-{{p.fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="post_comment('{{p.fullname}}', 'comment-form-space-{{p.fullname}}');remove_dialog()">Comment</a>
+				<a id="save-reply-to-{{p.fullname}}" role="button" form="reply-to-{{p.fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="post_comment('{{p.fullname}}');remove_dialog()">Comment</a>
 			</form>
 			<div id="form-preview-{{p.id}}" class="mb-3 mt-5"></div>
 			<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
@@ -1026,51 +1026,50 @@
 		</div>
 	{% endif %}
 
-	{% if p.replies %}
-		<div class="comment-section" id="replies-of-{{p.id}}">
+{% if p.replies %}
+	<div class="comment-section" id="replies-of-{{p.fullname}}">
 		{% with comments=p.replies %}
 			{% include "comments.html" %}
-	{% endwith %}
- </div>
- 
-{% if offset %}
-	<script>
-		function viewmore(pid,sort,offset,ids) {
-			btn = document.getElementById("viewbtn");
-			btn.disabled = true;
-			btn.innerHTML = "Requesting...";
-			const form = new FormData();
-			const xhr = new XMLHttpRequest();
-			xhr.open("get", `/viewmore/${pid}/${sort}/${offset}?ids=${ids}`);
-			xhr.setRequestHeader('xhr', 'xhr');
-			xhr.onload=function(){
-				if (xhr.status==200) {
-					let e = document.getElementById(`viewmore-${offset}`);
-					e.innerHTML = xhr.response.replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '');
-					bs_trigger(e)
+		{% endwith %}
+	</div>
+	
+	{% if offset %}
+		<script>
+			function viewmore(pid,sort,offset,ids) {
+				btn = document.getElementById("viewbtn");
+				btn.disabled = true;
+				btn.innerHTML = "Requesting...";
+				const form = new FormData();
+				const xhr = new XMLHttpRequest();
+				xhr.open("get", `/viewmore/${pid}/${sort}/${offset}?ids=${ids}`);
+				xhr.setRequestHeader('xhr', 'xhr');
+				xhr.onload=function(){
+					if (xhr.status==200) {
+						let e = document.getElementById(`viewmore-${offset}`);
+						e.innerHTML = xhr.response.replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '');
+						bs_trigger(e)
 
-					comments = JSON.parse(localStorage.getItem("old-comment-counts")) || {}
-					lastCount = comments['{{p.id}}']
-					if (lastCount)
-					{
-						{% for c in p.comments %}
-							{% if not (v and v.id==c.author_id) and not c.voted %}
-								if ({{c.created_utc*1000}} > lastCount.t) 
-								try {document.getElementById("comment-{{c.id}}-only").classList.add('unread')}
-								catch(e) {}
-							{% endif %}
-						{% endfor %}
+						comments = JSON.parse(localStorage.getItem("old-comment-counts")) || {}
+						lastCount = comments['{{p.id}}']
+						if (lastCount)
+						{
+							{% for c in p.comments %}
+								{% if not (v and v.id==c.author_id) and not c.voted %}
+									if ({{c.created_utc*1000}} > lastCount.t) 
+									try {document.getElementById("comment-{{c.id}}-only").classList.add('unread')}
+									catch(e) {}
+								{% endif %}
+							{% endfor %}
+						}
 					}
+					btn.disabled = false;
 				}
-				btn.disabled = false;
+				xhr.send(form)
 			}
-			xhr.send(form)
-		}
-	</script>
-{% endif %}
-
+		</script>
+	{% endif %}
 {% elif not p.replies and p.deleted_utc == 0 %}
-	<div class="comment-section text-center py-7" id="replies-of-{{p.id}}">
+	<div class="comment-section text-center py-7" id="replies-of-{{p.fullname}}">
 		<span class="fa-stack fa-2x text-muted mb-4">
 			<i class="fas fa-square text-gray-500 opacity-25 fa-stack-2x"></i>
 			<i class="fas text-gray-500 fa-ghost fa-stack-1x text-lg"></i>

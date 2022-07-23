@@ -89,7 +89,7 @@
 					
 		{% if render_replies %} 
 			{% if level<9 or request.path.startswith('/notifications') or request.headers.get("xhr") %}
-				<div id="replies-of-{{c.id}}">
+				<div id="replies-of-{{c.fullname}}">
 					{% for reply in replies %}
 						{{single_comment(reply, level=level+1)}}
 					{% endfor %}
@@ -598,7 +598,7 @@
 
 	{% if render_replies %} 
 		{% if level<9 or request.path.startswith('/notifications') or request.headers.get("xhr") %}
-			<div id="replies-of-{{c.id}}">
+			<div id="replies-of-{{c.fullname}}">
 				{% for reply in replies %}
 					{{single_comment(reply, level=level+1)}}
 				{% endfor %}
@@ -636,7 +636,7 @@
 			</div>
 		{% endif %}
 	{% else %}
-		<div id="replies-of-{{c.id}}"></div>
+		<div id="replies-of-{{c.fullname}}"></div>
 	{% endif %}
 	</div>
 
@@ -864,7 +864,7 @@
 
 	{% if v %}
 		<script src="{{asset('js/marked.js')}}"></script>
-		<script src="/assets/js/comments_v.js?v=285"></script>
+		<script src="/assets/js/comments_v.js?v=286"></script>
 	{% endif %}
 
 	<script src="/assets/js/clipboard.js?v=250"></script>

@@ -231,25 +231,18 @@ function post_comment(fullname, hide){
 		try {data = JSON.parse(xhr.response)}
 		catch(e) {console.log(e)}
 		if (data && data["comment"]) {
-			document.getElementById(hide).classList.add('d-none');
+			if (hide) document.getElementById(hide).classList.add('d-none');
 
 			let id = fullname.split('_')[1];
 			let name = 'comment-form-space-' + fullname;
 			commentForm = document.getElementById(name);
 
-			let comments = document.getElementById('replies-of-' + id);
+			let comments = document.getElementById('replies-of-' + fullname);
 			let comment = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '');
 
 			comments.innerHTML = comment + comments.innerHTML;
 
 			bs_trigger(commentForm);
-
-			let placeholder = document.getElementById("placeholder-comment");
-			if(placeholder){
-				comments.classList.remove('text-center');
-				comments.classList.remove('py-7');
-				placeholder.parentNode.removeChild(placeholder);
-			}
 
 			btn.disabled = false;
 			btn.classList.remove('disabled');
