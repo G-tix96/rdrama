@@ -583,7 +583,7 @@
 							<input autocomplete="off" id="file-upload-reply-{{c.fullname}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show-reply-{{c.fullname}}','file-upload-reply-{{c.fullname}}')" hidden>
 						</label>
 					</div>
-					<a id="save-reply-to-{{c.fullname}}" class="btn btn-primary ml-2 fl-r commentmob" onclick="post_comment('{{c.fullname}}', '{{c.post.id}}');remove_dialog()"role="button">Comment</a>
+					<a id="save-reply-to-{{c.fullname}}" class="btn btn-primary ml-2 fl-r commentmob" onclick="post_comment('{{c.fullname}}', 'reply-to-{{c.id}}');remove_dialog()"role="button">Comment</a>
 					<a role="button" onclick="document.getElementById('reply-to-{{c.id}}').classList.add('d-none');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r commentmob">Cancel</a> 
 				</form>
 				<div id="reply-edit-{{c.id}}" class="preview mb-3 mt-5"></div>
@@ -635,6 +635,8 @@
 				</div>
 			</div>
 		{% endif %}
+	{% else %}
+		<div id="replies-of-{{c.id}}"></div>
 	{% endif %}
 	</div>
 
@@ -862,7 +864,7 @@
 
 	{% if v %}
 		<script src="{{asset('js/marked.js')}}"></script>
-		<script src="/assets/js/comments_v.js?v=283"></script>
+		<script src="/assets/js/comments_v.js?v=284"></script>
 	{% endif %}
 
 	<script src="/assets/js/clipboard.js?v=250"></script>
