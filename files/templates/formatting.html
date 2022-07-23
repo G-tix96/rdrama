@@ -628,10 +628,12 @@ line breaks
 				</tr>
 			{% endif %}
 		{% endif %}
-		<tr>
-			<td>!wordle</td>
-			<td>Play wordle</td>
-		</tr>
+		{% if FEATURES['WORDLE'] %}
+			<tr>
+				<td>!wordle</td>
+				<td>Play wordle</td>
+			</tr>
+		{% endif %}
 	</tbody>
 </table></div>
 

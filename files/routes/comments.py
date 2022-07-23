@@ -614,7 +614,7 @@ def api_comment(v):
 
 	check_for_treasure(body, c)
 
-	if "!wordle" in body:
+	if FEATURES['WORDLE'] and "!wordle" in body:
 		answer = random.choice(WORDLE_LIST)
 		c.wordle_result = f'_active_{answer}'
 
