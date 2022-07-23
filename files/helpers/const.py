@@ -231,6 +231,7 @@ if SITE in ('rdrama.net', 'devrama.xyz'):
 	MARSEY_THREAD = 37838
 	GAMBLING_THREAD = 39413
 elif SITE == 'deuxrama.net':
+	FEATURES['PROCOINS'] = False
 	SIDEBAR_THREAD = 175
 	BADGE_THREAD = 142
 elif SITE == 'lgbdropthet.com':
@@ -333,7 +334,6 @@ elif SITE == 'lgbdropthet.com':
 	PERMS['USER_FOLLOWS_VISIBLE'] = 2
 	PERMS['USER_VOTERS_VISIBLE'] = 2
 
-	FEATURES['PROCOINS'] = True
 	FEATURES['AWARDS'] = False
 	FEATURES['CHAT'] = False
 	FEATURES['COUNTRY_CLUB'] = False
