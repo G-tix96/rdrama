@@ -892,11 +892,14 @@ def settings_pronouns_change(v):
 	
 	pronouns = request.values.get("pronouns").replace("𒐪","").lower().strip()
 
+	if len(pronouns) > 11:
+		return render_template("settings_profile.html", v=v, error="Your pronouns exceed the character limit (11 characters)")
+
 	if pronouns == v.pronouns:
-		return render_template("settings_profile.html", v=v, error="You didn't change anything")
+		return render_template("settings_profile.html", v=v, error="You didn't change anything.")
 
 	if not pronouns_regex.fullmatch(pronouns):
-		return render_template("settings_profile.html", v=v, error="The pronouns you entered don't match the required format {2-5 characters}/{2-5 characters}")
+		return render_template("settings_profile.html", v=v, error="The pronouns you entered don't match the required format.")
 
 	v.pronouns = pronouns
 	g.db.add(v)
