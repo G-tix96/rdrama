@@ -890,7 +890,7 @@ def settings_pronouns_change(v):
 	if not FEATURES['PRONOUNS']:
 		abort(403)
 	
-	pronouns = request.values.get("pronouns").replace("𒐪","").lower().strip()
+	pronouns = request.values.get("pronouns").replace("𒐪","").strip()
 
 	if len(pronouns) > 11:
 		return render_template("settings_profile.html", v=v, error="Your pronouns exceed the character limit (11 characters)")
