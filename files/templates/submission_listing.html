@@ -1,7 +1,7 @@
 {%- from 'util/assetcache.html' import asset, asset_siteimg with context -%}
 {%- import 'util/helpers.html' as help -%}
 
-{% if v and FEATURES['AWARDS'] %}
+{% if v %}
 	{% include "award_modal.html" %}
 {% endif %}
 
