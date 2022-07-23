@@ -62,18 +62,22 @@ function getSelectionTextHtml() {
 	return html;
 }
 
-function openReplyBox(id) {
+function ToggleReplyBox(id) {
 	const element = document.getElementById(id);
 	const textarea = element.getElementsByTagName('textarea')[0]
-	let text = getSelection().toString().trim()
-	if (text)
+	element.classList.toggle('d-none')
+
+	if (!element.classList.contains('d-none'))
 	{
-		textarea.value = '> ' + text
-		textarea.value = textarea.value.replace(/\n/g,"\n> ").replace(/\*/g,"\\*")
-		if (!textarea.value.endsWith('\n')) textarea.value += '\n'
+		let text = getSelection().toString().trim()
+		if (text)
+		{
+			textarea.value = '> ' + text
+			textarea.value = textarea.value.replace(/\n/g,"\n> ").replace(/\*/g,"\\*")
+			if (!textarea.value.endsWith('\n')) textarea.value += '\n'
+		}
+		textarea.focus()
 	}
-	element.classList.remove('d-none')
-	textarea.focus()
 }
 
 function toggleEdit(id){

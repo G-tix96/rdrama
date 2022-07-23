@@ -352,7 +352,7 @@
 								</li>
 																
 								{% if v %}
-									<a class="list-inline-item mr-3" role="button" onclick="openReplyBox('reply-to-{{c.id}}')"><i class="fas fa-reply" style="margin-top:0.35rem"></i></a>
+									<a class="list-inline-item mr-3" role="button" onclick="ToggleReplyBox('reply-to-{{c.id}}')"><i class="fas fa-reply" style="margin-top:0.35rem"></i></a>
 								{% endif %}
 								
 								<li class="list-inline-item">
@@ -449,7 +449,7 @@
 						<button class="btn caction py-0 nobackground px-1 text-muted copy-link" data-clipboard-text="{% if SITE == 'rdrama.net' %}https://rdrama.co{{c.shortlink}}{% else %}{{c.permalink}}{% endif %}"><i class="fas fa-copy"></i>Copy link</button>
 
 						{% if v %}
-							<button class="btn caction py-0 nobackground px-1 text-muted" role="button" onclick="openReplyBox('reply-to-{{c.id}}')"><i class="fas fa-reply" aria-hidden="true"></i>Reply</button>
+							<button class="btn caction py-0 nobackground px-1 text-muted" role="button" onclick="ToggleReplyBox('reply-to-{{c.id}}')"><i class="fas fa-reply" aria-hidden="true"></i>Reply</button>
 
 							<button class="btn caction py-0 nobackground px-1 text-muted" data-bs-toggle="modal" data-bs-target="#reportCommentModal" onclick="report_commentModal('{{c.id}}','{{c.author_name}}',)"><i class="fas fa-flag fa-fw"></i>Report</button>
 
@@ -611,7 +611,7 @@
 		{% endif %}
 
 		{% if request.path.startswith('/notifications') and c.level == 1 and c.sentto and not c.parent_submission and c.author_id != AUTOJANNY_ID %}
-			<a class="btn btn-primary mt-2" role="button" onclick="openReplyBox('reply-message-{{c.id}}')">Reply</a>
+			<a class="btn btn-primary mt-2" role="button" onclick="ToggleReplyBox('reply-message-{{c.id}}')">Reply</a>
 			<div id="reply-message-{{c.id}}" class="d-none">
 				<div id="comment-form-space-{{c.id}}" class="comment-write collapsed child">
 					<form id="reply-to-message-{{c.id}}" action="/reply" method="post" class="input-group" enctype="multipart/form-data">
@@ -864,7 +864,7 @@
 
 	{% if v %}
 		<script src="{{asset('js/marked.js')}}"></script>
-		<script src="/assets/js/comments_v.js?v=284"></script>
+		<script src="/assets/js/comments_v.js?v=285"></script>
 	{% endif %}
 
 	<script src="/assets/js/clipboard.js?v=250"></script>
