@@ -102,7 +102,7 @@ search_token_regex = re.compile('"([^"]*)"|(\S+)', flags=re.A)
 
 git_regex = re.compile("ref: (refs/.+)", flags=re.A)
 
-pronouns_regex = re.compile("([a-z]{1,5})/[a-z]{2,5}(/[a-z]{2,5})?", flags=re.A|re.I)
+pronouns_regex = re.compile("([a-z]{1,5})/[a-z]{1,5}(/[a-z]{1,5})?", flags=re.A|re.I)
 
 knowledgebase_page_regex = re.compile("[a-zA-Z0-9_\-]+", flags=re.A)
 
