@@ -241,6 +241,7 @@ function post_comment(fullname, hide){
 			let comment = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '');
 
 			comments.innerHTML = comment + comments.innerHTML;
+			if (!hide) comments.scrollIntoView()
 
 			bs_trigger(commentForm);
 
@@ -248,6 +249,7 @@ function post_comment(fullname, hide){
 			btn.classList.remove('disabled');
 
 			document.getElementById('reply-form-body-'+fullname).value = ''
+			document.getElementById('form-preview-'+fullname).innerHTML = ''
 		}
 		else {
 			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];

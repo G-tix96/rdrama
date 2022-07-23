@@ -4842,8 +4842,7 @@ img[src="/i/hand.webp"]+img[src^="/pp/"], img[src="/i/hand.webp"]+img[src$="/pic
 .post-body li > p:first-child,
 .comment-text li > p:first-child,
 .preview li > p:first-child,
-div[id^="form-preview-"] li > p:first-child,
-div[id^="reply-edit-"] li > p:first-child {
+div[id^="form-preview-"] li > p:first-child {
 	display: inline;
 }
         
