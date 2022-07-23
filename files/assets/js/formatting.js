@@ -5,7 +5,7 @@ function makeBold(form) {
 	endIndex = text.selectionEnd;
 	var selectedText = text.value.substring(startIndex, endIndex);
 
-	var format = '**'
+	const format = '**'
 
 	if (selectedText.includes('**')) {
 		text.value = selectedText.replace(/\*/g, '');
@@ -24,7 +24,7 @@ function makeItalics(form) {
 	endIndex = text.selectionEnd;
 	var selectedText = text.value.substring(startIndex, endIndex);
 
-	var format = '*'
+	const format = '*'
 
 	if (selectedText.includes('*')) {
 		text.value = selectedText.replace(/\*/g, '');
@@ -43,7 +43,7 @@ function makeQuote(form) {
 	endIndex = text.selectionEnd;
 	var selectedText = text.value.substring(startIndex, endIndex);
 
-	var format = '>'
+	const format = '>'
 
 	if (selectedText.includes('>')) {
 		text.value = text.value.substring(0, startIndex) + selectedText.replace(/\>/g, '') + text.value.substring(endIndex);

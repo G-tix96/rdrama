@@ -98,7 +98,7 @@ function vote(type, id, dir, vid) {
 	const xhr = new XMLHttpRequest();
 	xhr.open("POST", "/vote/" + type.replace('-mobile','') + "/" + id + "/" + votedirection);
 	xhr.setRequestHeader('xhr', 'xhr');
-	var form = new FormData()
+	const form = new FormData()
 	form.append("formkey", formkey());
 	xhr.send(form);
 }
@@ -134,7 +134,7 @@ function buy(mb) {
 	if (mb) url += "?mb=true"
 	xhr.open("POST", url);
 	xhr.setRequestHeader('xhr', 'xhr');
-	var form = new FormData()
+	const form = new FormData()
 	form.append("formkey", formkey());
 
 	if(typeof data === 'object' && data !== null) {

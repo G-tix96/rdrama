@@ -35,7 +35,7 @@ function report_commentModal(id, author) {
 		const xhr = new XMLHttpRequest();
 		xhr.open("POST", '/report/comment/'+id);
 		xhr.setRequestHeader('xhr', 'xhr');
-		var form = new FormData()
+		const form = new FormData()
 		form.append("formkey", formkey());
 		form.append("reason", reason_comment.value);
 
@@ -98,7 +98,7 @@ function delete_commentModal(id) {
 		const xhr = new XMLHttpRequest();
 		xhr.open("POST", `/delete/comment/${id}`);
 		xhr.setRequestHeader('xhr', 'xhr');
-		var form = new FormData()
+		const form = new FormData()
 		form.append("formkey", formkey());
 		xhr.onload = function() {
 			let data
@@ -127,7 +127,7 @@ function post_reply(id){
 	btn.disabled = true;
 	btn.classList.add('disabled');
 
-	var form = new FormData();
+	const form = new FormData();
 	form.append('formkey', formkey());
 	form.append('parent_id', id);
 	form.append('body', document.getElementById('reply-form-body-'+id).value);
@@ -168,7 +168,7 @@ function comment_edit(id){
 	btn.disabled = true
 	btn.classList.add('disabled');
 
-	var form = new FormData();
+	const form = new FormData();
 
 	form.append('formkey', formkey());
 	form.append('body', document.getElementById('comment-edit-body-'+id).value);
@@ -210,7 +210,7 @@ function post_comment(fullname, hide){
 	btn.disabled = true
 	btn.classList.add('disabled');
 
-	var form = new FormData();
+	const form = new FormData();
 
 	form.append('formkey', formkey());
 	form.append('parent_fullname', fullname);
@@ -231,7 +231,6 @@ function post_comment(fullname, hide){
 		try {data = JSON.parse(xhr.response)}
 		catch(e) {console.log(e)}
 		if (data && data["comment"]) {
-			console.log(hide)
 			document.getElementById(hide).classList.add('d-none');
 
 			let id = fullname.split('_')[1];

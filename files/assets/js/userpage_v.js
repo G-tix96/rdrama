@@ -2,7 +2,7 @@ function post_toast_callback(url, data, callback) {
 	const xhr = new XMLHttpRequest();
 	xhr.open("POST", url);
 	xhr.setRequestHeader('xhr', 'xhr');
-	var form = new FormData()
+	const form = new FormData()
 	form.append("formkey", formkey());
 
 	if(typeof data === 'object' && data !== null) {

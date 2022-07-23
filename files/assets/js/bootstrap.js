@@ -183,7 +183,7 @@ function post_toast(t, url, button1, button2, classname) {
 	const xhr = new XMLHttpRequest();
 	xhr.open("POST", url);
 	xhr.setRequestHeader('xhr', 'xhr');
-	var form = new FormData()
+	const form = new FormData()
 	form.append("formkey", formkey());
 
 

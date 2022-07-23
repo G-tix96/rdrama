@@ -1004,7 +1004,7 @@
 						<input autocomplete="off" id="file-upload-reply-{{p.fullname}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show-reply-{{p.fullname}}','file-upload-reply-{{p.fullname}}')" hidden>
 					</label>
 				</div>
-				<a id="save-reply-to-{{p.fullname}}" role="button" form="reply-to-{{p.fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="post_comment('{{p.fullname}}', 'reply-to-{{p.fullname}}');remove_dialog()">Comment</a>
+				<a id="save-reply-to-{{p.fullname}}" role="button" form="reply-to-{{p.fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="post_comment('{{p.fullname}}', 'comment-form-space-{{p.fullname}}');remove_dialog()">Comment</a>
 			</form>
 			<div id="form-preview-{{p.id}}" class="mb-3 mt-5"></div>
 			<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
@@ -1039,7 +1039,7 @@
 			btn = document.getElementById("viewbtn");
 			btn.disabled = true;
 			btn.innerHTML = "Requesting...";
-			var form = new FormData();
+			const form = new FormData();
 			const xhr = new XMLHttpRequest();
 			xhr.open("get", `/viewmore/${pid}/${sort}/${offset}?ids=${ids}`);
 			xhr.setRequestHeader('xhr', 'xhr');

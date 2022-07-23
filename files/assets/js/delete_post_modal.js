@@ -3,7 +3,7 @@ function delete_postModal(id) {
 		const xhr = new XMLHttpRequest();
 		xhr.open("POST", `/delete_post/${id}`);
 		xhr.setRequestHeader('xhr', 'xhr');
-		var form = new FormData()
+		const form = new FormData()
 		form.append("formkey", formkey());
 		xhr.onload = function() {
 			let data

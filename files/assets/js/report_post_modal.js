@@ -33,7 +33,7 @@ function report_postModal(id) {
 		const xhr = new XMLHttpRequest();
 		xhr.open("POST", '/report/post/'+id);
 		xhr.setRequestHeader('xhr', 'xhr');
-		var form = new FormData()
+		const form = new FormData()
 		form.append("formkey", formkey());
 		form.append("reason", reason_post.value);
 

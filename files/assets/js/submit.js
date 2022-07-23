@@ -151,7 +151,7 @@ function checkRepost() {
 		const xhr = new XMLHttpRequest();
 		xhr.open("post", "/is_repost");
 		xhr.setRequestHeader('xhr', 'xhr');
-		var form = new FormData()
+		const form = new FormData()
 		form.append("url", url);
 
 		xhr.onload=function(){

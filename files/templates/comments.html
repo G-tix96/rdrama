@@ -899,7 +899,7 @@
 			btn = document.getElementById(`btn-${cid}`);
 			btn.disabled = true;
 			btn.innerHTML = "Requesting...";
-			var form = new FormData();
+			const form = new FormData();
 			form.append("formkey", formkey());
 			const xhr = new XMLHttpRequest();
 			xhr.open("get", `/morecomments/${cid}`);

@@ -80,7 +80,7 @@
 			btn = document.getElementById("viewbtn");
 			btn.disabled = true;
 			btn.innerHTML = "Requesting...";
-			var form = new FormData();
+			const form = new FormData();
 			const xhr = new XMLHttpRequest();
 			xhr.open("get", `/viewmore/${pid}/${sort}/${offset}?ids=${ids}`);
 			xhr.setRequestHeader('xhr', 'xhr');
