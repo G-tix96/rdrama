@@ -21,7 +21,7 @@
 			People here now: <a href="/admin/loggedin">{{g.loggedin_counter}} logged in</a>, <a href="/admin/loggedout">{{g.loggedout_counter}} logged out</a>
 		{% else %}
 			{% if SITE_NAME == 'rDrama' %}
-				{% if range(1,3) | random == 1 %}
+				{% if range(1,4) | random == 1 %}
 					{% include "journoid_banner.html" %}
 				{% else %}
 					{%-
