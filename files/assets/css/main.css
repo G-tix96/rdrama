@@ -5316,6 +5316,10 @@ th, td {
     color: lightgreen;
 }
 
+.glow .post-body a, .glow .comment-text a {
+	text-decoration: underline;
+}
+
 .text-green {
 	color: green !important;
 }
