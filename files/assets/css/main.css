@@ -6155,3 +6155,7 @@ g {
     -webkit-background-clip: text;
     font-weight: 700;
 }
+
+.user-info {
+   overflow: hidden; 
+}
