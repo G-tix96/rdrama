@@ -22,7 +22,7 @@ def normalize_urls_runtime(body, v):
 	if v:
 		body = body.replace("https://old.reddit.com/r/", f'https://{v.reddit}/r/').replace("https://old.reddit.com/u/", f'https://{v.reddit}/u/')
 
-		if v.nitter: body = twitter_to_nitter_regex.sub(r'https://nitter.net/\1', body)
+		if v.nitter: body = twitter_to_nitter_regex.sub(r'https://nitter.42l.fr/\1', body)
 
 	return body
 
