@@ -1042,12 +1042,14 @@ def ban_user(user_id, v):
 
 	if 'reason' in request.values:
 		if request.values["reason"].startswith("/post/"):
-			post = int(request.values["reason"].split("/post/")[1].split(None, 1)[0])
+			try: post = int(request.values["reason"].split("/post/")[1].split(None, 1)[0])
+			except: abort(400)
 			post = get_post(post)
 			post.bannedfor = f'{duration} by @{v.username}'
 			g.db.add(post)
 		elif request.values["reason"].startswith("/comment/"):
-			comment = int(request.values["reason"].split("/comment/")[1].split(None, 1)[0])
+			try: comment = int(request.values["reason"].split("/comment/")[1].split(None, 1)[0])
+			except: abort(400)
 			comment = get_comment(comment)
 			comment.bannedfor = f'{duration} by @{v.username}'
 			g.db.add(comment)

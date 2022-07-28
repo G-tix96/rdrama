@@ -121,8 +121,11 @@ def login_post():
 	elif request.values.get("2fa_token", "x"):
 		now = int(time.time())
 
-		if now - int(request.values.get("time")) > 600:
-			return redirect('/login')
+		try:
+			if now - int(request.values.get("time")) > 600:
+				return redirect('/login')
+		except:
+			abort(400)
 
 		formhash = request.values.get("hash")
 		if not validate_hash(f"{account.id}+{request.values.get('time')}+2fachallenge", formhash):
