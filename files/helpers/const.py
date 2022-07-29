@@ -914,7 +914,7 @@ if not SITE_NAME in ['PCM', 'LGBDropTheT']:
 if SITE_NAME == 'Deuxrama': snappy_name = 'rDrama'
 else: snappy_name = SITE_NAME
 
-if path.exists(f'snappy_{snappy_name}.txt'):
+if path.isfile(f'snappy_{snappy_name}.txt'):
 	with open(f'snappy_{snappy_name}.txt', "r", encoding="utf-8") as f:
 		SNAPPY_QUOTES += f.read().split("\n{[para]}\n")
 

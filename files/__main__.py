@@ -72,6 +72,10 @@ cache = Cache(app)
 Compress(app)
 mail = Mail(app)
 
+if not path.isfile(f'/site_settings.json'):
+	with open('/site_settings.json', 'w', encoding='utf_8') as f:
+		f.write('{"Bots": true, "Fart mode": false, "Read-only mode": false, "Signups": true}')
+
 @app.before_request
 def before_request():
 
@@ -80,7 +84,7 @@ def before_request():
 
 	ua = g.agent.lower()
 
-	with open('site_settings.json', 'r', encoding='utf_8') as f:
+	with open('/site_settings.json', 'r', encoding='utf_8') as f:
 		app.config['SETTINGS'] = json.load(f)
 
 	if SITE != app.config["SERVER_NAME"]: return {"error":"Unauthorized host provided."}, 401
