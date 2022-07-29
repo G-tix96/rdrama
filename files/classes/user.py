@@ -459,7 +459,7 @@ class User(Base):
 			Comment.is_banned == False, Comment.deleted_utc == 0)
 		
 		if not self.shadowbanned and self.admin_level < 3:
-			notifs = notifs.join(Notification.user).filter(User.shadowbanned == None)
+			notifs = notifs.join(Comment.author).filter(User.shadowbanned == None)
 		
 		return notifs.count() + self.post_notifications_count
 
