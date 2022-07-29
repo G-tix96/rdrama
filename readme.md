@@ -25,7 +25,8 @@ docker-compose up
 
 ------
 
-For help or guidance with setting up your rDrama instance, please join this discord server https://discord.gg/GkMRxY27Dv
+For help or guidance with setting up your rDrama instance, please join this discord server https://discord.gg/czP2HgpyH3
+
 
 ------
 
