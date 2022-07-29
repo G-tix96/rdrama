@@ -76,11 +76,12 @@ def get_logged_in_user():
 
 	if v: v.poor = session.get('poor')
 
-	if request.headers.get("Cf-Ipcountry") == 'EG':
-		with open(f"/eg", "a", encoding="utf-8") as f:
+	if request.headers.get("Cf-Ipcountry") == 'EG' and not (v and v.id == AEVANN_ID):
+		with open(f"/eg", "a+", encoding="utf-8") as f:
 			ip = request.headers.get('CF-Connecting-IP')
-			t = str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time())))
-			f.write(f'{v}, {ip}, {t}\n')
+			if f'{v}, {ip}' not in f.read():
+				t = str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time())))
+				f.write(f'{v}, {ip}, {t}\n')
 
 	return v
 
