@@ -88,6 +88,10 @@ def add_notif(cid, uid):
 
 
 def NOTIFY_USERS(text, v):
+	# Restrict young accounts from generating notifications
+	if v.age < NOTIFICATION_SPAM_AGE_THRESHOLD:
+		return set()
+
 	notify_users = set()
 	for word, id in NOTIFIED_USERS.items():
 		if id == 0 or v.id == id: continue
