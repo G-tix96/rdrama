@@ -1009,8 +1009,6 @@ def ban_user(user_id, v):
 	if reason.startswith("/") and '\\' not in reason: 
 		reason = f'<a href="{reason.split()[0]}">{reason}</a>'
 
-	if len(reason) > 256: reason = reason
-
 	user.ban(admin=v, reason=reason, days=days)
 
 	if request.values.get("alts"):

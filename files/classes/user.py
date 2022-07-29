@@ -662,7 +662,8 @@ class User(Base):
 		elif self.discord_id: remove_user(self)
 
 		self.is_banned = admin.id if admin else AUTOJANNY_ID
-		if reason: self.ban_reason = reason
+		if reason and len(reason) <= 256:
+			self.ban_reason = reason
 
 
 
