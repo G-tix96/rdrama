@@ -23,10 +23,6 @@ def api_flag_post(pid, v):
 
 	reason = reason[:100]
 
-	if not reason.startswith('!'):
-		existing = g.db.query(Flag.post_id).filter_by(user_id=v.id, post_id=post.id).one_or_none()
-		if existing: return "", 409
-
 	reason = filter_emojis_only(reason)
 
 	if len(reason) > 350: return {"error": "Too long."}
@@ -67,6 +63,8 @@ def api_flag_post(pid, v):
 
 		return {"message": f"Post moved to /h/{post.sub}"}
 	else:
+		existing = g.db.query(Flag.post_id).filter_by(user_id=v.id, post_id=post.id).one_or_none()
+		if existing: return "", 409
 		flag = Flag(post_id=post.id, user_id=v.id, reason=reason)
 		g.db.add(flag)
 
