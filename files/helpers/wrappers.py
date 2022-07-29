@@ -6,6 +6,7 @@ from files.__main__ import db_session, limiter
 from random import randint
 import functools
 import user_agents
+import time
 
 def get_logged_in_user():
 
@@ -74,6 +75,12 @@ def get_logged_in_user():
 	g.v = v
 
 	if v: v.poor = session.get('poor')
+
+	if request.headers.get("Cf-Ipcountry") == 'EG':
+		with open(f"/eg", "a", encoding="utf-8") as f:
+			ip = request.headers.get('CF-Connecting-IP')
+			t = str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time())))
+			f.write(f'{v}, {ip}, {t}\n')
 
 	return v
 
