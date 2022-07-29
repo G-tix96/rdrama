@@ -1,6 +1,7 @@
 from files.cli import g, app, db_session
 import click
 from files.helpers.const import *
+from files.helpers.alerts import send_repeatable_notification
 from files.classes import *
 
 import files.helpers.lottery as lottery
@@ -48,6 +49,7 @@ def sub_inactive_purge_task():
 	one_week_ago = time.time() - 604800
 	active_holes = [x[0] for x in g.db.query(Submission.sub).distinct() \
 		.filter(Submission.sub != None, Submission.created_utc > one_week_ago).all()]
+	active_holes.append('changelog') # system hole immune from deletion
 
 	dead_holes = g.db.query(Sub).filter(Sub.name.notin_(active_holes)).all()
 	names = [x.name for x in dead_holes]
