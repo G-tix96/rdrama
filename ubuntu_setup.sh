@@ -58,4 +58,5 @@ curl https://rclone.org/install.sh | bash
 echo "psql -U postgres" > /p
 echo "tmux a -t 0" > /c
 echo "cd /rDrama && git pull" > /g
+echo '{"Bots": true, "Fart mode": false, "Read-only mode": false, "Signups": true}' > /site_settings.json
 . imei.sh
