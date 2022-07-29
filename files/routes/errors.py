@@ -21,6 +21,11 @@ def error_401(e):
 		argval = quote(f"{path}?{qs}", safe='')
 		return redirect(f"/login?redirect={argval}")
 
+@app.errorhandler(406)
+def error_406(e):
+	if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": "You can't ping more than 3 people!"}, 406
+	else: return render_template('errors/406.html', err=True), 406
+
 @app.errorhandler(403)
 def error_403(e):
 

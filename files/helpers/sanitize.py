@@ -242,11 +242,13 @@ def sanitize(sanitized, edit=False):
 	sanitized = reddit_regex.sub(r'\1<a href="https://old.reddit.com/\2" rel="nofollow noopener noreferrer" target="_blank">/\2</a>', sanitized)
 	sanitized = sub_regex.sub(r'\1<a href="/\2">/\2</a>', sanitized)
 
+	v = getattr(g, 'v', None)
+
 	matches = [ m for m in mention_regex.finditer(sanitized) if m ]
 	names = set( m.group(2) for m in matches )
-	users = get_users(names,graceful=True)
+	if len(names) > 3 and not v.admin_level: abort(406)
+	users = get_users(names, graceful=True)
 
-	v = getattr(g, 'v', None)
 	for u in users:
 		if not u: continue
 		m = [ m for m in matches if u.username.lower() == m.group(2).lower() or u.original_username.lower() == m.group(2).lower() ]
