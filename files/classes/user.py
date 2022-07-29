@@ -156,7 +156,7 @@ class User(Base):
 
 
 	def __repr__(self):
-		return f"<User(id={self.id})>"
+		return f"<User(id={self.id}, username={self.username})>"
 
 
 	@lazy
