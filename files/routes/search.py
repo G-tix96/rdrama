@@ -232,7 +232,12 @@ def searchusers(v):
 	term=query.lstrip('@')
 	term = term.replace('\\','').replace('_','\_').replace('%','')
 	
-	users=g.db.query(User).filter(User.username.ilike(f'%{term}%'))
+	users=g.db.query(User).filter(
+		or_(
+			User.username.ilike(f'%{term}%'),
+			User.original_username.ilike(f'%{term}%')
+		)
+	)
 	
 	users=users.order_by(User.username.ilike(term).desc(), User.stored_subscriber_count.desc())
 	
