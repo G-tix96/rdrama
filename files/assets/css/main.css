@@ -5516,6 +5516,10 @@ audio, video {
 	}
 }
 
+#header--icon {
+	height: 33px;
+}
+
 #header--username {
 	padding-left: 5px;
 }
