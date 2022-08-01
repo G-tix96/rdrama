@@ -285,13 +285,17 @@
 				{% else %}
 					{% set path = "assets/images/" + SITE_NAME + "/banners" %}
 					{% set image = "/" + path + "/" + listdir('files/' + path)|random() + '?v=25' %}
-					<img alt="site banner" src="{% if v %}{{image}}{% else %}/assets/images/{{SITE_NAME}}/cached.webp?v=100{% endif %}" width="100%">
+					<img alt="site banner" src="{% if v %}{{image}}{% else %}{{asset_siteimg('cached.webp')}}{% endif %}" width="100%">
 				{% endif %}
+			</a>
+		{% elif SITE_NAME == 'WPD' %}
+			<a href="/">
+				<img alt="site banner" src="{% if v %}{{asset_siteimg('banner.webp')}}{% else %}{{asset_siteimg('cached.webp')}}{% endif %}" width="100%">
 			</a>
 		{% else %}
 			<a href="/">
 				<img alt="site banner" src="{{asset_siteimg('banner.webp')}}" width="100%">
-			</a>	
+			</a>
 		{% endif %}
 	{% endif %}
 {% endblock %}
