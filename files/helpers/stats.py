@@ -25,7 +25,7 @@ def chart(kind, site):
 		now.tm_wday, now.tm_yday, 0))
 	today_cutoff = calendar.timegm(midnight_this_morning)
 
-	if site == 'rdrama.net':
+	if SITE == 'rdrama.net':
 		time_diff = time.time() - 1619827200
 		num_of_weeks = int(time_diff / 604800)
 		chart_width = int(num_of_weeks/1.4)
@@ -131,7 +131,7 @@ def stats(site=None):
 			"users online in the past 7 days": g.db.query(User).filter(User.last_active > week).count(),
 			}
 
-	if site == 'rDrama' or FEATURES['HOUSES']:
+	if SITE_NAME == 'rDrama' or FEATURES['HOUSES']:
 		stats2 = {
 			"House furry members": g.db.query(User).filter(User.house.like('Furry%')).count(),
 			"House femboy members": g.db.query(User).filter(User.house.like('Femboy%')).count(),

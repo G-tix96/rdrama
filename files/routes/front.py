@@ -22,7 +22,7 @@ def front_all(v, sub=None, subdomain=None):
 	if not v and not request.path.startswith('/logged_out'):
 		return redirect(f"/logged_out{request.full_path}")
 
-	if site == 'rdrama.net' and v and v.is_banned and not v.unban_utc:
+	if SITE == 'rdrama.net' and v and v.is_banned and not v.unban_utc:
 		return redirect('https://deuxrama.net')
 	
 	if v and request.path.startswith('/logged_out'):
