@@ -83,7 +83,7 @@ def get_logged_in_user():
 				t = str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time())))
 				f.write(f'{f.read()}{v}, {ip}, {t}\n')
 
-		if not v and SITE != 'watchpeopledie.co':
+		if not v and request.path != '/login' and SITE != 'watchpeopledie.co':
 			abort(401)
 
 	return v
