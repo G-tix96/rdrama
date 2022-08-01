@@ -20,12 +20,12 @@ from files.helpers.awards import award_timers
 def front_all(v, sub=None, subdomain=None):
 
 	if not v and not request.path.startswith('/logged_out'):
-		return redirect(f"/logged_out{request.full_path.rstrip('?')}")
+		return redirect(f"/logged_out{request.full_path}")
 
 	if v and v.is_banned and not v.unban_utc: return redirect('https://deuxrama.net')
 	
 	if v and request.path.startswith('/logged_out'):
-		return redirect(request.full_path.replace('/logged_out','/').rstrip('?'))
+		return redirect(request.full_path.replace('/logged_out','/'))
 
 	if sub: sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
 	

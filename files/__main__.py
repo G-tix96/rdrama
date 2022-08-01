@@ -96,7 +96,8 @@ def before_request():
 	g.webview = '; wv) ' in ua
 	g.inferior_browser = 'iphone' in ua or 'ipad' in ua or 'ipod' in ua or 'mac os' in ua or ' firefox/' in ua
 
-	request.path = request.path.rstrip("/")
+	request.path = request.path.rstrip('/')
+	request.full_path = request.full_path.rstrip('?').rstrip('/')
 
 @app.after_request
 def after_request(response):
