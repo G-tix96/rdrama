@@ -292,6 +292,10 @@
 			<a href="/">
 				<img alt="site banner" src="{% if v %}{{asset_siteimg('banner.webp')}}{% else %}{{asset_siteimg('cached.webp')}}{% endif %}" width="100%">
 			</a>
+		{% elif SITE_NAME == 'PCM' %}
+			<a href="/">
+				<img alt="site banner" src="{{asset_siteimg('banners/yun-network.webp')}}" width="100%">
+			</a>
 		{% else %}
 			<a href="/">
 				<img alt="site banner" src="{{asset_siteimg('banner.webp')}}" width="100%">
