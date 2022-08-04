@@ -424,13 +424,12 @@ def sign_up_post(v):
 
 	session["lo_user"] = new_user.id
 	
-	if SITE == 'rdrama.net':
-		carp = get_account(CARP_ID)
-		new_follow = Follow(user_id=new_user.id, target_id=carp.id)
-		g.db.add(new_follow)
-		carp.stored_subscriber_count += 1
-		g.db.add(carp)
-		send_notification(carp.id, f"A new user - @{new_user.username} - has followed you automatically!")
+	carp = get_account(CARP_ID)
+	new_follow = Follow(user_id=new_user.id, target_id=carp.id)
+	g.db.add(new_follow)
+	carp.stored_subscriber_count += 1
+	g.db.add(carp)
+	send_notification(carp.id, f"A new user - @{new_user.username} - has followed you automatically!")
 
 	return redirect(SITE_FULL)
 
