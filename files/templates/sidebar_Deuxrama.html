@@ -3,7 +3,9 @@
 	{%- set art_path = "assets/images/" + SITE_NAME + "/sidebar/" -%}
 	{%- set sidebar_art = "/" + art_path + listdir('files/' + art_path)|random() + '?v=1' -%}
 
-	<img class="mb-4" alt="sidebar art" role="button" onclick="expandDesktopImage()" loading="lazy" src="{{sidebar_art}}" style="width: 100%">
+	{% if request.path != '/sidebar' %}
+		<img class="mb-4" alt="sidebar art" role="button" onclick="expandDesktopImage()" loading="lazy" src="{{sidebar_art}}" style="width: 100%">
+	{% endif %}
 
 	<p class="text-center text-md mb-4">
 		<a class="sidebar-link" href="/marseys" data-bs-toggle="tooltip" data-bs-placement="top" title="Marseys"><i class="fas fa-cat"></i></a>

@@ -6,9 +6,11 @@
 		{% set image='/i/' + SITE_NAME + '/sidebar.webp?v=3000' %}
 	{% endif %}
 
-	<a href="{{image}}">
-		<img class="mb-4" alt="sidebar image" role="button" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
-	</a>
+	{% if request.path != '/sidebar' %}
+		<a href="{{image}}">
+			<img class="mb-4" alt="sidebar image" role="button" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
+		</a>
+	{% endif %}
 
 	<p class="text-center text-md mb-4">
 		<a class="sidebar-link" href="/badges" data-bs-toggle="tooltip" data-bs-placement="top" title="Badges"><i class="fas fa-hexagon"></i></a>

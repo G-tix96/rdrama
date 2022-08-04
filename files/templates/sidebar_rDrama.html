@@ -7,14 +7,16 @@
 		{% set image = "/" + path + "/" + listdir('files/' + path)|random() + '?v=44' %}
 	{% endif %}
 
-	{% if v and (v.is_banned or v.agendaposter) %}
-		<a href="/i/{{SITE_NAME}}/sidebar2.webp">
-			<img class="mb-4" alt="sidebar image" role="button" onclick="expandDesktopImage()" loading="lazy" src="/i/{{SITE_NAME}}/sidebar2.webp" width=100%>
-		</a>
-	{% else %}
-		<a href="{{image}}">
-			<img class="mb-4" alt="sidebar image" role="button" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
-		</a>
+	{% if request.path != '/sidebar' %}
+		{% if v and (v.is_banned or v.agendaposter) %}
+			<a href="/i/{{SITE_NAME}}/sidebar2.webp">
+				<img class="mb-4" alt="sidebar image" role="button" onclick="expandDesktopImage()" loading="lazy" src="/i/{{SITE_NAME}}/sidebar2.webp" width=100%>
+			</a>
+		{% else %}
+			<a href="{{image}}">
+				<img class="mb-4" alt="sidebar image" role="button" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
+			</a>
+		{% endif %}
 	{% endif %}
 
 	<p class="text-center text-md mb-4">
