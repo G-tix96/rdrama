@@ -643,6 +643,8 @@ def thumbnail_thread(pid):
 
 @app.post("/is_repost")
 def api_is_repost():
+	if not FEATURES['REPOST_DETECTION']:
+		return {'permalink': ''}
 
 	url = request.values.get('url')
 	if not url: abort(400)
@@ -776,7 +778,8 @@ def submit_post(v, sub=None):
 			Submission.deleted_utc == 0,
 			Submission.is_banned == False
 		).first()
-		if repost and SITE != 'localhost': return redirect(repost.permalink)
+		if repost and FEATURES['REPOST_DETECTION']:
+			return redirect(repost.permalink)
 
 		domain_obj = get_domain(domain)
 		if not domain_obj: domain_obj = get_domain(domain+parsed_url.path)
