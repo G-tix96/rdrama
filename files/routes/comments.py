@@ -738,7 +738,7 @@ def edit_comment(cid, v):
 				g.db.add(notif)
 
 		if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower():
-			return {"error": f"You forgot to include {AGENDAPOSTER_PHRASE} in your comment!"}, 403
+			return {"error": f'You have to include "{AGENDAPOSTER_PHRASE}" in your comment!'}, 403
 
 
 		if int(time.time()) - c.created_utc > 60 * 3: c.edited_utc = int(time.time())

@@ -451,7 +451,7 @@ def edit_post(pid, v):
 		p.body_html = body_html
 
 		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{p.body}{p.title}'.lower():
-			return {"error": f"You forgot to include {AGENDAPOSTER_PHRASE} in your post!"}, 403
+			return {"error": f'You have to include "{AGENDAPOSTER_PHRASE}" in your post!'}, 403
 
 
 	if not p.private and not p.ghost:
