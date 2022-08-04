@@ -1,4 +1,4 @@
-<div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3 bg-white" id="sidebar-content">
+<div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3 bg-white" {% if request.path != '/sidebar' %}id="sidebar-content"{% endif %}>
 
 	<p class="text-center text-md mb-4">
 		<a class="sidebar-link" href="/log" data-bs-toggle="tooltip" data-bs-placement="top" title="Moderation Log"><i class="fas fa-scroll-old"></i></a>
