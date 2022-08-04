@@ -690,11 +690,6 @@ def message2(v, username):
 			notif = Notification(comment_id=c.id, user_id=CARP_ID)
 			g.db.add(notif)
 			g.db.flush()
-		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=AEVANN_ID).one_or_none()
-		if not notif:
-			notif = Notification(comment_id=c.id, user_id=AEVANN_ID)
-			g.db.add(notif)
-			g.db.flush()
 
 	c.top_comment_id = c.id
 
@@ -765,11 +760,6 @@ def messagereply(v):
 		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=CARP_ID).one_or_none()
 		if not notif:
 			notif = Notification(comment_id=c.id, user_id=CARP_ID)
-			g.db.add(notif)
-			g.db.flush()
-		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=AEVANN_ID).one_or_none()
-		if not notif:
-			notif = Notification(comment_id=c.id, user_id=AEVANN_ID)
 			g.db.add(notif)
 			g.db.flush()
 

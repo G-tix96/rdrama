@@ -444,7 +444,6 @@ def edit_post(pid, v):
 			v.shadowbanned = 'AutoJanny'
 			g.db.add(v)
 			send_repeatable_notification(CARP_ID, p.permalink)
-			send_repeatable_notification(AEVANN_ID, p.permalink)
 
 		if len(body_html) > 40000: return {"error":"Submission body_html too long! (max 40k characters)"}, 400
 
@@ -923,7 +922,6 @@ def submit_post(v, sub=None):
 		v.shadowbanned = 'AutoJanny'
 		g.db.add(v)
 		send_repeatable_notification(CARP_ID, post.permalink)
-		send_repeatable_notification(AEVANN_ID, post.permalink)
 
 	if v and v.admin_level > 2:
 		for option in bet_options:

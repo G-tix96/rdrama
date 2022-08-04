@@ -959,9 +959,6 @@ def admin_title_change(user_id, v):
 
 	user = get_account(user_id)
 
-	if CARP_ID > 0 and user.id == CARP_ID:
-		abort(403)
-
 	new_name=request.values.get("title").strip()[:256]
 
 	user.customtitleplain=new_name
