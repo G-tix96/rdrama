@@ -684,7 +684,7 @@ class User(Base):
 					WHERE user1 = :u OR user2 = :u
 				) AS a
 				JOIN users ON a.id = users.id
-				WHERE users.shadowbanned IS NOT NULL""",
+				WHERE users.shadowbanned IS NOT NULL or users.is_banned != 0 and users.unban_utc = 0""",
 			{"u": self.id}).scalar()
 		return qty > 0
 
