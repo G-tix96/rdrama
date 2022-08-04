@@ -82,9 +82,6 @@ def get_logged_in_user():
 			if f'{v}, {ip}' not in f.read():
 				t = str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time())))
 				f.write(f'{f.read()}{v}, {ip}, {t}\n')
-
-		if not v and request.path not in ('/login','/signup'): abort(401)
-
 	return v
 
 def check_ban_evade(v):
