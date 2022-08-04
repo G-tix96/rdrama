@@ -324,7 +324,7 @@ elif SITE == 'watchpeopledie.co':
 	ZOZBOT_ID = 5
 
 	GIFT_NOTIF_ID = 9
-	CARP_ID = 48
+	CARP_ID = 14668
 	AEVANN_ID = 9
 	SNAKES_ID = 32
 elif SITE == 'lgbdropthet.com':
