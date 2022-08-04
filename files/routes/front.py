@@ -16,7 +16,7 @@ from files.helpers.awards import award_timers
 @app.get("/logged_out/h/<sub>")
 @app.get("/logged_out/s/<sub>")
 @limiter.limit("3/second;30/minute;5000/hour;10000/day")
-@auth_desired
+@auth_required
 def front_all(v, sub=None, subdomain=None):
 
 	if not v and not request.path.startswith('/logged_out'):

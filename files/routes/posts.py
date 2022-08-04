@@ -103,7 +103,7 @@ def submit_get(v, sub=None):
 @app.get("/logged_out/post/<pid>/<anything>")
 @app.get("/logged_out/h/<sub>/post/<pid>")
 @app.get("/logged_out/h/<sub>/post/<pid>/<anything>")
-@auth_desired
+@auth_required
 def post_id(pid, anything=None, v=None, sub=None):
 
 	if not v and not request.path.startswith('/logged_out'): return redirect(f"/logged_out{request.full_path}")
@@ -233,7 +233,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 @app.get("/viewmore/<pid>/<sort>/<offset>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@auth_desired
+@auth_required
 def viewmore(v, pid, sort, offset):
 	try: pid = int(pid)
 	except: abort(400)
@@ -324,7 +324,7 @@ def viewmore(v, pid, sort, offset):
 
 @app.get("/morecomments/<cid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@auth_desired
+@auth_required
 def morecomments(v, cid):
 	try: cid = int(cid)
 	except: abort(400)
