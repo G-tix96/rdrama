@@ -5541,7 +5541,7 @@ audio, video {
 
 #sidebar-content {
 	max-width: 300px;
-	margin-bottom: 5rem;
+	padding-bottom: 15rem;
 }
 
 .sidebar-link {

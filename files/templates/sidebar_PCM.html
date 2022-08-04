@@ -1,9 +1,6 @@
-<div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3 bg-white" style="max-width:300px">
+<div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3 bg-white" id="sidebar-content">
 
 	<p class="text-center text-md mb-4">
-		{% if v and v.can_gamble and LOTTERY_ENABLED -%}
-			<a class="sidebar-link" href="/lottery" data-bs-toggle="tooltip" data-bs-placement="top" title="Lottery"><i class="fas fa-ticket"></i></a>
-		{%- endif %}
 		<a class="sidebar-link" href="/log" data-bs-toggle="tooltip" data-bs-placement="top" title="Moderation Log"><i class="fas fa-scroll-old"></i></a>
 		<a class="sidebar-link" href="/transfers" data-bs-toggle="tooltip" data-bs-placement="top" title="Transfers"><i class="fas fa-arrow-right-arrow-left"></i></a>
 		<a class="sidebar-link" href="/random_post/" data-bs-toggle="tooltip" data-bs-placement="top" title="Random Post"><i class="fas fa-random"></i></a>
@@ -27,7 +24,10 @@
 		<a class="btn btn-primary btn-block" href="/create_hole">CREATE {{HOLE_NAME|upper}}</a>
 	{%- endif %}
 	<a class="btn btn-primary btn-block" href="/holes">BROWSE {{HOLE_NAME|upper}}S</a>
-	<a class="btn btn-primary btn-block mt-5" href="https://ip2.network">STREAM LIST</a>
+	<a class="btn btn-primary btn-block mt-5" href="/">
+		<span style="display: block;font-size: 1.35rem;">STREAM LIST</span>
+		<span style="display: block;font-size: 0.85rem;">Coming Sometime 2022</span>
+	</a>
 	<a class="btn btn-primary btn-block" href="/post/4103">BUGS/SUGGESTIONS MEGATHREAD</a>
 	<a class="btn btn-primary btn-block" href="/post/9694" >OFFICIAL CONSPIRACY THEORY THREAD</a>
 	<a class="btn btn-primary btn-block" href="/post/10415">OFFICIAL GAMBLING THREAD</a>
@@ -48,12 +48,4 @@
 	<a href="{{image}}">
 		<img class="mb-4" alt="sidebar image" role="button" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
 	</a>
-	<pre>
-
-
-
-
-
-
-	</pre>
 </div>
