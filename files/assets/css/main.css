@@ -6165,8 +6165,8 @@ g {
 }
 
 .btn-rainbow {
-	color:white!important;
-	background: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet);
-	background: -webkit-linear-gradient(left, red, orange, yellow, green, blue, indigo, violet );
-	text-shadow:-2px -1px 0 black,2px -2px 0 black,-2px 2px 0 black,2px 2px 0 black;
+	color:white !important;
+	background: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet) !important;
+	background: -webkit-linear-gradient(left, red, orange, yellow, green, blue, indigo, violet ) !important;
+	text-shadow:-1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black !important;
 }
