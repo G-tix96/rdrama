@@ -450,37 +450,9 @@ def edit_post(pid, v):
 
 		p.body_html = body_html
 
-		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{p.body}{p.title}'.lower() and not p.is_banned:
+		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{p.body}{p.title}'.lower():
+			return {"error": f"You forgot to include {AGENDAPOSTER_PHRASE} in your post!"}, 403
 
-			p.is_banned = True
-			p.ban_reason = "AutoJanny"
-
-			g.db.add(p)
-
-			body = AGENDAPOSTER_MSG.format(username=v.username, type='post', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
-
-			body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='post', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
-
-			c_jannied = Comment(author_id=AUTOJANNY_ID,
-				parent_submission=p.id,
-				level=1,
-				over_18=False,
-				is_bot=True,
-				app_id=None,
-				stickied='AutoJanny',
-				distinguish_level=6,
-				body=body,
-				body_html=body_jannied_html,
-				ghost=p.ghost
-				)
-
-			g.db.add(c_jannied)
-			g.db.flush()
-
-			c_jannied.top_comment_id = c_jannied.id
-
-			n = Notification(comment_id=c_jannied.id, user_id=v.id)
-			g.db.add(n)
 
 	if not p.private and not p.ghost:
 		notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v)

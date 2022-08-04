@@ -737,38 +737,8 @@ def edit_comment(cid, v):
 				notif = Notification(comment_id=c.id, user_id=AEVANN_ID)
 				g.db.add(notif)
 
-		if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and not c.is_banned:
-
-			c.is_banned = True
-			c.ban_reason = "AutoJanny"
-
-			g.db.add(c)
-
-
-			body = AGENDAPOSTER_MSG.format(username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
-
-			body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
-
-
-
-			c_jannied = Comment(author_id=AUTOJANNY_ID,
-				parent_submission=c.parent_submission,
-				distinguish_level=6,
-				parent_comment_id=c.id,
-				level=c.level+1,
-				is_bot=True,
-				body=body,
-				body_html=body_jannied_html,
-				top_comment_id=c.top_comment_id,
-				ghost=c.ghost
-				)
-
-			g.db.add(c_jannied)
-			g.db.flush()
-
-			n = Notification(comment_id=c_jannied.id, user_id=v.id)
-			g.db.add(n)
-
+		if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower():
+			return {"error": f"You forgot to include {AGENDAPOSTER_PHRASE} in your comment!"}, 403
 
 
 		if int(time.time()) - c.created_utc > 60 * 3: c.edited_utc = int(time.time())
