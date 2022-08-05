@@ -1,6 +1,6 @@
 {% extends "default.html" %}
 
-{% if sub %}
+{% if '/h/' in request.path and sub %}
 	{% block title %}
 		{% if sub.bannerurl %}
 			{% set preview = sub.bannerurl %}
