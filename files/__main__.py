@@ -16,6 +16,7 @@ import time
 from sys import stdout, argv
 import faulthandler
 import json
+import random
 
 app = Flask(__name__, template_folder='templates')
 app.url_map.strict_slashes = False
@@ -43,8 +44,13 @@ app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL", "redis://localhost")
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = environ.get("MAIL_USERNAME", "").strip()
-app.config['MAIL_PASSWORD'] = environ.get("MAIL_PASSWORD", "").strip()
+
+if environ.get("MAIL_USERNAME2") and random.random() < 0.5:
+	app.config['MAIL_USERNAME'] = environ.get("MAIL_USERNAME2", "").strip()
+	app.config['MAIL_PASSWORD'] = environ.get("MAIL_PASSWORD2", "").strip()
+else:
+	app.config['MAIL_USERNAME'] = environ.get("MAIL_USERNAME", "").strip()
+	app.config['MAIL_PASSWORD'] = environ.get("MAIL_PASSWORD", "").strip()
 
 app.config['SETTINGS'] = {}
 

@@ -14,7 +14,7 @@ from flask_mail import Message
 
 def send_mail(to_address, subject, html):
 
-	msg = Message(html=html, subject=subject, sender=f"{SITE_NAME}@{SITE}", recipients=[to_address])
+	msg = Message(html=html, subject=subject, sender=app.config['MAIL_USERNAME'], recipients=[to_address])
 	mail.send(msg)
 
 
