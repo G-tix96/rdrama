@@ -215,6 +215,9 @@ def notifications(v):
 		Comment.body_html.notlike('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
 	).order_by(Notification.created_utc.desc())
 
+	if v.id == AEVANN_ID:
+		comment = comments.filter(Comment.sentto != 2)
+
 	if not (v and (v.shadowbanned or v.admin_level > 2)):
 		comments = comments.join(Comment.author).filter(User.shadowbanned == None)
 
