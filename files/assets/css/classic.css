@@ -3,7 +3,8 @@
 	--black1: #888 !important;
 	--black2: #222222 !important;
 	--black3: #4f4f4f !important;
-	--grey : #ccc !important;
+	--gray : #ccc !important;
+	--gray-400 : white !important;
 	--red: #b40457 !important;
 	--blue: #369 !important;
 	--upvote: #ff8b60 !important;
@@ -34,7 +35,7 @@
 }
 
 .nav-link {
-	color: var(--grey) !important;
+	color: var(--gray) !important;
 }
 
 /*common*/
@@ -45,7 +46,7 @@ body, .card, #main-content-row {
 }
 
 .posts .card {
-	border-color: var(--grey) !important;
+	border-color: var(--gray) !important;
 }
 
 .btn-primary, .btn-secondary {
@@ -85,7 +86,7 @@ a {
 .flaggers, .flaggers a {
 	background-color: white !important;
 	color: var(--black3) !important;
-	border-color: var(--grey);
+	border-color: var(--gray);
 }
 
 .dropdown-menu, .dropdown-menu a {
@@ -100,7 +101,7 @@ a {
 }
 
 .text-muted {
-	color: var(--grey) !important;
+	color: var(--gray) !important;
 }
 
 /*frontpage*/
@@ -263,7 +264,7 @@ blockquote {
 }
 
 #settings .custom-control-label::before {
-	background-color: var(--grey) !important;
+	background-color: var(--gray) !important;
 }
 
 #settings .custom-control-input:checked ~ .custom-control-label::before {
@@ -379,7 +380,7 @@ blockquote {
 }
 
 .shop .btn {
-	border-color: var(--grey) !important;
+	border-color: var(--gray) !important;
 	background-color: var(--red) !important;
 }
 
@@ -400,7 +401,7 @@ label.custom-control-label::after, label.custom-control-label::before {
 }
 
 .custom-control-input:checked ~ .custom-control-label::after {
-	background-color: var(--grey) !important;
+	background-color: var(--gray) !important;
 }
 
 #settings .sticky {
@@ -408,7 +409,7 @@ label.custom-control-label::after, label.custom-control-label::before {
 }
 
 .border-bottom {
-	border-bottom: 1px solid var(--grey) !important;
+	border-bottom: 1px solid var(--gray) !important;
 }
 
 a.nav-link:hover {
@@ -420,7 +421,7 @@ a.nav-link:hover {
 }
 
 #thread .anchor.comment {
-	border-left: 2px solid var(--grey)!important;
+	border-left: 2px solid var(--gray)!important;
 }  
 
 .anchor.comment.mt-0 {
@@ -432,7 +433,7 @@ a.nav-link:hover {
 }
 
 .notifs .comment-collapse-desktop {
-	border-left: 2px solid var(--grey)!important;
+	border-left: 2px solid var(--gray)!important;
 }
 
 #userpage .nav.settings-nav {
@@ -461,7 +462,7 @@ a.nav-link:hover {
 }
 
 #settings2 .nav.settings-nav .fas {
-	color: var(--grey) !important
+	color: var(--gray) !important
 }
 
 #settings2 .nav-link.active .fas {

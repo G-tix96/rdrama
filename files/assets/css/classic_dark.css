@@ -15,7 +15,7 @@
 }
 
 .nav-link {
-	color: var(--grey) !important;
+	color: var(--gray) !important;
 }
 
 /*common*/
@@ -34,34 +34,34 @@ body, .card, #main-content-row {
 }
 
 .post-title a {
-	color: var(--grey) !important;
+	color: var(--gray) !important;
 }
 
 .flaggers, .flaggers a {
 	background-color: var(--black2) !important;
 	color: var(--black1) !important;
-	border-color: var(--grey);
+	border-color: var(--gray);
 }
 
 .dropdown-menu, .dropdown-menu a {
-	color: var(--grey);
+	color: var(--gray);
 	background-color: var(--black2);
 }
 
 .popover, .pop-username, .pop-bio, .popover-user-profile, .popover-user-profile * {
 	background-color: var(--black2);
-	color: var(--grey);
+	color: var(--gray);
 	border-color: var(--black1) !important;
 }
 
 .text-muted {
-	color: var(--grey) !important;
+	color: var(--gray) !important;
 }
 
 /*frontpage*/
 #frontpage .sidebar {
 	background-color: var(--black2) !important;
-	color: var(--grey);
+	color: var(--gray);
 }
 
 #frontpage .dropdown .btn {
@@ -78,18 +78,18 @@ body, .card, #main-content-row {
 
 /*post*/
 .post-meta, .post-actions a, .post-actions button, .nav-link .fas, label, small, .comment-actions * {
-	color: var(--grey) !important;
+	color: var(--gray) !important;
 }
 
 .comment, .comment-text, .comment-section, .comment-body, .post-body {
 	background-color: var(--black2);
-	color: var(--grey) !important;
+	color: var(--gray) !important;
 }
 
 blockquote {
 	border-left: 2px solid #c5c1ad !important;
 	background-color: var(--black3) !important;
-	color: var(--grey) !important;
+	color: var(--gray) !important;
 }
 
 .form-control, .comment-box.form-control.rounded {
@@ -133,7 +133,7 @@ blockquote {
 }
 
 #settings2 .nav-link.active .fas {
-	color: var(--grey) !important;
+	color: var(--gray) !important;
 }
 
 #navbarResponsive .nav-link {
@@ -210,4 +210,8 @@ a.nav-link:hover {
     background-color: #202020 !important;
     border-radius: 0px;
     margin-top: 0px;
+}
+
+.modal-content {
+	background-color: var(--black2);
 }
