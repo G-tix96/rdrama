@@ -1,7 +1,8 @@
 {% extends "default.html" %}
 
-{% if '/h/' in request.path and sub %}
-	{% block title %}
+{% block title %}
+	{% if sub %}
+
 		{% if sub.bannerurl %}
 			{% set preview = sub.bannerurl %}
 		{% elif sub.sidebarurl %}
@@ -30,8 +31,10 @@
 			<meta property="og:description" name="description" content="{{sub.sidebar}}">
 			<meta name="twitter:description" content="{{sub.sidebar}}">
 		{% endif %}
-	{% endblock %}
-{% endif %}
+	{% else %}
+		{{super()}}
+	{% endif %}
+{% endblock %}
 
 {% block desktopBanner %}
 
