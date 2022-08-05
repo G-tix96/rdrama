@@ -85,6 +85,11 @@
 	</div>
 
 	<div class="custom-control custom-switch">
+		<input autocomplete="off" type="checkbox" class="custom-control-input" id="login_required" {% if site_settings['login_required'] %}checked{% endif %} onchange="post_toast(this,'/admin/site_settings/login_required');">
+		<label class="custom-control-label" for="login_required">Login Required</label>
+	</div>
+
+	<div class="custom-control custom-switch">
 		<input autocomplete="off" type="checkbox" class="custom-control-input" id="bots" {% if site_settings['Bots']  %}checked{% endif %} onchange="post_toast(this,'/admin/site_settings/Bots');">
 		<label class="custom-control-label" for="bots">Bots</label>
 	</div>

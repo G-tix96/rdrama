@@ -894,7 +894,7 @@ def visitors(v):
 @app.get("/@<username>")
 @app.get("/@<username>.json")
 @app.get("/logged_out/@<username>")
-@auth_required
+@auth_desired_with_logingate
 def u_username(username, v=None):
 
 	if not v and not request.path.startswith('/logged_out'):
@@ -1006,7 +1006,7 @@ def u_username(username, v=None):
 @app.get("/@<username>/comments")
 @app.get("/@<username>/comments.json")
 @app.get("/logged_out/@<username>/comments")
-@auth_required
+@auth_desired_with_logingate
 def u_username_comments(username, v=None):
 
 	if not v and not request.path.startswith('/logged_out'):

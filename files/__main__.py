@@ -80,7 +80,9 @@ mail = Mail(app)
 
 if not path.isfile(f'/site_settings.json'):
 	with open('/site_settings.json', 'w', encoding='utf_8') as f:
-		f.write('{"Bots": true, "Fart mode": false, "Read-only mode": false, "Signups": true}')
+		f.write(
+			'{"Bots": true, "Fart mode": false, "Read-only mode": false, ' + \
+			'"Signups": true, "login_required": false}')
 
 @app.before_request
 def before_request():
