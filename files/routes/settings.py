@@ -876,8 +876,8 @@ def settings_title_change(v):
 
 	v.customtitle = filter_emojis_only(new_name)
 
-	if len(v.customtitle) < 1000:
-		g.db.add(v)
+	if len(v.customtitle) > 1000:
+		return render_template("settings_profile.html", v=v, error="Flair too long")
 
 	return redirect("/settings/profile")
 
