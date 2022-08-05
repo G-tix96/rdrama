@@ -1070,10 +1070,25 @@ def submit_post(v, sub=None):
 		post.upvotes += 1
 		g.db.add(post)
 	
-	if SITE == 'rdrama.net' and post.sub and post.sub in ('stupidpol') and v.id not in (SOREN_ID, SCHIZO_ID):
+	if SITE == 'rdrama.net' and post.sub == 'stupidpol' and v.id not in (SOREN_ID, SCHIZO_ID):
 		g.db.flush()
 		autovote = Vote(
 			user_id=SCHIZO_ID,
+			submission_id=post.id,
+			vote_type=1
+		)
+		autovote.created_utc += 1
+		g.db.add(autovote)
+		v.coins += 1
+		v.truecoins += 1
+		g.db.add(v)
+		post.upvotes += 1
+		g.db.add(post)
+
+	if SITE == 'rdrama.net' and post.sub == 'foid' and v.id != CARP_ID:
+		g.db.flush()
+		autovote = Vote(
+			user_id=CARP_ID,
 			submission_id=post.id,
 			vote_type=1
 		)
