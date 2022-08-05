@@ -106,29 +106,29 @@
 			</div>
 
 			{% if g.webview %}
-				<a class="mobile-nav-icon d-md-none" onclick="location.reload()"><i class="fas fa-arrow-rotate-right align-middle text-gray-500 black"></i></a>
+				<a class="mobile-nav-icon d-md-none" onclick="location.reload()"><i class="fas fa-arrow-rotate-right align-middle text-gray-500"></i></a>
 			{% endif %}
 
 			{% if v %}
 				{% if v.notifications_count %}
 					<a class="mobile-nav-icon d-md-none" href="/notifications{% if v.notifications_do %}/{{v.notifications_do}}{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><i class="fas fa-bell align-middle" style="color: {{v.notifications_color}}"></i><span class="notif-count ml-1" style="padding-left: 4.5px;{% if v.notifications_do %}background:{{v.notifications_color}}{% endif %}">{{v.notifications_count}}</span></a>
 				{% else %}
-					<a class="mobile-nav-icon d-md-none" href="/notifications" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><i class="fas fa-bell  align-middle text-gray-500 black"></i></a>
+					<a class="mobile-nav-icon d-md-none" href="/notifications" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><i class="fas fa-bell  align-middle text-gray-500"></i></a>
 				{% endif %}
 			{% endif %}
 			
 		{% if not err %}
 			{% if v and v.admin_level > 1 %}
-				<a class="mobile-nav-icon d-md-none" href="/admin"><i class="fas fa-crown align-middle text-gray-500 black"></i></a>
+				<a class="mobile-nav-icon d-md-none" href="/admin"><i class="fas fa-crown align-middle text-gray-500"></i></a>
 			{% endif %}
 
 			{% if v %}
-				<a class="mobile-nav-icon d-md-none" href="{% if sub %}/h/{{sub.name}}{% endif %}/submit"><i class="fas fa-feather-alt align-middle text-gray-500 black"></i></a>
+				<a class="mobile-nav-icon d-md-none" href="{% if sub %}/h/{{sub.name}}{% endif %}/submit"><i class="fas fa-feather-alt align-middle text-gray-500"></i></a>
 			{% else %}
-				<a class="mobile-nav-icon d-md-none" href="/login"><i class="fas fa-feather-alt align-middle text-gray-500 black"></i></a>
+				<a class="mobile-nav-icon d-md-none" href="/login"><i class="fas fa-feather-alt align-middle text-gray-500"></i></a>
 			{% endif %}
 
-			<a class="mobile-nav-icon d-md-none" href="/random_user"><i class="fas fa-music align-middle text-gray-500 black"></i></a>
+			<a class="mobile-nav-icon d-md-none" href="/random_user"><i class="fas fa-music align-middle text-gray-500"></i></a>
 
 			{% if v and v.can_gamble and LOTTERY_ENABLED %}
 				<a class="mobile-nav-icon d-md-none" href="/lottery">
@@ -138,7 +138,7 @@
 
 			<button class="navbar-toggler" role="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
 			aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon {% if v and v.notifications_count %}position-relative{% endif %}"><i class="fal fa-bars text-gray-500 black"></i>
+			<span class="navbar-toggler-icon {% if v and v.notifications_count %}position-relative{% endif %}"><i class="fas fa-bars align-middle text-gray-500"></i>
 			</span>
 		</button>
 

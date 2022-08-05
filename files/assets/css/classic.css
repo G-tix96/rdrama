@@ -121,8 +121,9 @@ a {
 	color: black;
 }
 
-#frontpage .col.h-100.custom-gutters .row .col {
+#frontpage .col .h-100 .custom-gutters .row .col {
 	background-image: var(--bg1) !important;
+	color: white !important;
 }
 
 #frontpage .dropdown .btn {
