@@ -352,21 +352,17 @@ def post_sub_sidebar(v, sub):
 @is_not_permabanned
 def post_sub_css(v, sub):
 	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
-	if not sub: abort(404)
-	
-	if not v.mods(sub.name): abort(403)
-
 	css = request.values.get('css', '').strip()
 
+	if not sub:
+		abort(404)
+	if not v.mods(sub.name):
+		abort(403)
 
-	for i in css_regex.finditer(css):
-		url = i.group(0)
-		if not is_safe_url(url):
-			domain = tldextract.extract(url).registered_domain
-			error = f"The domain '{domain}' is not allowed, please use one of these domains\n\n{approved_embed_hosts}."
-			return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, error=error)
-
-
+	valid, error = validate_css(css)
+	if not valid:
+		return render_template('sub/settings.html',
+			v=v, sidebar=sub.sidebar, sub=sub, error=error)
 
 	sub.css = css
 	g.db.add(sub)

@@ -458,3 +458,15 @@ def normalize_url(url):
 	url = giphy_regex.sub(r'\1.webp', url)
 
 	return url
+
+def validate_css(css):
+	if '@import' in css:
+		return False, "@import statements not allowed."
+
+	for i in css_url_regex.finditer(css):
+		url = i.group(1)
+		if not is_safe_url(url):
+			domain = tldextract.extract(url).registered_domain
+			return False, f"The domain '{domain}' is not allowed, please use one of these domains\n\n{approved_embed_hosts}."
+
+	return True, ""

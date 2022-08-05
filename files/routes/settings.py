@@ -599,14 +599,9 @@ def settings_profilecss_get(v):
 def settings_profilecss(v):
 	profilecss = request.values.get("profilecss").strip().replace('\\', '').strip()[:4000]
 
-
-	for i in css_regex.finditer(profilecss):
-		url = i.group(0)
-		if not is_safe_url(url):
-			domain = tldextract.extract(url).registered_domain
-			error = f"The domain '{domain}' is not allowed, please use one of these domains\n\n{approved_embed_hosts}."
-			return render_template("settings_profilecss.html", error=error, v=v)
-
+	valid, error = validate_css(profilecss)
+	if not valid:
+		return render_template("settings_profilecss.html", error=error, v=v)
 
 	v.profilecss = profilecss
 	g.db.add(v)
