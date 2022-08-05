@@ -91,7 +91,6 @@ def check_ban_evade(v):
 
 def auth_desired(f):
 	def wrapper(*args, **kwargs):
-
 		v = get_logged_in_user()
 
 		check_ban_evade(v)
@@ -101,9 +100,19 @@ def auth_desired(f):
 	wrapper.__name__ = f.__name__
 	return wrapper
 
+def auth_desired_with_logingate(f):
+	def wrapper(*args, **kwargs):
+		v = get_logged_in_user()
+		if app.config['SETTINGS']['login_required'] and not v: abort(401)
+
+		check_ban_evade(v)
+
+		return make_response(f(*args, v=v, **kwargs))
+
+	wrapper.__name__ = f.__name__
+	return wrapper
 
 def auth_required(f):
-
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
 		if not v: abort(401)

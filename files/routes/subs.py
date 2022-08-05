@@ -433,7 +433,7 @@ def sub_sidebar(v, sub):
 	return redirect(f'/h/{sub.name}/settings')
 
 @app.get("/holes")
-@auth_required
+@auth_desired_with_logingate
 def subs(v):
 	subs = g.db.query(Sub, func.count(Submission.sub)).outerjoin(Submission, Sub.name == Submission.sub).group_by(Sub.name).order_by(func.count(Submission.sub).desc()).all()
 	return render_template('sub/subs.html', v=v, subs=subs)

@@ -193,6 +193,11 @@ ACTIONTYPES = {
 		"icon": 'fa-users', 
 		"color": 'bg-danger'
 	},
+	'disable_login_required': {
+		"str": 'disabled Login Required', 
+		"icon": 'fa-users', 
+		"color": 'bg-danger'
+	},
 	'disable_under_attack': {
 		"str": 'disabled under attack mode', 
 		"icon": 'fa-shield', 
@@ -240,6 +245,11 @@ ACTIONTYPES = {
 	},
 	'enable_Signups': {
 		"str": 'enabled Signups', 
+		"icon": 'fa-users', 
+		"color": 'bg-success'
+	},
+	'enable_login_required': {
+		"str": 'enabled Login Required', 
 		"icon": 'fa-users', 
 		"color": 'bg-success'
 	},
