@@ -78,3 +78,7 @@ pre {
     border-radius: 6px;
     margin-top: 6px;
 }
+
+.modal-content {
+    background-color: var(--gray-900);
+}
