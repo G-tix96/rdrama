@@ -169,7 +169,7 @@ def admin_app_approve(v, aid):
 
 @app.post("/admin/app/revoke/<aid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(3)
 def admin_app_revoke(v, aid):
 
 	app = g.db.get(OauthApp, aid)
@@ -193,7 +193,7 @@ def admin_app_revoke(v, aid):
 
 @app.post("/admin/app/reject/<aid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(3)
 def admin_app_reject(v, aid):
 
 	app = g.db.get(OauthApp, aid)
@@ -217,7 +217,7 @@ def admin_app_reject(v, aid):
 
 
 @app.get("/admin/app/<aid>")
-@admin_level_required(2)
+@admin_level_required(3)
 def admin_app_id(v, aid):
 
 	aid=aid
@@ -239,7 +239,7 @@ def admin_app_id(v, aid):
 						   )
 
 @app.get("/admin/app/<aid>/comments")
-@admin_level_required(2)
+@admin_level_required(3)
 def admin_app_id_comments(v, aid):
 
 	aid=aid
@@ -265,7 +265,7 @@ def admin_app_id_comments(v, aid):
 
 
 @app.get("/admin/apps")
-@admin_level_required(2)
+@admin_level_required(3)
 def admin_apps_list(v):
 
 	apps = g.db.query(OauthApp).order_by(OauthApp.id.desc()).all()
