@@ -844,9 +844,9 @@ def agendaposter(user_id, v):
 	user = get_account(user_id)
 
 	days = request.values.get("days")
-	if not days: days = 30.0
+	if not days: days = 365.0
 	days = float(days)
-	days = min(days, 30.0)
+	days = min(days, 365.0)
 
 	expiry = int(time.time() + days*60*60*24)
 
