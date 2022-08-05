@@ -2,23 +2,34 @@
 
 {% if sub %}
 	{% block title %}
-	<title>{{SITE_NAME}}</title>
+		{% if sub.bannerurl %}
+			{% set preview = sub.bannerurl %}
+		{% elif sub.sidebarurl %}
+			{% set preview = sub.sidebarurl %}
+		{% else %}
+			{% set preview = sub.banner_url %}
+		{% endif %}
 
-	<meta property="og:type" content="article">
-	<meta property="og:title" content="/h/{{sub.name}}">
-	<meta property="og:site_name" content="{{SITE}}">
-	<meta property="og:image" content="{{sub.bannerurl}}">
-	<meta property="og:url" content="{{request.full_path}}">
-	<meta property="og:description" name="description" content="/h/{{sub.name}} - {{sub.sidebar}}">
-	<meta property="og:author" name="author" content="{{SITE_FULL}}">
+		<title>{{SITE_NAME}}</title>
+		
+		<meta property="og:type" content="article">
+		<meta property="og:title" content="/h/{{sub.name}}">
+		<meta property="og:site_name" content="{{SITE}}">
+		<meta property="og:image" content="{{preview}}">
+		<meta property="og:url" content="{{request.full_path}}">
+		<meta property="og:author" name="author" content="{{SITE_FULL}}">
 
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:site" content="{{SITE_FULL}}">
-	<meta name="twitter:title" content="/h/{{sub.name}}">
-	<meta name="twitter:creator" content="{{SITE_FULL}}">
-	<meta name="twitter:description" content="/h/{{sub.name}} - {{sub.sidebar}}">
-	<meta name="twitter:image" content="{{sub.bannerurl}}">
-	<meta name="twitter:url" content="{{request.full_path}}">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="{{SITE_FULL}}">
+		<meta name="twitter:title" content="/h/{{sub.name}}">
+		<meta name="twitter:creator" content="{{SITE_FULL}}">
+		<meta name="twitter:image" content="{{preview}}">
+		<meta name="twitter:url" content="{{request.full_path}}">
+
+		{% if sub.sidebar %}
+			<meta property="og:description" name="description" content="{{sub.sidebar}}">
+			<meta name="twitter:description" content="{{sub.sidebar}}">
+		{% endif %}
 	{% endblock %}
 {% endif %}
 
