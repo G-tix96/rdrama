@@ -380,7 +380,7 @@ bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, BASEDBOT_ID}
 IMGUR_KEY = environ.get("IMGUR_KEY").strip()
 PUSHER_ID = environ.get("PUSHER_ID", "").strip()
 PUSHER_KEY = environ.get("PUSHER_KEY", "").strip()
-DEFAULT_COLOR = environ.get("DEFAULT_COLOR", "fff").strip()
+DEFAULT_COLOR = environ.get("DEFAULT_COLOR", "805ad5").strip()
 COLORS = {'ff66ac','805ad5','62ca56','38a169','80ffff','2a96f3','eb4963','ff0000','f39731','30409f','3e98a7','e4432d','7b9ae4','ec72de','7f8fa6', 'f8db58','8cdbe6', DEFAULT_COLOR}
 
 AWARDS = {
@@ -1008,8 +1008,6 @@ hosts = "|".join(approved_embed_hosts).replace('.','\.')
 
 SITE_NAME = environ.get("SITE_NAME").strip()
 GUMROAD_LINK = environ.get("GUMROAD_LINK", "https://marsey1.gumroad.com/l/rdrama").strip()
-DEFAULT_COLOR = environ.get("DEFAULT_COLOR", "ff0000").strip()
-DEFAULT_THEME = environ.get("DEFAULT_THEME", "midnight").strip()
 HCAPTCHA_SITEKEY = environ.get("HCAPTCHA_SITEKEY","").strip()
 HCAPTCHA_SECRET = environ.get("HCAPTCHA_SECRET","").strip()
 SPAM_SIMILARITY_THRESHOLD = float(environ.get("SPAM_SIMILARITY_THRESHOLD", 0.5))
