@@ -852,7 +852,6 @@ EIGHTBALL_REPLIES = ('<b style="color:#7FEC11">The 8-Ball Says: It is certain.</
 if SITE_NAME == 'rDrama': patron = 'Paypig'
 else: patron = 'Patron'
 
-NOTIF_MODACTION_PREFIX = '[Modaction] '
 NOTIF_MODACTION_JL_MIN = 2
 
 REDDIT_NOTIFS_JL_MIN = 1

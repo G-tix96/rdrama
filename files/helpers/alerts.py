@@ -109,26 +109,6 @@ def NOTIFY_USERS(text, v):
 
 	return notify_users - bots
 
-def notify_mod_action(by_id, msg):
-	body_html = sanitize(NOTIF_MODACTION_PREFIX + msg)
-	new_comment = Comment(
-		author_id=AUTOJANNY_ID,
-		parent_submission=None,
-		level=1,
-		body_html=body_html,
-		distinguish_level=6,
-		is_bot=True)
-	g.db.add(new_comment)
-	g.db.flush()
-	new_comment.top_comment_id = new_comment.id
-
-	send_to = g.db.query(User).filter(
-		User.admin_level >= NOTIF_MODACTION_JL_MIN, User.id != by_id).all()
-	for admin in send_to:
-		notif = Notification(comment_id=new_comment.id, user_id=admin.id)
-		g.db.add(notif)
-
-
 if PUSHER_ID != 'blahblahblah':
 	beams_client = PushNotifications(instance_id=PUSHER_ID, secret_key=PUSHER_KEY)
 

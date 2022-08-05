@@ -12,6 +12,7 @@ def clear(v):
 		n.read = True
 		g.db.add(n)
 	v.last_viewed_post_notifs = int(time.time())
+	v.last_viewed_log_notifs = int(time.time())
 	g.db.add(v)
 	return {"message": "Notifications cleared!"}
 
@@ -134,29 +135,16 @@ def notifications_modactions(v):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	notifications = g.db.query(Notification, Comment) \
-		.join(Notification.comment) \
-		.filter(Notification.user_id == v.id, 
-			Comment.body_html.like(f'%<p>{NOTIF_MODACTION_PREFIX}%'),
-			Comment.parent_submission == None, Comment.author_id == AUTOJANNY_ID) \
-		.order_by(Notification.created_utc.desc()).offset(25 * (page - 1)).limit(101).all()
-	listing = []
+	listing = g.db.query(ModAction).filter(ModAction.user_id != v.id).order_by(ModAction.id.desc()).offset(25*(page-1)).limit(26).all()
 
-	for index, x in enumerate(notifications[:100]):
-		n, c = x
-		if n.read and index > 24: break
-		elif not n.read:
-			n.read = True
-			c.unread = True
-			g.db.add(n)
-		if n.created_utc > 1620391248: c.notif_utc = n.created_utc
-		listing.append(c)
+	next_exists = len(listing) > 25
+	listing = listing[:25]
 
-	next_exists = (len(notifications) > len(listing))
+	for ma in listing:
+		ma.unread = ma.created_utc > v.last_viewed_log_notifs
 
-	g.db.commit()
-
-	if request.headers.get("Authorization"): return {"data":[x.json for x in listing]}
+	v.last_viewed_log_notifs = int(time.time())
+	g.db.add(v)
 
 	return render_template("notifications.html",
 							v=v,
@@ -225,7 +213,6 @@ def notifications(v):
 		Comment.is_banned == False,
 		Comment.deleted_utc == 0,
 		Comment.body_html.notlike('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
-		Comment.body_html.notlike(f'%<p>{NOTIF_MODACTION_PREFIX}%')
 	).order_by(Notification.created_utc.desc())
 
 	if not (v and (v.shadowbanned or v.admin_level > 2)):

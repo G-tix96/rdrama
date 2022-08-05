@@ -450,8 +450,6 @@ def change_settings(v, setting):
 	if site_settings[setting]: word = 'enable'
 	else: word = 'disable'
 
-	notify_mod_action(v.id, f"@{v.username} has {word}d `{setting}` in the [admin dashboard](/admin)!")
-
 	ma = ModAction(
 		kind=f"{word}_{setting}",
 		user_id=v.id,
@@ -490,7 +488,7 @@ def under_attack(v):
 		)
 		g.db.add(ma)
 
-		response = str(requests.patch(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, data='{"value":"medium"}', timeout=5))
+		response = str(requests.patch(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, data='{"value":"high"}', timeout=5))
 		if response == "<Response [200]>": return {"message": "Under attack mode disabled!"}
 		return {"error": "Failed to disable under attack mode."}
 	else:
@@ -922,7 +920,6 @@ def shadowban(user_id, v):
 	g.db.add(ma)
 	
 	cache.delete_memoized(frontlist)
-	notify_mod_action(v.id, f"@{v.username} has shadowbanned @{user.username}")
 	return {"message": "User shadowbanned!"}
 
 
@@ -947,7 +944,6 @@ def unshadowban(user_id, v):
 	g.db.add(ma)
 	
 	cache.delete_memoized(frontlist)
-	notify_mod_action(v.id, f"@{v.username} has unshadowbanned @{user.username}")
 
 	return {"message": "User unshadowbanned!"}
 
@@ -1049,8 +1045,6 @@ def ban_user(user_id, v):
 			comment.bannedfor = f'{duration} by @{v.username}'
 			g.db.add(comment)
 
-	notify_mod_action(v.id, f"@{v.username} has banned @{user.username} ({note})")
-
 	if 'redir' in request.values: return redirect(user.url)
 	else: return {"message": f"@{user.username} was banned!"}
 
@@ -1086,8 +1080,6 @@ def unban_user(user_id, v):
 		)
 	g.db.add(ma)
 
-	notify_mod_action(v.id, f"@{v.username} has unbanned @{user.username}")
-
 	if "@" in request.referrer: return redirect(user.url)
 	else: return {"message": f"@{user.username} was unbanned!"}
 
@@ -1122,9 +1114,6 @@ def ban_post(post_id, v):
 
 	v.coins += 1
 	g.db.add(v)
-
-	if v.id != post.author_id:
-		notify_mod_action(v.id, f"@{v.username} has removed [{post.title}]({post.shortlink}) by @{post.author.username}")		
 
 	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', 
 		headers=CF_HEADERS, json={'files': [f"{SITE_FULL}/logged_out/"]}, timeout=5)
@@ -1163,10 +1152,6 @@ def unban_post(post_id, v):
 
 	v.coins -= 1
 	g.db.add(v)
-
-	if v.id != post.author_id:
-		notify_mod_action(v.id, f"@{v.username} has approved [{post.title}]({post.shortlink}) by @{post.author.username}")		
-
 
 	return {"message": "Post approved!"}
 
@@ -1327,9 +1312,6 @@ def api_ban_comment(c_id, v):
 		)
 	g.db.add(ma)
 
-	if v.id != comment.author_id:
-		notify_mod_action(v.id, f"@{v.username} has removed [comment]({comment.shortlink}) by @{comment.author.username}")
-
 	return {"message": "Comment removed!"}
 
 
@@ -1357,10 +1339,6 @@ def api_unban_comment(c_id, v):
 	comment.is_approved = v.id
 
 	g.db.add(comment)
-
-	if v.id != comment.author_id:
-		notify_mod_action(v.id, f"@{v.username} has approved [comment]({comment.shortlink}) by @{comment.author.username}")
-
 
 	return {"message": "Comment approved!"}
 
@@ -1479,9 +1457,6 @@ def admin_nuke_user(v):
 		)
 	g.db.add(ma)
 
-	notify_mod_action(v.id, f"@{v.username} has has removed all content of @{user.username}")
-
-
 	return redirect(user.url)
 
 
@@ -1516,8 +1491,5 @@ def admin_nunuke_user(v):
 		target_user_id=user.id,
 		)
 	g.db.add(ma)
-
-	notify_mod_action(v.id, f"@{v.username} has approved all of content of @{user.username}")
-
 
 	return redirect(user.url)
