@@ -809,8 +809,8 @@ CREATE TABLE public.users (
     last_active integer DEFAULT 0 NOT NULL,
     poorcel boolean DEFAULT false NOT NULL,
     last_viewed_post_notifs integer NOT NULL,
-    last_viewed_log_notifs integer NOT NULL,
-    pronouns character varying(11) NOT NULL
+    pronouns character varying(11) NOT NULL,
+    last_viewed_log_notifs integer NOT NULL
 );
 
 
