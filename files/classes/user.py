@@ -128,6 +128,7 @@ class User(Base):
 	total_held_lottery_tickets = Column(Integer, default=0)
 	total_lottery_winnings = Column(Integer, default=0)
 	last_viewed_post_notifs = Column(Integer, default=0)
+	last_viewed_log_notifs = Column(Integer, default=0)
 	pronouns = Column(String, default='they/them')
 
 	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
@@ -151,6 +152,7 @@ class User(Base):
 		if "created_utc" not in kwargs:
 			kwargs["created_utc"] = int(time.time())
 			kwargs["last_viewed_post_notifs"] = kwargs["created_utc"]
+			kwargs["last_viewed_log_notifs"] = kwargs["created_utc"]
 
 		super().__init__(**kwargs)
 
@@ -461,7 +463,7 @@ class User(Base):
 		if not self.shadowbanned and self.admin_level < 3:
 			notifs = notifs.join(Comment.author).filter(User.shadowbanned == None)
 		
-		return notifs.count() + self.post_notifications_count
+		return notifs.count() + self.post_notifications_count + self.modaction_notifications_count
 
 	@property
 	@lazy
@@ -492,11 +494,10 @@ class User(Base):
 	@lazy
 	def modaction_notifications_count(self):
 		if not self.admin_level: return 0
-		return g.db.query(Notification).join(Comment).filter(
-			Notification.user_id == self.id, Notification.read == False, 
-			Comment.is_banned == False, Comment.deleted_utc == 0, 
-			Comment.body_html.like(f'%<p>{NOTIF_MODACTION_PREFIX}%'), 
-			Comment.parent_submission == None, Comment.author_id == AUTOJANNY_ID).count()
+		return g.db.query(ModAction).filter(
+			ModAction.created_utc > self.last_viewed_log_notifs,
+			ModAction.user_id != self.id,
+		).count()
 
 	@property
 	@lazy
