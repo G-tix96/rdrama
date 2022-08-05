@@ -215,9 +215,6 @@ def notifications(v):
 		Comment.body_html.notlike('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
 	).order_by(Notification.created_utc.desc())
 
-	if v.id == AEVANN_ID:
-		comment = comments.filter(Comment.sentto != 2)
-
 	if not (v and (v.shadowbanned or v.admin_level > 2)):
 		comments = comments.join(Comment.author).filter(User.shadowbanned == None)
 
@@ -258,6 +255,9 @@ def notifications(v):
 			c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).order_by(Comment.id).all()
 
 		if c not in listing: listing.append(c)
+
+	if SITE == 'rdrama.net' and v.id == AEVANN_ID:
+		listing = [x for x in listing if x.sentto != 2]
 
 	g.db.commit()
 
