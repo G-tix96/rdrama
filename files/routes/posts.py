@@ -432,7 +432,7 @@ def edit_post(pid, v):
 			g.db.add(option)
 
 
-		body_html = sanitize(body, edit=True)
+		body_html = sanitize(body, edit=True, limit_pings=True)
 
 		if v.id == p.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
 			return {"error":"You can only type marseys!"}, 403
@@ -875,7 +875,7 @@ def submit_post(v, sub=None):
 
 	body = body.strip()
 
-	body_html = sanitize(body)
+	body_html = sanitize(body, limit_pings=True)
 
 	if v.marseyawarded and marseyaward_body_regex.search(body_html):
 		return error("You can only type marseys!")
