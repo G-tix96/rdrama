@@ -26,7 +26,9 @@ def front_all(v, sub=None, subdomain=None):
 		return redirect('https://deuxrama.net')
 	
 	if v and request.path.startswith('/logged_out'):
-		return redirect(request.full_path.replace('/logged_out','/'))
+		redir = request.full_path.replace('/logged_out','')
+		if not redir.startswith('/'): redir = f'/{redir}'
+		return redirect(redir)
 
 	if sub: sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
 	
