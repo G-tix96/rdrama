@@ -191,7 +191,7 @@ function comment_edit(id){
 			commentForm.innerHTML = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '')
 			document.getElementById('cancel-edit-'+id).click()
 			bs_trigger(commentForm);
-			document.getElementById('filename-show-reply-t2_' + id).innerHTML = '<i class="fas fa-file"></i>';
+			document.getElementById('filename-edit-reply-' + id).innerHTML = '<i class="fas fa-file"></i>';
 		}
 		else {
 			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
@@ -201,7 +201,7 @@ function comment_edit(id){
 		setTimeout(() => {
 			btn.disabled = false;
 			btn.classList.remove('disabled');
-		}, 2000);
+		}, 1000);
 	}
 	xhr.send(form)
 }
