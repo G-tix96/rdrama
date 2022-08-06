@@ -234,7 +234,11 @@ if SITE in ('rdrama.net', 'devrama.xyz'):
 	MARSEY_THREAD = 37838
 	GAMBLING_THREAD = 39413
 elif SITE == 'deuxrama.net':
+	PERMS['HOLE_CREATE'] = 3
+	PERMS['CONTENT_THREADS'] = 2
+
 	FEATURES['PROCOINS'] = False
+
 	SIDEBAR_THREAD = 175
 	BADGE_THREAD = 142
 
@@ -334,6 +338,7 @@ elif SITE == 'lgbdropthet.com':
 	PERMS['USER_FOLLOWS_VISIBLE'] = 2
 	PERMS['USER_VOTERS_VISIBLE'] = 2
 
+	FEATURES['PROCOINS'] = False
 	FEATURES['AWARDS'] = False
 	FEATURES['CHAT'] = False
 	FEATURES['COUNTRY_CLUB'] = False
@@ -369,11 +374,7 @@ elif SITE == 'lgbdropthet.com':
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
-	#FEATURES['REPOST_DETECTION'] = False
-
-if SITE == 'deuxrama.net':
-	PERMS['HOLE_CREATE'] = 3
-	PERMS['CONTENT_THREADS'] = 2
+	FEATURES['REPOST_DETECTION'] = False
 
 bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, BASEDBOT_ID}
 
