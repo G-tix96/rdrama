@@ -57,5 +57,5 @@ def inject_constants():
 			"HOLE_NAME": HOLE_NAME, "HOLE_STYLE_FLAIR": HOLE_STYLE_FLAIR, "HOLE_REQUIRED": HOLE_REQUIRED,
 			"LOTTERY_ENABLED": LOTTERY_ENABLED, "GUMROAD_LINK": GUMROAD_LINK,
 			"DEFAULT_THEME": DEFAULT_THEME, "DESCRIPTION": DESCRIPTION,
-			"has_sidebar": has_sidebar, "has_logo": has_logo,
+			"has_sidebar": has_sidebar, "has_logo": has_logo, "has_app": has_app,
 			"FP": FP, "NOTIF_MODACTION_JL_MIN": NOTIF_MODACTION_JL_MIN}
