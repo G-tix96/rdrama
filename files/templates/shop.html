@@ -6,10 +6,6 @@
 	}[SITE_NAME]
 -%}
 
-<button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-html="true" title="<img src='/i/chest.webp' width='20'>">
-	Tooltip with HTML
-  </button>
-
 {% block title %}
 <title>Shop</title>
 {% endblock %}
@@ -31,6 +27,12 @@
 {% endblock %}
 
 {% block content %}
+	<style>
+		#buy1, #buy1-go, #buy2, #buy2-go {
+			display: flex;
+		}
+	</style>
+
 	{% if error %}
 	<div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
 		<i class="fas fa-exclamation-circle my-auto"></i>
@@ -83,9 +85,15 @@
 				<td class="shop-table-owned">{{a['owned']}}</td>
 				{% set kind = a['kind'] %}
 				<td class="shop-table-actions">
-					{% if a['kind'] != "benefactor" %}<a class="d-flex btn btn-success {% if v.coins < a['price'] %}disabled{% endif %}" role="button" onclick="post_toast(this,'/buy/{{kind}}')"><span class="m-auto">Buy</span></a>{% endif %}
+					{% if a['kind'] != "benefactor" %}
+						<a id="buy1" class="btn btn-success {% if v.coins < a['price'] %}disabled{% endif %}" role="button" onclick="this.classList.add('d-none');document.getElementById('buy1-go').classList.remove('d-none')"><span class="m-auto">Buy</span></a>
+						<a id="buy1-go" class="d-none btn btn-success {% if v.coins < a['price'] %}disabled{% endif %}" role="button" onclick="post_toast(this,'/buy/{{kind}}')"><span class="m-auto">Are you sure?</span></a>
+					{% endif %}
 					{% if FEATURES['PROCOINS'] %}
-						{% if a['kind'] != "grass" %}<a class="d-flex marseybux btn btn-success {% if v.procoins < a['price'] %}disabled{% endif %}" role="button" onclick="post_toast(this,'/buy/{{kind}}?mb=true')"><span class="m-auto">Buy with MBux</span></a>{% endif %}
+						{% if a['kind'] != "grass" %}
+							<a id="buy2" class="marseybux btn btn-success {% if v.procoins < a['price'] %}disabled{% endif %}" role="button" onclick="this.classList.add('d-none');document.getElementById('buy2-go').classList.remove('d-none')""><span class="m-auto">Buy with MBux</span></a>
+							<a id="buy2-go" class="d-none marseybux btn btn-success {% if v.procoins < a['price'] %}disabled{% endif %}" role="button" onclick="post_toast(this,'/buy/{{kind}}?mb=true')"><span class="m-auto">Are you sure?</span></a>
+						{% endif %}
 					{% endif %}
 				</td>
 				<td class="shop-table-description">{{a['description']}}</td>
