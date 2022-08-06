@@ -3745,7 +3745,7 @@ small, .small {
 .modal .comment-actions .list-group-item {
 	border: none;
 	border-radius: 0.35rem;
-	background-color: var(--gray-400);
+	background-color: var(--light);
 }
 .modal .comment-actions .list-group-item:focus, .modal .comment-actions .list-group-item:hover {
 	background-color: var(--gray-300) !important;
