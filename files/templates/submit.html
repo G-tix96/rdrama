@@ -3,27 +3,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<script src="{{asset('js/bootstrap.js')}}"></script>
+
 	<meta name="description" content="{{DESCRIPTION}}">
-		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
+	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
 
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-		<meta name="author" content="">
-		<link rel="icon" type="image/webp" href="{{asset_siteimg('icon.webp')}}">
+	<meta name="author" content="">
+	<link rel="icon" type="image/webp" href="{{asset_siteimg('icon.webp')}}">
 
-		{% if SITE == 'pcmemes.net' %}
-			{% set cc='Splash Mountain' %}
-		{% else %}
-			{% set cc='Country Club' %}
-		{% endif %}
+	{% if SITE == 'pcmemes.net' %}
+		{% set cc='Splash Mountain' %}
+	{% else %}
+		{% set cc='Country Club' %}
+	{% endif %}
 
-		{% block title %}
+	{% block title %}
 		<title>Create a post - {{SITE_NAME}}</title>
-		{% endblock %}
+	{% endblock %}
 
-		
-		{% block stylesheets %}
+	{% block stylesheets %}
 		{% if v %}
 			<style>:root{--primary:#{{v.themecolor}}}</style>
 			<link rel="stylesheet" href="{{asset('css/main.css')}}">
@@ -56,7 +57,8 @@
 			<link rel="stylesheet" href="{{asset('css/main.css')}}">
 			<link rel="stylesheet" href="/assets/css/{{DEFAULT_THEME}}.css?v=49">
 		{% endif %}
-		{% endblock %}
+	{% endblock %}
+</head>
 
 <body id="submit" {% if SITE_NAME == 'rDrama' and v and (v.is_banned or v.agendaposter) %}style="overflow-x: hidden;background:url(/assets/images/backgrounds/anime/1.webp?v=3) center center fixed; background-color: var(--background)"{% elif v and v.background %}style="overflow-x: hidden;  background:url(/assets/images/backgrounds/{{v.background}}?v=3) center center fixed; background-color: var(--background)display: block{% if 'anime' not in v.background %};background-size: cover{% endif %}"{% endif %}>
 
@@ -226,7 +228,6 @@
 			</script>
 		{% endif %}
 
-		<script src="{{asset('js/bootstrap.js')}}"></script>
 		<script src="{{asset('js/marked.js')}}"></script>
 		<script src="{{asset('js/formatting.js')}}"></script>
 		<script src="{{asset('js/submit.js')}}"></script>
