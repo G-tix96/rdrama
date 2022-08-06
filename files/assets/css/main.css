@@ -4683,7 +4683,8 @@ blockquote p {
 		margin: 1.75rem auto !important;
 }
 }
-.in-comment-image:not(img[src*="/uid/"]):not(img[src*="/pp/"]), .img:not(img[src*="/uid/"]):not(img[src*="/pp/"]), img[alt^="![]("], .preview img:not(img[src$="/pic"]):not(img[src="/i/hand.webp"]) {
+.in-comment-image, .img, img[alt^="![]("],
+.preview img:not(img[src*="/uid/"]):not(img[src*="/pp/"]):not(img[src$="/pic"]):not(img[src="/i/hand.webp"]):not(img[src*="/e/"]) {
 	max-height: 150px !important;
 	max-width: 100% !important;
 	border-radius: 0.2rem !important;
