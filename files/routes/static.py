@@ -419,3 +419,15 @@ def knowledgebase(v, page):
 		abort(404)
 
 	return render_template(template_path, v=v)
+
+@app.get("/categories.json")
+def categories_json():
+	categories = g.db.query(Category).all()
+
+	data = {}
+	for c in categories:
+		sub = c.sub if c.sub else ''
+		sub_cats = (data[sub] if sub in data else []) + [c.as_json()]
+		data.update({sub: sub_cats})
+
+	return jsonify(data)

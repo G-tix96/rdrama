@@ -1426,6 +1426,85 @@ def admin_toggle_ban_domain(v):
 
 	return redirect("/admin/banned_domains/")
 
+@app.get("/admin/categories")
+@admin_level_required(PERMS['ADMIN_CATEGORIES_MANAGE'])
+def admin_categories(v):
+	if not FEATURES['CATEGORIES']:
+		abort(404)
+
+	categories = g.db.query(Category).order_by(nullsfirst(Category.sub), Category.name).all()
+	return render_template("admin/categories.html", v=v, categories=categories)
+
+@app.post("/admin/categories/add")
+@admin_level_required(PERMS['ADMIN_CATEGORIES_MANAGE'])
+def admin_categories_add(v):
+	if not FEATURES['CATEGORIES']:
+		abort(404)
+
+	cat_name = request.values.get("name").strip()
+	cat_sub = request.values.get("sub").strip().lower()
+	cat_color_text = request.values.get("color_text").strip().strip('#').lower()
+	cat_color_bg = request.values.get("color_bg").strip().strip('#').lower()
+
+	if cat_sub == '':
+		cat_sub = None
+
+	cat = Category(
+		name=cat_name,
+		sub=cat_sub,
+		color_text=cat_color_text,
+		color_bg=cat_color_bg
+	)
+
+	g.db.add(cat)
+	g.db.commit()
+
+	return redirect("/admin/categories")
+
+@app.post("/admin/categories/update/<cid>")
+@admin_level_required(PERMS['ADMIN_CATEGORIES_MANAGE'])
+def admin_categories_update(v, cid):
+	if not FEATURES['CATEGORIES']:
+		abort(404)
+
+	cat_name = request.values.get("name").strip()
+	cat_color_text = request.values.get("color_text").strip().strip('#').lower()
+	cat_color_bg = request.values.get("color_bg").strip().strip('#').lower()
+
+	try:
+		cat_id = int(cid)
+	except:
+		abort(400)
+
+	cat = g.db.query(Category).filter(Category.id == cat_id).one_or_none()
+	if not cat:
+		abort(400)
+
+	cat.name = cat_name
+	cat.color_text = cat_color_text
+	cat.color_bg = cat_color_bg
+
+	g.db.add(cat)
+	g.db.commit()
+
+	return redirect("/admin/categories")
+
+@app.post("/admin/categories/delete/<cid>")
+@admin_level_required(PERMS['ADMIN_CATEGORIES_MANAGE'])
+def admin_categories_delete(v, cid):
+	if not FEATURES['CATEGORIES']:
+		abort(404)
+
+	try:
+		cat_id = int(cid)
+	except:
+		abort(400)
+
+	cat = g.db.query(Category).filter(Category.id == cat_id).one_or_none()
+	g.db.delete(cat)
+	g.db.commit()
+
+	return redirect("/admin/categories")
 
 @app.post("/admin/nuke_user")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")

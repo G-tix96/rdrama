@@ -132,6 +132,8 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 ################################################################################
 
 PERMS = { # Minimum admin_level to perform action.
+	'ADMIN_CATEGORIES_CHANGE': 2, # change category on post ("recategorize")
+	'ADMIN_CATEGORIES_MANAGE': 3, # create/update/delete categories
 	'HOLE_CREATE': 0,
 	'CONTENT_THREADS': 3,
 	'FLAGS_VISIBLE': 0,
@@ -146,6 +148,7 @@ PERMS = { # Minimum admin_level to perform action.
 FEATURES = {
 	'PROCOINS': True,
 	'AWARDS': True,
+	'CATEGORIES': False,
 	'CHAT': True,
 	'PINS': True,
 	'COUNTRY_CLUB': True,
@@ -340,6 +343,7 @@ elif SITE == 'lgbdropthet.com':
 
 	FEATURES['PROCOINS'] = False
 	FEATURES['AWARDS'] = False
+	FEATURES['CATEGORIES'] = True
 	FEATURES['CHAT'] = False
 	FEATURES['COUNTRY_CLUB'] = False
 	FEATURES['BADGES'] = False
