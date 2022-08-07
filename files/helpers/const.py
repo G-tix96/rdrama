@@ -100,6 +100,20 @@ if SITE_NAME == 'rDrama':
 		" pedo ": " libertarian ",
 		" pedos ": " libertarians ",
 	}
+elif SITE_NAME == 'WPD':
+	SLURS = {
+		"nigger": "BIPOC",
+		"niglet": "young BIPOC",
+		"faggot": "cute twink",
+		"fag": "cute twink",
+		"spic ": "hard-working American ",
+		"tranny": "valid woman",
+		"trannie": "valid woman",
+		"dyke": "cute lesbian",
+		"gook": "superior IQ Asian",
+		"kike": "jewish chad",
+		"daisy's destruction": "Cars 2",
+	}
 else:
 	SLURS = {
 		"faggot": "cute twink",
