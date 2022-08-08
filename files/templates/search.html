@@ -9,8 +9,8 @@
 {% block PseudoSubmitForm %}{% endblock %}
 
 {% block navbar %}
-	<form class="form-inline search flex-nowrap mx-0 mx-lg-auto" action="/search/posts" method="get">
-		<input autocomplete="off" class="form-control w-100" type="search" placeholder="Search" aria-label="Search" name="q" value="asd">
+	<form class="form-inline search flex-nowrap mx-0 mx-lg-auto" action="/search/{% if '/posts' in request.path %}posts{% elif '/comments' in request.path %}comments{% else %}users{% endif %}" method="get" style="padding-top:42px">
+		<input autocomplete="off" class="form-control w-100" type="search" placeholder="Search" aria-label="Search" name="q" value="{{query}}">
 		<span class="input-group-append">
 			<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem;">
 				<i class="fa fa-search" aria-hidden="true"></i>
