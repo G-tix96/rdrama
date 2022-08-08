@@ -48,16 +48,19 @@ def searchposts(v):
 
 	criteria=searchparse(query)
 
-
-
-	posts = g.db.query(Submission.id).filter(Submission.author_id.notin_(v.userblocks))
+	posts = g.db.query(Submission.id) \
+				.join(Submission.author) \
+				.filter(Submission.author_id.notin_(v.userblocks))
 	
-	if not v.paid_dues: posts = posts.filter_by(club=False)
+	if not v.paid_dues:
+		posts = posts.filter(Submission.club == False)
 	
 	if v.admin_level < 2:
-		posts = posts.filter(Submission.deleted_utc == 0, Submission.is_banned == False, Submission.private == False)
-
-
+		posts = posts.filter(
+			Submission.deleted_utc == 0,
+			Submission.is_banned == False,
+			Submission.private == False,
+			User.shadowbanned == None)
 
 	if 'author' in criteria:
 		posts = posts.filter(Submission.ghost == False)
@@ -239,6 +242,9 @@ def searchusers(v):
 		)
 	)
 	
+	if v.admin_level < 2:
+		users = users.filter(User.shadowbanned == None)
+
 	users=users.order_by(User.username.ilike(term).desc(), User.stored_subscriber_count.desc())
 	
 	total=users.count()

@@ -225,11 +225,18 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	post.views += 1
 	g.db.add(post)
-	if request.headers.get("Authorization"): return post.json
-	else:
-		if post.is_banned and not (v and (v.admin_level > 1 or post.author_id == v.id)): template = "submission_banned.html"
-		else: template = "submission.html"
-		return render_template(template, v=v, p=post, ids=list(ids), sort=sort, render_replies=True, offset=offset, sub=post.subr, fart=app.config['SETTINGS']['Fart mode'])
+
+	if request.headers.get("Authorization"):
+		return post.json
+
+	template = "submission.html"
+	if (post.is_banned or post.author.shadowbanned) \
+			and not (v and (v.admin_level >= 2 or post.author_id == v.id)):
+		template = "submission_banned.html"
+
+	return render_template(template, v=v, p=post, ids=list(ids),
+		sort=sort, render_replies=True, offset=offset, sub=post.subr,
+		fart=app.config['SETTINGS']['Fart mode'])
 
 @app.get("/viewmore/<pid>/<sort>/<offset>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
