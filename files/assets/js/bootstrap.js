@@ -178,7 +178,9 @@ if (document.readyState === "complete" ||
 }
 
 function post_toast(t, url, button1, button2, classname) {
-	if (t.id != "buy1-go" && t.id != "buy2-go")
+	let isShopConfirm = t.id.startsWith('buy1-go') || t.id.startsWith('buy2-go');
+
+	if (!isShopConfirm)
 	{
 		t.disabled = true;
 		t.classList.add("disabled");
@@ -212,7 +214,7 @@ function post_toast(t, url, button1, button2, classname) {
 			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
 			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
 		}
-		if (t.id != "buy1-go" && t.id != "buy2-go")
+		if (!isShopConfirm)
 		{
 			setTimeout(() => {
 				t.disabled = false;

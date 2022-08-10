@@ -5274,6 +5274,10 @@ li > .sidebar {
 	width: 13rem;
 }
 
+.shop-table-actions a {
+	display: flex;
+}
+
 .userbanner {
 	object-fit: cover !important;
 }
