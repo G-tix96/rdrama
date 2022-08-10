@@ -214,7 +214,7 @@ def with_sigalrm_timeout(timeout: int):
 
 
 @with_sigalrm_timeout(2)
-def sanitize(sanitized, edit=False, limit_pings=False):
+def sanitize(sanitized, edit=False, limit_pings=False, showmore=True):
 	sanitized = sanitized.strip()
 
 	sanitized = normalize_url(sanitized)
@@ -388,7 +388,7 @@ def sanitize(sanitized, edit=False, limit_pings=False):
 	if '<pre>' not in sanitized:
 		sanitized = sanitized.replace('\n','')
 
-	if len(sanitized) > 5000:
+	if showmore and len(sanitized) > 5000:
 		sanitized = showmore_regex.sub(r'\1<p><button class="showmore" onclick="showmore()">SHOW MORE</button></p><d class="d-none">\2</d>', sanitized)
 
 	return sanitized.strip()
