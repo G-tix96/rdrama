@@ -130,8 +130,8 @@ function expandDesktopImage(url) {
 	e.preventDefault();
 	if (!url)
 	{
-		url = e.target.src
-		if (!url) url = e.target.dataset.src
+		url = e.target.dataset.src
+		if (!url) url = e.target.src
 	}
 	document.getElementById("desktop-expanded-image").src = url.replace("200w_d.webp", "giphy.webp");
 	document.getElementById("desktop-expanded-image-link").href = url;
