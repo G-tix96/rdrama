@@ -61,7 +61,7 @@ def vote_info_get(v, link):
 @limiter.limit("5/second;60/minute;1000/hour;2000/day")
 @limiter.limit("5/second;60/minute;1000/hour;2000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
-def api_vote_post(post_id, new, v):
+def vote_post(post_id, new, v):
 
 	if new == "-1" and DISABLE_DOWNVOTES: return {"error": "forbidden."}, 403
 
@@ -133,7 +133,7 @@ def api_vote_post(post_id, new, v):
 @limiter.limit("5/second;60/minute;1000/hour;2000/day")
 @limiter.limit("5/second;60/minute;1000/hour;2000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
-def api_vote_comment(comment_id, new, v):
+def vote_comment(comment_id, new, v):
 
 	if new == "-1" and DISABLE_DOWNVOTES: return {"error": "forbidden."}, 403
 

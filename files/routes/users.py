@@ -827,7 +827,7 @@ def mfa_qr(secret, v):
 
 
 @app.get("/is_available/<name>")
-def api_is_available(name):
+def is_available(name):
 
 	name=name.strip()
 

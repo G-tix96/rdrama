@@ -8,7 +8,7 @@ from files.__main__ import app
 
 @app.post("/vote/post/option/<option_id>")
 @is_not_permabanned
-def api_vote_option(option_id, v):
+def vote_option(option_id, v):
 
 	option_id = int(option_id)
 
@@ -60,7 +60,7 @@ def option_votes(option_id, v):
 
 @app.post("/vote/comment/option/<option_id>")
 @is_not_permabanned
-def api_vote_option_comment(option_id, v):
+def vote_option_comment(option_id, v):
 
 	option_id = int(option_id)
 

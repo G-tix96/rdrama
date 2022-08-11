@@ -1160,7 +1160,7 @@ def approve_post(post_id, v):
 
 @app.post("/distinguish/<post_id>")
 @admin_level_required(1)
-def api_distinguish_post(post_id, v):
+def distinguish_post(post_id, v):
 
 	post = get_post(post_id)
 
@@ -1297,7 +1297,7 @@ def unsticky_comment(cid, v):
 @app.post("/remove_comment/<c_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(2)
-def api_remove_comment(c_id, v):
+def remove_comment(c_id, v):
 
 	comment = get_comment(c_id)
 	if not comment:
@@ -1320,7 +1320,7 @@ def api_remove_comment(c_id, v):
 @app.post("/approve_comment/<c_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(2)
-def api_approve_comment(c_id, v):
+def approve_comment(c_id, v):
 
 	comment = get_comment(c_id)
 	if not comment: abort(404)

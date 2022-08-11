@@ -43,7 +43,7 @@ def send_verification_email(user, email=None):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
-def api_verify_email(v):
+def verify_email(v):
 
 	send_verification_email(v)
 

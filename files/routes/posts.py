@@ -613,7 +613,7 @@ def thumbnail_thread(pid):
 
 
 @app.post("/is_repost")
-def api_is_repost():
+def is_repost():
 	if not FEATURES['REPOST_DETECTION']:
 		return {'permalink': ''}
 
@@ -1240,7 +1240,7 @@ def unsave_post(pid, v):
 
 @app.post("/pin/<post_id>")
 @auth_required
-def api_pin_post(post_id, v):
+def pin_post(post_id, v):
 
 	post = get_post(post_id)
 	if post:
