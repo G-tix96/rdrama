@@ -150,8 +150,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_CATEGORIES_MANAGE': 3, # create/update/delete categories
 	'HOLE_CREATE': 0,
 	'CONTENT_THREADS': 3,
-	'FLAGS_VISIBLE': 0,
-	'FLAGS_VISIBLE_REPORTER': 0,
 	'FLAGS_REMOVE': 2,
 	'VOTES_VISIBLE': 0,
 	'USER_BLOCKS_VISIBLE': 0,
@@ -331,7 +329,6 @@ elif SITE == 'pcmemes.net':
 	LOTTERY_SINK_RATE = -8
 elif SITE == 'watchpeopledie.co':
 	PERMS['HOLE_CREATE'] = 2
-	PERMS['FLAGS_VISIBLE'] = 2
 
 	FEATURES['PROCOINS'] = False
 
@@ -349,7 +346,6 @@ elif SITE == 'watchpeopledie.co':
 	SNAKES_ID = 32
 elif SITE == 'lgbdropthet.com':
 	PERMS['HOLE_CREATE'] = 3
-	PERMS['FLAGS_VISIBLE_REPORTER'] = 2
 	PERMS['VOTES_VISIBLE'] = 2
 	PERMS['USER_BLOCKS_VISIBLE'] = 2
 	PERMS['USER_FOLLOWS_VISIBLE'] = 2
