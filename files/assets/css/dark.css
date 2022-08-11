@@ -82,3 +82,7 @@ pre {
 .modal-content {
     background-color: var(--gray-900);
 }
+
+.modal .comment-actions .list-group-item {
+	background-color: var(--light);
+}

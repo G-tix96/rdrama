@@ -3745,7 +3745,7 @@ small, .small {
 .modal .comment-actions .list-group-item {
 	border: none;
 	border-radius: 0.35rem;
-	background-color: var(--light);
+	background-color: var(--gray-400);
 }
 .modal .comment-actions .list-group-item:focus, .modal .comment-actions .list-group-item:hover {
 	background-color: var(--gray-300) !important;
@@ -6195,4 +6195,8 @@ g {
 	background: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet) !important;
 	background: -webkit-linear-gradient(left, red, orange, yellow, green, blue, indigo, violet ) !important;
 	text-shadow:-1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black !important;
+}
+
+.modal .comment-actions a {
+	font-weight: 600;
 }
