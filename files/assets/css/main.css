@@ -6184,8 +6184,8 @@ g {
 #speed-carot-modal .speed-modal-image
 {
     object-fit: contain;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
 }
 
 #speed-carot-modal .speed-modal-option span
