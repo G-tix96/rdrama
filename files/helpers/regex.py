@@ -21,7 +21,7 @@ marsey_regex = re.compile("[a-z0-9]{1,30}", flags=re.A)
 
 tags_regex = re.compile("[a-z0-9: ]{1,200}", flags=re.A)
 
-valid_sub_regex = re.compile("^[a-zA-Z0-9_\-]{3,20}$", flags=re.A)
+valid_sub_regex = re.compile("^[a-zA-Z0-9_\-]{3,25}$", flags=re.A)
 
 query_regex = re.compile("(\w+):(\S+)", flags=re.A)
 

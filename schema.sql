@@ -713,7 +713,7 @@ ALTER SEQUENCE public.submissions_id_seq OWNED BY public.submissions.id;
 --
 
 CREATE TABLE public.subs (
-    name character varying(20) NOT NULL,
+    name character varying(25) NOT NULL,
     sidebar character varying(10000),
     sidebar_html character varying(20000),
     sidebarurl character varying(60),
