@@ -6074,6 +6074,12 @@ g {
 	border: 2px solid transparent;
 }
 
+@media (max-width: 767.98px) {
+	.pronouns, .patron, .post--category-tag, .mod {
+		padding: 2px 5px !important;
+	}
+}
+
 .post-preview {
 	padding: 11px 14px 0 14px !important;
     margin-bottom: 0.5rem !important;
