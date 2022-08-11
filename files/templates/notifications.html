@@ -156,14 +156,8 @@
 {% endif %}
 <style>
 	.comment {
-		margin-top: 0;
+		margin-top: 1rem;
 	}
-	{% if request.path in ('/notifications', '/notifications/mesages', '/notifications/modmail') %}
-		.unread {
-			margin-bottom: 1rem;
-			margin-top: 1rem;
-		}
-	{% endif %}
 </style>
 {% endblock %}
 
