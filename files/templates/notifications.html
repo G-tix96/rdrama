@@ -158,9 +158,11 @@
 	.comment {
 		margin-top: 0;
 	}
-	.unread {
-		margin-bottom: 1rem;
-	}
+	{% if request.path in ('/notifications/mesages', '/notifications/modmail') %}
+		.unread {
+			margin-bottom: 1rem;
+		}
+	{% endif %}
 </style>
 {% endblock %}
 
