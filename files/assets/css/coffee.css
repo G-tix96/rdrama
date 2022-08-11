@@ -67,7 +67,7 @@ blockquote {
 }
 
 .modal .comment-actions a {
-	color: var(--gray-500);
+	color: var(--black);
 }
 
 .navbar-light .navbar-nav .nav-link .fa, .navbar-light .navbar-nav .nav-link .fas, .navbar-light .navbar-nav .nav-link .far, .navbar-light .navbar-nav .nav-link .fab {
