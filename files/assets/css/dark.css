@@ -82,7 +82,3 @@ pre {
 .modal-content {
     background-color: var(--gray-900);
 }
-
-.comment-anchor:target, .unread {
-    background: #ffffff44 !important;
-}
