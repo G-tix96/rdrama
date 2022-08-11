@@ -168,6 +168,7 @@ FEATURES = {
 	'COUNTRY_CLUB': True,
 	'PRONOUNS': False,
 	'BADGES': True,
+	'HATS': False,
 	'HOUSES': False,
 	'GAMBLING': True,
 	'WORDLE': True,
@@ -241,6 +242,7 @@ GAMBLING_THREAD = 0
 
 if SITE in ('rdrama.net', 'devrama.xyz'):
 	FEATURES['PRONOUNS'] = True
+	FEATURES['HATS'] = True
 	FEATURES['HOUSES'] = True
 
 	SIDEBAR_THREAD = 37696
@@ -389,6 +391,7 @@ elif SITE == 'lgbdropthet.com':
 	GAMBLING_THREAD = 25
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
+	FEATURES['HATS'] = True
 	FEATURES['HOUSES'] = True
 	FEATURES['REPOST_DETECTION'] = False
 

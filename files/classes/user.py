@@ -608,6 +608,27 @@ class User(Base):
 			return self.profileurl
 		return f"{SITE_FULL}/assets/images/default-profile-pic.webp?v=1008"
 
+	@property
+	@lazy
+	def hat_active(self):
+		if not FEATURES['HATS']:
+			return ''
+
+		if self.is_cakeday:
+			return 'cakeday-1'
+		return ''
+
+	@property
+	@lazy
+	def hat_tooltip(self):
+		if not FEATURES['HATS']:
+			return ''
+
+		if self.is_cakeday:
+			return 'I’ve spent another year rotting my brain with dramaposting, ' \
+			     + 'please ridicule me 🤓'
+		return ''
+
 	@lazy
 	def json_popover(self, v):
 		data = {'username': self.username,

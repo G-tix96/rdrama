@@ -199,11 +199,11 @@
 						<a class="nav-link bg-transparent py-0 pr-0" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
 						aria-haspopup="true" aria-expanded="false">
 						<div class="d-flex">
-							<div>
-								<img alt="your profile picture" loading="lazy" src="{{v.profile_url}}" class="profile-pic-35">
-								{% if v.is_cakeday %}
-									<img class="party-hat4" src="/i/party-hat.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title="I’ve spent another year rotting my brain with dramaposting, please ridicule me 🤓">
-								{% endif %}
+							<div class="profile-pic-35-wrapper">
+								<img loading="lazy" src="{{v.profile_url}}" class="profile-pic-35">
+								{% if v.hat_active -%}
+									<img class="profile-pic-35-hat" src="/i/hats/{{v.hat_active}}.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip}}">
+								{%- endif %}
 							</div>
 							<div class="text-left pl-2">
 								<div style="color: #{{v.namecolor}}" class="text-small font-weight-bold" id="header--username"><span {% if v.patron %}class="patron" style="background-color:#{{v.namecolor}}"{% endif %}>{{v.username}}</span></div>
