@@ -850,8 +850,7 @@ def is_available(name):
 		return {name: True}
 
 @app.get("/id/<id>")
-@auth_required
-def user_id(id, v):
+def user_id(id):
 	user = get_account(id)
 	return redirect(user.url)
 		
