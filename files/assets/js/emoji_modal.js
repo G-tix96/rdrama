@@ -409,6 +409,7 @@ function emojiAddToInput(event)
     let e
 
     let current_word = "";
+	let selecting;
     let emoji_index = 0;
 
     function curr_word_is_emoji()
@@ -419,6 +420,8 @@ function emojiAddToInput(event)
 
     function populate_speed_emoji_modal(results, textbox)
     {
+		selecting = true;
+
         if (!results || results.size === 0)
         {
             speed_carot_modal.style.display = "none";
@@ -448,6 +451,7 @@ function emojiAddToInput(event)
 			if (current_word.includes("!")) result = `!${result}`
 
             emoji_option.onclick = (e) => {
+				selecting = false;
                 speed_carot_modal.style.display = "none";
                 textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "g"), `:${result}:`)
 				markdown(textbox)
@@ -510,6 +514,8 @@ function emojiAddToInput(event)
 
     function speed_carot_navigate(e)
     {
+		if (!selecting) return;
+
         let select_items = speed_carot_modal.querySelectorAll(".speed-modal-option");
         if (!select_items || !curr_word_is_emoji()) return false;
         // Up or down arrow or enter
