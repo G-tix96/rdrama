@@ -327,7 +327,8 @@ class Comment(Base):
 					if 'sort' not in p: p['sort'] = ['controversial']
 
 					url_noquery = url.split('?')[0]
-					body = body.replace(url, f"{url_noquery}?{urlencode(p, True)}")
+					body = body.replace(f'"{url}"', f'"{url_noquery}?{urlencode(p, True)}"')
+					body = body.replace(f'>{url}<', f'>{url_noquery}?{urlencode(p, True)}<')
 
 			if v and v.shadowbanned and v.id == self.author_id and 86400 > time.time() - self.created_utc > 60:
 				ti = max(int((time.time() - self.created_utc)/60), 1)
