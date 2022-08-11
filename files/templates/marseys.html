@@ -11,7 +11,7 @@
 		<th>Name</th>
 		<th>Marsey</th>
 		<th><a href="?sort=usage">Usage</a></th>
-		{% if SITE in ('rdrama.net','devrama.xyz','deuxrama.net') %}<th><a href="?sort=author">Author</a></th>{% endif %}
+		{% if SITE in ('rdrama.net','devrama.xyz') %}<th><a href="?sort=author">Author</a></th>{% endif %}
 	</tr>
 </thead>
 <tbody id="followers-table">
@@ -21,7 +21,7 @@
 		<td>{{marsey.name}}</td>
 		<td><img class="marsey" loading="lazy" data-bs-toggle="tooltip" alt=":#{{marsey.name}}:" title=":{{marsey.name}}:" src="/e/{{marsey.name}}.webp"></td>
 		<td>{{marsey.count}}</td>
-		{% if SITE in ('rdrama.net','devrama.xyz','deuxrama.net') %}
+		{% if SITE in ('rdrama.net','devrama.xyz') %}
 			<td><a style="color:#{{author.namecolor}};font-weight:bold" href="/@{{author.username}}"><img loading="lazy" src="{{author.profile_url}}" class="pp20"><span {% if author.patron %}class="patron" style="background-color:#{{author.namecolor}}"{% endif %}>{{author.username}}</span></a></td>
 		{% endif %}
 	</tr>
