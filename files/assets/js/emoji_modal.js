@@ -409,7 +409,7 @@ function emojiAddToInput(event)
     let e
 
     let current_word = "";
-    let emojo_index = 0;
+    let emoji_index = 0;
 
     function curr_word_is_emoji()
     {
@@ -425,7 +425,7 @@ function emojiAddToInput(event)
             return -1;
         }
 
-        emojo_index = 0;
+        emoji_index = 0;
         speed_carot_modal.innerHTML = "";
         const MAXXX = 25;
         // Not sure why the results is a Set... but oh well
@@ -512,29 +512,29 @@ function emojiAddToInput(event)
         // Up or down arrow or enter
         if (e.keyCode == 38 || e.keyCode == 40 || e.keyCode == 13)
         {
-            if (emojo_index > select_items.length)
-                emojo_index = select_items;
+            if (emoji_index > select_items.length)
+                emoji_index = select_items;
             
-            select_items[emojo_index].classList.remove("selected");
+            select_items[emoji_index].classList.remove("selected");
             switch (e.keyCode)
             {
                 case 38: // Up arrow
-                if (emojo_index)
-                    emojo_index--;
+                if (emoji_index)
+                    emoji_index--;
                 break;
                 
                 case 40: // Down arrow
-                if (emojo_index < select_items.length-1) emojo_index++;
+                if (emoji_index < select_items.length-1) emoji_index++;
                 break;
 
                 case 13:
-                select_items[emojo_index].click();
+                select_items[emoji_index].click();
                 
                 default:
                 break;
             }
 
-            select_items[emojo_index].classList.add("selected");
+            select_items[emoji_index].classList.add("selected");
             e.preventDefault();
         }
     }
