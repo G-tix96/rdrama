@@ -215,7 +215,6 @@ SNAKES_ID = 0
 HOMO_ID = 0
 SOREN_ID = 0
 LAWLZ_ID = 0
-LLM_ID = 0
 DAD_ID = 0
 MOM_ID = 0
 DONGER_ID = 0
@@ -283,7 +282,6 @@ if SITE in {'rdrama.net', 'devrama.xyz', 'deuxrama.net'}:
 	HOMO_ID = 147
 	SOREN_ID = 2546
 	LAWLZ_ID = 3833
-	LLM_ID = 253
 	DAD_ID = 2513
 	MOM_ID = 4588
 	DONGER_ID = 541
@@ -845,10 +843,6 @@ NOTIFIED_USERS = {
 	'carp': CARP_ID,
 	'idio3': IDIO_ID,
 	'idio ': IDIO_ID,
-	'landlord_messiah': LLM_ID,
-	'landlordmessiah': LLM_ID,
-	' llm ': LLM_ID,
-	'landlet': LLM_ID,
 	'dong': DONGER_ID,
 	'kippy': KIPPY_ID,
 	'the_homocracy': HOMO_ID,
