@@ -923,11 +923,15 @@ def unsave_comment(cid, v):
 	return {"message": "Comment unsaved!"}
 
 @app.post("/blackjack/<cid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@limiter.limit("1/second;30/minute;200/hour;2500/day")
+@limiter.limit("1/second;30/minute;200/hour;2500/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def handle_blackjack_action(cid, v):
 	comment = get_comment(cid)
+
+	if v.id != comment.author_id:
+		abort(403)
+
 	if 'active' in comment.blackjack_result:
 		try: action = request.values.get("thing").strip().lower()
 		except: abort(400)
