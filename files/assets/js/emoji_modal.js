@@ -447,6 +447,7 @@ function emojiAddToInput(event)
             emoji_option.onclick = (e) => {
                 speed_carot_modal.style.display = "none";
                 textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "g"), `:${result}:`)
+				markdown(textbox)
             };
             // Pack
             emoji_option.appendChild(emoji_option_img);

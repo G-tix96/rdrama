@@ -31,8 +31,8 @@ marked.use({
 
 const reDisableBeforeUnload = /^\/submit|^\/h\/[a-zA-Z0-9_\-]{3,20}\/submit/;
 
-function markdown(first, second, dialog) {
-	let input = document.getElementById(first).value;
+function markdown(t) {
+	let input = t.value;
 
 	if (!reDisableBeforeUnload.test(location.pathname))
 	{
@@ -96,7 +96,8 @@ function markdown(first, second, dialog) {
 	
 	input = marked(input)
 	input = input.replace(/\n\n/g, '<br>')
-	document.getElementById(second).innerHTML = input
+
+	document.getElementById(t.dataset.preview).innerHTML = input
 }
 
 function charLimit(form, text) {
