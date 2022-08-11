@@ -974,6 +974,9 @@ def handle_wordle_action(cid, v):
 
 	comment = get_comment(cid)
 
+	if v.id != comment.author_id:
+		abort(403)
+
 	guesses, status, answer = comment.wordle_result.split("_")
 	count = len(guesses.split(" -> "))
 
