@@ -301,14 +301,13 @@ def comment(v):
 
 	is_bot = v.id != 12125 and (bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
 
-	if '!slots' not in body.lower() and '!blackjack' not in body.lower() and '!wordle' not in body.lower() and parent_post.id not in ADMIGGERS and not is_bot and not v.marseyawarded and AGENDAPOSTER_PHRASE not in body.lower() and len(body) > 10:
+	if len(body) > 50:
 		now = int(time.time())
 		cutoff = now - 60 * 60 * 24
 
 		similar_comments = g.db.query(Comment).filter(
 			Comment.author_id == v.id,
-			Comment.body.op(
-				'<->')(body) < COMMENT_SPAM_SIMILAR_THRESHOLD,
+			Comment.body.op('<->')(body) < COMMENT_SPAM_SIMILAR_THRESHOLD,
 			Comment.created_utc > cutoff
 		).all()
 
@@ -674,15 +673,14 @@ def edit_comment(cid, v):
 			)
 			g.db.add(option)
 
-		if '!slots' not in body.lower() and '!blackjack' not in body.lower() and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
+		if len(body) > 50:
 			now = int(time.time())
 			cutoff = now - 60 * 60 * 24
 
 			similar_comments = g.db.query(Comment
 			).filter(
 				Comment.author_id == v.id,
-				Comment.body.op(
-					'<->')(body) < SPAM_SIMILARITY_THRESHOLD,
+				Comment.body.op('<->')(body) < SPAM_SIMILARITY_THRESHOLD,
 				Comment.created_utc > cutoff
 			).all()
 
