@@ -444,6 +444,9 @@ function emojiAddToInput(event)
             emoji_option_text.title = result;
             emoji_option_text.innerText = result;
 
+			if (current_word.includes("#")) result = `#${result}`
+			if (current_word.includes("!")) result = `!${result}`
+
             emoji_option.onclick = (e) => {
                 speed_carot_modal.style.display = "none";
                 textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "g"), `:${result}:`)
@@ -497,7 +500,7 @@ function emojiAddToInput(event)
             speed_carot_modal.style.top = modal_pos.y + box_coords.y + 14 + "px";
             
             // Do the search (and do something with it)
-            populate_speed_emoji_modal(emojisSearchDictionary.searchFor(current_word.substr(1)), event.target);
+            populate_speed_emoji_modal(emojisSearchDictionary.searchFor(current_word.substr(1).replace(/#/g, "").replace(/!/g, "")), event.target);
 
         }
         else {
