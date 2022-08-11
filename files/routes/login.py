@@ -157,69 +157,6 @@ def on_login(account, redir=None):
 
 	check_for_alts(account.id)
 
-@app.get("/loginshared/auth/<site_for>")
-@auth_required
-def loginshared_authenticate(v, site_for):
-	# Despite providing an interface for general site_for for forward-compat,
-	# loginshared_* is only designed at present for login on Deux using rDrama.
-	if not (SITE == 'rdrama.net' and site_for == 'deuxrama.net'):
-		abort(403)
-
-	# Kludge to prevent accounts created after the DB seeding (on either site)
-	# from being improperly logged into. The only account matching we have is
-	# based on user_id, which isn't guaranteed identical post-seeding.
-	if v.id > 12335:
-		abort(500)
-
-	token = loginshared_secret_token(site_for, v.id)
-
-	# Must be https! Downgrading security leaks secrets in query string.
-	redirect_url = f'https://deuxrama.net/loginshared/verify/' \
-				 + f'rdrama.net/{v.id}/{token}'
-	return redirect(redirect_url)
-
-@app.get("/loginshared/secret/<site_for>/<user_id>")
-@auth_trusted_server
-def loginshared_secret(site_for, user_id):
-	if not (SITE == 'rdrama.net' and site_for == 'deuxrama.net'):
-		abort(403)
-
-	return loginshared_secret_token(site_for, user_id)
-
-def loginshared_secret_token(site_for, user_id):
-	cache_key = f'loginshared_secret_token:{site_for}:{user_id}'
-
-	token = cache.get(cache_key)
-	if token is None:
-		token = secrets.token_urlsafe(32)
-		cache.set(cache_key, token, timeout=15)
-
-	return token
-
-@app.get("/loginshared/verify/<site_from>/<user_id>/<token>")
-def loginshared_verify(site_from, user_id, token):
-	if not TRUSTED_SERVER_PSK:
-		abort(403)
-	if not (SITE == 'deuxrama.net' and site_from == 'rdrama.net'):
-		abort(403)
-
-	provider_url = f'https://rdrama.net/loginshared/secret/deuxrama.net/{user_id}'
-	provider_auth = f'TrustedServer {TRUSTED_SERVER_PSK}'
-	provider_resp = requests.get(provider_url,
-						headers={'Authorization': provider_auth},
-						timeout=5)
-	if provider_resp.status_code != 200:
-		abort(500)
-
-	if provider_resp.text != token:
-		time.sleep(random.uniform(0, 2))
-		return render_template("login.html", failed=True)
-
-	account = get_account(user_id)
-	on_login(account)
-
-	return redirect('/')
-
 @app.get("/me")
 @app.get("/@me")
 @auth_required
