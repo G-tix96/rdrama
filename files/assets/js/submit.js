@@ -1,17 +1,17 @@
-document.getElementById('post-title').value = localStorage.getItem("post_title")
-document.getElementById('post-text').value = localStorage.getItem("post_text")
-document.getElementById('post-url').value = localStorage.getItem("post_url")
+const title = document.getElementById("post-title");
+const text = document.getElementById("post-text");
+const url = document.getElementById("post-url");
+const button = document.getElementById("create_button");
+const image = document.getElementById("file-upload");
+const image2 = document.getElementById("file-upload-submit");
 
-markdown('post-text','preview');
+title.value = localStorage.getItem("post_title")
+text.value = localStorage.getItem("post_text")
+url.value = localStorage.getItem("post_url")
+
+markdown(text);
 
 function checkForRequired() {
-	const title = document.getElementById("post-title");
-	const url = document.getElementById("post-url");
-	const text = document.getElementById("post-text");
-	const button = document.getElementById("create_button");
-	const image = document.getElementById("file-upload");
-	const image2 = document.getElementById("file-upload-submit");
-
 	if (url.value.length > 0 || image.files.length > 0 || image2.files.length > 0) {
 		text.required = false;
 		url.required=false;
