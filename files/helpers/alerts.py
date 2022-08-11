@@ -113,6 +113,9 @@ if PUSHER_ID != 'blahblahblah':
 	beams_client = PushNotifications(instance_id=PUSHER_ID, secret_key=PUSHER_KEY)
 
 	def pusher_thread(interests, title, notifbody, url):
+		title = censor_slurs(title)
+		notifbody = censor_slurs(body)
+
 		beams_client.publish_to_interests(
 			interests=[interests],
 			publish_body={
