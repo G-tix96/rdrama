@@ -101,7 +101,8 @@ CREATE TABLE public.submissions (
     ghost boolean DEFAULT false NOT NULL,
     sub character varying(20),
     new boolean,
-    hole_pinned character varying(30)
+    hole_pinned character varying(30),
+    category_id integer
 );
 
 
@@ -218,6 +219,39 @@ CREATE TABLE public.banneddomains (
     domain character varying(100) NOT NULL,
     reason character varying(100) NOT NULL
 );
+
+
+--
+-- Name: category; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.category (
+    id integer NOT NULL,
+    name character varying(128) NOT NULL,
+    sub character varying(20),
+    color_text character(6),
+    color_bg character(6)
+);
+
+
+--
+-- Name: category_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.category_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: category_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.category_id_seq OWNED BY public.category.id;
 
 
 --
@@ -874,6 +908,13 @@ ALTER TABLE ONLY public.badge_defs ALTER COLUMN id SET DEFAULT nextval('public.b
 
 
 --
+-- Name: category id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.category ALTER COLUMN id SET DEFAULT nextval('public.category_id_seq'::regclass);
+
+
+--
 -- Name: comments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -961,6 +1002,22 @@ ALTER TABLE ONLY public.badge_defs
 
 ALTER TABLE ONLY public.badges
     ADD CONSTRAINT badges_pkey PRIMARY KEY (user_id, badge_id);
+
+
+--
+-- Name: category category_name_sub_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.category
+    ADD CONSTRAINT category_name_sub_key UNIQUE (name, sub);
+
+
+--
+-- Name: category category_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.category
+    ADD CONSTRAINT category_pkey PRIMARY KEY (id);
 
 
 --
@@ -1811,6 +1868,14 @@ ALTER TABLE ONLY public.userblocks
 
 
 --
+-- Name: category category_sub_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.category
+    ADD CONSTRAINT category_sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name);
+
+
+--
 -- Name: client_auths client_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2120,6 +2185,14 @@ ALTER TABLE ONLY public.submissions
 
 ALTER TABLE ONLY public.submissions
     ADD CONSTRAINT submissions_author_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
+
+
+--
+-- Name: submissions submissions_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.submissions
+    ADD CONSTRAINT submissions_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.category(id) ON DELETE SET NULL;
 
 
 --

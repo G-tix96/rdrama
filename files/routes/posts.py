@@ -225,11 +225,18 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	post.views += 1
 	g.db.add(post)
-	if request.headers.get("Authorization"): return post.json
-	else:
-		if post.is_banned and not (v and (v.admin_level > 1 or post.author_id == v.id)): template = "submission_banned.html"
-		else: template = "submission.html"
-		return render_template(template, v=v, p=post, ids=list(ids), sort=sort, render_replies=True, offset=offset, sub=post.subr, fart=app.config['SETTINGS']['Fart mode'])
+
+	if request.headers.get("Authorization"):
+		return post.json
+
+	template = "submission.html"
+	if (post.is_banned or post.author.shadowbanned) \
+			and not (v and (v.admin_level >= 2 or post.author_id == v.id)):
+		template = "submission_banned.html"
+
+	return render_template(template, v=v, p=post, ids=list(ids),
+		sort=sort, render_replies=True, offset=offset, sub=post.subr,
+		fart=app.config['SETTINGS']['Fart mode'])
 
 @app.get("/viewmore/<pid>/<sort>/<offset>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -432,7 +439,7 @@ def edit_post(pid, v):
 			g.db.add(option)
 
 
-		body_html = sanitize(body, edit=True, limit_pings=True)
+		body_html = sanitize(body, edit=True, limit_pings=True, showmore=False)
 
 		if v.id == p.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
 			return {"error":"You can only type marseys!"}, 403
@@ -697,6 +704,14 @@ def submit_post(v, sub=None):
 	if not sub and HOLE_REQUIRED:
 		return error(f"You must choose a {HOLE_NAME} for your post!")
 
+	category = None
+	if FEATURES['CATEGORIES']:
+		category_id = request.values.get('category', '')
+		try:
+			category = int(category_id)
+		except:
+			category = None
+
 	if v.is_suspended: return error("You can't perform this action while banned.")
 	
 	if v.agendaposter and not v.marseyawarded: title = torture_ap(title, v.username)
@@ -875,7 +890,7 @@ def submit_post(v, sub=None):
 
 	body = body.strip()
 
-	body_html = sanitize(body, limit_pings=True)
+	body_html = sanitize(body, limit_pings=True, showmore=False)
 
 	if v.marseyawarded and marseyaward_body_regex.search(body_html):
 		return error("You can only type marseys!")
@@ -912,6 +927,7 @@ def submit_post(v, sub=None):
 		title=title[:500],
 		title_html=title_html,
 		sub=sub,
+		category_id=category,
 		ghost=ghost
 	)
 
@@ -1206,6 +1222,42 @@ def toggle_post_nsfw(pid, v):
 
 	if post.over_18: return {"message": "Post has been marked as +18!"}
 	else: return {"message": "Post has been unmarked as +18!"}
+
+@app.post("/post_recategorize")
+@auth_required
+def post_recategorize(v):
+	if not FEATURES['CATEGORIES']:
+		abort(404)
+	if v.admin_level < PERMS['ADMIN_CATEGORIES_CHANGE']:
+		abort(403)
+
+	post_id = request.values.get("post_id")
+	category_id = request.values.get("category_id")
+	try:
+		pid = int(post_id)
+		cid = None
+		if category_id != '':
+			cid = int(category_id)
+	except:
+		abort(400)
+
+	post = g.db.get(Submission, pid)
+	post.category_id = cid
+	g.db.add(post)
+
+	category_new_name = '&lt;none&gt;'
+	if category_id != '':
+		category_new_name = g.db.get(Category, cid).name
+	ma = ModAction(
+		kind='post_recategorize',
+		user_id=v.id,
+		target_submission_id=post.id,
+		_note=category_new_name
+	)
+	g.db.add(ma)
+
+	g.db.commit()
+	return {"message": "Success!"}
 
 @app.post("/save_post/<pid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")

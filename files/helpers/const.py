@@ -100,6 +100,20 @@ if SITE_NAME == 'rDrama':
 		" pedo ": " libertarian ",
 		" pedos ": " libertarians ",
 	}
+elif SITE_NAME == 'WPD':
+	SLURS = {
+		"nigger": "BIPOC",
+		"niglet": "young BIPOC",
+		"faggot": "cute twink",
+		"fag": "cute twink",
+		"spic ": "hard-working American ",
+		"tranny": "valid woman",
+		"trannie": "valid woman",
+		"dyke": "cute lesbian",
+		"gook": "superior IQ Asian",
+		"kike": "jewish chad",
+		"daisy's destruction": "Cars 2",
+	}
 else:
 	SLURS = {
 		"faggot": "cute twink",
@@ -132,6 +146,8 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 ################################################################################
 
 PERMS = { # Minimum admin_level to perform action.
+	'ADMIN_CATEGORIES_CHANGE': 2, # change category on post ("recategorize")
+	'ADMIN_CATEGORIES_MANAGE': 3, # create/update/delete categories
 	'HOLE_CREATE': 0,
 	'CONTENT_THREADS': 3,
 	'FLAGS_VISIBLE': 0,
@@ -146,6 +162,7 @@ PERMS = { # Minimum admin_level to perform action.
 FEATURES = {
 	'PROCOINS': True,
 	'AWARDS': True,
+	'CATEGORIES': False,
 	'CHAT': True,
 	'PINS': True,
 	'COUNTRY_CLUB': True,
@@ -234,7 +251,11 @@ if SITE in ('rdrama.net', 'devrama.xyz'):
 	MARSEY_THREAD = 37838
 	GAMBLING_THREAD = 39413
 elif SITE == 'deuxrama.net':
+	PERMS['HOLE_CREATE'] = 3
+	PERMS['CONTENT_THREADS'] = 2
+
 	FEATURES['PROCOINS'] = False
+
 	SIDEBAR_THREAD = 175
 	BADGE_THREAD = 142
 
@@ -334,7 +355,9 @@ elif SITE == 'lgbdropthet.com':
 	PERMS['USER_FOLLOWS_VISIBLE'] = 2
 	PERMS['USER_VOTERS_VISIBLE'] = 2
 
+	FEATURES['PROCOINS'] = False
 	FEATURES['AWARDS'] = False
+	FEATURES['CATEGORIES'] = True
 	FEATURES['CHAT'] = False
 	FEATURES['COUNTRY_CLUB'] = False
 	FEATURES['BADGES'] = False
@@ -369,11 +392,7 @@ elif SITE == 'lgbdropthet.com':
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
-	#FEATURES['REPOST_DETECTION'] = False
-
-if SITE == 'deuxrama.net':
-	PERMS['HOLE_CREATE'] = 3
-	PERMS['CONTENT_THREADS'] = 2
+	FEATURES['REPOST_DETECTION'] = False
 
 bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, BASEDBOT_ID}
 
@@ -842,6 +861,12 @@ NOTIFIED_USERS = {
 	'geese': GEESE_ID
 }
 
+if SITE_NAME == 'LGBDropTheT':
+	NOTIFIED_USERS.update({
+		'ipd': 12, # Im-Probably-Drinking
+		'@rc ': 15, # reluctant_commenter
+	})
+
 FORTUNE_REPLIES = ('<b style="color:#6023f8">Your fortune: Allah Wills It</b>','<b style="color:#d302a7">Your fortune: Inshallah, Only Good Things Shall Come To Pass</b>','<b style="color:#e7890c">Your fortune: Allah Smiles At You This Day</b>','<b style="color:#7fec11">Your fortune: Your Bussy Is In For A Blasting</b>','<b style="color:#43fd3b">Your fortune: You Will Be Propositioned By A High-Tier Twink</b>','<b style="color:#9d05da">Your fortune: Repent, You Have Displeased Allah And His Vengeance Is Nigh</b>','<b style="color:#f51c6a">Your fortune: Reply Hazy, Try Again</b>','<b style="color:#00cbb0">Your fortune: lmao you just lost 100 coins</b>','<b style="color:#2a56fb">Your fortune: Yikes 😬</b>','<b style="color:#0893e1">Your fortune: You Will Be Blessed With Many Black Bulls</b>','<b style="color:#16f174">Your fortune: NEETmax, The Day Is Lost If You Venture Outside</b>','<b style="color:#fd4d32">Your fortune: A Taste Of Jannah Awaits You Today</b>','<b style="color:#bac200">Your fortune: Watch Your Back</b>','<b style="color:#6023f8">Your fortune: Outlook good</b>','<b style="color:#d302a7">Your fortune: Godly Luck</b>','<b style="color:#e7890c">Your fortune: Good Luck</b>','<b style="color:#7fec11">Your fortune: Bad Luck</b>','<b style="color:#43fd3b">Your fortune: Good news will come to you by mail</b>','<b style="color:#9d05da">Your fortune: Very Bad Luck</b>','<b style="color:#00cbb0">Your fortune: ｷﾀ━━━━━━(ﾟ∀ﾟ)━━━━━━ !!!!</b>','<b style="color:#2a56fb">Your fortune: Better not tell you now</b>','<b style="color:#0893e1">Your fortune: You will meet a dark handsome stranger</b>','<b style="color:#16f174">Your fortune: （　´_ゝ`）ﾌｰﾝ</b>','<b style="color:#fd4d32">Your fortune: Excellent Luck</b>','<b style="color:#bac200">Your fortune: Average Luck</b>')
 
 FACTCHECK_REPLIES = ('<b style="color:#6023f8">Factcheck: This claim has been confirmed as correct by experts. </b>','<b style="color:#d302a7">Factcheck: This claim has been classified as misogynistic.</b>','<b style="color:#e7890c">Factcheck: This claim is currently being debunked.</b>','<b style="color:#7fec11">Factcheck: This claim is 100% true.</b>','<b style="color:#9d05da">Factcheck: This claim hurts trans lives.</b>','<b style="color:#f51c6a">Factcheck: [REDACTED].</b>','<b style="color:#00cbb0">Factcheck: This claim is both true and false.</b>','<b style="color:#2a56fb">Factcheck: You really believe that shit? Lmao dumbass nigga 🤣</b>','<b style="color:#0893e1">Factcheck: None of this is real.</b>','<b style="color:#16f174">Factcheck: Yes.</b>','<b style="color:#fd4d32">Factcheck: This claim has not been approved by experts.</b>','<b style="color:#bac200">Factcheck: This claim is a gross exageration of reality.</b>','<b style="color:#ff2200">Factcheck: WARNING! THIS CLAIM HAS BEEN CLASSIFIED AS DANGEROUS. PLEASE REMAIN STILL, AN AGENT WILL COME TO MEET YOU SHORTLY.</b>')
@@ -1049,5 +1074,6 @@ DISCORD_WELCOME_CHANNEL = "846509313941700618"
 
 has_sidebar = path.exists(f'files/templates/sidebar_{SITE_NAME}.html')
 has_logo = path.exists(f'files/assets/images/{SITE_NAME}/logo.webp')
+has_app = path.exists(f'files/assets/app_{SITE_NAME}_v2.4.apk')
 
 GLOBAL = environ.get("GLOBAL")

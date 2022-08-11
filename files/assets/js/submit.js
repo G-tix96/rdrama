@@ -169,6 +169,31 @@ function checkRepost() {
 	}
 }
 
+function updateCategories() {
+	if (document.getElementById("submit-categories") == null) {
+		return;
+	}
+	sub = document.getElementById("sub").value;
+
+	xhrCategories = new XMLHttpRequest();
+	xhrCategories.open("GET", "/categories.json");
+	xhrCategories.onload = function () {
+		let data;
+		try {
+			data = JSON.parse(xhrCategories.response);
+		} catch(e) { console.log(e) }
+
+		document.getElementById("submit-categories").innerHTML = '';
+		data[sub].forEach(function (c) {
+			document.getElementById("submit-categories").innerHTML += 
+				`<input type="radio" id="category-${c.id}" name="category" value="${c.id}">` +
+				`<label for="category-${c.id}" class="post--category-tag" ` +
+					`style="color:${c.color_text}; background-color:${c.color_bg};">` +
+					`${c.name}</label>`;
+		});
+	}
+	xhrCategories.send();
+}
 
 document.addEventListener('keydown', (e) => {
    if(!((e.ctrlKey || e.metaKey) && e.key === "Enter"))
@@ -179,4 +204,5 @@ document.addEventListener('keydown', (e) => {
    submitButton.click();
 });
 
-checkRepost()
+checkRepost();
+updateCategories();

@@ -11,6 +11,7 @@ from files.mail import *
 from flask import *
 from files.__main__ import app, limiter, db_session
 import sqlalchemy
+from sqlalchemy.orm import aliased
 from sqlalchemy import text
 from collections import Counter
 import gevent
@@ -1055,14 +1056,24 @@ def u_username_comments(username, v=None):
 	sort=request.values.get("sort","new")
 	t=request.values.get("t","all")
 
-
-	comments = g.db.query(Comment.id).filter(Comment.author_id == u.id, Comment.parent_submission != None)
+	comment_post_author = aliased(User)
+	comments = g.db.query(Comment.id) \
+				.join(Comment.post) \
+				.join(comment_post_author, Submission.author) \
+				.filter(
+					Comment.author_id == u.id,
+					Comment.parent_submission != None
+				)
 
 	if not v or (v.id != u.id and v.admin_level < 2):
-		comments = comments.filter(Comment.is_banned == False, Comment.ghost == False)
+		comments = comments.filter(
+			Comment.is_banned == False,
+			Comment.ghost == False,
+			comment_post_author.shadowbanned == None
+		)
 
 	if not (v and v.admin_level > 1):
-		comments = comments.filter_by(deleted_utc=0)
+		comments = comments.filter(Comment.deleted_utc == 0)
 
 	comments = apply_time_filter(t, comments, Comment)
 

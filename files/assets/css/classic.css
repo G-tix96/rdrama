@@ -531,3 +531,12 @@ a.nav-link:hover {
     border-radius: 0px;
     margin-top: 5px;
 }
+
+/* award modal text legibility */
+#awardModalBody .text-muted {
+	color: var(--black3) !important;
+}
+
+#awardModalBody .card .pt-2 {
+	color: var(--black3) !important;
+}
