@@ -295,6 +295,10 @@ def create_sub2(v):
 		mod = Mod(user_id=v.id, sub=sub.name)
 		g.db.add(mod)
 
+		admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level > 1, User.id != v.id).all()]
+		for admin in admins:
+			send_repeatable_notification(admin, f":!marseyparty: /h/{sub.name} has been created by @{v.username} :marseyparty:")
+
 	return redirect(f'/h/{sub.name}')
 
 @app.post("/kick/<pid>")
