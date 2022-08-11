@@ -267,7 +267,8 @@ def revert_actions(v, username):
 		user.unban_utc = 0
 		user.ban_evade = 0
 		user.ban_reason = None
-		send_repeatable_notification(user.id, f"@{v.username} has unbanned you!")
+		if user.is_banned:
+			send_repeatable_notification(user.id, f"@{v.username} has unbanned you!")
 		g.db.add(user)
 		for u in user.alts:
 			u.shadowbanned = None
@@ -275,7 +276,8 @@ def revert_actions(v, username):
 			u.unban_utc = 0
 			u.ban_evade = 0
 			u.ban_reason = None
-			send_repeatable_notification(u.id, f"@{v.username} has unbanned you!")
+			if u.is_banned:
+				send_repeatable_notification(u.id, f"@{v.username} has unbanned you!")
 			g.db.add(u)
 
 	return {"message": "Admin actions reverted!"}
