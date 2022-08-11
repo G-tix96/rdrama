@@ -73,13 +73,15 @@ def api_vote_post(post_id, new, v):
 
 	post = get_post(post_id)
 
-	existing = g.db.query(Vote).filter_by(user_id=v.id, submission_id=post.id).one_or_none()
-
 	coin_delta = 1
 	if v.id == post.author.id:
 		coin_delta = 0
 
 	coin_mult = 1
+
+	g.db.flush()
+	existing = g.db.query(Vote).filter_by(user_id=v.id, submission_id=post.id).one_or_none()
+
 	if DOUBLE_XP_ENABLED > 0:
 		if not existing and int(time.time()) > DOUBLE_XP_ENABLED:
 			coin_mult = 2
@@ -146,13 +148,15 @@ def api_vote_comment(comment_id, new, v):
 
 	comment = get_comment(comment_id)
 	
-	existing = g.db.query(CommentVote).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
-
 	coin_delta = 1
 	if v.id == comment.author_id:
 		coin_delta = 0
 
 	coin_mult = 1
+
+	g.db.flush()
+	existing = g.db.query(CommentVote).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
+
 	if DOUBLE_XP_ENABLED > 0:
 		if not existing and int(time.time()) > DOUBLE_XP_ENABLED:
 			coin_mult = 2
