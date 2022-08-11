@@ -99,7 +99,7 @@ CREATE TABLE public.submissions (
     flair character varying(350),
     stickied_utc integer,
     ghost boolean DEFAULT false NOT NULL,
-    sub character varying(20),
+    sub character varying(25),
     new boolean,
     hole_pinned character varying(30),
     category_id integer
@@ -228,7 +228,7 @@ CREATE TABLE public.banneddomains (
 CREATE TABLE public.category (
     id integer NOT NULL,
     name character varying(128) NOT NULL,
-    sub character varying(20),
+    sub character varying(25),
     color_text character(6),
     color_bg character(6)
 );
@@ -402,7 +402,7 @@ CREATE TABLE public.commentvotes (
 
 CREATE TABLE public.exiles (
     user_id integer NOT NULL,
-    sub character varying(20) NOT NULL,
+    sub character varying(25) NOT NULL,
     exiler_id integer NOT NULL
 );
 
@@ -518,7 +518,7 @@ ALTER SEQUENCE public.modactions_id_seq OWNED BY public.modactions.id;
 
 CREATE TABLE public.mods (
     user_id integer NOT NULL,
-    sub character varying(20) NOT NULL,
+    sub character varying(25) NOT NULL,
     created_utc integer NOT NULL
 );
 
@@ -637,7 +637,7 @@ CREATE TABLE public.save_relationship (
 
 CREATE TABLE public.sub_blocks (
     user_id integer NOT NULL,
-    sub character varying(20) NOT NULL
+    sub character varying(25) NOT NULL
 );
 
 
@@ -647,7 +647,7 @@ CREATE TABLE public.sub_blocks (
 
 CREATE TABLE public.sub_subscriptions (
     user_id integer NOT NULL,
-    sub character varying(20) NOT NULL
+    sub character varying(25) NOT NULL
 );
 
 
