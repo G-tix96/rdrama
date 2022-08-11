@@ -1,5 +1,5 @@
 function removeComment(post_id,button1,button2) {
-	url="/ban_comment/"+post_id
+	url="/remove_comment/"+post_id
 
 	post(url)
 
@@ -20,7 +20,7 @@ function removeComment(post_id,button1,button2) {
 };
 
 function approveComment(post_id,button1,button2) {
-	url="/unban_comment/"+post_id
+	url="/approve_comment/"+post_id
 
 	post(url)
 
@@ -42,7 +42,7 @@ function approveComment(post_id,button1,button2) {
 
 
 function removeComment2(post_id,button1,button2) {
-	url="/ban_comment/"+post_id
+	url="/remove_comment/"+post_id
 
 	post(url)
 
@@ -58,7 +58,7 @@ function removeComment2(post_id,button1,button2) {
 };
 
 function approveComment2(post_id,button1,button2) {
-	url="/unban_comment/"+post_id
+	url="/approve_comment/"+post_id
 
 	post(url)
 

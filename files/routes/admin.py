@@ -1086,10 +1086,10 @@ def unban_user(user_id, v):
 	else: return {"message": f"@{user.username} was unbanned!"}
 
 
-@app.post("/ban_post/<post_id>")
+@app.post("/remove_post/<post_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(2)
-def ban_post(post_id, v):
+def remove_post(post_id, v):
 
 	post = get_post(post_id)
 
@@ -1123,10 +1123,10 @@ def ban_post(post_id, v):
 	return {"message": "Post removed!"}
 
 
-@app.post("/unban_post/<post_id>")
+@app.post("/approve_post/<post_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(2)
-def unban_post(post_id, v):
+def approve_post(post_id, v):
 
 	post = get_post(post_id)
 
@@ -1294,10 +1294,10 @@ def unsticky_comment(cid, v):
 	return {"message": "Comment unpinned!"}
 
 
-@app.post("/ban_comment/<c_id>")
+@app.post("/remove_comment/<c_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(2)
-def api_ban_comment(c_id, v):
+def api_remove_comment(c_id, v):
 
 	comment = get_comment(c_id)
 	if not comment:
@@ -1317,10 +1317,10 @@ def api_ban_comment(c_id, v):
 	return {"message": "Comment removed!"}
 
 
-@app.post("/unban_comment/<c_id>")
+@app.post("/approve_comment/<c_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(2)
-def api_unban_comment(c_id, v):
+def api_approve_comment(c_id, v):
 
 	comment = get_comment(c_id)
 	if not comment: abort(404)
