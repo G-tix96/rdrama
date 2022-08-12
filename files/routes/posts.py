@@ -396,6 +396,9 @@ def edit_post(pid, v):
 
 	body = body.replace('\r\n', '\n')[:20000]
 
+	if v.id != p.author_id and v.admin_level < 2:
+		abort(403)
+
 	if v.id == p.author_id:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
 			return {"error":"You have to type more than 280 characters!"}, 403
