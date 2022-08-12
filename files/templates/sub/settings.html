@@ -134,7 +134,7 @@
 				<div class="w-lg-100">
 					<form id="css" action="/h/{{sub.name}}/css" method="post">
 						<input type="hidden" name="formkey" value="{{v.formkey}}">
-						<textarea autocomplete="off" maxlength="4000" class="form-control rounded" id="bio-text" aria-label="With textarea" placeholder="Enter css here..." rows="10" name="css" form="css">{% if sub.css %}{{sub.css}}{% endif %}</textarea>
+						<textarea autocomplete="off" maxlength="6000" class="form-control rounded" id="bio-text" aria-label="With textarea" placeholder="Enter css here..." rows="10" name="css" form="css">{% if sub.css %}{{sub.css}}{% endif %}</textarea>
 
 						<div class="d-flex mt-2">
 							<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Save">

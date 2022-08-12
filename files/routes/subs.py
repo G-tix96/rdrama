@@ -358,15 +358,16 @@ def post_sub_css(v, sub):
 	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
 	css = request.values.get('css', '').strip()
 
-	if not sub:
-		abort(404)
-	if not v.mods(sub.name):
-		abort(403)
+	if not sub: abort(404)
+	if not v.mods(sub.name): abort(403)
+
+	if len(css) > 6000:
+		error = "CSS is too long (max 6000 characters)"
+		return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, error=error)
 
 	valid, error = validate_css(css)
 	if not valid:
-		return render_template('sub/settings.html',
-			v=v, sidebar=sub.sidebar, sub=sub, error=error)
+		return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, error=error)
 
 	sub.css = css
 	g.db.add(sub)

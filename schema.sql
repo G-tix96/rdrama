@@ -718,7 +718,7 @@ CREATE TABLE public.subs (
     sidebar_html character varying(20000),
     sidebarurl character varying(60),
     bannerurl character varying(60),
-    css character varying(4000)
+    css character varying(6000)
 );
 
 
