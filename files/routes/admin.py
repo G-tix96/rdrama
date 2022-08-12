@@ -236,7 +236,7 @@ def distribute(v, comment):
 def revert_actions(v, username):
 	user = get_user(username)
 	if not user: abort(404)
-	
+
 	ma = ModAction(
 		kind="revert",
 		user_id=v.id,
@@ -263,20 +263,21 @@ def revert_actions(v, username):
 
 	for user in users:
 		user.shadowbanned = None
-		user.is_banned = 0
 		user.unban_utc = 0
 		user.ban_evade = 0
 		user.ban_reason = None
 		if user.is_banned:
+			user.is_banned = 0
 			send_repeatable_notification(user.id, f"@{v.username} has unbanned you!")
 		g.db.add(user)
+		
 		for u in user.alts:
 			u.shadowbanned = None
-			u.is_banned = 0
 			u.unban_utc = 0
 			u.ban_evade = 0
 			u.ban_reason = None
 			if u.is_banned:
+				u.is_banned = 0
 				send_repeatable_notification(u.id, f"@{v.username} has unbanned you!")
 			g.db.add(u)
 
