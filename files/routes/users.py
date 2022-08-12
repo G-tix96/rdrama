@@ -793,6 +793,9 @@ def messagereply(v):
 		if parent.author.id not in admins:
 			admins.append(parent.author.id)
 
+		if CARP_ID and AEVANN_ID in admins:
+			admins.remove(AEVANN_ID)
+
 		for admin in admins:
 			notif = Notification(comment_id=c.id, user_id=admin)
 			g.db.add(notif)

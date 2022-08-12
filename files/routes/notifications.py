@@ -256,9 +256,6 @@ def notifications(v):
 
 		if c not in listing: listing.append(c)
 
-	if SITE == 'rdrama.net' and v.id == AEVANN_ID:
-		listing = [x for x in listing if x.sentto != 2]
-
 	g.db.commit()
 
 	if request.headers.get("Authorization"): return {"data":[x.json for x in listing]}
