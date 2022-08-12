@@ -111,10 +111,9 @@ def process_image(filename=None, resize=0):
 		i.info["exif"] = exif.tobytes()
 
 		if i.format.lower() == "gif":
-			gifwebp(input_image=filename, output_image=filename,
-				option="-mixed -metadata none -f 100 -mt -m 6")
+			gifwebp(input_image=filename, output_image=filename, option="-mixed -metadata none -f 100 -mt -m 6")
 		else:
 			i = ImageOps.exif_transpose(i)
-			i.save(filename, format="WEBP", method=6)
+			i.save(filename, format="WEBP", method=6, quality=88)
 
 	return filename
