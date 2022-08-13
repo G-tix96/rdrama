@@ -19,7 +19,7 @@ from math import floor
 
 def normalize_urls_runtime(body, v):
 	
-	if v.reddit != 'old.reddit.com':
+	if v and v.reddit != 'old.reddit.com':
 		body = reddit_to_vreddit_regex.sub(rf'\1https://{v.reddit}/\2/', body)
 		if v.nitter: body = twitter_to_nitter_regex.sub(r'https://nitter.42l.fr/\1', body)
 
