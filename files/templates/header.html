@@ -166,8 +166,8 @@
 
 				{% if FEATURES['CHAT'] -%}
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
-					<a class="nav-link position-relative" href="/chat" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat">
-						<i class="fas fa-messages"></i>
+					<a class="nav-link position-relative" href="/chat">
+						<i class="fas fa-messages" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat></i>
 						{% set chat_count = cache.get(ONLINE_STR) %}
 						
 						{% if chat_count %}
