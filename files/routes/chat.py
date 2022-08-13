@@ -79,7 +79,7 @@ def speak(data, v):
 	if v.admin_level > 1:
 		text = text.lower()
 		for i in mute_regex.finditer(text):
-			username = i.group(1)
+			username = i.group(1).lower()
 			duration = int(int(i.group(2)) * 60 + time.time())
 			muted[username] = duration
 
