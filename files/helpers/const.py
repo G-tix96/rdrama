@@ -1058,3 +1058,6 @@ has_logo = path.exists(f'files/assets/images/{SITE_NAME}/logo.webp')
 has_app = path.exists(f'files/assets/app_{SITE_NAME}_v2.4.apk')
 
 GLOBAL = environ.get("GLOBAL")
+
+if SITE_NAME == "LGBDropTheT":
+	BAD_WORDS = ('tranny', 'troon', 'trancel', 'nigger', '(((', 'kike', 'k1ke', 'kik3', 'k1k3')
