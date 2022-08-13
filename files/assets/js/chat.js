@@ -120,8 +120,10 @@ socket.on('online', function(data){
 	let online = ''
 	let online2 = 'Users online right now'
 	for (const u of data)
+	{
 		online += `<li><a href="/@${u}" class="text-lg">${u}</a></li>`
 		online2 += `<li>${u}</li>`
+	}
 	document.getElementById('online').innerHTML = online
 	document.getElementById('online2').setAttribute("data-bs-original-title", online2);
 })
