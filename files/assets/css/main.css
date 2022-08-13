@@ -4719,7 +4719,7 @@ blockquote + blockquote, blockquote:last-child {
 blockquote + p {
 	margin-top: 1rem;
 }
-blockquote p {
+blockquote p, blockquote h1 {
 	margin-bottom: 0;
 	padding-bottom: 0.7rem;
 	padding-top: 0.7rem;
