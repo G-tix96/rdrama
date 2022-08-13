@@ -1,8 +1,8 @@
 function pinned_timestamp(id) {
 	const el = document.getElementById(id)
 	const time =  new Date(parseInt(el.dataset.timestamp)*1000)
-	const pintooltip =  el.getAttribute("data-bs-original-title")
-	if (!pintooltip.includes('until')) el.setAttribute("data-bs-original-title", `${pintooltip} until ${time}`)
+	const pintooltip =  el.getAttribute("title")
+	if (!pintooltip.includes('until')) el.setAttribute("title", `${pintooltip} until ${time}`)
 }
 
 /** @type {HTMLImageElement} */

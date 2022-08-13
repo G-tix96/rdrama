@@ -54,7 +54,7 @@ else
 
 function badge_timestamp(t) {
 	const date = new Date(t.dataset.until*1000);
-	const text =  t.getAttribute("data-bs-original-title")
-	t.setAttribute("data-bs-original-title", `${text} ${date.toString()}`);
+	const text =  t.getAttribute("title")
+	t.setAttribute("title", `${text} ${date.toString()}`);
 	t.removeAttribute("onmouseover")
 }
