@@ -121,7 +121,7 @@ socket.on('online', function(data){
 	let online2 = '<b>Users online right now</b>'
 	for (const u of data)
 	{
-		online += `<ol><a href="/@${u}" class="text-lg">@${u}</a></ol>`
+		online += `<li><a href="/@${u}" class="text-lg">@${u}</a></li>`
 		online2 += `<br>@${u}`
 	}
 	document.getElementById('online').innerHTML = online
