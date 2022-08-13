@@ -452,7 +452,8 @@ def normalize_url(url):
 			 .replace("https://www.streamable.com", "https://streamable.com") \
 			 .replace("https://streamable.com/", "https://streamable.com/e/") \
 			 .replace("https://streamable.com/e/e/", "https://streamable.com/e/") \
-			 .replace("https://search.marsey.cat/#", "https://camas.unddit.com/#")
+			 .replace("https://search.marsey.cat/#", "https://camas.unddit.com/#") \
+			 .replace("https://imgur.com/", "https://i.imgur.com/")
 
 	url = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=high', url)
 	url = giphy_regex.sub(r'\1.webp', url)
