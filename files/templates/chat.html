@@ -119,7 +119,7 @@
 			<div class="col h-100 {% block customPadding %}{% if request.path.startswith('/@') %}user-gutters{% else %}custom-gutters{% endif %}{% endblock %}" id="main-content-col">	
 
 			<div class="border-right pb-1 pt-2 px-3">
-				<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users online right now" class="text-muted">
+				<span id="online2" data-html="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users online right now" class="text-muted">
 					<i class="far fa-user fa-sm mr-1"></i>
 					<span class="board-chat-count">0</span>
 				</span>
@@ -197,7 +197,7 @@
 <input id="site_name" type="hidden" value="{{SITE_NAME}}">
 <input id="slurreplacer" type="hidden" value="{{v.slurreplacer}}">
 
-<script src="/chat.js?v=24"></script>
+<script src="/chat.js?v=25"></script>
 
 {% include "emoji_modal.html" %}
 {% include "expanded_image_modal.html" %}
