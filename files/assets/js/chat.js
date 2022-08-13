@@ -122,7 +122,7 @@ socket.on('online', function(data){
 	for (const u of data)
 	{
 		online += `<li><a href="/@${u}" class="text-lg">${u}</a></li>`
-		online2 += `<li>${u}</li>`
+		online2 += `<br>${u}`
 	}
 	document.getElementById('online').innerHTML = online
 	document.getElementById('online2').setAttribute("data-bs-original-title", online2);
