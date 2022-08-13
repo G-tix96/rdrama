@@ -90,6 +90,10 @@ def execute_snappy(post, v):
 		body += f"Snapshots:\n\n{rev}* [archive.org](https://web.archive.org/{newposturl})\n* [archive.ph](https://archive.ph/?url={quote(newposturl)}&run=1) (click to archive)\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(newposturl)}) (click to archive)\n\n"
 		gevent.spawn(archiveorg, newposturl)
 
+		if newposturl.startswith('https://twitter.com/'):
+			newposturl = newposturl.replace('https://twitter.com/', 'https://nitter.42l.fr/')
+			gevent.spawn(archiveorg, newposturl)
+
 	captured = []
 	body_for_snappy = post.body_html.replace(' data-src="', ' src="')
 
@@ -123,6 +127,10 @@ def execute_snappy(post, v):
 			if len(f'{body}{addition}') > 10000: break
 			body += addition
 			gevent.spawn(archiveorg, href)
+
+			if href.startswith('https://twitter.com/'):
+				href = href.replace('https://twitter.com/', 'https://nitter.42l.fr/')
+				gevent.spawn(archiveorg, href)
 
 	body = body.strip()
 	body_html = sanitize(body)
