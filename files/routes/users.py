@@ -789,12 +789,10 @@ def messagereply(v):
 
 
 	if c.top_comment.sentto == 2:
-		admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level > 2, User.id != v.id).all()]
+		admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level > 2, User.id != v.id, User.id != AEVANN_ID).all()]
+
 		if parent.author.id not in admins:
 			admins.append(parent.author.id)
-
-		if CARP_ID and AEVANN_ID in admins:
-			admins.remove(AEVANN_ID)
 
 		for admin in admins:
 			notif = Notification(comment_id=c.id, user_id=admin)
