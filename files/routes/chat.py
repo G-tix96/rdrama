@@ -91,9 +91,7 @@ def connect(v):
 	if v.username not in online:
 		online.append(v.username)
 		emit("online", online, broadcast=True)
-		online_count = cache.get(f'{SITE}_online') or 0
-		online_count += 1
-		cache.set(f'{SITE}_online', online_count)
+		cache.set(f'{SITE}_online', len(online))
 
 	emit('typing', typing)
 	return '', 204
@@ -104,9 +102,7 @@ def disconnect(v):
 	if v.username in online:
 		online.remove(v.username)
 		emit("online", online, broadcast=True)
-		online_count = cache.get(f'{SITE}_online') or 1
-		online_count -= 1
-		cache.set(f'{SITE}_online', online_count)
+		cache.set(f'{SITE}_online', len(online))
 
 	if v.username in typing: typing.remove(v.username)
 	emit('typing', typing, broadcast=True)
