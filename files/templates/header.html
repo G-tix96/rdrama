@@ -156,7 +156,7 @@
 
 				{% if v.admin_level > 1 %}
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
-					<a class="nav-link" href="/admin/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin Tools"><i class="fas fa-crown{% if v.has_report_queue %} text-success{% endif %}"></i></a>
+					<a class="nav-link" href="/admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin Tools"><i class="fas fa-crown{% if v.has_report_queue %} text-success{% endif %}"></i></a>
 				</li>
 				{% endif %}
 
@@ -243,7 +243,7 @@
 
 								{% if SITE_NAME == 'rDrama' %}
 									<a class="dropdown-item" href="/discord"><i class="fab fa-discord fa-fw mr-3"></i>Discord</a>
-									<a class="dropdown-item" href="/post/75863/"><i class="fas fa-square-share-nodes fa-fw mr-3"></i>Fediverse</a>
+									<a class="dropdown-item" href="/post/75863"><i class="fas fa-square-share-nodes fa-fw mr-3"></i>Fediverse</a>
 								{% endif %}
 								{% if FEATURES['PROCOINS'] %}
 									<a class="dropdown-item" rel="nofollow noopener noreferrer" href="{{GUMROAD_LINK}}"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
@@ -274,7 +274,7 @@
 
 		<ul style="overflow:auto" class="navbar-nav ml-auto d-flex d-md-none mt-3">
 			<li class="nav-item pb-3">
-				<form id="searchform" class="form-inline search flex-nowrap mx-0 mx-lg-auto" action="/search/posts/" method="get">
+				<form id="searchform" class="form-inline search flex-nowrap mx-0 mx-lg-auto" action="/search/posts" method="get">
 					<input autocomplete="off" class="form-control form-control-sm w-100" type="search" placeholder="{{search_placeholder}}" aria-label="Search" name="q">
 					<span class="input-group-append">
 						<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem"onclick="document.getElementById('searchform').submit()">
@@ -304,7 +304,7 @@
 
 				{% if SITE_NAME == 'rDrama' %}
 					<a class="nav-item nav-link" href="/discord"><i class="fab fa-discord fa-fw mr-3"></i>Discord</a>
-					<a class="nav-item nav-link" href="/post/75863/"><i class="fas fa-square-share-nodes fa-fw mr-3"></i>Fediverse</a>
+					<a class="nav-item nav-link" href="/post/75863"><i class="fas fa-square-share-nodes fa-fw mr-3"></i>Fediverse</a>
 				{% endif %}
 				{% if FEATURES['PROCOINS'] %}
 					<a class="nav-item nav-link" rel="nofollow noopener noreferrer" href="{{GUMROAD_LINK}}"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
