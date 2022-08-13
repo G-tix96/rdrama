@@ -47,7 +47,7 @@ def speak(data, v):
 		else: del muted[vname]
 
 	global messages, total
-	text = data[:1000].strip()
+	text = data[:200].strip()
 	if not text: return '', 403
 	text_html = sanitize(text)
 
