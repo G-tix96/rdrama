@@ -43,7 +43,7 @@ sub_regex = re.compile('(^|\s|<p>)\/?(h\/(\w|-){3,25})(?![^<]*<\/(code|pre|a)>)'
 
 strikethrough_regex = re.compile('(^|\s|>)~{1,2}([^~]+)~{1,2}', flags=re.A)
 
-mute_regex = re.compile("\/mute @([a-z0-9_\-]{3,25}) ([0-9])+", flags=re.A|re.I)
+mute_regex = re.compile("\/mute @([a-z0-9_\-]{3,25}) ([0-9]+)", flags=re.A|re.I)
 
 emoji_regex = re.compile(f"<p>\s*(:[!#@]{{0,3}}[{valid_username_chars}]+:\s*)+<\/p>", flags=re.A)
 emoji_regex2 = re.compile(f'(?<!"):([!#@{valid_username_chars}]{{1,36}}?):', flags=re.A)
