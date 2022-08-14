@@ -616,6 +616,9 @@ class User(Base):
 
 		if self.is_cakeday:
 			return 'cakeday-1'
+		elif SITE_NAME == 'rDrama': # temporary branch for flowercrown event
+			flowercrowns = ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15']
+			return 'flowercrown-' + random.choice(flowercrowns)
 		return ''
 
 	@property
