@@ -171,7 +171,7 @@
 						{% set chat_count = cache.get(ONLINE_STR) %}
 						
 						{% if chat_count %}
-							<span class="notif-count bg-primary ml-1" style="padding-left: 4.5px;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">
+							<span id="chat_count" class="notif-count bg-primary ml-1" style="padding-left: 4.5px;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">
 								{{chat_count}}
 							</span>
 						{% endif %}
