@@ -167,14 +167,10 @@
 				{% if FEATURES['CHAT'] -%}
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
 					<a class="nav-link position-relative" href="/chat">
-						<i class="fas fa-messages" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"></i>
-						{% set chat_count = cache.get(ONLINE_STR) %}
-						
-						{% if chat_count %}
-							<span id="chat_count" class="notif-count bg-primary ml-1" style="padding-left: 4.5px;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">
-								{{chat_count}}
-							</span>
-						{% endif %}
+						<i class="fas fa-messages" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"></i>						
+						<b class="text-lg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">
+							{{cache.get(ONLINE_STR) or 0}}
+						</b>
 					</a>
 				</li>
 				{%- endif %}
