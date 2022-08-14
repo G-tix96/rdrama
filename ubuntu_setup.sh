@@ -9,6 +9,7 @@ sed -i 's/^/export /g;s/=/="/g;s/$/"/g' /env
 . /env
 
 cp ./startup.sh /s
+cp ./startup_chat.sh /s2
 
 apt -y update
 apt -y upgrade
