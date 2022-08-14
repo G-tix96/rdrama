@@ -48,11 +48,11 @@
 				</button>
 {% if v %}
 				{% if FEATURES['CHAT'] -%}
-				<button class="col px-0 btn btn-dead m-0" style="background: None !important; border: None;">
+				<button class="col px-0 btn btn-dead m-0 pt-0" style="background: None !important; border: None;">
 						<a href="/chat" class="text-decoration-none" role="button">
 								<div class="text-center {% if request.path=='/chat' %}text-primary{% else %}text-muted{% endif %}">
-										<i class="fas fa-messages text-lg"></i>
-										<div class="text-small">Chat</div>
+									<b class="text-lg">cache.get(ONLINE_STR)<b>
+									<div class="text-small">Chat</div>
 								</div>
 						</a>
 				</button>
