@@ -117,7 +117,7 @@ textbox.addEventListener("keyup", function(e) {
 
 socket.on('online', function(data){
 	document.getElementsByClassName('board-chat-count')[0].innerHTML = data.length
-	let online = '<h5>Users in chat right now</h5>'
+	let online = ''
 	let online2 = '<b>Users in chat right now</b>'
 	for (const u of data)
 	{
