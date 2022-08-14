@@ -47,7 +47,10 @@ def speak(data, v):
 		else: del muted[vname]
 
 	global messages, total
-	text = data[:200].strip()
+
+	if SITE == 'rdrama.net': text = data[:200].strip()
+	else: text = data[:1000].strip()
+
 	if not text: return '', 403
 	text_html = sanitize(text)
 
