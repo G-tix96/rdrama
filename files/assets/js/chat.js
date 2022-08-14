@@ -126,6 +126,7 @@ socket.on('online', function(data){
 	}
 	document.getElementById('online').innerHTML = online
 	document.getElementById('online2').setAttribute("data-bs-original-title", online2);
+	document.getElementById('online3').innerHTML = online
 })
 
 window.addEventListener('blur', function(){
