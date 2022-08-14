@@ -319,7 +319,7 @@ elif SITE == 'pcmemes.net':
 elif SITE == 'watchpeopledie.co':
 	PERMS['HOLE_CREATE'] = 2
 
-	FEATURES['PROCOINS'] = True
+	FEATURES['PROCOINS'] = False
 
 	HOLE_NAME = 'flair'
 	HOLE_STYLE_FLAIR = True
