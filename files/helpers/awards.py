@@ -17,7 +17,7 @@ def award_timers(v, bot=False):
 	if v.patron_utc and v.patron_utc < now:
 		v.patron = 0
 		v.patron_utc = 0
-		notify_if_not_bot("Your paypig status has expired!")
+		notify_if_not_bot(f"Your {patron} status has expired!")
 		if not bot and v.discord_id: remove_role(v, "1")
 		dirty = True
 	if v.unban_utc and v.unban_utc < now:

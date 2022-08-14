@@ -19,6 +19,9 @@ if SITE == 'pcmemes.net': CC = "SPLASH MOUNTAIN"
 else: CC = "COUNTRY CLUB"
 CC_TITLE = CC.title()
 
+if SITE_NAME == 'rDrama': patron = 'Paypig'
+else: patron = 'Patron'
+
 AJ_REPLACEMENTS = {
 	' your ': " you're ",
 	' to ': " too ", 
@@ -316,7 +319,7 @@ elif SITE == 'pcmemes.net':
 elif SITE == 'watchpeopledie.co':
 	PERMS['HOLE_CREATE'] = 2
 
-	FEATURES['PROCOINS'] = False
+	FEATURES['PROCOINS'] = True
 
 	HOLE_NAME = 'flair'
 	HOLE_STYLE_FLAIR = True
@@ -689,7 +692,7 @@ AWARDS = {
 	"benefactor": {
 		"kind": "benefactor",
 		"title": "Benefactor",
-		"description": "Grants one month of paypig status and 2500 marseybux to the recipient. Cannot be used on yourself.",
+		"description": f"Grants one month of {patron} status and 2500 marseybux to the recipient. Cannot be used on yourself.",
 		"icon": "fas fa-gift",
 		"color": "text-blue",
 		"price": 4000
@@ -857,8 +860,6 @@ FACTCHECK_REPLIES = ('<b style="color:#6023f8">Factcheck: This claim has been co
 EIGHTBALL_REPLIES = ('<b style="color:#7FEC11">The 8-Ball Says: It is certain.</b>', '<b style="color:#7FEC11">The 8-Ball Says: It is decidedly so.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Without a doubt.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Yes definitely.</b>', '<b style="color:#7FEC11">The 8-Ball Says: You may rely on it.</b>', '<b style="color:#7FEC11">The 8-Ball Says: As I see it, yes.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Most likely.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Outlook good.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Yes.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Signs point to yes.</b>', '<b style="color:#E7890C">The 8-Ball Says: Reply hazy, try again.</b>', '<b style="color:#E7890C">The 8-Ball Says: Ask again later.</b>', '<b style="color:#E7890C">The 8-Ball Says: Better not tell you now.</b>', '<b style="color:#E7890C">The 8-Ball Says: Cannot predict now.</b>', '<b style="color:#E7890C">The 8-Ball Says: Concentrate and ask again.</b>', '<b style="color:#FD4D32">The 8-Ball Says: Don’t count on it.</b>', '<b style="color:#FD4D32">The 8-Ball Says: My reply is no.</b>', '<b style="color:#FD4D32">The 8-Ball Says: My sources say no.</b>', '<b style="color:#FD4D32">The 8-Ball Says: Outlook not so good.</b>', '<b style="color:#FD4D32">The 8-Ball Says: Very doubtful.</b>')
 
 
-if SITE_NAME == 'rDrama': patron = 'Paypig'
-else: patron = 'Patron'
 
 NOTIF_MODACTION_JL_MIN = 2
 
