@@ -58,7 +58,10 @@ def sub_inactive_purge_task():
 	for x in mods:
 		send_repeatable_notification(x.user_id, f":marseyrave: /h/{x.sub} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
 
-	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level > 1).all()]
+	mods_ids = [x.user_id for x in mods]
+
+	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level > 1, User.id.notin_(mods_ids)).all()]
+
 	for name in names:
 		for admin in admins:
 			send_repeatable_notification(admin, f":marseyrave: /h/{name} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
