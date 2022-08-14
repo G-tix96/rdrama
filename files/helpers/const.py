@@ -1037,9 +1037,6 @@ MASTER_KEY = environ.get("MASTER_KEY")
 TRUSTED_SERVER_PSK = environ.get("TRUSTED_SERVER_PSK", None)
 FP = environ.get("FP")
 
-if SITE_NAME == 'WPD': PATRON_DEFAULT = 7
-else: PATRON_DEFAULT = 0
-
 tiers={
 	"(Paypig)": 1,
 	"(Renthog)": 2,
