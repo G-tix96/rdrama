@@ -37,8 +37,8 @@ function checkForRequired() {
 checkForRequired();
 
 function hide_image() {
-	x=document.getElementById('image-upload-block');
-	url=document.getElementById('post-url').value;
+	const x=document.getElementById('image-upload-block');
+	let url=document.getElementById('post-url').value;
 	if (url.length>=1){
 		x.classList.add('d-none');
 	}
