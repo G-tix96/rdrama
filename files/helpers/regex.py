@@ -92,7 +92,7 @@ ascii_only_regex = re.compile("[ -~]+", flags=re.A)
 
 twitter_to_nitter_regex = re.compile("https:\/\/twitter.com\/(\w{2,15}(\/status\/\d+[^/]*)?)", flags=re.A)
 
-reddit_to_vreddit_regex = re.compile('([>^"])https:\/\/old.reddit.com\/(r|u)\/', flags=re.A)
+reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|u)\/', flags=re.A)
 
 reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|new\.reddit.com|www\.reddit.com|i\.reddit\.com|libredd\.it|teddit\.net)\/(r|u)\/", flags=re.A)
 
