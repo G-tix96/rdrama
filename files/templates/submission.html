@@ -888,7 +888,7 @@
 
 		</div>
 
-		{% if not p.is_image and not p.is_video and not p.is_audio %}
+		{% if not p.is_image and not p.is_audio %}
 			<div class="row no-gutters d-md-none">
 				<div class="col">
 					<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener noreferrer" href="{{p.realurl(v)}}"></a>
