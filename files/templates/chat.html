@@ -27,10 +27,15 @@
 	{% endif %}
 
 	<style>
-		#chat-window, #online {
+		#chat-window {
 			max-height: calc(100vh - 220px);
 			overflow-y: scroll;
 			background-color: transparent !important;
+		}
+
+		#online {
+			max-height: calc(100vh - 170px);
+			overflow-y: scroll;
 		}
 
 		#chat-window .chat-profile {
