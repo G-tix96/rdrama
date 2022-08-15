@@ -56,6 +56,11 @@ socket.on('speak', function(json) {
 		chatline.classList.remove('chat-mention');
 	};
 
+	notifs = notifs + 1;
+	if (notifs == 1) {
+		setTimeout(flash, 500);
+	}
+
 	let users = document.getElementsByClassName('userlink');
 	let last_user = users[users.length-1].innerHTML;
 
