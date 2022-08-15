@@ -13,6 +13,8 @@ valid_params = [
 	'domain',
 	'over18',
 	"post",
+	"before",
+	"after",
 	search_operator_hole,
 ]
 
@@ -116,6 +118,14 @@ def searchposts(v):
 	if search_operator_hole in criteria:
 		posts = posts.filter(Submission.sub == criteria[search_operator_hole])
 
+	if 'after' in criteria:
+		after = int(criteria['after'])
+		posts = posts.filter(Submission.created_utc > after)
+
+	if 'before' in criteria:
+		before = int(criteria['before'])
+		posts = posts.filter(Submission.created_utc < before)
+
 	posts = apply_time_filter(t, posts, Submission)
 
 	posts = sort_posts(sort, posts)
@@ -205,6 +215,13 @@ def searchcomments(v):
 		club = [x[0] for x in g.db.query(Submission.id).filter(Submission.club == True).all()]
 		comments = comments.filter(Comment.parent_submission.notin_(club))
 
+	if 'after' in criteria:
+		after = int(criteria['after'])
+		comments = comments.filter(Comment.created_utc > after)
+
+	if 'before' in criteria:
+		before = int(criteria['before'])
+		comments = comments.filter(Comment.created_utc < before)
 
 	comments = sort_comments(sort, comments)
 
