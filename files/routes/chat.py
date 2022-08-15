@@ -86,6 +86,7 @@ def speak(data, v):
 			duration = int(int(i.group(2)) * 60 + time.time())
 			muted[username] = duration
 
+	typing = []
 	return '', 204
 
 @socketio.on('connect')
