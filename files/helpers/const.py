@@ -320,8 +320,6 @@ elif SITE == 'watchpeopledie.co':
 	PERMS['HOLE_CREATE'] = 2
 	PERMS['CONTENT_THREADS'] = 2
 
-	FEATURES['PROCOINS'] = False
-
 	HOLE_NAME = 'flair'
 	HOLE_STYLE_FLAIR = True
 	HOLE_REQUIRED = True
