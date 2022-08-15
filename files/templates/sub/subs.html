@@ -21,7 +21,7 @@
 		{% for sub, count in subs %}
 			<tr>
 				<td>{{loop.index}}</td>
-				<td><a href="/h/{{sub.name}}">{{sub.name}}</a></td>
+				<td><a href="/h/{{sub.name}}" {% if sub.name == 'smuggies' %}class="text-danger"{% endif %}>{{sub.name}}</a></td>
 				<td><a href="/h/{{sub.name}}">{{count}}</a></td>
 				<td><a href="/h/{{sub.name}}/followers">{{sub.follow_num}}</a></td>
 				<td><a href="/h/{{sub.name}}/blockers">{{sub.block_num}}</a></td>
