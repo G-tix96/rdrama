@@ -5058,7 +5058,7 @@ img[glow]:not([data-src]) {
 	color: white;
 	font-size: min(3vw,16px);
 }
-.srd * {
+.srd *, .srd a:hover {
 	color: white;
 }
 #srd-discuss {
