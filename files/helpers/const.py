@@ -336,47 +336,6 @@ elif SITE == 'watchpeopledie.co':
 	SNAKES_ID = 32
 
 	SIDEBAR_THREAD = 5403
-elif SITE == 'lgbdropthet.com':
-	PERMS['HOLE_CREATE'] = 3
-	PERMS['VOTES_VISIBLE'] = 2
-	PERMS['USER_BLOCKS_VISIBLE'] = 2
-	PERMS['USER_FOLLOWS_VISIBLE'] = 2
-	PERMS['USER_VOTERS_VISIBLE'] = 2
-
-	FEATURES['PROCOINS'] = False
-	FEATURES['AWARDS'] = False
-	FEATURES['CATEGORIES'] = True
-	FEATURES['CHAT'] = False
-	FEATURES['COUNTRY_CLUB'] = False
-	FEATURES['BADGES'] = False
-	FEATURES['GAMBLING'] = False
-	FEATURES['WORDLE'] = False
-	FEATURES['USERS_PROFILE_BANNER'] = False
-	FEATURES['USERS_PROFILE_BODYTEXT'] = False
-	FEATURES['USERS_PROFILE_SONG'] = False
-	FEATURES['USERS_SUICIDE'] = False
-	FEATURES['MARKUP_COMMANDS'] = False
-
-	EMOJI_MARSEYS = False
-	EMOJI_SRCS = ['files/assets/emojis.lgbdropthet.json']
-
-	PFP_DEFAULT_MARSEY = False
-	HOLE_NAME = 'community'
-
-	AUTOJANNY_ID = 1
-	SNAPPY_ID = 3
-	LONGPOSTBOT_ID = 4
-	ZOZBOT_ID = 5
-
-	CARP_ID = 18
-	AEVANN_ID = 10
-	SNAKES_ID = 9
-
-	WELCOME_MSG = "**Welcome to LGBDropTheT!**\n\nWe are a community of gay, lesbian, and bisexual men and women (and our allies) who believe that the LGB community should separate from the Transgender and Queer+ communities.  \n\nWe believe sexuality and gender identity are distinct and unrelated concepts, and that the interests and goals of our communities are misrepresented by grouping our experiences and politics as one. LGB and TQ+ both deserve a supportive community, but neither one should be at the expense of the other. We feel our rights and protections are under attack due to the Transgender and Queer+ movements silencing and condemning our beliefs.  \n\nWe believe that men are adult human males and women are adult human females. Our orientations are based towards an individual's sex, not gender identity. The same organizations and communities that we created in order to solidify ourselves now label us as \"phobic\", \"preferential\", or \"genital fetishists\". The TQ+ dogma and rhetoric are coercing gay men, lesbians, and bisexuals to suppress same-sex attraction in favor of fluidity and non-distinction of the opposite sex. Our gender non-conforming LGB youth are being taught that they're born in the wrong body, and persuaded to take life-altering medications to correct their \"sex assigned at birth\".  \n\nThis is nothing more than homophobia and conversion therapy disguised as progress.  \n\nIt's time to reclaim our organizations and movement by and for our own people. We want to \"Drop The T\" and all the letters after it, and ensure that the needs of lesbians, gay men, and bisexuals are centered once-again.  \n\n* If you're new to our movement and how we operate, we recommend starting with our **[Rules and FAQs](https://lgbdropthet.com/kb/rulesfaqs)** to better understand our community guidelines. \n\n* To familiarize yourself with how the site works, we recommend visiting our **[Help and Support](https://lgbdropthet.com/h/help_and_support)** community. Feel free to make a test post of your own there so you can get used to using the features - you can always delete your post later. \n\n* Feeling a little overwhelmed and don't know where to start? Consider introducing yourself in our **[Off-Topic / Social](https://lgbdropthet.com/h/off_topic_social)** community.  \n\nThank you for being a part of our growing movement, we look forward to seeing you! \n\n**~ The LGBDropTheT team**"
-
-	LOTTERY_ENABLED = False
-
-	GAMBLING_THREAD = 25
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HATS'] = True
@@ -850,12 +809,6 @@ NOTIFIED_USERS = {
 	'geese': GEESE_ID
 }
 
-if SITE_NAME == 'LGBDropTheT':
-	NOTIFIED_USERS.update({
-		'ipd': 12, # Im-Probably-Drinking
-		'@rc ': 15, # reluctant_commenter
-	})
-
 FORTUNE_REPLIES = ('<b style="color:#6023f8">Your fortune: Allah Wills It</b>','<b style="color:#d302a7">Your fortune: Inshallah, Only Good Things Shall Come To Pass</b>','<b style="color:#e7890c">Your fortune: Allah Smiles At You This Day</b>','<b style="color:#7fec11">Your fortune: Your Bussy Is In For A Blasting</b>','<b style="color:#43fd3b">Your fortune: You Will Be Propositioned By A High-Tier Twink</b>','<b style="color:#9d05da">Your fortune: Repent, You Have Displeased Allah And His Vengeance Is Nigh</b>','<b style="color:#f51c6a">Your fortune: Reply Hazy, Try Again</b>','<b style="color:#00cbb0">Your fortune: lmao you just lost 100 coins</b>','<b style="color:#2a56fb">Your fortune: Yikes 😬</b>','<b style="color:#0893e1">Your fortune: You Will Be Blessed With Many Black Bulls</b>','<b style="color:#16f174">Your fortune: NEETmax, The Day Is Lost If You Venture Outside</b>','<b style="color:#fd4d32">Your fortune: A Taste Of Jannah Awaits You Today</b>','<b style="color:#bac200">Your fortune: Watch Your Back</b>','<b style="color:#6023f8">Your fortune: Outlook good</b>','<b style="color:#d302a7">Your fortune: Godly Luck</b>','<b style="color:#e7890c">Your fortune: Good Luck</b>','<b style="color:#7fec11">Your fortune: Bad Luck</b>','<b style="color:#43fd3b">Your fortune: Good news will come to you by mail</b>','<b style="color:#9d05da">Your fortune: Very Bad Luck</b>','<b style="color:#00cbb0">Your fortune: ｷﾀ━━━━━━(ﾟ∀ﾟ)━━━━━━ !!!!</b>','<b style="color:#2a56fb">Your fortune: Better not tell you now</b>','<b style="color:#0893e1">Your fortune: You will meet a dark handsome stranger</b>','<b style="color:#16f174">Your fortune: （　´_ゝ`）ﾌｰﾝ</b>','<b style="color:#fd4d32">Your fortune: Excellent Luck</b>','<b style="color:#bac200">Your fortune: Average Luck</b>')
 
 FACTCHECK_REPLIES = ('<b style="color:#6023f8">Factcheck: This claim has been confirmed as correct by experts. </b>','<b style="color:#d302a7">Factcheck: This claim has been classified as misogynistic.</b>','<b style="color:#e7890c">Factcheck: This claim is currently being debunked.</b>','<b style="color:#7fec11">Factcheck: This claim is 100% true.</b>','<b style="color:#9d05da">Factcheck: This claim hurts trans lives.</b>','<b style="color:#f51c6a">Factcheck: [REDACTED].</b>','<b style="color:#00cbb0">Factcheck: This claim is both true and false.</b>','<b style="color:#2a56fb">Factcheck: You really believe that shit? Lmao dumbass nigga 🤣</b>','<b style="color:#0893e1">Factcheck: None of this is real.</b>','<b style="color:#16f174">Factcheck: Yes.</b>','<b style="color:#fd4d32">Factcheck: This claim has not been approved by experts.</b>','<b style="color:#bac200">Factcheck: This claim is a gross exageration of reality.</b>','<b style="color:#ff2200">Factcheck: WARNING! THIS CLAIM HAS BEEN CLASSIFIED AS DANGEROUS. PLEASE REMAIN STILL, AN AGENT WILL COME TO MEET YOU SHORTLY.</b>')
@@ -921,7 +874,7 @@ marseys_const2 = marseys_const + ['chudsey','a','b','c','d','e','f','g','h','i',
 db.close()
 
 SNAPPY_MARSEYS = []
-if SITE_NAME not in ('PCM', 'LGBDropTheT'):
+if SITE_NAME != 'PCM':
 	SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
 
 SNAPPY_QUOTES = []
@@ -943,8 +896,6 @@ approved_embed_hosts = {
 	'pcmemes.net',
 	'watchpeopledie.co',
 	'devrama.xyz',
-	'lgbdropthet.com',
-	'chudrama.net',
 	'imgur.com',
 	'lain.la',
 	'pngfind.com',
@@ -1058,6 +1009,3 @@ has_logo = path.exists(f'files/assets/images/{SITE_NAME}/logo.webp')
 has_app = path.exists(f'files/assets/app_{SITE_NAME}_v2.4.apk')
 
 GLOBAL = environ.get("GLOBAL")
-
-if SITE_NAME == "LGBDropTheT":
-	BAD_WORDS = ('tranny', 'troon', 'trancel', 'nigger', '(((', 'kike', 'k1ke', 'kik3', 'k1k3')

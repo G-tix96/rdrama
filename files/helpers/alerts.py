@@ -107,10 +107,6 @@ def NOTIFY_USERS(text, v):
 		user = get_user(i.group(2), graceful=True)
 		if user and v.id != user.id and not v.any_block_exists(user): notify_users.add(user.id)
 
-	if SITE_NAME == "LGBDropTheT" and any(i in text.lower() for i in BAD_WORDS):
-		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level > 0).all()]
-		notify_users.update(admin_ids)
-
 	return notify_users - bots
 
 if PUSHER_ID != 'blahblahblah':
