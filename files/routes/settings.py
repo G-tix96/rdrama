@@ -80,6 +80,10 @@ def settings_profile_post(v):
 		updated = True
 		v.nitter = request.values.get("nitter") == 'true'
 
+	elif request.values.get("imginn", v.imginn) != v.imginn:
+		updated = True
+		v.imginn = request.values.get("imginn") == 'true'
+
 	elif request.values.get("controversial", v.controversial) != v.controversial:
 		updated = True
 		v.controversial = request.values.get("controversial") == 'true'

@@ -211,6 +211,32 @@
 			</div>
 
 
+			<h2 class="h5">Instagram Links</h2>
+
+			<div class="settings-section rounded">
+
+				<div class="d-lg-flex border-bottom">
+
+					<div class="title w-lg-25">
+						<label for="imginn">Use Imginn</label>
+					</div>
+
+					<div class="body w-lg-100">
+
+						<div class="custom-control custom-switch">
+							<input autocomplete="off" type="checkbox" class="custom-control-input" id="imginn" name="imginn"{% if v.imginn %} checked{% endif %} onchange="post_toast(this,'/settings/profile?imginn='+document.getElementById('imginn').checked);">
+							<label class="custom-control-label" for="imginn"></label>
+						</div>
+
+						<span class="text-small text-muted">Enable if you would like to automatically convert instagram.com links to imginn.com links.</span>
+
+					</div>
+
+				</div>
+
+			</div>
+
+
 			<h2 class="h5">Reddit Links</h2>
 
 			<div class="settings-section rounded">

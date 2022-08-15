@@ -100,6 +100,10 @@ def execute_snappy(post, v):
 			newposturl = newposturl.replace('https://twitter.com/', 'https://nitter.42l.fr/')
 			gevent.spawn(archiveorg, newposturl)
 
+		if newposturl.startswith('https://instagram.com/'):
+			newposturl = newposturl.replace('https://instagram.com/', 'https://imginn.com/')
+			gevent.spawn(archiveorg, newposturl)
+
 	captured = []
 	body_for_snappy = post.body_html.replace(' data-src="', ' src="')
 
@@ -136,6 +140,10 @@ def execute_snappy(post, v):
 
 			if href.startswith('https://twitter.com/'):
 				href = href.replace('https://twitter.com/', 'https://nitter.42l.fr/')
+				gevent.spawn(archiveorg, href)
+
+			if href.startswith('https://instagram.com/'):
+				href = href.replace('https://instagram.com/', 'https://imginn.com/')
 				gevent.spawn(archiveorg, href)
 
 	body = body.strip()

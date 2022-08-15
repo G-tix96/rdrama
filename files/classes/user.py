@@ -82,6 +82,7 @@ class User(Base):
 	newtabexternal = Column(Boolean, default=True)
 	reddit = Column(String, default='old.reddit.com')
 	nitter = Column(Boolean)
+	imginn = Column(Boolean)
 	mute = Column(Boolean)
 	unmutable = Column(Boolean)
 	eye = Column(Boolean)
