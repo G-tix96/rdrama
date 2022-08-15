@@ -1,14 +1,11 @@
 <div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3 pb-5 bg-white" {% if request.path != '/sidebar' %}id="sidebar-content"{% endif %}>
 
-	{% if sub %}
-		{% set image=sub.sidebar_url %}
-	{% else %}
-		{% set image='/i/' + SITE_NAME + '/sidebar.webp?v=3000' %}
-	{% endif %}
+	{%- set art_path = "assets/images/WPD/sidebar" -%}
+	{%- set art_image = "/" + art_path + "/" + listdir('files/' + art_path)|random() + '?v=44' -%}
 
 	{% if request.path != '/sidebar' %}
-		<a href="{{image}}">
-			<img class="mb-4" alt="sidebar image" role="button" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
+		<a href="{{art_image}}">
+			<img class="mb-4" alt="sidebar image" role="button" onclick="expandDesktopImage()" loading="lazy" src="{{art_image}}" width=100%>
 		</a>
 	{% endif %}
 

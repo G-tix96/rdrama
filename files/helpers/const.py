@@ -318,6 +318,7 @@ elif SITE == 'pcmemes.net':
 	LOTTERY_SINK_RATE = -8
 elif SITE == 'watchpeopledie.co':
 	PERMS['HOLE_CREATE'] = 2
+	PERMS['CONTENT_THREADS'] = 2
 
 	FEATURES['PROCOINS'] = False
 
@@ -333,6 +334,8 @@ elif SITE == 'watchpeopledie.co':
 	CARP_ID = 14668
 	AEVANN_ID = 9
 	SNAKES_ID = 32
+
+	SIDEBAR_THREAD = 5403
 elif SITE == 'lgbdropthet.com':
 	PERMS['HOLE_CREATE'] = 3
 	PERMS['VOTES_VISIBLE'] = 2
