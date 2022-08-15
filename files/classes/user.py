@@ -440,7 +440,7 @@ class User(Base):
 	@property
 	@lazy
 	def modaction_num(self):
-		if self.admin_level < 2 or (self.id == AEVANN_ID and SITE_NAME != 'rDrama'): return 0
+		if self.admin_level < 2 or self.id == AEVANN_ID: return 0
 		return g.db.query(ModAction).filter_by(user_id=self.id).count()
 
 	@property
