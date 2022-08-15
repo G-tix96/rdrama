@@ -341,6 +341,9 @@ def comment(v):
 
 	if len(body_html) > 20000: abort(400)
 
+	if level > 200:
+		return {"error": "Max comment level is 200"}, 400
+
 	c = Comment(author_id=v.id,
 				parent_submission=parent_submission,
 				parent_comment_id=parent_comment_id,
