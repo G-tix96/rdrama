@@ -1137,10 +1137,15 @@
 {% if success %}
 	<script>
 		history.pushState(null, null, '{{p.permalink}}');
-		localStorage.setItem("post_title", "")
-		localStorage.setItem("post_text", "")
-		localStorage.setItem("post_url", "")
+		localStorage.setItem("post-title", "")
+		localStorage.setItem("post-text", "")
+		localStorage.setItem("post-url", "")
 		localStorage.setItem("sub", "")
+
+		localStorage.setItem("post-new", false)
+		localStorage.setItem("post-nsfw", false)
+		localStorage.setItem("post-private", false)
+		localStorage.setItem("post-club", false)
 	</script>
 {% endif %}
 

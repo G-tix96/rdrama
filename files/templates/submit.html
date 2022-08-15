@@ -170,29 +170,29 @@
 												<pre></pre>
 
 												<div class="custom-control custom-checkbox">
-													<input autocomplete="off" type="checkbox" class="custom-control-input" id="new" name="new">
-													<label class="custom-control-label" for="new">Make the default comment sorting "new"</label>
+													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-new" name="new" onchange="savetext()">
+													<label class="custom-control-label" for="post-new">Make the default comment sorting "new"</label>
 												</div>
 
 												<div class="custom-control custom-checkbox">
-														<input autocomplete="off" type="checkbox" class="custom-control-input" id="nsfw" name="over_18">
-														<label class="custom-control-label" for="nsfw">+18</label>
+													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-nsfw" name="over_18" onchange="savetext()">
+													<label class="custom-control-label" for="post-nsfw">+18</label>
 												</div>
 												<div class="custom-control custom-checkbox">
-														<input onchange='draft(this);' autocomplete="off" type="checkbox" class="custom-control-input" id="private" name="private">
-														<label class="custom-control-label" for="private">Draft</label>
+													<input onchange='draft(this);' autocomplete="off" type="checkbox" class="custom-control-input" id="post-private" name="private" onchange="savetext()">
+													<label class="custom-control-label" for="post-private">Draft</label>
 												</div>
 
 												{% if FEATURES['COUNTRY_CLUB'] -%}
 												<div class="custom-control custom-checkbox">
-													<input autocomplete="off" type="checkbox" class="custom-control-input" id="club" name="club">
-													<label class="custom-control-label" for="club">{{CC_TITLE}} thread</label>
+													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-club" name="club" onchange="savetext()">
+													<label class="custom-control-label" for="post-club">{{CC_TITLE}} thread</label>
 												</div>
 												{%- endif %}
 
 												<div class="custom-control custom-checkbox">
-														<input onchange='draft(this);' autocomplete="off" type="checkbox" class="custom-control-input" id="ghost" name="ghost" {% if v.coins < 100 %}disabled{% endif %}>
-														<label class="custom-control-label" for="ghost">Ghost Thread (cost: 100 coins)</label>
+													<input onchange='draft(this);' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost" {% if v.coins < 100 %}disabled{% endif %}>
+													<label class="custom-control-label" for="post-ghost">Ghost Thread (cost: 100 coins)</label>
 												</div>
 
 												<pre>

@@ -1,6 +1,11 @@
-document.getElementById('post-title').value = localStorage.getItem("post_title")
-document.getElementById('post-text').value = localStorage.getItem("post_text")
-document.getElementById('post-url').value = localStorage.getItem("post_url")
+document.getElementById('post-title').value = localStorage.getItem("post-title")
+document.getElementById('post-text').value = localStorage.getItem("post-text")
+document.getElementById('post-url').value = localStorage.getItem("post-url")
+
+document.getElementById('post-new').checked = localStorage.getItem("post-new") == 'true'
+document.getElementById('post-nsfw').checked = localStorage.getItem("post-nsfw") == 'true'
+document.getElementById('post-private').checked = localStorage.getItem("post-private") == 'true'
+document.getElementById('post-club').checked = localStorage.getItem("post-club") == 'true'
 
 markdown(document.getElementById("post-text"));
 
@@ -77,7 +82,7 @@ document.onpaste = function(event) {
 			document.getElementById('file-upload').setAttribute('required', 'false');
 		}
 		document.getElementById('post-url').value = null;
-		localStorage.setItem("post_url", "")
+		localStorage.setItem("post-url", "")
 		checkForRequired();
 	}
 }
@@ -97,11 +102,17 @@ document.getElementById('file-upload').addEventListener('change', function(){
 })
 
 function savetext() {
-	localStorage.setItem("post_title", document.getElementById('post-title').value)
-	localStorage.setItem("post_text", document.getElementById('post-text').value)
-	localStorage.setItem("post_url", document.getElementById('post-url').value)
+	localStorage.setItem("post-title", document.getElementById('post-title').value)
+	localStorage.setItem("post-text", document.getElementById('post-text').value)
+	localStorage.setItem("post-url", document.getElementById('post-url').value)
+
 	let sub = document.getElementById('sub')
 	if (sub) localStorage.setItem("sub", sub.value)
+
+	localStorage.setItem("post-new", document.getElementById('post-new').checked)
+	localStorage.setItem("post-nsfw", document.getElementById('post-nsfw').checked)
+	localStorage.setItem("post-private", document.getElementById('post-private').checked)
+	localStorage.setItem("post-club", document.getElementById('post-club').checked)
 }
 
 
