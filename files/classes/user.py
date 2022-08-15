@@ -774,3 +774,14 @@ class User(Base):
 	@lazy
 	def can_create_hole(self):
 		return self.admin_level >= PERMS['HOLE_CREATE']
+
+	@property
+	@lazy
+	def viewers_recorded(self):
+		if SITE_NAME == 'WPD': # WPD gets profile views
+			return True
+		elif self.admin_level >= 2: # Admins get profile views
+			return True
+		elif self.patron: # Patrons get profile views as a perk
+			return True
+		return False
