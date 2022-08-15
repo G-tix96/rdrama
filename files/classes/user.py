@@ -173,7 +173,7 @@ class User(Base):
 	@property
 	@lazy
 	def all_blocks(self):
-		return ['smuggies'] + [x[0] for x in g.db.query(SubBlock.sub).filter_by(user_id=self.id).all()]
+		return ['smuggies','braincels'] + [x[0] for x in g.db.query(SubBlock.sub).filter_by(user_id=self.id).all()]
 
 	@lazy
 	def blocks(self, sub):
