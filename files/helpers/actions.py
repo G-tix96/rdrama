@@ -43,10 +43,16 @@ def execute_snappy(post, v):
 	elif v.id == LAWLZ_ID:
 		if random.random() < 0.5: body = "wow, this lawlzpost sucks!"
 		else: body = "wow, a good lawlzpost for once!"
-	elif len(SNAPPY_QUOTES) == 0:
+	elif not SNAPPY_MARSEYS and not SNAPPY_QUOTES:
 		body = ""
 	else:
-		body = random.choice(SNAPPY_QUOTES).strip()
+		if SNAPPY_MARSEYS and SNAPPY_QUOTES:
+			if random.random() < 0.5: SNAPPY_CHOICES = SNAPPY_MARSEYS
+			else: SNAPPY_CHOICES = SNAPPY_QUOTES
+		elif SNAPPY_MARSEYS: SNAPPY_CHOICES = SNAPPY_MARSEYS
+		elif SNAPPY_QUOTES: SNAPPY_CHOICES = SNAPPY_QUOTES
+
+		body = random.choice(SNAPPY_CHOICES).strip()
 		if body.startswith('▼'):
 			body = body[1:]
 			vote = Vote(user_id=SNAPPY_ID,
