@@ -998,6 +998,11 @@ tiers={
 	"(JIDF Bankroller)": 6,
 	"(Rich Bich)": 7,
 	"(LlamaBean)": 1,
+	"(Victim)": 1,
+	"(Corpse)": 2,
+	"(Zombie)": 3,
+	"(Ghost)": 4,
+	"(Survivor)": 5,
 	}
 
 DISCORD_WELCOME_CHANNEL = "846509313941700618"
