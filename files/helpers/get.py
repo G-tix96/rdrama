@@ -78,7 +78,7 @@ def get_users(usernames, v=None, graceful=False):
 	def clean(n):
 		return n.replace('\\', '').replace('_', '\_').replace('%', '').strip()
 
-	usernames = [ clean(n) for n in usernames ]
+	usernames = [clean(n) for n in usernames]
 
 	users = g.db.query(User).filter(
 		or_(
