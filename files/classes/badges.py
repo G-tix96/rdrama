@@ -42,7 +42,7 @@ class Badge(Base):
 	@property
 	@lazy
 	def until(self):
-		if self.badge_id == 28: return self.user.agendaposter
+		if self.badge_id == 28 and self.user.agendaposter != 1: return self.user.agendaposter
 		if self.badge_id == 94: return self.user.progressivestack
 		if self.badge_id == 95: return self.user.bird
 		if self.badge_id == 96: return self.user.flairchanged

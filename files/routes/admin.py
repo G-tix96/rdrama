@@ -841,22 +841,22 @@ def agendaposter(user_id, v):
 	user = get_account(user_id)
 
 	days = request.values.get("days")
-	if not days: days = 365.0
-	days = float(days)
-	days = min(days, 365.0)
 
-	expiry = int(time.time() + days*60*60*24)
+	if days:
+		expiry = int(time.time() + int(days)*60*60*24)
+	else: expiry = 1
 
 	user.agendaposter = expiry
 	g.db.add(user)
 
-	note = f"for {days} days"
+	if days: note = f"for {days} days"
+	else: note = "permenantly"
 
 	ma = ModAction(
 		kind="agendaposter",
 		user_id=v.id,
 		target_user_id=user.id,
-		note = note
+		note=note
 	)
 	g.db.add(ma)
 
