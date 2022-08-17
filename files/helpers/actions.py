@@ -21,7 +21,6 @@ def badge_grant(user, badge_id, description=None, url=None):
 	)
 
 	g.db.add(badge)
-	g.db.flush()
 
 	send_repeatable_notification(user.id,
 		f"@AutoJanny has given you the following profile badge:\n\n" +
