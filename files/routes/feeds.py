@@ -71,4 +71,4 @@ def feeds_user(sort='hot', t='all'):
 					with tag("content", type="html"):
 						doc.cdata(f'''<img alt="{post.realtitle(None)}" loading="lazy" src="{image_url}"><br>{post.realbody(None)}''')
 
-	return Response( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+ doc.getvalue(), mimetype="application/xml")
+	return Response("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+ doc.getvalue(), mimetype="application/xml")

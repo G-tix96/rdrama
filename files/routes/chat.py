@@ -24,7 +24,7 @@ total = cache.get(f'{SITE}_total') or 0
 
 @app.get("/chat")
 @auth_required
-def chat( v):
+def chat(v):
 	return render_template("chat.html", v=v, messages=messages)
 
 

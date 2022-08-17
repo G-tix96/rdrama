@@ -62,7 +62,7 @@ def chart(kind, site):
 
 	plt.rcParams['figure.figsize'] = (chart_width, 20)
 
-	signup_chart   = plt.subplot2grid((chart_width, 20), ( 0, 0), rowspan=6, colspan=chart_width)
+	signup_chart = plt.subplot2grid((chart_width, 20), (0, 0), rowspan=6, colspan=chart_width)
 	posts_chart	= plt.subplot2grid((chart_width, 20), (10, 0), rowspan=6, colspan=chart_width)
 	comments_chart = plt.subplot2grid((chart_width, 20), (20, 0), rowspan=6, colspan=chart_width)
 

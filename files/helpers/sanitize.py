@@ -245,7 +245,7 @@ def sanitize(sanitized, edit=False, limit_pings=False, showmore=True):
 	v = getattr(g, 'v', None)
 
 	matches = [m for m in mention_regex.finditer(sanitized) if m]
-	names = set( m.group(2) for m in matches )
+	names = set(m.group(2) for m in matches)
 	if limit_pings and len(names) > 3 and not v.admin_level: abort(406)
 	users = get_users(names, graceful=True)
 
