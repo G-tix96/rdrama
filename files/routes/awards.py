@@ -377,7 +377,7 @@ def admin_userawards_post(v):
 
 		if value:
 			
-			if int(value) > 10 and v.id != AEVANN_ID: abort(403)
+			if int(value) > 100 or (int(value) > 10 and v.id != AEVANN_ID): abort(403)
 
 			if int(value): notify_awards[key] = int(value)
 
