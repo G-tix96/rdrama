@@ -544,6 +544,7 @@ def badge_grant_post(v):
 	if url: new_badge.url = url
 
 	g.db.add(new_badge)
+	g.db.flush()
 
 	if v.id != user.id:
 		text = f"@{v.username} has given you the following profile badge:\n\n![]({new_badge.path})\n\n{new_badge.name}"
