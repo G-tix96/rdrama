@@ -5,6 +5,8 @@ from flask import *
 from files.__main__ import app
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import *
+import time
+from calendar import timegm
 
 search_operator_hole = HOLE_NAME
 
@@ -119,11 +121,11 @@ def searchposts(v):
 		posts = posts.filter(Submission.sub == criteria[search_operator_hole])
 
 	if 'after' in criteria:
-		after = int(criteria['after'])
+		after = timegm(time.strptime(criteria['after'], "%Y-%m-%d"))
 		posts = posts.filter(Submission.created_utc > after)
 
 	if 'before' in criteria:
-		before = int(criteria['before'])
+		before = timegm(time.strptime(criteria['before'], "%Y-%m-%d"))
 		posts = posts.filter(Submission.created_utc < before)
 
 	posts = apply_time_filter(t, posts, Submission)
@@ -216,11 +218,11 @@ def searchcomments(v):
 		comments = comments.filter(Comment.parent_submission.notin_(club))
 
 	if 'after' in criteria:
-		after = int(criteria['after'])
+		after = timegm(time.strptime(criteria['after'], "%Y-%m-%d"))
 		comments = comments.filter(Comment.created_utc > after)
 
 	if 'before' in criteria:
-		before = int(criteria['before'])
+		before = timegm(time.strptime(criteria['before'], "%Y-%m-%d"))
 		comments = comments.filter(Comment.created_utc < before)
 
 	comments = sort_comments(sort, comments)
