@@ -334,6 +334,7 @@ elif SITE == 'watchpeopledie.co':
 	SNAKES_ID = 32
 
 	SIDEBAR_THREAD = 5403
+	MARSEY_THREAD = 5743
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HATS'] = True
@@ -793,6 +794,7 @@ NOTIFIED_USERS = {
 	'joan': JOAN_ID,
 	'pewkie': JOAN_ID,
 	'carp': CARP_ID,
+	'clit': CARP_ID,
 	'idio3': IDIO_ID,
 	'idio ': IDIO_ID,
 	'dong': DONGER_ID,
