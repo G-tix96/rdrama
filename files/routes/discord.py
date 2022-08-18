@@ -88,16 +88,6 @@ def discord_redirect(v):
 	v.discord_id=x["id"]
 	g.db.add(v)
 
-	if v.apps:
-		url=f"https://discord.com/api/guilds/998387482984980541/members/{x['id']}"
-		name=v.username
-		data={
-			"access_token":token,
-			"nick":name,
-		}
-		requests.put(url, headers=headers, json=data, timeout=5)
-		time.sleep(0.1)
-
 	url=f"https://discord.com/api/guilds/{DISCORD_SERVER_ID}/members/{x['id']}"
 
 	name=v.username
@@ -110,27 +100,22 @@ def discord_redirect(v):
 	x=requests.put(url, headers=headers, json=data, timeout=5)
 
 	if x.status_code in {201, 204}:
-
-		if v.admin_level > 2:
-			add_role(v, "owner")
-			time.sleep(0.1)
-
-			if SITE == 'rdrama.net' and v.id == AEVANN_ID:
-				requests.put("https://discord.com/api/guilds/913091440035389520/members/788152118669606932", headers=headers, json={"access_token":token,"roles":[915260962540511292]}, timeout=5)
-				time.sleep(0.1)
-
-				requests.put("https://discord.com/api/guilds/995677461134200895/members/788152118669606932", headers=headers, json={"access_token":token,"roles":[995991757022040094]}, timeout=5)
-				time.sleep(0.1)
-		
-		if v.admin_level > 1: add_role(v, "admin")
-
 		time.sleep(0.1)
 		add_role(v, "linked")
-		
+
 		if v.patron:
 			time.sleep(0.1)
 			add_role(v, str(v.patron))
-		
+
+		if SITE == 'rdrama.net' and v.id == AEVANN_ID:
+			time.sleep(0.1)
+			add_role(v, "admin")
+
+			time.sleep(0.1)
+			requests.put("https://discord.com/api/guilds/913091440035389520/members/788152118669606932", headers=headers, json={"access_token":token,"roles":[915260962540511292]}, timeout=5)
+
+			time.sleep(0.1)
+			requests.put("https://discord.com/api/guilds/995677461134200895/members/788152118669606932", headers=headers, json={"access_token":token,"roles":[1009864118657888316]}, timeout=5)
 	else:
 		return x.json()
 

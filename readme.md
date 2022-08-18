@@ -23,10 +23,6 @@ docker-compose up
 
 4- Optional: to change the domain from "localhost" to something else and configure the site settings, as well as integrate it with the external services the website uses, edit the variables in the `env` file and then restart the docker container.
 
-------
-
-For help or guidance with setting up your rDrama instance, join this discord server https://discord.gg/czP2HgpyH3
-
 
 ------
 
