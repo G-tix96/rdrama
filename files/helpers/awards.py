@@ -1,7 +1,7 @@
 from flask import g
 import time
 from files.helpers.alerts import send_repeatable_notification
-from files.helpers.const import bots
+from files.helpers.const import *
 from files.helpers.discord import remove_role
 from files.classes.badges import Badge
 from files.classes.user import User
