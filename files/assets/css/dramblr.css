@@ -142,3 +142,8 @@ color: var(--gray-700);
 {
     color: var(--gray-300) !important;
 }
+
+.tooltip-inner {
+	color: #d8d8d8;
+    background-color: #313131;
+}

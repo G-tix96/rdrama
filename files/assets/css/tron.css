@@ -229,3 +229,8 @@
     border-radius: 6px;
     margin-top: 6px;
 }
+
+.tooltip-inner {
+	color: #d8d8d8;
+    background-color: #313131;
+}

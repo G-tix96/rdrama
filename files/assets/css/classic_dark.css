@@ -215,3 +215,8 @@ a.nav-link:hover {
 .modal-content {
 	background-color: var(--black2);
 }
+
+.tooltip-inner {
+	color: #d8d8d8;
+    background-color: #313131;
+}
