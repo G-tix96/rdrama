@@ -15,8 +15,6 @@
 
 {% if g.loggedin_counter and not err and (SITE_NAME in ('PCM','rDrama') or g.loggedin_counter+g.loggedout_counter > 100) %}
 	<div class="srd">
-		<img src="/e/marseylowpoly.webp" height=18 width=28>
-
 		{% if v and v.admin_level > 1 and SITE != 'rdrama.net' %}
 			People here now: <a href="/admin/loggedin">{{g.loggedin_counter}} logged in</a>, <a href="/admin/loggedout">{{g.loggedout_counter}} logged out</a>
 		{% else %}
