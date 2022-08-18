@@ -18,14 +18,15 @@ from math import floor
 
 
 def normalize_urls_runtime(body, v):
-	
-	if v and v.reddit != 'old.reddit.com':
+	if not v: return body
+
+	if v.reddit != 'old.reddit.com':
 		body = reddit_to_vreddit_regex.sub(rf'\1https://{v.reddit}/\2/', body)
-		if v.nitter:
-			body = body.replace('https://twitter.com/', 'https://nitter.42l.fr/')
-			body = body.replace('https://nitter.42l.fr/i/', 'https://twitter.com/i/')
-		if v.imginn:
-			body = body.replace('https://instagram.com/', 'https://imginn.com/')
+	if v.nitter:
+		body = body.replace('https://twitter.com/', 'https://nitter.42l.fr/')
+		body = body.replace('https://nitter.42l.fr/i/', 'https://twitter.com/i/')
+	if v.imginn:
+		body = body.replace('https://instagram.com/', 'https://imginn.com/')
 
 	return body
 
