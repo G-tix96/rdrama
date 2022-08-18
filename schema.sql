@@ -143,7 +143,8 @@ CREATE TABLE public.award_relationships (
     submission_id integer,
     comment_id integer,
     kind character varying(20) NOT NULL,
-    awarded_utc integer
+    awarded_utc integer,
+    granted boolean
 );
 
 
