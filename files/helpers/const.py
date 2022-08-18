@@ -116,6 +116,8 @@ elif SITE_NAME == 'WPD':
 		"gook": "superior IQ Asian",
 		"kike": "jewish chad",
 		"daisy's destruction": "Cars 2",
+		"daisys destruction": "Cars 2",
+		"daisy destruction": "Cars 2",
 	}
 else:
 	SLURS = {
