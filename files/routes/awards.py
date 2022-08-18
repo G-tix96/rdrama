@@ -383,7 +383,8 @@ def admin_userawards_post(v):
 			for x in range(int(value)):
 				award = AwardRelationship(
 					user_id=u.id,
-					kind=key
+					kind=key,
+					granted=True
 				)
 
 				g.db.add(award)
