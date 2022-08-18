@@ -15,39 +15,36 @@
 
 {% if g.loggedin_counter and not err and (SITE_NAME in ('PCM','rDrama') or g.loggedin_counter+g.loggedout_counter > 100) %}
 	<div class="srd">
-		{% if v and v.admin_level > 1 and SITE != 'rdrama.net' %}
-			People here now: <a href="/admin/loggedin">{{g.loggedin_counter}} logged in</a>, <a href="/admin/loggedout">{{g.loggedout_counter}} logged out</a>
-		{% else %}
-			{% if SITE_NAME == 'rDrama' %}
-				{% if range(1,5) | random == 1 %}
-					{% include "journoid_banner.html" %}
-				{% else %}
-					{%-
-					set VISITORS_HERE_FLAVOR = [
-						' incels currently stalking roasties',
-						' gooners currently edging to <img src="/e/marseycumjar3.webp" style="height: 1.5em;">',
-						' fanboys currently obsessing over Carp',
-						' NEETs currently LDARmaxxing',
-						' valid women currently dilating',
-						' negholes currently being pozzed',
-						' bussies currently on standby',
-						' gamers currently harassing women',
-						' dramanauts hurtling through Safe Space™',
-						' Soros shills currently plotting mayocide',
-						' furries currently yiffing',
-						' incels currently harassing women',
-						' chuds currently agendaposting',
-						' coomers currently gooning',
-						' bacons currently narwhaling',
-						' well-behaved rule following goodthinkers',
-						' throwing shade right now',
-					]
-					-%}
-					{{g.loggedin_counter+g.loggedout_counter}} {{ VISITORS_HERE_FLAVOR|random|safe }} ({{ g.loggedin_counter }} logged in)
-				{% endif %}
+		{% if SITE_NAME == 'rDrama' %}
+			{% if range(1,5) | random == 1 %}
+				{% include "journoid_banner.html" %}
 			{% else %}
-				{{g.loggedin_counter+g.loggedout_counter}} people here now ({{g.loggedin_counter}} logged in)
+				{%-
+				set VISITORS_HERE_FLAVOR = [
+					' incels currently stalking roasties',
+					' gooners currently edging to <img src="/e/marseycumjar3.webp" style="height: 1.5em;">',
+					' fanboys currently obsessing over Carp',
+					' NEETs currently LDARmaxxing',
+					' valid women currently dilating',
+					' negholes currently being pozzed',
+					' bussies currently on standby',
+					' gamers currently harassing women',
+					' dramanauts hurtling through Safe Space™',
+					' Soros shills currently plotting mayocide',
+					' furries currently yiffing',
+					' incels currently harassing women',
+					' chuds currently agendaposting',
+					' coomers currently gooning',
+					' bacons currently narwhaling',
+					' well-behaved rule following goodthinkers',
+					' throwing shade right now',
+				]
+				-%}
+				{{g.loggedin_counter+g.loggedout_counter}} {{ VISITORS_HERE_FLAVOR|random|safe }} ({{ g.loggedin_counter }} logged in)
 			{% endif %}
+		{% else %}
+			{{g.loggedin_counter+g.loggedout_counter}} people here now ({{g.loggedin_counter}} logged in)
+		{% endif %}
 		{% endif %}
 	</div>
 {% else %}
