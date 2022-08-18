@@ -76,6 +76,6 @@ pre {
 }
 
 .tooltip-inner {
-	color: #d8d8d8;
-    background-color: #313131;
+	color: #d8d8d8 !important;
+	background-color: #313131 !important;
 }
