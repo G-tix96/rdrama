@@ -77,6 +77,14 @@ class Submission(Base):
 	def __repr__(self):
 		return f"<Submission(id={self.id})>"
 
+	@lazy
+	def can_see(self, v):
+		if self.sub != 'chudrama': return True
+		if v:
+			if v.id == self.author_id: return True
+			if v and v.truecoins >= 20000: return True
+		return False
+
 	@property
 	@lazy
 	def controversial(self):

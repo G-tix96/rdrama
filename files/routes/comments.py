@@ -44,6 +44,8 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	except: abort(404)
 
 	comment = get_comment(cid, v=v)
+
+	if not comment.can_see(v): abort(403)
 	
 	if comment.author.shadowbanned and not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
 		abort(404)

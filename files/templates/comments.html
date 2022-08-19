@@ -90,7 +90,7 @@
 		{% if render_replies %} 
 			{% if level<9 or request.path.startswith('/notifications') or request.headers.get("xhr") %}
 				<div id="replies-of-{{c.fullname}}">
-					{% for reply in replies if not reply.parent_submission or reply.post.sub != 'chudrama' or (v and v.truecoins >= 20000) %}
+					{% for reply in replies %}
 						{{single_comment(reply, level=level+1)}}
 					{% endfor %}
 				</div>
@@ -601,7 +601,7 @@
 	{% if render_replies %} 
 		{% if level<9 or request.path.startswith('/notifications') or request.headers.get("xhr") %}
 			<div id="replies-of-{{c.fullname}}">
-				{% for reply in replies if not reply.parent_submission or reply.post.sub != 'chudrama' or (v and v.truecoins >= 20000) %}
+				{% for reply in replies %}
 					{{single_comment(reply, level=level+1)}}
 				{% endfor %}
 			</div>
@@ -785,7 +785,7 @@
 
 {% endmacro %}
 
-{% for comment in comments if not comment.parent_submission or comment.post.sub != 'chudrama' or (v and v.truecoins >= 20000) %}
+{% for comment in comments if comment.can_see(v) %}
 
 	{{single_comment(comment)}}
 

@@ -58,7 +58,7 @@
 	</div>
 </div>
 
-{% for p in listing if p.sub != 'chudrama' or (v and v.truecoins >= 20000) %}
+{% for p in listing if p.can_see(v)  %}
 
 {% set ups=p.upvotes %}
 {% set downs=p.downvotes %}
