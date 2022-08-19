@@ -17,10 +17,14 @@
 		</thead>
 
 		{% for sub, count in subs %}
-			<tr>
-				<td {% if sub.stealth %}class="text-stealth"{% endif %}>{{loop.index}}</td>
-				<td><a href="/h/{{sub.name}}" {% if sub.stealth %}class="text-stealth"{% endif %}>{{sub.name}}</a></td>
-				<td><a href="/h/{{sub.name}}" {% if sub.stealth %}class="text-stealth"{% endif %}>{{count}}</a></td>
+			{% if sub.name in v.all_blocks %}
+				{% set blocked = True %}
+			{% endif %}
+
+			<tr {% if blocked %}data-bs-toggle="tooltip" data-bs-placement="bottom" title="Hidden from main feed"{% endif %}>
+				<td {% if blocked %}class="text-danger"{% endif %}>{{loop.index}}</td>
+				<td><a href="/h/{{sub.name}}" {% if blocked %}class="text-danger"{% endif %}>{{sub.name}}</a></td>
+				<td><a href="/h/{{sub.name}}" {% if blocked %}class="text-danger"{% endif %}>{{count}}</a></td>
 			</tr>
 		{% endfor %}
 	</table>
