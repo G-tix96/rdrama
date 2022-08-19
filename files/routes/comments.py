@@ -280,13 +280,13 @@ def comment(v):
 		with open(f"snappy_{SITE_NAME}.txt", "a", encoding="utf-8") as f:
 			f.write('\n{[para]}\n' + body)
 
-	if v.agendaposter and not v.marseyawarded and parent_post.id not in ADMIGGERS:
+	if v.agendaposter and not v.marseyawarded and parent_post.id not in ADMIGGERS and parent_post.sub != 'chudtopia':
 		body = torture_ap(body, v.username)
 
 	body_html = sanitize(body, limit_pings=True)
 
 
-	if parent_post.id not in ADMIGGERS and '!slots' not in body.lower() and '!blackjack' not in body.lower() and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
+	if parent_post.id not in ADMIGGERS and '!slots' not in body.lower() and '!blackjack' not in body.lower() and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower() and parent_post.sub != 'chudtopia':
 		existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
 																	Comment.deleted_utc == 0,
 																	Comment.parent_comment_id == parent_comment_id,
@@ -416,7 +416,7 @@ def comment(v):
 		n = Notification(comment_id=c_based.id, user_id=v.id)
 		g.db.add(n)
 
-	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower():
+	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and parent_post.sub != 'chudtopia':
 
 		c.is_banned = True
 		c.ban_reason = "AutoJanny"
@@ -654,7 +654,7 @@ def edit_comment(cid, v):
 		elif v.bird and len(body) > 140:
 			return {"error":"You have to type less than 140 characters!"}, 403
 
-		if v.agendaposter and not v.marseyawarded:
+		if v.agendaposter and not v.marseyawarded and c.post.sub != 'chudtopia':
 			body = torture_ap(body, v.username)
 
 		for i in poll_regex.finditer(body):
@@ -731,7 +731,7 @@ def edit_comment(cid, v):
 				notif = Notification(comment_id=c.id, user_id=CARP_ID)
 				g.db.add(notif)
 
-		if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower():
+		if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and c.post.sub != 'chudtopia':
 			return {"error": f'You have to include "{AGENDAPOSTER_PHRASE}" in your comment!'}, 403
 
 

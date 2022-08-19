@@ -1127,7 +1127,7 @@ def approve_post(post_id, v):
 
 	post = get_post(post_id)
 
-	if post.author.id == v.id and post.author.agendaposter and AGENDAPOSTER_PHRASE not in post.body.lower():
+	if post.author.id == v.id and post.author.agendaposter and AGENDAPOSTER_PHRASE not in post.body.lower() and post.sub != 'chudtopia':
 		return {"error": "You can't bypass the chud award!"}
 
 	if not post:
@@ -1322,7 +1322,7 @@ def approve_comment(c_id, v):
 	comment = get_comment(c_id)
 	if not comment: abort(404)
 	
-	if comment.author.id == v.id and comment.author.agendaposter and AGENDAPOSTER_PHRASE not in comment.body.lower():
+	if comment.author.id == v.id and comment.author.agendaposter and AGENDAPOSTER_PHRASE not in comment.body.lower() and comment.post.sub != 'chudtopia':
 		return {"error": "You can't bypass the chud award!"}
 
 	if comment.is_banned:

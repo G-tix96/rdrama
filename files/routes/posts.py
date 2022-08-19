@@ -406,7 +406,8 @@ def edit_post(pid, v):
 			return {"error":"You have to type less than 140 characters!"}, 403
 
 	if title != p.title:
-		if v.id == p.author_id and v.agendaposter and not v.marseyawarded: title = torture_ap(title, v.username)
+		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and p.sub != 'chudtopia':
+			title = torture_ap(title, v.username)
 
 		title_html = filter_emojis_only(title, edit=True)
 
@@ -421,7 +422,8 @@ def edit_post(pid, v):
 	body = body.strip()
 
 	if body != p.body:
-		if v.id == p.author_id and v.agendaposter and not v.marseyawarded: body = torture_ap(body, v.username)
+		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and p.sub != 'chudtopia':
+			body = torture_ap(body, v.username)
 
 		for i in poll_regex.finditer(body):
 			body = body.replace(i.group(0), "")
@@ -459,7 +461,7 @@ def edit_post(pid, v):
 
 		p.body_html = body_html
 
-		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{p.body}{p.title}'.lower():
+		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{p.body}{p.title}'.lower() and p.sub != 'chudtopia':
 			return {"error": f'You have to include "{AGENDAPOSTER_PHRASE}" in your post!'}, 403
 
 
@@ -717,7 +719,8 @@ def submit_post(v, sub=None):
 
 	if v.is_suspended: return error("You can't perform this action while banned.")
 	
-	if v.agendaposter and not v.marseyawarded: title = torture_ap(title, v.username)
+	if v.agendaposter and not v.marseyawarded and sub != 'chudtopia':
+		title = torture_ap(title, v.username)
 
 	title_html = filter_emojis_only(title, graceful=True)
 
@@ -887,7 +890,8 @@ def submit_post(v, sub=None):
 		choices.append(i.group(1))
 		body = body.replace(i.group(0), "")
 
-	if v.agendaposter and not v.marseyawarded: body = torture_ap(body, v.username)
+	if v.agendaposter and not v.marseyawarded and sub != 'chudtopia':
+		body = torture_ap(body, v.username)
 
 	body += process_files()
 
@@ -1010,7 +1014,7 @@ def submit_post(v, sub=None):
 			for x in notify_users:
 				add_notif(cid, x)
 
-	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{post.body}{post.title}'.lower():
+	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{post.body}{post.title}'.lower() and sub != 'chudtopia':
 		post.is_banned = True
 		post.ban_reason = "AutoJanny"
 
