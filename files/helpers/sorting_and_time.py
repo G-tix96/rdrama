@@ -30,6 +30,8 @@ def sort_comments(sort, comments):
 		return comments.order_by((Comment.upvotes+1)/(Comment.downvotes+1) + (Comment.downvotes+1)/(Comment.upvotes+1), Comment.downvotes.desc(), Comment.id.desc())
 	elif sort == "bottom":
 		return comments.order_by(Comment.upvotes - Comment.downvotes)
+	elif SITE_NAME == 'rDrama':
+		return comments.order_by(Comment.realupvotes.desc(), Comment.id.desc())
 	else:
 		return comments.order_by(Comment.downvotes - Comment.upvotes, Comment.id.desc())
 
