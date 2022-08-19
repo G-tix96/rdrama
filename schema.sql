@@ -643,6 +643,16 @@ CREATE TABLE public.sub_blocks (
 
 
 --
+-- Name: sub_joins; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.sub_joins (
+    user_id integer NOT NULL,
+    sub character varying(25) NOT NULL
+);
+
+
+--
 -- Name: sub_subscriptions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -719,7 +729,8 @@ CREATE TABLE public.subs (
     sidebar_html character varying(20000),
     sidebarurl character varying(60),
     bannerurl character varying(60),
-    css character varying(6000)
+    css character varying(6000),
+    stealth boolean
 );
 
 
@@ -1215,6 +1226,14 @@ ALTER TABLE ONLY public.sub_blocks
 
 
 --
+-- Name: sub_joins sub_joins_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sub_joins
+    ADD CONSTRAINT sub_joins_pkey PRIMARY KEY (user_id, sub);
+
+
+--
 -- Name: sub_subscriptions sub_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1500,6 +1519,13 @@ CREATE INDEX fki_save_relationship_submission_fkey ON public.save_relationship U
 --
 
 CREATE INDEX fki_sub_blocks_sub_fkey ON public.sub_blocks USING btree (sub);
+
+
+--
+-- Name: fki_sub_joins_sub_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_sub_joins_sub_fkey ON public.sub_joins USING btree (sub);
 
 
 --
@@ -2155,6 +2181,22 @@ ALTER TABLE ONLY public.sub_blocks
 
 ALTER TABLE ONLY public.submissions
     ADD CONSTRAINT sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name);
+
+
+--
+-- Name: sub_joins sub_joins_sub_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sub_joins
+    ADD CONSTRAINT sub_joins_sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name) MATCH FULL;
+
+
+--
+-- Name: sub_joins sub_joins_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sub_joins
+    ADD CONSTRAINT sub_joins_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
 
 
 --
