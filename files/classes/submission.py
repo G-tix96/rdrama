@@ -82,7 +82,7 @@ class Submission(Base):
 		if self.sub != 'chudrama': return True
 		if v:
 			if v.id == self.author_id: return True
-			if v and v.truecoins >= 20000: return True
+			if v and v.truecoins >= 5000: return True
 		return False
 
 	@property

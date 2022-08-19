@@ -91,7 +91,7 @@ class Comment(Base):
 		if v:
 			if v.id == self.author_id: return True
 			if v.id == self.post.author_id: return True
-			if v and v.truecoins >= 20000: return True
+			if v and v.truecoins >= 5000: return True
 		return False
 
 
