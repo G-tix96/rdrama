@@ -17,10 +17,9 @@
 		</thead>
 
 		{% for sub, count in subs %}
-
 			<tr>
 				<td>{{loop.index}}</td>
-				<td><a href="/h/{{sub.name}}">{{sub.name}} {% if sub.name in v.all_blocks %}[hidden from your main feed, visit it to unhide it]{% endif %}</a></td>
+				<td {% if sub.name in v.all_blocks %}class="text-danger"{% endif %}><a href="/h/{{sub.name}}">{{sub.name}} {% if sub.name in v.all_blocks %}[hidden from your main feed, visit it to unhide it]{% endif %}</a></td>
 				<td><a href="/h/{{sub.name}}" >{{count}}</a></td>
 			</tr>
 		{% endfor %}
