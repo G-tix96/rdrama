@@ -134,7 +134,6 @@ function expandDesktopImage(url) {
 		if (!url) url = e.target.src
 	}
 	document.getElementById("desktop-expanded-image").src = url.replace("200w_d.webp", "giphy.webp");
-	document.getElementById("desktop-expanded-image-link").href = url;
 	document.getElementById("desktop-expanded-image-wrap-link").href = url;
 	bootstrap.Modal.getOrCreateInstance(document.getElementById('expandImageModal')).show();
 };
