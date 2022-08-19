@@ -6230,3 +6230,10 @@ g {
 .expandedimage {
 	min-height: 1rem !important;
 }
+
+@media (max-width: 767.98px) {
+	.expandedimage {
+		margin-top: 10vh !important;
+		margin-bottom: 10vh !important;
+	}
+}
