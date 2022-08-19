@@ -28,6 +28,18 @@
 	</div>
 {% endif %}
 
+
+<div class="title w-lg-25 mt-5">
+	<label class="text-lg" for="stealth">Stealth Mode</label>
+</div>
+<div class="body w-lg-100">
+	<div class="custom-control custom-switch">
+		<input autocomplete="off" type="checkbox" class="custom-control-input" id="stealth" name="stealth" {% if sub.stealth %}checked{% endif %} onchange="post_toast(this,'/h/{{sub.name}}/stealth');">
+		<label class="custom-control-label" for="stealth"></label>
+	</div>
+	<span class="text-small text-muted">Hide posts in this hole from the main feed for non-subscribers.</span>
+</div>
+
 <h2 class="h5 mt-5">Sidebar Picture</h2>
 
 <div class="settings-section rounded">

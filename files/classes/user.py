@@ -19,6 +19,7 @@ from .mod import *
 from .exiles import *
 from .sub_block import *
 from .sub_subscription import *
+from .sub_join import *
 from files.__main__ import Base, cache
 from files.helpers.security import *
 from copy import deepcopy
@@ -173,11 +174,17 @@ class User(Base):
 	@property
 	@lazy
 	def all_blocks(self):
-		return ['smuggies','braincels'] + [x[0] for x in g.db.query(SubBlock.sub).filter_by(user_id=self.id).all()]
+		stealth = set([x[0] for x in g.db.query(Sub.name).filter_by(stealth=True).all()]) - set([x[0] for x in g.db.query(SubJoin.sub).filter_by(user_id=self.id).all()])
+
+		return list(stealth) + [x[0] for x in g.db.query(SubBlock.sub).filter_by(user_id=self.id).all()]
 
 	@lazy
 	def blocks(self, sub):
 		return g.db.query(SubBlock).filter_by(user_id=self.id, sub=sub).one_or_none()
+
+	@lazy
+	def subscribes(self, sub):
+		return g.db.query(SubJoin).filter_by(user_id=self.id, sub=sub).one_or_none()
 
 	@property
 	@lazy

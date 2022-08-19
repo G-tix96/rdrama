@@ -27,7 +27,10 @@ def front_all(v, sub=None, subdomain=None):
 		if not redir.startswith('/'): redir = f'/{redir}'
 		return redirect(redir)
 
-	if sub: sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	if sub:
+		sub = sub.strip().lower()
+		if sub == 'chudtopia' and not (v and v.truecoins >= 20000): abort(403)
+		sub = g.db.query(Sub).filter_by(name=sub).one_or_none()
 	
 	if (request.path.startswith('/h/') or request.path.startswith('/s/')) and not sub: abort(404)
 

@@ -19,6 +19,7 @@ class Sub(Base):
 	sidebarurl = Column(String)
 	bannerurl = Column(String)
 	css = Column(String)
+	stealth = Column(Boolean)
 
 	blocks = relationship("SubBlock", primaryjoin="SubBlock.sub==Sub.name")
 	followers = relationship("SubSubscription", primaryjoin="SubSubscription.sub==Sub.name")

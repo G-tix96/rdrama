@@ -13,18 +13,14 @@
 				<th>#</th>
 				<th>Name</th>
 				<th role="button" onclick="sort_table(2)">Posts</th>
-				<th role="button" onclick="sort_table(3)">Followers</th>
-				<th role="button" onclick="sort_table(4)">Blockers</th>
 			</tr>
 		</thead>
 
 		{% for sub, count in subs %}
 			<tr>
-				<td {% if sub.name in ['smuggies','braincels'] %}class="text-danger"{% endif %}>{{loop.index}}</td>
-				<td><a href="/h/{{sub.name}}" {% if sub.name in ['smuggies','braincels'] %}class="text-danger"{% endif %}>{{sub.name}}</a></td>
-				<td><a href="/h/{{sub.name}}" {% if sub.name in ['smuggies','braincels'] %}class="text-danger"{% endif %}>{{count}}</a></td>
-				<td><a href="/h/{{sub.name}}/followers" {% if sub.name in ['smuggies','braincels'] %}class="text-danger"{% endif %}>{{sub.follow_num}}</a></td>
-				<td><a href="/h/{{sub.name}}/blockers" {% if sub.name in ['smuggies','braincels'] %}class="text-danger"{% endif %}>{{sub.block_num}}</a></td>
+				<td {% if sub.stealth %}class="text-stealth"{% endif %}>{{loop.index}}</td>
+				<td><a href="/h/{{sub.name}}" {% if sub.stealth %}class="text-stealth"{% endif %}>{{sub.name}}</a></td>
+				<td><a href="/h/{{sub.name}}" {% if sub.stealth %}class="text-stealth"{% endif %}>{{count}}</a></td>
 			</tr>
 		{% endfor %}
 	</table>

@@ -95,8 +95,6 @@ def block_sub(v, sub):
 	if not sub: abort(404)
 	sub = sub.name
 
-	if v.mods(sub): return {"error": f"You can't block {HOLE_NAME}s you mod!"}
-
 	existing = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub).one_or_none()
 
 	if not existing:
@@ -104,7 +102,7 @@ def block_sub(v, sub):
 		g.db.add(block)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"{HOLE_NAME.capitalize()} blocked successfully!"}
+	return {"message": "Action successful!"}
 
 
 @app.post("/h/<sub>/unblock")
@@ -120,7 +118,39 @@ def unblock_sub(v, sub):
 		g.db.delete(block)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"{HOLE_NAME.capitalize()} unblocked successfully!"}
+	return {"message": "Action successful!"}
+
+
+@app.post("/h/<sub>/subscribe")
+@auth_required
+def subscribe_sub(v, sub):
+	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	if not sub: abort(404)
+	sub = sub.name
+
+	existing = g.db.query(SubJoin).filter_by(user_id=v.id, sub=sub).one_or_none()
+
+	if not existing:
+		subscribe = SubJoin(user_id=v.id, sub=sub)
+		g.db.add(subscribe)
+		cache.delete_memoized(frontlist)
+
+	return {"message": "Action successful!"}
+
+@app.post("/h/<sub>/unsubscribe")
+@auth_required
+def unsubscribe_sub(v, sub):
+	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	if not sub: abort(404)
+	sub = sub.name
+
+	subscribe = g.db.query(SubJoin).filter_by(user_id=v.id, sub=sub).one_or_none()
+
+	if subscribe:
+		g.db.delete(subscribe)
+		cache.delete_memoized(frontlist)
+
+	return {"message": "Action successful!"}
 
 @app.post("/h/<sub>/follow")
 @auth_required
@@ -128,13 +158,14 @@ def follow_sub(v, sub):
 	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
 
-	existing = g.db.query(SubSubscription) \
-		.filter_by(user_id=v.id, sub=sub.name).one_or_none()
+	existing = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
+	
 	if not existing:
 		subscription = SubSubscription(user_id=v.id, sub=sub.name)
 		g.db.add(subscription)
+		cache.delete_memoized(frontlist)
 
-	return {"message": f"{HOLE_NAME.capitalize()} followed successfully!"}
+	return {"message": f"Action successful!"}
 
 @app.post("/h/<sub>/unfollow")
 @auth_required
@@ -142,12 +173,13 @@ def unfollow_sub(v, sub):
 	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
 
-	subscription = g.db.query(SubSubscription) \
-		.filter_by(user_id=v.id, sub=sub.name).one_or_none()
+	subscription = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
+	
 	if subscription:
 		g.db.delete(subscription)
+		cache.delete_memoized(frontlist)
 
-	return {"message": f"{HOLE_NAME.capitalize()} unfollowed successfully!"}
+	return {"message": f"Action successful!"}
 
 @app.get("/h/<sub>/mods")
 @auth_required
@@ -291,6 +323,7 @@ def create_sub2(v):
 
 		sub = Sub(name=name)
 		g.db.add(sub)
+		g.db.flush()
 		mod = Mod(user_id=v.id, sub=sub.name)
 		g.db.add(mod)
 
@@ -477,3 +510,22 @@ def hole_unpin(v, pid):
 		send_repeatable_notification(p.author_id, message)
 
 	return {"message": f"Post unpinned from /h/{p.sub}"}
+
+
+@app.post('/h/<sub>/stealth')
+@is_not_permabanned
+def sub_stealth(v, sub):
+	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	if not sub: abort(404)
+
+	if not v.mods(sub.name): abort(403)
+
+	sub.stealth = not sub.stealth
+	g.db.add(sub)
+
+	cache.delete_memoized(frontlist)
+
+	if sub.stealth:
+		return {"message": f"Stealth mode enabled!"}
+	else:
+		return {"message": f"Stealth mode disabled!"}

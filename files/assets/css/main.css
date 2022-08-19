@@ -744,8 +744,6 @@ input[type=submit].btn-block, input[type=reset].btn-block, input[type=button].bt
 .btn-follow {
 	display: block;
 	width: 100%;
-}
-.btn-follow + .btn-follow {
 	margin-top: 0.5rem;
 }
 input[type=submit].btn-follow, input[type=reset].btn-follow, input[type=button].btn-follow {
@@ -6243,4 +6241,8 @@ g {
 .desktop-expanded-image-modal::-webkit-scrollbar {
 	-ms-overflow-style: none;
 	scrollbar-width: none;
+}
+
+.text-stealth {
+	color: #a4f5f3 !important;
 }

@@ -58,7 +58,7 @@
 	</div>
 </div>
 
-{% for p in listing %}
+{% for p in listing if p.sub != 'chudtopia' or (v and v.truecoins >= 20000) %}
 
 {% set ups=p.upvotes %}
 {% set downs=p.downvotes %}

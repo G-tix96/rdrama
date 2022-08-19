@@ -1074,7 +1074,7 @@ def submit_post(v, sub=None):
 		post.downvotes += 1
 		g.db.add(post)
 
-	if SITE == 'rdrama.net' and post.sub and post.sub not in ('dankchristianmemes','fatpeoplehate','braincels','truth','smuggies') and v.id != AEVANN_ID:
+	if SITE == 'rdrama.net' and post.sub and post.sub not in ('dankchristianmemes','fatpeoplehate','braincels','truth','smuggies','chudtopia') and v.id != AEVANN_ID:
 		g.db.flush()
 		autovote = Vote(
 			user_id=AEVANN_ID,
