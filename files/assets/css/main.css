@@ -6238,11 +6238,11 @@ g {
 	}
 }
 
-.expandedimage::-webkit-scrollbar {
+.desktop-expanded-image-modal::-webkit-scrollbar {
 	display: none;
 }
 
-.expandedimage {
+.desktop-expanded-image-modal::-webkit-scrollbar {
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
