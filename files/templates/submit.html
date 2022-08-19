@@ -95,10 +95,6 @@
 													
 												</div>
 
-												{% if not HOLE_REQUIRED -%}
-												<div class="mt-1" style="font-size: min(3.5vw,14px)"><span style="color:#ffcccb ">WARNING</span>: Selecting a {{HOLE_NAME}} considerably reduces the number of people who will see your post. Don't select a {{HOLE_NAME}} unless that's what you want.</div>
-												{%- endif %}
-
 												{% if FEATURES['CATEGORIES'] -%}
 													<label class="mt-4" for="submit-categories">Category</label>
 													<div id="submit-categories"></div>
