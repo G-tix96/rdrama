@@ -277,7 +277,7 @@
 	{% if '@' not in request.path %}	
 		{% if sub and SITE_NAME != 'WPD' %}
 			<a href="{{sub.banner_url}}">
-				<img alt="/h/{{sub.name}} banner" role="button" onclick="expandDesktopImage()" loading="lazy" src="{{sub.banner_url}}" width=100% style="object-fit:cover;max-height:min(42vh,30vw)!important">
+				<img alt="/h/{{sub.name}} banner" role="button" onclick="expandDesktopImage()" src="{{sub.banner_url}}" width=100% style="object-fit:cover;max-height:min(42vh,30vw)!important">
 			</a>
 		{% elif SITE_NAME == 'rDrama' %}
 			<a href="https://secure.transequality.org/site/Donation2?df_id=1480">
@@ -289,17 +289,21 @@
 					<img alt="site banner" src="{% if v %}{{image}}{% else %}{{asset_siteimg('cached.webp')}}{% endif %}" width="100%">
 				{% endif %}
 			</a>
-		{% elif SITE_NAME == 'WPD' %}
-			<a href="/">
-				<img alt="site banner" src="{% if v %}{{asset_siteimg('banner.webp')}}{% else %}{{asset_siteimg('cached.webp')}}{% endif %}" width="100%">
-			</a>
-		{% elif SITE_NAME == 'PCM' %}
-			<a href="/">
-				<img alt="site banner" src="{{asset_siteimg('banners/great-value-v2.webp')}}" width="100%">
-			</a>
 		{% else %}
-			<a href="/">
-				<img alt="site banner" src="{{asset_siteimg('banner.webp')}}" width="100%">
+			{% if SITE_NAME == 'WPD' %}
+				{% if v %}
+					{% set banner = asset_siteimg('banner.webp') %}
+				{% else %}
+					{% set banner = asset_siteimg('cached.webp') %}
+				{% endif %}
+			{% elif SITE_NAME == 'PCM' %}
+				{% set banner = asset_siteimg('banners/great-value-v2.webp') %}
+			{% else %}
+				{% set banner = asset_siteimg('banner.webp') %}
+			{% endif %}
+
+			<a href="{{banner}}">
+				<img alt="site banner" role="button" onclick="expandDesktopImage()" src="{{banner}}" width="100%">
 			</a>
 		{% endif %}
 	{% endif %}
