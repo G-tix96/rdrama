@@ -245,16 +245,16 @@ def sanitize(sanitized, edit=False, limit_pings=False, showmore=True):
 	v = getattr(g, 'v', None)
 
 	matches = [m for m in mention_regex.finditer(sanitized) if m]
-	names = set(m.group(2) for m in matches)
+	names = set(m.group(1) for m in matches)
 	if limit_pings and len(names) > 3 and not v.admin_level: abort(406)
 	users = get_users(names, graceful=True)
 
 	for u in users:
 		if not u: continue
-		m = [m for m in matches if u.username.lower() == m.group(2).lower() or u.original_username.lower() == m.group(2).lower()]
+		m = [m for m in matches if u.username.lower() == m.group(1).lower() or u.original_username.lower() == m.group(1).lower()]
 		for i in m:
 			if not (v and v.any_block_exists(u)) or (v and v.admin_level >= 2):
-				sanitized = sanitized.replace(i.group(0), f'''<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>{i.group(4)}''')
+				sanitized = sanitized.replace(i.group(0), f'''<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>{i.group(3)}''')
 
 	soup = BeautifulSoup(sanitized, 'lxml')
 

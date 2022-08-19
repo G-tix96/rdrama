@@ -4,7 +4,7 @@ from random import choice, choices
 
 valid_username_chars = 'a-zA-Z0-9_\-'
 valid_username_regex = re.compile("^[a-zA-Z0-9_\-]{3,25}$", flags=re.A)
-mention_regex = re.compile('(?<=(\s|>))@(([a-zA-Z0-9_\-]){1,25})($|\s|<\/p>)', flags=re.A)
+mention_regex = re.compile('@(([a-zA-Z0-9_\-]){1,25})($|[^a-zA-Z0-9_\-])', flags=re.A)
 
 valid_password_regex = re.compile("^.{8,100}$", flags=re.A)
 
