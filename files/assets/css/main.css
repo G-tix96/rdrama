@@ -6237,3 +6237,12 @@ g {
 		margin-bottom: 10vh !important;
 	}
 }
+
+.expandedimage::-webkit-scrollbar {
+	display: none;
+}
+
+.expandedimage {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
