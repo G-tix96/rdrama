@@ -29,7 +29,7 @@ def front_all(v, sub=None, subdomain=None):
 
 	if sub:
 		sub = sub.strip().lower()
-		if sub == 'chudtopia' and not (v and v.truecoins >= 20000): abort(403)
+		if sub == 'chudrama' and not (v and v.truecoins >= 20000): abort(403)
 		sub = g.db.query(Sub).filter_by(name=sub).one_or_none()
 	
 	if (request.path.startswith('/h/') or request.path.startswith('/s/')) and not sub: abort(404)

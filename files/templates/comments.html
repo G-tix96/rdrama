@@ -90,7 +90,7 @@
 		{% if render_replies %} 
 			{% if level<9 or request.path.startswith('/notifications') or request.headers.get("xhr") %}
 				<div id="replies-of-{{c.fullname}}">
-					{% for reply in replies if not reply.parent_submission or reply.post.sub != 'chudtopia' or (v and v.truecoins >= 20000) %}
+					{% for reply in replies if not reply.parent_submission or reply.post.sub != 'chudrama' or (v and v.truecoins >= 20000) %}
 						{{single_comment(reply, level=level+1)}}
 					{% endfor %}
 				</div>
@@ -300,7 +300,7 @@
 				</style>
 			{% endif %}
 
-			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.author.agendaposter and not (c.parent_submission and c.post.sub == 'chudtopia') %}agendaposter{% endif %}">
+			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.author.agendaposter and not (c.parent_submission and c.post.sub == 'chudrama') %}agendaposter{% endif %}">
 				{{c.realbody(v) | safe}}
 			</div>
 			{% if c.parent_submission %}
@@ -601,7 +601,7 @@
 	{% if render_replies %} 
 		{% if level<9 or request.path.startswith('/notifications') or request.headers.get("xhr") %}
 			<div id="replies-of-{{c.fullname}}">
-				{% for reply in replies if not reply.parent_submission or reply.post.sub != 'chudtopia' or (v and v.truecoins >= 20000) %}
+				{% for reply in replies if not reply.parent_submission or reply.post.sub != 'chudrama' or (v and v.truecoins >= 20000) %}
 					{{single_comment(reply, level=level+1)}}
 				{% endfor %}
 			</div>
@@ -785,7 +785,7 @@
 
 {% endmacro %}
 
-{% for comment in comments if not comment.parent_submission or comment.post.sub != 'chudtopia' or (v and v.truecoins >= 20000) %}
+{% for comment in comments if not comment.parent_submission or comment.post.sub != 'chudrama' or (v and v.truecoins >= 20000) %}
 
 	{{single_comment(comment)}}
 

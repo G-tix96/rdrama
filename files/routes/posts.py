@@ -406,7 +406,7 @@ def edit_post(pid, v):
 			return {"error":"You have to type less than 140 characters!"}, 403
 
 	if title != p.title:
-		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and p.sub != 'chudtopia':
+		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and p.sub != 'chudrama':
 			title = torture_ap(title, v.username)
 
 		title_html = filter_emojis_only(title, edit=True)
@@ -422,7 +422,7 @@ def edit_post(pid, v):
 	body = body.strip()
 
 	if body != p.body:
-		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and p.sub != 'chudtopia':
+		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and p.sub != 'chudrama':
 			body = torture_ap(body, v.username)
 
 		for i in poll_regex.finditer(body):
@@ -461,7 +461,7 @@ def edit_post(pid, v):
 
 		p.body_html = body_html
 
-		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{p.body}{p.title}'.lower() and p.sub != 'chudtopia':
+		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{p.body}{p.title}'.lower() and p.sub != 'chudrama':
 			return {"error": f'You have to include "{AGENDAPOSTER_PHRASE}" in your post!'}, 403
 
 
@@ -719,7 +719,7 @@ def submit_post(v, sub=None):
 
 	if v.is_suspended: return error("You can't perform this action while banned.")
 	
-	if v.agendaposter and not v.marseyawarded and sub != 'chudtopia':
+	if v.agendaposter and not v.marseyawarded and sub != 'chudrama':
 		title = torture_ap(title, v.username)
 
 	title_html = filter_emojis_only(title, graceful=True)
@@ -890,7 +890,7 @@ def submit_post(v, sub=None):
 		choices.append(i.group(1))
 		body = body.replace(i.group(0), "")
 
-	if v.agendaposter and not v.marseyawarded and sub != 'chudtopia':
+	if v.agendaposter and not v.marseyawarded and sub != 'chudrama':
 		body = torture_ap(body, v.username)
 
 	body += process_files()
@@ -1014,7 +1014,7 @@ def submit_post(v, sub=None):
 			for x in notify_users:
 				add_notif(cid, x)
 
-	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{post.body}{post.title}'.lower() and sub != 'chudtopia':
+	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{post.body}{post.title}'.lower() and sub != 'chudrama':
 		post.is_banned = True
 		post.ban_reason = "AutoJanny"
 
@@ -1078,7 +1078,7 @@ def submit_post(v, sub=None):
 		post.downvotes += 1
 		g.db.add(post)
 
-	if SITE == 'rdrama.net' and post.sub and post.sub not in ('dankchristianmemes','fatpeoplehate','braincels','truth','smuggies','chudtopia') and v.id != AEVANN_ID:
+	if SITE == 'rdrama.net' and post.sub and post.sub not in ('dankchristianmemes','fatpeoplehate','braincels','truth','smuggies','chudrama') and v.id != AEVANN_ID:
 		g.db.flush()
 		autovote = Vote(
 			user_id=AEVANN_ID,
