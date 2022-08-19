@@ -165,7 +165,7 @@
 					<a class="nav-link position-relative" href="/chat">
 						<i class="fas fa-messages" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"></i>						
 						<b class="text-lg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">
-							{{cache.get(ONLINE_STR) or 1}}
+							{{cache.get(ONLINE_STR) or 0}}
 						</b>
 					</a>
 				</li>
