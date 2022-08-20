@@ -6220,15 +6220,6 @@ g {
 	font-weight: 600;
 }
 
-.expandedimage {
-	min-height: 1rem !important;
-}
-
-.expandedimage {
-	margin-top: 10vh !important;
-	margin-bottom: 10vh !important;
-}
-
 .desktop-expanded-image-modal::-webkit-scrollbar {
 	display: none;
 }
