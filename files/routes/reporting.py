@@ -29,13 +29,14 @@ def flag_post(pid, v):
 	if reason.startswith('!') and (v.admin_level > 1 or post.sub and v.mods(post.sub)):
 		post.flair = reason[1:]
 		g.db.add(post)
-		ma=ModAction(
-			kind="flair_post",
-			user_id=v.id,
-			target_submission_id=post.id,
-			_note=f'"{post.flair}"'
-		)
-		g.db.add(ma)
+		if v.admin_level > 1:
+			ma=ModAction(
+				kind="flair_post",
+				user_id=v.id,
+				target_submission_id=post.id,
+				_note=f'"{post.flair}"'
+			)
+			g.db.add(ma)
 	elif reason.startswith('/h/') and (v.admin_level >= 2 or v.id == post.author_id):
 
 		sub_from = post.sub
