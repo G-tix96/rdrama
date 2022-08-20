@@ -17,8 +17,6 @@ def exile_post(v, pid):
 	sub = p.sub
 	if not sub: abort(400)
 
-	if sub == 'braincels': abort(403)
-
 	if not v.mods(sub): abort(403)
 
 	u = p.author
@@ -45,8 +43,6 @@ def exile_comment(v, cid):
 	c = get_comment(cid)
 	sub = c.post.sub
 	if not sub: abort(400)
-
-	if sub == 'braincels': abort(403)
 
 	if not v.mods(sub): abort(403)
 
@@ -518,7 +514,7 @@ def sub_stealth(v, sub):
 	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
 
-	if sub.name == 'smuggies': abort(403)
+	if sub.name in ('smuggies','braincels'): abort(403)
 	if not v.mods(sub.name): abort(403)
 
 	sub.stealth = not sub.stealth
