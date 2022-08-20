@@ -90,9 +90,9 @@ class Comment(Base):
 		if not self.parent_submission: return True
 		if self.post.sub != 'chudrama': return True
 		if v:
+			if v.truecoins >= 5000: return True
 			if v.id == self.author_id: return True
 			if v.id == self.post.author_id: return True
-			if v and v.truecoins >= 5000: return True
 		return False
 
 
