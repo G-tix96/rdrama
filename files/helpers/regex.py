@@ -4,7 +4,7 @@ from random import choice, choices
 
 valid_username_chars = 'a-zA-Z0-9_\-'
 valid_username_regex = re.compile("^[a-zA-Z0-9_\-]{3,25}$", flags=re.A)
-mention_regex = re.compile('@(([a-zA-Z0-9_\-]){1,25})($|[^a-zA-Z0-9_\-])', flags=re.A)
+mention_regex = re.compile('(^|\s|>)@(([a-zA-Z0-9_\-]){1,25})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
 
 valid_password_regex = re.compile("^.{8,100}$", flags=re.A)
 
@@ -61,8 +61,8 @@ torture_regex_exclude = re.compile('^\s*>', flags=re.A)
 
 image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/([a-z0-9-]+\.)*({hosts})\/|\/)).*?)\)', flags=re.A)
 
-video_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp4|webm|mov))', flags=re.A)
-audio_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp3|wav|ogg|aac|m4a|flac))', flags=re.A)
+video_sub_regex = re.compile(f'(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp4|webm|mov))', flags=re.A)
+audio_sub_regex = re.compile(f'(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.(mp3|wav|ogg|aac|m4a|flac))', flags=re.A)
 
 imgur_regex = re.compile('(https:\/\/i\.imgur\.com\/[a-z0-9]+)\.(jpg|png|jpeg|webp)', flags=re.I|re.A)
 giphy_regex = re.compile('(https:\/\/media\.giphy\.com\/media\/[a-z0-9]+\/giphy)\.gif', flags=re.I|re.A)

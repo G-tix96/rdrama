@@ -245,16 +245,20 @@ def sanitize(sanitized, edit=False, limit_pings=False, showmore=True):
 	v = getattr(g, 'v', None)
 
 	matches = [m for m in mention_regex.finditer(sanitized) if m]
-	names = set(m.group(1) for m in matches)
+	names = set(m.group(2) for m in matches)
 	if limit_pings and len(names) > 3 and not v.admin_level: abort(406)
 	users = get_users(names, graceful=True)
 
 	for u in users:
 		if not u: continue
-		m = [m for m in matches if u.username.lower() == m.group(1).lower() or u.original_username.lower() == m.group(1).lower()]
+		m = [m for m in matches if u.username.lower() == m.group(2).lower() or u.original_username.lower() == m.group(2).lower()]
 		for i in m:
 			if not (v and v.any_block_exists(u)) or (v and v.admin_level >= 2):
-				sanitized = sanitized.replace(i.group(0), f'''<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>{i.group(3)}''')
+				sanitized = re.sub(
+					f'{i.group(0)}($|[^a-zA-Z0-9_\-])',
+					rf'''{i.group(1)}<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>\1''',
+					sanitized
+				)
 
 	soup = BeautifulSoup(sanitized, 'lxml')
 
@@ -335,8 +339,8 @@ def sanitize(sanitized, edit=False, limit_pings=False, showmore=True):
 
 		sanitized = sanitized.replace(i.group(0), htmlsource)
 
-	sanitized = video_sub_regex.sub(r'\1<video controls preload="none"><source src="\2"></video>', sanitized)
-	sanitized = audio_sub_regex.sub(r'\1<audio controls preload="none" src="\2"></audio>', sanitized)
+	sanitized = video_sub_regex.sub(r'<video controls preload="none"><source src="\1"></video>', sanitized)
+	sanitized = audio_sub_regex.sub(r'<audio controls preload="none" src="\1"></audio>', sanitized)
 
 	if not edit:
 		for marsey in g.db.query(Marsey).filter(Marsey.name.in_(marseys_used)).all():
