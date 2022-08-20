@@ -89,12 +89,12 @@ def NOTIFY_USERS(text, v):
 
 	captured = []
 	for i in mention_regex.finditer(text):
-		if v.username.lower() == i.group(1).lower(): continue
+		if v.username.lower() == i.group(2).lower(): continue
 
 		if i.group(0) in captured: continue
 		captured.append(i.group(0))
 
-		user = get_user(i.group(1), graceful=True)
+		user = get_user(i.group(2), graceful=True)
 		if user and v.id != user.id and not v.any_block_exists(user): notify_users.add(user.id)
 
 	if SITE_NAME == "WPD" and 'daisy' in text.lower():
