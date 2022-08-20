@@ -1015,3 +1015,5 @@ has_logo = path.exists(f'files/assets/images/{SITE_NAME}/logo.webp')
 has_app = path.exists(f'files/assets/app_{SITE_NAME}_v2.4.apk')
 
 GLOBAL = environ.get("GLOBAL")
+
+ONLINE_STR = f'{SITE}_online'
