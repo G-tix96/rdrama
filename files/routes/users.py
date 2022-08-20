@@ -1128,9 +1128,14 @@ def follow_user(username, v):
 
 	target = get_user(username)
 
-	if target.id==v.id: return {"error": "You can't follow yourself!"}, 400
+	if target.id==v.id:
+		return {"error": "You can't follow yourself!"}, 400
 
-	if g.db.query(Follow).filter_by(user_id=v.id, target_id=target.id).one_or_none(): return {"message": "User followed!"}
+	if target.is_nofollow:
+		return {"error": "This user has disallowed other users from following them!"}, 403
+
+	if g.db.query(Follow).filter_by(user_id=v.id, target_id=target.id).one_or_none():
+		return {"message": "User followed!"}
 
 	new_follow = Follow(user_id=v.id, target_id=target.id)
 	g.db.add(new_follow)
