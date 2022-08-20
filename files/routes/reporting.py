@@ -45,6 +45,10 @@ def flag_post(pid, v):
 		sub_to = sub_to.name if sub_to else None
 
 		if sub_from == sub_to: abort(400)
+		
+		if post.author.exiled_from(sub_to):
+			return {"error": f"User is exiled from this {HOLE_NAME}!"}
+
 		post.sub = sub_to
 		g.db.add(post)
 

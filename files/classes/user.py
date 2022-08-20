@@ -169,7 +169,7 @@ class User(Base):
 
 	@lazy
 	def exiled_from(self, sub):
-		return self.admin_level < 2 and bool(g.db.query(Exile.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
+		return bool(g.db.query(Exile.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
 
 	@property
 	@lazy
