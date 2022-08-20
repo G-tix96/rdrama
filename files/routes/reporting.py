@@ -26,7 +26,7 @@ def flag_post(pid, v):
 
 	if len(reason) > 350: return {"error": "Too long."}
 
-	if reason.startswith('!') and v.admin_level > 1:
+	if reason.startswith('!') and (v.admin_level > 1 or post.sub and v.mods(post.sub)):
 		post.flair = reason[1:]
 		g.db.add(post)
 		ma=ModAction(
