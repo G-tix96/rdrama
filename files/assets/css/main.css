@@ -4718,7 +4718,7 @@ blockquote + blockquote, blockquote:last-child {
 blockquote + p {
 	margin-top: 1rem;
 }
-blockquote p, blockquote h1 {
+blockquote > * {
 	margin-bottom: 0;
 	padding-bottom: 0.7rem;
 	padding-top: 0.7rem;
