@@ -518,6 +518,7 @@ def sub_stealth(v, sub):
 	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
 
+	if sub.name == 'smuggies': abort(403)
 	if not v.mods(sub.name): abort(403)
 
 	sub.stealth = not sub.stealth
