@@ -245,7 +245,7 @@ def sanitize(sanitized, edit=False, limit_pings=0, showmore=True):
 	v = getattr(g, 'v', None)
 
 	names = set(m.group(2) for m in mention_regex.finditer(sanitized))
-	if len(names) > 100 and not v.admin_level: abort(406)
+	if limit_pings and len(names) > limit_pings and not v.admin_level: abort(406)
 	users_list = get_users(names, graceful=True)
 	users_dict = {}
 	for u in users_list:
