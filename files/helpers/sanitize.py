@@ -32,7 +32,7 @@ TLDS = ( # Original gTLDs and ccTLDs
 	'tr','travel','tt','tv','tw','tz','ua','ug','uk','us','uy','uz','va','vc','ve','vg','vi','vn',
 	'vu','wf','ws','xn','xxx','ye','yt','yu','za','zm','zw',
 	# New gTLDs
-	'app','cleaning','club','dev','florist','fun','gay','lgbt','life','lol',
+	'app','cleaning','club','dev','farm','florist','fun','gay','lgbt','life','lol',
 	'moe','mom','monster','new','news','online','pics','press','pub','site',
 	'vip','win','wtf','xyz',
 	)
