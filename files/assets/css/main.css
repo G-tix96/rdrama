@@ -4715,10 +4715,10 @@ div > blockquote:last-child {
 blockquote + blockquote, blockquote:last-child {
 	margin-top: 0 !important;
 }
-blockquote + p {
+blockquote + :not(blockquote) {
 	margin-top: 1rem;
 }
-blockquote > * {
+blockquote > :not(blockquote) {
 	margin-bottom: 0;
 	padding-bottom: 0.7rem;
 	padding-top: 0.7rem;
