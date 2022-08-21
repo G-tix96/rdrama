@@ -151,6 +151,9 @@ def comment(v):
 	sub = parent_post.sub
 	if sub and v.exiled_from(sub): return {"error": f"You're exiled from /h/{sub}"}, 403
 
+	if sub in ('furry','vampire','racist','femboy') and not (v.house and v.house.lower().startswith(sub)):
+		return {"error": f"You need to be a member of House {sub.capitalize()} to comment in /h/{sub}"}
+
 	if parent_post.club and not (v and (v.paid_dues or v.id == parent_post.author_id)): abort(403)
 
 	rts = False
