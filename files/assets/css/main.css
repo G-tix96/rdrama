@@ -6228,3 +6228,13 @@ g {
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
+
+div.custom-control:last-of-type {
+	margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+	div.custom-control:last-of-type {
+		margin-bottom: 7px;
+	}
+}
