@@ -3627,7 +3627,7 @@ small, .small {
 	font-size: 1.25rem;
 }
 @media (max-width: 767.98px) {
-	.modal-dialog:not(.expandedimage) {
+	.modal-dialog:not(.expandedimage):not(.awardmodal) {
 		margin: auto;
 		max-width: 80%;
 }
@@ -4725,7 +4725,7 @@ blockquote > :not(blockquote) {
 	padding-top: 0.7rem;
 }
 @media (min-width: 576px) {
-	.modal-dialog:not(.expandedimage) {
+	.modal-dialog:not(.expandedimage):not(.awardmodal) {
 		max-width: 50% !important;
 		margin: 1.75rem auto !important;
 }
@@ -5107,6 +5107,7 @@ img[glow]:not([data-src]) {
 	min-height: 90% !important;
 	max-height: 90% !important;
 	height: 90% !important;
+	margin: auto !important
 }
 
 toast {
