@@ -70,10 +70,7 @@ def get_user(username, v=None, graceful=False, rendered=False):
 
 	return user
 
-def get_users(usernames, v=None, graceful=False):
-	if not usernames:
-		if not graceful: abort(404)
-		else: return []
+def get_users(usernames, graceful=False):
 
 	def clean(n):
 		return n.replace('\\', '').replace('_', '\_').replace('%', '').strip()
@@ -87,9 +84,8 @@ def get_users(usernames, v=None, graceful=False):
 			)
 		).all()
 
-	if not users:
-		if not graceful: abort(404)
-		else: return []
+	if len(users) != len(usernames) and not graceful:
+		abort(404)
 
 	return users
 
