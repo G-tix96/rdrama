@@ -285,7 +285,7 @@ def comment(v):
 	if v.agendaposter and not v.marseyawarded and parent_post.id not in ADMIGGERS and parent_post.sub != 'chudrama':
 		body = torture_ap(body, v.username)
 
-	body_html = sanitize(body, limit_pings=True)
+	body_html = sanitize(body, limit_pings=3)
 
 
 	if parent_post.id not in ADMIGGERS and '!slots' not in body.lower() and '!blackjack' not in body.lower() and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower() and parent_post.sub != 'chudrama':
@@ -715,7 +715,7 @@ def edit_comment(cid, v):
 
 		body = body.strip()
 
-		body_html = sanitize(body, edit=True, limit_pings=True)
+		body_html = sanitize(body, edit=True, limit_pings=3)
 
 		if len(body_html) > 20000: abort(400)
 

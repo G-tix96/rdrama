@@ -214,7 +214,7 @@ def with_sigalrm_timeout(timeout: int):
 
 
 @with_sigalrm_timeout(2)
-def sanitize(sanitized, edit=False, limit_pings=False, showmore=True):
+def sanitize(sanitized, edit=False, limit_pings=0, showmore=True):
 	sanitized = sanitized.strip()
 
 	sanitized = normalize_url(sanitized)
@@ -246,7 +246,7 @@ def sanitize(sanitized, edit=False, limit_pings=False, showmore=True):
 
 	matches = [m for m in mention_regex.finditer(sanitized) if m]
 	names = set(m.group(2) for m in matches)
-	if limit_pings and len(names) > 3 and not v.admin_level: abort(406)
+	if limit_pings and len(names) > limit_pings and not v.admin_level: abort(406)
 	users = get_users(names, graceful=True)
 
 	for u in users:
