@@ -4726,8 +4726,9 @@ blockquote > :not(blockquote) {
 }
 @media (min-width: 576px) {
 	.modal-dialog:not(.expandedimage) {
+		max-width: 50% !important;
 		margin: 1.75rem auto !important;
-	}
+}
 }
 .in-comment-image, .img, img[alt^="![]("],
 .preview img:not(img[src*="/uid/"]):not(img[src*="/pp/"]):not(img[src$="/pic"]):not(img[src="/i/hand.webp"]):not(img[src*="/e/"]) {
