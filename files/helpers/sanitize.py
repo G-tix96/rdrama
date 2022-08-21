@@ -244,21 +244,22 @@ def sanitize(sanitized, edit=False, limit_pings=0, showmore=True):
 
 	v = getattr(g, 'v', None)
 
-	matches = [m for m in mention_regex.finditer(sanitized) if m]
-	names = set(m.group(2) for m in matches)
-	if limit_pings and len(names) > limit_pings and not v.admin_level: abort(406)
-	users = get_users(names, graceful=True)
+	names = set(m.group(2) for m in mention_regex.finditer(sanitized))
+	if len(names) > 100 and not v.admin_level: abort(406)
+	users_list = get_users(names, graceful=True)
+	users_dict = {}
+	for u in users_list:
+		users_dict[u.username.lower()] = u
+		if u.original_username:
+			users_dict[u.original_username.lower()] = u
 
-	for u in users:
-		if not u: continue
-		m = [m for m in matches if u.username.lower() == m.group(2).lower() or u.original_username.lower() == m.group(2).lower()]
-		for i in m:
-			if not (v and v.any_block_exists(u)) or (v and v.admin_level >= 2):
-				sanitized = re.sub(
-					f'{i.group(0)}($|[^a-zA-Z0-9_\-])',
-					rf'''{i.group(1)}<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>\1''',
-					sanitized
-				)
+	def replacer(m):
+		u = users_dict.get(m.group(2).lower())
+		if not u:
+			return m.group(0)
+		return f'{m.group(1)}<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>'
+
+	sanitized = mention_regex.sub(replacer, sanitized)
 
 	soup = BeautifulSoup(sanitized, 'lxml')
 
