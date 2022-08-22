@@ -18,7 +18,7 @@ else:
 
 typing = []
 online = []
-cache.set(ONLINE_STR, len(online))
+cache.set(ONLINE_STR, len(online), timeout=0)
 muted = cache.get(f'{SITE}_muted') or {}
 messages = cache.get(f'{SITE}_chat') or []
 total = cache.get(f'{SITE}_total') or 0
@@ -96,7 +96,7 @@ def connect(v):
 	if v.username not in online:
 		online.append(v.username)
 		emit("online", online, broadcast=True)
-		cache.set(ONLINE_STR, len(online))
+		cache.set(ONLINE_STR, len(online), timeout=0)
 
 	emit('typing', typing)
 	return '', 204
@@ -107,7 +107,7 @@ def disconnect(v):
 	if v.username in online:
 		online.remove(v.username)
 		emit("online", online, broadcast=True)
-		cache.set(ONLINE_STR, len(online))
+		cache.set(ONLINE_STR, len(online), timeout=0)
 
 	if v.username in typing: typing.remove(v.username)
 	emit('typing', typing, broadcast=True)
