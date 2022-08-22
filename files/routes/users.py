@@ -666,12 +666,13 @@ def message2(v, username):
 
 	body_html = sanitize(message)
 
-	existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
-															Comment.sentto == user.id,
-															Comment.body_html == body_html,
-															).one_or_none()
+	if not (SITE == 'rdrama.net' and message == '!withdrawall' and user.id == 12732):
+		existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
+																Comment.sentto == user.id,
+																Comment.body_html == body_html,
+																).one_or_none()
 
-	if existing: return {"error": "Message already exists."}, 403
+		if existing: return {"error": "Message already exists."}, 403
 
 	c = Comment(author_id=v.id,
 						  parent_submission=None,
