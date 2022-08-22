@@ -4719,6 +4719,11 @@ blockquote + blockquote, blockquote:last-child {
 blockquote + :not(blockquote) {
 	margin-top: 1rem;
 }
+@media (max-width: 768px) {
+	blockquote + :not(blockquote) {
+		margin-top: 7px;
+	}	
+}
 blockquote > :not(blockquote) {
 	margin-bottom: 0;
 	padding-bottom: 0.7rem;
