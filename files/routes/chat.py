@@ -18,7 +18,6 @@ else:
 
 typing = []
 online = []
-cache.set(ONLINE_STR, len(online), timeout=0)
 muted = cache.get(f'{SITE}_muted') or {}
 messages = cache.get(f'{SITE}_chat') or []
 total = cache.get(f'{SITE}_total') or 0
