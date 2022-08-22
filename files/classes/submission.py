@@ -84,6 +84,7 @@ class Submission(Base):
 		if v:
 			if v.truecoins >= 5000: return True
 			if v.agendaposter: return True
+			if v.patron: return True
 			if v.id == self.author_id: return True
 		return False
 
