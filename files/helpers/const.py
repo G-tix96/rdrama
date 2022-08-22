@@ -84,8 +84,6 @@ if SITE_NAME == 'rDrama':
 		"renter": "rentoid",
 		"autistic": "neurodivergent",
 		"holohoax": "i tried to claim the Holocaust didn't happen because I am a pencil-dicked imbecile and the word filter caught me lol",
-		"groomercord": "discord (actually a pretty cool service)",
-		"pedocord": "discord (actually a pretty cool service)",
 		"i hate carp": "i love Carp",
 		"gamer": "g*mer",
 		"journalist": "journ*list",
