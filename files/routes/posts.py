@@ -879,11 +879,11 @@ def submit_post(v, sub=None):
 	if len(url) > 2048:
 		return error("There's a 2048 character limit for URLs.")
 
-	if v and v.admin_level > 2:
-		bet_options = []
-		for i in bet_regex.finditer(body):
-			bet_options.append(i.group(1))
-			body = body.replace(i.group(0), "")
+	# if v and v.admin_level > 2:
+	# 	bet_options = []
+	# 	for i in bet_regex.finditer(body):
+	# 		bet_options.append(i.group(1))
+	# 		body = body.replace(i.group(0), "")
 
 	options = []
 	for i in poll_regex.finditer(body):
@@ -951,17 +951,17 @@ def submit_post(v, sub=None):
 		g.db.add(v)
 		send_repeatable_notification(CARP_ID, post.permalink)
 
-	if v and v.admin_level > 2:
-		for option in bet_options:
-			bet_option = Comment(author_id=AUTOBETTER_ID,
-				parent_submission=post.id,
-				level=1,
-				body_html=filter_emojis_only(option),
-				upvotes=0,
-				is_bot=True
-				)
+	# if v and v.admin_level > 2:
+	# 	for option in bet_options:
+	# 		bet_option = Comment(author_id=AUTOBETTER_ID,
+	# 			parent_submission=post.id,
+	# 			level=1,
+	# 			body_html=filter_emojis_only(option),
+	# 			upvotes=0,
+	# 			is_bot=True
+	# 			)
 
-			g.db.add(bet_option)
+	# 		g.db.add(bet_option)
 
 	for option in options:
 		option = SubmissionOption(
