@@ -766,6 +766,10 @@ AWARDS_DISABLED = [
 	'snow', 'gingerbread', 'lights', 'candycane', 'fireplace', # Fistmas
 	'grinch', 'haunt', 'upsidedown', 'stab', 'spiders', 'fog', # Homoween
 ]
+
+if SITE_NAME != 'rDrama':
+	AWARDS_DISABLED.append('progressivestack')
+
 if SITE == 'pcmemes.net':
 	AWARDS_DISABLED.extend(['ban','pizzashill','marsey','bird','grass','chud','unblockable',])
 	AWARDS_DISABLED.remove('ghost')
