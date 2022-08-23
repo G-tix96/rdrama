@@ -82,6 +82,7 @@ def buy(v, award):
 			lootbox_items.append(AWARDS[award]['title'])
 			award = AwardRelationship(user_id=v.id, kind=award)
 			g.db.add(award)
+			g.db.flush()
 
 		v.lootboxes_bought += 1
 		lootbox_msg = "You open your lootbox and receive: " + ', '.join(lootbox_items)

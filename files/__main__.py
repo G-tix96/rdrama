@@ -72,7 +72,7 @@ Base = declarative_base()
 
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URL'])
 
-db_session = scoped_session(sessionmaker(bind=engine))
+db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
 
 cache = Cache(app)
 Compress(app)
