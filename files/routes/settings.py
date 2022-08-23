@@ -612,8 +612,8 @@ def settings_profilecss(v):
 	return render_template("settings_profilecss.html", v=v)
 
 @app.post("/settings/block")
-@limiter.limit("1/second;10/day")
-@limiter.limit("1/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@limiter.limit("1/second;20/day")
+@limiter.limit("1/second;20/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def settings_block_user(v):
 
