@@ -1060,50 +1060,7 @@ def submit_post(v, sub=None):
 	v.post_count = g.db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
 	g.db.add(v)
 
-	if v.id == PIZZASHILL_ID:
-		for uid in PIZZA_VOTERS:
-			autovote = Vote(user_id=uid, submission_id=post.id, vote_type=1)
-			g.db.add(autovote)
-		v.coins += 3
-		v.truecoins += 3
-		g.db.add(v)
-		post.upvotes += 3
-		g.db.add(post)
-
-	if SITE == 'rdrama.net' and v.id != AEVANN_ID and (v.id == DAD_ID or (post.sub and post.sub not in ('dankchristianmemes','fatpeoplehate','foid','truth','racist'))):
-		g.db.flush()
-		autovote = Vote(
-			user_id=AEVANN_ID,
-			submission_id=post.id,
-			vote_type=1
-		)
-		autovote.created_utc += 1
-		g.db.add(autovote)
-		v.coins += 1
-		v.truecoins += 1
-		g.db.add(v)
-		post.upvotes += 1
-		g.db.add(post)
-
 	upvoters = (CARP_ID, 8094, 10881)
-
-	if SITE == 'rdrama.net' and post.sub in ('slackernews','space','istory','dinos') and v.id not in upvoters:
-		g.db.flush()
-
-		for user_id in upvoters:
-			autovote = Vote(
-				user_id=user_id,
-				submission_id=post.id,
-				vote_type=1
-			)
-			autovote.created_utc += 1
-			g.db.add(autovote)
-
-		v.coins += 3
-		v.truecoins += 3
-		g.db.add(v)
-		post.upvotes += 3
-		g.db.add(post)
 
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
