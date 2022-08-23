@@ -125,8 +125,6 @@ def teardown_request(error):
 		del g.db
 	stdout.flush()
 
-cache.set(f'{app.config["SERVER_NAME"]}_online', 0, timeout=0)
-
 if app.config["SERVER_NAME"] == 'localhost':
 	from files.routes import *
 	# from files.routes.chat import *
