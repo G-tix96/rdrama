@@ -127,7 +127,7 @@ def vote_post(post_id, new, v):
 	post.realupvotes = g.db.query(Vote).filter_by(submission_id=post.id, real=True).count()
 
 	if post.author.progressivestack \
-	or post.sub in ('slackernews','space','istory','dinos') \
+	or post.sub in ('space','istory','dinos') \
 	or post.domain.endswith('.win'):
 		post.realupvotes *= 2
 	
