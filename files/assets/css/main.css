@@ -4708,7 +4708,7 @@ blockquote {
 	font-weight: 400;
 	background-color: #46444a;
 	padding: 0 1rem;
-	margin: 0.5rem 0 0 0;
+	margin: 1rem 0 0 0;
 }
 div > blockquote:last-child {
 	margin-bottom: 0.5rem !important;
@@ -4717,12 +4717,7 @@ blockquote + blockquote, blockquote:last-child {
 	margin-top: 0 !important;
 }
 blockquote + :not(blockquote) {
-	margin-top: 1rem;
-}
-@media (max-width: 768px) {
-	blockquote + :not(blockquote) {
-		margin-top: 7px;
-	}	
+	margin-top: 0.5rem;
 }
 blockquote > :not(blockquote) {
 	margin-bottom: 0;
