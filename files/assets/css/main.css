@@ -4707,7 +4707,7 @@ blockquote {
 	font-size: 1rem;
 	font-weight: 400;
 	background-color: #46444a;
-	padding: 0 1rem;
+	padding: 0.7rem 1rem;
 	margin: 0.5rem 0 0 0;
 }
 div > blockquote:last-child {
@@ -4720,14 +4720,16 @@ blockquote + :not(blockquote) {
 	margin-top: 1rem;
 }
 @media (max-width: 768px) {
+	blockquote {
+		padding-top: 0.7rem;
+		padding-bottom: 0.7rem;
+	}
 	blockquote + :not(blockquote) {
 		margin-top: 7px;
 	}	
 }
 blockquote > :not(blockquote) {
 	margin-bottom: 0;
-	padding-bottom: 0.7rem;
-	padding-top: 0.7rem;
 }
 @media (min-width: 576px) {
 	.modal-dialog:not(.expandedimage):not(.awardmodal) {
