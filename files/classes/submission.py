@@ -197,7 +197,7 @@ class Submission(Base):
 	@property
 	@lazy
 	def domain(self):
-		if not self.url: return None
+		if not self.url: return ''
 		if self.url.startswith('/'): return SITE
 		domain = urlparse(self.url).netloc
 		if domain.startswith("www."): domain = domain.split("www.")[1]
