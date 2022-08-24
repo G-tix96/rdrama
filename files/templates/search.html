@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block PseudoSubmitForm %}
-	<form class="form-inline search flex-nowrap mx-0 mx-lg-auto mt-1" action="/search/{% if '/posts' in request.path %}posts{% elif '/comments' in request.path %}comments{% else %}users{% endif %}" method="get">
+	<form id="large_searchbar" class="form-inline search flex-nowrap mx-0 mx-lg-auto mt-1" action="/search/{% if '/posts' in request.path %}posts{% elif '/comments' in request.path %}comments{% else %}users{% endif %}" method="get">
 		<input autocomplete="off" class="form-control w-100" type="search" placeholder="Search" aria-label="Search" name="q" value="{{query}}">
 		<span class="input-group-append">
 			<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem;">
@@ -37,23 +37,53 @@
 			<div class="card-body pb-2">
 				<div class="pl-md-3">
 					{% if not request.path.startswith('/search/users') %}
-						<strong>Advanced search parameters (with examples)</strong>
-						<ul class="mt-2">
-							<li class="mb-1">author:quadnarca</li>
-							<li class="mb-1">domain:reddit.com</li>
-							<li class="mb-1">over18:true</li>
-							<li class="mb-1">{{HOLE_NAME}}:music</li>
-							<li class="mb-1">before:2022-12-30</li>
-							<li class="mb-1">after:2022-12-30</li>
-							{% if request.path.startswith('/search/comments') %}
-								<li class="mb-1">post:504</li>
-							{% endif %}
-							{% if request.path.startswith('/search/posts') %}
-								<li class="mb-1">title:true</li> 
-							{% endif %}
-							<li class="mb-1">exact:true</li>
-						</ul>
+						<div class="dropdown dropdown-actions">
+							<button class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><strong>Advanced search parameters (with examples)</strong></button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px);">
+								<div>
+									<div style="display: inline-block; width: 150px; text-align: center;">Author:</div>
+									<button onClick="addParam()" class="searchparam mb-1">author:quadnarca</button>
+								</div>
+								<div>
+									<div style="display: inline-block; width: 150px; text-align: center;">Domain:</div>
+									<button onClick="addParam()" class="searchparam mb-1">domain:reddit.com</button>
+								</div>
+								<div>
+									<div style="display: inline-block; width: 150px; text-align: center;">NSFW:</div>
+									<button onClick="addParam()" class="searchparam mb-1">over18:true</button>
+								</div>
+								<div>
+									<div style="display: inline-block; width: 150px; text-align: center;">Hole:</div>
+									<button onClick="addParam()" class="searchparam mb-1">{{HOLE_NAME}}:music</button>
+								</div>
+								<div>
+									<div style="display: inline-block; width: 150px; text-align: center;">Before Date:</div>
+									<button onClick="addParam()" class="searchparam mb-1">before:2022-12-30</button>
+								</div>
+								<div>
+									<div style="display: inline-block; width: 150px; text-align: center;">After Date:</div>
+									<button onClick="addParam()" class="searchparam mb-1">after:2022-12-30</button>
+								</div>
+								{% if request.path.startswith('/search/comments') %}
+									<div>
+										<div style="display: inline-block; width: 150px; text-align: center;">Post ID:</div>
+										<button onClick="addParam()" class="searchparam mb-1">post:504</button>
+									</div>
+								{% endif %}
+								{% if request.path.startswith('/search/posts') %}
+									<div>
+										<div style="display: inline-block; width: 150px; text-align: center;">Post Title Only:</div>
+										<button onClick="addParam()" class="searchparam mb-1">title:true</button> 
+									</div>
+								{% endif %}
+								<div>
+									<div style="display: inline-block; width: 150px; text-align: center;">Exact Match Only:</div>
+									<button onClick="addParam()" class="searchparam mb-1">exact:true</button>
+								</div>
+							</div>
+						</div>
 						<br>
+						<script src="/assets/js/search.js"></script>
 					{% endif %}
 					<div class="text-muted text-small mb-1">Showing {% block listinglength %}{{listing | length}}{% endblock %} of {{total}} result{{'s' if total != 1 else ''}} for</div>
 					<h1 class="h4 mb-0">{{query}}</h1>
