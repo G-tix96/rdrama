@@ -3,7 +3,7 @@ document.getElementById('awardModal').addEventListener('show.bs.modal', function
 });
 
 // TODO: Refactor this ugly shit who wrote this lmao
-function vote(type, id, dir, vid) {
+function vote(type, id, dir) {
 	const upvotes = document.getElementsByClassName(type + '-' + id + '-up');
 	const downvotes = document.getElementsByClassName(type + '-' + id + '-down');
 	const scoretexts = document.getElementsByClassName(type + '-score-' + id);
@@ -21,7 +21,6 @@ function vote(type, id, dir, vid) {
 				upvote.classList.remove('active-anim')
 				scoretext.textContent = score - 1
 				votedirection = "0"
-				if (vid && ['1','9'].includes(vid)) document.getElementById(id+'-title').classList.remove('visited')
 			} else if (downvote.classList.contains('active')) {
 				upvote.classList.add('active')
 				upvote.classList.add('active-anim')
@@ -34,7 +33,6 @@ function vote(type, id, dir, vid) {
 				upvote.classList.add('active-anim')
 				scoretext.textContent = score + 1
 				votedirection = "1"
-				if (vid && ['1','9'].includes(vid)) document.getElementById(id+'-title').classList.add('visited')
 			}
 
 			if (upvote.classList.contains('active')) {
@@ -60,7 +58,6 @@ function vote(type, id, dir, vid) {
 				downvote.classList.remove('active-anim')
 				scoretext.textContent = score + 1
 				votedirection = "0"
-				if (vid && ['1','9'].includes(vid)) document.getElementById(id+'-title').classList.remove('visited')
 			} else if (upvote.classList.contains('active')) {
 				downvote.classList.add('active')
 				downvote.classList.add('active-anim')
@@ -73,7 +70,6 @@ function vote(type, id, dir, vid) {
 				downvote.classList.add('active-anim')
 				scoretext.textContent = score - 1
 				votedirection = "-1"
-				if (vid && ['1','9'].includes(vid)) document.getElementById(id+'-title').classList.add('visited')
 			}
 
 			if (upvote.classList.contains('active')) {
