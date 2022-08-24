@@ -91,9 +91,9 @@ def searchposts(v):
 								)
 		else: posts = posts.filter(Submission.author_id == author.id)
 
-	if 'exact' in criteria:
+	if 'exact' in criteria and 'full_text' in criteria:
 		regex_str = '[[:<:]]'+criteria['full_text']+'[[:>:]]' # https://docs.oracle.com/cd/E17952_01/mysql-5.5-en/regexp.html "word boundaries"
-		if('title' in criteria):
+		if 'title' in criteria:
 			words = [Submission.title.regexp_match(regex_str)]
 		else:
 			words = [or_(Submission.title.regexp_match(regex_str), Submission.body.regexp_match(regex_str))]
@@ -210,7 +210,7 @@ def searchcomments(v):
 
 		else: comments = comments.filter(Comment.author_id == author.id)
 
-	if 'exact' in criteria:
+	if 'exact' in criteria and 'full_text' in criteria:
 		regex_str = '[[:<:]]'+criteria['full_text']+'[[:>:]]' # https://docs.oracle.com/cd/E17952_01/mysql-5.5-en/regexp.html "word boundaries"
 		words = [Comment.body.regexp_match(regex_str)]
 		comments = comments.filter(*words)
