@@ -730,7 +730,8 @@ CREATE TABLE public.subs (
     sidebarurl character varying(60),
     bannerurl character varying(60),
     css character varying(6000),
-    stealth boolean
+    stealth boolean,
+    marseyurl character varying(60)
 );
 
 
