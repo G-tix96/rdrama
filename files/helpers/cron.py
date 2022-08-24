@@ -2,6 +2,8 @@ from files.cli import g, app, db_session
 import click
 from files.helpers.const import *
 from files.helpers.alerts import send_repeatable_notification
+from files.helpers.get import *
+from files.helpers.actions import *
 from files.classes import *
 
 import files.helpers.lottery as lottery
@@ -64,7 +66,7 @@ def sub_inactive_purge_task():
 	for name in names:
 		first_mod_id = g.db.query(Mod.user_id).filter_by(sub=name).order_by(Mod.created_utc).first()
 		if first_mod_id:
-			first_mod = get_account(first_mod_id)
+			first_mod = get_account(first_mod_id[0])
 			badge_grant(
 				user=first_mod,
 				badge_id=156,
