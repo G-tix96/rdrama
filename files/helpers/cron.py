@@ -62,13 +62,14 @@ def sub_inactive_purge_task():
 		send_repeatable_notification(x.user_id, f":marseyrave: /h/{x.sub} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
 
 	for name in names:
-		first_mod_id = g.db.query(Mod.user_id).filter(sub=name).order_by(Mod.created_utc).first()[0]
-		first_mod = get_account(first_mod_id)
-		badge_grant(
-			user=first_mod,
-			badge_id=156,
-			description=f'Brought a Hole into this world, only to let it die (/h/{name})'
-		)
+		first_mod_id = g.db.query(Mod.user_id).filter_by(sub=name).order_by(Mod.created_utc).first()
+		if first_mod_id:
+			first_mod = get_account(first_mod_id)
+			badge_grant(
+				user=first_mod,
+				badge_id=156,
+				description=f'Brought a Hole into this world, only to let it die (/h/{name})'
+			)
 
 		for admin in admins:
 			send_repeatable_notification(admin, f":marseyrave: /h/{name} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
