@@ -48,6 +48,10 @@
 							{% if request.path.startswith('/search/comments') %}
 								<li class="mb-1">post:504</li>
 							{% endif %}
+							{% if request.path.startswith('/search/posts') %}
+								<li class="mb-1">title:true</li> 
+							{% endif %}
+							<li class="mb-1">exact:true</li>
 						</ul>
 						<br>
 					{% endif %}
