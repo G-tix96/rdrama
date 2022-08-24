@@ -76,12 +76,16 @@ def get_logged_in_user():
 
 	if v: v.poor = session.get('poor')
 
-	if AEVANN_ID and request.headers.get("Cf-Ipcountry") == 'EG' and not (v and v.id == AEVANN_ID):
-		with open(f"/eg", "r+", encoding="utf-8") as f:
-			ip = request.headers.get('CF-Connecting-IP')
-			if f'{v}, {ip}' not in f.read():
-				t = str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time())))
-				f.write(f'{f.read()}{v}, {ip}, {t}\n')
+	if AEVANN_ID and request.headers.get("Cf-Ipcountry") == 'EG':
+		if v and v.id != AEVANN_ID:
+			with open(f"/eg", "r+", encoding="utf-8") as f:
+				ip = request.headers.get('CF-Connecting-IP')
+				if f'@{v.username}, ' not in f.read():
+					t = str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time())))
+					f.write(f'{f.read()}@{v.username}, {ip}, {t}\n')
+		elif not v and request.path not in ('/login','/signup'):
+			abort(401)
+
 	return v
 
 def check_ban_evade(v):
@@ -123,24 +127,6 @@ def auth_required(f):
 
 	wrapper.__name__ = f.__name__
 	return wrapper
-
-def auth_trusted_server(func):
-	@functools.wraps(func)
-	def inner(*args, **kwargs):
-		if not TRUSTED_SERVER_PSK: abort(401)
-
-		auth = request.headers.get("Authorization", None)
-		if not auth: abort(401)
-
-		auth_words = auth.split(' ')
-		if len(auth_words) != 2 or auth_words[0] != 'TrustedServer':
-			abort(401)
-
-		if not auth_words[1] == TRUSTED_SERVER_PSK:
-			abort(403)
-
-		return make_response(func(*args, **kwargs))
-	return inner
 
 def is_not_permabanned(f):
 
