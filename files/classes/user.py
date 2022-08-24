@@ -607,7 +607,7 @@ class User(Base):
 	def banner_url(self):
 		if FEATURES['USERS_PROFILE_BANNER'] and self.bannerurl:
 			return self.bannerurl
-		return f"/i/{SITE_NAME}/site_preview.webp?v=3008"
+		return f"/i/{SITE_NAME}/site_preview.webp?v=3009"
 
 	@property
 	@lazy

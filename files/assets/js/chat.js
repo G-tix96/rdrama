@@ -24,13 +24,13 @@ function flash(){
 			alert=false;
 		}
 		else {
-			icon.href = escapeHTML(`/assets/images/${site_name}/icon.webp?v=3000`)
+			icon.href = escapeHTML(`/assets/images/${site_name}/icon.webp?v=3009`)
 			alert=true;
 		}
 		setTimeout(flash, 500)
 	}
 	else {
-		icon.href = escapeHTML(`/assets/images/${site_name}/icon.webp?v=3000`)
+		icon.href = escapeHTML(`/assets/images/${site_name}/icon.webp?v=3009`)
 		notifs = 0
 		title.innerHTML = 'Chat';
 	}

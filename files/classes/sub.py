@@ -18,6 +18,7 @@ class Sub(Base):
 	sidebar_html = Column(String)
 	sidebarurl = Column(String)
 	bannerurl = Column(String)
+	marseyurl = Column(String)
 	css = Column(String)
 	stealth = Column(Boolean)
 
@@ -31,13 +32,19 @@ class Sub(Base):
 	@lazy
 	def sidebar_url(self):
 		if self.sidebarurl: return SITE_FULL + self.sidebarurl
-		return f'/i/{SITE_NAME}/sidebar.webp?v=3000'
+		return f'/i/{SITE_NAME}/sidebar.webp?v=3009'
 
 	@property
 	@lazy
 	def banner_url(self):
 		if self.bannerurl: return SITE_FULL + self.bannerurl
-		return f'/i/{SITE_NAME}/banner.webp?v=3001'
+		return f'/i/{SITE_NAME}/banner.webp?v=3009'
+
+	@property
+	@lazy
+	def marsey_url(self):
+		if self.marseyurl: return SITE_FULL + self.marseyurl
+		return f'/i/{SITE_NAME}/headericon.webp?v=3009'
 
 	@property
 	@lazy

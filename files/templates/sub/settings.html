@@ -40,6 +40,42 @@
 	<span class="text-small text-muted">Hide posts in this hole from the main feed by default (users can opt-in to see it there).</span>
 </div>
 
+
+<h2 class="h5 mt-5">Marsey</h2>
+
+<div class="settings-section rounded">
+
+	<div class="d-flex">
+
+		<div class="title w-lg-25 text-md-center">
+			<img loading="lazy" alt="sub marsey picture" src="{{sub.marsey_url}}" class="profile-pic-75">
+		</div>
+
+		<div class="body w-lg-100 my-auto">
+
+			<div class="d-flex">
+
+				<div>
+					<form action="/h/{{sub.name}}/marsey_image" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="formkey" value="{{v.formkey}}">
+						<label class="btn btn-secondary text-capitalize mr-2 mb-0">
+							Update<input autocomplete="off" type="file" accept="image/*" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} hidden name="marsey" onchange="form.submit()">
+						</label>
+					</form>
+
+				</div>
+
+			</div>
+
+			<div class="text-small text-muted mt-3">JPG, PNG, GIF files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+
 <h2 class="h5 mt-5">Sidebar Picture</h2>
 
 <div class="settings-section rounded">
@@ -66,7 +102,7 @@
 
 			</div>
 
-			<div class="text-small text-muted mt-3">JPG, PNG, GIF files are supported. Max file size is {% if v and v.patron %}8{% else %}4{% endif %} MB.</div>
+			<div class="text-small text-muted mt-3">JPG, PNG, GIF files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.</div>
 
 		</div>
 
@@ -102,7 +138,7 @@
 
 			</div>
 
-			<div class="text-small text-muted mt-3">JPG, PNG, GIF files are supported. Max file size is {% if v and v.patron %}8{% else %}4{% endif %} MB.</div>
+			<div class="text-small text-muted mt-3">JPG, PNG, GIF files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.</div>
 
 		</div>
 

@@ -468,6 +468,32 @@ def sub_sidebar(v, sub):
 
 	return redirect(f'/h/{sub.name}/settings')
 
+@app.post("/h/<sub>/marsey_image")
+@limiter.limit("1/second;10/day")
+@limiter.limit("1/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@is_not_permabanned
+def sub_marsey(v, sub):
+	if request.headers.get("cf-ipcountry") == "T1": return {"error":"Image uploads are not allowed through TOR."}, 403
+
+	sub = g.db.query(Sub).filter_by(name=sub.lower().strip()).one_or_none()
+	if not sub: abort(404)
+
+	if not v.mods(sub.name): abort(403)
+	
+	file = request.files["marsey"]
+	name = f'/images/{time.time()}'.replace('.','') + '.webp'
+	file.save(name)
+	marseyurl = process_image(name)
+
+	if marseyurl:
+		if sub.marseyurl and '/images/' in sub.marseyurl:
+			fpath = '/images/' + sub.marseyurl.split('/images/')[1]
+			if path.isfile(fpath): os.remove(fpath)
+		sub.marseyurl = marseyurl
+		g.db.add(sub)
+
+	return redirect(f'/h/{sub.name}/settings')
+
 @app.get("/holes")
 @auth_desired_with_logingate
 def subs(v):
