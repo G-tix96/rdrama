@@ -45,7 +45,7 @@
 	
 	{% if request.path != '/sidebar' %}
 		<a href="{{image}}">
-			<img class="mb-4" alt="sidebar image" role="button" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
+			<img class="mb-4" alt="sidebar image" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
 		</a>
 	{% endif %}
 </div>
