@@ -115,6 +115,12 @@
 				<a class="mobile-nav-icon d-md-none" href="/admin"><i class="fas fa-crown align-middle text-gray-500 black"></i></a>
 			{% endif %}
 
+			{% if v %}
+				<a class="mobile-nav-icon d-md-none" href="{% if sub %}/h/{{sub.name}}{% endif %}/submit"><i class="fas fa-feather-alt align-middle text-gray-500 black"></i></a>
+			{% else %}
+				<a class="mobile-nav-icon d-md-none" href="/login"><i class="fas fa-feather-alt align-middle text-gray-500 black"></i></a>
+			{% endif %}
+
 			<a class="mobile-nav-icon d-md-none" href="/random_user"><i class="fas fa-music align-middle text-gray-500 black"></i></a>
 
 			{% if v and v.can_gamble and LOTTERY_ENABLED %}
@@ -149,6 +155,10 @@
 					<a class="nav-link" href="/admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin Tools"><i class="fas fa-crown{% if v.has_report_queue %} text-success{% endif %}"></i></a>
 				</li>
 				{% endif %}
+
+				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
+					<a class="nav-link" href="{% if sub %}/h/{{sub.name}}{% endif %}/submit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Create Post"><i class="fas fa-feather-alt"></i></a>
+				</li>
 
 				{% if FEATURES['CHAT'] -%}
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
