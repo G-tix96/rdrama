@@ -19,7 +19,8 @@ def error_401(e):
 		path = request.path
 		qs = urlencode(dict(request.values))
 		argval = quote(f"{path}?{qs}", safe='')
-		return redirect(f"/signup?redirect={argval}")
+		if session.get("history"): return redirect(f"/login?redirect={argval}")
+		else: return redirect(f"/signup?redirect={argval}")
 
 @app.errorhandler(406)
 def error_406(e):
