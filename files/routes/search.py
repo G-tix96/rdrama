@@ -17,6 +17,8 @@ valid_params = [
 	"post",
 	"before",
 	"after",
+	"title",
+	"exact",
 	search_operator_hole,
 ]
 
@@ -30,6 +32,7 @@ def searchparse(text):
 
 	text = text.strip()
 	if text:
+		criteria['full_text'] = text
 		criteria['q'] = []
 		for m in search_token_regex.finditer(text):
 			token = m[1] if m[1] else m[2]
@@ -88,8 +91,19 @@ def searchposts(v):
 								)
 		else: posts = posts.filter(Submission.author_id == author.id)
 
-	if 'q' in criteria:
-		words = [or_(Submission.title.ilike('%'+x+'%'), Submission.body.ilike('%'+x+'%')) \
+	if 'exact' in criteria and 'full_text' in criteria:
+		regex_str = '[[:<:]]'+criteria['full_text']+'[[:>:]]' # https://docs.oracle.com/cd/E17952_01/mysql-5.5-en/regexp.html "word boundaries"
+		if 'title' in criteria:
+			words = [Submission.title.regexp_match(regex_str)]
+		else:
+			words = [or_(Submission.title.regexp_match(regex_str), Submission.body.regexp_match(regex_str))]
+		posts = posts.filter(*words)
+	elif 'q' in criteria:
+		if('title' in criteria):
+			words = [or_(Submission.title.ilike('%'+x+'%')) \
+					for x in criteria['q']]
+		else:
+			words = [or_(Submission.title.ilike('%'+x+'%'), Submission.body.ilike('%'+x+'%')) \
 					for x in criteria['q']]
 		posts = posts.filter(*words)
 		
@@ -196,8 +210,13 @@ def searchcomments(v):
 
 		else: comments = comments.filter(Comment.author_id == author.id)
 
-	if 'q' in criteria:
-		words = [Comment.body.ilike('%'+x+'%') for x in criteria['q']]
+	if 'exact' in criteria and 'full_text' in criteria:
+		regex_str = '[[:<:]]'+criteria['full_text']+'[[:>:]]' # https://docs.oracle.com/cd/E17952_01/mysql-5.5-en/regexp.html "word boundaries"
+		words = [Comment.body.regexp_match(regex_str)]
+		comments = comments.filter(*words)
+	elif 'q' in criteria:
+		words = [or_(Comment.body.ilike('%'+x+'%')) \
+				for x in criteria['q']]
 		comments = comments.filter(*words)
 
 	if 'over18' in criteria: comments = comments.filter(Comment.over_18 == True)
