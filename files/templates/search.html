@@ -37,7 +37,7 @@
 			<div class="card-body pb-2">
 				<div class="pl-md-3">
 					{% if not request.path.startswith('/search/users') %}
-						<div class="dropdown dropdown-actions">
+						<div id="searchparams-dropdown" class="dropdown dropdown-actions">
 							<button class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><strong>Advanced search parameters (with examples)</strong></button>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px);">
 								<div>
