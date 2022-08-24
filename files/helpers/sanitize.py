@@ -445,12 +445,13 @@ def normalize_url(url):
 
 	url = url.replace("https://youtu.be/", "https://youtube.com/watch?v=") \
 			 .replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=") \
+			 .replace("https://www.youtube.com", "https://youtube.com") \
 			 .replace("https://youtube.com/shorts/", "https://youtube.com/watch?v=") \
+			 .replace("https://youtube.com/v/", "https://youtube.com/watch?v=") \
 			 .replace("https://mobile.twitter.com", "https://twitter.com") \
 			 .replace("https://m.facebook.com", "https://facebook.com") \
 			 .replace("https://m.wikipedia.org", "https://wikipedia.org") \
 			 .replace("https://m.youtube.com", "https://youtube.com") \
-			 .replace("https://www.youtube.com", "https://youtube.com") \
 			 .replace("https://www.twitter.com", "https://twitter.com") \
 			 .replace("https://www.instagram.com", "https://instagram.com") \
 			 .replace("https://www.tiktok.com", "https://tiktok.com") \
