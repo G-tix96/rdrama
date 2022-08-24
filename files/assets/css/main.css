@@ -6231,9 +6231,6 @@ blockquote {
 div > blockquote:last-child {
 	margin-bottom: 1rem !important;
 }
-blockquote + blockquote, blockquote:first-child, blockquote:last-child {
-	margin-top: 0 !important;
-}
 blockquote + :not(blockquote) {
 	margin-top: 1rem;
 }
@@ -6253,4 +6250,8 @@ blockquote > :not(blockquote) {
 	blockquote + :not(blockquote) {
 		margin-top: 0.5rem;
 	}	
+}
+
+blockquote + blockquote, blockquote:first-child, blockquote:last-child {
+	margin-top: 0 !important;
 }
