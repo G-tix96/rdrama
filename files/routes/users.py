@@ -1314,7 +1314,6 @@ def fp(v, fp):
 		if existing: continue
 		new_alt = Alt(user1=v.id, user2=u.id)
 		g.db.add(new_alt)
-		g.db.flush()
 		print(v.username + ' + ' + u.username, flush=True)
 	g.db.add(v)
 	return '', 204

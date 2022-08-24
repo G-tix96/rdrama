@@ -77,17 +77,14 @@ def merge(v, id1, id2):
 		if not user1.has_badge(badge.badge_id):
 			badge.user_id = user1.id
 			g.db.add(badge)
-			g.db.flush()
 	for mod in mods:
 		if not user1.mods(mod.sub):
 			mod.user_id = user1.id
 			g.db.add(mod)
-			g.db.flush()
 	for exile in exiles:
 		if not user1.exiled_from(exile.sub):
 			exile.user_id = user1.id
 			g.db.add(exile)
-			g.db.flush()
 
 	for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truecoins', 'procoins'):
 		amount = getattr(user1, kind) + getattr(user2, kind)
@@ -132,7 +129,6 @@ def merge_all(v, id):
 		if not user.has_badge(badge.badge_id):
 			badge.user_id = user.id
 			g.db.add(badge)
-			g.db.flush()
 
 	for alt in user.alts_unique:
 		for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truecoins', 'procoins'):

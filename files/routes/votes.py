@@ -79,7 +79,6 @@ def vote_post(post_id, new, v):
 
 	coin_mult = 1
 
-	g.db.flush()
 	existing = g.db.query(Vote).filter_by(user_id=v.id, submission_id=post.id).one_or_none()
 
 	if DOUBLE_XP_ENABLED > 0:
@@ -121,7 +120,6 @@ def vote_post(post_id, new, v):
 					)
 		g.db.add(vote)
 
-	g.db.flush()
 	post.upvotes = g.db.query(Vote).filter_by(submission_id=post.id, vote_type=1).count()
 	post.downvotes = g.db.query(Vote).filter_by(submission_id=post.id, vote_type=-1).count()
 	post.realupvotes = g.db.query(Vote).filter_by(submission_id=post.id, real=True).count()
@@ -159,7 +157,6 @@ def vote_comment(comment_id, new, v):
 
 	coin_mult = 1
 
-	g.db.flush()
 	existing = g.db.query(CommentVote).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
 
 	if DOUBLE_XP_ENABLED > 0:
@@ -202,7 +199,6 @@ def vote_comment(comment_id, new, v):
 
 		g.db.add(vote)
 
-	g.db.flush()
 	comment.upvotes = g.db.query(CommentVote).filter_by(comment_id=comment.id, vote_type=1).count()
 	comment.downvotes = g.db.query(CommentVote).filter_by(comment_id=comment.id, vote_type=-1).count()
 	comment.realupvotes = g.db.query(CommentVote).filter_by(comment_id=comment.id, real=True).count()
