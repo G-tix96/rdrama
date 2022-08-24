@@ -63,12 +63,6 @@ dd {
 	margin-bottom: 0.5rem;
 	margin-left: 0;
 }
-blockquote {
-	margin: 0 0 1rem;
-}
-blockquote :is(h1, h2, h3, h4, h5, h6) {
-	margin-bottom: 0;
-}
 b, strong {
 	font-weight: 700;
 }
@@ -265,10 +259,6 @@ mark, .mark {
 }
 .list-inline-item:not(:last-child) {
 	margin-right: 0.5rem;
-}
-.blockquote {
-	margin-bottom: 1rem;
-	font-size: 1.25rem;
 }
 .img-fluid {
 	height: auto;
@@ -2580,7 +2570,7 @@ a.text-danger:hover, a.text-danger:focus {
 	pre {
 		white-space: pre-wrap !important;
 }
-	pre, blockquote {
+	pre {
 		border: 1px solid #adb5bd;
 		page-break-inside: avoid;
 }
@@ -4701,29 +4691,6 @@ textarea {
 		padding: 0.5rem 1.5rem 0.5rem 0.5rem;
 }
 }
-blockquote {
-	border-left: 2px solid var(--primary);
-	color: var(--black);
-	font-size: 1rem;
-	font-weight: 400;
-	background-color: #46444a;
-	padding: 0 1rem;
-	margin: 1rem 0 0 0;
-}
-div > blockquote:last-child {
-	margin-bottom: 0.5rem !important;
-}
-blockquote + blockquote, blockquote:last-child {
-	margin-top: 0 !important;
-}
-blockquote + :not(blockquote) {
-	margin-top: 0.5rem;
-}
-blockquote > :not(blockquote) {
-	margin-bottom: 0;
-	padding-bottom: 0.7rem;
-	padding-top: 0.7rem;
-}
 @media (min-width: 576px) {
 	.modal-dialog:not(.expandedimage):not(.awardmodal) {
 		max-width: 50% !important;
@@ -6250,4 +6217,40 @@ div.custom-control:last-of-type {
 	border-radius: 3px;
 	padding: 6px;
 	width: 150px;
+}
+
+blockquote {
+	border-left: 2px solid var(--primary);
+	color: var(--black);
+	font-size: 1rem;
+	font-weight: 400;
+	background-color: #46444a;
+	padding: 0 1rem;
+	margin: 1rem 0 0 0;
+}
+div > blockquote:last-child {
+	margin-bottom: 1rem !important;
+}
+blockquote + blockquote, blockquote:first-child, blockquote:last-child {
+	margin-top: 0 !important;
+}
+blockquote + :not(blockquote) {
+	margin-top: 1rem;
+}
+blockquote > :not(blockquote) {
+	margin-bottom: 0;
+	padding-bottom: 0.7rem;
+	padding-top: 0.7rem;
+}
+
+@media (max-width: 768px) {
+	blockquote {
+		margin: 0.5rem 0 0 0;
+	}
+	div > blockquote:last-child {
+		margin-bottom: 0.5rem !important;
+	}
+	blockquote + :not(blockquote) {
+		margin-top: 0.5rem;
+	}	
 }
