@@ -70,6 +70,7 @@ socket.on('speak', function(json) {
 		document.getElementsByClassName('chat-line')[0].classList.remove('diff')
 		document.getElementsByClassName('userlink')[0].classList.add('d-none')
 		document.getElementsByClassName('avatar')[0].classList.add('d-none')
+		document.getElementsByClassName('time')[0].classList.add('d-none')
 	}
 	else {
 		document.getElementsByClassName('chat-line')[0].classList.add('diff')
