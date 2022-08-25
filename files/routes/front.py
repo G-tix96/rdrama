@@ -123,13 +123,10 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	if not (v and v.shadowbanned):
 		posts = posts.join(Submission.author).filter(User.shadowbanned == None)
 
-	if SITE == 'rdrama.net': num = 5
-	else: num = 0.5
-
 	if sort == 'hot':
 		ti = int(time.time()) + 3600
 		if SITE_NAME == 'rDrama':
-			posts = posts.order_by(-1000000*(Submission.realupvotes + 1 + Submission.comment_count/num + func.least(50, (func.length(Submission.body_html)-func.length(func.replace(Submission.body_html,'<a href="https://','')))/5))/(func.power(((ti - Submission.created_utc)/1000), 1.23)), Submission.created_utc.desc())
+			posts = posts.order_by(-1000000*(Submission.realupvotes + 1 + Submission.comment_count/5 + func.least(50, (func.length(Submission.body_html)-func.length(func.replace(Submission.body_html,'<a href="https://','')))/5))/(func.power(((ti - Submission.created_utc)/1000), 1.23)), Submission.created_utc.desc())
 		else:
 			posts = posts.order_by(-1000000*(Submission.upvotes - Submission.downvotes + 1)/(func.power(((ti - Submission.created_utc)/1000), 1.23)), Submission.created_utc.desc())
 	elif sort == "bump":
@@ -140,7 +137,19 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	if v: size = v.frontsize or 0
 	else: size = 25
 
-	posts = posts.offset(size * (page - 1)).limit(size+1).all()
+	if False:
+		posts = posts.offset(size * (page - 1)).limit(100).all()
+		social_found = False
+		music_found = False
+		for post in posts:
+			if post.sub == 'social':
+				if social_found: posts.remove(post)
+				else: social_found = True
+			elif post.sub == 'music':
+				if music_found: posts.remove(post)
+				else: music_found = True
+	else:
+		posts = posts.offset(size * (page - 1)).limit(size+1).all()
 
 	next_exists = (len(posts) > size)
 
