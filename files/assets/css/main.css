@@ -6215,6 +6215,8 @@ div.custom-control:last-of-type {
 	width: 150px;
 }
 
+
+
 blockquote {
 	border-left: 2px solid var(--primary);
 	color: var(--black);
@@ -6228,6 +6230,7 @@ div > blockquote:last-child {
 	margin-bottom: 1rem !important;
 }
 blockquote + :not(blockquote) {
+	display: inline-block;
 	margin-top: 1rem;
 }
 blockquote > :not(blockquote) {
@@ -6235,10 +6238,11 @@ blockquote > :not(blockquote) {
 	padding-bottom: 0.7rem;
 	padding-top: 0.7rem;
 }
-
 blockquote + blockquote, blockquote:last-child {
 	margin-top: 0 !important;
 }
+
+
 
 #searchparams-dropdown {
 	z-index: 100;
