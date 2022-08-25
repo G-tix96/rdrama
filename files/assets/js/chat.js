@@ -78,6 +78,7 @@ socket.on('speak', function(json) {
 		document.getElementsByClassName('avatar')[0].src = json['avatar']
 		document.getElementsByClassName('userlink')[0].href = '/@' + json['username']
 		document.getElementsByClassName('userlink')[0].style.color = '#' + json['namecolor']
+		document.getElementsByClassName('time')[0].classList.remove('d-none')
 		document.getElementsByClassName('time')[0].innerHTML = 'just now'
 	}
 
