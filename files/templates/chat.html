@@ -136,7 +136,7 @@
 							<div>
 								<img class="avatar pp20 mr-1" data-toggle="tooltip" data-placement="right">
 								<a href="" class="font-weight-bold text-black userlink" target="_blank"></a>
-								<span class="text-black time ml-2"></a>
+								<span class="text-black time ml-2"></span>
 								<div class="cdiv">
 									<span class="chat-message text-black text-break"></span>
 									<span class="text d-none"></span>
@@ -164,7 +164,7 @@
 										<a class="{% if same %}d-none{% endif %} font-weight-bold text-black userlink" style="color:#{{m['namecolor']}}" target="_blank" href="/@{{m['username']}}">{{m['username']}}</a>
 
 										{% if not same %}
-											<span class="text-black time ml-2">{{m['time'] | timestamp}}</a>
+											<span class="text-black time ml-2">{{m['time'] | timestamp}}</span>
 										{% endif %}
 
 										<div class="cdiv">
@@ -209,6 +209,6 @@
 <script src="{{asset('js/lozad.js')}}"></script>
 <script src="/assets/js/lite-youtube.js?v=241"></script>
 
-<script src="/chat.js?v=3010"></script>
+<script src="/chat.js?v=3009"></script>
 
 </body>
