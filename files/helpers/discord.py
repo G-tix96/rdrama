@@ -51,4 +51,4 @@ def send_discord_message(message):
 
 def send_wpd_message(message):
 	data={"content": message}
-	requests.post("https://discordapp.com/api/channels/995684665283313674/messages", headers=headers, data=data, timeout=5)
+	requests.post("https://discordapp.com/api/channels/1012354438113017896/messages", headers=headers, data=data, timeout=5)
