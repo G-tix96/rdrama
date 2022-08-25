@@ -72,7 +72,6 @@ def speak(data, v):
 		v.shadowbanned = 'AutoJanny'
 		g.db.add(v)
 		send_repeatable_notification(CARP_ID, f"{v.username} has been shadowbanned because of a chat message.")
-		send_repeatable_notification(CARP_ID, f"{v.username} has been shadowbanned because of a chat message.")
 	else:
 		emit('speak', data, broadcast=True)
 		messages.append(data)
