@@ -62,9 +62,9 @@ def get_logged_in_user():
 			v.last_active = timestamp
 			g.db.add(v)
 	else:
-		g.parsed_agent = str(user_agents.parse(g.agent))
-		if 'spider' not in g.parsed_agent.lower() and 'bot' not in g.parsed_agent.lower():
-			loggedout[session["session_id"]] = (timestamp, g.parsed_agent)
+		ua = str(user_agents.parse(g.agent))
+		if 'spider' not in ua.lower() and 'bot' not in ua.lower():
+			loggedout[session["session_id"]] = (timestamp, ua)
 	
 	g.loggedin_counter = len([x for x in loggedin.values() if timestamp-x < LOGGEDIN_ACTIVE_TIME])
 	cache.set(f'{SITE}_loggedin', loggedin)
