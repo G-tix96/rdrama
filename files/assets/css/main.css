@@ -6230,7 +6230,6 @@ div > blockquote:last-child {
 	margin-bottom: 1rem !important;
 }
 blockquote + :not(blockquote) {
-	display: inline-block;
 	margin-top: 1rem;
 }
 blockquote > :not(blockquote) {
