@@ -2395,6 +2395,10 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 152	Amateur Hathead	Collected 25 unique hats
 155	Ride Or Die Dramalo/Dramalette	When I die show no pity / Send my soul to the juggalo city / Dig my grave six feet deep / And put two matches by my feet / Put two hatchets on my chest / And tell my homies I did my best / WHOOP WHOOP
 156	Hole Neglecter	Brought a Hole into this world, only to let it die
+21	Paypig	Contributed at least $5
+22	Renthog	Contributed at least $10
+23	Landchad	Contributed at least $20
+24	Terminally online turboautist	Contributed at least $50
 4	White Hat	Discreetly reported an exploit
 1	Alpha User	Joined during open alpha
 2	Verified Email	Verified Email
@@ -2408,10 +2412,6 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 16	Marsey Master	Contributed 10 (or more!!!!) Marsey emojis ✨
 17	Marsey Artisan	Contributed a Marsey emoji ✨
 18	Artisan	Contributed to site artwork
-21	Paypig	Contributed at least $5
-22	Renthog	Contributed at least $10
-23	Landchad	Contributed at least $20
-24	Terminally online turboautist	Contributed at least $50
 85	Sigma User	
 145	Amphetamine Aficionado	Totally not addicted™
 146	Coffee Consoomer	Don't talk to me until I've had my soy latte.
