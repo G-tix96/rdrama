@@ -30,15 +30,13 @@ set CACHE_VER = {
 	'js/userpage.js': 244,
 	'js/userpage_v.js': 245,
 	'js/lozad.js': 260,
-
-	'images/badges/': 1023,
 }
 -%}
 
 {%- macro asset(name, file='') -%}
-/assets/{{name}}{{file}}?v={{ CACHE_VER[name] }}
+	/assets/{{name}}{{file}}?v={{ CACHE_VER[name] }}
 {%- endmacro -%}
 
-{%- macro asset_siteimg(name) -%}
-/i/{{SITE_NAME}}/{{name}}?v=3009
+{%- macro asset_siteimg(name, file='') -%}
+	/i/{{SITE_NAME}}/{{name}}{{file}}?v=3009
 {%- endmacro -%}

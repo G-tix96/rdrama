@@ -60,7 +60,7 @@
 			<label class="custom-control-label" for="{{badge.id}}"></label>
 		</div>		
 	</td>
-	<td><label for="badge-{{badge.id}}"><img alt="{{badge.name}}" loading="lazy" src="{{asset('images/badges/', badge.id|string+'.webp')}}" width=64.16 height=70></label></td>
+	<td><label for="badge-{{badge.id}}"><img alt="{{badge.name}}" loading="lazy" src="{{badge.path}}" width=64.16></label></td>
 	<td>{{badge.name}}</td>
 	<td>{{badge.description}}</td>
 </tr>

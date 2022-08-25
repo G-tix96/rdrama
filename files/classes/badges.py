@@ -17,6 +17,11 @@ class BadgeDef(Base):
 	def __repr__(self):
 		return f"<BadgeDef(id={self.id})>"
 
+	@property
+	@lazy
+	def path(self):
+		if 20 < self.id < 28: return f"/i/{SITE_NAME}/patron_badges/{self.id}.webp"
+		return f"/i/badges/{self.id}.webp"
 
 class Badge(Base):
 
@@ -76,7 +81,7 @@ class Badge(Base):
 	@property
 	@lazy
 	def path(self):
-		return f"/i/badges/{self.badge_id}.webp"
+		return self.badge.path
 
 	@property
 	@lazy
