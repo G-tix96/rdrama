@@ -88,6 +88,7 @@ def sub_inactive_purge_task():
 
 	for x in to_delete:
 		g.db.delete(x)
+	g.db.flush()
 
 	for x in dead_holes:
 		g.db.delete(x)
