@@ -6174,10 +6174,6 @@ g {
     font-weight: 700;
 }
 
-.user-info {
-   overflow: hidden; 
-}
-
 .btn-rainbow {
 	color:white !important;
 	background: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet) !important;
