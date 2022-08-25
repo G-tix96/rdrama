@@ -366,9 +366,9 @@
 				<div id="profile--badges">
 					{% for b in u.badges %}
 						{% if b.url %}
-							<a rel="nofollow noopener noreferrer" href="{{b.url}}"><img alt="{{b.name}}" width=55 loading="lazy" src="{{b.path}}?v=1021" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}></a>
+							<a rel="nofollow noopener noreferrer" href="{{b.url}}"><img alt="{{b.name}}" width=55 height=60 loading="lazy" src="{{b.path}}?v=1021" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}></a>
 						{% else %}
-							<img alt="{{b.name}}" width=55 loading="lazy" src="{{b.path}}?v=1021" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
+							<img alt="{{b.name}}" width=55 height=60 loading="lazy" src="{{b.path}}?v=1021" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
 						{% endif %}
 					{% endfor %}
 				</div>
@@ -514,9 +514,9 @@
 				<div class="mb-3" id="profile-mobile--badges">
 					{% for b in u.badges %}
 						{% if b.url %}
-							<a rel="nofollow noopener noreferrer" href="{{b.url}}"><img alt="{{b.name}}" width=29.33 loading="lazy" src="{{b.path}}?v=1021" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}></a>
+							<a rel="nofollow noopener noreferrer" href="{{b.url}}"><img alt="{{b.name}}" width=29.33 height=32 loading="lazy" src="{{b.path}}?v=1021" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}></a>
 						{% else %}
-							<img alt="{{b.name}}" width=29.33 loading="lazy" src="{{b.path}}?v=1021" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
+							<img alt="{{b.name}}" width=29.33 height=32 loading="lazy" src="{{b.path}}?v=1021" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
 						{% endif %}
 					{% endfor %}
 				</div>
