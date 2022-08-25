@@ -27,7 +27,9 @@
 			<tr>
 				<td>{{loop.index}}</td>
 				<td>{{badge.name}}</td>
-				<td><img alt="{{badge.name}}" loading="lazy" src="{{badge.path}}" width=45.83>
+				<td>
+					<img class="contain" alt="{{badge.name}}" loading="lazy" src="{{badge.path}}" width=45.83 height=50>
+				</td>
 				<td>{{badge.description}}</td>
 				{%- set ct = counts[badge.id] if badge.id in counts else (0, 0) %}
 				<td class="badges-rarity-qty"><a href="/badge_owners/{{badge.id}}">{{ ct[0] }}</a></td>

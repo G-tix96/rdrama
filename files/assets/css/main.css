@@ -6247,3 +6247,7 @@ blockquote + blockquote, blockquote:last-child {
 #searchparams-dropdown {
 	z-index: 100;
 }
+.contain {
+	-o-object-fit: contain;
+	object-fit: contain;
+}
