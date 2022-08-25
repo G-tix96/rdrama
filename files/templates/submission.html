@@ -663,6 +663,10 @@
 						{% if p.ghost %}
 							<span {% if p.distinguish_level %}class="mod"{% endif %}>👻</span>
 						{% else %}
+							{% if FEATURES['PATRON_ICONS'] and p.author.patron %}
+								<img loading="lazy" src="/i/{{SITE_NAME}}/patron_badges/2{{p.author.patron}}.webp?v=1" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.patron_tooltip}}" alt="{{p.author.patron_tooltip}}">
+							{% endif %}
+
 							{% if FEATURES['HOUSES'] and p.author.house %}
 								<img loading="lazy" src="/i/{{SITE_NAME}}/houses/{{p.author.house}}.webp?v=2000" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{p.author.house}}" alt="House {{p.author.house}}">
 							{% endif %}

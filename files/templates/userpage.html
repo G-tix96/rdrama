@@ -66,6 +66,10 @@
 								</span>
 								{% endif %}
 
+								{% if FEATURES['PATRON_ICONS'] and u.patron %}
+									<img loading="lazy" class="ml-3" src="/i/{{SITE_NAME}}/patron_badges/2{{u.patron}}.webp?v=1" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.patron_tooltip}}" alt="{{u.patron_tooltip}}">
+								{% endif %}
+
 								{% if FEATURES['HOUSES'] and u.house %}
 									<img loading="lazy" class="ml-3" id="profile--house" src="/i/{{SITE_NAME}}/houses/{{u.house}}.webp?v=2000" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{u.house}}" alt="House {{u.house}}">
 								{% endif %}
@@ -367,10 +371,10 @@
 					{% for b in u.badges %}
 						{% if b.url %}
 							<a class="contain" rel="nofollow noopener noreferrer" href="{{b.url}}">
-								<img alt="{{b.name}}" width=55 height=60 loading="lazy" src="{{b.path}}?v=1021" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
+								<img alt="{{b.name}}" width=55 height=60 loading="lazy" src="{{b.path}}?v=1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
 							</a>
 						{% else %}
-							<img class="contain" alt="{{b.name}}" width=55 height=60 loading="lazy" src="{{b.path}}?v=1021" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
+							<img class="contain" alt="{{b.name}}" width=55 height=60 loading="lazy" src="{{b.path}}?v=1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
 						{% endif %}
 					{% endfor %}
 				</div>
@@ -415,6 +419,10 @@
 					<span id="profile-mobile--origname">
 						<i class="fas fa-user-tag text-info align-middle ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Original Username: @{{u.original_username}}"></i>
 					</span>
+				{% endif %}
+
+				{% if FEATURES['PATRON_ICONS'] and u.patron %}
+					<img loading="lazy" class="ml-2" src="/i/{{SITE_NAME}}/patron_badges/2{{u.patron}}.webp?v=1" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.patron_tooltip}}" alt="{{u.patron_tooltip}}">
 				{% endif %}
 
 				{% if FEATURES['HOUSES'] and u.house %}
@@ -517,10 +525,10 @@
 					{% for b in u.badges %}
 						{% if b.url %}
 							<a rel="nofollow noopener noreferrer" href="{{b.url}}">
-								<img class="contain" alt="{{b.name}}" width=29.33 height=32 loading="lazy" src="{{b.path}}?v=1021" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
+								<img class="contain" alt="{{b.name}}" width=29.33 height=32 loading="lazy" src="{{b.path}}?v=1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
 							</a>
 						{% else %}
-							<img class="contain" alt="{{b.name}}" width=29.33 height=32 loading="lazy" src="{{b.path}}?v=1021" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
+							<img class="contain" alt="{{b.name}}" width=29.33 height=32 loading="lazy" src="{{b.path}}?v=1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
 						{% endif %}
 					{% endfor %}
 				</div>

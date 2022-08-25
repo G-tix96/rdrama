@@ -792,3 +792,18 @@ class User(Base):
 		elif self.patron: # Patrons get profile views as a perk
 			return True
 		return False
+
+	@property
+	@lazy
+	def patron_tooltip(self):
+		if self.patron == 1:
+			return 'Contributed at least $5'
+		if self.patron == 2:
+			return 'Contributed at least $10'
+		if self.patron == 3:
+			return 'Contributed at least $20'
+		if self.patron == 4:
+			return 'Contributed at least $50'
+		if self.patron == 5:
+			return 'Contributed at least $100'
+		return ''

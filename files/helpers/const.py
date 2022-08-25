@@ -176,6 +176,7 @@ FEATURES = {
 	'USERS_SUICIDE': True,
 	'MARKUP_COMMANDS': True,
 	'REPOST_DETECTION': True,
+	'PATRON_ICONS': False,
 }
 
 EMOJI_MARSEYS = True
@@ -316,6 +317,8 @@ elif SITE == 'pcmemes.net':
 	LOTTERY_TICKET_COST = 12
 	LOTTERY_SINK_RATE = -8
 elif SITE == 'watchpeopledie.co':
+	FEATURES['PATRON_ICONS'] = True
+
 	PERMS['HOLE_CREATE'] = 2
 	PERMS['CONTENT_THREADS'] = 2
 
