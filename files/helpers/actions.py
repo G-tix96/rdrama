@@ -39,6 +39,7 @@ def execute_snappy(post, v):
 		body = random.choice(christian_emojis)
 	elif v.id == CARP_ID:
 		if random.random() < 0.02: body = "i love you carp"
+		elif random.random() < 0.02: body = "![](/images/16614707883108485.webp)"
 		else: body = ":#marseyfuckoffcarp:"
 	elif v.id == LAWLZ_ID:
 		if random.random() < 0.5: body = "wow, this lawlzpost sucks!"
