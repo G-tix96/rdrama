@@ -6240,18 +6240,6 @@ blockquote > :not(blockquote) {
 	padding-top: 0.7rem;
 }
 
-@media (max-width: 768px) {
-	blockquote {
-		margin: 0.5rem 0 0 0;
-	}
-	div > blockquote:last-child {
-		margin-bottom: 0.5rem !important;
-	}
-	blockquote + :not(blockquote) {
-		margin-top: 0.5rem;
-	}	
-}
-
 blockquote + blockquote, blockquote:first-child, blockquote:last-child {
 	margin-top: 0 !important;
 }
