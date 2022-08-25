@@ -489,7 +489,9 @@ def edit_post(pid, v):
 	return redirect(p.permalink)
 
 
-def thumbnail_thread(post):
+def thumbnail_thread(pid):
+
+	db = db_session()
 
 	def expand_url(post_url, fragment_url):
 
@@ -505,6 +507,14 @@ def thumbnail_thread(post):
 		else:
 			return f"{post_url}/{fragment_url}"
 
+	post = db.get(Submission, pid)
+	
+	if not post or not post.url:
+		time.sleep(5)
+		post = db.get(Submission, pid)
+
+	if not post or not post.url: return
+	
 	fetch_url = post.url
 
 	if fetch_url.startswith('/') and '\\' not in fetch_url:
@@ -512,10 +522,17 @@ def thumbnail_thread(post):
 
 	headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
 
-	try: x=requests.get(fetch_url, headers=headers, timeout=5, proxies=proxies)
-	except: return
+	try:
+		x=requests.get(fetch_url, headers=headers, timeout=5, proxies=proxies)
+	except:
+		db.close()
+		return
 
-	if x.status_code != 200: return
+	if x.status_code != 200:
+		db.close()
+		return
+	
+
 
 	if x.headers.get("Content-Type","").startswith("text/html"):
 		soup=BeautifulSoup(x.content, 'lxml')
@@ -576,16 +593,24 @@ def thumbnail_thread(post):
 
 			break
 
-		else: return
+		else:
+			db.close()
+			return
+
+
 
 	elif x.headers.get("Content-Type","").startswith("image/"):
 		image_req=x
 		image = PILimage.open(BytesIO(x.content))
 
-	else: return
+	else:
+		db.close()
+		return
 
 	size = len(image.fp.read())
-	if size > 8 * 1024 * 1024: return
+	if size > 8 * 1024 * 1024:
+		db.close()
+		return
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 
@@ -594,6 +619,9 @@ def thumbnail_thread(post):
 			file.write(chunk)
 
 	post.thumburl = process_image(name, resize=100)
+	db.add(post)
+	db.commit()
+	db.close()
 	stdout.flush()
 	return
 
@@ -977,7 +1005,7 @@ def submit_post(v, sub=None):
 			abort(415)
 		
 	if not post.thumburl and post.url:
-		gevent.spawn(thumbnail_thread, post)
+		gevent.spawn(thumbnail_thread, post.id)
 
 
 
