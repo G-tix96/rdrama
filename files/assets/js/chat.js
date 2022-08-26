@@ -112,7 +112,7 @@ function send() {
 		socket.emit('typing', false);
 	}
 	autoExpand(textbox);
-	scroll_chat();
+	box.scrollTo(0, box.scrollHeight)
 }
 
 function quote(t) {
@@ -129,7 +129,7 @@ textbox.addEventListener("keyup", function(e) {
 	if (e.key === 'Enter') {
 		e.preventDefault();
 		send();
-		scroll_chat();
+		box.scrollTo(0, box.scrollHeight)
 	}
 })
 
