@@ -128,7 +128,8 @@ function quote(t) {
 textbox.addEventListener("keyup", function(e) {
 	if (e.key === 'Enter') {
 		e.preventDefault();
-		send()
+		send();
+		scroll_chat();
 	}
 })
 
