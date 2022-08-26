@@ -1256,7 +1256,8 @@ def pin_post(post_id, v):
 def get_post_title(v):
 
 	url = request.values.get("url")
-	if not url or '\\' in url: abort(400)
+	if not url or '\\' in url or 'pomf2.lain.la' in url:
+		abort(400)
 
 	try: x = requests.get(url, headers=titleheaders, timeout=5, proxies=proxies)
 	except: abort(400)
