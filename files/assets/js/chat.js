@@ -68,8 +68,6 @@ socket.on('speak', function(json) {
 	let users = document.getElementsByClassName('userlink');
 	let last_user = users[users.length-1].innerHTML;
 
-	let scrolled_down = (box.scrollHeight - box.scrollTop <= window.innerHeight)
-
 	if (last_user == json['username']) {
 		document.getElementsByClassName('chat-line')[0].classList.remove('diff')
 		document.getElementsByClassName('userlink')[0].classList.add('d-none')
@@ -93,14 +91,9 @@ socket.on('speak', function(json) {
 	let line = document.getElementsByClassName('chat-line')[0].cloneNode(true)
 	bs_trigger(line)
 	box.append(line)
-	if (scrolled_down) box.scrollTo(0, box.scrollHeight)
+	box.scrollTo(0, box.scrollHeight)
 })
 
-function scroll_chat() {
-    setTimeout(function () {
-		box.scrollTo(0, box.scrollHeight)
-    }, 0200);
-}
 
 function send() {
 	text = textbox.value.trim()
@@ -112,8 +105,6 @@ function send() {
 		socket.emit('typing', false);
 	}
 	autoExpand(textbox);
-	box.scrollTo(0, box.scrollHeight);
-	scroll_chat();
 }
 
 function quote(t) {
@@ -130,8 +121,6 @@ textbox.addEventListener("keyup", function(e) {
 	if (e.key === 'Enter') {
 		e.preventDefault();
 		send();
-		box.scrollTo(0, box.scrollHeight);
-		scroll_chat();
 	}
 })
 
@@ -189,6 +178,10 @@ socket.on('typing', function (users){
 	}
 })
 
-scroll_chat()
+function scroll_chat() {
+    setTimeout(function () {
+		box.scrollTo(0, box.scrollHeight)
+    }, 200);
+}
 
 box.scrollTo(0, box.scrollHeight)
