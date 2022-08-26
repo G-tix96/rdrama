@@ -116,6 +116,7 @@ function bet_vote(cid) {
 	var scoretext = document.getElementById('bet-' + cid);
 	var score = Number(scoretext.textContent);
 	scoretext.textContent = score + 1;
-	post('/bet/' + cid);
+	post(`/vote/post/option/${cid}`);
+
 	document.getElementById("user-coins-amount").innerText = parseInt(document.getElementById("user-coins-amount").innerText) - 200;
 }

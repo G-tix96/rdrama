@@ -11,7 +11,7 @@ class SubmissionOption(Base):
 	id = Column(Integer, primary_key=True)
 	submission_id = Column(Integer, ForeignKey("submissions.id"))
 	body_html = Column(Text)
-	exclusive = Column(Boolean)
+	exclusive = Column(Integer)
 
 	votes = relationship("SubmissionOptionVote")
 	post = relationship("Submission", back_populates="options")
@@ -56,7 +56,7 @@ class CommentOption(Base):
 	id = Column(Integer, primary_key=True)
 	comment_id = Column(Integer, ForeignKey("comments.id"))
 	body_html = Column(Text)
-	exclusive = Column(Boolean)
+	exclusive = Column(Integer)
 
 	votes = relationship("CommentOptionVote")
 	comment = relationship("Comment", back_populates="options")

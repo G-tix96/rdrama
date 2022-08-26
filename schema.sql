@@ -299,7 +299,7 @@ CREATE TABLE public.comment_options (
     id integer DEFAULT nextval('public.comment_option_id_seq'::regclass) NOT NULL,
     comment_id integer NOT NULL,
     body_html character varying(500) NOT NULL,
-    exclusive boolean NOT NULL
+    exclusive integer NOT NULL
 );
 
 
@@ -695,7 +695,7 @@ CREATE TABLE public.submission_options (
     id integer DEFAULT nextval('public.submission_option_id_seq'::regclass) NOT NULL,
     submission_id integer NOT NULL,
     body_html character varying(500) NOT NULL,
-    exclusive boolean NOT NULL
+    exclusive integer NOT NULL
 );
 
 

@@ -16,12 +16,21 @@ def vote_option(option_id, v):
 
 	if not option: abort(404)
 
+	if option.exclusive == 2:
+		if v.coins < 200: return {"error": "You don't have 200 coins!"}
+		v.coins -= 200
+		g.db.add(v)
+		autojanny = get_account(AUTOJANNY_ID)
+		autojanny.coins += 200
+		g.db.add(autojanny)
+
 	if option.exclusive:
 		vote = g.db.query(SubmissionOptionVote).join(SubmissionOption).filter(
 			SubmissionOptionVote.user_id==v.id,
 			SubmissionOptionVote.submission_id==option.submission_id,
-			SubmissionOption.exclusive==True).one_or_none()
+			SubmissionOption.exclusive==option.exclusive).one_or_none()
 		if vote:
+			if option.exclusive == 2: return {"error": "You already voted on this bet!"}
 			g.db.delete(vote)
 
 	existing = g.db.query(SubmissionOptionVote).filter_by(option_id=option_id, user_id=v.id).one_or_none()
@@ -32,7 +41,7 @@ def vote_option(option_id, v):
 			submission_id=option.submission_id,
 		)
 		g.db.add(vote)
-	elif existing:
+	elif existing and not option.exclusive:
 		g.db.delete(existing)
 
 	return "", 204
@@ -72,7 +81,7 @@ def vote_option_comment(option_id, v):
 		vote = g.db.query(CommentOptionVote).join(CommentOption).filter(
 			CommentOptionVote.user_id==v.id,
 			CommentOptionVote.comment_id==option.comment_id,
-			CommentOption.exclusive==True).one_or_none()
+			CommentOption.exclusive==1).one_or_none()
 		if vote:
 			g.db.delete(vote)
 

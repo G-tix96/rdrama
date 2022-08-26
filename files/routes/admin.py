@@ -183,52 +183,60 @@ def remove_admin(v, username):
 
 	return {"message": "Admin removed!"}
 
-# @app.post("/distribute/<comment>")
-# @limiter.limit("1/second;30/minute;200/hour;1000/day")
-# @admin_level_required(3)
-# def distribute(v, comment):
-# 	autobetter = get_account(AUTOBETTER_ID)
-# 	if autobetter.coins == 0: return {"error": "@AutoBetter has 0 coins"}
+@app.post("/distribute/<option_id>")
+@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@admin_level_required(3)
+def distribute(v, option_id):
+	autojanny = get_account(AUTOJANNY_ID)
+	if autojanny.coins == 0: return {"error": "@AutoJanny has 0 coins"}
 
-# 	try: comment = int(comment)
-# 	except: abort(400)
-# 	post = g.db.query(Comment.parent_submission).filter_by(id=comment).one_or_none()[0]
-# 	post = get_post(post)
+	try: option_id = int(option_id)
+	except: abort(400)
 
-# 	pool = 0
-# 	for option in post.bet_options: pool += option.upvotes
-# 	pool *= 200
+	try: option = g.db.get(SubmissionOption, option_id)
+	except: abort(404)
 
-# 	autobetter.coins -= pool
-# 	if autobetter.coins < 0: autobetter.coins = 0
-# 	g.db.add(autobetter)
+	post = option.post
 
-# 	votes = g.db.query(CommentVote).filter_by(comment_id=comment)
-# 	coinsperperson = int(pool / votes.count())
+	pool = 0
+	for o in post.options:
+		if o.exclusive == 2: pool += o.upvotes
+	pool *= 200
 
-# 	cid = notif_comment(f"You won {coinsperperson} coins betting on [{post.title}]({post.shortlink}) :marseyparty:")
-# 	for vote in votes:
-# 		u = vote.user
-# 		u.coins += coinsperperson
-# 		add_notif(cid, u.id)
+	autojanny.coins -= pool
+	if autojanny.coins < 0: autojanny.coins = 0
+	g.db.add(autojanny)
 
-# 	cid = notif_comment(f"You lost the 200 coins you bet on [{post.title}]({post.shortlink}) :marseylaugh:")
-# 	cids = [x.id for x in post.bet_options]
-# 	cids.remove(comment)
-# 	votes = g.db.query(CommentVote).filter(CommentVote.comment_id.in_(cids)).all()
-# 	for vote in votes: add_notif(cid, vote.user.id)
+	votes = option.votes
+	coinsperperson = int(pool / len(votes))
 
-# 	post.body += '\n\nclosed'
-# 	g.db.add(post)
+	cid = notif_comment(f"You won {coinsperperson} coins betting on [{post.title}]({post.shortlink}) :marseyparty:")
+	for vote in votes:
+		u = vote.user
+		u.coins += coinsperperson
+		add_notif(cid, u.id)
+
+
+	cid = notif_comment(f"You lost the 200 coins you bet on [{post.title}]({post.shortlink}) :marseylaugh:")
+	losing_voters = []
+	for o in post.options:
+		if o.exclusive == 2 and o.id != option_id:
+			losing_voters.extend([x.user_id for x in o.votes])
+	for uid in losing_voters:
+		add_notif(cid, uid)
+
+
+	post.body += '\n\nclosed'
+	g.db.add(post)
 	
-# 	ma = ModAction(
-# 		kind="distribute",
-# 		user_id=v.id,
-# 		target_comment_id=comment
-# 	)
-# 	g.db.add(ma)
+	ma = ModAction(
+		kind="distribute",
+		user_id=v.id,
+		target_submission_id=post.id
+	)
+	g.db.add(ma)
 
-# 	return {"message": f"Each winner has received {coinsperperson} coins!"}
+	return {"message": f"Each winner has received {coinsperperson} coins!"}
 
 @app.post("/@<username>/revert_actions")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")

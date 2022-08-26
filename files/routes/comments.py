@@ -377,7 +377,7 @@ def comment(v):
 		option = CommentOption(
 			comment_id=c.id,
 			body_html=filter_emojis_only(option),
-			exclusive=False
+			exclusive=0
 		)
 		g.db.add(option)
 
@@ -385,7 +385,7 @@ def comment(v):
 		choice = CommentOption(
 			comment_id=c.id,
 			body_html=filter_emojis_only(choice),
-			exclusive=True
+			exclusive=1
 		)
 		g.db.add(choice)
 
@@ -668,7 +668,7 @@ def edit_comment(cid, v):
 			option = CommentOption(
 				comment_id=c.id,
 				body_html=filter_emojis_only(i.group(1)),
-				exclusive = False
+				exclusive = 0
 			)
 			g.db.add(option)
 
@@ -677,7 +677,7 @@ def edit_comment(cid, v):
 			option = CommentOption(
 				comment_id=c.id,
 				body_html=filter_emojis_only(i.group(1)),
-				exclusive = True
+				exclusive = 1
 			)
 			g.db.add(option)
 
