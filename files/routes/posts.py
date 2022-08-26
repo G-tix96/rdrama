@@ -967,13 +967,14 @@ def submit_post(v, sub=None):
 		)
 		g.db.add(choice)
 
-	for bet in bets:
-		bet = SubmissionOption(
-			submission_id=post.id,
-			body_html=filter_emojis_only(bet),
-			exclusive=2
-		)
-		g.db.add(bet)
+	if v and v.admin_level > 2:
+		for bet in bets:
+			bet = SubmissionOption(
+				submission_id=post.id,
+				body_html=filter_emojis_only(bet),
+				exclusive=2
+			)
+			g.db.add(bet)
 
 	vote = Vote(user_id=v.id,
 				vote_type=1,
