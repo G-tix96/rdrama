@@ -120,9 +120,7 @@ function quote(t) {
 }
 
 textbox.addEventListener("keyup", function(e) {
-	console.log(e.shiftKey)
-	console.log(e.key)
-	if (!e.shiftKey && e.key === 'Enter') {
+	if (e.key === 'Enter') {
 		e.preventDefault();
 		send()
 	}
