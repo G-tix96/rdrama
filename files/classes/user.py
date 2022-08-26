@@ -125,7 +125,6 @@ class User(Base):
 	ban_evade = Column(Integer, default=0)
 	original_username = Column(String)
 	referred_by = Column(Integer, ForeignKey("users.id"))
-	can_gamble = Column(Boolean, default=True)
 	currently_held_lottery_tickets = Column(Integer, default=0)
 	total_held_lottery_tickets = Column(Integer, default=0)
 	total_lottery_winnings = Column(Integer, default=0)

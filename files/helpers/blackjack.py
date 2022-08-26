@@ -52,8 +52,7 @@ def format_all(player_hand, dealer_hand, deck, status, wager, kind, is_insured=0
 
 
 def check_for_blackjack_commands(in_text, from_user, from_comment):
-	if not FEATURES['GAMBLING'] or not from_user.can_gamble:
-		return
+	if not FEATURES['GAMBLING']: return
 	
 	for command_word in (coins_command_word, marseybux_command_word):
 		currency_prop = "coins" if command_word == coins_command_word else "procoins"

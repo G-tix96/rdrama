@@ -19,8 +19,7 @@ def shuffle(stuff):
 	return stuff
 
 def check_for_slots_command(in_text, from_user, from_comment):
-	if not FEATURES['GAMBLING'] or not from_user.can_gamble:
-		return
+	if not FEATURES['GAMBLING']: return
 
 	in_text = in_text.lower()
 	if command_word in in_text:

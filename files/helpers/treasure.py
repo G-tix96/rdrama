@@ -12,8 +12,7 @@ lotterizer_rate = 33
 def check_for_treasure(in_text, from_comment):
 	user = from_comment.author
 
-	if not FEATURES['GAMBLING'] or not user.can_gamble:
-		return
+	if not FEATURES['GAMBLING']: return
 
 	if '!slots' not in in_text and '!blackjack' not in in_text and '!wordle' not in in_text:
 		seed = randint(1, 1000)
