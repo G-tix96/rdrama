@@ -67,7 +67,7 @@ Text 2
 			<td><a href="/">{{SITE_NAME}}</a></td>
 		</tr>
 		<tr>
-			<td>Images</td>
+			<td>Images (will embed automatically if from <a href="#approved">approved hosts</a>)</td>
 			<td>https://i.imgur.com/SwVuagI_d.webp</td>
 			<td><img loading="lazy" alt="example image" referrerpolicy="no-referrer" src="https://i.imgur.com/SwVuagI_d.webp"></td>
 		</tr>
@@ -634,6 +634,24 @@ line breaks
 				<td>Play wordle</td>
 			</tr>
 		{% endif %}
+	</tbody>
+</table></div>
+
+
+<h5 id="approved">Approved Image Hosts</h5>
+
+<div class="overflow-x-auto"><table class="table table-striped mb-5">
+	<thead class="bg-primary text-white">
+		<tr>
+			<th>Host</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for host in approved_embed_hosts %}
+			<tr>
+				<td>{{host}}</td>
+			</tr>
+		{% endfor %}
 	</tbody>
 </table></div>
 
