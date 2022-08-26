@@ -3,8 +3,7 @@
 const ua=window.navigator.userAgent
 let socket
 
-if (ua.includes('iPhone') || ua.includes('iPad')) socket=io()
-else socket=io({transports: ["websocket"]})
+socket=io()
 
 const chatline = document.getElementsByClassName('chat-line')[0]
 const box = document.getElementById('chat-window')
@@ -184,4 +183,5 @@ function scroll_chat() {
     }, 200);
 }
 
-box.scrollTo(0, box.scrollHeight)
+scroll_chat();
+box.scrollTo(0, box.scrollHeight);
