@@ -202,7 +202,7 @@ def vote_comment(comment_id, new, v):
 
 		g.db.add(vote)
 
-	g.db.flush()
+	g.db.commit()
 	comment.upvotes = g.db.query(CommentVote).filter_by(comment_id=comment.id, vote_type=1).count()
 	comment.downvotes = g.db.query(CommentVote).filter_by(comment_id=comment.id, vote_type=-1).count()
 	comment.realupvotes = g.db.query(CommentVote).filter_by(comment_id=comment.id, real=True).count()
