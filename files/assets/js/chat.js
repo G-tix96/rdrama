@@ -176,4 +176,8 @@ socket.on('typing', function (users){
 	}
 })
 
-box.scrollTo(0, box.scrollHeight)
+function scroll_chat() {
+	box.scrollTo(0, box.scrollHeight)
+}
+
+scroll_chat()
