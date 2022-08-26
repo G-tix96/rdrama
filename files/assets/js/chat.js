@@ -107,10 +107,12 @@ function send() {
 }
 
 function quote(t) {
-	text = t.previousElementSibling.innerHTML.replace(/&gt;/g, "> ").replace(/\n/g, "\n> ").replace(/\*/g,"\\*")
+	text = t.previousElementSibling.innerHTML.replace(/\*/g,"\\*").split('\n').pop()
+
 	let username
 	try {username = t.parentElement.previousElementSibling.previousElementSibling.innerHTML}
 	catch(e) {username = t.parentElement.previousElementSibling.innerHTML}
+
 	textbox.value = '> ' + text + '\n@' + username + ' '
 	textbox.focus()
 	autoExpand(textbox);
