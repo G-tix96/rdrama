@@ -11,10 +11,7 @@ from flask import render_template, make_response, send_from_directory
 import sys
 import atexit
 
-if SITE == 'localhost':
-	socketio = SocketIO(app, async_mode='gevent', cors_allowed_origins=[SITE_FULL], logger=True, engineio_logger=True, debug=True)
-else:
-	socketio = SocketIO(app, async_mode='gevent', cors_allowed_origins=[SITE_FULL])
+socketio = SocketIO(app, async_mode='gevent', cors_allowed_origins=[SITE_FULL], logger=True, engineio_logger=True, debug=True)
 
 typing = []
 online = []
