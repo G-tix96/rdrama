@@ -14,7 +14,6 @@ import atexit
 socketio = SocketIO(
 	app,
 	async_mode='gevent',
-	cors_allowed_origins='*',
 	logger=True,
 	engineio_logger=True,
 	debug=True
