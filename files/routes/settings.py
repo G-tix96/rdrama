@@ -861,18 +861,19 @@ def settings_title_change(v):
 
 	if v.flairchanged: abort(403)
 	
-	new_name=request.values.get("title").strip()[:100].replace("𒐪","")
+	customtitleplain = request.values.get("title").strip().replace("𒐪","")[:100]
 
-	if new_name == v.customtitle: return render_template("settings_profile.html", v=v, error="You didn't change anything")
+	if customtitleplain == v.customtitleplain:
+		return render_template("settings_profile.html", v=v, error="You didn't change anything")
 
-	v.customtitleplain = new_name
+	customtitle = filter_emojis_only(censor_slurs(customtitleplain, None))
 
-	new_name = censor_slurs(new_name, None)
+	if len(customtitle) > 1000:
+		return render_template("settings_profile.html", v=v, error="Flair too long!")
 
-	v.customtitle = filter_emojis_only(new_name)
-
-	if len(v.customtitle) > 1000:
-		return render_template("settings_profile.html", v=v, error="Flair too long")
+	v.customtitleplain = customtitleplain
+	v.customtitle = customtitle
+	g.db.add(v)
 
 	return redirect("/settings/profile")
 
