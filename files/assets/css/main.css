@@ -6237,7 +6237,7 @@ blockquote > :not(blockquote) {
 	padding-bottom: 0.7rem;
 	padding-top: 0.7rem;
 }
-blockquote + blockquote, blockquote:first-child, blockquote:last-child {
+blockquote + blockquote, div > blockquote:first-child, blockquote:last-child {
 	margin-top: 0 !important;
 }
 
