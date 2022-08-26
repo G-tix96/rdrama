@@ -96,6 +96,11 @@ socket.on('speak', function(json) {
 	if (scrolled_down) box.scrollTo(0, box.scrollHeight)
 })
 
+function scroll_chat() {
+    setTimeout(function () {
+		box.scrollTo(0, box.scrollHeight)
+    }, 0200);
+}
 
 function send() {
 	text = textbox.value.trim()
@@ -107,6 +112,7 @@ function send() {
 		socket.emit('typing', false);
 	}
 	autoExpand(textbox);
+	scroll_chat();
 }
 
 function quote(t) {
@@ -179,12 +185,6 @@ socket.on('typing', function (users){
 		document.getElementById('loading-indicator').classList.remove('d-none');
 	}
 })
-
-function scroll_chat() {
-    setTimeout(function () {
-		box.scrollTo(0, box.scrollHeight)
-    }, 0200);
-}
 
 scroll_chat()
 
