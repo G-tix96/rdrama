@@ -80,7 +80,6 @@ socket.on('speak', function(json) {
 		document.getElementsByClassName('userlink')[0].href = '/@' + json['username']
 		document.getElementsByClassName('userlink')[0].style.color = '#' + json['namecolor']
 		document.getElementsByClassName('time')[0].classList.remove('d-none')
-		document.getElementsByClassName('time')[0].innerHTML = 'just now'
 	}
 
 	document.getElementsByClassName('userlink')[0].innerHTML = json['username']
@@ -110,7 +109,7 @@ function quote(t) {
 	text = t.previousElementSibling.innerHTML.replace(/&gt;/g, "> ").replace(/\n/g, "\n> ").replace(/\*/g,"\\*")
 	let username
 	try {username = t.parentElement.previousElementSibling.previousElementSibling.innerHTML}
-	catch(e) {username = t.parentElement.parentElement.previousElementSibling.previousElementSibling.innerHTML}
+	catch(e) {username = t.parentElement.previousElementSibling.innerHTML}
 	textbox.value = '> ' + text + '\n@' + username + ' '
 	textbox.focus()
 	autoExpand(textbox);
