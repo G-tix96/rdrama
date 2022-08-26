@@ -6185,15 +6185,6 @@ g {
 	font-weight: 600;
 }
 
-.desktop-expanded-image-modal::-webkit-scrollbar {
-	display: none;
-}
-
-.desktop-expanded-image-modal::-webkit-scrollbar {
-	-ms-overflow-style: none;
-	scrollbar-width: none;
-}
-
 div.custom-control:last-of-type {
 	margin-bottom: 1rem;
 }
