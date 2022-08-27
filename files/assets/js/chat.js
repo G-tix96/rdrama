@@ -10,7 +10,7 @@ const box = document.getElementById('chat-window')
 const textbox = document.getElementById('input-text')
 const icon = document.getElementById('favicon')
 const vid = document.getElementById('vid').value
-const vusername = document.getElementById('header--username').innerHTML
+const vusername = document.getElementById('vusername').value
 const site_name = document.getElementById('site_name').value
 const slurreplacer = document.getElementById('slurreplacer').value
 
