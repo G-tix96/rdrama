@@ -20,7 +20,6 @@ import datetime
 import requests
 from urllib.parse import quote, urlencode
 
-
 @app.post('/kippy')
 @admin_level_required(3)
 def kippy(v):

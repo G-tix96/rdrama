@@ -263,11 +263,12 @@ class Comment(Base):
 	@lazy
 	def author_name(self):
 		if self.ghost: return '👻'
-		else: return self.author.username
+		if self.author.earlylife: return f'((({self.author.username})))'
+		return self.author.username
 
 	@lazy
 	def award_count(self, kind, v):
-		if v and v.poor: return 0
+		if v and v.poor and kind.islower(): return 0
 		return len([x for x in self.awards if x.kind == kind])
 
 	@property

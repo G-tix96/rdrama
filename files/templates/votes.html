@@ -39,9 +39,9 @@
 		{% for vote in ups %}
 			<tr>
 				<td>
-					<a style="color:#{{vote.user.namecolor}};font-weight:bold" href="/@{{vote.user.username}}">
+					<a style="color:#{{vote.user.name_color}};font-weight:bold" href="/@{{vote.user.username}}">
 						<img loading="lazy" src="{{vote.user.profile_url}}" class="pp20">
-						<span {% if vote.user.patron %}class="patron" style="background-color:#{{vote.user.namecolor}}"{% endif %}>
+						<span {% if vote.user.patron %}class="patron" style="background-color:#{{vote.user.name_color}}"{% endif %}>
 							{{vote.user.username}}
 						</span>
 					</a>
@@ -67,9 +67,9 @@
 		{% for vote in downs %}
 			<tr>
 				<td>
-					<a style="color:#{{vote.user.namecolor}};font-weight:bold" href="/@{{vote.user.username}}">
+					<a style="color:#{{vote.user.name_color}};font-weight:bold" href="/@{{vote.user.username}}">
 						<img loading="lazy" src="{{vote.user.profile_url}}" class="pp20">
-						<span {% if vote.user.patron %}class="patron" style="background-color:#{{vote.user.namecolor}}"{% endif %}>
+						<span {% if vote.user.patron %}class="patron" style="background-color:#{{vote.user.name_color}}"{% endif %}>
 							{{vote.user.username}}
 						</span>
 					</a>

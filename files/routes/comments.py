@@ -14,6 +14,8 @@ from files.routes.static import marsey_list
 from flask import *
 from files.__main__ import app, limiter
 from files.helpers.sanitize import filter_emojis_only
+from files.helpers.marsify import marsify
+import owoify
 import requests
 from shutil import copyfile
 from json import loads
@@ -719,7 +721,13 @@ def edit_comment(cid, v):
 
 		body = body.strip()
 
-		body_html = sanitize(body, edit=True, limit_pings=5)
+		body_for_sanitize = body
+		if c.award_count('Furry', v) or c.award_count('Furry Founder', v):
+			body_for_sanitize = owoify.owoify(body_for_sanitize)
+		if c.award_count('Femboy', v) or c.award_count('Femboy Founder', v):
+			body_for_sanitize = marsify(body_for_sanitize)
+
+		body_html = sanitize(body_for_sanitize, edit=True, limit_pings=5)
 
 		if len(body_html) > 20000: abort(400)
 

@@ -131,6 +131,8 @@ class User(Base):
 	last_viewed_post_notifs = Column(Integer, default=0)
 	last_viewed_log_notifs = Column(Integer, default=0)
 	pronouns = Column(String, default='they/them')
+	bite = Column(Integer)
+	earlylife = Column(Integer)
 
 	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
 	subscriptions = relationship("Subscription", back_populates="user")
@@ -161,6 +163,12 @@ class User(Base):
 	def __repr__(self):
 		return f"<User(id={self.id}, username={self.username})>"
 
+
+	@property
+	@lazy
+	def name_color(self):
+		if self.bite: return "565656"
+		return self.namecolor
 
 	@lazy
 	def mods(self, sub):
@@ -263,6 +271,9 @@ class User(Base):
 	@lazy
 	def user_awards(self):
 		return_value = list(AWARDS2.values())
+
+		if self.house:
+			return_value.append(HOUSE_AWARDS[self.house])
 
 		awards_owned = g.db.query(AwardRelationship.kind, func.count()) \
 			.filter_by(user_id=self.id, submission_id=None, comment_id=None) \
@@ -611,7 +622,10 @@ class User(Base):
 	@property
 	@lazy
 	def profile_url(self):
-		if self.agendaposter: return f"{SITE_FULL}/assets/images/pfps/agendaposter/{random.randint(1, 57)}.webp?v=1"
+		if self.agendaposter:
+			return f"{SITE_FULL}/assets/images/pfps/agendaposter/{random.randint(1, 57)}.webp?v=1"
+		if self.bite:
+			return f"{SITE_FULL}/e/marseyvampire.webp"
 		if self.profileurl: 
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl
