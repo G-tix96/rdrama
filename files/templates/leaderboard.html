@@ -35,14 +35,14 @@
 {% for user in users1 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td><a style="color:#{{user.namecolor}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.namecolor}}"{% endif %}>{{user.username}}</span></a></td>
+		<td><a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
 		<td>{{user.coins}}</td>
 	</tr>
 {% endfor %}
 {% if pos1 > 25 %}
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos1}}</td>
-		<td><a style="color:#{{v.namecolor}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.namecolor}}"{% endif %}>{{v.username}}</span></a></td>
+		<td><a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span></a></td>
 		<td>{{v.coins}}</td>
 	</tr>
 {% endif %}
@@ -62,14 +62,14 @@
 {% for user in users7 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td><a style="color:#{{user.namecolor}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.namecolor}}"{% endif %}>{{user.username}}</span></a></td>
+		<td><a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
 		<td>{{user.coins_spent}}</td>
 	</tr>
 {% endfor %}
 {% if pos7 > 25 %}
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos7}}</td>
-		<td><a style="color:#{{v.namecolor}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.namecolor}}"{% endif %}>{{v.username}}</span></a></td>
+		<td><a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span></a></td>
 		<td>{{v.coins_spent}}</td>
 	</tr>
 {% endif %}
@@ -89,14 +89,14 @@
 	{% for user in users10 %}
 		<tr {% if v.id == user.id %}class="self"{% endif %}>
 			<td>{{loop.index}}</td>
-			<td><a style="color:#{{user.namecolor}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.namecolor}}"{% endif %}>{{user.username}}</span></a></td>
+			<td><a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
 			<td>{{user.truecoins}}</td>
 		</tr>
 	{% endfor %}
 	{% if pos10 > 25 %}
 		<tr style="border-top:2px solid var(--primary)">
 			<td>{{pos10}}</td>
-			<td><a style="color:#{{v.namecolor}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.namecolor}}"{% endif %}>{{v.username}}</span></a></td>
+			<td><a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span></a></td>
 			<td>{{v.truecoins}}</td>
 		</tr>
 	{% endif %}
@@ -116,14 +116,14 @@
 {% for user in users2 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td><a style="color:#{{user.namecolor}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.namecolor}}"{% endif %}>{{user.username}}</span></a></td>
+		<td><a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
 		<td>{{user.stored_subscriber_count}}</td>
 	</tr>
 {% endfor %}
 {% if pos2 > 25 %}
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos2}}</td>
-		<td><a style="color:#{{v.namecolor}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.namecolor}}"{% endif %}>{{v.username}}</span></a></td>
+		<td><a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span></a></td>
 		<td>{{v.stored_subscriber_count}}</td>
 	</tr>
 {% endif %}
@@ -142,14 +142,14 @@
 {% for user in users3 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td><a style="color:#{{user.namecolor}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.namecolor}}"{% endif %}>{{user.username}}</span></a></td>
+		<td><a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
 		<td>{{user.post_count}}</td>
 	</tr>
 {% endfor %}
 {% if pos3 > 25 %}
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos3}}</td>
-		<td><a style="color:#{{v.namecolor}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.namecolor}}"{% endif %}>{{v.username}}</span></a></td>
+		<td><a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span></a></td>
 		<td>{{v.post_count}}</td>
 	</tr>
 {% endif %}
@@ -168,14 +168,14 @@
 {% for user in users4 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td><a style="color:#{{user.namecolor}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.namecolor}}"{% endif %}>{{user.username}}</span></a></td>
+		<td><a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
 		<td>{{user.comment_count}}</td>
 	</tr>
 {% endfor %}
 {% if pos4 > 25 %}
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos4}}</td>
-		<td><a style="color:#{{v.namecolor}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.namecolor}}"{% endif %}>{{v.username}}</span></a></td>
+		<td><a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span></a></td>
 		<td>{{v.comment_count}}</td>
 	</tr>
 {% endif %}
@@ -194,14 +194,14 @@
 {% for user in users5 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td><a style="color:#{{user.namecolor}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.namecolor}}"{% endif %}>{{user.username}}</span></a></td>
+		<td><a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
 		<td>{{user.received_award_count}}</td>
 	</tr>
 {% endfor %}
 {% if pos5 > 25 %}
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos5}}</td>
-		<td><a style="color:#{{v.namecolor}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.namecolor}}"{% endif %}>{{v.username}}</span></a></td>
+		<td><a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span></a></td>
 		<td>{{v.received_award_count}}</td>
 	</tr>
 {% endif %}
@@ -221,14 +221,14 @@
 	{% for user in users9 %}
 		<tr {% if v.id == user[0].id %}class="self"{% endif %}>
 			<td>{{loop.index}}</td>
-			<td><a style="color:#{{user[0].namecolor}};font-weight:bold" href="/@{{user[0].username}}"><img loading="lazy" src="{{user[0].profile_url}}" class="pp20"><span {% if user[0].patron %}class="patron" style="background-color:#{{user[0].namecolor}}"{% endif %}>{{user[0].username}}</span></a></td>
+			<td><a style="color:#{{user[0].name_color}};font-weight:bold" href="/@{{user[0].username}}"><img loading="lazy" src="{{user[0].profile_url}}" class="pp20"><span {% if user[0].patron %}class="patron" style="background-color:#{{user[0].name_color}}"{% endif %}>{{user[0].username}}</span></a></td>
 			<td>{{user[1]}}</td>
 		</tr>
 	{% endfor %}
 	{% if pos9 and (pos9[0] > 25 or not pos9[1]) %}
 		<tr style="border-top:2px solid var(--primary)">
 			<td>{{pos9[0]}}</td>
-			<td><a style="color:#{{v.namecolor}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.namecolor}}"{% endif %}>{{v.username}}</span></a></td>
+			<td><a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span></a></td>
 			<td>{{pos9[1]}}</td>
 		</tr>
 	{% endif %}
@@ -249,14 +249,14 @@
 	{% for user in users11 %}
 		<tr {% if v.id == user[0].id %}class="self"{% endif %}>
 			<td>{{loop.index}}</td>
-			<td><a style="color:#{{user[0].namecolor}};font-weight:bold" href="/@{{user[0].username}}"><img loading="lazy" src="{{user[0].profile_url}}" class="pp20"><span {% if user[0].patron %}class="patron" style="background-color:#{{user[0].namecolor}}"{% endif %}>{{user[0].username}}</span></a></td>
+			<td><a style="color:#{{user[0].name_color}};font-weight:bold" href="/@{{user[0].username}}"><img loading="lazy" src="{{user[0].profile_url}}" class="pp20"><span {% if user[0].patron %}class="patron" style="background-color:#{{user[0].name_color}}"{% endif %}>{{user[0].username}}</span></a></td>
 			<td>{{user[1]}}</td>
 		</tr>
 	{% endfor %}
 	{% if pos11 and (pos11[0] > 25 or not pos11[1]) %}
 		<tr style="border-top:2px solid var(--primary)">
 			<td>{{pos11[0]}}</td>
-			<td><a style="color:#{{v.namecolor}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.namecolor}}"{% endif %}>{{v.username}}</span></a></td>
+			<td><a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span></a></td>
 			<td>{{pos11[1]}}</td>
 		</tr>
 	{% endif %}
@@ -280,14 +280,14 @@
 	{% for user in users6 %}
 		<tr {% if v.id == user.id %}class="self"{% endif %}>
 			<td>{{loop.index}}</td>
-			<td><a style="color:#{{user.namecolor}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.namecolor}}"{% endif %}>{{user.username}}</span></a></td>
+			<td><a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
 			<td>{{user.basedcount}}</td>
 		</tr>
 	{% endfor %}
 	{% if pos6 > 25 %}
 		<tr style="border-top:2px solid var(--primary)">
 			<td>{{pos6}}</td>
-			<td><a style="color:#{{v.namecolor}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.namecolor}}"{% endif %}>{{v.username}}</span></a></td>
+			<td><a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span></a></td>
 			<td>{{v.basedcount}}</td>
 		</tr>
 	{% endif %}
@@ -310,14 +310,14 @@
 		{% for user in users12 %}
 			<tr {% if v.id == user[0].id %}class="self"{% endif %}>
 				<td>{{loop.index}}</td>
-				<td><a style="color:#{{user[0].namecolor}};font-weight:bold" href="/@{{user[0].username}}"><img loading="lazy" src="{{user[0].profile_url}}" class="pp20"><span {% if user[0].patron %}class="patron" style="background-color:#{{user[0].namecolor}}"{% endif %}>{{user[0].username}}</span></a></td>
+				<td><a style="color:#{{user[0].name_color}};font-weight:bold" href="/@{{user[0].username}}"><img loading="lazy" src="{{user[0].profile_url}}" class="pp20"><span {% if user[0].patron %}class="patron" style="background-color:#{{user[0].name_color}}"{% endif %}>{{user[0].username}}</span></a></td>
 				<td>{{user[1]}}</td>
 			</tr>
 		{% endfor %}
 		{% if pos12 and (pos12[0] > 25 or not pos12[1]) %}
 			<tr style="border-top:2px solid var(--primary)">
 				<td>{{pos12[0]}}</td>
-				<td><a style="color:#{{v.namecolor}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.namecolor}}"{% endif %}>{{v.username}}</span></a></td>
+				<td><a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span></a></td>
 				<td>{{pos12[1]}}</td>
 			</tr>
 		{% endif %}
@@ -341,14 +341,14 @@
 		{% for user in users13 %}
 			<tr {% if v.id == user[0].id %}class="self"{% endif %}>
 				<td>{{loop.index}}</td>
-				<td><a style="color:#{{user[0].namecolor}};font-weight:bold" href="/@{{user[0].username}}"><img loading="lazy" src="{{user[0].profile_url}}" class="pp20"><span {% if user[0].patron %}class="patron" style="background-color:#{{user[0].namecolor}}"{% endif %}>{{user[0].username}}</span></a></td>
+				<td><a style="color:#{{user[0].name_color}};font-weight:bold" href="/@{{user[0].username}}"><img loading="lazy" src="{{user[0].profile_url}}" class="pp20"><span {% if user[0].patron %}class="patron" style="background-color:#{{user[0].name_color}}"{% endif %}>{{user[0].username}}</span></a></td>
 				<td>{{user[1]}}</td>
 			</tr>
 		{% endfor %}
 		{% if pos13 and (pos13[0] > 25 or not pos13[1]) %}
 			<tr style="border-top:2px solid var(--primary)">
 				<td>{{pos13[0]}}</td>
-				<td><a style="color:#{{v.namecolor}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.namecolor}}"{% endif %}>{{v.username}}</span></a></td>
+				<td><a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span></a></td>
 				<td>{{pos13[1]}}</td>
 			</tr>
 		{% endif %}
@@ -369,14 +369,14 @@
 {% for user in users14 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td><a style="color:#{{user.namecolor}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.namecolor}}"{% endif %}>{{user.username}}</span></a></td>
+		<td><a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
 		<td>{{user.winnings}}</td>
 	</tr>
 {% endfor %}
 {% if pos14 > 25 %}
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos14}}</td>
-		<td><a style="color:#{{v.namecolor}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.namecolor}}"{% endif %}>{{v.username}}</span></a></td>
+		<td><a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span></a></td>
 		<td>{{v.winnings}}</td>
 	</tr>
 {% endif %}
@@ -395,14 +395,14 @@
 {% for user in users15 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td><a style="color:#{{user.namecolor}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.namecolor}}"{% endif %}>{{user.username}}</span></a></td>
+		<td><a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
 		<td>{{user.winnings}}</td>
 	</tr>
 {% endfor %}
 {% if pos15 > 25 %}
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos15}}</td>
-		<td><a style="color:#{{v.namecolor}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.namecolor}}"{% endif %}>{{v.username}}</span></a></td>
+		<td><a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span></a></td>
 		<td>{{v.winnings}}</td>
 	</tr>
 {% endif %}
@@ -421,7 +421,7 @@
 {% for user in usersBlk %}
 	<tr {% if v.id == user.target_id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td><a style="color:#{{user.namecolor}};font-weight:bold" href="/@{{user.username}}"><span {% if user.patron %}class="patron" style="background-color:#{{user.namecolor}}"{% endif %}>{{user.username}}</span></a></td>
+		<td><a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
 		<td>{{user.n}}</td>
 	</tr>
 {% endfor %}

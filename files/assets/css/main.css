@@ -6043,6 +6043,10 @@ g {
 .fa-sitemap:before{content:"\f0e8"}
 .fa-grid:before{content:"\e195"}
 .fa-x:before{content:"\58"}
+.fa-paw-simple:before{content:"\f701"}
+.fa-bat:before{content:"\f6b5"}
+.fa-star-of-david:before{content:"\f69a"}
+.fa-kiss-wink-heart:before{content:"\f598"}
 
 .pronouns {
 	font-size: 9px;
@@ -6239,4 +6243,7 @@ blockquote + blockquote, div > blockquote:first-child, blockquote:last-child {
 .contain {
 	-o-object-fit: contain;
 	object-fit: contain;
+}
+.text-gray {
+	color: gray !important;
 }

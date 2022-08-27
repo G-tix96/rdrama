@@ -73,7 +73,7 @@
 {% if c.is_blocking and not c.ghost or (c.is_banned or c.deleted_utc) and not (v and v.admin_level > 1) and not (v and v.id==c.author_id) %}
 
 	<div id="comment-{{c.id}}" class="comment">
-			<span class="comment-collapse-desktop d-none d-md-block" style="border-left: 2px solid #{{c.author.namecolor}}"onclick="collapse_comment('{{c.id}}', this.parentElement)"></span>
+			<span class="comment-collapse-desktop d-none d-md-block" style="border-left: 2px solid #{{c.author.name_color}}"onclick="collapse_comment('{{c.id}}', this.parentElement)"></span>
 
 			<div class="comment-body">
 
@@ -157,9 +157,9 @@
 	{% set isreply = False %}
 {% endif %}
 
-<div id="comment-{{c.id}}" class="anchor comment {% if standalone and level==1 %} mt-0{% endif %} {% if c.collapse_for_user(v,request.full_path) %}collapsed{% endif %}" style="{% if isreply %}padding-left:0!important;{% else %}border-left: 2px solid {% if c.ghost %}var(--primary){% else %}#{{c.author.namecolor}};{% endif %}{% endif %}">
+<div id="comment-{{c.id}}" class="anchor comment {% if standalone and level==1 %} mt-0{% endif %} {% if c.collapse_for_user(v,request.full_path) %}collapsed{% endif %}" style="{% if isreply %}padding-left:0!important;{% else %}border-left: 2px solid {% if c.ghost %}var(--primary){% else %}#{{c.author.name_color}};{% endif %}{% endif %}">
 	{% if not isreply %}
-		<span class="comment-collapse-desktop d-none d-md-block" style="border-left: 2px solid {% if c.ghost %}var(--primary){% else %}#{{c.author.namecolor}}{% endif %}" onclick="collapse_comment('{{c.id}}', this.parentElement)"></span>
+		<span class="comment-collapse-desktop d-none d-md-block" style="border-left: 2px solid {% if c.ghost %}var(--primary){% else %}#{{c.author.name_color}}{% endif %}" onclick="collapse_comment('{{c.id}}', this.parentElement)"></span>
 	{% endif %}
 	<div class="comment-body">
 
@@ -208,14 +208,14 @@
 					{% if c.author.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if c.author.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if c.author.verifiedcolor %}#{{c.author.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.verified}}"></i>
 					{% endif %}
 
-					<a class="user-name text-decoration-none" href="{{c.author.url}}" data-pop-info='{{c.author.json_popover(v) | tojson}}' onclick='popclick(event)' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="click" data-content-id="popover" role="button" tabindex="0" style="color:#{{c.author.namecolor}}; font-size:12px; font-weight:bold;">
+					<a class="user-name text-decoration-none" href="{{c.author.url}}" data-pop-info='{{c.author.json_popover(v) | tojson}}' onclick='popclick(event)' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="click" data-content-id="popover" role="button" tabindex="0" style="color:#{{c.author.name_color}}; font-size:12px; font-weight:bold;">
 						<div class="profile-pic-30-wrapper">
 							<img loading="lazy" src="{{c.author.profile_url}}" class="profile-pic-30 mr-2">
 							{% if c.author.hat_active -%}
 								<img class="profile-pic-30-hat" loading="lazy" src="/i/hats/{{c.author.hat_active}}.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.hat_tooltip}}">
 							{%- endif %}
 						</div>
-						<span {% if c.author.patron and not c.distinguish_level %}class="patron" style="background-color:#{{c.author.namecolor}};"{% elif c.distinguish_level %}class="mod"{% endif %}>{{c.author_name}}</span>
+						<span {% if c.author.patron and not c.distinguish_level %}class="patron" style="background-color:#{{c.author.name_color}};"{% elif c.distinguish_level %}class="mod"{% endif %}>{{c.author_name}}</span>
 					</a>
 					{% if FEATURES['PRONOUNS'] %}
 						<span class="pronouns" style="color:#{{c.author.titlecolor}};border-color:#{{c.author.titlecolor}}">{{c.author.pronouns}}</span>
@@ -327,7 +327,7 @@
 
 							<small class="btn btn-secondary format m-0" aria-hidden="true" onclick="commentForm('comment-edit-body-{{c.id}}');getGif()" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF"><span class="font-weight-bolder text-uppercase">GIF</span></small>
 							&nbsp;
-							<small class="btn btn-secondary format m-0" aria-hidden="true" onclick="loadEmojis('comment-edit-body-{{c.id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></small>
+							<small class="btn btn-secondary format m-0" aria-hidden="true" onclick="loadEmojis('comment-edit-body-{{c.id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-kiss-wink-heart"></i></small>
 							&nbsp;
 							
 							<label class="btn btn-secondary format m-0" for="file-edit-reply-{{c.id}}">
@@ -581,7 +581,7 @@
 						</label> 
 						&nbsp;
 						<label class="btn btn-secondary format m-0" for="gif-reply-btn-{{c.fullname}}" onclick="loadEmojis('reply-form-body-{{c.fullname}}')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji">
-							<i id="emoji-reply-btn-{{c.fullname}}" class="fas fa-smile-beam"></i>
+							<i id="emoji-reply-btn-{{c.fullname}}" class="fas fa-kiss-wink-heart"></i>
 						</label>
 						&nbsp;
 						<label class="btn btn-secondary format m-0" for="file-upload-reply-{{c.fullname}}">
@@ -624,7 +624,7 @@
 						<input type="hidden" name="formkey" value="{{v.formkey}}"> 
 						<textarea required autocomplete="off" minlength="1" maxlength="10000" name="body" form="reply-to-t3_{{c.id}}" data-id="{{c.id}}" class="comment-box form-control rounded" id="reply-form-body-{{c.id}}" aria-label="With textarea" rows="3" data-preview="message-reply-{{c.id}}" oninput="markdown(this)"></textarea> 
 						<div class="comment-format" id="comment-format-bar-{{c.id}}"> 
-							<div onclick="loadEmojis('reply-form-body-{{c.id}}')" class="btn btn-secondary m-0 mt-3 mr-1" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>
+							<div onclick="loadEmojis('reply-form-body-{{c.id}}')" class="btn btn-secondary m-0 mt-3 mr-1" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-kiss-wink-heart"></i></div>
 
 							{% if c.sentto == 2 %}
 								<label class="btn btn-secondary m-0 mt-3" for="file-upload">

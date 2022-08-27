@@ -460,14 +460,6 @@ AWARDS = {
 		"color": "text-gray",
 		"price": 200
 	},
-	"lootbox": {
-		"kind": "lootbox",
-		"title": "Lootbox",
-		"description": "",
-		"icon": "fas fa-box-open",
-		"color": "text-blue",
-		"price": 1000
-	},
 	"shit": {
 		"kind": "shit",
 		"title": "Shit",
@@ -555,6 +547,14 @@ AWARDS = {
 		"icon": "fas fa-dice-six",
 		"color": "text-black",
 		"price": 777
+	},
+	"lootbox": {
+		"kind": "lootbox",
+		"title": "Lootbox",
+		"description": "",
+		"icon": "fas fa-box-open",
+		"color": "text-blue",
+		"price": 1000
 	},
 	"beano": {
 		"kind": "beano",
@@ -770,6 +770,74 @@ AWARDS_DISABLED = [
 	'grinch', 'haunt', 'upsidedown', 'stab', 'spiders', 'fog', # Homoween
 ]
 
+
+HOUSE_AWARDS = {
+	"Furry": {
+        "kind": "Furry",
+        "title": "OwOify",
+        "description": "OwOifies the comment. Does not work on posts.",
+        "icon": "fas fa-paw-simple",
+        "color": "text-purple",
+        "price": 400
+    },
+	"Femboy": {
+        "kind": "Femboy",
+        "title": "Marsify",
+        "description": "Emojifies the comment. Does not work on threads.",
+        "icon": "fas fa-cat",
+        "color": "text-white",
+        "price": 400
+    },
+	"Vampire": {
+        "kind": "Vampire",
+        "title": "Bite",
+        "description": "Turns the recipient into a vampire minion for 24 hours.",
+        "icon": "fas fa-bat",
+        "color": "text-gray",
+        "price": 400
+    },
+	"Racist": {
+        "kind": "Racist",
+        "title": "Early Life",
+        "description": "Checks the recipient’s Early Life section on Wikipedia. Notices.",
+        "icon": "fas fa-star-of-david",
+        "color": "text-yellow",
+        "price": 400
+    },
+	"Furry Founder": {
+        "kind": "Furry Founder",
+        "title": "OwOify",
+        "description": "OwOifies the comment. Does not work on posts.",
+        "icon": "fas fa-paw-simple",
+        "color": "text-purple",
+        "price": 300
+    },
+	"Femboy Founder": {
+        "kind": "Femboy Founder",
+        "title": "Marsify",
+        "description": "Emojifies the comment. Does not work on threads.",
+        "icon": "fas fa-kiss-wink-heart",
+        "color": "text-white",
+        "price": 300
+    },
+	"Vampire Founder": {
+        "kind": "Vampire Founder",
+        "title": "Bite",
+        "description": "Turns the recipient into a vampire for 24 hours.",
+        "icon": "fas fa-bat",
+        "color": "text-gray",
+        "price": 500
+    },
+	"Racist Founder": {
+        "kind": "Racist Founder",
+        "title": "Early Life",
+        "description": "Checks the recipient’s Early Life section on Wikipedia. Notices.",
+        "icon": "fas fa-star-of-david",
+        "color": "text-yellow",
+        "price": 300
+    },
+}
+
 if SITE_NAME != 'rDrama':
 	AWARDS_DISABLED.append('progressivestack')
 
@@ -877,6 +945,15 @@ christian_emojis = [':#marseyjesus:',':#marseyimmaculate:',':#marseymothermary:'
 db = db_session()
 marseys_const = [x[0] for x in db.query(Marsey.name).filter(Marsey.name!='chudsey').all()]
 marseys_const2 = marseys_const + ['chudsey','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','exclamationpoint','period','questionmark']
+
+marseys = db.query(Marsey).all()
+marsey_mappings = {}
+for marsey in marseys:
+	for tag in marsey.tags.split():
+		if tag in marsey_mappings:
+			marsey_mappings[tag].append(f':{marsey.name}:')
+		else:
+			marsey_mappings[tag] = [f':{marsey.name}:']
 db.close()
 
 SNAPPY_MARSEYS = []

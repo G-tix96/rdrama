@@ -207,7 +207,8 @@ class Submission(Base):
 	@lazy
 	def author_name(self):
 		if self.ghost: return '👻'
-		else: return self.author.username
+		if self.author.earlylife: return f'((({self.author.username})))'
+		return self.author.username
 
 	@property
 	@lazy

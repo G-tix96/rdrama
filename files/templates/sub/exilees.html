@@ -19,8 +19,8 @@
 	<tr>
 		{% set exiler=exile.exiler %}
 		<td>{{loop.index}}</td>
-		<td><a style="color:#{{user.namecolor}}" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.namecolor}}"{% endif %}>{{user.username}}</span></a></td>
-		<td><a style="color:#{{exiler.namecolor}}" href="/@{{exiler.username}}"><img loading="lazy" src="{{exiler.profile_url}}" class="pp20"><span {% if exiler.patron %}class="patron" style="background-color:#{{exiler.namecolor}}"{% endif %}>{{exiler.username}}</span></a></td>
+		<td><a style="color:#{{user.name_color}}" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
+		<td><a style="color:#{{exiler.name_color}}" href="/@{{exiler.username}}"><img loading="lazy" src="{{exiler.profile_url}}" class="pp20"><span {% if exiler.patron %}class="patron" style="background-color:#{{exiler.name_color}}"{% endif %}>{{exiler.username}}</span></a></td>
 		<td>
 			{% if v.mods(sub.name) %}
 				<form action="/h/{{sub.name}}/unexile/{{user.id}}" method="post">

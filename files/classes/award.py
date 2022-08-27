@@ -26,7 +26,8 @@ class AwardRelationship(Base):
 	@property
 	@lazy
 	def type(self):
-		return AWARDS[self.kind]
+		try: return AWARDS[self.kind]
+		except: return HOUSE_AWARDS[self.kind]
 
 	@property
 	@lazy

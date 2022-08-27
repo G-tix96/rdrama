@@ -31,6 +31,17 @@
 			{{v.css | safe}}
 		</style>
 	{% endif %}
+
+	{% if v.earlylife %}
+		<style>
+			.nav-item .text-small.font-weight-bold::before {
+				content: "((("
+			}
+			.nav-item .text-small.font-weight-bold::after {
+				content: ")))"
+			}
+		</style>
+	{% endif %}
 {% else %}
 	<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
 	<link rel="stylesheet" href="{{asset('css/main.css')}}">
