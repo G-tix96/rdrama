@@ -10,6 +10,7 @@ const box = document.getElementById('chat-window')
 const textbox = document.getElementById('input-text')
 const icon = document.getElementById('favicon')
 const vid = document.getElementById('vid').value
+const vusername = document.getElementById('header--username').innerHTML
 const site_name = document.getElementById('site_name').value
 const slurreplacer = document.getElementById('slurreplacer').value
 
@@ -64,8 +65,9 @@ socket.on('speak', function(json) {
 		setTimeout(flash, 500);
 	}
 
-	let users = document.getElementsByClassName('userlink');
-	let last_user = users[users.length-1].innerHTML;
+	const users = document.getElementsByClassName('userlink');
+	const last_user = users[users.length-1].innerHTML;
+	const scrolled_down = (box.scrollHeight - box.scrollTop <= window.innerHeight)
 
 	if (last_user == json['username']) {
 		document.getElementsByClassName('chat-line')[0].classList.remove('diff')
@@ -90,7 +92,8 @@ socket.on('speak', function(json) {
 	let line = document.getElementsByClassName('chat-line')[0].cloneNode(true)
 	bs_trigger(line)
 	box.append(line)
-	box.scrollTo(0, box.scrollHeight)
+	if (scrolled_down || json['username'] == vusername)
+		box.scrollTo(0, box.scrollHeight)
 })
 
 
