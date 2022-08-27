@@ -859,7 +859,8 @@ CREATE TABLE public.users (
     last_viewed_log_notifs integer NOT NULL,
     imginn boolean,
     earlylife integer,
-    bite integer
+    bite integer,
+    old_house character varying(16)
 );
 
 
