@@ -860,7 +860,9 @@ CREATE TABLE public.users (
     imginn boolean,
     earlylife integer,
     bite integer,
-    old_house character varying(16)
+    old_house character varying(16),
+    owoify integer,
+    marsify integer
 );
 
 
