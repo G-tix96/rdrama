@@ -82,6 +82,14 @@ def award_timers(v, bot=False):
 		v.earlylife = None
 		notify_if_not_bot("Your earlylife status has expired!")
 		dirty = True
+	if v.owoify and v.owoify < now:
+		v.owoify = None
+		notify_if_not_bot("Your owoify status has expired!")
+		dirty = True
+	if v.marsify and v.marsify < now:
+		v.marsify = None
+		notify_if_not_bot("Your marsify status has expired!")
+		dirty = True
 
 	if dirty:
 		g.db.add(v)

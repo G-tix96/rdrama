@@ -775,7 +775,7 @@ HOUSE_AWARDS = {
 	"Furry": {
         "kind": "Furry",
         "title": "OwOify",
-        "description": "OwOifies the comment. Does not work on posts.",
+        "description": "OwOifies the recipient's comments for 6 hours.",
         "icon": "fas fa-paw-simple",
         "color": "text-purple",
         "price": 400
@@ -783,7 +783,7 @@ HOUSE_AWARDS = {
 	"Femboy": {
         "kind": "Femboy",
         "title": "Marsify",
-        "description": "Emojifies the comment. Does not work on threads.",
+        "description": "Marsifies the recipient's comments for 6 hours.",
         "icon": "fas fa-cat",
         "color": "text-white",
         "price": 400
@@ -791,10 +791,10 @@ HOUSE_AWARDS = {
 	"Vampire": {
         "kind": "Vampire",
         "title": "Bite",
-        "description": "Turns the recipient into a vampire minion for 24 hours.",
+        "description": "Turns the recipient into a vampire for 24 hours.",
         "icon": "fas fa-bat",
         "color": "text-gray",
-        "price": 400
+        "price": 777
     },
 	"Racist": {
         "kind": "Racist",
@@ -804,39 +804,13 @@ HOUSE_AWARDS = {
         "color": "text-yellow",
         "price": 400
     },
-	"Furry Founder": {
-        "kind": "Furry Founder",
-        "title": "OwOify",
-        "description": "OwOifies the comment. Does not work on posts.",
-        "icon": "fas fa-paw-simple",
-        "color": "text-purple",
-        "price": 300
-    },
-	"Femboy Founder": {
-        "kind": "Femboy Founder",
-        "title": "Marsify",
-        "description": "Emojifies the comment. Does not work on threads.",
-        "icon": "fas fa-kiss-wink-heart",
-        "color": "text-white",
-        "price": 300
-    },
-	"Vampire Founder": {
-        "kind": "Vampire Founder",
-        "title": "Bite",
-        "description": "Turns the recipient into a vampire for 24 hours.",
-        "icon": "fas fa-bat",
-        "color": "text-gray",
-        "price": 500
-    },
-	"Racist Founder": {
-        "kind": "Racist Founder",
-        "title": "Early Life",
-        "description": "Checks the recipient’s Early Life section on Wikipedia. Notices.",
-        "icon": "fas fa-star-of-david",
-        "color": "text-yellow",
-        "price": 300
-    },
 }
+
+temp = deepcopy(HOUSE_AWARDS).items()
+for k, val in temp:
+	HOUSE_AWARDS[f'{k} Founder'] = val
+	HOUSE_AWARDS[f'{k} Founder']['kind'] += ' Founder'
+	HOUSE_AWARDS[f'{k} Founder']['price'] = int(HOUSE_AWARDS[f'{k} Founder']['price'] * 0.75)
 
 if SITE_NAME != 'rDrama':
 	AWARDS_DISABLED.append('progressivestack')
