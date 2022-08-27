@@ -11,7 +11,7 @@ from .front import frontlist
 from flask import g, request
 from files.helpers.sanitize import filter_emojis_only
 from files.helpers.marsify import marsify
-import owoify
+from files.helpers.owoify import owoify
 from copy import deepcopy
 
 @app.get("/shop")
@@ -351,7 +351,7 @@ def award_thing(v, thing_type, id):
 		if author.owoify: author.owoify += 21600
 		else: author.owoify = int(time.time()) + 21600
 		body = thing.body
-		body = owoify.owoify(body)
+		body = owoify(body)
 		if author.marsify: body = marsify(body)
 		thing.body_html = sanitize(body, limit_pings=5)
 		g.db.add(thing)
@@ -359,7 +359,7 @@ def award_thing(v, thing_type, id):
 		if author.marsify: author.marsify += 21600
 		else: author.marsify = int(time.time()) + 21600
 		body = thing.body
-		if author.owoify: body = owoify.owoify(body)
+		if author.owoify: body = owoify(body)
 		body = marsify(body)
 		thing.body_html = sanitize(body, limit_pings=5)
 		g.db.add(thing)

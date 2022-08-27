@@ -15,7 +15,7 @@ from flask import *
 from files.__main__ import app, limiter
 from files.helpers.sanitize import filter_emojis_only
 from files.helpers.marsify import marsify
-import owoify
+from files.helpers.owoify import owoify
 import requests
 from shutil import copyfile
 from json import loads
@@ -293,7 +293,7 @@ def comment(v):
 
 	body_for_sanitize = body
 	if v.owoify:
-		body_for_sanitize = owoify.owoify(body_for_sanitize)
+		body_for_sanitize = owoify(body_for_sanitize)
 	if v.marsify:
 		body_for_sanitize = marsify(body_for_sanitize)
 
@@ -729,7 +729,7 @@ def edit_comment(cid, v):
 
 		body_for_sanitize = body
 		if v.owoify:
-			body_for_sanitize = owoify.owoify(body_for_sanitize)
+			body_for_sanitize = owoify(body_for_sanitize)
 		if v.marsify:
 			body_for_sanitize = marsify(body_for_sanitize)
 
