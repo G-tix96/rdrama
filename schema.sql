@@ -857,7 +857,9 @@ CREATE TABLE public.users (
     last_viewed_post_notifs integer NOT NULL,
     pronouns character varying(11) NOT NULL,
     last_viewed_log_notifs integer NOT NULL,
-    imginn boolean
+    imginn boolean,
+    earlylife integer,
+    thrall integer
 );
 
 
