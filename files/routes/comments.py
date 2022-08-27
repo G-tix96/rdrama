@@ -291,7 +291,13 @@ def comment(v):
 	if v.agendaposter and not v.marseyawarded and parent_post.id not in ADMIGGERS and parent_post.sub != 'chudrama':
 		body = torture_ap(body, v.username)
 
-	body_html = sanitize(body, limit_pings=5)
+	body_for_sanitize = body
+	if v.owoify:
+		body_for_sanitize = owoify.owoify(body_for_sanitize)
+	if v.marsify:
+		body_for_sanitize = marsify(body_for_sanitize)
+
+	body_html = sanitize(body_for_sanitize, limit_pings=5)
 
 
 	if parent_post.id not in ADMIGGERS and '!slots' not in body.lower() and '!blackjack' not in body.lower() and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower() and parent_post.sub != 'chudrama':
@@ -722,9 +728,9 @@ def edit_comment(cid, v):
 		body = body.strip()
 
 		body_for_sanitize = body
-		if c.award_count('Furry', v) or c.award_count('Furry Founder', v):
+		if v.owoify:
 			body_for_sanitize = owoify.owoify(body_for_sanitize)
-		if c.award_count('Femboy', v) or c.award_count('Femboy Founder', v):
+		if v.marsify:
 			body_for_sanitize = marsify(body_for_sanitize)
 
 		body_html = sanitize(body_for_sanitize, edit=True, limit_pings=5)

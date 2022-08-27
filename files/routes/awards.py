@@ -340,24 +340,26 @@ def award_thing(v, thing_type, id):
 		author.verified = "Verified"
 		badge_grant(user=author, badge_id=150)
 	elif "Vampire" in kind and kind == v.house:
-		if author.bite: author.bite += 21600
-		else: author.bite = int(time.time()) + 21600
+		if author.bite: author.bite += 86400
+		else: author.bite = int(time.time()) + 86400
 		author.old_house = author.house
 		author.house = 'Vampire'
 	elif "Racist" in kind and kind == v.house:
-		if author.earlylife: author.earlylife += 21600
-		else: author.earlylife = int(time.time()) + 21600
+		if author.earlylife: author.earlylife += 86400
+		else: author.earlylife = int(time.time()) + 86400
 	elif "Furry" in kind and kind == v.house and thing_type == 'comment':
+		if author.owoify: author.owoify += 21600
+		else: author.owoify = int(time.time()) + 21600
 		body = thing.body
 		body = owoify.owoify(body)
-		if thing.award_count('Femboy', v) or thing.award_count('Femboy Founder', v):
-			body = marsify(body)
+		if author.marsify: body = marsify(body)
 		thing.body_html = sanitize(body, limit_pings=5)
 		g.db.add(thing)
 	elif "Femboy" in kind and kind == v.house and thing_type == 'comment':
+		if author.marsify: author.marsify += 21600
+		else: author.marsify = int(time.time()) + 21600
 		body = thing.body
-		if thing.award_count('Furry', v) or thing.award_count('Furry Founder', v):
-			body = owoify.owoify(body)
+		if author.owoify: body = owoify.owoify(body)
 		body = marsify(body)
 		thing.body_html = sanitize(body, limit_pings=5)
 		g.db.add(thing)
