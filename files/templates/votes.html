@@ -41,7 +41,7 @@
 				<td>
 					<a style="color:#{{vote.user.name_color}};font-weight:bold" href="/@{{vote.user.username}}">
 						<img loading="lazy" src="{{vote.user.profile_url}}" class="pp20">
-						<span {% if vote.user.patron %}class="patron" style="background-color:#{{vote.user.name_color}}"{% endif %}>
+						<span {% if vote.user.patron %}class="patron" style="background-color:#{{vote.user.name_color}}"{% endif %} data-user-id="{{vote.user.id}}">
 							{{vote.user.username}}
 						</span>
 					</a>
@@ -69,7 +69,7 @@
 				<td>
 					<a style="color:#{{vote.user.name_color}};font-weight:bold" href="/@{{vote.user.username}}">
 						<img loading="lazy" src="{{vote.user.profile_url}}" class="pp20">
-						<span {% if vote.user.patron %}class="patron" style="background-color:#{{vote.user.name_color}}"{% endif %}>
+						<span {% if vote.user.patron %}class="patron" style="background-color:#{{vote.user.name_color}}"{% endif %} data-user-id="{{vote.user.id}}">
 							{{vote.user.username}}
 						</span>
 					</a>
