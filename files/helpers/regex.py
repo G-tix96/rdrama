@@ -92,7 +92,7 @@ reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|new\.reddit.c
 color_regex = re.compile("[a-z0-9]{6}", flags=re.A)
 
 # lazy match on the {}?, only match if there is trailing stuff
-showmore_regex = re.compile(r"^(.{3000,}?</p>)(\s*.+)", flags=re.A|re.DOTALL)
+showmore_regex = re.compile(r"^(.{3000,}?</p>)(\s*\S.*)", flags=re.A|re.DOTALL)
 
 search_token_regex = re.compile('"([^"]*)"|(\S+)', flags=re.A)
 
