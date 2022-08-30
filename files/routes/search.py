@@ -135,11 +135,15 @@ def searchposts(v):
 		posts = posts.filter(Submission.sub == criteria[search_operator_hole])
 
 	if 'after' in criteria:
-		after = timegm(time.strptime(criteria['after'], "%Y-%m-%d"))
+		after = criteria['after']
+		try: after = int(after)
+		except: after = timegm(time.strptime(after, "%Y-%m-%d"))
 		posts = posts.filter(Submission.created_utc > after)
 
 	if 'before' in criteria:
-		before = timegm(time.strptime(criteria['before'], "%Y-%m-%d"))
+		before = criteria['before']
+		try: before = int(before)
+		except: before = timegm(time.strptime(before, "%Y-%m-%d"))
 		posts = posts.filter(Submission.created_utc < before)
 
 	posts = apply_time_filter(t, posts, Submission)
@@ -237,11 +241,15 @@ def searchcomments(v):
 		comments = comments.filter(Comment.parent_submission.notin_(club))
 
 	if 'after' in criteria:
-		after = timegm(time.strptime(criteria['after'], "%Y-%m-%d"))
+		after = criteria['after']
+		try: after = int(after)
+		except: after = timegm(time.strptime(after, "%Y-%m-%d"))
 		comments = comments.filter(Comment.created_utc > after)
 
 	if 'before' in criteria:
-		before = timegm(time.strptime(criteria['before'], "%Y-%m-%d"))
+		before = criteria['before']
+		try: before = int(before)
+		except: before = timegm(time.strptime(before, "%Y-%m-%d"))
 		comments = comments.filter(Comment.created_utc < before)
 
 	comments = sort_comments(sort, comments)
