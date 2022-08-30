@@ -373,7 +373,7 @@ def sanitize(sanitized, edit=False, limit_pings=0, showmore=True):
 		sanitized = sanitized.replace('\n','')
 
 	if showmore and len(sanitized) > 5000:
-		sanitized = showmore_regex.sub(r'\1<p><button class="showmore" onclick="showmore()">SHOW MORE</button></p><d class="d-none">\2</d>', sanitized)
+		sanitized = showmore_regex.sub(r'\1<p><button class="showmore" onclick="showmore()">SHOW MORE</button></p><d class="d-none">\2</d>', sanitized, count=1)
 
 	return sanitized.strip()
 
