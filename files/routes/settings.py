@@ -615,6 +615,9 @@ def settings_profilecss(v):
 @auth_required
 def settings_block_user(v):
 
+	if v.unblockable:
+		return {"error": "Users with 'unblockable' award can't block people."}, 403
+
 	user = get_user(request.values.get("username"), graceful=True)
 
 	if not user: return {"error": "That user doesn't exist."}, 404
