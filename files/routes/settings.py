@@ -616,7 +616,7 @@ def settings_profilecss(v):
 def settings_block_user(v):
 
 	if v.unblockable:
-		return {"error": "Users with 'unblockable' award can't block people."}, 403
+		return {"error": "Users with 'unblockable' award can't block others."}, 403
 
 	user = get_user(request.values.get("username"), graceful=True)
 
