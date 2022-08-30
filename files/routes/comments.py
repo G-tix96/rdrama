@@ -638,7 +638,7 @@ def comment(v):
 	g.db.flush()
 
 	if request.headers.get("Authorization"): return c.json
-	return {"comment": render_template("comments.html", v=v, comments=[c], ajax=True)}
+	return {"comment": render_template("comments.html", v=v, comments=[c], ajax=True, new_comment=True)}
 
 
 
