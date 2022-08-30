@@ -805,7 +805,7 @@ def messagereply(v):
 			g.db.delete(n)
 
 
-	return {"comment": render_template("comments.html", v=v, comments=[c], ajax=True)}
+	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
 @app.get("/2faqr/<secret>")
 @auth_required

@@ -1,6 +1,6 @@
 {%- from 'util/assetcache.html' import asset, asset_siteimg with context -%}
 {%- import 'util/helpers.html' as help -%}
-{% if not ajax %}
+{% if not request.headers.get("xhr") %}
 	{% if comment_info %}
 		<script>
 			if (location.hash != 'context')
@@ -795,7 +795,7 @@
 
 {% endfor %}
 
-{% if not ajax %}
+{% if not request.headers.get("xhr") %}
 	{% if v %}
 		{% include "gif_modal.html" %}
 		{% include "emoji_modal.html" %}
@@ -949,7 +949,7 @@
 	<div id="viewmore-{{offset}}"><button id="viewbtn" class="btn btn-primary" onclick="viewmore({{pid}},'{{sort}}',{{offset}},{{ids}})">VIEW MORE COMMENTS</a></div>
 {% endif %}
 
-{% if SITE_NAME == 'rDrama' and not ajax and v and 'SamsungBrowser' not in g.agent %}
+{% if SITE_NAME == 'rDrama' and not request.headers.get("xhr") and v and 'SamsungBrowser' not in g.agent %}
 	<script>
 		const element = document.getElementsByClassName('comment-section')[0];
 		let color = getComputedStyle(element).getPropertyValue('background-color');
