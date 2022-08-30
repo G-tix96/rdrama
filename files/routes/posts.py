@@ -1250,6 +1250,12 @@ def pin_post(post_id, v):
 	return {"error": "Post not found!"}
 
 
+extensions = (
+	'.webp','.jpg','.png','.jpeg','.gif',
+	'.mp4','.webm','.mov',
+	'.mp3','.wav','.ogg','.aac','.m4a','.flac'
+)
+
 @app.get("/submit/title")
 @limiter.limit("6/minute")
 @limiter.limit("6/minute", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
@@ -1257,7 +1263,9 @@ def pin_post(post_id, v):
 def get_post_title(v):
 
 	url = request.values.get("url")
-	if not url or '\\' in url or 'pomf2.lain.la' in url:
+	if not url or '\\' in url: abort(400)
+
+	if any((url.lower().endswith(x) for x in extensions)):
 		abort(400)
 
 	try: x = requests.get(url, headers=titleheaders, timeout=5, proxies=proxies)
