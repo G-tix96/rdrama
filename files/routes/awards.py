@@ -24,7 +24,7 @@ def shop(v):
 	AWARDS = deepcopy(AWARDS2)
 
 	if v.house:
-		AWARDS[v.house] = HOUSE_AWARDS[v.house]
+		AWARDS[v.house] = deepcopy(HOUSE_AWARDS[v.house])
 
 	for val in AWARDS.values(): val["owned"] = 0
 
