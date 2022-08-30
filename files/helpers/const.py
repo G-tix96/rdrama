@@ -925,9 +925,9 @@ marsey_mappings = {}
 for marsey in marseys:
 	for tag in marsey.tags.split():
 		if tag in marsey_mappings:
-			marsey_mappings[tag].append(f':{marsey.name}:')
+			marsey_mappings[tag].append(marsey.name)
 		else:
-			marsey_mappings[tag] = [f':{marsey.name}:']
+			marsey_mappings[tag] = [marsey.name]
 db.close()
 
 SNAPPY_MARSEYS = []
