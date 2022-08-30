@@ -88,7 +88,7 @@
 					</div>
 					
 		{% if render_replies %} 
-			{% if new_comment or level<9 or request.path.startswith('/notifications') or request.headers.get("xhr") %}
+			{% if new_comment or level<9 or request.path.startswith('/notifications') %}
 				<div id="replies-of-{{c.fullname}}">
 					{% for reply in replies %}
 						{{single_comment(reply, level=level+1)}}
@@ -603,7 +603,7 @@
 	{% endif %}
 
 	{% if render_replies %} 
-		{% if new_comment or level<9 or request.path.startswith('/notifications') or request.headers.get("xhr") %}
+		{% if new_comment or level<9 or request.path.startswith('/notifications') %}
 			<div id="replies-of-{{c.fullname}}">
 				{% for reply in replies %}
 					{{single_comment(reply, level=level+1)}}
