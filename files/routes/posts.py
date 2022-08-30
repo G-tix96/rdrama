@@ -124,7 +124,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error":"Must be 18+ to view"}, 451
 		return render_template("errors/nsfw.html", v=v)
 
-	if post.new or 'thread' in post.title.lower(): defaultsortingcomments = 'new'
+	if post.new: defaultsortingcomments = 'new'
 	elif v: defaultsortingcomments = v.defaultsortingcomments
 	else: defaultsortingcomments = "top"
 	sort = request.values.get("sort", defaultsortingcomments)
@@ -1071,7 +1071,7 @@ def submit_post(v, sub=None):
 	if request.headers.get("Authorization"): return post.json
 	else:
 		post.voted = 1
-		if post.new or 'thread' in post.title.lower(): sort = 'new'
+		if post.new: sort = 'new'
 		else: sort = v.defaultsortingcomments
 		return render_template('submission.html', v=v, p=post, sort=sort, render_replies=True, offset=0, success=True, sub=post.subr)
 
