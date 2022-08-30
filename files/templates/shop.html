@@ -72,9 +72,11 @@
 				<td class="shop-table-icon"><i class="{{a['icon']}} {{a['color']}}" style="font-size: 30px"></i></td>
 				<td class="shop-table-title">{{a['title']}}</td>
 				{% if a['baseprice'] != a['price'] %}
-				<td class="shop-table-price"><strike>{{a['baseprice']}}</strike> <em class="text-success">{{a['price']}}</em></td>
+					<td class="shop-table-price">
+						<strike>{{a['baseprice']}}</strike> <em class="text-success">{{a['price']}}</em>
+					</td>
 				{% else %}
-				<td class="shop-table-price">{{a['price']}}</td>
+					<td class="shop-table-price">{{a['price']}}</td>
 				{% endif %}
 				<td class="shop-table-owned">{{a['owned']}}</td>
 				{% set kind = a['kind'] %}
