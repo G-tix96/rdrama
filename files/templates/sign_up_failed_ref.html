@@ -60,11 +60,9 @@
 												<label>Referral code</label>
 												<input autocomplete="off" type="text" class="form-control copy-link" readonly value="{{SITE_FULL}}/signup?ref={{request.values.get('ref')}}" data-clipboard-text="{{SITE_FULL}}/signup?ref={{request.values.get('ref')}}">
 
-												<div class="text-center mt-5 mb-3">
-														Already have an account? <a href="/login" class="font-weight-bold text-small toggle-login">Log in.</a>
-														</div>
+												<div class="text-center text-muted text-small mt-5 mb-3">
+													Already have an account? <a href="/login{{'?redirect='+redirect if redirect else ''}}" class="font-weight-bold toggle-login">Log in</a>
 												</div>
-
 										</div>
 
 								</div>

@@ -14,7 +14,7 @@ def login_get(v):
 
 	redir = request.values.get("redirect", "/")
 	if redir:
-		redir = redir.replace("/logged_out", "").strip()
+		redir = redir.replace("/logged_out", "").strip().rstrip('?')
 		if not is_site_url(redir): redir = "/"
 		if v: return redirect(redir)
 
@@ -146,7 +146,7 @@ def login_post():
 
 	redir = request.values.get("redirect")
 	if redir:
-		redir = redir.replace("/logged_out", "").strip()
+		redir = redir.replace("/logged_out", "").strip().rstrip('?')
 		if is_site_url(redir): return redirect(redir)
 	return redirect('/')
 
@@ -213,12 +213,18 @@ def sign_up_get(v):
 
 	error = request.values.get("error")
 
+	redir = request.values.get("redirect", "/")
+	if redir:
+		redir = redir.replace("/logged_out", "").strip().rstrip('?')
+		if not is_site_url(redir): redir = "/"
+
 	return render_template("sign_up.html",
 						   formkey=formkey,
 						   now=now,
 						   ref_user=ref_user,
 						   hcaptcha=HCAPTCHA_SITEKEY,
-						   error=error
+						   error=error,
+						   redirect=redir
 						   )
 
 
@@ -361,14 +367,19 @@ def sign_up_post(v):
 
 	session["lo_user"] = new_user.id
 	
-	carp = get_account(CARP_ID)
-	new_follow = Follow(user_id=new_user.id, target_id=carp.id)
-	g.db.add(new_follow)
-	carp.stored_subscriber_count += 1
-	g.db.add(carp)
-	send_notification(carp.id, f"A new user - @{new_user.username} - has followed you automatically!")
+	if CARP_ID:
+		carp = get_account(CARP_ID)
+		new_follow = Follow(user_id=new_user.id, target_id=carp.id)
+		g.db.add(new_follow)
+		carp.stored_subscriber_count += 1
+		g.db.add(carp)
+		send_notification(carp.id, f"A new user - @{new_user.username} - has followed you automatically!")
 
-	return redirect(SITE_FULL)
+	redir = request.values.get("redirect")
+	if redir:
+		redir = redir.replace("/logged_out", "").strip().rstrip('?')
+		if is_site_url(redir): return redirect(redir)
+	return redirect('/')
 
 
 @app.get("/forgot")
