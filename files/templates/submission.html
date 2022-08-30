@@ -947,7 +947,7 @@
 </div>
 
 {% if v and v.id != p.author_id and p.body and not v_forbid_deleted %}
-	<textarea autocomplete="off" class="d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{p.id}}" readonly>{{p.body.strip()}}</textarea> 
+	<div autocomplete="off" class="markdown d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{p.id}}" readonly>{{p.body.strip()}}</div> 
 {% endif %}
 
 <div class="row border-md-0 comment-section pb-3">

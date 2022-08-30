@@ -6,7 +6,6 @@ function poll_vote_no_v() {
 function expandMarkdown(id,type) {
 	const ta = document.getElementById('markdown-'+id);
 	ta.classList.toggle('d-none');
-	autoExpand(ta);
 	document.getElementsByClassName('text-expand-icon-'+id)[0].classList.toggle('fa-expand-alt');
 	document.getElementsByClassName('text-expand-icon-'+id)[0].classList.toggle('fa-compress-alt');
 

@@ -6247,3 +6247,7 @@ blockquote + blockquote, div > blockquote:first-child, blockquote:last-child {
 .text-gray {
 	color: gray !important;
 }
+div.markdown {
+	height: auto;
+    white-space: pre-wrap;
+}

@@ -554,7 +554,7 @@
 			</div>
 
 		{% if v and v.id != c.author_id and c.body %}
-			<textarea autocomplete="off" class="d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{c.id}}" readonly>{{c.body.strip()}}</textarea> 
+			<div autocomplete="off" class="markdown d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{c.id}}" readonly>{{c.body.strip()}}</div> 
 		{% endif %}
 
 
@@ -885,7 +885,7 @@
 	{% include "expanded_image_modal.html" %}
 
 	<script src="{{asset('js/comments+submission_listing.js')}}"></script>
-	<script src="/assets/js/comments.js?v=259"></script>
+	<script src="/assets/js/comments.js?v=260"></script>
 
 	<script>
 		{% if p and (not v or v.highlightcomments) %}
