@@ -24,7 +24,7 @@ def shop(v):
 	AWARDS = deepcopy(AWARDS2)
 
 	if v.house:
-		AWARDS[v.house] = HOUSE_AWARDS[v.house]
+		AWARDS[v.house] = deepcopy(HOUSE_AWARDS[v.house])
 
 	for val in AWARDS.values(): val["owned"] = 0
 
@@ -33,6 +33,8 @@ def shop(v):
 
 	for val in AWARDS.values():
 		val["baseprice"] = int(val["price"])
+		if val["kind"].endswith('Founder'):
+			val["baseprice"] = int(val["baseprice"] / 0.75)
 		val["price"] = int(val["price"] * v.discount)
 
 	sales = g.db.query(func.sum(User.coins_spent)).scalar()
