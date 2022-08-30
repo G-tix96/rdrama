@@ -71,7 +71,7 @@ def publish(pid, v):
 	cache.delete_memoized(User.userpagelisting)
 
 	if (v.admin_level > 0 or v.has_badge(3)) and post.sub == 'changelog':
-		send_discord_message(post.permalink)
+		send_changelog_message(post.permalink)
 
 	if SITE == 'watchpeopledie.co':
 		send_wpd_message(post.permalink)
@@ -1063,7 +1063,7 @@ def submit_post(v, sub=None):
 	cache.delete_memoized(User.userpagelisting)
 
 	if (v.admin_level > 0 or v.has_badge(3)) and post.sub == 'changelog' and not post.private:
-		send_discord_message(post.permalink)
+		send_changelog_message(post.permalink)
 
 	if not post.private and SITE == 'watchpeopledie.co':
 		send_wpd_message(post.permalink)
