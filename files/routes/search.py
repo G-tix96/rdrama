@@ -137,13 +137,17 @@ def searchposts(v):
 	if 'after' in criteria:
 		after = criteria['after']
 		try: after = int(after)
-		except: after = timegm(time.strptime(after, "%Y-%m-%d"))
+		except:
+			try: after = timegm(time.strptime(after, "%Y-%m-%d"))
+			except: abort(400)
 		posts = posts.filter(Submission.created_utc > after)
 
 	if 'before' in criteria:
 		before = criteria['before']
 		try: before = int(before)
-		except: before = timegm(time.strptime(before, "%Y-%m-%d"))
+		except:
+			try: before = timegm(time.strptime(before, "%Y-%m-%d"))
+			except: abort(400)
 		posts = posts.filter(Submission.created_utc < before)
 
 	posts = apply_time_filter(t, posts, Submission)
@@ -243,13 +247,17 @@ def searchcomments(v):
 	if 'after' in criteria:
 		after = criteria['after']
 		try: after = int(after)
-		except: after = timegm(time.strptime(after, "%Y-%m-%d"))
+		except:
+			try: after = timegm(time.strptime(after, "%Y-%m-%d"))
+			except: abort(400)
 		comments = comments.filter(Comment.created_utc > after)
 
 	if 'before' in criteria:
 		before = criteria['before']
 		try: before = int(before)
-		except: before = timegm(time.strptime(before, "%Y-%m-%d"))
+		except:
+			try: before = timegm(time.strptime(before, "%Y-%m-%d"))
+			except: abort(400)
 		comments = comments.filter(Comment.created_utc < before)
 
 	comments = sort_comments(sort, comments)
