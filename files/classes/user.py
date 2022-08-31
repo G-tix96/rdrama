@@ -823,3 +823,11 @@ class User(Base):
 		if self.patron == 5:
 			return 'Contributed at least $100'
 		return ''
+
+	@property
+	@lazy
+	def can_see_chudrama(self):
+		if self.truecoins >= 5000: return True
+		if self.agendaposter: return True
+		if self.patron: return True
+		return False
