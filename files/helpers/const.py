@@ -846,7 +846,6 @@ NOTIFIED_USERS = {
 	'kippy': KIPPY_ID,
 	'the_homocracy': HOMO_ID,
 	'soren': SOREN_ID,
-	'swagman': SOREN_ID,
 	'schizocel': SCHIZO_ID,
 	'scitzocel': SCHIZO_ID,
 	'snakes': SNAKES_ID,
