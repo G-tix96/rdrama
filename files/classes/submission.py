@@ -82,9 +82,7 @@ class Submission(Base):
 		if SITE != 'rdrama.net': return True
 		if self.sub != 'chudrama': return True
 		if v:
-			if v.truecoins >= 5000: return True
-			if v.agendaposter: return True
-			if v.patron: return True
+			if v.can_see_chudrama: return True
 			if v.id == self.author_id: return True
 		return False
 
