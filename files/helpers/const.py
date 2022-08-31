@@ -48,13 +48,8 @@ if SITE_NAME == 'rDrama':
 		"dasha": "beautiful angelic perfect Dasha/future Mrs. Carp",
 		"retarded": "r-slurred",
 		"retard": "r-slur",
-		"gayfag": "gaystrag",
-		"poorfag": "poorstrag",
-		"richfag": "richstrag",
-		"newfag": "newstrag",
-		"oldfag": "oldstrag",
 		"faggot": "cute twink",
-		"fag": "cute twink",
+		"fag": "strag",
 		"pedophile": "libertarian",
 		"kill yourself": "keep yourself safe",
 		"nigger": "BIPOC",
@@ -106,7 +101,7 @@ elif SITE_NAME == 'WPD':
 		"nigger": "BIPOC",
 		"niglet": "young BIPOC",
 		"faggot": "cute twink",
-		"fag": "cute twink",
+		"fag": "strag",
 		"spic ": "hard-working American ",
 		"tranny": "valid woman",
 		"trannie": "valid woman",
@@ -120,7 +115,7 @@ elif SITE_NAME == 'WPD':
 else:
 	SLURS = {
 		"faggot": "cute twink",
-		"fag": "cute twink",
+		"fag": "strag",
 		"nigger": "🏀"
 	}
 
