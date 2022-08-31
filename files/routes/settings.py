@@ -614,10 +614,6 @@ def settings_profilecss(v):
 @limiter.limit("1/second;20/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def settings_block_user(v):
-
-	if v.unblockable:
-		return {"error": "Users with 'unblockable' award can't block others."}, 403
-
 	user = get_user(request.values.get("username"), graceful=True)
 
 	if not user: return {"error": "That user doesn't exist."}, 404
