@@ -181,7 +181,7 @@
 												{% if FEATURES['COUNTRY_CLUB'] -%}
 												<div class="custom-control custom-checkbox">
 													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-club" name="club" onchange="savetext()">
-													<label class="custom-control-label" for="post-club">{{CC_TITLE}} thread</label>
+													<label class="custom-control-label" for="post-club">{{CC_TITLE}} thread {% if dues <= 0 %}(hides threads from logged-out users){% endif %}</label>
 												</div>
 												{%- endif %}
 

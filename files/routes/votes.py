@@ -159,7 +159,7 @@ def vote_comment(comment_id, new, v):
 
 	coin_mult = 1
 
-	g.db.flush()
+	g.db.commit()
 	existing = g.db.query(CommentVote).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
 
 	if DOUBLE_XP_ENABLED > 0:
