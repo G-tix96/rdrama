@@ -862,7 +862,8 @@ CREATE TABLE public.users (
     bite integer,
     old_house character varying(16),
     owoify integer,
-    marsify integer
+    marsify integer,
+    is_muted boolean DEFAULT false NOT NULL
 );
 
 
