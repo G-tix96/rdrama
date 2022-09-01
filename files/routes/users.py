@@ -927,6 +927,7 @@ def u_username(username, v=None):
 		abort(404)
 
 	if v and v.id not in (u.id, DAD_ID) and u.viewers_recorded:
+		g.db.flush()
 		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
 
 		if view: view.last_view_utc = int(time.time())
