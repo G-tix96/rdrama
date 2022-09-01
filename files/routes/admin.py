@@ -95,7 +95,11 @@ def merge(v, id1, id2):
 
 	g.db.add(user1)
 	g.db.add(user2)
+
+	online = cache.get(ONLINE_STR)
 	cache.clear()
+	cache.set(ONLINE_STR, online)
+
 	return redirect(user1.url)
 
 
@@ -141,7 +145,11 @@ def merge_all(v, id):
 		g.db.add(alt)
 
 	g.db.add(user)
+
+	online = cache.get(ONLINE_STR)
 	cache.clear()
+	cache.set(ONLINE_STR, online)
+
 	return redirect(user.url)
 
 
@@ -471,7 +479,10 @@ def change_settings(v, setting):
 @app.post("/admin/purge_cache")
 @admin_level_required(3)
 def purge_cache(v):
+	online = cache.get(ONLINE_STR)
 	cache.clear()
+	cache.set(ONLINE_STR, online)
+
 	response = str(requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, data='{"purge_everything":true}', timeout=5))
 
 	ma = ModAction(
@@ -1408,7 +1419,9 @@ def admin_distinguish_comment(c_id, v):
 @app.get("/admin/dump_cache")
 @admin_level_required(2)
 def admin_dump_cache(v):
+	online = cache.get(ONLINE_STR)
 	cache.clear()
+	cache.set(ONLINE_STR, online)
 
 	ma = ModAction(
 		kind="dump_cache",
