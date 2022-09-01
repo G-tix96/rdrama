@@ -171,6 +171,11 @@ def post_id(pid, anything=None, v=None, sub=None):
 			output.append(comment)
 		
 		pinned = [c[0] for c in comments.filter(Comment.stickied != None).all()]
+
+		for x in pinned:
+			if x.level > 1:
+				pinned.remove(x)
+				pinned.append(x.top_comment)
 		
 		comments = comments.filter(Comment.level == 1, Comment.stickied == None)
 
@@ -181,6 +186,11 @@ def post_id(pid, anything=None, v=None, sub=None):
 		comments = first + second
 	else:
 		pinned = g.db.query(Comment).filter(Comment.parent_submission == post.id, Comment.stickied != None).all()
+
+		for x in pinned:
+			if x.level > 1:
+				pinned.remove(x)
+				pinned.append(x.top_comment)
 
 		comments = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.parent_submission == post.id, Comment.level == 1, Comment.stickied == None)
 
