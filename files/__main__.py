@@ -45,15 +45,12 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 
-# if environ.get("MAIL_USERNAME2") and random.random() < 0.5:
-# 	app.config['MAIL_USERNAME'] = environ.get("MAIL_USERNAME2", "").strip()
-# 	app.config['MAIL_PASSWORD'] = environ.get("MAIL_PASSWORD2", "").strip()
-# else:
-# 	app.config['MAIL_USERNAME'] = environ.get("MAIL_USERNAME", "").strip()
-# 	app.config['MAIL_PASSWORD'] = environ.get("MAIL_PASSWORD", "").strip()
-
-app.config['MAIL_USERNAME'] = environ.get("MAIL_USERNAME", "").strip()
-app.config['MAIL_PASSWORD'] = environ.get("MAIL_PASSWORD", "").strip()
+if environ.get("MAIL_USERNAME2") and random.random() < 0.5:
+	app.config['MAIL_USERNAME2'] = environ.get("MAIL_USERNAME2", "").strip()
+	app.config['MAIL_PASSWORD2'] = environ.get("MAIL_PASSWORD2", "").strip()
+else:
+	app.config['MAIL_USERNAME'] = environ.get("MAIL_USERNAME", "").strip()
+	app.config['MAIL_PASSWORD'] = environ.get("MAIL_PASSWORD", "").strip()
 
 app.config['SETTINGS'] = {}
 
