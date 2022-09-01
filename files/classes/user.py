@@ -722,6 +722,11 @@ class User(Base):
 
 	@property
 	@lazy
+	def is_suspended_permanently(self):
+		return (self.is_banned and self.unban_utc == 0)
+
+	@property
+	@lazy
 	def has_shadowbanned_alts(self):
 		qty = g.db.execute(
 				"""SELECT COUNT(*) FROM (

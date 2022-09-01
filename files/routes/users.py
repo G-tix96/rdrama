@@ -722,9 +722,7 @@ def message2(v, username):
 @limiter.limit("1/second;6/minute;50/hour;200/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def messagereply(v):
-
 	body = request.values.get("body", "").strip().replace('‎','')
-
 	body = body.replace('\r\n', '\n')[:10000]
 
 	if not body and not request.files.get("file"): return {"error": "Message is empty!"}
@@ -734,6 +732,9 @@ def messagereply(v):
 	id = int(request.values.get("parent_id"))
 	parent = get_comment(id, v=v)
 	user_id = parent.author.id
+
+	if v.is_suspended_permanently and parent.sentto != 2:
+		return {"error": "You are permabanned and may not reply to messages."}
 
 	if parent.sentto == 2: user_id = None
 	elif v.id == user_id: user_id = parent.sentto
