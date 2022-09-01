@@ -49,7 +49,7 @@ def flag_post(pid, v):
 		if post.author.exiled_from(sub_to):
 			return {"error": f"User is exiled from this {HOLE_NAME}!"}
 
-		if sub_to in ('furry','vampire','racist','femboy') and not (post.author.house and post.author.house.lower().startswith(sub_to)):
+		if sub_to in ('furry','vampire','racist','femboy') and not v.client and not (post.author.house and post.author.house.lower().startswith(sub_to)):
 			if v.id == post.author_id:
 				return {"error": f"You need to be a member of House {sub.capitalize()} to post in /h/{sub}"}
 			else:

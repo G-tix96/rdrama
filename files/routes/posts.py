@@ -700,7 +700,7 @@ def submit_post(v, sub=None):
 		allowed = [x[0] for x in allowed]
 		if v.id not in allowed: return error(f"You don't have sufficient permissions to post in /h/changelog")
 
-	if sub in ('furry','vampire','racist','femboy') and not (v.house and v.house.lower().startswith(sub)):
+	if sub in ('furry','vampire','racist','femboy') and not v.client and not (v.house and v.house.lower().startswith(sub)):
 		return error(f"You need to be a member of House {sub.capitalize()} to post in /h/{sub}")
 
 	if sub and sub != 'none':
