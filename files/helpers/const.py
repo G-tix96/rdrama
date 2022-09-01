@@ -918,7 +918,7 @@ marseys_const2 = marseys_const + ['chudsey','a','b','c','d','e','f','g','h','i',
 marseys = db.query(Marsey).all()
 marsey_mappings = {}
 for marsey in marseys:
-	for tag in marsey.tags.lower().split():
+	for tag in marsey.tags.split():
 		if tag in marsey_mappings:
 			marsey_mappings[tag].append(marsey.name)
 		else:
