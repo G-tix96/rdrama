@@ -349,22 +349,26 @@ def award_thing(v, thing_type, id):
 	elif "Racist" in kind and kind == v.house:
 		if author.earlylife: author.earlylife += 86400
 		else: author.earlylife = int(time.time()) + 86400
-	elif "Furry" in kind and kind == v.house and thing_type == 'comment':
+	elif "Furry" in kind and kind == v.house:
 		if author.owoify: author.owoify += 21600
 		else: author.owoify = int(time.time()) + 21600
-		body = thing.body
-		body = owoify(body)
-		if author.marsify: body = marsify(body)
-		thing.body_html = sanitize(body, limit_pings=5)
-		g.db.add(thing)
-	elif "Femboy" in kind and kind == v.house and thing_type == 'comment':
+
+		if thing_type == 'comment':
+			body = thing.body
+			body = owoify(body)
+			if author.marsify: body = marsify(body)
+			thing.body_html = sanitize(body, limit_pings=5)
+			g.db.add(thing)
+	elif "Femboy" in kind and kind == v.house:
 		if author.marsify: author.marsify += 21600
 		else: author.marsify = int(time.time()) + 21600
-		body = thing.body
-		if author.owoify: body = owoify(body)
-		body = marsify(body)
-		thing.body_html = sanitize(body, limit_pings=5)
-		g.db.add(thing)
+
+		if thing_type == 'comment':
+			body = thing.body
+			if author.owoify: body = owoify(body)
+			body = marsify(body)
+			thing.body_html = sanitize(body, limit_pings=5)
+			g.db.add(thing)
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1
