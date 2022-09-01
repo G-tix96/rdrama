@@ -229,6 +229,8 @@ def sub_followers(v, sub):
 @limiter.limit("1/second;5/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def add_mod(v, sub):
+	if SITE_NAME == 'WPD': abort(403)
+
 	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
 	sub = sub.name
