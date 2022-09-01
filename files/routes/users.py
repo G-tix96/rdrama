@@ -735,6 +735,8 @@ def messagereply(v):
 
 	if v.is_suspended_permanently and parent.sentto != 2:
 		return {"error": "You are permabanned and may not reply to messages."}
+	elif v.is_muted and parent.sentto == 2:
+		return {"error": "You are forbidden from replying to modmail."}
 
 	if parent.sentto == 2: user_id = None
 	elif v.id == user_id: user_id = parent.sentto

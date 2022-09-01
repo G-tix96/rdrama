@@ -617,6 +617,10 @@
 		{% endif %}
 
 		{% if request.path.startswith('/notifications') and c.level == 1 and c.sentto and not c.parent_submission and c.author_id != AUTOJANNY_ID %}
+			{% if (v and v.admin_level >= 2) and (c.sentto == 2) and not c.author.is_muted %} 
+				<a class="btn btn-primary" role="button" id="mute-user-{{c.id}}" onclick="adminMuteUser({{c.author_id}}, 1, {{c.id}})">Mute</a>
+			{% endif %}
+
 			<a class="btn btn-primary" role="button" onclick="ToggleReplyBox('reply-message-{{c.id}}')">Reply</a>
 			<div id="reply-message-{{c.id}}" class="d-none">
 				<div id="comment-form-space-{{c.id}}" class="comment-write collapsed child">
@@ -873,13 +877,13 @@
 
 	{% if v %}
 		<script src="{{asset('js/marked.js')}}"></script>
-		<script src="/assets/js/comments_v.js?v=289"></script>
+		<script src="{{asset('js/comments_v.js')}}"></script>
 	{% endif %}
 
 	<script src="/assets/js/clipboard.js?v=250"></script>
 
-	{% if v and v.admin_level > 1 %}
-		<script src="/assets/js/comments_admin.js?v=252"></script>
+	{% if v and v.admin_level >= 2 %}
+		<script src="{{asset('js/comments_admin.js')}}"></script>
 	{% endif %}
 
 	{% include "expanded_image_modal.html" %}

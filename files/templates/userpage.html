@@ -320,6 +320,10 @@
 
 						<a id="unshadowban" class="{% if not u.shadowbanned %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/unshadowban/{{u.id}}','shadowban','unshadowban','d-none')">Unshadowban</a>
 
+						<a id="mute-user" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/1','mute-user','unmute-user','d-none')">Mute</a>
+
+						<a id="unmute-user" class="{% if not u.is_muted %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/0','mute-user','unmute-user','d-none')">Unmute</a>
+
 
 						<pre></pre>
 
@@ -665,6 +669,10 @@
 						<a id="shadowban2" class="{% if u.shadowbanned %}d-none{% endif %} btn btn-danger" role="button" onclick="post_toast(this,'/shadowban/{{u.id}}','shadowban2','unshadowban2','d-none')">Shadowban</a>
 
 						<a id="unshadowban2" class="{% if not u.shadowbanned %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/unshadowban/{{u.id}}','shadowban2','unshadowban2','d-none')">Unshadowban</a>
+
+						<a id="mute-user2" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/1','mute-user2','unmute-user2','d-none')">Mute</a>
+
+						<a id="unmute-user2" class="{% if not u.is_muted %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/0','mute-user2','unmute-user2','d-none')">Unmute</a>
 
 
 						<pre></pre>

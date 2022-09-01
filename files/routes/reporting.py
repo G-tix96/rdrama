@@ -20,6 +20,9 @@ def flag_post(pid, v):
 		v.shadowbanned = 'AutoJanny'
 		send_repeatable_notification(CARP_ID, f"reports on {post.permalink}")
 
+	if v.is_muted:
+		return {"error": "You are forbidden from making reports."}
+
 	reason = reason[:100]
 
 	reason = filter_emojis_only(reason)

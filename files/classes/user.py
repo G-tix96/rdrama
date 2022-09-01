@@ -108,6 +108,7 @@ class User(Base):
 	is_banned = Column(Integer, default=0)
 	unban_utc = Column(Integer, default=0)
 	ban_reason = deferred(Column(String))
+	is_muted = Column(Boolean, default=False, nullable=False)
 	club_allowed = Column(Boolean)
 	login_nonce = Column(Integer, default=0)
 	reserved = deferred(Column(String))

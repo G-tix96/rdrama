@@ -279,6 +279,16 @@ ACTIONTYPES = {
 		"icon": 'fa-user-crown', 
 		"color": 'bg-success'
 	},
+	'mod_mute_user': {
+		"str": 'muted reports from user {self.target_link}',
+		"icon": 'fa-file-signature',
+		"color": 'bg-danger'
+	},
+	'mod_unmute_user': {
+		"str": 'unmuted reports from user {self.target_link}',
+		"icon": 'fa-file-signature',
+		"color": 'bg-success'
+	},
 	'monthly': {
 		"str": 'distributed monthly marseybux', 
 		"icon": 'fa-sack-dollar', 

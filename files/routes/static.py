@@ -194,6 +194,9 @@ def submit_contact(v):
 	body = request.values.get("message")
 	if not body: abort(400)
 
+	if v.is_muted:
+		abort(403)
+
 	body = f'This message has been sent automatically to all admins via [/contact](/contact)\n\nMessage:\n\n' + body
 
 	body += process_files()

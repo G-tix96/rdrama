@@ -1093,6 +1093,37 @@ def unban_user(user_id, v):
 	if "@" in request.referrer: return redirect(user.url)
 	else: return {"message": f"@{user.username} was unbanned!"}
 
+@app.post("/mute_user/<int:user_id>/<int:mute_status>")
+@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@admin_level_required(2)
+def mute_user(v, user_id, mute_status):
+	user = get_account(user_id)
+	if not user:
+		abort(400)
+
+	if mute_status != 0 and not user.is_muted:
+		user.is_muted = True
+		log_action = 'mod_mute_user'
+		success_msg = f"@{user.username} was muted!"
+	elif mute_status == 0 and user.is_muted:
+		user.is_muted = False
+		log_action = 'mod_unmute_user'
+		success_msg = f"@{user.username} was un-muted!"
+	else:
+		abort(400)
+
+	ma = ModAction(
+			kind=log_action,
+			user_id=v.id,
+			target_user_id=user.id,
+			)
+
+	g.db.add(user)
+	g.db.add(ma)
+	if 'redir' in request.values:
+		return redirect(user.url)
+	else:
+		return {"message": success_msg}
 
 @app.post("/remove_post/<post_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
