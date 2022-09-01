@@ -151,7 +151,7 @@ def make_admin(v, username):
 	if SITE == 'rdrama.net': abort(403)
 
 	user = get_user(username)
-	if not user: abort(404)
+
 	user.admin_level = 2
 	g.db.add(user)
 
@@ -169,7 +169,6 @@ def make_admin(v, username):
 @admin_level_required(3)
 def remove_admin(v, username):
 	user = get_user(username)
-	if not user: abort(404)
 	user.admin_level = 0
 	g.db.add(user)
 
@@ -242,7 +241,6 @@ def distribute(v, option_id):
 @admin_level_required(3)
 def revert_actions(v, username):
 	user = get_user(username)
-	if not user: abort(404)
 
 	ma = ModAction(
 		kind="revert",
@@ -997,10 +995,7 @@ def admin_title_change(user_id, v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(2)
 def ban_user(user_id, v):
-	
 	user = get_account(user_id)
-
-	if not user: abort(404)
 
 	if user.admin_level >= v.admin_level: abort(403)
 
@@ -1063,10 +1058,9 @@ def ban_user(user_id, v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(2)
 def unban_user(user_id, v):
-
 	user = get_account(user_id)
-
-	if not user or not user.is_banned: abort(400)
+	if not user.is_banned:
+		abort(400)
 
 	user.is_banned = 0
 	user.unban_utc = 0
@@ -1098,8 +1092,6 @@ def unban_user(user_id, v):
 @admin_level_required(2)
 def mute_user(v, user_id, mute_status):
 	user = get_account(user_id)
-	if not user:
-		abort(400)
 
 	if mute_status != 0 and not user.is_muted:
 		user.is_muted = True
