@@ -130,7 +130,9 @@ def torture_ap(body, username):
 		lines[i] = torture_regex.sub(rf'\1@{username} ', lines[i])
 		lines[i] = torture_regex2.sub(rf'\1@{username} is ', lines[i])
 
-	return ''.join(lines)
+	body = ''.join(lines) + '\n:#trumpjaktalking:'
+
+	return body
 
 
 commands = {
