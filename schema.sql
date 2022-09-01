@@ -356,7 +356,7 @@ CREATE TABLE public.comments (
     top_comment_id integer,
     stickied_utc integer,
     ghost boolean DEFAULT false NOT NULL,
-    slots_result character varying(32),
+    slots_result character varying(36),
     blackjack_result character varying(860),
     treasure_amount character varying(10),
     wordle_result character varying(115)
