@@ -309,7 +309,7 @@ def sanitize(sanitized, edit=False, limit_pings=0, showmore=True):
 		if i.group(0) in captured: continue
 		captured.append(i.group(0))
 
-		params = parse_qs(urlparse(i.group(2)).query)
+		params = parse_qs(urlparse(i.group(2)).query, keep_blank_values=True)
 		t = params.get('t', params.get('start', [0]))[0]
 		if isinstance(t, str): t = t.replace('s','')
 

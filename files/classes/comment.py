@@ -347,7 +347,7 @@ class Comment(Base):
 
 					url = i.group(1)
 					p = urlparse(url).query
-					p = parse_qs(p)
+					p = parse_qs(p, keep_blank_values=True)
 
 					if 'sort' not in p: p['sort'] = ['controversial']
 

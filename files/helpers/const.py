@@ -338,7 +338,6 @@ else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HATS'] = True
 	FEATURES['HOUSES'] = True
-	FEATURES['REPOST_DETECTION'] = False
 
 if CARP_ID: GIFT_NOTIF_ID = CARP_ID
 elif AEVANN_ID: GIFT_NOTIF_ID = AEVANN_ID

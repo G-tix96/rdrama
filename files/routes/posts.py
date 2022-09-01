@@ -656,7 +656,7 @@ def is_repost():
 				query=None,
 				fragment=parsed_url.fragment)
 	else:
-		qd = parse_qs(parsed_url.query)
+		qd = parse_qs(parsed_url.query, keep_blank_values=True)
 		filtered = {k: val for k, val in qd.items() if not k.startswith('utm_') and not k.startswith('ref_')}
 
 		new_url = ParseResult(scheme="https",
@@ -765,7 +765,7 @@ def submit_post(v, sub=None):
 					query=None,
 					fragment=parsed_url.fragment)
 		else:
-			qd = parse_qs(parsed_url.query)
+			qd = parse_qs(parsed_url.query, keep_blank_values=True)
 			filtered = {k: val for k, val in qd.items() if not k.startswith('utm_') and not k.startswith('ref_')}
 
 			new_url = ParseResult(scheme="https",
@@ -806,7 +806,7 @@ def submit_post(v, sub=None):
 			if yt_id_regex.fullmatch(yt_id):
 				req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={yt_id}&key={YOUTUBE_KEY}&part=contentDetails", timeout=5).json()
 				if req.get('items'):
-					params = parse_qs(urlparse(url).query)
+					params = parse_qs(urlparse(url).query, keep_blank_values=True)
 					t = params.get('t', params.get('start', [0]))[0]
 					if isinstance(t, str): t = t.replace('s','')
 
