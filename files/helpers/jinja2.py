@@ -53,9 +53,9 @@ def inject_constants():
 			"AUTOJANNY_ID":AUTOJANNY_ID, "PUSHER_ID":PUSHER_ID, 
 			"CC":CC, "CC_TITLE":CC_TITLE, "listdir":listdir, "MOOSE_ID":MOOSE_ID, "AEVANN_ID":AEVANN_ID, 
 			"PIZZASHILL_ID":PIZZASHILL_ID, "DEFAULT_COLOR":DEFAULT_COLOR, 
-			"COLORS":COLORS, "time":time, "PERMS": PERMS, "FEATURES": FEATURES,
-			"HOLE_NAME": HOLE_NAME, "HOLE_STYLE_FLAIR": HOLE_STYLE_FLAIR, "HOLE_REQUIRED": HOLE_REQUIRED,
-			"LOTTERY_ENABLED": LOTTERY_ENABLED, "GUMROAD_LINK": GUMROAD_LINK,
-			"DEFAULT_THEME": DEFAULT_THEME, "DESCRIPTION": DESCRIPTION,
-			"has_sidebar": has_sidebar, "has_logo": has_logo, "has_app": has_app,
-			"FP": FP, "NOTIF_MODACTION_JL_MIN": NOTIF_MODACTION_JL_MIN, "cache": cache, "ONLINE_STR": ONLINE_STR, "patron": patron, "approved_embed_hosts": approved_embed_hosts}
+			"COLORS":COLORS, "time":time, "PERMS":PERMS, "FEATURES":FEATURES,
+			"HOLE_NAME":HOLE_NAME, "HOLE_STYLE_FLAIR":HOLE_STYLE_FLAIR, "HOLE_REQUIRED":HOLE_REQUIRED,
+			"LOTTERY_ENABLED":LOTTERY_ENABLED, "GUMROAD_LINK":GUMROAD_LINK,
+			"DEFAULT_THEME":DEFAULT_THEME, "DESCRIPTION":DESCRIPTION,
+			"has_sidebar":has_sidebar, "has_logo":has_logo, "has_app":has_app,
+			"FP":FP, "NOTIF_MODACTION_JL_MIN":NOTIF_MODACTION_JL_MIN, "cache":cache, "ONLINE_STR":ONLINE_STR, "patron":patron, "approved_embed_hosts":approved_embed_hosts, "dues":dues}
