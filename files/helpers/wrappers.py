@@ -82,7 +82,7 @@ def get_logged_in_user():
 				ip = request.headers.get('CF-Connecting-IP')
 				if f'@{v.username}, ' not in f.read():
 					t = str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time())))
-					f.write(f'{f.read()}@{v.username}, {ip}, {t}\n')
+					f.write(f'{f.read()}@{v.username}, {v.truecoins}, {ip}, {t}\n')
 		elif not v and request.path not in ('/login','/signup'):
 			abort(401)
 
