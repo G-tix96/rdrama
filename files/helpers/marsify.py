@@ -5,7 +5,8 @@ def marsify(text):
 	new_text = ''
 	for x in text.split(' '):
 		new_text += f'{x} '
-		if 3 < len(x) < 10 and x in marsey_mappings:
+		x = x.lower()
+		if len(x) > 4 and x in marsey_mappings:
 			marsey = choice(marsey_mappings[x])
 			new_text += f':{marsey}: '
 	return new_text
