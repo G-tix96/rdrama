@@ -52,7 +52,7 @@
 
 			{% if p.sub and v.mods(p.sub) %}
 				<a id="hole-pin-{{p.id}}" class="dropdown-item {% if p.hole_pinned %}d-none{% endif %} list-inline-item text-info" role="button" onclick="post_toast(this,'/hole_pin/{{p.id}}','hole-pin-{{p.id}}','hole-unpin-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Pin to /h/{{p.sub}}</a>
-				<a id="hole-unpin-{{p.id}}" class="dropdown-item {% if not p.hole_pinned %}d-none{% endif %} list-inline-item text-info" role="button" onclick="post_toast(this,'/hole_unpin/{{p.id}}','hole-pin-{{p.id}}','hole-unpin-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin fron /h/{{p.sub}}</a>
+				<a id="hole-unpin-{{p.id}}" class="dropdown-item {% if not p.hole_pinned %}d-none{% endif %} list-inline-item text-info" role="button" onclick="post_toast(this,'/hole_unpin/{{p.id}}','hole-pin-{{p.id}}','hole-unpin-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin from /h/{{p.sub}}</a>
 			{% endif %}
 
 			{% if FEATURES['COUNTRY_CLUB'] and (v.admin_level > 1 or v.id == p.author_id) %}
