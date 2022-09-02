@@ -51,7 +51,7 @@
 		<link rel="stylesheet" href="{{asset('css/catalog.css')}}">
 	{% endif %}
 
-	{% if sub and sub.css and not request.path.endswith('settings') %}
+	{% if sub and sub.css and not request.path.endswith('settings') and not request.values.get('nocss') %}
 		<link rel="stylesheet" href="/h/{{sub.name}}/css" type="text/css">
 	{% endif %}
 
