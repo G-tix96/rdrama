@@ -677,7 +677,7 @@
 								<div class="profile-pic-30-wrapper">
 									<img loading="lazy" src="{{p.author.profile_url}}" class="profile-pic-30 mr-2">
 									{% if p.author.hat_active -%}
-										<img class="profile-pic-30-hat" loading="lazy" src="/i/hats/{{p.author.hat_active}}.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.hat_tooltip}}">
+										<img class="profile-pic-30-hat" loading="lazy" src="/i/hats/{{p.author.hat_active}}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.hat_tooltip}}">
 									{%- endif %}
 								</div>
 								<span {% if p.author.patron and not p.distinguish_level %}class="patron" style="background-color:#{{p.author.name_color}};"{% elif p.distinguish_level %}class="mod"{% endif %}>{{p.author_name}}</span>

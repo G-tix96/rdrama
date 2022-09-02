@@ -2379,6 +2379,56 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+
+
+CREATE TABLE public.hat_defs (
+    id integer PRIMARY KEY,
+    name character varying(50) NOT NULL UNIQUE,
+    description character varying(300) NOT NULL,
+    author_id integer NOT NULL,
+    price integer NOT NULL
+);
+
+CREATE SEQUENCE public.hat_defs_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER SEQUENCE public.hat_defs_id_seq OWNED BY public.hat_defs.id;
+
+ALTER TABLE ONLY public.hat_defs ALTER COLUMN id SET DEFAULT nextval('public.hat_defs_id_seq'::regclass);
+
+ALTER TABLE ONLY public.hat_defs
+    ADD CONSTRAINT hat_defs_author_id_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
+
+
+
+
+
+CREATE TABLE public.hats (
+    hat_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+ALTER TABLE ONLY public.hats
+    ADD CONSTRAINT hats_pkey PRIMARY KEY (user_id, hat_id);
+
+ALTER TABLE ONLY public.hats
+    ADD CONSTRAINT hats_hat_id_fkey FOREIGN KEY (hat_id) REFERENCES public.hat_defs(id);
+
+ALTER TABLE ONLY public.hats
+    ADD CONSTRAINT hats_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+alter table users add column coins_spent_on_hats integer DEFAULT 0 NOT NULL;
+alter table users add column equipped_hat_id integer;
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_equipped_hat_id_fkey FOREIGN KEY (equipped_hat_id) REFERENCES public.hat_defs(id);
+
+
+
 --
 -- Data for Name: badge_defs; Type: TABLE DATA; Schema: public; Owner: -
 --

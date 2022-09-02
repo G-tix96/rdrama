@@ -57,7 +57,7 @@ def process_audio(file):
 def webm_to_mp4(old, new):
 	subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", new], check=True, stderr=subprocess.STDOUT)
 	os.remove(old)
-	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, json={'files': [f"{SITE_FULL}{new}"]}, timeout=5)
+	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, data={'files': [f"{SITE_FULL}{new}"]}, timeout=5)
 
 def process_video(file):
 	old = f'/videos/{time.time()}'.replace('.','')

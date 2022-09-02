@@ -271,7 +271,32 @@ def comment(v):
 							requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
 								data=f'{{"files": ["https://{SITE}/e/{name}.webp"]}}', timeout=5)
 							cache.delete_memoized(marsey_list)
+						except Exception as e:
+							return {"error": str(e)}, 400
+					elif v.admin_level > 2 and parent_post.id == HAT_THREAD:
+						try:
+							hat = loads(body.lower())
 
+							name = hat["name"]
+							if not hat_regex.fullmatch(name): return {"error": "Invalid name!"}, 400
+							existing = g.db.query(HatDef.name).filter_by(name=name).one_or_none()
+							if existing: return {"error": "A hat with this name already exists!"}, 403
+
+							if "author" in hat: user = get_user(hat["author"])
+							elif "author_id" in hat: user = get_account(hat["author_id"])
+							else: abort(400)
+
+							filename = f'files/assets/images/hats/{name}.webp'
+							copyfile(oldname, filename)
+							process_image(filename, 200)
+
+							hat = HatDef(
+								name=name,
+								description=hat["description"],
+								author_id=user.id,
+								price=hat["price"]
+							)
+							g.db.add(hat)
 						except Exception as e:
 							return {"error": str(e)}, 400
 				body += f"\n\n![]({image})"

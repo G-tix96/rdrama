@@ -42,7 +42,7 @@
 							<a rel="nofollow noopener noreferrer" href="{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}" class="profile-pic-100-wrapper">
 								<img onclick="expandDesktopImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic profile-pic-100 mb-5">
 								{% if u.hat_active -%}
-									<img onclick="expandDesktopImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-100-hat" loading="lazy" src="/i/hats/{{u.hat_active}}.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.hat_tooltip}}">
+									<img onclick="expandDesktopImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-100-hat" loading="lazy" src="/i/hats/{{u.hat_active}}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.hat_tooltip}}">
 								{%- endif %}
 							</a>
 						</div>
@@ -407,7 +407,7 @@
 				<a rel="nofollow noopener noreferrer" href="{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}" class="profile-pic-65-wrapper">
 					<img onclick="expandDesktopImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic-65 bg-white border-2 border-white mb-2">
 					{% if u.hat_active -%}
-						<img onclick="expandDesktopImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-65-hat" loading="lazy" src="/i/hats/{{u.hat_active}}.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.hat_tooltip}}">
+						<img onclick="expandDesktopImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-65-hat" loading="lazy" src="/i/hats/{{u.hat_active}}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.hat_tooltip}}">
 					{%- endif %}
 				</a>
 			</div>

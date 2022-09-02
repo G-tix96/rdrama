@@ -1,10 +1,10 @@
 from .alts import *
-from .badges import *
 from .clients import *
 from .comment import *
 from .domains import *
 from .flags import *
 from .user import *
+from .badges import *
 from .userblock import *
 from .submission import *
 from .votes import *
@@ -23,3 +23,4 @@ from .views import *
 from .notifications import *
 from .follows import *
 from .lottery import *
+from .hats import *

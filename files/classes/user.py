@@ -20,6 +20,7 @@ from .exiles import *
 from .sub_block import *
 from .sub_subscription import *
 from .sub_join import *
+from .hats import *
 from files.__main__ import Base, cache
 from files.helpers.security import *
 from copy import deepcopy
@@ -70,6 +71,7 @@ class User(Base):
 	admin_level = Column(Integer, default=0)
 	last_active = Column(Integer, default=0, nullable=False)
 	coins_spent = Column(Integer, default=0)
+	coins_spent_on_hats = Column(Integer, default=0)
 	lootboxes_bought = Column(Integer, default=0)
 	agendaposter = Column(Integer, default=0)
 	is_activated = Column(Boolean, default=False)
@@ -137,6 +139,7 @@ class User(Base):
 	earlylife = Column(Integer)
 	owoify = Column(Integer)
 	marsify = Column(Integer)
+	equipped_hat_id = Column(Integer, ForeignKey("hat_defs.id"))
 
 	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
 	subscriptions = relationship("Subscription", back_populates="user")
@@ -149,6 +152,7 @@ class User(Base):
 	apps = relationship("OauthApp", back_populates="author")
 	awards = relationship("AwardRelationship", primaryjoin="User.id==AwardRelationship.user_id", back_populates="user")
 	referrals = relationship("User")
+	equipped_hat = relationship("HatDef", primaryjoin="User.equipped_hat_id==HatDef.id")
 
 	def __init__(self, **kwargs):
 
@@ -167,6 +171,10 @@ class User(Base):
 	def __repr__(self):
 		return f"<User(id={self.id}, username={self.username})>"
 
+	@property
+	@lazy
+	def owned_hats(self):
+		return [x[0] for x in g.db.query(Hat.hat_id).filter_by(user_id=self.id).all()]
 
 	@property
 	@lazy
@@ -642,7 +650,11 @@ class User(Base):
 			return ''
 
 		if self.is_cakeday:
-			return 'cakeday-1'
+			return 'Cakeday.webp'
+
+		if self.equipped_hat_id:
+			return self.equipped_hat.name + '.webp'
+
 		return ''
 
 	@property
@@ -652,8 +664,11 @@ class User(Base):
 			return ''
 
 		if self.is_cakeday:
-			return 'I’ve spent another year rotting my brain with dramaposting, ' \
-			     + 'please ridicule me 🤓'
+			return "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓"
+
+		if self.equipped_hat_id:
+			return self.equipped_hat.description
+
 		return ''
 
 	@lazy

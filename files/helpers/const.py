@@ -216,9 +216,9 @@ BANNER_THREAD = 0
 BADGE_THREAD = 0
 SNAPPY_THREAD = 0
 MARSEY_THREAD = 0
-GAMBLING_THREAD = 0
+HAT_THREAD = 0
 
-if SITE in ('rdrama.net', 'devrama.xyz'):
+if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HATS'] = True
 	FEATURES['HOUSES'] = True
@@ -228,8 +228,8 @@ if SITE in ('rdrama.net', 'devrama.xyz'):
 	BADGE_THREAD = 37833
 	SNAPPY_THREAD = 37749
 	MARSEY_THREAD = 37838
-	GAMBLING_THREAD = 39413
-if SITE in {'rdrama.net', 'devrama.xyz'}:
+	HAT_THREAD = 100210
+
 	HOLE_COST = 50000
 	HOLE_INACTIVITY_DELETION = True
 
@@ -943,7 +943,7 @@ if path.isfile(f'snappy_{SITE_NAME}.txt'):
 
 YOUTUBE_KEY = environ.get("YOUTUBE_KEY", "").strip()
 
-ADMIGGERS = {SIDEBAR_THREAD,BANNER_THREAD,BADGE_THREAD,SNAPPY_THREAD,MARSEY_THREAD,GAMBLING_THREAD}
+ADMIGGERS = {SIDEBAR_THREAD,BANNER_THREAD,BADGE_THREAD,SNAPPY_THREAD,MARSEY_THREAD,HAT_THREAD}
 
 proxies = {"http":"http://127.0.0.1:18080","https":"http://127.0.0.1:18080"}
 
@@ -954,7 +954,6 @@ approved_embed_hosts = {
 	'rdrama.net',
 	'pcmemes.net',
 	'watchpeopledie.co',
-	'devrama.xyz',
 	'imgur.com',
 	'lain.la',
 	'pngfind.com',
@@ -1047,7 +1046,6 @@ DISCORD_BOT_TOKEN = environ.get("DISCORD_BOT_TOKEN",'').strip()
 DISCORD_AUTH = environ.get("DISCORD_AUTH",'').strip()
 GIPHY_KEY = environ.get('GIPHY_KEY').strip()
 MASTER_KEY = environ.get("MASTER_KEY")
-TRUSTED_SERVER_PSK = environ.get("TRUSTED_SERVER_PSK", None)
 FP = environ.get("FP")
 
 tiers={

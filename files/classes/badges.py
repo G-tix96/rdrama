@@ -1,10 +1,8 @@
 from sqlalchemy import *
 from sqlalchemy.orm import relationship
-from files.__main__ import Base, app
+from files.__main__ import Base
 from files.helpers.lazy import lazy
 from files.helpers.const import *
-from datetime import datetime
-from json import loads
 import time
 
 class BadgeDef(Base):
@@ -34,7 +32,7 @@ class Badge(Base):
 	created_utc = Column(Integer)
 
 	user = relationship("User", back_populates="badges")
-	badge = relationship("BadgeDef", primaryjoin="foreign(Badge.badge_id) == remote(BadgeDef.id)")
+	badge = relationship("BadgeDef", primaryjoin="Badge.badge_id == BadgeDef.id")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:
