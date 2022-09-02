@@ -819,7 +819,7 @@ if SITE_NAME != 'rDrama':
 	AWARDS_DISABLED.append('progressivestack')
 
 if SITE == 'pcmemes.net':
-	AWARDS_DISABLED.extend(['ban','pizzashill','marsey','bird','grass','chud','unblockable',])
+	AWARDS_DISABLED.extend(['ban','pizzashill','marsey','bird','grass','chud','unblockable'])
 	AWARDS_DISABLED.remove('ghost')
 elif SITE_NAME == 'WPD':
 	AWARDS_DISABLED.remove('lootbox')
