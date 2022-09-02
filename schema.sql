@@ -2404,6 +2404,10 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 22	Renthog	Contributed at least $10
 23	Landchad	Contributed at least $20
 24	Terminally online turboautist	Contributed at least $50
+157	A Minor Setback	Lost a 1,000 dramacoin bet. Keep going!
+158	Just One More Hand	Lost a 10,000 dramacoin bet. But it's fine, you're due for a big win!
+160	Lil Goombler	Won a 1,000 dramacoin bet. Nice job!
+162	King Goombler	Won a 100,000 dramacoin bet. Wipe your sweaty palms off and bet it all again, you're on a roll!
 4	White Hat	Discreetly reported an exploit
 1	Alpha User	Joined during open alpha
 2	Verified Email	Verified Email
@@ -2480,6 +2484,8 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 117	Stone Skeptic	This user rejects igneous lies
 129	Misinformation Superspreader	This poster was fact checked by real American patriots
 130	Columbine Enthusiast (TEMPORAL FLUX EDITION)	This user is an acclaimed Reb+VoDKa slash author
+159	It's Over	Lost a 100,000 dramacoin bet. It's fucking over.
+161	Pro Goombler	Won a 10,000 dramacoin bet. Some would say to quit while you're ahead, but they didn't just win 10k - keep at it!
 28	Chud	Marked as a chud
 59	Lolcow	Beautiful and valid milk provider
 25	Marsey's Sugar Daddy	Contributed at least $100
@@ -2507,7 +2513,7 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 156, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 162, true);
 
 
 --
