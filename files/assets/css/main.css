@@ -6251,3 +6251,8 @@ div.markdown {
 	height: auto;
     white-space: pre-wrap;
 }
+@media (max-width: 768px) or (min-width: 992px) {
+	#sidebar-btn {
+		display: None;
+	}
+}
