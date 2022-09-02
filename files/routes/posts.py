@@ -169,14 +169,9 @@ def post_id(pid, anything=None, v=None, sub=None):
 			comment.is_blocking = c[2] or 0
 			comment.is_blocked = c[3] or 0
 			output.append(comment)
-		
+
 		pinned = [c[0] for c in comments.filter(Comment.stickied != None).all()]
 
-		for x in pinned:
-			if x.level > 1:
-				pinned.remove(x)
-				pinned.append(x.top_comment)
-		
 		comments = comments.filter(Comment.level == 1, Comment.stickied == None)
 
 		comments = sort_comments(sort, comments)
@@ -186,11 +181,6 @@ def post_id(pid, anything=None, v=None, sub=None):
 		comments = first + second
 	else:
 		pinned = g.db.query(Comment).filter(Comment.parent_submission == post.id, Comment.stickied != None).all()
-
-		for x in pinned:
-			if x.level > 1:
-				pinned.remove(x)
-				pinned.append(x.top_comment)
 
 		comments = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.parent_submission == post.id, Comment.level == 1, Comment.stickied == None)
 
@@ -232,6 +222,11 @@ def post_id(pid, anything=None, v=None, sub=None):
 			pin.stickied_utc = None
 			g.db.add(pin)
 			pinned.remove(pin)
+		elif pin.level > 1:
+			pinned.remove(pin)
+			pinned.append(pin.top_comment)
+			if pin.top_comment in comments:
+				comments.remove(pin.top_comment) 
 
 	post.replies = pinned + comments
 
