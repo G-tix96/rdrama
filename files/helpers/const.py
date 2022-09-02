@@ -42,24 +42,33 @@ AJ_REPLACEMENTS = {
 	'EVERYBODY': 'EVERYPONY',
 }
 
+SLURS = {
+	"nigger": "BIPOC",
+	"niglet": "BIPOClet",
+	"faggot": "cute twink",
+	"fag": "strag",
+	"spic ": "hard-working American ",
+	"trannie": "🚂🚃🚃",
+	"tranny": "🚂🚃🚃",
+	"troon": "🚂🚃🚃",
+	"dyke": "cute lesbian",
+	"gook": "superior IQ Asian",
+	"kike": "jewish chad",
+	"daisy's destruction": "Cars 2",
+	"daisys destruction": "Cars 2",
+	"daisy destruction": "Cars 2",
+}
+
 if SITE_NAME == 'rDrama':
-	SLURS = {
+	RDRAMA_SLURS = {
 		"tiananmen square": "tiananmen square didn't happen (but it should have)",
 		"dasha": "beautiful angelic perfect Dasha/future Mrs. Carp",
 		"retarded": "r-slurred",
 		"retard": "r-slur",
-		"faggot": "cute twink",
-		"fag": "strag",
 		"pedophile": "libertarian",
 		"kill yourself": "keep yourself safe",
-		"nigger": "BIPOC",
-		"niglet": "BIPOClet",
 		"steve akins": "penny verity oaken",
-		"trannie": "🚂🚃🚃",
-		"tranny": "🚂🚃🚃",
-		"troon": "🚂🚃🚃",
 		"nonewnormal": "HorseDewormerAddicts",
-		"kike": "jewish chad",
 		"latinos": "latinx",
 		"latino": "latinx",
 		"latinas": "latinx",
@@ -89,35 +98,12 @@ if SITE_NAME == 'rDrama':
 		"kung flu": "SARS-CoV-2 syndemic",
 		"elon musk": "rocket daddy",
 		"fake and gay": "fake and straight",
-
 		" rapist": " male feminist",
-
 		" kys ": " keep yourself safe ",
 		" pedo ": " libertarian ",
 		" pedos ": " libertarians ",
 	}
-elif SITE_NAME == 'WPD':
-	SLURS = {
-		"nigger": "BIPOC",
-		"niglet": "young BIPOC",
-		"faggot": "cute twink",
-		"fag": "strag",
-		"spic ": "hard-working American ",
-		"tranny": "valid woman",
-		"trannie": "valid woman",
-		"dyke": "cute lesbian",
-		"gook": "superior IQ Asian",
-		"kike": "jewish chad",
-		"daisy's destruction": "Cars 2",
-		"daisys destruction": "Cars 2",
-		"daisy destruction": "Cars 2",
-	}
-else:
-	SLURS = {
-		"faggot": "cute twink",
-		"fag": "strag",
-		"nigger": "🏀"
-	}
+	SLURS.update(RDRAMA_SLURS)
 
 single_words = "|".join([slur.lower() for slur in SLURS.keys()])
 
