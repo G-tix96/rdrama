@@ -224,7 +224,8 @@ def post_id(pid, anything=None, v=None, sub=None):
 			pinned.remove(pin)
 		elif pin.level > 1:
 			pinned.remove(pin)
-			pinned.append(pin.top_comment)
+			if pin.top_comment not in pinned:
+				pinned.append(pin.top_comment)
 			if pin.top_comment in comments:
 				comments.remove(pin.top_comment) 
 
