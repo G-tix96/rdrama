@@ -953,20 +953,25 @@
 	<div id="viewmore-{{offset}}"><button id="viewbtn" class="btn btn-primary" onclick="viewmore({{pid}},'{{sort}}',{{offset}},{{ids}})">VIEW MORE COMMENTS</a></div>
 {% endif %}
 
-{% if SITE_NAME == 'rDrama' and not request.headers.get("xhr") and v and 'SamsungBrowser' not in g.agent %}
+{% if SITE_NAME == 'rDrama' and not request.headers.get("xhr") and v %}
+	<div id="detection" style="display:none;background-color:canvas;color-scheme:light"></div>
 	<script>
-		const element = document.getElementsByClassName('comment-section')[0];
-		let color = getComputedStyle(element).getPropertyValue('background-color');
-		color = 'rgba' + color.slice(3,-1) + ', 0.1)'
+		const detectionDiv = document.querySelector('#detection');
+		const isAutoDark = getComputedStyle(detectionDiv).backgroundColor != 'rgb(255, 255, 255)';
+		if (!isAutoDark) {
+			const element = document.getElementsByClassName('comment-section')[0];
+			let color = getComputedStyle(element).getPropertyValue('background-color');
+			color = 'rgba' + color.slice(3,-1) + ', 0.1)'
 
-		const markTemplate = (name) => {
-			return `<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='50px' height='50px'><text transform='translate(10, 50) rotate(-45)' fill='${color}' font-size='20'>${name}</text></svg>`;
-		};
-		const base64Mark = btoa(markTemplate("{{v.id}}"));
-		
-		var style = document.createElement('style');
-		style.innerHTML = `.actual-post:not(.deleted):not(.banned),.comment-section>.comment{background-image:url("data:image/svg+xml;base64,${base64Mark}")}`;
-		document.getElementsByTagName('head')[0].appendChild(style);
+			const markTemplate = (name) => {
+				return `<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='50px' height='50px'><text transform='translate(10, 50) rotate(-45)' fill='${color}' font-size='20'>${name}</text></svg>`;
+			};
+			const base64Mark = btoa(markTemplate("{{v.id}}"));
+			
+			var style = document.createElement('style');
+			style.innerHTML = `.actual-post:not(.deleted):not(.banned),.comment-section>.comment{background-image:url("data:image/svg+xml;base64,${base64Mark}")}`;
+			document.getElementsByTagName('head')[0].appendChild(style);
+		}
 	</script>
 {% endif %}
 
