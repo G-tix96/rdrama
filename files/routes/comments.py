@@ -892,7 +892,7 @@ def mod_pin(cid, v):
 	return {"message": "Comment pinned!"}
 	
 
-@app.post("/unmod_pin/<cid>")
+@app.post("/mod_unpin/<cid>")
 @auth_required
 def mod_unpin(cid, v):
 	
