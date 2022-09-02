@@ -349,7 +349,7 @@ def award_thing(v, thing_type, id):
 	elif "Racist" in kind and kind == v.house:
 		if author.earlylife: author.earlylife += 86400
 		else: author.earlylife = int(time.time()) + 86400
-	elif "Furry" in kind and kind == v.house:
+	elif ("Furry" in kind and kind == v.house) or kind == 'owoify':
 		if author.owoify: author.owoify += 21600
 		else: author.owoify = int(time.time()) + 21600
 
@@ -359,7 +359,7 @@ def award_thing(v, thing_type, id):
 			if author.marsify: body = marsify(body)
 			thing.body_html = sanitize(body, limit_pings=5)
 			g.db.add(thing)
-	elif "Femboy" in kind and kind == v.house:
+	elif ("Femboy" in kind and kind == v.house) or kind == 'marsify':
 		if author.marsify: author.marsify += 21600
 		else: author.marsify = int(time.time()) + 21600
 

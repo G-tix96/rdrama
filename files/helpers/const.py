@@ -716,6 +716,27 @@ AWARDS = {
 	},
 }
 
+if SITE_NAME != 'rDrama':
+	EXTRA_AWARDS = {
+		"owoify": {
+			"kind": "owoify",
+			"title": "OwOify",
+			"description": "OwOifies the recipient's comments for 6 hours.",
+			"icon": "fas fa-paw-simple",
+			"color": "text-purple",
+			"price": 400
+		},
+		"marsify": {
+			"kind": "marsify",
+			"title": "Marsify",
+			"description": "Marsifies the recipient's comments for 6 hours.",
+			"icon": "fas fa-cat",
+			"color": "text-white",
+			"price": 400
+		},
+	}
+	AWARDS.update(EXTRA_AWARDS)
+
 if SITE_NAME == 'PCM':
 	PCM_AWARDS = {
 		"croag": {
@@ -743,7 +764,7 @@ if SITE_NAME == 'PCM':
 			"price": 4000
 		}
 	}
-	AWARDS = {**PCM_AWARDS, **AWARDS}
+	AWARDS.update(PCM_AWARDS)
 
 # Disable unused awards, and site-specific award inclusion/exclusion.
 AWARDS_DISABLED = [
