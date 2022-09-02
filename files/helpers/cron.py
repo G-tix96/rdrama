@@ -106,7 +106,7 @@ def give_monthly_marseybux_task():
 
 	for u in g.db.query(User).filter(User.patron > 0, User.patron_utc == 0).all():
 		g.db.add(u)
-		if u.admin_level or u.id == A_ID or (u.email and u.email.lower() in emails):
+		if u.admin_level or u.id in GUMROAD_MESSY or (u.email and u.email.lower() in emails):
 			procoins = procoins_li[u.patron]
 			u.procoins += procoins
 			send_repeatable_notification(u.id, f"@AutoJanny has given you {procoins} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
