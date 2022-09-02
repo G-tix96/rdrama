@@ -25,14 +25,16 @@ def send_repeatable_notification(uid, text):
 
 	text_html = sanitize(text)
 
-	existing_comment = g.db.query(Comment.id).filter_by(author_id=AUTOJANNY_ID, parent_submission=None, body_html=text_html, is_bot=True).first()
+	existing_comments = g.db.query(Comment.id).filter_by(author_id=AUTOJANNY_ID, parent_submission=None, body_html=text_html, is_bot=True).order_by(Comment.id).all()
 
-	if existing_comment:
-		cid = existing_comment[0]
-		existing_notif = g.db.query(Notification.user_id).filter_by(user_id=uid, comment_id=cid).one_or_none()
-		if existing_notif: cid = create_comment(text_html)
-	else: cid = create_comment(text_html)
+	for c in existing_comments:
+		existing_notif = g.db.query(Notification.user_id).filter_by(user_id=uid, comment_id=c.id).one_or_none()
+		if not existing_notif:
+			notif = Notification(comment_id=c.id, user_id=uid)
+			g.db.add(notif)
+			return
 
+	cid = create_comment(text_html)
 	notif = Notification(comment_id=cid, user_id=uid)
 	g.db.add(notif)
 
@@ -48,17 +50,7 @@ def notif_comment(text):
 
 	text_html = sanitize(text)
 
-	try: existing = g.db.query(Comment.id).filter_by(author_id=AUTOJANNY_ID, parent_submission=None, body_html=text_html, is_bot=True).one_or_none()
-	except:
-		existing = g.db.query(Comment).filter_by(author_id=AUTOJANNY_ID, parent_submission=None, body_html=text_html, is_bot=True).all()
-		
-		notifs = g.db.query(Notification).filter(Notification.comment_id.in_([x.id for x in existing])).all()
-		for c in notifs: g.db.delete(c)
-		g.db.flush()
-
-		for c in existing: g.db.delete(c)
-		g.db.flush()
-		existing = g.db.query(Comment.id).filter_by(author_id=AUTOJANNY_ID, parent_submission=None, body_html=text_html, is_bot=True).one_or_none()
+	existing = g.db.query(Comment.id).filter_by(author_id=AUTOJANNY_ID, parent_submission=None, body_html=text_html, is_bot=True).one_or_none()
 
 	if existing: return existing[0]
 	else: return create_comment(text_html)
