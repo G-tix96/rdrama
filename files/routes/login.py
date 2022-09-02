@@ -354,7 +354,7 @@ def sign_up_post(v):
 
 	if email:
 		try: send_verification_email(new_user)
-		except Exception as e: print(e)
+		except Exception as e: print(e, flush=True)
 
 
 	check_for_alts(new_user.id)
