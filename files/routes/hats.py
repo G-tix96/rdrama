@@ -11,11 +11,17 @@ from flask import g
 def hats(v):
 	if not FEATURES['HATS']: abort(404)
 
-	owned_hats = [x[0] for x in g.db.query(Hat.hat_id).filter_by(user_id=v.id).all()]
-	owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.in_(owned_hats)).order_by(HatDef.price, HatDef.name).all()
-	not_owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.notin_(owned_hats)).order_by(HatDef.price, HatDef.name).all()
+	owned_hat_ids = [x.hat_id for x in v.owned_hats]
 
-	return render_template("hats.html", owned=owned, not_owned=not_owned, v=v)
+	if v.equipped_hat_id:
+		owned = [(v.equipped_hat, v.equipped_hat.author)] + g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.in_(owned_hat_ids), HatDef.id != v.equipped_hat_id).order_by(HatDef.price, HatDef.name).all()
+	else:
+		owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.in_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+
+	not_owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.notin_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+	hats = owned + not_owned
+
+	return render_template("hats.html", owned_hat_ids=owned_hat_ids, hats=hats, v=v)
 
 @app.post("/buy_hat/<hat_id>")
 @auth_required

@@ -38,7 +38,7 @@
 		</thead>
 		
 		<tbody>
-			{% for hat, user in owned %}
+			{% for hat, user in hats %}
 				<tr>
 					<td><img loading="lazy" alt="{{hat.name}}" src="/i/hats/{{hat.name}}.webp?v=1"></td>
 					<td>{{hat.name}}</td>
@@ -49,35 +49,27 @@
 					<td>{{hat.number_sold}}</td>
 					<td>{{hat.price}}</td>
 					<td class="shop-table-actions">
-						{% if hat.id == v.equipped_hat.id %}
-							<a id="unequip-{{hat.id}}" class="unequip btn btn-success" role="button" onclick="post_toast(this,'/unequip_hat',true)"><span class="m-auto">Unequip</span></a>
-						{% else %}
-							<a id="equip-{{hat.id}}" class="equip btn btn-success" role="button" onclick="post_toast(this,'/equip_hat/{{hat.id}}',true)"><span class="m-auto">Equip</span></a>
+						{% if hat.id not in owned_hat_ids %}
+							<div id="if-not-owned-{{hat.id}}">
+								<a id="buy1-{{hat.id}}" class="btn btn-success {% if v.coins < hat.price %}disabled{% endif %}" role="button" onclick="this.classList.add('d-none');document.getElementById('buy1-go-{{hat.id}}').classList.remove('d-none')"><span class="m-auto">Buy</span></a>
+
+								<a id="buy1-go-{{hat.id}}" class="d-none btn btn-success {% if v.coins < hat.price %}disabled{% endif %}" role="button" onclick="post_toast(this, '/buy_hat/{{hat.id}}', 'if-not-owned-{{hat.id}}', 'if-owned-{{hat.id}}', 'd-none')"><span class="m-auto">Are you sure?</span></a>
+
+								{% if FEATURES['PROCOINS'] %}
+									<a id="buy2-{{hat.id}}" class="marseybux btn btn-success {% if v.procoins < hat.price %}disabled{% endif %}" role="button" onclick="this.classList.add('d-none');document.getElementById('buy2-go-{{hat.id}}').classList.remove('d-none')"><span class="m-auto">Buy with MBux</span></a>
+
+									<a id="buy2-go-{{hat.id}}" class="d-none marseybux btn btn-success {% if v.procoins < hat.price %}disabled{% endif %}" role="button" onclick="post_toast(this, '/buy_hat/{{hat.id}}?mb=true', 'if-not-owned-{{hat.id}}', 'if-owned-{{hat.id}}', 'd-none')"><span class="m-auto">Are you sure?</span></a>
+								{% endif %}
+							</div>
 						{% endif %}
-					</td>
-				</tr>
-			{% endfor %}
 
-			{% for hat, user in not_owned %}
-				<tr>
-					<td><img loading="lazy" alt="{{hat.name}}" src="/i/hats/{{hat.name}}.webp?v=1"></td>
-					<td>{{hat.name}}</td>
-					<td>{{hat.censored_description(v)}}</td>
-					{% if SITE == 'rdrama.net' %}
-						<td><a style="color:#{{user.name_color}}" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
-					{% endif %}
-					<td>{{hat.number_sold}}</td>
-					<td>{{hat.price}}</td>
-					<td class="shop-table-actions">
-						<a id="buy1-{{hat.id}}" class="btn btn-success {% if v.coins < hat.price %}disabled{% endif %}" role="button" onclick="this.classList.add('d-none');document.getElementById('buy1-go-{{hat.id}}').classList.remove('d-none')"><span class="m-auto">Buy</span></a>
-
-						<a id="buy1-go-{{hat.id}}" class="d-none btn btn-success {% if v.coins < hat.price %}disabled{% endif %}" role="button" onclick="post_toast(this,'/buy_hat/{{hat.id}}',true)"><span class="m-auto">Are you sure?</span></a>
-
-						{% if FEATURES['PROCOINS'] %}
-							<a id="buy2-{{hat.id}}" class="marseybux btn btn-success {% if v.procoins < hat.price %}disabled{% endif %}" role="button" onclick="this.classList.add('d-none');document.getElementById('buy2-go-{{hat.id}}').classList.remove('d-none')"><span class="m-auto">Buy with MBux</span></a>
-
-							<a id="buy2-go-{{hat.id}}" class="d-none marseybux btn btn-success {% if v.procoins < hat.price %}disabled{% endif %}" role="button" onclick="post_toast(this,'/buy_hat/{{hat.id}}?mb=true',true)"><span class="m-auto">Are you sure?</span></a>
-						{% endif %}
+						<div id="if-owned-{{hat.id}}" {% if hat.id not in owned_hat_ids %}class="d-none"{% endif %}>
+							{% if hat.id == v.equipped_hat.id %}
+								<a class="unequip btn btn-success" role="button" onclick="post_toast(this,'/unequip_hat', true)"><span class="m-auto">Unequip</span></a>
+							{% else %}
+								<a class="equip btn btn-success" role="button" onclick="post_toast(this,'/equip_hat/{{hat.id}}', true)"><span class="m-auto">Equip</span></a>
+							{% endif %}
+						</div>
 					</td>
 				</tr>
 			{% endfor %}
