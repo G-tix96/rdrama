@@ -49,7 +49,7 @@ def buy_hat(v, hat_id):
 	if v.id != hat.author.id:
 		send_repeatable_notification(
 			hat.author.id,
-			f":marseycapitalistmanlet: @{v.username} has just bought `{hat.name}`, you have received your %5 cut ({int(hat.price * 0.05)} {currency}) :!marseycapitalistmanlet:"
+			f":marseycapitalistmanlet: @{v.username} has just bought `{hat.name}`, you have received your 5% cut ({int(hat.price * 0.05)} {currency}) :!marseycapitalistmanlet:"
 		)
 
 	if v.num_of_hats_bought >= 250:
