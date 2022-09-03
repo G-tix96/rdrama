@@ -2517,8 +2517,8 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 160	Lil Goombler	Won a 1,000 dramacoin bet. Nice job!
 162	King Goombler	Won a 100,000 dramacoin bet. Wipe your sweaty palms off and bet it all again, you're on a roll!
 163	Marsey Jacobs	Designed 10 hats!
-164	Marsey de Givenchy	Designed 50 hats, holy crap.
 166	Giorgio Armarsey	Designed 250 hats 😲
+164	Marsey de Givenchy	Designed 50 hats, holy cap.
 4	White Hat	Discreetly reported an exploit
 1	Alpha User	Joined during open alpha
 2	Verified Email	Verified Email
