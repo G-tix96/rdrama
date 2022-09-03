@@ -275,7 +275,7 @@ def comment(v):
 							return {"error": str(e)}, 400
 					elif v.admin_level > 2 and parent_post.id == HAT_THREAD:
 						try:
-							hat = loads(body.lower())
+							hat = loads(body)
 
 							name = hat["name"]
 							if not hat_regex.fullmatch(name): return {"error": "Invalid name!"}, 400
