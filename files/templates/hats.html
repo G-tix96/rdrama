@@ -27,10 +27,10 @@
 				<th scope="col">Description</th>
 				{% if SITE == 'rdrama.net' %}
 					<th scope="col">Author</th>
-					<th scope="col" onclick="sort_table(4)">Number Sold</th>
+					<th scope="col" onclick="sort_table(4)">Owners</th>
 					<th scope="col" onclick="sort_table(5)">Price</th>
 				{% else %}
-					<th scope="col" onclick="sort_table(3)">Number Sold</th>
+					<th scope="col" onclick="sort_table(3)">Owners</th>
 					<th scope="col" onclick="sort_table(4)">Price</th>
 				{% endif %}
 				<th scope="col">Actions</th>
@@ -46,7 +46,7 @@
 					{% if SITE == 'rdrama.net' %}
 						<td><a style="color:#{{user.name_color}}" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
 					{% endif %}
-					<td>{{hat.number_sold}}</td>
+					<td><a href="/hat_owners/{{hat.id}}">{{hat.number_sold}}</a></td>
 					<td>{{hat.price}}</td>
 					<td class="shop-table-actions">
 						{% if hat.id not in owned_hat_ids %}

@@ -154,7 +154,7 @@ class User(Base):
 	referrals = relationship("User")
 	equipped_hat = relationship("HatDef", primaryjoin="User.equipped_hat_id==HatDef.id")
 	designed_hats = relationship("HatDef", primaryjoin="User.id==HatDef.author_id", back_populates="author")
-	owned_hats = relationship("Hat")
+	owned_hats = relationship("Hat", back_populates="owners")
 
 	def __init__(self, **kwargs):
 

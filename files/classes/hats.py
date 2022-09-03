@@ -30,3 +30,5 @@ class Hat(Base):
 
 	user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
 	hat_id = Column(Integer, ForeignKey('hat_defs.id'), primary_key=True)
+
+	owners = relationship("User", back_populates="owned_hats")

@@ -96,3 +96,25 @@ def unequip_hat(v):
 	g.db.add(v)
 
 	return {"message": "Hat unequipped!"}
+
+@app.get("/hat_owners/<hat_id>")
+@auth_required
+def hat_owners(v, hat_id):
+
+	try: hat_id = int(hat_id)
+	except: abort(400)
+
+	try: page = int(request.values.get("page", 1))
+	except: page = 1
+
+	users = [x[1] for x in g.db.query(Hat, User).join(Hat.owners).filter(Hat.hat_id == hat_id).offset(25 * (page - 1)).limit(26).all()]
+
+	next_exists = (len(users) > 25)
+	users = users[:25]
+
+	return render_template("admin/new_users.html",
+						   v=v,
+						   users=users,
+						   next_exists=next_exists,
+						   page=page,
+						   )
