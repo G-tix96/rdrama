@@ -28,6 +28,9 @@ def buy_hat(v, hat_id):
 	hat = g.db.query(HatDef).filter_by(id=hat_id).one_or_none()
 	if not hat: return {"error": "Hat not found!"}
 
+	existing = g.db.query(Hat).filter_by(user_id=v.id, hat_id=hat.id).one_or_none()
+	if existing: return {"error": "You already own this hat!"}
+
 	if request.values.get("mb"):
 		if v.procoins < hat.price: return {"error": "Not enough marseybux."}, 400
 		v.procoins -= hat.price
