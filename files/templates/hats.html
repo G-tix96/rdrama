@@ -8,7 +8,7 @@
 
 {% block Banner %}
 	<header class="container pb-1 text-center">
-		<img class="mt-5" alt="hats banner" src="/i/hats.webp" width="50%">
+		<img class="mt-5" alt="hats banner" src="/i/hats.webp?v=1" width="50%">
 		<h5 class="mt-4">Number of hats you bought: {{v.num_of_hats_bought}}</h5>
 		<h5 class="mt-4">Number of hats you designed: {{v.num_of_hats_designed}}</h5>
 		<h5 class="mt-4">Coins you spent on hats: {{v.coins_spent_on_hats}}</h5>
@@ -36,7 +36,7 @@
 		<tbody>
 			{% for hat, user in owned %}
 				<tr>
-					<td><img loading="lazy" alt="{{hat.name}}" src="/i/hats/{{hat.name}}.webp"></td>
+					<td><img loading="lazy" alt="{{hat.name}}" src="/i/hats/{{hat.name}}.webp?v=1"></td>
 					<td>{{hat.name}}</td>
 					<td>{{hat.description}}</td>
 					{% if SITE == 'rdrama.net' %}
@@ -55,7 +55,7 @@
 
 			{% for hat, user in not_owned %}
 				<tr>
-					<td><img loading="lazy" alt="{{hat.name}}" src="/i/hats/{{hat.name}}.webp"></td>
+					<td><img loading="lazy" alt="{{hat.name}}" src="/i/hats/{{hat.name}}.webp?v=1"></td>
 					<td>{{hat.name}}</td>
 					<td>{{hat.description}}</td>
 					{% if SITE == 'rdrama.net' %}
