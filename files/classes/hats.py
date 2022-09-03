@@ -14,7 +14,7 @@ class HatDef(Base):
 	author_id = Column(Integer, ForeignKey('users.id'))
 	price = Column(Integer)
 
-	author = relationship("User", primaryjoin="HatDef.author_id == User.id")
+	author = relationship("User", primaryjoin="HatDef.author_id == User.id", back_populates="designed_hats")
 
 	@property
 	@lazy
