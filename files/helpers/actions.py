@@ -29,7 +29,8 @@ def badge_grant(user, badge_id, description=None, url=None):
 
 
 def archiveorg(url):
-	x = requests.get(f'https://web.archive.org/save/{url}', headers={'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}, timeout=100)
+	try: requests.get(f'https://web.archive.org/save/{url}', headers={'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}, timeout=100)
+	except: pass
 
 def archive_url(url):
 	if url.startswith(SITE_FULL): return
