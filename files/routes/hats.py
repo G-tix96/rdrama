@@ -40,13 +40,13 @@ def buy_hat(v, hat_id):
 	if request.values.get("mb"):
 		if v.procoins < hat.price: return {"error": "Not enough marseybux."}, 400
 		v.procoins -= hat.price
-		hat.author.procoins += hat.price * 0.05
+		hat.author.procoins += hat.price * 0.1
 		currency = "marseybux"
 	else:
 		if v.coins < hat.price: return {"error": "Not enough coins."}, 400
 		v.coins -= hat.price
 		v.coins_spent_on_hats += hat.price
-		hat.author.coins += hat.price * 0.05
+		hat.author.coins += hat.price * 0.1
 		currency = "coins"
 
 	new_hat = Hat(user_id=v.id, hat_id=hat.id)
@@ -58,7 +58,7 @@ def buy_hat(v, hat_id):
 	if v.id != hat.author.id:
 		send_repeatable_notification(
 			hat.author.id,
-			f":marseycapitalistmanlet: @{v.username} has just bought `{hat.name}`, you have received your 5% cut ({int(hat.price * 0.05)} {currency}) :!marseycapitalistmanlet:"
+			f":marseycapitalistmanlet: @{v.username} has just bought `{hat.name}`, you have received your 10% cut ({int(hat.price * 0.05)} {currency}) :!marseycapitalistmanlet:"
 		)
 
 	if v.num_of_owned_hats >= 250:

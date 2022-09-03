@@ -5,7 +5,7 @@
 
 <nav class="shadow-md fixed-top">
 	<style>
-		body {padding-top: 83.9px !important}
+		body {padding-top: 83.8px !important}
 		@media (max-width: 767.98px) {
 			body {
 				padding-top: 69.55px !important
@@ -207,7 +207,9 @@
 							<div class="profile-pic-35-wrapper">
 								<img loading="lazy" src="{{v.profile_url}}" class="profile-pic-35">
 								{% if v.hat_active -%}
-									<img class="profile-pic-35-hat hat" loading="lazy" src="/i/hats/{{v.hat_active}}?v=1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
+									<img id="profile-pic-35-hat" class="profile-pic-35-hat hat" loading="lazy" src="/i/hats/{{v.hat_active}}?v=1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
+								{% elif request.path == '/hats' %}
+									<img id="profile-pic-35-hat" class="profile-pic-35-hat hat d-none" loading="lazy" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
 								{%- endif %}
 							</div>
 							<div class="text-left pl-2">

@@ -478,12 +478,15 @@ def transfer_bux(v, username):
 		if not v.shadowbanned:
 			receiver.procoins += amount
 
-			log_message = f"@{v.username} has transferred {amount} Marseybux to @{receiver.username}"
-			send_repeatable_notification(GIFT_NOTIF_ID, log_message)
+			log_message = f"@{v.username} has transferred {amount} marseybux to @{receiver.username}"
+			notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount} marseybux!"
 
-			notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount} Marseybux!"
 			if reason:
+				if len(reason) > 200: return {"error": "Reason is too long, max 200 characters"},400
 				notif_text += f"\n\n> {reason}"
+				log_message += f"\n\n> {reason}"
+
+			send_repeatable_notification(GIFT_NOTIF_ID, log_message)
 			send_repeatable_notification(receiver.id, notif_text)
 
 		g.db.add(receiver)
