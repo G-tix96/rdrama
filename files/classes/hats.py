@@ -1,6 +1,8 @@
 from sqlalchemy import *
 from sqlalchemy.orm import relationship
 from files.__main__ import Base
+from files.helpers.lazy import lazy
+from flask import g
 
 class HatDef(Base):
 	__tablename__ = "hat_defs"
@@ -12,6 +14,11 @@ class HatDef(Base):
 	price = Column(Integer)
 
 	author = relationship("User", primaryjoin="HatDef.author_id == User.id")
+
+	@property
+	@lazy
+	def number_sold(self):
+		return g.db.query(Hat).filter_by(hat_id=self.id).count()
 
 class Hat(Base):
 	__tablename__ = "hats"

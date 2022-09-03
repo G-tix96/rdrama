@@ -27,8 +27,12 @@
 				<th scope="col">Description</th>
 				{% if SITE == 'rdrama.net' %}
 					<th scope="col">Author</th>
+					<th scope="col" onclick="sort_table(4)">Number Sold</th>
+					<th scope="col" onclick="sort_table(5)">Price</th>
+				{% else %}
+					<th scope="col" onclick="sort_table(3)">Number Sold</th>
+					<th scope="col" onclick="sort_table(4)">Price</th>
 				{% endif %}
-				<th scope="col">Price</th>
 				<th scope="col">Actions</th>
 			</tr>
 		</thead>
@@ -42,6 +46,7 @@
 					{% if SITE == 'rdrama.net' %}
 						<td><a style="color:#{{user.name_color}}" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
 					{% endif %}
+					<td>{{hat.number_sold}}</td>
 					<td>{{hat.price}}</td>
 					<td class="shop-table-actions">
 						{% if hat.id == v.equipped_hat.id %}
@@ -61,6 +66,7 @@
 					{% if SITE == 'rdrama.net' %}
 						<td><a style="color:#{{user.name_color}}" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
 					{% endif %}
+					<td>{{hat.number_sold}}</td>
 					<td>{{hat.price}}</td>
 					<td class="shop-table-actions">
 						<a id="buy1-{{hat.id}}" class="btn btn-success {% if v.coins < hat.price %}disabled{% endif %}" role="button" onclick="this.classList.add('d-none');document.getElementById('buy1-go-{{hat.id}}').classList.remove('d-none')"><span class="m-auto">Buy</span></a>
@@ -84,4 +90,5 @@
 
 
 	</pre>
+	<script src="/assets/js/sort_table.js?v=244"></script>
 {% endblock %}
