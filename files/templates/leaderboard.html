@@ -19,7 +19,9 @@
 	{%- if users13 %}<a href="#leaderboard-upgiven">Upvotes Given</a> &bull; {% endif -%}
 	<a href="#leaderboard-winnings">Winnings</a> &bull; 
 	<a href="#leaderboard-losses">Losses</a> &bull; 
-	<a href="#leaderboard-blocked">Blocked</a>
+	<a href="#leaderboard-blocked">Blocked</a> &bull; 
+	<a href="#leaderboard-owned-hats">Owned Hats</a> &bull; 
+	<a href="#leaderboard-designed-hats">Designed Hats</a>
 </div>
 
 <h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-coins">Top 25 by coins</a></h5>
@@ -426,6 +428,46 @@
 	</tr>
 {% endfor %}
 </table>
+
+
+<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-owned-hats">Top 25 by Owned Hats</a></h5>
+
+<div class="overflow-x-auto"><table class="table table-striped mb-5">
+<thead class="bg-primary text-white">
+	<tr>
+		<th>#</th>
+		<th>Name</th>
+		<th>Owned Hats</th>
+	</tr>
+</thead>
+{% for user,num in users16 %}
+	<tr {% if v.id == user.id %}class="self"{% endif %}>
+		<td>{{loop.index}}</td>
+		<td><a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
+		<td>{{num}}</td>
+	</tr>
+{% endfor %}
+</table>
+
+<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-designed-hats">Top 25 by Designed Hats</a></h5>
+
+<div class="overflow-x-auto"><table class="table table-striped mb-5">
+<thead class="bg-primary text-white">
+	<tr>
+		<th>#</th>
+		<th>Name</th>
+		<th>Designed Hats</th>
+	</tr>
+</thead>
+{% for user,num in users17 %}
+	<tr {% if v.id == user.id %}class="self"{% endif %}>
+		<td>{{loop.index}}</td>
+		<td><a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
+		<td>{{num}}</td>
+	</tr>
+{% endfor %}
+</table>
+
 
 <a id="leader--top-btn" href="#leaderboard-contents" role="button"
 		style="position: fixed; bottom: 5rem; right: 2rem; font-size: 3rem;">

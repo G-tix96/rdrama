@@ -153,6 +153,8 @@ class User(Base):
 	awards = relationship("AwardRelationship", primaryjoin="User.id==AwardRelationship.user_id", back_populates="user")
 	referrals = relationship("User")
 	equipped_hat = relationship("HatDef", primaryjoin="User.equipped_hat_id==HatDef.id")
+	designed_hats = relationship("HatDef", primaryjoin="User.id==HatDef.author_id")
+	owned_hats = relationship("Hat")
 
 	def __init__(self, **kwargs):
 
@@ -174,13 +176,13 @@ class User(Base):
 
 	@property
 	@lazy
-	def num_of_hats_bought(self):
-		return g.db.query(Hat).filter_by(user_id=self.id).count()
+	def num_of_owned_hats(self):
+		return len(self.owned_hats)
 
 	@property
 	@lazy
-	def num_of_hats_designed(self):
-		return g.db.query(HatDef).filter_by(author_id=self.id).count()
+	def num_of_designed_hats(self):
+		return len(self.designed_hats)
 
 	@property
 	@lazy

@@ -576,12 +576,16 @@ def leaderboard(v):
 		FROM (SELECT target_id, count(target_id) AS n FROM userblocks GROUP BY target_id) AS blk \
 		JOIN users ON users.id = blk.target_id ORDER BY blk.n DESC LIMIT 25'))
 
+	users16 = g.db.query(User, func.count(User.owned_hats)).join(User.owned_hats).group_by(User).order_by(func.count(User.owned_hats).desc()).limit(25).all()
+
+	users17 = g.db.query(User, func.count(User.designed_hats)).join(User.designed_hats).group_by(User).order_by(func.count(User.designed_hats).desc()).limit(25).all()
+
 	return render_template("leaderboard.html", v=v, users1=users1, pos1=pos1, users2=users2, pos2=pos2, 
 		users3=users3, pos3=pos3, users4=users4, pos4=pos4, users5=users5, pos5=pos5, 
 		users6=users6, pos6=pos6, users7=users7, pos7=pos7, users9=users9_25, pos9=pos9, 
 		users10=users10, pos10=pos10, users11=users11, pos11=pos11, users12=users12, pos12=pos12, 
 		users13=users13_25, pos13=pos13, users14=users14, pos14=pos14, users15=users15, pos15=pos15,
-		usersBlk=usersBlk)
+		usersBlk=usersBlk, users16=users16, users17=users17)
 
 @app.get("/<id>/css")
 def get_css(id):
