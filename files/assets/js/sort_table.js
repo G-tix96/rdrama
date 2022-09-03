@@ -1,42 +1,26 @@
-let desc = true;
+let sortAscending = {};
+
 function sort_table(n) {
-	let rows, i, x, y, shouldSwitch, x_attribute, y_attribute, switchcount = 0;
-	const table = this.event.target.parentElement.parentElement.parentElement
-	let switching = true;
-	while (switching) {
-		switching = false;
-		rows = table.rows;
-		for (i = 1; i < (rows.length - 1); i++) {
-			shouldSwitch = false;
-			let x = rows[i].getElementsByTagName("TD")[n];
-			let y = rows[i + 1].getElementsByTagName("TD")[n];
-			const x_child = x.getElementsByTagName('a')[0]
-			if (typeof x_child != 'undefined') x = x_child
-			const y_child = y.getElementsByTagName('a')[0]
-			if (typeof y_child != 'undefined') y = y_child
-			if (x.dataset.time) {
-				x_attribute = parseInt(x.dataset.time)
-				y_attribute = parseInt(y.dataset.time)
-			}
-			else {
-				x_attribute = parseInt(x.innerHTML)
-				y_attribute = parseInt(y.innerHTML)
-			}
-			
-			if (desc && x_attribute < y_attribute) {
-				shouldSwitch = true;
-				break;
-			}
-			else if (!desc && x_attribute > y_attribute) {
-				shouldSwitch = true;
-				break;
-			}
-		}
-		if (shouldSwitch) {
-			rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-			switching = true;
-			switchcount ++;
-		}
-	}
-	desc = !desc;
+    const table = this.event.target.parentElement.parentElement.parentElement
+    const rows = table.rows;
+    let items = [];
+    for (let i = 1; i < rows.length; i++) {
+        const ele = rows[i];
+        let x = rows[i].getElementsByTagName("TD")[n];
+        x = x.getElementsByTagName('a')[0] || x;
+        const attr = x.dataset.time ? parseInt(x.dataset.time) : parseInt(x.innerHTML);
+        console.log(attr);
+        items.push({ ele, attr });
+    }
+    if (sortAscending[n]) {
+        items.sort((a, b) => a.attr - b.attr);
+        sortAscending[n] = false;
+    } else {
+        items.sort((a, b) => b.attr - a.attr);
+        sortAscending[n] = true;
+    }
+
+    for (let i = items.length - 1; i--;) {
+        items[i].ele.parentNode.insertBefore(items[i].ele, items[i + 1].ele);
+    }
 }
