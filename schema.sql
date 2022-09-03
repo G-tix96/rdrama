@@ -2555,7 +2555,7 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 132	Duterte's Most Wanted (TEMPORAL FLUX EDITION)	dude weed lmao what year is it
 133	Rockstar	This user submitted an original piece to the song contest
 134	1 Year Old 🥰	This user has wasted an ENTIRE YEAR of their life here! Happy birthday!
-135	1st Birthgay Bash Survivor	Awarded for surviving rDrama’s first annual Birthgay Bash
+135	1st Birthgay Bash Survivor	Awarded for surviving rDrama's first annual Birthgay Bash
 \.
 
 
