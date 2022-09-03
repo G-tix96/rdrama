@@ -14,6 +14,8 @@ marseyaward_title_regex = re.compile("( *<img[^>]+>)+", flags=re.A)
 
 marsey_regex = re.compile("[a-z0-9]{1,30}", flags=re.A)
 
+hat_regex = re.compile("[a-z0-9]{1,50}", flags=re.A)
+
 tags_regex = re.compile("[a-z0-9: ]{1,200}", flags=re.A)
 
 valid_sub_regex = re.compile("^[a-zA-Z0-9_\-]{3,25}$", flags=re.A)

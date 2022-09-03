@@ -2,6 +2,10 @@
 # update-locale LANG=en_US.utf8
 # update-locale LC_ALL=en_US.utf8
 # reboot
+apt -y update
+apt -y upgrade
+apt -y install git redis-server python3-pip libenchant1c2a ffmpeg tmux nginx snapd ufw gpg-agent htop
+
 git config --global credential.helper store
 cd /rDrama
 cp ./env /env
@@ -10,10 +14,6 @@ sed -i 's/^/export /g;s/=/="/g;s/$/"/g' /env
 
 cp ./startup.sh /s
 cp ./startup_chat.sh /s2
-
-apt -y update
-apt -y upgrade
-apt -y install git redis-server python3-pip libenchant1c2a ffmpeg tmux nginx snapd ufw gpg-agent
 
 sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
@@ -26,6 +26,8 @@ chown postgres:postgres /etc/postgresql/14/main/pg_hba.conf
 
 sudo rm /etc/nginx/sites-available -r
 sudo rm /etc/nginx/sites-enabled/default
+sudo cp nginx.txt /etc/nginx/sites-enabled/1
+
 psql -U postgres -f schema.sql postgres
 psql -U postgres -f seed-db.sql postgres
 pip3 install -r requirements.txt
@@ -57,7 +59,8 @@ ufw allow from 131.0.72.0/22
 echo "y" | ufw enable
 curl https://rclone.org/install.sh | bash
 echo "psql -U postgres" > /p
-echo "tmux a -t 0" > /c
+echo "tmux -S /tmp/s a -t 0" > /c
+echo "tmux -S /tmp/s a -t 1" > /c2
 echo "cd /rDrama && git pull" > /g
-echo '{"Bots": true, "Fart mode": false, "Read-only mode": false, "Signups": true}' > /site_settings.json
+echo '{"Bots": true, "Fart mode": false, "Read-only mode": false, "Signups": true, "login_required": false}' > /site_settings.json
 . imei.sh

@@ -1160,7 +1160,7 @@ def remove_post(post_id, v):
 	g.db.add(v)
 
 	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', 
-		headers=CF_HEADERS, json={'files': [f"{SITE_FULL}/logged_out/"]}, timeout=5)
+		headers=CF_HEADERS, data={'files': [f"{SITE_FULL}/logged_out/"]}, timeout=5)
 
 	return {"message": "Post removed!"}
 
