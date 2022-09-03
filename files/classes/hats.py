@@ -2,6 +2,7 @@ from sqlalchemy import *
 from sqlalchemy.orm import relationship
 from files.__main__ import Base
 from files.helpers.lazy import lazy
+from files.helpers.regex import censor_slurs
 from flask import g
 
 class HatDef(Base):
@@ -19,6 +20,10 @@ class HatDef(Base):
 	@lazy
 	def number_sold(self):
 		return g.db.query(Hat).filter_by(hat_id=self.id).count()
+
+	@lazy
+	def censored_description(self, v):
+		return censor_slurs(self.description, v)
 
 class Hat(Base):
 	__tablename__ = "hats"

@@ -42,7 +42,7 @@
 				<tr>
 					<td><img loading="lazy" alt="{{hat.name}}" src="/i/hats/{{hat.name}}.webp?v=1"></td>
 					<td>{{hat.name}}</td>
-					<td>{{hat.description}}</td>
+					<td>{{hat.censored_description(v)}}</td>
 					{% if SITE == 'rdrama.net' %}
 						<td><a style="color:#{{user.name_color}}" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
 					{% endif %}
@@ -62,7 +62,7 @@
 				<tr>
 					<td><img loading="lazy" alt="{{hat.name}}" src="/i/hats/{{hat.name}}.webp?v=1"></td>
 					<td>{{hat.name}}</td>
-					<td>{{hat.description}}</td>
+					<td>{{hat.censored_description(v)}}</td>
 					{% if SITE == 'rdrama.net' %}
 						<td><a style="color:#{{user.name_color}}" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
 					{% endif %}

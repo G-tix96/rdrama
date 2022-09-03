@@ -665,9 +665,8 @@ class User(Base):
 
 		return ''
 
-	@property
 	@lazy
-	def hat_tooltip(self):
+	def hat_tooltip(v, self):
 		if not FEATURES['HATS']:
 			return ''
 
@@ -675,7 +674,7 @@ class User(Base):
 			return "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓"
 
 		if self.equipped_hat_id:
-			return self.equipped_hat.description
+			return self.equipped_hat.censored_description(v)
 
 		return ''
 
