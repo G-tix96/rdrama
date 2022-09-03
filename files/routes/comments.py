@@ -297,6 +297,19 @@ def comment(v):
 								price=hat["price"]
 							)
 							g.db.add(hat)
+
+							all_by_author = g.db.query(HatDef).filter_by(author_id=user.id).count()
+
+							# off-by-one: newly added hat isn't counted
+							if all_by_author >= 250:
+								badge_grant(badge_id=166, user=user)
+							elif all_by_author >= 100:
+								badge_grant(badge_id=165, user=user)
+							elif all_by_author >= 50:
+								badge_grant(badge_id=164, user=user)
+							elif all_by_author >= 10:
+								badge_grant(badge_id=163, user=user)
+
 						except Exception as e:
 							return {"error": str(e)}, 400
 				body += f"\n\n![]({image})"
