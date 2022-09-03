@@ -10,9 +10,11 @@ from flask import g
 def hats(v):
 	if not FEATURES['HATS']: abort(404)
 
-	hats = g.db.query(HatDef, User).join(HatDef.author).order_by(HatDef.price).all()
+	owned_hats = [x[0] for x in g.db.query(Hat.hat_id).filter_by(user_id=v.id).all()]
+	owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.in_(owned_hats)).order_by(HatDef.price).all()
+	not_owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.notin_(owned_hats)).order_by(HatDef.price).all()
 
-	return render_template("hats.html", hats=hats, v=v)
+	return render_template("hats.html", owned=owned, not_owned=not_owned, v=v)
 
 @app.post("/buy_hat/<hat_id>")
 @auth_required

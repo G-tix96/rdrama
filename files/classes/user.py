@@ -173,11 +173,6 @@ class User(Base):
 
 	@property
 	@lazy
-	def owned_hats(self):
-		return [x[0] for x in g.db.query(Hat.hat_id).filter_by(user_id=self.id).all()]
-
-	@property
-	@lazy
 	def name_color(self):
 		if self.bite: return "565656"
 		return self.namecolor
