@@ -4876,7 +4876,7 @@ code {
 .noshadow {
 	box-shadow: none !important;
 }
-[role="button"] {
+[role="button"], [onclick] {
 	cursor: pointer !important;
 }
 

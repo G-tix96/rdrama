@@ -30,7 +30,20 @@ def badge_grant(user, badge_id, description=None, url=None):
 
 def archiveorg(url):
 	x = requests.get(f'https://web.archive.org/save/{url}', headers={'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}, timeout=100)
-	print(x, flush=True)
+
+def archive_url(url):
+	if url.startswith(SITE_FULL): return
+	
+	gevent.spawn(archiveorg, url)
+
+	if url.startswith('https://twitter.com/'):
+		url = url.replace('https://twitter.com/', 'https://nitter.42l.fr/')
+		gevent.spawn(archiveorg, url)
+
+	if url.startswith('https://instagram.com/'):
+		url = newposturl.replace('https://instagram.com/', 'https://imginn.com/')
+		gevent.spawn(archiveorg, url)
+
 
 def execute_snappy(post, v):
 	snappy = get_account(SNAPPY_ID)
@@ -95,15 +108,7 @@ def execute_snappy(post, v):
 		newposturl = post.url
 		if newposturl.startswith('/'): newposturl = f"{SITE_FULL}{newposturl}"
 		body += f"Snapshots:\n\n{rev}* [archive.org](https://web.archive.org/{newposturl})\n* [archive.ph](https://archive.ph/?url={quote(newposturl)}&run=1) (click to archive)\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(newposturl)}) (click to archive)\n\n"
-		gevent.spawn(archiveorg, newposturl)
-
-		if newposturl.startswith('https://twitter.com/'):
-			newposturl = newposturl.replace('https://twitter.com/', 'https://nitter.42l.fr/')
-			gevent.spawn(archiveorg, newposturl)
-
-		if newposturl.startswith('https://instagram.com/'):
-			newposturl = newposturl.replace('https://instagram.com/', 'https://imginn.com/')
-			gevent.spawn(archiveorg, newposturl)
+		archive_url(newposturl)
 
 	captured = []
 	body_for_snappy = post.body_html.replace(' data-src="', ' src="')
@@ -137,15 +142,7 @@ def execute_snappy(post, v):
 			addition += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)}) (click to archive)\n\n'
 			if len(f'{body}{addition}') > 10000: break
 			body += addition
-			gevent.spawn(archiveorg, href)
-
-			if href.startswith('https://twitter.com/'):
-				href = href.replace('https://twitter.com/', 'https://nitter.42l.fr/')
-				gevent.spawn(archiveorg, href)
-
-			if href.startswith('https://instagram.com/'):
-				href = href.replace('https://instagram.com/', 'https://imginn.com/')
-				gevent.spawn(archiveorg, href)
+			archive_url(href)
 
 	body = body.strip()
 	body_html = sanitize(body)
