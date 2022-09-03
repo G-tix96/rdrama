@@ -29,8 +29,8 @@ def badge_grant(user, badge_id, description=None, url=None):
 
 
 def archiveorg(url):
-	try: requests.get(f'https://web.archive.org/save/{url}', headers={'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}, timeout=100)
-	except Exception as e: print(e, flush=True)
+	x = requests.get(f'https://web.archive.org/save/{url}', headers={'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}, timeout=100)
+	print(x, flush=True)
 
 def execute_snappy(post, v):
 	snappy = get_account(SNAPPY_ID)

@@ -1573,7 +1573,7 @@ insert into hat_defs (name, description, author_id, price) values
 ('WWI', 'How is this supposed to offer any meaningful protection??', 1, 500),
 ('Pickelhaube', 'Inarguably the most fashionable of all contemporary military headgear ', 1, 500),
 ('Wehrmacht', 'What a cool helmet, I bet the people who wore it were real classy folks ', 1, 500),
-('Chair Force', 'Yeah I’m a combat veteran, I’ve seen shit you wouldn’t believe. One time the wifi was out for almost an hour. ', 1, 500),
+('Chair Force', 'Yeah I''m a combat veteran, I''ve seen shit you wouldn''t believe. One time the wifi was out for almost an hour. ', 1, 500),
 ('Helmet w Dog Tags', 'More like dog fags lol', 1, 500),
 ('Urban Camo Helmet', 'Man urban camo is cool', 1, 500),
 ('Nightvision Helmet', 'Four-eyed freak', 1, 500),
