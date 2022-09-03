@@ -52,12 +52,11 @@ def buy_hat(v, hat_id):
 			f":marseycapitalistmanlet: @{v.username} has just bought `{hat.name}`, you have received your %5 cut ({int(hat.price * 0.05)} {currency}) :!marseycapitalistmanlet:"
 		)
 
-	hat_count = g.db.query(Hat).filter_by(user_id=v.id).count()
-	if hat_count >= 249:
+	if v.num_of_hats_bought >= 249:
 		badge_grant(user=v, badge_id=154)
-	elif hat_count >= 99:
+	elif v.num_of_hats_bought >= 99:
 		badge_grant(user=v, badge_id=153)
-	elif hat_count >= 24:
+	elif v.num_of_hats_bought >= 24:
 		badge_grant(user=v, badge_id=152)
 
 	return {"message": "Hat bought!"}

@@ -6,9 +6,17 @@
 
 {% block pagetype %}message{% endblock %}
 
+{% block Banner %}
+	<header class="container pb-1 text-center">
+		<img class="mt-5" alt="hats banner" src="/i/hats.webp" width="50%">
+		<h5 class="mt-4">Number of hats you bought: {{v.num_of_hats_bought}}</h5>
+		<h5 class="mt-4">Number of hats you designed: {{v.num_of_hats_designed}}</h5>
+		<h5 class="mt-4">Coins you spent on hats: {{v.coins_spent_on_hats}}</h5>
+	</header>
+{% endblock %}
+
 {% block content %}
 	<pre>
-
 
 	</pre>
 

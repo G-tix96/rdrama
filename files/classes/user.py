@@ -171,6 +171,17 @@ class User(Base):
 	def __repr__(self):
 		return f"<User(id={self.id}, username={self.username})>"
 
+
+	@property
+	@lazy
+	def num_of_hats_bought(self):
+		return g.db.query(Hat).filter_by(user_id=self.id).count()
+
+	@property
+	@lazy
+	def num_of_hats_designed(self):
+		return g.db.query(HatDef).filter_by(author_id=self.id).count()
+
 	@property
 	@lazy
 	def name_color(self):
