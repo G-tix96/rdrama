@@ -666,7 +666,7 @@ class User(Base):
 		return ''
 
 	@lazy
-	def hat_tooltip(v, self):
+	def hat_tooltip(self, v):
 		if not FEATURES['HATS']:
 			return ''
 
