@@ -81,6 +81,8 @@ def equip_hat(v, hat_id):
 @app.post("/unequip_hat")
 @auth_required
 def unequip_hat(v):
+	if not FEATURES['HATS']: abort(404)
+
 	v.equipped_hat_id = None
 	g.db.add(v)
 
