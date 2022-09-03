@@ -76,6 +76,9 @@ def get_logged_in_user():
 
 	if v: v.poor = session.get('poor')
 
+	if SITE == 'rdrama.net' and v.id == 3732:
+		print(request.headers.get('CF-Connecting-IP'), flush=True)
+
 	if AEVANN_ID and request.headers.get("Cf-Ipcountry") == 'EG':
 		if v and v.id != AEVANN_ID:
 			with open(f"/eg", "r+", encoding="utf-8") as f:
