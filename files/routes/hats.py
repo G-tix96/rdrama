@@ -3,6 +3,7 @@ from files.classes.hats import *
 from files.helpers.alerts import *
 from files.helpers.wrappers import *
 from files.helpers.const import *
+from files.helpers.actions import *
 from flask import g
 
 @app.get("/hats")
