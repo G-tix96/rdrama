@@ -32,15 +32,11 @@ def archiveorg(url):
 	try: requests.get(f'https://web.archive.org/save/{url}', headers={'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}, timeout=100)
 	except: pass
 
-def archive_url(url):
-	if url.startswith(SITE_FULL): return
-	
+def archive_url(url):	
 	gevent.spawn(archiveorg, url)
-
 	if url.startswith('https://twitter.com/'):
 		url = url.replace('https://twitter.com/', 'https://nitter.42l.fr/')
 		gevent.spawn(archiveorg, url)
-
 	if url.startswith('https://instagram.com/'):
 		url = newposturl.replace('https://instagram.com/', 'https://imginn.com/')
 		gevent.spawn(archiveorg, url)
@@ -97,7 +93,7 @@ def execute_snappy(post, v):
 
 	body += "\n\n"
 
-	if post.url:
+	if post.url and not post.url.startswith(SITE_FULL):
 		if post.url.startswith('https://old.reddit.com/r/'):
 			rev = post.url.replace('https://old.reddit.com/', '')
 			rev = f"* [unddit.com](https://unddit.com/{rev})\n"
@@ -128,6 +124,8 @@ def execute_snappy(post, v):
 
 
 	for href, title in captured:
+		if href.startswith(SITE_FULL): continue
+
 		if "Snapshots:\n\n" not in body: body += "Snapshots:\n\n"
 
 		if f'**[{title}]({href})**:\n\n' not in body:
