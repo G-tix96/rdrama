@@ -10,7 +10,7 @@
 {% if thing %}
 
 <pre>
-	
+
 </pre>
 <h1>Info</h1>
 <p><a href="{{thing.permalink}}">{{thing.permalink}}</a></p>
@@ -40,7 +40,12 @@
 			<tr>
 				<td>
 					<a style="color:#{{vote.user.name_color}};font-weight:bold" href="/@{{vote.user.username}}">
-						<img loading="lazy" src="{{vote.user.profile_url}}" class="pp20">
+						<div class="profile-pic-20-wrapper">
+							<img loading="lazy" src="{{vote.user.profile_url}}" class="pp20">
+							{% if vote.user.hat_active -%}
+							<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{vote.user.hat_active}}?v=1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{vote.user.hat_tooltip(v)}}">
+							{%- endif %}
+						</div>
 						<span {% if vote.user.patron %}class="patron" style="background-color:#{{vote.user.name_color}}"{% endif %} data-user-id="{{vote.user.id}}">
 							{{vote.user.username}}
 						</span>
@@ -68,7 +73,12 @@
 			<tr>
 				<td>
 					<a style="color:#{{vote.user.name_color}};font-weight:bold" href="/@{{vote.user.username}}">
-						<img loading="lazy" src="{{vote.user.profile_url}}" class="pp20">
+						<div class="profile-pic-20-wrapper">
+							<img loading="lazy" src="{{vote.user.profile_url}}" class="pp20">
+							{% if vote.user.hat_active -%}
+							<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{vote.user.hat_active}}?v=1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{vote.user.hat_tooltip(v)}}">
+							{%- endif %}
+						</div>
 						<span {% if vote.user.patron %}class="patron" style="background-color:#{{vote.user.name_color}}"{% endif %} data-user-id="{{vote.user.id}}">
 							{{vote.user.username}}
 						</span>
