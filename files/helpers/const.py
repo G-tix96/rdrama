@@ -147,7 +147,7 @@ FEATURES = {
 	'COUNTRY_CLUB': True,
 	'PRONOUNS': False,
 	'BADGES': True,
-	'HATS': False,
+	'HATS': True,
 	'HOUSES': False,
 	'GAMBLING': True,
 	'WORDLE': True,
@@ -220,7 +220,6 @@ HAT_THREAD = 0
 
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
-	FEATURES['HATS'] = True
 	FEATURES['HOUSES'] = True
 
 	SIDEBAR_THREAD = 37696
@@ -322,7 +321,6 @@ elif SITE == 'watchpeopledie.co':
 	MARSEY_THREAD = 5743
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
-	FEATURES['HATS'] = True
 	FEATURES['HOUSES'] = True
 
 if CARP_ID: GIFT_NOTIF_ID = CARP_ID
