@@ -176,7 +176,7 @@ if (document.readyState === "complete" ||
 	document.addEventListener("DOMContentLoaded", bsTriggerOnReady);
 }
 
-function post_toast(t, url, button1, button2, classname) {
+function post_toast(t, url, button1, button2, classname, extra_actions) {
 	let isShopConfirm = t.id.startsWith('buy1-go') || t.id.startsWith('buy2-go');
 
 	if (!isShopConfirm)
@@ -208,6 +208,8 @@ function post_toast(t, url, button1, button2, classname) {
 					document.getElementById(button2).classList.toggle(classname);
 				}
 			}
+
+			if (extra_actions) extra_actions(xhr);
 		} else {
 			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
 			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];

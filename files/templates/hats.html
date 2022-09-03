@@ -16,6 +16,25 @@
 {% endblock %}
 
 {% block content %}
+	<script>
+		function equip_hat(t, hat_id, hat_name) {
+			const old_unequip_btn = document.querySelector(".unequip:not(.d-none)");
+			const profile_img = document.getElementById("profile-pic-35-hat");
+			function extra_actions(xhr) {
+				if(xhr.status != 200) return
+
+				if (old_unequip_btn) {
+					old_unequip_btn.classList.add('d-none');
+					old_unequip_btn.nextElementSibling.classList.remove('d-none');
+				}
+				profile_img.src = `/i/hats/${hat_name}.webp?v=1`
+				profile_img.classList.remove('d-none')
+			}
+
+			post_toast(t, `/equip_hat/${hat_id}`, `equip-${hat_id}`, `unequip-${hat_id}`, `d-none`, extra_actions)
+		}
+	</script>
+
 	<pre>
 	</pre>
 
@@ -53,22 +72,20 @@
 							<div id="if-not-owned-{{hat.id}}">
 								<a id="buy1-{{hat.id}}" class="btn btn-success {% if v.coins < hat.price %}disabled{% endif %}" role="button" onclick="this.classList.add('d-none');document.getElementById('buy1-go-{{hat.id}}').classList.remove('d-none')"><span class="m-auto">Buy</span></a>
 
-								<a id="buy1-go-{{hat.id}}" class="d-none btn btn-success {% if v.coins < hat.price %}disabled{% endif %}" role="button" onclick="post_toast(this, '/buy_hat/{{hat.id}}', 'if-not-owned-{{hat.id}}', 'if-owned-{{hat.id}}', 'd-none')"><span class="m-auto">Are you sure?</span></a>
+								<a id="buy1-go-{{hat.id}}" class="d-none btn btn-success {% if v.coins < hat.price %}disabled{% endif %}" role="button" onclick="post_toast(this, '/buy_hat/{{hat.id}}', 'if-not-owned-{{hat.id}}', 'if-owned-{{hat.id}}', 'd-none', (xhr)=>{if(xhr.status == 200)document.getElementById('user-coins-amount').innerHTML-={{hat.price}}})"><span class="m-auto">Are you sure?</span></a>
 
 								{% if FEATURES['PROCOINS'] %}
 									<a id="buy2-{{hat.id}}" class="marseybux btn btn-success {% if v.procoins < hat.price %}disabled{% endif %}" role="button" onclick="this.classList.add('d-none');document.getElementById('buy2-go-{{hat.id}}').classList.remove('d-none')"><span class="m-auto">Buy with MBux</span></a>
 
-									<a id="buy2-go-{{hat.id}}" class="d-none marseybux btn btn-success {% if v.procoins < hat.price %}disabled{% endif %}" role="button" onclick="post_toast(this, '/buy_hat/{{hat.id}}?mb=true', 'if-not-owned-{{hat.id}}', 'if-owned-{{hat.id}}', 'd-none')"><span class="m-auto">Are you sure?</span></a>
+									<a id="buy2-go-{{hat.id}}" class="d-none marseybux btn btn-success {% if v.procoins < hat.price %}disabled{% endif %}" role="button" onclick="post_toast(this, '/buy_hat/{{hat.id}}?mb=true', 'if-not-owned-{{hat.id}}', 'if-owned-{{hat.id}}', 'd-none', (xhr)=>{if(xhr.status == 200)document.getElementById('user-bux-amount').innerHTML-={{hat.price}}})"><span class="m-auto">Are you sure?</span></a>
 								{% endif %}
 							</div>
 						{% endif %}
 
 						<div id="if-owned-{{hat.id}}" {% if hat.id not in owned_hat_ids %}class="d-none"{% endif %}>
-							{% if hat.id == v.equipped_hat.id %}
-								<a class="unequip btn btn-success" role="button" onclick="post_toast(this,'/unequip_hat', true)"><span class="m-auto">Unequip</span></a>
-							{% else %}
-								<a class="equip btn btn-success" role="button" onclick="post_toast(this,'/equip_hat/{{hat.id}}', true)"><span class="m-auto">Equip</span></a>
-							{% endif %}
+							<a id="unequip-{{hat.id}}" class="unequip {% if hat.id != v.equipped_hat.id %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this, '/unequip_hat', 'equip-{{hat.id}}', 'unequip-{{hat.id}}', 'd-none');document.getElementById('profile-pic-35-hat').classList.add('d-none')"><span class="m-auto">Unequip</span></a>
+							
+							<a id="equip-{{hat.id}}" class="equip {% if hat.id == v.equipped_hat.id %}d-none{% endif %} btn btn-success" role="button" onclick="equip_hat(this, '{{hat.id}}', '{{hat.name}}')"><span class="m-auto">Equip</span></a>
 						</div>
 					</td>
 				</tr>
