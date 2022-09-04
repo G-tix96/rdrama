@@ -529,9 +529,8 @@
 {% endif %}
 
 {% if users13 %}
-
 	<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-upgiven">Top 25 by upvotes given</a></h5>
-
+	
 	<div class="overflow-x-auto"><table class="table table-striped mb-5">
 		<thead class="bg-primary text-white">
 			<tr>
@@ -541,43 +540,24 @@
 			</tr>
 		</thead>
 		<tbody id="followers-table">
-		{% for user, num in users13 %}
-			<tr {% if v.id == user.id %}class="self"{% endif %}>
+		{% for user in users13 %}
+			<tr {% if v.id == user[0].id %}class="self"{% endif %}>
 				<td>{{loop.index}}</td>
-				<td>
-					<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
-						<div class="profile-pic-20-wrapper">
-							<img loading="lazy" src="{{user.profile_url}}" class="pp20">
-							{% if user.hat_active -%}
-								<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{user.hat_active}}?v=2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
-							{%- endif %}
-						</div>
-						<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>
-					</a>
-				</td>
-				<td>{{num}}</td>
+				<td><a style="color:#{{user[0].name_color}};font-weight:bold" href="/@{{user[0].username}}"><img loading="lazy" src="{{user[0].profile_url}}" class="pp20"><span {% if user[0].patron %}class="patron" style="background-color:#{{user[0].name_color}}"{% endif %}>{{user[0].username}}</span></a></td>
+				<td>{{user[1]}}</td>
 			</tr>
 		{% endfor %}
 		{% if pos13 and (pos13[0] > 25 or not pos13[1]) %}
 			<tr style="border-top:2px solid var(--primary)">
 				<td>{{pos13[0]}}</td>
-				<td>
-					<a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}">
-						<div class="profile-pic-20-wrapper">
-							<img loading="lazy" src="{{v.profile_url}}" class="pp20">
-							{% if v.hat_active -%}
-								<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{v.hat_active}}?v=2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
-							{%- endif %}
-						</div>
-						<span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span>
-					</a>
-				</td>
+				<td><a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span></a></td>
 				<td>{{pos13[1]}}</td>
 			</tr>
 		{% endif %}
 		</tbody>
 	</table>
 {% endif %}
+
 
 <h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-winnings">Top 25 by winnings</a></h5>
 
