@@ -58,6 +58,26 @@ CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA public;
 COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching based on trigrams';
 
 
+--
+-- Name: casino_game_currency; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.casino_game_currency AS ENUM (
+    'coins',
+    'procoins'
+);
+
+
+--
+-- Name: casino_game_kind; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.casino_game_kind AS ENUM (
+    'blackjack',
+    'slots'
+);
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -223,6 +243,43 @@ CREATE TABLE public.banneddomains (
 
 
 --
+-- Name: casino_games; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.casino_games (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    created_utc integer NOT NULL,
+    active boolean DEFAULT true NOT NULL,
+    currency public.casino_game_currency NOT NULL,
+    wager integer NOT NULL,
+    winnings integer NOT NULL,
+    kind public.casino_game_kind NOT NULL,
+    game_state jsonb NOT NULL
+);
+
+
+--
+-- Name: casino_games_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.casino_games_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: casino_games_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.casino_games_id_seq OWNED BY public.casino_games.id;
+
+
+--
 -- Name: category; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -356,6 +413,8 @@ CREATE TABLE public.comments (
     top_comment_id integer,
     stickied_utc integer,
     ghost boolean DEFAULT false NOT NULL,
+    slots_result character varying(36),
+    blackjack_result character varying(860),
     treasure_amount character varying(10),
     wordle_result character varying(115)
 );
@@ -970,6 +1029,13 @@ ALTER TABLE ONLY public.badge_defs ALTER COLUMN id SET DEFAULT nextval('public.b
 
 
 --
+-- Name: casino_games id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.casino_games ALTER COLUMN id SET DEFAULT nextval('public.casino_games_id_seq'::regclass);
+
+
+--
 -- Name: category id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1071,6 +1137,14 @@ ALTER TABLE ONLY public.badge_defs
 
 ALTER TABLE ONLY public.badges
     ADD CONSTRAINT badges_pkey PRIMARY KEY (user_id, badge_id);
+
+
+--
+-- Name: casino_games casino_games_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.casino_games
+    ADD CONSTRAINT casino_games_pkey PRIMARY KEY (id);
 
 
 --
@@ -1973,6 +2047,14 @@ ALTER TABLE ONLY public.userblocks
 
 ALTER TABLE ONLY public.userblocks
     ADD CONSTRAINT block_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: casino_games casino_games_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.casino_games
+    ADD CONSTRAINT casino_games_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
