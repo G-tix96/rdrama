@@ -5383,7 +5383,6 @@ audio, video {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 2rem;
 }
 
 .lottery-page--wrapper > div {
@@ -5987,6 +5986,7 @@ g {
 .fa-snowflake:before{content:"\f2dc"}
 .fa-sparkles:before{content:"\f890"}
 .fa-ticket:before{content:"\f145"}
+.fa-usd:before{content:"\f155"}
 .fa-spider:before{content:"\f717"}
 .fa-square:before{content:"\f0c8"}
 .fa-stocking:before{content:"\f7d5"}

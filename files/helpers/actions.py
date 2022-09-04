@@ -167,9 +167,6 @@ def execute_snappy(post, v):
 		snappy.comment_count += 1
 		snappy.coins += 1
 		g.db.add(snappy)
-		
-		if body.startswith('!slots'):
-			check_for_slots_command(body, snappy, c)
 
 		if FEATURES['PINS'] and (body.startswith(':#marseypin:') or body.startswith(':#marseypin2:')):
 			post.stickied = "Snappy"
