@@ -361,7 +361,7 @@
 	</thead>
 	<tbody id="followers-table">
 	{% for user, num in users9 %}
-		<tr {% if v.id == user[0].id %}class="self"{% endif %}>
+		<tr {% if v.id == user.id %}class="self"{% endif %}>
 			<td>{{loop.index}}</td>
 			<td>
 				<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
@@ -409,7 +409,7 @@
 	</thead>
 	<tbody id="followers-table">
 	{% for user, num in users11 %}
-		<tr {% if v.id == user[0].id %}class="self"{% endif %}>
+		<tr {% if v.id == user.id %}class="self"{% endif %}>
 			<td>{{loop.index}}</td>
 			<td>
 				<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
@@ -510,7 +510,7 @@
 		</thead>
 		<tbody id="followers-table">
 		{% for user, num in users12 %}
-			<tr {% if v.id == user[0].id %}class="self"{% endif %}>
+			<tr {% if v.id == user.id %}class="self"{% endif %}>
 				<td>{{loop.index}}</td>
 				<td>
 					<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
@@ -561,7 +561,7 @@
 		</thead>
 		<tbody id="followers-table">
 		{% for user, num in users13 %}
-			<tr {% if v.id == user[0].id %}class="self"{% endif %}>
+			<tr {% if v.id == user.id %}class="self"{% endif %}>
 				<td>{{loop.index}}</td>
 				<td>
 					<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
