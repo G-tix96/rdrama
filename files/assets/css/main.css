@@ -324,7 +324,7 @@ pre code {
 }
 .shadow {
 	/* box-shadow: 0 0.1px 3px rgba(190, 113, 113, 0.05), 0 0 0 0.1px rgba(0, 0, 0, 0.05); */
-    
+
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
 }
 .shadow-none {
@@ -1079,7 +1079,7 @@ input[type=submit].btn-follow, input[type=reset].btn-follow, input[type=button].
 }
 nav
 {
-    
+
 }
 
 .nav-link {
@@ -3243,7 +3243,7 @@ small, .small {
 .score-up {
 	color: var(--primary);
 	font-size: 1.1rem;
-    
+
 }
 .score-up-anim
 {
@@ -3394,30 +3394,39 @@ small, .small {
 	background-color: var(--gray-600);
 }
 
+.profile-pic-20-wrapper,
 .profile-pic-30-wrapper,
 .profile-pic-35-wrapper,
 .profile-pic-65-wrapper,
+.profile-pic-72-wrapper,
 .profile-pic-100-wrapper {
 	display: inline-block;
 	position: relative;
 	vertical-align: middle;
 }
+
+.profile-pic-20-hat,
 .profile-pic-30-hat,
 .profile-pic-35-hat,
 .profile-pic-65-hat,
+.profile-pic-72-hat,
 .profile-pic-100-hat {
 	position: absolute;
 	left: 0;
 	bottom: 0;
 }
 
+.profile-pic-20-wrapper  { width:  20px; height:  20px; }
 .profile-pic-30-wrapper  { width:  30px; height:  30px; }
 .profile-pic-35-wrapper  { width:  35px; height:  35px; }
 .profile-pic-65-wrapper  { width:  65px; height:  65px; }
+.profile-pic-72-wrapper  { width:  72px; height:  72px; }
 .profile-pic-100-wrapper { width: 100px; height: 100px; }
+.profile-pic-20-hat  { width:  20px; }
 .profile-pic-30-hat  { width:  30px; }
 .profile-pic-35-hat  { width:  35px; }
 .profile-pic-65-hat  { width:  65px; }
+.profile-pic-72-hat  { width:  72px; }
 .profile-pic-100-hat { width: 100px; }
 
 .profile--pfp--hat {
@@ -4790,7 +4799,7 @@ video {
 }
 .edit-title {
 	background-color: #fff !important;
-	color: #000 !important 
+	color: #000 !important
 }
 .text-lightblue {
 	color: lightblue;
@@ -4799,7 +4808,7 @@ input[type=radio] ~ .custom-control-label::before {
 	border-radius: 50%;
 }
 .emoji-modal {
-	max-width: 90% !important 
+	max-width: 90% !important
 }
 .emj, .emoji, strong a img, img[alt^=":"]:not(img[b]):not(img[alt*="#"]) {
 	height: 40px !important;
@@ -4858,7 +4867,7 @@ img[src="/i/hand.webp"]+img[src^="/pp/"], img[src="/i/hand.webp"]+img[src$="/pic
 div[id^="form-preview-"] li > p:first-child {
 	display: inline;
 }
-        
+
 .twitter-tweet {
 	margin-bottom: 9.8px;
 	padding-bottom: 7px;
@@ -5289,7 +5298,7 @@ li > .sidebar {
 	object-fit: cover !important;
 }
 
-@media (max-width: 500px) { 
+@media (max-width: 500px) {
 	.count {
 		display:block;
 		text-align: center;
@@ -5546,8 +5555,8 @@ audio, video {
 	color: var(--black);
 }
 
-#sidebar--counter--total, 
-#sidebar--counter--flavor, 
+#sidebar--counter--total,
+#sidebar--counter--flavor,
 #sidebar--counter--loggedin {
 	font-size: 1.1rem;
 }
@@ -5631,7 +5640,7 @@ audio, video {
 
 .directory--link--icon {
 	font-size: 2rem;
-	text-shadow: 
+	text-shadow:
 		-1px -1px 0 #000,
 		1px -1px 0 #000,
 		-1px 1px 0 #000,
