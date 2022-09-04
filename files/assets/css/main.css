@@ -3465,7 +3465,7 @@ small, .small {
 	border-top-right-radius: 0.35rem;
 }
 #frontpage .posts .card, #userpage .posts .card, #search .posts .card {
-	border-width: 0.1px 0.1px 0 0.1px;
+	border-width: 0.1px;
 	border-color: #303030;
 	border-style: solid;
 	border-radius: 0;
@@ -4308,7 +4308,6 @@ pre .com, code .com {
 }
 	#frontpage .posts .card, #userpage .posts .card, #search .posts .card {
 		padding: 7px;
-		border-width: 0 0 0.1px 0;
 }
 	#frontpage .posts .card:first-of-type, #userpage .posts .card:first-of-type, #search .posts .card:first-of-type {
 		border-radius: 0;
