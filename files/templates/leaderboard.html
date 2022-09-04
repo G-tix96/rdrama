@@ -664,17 +664,7 @@
 {% for user in usersBlk %}
 	<tr {% if v.id == user.target_id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td>
-			<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{user.profile_url}}" class="pp20">
-					{% if user.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{user.hat_active}}?v=2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>
-			</a>
-		</td>
+		<td><a style="color:#{{user.namecolor}};font-weight:bold" href="/@{{user.username}}"><span {% if user.patron %}class="patron" style="background-color:#{{user.namecolor}}"{% endif %}>{{user.username}}</span></a></td>
 		<td>{{user.n}}</td>
 	</tr>
 {% endfor %}
