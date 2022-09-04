@@ -167,6 +167,9 @@ def award_thing(v, thing_type, id):
 	if kind == "benefactor" and author.id == v.id:
 		return {"error": "You can't use this award on yourself."}, 400
 
+	if (kind.startswith('Femboy') or kind == 'marsify') and author.marsify == 1:
+		return {"error": "User is already permenantly marsified!"}, 403
+
 	if v.id != author.id:
 		if author.deflector and (AWARDS[kind]['price'] > 500 or kind.istitle()) and kind not in ('pin','unpin','benefactor'):
 			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award but it was deflected and applied to them :marseytroll:"
@@ -353,7 +356,7 @@ def award_thing(v, thing_type, id):
 		if author.owoify: author.owoify += 21600
 		else: author.owoify = int(time.time()) + 21600
 
-		if thing_type == 'comment':
+		if thing_type == 'comment' and not author.deflector:
 			body = thing.body
 			body = owoify(body)
 			if author.marsify: body = marsify(body)
@@ -363,7 +366,7 @@ def award_thing(v, thing_type, id):
 		if author.marsify: author.marsify += 21600
 		else: author.marsify = int(time.time()) + 21600
 
-		if thing_type == 'comment':
+		if thing_type == 'comment' and not author.deflector:
 			body = thing.body
 			if author.owoify: body = owoify(body)
 			body = marsify(body)
