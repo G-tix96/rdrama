@@ -106,6 +106,7 @@ def before_request():
 
 	request.path = request.path.rstrip('/')
 	request.full_path = request.full_path.rstrip('?').rstrip('/')
+	if not request.path: request.path = '/'
 
 @app.after_request
 def after_request(response):
