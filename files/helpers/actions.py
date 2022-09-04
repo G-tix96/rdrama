@@ -88,8 +88,6 @@ def execute_snappy(post, v):
 						)
 			g.db.add(vote)
 			post.upvotes += 1
-		elif body == '!slots':
-			body = f'!slots{snappy.coins}'
 
 	body += "\n\n"
 
