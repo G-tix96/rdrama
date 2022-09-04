@@ -176,9 +176,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 		comments = sort_comments(sort, comments)
 
-		first = [c[0] for c in comments.filter(or_(and_(Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()]
-		second = [c[0] for c in comments.filter(or_(Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()]
-		comments = first + second
+		comments = [c[0] for c in comments.all()]
 	else:
 		pinned = g.db.query(Comment).filter(Comment.parent_submission == post.id, Comment.stickied != None).all()
 
@@ -186,9 +184,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 		comments = sort_comments(sort, comments)
 
-		first = comments.filter(or_(and_(Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()
-		second = comments.filter(or_(Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()
-		comments = first + second
+		comments = comments.all()
 
 	offset = 0
 	ids = set()
@@ -302,18 +298,13 @@ def viewmore(v, pid, sort, offset):
 
 		comments = sort_comments(sort, comments)
 
-		first = [c[0] for c in comments.filter(or_(and_(Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()]
-		second = [c[0] for c in comments.filter(or_(Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()]
-		comments = first + second
+		comments = [c[0] for c in comments.all()]
 	else:
 		comments = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.parent_submission == pid, Comment.level == 1, Comment.stickied == None, Comment.id.notin_(ids))
 
 		comments = sort_comments(sort, comments)
 		
-		first = comments.filter(or_(and_(Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()
-		second = comments.filter(or_(Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()
-		comments = first + second
-		comments = comments[offset:]
+		comments = comments.offset(offset).all()
 
 	comments2 = []
 	count = 0
@@ -866,7 +857,7 @@ def submit_post(v, sub=None):
 		send_repeatable_notification(v.id, text)
 
 		v.ban(reason="Spamming.",
-			days=1)
+			  days=1)
 
 		for post in similar_posts + similar_urls:
 			post.is_banned = True
