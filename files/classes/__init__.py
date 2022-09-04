@@ -23,4 +23,5 @@ from .views import *
 from .notifications import *
 from .follows import *
 from .lottery import *
+from .casino_game import *
 from .hats import *

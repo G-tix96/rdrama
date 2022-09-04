@@ -14,7 +14,7 @@ def check_for_treasure(in_text, from_comment):
 
 	if not FEATURES['GAMBLING']: return
 
-	if '!slots' not in in_text and '!blackjack' not in in_text and '!wordle' not in in_text:
+	if '!wordle' not in in_text:
 		seed = randint(1, 1000)
 		is_special = seed == 1000
 		is_standard = seed >= 990

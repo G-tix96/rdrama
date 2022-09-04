@@ -338,7 +338,7 @@ def comment(v):
 	body_html = sanitize(body_for_sanitize, limit_pings=5)
 
 
-	if parent_post.id not in ADMIGGERS and '!slots' not in body.lower() and '!blackjack' not in body.lower() and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
+	if parent_post.id not in ADMIGGERS and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
 		existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
 																	Comment.deleted_utc == 0,
 																	Comment.parent_comment_id == parent_comment_id,
@@ -655,12 +655,7 @@ def comment(v):
 		c.upvotes += 3
 		g.db.add(c)
 
-	if not v.rehab:
-		check_for_slots_command(body, v, c)
-
-		check_for_blackjack_commands(body, v, c)
-
-	if not c.slots_result and not c.blackjack_result and v.marseyawarded and parent_post.id not in ADMIGGERS and marseyaward_body_regex.search(body_html):
+	if v.marseyawarded and parent_post.id not in ADMIGGERS and marseyaward_body_regex.search(body_html):
 		return {"error":"You can only type marseys!"}, 403
 
 	check_for_treasure(body, c)
@@ -669,7 +664,7 @@ def comment(v):
 		answer = random.choice(WORDLE_LIST)
 		c.wordle_result = f'_active_{answer}'
 
-	if not c.slots_result and not c.blackjack_result and not c.wordle_result and not rts:
+	if not c.wordle_result and not rts:
 		parent_post.comment_count += 1
 		g.db.add(parent_post)
 
@@ -979,29 +974,6 @@ def unsave_comment(cid, v):
 		g.db.delete(save)
 
 	return {"message": "Comment unsaved!"}
-
-@app.post("/blackjack/<cid>")
-@limiter.limit("1/second;30/minute;200/hour;2500/day")
-@limiter.limit("1/second;30/minute;200/hour;2500/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
-@auth_required
-def handle_blackjack_action(cid, v):
-	comment = get_comment(cid)
-
-	if v.id != comment.author_id:
-		abort(403)
-
-	if 'active' in comment.blackjack_result:
-		try: action = request.values.get("thing").strip().lower()
-		except: abort(400)
-
-		if action == 'hit': player_hit(comment)
-		elif action == 'stay': player_stayed(comment)
-		elif action == 'doubledown': player_doubled_down(comment)
-		elif action == 'insurance': player_bought_insurance(comment)
-
-		g.db.add(comment)
-		g.db.add(v)
-	return {"response" : comment.blackjack_html(v)}
 
 
 def diff_words(answer, guess):

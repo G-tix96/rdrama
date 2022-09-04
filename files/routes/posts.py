@@ -176,8 +176,8 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 		comments = sort_comments(sort, comments)
 
-		first = [c[0] for c in comments.filter(or_(and_(Comment.slots_result == None, Comment.blackjack_result == None, Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()]
-		second = [c[0] for c in comments.filter(or_(Comment.slots_result != None, Comment.blackjack_result != None, Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()]
+		first = [c[0] for c in comments.filter(or_(and_(Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()]
+		second = [c[0] for c in comments.filter(or_(Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()]
 		comments = first + second
 	else:
 		pinned = g.db.query(Comment).filter(Comment.parent_submission == post.id, Comment.stickied != None).all()
@@ -186,8 +186,8 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 		comments = sort_comments(sort, comments)
 
-		first = comments.filter(or_(and_(Comment.slots_result == None, Comment.blackjack_result == None, Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()
-		second = comments.filter(or_(Comment.slots_result != None, Comment.blackjack_result != None, Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()
+		first = comments.filter(or_(and_(Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()
+		second = comments.filter(or_(Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()
 		comments = first + second
 
 	offset = 0
@@ -302,16 +302,16 @@ def viewmore(v, pid, sort, offset):
 
 		comments = sort_comments(sort, comments)
 
-		first = [c[0] for c in comments.filter(or_(and_(Comment.slots_result == None, Comment.blackjack_result == None, Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()]
-		second = [c[0] for c in comments.filter(or_(Comment.slots_result != None, Comment.blackjack_result != None, Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()]
+		first = [c[0] for c in comments.filter(or_(and_(Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()]
+		second = [c[0] for c in comments.filter(or_(Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()]
 		comments = first + second
 	else:
 		comments = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.parent_submission == pid, Comment.level == 1, Comment.stickied == None, Comment.id.notin_(ids))
 
 		comments = sort_comments(sort, comments)
 		
-		first = comments.filter(or_(and_(Comment.slots_result == None, Comment.blackjack_result == None, Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()
-		second = comments.filter(or_(Comment.slots_result != None, Comment.blackjack_result != None, Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()
+		first = comments.filter(or_(and_(Comment.wordle_result == None), func.length(Comment.body_html) > 100)).all()
+		second = comments.filter(or_(Comment.wordle_result != None), func.length(Comment.body_html) <= 100).all()
 		comments = first + second
 		comments = comments[offset:]
 
