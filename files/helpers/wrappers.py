@@ -166,7 +166,7 @@ def admin_level_required(x):
 
 	return wrapper_maker
 
-def lottery_required(f):
+def casino_required(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
 
