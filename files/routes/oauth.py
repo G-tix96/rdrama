@@ -71,13 +71,13 @@ def request_api_keys(v):
 
 
 	new_comment = Comment(author_id=AUTOJANNY_ID,
-						  parent_submission=None,
-						  level=1,
-						  body_html=body_html,
-						  sentto=2,
-						  distinguish_level=6,
-						  is_bot=True
-						  )
+						parent_submission=None,
+						level=1,
+						body_html=body_html,
+						sentto=2,
+						distinguish_level=6,
+						is_bot=True
+						)
 	g.db.add(new_comment)
 	g.db.flush()
 
@@ -233,11 +233,11 @@ def admin_app_id(v, aid):
 	posts=get_posts(pids, v=v)
 
 	return render_template("admin/app.html",
-						   v=v,
-						   app=oauth,
-						   listing=posts,
-						   next_exists=next_exists
-						   )
+						v=v,
+						app=oauth,
+						listing=posts,
+						next_exists=next_exists
+						)
 
 @app.get("/admin/app/<aid>/comments")
 @admin_level_required(3)
@@ -257,12 +257,12 @@ def admin_app_id_comments(v, aid):
 
 
 	return render_template("admin/app.html",
-						   v=v,
-						   app=oauth,
-						   comments=comments,
-						   next_exists=next_exists,
-						   standalone=True
-						   )
+						v=v,
+						app=oauth,
+						comments=comments,
+						next_exists=next_exists,
+						standalone=True
+						)
 
 
 @app.get("/admin/apps")

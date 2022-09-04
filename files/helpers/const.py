@@ -774,37 +774,37 @@ AWARDS_DISABLED = [
 
 HOUSE_AWARDS = {
 	"Furry": {
-        "kind": "Furry",
-        "title": "OwOify",
-        "description": "OwOifies the recipient's comments for 6 hours.",
-        "icon": "fas fa-paw-simple",
-        "color": "text-purple",
-        "price": 400
-    },
+		"kind": "Furry",
+		"title": "OwOify",
+		"description": "OwOifies the recipient's comments for 6 hours.",
+		"icon": "fas fa-paw-simple",
+		"color": "text-purple",
+		"price": 400
+	},
 	"Femboy": {
-        "kind": "Femboy",
-        "title": "Marsify",
-        "description": "Marsifies the recipient's comments for 6 hours.",
-        "icon": "fas fa-cat",
-        "color": "text-white",
-        "price": 400
-    },
+		"kind": "Femboy",
+		"title": "Marsify",
+		"description": "Marsifies the recipient's comments for 6 hours.",
+		"icon": "fas fa-cat",
+		"color": "text-white",
+		"price": 400
+	},
 	"Vampire": {
-        "kind": "Vampire",
-        "title": "Bite",
-        "description": "Turns the recipient into a vampire for 24 hours.",
-        "icon": "fas fa-bat",
-        "color": "text-gray",
-        "price": 777
-    },
+		"kind": "Vampire",
+		"title": "Bite",
+		"description": "Turns the recipient into a vampire for 24 hours.",
+		"icon": "fas fa-bat",
+		"color": "text-gray",
+		"price": 777
+	},
 	"Racist": {
-        "kind": "Racist",
-        "title": "Early Life",
-        "description": "Checks the recipient's Early Life section on Wikipedia. Notices.",
-        "icon": "fas fa-star-of-david",
-        "color": "text-yellow",
-        "price": 400
-    },
+		"kind": "Racist",
+		"title": "Early Life",
+		"description": "Checks the recipient's Early Life section on Wikipedia. Notices.",
+		"icon": "fas fa-star-of-david",
+		"color": "text-yellow",
+		"price": 400
+	},
 }
 
 temp = deepcopy(HOUSE_AWARDS).items()

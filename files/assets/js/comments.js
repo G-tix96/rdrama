@@ -11,7 +11,7 @@ function expandMarkdown(id,type) {
 
 	const items = document.getElementsByClassName(`expand-text-${type}-${id}`)
 	for (let i=0; i < items.length; i++)
-	{	
+	{
 		const e = items[i]
 		if (e.innerHTML == 'View source') e.innerHTML = 'Hide source'
 		else e.innerHTML = 'View source'

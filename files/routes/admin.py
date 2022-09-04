@@ -394,7 +394,7 @@ def reported_posts(v):
 	listing = get_posts(listing, v=v)
 
 	return render_template("admin/reported_posts.html",
-						   next_exists=next_exists, listing=listing, page=page, v=v)
+						next_exists=next_exists, listing=listing, page=page, v=v)
 
 
 @app.get("/admin/reported/comments")
@@ -404,7 +404,7 @@ def reported_comments(v):
 	page = max(1, int(request.values.get("page", 1)))
 
 	listing = g.db.query(Comment
-					   ).filter_by(
+					).filter_by(
 		is_approved=None,
 		is_banned=False
 	).join(Comment.flags).order_by(Comment.id.desc()).offset(25 * (page - 1)).limit(26).all()
@@ -416,11 +416,11 @@ def reported_comments(v):
 	listing = get_comments(listing, v=v)
 
 	return render_template("admin/reported_comments.html",
-						   next_exists=next_exists,
-						   listing=listing,
-						   page=page,
-						   v=v,
-						   standalone=True)
+						next_exists=next_exists,
+						listing=listing,
+						page=page,
+						v=v,
+						standalone=True)
 
 @app.get("/admin")
 @admin_level_required(2)
@@ -640,11 +640,11 @@ def users_list(v):
 	users = users[:25]
 
 	return render_template("admin/new_users.html",
-						   v=v,
-						   users=users,
-						   next_exists=next_exists,
-						   page=page,
-						   )
+						v=v,
+						users=users,
+						next_exists=next_exists,
+						page=page,
+						)
 
 
 @app.get("/badge_owners/<bid>")
@@ -663,11 +663,11 @@ def bid_list(v, bid):
 	users = users[:25]
 
 	return render_template("admin/new_users.html",
-						   v=v,
-						   users=users,
-						   next_exists=next_exists,
-						   page=page,
-						   )
+						v=v,
+						users=users,
+						next_exists=next_exists,
+						page=page,
+						)
 
 
 @app.get("/admin/alt_votes")
@@ -769,11 +769,11 @@ def alt_votes_get(v):
 			u2_comment_downs) if u2_comment_downs else 0
 
 	return render_template("admin/alt_votes.html",
-						   u1=u1,
-						   u2=u2,
-						   v=v,
-						   data=data
-						   )
+						u1=u1,
+						u2=u2,
+						v=v,
+						data=data
+						)
 
 
 @app.post("/admin/link_accounts")
@@ -823,11 +823,11 @@ def admin_removed(v):
 	posts = get_posts(ids, v=v)
 
 	return render_template("admin/removed_posts.html",
-						   v=v,
-						   listing=posts,
-						   page=page,
-						   next_exists=next_exists
-						   )
+						v=v,
+						listing=posts,
+						page=page,
+						next_exists=next_exists
+						)
 
 
 @app.get("/admin/removed/comments")
@@ -848,11 +848,11 @@ def admin_removed_comments(v):
 	comments = get_comments(ids, v=v)
 
 	return render_template("admin/removed_comments.html",
-						   v=v,
-						   listing=comments,
-						   page=page,
-						   next_exists=next_exists
-						   )
+						v=v,
+						listing=comments,
+						page=page,
+						next_exists=next_exists
+						)
 
 
 @app.post("/agendaposter/<user_id>")

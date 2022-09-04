@@ -25,7 +25,7 @@ function updatebgselection(){
 		},
 		{
 			folder: "fantasy",
-			backgrounds: 
+			backgrounds:
 			[
 				"1.webp",
 				"2.webp",
@@ -37,7 +37,7 @@ function updatebgselection(){
 		},
 		{
 			folder: "solarpunk",
-			backgrounds: 
+			backgrounds:
 			[
 				"1.webp",
 				"2.webp",

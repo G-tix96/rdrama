@@ -13,7 +13,7 @@ window.onscroll = function () {
 	if (bottomBar != null) {
 		if (prevScrollpos > currentScrollPos && (window.innerHeight + currentScrollPos) < (document.body.offsetHeight - 65)) {
 			bottomBar.style.bottom = "0px";
-		} 
+		}
 		else if (currentScrollPos <= 125 && (window.innerHeight + currentScrollPos) < (document.body.offsetHeight - 65)) {
 			bottomBar.style.bottom = "0px";
 		}
@@ -29,7 +29,7 @@ window.onscroll = function () {
 		if (prevScrollpos > currentScrollPos) {
 			topBar.style.top = "48px";
 			navbar.classList.remove("shadow");
-		} 
+		}
 		else if (currentScrollPos <= 125) {
 			topBar.style.top = "48px";
 			navbar.classList.remove("shadow");

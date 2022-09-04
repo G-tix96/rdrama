@@ -13,7 +13,7 @@ if (window.location.pathname != '/submit')
 		const submitButtonDOMs = formDOM.querySelectorAll('input[type=submit], .btn-primary');
 		if(submitButtonDOMs.length === 0)
 			throw new TypeError("I am unable to find the submit button :(. Contact the head custodian immediately.")
-		
+
 		const btn = submitButtonDOMs[0]
 		btn.click();
 		btn.disabled = true;
@@ -169,7 +169,7 @@ var bsTriggerOnReady = function() {
 	bs_trigger(document);
 }
 
-if (document.readyState === "complete" || 
+if (document.readyState === "complete" ||
 		(document.readyState !== "loading" && !document.documentElement.doScroll)) {
 	bsTriggerOnReady();
 } else {

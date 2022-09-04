@@ -32,11 +32,11 @@ def send_verification_email(user, email=None):
 	link = url + params
 
 	send_mail(to_address=email,
-			  html=render_template("email/email_verify.html",
-								   action_url=link,
-								   v=user),
-			  subject=f"Validate your {SITE_NAME} account email."
-			  )
+			html=render_template("email/email_verify.html",
+								action_url=link,
+								v=user),
+			subject=f"Validate your {SITE_NAME} account email."
+			)
 
 
 @app.post("/verify_email")
@@ -66,7 +66,7 @@ def activate(v):
 
 	if int(time.time()) - timestamp > 3600:
 		return render_template("message.html", v=v, title="Verification link expired.",
-							   message="That link has expired. Visit your settings to send yourself another verification email."), 410
+							message="That link has expired. Visit your settings to send yourself another verification email."), 410
 
 	user = get_account(id)
 

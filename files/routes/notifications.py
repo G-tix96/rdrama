@@ -56,7 +56,7 @@ def notifications_modmail(v):
 							page=page,
 							standalone=True,
 							render_replies=True,
-						   )
+						)
 
 
 
@@ -85,7 +85,7 @@ def notifications_messages(v):
 							page=page,
 							standalone=True,
 							render_replies=True,
-						   )
+						)
 
 
 @app.get("/notifications/posts")
@@ -126,7 +126,7 @@ def notifications_posts(v):
 							page=page,
 							standalone=True,
 							render_replies=True,
-						   )
+						)
 
 
 @app.get("/notifications/modactions")
@@ -153,7 +153,7 @@ def notifications_modactions(v):
 							page=page,
 							standalone=True,
 							render_replies=True,
-						   )
+						)
 
 
 
@@ -197,7 +197,7 @@ def notifications_reddit(v):
 							page=page,
 							standalone=True,
 							render_replies=True,
-						   )
+						)
 
 
 
@@ -267,4 +267,4 @@ def notifications(v):
 							page=page,
 							standalone=True,
 							render_replies=True,
-						   )
+						)

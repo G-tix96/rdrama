@@ -14,7 +14,7 @@ if (u_username)
 
 	audio.play();
 	document.getElementById('userpage').addEventListener('click', () => {
-		if (audio.paused) audio.play(); 
+		if (audio.paused) audio.play();
 	}, {once : true});
 }
 else
@@ -28,7 +28,7 @@ else
 
 		let audio = new Audio(`/@${v_username}/song`);
 		audio.loop=true;
-	
+
 		function toggle() {
 			if (audio.paused)
 			{
@@ -41,12 +41,12 @@ else
 				localStorage.setItem("paused", "1")
 			}
 		}
-	
+
 		if (!paused)
 		{
 			audio.play();
 			window.addEventListener('click', () => {
-				if (audio.paused) audio.play(); 
+				if (audio.paused) audio.play();
 			}, {once : true});
 		}
 	}
@@ -54,7 +54,7 @@ else
 
 function badge_timestamp(t) {
 	const date = new Date(t.dataset.until*1000);
-	const text =  t.getAttribute("data-bs-original-title")
+	const text = t.getAttribute("data-bs-original-title")
 	t.setAttribute("data-bs-original-title", `${text} ${date.toString()}`);
 	t.removeAttribute("onmouseover")
 }

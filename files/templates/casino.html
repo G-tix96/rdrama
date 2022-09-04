@@ -4,127 +4,250 @@
 
 <!-- New -->
 <div class="casino-games">
-  <!-- Slots -->
-  <div id="slots-block" class="casino-block">
-    <div class="casino-block-title">
-      Slots
-      <hr style="flex: 1; margin-left: 1rem" />
-    </div>
-    <div class="casino-block-inner">
-      <div class="casino-block-left">
-        <!-- Game -->
-        <div class="casino-block-game">
-          <div>
-            <div class="casino-slots-results" style="flex: 1">
-              <div class="reel">
-                <img src="/i/rDrama/coins.webp?v=3009" alt="coin" />
-              </div>
-              <div class="reel">
-                <img src="/i/rDrama/coins.webp?v=3009" alt="coin" />
-              </div>
-              <div class="reel">
-                <img src="/i/rDrama/coins.webp?v=3009" alt="coin" />
-              </div>
-            </div>
-            <div class="casino-slots-outcome" id="casinoSlotsResult">
-              &nbsp;
-            </div>
-          </div>
-        </div>
-        <!-- Bet -->
-        <div class="casino-block-bet">
-          <div class="lottery-page--stat">
-            <div class="lottery-page--stat-keys" style="margin-right: 1rem">
-              <div>Enter Bet</div>
-              <div>
-                <input
-                  id="casinoSlotsBet"
-                  class="form-control"
-                  autocomplete="off"
-                  value="100"
-                  min="100"
-                  step="1"
-                  aria-label="Bet"
-                  name="casinoSlotsBet"
-                  type="number"
-                  style="flex: 1; max-width: 200px; text-align: right"
-                />
-              </div>
-            </div>
+	<!-- Slots -->
+	<div id="slots-block" class="casino-block">
+	<div class="casino-block-title">
+		Slots
+		<hr style="flex: 1; margin-left: 1rem" />
+	</div>
+	<div class="casino-block-inner">
+		<div class="casino-block-left">
+		<!-- Game -->
+		<div class="casino-block-game">
+			<div>
+			<div class="casino-slots-results" style="flex: 1">
+				<div class="reel">
+				<img src="/i/rDrama/coins.webp?v=3009" alt="coin" />
+				</div>
+				<div class="reel">
+				<img src="/i/rDrama/coins.webp?v=3009" alt="coin" />
+				</div>
+				<div class="reel">
+				<img src="/i/rDrama/coins.webp?v=3009" alt="coin" />
+				</div>
+			</div>
+			<div class="casino-slots-outcome" id="casinoSlotsResult">
+				&nbsp;
+			</div>
+			</div>
+		</div>
+		<!-- Bet -->
+		<div class="casino-block-bet">
+			<div class="lottery-page--stat">
+			<div class="lottery-page--stat-keys" style="margin-right: 1rem">
+				<div>Enter Bet</div>
+				<div>
+				<input
+					id="casinoSlotsBet"
+					class="form-control"
+					autocomplete="off"
+					value="100"
+					min="100"
+					step="1"
+					aria-label="Bet"
+					name="casinoSlotsBet"
+					type="number"
+					style="flex: 1; max-width: 200px; text-align: right"
+				/>
+				</div>
+			</div>
 
-            <div class="lottery-page--stat-values">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="casinoSlotsCurrency"
-                  id="casinoSlotsCurrencyDramacoin"
-                  value="dramacoin"
-                  checked
-                />
-                <label
-                  class="form-check-label"
-                  for="casinoSlotsCurrencyDramacoin"
-                >
-                  <img
-                    src="/i/rDrama/coins.webp?v=3009"
-                    alt="coin"
-                    width="40"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom"
-                    title="Dramacoin"
-                    aria-label="Dramacoin"
-                  />
-                </label>
-              </div>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="casinoSlotsCurrency"
-                  id="casinoSlotsCurrencyMarseybux"
-                  value="marseybux"
-                />
-                <label
-                  class="form-check-label"
-                  for="casinoSlotsCurrencyMarseybux"
-                >
-                  <img
-                    src="/i/marseybux.webp?v=2000"
-                    alt="marseybux"
-                    width="40"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom"
-                    title="Marseybux"
-                    aria-label="Marseybux"
-                  />
-                </label>
-              </div>
-            </div>
-          </div>
+			<div class="lottery-page--stat-values">
+				<div class="form-check">
+				<input
+					class="form-check-input"
+					type="radio"
+					name="casinoSlotsCurrency"
+					id="casinoSlotsCurrencyDramacoin"
+					value="dramacoin"
+					checked
+				/>
+				<label
+					class="form-check-label"
+					for="casinoSlotsCurrencyDramacoin"
+				>
+					<img
+					src="/i/rDrama/coins.webp?v=3009"
+					alt="coin"
+					width="40"
+					data-bs-toggle="tooltip"
+					data-bs-placement="bottom"
+					title="Dramacoin"
+					aria-label="Dramacoin"
+					/>
+				</label>
+				</div>
+				<div class="form-check">
+				<input
+					class="form-check-input"
+					type="radio"
+					name="casinoSlotsCurrency"
+					id="casinoSlotsCurrencyMarseybux"
+					value="marseybux"
+				/>
+				<label
+					class="form-check-label"
+					for="casinoSlotsCurrencyMarseybux"
+				>
+					<img
+					src="/i/marseybux.webp?v=2000"
+					alt="marseybux"
+					width="40"
+					data-bs-toggle="tooltip"
+					data-bs-placement="bottom"
+					title="Marseybux"
+					aria-label="Marseybux"
+					/>
+				</label>
+				</div>
+			</div>
+			</div>
 
-          <button
-            type="button"
-            class="btn btn-success lottery-page--action"
-            id="casinoSlotsPull"
-            style="width: 100%"
-            onclick="pullSlots()"
-          >
-            Pull
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+			<button
+			type="button"
+			class="btn btn-success lottery-page--action"
+			id="casinoSlotsPull"
+			style="width: 100%"
+			onclick="pullSlots()"
+			>
+			Pull
+			</button>
+		</div>
+		</div>
+	</div>
+	</div>
 
-  <!-- Blackjack -->
-  <div id="blackjack-block" class="casino-block">
-    <div class="casino-block-title">
-      Blackjack
-      <hr style="flex: 1; margin-left: 1rem" />
-    </div>
-    <div>Give us a moment to fix things.</div>
-  </div>
+	<!-- Blackjack -->
+	<div id="blackjack-block" class="casino-block">
+	<div class="casino-block-title">
+		Blackjack
+		<hr style="flex: 1; margin-left: 1rem" />
+	</div>
+	<div class="casino-block-inner">
+		<div class="casino-block-left">
+		<!-- Game -->
+		<div class="casino-block-game">
+			<div class="casino-game">
+			<div style="flex: 1">
+				<div class="blackjack-table">
+				<div style="display: flex; align-items: center">
+					<small style="margin-right: 0.5rem">Dealer</small>
+					<hr style="flex: 1" />
+				</div>
+				<div class="hand" id="casinoBlackjackDealerHand">
+					<div class="playing-card" data-who="dealer"></div>
+					<div class="playing-card" data-who="dealer"></div>
+					<div class="playing-card" data-who="dealer"></div>
+					<div class="playing-card" data-who="dealer"></div>
+					<div class="playing-card" data-who="dealer"></div>
+				</div>
+				<hr />
+				<div class="hand" id="casinoBlackjackPlayerHand">
+					<div class="playing-card" data-who="player"></div>
+					<div class="playing-card" data-who="player"></div>
+					<div class="playing-card" data-who="player"></div>
+					<div class="playing-card" data-who="player"></div>
+					<div class="playing-card" data-who="player"></div>
+				</div>
+				<div style="display: flex; align-items: center">
+					<hr style="flex: 1; margin-right: 0.5rem" />
+					<small>Player</small>
+				</div>
+				</div>
+				<div
+				id="casinoBlackjackResult"
+				class="casino-blackjack-outcome"
+				></div>
+			</div>
+			</div>
+		</div>
+		<!-- Bet -->
+		<div class="casino-block-bet">
+			<div id="casinoBlackjackWager" class="lottery-page--stat">
+			<div class="lottery-page--stat-keys" style="margin-right: 1rem">
+				<div>Enter Bet</div>
+				<div>
+				<input
+					id="casinoBlackjackBet"
+					class="form-control"
+					autocomplete="off"
+					value="100"
+					min="100"
+					step="1"
+					aria-label="Bet"
+					name="casinoBlackjackBet"
+					type="number"
+					style="flex: 1; max-width: 200px; text-align: right"
+				/>
+				</div>
+			</div>
+
+			<div class="lottery-page--stat-values">
+				<div class="form-check">
+				<input
+					class="form-check-input"
+					type="radio"
+					name="casinoBlackjackCurrency"
+					id="casinoBlackjackCurrencyDramacoin"
+					value="dramacoin"
+					checked
+				/>
+				<label
+					class="form-check-label"
+					for="casinoBlackjackCurrencyDramacoin"
+				>
+					<img
+					src="/i/rDrama/coins.webp?v=3009"
+					alt="coin"
+					width="40"
+					data-bs-toggle="tooltip"
+					data-bs-placement="bottom"
+					title="Dramacoin"
+					aria-label="Dramacoin"
+					/>
+				</label>
+				</div>
+				<div class="form-check">
+				<input
+					class="form-check-input"
+					type="radio"
+					name="casinoBlackjackCurrency"
+					id="casinoBlackjackCurrencyMarseybux"
+					value="marseybux"
+				/>
+				<label
+					class="form-check-label"
+					for="casinoBlackjackCurrencyMarseybux"
+				>
+					<img
+					src="/i/marseybux.webp?v=2000"
+					alt="marseybux"
+					width="40"
+					data-bs-toggle="tooltip"
+					data-bs-placement="bottom"
+					title="Marseybux"
+					aria-label="Marseybux"
+					/>
+				</label>
+				</div>
+			</div>
+			</div>
+
+			<div id="casinoBlackjackActions" class="casino-blackjack-actions">
+			<button
+				type="button"
+				class="btn btn-success lottery-page--action"
+				id="casinoBlackjackDeal"
+				style="width: 100%"
+				onclick="dealBlackjack()"
+			>
+				Deal
+			</button>
+			</div>
+		</div>
+		</div>
+	</div>
+	</div>
+	<div class="casino-lottery">{% include "lottery.html" %}</div>
+	{% endblock %}
 </div>
-<div class="casino-lottery">{% include "lottery.html" %}</div>
-{% endblock %}

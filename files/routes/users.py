@@ -682,11 +682,11 @@ def message2(v, username):
 		if existing: return {"error": "Message already exists."}, 403
 
 	c = Comment(author_id=v.id,
-						  parent_submission=None,
-						  level=1,
-						  sentto=user.id,
-						  body_html=body_html
-						  )
+						parent_submission=None,
+						level=1,
+						sentto=user.id,
+						body_html=body_html
+						)
 	g.db.add(c)
 
 	g.db.flush()
@@ -849,7 +849,7 @@ def is_available(name):
 		
 	name2 = name.replace('\\', '').replace('_','\_').replace('%','')
 
-	x= g.db.query(User).filter(
+	x = g.db.query(User).filter(
 		or_(
 			User.username.ilike(name2),
 			User.original_username.ilike(name2)

@@ -14,7 +14,7 @@ function category_modal(id, title, sub) {
 
 		document.getElementById("category-modal-body").innerHTML = '';
 		categories.forEach(function (c) {
-			document.getElementById("category-modal-body").innerHTML += 
+			document.getElementById("category-modal-body").innerHTML +=
 				`<div class="category--tag-button" data-category="${c.id}">` +
 				`<span class="post--category-tag" style="color:${c.color_text}; ` +
 					`background-color:${c.color_bg};">${c.name}</span>` +

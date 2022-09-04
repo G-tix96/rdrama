@@ -78,7 +78,7 @@ class ModAction(Base):
 	@lazy
 	def string(self):
 
-		output =  ACTIONTYPES[self.kind]["str"].format(self=self, cc=CC_TITLE)
+		output = ACTIONTYPES[self.kind]["str"].format(self=self, cc=CC_TITLE)
 
 		if self.note: output += f" <i>({self.note})</i>"
 
@@ -106,7 +106,7 @@ class ModAction(Base):
 	@property
 	@lazy
 	def permalink(self):
-		return f"{SITE_FULL}/log/{self.id}"	
+		return f"{SITE_FULL}/log/{self.id}"
 
 ACTIONTYPES = {
 	'agendaposter': {

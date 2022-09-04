@@ -10,12 +10,12 @@ marked.use({
 				return match != null ? match.index : -1;
 			},
 			tokenizer: function(src) {
-				const rule  = /^@[a-zA-Z0-9_\-]+/;
+				const rule = /^@[a-zA-Z0-9_\-]+/;
 				const match = rule.exec(src);
 				if(match){
 					return {
 						type: 'mention',
-						raw:  match[0],
+						raw: match[0],
 						text: match[0].trim().slice(1),
 						tokens: []
 					};
@@ -93,7 +93,7 @@ function markdown(t) {
 			input += `<div class="custom-control"><input type="radio" name="choice" class="custom-control-input" id="choice-${i}"><label class="custom-control-label" for="choice-${i}">${option2} - <a>0 votes</a></label></div>`;
 		}
 	}
-	
+
 	input = marked(input)
 	input = input.replace(/\n\n/g, '<br>')
 

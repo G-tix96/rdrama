@@ -183,9 +183,9 @@ socket.on('typing', function (users){
 })
 
 function scroll_chat() {
-    setTimeout(function () {
+	setTimeout(function () {
 		box.scrollTo(0, box.scrollHeight)
-    }, 200);
+	}, 200);
 }
 
 scroll_chat();

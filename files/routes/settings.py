@@ -131,15 +131,15 @@ def settings_profile_post(v):
 
 		if len(sig_html) > 1000:
 			return render_template("settings_profile.html",
-								   v=v,
-								   error="Your sig is too long")
+								v=v,
+								error="Your sig is too long")
 
 		v.sig = sig[:200]
 		v.sig_html=sig_html
 		g.db.add(v)
 		return render_template("settings_profile.html",
-							   v=v,
-							   msg="Your sig has been updated.")
+							v=v,
+							msg="Your sig has been updated.")
 
 
 
@@ -151,8 +151,8 @@ def settings_profile_post(v):
 
 		if len(friends_html) > 2000:
 			return render_template("settings_profile.html",
-								   v=v,
-								   error="Your friends list is too long")
+								v=v,
+								error="Your friends list is too long")
 
 
 		notify_users = NOTIFY_USERS(friends, v)
@@ -166,8 +166,8 @@ def settings_profile_post(v):
 		v.friends_html=friends_html
 		g.db.add(v)
 		return render_template("settings_profile.html",
-							   v=v,
-							   msg="Your friends list has been updated.")
+							v=v,
+							msg="Your friends list has been updated.")
 
 
 	elif FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("enemies"):
@@ -177,8 +177,8 @@ def settings_profile_post(v):
 
 		if len(enemies_html) > 2000:
 			return render_template("settings_profile.html",
-								   v=v,
-								   error="Your enemies list is too long")
+								v=v,
+								error="Your enemies list is too long")
 
 
 		notify_users = NOTIFY_USERS(enemies, v)
@@ -192,8 +192,8 @@ def settings_profile_post(v):
 		v.enemies_html=enemies_html
 		g.db.add(v)
 		return render_template("settings_profile.html",
-							   v=v,
-							   msg="Your enemies list has been updated.")
+							v=v,
+							msg="Your enemies list has been updated.")
 
 
 	elif FEATURES['USERS_PROFILE_BODYTEXT'] and \
@@ -208,8 +208,8 @@ def settings_profile_post(v):
 
 		if len(bio_html) > 10000:
 			return render_template("settings_profile.html",
-								   v=v,
-								   error="Your bio is too long")
+								v=v,
+								error="Your bio is too long")
 
 		if len(bio_html) > 10000: abort(400)
 
@@ -217,8 +217,8 @@ def settings_profile_post(v):
 		v.bio_html=bio_html
 		g.db.add(v)
 		return render_template("settings_profile.html",
-							   v=v,
-							   msg="Your bio has been updated.")
+							v=v,
+							msg="Your bio has been updated.")
 
 
 	frontsize = request.values.get("frontsize")
@@ -439,11 +439,11 @@ def settings_security_post(v):
 		link = url + params
 
 		send_mail(to_address=new_email,
-				  subject="Verify your email address.",
-				  html=render_template("email/email_change.html",
-									   action_url=link,
-									   v=v)
-				  )
+				subject="Verify your email address.",
+				html=render_template("email/email_change.html",
+									action_url=link,
+									v=v)
+				)
 
 		return render_template("settings_security.html", v=v, msg="Check your email and click the verification link to complete the email change.")
 
@@ -633,8 +633,8 @@ def settings_block_user(v):
 		return {"error": "You can't block this user."}, 409
 
 	new_block = UserBlock(user_id=v.id,
-						  target_id=user.id,
-						  )
+						target_id=user.id,
+						)
 	g.db.add(new_block)
 
 	if user.admin_level >= PERMS['USER_BLOCKS_VISIBLE']:
@@ -706,17 +706,17 @@ def settings_name_change(v):
 
 	if new_name==v.username:
 		return render_template("settings_profile.html",
-						   v=v,
-						   error="You didn't change anything")
+						v=v,
+						error="You didn't change anything")
 
 	if not valid_username_regex.fullmatch(new_name):
 		return render_template("settings_profile.html",
-						   v=v,
-						   error="This isn't a valid username.")
+						v=v,
+						error="This isn't a valid username.")
 
 	search_name = new_name.replace('\\', '').replace('_','\_').replace('%','')
 
-	x= g.db.query(User).filter(
+	x = g.db.query(User).filter(
 		or_(
 			User.username.ilike(search_name),
 			User.original_username.ilike(search_name)
@@ -725,8 +725,8 @@ def settings_name_change(v):
 
 	if x and x.id != v.id:
 		return render_template("settings_profile.html",
-						   v=v,
-						   error=f"Username `{new_name}` is already in use.")
+						v=v,
+						error=f"Username `{new_name}` is already in use.")
 
 	v=get_account(v.id)
 
@@ -840,8 +840,8 @@ def settings_song_change(v):
 		except Exception as e:
 			print(e, flush=True)
 			return render_template("settings_profile.html",
-						   v=v,
-						   error="Age-restricted videos aren't allowed.")
+						v=v,
+						error="Age-restricted videos aren't allowed.")
 
 	files = os.listdir("/songs/")
 	paths = [path.join("/songs/", basename) for basename in files]

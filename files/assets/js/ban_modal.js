@@ -24,7 +24,7 @@ function banModal(link, id, name) {
 				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
 			}
 		};
-	
+
 		xhr.send(form);
 	}
 }

@@ -206,11 +206,11 @@ def submit_contact(v):
 	body_html = sanitize(body)
 
 	new_comment = Comment(author_id=v.id,
-						  parent_submission=None,
-						  level=1,
-						  body_html=body_html,
-						  sentto=2
-						  )
+						parent_submission=None,
+						level=1,
+						body_html=body_html,
+						sentto=2
+						)
 	g.db.add(new_comment)
 	g.db.flush()
 	new_comment.top_comment_id = new_comment.id
@@ -342,7 +342,7 @@ def blocks(v):
 	targets = []
 	for x in blocks:
 		acc_user = get_account(x.user_id)
-		acc_tgt  = get_account(x.target_id)
+		acc_tgt = get_account(x.target_id)
 		if acc_user.shadowbanned or acc_tgt.shadowbanned: continue
 		users.append(acc_user)
 		targets.append(acc_tgt)
@@ -372,9 +372,9 @@ def serviceworker():
 def settings_security(v):
 
 	return render_template("settings_security.html",
-						   v=v,
-						   mfa_secret=pyotp.random_base32() if not v.mfa_secret else None
-						   )
+						v=v,
+						mfa_secret=pyotp.random_base32() if not v.mfa_secret else None
+						)
 
 
 @app.post("/dismiss_mobile_tip")

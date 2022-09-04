@@ -88,7 +88,7 @@ def login_post():
 	username = request.values.get("username")
 
 	if not username: abort(400)
-	username  = username.lstrip('@').replace('\\', '').replace('_', '\_').replace('%', '').strip()
+	username = username.lstrip('@').replace('\\', '').replace('_', '\_').replace('%', '').strip()
 
 	if not username: abort(400)
 	if username.startswith('@'): username = username[1:]
@@ -113,11 +113,11 @@ def login_post():
 			now = int(time.time())
 			hash = generate_hash(f"{account.id}+{now}+2fachallenge")
 			return render_template("login_2fa.html",
-								   v=account,
-								   time=now,
-								   hash=hash,
-								   redirect=request.values.get("redirect", "/")
-								   )
+								v=account,
+								time=now,
+								hash=hash,
+								redirect=request.values.get("redirect", "/")
+								)
 	elif request.values.get("2fa_token", "x"):
 		now = int(time.time())
 
@@ -134,11 +134,11 @@ def login_post():
 		if not account.validate_2fa(request.values.get("2fa_token", "").strip()):
 			hash = generate_hash(f"{account.id}+{now}+2fachallenge")
 			return render_template("login_2fa.html",
-								   v=account,
-								   time=now,
-								   hash=hash,
-								   failed=True,
-								   )
+								v=account,
+								time=now,
+								hash=hash,
+								failed=True,
+								)
 	else:
 		abort(400)
 
@@ -191,7 +191,7 @@ def sign_up_get(v):
 	ref = request.values.get("ref")
 
 	if ref:
-		ref  = ref.replace('\\', '').replace('_', '\_').replace('%', '').strip()
+		ref = ref.replace('\\', '').replace('_', '\_').replace('%', '').strip()
 		ref_user = g.db.query(User).filter(User.username.ilike(ref)).one_or_none()
 
 	else:
@@ -207,9 +207,9 @@ def sign_up_get(v):
 	formkey_hashstr = str(now) + token + g.agent
 
 	formkey = hmac.new(key=bytes(MASTER_KEY, "utf-16"),
-					   msg=bytes(formkey_hashstr, "utf-16"),
-					   digestmod='md5'
-					   ).hexdigest()
+					msg=bytes(formkey_hashstr, "utf-16"),
+					digestmod='md5'
+					).hexdigest()
 
 	error = request.values.get("error")
 
@@ -219,13 +219,13 @@ def sign_up_get(v):
 		if not is_site_url(redir): redir = "/"
 
 	return render_template("sign_up.html",
-						   formkey=formkey,
-						   now=now,
-						   ref_user=ref_user,
-						   hcaptcha=HCAPTCHA_SITEKEY,
-						   error=error,
-						   redirect=redir
-						   )
+						formkey=formkey,
+						now=now,
+						ref_user=ref_user,
+						hcaptcha=HCAPTCHA_SITEKEY,
+						error=error,
+						redirect=redir
+						)
 
 
 @app.post("/signup")
@@ -248,7 +248,7 @@ def sign_up_post(v):
 	correct_formkey = hmac.new(key=bytes(MASTER_KEY, "utf-16"),
 								msg=bytes(correct_formkey_hashstr, "utf-16"),
 								digestmod='md5'
-							   ).hexdigest()
+							).hexdigest()
 
 	now = int(time.time())
 
@@ -333,7 +333,7 @@ def sign_up_post(v):
 		password=request.values.get("password"),
 		email=email,
 		referred_by=ref_id or None,
-		ban_evade =  int(any((x.is_banned or x.shadowbanned) and not x.unban_utc for x in g.db.query(User).filter(User.id.in_(session.get("history", []))).all() if x)),
+		ban_evade =int(any((x.is_banned or x.shadowbanned) and not x.unban_utc for x in g.db.query(User).filter(User.id.in_(session.get("history", []))).all() if x)),
 		profileurl=profileurl
 		)
 
@@ -400,8 +400,8 @@ def post_forgot():
 		return render_template("forgot_password.html", error="Invalid email.")
 
 
-	username  = username.lstrip('@').replace('\\', '').replace('_', '\_').replace('%', '').strip()
-	email  = email.replace('\\', '').replace('_', '\_').replace('%', '').strip()
+	username = username.lstrip('@').replace('\\', '').replace('_', '\_').replace('%', '').strip()
+	email = email.replace('\\', '').replace('_', '\_').replace('%', '').strip()
 
 	user = g.db.query(User).filter(
 		User.username.ilike(username),
@@ -413,14 +413,14 @@ def post_forgot():
 		url = f"{SITE_FULL}/reset?id={user.id}&time={now}&token={token}"
 
 		send_mail(to_address=user.email,
-				  subject="Password Reset Request",
-				  html=render_template("email/password_reset.html",
-									   action_url=url,
-									   v=user)
-				  )
+				subject="Password Reset Request",
+				html=render_template("email/password_reset.html",
+									action_url=url,
+									v=user)
+				)
 
 	return render_template("forgot_password.html",
-						   msg="If the username and email matches an account, you will be sent a password reset email. You have ten minutes to complete the password reset process.")
+						msg="If the username and email matches an account, you will be sent a password reset email. You have ten minutes to complete the password reset process.")
 
 
 @app.get("/reset")
@@ -451,10 +451,10 @@ def get_reset():
 	reset_token = generate_hash(f"{user.id}+{timestamp}+reset+{user.login_nonce}")
 
 	return render_template("reset_password.html",
-						   v=user,
-						   token=reset_token,
-						   time=timestamp,
-						   )
+						v=user,
+						token=reset_token,
+						time=timestamp,
+						)
 
 
 @app.post("/reset")
@@ -475,8 +475,8 @@ def post_reset(v):
 
 	if now - timestamp > 600:
 		return render_template("message.html",
-							   title="Password reset expired",
-							   error="That password reset form has expired.")
+							title="Password reset expired",
+							error="That password reset form has expired.")
 
 	user = get_account(user_id)
 
@@ -487,18 +487,18 @@ def post_reset(v):
 
 	if password != confirm_password:
 		return render_template("reset_password.html",
-							   v=user,
-							   token=token,
-							   time=timestamp,
-							   error="Passwords didn't match.")
+							v=user,
+							token=token,
+							time=timestamp,
+							error="Passwords didn't match.")
 
 	user.passhash = hash_password(password)
 	g.db.add(user)
 
 
 	return render_template("message_success.html",
-						   title="Password reset successful!",
-						   message="Login normally to access your account.")
+						title="Password reset successful!",
+						message="Login normally to access your account.")
 
 @app.get("/lost_2fa")
 @auth_desired
@@ -517,8 +517,8 @@ def request_2fa_disable():
 	user=get_user(username, graceful=True)
 	if not user or not user.email or not user.mfa_secret:
 		return render_template("message.html",
-						   title="Removal request received",
-						   message="If username, password, and email match, we will send you an email.")
+						title="Removal request received",
+						message="If username, password, and email match, we will send you an email.")
 
 
 	email=request.values.get("email").strip().lower()
@@ -529,8 +529,8 @@ def request_2fa_disable():
 	password =request.values.get("password")
 	if not user.verifyPass(password):
 		return render_template("message.html",
-						   title="Removal request received",
-						   message="If username, password, and email match, we will send you an email.")
+						title="Removal request received",
+						message="If username, password, and email match, we will send you an email.")
 
 	valid=int(time.time())
 	token=generate_hash(f"{user.id}+{user.username}+disable2fa+{valid}+{user.mfa_secret}+{user.login_nonce}")
@@ -538,15 +538,15 @@ def request_2fa_disable():
 	action_url=f"{SITE_FULL}/reset_2fa?id={user.id}&t={valid}&token={token}"
 	
 	send_mail(to_address=user.email,
-			  subject="2FA Removal Request",
-			  html=render_template("email/2fa_remove.html",
-								   action_url=action_url,
-								   v=user)
-			  )
+			subject="2FA Removal Request",
+			html=render_template("email/2fa_remove.html",
+								action_url=action_url,
+								v=user)
+			)
 
 	return render_template("message.html",
-						   title="Removal request received",
-						   message="If username, password, and email match, we will send you an email.")
+						title="Removal request received",
+						message="If username, password, and email match, we will send you an email.")
 
 @app.get("/reset_2fa")
 def reset_2fa():
@@ -558,8 +558,8 @@ def reset_2fa():
 
 	if now > t+3600*24:
 		return render_template("message.html",
-						   title="Expired Link",
-						   error="That link has expired.")
+						title="Expired Link",
+						error="That link has expired.")
 
 	token=request.values.get("token")
 	uid=request.values.get("id")
@@ -575,5 +575,5 @@ def reset_2fa():
 
 
 	return render_template("message_success.html",
-						   title="Two-factor authentication removed.",
-						   message="Login normally to access your account.")
+						title="Two-factor authentication removed.",
+						message="Login normally to access your account.")

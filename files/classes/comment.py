@@ -278,7 +278,7 @@ class Comment(Base):
 	@property
 	def json(self):
 		if self.is_banned:
-			data= {'is_banned': True,
+			data = {'is_banned': True,
 					'ban_reason': self.ban_reason,
 					'id': self.id,
 					'post': self.post.id if self.post else 0,
@@ -286,7 +286,7 @@ class Comment(Base):
 					'parent': self.parent_fullname
 					}
 		elif self.deleted_utc:
-			data= {'deleted_utc': self.deleted_utc,
+			data = {'deleted_utc': self.deleted_utc,
 					'id': self.id,
 					'post': self.post.id if self.post else 0,
 					'level': self.level,
@@ -296,7 +296,7 @@ class Comment(Base):
 			flags = {}
 			for f in self.flags: flags[f.user.username] = f.reason
 
-			data= {
+			data = {
 				'id': self.id,
 				'level': self.level,
 				'author_name': self.author_name,

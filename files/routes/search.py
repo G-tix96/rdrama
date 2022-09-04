@@ -171,15 +171,15 @@ def searchposts(v):
 	if request.headers.get("Authorization"): return {"total":total, "data":[x.json for x in posts]}
 
 	return render_template("search.html",
-						   v=v,
-						   query=query,
-						   total=total,
-						   page=page,
-						   listing=posts,
-						   sort=sort,
-						   t=t,
-						   next_exists=next_exists
-						   )
+						v=v,
+						query=query,
+						total=total,
+						page=page,
+						listing=posts,
+						sort=sort,
+						t=t,
+						next_exists=next_exists
+						)
 
 @app.get("/search/comments")
 @auth_required

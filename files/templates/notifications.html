@@ -13,7 +13,7 @@
 {% block content %}
 
 <div class="row border-bottom bg-white w-200 pr-0" style="overflow: visible;">
-  <div class="col p-0 w-100">
+	<div class="col p-0 w-100">
 	<ul class="nav settings-nav" style="padding:0 0 0 20px" id="notifications--nav-list">
 	<li class="nav-item">
 		<a class="nav-link py-3{% if request.path == '/notifications' %} active{% endif %}" href="/notifications">
@@ -52,7 +52,7 @@
 		</li>
 	{% endif %}
 	</ul>
-  </div>
+	</div>
 </div>
 
 <a class="btn btn-primary btn-rainbow ml-3 mt-4" role="button" onclick="post_toast(this,'/clear', true)">Mark all notifications as read</a>

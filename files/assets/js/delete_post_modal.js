@@ -1,5 +1,5 @@
 function delete_postModal(id) {
-	document.getElementById("deletePostButton").onclick =  function() {
+	document.getElementById("deletePostButton").onclick = function() {
 		const xhr = new XMLHttpRequest();
 		xhr.open("POST", `/delete_post/${id}`);
 		xhr.setRequestHeader('xhr', 'xhr');

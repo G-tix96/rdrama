@@ -96,7 +96,7 @@ document.getElementById('file-upload').addEventListener('change', function(){
 	{
 		var fileReader = new FileReader();
 		fileReader.readAsDataURL(f.files[0]);
-		fileReader.addEventListener("load", function () {document.getElementById('image-preview').setAttribute('src', this.result);});  
+		fileReader.addEventListener("load", function () {document.getElementById('image-preview').setAttribute('src', this.result);});
 	}
 	checkForRequired();
 })
@@ -150,7 +150,7 @@ function draft(t) {
 		followers.disabled = true;
 	} else {
 		followers.disabled = false;
-   }
+	}
 }
 
 function checkRepost() {
@@ -168,7 +168,7 @@ function checkRepost() {
 		xhr.onload=function(){
 			try {data = JSON.parse(xhr.response)}
 			catch(e) {console.log(e)}
-			
+
 			if (data && data["permalink"]) {
 				const permalink = data["permalink"]
 				if (permalink) {
@@ -196,7 +196,7 @@ function updateCategories() {
 
 		document.getElementById("submit-categories").innerHTML = '';
 		data[sub].forEach(function (c) {
-			document.getElementById("submit-categories").innerHTML += 
+			document.getElementById("submit-categories").innerHTML +=
 				`<input type="radio" id="category-${c.id}" name="category" value="${c.id}">` +
 				`<label for="category-${c.id}" class="post--category-tag" ` +
 					`style="color:${c.color_text}; background-color:${c.color_bg};">` +
@@ -207,12 +207,12 @@ function updateCategories() {
 }
 
 document.addEventListener('keydown', (e) => {
-   if(!((e.ctrlKey || e.metaKey) && e.key === "Enter"))
-	   return;
+	if(!((e.ctrlKey || e.metaKey) && e.key === "Enter"))
+		return;
 
-   const submitButton = document.getElementById('create_button')
+	const submitButton = document.getElementById('create_button')
 
-   submitButton.click();
+	submitButton.click();
 });
 
 checkRepost();

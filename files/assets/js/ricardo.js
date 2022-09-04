@@ -1,7 +1,7 @@
 var isleft = true
 setInterval(() => {
 	let ricardo1 = document.getElementById("ricardo1")
-	var height = Math.floor(Math.random()*60)+10 
+	var height = Math.floor(Math.random()*60)+10
 	if (ricardo1) {
 		ricardo1.firstElementChild.src = ""
 

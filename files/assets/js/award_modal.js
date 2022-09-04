@@ -1,5 +1,5 @@
 document.getElementById('awardModal').addEventListener('show.bs.modal', function (event) {
-  document.getElementById("awardTarget").action = event.relatedTarget.dataset.url;
+	document.getElementById("awardTarget").action = event.relatedTarget.dataset.url;
 });
 
 // TODO: Refactor this ugly shit who wrote this lmao
@@ -9,7 +9,7 @@ function vote(type, id, dir) {
 	const scoretexts = document.getElementsByClassName(type + '-score-' + id);
 
 	for (let i=0; i<upvotes.length; i++) {
-		
+
 		const upvote = upvotes[i]
 		const downvote = downvotes[i]
 		const scoretext = scoretexts[i]
@@ -90,7 +90,7 @@ function vote(type, id, dir) {
 			}
 		}
 	}
-	
+
 	const xhr = new XMLHttpRequest();
 	xhr.open("POST", "/vote/" + type.replace('-mobile','') + "/" + id + "/" + votedirection);
 	xhr.setRequestHeader('xhr', 'xhr');

@@ -51,10 +51,10 @@ def vote_info_get(v, link):
 	else: abort(400)
 
 	return render_template("votes.html",
-						   v=v,
-						   thing=thing,
-						   ups=ups,
-						   downs=downs)
+						v=v,
+						thing=thing,
+						ups=ups,
+						downs=downs)
 
 
 @app.post("/vote/post/<post_id>/<new>")

@@ -866,7 +866,7 @@ def submit_post(v, sub=None):
 		send_repeatable_notification(v.id, text)
 
 		v.ban(reason="Spamming.",
-			  days=1)
+			days=1)
 
 		for post in similar_posts + similar_urls:
 			post.is_banned = True

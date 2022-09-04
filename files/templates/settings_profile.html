@@ -44,7 +44,7 @@
 							{% endif %}
 							<div class="input-group mb2">
 								<select {% if v.coins < cost and v.procoins < cost or v.bite %}disabled{% endif %} autocomplete="off" id='house' class="form-control" form="profile-settings" name="house" onchange="post_toast(this,'/settings/profile?house='+document.getElementById('house').value, true)">
-								{% for entry in  ("None","Furry","Femboy","Vampire","Racist") %}
+								{% for entry in ("None","Furry","Femboy","Vampire","Racist") %}
 									<option value="{{entry}}" {% if v.house==entry %} selected {% endif %}>
 										{{entry}}
 									</option>
@@ -490,7 +490,7 @@
 										<input type="hidden" name="formkey" value="{{v.formkey}}">
 										<input maxlength=100 {% if v.flairchanged %}disabled{% endif %} autocomplete="off" id="customtitlebody" type="text" name="title" class="form-control" placeholder='Enter a flair here' value="{% if v.customtitleplain %}{{v.customtitleplain}}{% endif %}">
 										<div class="d-flex mt-2">
-											<a class="format" role="button"><i class="btn btn-secondary format d-inline-block m-0 fas fa-kiss-wink-heart" onclick="loadEmojis('customtitlebody')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom"  title="Add Emoji"></i></a>
+											<a class="format" role="button"><i class="btn btn-secondary format d-inline-block m-0 fas fa-kiss-wink-heart" onclick="loadEmojis('customtitlebody')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></i></a>
 											&nbsp;&nbsp;&nbsp;
 											<small>Limit of 100 characters</small>
 											<input {% if v.flairchanged %}disabled{% endif %} autocomplete="off" class="btn btn-primary ml-auto" id="titleSave" type="submit" onclick="disable(this)" value="Change Flair">
@@ -610,7 +610,7 @@
 								<div class="w-lg-100">						
 									<form id="profile-bio" action="/settings/profile" method="post" enctype="multipart/form-data">
 										<input type="hidden" name="formkey" value="{{v.formkey}}">
-										<textarea autocomplete="off"  id="bio-text" class="form-control rounded" aria-label="With textarea" placeholder="Tell the community a bit about yourself." rows="3" name="bio" form="profile-bio" maxlength="1500">{% if v.bio %}{{v.bio}}{% endif %}</textarea>
+										<textarea autocomplete="off" id="bio-text" class="form-control rounded" aria-label="With textarea" placeholder="Tell the community a bit about yourself." rows="3" name="bio" form="profile-bio" maxlength="1500">{% if v.bio %}{{v.bio}}{% endif %}</textarea>
 										<div class="d-flex">
 											<pre style="padding-top:0.7rem" class="btn btn-secondary format d-inline-block m-0 fas fa-bold" aria-hidden="true" onclick="makeBold('bio-text')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Bold"></pre>
 											&nbsp;
@@ -645,7 +645,7 @@
 								<div class="w-lg-100">						
 									<form id="profile-friends" action="/settings/profile" method="post" enctype="multipart/form-data">
 										<input type="hidden" name="formkey" value="{{v.formkey}}">
-										<textarea autocomplete="off"  id="friends-text" class="form-control rounded" aria-label="With textarea" placeholder="Enter your friends on the site..." rows="3" name="friends" form="profile-friends" maxlength="1500">{% if v.friends %}{{v.friends}}{% endif %}</textarea>
+										<textarea autocomplete="off" id="friends-text" class="form-control rounded" aria-label="With textarea" placeholder="Enter your friends on the site..." rows="3" name="friends" form="profile-friends" maxlength="1500">{% if v.friends %}{{v.friends}}{% endif %}</textarea>
 										<pre></pre>
 										<div class="d-flex">
 											<small>Limit of 500 characters</small>
@@ -664,7 +664,7 @@
 								<div class="w-lg-100">						
 									<form id="profile-enemies" action="/settings/profile" method="post" enctype="multipart/form-data">
 										<input type="hidden" name="formkey" value="{{v.formkey}}">
-										<textarea autocomplete="off"  id="enemies-text" class="form-control rounded" aria-label="With textarea" placeholder="Enter your enemies on the site..." rows="3" name="enemies" form="profile-enemies" maxlength="1500">{% if v.enemies %}{{v.enemies}}{% endif %}</textarea>
+										<textarea autocomplete="off" id="enemies-text" class="form-control rounded" aria-label="With textarea" placeholder="Enter your enemies on the site..." rows="3" name="enemies" form="profile-enemies" maxlength="1500">{% if v.enemies %}{{v.enemies}}{% endif %}</textarea>
 										<pre></pre>
 										<div class="d-flex">
 											<small>Limit of 500 characters</small>
@@ -684,7 +684,7 @@
 								<div class="w-lg-100">						
 									<form id="profile-sig" action="/settings/profile" method="post" enctype="multipart/form-data">
 										<input type="hidden" name="formkey" value="{{v.formkey}}">
-										<textarea autocomplete="off"  id="sig-text" class="form-control rounded" aria-label="With textarea" placeholder="Enter a signature..." rows="3" name="sig" form="profile-sig" maxlength="200">{% if v.sig %}{{v.sig}}{% endif %}</textarea>
+										<textarea autocomplete="off" id="sig-text" class="form-control rounded" aria-label="With textarea" placeholder="Enter a signature..." rows="3" name="sig" form="profile-sig" maxlength="200">{% if v.sig %}{{v.sig}}{% endif %}</textarea>
 										<div class="d-flex">
 											<pre style="padding-top:0.7rem" class="btn btn-secondary format d-inline-block m-0 fas fa-bold" aria-hidden="true" onclick="makeBold('sig-text')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Bold"></pre>
 											&nbsp;

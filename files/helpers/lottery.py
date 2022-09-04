@@ -23,7 +23,7 @@ def get_active_lottery_stats():
 	active_lottery = get_active_lottery()
 	participating_users = get_users_participating_in_lottery()
 
-	return None if active_lottery is None else active_lottery.stats,  len(participating_users)
+	return None if active_lottery is None else active_lottery.stats, len(participating_users)
 
 
 def end_lottery_session():

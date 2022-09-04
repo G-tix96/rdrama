@@ -1,7 +1,7 @@
 function pinned_timestamp(id) {
 	const el = document.getElementById(id)
-	const time =  new Date(parseInt(el.dataset.timestamp)*1000)
-	const pintooltip =  el.getAttribute("data-bs-original-title")
+	const time = new Date(parseInt(el.dataset.timestamp)*1000)
+	const pintooltip = el.getAttribute("data-bs-original-title")
 	if (!pintooltip.includes('until')) el.setAttribute("data-bs-original-title", `${pintooltip} until ${time}`)
 }
 
@@ -12,21 +12,21 @@ popClickBadgeTemplateDOM.loading = "lazy";
 popClickBadgeTemplateDOM.alt = "badge";
 
 /**
- * @param {MouseEvent} e 
- */
+* @param {MouseEvent} e
+*/
 function popclick(e) {
 	// We let through those methods
 	if(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
 		return true;
 	e.preventDefault();
-	
+
 	if(e.currentTarget.dataset.popInfo === undefined)
 		throw new SyntaxError("ill formed HTML! data-pop-info not present!!!");
 
 	const author = JSON.parse(e.currentTarget.dataset.popInfo);
 	if(!(author instanceof Object))
 		throw new SyntaxError("data-pop-info was not valid!");
-	
+
 	// This is terrible lol. in header.js:bs_trigger() we should add
 	// to the ANCHOR element an event handler for "show.bs.tooltip" to build this
 	// when the DOM is ready.

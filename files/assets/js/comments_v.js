@@ -94,7 +94,7 @@ function toggleEdit(id){
 
 
 function delete_commentModal(id) {
-	document.getElementById("deleteCommentButton").onclick =  function() {
+	document.getElementById("deleteCommentButton").onclick = function() {
 		const xhr = new XMLHttpRequest();
 		xhr.open("POST", `/delete/comment/${id}`);
 		xhr.setRequestHeader('xhr', 'xhr');
@@ -223,7 +223,7 @@ function post_comment(fullname, hide){
 			form.append('file', e);
 	}
 	catch(e) {}
-	
+
 	const xhr = new XMLHttpRequest();
 	xhr.open("post", "/comment");
 	xhr.setRequestHeader('xhr', 'xhr');
@@ -329,7 +329,7 @@ function handle_action(type, cid, thing) {
 	form.append('formkey', formkey());
 	form.append('comment_id', cid);
 	form.append('thing', thing);
-	
+
 	const xhr = new XMLHttpRequest();
 	xhr.open("post", `/${type}/${cid}`);
 	xhr.setRequestHeader('xhr', 'xhr');
@@ -351,7 +351,7 @@ function handle_action(type, cid, thing) {
 		}
 		setTimeout(() => {
 			for (const btn of btns)
-			{		
+			{
 				btn.disabled = false;
 				btn.classList.remove('disabled');
 			}

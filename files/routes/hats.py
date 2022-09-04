@@ -114,8 +114,8 @@ def hat_owners(v, hat_id):
 	users = users[:25]
 
 	return render_template("admin/new_users.html",
-						   v=v,
-						   users=users,
-						   next_exists=next_exists,
-						   page=page,
-						   )
+						v=v,
+						users=users,
+						next_exists=next_exists,
+						page=page,
+						)

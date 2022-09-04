@@ -92,7 +92,7 @@ function transferCoins(mobile=false) {
 	let transferred = amount - Math.ceil(amount*TRANSFER_TAX);
 	let username = document.getElementById('username').innerHTML;
 
-	post_toast_callback(`/@${username}/transfer_coins`, 
+	post_toast_callback(`/@${username}/transfer_coins`,
 		{
 		"amount": document.getElementById(mobile ? "coin-transfer-amount-mobile" : "coin-transfer-amount").value,
 		"reason": document.getElementById(mobile ? "coin-transfer-reason-mobile" : "coin-transfer-reason").value
@@ -141,7 +141,7 @@ function submitFormAjax(e) {
 	document.getElementById('message-mobile').classList.add('d-none');
 	document.getElementById('message-preview').classList.add('d-none');
 	document.getElementById('message-preview-mobile').classList.add('d-none');
-	
+
 	const form = e.target;
 	const xhr = new XMLHttpRequest();
 	e.preventDefault();
