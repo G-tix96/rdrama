@@ -36,7 +36,7 @@ def pull_slots(v):
     success, game_state = casino_slot_pull(v, wager, currency)
 
     if success:
-        return {"game_state": game_state}
+        return {"game_state": game_state, "gambler": { "coins": v.coins, "procoins": v.procoins }}
     else:
         return {"error": "Wager must be more than 100 {currency}."}
 
@@ -76,9 +76,9 @@ def deal_blackjack(v):
 
         if game and game.active:
             safe_state = get_safe_game_state(v)
-            return {"game_state": safe_state}
+            return {"game_state": safe_state, "gambler": { "coins": v.coins, "procoins": v.procoins }}
         else:
-            return {"game_state": game_state}
+            return {"game_state": game_state, "gambler": { "coins": v.coins, "procoins": v.procoins }}
 
     else:
         return {"error": "Wager must be more than 100 {currency}."}
@@ -113,6 +113,6 @@ def player_took_blackjack_action(v):
         state = game_state
 
     if was_successful:
-        return {"active": True, "game_state": state}
+        return {"active": True, "game_state": state, "gambler": { "coins": v.coins, "procoins": v.procoins }}
     else:
         return {"active": False, "game_state": None}

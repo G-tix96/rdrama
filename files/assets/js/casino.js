@@ -1,3 +1,14 @@
+// Shared
+function updatePlayerCoins(updated) {
+  if (updated.coins) {
+    document.getElementById('user-coins-amount').innerText = updated.coins;
+  }
+  
+  if (updated.procoins) {
+    document.getElementById('user-bux-amount').innerText = updated.procoins;
+  }
+}
+
 // Slots
 function pullSlots() {
   const wager = document.getElementById("casinoSlotsBet").value;
@@ -35,7 +46,7 @@ function handleSlotsResponse(xhr) {
   slotsResult.classList.remove("text-success", "text-danger");
 
   if (succeeded) {
-    const { game_state } = response;
+    const { game_state, gambler } = response;
     const state = JSON.parse(game_state);
     const reels = Array.from(document.querySelectorAll(".reel"));
     const symbols = state.symbols.split(",");
@@ -56,6 +67,8 @@ function handleSlotsResponse(xhr) {
     } else if (state.text.includes("Lost")) {
       slotsResult.classList.add("text-danger");
     }
+
+    updatePlayerCoins(gambler);
   } else {
     slotsResult.style.visibility = "visible";
     slotsResult.innerText = response.error;
@@ -317,6 +330,10 @@ function handleBlackjackResponse(xhr) {
   if (succeeded) {
     if (response.game_state) {
       updateBlackjack(response.game_state);
+    }
+
+    if (response.gambler) {
+      updatePlayerCoins(response.gambler);
     }
   } else {
     blackjackResult.style.visibility = "visible";

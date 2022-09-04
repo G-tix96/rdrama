@@ -35,6 +35,7 @@ def casino_slot_pull(gambler, wager_value, currency):
         payout = determine_payout()
         reward = wager_value * payout
 
+        currency_value = getattr(gambler, currency_prop, 0)
         setattr(gambler, currency_prop, currency_value + reward)
         gambler.winnings += reward
 
