@@ -217,7 +217,7 @@ def gambler_doubled_down(gambler):
 		currency_value = getattr(gambler, game.currency, 0)
 
 		if (currency_value < game.wager):
-			return False
+			return False, game_state
 
 		setattr(gambler, game.currency, currency_value - game.wager)
 		game.wager *= 2
