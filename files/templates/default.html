@@ -17,7 +17,7 @@
 		<style>:root{--primary:#{{v.themecolor}}}</style>
 		<link rel="stylesheet" href="{{asset('css/main.css')}}">
 		<link rel="stylesheet" href="{{asset('css/' + v.theme + '.css')}}">
-		<link rel="stylesheet" href="/assets/css/awards.css?v=11">
+		<link rel="stylesheet" href="/assets/css/awards.css?v=4000">
 		{% if v.agendaposter %}
 			<style>
 				html {
@@ -43,8 +43,8 @@
 	{% else %}
 		<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
 		<link rel="stylesheet" href="{{asset('css/main.css')}}">
-		<link rel="stylesheet" href="/assets/css/{{DEFAULT_THEME}}.css?v=57">
-		<link rel="stylesheet" href="/assets/css/awards.css?v=11">
+		<link rel="stylesheet" href="/assets/css/{{DEFAULT_THEME}}.css?v=4000">
+		<link rel="stylesheet" href="/assets/css/awards.css?v=4000">
 	{% endif %}
 
 	{% if request.path.endswith('/catalog') %}
@@ -383,7 +383,7 @@
 	<script src="{{asset('js/formatting.js')}}"></script>
 {% endif %}
 
-<script src="/assets/js/lite-youtube.js?v=241"></script>
+<script src="/assets/js/lite-youtube.js?v=4000"></script>
 
 </body>
 
