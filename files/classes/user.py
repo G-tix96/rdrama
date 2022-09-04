@@ -856,6 +856,7 @@ class User(Base):
 	@property
 	@lazy
 	def can_see_chudrama(self):
+		if self.admin_level: return True
 		if self.client: return True
 		if self.truecoins >= 5000: return True
 		if self.agendaposter: return True
