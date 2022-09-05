@@ -139,7 +139,12 @@
 					<div class="d-flex align-items-center">
 						<div class="pl-md-3 text-muted">
 							<div>
-								<img class="avatar pp20 mr-1" data-toggle="tooltip" data-placement="right">
+								<div class="avatar profile-pic-20-wrapper">
+									<img class="avatar-pic pp20 mr-1">
+									{% if m.get('hat') -%}
+										<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{m['hat']}}?v=3">
+									{%- endif %}
+								</div>
 								<a href="" class="font-weight-bold text-black userlink" target="_blank"></a>
 								<span class="text-black time ml-2 d-none">just now</span>
 								<div class="cdiv">
@@ -164,7 +169,7 @@
 									<div>
 										{% if not same %}
 											<div class="profile-pic-20-wrapper">
-												<img src="{{m['avatar']}}" class="avatar pp20 mr-1">
+												<img src="{{m['avatar']}}" class="pp20 mr-1">
 												{% if m.get('hat') -%}
 													<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{m['hat']}}?v=3">
 												{%- endif %}
@@ -219,6 +224,6 @@
 
 <script src="{{asset('js/lozad.js')}}"></script>
 <script src="/assets/js/lite-youtube.js?v=4000"></script>
-<script src="/chat.js?v=4000"></script>
+<script src="/chat.js?v=4001"></script>
 
 </body>

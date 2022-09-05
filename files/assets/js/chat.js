@@ -79,7 +79,8 @@ socket.on('speak', function(json) {
 		document.getElementsByClassName('chat-line')[0].classList.add('diff')
 		document.getElementsByClassName('userlink')[0].classList.remove('d-none')
 		document.getElementsByClassName('avatar')[0].classList.remove('d-none')
-		document.getElementsByClassName('avatar')[0].src = json['avatar']
+		document.getElementsByClassName('avatar-pic')[0].src = json['avatar']
+		if (json['hat']) document.getElementsByClassName('avatar-hat')[0].src = json['hat']
 		document.getElementsByClassName('userlink')[0].href = '/@' + json['username']
 		document.getElementsByClassName('userlink')[0].style.color = '#' + json['namecolor']
 		document.getElementsByClassName('time')[0].classList.remove('d-none')
