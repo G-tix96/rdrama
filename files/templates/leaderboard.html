@@ -476,11 +476,11 @@
 		<th>Blocked By</th>
 	</tr>
 </thead>
-{% for user in usersBlk %}
+{% for user, num in users16 %}
 	<tr {% if v.id == user.target_id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td><a style="color:#{{user.namecolor}};font-weight:bold" href="/@{{user.username}}"><span {% if user.patron %}class="patron" style="background-color:#{{user.namecolor}}"{% endif %}>{{user.username}}</span></a></td>
-		<td>{{user.n}}</td>
+		<td>{% include "user_in_table.html" %}</td>
+		<td>{{num}}</td>
 	</tr>
 {% endfor %}
 </table>
@@ -496,7 +496,7 @@
 		<th>Owned Hats</th>
 	</tr>
 </thead>
-{% for user,num in users16 %}
+{% for user,num in users17 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
@@ -515,7 +515,7 @@
 		<th>Designed Hats</th>
 	</tr>
 </thead>
-{% for user,num in users17 %}
+{% for user,num in users18 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
