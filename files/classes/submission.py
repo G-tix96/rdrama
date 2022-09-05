@@ -376,18 +376,16 @@ class Submission(Base):
 
 			elif o.exclusive == 1:
 				body += f'''<div class="custom-control"><input name="option-{self.id}" autocomplete="off" class="custom-control-input" type="radio" id="{o.id}" onchange="choice_vote('{o.id}','{self.id}','post')"'''
-				if o.voted(v): body += " checked "
-				body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
-				body += f'"> - <a href="/votes/post/option/{o.id}"><span id="option-{o.id}">{o.upvotes}</span> votes</a></span></label></div>'
 			else:
 				body += f'<div class="custom-control"><input type="checkbox" class="custom-control-input" id="{o.id}" name="option"'
-				if o.voted(v): body += " checked"
-				if v:
-					if self.sub in ('furry','vampire','racist','femboy') and not (v.house and v.house.lower().startswith(sub)): body += ' disabled '
-					body += f''' onchange="poll_vote('{o.id}', 'post')"'''
-				else: body += f''' onchange="poll_vote_no_v('{o.id}', '{self.id}')"'''
-				body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
-				body += f'"> - <a href="/votes/post/option/{o.id}"><span id="option-{o.id}">{o.upvotes}</span> votes</a></span></label></div>'
+			
+			if o.voted(v): body += " checked"
+			if v:
+				if self.sub in ('furry','vampire','racist','femboy') and not (v.house and v.house.lower().startswith(sub)): body += ' disabled '
+				body += f''' onchange="poll_vote('{o.id}', 'post')"'''
+			else: body += f''' onchange="poll_vote_no_v('{o.id}', '{self.id}')"'''
+			body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
+			body += f'"> - <a href="/votes/post/option/{o.id}"><span id="option-{o.id}">{o.upvotes}</span> votes</a></span></label></div>'
 
 
 
