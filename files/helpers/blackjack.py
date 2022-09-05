@@ -48,6 +48,7 @@ def save_game_state(game, new_state):
 
 
 def get_active_game(gambler):
+	g.db.flush()
 	game = g.db.query(Casino_Game) \
 		.filter(Casino_Game.active == True,
 				Casino_Game.kind == 'blackjack',
