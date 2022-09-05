@@ -369,20 +369,20 @@ class Comment(Base):
 			else: curr = ''
 			body += f'<input class="d-none" id="current-{self.id}"{curr}>'
 
-		for c in self.options:
-			if c.exclusive:
-				body += f'''<div class="custom-control"><input name="option-{self.id}" autocomplete="off" class="custom-control-input" type="radio" id="{c.id}" onchange="choice_vote('{c.id}','{self.id}','comment')"'''
+		for o in self.options:
+			if o.exclusive:
+				body += f'''<div class="custom-control"><input name="option-{self.id}" autocomplete="off" class="custom-control-input" type="radio" id="{o.id}" onchange="choice_vote('{o.id}','{self.id}','comment')"'''
 			else:
-				body += f'<div class="custom-control"><input type="checkbox" class="custom-control-input" id="{c.id}" name="option"'
+				body += f'<div class="custom-control"><input type="checkbox" class="custom-control-input" id="{o.id}" name="option"'
 			
-			if c.voted(v): body += " checked"
+			if o.voted(v): body += " checked"
 			if v:
 				sub = self.post.sub
 				if sub in ('furry','vampire','racist','femboy') and not (v.house and v.house.lower().startswith(sub)): body += ' disabled '
-				body += f''' onchange="poll_vote('{c.id}', 'comment')"'''
-			else: body += f''' onchange="poll_vote_no_v('{c.id}', '{self.id}')"'''
-			body += f'''><label class="custom-control-label" for="{c.id}">{c.body_html}<span class="presult-{self.id}'''
-			body += f'"> - <a href="/votes/comment/option/{c.id}"><span id="option-{c.id}">{c.upvotes}</span> votes</a></span></label></div>'
+				body += f''' onchange="poll_vote('{o.id}', 'comment')"'''
+			else: body += f''' onchange="poll_vote_no_v('{o.id}', '{self.id}')"'''
+			body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
+			body += f'"> - <a href="/votes/comment/option/{o.id}"><span id="option-{o.id}">{o.upvotes}</span> votes</a></span></label></div>'
 
 		if self.author.sig_html and (self.author_id == MOOSE_ID or (not self.ghost and not (v and (v.sigs_disabled or v.poor)))):
 			body += f"<hr>{self.author.sig_html}"
