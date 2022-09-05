@@ -2836,8 +2836,8 @@ ol > li::before {
 	background-color: rgba(0, 0, 0, 0.15);
 	border-radius: 0.35rem;
 }
-.navbar-light .navbar-nav .nav-link:active .fa, .navbar-light .navbar-nav .nav-link:active .fas, .navbar-light .navbar-nav .nav-link:active .far, .navbar-light .navbar-nav .nav-link:active .fab {
-	color: var(--primary);
+.navbar-light .navbar-nav .nav-link:active .fa, .navbar-light .navbar-nav .nav-link:active .fas, .navbar-light .navbar-nav .nav-link:active .far, .navbar-light .navbar-nav .nav-link:active .fab, .mobile-nav-icon:active .fas {
+	color: var(--primary) !important;
 	text-align: center;
 	font-size: 1rem;
 }
