@@ -54,32 +54,30 @@ def get_active_game(gambler):
 				Casino_Game.user_id == gambler.id).one_or_none()
 
 	if game:
-		return game, json.loads(game.game_state)
+		game_state = json.loads(game.game_state)
+		return game, game_state, get_safe_game_state(game_state)
 	else:
-		return None, None
+		return None, None, None
 
 
-def get_safe_game_state(gambler):
-	game, game_state = get_active_game(gambler)
+def get_safe_game_state(game_state):
+	return {
+		"player": game_state['player'],
+		"dealer": [game_state['dealer'][0], "?"],
+		"actions": game_state['actions'],
+		"insurance": game_state['insurance'],
+		"doubled_down": game_state['doubled_down'],
+		"status": game_state['status']
+	}
 
-	if game:
-		return {
-			"player": game_state['player'],
-			"dealer": [game_state['dealer'][0], "?"],
-			"actions": game_state['actions'],
-			"insurance": game_state['insurance'],
-			"doubled_down": game_state['doubled_down'],
-			"status": game_state['status']
-		}
-	else:
-		return None
 
 
 def apply_blackjack_result(gambler):
-	game, game_state = get_active_game(gambler)
+	game, game_state, _ = get_active_game(gambler)
 
-	if game and game.active:
+	if game:
 		result = game_state['status']
+
 		if result == 'push' or result == 'insured_loss':
 			reward = game.wager
 		elif result == 'won':
@@ -95,53 +93,58 @@ def apply_blackjack_result(gambler):
 			gambler.winnings += reward
 			game.winnings += reward
 
-		if result not in ('push','blackjack'):
-			game.active = False
+		game.active = False
 		g.db.add(game)
 
-
-def deal_blackjack_game(gambler, wager_value, currency):
-	over_min = wager_value >= minimum_bet
-	under_max = wager_value <= maximum_bet
-	using_dramacoin = currency == "dramacoin"
-	using_marseybux = not using_dramacoin
-	has_proper_funds = (using_dramacoin and gambler.coins >= wager_value) or (
-		using_marseybux and gambler.procoins >= wager_value)
-	currency_prop = "coins" if using_dramacoin else "procoins"
-	currency_value = getattr(gambler, currency_prop, 0)
-
-	if (over_min and under_max and has_proper_funds):
-		build_game(gambler, currency_prop, wager_value)
-
-		game, game_state = get_active_game(gambler)
-		player_value = get_hand_value(game_state['player'])
-		dealer_value = get_hand_value(game_state['dealer'])
-
-		# Charge the gambler for the game, reduce their winnings, and start the game.
-		setattr(gambler, currency_prop, currency_value - wager_value)
-		gambler.winnings -= wager_value
-		game.winnings -= wager_value
-
-		# if player_value == 21 and dealer_value == 21:
-		# 	game_state["status"] = 'push'
-		# 	save_game_state(game, game_state)
-		# 	apply_blackjack_result(gambler)
-		# elif player_value == 21:
-		# 	game_state["status"] = 'blackjack'
-		# 	save_game_state(game, game_state)
-		# 	apply_blackjack_result(gambler)
-
-		g.db.flush()
-
-		return True
-	else:
-		return False
-
 # region Actions
+def gambler_dealt(gambler, currency, wager):
+	existing_game, _, _ = get_active_game(gambler)
+
+	if not existing_game:
+		over_min = wager >= minimum_bet
+		under_max = wager <= maximum_bet
+		using_dramacoin = currency == "dramacoin"
+		using_marseybux = not using_dramacoin
+		has_proper_funds = (using_dramacoin and gambler.coins >= wager) or (
+			using_marseybux and gambler.procoins >= wager)
+		currency_prop = "coins" if using_dramacoin else "procoins"
+		currency_value = getattr(gambler, currency_prop, 0)
+
+		if (over_min and under_max and has_proper_funds):
+			# Start the game.
+			build_game(gambler, currency_prop, wager)
+			game, game_state, safe_state = get_active_game(gambler)
+			player_value = get_hand_value(game_state['player'])
+			dealer_value = get_hand_value(game_state['dealer'])
+
+			# Charge the gambler for the game, reduce their winnings.
+			setattr(gambler, currency_prop, currency_value - wager)
+			gambler.winnings -= wager
+			game.winnings -= wager
+
+			# In two cases, the game is instantly over.
+			instantly_over = False
+			if player_value == 21 and dealer_value == 21:
+				instantly_over = True
+				game_state["status"] = 'push'
+				save_game_state(game, game_state)
+				apply_blackjack_result(gambler)
+			elif player_value == 21:
+				instantly_over = True
+				game_state["status"] = 'blackjack'
+				save_game_state(game, game_state)
+				apply_blackjack_result(gambler)
+
+			g.db.flush()
+
+			if instantly_over:
+				return True, game_state
+			else:
+				return True, safe_state
 
 
 def gambler_hit(gambler):
-	game, game_state = get_active_game(gambler)
+	game, game_state, safe_state = get_active_game(gambler)
 
 	if game:
 		player = game_state['player']
@@ -167,13 +170,14 @@ def gambler_hit(gambler):
 			forced_stay_success, forced_stay_state = gambler_stayed(gambler)
 			return forced_stay_success, forced_stay_state
 		else:
-			return True, game_state
+			_, _, safe_state = get_active_game(gambler)
+			return True, safe_state
 	else:
-		return False, game_state
+		return False, safe_state
 
 
 def gambler_stayed(gambler):
-	game, game_state = get_active_game(gambler)
+	game, game_state, safe_state = get_active_game(gambler)
 
 	if game:
 		player = game_state['player']
@@ -206,11 +210,11 @@ def gambler_stayed(gambler):
 
 		return True, game_state
 	else:
-		return False, game_state
+		return False, safe_state
 
 
 def gambler_doubled_down(gambler):
-	game, game_state = get_active_game(gambler)
+	game, game_state, safe_state = get_active_game(gambler)
 
 	if game and not game_state['doubled_down']:
 		currency_value = getattr(gambler, game.currency, 0)
@@ -229,14 +233,13 @@ def gambler_doubled_down(gambler):
 		g.db.flush()
 
 		last_hit_success, last_hit_state = gambler_hit(gambler)
-
 		return last_hit_success, last_hit_state
 	else:
-		return False, game_state
+		return False, safe_state
 
 
 def gambler_purchased_insurance(gambler):
-	game, game_state = get_active_game(gambler)
+	game, game_state, safe_state = get_active_game(gambler)
 
 	if game and not game_state['insurance']:
 		insurance_cost = game.wager / 2
@@ -253,9 +256,10 @@ def gambler_purchased_insurance(gambler):
 		game_state['actions'] = determine_actions(game_state)
 		save_game_state(game, game_state)
 
-		return True, game_state
+		_, _, safe_state = get_active_game(gambler)
+		return True, safe_state
 	else:
-		return False, game_state
+		return False, safe_state
 
 # endregion
 
