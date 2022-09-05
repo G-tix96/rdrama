@@ -96,7 +96,7 @@ if (
 
 function checkBlackjackStatus() {
 	const xhr = new XMLHttpRequest();
-	xhr.open("get", "/casino/blackjack");
+	xhr.open("get", "/casino/blackjack/status");
 	xhr.onload = handleBlackjackStatusResponse.bind(null, xhr);
 	xhr.send();
 }
