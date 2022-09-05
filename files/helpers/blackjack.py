@@ -311,7 +311,7 @@ def purge_bad_games():
 	for game in games:
 		game_state = json.loads(game.game_state)
 
-		if (game_state.status != "active"):
+		if (game_state['status'] != "active"):
 			game.active = False
 			g.db.add(game)
 
