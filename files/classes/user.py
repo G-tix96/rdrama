@@ -768,7 +768,7 @@ class User(Base):
 	@property
 	@lazy
 	def has_shadowbanned_alts(self):
-		for u in alts_unique:
+		for u in self.alts_unique:
 			if u.shadowbanned or u.is_suspended_permanently: return True
 		return False
 
