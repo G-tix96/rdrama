@@ -83,7 +83,7 @@ function post(url) {
 
 function poll_vote(cid, kind) {
 	var type = document.getElementById(cid).checked;
-	var scoretext = document.getElementById('poll-' + cid);
+	var scoretext = document.getElementById('option-' + cid);
 	var score = Number(scoretext.textContent);
 	if (type == true) scoretext.textContent = score + 1;
 	else scoretext.textContent = score - 1;
@@ -94,12 +94,12 @@ function choice_vote(cid, parentid, kind) {
 	let curr = document.getElementById(`current-${parentid}`)
 	if (curr && curr.value)
 	{
-		var scoretext = document.getElementById('choice-' + curr.value);
+		var scoretext = document.getElementById('option-' + curr.value);
 		var score = Number(scoretext.textContent);
 		scoretext.textContent = score - 1;
 	}
 
-	var scoretext = document.getElementById('choice-' + cid);
+	var scoretext = document.getElementById('option-' + cid);
 
 	var score = Number(scoretext.textContent);
 	scoretext.textContent = score + 1;
@@ -114,7 +114,7 @@ function bet_vote(cid) {
 	for(let el of document.getElementsByClassName('cost')) {
 		el.classList.add('d-none')
 	}
-	var scoretext = document.getElementById('bet-' + cid);
+	var scoretext = document.getElementById('option-' + cid);
 	var score = Number(scoretext.textContent);
 	scoretext.textContent = score + 1;
 	post(`/vote/post/option/${cid}`);

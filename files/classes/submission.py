@@ -361,12 +361,12 @@ class Submission(Base):
 
 		for o in self.options:
 			if o.exclusive == 2:
-				body += f'''<div class="custom-control"><input name="bet-{self.id}" autocomplete="off" class="custom-control-input bet" type="radio" id="{o.id}" onchange="bet_vote('{o.id}','{self.id}')"'''
+				body += f'''<div class="custom-control"><input name="option-{self.id}" autocomplete="off" class="custom-control-input bet" type="radio" id="{o.id}" onchange="bet_vote('{o.id}','{self.id}')"'''
 				if o.voted(v): body += " checked "
 				if not (v and v.coins >= 200) or self.total_bet_voted(v): body += " disabled "
 
 				body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
-				body += f'"> - <a href="/votes/post/option/{o.id}"><span id="bet-{o.id}">{o.upvotes}</span> bets</a>'
+				body += f'"> - <a href="/votes/post/option/{o.id}"><span id="option-{o.id}">{o.upvotes}</span> bets</a>'
 				if not self.total_bet_voted(v):
 					body += '''<span class="cost"> (cost of entry: 200 coins)</span>'''
 				body += "</label>"
@@ -375,10 +375,10 @@ class Submission(Base):
 				body += "</div>"
 
 			elif o.exclusive == 1:
-				body += f'''<div class="custom-control"><input name="choice-{self.id}" autocomplete="off" class="custom-control-input" type="radio" id="{o.id}" onchange="choice_vote('{o.id}','{self.id}','post')"'''
+				body += f'''<div class="custom-control"><input name="option-{self.id}" autocomplete="off" class="custom-control-input" type="radio" id="{o.id}" onchange="choice_vote('{o.id}','{self.id}','post')"'''
 				if o.voted(v): body += " checked "
 				body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
-				body += f'"> - <a href="/votes/post/option/{o.id}"><span id="choice-{o.id}">{o.upvotes}</span> votes</a></span></label></div>'
+				body += f'"> - <a href="/votes/post/option/{o.id}"><span id="option-{o.id}">{o.upvotes}</span> votes</a></span></label></div>'
 			else:
 				body += f'<div class="custom-control"><input type="checkbox" class="custom-control-input" id="{o.id}" name="option"'
 				if o.voted(v): body += " checked"
@@ -387,7 +387,7 @@ class Submission(Base):
 					body += f''' onchange="poll_vote('{o.id}', 'post')"'''
 				else: body += f''' onchange="poll_vote_no_v('{o.id}', '{self.id}')"'''
 				body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
-				body += f'"> - <a href="/votes/post/option/{o.id}"><span id="poll-{o.id}">{o.upvotes}</span> votes</a></span></label></div>'
+				body += f'"> - <a href="/votes/post/option/{o.id}"><span id="option-{o.id}">{o.upvotes}</span> votes</a></span></label></div>'
 
 
 
