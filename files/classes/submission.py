@@ -381,7 +381,7 @@ class Submission(Base):
 			
 			if o.voted(v): body += " checked"
 			if v:
-				if self.sub in ('furry','vampire','racist','femboy') and not (v.house and v.house.lower().startswith(sub)): body += ' disabled '
+				if self.sub in ('furry','vampire','racist','femboy') and not (v.house and v.house.lower().startswith(self.sub)): body += ' disabled '
 				body += f''' onchange="poll_vote('{o.id}', 'post')"'''
 			else: body += f''' onchange="poll_vote_no_v('{o.id}', '{self.id}')"'''
 			body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
