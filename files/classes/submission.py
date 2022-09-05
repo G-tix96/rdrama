@@ -355,9 +355,9 @@ class Submission(Base):
 
 		if self.options:
 			curr = [x for x in self.options if x.exclusive and x.voted(v)]
-			if curr: curr = " value=" + str(curr[0].id)
+			if curr: curr = " value=post-" + str(curr[0].id)
 			else: curr = ''
-			body += f'<input class="d-none" id="current-{self.id}"{curr}>'
+			body += f'<input class="d-none" id="current-post-{self.id}"{curr}>'
 
 		for o in self.options:
 			if o.exclusive == 2:
@@ -373,19 +373,20 @@ class Submission(Base):
 				if v and v.admin_level > 2:
 					body += f'''<button class="btn btn-primary px-2 mx-2" style="font-size:10px;padding:2px" onclick="post_toast(this,'/distribute/{o.id}')">Declare winner</button>'''
 				body += "</div>"
-
-			elif o.exclusive == 1:
-				body += f'''<div class="custom-control"><input name="option-{self.id}" autocomplete="off" class="custom-control-input" type="radio" id="{o.id}" onchange="choice_vote('{o.id}','{self.id}','post')"'''
 			else:
-				body += f'<div class="custom-control"><input type="checkbox" class="custom-control-input" id="{o.id}" name="option"'
-			
-			if o.voted(v): body += " checked"
-			if v:
-				if self.sub in ('furry','vampire','racist','femboy') and not (v.house and v.house.lower().startswith(self.sub)): body += ' disabled '
-				body += f''' onchange="poll_vote('{o.id}', 'post')"'''
-			else: body += f''' onchange="poll_vote_no_v('{o.id}', '{self.id}')"'''
-			body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
-			body += f'"> - <a href="/votes/post/option/{o.id}"><span id="option-{o.id}">{o.upvotes}</span> votes</a></span></label></div>'
+				input_type = 'radio' if o.exclusive else 'checkbox'
+				body += f'<div class="custom-control"><input type="{input_type}" class="custom-control-input" id="post-{o.id}" name="option-{self.id}"'
+				if o.voted(v): body += " checked"
+
+				if v:
+					sub = self.sub
+					if sub in ('furry','vampire','racist','femboy') and not (v.house and v.house.lower().startswith(sub)): body += ' disabled '
+					body += f''' onchange="poll_vote_{o.exclusive}('{o.id}', '{self.id}', 'post')"'''
+				else:
+					body += f''' onchange="poll_vote_no_v()"'''
+
+				body += f'''><label class="custom-control-label" for="post-{o.id}">{o.body_html} - 
+				<a href="/votes/post/option/{o.id}"><span id="score-post-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
 
 
 

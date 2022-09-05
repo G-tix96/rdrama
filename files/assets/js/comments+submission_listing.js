@@ -81,43 +81,46 @@ function post(url) {
 	xhr.send(form);
 };
 
-function poll_vote(cid, kind) {
-	var type = document.getElementById(cid).checked;
-	var scoretext = document.getElementById('option-' + cid);
-	var score = Number(scoretext.textContent);
+function poll_vote_0(oid, parentid, kind) {
+	const full_oid = kind + '-' + oid
+	const type = document.getElementById(full_oid).checked;
+	const scoretext = document.getElementById('score-' + full_oid);
+	const score = Number(scoretext.textContent);
 	if (type == true) scoretext.textContent = score + 1;
 	else scoretext.textContent = score - 1;
-	post(`/vote/${kind}/option/${cid}`);
+	post(`/vote/${kind}/option/${oid}`);
 }
 
-function choice_vote(cid, parentid, kind) {
-	let curr = document.getElementById(`current-${parentid}`)
+function poll_vote_1(oid, parentid, kind) {
+	const full_oid = kind + '-' + oid
+	let curr = document.getElementById(`current-${kind}-${parentid}`)
 	if (curr && curr.value)
 	{
-		var scoretext = document.getElementById('option-' + curr.value);
-		var score = Number(scoretext.textContent);
+		console.log(curr.value)
+		const scoretext = document.getElementById('score-' + curr.value);
+		const score = Number(scoretext.textContent);
 		scoretext.textContent = score - 1;
 	}
 
-	var scoretext = document.getElementById('option-' + cid);
+	const scoretext = document.getElementById('score-' + full_oid);
 
-	var score = Number(scoretext.textContent);
+	const score = Number(scoretext.textContent);
 	scoretext.textContent = score + 1;
-	post(`/vote/${kind}/option/${cid}`);
-	curr.value = cid
+	post(`/vote/${kind}/option/${oid}`);
+	curr.value = full_oid
 }
 
-function bet_vote(cid) {
+function bet_vote(oid) {
 	for(let el of document.getElementsByClassName('bet')) {
 		el.disabled = true;
 	}
 	for(let el of document.getElementsByClassName('cost')) {
 		el.classList.add('d-none')
 	}
-	var scoretext = document.getElementById('option-' + cid);
+	var scoretext = document.getElementById('option-' + oid);
 	var score = Number(scoretext.textContent);
 	scoretext.textContent = score + 1;
-	post(`/vote/post/option/${cid}`);
+	post(`/vote/post/option/${oid}`);
 
 	document.getElementById("user-coins-amount").innerText = parseInt(document.getElementById("user-coins-amount").innerText) - 200;
 }
