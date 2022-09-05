@@ -87,7 +87,7 @@ def award_timers(v, bot=False):
 		notify_if_not_bot("Your owoify status has expired!")
 		dirty = True
 	if v.marsify and v.marsify != 1 and v.marsify < now:
-		v.marsify = None
+		v.marsify = 0
 		if SITE_NAME != 'rDrama': notify_if_not_bot("Your marsify status has expired!")
 		dirty = True
 
