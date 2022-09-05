@@ -536,7 +536,7 @@ def leaderboard(v):
 	pos7 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
 
 	try:
-		pos9 = users9.index(v.id)
+		pos9 = [x[0] for x in users9].index(v.id)
 		pos9 = (pos9+1, users9[pos9][1])
 	except: pos9 = (len(users9)+1, 0)
 
@@ -563,7 +563,7 @@ def leaderboard(v):
 		pos12 = None
 
 	try:
-		pos13 = users13.index(v.id)
+		pos13 = [x[0] for x in users13].index(v.id)
 		pos13 = (pos13+1, users13[pos13][1])
 	except: pos13 = (len(users13)+1, 0)
 
