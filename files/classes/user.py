@@ -768,18 +768,9 @@ class User(Base):
 	@property
 	@lazy
 	def has_shadowbanned_alts(self):
-		qty = g.db.execute(
-				"""SELECT COUNT(*) FROM (
-					SELECT (CASE
-						WHEN user1 = :u THEN user2
-						WHEN user2 = :u THEN user1
-					END) AS id FROM alts
-					WHERE user1 = :u OR user2 = :u
-				) AS a
-				JOIN users ON a.id = users.id
-				WHERE users.shadowbanned IS NOT NULL or users.is_banned != 0 and users.unban_utc = 0""",
-			{"u": self.id}).scalar()
-		return qty > 0
+		for u in alts_unique:
+			if u.shadowbanned or u.is_suspended_permanently: return True
+		return False
 
 	@property
 	@lazy
