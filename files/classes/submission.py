@@ -382,7 +382,9 @@ class Submission(Base):
 			else:
 				body += f'<div class="custom-control"><input type="checkbox" class="custom-control-input" id="{o.id}" name="option"'
 				if o.voted(v): body += " checked"
-				if v: body += f''' onchange="poll_vote('{o.id}', 'post')"'''
+				if v:
+					if self.sub in ('furry','vampire','racist','femboy') and not (v.house and v.house.lower().startswith(sub)): body += ' disabled '
+					body += f''' onchange="poll_vote('{o.id}', 'post')"'''
 				else: body += f''' onchange="poll_vote_no_v('{o.id}', '{self.id}')"'''
 				body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
 				body += f'"> - <a href="/votes/post/option/{o.id}"><span id="poll-{o.id}">{o.upvotes}</span> votes</a></span></label></div>'

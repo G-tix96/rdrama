@@ -378,7 +378,9 @@ class Comment(Base):
 			else:
 				body += f'<div class="custom-control"><input type="checkbox" class="custom-control-input" id="{c.id}" name="option"'
 				if c.voted(v): body += " checked"
-				if v: body += f''' onchange="poll_vote('{c.id}', 'comment')"'''
+				if v:
+					if self.post.sub in ('furry','vampire','racist','femboy') and not (v.house and v.house.lower().startswith(sub)): body += ' disabled '
+					body += f''' onchange="poll_vote('{c.id}', 'comment')"'''
 				else: body += f''' onchange="poll_vote_no_v('{c.id}', '{self.id}')"'''
 				body += f'''><label class="custom-control-label" for="{c.id}">{c.body_html}<span class="presult-{self.id}'''
 				body += f'"> - <a href="/votes/comment/option/{c.id}"><span id="poll-{c.id}">{c.upvotes}</span> votes</a></span></label></div>'
