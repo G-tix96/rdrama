@@ -9,8 +9,8 @@ from files.__main__ import app, limiter, cache
 @admin_level_required(PERMS['VOTES_VISIBLE'])
 def vote_info_get(v, link):
 	try:
-		if "t2_" in link: thing = get_post(int(link.split("t2_")[1]), v=v)
-		elif "t3_" in link: thing = get_comment(int(link.split("t3_")[1]), v=v)
+		if "p_" in link: thing = get_post(int(link.split("p_")[1]), v=v)
+		elif "c_" in link: thing = get_comment(int(link.split("c_")[1]), v=v)
 		else: abort(400)
 	except: abort(400)
 

@@ -159,13 +159,13 @@ def comment(v):
 	if parent_post.club and not (v and (v.paid_dues or v.id == parent_post.author_id)): abort(403)
 
 	rts = False
-	if parent_fullname.startswith("t2_"):
+	if parent_fullname.startswith("p_"):
 		parent = parent_post
 		parent_comment_id = None
 		level = 1
 
 		if POLL_THREAD and parent.id == POLL_THREAD and v.admin_level < 2: abort(403)
-	elif parent_fullname.startswith("t3_"):
+	elif parent_fullname.startswith("c_"):
 		parent = get_comment(parent_fullname.split("_")[1], v=v)
 		parent_comment_id = parent.id
 		level = parent.level + 1

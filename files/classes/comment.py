@@ -187,7 +187,7 @@ class Comment(Base):
 	@property
 	@lazy
 	def fullname(self):
-		return f"t3_{self.id}"
+		return f"c_{self.id}"
 
 	@property
 	@lazy
@@ -202,8 +202,8 @@ class Comment(Base):
 	@property
 	@lazy
 	def parent_fullname(self):
-		if self.parent_comment_id: return f"t3_{self.parent_comment_id}"
-		elif self.parent_submission: return f"t2_{self.parent_submission}"
+		if self.parent_comment_id: return f"c_{self.parent_comment_id}"
+		elif self.parent_submission: return f"p_{self.parent_submission}"
 
 	@lazy
 	def replies(self, sort=None):
