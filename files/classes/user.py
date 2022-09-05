@@ -202,7 +202,7 @@ class User(Base):
 			return 'Cakeday.webp'
 
 		if self.equipped_hats:
-			return random.choice(self.equipped_hats).name + '.webp'
+			return random.choice(self.equipped_hats)
 
 		return ''
 
@@ -215,7 +215,7 @@ class User(Base):
 			return "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓"
 
 		if self.equipped_hats:
-			return random.choice(self.equipped_hats).censored_description(v)
+			return self.hat_active.name + ' - ' + self.hat_active.censored_description(v)
 
 		return ''
 
