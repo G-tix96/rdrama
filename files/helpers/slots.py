@@ -5,10 +5,7 @@ from .const import *
 from files.classes.casino_game import Casino_Game
 from flask import g
 
-if SITE_NAME == 'rDrama':
-	minimum_bet = 100
-else:
-	minimum_bet = 10
+minimum_bet = 5
 maximum_bet = INFINITY
 payout_to_symbols = {
 	2: ["👣", "🍀", "🌈", "⭐️"],

@@ -9,7 +9,7 @@ from flask import g
 deck_count = 4
 ranks = ("2", "3", "4", "5", "6", "7", "8", "9", "X", "J", "Q", "K", "A")
 suits = ("S", "H", "C", "D")
-minimum_bet = 100
+minimum_bet = 5
 maximum_bet = INFINITY
 
 
