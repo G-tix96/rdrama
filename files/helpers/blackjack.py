@@ -4,6 +4,7 @@ import random
 from math import floor
 from files.helpers.const import *
 from files.classes.casino_game import Casino_Game
+from files.classes.user import User
 from flask import g
 
 deck_count = 4
@@ -11,7 +12,6 @@ ranks = ("2", "3", "4", "5", "6", "7", "8", "9", "X", "J", "Q", "K", "A")
 suits = ("S", "H", "C", "D")
 minimum_bet = 5
 maximum_bet = INFINITY
-
 
 def build_game(gambler, currency_kind, wager):
 	casino_game = Casino_Game()
@@ -69,7 +69,6 @@ def get_safe_game_state(game_state):
 		"doubled_down": game_state['doubled_down'],
 		"status": game_state['status']
 	}
-
 
 
 def apply_blackjack_result(gambler):
@@ -303,4 +302,28 @@ def get_hand_value(hand):
 
 	return max(possibilities)
 
+def purge_bad_games():
+	# If for whatever reason a game is marked as active but has concluded, this will clear it up.
+	games = g.db.query(Casino_Game) \
+		.filter(Casino_Game.active == True,
+				Casino_Game.kind == 'blackjack').all()
+
+	for game in games:
+		game_state = json.loads(game.game_state)
+
+		if (game_state.status != "active"):
+			game.active = False
+			g.db.add(game)
+
+			# Victims of this status should have their currency refunded.
+			user = g.db.query(User).filter(User.id == game.user_id)
+
+			if user:
+				user.winnings += game.wager
+				currencyBeforeFix = getattr(user, game.currency, 0)
+				setattr(user, game.currency, currencyBeforeFix + game.wager)
+				g.db.add(user)
+
+	g.db.commit()
+	g.db.flush()
 # endregion

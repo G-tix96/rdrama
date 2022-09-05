@@ -16,6 +16,15 @@ def casino(v):
 	participants = get_users_participating_in_lottery()
 	return render_template("casino.html", v=v, participants=participants)
 
+@app.get("/casino/<game>")
+@auth_required
+def casino_game_page(v, game):
+	return render_template(
+		f"casino/{game}_screen.html",
+		v=v,
+		game=game
+	)
+
 
 @app.post("/casino/slots")
 @limiter.limit("3/second;30/minute;600/hour;12000/day")
@@ -42,7 +51,7 @@ def pull_slots(v):
 		return {"error": "Wager must be more than 100 {currency}."}
 
 
-@app.get("/casino/blackjack")
+@app.get("/casino/blackjack/status")
 @limiter.limit("3/second;30/minute;600/hour;12000/day")
 @auth_required
 def get_player_blackjack_status(v):
@@ -108,3 +117,12 @@ def player_took_blackjack_action(v):
 		}
 	else:
 		return { "active": False }
+
+@app.post("/casino/blackjack/purge")
+@auth_required
+def fix_blackjack_games(v):
+	if v.admin_level < 3:
+		return { "success": False, "error": "Insufficient permissions." }
+	else:
+		purge_bad_games()
+		return { "success": True, "message": "Successfully purged bad blackjack games." }

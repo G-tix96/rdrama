@@ -54,9 +54,10 @@
 {%- endif %}
 
 {% if CASINO_ENABLED -%}
-<h4>Lottery</h4>
+<h4>Casino</h4>
 <ul>
 	<li><a href="/admin/lottery/participants">Participants</a></li>
+	<button class="btn btn-primary mt-3" onclick="post_toast(this,'/casino/blackjack/purge');" style="margin-bottom: 2em;">PURGE BAD BLACKJACK GAMES</button>
 </ul>
 {%- endif %}
 
