@@ -527,7 +527,8 @@ ALTER SEQUENCE public.hat_defs_id_seq OWNED BY public.hat_defs.id;
 
 CREATE TABLE public.hats (
     hat_id integer NOT NULL,
-    user_id integer NOT NULL
+    user_id integer NOT NULL,
+    equipped boolean
 );
 
 
@@ -964,8 +965,7 @@ CREATE TABLE public.users (
     owoify integer,
     marsify integer,
     is_muted boolean DEFAULT false NOT NULL,
-    coins_spent_on_hats integer DEFAULT 0 NOT NULL,
-    equipped_hat_id integer
+    coins_spent_on_hats integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2455,14 +2455,6 @@ ALTER TABLE ONLY public.mods
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT user_referrer_fkey FOREIGN KEY (referred_by) REFERENCES public.users(id);
-
-
---
--- Name: users users_equipped_hat_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_equipped_hat_id_fkey FOREIGN KEY (equipped_hat_id) REFERENCES public.hat_defs(id);
 
 
 --
