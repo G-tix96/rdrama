@@ -51,7 +51,7 @@ def get_active_game(gambler):
 	game = g.db.query(Casino_Game) \
 		.filter(Casino_Game.active == True,
 				Casino_Game.kind == 'blackjack',
-				Casino_Game.user_id == gambler.id).first()
+				Casino_Game.user_id == gambler.id).one_or_none()
 
 	if game:
 		return game, json.loads(game.game_state)
@@ -95,7 +95,8 @@ def apply_blackjack_result(gambler):
 			gambler.winnings += reward
 			game.winnings += reward
 
-		game.active = False
+		if result not in ('push','blackjack'):
+			game.active = False
 		g.db.add(game)
 
 

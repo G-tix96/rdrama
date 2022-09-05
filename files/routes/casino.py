@@ -79,6 +79,8 @@ def deal_blackjack(v):
 
 		if game and game.active:
 			safe_state = get_safe_game_state(v)
+			if safe_state['status'] in ('push','blackjack'):
+				game.active = False
 			return {"game_state": safe_state, "gambler": { "coins": v.coins, "procoins": v.procoins }}
 		else:
 			return {"game_state": game_state, "gambler": { "coins": v.coins, "procoins": v.procoins }}
