@@ -122,14 +122,14 @@ def deal_blackjack_game(gambler, wager_value, currency):
 		gambler.winnings -= wager_value
 		game.winnings -= wager_value
 
-		if player_value == 21 and dealer_value == 21:
-			game_state["status"] = 'push'
-			save_game_state(game, game_state)
-			apply_blackjack_result(gambler)
-		elif player_value == 21:
-			game_state["status"] = 'blackjack'
-			save_game_state(game, game_state)
-			apply_blackjack_result(gambler)
+		# if player_value == 21 and dealer_value == 21:
+		# 	game_state["status"] = 'push'
+		# 	save_game_state(game, game_state)
+		# 	apply_blackjack_result(gambler)
+		# elif player_value == 21:
+		# 	game_state["status"] = 'blackjack'
+		# 	save_game_state(game, game_state)
+		# 	apply_blackjack_result(gambler)
 
 		g.db.flush()
 
