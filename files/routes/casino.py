@@ -18,6 +18,7 @@ def casino(v):
 
 
 @app.post("/casino/slots")
+@limiter.limit("3/second;30/minute;600/hour;12000/day")
 @auth_required
 def pull_slots(v):
 	try:
@@ -42,6 +43,7 @@ def pull_slots(v):
 
 
 @app.get("/casino/blackjack")
+@limiter.limit("3/second;30/minute;600/hour;12000/day")
 @auth_required
 def get_player_blackjack_status(v):
 	game, game_state = get_active_game(v)
@@ -54,6 +56,7 @@ def get_player_blackjack_status(v):
 
 
 @app.post("/casino/blackjack")
+@limiter.limit("3/second;30/minute;600/hour;12000/day")
 @auth_required
 def deal_blackjack(v):
 	try:
@@ -85,6 +88,7 @@ def deal_blackjack(v):
 
 
 @app.post("/casino/blackjack/action")
+@limiter.limit("3/second;30/minute;600/hour;12000/day")
 @auth_required
 def player_took_blackjack_action(v):
 	try:
