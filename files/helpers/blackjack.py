@@ -316,14 +316,12 @@ def purge_bad_games():
 			g.db.add(game)
 
 			# Victims of this status should have their currency refunded.
-			user = g.db.query(User).filter(User.id == game.user_id)
+			user = g.db.query(User).filter(User.id == game.user_id).one()
 
-			if user:
-				user.winnings += game.wager
-				currencyBeforeFix = getattr(user, game.currency, 0)
-				setattr(user, game.currency, currencyBeforeFix + game.wager)
-				g.db.add(user)
+			user.winnings += game.wager
+			currencyBeforeFix = getattr(user, game.currency, 0)
+			setattr(user, game.currency, currencyBeforeFix + game.wager)
+			g.db.add(user)
 
 	g.db.commit()
-	g.db.flush()
-# endregion
+	# endregion
