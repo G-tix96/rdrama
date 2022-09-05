@@ -193,7 +193,7 @@ def with_sigalrm_timeout(timeout: int):
 
 
 @with_sigalrm_timeout(2)
-def sanitize(sanitized, edit=False, limit_pings=0, showmore=True):
+def sanitize(sanitized, edit=False, limit_pings=0, showmore=True, marsified=False):
 	sanitized = sanitized.strip()
 
 	sanitized = normalize_url(sanitized)
@@ -322,7 +322,7 @@ def sanitize(sanitized, edit=False, limit_pings=0, showmore=True):
 	sanitized = video_sub_regex.sub(r'\1<video controls preload="metadata"><source src="\2"></video>', sanitized)
 	sanitized = audio_sub_regex.sub(r'\1<audio controls preload="metadata" src="\2"></audio>', sanitized)
 
-	if not edit:
+	if not edit and not marsified:
 		for marsey in g.db.query(Marsey).filter(Marsey.name.in_(marseys_used)).all():
 			marsey.count += 1
 			g.db.add(marsey)

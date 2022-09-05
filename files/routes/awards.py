@@ -360,7 +360,7 @@ def award_thing(v, thing_type, id):
 			body = thing.body
 			body = owoify(body)
 			if author.marsify: body = marsify(body)
-			thing.body_html = sanitize(body, limit_pings=5)
+			thing.body_html = sanitize(body, limit_pings=5, marsified=True)
 			g.db.add(thing)
 	elif ("Femboy" in kind and kind == v.house) or kind == 'marsify':
 		if author.marsify: author.marsify += 21600
@@ -370,7 +370,7 @@ def award_thing(v, thing_type, id):
 			body = thing.body
 			if author.owoify: body = owoify(body)
 			body = marsify(body)
-			thing.body_html = sanitize(body, limit_pings=5)
+			thing.body_html = sanitize(body, limit_pings=5, marsified=True)
 			g.db.add(thing)
 
 	if author.received_award_count: author.received_award_count += 1

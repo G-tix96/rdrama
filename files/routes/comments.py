@@ -341,7 +341,7 @@ def comment(v):
 	if v.marsify:
 		body_for_sanitize = marsify(body_for_sanitize)
 
-	body_html = sanitize(body_for_sanitize, limit_pings=5)
+	body_html = sanitize(body_for_sanitize, limit_pings=5, marsified=True)
 
 
 	if parent_post.id not in ADMIGGERS and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
@@ -772,7 +772,7 @@ def edit_comment(cid, v):
 		if v.marsify:
 			body_for_sanitize = marsify(body_for_sanitize)
 
-		body_html = sanitize(body_for_sanitize, edit=True, limit_pings=5)
+		body_html = sanitize(body_for_sanitize, edit=True, limit_pings=5, marsified=True)
 
 		if len(body_html) > 20000: abort(400)
 
