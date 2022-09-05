@@ -138,7 +138,7 @@ class User(Base):
 	bite = Column(Integer)
 	earlylife = Column(Integer)
 	owoify = Column(Integer)
-	marsify = Column(Integer)
+	marsify = Column(Integer, default=0)
 
 	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
 	subscriptions = relationship("Subscription", back_populates="user")
