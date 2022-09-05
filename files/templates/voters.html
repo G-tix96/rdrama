@@ -20,7 +20,7 @@
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		<td><a href="{{request.path}}/{{user[0].id}}/posts">{{num}}</a></td>
+		<td><a href="{{request.path}}/{{user.id}}/posts">{{num}}</a></td>
 	</tr>
 {% endfor %}
 {% if pos and (pos[0] > 25 or not pos[1]) %}
