@@ -139,7 +139,6 @@ class User(Base):
 	earlylife = Column(Integer)
 	owoify = Column(Integer)
 	marsify = Column(Integer)
-	equipped_hat_id = Column(Integer, ForeignKey("hat_defs.id"))
 
 	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
 	subscriptions = relationship("Subscription", back_populates="user")
@@ -152,7 +151,6 @@ class User(Base):
 	apps = relationship("OauthApp", back_populates="author")
 	awards = relationship("AwardRelationship", primaryjoin="User.id==AwardRelationship.user_id", back_populates="user")
 	referrals = relationship("User")
-	equipped_hat = relationship("HatDef", primaryjoin="User.equipped_hat_id==HatDef.id")
 	designed_hats = relationship("HatDef", primaryjoin="User.id==HatDef.author_id", back_populates="author")
 	owned_hats = relationship("Hat", back_populates="owners")
 
@@ -183,6 +181,43 @@ class User(Base):
 	@lazy
 	def num_of_designed_hats(self):
 		return len(self.designed_hats)
+
+	@property
+	@lazy
+	def equipped_hats(self):
+		return g.db.query(Hat).filter_by(user_id=self.id, equipped=True).all()
+
+	@property
+	@lazy
+	def equipped_hat_ids(self):
+		return [x.hat_id for x in self.equipped_hats]
+
+	@property
+	@lazy
+	def hat_active(self):
+		if not FEATURES['HATS']:
+			return ''
+
+		if self.is_cakeday:
+			return 'Cakeday.webp'
+
+		if self.equipped_hats:
+			return random.choice(self.equipped_hats).name + '.webp'
+
+		return ''
+
+	@lazy
+	def hat_tooltip(self, v):
+		if not FEATURES['HATS']:
+			return ''
+
+		if self.is_cakeday:
+			return "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓"
+
+		if self.equipped_hats:
+			return random.choice(self.equipped_hats).censored_description(v)
+
+		return ''
 
 	@property
 	@lazy
@@ -651,33 +686,6 @@ class User(Base):
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl
 		return f"{SITE_FULL}/assets/images/default-profile-pic.webp?v=1008"
-
-	@property
-	@lazy
-	def hat_active(self):
-		if not FEATURES['HATS']:
-			return ''
-
-		if self.is_cakeday:
-			return 'Cakeday.webp'
-
-		if self.equipped_hat_id:
-			return self.equipped_hat.name + '.webp'
-
-		return ''
-
-	@lazy
-	def hat_tooltip(self, v):
-		if not FEATURES['HATS']:
-			return ''
-
-		if self.is_cakeday:
-			return "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓"
-
-		if self.equipped_hat_id:
-			return self.equipped_hat.censored_description(v)
-
-		return ''
 
 	@lazy
 	def json_popover(self, v):

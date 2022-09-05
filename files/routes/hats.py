@@ -13,8 +13,10 @@ def hats(v):
 
 	owned_hat_ids = [x.hat_id for x in v.owned_hats]
 
-	if v.equipped_hat_id:
-		owned = [(v.equipped_hat, v.equipped_hat.author)] + g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.in_(owned_hat_ids), HatDef.id != v.equipped_hat_id).order_by(HatDef.price, HatDef.name).all()
+	if v.equipped_hat_ids:
+		equipped = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.in_(owned_hat_ids), HatDef.id.in_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+		not_equipped = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.in_(owned_hat_ids), HatDef.id.notin_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+		owned = equipped + not_equipped
 	else:
 		owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.in_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
 
@@ -83,18 +85,24 @@ def equip_hat(v, hat_id):
 	hat = g.db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
 	if not hat: return {"error": "You don't own this hat!"}
 
-	v.equipped_hat_id = hat_id
-	g.db.add(v)
+	hat.equipped = True
+	g.db.add(hat)
 
 	return {"message": "Hat equipped!"}
 
-@app.post("/unequip_hat")
+@app.post("/unequip_hat/<hat_id>")
 @auth_required
-def unequip_hat(v):
+def unequip_hat(v, hat_id):
 	if not FEATURES['HATS']: abort(404)
 
-	v.equipped_hat_id = None
-	g.db.add(v)
+	try: hat_id = int(hat_id)
+	except: return {"error": "Hat not found!"}
+
+	hat = g.db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
+	if not hat: return {"error": "You don't own this hat!"}
+
+	hat.equipped = False
+	g.db.add(hat)
 
 	return {"message": "Hat unequipped!"}
 

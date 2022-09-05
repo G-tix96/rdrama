@@ -30,5 +30,16 @@ class Hat(Base):
 
 	user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
 	hat_id = Column(Integer, ForeignKey('hat_defs.id'), primary_key=True)
+	equipped = Column(Boolean, default=False)
 
+	hat_def = relationship("HatDef")
 	owners = relationship("User", back_populates="owned_hats")
+
+	@property
+	@lazy
+	def name(self):
+		return self.hat_def.name
+
+	@lazy
+	def censored_description(self, v):
+		return self.hat_def.censored_description(v)
