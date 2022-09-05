@@ -405,10 +405,9 @@ def edit_post(pid, v):
 			return {"error":"You have to type less than 140 characters!"}, 403
 
 	if title != p.title:
-		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and p.sub != 'chudrama':
-			title = torture_ap(title, v.username)
+		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
 
-		title_html = filter_emojis_only(title, edit=True)
+		title_html = filter_emojis_only(title, edit=True, torture=torture)
 
 		if v.id == p.author_id and v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 			return {"error":"You can only type marseys!"}, 403
@@ -421,9 +420,6 @@ def edit_post(pid, v):
 	body = body.strip()
 
 	if body != p.body:
-		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and p.sub != 'chudrama':
-			body = torture_ap(body, v.username)
-
 		for i in poll_regex.finditer(body):
 			body = body.replace(i.group(0), "")
 			option = SubmissionOption(
@@ -443,7 +439,9 @@ def edit_post(pid, v):
 			g.db.add(option)
 
 
-		body_html = sanitize(body, edit=True, limit_pings=100, showmore=False)
+		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
+
+		body_html = sanitize(body, edit=True, limit_pings=100, showmore=False, torture=torture)
 
 		if v.id == p.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
 			return {"error":"You can only type marseys!"}, 403
@@ -721,10 +719,9 @@ def submit_post(v, sub=None):
 
 	if v.is_suspended: return error("You can't perform this action while banned.")
 	
-	if v.agendaposter and not v.marseyawarded and sub != 'chudrama':
-		title = torture_ap(title, v.username)
+	torture = (v.agendaposter and not v.marseyawarded and sub != 'chudrama')
 
-	title_html = filter_emojis_only(title, graceful=True)
+	title_html = filter_emojis_only(title, graceful=True, torture=torture)
 
 	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 		return error("You can only type marseys!")
@@ -892,14 +889,13 @@ def submit_post(v, sub=None):
 		choices.append(i.group(1))
 		body = body.replace(i.group(0), "")
 
-	if v.agendaposter and not v.marseyawarded and sub != 'chudrama':
-		body = torture_ap(body, v.username)
-
 	body += process_files()
 
 	body = body.strip()
 
-	body_html = sanitize(body, limit_pings=100, showmore=False)
+	torture = (v.agendaposter and not v.marseyawarded and sub != 'chudrama')
+
+	body_html = sanitize(body, limit_pings=100, showmore=False, torture=torture)
 
 	if v.marseyawarded and marseyaward_body_regex.search(body_html):
 		return error("You can only type marseys!")

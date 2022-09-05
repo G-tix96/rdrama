@@ -193,8 +193,12 @@ def with_sigalrm_timeout(timeout: int):
 
 
 @with_sigalrm_timeout(2)
-def sanitize(sanitized, edit=False, limit_pings=0, showmore=True, marsified=False):
+def sanitize(sanitized, edit=False, limit_pings=0, showmore=True, marsified=False, torture=False):
 	sanitized = sanitized.strip()
+
+	if torture:
+		sanitized = torture_ap(sanitized, g.v.username)
+		sanitized += '\n:#trumpjaktalking:'
 
 	sanitized = normalize_url(sanitized)
 
@@ -399,7 +403,11 @@ def allowed_attributes_emojis(tag, name, value):
 
 
 @with_sigalrm_timeout(1)
-def filter_emojis_only(title, edit=False, graceful=False):
+def filter_emojis_only(title, edit=False, graceful=False, torture=False):
+	title = title.strip()
+
+	if torture:
+		title = torture_ap(title, g.v.username)
 
 	title = title.replace('‎','').replace('​','').replace("\ufeff", "").replace("𒐪","").replace("\n", "").replace("\r", "").replace("\t", "").replace("&", "&amp;").replace('<','&lt;').replace('>','&gt;').replace('"', '&quot;').replace("'", "&#039;").strip()
 
