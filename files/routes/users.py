@@ -19,45 +19,6 @@ from sys import stdout
 import os
 
 
-def leaderboard_thread():
-	global users9, users9_25, users13, users13_25
-
-	db = db_session()
-
-	votes1 = db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote).filter(Vote.vote_type==-1).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
-	votes2 = db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(CommentVote.vote_type==-1).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
-	votes3 = Counter(dict(votes1)) + Counter(dict(votes2))
-	users8 = db.query(User).filter(User.id.in_(votes3.keys())).all()
-	users9 = []
-	for user in users8: users9.append((user, votes3[user.id]))
-	users9 = sorted(users9, key=lambda x: x[1], reverse=True)
-	users9_25 = users9[:25]
-
-	votes1 = db.query(Vote.user_id, func.count(Vote.user_id)).filter(Vote.vote_type==1).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
-	votes2 = db.query(CommentVote.user_id, func.count(CommentVote.user_id)).filter(CommentVote.vote_type==1).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
-	votes3 = Counter(dict(votes1)) + Counter(dict(votes2))
-	users14 = db.query(User).filter(User.id.in_(votes3.keys())).all()
-	users13 = []
-	for user in users14:
-		users13.append((user, votes3[user.id]-user.post_count-user.comment_count))
-	users13 = sorted(users13, key=lambda x: x[1], reverse=True)
-	users13_25 = users13[:25]
-
-	db.close()
-	stdout.flush()
-
-gevent.spawn(leaderboard_thread())
-
-
-
-
-
-
-
-
-
-
-
 @app.get("/@<username>/upvoters/<uid>/posts")
 @auth_required
 def upvoters_posts(v, username, uid):
@@ -533,6 +494,43 @@ def leaderboard(v):
 	users7 = users.order_by(User.coins_spent.desc()).limit(25).all()
 	sq = g.db.query(User.id, func.rank().over(order_by=User.coins_spent.desc()).label("rank")).subquery()
 	pos7 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
+
+
+
+
+
+
+	votes1 = db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote).filter(Vote.vote_type==-1).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
+	votes2 = db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(CommentVote.vote_type==-1).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
+	votes3 = Counter(dict(votes1)) + Counter(dict(votes2))
+	users8 = db.query(User).filter(User.id.in_(votes3.keys())).all()
+	users9 = []
+	for user in users8: users9.append((user, votes3[user.id]))
+	users9 = sorted(users9, key=lambda x: x[1], reverse=True)
+	users9_25 = users9[:25]
+
+	votes1 = db.query(Vote.user_id, func.count(Vote.user_id)).filter(Vote.vote_type==1).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
+	votes2 = db.query(CommentVote.user_id, func.count(CommentVote.user_id)).filter(CommentVote.vote_type==1).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
+	votes3 = Counter(dict(votes1)) + Counter(dict(votes2))
+	users14 = db.query(User).filter(User.id.in_(votes3.keys())).all()
+	users13 = []
+	for user in users14:
+		users13.append((user, votes3[user.id]-user.post_count-user.comment_count))
+	users13 = sorted(users13, key=lambda x: x[1], reverse=True)
+	users13_25 = users13
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	try:
 		pos9 = [x[0].id for x in users9].index(v.id)
