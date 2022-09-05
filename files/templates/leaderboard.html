@@ -480,7 +480,7 @@
 	<tr {% if v.id == user.target_id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		<td>{{num}}</td>
+		<td><a href="/blockers/{{user.id}}">{{num}}</a></td>
 	</tr>
 {% endfor %}
 </table>

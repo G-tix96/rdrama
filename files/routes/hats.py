@@ -125,7 +125,7 @@ def hat_owners(v, hat_id):
 	next_exists = (len(users) > 25)
 	users = users[:25]
 
-	return render_template("admin/new_users.html",
+	return render_template("user_cards.html",
 						v=v,
 						users=users,
 						next_exists=next_exists,
