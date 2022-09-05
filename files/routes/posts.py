@@ -655,7 +655,7 @@ def is_repost():
 	
 	url = urlunparse(new_url)
 
-	if url.endswith('/'): url = url[:-1]
+	url = url.rstrip('/')
 
 	search_url = url.replace('%', '').replace('\\', '').replace('_', '\_').strip()
 	repost = g.db.query(Submission).filter(
@@ -764,7 +764,7 @@ def submit_post(v, sub=None):
 		
 		url = urlunparse(new_url)
 
-		if url.endswith('/'): url = url[:-1]
+		url = url.rstrip('/')
 
 		search_url = url.replace('%', '').replace('\\', '').replace('_', '\_').strip()
 		repost = g.db.query(Submission).filter(
