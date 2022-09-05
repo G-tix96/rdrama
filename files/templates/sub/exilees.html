@@ -17,10 +17,13 @@
 </thead>
 {% for user, exile in users %}
 	<tr>
-		{% set exiler=exile.exiler %}
 		<td>{{loop.index}}</td>
-		<td><a style="color:#{{user.name_color}}" href="/@{{user.username}}"><img loading="lazy" src="{{user.profile_url}}" class="pp20"><span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span></a></td>
-		<td><a style="color:#{{exiler.name_color}}" href="/@{{exiler.username}}"><img loading="lazy" src="{{exiler.profile_url}}" class="pp20"><span {% if exiler.patron %}class="patron" style="background-color:#{{exiler.name_color}}"{% endif %}>{{exiler.username}}</span></a></td>
+		<td>{% include "user_in_table.html" %}</td>
+		<td>
+			{% with user=exile.exiler %}
+				{% include "user_in_table.html" %}
+			{% endwith %}
+		</td>
 		<td>
 			{% if v.mods(sub.name) %}
 				<form action="/h/{{sub.name}}/unexile/{{user.id}}" method="post">

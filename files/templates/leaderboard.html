@@ -37,17 +37,7 @@
 {% for user in users1 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td>
-			<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{user.profile_url}}" class="pp20">
-					{% if user.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{user.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>
-			</a>
-		</td>
+		<td>{% include "user_in_table.html" %}</td>
 		<td>{{user.coins}}</td>
 	</tr>
 {% endfor %}
@@ -55,15 +45,9 @@
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos1}}</td>
 		<td>
-			<a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{v.profile_url}}" class="pp20">
-					{% if v.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{v.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span>
-			</a>
+			{% with user=v %}
+				{% include "user_in_table.html" %}
+			{% endwith %}
 		</td>
 		<td>{{v.coins}}</td>
 	</tr>
@@ -84,17 +68,7 @@
 {% for user in users7 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td>
-			<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{user.profile_url}}" class="pp20">
-					{% if user.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{user.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>
-			</a>
-		</td>
+		<td>{% include "user_in_table.html" %}</td>
 		<td>{{user.coins_spent}}</td>
 	</tr>
 {% endfor %}
@@ -102,15 +76,9 @@
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos7}}</td>
 		<td>
-			<a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{v.profile_url}}" class="pp20">
-					{% if v.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{v.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span>
-			</a>
+			{% with user=v %}
+				{% include "user_in_table.html" %}
+			{% endwith %}
 		</td>
 		<td>{{v.coins_spent}}</td>
 	</tr>
@@ -131,17 +99,7 @@
 	{% for user in users10 %}
 		<tr {% if v.id == user.id %}class="self"{% endif %}>
 			<td>{{loop.index}}</td>
-			<td>
-				<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
-					<div class="profile-pic-20-wrapper">
-						<img loading="lazy" src="{{user.profile_url}}" class="pp20">
-						{% if user.hat_active -%}
-							<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{user.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
-						{%- endif %}
-					</div>
-					<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>
-				</a>
-			</td>
+			<td>{% include "user_in_table.html" %}</td>
 			<td>{{user.truecoins}}</td>
 		</tr>
 	{% endfor %}
@@ -149,15 +107,9 @@
 		<tr style="border-top:2px solid var(--primary)">
 			<td>{{pos10}}</td>
 			<td>
-				<a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}">
-					<div class="profile-pic-20-wrapper">
-						<img loading="lazy" src="{{v.profile_url}}" class="pp20">
-						{% if v.hat_active -%}
-							<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{v.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
-						{%- endif %}
-					</div>
-					<span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span>
-				</a>
+				{% with user=v %}
+					{% include "user_in_table.html" %}
+				{% endwith %}
 			</td>
 			<td>{{v.truecoins}}</td>
 		</tr>
@@ -178,17 +130,7 @@
 {% for user in users2 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td>
-			<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{user.profile_url}}" class="pp20">
-					{% if user.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{user.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>
-			</a>
-		</td>
+		<td>{% include "user_in_table.html" %}</td>
 		<td>{{user.stored_subscriber_count}}</td>
 	</tr>
 {% endfor %}
@@ -196,15 +138,9 @@
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos2}}</td>
 		<td>
-			<a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{v.profile_url}}" class="pp20">
-					{% if v.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{v.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span>
-			</a>
+			{% with user=v %}
+				{% include "user_in_table.html" %}
+			{% endwith %}
 		</td>
 		<td>{{v.stored_subscriber_count}}</td>
 	</tr>
@@ -224,17 +160,7 @@
 {% for user in users3 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td>
-			<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{user.profile_url}}" class="pp20">
-					{% if user.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{user.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>
-			</a>
-		</td>
+		<td>{% include "user_in_table.html" %}</td>
 		<td>{{user.post_count}}</td>
 	</tr>
 {% endfor %}
@@ -242,15 +168,9 @@
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos3}}</td>
 		<td>
-			<a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{v.profile_url}}" class="pp20">
-					{% if v.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{v.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span>
-			</a>
+			{% with user=v %}
+				{% include "user_in_table.html" %}
+			{% endwith %}
 		</td>
 		<td>{{v.post_count}}</td>
 	</tr>
@@ -270,17 +190,7 @@
 {% for user in users4 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td>
-			<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{user.profile_url}}" class="pp20">
-					{% if user.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{user.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>
-			</a>
-		</td>
+		<td>{% include "user_in_table.html" %}</td>
 		<td>{{user.comment_count}}</td>
 	</tr>
 {% endfor %}
@@ -288,15 +198,9 @@
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos4}}</td>
 		<td>
-			<a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{v.profile_url}}" class="pp20">
-					{% if v.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{v.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span>
-			</a>
+			{% with user=v %}
+				{% include "user_in_table.html" %}
+			{% endwith %}
 		</td>
 		<td>{{v.comment_count}}</td>
 	</tr>
@@ -316,17 +220,7 @@
 {% for user in users5 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td>
-			<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{user.profile_url}}" class="pp20">
-					{% if user.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{user.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>
-			</a>
-		</td>
+		<td>{% include "user_in_table.html" %}</td>
 		<td>{{user.received_award_count}}</td>
 	</tr>
 {% endfor %}
@@ -334,15 +228,9 @@
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos5}}</td>
 		<td>
-			<a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{v.profile_url}}" class="pp20">
-					{% if v.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{v.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span>
-			</a>
+			{% with user=v %}
+				{% include "user_in_table.html" %}
+			{% endwith %}
 		</td>
 		<td>{{v.received_award_count}}</td>
 	</tr>
@@ -392,17 +280,7 @@
 	{% for user, num in users11 %}
 		<tr {% if v.id == user.id %}class="self"{% endif %}>
 			<td>{{loop.index}}</td>
-			<td>
-				<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
-					<div class="profile-pic-20-wrapper">
-						<img loading="lazy" src="{{user.profile_url}}" class="pp20">
-						{% if user.hat_active -%}
-							<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{user.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
-						{%- endif %}
-					</div>
-					<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>
-				</a>
-			</td>
+			<td>{% include "user_in_table.html" %}</td>
 			<td>{{num}}</td>
 		</tr>
 	{% endfor %}
@@ -410,15 +288,9 @@
 		<tr style="border-top:2px solid var(--primary)">
 			<td>{{pos11[0]}}</td>
 			<td>
-				<a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}">
-					<div class="profile-pic-20-wrapper">
-						<img loading="lazy" src="{{v.profile_url}}" class="pp20">
-						{% if v.hat_active -%}
-							<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{v.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
-						{%- endif %}
-					</div>
-					<span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span>
-				</a>
+				{% with user=v %}
+					{% include "user_in_table.html" %}
+				{% endwith %}
 			</td>
 			<td>{{pos11[1]}}</td>
 		</tr>
@@ -443,33 +315,16 @@
 	{% for user in users6 %}
 		<tr {% if v.id == user.id %}class="self"{% endif %}>
 			<td>{{loop.index}}</td>
-			<td>
-				<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
-					<div class="profile-pic-20-wrapper">
-						<img loading="lazy" src="{{user.profile_url}}" class="pp20">
-						{% if user.hat_active -%}
-							<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{user.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
-						{%- endif %}
-					</div>
-					<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>
-				</a>
-			</td>
+			<td>{% include "user_in_table.html" %}</td>
 			<td>{{user.basedcount}}</td>
 		</tr>
 	{% endfor %}
 	{% if pos6 > 25 %}
 		<tr style="border-top:2px solid var(--primary)">
-			<td>{{pos6}}</td>
 			<td>
-				<a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}">
-					<div class="profile-pic-20-wrapper">
-						<img loading="lazy" src="{{v.profile_url}}" class="pp20">
-						{% if v.hat_active -%}
-							<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{v.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
-						{%- endif %}
-					</div>
-					<span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span>
-				</a>
+				{% with user=v %}
+					{% include "user_in_table.html" %}
+				{% endwith %}
 			</td>
 			<td>{{v.basedcount}}</td>
 		</tr>
@@ -493,17 +348,7 @@
 		{% for user, num in users12 %}
 			<tr {% if v.id == user.id %}class="self"{% endif %}>
 				<td>{{loop.index}}</td>
-				<td>
-					<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
-						<div class="profile-pic-20-wrapper">
-							<img loading="lazy" src="{{user.profile_url}}" class="pp20">
-							{% if user.hat_active -%}
-								<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{user.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
-							{%- endif %}
-						</div>
-						<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>
-					</a>
-				</td>
+				<td>{% include "user_in_table.html" %}</td>
 				<td>{{num}}</td>
 			</tr>
 		{% endfor %}
@@ -511,15 +356,9 @@
 			<tr style="border-top:2px solid var(--primary)">
 				<td>{{pos12[0]}}</td>
 				<td>
-					<a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}">
-						<div class="profile-pic-20-wrapper">
-							<img loading="lazy" src="{{v.profile_url}}" class="pp20">
-							{% if v.hat_active -%}
-								<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{v.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
-							{%- endif %}
-						</div>
-						<span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span>
-					</a>
+					{% with user=v %}
+						{% include "user_in_table.html" %}
+					{% endwith %}
 				</td>
 				<td>{{pos12[1]}}</td>
 			</tr>
@@ -572,17 +411,7 @@
 {% for user in users14 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td>
-			<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{user.profile_url}}" class="pp20">
-					{% if user.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{user.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>
-			</a>
-		</td>
+		<td>{% include "user_in_table.html" %}</td>
 		<td>{{user.winnings}}</td>
 	</tr>
 {% endfor %}
@@ -590,15 +419,9 @@
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos14}}</td>
 		<td>
-			<a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{v.profile_url}}" class="pp20">
-					{% if v.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{v.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span>
-			</a>
+			{% with user=v %}
+				{% include "user_in_table.html" %}
+			{% endwith %}
 		</td>
 		<td>{{v.winnings}}</td>
 	</tr>
@@ -618,17 +441,7 @@
 {% for user in users15 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td>
-			<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{user.profile_url}}" class="pp20">
-					{% if user.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{user.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>
-			</a>
-		</td>
+		<td>{% include "user_in_table.html" %}</td>
 		<td>{{user.winnings}}</td>
 	</tr>
 {% endfor %}
@@ -636,15 +449,9 @@
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos15}}</td>
 		<td>
-			<a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{v.profile_url}}" class="pp20">
-					{% if v.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{v.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span>
-			</a>
+			{% with user=v %}
+				{% include "user_in_table.html" %}
+			{% endwith %}
 		</td>
 		<td>{{v.winnings}}</td>
 	</tr>
@@ -684,17 +491,7 @@
 {% for user,num in users16 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td>
-			<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{user.profile_url}}" class="pp20">
-					{% if user.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{user.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>
-			</a>
-		</td>
+		<td>{% include "user_in_table.html" %}</td>
 		<td>{{num}}</td>
 	</tr>
 {% endfor %}
@@ -713,17 +510,7 @@
 {% for user,num in users17 %}
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
-		<td>
-			<a style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
-				<div class="profile-pic-20-wrapper">
-					<img loading="lazy" src="{{user.profile_url}}" class="pp20">
-					{% if user.hat_active -%}
-						<img class="profile-pic-20-hat hat" loading="lazy" src="/i/hats/{{user.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
-					{%- endif %}
-				</div>
-				<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>
-			</a>
-		</td>
+		<td>{% include "user_in_table.html" %}</td>
 		<td>{{num}}</td>
 	</tr>
 {% endfor %}
