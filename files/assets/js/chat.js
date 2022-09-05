@@ -82,6 +82,9 @@ socket.on('speak', function(json) {
 		document.getElementsByClassName('avatar-pic')[0].src = json['avatar']
 		if (json['hat'])
 			document.getElementsByClassName('avatar-hat')[0].src = json['hat'] + "?v=3"
+		else
+			document.getElementsByClassName('avatar-hat')[0].removeAttribute("src")
+
 		document.getElementsByClassName('userlink')[0].href = '/@' + json['username']
 		document.getElementsByClassName('userlink')[0].style.color = '#' + json['namecolor']
 		document.getElementsByClassName('time')[0].classList.remove('d-none')
