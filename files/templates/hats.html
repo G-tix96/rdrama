@@ -60,7 +60,7 @@
 		<tbody>
 			{% for hat, user in hats %}
 				<tr>
-					<td><img width=100 height=130 loading="lazy" alt="{{hat.name}}" src="/i/hats/{{hat.name}}.webp?v=2"></td>
+					<td><img loading="lazy" alt="{{hat.name}}" src="/i/hats/{{hat.name}}.webp?v=2" style="max-width:100%;height:auto"></td>
 					<td>{{hat.name}}</td>
 					<td style="word-break:break-word">{{hat.censored_description(v)}}</td>
 					{% if SITE == 'rdrama.net' %}
