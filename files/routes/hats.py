@@ -13,15 +13,20 @@ def hats(v):
 
 	owned_hat_ids = [x.hat_id for x in v.owned_hats]
 
-	if v.equipped_hat_ids:
-		equipped = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.in_(owned_hat_ids), HatDef.id.in_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
-		not_equipped = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.in_(owned_hat_ids), HatDef.id.notin_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
-		owned = equipped + not_equipped
+	if request.values.get("sort") == 'author_asc':
+		hats = g.db.query(HatDef, User).join(HatDef.author).order_by(User.username).all()
+	elif request.values.get("sort") == 'author_desc':
+		hats = g.db.query(HatDef, User).join(HatDef.author).order_by(User.username.desc()).all()
 	else:
-		owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.in_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+		if v.equipped_hat_ids:
+			equipped = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.in_(owned_hat_ids), HatDef.id.in_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+			not_equipped = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.in_(owned_hat_ids), HatDef.id.notin_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+			owned = equipped + not_equipped
+		else:
+			owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.in_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
 
-	not_owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.notin_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
-	hats = owned + not_owned
+		not_owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.notin_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+		hats = owned + not_owned
 
 	sales = g.db.query(func.sum(User.coins_spent_on_hats)).scalar()
 	return render_template("hats.html", owned_hat_ids=owned_hat_ids, hats=hats, v=v, sales=sales)
