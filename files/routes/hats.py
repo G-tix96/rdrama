@@ -58,11 +58,10 @@ def buy_hat(v, hat_id):
 	g.db.add(v)
 	g.db.add(hat.author)
 
-	if v.id != hat.author.id:
-		send_repeatable_notification(
-			hat.author.id,
-			f":marseycapitalistmanlet: @{v.username} has just bought `{hat.name}`, you have received your 10% cut ({int(hat.price * 0.1)} {currency}) :!marseycapitalistmanlet:"
-		)
+	send_repeatable_notification(
+		hat.author.id,
+		f":marseycapitalistmanlet: @{v.username} has just bought `{hat.name}`, you have received your 10% cut ({int(hat.price * 0.1)} {currency}) :!marseycapitalistmanlet:"
+	)
 
 	if v.num_of_owned_hats >= 250:
 		badge_grant(user=v, badge_id=154)

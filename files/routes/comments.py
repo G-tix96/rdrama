@@ -290,17 +290,23 @@ def comment(v):
 							copyfile(oldname, filename)
 							process_image(filename, 200)
 
-							hat = HatDef(
+							hat_def = HatDef(
 								name=name,
 								description=hat["description"],
 								author_id=user.id,
 								price=hat["price"]
 							)
+							g.db.add(hat_def)
+							g.db.flush()
+
+							hat = Hat(
+								user_id=user.id,
+								hat_id=hat_def.id
+							)
 							g.db.add(hat)
 
 							all_by_author = g.db.query(HatDef).filter_by(author_id=user.id).count()
 
-							# off-by-one: newly added hat isn't counted
 							if all_by_author >= 250:
 								badge_grant(badge_id=166, user=user)
 							elif all_by_author >= 100:
