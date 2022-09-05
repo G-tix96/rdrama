@@ -89,7 +89,9 @@ def player_took_blackjack_action(v):
 		elif existing_game:
 			return { "error": "Cannot start a new game while an existing game persists." }
 		else:
-			success, game_state = gambler_dealt(v, currency, wager)
+			deal = gambler_dealt(v, currency, wager)
+			if not deal: return { "error": "Cannot start a new game while an existing game persists." }
+			success, game_state = deal
 			was_successful = success
 			state = game_state
 	elif action == 'hit':
