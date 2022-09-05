@@ -19,11 +19,10 @@ from sys import stdout
 import os
 
 
-def leaderboard_thread():
-	global users9, users9_1, users9_2, users13, users13_1, users13_2
-
+def leaderboard_thread():	
 	db = db_session()
 
+	global users9, users9_1, users9_2
 	votes1 = db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote).filter(Vote.vote_type==-1).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
 	votes2 = db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(CommentVote.vote_type==-1).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
 	votes3 = Counter(dict(votes1)) + Counter(dict(votes2))
@@ -31,13 +30,11 @@ def leaderboard_thread():
 	users9 = []
 	for user in users8:
 		users9.append((user.id, votes3[user.id]))
+	if not users9: users9 = [(None,None)]
 	users9 = sorted(users9, key=lambda x: x[1], reverse=True)
-
-	if (len(users9) < 2): 
-		return
-
 	users9_1, users9_2 = zip(*users9[:25])
 
+	global users13, users13_1, users13_2
 	votes1 = db.query(Vote.user_id, func.count(Vote.user_id)).filter(Vote.vote_type==1).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
 	votes2 = db.query(CommentVote.user_id, func.count(CommentVote.user_id)).filter(CommentVote.vote_type==1).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
 	votes3 = Counter(dict(votes1)) + Counter(dict(votes2))
@@ -45,19 +42,15 @@ def leaderboard_thread():
 	users13 = []
 	for user in users14:
 		users13.append((user.id, votes3[user.id]-user.post_count-user.comment_count))
+	if not users13: users13 = [(None,None)]
 	users13 = sorted(users13, key=lambda x: x[1], reverse=True)
 	users13_1, users13_2 = zip(*users13[:25])
 
 	db.close()
 	stdout.flush()
 
+
 gevent.spawn(leaderboard_thread())
-
-
-
-
-
-
 
 
 
@@ -1352,3 +1345,49 @@ def toggle_pins(sort):
 	if is_site_url(request.referrer):
 		return redirect(request.referrer)
 	return redirect('/')
+
+
+@app.get("/badge_owners/<bid>")
+@auth_required
+def bid_list(v, bid):
+
+	try: bid = int(bid)
+	except: abort(400)
+
+	try: page = int(request.values.get("page", 1))
+	except: page = 1
+
+	users = g.db.query(User).join(User.badges).filter(Badge.badge_id==bid).offset(25 * (page - 1)).limit(26).all()
+
+	next_exists = (len(users) > 25)
+	users = users[:25]
+
+	return render_template("user_cards.html",
+						v=v,
+						users=users,
+						next_exists=next_exists,
+						page=page,
+						)
+
+
+@app.get("/blockers/<uid>")
+@auth_required
+def blockers_list(v, uid):
+
+	try: uid = int(uid)
+	except: abort(400)
+
+	try: page = int(request.values.get("page", 1))
+	except: page = 1
+
+	users = g.db.query(User).join(User.blocking).filter(UserBlock.target_id==uid).offset(25 * (page - 1)).limit(26).all()
+
+	next_exists = (len(users) > 25)
+	users = users[:25]
+
+	return render_template("user_cards.html",
+						v=v,
+						users=users,
+						next_exists=next_exists,
+						page=page,
+						)

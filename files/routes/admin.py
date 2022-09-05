@@ -639,35 +639,13 @@ def users_list(v):
 	next_exists = (len(users) > 25)
 	users = users[:25]
 
-	return render_template("admin/new_users.html",
+	return render_template("user_cards.html",
 						v=v,
 						users=users,
 						next_exists=next_exists,
 						page=page,
 						)
 
-
-@app.get("/badge_owners/<bid>")
-@auth_required
-def bid_list(v, bid):
-
-	try: bid = int(bid)
-	except: abort(400)
-
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
-
-	users = g.db.query(User).join(User.badges).filter(Badge.badge_id==bid).offset(25 * (page - 1)).limit(26).all()
-
-	next_exists = (len(users) > 25)
-	users = users[:25]
-
-	return render_template("admin/new_users.html",
-						v=v,
-						users=users,
-						next_exists=next_exists,
-						page=page,
-						)
 
 
 @app.get("/admin/alt_votes")

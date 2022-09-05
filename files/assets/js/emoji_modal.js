@@ -307,7 +307,7 @@ function switchEmojiTab(e)
 }
 
 async function start_search() {
-	emojiSearcher.addQuery(emojiSearchBarDOM.value);
+	emojiSearcher.addQuery(emojiSearchBarDOM.value.trim());
 
 	// Remove any selected tab, now it is meaningless
 	for(let i = 0; i < classesSelectorDOM.children.length; i++)

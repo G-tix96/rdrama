@@ -26,8 +26,11 @@ def get_logged_in_user():
 		lo_user = session.get("lo_user")
 		if lo_user:
 			id = int(lo_user)
-			v = get_account(id)
-			if v:
+			v = get_account(id, graceful=True)
+			if not v:
+				session.clear()
+				return None
+			else:
 				nonce = session.get("login_nonce", 0)
 				if nonce < v.login_nonce or v.id != id: abort(401)
 

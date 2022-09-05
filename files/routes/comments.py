@@ -332,16 +332,15 @@ def comment(v):
 		with open(f"snappy_{SITE_NAME}.txt", "a", encoding="utf-8") as f:
 			f.write('\n{[para]}\n' + body)
 
-	if v.agendaposter and not v.marseyawarded and parent_post.id not in ADMIGGERS and parent_post.sub != 'chudrama':
-		body = torture_ap(body, v.username)
-
 	body_for_sanitize = body
 	if v.owoify:
 		body_for_sanitize = owoify(body_for_sanitize)
 	if v.marsify:
 		body_for_sanitize = marsify(body_for_sanitize)
 
-	body_html = sanitize(body_for_sanitize, limit_pings=5, marsified=True)
+	torture = (v.agendaposter and not v.marseyawarded and parent_post.sub != 'chudrama' and parent_post.id not in ADMIGGERS)
+
+	body_html = sanitize(body_for_sanitize, limit_pings=5, marsified=True, torture=torture)
 
 
 	if parent_post.id not in ADMIGGERS and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
@@ -707,9 +706,6 @@ def edit_comment(cid, v):
 		elif v.bird and len(body) > 140:
 			return {"error":"You have to type less than 140 characters!"}, 403
 
-		if v.agendaposter and not v.marseyawarded and c.post.sub != 'chudrama':
-			body = torture_ap(body, v.username)
-
 		for i in poll_regex.finditer(body):
 			body = body.replace(i.group(0), "")
 			option = CommentOption(
@@ -772,7 +768,9 @@ def edit_comment(cid, v):
 		if v.marsify:
 			body_for_sanitize = marsify(body_for_sanitize)
 
-		body_html = sanitize(body_for_sanitize, edit=True, limit_pings=5, marsified=True)
+		torture = (v.agendaposter and not v.marseyawarded and c.post.sub != 'chudrama')
+
+		body_html = sanitize(body_for_sanitize, edit=True, limit_pings=5, marsified=True, torture=torture)
 
 		if len(body_html) > 20000: abort(400)
 
