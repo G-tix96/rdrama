@@ -22,7 +22,7 @@
 			const profile_pic_hat = document.getElementById("profile-pic-35-hat");
 			function extra_actions(xhr) {
 				if(xhr.status == 200) {
-					profile_pic_hat.src = `/i/hats/${hat_name}.webp?v=3`
+					profile_pic_hat.src = `${hat_name}.webp?v=3`
 					profile_pic_hat.classList.remove('d-none')
 				}
 			}
@@ -55,7 +55,7 @@
 		<tbody>
 			{% for hat, user in hats %}
 				<tr>
-					<td><img loading="lazy" alt="{{hat.name}}" src="/i/hats/{{hat.name}}.webp?v=3" style="max-width:100%;height:auto"></td>
+					<td><img loading="lazy" alt="{{hat.name}}" src="{{hat.name}}.webp?v=3" style="max-width:100%;height:auto"></td>
 					<td>{{hat.name}}</td>
 					<td style="word-break:break-word">{{hat.censored_description(v)}}</td>
 					{% if SITE == 'rdrama.net' %}

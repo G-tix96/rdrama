@@ -194,15 +194,22 @@ class User(Base):
 
 	@property
 	@lazy
+	def equipped_hat(self):
+		if self.equipped_hats:
+			return random.choice(self.equipped_hats)
+		return None
+
+	@property
+	@lazy
 	def hat_active(self):
 		if not FEATURES['HATS']:
 			return ''
 
 		if self.is_cakeday:
-			return 'Cakeday.webp'
+			return '/i/hats/Cakeday.webp'
 
-		if self.equipped_hats:
-			return random.choice(self.equipped_hats)
+		if self.equipped_hat:
+			return f'/i/hats/{self.equipped_hat.name}.webp'
 
 		return ''
 
@@ -214,8 +221,8 @@ class User(Base):
 		if self.is_cakeday:
 			return "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓"
 
-		if self.equipped_hats:
-			return self.hat_active.name + ' - ' + self.hat_active.censored_description(v)
+		if self.equipped_hat:
+			return self.equipped_hat.name + ' - ' + self.equipped_hat.censored_description(v)
 
 		return ''
 
@@ -693,7 +700,7 @@ class User(Base):
 				'url': self.url,
 				'id': self.id,
 				'profile_url': self.profile_url,
-				'hat': self.hat_active.name,
+				'hat': self.hat_active,
 				'bannerurl': self.banner_url,
 				'bio_html': self.bio_html_eager,
 				'coins': self.coins,
