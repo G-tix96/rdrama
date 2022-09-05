@@ -95,7 +95,7 @@
 			<th>Truescore</th>
 		</tr>
 	</thead>
-	<tbody id="followers-table">
+	<tbody>
 	{% for user in users10 %}
 		<tr {% if v.id == user.id %}class="self"{% endif %}>
 			<td>{{loop.index}}</td>
@@ -131,7 +131,7 @@
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		<td>{{user.stored_subscriber_count}}</td>
+		<td><a href="/@{{user.username}}/followers">{{user.stored_subscriber_count}}</a></td>
 	</tr>
 {% endfor %}
 {% if pos2 > 25 %}
@@ -247,7 +247,7 @@
 			<th>Downvotes</th>
 		</tr>
 	</thead>
-	<tbody id="followers-table">
+	<tbody>
 	{% for user, num in users9 %}
 		<tr {% if v.id == user.id %}class="self"{% endif %}>
 			<td>{{loop.index}}</td>
@@ -280,7 +280,7 @@
 			<th>Badges</th>
 		</tr>
 	</thead>
-	<tbody id="followers-table">
+	<tbody>
 	{% for user, num in users11 %}
 		<tr {% if v.id == user.id %}class="self"{% endif %}>
 			<td>{{loop.index}}</td>
@@ -348,7 +348,7 @@
 				<th>Marseys</th>
 			</tr>
 		</thead>
-		<tbody id="followers-table">
+		<tbody>
 		{% for user, num in users12 %}
 			<tr {% if v.id == user.id %}class="self"{% endif %}>
 				<td>{{loop.index}}</td>
@@ -382,7 +382,7 @@
 				<th>Upvotes</th>
 			</tr>
 		</thead>
-		<tbody id="followers-table">
+		<tbody>
 		{% for user, num in users13 %}
 			<tr {% if v.id == user.id %}class="self"{% endif %}>
 				<td>{{loop.index}}</td>
