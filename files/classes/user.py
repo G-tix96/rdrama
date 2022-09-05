@@ -693,6 +693,7 @@ class User(Base):
 				'url': self.url,
 				'id': self.id,
 				'profile_url': self.profile_url,
+				'hat': self.hat_active.name,
 				'bannerurl': self.banner_url,
 				'bio_html': self.bio_html_eager,
 				'coins': self.coins,

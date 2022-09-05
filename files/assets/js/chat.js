@@ -80,7 +80,7 @@ socket.on('speak', function(json) {
 		document.getElementsByClassName('userlink')[0].classList.remove('d-none')
 		document.getElementsByClassName('avatar')[0].classList.remove('d-none')
 		document.getElementsByClassName('avatar-pic')[0].src = json['avatar']
-		if (json['hat']) document.getElementsByClassName('avatar-hat')[0].src = `/i/hats/${json['hat']}?v=3`
+		if (json['hat']) document.getElementsByClassName('avatar-hat')[0].src = `/i/hats/${json['hat']}.webp?v=3`
 		document.getElementsByClassName('userlink')[0].href = '/@' + json['username']
 		document.getElementsByClassName('userlink')[0].style.color = '#' + json['namecolor']
 		document.getElementsByClassName('time')[0].classList.remove('d-none')
