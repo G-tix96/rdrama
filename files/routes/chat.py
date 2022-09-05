@@ -66,6 +66,7 @@ def speak(data, v):
 
 	data={
 		"avatar": v.profile_url,
+		"hat": v.hat_active,
 		"username": v.username,
 		"namecolor": v.namecolor,
 		"text": text,
