@@ -46,47 +46,12 @@ def pull_slots(v):
 @limiter.limit("3/second;30/minute;600/hour;12000/day")
 @auth_required
 def get_player_blackjack_status(v):
-	game, game_state = get_active_game(v)
+	game, _, safe_state = get_active_game(v)
 
-	if game and game.active:
-		safe_state = get_safe_game_state(v)
-		return {"active": True, "game_state": safe_state}
+	if game:
+		return { "active": True, "game_state": safe_state }
 	else:
-		return {"active": False, "game_state": game_state}
-
-
-@app.post("/casino/blackjack")
-@limiter.limit("3/second;30/minute;600/hour;12000/day")
-@auth_required
-def deal_blackjack(v):
-	try:
-		wager = int(request.values.get("wager"))
-	except:
-		return {"error": "Invalid wager."}
-
-	try:
-		currency = request.values.get("currency")
-	except:
-		return {"error": "Invalid currency (expected 'dramacoin' or 'marseybux')."}
-
-	if (currency == "dramacoin" and wager > v.coins) or (currency == "marseybux" and wager > v.procoins):
-		return {"error": f"Not enough {currency} to make that bet."}
-
-	success = deal_blackjack_game(v, wager, currency)
-
-	if success:
-		game, game_state = get_active_game(v)
-
-		if game and game.active:
-			safe_state = get_safe_game_state(v)
-			if safe_state['status'] in ('push','blackjack'):
-				game.active = False
-			return {"game_state": safe_state, "gambler": { "coins": v.coins, "procoins": v.procoins }}
-		else:
-			return {"game_state": game_state, "gambler": { "coins": v.coins, "procoins": v.procoins }}
-
-	else:
-		return {"error": "Wager must be more than 100 {currency}."}
+		return { "active": False }
 
 
 @app.post("/casino/blackjack/action")
@@ -96,12 +61,29 @@ def player_took_blackjack_action(v):
 	try:
 		action = request.values.get("action")
 	except:
-		return {"error": "Invalid action."}
+		return { "error": "Invalid action." }
 
 	was_successful = False
 	state = None
 
-	if action == 'hit':
+	if action == 'deal':
+		try:
+			currency = request.values.get("currency")
+			wager = int(request.values.get("wager"))
+		except:
+			return { "error": "Missing either currency or wager values." }
+
+		existing_game, _, _ = get_active_game(v)
+
+		if (currency == "dramacoin" and wager > v.coins) or (currency == "marseybux" and wager > v.procoins):
+			return {"error": f"Not enough {currency} to make that bet."}
+		elif existing_game:
+			return { "error": "Cannot start a new game while an existing game persists." }
+		else:
+			success, game_state = gambler_dealt(v, currency, wager)
+			was_successful = success
+			state = game_state
+	elif action == 'hit':
 		success, game_state = gambler_hit(v)
 		was_successful = success
 		state = game_state
@@ -119,6 +101,10 @@ def player_took_blackjack_action(v):
 		state = game_state
 
 	if was_successful:
-		return {"active": True, "game_state": state, "gambler": { "coins": v.coins, "procoins": v.procoins }}
+		return {
+			"active": True,
+			"game_state": state,
+			"gambler": { "coins": v.coins, "procoins": v.procoins }
+		}
 	else:
-		return {"active": False, "game_state": None}
+		return { "active": False }

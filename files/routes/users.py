@@ -32,6 +32,10 @@ def leaderboard_thread():
 	for user in users8:
 		users9.append((user.id, votes3[user.id]))
 	users9 = sorted(users9, key=lambda x: x[1], reverse=True)
+
+	if (len(users9) < 2): 
+		return
+
 	users9_1, users9_2 = zip(*users9[:25])
 
 	votes1 = db.query(Vote.user_id, func.count(Vote.user_id)).filter(Vote.vote_type==1).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()

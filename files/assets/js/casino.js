@@ -82,6 +82,8 @@ function handleSlotsResponse(xhr) {
 }
 
 // Blackjack
+
+// Checking existing status onload.
 // When the casino loads, look up the "blackjack status" of a player to either start a new game or continue an existing game.
 if (
 	document.readyState === "complete" ||
@@ -114,11 +116,15 @@ function handleBlackjackStatusResponse(xhr) {
 	if (succeeded) {
 		if (response.active) {
 			updateBlackjack(response.game_state);
+		} else {
+			updateBlackjackActions(null);
 		}
 	} else {
 		console.error("error");
 	}
 }
+
+// DOM Manipulation
 
 // When starting a new game or taking an action in an existing one, a new state will be returned, and the DOM must be updated.
 function updateBlackjack(state) {
@@ -232,7 +238,7 @@ function updateBlackjackActions(state) {
 
 	clearBlackjackActions();
 
-	if (state.status === "active") {
+	if (state && state.status === "active") {
 		document.getElementById("casinoBlackjackWager").style.display = "none";
 
 		const actionLookup = {
@@ -258,8 +264,7 @@ function updateBlackjackActions(state) {
 		actionWrapper.innerHTML = actions.join("\n");
 	} else {
 		// Game is over, deal a new game.
-		document.getElementById("casinoBlackjackWager").style.display = "flex";
-	document.getElementById("casinoBlackjackBet").disabled = false;
+		showWagerWidget();
 
 		const deal = buildBlackjackAction(
 			"casinoBlackjackDeal",
@@ -272,30 +277,20 @@ function updateBlackjackActions(state) {
 	}
 }
 
-function dealBlackjack() {
-	const wager = document.getElementById("casinoBlackjackBet").value;
-	const currency = document.querySelector(
-		'input[name="casinoBlackjackCurrency"]:checked'
-	).value;
-
+function hideWagerWidget() {
 	document.getElementById("casinoBlackjackBet").disabled = true;
 	document.getElementById("casinoBlackjackDeal").disabled = true;
 	document.getElementById("casinoBlackjackWager").style.display = "none";
 	document.getElementById("casinoBlackjackResult").style.visibility = "hidden";
-
-	const xhr = new XMLHttpRequest();
-	xhr.open("post", "/casino/blackjack");
-	xhr.onload = handleBlackjackResponse.bind(null, xhr);
-
-	const form = new FormData();
-	form.append("formkey", formkey());
-	form.append("wager", wager);
-	form.append("currency", currency);
-
-	xhr.send(form);
 }
 
-function takeBlackjackAction(action) {
+function showWagerWidget() {
+	document.getElementById("casinoBlackjackWager").style.display = "flex";
+	document.getElementById("casinoBlackjackBet").disabled = false;
+}
+
+// Actions, Requests & Responses
+function takeBlackjackAction(action, args = {}) {
 	const xhr = new XMLHttpRequest();
 	xhr.open("post", "/casino/blackjack/action");
 	xhr.onload = handleBlackjackResponse.bind(null, xhr);
@@ -304,9 +299,20 @@ function takeBlackjackAction(action) {
 	form.append("formkey", formkey());
 	form.append("action", action);
 
+	for (const [key, value] of Object.entries(args)) {
+		form.append(key, value);
+	}
+
 	xhr.send(form);
 }
 
+const dealBlackjack = () => {
+	const wager = document.getElementById("casinoBlackjackBet").value;
+	const currency = document.querySelector('input[name="casinoBlackjackCurrency"]:checked').value;
+
+	hideWagerWidget();
+	takeBlackjackAction("deal", { currency, wager });
+}
 const hitBlackjack = takeBlackjackAction.bind(null, "hit");
 const stayBlackjack = takeBlackjackAction.bind(null, "stay");
 const doubleBlackjack = takeBlackjackAction.bind(null, "double_down");
@@ -324,7 +330,7 @@ function handleBlackjackResponse(xhr) {
 	const succeeded =
 		xhr.status >= 200 && xhr.status < 300 && response && !response.error;
 	const blackjackResult = document.getElementById("casinoBlackjackResult");
-	blackjackResult.classList.remove("text-success", "text-danger");
+	blackjackResult.classList.remove("text-success", "text-danger", "text-warning");
 
 	if (succeeded) {
 		if (response.game_state) {
