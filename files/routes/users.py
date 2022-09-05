@@ -30,6 +30,7 @@ def leaderboard_thread():
 	users9 = []
 	for user in users8:
 		users9.append((user.id, votes3[user.id]))
+	if not users9: users9 = [(None,None)]
 	users9 = sorted(users9, key=lambda x: x[1], reverse=True)
 	users9_1, users9_2 = zip(*users9[:25])
 
@@ -41,6 +42,7 @@ def leaderboard_thread():
 	users13 = []
 	for user in users14:
 		users13.append((user.id, votes3[user.id]-user.post_count-user.comment_count))
+	if not users13: users13 = [(None,None)]
 	users13 = sorted(users13, key=lambda x: x[1], reverse=True)
 	users13_1, users13_2 = zip(*users13[:25])
 
