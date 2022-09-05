@@ -248,18 +248,22 @@
 		</tr>
 	</thead>
 	<tbody id="followers-table">
-	{% for user in users9 %}
-		<tr {% if v.id == user[0].id %}class="self"{% endif %}>
+	{% for user, num in users9 %}
+		<tr {% if v.id == user.id %}class="self"{% endif %}>
 			<td>{{loop.index}}</td>
-			<td><a style="color:#{{user[0].name_color}};font-weight:bold" href="/@{{user[0].username}}"><img loading="lazy" src="{{user[0].profile_url}}" class="pp20"><span {% if user[0].patron %}class="patron" style="background-color:#{{user[0].name_color}}"{% endif %}>{{user[0].username}}</span></a></td>
-			<td>{{user[1]}}</td>
+			<td>{% include "user_in_table.html" %}</td>
+			<td>{{num}}</td>
 		</tr>
 	{% endfor %}
 	{% if pos9 and (pos9[0] > 25 or not pos9[1]) %}
 		<tr style="border-top:2px solid var(--primary)">
 			<td>{{pos9[0]}}</td>
-			<td><a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span></a></td>
-			<td>{{pos9[1]}}</td>
+			<td>
+				{% with user=v %}
+					{% include "user_in_table.html" %}
+				{% endwith %}
+			</td>
+		<td>{{pos9[1]}}</td>
 		</tr>
 	{% endif %}
 	</tbody>
@@ -379,17 +383,21 @@
 			</tr>
 		</thead>
 		<tbody id="followers-table">
-		{% for user in users13 %}
-			<tr {% if v.id == user[0].id %}class="self"{% endif %}>
+		{% for user, num in users13 %}
+			<tr {% if v.id == user.id %}class="self"{% endif %}>
 				<td>{{loop.index}}</td>
-				<td><a style="color:#{{user[0].name_color}};font-weight:bold" href="/@{{user[0].username}}"><img loading="lazy" src="{{user[0].profile_url}}" class="pp20"><span {% if user[0].patron %}class="patron" style="background-color:#{{user[0].name_color}}"{% endif %}>{{user[0].username}}</span></a></td>
-				<td>{{user[1]}}</td>
+				<td>{% include "user_in_table.html" %}</td>
+				<td>{{num}}</td>
 			</tr>
 		{% endfor %}
 		{% if pos13 and (pos13[0] > 25 or not pos13[1]) %}
 			<tr style="border-top:2px solid var(--primary)">
 				<td>{{pos13[0]}}</td>
-				<td><a style="color:#{{v.name_color}};font-weight:bold" href="/@{{v.username}}"><img loading="lazy" src="{{v.profile_url}}" class="pp20"><span {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.username}}</span></a></td>
+				<td>
+					{% with user=v %}
+						{% include "user_in_table.html" %}
+					{% endwith %}
+				</td>
 				<td>{{pos13[1]}}</td>
 			</tr>
 		{% endif %}

@@ -53,14 +53,16 @@
 			</thead>
 			<tbody class="text-muted">
 				{% for block in v.blocking %}
+					{% set user=block.target %}
 					<tr>
 						<td>
-							<a href="{{block.target.permalink}}">
-								<img loading="lazy" src="{{block.target.profile_url}}" class="pp20 align-top mr-2">@{{block.target.username}}</a>
+							{% include "user_in_table.html" %}
 						</td>
 
 						<td>
-							<button class="btn btn-primary" onclick="post_toast(this,'/settings/unblock?username={{block.target.username}}&formkey={{v.formkey}}')">Unblock</a>
+							<button class="btn btn-primary" onclick="post_toast(this,'/settings/unblock?username={{user.username}}&formkey={{v.formkey}}')">
+								Unblock
+							</button>
 						</td>
 					</tr>
 				{% else %}
