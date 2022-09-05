@@ -11,16 +11,18 @@
 	<tr>
 		<th>#</th>
 		<th>Name</th>
+		<td>Following Since</td>
 		{% if v.id == u.id %}
 			<th></th>
 		{% endif %}
 	</tr>
 </thead>
 <tbody id="followers-table">
-{% for user in users %}
+{% for follow, user in users %}
 	<tr>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
+		<td data-time="{{follow.created_utc}}"></td>
 		{% if v.id == u.id %}
 		<td><div class="btn btn-danger pr-2" onclick="removeFollower(event, '{{user.username}}')">Remove follow</div></td>
 		{% endif %}
