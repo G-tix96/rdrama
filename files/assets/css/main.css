@@ -6177,7 +6177,7 @@ g {
     margin-right: 10px;
 }
 
-.rainbow-text {
+.rainbow-text:not(a:visited) {
     background-image: repeating-linear-gradient(135deg, violet, rgb(178, 94, 238), lightblue, green, yellow, orange, #ff7f7f 50%) !important;
     color: transparent !important;
     background-clip: text !important;
