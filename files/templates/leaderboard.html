@@ -41,7 +41,7 @@
 		<td>{{user.coins}}</td>
 	</tr>
 {% endfor %}
-{% if pos1 %}
+{% if pos1 > 25 %}
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos1}}</td>
 		<td>
@@ -72,7 +72,7 @@
 		<td>{{user.coins_spent}}</td>
 	</tr>
 {% endfor %}
-{% if pos7 %}
+{% if pos7 > 25 %}
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos7}}</td>
 		<td>
@@ -103,7 +103,7 @@
 			<td>{{user.truecoins}}</td>
 		</tr>
 	{% endfor %}
-	{% if pos10 %}
+	{% if pos10 > 25 %}
 		<tr style="border-top:2px solid var(--primary)">
 			<td>{{pos10}}</td>
 			<td>
@@ -134,7 +134,7 @@
 		<td><a href="/@{{user.username}}/followers">{{user.stored_subscriber_count}}</a></td>
 	</tr>
 {% endfor %}
-{% if pos2 %}
+{% if pos2 > 25 %}
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos2}}</td>
 		<td>
@@ -164,7 +164,7 @@
 		<td>{{user.post_count}}</td>
 	</tr>
 {% endfor %}
-{% if pos3 %}
+{% if pos3 > 25 %}
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos3}}</td>
 		<td>
@@ -194,7 +194,7 @@
 		<td>{{user.comment_count}}</td>
 	</tr>
 {% endfor %}
-{% if pos4 %}
+{% if pos4 > 25 %}
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos4}}</td>
 		<td>
@@ -224,7 +224,7 @@
 		<td>{{user.received_award_count}}</td>
 	</tr>
 {% endfor %}
-{% if pos5 %}
+{% if pos5 > 25 %}
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos5}}</td>
 		<td>
@@ -255,7 +255,7 @@
 			<td>{{num}}</td>
 		</tr>
 	{% endfor %}
-	{% if pos9 %}
+	{% if pos9 and (pos9[0] > 25 or not pos9[1]) %}
 		<tr style="border-top:2px solid var(--primary)">
 			<td>{{pos9[0]}}</td>
 			<td>
@@ -288,7 +288,7 @@
 			<td>{{num}}</td>
 		</tr>
 	{% endfor %}
-	{% if pos11 %}
+	{% if pos11 and (pos11[0] > 25 or not pos11[1]) %}
 		<tr style="border-top:2px solid var(--primary)">
 			<td>{{pos11[0]}}</td>
 			<td>
@@ -302,6 +302,39 @@
 	</tbody>
 </table>
 
+
+
+{% if users6 %}
+
+	<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-based">Top 25 by based count</a></h5>
+
+	<div class="overflow-x-auto"><table class="table table-striped mb-5">
+	<thead class="bg-primary text-white">
+		<tr>
+			<th>#</th>
+			<th>Name</th>
+			<th>Based count</th>
+		</tr>
+	</thead>
+	{% for user in users6 %}
+		<tr {% if v.id == user.id %}class="self"{% endif %}>
+			<td>{{loop.index}}</td>
+			<td>{% include "user_in_table.html" %}</td>
+			<td>{{user.basedcount}}</td>
+		</tr>
+	{% endfor %}
+	{% if pos6 > 25 %}
+		<tr style="border-top:2px solid var(--primary)">
+			<td>
+				{% with user=v %}
+					{% include "user_in_table.html" %}
+				{% endwith %}
+			</td>
+			<td>{{v.basedcount}}</td>
+		</tr>
+	{% endif %}
+	</table>
+{% endif %}
 
 {% if users12 %}
 
@@ -323,7 +356,7 @@
 				<td>{{num}}</td>
 			</tr>
 		{% endfor %}
-		{% if pos12 %}
+		{% if pos12 and (pos12[0] > 25 or not pos12[1]) %}
 			<tr style="border-top:2px solid var(--primary)">
 				<td>{{pos12[0]}}</td>
 				<td>
@@ -357,7 +390,7 @@
 				<td>{{num}}</td>
 			</tr>
 		{% endfor %}
-		{% if pos13 %}
+		{% if pos13 and (pos13[0] > 25 or not pos13[1]) %}
 			<tr style="border-top:2px solid var(--primary)">
 				<td>{{pos13[0]}}</td>
 				<td>
@@ -390,7 +423,7 @@
 		<td>{{user.winnings}}</td>
 	</tr>
 {% endfor %}
-{% if pos14 %}
+{% if pos14 > 25 %}
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos14}}</td>
 		<td>
@@ -420,7 +453,7 @@
 		<td>{{user.winnings}}</td>
 	</tr>
 {% endfor %}
-{% if pos15 %}
+{% if pos15 > 25 %}
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos15}}</td>
 		<td>
@@ -450,7 +483,7 @@
 		<td><a href="/blockers/{{user.id}}">{{num}}</a></td>
 	</tr>
 {% endfor %}
-{% if pos16 %}
+{% if pos16 and (pos16[0] > 25 or not pos16[1]) %}
 	<tr style="border-top:2px solid var(--primary)">
 		<td>{{pos16[0]}}</td>
 		<td>
@@ -481,17 +514,6 @@
 		<td>{{num}}</td>
 	</tr>
 {% endfor %}
-{% if pos17 %}
-	<tr style="border-top:2px solid var(--primary)">
-		<td>{{pos17}}</td>
-		<td>
-			{% with user=v %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
-		<td>{{v.num_of_owned_hats}}</td>
-	</tr>
-{% endif %}
 </table>
 
 <h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-designed-hats">Top 25 by Designed Hats</a></h5>
@@ -511,17 +533,6 @@
 		<td>{{num}}</td>
 	</tr>
 {% endfor %}
-{% if pos18 %}
-	<tr style="border-top:2px solid var(--primary)">
-		<td>{{pos18}}</td>
-		<td>
-			{% with user=v %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
-		<td>{{v.num_of_designed_hats}}</td>
-	</tr>
-{% endif %}
 </table>
 
 
