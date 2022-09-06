@@ -73,6 +73,10 @@ def award_timers(v, bot=False):
 		v.deflector = None
 		notify_if_not_bot("Your deflector has expired!")
 		dirty = True
+	if v.rainbow and v.rainbow < now:
+		v.rainbow = None
+		notify_if_not_bot("Your rainbow has expired!")
+		dirty = True
 	if v.bite and v.bite < now:
 		v.bite = None
 		notify_if_not_bot("Your vampire status has ended!")
