@@ -171,7 +171,7 @@
 						<div class="profile-pic-30-wrapper">
 							<img loading="lazy" src="{{c.author.profile_url}}" class="profile-pic-30 mr-2">
 							{% if c.author.hat_active -%}
-								<img class="profile-pic-30-hat hat" loading="lazy" src="{{c.author.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.hat_tooltip(v)}}">
+								<img class="profile-pic-30-hat hat" loading="lazy" src="{{c.author.hat_active}}?h=4" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.hat_tooltip(v)}}">
 							{%- endif %}
 						</div>
 						<span {% if c.author.patron and not c.distinguish_level %}class="patron" style="background-color:#{{c.author.name_color}};"{% elif c.distinguish_level %}class="mod"{% endif %}>{{c.author_name}}</span>
@@ -839,7 +839,7 @@
 
 	{% include "expanded_image_modal.html" %}
 
-	<script src="{{asset('js/comments+submission_listing.js')}}"></script>
+	<script src="/assets/js/comments+submission_listing.js?h=4"></script>
 	<script src="/assets/js/comments.js?v=4000"></script>
 
 	<script>
