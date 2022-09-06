@@ -599,20 +599,23 @@ def leaderboard(v):
 		pos15 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
 
 	sq = g.db.query(UserBlock.target_id, func.count(UserBlock.target_id).label("count")).group_by(UserBlock.target_id).subquery()
-	users16 = g.db.query(User, sq.c.count).join(User, User.id == sq.c.target_id).order_by(sq.c.count.desc()).limit(25).all()
+	users16 = g.db.query(User, sq.c.count).join(User, User.id == sq.c.target_id).order_by(sq.c.count.desc())
 	sq = g.db.query(UserBlock.target_id, func.count(UserBlock.target_id).label("count"), func.rank().over(order_by=func.count(UserBlock.target_id).desc()).label("rank")).group_by(UserBlock.target_id).subquery()
 	pos16 = g.db.query(sq.c.rank, sq.c.count).join(User, User.id == sq.c.target_id).filter(sq.c.target_id == v.id).limit(1).one_or_none()
-	if not pos16: pos16 = (len(users16)+1, 0)
+	if not pos16: pos16 = (users16.count()+1, 0)
+	users16 = users16.limit(25).all()
 
-	users17 = g.db.query(User, func.count(User.owned_hats)).join(User.owned_hats).group_by(User).order_by(func.count(User.owned_hats).desc()).limit(25).all()
+	users17 = g.db.query(User, func.count(User.owned_hats)).join(User.owned_hats).group_by(User).order_by(func.count(User.owned_hats).desc())
 	sq = g.db.query(User.id, func.count(User.owned_hats).label("count"), func.rank().over(order_by=func.count(User.owned_hats).desc()).label("rank")).join(User.owned_hats).group_by(User).subquery()
 	pos17 = g.db.query(sq.c.rank, sq.c.count).filter(sq.c.id == v.id).limit(1).one_or_none()
-	if not pos17: pos17 = (len(users17)+1, 0)
+	if not pos17: pos17 = (users17.count()+1, 0)
+	users17 = users17.limit(25).all()
 
-	users18 = g.db.query(User, func.count(User.designed_hats)).join(User.designed_hats).group_by(User).order_by(func.count(User.designed_hats).desc()).limit(25).all()
+	users18 = g.db.query(User, func.count(User.designed_hats)).join(User.designed_hats).group_by(User).order_by(func.count(User.designed_hats).desc())
 	sq = g.db.query(User.id, func.count(User.designed_hats).label("count"), func.rank().over(order_by=func.count(User.designed_hats).desc()).label("rank")).join(User.designed_hats).group_by(User).subquery()
 	pos18 = g.db.query(sq.c.rank, sq.c.count).filter(sq.c.id == v.id).limit(1).one_or_none()
-	if not pos18: pos18 = (len(users18)+1, 0)
+	if not pos18: pos18 = (users18.count()+1, 0)
+	users18 = users18.limit(25).all()
 
 	return render_template("leaderboard.html", v=v, users1=users1, pos1=pos1, users2=users2, pos2=pos2, 
 		users3=users3, pos3=pos3, users4=users4, pos4=pos4, users5=users5, pos5=pos5, 
