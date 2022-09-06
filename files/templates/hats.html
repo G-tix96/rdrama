@@ -17,16 +17,6 @@
 {% endblock %}
 
 {% block content %}
-	<style>
-		.table th, .table td {
-			vertical-align: middle;
-		}
-		.profile-pic-72 {
-			border-radius: 50%;
-			text-align: center;
-			object-fit: cover;
-		}
-	</style>
 	<script>
 		function equip_hat(t, hat_id, hat_name) {
 			const profile_pic_hat = document.getElementById("profile-pic-35-hat");
@@ -70,9 +60,9 @@
 			{% for hat, user in hats %}
 				<tr>
 					<td>
-						<div class="profile-pic-72-wrapper mt-4">
-							<img loading="lazy" alt="avatar" src="{{v.profile_url}}" class="profile-pic-72">
-							<img loading="lazy" alt="{{hat.name}}" class="profile-pic-72-hat" src="/i/hats/{{hat.name}}.webp?v=3">
+						<div class="profile-pic-75-wrapper mt-4">
+							<img loading="lazy" alt="avatar" src="{{v.profile_url}}" class="profile-pic-75">
+							<img loading="lazy" alt="{{hat.name}}" class="profile-pic-75-hat" src="/i/hats/{{hat.name}}.webp?v=3">
 						</div>
 					</td>
 					<td>{{hat.name}}</td>
