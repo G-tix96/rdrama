@@ -574,6 +574,9 @@ def leaderboard(v):
 
 	sq = g.db.query(UserBlock.target_id, func.count(UserBlock.target_id).label("n")).group_by(UserBlock.target_id).subquery()
 	users16 = g.db.query(User, sq.c.n).join(User, User.id == sq.c.target_id).order_by(sq.c.n.desc()).limit(25).all()
+	sq = g.db.query(UserBlock.target_id, func.count(UserBlock.target_id).label("n"), func.rank().over(order_by=func.count(UserBlock.target_id).desc()).label("rank")).group_by(UserBlock.target_id).subquery()
+	pos16 = g.db.query(sq.c.rank, sq.c.n).join(User, User.id == sq.c.target_id).filter(sq.c.target_id == v.id).limit(1).one_or_none()
+	if not pos16: pos16 = (len(users16)+1, 0)
 
 	users17 = g.db.query(User, func.count(User.owned_hats)).join(User.owned_hats).group_by(User).order_by(func.count(User.owned_hats).desc()).limit(25).all()
 
@@ -592,7 +595,7 @@ def leaderboard(v):
 		users6=users6, pos6=pos6, users7=users7, pos7=pos7, users9=users9_accs, pos9=pos9, 
 		users10=users10, pos10=pos10, users11=users11, pos11=pos11, users12=users12, pos12=pos12, 
 		users13=users13_accs, pos13=pos13, users14=users14, pos14=pos14, users15=users15, pos15=pos15,
-		users16=users16, users17=users17, users18=users18)
+		users16=users16, pos16=pos16, users17=users17, users18=users18)
 
 @app.get("/<id>/css")
 def get_css(id):
