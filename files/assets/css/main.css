@@ -3397,6 +3397,7 @@ small, .small {
 .profile-pic-20-wrapper,
 .profile-pic-30-wrapper,
 .profile-pic-35-wrapper,
+.profile-pic-50-wrapper,
 .profile-pic-65-wrapper,
 .profile-pic-72-wrapper,
 .profile-pic-100-wrapper {
@@ -3408,6 +3409,7 @@ small, .small {
 .profile-pic-20-hat,
 .profile-pic-30-hat,
 .profile-pic-35-hat,
+.profile-pic-50-hat,
 .profile-pic-65-hat,
 .profile-pic-72-hat,
 .profile-pic-100-hat {
@@ -3419,12 +3421,14 @@ small, .small {
 .profile-pic-20-wrapper  { width:  20px; height:  20px; }
 .profile-pic-30-wrapper  { width:  30px; height:  30px; }
 .profile-pic-35-wrapper  { width:  35px; height:  35px; }
+.profile-pic-50-wrapper  { width:  50px; height:  50px; }
 .profile-pic-65-wrapper  { width:  65px; height:  65px; }
 .profile-pic-72-wrapper  { width:  72px; height:  72px; }
 .profile-pic-100-wrapper { width: 100px; height: 100px; }
 .profile-pic-20-hat  { width:  20px; }
 .profile-pic-30-hat  { width:  30px; }
 .profile-pic-35-hat  { width:  35px; }
+.profile-pic-50-hat  { width:  50px; }
 .profile-pic-65-hat  { width:  65px; }
 .profile-pic-72-hat  { width:  72px; }
 .profile-pic-100-hat { width: 100px; }

@@ -100,8 +100,13 @@
 					<div class="d-flex align-items-center justify-content-center {{ma.color}} mr-3 rounded-lg flex-shrink-0" style="width: 32px;height: 32px;"><i class="far text-center {{ma.icon}} text-lg text-white fa-fw"></i></div>
 					<div class="d-flex align-items-center">
 						<span class="rounded">
-						<img loading="lazy" src="{{ma.user.profile_url}}" alt="avatar" class="profile-pic-35">
-					</span>
+							<div class="profile-pic-35-wrapper">
+								<img loading="lazy" src="{{ma.user.profile_url}}" alt="avatar" class="profile-pic-35">
+								{% if ma.user.hat_active -%}
+									<img id="profile-pic-35-hat" class="profile-pic-35-hat hat" loading="lazy" src="{{ma.user.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ma.user.hat_tooltip(v)}}">
+								{%- endif %}
+							</div>
+						</span>
 						<div class="text-muted pl-3">
 							<div>
 								<a href="{{ma.user.url}}" class="font-weight-bold text-black" target="_self">@{{ma.user.username}}</a>
