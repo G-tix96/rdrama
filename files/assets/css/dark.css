@@ -91,3 +91,7 @@ pre {
 	color: #d8d8d8 !important;
 	background-color: #313131 !important;
 }
+
+#frontpage .posts .card, #userpage .posts .card, #search .posts .card {
+	border-color: #101010;
+}
