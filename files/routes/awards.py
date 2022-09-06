@@ -171,7 +171,7 @@ def award_thing(v, thing_type, id):
 		return {"error": "User is already permenantly marsified!"}, 403
 
 	if v.id != author.id:
-		if author.deflector and (AWARDS[kind]['price'] > 500 or kind.istitle()) and kind not in ('pin','unpin','benefactor'):
+		if author.deflector and v.id != AEVANN_ID and (AWARDS[kind]['price'] > 500 or kind.istitle()) and kind not in ('pin','unpin','benefactor'):
 			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award but it was deflected and applied to them :marseytroll:"
 			send_repeatable_notification(author.id, msg)
 			msg = f"@{author.username} is under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you :marseytroll:"
