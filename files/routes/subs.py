@@ -225,8 +225,8 @@ def sub_followers(v, sub):
 
 
 @app.post("/h/<sub>/add_mod")
-@limiter.limit("1/second;5/day")
-@limiter.limit("1/second;5/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@limiter.limit("1/second;30/day")
+@limiter.limit("1/second;30/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def add_mod(v, sub):
 	if SITE_NAME == 'WPD': abort(403)
