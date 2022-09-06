@@ -5,7 +5,7 @@
 			<div style="position: relative;">
 				<img loading="lazy" src="{{u.banner_url}}" class="card-img-top" alt="@{{u.username}} user banner" height=175 style="object-fit: cover">
 				<div class="profile-pic-50-wrapper" style="position: absolute; left: 15px; bottom: 15px; box-sizing: content-box;">
-					<img loading="lazy" src="{{u.profile_url}}" class="profile-pic-50 border-3 border-white">
+					<img loading="lazy" src="{{u.profile_url}}" class="profile-pic-50">
 					{% if u.hat_active -%}
 						<img id="profile-pic-50-hat" class="profile-pic-50-hat hat" loading="lazy" src="{{u.hat_active}}?v=3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.hat_tooltip(v)}}">
 					{%- endif %}
