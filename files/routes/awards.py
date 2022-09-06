@@ -355,8 +355,8 @@ def award_thing(v, thing_type, id):
 			thing.body_html = sanitize(body, limit_pings=5, marsified=True)
 			g.db.add(thing)
 	elif "Vampire" in kind and kind == v.house:
-		if author.bite: author.bite += 86400
-		else: author.bite = int(time.time()) + 86400
+		if author.bite: author.bite += 259200
+		else: author.bite = int(time.time()) + 259200
 		author.old_house = author.house
 		author.house = 'Vampire'
 	elif "Racist" in kind and kind == v.house:
