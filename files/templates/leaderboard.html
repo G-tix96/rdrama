@@ -14,7 +14,6 @@
 	<a href="#leaderboard-awards">Awards</a> &bull;
 	<a href="#leaderboard-downvotes">Downvotes</a> &bull;
 	<a href="#leaderboard-badges">Badges</a> &bull;
-	{% if users6 %}<a href="#leaderboard-based">Based</a> &bull; {% endif -%}
 	{%- if users12 %}<a href="#leaderboard-marseys">Marseys</a> &bull; {% endif -%}
 	{%- if users13 %}<a href="#leaderboard-upgiven">Upvotes Given</a> &bull; {% endif -%}
 	<a href="#leaderboard-winnings">Winnings</a> &bull;
@@ -304,38 +303,6 @@
 
 
 
-{% if users6 %}
-
-	<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-based">Top 25 by based count</a></h5>
-
-	<div class="overflow-x-auto"><table class="table table-striped mb-5">
-	<thead class="bg-primary text-white">
-		<tr>
-			<th>#</th>
-			<th>Name</th>
-			<th>Based count</th>
-		</tr>
-	</thead>
-	{% for user in users6 %}
-		<tr {% if v.id == user.id %}class="self"{% endif %}>
-			<td>{{loop.index}}</td>
-			<td>{% include "user_in_table.html" %}</td>
-			<td>{{user.basedcount}}</td>
-		</tr>
-	{% endfor %}
-	{% if pos6 > 25 %}
-		<tr style="border-top:2px solid var(--primary)">
-			<td>
-				{% with user=v %}
-					{% include "user_in_table.html" %}
-				{% endwith %}
-			</td>
-			<td>{{v.basedcount}}</td>
-		</tr>
-	{% endif %}
-	</table>
-{% endif %}
-
 {% if users12 %}
 
 	<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-marseys">Top 25 by marseys made</a></h5>
@@ -514,6 +481,17 @@
 		<td>{{num}}</td>
 	</tr>
 {% endfor %}
+{% if pos17 and (pos17[0] > 25 or not pos17[1]) %}
+	<tr style="border-top:2px solid var(--primary)">
+		<td>{{pos17[0]}}</td>
+		<td>
+			{% with user=v %}
+				{% include "user_in_table.html" %}
+			{% endwith %}
+		</td>
+		<td>{{pos17[1]}}</a></td>
+	</tr>
+{% endif %}
 </table>
 
 <h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-designed-hats">Top 25 by Designed Hats</a></h5>
@@ -533,6 +511,17 @@
 		<td>{{num}}</td>
 	</tr>
 {% endfor %}
+{% if pos18 and (pos18[0] > 25 or not pos18[1]) %}
+	<tr style="border-top:2px solid var(--primary)">
+		<td>{{pos18[0]}}</td>
+		<td>
+			{% with user=v %}
+				{% include "user_in_table.html" %}
+			{% endwith %}
+		</td>
+		<td>{{pos18[1]}}</a></td>
+	</tr>
+{% endif %}
 </table>
 
 

@@ -520,18 +520,14 @@ def leaderboard(v):
 	sq = g.db.query(User.id, func.rank().over(order_by=User.received_award_count.desc()).label("rank")).subquery()
 	pos5 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
 
-	if SITE == 'pcmemes.net':
-		users6 = users.order_by(User.basedcount.desc()).limit(25).all()
-		sq = g.db.query(User.id, func.rank().over(order_by=User.basedcount.desc()).label("rank")).subquery()
-		pos6 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
-	else:
-		users6 = None
-		pos6 = None
-
 	users7 = users.order_by(User.coins_spent.desc()).limit(25).all()
 	sq = g.db.query(User.id, func.rank().over(order_by=User.coins_spent.desc()).label("rank")).subquery()
 	pos7 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
 
+
+	users9_accs = g.db.query(User).filter(User.id.in_(users9_1)).all()
+	users9_accs = sorted(users9_accs, key=lambda x: users9_1.index(x.id))
+	users9_accs = zip(users9_accs, users9_2)
 	try:
 		pos9 = [x[0] for x in users9].index(v.id)
 		pos9 = (pos9+1, users9[pos9][1])
@@ -559,6 +555,9 @@ def leaderboard(v):
 		users12 = None
 		pos12 = None
 
+	users13_accs = g.db.query(User).filter(User.id.in_(users13_1)).all()
+	users13_accs = sorted(users13_accs, key=lambda x: users13_1.index(x.id))
+	users13_accs = zip(users13_accs, users13_2)
 	try:
 		pos13 = [x[0] for x in users13].index(v.id)
 		pos13 = (pos13+1, users13[pos13][1])
@@ -572,30 +571,28 @@ def leaderboard(v):
 	sq = g.db.query(User.id, func.rank().over(order_by=User.winnings).label("rank")).subquery()
 	pos15 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
 
-	sq = g.db.query(UserBlock.target_id, func.count(UserBlock.target_id).label("n")).group_by(UserBlock.target_id).subquery()
-	users16 = g.db.query(User, sq.c.n).join(User, User.id == sq.c.target_id).order_by(sq.c.n.desc()).limit(25).all()
-	sq = g.db.query(UserBlock.target_id, func.count(UserBlock.target_id).label("n"), func.rank().over(order_by=func.count(UserBlock.target_id).desc()).label("rank")).group_by(UserBlock.target_id).subquery()
-	pos16 = g.db.query(sq.c.rank, sq.c.n).join(User, User.id == sq.c.target_id).filter(sq.c.target_id == v.id).limit(1).one_or_none()
+	sq = g.db.query(UserBlock.target_id, func.count(UserBlock.target_id).label("count")).group_by(UserBlock.target_id).subquery()
+	users16 = g.db.query(User, sq.c.count).join(User, User.id == sq.c.target_id).order_by(sq.c.count.desc()).limit(25).all()
+	sq = g.db.query(UserBlock.target_id, func.count(UserBlock.target_id).label("count"), func.rank().over(order_by=func.count(UserBlock.target_id).desc()).label("rank")).group_by(UserBlock.target_id).subquery()
+	pos16 = g.db.query(sq.c.rank, sq.c.count).join(User, User.id == sq.c.target_id).filter(sq.c.target_id == v.id).limit(1).one_or_none()
 	if not pos16: pos16 = (len(users16)+1, 0)
 
 	users17 = g.db.query(User, func.count(User.owned_hats)).join(User.owned_hats).group_by(User).order_by(func.count(User.owned_hats).desc()).limit(25).all()
+	sq = g.db.query(User.id, func.count(User.owned_hats).label("count"), func.rank().over(order_by=func.count(User.owned_hats).desc()).label("rank")).join(User.owned_hats).group_by(User).subquery()
+	pos17 = g.db.query(sq.c.rank, sq.c.count).filter(sq.c.id == v.id).limit(1).one_or_none()
+	if not pos17: pos17 = (len(users17)+1, 0)
 
 	users18 = g.db.query(User, func.count(User.designed_hats)).join(User.designed_hats).group_by(User).order_by(func.count(User.designed_hats).desc()).limit(25).all()
-
-	users9_accs = g.db.query(User).filter(User.id.in_(users9_1)).all()
-	users9_accs = sorted(users9_accs, key=lambda x: users9_1.index(x.id))
-	users9_accs = zip(users9_accs, users9_2)
-
-	users13_accs = g.db.query(User).filter(User.id.in_(users13_1)).all()
-	users13_accs = sorted(users13_accs, key=lambda x: users13_1.index(x.id))
-	users13_accs = zip(users13_accs, users13_2)
+	sq = g.db.query(User.id, func.count(User.designed_hats).label("count"), func.rank().over(order_by=func.count(User.designed_hats).desc()).label("rank")).join(User.designed_hats).group_by(User).subquery()
+	pos18 = g.db.query(sq.c.rank, sq.c.count).filter(sq.c.id == v.id).limit(1).one_or_none()
+	if not pos18: pos18 = (len(users18)+1, 0)
 
 	return render_template("leaderboard.html", v=v, users1=users1, pos1=pos1, users2=users2, pos2=pos2, 
 		users3=users3, pos3=pos3, users4=users4, pos4=pos4, users5=users5, pos5=pos5, 
-		users6=users6, pos6=pos6, users7=users7, pos7=pos7, users9=users9_accs, pos9=pos9, 
+		users7=users7, pos7=pos7, users9=users9_accs, pos9=pos9, 
 		users10=users10, pos10=pos10, users11=users11, pos11=pos11, users12=users12, pos12=pos12, 
 		users13=users13_accs, pos13=pos13, users14=users14, pos14=pos14, users15=users15, pos15=pos15,
-		users16=users16, pos16=pos16, users17=users17, users18=users18)
+		users16=users16, pos16=pos16, users17=users17, pos17=pos17, users18=users18, pos18=pos18)
 
 @app.get("/<id>/css")
 def get_css(id):
