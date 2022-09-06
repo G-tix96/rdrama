@@ -17,12 +17,22 @@
 {% endblock %}
 
 {% block content %}
+	<style>
+		.table th, .table td {
+			vertical-align: middle;
+		}
+		.profile-pic-72 {
+			border-radius: 50%;
+			text-align: center;
+			object-fit: cover;
+		}
+	</style>
 	<script>
 		function equip_hat(t, hat_id, hat_name) {
 			const profile_pic_hat = document.getElementById("profile-pic-35-hat");
 			function extra_actions(xhr) {
 				if(xhr.status == 200) {
-					profile_pic_hat.src = `${hat_name}.webp?v=3`
+					profile_pic_hat.src = `/i/hats/${hat_name}.webp?v=3`
 					profile_pic_hat.classList.remove('d-none')
 				}
 			}
@@ -59,7 +69,12 @@
 		<tbody>
 			{% for hat, user in hats %}
 				<tr>
-					<td><img loading="lazy" alt="{{hat.name}}" src="/i/hats/{{hat.name}}.webp?v=3" style="max-width:100%;height:auto"></td>
+					<td>
+						<div class="profile-pic-72-wrapper mt-4">
+							<img src="{{v.profile_url}}" class="profile-pic-72">
+							<img class="profile-pic-72-hat" src="/i/hats/{{hat.name}}.webp?v=3">
+						</div>
+					</td>
 					<td>{{hat.name}}</td>
 					<td style="word-break:break-word">{{hat.censored_description(v)}}</td>
 					{% if SITE == 'rdrama.net' %}
