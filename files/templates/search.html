@@ -1,4 +1,4 @@
-{% extends "home.html" %}
+{% extends "default.html" %}
 
 {% block pagetype %}search{% endblock %}
 
@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block PseudoSubmitForm %}
-	<form id="large_searchbar" class="form-inline search flex-nowrap mx-0 mx-lg-auto mt-1" action="/search/{% if '/posts' in request.path %}posts{% elif '/comments' in request.path %}comments{% else %}users{% endif %}" method="get">
+	<form id="large_searchbar" class="form-inline search flex-nowrap mx-0 mx-lg-auto mt-3" action="/search/{% if '/posts' in request.path %}posts{% elif '/comments' in request.path %}comments{% else %}users{% endif %}" method="get">
 		<input autocomplete="off" class="form-control w-100" type="search" placeholder="Search" aria-label="Search" name="q" value="{{query}}">
 		<span class="input-group-append">
 			<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem;">
