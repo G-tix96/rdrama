@@ -139,6 +139,7 @@ class User(Base):
 	earlylife = Column(Integer)
 	owoify = Column(Integer)
 	marsify = Column(Integer, default=0)
+	rainbow = Column(Integer)
 
 	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
 	subscriptions = relationship("Subscription", back_populates="user")

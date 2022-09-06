@@ -167,7 +167,7 @@ def award_thing(v, thing_type, id):
 	if kind == "benefactor" and author.id == v.id:
 		return {"error": "You can't use this award on yourself."}, 400
 
-	if (kind.startswith('Femboy') or kind == 'marsify') and author.marsify == 1:
+	if kind == 'marsify' and author.marsify == 1:
 		return {"error": "User is already permenantly marsified!"}, 403
 
 	if v.id != author.id:
@@ -344,6 +344,16 @@ def award_thing(v, thing_type, id):
 	elif kind == "checkmark":
 		author.verified = "Verified"
 		badge_grant(user=author, badge_id=150)
+	elif kind == 'marsify':
+		if author.marsify: author.marsify += 21600
+		else: author.marsify = int(time.time()) + 21600
+
+		if thing_type == 'comment' and not author.deflector:
+			body = thing.body
+			if author.owoify: body = owoify(body)
+			body = marsify(body)
+			thing.body_html = sanitize(body, limit_pings=5, marsified=True)
+			g.db.add(thing)
 	elif "Vampire" in kind and kind == v.house:
 		if author.bite: author.bite += 86400
 		else: author.bite = int(time.time()) + 86400
@@ -362,16 +372,9 @@ def award_thing(v, thing_type, id):
 			if author.marsify: body = marsify(body)
 			thing.body_html = sanitize(body, limit_pings=5, marsified=True)
 			g.db.add(thing)
-	elif ("Femboy" in kind and kind == v.house) or kind == 'marsify':
-		if author.marsify: author.marsify += 21600
-		else: author.marsify = int(time.time()) + 21600
-
-		if thing_type == 'comment' and not author.deflector:
-			body = thing.body
-			if author.owoify: body = owoify(body)
-			body = marsify(body)
-			thing.body_html = sanitize(body, limit_pings=5, marsified=True)
-			g.db.add(thing)
+	elif ("Femboy" in kind and kind == v.house):
+		if author.rainbow: author.rainbow += 86400
+		else: author.rainbow = int(time.time()) + 86400
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1

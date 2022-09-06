@@ -6060,6 +6060,7 @@ g {
 .fa-star-of-david:before{content:"\f69a"}
 .fa-kiss-wink-heart:before{content:"\f598"}
 .fa-hat-cowboy:before{content:"\f8c0"}
+.fa-cloud-rainbow:before{content:"\f73e"}
 
 .pronouns {
 	font-size: 9px;
@@ -6183,11 +6184,11 @@ g {
 }
 
 .rainbow-text {
-	background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
-    color: transparent;
-    background-clip: text;
-    -webkit-background-clip: text;
-    font-weight: 700;
+    background-image: repeating-linear-gradient(to left, violet, rgb(178, 94, 238), lightblue, green, yellow, orange, #ff7f7f 50%) !important;
+    color: transparent !important;
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+    font-weight: 700 !important;
 }
 
 .btn-rainbow {

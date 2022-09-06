@@ -440,6 +440,14 @@ AWARDS = {
 		"color": "text-gray",
 		"price": 200
 	},
+	"marsify": {
+		"kind": "marsify",
+		"title": "Marsify",
+		"description": "Marsifies the recipient's comments for 6 hours.",
+		"icon": "fas fa-cat",
+		"color": "text-white",
+		"price": 400
+	},
 	"shit": {
 		"kind": "shit",
 		"title": "Shit",
@@ -724,12 +732,12 @@ if SITE_NAME != 'rDrama':
 			"color": "text-purple",
 			"price": 400
 		},
-		"marsify": {
-			"kind": "marsify",
-			"title": "Marsify",
-			"description": "Marsifies the recipient's comments for 6 hours.",
-			"icon": "fas fa-cat",
-			"color": "text-white",
+		"rainbow": {
+			"kind": "rainbow",
+			"title": "Rainbow",
+			"description": "Makes the recipient's comments and posts in rainbow text for 24 hours.",
+			"icon": "fas fa-cloud-rainbow",
+			"color": "text-pink",
 			"price": 400
 		},
 	}
@@ -783,10 +791,10 @@ HOUSE_AWARDS = {
 	},
 	"Femboy": {
 		"kind": "Femboy",
-		"title": "Marsify",
-		"description": "Marsifies the recipient's comments for 6 hours.",
-		"icon": "fas fa-cat",
-		"color": "text-white",
+		"title": "Rainbow",
+		"description": "Makes the recipient's comments and posts in rainbow text for 24 hours.",
+		"icon": "fas fa-cloud-rainbow",
+		"color": "text-pink",
 		"price": 400
 	},
 	"Vampire": {
