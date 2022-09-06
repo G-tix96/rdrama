@@ -141,7 +141,7 @@
 				{% include "user_in_table.html" %}
 			{% endwith %}
 		</td>
-		<td>{{v.stored_subscriber_count}}</td>
+		<td><a href="/@{{v.username}}/followers">{{v.stored_subscriber_count}}</a></td>
 	</tr>
 {% endif %}
 </table>
