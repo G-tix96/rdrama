@@ -348,7 +348,7 @@ def award_thing(v, thing_type, id):
 		if author.marsify: author.marsify += 21600
 		else: author.marsify = int(time.time()) + 21600
 
-		if thing_type == 'comment' and not author.deflector:
+		if thing_type == 'comment' and (not author.deflector or v.id == AEVANN_ID):
 			body = thing.body
 			if author.owoify: body = owoify(body)
 			body = marsify(body)
@@ -366,7 +366,7 @@ def award_thing(v, thing_type, id):
 		if author.owoify: author.owoify += 21600
 		else: author.owoify = int(time.time()) + 21600
 
-		if thing_type == 'comment' and not author.deflector:
+		if thing_type == 'comment' and not (author.deflector or v.id == AEVANN_ID):
 			body = thing.body
 			body = owoify(body)
 			if author.marsify: body = marsify(body)
