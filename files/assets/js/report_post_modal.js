@@ -14,7 +14,6 @@ reason_post.addEventListener('keydown', (e) => {
 function report_postModal(id) {
 
 	document.getElementById("reportPostFormBefore").classList.remove('d-none');
-	document.getElementById("reportPostFormAfter").classList.add('d-none');
 	reportPostButton.disabled = false;
 	reportPostButton.classList.remove('disabled');
 	reportPostButton.innerHTML='Report post';
@@ -37,9 +36,19 @@ function report_postModal(id) {
 		form.append("formkey", formkey());
 		form.append("reason", reason_post.value);
 
-		xhr.onload=function() {
-			document.getElementById("reportPostFormBefore").classList.add('d-none');
-			document.getElementById("reportPostFormAfter").classList.remove('d-none');
+		xhr.onload = function() {
+			let data
+			try {data = JSON.parse(xhr.response)}
+			catch(e) {console.log(e)}
+			if (xhr.status >= 200 && xhr.status < 300 && data && data['message']) {
+				document.getElementById("reportPostFormBefore").classList.add('d-none');
+				document.getElementById('toast-post-success-text').innerText = data["message"];
+				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success')).show();
+			} else {
+				document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
+				if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
+				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
+			}
 		};
 
 		xhr.onerror=function(){alert(errortext)};

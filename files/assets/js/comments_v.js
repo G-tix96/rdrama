@@ -17,7 +17,6 @@ function report_commentModal(id, author) {
 	document.getElementById("comment-author").textContent = author;
 
 	document.getElementById("reportCommentFormBefore").classList.remove('d-none');
-	document.getElementById("reportCommentFormAfter").classList.add('d-none');
 
 	reportCommentButton.innerHTML='Report comment';
 	reportCommentButton.disabled = false;
@@ -39,9 +38,19 @@ function report_commentModal(id, author) {
 		form.append("formkey", formkey());
 		form.append("reason", reason_comment.value);
 
-		xhr.onload=function() {
-			document.getElementById("reportCommentFormBefore").classList.add('d-none');
-			document.getElementById("reportCommentFormAfter").classList.remove('d-none');
+		xhr.onload = function() {
+			let data
+			try {data = JSON.parse(xhr.response)}
+			catch(e) {console.log(e)}
+			if (xhr.status >= 200 && xhr.status < 300 && data && data['message']) {
+				document.getElementById("reportCommentFormBefore").classList.add('d-none');
+				document.getElementById('toast-post-success-text').innerText = data["message"];
+				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success')).show();
+			} else {
+				document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
+				if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
+				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
+			}
 		};
 
 		xhr.onerror=function(){alert(errortext)};
