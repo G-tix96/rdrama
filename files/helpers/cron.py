@@ -50,7 +50,9 @@ def sub_inactive_purge_task():
 
 	one_week_ago = time.time() - 604800
 	active_holes = [x[0] for x in g.db.query(Submission.sub).distinct() \
-		.filter(Submission.sub != None, Submission.created_utc > one_week_ago).all()]
+		.filter(Submission.sub != None, Submission.created_utc > one_week_ago,
+			Submission.private == False, Submission.is_banned == False,
+			Submission.deleted_utc == 0).all()]
 	active_holes.append('changelog') # system hole immune from deletion
 
 	dead_holes = g.db.query(Sub).filter(Sub.name.notin_(active_holes)).all()
@@ -82,8 +84,10 @@ def sub_inactive_purge_task():
 		g.db.add(post)
 
 	to_delete = mods \
+		+ g.db.query(Category).filter(Category.sub.in_(names)).all() \
 		+ g.db.query(Exile).filter(Exile.sub.in_(names)).all() \
 		+ g.db.query(SubBlock).filter(SubBlock.sub.in_(names)).all() \
+		+ g.db.query(SubJoin).filter(SubJoin.sub.in_(names)).all() \
 		+ g.db.query(SubSubscription).filter(SubSubscription.sub.in_(names)).all()
 
 	for x in to_delete:
