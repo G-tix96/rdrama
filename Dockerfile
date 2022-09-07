@@ -1,8 +1,8 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt update && apt -y upgrade && apt install -y supervisor python3-pip libenchant1c2a ffmpeg postgresql libpq-dev
+RUN apt update && apt -y upgrade && apt install -y supervisor python3-pip ffmpeg postgresql libpq-dev
 
 COPY supervisord.conf /etc/supervisord.conf
 

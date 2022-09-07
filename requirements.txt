@@ -26,7 +26,6 @@ tldextract
 user-agents
 psycopg2-binary
 pusher_push_notifications
-pyenchant
 pytest
 youtube-dl
 yattag

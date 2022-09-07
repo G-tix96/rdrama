@@ -4,7 +4,7 @@
 # reboot
 apt -y update
 apt -y upgrade
-apt -y install git redis-server python3-pip libenchant1c2a ffmpeg tmux nginx snapd ufw gpg-agent htop
+apt -y install git redis-server python3-pip ffmpeg tmux nginx snapd ufw gpg-agent htop
 
 git config --global credential.helper store
 cd /rDrama
