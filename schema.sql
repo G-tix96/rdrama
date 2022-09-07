@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 14.4
--- Dumped by pg_dump version 14.2 (Ubuntu 14.2-1.pgdg20.04+1)
+-- Dumped by pg_dump version 14.5 (Ubuntu 14.5-1.pgdg20.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2547,7 +2547,7 @@ ALTER TABLE ONLY public.comment_option_votes
 --
 
 -- Dumped from database version 14.4
--- Dumped by pg_dump version 14.2 (Ubuntu 14.2-1.pgdg20.04+1)
+-- Dumped by pg_dump version 14.5 (Ubuntu 14.5-1.pgdg20.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
