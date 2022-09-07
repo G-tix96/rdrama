@@ -6185,6 +6185,10 @@ g {
     font-weight: 700 !important;
 }
 
+.rainbow-text:not(a) * {
+    color: transparent !important;
+}
+
 .btn-rainbow {
 	color:white !important;
 	background: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet) !important;
