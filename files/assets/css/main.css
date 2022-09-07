@@ -6188,7 +6188,7 @@ g {
     font-weight: 700 !important;
 }
 
-.rainbow-text:not(a) * {
+.rainbow-text:not(a) > p {
     color: transparent !important;
 }
 
