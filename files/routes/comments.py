@@ -20,11 +20,8 @@ import requests
 from shutil import copyfile
 from json import loads
 from collections import Counter
-from enchant import Dict
 import gevent
 import os
-
-d = Dict("en_US")
 
 WORDLE_COLOR_MAPPINGS = {-1: "🟥", 0: "🟨", 1: "🟩"}
 
@@ -1017,7 +1014,7 @@ def handle_wordle_action(cid, v):
 	try: guess = request.values.get("thing").strip().lower()
 	except: abort(400)
 
-	if len(guess) != 5 or not d.check(guess) and guess not in WORDLE_LIST:
+	if len(guess) != 5:
 		return {"error": "Not a valid guess!"}, 400
 
 	if status == "active":
