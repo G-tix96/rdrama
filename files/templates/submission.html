@@ -819,7 +819,7 @@
 						
 										<small class="format d-none"><i class="fas fa-link" aria-hidden="true"></i></small> 
 								</div>
-								<button form="post-edit-form-{{p.id}}" class="btn btn-primary ml-2 fl-r" onclick="remove_dialog()">Save Edit</button>
+								<button form="post-edit-form-{{p.id}}" class="btn btn-primary ml-2 fl-r" onclick="disable(this);remove_dialog()">Save Edit</button>
 								<a role="button" onclick="togglePostEdit('{{p.id}}');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r">Cancel</a> 
 							</form>
 							<div id="post-edit-{{p.id}}" class="preview mb-3 mt-5"></div>
