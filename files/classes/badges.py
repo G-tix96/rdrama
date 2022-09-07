@@ -52,6 +52,12 @@ class Badge(Base):
 		if self.badge_id == 97: return self.user.longpost
 		if self.badge_id == 98: return self.user.marseyawarded
 		if self.badge_id == 109: return self.user.rehab
+		if self.badge_id == 167: return self.user.owoify
+		if self.badge_id == 168: return self.user.bite
+		if self.badge_id == 169: return self.user.earlylife
+		if self.badge_id == 170: return self.user.marsify
+		if self.badge_id == 171: return self.user.rainbow
+
 		return None
 
 	@property

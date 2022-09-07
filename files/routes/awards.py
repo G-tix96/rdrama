@@ -347,6 +347,7 @@ def award_thing(v, thing_type, id):
 	elif kind == 'marsify':
 		if author.marsify: author.marsify += 21600
 		else: author.marsify = int(time.time()) + 21600
+		badge_grant(user=author, badge_id=170)
 
 		if thing_type == 'comment' and (not author.deflector or v.id == AEVANN_ID):
 			body = thing.body
@@ -359,12 +360,15 @@ def award_thing(v, thing_type, id):
 		else: author.bite = int(time.time()) + 86400 * 7
 		author.old_house = author.house
 		author.house = 'Vampire'
+		badge_grant(user=author, badge_id=168)
 	elif "Racist" in kind and kind == v.house:
 		if author.earlylife: author.earlylife += 86400
 		else: author.earlylife = int(time.time()) + 86400
+		badge_grant(user=author, badge_id=169)
 	elif ("Furry" in kind and kind == v.house) or kind == 'owoify':
 		if author.owoify: author.owoify += 21600
 		else: author.owoify = int(time.time()) + 21600
+		badge_grant(user=author, badge_id=167)
 
 		if thing_type == 'comment' and not (author.deflector or v.id == AEVANN_ID):
 			body = thing.body
@@ -375,6 +379,7 @@ def award_thing(v, thing_type, id):
 	elif ("Femboy" in kind and kind == v.house):
 		if author.rainbow: author.rainbow += 86400
 		else: author.rainbow = int(time.time()) + 86400
+		badge_grant(user=author, badge_id=171)
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1
