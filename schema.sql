@@ -2592,9 +2592,10 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 163	Marsey Jacobs	Designed 10 hats!
 166	Giorgio Armarsey	Designed 250 hats 😲
 164	Marsey de Givenchy	Designed 50 hats, holy cap.
-167	Marsified	User’s comments are marsified for the next six (6) hours
-169	Early Life Checked	Shut it down! The Early Life section of your Wikipedia bio is on full display for 24 hours.
-170	Emojified	This user’s 💻 posts 📫 are emojified 😀 for the next ⏭ six 6️⃣ hours ⏳
+168	BITTEN!	This user has been forcibly recruited to House Vampire
+170	Marsified	This user's comments get Marsified automatically
+167	OwOified	This user's comments get OwOified automatically
+169	Early Life Checked	The Early Life section of this user is on full display
 4	White Hat	Discreetly reported an exploit
 1	Alpha User	Joined during open alpha
 2	Verified Email	Verified Email
@@ -2674,9 +2675,9 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 159	It's Over	Lost a 100,000 dramacoin bet. It's fucking over.
 161	Pro Goombler	Won a 10,000 dramacoin bet. Some would say to quit while you're ahead, but they didn't just win 10k - keep at it!
 165	Marsey Chanel	Designed 100 hats!!!
-168	BITTEN!	This user has been forcibly recruited to House Vampire for 24 hours
 28	Chud	Marked as a chud
-171	Rainbowed	This user has super cute text for 24 hours.
+171	Rainbowed	This user has super cute text
+135	1st Birthgay Bash Survivor	Awarded for surviving rDrama's first annual Birthgay Bash
 59	Lolcow	Beautiful and valid milk provider
 25	Marsey's Sugar Daddy	Contributed at least $100
 26	JIDF Bankroller	Donated at least $250
@@ -2695,7 +2696,6 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 132	Duterte's Most Wanted (TEMPORAL FLUX EDITION)	dude weed lmao what year is it
 133	Rockstar	This user submitted an original piece to the song contest
 134	1 Year Old 🥰	This user has wasted an ENTIRE YEAR of their life here! Happy birthday!
-135	1st Birthgay Bash Survivor	Awarded for surviving rDrama’s first annual Birthgay Bash
 \.
 
 
