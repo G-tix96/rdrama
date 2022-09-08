@@ -42,7 +42,7 @@ body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textare
 	background-color: #ccc;
 }
 
-#frontpage .post-title a:visited {
+.post-title a:visited {
 	color: #6e6e6e !important;
 }
 

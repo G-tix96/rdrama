@@ -201,7 +201,7 @@ a.nav-link:hover {
 	color: var(--white) !important;
 }
 
-#frontpage .post-title a:visited {
+.post-title a:visited {
 	color: #6e6e6e !important;
 }
 

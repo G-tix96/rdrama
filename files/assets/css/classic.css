@@ -521,7 +521,7 @@ a.nav-link:hover {
 		color: var(--black2) !important;
 }
 
-#frontpage .post-title a:visited {
+.post-title a:visited {
 	color: #6e6e6e !important;
 }
 
