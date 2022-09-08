@@ -78,8 +78,6 @@ if SITE_NAME == 'rDrama':
 		"uss liberty incident": "tragic accident aboard the USS Liberty",
 		"lavon affair": "Lavon Misunderstanding",
 		"shylock": "Israeli friend",
-		"mohammad": "Prophet Muhammad (ﷺ)",
-		"muhammad": "Prophet Muhammad (ﷺ)",
 		"i hate marsey": "i love marsey",
 		"dancing israelis": "i love Israel",
 		"sodomite": "total dreamboat",
