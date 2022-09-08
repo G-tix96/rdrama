@@ -42,6 +42,7 @@ def shop(v):
 
 
 @app.post("/buy/<award>")
+@limiter.limit("100/minute;200/hour;1000/day")
 @auth_required
 def buy(v, award):
 	if not FEATURES['AWARDS']:
