@@ -591,7 +591,7 @@ AWARDS = {
 		"kind": "bird",
 		"title": "Bird Site",
 		"description": "Forces the recipient to make all posts/comments < 140 characters for 24 hours.",
-		"icon": "fas fa-twitter",
+		"icon": "fab fa-twitter",
 		"color": "text-blue",
 		"price": 1500
 	},
