@@ -8,9 +8,9 @@
 
 {% if v and ((not p.ghost and v.admin_level >= PERMS['VOTES_VISIBLE']) or v.id == AEVANN_ID) %}<a class="btn-block" href="/votes/{{p.fullname}}"><button class="nobackground btn btn-link btn-block btn-lg text-left text-muted"><i class="fas fa-arrows-v text-center text-muted mr-2"></i>Votes</button></a>{% endif %}
 
-<button data-bs-dismiss="modal" class="copy-link nobackground btn btn-link btn-block btn-lg text-left text-muted" data-clipboard-text="{% if SITE == 'rdrama.net' %}https://rdrama.org{{p.shortlink}}{% else %}{{p.permalink}}{% endif %}"><i class="fas fa-copy text-center text-muted mr-2"></i>Copy link</button>
+<button data-bs-dismiss="modal" class="copy-link nobackground btn btn-link btn-block btn-lg text-left text-muted" data-clipboard-text="{% if SITE == 'rdrama.net' %}https://rdrama.org{{p.shortlink}}{% else %}{{p.permalink}}{% endif %}"><i class="far fa-copy text-center text-muted mr-2"></i>Copy link</button>
 
-<button class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#reportPostModal" onclick="report_postModal('{{p.id}}')"><i class="fas fa-flag text-center text-muted mr-2"></i>Report</button>
+<button class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#reportPostModal" onclick="report_postModal('{{p.id}}')"><i class="far fa-flag text-center text-muted mr-2"></i>Report</button>
 
 {% if FEATURES['AWARDS'] -%}
 <button class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#awardModal" data-url='/award/post/{{p.id}}'><i class="fas fa-gift text-center text-muted mr-2"></i>Give Award</button>
@@ -34,9 +34,9 @@
 	{% endif %}
 
 
-	<button id="undelete-{{p.id}}" class="{% if not p.deleted_utc %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-success" role="button" onclick="post_toast(this,'/undelete_post/{{p.id}}', 'delete-{{p.id}}', 'undelete-{{p.id}}','d-none');document.getElementById('post-{{p.id}}').classList.remove('deleted')" data-bs-dismiss="modal"><i class="fas fa-trash-alt text-center mr-2"></i>Undelete</button>
+	<button id="undelete-{{p.id}}" class="{% if not p.deleted_utc %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-success" role="button" onclick="post_toast(this,'/undelete_post/{{p.id}}', 'delete-{{p.id}}', 'undelete-{{p.id}}','d-none');document.getElementById('post-{{p.id}}').classList.remove('deleted')" data-bs-dismiss="modal"><i class="far fa-trash-alt text-center mr-2"></i>Undelete</button>
 
-	<button id="delete-{{p.id}}" class="{% if p.deleted_utc %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-danger" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deletePostModal" onclick="delete_postModal('{{p.id}}')"><i class="fas fa-trash-alt mr-2"></i>Delete</button>
+	<button id="delete-{{p.id}}" class="{% if p.deleted_utc %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-danger" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deletePostModal" onclick="delete_postModal('{{p.id}}')"><i class="far fa-trash-alt mr-2"></i>Delete</button>
 
 
 	{% if FEATURES['COUNTRY_CLUB'] -%}
@@ -44,8 +44,8 @@
 	<button id="unclub3-{{p.id}}" class="{% if not p.club %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-success text-left" role="button" onclick="post_toast(this,'/toggle_club/{{p.id}}','club3-{{p.id}}','unclub3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye mr-2"></i>Unmark club</button>
 	{%- endif %}
 
-	<button id="mark3-{{p.id}}" class="{% if p.over_18 %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-danger" onclick="post_toast(this,'/toggle_post_nsfw/{{p.id}}','mark3-{{p.id}}','unmark3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-center mr-2"></i>Mark +18</button>
-	<button id="unmark3-{{p.id}}" class="{% if not p.over_18 %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-success" onclick="post_toast(this,'/toggle_post_nsfw/{{p.id}}','mark3-{{p.id}}','unmark3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-center mr-2"></i>Unmark +18</button>
+	<button id="mark3-{{p.id}}" class="{% if p.over_18 %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-danger" onclick="post_toast(this,'/toggle_post_nsfw/{{p.id}}','mark3-{{p.id}}','unmark3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="far fa-eye-evil text-center mr-2"></i>Mark +18</button>
+	<button id="unmark3-{{p.id}}" class="{% if not p.over_18 %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-success" onclick="post_toast(this,'/toggle_post_nsfw/{{p.id}}','mark3-{{p.id}}','unmark3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="far fa-eye-evil text-center mr-2"></i>Unmark +18</button>
 {% else %}
 
 	{% if not p.ghost %}

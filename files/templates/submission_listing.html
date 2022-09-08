@@ -33,7 +33,7 @@
 
 {% if p.active_flags(v) %}
 	<div id="flaggers-{{p.id}}" class="flaggers d-none">
-		<strong><i class="fas fa-fw fa-flag"></i> Reported by:</strong>
+		<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
 		<pre></pre>
 		<ul style="padding-left:20px; margin-bottom: 0;word-wrap:break-word">
 			{% for f in p.filtered_flags(v) %}
