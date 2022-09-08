@@ -210,7 +210,7 @@
 	<script>
 		if (!("standalone" in window.navigator) && !(window.navigator.standalone)) {
 			if (window.innerWidth <= 737) {
-				window.addEventListener('DOMContentLoaded', function() {
+				document.addEventListener('DOMContentLoaded', function() {
 					const tt = bootstrap.Tooltip.getOrCreateInstance(document.getElementById('mobile-prompt'))
 					tt.show()
 					document.getElementsByClassName('tooltip')[0].onclick = function(event){

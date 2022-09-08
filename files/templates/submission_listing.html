@@ -306,7 +306,7 @@
 
 <script>
 	{% if not v or v.highlightcomments %}
-		window.addEventListener('DOMContentLoaded', function() {
+		document.addEventListener('DOMContentLoaded', function() {
 			showNewCommentCounts({{p.id}}, {{p.comment_count}})
 		})
 	{% endif %}
