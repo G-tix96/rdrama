@@ -567,7 +567,7 @@ def badge_grant_post(v):
 	g.db.flush()
 
 	if v.id != user.id:
-		text = f"@{v.username} has given you the following profile badge:\n\n![]({new_badge.path})\n\n**{new_badge.name}**\n\n{new_badge.description}"
+		text = f"@{v.username} has given you the following profile badge:\n\n![]({new_badge.path})\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
 		send_notification(user.id, text)
 	
 	ma = ModAction(
