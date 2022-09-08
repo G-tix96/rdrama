@@ -25,7 +25,7 @@ def badge_grant(user, badge_id, description=None, url=None):
 
 	send_repeatable_notification(user.id,
 		f"@AutoJanny has given you the following profile badge:\n\n" +
-		f"![]({badge.path})\n\n{badge.name}")
+		f"![]({badge.path})\n\n**{badge.name}**\n{badge.description}")
 
 
 def archiveorg(url):
