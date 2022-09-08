@@ -328,6 +328,7 @@ class Submission(Base):
 		if "closed" in self.body.lower(): return True
 		if v:
 			for o in self.options:
+				if o.exclusive == 3: return True
 				if o.exclusive == 2 and o.voted(v): return True
 		return False
 
@@ -358,9 +359,10 @@ class Submission(Base):
 			if curr: curr = " value=post-" + str(curr[0].id)
 			else: curr = ''
 			body += f'<input class="d-none" id="current-post-{self.id}"{curr}>'
+			winner = [x for x in self.options if x.exclusive == 3]
 
 		for o in self.options:
-			if o.exclusive == 2:
+			if o.exclusive > 1:
 				body += f'''<div class="custom-control"><input name="option-{self.id}" autocomplete="off" class="custom-control-input bet" type="radio" id="{o.id}" onchange="bet_vote('{o.id}','{self.id}')"'''
 				if o.voted(v): body += " checked "
 				if not (v and v.coins >= 200) or self.total_bet_voted(v): body += " disabled "
@@ -370,7 +372,11 @@ class Submission(Base):
 				if not self.total_bet_voted(v):
 					body += '''<span class="cost"> (cost of entry: 200 coins)</span>'''
 				body += "</label>"
-				if v and v.admin_level > 2:
+
+				if o.exclusive == 3:
+					body += " - <b>WINNER!</b>"
+				
+				if not winner and v.admin_level > 2:
 					body += f'''<button class="btn btn-primary px-2 mx-2" style="font-size:10px;padding:2px" onclick="post_toast(this,'/distribute/{o.id}')">Declare winner</button>'''
 				body += "</div>"
 			else:

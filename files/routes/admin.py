@@ -202,6 +202,11 @@ def distribute(v, option_id):
 	try: option = g.db.get(SubmissionOption, option_id)
 	except: abort(404)
 
+	if option.exclusive != 2: abort(403)
+
+	option.exclusive = 3
+	g.db.add(option)
+
 	post = option.post
 
 	pool = 0
