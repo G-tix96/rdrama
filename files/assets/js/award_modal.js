@@ -1,7 +1,3 @@
-document.getElementById('awardModal').addEventListener('show.bs.modal', function (event) {
-	document.getElementById("awardTarget").action = event.relatedTarget.dataset.url;
-});
-
 // TODO: Refactor this ugly shit who wrote this lmao
 function vote(type, id, dir) {
 	const upvotes = document.getElementsByClassName(type + '-' + id + '-up');
