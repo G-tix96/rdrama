@@ -184,7 +184,7 @@
 {% if PUSHER_ID != 'blahblahblah' and v %}
 	<div class="d-none" id="strid">{{SITE}}{{v.id}}</div>
 	<div class="d-none" id="pusherid">{{PUSHER_ID}}</div>
-	<script src="/assets/js/pusher.js?v=4000"></script>
+	<script defer src="/assets/js/pusher.js?v=4000"></script>
 	<script>
 		if (typeof Android != 'undefined') {
 			Android.Subscribe('{{SITE}}{{v.id}}');
@@ -210,15 +210,17 @@
 	<script>
 		if (!("standalone" in window.navigator) && !(window.navigator.standalone)) {
 			if (window.innerWidth <= 737) {
-				const tt = bootstrap.Tooltip.getOrCreateInstance(document.getElementById('mobile-prompt'))
-				tt.show()
-				document.getElementsByClassName('tooltip')[0].onclick = function(event){
-					tt.hide()
-					var xhr = new XMLHttpRequest();
-					xhr.withCredentials=true;
-					xhr.open("POST", '/dismiss_mobile_tip', true);
-					xhr.send();
-				}
+				window.addEventListener('DOMContentLoaded', function() {
+					const tt = bootstrap.Tooltip.getOrCreateInstance(document.getElementById('mobile-prompt'))
+					tt.show()
+					document.getElementsByClassName('tooltip')[0].onclick = function(event){
+						tt.hide()
+						var xhr = new XMLHttpRequest();
+						xhr.withCredentials=true;
+						xhr.open("POST", '/dismiss_mobile_tip', true);
+						xhr.send();
+					}
+				})
 			}
 		} 
 	</script>

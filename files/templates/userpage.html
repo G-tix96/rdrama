@@ -818,11 +818,11 @@
 
 {% if v %}
 <div id='tax' class="d-none">{% if v.patron or u.patron or v.alts_patron or u.alts_patron %}0{% else %}0.03{% endif %}</div>
-<script src="{{asset('js/userpage_v.js')}}"></script>
+<script defer src="{{asset('js/userpage_v.js')}}"></script>
 <div id="username" class="d-none">{{u.username}}</div>
 {% endif %}
 
-<script src="{{asset('js/userpage.js')}}"></script>
+<script defer src="{{asset('js/userpage.js')}}"></script>
 
 {% endblock %}
 
@@ -849,7 +849,7 @@
 {% endif %}
 
 {% if not request.path.endswith('/comments') %}
-	<script src="{{asset('js/marked.js')}}"></script>
+	<script defer src="{{asset('js/marked.js')}}"></script>
 {% endif %}
 
 {% if v and v.id != u.id and '/comments' not in request.path %}

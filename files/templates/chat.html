@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<script src="{{asset('js/bootstrap.js')}}"></script>
+	<script defer src="{{asset('js/bootstrap.js')}}"></script>
 
 	<meta name="description" content="{{DESCRIPTION}}">
 	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
@@ -220,8 +220,8 @@
 {% include "emoji_modal.html" %}
 {% include "expanded_image_modal.html" %}
 
-<script src="{{asset('js/lozad.js')}}"></script>
-<script src="/assets/js/lite-youtube.js?v=4000"></script>
-<script src="/chat.js?h=4"></script>
+<script defer src="{{asset('js/lozad.js')}}"></script>
+<script defer src="/assets/js/lite-youtube.js?v=4000"></script>
+<script defer src="/chat.js?h=4"></script>
 
 </body>

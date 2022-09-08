@@ -83,7 +83,7 @@
 							</div>
 						</div>
 						<br>
-						<script src="{{asset('js/search.js')}}"></script>
+						<script defer src="{{asset('js/search.js')}}"></script>
 					{% endif %}
 					<div class="text-muted text-small mb-1">Showing {% block listinglength %}{{listing | length}}{% endblock %} of {{total}} result{{'s' if total != 1 else ''}} for</div>
 					<h1 class="h4 mb-0">{{query}}</h1>

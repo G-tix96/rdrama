@@ -253,7 +253,7 @@ function post_comment(fullname, hide){
 			comments.innerHTML = comment + comments.innerHTML;
 			if (!hide) comments.scrollIntoView()
 
-			bs_trigger(commentForm);
+			bs_trigger(comments);
 
 			btn.disabled = false;
 			btn.classList.remove('disabled');

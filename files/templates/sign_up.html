@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<script src="{{asset('js/bootstrap.js')}}"></script>
+	<script defer src="{{asset('js/bootstrap.js')}}"></script>
 
 	<link rel="icon" type="image/webp" href="{{asset_siteimg('icon.webp')}}">
 
@@ -140,10 +140,10 @@
 		</div>
 </div>
 
-<script src="/assets/js/signup.js?v=4000"></script>
+<script defer src="/assets/js/signup.js?v=4000"></script>
 
 {% if hcaptcha %}
-	<script src="/assets/js/hcaptcha.js?v=4000"></script>
+	<script defer src="/assets/js/hcaptcha.js?v=4000"></script>
 {% endif %}
 
 </body>

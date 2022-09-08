@@ -744,9 +744,9 @@
 							{% if p.domain == "twitter.com" %}
 								{{p.embed_url | safe}}
 								{% if v and v.theme.split("_")[0] in ["light", "coffee", "4chan"] %}
-									<script src="/assets/js/twitterlight.js?v=4000"></script>
+									<script defer src="/assets/js/twitterlight.js?v=4000"></script>
 								{% else %}
-									<script src="/assets/js/twitter.js?v=4000"></script>
+									<script defer src="/assets/js/twitter.js?v=4000"></script>
 								{% endif %}
 							{% elif p.domain in ['youtu.be','youtube.com'] and p.embed_url and p.embed_url.startswith('<lite-youtube') %}
 								{{p.embed_url | safe}}
@@ -1098,35 +1098,37 @@
 {% endif %}
 
 {% if v and (v.id == p.author_id or v.admin_level > 1 and v.admin_level > 2) %}
-	<script src="/assets/js/togglePostEdit.js?v=4000"></script>
+	<script defer src="/assets/js/togglePostEdit.js?v=4000"></script>
 {% endif %}
 
 {% if not v or v.highlightcomments %}
-	<script src="/assets/js/new_comments_count.js?v=4000"></script>
+	<script defer src="/assets/js/new_comments_count.js?v=4000"></script>
 {% endif %}
 
-<script src="/assets/js/clipboard.js?v=4000"></script>
+<script defer src="/assets/js/clipboard.js?v=4000"></script>
 
 {% if not p.replies %}
 	{% include "comments.html" %}
 {% endif %}
 
 {% if p.award_count("shit", v) %}
-	<script src="/assets/js/critters.js?v=4000"></script>
-	<script src="/assets/js/bugs.js?v=4000"></script>
+	<script defer src="/assets/js/critters.js?v=4000"></script>
+	<script defer src="/assets/js/bugs.js?v=4000"></script>
 {% endif %}
 
 
 {% if p.award_count("fireflies", v) %}
-	<script src="/assets/js/critters.js?v=4000"></script>
-	<script src="/assets/js/fireflies.js?v=4000"></script>
+	<script defer src="/assets/js/critters.js?v=4000"></script>
+	<script defer src="/assets/js/fireflies.js?v=4000"></script>
 {% endif %}
 
 
 <script>
 	(() => {
 		{% if not v or v.highlightcomments %}
-			showNewCommentCounts('{{p.id}}', {{p.comment_count}})
+			window.addEventListener('DOMContentLoaded', function() {
+				showNewCommentCounts('{{p.id}}', {{p.comment_count}})
+			})
 		{% endif %}
 
 		{% if "?context" not in request.full_path %}
@@ -1188,7 +1190,7 @@
 {% endif %}
 
 {% if p.award_count("firework", v) %}
-	<script src="/assets/js/fireworks.js?v=4000"></script>
+	<script defer src="/assets/js/fireworks.js?v=4000"></script>
 	<div class="firework">
 		<img src="">
 	</div>
@@ -1213,7 +1215,7 @@
 {% endif %}
 
 {% if p.award_count("ricardo", v) %}
-	<script src="/assets/js/ricardo.js?v=4000"></script>
+	<script defer src="/assets/js/ricardo.js?v=4000"></script>
 	<div id="ricardo1" class="ricardo ricardoleft">
 		<img src="/i/ricardo1.webp">
 	</div>

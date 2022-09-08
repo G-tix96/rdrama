@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<script src="{{asset('js/bootstrap.js')}}"></script>
+	<script defer src="{{asset('js/bootstrap.js')}}"></script>
 
 	<meta name="description" content="{{DESCRIPTION}}">
 	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
@@ -228,9 +228,9 @@
 			</script>
 		{% endif %}
 
-		<script src="{{asset('js/marked.js')}}"></script>
-		<script src="{{asset('js/formatting.js')}}"></script>
-		<script src="{{asset('js/submit.js')}}"></script>
+		<script defer src="{{asset('js/marked.js')}}"></script>
+		<script defer src="{{asset('js/formatting.js')}}"></script>
+		<script defer src="{{asset('js/submit.js')}}"></script>
 		{% include "emoji_modal.html" %}
 		{% include "gif_modal.html" %}
 

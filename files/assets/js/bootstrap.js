@@ -164,15 +164,17 @@ function bs_trigger(e) {
 		}
 	})
 
-	let forms = document.querySelectorAll("textarea, .allow-emojis");
-	forms.forEach(i => {
-		let pseudo_div = document.createElement("div");
-		pseudo_div.className = "ghostdiv";
-		pseudo_div.style.display = "none";
-		i.after(pseudo_div);
-		i.addEventListener('input', update_speed_emoji_modal, false);
-		i.addEventListener('keydown', speed_carot_navigate, false);
-	});
+	if (typeof update_speed_emoji_modal != 'undefined') {
+		let forms = e.querySelectorAll("textarea, .allow-emojis");
+		forms.forEach(i => {
+			let pseudo_div = document.createElement("div");
+			pseudo_div.className = "ghostdiv";
+			pseudo_div.style.display = "none";
+			i.after(pseudo_div);
+			i.addEventListener('input', update_speed_emoji_modal, false);
+			i.addEventListener('keydown', speed_carot_navigate, false);
+		});
+	}
 }
 
 var bsTriggerOnReady = function() {

@@ -373,193 +373,190 @@ function emojiAddToInput(event)
 	localStorage.setItem("favorite_emojis", JSON.stringify(favorite_emojis));
 }
 
-(function() {
-	const insertAt = (str, sub, pos) => `${str.slice(0, pos)}${sub}${str.slice(pos)}`;
+const insertAt = (str, sub, pos) => `${str.slice(0, pos)}${sub}${str.slice(pos)}`;
 
-	let emoji_typing_state = false;
+let emoji_typing_state = false;
 
-	function update_ghost_div_textarea(text)
+function update_ghost_div_textarea(text)
+{
+	let ghostdiv = text.parentNode.querySelector(".ghostdiv");
+	if (!ghostdiv) return;
+
+	ghostdiv.innerText = text.value.substring(0, text.selectionStart);
+	ghostdiv.innerHTML += "<span></span>";
+
+	// Now lets get coordinates
+
+	ghostdiv.style.display = "initial";
+	let end = ghostdiv.querySelector("span");
+	const carot_coords = end.getBoundingClientRect();
+	const ghostdiv_coords = ghostdiv.getBoundingClientRect();
+	ghostdiv.style.display = "none";
+	return { pos: text.selectionStart, x: carot_coords.x, y: carot_coords.y - ghostdiv_coords.y };
+}
+
+// Used for anything where a user is typing, specifically for the emoji modal
+// Just leave it global, I don't care
+let speed_carot_modal = document.createElement("div");
+speed_carot_modal.id = "speed-carot-modal";
+speed_carot_modal.style.position = "absolute";
+speed_carot_modal.style.left = "0px";
+speed_carot_modal.style.top = "0px";
+speed_carot_modal.style.display = "none";
+document.body.appendChild(speed_carot_modal);
+
+let e
+
+let current_word = "";
+let selecting;
+let emoji_index = 0;
+
+function curr_word_is_emoji()
+{
+	return current_word && current_word.charAt(0) == ":" &&
+		current_word.charAt(current_word.length-1) != ":";
+}
+
+function populate_speed_emoji_modal(results, textbox)
+{
+	selecting = true;
+
+	if (!results || results.size === 0)
 	{
-		let ghostdiv = text.parentNode.querySelector(".ghostdiv");
-		if (!ghostdiv) return;
-
-		ghostdiv.innerText = text.value.substring(0, text.selectionStart);
-		ghostdiv.innerHTML += "<span></span>";
-
-		// Now lets get coordinates
-
-		ghostdiv.style.display = "initial";
-		let end = ghostdiv.querySelector("span");
-		const carot_coords = end.getBoundingClientRect();
-		const ghostdiv_coords = ghostdiv.getBoundingClientRect();
-		ghostdiv.style.display = "none";
-		return { pos: text.selectionStart, x: carot_coords.x, y: carot_coords.y - ghostdiv_coords.y };
+		speed_carot_modal.style.display = "none";
+		return -1;
 	}
 
-	// Used for anything where a user is typing, specifically for the emoji modal
-	// Just leave it global, I don't care
-	let speed_carot_modal = document.createElement("div");
-	speed_carot_modal.id = "speed-carot-modal";
-	speed_carot_modal.style.position = "absolute";
-	speed_carot_modal.style.left = "0px";
-	speed_carot_modal.style.top = "0px";
-	speed_carot_modal.style.display = "none";
-	document.body.appendChild(speed_carot_modal);
-
-	let e
-
-	let current_word = "";
-	let selecting;
-	let emoji_index = 0;
-
-	function curr_word_is_emoji()
+	emoji_index = 0;
+	speed_carot_modal.innerHTML = "";
+	const MAXXX = 25;
+	// Not sure why the results is a Set... but oh well
+	let i = 0;
+	for (let result of results)
 	{
-		return current_word && current_word.charAt(0) == ":" &&
-			current_word.charAt(current_word.length-1) != ":";
-	}
+		if (i++ > MAXXX) return i;
+		let emoji_option = document.createElement("div");
+		emoji_option.className = "speed-modal-option emoji-option " + (i === 1 ? "selected" : "");
+		emoji_option.tabIndex = 0;
+		let emoji_option_img = document.createElement("img");
+		emoji_option_img.className = "speed-modal-image emoji-option-image";
+		// This is a bit
+		emoji_option_img.src = `/e/${result}.webp`;
+		let emoji_option_text = document.createElement("span");
+		emoji_option_text.title = result;
+		emoji_option_text.innerText = result;
 
-	function populate_speed_emoji_modal(results, textbox)
-	{
-		selecting = true;
+		if (current_word.includes("#")) result = `#${result}`
+		if (current_word.includes("!")) result = `!${result}`
 
-		if (!results || results.size === 0)
-		{
+		emoji_option.onclick = (e) => {
+			selecting = false;
 			speed_carot_modal.style.display = "none";
-			return -1;
-		}
+			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "g"), `:${result}:`)
+			markdown(textbox)
+		};
+		// Pack
+		emoji_option.appendChild(emoji_option_img);
+		emoji_option.appendChild(emoji_option_text);
+		speed_carot_modal.appendChild(emoji_option);
+	}
+	if (i === 0) speed_carot_modal.style.display = "none";
+	else speed_carot_modal.style.display = "initial";
+	return i;
+}
 
-		emoji_index = 0;
-		speed_carot_modal.innerHTML = "";
-		const MAXXX = 25;
-		// Not sure why the results is a Set... but oh well
-		let i = 0;
-		for (let result of results)
-		{
-			if (i++ > MAXXX) return i;
-			let emoji_option = document.createElement("div");
-			emoji_option.className = "speed-modal-option emoji-option " + (i === 1 ? "selected" : "");
-			emoji_option.tabIndex = 0;
-			let emoji_option_img = document.createElement("img");
-			emoji_option_img.className = "speed-modal-image emoji-option-image";
-			// This is a bit
-			emoji_option_img.src = `/e/${result}.webp`;
-			let emoji_option_text = document.createElement("span");
-			emoji_option_text.title = result;
-			emoji_option_text.innerText = result;
+function update_speed_emoji_modal(event)
+{
+	const box_coords = update_ghost_div_textarea(event.target);
 
-			if (current_word.includes("#")) result = `#${result}`
-			if (current_word.includes("!")) result = `!${result}`
+	let text = event.target.value;
 
-			emoji_option.onclick = (e) => {
-				selecting = false;
-				speed_carot_modal.style.display = "none";
-				textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "g"), `:${result}:`)
-				markdown(textbox)
-			};
-			// Pack
-			emoji_option.appendChild(emoji_option_img);
-			emoji_option.appendChild(emoji_option_text);
-			speed_carot_modal.appendChild(emoji_option);
-		}
-		if (i === 0) speed_carot_modal.style.display = "none";
-		else speed_carot_modal.style.display = "initial";
-		return i;
+	// Unused, but left incase anyone wants to use this more efficient method for emojos
+	switch (event.data)
+	{
+		case ':':
+		emoji_typing_state = true;
+		break;
+		case ' ':
+		emoji_typing_state = false;
+		break;
+		default:
+		break;
 	}
 
-	function update_speed_emoji_modal(event)
+	// Get current word at string, such as ":marse" or "word"
+	let coords = text.indexOf(' ',box_coords.pos);
+	current_word = /\S+$/.exec(text.slice(0, coords === -1 ? text.length : coords));
+	if (current_word) current_word = current_word.toString();
+
+	/* We could also check emoji_typing_state here, which is less accurate but more efficient. I've
+		* kept it unless someone wants to provide an option to toggle it for performance */
+	if (curr_word_is_emoji() && current_word != ":")
 	{
-		const box_coords = update_ghost_div_textarea(event.target);
+		loadEmojis(null);
+		let modal_pos = event.target.getBoundingClientRect();
+		modal_pos.x += window.scrollX;
+		modal_pos.y += window.scrollY;
 
-		let text = event.target.value;
+		speed_carot_modal.style.display = "initial";
+		speed_carot_modal.style.left = box_coords.x - 35 + "px";
+		speed_carot_modal.style.top = modal_pos.y + box_coords.y + 14 + "px";
 
-		// Unused, but left incase anyone wants to use this more efficient method for emojos
-		switch (event.data)
+		// Do the search (and do something with it)
+		populate_speed_emoji_modal(emojisSearchDictionary.searchFor(current_word.substr(1).replace(/#/g, "").replace(/!/g, "")), event.target);
+
+	}
+	else {
+		speed_carot_modal.style.display = "none";
+	}
+}
+
+function speed_carot_navigate(e)
+{
+	if (!selecting) return;
+
+	let select_items = speed_carot_modal.querySelectorAll(".speed-modal-option");
+	if (!select_items || !curr_word_is_emoji()) return false;
+	// Up or down arrow or enter
+	if (e.keyCode == 38 || e.keyCode == 40 || e.keyCode == 13)
+	{
+		if (emoji_index > select_items.length)
+			emoji_index = select_items;
+
+		select_items[emoji_index].classList.remove("selected");
+		switch (e.keyCode)
 		{
-			case ':':
-			emoji_typing_state = true;
+			case 38: // Up arrow
+			if (emoji_index)
+				emoji_index--;
 			break;
-			case ' ':
-			emoji_typing_state = false;
+
+			case 40: // Down arrow
+			if (emoji_index < select_items.length-1) emoji_index++;
 			break;
+
+			case 13:
+			select_items[emoji_index].click();
+
 			default:
 			break;
 		}
 
-		// Get current word at string, such as ":marse" or "word"
-		let coords = text.indexOf(' ',box_coords.pos);
-		current_word = /\S+$/.exec(text.slice(0, coords === -1 ? text.length : coords));
-		if (current_word) current_word = current_word.toString();
-
-		/* We could also check emoji_typing_state here, which is less accurate but more efficient. I've
-		 * kept it unless someone wants to provide an option to toggle it for performance */
-		if (curr_word_is_emoji() && current_word != ":")
-		{
-			loadEmojis(null);
-			let modal_pos = event.target.getBoundingClientRect();
-			modal_pos.x += window.scrollX;
-			modal_pos.y += window.scrollY;
-
-			speed_carot_modal.style.display = "initial";
-			speed_carot_modal.style.left = box_coords.x - 35 + "px";
-			speed_carot_modal.style.top = modal_pos.y + box_coords.y + 14 + "px";
-
-			// Do the search (and do something with it)
-			populate_speed_emoji_modal(emojisSearchDictionary.searchFor(current_word.substr(1).replace(/#/g, "").replace(/!/g, "")), event.target);
-
-		}
-		else {
-			speed_carot_modal.style.display = "none";
-		}
+		select_items[emoji_index].classList.add("selected");
+		e.preventDefault();
 	}
+}
 
-	function speed_carot_navigate(e)
-	{
-		if (!selecting) return;
-
-		let select_items = speed_carot_modal.querySelectorAll(".speed-modal-option");
-		if (!select_items || !curr_word_is_emoji()) return false;
-		// Up or down arrow or enter
-		if (e.keyCode == 38 || e.keyCode == 40 || e.keyCode == 13)
-		{
-			if (emoji_index > select_items.length)
-				emoji_index = select_items;
-
-			select_items[emoji_index].classList.remove("selected");
-			switch (e.keyCode)
-			{
-				case 38: // Up arrow
-				if (emoji_index)
-					emoji_index--;
-				break;
-
-				case 40: // Down arrow
-				if (emoji_index < select_items.length-1) emoji_index++;
-				break;
-
-				case 13:
-				select_items[emoji_index].click();
-
-				default:
-				break;
-			}
-
-			select_items[emoji_index].classList.add("selected");
-			e.preventDefault();
-		}
-	}
-
-	// Let's get it running now
-	let forms = document.querySelectorAll("textarea, .allow-emojis");
-	forms.forEach(i => {
-		let pseudo_div = document.createElement("div");
-		pseudo_div.className = "ghostdiv";
-		pseudo_div.style.display = "none";
-		i.after(pseudo_div);
-		i.addEventListener('input', update_speed_emoji_modal, false);
-		i.addEventListener('keydown', speed_carot_navigate, false);
-	});
-})();
-
+// Let's get it running now
+let forms = document.querySelectorAll("textarea, .allow-emojis");
+forms.forEach(i => {
+	let pseudo_div = document.createElement("div");
+	pseudo_div.className = "ghostdiv";
+	pseudo_div.style.display = "none";
+	i.after(pseudo_div);
+	i.addEventListener('input', update_speed_emoji_modal, false);
+	i.addEventListener('keydown', speed_carot_navigate, false);
+});
 
 function loadEmojis(inputTargetIDName)
 {
