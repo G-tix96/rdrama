@@ -48,7 +48,7 @@ def pull_slots(v):
 	if success:
 		return {"game_state": game_state, "gambler": { "coins": v.coins, "procoins": v.procoins }}
 	else:
-		return {"error": "Wager must be more than 100 {currency}."}
+		return {"error": f"Wager must be more than 5 {currency}."}
 
 
 @app.get("/casino/blackjack/status")

@@ -65,18 +65,19 @@ def award_timers(v, bot=False):
 	if v.owoify and v.owoify < now:
 		v.owoify = None
 		notify_if_not_bot("Your OwOify status has expired!")
-		v.house = v.old_house
 		badge = v.has_badge(167)
 	if v.bite and v.bite < now:
 		v.bite = None
-		notify_if_not_bot("Your vampire status has ended!")
-		v.house = v.old_house
+
+		if v.old_house: 
+			notify_if_not_bot("Your vampire status has ended!")
+			v.house = v.old_house
+
 		badge = v.has_badge(168)
 		if badge: g.db.delete(badge)
 	if v.earlylife and v.earlylife < now:
 		v.earlylife = None
 		notify_if_not_bot("Your earlylife status has expired!")
-		v.house = v.old_house
 		badge = v.has_badge(169)
 	if v.marsify and v.marsify != 1 and v.marsify < now:
 		v.marsify = 0
@@ -86,7 +87,6 @@ def award_timers(v, bot=False):
 	if v.rainbow and v.rainbow < now:
 		v.rainbow = None
 		notify_if_not_bot("Your rainbow has expired!")
-		v.house = v.old_house
 		badge = v.has_badge(171)
 
 	g.db.add(v)

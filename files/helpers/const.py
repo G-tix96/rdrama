@@ -78,8 +78,6 @@ if SITE_NAME == 'rDrama':
 		"uss liberty incident": "tragic accident aboard the USS Liberty",
 		"lavon affair": "Lavon Misunderstanding",
 		"shylock": "Israeli friend",
-		"mohammad": "Prophet Muhammad (ﷺ)",
-		"muhammad": "Prophet Muhammad (ﷺ)",
 		"i hate marsey": "i love marsey",
 		"dancing israelis": "i love Israel",
 		"sodomite": "total dreamboat",
@@ -201,7 +199,6 @@ MOM_ID = 0
 DONGER_ID = 0
 GEESE_ID = 0
 
-BUG_THREAD = 0
 POLL_THREAD = 0
 WELCOME_MSG = f"Welcome to {SITE_NAME}!"
 ROLES={}
@@ -257,7 +254,6 @@ if SITE == 'rdrama.net':
 	DONGER_ID = 541
 	GEESE_ID = 1710
 
-	BUG_THREAD = 18459
 	POLL_THREAD = 79285
 
 	WELCOME_MSG = "Hi there! It's me, your soon-to-be favorite rDrama user @carpathianflorist here to give you a brief rundown on some of the sick features we have here. ~You'll probably want to start by following me, though. So go ahead and click my name and then smash that Follow button. This is actually really important, so go on. Hurry.~ Actually, not enough of you were able to follow even the simplest of instructions, so now everyone is following me by default! If you'd like, you can still get some clicking practice in by hitting the unfollow button. But I'll be notified of that, and you're new, and you wouldn't want to get off on the wrong foot here, would you?\nThanks!\nNext up: If you're a member of the media, similarly just shoot me a DM and I'll set about verifying you and then we can take care of your sad journalism stuff.\n**FOR EVERYONE ELSE**\n Begin by navigating to [the settings page](/settings/profile) (we'll be prettying this up so it's less convoluted soon, don't worry) and getting some basic customization done.\n### Themes\nDefinitely change your theme right away, the default one (Midnight) is pretty enough, but why not use something *exotic* like Win98, or *flashy* like Tron? Even Coffee is super tasteful and way more fun than the default. More themes to come when we get around to it!\n### Avatar/pfp\nYou'll want to set this pretty soon. Set the banner too while you're at it. Your profile is important!\n### Flairs\nSince you're already on the settings page, you may as well set a flair, too. As with your username, you can - obviously - choose the color of this, either with a hex value or just from the preset colors. And also like your username, you can change this at any time. [Paypigs](https://marsey1.gumroad.com/l/rdrama) can even further relive the glory days of 90s-00s internet and set obnoxious signatures.\n### PROFILE ANTHEMS\nSpeaking of profiles, hey, remember MySpace? Do you miss autoplaying music assaulting your ears every time you visited a friend's page? Yeah, we brought that back. Enter a YouTube URL, wait a few seconds for it to process, and then BAM! you've got a profile anthem which people cannot mute. Unless they spend 20,000 dramacoin in the shop for a mute button. Which you can then remove from your profile by spending 40,000 dramacoin on an unmuteable anthem. Get fucked poors!\n### Dramacoin?\nDramacoin is basically our take on the karma system. Except unlike the karma system, it's not gay and boring and stupid and useless. Dramacoin can be spent at [Marsey's Dramacoin Emporium](/shop) on upgrades to your user experience (many more coming than what's already listed there), and best of all on tremendously annoying awards to fuck with your fellow dramautists. We're always adding more, so check back regularly in case you happen to miss one of the announcement posts.\nLike karma, dramacoin is obtained by getting upvotes on your threads and comments. *Unlike* karma, it's also obtained by getting downvotes on your threads and comments. Downvotes don't really do anything here - they pay the same amount of dramacoin and they increase thread/comment ranking just the same as an upvote. You just use them to express petty disapproval and hopefully start a fight. Because all votes are visible here. To hell with your anonymity.\nDramacoin can also be traded amongst users from their profiles. Note that there is a 3% transaction fee.\n### Badges\nRemember all those neat little metallic icons you saw on my profile when you were following me? If not, scroll back up and go have a look. And doublecheck to make sure you pressed the Follow button. Anyway, those are badges. You earn them by doing a variety of things. Some of them even offer benefits, like discounts at the shop. A [complete list of badges and their requirements can be found here](/badges), though I add more pretty regularly, so keep an eye on the [changelog](/h/changelog).\n### Other stuff\nWe're always adding new features, and we take a fun-first approach to development. If you have a suggestion for something that would be fun, funny, annoying - or best of all, some combination of all three - definitely make a thread about it. Or just DM me if you're shy. Weirdo. Anyway there's also the [leaderboards](/leaderboard), boring stuff like two-factor authentication you can toggle on somewhere in the settings page (psycho), the ability to save posts and comments, more than a thousand emojis already (most of which are rDrama originals), and on and on and on and on. This is just the basics, mostly to help you get acquainted with some of the things you can do here to make it more easy on the eyes, customizable, and enjoyable. If you don't enjoy it, just go away! We're not changing things to suit you! Get out of here loser! And no, you can't delete your account :na:\nI love you.<BR>*xoxo Carp* 💋"
@@ -291,7 +287,6 @@ elif SITE == 'pcmemes.net':
 	AEVANN_ID = 1
 	SNAKES_ID = 2279
 
-	BUG_THREAD = 4103
 	WELCOME_MSG = "Welcome to pcmemes.net! Don't forget to turn off the slur filter [here](/settings/content#slurreplacer)"
 
 	LOTTERY_TICKET_COST = 12
@@ -596,7 +591,7 @@ AWARDS = {
 		"kind": "bird",
 		"title": "Bird Site",
 		"description": "Forces the recipient to make all posts/comments < 140 characters for 24 hours.",
-		"icon": "fab fa-twitter",
+		"icon": "fas fa-twitter",
 		"color": "text-blue",
 		"price": 1500
 	},
@@ -676,7 +671,7 @@ AWARDS = {
 		"kind": "unblockable",
 		"title": "Unblockable",
 		"description": "Makes the recipient unblockable and removes all blocks on them.",
-		"icon": "far fa-laugh-squint",
+		"icon": "fas fa-laugh-squint",
 		"color": "text-lightgreen",
 		"price": 20000
 	},

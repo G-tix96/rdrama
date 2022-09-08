@@ -7,8 +7,16 @@
 {% block pagetype %}message{% endblock %}
 
 {% block Banner %}
+	<style>
+		@media (max-width: 768px) {
+			#hats-banner {
+				width: 80%;
+			}
+		}
+	</style>
+
 	<header class="container pb-1 text-center">
-		<img class="mt-5" alt="hats banner" src="/i/hats.webp?v=1" width="50%">
+		<img id="hats-banner" class="mt-5" alt="hats banner" src="/i/hats.webp?v=1" width="50%">
 		<h5 class="mt-4">Number of hats you bought: {{v.num_of_owned_hats}}</h5>
 		<h5 class="mt-4">Number of hats you designed: {{v.num_of_designed_hats}}</h5>
 		<h5 class="mt-4">Coins you spent on hats: {{v.coins_spent_on_hats}}</h5>

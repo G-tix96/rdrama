@@ -357,8 +357,10 @@ def award_thing(v, thing_type, id):
 			g.db.add(thing)
 	elif "Vampire" in kind and kind == v.house:
 		if author.bite: author.bite += 86400 * 7
-		else: author.bite = int(time.time()) + 86400 * 7
-		author.old_house = author.house
+		else:
+			author.bite = int(time.time()) + 86400 * 7
+			author.old_house = author.house
+		
 		author.house = 'Vampire'
 		badge_grant(user=author, badge_id=168)
 	elif "Racist" in kind and kind == v.house:

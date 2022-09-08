@@ -33,7 +33,7 @@
 
 {% if p.active_flags(v) %}
 	<div id="flaggers-{{p.id}}" class="flaggers d-none">
-		<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
+		<strong><i class="fas fa-fw fa-flag"></i> Reported by:</strong>
 		<pre></pre>
 		<ul style="padding-left:20px; margin-bottom: 0;word-wrap:break-word">
 			{% for f in p.filtered_flags(v) %}
@@ -194,7 +194,7 @@
 			</div>
 
 			<h5 class="card-title post-title text-left w-lg-95 mb-0 pb-0 pb-md-1">
-				<a id="{{p.id}}-title" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}" class="{% if p.sub %}sub{% endif %} stretched-link {% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %}">
+				<a id="{{p.id}}-title" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}" class="{% if p.sub %}sub{% endif %} stretched-link {% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter{% endif %}">
 				{% if p.club %}<span class="patron font-weight-bolder mr-1" style="background-color:red; font-size:12px; line-height:2;">{{CC}}</span>{% endif %}
 				{% if p.category %}{{help.submission_category_tag(p.category.name, p.category.color_text, p.category.color_bg)}}{% endif %}
 				{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2;">{{p.flair | safe}}</span>{% endif %}

@@ -580,7 +580,7 @@
 				<div class="modal-body">
 					<ul class="list-group post-actions">
 						{% if v.id==p.author_id %}
-							<button class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" onclick="togglePostEdit('{{p.id}}')"><i class="far fa-edit text-center text-muted mr-2"></i>Edit</button>
+							<button class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit text-center text-muted mr-2"></i>Edit</button>
 						{% elif p.body %}
 							<button class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" onclick="expandMarkdown('{{p.id}}','p')"><i class="fas text-expand-icon-{{p.id}} fa-expand-alt text-center mr-2"></i><span class="expand-text-p-{{p.id}}">View source</span></button>
 						{% endif %}
@@ -699,7 +699,7 @@
 					</div>
 					{% if p.active_flags(v) %}
 					<div id="flaggers" class="flaggers d-none">
-						<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
+						<strong><i class="fas fa-fw fa-flag"></i> Reported by:</strong>
 						<pre></pre>
 						<ul style="padding-left:20px; margin-bottom: 0;word-wrap:break-word">
 							{% for f in p.filtered_flags(v) %}

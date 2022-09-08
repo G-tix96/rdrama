@@ -232,21 +232,19 @@
 							</div>
 							<div class="px-2">
 								{% if has_app -%}
-								<a class="dropdown-item" href="/assets/app_{{SITE_NAME}}_v2.4.apk"><i class="fab fa-android fa-fw mr-3"></i>Android app</a>
+								<a class="dropdown-item" href="/assets/app_{{SITE_NAME}}_v2.4.apk"><i class="fas fa-android fa-fw mr-3"></i>Android app</a>
 								{%- endif %}
 
 								<a class="dropdown-item" href="https://rdrama.net/h/changelog"><i class="fas fa-clipboard fa-fw mr-3"></i>Changelog</a>
 
-								<a class="dropdown-item" rel="nofollow noopener noreferrer" href="https://github.com/Aevann1/rDrama"><i class="fab fa-github fa-fw mr-3"></i>Source code</a>
+								<a class="dropdown-item" rel="nofollow noopener noreferrer" href="https://github.com/Aevann1/rDrama"><i class="fas fa-github fa-fw mr-3"></i>Source code</a>
 
-								{% if SITE_NAME in ['rDrama', 'PCM'] %}
-									<a class="dropdown-item" rel="nofollow noopener noreferrer" href="/report_bugs"><i class="fas fa-bug fa-fw mr-3"></i>Bugs/Suggestions</a>
-								{% endif %}
+								<a class="dropdown-item" rel="nofollow noopener noreferrer" href="https://rdrama.net/post/18459"><i class="fas fa-bug fa-fw mr-3"></i>Bugs/Suggestions</a>
 
 								{% if SITE_NAME == 'rDrama' %}
-									<a class="dropdown-item" href="/discord"><i class="fab fa-discord fa-fw mr-3"></i>Discord</a>
-									<a class="dropdown-item" href="/post/75863"><i class="fas fa-square-share-nodes fa-fw mr-3"></i>Fediverse</a>
+									<a class="dropdown-item" href="/discord"><i class="fas fa-discord fa-fw mr-3"></i>Discord</a>
 								{% endif %}
+
 								{% if FEATURES['PROCOINS'] %}
 									<a class="dropdown-item" rel="nofollow noopener noreferrer" href="{{GUMROAD_LINK}}"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 								{% endif %}
@@ -299,15 +297,19 @@
 				{% endif %}
 				
 				{% if has_app -%}
-					<a class="nav-item nav-link" href="/assets/app_{{SITE_NAME}}_v2.4.apk"><i class="fab fa-android fa-fw mr-3"></i>Android app</a>
+					<a class="nav-item nav-link" href="/assets/app_{{SITE_NAME}}_v2.4.apk"><i class="fas fa-android fa-fw mr-3"></i>Android app</a>
 				{%- endif %}
 
-				<a class="nav-item nav-link" rel="nofollow noopener noreferrer" href="https://github.com/Aevann1/rDrama"><i class="fab fa-github fa-fw mr-3"></i>Source code</a>
+				<a class="nav-item nav-link" href="https://rdrama.net/h/changelog"><i class="fas fa-clipboard fa-fw mr-3"></i>Changelog</a>
+
+				<a class="nav-item nav-link" rel="nofollow noopener noreferrer" href="https://github.com/Aevann1/rDrama"><i class="fas fa-github fa-fw mr-3"></i>Source code</a>
+
+				<a class="nav-item nav-link" rel="nofollow noopener noreferrer" href="https://rdrama.net/post/18459"><i class="fas fa-bug fa-fw mr-3"></i>Bugs/Suggestions</a>
 
 				{% if SITE_NAME == 'rDrama' %}
-					<a class="nav-item nav-link" href="/discord"><i class="fab fa-discord fa-fw mr-3"></i>Discord</a>
-					<a class="nav-item nav-link" href="/post/75863"><i class="fas fa-square-share-nodes fa-fw mr-3"></i>Fediverse</a>
+					<a class="nav-item nav-link" href="/discord"><i class="fas fa-discord fa-fw mr-3"></i>Discord</a>
 				{% endif %}
+
 				{% if FEATURES['PROCOINS'] %}
 					<a class="nav-item nav-link" rel="nofollow noopener noreferrer" href="{{GUMROAD_LINK}}"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 				{% endif %}

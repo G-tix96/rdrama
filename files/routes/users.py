@@ -681,11 +681,6 @@ def unsubscribe(v, post_id):
 		g.db.delete(sub)
 	return {"message": "Post unsubscribed!"}
 
-@app.get("/report_bugs")
-@auth_required
-def reportbugs(v):
-	return redirect(f'/post/{BUG_THREAD}')
-
 @app.post("/@<username>/message")
 @limiter.limit("1/second;10/minute;20/hour;50/day")
 @limiter.limit("1/second;10/minute;20/hour;50/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
