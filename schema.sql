@@ -2596,6 +2596,7 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 170	Marsified	This user's comments get Marsified automatically
 167	OwOified	This user's comments get OwOified automatically
 169	Early Life Checked	The Early Life section of this user is on full display
+172	God Save The Kween	Commemorative badge awarded for outliving Her Maj
 4	White Hat	Discreetly reported an exploit
 1	Alpha User	Joined during open alpha
 2	Verified Email	Verified Email
@@ -2703,7 +2704,7 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 171, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 172, true);
 
 
 --
