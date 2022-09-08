@@ -376,7 +376,7 @@ class Submission(Base):
 				if o.exclusive == 3:
 					body += " - <b>WINNER!</b>"
 				
-				if not winner and v.admin_level > 2:
+				if not winner and v and v.admin_level > 2:
 					body += f'''<button class="btn btn-primary px-2 mx-2" style="font-size:10px;padding:2px" onclick="post_toast(this,'/distribute/{o.id}')">Declare winner</button>'''
 				body += "</div>"
 			else:
