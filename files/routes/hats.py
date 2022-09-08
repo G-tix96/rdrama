@@ -29,7 +29,8 @@ def hats(v):
 		hats = owned + not_owned
 
 	sales = g.db.query(func.sum(User.coins_spent_on_hats)).scalar()
-	return render_template("hats.html", owned_hat_ids=owned_hat_ids, hats=hats, v=v, sales=sales)
+	num_of_hats = g.db.query(HatDef).count()
+	return render_template("hats.html", owned_hat_ids=owned_hat_ids, hats=hats, v=v, sales=sales, num_of_hats=num_of_hats)
 
 @app.post("/buy_hat/<hat_id>")
 @auth_required
