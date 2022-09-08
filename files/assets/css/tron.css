@@ -219,10 +219,6 @@
 	border: 2px solid var(--gray-200) !important;
 }
 
-.post-title a:visited {
-	color: #b0b0b0 !important;
-}
-
 .sidebar
 {
     background-color: unset !important;
@@ -233,4 +229,8 @@
 .tooltip-inner {
 	color: #d8d8d8 !important;
 	background-color: #313131 !important;
+}
+
+.post-title a:visited {
+	color: #b0b0b0 !important;
 }

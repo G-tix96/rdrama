@@ -160,13 +160,13 @@ blockquote {
 	background: #ffffffaa !important;
 }
 
-.post-title a:visited {
-	color: #5c5c5c !important;
-}
-
 .sidebar
 {
     background-color: unset !important;
     border-radius: 0px;
     margin-top: 6px;
+}
+
+.post-title a:visited {
+	color: #5c5c5c !important;
 }

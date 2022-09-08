@@ -521,10 +521,6 @@ a.nav-link:hover {
 		color: var(--black2) !important;
 }
 
-.post-title a:visited {
-	color: #6e6e6e !important;
-}
-
 .sidebar
 {
     background-color: #f3f3f3 !important;
@@ -539,4 +535,8 @@ a.nav-link:hover {
 
 #awardModalBody .card .pt-2 {
 	color: var(--black3) !important;
+}
+
+.post-title a:visited {
+	color: #6e6e6e !important;
 }

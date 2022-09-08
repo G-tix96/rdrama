@@ -134,10 +134,6 @@ color: var(--gray-700);
 	background-color: var(--gray-800);
 }
 
-.post-title a:visited {
-	color: #6e6e6e !important;
-}
-
 .post-title
 {
     color: var(--gray-300) !important;
@@ -146,4 +142,8 @@ color: var(--gray-700);
 .tooltip-inner {
 	color: #d8d8d8 !important;
 	background-color: #313131 !important;
+}
+
+.post-title a:visited {
+	color: #6e6e6e !important;
 }

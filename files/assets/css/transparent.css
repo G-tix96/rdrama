@@ -71,11 +71,11 @@ pre {
 	background-color: var(--gray-500);
 }
 
-.post-title a:visited {
-	color: #7a7a7a !important;
-}
-
 .tooltip-inner {
 	color: #d8d8d8 !important;
 	background-color: #313131 !important;
+}
+
+.post-title a:visited {
+	color: #7a7a7a !important;
 }

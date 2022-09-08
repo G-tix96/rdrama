@@ -201,10 +201,6 @@ a.nav-link:hover {
 	color: var(--white) !important;
 }
 
-.post-title a:visited {
-	color: #6e6e6e !important;
-}
-
 .sidebar
 {
     background-color: #202020 !important;
@@ -219,4 +215,8 @@ a.nav-link:hover {
 .tooltip-inner {
 	color: #d8d8d8 !important;
 	background-color: #313131 !important;
+}
+
+.post-title a:visited {
+	color: #6e6e6e !important;
 }

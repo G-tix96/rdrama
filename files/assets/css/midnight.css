@@ -42,10 +42,6 @@ body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textare
 	background-color: #ccc;
 }
 
-.post-title a:visited {
-	color: #6e6e6e !important;
-}
-
 .sidebar
 {
     background-color: #1c1f25 !important;
@@ -64,4 +60,8 @@ body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textare
 .tooltip-inner {
 	color: #d8d8d8 !important;
 	background-color: #313131 !important;
+}
+
+.post-title a:visited {
+	color: #6e6e6e !important;
 }

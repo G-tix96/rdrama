@@ -67,9 +67,6 @@ pre {
 	background: None !important;
 }
 
-.post-title a:visited {
-	color: #7a7a7a !important;
-}
 
 
 .sidebar
@@ -94,4 +91,8 @@ pre {
 
 #frontpage .posts .card, #userpage .posts .card, #search .posts .card {
 	border-color: #101010;
+}
+
+.post-title a:visited {
+	color: #7a7a7a !important;
 }
