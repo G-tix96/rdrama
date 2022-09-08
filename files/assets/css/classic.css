@@ -79,7 +79,7 @@ a {
 	color: var(--blue) !important;
 }
 
-.fa-thumbtack.text-admin, .card.stickied .post-title a {
+.fa-thumbtack.text-admin, .card.stickied .post-title a:not(:visited) {
 	color: var(--sticky) !important;
 }
 
