@@ -44,7 +44,6 @@ body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textare
 
 .sidebar
 {
-    background-color: #1c1f25 !important;
     border-radius: 6px;
     margin-top: 6px;
 }

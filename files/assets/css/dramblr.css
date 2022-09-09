@@ -35,7 +35,7 @@ blockquote {
 	background-color: var(--background);
 }
 
-#frontpage #main-content-row, .sidebar {
+#frontpage #main-content-row {
 	background-color: var(--gray-800) !important
 }
 
