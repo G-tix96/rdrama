@@ -491,7 +491,7 @@ def submit_marsey(v):
 @app.post("/admin/approve/marsey/<name>")
 @admin_level_required(3)
 def approve_marsey(v, name):
-	if v.id != CARP_ID: abort(403)
+	if CARP_ID and v.id != CARP_ID: abort(403)
 
 	marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
 	if not marsey: abort(404)
@@ -499,7 +499,6 @@ def approve_marsey(v, name):
 	tags = request.values.get('tags')
 	if not tags: abort(400)
 
-	marsey.submitter_id = None
 	marsey.tags = tags
 	g.db.add(marsey)
 
@@ -519,15 +518,22 @@ def approve_marsey(v, name):
 		data=f'{{"files": ["https://{SITE}/e/{name}.webp"]}}', timeout=5)
 	cache.delete_memoized(marsey_list)
 
+	msg = f'@{v.username} has approved a marsey you submitted: :{marsey.name}:'
+	send_repeatable_notification(marsey.submitter_id, msg)
+	marsey.submitter_id = None
+
 	return {"message": f"{name} approved!"}
 
 @app.post("/admin/reject/marsey/<name>")
 @admin_level_required(3)
 def reject_marsey(v, name):
-	if v.id != CARP_ID: abort(403)
+	if CARP_ID and v.id != CARP_ID: abort(403)
 
 	marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
 	if not marsey: abort(404)
+
+	msg = f'@{v.username} has rejected a marsey you submitted: `{marsey.name}`'
+	send_repeatable_notification(marsey.submitter_id, msg)
 
 	g.db.delete(marsey)
 	os.remove(f"/asset_submissions/{name}.webp")
