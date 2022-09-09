@@ -503,7 +503,7 @@ def approve_marsey(v, name):
 	marsey.tags = tags
 	g.db.add(marsey)
 
-	move(f"/asset_submissions/{name}.webp", f"files/assets/images/emojis/{name}.webp")
+	move(f"/asset_submissions/{marsey.name}.webp", f"files/assets/images/emojis/{marsey.name}.webp")
 
 	author = get_account(marsey.author_id)
 	all_by_author = g.db.query(Marsey).filter_by(author_id=author.id).count()
@@ -516,14 +516,14 @@ def approve_marsey(v, name):
 		badge_grant(badge_id=17, user=author)
 
 	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
-		data=f'{{"files": ["https://{SITE}/e/{name}.webp"]}}', timeout=5)
+		data=f'{{"files": ["https://{SITE}/e/{marsey.name}.webp"]}}', timeout=5)
 	cache.delete_memoized(marsey_list)
 
 	msg = f'@{v.username} has approved a marsey you submitted: :{marsey.name}:'
 	send_repeatable_notification(marsey.submitter_id, msg)
 	marsey.submitter_id = None
 
-	return {"message": f"{name} approved!"}
+	return {"message": f"{marsey.name} approved!"}
 
 @app.post("/admin/reject/marsey/<name>")
 @admin_level_required(3)
@@ -537,9 +537,9 @@ def reject_marsey(v, name):
 	send_repeatable_notification(marsey.submitter_id, msg)
 
 	g.db.delete(marsey)
-	os.remove(f"/asset_submissions/{name}.webp")
+	os.remove(f"/asset_submissions/{marsey.name}.webp")
 
-	return {"message": f"{name} rejected!"}
+	return {"message": f"{marsey.name} rejected!"}
 
 
 @app.get('/asset_submissions/<image>')
