@@ -491,6 +491,8 @@ def submit_marsey(v):
 @app.post("/admin/approve/marsey/<name>")
 @admin_level_required(3)
 def approve_marsey(v, name):
+	if v.id != CARP_ID: abort(403)
+
 	marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
 	if not marsey: abort(404)
 
@@ -522,6 +524,8 @@ def approve_marsey(v, name):
 @app.post("/admin/reject/marsey/<name>")
 @admin_level_required(3)
 def reject_marsey(v, name):
+	if v.id != CARP_ID: abort(403)
+
 	marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
 	if not marsey: abort(404)
 
