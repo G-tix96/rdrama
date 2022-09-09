@@ -574,7 +574,8 @@ CREATE TABLE public.marseys (
     name character varying(30) NOT NULL,
     author_id integer NOT NULL,
     tags character varying(200) NOT NULL,
-    count integer DEFAULT 0 NOT NULL
+    count integer DEFAULT 0 NOT NULL,
+    submitter_id integer
 );
 
 
@@ -1761,6 +1762,13 @@ CREATE INDEX marseys_idx3 ON public.marseys USING btree (count DESC);
 
 
 --
+-- Name: marseys_idx4; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX marseys_idx4 ON public.marseys USING btree (submitter_id);
+
+
+--
 -- Name: modaction_action_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2256,6 +2264,14 @@ ALTER TABLE ONLY public.hats
 
 ALTER TABLE ONLY public.marseys
     ADD CONSTRAINT marsey_author_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
+
+
+--
+-- Name: marseys marsey_submitter_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.marseys
+    ADD CONSTRAINT marsey_submitter_fkey FOREIGN KEY (submitter_id) REFERENCES public.users(id);
 
 
 --
