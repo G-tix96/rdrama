@@ -102,7 +102,7 @@ blockquote {
 	background-color: var(--white) !important;
 }
 
-.form-control, .form-control:disabled, .form-control[readonly] {
+.form-control, .form-control:disabled, [readonly] {
 	background: white !important;
 	color: black !important
 }

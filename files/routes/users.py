@@ -566,7 +566,7 @@ def leaderboard(v):
 	users11 = users11.limit(25).all()
 
 	if SITE_NAME == 'rDrama':
-		sq = g.db.query(Marsey.author_id, func.count(Marsey.author_id).label("count"), func.rank().over(order_by=func.count(Marsey.author_id).desc()).label("rank")).group_by(Marsey.author_id).subquery()
+		sq = g.db.query(Marsey.author_id, func.count(Marsey.author_id).label("count"), func.rank().over(order_by=func.count(Marsey.author_id).desc()).label("rank")).filter(Marsey.submitter_id==None).group_by(Marsey.author_id).subquery()
 		users12 = g.db.query(User, sq.c.count).join(sq, User.id==sq.c.author_id).order_by(sq.c.count.desc())
 		pos12 = g.db.query(User.id, sq.c.rank, sq.c.count).join(sq, User.id==sq.c.author_id).filter(User.id == v.id).one_or_none()
 		if pos12: pos12 = (pos12[1],pos12[2])

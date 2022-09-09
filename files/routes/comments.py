@@ -10,7 +10,6 @@ from files.helpers.actions import *
 from files.helpers.get import *
 from files.classes import *
 from files.routes.front import comment_idlist
-from files.routes.static import marsey_list
 from flask import *
 from files.__main__ import app, limiter
 from files.helpers.sanitize import filter_emojis_only
@@ -230,44 +229,6 @@ def comment(v):
 							process_image(filename, 200)
 							requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
 								data=f'{{"files": ["https://{SITE}/assets/images/badges/{badge.id}.webp"]}}', timeout=5)
-						except Exception as e:
-							return {"error": str(e)}, 400
-					elif v.admin_level > 2 and parent_post.id == MARSEY_THREAD:
-						try:
-							marsey = loads(body.lower())
-
-							name = marsey["name"]
-							if not marsey_regex.fullmatch(name): return {"error": "Invalid name!"}, 400
-							existing = g.db.query(Marsey.name).filter_by(name=name).one_or_none()
-							if existing: return {"error": "A marsey with this name already exists!"}, 403
-
-							tags = marsey["tags"]
-							if not tags_regex.fullmatch(tags): return {"error": "Invalid tags!"}, 400
-
-							if "author" in marsey: user = get_user(marsey["author"])
-							elif "author_id" in marsey: user = get_account(marsey["author_id"])
-							else: abort(400)
-
-							filename = f'files/assets/images/emojis/{name}.webp'
-							copyfile(oldname, filename)
-							process_image(filename, 200)
-
-							marsey = Marsey(name=name, author_id=user.id, tags=tags, count=0)
-							g.db.add(marsey)
-
-							all_by_author = g.db.query(Marsey).filter_by(author_id=user.id).count()
-
-							# off-by-one: newly added marsey isn't counted
-							if all_by_author >= 99:
-								badge_grant(badge_id=143, user=user)
-							elif all_by_author >= 9:
-								badge_grant(badge_id=16, user=user)
-							else:
-								badge_grant(badge_id=17, user=user)
-
-							requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
-								data=f'{{"files": ["https://{SITE}/e/{name}.webp"]}}', timeout=5)
-							cache.delete_memoized(marsey_list)
 						except Exception as e:
 							return {"error": str(e)}, 400
 					elif v.admin_level > 2 and parent_post.id == HAT_THREAD:

@@ -35,6 +35,7 @@ mkdir /songs
 mkdir /images
 mkdir /videos
 mkdir /audio
+mkdir /asset_submissions
 git config --global --add safe.directory /songs
 git config --global --add safe.directory /images
 git config --global --add safe.directory /videos

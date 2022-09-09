@@ -2,12 +2,14 @@ from files.mail import *
 from files.__main__ import app, limiter, mail
 from files.helpers.alerts import *
 from files.helpers.const import *
+from files.helpers.actions import *
 from files.classes.award import AWARDS
 from sqlalchemy import func
 import os
 from files.classes.mod_logs import ACTIONTYPES, ACTIONTYPES2
 from files.classes.badges import BadgeDef
 import files.helpers.stats as statshelper
+from shutil import move
 
 @app.get("/r/drama/comments/<id>/<title>")
 @app.get("/r/Drama/comments/<id>/<title>")
@@ -20,12 +22,13 @@ def rdrama(id, title):
 @auth_required
 def marseys(v):
 	if SITE == 'rdrama.net':
-		marseys = g.db.query(Marsey, User).join(User)
+		marseys = g.db.query(Marsey, User).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id==None)
 		sort = request.values.get("sort", "usage")
 		if sort == "usage": marseys = marseys.order_by(Marsey.count.desc(), User.username)
 		else: marseys = marseys.order_by(User.username, Marsey.count.desc())
 	else:
-		marseys = g.db.query(Marsey).order_by(Marsey.count.desc())
+		marseys = g.db.query(Marsey).filter(Marsey.submitter_id==None).order_by(Marsey.count.desc())
+
 	return render_template("marseys.html", v=v, marseys=marseys)
 
 @app.get("/marsey_list.json")
@@ -43,7 +46,7 @@ def marsey_list():
 						if emoji.name.startswith("marsey") else emoji.name],
 			"count": emoji.count,
 			"class": "Marsey"
-		} for emoji, author in g.db.query(Marsey, User.username).join(User) \
+		} for emoji, author in g.db.query(Marsey, User.username).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id==None) \
 			.order_by(Marsey.count.desc())]
 
 	# Static shit
@@ -178,11 +181,12 @@ def api(v):
 	return render_template("api.html", v=v)
 
 @app.get("/contact")
+@app.get("/contactus")
+@app.get("/contact_us")
 @app.get("/press")
 @app.get("/media")
 @auth_required
 def contact(v):
-
 	return render_template("contact.html", v=v)
 
 @app.post("/send_admin")
@@ -433,3 +437,107 @@ def categories_json():
 		data.update({sub: sub_cats})
 
 	return jsonify(data)
+
+
+@app.get("/submit/marseys")
+@auth_required
+def submit_marseys(v):
+	if v.admin_level > 2:
+		marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None).all()
+	else:
+		marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id).all()
+
+	for marsey in marseys:
+		marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
+		marsey.submitter = g.db.query(User.username).filter_by(id=marsey.submitter_id).one()[0]
+
+	return render_template("submit_marseys.html", v=v, marseys=marseys)
+
+
+@app.post("/submit/marsey")
+@auth_required
+def submit_marsey(v):
+	if request.headers.get("cf-ipcountry") == "T1":
+		return {"error":"Image uploads are not allowed through TOR."}
+
+	file = request.files["image"]
+	if not file: return {"error": "You need to submit an image!"}
+
+	name = request.values.get('name').lower()
+	if not marsey_regex.fullmatch(name):
+		return {"error": "Invalid name!"}
+
+	existing = g.db.query(Marsey.name).filter_by(name=name).one_or_none()
+	if existing:
+		return {"error": "A marsey with this name already exists!"}
+
+	tags = request.values.get('tags').lower()
+	if not tags_regex.fullmatch(tags):
+		return {"error": "Invalid tags!"}
+
+	author = request.values.get('author')
+	author = get_user(author)
+
+	filename = f'/asset_submissions/{name}.webp'
+	file.save(filename)
+	process_image(filename, 200)
+
+	marsey = Marsey(name=name, author_id=author.id, tags=tags, count=0, submitter_id=v.id)
+	g.db.add(marsey)
+
+	return redirect('/submit/marseys')
+
+
+@app.post("/admin/approve/marsey/<name>")
+@admin_level_required(3)
+def approve_marsey(v, name):
+	marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
+	if not marsey: abort(404)
+
+	tags = request.values.get('tags')
+	if not tags: abort(400)
+
+	marsey.submitter_id = None
+	marsey.tags = tags
+	g.db.add(marsey)
+
+	move(f"/asset_submissions/{name}.webp", f"files/assets/images/emojis/{name}.webp")
+
+	author = get_account(marsey.author_id)
+	all_by_author = g.db.query(Marsey).filter_by(author_id=author.id).count()
+
+	if all_by_author >= 99:
+		badge_grant(badge_id=143, user=author)
+	elif all_by_author >= 9:
+		badge_grant(badge_id=16, user=author)
+	else:
+		badge_grant(badge_id=17, user=author)
+
+	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
+		data=f'{{"files": ["https://{SITE}/e/{name}.webp"]}}', timeout=5)
+	cache.delete_memoized(marsey_list)
+
+	return {"message": f"{name} approved!"}
+
+@app.post("/admin/reject/marsey/<name>")
+@admin_level_required(3)
+def reject_marsey(v, name):
+	marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
+	if not marsey: abort(404)
+
+	g.db.delete(marsey)
+	os.remove(f"/asset_submissions/{name}.webp")
+
+	return {"message": f"{name} rejected!"}
+
+
+@app.get('/asset_submissions/<image>')
+@limiter.exempt
+def asset_submissions(image):
+	if not image.endswith('.webp'): abort(404)
+	resp = make_response(send_from_directory('/asset_submissions', image))
+	resp.headers.remove("Cache-Control")
+	resp.headers.add("Cache-Control", "public, max-age=3153600")
+	resp.headers.remove("Content-Type")
+	resp.headers.add("Content-Type", "image/webp")
+	return resp

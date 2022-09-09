@@ -487,7 +487,7 @@ pre code {
 	color: #6c757d;
 	opacity: 1;
 }
-.form-control:disabled, .form-control[readonly] {
+.form-control:disabled, [readonly] {
 	background-color: #e9ecef;
 	opacity: 1;
 }
@@ -2965,7 +2965,7 @@ label.color-radio span {
 	background-color: var(--gray-900);
 	color: var(--black);
 }
-.form-inline.search .form-control, .form-control[readonly] {
+.form-inline.search .form-control, [readonly] {
 	background-color: var(--gray-800);
 	font-size: 1rem;
 	color: var(--white);
@@ -2998,8 +2998,8 @@ label.color-radio span {
 	background: #dee2e6;
 	transition: none;
 }
-.form-control:disabled, .form-control[readonly] {
-	background-color: var(--dark);
+.form-control:disabled, [readonly] {
+	background-color: var(--dark) !important;
 }
 .form-control:hover {
 	color: var(--black);

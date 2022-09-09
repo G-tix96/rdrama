@@ -212,7 +212,6 @@ SIDEBAR_THREAD = 0
 BANNER_THREAD = 0
 BADGE_THREAD = 0
 SNAPPY_THREAD = 0
-MARSEY_THREAD = 0
 HAT_THREAD = 0
 
 if SITE == 'rdrama.net':
@@ -223,7 +222,6 @@ if SITE == 'rdrama.net':
 	BANNER_THREAD = 37697
 	BADGE_THREAD = 37833
 	SNAPPY_THREAD = 37749
-	MARSEY_THREAD = 37838
 	HAT_THREAD = 100210
 
 	HOLE_COST = 50000
@@ -313,7 +311,6 @@ elif SITE == 'watchpeopledie.co':
 	SNAKES_ID = 32
 
 	SIDEBAR_THREAD = 5403
-	MARSEY_THREAD = 5743
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
@@ -920,10 +917,10 @@ christian_emojis = [':#marseyjesus:',':#marseyimmaculate:',':#marseymothermary:'
 	':#marseyorthodoxsmug:',':#marseypastor:',':#marseypope:',]
 
 db = db_session()
-marseys_const = [x[0] for x in db.query(Marsey.name).filter(Marsey.name!='chudsey').all()]
+marseys_const = [x[0] for x in db.query(Marsey.name).filter(Marsey.submitter_id==None, Marsey.name!='chudsey').all()]
 marseys_const2 = marseys_const + ['chudsey','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','exclamationpoint','period','questionmark']
 
-marseys = db.query(Marsey).all()
+marseys = db.query(Marsey).filter(Marsey.submitter_id==None).all()
 marsey_mappings = {}
 for marsey in marseys:
 	for tag in marsey.tags.split():
@@ -944,7 +941,7 @@ if path.isfile(f'snappy_{SITE_NAME}.txt'):
 
 YOUTUBE_KEY = environ.get("YOUTUBE_KEY", "").strip()
 
-ADMIGGERS = {SIDEBAR_THREAD,BANNER_THREAD,BADGE_THREAD,SNAPPY_THREAD,MARSEY_THREAD,HAT_THREAD}
+ADMIGGERS = {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD, SNAPPY_THREAD, HAT_THREAD}
 
 proxies = {"http":"http://127.0.0.1:18080","https":"http://127.0.0.1:18080"}
 

@@ -1,0 +1,152 @@
+{% extends "default.html" %}
+
+{% block title %}
+<title>Submit Marseys</title>
+
+{% endblock %}
+
+{% block content %}
+	<div class="mx-4">
+		<h2 class="mt-5">Submit Marsey</h2>
+			<div class="settings-section rounded">
+				<div class="d-lg-flex">
+					<div class="body w-lg-100">
+						<form action="/submit/marsey" method="post" enctype="multipart/form-data">
+							<input type="hidden" name="formkey" value="{{v.formkey}}">
+
+							<div id="image-upload-block">
+								<div><label class="mt-3">Image</label></div>
+
+								<img loading="lazy" id="image-preview" style="max-width:50%">
+								<label class="btn btn-secondary m-0" for="file-upload">
+									<div id="filename-show">Select File</div>
+									<input autocomplete="off" id="file-upload" accept="image/*" type="file" name="image" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} hidden>
+								</label>
+							</div>
+
+							<label class="mt-3" for="name">Name</label>
+							<input autocomplete="off" type="text" id="name" class="form-control" name="name" maxlength="30" required>
+
+							<label class="mt-3" for="author">Author</label>
+							<input autocomplete="off" type="text" id="author" class="form-control" name="author" value="{{v.username}}" maxlength="30" required>
+
+							<label class="mt-3" for="tags">Tags</label>
+							<input autocomplete="off" type="text" id="tags" class="form-control" name="tags" maxlength="200" required>
+
+							<div class="footer mt-5">
+								<div class="d-flex">
+									<input id="submit-marsey" disabled type="submit" onclick="disable(this)" class="btn btn-primary ml-auto" value="Submit Marsey">
+								</div>
+							</div>
+						</form>			
+					</div>
+				</div>
+			</div>
+	</div>
+
+	<script>
+		document.onpaste = function(event) {
+			files = event.clipboardData.files
+
+			filename = files[0]
+
+			if (filename)
+			{
+				filename = filename.name.toLowerCase()
+				if (document.activeElement.id == 'post-text') {
+					let filename = ''
+					for (const file of files)
+						filename += file.name + ', '
+					filename = filename.toLowerCase().slice(0, -2)
+					document.getElementById('file-upload-submit').files = files;
+					document.getElementById('filename-show-submit').textContent = filename;
+				}
+				else {
+					f=document.getElementById('file-upload');
+					f.files = files;
+					document.getElementById('filename-show').textContent = filename;
+					document.getElementById('urlblock').classList.add('d-none');
+					if (filename.endsWith(".jpg") || filename.endsWith(".jpeg") || filename.endsWith(".png") || filename.endsWith(".gif") || filename.endsWith(".webp"))
+					{
+						var fileReader = new FileReader();
+						fileReader.readAsDataURL(f.files[0]);
+						fileReader.addEventListener("load", function () {document.getElementById('image-preview').setAttribute('src', this.result);});
+					}
+					document.getElementById('file-upload').setAttribute('required', 'false');
+				}
+				document.getElementById('post-url').value = null;
+				localStorage.setItem("post-url", "")
+			}
+		}
+
+		document.getElementById('file-upload').addEventListener('change', function(){
+			f=document.getElementById('file-upload');
+			document.getElementById('filename-show').textContent = document.getElementById('file-upload').files[0].name.substr(0, 20);
+			filename = f.files[0].name.toLowerCase()
+			if (filename.endsWith(".jpg") || filename.endsWith(".jpeg") || filename.endsWith(".png") || filename.endsWith(".gif") || filename.endsWith(".webp"))
+			{
+				var fileReader = new FileReader();
+				fileReader.readAsDataURL(f.files[0]);
+				fileReader.addEventListener("load", function () {document.getElementById('image-preview').setAttribute('src', this.result);});
+				document.getElementById('submit-marsey').disabled = false;
+			}
+		})
+
+		function approve_marsey(t, name) {
+			t.disabled = true;
+			t.classList.add("disabled");
+			post_toast_callback(`/admin/approve/marsey/${name}`,
+				{
+					"tags": document.getElementById(`${name}-tags`).value,
+				},
+				(xhr) => {
+				if(xhr.status == 200) {
+					document.getElementById(`${name}-marsey`).classList.add('d-none')
+				}
+				}
+			);
+			setTimeout(() => {
+				t.disabled = false;
+				t.classList.remove("disabled");
+			}, 2000);
+		}
+	</script>
+
+	<h2 class="mt-5 mx-4">Current Applications</h2>
+	<div class="row mt-5 mx-4">
+		<div class="col px-0">
+			<div class="settings">
+				{% for marsey in marseys %}
+					<div id="{{marsey.name}}-marsey" class="settings-section rounded">
+						<div class="d-lg-flex">
+							<div class="body w-lg-100">
+								<input type="hidden" name="formkey" value="{{v.formkey}}">
+		
+								<div><label class="mt-3">Image</label></div>
+								<img loading="lazy" src="/asset_submissions/{{marsey.name}}.webp" style="max-width:50%">
+		
+								<div><label class="mt-3" for="{{marsey.name}}-name">Name</label></div>
+								<input autocomplete="off" type="text" id="{{marsey.name}}-name" class="form-control" maxlength="30" value="{{marsey.name}}" readonly>
+								
+								<label class="mt-3" for="{{marsey.name}}-author">Author</label>
+								<input autocomplete="off" type="text" id="{{marsey.name}}-author" class="form-control" maxlength="30" value="{{marsey.author}}" readonly>
+		
+								<label class="mt-3" for="{{marsey.name}}-tags">Tags</label>
+								<input autocomplete="off" type="text" id="{{marsey.name}}-tags" class="form-control" name="tags" maxlength="200" value="{{marsey.tags}}" required>
+
+								<label class="mt-3" for="{{marsey.name}}-submitter">Submitter</label>
+								<input autocomplete="off" type="text" id="{{marsey.name}}-submitter" class="form-control" maxlength="30" value="{{marsey.submitter}}" readonly>
+							</div>
+						</div>
+						{% if v.admin_level > 2 %}
+							<div class="d-flex my-4 mx-3">
+								<a role="button" class="btn btn-primary ml-auto mr-2" onclick="approve_marsey(this, '{{marsey.name}}')">Approve</a>
+								<a role="button" class="btn btn-secondary mr-0" onclick="post_toast(this,'/admin/reject/marsey/{{marsey.name}}', true)">Reject</a> 
+							</div>
+						{% endif %}
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -14,7 +14,6 @@ from .subscriptions import *
 from files.__main__ import app
 from .mod_logs import *
 from .award import *
-from .marsey import *
 from .sub_block import *
 from .sub_subscription import *
 from .sub_join import *
@@ -25,3 +24,4 @@ from .follows import *
 from .lottery import *
 from .casino_game import *
 from .hats import *
+from .marsey import *

@@ -240,6 +240,63 @@ function post_toast(t, url, button1, button2, classname, extra_actions) {
 
 }
 
+function post_toast_callback(url, data, callback) {
+	const xhr = new XMLHttpRequest();
+	xhr.open("POST", url);
+	xhr.setRequestHeader('xhr', 'xhr');
+	const form = new FormData()
+	form.append("formkey", formkey());
+
+	if(typeof data === 'object' && data !== null) {
+		for(let k of Object.keys(data)) {
+			form.append(k, data[k]);
+		}
+	}
+
+	form.append("formkey", formkey());
+	xhr.onload = function() {
+		let result = callback(xhr);
+		if (xhr.status >= 200 && xhr.status < 300) {
+			var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error'));
+			myToast.hide();
+
+			var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success'));
+			myToast.show();
+
+			try {
+				if(typeof result == "string") {
+					document.getElementById('toast-post-success-text').innerText = result;
+				} else {
+					document.getElementById('toast-post-success-text').innerText = JSON.parse(xhr.response)["message"];
+				}
+			} catch(e) {
+			}
+
+			return true;
+		} else {
+			var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success'));
+			myToast.hide();
+
+			var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error'));
+			myToast.show();
+
+			try {
+				if(typeof result == "string") {
+					document.getElementById('toast-post-error-text').innerText = result;
+				} else {
+					document.getElementById('toast-post-error-text').innerText = JSON.parse(xhr.response)["error"];
+				}
+				return false
+			} catch(e) {console.log(e)}
+
+			return false;
+		}
+	};
+
+	xhr.send(form);
+
+}
+
 function escapeHTML(unsafe) {
 	return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 }

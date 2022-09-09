@@ -100,7 +100,7 @@ def stats(site=None):
 	active_users = set(posters) | set(commenters) | set(voters) | set(commentvoters)
 
 	stats = {
-			"marseys": g.db.query(Marsey).count(),
+			"marseys": g.db.query(Marsey).filter(Marsey.submitter_id==None).count(),
 			"users": g.db.query(User).count(),
 			"private users": g.db.query(User).filter_by(is_private=True).count(),
 			"banned users": g.db.query(User).filter(User.is_banned > 0).count(),
