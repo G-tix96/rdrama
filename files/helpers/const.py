@@ -547,14 +547,6 @@ AWARDS = {
 		"color": "text-green",
 		"price": 1000
 	},
-	"pin": {
-		"kind": "pin",
-		"title": "1-Hour Pin",
-		"description": "Pins the post/comment.",
-		"icon": "fas fa-thumbtack fa-rotate--45",
-		"color": "text-warning",
-		"price": 1000
-	},
 	"unpin": {
 		"kind": "unpin",
 		"title": "1-Hour Unpin",
@@ -570,6 +562,14 @@ AWARDS = {
 		"icon": "fas fa-lock",
 		"color": "text-black",
 		"price": 1250
+	},
+	"pin": {
+		"kind": "pin",
+		"title": "1-Hour Pin",
+		"description": "Pins the post/comment.",
+		"icon": "fas fa-thumbtack fa-rotate--45",
+		"color": "text-warning",
+		"price": 1500
 	},
 	"progressivestack": {
 		"kind": "progressivestack",
