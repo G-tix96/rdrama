@@ -235,7 +235,7 @@ class User(Base):
 
 	@lazy
 	def mods(self, sub):
-		return self.admin_level == 3 or bool(g.db.query(Mod.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
+		return bool(g.db.query(Mod.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
 
 	@lazy
 	def exiled_from(self, sub):
