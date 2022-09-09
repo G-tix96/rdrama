@@ -4511,15 +4511,17 @@ span.red {
 span.green {
 	color: #38A169;
 }
-div.banned {
+.banned {
 	background-color: #960000 !important;
 	border-left: 3px solid #ff0000 !important;
 }
-div.deleted {
+.deleted {
 	background-color: #4a4a15 !important;
+	border-left: 3px solid #4a4a15 !important;
 }
-div.deleted.banned {
+.deleted.banned {
 	background-color: #964000 !important;
+	border-left: 3px solid #964000 !important;
 }
 .text-admin {
 	color: var(--primary);
