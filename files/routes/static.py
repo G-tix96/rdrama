@@ -461,7 +461,8 @@ def submit_marsey(v):
 		return {"error":"Image uploads are not allowed through TOR."}
 
 	file = request.files["image"]
-	if not file: return {"error": "You need to submit an image!"}
+	if not file or not file.content_type.startswith('image/'):
+		return {"error": "You need to submit an image!"}
 
 	name = request.values.get('name').lower()
 	if not marsey_regex.fullmatch(name):
