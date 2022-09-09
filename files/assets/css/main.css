@@ -4513,15 +4513,15 @@ span.green {
 }
 .banned {
 	background-color: #960000 !important;
-	border-left: 3px solid #ff0000 !important;
+	border-left: 10px solid #ff0000 !important;
 }
 .deleted {
 	background-color: #4a4a15 !important;
-	border-left: 3px solid #4a4a15 !important;
+	border-left: 10px solid #4a4a15 !important;
 }
 .deleted.banned {
 	background-color: #964000 !important;
-	border-left: 3px solid #964000 !important;
+	border-left: 10px solid #964000 !important;
 }
 .text-admin {
 	color: var(--primary);
