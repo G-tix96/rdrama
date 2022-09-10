@@ -511,13 +511,13 @@
 <meta name="twitter:site" content="{{SITE_FULL}}">
 
 {% if not v_forbid_deleted -%}
-	<meta property="og:image" content="{% if p.is_image %}{{p.realurl(v)}}{% elif p.has_thumb%}{{p.thumb_url}}{% else %}{{SITE}}{{asset_siteimg('site_preview.webp')}}{% endif %}">
+	<meta property="og:image" content="{% if p.is_image %}{{p.realurl(v)}}{% elif p.has_thumb%}{{p.thumb_url}}{% else %}{{SITE_FULL}}{{asset_siteimg('site_preview.webp')}}{% endif %}">
 	{% if p.is_video %}
 		<meta property="og:video" content="{{p.realurl(v)}}">
 	{% elif p.is_audio %}
 		<meta property="og:audio" content="{{p.realurl(v)}}">
 	{% endif %}
-	<meta name="twitter:image" content="{% if p.is_image %}{{p.realurl(v)}}{% elif p.has_thumb%}{{p.thumb_url}}{% else %}{{SITE}}{{asset_siteimg('site_preview.webp')}}{% endif %}">
+	<meta name="twitter:image" content="{% if p.is_image %}{{p.realurl(v)}}{% elif p.has_thumb%}{{p.thumb_url}}{% else %}{{SITE_FULL}}{{asset_siteimg('site_preview.webp')}}{% endif %}">
 {% endif %}
 
 
