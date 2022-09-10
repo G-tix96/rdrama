@@ -478,7 +478,7 @@ def submit_marsey(v):
 	if not file or not file.content_type.startswith('image/'):
 		return error("You need to submit an image!")
 
-	name = request.values.get('name').lower()
+	name = request.values.get('name').lower().strip()
 	if not marsey_regex.fullmatch(name):
 		return error("Invalid name!")
 
@@ -486,11 +486,11 @@ def submit_marsey(v):
 	if existing:
 		return error("A marsey with this name already exists!")
 
-	tags = request.values.get('tags').lower()
+	tags = request.values.get('tags').lower().strip()
 	if not tags_regex.fullmatch(tags):
 		return error("Invalid tags!")
 
-	author = request.values.get('author')
+	author = request.values.get('author').strip()
 	author = get_user(author)
 
 	highquality = f'/asset_submissions/{name}.png'
@@ -516,7 +516,7 @@ def approve_marsey(v, name):
 	if not marsey:
 		return {"error": f"This marsey '{name}' doesn't exist!"}, 404
 
-	tags = request.values.get('tags')
+	tags = request.values.get('tags').lower().strip()
 	if not tags:
 		return {"error": "You need to include tags!"}, 400
 
