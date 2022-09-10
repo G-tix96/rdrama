@@ -441,6 +441,26 @@ def categories_json():
 	return jsonify(data)
 
 
+
+
+
+
+
+
+
+
+
+@app.get('/asset_submissions/<image>')
+@limiter.exempt
+def asset_submissions(image):
+	if not image.endswith('.webp'): abort(404)
+	resp = make_response(send_from_directory('/asset_submissions', image))
+	resp.headers.remove("Cache-Control")
+	resp.headers.add("Cache-Control", "public, max-age=3153600")
+	resp.headers.remove("Content-Type")
+	resp.headers.add("Content-Type", "image/webp")
+	return resp
+
 @app.get("/submit/marseys")
 @auth_required
 def submit_marseys(v):
@@ -526,7 +546,18 @@ def approve_marsey(v, name):
 	if not tags:
 		return {"error": "You need to include tags!"}, 400
 
-	marsey.name = request.values.get('name').lower().strip()
+	new_name = request.values.get('name').lower().strip()
+	if not new_name:
+		return {"error": "You need to include name!"}, 400
+
+
+	if not marsey_regex.fullmatch(new_name):
+		return {"error": "Invalid name!"}, 400
+	if not tags_regex.fullmatch(tags):
+		return {"error": "Invalid tags!"}, 400
+
+
+	marsey.name = new_name
 	marsey.tags = tags
 	g.db.add(marsey)
 
@@ -546,11 +577,13 @@ def approve_marsey(v, name):
 		data=f'{{"files": ["https://{SITE}/e/{marsey.name}.webp"]}}', timeout=5)
 	cache.delete_memoized(marsey_list)
 
-	msg = f'@{v.username} has approved a marsey you submitted: :{marsey.name}:'
-	send_repeatable_notification(marsey.submitter_id, msg)
+	if v.id != marsey.submitter_id:
+		msg = f"@{v.username} has approved a marsey you submitted: :{marsey.name}:"
+		send_repeatable_notification(marsey.submitter_id, msg)
+
 	marsey.submitter_id = None
 
-	return {"message": f"{marsey.name} approved!"}
+	return {"message": f"'{marsey.name}' approved!"}
 
 @app.post("/admin/reject/marsey/<name>")
 @admin_level_required(3)
@@ -564,22 +597,158 @@ def reject_marsey(v, name):
 	if not marsey:
 		return {"error": f"This marsey '{name}' doesn't exist!"}, 404
 
-	msg = f"@{v.username} has rejected a marsey you submitted: `'{marsey.name}'`"
-	send_repeatable_notification(marsey.submitter_id, msg)
+	if v.id != marsey.submitter_id:
+		msg = f"@{v.username} has rejected a marsey you submitted: `'{marsey.name}'`"
+		send_repeatable_notification(marsey.submitter_id, msg)
 
 	g.db.delete(marsey)
 	os.remove(f"/asset_submissions/{marsey.name}.webp")
 
-	return {"message": f"{marsey.name} rejected!"}
+	return {"message": f"'{marsey.name}' rejected!"}
 
 
-@app.get('/asset_submissions/<image>')
-@limiter.exempt
-def asset_submissions(image):
-	if not image.endswith('.webp'): abort(404)
-	resp = make_response(send_from_directory('/asset_submissions', image))
-	resp.headers.remove("Cache-Control")
-	resp.headers.add("Cache-Control", "public, max-age=3153600")
-	resp.headers.remove("Content-Type")
-	resp.headers.add("Content-Type", "image/webp")
-	return resp
+
+
+@app.get("/submit/hats")
+@auth_required
+def submit_hats(v):
+	if v.admin_level > 2: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
+	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id).all()
+	return render_template("submit_hats.html", v=v, hats=hats)
+
+
+@app.post("/submit/hats")
+@auth_required
+def submit_hat(v):
+
+	def error(error):
+		if v.admin_level > 2: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
+		else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id).all()
+		return render_template("submit_hats.html", v=v, hats=hats, error=error), 400
+
+	if request.headers.get("cf-ipcountry") == "T1":
+		return error("Image uploads are not allowed through TOR.")
+
+	file = request.files["image"]
+	if not file or not file.content_type.startswith('image/'):
+		return error("You need to submit an image!")
+
+	name = request.values.get('name').lower().strip()
+	if not hat_regex.fullmatch(name):
+		return error("Invalid name!")
+
+	existing = g.db.query(HatDef.name).filter_by(name=name).one_or_none()
+	if existing:
+		return error("A hat with this name already exists!")
+
+	description = request.values.get('description').lower().strip()
+	if not description_regex.fullmatch(description):
+		return error("Invalid description!")
+
+	author = request.values.get('author').strip()
+	author = get_user(author)
+
+	highquality = f'/asset_submissions/{name}.png'
+	file.save(highquality)
+
+	i = Image.open(highquality)
+	if i.width > 100 or i.height > 130:
+		return error("Images must be 100x130")
+
+	filename = f'/asset_submissions/{name}.webp'
+	copyfile(highquality, filename)
+	process_image(filename)
+
+	hat = HatDef(name=name, author_id=author.id, description=description, price=500, submitter_id=v.id)
+	g.db.add(hat)
+
+	g.db.commit()
+
+	if v.admin_level > 2: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
+	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id).all()
+	return render_template("submit_hats.html", v=v, hats=hats, msg=f"'{name}' submitted successfully!")
+
+
+@app.post("/admin/approve/hat/<name>")
+@admin_level_required(3)
+def approve_hat(v, name):
+	if CARP_ID and v.id != CARP_ID:
+		return {"error": "Only Carp can approve hats!"}, 403
+
+	name = name.lower().strip()
+
+	hat = g.db.query(HatDef).filter_by(name=name).one_or_none()
+	if not hat:
+		return {"error": f"This hat '{name}' doesn't exist!"}, 404
+
+	description = request.values.get('description').lower().strip()
+	if not description:
+		return {"error": "You need to include description!"}, 400
+
+	new_name = request.values.get('name').lower().strip()
+	if not new_name:
+		return {"error": "You need to include name!"}, 400
+
+	if not hat_regex.fullmatch(new_name):
+		return {"error": "Invalid name!"}, 400
+
+	if not description_regex.fullmatch(description):
+		return {"error": "Invalid description!"}, 400
+
+	hat.name = new_name
+	hat.description = description
+	g.db.add(hat)
+
+	move(f"/asset_submissions/{name}.webp", f"files/assets/images/hats/{hat.name}.webp")
+
+
+	g.db.flush()
+	author = hat.author
+
+	all_by_author = g.db.query(HatDef).filter_by(author_id=author.id).count()
+
+	if all_by_author >= 250:
+		badge_grant(badge_id=166, user=author)
+	elif all_by_author >= 100:
+		badge_grant(badge_id=165, user=author)
+	elif all_by_author >= 50:
+		badge_grant(badge_id=164, user=author)
+	elif all_by_author >= 10:
+		badge_grant(badge_id=163, user=author)
+
+	hat_copy = Hat(
+		user_id=author.id,
+		hat_id=hat.id
+	)
+	g.db.add(hat_copy)
+
+
+
+	if v.id != hat.submitter_id:
+		msg = f"@{v.username} has approved a hat you submitted: '{hat.name}'"
+		send_repeatable_notification(hat.submitter_id, msg)
+
+	hat.submitter_id = None
+
+	return {"message": f"'{hat.name}' approved!"}
+
+@app.post("/admin/reject/hat/<name>")
+@admin_level_required(3)
+def reject_hat(v, name):
+	if CARP_ID and v.id != CARP_ID:
+		return {"error": "Only Carp can reject hats!"}, 403
+
+	name = name.lower().strip()
+
+	hat = g.db.query(HatDef).filter_by(name=name).one_or_none()
+	if not hat:
+		return {"error": f"This hat '{name}' doesn't exist!"}, 404
+
+	if v.id != hat.submitter_id:
+		msg = f"@{v.username} has rejected a hat you submitted: `'{hat.name}'`"
+		send_repeatable_notification(hat.submitter_id, msg)
+
+	g.db.delete(hat)
+	os.remove(f"/asset_submissions/{hat.name}.webp")
+
+	return {"message": f"'{hat.name}' rejected!"}

@@ -13,8 +13,10 @@ class HatDef(Base):
 	description = Column(String)
 	author_id = Column(Integer, ForeignKey('users.id'))
 	price = Column(Integer)
+	submitter_id = Column(Integer, ForeignKey("users.id"))
 
 	author = relationship("User", primaryjoin="HatDef.author_id == User.id", back_populates="designed_hats")
+	submitter = relationship("User", primaryjoin="HatDef.submitter_id == User.id")
 
 	@property
 	@lazy
