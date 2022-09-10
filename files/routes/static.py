@@ -493,8 +493,11 @@ def submit_marsey(v):
 	author = request.values.get('author')
 	author = get_user(author)
 
+	highquality = f'/asset_submissions/{name}.png'
+	file.save(highquality)
+
 	filename = f'/asset_submissions/{name}.webp'
-	file.save(filename)
+	copyfile(highquality, filename)
 	process_image(filename, 200)
 
 	marsey = Marsey(name=name, author_id=author.id, tags=tags, count=0, submitter_id=v.id)
