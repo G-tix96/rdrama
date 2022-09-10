@@ -16,7 +16,7 @@
 <p><a href="{{thing.permalink}}">{{thing.permalink}}</a></p>
 <p><b>Author:</b> <a href="{{thing.author.url}}">@{{thing.author.username}}</a></p>
 <p><b>Author Created At:</b> <span data-time="{{thing.author.created_utc}}"></span></p>
-<p><b>Author Truescore:</b> {{thing.author.truecoins}}</p>
+<p><b>Author Truescore:</b> {{"{:,}".format(thing.author.truecoins)}}</p>
 <p><b>Upvotes: </b>{{ups | length}}</p>
 <p><b>Downvotes: </b>{{downs | length}}</p>
 
@@ -43,7 +43,7 @@
 						{% include "user_in_table.html" %}
 					{% endwith %}
 				</td>
-				<td>{{vote.user.truecoins}}</td>
+				<td>{{"{:,}".format(vote.user.truecoins)}}</td>
 				<td data-time="{{vote.created_utc}}"></td>
 			</tr>
 		{% endfor %}
@@ -68,7 +68,7 @@
 						{% include "user_in_table.html" %}
 					{% endwith %}
 				</td>
-				<td>{{vote.user.truecoins}}</td>
+				<td>{{"{:,}".format(vote.user.truecoins)}}</td>
 				<td data-time="{{vote.created_utc}}"></td>
 			</tr>
 		{% endfor %}

@@ -22,7 +22,7 @@
 			<tr>
 				<td>{{loop.index}}</td>
 				<td>{% include "user_in_table.html" %}</td>
-				<td style="text-align:right;">{{user.truecoins}}</td>
+				<td style="text-align:right;">{{"{:,}".format(user.truecoins)}}</td>
 				<td style="text-align:right;"><a href="/log?admin={{user.username}}">{{user.modaction_num}}</a></td>
 			</tr>
 		{% endfor %}

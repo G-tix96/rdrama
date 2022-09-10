@@ -37,7 +37,7 @@
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		<td>{{user.coins}}</td>
+		<td>{{"{:,}".format(user.coins)}}</td>
 	</tr>
 {% endfor %}
 {% if pos1 %}
@@ -48,7 +48,7 @@
 				{% include "user_in_table.html" %}
 			{% endwith %}
 		</td>
-		<td>{{v.coins}}</td>
+		<td>{{"{:,}".format(v.coins)}}</td>
 	</tr>
 {% endif %}
 </table>
@@ -68,7 +68,7 @@
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		<td>{{user.coins_spent}}</td>
+		<td>{{"{:,}".format(user.coins_spent)}}</td>
 	</tr>
 {% endfor %}
 {% if pos7 %}
@@ -79,7 +79,7 @@
 				{% include "user_in_table.html" %}
 			{% endwith %}
 		</td>
-		<td>{{v.coins_spent}}</td>
+		<td>{{"{:,}".format(v.coins_spent)}}</td>
 	</tr>
 {% endif %}
 </table>
@@ -99,7 +99,7 @@
 		<tr {% if v.id == user.id %}class="self"{% endif %}>
 			<td>{{loop.index}}</td>
 			<td>{% include "user_in_table.html" %}</td>
-			<td>{{user.truecoins}}</td>
+			<td>{{"{:,}".format(user.truecoins)}}</td>
 		</tr>
 	{% endfor %}
 	{% if pos10 %}
@@ -110,7 +110,7 @@
 					{% include "user_in_table.html" %}
 				{% endwith %}
 			</td>
-			<td>{{v.truecoins}}</td>
+			<td>{{"{:,}".format(v.truecoins)}}</td>
 		</tr>
 	{% endif %}
 	</tbody>

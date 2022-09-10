@@ -13,7 +13,7 @@
 	<tr>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		<td>{{user.truecoins}}</td>
+		<td>{{"{:,}".format(user.truecoins)}}</td>
 	</tr>
 {% endfor %}
 </table>
