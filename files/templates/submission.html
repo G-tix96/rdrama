@@ -506,61 +506,58 @@
 
 <meta charset="utf-8">
 <meta property="og:type" content="article">
-
-{% if comment_info and not comment_info.is_banned and not comment_info.deleted_utc %}
-<title>{{'@'+comment_info.author_name}} comments on "{{p.plaintitle(v)}} - {{SITE_NAME}}"</title>
-
-
-<meta property="og:article:author" content="{{'@'+comment_info.author_name}}">
-<meta property="article:published_time" content="{{comment_info.created_datetime}}">
-{% if comment_info.edited_utc %}<meta property="article:modified_time" content="{{comment_info.edited_string}}">{% endif %}
-<meta property="og:description" name="description" content="{{comment_info.plainbody(v)}}">
-<meta property="og:author" name="author" content="{{'@'+comment_info.author_name}}">
-<meta property="og:title" content="{{'@'+comment_info.author_name}} comments on {{p.plaintitle(v)}} - {{SITE_NAME}}">
-<meta property="og:image" content="{% if p.is_image %}{{p.realurl(v)}}{% elif p.has_thumb%}{{p.thumb_url}}{% else %}{{SITE}}{{asset_siteimg('site_preview.webp')}}{% endif %}">
-{% if p.is_video %}
-	<meta property="og:video" content="{{p.realurl(v)}}">
-{% elif p.is_audio %}
-	<meta property="og:audio" content="{{p.realurl(v)}}">
-{% endif %}
-<meta property="og:url" content="{{comment_info.permalink}}">
 <meta property="og:site_name" content="{{SITE}}">
-
-<meta name="twitter:card" content="summary">
-<meta name="twitter:site" content="{{SITE_FULL}}">
-<meta name="twitter:title" content="{{'@'+comment_info.author_name}} comments on {{p.plaintitle(v)}} - {{SITE_NAME}}">
-<meta name="twitter:creator" content="{{'@'+comment_info.author_name}}">
-<meta name="twitter:description" content="{{comment_info.plainbody(v)}}">
-<meta name="twitter:image" content="{% if p.is_image %}{{p.realurl(v)}}{% elif p.has_thumb%}{{p.thumb_url}}{% else %}{{SITE}}{{asset_siteimg('site_preview.webp')}}{% endif %}">
-<meta name="twitter:url" content="{{p.permalink}}">
-
-{% else %}
-<title>{{p.plaintitle(v)}} - {{SITE_NAME}}</title>
-
-
-{% if p.author %}<meta property="og:article:author" content="{{'@'+p.author_name}}">{% endif %}
-<meta property="article:published_time" content="{{p.created_datetime}}">
-{% if p.edited_utc %}<meta property="article:modified_time" content="{{p.edited_string}}">{% endif %}
-{% if p.author %}<meta property="og:author" name="author" content="{{'@'+p.author_name}}">{% endif %}
-{% if not v_forbid_deleted -%}
-<meta property="og:description" name="description" content="{{p.plainbody(v)}}">
-<meta property="og:title" content="{{p.plaintitle(v)}} - {{SITE_NAME}}">
-<meta property="og:image" content="{% if p.is_image %}{{p.realurl(v)}}{% elif p.has_thumb%}{{p.thumb_url}}{% else %}{{SITE}}{{asset_siteimg('site_preview.webp')}}{% endif %}">
-<meta property="og:url" content="{{p.permalink}}">
-{%- endif %}
-<meta property="og:site_name" content="{{SITE}}">
-
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="{{SITE_FULL}}">
-<meta name="twitter:title" content="{{p.plaintitle(v)}} - {{SITE_NAME}}">
-{% if not v_forbid_deleted -%}
-{% if p.author %}<meta name="twitter:creator" content="{{'@'+p.author_name}}">{% endif %}
-<meta name="twitter:description" content="{{p.plainbody(v)}}">
-<meta name="twitter:image" content="{% if p.is_image %}{{p.realurl(v)}}{% elif p.has_thumb %}{{p.thumb_url}}{% else %}{{SITE}}{{asset_siteimg('site_preview.webp')}}{% endif %}">
-{%- endif %}
-<meta name="twitter:url" content="{{p.permalink}}">
 
+{% if not v_forbid_deleted -%}
+	<meta property="og:image" content="{% if p.is_image %}{{p.realurl(v)}}{% elif p.has_thumb%}{{p.thumb_url}}{% else %}{{SITE}}{{asset_siteimg('site_preview.webp')}}{% endif %}">
+	{% if p.is_video %}
+		<meta property="og:video" content="{{p.realurl(v)}}">
+	{% elif p.is_audio %}
+		<meta property="og:audio" content="{{p.realurl(v)}}">
+	{% endif %}
+	<meta name="twitter:image" content="{% if p.is_image %}{{p.realurl(v)}}{% elif p.has_thumb%}{{p.thumb_url}}{% else %}{{SITE}}{{asset_siteimg('site_preview.webp')}}{% endif %}">
 {% endif %}
+
+
+{% if comment_info and not comment_info.is_banned and not comment_info.deleted_utc %}
+	<title>{{'@'+comment_info.author_name}} comments on "{{p.plaintitle(v)}} - {{SITE_NAME}}"</title>
+
+	<meta property="og:author" content="{{'@'+comment_info.author_name}}">
+	<meta property="og:description" name="description" content="{{comment_info.plainbody(v)}}">
+	<meta property="og:title" content="{{'@'+comment_info.author_name}} comments on {{p.plaintitle(v)}} - {{SITE_NAME}}">
+	<meta property="og:url" content="{{comment_info.permalink}}">
+
+	<meta property="article:author" content="{{'@'+comment_info.author_name}}">
+	<meta property="article:published_time" content="{{comment_info.created_datetime}}">
+	{% if comment_info.edited_utc %}
+		<meta property="article:modified_time" content="{{comment_info.edited_string}}">
+	{% endif %}
+
+	<meta name="twitter:title" content="{{'@'+comment_info.author_name}} comments on {{p.plaintitle(v)}} - {{SITE_NAME}}">
+	<meta name="twitter:creator" content="{{'@'+comment_info.author_name}}">
+	<meta name="twitter:description" content="{{comment_info.plainbody(v)}}">
+	<meta name="twitter:url" content="{{comment_info.permalink}}">
+{% else %}
+	<title>{{p.plaintitle(v)}} - {{SITE_NAME}}</title>
+
+	<meta property="og:author" name="author" content="{{'@'+p.author_name}}">
+	<meta property="og:description" name="description" content="{{p.plainbody(v)}}">
+	<meta property="og:title" content="{{p.plaintitle(v)}} - {{SITE_NAME}}">
+	<meta property="og:url" content="{{p.permalink}}">
+
+	<meta property="article:author" content="{{'@'+p.author_name}}">
+	<meta property="article:published_time" content="{{p.created_datetime}}">
+	{% if p.edited_utc %}
+		<meta property="article:modified_time" content="{{p.edited_string}}">
+	{% endif %}
+
+	<meta name="twitter:title" content="{{p.plaintitle(v)}} - {{SITE_NAME}}">
+	<meta name="twitter:creator" content="{{'@'+p.author_name}}">
+	<meta name="twitter:description" content="{{p.plainbody(v)}}">
+	<meta name="twitter:url" content="{{p.permalink}}">
+{%- endif %}
 {% endblock %}
 
 {% block pagetype %}thread{% endblock %}
