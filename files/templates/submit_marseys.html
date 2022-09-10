@@ -95,7 +95,6 @@
 					f=document.getElementById('file-upload');
 					f.files = files;
 					document.getElementById('filename-show').textContent = filename;
-					document.getElementById('urlblock').classList.add('d-none');
 					if (filename.endsWith(".jpg") || filename.endsWith(".jpeg") || filename.endsWith(".png") || filename.endsWith(".gif") || filename.endsWith(".webp"))
 					{
 						var fileReader = new FileReader();
