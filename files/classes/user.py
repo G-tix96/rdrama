@@ -632,9 +632,9 @@ class User(Base):
 	def notifications_color(self):
 		colors = {
 			'': '#dc3545',
-			'messages': '#dc3545',
+			'messages': '#d8910d',
 			'posts': '#0000ff',
-			'modactions': '#e5990d',
+			'modactions': '#1ad80d',
 			'reddit': '#805ad5',
 		}
 		return colors[self.notifications_do] if self.notifications_do \
