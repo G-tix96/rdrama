@@ -586,6 +586,7 @@ class User(Base):
 			Submission.deleted_utc == 0,
 			Submission.is_banned == False,
 			Submission.private == False,
+			Submission.notify == True,
 			Submission.author_id != self.id,
 			Submission.ghost == False,
 			Submission.author_id.notin_(self.userblocks)

@@ -57,6 +57,7 @@ class Submission(Base):
 	ban_reason = Column(String)
 	embed_url = Column(String)
 	new = Column(Boolean)
+	notify = Column(Boolean)
 
 	author = relationship("User", primaryjoin="Submission.author_id==User.id")
 	oauth_app = relationship("OauthApp")

@@ -165,6 +165,11 @@
 												<pre></pre>
 
 												<div class="custom-control custom-checkbox">
+													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-notify" name="notify" onchange="savetext()" checked>
+													<label class="custom-control-label" for="post-notify">Notify followers</label>
+												</div>
+
+												<div class="custom-control custom-checkbox">
 													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-new" name="new" onchange="savetext()">
 													<label class="custom-control-label" for="post-new">Make the default comment sorting "new"</label>
 												</div>
@@ -187,7 +192,7 @@
 
 												<div class="custom-control custom-checkbox">
 													<input onchange='draft(this);' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost" {% if v.coins < 100 %}disabled{% endif %}>
-													<label class="custom-control-label" for="post-ghost">Ghost Thread (cost: 100 coins)</label>
+													<label class="custom-control-label" for="post-ghost">Ghost thread (cost: 100 coins)</label>
 												</div>
 
 												<pre>
