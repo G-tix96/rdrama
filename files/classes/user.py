@@ -553,9 +553,26 @@ class User(Base):
 	@lazy
 	def normal_notifications_count(self):
 		return self.notifications_count \
+			- self.message_notifications_count \
 			- self.post_notifications_count \
 			- self.modaction_notifications_count \
 			- self.reddit_notifications_count 
+
+	@property
+	@lazy
+	def message_notifications_count(self):
+		notifs = g.db.query(Notification).join(Comment).filter(
+					Notification.user_id == self.id,
+					Notification.read == False,
+					Comment.sentto != None,
+					or_(Comment.author_id==self.id, Comment.sentto==self.id),
+					Comment.parent_submission == None,
+				)
+
+		if not self.shadowbanned and self.admin_level < 3:
+			notifs = notifs.join(Comment.author).filter(User.shadowbanned == None)
+
+		return notifs.count()
 
 	@property
 	@lazy
@@ -599,6 +616,8 @@ class User(Base):
 		# only meaningful when notifications_count > 0; otherwise falsely '' ~ normal
 		if self.normal_notifications_count > 0:
 			return ''
+		elif self.message_notifications_count > 0:
+			return 'messages'
 		elif self.post_notifications_count > 0:
 			return 'posts'
 		elif self.modaction_notifications_count > 0:
@@ -612,6 +631,7 @@ class User(Base):
 	def notifications_color(self):
 		colors = {
 			'': '#dc3545',
+			'messages': '#dc3545',
 			'posts': '#0000ff',
 			'modactions': '#e5990d',
 			'reddit': '#805ad5',

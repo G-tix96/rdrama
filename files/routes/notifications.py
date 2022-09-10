@@ -66,15 +66,50 @@ def notifications_messages(v):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	if v and (v.shadowbanned or v.admin_level > 2):
-		comments = g.db.query(Comment).filter(Comment.sentto != None, or_(Comment.author_id==v.id, Comment.sentto==v.id), Comment.parent_submission == None, Comment.level == 1).order_by(Comment.id.desc()).offset(25*(page-1)).limit(26).all()
-	else:
-		comments = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.sentto != None, or_(Comment.author_id==v.id, Comment.sentto==v.id), Comment.parent_submission == None, Comment.level == 1).order_by(Comment.id.desc()).offset(25*(page-1)).limit(26).all()
+	# All of these queries are horrible. For whomever comes here after me,
+	# PLEASE just turn DMs into their own table and get them out of
+	# Notifications & Comments. It's worth it. Save yourself.
+	message_threads = g.db.query(Comment).filter(
+		Comment.sentto != None,
+		or_(Comment.author_id == v.id, Comment.sentto == v.id),
+		Comment.parent_submission == None,
+		Comment.level == 1,
+	)
+	if not v.shadowbanned and v.admin_level < 3:
+		message_threads = message_threads.join(Comment.author) \
+							.filter(User.shadowbanned == None)
 
-	next_exists = (len(comments) > 25)
-	listing = comments[:25]
+	thread_order = g.db.query(Comment.top_comment_id, Comment.created_utc) \
+		.distinct(Comment.top_comment_id) \
+		.filter(
+			Comment.sentto != None,
+			or_(Comment.author_id == v.id, Comment.sentto == v.id),
+		).order_by(
+			Comment.top_comment_id.desc(),
+			Comment.created_utc.desc()
+		).subquery()
 
+	message_threads = message_threads.join(thread_order,
+						thread_order.c.top_comment_id == Comment.top_comment_id)
+	message_threads = message_threads.order_by(thread_order.c.created_utc.desc()) \
+						.offset(25*(page-1)).limit(26).all()
+
+	# Clear notifications (used for unread indicator only) for all user messages.
+	notifs_unread_row = g.db.query(Notification.comment_id).join(Comment).filter(
+		Notification.user_id == v.id,
+		Notification.read == False,
+		or_(Comment.author_id == v.id, Comment.sentto == v.id),
+	).all()
+
+	notifs_unread = [n.comment_id for n in notifs_unread_row]
+	g.db.query(Notification).filter(
+			Notification.user_id == v.id,
+			Notification.comment_id.in_(notifs_unread),
+		).update({Notification.read: True})
 	g.db.commit()
+
+	next_exists = (len(message_threads) > 25)
+	listing = message_threads[:25]
 
 	if request.headers.get("Authorization"): return {"data":[x.json for x in listing]}
 
@@ -213,6 +248,7 @@ def notifications(v):
 		Comment.is_banned == False,
 		Comment.deleted_utc == 0,
 		Comment.body_html.notlike('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
+		or_(Comment.sentto == None, Comment.sentto == 2),
 	).order_by(Notification.created_utc.desc())
 
 	if not (v and (v.shadowbanned or v.admin_level > 2)):
