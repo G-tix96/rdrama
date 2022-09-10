@@ -190,7 +190,7 @@ def submit_hat(v):
 	if not file or not file.content_type.startswith('image/'):
 		return error("You need to submit an image!")
 
-	name = request.values.get('name').lower().strip()
+	name = request.values.get('name').strip()
 	if not hat_regex.fullmatch(name):
 		return error("Invalid name!")
 
@@ -198,7 +198,7 @@ def submit_hat(v):
 	if existing:
 		return error("A hat with this name already exists!")
 
-	description = request.values.get('description').lower().strip()
+	description = request.values.get('description').strip()
 	if not description_regex.fullmatch(description):
 		return error("Invalid description!")
 
@@ -232,17 +232,17 @@ def approve_hat(v, name):
 	if CARP_ID and v.id != CARP_ID:
 		return {"error": "Only Carp can approve hats!"}, 403
 
-	name = name.lower().strip()
+	name = name.strip()
 
 	hat = g.db.query(HatDef).filter_by(name=name).one_or_none()
 	if not hat:
 		return {"error": f"This hat '{name}' doesn't exist!"}, 404
 
-	description = request.values.get('description').lower().strip()
+	description = request.values.get('description').strip()
 	if not description:
 		return {"error": "You need to include description!"}, 400
 
-	new_name = request.values.get('name').lower().strip()
+	new_name = request.values.get('name').strip()
 	if not new_name:
 		return {"error": "You need to include name!"}, 400
 
@@ -295,7 +295,7 @@ def reject_hat(v, name):
 	if CARP_ID and v.id != CARP_ID:
 		return {"error": "Only Carp can reject hats!"}, 403
 
-	name = name.lower().strip()
+	name = name.strip()
 
 	hat = g.db.query(HatDef).filter_by(name=name).one_or_none()
 	if not hat:
