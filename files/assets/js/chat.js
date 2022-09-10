@@ -81,7 +81,7 @@ socket.on('speak', function(json) {
 		document.getElementsByClassName('avatar')[0].classList.remove('d-none')
 		document.getElementsByClassName('avatar-pic')[0].src = json['avatar']
 		if (json['hat'])
-			document.getElementsByClassName('avatar-hat')[0].src = json['hat'] + "?h=4"
+			document.getElementsByClassName('avatar-hat')[0].src = json['hat'] + "?h=5"
 		else
 			document.getElementsByClassName('avatar-hat')[0].removeAttribute("src")
 

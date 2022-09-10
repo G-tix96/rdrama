@@ -2,7 +2,7 @@
 	<div class="profile-pic-20-wrapper mb-2">
 		<img loading="lazy" src="{{user.profile_url}}" class="pp20">
 		{% if user.hat_active -%}
-			<img class="profile-pic-20-hat hat" loading="lazy" src="{{user.hat_active}}?h=4" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
+			<img class="profile-pic-20-hat hat" loading="lazy" src="{{user.hat_active}}?h=5" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
 		{%- endif %}
 	</div>
 	<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>

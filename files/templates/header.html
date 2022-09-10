@@ -207,7 +207,7 @@
 							<div class="profile-pic-35-wrapper">
 								<img loading="lazy" src="{{v.profile_url}}" class="profile-pic-35">
 								{% if v.hat_active -%}
-									<img id="profile-pic-35-hat" class="profile-pic-35-hat hat" loading="lazy" src="{{v.hat_active}}?h=4" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
+									<img id="profile-pic-35-hat" class="profile-pic-35-hat hat" loading="lazy" src="{{v.hat_active}}?h=5" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
 								{% elif request.path == '/hats' %}
 									<img id="profile-pic-35-hat" class="profile-pic-35-hat hat d-none" loading="lazy" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{v.hat_tooltip(v)}}">
 								{%- endif %}
