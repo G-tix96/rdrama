@@ -27,7 +27,7 @@
 	</li>
 	<li class="nav-item">
 		<a class="nav-link py-3{% if request.path == '/notifications/messages' %} active{% endif %}" href="/notifications/messages">
-		Messages
+		Messages {% if v.message_notifications_count %}<span class="font-weight-bold" style="color:#ff0000">({{v.message_notifications_count}})</span>{% endif %}
 		</a>
 	</li>
 	{% if v.admin_level >= NOTIF_MODACTION_JL_MIN %}
