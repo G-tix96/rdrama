@@ -31,11 +31,15 @@ sudo cp nginx.txt /etc/nginx/sites-enabled/1
 psql -U postgres -f schema.sql postgres
 psql -U postgres -f seed-db.sql postgres
 pip3 install -r requirements.txt
-mkdir /songs
+
 mkdir /images
+mkdir /songs
 mkdir /videos
 mkdir /audio
 mkdir /asset_submissions
+mkdir /asset_submissions/marseys
+mkdir /asset_submissions/hats
+
 git config --global --add safe.directory /songs
 git config --global --add safe.directory /images
 git config --global --add safe.directory /videos
