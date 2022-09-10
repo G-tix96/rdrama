@@ -122,7 +122,8 @@ CREATE TABLE public.submissions (
     sub character varying(25),
     new boolean,
     hole_pinned character varying(30),
-    category_id integer
+    category_id integer,
+    notify boolean DEFAULT true NOT NULL
 );
 
 
