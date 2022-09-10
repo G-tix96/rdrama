@@ -274,7 +274,7 @@ def notifications(v):
 
 		if c.parent_submission:
 			if c.replies2 == None:
-				c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).all()
+				c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
 				for x in c.replies2:
 					if x.replies2 == None: x.replies2 = []
 			count = 0
@@ -282,10 +282,10 @@ def notifications(v):
 				count += 1
 				c = c.parent_comment
 				if c.replies2 == None:
-					c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).all()
+					c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
 					for x in c.replies2:
 						if x.replies2 == None:
-							x.replies2 = g.db.query(Comment).filter_by(parent_comment_id=x.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).all()
+							x.replies2 = g.db.query(Comment).filter_by(parent_comment_id=x.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
 		else:
 			while c.parent_comment:
 				c = c.parent_comment
