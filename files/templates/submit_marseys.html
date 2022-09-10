@@ -13,12 +13,35 @@
 		}
 	</style>
 
+	{% if error %}
+		<div class="alert alert-danger alert-dismissible fade show mb-3 mt-4" role="alert">
+			<i class="fas fa-exclamation-circle my-auto"></i>
+			<span>
+				{{error}}
+			</span>
+			<button class="close" data-bs-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true"><i class="far fa-times"></i></span>
+			</button>
+		</div>
+	{% endif %}
+	{% if msg %}
+		<div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+			<i class="fas fa-check-circle my-auto" aria-hidden="true"></i>
+			<span>
+				{{msg}}
+			</span>
+			<button class="close" data-bs-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true"><i class="far fa-times"></i></span>
+			</button>
+		</div>
+	{% endif %}
+
 	<div class="mx-4">
 		<h2 class="mt-5">Submit Marsey</h2>
 			<div class="settings-section rounded">
 				<div class="d-lg-flex">
 					<div class="body w-lg-100">
-						<form action="/submit/marsey" method="post" enctype="multipart/form-data">
+						<form action="/submit/marseys" method="post" enctype="multipart/form-data">
 							<input type="hidden" name="formkey" value="{{v.formkey}}">
 
 							<div id="image-upload-block">
