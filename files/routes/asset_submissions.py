@@ -7,11 +7,10 @@ from files.helpers.media import *
 from files.helpers.wrappers import *
 from files.routes.static import marsey_list
 
-@app.get('/asset_submissions/<image>')
+@app.get('/asset_submissions/<path:path>')
 @limiter.exempt
-def asset_submissions(image):
-	if not image.endswith('.webp'): abort(404)
-	resp = make_response(send_from_directory('/asset_submissions', image))
+def asset_submissions(path):
+	resp = make_response(send_from_directory('/asset_submissions', path))
 	resp.headers.remove("Cache-Control")
 	resp.headers.add("Cache-Control", "public, max-age=3153600")
 	resp.headers.remove("Content-Type")
@@ -67,10 +66,10 @@ def submit_marsey(v):
 	author = request.values.get('author').strip()
 	author = get_user(author)
 
-	highquality = f'/asset_submissions/m_{name}.png'
+	highquality = f'/asset_submissions/marseys/{name}.png'
 	file.save(highquality)
 
-	filename = f'/asset_submissions/m_{name}.webp'
+	filename = f'/asset_submissions/marseys/{name}.webp'
 	copyfile(highquality, filename)
 	process_image(filename, 200)
 
@@ -118,7 +117,7 @@ def approve_marsey(v, name):
 	marsey.tags = tags
 	g.db.add(marsey)
 
-	move(f"/asset_submissions/m_{name}.webp", f"files/assets/images/emojis/{marsey.name}.webp")
+	move(f"/asset_submissions/marseys/{name}.webp", f"files/assets/images/emojis/{marsey.name}.webp")
 
 	author = get_account(marsey.author_id)
 	all_by_author = g.db.query(Marsey).filter_by(author_id=author.id).count()
@@ -159,7 +158,7 @@ def reject_marsey(v, name):
 		send_repeatable_notification(marsey.submitter_id, msg)
 
 	g.db.delete(marsey)
-	os.remove(f"/asset_submissions/m_{marsey.name}.webp")
+	os.remove(f"/asset_submissions/marseys/{marsey.name}.webp")
 
 	return {"message": f"'{marsey.name}' rejected!"}
 
@@ -205,14 +204,14 @@ def submit_hat(v):
 	author = request.values.get('author').strip()
 	author = get_user(author)
 
-	highquality = f'/asset_submissions/h_{name}.png'
+	highquality = f'/asset_submissions/hats/{name}.png'
 	file.save(highquality)
 
 	i = Image.open(highquality)
 	if i.width > 100 or i.height > 130:
 		return error("Images must be 100x130")
 
-	filename = f'/asset_submissions/h_{name}.webp'
+	filename = f'/asset_submissions/hats/{name}.webp'
 	copyfile(highquality, filename)
 	process_image(filename)
 
@@ -256,7 +255,7 @@ def approve_hat(v, name):
 	hat.description = description
 	g.db.add(hat)
 
-	move(f"/asset_submissions/h_{name}.webp", f"files/assets/images/hats/{hat.name}.webp")
+	move(f"/asset_submissions/hats/{name}.webp", f"files/assets/images/hats/{hat.name}.webp")
 
 
 	g.db.flush()
@@ -306,6 +305,6 @@ def reject_hat(v, name):
 		send_repeatable_notification(hat.submitter_id, msg)
 
 	g.db.delete(hat)
-	os.remove(f"/asset_submissions/h_{hat.name}.webp")
+	os.remove(f"/asset_submissions/hats/{hat.name}.webp")
 
 	return {"message": f"'{hat.name}' rejected!"}
