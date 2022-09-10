@@ -336,7 +336,7 @@
 
 		</div>
 		{% block sidebar %}
-			{% if has_sidebar and (home or sub and p) %}
+			{% if has_sidebar and (home or p) %}
 				{% include "sidebar_" + SITE_NAME + ".html" %}
 			{% endif %}
 		{% endblock %}
