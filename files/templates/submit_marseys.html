@@ -115,6 +115,7 @@
 			post_toast_callback(`/admin/approve/marsey/${name}`,
 				{
 					"tags": document.getElementById(`${name}-tags`).value,
+					"name": document.getElementById(`${name}-name`).value,
 				},
 				(xhr) => {
 				if(xhr.status == 200) {
@@ -143,13 +144,13 @@
 								<img loading="lazy" src="/asset_submissions/{{marsey.name}}.webp" style="max-width:50%">
 		
 								<div><label class="mt-3" for="{{marsey.name}}-name">Name</label></div>
-								<input autocomplete="off" type="text" id="{{marsey.name}}-name" class="form-control" maxlength="30" value="{{marsey.name}}" readonly>
+								<input autocomplete="off" type="text" id="{{marsey.name}}-name" class="form-control" name="name" maxlength="30" value="{{marsey.name}}" pattern='marsey[a-z0-9]{1,24}' required>
 								
 								<label class="mt-3" for="{{marsey.name}}-author">Author</label>
 								<input autocomplete="off" type="text" id="{{marsey.name}}-author" class="form-control" maxlength="30" value="{{marsey.author}}" readonly>
 		
 								<label class="mt-3" for="{{marsey.name}}-tags">Tags</label>
-								<input autocomplete="off" type="text" id="{{marsey.name}}-tags" class="form-control" name="tags" maxlength="200" value="{{marsey.tags}}" required>
+								<input autocomplete="off" type="text" id="{{marsey.name}}-tags" class="form-control" name="tags" maxlength="200" value="{{marsey.tags}}" pattern='[a-z0-9: ]{1,200}' required>
 
 								<label class="mt-3" for="{{marsey.name}}-submitter">Submitter</label>
 								<input autocomplete="off" type="text" id="{{marsey.name}}-submitter" class="form-control" maxlength="30" value="{{marsey.submitter}}" readonly>

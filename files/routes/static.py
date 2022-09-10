@@ -459,16 +459,13 @@ def submit_marseys(v):
 @app.post("/submit/marseys")
 @auth_required
 def submit_marsey(v):
-	if v.admin_level > 2:
-		marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None).all()
-	else:
-		marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id).all()
-
-	for marsey in marseys:
-		marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
-		marsey.submitter = g.db.query(User.username).filter_by(id=marsey.submitter_id).one()[0]
 
 	def error(error):
+		if v.admin_level > 2: marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None).all()
+		else: marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id).all()
+		for marsey in marseys:
+			marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
+			marsey.submitter = g.db.query(User.username).filter_by(id=marsey.submitter_id).one()[0]
 		return render_template("submit_marseys.html", v=v, marseys=marseys, error=error), 400
 
 	if request.headers.get("cf-ipcountry") == "T1":
@@ -503,6 +500,13 @@ def submit_marsey(v):
 	marsey = Marsey(name=name, author_id=author.id, tags=tags, count=0, submitter_id=v.id)
 	g.db.add(marsey)
 
+	g.db.flush()
+	if v.admin_level > 2: marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None).all()
+	else: marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id).all()
+	for marsey in marseys:
+		marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
+		marsey.submitter = g.db.query(User.username).filter_by(id=marsey.submitter_id).one()[0]
+
 	return render_template("submit_marseys.html", v=v, marseys=marseys, msg=f"'{name}' submitted successfully!")
 
 
@@ -512,6 +516,8 @@ def approve_marsey(v, name):
 	if CARP_ID and v.id != CARP_ID:
 		return {"error": "Only Carp can approve marseys!"}, 403
 
+	name = name.lower().strip()
+
 	marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
 	if not marsey:
 		return {"error": f"This marsey '{name}' doesn't exist!"}, 404
@@ -520,10 +526,11 @@ def approve_marsey(v, name):
 	if not tags:
 		return {"error": "You need to include tags!"}, 400
 
+	marsey.name = request.values.get('name').lower().strip()
 	marsey.tags = tags
 	g.db.add(marsey)
 
-	move(f"/asset_submissions/{marsey.name}.webp", f"files/assets/images/emojis/{marsey.name}.webp")
+	move(f"/asset_submissions/{name}.webp", f"files/assets/images/emojis/{marsey.name}.webp")
 
 	author = get_account(marsey.author_id)
 	all_by_author = g.db.query(Marsey).filter_by(author_id=author.id).count()
@@ -550,6 +557,8 @@ def approve_marsey(v, name):
 def reject_marsey(v, name):
 	if CARP_ID and v.id != CARP_ID:
 		return {"error": "Only Carp can reject marseys!"}, 403
+
+	name = name.lower().strip()
 
 	marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
 	if not marsey:
