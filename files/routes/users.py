@@ -869,6 +869,7 @@ def mfa_qr(secret, v):
 
 
 @app.get("/is_available/<name>")
+@limiter.limit("100/day")
 def is_available(name):
 
 	name=name.strip()
