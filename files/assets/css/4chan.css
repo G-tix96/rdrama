@@ -152,6 +152,6 @@ blockquote a {
     margin-top: 6px;
 }
 
-.post-title a:visited {
+h5.post-title a:visited {
 	color: #949494 !important;
 }

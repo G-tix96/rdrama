@@ -144,6 +144,6 @@ color: var(--gray-700);
 	background-color: #313131 !important;
 }
 
-.post-title a:visited {
+h5.post-title a:visited {
 	color: #6e6e6e !important;
 }
