@@ -47,18 +47,18 @@
 				{%- set hole_prefix = '/h/' if not HOLE_STYLE_FLAIR else '' -%}
 
 				{% if sub.stealth %}
-					<a id="subscribe-sub" class="btn btn-primary btn-block {% if v.subscribes(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/subscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye mr-2"></i>Show posts in main feed</a>
-					<a id="unsubscribe-sub" class="btn btn-primary btn-block {% if not v.subscribes(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/unsubscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Hide posts from main feed</a>					
+					<a id="subscribe-sub" class="btn btn-primary btn-block {% if v.subscribes(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/subscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock {{hole_prefix}}{{sub.name}}</a>
+					<a id="unsubscribe-sub" class="btn btn-primary btn-block {% if not v.subscribes(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/unsubscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub.name}}</a>					
 				{% else %}
-					<a id="block-sub" class="btn btn-primary btn-block mt-3 {% if v.blocks(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/block','block-sub','unblock-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Hide posts from main feed</a>
-					<a id="unblock-sub" class="btn btn-primary btn-block mt-3 {% if not v.blocks(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/unblock','block-sub','unblock-sub','d-none')"><i class="fas fa-eye mr-2"></i>Show posts in main feed</a>
+					<a id="block-sub" class="btn btn-primary btn-block mt-3 {% if v.blocks(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/block','block-sub','unblock-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub.name}}</a>
+					<a id="unblock-sub" class="btn btn-primary btn-block mt-3 {% if not v.blocks(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/unblock','block-sub','unblock-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock {{hole_prefix}}{{sub.name}}</a>
 				{% endif %}
 
-				<a id="follow-sub" class="btn btn-primary btn-follow {% if v.follows(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/follow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell mr-2"></i>Notify me of new posts</a>
-				<a id="unfollow-sub" class="btn btn-primary btn-follow {% if not v.follows(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/unfollow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell-slash mr-2"></i>Don't notify me of new posts</a>
+				<a id="follow-sub" class="btn btn-primary btn-follow {% if v.follows(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/follow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell mr-2"></i>Follow {{hole_prefix}}{{sub.name}}</a>
+				<a id="unfollow-sub" class="btn btn-primary btn-follow {% if not v.follows(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/unfollow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell-slash mr-2"></i>Unfollow {{hole_prefix}}{{sub.name}}</a>
 			{% else %}
-				<a class="btn btn-primary btn-block" href="/login"><i class="fas fa-eye-slash mr-2"></i>Hide posts from main feed</a>
-				<a class="btn btn-primary btn-block" href="/login"><i class="fas fa-bell mr-2"></i>Notify me of new posts</a>
+				<a class="btn btn-primary btn-block" href="/login"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub.name}}</a>
+				<a class="btn btn-primary btn-block" href="/login"><i class="fas fa-bell mr-2"></i>Follow {{hole_prefix}}{{sub.name}}</a>
 			{% endif %}
 		{% endif %}
 

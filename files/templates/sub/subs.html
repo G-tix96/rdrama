@@ -13,6 +13,8 @@
 				<th>#</th>
 				<th>Name</th>
 				<th onclick="sort_table(2)">Posts</th>
+				<th onclick="sort_table(3)">Followers</th>
+				<th onclick="sort_table(4)">Blockers</th>
 			</tr>
 		</thead>
 
@@ -21,6 +23,8 @@
 				<td>{{loop.index}}</td>
 				<td><a href="/h/{{sub.name}}">{{sub.name}} {% if sub.name in v.all_blocks %}<span class="text-danger">[hidden from your main feed, visit it to unhide it]</span>{% endif %}</a></td>
 				<td><a href="/h/{{sub.name}}" >{{count}}</a></td>
+				<td><a href="/h/{{sub.name}}/followers">{{sub.follow_num}}</a></td>
+				<td><a href="/h/{{sub.name}}/blockers">{{sub.block_num}}</a></td>
 			</tr>
 		{% endfor %}
 	</table>
