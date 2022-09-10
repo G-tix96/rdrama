@@ -21,3 +21,4 @@ from .casino import *
 from .polls import *
 from .notifications import *
 from .hats import *
+from .asset_submissions import *
