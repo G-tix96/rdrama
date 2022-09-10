@@ -251,6 +251,7 @@ def approve_hat(v, name):
 	if not description_regex.fullmatch(description):
 		return {"error": "Invalid description!"}, 400
 
+	hat.price = int(request.values.get('price'))
 	hat.name = new_name
 	hat.description = description
 	g.db.add(hat)
