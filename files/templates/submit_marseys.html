@@ -119,7 +119,7 @@
 				},
 				(xhr) => {
 				if(xhr.status == 200) {
-					document.getElementById(`${name}-marsey`).classList.add('d-none')
+					document.getElementById(`${name}-marsey`).remove()
 				}
 				}
 			);

@@ -114,7 +114,7 @@
 				},
 				(xhr) => {
 				if(xhr.status == 200) {
-					document.getElementById(`${name}-hat`).classList.add('d-none')
+					document.getElementById(`${name}-hat`).remove()
 				}
 				}
 			);
