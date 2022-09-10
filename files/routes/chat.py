@@ -1,5 +1,5 @@
 import time
-from files.helpers.wrappers import auth_required
+from files.helpers.wrappers import *
 from files.helpers.sanitize import sanitize
 from files.helpers.const import *
 from files.helpers.alerts import *
@@ -130,6 +130,19 @@ def typing_indicator(data, v):
 	elif not data and v.username in typing: typing.remove(v.username)
 
 	emit('typing', typing, broadcast=True)
+	return '', 204
+
+
+@socketio.on('delete')
+@admin_level_required(2)
+def delete(text, v):
+
+	for message in messages:
+		if message['text'] == text:
+			messages.remove(message)
+
+	emit('delete', text, broadcast=True)
+
 	return '', 204
 
 

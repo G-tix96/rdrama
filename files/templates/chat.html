@@ -149,6 +149,9 @@
 									<span class="chat-message text-black text-break"></span>
 									<span class="text d-none"></span>
 									<button class="quote btn" onclick="quote(this)"><i class="fas fa-reply" aria-hidden="true"></i></button>
+									{% if v.admin_level > 1 %}
+										<button class="btn" onclick="del(this)"><i class="fas fa-trash-alt" aria-hidden="true"></i></button>
+									{% endif %}
 								</div>
 							</div>
 						</div>
@@ -182,8 +185,11 @@
 
 										<div class="cdiv">
 											<span class="chat-message text-black text-break">{{text_html | safe}}</span>
-											<span class="d-none">{{m['text']}}</span>
+											<span class="text d-none">{{m['text']}}</span>
 											<button class="quote btn" onclick="quote(this)"><i class="fas fa-reply" aria-hidden="true"></i></button>
+											{% if v.admin_level > 1 %}
+												<button class="btn" onclick="del(this)"><i class="fas fa-trash-alt" aria-hidden="true"></i></button>
+											{% endif %}
 										</div>
 									</div>
 								</div>

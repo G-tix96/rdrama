@@ -187,6 +187,23 @@ socket.on('typing', function (users){
 	}
 })
 
+
+function del(t) {
+	t.parentElement.parentElement.parentElement.parentElement.parentElement.remove()
+	const text = t.previousElementSibling.previousElementSibling.innerHTML
+	socket.emit('delete', text);
+}
+
+socket.on('delete', function(text) {
+	const text_spans = document.getElementsByClassName('text')
+	for(const span of text_spans) {
+		if (span.innerHTML == text)
+		{
+			span.parentElement.parentElement.parentElement.parentElement.parentElement.remove()
+		}
+	}
+})
+
 function scroll_chat() {
 	setTimeout(function () {
 		box.scrollTo(0, box.scrollHeight)
