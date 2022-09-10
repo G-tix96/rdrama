@@ -550,7 +550,7 @@ def reject_marsey(v, name):
 	if not marsey:
 		return {"error": f"This marsey '{name}' doesn't exist!"}, 404
 
-	msg = f"@{v.username} has rejected a marsey you submitted: '{marsey.name}'"
+	msg = f"@{v.username} has rejected a marsey you submitted: `'{marsey.name}'`"
 	send_repeatable_notification(marsey.submitter_id, msg)
 
 	g.db.delete(marsey)
