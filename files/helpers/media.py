@@ -91,10 +91,9 @@ def process_video(file):
 def process_image(filename=None, resize=0):
 	size = os.stat(filename).st_size
 
-	if resize != 100:
-		if size > 16 * 1024 * 1024 or not patron and size > 8 * 1024 * 1024:
-			os.remove(filename)
-			abort(413)
+	if size > 16 * 1024 * 1024 or not patron and size > 8 * 1024 * 1024:
+		os.remove(filename)
+		abort(413)
 
 	i = Image.open(filename)
 
