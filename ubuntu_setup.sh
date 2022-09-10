@@ -64,4 +64,3 @@ echo "tmux -S /tmp/s a -t 0" > /c
 echo "tmux -S /tmp/s a -t 1" > /c2
 echo "cd /rDrama && git pull" > /g
 echo '{"Bots": true, "Fart mode": false, "Read-only mode": false, "Signups": true, "login_required": false}' > /site_settings.json
-. imei.sh
