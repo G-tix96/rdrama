@@ -130,7 +130,7 @@
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		<td><a href="/@{{user.username}}/followers">{{user.stored_subscriber_count}}</a></td>
+		<td><a href="/@{{user.username}}/followers">{{"{:,}".format(user.stored_subscriber_count)}}</a></td>
 	</tr>
 {% endfor %}
 {% if pos2 %}
@@ -141,7 +141,7 @@
 				{% include "user_in_table.html" %}
 			{% endwith %}
 		</td>
-		<td><a href="/@{{v.username}}/followers">{{v.stored_subscriber_count}}</a></td>
+		<td><a href="/@{{v.username}}/followers">{{"{:,}".format(v.stored_subscriber_count)}}</a></td>
 	</tr>
 {% endif %}
 </table>
@@ -160,7 +160,7 @@
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		<td>{{user.post_count}}</td>
+		<td>{{"{:,}".format(user.post_count)}}</td>
 	</tr>
 {% endfor %}
 {% if pos3 %}
@@ -171,7 +171,7 @@
 				{% include "user_in_table.html" %}
 			{% endwith %}
 		</td>
-		<td>{{v.post_count}}</td>
+		<td>{{"{:,}".format(v.post_count)}}</td>
 	</tr>
 {% endif %}
 </table>
@@ -190,7 +190,7 @@
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		<td>{{user.comment_count}}</td>
+		<td>{{"{:,}".format(user.comment_count)}}</td>
 	</tr>
 {% endfor %}
 {% if pos4 %}
@@ -201,7 +201,7 @@
 				{% include "user_in_table.html" %}
 			{% endwith %}
 		</td>
-		<td>{{v.comment_count}}</td>
+		<td>{{"{:,}".format(v.comment_count)}}</td>
 	</tr>
 {% endif %}
 </table>
@@ -220,7 +220,7 @@
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		<td>{{user.received_award_count}}</td>
+		<td>{{"{:,}".format(user.received_award_count)}}</td>
 	</tr>
 {% endfor %}
 {% if pos5 %}
@@ -231,7 +231,7 @@
 				{% include "user_in_table.html" %}
 			{% endwith %}
 		</td>
-		<td>{{v.received_award_count}}</td>
+		<td>{{"{:,}".format(v.received_award_count)}}</td>
 	</tr>
 {% endif %}
 </table>
@@ -251,7 +251,7 @@
 		<tr {% if v.id == user.id %}class="self"{% endif %}>
 			<td>{{loop.index}}</td>
 			<td>{% include "user_in_table.html" %}</td>
-			<td>{{num}}</td>
+			<td>{{"{:,}".format(num)}}</td>
 		</tr>
 	{% endfor %}
 	{% if pos9 and (pos9[0] > 25 or not pos9[1]) %}
@@ -262,7 +262,7 @@
 					{% include "user_in_table.html" %}
 				{% endwith %}
 			</td>
-		<td>{{pos9[1]}}</td>
+		<td>{{"{:,}".format(pos9[1])}}</td>
 		</tr>
 	{% endif %}
 	</tbody>
@@ -284,7 +284,7 @@
 		<tr {% if v.id == user.id %}class="self"{% endif %}>
 			<td>{{loop.index}}</td>
 			<td>{% include "user_in_table.html" %}</td>
-			<td>{{num}}</td>
+			<td>{{"{:,}".format(num)}}</td>
 		</tr>
 	{% endfor %}
 	{% if pos11 and (pos11[0] > 25 or not pos11[1]) %}
@@ -295,7 +295,7 @@
 					{% include "user_in_table.html" %}
 				{% endwith %}
 			</td>
-			<td>{{pos11[1]}}</td>
+			<td>{{"{:,}".format(pos11[1])}}</td>
 		</tr>
 	{% endif %}
 	</tbody>
@@ -320,7 +320,7 @@
 			<tr {% if v.id == user.id %}class="self"{% endif %}>
 				<td>{{loop.index}}</td>
 				<td>{% include "user_in_table.html" %}</td>
-				<td>{{num}}</td>
+				<td>{{"{:,}".format(num)}}</td>
 			</tr>
 		{% endfor %}
 		{% if pos12 and (pos12[0] > 25 or not pos12[1]) %}
@@ -331,7 +331,7 @@
 						{% include "user_in_table.html" %}
 					{% endwith %}
 				</td>
-				<td>{{pos12[1]}}</td>
+				<td>{{"{:,}".format(pos12[1])}}</td>
 			</tr>
 		{% endif %}
 		</tbody>
@@ -354,7 +354,7 @@
 			<tr {% if v.id == user.id %}class="self"{% endif %}>
 				<td>{{loop.index}}</td>
 				<td>{% include "user_in_table.html" %}</td>
-				<td>{{num}}</td>
+				<td>{{"{:,}".format(num)}}</td>
 			</tr>
 		{% endfor %}
 		{% if pos13 and (pos13[0] > 25 or not pos13[1]) %}
@@ -365,7 +365,7 @@
 						{% include "user_in_table.html" %}
 					{% endwith %}
 				</td>
-				<td>{{pos13[1]}}</td>
+				<td>{{"{:,}".format(pos13[1])}}</td>
 			</tr>
 		{% endif %}
 		</tbody>
@@ -387,7 +387,7 @@
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		<td>{{user.winnings}}</td>
+		<td>{{"{:,}".format(user.winnings)}}</td>
 	</tr>
 {% endfor %}
 {% if pos14 %}
@@ -398,7 +398,7 @@
 				{% include "user_in_table.html" %}
 			{% endwith %}
 		</td>
-		<td>{{v.winnings}}</td>
+		<td>{{"{:,}".format(v.winnings)}}</td>
 	</tr>
 {% endif %}
 </table>
@@ -417,7 +417,7 @@
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		<td>{{user.winnings}}</td>
+		<td>{{"{:,}".format(user.winnings)}}</td>
 	</tr>
 {% endfor %}
 {% if pos15 %}
@@ -428,7 +428,7 @@
 				{% include "user_in_table.html" %}
 			{% endwith %}
 		</td>
-		<td>{{v.winnings}}</td>
+		<td>{{"{:,}".format(v.winnings)}}</td>
 	</tr>
 {% endif %}
 </table>
@@ -447,7 +447,7 @@
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		<td><a href="/blockers/{{user.id}}">{{num}}</a></td>
+		<td><a href="/blockers/{{user.id}}">{{"{:,}".format(num)}}</a></td>
 	</tr>
 {% endfor %}
 {% if pos16 and (pos16[0] > 25 or not pos16[1]) %}
@@ -458,7 +458,7 @@
 				{% include "user_in_table.html" %}
 			{% endwith %}
 		</td>
-		<td><a href="/blockers/{{v.id}}">{{pos16[1]}}</a></td>
+		<td><a href="/blockers/{{v.id}}">{{"{:,}".format(pos16[1])}}</a></td>
 	</tr>
 {% endif %}
 </table>
@@ -478,7 +478,7 @@
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		<td>{{num}}</td>
+		<td>{{"{:,}".format(num)}}</td>
 	</tr>
 {% endfor %}
 {% if pos17 and (pos17[0] > 25 or not pos17[1]) %}
@@ -489,7 +489,7 @@
 				{% include "user_in_table.html" %}
 			{% endwith %}
 		</td>
-		<td>{{pos17[1]}}</a></td>
+		<td>{{"{:,}".format(pos17[1])}}</a></td>
 	</tr>
 {% endif %}
 </table>
@@ -508,7 +508,7 @@
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		<td>{{num}}</td>
+		<td>{{"{:,}".format(num)}}</td>
 	</tr>
 {% endfor %}
 {% if pos18 and (pos18[0] > 25 or not pos18[1]) %}
@@ -519,7 +519,7 @@
 				{% include "user_in_table.html" %}
 			{% endwith %}
 		</td>
-		<td>{{pos18[1]}}</a></td>
+		<td>{{"{:,}".format(pos18[1])}}</a></td>
 	</tr>
 {% endif %}
 </table>
