@@ -49,6 +49,7 @@ def chatjs():
 @limiter.limit("3/second;10/minute", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def speak(data, v):
+	print('testing chat restart', flush=True)
 	if v.is_banned: return '', 403
 
 	vname = v.username.lower()
