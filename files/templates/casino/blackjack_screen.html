@@ -1,0 +1,304 @@
+{% extends "casino/game_screen.html" %}
+
+{% block script %}
+<script>
+    function makeBlackjackRequest(action) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("post", `/casino/twentyone/${action}`);
+        xhr.onload = handleBlackjackResponse.bind(null, xhr);
+        xhr.blackjackAction = action;
+        return xhr;
+    }
+
+    function handleBlackjackResponse(xhr) {
+        try {
+            const response = JSON.parse(xhr.response);
+            const succeeded = xhr.status >= 200 &&
+                xhr.status < 300 &&
+                response &&
+                !response.error;
+
+            clearResult();
+
+            if (succeeded) {
+                updateBlackjackTable(response.state);
+                updateFeed(response.feed);
+            } else {
+                console.error("Error: ", response.error);
+                throw new Error("Error")
+            }
+        } catch (error) {
+            const results = {
+                deal: "Unable to deal a new hand. Is one in progress?",
+                hit: "Unable to hit.",
+                stay: "Unable to stay.",
+                "double-down": "Unable to double down.",
+                "buy-insurance": "Unable to buy insurance."
+            };
+
+            updateResult(results[xhr.blackjackAction], "danger");
+        }
+    }
+
+    function updateBlackjackActions(state) {
+        const actions = Array.from(document.querySelectorAll('.twentyone-btn'));
+
+        // Hide all actions.
+        actions.forEach(action => action.style.display = 'none');
+
+        if (state) {
+            // Show the correct ones.
+            state.actions.forEach(action => document.getElementById(`twentyone-${action}`).style.display = 'inline-block');
+        } else {
+            const dealButton = document.getElementById(`twentyone-DEAL`);
+
+            setTimeout(() => {
+                const dealButton = document.getElementById(`twentyone-DEAL`);
+            })
+
+            if (dealButton) {
+                dealButton.style.display = 'inline-block'
+            }
+        }
+    }
+
+    function updateBlackjackTable(state) {
+        const table = document.getElementById('blackjack-table');
+        const charactersToRanks = {
+            X: "10"
+        };
+        const charactersToSuits = {
+            S: "♠️",
+            H: "♥️",
+            C: "♣️",
+            D: "♦️",
+        };
+        const makeCardset = (from, who, value) => `
+            <div class="blackjack-cardset">
+                <div class="blackjack-cardset-value">
+                    ${value === -1 ? `${who} went bust` : `${who} has ${value}`}
+                </div>
+                ${from
+                .filter(card => card !== "?")
+                .map(([rankCharacter, suitCharacter]) => {
+                    const rank = charactersToRanks[rankCharacter] || rankCharacter;
+                    const suit = charactersToSuits[suitCharacter] || suitCharacter;
+                    return buildPlayingCard(rank, suit);
+                })
+                .join('')}
+            </div>
+        `;
+        const dealerCards = makeCardset(state.dealer, 'Dealer', state.dealer_value);
+        const playerCards = makeCardset(state.player, 'Player', state.player_value);
+
+        updateBlackjackActions(state);
+
+        table.innerHTML = `
+            <div style="position: relative;">
+                ${dealerCards}
+            </div>
+            ${playerCards}
+        `;
+
+        const currency = state.wager.currency === 'coins' ? 'dramacoins' : 'marseybux';
+
+        switch (state.status) {
+            case 'BLACKJACK':
+                updateResult(`Blackjack: Received ${state.payout} ${currency}`, "warning");
+                break;
+            case 'WON':
+                updateResult(`Won: Received ${state.payout} ${currency}`, "success");
+                break;
+            case 'PUSHED':
+                updateResult(`Pushed: Received ${state.wager.amount} ${currency}`, "success");
+                break;
+            case 'LOST':
+                updateResult(`Lost ${state.wager.amount} ${currency}`, "danger");
+                break;
+            default:
+                break;
+        }
+
+        updateCardsetBackgrounds(state);
+
+        if (state.status === 'PLAYING') {
+            updateResult(`${state.wager.amount} ${currency} are at stake`, "success");
+        } else {
+            enableWager();
+        }
+    }
+
+    function updateCardsetBackgrounds(state) {
+        const cardsets = Array.from(document.querySelectorAll('.blackjack-cardset'));
+
+        for (const cardset of cardsets) {
+            ['PLAYING', 'LOST', 'PUSHED', 'WON', 'BLACKJACK'].forEach(status => cardset.classList.remove(`blackjack-cardset__${status}`));
+            cardset.classList.add(`blackjack-cardset__${state.status}`)
+        }
+    }
+
+    function deal() {
+        const request = makeBlackjackRequest('deal');
+        const { amount, currency } = getWager();
+        const form = new FormData();
+
+        form.append("formkey", formkey());
+        form.append("wager", amount);
+        form.append("currency", currency);
+
+        request.send(form);
+
+        clearResult();
+        disableWager();
+        drawFromDeck();
+    }
+
+    function hit() {
+        const request = makeBlackjackRequest('hit');
+        const form = new FormData();
+        form.append("formkey", formkey());
+        request.send(form);
+
+        drawFromDeck();
+    }
+
+    function stay() {
+        const request = makeBlackjackRequest('stay');
+        const form = new FormData();
+        form.append("formkey", formkey());
+        request.send(form);
+    }
+
+    function doubleDown() {
+        const request = makeBlackjackRequest('double-down');
+        const form = new FormData();
+        form.append("formkey", formkey());
+        request.send(form);
+
+        drawFromDeck();
+    }
+
+    function buyInsurance() {
+        const request = makeBlackjackRequest('buy-insurance');
+        const form = new FormData();
+        form.append("formkey", formkey());
+        request.send(form);
+    }
+
+    function buildBlackjackDeck() {
+        document.getElementById('blackjack-table-deck').innerHTML = `
+            <div style="position: absolute; top: 150px; left: -100px;">
+                ${buildPlayingCardDeck()}
+            </div>
+        `;
+    }
+
+    function initializeBlackjack() {
+        buildBlackjackDeck();
+
+        try {
+            const passed = document.getElementById('blackjack-table').dataset.state;
+            const state = JSON.parse(passed);
+            updateBlackjackTable(state);
+        } catch (error) {
+            updateBlackjackActions();
+        }
+    }
+
+    if (
+        document.readyState === "complete" ||
+        (document.readyState !== "loading" && !document.documentElement.doScroll)
+    ) {
+        initializeBlackjack();
+    } else {
+        document.addEventListener("DOMContentLoaded", initializeBlackjack);
+    }
+</script>
+{% endblock %}
+
+{% block screen %}
+<div id="blackjack-table-deck"></div>
+<div id="blackjack-table" data-state="{{v.active_blackjack_game}}" style="position: relative;">
+</div>
+{% endblock %}
+
+{% block actions %}
+<style>
+    .blackjack-cardset {
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        max-width: 470px;
+        overflow: auto;
+        box-shadow: 1px 1px 5px 1px rgba(60, 60, 60, 0.81) inset;
+        -webkit-box-shadow: 1px 1px 5px 1px rgba(60, 60, 60, 0.81) inset;
+        -moz-box-shadow: 1px 1px 5px 1px rgba(60, 60, 60, 0.81) inset;
+    }
+
+    .blackjack-cardset__PLAYING {
+        background-image: radial-gradient(circle farthest-corner at 10% 20%, rgba(14, 174, 87, 1) 0%, rgba(12, 116, 117, 1) 90%);
+    }
+
+    .blackjack-cardset__LOST {
+        background-image: linear-gradient(109.6deg, rgba(14, 11, 56, 1) 11.2%, rgba(239, 37, 37, 1) 91.1%);
+    }
+
+    .blackjack-cardset__PUSHED {
+        background-image: linear-gradient(110.3deg, rgba(73, 93, 109, 1) 4.3%, rgba(49, 55, 82, 1) 96.7%);
+    }
+
+    .blackjack-cardset__WON {
+        background-image: radial-gradient( circle farthest-corner at -0.6% 44.4%,  rgba(142,252,152,1) 0%, rgba(107,214,250,1) 90% );
+    }
+
+    .blackjack-cardset__BLACKJACK {
+        background-image: linear-gradient(64.3deg, rgba(254, 122, 152, 0.81) 17.7%, rgba(255, 206, 134, 1) 64.7%, rgba(172, 253, 163, 0.64) 112.1%);
+    }
+
+    .blackjack-cardset .playing-card {
+        margin-right: -3rem;
+        min-width: 100px;
+    }
+
+    .blackjack-cardset-value {
+        z-index: 3;
+        top: 0;
+        right: 0;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-align: right;
+        position: absolute;
+        background-color: rgba(70, 70, 70, 0.6);
+        padding: 0.5rem;
+        color: #DDD;
+    }
+
+    .twentyone-btn {
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+</style>
+
+<div role="group" class="btn-group">
+    <button id="twentyone-DEAL" class="btn btn-primary twentyone-btn" onclick="deal()">Deal</button>
+    <button id="twentyone-HIT" class="btn btn-primary twentyone-btn" onclick="hit()" style="display: none;">Hit</button>
+    <button id="twentyone-STAY" class="btn btn-primary twentyone-btn" onclick="stay()"
+        style="display: none;">Stay</button>
+    <button id="twentyone-DOUBLE_DOWN" class="btn btn-primary twentyone-btn" onclick="doubleDown()"
+        style="display: none;">Double Down</button>
+    <button id="twentyone-BUY_INSURANCE" class="btn btn-primary twentyone-btn" onclick="buyInsurance()"
+        style="display: none;">Buy
+        Insurance</button>
+</div>
+{% endblock %}
+
+{% block leaders %}
+Blackjack
+{% endblock %}
+
+{% block feed %}
+Blackjack
+{% endblock %}

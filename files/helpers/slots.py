@@ -18,24 +18,19 @@ payout_to_symbols = {
 def casino_slot_pull(gambler, wager_value, currency):
 	over_min = wager_value >= minimum_bet
 	under_max = wager_value <= maximum_bet
-	using_dramacoin = currency == "dramacoin"
-	using_marseybux = not using_dramacoin
-	has_proper_funds = (using_dramacoin and gambler.coins >= wager_value) or (
-		using_marseybux and gambler.procoins >= wager_value)
-	currency_prop = "coins" if using_dramacoin else "procoins"
-	currency_value = getattr(gambler, currency_prop, 0)
+	currency_value = getattr(gambler, currency)
+	has_proper_funds = currency_value >= wager_value
 
 	if (over_min and under_max and has_proper_funds):
-		setattr(gambler, currency_prop, currency_value - wager_value)
+		setattr(gambler, currency, currency_value - wager_value)
 		gambler.winnings -= wager_value
 
 		payout = determine_payout()
 		reward = wager_value * payout
 
-		currency_value = getattr(gambler, currency_prop, 0)
-		setattr(gambler, currency_prop, currency_value + reward)
+		currency_value = getattr(gambler, currency, 0)
+		setattr(gambler, currency, currency_value + reward)
 		gambler.winnings += reward
-
 		symbols = build_symbols(payout)
 		text = build_text(wager_value, payout, currency)
 
@@ -46,7 +41,7 @@ def casino_slot_pull(gambler, wager_value, currency):
 		casino_game = Casino_Game()
 		casino_game.active = False
 		casino_game.user_id = gambler.id
-		casino_game.currency = currency_prop
+		casino_game.currency = currency
 		casino_game.wager = wager_value
 		casino_game.winnings = reward - wager_value
 		casino_game.kind = 'slots'

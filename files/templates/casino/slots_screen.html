@@ -1,0 +1,125 @@
+{% extends "casino/game_screen.html" %} {% block result %} N/A {% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+  function pullSlots() {
+    const { amount, currency } = getWager();
+
+    console.log({amount, currency})
+
+    disableWager();
+    clearResult();
+    document.getElementById("casinoSlotsPull").disabled = true;
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("post", "/casino/slots");
+    xhr.onload = handleSlotsResponse.bind(null, xhr);
+
+    const form = new FormData();
+    form.append("formkey", formkey());
+    form.append("wager", amount);
+    form.append("currency", currency);
+
+    xhr.send(form);
+  }
+
+  function handleSlotsResponse(xhr) {
+    let response;
+
+    try {
+      response = JSON.parse(xhr.response);
+    } catch (error) {
+      console.error(error);
+    }
+
+    const succeeded =
+      xhr.status >= 200 && xhr.status < 300 && response && !response.error;
+
+    if (succeeded) {
+      const { game_state, gambler } = response;
+      const state = JSON.parse(game_state);
+      const reels = Array.from(document.querySelectorAll(".slots_reel"));
+      const symbols = state.symbols.split(",");
+
+      for (let i = 0; i < 3; i++) {
+        reels[i].innerHTML = symbols[i];
+      }
+
+      let className;
+
+      if (state.text.includes("Jackpot")) {
+        className = "warning";
+      } else if (state.text.includes("Won")) {
+        className = "success";
+      } else if (state.text.includes("Lost")) {
+        className = "danger";
+      } else {
+        className = "success";
+      }
+
+      updateResult(state.text, className);
+      updatePlayerCurrencies(gambler);
+      reloadFeed()
+    } else {
+      updateResult(response.error, "danger");
+      console.error(response.error);
+    }
+
+    enableWager();
+    document.getElementById("casinoSlotsPull").disabled = false;
+  }
+</script>
+{% endblock %}
+
+{% block screen %}
+<style>
+  .slots_reels {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .slots_reel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    border: 2px solid black;
+    background-color: var(--gray);
+    border: 1px solid var(--black);
+    border-radius: 8px;
+    font-size: 64px;
+  }
+
+  .slots_reel:nth-child(2) {
+    margin: 0 1rem;
+  }
+</style>
+
+<div class="slots_reels">
+  <div class="slots_reel">
+    <img src="/i/rDrama/coins.webp?v=3009" alt="coin" />
+  </div>
+  <div class="slots_reel">
+    <img src="/i/rDrama/coins.webp?v=3009" alt="coin" />
+  </div>
+  <div class="slots_reel">
+    <img src="/i/rDrama/coins.webp?v=3009" alt="coin" />
+  </div>
+</div>
+{% endblock %}
+
+{% block actions %}
+<div class="btn-group" role="group">
+  <button
+    id="casinoSlotsPull"
+    type="button"
+    class="btn btn-primary"
+    style="width: 100%"
+    onclick="pullSlots()"
+  >
+    Pull
+  </button>
+</div>
+{% endblock %}

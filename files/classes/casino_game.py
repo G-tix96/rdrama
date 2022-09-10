@@ -1,7 +1,5 @@
 from sqlalchemy import *
 from files.__main__ import Base
-from files.helpers.lazy import lazy
-from files.helpers.const import *
 import time
 
 

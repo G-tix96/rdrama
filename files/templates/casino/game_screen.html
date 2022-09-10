@@ -1,0 +1,468 @@
+{% extends "default.html" %} {% block title %}
+<title>{{game}}</title>
+{% endblock %} {% block content %}
+<style>
+  .game_screen-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .game_screen-title hr {
+    flex: 1;
+    margin-left: 0.5rem;
+  }
+
+  #casinoGameResult {
+    visibility: hidden;
+    margin-top: 1rem;
+  }
+
+  #casinoGameFeedList {
+    max-height: 110px;
+    overflow: auto;
+    list-style-type: none;
+  }
+</style>
+
+<script type="text/javascript">
+  /**
+   * This script block contains generic helper function usable across casino games:
+   * - Wagers
+   * - Feed
+   * - Leaderboard
+   */
+
+  if (
+    document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+  ) {
+    initializeGame();
+  } else {
+    document.addEventListener("DOMContentLoaded", initializeGame);
+  }
+
+  function initializeGame() {
+    updateFeed();
+    updateLeaderboard();
+  }
+
+  function updatePlayerCurrencies(updated) {
+    if (updated.coins) {
+      document.getElementById("user-coins-amount").innerText = updated.coins;
+    }
+
+    if (updated.procoins) {
+      document.getElementById("user-bux-amount").innerText = updated.procoins;
+    }
+  }
+
+  function getWager() {
+    const amount = document.getElementById("wagerAmount").value;
+    const currency = document.querySelector(
+      'input[name="wagerCurrency"]:checked'
+    ).value;
+    const genericCurrency = currency == 'marseybux' ? 'procoins' : 'coins';
+
+    return { amount, currency: genericCurrency };
+  }
+
+  function disableWager() {
+    document.getElementById("wagerAmount").disabled = true;
+    document.getElementById("wagerCoins").disabled = true;
+    document.getElementById("wagerProcoins").disabled = true;
+  }
+
+  function enableWager() {
+    document.getElementById("wagerAmount").disabled = false;
+    document.getElementById("wagerCoins").disabled = false;
+    document.getElementById("wagerProcoins").disabled = false;
+  }
+
+  function updateResult(text, className) {
+    const result = document.getElementById("casinoGameResult");
+    result.style.visibility = "visible";
+    result.innerText = text;
+    result.classList.add(`alert-${className}`);
+  }
+
+  function clearResult() {
+    const result = document.getElementById("casinoGameResult");
+    result.style.visibility = "hidden";
+    result.innerText = "N/A";
+    result.classList.remove("alert-success", "alert-danger", "alert-warning");
+  }
+
+  function updateFeed(newFeed) {
+    let feed;
+
+    if (newFeed) {
+      feed = newFeed;
+    } else {
+      const gameFeed = document.getElementById("casinoGameFeed");
+      feed = gameFeed.dataset.feed;
+      feed = JSON.parse(feed);
+      gameFeed.dataset.feed = "";
+    }
+
+    const feedHtml = feed
+      .map(
+        (entry) =>
+          `
+      <li
+        style="display: flex; align-items: center; justify-content: space-between;"
+        class="${entry.won_or_lost === "won" ? "text-success" : "text-danger"}">
+        <div>
+          <a href="/@${entry.user}">@${entry.user}</a> ${entry.won_or_lost} ${entry.amount
+          } ${entry.currency}
+        </div>
+      </li>
+    `
+      )
+      .join("");
+
+    document.getElementById("casinoGameFeedList").innerHTML = feedHtml;
+  }
+
+  function reloadFeed() {
+    const game = document.getElementById('casino-game-wrapper').dataset.game;
+    const xhr = new XMLHttpRequest();
+    xhr.open("get", `/casino/${game}/feed`);
+    xhr.onload = handleFeedResponse.bind(null, xhr);
+    xhr.send();
+  }
+
+  function handleFeedResponse(xhr) {
+    let response;
+
+    try {
+      response = JSON.parse(xhr.response);
+    } catch (error) {
+      console.error(error);
+    }
+
+    const succeeded =
+      xhr.status >= 200 && xhr.status < 300 && response && !response.error;
+
+    if (succeeded) {
+      document.getElementById("casinoGameFeed").dataset.feed = JSON.stringify(response.feed);
+      updateFeed();
+    } else {
+      console.error("error");
+    }
+  }
+
+  function updateLeaderboard() {
+    const leaderboardContainer = document.getElementById("gameLeaderboard");
+    const leaderboardData = JSON.parse(leaderboardContainer.dataset.leaderboard);
+    const [biggestWinnerAllTime, biggestWinner24h, biggestLoser24h, biggestLoserAllTime] = [
+      'biggestWinnerAllTime', 'biggestWinner24h', 'biggestLoser24h', 'biggestLoserAllTime'
+    ].map(id => document.getElementById(id));
+    const formatLocalCurrencyName = currency => ({ coins: 'dramacoins', procoins: 'marseybux' })[currency];
+
+    biggestWinnerAllTime.innerHTML = `
+      <a href="/@${leaderboardData.all_time.biggest_win.user}">${leaderboardData.all_time.biggest_win.user}</a> <br /><small>${leaderboardData.all_time.biggest_win.amount} ${formatLocalCurrencyName(leaderboardData.all_time.biggest_win.currency)}</small>
+    `;
+
+    biggestWinner24h.innerHTML = `
+      <a href="/@${leaderboardData.last_24h.biggest_win.user}">${leaderboardData.last_24h.biggest_win.user}</a> <br /> <small>${leaderboardData.last_24h.biggest_win.amount} ${formatLocalCurrencyName(leaderboardData.last_24h.biggest_win.currency)}</small>
+    `;
+
+    biggestLoser24h.innerHTML = `
+      <a href="/@${leaderboardData.last_24h.biggest_loss.user}">${leaderboardData.last_24h.biggest_loss.user}</a> <br /> <small>${leaderboardData.last_24h.biggest_loss.amount} ${formatLocalCurrencyName(leaderboardData.last_24h.biggest_loss.currency)}</small>
+    `;
+
+    biggestLoserAllTime.innerHTML = `
+      <a href="/@${leaderboardData.all_time.biggest_loss.user}">${leaderboardData.all_time.biggest_loss.user}</a> <br /> <small>${leaderboardData.all_time.biggest_loss.amount} ${formatLocalCurrencyName(leaderboardData.all_time.biggest_loss.currency)}</small>
+    `;
+  }
+
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function getRandomCardAngle() {
+    const skew = 10
+    return getRandomInt(-skew, skew);
+  }
+
+  function buildPlayingCard(rank, suit) {
+    return `
+      <div
+        style="transform: scale(0.7) rotateZ(${getRandomCardAngle()}deg)"
+        class="playing-card playing-card_${["♥️", "♦️"].includes(suit) ? 'red' : 'black'}">
+        <div class="playing-card_small playing-card_topright">${rank}${suit}</div>
+        <div class="playing-card_large">${rank}${suit}</div>
+        <div class="playing-card_small playing-card_bottomleft">${rank}${suit}</div>
+      </div>
+    `;
+  }
+
+  function buildPlayingCardDeck(size = 14) {
+    const cards = Array.from({ length: size }, (_, index) => `
+      <div
+        style="bottom: ${index}px; left: ${-index}px"
+        class="flipped-playing-card"></div>
+    `).join('\n');
+
+    return `
+      <div id="playingCardDeck" class="playing-card-deck">
+        ${cards}
+      </div>
+    `;
+  }
+
+  function drawFromDeck() {
+    try {
+      const [topCard] = Array.from(document.querySelectorAll("#playingCardDeck > *")).reverse();
+
+      topCard.classList.add('drawing-a-card');
+
+      setTimeout(() => {
+        topCard.classList.remove('drawing-a-card');
+      }, 600);
+    } catch { }
+  }
+</script>
+
+{% block script %} {% endblock %}
+
+<style>
+  @keyframes drawing {
+    from {
+      left: 0;
+      opacity: 1;
+    }
+
+    to {
+      left: 100px;
+      opacity: 0;
+    }
+  }
+
+  .drawing-a-card {
+    animation: drawing 1s ease-in-out;
+  }
+
+  .playing-card-deck {
+    position: relative;
+    z-index: 3;
+    box-shadow: -5px 5px 5px 0px rgba(60, 60, 60, 0.56);
+    -webkit-box-shadow: -5px 5px 5px 0px rgba(60, 60, 60, 0.56);
+    -moz-box-shadow: -5px 5px 5px 0px rgba(60, 60, 60, 0.56);
+  }
+
+  .flipped-playing-card {
+    position: absolute;
+    width: 100px;
+    height: 150px;
+    border-radius: 4px;
+    border: 1px solid #21262C;
+    background-color: #FF66AC;
+    transform: scale(0.7);
+  }
+
+  .playing-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 150px;
+    border-radius: 4px;
+    border: 1px solid #21262C;
+    background-color: #FFF;
+    box-shadow: -5px 5px 5px 0px rgba(60, 60, 60, 0.56);
+    -webkit-box-shadow: -5px 5px 5px 0px rgba(60, 60, 60, 0.56);
+    -moz-box-shadow: -5px 5px 5px 0px rgba(60, 60, 60, 0.56);
+  }
+
+  .playing-card_red {
+    color: #ff0000;
+  }
+
+  .playing-card_black {
+    color: #333;
+  }
+
+  .playing-card_small {
+    font-size: 18px;
+    position: absolute;
+  }
+
+  .playing-card_large {
+    font-size: 48px;
+    text-align: center;
+  }
+
+  .playing-card_topright {
+    top: 6px;
+    right: 6px;
+  }
+
+  .playing-card_bottomleft {
+    bottom: 6px;
+    left: 6px;
+    transform: scaleX(-1) scaleY(-1);
+  }
+
+  #casinoGameResult {
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 3px;
+  }
+
+  .casino-game-leaderboard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .casino-game-leaderboard-info {
+    text-align: right;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .leaderboard-marsey-trophy {
+    position: relative;
+    width: 100px;
+    height: 100px;
+  }
+
+  .leaderboard-marsey-trophy__marsey {
+    position: relative;
+    z-index: 1;
+    width: 100px;
+    height: 100px;
+  }
+
+  .leaderboard-marsey-trophy__trophy {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    font-size: 48px;
+  }
+</style>
+
+<div id="casino-game-wrapper" data-game="{{game}}" class="container-fluid" style="max-width: 500px">
+  <div class="row row-cols-1">
+    <div class="col game_screen-title">
+      <h3>{{game}}</h3>
+      <hr />
+    </div>
+    <div class="col">{% block screen %} {% endblock %}</div>
+    <div class="col">
+      <div id="casinoGameResult" class="alert" role="alert">
+        {% block result %} {% endblock %}
+      </div>
+    </div>
+    <div class="col">
+      <div class="row row-cols-2">
+        <div class="col">
+          <div class="game_screen-title">
+            <h5>Wager</h5>
+            <hr />
+          </div>
+          <input id="wagerAmount" type="number" min="5" step="1" value="5" class="form-control" />
+        </div>
+        <div class="col">
+          <div class="game_screen-title">
+            <h5>Currency</h5>
+            <hr />
+          </div>
+          <div class="btn-group" role="group" aria-label="Select a currency.">
+            <input type="radio" class="btn-check" name="wagerCurrency" autocomplete="off" id="wagerCoins"
+              value="dramacoin" checked />
+            <label for="wagerCoins" class="btn btn-primary">
+              <img src="/i/rDrama/coins.webp?v=3009" alt="coin" width="32" data-bs-toggle="tooltip"
+                data-bs-placement="bottom" title="Dramacoin" aria-label="Dramacoin" />
+            </label>
+            <input type="radio" class="btn-check" name="wagerCurrency" autocomplete="off" id="wagerProcoins"
+              value="marseybux" />
+            <label for="wagerProcoins" class="btn btn-primary">
+              <img src="/i/marseybux.webp?v=2000" alt="marseybux" width="32" data-bs-toggle="tooltip"
+                data-bs-placement="bottom" title="Marseybux" aria-label="Marseybux" />
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="game_screen-title">
+        <h5>Actions</h5>
+        <hr />
+      </div>
+      {% block actions %} {% endblock %}
+    </div>
+    <div id="casinoGameFeed" data-feed="{{feed}}" class="col">
+      <div class="game_screen-title">
+        <h5>Feed</h5>
+        <hr />
+      </div>
+      <ul id="casinoGameFeedList"></ul>
+      <button type="button" class="btn btn-secondary" style="width: 100%" onclick="reloadFeed()">
+        Reload Feed
+      </button>
+    </div>
+    <div class="col">
+      <div class="game_screen-title">
+        <h5>Leaders</h5>
+        <hr />
+      </div>
+      <div id="gameLeaderboard" data-leaderboard="{{leaderboard}}">
+        <!-- Biggest Winner All Time -->
+        <div class="casino-game-leaderboard">
+          <div class="leaderboard-marsey-trophy">
+            <img class="leaderboard-marsey-trophy__marsey" src="/e/marseyhappytears.webp" />
+            <i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: gold;"></i>
+          </div>
+          <div class="casino-game-leaderboard-info">
+            <small>Biggest Winner (All Time)</small>
+            <h3 id="biggestWinnerAllTime">-</h3>
+          </div>
+        </div>
+        <!-- Biggest Winner 24h -->
+        <div class="casino-game-leaderboard">
+          <div class="leaderboard-marsey-trophy">
+            <img class="leaderboard-marsey-trophy__marsey" src="/e/marseyexcited.webp" />
+            <i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: gold;"></i>
+          </div>
+          <div class="casino-game-leaderboard-info">
+            <small>Biggest Winner (Last 24h)</small>
+            <h3 id="biggestWinner24h">-</h3>
+          </div>
+        </div>
+        <!-- Biggest Loser 24h -->
+        <div class="casino-game-leaderboard">
+          <div class="leaderboard-marsey-trophy">
+            <img class="leaderboard-marsey-trophy__marsey" src="/e/marseycry.webp" />
+            <i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: darkred;"></i>
+          </div>
+          <div class="casino-game-leaderboard-info">
+            <small>Biggest Loser (Last 24h)</small>
+            <h3 id="biggestLoser24h">-</h3>
+          </div>
+        </div>
+        <!-- Biggest Loser All Time -->
+        <div class="casino-game-leaderboard">
+          <div class="leaderboard-marsey-trophy">
+            <img class="leaderboard-marsey-trophy__marsey" src="/e/marseyrain.webp" />
+            <i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: darkred;"></i>
+          </div>
+          <div class="casino-game-leaderboard-info">
+            <small>Biggest Loser (All Time)</small>
+            <h3 id="biggestLoserAllTime">-</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

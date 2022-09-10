@@ -1,244 +1,43 @@
-{% extends "default.html" %} {% block content %}
-<link rel="stylesheet" href="/assets/css/casino.css?v=4000" />
-<script defer src="/assets/js/casino.js?v=4001"></script>
+{% extends "default.html" %}
 
-<!-- New -->
-<div class="casino-games">
-	<!-- Slots -->
-	<div id="slots-block" class="casino-block">
-	<div class="casino-block-title">
-		Slots
-		<hr style="flex: 1; margin-left: 1rem" />
-	</div>
-	<div class="casino-block-inner">
-		<div class="casino-block-left">
-		<!-- Game -->
-		<div class="casino-block-game">
-			<div>
-			<div class="casino-slots-results" style="flex: 1">
-				<div class="reel">
-				<img src="/i/rDrama/coins.webp?v=3009" alt="coin" />
-				</div>
-				<div class="reel">
-				<img src="/i/rDrama/coins.webp?v=3009" alt="coin" />
-				</div>
-				<div class="reel">
-				<img src="/i/rDrama/coins.webp?v=3009" alt="coin" />
-				</div>
-			</div>
-			<div class="casino-slots-outcome" id="casinoSlotsResult">
-				&nbsp;
-			</div>
-			</div>
-		</div>
-		<!-- Bet -->
-		<div class="casino-block-bet">
-			<div class="lottery-page--stat">
-			<div class="lottery-page--stat-keys" style="margin-right: 1rem">
-				<div>Enter Bet</div>
-				<div>
-				<input
-					id="casinoSlotsBet"
-					class="form-control"
-					autocomplete="off"
-					value="5"
-					min="5"
-					step="1"
-					aria-label="Bet"
-					name="casinoSlotsBet"
-					type="number"
-					style="flex: 1; max-width: 200px; text-align: right"
-				/>
-				</div>
-			</div>
+{# Title (~25char max), Description (~80char max),
+Icon (fa-foo-bar), Color (#ff0000), URL (/post/12345/) #}
+{%- set GAME_INDEX = [] -%}
 
-			<div class="lottery-page--stat-values">
-				<div class="form-check">
-				<input
-					class="form-check-input"
-					type="radio"
-					name="casinoSlotsCurrency"
-					id="casinoSlotsCurrencyDramacoin"
-					value="dramacoin"
-					checked
-				/>
-				<label
-					class="form-check-label"
-					for="casinoSlotsCurrencyDramacoin"
-				>
-					<img
-					src="/i/rDrama/coins.webp?v=3009"
-					alt="coin"
-					width="40"
-					data-bs-toggle="tooltip"
-					data-bs-placement="bottom"
-					title="Dramacoin"
-					aria-label="Dramacoin"
-					/>
-				</label>
-				</div>
-				<div class="form-check">
-				<input
-					class="form-check-input"
-					type="radio"
-					name="casinoSlotsCurrency"
-					id="casinoSlotsCurrencyMarseybux"
-					value="marseybux"
-				/>
-				<label
-					class="form-check-label"
-					for="casinoSlotsCurrencyMarseybux"
-				>
-					<img
-					src="/i/marseybux.webp?v=2000"
-					alt="marseybux"
-					width="40"
-					data-bs-toggle="tooltip"
-					data-bs-placement="bottom"
-					title="Marseybux"
-					aria-label="Marseybux"
-					/>
-				</label>
-				</div>
-			</div>
-			</div>
+{%- if SITE_NAME == 'rDrama' -%}
+	{%- do GAME_INDEX.extend([
+		(
+			'Slots',
+			'Today\'s your lucky day',
+			'fa-dollar-sign', '#666',
+			'/casino/slots',
+		),
+		(
+			'Blackjack',
+			'Twenty one ways to change your life',
+			'fa-cards', '#333',
+			'/casino/blackjack',
+		),
+		(
+			'Lottershe',
+			'Can\'t win if you don\'t play.',
+			'fa-ticket', '#888',
+			'/lottershe',
+		)
+	])-%}
+{%- endif -%}
 
-			<button
-			type="button"
-			class="btn btn-success lottery-page--action"
-			id="casinoSlotsPull"
-			style="width: 100%"
-			onclick="pullSlots()"
-			>
-			Pull
-			</button>
+{% block content %}
+<h2 style="text-transform: uppercase; text-align: center; letter-spacing: 3px; margin-top: 2rem;">rDrama.net Casino</h2>
+<div id="directory--wrapper">
+	{% for game in GAME_INDEX %}
+	<a role="button" class="directory--link" href="{{game[4]}}">
+		<div class="directory--link-content">
+			<i class="directory--link--icon fas {{game[2]}}" style="color:{{game[3]}}"></i>
+			<div class="directory--link--title">{{game[0]|safe}}</div>
+			<div class="directory--link--description">{{game[1]|safe}}</div>
 		</div>
-		</div>
-	</div>
-	</div>
-
-	<!-- Blackjack -->
-	<div id="blackjack-block" class="casino-block">
-	<div class="casino-block-title">
-		Blackjack
-		<hr style="flex: 1; margin-left: 1rem" />
-	</div>
-	<div class="casino-block-inner">
-		<div class="casino-block-left">
-		<!-- Game -->
-		<div class="casino-block-game">
-			<div class="casino-game">
-			<div style="flex: 1">
-				<div class="blackjack-table">
-				<div style="display: flex; align-items: center">
-					<small style="margin-right: 0.5rem">Dealer</small>
-					<hr style="flex: 1" />
-				</div>
-				<div class="hand" id="casinoBlackjackDealerHand">
-					<div class="playing-card" data-who="dealer"></div>
-					<div class="playing-card" data-who="dealer"></div>
-					<div class="playing-card" data-who="dealer"></div>
-					<div class="playing-card" data-who="dealer"></div>
-					<div class="playing-card" data-who="dealer"></div>
-				</div>
-				<hr />
-				<div class="hand" id="casinoBlackjackPlayerHand">
-					<div class="playing-card" data-who="player"></div>
-					<div class="playing-card" data-who="player"></div>
-					<div class="playing-card" data-who="player"></div>
-					<div class="playing-card" data-who="player"></div>
-					<div class="playing-card" data-who="player"></div>
-				</div>
-				<div style="display: flex; align-items: center">
-					<hr style="flex: 1; margin-right: 0.5rem" />
-					<small>Player</small>
-				</div>
-				</div>
-				<div
-				id="casinoBlackjackResult"
-				class="casino-blackjack-outcome"
-				></div>
-			</div>
-			</div>
-		</div>
-		<!-- Bet -->
-		<div class="casino-block-bet">
-			<div id="casinoBlackjackWager" class="lottery-page--stat">
-			<div class="lottery-page--stat-keys" style="margin-right: 1rem">
-				<div>Enter Bet</div>
-				<div>
-				<input
-					id="casinoBlackjackBet"
-					class="form-control"
-					autocomplete="off"
-					value="5"
-					min="5"
-					step="1"
-					aria-label="Bet"
-					name="casinoBlackjackBet"
-					type="number"
-					style="flex: 1; max-width: 200px; text-align: right"
-				/>
-				</div>
-			</div>
-
-			<div class="lottery-page--stat-values">
-				<div class="form-check">
-				<input
-					class="form-check-input"
-					type="radio"
-					name="casinoBlackjackCurrency"
-					id="casinoBlackjackCurrencyDramacoin"
-					value="dramacoin"
-					checked
-				/>
-				<label
-					class="form-check-label"
-					for="casinoBlackjackCurrencyDramacoin"
-				>
-					<img
-					src="/i/rDrama/coins.webp?v=3009"
-					alt="coin"
-					width="40"
-					data-bs-toggle="tooltip"
-					data-bs-placement="bottom"
-					title="Dramacoin"
-					aria-label="Dramacoin"
-					/>
-				</label>
-				</div>
-				<div class="form-check">
-				<input
-					class="form-check-input"
-					type="radio"
-					name="casinoBlackjackCurrency"
-					id="casinoBlackjackCurrencyMarseybux"
-					value="marseybux"
-				/>
-				<label
-					class="form-check-label"
-					for="casinoBlackjackCurrencyMarseybux"
-				>
-					<img
-					src="/i/marseybux.webp?v=2000"
-					alt="marseybux"
-					width="40"
-					data-bs-toggle="tooltip"
-					data-bs-placement="bottom"
-					title="Marseybux"
-					aria-label="Marseybux"
-					/>
-				</label>
-				</div>
-			</div>
-			</div>
-
-			<div id="casinoBlackjackActions" class="casino-blackjack-actions">
-			</div>
-		</div>
-		</div>
-	</div>
-	</div>
-	<div class="casino-lottery">{% include "lottery.html" %}</div>
-	{% endblock %}
+	</a>
+	{% endfor %}
 </div>
+{% endblock %}

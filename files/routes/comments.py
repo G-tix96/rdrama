@@ -4,7 +4,6 @@ from files.helpers.media import *
 from files.helpers.const import *
 from files.helpers.regex import *
 from files.helpers.slots import *
-from files.helpers.blackjack import *
 from files.helpers.treasure import *
 from files.helpers.actions import *
 from files.helpers.get import *
@@ -328,11 +327,6 @@ def comment(v):
 	c.upvotes = 1
 	g.db.add(c)
 	g.db.flush()
-
-	if blackjack and any(i in c.body.lower() for i in blackjack.split()):
-		v.shadowbanned = 'AutoJanny'
-		notif = Notification(comment_id=c.id, user_id=CARP_ID)
-		g.db.add(notif)
 
 	if c.level == 1: c.top_comment_id = c.id
 	else: c.top_comment_id = parent.top_comment_id
@@ -692,14 +686,6 @@ def edit_comment(cid, v):
 
 		c.body = body[:10000]
 		c.body_html = body_html
-
-		if blackjack and any(i in c.body.lower() for i in blackjack.split()):
-			v.shadowbanned = 'AutoJanny'
-			g.db.add(v)
-			notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=CARP_ID).one_or_none()
-			if not notif:
-				notif = Notification(comment_id=c.id, user_id=CARP_ID)
-				g.db.add(notif)
 
 		if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and c.post.sub != 'chudrama':
 			return {"error": f'You have to include "{AGENDAPOSTER_PHRASE}" in your comment!'}, 403
