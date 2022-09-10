@@ -14,22 +14,22 @@ def hats(v):
 	owned_hat_ids = [x.hat_id for x in v.owned_hats]
 
 	if request.values.get("sort") == 'author_asc':
-		hats = g.db.query(HatDef, User).join(HatDef.author).order_by(User.username).all()
+		hats = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None).order_by(User.username).all()
 	elif request.values.get("sort") == 'author_desc':
-		hats = g.db.query(HatDef, User).join(HatDef.author).order_by(User.username.desc()).all()
+		hats = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None).order_by(User.username.desc()).all()
 	else:
 		if v.equipped_hat_ids:
-			equipped = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.in_(owned_hat_ids), HatDef.id.in_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
-			not_equipped = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.in_(owned_hat_ids), HatDef.id.notin_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+			equipped = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids), HatDef.id.in_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+			not_equipped = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids), HatDef.id.notin_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
 			owned = equipped + not_equipped
 		else:
-			owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.in_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+			owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
 
-		not_owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.id.notin_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+		not_owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None, HatDef.id.notin_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
 		hats = owned + not_owned
 
 	sales = g.db.query(func.sum(User.coins_spent_on_hats)).scalar()
-	num_of_hats = g.db.query(HatDef).count()
+	num_of_hats = g.db.query(HatDef).filter(HatDef.submitter_id == None).count()
 	return render_template("hats.html", owned_hat_ids=owned_hat_ids, hats=hats, v=v, sales=sales, num_of_hats=num_of_hats)
 
 @app.post("/buy_hat/<hat_id>")
@@ -40,7 +40,7 @@ def buy_hat(v, hat_id):
 	try: hat_id = int(hat_id)
 	except: return {"error": "Hat not found!"}
 
-	hat = g.db.query(HatDef).filter_by(id=hat_id).one_or_none()
+	hat = g.db.query(HatDef).filter_by(submitter_id=None, id=hat_id).one_or_none()
 	if not hat: return {"error": "Hat not found!"}
 
 	existing = g.db.query(Hat).filter_by(user_id=v.id, hat_id=hat.id).one_or_none()
