@@ -497,7 +497,8 @@ CREATE TABLE public.hat_defs (
     name character varying(50) NOT NULL,
     description character varying(300) NOT NULL,
     author_id integer NOT NULL,
-    price integer NOT NULL
+    price integer NOT NULL,
+    submitter_id integer
 );
 
 
@@ -1727,6 +1728,13 @@ CREATE INDEX follow_user_id_index ON public.follows USING btree (user_id);
 
 
 --
+-- Name: hat_defs_submitter_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX hat_defs_submitter_id_idx ON public.hat_defs USING btree (submitter_id);
+
+
+--
 -- Name: lowercase_original_username; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2232,6 +2240,14 @@ ALTER TABLE ONLY public.follows
 
 ALTER TABLE ONLY public.follows
     ADD CONSTRAINT follow_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: hat_defs hat_def_submitter_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.hat_defs
+    ADD CONSTRAINT hat_def_submitter_fkey FOREIGN KEY (submitter_id) REFERENCES public.users(id);
 
 
 --
