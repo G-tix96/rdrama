@@ -27,14 +27,16 @@ def get_game_feed(game):
 
 def get_game_leaderboard(game):
     timestamp_24h_ago = time.time() - 86400
+    timestamp_all_time = 1662825600 # "All Time" starts on release day
+
     biggest_win_all_time = g.db.query(Casino_Game.user_id,	User.username, Casino_Game.currency, Casino_Game.winnings).select_from(
-        Casino_Game).join(User).order_by(Casino_Game.winnings.desc()).filter(Casino_Game.kind == game).limit(1).one_or_none()
+        Casino_Game).join(User).order_by(Casino_Game.winnings.desc()).filter(Casino_Game.kind == game, Casino_Game.created_utc > timestamp_all_time).limit(1).one_or_none()
 
     biggest_win_last_24h = g.db.query(Casino_Game.user_id,	User.username, Casino_Game.currency, Casino_Game.winnings).select_from(
         Casino_Game).join(User).order_by(Casino_Game.winnings.desc()).filter(Casino_Game.kind == game, Casino_Game.created_utc > timestamp_24h_ago).limit(1).one_or_none()
 
     biggest_loss_all_time = g.db.query(Casino_Game.user_id,	User.username, Casino_Game.currency, Casino_Game.winnings).select_from(
-        Casino_Game).join(User).order_by(Casino_Game.winnings.asc()).filter(Casino_Game.kind == game).limit(1).one_or_none()
+        Casino_Game).join(User).order_by(Casino_Game.winnings.asc()).filter(Casino_Game.kind == game, Casino_Game.created_utc > timestamp_all_time).limit(1).one_or_none()
 
     biggest_loss_last_24h = g.db.query(Casino_Game.user_id,	User.username, Casino_Game.currency, Casino_Game.winnings).select_from(
         Casino_Game).join(User).order_by(Casino_Game.winnings.asc()).filter(Casino_Game.kind == game, Casino_Game.created_utc > timestamp_24h_ago).limit(1).one_or_none()
