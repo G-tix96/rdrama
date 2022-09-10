@@ -510,10 +510,10 @@ def submit_marsey(v):
 	author = request.values.get('author').strip()
 	author = get_user(author)
 
-	highquality = f'/asset_submissions/{name}.png'
+	highquality = f'/asset_submissions/m_{name}.png'
 	file.save(highquality)
 
-	filename = f'/asset_submissions/{name}.webp'
+	filename = f'/asset_submissions/m_{name}.webp'
 	copyfile(highquality, filename)
 	process_image(filename, 200)
 
@@ -561,7 +561,7 @@ def approve_marsey(v, name):
 	marsey.tags = tags
 	g.db.add(marsey)
 
-	move(f"/asset_submissions/{name}.webp", f"files/assets/images/emojis/{marsey.name}.webp")
+	move(f"/asset_submissions/m_{name}.webp", f"files/assets/images/emojis/{marsey.name}.webp")
 
 	author = get_account(marsey.author_id)
 	all_by_author = g.db.query(Marsey).filter_by(author_id=author.id).count()
@@ -602,7 +602,7 @@ def reject_marsey(v, name):
 		send_repeatable_notification(marsey.submitter_id, msg)
 
 	g.db.delete(marsey)
-	os.remove(f"/asset_submissions/{marsey.name}.webp")
+	os.remove(f"/asset_submissions/m_{marsey.name}.webp")
 
 	return {"message": f"'{marsey.name}' rejected!"}
 
@@ -648,14 +648,14 @@ def submit_hat(v):
 	author = request.values.get('author').strip()
 	author = get_user(author)
 
-	highquality = f'/asset_submissions/{name}.png'
+	highquality = f'/asset_submissions/h_{name}.png'
 	file.save(highquality)
 
 	i = Image.open(highquality)
 	if i.width > 100 or i.height > 130:
 		return error("Images must be 100x130")
 
-	filename = f'/asset_submissions/{name}.webp'
+	filename = f'/asset_submissions/h_{name}.webp'
 	copyfile(highquality, filename)
 	process_image(filename)
 
@@ -699,7 +699,7 @@ def approve_hat(v, name):
 	hat.description = description
 	g.db.add(hat)
 
-	move(f"/asset_submissions/{name}.webp", f"files/assets/images/hats/{hat.name}.webp")
+	move(f"/asset_submissions/h_{name}.webp", f"files/assets/images/hats/{hat.name}.webp")
 
 
 	g.db.flush()
@@ -749,6 +749,6 @@ def reject_hat(v, name):
 		send_repeatable_notification(hat.submitter_id, msg)
 
 	g.db.delete(hat)
-	os.remove(f"/asset_submissions/{hat.name}.webp")
+	os.remove(f"/asset_submissions/h_{hat.name}.webp")
 
 	return {"message": f"'{hat.name}' rejected!"}
