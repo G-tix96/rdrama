@@ -9,7 +9,7 @@ import os
 from files.classes.mod_logs import ACTIONTYPES, ACTIONTYPES2
 from files.classes.badges import BadgeDef
 import files.helpers.stats as statshelper
-from shutil import move
+from shutil import move, copyfile
 
 @app.get("/r/drama/comments/<id>/<title>")
 @app.get("/r/Drama/comments/<id>/<title>")
