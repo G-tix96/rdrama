@@ -123,7 +123,6 @@ function formkey() {
 }
 
 function expandDesktopImage(url) {
-	console.log('this')
 	const e = this.event
 	if(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
 		return true;

@@ -8,8 +8,8 @@ function sort_table(n) {
 		const ele = rows[i];
 		let x = rows[i].getElementsByTagName("TD")[n];
 		x = x.getElementsByTagName('a')[0] || x;
+		x =
 		const attr = x.dataset.time ? parseInt(x.dataset.time) : parseInt(x.innerHTML);
-		console.log(attr);
 		items.push({ ele, attr });
 	}
 	if (sortAscending[n]) {

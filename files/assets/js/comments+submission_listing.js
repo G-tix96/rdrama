@@ -96,7 +96,6 @@ function poll_vote_1(oid, parentid, kind) {
 	let curr = document.getElementById(`current-${kind}-${parentid}`)
 	if (curr && curr.value)
 	{
-		console.log(curr.value)
 		const scoretext = document.getElementById('score-' + curr.value);
 		const score = Number(scoretext.textContent);
 		scoretext.textContent = score - 1;
