@@ -513,7 +513,7 @@
 {% if not v_forbid_deleted -%}
 	<meta property="og:image" content="{% if p.is_image %}{{p.realurl(v)}}{% elif p.has_thumb%}{{p.thumb_url}}{% else %}{{SITE_FULL}}{{asset_siteimg('site_preview.webp')}}{% endif %}">
 	{% if p.is_video %}
-		<meta property="og:video" content="https://rdrama.net/videos/16604767790685225.mp4">
+		<meta property="og:video" content="{{p.realurl(v)}}">
 	{% elif p.is_audio %}
 		<meta property="og:audio" content="{{p.realurl(v)}}">
 	{% endif %}
@@ -545,7 +545,7 @@
 	<meta property="og:author" name="author" content="{{'@'+p.author_name}}">
 	<meta property="og:description" name="description" content="{{p.plainbody(v)}}">
 	<meta property="og:title" content="{{p.plaintitle(v)}} - {{SITE_NAME}}">
-	<meta property="og:url" content="https://rdrama.net/videos/16604767790685225.mp4">
+	<meta property="og:url" content="{{p.permalink}}">
 
 	<meta property="article:author" content="{{'@'+p.author_name}}">
 	<meta property="article:published_time" content="{{p.created_datetime}}">
@@ -556,8 +556,7 @@
 	<meta name="twitter:title" content="{{p.plaintitle(v)}} - {{SITE_NAME}}">
 	<meta name="twitter:creator" content="{{'@'+p.author_name}}">
 	<meta name="twitter:description" content="{{p.plainbody(v)}}">
-	<meta name="twitter:url" content="https://rdrama.net/videos/16604767790685225.mp4">
-	<meta property="og:video" content="https://rdrama.net/videos/16604767790685225.mp4">
+	<meta name="twitter:url" content="{{p.permalink}}">
 {%- endif %}
 {% endblock %}
 
