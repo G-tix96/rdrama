@@ -975,6 +975,7 @@ def u_username(username, v=None):
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
 
 		g.db.add(view)
+		g.db.commit()
 
 		
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)):

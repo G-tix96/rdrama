@@ -454,27 +454,39 @@ def submit_marseys(v):
 	return render_template("submit_marseys.html", v=v, marseys=marseys)
 
 
-@app.post("/submit/marsey")
+@app.post("/submit/marseys")
 @auth_required
 def submit_marsey(v):
+	if v.admin_level > 2:
+		marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None).all()
+	else:
+		marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id).all()
+
+	for marsey in marseys:
+		marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
+		marsey.submitter = g.db.query(User.username).filter_by(id=marsey.submitter_id).one()[0]
+
+	def error(error):
+		return render_template("submit_marseys.html", v=v, marseys=marseys, error=error)
+
 	if request.headers.get("cf-ipcountry") == "T1":
-		return {"error":"Image uploads are not allowed through TOR."}
+		return error("Image uploads are not allowed through TOR.")
 
 	file = request.files["image"]
 	if not file or not file.content_type.startswith('image/'):
-		return {"error": "You need to submit an image!"}
+		return error("You need to submit an image!")
 
 	name = request.values.get('name').lower()
 	if not marsey_regex.fullmatch(name):
-		return {"error": "Invalid name!"}
+		return error("Invalid name!")
 
 	existing = g.db.query(Marsey.name).filter_by(name=name).one_or_none()
 	if existing:
-		return {"error": "A marsey with this name already exists!"}
+		return error("A marsey with this name already exists!")
 
 	tags = request.values.get('tags').lower()
 	if not tags_regex.fullmatch(tags):
-		return {"error": "Invalid tags!"}
+		return error("Invalid tags!")
 
 	author = request.values.get('author')
 	author = get_user(author)
@@ -486,19 +498,22 @@ def submit_marsey(v):
 	marsey = Marsey(name=name, author_id=author.id, tags=tags, count=0, submitter_id=v.id)
 	g.db.add(marsey)
 
-	return redirect('/submit/marseys')
+	return render_template("submit_marseys.html", v=v, marseys=marseys, msg=f"'{name}' submitted successfully!")
 
 
 @app.post("/admin/approve/marsey/<name>")
 @admin_level_required(3)
 def approve_marsey(v, name):
-	if CARP_ID and v.id != CARP_ID: abort(403)
+	if CARP_ID and v.id != CARP_ID:
+		return {"error": "Only Carp can approve marseys!"}
 
 	marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
-	if not marsey: abort(404)
+	if not marsey:
+		return {"error": f"This marsey '{name}' doesn't exist!"}
 
 	tags = request.values.get('tags')
-	if not tags: abort(400)
+	if not tags:
+		return {"error": "You need to include tags!"}
 
 	marsey.tags = tags
 	g.db.add(marsey)
@@ -528,12 +543,14 @@ def approve_marsey(v, name):
 @app.post("/admin/reject/marsey/<name>")
 @admin_level_required(3)
 def reject_marsey(v, name):
-	if CARP_ID and v.id != CARP_ID: abort(403)
+	if CARP_ID and v.id != CARP_ID:
+		return {"error": "Only Carp can approve marseys!"}
 
 	marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
-	if not marsey: abort(404)
+	if not marsey:
+		return {"error": f"This marsey '{name}' doesn't exist!"}
 
-	msg = f'@{v.username} has rejected a marsey you submitted: `{marsey.name}`'
+	msg = f"@{v.username} has rejected a marsey you submitted: '{marsey.name}'"
 	send_repeatable_notification(marsey.submitter_id, msg)
 
 	g.db.delete(marsey)

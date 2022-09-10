@@ -13,12 +13,16 @@ from files.helpers.lottery import *
 @app.get("/casino")
 @auth_required
 def casino(v):
+	if v.rehab: return {"error": "You are under Rehab award effect!"}
+
 	participants = get_users_participating_in_lottery()
 	return render_template("casino.html", v=v, participants=participants)
 
 @app.get("/casino/<game>")
 @auth_required
 def casino_game_page(v, game):
+	if v.rehab: return {"error": "You are under Rehab award effect!"}
+
 	return render_template(
 		f"casino/{game}_screen.html",
 		v=v,
@@ -30,6 +34,8 @@ def casino_game_page(v, game):
 @limiter.limit("3/second;30/minute;600/hour;12000/day")
 @auth_required
 def pull_slots(v):
+	if v.rehab: return {"error": "You are under Rehab award effect!"}
+
 	try:
 		wager = int(request.values.get("wager"))
 	except:
@@ -55,6 +61,8 @@ def pull_slots(v):
 @limiter.limit("3/second;30/minute;600/hour;12000/day")
 @auth_required
 def get_player_blackjack_status(v):
+	if v.rehab: return {"error": "You are under Rehab award effect!"}
+
 	game, _, safe_state = get_active_game(v)
 
 	if game:
@@ -67,6 +75,8 @@ def get_player_blackjack_status(v):
 @limiter.limit("3/second;30/minute;600/hour;12000/day")
 @auth_required
 def player_took_blackjack_action(v):
+	if v.rehab: return {"error": "You are under Rehab award effect!"}
+
 	try:
 		action = request.values.get("action")
 	except:
