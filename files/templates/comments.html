@@ -47,18 +47,16 @@
 					</div>
 					
 		{% if render_replies %} 
-			{% if new_comment or level<9 or request.path.startswith('/notifications') %}
-				<div id="replies-of-{{c.fullname}}">
+			<div id="replies-of-{{c.fullname}}">
+				{% if level<9 or request.path.startswith('/notifications') %}
 					{% for reply in replies %}
 						{{single_comment(reply, level=level+1)}}
 					{% endfor %}
-				</div>
-			{% elif replies %}
-				<div id="replies-of-{{c.fullname}}" class="mt-2 more-comments">
-					<button id="btn-{{c.id}}" class="d-none d-md-block btn btn-primary" onclick="morecomments('{{c.id}}')">More comments</button>
+				{% elif replies %}
+					<button id="btn-{{c.id}}" class="d-none d-md-block btn btn-primary mt-3" onclick="morecomments('{{c.id}}')">More comments</button>
 					<a class="d-md-none" href="{{c.morecomments}}">More comments <i class="fas fa-long-arrow-right ml-1"></i></a>
-				</div>
-			{% endif %}
+				{% endif %}
+			</div>
 		{% endif %}
 	</div>
 	</div>
@@ -554,18 +552,16 @@
 	{% endif %}
 
 	{% if render_replies %} 
-		{% if new_comment or level<9 or request.path.startswith('/notifications') %}
-			<div id="replies-of-{{c.fullname}}">
+		<div id="replies-of-{{c.fullname}}">
+			{% if level<9 or request.path.startswith('/notifications') %}
 				{% for reply in replies %}
 					{{single_comment(reply, level=level+1)}}
 				{% endfor %}
-			</div>
-		{% elif replies %}
-			<div id="replies-of-{{c.fullname}}" class="mt-2 more-comments">
-				<button id="btn-{{c.id}}" class="d-none d-md-block btn btn-primary" onclick="morecomments('{{c.id}}')">More comments</button>
+			{% elif replies %}
+				<button id="btn-{{c.id}}" class="d-none d-md-block btn btn-primary mt-3" onclick="morecomments('{{c.id}}')">More comments</button>
 				<a class="d-md-none" href="{{c.morecomments}}">More comments <i class="fas fa-long-arrow-right ml-1"></i></a>
-			</div>
-		{% endif %}
+			{% endif %}
+		</div>
 
 		{% if request.path.startswith('/notifications') and c.level == 1 and c.sentto and not c.parent_submission and c.author_id != AUTOJANNY_ID %}
 			{% if (v and v.admin_level >= 2) and (c.sentto == 2) and not c.author.is_muted %} 
