@@ -11,7 +11,7 @@ from files.routes.static import marsey_list
 @app.get('/asset_submissions/marseys')
 @auth_required
 def asset_submissions_marseys(v):
-	images = [x for x in listdir("/asset_submissions/marseys") if x.endswith('png')]
+	images = [x for x in listdir("/asset_submissions/marseys") if x.endswith('.png')]
 	return render_template("asset_submissions.html", v=v, images=images)
 
 
