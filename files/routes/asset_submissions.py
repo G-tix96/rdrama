@@ -209,6 +209,7 @@ def submit_hat(v):
 
 	i = Image.open(highquality)
 	if i.width > 100 or i.height > 130:
+		os.remove(highquality)
 		return error("Images must be 100x130")
 
 	filename = f'/asset_submissions/hats/{name}.webp'
