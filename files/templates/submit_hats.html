@@ -41,7 +41,7 @@
 							<div id="image-upload-block">
 								<div><label class="mt-3">Image</label></div>
 
-								<img loading="lazy" id="image-preview" style="max-width:50%">
+								<img loading="lazy" id="image-preview" class="d-none" style="max-width:50%;border:5px white solid">
 								<label class="btn btn-secondary m-0" for="file-upload">
 									<div id="filename-show">Select Image</div>
 									<input autocomplete="off" id="file-upload" accept="image/*" type="file" name="image" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} hidden>
@@ -88,7 +88,10 @@
 				{
 					var fileReader = new FileReader();
 					fileReader.readAsDataURL(f.files[0]);
-					fileReader.addEventListener("load", function () {document.getElementById('image-preview').setAttribute('src', this.result);});
+					fileReader.addEventListener("load", function () {
+						document.getElementById('image-preview').setAttribute('src', this.result);
+						document.getElementById('image-preview').classList.remove('d-none');
+					});
 				}
 				document.getElementById('file-upload').setAttribute('required', 'false');
 			}
@@ -102,7 +105,10 @@
 			{
 				var fileReader = new FileReader();
 				fileReader.readAsDataURL(f.files[0]);
-				fileReader.addEventListener("load", function () {document.getElementById('image-preview').setAttribute('src', this.result);});
+				fileReader.addEventListener("load", function () {
+					document.getElementById('image-preview').setAttribute('src', this.result);
+					document.getElementById('image-preview').classList.remove('d-none');
+				});
 				document.getElementById('submit-hat').disabled = false;
 			}
 		})
@@ -140,7 +146,7 @@
 								<input type="hidden" name="formkey" value="{{v.formkey}}">
 		
 								<div><label class="mt-3">Image</label></div>
-								<img loading="lazy" src="/asset_submissions/hats/{{hat.name}}.webp" style="max-width:50%">
+								<img loading="lazy" src="/asset_submissions/hats/{{hat.name}}.webp" style="max-width:50%;border:5px white solid">
 
 								<div><label class="mt-3" for="{{hat.name}}-submitter">Submitter</label></div>
 								<input autocomplete="off" type="text" id="{{hat.name}}-submitter" class="form-control" maxlength="30" value="{{hat.submitter.username}}" readonly>
