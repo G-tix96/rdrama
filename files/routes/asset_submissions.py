@@ -149,17 +149,18 @@ def approve_marsey(v, name):
 
 	return {"message": f"'{marsey.name}' approved!"}
 
-@app.post("/admin/reject/marsey/<name>")
-@admin_level_required(3)
-def reject_marsey(v, name):
-	if CARP_ID and v.id != CARP_ID:
-		return {"error": "Only Carp can reject marseys!"}, 403
 
+@app.post("/remove/marsey/<name>")
+@auth_required
+def remove_marsey(v, name):
 	name = name.lower().strip()
 
 	marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
 	if not marsey:
 		return {"error": f"This marsey '{name}' doesn't exist!"}, 404
+
+	if v.id not in {marsey.submitter_id, CARP_ID}:
+		return {"error": "Only Carp can remove marseys!"}, 403
 
 	if v.id != marsey.submitter_id:
 		msg = f"@{v.username} has rejected a marsey you submitted: `'{marsey.name}'`"
@@ -168,7 +169,7 @@ def reject_marsey(v, name):
 	g.db.delete(marsey)
 	os.remove(f"/asset_submissions/marseys/{marsey.name}.webp")
 
-	return {"message": f"'{marsey.name}' rejected!"}
+	return {"message": f"'{marsey.name}' removed!"}
 
 
 
@@ -298,17 +299,18 @@ def approve_hat(v, name):
 
 	return {"message": f"'{hat.name}' approved!"}
 
-@app.post("/admin/reject/hat/<name>")
-@admin_level_required(3)
-def reject_hat(v, name):
-	if CARP_ID and v.id != CARP_ID:
-		return {"error": "Only Carp can reject hats!"}, 403
 
+@app.post("/remove/hat/<name>")
+@auth_required
+def remove_hat(v, name):
 	name = name.strip()
 
 	hat = g.db.query(HatDef).filter_by(name=name).one_or_none()
 	if not hat:
 		return {"error": f"This hat '{name}' doesn't exist!"}, 404
+
+	if v.id not in {hat.submitter_id, CARP_ID}:
+		return {"error": "Only Carp can remove hats!"}, 403
 
 	if v.id != hat.submitter_id:
 		msg = f"@{v.username} has rejected a hat you submitted: `'{hat.name}'`"
@@ -317,4 +319,4 @@ def reject_hat(v, name):
 	g.db.delete(hat)
 	os.remove(f"/asset_submissions/hats/{hat.name}.webp")
 
-	return {"message": f"'{hat.name}' rejected!"}
+	return {"message": f"'{hat.name}' removed!"}

@@ -134,6 +134,24 @@
 				t.classList.remove("disabled");
 			}, 2000);
 		}
+
+		function remove_marsey(t, name) {
+			t.disabled = true;
+			t.classList.add("disabled");
+			post_toast_callback(`/remove/marsey/${name}`,
+				{
+				},
+				(xhr) => {
+				if(xhr.status == 200) {
+					document.getElementById(`${name}-marsey`).remove()
+				}
+				}
+			);
+			setTimeout(() => {
+				t.disabled = false;
+				t.classList.remove("disabled");
+			}, 2000);
+		}
 	</script>
 
 	<h2 class="mt-5 mx-4">Pending Carp Approval</h2>
@@ -162,12 +180,12 @@
 								<input autocomplete="off" type="text" id="{{marsey.name}}-tags" class="form-control" name="tags" maxlength="200" value="{{marsey.tags}}" pattern='[a-z0-9: ]{1,200}' required>
 							</div>
 						</div>
-						{% if v.admin_level > 2 %}
-							<div class="d-flex my-4 mx-3">
-								<a role="button" class="btn btn-secondary ml-auto mr-2" onclick="post_toast(this,'/admin/reject/marsey/{{marsey.name}}', true)">Reject</a>
-								<a role="button" class="btn btn-primary mr-0" onclick="approve_marsey(this, '{{marsey.name}}')">Approve</a>
-							</div>
-						{% endif %}
+						<div class="d-flex my-4 mx-3">
+							<a role="button" class="btn btn-primary ml-auto" onclick="remove_marsey(this, '{{marsey.name}}')">Remove</a>
+							{% if v.admin_level > 2 %}
+								<a role="button" class="btn btn-primary ml-3" onclick="approve_marsey(this, '{{marsey.name}}')">Approve</a>
+							{% endif %}
+						</div>
 					</div>
 				{% endfor %}
 			</div>
