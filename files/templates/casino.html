@@ -2,30 +2,26 @@
 
 {# Title (~25char max), Description (~80char max),
 Icon (fa-foo-bar), Color (#ff0000), URL (/post/12345/) #}
-{%- set GAME_INDEX = [] -%}
-
-{%- if SITE_NAME == 'rDrama' -%}
-	{%- do GAME_INDEX.extend([
-		(
-			'Slots',
-			'Today\'s your lucky day',
-			'fa-dollar-sign', '#666',
-			'/casino/slots',
-		),
-		(
-			'Blackjack',
-			'Twenty one ways to change your life',
-			'fa-cards', '#333',
-			'/casino/blackjack',
-		),
-		(
-			'Lottershe',
-			'Can\'t win if you don\'t play.',
-			'fa-ticket', '#888',
-			'/lottershe',
-		)
-	])-%}
-{%- endif -%}
+{%- set GAME_INDEX = [
+	(
+		'Slots',
+		'Today\'s your lucky day',
+		'fa-dollar-sign', '#666',
+		'/casino/slots',
+	),
+	(
+		'Blackjack',
+		'Twenty one ways to change your life',
+		'fa-cards', '#333',
+		'/casino/blackjack',
+	),
+	(
+		'Lottershe',
+		'Can\'t win if you don\'t play.',
+		'fa-ticket', '#888',
+		'/lottershe',
+	)
+]-%}
 
 {% block content %}
 <h2 style="text-transform: uppercase; text-align: center; letter-spacing: 3px; margin-top: 2rem;">rDrama.net Casino</h2>
