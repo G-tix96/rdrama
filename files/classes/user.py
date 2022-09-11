@@ -49,7 +49,7 @@ class User(Base):
 	highres = Column(String)
 	profileurl = Column(String)
 	bannerurl = Column(String)
-	house = Column(String)
+	house = Column(String, default='')
 	old_house = Column(String)
 	patron = Column(Integer, default=0)
 	patron_utc = Column(Integer, default=0)

@@ -387,7 +387,7 @@ class Submission(Base):
 
 				if v:
 					sub = self.sub
-					if sub in ('furry','vampire','racist','femboy') and not (v.house and v.house.lower().startswith(sub)): body += ' disabled '
+					if sub in ('furry','vampire','racist','femboy') and not v.house.lower().startswith(sub): body += ' disabled '
 					body += f''' onchange="poll_vote_{o.exclusive}('{o.id}', '{self.id}', 'post')"'''
 				else:
 					body += f''' onchange="poll_vote_no_v()"'''
