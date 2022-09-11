@@ -6279,3 +6279,8 @@ div.markdown {
 .table th, .table td {
 	vertical-align: middle;
 }
+
+.directory--link:focus, .directory--link:active, .directory--link:hover {
+	border: 1px solid var(--primary);
+	text-decoration: none;
+}
