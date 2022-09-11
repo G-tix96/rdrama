@@ -95,8 +95,8 @@ def blackjack_deal_to_player(v):
         feed = get_game_feed('blackjack')
 
         return {"success": True, "state": state, "feed": feed}
-    except Exception as error:
-        return {"error": error}
+    except Exception as e:
+        return {"error": str(e)}
 
 
 @app.post("/casino/twentyone/hit")
