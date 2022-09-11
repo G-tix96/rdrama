@@ -398,7 +398,7 @@ def suicide(v, username):
 	suicide = f"Hi there,\n\nA [concerned user](/id/{v.id}) reached out to us about you.\n\nWhen you're in the middle of something painful, it may feel like you don't have a lot of options. But whatever you're going through, you deserve help and there are people who are here for you.\n\nThere are resources available in your area that are free, confidential, and available 24/7:\n\n- Call, Text, or Chat with Canada's [Crisis Services Canada](https://www.crisisservicescanada.ca/en/)\n- Call, Email, or Visit the UK's [Samaritans](https://www.samaritans.org/)\n- Text CHAT to America's [Crisis Text Line](https://www.crisistextline.org/) at 741741.\nIf you don't see a resource in your area above, the moderators keep a comprehensive list of resources and hotlines for people organized by location. Find Someone Now\n\nIf you think you may be depressed or struggling in another way, don't ignore it or brush it aside. Take yourself and your feelings seriously, and reach out to someone.\n\nIt may not feel like it, but you have options. There are people available to listen to you, and ways to move forward.\n\nYour fellow users care about you and there are people who want to help."
 	if not v.shadowbanned:
 		send_notification(user.id, suicide)
-	return {"message": "Help message sent!"}
+	return {"message": f"Help message sent to @{user.username}"}
 
 
 @app.get("/@<username>/coins")
@@ -448,7 +448,7 @@ def transfer_coins(v, username):
 		g.db.add(receiver)
 		g.db.add(v)
 
-		return {"message": f"{amount-tax} coins transferred!"}, 200
+		return {"message": f"{amount-tax} coins have been transferred to @{receiver.username}"}, 200
 
 	return {"message": "You can't transfer coins to yourself!"}, 400
 
@@ -489,7 +489,7 @@ def transfer_bux(v, username):
 
 		g.db.add(receiver)
 		g.db.add(v)
-		return {"message": f"{amount} marseybux transferred!"}, 200
+		return {"message": f"{amount} marseybux have been transferred to @{receiver.username}"}, 200
 
 	return {"message": "You can't transfer marseybux to yourself!"}, 400
 
@@ -669,7 +669,7 @@ def song(song):
 def subscribe(v, post_id):
 	new_sub = Subscription(user_id=v.id, submission_id=post_id)
 	g.db.add(new_sub)
-	return {"message": "Post subscribed!"}
+	return {"message": "Subscribed to post successfully!"}
 	
 @app.post("/unsubscribe/<post_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -679,7 +679,7 @@ def unsubscribe(v, post_id):
 	sub=g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
 	if sub:
 		g.db.delete(sub)
-	return {"message": "Post unsubscribed!"}
+	return {"message": "Unsubscribed from post successfully!"}
 
 @app.post("/@<username>/message")
 @limiter.limit("1/second;10/minute;20/hour;50/day")
@@ -1163,7 +1163,7 @@ def follow_user(username, v):
 		return {"error": "This user has disallowed other users from following them!"}, 403
 
 	if g.db.query(Follow).filter_by(user_id=v.id, target_id=target.id).one_or_none():
-		return {"message": "User followed!"}
+		return {"message": f"@{target.username} has been followed!"}
 
 	new_follow = Follow(user_id=v.id, target_id=target.id)
 	g.db.add(new_follow)
@@ -1176,7 +1176,7 @@ def follow_user(username, v):
 		send_notification(target.id, f"@{v.username} has followed you!")
 
 
-	return {"message": "User followed!"}
+	return {"message": f"@{target.username} has been followed!"}
 
 @app.post("/unfollow/<username>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -1204,7 +1204,7 @@ def unfollow_user(username, v):
 			send_notification(target.id, f"@{v.username} has unfollowed you!")
 
 
-	return {"message": "User unfollowed!"}
+	return {"message": f"@{target.username} has been unfollowed!"}
 
 @app.post("/remove_follow/<username>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -1215,7 +1215,7 @@ def remove_follow(username, v):
 
 	follow = g.db.query(Follow).filter_by(user_id=target.id, target_id=v.id).one_or_none()
 
-	if not follow: return {"message": "Follower removed!"}
+	if not follow: return {"message": f"@{target.username} has been removed as a follower!"}
 
 	g.db.delete(follow)
 	
@@ -1226,7 +1226,7 @@ def remove_follow(username, v):
 	send_repeatable_notification(target.id, f"@{v.username} has removed your follow!")
 
 
-	return {"message": "Follower removed!"}
+	return {"message": f"@{target.username} has been removed as a follower!"}
 
 @app.get("/pp/<id>")
 @app.get("/uid/<id>/pic")

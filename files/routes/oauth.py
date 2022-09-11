@@ -164,7 +164,7 @@ def admin_app_approve(v, aid):
 		g.db.add(ma)
 
 
-	return {"message": "Application approved"}
+	return {"message": f"'{app.app_name}' approved!"}
 
 
 @app.post("/admin/app/revoke/<aid>")
@@ -189,7 +189,7 @@ def admin_app_revoke(v, aid):
 		g.db.add(ma)
 
 
-	return {"message": "App revoked"}
+	return {"message": f"'{app.app_name}' revoked!"}
 
 
 @app.post("/admin/app/reject/<aid>")
@@ -214,7 +214,7 @@ def admin_app_reject(v, aid):
 		g.db.add(ma)
 
 
-	return {"message": "App rejected"}
+	return {"message": f"'{app.app_name}' rejected!"}
 
 
 @app.get("/admin/app/<aid>")
@@ -290,4 +290,4 @@ def reroll_oauth_tokens(aid, v):
 	g.db.add(a)
 
 
-	return {"message": "Client ID Rerolled", "id": a.client_id}
+	return {"message": f"Client ID for '{a.app_name}' has been rerolled!", "id": a.client_id}

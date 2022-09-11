@@ -116,7 +116,7 @@ def buy(v, award):
 		send_repeatable_notification(CARP_ID, f"@{v.username} has bought a `{award}` award!")
 
 
-	return {"message": "Award bought!"}
+	return {"message": f"{award} award bought!"}
 
 @app.post("/award/<thing_type>/<id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
