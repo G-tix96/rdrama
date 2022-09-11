@@ -111,6 +111,10 @@ def notifications_messages(v):
 	next_exists = (len(message_threads) > 25)
 	listing = message_threads[:25]
 
+	comments_unread = g.db.query(Comment).filter(Comment.id.in_(notifs_unread))
+	for c in comments_unread:
+		c.unread = True
+
 	if request.headers.get("Authorization"): return {"data":[x.json for x in listing]}
 
 	return render_template("notifications.html",
