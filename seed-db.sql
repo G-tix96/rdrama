@@ -1,23 +1,23 @@
 INSERT INTO public.users (username, passhash, created_utc, admin_level, over_18, is_activated, bio, bio_html, login_nonce, is_private,
 	unban_utc, original_username, customtitle, defaultsorting, defaultsortingcomments, defaulttime, namecolor, titlecolor,
 	customtitleplain, theme, themecolor, reddit, css, profilecss, coins, agendaposter,
-	post_count, comment_count, background, verified, truecoins, cardview, profileurl, highres, last_viewed_post_notifs, last_viewed_log_notifs, pronouns, marsify) VALUES
+	post_count, comment_count, background, verified, truecoins, cardview, profileurl, highres, last_viewed_post_notifs, last_viewed_log_notifs, pronouns, marsify, house) VALUES
 		('AutoJanny', '', extract(epoch from now()), 0, true, true, '', '', 0, false, 
 			0, 'AutoJanny', '', 'hot', 'top', 'day', 'ff66ac', 'ff66ac',
 			'', 'dark', 'ff66ac', 'old.reddit.com', '', '', 0, 0,
-			0, 0, '', 'Verified', 0, false, '/i/pfps/1.webp', '/i/pfps/1.webp', 0, 0, 'clean/itup', 0),
+			0, 0, '', 'Verified', 0, false, '/i/pfps/1.webp', '/i/pfps/1.webp', 0, 0, 'clean/itup', 0, ''),
 		('Snappy', '', extract(epoch from now()), 0, true, true, '', '', 0, false, 
 			0, 'Snappy', '', 'hot', 'top', 'day', '62ca56', 'e4432d',
 			'', 'dark', '30409f', 'old.reddit.com', '', '', 0, 0,
-			0, 0, '', 'Verified', 0, false, '/i/pfps/2.webp', '/i/pfps/2.webp', 0, 0,'beep/boop', 0),
+			0, 0, '', 'Verified', 0, false, '/i/pfps/2.webp', '/i/pfps/2.webp', 0, 0,'beep/boop', 0, ''),
 		('longpostbot', '', extract(epoch from now()), 0, true, true, '', '', 0, false, 
 			0, 'longpostbot', '', 'hot', 'top', 'day', '62ca56', 'e4432d',
 			'', 'dark', '30409f', 'old.reddit.com', '', '', 0, 0,
-			0, 0, '', 'Verified', 0, false, '/i/pfps/3.webp', '/i/pfps/3.webp', 0, 0, 'tl/dr', 0),
+			0, 0, '', 'Verified', 0, false, '/i/pfps/3.webp', '/i/pfps/3.webp', 0, 0, 'tl/dr', 0, ''),
 		('zozbot', '', extract(epoch from now()), 0, true, true, '', '', 0, false, 
 			0, 'zozbot', '', 'hot', 'top', 'day', '62ca56', 'e4432d',
 			'', 'dark', '30409f', 'old.reddit.com', '', '', 0, 0,
-			0, 0, '', 'Verified', 0, false, '/i/pfps/4.webp', '/i/pfps/4.webp', 0, 0,'zoz/zle', 0);
+			0, 0, '', 'Verified', 0, false, '/i/pfps/4.webp', '/i/pfps/4.webp', 0, 0,'zoz/zle', 0, '');
 
 INSERT INTO public.marseys VALUES
 ('marseyvirus', 1, 'phage infect infection plagued', 0),
