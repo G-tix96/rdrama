@@ -56,10 +56,10 @@
 							<input autocomplete="off" type="text" id="name" class="form-control" name="name" maxlength="50" pattern='[a-zA-Z0-9\-() ,_]{1,50}' required>
 
 							<label class="mt-3" for="author">Author</label>
-							<input autocomplete="off" type="text" id="author" class="form-control" name="author" value="{{v.username.lower()}}" maxlength="30"  pattern='[a-z0-9_\-]{3,30}' required>
+							<input autocomplete="off" type="text" id="author" class="form-control" name="author" value="{{v.username.lower()}}" maxlength="30" pattern='[a-zA-Z0-9_\-]{3,30}' required>
 
 							<label class="mt-3" for="description">Description</label>
-							<input autocomplete="off" type="text" id="description" class="form-control" name="description" maxlength="300" pattern='[^<>]{1,300}' required>
+							<input autocomplete="off" type="text" id="description" class="form-control" name="description" maxlength="300" pattern='[^<>&\n\t]{1,300}' required>
 
 							<div class="footer mt-5">
 								<div class="d-flex">
@@ -149,7 +149,7 @@
 								<input autocomplete="off" type="text" id="{{hat.name}}-author" class="form-control" maxlength="30" value="{{hat.author.username}}" readonly>
 
 								<label class="mt-3" for="{{hat.name}}-name">Name</label>
-								<input autocomplete="off" type="text" id="{{hat.name}}-name" class="form-control" name="name" maxlength="30" value="{{hat.name}}" pattern='hat[a-z0-9]{1,24}' required>
+								<input autocomplete="off" type="text" id="{{hat.name}}-name" class="form-control" name="name" maxlength="30" value="{{hat.name}}" pattern='hat[a-zA-Z0-9]{1,24}' required>
 		
 								<label class="mt-3" for="{{hat.name}}-description">Description</label>
 								<input autocomplete="off" type="text" id="{{hat.name}}-description" class="form-control" name="description" maxlength="300" value="{{hat.description}}" pattern='[^<>&\n\t]{1,300}' required>
