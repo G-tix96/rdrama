@@ -6284,3 +6284,7 @@ div.markdown {
 	border: 1px solid var(--primary);
 	text-decoration: none;
 }
+
+.directory--link:hover * {
+    color: var(--primary) !important;
+}
