@@ -989,13 +989,6 @@ def u_username(username, v=None):
 		return render_template("userpage_blocking.html", u=u, v=v)
 
 
-	if v and v.admin_level < 2 and hasattr(u, 'is_blocked') and u.is_blocked:
-		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
-			return {"error": "This person is blocking you."}, 403
-
-		return render_template("userpage_blocked.html", u=u, v=v)
-
-
 	sort = request.values.get("sort", "new")
 	t = request.values.get("t", "all")
 	try: page = max(int(request.values.get("page", 1)), 1)
@@ -1085,12 +1078,6 @@ def u_username_comments(username, v=None):
 		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
 			return {"error": f"You are blocking @{u.username}."}, 403
 		return render_template("userpage_blocking.html", u=u, v=v)
-
-	if v and v.admin_level < 2 and hasattr(u, 'is_blocked') and u.is_blocked:
-		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
-			return {"error": "This person is blocking you."}, 403
-		return render_template("userpage_blocked.html", u=u, v=v)
-
 
 	try: page = max(int(request.values.get("page", "1")), 1)
 	except: page = 1
