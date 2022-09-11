@@ -1,5 +1,11 @@
 {% extends "default.html" %}
 {% block content %}
+<style>
+	.asset-submission {
+		max-width: 150px !important;
+		max-height: 150px !important;
+	}
+</style>
 <pre>
 
 	
@@ -17,7 +23,7 @@
 		<tr>
 			<td>{{loop.index}}</td>
 			<td>{{image}}</td>
-			<td><img loading="lazy" data-bs-toggle="tooltip" src="/asset_submissions/marseys/{{image}}"></td>
+			<td><img class="asset-submission" loading="lazy" alt="{{name}}" src="/asset_submissions/marseys/{{image}}"></td>
 		</tr>
 	{% endfor %}
 
