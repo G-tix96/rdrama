@@ -1,0 +1,27 @@
+{% extends "default.html" %}
+{% block content %}
+<pre>
+
+	
+</pre>
+<div class="overflow-x-auto"><table class="table table-striped mb-5">
+<thead class="bg-primary text-white">
+	<tr>
+		<th>#</th>
+		<th>Name</th>
+		<th>Image</th>
+	</tr>
+</thead>
+<tbody id="marseys-table">
+	{% for image in images %}
+		<tr>
+			<td>{{loop.index}}</td>
+			<td>{{image}}</td>
+			<td><img loading="lazy" data-bs-toggle="tooltip" src="/asset_submissions/marseys/{{image}}"></td>
+		</tr>
+	{% endfor %}
+
+</tbody>
+</table>
+
+{% endblock %}

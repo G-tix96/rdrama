@@ -1,4 +1,5 @@
 from shutil import move, copyfile
+from os import listdir
 
 from files.__main__ import app, limiter
 from files.helpers.const import *
@@ -6,6 +7,13 @@ from files.helpers.actions import *
 from files.helpers.media import *
 from files.helpers.wrappers import *
 from files.routes.static import marsey_list
+
+@app.get('/asset_submissions/marseys')
+@auth_required
+def asset_submissions_marseys(v):
+	images = [x for x in listdir("/asset_submissions/marseys") if x.endswith('png')]
+	return render_template("asset_submissions.html", v=v, images=images)
+
 
 @app.get('/asset_submissions/<path:path>')
 @limiter.exempt
