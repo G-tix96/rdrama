@@ -128,7 +128,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_CATEGORIES_CHANGE': 2, # change category on post ("recategorize")
 	'ADMIN_CATEGORIES_MANAGE': 3, # create/update/delete categories
 	'HOLE_CREATE': 0,
-	'CONTENT_THREADS': 3,
 	'FLAGS_REMOVE': 2,
 	'VOTES_VISIBLE': 0,
 	'USER_BLOCKS_VISIBLE': 0,
@@ -293,7 +292,6 @@ elif SITE == 'watchpeopledie.co':
 	FEATURES['PATRON_ICONS'] = True
 
 	PERMS['HOLE_CREATE'] = 2
-	PERMS['CONTENT_THREADS'] = 2
 
 	HOLE_NAME = 'flair'
 	HOLE_STYLE_FLAIR = True

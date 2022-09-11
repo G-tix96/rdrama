@@ -10,6 +10,24 @@
 <pre></pre>
 <h3>Admin Tools</h3>
 
+{% if v.admin_level > 2 and (SIDEBAR_THREAD or BANNER_THREAD or BADGE_THREAD or SNAPPY_THREAD) %}
+	<h4>Add Stuff</h4>
+	<ul>
+		{% if SIDEBAR_THREAD %}
+			<li><a href="/post/{{SIDEBAR_THREAD}}">Add Sidebar Images</a></li>
+		{% endif %}
+		{% if BANNER_THREAD %}
+			<li><a href="/post/{{BANNER_THREAD}}">Add Banners</a></li>
+		{% endif %}
+		{% if BADGE_THREAD %}
+			<li><a href="/post/{{BADGE_THREAD}}">Add Badges</a></li>
+		{% endif %}
+		{% if SNAPPY_THREAD %}
+			<li><a href="/post/{{SNAPPY_THREAD}}">Add Snappy Quotes</a></li>
+		{% endif %}
+	</ul>
+{% endif %}
+
 <h4>Content</h4>
 <ul>
 	<li><a href="/log">Moderation Log</a></li>
