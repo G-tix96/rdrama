@@ -30,7 +30,7 @@ def exile_post(v, pid):
 		send_notification(u.id, f"@{v.username} has exiled you from /h/{sub} for [{p.title}]({p.shortlink})")
 
 	
-	return {"message": "User exiled successfully!"}
+	return {"message": f"@{u.username} has been exiled from /h/{sub.name} successfully!"}
 
 
 
@@ -57,7 +57,7 @@ def exile_comment(v, cid):
 		send_notification(u.id, f"@{v.username} has exiled you from /h/{sub} for [{c.permalink}]({c.shortlink})")
 
 	
-	return {"message": "User exiled successfully!"}
+	return {"message": f"@{u.username} has been exiled from /h/{sub.name} successfully!"}
 
 
 @app.post("/h/<sub>/unexile/<uid>")
@@ -75,7 +75,10 @@ def unexile(v, sub, uid):
 
 	
 	
-	if request.headers.get("Authorization") or request.headers.get("xhr"): return {"message": "User unexiled successfully!"}
+	if request.headers.get("Authorization") or request.headers.get("xhr"):
+		return {"message": f"@{u.username} has been unexiled from /h/{sub.name} successfully!"}
+
+	
 	return redirect(f'/h/{sub}/exilees')
 
 
@@ -98,7 +101,7 @@ def block_sub(v, sub):
 		g.db.add(block)
 		cache.delete_memoized(frontlist)
 
-	return {"message": "Action successful!"}
+	return {"message": f"/h/{sub.name} blocked successfully!"}
 
 
 @app.post("/h/<sub>/unblock")
@@ -114,7 +117,7 @@ def unblock_sub(v, sub):
 		g.db.delete(block)
 		cache.delete_memoized(frontlist)
 
-	return {"message": "Action successful!"}
+	return {"message": f"/h/{sub.name} unblocked successfully!"}
 
 
 @app.post("/h/<sub>/subscribe")
@@ -131,7 +134,7 @@ def subscribe_sub(v, sub):
 		g.db.add(subscribe)
 		cache.delete_memoized(frontlist)
 
-	return {"message": "Action successful!"}
+	return {"message": f"/h/{sub.name} unblocked successfully!"}
 
 @app.post("/h/<sub>/unsubscribe")
 @auth_required
@@ -146,7 +149,7 @@ def unsubscribe_sub(v, sub):
 		g.db.delete(subscribe)
 		cache.delete_memoized(frontlist)
 
-	return {"message": "Action successful!"}
+	return {"message": f"/h/{sub.name} blocked successfully!"}
 
 @app.post("/h/<sub>/follow")
 @auth_required
@@ -161,7 +164,7 @@ def follow_sub(v, sub):
 		g.db.add(subscription)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"Action successful!"}
+	return {"message": f"/h/{sub.name} followed successfully!"}
 
 @app.post("/h/<sub>/unfollow")
 @auth_required
@@ -175,7 +178,7 @@ def unfollow_sub(v, sub):
 		g.db.delete(subscription)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"Action successful!"}
+	return {"message": f"/h/{sub.name} unfollowed successfully!"}
 
 @app.get("/h/<sub>/mods")
 @auth_required
@@ -345,12 +348,13 @@ def kick(v, pid):
 	if not post.sub: abort(403)
 	if not v.mods(post.sub): abort(403)
 
+	old = post.sub
 	post.sub = None
 	g.db.add(post)
 
 	cache.delete_memoized(frontlist)
 
-	return {"message": "Post kicked successfully!"}
+	return {"message": f"Post kicked from /h/{old} successfully!"}
 
 @app.get('/h/<sub>/settings')
 @is_not_permabanned
@@ -518,7 +522,7 @@ def hole_pin(v, pid):
 		message = f"@{v.username} (Mod) has pinned your [post]({p.shortlink}) in /h/{p.sub}"
 		send_repeatable_notification(p.author_id, message)
 
-	return {"message": f"Post pinned to /h/{p.sub}"}
+	return {"message": f"Post pinned to /h/{p.sub} successfully!"}
 
 @app.post("/hole_unpin/<pid>")
 @auth_required
@@ -536,7 +540,7 @@ def hole_unpin(v, pid):
 		message = f"@{v.username} (Mod) has unpinned your [post]({p.shortlink}) in /h/{p.sub}"
 		send_repeatable_notification(p.author_id, message)
 
-	return {"message": f"Post unpinned from /h/{p.sub}"}
+	return {"message": f"Post unpinned from /h/{p.sub} successfully!"}
 
 
 @app.post('/h/<sub>/stealth')
@@ -554,6 +558,6 @@ def sub_stealth(v, sub):
 	cache.delete_memoized(frontlist)
 
 	if sub.stealth:
-		return {"message": f"Stealth mode enabled!"}
+		return {"message": f"Stealth mode has been enabled for /h/{sub.name} successfully!"}
 	else:
-		return {"message": f"Stealth mode disabled!"}
+		return {"message": f"Stealth mode has been disabled for /h/{sub.name} successfully!"}

@@ -221,11 +221,14 @@ def submit_hat(v):
 		os.remove(highquality)
 		return error("Images must be 100x130")
 
+	if len(list(Iterator(i))) > 1: price = 1000
+	else: price = 500
+
 	filename = f'/asset_submissions/hats/{name}.webp'
 	copyfile(highquality, filename)
 	process_image(filename)
 
-	hat = HatDef(name=name, author_id=author.id, description=description, price=500, submitter_id=v.id)
+	hat = HatDef(name=name, author_id=author.id, description=description, price=price, submitter_id=v.id)
 	g.db.add(hat)
 
 	g.db.commit()

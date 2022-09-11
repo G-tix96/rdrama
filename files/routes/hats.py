@@ -76,7 +76,7 @@ def buy_hat(v, hat_id):
 	elif v.num_of_owned_hats >= 25:
 		badge_grant(user=v, badge_id=152)
 
-	return {"message": "Hat bought!"}
+	return {"message": f"'{hat.name}' bought!"}
 
 
 @app.post("/equip_hat/<hat_id>")
@@ -93,7 +93,7 @@ def equip_hat(v, hat_id):
 	hat.equipped = True
 	g.db.add(hat)
 
-	return {"message": "Hat equipped!"}
+	return {"message": f"'{hat.name}' equipped!"}
 
 @app.post("/unequip_hat/<hat_id>")
 @auth_required
@@ -109,7 +109,7 @@ def unequip_hat(v, hat_id):
 	hat.equipped = False
 	g.db.add(hat)
 
-	return {"message": "Hat unequipped!"}
+	return {"message": f"'{hat.name}' unequipped!"}
 
 @app.get("/hat_owners/<hat_id>")
 @auth_required

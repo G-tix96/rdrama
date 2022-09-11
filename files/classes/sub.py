@@ -26,7 +26,7 @@ class Sub(Base):
 	followers = relationship("SubSubscription", primaryjoin="SubSubscription.sub==Sub.name")
 
 	def __repr__(self):
-		return f"<Sub(name={self.name})>"
+		return self.name
 
 	@property
 	@lazy

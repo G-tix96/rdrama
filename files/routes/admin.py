@@ -170,7 +170,7 @@ def make_admin(v, username):
 	)
 	g.db.add(ma)
 
-	return {"message": "User has been made admin!"}
+	return {"message": f"@{user.username} has been made admin!"}
 
 
 @app.post("/@<username>/remove_admin")
@@ -187,7 +187,7 @@ def remove_admin(v, username):
 	)
 	g.db.add(ma)
 
-	return {"message": "Admin removed!"}
+	return {"message": f"@{user.username} has been removed as admin!"}
 
 @app.post("/distribute/<option_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -299,7 +299,7 @@ def revert_actions(v, username):
 				send_repeatable_notification(u.id, f"@{v.username} has unbanned you!")
 			g.db.add(u)
 
-	return {"message": "Admin actions reverted!"}
+	return {"message": f"@{user.username}'s admin actions has been reverted!"}
 
 @app.post("/@<username>/club_allow")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -326,7 +326,7 @@ def club_allow(v, username):
 	)
 	g.db.add(ma)
 
-	return {"message": f"@{username} has been allowed into the {CC_TITLE}!"}
+	return {"message": f"@{u.username} has been allowed into the {CC_TITLE}!"}
 
 @app.post("/@<username>/club_ban")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -352,7 +352,7 @@ def club_ban(v, username):
 	)
 	g.db.add(ma)
 
-	return {"message": f"@{username} has been kicked from the {CC_TITLE}. Deserved."}
+	return {"message": f"@{u.username} has been kicked from the {CC_TITLE}. Deserved."}
 
 
 @app.get("/admin/shadowbanned")
@@ -897,7 +897,7 @@ def unagendaposter(user_id, v):
 
 	send_repeatable_notification(user.id, f"@{v.username} has unmarked you as a chud.")
 
-	return {"message": "Chud theme disabled!"}
+	return {"message": f"@{user.username}'s chud theme has been disabled!"}
 
 
 @app.post("/shadowban/<user_id>")
@@ -922,7 +922,7 @@ def shadowban(user_id, v):
 	g.db.add(ma)
 	
 	cache.delete_memoized(frontlist)
-	return {"message": "User shadowbanned!"}
+	return {"message": f"@{user.username} has been shadowbanned!"}
 
 
 @app.post("/unshadowban/<user_id>")
@@ -947,7 +947,7 @@ def unshadowban(user_id, v):
 	
 	cache.delete_memoized(frontlist)
 
-	return {"message": "User unshadowbanned!"}
+	return {"message": f"@{user.username} has been unshadowbanned!"}
 
 
 @app.post("/admin/title_change/<user_id>")
@@ -1045,7 +1045,7 @@ def ban_user(user_id, v):
 			g.db.add(comment)
 
 	if 'redir' in request.values: return redirect(user.url)
-	else: return {"message": f"@{user.username} was banned!"}
+	else: return {"message": f"@{user.username} has been banned!"}
 
 
 @app.post("/unban_user/<user_id>")
@@ -1079,7 +1079,7 @@ def unban_user(user_id, v):
 	g.db.add(ma)
 
 	if "@" in request.referrer: return redirect(user.url)
-	else: return {"message": f"@{user.username} was unbanned!"}
+	else: return {"message": f"@{user.username} has been unbanned!"}
 
 @app.post("/mute_user/<int:user_id>/<int:mute_status>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -1090,11 +1090,11 @@ def mute_user(v, user_id, mute_status):
 	if mute_status != 0 and not user.is_muted:
 		user.is_muted = True
 		log_action = 'mod_mute_user'
-		success_msg = f"@{user.username} was muted!"
+		success_msg = f"@{user.username} has been muted!"
 	elif mute_status == 0 and user.is_muted:
 		user.is_muted = False
 		log_action = 'mod_unmute_user'
-		success_msg = f"@{user.username} was un-muted!"
+		success_msg = f"@{user.username} has been un-muted!"
 	else:
 		abort(400)
 

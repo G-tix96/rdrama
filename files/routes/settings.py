@@ -315,7 +315,7 @@ def namecolor(v):
 	if color.startswith('#'): color = color[1:]
 
 	if not color_regex.fullmatch(color):
-		return render_template("settings_profile.html", v=v, error="Invalid color code")
+		return render_template("settings_profile.html", v=v, error="Invalid color hex code")
 
 	v.namecolor = color
 	g.db.add(v)
@@ -331,7 +331,7 @@ def themecolor(v):
 	if themecolor.startswith('#'): themecolor = themecolor[1:]
 
 	if not color_regex.fullmatch(themecolor):
-		return render_template("settings_profile.html", v=v, error="Invalid color code")
+		return render_template("settings_profile.html", v=v, error="Invalid color hex code")
 
 	v.themecolor = themecolor
 	g.db.add(v)
@@ -384,7 +384,7 @@ def titlecolor(v):
 	if titlecolor.startswith('#'): titlecolor = titlecolor[1:]
 
 	if not color_regex.fullmatch(titlecolor):
-		return render_template("settings_profile.html", v=v, error="Invalid color code")
+		return render_template("settings_profile.html", v=v, error="Invalid color hex code")
 	v.titlecolor = titlecolor
 	g.db.add(v)
 	return redirect("/settings/profile")
@@ -396,7 +396,7 @@ def titlecolor(v):
 def verifiedcolor(v):
 	verifiedcolor = str(request.values.get("verifiedcolor", "")).strip()
 	if verifiedcolor.startswith('#'): verifiedcolor = verifiedcolor[1:]
-	if len(verifiedcolor) != 6: return render_template("settings_profile.html", v=v, error="Invalid color code")
+	if len(verifiedcolor) != 6: return render_template("settings_profile.html", v=v, error="Invalid color hex code")
 	v.verifiedcolor = verifiedcolor
 	g.db.add(v)
 	return redirect("/settings/profile")
