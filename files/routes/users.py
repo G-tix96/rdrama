@@ -861,11 +861,7 @@ def mfa_qr(secret, v):
 	img.save(mem, format="PNG")
 	mem.seek(0, 0)
 
-	try: f = send_file(mem, mimetype="image/png", as_attachment=False)
-	except:
-		print('/2faqr/<secret>', flush=True)
-		abort(404)
-	return f
+	return send_file(mem, mimetype="image/png", as_attachment=False)
 
 
 @app.get("/is_available/<name>")

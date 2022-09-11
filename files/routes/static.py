@@ -306,11 +306,7 @@ def audio(path):
 
 @app.get("/robots.txt")
 def robots_txt():
-	try: f = send_file("assets/robots.txt")
-	except:
-		print('/robots.txt', flush=True)
-		abort(404)
-	return f
+	return send_file("assets/robots.txt")
 
 no = (21,22,23,24,25,26,27)
 

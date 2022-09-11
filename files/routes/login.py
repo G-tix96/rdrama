@@ -353,8 +353,7 @@ def sign_up_post(v):
 				badge_grant(user=ref_user, badge_id=12)
 
 	if email:
-		try: send_verification_email(new_user)
-		except Exception as e: print(e, flush=True)
+		send_verification_email(new_user)
 
 
 	check_for_alts(new_user.id)
