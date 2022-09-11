@@ -88,7 +88,7 @@ def process_video(file):
 
 
 
-def process_image(filename=None, resize=0):
+def process_image(filename=None, resize=0, trim=False):
 	size = os.stat(filename).st_size
 
 	if size > 16 * 1024 * 1024 or not patron and size > 8 * 1024 * 1024:
@@ -98,8 +98,11 @@ def process_image(filename=None, resize=0):
 	i = Image.open(filename)
 
 	if resize and i.width > resize:
-		try: subprocess.run(["convert", filename, "-coalesce", "-resize", f"{resize}>", filename])
-		except: pass
+		if trim and len(list(Iterator(i))) == 1:
+			subprocess.run(["convert", filename, "-coalesce", "-trim", "-resize", f"{resize}>", filename])
+		else:
+			try: subprocess.run(["convert", filename, "-coalesce", "-resize", f"{resize}>", filename])
+			except: pass
 	elif i.format.lower() != "webp":
 
 		exif = i.getexif()
