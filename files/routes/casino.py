@@ -87,13 +87,16 @@ def pull_slots(v):
 def blackjack_deal_to_player(v):
     if v.rehab: return {"error": "You are under Rehab award effect!"}
 
-    wager = int(request.values.get("wager"))
-    currency = request.values.get("currency")
-    create_new_game(v, wager, currency)
-    state = dispatch_action(v, BlackjackAction.DEAL)
-    feed = get_game_feed('blackjack')
+    try:
+        wager = int(request.values.get("wager"))
+        currency = request.values.get("currency")
+        create_new_game(v, wager, currency)
+        state = dispatch_action(v, BlackjackAction.DEAL)
+        feed = get_game_feed('blackjack')
 
-    return {"success": True, "state": state, "feed": feed}
+        return {"success": True, "state": state, "feed": feed}
+    except Exception as error:
+        return {"error": error}
 
 
 @app.post("/casino/twentyone/hit")
