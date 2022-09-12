@@ -11,13 +11,13 @@ from files.routes.static import marsey_list
 @app.get('/marseys/original')
 @auth_required
 def original_marseys(v):
-	images = listdir("/asset_submissions/marseys/original")
+	images = sorted(listdir("/asset_submissions/marseys/original"))
 	return render_template("original_assets.html", v=v, images=images, type="marseys")
 
 @app.get('/hats/original')
 @auth_required
 def original_hats(v):
-	images = listdir("/asset_submissions/hats/original")
+	images = sorted(listdir("/asset_submissions/hats/original"))
 	return render_template("original_assets.html", v=v, images=images, type="hats")
 
 @app.get('/asset_submissions/<path:path>')
