@@ -307,7 +307,7 @@ function switchEmojiTab(e)
 }
 
 async function start_search() {
-	emojiSearcher.addQuery(emojiSearchBarDOM.value.trim().toLowerCase());
+	emojiSearcher.addQuery(emojiSearchBarDOM.value.trim());
 
 	// Remove any selected tab, now it is meaningless
 	for(let i = 0; i < classesSelectorDOM.children.length; i++)
@@ -469,7 +469,7 @@ function update_speed_emoji_modal(event)
 {
 	const box_coords = update_ghost_div_textarea(event.target);
 
-	let text = event.target.value;
+	let text = event.target.value.toLowerCase();
 
 	// Unused, but left incase anyone wants to use this more efficient method for emojos
 	switch (event.data)
