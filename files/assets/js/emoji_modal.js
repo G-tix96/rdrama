@@ -139,6 +139,7 @@ const emojisSearchDictionary = {
 	 * @returns {Set}
 	 */
 	searchFor: function(query) {
+		query = query.toLowerCase()
 		if(this.dict.length === 0)
 			return new Set();
 
@@ -469,7 +470,7 @@ function update_speed_emoji_modal(event)
 {
 	const box_coords = update_ghost_div_textarea(event.target);
 
-	let text = event.target.value.toLowerCase();
+	let text = event.target.value;
 
 	// Unused, but left incase anyone wants to use this more efficient method for emojos
 	switch (event.data)
