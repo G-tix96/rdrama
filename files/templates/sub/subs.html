@@ -21,10 +21,10 @@
 		{% for sub, count in subs %}
 			<tr>
 				<td>{{loop.index}}</td>
-				<td><a href="/h/{{sub.name}}">{{sub.name}} {% if sub.name in v.all_blocks %}<span class="text-danger">[blocked, visit it to unblock it]</span>{% endif %}</a></td>
-				<td><a href="/h/{{sub.name}}" >{{count}}</a></td>
-				<td><a href="/h/{{sub.name}}/followers">{{sub.follow_num}}</a></td>
-				<td><a href="/h/{{sub.name}}/blockers">{{sub.block_num}}</a></td>
+				<td><a href="/h/{{sub}}">{{sub}} {% if sub.name in v.all_blocks %}<span class="text-danger">[blocked, visit it to unblock it]</span>{% endif %}</a></td>
+				<td><a href="/h/{{sub}}" >{{count}}</a></td>
+				<td><a href="/h/{{sub}}/followers">{{sub.follow_num}}</a></td>
+				<td><a href="/h/{{sub}}/blockers">{{sub.block_num}}</a></td>
 			</tr>
 		{% endfor %}
 	</table>

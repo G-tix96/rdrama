@@ -38,11 +38,11 @@
 				<a class="btn btn-primary btn-block mb-3" href="/create_hole">CREATE {{HOLE_NAME|upper}}</a>
 			{%- endif %}
 			{% if v.mods(sub.name) %}
-				<a class="btn btn-primary btn-block mb-3" href="/h/{{sub.name}}/settings">{{HOLE_NAME|upper}} SETTINGS</a>
+				<a class="btn btn-primary btn-block mb-3" href="/h/{{sub}}/settings">{{HOLE_NAME|upper}} SETTINGS</a>
 			{% endif %}
 		{% endif %}
-		<a class="btn btn-primary btn-block mb-3" href="/h/{{sub.name}}/mods">{{HOLE_NAME|upper}} MODS</a>
-		<a class="btn btn-primary btn-block mb-3" href="/h/{{sub.name}}/exilees">{{HOLE_NAME|upper}} EXILEES</a>
+		<a class="btn btn-primary btn-block mb-3" href="/h/{{sub}}/mods">{{HOLE_NAME|upper}} MODS</a>
+		<a class="btn btn-primary btn-block mb-3" href="/h/{{sub}}/exilees">{{HOLE_NAME|upper}} EXILEES</a>
 	{% else %}
 		<a id="sidebar--directory--btn" class="btn btn-primary btn-block mb-3" href="/directory">
 			<span id="sidebar--directory--head">DIRECTORY</span>

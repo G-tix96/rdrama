@@ -52,7 +52,7 @@
 	{% endif %}
 
 	{% if sub and sub.css and not request.path.endswith('settings') and not request.values.get('nocss') %}
-		<link rel="stylesheet" href="/h/{{sub.name}}/css" type="text/css">
+		<link rel="stylesheet" href="/h/{{sub}}/css" type="text/css">
 	{% endif %}
 
 	{% if v and v.themecolor == '30409f' %}
@@ -268,7 +268,7 @@
 	{% if '@' not in request.path %}	
 		{% if sub and SITE_NAME != 'WPD' %}
 			<a href="{{sub.banner_url}}">
-				<img alt="/h/{{sub.name}} banner" onclick="expandDesktopImage()" src="{{sub.banner_url}}" width=100% style="object-fit:cover;max-height:min(42vh,30vw)!important">
+				<img alt="/h/{{sub}} banner" onclick="expandDesktopImage()" src="{{sub.banner_url}}" width=100% style="object-fit:cover;max-height:min(42vh,30vw)!important">
 			</a>
 		{% elif SITE_NAME == 'rDrama' %}
 			<a href="https://secure.transequality.org/site/Donation2?df_id=1480">

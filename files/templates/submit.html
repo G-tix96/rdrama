@@ -67,7 +67,7 @@
 
 		
 		<div class="submit-grid-view">
-			<form id="submitform" action="{% if sub %}/h/{{sub.name}}{% endif %}/submit" method="post" enctype="multipart/form-data" style="grid-column: 2">
+			<form id="submitform" action="{% if sub %}/h/{{sub}}{% endif %}/submit" method="post" enctype="multipart/form-data" style="grid-column: 2">
 
 				<div class="container">
 
@@ -85,7 +85,7 @@
 
 												<div class="input-group mb2">
 													{%- set hole_placeholder = 'Required' if HOLE_REQUIRED else 'Optional' -%}
-													<input list="subs" autocomplete="off" id='sub' class="form-control" form="submitform" name="sub" oninput="savetext()" onchange="updateCategories()" {% if sub %}value="{{sub.name}}"{% endif %} placeholder="{{hole_placeholder}}">
+													<input list="subs" autocomplete="off" id='sub' class="form-control" form="submitform" name="sub" oninput="savetext()" onchange="updateCategories()" {% if sub %}value="{{sub}}"{% endif %} placeholder="{{hole_placeholder}}">
 													<datalist id="subs">
 														{% for s in SUBS %}
 															<option value="{{s}}"></option>

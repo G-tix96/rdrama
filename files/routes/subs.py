@@ -30,7 +30,7 @@ def exile_post(v, pid):
 		send_notification(u.id, f"@{v.username} has exiled you from /h/{sub} for [{p.title}]({p.shortlink})")
 
 	
-	return {"message": f"@{u.username} has been exiled from /h/{sub.name} successfully!"}
+	return {"message": f"@{u.username} has been exiled from /h/{sub} successfully!"}
 
 
 
@@ -57,7 +57,7 @@ def exile_comment(v, cid):
 		send_notification(u.id, f"@{v.username} has exiled you from /h/{sub} for [{c.permalink}]({c.shortlink})")
 
 	
-	return {"message": f"@{u.username} has been exiled from /h/{sub.name} successfully!"}
+	return {"message": f"@{u.username} has been exiled from /h/{sub} successfully!"}
 
 
 @app.post("/h/<sub>/unexile/<uid>")
@@ -76,7 +76,7 @@ def unexile(v, sub, uid):
 	
 	
 	if request.headers.get("Authorization") or request.headers.get("xhr"):
-		return {"message": f"@{u.username} has been unexiled from /h/{sub.name} successfully!"}
+		return {"message": f"@{u.username} has been unexiled from /h/{sub} successfully!"}
 
 	
 	return redirect(f'/h/{sub}/exilees')
@@ -101,7 +101,7 @@ def block_sub(v, sub):
 		g.db.add(block)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"/h/{sub.name} blocked successfully!"}
+	return {"message": f"/h/{sub} blocked successfully!"}
 
 
 @app.post("/h/<sub>/unblock")
@@ -117,7 +117,7 @@ def unblock_sub(v, sub):
 		g.db.delete(block)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"/h/{sub.name} unblocked successfully!"}
+	return {"message": f"/h/{sub} unblocked successfully!"}
 
 
 @app.post("/h/<sub>/subscribe")
@@ -134,7 +134,7 @@ def subscribe_sub(v, sub):
 		g.db.add(subscribe)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"/h/{sub.name} unblocked successfully!"}
+	return {"message": f"/h/{sub} unblocked successfully!"}
 
 @app.post("/h/<sub>/unsubscribe")
 @auth_required
@@ -149,7 +149,7 @@ def unsubscribe_sub(v, sub):
 		g.db.delete(subscribe)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"/h/{sub.name} blocked successfully!"}
+	return {"message": f"/h/{sub} blocked successfully!"}
 
 @app.post("/h/<sub>/follow")
 @auth_required
@@ -164,7 +164,7 @@ def follow_sub(v, sub):
 		g.db.add(subscription)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"/h/{sub.name} followed successfully!"}
+	return {"message": f"/h/{sub} followed successfully!"}
 
 @app.post("/h/<sub>/unfollow")
 @auth_required
@@ -178,7 +178,7 @@ def unfollow_sub(v, sub):
 		g.db.delete(subscription)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"/h/{sub.name} unfollowed successfully!"}
+	return {"message": f"/h/{sub} unfollowed successfully!"}
 
 @app.get("/h/<sub>/mods")
 @auth_required
@@ -333,9 +333,9 @@ def create_sub2(v):
 
 		admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level > 1, User.id != v.id).all()]
 		for admin in admins:
-			send_repeatable_notification(admin, f":!marseyparty: /h/{sub.name} has been created by @{v.username} :marseyparty:")
+			send_repeatable_notification(admin, f":!marseyparty: /h/{sub} has been created by @{v.username} :marseyparty:")
 
-	return redirect(f'/h/{sub.name}')
+	return redirect(f'/h/{sub}')
 
 @app.post("/kick/<pid>")
 @is_not_permabanned
@@ -384,7 +384,7 @@ def post_sub_sidebar(v, sub):
 	g.db.add(sub)
 
 
-	return redirect(f'/h/{sub.name}/settings')
+	return redirect(f'/h/{sub}/settings')
 
 
 @app.post('/h/<sub>/css')
@@ -409,7 +409,7 @@ def post_sub_css(v, sub):
 	sub.css = css
 	g.db.add(sub)
 
-	return redirect(f'/h/{sub.name}/settings')
+	return redirect(f'/h/{sub}/settings')
 
 
 @app.get("/h/<sub>/css")
@@ -446,7 +446,7 @@ def sub_banner(v, sub):
 		sub.bannerurl = bannerurl
 		g.db.add(sub)
 
-	return redirect(f'/h/{sub.name}/settings')
+	return redirect(f'/h/{sub}/settings')
 
 @app.post("/h/<sub>/sidebar_image")
 @limiter.limit("1/second;10/day")
@@ -472,7 +472,7 @@ def sub_sidebar(v, sub):
 		sub.sidebarurl = sidebarurl
 		g.db.add(sub)
 
-	return redirect(f'/h/{sub.name}/settings')
+	return redirect(f'/h/{sub}/settings')
 
 @app.post("/h/<sub>/marsey_image")
 @limiter.limit("1/second;10/day")
@@ -498,7 +498,7 @@ def sub_marsey(v, sub):
 		sub.marseyurl = marseyurl
 		g.db.add(sub)
 
-	return redirect(f'/h/{sub.name}/settings')
+	return redirect(f'/h/{sub}/settings')
 
 @app.get("/holes")
 @auth_desired_with_logingate
@@ -558,6 +558,6 @@ def sub_stealth(v, sub):
 	cache.delete_memoized(frontlist)
 
 	if sub.stealth:
-		return {"message": f"Stealth mode has been enabled for /h/{sub.name} successfully!"}
+		return {"message": f"Stealth mode has been enabled for /h/{sub} successfully!"}
 	else:
-		return {"message": f"Stealth mode has been disabled for /h/{sub.name} successfully!"}
+		return {"message": f"Stealth mode has been disabled for /h/{sub} successfully!"}

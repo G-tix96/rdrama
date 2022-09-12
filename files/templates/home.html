@@ -11,10 +11,10 @@
 			{% set preview = sub.banner_url %}
 		{% endif %}
 
-		<title>/h/{{sub.name}}</title>
+		<title>/h/{{sub}}</title>
 		
 		<meta property="og:type" content="article">
-		<meta property="og:title" content="/h/{{sub.name}}">
+		<meta property="og:title" content="/h/{{sub}}">
 		<meta property="og:site_name" content="{{SITE}}">
 		<meta property="og:image" content="{{preview}}">
 		<meta property="og:url" content="{{request.full_path}}">
@@ -22,7 +22,7 @@
 
 		<meta name="twitter:card" content="summary_large_image">
 		<meta name="twitter:site" content="{{SITE_FULL}}">
-		<meta name="twitter:title" content="/h/{{sub.name}}">
+		<meta name="twitter:title" content="/h/{{sub}}">
 		<meta name="twitter:creator" content="{{SITE_FULL}}">
 		<meta name="twitter:image" content="{{preview}}">
 		<meta name="twitter:url" content="{{request.full_path}}">
@@ -40,25 +40,25 @@
 
 <div class="row" style="overflow: visible;padding-top:5px;">
 	<div class="col">
-		<a class="btn btn-primary btn-block mt-3" href="{% if sub %}/h/{{sub.name}}{% endif %}/submit"><i class="fas fa-feather-alt mr-2"></i>Create Post</a>
+		<a class="btn btn-primary btn-block mt-3" href="{% if sub %}/h/{{sub}}{% endif %}/submit"><i class="fas fa-feather-alt mr-2"></i>Create Post</a>
 
 		{% if sub %}
 			{% if v %}
 				{%- set hole_prefix = '/h/' if not HOLE_STYLE_FLAIR else '' -%}
 
 				{% if sub.stealth %}
-					<a id="subscribe-sub" class="btn btn-primary btn-block {% if v.subscribes(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/subscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock {{hole_prefix}}{{sub.name}}</a>
-					<a id="unsubscribe-sub" class="btn btn-primary btn-block {% if not v.subscribes(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/unsubscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub.name}}</a>					
+					<a id="subscribe-sub" class="btn btn-primary btn-block {% if v.subscribes(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub}}/subscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock {{hole_prefix}}{{sub}}</a>
+					<a id="unsubscribe-sub" class="btn btn-primary btn-block {% if not v.subscribes(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub}}/unsubscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub}}</a>					
 				{% else %}
-					<a id="block-sub" class="btn btn-primary btn-block mt-3 {% if v.blocks(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/block','block-sub','unblock-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub.name}}</a>
-					<a id="unblock-sub" class="btn btn-primary btn-block mt-3 {% if not v.blocks(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/unblock','block-sub','unblock-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock {{hole_prefix}}{{sub.name}}</a>
+					<a id="block-sub" class="btn btn-primary btn-block mt-3 {% if v.blocks(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub}}/block','block-sub','unblock-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub}}</a>
+					<a id="unblock-sub" class="btn btn-primary btn-block mt-3 {% if not v.blocks(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub}}/unblock','block-sub','unblock-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock {{hole_prefix}}{{sub}}</a>
 				{% endif %}
 
-				<a id="follow-sub" class="btn btn-primary btn-follow {% if v.follows(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/follow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell mr-2"></i>Follow {{hole_prefix}}{{sub.name}}</a>
-				<a id="unfollow-sub" class="btn btn-primary btn-follow {% if not v.follows(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub.name}}/unfollow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell-slash mr-2"></i>Unfollow {{hole_prefix}}{{sub.name}}</a>
+				<a id="follow-sub" class="btn btn-primary btn-follow {% if v.follows(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub}}/follow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell mr-2"></i>Follow {{hole_prefix}}{{sub}}</a>
+				<a id="unfollow-sub" class="btn btn-primary btn-follow {% if not v.follows(sub.name) %}d-none{% endif %}" onclick="post_toast(this,'/h/{{sub}}/unfollow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell-slash mr-2"></i>Unfollow {{hole_prefix}}{{sub}}</a>
 			{% else %}
-				<a class="btn btn-primary btn-block" href="/login"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub.name}}</a>
-				<a class="btn btn-primary btn-block" href="/login"><i class="fas fa-bell mr-2"></i>Follow {{hole_prefix}}{{sub.name}}</a>
+				<a class="btn btn-primary btn-block" href="/login"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub}}</a>
+				<a class="btn btn-primary btn-block" href="/login"><i class="fas fa-bell mr-2"></i>Follow {{hole_prefix}}{{sub}}</a>
 			{% endif %}
 		{% endif %}
 
