@@ -17,12 +17,12 @@
 	<ul class="nav settings-nav" style="padding:0 0 0 20px" id="notifications--nav-list">
 	<li class="nav-item">
 		<a class="nav-link py-3{% if request.path == '/notifications' %} active{% endif %}" href="/notifications">
-		All {% if v.normal_notifications_count %}<span class="font-weight-bold" style="color:#ff0000">({{v.normal_notifications_count}})</span>{% endif %}
+		All {% if v.normal_notifications_count %}<span class="font-weight-bold" style="color:#dc3545">({{v.normal_notifications_count}})</span>{% endif %}
 		</a>
 	</li>
 	<li class="nav-item">
 		<a class="nav-link py-3{% if request.path == '/notifications/messages' %} active{% endif %}" href="/notifications/messages">
-		Messages {% if v.message_notifications_count %}<span class="font-weight-bold" style="color:#ff0000">({{v.message_notifications_count}})</span>{% endif %}
+		Messages {% if v.message_notifications_count %}<span class="font-weight-bold" style="color:#d8910d">({{v.message_notifications_count}})</span>{% endif %}
 		</a>
 	</li>
 	<li class="nav-item">
@@ -33,7 +33,7 @@
 	{% if v.admin_level >= NOTIF_MODACTION_JL_MIN %}
 		<li class="nav-item">
 			<a class="nav-link py-3{% if request.path == '/notifications/modactions' %} active{% endif %}" href="/notifications/modactions">
-			Modactions {% if v.modaction_notifications_count %}<span class="font-weight-bold" style="color:#e5990d">({{v.modaction_notifications_count}})</span>{% endif %}
+			Modactions {% if v.modaction_notifications_count %}<span class="font-weight-bold" style="color:#1ad80d">({{v.modaction_notifications_count}})</span>{% endif %}
 			</a>
 		</li>
 	{% endif %}
