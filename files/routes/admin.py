@@ -583,7 +583,7 @@ def badge_grant_post(v):
 	)
 	g.db.add(ma)
 
-	return render_template("admin/badge_grant.html", v=v, badge_types=badges, msg="Badge granted!")
+	return render_template("admin/badge_grant.html", v=v, badge_types=badges, msg=f"{new_badge.name} Badge granted to @{user.username} successfully!")
 
 
 
@@ -629,7 +629,7 @@ def badge_remove_post(v):
 	g.db.delete(badge)
 
 
-	return render_template("admin/badge_remove.html", v=v, badge_types=badges, msg="Badge removed!")
+	return render_template("admin/badge_remove.html", v=v, badge_types=badges, msg=f"{badge.name} Badge removed from @{user.username} successfully!")
 
 
 @app.get("/admin/users")

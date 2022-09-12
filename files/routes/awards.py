@@ -471,6 +471,6 @@ def admin_userawards_post(v):
 	g.db.add(ma)
 
 
-	if v.admin_level != 3: return render_template("admin/awards.html", awards=list(AWARDS3.values()), v=v)
-	return render_template("admin/awards.html", awards=list(AWARDS.values()), v=v) 
+	if v.admin_level != 3: return render_template("admin/awards.html", awards=list(AWARDS3.values()), v=v, msg=f"Awards granted to @{u.username} successfully!")
+	return render_template("admin/awards.html", awards=list(AWARDS.values()), v=v, msg=f"Awards granted to @{u.username} successfully!") 
 

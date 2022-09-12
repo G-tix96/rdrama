@@ -224,7 +224,7 @@ def submit_contact(v):
 
 
 
-	return render_template("contact.html", v=v, msg="Your message has been sent.")
+	return render_template("contact.html", v=v, msg="Your message has been sent to the admins!")
 
 @app.get('/archives')
 def archivesindex():
