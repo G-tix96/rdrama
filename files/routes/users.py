@@ -696,7 +696,7 @@ def message2(v, username):
 
 	message = request.values.get("message", "").strip()[:10000].strip()
 
-	if not message: return {"error": "Message is empty!"}
+	if not message: return {"error": "Message is empty!"}, 400
 
 	if 'linkedin.com' in message: return {"error": "This domain 'linkedin.com' is banned."}, 403
 
@@ -761,18 +761,18 @@ def messagereply(v):
 	body = request.values.get("body", "").strip().replace('‎','')
 	body = body.replace('\r\n', '\n')[:10000]
 
-	if not body and not request.files.get("file"): return {"error": "Message is empty!"}
+	if not body and not request.files.get("file"): return {"error": "Message is empty!"}, 400
 
-	if 'linkedin.com' in body: return {"error": "this domain 'linkedin.com' is banned"}
+	if 'linkedin.com' in body: return {"error": "this domain 'linkedin.com' is banned"}, 400
 
 	id = int(request.values.get("parent_id"))
 	parent = get_comment(id, v=v)
 	user_id = parent.author.id
 
 	if v.is_suspended_permanently and parent.sentto != 2:
-		return {"error": "You are permabanned and may not reply to messages."}
+		return {"error": "You are permabanned and may not reply to messages."}, 400
 	elif v.is_muted and parent.sentto == 2:
-		return {"error": "You are forbidden from replying to modmail."}
+		return {"error": "You are forbidden from replying to modmail."}, 400
 
 	if parent.sentto == 2: user_id = None
 	elif v.id == user_id: user_id = parent.sentto
@@ -1189,7 +1189,7 @@ def unfollow_user(username, v):
 	if target.fish:
 		if not v.shadowbanned:
 			send_notification(target.id, f"@{v.username} has tried to unfollow you and failed because of your fish award!")
-		return {"error": "You can't unfollow this user!"}
+		return {"error": "You can't unfollow this user!"}, 400
 
 	follow = g.db.query(Follow).filter_by(user_id=v.id, target_id=target.id).one_or_none()
 

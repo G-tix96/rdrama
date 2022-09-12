@@ -9,7 +9,7 @@ import requests
 @is_not_permabanned
 def join_discord(v):
 	
-	if v.shadowbanned: return {"error": "Internal server error"}
+	if v.shadowbanned: return {"error": "Internal server error"}, 400
 	
 	now=int(time.time())
 

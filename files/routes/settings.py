@@ -258,7 +258,7 @@ def settings_profile_post(v):
 	if theme:
 		if theme in {"4chan","classic","classic_dark","coffee","dark","dramblr","light","midnight","transparent","tron","win98"}:
 			if theme == "transparent" and not v.background: 
-				return {"error": "You need to set a background to use the transparent theme!"}
+				return {"error": "You need to set a background to use the transparent theme!"}, 400
 			v.theme = theme
 			if theme == "win98": v.themecolor = "30409f"
 			updated = True
@@ -581,12 +581,12 @@ def settings_css_get(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def settings_css(v):
-	if v.agendaposter: return {"error": "Agendapostered users can't edit css!"}
+	if v.agendaposter: return {"error": "Agendapostered users can't edit css!"}, 400
 
 	css = request.values.get("css").strip().replace('\\', '').strip()[:4000]
 
 	if '</style' in css.lower():
-		return {"error": "Please message @Aevann if you get this error"}
+		return {"error": "Please message @Aevann if you get this error"}, 400
 
 	v.css = css
 	g.db.add(v)

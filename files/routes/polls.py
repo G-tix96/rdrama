@@ -19,10 +19,10 @@ def vote_option(option_id, v):
 	sub = option.post.sub
 
 	if sub in ('furry','vampire','racist','femboy') and not v.house.lower().startswith(sub):
-		return {"error": f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}"}
+		return {"error": f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}"}, 400
 
 	if option.exclusive == 2:
-		if v.coins < 200: return {"error": "You don't have 200 coins!"}
+		if v.coins < 200: return {"error": "You don't have 200 coins!"}, 400
 		v.coins -= 200
 		g.db.add(v)
 		autojanny = get_account(AUTOJANNY_ID)
@@ -35,7 +35,7 @@ def vote_option(option_id, v):
 			SubmissionOptionVote.submission_id==option.submission_id,
 			SubmissionOption.exclusive==option.exclusive).one_or_none()
 		if vote:
-			if option.exclusive == 2: return {"error": "You already voted on this bet!"}
+			if option.exclusive == 2: return {"error": "You already voted on this bet!"}, 400
 			g.db.delete(vote)
 
 	existing = g.db.query(SubmissionOptionVote).filter_by(option_id=option_id, user_id=v.id).one_or_none()
@@ -85,7 +85,7 @@ def vote_option_comment(option_id, v):
 	sub = option.comment.post.sub
 
 	if sub in ('furry','vampire','racist','femboy') and not v.house.lower().startswith(sub):
-		return {"error": f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}"}
+		return {"error": f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}"}, 400
 
 	if option.exclusive:
 		vote = g.db.query(CommentOptionVote).join(CommentOption).filter(

@@ -72,10 +72,10 @@ def searchposts(v):
 	if 'author' in criteria:
 		posts = posts.filter(Submission.ghost == False)
 		author = get_user(criteria['author'])
-		if not author: return {"error": "User not found"}
+		if not author: return {"error": "User not found"}, 400
 		if author.is_private and author.id != v.id and v.admin_level < 2 and not v.eye:
 			if request.headers.get("Authorization"):
-				return {"error": f"@{author.username}'s profile is private; You can't use the 'author' syntax on them"}
+				return {"error": f"@{author.username}'s profile is private; You can't use the 'author' syntax on them"}, 400
 			return render_template("search.html",
 								v=v,
 								query=query,
@@ -202,17 +202,17 @@ def searchcomments(v):
 	
 	if 'post' in criteria:
 		try: post = int(criteria['post'])
-		except: return {"error": f"Post with id {post} does not exist."}
+		except: return {"error": f"Post with id {post} does not exist."}, 400
 		comments = comments.filter(Comment.parent_submission == post)
 
 
 	if 'author' in criteria:
 		comments = comments.filter(Comment.ghost == False)
 		author = get_user(criteria['author'])
-		if not author: return {"error": "User not found"}
+		if not author: return {"error": "User not found"}, 400
 		if author.is_private and author.id != v.id and v.admin_level < 2 and not v.eye:
 			if request.headers.get("Authorization"):
-				return {"error": f"@{author.username}'s profile is private; You can't use the 'author' syntax on them"}
+				return {"error": f"@{author.username}'s profile is private; You can't use the 'author' syntax on them"}, 400
 
 			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, next_exists=False, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them.")
 

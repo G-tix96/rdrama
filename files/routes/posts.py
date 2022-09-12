@@ -1241,7 +1241,7 @@ def pin_post(post_id, v):
 
 	post = get_post(post_id)
 	if post:
-		if v.id != post.author_id: return {"error": "Only the post author's can do that!"}
+		if v.id != post.author_id: return {"error": "Only the post author's can do that!"}, 400
 		post.is_pinned = not post.is_pinned
 		g.db.add(post)
 
@@ -1249,7 +1249,7 @@ def pin_post(post_id, v):
 
 		if post.is_pinned: return {"message": "Post pinned!"}
 		else: return {"message": "Post unpinned!"}
-	return {"error": "Post not found!"}
+	return {"error": "Post not found!"}, 400
 
 
 extensions = (
