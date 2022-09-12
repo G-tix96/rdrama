@@ -5,6 +5,7 @@ from files.helpers.lazy import lazy
 from os import environ
 from .sub_block import *
 from .sub_subscription import *
+import time
 
 SITE_NAME = environ.get("SITE_NAME", '').strip()
 SITE = environ.get("DOMAIN", '').strip()
@@ -21,9 +22,14 @@ class Sub(Base):
 	marseyurl = Column(String)
 	css = Column(String)
 	stealth = Column(Boolean)
+	created_utc = Column(Integer)
 
 	blocks = relationship("SubBlock", primaryjoin="SubBlock.sub==Sub.name")
 	followers = relationship("SubSubscription", primaryjoin="SubSubscription.sub==Sub.name")
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return self.name

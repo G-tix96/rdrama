@@ -475,9 +475,6 @@ class User(Base):
 	def url(self):
 		return f"/@{self.username}"
 
-	def __repr__(self):
-		return f"<User(id={self.id})>"
-
 	@property
 	@lazy
 	def unban_string(self):

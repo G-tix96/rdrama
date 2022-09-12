@@ -11,6 +11,11 @@ class BadgeDef(Base):
 	id = Column(Integer, primary_key=True, autoincrement=True)
 	name = Column(String)
 	description = Column(String)
+	created_utc = Column(Integer)
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<BadgeDef(id={self.id})>"

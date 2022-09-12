@@ -1,7 +1,7 @@
 from sqlalchemy import *
 from sqlalchemy.orm import relationship
 from files.__main__ import Base
-
+import time
 
 class SaveRelationship(Base):
 
@@ -9,8 +9,13 @@ class SaveRelationship(Base):
 
 	user_id=Column(Integer, ForeignKey("users.id"), primary_key=True)
 	submission_id=Column(Integer, ForeignKey("submissions.id"), primary_key=True)
+	created_utc = Column(Integer)
 
 	post = relationship("Submission", uselist=False)
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<SaveRelationship(user_id={self.user_id}, submission_id={self.submission_id})>"
@@ -22,8 +27,13 @@ class CommentSaveRelationship(Base):
 
 	user_id=Column(Integer, ForeignKey("users.id"), primary_key=True)
 	comment_id=Column(Integer, ForeignKey("comments.id"), primary_key=True)
+	created_utc = Column(Integer)
 
 	comment = relationship("Comment", uselist=False)
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<CommentSaveRelationship(user_id={self.user_id}, comment_id={self.comment_id})>"

@@ -1,6 +1,7 @@
 from sqlalchemy import *
 from sqlalchemy.orm import relationship
 from files.__main__ import Base
+import time
 
 class Category(Base):
 	__tablename__ = "category"
@@ -10,6 +11,14 @@ class Category(Base):
 	sub = Column(String(20), ForeignKey("subs.name"))
 	color_text = Column(String(6))
 	color_bg = Column(String(6))
+	created_utc = Column(Integer)
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
+
+	def __repr__(self):
+		return f"<Category(id={self.id})>"
 
 	def as_json(self):
 		data = {

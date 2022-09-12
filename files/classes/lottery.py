@@ -4,7 +4,6 @@ from files.__main__ import Base
 from files.helpers.lazy import lazy
 from files.helpers.const import *
 
-
 class Lottery(Base):
 	__tablename__ = "lotteries"
 
@@ -14,6 +13,11 @@ class Lottery(Base):
 	prize = Column(Integer, default=0)
 	tickets_sold = Column(Integer, default=0)
 	winner_id = Column(Integer, ForeignKey("users.id"))
+	created_utc = Column(Integer)
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<Lottery(id={self.id})>"
