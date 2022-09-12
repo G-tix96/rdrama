@@ -24,6 +24,8 @@ RUN mkdir /audio
 RUN mkdir /asset_submissions
 RUN mkdir /asset_submissions/marseys
 RUN mkdir /asset_submissions/hats
+RUN mkdir /asset_submissions/marseys/original
+RUN mkdir /asset_submissions/hats/original
 
 EXPOSE 80/tcp
 

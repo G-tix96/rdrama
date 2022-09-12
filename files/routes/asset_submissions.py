@@ -1,5 +1,5 @@
 from shutil import move, copyfile
-from os import listdir
+from os import listdir, rename
 
 from files.__main__ import app, limiter
 from files.helpers.const import *
@@ -8,12 +8,17 @@ from files.helpers.media import *
 from files.helpers.wrappers import *
 from files.routes.static import marsey_list
 
-@app.get('/asset_submissions/marseys')
+@app.get('/marseys/original')
 @auth_required
-def asset_submissions_marseys(v):
-	images = [x for x in listdir("/asset_submissions/marseys") if x.endswith('.png')]
+def original_marseys(v):
+	images = listdir("/asset_submissions/marseys/original")
 	return render_template("asset_submissions.html", v=v, images=images)
 
+@app.get('/hats/original')
+@auth_required
+def original_hats(v):
+	images = listdir("/asset_submissions/hats/original")
+	return render_template("asset_submissions.html", v=v, images=images)
 
 @app.get('/asset_submissions/<path:path>')
 @limiter.exempt
@@ -74,7 +79,7 @@ def submit_marsey(v):
 	author = request.values.get('author').strip()
 	author = get_user(author)
 
-	highquality = f'/asset_submissions/marseys/{name}.png'
+	highquality = f'/asset_submissions/marseys/{name}'
 	file.save(highquality)
 
 	filename = f'/asset_submissions/marseys/{name}.webp'
@@ -125,8 +130,6 @@ def approve_marsey(v, name):
 	marsey.tags = tags
 	g.db.add(marsey)
 
-	move(f"/asset_submissions/marseys/{name}.webp", f"files/assets/images/emojis/{marsey.name}.webp")
-
 	author = get_account(marsey.author_id)
 	all_by_author = g.db.query(Marsey).filter_by(author_id=author.id).count()
 
@@ -146,6 +149,13 @@ def approve_marsey(v, name):
 		send_repeatable_notification(marsey.submitter_id, msg)
 
 	marsey.submitter_id = None
+
+	move(f"/asset_submissions/marseys/{name}.webp", f"files/assets/images/emojis/{marsey.name}.webp")
+
+	highquality = f"/asset_submissions/marseys/{name}"
+	with Image.open(highquality) as i:
+		new_path = f'/asset_submissions/marseys/original/{name}.{i.format.lower()}'
+	rename(highquality, new_path)
 
 	return {"message": f"'{marsey.name}' approved!"}
 
@@ -168,6 +178,7 @@ def remove_marsey(v, name):
 
 	g.db.delete(marsey)
 	os.remove(f"/asset_submissions/marseys/{marsey.name}.webp")
+	os.remove(f"/asset_submissions/marseys/{marsey.name}")
 
 	return {"message": f"'{marsey.name}' removed!"}
 
@@ -213,7 +224,7 @@ def submit_hat(v):
 	author = request.values.get('author').strip()
 	author = get_user(author)
 
-	highquality = f'/asset_submissions/hats/{name}.png'
+	highquality = f'/asset_submissions/hats/{name}'
 	file.save(highquality)
 
 	i = Image.open(highquality)
@@ -269,8 +280,6 @@ def approve_hat(v, name):
 	hat.description = description
 	g.db.add(hat)
 
-	move(f"/asset_submissions/hats/{name}.webp", f"files/assets/images/hats/{hat.name}.webp")
-
 
 	g.db.flush()
 	author = hat.author
@@ -300,6 +309,13 @@ def approve_hat(v, name):
 
 	hat.submitter_id = None
 
+	move(f"/asset_submissions/hats/{name}.webp", f"files/assets/images/hats/{hat.name}.webp")
+
+	highquality = f"/asset_submissions/hats/{name}"
+	with Image.open(highquality) as i:
+		new_path = f'/asset_submissions/hats/original/{name}.{i.format.lower()}'
+	rename(highquality, new_path)
+
 	return {"message": f"'{hat.name}' approved!"}
 
 
@@ -321,5 +337,6 @@ def remove_hat(v, name):
 
 	g.db.delete(hat)
 	os.remove(f"/asset_submissions/hats/{hat.name}.webp")
+	os.remove(f"/asset_submissions/hats/{hat.name}")
 
 	return {"message": f"'{hat.name}' removed!"}

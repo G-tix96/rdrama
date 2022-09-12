@@ -39,6 +39,8 @@ mkdir /audio
 mkdir /asset_submissions
 mkdir /asset_submissions/marseys
 mkdir /asset_submissions/hats
+mkdir /asset_submissions/marseys/original
+mkdir /asset_submissions/hats/original
 
 git config --global --add safe.directory /songs
 git config --global --add safe.directory /images
