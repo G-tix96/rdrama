@@ -95,7 +95,10 @@ def get_account(id, v=None, graceful=False):
 	except: abort(404)
 
 	user = g.db.get(User, id)
-	if not user and not graceful: abort(404)
+
+	if not user:
+		if not graceful: abort(404)
+		else: return None
 
 	if v:
 		block = g.db.query(UserBlock).filter(

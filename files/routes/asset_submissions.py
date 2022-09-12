@@ -12,13 +12,13 @@ from files.routes.static import marsey_list
 @auth_required
 def original_marseys(v):
 	images = listdir("/asset_submissions/marseys/original")
-	return render_template("asset_submissions.html", v=v, images=images)
+	return render_template("original_assets.html", v=v, images=images, type="marseys")
 
 @app.get('/hats/original')
 @auth_required
 def original_hats(v):
 	images = listdir("/asset_submissions/hats/original")
-	return render_template("asset_submissions.html", v=v, images=images)
+	return render_template("original_assets.html", v=v, images=images, type="hats")
 
 @app.get('/asset_submissions/<path:path>')
 @limiter.exempt
@@ -76,8 +76,10 @@ def submit_marsey(v):
 	if not tags_regex.fullmatch(tags):
 		return error("Invalid tags!")
 
-	author = request.values.get('author').strip()
-	author = get_user(author)
+	username = request.values.get('author').strip()
+	author = get_user(username, graceful=True)
+	if not author:
+		return error(f"A user with the name '{username}' was not found!")
 
 	highquality = f'/asset_submissions/marseys/{name}'
 	file.save(highquality)
@@ -221,8 +223,10 @@ def submit_hat(v):
 	if not description_regex.fullmatch(description):
 		return error("Invalid description!")
 
-	author = request.values.get('author').strip()
-	author = get_user(author)
+	username = request.values.get('author').strip()
+	author = get_user(username, graceful=True)
+	if not author:
+		return error(f"A user with the name '{username}' was not found!")
 
 	highquality = f'/asset_submissions/hats/{name}'
 	file.save(highquality)
