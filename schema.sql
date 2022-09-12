@@ -150,6 +150,7 @@ CREATE TABLE public.alts (
     user1 integer NOT NULL,
     user2 integer NOT NULL,
     is_manual boolean DEFAULT false NOT NULL,
+    created_utc integer,
     CONSTRAINT alts_cant_be_equal CHECK ((user1 <> user2))
 );
 
@@ -165,7 +166,8 @@ CREATE TABLE public.award_relationships (
     comment_id integer,
     kind character varying(20) NOT NULL,
     awarded_utc integer,
-    granted boolean
+    granted boolean,
+    created_utc integer
 );
 
 
@@ -196,7 +198,8 @@ ALTER SEQUENCE public.award_relationships_id_seq OWNED BY public.award_relations
 CREATE TABLE public.badge_defs (
     id integer NOT NULL,
     name character varying(50) NOT NULL,
-    description character varying(200)
+    description character varying(200),
+    created_utc integer
 );
 
 
@@ -239,7 +242,8 @@ CREATE TABLE public.badges (
 
 CREATE TABLE public.banneddomains (
     domain character varying(100) NOT NULL,
-    reason character varying(100) NOT NULL
+    reason character varying(100) NOT NULL,
+    created_utc integer
 );
 
 
@@ -289,7 +293,8 @@ CREATE TABLE public.category (
     name character varying(128) NOT NULL,
     sub character varying(25),
     color_text character(6),
-    color_bg character(6)
+    color_bg character(6),
+    created_utc integer
 );
 
 
@@ -320,7 +325,8 @@ ALTER SEQUENCE public.category_id_seq OWNED BY public.category.id;
 CREATE TABLE public.client_auths (
     user_id integer NOT NULL,
     oauth_client integer NOT NULL,
-    access_token character(128) NOT NULL
+    access_token character(128) NOT NULL,
+    created_utc integer
 );
 
 
@@ -357,7 +363,8 @@ CREATE TABLE public.comment_options (
     id integer DEFAULT nextval('public.comment_option_id_seq'::regclass) NOT NULL,
     comment_id integer NOT NULL,
     body_html character varying(500) NOT NULL,
-    exclusive integer NOT NULL
+    exclusive integer NOT NULL,
+    created_utc integer
 );
 
 
@@ -367,7 +374,8 @@ CREATE TABLE public.comment_options (
 
 CREATE TABLE public.comment_save_relationship (
     user_id integer NOT NULL,
-    comment_id integer NOT NULL
+    comment_id integer NOT NULL,
+    created_utc integer
 );
 
 
@@ -462,7 +470,8 @@ CREATE TABLE public.commentvotes (
 CREATE TABLE public.exiles (
     user_id integer NOT NULL,
     sub character varying(25) NOT NULL,
-    exiler_id integer NOT NULL
+    exiler_id integer NOT NULL,
+    created_utc integer
 );
 
 
@@ -499,7 +508,8 @@ CREATE TABLE public.hat_defs (
     description character varying(300) NOT NULL,
     author_id integer NOT NULL,
     price integer NOT NULL,
-    submitter_id integer
+    submitter_id integer,
+    created_utc integer
 );
 
 
@@ -530,7 +540,8 @@ ALTER SEQUENCE public.hat_defs_id_seq OWNED BY public.hat_defs.id;
 CREATE TABLE public.hats (
     hat_id integer NOT NULL,
     user_id integer NOT NULL,
-    equipped boolean
+    equipped boolean,
+    created_utc integer
 );
 
 
@@ -544,7 +555,8 @@ CREATE TABLE public.lotteries (
     ends_at integer DEFAULT 0 NOT NULL,
     prize integer DEFAULT 0 NOT NULL,
     tickets_sold integer DEFAULT 0 NOT NULL,
-    winner_id integer
+    winner_id integer,
+    created_utc integer
 );
 
 
@@ -577,7 +589,8 @@ CREATE TABLE public.marseys (
     author_id integer NOT NULL,
     tags character varying(200) NOT NULL,
     count integer DEFAULT 0 NOT NULL,
-    submitter_id integer
+    submitter_id integer,
+    created_utc integer
 );
 
 
@@ -650,7 +663,8 @@ CREATE TABLE public.oauth_apps (
     app_name character varying(50) NOT NULL,
     redirect_uri character varying(4096) NOT NULL,
     author_id integer NOT NULL,
-    description character varying(256) NOT NULL
+    description character varying(256) NOT NULL,
+    created_utc integer
 );
 
 
@@ -732,7 +746,8 @@ WITH (fillfactor='100');
 
 CREATE TABLE public.save_relationship (
     submission_id integer NOT NULL,
-    user_id integer NOT NULL
+    user_id integer NOT NULL,
+    created_utc integer
 );
 
 
@@ -742,7 +757,8 @@ CREATE TABLE public.save_relationship (
 
 CREATE TABLE public.sub_blocks (
     user_id integer NOT NULL,
-    sub character varying(25) NOT NULL
+    sub character varying(25) NOT NULL,
+    created_utc integer
 );
 
 
@@ -752,7 +768,8 @@ CREATE TABLE public.sub_blocks (
 
 CREATE TABLE public.sub_joins (
     user_id integer NOT NULL,
-    sub character varying(25) NOT NULL
+    sub character varying(25) NOT NULL,
+    created_utc integer
 );
 
 
@@ -762,7 +779,8 @@ CREATE TABLE public.sub_joins (
 
 CREATE TABLE public.sub_subscriptions (
     user_id integer NOT NULL,
-    sub character varying(25) NOT NULL
+    sub character varying(25) NOT NULL,
+    created_utc integer
 );
 
 
@@ -799,7 +817,8 @@ CREATE TABLE public.submission_options (
     id integer DEFAULT nextval('public.submission_option_id_seq'::regclass) NOT NULL,
     submission_id integer NOT NULL,
     body_html character varying(500) NOT NULL,
-    exclusive integer NOT NULL
+    exclusive integer NOT NULL,
+    created_utc integer
 );
 
 
@@ -835,7 +854,8 @@ CREATE TABLE public.subs (
     bannerurl character varying(60),
     css character varying(6000),
     stealth boolean,
-    marseyurl character varying(60)
+    marseyurl character varying(60),
+    created_utc integer
 );
 
 
@@ -845,7 +865,8 @@ CREATE TABLE public.subs (
 
 CREATE TABLE public.subscriptions (
     user_id integer NOT NULL,
-    submission_id integer NOT NULL
+    submission_id integer NOT NULL,
+    created_utc integer
 );
 
 
@@ -855,7 +876,8 @@ CREATE TABLE public.subscriptions (
 
 CREATE TABLE public.userblocks (
     user_id integer NOT NULL,
-    target_id integer NOT NULL
+    target_id integer NOT NULL,
+    created_utc integer
 );
 
 
@@ -1000,7 +1022,8 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 CREATE TABLE public.viewers (
     user_id integer NOT NULL,
     viewer_id integer NOT NULL,
-    last_view_utc integer NOT NULL
+    last_view_utc integer NOT NULL,
+    created_utc integer
 );
 
 
@@ -2597,140 +2620,140 @@ SET row_security = off;
 -- Data for Name: badge_defs; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.badge_defs (id, name, description) FROM stdin;
-136	TRAIN 2022	Beware: Found to be one of the most transmisic commenters on the site!
-137	Lottershe Winner	This user won the Lottershe grand prize.
-140	Y'all Seein' Eye	Gets notified when other sites talk about us
-141	Marsey Typographer	For substantial and exceptional contributions to Marsey Alphabet.
-142	Punching Down	This user mogs incels.
-143	Marsey God	Contributed 100 (or more!!!!) Marsey emojis ✨😻
-144	Energy Drink Enjoyer	Grip 'N Sip.
-147	Freebase Fiend	From the crack grew a glass rose.
-148	Blackpilled	Proud incel ally.
-149	Thin	This user has verified that they are calorically disciplined.
-139	Auspicious Incident	This user was fired from a volunteer position
-150	Verified	Bought a Blue Checkmark.
-151	Responsible Citizen	This user upheld democracy by committing voter fraud.
-152	Amateur Hathead	Collected 25 unique hats
-155	Ride Or Die Dramalo/Dramalette	When I die show no pity / Send my soul to the juggalo city / Dig my grave six feet deep / And put two matches by my feet / Put two hatchets on my chest / And tell my homies I did my best / WHOOP WHOOP
-156	Hole Neglecter	Brought a Hole into this world, only to let it die
-21	Paypig	Contributed at least $5
-22	Renthog	Contributed at least $10
-23	Landchad	Contributed at least $20
-24	Terminally online turboautist	Contributed at least $50
-157	A Minor Setback	Lost a 1,000 dramacoin bet. Keep going!
-158	Just One More Hand	Lost a 10,000 dramacoin bet. But it's fine, you're due for a big win!
-160	Lil Goombler	Won a 1,000 dramacoin bet. Nice job!
-162	King Goombler	Won a 100,000 dramacoin bet. Wipe your sweaty palms off and bet it all again, you're on a roll!
-163	Marsey Jacobs	Designed 10 hats!
-166	Giorgio Armarsey	Designed 250 hats 😲
-164	Marsey de Givenchy	Designed 50 hats, holy cap.
-168	BITTEN!	This user has been forcibly recruited to House Vampire
-170	Marsified	This user's comments get Marsified automatically
-167	OwOified	This user's comments get OwOified automatically
-169	Early Life Checked	The Early Life section of this user is on full display
-172	God Save The Kween	Commemorative badge awarded for outliving Her Maj
-174	George	@Marsey went to Spokane to fight @TrailerParkBride, but George the Mountain Lion was the real winner.
-4	White Hat	Discreetly reported an exploit
-1	Alpha User	Joined during open alpha
-2	Verified Email	Verified Email
-3	Code Contributor	Contributed to the site's source code
-6	Beta User	Joined during open beta
-7	Bug Chaser	Found a bug
-10	Bronze Recruiter	Recruited 1 friend to join the site
-11	Silver Recruiter	Recruited 10 friends to join the site
-12	Gold Recruiter	Recruited 100 friends to join the site
-15	Idea Maker	Had a good idea for the site which was implemented by the developers
-16	Marsey Master	Contributed 10 (or more!!!!) Marsey emojis ✨
-17	Marsey Artisan	Contributed a Marsey emoji ✨
-18	Artisan	Contributed to site artwork
-85	Sigma User	
-145	Amphetamine Aficionado	Totally not addicted™
-146	Coffee Consoomer	Don't talk to me until I've had my soy latte.
-60	Unironically Retarded	Demonstrated a wholesale inability to read the room
-61	Lab Rat	Helped test features in development
-62	Master Baiter	For outstanding achievement in the field of catching fish
-63	Balls	I wrote carp on my balls as a sign of submission
-64	The Other Kind Of Good Journalist	Contributed positive media attention to the site
-65	2021 Spooooooky Marsey Artist	Contributed a VERY SCARY Marsey for Halloween 2021!
-66	Sk8r Boi	Certifies that this user is NOT a poser
-67	Unpausable	Spent 40,000 coins on an unpausable profile anthem
-68	Pause Button	Spent 20,000 coins on a profile anthem pause button
-69	Little Big Spender	Dropped 10,000 coins at the shop
-70	Big Spender	Dropped 100,000 coins at the shop
-71	Big Big Spender	Dropped 250,000 coins at the shop
-72	Big Big Big Spender	Dropped 500,000 coins at the shop
-73	Le Rich Gentlesir	Spent a fucking million coins at the shop
-74	Grass Toucher	Awarded for molesting plant life
-75	Halloween 21	Awarded for surviving Homoween 2021
-76	Low Roller	Bought 10 lootboxes
-77	Middle Roller	Bought 50 lootboxes
-78	High Roller	Bought 150 lootboxes
-79	Merchant	Contributed a new line of product to Marsey's Coin Emporium
-80	Artist Laureate	
-81	Patron of the Arts	Sponsored the creation of an approved Marsey
-83	All-Seeing Eye	Can view private profiles
-84	Alt-Seeing Eye	Can see alts
-86	Holly Jolly Marsey Artist	Contributed a VERY JOLLY Marsey for Christmas 2021!
-87	Unblockable	This user is unblockable
-88	Provider	This user provided a bountiful feast for Thanksgiving
-89	Dinner	Yes, it is edible
-90	Fish	This user cannot be unfollowed
-91	Grinch	This user is a joyless grinch who pays money to avoid having fun
-92	NFT Artist	Drew a marsey that was used as an NFT
-93	NFT Owner	Bought a marsey NFT
-94	Progressive Stack Award	Upvotes/downvotes on this user's posts and comments have double the ranking effect
-95	Bird Site Award	This user is limited to 140 characters
-96	Flairlock Award	This user's flair has been locked by someone else
-97	Pizzashill Award	This user has to make their posts and comments more than 280 characters
-98	Marsey Award	This user is limited to posting marseys
-99	Sidebar Artist	Contributed artwork featured on the sidebar
-100	True Believer	This user sees through communist lies
-101	Banner Artist	Contributed a banner image to the site
-102	Christmas 21	Awarded for surviving Fistmas 2021
-103	Benefactor	Gave the Benefactor award to someone
-104	BADASS OUTLAW	Bad boy who does not play by the rules
-105	SCAM	lmao get fucked retard
-153	Professional Hathead	Collected 100 unique hats
-107	Certified BIPOC	The mayocide starts now
-108	Nword Pass	With great power comes great responsibility
-154	Fiscally Irresponsible Hathead	Collected 250 unique hats
-110	Wolf Artisan	Contributed a Zombie Wolf emoji ✨
-111	Wolf Master	Contributed 10 (or more!!!!) Zombie Wolf emojis ✨
-112	Platy Artisan	Contributed a Platy emoji ✨
-113	Platy Master	Contributed 10 (or more!!!!) Platy emojis ✨
-109	Rehab Award	Prevented from gambling
-114	Capy Artisan	Contributed a Capy emoji ✨
-115	Capy Master	Contributed 10 (or more!!!!) Capy emojis ✨
-116	Outreach Award	Brought invaluable drama to the starving masses off-site
-128	Fart-Free	This user does NOT fart.
-117	Stone Skeptic	This user rejects igneous lies
-129	Misinformation Superspreader	This poster was fact checked by real American patriots
-130	Columbine Enthusiast (TEMPORAL FLUX EDITION)	This user is an acclaimed Reb+VoDKa slash author
-159	It's Over	Lost a 100,000 dramacoin bet. It's fucking over.
-161	Pro Goombler	Won a 10,000 dramacoin bet. Some would say to quit while you're ahead, but they didn't just win 10k - keep at it!
-165	Marsey Chanel	Designed 100 hats!!!
-28	Chud	Marked as a chud
-171	Rainbowed	This user has super cute text
-135	1st Birthgay Bash Survivor	Awarded for surviving rDrama's first annual Birthgay Bash
-59	Lolcow	Beautiful and valid milk provider
-25	Marsey's Sugar Daddy	Contributed at least $100
-26	JIDF Bankroller	Donated at least $250
-27	Rich Bich	Contributed at least $500
-118	Hit!	Confirmed removal of a r/stupidpol post for hate speech or threatening violence
-119	BIG Hit!	Confirmed removal of a /r/stupidpol MODERATOR'S post for hate speech or threatening violence
-120	Msar Bomba	Confirmed ban of a r/stupidpol user
-121	Order of Marsey, 2nd Class	Confirmed temp ban of a r/stupidpol moderator
-122	Order of Marsey, 1st Class	Confirmed permanent ban of a /r/stupidpol moderator
-123	Hero of the Marsey Union	Awarded to all soldiers who served during the Special Military Operation to de-nazify r/stupidpol
-124	COOL GUY	This user does NOT watch anime
-125	Certified LOSER	This user watches anime
-126	Survivor	This user braved the Oregon Trail and lived to tell the tale
-127	Wagonfire	This user braved the Oregon Trail and fucking died lmao
-131	21st Century Hitlerite (TEMPORAL FLUX EDITION)	This user lost the love of their life in 1940s Berlin
-132	Duterte's Most Wanted (TEMPORAL FLUX EDITION)	dude weed lmao what year is it
-133	Rockstar	This user submitted an original piece to the song contest
-134	1 Year Old 🥰	This user has wasted an ENTIRE YEAR of their life here! Happy birthday!
+COPY public.badge_defs (id, name, description, created_utc) FROM stdin;
+136	TRAIN 2022	Beware: Found to be one of the most transmisic commenters on the site!	\N
+137	Lottershe Winner	This user won the Lottershe grand prize.	\N
+140	Y'all Seein' Eye	Gets notified when other sites talk about us	\N
+141	Marsey Typographer	For substantial and exceptional contributions to Marsey Alphabet.	\N
+142	Punching Down	This user mogs incels.	\N
+143	Marsey God	Contributed 100 (or more!!!!) Marsey emojis ✨😻	\N
+144	Energy Drink Enjoyer	Grip 'N Sip.	\N
+147	Freebase Fiend	From the crack grew a glass rose.	\N
+148	Blackpilled	Proud incel ally.	\N
+149	Thin	This user has verified that they are calorically disciplined.	\N
+139	Auspicious Incident	This user was fired from a volunteer position	\N
+150	Verified	Bought a Blue Checkmark.	\N
+151	Responsible Citizen	This user upheld democracy by committing voter fraud.	\N
+152	Amateur Hathead	Collected 25 unique hats	\N
+155	Ride Or Die Dramalo/Dramalette	When I die show no pity / Send my soul to the juggalo city / Dig my grave six feet deep / And put two matches by my feet / Put two hatchets on my chest / And tell my homies I did my best / WHOOP WHOOP	\N
+156	Hole Neglecter	Brought a Hole into this world, only to let it die	\N
+21	Paypig	Contributed at least $5	\N
+22	Renthog	Contributed at least $10	\N
+23	Landchad	Contributed at least $20	\N
+24	Terminally online turboautist	Contributed at least $50	\N
+157	A Minor Setback	Lost a 1,000 dramacoin bet. Keep going!	\N
+158	Just One More Hand	Lost a 10,000 dramacoin bet. But it's fine, you're due for a big win!	\N
+160	Lil Goombler	Won a 1,000 dramacoin bet. Nice job!	\N
+162	King Goombler	Won a 100,000 dramacoin bet. Wipe your sweaty palms off and bet it all again, you're on a roll!	\N
+163	Marsey Jacobs	Designed 10 hats!	\N
+166	Giorgio Armarsey	Designed 250 hats 😲	\N
+164	Marsey de Givenchy	Designed 50 hats, holy cap.	\N
+168	BITTEN!	This user has been forcibly recruited to House Vampire	\N
+170	Marsified	This user's comments get Marsified automatically	\N
+167	OwOified	This user's comments get OwOified automatically	\N
+169	Early Life Checked	The Early Life section of this user is on full display	\N
+172	God Save The Kween	Commemorative badge awarded for outliving Her Maj	\N
+174	George	@Marsey went to Spokane to fight @TrailerParkBride, but George the Mountain Lion was the real winner.	\N
+4	White Hat	Discreetly reported an exploit	\N
+1	Alpha User	Joined during open alpha	\N
+2	Verified Email	Verified Email	\N
+3	Code Contributor	Contributed to the site's source code	\N
+6	Beta User	Joined during open beta	\N
+7	Bug Chaser	Found a bug	\N
+10	Bronze Recruiter	Recruited 1 friend to join the site	\N
+11	Silver Recruiter	Recruited 10 friends to join the site	\N
+12	Gold Recruiter	Recruited 100 friends to join the site	\N
+15	Idea Maker	Had a good idea for the site which was implemented by the developers	\N
+16	Marsey Master	Contributed 10 (or more!!!!) Marsey emojis ✨	\N
+17	Marsey Artisan	Contributed a Marsey emoji ✨	\N
+18	Artisan	Contributed to site artwork	\N
+85	Sigma User		\N
+145	Amphetamine Aficionado	Totally not addicted™	\N
+146	Coffee Consoomer	Don't talk to me until I've had my soy latte.	\N
+60	Unironically Retarded	Demonstrated a wholesale inability to read the room	\N
+61	Lab Rat	Helped test features in development	\N
+62	Master Baiter	For outstanding achievement in the field of catching fish	\N
+63	Balls	I wrote carp on my balls as a sign of submission	\N
+64	The Other Kind Of Good Journalist	Contributed positive media attention to the site	\N
+65	2021 Spooooooky Marsey Artist	Contributed a VERY SCARY Marsey for Halloween 2021!	\N
+66	Sk8r Boi	Certifies that this user is NOT a poser	\N
+67	Unpausable	Spent 40,000 coins on an unpausable profile anthem	\N
+68	Pause Button	Spent 20,000 coins on a profile anthem pause button	\N
+69	Little Big Spender	Dropped 10,000 coins at the shop	\N
+70	Big Spender	Dropped 100,000 coins at the shop	\N
+71	Big Big Spender	Dropped 250,000 coins at the shop	\N
+72	Big Big Big Spender	Dropped 500,000 coins at the shop	\N
+73	Le Rich Gentlesir	Spent a fucking million coins at the shop	\N
+74	Grass Toucher	Awarded for molesting plant life	\N
+75	Halloween 21	Awarded for surviving Homoween 2021	\N
+76	Low Roller	Bought 10 lootboxes	\N
+77	Middle Roller	Bought 50 lootboxes	\N
+78	High Roller	Bought 150 lootboxes	\N
+79	Merchant	Contributed a new line of product to Marsey's Coin Emporium	\N
+80	Artist Laureate		\N
+81	Patron of the Arts	Sponsored the creation of an approved Marsey	\N
+83	All-Seeing Eye	Can view private profiles	\N
+84	Alt-Seeing Eye	Can see alts	\N
+86	Holly Jolly Marsey Artist	Contributed a VERY JOLLY Marsey for Christmas 2021!	\N
+87	Unblockable	This user is unblockable	\N
+88	Provider	This user provided a bountiful feast for Thanksgiving	\N
+89	Dinner	Yes, it is edible	\N
+90	Fish	This user cannot be unfollowed	\N
+91	Grinch	This user is a joyless grinch who pays money to avoid having fun	\N
+92	NFT Artist	Drew a marsey that was used as an NFT	\N
+93	NFT Owner	Bought a marsey NFT	\N
+94	Progressive Stack Award	Upvotes/downvotes on this user's posts and comments have double the ranking effect	\N
+95	Bird Site Award	This user is limited to 140 characters	\N
+96	Flairlock Award	This user's flair has been locked by someone else	\N
+97	Pizzashill Award	This user has to make their posts and comments more than 280 characters	\N
+98	Marsey Award	This user is limited to posting marseys	\N
+99	Sidebar Artist	Contributed artwork featured on the sidebar	\N
+100	True Believer	This user sees through communist lies	\N
+101	Banner Artist	Contributed a banner image to the site	\N
+102	Christmas 21	Awarded for surviving Fistmas 2021	\N
+103	Benefactor	Gave the Benefactor award to someone	\N
+104	BADASS OUTLAW	Bad boy who does not play by the rules	\N
+105	SCAM	lmao get fucked retard	\N
+153	Professional Hathead	Collected 100 unique hats	\N
+107	Certified BIPOC	The mayocide starts now	\N
+108	Nword Pass	With great power comes great responsibility	\N
+154	Fiscally Irresponsible Hathead	Collected 250 unique hats	\N
+110	Wolf Artisan	Contributed a Zombie Wolf emoji ✨	\N
+111	Wolf Master	Contributed 10 (or more!!!!) Zombie Wolf emojis ✨	\N
+112	Platy Artisan	Contributed a Platy emoji ✨	\N
+113	Platy Master	Contributed 10 (or more!!!!) Platy emojis ✨	\N
+109	Rehab Award	Prevented from gambling	\N
+114	Capy Artisan	Contributed a Capy emoji ✨	\N
+115	Capy Master	Contributed 10 (or more!!!!) Capy emojis ✨	\N
+116	Outreach Award	Brought invaluable drama to the starving masses off-site	\N
+128	Fart-Free	This user does NOT fart.	\N
+117	Stone Skeptic	This user rejects igneous lies	\N
+129	Misinformation Superspreader	This poster was fact checked by real American patriots	\N
+130	Columbine Enthusiast (TEMPORAL FLUX EDITION)	This user is an acclaimed Reb+VoDKa slash author	\N
+159	It's Over	Lost a 100,000 dramacoin bet. It's fucking over.	\N
+161	Pro Goombler	Won a 10,000 dramacoin bet. Some would say to quit while you're ahead, but they didn't just win 10k - keep at it!	\N
+165	Marsey Chanel	Designed 100 hats!!!	\N
+28	Chud	Marked as a chud	\N
+171	Rainbowed	This user has super cute text	\N
+135	1st Birthgay Bash Survivor	Awarded for surviving rDrama's first annual Birthgay Bash	\N
+59	Lolcow	Beautiful and valid milk provider	\N
+25	Marsey's Sugar Daddy	Contributed at least $100	\N
+26	JIDF Bankroller	Donated at least $250	\N
+27	Rich Bich	Contributed at least $500	\N
+118	Hit!	Confirmed removal of a r/stupidpol post for hate speech or threatening violence	\N
+119	BIG Hit!	Confirmed removal of a /r/stupidpol MODERATOR'S post for hate speech or threatening violence	\N
+120	Msar Bomba	Confirmed ban of a r/stupidpol user	\N
+121	Order of Marsey, 2nd Class	Confirmed temp ban of a r/stupidpol moderator	\N
+122	Order of Marsey, 1st Class	Confirmed permanent ban of a /r/stupidpol moderator	\N
+123	Hero of the Marsey Union	Awarded to all soldiers who served during the Special Military Operation to de-nazify r/stupidpol	\N
+124	COOL GUY	This user does NOT watch anime	\N
+125	Certified LOSER	This user watches anime	\N
+126	Survivor	This user braved the Oregon Trail and lived to tell the tale	\N
+127	Wagonfire	This user braved the Oregon Trail and fucking died lmao	\N
+131	21st Century Hitlerite (TEMPORAL FLUX EDITION)	This user lost the love of their life in 1940s Berlin	\N
+132	Duterte's Most Wanted (TEMPORAL FLUX EDITION)	dude weed lmao what year is it	\N
+133	Rockstar	This user submitted an original piece to the song contest	\N
+134	1 Year Old 🥰	This user has wasted an ENTIRE YEAR of their life here! Happy birthday!	\N
 \.
 
 
