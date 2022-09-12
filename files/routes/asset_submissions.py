@@ -86,7 +86,7 @@ def submit_marsey(v):
 
 	filename = f'/asset_submissions/marseys/{name}.webp'
 	copyfile(highquality, filename)
-	process_image(filename, resize=300, trim=True)
+	process_image(filename, resize=250, trim=True)
 
 	marsey = Marsey(name=name, author_id=author.id, tags=tags, count=0, submitter_id=v.id)
 	g.db.add(marsey)
