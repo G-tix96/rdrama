@@ -783,6 +783,7 @@
 	{"name":"tracemad","class":"Sets"},
 	{"name":"tracesad","class":"Sets"},
 
+	{"name":"grillcastyes", "tags":["podcast", "chad"],"class":"Misc"},
     {"name":"ivoted", "tags":["democracy", "spider"],"class":"Misc"},
     {"name":"hapyday", "tags":["happyday", "wholesome", "smile"],"class":"Misc"},
     {"name":"froth", "tags":["froth", "seethe", "angry", "ugh", "frothing", "sneed"],"class":"Misc"},
