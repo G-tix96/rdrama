@@ -202,7 +202,8 @@ def admin_app_reject(v, aid):
 	if app:
 		for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id).all(): g.db.delete(auth)
 
-		send_repeatable_notification(app.author.id, f"@{v.username} has rejected your application `{app.app_name}`.")
+		if v.id != app.author.id:
+			send_repeatable_notification(app.author.id, f"@{v.username} has rejected your application `{app.app_name}`.")
 
 		g.db.delete(app)
 
