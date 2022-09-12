@@ -1010,8 +1010,7 @@ approved_embed_hosts = {
 	'substackcdn.com',
 	'9gag.com',
 	'ifunny.co',
-	'wixmp.com',
-	'marsey.cat'
+	'wixmp.com'
 	}
 
 
