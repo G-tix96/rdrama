@@ -16,8 +16,6 @@ function report_commentModal(id, author) {
 
 	document.getElementById("comment-author").textContent = author;
 
-	document.getElementById("reportCommentFormBefore").classList.remove('d-none');
-
 	reportCommentButton.innerHTML='Report comment';
 	reportCommentButton.disabled = false;
 	reportCommentButton.classList.remove('disabled');
@@ -43,7 +41,6 @@ function report_commentModal(id, author) {
 			try {data = JSON.parse(xhr.response)}
 			catch(e) {console.log(e)}
 			if (xhr.status >= 200 && xhr.status < 300 && data && data['message']) {
-				document.getElementById("reportCommentFormBefore").classList.add('d-none');
 				document.getElementById('toast-post-success-text').innerText = data["message"];
 				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success')).show();
 			} else {

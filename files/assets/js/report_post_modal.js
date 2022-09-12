@@ -13,7 +13,6 @@ reason_post.addEventListener('keydown', (e) => {
 
 function report_postModal(id) {
 
-	document.getElementById("reportPostFormBefore").classList.remove('d-none');
 	reportPostButton.disabled = false;
 	reportPostButton.classList.remove('disabled');
 	reportPostButton.innerHTML='Report post';
@@ -41,7 +40,6 @@ function report_postModal(id) {
 			try {data = JSON.parse(xhr.response)}
 			catch(e) {console.log(e)}
 			if (xhr.status >= 200 && xhr.status < 300 && data && data['message']) {
-				document.getElementById("reportPostFormBefore").classList.add('d-none');
 				document.getElementById('toast-post-success-text').innerText = data["message"];
 				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success')).show();
 			} else {
