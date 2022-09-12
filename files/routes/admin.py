@@ -194,7 +194,7 @@ def remove_admin(v, username):
 @admin_level_required(3)
 def distribute(v, option_id):
 	autojanny = get_account(AUTOJANNY_ID)
-	if autojanny.coins == 0: return {"error": "@AutoJanny has 0 coins"}
+	if autojanny.coins == 0: return {"error": "@AutoJanny has 0 coins"}, 400
 
 	try: option_id = int(option_id)
 	except: abort(400)
@@ -310,7 +310,7 @@ def club_allow(v, username):
 
 	if not u: abort(404)
 
-	if u.admin_level >= v.admin_level: return {"error": "noob"}
+	if u.admin_level >= v.admin_level: return {"error": "noob"}, 400
 
 	u.club_allowed = True
 	g.db.add(u)
@@ -337,7 +337,7 @@ def club_ban(v, username):
 
 	if not u: abort(404)
 
-	if u.admin_level >= v.admin_level: return {"error": "noob"}
+	if u.admin_level >= v.admin_level: return {"error": "noob"}, 400
 
 	u.club_allowed = False
 
@@ -497,7 +497,7 @@ def purge_cache(v):
 	g.db.add(ma)
 
 	if response == "<Response [200]>": return {"message": "Cache purged!"}
-	return {"error": "Failed to purge cache."}
+	return {"error": "Failed to purge cache."}, 400
 
 
 @app.post("/admin/under_attack")
@@ -514,7 +514,7 @@ def under_attack(v):
 
 		response = str(requests.patch(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, data='{"value":"high"}', timeout=5))
 		if response == "<Response [200]>": return {"message": "Under attack mode disabled!"}
-		return {"error": "Failed to disable under attack mode."}
+		return {"error": "Failed to disable under attack mode."}, 400
 	else:
 		ma = ModAction(
 			kind="enable_under_attack",
@@ -524,7 +524,7 @@ def under_attack(v):
 
 		response = str(requests.patch(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, data='{"value":"under_attack"}', timeout=5))
 		if response == "<Response [200]>": return {"message": "Under attack mode enabled!"}
-		return {"error": "Failed to enable under attack mode."}
+		return {"error": "Failed to enable under attack mode."}, 400
 
 @app.get("/admin/badge_grant")
 @admin_level_required(2)
@@ -1156,7 +1156,7 @@ def approve_post(post_id, v):
 	post = get_post(post_id)
 
 	if post.author.id == v.id and post.author.agendaposter and AGENDAPOSTER_PHRASE not in post.body.lower() and post.sub != 'chudrama':
-		return {"error": "You can't bypass the chud award!"}
+		return {"error": "You can't bypass the chud award!"}, 400
 
 	if not post:
 		abort(400)
@@ -1351,7 +1351,7 @@ def approve_comment(c_id, v):
 	if not comment: abort(404)
 	
 	if comment.author.id == v.id and comment.author.agendaposter and AGENDAPOSTER_PHRASE not in comment.body.lower() and comment.post.sub != 'chudrama':
-		return {"error": "You can't bypass the chud award!"}
+		return {"error": "You can't bypass the chud award!"}, 400
 
 	if comment.is_banned:
 		ma=ModAction(

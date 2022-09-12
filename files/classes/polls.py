@@ -12,9 +12,14 @@ class SubmissionOption(Base):
 	submission_id = Column(Integer, ForeignKey("submissions.id"))
 	body_html = Column(Text)
 	exclusive = Column(Integer)
+	created_utc = Column(Integer)
 
 	votes = relationship("SubmissionOptionVote")
 	post = relationship("Submission", back_populates="options")
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<SubmissionOption(id={self.id})>"
@@ -57,9 +62,14 @@ class CommentOption(Base):
 	comment_id = Column(Integer, ForeignKey("comments.id"))
 	body_html = Column(Text)
 	exclusive = Column(Integer)
+	created_utc = Column(Integer)
 
 	votes = relationship("CommentOptionVote")
 	comment = relationship("Comment", back_populates="options")
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<CommentOption(id={self.id})>"

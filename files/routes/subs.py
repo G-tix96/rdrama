@@ -247,7 +247,7 @@ def add_mod(v, sub):
 	user = get_user(user)
 
 	if sub in ('furry','vampire','racist','femboy') and not v.client and not user.house.lower().startswith(sub):
-		return {"error": f"@{user.username} needs to be a member of House {sub.capitalize()} to be added as a mod there!"}
+		return {"error": f"@{user.username} needs to be a member of House {sub.capitalize()} to be added as a mod there!"}, 400
 
 	existing = g.db.query(Mod).filter_by(user_id=user.id, sub=sub).one_or_none()
 

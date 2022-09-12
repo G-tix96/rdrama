@@ -69,7 +69,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	post = get_post(pid, v=v)
 	
 	if post.over_18 and not (v and v.over_18) and not session.get('over_18', 0) >= int(time.time()):
-		if request.headers.get("Authorization"): return {'error': 'This content is not suitable for some users and situations.'}
+		if request.headers.get("Authorization"): return {"error": 'This content is not suitable for some users and situations.'}, 403
 		else: return render_template("errors/nsfw.html", v=v)
 
 	try: context = min(int(request.values.get("context", 0)), 8)
@@ -149,7 +149,7 @@ def comment(v):
 	if sub and v.exiled_from(sub): return {"error": f"You're exiled from /h/{sub}"}, 403
 
 	if sub in ('furry','vampire','racist','femboy') and not v.client and not v.house.lower().startswith(sub):
-		return {"error": f"You need to be a member of House {sub.capitalize()} to comment in /h/{sub}"}
+		return {"error": f"You need to be a member of House {sub.capitalize()} to comment in /h/{sub}"}, 400
 
 	if parent_post.club and not (v and (v.paid_dues or v.id == parent_post.author_id)): abort(403)
 
@@ -196,7 +196,7 @@ def comment(v):
 				oldname = f'/images/{time.time()}'.replace('.','') + '.webp'
 				file.save(oldname)
 				image = process_image(oldname)
-				if image == "": return {"error":"Image upload failed"}
+				if image == "": return {"error":"Image upload failed"}, 400
 				if v.admin_level > 2 and level == 1:
 					if parent_post.id == SIDEBAR_THREAD:
 						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/sidebar'),
@@ -796,7 +796,7 @@ def unpin_comment(cid, v):
 		if v.id != comment.post.author_id: abort(403)
 
 		if not comment.stickied.endswith(" (OP)"): 
-			return {"error": "You can only unpin comments you have pinned!"}
+			return {"error": "You can only unpin comments you have pinned!"}, 400
 
 		comment.stickied = None
 		g.db.add(comment)

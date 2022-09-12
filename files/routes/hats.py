@@ -38,13 +38,13 @@ def buy_hat(v, hat_id):
 	if not FEATURES['HATS']: abort(404)
 
 	try: hat_id = int(hat_id)
-	except: return {"error": "Hat not found!"}
+	except: return {"error": "Hat not found!"}, 400
 
 	hat = g.db.query(HatDef).filter_by(submitter_id=None, id=hat_id).one_or_none()
-	if not hat: return {"error": "Hat not found!"}
+	if not hat: return {"error": "Hat not found!"}, 400
 
 	existing = g.db.query(Hat).filter_by(user_id=v.id, hat_id=hat.id).one_or_none()
-	if existing: return {"error": "You already own this hat!"}
+	if existing: return {"error": "You already own this hat!"}, 400
 
 	if request.values.get("mb"):
 		if v.procoins < hat.price: return {"error": "Not enough marseybux."}, 400
@@ -85,10 +85,10 @@ def equip_hat(v, hat_id):
 	if not FEATURES['HATS']: abort(404)
 
 	try: hat_id = int(hat_id)
-	except: return {"error": "Hat not found!"}
+	except: return {"error": "Hat not found!"}, 400
 
 	hat = g.db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
-	if not hat: return {"error": "You don't own this hat!"}
+	if not hat: return {"error": "You don't own this hat!"}, 400
 
 	hat.equipped = True
 	g.db.add(hat)
@@ -101,10 +101,10 @@ def unequip_hat(v, hat_id):
 	if not FEATURES['HATS']: abort(404)
 
 	try: hat_id = int(hat_id)
-	except: return {"error": "Hat not found!"}
+	except: return {"error": "Hat not found!"}, 400
 
 	hat = g.db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
-	if not hat: return {"error": "You don't own this hat!"}
+	if not hat: return {"error": "You don't own this hat!"}, 400
 
 	hat.equipped = False
 	g.db.add(hat)
