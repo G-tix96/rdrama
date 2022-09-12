@@ -68,11 +68,10 @@ class Badge(Base):
 	@property
 	@lazy
 	def text(self):
-		if self.badge_id == 28:
-			if self.until: text = self.badge.description + " until"
-			else: text = self.badge.description + " permanently"
-		elif self.until:
+		if self.until:
 			text = self.badge.description + " until"
+		elif self.badge_id == 28:
+			text = self.badge.description + " permanently"
 		elif self.description:
 			text = self.description
 		elif self.badge.description:
