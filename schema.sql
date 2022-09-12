@@ -2737,7 +2737,7 @@ COPY public.badge_defs (id, name, description) FROM stdin;
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 172, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 173, true);
 
 
 --
