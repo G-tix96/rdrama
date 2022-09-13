@@ -51,6 +51,8 @@ class Badge(Base):
 	@lazy
 	def until(self):
 		if self.badge_id == 28 and self.user.agendaposter != 1: return self.user.agendaposter
+		if self.badge_id == 170 and self.user.marsify != 1: return self.user.marsify
+
 		if self.badge_id == 94: return self.user.progressivestack
 		if self.badge_id == 95: return self.user.bird
 		if self.badge_id == 96: return self.user.flairchanged
@@ -60,7 +62,6 @@ class Badge(Base):
 		if self.badge_id == 167: return self.user.owoify
 		if self.badge_id == 168: return self.user.bite
 		if self.badge_id == 169: return self.user.earlylife
-		if self.badge_id == 170: return self.user.marsify
 		if self.badge_id == 171: return self.user.rainbow
 
 		return None
@@ -70,7 +71,7 @@ class Badge(Base):
 	def text(self):
 		if self.until:
 			text = self.badge.description + " until"
-		elif self.badge_id == 28:
+		elif self.badge_id in (28, 170):
 			text = self.badge.description + " permanently"
 		elif self.description:
 			text = self.description

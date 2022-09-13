@@ -103,6 +103,7 @@ def settings_profile_post(v):
 	elif request.values.get("marsify", v.marsify) != v.marsify and v.marsify <= 1:
 		updated = True
 		v.marsify = int(request.values.get("marsify") == 'true')
+		if v.marsify: badge_grant(user=v, badge_id=170)
 
 	elif request.values.get("bio") == "":
 		v.bio = None
