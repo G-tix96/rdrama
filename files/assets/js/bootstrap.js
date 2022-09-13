@@ -16,12 +16,6 @@ if (window.location.pathname != '/submit')
 
 		const btn = submitButtonDOMs[0]
 		btn.click();
-		btn.disabled = true;
-		btn.classList.add('disabled');
-		setTimeout(() => {
-			btn.disabled = false;
-			btn.classList.remove('disabled');
-		}, 2000);
 	});
 }
 
