@@ -172,11 +172,15 @@
 				{%- endif %}
 
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
-					<a class="nav-link" href="/leaderboard" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Leaderboard"><i class="fas fa-trophy"></i></a>
+					<a class="nav-link" href="/random_user" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Random User"><i class="fas fa-music"></i></a>
+				</li>
+			
+				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
+					<a class="nav-link" href="/comments" data-bs-toggle="tooltip" data-bs-placement="bottom" title="All Comments"><i class="fas fa-comment-dots"></i></a>
 				</li>
 
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
-					<a class="nav-link" href="/random_user" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Random User"><i class="fas fa-music"></i></a>
+					<a class="nav-link" href="/leaderboard" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Leaderboard"><i class="fas fa-trophy"></i></a>
 				</li>
 
 				{% if CASINO_ENABLED %}
@@ -186,14 +190,10 @@
 				{% endif %}
 
 				{% if FEATURES['AWARDS'] -%}
-				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
-					<a class="nav-link" href="/shop" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Shop"><i class="fas fa-store"></i></a>
-				</li>
+					<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
+						<a class="nav-link" href="/shop" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Shop"><i class="fas fa-store"></i></a>
+					</li>
 				{%- endif %}
-			
-				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
-					<a class="nav-link" href="/comments" data-bs-toggle="tooltip" data-bs-placement="bottom" title="All Comments"><i class="fas fa-comment-dots"></i></a>
-				</li>
 
 				<li id="sidebar-btn" class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
 					<a class="nav-link" href="/sidebar" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Sidebar"><i class="fas fa-bars"></i></a>
