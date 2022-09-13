@@ -1047,6 +1047,7 @@ DISCORD_AUTH = environ.get("DISCORD_AUTH",'').strip()
 GIPHY_KEY = environ.get('GIPHY_KEY').strip()
 MASTER_KEY = environ.get("MASTER_KEY")
 FP = environ.get("FP")
+KOFI_TOKEN = environ.get("KOFI_TOKEN")
 
 tiers={
 	"(Paypig)": 1,

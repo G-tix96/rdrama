@@ -2,7 +2,8 @@ import qrcode
 import io
 import time
 import math
-from files.classes.views import ViewerRelationship
+from files.classes.views import *
+from files.classes.transactions import *
 from files.helpers.alerts import *
 from files.helpers.sanitize import *
 from files.helpers.const import *
@@ -1382,24 +1383,25 @@ def bid_list(v, bid):
 						)
 
 
-@app.get("/blockers/<uid>")
-@auth_required
-def blockers_list(v, uid):
+@app.post("/kofi")
+def kofi():
+	verification_token = request.values.get('verification_token')
+	if verification_token != KOFI_TOKEN: abort(400)
 
-	try: uid = int(uid)
-	except: abort(400)
+	id = request.values.get('kofi_transaction_id')
+	created_utc = time.mktime(time.strptime(request.values.get('timestamp'), "%Y-%m-%dT%H:%M:%SZ"))
+	type = request.values.get('type')
+	amount = int(request.values.get('amount'))
+	email = request.values.get('email')
 
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
+	transaction = Transaction(
+		id=id,
+		created_utc=created_utc,
+		type=type,
+		amount=amount,
+		email=email
+	)
 
-	users = g.db.query(User).join(User.blocking).filter(UserBlock.target_id==uid).offset(25 * (page - 1)).limit(26).all()
+	g.db.add(transaction)
 
-	next_exists = (len(users) > 25)
-	users = users[:25]
-
-	return render_template("user_cards.html",
-						v=v,
-						users=users,
-						next_exists=next_exists,
-						page=page,
-						)
+	return ''
