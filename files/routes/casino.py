@@ -8,32 +8,26 @@ from files.helpers.slots import *
 from files.helpers.lottery import *
 from files.helpers.casino import *
 from files.helpers.twentyone import *
+from files.helpers.roulette import *
 
 
 @app.get("/casino")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def casino(v):
-    if v.rehab: return render_template("casino/rehab.html", v=v)
+    if v.rehab:
+        return render_template("casino/rehab.html", v=v)
+
     return render_template("casino.html", v=v)
-
-
-@app.get("/lottershe")
-@limiter.limit("100/minute;2000/hour;12000/day")
-@auth_required
-def lottershe(v):
-    if v.rehab: return render_template("casino/rehab.html", v=v)
-    participants = get_users_participating_in_lottery()
-    return render_template("lottery.html", v=v, participants=participants)
-
 
 
 @app.get("/casino/<game>")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def casino_game_page(v, game):
-    if v.rehab: return render_template("casino/rehab.html", v=v)
-    
+    if v.rehab:
+        return render_template("casino/rehab.html", v=v)
+
     feed = json.dumps(get_game_feed(game))
     leaderboard = json.dumps(get_game_leaderboard(game))
 
@@ -50,15 +44,31 @@ def casino_game_page(v, game):
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def casino_game_feed(v, game):
+    if v.rehab:
+        return {"error": "You are under Rehab award effect!"}, 400
+
     feed = get_game_feed(game)
     return {"feed": feed}
 
 
+# Lottershe
+@app.get("/lottershe")
+@limiter.limit("100/minute;2000/hour;12000/day")
+@auth_required
+def lottershe(v):
+    if v.rehab:
+        return render_template("casino/rehab.html", v=v)
+
+    participants = get_users_participating_in_lottery()
+    return render_template("lottery.html", v=v, participants=participants)
+
+# Slots
 @app.post("/casino/slots")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def pull_slots(v):
-    if v.rehab: return {"error": "You are under Rehab award effect!"}, 400
+    if v.rehab:
+        return {"error": "You are under Rehab award effect!"}, 400
 
     try:
         wager = int(request.values.get("wager"))
@@ -81,11 +91,13 @@ def pull_slots(v):
         return {"error": f"Wager must be more than 5 {currency}."}, 400
 
 
+# 21
 @app.post("/casino/twentyone/deal")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def blackjack_deal_to_player(v):
-    if v.rehab: return {"error": "You are under Rehab award effect!"}, 400
+    if v.rehab:
+        return {"error": "You are under Rehab award effect!"}, 400
 
     try:
         wager = int(request.values.get("wager"))
@@ -94,17 +106,18 @@ def blackjack_deal_to_player(v):
         state = dispatch_action(v, BlackjackAction.DEAL)
         feed = get_game_feed('blackjack')
 
-        return {"success": True, "state": state, "feed": feed}
+        return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
     except Exception as e:
-        return {"error": str(e)}
+        return {"error": str(e)}, 400
 
 
 @app.post("/casino/twentyone/hit")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def blackjack_player_hit(v):
-    if v.rehab: return {"error": "You are under Rehab award effect!"}, 400
-    
+    if v.rehab:
+        return {"error": "You are under Rehab award effect!"}, 400
+
     try:
         state = dispatch_action(v, BlackjackAction.HIT)
         feed = get_game_feed('blackjack')
@@ -117,7 +130,8 @@ def blackjack_player_hit(v):
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def blackjack_player_stay(v):
-    if v.rehab: return {"error": "You are under Rehab award effect!"}, 400
+    if v.rehab:
+        return {"error": "You are under Rehab award effect!"}, 400
 
     try:
         state = dispatch_action(v, BlackjackAction.STAY)
@@ -131,7 +145,8 @@ def blackjack_player_stay(v):
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def blackjack_player_doubled_down(v):
-    if v.rehab: return {"error": "You are under Rehab award effect!"}, 400
+    if v.rehab:
+        return {"error": "You are under Rehab award effect!"}, 400
 
     try:
         state = dispatch_action(v, BlackjackAction.DOUBLE_DOWN)
@@ -145,7 +160,8 @@ def blackjack_player_doubled_down(v):
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def blackjack_player_bought_insurance(v):
-    if v.rehab: return {"error": "You are under Rehab award effect!"}, 400
+    if v.rehab:
+        return {"error": "You are under Rehab award effect!"}, 400
 
     try:
         state = dispatch_action(v, BlackjackAction.BUY_INSURANCE)
@@ -153,3 +169,40 @@ def blackjack_player_bought_insurance(v):
         return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
     except:
         return {"error": "Unable to buy insurance."}, 400
+
+# Roulette
+@app.get("/casino/roulette/bets")
+@limiter.limit("100/minute;2000/hour;12000/day")
+@auth_required
+def roulette_get_bets(v):
+    if v.rehab:
+        return {"error": "You are under Rehab award effect!"}, 400
+
+    bets = get_roulette_bets()
+
+    return {"success": True, "bets": bets, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+
+
+@app.post("/casino/roulette/place-bet")
+@limiter.limit("100/minute;2000/hour;12000/day")
+@auth_required
+def roulette_player_placed_bet(v):
+    if v.rehab:
+        return {"error": "You are under Rehab award effect!"}, 400
+
+    try:
+        bet = request.values.get("bet")
+        which = request.values.get("which")
+        amount = int(request.values.get("wager"))
+        currency = request.values.get("currency")
+
+        if amount < 5:
+            return {"error": f"Minimum bet is 5 {currency}."}
+
+        gambler_placed_roulette_bet(v, bet, which, amount, currency)
+
+        bets = get_roulette_bets()
+
+        return {"success": True, "bets": bets, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+    except:
+        return {"error": "Unable to place a bet."}, 400

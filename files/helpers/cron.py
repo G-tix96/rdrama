@@ -2,6 +2,7 @@ from files.cli import g, app, db_session
 import click
 from files.helpers.const import *
 from files.helpers.alerts import send_repeatable_notification
+from files.helpers.roulette import spin_roulette_wheel
 from files.helpers.get import *
 from files.helpers.actions import *
 from files.classes import *
@@ -28,6 +29,7 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 	if every_5m:
 		lottery.check_if_end_lottery_task()
 		offsitementions.offsite_mentions_task()
+		spin_roulette_wheel()
 
 	if every_1h:
 		awards.award_timers_bots_task()

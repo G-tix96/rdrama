@@ -66,7 +66,7 @@
     ).value;
     const genericCurrency = currency == 'marseybux' ? 'procoins' : 'coins';
 
-    return { amount, currency: genericCurrency };
+    return { amount, currency: genericCurrency, localCurrency: currency };
   }
 
   function disableWager() {
@@ -82,6 +82,7 @@
   }
 
   function updateResult(text, className) {
+    clearResult();
     const result = document.getElementById("casinoGameResult");
     result.style.visibility = "visible";
     result.innerText = text;
@@ -396,7 +397,7 @@
     </div>
     <div class="col">
       <div class="game_screen-title">
-        <h5>Actions</h5>
+        <h5>{% block actiontext %}Actions{% endblock %}</h5>
         <hr />
       </div>
       {% block actions %} {% endblock %}

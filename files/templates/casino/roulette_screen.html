@@ -1,0 +1,578 @@
+{% extends "casino/game_screen.html" %} {% block result %} N/A {% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    if (
+        document.readyState === "complete" ||
+        (document.readyState !== "loading" && !document.documentElement.doScroll)
+    ) {
+        initializeGame();
+    } else {
+        document.addEventListener("DOMContentLoaded", initializeGame);
+    }
+
+    // Kiss my ass if you're judgin'
+    const CELL_TO_NUMBER_LOOKUP = {
+        1: 3,
+        2: 6,
+        3: 9,
+        4: 12,
+        5: 15,
+        6: 18,
+        7: 21,
+        8: 24,
+        9: 27,
+        10: 30,
+        11: 33,
+        12: 36,
+        13: 2,
+        14: 5,
+        15: 8,
+        16: 11,
+        17: 14,
+        18: 17,
+        19: 20,
+        20: 23,
+        21: 26,
+        22: 29,
+        23: 32,
+        24: 35,
+        25: 1,
+        26: 4,
+        27: 7,
+        28: 10,
+        29: 13,
+        30: 16,
+        31: 19,
+        32: 22,
+        33: 25,
+        34: 28,
+        35: 31,
+        36: 34
+    };
+
+    function initializeGame() {
+        buildRouletteTable();
+        updateResult("Rolls occur every five minutes", "success");
+        requestRouletteBets();
+    }
+
+    function buildRouletteTable() {
+        const table = document.getElementById('roulette-table');
+        const reds = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];
+
+        let html = "";
+
+        // Lines
+        html += `
+            <div class="roulette-table-row">
+                <div id="LINE_BET#1" onclick="placeChip('LINE_BET', '1')" class="roulette-table-1to1">Line 1</div>
+                <div id="LINE_BET#2" onclick="placeChip('LINE_BET', '2')" class="roulette-table-1to1">Line 2</div>
+                <div id="LINE_BET#3" onclick="placeChip('LINE_BET', '3')" class="roulette-table-1to1">Line 3</div>
+                <div id="LINE_BET#4" onclick="placeChip('LINE_BET', '4')" class="roulette-table-1to1">Line 4</div>
+                <div id="LINE_BET#5" onclick="placeChip('LINE_BET', '5')" class="roulette-table-1to1">Line 5</div>
+                <div id="LINE_BET#6" onclick="placeChip('LINE_BET', '6')" class="roulette-table-1to1">Line 6</div>
+                <div style="flex: 1"></div>
+            </div>
+        `;
+
+        // First Column
+        html += "<div class=\"roulette-table-row\">";
+        for (let i = 1; i < 13; i++) {
+            const isRed = reds.includes(i);
+            const correctNumber = CELL_TO_NUMBER_LOOKUP[i];
+            html += `<div
+                id="STRAIGHT_UP_BET#${correctNumber}"
+                onclick="placeChip('STRAIGHT_UP_BET', '${correctNumber}')"
+                class="roulette-table-number roulette-table-number__${isRed ? 'red' : 'black'}">
+                ${correctNumber}
+            </div>
+            `;
+        }
+        html += `<div id="COLUMN_BET#3" class="roulette-table-column" onclick="placeChip('COLUMN_BET', '3')">Col 3</div>`;
+        html += "</div>";
+
+        // Second Column
+        html += "<div class=\"roulette-table-row\">";
+        for (let i = 13; i < 25; i++) {
+            const isRed = reds.includes(i);
+            const correctNumber = CELL_TO_NUMBER_LOOKUP[i];
+            html += `<div
+                id="STRAIGHT_UP_BET#${correctNumber}"
+                onclick="placeChip('STRAIGHT_UP_BET', '${correctNumber}')"
+                class="roulette-table-number roulette-table-number__${isRed ? 'red' : 'black'}">
+                ${correctNumber}
+            </div>
+            `;
+        }
+        html += `<div id="COLUMN_BET#2" class="roulette-table-column" onclick="placeChip('COLUMN_BET', '2')">Col 2</div>`;
+        html += "</div>";
+
+        // Third Column
+        html += "<div class=\"roulette-table-row\">";
+        for (let i = 25; i < 37; i++) {
+            const isRed = reds.includes(i);
+            const correctNumber = CELL_TO_NUMBER_LOOKUP[i];
+            html += `<div
+                id="STRAIGHT_UP_BET#${correctNumber}"
+                onclick="placeChip('STRAIGHT_UP_BET', '${correctNumber}')"
+                class="roulette-table-number roulette-table-number__${isRed ? 'red' : 'black'}">
+                ${correctNumber}
+            </div>
+            `;
+        }
+        html += `<div id="COLUMN_BET#1" class="roulette-table-column" onclick="placeChip('COLUMN_BET', '1')">Col 1</div>`;
+        html += "</div>";
+
+        // Line Bets and 1:1 Bets
+        html += `
+            <div class="roulette-table-row">
+                <div id="DOZEN_BET#1" class="roulette-table-line" onclick="placeChip('DOZEN_BET', '1')">1st12</div>
+                <div id="DOZEN_BET#2" class="roulette-table-line" onclick="placeChip('DOZEN_BET', '2')">2nd12</div>
+                <div id="DOZEN_BET#3" class="roulette-table-line" onclick="placeChip('DOZEN_BET', '3')">3rd12</div>
+                <div style="flex: 1"></div>
+                </div>
+                <div class="roulette-table-row">
+                    <div id="HIGH_LOW_BET#LOW" class="roulette-table-1to1" onclick="placeChip('HIGH_LOW_BET', 'LOW')">1:18</div>
+                    <div id="EVEN_ODD_BET#EVEN" class="roulette-table-1to1" onclick="placeChip('EVEN_ODD_BET', 'EVEN')">EVEN</div>
+                    <div id="RED_BLACK_BET#RED" class="roulette-table-1to1" onclick="placeChip('RED_BLACK_BET', 'RED')" style="background-color: red">RED</div>
+                    <div id="RED_BLACK_BET#BLACK" class="roulette-table-1to1" onclick="placeChip('RED_BLACK_BET', 'BLACK')" style="background-color: black">BLACK</div>
+                    <div id="EVEN_ODD_BET#ODD" class="roulette-table-1to1" onclick="placeChip('EVEN_ODD_BET', 'ODD')">ODD</div>
+                    <div id="HIGH_LOW_BET#HIGH" class="roulette-table-1to1" onclick="placeChip('HIGH_LOW_BET', 'HIGH')">19:36</div>
+                    <div style="flex: 1"></div>
+            </div>
+        `;
+
+        table.innerHTML = html;
+    }
+
+    function formatFlatBets(bets) {
+        let flatBets = [];
+
+        for (const betCollection of Object.values(bets)) {
+            flatBets = flatBets.concat(betCollection)
+        }
+
+        return flatBets;
+    }
+
+    function formatNormalizedBets(bets) {
+        const normalizedBets = {
+            gamblers: [],
+            gamblersByName: {}
+        };
+        const flatBets = formatFlatBets(bets);
+
+        for (const bet of flatBets) {
+            if (!normalizedBets.gamblers.includes(bet.gambler_username)) {
+                normalizedBets.gamblers.push(bet.gambler_username);
+            }
+
+            if (!normalizedBets.gamblersByName[bet.gambler_username]) {
+                normalizedBets.gamblersByName[bet.gambler_username] = {
+                    name: bet.gambler_username,
+                    avatar: bet.gambler_profile_url,
+                    profile: `/@${bet.gambler_username}`,
+                    wagerTotal: {
+                        coins: 0,
+                        procoins: 0
+                    },
+                    wagers: []
+                }
+            }
+
+            const entry = normalizedBets.gamblersByName[bet.gambler_username];
+
+            entry.wagerTotal[bet.wager.currency] += bet.wager.amount;
+
+            const existingWager = entry.wagers.find(wager => wager.bet === bet.bet && wager.which === bet.which);
+
+            if (existingWager) {
+                existingWager.amounts[bet.wager.currency] += bet.wager.amount;
+            } else {
+                const newEntry = {
+                    bet: bet.bet,
+                    which: bet.which,
+                    amounts: {
+                        coins: 0,
+                        procoins: 0
+                    },
+                };
+                newEntry.amounts[bet.wager.currency] += bet.wager.amount;
+
+                entry.wagers.push(newEntry);
+            }
+        }
+
+        return normalizedBets;
+    }
+
+    function buildPokerChip(avatar) {
+        return `
+            <div class="roulette-poker-chip">
+                <img src="/i/pokerchip.webp" width="40" height="40" />
+                <img src="${avatar}" width="40" height="40" />
+            </div>
+        `;
+    }
+
+    function buildRouletteBets(bets) {
+        const betArea = document.getElementById("roulette-bets");
+        const flatBets = formatFlatBets(bets);
+        const normalizedBets = formatNormalizedBets(bets);
+        const dramacoinImgHtml = `
+            <img
+                src="/i/rDrama/coins.webp?v=3009"
+                alt="coin"
+                width="32"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title=""
+                aria-label="Dramacoin"
+                data-bs-original-title="Dramacoin" />
+        `;
+        const marseybuxImgHtml = `
+            <img
+                src="/i/marseybux.webp?v=2000"
+                alt="marseybux"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title=""
+                aria-label="Marseybux"
+                width="32"  class="mr-1 ml-1"  
+                data-bs-original-title="Marseybux" />
+        `;
+        const { participants, dramacoin, marseybux } = flatBets.reduce((prev, next) => {
+            if (!prev.participants.includes(next.gambler_username)) {
+                prev.participants.push(next.gambler_username);
+            }
+
+            if (next.wager.currency == 'coins') {
+                prev.dramacoin += next.wager.amount;
+            } else {
+                prev.marseybux += next.wager.amount;
+            }
+
+            return prev;
+        }, { participants: [], dramacoin: 0, marseybux: 0 });
+        const dramacoinText = `${dramacoin} ${dramacoinImgHtml}`;
+        const marseybuxText = `${marseybux} ${marseybuxImgHtml}`;
+        const playerText = participants.length > 1 ? `${participants.length} players are` : `1 player is`;
+        const totalText = dramacoin && marseybux ? `${dramacoinText} and ${marseybuxText}` : dramacoin ? dramacoinText : marseybuxText;
+        const fullTotalText = participants.length === 0 ? "No one has placed a bet" : `${playerText} betting a total of ${totalText}`;
+
+        let betHtml = `
+            <small class="roulette-total-bets">${fullTotalText}</small>
+            <hr />
+        `;
+
+        for (player of normalizedBets.gamblers) {
+            const { name, avatar, wagerTotal, wagers } = normalizedBets.gamblersByName[player];
+
+            betHtml += `<div class="roulette-bet-summary">`;
+            // Heading
+            betHtml += `  <div class="roulette-bet-summary--heading">`;
+            betHtml += buildPokerChip(avatar);
+            const coinText = wagerTotal.coins > 0 ? `${wagerTotal.coins} ${dramacoinImgHtml}` : "";
+            const procoinText = wagerTotal.procoins > 0 ? `${wagerTotal.procoins} ${marseybuxImgHtml}` : "";
+            const bettingText = coinText && procoinText ? `${coinText} and ${procoinText}` : coinText || procoinText;
+            betHtml += `<p>${name} is betting ${bettingText}:</p>`;
+            betHtml += ` </div>`;
+
+            // Individual bets
+            betHtml += `<ul class="roulette-bet-summary--list">`;
+            for (const individualBet of wagers) {
+                const coinText = individualBet.amounts.coins > 0 ? `${individualBet.amounts.coins} ${dramacoinImgHtml}` : "";
+                const procoinText = individualBet.amounts.procoins > 0 ? `${individualBet.amounts.procoins} ${marseybuxImgHtml}` : "";
+                const details = {
+                    STRAIGHT_UP_BET: `that the number will be ${individualBet.which}`,
+                    LINE_BET: `that the number will be within line ${individualBet.which}`,
+                    COLUMN_BET: `that the number will be within column ${individualBet.which}`,
+                    DOZEN_BET: `that the number will be within dozen ${individualBet.which}`,
+                    EVEN_ODD_BET: `that the number will be ${individualBet.which.toLowerCase()}`,
+                    RED_BLACK_BET: `that the color of the number will be ${individualBet.which.toLowerCase()}`,
+                    HIGH_LOW_BET: `that the number will be ${individualBet.which === "HIGH" ? "higher than 18" : "lower than 19"}`
+                }
+                const betText = coinText && procoinText ? `${coinText} and ${procoinText}` : coinText || procoinText;
+
+                betHtml += `<li>${betText} ${details[individualBet.bet]}</li>`;
+            }
+            betHtml += `</ul>`;
+            betHtml += `</div>`;
+        }
+
+        betArea.innerHTML = betHtml;
+    }
+
+    function placeChip(bet, which) {
+        const { amount, currency: safeCurrency, localCurrency: currency } = getWager();
+        const texts = {
+            STRAIGHT_UP_BET: `Bet ${amount} ${currency} on ${which}?\nYou could win ${amount * 35} ${currency}.`,
+            LINE_BET: `Bet ${amount} ${currency} on line ${which}?\nYou could win ${amount * 5} ${currency}.`,
+            COLUMN_BET: `Bet ${amount} ${currency} column ${which}?\nYou could win ${amount * 2} ${currency}.`,
+            DOZEN_BET: `Bet ${amount} ${currency} dozen ${which}?\nYou could win ${amount * 2} ${currency}.`,
+            EVEN_ODD_BET: `Bet ${amount} ${currency} that the number will be ${which.toLowerCase()}?\nYou could win ${amount} ${currency}.`,
+            RED_BLACK_BET: `Bet ${amount} ${currency} that the number will be ${which.toLowerCase()}?\nYou could win ${amount} ${currency}.`,
+            HIGH_LOW_BET: `Bet ${amount} ${currency} that the number will be ${which === "HIGH" ? "higher than 18" : "lower than 19"}?\nYou could win ${amount} ${currency}.`,
+        }
+        const text = texts[bet] || "";
+        const confirmed = window.confirm(text);
+
+        if (confirmed) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("post", "/casino/roulette/place-bet");
+            xhr.onload = handleRouletteResponse.bind(null, xhr);
+
+            const form = new FormData();
+            form.append("formkey", formkey());
+            form.append("bet", bet);
+            form.append("which", which);
+            form.append("wager", amount);
+            form.append("currency", safeCurrency);
+
+            xhr.send(form);
+        }
+    }
+
+    function addChipsToTable(bets) {
+        const flatBets = formatFlatBets(bets);
+
+        for (const bet of flatBets) {
+            const tableElement = document.getElementById(`${bet.bet}#${bet.which}`);
+            tableElement.style.position = 'relative';
+            const count = tableElement.dataset.count ? parseInt(tableElement.dataset.count) + 1 : 1;
+            tableElement.dataset.count = count;
+
+            const chip = buildPokerChip(bet.gambler_profile_url)
+            tableElement.innerHTML = `${tableElement.innerHTML}<div style="position: absolute; bottom: ${count + 2}px; left: -${count + 2}px; transform: scale(0.5);">${chip}</div>`;
+        }
+    }
+
+    function requestRouletteBets() {
+        const xhr = new XMLHttpRequest();
+        xhr.open("get", "/casino/roulette/bets");
+        xhr.onload = handleRouletteResponse.bind(null, xhr);
+        xhr.send();
+    }
+
+    function handleRouletteResponse(xhr) {
+        let response;
+
+        try {
+            response = JSON.parse(xhr.response);
+        } catch (error) {
+            console.error(error);
+        }
+
+        const succeeded =
+            xhr.status >= 200 && xhr.status < 300 && response && !response.error;
+
+        if (succeeded) {
+            buildRouletteBets(response.bets);
+            addChipsToTable(response.bets);
+            updatePlayerCurrencies(response.gambler);
+            updateResult("Rolls occur every five minutes", "success");
+        } else {
+            updateResult("Unable to place that bet.", "danger");
+        }
+    }
+</script>
+{% endblock %}
+
+{% block screen %}
+<style>
+    .roulette-table-number {
+        flex: 1;
+        height: 60px;
+        border: 1px solid white;
+        background: green;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bolder;
+    }
+
+    .roulette-table-number__black {
+        background: black;
+    }
+
+    .roulette-table-number__red {
+        background: red;
+    }
+
+    .roulette-table-row {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .roulette-table-column {
+        flex: 1;
+        height: 60px;
+        border: 1px solid white;
+        background: green;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bolder;
+        writing-mode: vertical-rl;
+        text-orientation: sideways;
+    }
+
+    .roulette-table-line,
+    .roulette-table-1to1 {
+        border: 1px solid white;
+        background: green;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bolder;
+    }
+
+    .roulette-table-line {
+        flex: 4;
+    }
+
+    .roulette-table-1to1 {
+        flex: 2;
+    }
+
+    .roulette-poker-chip {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+    }
+
+    .roulette-bet-summary--heading {
+        display: flex;
+        align-items: center;
+    }
+
+    .roulette-bet-summary--heading p {
+        margin: 0;
+        margin-left: 1rem;
+        font-weight: bolder;
+    }
+
+    .roulette-bet-summary--list {
+        list-style-type: none;
+    }
+
+    .roulette-poker-chip img:last-child {
+        position: absolute;
+    }
+
+    .roulette-total-bets {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-align: right;
+    }
+</style>
+
+<div id="roulette-table">
+</div>
+{% endblock %}
+
+{% block actiontext %}
+Bets
+{% endblock %}
+
+{% block actions %}
+<div id="roulette-bets">
+    <div class="roulette-bet-summary">
+        <div class="roulette-bet-summary--heading">
+            <div class="roulette-poker-chip">
+                <img src="/i/pokerchip.webp" width="40" height="40" />
+                <img src="/e/marseycodecellove.webp" width="40" height="40" />
+            </div>
+            <p>111 is betting 4 and 4:
+            </p>
+        </div>
+        <ul class="roulette-bet-summary--list">
+            <li>2 <img src="/i/rDrama/coins.webp?v=3009" alt="coin" width="32" data-bs-toggle="tooltip"
+                    data-bs-placement="bottom" title="" aria-label="Dramacoin" data-bs-original-title="Dramacoin"> that
+                the number will be black.</li>
+            <li>2 <img src="/i/rDrama/coins.webp?v=3009" alt="coin" width="32" data-bs-toggle="tooltip"
+                    data-bs-placement="bottom" title="" aria-label="Dramacoin" data-bs-original-title="Dramacoin"> that
+                the number will be even.</li>
+        </ul>
+    </div>
+</div>
+
+<div class="game_screen-title">
+    <h5>How to Bet</h5>
+    <hr />
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Bet</th>
+            <th>Payout</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Straight Up</td>
+            <td>35:1</td>
+            <td>
+                Click any single number. <br />
+                You win if the roulette lands on that number.
+            </td>
+        </tr>
+        <tr>
+            <td>Line</td>
+            <td>5:1</td>
+            <td>
+                Click Line 1, Line 2 ... Line 6. <br />
+                You win if the roulette lands on any of the six numbers beneath the line.
+            </td>
+        </tr>
+        <tr>
+            <td>Column</td>
+            <td>2:1</td>
+            <td>
+                Click Col 1, Col 2 or Col 3. <br />
+                You win if the roulette lands on any of the 12 numbers to the left of the column.
+            </td>
+        </tr>
+        <tr>
+            <td>Dozen</td>
+            <td>2:1</td>
+            <td>
+                Click 1st12, 2nd12 or 3rd12. <br />
+                You win if the roulette lands on a number within 1-12, 13-24 or 25-36, respectively.
+            </td>
+        </tr>
+        <tr>
+            <td>Even/Odd</td>
+            <td>1:1</td>
+            <td>
+                Click EVEN or ODD. <br />
+                You win if the roulette lands on a number that matches your choice.
+            </td>
+        </tr>
+        <tr>
+            <td>Red/Black</td>
+            <td>1:1</td>
+            <td>
+                Click RED or BLACK. <br />
+                You win if the roulette lands on a number that is the same color as your choice.
+            </td>
+        </tr>
+        <tr>
+            <td>High/Low</td>
+            <td>1:1</td>
+            <td>
+                Click 1:18 or 19:36. <br />
+                You win if the roulette lands on a number within your selected range.
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

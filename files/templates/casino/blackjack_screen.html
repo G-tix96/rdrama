@@ -23,6 +23,7 @@
             if (succeeded) {
                 updateBlackjackTable(response.state);
                 updateFeed(response.feed);
+                updatePlayerCurrencies(response.gambler);
             } else {
                 console.error("Error: ", response.error);
                 throw new Error("Error")

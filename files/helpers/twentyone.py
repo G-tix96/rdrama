@@ -1,8 +1,6 @@
 import json
-from locale import currency
 from math import floor
 import random
-from functools import reduce
 from enum import Enum
 from files.classes.casino_game import Casino_Game
 from flask import g
@@ -362,6 +360,7 @@ def get_value_of_hand(hand):
 
     return max(possibilities)
 
+
 def get_available_actions(state):
     actions = []
 
@@ -371,7 +370,7 @@ def get_available_actions(state):
 
     if can_double_down(state):
         actions.append(BlackjackAction.DOUBLE_DOWN)
-    
+
     if can_purchase_insurance(state):
         actions.append(BlackjackAction.BUY_INSURANCE)
 
