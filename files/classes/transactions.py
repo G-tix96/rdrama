@@ -6,7 +6,7 @@ if KOFI_TOKEN:
 
 	class Transaction(Base):
 
-		__tablename__ = "kofi"
+		__tablename__ = "transactions"
 		id = Column(String, primary_key=True)
 		created_utc = Column(Integer)
 		type = Column(String)

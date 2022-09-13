@@ -18,7 +18,7 @@ from collections import Counter
 import gevent
 from sys import stdout
 import os
-
+import json
 
 def leaderboard_thread():	
 	db = db_session()
@@ -1385,14 +1385,15 @@ def bid_list(v, bid):
 
 @app.post("/kofi")
 def kofi():
-	verification_token = request.values.get('verification_token')
+	data = json.loads(request.values['data'])
+	verification_token = data['verification_token']
 	if verification_token != KOFI_TOKEN: abort(400)
 
-	id = request.values.get('kofi_transaction_id')
-	created_utc = time.mktime(time.strptime(request.values.get('timestamp'), "%Y-%m-%dT%H:%M:%SZ"))
-	type = request.values.get('type')
-	amount = int(request.values.get('amount'))
-	email = request.values.get('email')
+	id = data['kofi_transaction_id']
+	created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%S")))
+	type = data['type']
+	amount = int(float(data['amount']))
+	email = data['email']
 
 	transaction = Transaction(
 		id=id,
@@ -1403,5 +1404,44 @@ def kofi():
 	)
 
 	g.db.add(transaction)
-
 	return ''
+
+kofi_tiers={
+	5: 1,
+	10: 2,
+	20: 3,
+	50: 4
+	}
+
+@app.post("/settings/kofi")
+@auth_required
+def settings_kofi(v):
+	if not (v.email and v.is_activated):
+		return {"error": f"You must have a verified email to verify {patron} status and claim your rewards!"}, 400
+
+	transaction = g.db.query(Transaction).filter_by(email=v.email).one_or_none()
+
+	if not transaction:
+		return {"error": "Email not found"}, 404
+
+	tier = kofi_tiers[transaction.amount]
+	if v.patron == tier: return {"error": f"{patron} rewards already claimed"}, 400
+
+	procoins = procoins_li[tier] - procoins_li[v.patron]
+	if procoins < 0: return {"error": f"{patron} rewards already claimed"}, 400
+
+	existing = g.db.query(User.id).filter(User.email == v.email, User.is_activated == True, User.patron >= tier).first()
+	if existing: return {"error": f"{patron} rewards already claimed on another account"}, 400
+
+	v.patron = tier
+	if v.discord_id: add_role(v, f"{tier}")
+
+	v.procoins += procoins
+	send_repeatable_notification(v.id, f"You have received {procoins} Marseybux! You can use them to buy awards in the [shop](/shop).")
+
+	g.db.add(v)
+
+	badge_grant(badge_id=20+tier, user=v)
+	
+
+	return {"message": f"{patron} rewards claimed!"}

@@ -343,7 +343,7 @@ def themecolor(v):
 @auth_required
 def gumroad(v):
 	if not (v.email and v.is_activated):
-		return {"error": f"You must have a verified email to verify {patron} status and claim your rewards"}, 400
+		return {"error": f"You must have a verified email to verify {patron} status and claim your rewards!"}, 400
 
 	data = {'access_token': GUMROAD_TOKEN, 'email': v.email}
 	response = requests.get('https://api.gumroad.com/v2/sales', data=data, timeout=5).json()["sales"]
