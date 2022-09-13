@@ -182,7 +182,7 @@ def spin_roulette_wheel():
 
             if coin_winnings > 0:
                 notification_text = notification_text + \
-                    f"* You received {coin_winnings} dramacoins.\n"
+                    f"* You received {coin_winnings} coins.\n"
 
             if procoin_winnings > 0:
                 notification_text = notification_text + \
