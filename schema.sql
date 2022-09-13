@@ -872,6 +872,19 @@ CREATE TABLE public.subscriptions (
 
 
 --
+-- Name: transactions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.transactions (
+    id integer NOT NULL,
+    created_utc integer NOT NULL,
+    type character varying(12) NOT NULL,
+    amount integer NOT NULL,
+    email character varying(255) NOT NULL
+);
+
+
+--
 -- Name: userblocks; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1464,6 +1477,14 @@ ALTER TABLE ONLY public.subscriptions
 
 
 --
+-- Name: transactions transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transactions
+    ADD CONSTRAINT transactions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users uid_unique; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1946,6 +1967,13 @@ CREATE INDEX subs_idx ON public.subs USING btree (name);
 --
 
 CREATE INDEX subscription_user_index ON public.subscriptions USING btree (user_id);
+
+
+--
+-- Name: transactions_email_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX transactions_email_idx ON public.transactions USING btree (email);
 
 
 --
