@@ -519,7 +519,7 @@ def hole_pin(v, pid):
 	g.db.add(p)
 
 	if v.id != p.author_id:
-		message = f"@{v.username} (Mod) has pinned your [post]({p.shortlink}) in /h/{p.sub}"
+		message = f"@{v.username} (Mod) has pinned [{p.title}]({p.shortlink}) in /h/{p.sub}"
 		send_repeatable_notification(p.author_id, message)
 
 	return {"message": f"Post pinned to /h/{p.sub} successfully!"}
@@ -537,7 +537,7 @@ def hole_unpin(v, pid):
 	g.db.add(p)
 
 	if v.id != p.author_id:
-		message = f"@{v.username} (Mod) has unpinned your [post]({p.shortlink}) in /h/{p.sub}"
+		message = f"@{v.username} (Mod) has unpinned [{p.title}]({p.shortlink}) in /h/{p.sub}"
 		send_repeatable_notification(p.author_id, message)
 
 	return {"message": f"Post unpinned from /h/{p.sub} successfully!"}

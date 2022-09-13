@@ -1239,7 +1239,7 @@ def sticky_post(post_id, v):
 		g.db.add(ma)
 
 		if v.id != post.author_id:
-			send_repeatable_notification(post.author_id, f"@{v.username} has pinned your [post](/post/{post_id})!")
+			send_repeatable_notification(post.author_id, f"@{v.username} has pinned [{post.title}](/post/{post_id})!")
 
 		cache.delete_memoized(frontlist)
 	return {"message": "Post pinned!"}
@@ -1264,7 +1264,7 @@ def unsticky_post(post_id, v):
 		g.db.add(ma)
 
 		if v.id != post.author_id:
-			send_repeatable_notification(post.author_id, f"@{v.username} has unpinned your [post](/post/{post_id})!")
+			send_repeatable_notification(post.author_id, f"@{v.username} has unpinned [{post.title}](/post/{post_id})!")
 
 		cache.delete_memoized(frontlist)
 	return {"message": "Post unpinned!"}
