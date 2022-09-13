@@ -88,9 +88,11 @@ if not path.isfile(f'/site_settings.json'):
 def before_request():
 
 	g.agent = request.headers.get("User-Agent")
-	if not g.agent: return 'Please use a "User-Agent" header!', 403
+	if not g.agent and request.path != '/kofi':
+		return 'Please use a "User-Agent" header!', 403
 
-	ua = g.agent.lower()
+	ua = g.agent or ''
+	ua = ua.lower()
 
 	with open('/site_settings.json', 'r', encoding='utf_8') as f:
 		app.config['SETTINGS'] = json.load(f)
@@ -98,7 +100,7 @@ def before_request():
 	if request.host != app.config["SERVER_NAME"]: return {"error":"Unauthorized host provided."}, 401
 	if request.headers.get("CF-Worker"): return {"error":"Cloudflare workers are not allowed to access this website."}, 401
 
-	if not app.config['SETTINGS']['Bots'] and request.headers.get("Authorization"): abort(503)
+	if not app.config['SETTINGS']['Bots'] and request.headers.get("Authorization"): abort(403)
 
 	g.db = db_session()
 	g.webview = '; wv) ' in ua

@@ -45,7 +45,11 @@
 			<div class="footer">
 				<div class="d-flex">
 					{% if FEATURES['PROCOINS'] %}
-						<a class="btn btn-success" role="button" onclick="post_toast(this,'/settings/gumroad')">Claim {{patron}} rewards</a>
+						{% if KOFI_TOKEN %}
+							<a class="btn btn-success" role="button" onclick="post_toast(this,'/settings/kofi')">Claim {{patron}} rewards</a>
+						{% else %}
+							<a class="btn btn-success" role="button" onclick="post_toast(this,'/settings/gumroad')">Claim {{patron}} rewards</a>
+						{% endif %}
 					{% endif %}
 					{% if v.email %}
 						<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Update email">
@@ -54,7 +58,13 @@
 					{% endif %}
 				</div>
 				{% if FEATURES['PROCOINS'] %}
-					<span class="text-small text-muted pl-1">Must be same email as gumroad</span>
+					<span class="text-small text-muted pl-1">Must be same email as the one you used to donate on 
+						{% if KOFI_TOKEN %}
+							<a class="text-primary" href="{{KOFI_LINK}}">Kofi</a>
+						{% else %}
+							<a class="text-primary" href="{{GUMROAD_LINK}}">Gumroad</a>
+						{% endif %}
+					</span>
 				{% endif %}
 			</div>
 		</form>

@@ -1,5 +1,5 @@
 CREATE TABLE public.transactions (
-    id integer PRIMARY KEY,
+    id character varying(36) PRIMARY KEY,
     created_utc integer NOT NULL,
     type character varying(12) NOT NULL,
     amount integer NOT NULL,

@@ -103,6 +103,7 @@ def settings_profile_post(v):
 	elif request.values.get("marsify", v.marsify) != v.marsify and v.marsify <= 1:
 		updated = True
 		v.marsify = int(request.values.get("marsify") == 'true')
+		if v.marsify: badge_grant(user=v, badge_id=170)
 
 	elif request.values.get("bio") == "":
 		v.bio = None
@@ -343,7 +344,7 @@ def themecolor(v):
 @auth_required
 def gumroad(v):
 	if not (v.email and v.is_activated):
-		return {"error": f"You must have a verified email to verify {patron} status and claim your rewards"}, 400
+		return {"error": f"You must have a verified email to verify {patron} status and claim your rewards!"}, 400
 
 	data = {'access_token': GUMROAD_TOKEN, 'email': v.email}
 	response = requests.get('https://api.gumroad.com/v2/sales', data=data, timeout=5).json()["sales"]

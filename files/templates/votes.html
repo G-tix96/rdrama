@@ -30,6 +30,7 @@
 	<table class="table table-striped mb-5">
 		<thead class="bg-primary text-white">
 			<tr>
+				<th>#</th>
 				<th>User</th>
 				<th onclick="sort_table(1)">User Truescore</th>
 				<th onclick="sort_table(2)">Vote Time</th>
@@ -38,6 +39,7 @@
 
 		{% for vote in ups %}
 			<tr>
+				<td>{{loop.index}}</td>
 				<td>
 					{% with user=vote.user %}
 						{% include "user_in_table.html" %}
@@ -55,6 +57,7 @@
 	<table class="table table-striped mb-5">
 		<thead class="bg-primary text-white">
 			<tr>
+				<th>#</th>
 				<th>User</th>
 				<th onclick="sort_table(1)">User Truescore</th>
 				<th onclick="sort_table(2)">Vote Time</th>
@@ -63,6 +66,7 @@
 
 		{% for vote in downs %}
 			<tr>
+				<td>{{loop.index}}</td>
 				<td>
 					{% with user=vote.user %}
 						{% include "user_in_table.html" %}
