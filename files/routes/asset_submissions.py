@@ -49,22 +49,25 @@ def submit_marseys(v):
 @auth_required
 def submit_marsey(v):
 
+	file = request.files["image"]
+	name = request.values.get('name').lower().strip()
+	tags = request.values.get('tags').lower().strip()
+	username = request.values.get('author').lower().strip()
+
 	def error(error):
 		if v.admin_level > 2: marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None).all()
 		else: marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id).all()
 		for marsey in marseys:
 			marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
 			marsey.submitter = g.db.query(User.username).filter_by(id=marsey.submitter_id).one()[0]
-		return render_template("submit_marseys.html", v=v, marseys=marseys, error=error), 400
+		return render_template("submit_marseys.html", v=v, marseys=marseys, error=error, name=name, tags=tags, username=username, file=file), 400
 
 	if request.headers.get("cf-ipcountry") == "T1":
 		return error("Image uploads are not allowed through TOR.")
 
-	file = request.files["image"]
 	if not file or not file.content_type.startswith('image/'):
 		return error("You need to submit an image!")
 
-	name = request.values.get('name').lower().strip()
 	if not marsey_regex.fullmatch(name):
 		return error("Invalid name!")
 
@@ -72,11 +75,9 @@ def submit_marsey(v):
 	if existing:
 		return error("A marsey with this name already exists!")
 
-	tags = request.values.get('tags').lower().strip()
 	if not tags_regex.fullmatch(tags):
 		return error("Invalid tags!")
 
-	username = request.values.get('author').strip()
 	author = get_user(username, graceful=True)
 	if not author:
 		return error(f"A user with the name '{username}' was not found!")
@@ -199,10 +200,14 @@ def submit_hats(v):
 @auth_required
 def submit_hat(v):
 
+	name = request.values.get('name').strip()
+	description = request.values.get('description').strip()
+	username = request.values.get('author').strip()
+
 	def error(error):
 		if v.admin_level > 2: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
 		else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id).all()
-		return render_template("submit_hats.html", v=v, hats=hats, error=error), 400
+		return render_template("submit_hats.html", v=v, hats=hats, error=error, name=name, description=description, username=username), 400
 
 	if request.headers.get("cf-ipcountry") == "T1":
 		return error("Image uploads are not allowed through TOR.")
@@ -211,7 +216,6 @@ def submit_hat(v):
 	if not file or not file.content_type.startswith('image/'):
 		return error("You need to submit an image!")
 
-	name = request.values.get('name').strip()
 	if not hat_regex.fullmatch(name):
 		return error("Invalid name!")
 
@@ -219,11 +223,9 @@ def submit_hat(v):
 	if existing:
 		return error("A hat with this name already exists!")
 
-	description = request.values.get('description').strip()
 	if not description_regex.fullmatch(description):
 		return error("Invalid description!")
 
-	username = request.values.get('author').strip()
 	author = get_user(username, graceful=True)
 	if not author:
 		return error(f"A user with the name '{username}' was not found!")
