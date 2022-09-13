@@ -435,7 +435,7 @@ def get_reset():
 	if now - timestamp > 600:
 		return render_template("message.html", 
 			title="Password reset link expired",
-			error="That password reset link has expired.")
+			error="This password reset link has expired.")
 
 	user = get_account(user_id)
 	
@@ -475,7 +475,7 @@ def post_reset(v):
 	if now - timestamp > 600:
 		return render_template("message.html",
 							title="Password reset expired",
-							error="That password reset form has expired.")
+							error="This password reset form has expired.")
 
 	user = get_account(user_id)
 
@@ -558,7 +558,7 @@ def reset_2fa():
 	if now > t+3600*24:
 		return render_template("message.html",
 						title="Expired Link",
-						error="That link has expired.")
+						error="This link has expired.")
 
 	token=request.values.get("token")
 	uid=request.values.get("id")

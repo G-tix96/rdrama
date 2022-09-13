@@ -431,7 +431,7 @@ def settings_security_post(v):
 		new_email = request.values.get("new_email","").strip().lower()
 
 		if new_email == v.email:
-			return render_template("settings_security.html", v=v, error="That email is already yours!")
+			return render_template("settings_security.html", v=v, error="This email is already yours!")
 
 		url = f"{SITE_FULL}/activate"
 
@@ -620,7 +620,7 @@ def settings_profilecss(v):
 def settings_block_user(v):
 	user = get_user(request.values.get("username"), graceful=True)
 
-	if not user: return {"error": "That user doesn't exist."}, 404
+	if not user: return {"error": "This user doesn't exist."}, 404
 	
 	if user.unblockable:
 		if not v.shadowbanned:

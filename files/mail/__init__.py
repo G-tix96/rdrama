@@ -66,7 +66,7 @@ def activate(v):
 
 	if int(time.time()) - timestamp > 3600:
 		return render_template("message.html", v=v, title="Verification link expired.",
-							message="That link has expired. Visit your settings to send yourself another verification email."), 410
+							message="This link has expired. Visit your settings to send yourself another verification email."), 410
 
 	user = get_account(id)
 

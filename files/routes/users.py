@@ -415,7 +415,7 @@ def get_coins(v, username):
 def transfer_coins(v, username):
 	receiver = get_user(username)
 
-	if receiver is None: return {"error": "That user doesn't exist."}, 404
+	if receiver is None: return {"error": "This user doesn't exist."}, 404
 
 	if receiver.id != v.id:
 		amount = request.values.get("amount", "").strip()
@@ -460,7 +460,7 @@ def transfer_coins(v, username):
 def transfer_bux(v, username):
 	receiver = get_user(username)
 
-	if not receiver: return {"error": "That user doesn't exist."}, 404
+	if not receiver: return {"error": "This user doesn't exist."}, 404
 
 	if receiver.id != v.id:
 		amount = request.values.get("amount", "").strip()
@@ -957,7 +957,7 @@ def u_username(username, v=None):
 
 	if u.reserved:
 		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
-			return {"error": f"That username is reserved for: {u.reserved}"}, 418
+			return {"error": f"This username is reserved for: {u.reserved}"}, 418
 
 		return render_template("userpage_reserved.html", u=u, v=v)
 
@@ -977,7 +977,7 @@ def u_username(username, v=None):
 		
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)):
 		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
-			return {"error": "That userpage is private"}, 403
+			return {"error": "This userpage is private"}, 403
 
 		return render_template("userpage_private.html", u=u, v=v)
 
@@ -1065,13 +1065,13 @@ def u_username_comments(username, v=None):
 
 	if u.reserved:
 		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
-			return {"error": f"That username is reserved for: {u.reserved}"}, 418
+			return {"error": f"This username is reserved for: {u.reserved}"}, 418
 		return render_template("userpage_reserved.html", u=u, v=v)
 
 
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)):
 		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
-			return {"error": "That userpage is private"}, 403
+			return {"error": "This userpage is private"}, 403
 		return render_template("userpage_private.html", u=u, v=v)
 
 	if v and hasattr(u, 'is_blocking') and u.is_blocking:
