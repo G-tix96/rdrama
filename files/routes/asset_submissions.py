@@ -159,7 +159,7 @@ def approve_marsey(v, name):
 	if v.id != author.id:
 		author.coins += 250
 		g.db.add(author)
-		msg = f"@{v.username} has approved a marsey you made: :{marsey.name}:\nYou have receieved 250 coins as a reward!"
+		msg = f"@{v.username} has approved a marsey you made: :{marsey.name}:\nYou have received 250 coins as a reward!"
 		send_repeatable_notification(author.id, msg)
 
 	if v.id not in (author.id, marsey.submitter_id):
