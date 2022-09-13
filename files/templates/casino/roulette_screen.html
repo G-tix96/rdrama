@@ -79,8 +79,9 @@
         // First Column
         html += "<div class=\"roulette-table-row\">";
         for (let i = 1; i < 13; i++) {
-            const isRed = reds.includes(i);
             const correctNumber = CELL_TO_NUMBER_LOOKUP[i];
+            const isRed = reds.includes(correctNumber);
+
             html += `<div
                 id="STRAIGHT_UP_BET#${correctNumber}"
                 onclick="placeChip('STRAIGHT_UP_BET', '${correctNumber}')"
@@ -95,8 +96,9 @@
         // Second Column
         html += "<div class=\"roulette-table-row\">";
         for (let i = 13; i < 25; i++) {
-            const isRed = reds.includes(i);
             const correctNumber = CELL_TO_NUMBER_LOOKUP[i];
+            const isRed = reds.includes(correctNumber);
+
             html += `<div
                 id="STRAIGHT_UP_BET#${correctNumber}"
                 onclick="placeChip('STRAIGHT_UP_BET', '${correctNumber}')"
@@ -111,8 +113,9 @@
         // Third Column
         html += "<div class=\"roulette-table-row\">";
         for (let i = 25; i < 37; i++) {
-            const isRed = reds.includes(i);
             const correctNumber = CELL_TO_NUMBER_LOOKUP[i];
+            const isRed = reds.includes(correctNumber);
+            
             html += `<div
                 id="STRAIGHT_UP_BET#${correctNumber}"
                 onclick="placeChip('STRAIGHT_UP_BET', '${correctNumber}')"
