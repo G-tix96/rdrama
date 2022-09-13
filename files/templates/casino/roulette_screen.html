@@ -223,7 +223,7 @@
         const betArea = document.getElementById("roulette-bets");
         const flatBets = formatFlatBets(bets);
         const normalizedBets = formatNormalizedBets(bets);
-        const dramacoinImgHtml = `
+        const coinImgHtml = `
             <img
                 src="/i/rDrama/coins.webp?v=3009"
                 alt="coin"
@@ -231,8 +231,8 @@
                 data-bs-toggle="tooltip"
                 data-bs-placement="bottom"
                 title=""
-                aria-label="Dramacoin"
-                data-bs-original-title="Dramacoin" />
+                aria-label="Coin"
+                data-bs-original-title="Coin" />
         `;
         const marseybuxImgHtml = `
             <img
@@ -245,23 +245,23 @@
                 width="32"  class="mr-1 ml-1"  
                 data-bs-original-title="Marseybux" />
         `;
-        const { participants, dramacoin, marseybux } = flatBets.reduce((prev, next) => {
+        const { participants, coin, marseybux } = flatBets.reduce((prev, next) => {
             if (!prev.participants.includes(next.gambler_username)) {
                 prev.participants.push(next.gambler_username);
             }
 
             if (next.wager.currency == 'coins') {
-                prev.dramacoin += next.wager.amount;
+                prev.coin += next.wager.amount;
             } else {
                 prev.marseybux += next.wager.amount;
             }
 
             return prev;
-        }, { participants: [], dramacoin: 0, marseybux: 0 });
-        const dramacoinText = `${dramacoin} ${dramacoinImgHtml}`;
+        }, { participants: [], coin: 0, marseybux: 0 });
+        const coinText = `${coin} ${coinImgHtml}`;
         const marseybuxText = `${marseybux} ${marseybuxImgHtml}`;
         const playerText = participants.length > 1 ? `${participants.length} players are` : `1 player is`;
-        const totalText = dramacoin && marseybux ? `${dramacoinText} and ${marseybuxText}` : dramacoin ? dramacoinText : marseybuxText;
+        const totalText = coin && marseybux ? `${coinText} and ${marseybuxText}` : coin ? coinText : marseybuxText;
         const fullTotalText = participants.length === 0 ? "No one has placed a bet" : `${playerText} betting a total of ${totalText}`;
 
         let betHtml = `
@@ -276,7 +276,7 @@
             // Heading
             betHtml += `  <div class="roulette-bet-summary--heading">`;
             betHtml += buildPokerChip(avatar);
-            const coinText = wagerTotal.coins > 0 ? `${wagerTotal.coins} ${dramacoinImgHtml}` : "";
+            const coinText = wagerTotal.coins > 0 ? `${wagerTotal.coins} ${coinImgHtml}` : "";
             const procoinText = wagerTotal.procoins > 0 ? `${wagerTotal.procoins} ${marseybuxImgHtml}` : "";
             const bettingText = coinText && procoinText ? `${coinText} and ${procoinText}` : coinText || procoinText;
             betHtml += `<p>${name} is betting ${bettingText}:</p>`;
@@ -285,7 +285,7 @@
             // Individual bets
             betHtml += `<ul class="roulette-bet-summary--list">`;
             for (const individualBet of wagers) {
-                const coinText = individualBet.amounts.coins > 0 ? `${individualBet.amounts.coins} ${dramacoinImgHtml}` : "";
+                const coinText = individualBet.amounts.coins > 0 ? `${individualBet.amounts.coins} ${coinImgHtml}` : "";
                 const procoinText = individualBet.amounts.procoins > 0 ? `${individualBet.amounts.procoins} ${marseybuxImgHtml}` : "";
                 const details = {
                     STRAIGHT_UP_BET: `that the number will be ${individualBet.which}`,
@@ -499,10 +499,10 @@ Bets
         </div>
         <ul class="roulette-bet-summary--list">
             <li>2 <img src="/i/rDrama/coins.webp?v=3009" alt="coin" width="32" data-bs-toggle="tooltip"
-                    data-bs-placement="bottom" title="" aria-label="Dramacoin" data-bs-original-title="Dramacoin"> that
+                    data-bs-placement="bottom" title="" aria-label="Coin" data-bs-original-title="Coin"> that
                 the number will be black.</li>
             <li>2 <img src="/i/rDrama/coins.webp?v=3009" alt="coin" width="32" data-bs-toggle="tooltip"
-                    data-bs-placement="bottom" title="" aria-label="Dramacoin" data-bs-original-title="Dramacoin"> that
+                    data-bs-placement="bottom" title="" aria-label="Coin" data-bs-original-title="Coin"> that
                 the number will be even.</li>
         </ul>
     </div>

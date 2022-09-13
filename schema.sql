@@ -2642,10 +2642,10 @@ COPY public.badge_defs (id, name, description, created_utc) FROM stdin;
 22	Renthog	Contributed at least $10	\N
 23	Landchad	Contributed at least $20	\N
 24	Terminally online turboautist	Contributed at least $50	\N
-157	A Minor Setback	Lost a 1,000 dramacoin bet. Keep going!	\N
-158	Just One More Hand	Lost a 10,000 dramacoin bet. But it's fine, you're due for a big win!	\N
-160	Lil Goombler	Won a 1,000 dramacoin bet. Nice job!	\N
-162	King Goombler	Won a 100,000 dramacoin bet. Wipe your sweaty palms off and bet it all again, you're on a roll!	\N
+157	A Minor Setback	Lost a 1,000 coin bet. Keep going!	\N
+158	Just One More Hand	Lost a 10,000 coin bet. But it's fine, you're due for a big win!	\N
+160	Lil Goombler	Won a 1,000 coin bet. Nice job!	\N
+162	King Goombler	Won a 100,000 coin bet. Wipe your sweaty palms off and bet it all again, you're on a roll!	\N
 163	Marsey Jacobs	Designed 10 hats!	\N
 166	Giorgio Armarsey	Designed 250 hats 😲	\N
 164	Marsey de Givenchy	Designed 50 hats, holy cap.	\N
@@ -2731,8 +2731,8 @@ COPY public.badge_defs (id, name, description, created_utc) FROM stdin;
 117	Stone Skeptic	This user rejects igneous lies	\N
 129	Misinformation Superspreader	This poster was fact checked by real American patriots	\N
 130	Columbine Enthusiast (TEMPORAL FLUX EDITION)	This user is an acclaimed Reb+VoDKa slash author	\N
-159	It's Over	Lost a 100,000 dramacoin bet. It's fucking over.	\N
-161	Pro Goombler	Won a 10,000 dramacoin bet. Some would say to quit while you're ahead, but they didn't just win 10k - keep at it!	\N
+159	It's Over	Lost a 100,000 coin bet. It's fucking over.	\N
+161	Pro Goombler	Won a 10,000 coin bet. Some would say to quit while you're ahead, but they didn't just win 10k - keep at it!	\N
 165	Marsey Chanel	Designed 100 hats!!!	\N
 28	Chud	Marked as a chud	\N
 171	Rainbowed	This user has super cute text	\N
@@ -4363,7 +4363,7 @@ marseygrilling2	5526	bbq boomer barbecue barbeque	435	\N	\N
 marseypennyboo	3161	mrpennycoomstokids black nigger kween shaniqua thot whore female woman bleeder birthing person kfc baptist tradwife dress christian foid	44	\N	\N
 marseycolombo	1817	cop detective tv smart colombo classic investigator	18	\N	\N
 marseylongsurfing	6289	surf surfing water ocean long surfboard	22	\N	\N
-marseycoin	5526	dramacoin money dc spinning rich payment gold dinero animated dollars	639	\N	\N
+marseycoin	5526	coin money dc spinning rich payment gold dinero animated dollars	639	\N	\N
 marseyglam	8979	rocker pretty glamorous beautiful	120	\N	\N
 marseytrogdor	5244	burninator strongbad internet meme dragon marsdor	38	\N	\N
 marseytom	7813	thatfuckingmarsey fucking marsey tom and jerry tomjerry cartoon hanna barbera vintage smug	272	\N	\N

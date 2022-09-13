@@ -14,7 +14,7 @@ def get_game_feed(game):
     def format_game(game):
         user = g.db.query(User).filter(User.id == game.user_id).one()
         wonlost = 'lost' if game.winnings < 0 else 'won'
-        relevant_currency = "dramacoin" if game.currency == "coins" else "marseybux"
+        relevant_currency = "coin" if game.currency == "coins" else "marseybux"
 
         return {
             "user": user.username,

@@ -78,9 +78,9 @@ def pull_slots(v):
     try:
         currency = request.values.get("currency")
     except:
-        return {"error": "Invalid currency (expected 'dramacoin' or 'marseybux')."}, 400
+        return {"error": "Invalid currency (expected 'coin' or 'marseybux')."}, 400
 
-    if (currency == "dramacoin" and wager > v.coins) or (currency == "marseybux" and wager > v.procoins):
+    if (currency == "coin" and wager > v.coins) or (currency == "marseybux" and wager > v.procoins):
         return {"error": f"Not enough {currency} to make that bet."}, 400
 
     success, game_state = casino_slot_pull(v, wager, currency)
