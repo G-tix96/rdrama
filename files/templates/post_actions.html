@@ -81,9 +81,9 @@
 
 
 			{% if v.id != p.author_id and not p.ghost %}
-				<a id="unblock-{{p.id}}" class="dropdown-item text-success list-inline-item {% if not p.is_blocking %}d-none{% endif %}" role="button" onclick="post_toast(this,'/settings/unblock?username={{p.author_name}}','block-{{p.id}}','unblock-{{p.id}}','d-none')"><i class="fas fa-eye text-success"></i>Unblock user</a>
+				<a id="unblock-{{p.id}}" class="dropdown-item text-success list-inline-item {% if not p.is_blocking %}d-none{% endif %}" role="button" onclick="post_toast(this,'/settings/unblock?username={{p.author.username}}','block-{{p.id}}','unblock-{{p.id}}','d-none')"><i class="fas fa-eye text-success"></i>Unblock user</a>
 
-				<a id="block-{{p.id}}" class="dropdown-item list-inline-item text-danger {% if p.is_blocking %}d-none{% endif %}" role="button" onclick="post_toast(this,'/settings/block?username={{p.author_name}}','block-{{p.id}}','unblock-{{p.id}}','d-none')"><i class="fas fa-eye-slash text-danger"></i>Block user</a>
+				<a id="block-{{p.id}}" class="dropdown-item list-inline-item text-danger {% if p.is_blocking %}d-none{% endif %}" role="button" onclick="post_toast(this,'/settings/block?username={{p.author.username}}','block-{{p.id}}','unblock-{{p.id}}','d-none')"><i class="fas fa-eye-slash text-danger"></i>Block user</a>
 			{% endif %}
 
 
