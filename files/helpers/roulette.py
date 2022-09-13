@@ -157,8 +157,13 @@ def spin_roulette_wheel():
 
     if len(participants) > 0:
         number = randint(0, 37)  # 37 is 00
-        winners, payouts, rewards_by_game_id = determine_roulette_winners(
-            number, bets)
+
+        if number > 0 and number < 37: # 0 and 00 do not pay anything
+            winners, payouts, rewards_by_game_id = determine_roulette_winners(number, bets)
+        else:
+            winners = []
+            payouts = {}
+            rewards_by_game_id = {}
 
         # Pay out to the winners and send a notification.
         for user_id in winners:
