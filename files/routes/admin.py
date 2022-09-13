@@ -573,7 +573,7 @@ def badge_grant_post(v):
 
 	if v.id != user.id:
 		text = f"@{v.username} has given you the following profile badge:\n\n![]({new_badge.path})\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
-		send_notification(user.id, text)
+		send_repeatable_notification(user.id, text)
 	
 	ma = ModAction(
 		kind="badge_grant",
@@ -617,6 +617,10 @@ def badge_remove_post(v):
 	badge = user.has_badge(badge_id)
 	if not badge:
 		return render_template("admin/badge_remove.html", v=v, badge_types=badges, error="User doesn't have that badge.")
+
+	if v.id != user.id:
+		text = f"@{v.username} has removed the following profile badge from you:\n\n![]({badge.path})\n\n**{badge.name}**\n\n{badge.badge.description}"
+		send_repeatable_notification(user.id, text)
 
 	ma = ModAction(
 		kind="badge_remove",
