@@ -6288,3 +6288,7 @@ div.markdown {
 .directory--link:hover * {
     color: var(--primary) !important;
 }
+
+::-webkit-input-placeholder {
+    opacity: 0.7 !important;
+}
