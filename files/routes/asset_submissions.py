@@ -5,6 +5,7 @@ from files.__main__ import app, limiter
 from files.helpers.const import *
 from files.helpers.actions import *
 from files.helpers.media import *
+from files.helpers.get import *
 from files.helpers.wrappers import *
 from files.routes.static import marsey_list
 
@@ -147,11 +148,6 @@ def approve_marsey(v, name):
 		data=f'{{"files": ["https://{SITE}/e/{marsey.name}.webp"]}}', timeout=5)
 	cache.delete_memoized(marsey_list)
 
-	if v.id != marsey.submitter_id:
-		msg = f"@{v.username} has approved a marsey you submitted: :{marsey.name}:"
-		send_repeatable_notification(marsey.submitter_id, msg)
-
-	marsey.submitter_id = None
 
 	move(f"/asset_submissions/marseys/{name}.webp", f"files/assets/images/emojis/{marsey.name}.webp")
 
@@ -159,6 +155,18 @@ def approve_marsey(v, name):
 	with Image.open(highquality) as i:
 		new_path = f'/asset_submissions/marseys/original/{name}.{i.format.lower()}'
 	rename(highquality, new_path)
+
+	if v.id != author.id:
+		author.coins += 250
+		g.db.add(author)
+		msg = f"@{v.username} has approved a marsey you made: :{marsey.name}:\nYou have receieved 250 coins as a reward!"
+		send_repeatable_notification(author.id, msg)
+
+	if v.id not in (author.id, marsey.submitter_id):
+		msg = f"@{v.username} has approved a marsey you submitted: :{marsey.name}:"
+		send_repeatable_notification(marsey.submitter_id, msg)
+
+	marsey.submitter_id = None
 
 	return {"message": f"'{marsey.name}' approved!"}
 
