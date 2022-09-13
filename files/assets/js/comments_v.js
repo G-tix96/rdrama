@@ -240,7 +240,6 @@ function post_comment(fullname, hide){
 		if (data && data["comment"]) {
 			if (hide) document.getElementById(hide).classList.add('d-none');
 
-			let id = fullname.split('_')[1];
 			let name = 'comment-form-space-' + fullname;
 			commentForm = document.getElementById(name);
 
