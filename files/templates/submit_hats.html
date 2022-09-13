@@ -164,7 +164,7 @@
 								<input type="hidden" name="formkey" value="{{v.formkey}}">
 		
 								<div><label class="mt-3">Image</label></div>
-								<img loading="lazy" src="/asset_submissions/hats/{{hat.name}}.webp" style="max-width:50%;border:5px white solid">
+								<img loading="lazy" src="/asset_submissions/hats/{{hat.name}}.webp?s={{range(1, 10000000)|random}}" style="max-width:50%;border:5px white solid">
 
 								<div><label class="mt-3" for="{{hat.name}}-submitter">Submitter</label></div>
 								<input autocomplete="off" type="text" id="{{hat.name}}-submitter" class="form-control" maxlength="30" value="{{hat.submitter.username}}" readonly>
