@@ -74,7 +74,8 @@ CREATE TYPE public.casino_game_currency AS ENUM (
 
 CREATE TYPE public.casino_game_kind AS ENUM (
     'blackjack',
-    'slots'
+    'slots',
+    'roulette'
 );
 
 
