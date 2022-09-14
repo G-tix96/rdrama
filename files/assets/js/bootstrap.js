@@ -305,7 +305,7 @@ function changename(s1,s2) {
 
 function showmore() {
 	const btn = this.event.target
-	const div = btn.parentElement.nextSibling
+	const div = btn.parentElement.nextElementSibling
 	div.classList.toggle('d-none')
 	if (div.classList.contains('d-none'))
 		btn.innerHTML = 'SHOW MORE'
