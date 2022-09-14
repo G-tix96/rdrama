@@ -10,7 +10,7 @@
 		<th>#</th>
 		<th>Name</th>
 		<th>Marsey</th>
-		<th onclick="sort_table(3)">Usage</th>
+		<th>Usage</th>
 		{% if SITE == 'rdrama.net' %}
 			<th><a href="?sort=author">Author</a></th>
 			<th>Original File</th>
@@ -46,7 +46,5 @@
 
 </tbody>
 </table>
-
-<script defer src="{{asset('js/sort_table.js')}}"></script>
 
 {% endblock %}

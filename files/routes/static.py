@@ -24,11 +24,11 @@ def marseys(v):
 	if SITE == 'rdrama.net':
 		marseys = g.db.query(Marsey, User).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id==None)
 		sort = request.values.get("sort", "usage")
-		if sort == "usage": marseys = marseys.order_by(Marsey.count.desc(), User.username)
-		else: marseys = marseys.order_by(User.username, Marsey.count.desc())
+		if sort == "usage": marseys = marseys.order_by(Marsey.count.desc(), User.username).all()
+		else: marseys = marseys.order_by(User.username, Marsey.count.desc()).all()
 
 		original = listdir("/asset_submissions/marseys/original")
-		for m in marseys:
+		for marsey in marseys:
 			if f'{marsey.name}.png' in original:
 				marsey.og = f'{marsey.name}.png'
 			elif f'{marsey.name}.webp' in original:
