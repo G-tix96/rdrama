@@ -28,7 +28,7 @@ def marseys(v):
 		else: marseys = marseys.order_by(User.username, Marsey.count.desc()).all()
 
 		original = listdir("/asset_submissions/marseys/original")
-		for marsey in marseys:
+		for marsey, user in marseys:
 			if f'{marsey.name}.png' in original:
 				marsey.og = f'{marsey.name}.png'
 			elif f'{marsey.name}.webp' in original:
