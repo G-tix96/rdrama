@@ -56,7 +56,6 @@
 		}
 	</style>
 {% endif %}
-
 		<div class="navbar navbar-expand-md navbar-light" id="navbar">
 			<div class="container-fluid" style="padding:0;">
 			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not sub %}flex-grow-1{% endif %}">
@@ -249,14 +248,19 @@
 
 							{% if SITE_NAME == 'rDrama' %}
 								<a class="dropdown-item" href="/archives"><i class="fas fa-book fa-fw mr-3"></i>Archives</a>
-							{% endif %}
-							<a class="dropdown-item" href="/contact"><i class="fas fa-file-signature fa-fw mr-3"></i>Contact us</a>
+								{% endif %}
+								<a class="dropdown-item" href="/contact"><i class="fas fa-file-signature fa-fw mr-3"></i>Contact us</a>
 							<a class="dropdown-item" role="button", onclick="post_toast(this,'/logout', true)"><i class="fas fa-sign-out fa-fw mr-3"></i>Log out</a>
 						</div>
 					</div>
 				</li>
 			{% else %}
-				<li class="nav-item d-flex align-items-center justify-content-center mx-1">
+			{% if FEATURES['ORDER'] %}
+			<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
+				<a class="btn btn-primary" href="/order">Request a quote</a>
+			</li>
+			{% endif %}
+			<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
 				<a class="btn btn-primary" href="/contact">Contact us</a>
 			</li>
 				<li class="nav-item d-flex align-items-center justify-content-center mx-1">
@@ -320,6 +324,11 @@
 					<a class="nav-link" role="button", onclick="post_toast(this,'/logout', true)"><i class="fas fa-sign-out fa-fw mr-3 text-danger"></i>Log out</a>
 				</li>
 			{% else %}
+				{% if FEATURES['ORDER'] %}
+					<li class="nav-item d-flex align-items-center justify-content-center pb-3">
+						<a class="btn btn-primary btn-block" href="/order">Request a quote</a>
+					</li>
+				{% endif %}
 				<li class="nav-item d-flex align-items-center justify-content-center pb-3">
 					<a class="btn btn-primary btn-block" href="/contact">Contact us</a>
 				</li>
