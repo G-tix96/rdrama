@@ -40,7 +40,7 @@ def flag_post(pid, v):
 				_note=f'"{post.flair}"'
 			)
 			g.db.add(ma)
-	elif reason.startswith('/h/') and (v.admin_level >= 2 or v.id == post.author_id):
+	elif reason.startswith('/h/') and (v.admin_level >= 2 or v.id == post.author_id or (reason == '/h/chudrama' and v.mods(post.sub))):
 
 		sub_from = post.sub
 		sub_to = reason[3:].strip().lower()
