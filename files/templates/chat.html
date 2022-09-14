@@ -147,10 +147,10 @@
 									<span class="text d-none"></span>
 									<button class="quote btn" onclick="quote(this)"><i class="fas fa-reply" aria-hidden="true"></i></button>
 									{% if v.admin_level > 1 %}
-										<button class="quote btn" onclick="this.nextElementSibling.classList.remove('d-none');this.classList.add('d-none')">
+										<button class="quote btn del" onclick="this.nextElementSibling.classList.remove('d-none');this.classList.add('d-none')">
 											<i class="fas fa-trash-alt" aria-hidden="true"></i>
 										</button>
-										<button class="quote btn d-none" onclick="del(this)">
+										<button class="quote btn d-none del delmsg" onclick="del(this)">
 											<i class="fas fa-trash-alt text-danger" aria-hidden="true"></i>
 										</button>
 									{% endif %}
@@ -190,10 +190,10 @@
 											<span class="text d-none">{{m['text']}}</span>
 											<button class="quote btn" onclick="quote(this)"><i class="fas fa-reply" aria-hidden="true"></i></button>
 											{% if v.admin_level > 1 %}
-												<button class="quote btn" onclick="this.nextElementSibling.classList.remove('d-none');this.classList.add('d-none')">
+												<button class="quote btn del" onclick="this.nextElementSibling.classList.remove('d-none');this.classList.add('d-none')">
 													<i class="fas fa-trash-alt" aria-hidden="true"></i>
 												</button>
-												<button class="quote btn d-none" onclick="del(this)">
+												<button class="quote btn d-none del delmsg" onclick="del(this)">
 													<i class="fas fa-trash-alt text-danger" aria-hidden="true"></i>
 												</button>
 											{% endif %}
@@ -237,4 +237,14 @@
 <script defer src="/assets/js/lite-youtube.js?v=4000"></script>
 <script defer src="/chat.js?h=5"></script>
 
+<script>
+	document.addEventListener('click', function (e) {
+		if (!e.target.classList.contains('del')) {
+			for (const btn in document.querySelectorAll('.delmsg:not(.d-none)')) {
+				btn.classList.add('d-none');
+				btn.previousElementSibling.classList.remove('d-none');
+			}
+		}
+	});
+</script>
 </body>
