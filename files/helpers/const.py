@@ -119,7 +119,6 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 <p><em>This is an automated message; if you need help, you can message us <a href="/contact">here</a>.</em></p>"""
 
 
-
 ################################################################################
 ### SITE SPECIFIC CONSTANTS
 ################################################################################
@@ -155,6 +154,7 @@ FEATURES = {
 	'MARKUP_COMMANDS': True,
 	'REPOST_DETECTION': True,
 	'PATRON_ICONS': False,
+	'ORDER': False
 }
 
 EMOJI_MARSEYS = True
@@ -217,6 +217,7 @@ SNAPPY_THREAD = 0
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
+	FEATURES['ORDER'] = True
 
 	SIDEBAR_THREAD = 37696
 	BANNER_THREAD = 37697
@@ -314,6 +315,7 @@ elif SITE == 'watchpeopledie.co':
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
+	FEATURES['ORDER'] = True
 
 if CARP_ID: GIFT_NOTIF_ID = CARP_ID
 elif AEVANN_ID: GIFT_NOTIF_ID = AEVANN_ID
