@@ -237,14 +237,16 @@
 <script defer src="/assets/js/lite-youtube.js?v=4000"></script>
 <script defer src="/chat.js?h=5"></script>
 
-<script>
-	document.addEventListener('click', function (e) {
-		if (!e.target.classList.contains('del')) {
-			for (const btn in document.querySelectorAll('.delmsg:not(.d-none)')) {
-				btn.classList.add('d-none');
-				btn.previousElementSibling.classList.remove('d-none');
+{% if v.admin_level > 1 %}
+	<script>
+		document.addEventListener('click', function (e) {
+			if (!e.target.classList.contains('del')) {
+				for (const btn of document.querySelectorAll('.delmsg:not(.d-none)')) {
+					btn.classList.add('d-none');
+					btn.previousElementSibling.classList.remove('d-none');
+				}
 			}
-		}
-	});
-</script>
+		});
+	</script>
+{% endif %}
 </body>
