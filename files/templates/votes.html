@@ -20,11 +20,6 @@
 <p><b>Upvotes: </b>{{ups | length}}</p>
 <p><b>Downvotes: </b>{{downs | length}}</p>
 
-{% if v.admin_level and (total_ups and patrons_ups) %}
-	<p><b>Total Truescore: </b>{{total_ups}}</p>
-	<p><b>Total Paypigs: </b>{{patrons_ups}}</p>
-{% endif %}
-
 <h2>Upvotes</h2>
 <div class="overflow-x-auto">
 	<table class="table table-striped mb-5">
