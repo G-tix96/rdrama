@@ -261,7 +261,7 @@ def comment(v):
 																	Comment.parent_comment_id == parent_comment_id,
 																	Comment.parent_submission == parent_submission,
 																	Comment.body_html == body_html
-																	).one_or_none()
+																	).first()
 		if existing: return {"error": f"You already made that comment: /comment/{existing.id}"}, 409
 
 	if parent.author.any_block_exists(v) and v.admin_level < 2:

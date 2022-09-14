@@ -703,7 +703,7 @@ def message2(v, username):
 
 	body_html = sanitize(message)
 
-	if not (SITE == 'rdrama.net' and message == '!withdrawall' and user.id == 12732):
+	if not (SITE == 'rdrama.net' and user.id == 12732):
 		existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
 																Comment.sentto == user.id,
 																Comment.body_html == body_html,
@@ -1390,7 +1390,7 @@ def kofi():
 	if verification_token != KOFI_TOKEN: abort(400)
 
 	id = data['kofi_transaction_id']
-	created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%S")))
+	created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
 	type = data['type']
 	amount = int(float(data['amount']))
 	email = data['email']
