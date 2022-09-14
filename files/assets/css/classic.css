@@ -83,6 +83,10 @@ input, textarea, .form-control {
 	color: var(--sticky) !important;
 }
 
+.tooltip {
+	background-color:white;
+}
+
 /*front page*/
 a.btn-block[href~="/submit"] {
     display:none;
