@@ -70,7 +70,7 @@ def get_active_twentyone_game(gambler):
     return g.db.query(Casino_Game).filter(
         Casino_Game.active == True,
         Casino_Game.kind == 'blackjack',
-        Casino_Game.user_id == gambler.id).one_or_none()
+        Casino_Game.user_id == gambler.id).first()
 
 
 def get_active_twentyone_game_state(gambler):
