@@ -10,8 +10,11 @@
 		<th>#</th>
 		<th>Name</th>
 		<th>Marsey</th>
-		<th><a href="?sort=usage">Usage</a></th>
-		{% if SITE == 'rdrama.net' %}<th><a href="?sort=author">Author</a></th>{% endif %}
+		<th onclick="sort_table(3)">Usage</th>
+		{% if SITE == 'rdrama.net' %}
+			<th><a href="?sort=author">Author</a></th>
+			<th>Original File</th>
+		{% endif %}
 	</tr>
 </thead>
 <tbody id="marseys-table">
@@ -22,9 +25,12 @@
 			<td>{{marsey.name}}</td>
 			<td><img class="marsey" loading="lazy" data-bs-toggle="tooltip" alt=":#{{marsey.name}}:" title=":{{marsey.name}}:" src="/e/{{marsey.name}}.webp"></td>
 			<td>{{marsey.count}}</td>
-			{% if SITE == 'rdrama.net' %}
-				<td>{% include "user_in_table.html" %}</td>
-			{% endif %}
+			<td>{% include "user_in_table.html" %}</td>
+			<td>
+				{% if marsey.og %}
+					<a href="/asset_submissions/marseys/original/{{marsey.og}}">{{marsey.og}}</a>
+				{% endif %}
+			</td>
 		</tr>
 	{% endfor %}
 {% else %}
@@ -40,5 +46,7 @@
 
 </tbody>
 </table>
+
+<script defer src="{{asset('js/sort_table.js')}}"></script>
 
 {% endblock %}

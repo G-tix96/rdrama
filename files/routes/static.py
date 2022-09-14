@@ -26,6 +26,17 @@ def marseys(v):
 		sort = request.values.get("sort", "usage")
 		if sort == "usage": marseys = marseys.order_by(Marsey.count.desc(), User.username)
 		else: marseys = marseys.order_by(User.username, Marsey.count.desc())
+
+		original = listdir("/asset_submissions/marseys/original")
+		for m in marseys:
+			if f'{marsey.name}.png' in original:
+				marsey.og = f'{marsey.name}.png'
+			elif f'{marsey.name}.webp' in original:
+				marsey.og = f'{marsey.name}.webp'
+			elif f'{marsey.name}.gif' in original:
+				marsey.og = f'{marsey.name}.gif'
+			elif f'{marsey.name}.jpeg' in original:
+				marsey.og = f'{marsey.name}.jpeg'
 	else:
 		marseys = g.db.query(Marsey).filter(Marsey.submitter_id==None).order_by(Marsey.count.desc())
 
