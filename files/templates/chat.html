@@ -240,7 +240,7 @@
 {% if v.admin_level > 1 %}
 	<script>
 		document.addEventListener('click', function (e) {
-			if (!e.target.classList.contains('del')) {
+			if (!e.target.classList.contains('del') && !e.target.classList.contains('fa-trash-alt')) {
 				for (const btn of document.querySelectorAll('.delmsg:not(.d-none)')) {
 					btn.classList.add('d-none');
 					btn.previousElementSibling.classList.remove('d-none');
