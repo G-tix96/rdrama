@@ -144,11 +144,10 @@ def approve_marsey(v, name):
 		new_path = f'/asset_submissions/marseys/original/{name}.{i.format.lower()}'
 	rename(highquality, new_path)
 
-	if v.id != author.id:
-		author.coins += 250
-		g.db.add(author)
-		msg = f"@{v.username} has approved a marsey you made: :{marsey.name}:\nYou have received 250 coins as a reward!"
-		send_repeatable_notification(author.id, msg)
+	author.coins += 250
+	g.db.add(author)
+	msg = f"@{v.username} has approved a marsey you made: :{marsey.name}:\nYou have received 250 coins as a reward!"
+	send_repeatable_notification(author.id, msg)
 
 	if v.id not in (author.id, marsey.submitter_id):
 		msg = f"@{v.username} has approved a marsey you submitted: :{marsey.name}:"
