@@ -71,14 +71,10 @@ def get_active_roulette_games():
 
 
 def charge_gambler(gambler, amount, currency):
-    currency_gambler_holds = getattr(gambler, currency)
-    can_afford = currency_gambler_holds >= amount
+    charged = gambler.charge_account(currency, amount)
 
-    if not can_afford:
+    if not charged:
         raise Exception("Gambler cannot afford charge.")
-
-    setattr(gambler, currency, currency_gambler_holds - amount)
-    g.db.add(gambler)
 
 
 def gambler_placed_roulette_bet(gambler, bet, which, amount, currency):
@@ -172,10 +168,8 @@ def spin_roulette_wheel():
             coin_winnings = gambler_payout['coins']
             procoin_winnings = gambler_payout['procoins']
 
-            setattr(gambler, 'coins', gambler.coins + coin_winnings)
-            setattr(gambler, 'procoins', gambler.procoins + procoin_winnings)
-
-            g.db.add(gambler)
+            gambler.pay_account('coins', coin_winnings)
+            gambler.pay_account('procoins', procoin_winnings)
 
             # Notify the winners.
             notification_text = f"Winning number: {number}\nCongratulations! One or more of your roulette bets paid off!\n"

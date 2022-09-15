@@ -18,22 +18,17 @@ payout_to_symbols = {
 def casino_slot_pull(gambler, wager_value, currency):
 	over_min = wager_value >= minimum_bet
 	under_max = wager_value <= maximum_bet
-	currency_value = getattr(gambler, currency)
-	has_proper_funds = currency_value >= wager_value
+	charged = gambler.charge_account(currency, wager_value)
 
-	if (over_min and under_max and has_proper_funds):
-		setattr(gambler, currency, currency_value - wager_value)
-		gambler.winnings -= wager_value
-
+	if (over_min and under_max and charged):
 		payout = determine_payout()
 		reward = wager_value * payout
 
-		currency_value = getattr(gambler, currency, 0)
-		setattr(gambler, currency, currency_value + reward)
-		gambler.winnings += reward
+		if payout > 0:
+			gambler.pay_account(currency, wager_value + reward)
+
 		symbols = build_symbols(payout)
 		text = build_text(wager_value, payout, currency)
-
 		game_state = {
 			"symbols": symbols,
 			"text": text

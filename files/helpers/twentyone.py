@@ -80,14 +80,10 @@ def get_active_twentyone_game_state(gambler):
 
 
 def charge_gambler(gambler, amount, currency):
-    currency_gambler_holds = getattr(gambler, currency)
-    can_afford = currency_gambler_holds >= amount
-
-    if not can_afford:
+    charged = gambler.charge_account(currency, amount)
+    
+    if not charged:
         raise Exception("Gambler cannot afford charge.")
-
-    setattr(gambler, currency, currency_gambler_holds - amount)
-    g.db.add(gambler)
 
 
 def create_new_game(gambler, wager, currency):
@@ -245,12 +241,10 @@ def handle_payout(gambler, state, game):
     else:
         raise Exception("Attempted to payout a game that has not finished.")
 
-    currency_gambler_holds = getattr(gambler, game.currency)
-    setattr(gambler, game.currency, currency_gambler_holds + payout)
-
+    gambler.pay_account(game.currency, payout)
+    
     game.active = False
     g.db.add(game)
-    g.db.add(gambler)
 
     return payout
 
