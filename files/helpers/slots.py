@@ -24,10 +24,7 @@ def casino_slot_pull(gambler, wager_value, currency):
 		payout = determine_payout()
 		reward = wager_value * payout
 
-		if payout == 1:
-			gambler.pay_account(currency, wager_value)
-		elif payout > 1:
-			gambler.pay_account(currency, wager_value + reward)
+		gambler.pay_account(currency, reward)
 
 		symbols = build_symbols(payout)
 		text = build_text(wager_value, payout, currency)
