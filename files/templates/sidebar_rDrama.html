@@ -12,7 +12,7 @@
 			<a href="/i/{{SITE_NAME}}/sidebar2.webp">
 				<img class="mb-4" alt="sidebar image" onclick="expandDesktopImage()" loading="lazy" src="/i/{{SITE_NAME}}/sidebar2.webp" width=100%>
 			</a>
-		{% else %}
+		{% elif not (sub == 'chudrama' and v.truecoins < 5000) %}
 			<a href="{{image}}">
 				<img class="mb-4" alt="sidebar image" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
 			</a>
