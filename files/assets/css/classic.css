@@ -81,6 +81,10 @@ input, textarea, .form-control {
 	background-color: var(--bgc);
 }
 
+a {
+	color: #369;
+}
+
 /*front page*/
 a.btn-block[href~="/submit"] {
 	display:none;
@@ -146,6 +150,10 @@ a.btn-block[href~="/submit"] {
 blockquote {
 	background-color: var(--grey);
 	color: white;
+}
+
+.unread {
+	background-color: #9994 !important;
 }
 
 /*userpage*/
