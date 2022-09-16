@@ -585,18 +585,19 @@ def leaderboard(v):
 		pos13 = (pos13+1, users13[pos13][1])
 	except: pos13 = (len(users13)+1, 0)
 
-	users14 = users.order_by(User.winnings.desc()).limit(25).all()
+	winnings_sq = g.db.query(Casino_Game.user_id, func.sum(Casino_Game.winnings)).group_by(Casino_Game.user_id).subquery()
+	users14 = g.db.query(User).join(winnings_sq, winnings_sq.c.user_id == User.id).order_by(winnings_sq.c.sum.desc()).limit(25).all()
 	if v in users14:
 		pos14 = None
 	else:
-		sq = g.db.query(User.id, func.rank().over(order_by=User.winnings.desc()).label("rank")).subquery()
+		sq = g.db.query(User.id, func.rank().over(order_by=winnings_sq.c.sum.desc()).label("rank")).join(winnings_sq, winnings_sq.c.user_id == User.id).subquery()
 		pos14 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
 
-	users15 = users.order_by(User.winnings).limit(25).all()
+	users15 = g.db.query(User).join(winnings_sq, winnings_sq.c.user_id == User.id).order_by(winnings_sq.c.sum.asc()).limit(25).all()
 	if v in users15:
 		pos15 = None
 	else:
-		sq = g.db.query(User.id, func.rank().over(order_by=User.winnings).label("rank")).subquery()
+		sq = g.db.query(User.id, func.rank().over(order_by=winnings_sq.c.sum.asc()).label("rank")).join(winnings_sq, winnings_sq.c.user_id == User.id).subquery()
 		pos15 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
 
 	sq = g.db.query(UserBlock.target_id, func.count(UserBlock.target_id).label("count")).group_by(UserBlock.target_id).subquery()
