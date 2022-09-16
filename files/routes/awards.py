@@ -65,19 +65,23 @@ def buy(v, award):
 	price = int(og_price * v.discount)
 
 	if request.values.get("mb"):
-		if v.procoins < price: return {"error": "Not enough marseybux."}, 400
-		if award == "grass": return {"error": "You can't buy the grass award with marseybux."}, 403
-		v.charge_account('procoins', price)
+		if award == "grass":
+			return {"error": "You can't buy the grass award with marseybux."}, 403
+
+		charged = v.charge_account('procoins', price)
+		if not charged:
+			return {"error": "Not enough marseybux."}, 400
 	else:
-		if v.coins < price: return {"error": "Not enough coins."}, 400
-		v.charge_account('coins', price)
+		charged = v.charge_account('coins', price)
+		if not charged:
+			return {"error": "Not enough coins."}, 400
+
 		v.coins_spent += price
 		if v.coins_spent >= 1000000:
 			badge_grant(badge_id=73, user=v)
 		elif v.coins_spent >= 500000:
 			badge_grant(badge_id=72, user=v)
 		elif v.coins_spent >= 250000:
-			
 			badge_grant(badge_id=71, user=v)
 		elif v.coins_spent >= 100000:
 			badge_grant(badge_id=70, user=v)

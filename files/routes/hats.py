@@ -47,13 +47,17 @@ def buy_hat(v, hat_id):
 	if existing: return {"error": "You already own this hat!"}, 400
 
 	if request.values.get("mb"):
-		if v.procoins < hat.price: return {"error": "Not enough marseybux."}, 400
-		v.procoins -= hat.price
+		charged = v.charge_account('procoins', hat.price)
+		if not charged:
+			return {"error": "Not enough marseybux."}, 400
+
 		hat.author.procoins += hat.price * 0.1
 		currency = "marseybux"
 	else:
-		if v.coins < hat.price: return {"error": "Not enough coins."}, 400
-		v.coins -= hat.price
+		charged = v.charge_account('coins', price)
+		if not charged:
+			return {"error": "Not enough coins."}, 400
+
 		v.coins_spent_on_hats += hat.price
 		hat.author.coins += hat.price * 0.1
 		currency = "coins"
