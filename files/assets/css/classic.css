@@ -86,8 +86,8 @@ a {
 }
 
 /*front page*/
-a.btn-primary[href~="/submit"] {
-	background-color: transparent !important;
+a.btn-block[href~="/submit"] {
+	display:none;
 }
 
 .sorting {
