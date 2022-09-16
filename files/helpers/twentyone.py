@@ -251,7 +251,10 @@ def handle_payout(gambler, state, game):
 
 def remove_exploitable_information(state):
     safe_state = state
-    safe_state['dealer'][1] = '?'
+    
+    if len(safe_state['dealer']) >= 2:
+        safe_state['dealer'][1] = '?'
+
     safe_state['dealer_value'] = '?'
     return safe_state
 

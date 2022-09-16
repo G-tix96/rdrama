@@ -1,9 +1,11 @@
 from sqlalchemy.orm import deferred, aliased
+from sqlalchemy.sql import func
 from secrets import token_hex
 import pyotp
 from files.helpers.discord import remove_user
 from files.helpers.media import *
 from files.helpers.const import *
+from files.classes.casino_game import Casino_Game
 from files.helpers.twentyone import get_active_twentyone_game_state
 from files.helpers.sorting_and_time import *
 from .alts import Alt
@@ -58,7 +60,6 @@ class User(Base):
 	marseyawarded = Column(Integer)
 	rehab = Column(Integer)
 	longpost = Column(Integer)
-	winnings = Column(Integer, default=0)
 	unblockable = Column(Boolean)
 	bird = Column(Integer)
 	email = deferred(Column(String))
@@ -925,3 +926,11 @@ class User(Base):
 	@lazy
 	def active_blackjack_game(self):
 		return json.dumps(get_active_twentyone_game_state(self))
+
+	@property
+	@lazy
+	def winnings(self):
+		from_casino = g.db.query(func.sum(Casino_Game.winnings)).filter(Casino_Game.user_id == self.id).one()[0]
+		from_casino_value = from_casino or 0
+
+		return from_casino_value + self.total_lottery_winnings
