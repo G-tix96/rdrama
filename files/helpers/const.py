@@ -792,7 +792,7 @@ HOUSE_AWARDS = {
 	"Vampire": {
 		"kind": "Vampire",
 		"title": "Bite",
-		"description": "Turns the recipient into a vampire for 7 days.",
+		"description": "Turns the recipient into a vampire for 3 days.",
 		"icon": "fas fa-bat",
 		"color": "text-gray",
 		"price": 400
