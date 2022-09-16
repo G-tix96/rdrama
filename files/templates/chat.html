@@ -176,7 +176,7 @@
 						{% set same = loop.index > 1 and m['username'] == messages[loop.index-2]['username'] %}
 						<div class="chat-line {% if link in text_html %}chat-mention{% endif %} {% if not same %}diff{% endif %}">
 							<div class="d-flex align-items-center">
-								<div class="pl-md-3 text-muted">
+								<div class="pl-md-3 text-muted chat-line-content">
 									<div>
 										{% if not same %}
 											<div class="profile-pic-20-wrapper">
