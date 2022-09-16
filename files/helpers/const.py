@@ -213,6 +213,7 @@ SIDEBAR_THREAD = 0
 BANNER_THREAD = 0
 BADGE_THREAD = 0
 SNAPPY_THREAD = 0
+GIFT_NOTIF_ID = 5
 
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
@@ -253,6 +254,8 @@ if SITE == 'rdrama.net':
 	MOM_ID = 4588
 	DONGER_ID = 541
 	GEESE_ID = 1710
+
+	GIFT_NOTIF_ID = CARP_ID
 
 	POLL_THREAD = 79285
 
@@ -310,14 +313,12 @@ elif SITE == 'watchpeopledie.co':
 	CARP_ID = 14668
 	AEVANN_ID = 9
 	SNAKES_ID = 32
+
+	GIFT_NOTIF_ID = CARP_ID
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
 	FEATURES['ORDER'] = True
-
-if CARP_ID: GIFT_NOTIF_ID = CARP_ID
-elif AEVANN_ID: GIFT_NOTIF_ID = AEVANN_ID
-else: GIFT_NOTIF_ID = 5
 
 bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, BASEDBOT_ID}
 
