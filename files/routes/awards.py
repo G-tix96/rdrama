@@ -420,6 +420,8 @@ def admin_userawards_post(v):
 	
 	if SITE == 'pcmemes.net' and v.admin_level < 3: abort(403)
 
+	if SITE == 'watchpeopledie.co' and v.id not in (AEVANN_ID, CARP_ID, SNAKES_ID): abort(403)
+
 	try: u = request.values.get("username").strip()
 	except: abort(404)
 
