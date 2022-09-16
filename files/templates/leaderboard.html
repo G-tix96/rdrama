@@ -16,8 +16,6 @@
 	<a href="#leaderboard-badges">Badges</a> &bull;
 	{% if users12 %}<a href="#leaderboard-marseys">Marseys</a> &bull; {% endif %}
 	{% if users13 %}<a href="#leaderboard-upgiven">Upvotes Given</a> &bull; {% endif %}
-	<a href="#leaderboard-winnings">Winnings</a> &bull;
-	<a href="#leaderboard-losses">Losses</a> &bull;
 	<a href="#leaderboard-blocked">Blocked</a> &bull;
 	<a href="#leaderboard-owned-hats">Owned Hats</a> &bull;
 	<a href="#leaderboard-designed-hats">Designed Hats</a>
@@ -371,67 +369,6 @@
 		</tbody>
 	</table>
 {% endif %}
-
-
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-winnings">Top 25 by winnings</a></h5>
-
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>#</th>
-		<th>Name</th>
-		<th>Winnings</th>
-	</tr>
-</thead>
-{% for user in users14 %}
-	<tr {% if v.id == user.id %}class="self"{% endif %}>
-		<td>{{loop.index}}</td>
-		<td>{% include "user_in_table.html" %}</td>
-		<td>{{"{:,}".format(user.winnings)}}</td>
-	</tr>
-{% endfor %}
-{% if pos14 %}
-	<tr style="border-top:2px solid var(--primary)">
-		<td>{{pos14}}</td>
-		<td>
-			{% with user=v %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
-		<td>{{"{:,}".format(v.winnings)}}</td>
-	</tr>
-{% endif %}
-</table>
-
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-losses">Bottom 25 by winnings</a></h5>
-
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>#</th>
-		<th>Name</th>
-		<th>Winnings</th>
-	</tr>
-</thead>
-{% for user in users15 %}
-	<tr {% if v.id == user.id %}class="self"{% endif %}>
-		<td>{{loop.index}}</td>
-		<td>{% include "user_in_table.html" %}</td>
-		<td>{{"{:,}".format(user.winnings)}}</td>
-	</tr>
-{% endfor %}
-{% if pos15 %}
-	<tr style="border-top:2px solid var(--primary)">
-		<td>{{pos15}}</td>
-		<td>
-			{% with user=v %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
-		<td>{{"{:,}".format(v.winnings)}}</td>
-	</tr>
-{% endif %}
-</table>
 
 <h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-blocked">Top 25 Most Blocked</a></h5>
 

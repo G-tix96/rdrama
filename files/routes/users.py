@@ -585,20 +585,20 @@ def leaderboard(v):
 		pos13 = (pos13+1, users13[pos13][1])
 	except: pos13 = (len(users13)+1, 0)
 
-	winnings_sq = g.db.query(Casino_Game.user_id, func.sum(Casino_Game.winnings)).group_by(Casino_Game.user_id).subquery()
-	users14 = g.db.query(User).join(winnings_sq, winnings_sq.c.user_id == User.id).order_by(winnings_sq.c.sum.desc()).limit(25).all()
-	if v in users14:
-		pos14 = None
-	else:
-		sq = g.db.query(User.id, func.rank().over(order_by=winnings_sq.c.sum.desc()).label("rank")).join(winnings_sq, winnings_sq.c.user_id == User.id).subquery()
-		pos14 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
+	# winnings_sq = g.db.query(Casino_Game.user_id, func.sum(Casino_Game.winnings)).group_by(Casino_Game.user_id).subquery()
+	# users14 = g.db.query(User).join(winnings_sq, winnings_sq.c.user_id == User.id).order_by(winnings_sq.c.sum.desc()).limit(25).all()
+	# if v in users14:
+	# 	pos14 = None
+	# else:
+	# 	sq = g.db.query(User.id, func.rank().over(order_by=winnings_sq.c.sum.desc()).label("rank")).join(winnings_sq, winnings_sq.c.user_id == User.id).subquery()
+	# 	pos14 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
 
-	users15 = g.db.query(User).join(winnings_sq, winnings_sq.c.user_id == User.id).order_by(winnings_sq.c.sum.asc()).limit(25).all()
-	if v in users15:
-		pos15 = None
-	else:
-		sq = g.db.query(User.id, func.rank().over(order_by=winnings_sq.c.sum.asc()).label("rank")).join(winnings_sq, winnings_sq.c.user_id == User.id).subquery()
-		pos15 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
+	# users15 = g.db.query(User).join(winnings_sq, winnings_sq.c.user_id == User.id).order_by(winnings_sq.c.sum.asc()).limit(25).all()
+	# if v in users15:
+	# 	pos15 = None
+	# else:
+	# 	sq = g.db.query(User.id, func.rank().over(order_by=winnings_sq.c.sum.asc()).label("rank")).join(winnings_sq, winnings_sq.c.user_id == User.id).subquery()
+	# 	pos15 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
 
 	sq = g.db.query(UserBlock.target_id, func.count(UserBlock.target_id).label("count")).group_by(UserBlock.target_id).subquery()
 	users16 = g.db.query(User, sq.c.count).join(User, User.id == sq.c.target_id).order_by(sq.c.count.desc())
@@ -623,7 +623,7 @@ def leaderboard(v):
 		users3=users3, pos3=pos3, users4=users4, pos4=pos4, users5=users5, pos5=pos5, 
 		users7=users7, pos7=pos7, users9=users9_accs, pos9=pos9, 
 		users10=users10, pos10=pos10, users11=users11, pos11=pos11, users12=users12, pos12=pos12, 
-		users13=users13_accs, pos13=pos13, users14=users14, pos14=pos14, users15=users15, pos15=pos15,
+		users13=users13_accs, pos13=pos13, pos15=pos15,
 		users16=users16, pos16=pos16, users17=users17, pos17=pos17, users18=users18, pos18=pos18)
 
 @app.get("/<id>/css")
