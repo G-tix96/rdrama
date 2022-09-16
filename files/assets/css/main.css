@@ -4249,12 +4249,6 @@ pre .com, code .com {
 		padding-top: 72px;
 }
 }
-
-.modal-content
-{
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-    border: 1px solid #00000040;
-}
 .modal-backdrop.show
 {
     background-color: rgba(33, 38, 45, .8);
