@@ -62,7 +62,7 @@ def speak(data, v):
 	else: text = data[:1000].strip()
 
 	if not text: return '', 403
-	text_html = sanitize(text)
+	text_html = sanitize(text, count_marseys=True)
 
 	data={
 		"avatar": v.profile_url,

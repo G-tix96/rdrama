@@ -130,7 +130,7 @@ def callback(attrs, new=False):
 	return attrs
 
 
-def render_emoji(html, regexp, edit, marseys_used, b=False):
+def render_emoji(html, regexp, golden, marseys_used, b=False):
 	emojis = list(regexp.finditer(html))
 	captured = set()
 
@@ -141,7 +141,7 @@ def render_emoji(html, regexp, edit, marseys_used, b=False):
 		emoji = i.group(1).lower()
 		attrs = ''
 		if b: attrs += ' b'
-		if not edit and len(emojis) <= 20 and ('marsey' in emoji or emoji in marseys_const2):
+		if golden and len(emojis) <= 20 and ('marsey' in emoji or emoji in marseys_const2):
 			if random() < 0.0025: attrs += ' g'
 			elif random() < 0.00125: attrs += ' glow'
 
@@ -193,7 +193,7 @@ def with_sigalrm_timeout(timeout: int):
 
 
 @with_sigalrm_timeout(2)
-def sanitize(sanitized, edit=False, limit_pings=0, showmore=True, marsified=False, torture=False):
+def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False):
 	sanitized = sanitized.strip()
 
 	if torture:
@@ -284,7 +284,7 @@ def sanitize(sanitized, edit=False, limit_pings=0, showmore=True, marsified=Fals
 	marseys_used = set()
 
 	emojis = list(emoji_regex.finditer(sanitized))
-	if len(emojis) > 20: edit = True
+	if len(emojis) > 20: golden = False
 
 	captured = []
 	for i in emojis:
@@ -295,14 +295,14 @@ def sanitize(sanitized, edit=False, limit_pings=0, showmore=True, marsified=Fals
 		if 'marseylong1' in old or 'marseylong2' in old or 'marseyllama1' in old or 'marseyllama2' in old: new = old.lower().replace(">", " class='mb-0'>")
 		else: new = old.lower()
 
-		new = render_emoji(new, emoji_regex2, edit, marseys_used, True)
+		new = render_emoji(new, emoji_regex2, golden, marseys_used, True)
 
 		sanitized = sanitized.replace(old, new)
 
 	emojis = list(emoji_regex2.finditer(sanitized))
-	if len(emojis) > 20: edit = True
+	if len(emojis) > 20: golden = False
 
-	sanitized = render_emoji(sanitized, emoji_regex2, edit, marseys_used)
+	sanitized = render_emoji(sanitized, emoji_regex2, golden, marseys_used)
 
 	sanitized = sanitized.replace('&amp;','&')
 
@@ -326,7 +326,7 @@ def sanitize(sanitized, edit=False, limit_pings=0, showmore=True, marsified=Fals
 	sanitized = video_sub_regex.sub(r'\1<video controls preload="metadata"><source src="\2"></video>', sanitized)
 	sanitized = audio_sub_regex.sub(r'\1<audio controls preload="metadata" src="\2"></audio>', sanitized)
 
-	if not edit and not marsified:
+	if count_marseys:
 		for marsey in g.db.query(Marsey).filter(Marsey.submitter_id==None, Marsey.name.in_(marseys_used)).all():
 			marsey.count += 1
 			g.db.add(marsey)
@@ -403,7 +403,7 @@ def allowed_attributes_emojis(tag, name, value):
 
 
 @with_sigalrm_timeout(1)
-def filter_emojis_only(title, edit=False, graceful=False, torture=False):
+def filter_emojis_only(title, golden=True, count_marseys=False, graceful=False, torture=False):
 	title = title.strip()
 
 	if torture:
@@ -413,9 +413,9 @@ def filter_emojis_only(title, edit=False, graceful=False, torture=False):
 
 	marseys_used = set()
 
-	title = render_emoji(title, emoji_regex3, edit, marseys_used)
+	title = render_emoji(title, emoji_regex3, golden, marseys_used)
 
-	if not edit:
+	if count_marseys:
 		for marsey in g.db.query(Marsey).filter(Marsey.submitter_id==None, Marsey.name.in_(marseys_used)).all():
 			marsey.count += 1
 			g.db.add(marsey)

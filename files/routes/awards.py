@@ -358,7 +358,7 @@ def award_thing(v, thing_type, id):
 			body = thing.body
 			if author.owoify: body = owoify(body)
 			body = marsify(body)
-			thing.body_html = sanitize(body, limit_pings=5, marsified=True)
+			thing.body_html = sanitize(body, limit_pings=5)
 			g.db.add(thing)
 	elif "Vampire" in kind and kind == v.house:
 		if author.bite: author.bite += 86400 * 3
@@ -384,7 +384,7 @@ def award_thing(v, thing_type, id):
 			body = thing.body
 			body = owoify(body)
 			if author.marsify: body = marsify(body)
-			thing.body_html = sanitize(body, limit_pings=5, marsified=True)
+			thing.body_html = sanitize(body, limit_pings=5)
 			g.db.add(thing)
 	elif ("Femboy" in kind and kind == v.house):
 		if author.rainbow: author.rainbow += 86400
