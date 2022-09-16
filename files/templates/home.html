@@ -40,6 +40,8 @@
 
 <div class="row" style="overflow: visible;padding-top:5px;">
 	<div class="col">
+		<a class="btn btn-primary btn-block mt-3" href="{% if sub %}/h/{{sub}}{% endif %}/submit"><i class="fas fa-feather-alt mr-2"></i>Create Post</a>
+
 		{% if sub %}
 			{% if v %}
 				{%- set hole_prefix = '/h/' if not HOLE_STYLE_FLAIR else '' -%}
@@ -60,20 +62,20 @@
 			{% endif %}
 		{% endif %}
 
-		<div class="d-flex justify-content-between align-items-center pt-3 pb-2 pl-2 flex-wrap sorting" style="gap: 12px">
-			<a class="btn btn-primary" href="{% if sub %}/h/{{sub}}{% endif %}/submit"><i class="fas fa-feather-alt mr-2"></i>Create Post</a>
+		<div class="d-flex justify-content-between align-items-center pt-3 pb-2 sorting" style="float:right">
+
 			{% block navbar %}
 			<div class="d-flex align-items-center">
 				{% if request.path=='/catalog' %}
-					<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Catalog View" class="btn btn-primary text-primary mr-3 d-none d-md-block" href="/?sort={{sort}}&t={{t}}&ccmode=false"><i class="fas fa-columns-3 mr-2 "></i>Catalog</a>
+					<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Catalog View" class="btn btn-primary text-primary mx-2 d-none d-md-block" href="/?sort={{sort}}&t={{t}}&ccmode=false"><i class="fas fa-columns-3 mr-2 "></i>Catalog</a>
 				{% else %}
-					<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Catalog View" class="btn btn-secondary mr-3 d-none d-md-block" href="/catalog?sort={{sort}}&t={{t}}&ccmode=false"><i class="fas fa-columns-3 mr-2 "></i>Catalog</a>
+					<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Catalog View" class="btn btn-secondary mx-2 d-none d-md-block" href="/catalog?sort={{sort}}&t={{t}}&ccmode=false"><i class="fas fa-columns-3 mr-2 "></i>Catalog</a>
 				{% endif %}
 
 				{% if pins %}
-					<a class="btn btn-primary text-primary mr-2 smol-fp" href="/toggle_pins/{{sort}}"><i class="fas fas fa-thumbtack fa-rotate--45 mr-2 "></i>Pins</a>
+					<a class="btn btn-primary text-primary mx-2 smol-fp" href="/toggle_pins/{{sort}}"><i class="fas fas fa-thumbtack fa-rotate--45 mr-2 "></i>Pins</a>
 				{% else %}
-					<a class="btn btn-secondary mr-2 smol-fp" href="/toggle_pins/{{sort}}"><i class="fas fas fa-thumbtack fa-rotate--45 mr-2 "></i>Pins</a>
+					<a class="btn btn-secondary mx-2 smol-fp" href="/toggle_pins/{{sort}}"><i class="fas fas fa-thumbtack fa-rotate--45 mr-2 "></i>Pins</a>
 				{% endif %}
 
 				{% if v and SITE_NAME == 'rDrama' and FEATURES['COUNTRY_CLUB'] %}
