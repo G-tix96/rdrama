@@ -1,7 +1,7 @@
-@import 'classic.css?v=4010';
+@import 'classic.css?v=4011';
 
 :root {
-    --muted: #999 !important;
-    --black: #999 !important;
-    --bgc: #222 !important;
+    --muted: #999;
+    --black: #999;
+    --bgc: #222;
 }
