@@ -623,8 +623,7 @@ def leaderboard(v):
 		users3=users3, pos3=pos3, users4=users4, pos4=pos4, users5=users5, pos5=pos5, 
 		users7=users7, pos7=pos7, users9=users9_accs, pos9=pos9, 
 		users10=users10, pos10=pos10, users11=users11, pos11=pos11, users12=users12, pos12=pos12, 
-		users13=users13_accs, pos13=pos13, pos15=pos15,
-		users16=users16, pos16=pos16, users17=users17, pos17=pos17, users18=users18, pos18=pos18)
+		users13=users13_accs, pos13=pos13, users16=users16, pos16=pos16, users17=users17, pos17=pos17, users18=users18, pos18=pos18)
 
 @app.get("/<id>/css")
 def get_css(id):
