@@ -982,7 +982,6 @@ CREATE TABLE public.users (
     fish boolean,
     lootboxes_bought integer DEFAULT 0 NOT NULL,
     progressivestack integer,
-    winnings integer DEFAULT 0 NOT NULL,
     patron_utc integer DEFAULT 0 NOT NULL,
     rehab integer,
     house character varying(16),
