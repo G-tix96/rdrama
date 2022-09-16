@@ -54,7 +54,7 @@ def buy_hat(v, hat_id):
 		hat.author.procoins += hat.price * 0.1
 		currency = "marseybux"
 	else:
-		charged = v.charge_account('coins', price)
+		charged = v.charge_account('coins', hat.price)
 		if not charged:
 			return {"error": "Not enough coins."}, 400
 
