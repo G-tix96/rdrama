@@ -73,11 +73,11 @@ def buy_hat(v, hat_id):
 		f":marseycapitalistmanlet: @{v.username} has just bought `{hat.name}`, you have received your 10% cut ({int(hat.price * 0.1)} {currency}) :!marseycapitalistmanlet:"
 	)
 
-	if v.num_of_owned_hats >= 250:
+	if v.num_of_owned_hats >= 249:
 		badge_grant(user=v, badge_id=154)
-	elif v.num_of_owned_hats >= 100:
+	elif v.num_of_owned_hats >= 99:
 		badge_grant(user=v, badge_id=153)
-	elif v.num_of_owned_hats >= 25:
+	elif v.num_of_owned_hats >= 24:
 		badge_grant(user=v, badge_id=152)
 
 	return {"message": f"'{hat.name}' bought!"}
