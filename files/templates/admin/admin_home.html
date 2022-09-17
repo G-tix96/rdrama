@@ -48,7 +48,7 @@
 		<li><a href="/agendaposters">Users with Chud Theme</a></li>
 		<li><a href="/grassed">Currently Grassed Users</a></li>
 	{%- endif %}
-	{% if FEATURES['PROCOINS'] -%}
+	{% if FEATURES['PROCOINS'] and (not AEVANN_ID or v.id == AEVANN_ID) -%}
 		<li><a href="/patrons">Patrons / Paypigs</a></li>
 	{%- endif %}
 	<li><a href="/admin/loggedin">Currently Logged-in Users</a></li>
