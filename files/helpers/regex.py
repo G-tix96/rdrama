@@ -52,8 +52,8 @@ snappy_youtube_regex = re.compile('<lite-youtube videoid="(.+?)" params="autopla
 
 email_regex = re.compile('[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}', flags=re.A|re.I)
 
-utm_regex = re.compile('utm_[a-z]+=[a-z0-9_]+&', flags=re.A)
-utm_regex2 = re.compile('[?&]utm_[a-z]+=[a-z0-9_]+', flags=re.A)
+utm_regex = re.compile('utm_[0-z]+=[0-z_]+&', flags=re.A)
+utm_regex2 = re.compile('[?&]utm_[0-z]+=[0-z_]+', flags=re.A)
 
 slur_regex = re.compile(f"<[^>]*>|{single_words}", flags=re.I|re.A)
 slur_regex_upper = re.compile(f"<[^>]*>|{single_words.upper()}", flags=re.A)

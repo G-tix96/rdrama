@@ -67,7 +67,6 @@ class Comment(Base):
 	post = relationship("Submission", back_populates="comments")
 	author = relationship("User", primaryjoin="User.id==Comment.author_id")
 	senttouser = relationship("User", primaryjoin="User.id==Comment.sentto")
-	top_comment = relationship("Comment", primaryjoin="Comment.id==Comment.top_comment_id")
 	parent_comment = relationship("Comment", remote_side=[id], back_populates="child_comments")
 	child_comments = relationship("Comment", order_by="Comment.stickied, Comment.realupvotes.desc()", remote_side=[parent_comment_id], back_populates="parent_comment")
 	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="comment")

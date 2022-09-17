@@ -111,9 +111,11 @@ def notifications_messages(v):
 	next_exists = (len(message_threads) > 25)
 	listing = message_threads[:25]
 
+	list_to_perserve_unread_attribute = []
 	comments_unread = g.db.query(Comment).filter(Comment.id.in_(notifs_unread))
 	for c in comments_unread:
 		c.unread = True
+		list_to_perserve_unread_attribute.append(c)
 
 	if request.headers.get("Authorization"): return {"data":[x.json for x in listing]}
 
