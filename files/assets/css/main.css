@@ -4599,6 +4599,7 @@ span.green {
 }
 .alert {
 	color: #000000;
+	font-weight: 500;
 }
 .btn-lg {
 	border-color: transparent !important;
