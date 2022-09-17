@@ -386,7 +386,11 @@ def update_marsey(v):
 	process_image(filename, resize=250, trim=True)
 
 	x = requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
-		data=f'{{"files": ["https://{SITE}/e/{name}.webp", "https://{SITE}/assets/images/emojis/{name}.webp", "https://{SITE}/asset_submissions/marseys/original/{name}.{format}"]}}', timeout=5)
+		data={"files": [
+			f"https://{SITE}/e/{name}.webp",
+			f"https://{SITE}/assets/images/emojis/{name}.webp",
+			f"https://{SITE}/asset_submissions/marseys/original/{name}.{format}"
+		]}, timeout=5)
 
 	print(x, flush=True)
 	print(x.text, flush=True)
