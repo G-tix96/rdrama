@@ -341,3 +341,47 @@ def remove_hat(v, name):
 	os.remove(f"/asset_submissions/hats/{hat.name}")
 
 	return {"message": f"'{hat.name}' removed!"}
+
+
+
+@app.get("/admin/update/marseys")
+@admin_level_required(3)
+def update_marseys(v):
+	return render_template("update_marseys.html", v=v)
+
+
+@app.post("/admin/update/marseys")
+@admin_level_required(3)
+def update_marsey(v):
+
+	file = request.files["image"]
+	name = request.values.get('name').lower().strip()
+
+	def error(error):
+		return render_template("update_marseys.html", v=v, error=error)
+
+	if request.headers.get("cf-ipcountry") == "T1":
+		return error("Image uploads are not allowed through TOR.")
+
+	if not file or not file.content_type.startswith('image/'):
+		return error("You need to submit an image!")
+
+	if not marsey_regex.fullmatch(name):
+		return error("Invalid name!")
+
+	existing = g.db.query(Marsey.name).filter_by(name=name).one_or_none()
+	if not existing:
+		return error("A marsey with this name doesn't exist!")
+
+
+	highquality = f"/asset_submissions/marseys/{name}"
+	file.save(highquality)
+	with Image.open(highquality) as i:
+		new_path = f'/asset_submissions/marseys/original/{name}.{i.format.lower()}'
+	rename(highquality, new_path)
+
+	filename = f"files/assets/images/emojis/{name}.webp"
+	copyfile(new_path, filename)
+	process_image(filename, resize=250, trim=True)
+
+	return render_template("update_marseys.html", v=v, msg=f"'{name}' updated successfully!")

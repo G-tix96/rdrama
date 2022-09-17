@@ -8,9 +8,9 @@
 {% block content %}
 <pre></pre>
 <pre></pre>
-<h3>Admin Tools</h3>
+<h3 class="pb-2">Admin Tools</h3>
 
-{% if v.admin_level > 2 and (SIDEBAR_THREAD or BANNER_THREAD or BADGE_THREAD or SNAPPY_THREAD) %}
+{% if v.admin_level > 2 and (SITE_NAME == 'rDrama' or SIDEBAR_THREAD or BANNER_THREAD or BADGE_THREAD or SNAPPY_THREAD) %}
 	<h4>Add Stuff</h4>
 	<ul>
 		{% if SIDEBAR_THREAD %}
@@ -24,6 +24,9 @@
 		{% endif %}
 		{% if SNAPPY_THREAD %}
 			<li><a href="/post/{{SNAPPY_THREAD}}">Add Snappy Quotes</a></li>
+		{% endif %}
+		{% if SITE_NAME == 'rDrama' %}
+			<li><a href="/admin/update/marseys">Update Marseys</a></li>
 		{% endif %}
 	</ul>
 {% endif %}
