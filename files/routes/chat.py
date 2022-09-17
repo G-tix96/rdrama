@@ -68,7 +68,7 @@ def speak(data, v):
 		"avatar": v.profile_url,
 		"hat": v.hat_active,
 		"username": v.username,
-		"namecolor": v.namecolor,
+		"namecolor": v.name_color,
 		"text": text,
 		"text_html": text_html,
 		"text_censored": censor_slurs(text_html, 'chat'),
