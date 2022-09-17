@@ -94,7 +94,7 @@ def submit_marsey(v):
 @app.post("/admin/approve/marsey/<name>")
 @admin_level_required(3)
 def approve_marsey(v, name):
-	if CARP_ID and v.id != CARP_ID:
+	if v.id not in (AEVANN_ID, CARP_ID):
 		return {"error": "Only Carp can approve marseys!"}, 403
 
 	name = name.lower().strip()
@@ -167,7 +167,7 @@ def remove_marsey(v, name):
 	if not marsey:
 		return {"error": f"This marsey '{name}' doesn't exist!"}, 404
 
-	if v.id not in {marsey.submitter_id, CARP_ID}:
+	if v.id not in (marsey.submitter_id, AEVANN_ID, CARP_ID):
 		return {"error": "Only Carp can remove marseys!"}, 403
 
 	if v.id != marsey.submitter_id:
@@ -253,7 +253,7 @@ def submit_hat(v):
 @app.post("/admin/approve/hat/<name>")
 @admin_level_required(3)
 def approve_hat(v, name):
-	if CARP_ID and v.id != CARP_ID:
+	if v.id not in (AEVANN_ID, CARP_ID):
 		return {"error": "Only Carp can approve hats!"}, 403
 
 	name = name.strip()
@@ -329,7 +329,7 @@ def remove_hat(v, name):
 	if not hat:
 		return {"error": f"This hat '{name}' doesn't exist!"}, 404
 
-	if v.id not in {hat.submitter_id, CARP_ID}:
+	if v.id not in (hat.submitter_id, AEVANN_ID, CARP_ID):
 		return {"error": "Only Carp can remove hats!"}, 403
 
 	if v.id != hat.submitter_id:
