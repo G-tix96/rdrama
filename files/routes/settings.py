@@ -276,7 +276,7 @@ def settings_profile_post(v):
 		elif v.procoins >= cost: v.procoins -= cost
 		else: abort(403)
 
-		if house == "None": house = None 
+		if house == "None": house = '' 
 		v.house = house
 
 		if v.house == "Vampire":
