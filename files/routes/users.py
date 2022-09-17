@@ -1410,7 +1410,8 @@ kofi_tiers={
 	5: 1,
 	10: 2,
 	20: 3,
-	50: 4
+	50: 4,
+	100: 5
 	}
 
 @app.post("/settings/kofi")
