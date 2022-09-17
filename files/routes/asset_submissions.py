@@ -377,11 +377,18 @@ def update_marsey(v):
 	highquality = f"/asset_submissions/marseys/{name}"
 	file.save(highquality)
 	with Image.open(highquality) as i:
-		new_path = f'/asset_submissions/marseys/original/{name}.{i.format.lower()}'
+		format = i.format.lower()
+		new_path = f'/asset_submissions/marseys/original/{name}.{format}'
 	rename(highquality, new_path)
 
 	filename = f"files/assets/images/emojis/{name}.webp"
 	copyfile(new_path, filename)
 	process_image(filename, resize=250, trim=True)
+
+	x = requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
+		data=f'{{"files": ["https://{SITE}/e/{name}.webp", "https://{SITE}/assets/images/emojis/{name}.webp", "https://{SITE}/asset_submissions/marseys/original/{name}.{format}"]}}', timeout=5)
+
+	print(x, flush=True)
+	print(x.text, flush=True)
 
 	return render_template("update_marseys.html", v=v, msg=f"'{name}' updated successfully!")
