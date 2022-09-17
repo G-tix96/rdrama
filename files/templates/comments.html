@@ -15,7 +15,7 @@
 	{% include "popover.html" %}
 {% endif %}
 
-{% macro single_comment(c, level=1) %}
+{% macro single_comment(c, level=1, collapse=False) %}
 
 {% set ups=c.upvotes %}
 {% set downs=c.downvotes %}
@@ -114,7 +114,7 @@
 	{% set isreply = False %}
 {% endif %}
 
-<div id="comment-{{c.id}}" class="anchor comment {% if standalone and level==1 %} mt-0{% endif %} {% if c.collapse_for_user(v,request.full_path) %}collapsed{% endif %}" style="{% if isreply %}padding-left:0!important;{% else %}border-left: 2px solid {% if c.ghost %}var(--primary){% else %}#{{c.author.name_color}};{% endif %}{% endif %}">
+<div id="comment-{{c.id}}" class="anchor comment {% if standalone and level==1 %} mt-0{% endif %} {% if collapse or c.collapse_for_user(v,request.full_path) %}collapsed{% endif %}" style="{% if isreply %}padding-left:0!important;{% else %}border-left: 2px solid {% if c.ghost %}var(--primary){% else %}#{{c.author.name_color}};{% endif %}{% endif %}">
 	{% if not isreply %}
 		<span class="comment-collapse-desktop d-none d-md-block" style="border-left: 2px solid {% if c.ghost %}var(--primary){% else %}#{{c.author.name_color}}{% endif %}" onclick="collapse_comment('{{c.id}}', this.parentElement)"></span>
 	{% endif %}
@@ -553,7 +553,11 @@
 
 	{% if render_replies %} 
 		<div id="replies-of-{{c.fullname}}">
-			{% if level<9 or request.path.startswith('/notifications') %}
+			{% if request.path.startswith('/notifications') and replies|length > 8 %}
+				{% for reply in replies %}
+					{{single_comment(reply, level=level+1, collapse=(not reply.unread and loop.index != replies|length))}}
+				{% endfor %}
+			{% elif request.path.startswith('/notifications') or level < 9 %}
 				{% for reply in replies %}
 					{{single_comment(reply, level=level+1)}}
 				{% endfor %}
