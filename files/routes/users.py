@@ -810,10 +810,6 @@ def messagereply(v):
 		if not notif:
 			notif = Notification(comment_id=c.id, user_id=user_id)
 			g.db.add(notif)
-			ids = [c.top_comment.id] + [x.id for x in c.top_comment.replies(None)]
-			notifications = g.db.query(Notification).filter(Notification.comment_id.in_(ids), Notification.user_id == user_id)
-			for n in notifications:
-				g.db.delete(n)
 
 		if PUSHER_ID != 'blahblahblah' and not v.shadowbanned:
 			interests = f'{SITE}{user_id}'
