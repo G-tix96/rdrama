@@ -541,11 +541,12 @@ class User(Base):
 		total_awards = post_awards + comment_awards
 
 		for a in total_awards:
-			if a.kind in awards:
-				awards[a.kind]['count'] += 1
+			kind = a.kind.replace(' Founder', '')
+			if kind in awards:
+				awards[kind]['count'] += 1
 			else:
-				awards[a.kind] = a.type
-				awards[a.kind]['count'] = 1
+				awards[kind] = a.type
+				awards[kind]['count'] = 1
 
 		return sorted(list(awards.values()), key=lambda x: x['kind'], reverse=True)
 
