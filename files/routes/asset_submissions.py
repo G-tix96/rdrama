@@ -347,7 +347,7 @@ def remove_hat(v, name):
 @app.get("/admin/update/marseys")
 @admin_level_required(3)
 def update_marseys(v):
-	return render_template("update_marseys.html", v=v)
+	return render_template("update_assets.html", v=v, type="Marsey")
 
 
 @app.post("/admin/update/marseys")
@@ -358,7 +358,7 @@ def update_marsey(v):
 	name = request.values.get('name').lower().strip()
 
 	def error(error):
-		return render_template("update_marseys.html", v=v, error=error)
+		return render_template("update_assets.html", v=v, error=error, type="Marsey")
 
 	if request.headers.get("cf-ipcountry") == "T1":
 		return error("Image uploads are not allowed through TOR.")
@@ -388,4 +388,56 @@ def update_marsey(v):
 	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
 		data=f'{{"files": ["https://{SITE}/e/{name}.webp", "https://{SITE}/assets/images/emojis/{name}.webp", "https://{SITE}/asset_submissions/marseys/original/{name}.{format}"]}}', timeout=5)
 
-	return render_template("update_marseys.html", v=v, msg=f"'{name}' updated successfully!")
+	return render_template("update_assets.html", v=v, msg=f"'{name}' updated successfully!", type="Marsey")
+
+
+
+@app.get("/admin/update/hats")
+@admin_level_required(3)
+def update_hats(v):
+	return render_template("update_assets.html", v=v, type="Hat")
+
+
+@app.post("/admin/update/hats")
+@admin_level_required(3)
+def update_hat(v):
+
+	file = request.files["image"]
+	name = request.values.get('name').strip()
+
+	def error(error):
+		return render_template("update_assets.html", v=v, error=error, type="Hat")
+
+	if request.headers.get("cf-ipcountry") == "T1":
+		return error("Image uploads are not allowed through TOR.")
+
+	if not file or not file.content_type.startswith('image/'):
+		return error("You need to submit an image!")
+
+	if not hat_regex.fullmatch(name):
+		return error("Invalid name!")
+
+	existing = g.db.query(HatDef.name).filter_by(name=name).one_or_none()
+	if not existing:
+		return error("A hat with this name doesn't exist!")
+
+	highquality = f"/asset_submissions/hats/{name}"
+	file.save(highquality)
+
+	with Image.open(highquality) as i:
+		if i.width > 100 or i.height > 130:
+			os.remove(highquality)
+			return error("Images must be 100x130")
+
+		format = i.format.lower()
+		new_path = f'/asset_submissions/hats/original/{name}.{format}'
+	rename(highquality, new_path)
+
+	filename = f"files/assets/images/hats/{name}.webp"
+	copyfile(new_path, filename)
+	process_image(filename)
+
+	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
+		data=f'{{"files": ["https://{SITE}/i/hats/{name}.webp", "https://{SITE}/assets/images/hats/{name}.webp", "https://{SITE}/asset_submissions/hats/original/{name}.{format}"]}}', timeout=5)
+
+	return render_template("update_assets.html", v=v, msg=f"'{name}' updated successfully!", type="Hat")

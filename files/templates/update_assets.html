@@ -1,7 +1,7 @@
 {% extends "default.html" %}
 
 {% block title %}
-<title>Update Marseys</title>
+<title>Update {{type}}</title>
 {% endblock %}
 
 {% block pagetype %}message{% endblock %}
@@ -31,11 +31,11 @@
 	{% endif %}
 
 	<div class="mx-4">
-		<h2 class="mt-5">Update Marsey</h2>
+		<h2 class="mt-5">Update {{type}}</h2>
 			<div class="settings-section rounded">
 				<div class="d-lg-flex">
 					<div class="body w-lg-100">
-						<form action="/admin/update/marseys" method="post" enctype="multipart/form-data">
+						<form action="{{request.path}}" method="post" enctype="multipart/form-data">
 							<input type="hidden" name="formkey" value="{{v.formkey}}">
 
 							<div id="image-upload-block">
@@ -49,11 +49,11 @@
 							</div>
 
 							<label class="mt-3" for="name">Name</label>
-							<input autocomplete="off" type="text" id="name" class="form-control" name="name" maxlength="30" pattern='[Mm][Aa][Rr][Ss][Ee][Yy][a-zA-Z0-9]{1,24}' placeholder="Required" value="{{name}}" required>
+							<input autocomplete="off" type="text" id="name" class="form-control" name="name" maxlength="30" placeholder="Required" value="{{name}}" required>
 
 							<div class="footer mt-4">
 								<div class="d-flex">
-									<input id="update-marsey" type="submit" onclick="disable(this)" class="btn btn-primary ml-auto" value="Update Marsey">
+									<input id="update-asset" type="submit" onclick="disable(this)" class="btn btn-primary ml-auto" value="Update {{type}}">
 								</div>
 							</div>
 						</form>			
@@ -99,7 +99,7 @@
 					document.getElementById('image-preview').setAttribute('src', this.result);
 					document.getElementById('image-preview').classList.remove('d-none');
 				});
-				document.getElementById('submit-marsey').disabled = false;
+				document.getElementById('submit-asset').disabled = false;
 			}
 		})
 	</script>
