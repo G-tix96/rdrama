@@ -1,5 +1,5 @@
 from shutil import move, copyfile
-from os import listdir, rename
+from os import listdir, rename, path
 
 from files.__main__ import app, limiter
 from files.helpers.const import *
@@ -373,12 +373,15 @@ def update_marsey(v):
 	if not existing:
 		return error("A marsey with this name doesn't exist!")
 
+	for x in ('png','jpg','jpeg','webp','gif'):
+		if path.isfile(f'/asset_submissions/marseys/original/{name}.{x}'):
+			os.remove(f'/asset_submissions/marseys/original/{name}.{x}')
 
 	highquality = f"/asset_submissions/marseys/{name}"
 	file.save(highquality)
 	with Image.open(highquality) as i:
 		format = i.format.lower()
-		new_path = f'/asset_submissions/marseys/original/{name}.{format}'
+	new_path = f'/asset_submissions/marseys/original/{name}.{format}'
 	rename(highquality, new_path)
 
 	filename = f"files/assets/images/emojis/{name}.webp"
@@ -430,7 +433,12 @@ def update_hat(v):
 			return error("Images must be 100x130")
 
 		format = i.format.lower()
-		new_path = f'/asset_submissions/hats/original/{name}.{format}'
+	new_path = f'/asset_submissions/hats/original/{name}.{format}'
+
+	for x in ('png','jpg','jpeg','webp','gif'):
+		if path.isfile(f'/asset_submissions/hats/original/{name}.{x}'):
+			os.remove(f'/asset_submissions/hats/original/{name}.{x}')
+
 	rename(highquality, new_path)
 
 	filename = f"files/assets/images/hats/{name}.webp"
