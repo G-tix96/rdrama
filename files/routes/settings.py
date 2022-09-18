@@ -356,9 +356,6 @@ def gumroad(v):
 	tier = tiers[response["variants_and_quantity"]]
 	if v.patron == tier: return {"error": f"{patron} rewards already claimed"}, 400
 
-	procoins = procoins_li[tier] - procoins_li[v.patron]
-	if procoins < 0: return {"error": f"{patron} rewards already claimed"}, 400
-
 	existing = g.db.query(User.id).filter(User.email == v.email, User.is_activated == True, User.patron >= tier).first()
 	if existing: return {"error": f"{patron} rewards already claimed on another account"}, 400
 
