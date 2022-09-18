@@ -86,11 +86,14 @@
 					{% endif %}
 					<th scope="col" onclick="sort_table(4)">Owners</th>
 					<th scope="col" onclick="sort_table(5)">Price</th>
+					<th scope="col">Actions</th>
+					<th scope="col" onclick="sort_table(7)">Added on</th>	
 				{% else %}
 					<th scope="col" onclick="sort_table(3)">Owners</th>
 					<th scope="col" onclick="sort_table(4)">Price</th>
+					<th scope="col">Actions</th>
+					<th scope="col" onclick="sort_table(6)">Added on</th>	
 				{% endif %}
-				<th scope="col">Actions</th>
 			</tr>
 		</thead>
 
@@ -131,6 +134,8 @@
 							<a id="equip-{{hat.id}}" class="equip {% if hat.id in v.equipped_hat_ids %}d-none{% endif %} btn btn-success" role="button" onclick="equip_hat(this, '{{hat.id}}', '{{hat.name}}')"><span class="m-auto">Equip</span></a>
 						</div>
 					</td>
+
+					<td data-time="{{hat.created_utc}}"></td>
 				</tr>
 			{% endfor %}
 		</tbody>
