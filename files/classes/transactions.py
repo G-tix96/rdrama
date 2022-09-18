@@ -12,6 +12,7 @@ if KOFI_TOKEN:
 		type = Column(String)
 		amount = Column(Integer)
 		email = Column(String)
+		claimed = Column(Boolean)
 
 		def __repr__(self):
 			return f"<Transaction(id={self.id})>"

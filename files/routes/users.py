@@ -1422,11 +1422,10 @@ def settings_kofi(v):
 	if not transaction:
 		return {"error": "Email not found"}, 404
 
-	tier = kofi_tiers[transaction.amount]
-	if v.patron == tier: return {"error": f"{patron} rewards already claimed"}, 400
+	if transaction.claimed:
+		return {"error": f"{patron} rewards already claimed"}, 400
 
-	existing = g.db.query(User.id).filter(User.email == v.email, User.is_activated == True, User.patron >= tier).first()
-	if existing: return {"error": f"{patron} rewards already claimed on another account"}, 400
+	tier = kofi_tiers[transaction.amount]
 
 	v.patron = tier
 	if v.discord_id: add_role(v, f"{tier}")
@@ -1439,6 +1438,9 @@ def settings_kofi(v):
 	g.db.add(v)
 
 	badge_grant(badge_id=20+tier, user=v)
-	
+
+	transaction.claimed = True
+
+	g.db.add(transaction)
 
 	return {"message": f"{patron} rewards claimed!"}
