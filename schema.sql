@@ -510,7 +510,7 @@ CREATE TABLE public.hat_defs (
     author_id integer NOT NULL,
     price integer NOT NULL,
     submitter_id integer,
-    created_utc integer
+    created_utc integer NOT NULL
 );
 
 
