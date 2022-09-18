@@ -1411,6 +1411,7 @@ kofi_tiers={
 	}
 
 @app.post("/settings/kofi")
+@limiter.limit("1/second;30/minute;200/hour;1000/day")
 @auth_required
 def settings_kofi(v):
 	if not (v.email and v.is_activated):
@@ -1424,14 +1425,13 @@ def settings_kofi(v):
 	tier = kofi_tiers[transaction.amount]
 	if v.patron == tier: return {"error": f"{patron} rewards already claimed"}, 400
 
-	procoins = procoins_li[tier] - procoins_li[v.patron]
-	if procoins < 0: return {"error": f"{patron} rewards already claimed"}, 400
-
 	existing = g.db.query(User.id).filter(User.email == v.email, User.is_activated == True, User.patron >= tier).first()
 	if existing: return {"error": f"{patron} rewards already claimed on another account"}, 400
 
 	v.patron = tier
 	if v.discord_id: add_role(v, f"{tier}")
+
+	procoins = procoins_li[tier]
 
 	v.procoins += procoins
 	send_repeatable_notification(v.id, f"You have received {procoins} Marseybux! You can use them to buy awards in the [shop](/shop).")
