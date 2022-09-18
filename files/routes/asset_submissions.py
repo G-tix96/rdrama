@@ -373,7 +373,7 @@ def update_marsey(v):
 	if not existing:
 		return error("A marsey with this name doesn't exist!")
 
-	for x in ('png','jpg','jpeg','webp','gif'):
+	for x in ('png','jpeg','webp','gif'):
 		if path.isfile(f'/asset_submissions/marseys/original/{name}.{x}'):
 			os.remove(f'/asset_submissions/marseys/original/{name}.{x}')
 
@@ -435,7 +435,7 @@ def update_hat(v):
 		format = i.format.lower()
 	new_path = f'/asset_submissions/hats/original/{name}.{format}'
 
-	for x in ('png','jpg','jpeg','webp','gif'):
+	for x in ('png','jpeg','webp','gif'):
 		if path.isfile(f'/asset_submissions/hats/original/{name}.{x}'):
 			os.remove(f'/asset_submissions/hats/original/{name}.{x}')
 
