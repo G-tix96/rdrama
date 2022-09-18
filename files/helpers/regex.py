@@ -111,7 +111,7 @@ def sub_matcher(match, upper=False):
 		return match.group(0)
 	else:
 		repl = SLURS[match.group(0).lower()]
-		return repl if not upper else repl.upper()
+		return repl if not upper or "<img" in repl else repl.upper()
 
 def sub_matcher_upper(match):
 	return sub_matcher(match, upper=True)
