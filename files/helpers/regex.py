@@ -90,7 +90,7 @@ ascii_only_regex = re.compile("[ -~]+", flags=re.A)
 
 reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|u)\/', flags=re.A)
 
-reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|new\.reddit.com|www\.reddit.com|i\.reddit\.com|libredd\.it|teddit\.net)\/(r|u)\/", flags=re.A)
+reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|new\.reddit.com|np\.reddit.com|www\.reddit.com|i\.reddit\.com|libredd\.it|teddit\.net)\/(r|u)\/", flags=re.A)
 
 color_regex = re.compile("[a-z0-9]{6}", flags=re.A)
 
@@ -111,7 +111,7 @@ def sub_matcher(match, upper=False):
 		return match.group(0)
 	else:
 		repl = SLURS[match.group(0).lower()]
-		return repl if not upper else repl.upper()
+		return repl if not upper or "<img" in repl else repl.upper()
 
 def sub_matcher_upper(match):
 	return sub_matcher(match, upper=True)
