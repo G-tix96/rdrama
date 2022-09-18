@@ -19,7 +19,36 @@
 				width: 80%;
 			}
 		}
+
+		.shop-tab {
+			display: inline-flex;
+			max-width: 46.6%;
+			letter-spacing: 3px;
+		}
+
+		.shop-tab.active {
+			background-color: var(--primary) !important;
+			pointer-events: none !important;
+			cursor: default !important;
+		}
 	</style>
+
+	<div class="container-fluid bg-white sticky" style="padding-top: 30px; padding-bottom: 0 !important;">
+		<div class="row box-shadow-bottom">
+			<div class="col">
+				<div class="container" style="padding-bottom: 0;">
+					<div class="row box-shadow-bottom bg-white" style="justify-content: center;">
+						<a class="btn btn-primary btn-block m-0 mr-3 shop-tab active" href="/shop">
+							<span class="mr-auto ml-auto"><i class="fas fa-gift mr-2"></i>AWARDS</span>
+						</a>
+						<a class="btn btn-primary btn-block m-0 shop-tab" href="/hats">
+							<span class="mr-auto ml-auto"><i class="fas fa-hat-cowboy mr-2"></i>HATS</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<header class="container pb-1 text-center">
 		<img id="shop-banner" alt="shop banner" src="/i/shop.webp">
@@ -31,8 +60,6 @@
 		{% if FEATURES['PROCOINS'] %}
 			<h5 class="mt-4">Your current marseybux: {{"{:,}".format(v.procoins)}}</h3>
 		{% endif %}
-
-		<h5 class="mt-5"><a href="/hats">Buy hats here!</a></h5>
 	</header>
 {% endblock %}
 
