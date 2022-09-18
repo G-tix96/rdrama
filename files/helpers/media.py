@@ -63,19 +63,15 @@ def process_video(file):
 		extension = 'mp4'
 	new = old + '.' + extension
 
-	if file.filename.split('.')[-1].lower() == 'webm':
-		os.rename(old, new)
-		return f'{SITE_FULL}{new}'
-	else:
-		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
-		os.remove(old)
-		if os.stat(new).st_size > 8 * 1024 * 1024:
-			with open(new, 'rb') as f:
-				os.remove(new)
-				req = requests.request("POST", "https://pomf2.lain.la/upload.php",
-					files={'files[]': f}, timeout=20).json()
-			return req['files'][0]['url']
-		return f'{SITE_FULL}{new}'
+	subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
+	os.remove(old)
+	if os.stat(new).st_size > 8 * 1024 * 1024:
+		with open(new, 'rb') as f:
+			os.remove(new)
+			req = requests.request("POST", "https://pomf2.lain.la/upload.php",
+				files={'files[]': f}, timeout=20).json()
+		return req['files'][0]['url']
+	return f'{SITE_FULL}{new}'
 
 
 
