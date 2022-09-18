@@ -880,7 +880,8 @@ CREATE TABLE public.transactions (
     created_utc integer NOT NULL,
     type character varying(12) NOT NULL,
     amount integer NOT NULL,
-    email character varying(255) NOT NULL
+    email character varying(255) NOT NULL,
+    claimed boolean
 );
 
 
