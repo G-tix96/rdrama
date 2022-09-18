@@ -64,7 +64,7 @@ def process_video(file):
 	new = old + '.' + extension
 
 	if file.filename.split('.')[-1].lower() == 'webm':
-		file.save(new)
+		os.rename(old, new)
 		return f'{SITE_FULL}{new}'
 	else:
 		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
