@@ -749,8 +749,6 @@ class User(Base):
 	def profile_url(self):
 		if self.agendaposter:
 			return f"{SITE_FULL}/assets/images/pfps/agendaposter/{random.randint(1, 57)}.webp?v=1"
-		if self.bite:
-			return f"{SITE_FULL}/e/marseyvampire.webp"
 		if self.rainbow:
 			return f"{SITE_FULL}/e/marseysalutepride.webp"
 		if self.profileurl: 
