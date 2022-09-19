@@ -4625,13 +4625,6 @@ span.green {
 .patron[style="background-color:#FFFFFF;"] {
 	color: black !important;
 }
-.post--category-tag {
-	padding: 2px 5px 3px 5px;
-	border-radius: 5px;
-	font-size: 12px;
-	font-weight: 700;
-	margin-right: 0.25rem;
-}
 .container, .container-fluid {
 	background-color: var(--background) !important;
 }
@@ -5684,19 +5677,6 @@ g {
     border-radius:.35rem;
 }
 
-.category--tag-button {
-	display: inline-block;
-	cursor: pointer;
-}
-
-#submit-categories input {
-	display: none;
-}
-
-#submit-categories input:checked + label {
-	border: 5px var(--black) double;
-}
-
 /* ------- Font Awesome ------- */
 @font-face{
 	font-family:"Font Awesome 6 Pro";
@@ -6070,7 +6050,7 @@ g {
 }
 
 @media (max-width: 767.98px) {
-	.pronouns, .patron, .post--category-tag, .mod {
+	.pronouns, .patron, .mod {
 		padding: 2px 5px !important;
 	}
 }

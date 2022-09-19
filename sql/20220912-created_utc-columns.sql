@@ -1,7 +1,6 @@
 alter table alts add column created_utc int;
 alter table award_relationships add column created_utc int;
 alter table badge_defs add column created_utc int;
-alter table category add column created_utc int;
 alter table oauth_apps add column created_utc int;
 alter table client_auths add column created_utc int;
 alter table banneddomains add column created_utc int;

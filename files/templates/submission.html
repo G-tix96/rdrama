@@ -709,7 +709,6 @@
 						<h1 id="post-title" class="card-title post-title text-left mb-md-3 {% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter{% endif %}">
 								<a {% if p.author.rainbow %}class="rainbow-text"{% endif %} {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener noreferrer" href="{{p.realurl(v)}}">
 								{% if p.club %}<span class="patron font-weight-bolder mr-1" style="background-color:red; font-size:12px; line-height:2;">{{CC}}</span>{% endif %}
-								{% if p.category %}{{help.submission_category_tag(p.category.name, p.category.color_text, p.category.color_bg)}}{% endif %}
 								{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2;">{{p.flair | safe}}</span>{% endif %}
 								{{p.realtitle(v) | safe}}
 							</a>
@@ -717,7 +716,6 @@
 					{% else %}
 						<h1 id="post-title" class="card-title post-title text-left mb-md-3 {% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %}">
 							{% if p.club %}<span class="patron font-weight-bolder mr-1" style="background-color:red; font-size:12px; line-height:2;">{{CC}}</span>{% endif %}
-							{% if p.category %}{{help.submission_category_tag(p.category.name, p.category.color_text, p.category.color_bg)}}{% endif %}
 							{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2;">{{p.flair | safe}}</span>{% endif %}
 							{{p.realtitle(v) | safe}}
 						</h1>

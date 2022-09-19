@@ -1,6 +1,5 @@
 from files.classes import *
 from flask import g
-from sqlalchemy.orm import joinedload
 
 def get_id(username, v=None, graceful=False):
 	
@@ -136,8 +135,6 @@ def get_post(i, v=None, graceful=False):
 			Submission,
 			vt.c.vote_type,
 			blocking.c.target_id,
-		).options(
-			joinedload(Submission.category)
 		)
 
 		post=post.filter(Submission.id == i
@@ -191,8 +188,6 @@ def get_posts(pids, v=None):
 			blocked.c.target_id,
 		).filter(
 			Submission.id.in_(pids)
-		).options(
-			joinedload(Submission.category)
 		).join(
 			vt, vt.c.submission_id==Submission.id, isouter=True
 		).join(

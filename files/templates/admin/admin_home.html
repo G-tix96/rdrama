@@ -94,9 +94,6 @@
 <ul>
 	<li><a href="/create_hole">Create {{ HOLE_NAME | capitalize }}</a></li>
 	<li><a href="/admin/apps">Apps</a></li>
-	{% if FEATURES['CATEGORIES'] -%}
-		<li><a href="/admin/categories">Categories</a></li>
-	{%- endif %}
 </ul>
 
 {% if v.admin_level > 2 %}

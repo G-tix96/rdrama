@@ -124,8 +124,6 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 ################################################################################
 
 PERMS = { # Minimum admin_level to perform action.
-	'ADMIN_CATEGORIES_CHANGE': 2, # change category on post ("recategorize")
-	'ADMIN_CATEGORIES_MANAGE': 3, # create/update/delete categories
 	'HOLE_CREATE': 0,
 	'FLAGS_REMOVE': 2,
 	'VOTES_VISIBLE': 0,
@@ -137,7 +135,6 @@ PERMS = { # Minimum admin_level to perform action.
 FEATURES = {
 	'PROCOINS': True,
 	'AWARDS': True,
-	'CATEGORIES': False,
 	'CHAT': True,
 	'PINS': True,
 	'COUNTRY_CLUB': True,

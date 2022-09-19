@@ -196,7 +196,6 @@
 			<h5 class="card-title post-title text-left w-lg-95 mb-0 pb-0 pb-md-1">
 				<a id="{{p.id}}-title" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}" class="{% if p.sub %}sub{% endif %} stretched-link {% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter{% endif %}">
 				{% if p.club %}<span class="patron font-weight-bolder mr-1" style="background-color:red; font-size:12px; line-height:2;">{{CC}}</span>{% endif %}
-				{% if p.category %}{{help.submission_category_tag(p.category.name, p.category.color_text, p.category.color_bg)}}{% endif %}
 				{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2;">{{p.flair | safe}}</span>{% endif %}
 				{{p.realtitle(v) | safe}}
 			</a></h5>
@@ -422,9 +421,6 @@
 	{% include "report_post_modal.html" %}
 	{% if v.admin_level > 1 %}
 		{% include "ban_modal.html" %}
-		{% if FEATURES['CATEGORIES'] -%}
-			{% include "category_modal.html" %}
-		{%- endif %}
 	{% endif %}
 {% endif %}
 {% include "expanded_image_modal.html" %}

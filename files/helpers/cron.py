@@ -87,7 +87,6 @@ def sub_inactive_purge_task():
 		g.db.add(post)
 
 	to_delete = mods \
-		+ g.db.query(Category).filter(Category.sub.in_(names)).all() \
 		+ g.db.query(Exile).filter(Exile.sub.in_(names)).all() \
 		+ g.db.query(SubBlock).filter(SubBlock.sub.in_(names)).all() \
 		+ g.db.query(SubJoin).filter(SubJoin.sub.in_(names)).all() \

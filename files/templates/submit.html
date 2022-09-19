@@ -85,7 +85,7 @@
 
 												<div class="input-group mb2">
 													{%- set hole_placeholder = 'Required' if HOLE_REQUIRED else 'Optional' -%}
-													<input list="subs" autocomplete="off" id='sub' class="form-control" form="submitform" name="sub" oninput="savetext()" onchange="updateCategories()" {% if sub %}value="{{sub}}"{% endif %} placeholder="{{hole_placeholder}}">
+													<input list="subs" autocomplete="off" id='sub' class="form-control" form="submitform" name="sub" oninput="savetext()" {% if sub %}value="{{sub}}"{% endif %} placeholder="{{hole_placeholder}}">
 													<datalist id="subs">
 														{% for s in SUBS %}
 															<option value="{{s}}"></option>
@@ -93,11 +93,6 @@
 													</datalist>
 													
 												</div>
-
-												{% if FEATURES['CATEGORIES'] -%}
-													<label class="mt-4" for="submit-categories">Category</label>
-													<div id="submit-categories"></div>
-												{%- endif %}
 
 												<label class='mt-4' for="title">Post Title</label>
 
