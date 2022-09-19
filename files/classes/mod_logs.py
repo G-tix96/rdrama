@@ -314,11 +314,6 @@ ACTIONTYPES = {
 		"icon": 'fa-thumbtack fa-rotate--45', 
 		"color": 'bg-success'
 	},
-	'post_recategorize': {
-		"str": 'changed category of {self.target_link}',
-		"icon": 'fa-grid',
-		"color": 'bg-primary'
-	},
 	'purge_cache': {
 		"str": 'purged cache', 
 		"icon": 'fa-memory', 

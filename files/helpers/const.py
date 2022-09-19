@@ -124,8 +124,6 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 ################################################################################
 
 PERMS = { # Minimum admin_level to perform action.
-	'ADMIN_CATEGORIES_CHANGE': 2, # change category on post ("recategorize")
-	'ADMIN_CATEGORIES_MANAGE': 3, # create/update/delete categories
 	'HOLE_CREATE': 0,
 	'FLAGS_REMOVE': 2,
 	'VOTES_VISIBLE': 0,
@@ -137,7 +135,6 @@ PERMS = { # Minimum admin_level to perform action.
 FEATURES = {
 	'PROCOINS': True,
 	'AWARDS': True,
-	'CATEGORIES': False,
 	'CHAT': True,
 	'PINS': True,
 	'COUNTRY_CLUB': True,
@@ -154,7 +151,6 @@ FEATURES = {
 	'MARKUP_COMMANDS': True,
 	'REPOST_DETECTION': True,
 	'PATRON_ICONS': False,
-	'ORDER': False
 }
 
 EMOJI_MARSEYS = True
@@ -189,7 +185,6 @@ PIZZA_VOTERS = ()
 IDIO_ID = 0
 CARP_ID = 0
 JOAN_ID = 0
-MOOSE_ID = 0
 AEVANN_ID = 0
 SNAKES_ID = 0
 HOMO_ID = 0
@@ -218,7 +213,6 @@ GIFT_NOTIF_ID = 5
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
-	FEATURES['ORDER'] = True
 
 	SIDEBAR_THREAD = 37696
 	BANNER_THREAD = 37697
@@ -244,7 +238,6 @@ if SITE == 'rdrama.net':
 	IDIO_ID = 30
 	CARP_ID = 995
 	JOAN_ID = 28
-	MOOSE_ID = 1904
 	AEVANN_ID = 1
 	SNAKES_ID = 10288
 	HOMO_ID = 147
@@ -318,7 +311,6 @@ elif SITE == 'watchpeopledie.co':
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
-	FEATURES['ORDER'] = True
 
 bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, BASEDBOT_ID}
 
@@ -1076,3 +1068,18 @@ has_app = path.exists(f'files/assets/app_{SITE_NAME}_v2.4.apk')
 GLOBAL = environ.get("GLOBAL")
 
 ONLINE_STR = f'{SITE}_online'
+
+forced_hats = {
+	"rehab": ("Roulette", "I'm a recovering ludomaniac!"),
+	"progressivestack": ("Attention Whore", "I won the oppression olympics!"),
+	"longpost": ("The Pizzashill", "We need to get rid of the character limit!"),
+	"bird": ("Bluecheck", "Three sentences is too much for me..."),
+	"marseyawarded": ("Three Lil Marseys", ":marseynotes: :marseynotes: :I prefer to speak in cats:"),
+	"bite": ("Vampire Mask", "When other little girls wanted to be ballet dancers I kind of wanted to be a vampire."),
+	"rainbow": ("Globohomo", "Homosexuality is no longer optional!"),
+	"owoify": ("Furry Marsey", "Nuzzles, pounces on you, UwU, you're so warm!.."),
+	"earlylife": ("The Merchant", "SHUT IT DOWN, the goys know!"),
+	"marsify": ("Marsified", "I can't pick my own Marseys, help!"),
+	"is_banned": ("Behind Bars", "This user is banned and needs to do better!"),
+	"agendaposter": ("Egg_irl", "This user is getting in touch with xir identity!")
+}

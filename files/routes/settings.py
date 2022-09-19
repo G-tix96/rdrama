@@ -104,6 +104,9 @@ def settings_profile_post(v):
 		updated = True
 		v.marsify = int(request.values.get("marsify") == 'true')
 		if v.marsify: badge_grant(user=v, badge_id=170)
+		else: 
+			badge = v.has_badge(170)
+			if badge: g.db.delete(badge)
 
 	elif request.values.get("bio") == "":
 		v.bio = None
@@ -129,7 +132,7 @@ def settings_profile_post(v):
 		g.db.add(v)
 		return render_template("settings_profile.html", v=v, msg="Your enemies list has been updated.")
 
-	elif (v.patron or v.id == MOOSE_ID) and request.values.get("sig"):
+	elif v.patron and request.values.get("sig"):
 		sig = request.values.get("sig")[:200].replace('\n','').replace('\r','')
 
 		sig_html = sanitize(sig)

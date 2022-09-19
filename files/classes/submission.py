@@ -53,7 +53,6 @@ class Submission(Base):
 	body = Column(String)
 	body_html = Column(String)
 	flair = Column(String)
-	category_id = Column(Integer, ForeignKey("category.id"))
 	ban_reason = Column(String)
 	embed_url = Column(String)
 	new = Column(Boolean)
@@ -67,7 +66,6 @@ class Submission(Base):
 	comments = relationship("Comment", primaryjoin="Comment.parent_submission==Submission.id", back_populates="post")
 	subr = relationship("Sub", primaryjoin="foreign(Submission.sub)==remote(Sub.name)")
 	options = relationship("SubmissionOption", order_by="SubmissionOption.id")
-	category = relationship("Category", primaryjoin="Submission.category_id==Category.id")
 
 	bump_utc = deferred(Column(Integer, server_default=FetchedValue()))
 
@@ -396,8 +394,7 @@ class Submission(Base):
 				<a href="/votes/post/option/{o.id}"><span id="score-post-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
 
 
-
-		if not listing and self.author.sig_html and (self.author_id == MOOSE_ID or (not self.ghost and not (v and (v.sigs_disabled or v.poor)))):
+		if not listing and not self.ghost and self.author.show_sig(v):
 			body += f"<hr>{self.author.sig_html}"
 
 		return body

@@ -756,9 +756,6 @@
 		{% include "emoji_modal.html" %}
 		{% if v.admin_level > 1 %}
 			{% include "ban_modal.html" %}
-			{% if FEATURES['CATEGORIES'] -%}
-				{% include "category_modal.html" %}
-			{%- endif %}
 		{% endif %}
 
 <div class="modal fade" id="deleteCommentModal" tabindex="-1" role="dialog" aria-labelledby="deleteCommentModalTitle" aria-hidden="true">
