@@ -1068,3 +1068,18 @@ has_app = path.exists(f'files/assets/app_{SITE_NAME}_v2.4.apk')
 GLOBAL = environ.get("GLOBAL")
 
 ONLINE_STR = f'{SITE}_online'
+
+forced_hats = {
+	"rehab": ("Roulette", "I'm a recovering ludomaniac!"),
+	"progressivestack": ("Attention Whore", "I won the oppression olympics!"),
+	"longpost": ("The Pizzashill", "We need to get rid of the character limit!"),
+	"bird": ("Bluecheck", "Three sentences is too much for me..."),
+	"marseyawarded": ("Three Lil Marseys", ":marseynotes: :marseynotes: :I prefer to speak in cats:"),
+	"bite": ("Vampire Mask", "When other little girls wanted to be ballet dancers I kind of wanted to be a vampire."),
+	"rainbow": ("Globohomo", "Homosexuality is no longer optional!"),
+	"owoify": ("Furry Marsey", "Nuzzles, pounces on you, UwU, you're so warm!.."),
+	"earlylife": ("The Merchant", "SHUT IT DOWN, the goys know!"),
+	"marsify": ("Marsified", "I can't pick my own Marseys, help!"),
+	"is_banned": ("Behind Bars", "This user is banned and needs to do better!"),
+	"agendaposter": ("Egg_irl", "This user is getting in touch with xir identity!")
+}
