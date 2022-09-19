@@ -154,7 +154,6 @@ FEATURES = {
 	'MARKUP_COMMANDS': True,
 	'REPOST_DETECTION': True,
 	'PATRON_ICONS': False,
-	'ORDER': False
 }
 
 EMOJI_MARSEYS = True
@@ -218,7 +217,6 @@ GIFT_NOTIF_ID = 5
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
-	FEATURES['ORDER'] = True
 
 	SIDEBAR_THREAD = 37696
 	BANNER_THREAD = 37697
@@ -318,7 +316,6 @@ elif SITE == 'watchpeopledie.co':
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
-	FEATURES['ORDER'] = True
 
 bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, BASEDBOT_ID}
 

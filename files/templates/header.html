@@ -259,11 +259,6 @@
 					</div>
 				</li>
 			{% else %}
-			{% if FEATURES['ORDER'] %}
-			<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
-				<a class="btn btn-primary" href="/order">Request a quote</a>
-			</li>
-			{% endif %}
 			<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
 				<a class="btn btn-primary" href="/contact">Contact us</a>
 			</li>
@@ -332,11 +327,6 @@
 					<a class="nav-link" role="button", onclick="post_toast(this,'/logout', true)"><i class="fas fa-sign-out fa-fw mr-3 text-danger"></i>Log out</a>
 				</li>
 			{% else %}
-				{% if FEATURES['ORDER'] %}
-					<li class="nav-item d-flex align-items-center justify-content-center pb-3">
-						<a class="btn btn-primary btn-block" href="/order">Request a quote</a>
-					</li>
-				{% endif %}
 				<li class="nav-item d-flex align-items-center justify-content-center pb-3">
 					<a class="btn btn-primary btn-block" href="/contact">Contact us</a>
 				</li>

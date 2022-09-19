@@ -193,37 +193,6 @@ def static_megathread_index(v):
 def api(v):
 	return render_template("api.html", v=v)
 
-
-@app.get("/order")
-@auth_desired
-def order(v):
-	if not FEATURES['ORDER']: abort(404)
-	if v: return redirect("/")
-	return render_template("order.html", v=v)
-
-@app.post("/order")
-@limiter.limit("1/hour;2/day")
-def submit_order():
-	if not FEATURES['ORDER']: abort(404)
-	
-	body = request.values.get("message")
-	if not body: abort(400)
-
-	body = 'This message has been sent automatically to all admins via [/order](/order)\n\nMessage:\n\n' + body
-	body = body.strip()
-	body_html = sanitize(body)
-	new_comment = Comment(author_id=AUTOJANNY_ID, parent_submission=None, level=1, body_html=body_html, sentto=2)
-	g.db.add(new_comment)
-	g.db.flush()
-
-	new_comment.top_comment_id = new_comment.id
-	
-	for admin in g.db.query(User).filter(User.admin_level > 2, User.id != AEVANN_ID).all():
-		notif = Notification(comment_id=new_comment.id, user_id=admin.id)
-		g.db.add(notif)
-
-	return {"success": True}
-
 @app.get("/contact")
 @app.get("/contactus")
 @app.get("/contact_us")
