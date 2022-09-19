@@ -69,7 +69,7 @@ class User(Base):
 	post_count = Column(Integer, default=0)
 	comment_count = Column(Integer, default=0)
 	received_award_count = Column(Integer, default=0)
-	created_utc = Column(Integer)
+	created_utc = Column(Integer, default=int(time.time()))
 	admin_level = Column(Integer, default=0)
 	last_active = Column(Integer, default=0, nullable=False)
 	coins_spent = Column(Integer, default=0)
@@ -134,8 +134,8 @@ class User(Base):
 	currently_held_lottery_tickets = Column(Integer, default=0)
 	total_held_lottery_tickets = Column(Integer, default=0)
 	total_lottery_winnings = Column(Integer, default=0)
-	last_viewed_post_notifs = Column(Integer, default=0)
-	last_viewed_log_notifs = Column(Integer, default=0)
+	last_viewed_post_notifs = Column(Integer, default=int(time.time()))
+	last_viewed_log_notifs = Column(Integer, default=int(time.time()))
 	pronouns = Column(String, default='they/them')
 	bite = Column(Integer)
 	earlylife = Column(Integer)
@@ -162,11 +162,6 @@ class User(Base):
 		if "password" in kwargs:
 			kwargs["passhash"] = self.hash_password(kwargs["password"])
 			kwargs.pop("password")
-
-		if "created_utc" not in kwargs:
-			kwargs["created_utc"] = int(time.time())
-			kwargs["last_viewed_post_notifs"] = kwargs["created_utc"]
-			kwargs["last_viewed_log_notifs"] = kwargs["created_utc"]
 
 		super().__init__(**kwargs)
 
@@ -640,7 +635,7 @@ class User(Base):
 	@property
 	@lazy
 	def modaction_notifications_count(self):
-		if not self.admin_level: return 0
+		if not self.admin_level or self.id == AEVANN_ID: return 0
 		return g.db.query(ModAction).filter(
 			ModAction.created_utc > self.last_viewed_log_notifs,
 			ModAction.user_id != self.id,
@@ -754,8 +749,6 @@ class User(Base):
 	def profile_url(self):
 		if self.agendaposter:
 			return f"{SITE_FULL}/assets/images/pfps/agendaposter/{random.randint(1, 57)}.webp?v=1"
-		if self.bite:
-			return f"{SITE_FULL}/e/marseyvampire.webp"
 		if self.rainbow:
 			return f"{SITE_FULL}/e/marseysalutepride.webp"
 		if self.profileurl: 
