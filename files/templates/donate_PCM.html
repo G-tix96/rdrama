@@ -1,0 +1,31 @@
+{% extends "default.html" %}
+
+{% block title %}
+	<title>{{SITE_NAME}} - Donate</title>
+{% endblock %}
+
+{% block content %}
+	<h1 class="py-3">Donate</h1>
+	<div class="overflow-x-auto">
+		<table class="table table-striped mb-5">
+			<tbody>
+				<tr>
+					<td>Gumroad (subscription)</td>
+					<td><a href="{{GUMROAD_LINK}}">{{GUMROAD_LINK}}</a></td>
+				</tr>
+				<tr>
+					<td>Gumroad (one-time)</td>
+					<td><a href="https://kippy.gumroad.com/l/onetime">https://kippy.gumroad.com/l/onetime</a></td>
+				</tr>
+				<tr>
+					<td>Ethereum/Brave Attention Token</td>
+					<td>0xA02660a8898503F9B7d1aaF597eD62670C86D492</td>
+				</tr>
+				<tr>
+					<td>ADA</td>
+					<td>addr1v99u4l8hkdhv48g6ytqxwchavy86paxk55n6nsemleaaqncknae7w</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

@@ -436,3 +436,15 @@ def knowledgebase(v, page):
 		abort(404)
 
 	return render_template(template_path, v=v)
+
+
+if not os.path.exists(f'files/templates/donate_{SITE_NAME}.html'):
+	copyfile(f'files/templates/donate_rDrama.html', f'files/templates/donate_{SITE_NAME}.html')
+
+@app.get('/donate')
+@auth_desired
+def donate(v):
+	if not v and not request.path.startswith('/logged_out'): return redirect(f"/logged_out{request.full_path}")
+	if v and request.path.startswith('/logged_out'): return redirect(request.full_path.replace('/logged_out',''))
+
+	return render_template(f'donate_{SITE_NAME}.html', v=v)
