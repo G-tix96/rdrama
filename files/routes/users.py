@@ -826,7 +826,7 @@ def messagereply(v):
 
 
 	if c.top_comment.sentto == 2:
-		admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level > 2, User.id != v.id, User.id != AEVANN_ID).all()]
+		admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level > 2, User.id != v.id).all()]
 
 		if parent.author.id not in admins:
 			admins.append(parent.author.id)
