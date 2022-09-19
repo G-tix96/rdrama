@@ -1160,7 +1160,7 @@ def toggle_post_nsfw(pid, v):
 	else: return {"message": "Post has been unmarked as +18!"}
 
 @app.post("/save_post/<pid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit("1/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def save_post(pid, v):
@@ -1177,7 +1177,7 @@ def save_post(pid, v):
 
 @app.post("/unsave_post/<pid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@limiter.limit("1/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def unsave_post(pid, v):
 
