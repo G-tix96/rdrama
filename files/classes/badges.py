@@ -11,7 +11,11 @@ class BadgeDef(Base):
 	id = Column(Integer, primary_key=True, autoincrement=True)
 	name = Column(String)
 	description = Column(String)
-	created_utc = Column(Integer, default=int(time.time()))
+	created_utc = Column(Integer)
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<BadgeDef(id={self.id})>"
@@ -30,10 +34,15 @@ class Badge(Base):
 	badge_id = Column(Integer, ForeignKey('badge_defs.id'), primary_key=True)
 	description = Column(String)
 	url = Column(String)
-	created_utc = Column(Integer, default=int(time.time()))
+	created_utc = Column(Integer)
 
 	user = relationship("User", back_populates="badges")
 	badge = relationship("BadgeDef", primaryjoin="Badge.badge_id == BadgeDef.id")
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs:
+			kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<Badge(user_id={self.user_id}, badge_id={self.badge_id})>"

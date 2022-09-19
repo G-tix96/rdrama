@@ -14,9 +14,13 @@ class Vote(Base):
 	vote_type = Column(Integer)
 	app_id = Column(Integer, ForeignKey("oauth_apps.id"))
 	real = Column(Boolean, default=True)
-	created_utc = Column(Integer, default=int(time.time()))
+	created_utc = Column(Integer)
 
 	user = relationship("User")
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<Vote(id={self.id})>"
@@ -40,9 +44,13 @@ class CommentVote(Base):
 	vote_type = Column(Integer)
 	app_id = Column(Integer, ForeignKey("oauth_apps.id"))
 	real = Column(Boolean, default=True)
-	created_utc = Column(Integer, default=int(time.time()))
+	created_utc = Column(Integer)
 
 	user = relationship("User")
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<CommentVote(id={self.id})>"

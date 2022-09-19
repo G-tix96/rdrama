@@ -18,9 +18,13 @@ class OauthApp(Base):
 	redirect_uri = Column(String)
 	description = Column(String)
 	author_id = Column(Integer, ForeignKey("users.id"))
-	created_utc = Column(Integer, default=int(time.time()))
+	created_utc = Column(Integer)
 
 	author = relationship("User", back_populates="apps")
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<OauthApp(id={self.id})>"
@@ -62,10 +66,14 @@ class ClientAuth(Base):
 	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 	oauth_client = Column(Integer, ForeignKey("oauth_apps.id"), primary_key=True)
 	access_token = Column(String)
-	created_utc = Column(Integer, default=int(time.time()))
+	created_utc = Column(Integer)
 
 	user = relationship("User")
 	application = relationship("OauthApp")
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<ClientAuth(user_id={self.user_id}, oauth_client={self.oauth_client})>"

@@ -16,11 +16,15 @@ class AwardRelationship(Base):
 	kind = Column(String)
 	awarded_utc = Column(Integer)
 	granted = Column(Boolean)
-	created_utc = Column(Integer, default=int(time.time()))
+	created_utc = Column(Integer)
 
 	user = relationship("User", primaryjoin="AwardRelationship.user_id==User.id", back_populates="awards")
 	post = relationship("Submission", primaryjoin="AwardRelationship.submission_id==Submission.id", back_populates="awards")
 	comment = relationship("Comment", primaryjoin="AwardRelationship.comment_id==Comment.id", back_populates="awards")
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<AwardRelationship(id={self.id})>"

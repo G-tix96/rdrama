@@ -24,7 +24,7 @@ class Submission(Base):
 	id = Column(Integer, primary_key=True)
 	author_id = Column(Integer, ForeignKey("users.id"))
 	edited_utc = Column(Integer, default=0)
-	created_utc = Column(Integer, default=int(time.time()))
+	created_utc = Column(Integer)
 	thumburl = Column(String)
 	is_banned = Column(Boolean, default=False)
 	bannedfor = Column(String)
@@ -68,6 +68,10 @@ class Submission(Base):
 	options = relationship("SubmissionOption", order_by="SubmissionOption.id")
 
 	bump_utc = deferred(Column(Integer, server_default=FetchedValue()))
+
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<Submission(id={self.id})>"
