@@ -958,7 +958,7 @@ def u_username(username, v=None):
 
 		return render_template("userpage_reserved.html", u=u, v=v)
 
-	if u.shadowbanned and not (v and v.admin_level >= 2) and not (v and v.id == u.id):
+	if u.shadowbanned and not (v and (v.admin_level >= 2 or v.shadowbanned)):
 		abort(404)
 
 	if v and v.id not in (u.id, DAD_ID) and u.viewers_recorded:
