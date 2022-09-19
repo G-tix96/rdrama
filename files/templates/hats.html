@@ -8,9 +8,16 @@
 
 {% block Banner %}
 	<style>
+		.shop-tabs {
+			padding-top: 50px;
+		}
+
 		@media (max-width: 768px) {
 			#hats-banner {
 				width: 80%;
+			}
+			.shop-tabs {
+				padding-top: 30px;
 			}
 		}
 
@@ -18,6 +25,7 @@
 			display: inline-flex;
 			max-width: 46.6%;
 			letter-spacing: 3px;
+			border-radius: 0;
 		}
 
 		.shop-tab.active {
@@ -27,15 +35,15 @@
 		}
 	</style>
 
-	<div class="container-fluid bg-white sticky" style="padding-top: 30px; padding-bottom: 0 !important;">
+	<div class="container-fluid bg-white sticky shop-tabs" style="padding-bottom: 0 !important;">
 		<div class="row box-shadow-bottom">
-			<div class="col">
+			<div class="col p-0">
 				<div class="container" style="padding-bottom: 0;">
 					<div class="row box-shadow-bottom bg-white" style="justify-content: center;">
-						<a class="btn btn-primary btn-block py-2 m-0 mr-3 shop-tab" href="/shop">
+						<a class="btn btn-primary btn-block m-0 shop-tab" href="/shop">
 							<span class="mr-auto ml-auto"><i class="fas fa-gift mr-2"></i>AWARDS</span>
 						</a>
-						<a class="btn btn-primary btn-block py-2 m-0 shop-tab active" href="/hats">
+						<a class="btn btn-primary btn-block m-0 shop-tab active" href="/hats">
 							<span class="mr-auto ml-auto"><i class="fas fa-hat-cowboy mr-2"></i>HATS</span>
 						</a>
 					</div>
