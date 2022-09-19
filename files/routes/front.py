@@ -197,6 +197,7 @@ def random_post(v):
 @app.get("/random_user")
 @auth_required
 def random_user(v):
+	abort(500)
 
 	u = g.db.query(User.username).filter(User.song != None).order_by(func.random()).first()
 	
