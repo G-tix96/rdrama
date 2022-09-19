@@ -635,7 +635,7 @@ class User(Base):
 	@property
 	@lazy
 	def modaction_notifications_count(self):
-		if not self.admin_level: return 0
+		if not self.admin_level or self.id == AEVANN_ID: return 0
 		return g.db.query(ModAction).filter(
 			ModAction.created_utc > self.last_viewed_log_notifs,
 			ModAction.user_id != self.id,
