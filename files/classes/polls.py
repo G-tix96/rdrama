@@ -12,14 +12,10 @@ class SubmissionOption(Base):
 	submission_id = Column(Integer, ForeignKey("submissions.id"))
 	body_html = Column(Text)
 	exclusive = Column(Integer)
-	created_utc = Column(Integer)
+	created_utc = Column(Integer, default=int(time.time()))
 
 	votes = relationship("SubmissionOptionVote")
 	post = relationship("Submission", back_populates="options")
-
-	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
-		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<SubmissionOption(id={self.id})>"
@@ -41,14 +37,10 @@ class SubmissionOptionVote(Base):
 
 	option_id = Column(Integer, ForeignKey("submission_options.id"), primary_key=True)
 	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	created_utc = Column(Integer)
+	created_utc = Column(Integer, default=int(time.time()))
 	submission_id = Column(Integer, ForeignKey("submissions.id"))
 
 	user = relationship("User")
-
-	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
-		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<SubmissionOptionVote(option_id={self.option_id}, user_id={self.user_id})>"
@@ -62,14 +54,10 @@ class CommentOption(Base):
 	comment_id = Column(Integer, ForeignKey("comments.id"))
 	body_html = Column(Text)
 	exclusive = Column(Integer)
-	created_utc = Column(Integer)
+	created_utc = Column(Integer, default=int(time.time()))
 
 	votes = relationship("CommentOptionVote")
 	comment = relationship("Comment", back_populates="options")
-
-	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
-		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<CommentOption(id={self.id})>"
@@ -91,14 +79,10 @@ class CommentOptionVote(Base):
 
 	option_id = Column(Integer, ForeignKey("comment_options.id"), primary_key=True)
 	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	created_utc = Column(Integer)
+	created_utc = Column(Integer, default=int(time.time()))
 	comment_id = Column(Integer, ForeignKey("comments.id"))
 
 	user = relationship("User")
-
-	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
-		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return f"<CommentOptionVote(option_id={self.option_id}, user_id={self.user_id})>"

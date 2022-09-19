@@ -10,15 +10,10 @@ class ViewerRelationship(Base):
 
 	user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
 	viewer_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
-	last_view_utc = Column(Integer)
-	created_utc = Column(Integer)
+	last_view_utc = Column(Integer, default=int(time.time()))
+	created_utc = Column(Integer, default=int(time.time()))
 
 	viewer = relationship("User", primaryjoin="ViewerRelationship.viewer_id == User.id")
-
-	def __init__(self, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
-		if 'last_view_utc' not in kwargs: kwargs['last_view_utc'] = int(time.time())
-		super().__init__(**kwargs)
 
 	def __repr__(self):
 		return f"<ViewerRelationship(user_id={self.user_id}, viewer_id={self.viewer_id})>"

@@ -22,14 +22,10 @@ class Sub(Base):
 	marseyurl = Column(String)
 	css = Column(String)
 	stealth = Column(Boolean)
-	created_utc = Column(Integer)
+	created_utc = Column(Integer, default=int(time.time()))
 
 	blocks = relationship("SubBlock", primaryjoin="SubBlock.sub==Sub.name")
 	followers = relationship("SubSubscription", primaryjoin="SubSubscription.sub==Sub.name")
-
-	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
-		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
 		return self.name
