@@ -126,7 +126,6 @@ blockquote {
 }
 
 .tooltip{
-background-color:var(--gray-100);
 color: var(--gray-700);
 }
 
