@@ -383,7 +383,7 @@ class Comment(Base):
 			body += f'''><label class="custom-control-label" for="comment-{o.id}">{o.body_html} - 
 			<a href="/votes/comment/option/{o.id}"><span id="score-comment-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
 
-		if self.author.sig_html and (self.author_id == MOOSE_ID or (not self.ghost and not (v and (v.sigs_disabled or v.poor)))):
+		if not self.ghost and self.author.show_sig(v):
 			body += f"<hr>{self.author.sig_html}"
 
 		return body

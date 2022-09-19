@@ -935,3 +935,16 @@ class User(Base):
 		from_casino_value = from_casino or 0
 
 		return from_casino_value + self.total_lottery_winnings
+
+	@lazy
+	def show_sig(self, v):
+		if not self.author.sig_html:
+			return False
+
+		if not self.author.patron and SITE_NAME != 'WPD':
+			return False
+
+		if v and (v.sigs_disabled or v.poor):
+			return False
+
+		return True

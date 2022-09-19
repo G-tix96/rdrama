@@ -396,8 +396,7 @@ class Submission(Base):
 				<a href="/votes/post/option/{o.id}"><span id="score-post-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
 
 
-
-		if not listing and self.author.sig_html and (self.author_id == MOOSE_ID or (not self.ghost and not (v and (v.sigs_disabled or v.poor)))):
+		if not listing and not self.ghost and self.author.show_sig(v):
 			body += f"<hr>{self.author.sig_html}"
 
 		return body
