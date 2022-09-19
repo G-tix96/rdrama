@@ -8,7 +8,7 @@ if KOFI_TOKEN:
 
 		__tablename__ = "transactions"
 		id = Column(String, primary_key=True)
-		created_utc = Column(Integer, default=int(time.time()))
+		created_utc = Column(Integer)
 		type = Column(String)
 		amount = Column(Integer)
 		email = Column(String)
