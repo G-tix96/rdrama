@@ -71,11 +71,8 @@ def marsey_list():
 @app.get('/sidebar')
 @app.get('/logged_out/rules')
 @app.get('/logged_out/sidebar')
-@auth_desired
+@auth_desired_with_logingate
 def sidebar(v):
-	if not v and not request.path.startswith('/logged_out'): return redirect(f"/logged_out{request.full_path}")
-	if v and request.path.startswith('/logged_out'): return redirect(request.full_path.replace('/logged_out',''))
-
 	return render_template('sidebar.html', v=v)
 
 
@@ -184,7 +181,7 @@ def log_item(id, v):
 	return render_template("log.html", v=v, actions=[action], next_exists=False, page=1, action=action, admins=admins, types=types)
 
 @app.get("/directory")
-@auth_desired
+@auth_required
 def static_megathread_index(v):
 	return render_template("megathread_index.html", v=v)
 
@@ -425,26 +422,11 @@ def transfers(v):
 	else:
 		return render_template("transfers.html", v=v, page=page, comments=comments, standalone=True, next_exists=next_exists)
 
-@app.get("/kb/<page>")
-@auth_desired
-def knowledgebase(v, page):
-	if not knowledgebase_page_regex.fullmatch(page):
-		abort(404)
-
-	template_path = f'kb/{SITE_NAME}/{page}.html'
-	if not os.path.exists('files/templates/' + template_path):
-		abort(404)
-
-	return render_template(template_path, v=v)
-
 
 if not os.path.exists(f'files/templates/donate_{SITE_NAME}.html'):
 	copyfile(f'files/templates/donate_rDrama.html', f'files/templates/donate_{SITE_NAME}.html')
 
 @app.get('/donate')
-@auth_desired
+@auth_required
 def donate(v):
-	if not v and not request.path.startswith('/logged_out'): return redirect(f"/logged_out{request.full_path}")
-	if v and request.path.startswith('/logged_out'): return redirect(request.full_path.replace('/logged_out',''))
-
 	return render_template(f'donate_{SITE_NAME}.html', v=v)

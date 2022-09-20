@@ -1077,7 +1077,7 @@ forced_hats = {
 	"marseyawarded": ("Three Lil Marseys", ":marseynotes: :marseynotes: :I prefer to speak in cats:"),
 	"bite": ("Vampire Mask", "When other little girls wanted to be ballet dancers I kind of wanted to be a vampire."),
 	"rainbow": ("Globohomo", "Homosexuality is no longer optional!"),
-	"owoify": ("Furry Marsey", "Nuzzles, pounces on you, UwU, you're so warm!.."),
+	"owoify": ("Cat Ears (wiggly)", "Nuzzles, pounces on you, UwU, you're so warm!.."),
 	"earlylife": ("The Merchant", "SHUT IT DOWN, the goys know!"),
 	"marsify": ("Marsified", "I can't pick my own Marseys, help!"),
 	"is_banned": ("Behind Bars", "This user is banned and needs to do better!"),
