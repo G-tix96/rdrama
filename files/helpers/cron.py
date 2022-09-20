@@ -41,7 +41,8 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 		sub_inactive_purge_task()
 
 	if every_1mo:
-		give_monthly_marseybux_task()
+		if KOFI_LINK: give_monthly_marseybux_task_kofi()
+		else: give_monthly_marseybux_task()
 
 	g.db.commit()
 	g.db.close()
@@ -120,9 +121,27 @@ def give_monthly_marseybux_task():
 
 	ma = ModAction(
 		kind="monthly",
-		user_id=SNAPPY_ID,
+		user_id=AUTOJANNY_ID,
 	)
 	g.db.add(ma)
 
 	return True
 
+
+def give_monthly_marseybux_task_kofi():
+	month = datetime.datetime.now() + datetime.timedelta(days=5)
+	month = month.strftime('%B')
+
+	for u in g.db.query(User).filter(User.patron > 0, User.patron_utc == 0).all():
+		procoins = procoins_li[u.patron]
+		u.procoins += procoins
+		g.db.add(u)
+		send_repeatable_notification(u.id, f"@AutoJanny has given you {procoins} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
+
+	ma = ModAction(
+		kind="monthly",
+		user_id=AUTOJANNY_ID,
+	)
+	g.db.add(ma)
+
+	return True
