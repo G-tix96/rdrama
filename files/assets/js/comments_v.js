@@ -152,9 +152,19 @@ function post_reply(id){
 		try {data = JSON.parse(xhr.response)}
 		catch(e) {console.log(e)}
 		if (data && data["comment"]) {
-			commentForm=document.getElementById('comment-form-space-'+id);
-			commentForm.innerHTML = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace('comment-collapse-desktop d-none d-md-block','d-none').replace('border-left: 2px solid','padding-left:0;border-left: 0px solid');
-			bs_trigger(commentForm);
+			const comments = document.getElementById('replies-of-c_' + id);
+			const comment = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '');
+			
+			comments.innerHTML = comments.innerHTML + comment;
+
+			bs_trigger(comments);
+
+			btn.disabled = false;
+			btn.classList.remove('disabled');
+
+			document.getElementById('reply-form-body-'+id).value = ''
+			document.getElementById('message-reply-'+id).innerHTML = ''
+			ToggleReplyBox('reply-message-'+id)
 		}
 		else {
 			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
