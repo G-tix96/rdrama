@@ -586,7 +586,7 @@ AWARDS = {
 		"price": 1500
 	},
 	"spider": {
-        "kind": "Spider!",
+        "kind": "spider",
         "title": "Spider!",
         "description": f"Summons a spider to terrorize the recipient for 24 hours.",
         "icon": "fas fa-spider",
