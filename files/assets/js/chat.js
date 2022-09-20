@@ -191,6 +191,7 @@ socket.on('typing', function (users){
 function del(t) {
 	t.parentElement.parentElement.parentElement.parentElement.parentElement.remove()
 	const text = t.previousElementSibling.previousElementSibling.innerHTML
+	console.log(text)
 	socket.emit('delete', text);
 }
 
