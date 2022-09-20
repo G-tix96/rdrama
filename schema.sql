@@ -970,7 +970,8 @@ CREATE TABLE public.users (
     marsify integer,
     is_muted boolean DEFAULT false NOT NULL,
     coins_spent_on_hats integer DEFAULT 0 NOT NULL,
-    rainbow integer
+    rainbow integer,
+    spider integer
 );
 
 
