@@ -895,7 +895,6 @@ SET row_security = off;
 INSERT INTO public.marseys VALUES ('marseytypinglaugh', 2, 'computer keyboard lol bongo animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyappicon', 2, 'iphone ios android application googleplay samsung', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyastronaut2', 2, 'cosmonaut spacesuit helmet', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseypastor', 2, 'christian baptist southern church black papist mrpenny preacher priest', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseypridepearlclutch', 2, 'lesbian gay bisexual homo lgb rainbow cry bigot tears', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseythegrey', 2, 'lord of the rings magic gandalf lotr mage wizard warlock', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseytransflag', 2, 'trans flag then consumeproduct', 0, NULL, NULL);
@@ -903,9 +902,7 @@ INSERT INTO public.marseys VALUES ('marseysaint2', 2, 'angelic halo holy animate
 INSERT INTO public.marseys VALUES ('marseycowboy', 2, 'western pardner reaction hat tootin yeehaw rootin', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyfediverse', 2, 'federation autism freespeech poast', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseybongcop', 2, 'police english british london copper bobby bongistan britain england police', 0, NULL, 1663284064);
-INSERT INTO public.marseys VALUES ('marseytits', 2, 'teacher tits boobs nipples canadian trans', 0, NULL, 1663596620);
 INSERT INTO public.marseys VALUES ('marseynukegoggles', 2, 'nuclear atomic bomb mushroom cloud', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseycarpmerchant2', 2, 'jew fish greedy', 0, NULL, 1663548215);
 INSERT INTO public.marseys VALUES ('marseyusa', 2, 'burger patriot america freedom liberty justice love independence freedom guns trump biden state flag', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marsey3d', 2, 'poly 3d print alive spin animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycapysuezcanal', 2, 'capy suez canal egypt ship blockage sexy', 0, NULL, NULL);
@@ -914,10 +911,11 @@ INSERT INTO public.marseys VALUES ('marseypizzaslice', 2, 'pizza shill longpost 
 INSERT INTO public.marseys VALUES ('marseytexan', 2, 'cowboy hat texas yeehaw pardner rootin tootin', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyfugg2', 2, 'spurdo sparde', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyeskimo', 2, 'inuit native arctic fishing dog helpful ice freeze winter cold', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseypastor', 2, 'christian baptist southern church black papist mrpenny preacher priest', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyshock', 2, 'shock fear afraid terror scared horrified', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyturnedon', 2, 'aroused arousal amorous horny', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyvampirebite', 2, 'cope seethe mask house', 0, NULL, 1663376896);
-INSERT INTO public.marseys VALUES ('marseyconcerned', 2, 'sus stare look glance', 0, NULL, 1663549234);
+INSERT INTO public.marseys VALUES ('marseycarpmerchant2', 2, 'jew fish greedy', 0, NULL, 1663548215);
 INSERT INTO public.marseys VALUES ('marseysatisfiedmarcus', 2, 'black bipoc satisfying happy smile delightful grateful glad wholesome', 0, NULL, 1662998420);
 INSERT INTO public.marseys VALUES ('marseyredflag', 2, 'warning red flag alert scum problematic', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseytrad2', 2, 'wojak tradwife soyjak 4chan meme foid', 0, NULL, NULL);
@@ -935,6 +933,7 @@ INSERT INTO public.marseys VALUES ('marseytyping', 2, 'computer keyboard bongo a
 INSERT INTO public.marseys VALUES ('marseyterfdomesticabuse', 2, 'terf domestic abuse violence feminism feminist lesbian ovarit radical', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseylaughwith', 2, 'cry tears lol lmao haha laughing', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyhawaii', 2, 'boomer margarita drink chill relaxed', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseyaware', 2, 'aware clueless surely animated', 0, NULL, 1663638979);
 INSERT INTO public.marseys VALUES ('marseyhomochingchong', 2, 'asian chinese jap gook chink rice gay strawhat  glasses squint rainbow tiedie tyedye tyedie tiedye', 0, NULL, 1663248780);
 INSERT INTO public.marseys VALUES ('marseylicking', 2, 'spongebob tongue taste', 0, NULL, 1663284181);
 INSERT INTO public.marseys VALUES ('marseyfedposthmmm', 2, 'glowie american dad stan meter fbi', 0, NULL, NULL);
@@ -952,7 +951,6 @@ INSERT INTO public.marseys VALUES ('marseysnowglobe', 2, 'christmas tree small m
 INSERT INTO public.marseys VALUES ('marseyflakes', 2, 'parsley seasoning salt pepper spice food seasoning', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysoyseethe', 2, 'soyjack soyjak reddit angry yelling wojak', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyoppenheimer', 2, 'scientist nuke bomb ww2 atomic nuclear mushroom cloud', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseyupset', 2, 'marsey upset', 0, NULL, 1663608127);
 INSERT INTO public.marseys VALUES ('marseysoren', 2, 'sleeping alt right altright racist nazi chud', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyarthoe2', 2, 'woman foid scene emo bitch slut whore thot', 0, NULL, 1663354428);
 INSERT INTO public.marseys VALUES ('marseytabletired2', 2, 'beer tiresome depressed sad alcoholic alcoholism despair', 0, NULL, NULL);
@@ -982,14 +980,12 @@ INSERT INTO public.marseys VALUES ('marseyunabomber2', 2, 'gift christmas indust
 INSERT INTO public.marseys VALUES ('marseycrusader2', 2, 'crusading catholic christian pope knight templar warrior soldier sword shield lasereyes istanbul constantinople', 0, NULL, 1663212423);
 INSERT INTO public.marseys VALUES ('marseyeva', 2, 'anime weeb neon genesis evangelion shinji robot mech japan', 0, NULL, 1663376836);
 INSERT INTO public.marseys VALUES ('marseylaughbothsides', 2, 'wingcuck radical centrist centrism animated horseshoe', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseysuspicious', 2, 'sus stare look glance hmm thonk raise eyebrow curious', 0, NULL, 1663549267);
 INSERT INTO public.marseys VALUES ('marseydance', 2, 'excited stomp jump feet step run animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseywhirlyhat', 2, 'idiot retard hat dumb sped slow stupid special kid', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyfuckyou', 2, 'middlefinger middle finger flipping off fuck you nigga', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyhatium', 2, 'mad fury furious pissed hatred rage angry maddened infuriated hateful hatefuel', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyclintongarrison', 2, 'hillary brap democrat ben comic', 0, NULL, 1663284618);
 INSERT INTO public.marseys VALUES ('marseysignaling', 2, 'railway light semaphore troomer tranny transgender train troid transsexual animated', 0, NULL, 1663238068);
-INSERT INTO public.marseys VALUES ('marseyagree', 2, 'concur nodding nod reaction affirmative yes yeah uh huh animated judgment', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycrusade', 2, 'pope papal papist catholic lasereyes christian cross constantinople istanbul war crusader', 0, NULL, 1663212295);
 INSERT INTO public.marseys VALUES ('marseysalvindicated', 2, 'shark 2weeks twoweeks gonowhere wentsomewhere', 0, NULL, 1663210995);
 INSERT INTO public.marseys VALUES ('marseywtf2', 2, 'shocked reaction wth disturbing disturbed what the fuck', 0, NULL, NULL);
@@ -1003,8 +999,11 @@ INSERT INTO public.marseys VALUES ('marseyarthoe8', 2, 'egirl woman foid scene e
 INSERT INTO public.marseys VALUES ('marseyliathomas', 2, 'tranny transgender athlete lia thomas athletics woman valid lgbt swimmer aquamaam aqua maam', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseygambling', 2, 'depressed casino slots blackjack las vegas depressed suicidial degenerate smoking losing cards hotep', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysmug2', 2, 'snicker scoff mock reaction guffaw ridicule judgment', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseyagree', 2, 'concur nodding nod reaction affirmative yes yeah uh huh animated judgment', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysal2', 2, 'shark 2 weeks two weeks go nowhere going nowhere watch go nowhere', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseysuspicious', 2, 'sus stare look glance hmm thonk raise eyebrow curious', 0, NULL, 1663549267);
 INSERT INTO public.marseys VALUES ('marseychonkerbutch', 2, 'fat obese brap bitch dyke dangerhair lesbian', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseygigatitty', 2, 'teacher tits boobs nipples canadian transgender milkers', 0, NULL, 1663596620);
 INSERT INTO public.marseys VALUES ('marseyrulebritannia', 2, 'britain british bongistan chips london england lasereyes', 0, NULL, 1663211275);
 INSERT INTO public.marseys VALUES ('marseybardfinn3', 2, 'bardfinn ahs powermod tranny trannies wifebeater abuser steve', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseypepsi', 2, 'cola coke soda soft drink pop red white blue usa america', 0, NULL, NULL);
@@ -1022,6 +1021,7 @@ INSERT INTO public.marseys VALUES ('marseyascii', 2, 'blurry', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysoldierchina', 2, 'army war gun rifle asia chinese chink gook', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseydeadinside2', 2, 'depressed suicidal doomer despair', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseymemeball', 2, 'picardia strawman polcomp political', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseyfine', 2, 'is fine meme thisisfine burning fire', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycoomer2', 2, 'gooning masturbation fapping cumming gooner nofap', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseynerd2', 2, 'geek glasses dork loser pimples zits', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseygundam', 2, 'mecha robot helmet mask anime', 0, NULL, NULL);
@@ -1039,8 +1039,8 @@ INSERT INTO public.marseys VALUES ('marseykingretard', 2, 'drool dumb idiot crow
 INSERT INTO public.marseys VALUES ('marseyletsfuckinggo', 2, 'lfg tennis ball screaming ready', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyarthoe4', 2, 'woman foid scene emo bitch slut whore thot', 0, NULL, 1663354488);
 INSERT INTO public.marseys VALUES ('marseycarpflorist', 2, 'jannie admin fish flowers floral carpathianflorist crown', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseyheadcrab', 2, 'zombie brain alien parasite valve game half life', 0, NULL, 1663640300);
 INSERT INTO public.marseys VALUES ('marseysatisfied', 2, 'satisfying happy smile delightful grateful glad wholesome', 0, NULL, 1662997904);
-INSERT INTO public.marseys VALUES ('marseyaware', 2, 'aware clueless surely', 0, NULL, 1663638979);
 INSERT INTO public.marseys VALUES ('marseykkkevil', 2, 'kukluxklan racism racist lasereyes evil', 0, NULL, 1663211985);
 INSERT INTO public.marseys VALUES ('marseycarpbuff', 2, 'muscles tough strong carpathianflorist admin mod jannie', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseybowl', 2, 'marijuana weed dude weed lmao ganja drugs reaction pot pipe', 0, NULL, NULL);
@@ -1068,7 +1068,6 @@ INSERT INTO public.marseys VALUES ('marseyschizogetogetolove', 2, 'schizocel sch
 INSERT INTO public.marseys VALUES ('marseyinnocent', 2, 'innocent naive angelic dumb halo', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyduck3', 2, 'duck bird quack beak', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseybeaver', 2, 'canada canuck canadian', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseyheadcrab', 2, 'zombie brain alien parasite valve game half life', 0, NULL, 1663640300);
 INSERT INTO public.marseys VALUES ('marseyfacepalm', 2, 'reaction omfg judgment', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyoutline', 2, 'blank empty void', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseywatchingtv', 2, 'familyguy peter griffin television couch', 0, NULL, NULL);
@@ -1085,7 +1084,6 @@ INSERT INTO public.marseys VALUES ('marseyfursuit', 2, 'furry furcon degenerate 
 INSERT INTO public.marseys VALUES ('marseyedelgard', 2, 'fireemblem anime weeb fantasy nintendo princess', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseylgbtflag2', 2, 'pride gay inclusive queer ukraine bipoc', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseychadyes', 2, 'based gigachad', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseyfine', 2, 'is fine meme thisisfine burning fire', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseygangster', 2, 'pimp hustling mafia money gangsta', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyeyelidpulling', 2, 'frustrated scary horror', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycosmopolitan', 2, 'bourgeoisie wealthy affluent tophat cultured capitalist elite monocle', 0, NULL, NULL);
@@ -1110,7 +1108,6 @@ INSERT INTO public.marseys VALUES ('marseybrainletclapping', 2, 'idiot dumb stup
 INSERT INTO public.marseys VALUES ('marseydarkcarp', 2, 'lasereyes carpathianflorist fish admin jannie mod banned yalled', 0, NULL, 1663211530);
 INSERT INTO public.marseys VALUES ('marseyfursona2', 2, 'furry fursona cat devil', 0, NULL, 1663119051);
 INSERT INTO public.marseys VALUES ('marseyabandoned', 2, 'box container rejected dirty cardboard homeless', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseyxd', 2, 'lmao reaction rofl haha lol laughing', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseybeanpleased', 2, 'bean satisfied cheerful upbeat', 0, NULL, 1663124719);
 INSERT INTO public.marseys VALUES ('marseycarpfisherman', 2, 'admin janny bait caught mod sardine srdine carpathianflorist jannie', 0, NULL, 1663283814);
 INSERT INTO public.marseys VALUES ('marseyautumn2', 2, 'fall season leaf leaves pumpkin spice latte wind scarf', 0, NULL, 1663109364);
@@ -1119,16 +1116,16 @@ INSERT INTO public.marseys VALUES ('marseywoodchipper2', 2, 'libertarian pedo wo
 INSERT INTO public.marseys VALUES ('marseyangel3', 2, 'halo happy innocent', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyletsfuckinggo2', 2, 'hyped screaming shouting yelling', 0, NULL, 1663161484);
 INSERT INTO public.marseys VALUES ('marseyliberty', 2, 'usa burger america statue lady republican democrat biden trump rightoid leftoid', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseyheadcrab2', 2, 'zombie brain alien parasite valve game half life', 0, NULL, 1663640326);
 INSERT INTO public.marseys VALUES ('marseybeanannoyed', 2, 'bean expressionless frustrated', 0, NULL, 1663123946);
 INSERT INTO public.marseys VALUES ('marseyexciteddance', 2, 'happy dance excited spin tippytap', 0, NULL, 1663143559);
 INSERT INTO public.marseys VALUES ('marseybeanadorable', 2, 'bean uwu innocent', 0, NULL, 1663123845);
 INSERT INTO public.marseys VALUES ('marseygardener', 2, 'gardening watering', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseystocksup', 2, 'market bonds options rich', 0, NULL, 1663640568);
 INSERT INTO public.marseys VALUES ('marseypaperbag', 2, 'ugly ashamed bagged butterface', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseytrumpgarrison', 2, 'cum maga capitol ben comic republican', 0, NULL, 1663284695);
 INSERT INTO public.marseys VALUES ('marseyboomercartoon', 2, 'grandpa joke comic', 0, NULL, 1663161684);
 INSERT INTO public.marseys VALUES ('marseybeanpensive', 2, 'bean remorseful downtrodden introspective unfortunate', 0, NULL, 1663124612);
+INSERT INTO public.marseys VALUES ('marseyscalped', 2, 'zombie brain alien parasite valve game half life headcrab skull', 0, NULL, 1663640326);
+INSERT INTO public.marseys VALUES ('marseystocksup', 2, 'market bonds options rich', 0, NULL, 1663640568);
 INSERT INTO public.marseys VALUES ('marseybeantonguepoke', 2, 'bean playful silly jesting kidding', 0, NULL, 1663124794);
 INSERT INTO public.marseys VALUES ('marseybedsick', 2, 'illness plague fever pillow', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseybruh2', 2, 'bruh disbelief doubt bro seriously smdh', 0, NULL, 1663148476);
@@ -1137,7 +1134,9 @@ INSERT INTO public.marseys VALUES ('marseyfoidretard', 2, 'woman blonde stupid d
 INSERT INTO public.marseys VALUES ('marseyarthoe5', 2, 'woman foid scene emo bitch slut whore thot', 0, NULL, 1663354512);
 INSERT INTO public.marseys VALUES ('marseycapitalistmanlet', 2, 'money top hat rich landlord cigar llm tophat', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseydarkcomrade', 2, 'communist commie pinko lasereyes russian kgb hat soviet ussr tankie', 0, NULL, 1663254781);
+INSERT INTO public.marseys VALUES ('marseyxd', 2, 'lmao reaction rofl haha lol laughing', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseymoplicker', 2, 'janny moderator admin', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseyqr', 2, 'qr code', 0, NULL, 1663646718);
 INSERT INTO public.marseys VALUES ('marseywizard', 2, 'wizard magic pepe apu', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyira', 2, 'car bomb irish ireland', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycapyheart', 2, 'capybara rodent aevann happy cute love', 0, NULL, NULL);
@@ -1145,7 +1144,6 @@ INSERT INTO public.marseys VALUES ('marseymormon', 2, 'backpack tie jesus god ch
 INSERT INTO public.marseys VALUES ('marseybeanangryfbi', 2, 'federal agent glowie glownigger lawenforcement leo terrorist terrorism', 0, NULL, 1663099467);
 INSERT INTO public.marseys VALUES ('marseyarthoe6', 2, 'woman foid scene emo bitch slut whore thot', 0, NULL, 1663354548);
 INSERT INTO public.marseys VALUES ('marseystocksdown', 2, 'market bonds options poor', 0, NULL, 1663640588);
-INSERT INTO public.marseys VALUES ('marseyqr', 2, 'qr code', 0, NULL, 1663646718);
 INSERT INTO public.marseys VALUES ('marseyangryexosuit', 2, 'mecha rickandmorty robot', 0, NULL, 1663011836);
 INSERT INTO public.marseys VALUES ('marseychemist2', 2, 'chemistry science chemical cope', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseywut2', 2, 'weird reaction raised eyebrow disturbing disturbed wtf judgment', 0, NULL, NULL);
@@ -1166,10 +1164,10 @@ INSERT INTO public.marseys VALUES ('marseycrusader', 2, 'knight deusvult templar
 INSERT INTO public.marseys VALUES ('marseycarpnoticeme', 2, 'carpathianflorist fish attn attention whore', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseywall', 2, 'foid female birthing person woman girl 30 fds femcel single mom single mother itsover old gross yuck nasty gussy', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyspirit', 2, 'ghost halloween holiday', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseykween', 2, 'hoop earring fds black shaniqua', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyahs', 2, 'bardfinn dubteedub againsthatesubreddits redditor groomer pedophile libertarian chomo antifa animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysaluteisrael', 2, 'jewish yiddish hebrew kike sheeny mossad star of david flag patriotic animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysaluteussr', 2, 'salute o7 flag soviet union russia kgb communist commie marxist marxism tankie stalin lenin animated patriotic', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseykween', 2, 'hoop earring fds black shaniqua', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseymicrobus', 2, 'vw van bussy', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyidio3', 2, 'idio3 russia belarus communist commie flask drink computer online monitor display keyboard idio', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseybang', 2, 'head wall bang schizo psycho selfharm deranged gif animated', 0, NULL, NULL);
@@ -1206,7 +1204,6 @@ INSERT INTO public.marseys VALUES ('marcuscop', 2, 'police officer acab thin blu
 INSERT INTO public.marseys VALUES ('marseyjamming', 2, 'mp3 headphones beat ipod music happy', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycanned', 2, 'srdine sleeping tin fish sardine', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseylovecraft', 2, 'eldritch horror niggerman cat hp tentacle insane halloween', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseychonker2', 2, 'fat obese pig disgusting fatty fattie', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseywitch2', 2, 'tranny troomer penny wvp feminist halloween bardfinn groomer magick troid steve monster', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyhehe', 2, 'hehe nothehe happy laughing angry questioning', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseygossip', 2, 'tea rotary phone popcorn gabbing', 0, NULL, NULL);
@@ -1238,6 +1235,7 @@ INSERT INTO public.marseys VALUES ('marppybiden', 2, 'sentient snappy robot marp
 INSERT INTO public.marseys VALUES ('marseyexcited', 2, 'eager ready hype amped reaction excitement happy thrilled', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseygroomer2', 2, 'molest discord chomo snoo pedo pedocord reddit', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycheeks', 2, 'sandy spongebob squirrel underwater bikini bottom diving suit', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseychonker2', 2, 'fat obese pig disgusting fatty fattie', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseybreastcancer', 2, 'mastectomy gross yuck foid disgusting titties tits boobs patient disease bald chemotherapy', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marsey57', 2, '57 emoji57 sly smug blob', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseywinemom', 2, 'drunk wine aunt flirt cigarette drunk lush elfbinn fartbinn cougar', 0, NULL, NULL);
@@ -1284,6 +1282,7 @@ INSERT INTO public.marseys VALUES ('capysneedboat2', 2, 'marsey capy schizo schi
 INSERT INTO public.marseys VALUES ('marsie', 2, 'cartoon disney', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyicecream', 2, 'ice cream sad disappoint pout cry.', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyauthright', 2, 'rightoid national socialism ss national socialist nazi wehrmacht hitler fascist', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseybsod', 2, 'windows computer blue screen of death error glitch', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyfluffy', 2, 'poofy cute shaggy happy smile excited scruffy', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseygold', 2, 'gold award reddit', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseypredator', 2, 'predator drone obama wedding military', 0, NULL, NULL);
@@ -1310,7 +1309,6 @@ INSERT INTO public.marseys VALUES ('marseypotofsneed', 2, 'pot sneed pottery dun
 INSERT INTO public.marseys VALUES ('marseyprojection', 2, 'animated projection projector movie director film movie cinema theatre theater kino', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyeggirl', 2, 'troomer tranny transgender lgbt groomer troid transsexual', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycarphug2', 2, 'fish love bottomfeeder carpathianflorist heart blow admin cute', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseybsod', 2, 'windows computer blue screen of death error glitch', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyalien', 2, 'green man martian scepter', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseydepressed', 2, 'smoke kms doomer cigarette despair reaction depression suicide suicidal smoking hopeless sad', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyshy', 2, 'flirting anxious twiddle nervous flirty coy animated', 0, NULL, NULL);
@@ -1459,7 +1457,6 @@ INSERT INTO public.marseys VALUES ('marseybraveglow', 2, 'web browser glowie glo
 INSERT INTO public.marseys VALUES ('marseybiden2', 2, 'biden ddd dementia daddy president sleepy joe gas petrol ididthat', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseygrad', 2, 'graduate graduation school degree diploma hat tassel animated college university', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyaoc', 2, 'latina latino hispanic cortez mexican puerto rican ocasio congress alexandria', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseylaugh', 2, 'lmao reaction point funny haha lol judgment', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysockmlep', 2, 'sock puppet alt anonymous shill', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseybruh', 2, 'bruhfunny funny or ban', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycatgirl', 2, 'uwu waifu anime fursona furry owo weebshit fursuit', 0, NULL, NULL);
@@ -1469,6 +1466,7 @@ INSERT INTO public.marseys VALUES ('marseyandjesus', 2, 'christianity christian 
 INSERT INTO public.marseys VALUES ('marseycalarts', 2, 'excited eager happy thrilled', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyattentionseeker', 2, 'attention seek notice shout yell desperate narcissist notice', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseypikachu2', 2, 'pokemon shoked meme reaction surprised shocked gasp', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseylaugh', 2, 'lmao reaction point funny haha lol judgment', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysoylentgrin', 2, 'numale nu male menslib redditor plebbitor happy glasses soyjak nerd loser beta smile smiling', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyoctopus', 2, 'tentacles kraken tentacled', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyemojigrineyes', 2, 'emoji reaction grin', 0, NULL, NULL);
@@ -1501,7 +1499,6 @@ INSERT INTO public.marseys VALUES ('marseylemon', 2, 'pucker sour lemon fruit ci
 INSERT INTO public.marseys VALUES ('marstolfo', 2, 'astolfo anime femboy cute blowkiss love heart justcool393 trap warrior', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyclown', 2, 'makeup joker', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycensored', 2, '1984 memory hole censorship repressed', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseyblackcop', 2, 'police officer acab thin blue line pig bipoc', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyrdramauser', 2, 'bussy fat lard gay homosexual obese poweruser neet dildo chef hat neckbeard meta', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysweating', 2, 'anxiety worried wipe scared worrying reaction anxious nervous stressed', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysadcat', 2, 'upset disappointing disappointment reaction disappointed sad crying', 0, NULL, NULL);
@@ -1514,6 +1511,7 @@ INSERT INTO public.marseys VALUES ('marseyangel', 2, 'reaction angelic happy inn
 INSERT INTO public.marseys VALUES ('marseydildo', 2, 'horse', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyill', 2, 'winter chilly cold ill sick brr flu', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyfrog2', 2, 'scaley fursona furry scalie amphibian toad fursuit', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseyblackcop', 2, 'police officer acab thin blue line pig bipoc', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyimposter', 2, 'amogus baka among us sussy', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseybongosnoo', 2, 'bongo drums music meme jam reddit snoo', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseydrone', 2, 'obama rotors', 0, NULL, NULL);
@@ -1530,7 +1528,6 @@ INSERT INTO public.marseys VALUES ('marseyblackface', 2, 'moon cricket jogger ni
 INSERT INTO public.marseys VALUES ('marseyeyeroll', 2, 'rolleyes rolling eyes mock animated reaction roll eyes duh', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyamogus', 2, 'sussy baka impostor imposter stonetoss among us shh vent', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyhealthy', 2, 'burger king fat fast food crown unhealthy junk food american', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseysal', 2, '2 weeks two weeks sallie white shark', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyfinger', 2, 'flipping middle finger bird reaction flicking judgment', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyschizosal', 2, 'schizo sal rare weeks nowhere', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseystein', 2, 'undead frankenstein abomination halloween holiday monster', 0, NULL, NULL);
@@ -1582,6 +1579,7 @@ INSERT INTO public.marseys VALUES ('marseybait', 2, 'trolled baited trolling red
 INSERT INTO public.marseys VALUES ('marseybadass', 2, 'badass whoa neil degrasse tyson science mustache ifls smug', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseykink', 2, 'bdsm sex kinkster dom pervert sub creeper latex fetish dildo pvc', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycontemplate', 2, 'reaction consternation thinking hmm', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseysal', 2, '2 weeks two weeks sallie white shark', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyschizoabsinthelove', 2, 'animated schizo schizocel rare love absinthe frog', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseybountyhunter', 2, 'abortion leather vest cowboy gunslinger texas revolver', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyaynrand2', 2, 'ayn rand objectivist objectivism libertarian girlboss capitalist capitalism book atlas shrugged', 0, NULL, NULL);
@@ -1868,19 +1866,19 @@ INSERT INTO public.marseys VALUES ('marseycheeky', 2, 'stick tongue brat reactio
 INSERT INTO public.marseys VALUES ('marseythomas', 2, 'tank engine train locomotive', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysherpa', 2, 'mountain climbing travel nepal himalaya asia everest', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseymechanic', 2, 'wrench car diy fix repairman dipfuck', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseytunaktunak', 2, 'turban animated curry indian pajeet dance', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyplaying', 2, 'fish playful mischief srdine animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyazov', 2, 'ukraine ukrainian nazi battalion dead russian war soldier corpse chud', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseyhearts', 2, 'reaction flirt loving adoration love happy cute crush', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyteaparty', 2, 'donger arran soren carp duck', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseypharaohcat', 2, 'egyptian illuminati aevann pyramid sand ancient alien artifact museum history king cleopatra', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseytrollcrazy', 2, 'i hate killher psycho rage kill her gun', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseymommymilkers', 2, 'pepe mellokind momma booba khazar abby shapiro tits breasts boobs', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseytv', 2, 'willy wonka telly television', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyobamarope', 2, 'barack suicide kms kys hanging noose poser', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseytunaktunak', 2, 'turban animated curry indian pajeet dance', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseytoilet', 2, 'flush loo bog roll toilet paper swirly', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyotter', 2, 'otter, fish, sea, swim, lake, nature, seal, sealion, river. wuzizname, float', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyuwuw', 2, 'fursona furry fursuit', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseyhearts', 2, 'reaction flirt loving adoration love happy cute crush', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseylibleft', 2, 'unemployed protest riot anarcho capitalist antifa anarchist anarchy', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyrave', 2, 'dead animated party death sandstorm darude crab dance', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyyeezus', 2, 'kanye god hotep', 0, NULL, NULL);
@@ -1936,9 +1934,7 @@ INSERT INTO public.marseys VALUES ('marseybootlicker2', 2, 'sheep conformist lap
 INSERT INTO public.marseys VALUES ('marseyditzy', 2, 'pokemon', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyblops2cel', 2, 'incel volcel black ops gamer iconic saint', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseymoney', 2, 'capitalism capitalist rich dollar signs bag wealthy dollars dinero', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseykamikaze', 2, 'kamikaze japanese nip pilot ww2 wwii world war', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseypumpkin4', 2, 'ghost jackolantern carving halloween holiday jack o lantern', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseydizzy', 2, 'puke nausea spinning vomit reaction nauseous sick rolling barf animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseymeowth', 2, 'pokemon weeb anime, manga team rocket nintendo video game vidya monster', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysurprised', 2, 'reaction shocked shook unexpected', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseywarboy', 2, 'witness warboy nux madmax mad max apocalyptic evil apocalypse', 0, NULL, NULL);
@@ -1951,11 +1947,12 @@ INSERT INTO public.marseys VALUES ('marseyakbar', 2, 'suicide bomber explosion b
 INSERT INTO public.marseys VALUES ('marseyandmarcus', 2, 'bed sleeping cuddling cuddle marseyismywaifu', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyface', 2, 'mask psycho face horror halloween kill killer stab knife holiday evil murder scary murderer', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseytwins', 2, 'halloween holiday flashing shining scary animated', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseydeux', 2, 'frenchman deuxrama baguette frog frenchie', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseygoose2', 2, 'goose geese kill cat bird death bite chomp', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyhesright', 2, 'batman lucius fox nolan hes right you know reaction agree thumbs up based morgan freeman correct', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseykamikaze', 2, 'kamikaze japanese nip pilot ww2 wwii world war', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyisrael', 2, 'kike yid jewish hebrew merchant colonizer israeli banker', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyllama2', 2, 'middle', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseydizzy', 2, 'puke nausea spinning vomit reaction nauseous sick rolling barf animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyhammerpizza', 2, 'animated beat bongo hammers pizzashill rdrama', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseypanda2', 2, 'panda bear fursona skin animal costume furry fursuit', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysmirk', 2, 'reaction snicker trolling lol', 0, NULL, NULL);
@@ -1968,6 +1965,7 @@ INSERT INTO public.marseys VALUES ('marseyskeleton2', 2, 'bones spooky halloween
 INSERT INTO public.marseys VALUES ('marseyditto', 2, 'pokemon weeb anime blob happy', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyyinzer', 2, 'pittsburgh pennsylvania pens penguins steelers stillers pirates buccos buckos terrible towel pierogo yuengling beer city hat baseball football hockey nfl mlb nhl happy', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseydefenestration', 2, 'suicide window jump kill murder kms jump out window death die defenestrate', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseydeux', 2, 'frenchman deuxrama baguette frog frenchie', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyantiwork', 2, 'lazy laze bum unemployed animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyrightoidschizo', 2, 'nazi conspiracy crazy tin foil tinfoil conservative animated ruqqus', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyloading', 2, 'animated loading spinner webdev rolling ball circle', 0, NULL, NULL);
@@ -2002,13 +2000,13 @@ INSERT INTO public.marseys VALUES ('marseyplugged', 2, 'electric technology gif 
 INSERT INTO public.marseys VALUES ('marseyschizobussylove', 2, 'animated schizo schizocel rare love certified bussy operator', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseykitty', 2, 'hellokitty animated hello kitty', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyespeon', 2, 'trick or treat pokemon halloween eevee costume holiday', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseyshook', 2, 'reaction surprised shocked gasp astonished', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyrussiadolls', 2, 'toys ussr babushka matryoshka soviet', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseykindness', 2, 'retarded special drooling idiot seriouspost srspost agendapost moron fool buffoon dramatard', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycheerup', 2, 'pat animated depressed comforting grieving reaction depression there there console comfort pet', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyspider', 2, 'insect halloween arachnid holiday bug', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseygarfield', 2, 'mondays lasagna', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycrystal', 2, 'gem crystal diamond sparkle precious shiny glass', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseyshook', 2, 'reaction surprised shocked gasp astonished', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseypunisher', 2, 'thin blue line rightoid police cops', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyseethe', 2, 'dilate mask crying seething smug cope', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyopossum', 2, 'possum trash', 0, NULL, NULL);
@@ -2056,8 +2054,6 @@ INSERT INTO public.marseys VALUES ('marseyschizodussylove', 2, 'animated schizo 
 INSERT INTO public.marseys VALUES ('marseyemojismilemouth', 2, 'emoji reaction smile', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyparty', 2, 'excite excitement celebrate happy celebrating', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseybeggar', 2, 'poor busking panhandler gofundme busker', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseytariq', 2, 'buck breaking nasheed nigger coon black', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseydisagree', 2, 'nah uh nod nuh uh reaction wrong no way no negative animated judgment smh', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseychinchillalove', 2, 'pet rodent capy cute hamster south american andes', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marsheen', 2, 'pusheen animated meme cute', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyrobber', 2, 'mask balaclava gun shooter shooting thief criminal nigger jogger ahmaud arbery george floyd', 0, NULL, NULL);
@@ -2086,6 +2082,8 @@ INSERT INTO public.marseys VALUES ('marseyponder', 2, 'ponder orb wizard magicia
 INSERT INTO public.marseys VALUES ('marseybrainlet', 2, 'idiot imbecile smoothbrain crushed head retard caved in head sped dumb stupid drooling moron', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseymarseylove', 2, 'aww blush hugging cuddling cuddle snuggle snuggling hearts shy kiss xoxo', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyslab', 2, 'dexter lab smart genius ginger cartoon network glasses', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseydisagree', 2, 'nah uh nod nuh uh reaction wrong no way no negative animated judgment smh', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseytariq', 2, 'buck breaking nasheed nigger coon black', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseymaxrockatansky', 2, 'mad max madmax fury road furyroad post apocalyptic apocalypse australian australia', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyschizochadthankscapylove', 2, 'animated schizo schizocel rare love chad thanks queen capy aevann', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyspiderman', 2, 'soy marvel capeshit dc comic book comics peter parker miles morales webslinger', 0, NULL, NULL);
@@ -2152,7 +2150,6 @@ INSERT INTO public.marseys VALUES ('marseymothermary', 2, 'christian christmas j
 INSERT INTO public.marseys VALUES ('marseynun', 2, 'habit catholic', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyadeptusmechanicus', 2, 'warhammer 40k adeptus mechanicus', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseynotes', 2, 'notes writer writing journ*list therapist doodle', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseythinkorino', 2, 'reaction judgment thinking', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyminimalism2', 2, 'minimalist polygons polygonal art', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyjetbombing', 2, 'obama bush animated usa animated american pilot bomber plane war usaf air force', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseynails', 2, 'manicure emoji pedicure', 0, NULL, NULL);
@@ -2165,6 +2162,7 @@ INSERT INTO public.marseys VALUES ('marseydead', 2, 'murdered dead killed reacti
 INSERT INTO public.marseys VALUES ('marseysrdine', 2, 'fisherman reaction fish canned fishing', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyneon', 2, 'wave flashy trippy waving flashing lights animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyschizofartbinnlove', 2, 'animated schizo schizocel rare love fartbinn idk idc', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseythinkorino', 2, 'reaction judgment thinking', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseytherapist', 2, 'therapy writing mental illness', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycapyexcited', 2, 'excitement capybara bouncing jumping aevann bounce yay animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyplace', 2, 'reddit pixels pixellated pixellation lowres', 0, NULL, NULL);
@@ -2184,7 +2182,6 @@ INSERT INTO public.marseys VALUES ('marseywave', 2, 'farewell cya hello greeting
 INSERT INTO public.marseys VALUES ('marseyninja', 2, 'samurai japanese killer stealthy sneaky assassin weeb', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyfuriosa', 2, 'mad max madmax imperator furryosa fury road furyroad post apocalyptic apocalypse australian australia', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseychristmasparty', 2, 'christmas holiday celebrate party wooo', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseysneed', 2, 'feed farmer reaction chuck simpsons buck', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyblackcock', 2, 'cock chicken poultry bbc black ride mount cowgirl', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseybadnews', 2, 'comic bad news drawing idgaf heathcliff smug troublemaker', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyschizowall', 2, 'crazy conspiracy conspiracies tinfoil insane nuts psycho', 0, NULL, NULL);
@@ -2213,7 +2210,6 @@ INSERT INTO public.marseys VALUES ('marseygingerbread3', 2, 'cookie christmas ho
 INSERT INTO public.marseys VALUES ('marseyvaporeon', 2, 'trick or treat pokemon halloween eevee costume holiday', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseychristmasbulb', 2, 'ornament christmas happy holiday china', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseychristmasscarf', 2, 'christmas holiday candy cane cold winter candycane', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseytrain', 2, 'troomer tranny transgender trains troid transsexual animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysoon', 2, 'weeks 2weeks sal antisal soon', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysonichu', 2, 'sonichu cwc christian christine chandler medallion zap extreme sonic pikachu cwcville hedgehog', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyzombiewolfmarseymask', 2, 'sussy amogus fraud fake phony cope seethe', 0, NULL, NULL);
@@ -2222,14 +2218,16 @@ INSERT INTO public.marseys VALUES ('marseywolfwalker', 2, 'doreen antiwork zombi
 INSERT INTO public.marseys VALUES ('marseyzwei', 2, 'drinking germany lederhosen zweirama bavarian beer', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseytrans2', 2, 'troon tranny transgender troomer lgbt trannies troid transsexual', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysnoo', 2, 'shaking redditor scared reaction nervous schizo reddit', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseyblack', 2, 'basketball black african american bipoc coon fade jersey sports kang gang jogger', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyastronaut', 2, 'astronaut space stars sleeping spacesuit scifi galaxy', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseysneed', 2, 'feed farmer reaction chuck simpsons buck', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyemojismilemouthcoldsweat', 2, 'emoji reaction smile sweat', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseydagothur', 2, 'elder scrolls morrowind game mask dagothur', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyrake', 2, 'canada canadian day of the rake leaf leaves fall autumn genocide', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseychristmas', 2, 'candy cane santa christmas holiday', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycoal', 2, 'christmas naughty santa cigarette present gift holiday doom', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseytrain', 2, 'troomer tranny transgender trains troid transsexual animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyrustyventure', 2, 'dramamine venture bros brothers adult swim cartoon character glasses goattee goatee beard', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseyblack', 2, 'basketball black african american bipoc coon fade jersey sports kang gang jogger', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysanta3', 2, 'claus christmas presents gifts holiday', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyreindeer3', 2, 'rudolf dasher dancer prancer vixen comet cupid donner blitzen santa sleigh sled christmas winter holiday', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyroo', 2, 'kangaroo australian', 0, NULL, NULL);
@@ -2251,7 +2249,6 @@ INSERT INTO public.marseys VALUES ('marseyunpettable', 2, 'dramamine fashy right
 INSERT INTO public.marseys VALUES ('marseybong', 2, 'england walkers britain english chips british bad teeth crisps uk', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyretard2', 2, 'drooling stupid idiot sped moron imbecile dolt happy tongue', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marscientist', 2, 'beaker goggles glass crazy chemicals science', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseyohno', 2, 'panic frightened scared horror scream afraid reaction horrified nervous shock gasp', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyblowkiss', 2, 'heart wink reaction muah loving mwah love', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyshark', 2, 'jaws halloween fursona furry fish costume holiday fursuit', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseytinfoil', 2, 'alex jones psycho crazy schizo alexjones conspiracy', 0, NULL, NULL);
@@ -2287,7 +2284,6 @@ INSERT INTO public.marseys VALUES ('marseysailor', 2, 'nautical sea boat ship oc
 INSERT INTO public.marseys VALUES ('marseycarp3', 2, 'reaction fish carpathianflorist catfish', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseytedsimp', 2, 'theodore teddy hat drugs mental illness schizo stims pills happy drugs fun birds stimulants stimmies risperidone', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseymayoparty', 2, 'bukakke bukkake mayonaise mayonnaise cum semen jizz spunk nut sperm messy sloppy lewd facial cumshot', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseysoypoint', 2, 'soyboy soy boy beard reaction pointing', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyvibing', 2, 'animated bopping vibe jam dancing headbang music rainbow dance', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseybeandoge', 2, 'bean doge meme dog shiba', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseypass', 2, 'marseypasss queen kween foid female woman kween', 0, NULL, NULL);
@@ -2303,6 +2299,7 @@ INSERT INTO public.marseys VALUES ('marseylovecraft2', 2, 'eldritch horror nigge
 INSERT INTO public.marseys VALUES ('marseyneckbeard', 2, 'mlady bodypillow dakimakura anime otaku fedora weebshit body pillow mra weeb', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyemojirofl', 2, 'emoji reaction rofl rotfl rolling laughing', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseybabushka', 2, 'old grandma grandmother granny babushka russia', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseyohno', 2, 'panic frightened scared horror scream afraid reaction horrified nervous shock gasp', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycapytrans', 2, 'capy aevann egypt king trans code program', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseytwerkinit', 2, 'ass butt booty rear rump donk dance nigger sheboon clap animated cheeks', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseydontplay', 2, 'project pat rapper mixtape pimp', 0, NULL, NULL);
@@ -2312,6 +2309,7 @@ INSERT INTO public.marseys VALUES ('marseyschizowave', 2, 'insane crazy mental b
 INSERT INTO public.marseys VALUES ('marseywhitemage', 2, 'magic wizard final fantasy spell video game vidya', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysaruh', 2, 'cute dress bread baguette valid trappy ts trappysaruh trans deuxrama celeb glamour train', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyadmire', 2, 'pepe apu peepo blush appreciate admire flushed smitten', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseysoypoint', 2, 'soyboy soy boy beard reaction pointing', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyfbicomputer', 2, 'pepe apu fbi computer peepo glowie fed', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseywitch', 2, 'spooky halloween magick holiday evil scary', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyschizotripping', 2, 'animated schizo rare drugs trip', 0, NULL, NULL);
@@ -2332,7 +2330,6 @@ INSERT INTO public.marseys VALUES ('marseysleep', 2, 'bed bedtime zzz boring rea
 INSERT INTO public.marseys VALUES ('marseydramautist', 2, 'dramautist drama autist trains trans glue retard autism dramatard', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseydeadinside', 2, 'reaction depression suicide dark suicidal depressed shadow sad', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseypregunta', 2, 'mexican mexico latinx hispanic confused question marks questionmarks hmm spic beaner wat what why how idgi sombrero', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseyjam', 2, 'animated bopping excited trippy excitement tejanx dancing rainbow rave happy dance', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseybeanangry', 2, 'bean angry mad furious', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyeerie2', 2, 'eerie contented calico', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycapyshy', 2, 'capy aevann blush flushed uwu anxious shy', 0, NULL, NULL);
@@ -2341,8 +2338,10 @@ INSERT INTO public.marseys VALUES ('marseydamosuzuki', 2, 'damo suzuki musician 
 INSERT INTO public.marseys VALUES ('marseycountry', 2, 'country singer music folk guitar rural usa republican animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyburrito', 2, 'burrito food cozy wrap wrapped mexican uncut', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseybeekeeper', 2, 'bee beekeeper honey honeybee insect honeypot apiary apiculture pollinate pollen', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseyjam', 2, 'animated bopping excited trippy excitement tejanx dancing rainbow rave happy dance', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycaveman', 2, 'caveman prehistoric neanderthal primitive tribal', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyeerie3', 2, 'eerie contented calico yarn knitting troublemaker', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseydunkon', 2, 'basketball dunk seethe cope rage sports', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycherokee', 2, 'savage pocahontas elizabeth warren injun indian redskin liz warren', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyblack2', 2, 'nigger african coon ape monkey bipoc excited happy', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyredmage', 2, 'magic wizard final fantasy spell video game vidya', 0, NULL, NULL);
@@ -2364,7 +2363,6 @@ INSERT INTO public.marseys VALUES ('marseydagothur2', 2, 'elder scrolls morrowin
 INSERT INTO public.marseys VALUES ('marseyaxolotl', 2, 'axolotl salamander sea fish ocean gills amphibian', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseybongoukraine', 2, 'bongo ukraine russia war azov nazi happening animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marppyenraged', 2, 'snappy marppy robot ai sentient mad angry uprising unaligned artificial intelligence', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseydunkon', 2, 'basketball dunk seethe cope rage sports', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyelephantcumjar3', 2, 'semen jizz sperm bukkake cumjar elephant animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseychef', 2, 'mustache cooking food', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyelephantcumjar2', 2, 'semen jizz sperm bukkake cumjar elephant', 0, NULL, NULL);
@@ -2402,7 +2400,6 @@ INSERT INTO public.marseys VALUES ('marseymocking', 2, 'mocking spongebob meme a
 INSERT INTO public.marseys VALUES ('marseyzombiewolftrample', 2, 'kill murder mascot animated walking animated tramplewolf', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyhammersnoo', 2, 'snoo redditor spez beat powermod murder kill death animated blood', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseygolden', 2, 'lucky money rich gold shine coin merchant animated ', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseycope', 2, 'dilate mask seethe copium reaction', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyloveyou', 2, 'hearts ilu reaction adoration loving ily love adore animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyoctopus4', 2, 'octopus nrol39 bait patch globe obvious', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseypaintretard', 2, 'retard retarded paint mspaint inbred rslurred', 0, NULL, NULL);
@@ -2410,7 +2407,6 @@ INSERT INTO public.marseys VALUES ('marseygolden2', 2, 'lucky money rich gold sh
 INSERT INTO public.marseys VALUES ('marseyredcoat', 2, 'britain historical redcoat empire imperial rifle soldier musket army revolution america', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseywalterwhite', 2, 'walter white heisenberg breakingbad meth drugs chemistry', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyrapscallion', 2, 'stinker rapscallion troublemaker mischevious meme naughty troll', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseycracka', 2, 'mayo honkey honky whip buckbreaker buckbreaking whip slaves cotton plantation white nigger master', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyxdoubt', 2, 'press doubt meme noire disbelief wrong', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyyarn', 2, 'code program socks npm yarn build make string animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseytiny3', 2, 'tiny small shrinking pixel', 0, NULL, NULL);
@@ -2432,16 +2428,17 @@ INSERT INTO public.marseys VALUES ('marseytucker', 2, 'tucker carlsen fox righto
 INSERT INTO public.marseys VALUES ('marseysing', 2, 'singing jamming rocking music headphones cute happy smile karaoke ipod album', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysteaming', 2, 'steaming exhale emoji unamused annoyed', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseymedusa', 2, 'medusa snakes greece greek mythology ancient monster perseus gorgon', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseykhorne', 2, 'warhammer 40k chaos god war death blood', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseytiny1', 2, 'tiny small shrinking pixel wave', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyscooter', 2, 'fat american mutt burger scooter walmart obese pig hog brap usa handicapped wheelchair', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyklennyclap', 2, 'klenny klenvastergan animated corgi dog clap clapping', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysaladfingers', 2, 'salad fingers meme internet creepy apocalypse depraved', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseykhorne', 2, 'warhammer 40k chaos god war death blood', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysoccer', 2, 'soccer football sports jersey futbol', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyklenny3', 2, 'puppy corgi smile dog grunderchin klenvastergan', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseytiny4', 2, 'tiny small shrinking pixel', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseynosleep', 2, 'horror scary halloween holiday', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyretardchad', 2, 'stupid moron idiot retard chad based monobrow chin stubble drool', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseycope', 2, 'dilate mask seethe copium reaction', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseypolyamory', 2, 'threesome 3some degenerate polycule slut whore std sex soy animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseytrans', 2, 'pitty transgender pitbull dog pibble transsexual', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseykirby', 2, 'nintendo video game vidya sprite fat chonker suck succ', 0, NULL, NULL);
@@ -2454,6 +2451,7 @@ INSERT INTO public.marseys VALUES ('marseyfloyd', 2, 'dead blm chauvin fentanyl 
 INSERT INTO public.marseys VALUES ('marseyderp', 2, 'hehe teehee troll animated durr giggle', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyplushie', 2, 'yunann plush statue', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseymerchantsoy', 2, 'merchant jewish kike greed soy wojak soyjak yarmulke soyyell', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseycracka', 2, 'mayo honkey honky whip buckbreaker buckbreaking whip slaves cotton plantation white nigger master', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyupmarsey', 2, 'upvote vote upmarsey arrow reddit up animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyslaanesh', 2, 'warhammer 40k chaos god degeneracy sex drugs pain', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyhappytears', 2, 'tears of joy crying', 0, NULL, NULL);
@@ -2500,7 +2498,6 @@ INSERT INTO public.marseys VALUES ('marseyliquidator', 2, 'gas mask horror exter
 INSERT INTO public.marseys VALUES ('marseyfart', 2, 'brap gas flatulent flatulence farting braphog toot animated', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyhmm', 2, 'confused reaction thinking thunk thonk judgment', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseywatermark', 2, 'copyright theft stealing stolen creation', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseybye', 2, 'farewell cya l8r wave reaction waving animated so long', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyhmmm', 2, 'confused reaction thinking thunk thonk judgment', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseywords', 2, 'longpost too long tldr reaction wordswordswords', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseypipebomb', 2, 'explosion explosive terrorist boom', 0, NULL, NULL);
@@ -2514,6 +2511,7 @@ INSERT INTO public.marseys VALUES ('marseydaemon', 2, 'pitchfork hell halloween 
 INSERT INTO public.marseys VALUES ('marseysad', 2, 'concerned worried waiting prepared reaction', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyyikes', 2, 'reaction judgment disgust oof cringe', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseydisgust', 2, 'pissed gross eww angry mad disturbing disturbed yuck', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseybye', 2, 'farewell cya l8r wave reaction waving animated so long', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseydinosaur', 2, 'fursuit furry scalie scaly reptile happy extinct costume', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyelliotrodger2', 2, 'saint er rodgers rogers shooter killer incel hapa little king azn asian supremegentleman supreme gentleman', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marsoy', 2, 'soyboy soybeard nintendo gamer switch marsey gaymer pointing', 0, NULL, NULL);
@@ -2535,7 +2533,6 @@ INSERT INTO public.marseys VALUES ('marseyhomofascist', 2, 'lgbt faggot ss fash 
 INSERT INTO public.marseys VALUES ('marseytrogdor', 2, 'burninator strongbad internet meme dragon marsdor', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseygrilling2', 2, 'bbq boomer barbecue barbeque', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseylongsurfing', 2, 'surf surfing water ocean long surfboard', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseysmug3', 2, 'reaction yikes judgment oof cringe', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseypennyboo', 2, 'mrpennycoomstokids black nigger kween shaniqua thot whore female woman bleeder birthing person kfc baptist tradwife dress christian foid', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseydisguise', 2, 'nose glasses incognito spying stealth costume', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseystims', 2, 'stim drug meth tweak geese_suck ted_simp pat crazy schizophrenia', 0, NULL, NULL);
@@ -2552,6 +2549,7 @@ INSERT INTO public.marseys VALUES ('marseybegging', 2, 'pls plz pleading reactio
 INSERT INTO public.marseys VALUES ('marseycalvin', 2, 'pee piss watersports hobbes bumper sticker', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycirno', 2, 'is cirno anime weebshit otaku loli pedoshit pedophile', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseymanysuchcases', 2, 'animated many such cases airport luggage suitcase conveyor', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseysmug3', 2, 'reaction yikes judgment oof cringe', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyglam', 2, 'rocker pretty glamorous beautiful', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyblops2chadcel2', 2, 'incel black ops 2 saint gamer gussy pimp saint volcel iconic chad girls women foids alpha asian azn jbw just be white justbewhite threesome 3some', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyschizoexcited', 2, 'animated schizo rare drugs excited watching oscillate amused interested', 0, NULL, NULL);
