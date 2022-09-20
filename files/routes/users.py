@@ -935,12 +935,6 @@ def visitors(v):
 @auth_desired_with_logingate
 def u_username(username, v=None):
 
-	if not v and not request.path.startswith('/logged_out'):
-		return redirect(f"/logged_out{request.full_path}")
-
-	if v and request.path.startswith('/logged_out'):
-		return redirect(request.full_path.replace('/logged_out',''))
-
 	u = get_user(username, v=v, rendered=True)
 
 	if v and username == v.username:
@@ -1041,12 +1035,6 @@ def u_username(username, v=None):
 @app.get("/logged_out/@<username>/comments")
 @auth_desired_with_logingate
 def u_username_comments(username, v=None):
-
-	if not v and not request.path.startswith('/logged_out'):
-		return redirect(f"/logged_out{request.full_path}")
-
-	if v and request.path.startswith('/logged_out'):
-		return redirect(request.full_path.replace('/logged_out',''))
 
 	user = get_user(username, v=v, rendered=True)
 

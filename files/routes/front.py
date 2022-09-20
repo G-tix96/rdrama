@@ -19,14 +19,6 @@ from files.helpers.awards import award_timers
 @auth_desired_with_logingate
 def front_all(v, sub=None, subdomain=None):
 
-	if not v and not request.path.startswith('/logged_out'):
-		return redirect(f"/logged_out{request.full_path}")
-
-	if v and request.path.startswith('/logged_out'):
-		redir = request.full_path.replace('/logged_out','')
-		if not redir.startswith('/'): redir = f'/{redir}'
-		return redirect(redir)
-
 	if sub:
 		sub = sub.strip().lower()
 		if sub == 'chudrama' and not (v and v.can_see_chudrama): abort(403)

@@ -501,6 +501,7 @@ def sub_marsey(v, sub):
 	return redirect(f'/h/{sub}/settings')
 
 @app.get("/holes")
+@app.get("/logged_out/holes")
 @auth_desired_with_logingate
 def subs(v):
 	subs = g.db.query(Sub, func.count(Submission.sub)).outerjoin(Submission, Sub.name == Submission.sub).group_by(Sub.name).order_by(func.count(Submission.sub).desc()).all()

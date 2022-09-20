@@ -112,6 +112,14 @@ def auth_desired_with_logingate(f):
 		v = get_logged_in_user()
 		if app.config['SETTINGS']['login_required'] and not v: abort(401)
 
+		if not v and not request.path.startswith('/logged_out'):
+			return redirect(f"/logged_out{request.full_path}")
+
+		if v and request.path.startswith('/logged_out'):
+			redir = request.full_path.replace('/logged_out','')
+			if not redir: redir = '/'
+			return redirect(redir)
+
 		check_ban_evade(v)
 
 		return make_response(f(*args, v=v, **kwargs))
