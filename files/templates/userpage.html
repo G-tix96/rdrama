@@ -13,7 +13,7 @@
 <meta property="og:article:author" content="@{{u.username}}">
 <meta property="article:section" content="{{u.username}}'s profile - {{SITE_NAME}}">
 <meta property="article:published_time" content="{{u.created_date}}">
-<meta property="og:description" name="description" content="{{u.coins}} coins - Joined {{u.created_date}} - {% if u.stored_subscriber_count >=1 and not u.is_private and not u.is_nofollow %}{{u.stored_subscriber_count}} Followers - {% endif %}{% if not u.is_private %} {{0 if u.shadowbanned else u.post_count}} Posts - {{0 if u.shadowbanned else u.comment_count}} Comments - {% endif %}{{u.bio}}">
+<meta property="og:description" name="description" content="{{u.coins}} coins - Joined {{u.created_date}} - {% if u.stored_subscriber_count >=1 and not u.is_private and not u.is_nofollow %}{{u.stored_subscriber_count}} Followers - {% endif %}{% if not u.is_private %} {{0 if u.shadowbanned else u.post_count}} Posts - {{0 if u.shadowbanned else u.comment_count}} Comments{% endif %}{% if u.bio %} - {{u.bio}}{% endif %}">
 <meta property="og:author" name="author" content="@{{u.username}}">
 <meta property="og:title" content="{{u.username}}">
 <meta property="og:image" content="{{u.banner_url}}">
@@ -24,7 +24,7 @@
 <meta name="twitter:site" content="{{SITE_FULL}}">
 <meta name="twitter:title" content="{{u.username}}'s profile - {{SITE_NAME}}">
 <meta name="twitter:creator" content="@{{u.username}}">
-<meta name="twitter:description" content="{{u.coins}} coins - Joined {{u.created_date}} - {% if u.stored_subscriber_count >=1 and not u.is_private and not u.is_nofollow %}{{u.stored_subscriber_count}} Followers -{% endif %} {% if not u.is_private %} {{0 if u.shadowbanned else u.post_count}} Posts - {{0 if u.shadowbanned else u.comment_count}} Comments - {% endif %}{{u.bio}}">
+<meta name="twitter:description" content="{{u.coins}} coins - Joined {{u.created_date}} - {% if u.stored_subscriber_count >=1 and not u.is_private and not u.is_nofollow %}{{u.stored_subscriber_count}} Followers -{% endif %} {% if not u.is_private %} {{0 if u.shadowbanned else u.post_count}} Posts - {{0 if u.shadowbanned else u.comment_count}} Comments{% endif %}{% if u.bio %} - {{u.bio}}{% endif %">
 <meta name="twitter:image" content="{{u.banner_url}}">
 <meta name="twitter:url" content="{{u.url}}">
 {% endblock %}
