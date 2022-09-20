@@ -166,8 +166,8 @@ CREATE TABLE public.award_relationships (
     comment_id integer,
     kind character varying(20) NOT NULL,
     awarded_utc integer,
-    granted boolean,
-    created_utc integer
+    created_utc integer,
+    granted_by integer
 );
 
 
@@ -2012,6 +2012,14 @@ ALTER TABLE ONLY public.oauth_apps
 
 ALTER TABLE ONLY public.award_relationships
     ADD CONSTRAINT award_comment_fkey FOREIGN KEY (comment_id) REFERENCES public.comments(id);
+
+
+--
+-- Name: award_relationships award_granted_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.award_relationships
+    ADD CONSTRAINT award_granted_by_fkey FOREIGN KEY (granted_by) REFERENCES public.users(id);
 
 
 --
