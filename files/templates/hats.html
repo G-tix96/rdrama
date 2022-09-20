@@ -68,7 +68,7 @@
 			const profile_pic_hat = document.getElementById("profile-pic-35-hat");
 			function extra_actions(xhr) {
 				if(xhr.status == 200) {
-					profile_pic_hat.src = `/i/hats/${hat_name}.webp?h=5`
+					profile_pic_hat.src = `/i/hats/${hat_name}.webp?h=7`
 					profile_pic_hat.classList.remove('d-none')
 				}
 			}
@@ -111,7 +111,7 @@
 					<td>
 						<div class="profile-pic-75-wrapper mt-4">
 							<img loading="lazy" alt="avatar" src="{{v.profile_url}}" class="profile-pic-75">
-							<img loading="lazy" alt="{{hat.name}}" class="profile-pic-75-hat" src="/i/hats/{{hat.name}}.webp?h=5">
+							<img loading="lazy" alt="{{hat.name}}" class="profile-pic-75-hat" src="/i/hats/{{hat.name}}.webp?h=7">
 						</div>
 					</td>
 					<td>{{hat.name}}</td>

@@ -49,7 +49,7 @@ function popclick(e) {
 
 		popover.getElementsByClassName('pop-banner')[0].src = author["bannerurl"]
 		popover.getElementsByClassName('pop-picture')[0].src = author["profile_url"]
-		if (author["hat"]) popover.getElementsByClassName('pop-hat')[0].src = author['hat'] + "?h=5"
+		if (author["hat"]) popover.getElementsByClassName('pop-hat')[0].src = author['hat'] + "?h=7"
 		popover.getElementsByClassName('pop-username')[0].innerHTML = author["username"]
 		if (popover.getElementsByClassName('pop-bio').length > 0) {
 			popover.getElementsByClassName('pop-bio')[0].innerHTML = author["bio_html"]
