@@ -181,8 +181,7 @@ def log_item(id, v):
 	return render_template("log.html", v=v, actions=[action], next_exists=False, page=1, action=action, admins=admins, types=types)
 
 @app.get("/directory")
-@app.get("/logged_out/directory")
-@auth_desired_with_logingate
+@auth_required
 def static_megathread_index(v):
 	return render_template("megathread_index.html", v=v)
 
@@ -428,7 +427,6 @@ if not os.path.exists(f'files/templates/donate_{SITE_NAME}.html'):
 	copyfile(f'files/templates/donate_rDrama.html', f'files/templates/donate_{SITE_NAME}.html')
 
 @app.get('/donate')
-@app.get("/logged_out/donate")
-@auth_desired_with_logingate
+@auth_required
 def donate(v):
 	return render_template(f'donate_{SITE_NAME}.html', v=v)
