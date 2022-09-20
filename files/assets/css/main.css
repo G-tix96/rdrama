@@ -6267,3 +6267,7 @@ div.markdown {
 ::-webkit-input-placeholder {
     opacity: 0.7 !important;
 }
+
+.text-brown {
+	color: #433722;
+}

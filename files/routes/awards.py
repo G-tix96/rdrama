@@ -405,6 +405,12 @@ def award_thing(v, thing_type, id):
 		if author.rainbow: author.rainbow += 86400
 		else: author.rainbow = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=171)
+	elif kind == "spider":
+		if author.id == CARP_ID:
+			return {"error": "Carp is immune to the spider award!"}, 403
+		if author.spider: author.spider += 86400
+		else: author.spider = int(time.time()) + 86400
+		badge_grant(user=author, badge_id=179)
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1
