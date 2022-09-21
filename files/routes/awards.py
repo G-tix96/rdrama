@@ -173,7 +173,7 @@ def award_thing(v, thing_type, id):
 		return {"error": "You can't use this award on yourself."}, 400
 
 	if kind == 'marsify' and author.marsify == 1:
-		return {"error": "User is already permenantly marsified!"}, 403
+		return {"error": "User is already permanently marsified!"}, 403
 
 	if v.id != author.id:
 		if author.deflector and v.deflector:

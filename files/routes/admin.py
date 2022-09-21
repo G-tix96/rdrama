@@ -857,7 +857,7 @@ def agendaposter(user_id, v):
 	g.db.add(user)
 
 	if days: note = f"for {days} days"
-	else: note = "permenantly"
+	else: note = "permanently"
 
 	ma = ModAction(
 		kind="agendaposter",
