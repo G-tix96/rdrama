@@ -228,7 +228,11 @@ def submit_contact(v):
 	g.db.flush()
 	new_comment.top_comment_id = new_comment.id
 	
-	for admin in g.db.query(User).filter(User.admin_level > 2).all():
+	admins = g.db.query(User).filter(User.admin_level > 2)
+	if SITE == 'watchpeopledie.co':
+		admins = admins.filter(User.id != AEVANN_ID)
+
+	for admin in admins.all():
 		notif = Notification(comment_id=new_comment.id, user_id=admin.id)
 		g.db.add(notif)
 
