@@ -196,7 +196,7 @@ def award_thing(v, thing_type, id):
 			msg = f"@{author.username} is under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you :marseytroll:"
 			send_repeatable_notification(v.id, msg)
 			author = v
-		else:
+		elif kind != 'spider':
 			msg = f"@{v.username} has given your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award!"
 			if note: msg += f"\n\n> {note}"
 			send_repeatable_notification(author.id, msg)
@@ -410,7 +410,7 @@ def award_thing(v, thing_type, id):
 			return {"error": "Carp is immune to the spider award!"}, 403
 		if author.spider: author.spider += 86400
 		else: author.spider = int(time.time()) + 86400
-		badge_grant(user=author, badge_id=179)
+		badge_grant(user=author, badge_id=179, notify=False)
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1

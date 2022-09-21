@@ -8,7 +8,7 @@ from files.helpers.slots import *
 import random
 from urllib.parse import quote
 
-def badge_grant(user, badge_id, description=None, url=None):
+def badge_grant(user, badge_id, description=None, url=None, notify=True):
 	assert user != None
 	if user.has_badge(badge_id):
 		return
@@ -23,9 +23,10 @@ def badge_grant(user, badge_id, description=None, url=None):
 	g.db.add(badge)
 	g.db.flush()
 
-	send_repeatable_notification(user.id,
-		f"@AutoJanny has given you the following profile badge:\n\n" +
-		f"![]({badge.path})\n\n**{badge.name}**\n\n{badge.badge.description}")
+	if notify:
+		send_repeatable_notification(user.id,
+			f"@AutoJanny has given you the following profile badge:\n\n" +
+			f"![]({badge.path})\n\n**{badge.name}**\n\n{badge.badge.description}")
 
 
 def archiveorg(url):
