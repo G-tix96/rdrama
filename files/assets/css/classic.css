@@ -85,6 +85,15 @@ a {
 	color: #369;
 }
 
+.spoiler, spoiler {
+	background-color: var(--grey);
+	color: var(--grey);
+}
+
+.spoiler:hover, spoiler:hover {
+	color:white;
+}
+
 /*front page*/
 a.btn-block[href~="/submit"] {
 	display:none;
