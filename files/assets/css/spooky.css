@@ -1,0 +1,880 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Emilys+Candy&display=swap');
+
+:root {
+	--primary: #FB8B24;
+	--dark: #170535;
+	--secondary: #820263;
+	--white: #E1E1E1;
+	--black: #CFCFCF;
+	--light: #170535;
+	--muted: #E1E1E1;
+	--gray: #383838;
+	--gray-100: #E1E1E1;
+	--gray-200: #E1E1E1;
+	--gray-300: #291720;
+	--gray-400: #303030;
+	--gray-500: #170535;
+	--gray-600: #170535;
+	--gray-700: #170535;
+	--gray-800: #170535;
+	--gray-900: #170535;
+	--background: var(--dark);
+}
+
+* {
+	border-color: var(--primary);
+}
+
+a:hover.user-name {
+	cursor: url('/assets/images/halloween/machete.png') 36 36, auto;
+}
+
+.border {
+	border-color: var(--primary) !important;
+}
+
+.form-control {
+	background: transparent;
+	border-color: var(--primary) !important;
+}
+
+.btn {
+	background: transparent;
+	border-color: var(--primary) !important;
+	border-width: 2px;
+}
+
+.form-control:disabled, .form-control[readonly] {
+	background: transparent;
+	border-color: var(--primary) !important;
+}
+
+.btn-success {
+	border-color: #38A169 !important;
+}
+
+.btn-danger {
+	border-color: #E53E3E !important;
+}
+
+#frontpage .pseudo-submit-form.card .card-body .form-control {
+	border-color: transparent !important;
+}
+
+.btn-lg {
+	border-color: transparent !important;
+}
+
+pre {
+	color: #CFCFCF;
+}
+
+.transparent {
+	background: None !important;
+}
+
+#frontpage .post-title a:visited {
+	color: #7a7a7a !important;
+}
+
+/* Halloween Theming */
+
+.post-title a {
+	font-family: 'Emilys Candy';
+	font-size: 1.25rem;
+}
+
+.arrow-up::before, .arrow-down::before {
+	content: '\f6e2';
+	width: 14px;
+}
+
+.arrow-down::before {
+	display: inline-block;
+	transform: rotate(180deg);
+}
+
+/* Cob Webs */
+
+body::before {
+	content: '';
+	position: fixed;
+	background-image: url('/assets/images/halloween/cobweb-bl.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	left: -1.5rem;
+	bottom: -1.5rem;
+	width: 170px;
+	height: 230px;
+	z-index: 10001;
+	pointer-events: none;
+	transform: rotate(180deg);
+	opacity: .5;
+}
+
+body::after {
+	content: '';
+	position: fixed;
+	background-image: url('/assets/images/halloween/cobweb-tr.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	right: -1.5rem;
+	top: -1.5rem;
+	width: 160px;
+	height: 160px;
+	z-index: 10001;
+	pointer-events: none;
+	opacity: .45;
+}
+
+/* Blood Effect */
+
+.blood::before {
+	content: '';
+	position: absolute;
+	background-image: url('/assets/images/halloween/blood.gif');
+	width: 100%;
+	height: 55px;
+	background-repeat: repeat-x;
+	top: 0;
+	left: 0;
+}
+
+.sketch {
+	z-index: 10000;
+	position: fixed;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+}
+
+/* Haunted Effect */
+
+.haunt > div:not(.modal) {
+	animation: haunted 5000ms infinite;
+}
+
+@keyframes haunted {
+	0% {
+		filter: brightness(20%);
+	}
+	48% {
+		filter: brightness(20%);
+	}
+	50% {
+		filter: sepia(1) contrast(1.5) brightness(200%);
+	}
+	60% {
+		filter: sepia(1) contrast(1.5) brightness(200%);
+	}
+	62% {
+		filter: brightness(20%);
+	}
+	96% {
+		filter: brightness(20%);
+	}
+	96% {
+		filter: brightness(300%);
+	}
+}
+
+/* Upside Down */
+
+/*.upsidedown {
+	filter: sepia(100%) hue-rotate(180deg) saturate(300%);
+}*/
+
+.upsidedown {
+	position: relative;
+}
+
+/*.upsidedown.blood::before {
+	display: none;
+}*/
+
+/* Upside Down Lights */
+
+@keyframes lights {
+    0% {
+       /*Two zeros, not one !!*/
+       /*[0] is equivalent to [0 50%] and will create a different animation */
+        background-position:0 0;
+    }
+    100% {
+        background-position:0 -138px;
+    }
+}
+
+.upsidedown .lights {
+	pointer-events: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+    height:69px;
+    background:url('/assets/images/halloween/lights.png');
+    animation: lights 1s infinite steps(2);
+    z-index: 4;
+}
+
+/* Upside Down Award Icon */
+.fad.fa-lights-holiday:after {
+	animation: blinker 1s linear infinite;
+}
+.fa-lights-holiday:before {
+	color: #17AA31;
+}
+@keyframes blinker {
+	10% {
+		opacity: 0;
+	}
+	20% {
+		opacity: 0.2;
+		color: #FFD600;
+	}
+	30% {
+		opacity: 0;
+	}
+	40% {
+		opacity: 0.6;
+		color: #FFD600;
+	}
+	45% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 0.2;
+		color: #FFD600;
+
+	}
+	70% {
+		opacity: 0.4;
+		color: #FF2000;
+	}
+	90% {
+		opacity: 0;
+	}
+	92% {
+		opacity: 0.8;
+		color: #FF2000;
+
+	}
+	100% {
+		opacity: 0.8;
+		color: #FF2000;
+	}
+}
+
+/* Ghost */
+
+/*.user-name *, .user-name-reply * {
+	display: none;
+}
+.user-name:after, .user-name-reply:after {
+	content: '👻';
+}
+a.user-name {
+	pointer-events: none;
+}*/
+
+.post-meta.ghosts .fa-broom, .post-meta.ghosts .fa-robot {
+	display: none;
+}
+
+/* Spiders */
+
+.spider:nth-child(odd) {
+	animation-name: swingFast;
+}
+
+.spider:nth-child(2) {
+	animation-delay: 250ms;
+	animation-duration: 2100ms;
+	left: 20%;
+}
+
+.spider:nth-child(3) {
+	animation-delay: 300ms;
+	animation-duration: 1600ms;
+	left: 30%;
+}
+
+.spider:nth-child(4) {
+	animation-delay: 400ms;
+	animation-duration: 1800ms;
+	left: 40%;
+}
+
+.spider:nth-child(5) {
+	animation-delay: 240ms;
+	animation-duration: 1900ms;
+	left: 50%;
+}
+
+.spider:nth-child(6) {
+	animation-delay: 250ms;
+	animation-duration: 2300ms;
+	left: 60%;
+}
+
+.spider:nth-child(7) {
+	animation-delay: 400ms;
+	animation-duration: 800ms;
+	left: 70%;
+}
+
+.spider:nth-child(8) {
+	animation-delay: 5000ms;
+	animation-duration: 200ms;
+	left: 80%;
+}
+
+.spider:nth-child(9) {
+	animation-delay: 6000ms;
+	animation-duration: 200ms;
+	left: 90%;
+}
+
+.spider {
+	z-index: 10;
+	position: fixed;
+	display: inline-block;
+	top: 0;
+	left: 10%;
+
+	/* 4. Animatie */
+	animation: swing 2s infinite;
+	transform-origin: top;
+
+	/* Bonus */
+	transition: 0.8s ease-in-out;
+}
+
+.spider:hover .body {
+	transform: rotate(15deg);
+	transition: 0.4s ease-in-out;
+}
+
+.spider:nth-child(odd):hover .body {
+	transform: rotate(-10deg);
+	transition: 0.2s ease-in-out;
+}
+
+.spider .spiderweb {
+	width: 2px;
+	height: 200px;
+	margin-left: 49px;
+	background: rgba(255, 255, 255, 0.7);
+}
+
+.spider .body {
+	width: 100px;
+	height: 80px;
+	background: #222;
+	position: relative;
+	border-radius: 50%;
+}
+
+.spider .body .eye {
+	width: 25px;
+	height: 25px;
+	position: absolute;
+	bottom: 20px;
+	background: #fff;
+	border-radius: 50%;
+}
+
+.spider .body .eye.left {
+	left: 20px;
+}
+
+.spider .body .eye.right {
+	right: 20px;
+}
+
+.spider .body .eye:after {
+	background: #222;
+	width: 7px;
+	height: 7px;
+	content: "";
+	display: block;
+	margin: 55%;
+	border-radius: 50%;
+
+	/* 3. Animatie */
+	animation: look 4s infinite;
+}
+
+.spider:nth-child(odd) .body .eye:after {
+	animation-delay: 1400ms;
+	animation-duration: 3600ms;
+}
+
+.spider .legs .leg {
+	width: 80px;
+	height: 40px;
+	margin-top: -20px;
+	border: 5px solid transparent;
+	border-top-color: #333;
+	border-radius: 40px 40px 0 0;
+}
+
+.spider .legs {
+	position: absolute;
+	bottom: -10%;
+	z-index: -1;
+}
+
+.spider .legs.left {
+	left: -70%;
+}
+.spider .legs.right {
+	right: -60%;
+}
+
+.legs.left .leg:nth-child(1) {
+	transform: rotate(10deg);
+	margin-left: 10px;
+}
+.legs.right .leg:nth-child(1) {
+	transform: rotate(-10deg);
+	margin-left: -10px;
+}
+
+.legs.left .leg:nth-child(2) {
+	transform: rotate(-20deg);
+	margin-left: 20px;
+}
+.legs.right .leg:nth-child(2) {
+	transform: rotate(20deg);
+	margin-left: -20px;
+}
+
+.legs.left .leg:nth-child(3) {
+	transform: rotate(-50deg);
+	margin-left: 30px;
+}
+.legs.right .leg:nth-child(3) {
+	transform: rotate(50deg);
+	margin-left: -30px;
+}
+
+/* 1. Animatie */
+@keyframes look {
+	0%,
+	40%,
+	100% {
+		transform: translateX(0);
+	}
+
+	45%,
+	95% {
+		transform: translateX(-110%);
+	}
+}
+
+/* 3. Animatie */
+@keyframes swing {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(-20px);
+	}
+}
+
+/* 3. Animatie */
+@keyframes swingFast {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(-30px);
+	}
+}
+
+/* Fog Effect */
+
+.fog-effect {
+	opacity: 0.7;
+}
+
+#fog-effect {
+	pointer-events: none;
+	position:fixed;
+	bottom:0;
+	left: 0;
+	width:100%;
+	height: 100%;
+	z-index: 1031;
+}
+
+/* Halloween Banner */
+
+.banner-halloween {
+  position: relative;
+  background-color: linear-gradient(to bottom, #020107 0%, var(--dark) 100%);
+  min-height:100%;
+  height: 340px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  overflow:hidden;
+  margin-top: -3px;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 767.98px) {
+  .banner-halloween {
+    height: 200px;
+  }
+}
+
+/*
+
+  TITLE "HALLOWEEN"
+
+  */
+
+  .banner-halloween h1 {
+    font-size:6em;
+    font-family: 'Emilys Candy', sans-serif;
+    width:5.5em;
+    height:2.5em;
+    position:relative;
+    color:var(--primary);
+  }
+
+  @media (max-width: 767.98px) {
+    .banner-halloween h1 {
+      font-size: 4em;
+    }
+  }
+
+  .banner-halloween .happy{
+    font-family: lato, sans-serif;
+    font-size:18px;
+    font-weight:400;
+    letter-spacing:.1em;
+    color:#FB8B24;
+    text-transform:uppercase;
+  }
+
+  .banner-halloween .halloween{
+    position:relative;
+    display:block;
+
+  }
+  .banner-halloween .halloween span{
+    position:absolute;
+  }
+
+  /* TITLE CHARACTERS */
+  .char1{ /*H*/
+    font-size:1.15em;
+    left:0;
+    color:#FB8B24;
+    animation:bounce-in 1000ms linear both;
+  }
+  .char2{ /*O*/
+    font-size:0.75em;
+    top:.25em;
+    left:1.25em;
+    color:#F66A3C;
+    animation:bounce-in 1000ms linear both;
+    animation-delay:300ms;
+  }
+  .char3{ /*M*/
+    font-size:.65em;
+    left:2.5em;
+    top:0.25em;
+    color:#FCA413;
+    animation:bounce-in 1000ms linear both;
+    animation-delay:500ms;
+  }
+  .char4{ /*O*/
+    font-size:.85em;
+    left:2.7em;
+    top:.25em;
+    color:#FB8B24;
+    animation:bounce-in 1000ms linear both;
+    animation-delay:200ms;
+  }
+  .char5{ /*W*/
+    font-size:.9em;
+    left:3.25em;
+    top:-0.01em;
+    color:#F66A3C;
+    animation:bounce-in 1000ms linear both;
+    animation-delay:250ms;
+  }
+  .char6{ /*E*/
+    font-size:0.76em;
+    left:4.65em;
+    top:0.05em;
+    color:#FCA413;
+    animation:bounce-in 1000ms linear both;
+    animation-delay:800ms;
+  }
+  .char7{ /*E*/
+    font-size: 0.9em;
+    left: 4.6em;
+    top: 0.05em;
+    color:#FB8B24;
+    animation:bounce-in 1000ms linear both;
+    animation-delay:700ms;
+  }
+  .char8{ /*N*/
+    font-size:0.75em;
+    left:6.5em;
+    top:0.25em;
+    color:#F66A3C;
+    animation:bounce-in 1000ms linear both;
+    animation-delay:1100ms;
+  }
+
+
+  @keyframes bounce-in{0%{transform:matrix3d(0.00,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+    opacity:0;}3.333333%{transform:matrix3d(0.32635,0,0,0,0,.68602,0,0,0,0,1,0,0,0,0,1)}6.666667%{transform:matrix3d(0.61701,0,0,0,0,.90691,0,0,0,0,1,0,0,0,0,1)}10%{transform:matrix3d(0.86271,0,0,0,0,1.07226,0,0,0,0,1,0,0,0,0,1);opacity:1;}13.333333%{transform:matrix3d(1.03605,0,0,0,0,1.14684,0,0,0,0,1,0,0,0,0,1)}16.666667%{transform:matrix3d(1.13384,0,0,0,0,1.14088,0,0,0,0,1,0,0,0,0,1)}20%{transform:matrix3d(1.16809,0,0,0,0,1.08847,0,0,0,0,1,0,0,0,0,1)}23.333333%{transform:matrix3d(1.15775,0,0,0,0,1.02623,0,0,0,0,1,0,0,0,0,1)}26.666667%{transform:matrix3d(1.12245,0,0,0,0,.97964,0,0,0,0,1,0,0,0,0,1)}30%{transform:matrix3d(1.07861,0,0,0,0,.95863,0,0,0,0,1,0,0,0,0,1)}33.333333%{transform:matrix3d(1.03771,0,0,0,0,.9603,0,0,0,0,1,0,0,0,0,1)}36.666667%{transform:matrix3d(1.00612,0,0,0,0,.97507,0,0,0,0,1,0,0,0,0,1)}40%{transform:matrix3d(0.98596,0,0,0,0,.99261,0,0,0,0,1,0,0,0,0,1)}43.333333%{transform:matrix3d(0.9764,0,0,0,0,1.00574,0,0,0,0,1,0,0,0,0,1)}46.666667%{transform:matrix3d(0.97499,0,0,0,0,1.01166,0,0,0,0,1,0,0,0,0,1)}50%{transform:matrix3d(0.97875,0,0,0,0,1.01119,0,0,0,0,1,0,0,0,0,1)}53.333333%{transform:matrix3d(0.98493,0,0,0,0,1.00702,0,0,0,0,1,0,0,0,0,1)}56.666667%{transform:matrix3d(0.99143,0,0,0,0,1.00208,0,0,0,0,1,0,0,0,0,1)}60%{transform:matrix3d(0.99693,0,0,0,0,.99838,0,0,0,0,1,0,0,0,0,1)}63.333333%{transform:matrix3d(1.00081,0,0,0,0,.99672,0,0,0,0,1,0,0,0,0,1)}66.666667%{transform:matrix3d(1.00299,0,0,0,0,.99685,0,0,0,0,1,0,0,0,0,1)}70%{transform:matrix3d(1.00376,0,0,0,0,.99802,0,0,0,0,1,0,0,0,0,1)}73.333333%{transform:matrix3d(1.00353,0,0,0,0,.99941,0,0,0,0,1,0,0,0,0,1)}76.666667%{transform:matrix3d(1.00274,0,0,0,0,1.00046,0,0,0,0,1,0,0,0,0,1)}80%{transform:matrix3d(1.00176,0,0,0,0,1.00093,0,0,0,0,1,0,0,0,0,1)}83.333333%{transform:matrix3d(1.00084,0,0,0,0,1.00089,0,0,0,0,1,0,0,0,0,1)}86.666667%{transform:matrix3d(1.00014,0,0,0,0,1.00056,0,0,0,0,1,0,0,0,0,1)}90%{transform:matrix3d(0.99969,0,0,0,0,1.00017,0,0,0,0,1,0,0,0,0,1)}93.333333%{transform:matrix3d(0.99947,0,0,0,0,.99987,0,0,0,0,1,0,0,0,0,1)}96.666667%{transform:matrix3d(0.99944,0,0,0,0,.99974,0,0,0,0,1,0,0,0,0,1)}100%{transform:matrix3d(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1)}}
+/*
+
+  MOON
+
+  */
+  .moon{
+    height:7em;
+    width:7em;
+    background-color:#ddd;
+    border-radius:5em;
+    position:absolute;
+    top:1em;
+    right:1em;
+    animation:moonlight 5s alternate infinite;
+  }
+
+  .moon li{
+    position: absolute;
+    list-style: none;
+    background: #aaa;
+    border-radius: 50%;
+    box-shadow:inset 0.4em -0.05em 0.1em #777;
+  }
+  .moon li:nth-child(1) {
+    top:1.15em;
+    left:1.25em;
+    height:.75em;
+    width:.75em;
+  }
+  .moon li:nth-child(2) {
+    top:1.05em;
+    left:3.65em;
+    height:1.15em;
+    width:1.15em;
+  }
+  .moon li:nth-child(3) {
+    top:2.95em;
+    left:0.8em;
+    height:1.75em;
+    width:1.75em;
+  }
+  .moon li:nth-child(4) {
+    top:3em;
+    left:3.25em;
+    height:.5em;
+    width:.5em;
+  }
+  .moon li:nth-child(5) {
+    top:4em;
+    left:5.25em;
+    height:.65em;
+    width:.65em;
+  }
+  .moon li:nth-child(5) {
+    top:3.5em;
+    left:4.15em;
+    height:2.25em;
+    width:2.25em;
+  }
+  .moon li:nth-child(6) {
+    top:5.25em;
+    left:2.5em;
+    height:1.25em;
+    width:1.25em;
+  }
+
+  @keyframes moonlight{
+    0%{box-shadow: inset -5px -4px 0px 0px rgba(50, 50, 50, 0.75), 0px 0px 20px rgba(255,255,255,.5);}
+    100%{box-shadow: inset -5px -4px 0px 0px rgba(50, 50, 50, 0.75), 0px 0px 40px rgba(255,255,255,.75);}
+  }
+
+/*
+
+CLOUDS
+
+*/
+.cloud {
+  background:#fafafa;
+  height:4em;
+  width:9em;
+  border-radius:3em;
+  position:absolute;
+  animation-name:clouds;
+  animation-iteration-count:infinite;
+  animation-timing-function:linear;
+}
+.cloud:before,.cloud:after{
+  content:"";
+  background:#fff;
+  position:absolute;
+  border-radius:50%;
+}
+.cloud:before{
+  height:3em;
+  width:3em;
+  top:-1.3em;
+  left:1.1em;
+}
+.cloud:after{
+  height:5em;
+  width:5em;
+  top:-2em;
+  right:0.85em;
+}
+.cloud:nth-child(1){
+  top:2em;
+  left:10em;
+  animation-duration:90s;
+}
+.cloud:nth-child(2){
+  top:9em;
+  left:2.5em;
+  opacity:.45;
+  animation-duration:120s;
+}
+.cloud:nth-child(3){
+  top:15em;
+  left:11em;
+  opacity:.65;
+  animation-duration:70s;
+}
+.cloud:nth-child(4){
+  top:7em;
+  left:40em;
+  opacity:.65;
+  animation-duration:70s;
+}
+.cloud:nth-child(5){
+  top:17em;
+  left:30em;
+  opacity:.25;
+  animation-duration:70s;
+}
+@keyframes clouds{
+  0%{margin-left:-10%;opacity:0;}
+  15%{opacity:100%;}
+  100% {margin-left: 110%;}
+}
+
+/*
+
+Z-INDEX
+
+*/
+
+.banner-halloween h1{z-index:10;}
+.banner-halloween .moon{z-index:2;}
+.banner-halloween .marsey-witch{z-index:2;}
+.banner-halloween .cloud{z-index:2;}
+.banner-halloween .cloud:nth-child(even){z-index:11;}
+
+/* Marsey */
+
+.marsey-witch {
+  animation-name:clouds;
+  animation-iteration-count:infinite;
+  animation-timing-function:linear;
+  position: absolute;
+  top:2.5em;
+  left:3em;
+  animation-duration:60s;
+}
+
+.marsey-witch img {
+	width: 150px;
+}
+
+/* Stars */
+
+.stars, .twinkling, .clouds {
+  position: absolute;
+  display: block;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.stars {
+  z-index: 0;
+  background: #000 url("/assets/images/halloween/stars.png") repeat top center;
+}
+
+.twinkling {
+  z-index: 1;
+  background: transparent url("/assets/images/halloween/twinkling.png") repeat top center;
+  -webkit-animation: move-twink-back 200s linear infinite;
+          animation: move-twink-back 200s linear infinite;
+}
+
+.clouds {
+  z-index: 2;
+  background: transparent url("/assets/images/halloween/clouds.png") repeat top center;
+  -webkit-animation: move-clouds-back 200s linear infinite;
+          animation: move-clouds-back 200s linear infinite;
+}
+
+@-webkit-keyframes move-twink-back {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -10000px 5000px;
+  }
+}
+
+@keyframes move-twink-back {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -10000px 5000px;
+  }
+}
+@-webkit-keyframes move-clouds-back {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 10000px 0;
+  }
+}
+@keyframes move-clouds-back {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 10000px 0;
+  }
+}
+

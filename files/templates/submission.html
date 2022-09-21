@@ -45,7 +45,7 @@
 					height: 27px !important;
 				}
 			}
-			
+
 			.seal {
 				position:fixed;
 				z-index:9999;
@@ -53,7 +53,7 @@
 				width: 100% !important;
 				height: 100% !important;
 			}
-			
+
 			@keyframes moveX {
 				from {} to {transform: translateX(98vw)}
 			}
@@ -135,7 +135,7 @@
 					height: auto !important;
 				}
 			}
-			
+
 			.toe {
 				position:fixed;
 				z-index:9999;
@@ -143,7 +143,7 @@
 				width: 100% !important;
 				height: 100% !important;
 			}
-			
+
 			@keyframes moveX {
 				from {} to {transform: translateX(98vw)}
 			}
@@ -163,7 +163,7 @@
 		<div class="toe toe1" height="100%" width="100%">
 			<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=2000">
 		</div>
-		
+
 		{% if p.award_count("toe", v) > 1 %}
 			<style>
 				.toe2 {
@@ -179,7 +179,7 @@
 				<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=2000">
 			</div>
 		{% endif %}
-		
+
 		{% if p.award_count("toe", v) > 2 %}
 			<style>
 				.toe3 {
@@ -195,7 +195,7 @@
 				<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=2000">
 			</div>
 		{% endif %}
-		
+
 		{% if p.award_count("toe", v) > 3 %}
 			<style>
 				.toe4 {
@@ -321,6 +321,83 @@
 {% endif %}
 
 
+<!-- homoween -->
+{% if p.award_count("haunt", v) %}
+<style>
+	body {
+		animation: haunted 3s infinite!important;
+	}
+</style>
+{% endif %}
+
+{% if p.award_count("upsidedown", v) %}
+<canvas id="canvas" class="particles"></canvas>
+<link href="/assets/css/upsidedown.css" rel="stylesheet">
+<img id="demogorgon-1" class="demogorgon" src="/assets/images/halloween/demogorgon.png" alt="demogorgon"/>
+<img id="demogorgon-2" class="demogorgon" src="/assets/images/halloween/demogorgon.png" alt="demogorgon"/>
+<script src="/assets/js/halloween/upsidedown.js"></script>
+{% endif %}
+
+{% if p.award_count("stab", v) and p.award_count("stab", v) <= 5 %}
+<style>
+	canvas.sketch {
+		opacity: calc(0.1*{{ p.award_count("stab", v) }});
+	}
+</style>
+<script src="/assets/js/halloween/blood.js"></script>
+{% elif p.award_count("stab", v) %}
+<style>
+	canvas.sketch {
+		opacity: 0.5;
+	}
+</style>
+<script src="/assets/js/halloween/blood.js"></script>
+{% endif %}
+
+{% if p.award_count("spiders", v) %}
+	{% set spiders = p.award_count("spiders", v) %}
+
+	{% for i in range(spiders) %}
+		{% include "halloween/spider.html" %}
+	{% endfor %}
+{% endif %}
+
+{% if p.award_count("fog", v) and p.award_count("upsidedown", v) %}
+{% set puffs = 10/p.award_count("fog", v) if p.award_count("fog", v) < 2 else 5 %}
+
+<style>
+	:root::before {
+		z-index: 1;
+		content: '';
+		display: block;
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		pointer-events: none;
+		background: radial-gradient(
+			circle {{ puffs }}vmax at var(--cursorX) var(--cursorY),
+			rgba(0,0,0,0) 0%,
+			rgba(0,0,0,.5) 80%,
+			rgba(0,0,0,.93) 100%
+			);
+	}
+
+	@media (max-width: 767.98px) {
+		:root::before {
+			background: radial-gradient(
+				circle 70px at var(--cursorX) var(--cursorY),
+				rgba(0,0,0,0) 0%,
+				rgba(0,0,0,.5) 80%,
+				rgba(0,0,0,.93) 100%
+				);
+		}
+	}
+</style>
+{% elif p.award_count("fog", v) %}
+<canvas id="fog-effect" class="fog-effect"></canvas>
+<script src="/assets/js/halloween/fog.js"></script>
+{% endif %}
+<!-- end homoween -->
 
 
 
@@ -609,7 +686,7 @@
 	<div id="post-root" class="col-12">
 
 		<div class="card border-0 mt-3 {% if p.stickied %}stickied{% endif %} {% if voted==1 %}upvoted{% elif voted==-1 %} downvoted{% endif %}">
-			<div id="post-{{p.id}}" class="actual-post {% if p.is_banned %}banned{% endif %} {% if p.deleted_utc %}deleted {% endif %} {% if p.award_count('tilt', v) %}p-3{% endif %} {% if p.award_count('glowie', v) %}glow{% endif %} d-flex flex-row-reverse flex-nowrap justify-content-end">
+			<div id="post-{{p.id}}" class="actual-post {% if p.is_banned %}banned{% endif %} {% if p.deleted_utc %}deleted {% endif %} {% if p.award_count('tilt', v) %}p-3{% endif %} {% if p.award_count('glowie', v) %}glow{% endif %} {% if p.award_count('upsidedown', v) %}bg-transparent{% endif %} d-flex flex-row-reverse flex-nowrap justify-content-end">
 
 				{% if not p.is_image and p.thumb_url and not p.embed_url %}
 				<div class="card-header bg-transparent border-0 d-none d-md-flex flex-row flex-nowrap pl-3 p-0">
@@ -631,7 +708,7 @@
 						{% if p.sub and p.author.exiled_from(p.sub) %}
 							<a role="button"><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{p.sub}}"></i></a>
 						{% endif %}
-				
+
 						{% if p.bannedfor %}
 							<i class="fas fa-hammer-crash text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was banned for this post {{p.bannedfor}}"></i>
 						{% endif %}
@@ -748,7 +825,7 @@
 							{% endif %}
 						{% endif %}
 
-						
+
 						<div id="post-text" class="{% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %}">
 							{% if p.is_image %}
 								<div class="row no-gutters">
@@ -796,26 +873,26 @@
 									<input type="hidden" name="formkey" value="{{v.formkey}}">
 									<input type="hidden" name="current_page" value="{{request.path}}">
 									<textarea autocomplete="off" max-length="500" name="title" class="comment-box form-control rounded" required placeholder="title">{{p.title}}</textarea>
-									<textarea autocomplete="off" name="body" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}20000{% endif %}" data-preview="post-edit-{{p.id}}" oninput="markdown(this);charLimit('post-edit-box-{{p.id}}','charcount-post-edit')" id="post-edit-box-{{p.id}}" form="post-edit-form-{{p.id}}" class="comment-box form-control rounded" aria-label="With textarea" placeholder="Add text to your post..." rows="10" data-id="{{p.id}}">{{p.body}}</textarea> 
-									
+									<textarea autocomplete="off" name="body" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}20000{% endif %}" data-preview="post-edit-{{p.id}}" oninput="markdown(this);charLimit('post-edit-box-{{p.id}}','charcount-post-edit')" id="post-edit-box-{{p.id}}" form="post-edit-form-{{p.id}}" class="comment-box form-control rounded" aria-label="With textarea" placeholder="Add text to your post..." rows="10" data-id="{{p.id}}">{{p.body}}</textarea>
+
 									<div class="text-small font-weight-bold mt-1" id="charcount-post-edit" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
 									<div class="comment-format">
-										<small class="format btn btn-secondary"><i class="fas fa-bold" aria-hidden="true" onclick="makeBold('post-edit-box-{{p.id}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Bold"></i></small> 
-										<a class="format btn btn-secondary" role="button"><i class="fas fa-italic" aria-hidden="true" onclick="makeItalics('post-edit-box-{{p.id}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Italicize"></i></a> 
+										<small class="format btn btn-secondary"><i class="fas fa-bold" aria-hidden="true" onclick="makeBold('post-edit-box-{{p.id}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Bold"></i></small>
+										<a class="format btn btn-secondary" role="button"><i class="fas fa-italic" aria-hidden="true" onclick="makeItalics('post-edit-box-{{p.id}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Italicize"></i></a>
 										<a class="format btn btn-secondary" role="button"><i class="fas fa-quote-right" aria-hidden="true" onclick="makeQuote('post-edit-box-{{p.id}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Quote"></i></a>
 										<a class="format btn btn-secondary" role="button"><span class="font-weight-bolder text-uppercase" onclick="commentForm('post-edit-box-{{p.id}}');getGif()" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span></a>
-										<div onclick="loadEmojis('post-edit-box-{{p.id}}')" class="format btn btn-secondary" role="button" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>	
+										<div onclick="loadEmojis('post-edit-box-{{p.id}}')" class="format btn btn-secondary" role="button" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>
 
 										<label class="format btn btn-secondary m-0 ml-1 {% if v %}d-inline-block{% else %}d-none{% endif %}" for="file-upload-edit-{{p.id}}">
 											<div id="filename-show-edit-{{p.id}}"><i class="fas fa-file"></i></div>
 											<input autocomplete="off" id="file-upload-edit-{{p.id}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show-edit-{{p.id}}','file-upload-edit-{{p.id}}')" hidden>
 										</label>
-						
-										<small class="format d-none"><i class="fas fa-link" aria-hidden="true"></i></small> 
+
+										<small class="format d-none"><i class="fas fa-link" aria-hidden="true"></i></small>
 								</div>
 								<button form="post-edit-form-{{p.id}}" class="btn btn-primary ml-2 fl-r" onclick="disable(this);remove_dialog()">Save Edit</button>
-								<a role="button" onclick="togglePostEdit('{{p.id}}');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r">Cancel</a> 
+								<a role="button" onclick="togglePostEdit('{{p.id}}');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r">Cancel</a>
 							</form>
 							<div id="post-edit-{{p.id}}" class="preview mb-3 mt-5"></div>
 							<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
@@ -859,7 +936,7 @@
 						</div>
 
 					</div>
-					
+
 					{% if v %}
 
 					<div id="voting" class="voting d-none d-md-block mb-auto">
@@ -944,10 +1021,10 @@
 </div>
 
 {% if v and v.id != p.author_id and p.body and not v_forbid_deleted %}
-	<div autocomplete="off" class="markdown d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{p.id}}" readonly>{{p.body.strip()}}</div> 
+	<div autocomplete="off" class="markdown d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{p.id}}" readonly>{{p.body.strip()}}</div>
 {% endif %}
 
-<div class="row border-md-0 comment-section pb-3">
+<div class="row border-md-0 comment-section pb-3 {% if p.award_count('upsidedown', v) %}bg-transparent{% endif %}">
 	<div class="col border-top">
 		<div class="comments-count py-3">
 			<div class="dropdown dropdown-actions">
@@ -992,9 +1069,9 @@
 					&nbsp;
 					<label class="btn btn-secondary format d-inline-block m-0" for="gif-reply-btn-{{p.fullname}}">
 						<span id="gif-reply-btn-{{p.fullname}}" class="font-weight-bolder text-uppercase" onclick="commentForm('reply-form-body-{{p.fullname}}');getGif()" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span>
-					</label> 
+					</label>
 					&nbsp;
-					<div onclick="loadEmojis('reply-form-body-{{p.fullname}}')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn-{{p.fullname}}" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>	
+					<div onclick="loadEmojis('reply-form-body-{{p.fullname}}')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn-{{p.fullname}}" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>
 					&nbsp;
 					<label class="format btn btn-secondary m-0 ml-1 {% if v %}d-inline-block{% else %}d-none{% endif %}" for="file-upload-reply-{{p.fullname}}">
 						<div id="filename-show-reply-{{p.fullname}}"><i class="fas fa-file"></i></div>
@@ -1010,7 +1087,7 @@
 		<div class="comment-write mb-3">
 			<textarea autocomplete="off" maxlength="10000" class="comment-box form-control rounded" name="body" aria-label="With textarea" placeholder="Add your comment..." rows="3" onclick="location.href='/login?redirect={{request.path | urlencode}}';"></textarea>
 		</div>
-	
+
 		<div class="card border-0 mt-4">
 			<div class="card-body">
 				<h5 class="card-title">Jump in the discussion.</h5>
@@ -1024,12 +1101,12 @@
 	{% endif %}
 
 {% if p.replies %}
-	<div class="comment-section" id="replies-of-{{p.fullname}}">
+	<div class="comment-section {% if p.award_count('upsidedown', v) %}bg-transparent{% endif %}" id="replies-of-{{p.fullname}}">
 		{% with comments=p.replies %}
 			{% include "comments.html" %}
 		{% endwith %}
 	</div>
-	
+
 	{% if offset %}
 		<script>
 			function viewmore(pid,sort,offset,ids) {
@@ -1052,7 +1129,7 @@
 						{
 							{% for c in p.comments %}
 								{% if not (v and v.id==c.author_id) and not c.voted %}
-									if ({{c.created_utc*1000}} > lastCount.t) 
+									if ({{c.created_utc*1000}} > lastCount.t)
 									try {document.getElementById("comment-{{c.id}}-only").classList.add('unread')}
 									catch(e) {}
 								{% endif %}
@@ -1066,7 +1143,7 @@
 		</script>
 	{% endif %}
 {% elif not p.replies and p.deleted_utc == 0 %}
-	<div class="comment-section text-center py-7" id="replies-of-{{p.fullname}}">
+	<div class="comment-section text-center py-7 {% if p.award_count('upsidedown', v) %}bg-transparent{% endif %}" id="replies-of-{{p.fullname}}">
 		<span class="fa-stack fa-2x text-muted mb-4">
 			<i class="fas fa-square text-gray-500 opacity-25 fa-stack-2x"></i>
 			<i class="fas text-gray-500 fa-ghost fa-stack-1x text-lg"></i>
@@ -1159,7 +1236,7 @@
 
 		audio.play();
 		window.addEventListener('click', () => {
-			if (audio.paused) audio.play(); 
+			if (audio.paused) audio.play();
 		}, {once : true});
 	</script>
 {% endif %}
@@ -1172,7 +1249,7 @@
 		audio.play();
 		if (audio.paused) {
 			window.addEventListener('click', () => {
-				if (audio.paused) audio.play(); 
+				if (audio.paused) audio.play();
 			}, {once : true})
 		}
 	</script>
@@ -1226,5 +1303,44 @@
 		</div>
 	{% endif %}
 {% endif %}
+
+<!-- homoween audio -->
+{% if not p.award_count("upsidedown", v) %}
+<script>
+	const trackList = [
+	'burton',
+	'headsroll',
+	'monstermash',
+	'owo',
+	'scooby',
+	'strangerintro',
+	'halloween',
+	'twilightzone',
+	'psycho',
+	'exorcist'
+	];
+	const selected = trackList[Math.floor(Math.random() * trackList.length)];
+
+	const audio = new Audio(`/assets/media/halloween_songs/${selected}.mp3`);
+	audio.loop=true;
+
+	function play() {
+  		audio.play();
+	}
+
+	console.log(audio)
+
+	audio.loop=true;
+
+	window.addEventListener('load', function() {
+		audio.play();
+		document.getElementById('thread').addEventListener('click', () => {
+			if (audio.paused) audio.play();
+		}, {once : true});
+
+	});
+</script>
+{% endif %}
+<!-- end homoween audio -->
 
 {% endblock %}

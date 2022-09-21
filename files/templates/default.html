@@ -16,8 +16,10 @@
 	{% if v %}
 		<style>:root{--primary:#{{v.themecolor}}}</style>
 		<link rel="stylesheet" href="{{asset('css/main.css')}}">
-		<link rel="stylesheet" href="{{asset('css/' + v.theme + '.css')}}">
+		<!--<link rel="stylesheet" href="{{asset('css/' + v.theme + '.css')}}">-->
+		<link rel="stylesheet" href="{{asset('css/midnight.css')}}">
 		<link rel="stylesheet" href="/assets/css/awards.css?v=4000">
+		<link rel="stylesheet" href="/assets/css/spooky.css">
 		{% if v.agendaposter %}
 			<style>
 				html {
@@ -265,12 +267,13 @@
  <body id="{% if request.path != '/comments' %}{% block pagetype %}frontpage{% endblock %}{% endif %}" {% if SITE_NAME == 'rDrama' and v and (v.is_banned or v.agendaposter) %}style="overflow-x: hidden;background:url(/assets/images/backgrounds/anime/1.webp?v=3) center center fixed; background-color: var(--background)"{% elif v and v.background %}style="{% if path != '/formatting' %}overflow-x: hidden; {% endif %} background:url(/assets/images/backgrounds/{{v.background}}?v=3) center center fixed; background-color: var(--background){% if 'anime' not in v.background %};background-size: cover{% endif %}"{% endif %}>
 
 {% block Banner %}
-	{% if '@' not in request.path %}	
+	{% if '@' not in request.path %}
 		{% if sub and SITE_NAME != 'WPD' %}
 			<a href="{{sub.banner_url}}">
 				<img alt="/h/{{sub}} banner" onclick="expandDesktopImage()" src="{{sub.banner_url}}" width=100% style="object-fit:cover;max-height:min(42vh,30vw)!important">
 			</a>
 		{% elif SITE_NAME == 'rDrama' %}
+			<!--
 			<a href="https://secure.transequality.org/site/Donation2?df_id=1480">
 				{% if v and (v.is_banned or v.agendaposter) %}
 					<img alt="site banner" src="/i/{{SITE_NAME}}/banner2.webp?v=2000" width="100%">
@@ -280,6 +283,8 @@
 					<img alt="site banner" src="{% if v %}{{image}}{% else %}{{asset_siteimg('cached.webp')}}{% endif %}" width="100%">
 				{% endif %}
 			</a>
+			-->
+			{% include "halloween/banner.html" %}
 		{% else %}
 			{% if SITE_NAME == 'WPD' %}
 				{% if v %}

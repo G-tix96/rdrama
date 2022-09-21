@@ -24,7 +24,7 @@ else: patron = 'Patron'
 
 AJ_REPLACEMENTS = {
 	' your ': " you're ",
-	' to ': " too ", 
+	' to ': " too ",
 
 	' Your ': " You're ",
 	' To ': " Too ",
@@ -769,7 +769,7 @@ if SITE_NAME == 'PCM':
 AWARDS_DISABLED = [
 	'ghost', 'nword', 'lootbox', # Generic
 	'snow', 'gingerbread', 'lights', 'candycane', 'fireplace', # Fistmas
-	'grinch', 'haunt', 'upsidedown', 'stab', 'spiders', 'fog', # Homoween
+	'grinch', #'haunt', 'upsidedown', 'stab', 'spiders', 'fog', # Homoween
 ]
 
 

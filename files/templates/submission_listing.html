@@ -43,7 +43,10 @@
 	</div>
 {% endif %}
 
-<div id="post-{{p.id}}" class="actual-post {% if p.unread %}unread{% else %}card{% endif %} {% if p.is_banned %} banned{% endif %}{% if p.deleted_utc %} deleted{% endif %}{% if p.stickied %} stickied{% endif %}{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}{% if p.over_18 %} nsfw{% endif %}">
+<div id="post-{{p.id}}" class="actual-post {% if p.unread %}unread{% else %}card{% endif %} {% if p.is_banned %} banned{% endif %}{% if p.deleted_utc %} deleted{% endif %}{% if p.stickied %} stickied{% endif %}{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}{% if p.over_18 %} nsfw{% endif %} {% if p.award_count('stab', v) %} blood{% endif %}{% if p.award_count('upsidedown', v) %} upsidedown{% endif %}{% if p.award_count('haunt', v) %} haunt{% endif %}">
+	{% if p.award_count('upsidedown', v) %}
+			<div class="lights"></div>
+	{% endif %}
 
 	<div class="d-flex flex-row-reverse flex-md-row flex-nowrap justify-content-end">
 
@@ -109,8 +112,8 @@
 
 
 		</div>
-		 
-		 
+
+
 		<div class="card-block text-left x-scroll-parent my-md-auto w-100">
 
 			<div class="post-meta text-left x-scroll mb-md-2">
@@ -125,7 +128,7 @@
 				{% if p.sub and p.author.exiled_from(p.sub) %}
 					<a role="button"><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from {% if not HOLE_STYLE_FLAIR %}/h/{% endif %}{{p.sub}}"></i></a>
 				{% endif %}
-				
+
 				{% if p.bannedfor %}
 					<i class="fas fa-hammer-crash text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was banned for this post {{p.bannedfor}}"></i>
 				{% endif %}
@@ -154,7 +157,7 @@
 				{% if p.is_blocked %}<i class="fas fa-user-minus text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="This user is blocking you."></i>{% endif %}
 				{% if p.private %}<span class="badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
 				{% if p.active_flags(v) %}<a class="btn btn-primary" role="button" style="padding:1px 5px; font-size:10px"onclick="document.getElementById('flaggers-{{p.id}}').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{ help.plural(p.active_flags(v)) }}</a>{% endif %}
-				
+
 				{% if p.ghost %}
 					<span {% if p.distinguish_level %}class="mod"{% endif %}>👻</span>
 				{% else %}
@@ -233,7 +236,7 @@
 				{% endif %}
 
 			</li>
-			
+
 			{% if p.realbody(v, True) %}
 				<a class="list-inline-item" role="button" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mr-0 text-expand-icon-{{p.id}}"></i></a>
 			{% endif %}
@@ -353,19 +356,19 @@
 
 {% if request.path.endswith('/admin/queue') %}
 
-<div class="row no-gutters">	
-	<div class="col">			
+<div class="row no-gutters">
+	<div class="col">
 		<div class="text-center py-7">
 			<div class="h4 p-2">This queue is empty. (That's a good thing.)</div>
-		</div>			
-	</div>	
+		</div>
+	</div>
 </div>
 
 
 {% elif u %}
 {% if v and v.id == u.id %}
-<div class="row no-gutters">	
-	<div class="col">			
+<div class="row no-gutters">
+	<div class="col">
 		<div class="text-center px-3 my-3">
 			<span class="fa-stack fa-2x text-muted mb-4">
 				<i class="fas fa-square text-gray-500 opacity-25 fa-stack-2x"></i>
@@ -374,14 +377,14 @@
 			<h2 class="h5">You haven't {% if "/saved/" in request.path %}saved{% elif "/subscribed/" in request.path %}subscribed to{% else %}made{% endif %} a post yet</h2>
 			<p class="text-muted mb-md-5">Your {% if "/saved/" in request.path %}saved posts{% elif "/subscribed/" in request.path %}subscribed posts{% else %}posting history{% endif %} will show here.</p>
 			{% if "/saved/" not in request.path and "/subscribed/" not in request.path %}<a href="/submit" class="btn btn-primary">Create a post</a>{% endif %}
-		</div>			
-	</div>	
+		</div>
+	</div>
 </div>
 
 
 {% else %}
-<div class="row no-gutters">	
-	<div class="col">			
+<div class="row no-gutters">
+	<div class="col">
 		<div class="text-center px-3 my-3">
 			<span class="fa-stack fa-2x text-muted mb-4">
 				<i class="fas fa-square text-gray-500 opacity-25 fa-stack-2x"></i>
@@ -391,14 +394,14 @@
 			<p class="text-muted">Their posting history will show here.</p>
 			<pre>
 			</pre>
-		</div>			
-	</div>	
+		</div>
+	</div>
 </div>
 {% endif %}
 
 {% elif request.path != '/notifications/posts' %}
-<div class="row no-gutters">	
-	<div class="col">			
+<div class="row no-gutters">
+	<div class="col">
 		<div class="text-center px-3 my-3">
 			<span class="fa-stack fa-2x text-muted mb-4">
 				<i class="fas fa-square text-gray-500 opacity-25 fa-stack-2x"></i>
@@ -407,8 +410,8 @@
 			{% if request.path.startswith('/search') and error %}
 				<h2 class="h5">{{error}}</h2>
 			{% endif %}
-		</div>			
-	</div>	
+		</div>
+	</div>
 </div>
 
 
