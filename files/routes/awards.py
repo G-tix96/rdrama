@@ -471,7 +471,7 @@ def admin_userawards_post(v):
 				award = AwardRelationship(
 					user_id=u.id,
 					kind=key,
-					granted=True
+					granted_by=v.id
 				)
 
 				g.db.add(award)
