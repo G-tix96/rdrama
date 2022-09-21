@@ -166,7 +166,7 @@ def award_thing(v, thing_type, id):
 
 	author = thing.author
 
-	if author.id in (PIZZASHILL_ID, DAD_ID) and v.id not in (PIZZASHILL_ID, DAD_ID):
+	if author.id in (PIZZASHILL_ID, DAD_ID, CARP_ID) and v.id not in (PIZZASHILL_ID, DAD_ID, CARP_ID):
 		return {"error": "This user is immune to awards."}, 403
 
 	if kind == "benefactor" and author.id == v.id:
@@ -406,8 +406,6 @@ def award_thing(v, thing_type, id):
 		else: author.rainbow = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=171)
 	elif kind == "spider":
-		if author.id == CARP_ID:
-			return {"error": "Carp is immune to the spider award!"}, 403
 		if author.spider: author.spider += 86400
 		else: author.spider = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=179, notify=False)
