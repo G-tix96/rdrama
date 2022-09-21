@@ -166,7 +166,7 @@ def award_thing(v, thing_type, id):
 
 	author = thing.author
 
-	if author.id in (PIZZASHILL_ID, DAD_ID, CARP_ID) and v.id not in (PIZZASHILL_ID, DAD_ID, CARP_ID):
+	if author.id in (PIZZASHILL_ID, CARP_ID):
 		return {"error": "This user is immune to awards."}, 403
 
 	if kind == "benefactor" and author.id == v.id:
