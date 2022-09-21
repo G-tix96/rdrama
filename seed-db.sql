@@ -1800,6 +1800,7 @@ INSERT INTO public.marseys VALUES ('marseylenin', 2, 'ussr russia communism soci
 INSERT INTO public.marseys VALUES ('marseyagreefast', 2, 'nodding yes sure ok animated enthusiastic enthusiasm', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyjanny', 2, 'jannie unpaid volunteer administrator janitor free moderator', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyblackfacexmas', 2, 'uncle tom moon cricket christmas santa beard nigger racist claus coon', 0, NULL, NULL);
+INSERT INTO public.marseys VALUES ('marseygroomer', 2, 'pedobear discord pedophile pedo chomo molest pedocord', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseycutwrist', 2, 'suicide slash wrist razor blood cry tears sad depressed depression kill dying kys cut cutting', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysheep', 2, 'follower wool lamb fursona bah furry fursuit', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyjohnson', 2, 'wig history', 0, NULL, NULL);
@@ -1823,7 +1824,6 @@ INSERT INTO public.marseys VALUES ('marseytaliban', 2, 'mujahideen janniejihad i
 INSERT INTO public.marseys VALUES ('marseycoomer', 2, 'masturbation goon cumbrain porn masturbate', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseysting', 2, 'drum badumtiss ba dum tiss bad dum tiss baddumtiss comedy humor punchline animated standup joke', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyglow2', 2, 'fbi mossad feds agent glownigger reaction glowie fed atf cia nsa', 0, NULL, NULL);
-INSERT INTO public.marseys VALUES ('marseygroomer', 2, 'pedobear discord pedophile pedo chomo molest pedocord', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyfursona', 2, 'fursuit fox fursona fursecution furfag yiff uwu owo kitsune', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseyjoint', 2, 'smoke weed marijuana reefer drugs smoking 420 pot', 0, NULL, NULL);
 INSERT INTO public.marseys VALUES ('marseygras', 2, 'mardi gras fat tuesday nola new orleans neworleans holiday louisiana mardigras carnival beads mask', 0, NULL, NULL);
