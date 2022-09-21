@@ -288,6 +288,15 @@ def award_thing(v, thing_type, id):
 		else: author.agendaposter = int(time.time()) + 86400
 		
 		badge_grant(user=author, badge_id=28)
+
+		if v.admin_level > 2:
+			ma = ModAction(
+				kind="agendaposter",
+				user_id=v.id,
+				target_user_id=author.id,
+				note=f"for 1 day"
+			)
+			g.db.add(ma)
 	elif kind == "flairlock":
 		if thing.ghost: abort(403)
 		new_name = note[:100].replace("𒐪","")
