@@ -13,35 +13,37 @@
 			border-radius: 4px;
 		}
 	</style>
-	<h1 class="py-3"><i class="fas fa-circle mr-3" style="color:red"></i>Live</h1>
-	<div class="overflow-x-auto">
-		<table class="table table-striped mb-5">
-			<tbody>
-				{% for link, thumb, name, title, viewers in live %}
-					<tr onclick="window.open('{{link}}', '_blank')">
-						<td width="48"><img class="thumb" src="{{thumb}}" alt="{{name}} thumbnail" referrerpolicy="no-referrer" width="48"></td>
-						<td>{{name}}</td>
-						<td>{{title}}</td>
-						<td>{{viewers}}</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</div>
+	<div class="px-2">
+		<h1 class="py-3"><i class="fas fa-circle mr-3" style="color:red"></i>Live</h1>
+		<div class="overflow-x-auto">
+			<table class="table table-striped mb-5">
+				<tbody>
+					{% for link, thumb, name, title, viewers in live %}
+						<tr onclick="window.open('{{link}}', '_blank')">
+							<td width="48"><img class="thumb" src="{{thumb}}" alt="{{name}} thumbnail" referrerpolicy="no-referrer" width="48"></td>
+							<td>{{name}}</td>
+							<td>{{title}}</td>
+							<td>{{viewers}}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
 
-	<h1 class="py-3"><i class="fas fa-circle mr-3" style="color:gray"></i>Offline</h1>
-	<div class="overflow-x-auto">
-		<table class="table table-striped mb-5">
-			<tbody>
-				{% for link, thumb, name in offline %}
-					<tr onclick="window.open('{{link}}', '_blank')">
-						<td width="48"><img class="thumb" src="{{thumb}}" alt="{{name}} thumbnail" referrerpolicy="no-referrer" width="48"></td>
-						<td>{{name}}</td>
-						<td></td>
-						<td></td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+		<h1 class="py-3"><i class="fas fa-circle mr-3" style="color:gray"></i>Offline</h1>
+		<div class="overflow-x-auto">
+			<table class="table table-striped mb-5">
+				<tbody>
+					{% for link, thumb, name in offline %}
+						<tr onclick="window.open('{{link}}', '_blank')">
+							<td width="48"><img class="thumb" src="{{thumb}}" alt="{{name}} thumbnail" referrerpolicy="no-referrer" width="48"></td>
+							<td>{{name}}</td>
+							<td></td>
+							<td></td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
 	</div>
 {% endblock %}
