@@ -700,7 +700,7 @@ def edit_comment(cid, v):
 				n = Notification(comment_id=c.id, user_id=x)
 				g.db.add(n)
 
-
+	g.db.commit()
 	return {"comment": c.realbody(v)}
 
 
