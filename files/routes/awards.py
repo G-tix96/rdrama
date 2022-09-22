@@ -232,7 +232,6 @@ def award_thing(v, thing_type, id):
 		else:
 			author.unban_utc = 0
 			author.is_banned = 0
-			author.ban_evade = 0
 			author.ban_reason = None
 			send_repeatable_notification(author.id, "You have been unbanned!")
 

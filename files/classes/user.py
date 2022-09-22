@@ -128,7 +128,6 @@ class User(Base):
 	is_nofollow = Column(Boolean, default=False)
 	custom_filter_list = Column(String)
 	discord_id = Column(String)
-	ban_evade = Column(Integer, default=0)
 	original_username = Column(String)
 	referred_by = Column(Integer, ForeignKey("users.id"))
 	currently_held_lottery_tickets = Column(Integer, default=0)
@@ -835,10 +834,18 @@ class User(Base):
 
 	@property
 	@lazy
-	def has_shadowbanned_alts(self):
+	def check_ban_evade(self):
 		for u in self.alts_unique:
-			if u.shadowbanned or u.is_suspended_permanently: return True
-		return False
+			if u.shadowbanned:
+				self.shadowbanned = u.shadowbanned
+				g.db.add(self)
+				g.db.commit()
+				return
+			if u.is_suspended_permanently:
+				self.shadowbanned = u.banned_by.username
+				g.db.add(self)
+				g.db.commit()
+				return
 
 	@property
 	@lazy
