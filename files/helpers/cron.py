@@ -6,6 +6,7 @@ from files.helpers.roulette import spin_roulette_wheel
 from files.helpers.get import *
 from files.helpers.actions import *
 from files.classes import *
+from files.__main__ import cache
 
 import files.helpers.lottery as lottery
 import files.helpers.offsitementions as offsitementions
@@ -29,16 +30,19 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 	if every_5m:
 		lottery.check_if_end_lottery_task()
 		spin_roulette_wheel()
-		g.db.commit()
 		offsitementions.offsite_mentions_task()
+		if SITE_NAME == 'PCM':
+			cache.delete_memoized(route_static.live_cached)
+			route_static.live_cached()
 
 	if every_1h:
 		awards.award_timers_bots_task()
 
 	if every_1d:
 		stats.generate_charts_task(SITE)
-		route_static.stats_cached()
 		sub_inactive_purge_task()
+		cache.delete_memoized(route_static.stats_cached)
+		route_static.stats_cached()
 
 	if every_1mo:
 		if KOFI_LINK: give_monthly_marseybux_task_kofi()
