@@ -434,3 +434,58 @@ if not os.path.exists(f'files/templates/donate_{SITE_NAME}.html'):
 @auth_required
 def donate(v):
 	return render_template(f'donate_{SITE_NAME}.html', v=v)
+
+
+if SITE_NAME == 'PCM':
+	streamers = (
+		'UCJrqlqe8DBZsfdMu7gGrVRA',
+		'UCDDrY00FPYwLp9VqRhWiDgg',
+		'UCdBzv8yzRgvnxV1M95qOsNA',
+		'UCvRP7CKUHWTJamANqg8NCTQ',
+		'UCPtDuLhreIEcjJr7WWaNaUw',
+		'UCS8gM5S889oBPyN6K07ZC6A',
+		'UCUn24NHjc8asGiYet1P9h5Q',
+		'UCqdJpVkTPem_iKcoVqoZtAg',
+		'UCtcVe3ucfS-AZVcNc2GabPw',
+		'UCDk0PdOMRfknGhVE8R-S_DQ',
+		'UC0UFeYG5aSGZT2e8lOjQ7oA',
+		'UC1yC2i8t5ivhh5RsRpGWMlw',
+		'UCP_YnD-BO8ctnKgUW89Si6Q',
+		'UCoxFxZirbfLvy9tres71eSA',
+		'UClf1Wfw54YBjJNlX3NjSOPA',
+		'UC8X10knH1xD3PTeds8glyNw',
+		'UCgKTJAN-IrVyX-jIJ5INEhA',
+		'UCgjAbjJZgBCF3OVGkJV5kCw',
+		'UC7xWZT4HPMFYzFoijmH8POg',
+		'UCoBfUpZXvWjS995ZXCPxxVQ',
+		'UCoOh1fOZBN7uCc3qu-TTAJQ',
+		'UCo8wWQvRSoKL57vjv4vyXQw'
+	)
+
+	live_regex = re.compile('playerOverlayVideoDetailsRenderer":\{"title":\{"simpleText":"(.*?)"\},"subtitle":\{"runs":\[\{"text":"(.*?)"\},\{"text":" • "\},\{"text":"(.*?)"\}', flags=re.A)
+	live_thumb_regex = re.compile('\{"thumbnail":\{"thumbnails":\[\{"url":"(.*?)"', flags=re.A)
+	offline_regex = re.compile('","title":"(.*?)".*?"width":48,"height":48\},\{"url":"(.*?)"', flags=re.A)
+
+	@app.get('/live')
+	@app.get('/logged_out/live')
+	@auth_desired_with_logingate
+	def live(v):
+		live = []
+		offline = []
+		for x in streamers:
+			url = f'https://www.youtube.com/channel/{x}/live'
+			req = requests.get(url, cookies={'CONSENT': 'YES+1'}, proxies=proxies)
+			txt = req.text
+			if '"videoDetails":{"videoId"' in txt:
+				t = live_thumb_regex.search(txt)
+				y = live_regex.search(txt)
+				try:
+					count = int(y.group(3))
+					live.append((req.url, t.group(1), y.group(2), y.group(1), count))
+				except:
+					offline.append((req.url, t.group(1), y.group(2)))
+			else:
+				y = offline_regex.search(txt)
+				offline.append((req.url, y.group(2), y.group(1)))
+
+		return render_template(f'live.html', v=v, live=live, offline=offline)
