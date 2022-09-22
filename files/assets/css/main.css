@@ -3148,13 +3148,6 @@ small, .small {
     -webkit-animation: bounce-bot .7s 1 0s;
 }
 
-@keyframes upmarsey
-{
-    0% { top: -15px; }
-    100% { top: 0px; }
-}
-
-
 @keyframes bounce-top {
     20% {
         transform: translateY(-9px);
@@ -6270,4 +6263,14 @@ div.markdown {
 
 .text-brown {
 	color: #433722;
+}
+
+.live-circle {
+	animation: blinker 1s infinite;
+}
+  
+@keyframes blinker {
+	from { color: var(--gray-200) }
+	50% { color:red }
+	to { color: var(--gray-200) }
 }

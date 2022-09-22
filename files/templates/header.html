@@ -100,6 +100,10 @@
 			{% if g.webview %}
 				<a class="mobile-nav-icon d-md-none" onclick="location.reload()"><i class="fas fa-arrow-rotate-right align-middle text-gray-500 black"></i></a>
 			{% endif %}
+			
+			{% if SITE_NAME == 'PCM' %}
+				<a class="mobile-nav-icon d-md-none" href="/live" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Live"><i class="fas fa-circle align-middle black live-circle"></i></a>
+			{% endif %}
 
 			{% if v %}
 				{% if v.notifications_count %}
@@ -137,6 +141,12 @@
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto d-none d-md-flex">
 
+			{% if SITE_NAME == 'PCM' %}
+				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
+					<a class="nav-link" href="/live" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Live"><i class="fas fa-circle live-circle"></i></a>
+				</li>
+			{% endif %}
+
 			{% if v %}
 
 				{% if v.notifications_count %}
@@ -151,7 +161,7 @@
 
 				{% if v.admin_level > 1 %}
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
-					<a class="nav-link" href="/admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin Tools"><i class="fas fa-crown{% if v.has_report_queue %} text-success{% endif %}"></i></a>
+					<a class="nav-link" href="/admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin Tools"><i class="fas fa-crown"></i></a>
 				</li>
 				{% endif %}
 
