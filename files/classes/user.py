@@ -832,7 +832,6 @@ class User(Base):
 	def is_suspended_permanently(self):
 		return (self.is_banned and self.unban_utc == 0)
 
-	@property
 	@lazy
 	def check_ban_evade(self):
 		for u in self.alts_unique:
