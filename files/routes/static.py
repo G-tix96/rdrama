@@ -486,6 +486,7 @@ if SITE_NAME == 'PCM':
 					offline.append((req.url, t.group(1), y.group(2)))
 			else:
 				y = offline_regex.search(txt)
-				offline.append((req.url, y.group(2), y.group(1)))
+				try: offline.append((req.url, y.group(2), y.group(1)))
+				except: print(x)
 
 		return render_template(f'live.html', v=v, live=live, offline=offline)
