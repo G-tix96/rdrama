@@ -466,10 +466,8 @@ if SITE_NAME == 'PCM':
 	live_thumb_regex = re.compile('\{"thumbnail":\{"thumbnails":\[\{"url":"(.*?)"', flags=re.A)
 	offline_regex = re.compile('","title":"(.*?)".*?"width":48,"height":48\},\{"url":"(.*?)"', flags=re.A)
 
-	@app.get('/live')
-	@app.get('/logged_out/live')
-	@auth_desired_with_logingate
-	def live(v):
+	@cache.memoize(timeout=86400)
+	def live_cached():
 		live = []
 		offline = []
 		for x in streamers:
@@ -489,4 +487,12 @@ if SITE_NAME == 'PCM':
 				try: offline.append((req.url, y.group(2), y.group(1)))
 				except: print(x)
 
-		return render_template(f'live.html', v=v, live=live, offline=offline)
+		live = sorted(live, key=lambda x: x[4], reverse=True)
+
+		return live, offline
+
+	@app.get('/live')
+	@app.get('/logged_out/live')
+	@auth_desired_with_logingate
+	def live(v):
+		return render_template(f'live.html', v=v, live=live_cached()[0], offline=live_cached()[1])
