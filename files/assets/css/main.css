@@ -6274,3 +6274,9 @@ div.markdown {
 	50% { color:red }
 	to { color: var(--gray-200) }
 }
+
+.distribute {
+	font-size:10px;
+	padding: 2px 0.5rem !important;
+	margin: 0 0.5rem !important;
+}

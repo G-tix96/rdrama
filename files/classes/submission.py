@@ -362,7 +362,7 @@ class Submission(Base):
 
 		for o in self.options:
 			if o.exclusive > 1:
-				body += f'''<div class="custom-control"><input name="option-{self.id}" autocomplete="off" class="custom-control-input bet" type="radio" id="{o.id}" onchange="bet_vote('{o.id}','{self.id}')"'''
+				body += f'''<div class="custom-control mt-2"><input name="option-{self.id}" autocomplete="off" class="custom-control-input bet" type="radio" id="{o.id}" onchange="bet_vote('{o.id}','{self.id}')"'''
 				if o.voted(v): body += " checked "
 				if not (v and v.coins >= 200) or self.total_bet_voted(v): body += " disabled "
 
@@ -376,11 +376,11 @@ class Submission(Base):
 					body += " - <b>WINNER!</b>"
 				
 				if not winner and v and v.admin_level > 2:
-					body += f'''<button class="btn btn-primary px-2 mx-2" style="font-size:10px;padding:2px" onclick="post_toast(this,'/distribute/{o.id}')">Declare winner</button>'''
+					body += f'''<button class="btn btn-primary distribute" onclick="this.nextElementSibling.classList.remove('d-none');this.classList.add('d-none')">Declare winner</button><button class="btn btn-primary distribute d-none" onclick="post_toast(this,'/distribute/{o.id}')">Are you sure?</button>'''
 				body += "</div>"
 			else:
 				input_type = 'radio' if o.exclusive else 'checkbox'
-				body += f'<div class="custom-control"><input type="{input_type}" class="custom-control-input" id="post-{o.id}" name="option-{self.id}"'
+				body += f'<div class="custom-control mt-2"><input type="{input_type}" class="custom-control-input" id="post-{o.id}" name="option-{self.id}"'
 				if o.voted(v): body += " checked"
 
 				if v:
