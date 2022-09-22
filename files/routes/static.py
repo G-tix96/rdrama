@@ -489,5 +489,4 @@ if SITE_NAME == 'PCM':
 				try: offline.append((req.url, y.group(2), y.group(1)))
 				except: print(x)
 
-		live = sorted(live, key=lambda x: x[4], reverse=True)
 		return render_template(f'live.html', v=v, live=live, offline=offline)
