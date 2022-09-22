@@ -235,10 +235,6 @@ def distribute(v, option_id):
 			losing_voters.extend([x.user_id for x in o.votes])
 	for uid in losing_voters:
 		add_notif(cid, uid)
-
-
-	post.body += '\n\nclosed'
-	g.db.add(post)
 	
 	ma = ModAction(
 		kind="distribute",
