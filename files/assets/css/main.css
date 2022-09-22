@@ -6266,7 +6266,7 @@ div.markdown {
 }
 
 .live-circle {
-	animation: blinker 1s infinite;
+	animation: blinker 4s infinite;
 }
   
 @keyframes blinker {

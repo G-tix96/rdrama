@@ -481,10 +481,10 @@ if SITE_NAME == 'PCM':
 					count = int(y.group(3))
 					live.append((req.url, t.group(1), y.group(2), y.group(1), count))
 				except:
-					offline.append((req.url, t.group(1), y.group(2)))
+					offline.append((req.url.rstrip('/live'), t.group(1), y.group(2)))
 			else:
 				y = offline_regex.search(txt)
-				try: offline.append((req.url, y.group(2), y.group(1)))
+				try: offline.append((req.url.rstrip('/live'), y.group(2), y.group(1)))
 				except: print(x)
 
 		live = sorted(live, key=lambda x: x[4], reverse=True)

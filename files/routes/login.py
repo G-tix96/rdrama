@@ -333,7 +333,6 @@ def sign_up_post(v):
 		password=request.values.get("password"),
 		email=email,
 		referred_by=ref_id or None,
-		ban_evade =int(any((x.is_banned or x.shadowbanned) and not x.unban_utc for x in g.db.query(User).filter(User.id.in_(session.get("history", []))).all() if x)),
 		profileurl=profileurl
 		)
 
@@ -357,10 +356,7 @@ def sign_up_post(v):
 
 
 	check_for_alts(new_user.id)
-	if new_user.has_shadowbanned_alts:
-		new_user.shadowbanned = "AutoJanny"
-		g.db.add(new_user)
-		g.db.commit()
+	new_user.check_ban_evade()
 	
 	send_notification(new_user.id, WELCOME_MSG)
 

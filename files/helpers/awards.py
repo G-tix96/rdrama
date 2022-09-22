@@ -21,7 +21,6 @@ def award_timers(v, bot=False):
 	if v.unban_utc and v.unban_utc < now:
 		v.is_banned = 0
 		v.unban_utc = 0
-		v.ban_evade = 0
 		v.ban_reason = None
 		notify_if_not_bot("You have been unbanned!")
 	if v.agendaposter and v.agendaposter != 1 and v.agendaposter < now:
