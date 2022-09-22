@@ -211,7 +211,7 @@ def distribute(v, option_id):
 
 	pool = 0
 	for o in post.options:
-		if o.exclusive == 2: pool += o.upvotes
+		if o.exclusive > 2: pool += o.upvotes
 	pool *= 200
 
 	autojanny.coins -= pool
@@ -857,7 +857,7 @@ def agendaposter(user_id, v):
 	g.db.add(user)
 
 	if days: note = f"for {days} days"
-	else: note = "permenantly"
+	else: note = "permanently"
 
 	ma = ModAction(
 		kind="agendaposter",
