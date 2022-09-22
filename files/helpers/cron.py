@@ -12,8 +12,7 @@ import files.helpers.lottery as lottery
 import files.helpers.offsitementions as offsitementions
 import files.helpers.stats as stats
 import files.helpers.awards as awards
-
-from files.routes.static import stats_cached, live_cached
+import files.routes.static as route_static
 
 from sys import stdout
 import datetime
@@ -33,8 +32,8 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 		spin_roulette_wheel()
 		offsitementions.offsite_mentions_task()
 		if SITE_NAME == 'PCM':
-			cache.delete_memoized(live_cached())
-			live_cached()
+			cache.delete_memoized(route_static.live_cached)
+			route_static.live_cached()
 
 	if every_1h:
 		awards.award_timers_bots_task()
