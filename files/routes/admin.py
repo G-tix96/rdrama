@@ -211,7 +211,7 @@ def distribute(v, option_id):
 
 	pool = 0
 	for o in post.options:
-		if o.exclusive == 2: pool += o.upvotes
+		if o.exclusive > 2: pool += o.upvotes
 	pool *= 200
 
 	autojanny.coins -= pool
