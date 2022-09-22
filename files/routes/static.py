@@ -475,13 +475,16 @@ if SITE == 'pcmemes.net':
 	@app.get('/logged_out/live')
 	@auth_desired_with_logingate
 	def live(v):
-		return render_template(f'live.html', v=v, live=live_cached()[0], offline=live_cached()[1])
+		return render_template('live.html', v=v, live=live_cached()[0], offline=live_cached()[1])
 
 	@app.post('/live/add')
 	@admin_level_required(2)
 	def live_add(v):
 		id = request.values.get('id')
-		if not id: abort(400)
+
+		if not id or len(id) != 24:
+			return render_template('live.html', v=v, live=live_cached()[0], offline=live_cached()[1], error="Invalid ID")
+
 		existing = g.db.get(Streamer, id)
 		if not existing:
 			streamer = Streamer(id=id)
@@ -490,7 +493,7 @@ if SITE == 'pcmemes.net':
 			if v.id != KIPPY_ID:
 				send_repeatable_notification(KIPPY_ID, f"@{v.username} has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 			cache.delete_memoized(live_cached)
-		return redirect(f'/live')
+		return redirect('/live')
 
 	@app.post('/live/remove')
 	@admin_level_required(2)
@@ -503,4 +506,4 @@ if SITE == 'pcmemes.net':
 				send_repeatable_notification(KIPPY_ID, f"@{v.username} has removed a [YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 			g.db.delete(streamer)
 			cache.delete_memoized(live_cached)
-		return redirect(f'/live')
+		return redirect('/live')
