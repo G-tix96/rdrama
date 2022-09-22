@@ -492,8 +492,8 @@ if SITE == 'pcmemes.net':
 			g.db.flush()
 			if v.id != KIPPY_ID:
 				send_repeatable_notification(KIPPY_ID, f"@{v.username} has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
-			cache.delete_memoized(live_cached)
-		return redirect('/live')
+
+		return render_template('live.html', v=v, live=live_cached()[0], offline=live_cached()[1], msg="Channel added successfuly!")
 
 	@app.post('/live/remove')
 	@admin_level_required(2)
@@ -505,5 +505,5 @@ if SITE == 'pcmemes.net':
 			if v.id != KIPPY_ID:
 				send_repeatable_notification(KIPPY_ID, f"@{v.username} has removed a [YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 			g.db.delete(streamer)
-			cache.delete_memoized(live_cached)
-		return redirect('/live')
+		
+		return render_template('live.html', v=v, live=live_cached()[0], offline=live_cached()[1], msg="Channel removed successfuly!")
