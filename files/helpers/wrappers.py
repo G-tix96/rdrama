@@ -77,7 +77,9 @@ def get_logged_in_user():
 
 	g.v = v
 
-	if v: v.poor = session.get('poor')
+	if v:
+		v.poor = session.get('poor')
+		v.check_ban_evade()
 
 	if AEVANN_ID and request.headers.get("Cf-Ipcountry") == 'EG':
 		if v and not v.username.startswith('Aev'):
@@ -94,8 +96,6 @@ def get_logged_in_user():
 def auth_desired(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
-
-		v.check_ban_evade()
 
 		return make_response(f(*args, v=v, **kwargs))
 
@@ -115,8 +115,6 @@ def auth_desired_with_logingate(f):
 			if not redir: redir = '/'
 			return redirect(redir)
 
-		v.check_ban_evade()
-
 		return make_response(f(*args, v=v, **kwargs))
 
 	wrapper.__name__ = f.__name__
@@ -126,8 +124,6 @@ def auth_required(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
 		if not v: abort(401)
-
-		v.check_ban_evade()
 
 		return make_response(f(*args, v=v, **kwargs))
 
@@ -141,8 +137,6 @@ def is_not_permabanned(f):
 		v = get_logged_in_user()
 
 		if not v: abort(401)
-		
-		v.check_ban_evade()
 
 		if v.is_suspended_permanently:
 			return {"error": "Internal server error"}, 500
