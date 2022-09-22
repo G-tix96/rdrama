@@ -28,7 +28,7 @@
 			{% if v.mods(sub.name) %}
 				<form action="/h/{{sub}}/unexile/{{user.id}}" method="post">
 					<input type="hidden" name="formkey" value="{{v.formkey}}">
-					<input class="btn btn-primary" autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Unexile">
+					<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Unexile">
 				</form>
 			{% endif %}
 		</td>
