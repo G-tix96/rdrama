@@ -16,12 +16,10 @@
 			<tbody>
 				{% for link, thumb, name, title, viewers in live %}
 					<tr onclick="window.open('{{link}}', '_blank')">
-						<a href="{{link}}">
-							<td width="48"><img src="{{thumb}}" alt="{{name}} thumbnail" referrerpolicy="no-referrer" width="48"></td>
-							<td>{{name}}</td>
-							<td>{{title}}</td>
-							<td>{{viewers}}</td>
-						</a>
+						<td width="48"><img src="{{thumb}}" alt="{{name}} thumbnail" referrerpolicy="no-referrer" width="48"></td>
+						<td>{{name}}</td>
+						<td>{{title}}</td>
+						<td>{{viewers}}</td>
 					</tr>
 				{% endfor %}
 			</tbody>
