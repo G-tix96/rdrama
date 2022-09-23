@@ -443,8 +443,10 @@ if SITE == 'pcmemes.net':
 	live_thumb_regex = re.compile('\{"thumbnail":\{"thumbnails":\[\{"url":"(.*?)"', flags=re.A)
 	offline_regex = re.compile('","title":"(.*?)".*?"width":48,"height":48\},\{"url":"(.*?)"', flags=re.A)
 
-	@cache.memoize(timeout=86400)
-	def live_cached():
+	@cache.memoize(timeout=86400,
+		forced_update=(lambda force=False: force),
+		args_to_ignore=["force"])
+	def live_cached(force=False):
 		live = []
 		offline = []
 		db = db_session()
