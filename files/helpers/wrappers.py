@@ -77,9 +77,7 @@ def get_logged_in_user():
 
 	g.v = v
 
-	if v:
-		v.poor = session.get('poor')
-		v.check_ban_evade()
+	if v: v.poor = session.get('poor')
 
 	if AEVANN_ID and request.headers.get("Cf-Ipcountry") == 'EG':
 		if v and not v.username.startswith('Aev'):

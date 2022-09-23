@@ -21,7 +21,8 @@ def login_get(v):
 	return render_template("login.html", failed=False, redirect=redir)
 
 
-def check_for_alts(current_id):
+def check_for_alts(current):
+	current_id = current.id
 	ids = [x[0] for x in g.db.query(User.id).all()]
 	past_accs = set(session.get("history", []))
 
@@ -78,6 +79,14 @@ def check_for_alts(current_id):
 	
 	past_accs.add(current_id)
 	session["history"] = list(past_accs)
+	g.db.flush()
+	for u in current.alts_unique:
+		if u.shadowbanned:
+			current.shadowbanned = u.shadowbanned
+			g.db.add(current)
+		elif current.shadowbanned:
+			u.shadowbanned = current.shadowbanned
+			g.db.add(u)
 
 
 @app.post("/login")
@@ -154,8 +163,7 @@ def on_login(account, redir=None):
 	session["lo_user"] = account.id
 	session["login_nonce"] = account.login_nonce
 	if account.id == AEVANN_ID: session["verified"] = time.time()
-
-	check_for_alts(account.id)
+	check_for_alts(account)
 
 @app.get("/me")
 @app.get("/@me")
@@ -355,8 +363,7 @@ def sign_up_post(v):
 		send_verification_email(new_user)
 
 
-	check_for_alts(new_user.id)
-	new_user.check_ban_evade()
+	check_for_alts(new_user)
 	
 	send_notification(new_user.id, WELCOME_MSG)
 

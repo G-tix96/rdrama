@@ -15,6 +15,7 @@ from files.classes import *
 from flask import *
 from files.__main__ import app, cache, limiter
 from .front import frontlist
+from .login import check_for_alts
 from files.helpers.discord import add_role
 import datetime
 import requests
@@ -772,6 +773,10 @@ def admin_link_accounts(v):
 		)
 
 	g.db.add(new_alt)
+	g.db.flush()
+
+	check_for_alts(g.db.get(User, u1))
+	check_for_alts(g.db.get(User, u2))
 
 	ma = ModAction(
 		kind="link_accounts",

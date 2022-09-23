@@ -19,6 +19,7 @@ import gevent
 from sys import stdout
 import os
 import json
+from .login import check_for_alts
 
 def leaderboard_thread():	
 	db = db_session()
@@ -1332,6 +1333,7 @@ def fp(v, fp):
 		g.db.add(new_alt)
 		g.db.flush()
 		print(v.username + ' + ' + u.username, flush=True)
+		check_for_alts(v)
 	g.db.add(v)
 	return '', 204
 

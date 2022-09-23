@@ -832,23 +832,6 @@ class User(Base):
 	def is_suspended_permanently(self):
 		return (self.is_banned and self.unban_utc == 0)
 
-	@lazy
-	def check_ban_evade(self):
-		for u in self.alts_unique:
-			if u.shadowbanned:
-				self.shadowbanned = u.shadowbanned
-				g.db.add(self)
-				g.db.commit()
-				return
-			## Disabled pending better solution: permabans haven't propagated for
-			## most of Summer 2022. We've gotten somewhat used to this. Think we only
-			## want them to propagate on account creation? Or at least needs discussion.
-			# if u.is_suspended_permanently:
-			# 	self.shadowbanned = u.banned_by.username
-			# 	g.db.add(self)
-			# 	g.db.commit()
-			# 	return
-
 	@property
 	@lazy
 	def applications(self):
