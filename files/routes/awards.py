@@ -267,12 +267,20 @@ def award_thing(v, thing_type, id):
 			thing.stickied_utc += 3600
 		else:
 			thing.stickied = f'{v.username} (pin award)'
-			thing.stickied_utc = int(time.time()) + 3600
+			if thing_type == 'comment':
+				thing.stickied_utc = int(time.time()) + 3600*6
+			else:
+				thing.stickied_utc = int(time.time()) + 3600
 		g.db.add(thing)
 		cache.delete_memoized(frontlist)
 	elif kind == "unpin":
 		if not thing.stickied_utc: abort(403)
-		t = thing.stickied_utc - 3600
+
+		if thing_type == 'comment':
+			t = thing.stickied_utc - 3600*6
+		else:
+			t = thing.stickied_utc - 3600
+
 		if time.time() > t:
 			thing.stickied = None
 			thing.stickied_utc = None

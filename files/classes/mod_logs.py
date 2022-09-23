@@ -435,12 +435,12 @@ ACTIONTYPES = {
 		"color": 'bg-success'
 	},
 	'update_hat': {
-		"str": 'Updated hat image', 
+		"str": 'updated hat image', 
 		"icon": 'fa-hat-cowboy', 
 		"color": 'bg-success'
 	},
 	'update_marsey': {
-		"str": 'Updated marsey image', 
+		"str": 'updated marsey image', 
 		"icon": 'fa-cat', 
 		"color": 'bg-success'
 	}
