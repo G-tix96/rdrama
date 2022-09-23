@@ -122,7 +122,7 @@
 				{% endif %}
 				
 				{% if v and (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']) -%}
-				<div class="font-weight-bolder mb-2" id="profile--simphate"><a class="mr-1" href="/@{{u.username}}/upvoters">Simps</a> | <a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | <a class="mx-1" href="/@{{u.username}}/upvoting">Simps for</a> | <a class="ml-1" href="/@{{u.username}}/downvoting">Hates</a></div>
+				<div class="font-weight-bolder mb-2" id="profile--simphate"><a class="mr-1" href="/@{{u.username}}/upvoters">Simps</a> | <a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | <a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> | <a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> | <a class="ml-1" href="/@{{u.username}}/upvoted/posts">Upvoted</a></div>
 				{%- endif %}
 
 				<div class="font-weight-bolder">
@@ -457,7 +457,7 @@
 				{% endif %}
 
 				{% if v and (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']) -%}
-				<div class="font-weight-bolder mb-2" id="profile-mobile--simphate"><a class="mr-1" href="/@{{u.username}}/upvoters">Simps</a> | <a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | <a class="mx-1" href="/@{{u.username}}/upvoting">Simps for</a> | <a class="ml-1" href="/@{{u.username}}/downvoting">Hates</a></div>
+				<div class="font-weight-bolder mb-2" id="profile-mobile--simphate"><a class="mr-1" href="/@{{u.username}}/upvoters">Simps</a> | <a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | <a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> | <a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> | <a class="ml-1" href="/@{{u.username}}/upvoted/posts">Upvoted</a></div>
 				{%- endif %}
 
 				<div class="font-weight-normal">
