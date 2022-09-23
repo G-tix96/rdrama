@@ -899,19 +899,15 @@ def user_id(id):
 def redditor_moment_redirect(username, v):
 	return redirect(f"/@{username}")
 
-@app.get("/@<username>/followers")
+@app.get("/@<username>/blockers")
 @auth_required
-def followers(username, v):
+def blockers(username, v):
 	u = get_user(username, v=v)
-	if u.id == CARP_ID: abort(403)
 
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
-		abort(403)
-
-	users = g.db.query(Follow, User).join(Follow, Follow.target_id == u.id) \
-		.filter(Follow.user_id == User.id) \
-		.order_by(Follow.created_utc).all()
-	return render_template("followers.html", v=v, u=u, users=users)
+	users = g.db.query(UserBlock, User).join(UserBlock, UserBlock.target_id == u.id) \
+		.filter(UserBlock.user_id == User.id) \
+		.order_by(UserBlock.created_utc).all()
+	return render_template("blockers.html", v=v, u=u, users=users)
 
 @app.get("/@<username>/following")
 @auth_required
