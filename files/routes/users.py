@@ -707,7 +707,7 @@ def message2(v, username):
 		existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
 																Comment.sentto == user.id,
 																Comment.body_html == body_html,
-																).one_or_none()
+																).first()
 
 		if existing: return {"error": "Message already exists."}, 403
 
