@@ -196,6 +196,9 @@ def with_sigalrm_timeout(timeout: int):
 def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False):
 	sanitized = sanitized.strip()
 
+	sanitized = utm_regex.sub('', sanitized)
+	sanitized = utm_regex2.sub('', sanitized)
+
 	if torture:
 		sanitized = torture_ap(sanitized, g.v.username)
 		sanitized += '\n:#trumpjaktalking:'
@@ -332,9 +335,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 			g.db.add(marsey)
 
 	sanitized = sanitized.replace('<p></p>', '')
-	sanitized = utm_regex.sub('', sanitized)
-	sanitized = utm_regex2.sub('', sanitized)
-
 	sanitized = sanitized.replace('<html><body>','').replace('</body></html>','')
 
 	css_sanitizer = CSSSanitizer(allowed_css_properties=allowed_styles)
