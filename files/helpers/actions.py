@@ -92,7 +92,7 @@ def execute_snappy(post, v):
 
 	body += "\n\n"
 
-	if post.url and not post.url.startswith(SITE_FULL) and not post.url.startswith('/') and not post.url.startswith('https://rdrama.org'):
+	if post.url and not post.url.startswith(SITE_FULL) and not post.url.startswith('/') and not post.url.startswith('https://rdrama.org/'):
 		if post.url.startswith('https://old.reddit.com/r/'):
 			rev = post.url.replace('https://old.reddit.com/', '')
 			rev = f"* [unddit.com](https://unddit.com/{rev})\n"
@@ -121,7 +121,7 @@ def execute_snappy(post, v):
 
 
 	for href, title in captured:
-		if href.startswith(SITE_FULL) or href.startswith('https://rdrama.org'): continue
+		if href.startswith(SITE_FULL) or href.startswith('https://rdrama.org/'): continue
 
 		if "Snapshots:\n\n" not in body: body += "Snapshots:\n\n"
 
