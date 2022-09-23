@@ -231,7 +231,7 @@ def distribute(v, option_id):
 	cid = notif_comment(f"You lost the 200 coins you bet on [{post.title}]({post.shortlink}) :marseylaugh:")
 	losing_voters = []
 	for o in post.options:
-		if o.exclusive == 2 and o.id != option_id:
+		if o.exclusive == 2:
 			losing_voters.extend([x.user_id for x in o.votes])
 	for uid in losing_voters:
 		add_notif(cid, uid)
