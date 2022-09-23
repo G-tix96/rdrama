@@ -474,7 +474,7 @@ if SITE == 'pcmemes.net':
 	@app.get('/logged_out/live')
 	@auth_desired_with_logingate
 	def live(v):
-		live_cached = cache.get('live_cached')
+		live_cached = cache.get('live_cached', ((),()))
 
 		return render_template('live.html', v=v, live=live_cached[0], offline=live_cached[1])
 
@@ -483,7 +483,7 @@ if SITE == 'pcmemes.net':
 	def live_add(v):
 		id = request.values.get('id')
 
-		live_cached = cache.get('live_cached')
+		live_cached = cache.get('live_cached', ((),()))
 
 		if not id or len(id) != 24:
 			return render_template('live.html', v=v, live=live_cached[0], offline=live_cached[1], error="Invalid ID")
@@ -509,5 +509,5 @@ if SITE == 'pcmemes.net':
 				send_repeatable_notification(KIPPY_ID, f"@{v.username} has removed a [YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 			g.db.delete(streamer)
 
-		live_cached = cache.get('live_cached')
+		live_cached = cache.get('live_cached', ((),()))
 		return render_template('live.html', v=v, live=live_cached()[0], offline=live_cached()[1], msg="Channel removed successfuly!")
