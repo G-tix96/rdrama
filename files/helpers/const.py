@@ -1088,6 +1088,6 @@ forced_hats = {
 	"owoify": ("Cat Ears (wiggly)", "Nuzzles, pounces on you, UwU, you're so warm!.."),
 	"earlylife": ("The Merchant", "SHUT IT DOWN, the goys know!"),
 	"marsify": ("Marsified", "I can't pick my own Marseys, help!"),
-	"is_banned": ("Behind Bars", "This user is banned and needs to do better!"),
+	"is_suspended": ("Behind Bars", "This user is banned and needs to do better!"),
 	"agendaposter": ("Egg_irl", "This user is getting in touch with xir identity!")
 }
