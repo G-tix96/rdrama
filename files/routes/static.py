@@ -466,7 +466,7 @@ if SITE == 'pcmemes.net':
 				try: offline.append((x, req.url.rstrip('/live'), y.group(2), y.group(1)))
 				except: print(x)
 
-		live = sorted(live, key=lambda x: x[4], reverse=True)
+		live = sorted(live, key=lambda x: x[5], reverse=True)
 
 		return live, offline
 
