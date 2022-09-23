@@ -553,7 +553,7 @@
 
 	{% if render_replies %} 
 		<div id="replies-of-{{c.fullname}}">
-			{% if request.path.startswith('/notifications') and replies|length > 8 %}
+			{% if request.path.startswith('/notifications/') and replies|length > 8 %}
 				{% for reply in replies %}
 					{{single_comment(reply, level=level+1, collapse=(not reply.unread and loop.index != replies|length))}}
 				{% endfor %}
