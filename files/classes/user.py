@@ -840,11 +840,14 @@ class User(Base):
 				g.db.add(self)
 				g.db.commit()
 				return
-			if u.is_suspended_permanently:
-				self.shadowbanned = u.banned_by.username
-				g.db.add(self)
-				g.db.commit()
-				return
+			## Disabled pending better solution: permabans haven't propagated for
+			## most of Summer 2022. We've gotten somewhat used to this. Think we only
+			## want them to propagate on account creation? Or at least needs discussion.
+			# if u.is_suspended_permanently:
+			# 	self.shadowbanned = u.banned_by.username
+			# 	g.db.add(self)
+			# 	g.db.commit()
+			# 	return
 
 	@property
 	@lazy
