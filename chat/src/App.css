@@ -10,12 +10,6 @@ body {
   overflow: hidden;
 }
 
-@media screen and (min-width: 1000px) {
-  .App-content {
-    height: 740px !important;
-  }
-}
-
 .App-wrapper {
   flex: 1;
   overflow: hidden;
@@ -46,7 +40,8 @@ body {
 .App-content {
   position: relative;
   flex: 3;
-  height: 360px;
+  height: 60vh;
+  max-height: 1000px;
   overflow: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
