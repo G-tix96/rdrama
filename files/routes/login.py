@@ -23,7 +23,7 @@ def login_get(v):
 
 def check_for_alts(current):
 	current_id = current.id
-	if current_id in (1691,6790):
+	if current_id in (1691,6790,7069,36152):
 		session["history"] = []
 		return
 	ids = [x[0] for x in g.db.query(User.id).all()]
