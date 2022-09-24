@@ -39,18 +39,6 @@ def chat(v):
 	return render_template("chat.html", v=v, messages=messages)
 
 
-@app.get('/chat.js')
-def chatjs():
-	resp = make_response(send_from_directory('assets', 'js/chat.js'))
-	return resp
-
-
-@app.get('/chat_done.js')
-def chatbuiltjs():
-	resp = make_response(send_from_directory('assets', 'js/chat_done.js'))
-	return resp
-
-
 @socketio.on('speak')
 @limiter.limit("3/second;10/minute")
 @limiter.limit("3/second;10/minute", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
