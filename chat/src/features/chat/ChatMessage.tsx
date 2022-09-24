@@ -7,6 +7,7 @@ import { useChat, useRootContext } from "../../hooks";
 import "./ChatMessage.css";
 
 interface ChatMessageProps extends IChatMessage {
+  timestampUpdates: number;
   showUser?: boolean;
 }
 
@@ -27,6 +28,7 @@ export function ChatMessage({
   text_censored,
   time,
   quotes,
+  timestampUpdates,
 }: ChatMessageProps) {
   const message = {
     id,
@@ -46,7 +48,7 @@ export function ChatMessage({
     censored,
     themeColor,
   } = useRootContext();
-  const { quote, messageLookup, deleteMessage, quoteMessage } = useChat();
+  const { messageLookup, deleteMessage, quoteMessage } = useChat();
   const content = censored ? text_censored : text_html;
   const hasMention = content.includes(loggedInUsername);
   const mentionStyle = hasMention
@@ -60,18 +62,10 @@ export function ChatMessage({
       setConfirmedDelete(true);
     }
   }, [text, confirmedDelete]);
-  const [timestamp, setTimestamp] = useState(formatTimeAgo(time));
-
-  useEffect(() => {
-    const updatingTimestamp = setInterval(
-      () => setTimestamp(formatTimeAgo(time)),
-      TIMESTAMP_UPDATE_INTERVAL
-    );
-
-    return () => {
-      clearInterval(updatingTimestamp);
-    };
-  }, []);
+  const timestamp = useMemo(() => formatTimeAgo(time), [
+    time,
+    timestampUpdates,
+  ]);
 
   return (
     <div className="ChatMessage" style={mentionStyle} id={id}>
@@ -158,6 +152,18 @@ export function ChatMessage({
 
 export function ChatMessageList() {
   const { messages } = useChat();
+  const [timestampUpdates, setTimestampUpdates] = useState(0);
+
+  useEffect(() => {
+    const updatingTimestamps = setInterval(
+      () => setTimestampUpdates((prev) => prev + 1),
+      TIMESTAMP_UPDATE_INTERVAL
+    );
+
+    return () => {
+      clearInterval(updatingTimestamps);
+    };
+  }, []);
 
   return (
     <div className="ChatMessageList">
@@ -165,6 +171,7 @@ export function ChatMessageList() {
         <ChatMessage
           key={key(message)}
           {...message}
+          timestampUpdates={timestampUpdates}
           showUser={message.username !== messages[index - 1]?.username}
         />
       ))}
@@ -174,10 +181,11 @@ export function ChatMessageList() {
 
 function formatTimeAgo(time: number) {
   const now = new Date().getTime();
-
-  return `${humanizeDuration(time * 1000 - now, {
+  const humanized = `${humanizeDuration(time * 1000 - now, {
     round: true,
     units: ["h", "m", "s"],
     largest: 2,
   })} ago`;
+
+  return humanized === "0 seconds ago" ? "just now" : humanized;
 }
