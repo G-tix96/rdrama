@@ -15,7 +15,7 @@
 	</style>
 	<script>
 		function go_to(e, link) {
-			if (!e.target instanceof HTMLInputElement)
+			if (!e.target.classList.contains('donttrigger'))
 				window.open(link, '_blank');
 		}
 	</script>
@@ -59,8 +59,8 @@
 									<form action="/live/remove" method="post">
 										<input type="hidden" name="formkey" value="{{v.formkey}}">
 										<input type="hidden" name="id" value="{{id}}">
-										<button autocomplete="off" class="btn btn-primary ml-auto" onclick="this.nextElementSibling.classList.remove('d-none');this.classList.add('d-none')">Remove</button>
-										<input autocomplete="off" class="btn btn-primary ml-auto d-none" type="submit" onclick="disable(this)" value="Are you sure?">
+										<button autocomplete="off" class="btn btn-primary ml-auto donttrigger" onclick="this.nextElementSibling.classList.remove('d-none');this.classList.add('d-none')">Remove</button>
+										<input autocomplete="off" class="btn btn-primary ml-auto d-none donttrigger" type="submit" onclick="disable(this)" value="Are you sure?">
 									</form>
 								</td>
 							{% endif %}
@@ -85,8 +85,8 @@
 									<form action="/live/remove" method="post">
 										<input type="hidden" name="formkey" value="{{v.formkey}}">
 										<input type="hidden" name="id" value="{{id}}">
-										<button autocomplete="off" class="btn btn-primary ml-auto" onclick="this.nextElementSibling.classList.remove('d-none');this.classList.add('d-none')">Remove</button>
-										<input autocomplete="off" class="btn btn-primary ml-auto d-none" type="submit" onclick="disable(this)" value="Are you sure?">
+										<button autocomplete="off" class="btn btn-primary ml-auto donttrigger" onclick="this.nextElementSibling.classList.remove('d-none');this.classList.add('d-none')">Remove</button>
+										<input autocomplete="off" class="btn btn-primary ml-auto d-none donttrigger" type="submit" onclick="disable(this)" value="Are you sure?">
 									</form>
 								</td>
 							{% endif %}
