@@ -481,7 +481,7 @@ if SITE == 'pcmemes.net':
 	@app.post('/live/add')
 	@admin_level_required(2)
 	def live_add(v):
-		id = request.values.get('id')
+		id = request.values.get('id').strip()
 
 		live_cached = cache.get('live_cached') or [[],[]]
 
@@ -501,7 +501,7 @@ if SITE == 'pcmemes.net':
 	@app.post('/live/remove')
 	@admin_level_required(2)
 	def live_remove(v):
-		id = request.values.get('id')
+		id = request.values.get('id').strip()
 		if not id: abort(400)
 		streamer = g.db.get(Streamer, id)
 		if streamer:
