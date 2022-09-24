@@ -1908,6 +1908,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseynotesglow',2,'notes glow cia fbi fed writer writing',NULL),
 ('marseynouautism',2,'pointing hat spiderman sperg autistic no u no you noyou',NULL),
 ('marseynoyou',2,'nou no u pointing',NULL),
+('marseynoyoufellowpedo',2,'point fbi glow libertarian mask discord agent',1664045092),
 ('marseynoyouglow',2,'fbi no u animated feds glowies glowniggers atf cia nsa',NULL),
 ('marseynpc',2,'sheeple',NULL),
 ('marseynpc2',2,'reaction idiot sheep',NULL),
