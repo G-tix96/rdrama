@@ -95,10 +95,6 @@ export function ChatMessageList() {
   const { messages } = useChat();
   const messageWrapper = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    messageWrapper.current.scrollTop = messageWrapper.current.scrollHeight;
-  }, [messages]);
-
   return (
     <div className="ChatMessageList" ref={messageWrapper}>
       {messages.map((message, index) => (

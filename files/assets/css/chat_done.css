@@ -315,6 +315,7 @@ lite-youtube {
   overflow: auto;
   z-index: 2;
   display: flex;
+  background: var(--background);
 }
 .App-input {
   flex-basis: 7rem;
