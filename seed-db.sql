@@ -1237,6 +1237,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseychinchillalove',2,'pet rodent capy cute hamster south american andes',NULL),
 ('marseychinesedevil',2,'devil evil horns satan china hell demonic',NULL),
 ('marseychingchong',2,'racist asian chinese chinx chink gook japanese vietnamese rice farmer nip racist paddy teeth hat china',NULL),
+('marseychingchongpearlclutch',2,'asian chinese jap gook korean nip yikes scared chink rice',1664035377),
 ('marseychingchongsupremacy',2,'ccp china chinese ricefarmer hat glasses buckteeth bucktooth azn asian jinping xinping han masterrace communist communism maoist zedong',1663298980),
 ('marseychiobulove',2,'tiger best cute heart hug china chinese new year cat',NULL),
 ('marseychocobo',2,'marseybo bird final fantasy vidya video game gamer gaming fast',NULL),
