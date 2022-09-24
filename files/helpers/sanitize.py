@@ -95,7 +95,7 @@ def build_url_re(protocols):
 	return re.compile(
 		r"""\(*# Match any opening parentheses.
 		\b(?<![@.])(?:(?:{0}):/{{0,3}}(?:(?:\w+:)?\w+@)?)?# http://
-		([\w-]+\.)+(?:\w{{2,20}})(?:\:[0-9]+)?(?!\.\w)\b# xx.yy.tld(:##)?
+		([\w-]+\.)+(?:[A-Za-z]{{2,20}})(?:\:[0-9]+)?(?!\.\w)\b# xx.yy.tld(:##)?
 		(?:[/?][^#\s\{{\}}\|\\\^\[\]`<>"]*)?
 			# /path/zz (excluding "unsafe" chars from RFC 1738,
 			# except for ~, which happens in practice)
