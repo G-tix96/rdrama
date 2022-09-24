@@ -58,8 +58,6 @@ def speak(data, v):
 
 	if not text: return '', 403
 	text_html = sanitize(text, count_marseys=True)
-	time_number = int(time.time())
-	time_string = timestamp(time_number)
 	data={
 		"avatar": v.profile_url,
 		"hat": v.hat_active,
@@ -68,8 +66,7 @@ def speak(data, v):
 		"text": text,
 		"text_html": text_html,
 		"text_censored": censor_slurs(text_html, 'chat'),
-		"time": time_number,
-		"timestamp": time_string
+		"time": int(time.time()),
 	}
 	
 	if v.shadowbanned:
