@@ -49,3 +49,8 @@
   top: 4px;
   right: 4px;
 }
+
+/* List */
+.ChatMessageList {
+  flex: 1;
+}

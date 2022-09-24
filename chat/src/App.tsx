@@ -4,6 +4,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import {
   ChatHeading,
   ChatMessageList,
+  QuotedMessage,
   UserInput,
   UserList,
   UsersTyping,
@@ -11,7 +12,7 @@ import {
 import { ChatProvider, DrawerProvider, useChat, useDrawer } from "./hooks";
 import "./App.css";
 
-const SCROLL_CANCEL_THRESHOLD = 200;
+const SCROLL_CANCEL_THRESHOLD = 500;
 
 export function App() {
   return (
@@ -32,17 +33,22 @@ function AppInner() {
   const { open, config } = useDrawer();
   const contentWrapper = useRef<HTMLDivElement>(null);
   const initiallyScrolledDown = useRef(false);
-  const { messages } = useChat();
+  const { messages, quote } = useChat();
+
+  console.log({ quote });
 
   useEffect(() => {
     if (messages.length > 0) {
       if (initiallyScrolledDown.current) {
         /* We only want to scroll back down on a new message
          if the user is not scrolled up looking at previous messages. */
-        const scrollableDistance = contentWrapper.current.scrollHeight - contentWrapper.current.clientHeight;
+        const scrollableDistance =
+          contentWrapper.current.scrollHeight -
+          contentWrapper.current.clientHeight;
         const scrolledDistance = contentWrapper.current.scrollTop;
-        const hasScrolledEnough = scrollableDistance - scrolledDistance >= SCROLL_CANCEL_THRESHOLD;
-        
+        const hasScrolledEnough =
+          scrollableDistance - scrolledDistance >= SCROLL_CANCEL_THRESHOLD;
+
         if (hasScrolledEnough) {
           return;
         }
@@ -50,7 +56,7 @@ function AppInner() {
         // Always scroll to the bottom on first load.
         initiallyScrolledDown.current = true;
       }
-  
+
       contentWrapper.current.scrollTop = contentWrapper.current.scrollHeight;
     }
   }, [messages]);
@@ -64,18 +70,26 @@ function AppInner() {
         </div>
         <div className="App-center">
           <div className="App-content" ref={contentWrapper}>
-              {open ? (
-                <div className="App-drawer">{config.content}</div>
-              ) : (
-                <ChatMessageList />
-              )}
+            {open ? (
+              <div className="App-drawer">{config.content}</div>
+            ) : (
+              <ChatMessageList />
+            )}
           </div>
           <div className="App-side">
             <UserList />
           </div>
         </div>
-        <div className="App-bottom">
-          <div className="App-input">
+        <div className="App-bottom-wrapper">
+          <div className="App-bottom">
+            <div
+              className="App-bottom-extra"
+              style={{
+                visibility: quote ? "visible" : "hidden",
+              }}
+            >
+              {quote && <QuotedMessage />}
+            </div>
             <UserInput />
             <UsersTyping />
           </div>
