@@ -6,6 +6,7 @@ const options = {
   entryPoints: ["./src/index.tsx"],
   outfile: path.resolve(__dirname, "../files/assets/js/chat_done.js"),
   bundle: true,
+  minify: process.env.NODE_ENV === "production",
   define: {
     "process.env.NODE_ENV": `"${process.env.NODE_ENV}"`,
     "process.env.DEBUG": process.env.DEBUG,
