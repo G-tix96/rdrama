@@ -510,4 +510,4 @@ if SITE == 'pcmemes.net':
 			g.db.delete(streamer)
 
 		live_cached = cache.get('live_cached') or [[],[]]
-		return render_template('live.html', v=v, live=live_cached()[0], offline=live_cached()[1], msg="Channel removed successfuly!")
+		return render_template('live.html', v=v, live=live_cached[0], offline=live_cached[1], msg="Channel removed successfuly!")
