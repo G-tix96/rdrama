@@ -93,7 +93,15 @@ export function ChatMessage({
 
 export function ChatMessageList() {
   const { messages } = useChat();
+  const scrolledOnce = useRef(false);
   const messageWrapper = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (messages.length > 0 && !scrolledOnce.current) {
+      scrolledOnce.current = true;
+      messageWrapper.current.scrollTop = messageWrapper.current?.scrollHeight;
+    }
+  }, [messages])
 
   return (
     <div className="ChatMessageList" ref={messageWrapper}>
