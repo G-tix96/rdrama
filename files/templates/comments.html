@@ -503,7 +503,7 @@
 			</div>
 
 		{% if v and v.id != c.author_id and c.body %}
-			<div autocomplete="off" class="markdown d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{c.id}}" readonly>{{c.body.strip()}}</div> 
+			<div autocomplete="off" class="markdown d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{c.id}}" readonly>{{c.plainbody(v).strip()}}</div> 
 		{% endif %}
 
 
