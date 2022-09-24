@@ -13,7 +13,7 @@ export function UserList({ fluid = false }: Props) {
   return (
     <div className="UserList">
       <div className="UserList-heading">
-        <h4>Users in chat right now</h4>
+        <h5>Users Online</h5>
         <div className="Chat-online">
           <i className="far fa-user fa-sm" /> {online.length}
         </div>

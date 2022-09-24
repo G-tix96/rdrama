@@ -36,21 +36,26 @@ function AppInner() {
           <small>v{process.env.VERSION}</small>
           <ChatHeading />
         </div>
-        <div id="chatWrapper" className="App-content">
-          <div style={{ flex: 1 }}>
-            {open && config.content ? (
-              <div className="App-drawer">{config.content}</div>
-            ) : (
-              <ChatMessageList />
-            )}
+        <div className="App-center">
+          <div className="App-content">
+            <div id="chatWrapper" style={{ flex: 1, height: "100%" }}>
+              {open ? (
+                <div className="App-drawer">{config.content}</div>
+              ) : (
+                <ChatMessageList />
+              )}
+            </div>
           </div>
           <div className="App-side">
             <UserList />
           </div>
         </div>
-        <div className="App-input">
-          <UserInput />
-          <UsersTyping />
+        <div className="App-bottom">
+          <div className="App-input">
+            <UserInput />
+            <UsersTyping />
+          </div>
+          <div className="App-bottom-dummy" />
         </div>
       </div>
     </div>
