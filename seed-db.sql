@@ -1397,6 +1397,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydoomer',2,'cigarette smoker despair depression alcoholic suicidal smoking depressing',NULL),
 ('marseydose',2,'doctor daily dose dailydose animated jump bounce',NULL),
 ('marseydoubtit',2,'dumpster defender redneck boomer shooting doubt it cocksucker gun',NULL),
+('marseydowndonger',2,'downvote down negative karma',1664011042),
 ('marseydracula',2,'halloween fangs cape holiday vampire',NULL),
 ('marseydragon',2,'smaug rich hoard gold treasure',NULL),
 ('marseydrama',2,'agendapost where drama seriouspost drama where',NULL),
