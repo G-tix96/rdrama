@@ -1,0 +1,22 @@
+.UserList {
+  margin-left: 2rem;
+}
+
+.UserList-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.UserList-heading h4 {
+  margin-right: 2rem;
+}
+
+.UserList ul:not(.fluid) {
+  max-height: 275px;
+  overflow: auto;
+}
+
+.UserList ul::-webkit-scrollbar {
+  display: none;
+}

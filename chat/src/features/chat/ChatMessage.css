@@ -1,0 +1,70 @@
+@keyframes fading-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.ChatMessage {
+  padding: 0.5rem;
+  padding-right: 3rem;
+  position: relative;
+  animation: fading-in 0.3s ease-in-out forwards;
+}
+
+.ChatMessage:nth-of-type(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.ChatMessage-top {
+  display: flex;
+  align-items: center;
+}
+
+.ChatMessage-timestamp {
+  margin-left: 0.5rem;
+}
+
+.ChatMessage-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 30px;
+}
+
+.ChatMessage-content {
+  margin-right: 0.5rem;
+  word-break: break-all;
+  display: inline-block;
+}
+
+.ChatMessage-button {
+  background: transparent !important;
+}
+
+.ChatMessage-delete {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
+.ChatMessageList {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.ChatMessageList::-webkit-scrollbar {
+  display: none;
+}
+
+lite-youtube {
+  min-width: min(80vw, 500px);
+}

@@ -1,4 +1,5 @@
 import time
+from files.helpers.jinja2 import timestamp
 from files.helpers.wrappers import *
 from files.helpers.sanitize import sanitize
 from files.helpers.const import *
@@ -44,6 +45,12 @@ def chatjs():
 	return resp
 
 
+@app.get('/chat_done.js')
+def chatbuiltjs():
+	resp = make_response(send_from_directory('assets', 'js/chat_done.js'))
+	return resp
+
+
 @socketio.on('speak')
 @limiter.limit("3/second;10/minute")
 @limiter.limit("3/second;10/minute", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
@@ -63,7 +70,8 @@ def speak(data, v):
 
 	if not text: return '', 403
 	text_html = sanitize(text, count_marseys=True)
-
+	time_number = int(time.time())
+	time_string = timestamp(time_number)
 	data={
 		"avatar": v.profile_url,
 		"hat": v.hat_active,
@@ -72,7 +80,8 @@ def speak(data, v):
 		"text": text,
 		"text_html": text_html,
 		"text_censored": censor_slurs(text_html, 'chat'),
-		"time": int(time.time())
+		"time": time_number,
+		"timestamp": time_string
 	}
 	
 	if v.shadowbanned:
@@ -107,6 +116,8 @@ def connect(v):
 		emit("online", online, broadcast=True)
 		cache.set(ONLINE_STR, len(online), timeout=0)
 
+	emit('online', online)
+	emit('catchup', messages)
 	emit('typing', typing)
 	return '', 204
 

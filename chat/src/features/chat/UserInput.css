@@ -1,0 +1,11 @@
+.UserInput {
+  position: relative;
+}
+
+.UserInput-emoji {
+  cursor: pointer;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 20px;
+}

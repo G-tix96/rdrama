@@ -1,0 +1,21 @@
+.Activity {
+ display: flex;
+ align-items: center;
+ padding: 1rem;
+ margin: 0 4rem;
+}
+
+.Activity > section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+
+.Activity i {
+  margin-right: 3rem;
+}
+
+.Activity > section:not(:last-child) {
+  margin-right: 2rem;
+}

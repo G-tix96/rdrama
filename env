@@ -32,3 +32,5 @@ DESCRIPTION=rdrama.net caters to drama in all forms such as: Real life, videos, 
 CF_KEY=blahblahblah
 CF_ZONE=blahblahblah
 DEBIAN_FRONTEND=noninteractive
+NODE_VERSION=16.13.0
+NVM_DIR=/root/.nvm
