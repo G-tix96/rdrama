@@ -33,6 +33,7 @@ function AppInner() {
     <div className="App" ref={dropRef}>
       <div className="App-wrapper">
         <div className="App-heading">
+          <small>v{process.env.VERSION}</small>
           <ChatHeading />
         </div>
         <div id="chatWrapper" className="App-content">
