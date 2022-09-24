@@ -14,7 +14,7 @@ def clear(v):
 	v.last_viewed_post_notifs = int(time.time())
 	v.last_viewed_log_notifs = int(time.time())
 	g.db.add(v)
-	return {"message": "Notifications cleared!"}
+	return {"message": "Notifications marked as read!"}
 
 
 @app.get("/unread")
