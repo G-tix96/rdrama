@@ -2130,6 +2130,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyropeyourself2',2,'kill yourself kys lynch reaction keep yourself safe hanging noose',NULL),
 ('marseyropeyourselfmirror',2,'suicide kms kys death hanging noose chair suicidal depression depressed reflection',NULL),
 ('marseyrowling',2,'harry potter terf jkr transphobe',NULL),
+('marseyroxy',2,'fnaf roxanne wolf freddy keytar rock rockstar',1663987934),
 ('marseyrs',2,'runescape party hat phat crown lowpoly low poly',NULL),
 ('marseyrulebritannia',2,'britain british bongistan chips london england lasereyes',1663211275),
 ('marseyrussel',2,'old pipe history',NULL),
