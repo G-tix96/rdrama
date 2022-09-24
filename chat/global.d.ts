@@ -11,7 +11,6 @@ declare interface ChatSpeakResponse {
   text_censored: string;
   text_html: string;
   time: number;
-  timestamp: string;
 }
 
 declare interface EmojiModSelection {

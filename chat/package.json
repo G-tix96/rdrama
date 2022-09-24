@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@types/humanize-duration": "^3.27.1",
     "@types/lodash.debounce": "^4.0.7",
     "@types/lozad": "^1.16.1",
     "@types/react": "^18.0.20",
@@ -13,6 +14,7 @@
     "classnames": "^2.3.2",
     "dotenv": "^16.0.2",
     "esbuild": "^0.15.7",
+    "humanize-duration": "^3.27.3",
     "lodash.debounce": "^4.0.8",
     "lozad": "^1.16.0",
     "react": "^18.2.0",

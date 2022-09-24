@@ -34,6 +34,11 @@
   resolved "https://registry.yarnpkg.com/@socket.io/component-emitter/-/component-emitter-3.1.0.tgz#96116f2a912e0c02817345b3c10751069920d553"
   integrity sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==
 
+"@types/humanize-duration@^3.27.1":
+  version "3.27.1"
+  resolved "https://registry.yarnpkg.com/@types/humanize-duration/-/humanize-duration-3.27.1.tgz#f14740d1f585a0a8e3f46359b62fda8b0eaa31e7"
+  integrity sha512-K3e+NZlpCKd6Bd/EIdqjFJRFHbrq5TzPPLwREk5Iv/YoIjQrs6ljdAUCo+Lb2xFlGNOjGSE0dqsVD19cZL137w==
+
 "@types/lodash.debounce@^4.0.7":
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/@types/lodash.debounce/-/lodash.debounce-4.0.7.tgz#0285879defb7cdb156ae633cecd62d5680eded9f"
@@ -361,6 +366,11 @@ hoist-non-react-statics@^3.3.2:
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
   dependencies:
     react-is "^16.7.0"
+
+humanize-duration@^3.27.3:
+  version "3.27.3"
+  resolved "https://registry.yarnpkg.com/humanize-duration/-/humanize-duration-3.27.3.tgz#db654e72ebf5ccfe232c7f56bc58aa3a6fe4df88"
+  integrity sha512-iimHkHPfIAQ8zCDQLgn08pRqSVioyWvnGfaQ8gond2wf7Jq2jJ+24ykmnRyiz3fIldcn4oUuQXpjqKLhSVR7lw==
 
 inflight@^1.0.4:
   version "1.0.6"

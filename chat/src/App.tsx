@@ -35,8 +35,6 @@ function AppInner() {
   const initiallyScrolledDown = useRef(false);
   const { messages, quote } = useChat();
 
-  console.log({ quote });
-
   useEffect(() => {
     if (messages.length > 0) {
       if (initiallyScrolledDown.current) {

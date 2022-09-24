@@ -1,6 +1,7 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import cx from "classnames";
 import key from "weak-key";
+import humanizeDuration from "humanize-duration";
 import { Username } from "./Username";
 import { useChat, useRootContext } from "../../hooks";
 import "./ChatMessage.css";
@@ -8,6 +9,8 @@ import "./ChatMessage.css";
 interface ChatMessageProps extends ChatSpeakResponse {
   showUser?: boolean;
 }
+
+const TIMESTAMP_UPDATE_INTERVAL = 20000;
 
 export function ChatMessage({
   avatar,
@@ -19,7 +22,6 @@ export function ChatMessage({
   text_html,
   text_censored,
   time,
-  timestamp,
 }: ChatMessageProps) {
   const message = {
     avatar,
@@ -30,7 +32,6 @@ export function ChatMessage({
     text_html,
     text_censored,
     time,
-    timestamp,
   };
   const {
     username: loggedInUsername,
@@ -57,6 +58,18 @@ export function ChatMessage({
       setConfirmedDelete(true);
     }
   }, [text, confirmedDelete]);
+  const [timestamp, setTimestamp] = useState(formatTimeAgo(time));
+
+  useEffect(() => {
+    const updatingTimestamp = setInterval(
+      () => setTimestamp(formatTimeAgo(time)),
+      TIMESTAMP_UPDATE_INTERVAL
+    );
+
+    return () => {
+      clearInterval(updatingTimestamp);
+    };
+  }, []);
 
   return (
     <div className={"ChatMessage"} style={style}>
@@ -116,4 +129,14 @@ export function ChatMessageList() {
       ))}
     </div>
   );
+}
+
+function formatTimeAgo(time: number) {
+  const now = new Date().getTime();
+
+  return `${humanizeDuration(time * 1000 - now, {
+    round: true,
+    units: ["h", "m", "s"],
+    largest: 2,
+  })} ago`;
 }
