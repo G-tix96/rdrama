@@ -1,4 +1,3 @@
-{%- from 'util/assetcache.html' import asset, asset_siteimg with context -%}
 {%- import 'util/helpers.html' as help -%}
 <!DOCTYPE html>
 <html lang="en">
@@ -13,13 +12,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<meta name="author" content="">
-	<meta name="thumbnail" content="{{asset_siteimg('site_preview.webp')}}">
-	<link rel="icon" type="image/webp" href="{{asset_siteimg('icon.webp')}}">
+	<meta name="thumbnail" content="{{'site_preview.webp' | asset_siteimg}}">
+	<link rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
 
 	<meta property="og:type" content="article">
 	<meta property="og:title" content="{{SITE_NAME}}">
 	<meta property="og:site_name" content="{{SITE}}">
-	<meta property="og:image" content="{{asset_siteimg('site_preview.webp')}}">
+	<meta property="og:image" content="{{'site_preview.webp' | asset_siteimg}}">
 	<meta property="og:url" content="{{request.full_path}}">
 	<meta property="og:description" name="description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
 	<meta property="og:author" name="author" content="{{SITE_FULL}}">
@@ -29,7 +28,7 @@
 	<meta name="twitter:title" content="{{SITE_NAME}}">
 	<meta name="twitter:creator" content="{{SITE_FULL}}">
 	<meta name="twitter:description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
-	<meta name="twitter:image" content="{{asset_siteimg('site_preview.webp')}}">
+	<meta name="twitter:image" content="{{'site_preview.webp' | asset_siteimg}}">
 	<meta name="twitter:url" content="{{request.full_path}}">
 
 

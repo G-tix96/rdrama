@@ -1,4 +1,3 @@
-{%- from 'util/assetcache.html' import asset, asset_siteimg with context -%}
 {%- import 'util/helpers.html' as help -%}
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="author" content="">
 
-	<link id="favicon" rel="icon" type="image/webp" href="{{asset_siteimg('icon.webp')}}">
+	<link id="favicon" rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
 	<title>Chat</title>
 
 	<style>:root{--primary:#{{v.themecolor}}}</style>

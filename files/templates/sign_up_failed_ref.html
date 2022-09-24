@@ -1,4 +1,3 @@
-{%- from 'util/assetcache.html' import asset, asset_siteimg with context -%}
 {%- import 'util/helpers.html' as help -%}
 <!DOCTYPE html>
 <html lang="en">
@@ -6,7 +5,7 @@
 <head>
 	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
 
-	<link rel="icon" type="image/webp" href="{{asset_siteimg('icon.webp')}}">
+	<link rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
 
 	<meta name="description" content="{{DESCRIPTION}}">
 		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
@@ -18,7 +17,7 @@
 		<meta property="og:type" content="article">
 		<meta property="og:title" content="{{SITE_NAME}}">
 		<meta property="og:site_name" content="{{SITE}}">
-		<meta property="og:image" content="{{asset_siteimg('site_preview.webp')}}">
+		<meta property="og:image" content="{{'site_preview.webp' | asset_siteimg}}">
 		<meta property="og:url" content="{{SITE_FULL}}">
 		<meta property="og:description" name="description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
 		<meta property="og:author" name="author" content="{{SITE_FULL}}">
@@ -28,7 +27,7 @@
 		<meta name="twitter:title" content="{{SITE_NAME}}">
 		<meta name="twitter:creator" content="{{SITE_FULL}}">
 		<meta name="twitter:description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
-		<meta name="twitter:image" content="{{asset_siteimg('site_preview.webp')}}">
+		<meta name="twitter:image" content="{{'site_preview.webp' | asset_siteimg}}">
 		<meta name="twitter:url" content="{{SITE_FULL}}">
 
 		<title>{% if ref_user %}{{ref_user.username}} invites you to {{SITE_NAME}}{% else %}{{SITE_NAME}}{% endif %}</title>
@@ -75,7 +74,7 @@
 
 										<div class="splash-overlay"></div>
 
-										<img alt="cover" loading="lazy" class="splash-img" src="{{asset_siteimg('cover.webp')}}"></img>
+										<img alt="cover" loading="lazy" class="splash-img" src="{{'cover.webp' | asset_siteimg}}"></img>
 								</div>
 
 						</div>
