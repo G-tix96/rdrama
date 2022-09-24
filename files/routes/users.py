@@ -237,6 +237,57 @@ def downvoting_comments(v, username, uid):
 	return render_template("voted_comments.html", next_exists=next_exists, listing=listing, page=page, v=v, standalone=True)
 
 
+@app.get("/@<username>/upvoted/posts")
+@auth_required
+def user_upvoted_posts(v, username):
+	u = get_user(username)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
+
+	page = max(1, int(request.values.get("page", 1)))
+
+	listing = g.db.query(Submission).join(Vote).filter(
+			Submission.ghost == False,
+			Submission.is_banned == False,
+			Submission.deleted_utc == 0,
+			Submission.author_id != u.id,
+			Vote.user_id == u.id,
+			Vote.vote_type == 1
+		).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
+
+	listing = [p.id for p in listing]
+	next_exists = len(listing) > 25
+	listing = listing[:25]
+	listing = get_posts(listing, v=v)
+
+	return render_template("voted_posts.html", next_exists=next_exists, listing=listing, page=page, v=v)
+
+
+@app.get("/@<username>/upvoted/comments")
+@auth_required
+def user_upvoted_comments(v, username):
+	u = get_user(username)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
+
+	page = max(1, int(request.values.get("page", 1)))
+
+	listing = g.db.query(Comment).join(CommentVote).filter(
+			Comment.ghost == False,
+			Comment.is_banned == False,
+			Comment.deleted_utc == 0,
+			Comment.author_id != u.id,
+			CommentVote.user_id == u.id,
+			CommentVote.vote_type == 1
+		).order_by(Comment.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
+
+	listing = [c.id for c in listing]
+	next_exists = len(listing) > 25
+	listing = listing[:25]
+	listing = get_comments(listing, v=v)
+
+	return render_template("voted_comments.html", next_exists=next_exists, listing=listing, page=page, v=v, standalone=True)
+
 
 @app.get("/poorcels")
 @auth_required

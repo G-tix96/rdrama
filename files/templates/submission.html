@@ -1100,7 +1100,7 @@
 	<script defer src="/assets/js/new_comments_count.js?v=4000"></script>
 {% endif %}
 
-<script defer src="/assets/js/clipboard.js?v=4000"></script>
+<script defer src="{{asset('js/clipboard.js')}}"></script>
 
 {% if not p.replies %}
 	{% include "comments.html" %}
