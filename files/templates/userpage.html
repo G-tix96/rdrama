@@ -57,6 +57,9 @@
 									<h5 class="text-primary" id="profile--unban">{{u.unban_string}}</h5>
 								{% endif %}
 							{% endif %}
+							{% if v and v.admin_level >= 2 and u.shadowbanned %}
+								<h5 class="text-primary" id="profile--shadowbanned">SHADOWBANNED USER</h5>
+							{% endif %}
 							<div class="d-flex align-items-center mt-1 mb-2">
 								<h1 class="font-weight-bolder h3 my-0 mr-2" id="profile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.username}}</span></h1>
 
