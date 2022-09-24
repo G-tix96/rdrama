@@ -6,13 +6,17 @@ import { Username } from "./Username";
 import { useChat, useRootContext } from "../../hooks";
 import "./ChatMessage.css";
 
-interface ChatMessageProps extends ChatSpeakResponse {
+interface ChatMessageProps extends IChatMessage {
   showUser?: boolean;
 }
 
 const TIMESTAMP_UPDATE_INTERVAL = 20000;
+const SCROLL_TO_QUOTED_OVERFLOW = 250;
+const QUOTED_MESSAGE_CONTEXTUAL_HIGHLIGHTING_DURATION = 2500;
+const QUOTED_MESSAGE_CONTEXTUAL_SNIPPET_LENGTH = 30;
 
 export function ChatMessage({
+  id,
   avatar,
   showUser = true,
   namecolor,
@@ -22,8 +26,10 @@ export function ChatMessage({
   text_html,
   text_censored,
   time,
+  quotes,
 }: ChatMessageProps) {
   const message = {
+    id,
     avatar,
     namecolor,
     username,
@@ -32,6 +38,7 @@ export function ChatMessage({
     text_html,
     text_censored,
     time,
+    quotes,
   };
   const {
     username: loggedInUsername,
@@ -39,17 +46,12 @@ export function ChatMessage({
     censored,
     themeColor,
   } = useRootContext();
-  const { quote, deleteMessage, quoteMessage } = useChat();
+  const { quote, messageLookup, deleteMessage, quoteMessage } = useChat();
   const content = censored ? text_censored : text_html;
   const hasMention = content.includes(loggedInUsername);
   const mentionStyle = hasMention
     ? { backgroundColor: `#${themeColor}55` }
     : {};
-  const quoteStyle =
-    quote?.username === username && quote?.text === text && quote?.time === time
-      ? { borderLeft: `2px solid #${themeColor}` }
-      : {};
-  const style = { ...mentionStyle, ...quoteStyle };
   const [confirmedDelete, setConfirmedDelete] = useState(false);
   const handleDeleteMessage = useCallback(() => {
     if (confirmedDelete) {
@@ -72,7 +74,7 @@ export function ChatMessage({
   }, []);
 
   return (
-    <div className={"ChatMessage"} style={style}>
+    <div className="ChatMessage" style={mentionStyle} id={id}>
       {showUser && (
         <div className="ChatMessage-top">
           <Username
@@ -83,6 +85,45 @@ export function ChatMessage({
           />
           <div className="ChatMessage-timestamp">{timestamp}</div>
         </div>
+      )}
+      {quotes && (
+        <a
+          href="#"
+          onClick={() => {
+            const element = document.getElementById(quotes);
+
+            if (element) {
+              element.scrollIntoView();
+              element.style.background = `#${themeColor}33`;
+
+              setTimeout(() => {
+                element.style.background = "unset";
+              }, QUOTED_MESSAGE_CONTEXTUAL_HIGHLIGHTING_DURATION);
+
+              const [appContent] = Array.from(
+                document.getElementsByClassName("App-content")
+              );
+
+              if (appContent) {
+                appContent.scrollTop -= SCROLL_TO_QUOTED_OVERFLOW;
+              }
+            }
+          }}
+        >
+          Replying to @{messageLookup[quotes]?.username}:{" "}
+          <em>
+            "
+            {messageLookup[quotes]?.text.slice(
+              0,
+              QUOTED_MESSAGE_CONTEXTUAL_SNIPPET_LENGTH
+            )}
+            {messageLookup[quotes]?.text.length >=
+            QUOTED_MESSAGE_CONTEXTUAL_SNIPPET_LENGTH
+              ? "..."
+              : ""}
+            "
+          </em>
+        </a>
       )}
       <div className="ChatMessage-bottom">
         <div>

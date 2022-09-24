@@ -12,7 +12,7 @@ import { EmojiDrawer, QuickEmojis } from "../emoji";
 import "./UserInput.css";
 
 export function UserInput() {
-  const { draft, sendMessage, updateDraft } = useChat();
+  const { messages, draft, sendMessage, updateDraft } = useChat();
   const { reveal, hide, open } = useDrawer();
   const builtChatInput = useRef<HTMLTextAreaElement>(null);
   const { visible, addQuery } = useEmojis();
@@ -29,7 +29,9 @@ export function UserInput() {
       const emojiSegment = input.slice(openEmojiToken + 1, closeEmojiToken + 1);
 
       updateDraft(input);
-      addQuery(openEmojiToken === -1 ? "" : emojiSegment);
+      addQuery(
+        openEmojiToken === -1 || emojiSegment.includes(" ") ? "" : emojiSegment
+      );
       setTypingOffset(
         emojiSegment.length * process.env.APPROXIMATE_CHARACTER_WIDTH
       );
@@ -68,7 +70,6 @@ export function UserInput() {
     builtChatInput.current?.focus();
     hide();
   }, [hide]);
-
   const handleSelectEmoji = useCallback((emoji: string) => {
     updateDraft((prev) => `${prev} :${emoji}: `);
   }, []);
@@ -128,7 +129,7 @@ export function UserInput() {
           role="button"
           onClick={handleCloseEmojiDrawer}
           className="UserInput-emoji"
-          style={{top: 6}}
+          style={{ top: 6 }}
         >
           X
         </span>

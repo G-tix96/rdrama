@@ -1,5 +1,3 @@
-export * from "./ActivityList";
-export * from "./Chat";
 export * from "./ChatHeading";
 export * from "./ChatMessage";
 export * from "./QuotedMessage";

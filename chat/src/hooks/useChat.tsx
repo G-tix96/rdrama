@@ -10,6 +10,7 @@ import React, {
 } from "react";
 import { io, Socket } from "socket.io-client";
 import lozad from "lozad";
+import debounce from "lodash.debounce";
 import { useRootContext } from "./useRootContext";
 import { useWindowFocus } from "./useWindowFocus";
 
@@ -25,12 +26,13 @@ enum ChatHandlers {
 interface ChatProviderContext {
   online: string[];
   typing: string[];
-  messages: ChatSpeakResponse[];
+  messages: IChatMessage[];
   draft: string;
-  quote: null | ChatSpeakResponse;
+  quote: null | IChatMessage;
+  messageLookup: Record<string, IChatMessage>;
   updateDraft: React.Dispatch<React.SetStateAction<string>>;
   sendMessage(): void;
-  quoteMessage(message: null | ChatSpeakResponse): void;
+  quoteMessage(message: null | IChatMessage): void;
   deleteMessage(withText: string): void;
 }
 
@@ -40,38 +42,43 @@ const ChatContext = createContext<ChatProviderContext>({
   messages: [],
   draft: "",
   quote: null,
+  messageLookup: {},
   updateDraft() {},
   sendMessage() {},
   quoteMessage() {},
   deleteMessage() {},
 });
 
+const MINIMUM_TYPING_UPDATE_INTERVAL = 250;
+
 export function ChatProvider({ children }: PropsWithChildren) {
   const { username, siteName } = useRootContext();
   const socket = useRef<null | Socket>(null);
   const [online, setOnline] = useState<string[]>([]);
   const [typing, setTyping] = useState<string[]>([]);
-  const [messages, setMessages] = useState<ChatSpeakResponse[]>([]);
+  const [messages, setMessages] = useState<IChatMessage[]>([]);
   const [draft, setDraft] = useState("");
-  const [quote, setQuote] = useState<null | ChatSpeakResponse>(null);
+  const lastDraft = useRef("");
+  const [quote, setQuote] = useState<null | IChatMessage>(null);
   const focused = useWindowFocus();
   const [notifications, setNotifications] = useState<number>(0);
-  const addMessage = useCallback((message: ChatSpeakResponse) => {
+  const [messageLookup, setMessageLookup] = useState({});
+  const addMessage = useCallback((message: IChatMessage) => {
     setMessages((prev) => prev.concat(message));
-    
+
     if (message.username !== username && !document.hasFocus()) {
       setNotifications((prev) => prev + 1);
     }
   }, []);
   const sendMessage = useCallback(() => {
-    const message = quote
-      ? `> ${quote.text}\n@${quote.username}<br /><br />${draft}`
-      : draft;
-    socket.current?.emit(ChatHandlers.SPEAK, message);
+    socket.current?.emit(ChatHandlers.SPEAK, {
+      message: draft,
+      quotes: quote?.id ?? null,
+    });
 
     setQuote(null);
     setDraft("");
-  }, [draft]);
+  }, [draft, quote]);
   const requestDeleteMessage = useCallback((withText: string) => {
     socket.current?.emit(ChatHandlers.DELETE, withText);
   }, []);
@@ -84,7 +91,7 @@ export function ChatProvider({ children }: PropsWithChildren) {
       setQuote(null);
     }
   }, []);
-  const quoteMessage = useCallback((message: ChatSpeakResponse) => {
+  const quoteMessage = useCallback((message: IChatMessage) => {
     setQuote(message);
 
     try {
@@ -98,6 +105,7 @@ export function ChatProvider({ children }: PropsWithChildren) {
       messages,
       draft,
       quote,
+      messageLookup,
       quoteMessage,
       sendMessage,
       deleteMessage: requestDeleteMessage,
@@ -109,6 +117,7 @@ export function ChatProvider({ children }: PropsWithChildren) {
       messages,
       draft,
       quote,
+      messageLookup,
       sendMessage,
       deleteMessage,
       quoteMessage,
@@ -128,8 +137,18 @@ export function ChatProvider({ children }: PropsWithChildren) {
     }
   });
 
+  const debouncedTypingUpdater = useMemo(
+    () =>
+      debounce(
+        () => socket.current?.emit(ChatHandlers.TYPING, lastDraft.current),
+        MINIMUM_TYPING_UPDATE_INTERVAL
+      ),
+    []
+  );
+
   useEffect(() => {
-    socket.current?.emit(ChatHandlers.TYPING, draft);
+    lastDraft.current = draft;
+    debouncedTypingUpdater();
   }, [draft]);
 
   useEffect(() => {
@@ -137,6 +156,15 @@ export function ChatProvider({ children }: PropsWithChildren) {
       setNotifications(0);
     }
   }, [focused]);
+
+  useEffect(() => {
+    setMessageLookup(
+      messages.reduce((prev, next) => {
+        prev[next.id] = next;
+        return prev;
+      }, {} as Record<string, IChatMessage>)
+    );
+  }, [messages]);
 
   // Display e.g. [+2] Chat when notifications occur when you're away.
   useEffect(() => {

@@ -2,7 +2,8 @@ declare var process: {
   env: Record<string, any>;
 };
 
-declare interface ChatSpeakResponse {
+declare interface IChatMessage {
+  id: string;
   username: string;
   avatar: string;
   hat: string;
@@ -11,6 +12,7 @@ declare interface ChatSpeakResponse {
   text_censored: string;
   text_html: string;
   time: number;
+  quotes: null | string;
 }
 
 declare interface EmojiModSelection {
