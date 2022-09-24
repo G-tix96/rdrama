@@ -32674,7 +32674,7 @@
       className: "App-wrapper"
     }, /* @__PURE__ */ import_react35.default.createElement("div", {
       className: "App-heading"
-    }, /* @__PURE__ */ import_react35.default.createElement("small", null, "v", "0.0.2"), /* @__PURE__ */ import_react35.default.createElement(ChatHeading, null)), /* @__PURE__ */ import_react35.default.createElement("div", {
+    }, /* @__PURE__ */ import_react35.default.createElement("small", null, "v", "0.0.3"), /* @__PURE__ */ import_react35.default.createElement(ChatHeading, null)), /* @__PURE__ */ import_react35.default.createElement("div", {
       id: "chatWrapper",
       className: "App-content"
     }, /* @__PURE__ */ import_react35.default.createElement("div", {
