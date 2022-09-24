@@ -12,6 +12,7 @@
 		<th>#</th>
 		<th>Name</th>
 		<th>Exiled by</th>
+		<th>On</th>
 		<th></th>
 	</tr>
 </thead>
@@ -24,6 +25,7 @@
 				{% include "user_in_table.html" %}
 			{% endwith %}
 		</td>
+		<td {% if exile.created_utc %}data-time="{{exile.created_utc}}"{% endif %}></td>
 		<td>
 			{% if v.mods(sub.name) %}
 				<form action="/h/{{sub}}/unexile/{{user.id}}" method="post">
