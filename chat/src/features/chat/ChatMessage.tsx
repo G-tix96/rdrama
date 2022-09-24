@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useState } from "react";
+import cx from "classnames";
+import key from "weak-key";
 import { Username } from "./Username";
 import { useChat, useRootContext } from "../../hooks";
 import "./ChatMessage.css";
-import key from "weak-key";
 
 interface ChatMessageProps extends ChatSpeakResponse {
   showUser?: boolean;
@@ -48,6 +49,14 @@ export function ChatMessage({
       ? { borderLeft: `2px solid #${themeColor}` }
       : {};
   const style = { ...mentionStyle, ...quoteStyle };
+  const [confirmedDelete, setConfirmedDelete] = useState(false);
+  const handleDeleteMessage = useCallback(() => {
+    if (confirmedDelete) {
+      deleteMessage(text);
+    } else {
+      setConfirmedDelete(true);
+    }
+  }, [text, confirmedDelete]);
 
   return (
     <div className={"ChatMessage"} style={style}>
@@ -80,8 +89,10 @@ export function ChatMessage({
         </div>
         {admin && (
           <button
-            className="ChatMessage-button ChatMessage-delete quote btn del"
-            onClick={() => deleteMessage(text)}
+            className={cx("ChatMessage-button ChatMessage-delete btn", {
+              "ChatMessage-button__confirmed": confirmedDelete,
+            })}
+            onClick={handleDeleteMessage}
           >
             <i className="fas fa-trash-alt"></i>
           </button>
