@@ -54,14 +54,11 @@ def speak(data, v):
 
 	global messages, total
 
-	if SITE == 'rdrama.net': text = data[:200].strip()
+	if SITE == 'rdrama.net': text = data['message'][:200].strip()
 	else: text = data['message'][:1000].strip()
 
 	if not text: return '', 403
 	text_html = sanitize(text, count_marseys=True)
-	print("\n\n\n\n\n\n\n\n\n")
-	print("\n\n\n\n\n\n\n\n\n")
-	print(data)
 	quotes = data['quotes']
 	data={
 		"id": str(uuid.uuid4()),
