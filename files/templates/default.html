@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<script defer src="{{asset('js/bootstrap.js')}}"></script>
+	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
 
 	<meta name="description" content="{{DESCRIPTION}}">
 
@@ -15,9 +15,9 @@
 
 	{% if v %}
 		<style>:root{--primary:#{{v.themecolor}}}</style>
-		<link rel="stylesheet" href="{{asset('css/main.css')}}">
-		<link rel="stylesheet" href="{{asset('css/' + v.theme + '.css')}}">
-		<link rel="stylesheet" href="/assets/css/awards.css?v=4000">
+		<link rel="stylesheet" href="{{'css/main.css' | asset}}">
+		<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
+		<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 		{% if v.agendaposter %}
 			<style>
 				html {
@@ -42,13 +42,13 @@
 		{% endif %}
 	{% else %}
 		<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
-		<link rel="stylesheet" href="{{asset('css/main.css')}}">
-		<link rel="stylesheet" href="/assets/css/{{DEFAULT_THEME}}.css?v=4000">
-		<link rel="stylesheet" href="/assets/css/awards.css?v=4000">
+		<link rel="stylesheet" href="{{'css/main.css' | asset}}">
+		<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
+		<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 	{% endif %}
 
 	{% if request.path.endswith('/catalog') %}
-		<link rel="stylesheet" href="{{asset('css/catalog.css')}}">
+		<link rel="stylesheet" href="{{'css/catalog.css' | asset}}">
 	{% endif %}
 
 	{% if sub and sub.css and not request.path.endswith('settings') and not request.values.get('nocss') %}
@@ -377,17 +377,17 @@
 	</div>
 </div>
 
-<script defer src="{{asset('js/lozad.js')}}"></script>
+<script defer src="{{'js/lozad.js' | asset}}"></script>
 
 {% if v %}
-	<script defer src="{{asset('js/formatting.js')}}"></script>
+	<script defer src="{{'js/formatting.js' | asset}}"></script>
 {% endif %}
 
-<script defer src="/assets/js/lite-youtube.js?v=4000"></script>
+<script defer src="{{'js/lite-youtube.js' | asset}}"></script>
 
 {% if v and v.spider %}
-	<script defer src="/assets/js/critters.js?v=4000"></script>
-	<script defer src="/assets/js/spider.js?v=4000"></script>
+	<script defer src="{{'js/critters.js' | asset}}"></script>
+	<script defer src="{{'js/spider.js' | asset}}"></script>
 {% endif %}
 </body>
 

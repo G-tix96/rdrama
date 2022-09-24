@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<script defer src="{{asset('js/bootstrap.js')}}"></script>
+	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
 	<meta name="description" content="{{DESCRIPTION}}">
 	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
 	<meta charset="utf-8">
@@ -14,14 +14,14 @@
 	<title>Chat</title>
 
 	<style>:root{--primary:#{{v.themecolor}}}</style>
-	<link rel="stylesheet" href="{{asset('css/main.css')}}">
-	<link rel="stylesheet" href="{{asset('css/' + v.theme + '.css')}}">
+	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
+	<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
 	{% if v.css %}
 		<style>
 			{{v.css | safe}}
 		</style>
 	{% endif %}
-	<link rel="stylesheet" href="{{asset('css/chat_done.css')}}">
+	<link rel="stylesheet" href="{{'css/chat_done.css' | asset}}">
 </head>
 
 <body>
@@ -36,7 +36,7 @@
 		data-themecolor="{{v.themecolor}}">
 	</div>
 	<script>window.global = window</script>
-	<script defer src="{{asset('js/lite-youtube.js')}}"></script>
-	<script defer src="{{asset('js/chat_done.js')}}"></script>
+	<script defer src="{{'js/lite-youtube.js' | asset}}"></script>
+	<script defer src="{{'js/chat_done.js' | asset}}"></script>
 </body>
 

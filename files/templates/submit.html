@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<script defer src="{{asset('js/bootstrap.js')}}"></script>
+	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
 
 	<meta name="description" content="{{DESCRIPTION}}">
 	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
@@ -27,8 +27,8 @@
 	{% block stylesheets %}
 		{% if v %}
 			<style>:root{--primary:#{{v.themecolor}}}</style>
-			<link rel="stylesheet" href="{{asset('css/main.css')}}">
-			<link rel="stylesheet" href="{{asset('css/' + v.theme + '.css')}}">
+			<link rel="stylesheet" href="{{'css/main.css' | asset}}">
+			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
 			{% if v.agendaposter %}
 				<style>
 					html {
@@ -42,8 +42,8 @@
 			{% endif %}
 		{% else %}
 			<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
-			<link rel="stylesheet" href="{{asset('css/main.css')}}">
-			<link rel="stylesheet" href="/assets/css/{{DEFAULT_THEME}}.css?v=4000">
+			<link rel="stylesheet" href="{{'css/main.css' | asset}}">
+			<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
 		{% endif %}
 
 		{% if v.earlylife %}
@@ -228,9 +228,9 @@
 			</script>
 		{% endif %}
 
-		<script defer src="{{asset('js/marked.js')}}"></script>
-		<script defer src="{{asset('js/formatting.js')}}"></script>
-		<script defer src="{{asset('js/submit.js')}}"></script>
+		<script defer src="{{'js/marked.js' | asset}}"></script>
+		<script defer src="{{'js/formatting.js' | asset}}"></script>
+		<script defer src="{{'js/submit.js' | asset}}"></script>
 		{% include "emoji_modal.html" %}
 		{% include "gif_modal.html" %}
 

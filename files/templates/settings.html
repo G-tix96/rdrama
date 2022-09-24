@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<script defer src="{{asset('js/bootstrap.js')}}"></script>
+	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
 
 	<meta name="description" content="{{DESCRIPTION}}">
 	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
@@ -34,8 +34,8 @@
 
 
 	<style>:root{--primary:#{{v.themecolor}}}</style>
-	<link rel="stylesheet" href="{{asset('css/main.css')}}">
-	<link rel="stylesheet" href="{{asset('css/' + v.theme + '.css')}}">
+	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
+	<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
 	{% if v.agendaposter %}
 		<style>
 			html {
@@ -260,7 +260,7 @@
 
 {% block onload %}{% endblock %}
 
-<script defer src="{{asset('js/clipboard.js')}}"></script>
+<script defer src="{{'js/clipboard.js' | asset}}"></script>
 
 </body>
 

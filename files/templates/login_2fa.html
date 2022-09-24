@@ -17,8 +17,8 @@
 		<title>2-Step Login - {{SITE_NAME}}</title>
 
 		<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
-		<link rel="stylesheet" href="{{asset('css/main.css')}}">
-		<link rel="stylesheet" href="/assets/css/{{DEFAULT_THEME}}.css?v=4000">
+		<link rel="stylesheet" href="{{'css/main.css' | asset}}">
+		<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
 
 </head>
 

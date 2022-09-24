@@ -739,9 +739,9 @@
 							{% if p.domain == "twitter.com" %}
 								{{p.embed_url | safe}}
 								{% if v and v.theme.split("_")[0] in ["light", "coffee", "4chan"] %}
-									<script defer src="/assets/js/twitterlight.js?v=4000"></script>
+									<script defer src="{{'js/twitterlight.js' | asset}}"></script>
 								{% else %}
-									<script defer src="/assets/js/twitter.js?v=4000"></script>
+									<script defer src="{{'js/twitter.js' | asset}}"></script>
 								{% endif %}
 							{% elif p.domain in ['youtu.be','youtube.com'] and p.embed_url and p.embed_url.startswith('<lite-youtube') %}
 								{{p.embed_url | safe}}
@@ -1093,28 +1093,28 @@
 {% endif %}
 
 {% if v and (v.id == p.author_id or v.admin_level > 1 and v.admin_level > 2) %}
-	<script defer src="/assets/js/togglePostEdit.js?v=4000"></script>
+	<script defer src="{{'js/togglePostEdit.js' | asset}}"></script>
 {% endif %}
 
 {% if not v or v.highlightcomments %}
-	<script defer src="/assets/js/new_comments_count.js?v=4000"></script>
+	<script defer src="{{'js/new_comments_count.js' | asset}}"></script>
 {% endif %}
 
-<script defer src="{{asset('js/clipboard.js')}}"></script>
+<script defer src="{{'js/clipboard.js' | asset}}"></script>
 
 {% if not p.replies %}
 	{% include "comments.html" %}
 {% endif %}
 
 {% if p.award_count("shit", v) %}
-	<script defer src="/assets/js/critters.js?v=4000"></script>
-	<script defer src="/assets/js/bugs.js?v=4000"></script>
+	<script defer src="{{'js/critters.js' | asset}}"></script>
+	<script defer src="{{'js/bugs.js' | asset}}"></script>
 {% endif %}
 
 
 {% if p.award_count("fireflies", v) %}
-	<script defer src="/assets/js/critters.js?v=4000"></script>
-	<script defer src="/assets/js/fireflies.js?v=4001"></script>
+	<script defer src="{{'js/critters.js' | asset}}"></script>
+	<script defer src="{{'js/fireflies.js' | asset}}"></script>
 {% endif %}
 
 
@@ -1184,7 +1184,7 @@
 {% endif %}
 
 {% if p.award_count("firework", v) %}
-	<script defer src="/assets/js/fireworks.js?v=4000"></script>
+	<script defer src="{{'js/fireworks.js' | asset}}"></script>
 	<div class="firework">
 		<img src="">
 	</div>
@@ -1209,7 +1209,7 @@
 {% endif %}
 
 {% if p.award_count("ricardo", v) %}
-	<script defer src="/assets/js/ricardo.js?v=4000"></script>
+	<script defer src="{{'js/ricardo.js' | asset}}"></script>
 	<div id="ricardo1" class="ricardo ricardoleft">
 		<img src="/i/ricardo1.webp">
 	</div>
