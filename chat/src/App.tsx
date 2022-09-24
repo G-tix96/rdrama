@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { DndProvider, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import {
@@ -8,8 +8,10 @@ import {
   UserList,
   UsersTyping,
 } from "./features";
-import { ChatProvider, DrawerProvider, useDrawer } from "./hooks";
+import { ChatProvider, DrawerProvider, useChat, useDrawer } from "./hooks";
 import "./App.css";
+
+const SCROLL_CANCEL_THRESHOLD = 200;
 
 export function App() {
   return (
@@ -28,6 +30,30 @@ function AppInner() {
     accept: "drawer",
   });
   const { open, config } = useDrawer();
+  const contentWrapper = useRef<HTMLDivElement>(null);
+  const initiallyScrolledDown = useRef(false);
+  const { messages } = useChat();
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      if (initiallyScrolledDown.current) {
+        /* We only want to scroll back down on a new message
+         if the user is not scrolled up looking at previous messages. */
+        const scrollableDistance = contentWrapper.current.scrollHeight - contentWrapper.current.clientHeight;
+        const scrolledDistance = contentWrapper.current.scrollTop;
+        const hasScrolledEnough = scrollableDistance - scrolledDistance >= SCROLL_CANCEL_THRESHOLD;
+        
+        if (hasScrolledEnough) {
+          return;
+        }
+      } else {
+        // Always scroll to the bottom on first load.
+        initiallyScrolledDown.current = true;
+      }
+  
+      contentWrapper.current.scrollTop = contentWrapper.current.scrollHeight;
+    }
+  }, [messages]);
 
   return (
     <div className="App" ref={dropRef}>
@@ -37,14 +63,12 @@ function AppInner() {
           <ChatHeading />
         </div>
         <div className="App-center">
-          <div className="App-content">
-            <div id="chatWrapper" style={{ flex: 1, height: "100%" }}>
+          <div className="App-content" ref={contentWrapper}>
               {open ? (
                 <div className="App-drawer">{config.content}</div>
               ) : (
                 <ChatMessageList />
               )}
-            </div>
           </div>
           <div className="App-side">
             <UserList />
