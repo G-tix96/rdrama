@@ -513,7 +513,7 @@ if SITE == 'pcmemes.net' or True:
 			else:
 				with open("files/assets/txt8.txt", "w", encoding='utf_8') as f:
 					f.write(text)
-				make_response(send_from_directory('assets', 'txt8.txt'))
+				return make_response(send_from_directory('assets', 'txt8.txt'))
 				y = offline_regex.search(text)
 				try:
 					offline.append((id, req.url.rstrip('/live'), y.group(2), y.group(1)))
