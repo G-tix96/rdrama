@@ -444,18 +444,25 @@ if SITE == 'pcmemes.net':
 	offline_regex = re.compile('","title":"(.*?)".*?"width":48,"height":48\},\{"url":"(.*?)"', flags=re.A)
 	offline_details_regex = re.compile('simpleText":"Gestreamd: ([0-9]*?) ([a-z]*?) geleden"\},"viewCountText":\{"simpleText":"([0-9.]*?) weergaven"', flags=re.A)
 
-	def process_streamer(id):
-		url = f'https://www.youtube.com/channel/{id}/live'
+	def process_streamer(id, live='live'):
+		url = f'https://www.youtube.com/channel/{id}/{live}'
 		req = requests.get(url, cookies={'CONSENT': 'YES+1'}, timeout=5, proxies=proxies)
 		text = req.text
 		if '"videoDetails":{"videoId"' in text:
-			t = live_thumb_regex.search(text)
 			y = live_regex.search(text)
-			try:
-				return_val = (True, (id, req.url, t.group(1), y.group(2), y.group(1), int(y.group(3))))
-			except:
-				print(id, flush=True)
-				return_val = None
+			count = y.group(3)
+			if 'wacht' in count:
+				return process_streamer(id, '')
+
+			count = int(count)
+
+			t = live_thumb_regex.search(text)
+
+			thumb = t.group(1)
+			name = y.group(2)
+			title = y.group(1)
+			
+			return (True, (id, req.url, thumb, name, title, count))
 		else:
 			t = offline_regex.search(text)
 			y = offline_details_regex.search(text)
@@ -495,12 +502,10 @@ if SITE == 'pcmemes.net':
 				actual = '???'
 				views = 0
 
-			try:
-				return_val = (False, (id, req.url.rstrip('/live'), t.group(2), t.group(1), minutes, actual, views))
-			except:
-				print(id, flush=True)
-				return_val = None
-		return return_val
+			thumb = t.group(2)
+			name = t.group(1)
+
+			return (False, (id, req.url.rstrip('/live'), thumb, name, minutes, actual, views))
 
 
 	def live_cached():
