@@ -80,14 +80,11 @@ function AppInner() {
         </div>
         <div className="App-bottom-wrapper">
           <div className="App-bottom">
-            <div
-              className="App-bottom-extra"
-              style={{
-                visibility: quote ? "visible" : "hidden",
-              }}
-            >
-              {quote && <QuotedMessage />}
-            </div>
+            {quote && (
+              <div className="App-bottom-extra">
+                {quote && <QuotedMessage />}
+              </div>
+            )}
             <UserInput />
             <UsersTyping />
           </div>

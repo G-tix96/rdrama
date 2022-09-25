@@ -2,6 +2,7 @@ import React from "react";
 import { useChat, useRootContext } from "../../hooks";
 import { Username } from "./Username";
 import "./QuotedMessage.css";
+import { QuotedMessageLink } from "./QuotedMessageLink";
 
 export function QuotedMessage() {
   const { quote, quoteMessage } = useChat();
@@ -9,20 +10,8 @@ export function QuotedMessage() {
 
   return (
     <div className="QuotedMessage">
-      <div>
-        <Username
-          avatar={quote.avatar}
-          color={quote.namecolor}
-          name={quote.username}
-          hat={quote.hat}
-        />
-      </div>
-      <div
-        className="QuotedMessage-content"
-        dangerouslySetInnerHTML={{
-          __html: censored ? quote.text_censored : quote.text_html,
-        }}
-      />
+      <QuotedMessageLink message={quote} />
+      
       <button
         type="button"
         className="btn btn-secondary"

@@ -1,6 +1,5 @@
 .UserList {
   padding: 1rem;
-  border-left: 1px dotted var(--primary);
   flex: 1;
   position: absolute;
   top: 0;
