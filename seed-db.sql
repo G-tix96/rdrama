@@ -230,6 +230,8 @@ INSERT INTO public.hat_defs VALUES (1, 'Ushanka', 'The People''s Hat', 2, 500, N
 
 
 
+INSERT INTO public.hat_defs VALUES (736, 'Marsey Slime Hat', 'Let this cute little slime marsey climb on your crusty head.', 2, 500, NULL, 1664085993);
+
 INSERT INTO public.hat_defs VALUES (3, 'Cat Ears I', 'Mew :3', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (92, 'Top Hat (black)', 'Traditional. Classy. Elegant.', 2, 500, NULL, 1662167687);
@@ -881,7 +883,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 735, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 737, true);
 
 
 --
@@ -1400,7 +1402,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydoomer',2,'cigarette smoker despair depression alcoholic suicidal smoking depressing',NULL),
 ('marseydose',2,'doctor daily dose dailydose animated jump bounce',NULL),
 ('marseydoubtit',2,'dumpster defender redneck boomer shooting doubt it cocksucker gun',NULL),
-('marseydowndonger',2,'downvote down negative karma',1664011042),
+('marseydownvote',2,'downvote negative karma arrow dislike reddit',1664011042),
 ('marseydracula',2,'halloween fangs cape holiday vampire',NULL),
 ('marseydragon',2,'smaug rich hoard gold treasure',NULL),
 ('marseydrama',2,'agendapost where drama seriouspost drama where',NULL),
@@ -2136,7 +2138,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyropeyourself2',2,'kill yourself kys lynch reaction keep yourself safe hanging noose',NULL),
 ('marseyropeyourselfmirror',2,'suicide kms kys death hanging noose chair suicidal depression depressed reflection',NULL),
 ('marseyrowling',2,'harry potter terf jkr transphobe',NULL),
-('marseyroxy',2,'fnaf roxanne wolf freddy keytar rock rockstar',1663987934),
+('marseyroxy',2,'fnaf roxanne wolf freddy keytar rockstar vidya furry',1663987934),
 ('marseyrs',2,'runescape party hat phat crown lowpoly low poly',NULL),
 ('marseyrulebritannia',2,'britain british bongistan chips london england lasereyes',1663211275),
 ('marseyrussel',2,'old pipe history',NULL),
