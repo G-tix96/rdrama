@@ -544,10 +544,12 @@ if SITE == 'pcmemes.net':
 		if v.id not in (AEVANN_ID, KIPPY_ID, 1550):
 			return {"error": 'Only Kippy can add channels!'}, 403
 
-		id = request.values.get('id').strip()
+		link = request.values.get('link').strip()
 
-		if not id.startswith('UC'):
-			text = requests.get(f'https://www.youtube.com/c/{id}', cookies={'CONSENT': 'YES+1'}, timeout=5, proxies=proxies).text
+		if 'youtube.com/channel/' in link:
+			id = link.split('youtube.com/channel/')[1].rstrip('/')
+		else:
+			text = requests.get(link, cookies={'CONSENT': 'YES+1'}, timeout=5, proxies=proxies).text
 			try: id = id_regex.search(text).group(1)
 			except: return {"error": "Invalid ID"}
 
