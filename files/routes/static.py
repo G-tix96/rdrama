@@ -460,7 +460,7 @@ if SITE == 'pcmemes.net':
 			t = offline_regex.search(text)
 			y = offline_details_regex.search(text)
 
-			quantity = y.group(1)
+			quantity = int(y.group(1))
 			unit = y.group(2)
 
 			if unit == 'minuten':
@@ -479,12 +479,10 @@ if SITE == 'pcmemes.net':
 				unit = 'year'
 				modifier = 525600
 
-			print(unit, flush=True)
-
 			minutes = quantity * modifier
 
-			if quantity > 1: unit += 's'
-			actual = quantity + ' ' + unit
+			actual = f'{quantity} {unit}'
+			if quantity > 1: actual += 's'
 
 			try:
 				return_val = (False, (id, req.url.rstrip('/live'), t.group(2), t.group(1), minutes, actual, y.group(3)))
@@ -513,6 +511,8 @@ if SITE == 'pcmemes.net':
 		cache.set('offline', offline)
 
 		return live, offline
+
+	live_cached()
 
 	@app.get('/live')
 	@app.get('/logged_out/live')
