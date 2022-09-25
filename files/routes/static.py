@@ -547,9 +547,7 @@ if SITE == 'pcmemes.net':
 		id = request.values.get('id').strip()
 
 		if not id.startswith('UC'):
-			text = requests.get(f'https://www.youtube.com/c/{id}', timeout=5, proxies=proxies).text
-			with open('files/assets/t3.txt', 'w', encoding='utf-8') as f:
-				f.write(text)
+			text = requests.get(f'https://www.youtube.com/c/{id}', cookies={'CONSENT': 'YES+1'}, timeout=5, proxies=proxies).text
 			try: id = id_regex.search(text).group(1)
 			except: return {"error": "Invalid ID"}
 
