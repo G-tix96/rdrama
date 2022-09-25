@@ -9,7 +9,6 @@ import React, {
   useState,
 } from "react";
 import { io, Socket } from "socket.io-client";
-import lozad from "lozad";
 import debounce from "lodash.debounce";
 import { useRootContext } from "./useRootContext";
 import { useWindowFocus } from "./useWindowFocus";
@@ -177,17 +176,6 @@ export function ChatProvider({ children }: PropsWithChildren) {
     favicon.href = escape(`/assets/images/${siteName}/${pathIcon}.webp?v=3`);
     title.innerHTML = alertedWhileAway ? `[+${notifications}] Chat` : "Chat";
   }, [notifications, focused]);
-
-  // Setup Lozad
-  useEffect(() => {
-    const { observe, observer } = lozad();
-
-    observe();
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
 
   return (
     <ChatContext.Provider value={context}>{children}</ChatContext.Provider>

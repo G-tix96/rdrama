@@ -125,7 +125,11 @@ export function ChatMessage({
           <div className="ChatMessage-timestamp">{timestamp}</div>
         </div>
       )}
-      {quotes && quotedMessage && <QuotedMessageLink message={quotedMessage} />}
+      {quotes && quotedMessage && (
+        <div className="ChatMessage-quoted-link">
+          <QuotedMessageLink message={quotedMessage} />
+        </div>
+      )}
       <div className="ChatMessage-bottom">
         <div>
           <span

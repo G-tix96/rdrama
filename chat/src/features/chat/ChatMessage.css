@@ -48,6 +48,10 @@
   color: red !important;
 }
 
+.ChatMessage-quoted-link {
+  padding-left: 2rem;
+}
+
 .ChatMessage-actions-button {
   position: absolute;
   top: 0;
