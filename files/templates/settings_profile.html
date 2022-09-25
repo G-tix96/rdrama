@@ -761,6 +761,21 @@
 							</div>
 						
 						</div>
+						<div class="d-lg-flex border-bottom">
+							<div class="title w-lg-25">
+								<label for="spiderswitch">Spider</label>
+							</div>
+						
+							<div class="body w-lg-100">
+						
+								<div class="custom-control custom-switch">
+									<input autocomplete="off" type="checkbox" class="custom-control-input" id="spiderswitch" name="spider" {% if v.spider%}checked{% endif %} {% if v.spider > 1 %}disabled{% endif %} onchange="post_toast(this,'/settings/profile?spider='+document.getElementById('spiderswitch').checked)">
+									<label class="custom-control-label" for="spiderswitch"></label>
+								</div>
+						
+								<span class="text-small text-muted">Have a spider friend accompany you during your journey in the site.</span>
+							</div>
+						</div>
 					</div>
 					</div>
 
