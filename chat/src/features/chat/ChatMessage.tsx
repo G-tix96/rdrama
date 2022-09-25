@@ -1,4 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import cx from "classnames";
 import key from "weak-key";
 import humanizeDuration from "humanize-duration";
@@ -146,6 +153,7 @@ export function ChatMessage({
 }
 
 export function ChatMessageList() {
+  const listRef = useRef<HTMLDivElement>(null);
   const { messages } = useChat();
   const [timestampUpdates, setTimestampUpdates] = useState(0);
   const groupedMessages = useMemo(() => groupMessages(messages), [messages]);
@@ -171,8 +179,19 @@ export function ChatMessageList() {
     };
   }, []);
 
+  useLayoutEffect(() => {
+    const images = Array.from(
+      listRef.current.getElementsByTagName("img")
+    ).filter((image) => image.dataset.src);
+
+    for (const image of images) {
+      image.src = image.dataset.src;
+      image.dataset.src = undefined;
+    }
+  }, [messages]);
+
   return (
-    <div className="ChatMessageList">
+    <div className="ChatMessageList" ref={listRef}>
       {groupedMessages.map((group) => (
         <div key={key(group)} className="ChatMessageList-group">
           {group.map((message, index) => (
