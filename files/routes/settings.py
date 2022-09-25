@@ -108,6 +108,14 @@ def settings_profile_post(v):
 			badge = v.has_badge(170)
 			if badge: g.db.delete(badge)
 
+	elif request.values.get("spider", v.spider) != v.spider and v.spider <= 1:
+		updated = True
+		v.spider = int(request.values.get("spider") == 'true')
+		if v.spider: badge_grant(user=v, badge_id=179)
+		else: 
+			badge = v.has_badge(170)
+			if badge: g.db.delete(badge)
+
 	elif request.values.get("bio") == "":
 		v.bio = None
 		v.bio_html = None
