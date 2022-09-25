@@ -2325,6 +2325,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyspa',2,'spa towel cucumber facial relax calm selfcare foid hygiene beauty',NULL),
 ('marseyspecial',2,'retard reaction slow special needs sped',NULL),
 ('marseysperm',2,'cum swim vasectomy jizz semen spunk penis sex pregnant coom animated',NULL),
+('marseysphericalcow',2,'sphere science moo physics',1664131121),
 ('marseysphinx',2,'sphinx egypt ancient antiquity wonder pharaoh myth riddle puzzle',NULL),
 ('marseyspider',2,'insect halloween arachnid holiday bug',NULL),
 ('marseyspider2',2,'insect halloween spiderweb arachnid holiday bug',NULL),
