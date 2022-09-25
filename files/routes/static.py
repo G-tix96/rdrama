@@ -509,14 +509,14 @@ if SITE == 'pcmemes.net' or True:
 					live.append((id, req.url, t.group(1), y.group(2), y.group(1), count))
 					cache.set('live', live)
 				except:
-					print(id)
+					print(id, flush=True)
 			else:
 				y = offline_regex.search(txt)
 				try:
 					offline.append((id, req.url.rstrip('/live'), y.group(2), y.group(1)))
 					cache.set('offline', offline)
 				except:
-					print(id)
+					print(id, flush=True)
 
 
 		return render_template('live.html', v=v, live=live, offline=offline, msg="Channel added successfuly!")
