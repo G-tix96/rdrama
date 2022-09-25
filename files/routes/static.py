@@ -451,18 +451,18 @@ if SITE == 'pcmemes.net' or True:
 		db.close()
 		for x in streamers:
 			url = f'https://www.youtube.com/channel/{x}/live'
-			req = requests.get(url, cookies={'CONSENT': 'YES+1'})
-			txt = req.text
-			if '"videoDetails":{"videoId"' in txt:
-				t = live_thumb_regex.search(txt)
-				y = live_regex.search(txt)
+			req = requests.get(url, cookies={'CONSENT': 'YES+1'}, timeout=5)
+			text = req.text
+			if '"videoDetails":{"videoId"' in text:
+				t = live_thumb_regex.search(text)
+				y = live_regex.search(text)
 				try:
 					count = int(y.group(3))
 					live.append((x, req.url, t.group(1), y.group(2), y.group(1), count))
 				except:
 					print(x)
 			else:
-				y = offline_regex.search(txt)
+				y = offline_regex.search(text)
 				try: offline.append((x, req.url.rstrip('/live'), y.group(2), y.group(1)))
 				except: print(x)
 
@@ -499,11 +499,11 @@ if SITE == 'pcmemes.net' or True:
 				send_repeatable_notification(KIPPY_ID, f"@{v.username} has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 
 			url = f'https://www.youtube.com/channel/{id}/live'
-			req = requests.get(url, cookies={'CONSENT': 'YES+1'})
-			txt = req.text
-			if '"videoDetails":{"videoId"' in txt:
-				t = live_thumb_regex.search(txt)
-				y = live_regex.search(txt)
+			req = requests.get(url, cookies={'CONSENT': 'YES+1'}, timeout=5)
+			text = req.text
+			if '"videoDetails":{"videoId"' in text:
+				t = live_thumb_regex.search(text)
+				y = live_regex.search(text)
 				try:
 					count = int(y.group(3))
 					live.append((id, req.url, t.group(1), y.group(2), y.group(1), count))
@@ -511,7 +511,10 @@ if SITE == 'pcmemes.net' or True:
 				except:
 					print(id, flush=True)
 			else:
-				y = offline_regex.search(txt)
+				with open("files/assets/txt8.txt", "w", encoding='utf_8') as f:
+					f.write(text)
+				return make_response(send_from_directory('assets', 'txt8.txt'))
+				y = offline_regex.search(text)
 				try:
 					offline.append((id, req.url.rstrip('/live'), y.group(2), y.group(1)))
 					cache.set('offline', offline)
