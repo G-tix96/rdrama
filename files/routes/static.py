@@ -442,7 +442,7 @@ if SITE == 'pcmemes.net':
 	live_regex = re.compile('playerOverlayVideoDetailsRenderer":\{"title":\{"simpleText":"(.*?)"\},"subtitle":\{"runs":\[\{"text":"(.*?)"\},\{"text":" • "\},\{"text":"(.*?)"\}', flags=re.A)
 	live_thumb_regex = re.compile('\{"thumbnail":\{"thumbnails":\[\{"url":"(.*?)"', flags=re.A)
 	offline_regex = re.compile('","title":"(.*?)".*?"width":48,"height":48\},\{"url":"(.*?)"', flags=re.A)
-	offline_details_regex = re.compile('simpleText":"Gestreamd: ([0-9]*?) ([a-z]*?) geleden"\},"viewCountText":\{"simpleText":"([0-9]*?) weergaven"', flags=re.A)
+	offline_details_regex = re.compile('simpleText":"Gestreamd: ([0-9]*?) ([a-z]*?) geleden"\},"viewCountText":\{"simpleText":"([0-9.]*?) weergaven"', flags=re.A)
 
 	def process_streamer(id):
 		url = f'https://www.youtube.com/channel/{id}/live'
@@ -461,7 +461,7 @@ if SITE == 'pcmemes.net':
 			y = offline_details_regex.search(text)
 
 			if y:
-				views = y.group(3)
+				views = y.group(3).replace('.', ',')
 				quantity = int(y.group(1))
 				unit = y.group(2)
 
