@@ -478,6 +478,8 @@ if SITE == 'pcmemes.net':
 			elif unit == 'jaar':
 				unit = 'year'
 				modifier = 525600
+			else:
+				print(unit, flush=True)
 
 			minutes = quantity * modifier
 
