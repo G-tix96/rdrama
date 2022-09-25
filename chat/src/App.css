@@ -49,7 +49,7 @@ body {
 .App-content {
   position: relative;
   flex: 3;
-  height: 60vh;
+  height: 75vh;
   max-height: 1000px;
   overflow: auto;
   -ms-overflow-style: none;
@@ -90,12 +90,6 @@ body {
 
 .App-bottom-extra {
   padding: .25rem;
-}
-
-@media screen and (max-width: 1000px) {
-  .App-content {
-    height: 50vh;
-  }
 }
 
 /* On mobile, hide the sidebar and make the input full-width. */
