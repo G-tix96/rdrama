@@ -460,15 +460,32 @@ if SITE == 'pcmemes.net':
 			t = offline_regex.search(text)
 			y = offline_details_regex.search(text)
 
-			days = y.group(0)
-			modifier = y.group(1)
-			if modifier == 'weken': modifier = 7
-			elif modifier == 'maand': modifier = 30
-			elif modifier == 'jaar': modifier = 365
-			days *= modifier
+			quantity = y.group(0)
+			unit = y.group(1)
+
+			if unit == 'minuten':
+				unit = 'minute'
+				modifier = 1
+			if unit == 'uur':
+				unit = 'hour'
+				modifier = 60
+			if unit == 'weken':
+				unit = 'week'
+				modifier = 10080
+			elif unit == 'maand':
+				unit = 'month'
+				modifier = 43800
+			elif unit == 'jaar':
+				unit = 'year'
+				modifier = 525600
+
+			minutes = quantity * modifier
+
+			if quantity > 1: unit += 's'
+			actual = quantity + ' ' + unit
 
 			try:
-				return_val = (False, (id, req.url.rstrip('/live'), t.group(2), t.group(1), days, y.group(2)))
+				return_val = (False, (id, req.url.rstrip('/live'), t.group(2), t.group(1), minutes, actual, y.group(2)))
 			except:
 				print(id, flush=True)
 				return_val = None

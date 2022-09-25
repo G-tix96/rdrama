@@ -74,12 +74,12 @@
 		<div class="overflow-x-auto">
 			<table class="table table-striped mb-5">
 				<tbody>
-					{% for id, link, thumb, name in offline %}
+					{% for id, link, thumb, name, minutes, actual, views in offline %}
 						<tr onclick="go_to(event,'{{link}}')">
 							<td width="48"><img loading="lazy" class="thumb" src="{{thumb}}" alt="{{name}} thumbnail" referrerpolicy="no-referrer" width="48"></td>
 							<td>{{name}}</td>
-							<td></td>
-							<td></td>
+							<td>{{actual}} ago</td>
+							<td>{{views}} views</td>
 							{% if v and v.admin_level > 1 %}
 								<td>
 									<form action="/live/remove" method="post">
