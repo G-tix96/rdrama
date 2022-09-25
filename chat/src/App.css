@@ -49,7 +49,7 @@ body {
 .App-content {
   position: relative;
   flex: 3;
-  height: 70vh;
+  height: 65vh;
   max-height: 1000px;
   overflow: auto;
   -ms-overflow-style: none;
