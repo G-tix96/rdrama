@@ -461,6 +461,7 @@ if SITE == 'pcmemes.net':
 			y = offline_details_regex.search(text)
 
 			if y:
+				views = y.group(3)
 				quantity = int(y.group(1))
 				unit = y.group(2)
 
@@ -470,6 +471,9 @@ if SITE == 'pcmemes.net':
 				if unit == 'uur':
 					unit = 'hour'
 					modifier = 60
+				if unit.startswith('dag'):
+					unit = 'day'
+					modifier = 1440
 				if unit.startswith('we'):
 					unit = 'week'
 					modifier = 10080
@@ -489,9 +493,10 @@ if SITE == 'pcmemes.net':
 			else:
 				minutes = 0
 				actual = '???'
+				views = 0
 
 			try:
-				return_val = (False, (id, req.url.rstrip('/live'), t.group(2), t.group(1), minutes, actual, y.group(3)))
+				return_val = (False, (id, req.url.rstrip('/live'), t.group(2), t.group(1), minutes, actual, views))
 			except:
 				print(id, flush=True)
 				return_val = None
