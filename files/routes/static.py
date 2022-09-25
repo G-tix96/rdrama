@@ -436,7 +436,7 @@ def donate(v):
 	return render_template(f'donate_{SITE_NAME}.html', v=v)
 
 
-if SITE == 'pcmemes.net' or True:
+if SITE == 'pcmemes.net':
 	from files.classes.streamers import *
 
 	live_regex = re.compile('playerOverlayVideoDetailsRenderer":\{"title":\{"simpleText":"(.*?)"\},"subtitle":\{"runs":\[\{"text":"(.*?)"\},\{"text":" • "\},\{"text":"(.*?)"\}', flags=re.A)
@@ -451,7 +451,7 @@ if SITE == 'pcmemes.net' or True:
 		db.close()
 		for x in streamers:
 			url = f'https://www.youtube.com/channel/{x}/live'
-			req = requests.get(url, cookies={'CONSENT': 'YES+1'})
+			req = requests.get(url, cookies={'CONSENT': 'YES+1'}, timeout=5, proxies=proxies)
 			txt = req.text
 			if '"videoDetails":{"videoId"' in txt:
 				t = live_thumb_regex.search(txt)
@@ -499,7 +499,7 @@ if SITE == 'pcmemes.net' or True:
 				send_repeatable_notification(KIPPY_ID, f"@{v.username} has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 
 			url = f'https://www.youtube.com/channel/{id}/live'
-			req = requests.get(url, cookies={'CONSENT': 'YES+1'})
+			req = requests.get(url, cookies={'CONSENT': 'YES+1'}, timeout=5, proxies=proxies)
 			txt = req.text
 			if '"videoDetails":{"videoId"' in txt:
 				t = live_thumb_regex.search(txt)

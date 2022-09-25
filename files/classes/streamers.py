@@ -1,6 +1,6 @@
 from files.helpers.const import SITE
 
-if SITE == 'pcmemes.net' or True:
+if SITE == 'pcmemes.net':
 	from sqlalchemy import *
 	from files.__main__ import Base
 
