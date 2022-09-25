@@ -460,8 +460,8 @@ if SITE == 'pcmemes.net':
 			t = offline_regex.search(text)
 			y = offline_details_regex.search(text)
 
-			quantity = y.group(0)
-			unit = y.group(1)
+			quantity = y.group(1)
+			unit = y.group(2)
 
 			if unit == 'minuten':
 				unit = 'minute'
@@ -479,13 +479,15 @@ if SITE == 'pcmemes.net':
 				unit = 'year'
 				modifier = 525600
 
+			print(unit, flush=True)
+
 			minutes = quantity * modifier
 
 			if quantity > 1: unit += 's'
 			actual = quantity + ' ' + unit
 
 			try:
-				return_val = (False, (id, req.url.rstrip('/live'), t.group(2), t.group(1), minutes, actual, y.group(2)))
+				return_val = (False, (id, req.url.rstrip('/live'), t.group(2), t.group(1), minutes, actual, y.group(3)))
 			except:
 				print(id, flush=True)
 				return_val = None
