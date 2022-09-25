@@ -49,7 +49,7 @@ body {
 .App-content {
   position: relative;
   flex: 3;
-  height: 60vh;
+  height: 70vh;
   max-height: 1000px;
   overflow: auto;
   -ms-overflow-style: none;
@@ -114,8 +114,4 @@ lite-youtube {
 
 .btn-secondary {
   border: none !important;
-}
-
-p {
-  margin: 0;
 }
