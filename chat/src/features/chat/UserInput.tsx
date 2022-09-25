@@ -121,7 +121,6 @@ export function UserInput() {
         onKeyUp={handleKeyUp}
         placeholder="Message"
         autoComplete="off"
-        autoFocus={true}
         value={draft}
       />
       {open ? (

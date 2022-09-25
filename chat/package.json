@@ -1,7 +1,7 @@
 {
   "name": "chat",
-  "version": "0.0.12",
-  "main": "index.js",
+  "version": "0.0.13",
+  "main": "./src/index.tsx",
   "license": "MIT",
   "dependencies": {
     "@types/humanize-duration": "^3.27.1",
