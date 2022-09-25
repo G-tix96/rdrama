@@ -95,7 +95,7 @@ function AppInner() {
           <div className="App-bottom">
             {quote && (
               <div className="App-bottom-extra">
-                {quote && <QuotedMessage />}
+                <QuotedMessage />
               </div>
             )}
             <UserInput />
