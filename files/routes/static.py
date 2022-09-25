@@ -492,7 +492,6 @@ if SITE == 'pcmemes.net':
 					unit = 'year'
 					modifier = 525600
 
-				print(unit, flush=True)
 				minutes = quantity * modifier
 
 				actual = f'{quantity} {unit}'
@@ -524,10 +523,9 @@ if SITE == 'pcmemes.net':
 		live = sorted(live, key=lambda x: x[5], reverse=True)
 		offline = sorted(offline, key=lambda x: x[4])
 
-		cache.set('live', live)
-		cache.set('offline', offline)
+		if live: cache.set('live', live)
+		if offline: cache.set('offline', offline)
 
-		return live, offline
 
 	@app.get('/live')
 	@app.get('/logged_out/live')
@@ -575,8 +573,8 @@ if SITE == 'pcmemes.net':
 		live = sorted(live, key=lambda x: x[5], reverse=True)
 		offline = sorted(offline, key=lambda x: x[4])
 
-		cache.set('live', live)
-		cache.set('offline', offline)
+		if live: cache.set('live', live)
+		if offline: cache.set('offline', offline)
 
 		return redirect('/live')
 
@@ -597,7 +595,7 @@ if SITE == 'pcmemes.net':
 		live = [x for x in live if x[0] != id]
 		offline = [x for x in offline if x[0] != id]
 
-		cache.set('live', live)
-		cache.set('offline', offline)
+		if live: cache.set('live', live)
+		if offline: cache.set('offline', offline)
 
 		return redirect('/live')
