@@ -518,8 +518,7 @@ if SITE == 'pcmemes.net' or True:
 				except:
 					print(id, flush=True)
 
-
-		return render_template('live.html', v=v, live=live, offline=offline, msg="Channel added successfuly!")
+		return redirect('/live')
 
 	@app.post('/live/remove')
 	@admin_level_required(2)
@@ -541,4 +540,4 @@ if SITE == 'pcmemes.net' or True:
 		cache.set('live', live)
 		cache.set('offline', offline)
 
-		return render_template('live.html', v=v, live=live, offline=offline, msg="Channel removed successfuly!")
+		return redirect('/live')
