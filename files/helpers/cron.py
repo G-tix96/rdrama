@@ -31,7 +31,7 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 		lottery.check_if_end_lottery_task()
 		spin_roulette_wheel()
 		offsitementions.offsite_mentions_task()
-		if SITE == 'pcmemes.net':
+		if SITE == 'pcmemes.net' or True:
 			x = route_static.live_cached()
 			cache.set('live', x[0])
 			cache.set('offline', x[1])
