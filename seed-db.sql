@@ -222,16 +222,16 @@ INSERT INTO public.hat_defs VALUES (722, 'Darth Vader Helmet', 'Cool-looking guy
 INSERT INTO public.hat_defs VALUES (725, 'New Years Glasses', 'Happy New Year!', 2, 500, NULL, 1663892467);
 INSERT INTO public.hat_defs VALUES (726, 'Operator', 'This classical variables has been quantized and is now a Hermitian operator on a Hillbert space.', 2, 500, NULL, 1663893198);
 INSERT INTO public.hat_defs VALUES (1, 'Ushanka', 'The People''s Hat', 2, 500, NULL, 1662167687);
-
-
-
-
-
-
-
-
 INSERT INTO public.hat_defs VALUES (736, 'Marsey Slime Hat', 'Let this cute little slime marsey climb on your crusty head.', 2, 500, NULL, 1664085993);
-
+INSERT INTO public.hat_defs VALUES (728, 'Kanohi Akaku (Kopaka)', 'Toa of Ice. The obligatory lone wolf character. You''re Lego Sasuke.', 2, 500, NULL, 1663969562);
+INSERT INTO public.hat_defs VALUES (729, 'Kanohi Kaukau (Gali)', 'Toa of Water. Lmao, you picked the girl one!', 2, 500, NULL, 1663969637);
+INSERT INTO public.hat_defs VALUES (730, 'Kanohi Miru (Lewa)', 'Toa of Air. You''re the funny one of the group, or maybe you just know that the axe was the coolest weapon.', 2, 500, NULL, 1663969803);
+INSERT INTO public.hat_defs VALUES (731, 'Kanohi Kakama (Pohatu)', 'Toa of Stone. You''re everybody''s pal and just want the team to stick together. Why is your element separate from Earth? It''s anybody''s guess!', 2, 500, NULL, 1663969919);
+INSERT INTO public.hat_defs VALUES (732, 'Kanohi Avohkii (Takanuva)', 'Toa of Light. Well aren''t you just a special snowflake? Fuckin'' think you''re the Chosen One over here or something.', 2, 500, NULL, 1663970033);
+INSERT INTO public.hat_defs VALUES (733, 'Kanohi Ignika', 'The Mask of Life. Matoro died for you, and you''re using your life to shitpost about trans people?', 2, 500, NULL, 1663970127);
+INSERT INTO public.hat_defs VALUES (734, 'Kanohi Pakari (Onua)', 'Toa of Earth. The wisdom of the group, but wisdom is useless if you don''t share it. Why is your element separate from Stone? Answer me that, wise guy!', 2, 500, NULL, 1663970191);
+INSERT INTO public.hat_defs VALUES (735, 'The Yakub', 'Proof that science has, in fact, gone too far', 2, 500, NULL, 1664054894);
+INSERT INTO public.hat_defs VALUES (737, 'Duel Wielding', 'Oh shit you''re packing? My bad carry on', 2, 500, NULL, 1664088304);
 INSERT INTO public.hat_defs VALUES (3, 'Cat Ears I', 'Mew :3', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (92, 'Top Hat (black)', 'Traditional. Classy. Elegant.', 2, 500, NULL, 1662167687);
@@ -1177,7 +1177,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycarp',2,'beard mohawk reaction carpathianflorist monster',NULL),
 ('marseycarp2',2,'harm cutting selfharm cutter reaction carpathianflorist self animated',NULL),
 ('marseycarp3',2,'reaction fish carpathianflorist catfish',NULL),
-('marseycarp4',2,'sick sad world ban hammer pin awards janny mod admin',1664034021),
+('marseycarp4',2,'sicksadworld banhammer pin awards janny mod admin',1664034021),
 ('marseycarpasian',2,'carpathianflorist fish azn racist hat paddy gook nip ching chong chink',NULL),
 ('marseycarpautism',2,'carpathianflorist special assburgers aspergers retarded janitor jannie',NULL),
 ('marseycarpboobs',2,'carpathianflorist boobs booba titties tiddies tits boobs breasts censored fish administrator jannie janny janitor',1663771699),
@@ -1770,6 +1770,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyliathomas',2,'tranny transgender athlete lia thomas athletics woman valid lgbt swimmer aquamaam aqua maam',NULL),
 ('marseyliberty',2,'usa burger america statue lady republican democrat biden trump rightoid leftoid',NULL),
 ('marseyliberty2',2,'usa burger america statue lady republican democrat biden trump rightoid leftoid',NULL),
+('marseylibertyfireworks',2,'independence forth july america usa eagle republican democrat united states patriot statue animated',1664123152),
 ('marseylibleft',2,'unemployed protest riot anarcho capitalist antifa anarchist anarchy',NULL),
 ('marseylibright',2,'libertarian anarcho wagecuck pedophile capitalist lolbert',NULL),
 ('marseylicking',2,'spongebob tongue taste',1663284181),
