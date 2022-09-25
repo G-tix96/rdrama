@@ -358,7 +358,7 @@ def gumroad(v):
 		return {"error": f"You must have a verified email to verify {patron} status and claim your rewards!"}, 400
 
 	data = {'access_token': GUMROAD_TOKEN, 'email': v.email}
-	response = requests.get('https://api.gumroad.com/v2/sales', data=data, timeout=5).json()["sales"]
+	response = requests.get('https://api.gumroad.com/v2/sales', data=data, timeout=5, proxies=proxies).json()["sales"]
 
 	if len(response) == 0: return {"error": "Email not found"}, 404
 
@@ -824,7 +824,7 @@ def settings_song_change(v):
 		return redirect("/settings/profile")
 		
 	
-	req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={id}&key={YOUTUBE_KEY}&part=contentDetails", timeout=5).json()
+	req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={id}&key={YOUTUBE_KEY}&part=contentDetails", timeout=5, proxies=proxies).json()
 	duration = req['items'][0]['contentDetails']['duration']
 	if duration == 'P0D':
 		return render_template("settings_profile.html", v=v, error="Can't use a live youtube video!")

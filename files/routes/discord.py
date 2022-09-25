@@ -67,7 +67,7 @@ def discord_redirect(v):
 	headers={
 		'Authorization': f"Bearer {token}"
 	}
-	x=requests.get(url, headers=headers, timeout=5)
+	x=requests.get(url, headers=headers, timeout=5, proxies=proxies)
 
 	x=x.json()
 
