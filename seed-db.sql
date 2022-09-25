@@ -2545,6 +2545,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyyeti',2,'scary monster myth winter ice mountain himalaya asia predator giant',NULL),
 ('marseyyikes',2,'reaction judgment disgust oof cringe',NULL),
 ('marseyyinzer',2,'pittsburgh pennsylvania pens penguins steelers stillers pirates buccos buckos terrible towel pierogo yuengling beer city hat baseball football hockey nfl mlb nhl happy',NULL),
+('marseyyoshi',2,'super mario nintendo snes retro video game dinosaur italian plumber pipes',1664142051),
 ('marseyyugi',2,'yugioh yu-gi-oh! cards trap anime',NULL),
 ('marseyza',2,'antlers flowers',NULL),
 ('marseyzaku',2,'gundam mecha robot helmet mask',NULL),
