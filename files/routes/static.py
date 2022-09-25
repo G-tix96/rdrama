@@ -463,16 +463,16 @@ if SITE == 'pcmemes.net':
 			quantity = int(y.group(1))
 			unit = y.group(2)
 
-			if unit == 'minuten':
+			if unit.startswith('minu'):
 				unit = 'minute'
 				modifier = 1
 			if unit == 'uur':
 				unit = 'hour'
 				modifier = 60
-			if unit == 'weken':
+			if unit.startswith('we'):
 				unit = 'week'
 				modifier = 10080
-			elif unit == 'maand':
+			elif unit.startswith('maand'):
 				unit = 'month'
 				modifier = 43800
 			elif unit == 'jaar':
