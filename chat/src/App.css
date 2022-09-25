@@ -3,6 +3,16 @@ body {
   overscroll-behavior-y: none;
 }
 
+html {
+  height: -webkit-fill-available;
+}
+
+body {
+  min-height: 100vh;
+  /* mobile viewport bug fix */
+  min-height: -webkit-fill-available;
+}
+
 .App {
   position: fixed;
   width: 100vw;
