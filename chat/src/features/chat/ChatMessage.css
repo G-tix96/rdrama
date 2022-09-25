@@ -1,15 +1,5 @@
-@keyframes fading-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 .ChatMessage {
   position: relative;
-  animation: fading-in 0.3s ease-in-out forwards;
   padding-right: 1.5rem;
   min-height: 28px;
 }
@@ -67,6 +57,20 @@
   background: none !important;
   border: none !important;
   box-shadow: none !important;
+  display: flex;
+  align-items: center;
+}
+
+.ChatMessage-actions-button button {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.ChatMessage-actions-button button i {
+  position: relative;
+  top: 3px;
+  margin-right: 1rem;
 }
 
 .ChatMessage-actions {
@@ -93,7 +97,6 @@
 /* List */
 .ChatMessageList {
   flex: 1;
-  padding-bottom: 2rem;
 }
 
 .ChatMessageList-group {

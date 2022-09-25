@@ -23,7 +23,7 @@ export function ChatMessage({
   showUser = true,
   timestampUpdates,
   actionsOpen,
-  onToggleActions
+  onToggleActions,
 }: ChatMessageProps) {
   const {
     id,
@@ -53,7 +53,7 @@ export function ChatMessage({
       setConfirmedDelete(true);
     }
   }, [text, confirmedDelete]);
-  const handleQuoteMessage = useCallback(() => {
+  const handleQuoteMessageAction = useCallback(() => {
     quoteMessage(message);
     onToggleActions(message.id);
   }, [message, onToggleActions]);
@@ -72,18 +72,26 @@ export function ChatMessage({
       id={id}
     >
       {!actionsOpen && (
-        <button
-          className="btn btn-secondary ChatMessage-actions-button"
-          onClick={() => onToggleActions(id)}
-        >
-          ...
-        </button>
+        <div className="ChatMessage-actions-button">
+          <button
+            className="btn btn-secondary"
+            onClick={() => quoteMessage(message)}
+          >
+            <i className="fas fa-reply" />
+          </button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => onToggleActions(id)}
+          >
+            ...
+          </button>
+        </div>
       )}
       {actionsOpen && (
         <div className="ChatMessage-actions">
           <button
             className="btn btn-secondary ChatMessage-button"
-            onClick={handleQuoteMessage}
+            onClick={handleQuoteMessageAction}
           >
             <i className="fas fa-reply" /> Reply
           </button>
