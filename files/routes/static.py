@@ -548,14 +548,16 @@ if SITE == 'pcmemes.net':
 
 		if not id.startswith('UC'):
 			text = requests.get(f'https://www.youtube.com/c/{id}', timeout=5, proxies=proxies).text
+			with open('files/assets/t3.txt', 'w', encoding='utf-8') as f:
+				f.write(text)
 			try: id = id_regex.search(text).group(1)
-			except: return render_template('live.html', v=v, live=live, offline=offline, error="Invalid ID")
+			except: return {"error": "Invalid ID"}
 
 		live = cache.get('live') or []
 		offline = cache.get('offline') or []
 
 		if not id or len(id) != 24:
-			return render_template('live.html', v=v, live=live, offline=offline, error="Invalid ID")
+			return {"error": "Invalid ID"}
 
 		existing = g.db.get(Streamer, id)
 		if not existing:
