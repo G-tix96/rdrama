@@ -18,14 +18,6 @@
   margin: 0;
 }
 
-.ChatMessage__showingUser:not(:first-child) {
-  margin-top: 2rem;
-}
-
-.ChatMessage:not(.ChatMessage__showingUser) {
-  padding-bottom: 0;
-}
-
 .ChatMessage .btn {
   border: none !important;
 }
@@ -102,4 +94,14 @@
 .ChatMessageList {
   flex: 1;
   padding-bottom: 2rem;
+}
+
+.ChatMessageList-group {
+  margin-bottom: 1rem;
+  padding: 0.3rem;
+  border-radius: 8px;
+}
+
+.ChatMessageList-group:nth-child(even) {
+  background: rgba(255, 255, 255, 0.025);
 }

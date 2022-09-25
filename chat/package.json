@@ -1,10 +1,11 @@
 {
   "name": "chat",
-  "version": "0.0.24",
+  "version": "0.1.0",
   "main": "./src/index.tsx",
   "license": "MIT",
   "dependencies": {
     "@types/humanize-duration": "^3.27.1",
+    "@types/lodash.clonedeep": "^4.5.7",
     "@types/lodash.debounce": "^4.0.7",
     "@types/lozad": "^1.16.1",
     "@types/react": "^18.0.20",
@@ -15,6 +16,7 @@
     "dotenv": "^16.0.2",
     "esbuild": "^0.15.7",
     "humanize-duration": "^3.27.3",
+    "lodash.clonedeep": "^4.5.0",
     "lodash.debounce": "^4.0.8",
     "lozad": "^1.16.0",
     "react": "^18.2.0",

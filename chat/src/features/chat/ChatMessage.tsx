@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import cx from "classnames";
 import key from "weak-key";
 import humanizeDuration from "humanize-duration";
+import cloneDeep from "lodash.clonedeep";
 import { Username } from "./Username";
 import { useChat, useRootContext } from "../../hooks";
 import { QuotedMessageLink } from "./QuotedMessageLink";
@@ -11,6 +12,8 @@ interface ChatMessageProps {
   message: IChatMessage;
   timestampUpdates: number;
   showUser?: boolean;
+  actionsOpen: boolean;
+  onToggleActions(messageId: string): void;
 }
 
 const TIMESTAMP_UPDATE_INTERVAL = 20000;
@@ -19,6 +22,8 @@ export function ChatMessage({
   message,
   showUser = true,
   timestampUpdates,
+  actionsOpen,
+  onToggleActions
 }: ChatMessageProps) {
   const {
     id,
@@ -36,7 +41,6 @@ export function ChatMessage({
   const { messageLookup, deleteMessage, quoteMessage } = useChat();
   const quotedMessage = messageLookup[quotes];
   const content = censored ? text_censored : text_html;
-  const [showingActions, setShowingActions] = useState(false);
   const [confirmedDelete, setConfirmedDelete] = useState(false);
   const timestamp = useMemo(
     () => formatTimeAgo(time),
@@ -49,20 +53,16 @@ export function ChatMessage({
       setConfirmedDelete(true);
     }
   }, [text, confirmedDelete]);
-  const toggleMessageActions = useCallback(
-    () => setShowingActions((prev) => !prev),
-    []
-  );
   const handleQuoteMessage = useCallback(() => {
     quoteMessage(message);
-    setShowingActions(false);
-  }, [message]);
+    onToggleActions(message.id);
+  }, [message, onToggleActions]);
 
   useEffect(() => {
-    if (!showingActions) {
+    if (!actionsOpen) {
       setConfirmedDelete(false);
     }
-  }, [showingActions]);
+  }, [actionsOpen]);
 
   return (
     <div
@@ -71,15 +71,15 @@ export function ChatMessage({
       })}
       id={id}
     >
-      {!showingActions && (
+      {!actionsOpen && (
         <button
           className="btn btn-secondary ChatMessage-actions-button"
-          onClick={toggleMessageActions}
+          onClick={() => onToggleActions(id)}
         >
           ...
         </button>
       )}
-      {showingActions && (
+      {actionsOpen && (
         <div className="ChatMessage-actions">
           <button
             className="btn btn-secondary ChatMessage-button"
@@ -100,7 +100,7 @@ export function ChatMessage({
           )}
           <button
             className="btn btn-secondary ChatMessage-button"
-            onClick={toggleMessageActions}
+            onClick={() => onToggleActions(id)}
           >
             <i>X</i> Close
           </button>
@@ -136,6 +136,17 @@ export function ChatMessage({
 export function ChatMessageList() {
   const { messages } = useChat();
   const [timestampUpdates, setTimestampUpdates] = useState(0);
+  const groupedMessages = useMemo(() => groupMessages(messages), [messages]);
+  const [actionsOpenForMessage, setActionsOpenForMessage] = useState<
+    string | null
+  >(null);
+  const handleToggleActionsForMessage = useCallback(
+    (messageId: string) =>
+      setActionsOpenForMessage(
+        messageId === actionsOpenForMessage ? null : messageId
+      ),
+    [actionsOpenForMessage]
+  );
 
   useEffect(() => {
     const updatingTimestamps = setInterval(
@@ -150,13 +161,19 @@ export function ChatMessageList() {
 
   return (
     <div className="ChatMessageList">
-      {messages.map((message, index) => (
-        <ChatMessage
-          key={key(message)}
-          message={message}
-          timestampUpdates={timestampUpdates}
-          showUser={message.username !== messages[index - 1]?.username}
-        />
+      {groupedMessages.map((group) => (
+        <div key={key(group)} className="ChatMessageList-group">
+          {group.map((message, index) => (
+            <ChatMessage
+              key={key(message)}
+              message={message}
+              timestampUpdates={timestampUpdates}
+              showUser={index === 0}
+              actionsOpen={actionsOpenForMessage === message.id}
+              onToggleActions={handleToggleActionsForMessage}
+            />
+          ))}
+        </div>
       ))}
     </div>
   );
@@ -187,4 +204,30 @@ function formatTimeAgo(time: number) {
   const humanized = `${shortEnglishHumanizer(time * 1000 - now)} ago`;
 
   return humanized === "0s ago" ? "just now" : humanized;
+}
+
+function groupMessages(messages: IChatMessage[]) {
+  const grouped: IChatMessage[][] = [];
+  let lastUsername = "";
+  let temp: IChatMessage[] = [];
+
+  for (const message of messages) {
+    if (!lastUsername) {
+      lastUsername = message.username;
+    }
+
+    if (message.username === lastUsername) {
+      temp.push(message);
+    } else {
+      grouped.push(cloneDeep(temp));
+      lastUsername = message.username;
+      temp = [message];
+    }
+  }
+
+  if (temp.length > 0) {
+    grouped.push(cloneDeep(temp));
+  }
+
+  return grouped;
 }

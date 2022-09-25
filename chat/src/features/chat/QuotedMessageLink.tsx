@@ -42,7 +42,7 @@ export function QuotedMessageLink({ message }: { message: IChatMessage }) {
 
   return (
     <a className="QuotedMessageLink" href="#" onClick={handleLinkClick}>
-      Replying to @{message.username}:{" "}
+      <i className="fas fa-reply" /> @{message.username}:{" "}
       <em>"{replyText}"</em>
     </a>
   );
