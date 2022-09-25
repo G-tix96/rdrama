@@ -1193,6 +1193,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycarphug2',2,'fish love bottomfeeder carpathianflorist heart blow admin cute',NULL),
 ('marseycarpina',2,'carpathianflorist drag transgender admin jannie',NULL),
 ('marseycarplazy',2,'carpathianflorist fish couch sleeping slacker idc antiwork janitor',NULL),
+('marseycarpler',2,'carp hitler nazi',1664137088),
 ('marseycarpmerchant',2,'jewish money redbubble merch carpathianflorist money yid heeb sheeny sheenie greedy handrubbery rubbing hands kike israeli',1663465891),
 ('marseycarpmerchant2',2,'jew fish greedy',1663548215),
 ('marseycarpmermaid',2,'carp mermaid merman mercarp siren sexy legs temptress',NULL),
