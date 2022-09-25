@@ -12,7 +12,7 @@ import { EmojiDrawer, QuickEmojis } from "../emoji";
 import "./UserInput.css";
 
 export function UserInput() {
-  const { messages, draft, sendMessage, updateDraft } = useChat();
+  const { draft, sendMessage, updateDraft } = useChat();
   const { reveal, hide, open } = useDrawer();
   const builtChatInput = useRef<HTMLTextAreaElement>(null);
   const { visible, addQuery } = useEmojis();
@@ -53,8 +53,8 @@ export function UserInput() {
     },
     [handleSendMessage]
   );
-  const handleOpenEmojiDrawer = useCallback(
-    () =>
+  const handleToggleEmojiDrawer = useCallback(() => {
+    if (open) {
       reveal({
         title: "Select an emoji",
         content: (
@@ -63,13 +63,12 @@ export function UserInput() {
             onClose={() => builtChatInput.current?.focus()}
           />
         ),
-      }),
-    []
-  );
-  const handleCloseEmojiDrawer = useCallback(() => {
-    builtChatInput.current?.focus();
-    hide();
-  }, [hide]);
+      });
+    } else {
+      builtChatInput.current?.focus();
+      hide();
+    }
+  }, [open]);
   const handleSelectEmoji = useCallback((emoji: string) => {
     updateDraft((prev) => `${prev} :${emoji}: `);
   }, []);
@@ -108,7 +107,7 @@ export function UserInput() {
       <textarea
         ref={builtChatInput}
         id="builtChatInput"
-        className="form-control"
+        className="UserInput-input form-control"
         style={{
           minHeight: 50,
           height: 50,
@@ -123,22 +122,18 @@ export function UserInput() {
         autoComplete="off"
         value={draft}
       />
-      {open ? (
-        <span
-          role="button"
-          onClick={handleCloseEmojiDrawer}
-          className="UserInput-emoji"
-          style={{ top: 6 }}
-        >
-          X
-        </span>
-      ) : (
-        <i
-          role="button"
-          onClick={handleOpenEmojiDrawer}
-          className="UserInput-emoji fas fa-smile-beam"
-        />
-      )}
+      <i
+        role="button"
+        onClick={handleToggleEmojiDrawer}
+        className="UserInput-emoji fas fa-smile-beam"
+      />
+      <button
+        className="btn btn-secondary"
+        disabled={draft.length === 0}
+        onClick={sendMessage}
+      >
+        <i className="UserInput-emoji fas fa-reply" />
+      </button>
     </form>
   );
 }
