@@ -55,6 +55,9 @@ export function UserInput() {
   );
   const handleToggleEmojiDrawer = useCallback(() => {
     if (open) {
+      builtChatInput.current?.focus();
+      hide();
+    } else {
       reveal({
         title: "Select an emoji",
         content: (
@@ -64,9 +67,6 @@ export function UserInput() {
           />
         ),
       });
-    } else {
-      builtChatInput.current?.focus();
-      hide();
     }
   }, [open]);
   const handleSelectEmoji = useCallback((emoji: string) => {

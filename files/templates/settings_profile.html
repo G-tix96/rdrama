@@ -769,7 +769,7 @@
 							<div class="body w-lg-100">
 						
 								<div class="custom-control custom-switch">
-									<input autocomplete="off" type="checkbox" class="custom-control-input" id="spiderswitch" name="spider" {% if v.spider%}checked{% endif %} {% if v.spider > 1 %}disabled{% endif %} onchange="post_toast(this,'/settings/profile?spider='+document.getElementById('spiderswitch').checked)">
+									<input autocomplete="off" type="checkbox" class="custom-control-input" id="spiderswitch" name="spider" {% if v.spider%}checked{% endif %} {% if v.spider and v.spider > 1 %}disabled{% endif %} onchange="post_toast(this,'/settings/profile?spider='+document.getElementById('spiderswitch').checked)">
 									<label class="custom-control-label" for="spiderswitch"></label>
 								</div>
 						
