@@ -115,3 +115,7 @@ lite-youtube {
 .btn-secondary {
   border: none !important;
 }
+
+p {
+  margin: 0;
+}

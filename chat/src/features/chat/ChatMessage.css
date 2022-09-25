@@ -8,7 +8,6 @@
 }
 
 .ChatMessage {
-  padding: 0.5rem;
   padding-right: 3rem;
   position: relative;
   animation: fading-in 0.3s ease-in-out forwards;
