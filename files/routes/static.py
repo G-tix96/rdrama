@@ -523,8 +523,6 @@ if SITE == 'pcmemes.net':
 
 		return live, offline
 
-	live_cached()
-
 	@app.get('/live')
 	@app.get('/logged_out/live')
 	@auth_desired_with_logingate
