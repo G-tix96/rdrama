@@ -539,6 +539,9 @@ if SITE == 'pcmemes.net':
 	@app.post('/live/add')
 	@admin_level_required(2)
 	def live_add(v):
+		if v.id != KIPPY_ID:
+			return {"error": 'Only Kippy can add channels!'}, 403
+
 		id = request.values.get('id').strip()
 
 		live = cache.get('live') or []
