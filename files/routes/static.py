@@ -546,6 +546,7 @@ if SITE == 'pcmemes.net':
 
 		if not id.startswith('UC'):
 			req = requests.get(f'https://www.googleapis.com/youtube/v3/channels?key={YOUTUBE_KEY}&forUsername={id}&part=id', timeout=5, proxies=proxies).json()
+			print(req, flush=True)
 			id = req['items']['id']
 
 		live = cache.get('live') or []
