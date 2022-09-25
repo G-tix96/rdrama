@@ -31,8 +31,10 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 		lottery.check_if_end_lottery_task()
 		spin_roulette_wheel()
 		offsitementions.offsite_mentions_task()
-		if SITE_NAME == 'PCM':
-			cache.set('live_cached', route_static.live_cached())
+		if SITE == 'pcmemes.net' or True:
+			x = route_static.live_cached()
+			cache.set('live', x[0])
+			cache.set('offline', x[1])
 
 	if every_1h:
 		awards.award_timers_bots_task()

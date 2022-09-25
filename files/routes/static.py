@@ -436,7 +436,7 @@ def donate(v):
 	return render_template(f'donate_{SITE_NAME}.html', v=v)
 
 
-if SITE == 'pcmemes.net':
+if SITE == 'pcmemes.net' or True:
 	from files.classes.streamers import *
 
 	live_regex = re.compile('playerOverlayVideoDetailsRenderer":\{"title":\{"simpleText":"(.*?)"\},"subtitle":\{"runs":\[\{"text":"(.*?)"\},\{"text":" • "\},\{"text":"(.*?)"\}', flags=re.A)
@@ -460,7 +460,7 @@ if SITE == 'pcmemes.net':
 					count = int(y.group(3))
 					live.append((x, req.url, t.group(1), y.group(2), y.group(1), count))
 				except:
-					offline.append((x, req.url.rstrip('/live'), t.group(1), y.group(2)))
+					print(x)
 			else:
 				y = offline_regex.search(txt)
 				try: offline.append((x, req.url.rstrip('/live'), y.group(2), y.group(1)))
@@ -473,20 +473,22 @@ if SITE == 'pcmemes.net':
 	@app.get('/live')
 	@app.get('/logged_out/live')
 	@auth_desired_with_logingate
-	def live(v):
-		live_cached = cache.get('live_cached') or [[],[]]
+	def live_list(v):
+		live = cache.get('live') or []
+		offline = cache.get('offline') or []
 
-		return render_template('live.html', v=v, live=live_cached[0], offline=live_cached[1])
+		return render_template('live.html', v=v, live=live, offline=offline)
 
 	@app.post('/live/add')
 	@admin_level_required(2)
 	def live_add(v):
 		id = request.values.get('id').strip()
 
-		live_cached = cache.get('live_cached') or [[],[]]
+		live = cache.get('live') or []
+		offline = cache.get('offline') or []
 
 		if not id or len(id) != 24:
-			return render_template('live.html', v=v, live=live_cached[0], offline=live_cached[1], error="Invalid ID")
+			return render_template('live.html', v=v, live=live, offline=offline, error="Invalid ID")
 
 		existing = g.db.get(Streamer, id)
 		if not existing:
@@ -496,7 +498,28 @@ if SITE == 'pcmemes.net':
 			if v.id != KIPPY_ID:
 				send_repeatable_notification(KIPPY_ID, f"@{v.username} has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 
-		return render_template('live.html', v=v, live=live_cached[0], offline=live_cached[1], msg="Channel added successfuly!")
+			url = f'https://www.youtube.com/channel/{id}/live'
+			req = requests.get(url, cookies={'CONSENT': 'YES+1'}, proxies=proxies)
+			txt = req.text
+			if '"videoDetails":{"videoId"' in txt:
+				t = live_thumb_regex.search(txt)
+				y = live_regex.search(txt)
+				try:
+					count = int(y.group(3))
+					live.append((id, req.url, t.group(1), y.group(2), y.group(1), count))
+					cache.set('live', live)
+				except:
+					print(id)
+			else:
+				y = offline_regex.search(txt)
+				try:
+					offline.append((id, req.url.rstrip('/live'), y.group(2), y.group(1)))
+					cache.set('offline', offline)
+				except:
+					print(id)
+
+
+		return render_template('live.html', v=v, live=live, offline=offline, msg="Channel added successfuly!")
 
 	@app.post('/live/remove')
 	@admin_level_required(2)
@@ -509,5 +532,13 @@ if SITE == 'pcmemes.net':
 				send_repeatable_notification(KIPPY_ID, f"@{v.username} has removed a [YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 			g.db.delete(streamer)
 
-		live_cached = cache.get('live_cached') or [[],[]]
-		return render_template('live.html', v=v, live=live_cached[0], offline=live_cached[1], msg="Channel removed successfuly!")
+		live = cache.get('live') or []
+		offline = cache.get('offline') or []
+
+		live = [x for x in live if x[0] != id]
+		offline = [x for x in offline if x[0] != id]
+
+		cache.set('live', live)
+		cache.set('offline', offline)
+
+		return render_template('live.html', v=v, live=live, offline=offline, msg="Channel removed successfuly!")
