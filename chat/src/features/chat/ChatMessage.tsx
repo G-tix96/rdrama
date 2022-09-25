@@ -44,11 +44,21 @@ export function ChatMessage({
     time,
     quotes,
   } = message;
-  const { admin, censored } = useRootContext();
+  const {
+    id: userId,
+    username: userUsername,
+    admin,
+    censored,
+    themeColor,
+  } = useRootContext();
   const { messageLookup, deleteMessage, quoteMessage } = useChat();
+  const [confirmedDelete, setConfirmedDelete] = useState(false);
   const quotedMessage = messageLookup[quotes];
   const content = censored ? text_censored : text_html;
-  const [confirmedDelete, setConfirmedDelete] = useState(false);
+  const isMention =
+    text_html.includes(`/id/${userId}`) &&
+    userUsername &&
+    username !== userUsername;
   const timestamp = useMemo(
     () => formatTimeAgo(time),
     [time, timestampUpdates]
@@ -75,8 +85,17 @@ export function ChatMessage({
     <div
       className={cx("ChatMessage", {
         ChatMessage__showingUser: showUser,
+        ChatMessage__isMention: isMention,
       })}
       id={id}
+      style={
+        isMention
+          ? {
+              background: `#${themeColor}25`,
+              borderLeft: `1px solid #${themeColor}`,
+            }
+          : {}
+      }
     >
       {!actionsOpen && (
         <div className="ChatMessage-actions-button">
