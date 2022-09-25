@@ -47,7 +47,7 @@ export function UserInput() {
   );
   const handleKeyUp = useCallback(
     (event: KeyboardEvent<HTMLTextAreaElement>) => {
-      if (event.key === "Enter") {
+      if (event.key === "Enter" && !event.shiftKey) {
         handleSendMessage();
       }
     },

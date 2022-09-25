@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import { useRootContext } from "../../hooks";
+import "./QuotedMessageLink.css";
 
 const SCROLL_TO_QUOTED_OVERFLOW = 250;
 const QUOTED_MESSAGE_CONTEXTUAL_HIGHLIGHTING_DURATION = 2500;
@@ -40,7 +41,7 @@ export function QuotedMessageLink({ message }: { message: IChatMessage }) {
   }, [message, censored]);
 
   return (
-    <a href="#" onClick={handleLinkClick}>
+    <a className="QuotedMessageLink" href="#" onClick={handleLinkClick}>
       Replying to @{message.username}:{" "}
       <em>"{replyText}"</em>
     </a>

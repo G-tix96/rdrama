@@ -37,6 +37,7 @@ body {
 
 .App-heading small {
   opacity: 0.2;
+  font-size: 10px;
 }
 
 .App-side {
@@ -122,4 +123,9 @@ lite-youtube {
 
 .btn-secondary {
   border: none !important;
+}
+
+.btn-secondary:focus {
+  border: none !important;
+  box-shadow: none !important;
 }

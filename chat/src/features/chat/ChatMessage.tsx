@@ -1,9 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import cx from "classnames";
 import key from "weak-key";
 import humanizeDuration from "humanize-duration";
@@ -37,20 +32,16 @@ export function ChatMessage({
     time,
     quotes,
   } = message;
-  const {
-    username: loggedInUsername,
-    admin,
-    censored,
-    themeColor,
-  } = useRootContext();
+  const { admin, censored } = useRootContext();
   const { messageLookup, deleteMessage, quoteMessage } = useChat();
   const quotedMessage = messageLookup[quotes];
   const content = censored ? text_censored : text_html;
-  const hasMention = content.includes(loggedInUsername);
-  const mentionStyle = hasMention
-    ? { backgroundColor: `#${themeColor}55` }
-    : {};
+  const [showingActions, setShowingActions] = useState(false);
   const [confirmedDelete, setConfirmedDelete] = useState(false);
+  const timestamp = useMemo(
+    () => formatTimeAgo(time),
+    [time, timestampUpdates]
+  );
   const handleDeleteMessage = useCallback(() => {
     if (confirmedDelete) {
       deleteMessage(text);
@@ -58,13 +49,63 @@ export function ChatMessage({
       setConfirmedDelete(true);
     }
   }, [text, confirmedDelete]);
-  const timestamp = useMemo(
-    () => formatTimeAgo(time),
-    [time, timestampUpdates]
+  const toggleMessageActions = useCallback(
+    () => setShowingActions((prev) => !prev),
+    []
   );
+  const handleQuoteMessage = useCallback(() => {
+    quoteMessage(message);
+    setShowingActions(false);
+  }, [message]);
+
+  useEffect(() => {
+    if (!showingActions) {
+      setConfirmedDelete(false);
+    }
+  }, [showingActions]);
 
   return (
-    <div className="ChatMessage" style={mentionStyle} id={id}>
+    <div
+      className={cx("ChatMessage", {
+        ChatMessage__showingUser: showUser,
+      })}
+      id={id}
+    >
+      {!showingActions && (
+        <button
+          className="btn btn-secondary ChatMessage-actions-button"
+          onClick={toggleMessageActions}
+        >
+          ...
+        </button>
+      )}
+      {showingActions && (
+        <div className="ChatMessage-actions">
+          <button
+            className="btn btn-secondary ChatMessage-button"
+            onClick={handleQuoteMessage}
+          >
+            <i className="fas fa-reply" /> Reply
+          </button>
+          {admin && (
+            <button
+              className={cx("btn btn-secondary ChatMessage-button", {
+                "ChatMessage-button__confirmed": confirmedDelete,
+              })}
+              onClick={handleDeleteMessage}
+            >
+              <i className="fas fa-trash-alt" />{" "}
+              {confirmedDelete ? "Are you sure?" : "Delete"}
+            </button>
+          )}
+          <button
+            className="btn btn-secondary ChatMessage-button"
+            onClick={toggleMessageActions}
+          >
+            <i>X</i> Close
+          </button>
+        </div>
+      )}
       {showUser && (
         <div className="ChatMessage-top">
           <Username
@@ -86,23 +127,7 @@ export function ChatMessage({
               __html: content,
             }}
           />
-          <button
-            className="ChatMessage-button quote btn"
-            onClick={() => quoteMessage(message)}
-          >
-            <i className="fas fa-reply"></i>
-          </button>
         </div>
-        {admin && (
-          <button
-            className={cx("ChatMessage-button ChatMessage-delete btn", {
-              "ChatMessage-button__confirmed": confirmedDelete,
-            })}
-            onClick={handleDeleteMessage}
-          >
-            <i className="fas fa-trash-alt"></i>
-          </button>
-        )}
       </div>
     </div>
   );
@@ -138,12 +163,28 @@ export function ChatMessageList() {
 }
 
 function formatTimeAgo(time: number) {
-  const now = new Date().getTime();
-  const humanized = `${humanizeDuration(time * 1000 - now, {
+  const shortEnglishHumanizer = humanizeDuration.humanizer({
+    language: "shortEn",
+    languages: {
+      shortEn: {
+        y: () => "y",
+        mo: () => "mo",
+        w: () => "w",
+        d: () => "d",
+        h: () => "h",
+        m: () => "m",
+        s: () => "s",
+        ms: () => "ms",
+      },
+    },
     round: true,
     units: ["h", "m", "s"],
     largest: 2,
-  })} ago`;
+    spacer: "",
+    delimiter: ", ",
+  });
+  const now = new Date().getTime();
+  const humanized = `${shortEnglishHumanizer(time * 1000 - now)} ago`;
 
-  return humanized === "0 seconds ago" ? "just now" : humanized;
+  return humanized === "0s ago" ? "just now" : humanized;
 }
