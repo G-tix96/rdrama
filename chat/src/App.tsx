@@ -58,6 +58,13 @@ function AppInner() {
       contentWrapper.current.scrollTop = contentWrapper.current.scrollHeight;
     }
   }, [messages]);
+  
+  useEffect(() => {
+    if (!open) {
+      // Scroll to the bottom after any drawer closes.
+      contentWrapper.current.scrollTop = contentWrapper.current.scrollHeight;
+    }
+  }, [open]);
 
   return (
     <div className="App" ref={dropRef}>
