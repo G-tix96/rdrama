@@ -110,6 +110,10 @@ body {
     padding-right: 1rem;
     padding-left: 1rem;
   }
+
+  .App-content__reduced {
+    height: 58vh;
+  }
 }
 
 lite-youtube {

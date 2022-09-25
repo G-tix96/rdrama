@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { DndProvider, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import cx from "classnames";
 import {
   ChatHeading,
   ChatMessageList,
@@ -58,7 +59,7 @@ function AppInner() {
       contentWrapper.current.scrollTop = contentWrapper.current.scrollHeight;
     }
   }, [messages]);
-  
+
   useEffect(() => {
     if (!open) {
       // Scroll to the bottom after any drawer closes.
@@ -74,7 +75,12 @@ function AppInner() {
           <ChatHeading />
         </div>
         <div className="App-center">
-          <div className="App-content" ref={contentWrapper}>
+          <div
+            className={cx("App-content", {
+              "App-content__reduced": quote,
+            })}
+            ref={contentWrapper}
+          >
             {open ? (
               <div className="App-drawer">{config.content}</div>
             ) : (
