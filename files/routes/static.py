@@ -439,6 +439,7 @@ def donate(v):
 if SITE == 'pcmemes.net':
 	from files.classes.streamers import *
 
+	id_regex = re.compile('"externalId":"([^"]*?)"', flags=re.A)
 	live_regex = re.compile('playerOverlayVideoDetailsRenderer":\{"title":\{"simpleText":"(.*?)"\},"subtitle":\{"runs":\[\{"text":"(.*?)"\},\{"text":" • "\},\{"text":"(.*?)"\}', flags=re.A)
 	live_thumb_regex = re.compile('\{"thumbnail":\{"thumbnails":\[\{"url":"(.*?)"', flags=re.A)
 	offline_regex = re.compile('","title":"(.*?)".*?"width":48,"height":48\},\{"url":"(.*?)"', flags=re.A)
@@ -491,6 +492,7 @@ if SITE == 'pcmemes.net':
 					unit = 'year'
 					modifier = 525600
 
+				print(unit, flush=True)
 				minutes = quantity * modifier
 
 				actual = f'{quantity} {unit}'
@@ -545,9 +547,9 @@ if SITE == 'pcmemes.net':
 		id = request.values.get('id').strip()
 
 		if not id.startswith('UC'):
-			req = requests.get(f'https://www.googleapis.com/youtube/v3/channels?key={YOUTUBE_KEY}&forUsername={id}&part=id', timeout=5, proxies=proxies).json()
-			print(req, flush=True)
-			id = req['items']['id']
+			text = requests.get(f'https://www.youtube.com/c/{id}', timeout=5, proxies=proxies).text
+			try: id = id_regex.search(text).group(1)
+			except: return render_template('live.html', v=v, live=live, offline=offline, error="Invalid ID")
 
 		live = cache.get('live') or []
 		offline = cache.get('offline') or []
