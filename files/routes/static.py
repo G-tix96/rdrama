@@ -451,7 +451,7 @@ if SITE == 'pcmemes.net' or True:
 		db.close()
 		for x in streamers:
 			url = f'https://www.youtube.com/channel/{x}/live'
-			req = requests.get(url, cookies={'CONSENT': 'YES+1'}, proxies=proxies)
+			req = requests.get(url, cookies={'CONSENT': 'YES+1'})
 			txt = req.text
 			if '"videoDetails":{"videoId"' in txt:
 				t = live_thumb_regex.search(txt)
@@ -499,7 +499,7 @@ if SITE == 'pcmemes.net' or True:
 				send_repeatable_notification(KIPPY_ID, f"@{v.username} has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 
 			url = f'https://www.youtube.com/channel/{id}/live'
-			req = requests.get(url, cookies={'CONSENT': 'YES+1'}, proxies=proxies)
+			req = requests.get(url, cookies={'CONSENT': 'YES+1'})
 			txt = req.text
 			if '"videoDetails":{"videoId"' in txt:
 				t = live_thumb_regex.search(txt)
