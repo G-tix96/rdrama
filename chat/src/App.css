@@ -9,7 +9,7 @@ html {
 }
 
 body {
-  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
   overflow: hidden;
   /* mobile viewport bug fix */
   min-height: -webkit-fill-available;
@@ -53,7 +53,7 @@ body {
   position: relative;
   flex: 3;
   height: 62vh;
-  height: calc(var(--vh, 1vh) * 75);
+  height: calc(var(--vh, 1vh) * 72);
   max-height: 1000px;
   overflow: auto;
   -ms-overflow-style: none;
@@ -115,12 +115,8 @@ body {
     padding-left: 1rem;
   }
 
-  .App-content {
-    height: calc(var(--vh, 1vh) * 70);
-  }
-
   .App-content__reduced {
-    height: calc(var(--vh, 1vh) * 58);
+    height: calc(var(--vh, 1vh) * 65);
   }
 }
 
