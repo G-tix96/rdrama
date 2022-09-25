@@ -490,8 +490,6 @@ if SITE == 'pcmemes.net':
 				elif unit == 'jaar':
 					unit = 'year'
 					modifier = 525600
-				else:
-					print(unit, flush=True)
 
 				minutes = quantity * modifier
 
@@ -502,6 +500,7 @@ if SITE == 'pcmemes.net':
 				actual = '???'
 				views = 0
 
+			print(req.url, flush=True)
 			thumb = t.group(2)
 			name = t.group(1)
 
