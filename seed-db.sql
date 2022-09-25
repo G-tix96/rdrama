@@ -229,6 +229,7 @@ INSERT INTO public.hat_defs VALUES (1, 'Ushanka', 'The People''s Hat', 2, 500, N
 
 
 
+
 INSERT INTO public.hat_defs VALUES (3, 'Cat Ears I', 'Mew :3', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (92, 'Top Hat (black)', 'Traditional. Classy. Elegant.', 2, 500, NULL, 1662167687);
@@ -880,7 +881,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 734, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 735, true);
 
 
 --
@@ -1174,6 +1175,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycarp',2,'beard mohawk reaction carpathianflorist monster',NULL),
 ('marseycarp2',2,'harm cutting selfharm cutter reaction carpathianflorist self animated',NULL),
 ('marseycarp3',2,'reaction fish carpathianflorist catfish',NULL),
+('marseycarp4',2,'sick sad world ban hammer pin awards janny mod admin',1664034021),
 ('marseycarpasian',2,'carpathianflorist fish azn racist hat paddy gook nip ching chong chink',NULL),
 ('marseycarpautism',2,'carpathianflorist special assburgers aspergers retarded janitor jannie',NULL),
 ('marseycarpboobs',2,'carpathianflorist boobs booba titties tiddies tits boobs breasts censored fish administrator jannie janny janitor',1663771699),
@@ -1236,6 +1238,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseychinchillalove',2,'pet rodent capy cute hamster south american andes',NULL),
 ('marseychinesedevil',2,'devil evil horns satan china hell demonic',NULL),
 ('marseychingchong',2,'racist asian chinese chinx chink gook japanese vietnamese rice farmer nip racist paddy teeth hat china',NULL),
+('marseychingchongpearlclutch',2,'asian chinese jap gook korean nip yikes scared chink rice',1664035377),
 ('marseychingchongsupremacy',2,'ccp china chinese ricefarmer hat glasses buckteeth bucktooth azn asian jinping xinping han masterrace communist communism maoist zedong',1663298980),
 ('marseychiobulove',2,'tiger best cute heart hug china chinese new year cat',NULL),
 ('marseychocobo',2,'marseybo bird final fantasy vidya video game gamer gaming fast',NULL),
@@ -1330,8 +1333,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycumjar1',2,'semen jizz sperm spunk bukkake',NULL),
 ('marseycumjar2',2,'semen jizz sperm spunk bukkake',NULL),
 ('marseycumjar3',2,'semen jizz sperm spunk bukkake',NULL),
-('marseycupid',2,"'cupid, love, heart, valentines holiday, marry, wedding, couple, kiss, wink, sex, arrow, bow, shoot animated'",NULL),
-('marseycupidangry',2,"'fire, valentines, love, hate, angry, arrow, bow, kill, attack, shoot, weapon, flame holiday cherub angel'",NULL),
+('marseycupid',2,'cupid love heart valentines holiday marry wedding couple kiss wink sex arrow bow shoot animated',NULL),
+('marseycupidangry',2,'fire valentines love hate angry arrow bow kill attack shoot weapon flame holiday cherub angel',NULL),
 ('marseycut',2,'cutting selfharm emo self harm cutter reaction depressed',NULL),
 ('marseycutattention',2,'razor cry depressed kys cut attention borderline bpd blood cutting woman foid',NULL),
 ('marseycutwrist',2,'suicide slash wrist razor blood cry tears sad depressed depression kill dying kys cut cutting',NULL),
@@ -1397,6 +1400,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydoomer',2,'cigarette smoker despair depression alcoholic suicidal smoking depressing',NULL),
 ('marseydose',2,'doctor daily dose dailydose animated jump bounce',NULL),
 ('marseydoubtit',2,'dumpster defender redneck boomer shooting doubt it cocksucker gun',NULL),
+('marseydowndonger',2,'downvote down negative karma',1664011042),
 ('marseydracula',2,'halloween fangs cape holiday vampire',NULL),
 ('marseydragon',2,'smaug rich hoard gold treasure',NULL),
 ('marseydrama',2,'agendapost where drama seriouspost drama where',NULL),
@@ -1661,7 +1665,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyinvisible',2,'stealth',NULL),
 ('marseyira',2,'car bomb irish ireland',NULL),
 ('marseyironmaiden',2,'death blood torture chika anime weeb weeaboo spikes murder crush animated',NULL),
-('marseyishygddt',2,"'reaction, meme, disapproval, bat, club, beating, angry, demented disgust, dislike, baseball bat, shiggy diggy, george costanza'",NULL),
+('marseyishygddt',2,'reaction meme disapproval bat club beating angry demented disgust dislike baseball bat shiggy diggy george costanza',NULL),
 ('marseyisis',2,'daesh terrorist islam muslim',NULL),
 ('marseyisrael',2,'kike yid jewish hebrew merchant colonizer israeli banker',NULL),
 ('marseyisraellove',2,'love ally israel holocaust zionism',NULL),
@@ -1798,7 +1802,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseylovedrama',2,'hearts rdrama reaction happy animated',NULL),
 ('marseyloveyou',2,'hearts ilu reaction adoration loving ily love adore animated',NULL),
 ('marseylowpoly',2,'polygonal spinning 3d lopoly animated',NULL),
-('marseyluckycat',2,"'lucky, fortune, gambling, gambler goombler goombling animated weeb azn asian slots, japanese money, cash, coin, rich'",NULL),
+('marseyluckycat',2,'lucky fortune gambling gambler goombler goombling animated weeb azn asian slots japanese money cash coin rich',NULL),
 ('marseyluther',2,'heretic lutheran theses martin luther',NULL),
 ('marseymacarthur',2,'nuke missile nuclear bomb history',NULL),
 ('marseymad',2,'pissed annoyed furious reaction angry irritated livid',NULL),
@@ -1831,7 +1835,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseymedusa',2,'medusa snakes greece greek mythology ancient monster perseus gorgon',NULL),
 ('marseymegalodon',2,'shark carpathianflorist jaws attack eating killing',NULL),
 ('marseymemeball',2,'picardia strawman polcomp political',NULL),
-('marseymeowth',2,"'pokemon weeb anime, manga team rocket nintendo video game vidya monster'",NULL),
+('marseymeowth',2,'pokemon weeb anime manga team rocket nintendo video game vidya monster',NULL),
 ('marseymerchant',2,'kike hebrew shopkeeper yid banker jew moneylender jewish greedy israel chosen',NULL),
 ('marseymerchantelf',2,'jew christmas elf santa greedy money chosen worker holiday xmas seth rogen sarah silverman holocaust coin kike',NULL),
 ('marseymerchantsoy',2,'merchant jewish kike greed soy wojak soyjak yarmulke soyyell',NULL),
@@ -1905,6 +1909,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseynotesglow',2,'notes glow cia fbi fed writer writing',NULL),
 ('marseynouautism',2,'pointing hat spiderman sperg autistic no u no you noyou',NULL),
 ('marseynoyou',2,'nou no u pointing',NULL),
+('marseynoyoufellowpedo',2,'point fbi glow libertarian mask discord agent',1664045092),
 ('marseynoyouglow',2,'fbi no u animated feds glowies glowniggers atf cia nsa',NULL),
 ('marseynpc',2,'sheeple',NULL),
 ('marseynpc2',2,'reaction idiot sheep',NULL),
@@ -1944,7 +1949,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyorthodoxbrap',2,'orthodox bartholomew brap fart gas sniff smell christian',NULL),
 ('marseyorthodoxcarphug',2,'schismatic heretic embrace hug love bartholomew carpathianflorist',NULL),
 ('marseyorthodoxsmug',2,'schismatic heretic scoff christian priest gloat',NULL),
-('marseyotter',2,"'otter, fish, sea, swim, lake, nature, seal, sealion, river. wuzizname, float'",NULL),
+('marseyotter',2,'otter fish sea swim lake nature seal sealion river. wuzizname float',NULL),
 ('marseyoutletsuicide',2,'fork outlet plug socket kill kms electricity electrocution electrocute death die',NULL),
 ('marseyoutline',2,'blank empty void',NULL),
 ('marseyoverseether',2,'rdrama meta seething fire red bigmad angry anger',NULL),
@@ -2122,6 +2127,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyridin',2,'joe biden kamala harris voted voting election american president hat',NULL),
 ('marseyrightoidschizo',2,'nazi conspiracy crazy tin foil tinfoil conservative animated ruqqus',NULL),
 ('marseyrobber',2,'mask balaclava gun shooter shooting thief criminal nigger jogger ahmaud arbery george floyd',NULL),
+('marseyrobot',2,'npc snappy sentient ai glow tech computer',1664034073),
 ('marseyroo',2,'kangaroo australian',NULL),
 ('marseyrope',2,'reaction suicidal shotgun facelift suicide',NULL),
 ('marseyropewithchingchong',2,'suicide chink chinese asian die kys together strawhat slit zip gook nip buckteeth',NULL),
@@ -2130,6 +2136,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyropeyourself2',2,'kill yourself kys lynch reaction keep yourself safe hanging noose',NULL),
 ('marseyropeyourselfmirror',2,'suicide kms kys death hanging noose chair suicidal depression depressed reflection',NULL),
 ('marseyrowling',2,'harry potter terf jkr transphobe',NULL),
+('marseyroxy',2,'fnaf roxanne wolf freddy keytar rock rockstar',1663987934),
 ('marseyrs',2,'runescape party hat phat crown lowpoly low poly',NULL),
 ('marseyrulebritannia',2,'britain british bongistan chips london england lasereyes',1663211275),
 ('marseyrussel',2,'old pipe history',NULL),
@@ -2227,7 +2234,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseysexylibrarian',2,'books hoe old woman thot nerd boobs bra geek',NULL),
 ('marseysexypepe',2,'mellokind hotpepe frog lewd flirt ribbon',NULL),
 ('marseyshake',2,'cartoon athf aqua fastfood shake dessert icecream',NULL),
-('marseyshakespeare',2,"'words, writer, author, drama, theater, british, poet william england english thespian playwright playwrite'",NULL),
+('marseyshakespeare',2,'words writer author drama theater british poet william england english thespian playwright playwrite',NULL),
 ('marseyshapiro',2,'benjamin debate libtard facts and logic benny jewish ben shapiro',NULL),
 ('marseysharingan',2,'horror halloween holiday possessed animated monster naruto anime ninja',NULL),
 ('marseyshark',2,'jaws halloween fursona furry fish costume holiday fursuit',NULL),
@@ -2396,7 +2403,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseythumbsup',2,'cool good job good one agree reaction nice work yes great job',NULL),
 ('marseytiger',2,'fursona furry fursuit',NULL),
 ('marseytigerball',2,'polandball ball tiger russia',NULL),
-('marseytigernewyear',2,"'lunar, chinese, chinx, rice, new year, holiday, luck, fortune, money, tiger, lion, asian azn'",NULL),
+('marseytigernewyear',2,'lunar chinese chinx rice new year holiday luck fortune money tiger lion asian azn',NULL),
 ('marseytimbit',2,'pearlclutch pearl clutch sjw triggered canadian leafistan canada crying',NULL),
 ('marseytime',2,'10pm tock tick clock animated',NULL),
 ('marseytimmy',2,'turner nickelodeon fairly oddparents hat boy cosmo wanda',NULL),

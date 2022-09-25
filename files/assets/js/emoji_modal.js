@@ -189,6 +189,7 @@ const emojisSearchDictionary = {
 const emojiRequest = new XMLHttpRequest();
 emojiRequest.open("GET", '/marsey_list.json');
 emojiRequest.onload = async (e) => {
+	console.log("HERE")
 	let emojis = JSON.parse(emojiRequest.response);
 	if(! (emojis instanceof Array ))
 		throw new TypeError("[EMOJI DIALOG] rDrama's server should have sent a JSON-coded Array!");

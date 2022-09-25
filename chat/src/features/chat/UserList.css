@@ -1,0 +1,24 @@
+.UserList {
+  padding: 1rem;
+  flex: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.UserList-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.UserList-heading h5 {
+  margin-right: 2rem;
+}
+
+.UserList ul::-webkit-scrollbar {
+  display: none;
+}

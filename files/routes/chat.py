@@ -1,4 +1,6 @@
 import time
+import uuid
+from files.helpers.jinja2 import timestamp
 from files.helpers.wrappers import *
 from files.helpers.sanitize import sanitize
 from files.helpers.const import *
@@ -38,12 +40,6 @@ def chat(v):
 	return render_template("chat.html", v=v, messages=messages)
 
 
-@app.get('/chat.js')
-def chatjs():
-	resp = make_response(send_from_directory('assets', 'js/chat.js'))
-	return resp
-
-
 @socketio.on('speak')
 @limiter.limit("3/second;10/minute")
 @limiter.limit("3/second;10/minute", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
@@ -58,13 +54,15 @@ def speak(data, v):
 
 	global messages, total
 
-	if SITE == 'rdrama.net': text = data[:200].strip()
-	else: text = data[:1000].strip()
+	if SITE == 'rdrama.net': text = data['message'][:200].strip()
+	else: text = data['message'][:1000].strip()
 
 	if not text: return '', 403
 	text_html = sanitize(text, count_marseys=True)
-
+	quotes = data['quotes']
 	data={
+		"id": str(uuid.uuid4()),
+		"quotes": quotes,
 		"avatar": v.profile_url,
 		"hat": v.hat_active,
 		"username": v.username,
@@ -72,7 +70,7 @@ def speak(data, v):
 		"text": text,
 		"text_html": text_html,
 		"text_censored": censor_slurs(text_html, 'chat'),
-		"time": int(time.time())
+		"time": int(time.time()),
 	}
 	
 	if v.shadowbanned:
@@ -107,6 +105,8 @@ def connect(v):
 		emit("online", online, broadcast=True)
 		cache.set(ONLINE_STR, len(online), timeout=0)
 
+	emit('online', online)
+	emit('catchup', messages)
 	emit('typing', typing)
 	return '', 204
 

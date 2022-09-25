@@ -1,4 +1,3 @@
-{%- from 'util/assetcache.html' import asset, asset_siteimg with context -%}
 {%- import 'util/helpers.html' as help -%}
 
 {% if v %}
@@ -12,7 +11,7 @@
 {% endif %}
 
 {% if not v or v.highlightcomments %}
-	<script defer src="/assets/js/new_comments_count.js?v=4000"></script>
+	<script defer src="{{'js/new_comments_count.js' | asset}}"></script>
 {% endif %}
 
 {% include "popover.html" %}
@@ -425,6 +424,6 @@
 {% endif %}
 {% include "expanded_image_modal.html" %}
 
-<script defer src="{{asset('js/clipboard.js')}}"></script>
-<script defer src="{{asset('js/comments+submission_listing.js')}}"></script>
-<script defer src="{{asset('js/submission_listing.js')}}"></script>
+<script defer src="{{'js/clipboard.js' | asset}}"></script>
+<script defer src="{{'js/comments+submission_listing.js' | asset}}"></script>
+<script defer src="{{'js/submission_listing.js' | asset}}"></script>
