@@ -436,12 +436,77 @@ def donate(v):
 	return render_template(f'donate_{SITE_NAME}.html', v=v)
 
 
-if SITE == 'pcmemes.net' or True:
+if SITE == 'pcmemes.net':
 	from files.classes.streamers import *
 
+	id_regex = re.compile('"externalId":"([^"]*?)"', flags=re.A)
 	live_regex = re.compile('playerOverlayVideoDetailsRenderer":\{"title":\{"simpleText":"(.*?)"\},"subtitle":\{"runs":\[\{"text":"(.*?)"\},\{"text":" • "\},\{"text":"(.*?)"\}', flags=re.A)
 	live_thumb_regex = re.compile('\{"thumbnail":\{"thumbnails":\[\{"url":"(.*?)"', flags=re.A)
 	offline_regex = re.compile('","title":"(.*?)".*?"width":48,"height":48\},\{"url":"(.*?)"', flags=re.A)
+	offline_details_regex = re.compile('simpleText":"Gestreamd: ([0-9]*?) ([a-z]*?) geleden"\},"viewCountText":\{"simpleText":"([0-9.]*?) weergaven"', flags=re.A)
+
+	def process_streamer(id, live='live'):
+		url = f'https://www.youtube.com/channel/{id}/{live}'
+		req = requests.get(url, cookies={'CONSENT': 'YES+1'}, timeout=5, proxies=proxies)
+		text = req.text
+		if '"videoDetails":{"videoId"' in text:
+			y = live_regex.search(text)
+			count = y.group(3)
+			if 'wacht' in count:
+				return process_streamer(id, '')
+
+			count = int(count.replace('.', ''))
+
+			t = live_thumb_regex.search(text)
+
+			thumb = t.group(1)
+			name = y.group(2)
+			title = y.group(1)
+			
+			return (True, (id, req.url, thumb, name, title, count))
+		else:
+			t = offline_regex.search(text)
+			y = offline_details_regex.search(text)
+
+			if y:
+				views = y.group(3).replace('.', '')
+				quantity = int(y.group(1))
+				unit = y.group(2)
+
+				if unit.startswith('minu'):
+					unit = 'minute'
+					modifier = 1
+				if unit == 'uur':
+					unit = 'hour'
+					modifier = 60
+				if unit.startswith('dag'):
+					unit = 'day'
+					modifier = 1440
+				if unit.startswith('we'):
+					unit = 'week'
+					modifier = 10080
+				elif unit.startswith('maand'):
+					unit = 'month'
+					modifier = 43800
+				elif unit == 'jaar':
+					unit = 'year'
+					modifier = 525600
+
+				minutes = quantity * modifier
+
+				actual = f'{quantity} {unit}'
+				if quantity > 1: actual += 's'
+			else:
+				minutes = 0
+				actual = '???'
+				views = 0
+
+			print(req.url, flush=True)
+			thumb = t.group(2)
+			name = t.group(1)
+
+			return (False, (id, req.url.rstrip('/live'), thumb, name, minutes, actual, views))
+
 
 	def live_cached():
 		live = []
@@ -449,26 +514,18 @@ if SITE == 'pcmemes.net' or True:
 		db = db_session()
 		streamers = [x[0] for x in db.query(Streamer.id).all()]
 		db.close()
-		for x in streamers:
-			url = f'https://www.youtube.com/channel/{x}/live'
-			req = requests.get(url, cookies={'CONSENT': 'YES+1'}, timeout=5, proxies=proxies)
-			text = req.text
-			if '"videoDetails":{"videoId"' in text:
-				t = live_thumb_regex.search(text)
-				y = live_regex.search(text)
-				try:
-					count = int(y.group(3))
-					live.append((x, req.url, t.group(1), y.group(2), y.group(1), count))
-				except:
-					print(x)
-			else:
-				y = offline_regex.search(text)
-				try: offline.append((x, req.url.rstrip('/live'), y.group(2), y.group(1)))
-				except: print(x)
+		for id in streamers:
+			processed = process_streamer(id)
+			if processed:
+				if processed[0]: live.append(processed[1])
+				else: offline.append(processed[1])
 
 		live = sorted(live, key=lambda x: x[5], reverse=True)
+		offline = sorted(offline, key=lambda x: x[4])
 
-		return live, offline
+		if live: cache.set('live', live)
+		if offline: cache.set('offline', offline)
+
 
 	@app.get('/live')
 	@app.get('/logged_out/live')
@@ -482,13 +539,23 @@ if SITE == 'pcmemes.net' or True:
 	@app.post('/live/add')
 	@admin_level_required(2)
 	def live_add(v):
-		id = request.values.get('id').strip()
+		if v.id not in (AEVANN_ID, KIPPY_ID, 1550):
+			return {"error": 'Only Kippy can add channels!'}, 403
+
+		link = request.values.get('link').strip()
+
+		if 'youtube.com/channel/' in link:
+			id = link.split('youtube.com/channel/')[1].rstrip('/')
+		else:
+			text = requests.get(link, cookies={'CONSENT': 'YES+1'}, timeout=5, proxies=proxies).text
+			try: id = id_regex.search(text).group(1)
+			except: return {"error": "Invalid ID"}
 
 		live = cache.get('live') or []
 		offline = cache.get('offline') or []
 
 		if not id or len(id) != 24:
-			return render_template('live.html', v=v, live=live, offline=offline, error="Invalid ID")
+			return {"error": "Invalid ID"}
 
 		existing = g.db.get(Streamer, id)
 		if not existing:
@@ -498,27 +565,16 @@ if SITE == 'pcmemes.net' or True:
 			if v.id != KIPPY_ID:
 				send_repeatable_notification(KIPPY_ID, f"@{v.username} has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 
-			url = f'https://www.youtube.com/channel/{id}/live'
-			req = requests.get(url, cookies={'CONSENT': 'YES+1'}, timeout=5, proxies=proxies)
-			text = req.text
-			if '"videoDetails":{"videoId"' in text:
-				t = live_thumb_regex.search(text)
-				y = live_regex.search(text)
-				try:
-					count = int(y.group(3))
-					live.append((id, req.url, t.group(1), y.group(2), y.group(1), count))
-					cache.set('live', live)
-				except:
-					print(id, flush=True)
-			else:
-				with open("files/assets/txt9.txt", "w", encoding='utf_8') as f:
-					f.write(text)
-				y = offline_regex.search(text)
-				try:
-					offline.append((id, req.url.rstrip('/live'), y.group(2), y.group(1)))
-					cache.set('offline', offline)
-				except:
-					print(id, flush=True)
+			processed = process_streamer(id)
+			if processed:
+				if processed[0]: live.append(processed[1])
+				else: offline.append(processed[1])
+
+		live = sorted(live, key=lambda x: x[5], reverse=True)
+		offline = sorted(offline, key=lambda x: x[4])
+
+		if live: cache.set('live', live)
+		if offline: cache.set('offline', offline)
 
 		return redirect('/live')
 
@@ -539,7 +595,7 @@ if SITE == 'pcmemes.net' or True:
 		live = [x for x in live if x[0] != id]
 		offline = [x for x in offline if x[0] != id]
 
-		cache.set('live', live)
-		cache.set('offline', offline)
+		if live: cache.set('live', live)
+		if offline: cache.set('offline', offline)
 
 		return redirect('/live')
