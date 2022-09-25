@@ -4,27 +4,38 @@ import { UserList } from "./UserList";
 import "./ChatHeading.css";
 
 export function ChatHeading() {
-  const { reveal } = useDrawer();
+  const { open, hide, reveal } = useDrawer();
   const { online } = useChat();
-  const handleOpenUserListDrawer = useCallback(
-    () =>
+  const handleToggleUserListDrawer = useCallback(() => {
+    if (open) {
+      hide();
+    } else {
       reveal({
         title: "Users in chat",
         content: <UserList fluid={true} />,
-      }),
-    []
-  );
+      });
+    }
+  }, [open]);
 
   return (
     <div className="ChatHeading">
       <div />
       <div>
-        <i
-          role="button"
-          className="far fa-user"
-          onClick={handleOpenUserListDrawer}
-        />
-        <em>{online.length} users online</em>
+        {open ? (
+          <button
+            className="btn btn-secondary"
+            onClick={handleToggleUserListDrawer}
+          >Close</button>
+        ) : (
+          <>
+            <i
+              role="button"
+              className="far fa-user"
+              onClick={handleToggleUserListDrawer}
+            />
+            <em>{online.length} users online</em>
+          </>
+        )}
       </div>
     </div>
   );
