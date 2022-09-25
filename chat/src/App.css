@@ -51,6 +51,7 @@ body {
   position: relative;
   flex: 3;
   height: 62vh;
+  height: calc(var(--vh, 1vh) * 75);
   max-height: 1000px;
   overflow: auto;
   -ms-overflow-style: none;
