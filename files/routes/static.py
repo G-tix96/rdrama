@@ -460,31 +460,35 @@ if SITE == 'pcmemes.net':
 			t = offline_regex.search(text)
 			y = offline_details_regex.search(text)
 
-			quantity = int(y.group(1))
-			unit = y.group(2)
+			if y:
+				quantity = int(y.group(1))
+				unit = y.group(2)
 
-			if unit.startswith('minu'):
-				unit = 'minute'
-				modifier = 1
-			if unit == 'uur':
-				unit = 'hour'
-				modifier = 60
-			if unit.startswith('we'):
-				unit = 'week'
-				modifier = 10080
-			elif unit.startswith('maand'):
-				unit = 'month'
-				modifier = 43800
-			elif unit == 'jaar':
-				unit = 'year'
-				modifier = 525600
+				if unit.startswith('minu'):
+					unit = 'minute'
+					modifier = 1
+				if unit == 'uur':
+					unit = 'hour'
+					modifier = 60
+				if unit.startswith('we'):
+					unit = 'week'
+					modifier = 10080
+				elif unit.startswith('maand'):
+					unit = 'month'
+					modifier = 43800
+				elif unit == 'jaar':
+					unit = 'year'
+					modifier = 525600
+				else:
+					print(unit, flush=True)
+
+				minutes = quantity * modifier
+
+				actual = f'{quantity} {unit}'
+				if quantity > 1: actual += 's'
 			else:
-				print(unit, flush=True)
-
-			minutes = quantity * modifier
-
-			actual = f'{quantity} {unit}'
-			if quantity > 1: actual += 's'
+				minutes = 0
+				actual = '???'
 
 			try:
 				return_val = (False, (id, req.url.rstrip('/live'), t.group(2), t.group(1), minutes, actual, y.group(3)))
