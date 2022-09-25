@@ -9,6 +9,7 @@ declare interface IChatMessage {
   hat: string;
   namecolor: string;
   text: string;
+  base_text_censored: string;
   text_censored: string;
   text_html: string;
   time: number;

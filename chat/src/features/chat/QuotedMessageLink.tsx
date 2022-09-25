@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useRootContext } from "../../hooks";
 
 const SCROLL_TO_QUOTED_OVERFLOW = 250;
@@ -6,7 +6,7 @@ const QUOTED_MESSAGE_CONTEXTUAL_HIGHLIGHTING_DURATION = 2500;
 const QUOTED_MESSAGE_CONTEXTUAL_SNIPPET_LENGTH = 30;
 
 export function QuotedMessageLink({ message }: { message: IChatMessage }) {
-  const { themeColor } = useRootContext();
+  const { censored, themeColor } = useRootContext();
   const handleLinkClick = useCallback(() => {
     const element = document.getElementById(message.id);
 
@@ -27,17 +27,22 @@ export function QuotedMessageLink({ message }: { message: IChatMessage }) {
       }
     }
   }, []);
+  const replyText = useMemo(() => {
+    const textToUse = censored ? message.base_text_censored || message.text : message.text;
+    const slicedText = textToUse.slice(
+      0,
+      QUOTED_MESSAGE_CONTEXTUAL_SNIPPET_LENGTH
+    );
+
+    return textToUse.length >= QUOTED_MESSAGE_CONTEXTUAL_SNIPPET_LENGTH
+      ? `${slicedText}...`
+      : slicedText;
+  }, [message, censored]);
 
   return (
     <a href="#" onClick={handleLinkClick}>
       Replying to @{message.username}:{" "}
-      <em>
-        "{message.text.slice(0, QUOTED_MESSAGE_CONTEXTUAL_SNIPPET_LENGTH)}
-        {message.text.length >= QUOTED_MESSAGE_CONTEXTUAL_SNIPPET_LENGTH
-          ? "..."
-          : ""}
-        "
-      </em>
+      <em>"{replyText}"</em>
     </a>
   );
 }

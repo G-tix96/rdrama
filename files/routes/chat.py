@@ -69,6 +69,7 @@ def speak(data, v):
 		"namecolor": v.name_color,
 		"text": text,
 		"text_html": text_html,
+		"base_text_censored": censor_slurs(text, 'chat'),
 		"text_censored": censor_slurs(text_html, 'chat'),
 		"time": int(time.time()),
 	}
