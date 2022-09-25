@@ -454,7 +454,7 @@ if SITE == 'pcmemes.net':
 			if 'wacht' in count:
 				return process_streamer(id, '')
 
-			count = int(count)
+			count = int(count.replace('.', ''))
 
 			t = live_thumb_regex.search(text)
 
@@ -468,7 +468,7 @@ if SITE == 'pcmemes.net':
 			y = offline_details_regex.search(text)
 
 			if y:
-				views = y.group(3).replace('.', ',')
+				views = y.group(3).replace('.', '')
 				quantity = int(y.group(1))
 				unit = y.group(2)
 
