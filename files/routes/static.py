@@ -436,12 +436,44 @@ def donate(v):
 	return render_template(f'donate_{SITE_NAME}.html', v=v)
 
 
-if SITE == 'pcmemes.net' or True:
+if SITE == 'pcmemes.net':
 	from files.classes.streamers import *
 
 	live_regex = re.compile('playerOverlayVideoDetailsRenderer":\{"title":\{"simpleText":"(.*?)"\},"subtitle":\{"runs":\[\{"text":"(.*?)"\},\{"text":" • "\},\{"text":"(.*?)"\}', flags=re.A)
 	live_thumb_regex = re.compile('\{"thumbnail":\{"thumbnails":\[\{"url":"(.*?)"', flags=re.A)
 	offline_regex = re.compile('","title":"(.*?)".*?"width":48,"height":48\},\{"url":"(.*?)"', flags=re.A)
+	offline_details_regex = re.compile('simpleText":"Gestreamd: ([0-9]*?) ([a-z]*?) geleden"\},"viewCountText":\{"simpleText":"([0-9]*?) weergaven"', flags=re.A)
+
+	def process_streamer(id):
+		url = f'https://www.youtube.com/channel/{id}/live'
+		req = requests.get(url, cookies={'CONSENT': 'YES+1'}, timeout=5, proxies=proxies)
+		text = req.text
+		if '"videoDetails":{"videoId"' in text:
+			t = live_thumb_regex.search(text)
+			y = live_regex.search(text)
+			try:
+				return_val = (True, (id, req.url, t.group(1), y.group(2), y.group(1), int(y.group(3))))
+			except:
+				print(id, flush=True)
+				return_val = None
+		else:
+			t = offline_regex.search(text)
+			y = offline_details_regex.search(text)
+
+			days = y.group(0)
+			modifier = y.group(1)
+			if modifier == 'weken': modifier = 7
+			elif modifier == 'maand': modifier = 30
+			elif modifier == 'jaar': modifier = 365
+			days *= modifier
+
+			try:
+				return_val = (False, (id, req.url.rstrip('/live'), t.group(2), t.group(1), days, y.group(2)))
+			except:
+				print(id, flush=True)
+				return_val = None
+		return return_val
+
 
 	def live_cached():
 		live = []
@@ -449,24 +481,17 @@ if SITE == 'pcmemes.net' or True:
 		db = db_session()
 		streamers = [x[0] for x in db.query(Streamer.id).all()]
 		db.close()
-		for x in streamers:
-			url = f'https://www.youtube.com/channel/{x}/live'
-			req = requests.get(url, cookies={'CONSENT': 'YES+1'}, timeout=5, proxies=proxies)
-			text = req.text
-			if '"videoDetails":{"videoId"' in text:
-				t = live_thumb_regex.search(text)
-				y = live_regex.search(text)
-				try:
-					count = int(y.group(3))
-					live.append((x, req.url, t.group(1), y.group(2), y.group(1), count))
-				except:
-					print(x)
-			else:
-				y = offline_regex.search(text)
-				try: offline.append((x, req.url.rstrip('/live'), y.group(2), y.group(1)))
-				except: print(x)
+		for id in streamers:
+			processed = process_streamer(id)
+			if processed:
+				if processed[0]: live.append(processed[1])
+				else: offline.append(processed[1])
 
 		live = sorted(live, key=lambda x: x[5], reverse=True)
+		offline = sorted(offline, key=lambda x: x[4])
+
+		cache.set('live', live)
+		cache.set('offline', offline)
 
 		return live, offline
 
@@ -498,27 +523,16 @@ if SITE == 'pcmemes.net' or True:
 			if v.id != KIPPY_ID:
 				send_repeatable_notification(KIPPY_ID, f"@{v.username} has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 
-			url = f'https://www.youtube.com/channel/{id}/live'
-			req = requests.get(url, cookies={'CONSENT': 'YES+1'}, timeout=5, proxies=proxies)
-			text = req.text
-			if '"videoDetails":{"videoId"' in text:
-				t = live_thumb_regex.search(text)
-				y = live_regex.search(text)
-				try:
-					count = int(y.group(3))
-					live.append((id, req.url, t.group(1), y.group(2), y.group(1), count))
-					cache.set('live', live)
-				except:
-					print(id, flush=True)
-			else:
-				with open("files/assets/txt9.txt", "w", encoding='utf_8') as f:
-					f.write(text)
-				y = offline_regex.search(text)
-				try:
-					offline.append((id, req.url.rstrip('/live'), y.group(2), y.group(1)))
-					cache.set('offline', offline)
-				except:
-					print(id, flush=True)
+			processed = process_streamer(id)
+			if processed:
+				if processed[0]: live.append(processed[1])
+				else: offline.append(processed[1])
+
+		live = sorted(live, key=lambda x: x[5], reverse=True)
+		offline = sorted(offline, key=lambda x: x[4])
+
+		cache.set('live', live)
+		cache.set('offline', offline)
 
 		return redirect('/live')
 
