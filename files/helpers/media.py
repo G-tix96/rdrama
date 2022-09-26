@@ -105,4 +105,8 @@ def process_image(filename=None, resize=0, trim=False):
 			i = ImageOps.exif_transpose(i)
 			i.save(filename, format="WEBP", method=6, quality=88)
 
+	if resize == 400 and os.stat(filename).st_size > 1 * 1024 * 1024:
+		os.remove(filename)
+		abort(413)
+
 	return filename
