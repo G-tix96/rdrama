@@ -2472,6 +2472,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyunpettable',2,'dramamine fashy rightoid chud fashwave altright vaporwave',NULL),
 ('marseyupmarsey',2,'upvote vote upmarsey arrow reddit up animated',NULL),
 ('marseyupset',2,'marsey upset tears',1663697961),
+('marseyupvote',2,'updoot upmarsey agree yes good based true',1664181430),
 ('marseyusa',2,'burger patriot america freedom liberty justice love independence freedom guns trump biden state flag',NULL),
 ('marseyuwuw',2,'fursona furry fursuit',NULL),
 ('marseyvampire',2,'undead sanguine horror spooky halloween fangs holiday monster',NULL),
