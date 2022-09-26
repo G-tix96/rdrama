@@ -30,7 +30,7 @@ def process_files():
 
 
 def process_other(file):
-	req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': file}, timeout=20).json()
+	req = requests.post("https://pomf2.lain.la/upload.php", files={'files[]': file}, timeout=20, proxies=proxies).json()
 	return req['files'][0]['url']
 
 
@@ -47,8 +47,7 @@ def process_audio(file):
 	if os.stat(name).st_size > 8 * 1024 * 1024:
 		with open(name, 'rb') as f:
 			os.remove(name)
-			req = requests.request("POST", "https://pomf2.lain.la/upload.php",
-				files={'files[]': f}, timeout=20).json()
+			req = requests.post("https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=20, proxies=proxies).json()
 		return req['files'][0]['url']
 
 	return f'{SITE_FULL}{name}'
@@ -68,8 +67,7 @@ def process_video(file):
 	if os.stat(new).st_size > 8 * 1024 * 1024:
 		with open(new, 'rb') as f:
 			os.remove(new)
-			req = requests.request("POST", "https://pomf2.lain.la/upload.php",
-				files={'files[]': f}, timeout=20).json()
+			req = requests.post("https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=20, proxies=proxies).json()
 		return req['files'][0]['url']
 	return f'{SITE_FULL}{new}'
 
