@@ -1851,6 +1851,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseymexican',2,'latina latino hispanic fiesta sombrero latinx hombre mexico',NULL),
 ('marseymfdoom',2,'rapper hip hop hiphop rnb supervillain helmet mask',NULL),
 ('marseymicrobus',2,'vw van bussy',NULL),
+('marseymidsommarchristian',2,'sweden movie film cult a24 scandinavia man cinema bear death kill fire murder torture drug',1664220296),
+('marseymidsommardani',2,'sweden movie film cult a24 scandinavia flowers dress happy tears joy woman cinema',1664220186),
 ('marseymike',2,'disney pixar monsters inc cyclops',NULL),
 ('marseymiku',2,'hatsune miku pop star concert rave weeaboo music animated singing microphone',NULL),
 ('marseymilesdavis',2,'jazz saxophone bebop music trumpet brass black',NULL),
