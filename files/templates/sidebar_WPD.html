@@ -1,7 +1,11 @@
 <div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3 pb-5" {% if request.path != '/sidebar' %}id="sidebar-content"{% endif %}>
 
-	{%- set art_path = "assets/images/WPD/sidebar" -%}
-	{%- set art_image = "/" + art_path + "/" + listdir('files/' + art_path)|random() + '?v=45' -%}
+	{%- if v -%}
+		{%- set art_path = 'assets/images/WPD/sidebar' -%}
+		{%- set art_image = '/' + art_path + '/' + listdir('files/' + art_path)|random() + '?v=45' -%}
+	{%- else -%}
+		{%- set art_image = '/i/' + SITE_NAME + '/sidebar.webp?v=3000' -%}
+	{%- endif -%}
 
 	{% if request.path != '/sidebar' %}
 		<a href="{{art_image}}">
