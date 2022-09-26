@@ -308,6 +308,8 @@ elif SITE == 'watchpeopledie.co':
 	SNAKES_ID = 32
 
 	GIFT_NOTIF_ID = CARP_ID
+
+	SIDEBAR_THREAD = 5403
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
