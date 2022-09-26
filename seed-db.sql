@@ -1815,6 +1815,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseymajorgeneral',2,'jeffthespammer pirates of penzance safari muttonchops mutton chops army military soldier officer',NULL),
 ('marseymalding',2,'dilate seethe scrote mad moid cope',NULL),
 ('marseymancer',2,'dead undead horror lich halloween necromancer zombies zombie holiday evil',NULL),
+('marseymanifestdestiny',2,'manifest usa american imperialism history expansion territory exploration',1664172279),
 ('marseymanlet',2,'llm short midget dwarf little king',NULL),
 ('marseymanysuchcases',2,'animated many such cases airport luggage suitcase conveyor',NULL),
 ('marseymao',2,'zedong ccp chinese communist communism china',NULL),
