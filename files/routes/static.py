@@ -443,7 +443,7 @@ if SITE == 'pcmemes.net':
 	live_regex = re.compile('playerOverlayVideoDetailsRenderer":\{"title":\{"simpleText":"(.*?)"\},"subtitle":\{"runs":\[\{"text":"(.*?)"\},\{"text":" • "\},\{"text":"(.*?)"\}', flags=re.A)
 	live_thumb_regex = re.compile('\{"thumbnail":\{"thumbnails":\[\{"url":"(.*?)"', flags=re.A)
 	offline_regex = re.compile('","title":"(.*?)".*?"width":48,"height":48\},\{"url":"(.*?)"', flags=re.A)
-	offline_details_regex = re.compile('simpleText":"Gestreamd: ([0-9]*?) ([a-z]*?) geleden"\},"viewCountText":\{"simpleText":"([0-9.]*?) weergaven"', flags=re.A)
+	offline_details_regex = re.compile('simpleText":"Μεταδόθηκε πριν από ([0-9]*?) ([^"]*?)"\},"viewCountText":\{"simpleText":"([0-9.]*?) προβολές"', flags=re.A)
 
 	def process_streamer(id, live='live'):
 		url = f'https://www.youtube.com/channel/{id}/{live}'
@@ -452,7 +452,7 @@ if SITE == 'pcmemes.net':
 		if '"videoDetails":{"videoId"' in text:
 			y = live_regex.search(text)
 			count = y.group(3)
-			if 'wacht' in count:
+			if 'περιμένει' in count:
 				return process_streamer(id, '')
 
 			try: count = int(count.replace('.', ''))
@@ -478,22 +478,22 @@ if SITE == 'pcmemes.net':
 				quantity = int(y.group(1))
 				unit = y.group(2)
 
-				if unit.startswith('minu'):
+				if unit.startswith('λεπτ'):
 					unit = 'minute'
 					modifier = 1
-				if unit == 'uur':
+				if unit.startswith('ώρ'):
 					unit = 'hour'
 					modifier = 60
-				if unit.startswith('dag'):
+				if unit.startswith('ημέρ'):
 					unit = 'day'
 					modifier = 1440
-				if unit.startswith('we'):
+				if unit.startswith('εβδομάδ'):
 					unit = 'week'
 					modifier = 10080
-				elif unit.startswith('maand'):
+				elif unit.startswith('μήν'):
 					unit = 'month'
 					modifier = 43800
-				elif unit == 'jaar':
+				elif unit.startswith('έτ'):
 					unit = 'year'
 					modifier = 525600
 
