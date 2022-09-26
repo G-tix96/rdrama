@@ -56,9 +56,10 @@ export function ChatMessage({
   const quotedMessage = messageLookup[quotes];
   const content = censored ? text_censored : text_html;
   const isMention =
-    text_html.includes(`/id/${userId}`) &&
-    userUsername &&
-    username !== userUsername;
+    quotedMessage?.username === userUsername ||
+    (text_html.includes(`/id/${userId}`) &&
+      userUsername &&
+      username !== userUsername);
   const timestamp = useMemo(
     () => formatTimeAgo(time),
     [time, timestampUpdates]
