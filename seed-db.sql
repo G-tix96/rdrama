@@ -1575,6 +1575,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyglow',2,'fbi mossad cop feds animated glownigger glowie secret service fed atf police cia nsa kgb',NULL),
 ('marseyglow2',2,'fbi mossad feds agent glownigger reaction glowie fed atf cia nsa',NULL),
 ('marseyglowaward',2,'medal fbi ribbon animated glownigger retard glowie fed atf cia nsa',NULL),
+('marseygoatse',2,'shock bussy troll',1664223119),
 ('marseygodel',2,'old philosophy glasses history',NULL),
 ('marseygodfather',2,'wop italy italian dego mafia',NULL),
 ('marseygodzilla',2,'raptor halloween dinosaur gojira evil bug',NULL),
