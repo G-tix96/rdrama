@@ -313,14 +313,27 @@ function showmore() {
 		btn.innerHTML = 'SHOW LESS'
 }
 
+function formatDate(d) {
+	var year = d.getFullYear();
+	var monthAbbr = d.toLocaleDateString('en-us', {month: 'short'});
+	var day = d.getDate();
+	var hour = ("0" + d.getHours()).slice(-2);
+	var minute = ("0" + d.getMinutes()).slice(-2);
+	var second = ("0" + d.getSeconds()).slice(-2);
+	var tzAbbr = d.toLocaleTimeString('en-us', {timeZoneName: 'short'}).split(' ')[2];
+
+	return (day + " " + monthAbbr + " " + year + " "
+	         + hour + ":" + minute + ":" + second + " " + tzAbbr);
+}
+
 const timestamps = document.querySelectorAll('[data-time]');
 
 for (const e of timestamps) {
 	const date = new Date(e.dataset.time*1000);
-	e.innerHTML = date.toString();
+	e.innerHTML = formatDate(date);
 };
 
 function timestamp(str, ti) {
 	const date = new Date(ti*1000);
-	document.getElementById(str).setAttribute("data-bs-original-title", date.toString());
+	document.getElementById(str).setAttribute("data-bs-original-title", formatDate(date));
 };

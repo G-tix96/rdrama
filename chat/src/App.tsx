@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { DndProvider, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import cx from "classnames";
+import throttle from "lodash.throttle";
 import {
   ChatHeading,
   ChatMessageList,
@@ -14,6 +15,7 @@ import { ChatProvider, DrawerProvider, useChat, useDrawer } from "./hooks";
 import "./App.css";
 
 const SCROLL_CANCEL_THRESHOLD = 500;
+const WINDOW_RESIZE_THROTTLE_WAIT = 250;
 
 export function App() {
   return (
@@ -35,6 +37,26 @@ function AppInner() {
   const contentWrapper = useRef<HTMLDivElement>(null);
   const initiallyScrolledDown = useRef(false);
   const { messages, quote } = useChat();
+
+  // See: https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
+  useEffect(() => {
+    const updateViewportHeightUnit = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+    const throttledResizeHandler = throttle(
+      updateViewportHeightUnit,
+      WINDOW_RESIZE_THROTTLE_WAIT
+    );
+
+    throttledResizeHandler();
+
+    window.addEventListener("resize", throttledResizeHandler);
+
+    return () => {
+      window.removeEventListener("resize", throttledResizeHandler);
+    };
+  }, []);
 
   useEffect(() => {
     if (messages.length > 0) {
@@ -95,7 +117,7 @@ function AppInner() {
           <div className="App-bottom">
             {quote && (
               <div className="App-bottom-extra">
-                {quote && <QuotedMessage />}
+                <QuotedMessage />
               </div>
             )}
             <UserInput />
