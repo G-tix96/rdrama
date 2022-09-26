@@ -28,8 +28,8 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
-  max-width: 1000px;
+  justify-content: center;
+  margin: 0 2rem;
 }
 
 .App-heading {
@@ -99,6 +99,10 @@ body {
 
 /* On mobile, hide the sidebar and make the input full-width. */
 @media screen and (max-width: 1100px) {
+  .App-wrapper {
+    margin: 0 auto;
+  }
+
   .App-heading {
     padding: 0 1rem;
   }
