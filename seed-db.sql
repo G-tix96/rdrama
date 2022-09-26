@@ -232,6 +232,7 @@ INSERT INTO public.hat_defs VALUES (733, 'Kanohi Ignika', 'The Mask of Life. Mat
 INSERT INTO public.hat_defs VALUES (734, 'Kanohi Pakari (Onua)', 'Toa of Earth. The wisdom of the group, but wisdom is useless if you don''t share it. Why is your element separate from Stone? Answer me that, wise guy!', 2, 500, NULL, 1663970191);
 INSERT INTO public.hat_defs VALUES (735, 'The Yakub', 'Proof that science has, in fact, gone too far', 2, 500, NULL, 1664054894);
 INSERT INTO public.hat_defs VALUES (737, 'Duel Wielding', 'Oh shit you''re packing? My bad carry on', 2, 500, NULL, 1664088304);
+
 INSERT INTO public.hat_defs VALUES (3, 'Cat Ears I', 'Mew :3', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (92, 'Top Hat (black)', 'Traditional. Classy. Elegant.', 2, 500, NULL, 1662167687);
@@ -883,7 +884,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 737, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 738, true);
 
 
 --
