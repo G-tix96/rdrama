@@ -201,7 +201,7 @@ def comment(v):
 						num = int(li.split('.webp')[0]) + 1
 						filename = f'files/assets/images/{SITE_NAME}/sidebar/{num}.webp'
 						copyfile(oldname, filename)
-						process_image(filename, 600)
+						process_image(filename, resize=400)
 					elif parent_post.id == BANNER_THREAD:
 						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/banners'),
 							key=lambda e: int(e.split('.webp')[0]))[-1]

@@ -76,7 +76,7 @@ def submit_marsey(v):
 
 	filename = f'/asset_submissions/marseys/{name}.webp'
 	copyfile(highquality, filename)
-	process_image(filename, resize=250, trim=True)
+	process_image(filename, resize=200, trim=True)
 
 	marsey = Marsey(name=name, author_id=author.id, tags=tags, count=0, submitter_id=v.id)
 	g.db.add(marsey)
@@ -391,7 +391,7 @@ def update_marsey(v):
 
 	filename = f"files/assets/images/emojis/{name}.webp"
 	copyfile(new_path, filename)
-	process_image(filename, resize=250, trim=True)
+	process_image(filename, resize=200, trim=True)
 
 	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
 		data=f'{{"files": ["https://{SITE}/e/{name}.webp", "https://{SITE}/assets/images/emojis/{name}.webp", "https://{SITE}/asset_submissions/marseys/original/{name}.{format}"]}}', timeout=5)
