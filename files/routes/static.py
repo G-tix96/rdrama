@@ -447,7 +447,7 @@ if SITE == 'pcmemes.net':
 
 	def process_streamer(id, live='live'):
 		url = f'https://www.youtube.com/channel/{id}/{live}'
-		req = requests.get(url, cookies={'CONSENT': 'YES+1'}, timeout=5, proxies=proxies)
+		req = requests.get(url, cookies={'CONSENT': 'YES+1'}, timeout=5)
 		text = req.text
 		if '"videoDetails":{"videoId"' in text:
 			y = live_regex.search(text)
@@ -558,7 +558,7 @@ if SITE == 'pcmemes.net':
 		if 'youtube.com/channel/' in link:
 			id = link.split('youtube.com/channel/')[1].rstrip('/')
 		else:
-			text = requests.get(link, cookies={'CONSENT': 'YES+1'}, timeout=5, proxies=proxies).text
+			text = requests.get(link, cookies={'CONSENT': 'YES+1'}, timeout=5).text
 			try: id = id_regex.search(text).group(1)
 			except: return {"error": "Invalid ID"}
 

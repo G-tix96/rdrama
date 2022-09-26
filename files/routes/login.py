@@ -318,7 +318,7 @@ def sign_up_post(v):
 				"sitekey": HCAPTCHA_SITEKEY}
 		url = "https://hcaptcha.com/siteverify"
 
-		x = requests.post(url, data=data, timeout=5, proxies=proxies)
+		x = requests.post(url, data=data, timeout=5)
 
 		if not x.json()["success"]:
 			return signup_error("Unable to verify captcha [2].")

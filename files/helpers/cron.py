@@ -112,7 +112,7 @@ def give_monthly_marseybux_task():
 
 	data = {'access_token': GUMROAD_TOKEN}
 
-	emails = [x['email'] for x in requests.get(f'https://api.gumroad.com/v2/products/{GUMROAD_ID}/subscribers', data=data, timeout=5, proxies=proxies).json()["subscribers"]]
+	emails = [x['email'] for x in requests.get(f'https://api.gumroad.com/v2/products/{GUMROAD_ID}/subscribers', data=data, timeout=5).json()["subscribers"]]
 
 	for u in g.db.query(User).filter(User.patron > 0, User.patron_utc == 0).all():
 		g.db.add(u)
