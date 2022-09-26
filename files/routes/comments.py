@@ -208,7 +208,7 @@ def comment(v):
 						num = int(li.split('.webp')[0]) + 1
 						filename = f'files/assets/images/{SITE_NAME}/banners/{num}.webp'
 						copyfile(oldname, filename)
-						process_image(filename)
+						process_image(filename, resize=1200)
 					elif parent_post.id == BADGE_THREAD:
 						try:
 							badge_def = loads(body)
