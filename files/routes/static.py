@@ -455,7 +455,12 @@ if SITE == 'pcmemes.net':
 			if 'wacht' in count:
 				return process_streamer(id, '')
 
-			count = int(count.replace('.', ''))
+			try: count = int(count.replace('.', ''))
+			except Exception as e:
+				print(e)
+				with open('files/assets/count.txt', 'w', encoding='utf-8') as f:
+					f.write(text)
+				return None
 
 			t = live_thumb_regex.search(text)
 
@@ -502,7 +507,13 @@ if SITE == 'pcmemes.net':
 				views = 0
 
 			print(req.url, flush=True)
-			thumb = t.group(2)
+			try: thumb = t.group(2)
+			except Exception as e:
+				print(e)
+				with open('files/assets/thumb.txt', 'w', encoding='utf-8') as f:
+					f.write(text)
+				return None
+
 			name = t.group(1)
 
 			return (False, (id, req.url.rstrip('/live'), thumb, name, minutes, actual, views))
