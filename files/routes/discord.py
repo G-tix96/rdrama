@@ -55,7 +55,7 @@ def discord_redirect(v):
 	}
 	url="https://discord.com/api/oauth2/token"
 
-	x=requests.post(url, headers=headers, data=data, timeout=5)
+	x=requests.post(url, headers=headers, data=data, timeout=5, proxies=proxies)
 
 	x=x.json()
 
@@ -80,7 +80,7 @@ def discord_redirect(v):
 
 	if v.discord_id and v.discord_id != x['id']:
 		url=f"https://discord.com/api/guilds/{DISCORD_SERVER_ID}/members/{v.discord_id}"
-		requests.delete(url, headers=headers, timeout=5)
+		requests.delete(url, headers=headers, timeout=5, proxies=proxies)
 
 	if g.db.query(User).filter(User.id!=v.id, User.discord_id==x["id"]).one_or_none():
 		return render_template("message.html", title="Discord account already linked.", error="This Discord account is already in use by another user.", v=v)
@@ -97,7 +97,7 @@ def discord_redirect(v):
 		"nick":name,
 	}
 
-	x=requests.put(url, headers=headers, json=data, timeout=5)
+	x=requests.put(url, headers=headers, json=data, timeout=5, proxies=proxies)
 
 	if x.status_code in {201, 204}:
 		time.sleep(0.1)
@@ -112,7 +112,7 @@ def discord_redirect(v):
 			add_role(v, "admin")
 
 			time.sleep(0.1)
-			requests.put("https://discord.com/api/guilds/913091440035389520/members/788152118669606932", headers=headers, json={"access_token":token,"roles":[915260962540511292]}, timeout=5)
+			requests.put("https://discord.com/api/guilds/913091440035389520/members/788152118669606932", headers=headers, json={"access_token":token,"roles":[915260962540511292]}, timeout=5, proxies=proxies)
 	else:
 		return x.json()
 
@@ -124,7 +124,7 @@ def discord_redirect(v):
 			"nick": name
 		}
 
-		requests.patch(url, headers=headers, json=data, timeout=5)
+		requests.patch(url, headers=headers, json=data, timeout=5, proxies=proxies)
 
 
 	return redirect(f"https://discord.com/channels/{DISCORD_SERVER_ID}/{DISCORD_WELCOME_CHANNEL}")
