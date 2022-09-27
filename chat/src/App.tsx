@@ -36,7 +36,7 @@ function AppInner() {
   const { open, config } = useDrawer();
   const contentWrapper = useRef<HTMLDivElement>(null);
   const initiallyScrolledDown = useRef(false);
-  const { messages, quote } = useChat();
+  const { messages, quote, userToDm, updateUserToDm } = useChat();
 
   // See: https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
   useEffect(() => {
@@ -118,6 +118,25 @@ function AppInner() {
             {quote && (
               <div className="App-bottom-extra">
                 <QuotedMessage />
+              </div>
+            )}
+            {userToDm && (
+              <div
+                className="App-bottom-extra text-primary"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <em>Directly messaging @{userToDm.username}</em>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => updateUserToDm(null)}
+                >
+                  Cancel
+                </button>
               </div>
             )}
             <UserInput />

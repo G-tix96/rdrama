@@ -13,7 +13,7 @@ import { EmojiDrawer, QuickEmojis } from "../emoji";
 import "./UserInput.css";
 
 export function UserInput() {
-  const { draft, sendMessage, updateDraft } = useChat();
+  const { draft, userToDm, sendMessage, updateDraft } = useChat();
   const builtChatInput = useRef<HTMLTextAreaElement>(null);
   const { visible, addQuery } = useEmojis();
   const form = useRef<HTMLFormElement>(null);
@@ -80,6 +80,12 @@ export function UserInput() {
       document.removeEventListener("emojiInserted", handleEmojiInsert);
     }
   }, []);
+
+  useEffect(() => {
+    if (userToDm) {
+      builtChatInput.current?.focus();
+    }
+  }, [userToDm])
 
   return (
     <form ref={form} className="UserInput" onSubmit={handleSendMessage}>

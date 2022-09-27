@@ -43,6 +43,7 @@ export function ChatMessage({
     text_censored,
     time,
     quotes,
+    dm,
   } = message;
   const {
     id: userId,
@@ -51,7 +52,14 @@ export function ChatMessage({
     censored,
     themeColor,
   } = useRootContext();
-  const { messageLookup, deleteMessage, quoteMessage } = useChat();
+  const {
+    messageLookup,
+    userToDm,
+    quote,
+    deleteMessage,
+    quoteMessage,
+    updateUserToDm,
+  } = useChat();
   const [confirmedDelete, setConfirmedDelete] = useState(false);
   const quotedMessage = messageLookup[quotes];
   const content = censored ? text_censored : text_html;
@@ -72,9 +80,31 @@ export function ChatMessage({
     }
   }, [text, confirmedDelete]);
   const handleQuoteMessageAction = useCallback(() => {
+    updateUserToDm(null);
     quoteMessage(message);
     onToggleActions(message.id);
   }, [message, onToggleActions]);
+  const handleDirectMessage = useCallback(
+    (toggle?: boolean) => {
+      const userId = message.user_id ?? "";
+
+      if (userToDm && userToDm.id === userId) {
+        updateUserToDm(null);
+      } else {
+        updateUserToDm({
+          id: userId,
+          username: message.username,
+        });
+
+        quoteMessage(null);
+
+        if (toggle) {
+          onToggleActions(message.id);
+        }
+      }
+    },
+    [userToDm, message.id, message.user_id, message.username]
+  );
 
   useEffect(() => {
     if (!actionsOpen) {
@@ -85,12 +115,11 @@ export function ChatMessage({
   return (
     <div
       className={cx("ChatMessage", {
-        ChatMessage__showingUser: showUser,
-        ChatMessage__isMention: isMention,
+        ChatMessage__isDm: dm,
       })}
       id={id}
       style={
-        isMention
+        isMention && !dm
           ? {
               background: `#${themeColor}25`,
               borderLeft: `1px solid #${themeColor}`,
@@ -102,7 +131,21 @@ export function ChatMessage({
         <div className="ChatMessage-actions-button">
           <button
             className="btn btn-secondary"
-            onClick={() => quoteMessage(message)}
+            style={{
+              position: "relative",
+              top: 2,
+              left: -12
+            }}
+            onClick={() => handleDirectMessage()}
+          >
+            📨
+          </button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => {
+              updateUserToDm(null);
+              quoteMessage(quote ? null : message);
+            }}
           >
             <i className="fas fa-reply" />
           </button>
@@ -116,6 +159,12 @@ export function ChatMessage({
       )}
       {actionsOpen && (
         <div className="ChatMessage-actions">
+          <button
+            className="btn btn-secondary ChatMessage-button"
+            onClick={() => handleDirectMessage(true)}
+          >
+            📨 DM @{message.username}
+          </button>
           <button
             className="btn btn-secondary ChatMessage-button"
             onClick={handleQuoteMessageAction}
@@ -156,6 +205,11 @@ export function ChatMessage({
         <div className="ChatMessage-quoted-link">
           <QuotedMessageLink message={quotedMessage} />
         </div>
+      )}
+      {dm && (
+        <small className="ChatMessage-quoted-link text-primary">
+          <em>(Sent only to you)</em>
+        </small>
       )}
       <div className="ChatMessage-bottom">
         <div>

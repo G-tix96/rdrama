@@ -22,6 +22,11 @@ enum ChatHandlers {
   SPEAK = "speak",
 }
 
+interface UserToDM {
+  id: string;
+  username: string;
+}
+
 interface ChatProviderContext {
   online: string[];
   typing: string[];
@@ -29,10 +34,12 @@ interface ChatProviderContext {
   draft: string;
   quote: null | IChatMessage;
   messageLookup: Record<string, IChatMessage>;
+  userToDm: null | UserToDM;
   updateDraft: React.Dispatch<React.SetStateAction<string>>;
   sendMessage(): void;
   quoteMessage(message: null | IChatMessage): void;
   deleteMessage(withText: string): void;
+  updateUserToDm(userToDm: UserToDM): void;
 }
 
 const ChatContext = createContext<ChatProviderContext>({
@@ -42,10 +49,12 @@ const ChatContext = createContext<ChatProviderContext>({
   draft: "",
   quote: null,
   messageLookup: {},
+  userToDm: null,
   updateDraft() {},
   sendMessage() {},
   quoteMessage() {},
   deleteMessage() {},
+  updateUserToDm() {},
 });
 
 const MINIMUM_TYPING_UPDATE_INTERVAL = 250;
@@ -60,6 +69,7 @@ export function ChatProvider({ children }: PropsWithChildren) {
   const lastDraft = useRef("");
   const [quote, setQuote] = useState<null | IChatMessage>(null);
   const focused = useWindowFocus();
+  const [userToDm, setUserToDm] = useState<null | UserToDM>(null);
   const [notifications, setNotifications] = useState<number>(0);
   const [messageLookup, setMessageLookup] = useState({});
   const addMessage = useCallback((message: IChatMessage) => {
@@ -73,11 +83,13 @@ export function ChatProvider({ children }: PropsWithChildren) {
     socket.current?.emit(ChatHandlers.SPEAK, {
       message: draft,
       quotes: quote?.id ?? null,
+      recipient: userToDm?.id ?? "",
     });
 
     setQuote(null);
     setDraft("");
-  }, [draft, quote]);
+    setUserToDm(null);
+  }, [draft, quote, userToDm]);
   const requestDeleteMessage = useCallback((withText: string) => {
     socket.current?.emit(ChatHandlers.DELETE, withText);
   }, []);
@@ -105,10 +117,12 @@ export function ChatProvider({ children }: PropsWithChildren) {
       draft,
       quote,
       messageLookup,
+      userToDm,
       quoteMessage,
       sendMessage,
       deleteMessage: requestDeleteMessage,
       updateDraft: setDraft,
+      updateUserToDm: setUserToDm,
     }),
     [
       online,
@@ -117,6 +131,7 @@ export function ChatProvider({ children }: PropsWithChildren) {
       draft,
       quote,
       messageLookup,
+      userToDm,
       sendMessage,
       deleteMessage,
       quoteMessage,

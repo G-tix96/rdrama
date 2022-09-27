@@ -6,10 +6,9 @@ from files.helpers.sanitize import sanitize
 from files.helpers.const import *
 from files.helpers.alerts import *
 from files.helpers.regex import *
-from datetime import datetime
 from flask_socketio import SocketIO, emit
 from files.__main__ import app, limiter, cache
-from flask import render_template, make_response, send_from_directory
+from flask import render_template
 import sys
 import atexit
 
@@ -33,6 +32,8 @@ cache.set(ONLINE_STR, len(online), timeout=0)
 muted = cache.get(f'{SITE}_muted') or {}
 messages = cache.get(f'{SITE}_chat') or []
 total = cache.get(f'{SITE}_total') or 0
+socket_ids_to_user_ids = {}
+user_ids_to_socket_ids = {}
 
 @app.get("/chat")
 @is_not_permabanned
@@ -60,11 +61,14 @@ def speak(data, v):
 	if not text: return '', 403
 	text_html = sanitize(text, count_marseys=True)
 	quotes = data['quotes']
+	recipient = data['recipient']
 	data={
 		"id": str(uuid.uuid4()),
 		"quotes": quotes,
 		"avatar": v.profile_url,
 		"hat": v.hat_active,
+		"user_id": v.id,
+		"dm": bool(recipient and recipient != ""),
 		"username": v.username,
 		"namecolor": v.name_color,
 		"text": text,
@@ -81,6 +85,9 @@ def speak(data, v):
 		v.shadowbanned = 'AutoJanny'
 		g.db.add(v)
 		send_repeatable_notification(CARP_ID, f"{v.username} has been shadowbanned because of a chat message.")
+	elif recipient and user_ids_to_socket_ids.get(recipient):
+		recipient_sid = user_ids_to_socket_ids[recipient]
+		emit('speak', data, broadcast=False, to=recipient_sid)
 	else:
 		emit('speak', data, broadcast=True)
 		messages.append(data)
@@ -106,6 +113,10 @@ def connect(v):
 		emit("online", online, broadcast=True)
 		cache.set(ONLINE_STR, len(online), timeout=0)
 
+	if not socket_ids_to_user_ids.get(request.sid):
+		socket_ids_to_user_ids[request.sid] = v.id
+		user_ids_to_socket_ids[v.id] = request.sid
+
 	emit('online', online)
 	emit('catchup', messages)
 	emit('typing', typing)
@@ -120,6 +131,11 @@ def disconnect(v):
 		cache.set(ONLINE_STR, len(online), timeout=0)
 
 	if v.username in typing: typing.remove(v.username)
+
+	if socket_ids_to_user_ids.get(request.sid):
+		del socket_ids_to_user_ids[request.sid]
+		del user_ids_to_socket_ids[v.id]
+
 	emit('typing', typing, broadcast=True)
 	return '', 204
 

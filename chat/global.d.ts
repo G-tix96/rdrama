@@ -5,6 +5,7 @@ declare var process: {
 declare interface IChatMessage {
   id: string;
   username: string;
+  user_id?: string;
   avatar: string;
   hat: string;
   namecolor: string;
@@ -14,6 +15,7 @@ declare interface IChatMessage {
   text_html: string;
   time: number;
   quotes: null | string;
+  dm: boolean;
 }
 
 declare interface EmojiModSelection {

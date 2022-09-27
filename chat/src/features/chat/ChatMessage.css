@@ -1,7 +1,12 @@
 .ChatMessage {
   position: relative;
   padding-right: 1.5rem;
-  min-height: 28px;
+}
+
+.ChatMessage__isDm {
+  background: var(--gray-800);
+  border-top: 1px dashed var(--primary);
+  border-bottom: 1px dashed var(--primary);
 }
 
 .ChatMessage p {
