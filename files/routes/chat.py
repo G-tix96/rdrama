@@ -85,9 +85,10 @@ def speak(data, v):
 		v.shadowbanned = 'AutoJanny'
 		g.db.add(v)
 		send_repeatable_notification(CARP_ID, f"{v.username} has been shadowbanned because of a chat message.")
-	elif recipient and user_ids_to_socket_ids.get(recipient):
-		recipient_sid = user_ids_to_socket_ids[recipient]
-		emit('speak', data, broadcast=False, to=recipient_sid)
+	elif recipient:
+		if user_ids_to_socket_ids.get(recipient):
+			recipient_sid = user_ids_to_socket_ids[recipient]
+			emit('speak', data, broadcast=False, to=recipient_sid)
 	else:
 		emit('speak', data, broadcast=True)
 		messages.append(data)
