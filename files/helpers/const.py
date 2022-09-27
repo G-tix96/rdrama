@@ -1,4 +1,4 @@
-from os import environ, listdir
+from os import environ
 import re
 from copy import deepcopy
 from json import loads
