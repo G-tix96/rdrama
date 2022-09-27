@@ -90,7 +90,7 @@ export function ChatMessage({
 
       if (userToDm && userToDm.id === userId) {
         updateUserToDm(null);
-      } else {
+      } else if (userId) {
         updateUserToDm({
           id: userId,
           username: message.username,
@@ -134,7 +134,7 @@ export function ChatMessage({
             style={{
               position: "relative",
               top: 2,
-              left: -12
+              left: -12,
             }}
             onClick={() => handleDirectMessage()}
           >
