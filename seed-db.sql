@@ -232,6 +232,8 @@ INSERT INTO public.hat_defs VALUES (733, 'Kanohi Ignika', 'The Mask of Life. Mat
 INSERT INTO public.hat_defs VALUES (734, 'Kanohi Pakari (Onua)', 'Toa of Earth. The wisdom of the group, but wisdom is useless if you don''t share it. Why is your element separate from Stone? Answer me that, wise guy!', 2, 500, NULL, 1663970191);
 INSERT INTO public.hat_defs VALUES (735, 'The Yakub', 'Proof that science has, in fact, gone too far', 2, 500, NULL, 1664054894);
 INSERT INTO public.hat_defs VALUES (737, 'Duel Wielding', 'Oh shit you''re packing? My bad carry on', 2, 500, NULL, 1664088304);
+
+
 INSERT INTO public.hat_defs VALUES (3, 'Cat Ears I', 'Mew :3', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (92, 'Top Hat (black)', 'Traditional. Classy. Elegant.', 2, 500, NULL, 1662167687);
@@ -883,7 +885,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 737, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 739, true);
 
 
 --
@@ -1573,6 +1575,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyglow',2,'fbi mossad cop feds animated glownigger glowie secret service fed atf police cia nsa kgb',NULL),
 ('marseyglow2',2,'fbi mossad feds agent glownigger reaction glowie fed atf cia nsa',NULL),
 ('marseyglowaward',2,'medal fbi ribbon animated glownigger retard glowie fed atf cia nsa',NULL),
+('marseygoatse',2,'shock bussy troll',1664223119),
 ('marseygodel',2,'old philosophy glasses history',NULL),
 ('marseygodfather',2,'wop italy italian dego mafia',NULL),
 ('marseygodzilla',2,'raptor halloween dinosaur gojira evil bug',NULL),
@@ -1849,6 +1852,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseymexican',2,'latina latino hispanic fiesta sombrero latinx hombre mexico',NULL),
 ('marseymfdoom',2,'rapper hip hop hiphop rnb supervillain helmet mask',NULL),
 ('marseymicrobus',2,'vw van bussy',NULL),
+('marseymidsommarchristian',2,'sweden movie film cult a24 scandinavia man cinema bear death kill fire murder torture drug',1664220296),
+('marseymidsommardani',2,'sweden movie film cult a24 scandinavia flowers dress happy tears joy woman cinema',1664220186),
 ('marseymike',2,'disney pixar monsters inc cyclops',NULL),
 ('marseymiku',2,'hatsune miku pop star concert rave weeaboo music animated singing microphone',NULL),
 ('marseymilesdavis',2,'jazz saxophone bebop music trumpet brass black',NULL),
@@ -2472,6 +2477,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyunpettable',2,'dramamine fashy rightoid chud fashwave altright vaporwave',NULL),
 ('marseyupmarsey',2,'upvote vote upmarsey arrow reddit up animated',NULL),
 ('marseyupset',2,'marsey upset tears',1663697961),
+('marseyupvote',2,'updoot upmarsey agree yes good based true',1664181430),
 ('marseyusa',2,'burger patriot america freedom liberty justice love independence freedom guns trump biden state flag',NULL),
 ('marseyuwuw',2,'fursona furry fursuit',NULL),
 ('marseyvampire',2,'undead sanguine horror spooky halloween fangs holiday monster',NULL),
