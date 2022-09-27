@@ -344,14 +344,14 @@
 		opacity: calc(0.1*{{ p.award_count("stab", v) }});
 	}
 </style>
-<script src="/assets/js/halloween/blood.js"></script>
+<script src="/assets/js/halloween/blood.js" defer></script>
 {% elif p.award_count("stab", v) %}
 <style>
 	canvas.sketch {
 		opacity: 0.5;
 	}
 </style>
-<script src="/assets/js/halloween/blood.js"></script>
+<script src="/assets/js/halloween/blood.js" defer></script>
 {% endif %}
 
 {% if p.award_count("spiders", v) %}
