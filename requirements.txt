@@ -11,6 +11,7 @@ gevent
 gevent-websocket
 greenlet
 gunicorn
+imagehash
 lxml
 mistletoe
 matplotlib
