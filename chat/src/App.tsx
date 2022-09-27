@@ -38,7 +38,11 @@ function AppInner() {
   const initiallyScrolledDown = useRef(false);
   const { messages, quote, userToDm, updateUserToDm } = useChat();
   const [focused, setFocused] = useState(false);
-  const toggleFocus = useCallback(() => setFocused(prev => !prev), []);
+  const toggleFocus = useCallback(() => {
+    setTimeout(() => {
+      setFocused(prev => !prev);
+    }, 0);
+  }, []);
 
   // See: https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
   useEffect(() => {
