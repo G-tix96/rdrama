@@ -720,7 +720,7 @@ def song(song):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def subscribe(v, post_id):
-	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none():
+	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
 	if not existing:
 		new_sub = Subscription(user_id=v.id, submission_id=post_id)
 		g.db.add(new_sub)
