@@ -73,7 +73,7 @@ export function ChatProvider({ children }: PropsWithChildren) {
   const [notifications, setNotifications] = useState<number>(0);
   const [messageLookup, setMessageLookup] = useState({});
   const addMessage = useCallback((message: IChatMessage) => {
-    setMessages((prev) => prev.concat(message));
+    setMessages((prev) => [...prev.slice(-99), message]);
 
     if (message.username !== username && !document.hasFocus()) {
       setNotifications((prev) => prev + 1);
