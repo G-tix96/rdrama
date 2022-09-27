@@ -115,7 +115,6 @@ export function UserInput() {
         onChange={handleChange}
         onKeyUp={handleKeyUp}
         onFocus={handleFocus}
-        onInput={console.log}
         placeholder="Message"
         autoComplete="off"
         value={draft}
