@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from "react";
-import { DndProvider, useDrop } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import cx from "classnames";
 import throttle from "lodash.throttle";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { DndProvider, useDrop } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import "./App.css";
 import {
   ChatHeading,
   ChatMessageList,
@@ -12,7 +13,6 @@ import {
   UsersTyping,
 } from "./features";
 import { ChatProvider, DrawerProvider, useChat, useDrawer } from "./hooks";
-import "./App.css";
 
 const SCROLL_CANCEL_THRESHOLD = 500;
 const WINDOW_RESIZE_THROTTLE_WAIT = 250;
@@ -37,6 +37,8 @@ function AppInner() {
   const contentWrapper = useRef<HTMLDivElement>(null);
   const initiallyScrolledDown = useRef(false);
   const { messages, quote, userToDm, updateUserToDm } = useChat();
+  const [focused, setFocused] = useState(false);
+  const toggleFocus = useCallback(() => setFocused(prev => !prev), []);
 
   // See: https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
   useEffect(() => {
@@ -99,7 +101,7 @@ function AppInner() {
         <div className="App-center">
           <div
             className={cx("App-content", {
-              "App-content__reduced": quote,
+              "App-content__reduced": quote || focused,
             })}
             ref={contentWrapper}
           >
@@ -139,7 +141,10 @@ function AppInner() {
                 </button>
               </div>
             )}
-            <UserInput />
+            <UserInput
+              onFocus={toggleFocus}
+              onBlur={toggleFocus}
+            />
             <UsersTyping />
           </div>
           <div className="App-bottom-dummy" />

@@ -8,11 +8,16 @@ import React, {
   useState,
   useEffect,
 } from "react";
-import { useChat, useDrawer, useEmojis } from "../../hooks";
-import { EmojiDrawer, QuickEmojis } from "../emoji";
+import { useChat, useEmojis } from "../../hooks";
+import { QuickEmojis } from "../emoji";
 import "./UserInput.css";
 
-export function UserInput() {
+interface Props {
+  onFocus(): void;
+  onBlur(): void;
+}
+
+export function UserInput({ onFocus, onBlur }: Props) {
   const { draft, userToDm, sendMessage, updateDraft } = useChat();
   const builtChatInput = useRef<HTMLTextAreaElement>(null);
   const { visible, addQuery } = useEmojis();
@@ -67,7 +72,8 @@ export function UserInput() {
   );
   const handleFocus = useCallback(() => {
     builtChatInput.current?.scrollIntoView({ behavior: "smooth" });
-  }, []);
+    onFocus();
+  }, [onFocus]);
 
   // Listen for changes from the Emoji Modal and reflect them in draft
   useEffect(() => {
@@ -121,6 +127,7 @@ export function UserInput() {
         onChange={handleChange}
         onKeyUp={handleKeyUp}
         onFocus={handleFocus}
+        onBlur={onBlur}
         placeholder="Message"
         autoComplete="off"
         value={draft}
