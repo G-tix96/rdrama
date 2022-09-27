@@ -1,6 +1,8 @@
 import os
 import zlib
 from collections import defaultdict
+import gevent
+import gevent_inotifyx as inotify
 
 ASSET_DIR = 'files/assets'
 ASSET_SUBDIRS = ['/css', '/js']
@@ -29,4 +31,19 @@ def assetcache_path(asset_path):
 
 	return url
 
+def assetcache_watch_directories(asset_dir, subdirs):
+	fd = inotify.init()
+	try:
+		for sd in subdirs:
+			inotify.add_watch(fd, asset_dir + sd, inotify.IN_CLOSE_WRITE)
+		while True:
+			for event in inotify.get_events(fd, 0):
+				print("Rebuilding assetcache: " + event.name, flush=True)
+				assetcache_build(asset_dir, subdirs)
+				break
+			gevent.sleep(0.5)
+	finally:
+		os.close(fd)
+
 assetcache_build(ASSET_DIR, ASSET_SUBDIRS)
+gevent.spawn(assetcache_watch_directories, ASSET_DIR, ASSET_SUBDIRS)

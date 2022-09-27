@@ -9,9 +9,11 @@ Flask-Mail
 Flask-Socketio
 gevent
 gevent-websocket
+gevent_inotifyx
 greenlet
 gunicorn
 imagehash
+inotify
 lxml
 mistletoe
 matplotlib

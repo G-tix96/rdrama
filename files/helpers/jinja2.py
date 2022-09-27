@@ -1,4 +1,5 @@
 from files.__main__ import app, cache
+from jinja2 import pass_context
 from .get import *
 from os import listdir, environ
 from .const import * 
@@ -18,7 +19,8 @@ def post_embed(id, v):
 
 
 @app.template_filter("asset")
-def template_asset(asset_path):
+@pass_context
+def template_asset(ctx, asset_path):
 	return assetcache_path(asset_path)
 
 

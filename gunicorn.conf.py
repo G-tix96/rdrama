@@ -7,6 +7,7 @@ max_requests = 30000
 max_requests_jitter = 30000
 
 reload = True
+reload_engine = 'poll'
 #print_config = True
 
 def worker_abort(worker):
@@ -27,17 +28,3 @@ def worker_abort(worker):
 
 	import os
 	os.abort()
-
-def config_reload_extra_files():
-	import os
-	extra_files = []
-	asset_dirs = ['files/assets/css/', 'files/assets/js/']
-
-	for dir in asset_dirs:
-		fnames = os.listdir(dir)
-		paths = map(lambda x: dir + x, fnames)
-		extra_files.extend(paths)
-
-	return extra_files
-
-reload_extra_files = config_reload_extra_files()
