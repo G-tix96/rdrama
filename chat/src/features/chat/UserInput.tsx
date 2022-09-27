@@ -84,6 +84,9 @@ export function UserInput() {
     },
     [draft]
   );
+  const handleFocus = useCallback(() => {
+    builtChatInput.current?.scrollIntoView({ behavior: "smooth" });
+  }, []);
 
   return (
     <form ref={form} className="UserInput" onSubmit={handleSendMessage}>
@@ -118,6 +121,7 @@ export function UserInput() {
         rows={1}
         onChange={handleChange}
         onKeyUp={handleKeyUp}
+        onFocus={handleFocus}
         placeholder="Message"
         autoComplete="off"
         value={draft}
