@@ -8,16 +8,18 @@ import React, {
   useState,
   useEffect,
 } from "react";
+import cx from "classnames";
 import { useChat, useEmojis } from "../../hooks";
 import { QuickEmojis } from "../emoji";
 import "./UserInput.css";
 
 interface Props {
+  large?: boolean;
   onFocus(): void;
   onBlur(): void;
 }
 
-export function UserInput({ onFocus, onBlur }: Props) {
+export function UserInput({ large = false, onFocus, onBlur }: Props) {
   const { draft, userToDm, sendMessage, updateDraft } = useChat();
   const builtChatInput = useRef<HTMLTextAreaElement>(null);
   const { visible, addQuery } = useEmojis();
@@ -115,12 +117,9 @@ export function UserInput({ onFocus, onBlur }: Props) {
       <textarea
         ref={builtChatInput}
         id="builtChatInput"
-        className="UserInput-input form-control"
-        style={{
-          minHeight: 50,
-          height: 50,
-          maxHeight: 50,
-        }}
+        className={cx("UserInput-input form-control", {
+          "UserInput-input__large": large
+        })}
         minLength={1}
         maxLength={1000}
         rows={1}

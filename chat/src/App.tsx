@@ -142,6 +142,7 @@ function AppInner() {
               </div>
             )}
             <UserInput
+              large={focused}
               onFocus={toggleFocus}
               onBlur={toggleFocus}
             />
