@@ -6,6 +6,7 @@ from files.helpers.const import *
 from files.helpers.wrappers import *
 
 
+
 def get_game_feed(game):
     games = g.db.query(Casino_Game) \
         .filter(Casino_Game.active == False, Casino_Game.kind == game) \

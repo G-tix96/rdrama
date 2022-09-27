@@ -15,6 +15,7 @@ from files.classes import *
 from flask import *
 from files.__main__ import app, cache, limiter
 from .front import frontlist
+from .login import check_for_alts
 from files.helpers.discord import add_role
 import datetime
 import requests
@@ -211,7 +212,7 @@ def distribute(v, option_id):
 
 	pool = 0
 	for o in post.options:
-		if o.exclusive == 2: pool += o.upvotes
+		if o.exclusive > 2: pool += o.upvotes
 	pool *= 200
 
 	autojanny.coins -= pool
@@ -231,14 +232,10 @@ def distribute(v, option_id):
 	cid = notif_comment(f"You lost the 200 coins you bet on [{post.title}]({post.shortlink}) :marseylaugh:")
 	losing_voters = []
 	for o in post.options:
-		if o.exclusive == 2 and o.id != option_id:
+		if o.exclusive == 2:
 			losing_voters.extend([x.user_id for x in o.votes])
 	for uid in losing_voters:
 		add_notif(cid, uid)
-
-
-	post.body += '\n\nclosed'
-	g.db.add(post)
 	
 	ma = ModAction(
 		kind="distribute",
@@ -282,7 +279,6 @@ def revert_actions(v, username):
 	for user in users:
 		user.shadowbanned = None
 		user.unban_utc = 0
-		user.ban_evade = 0
 		user.ban_reason = None
 		if user.is_banned:
 			user.is_banned = 0
@@ -292,7 +288,6 @@ def revert_actions(v, username):
 		for u in user.alts:
 			u.shadowbanned = None
 			u.unban_utc = 0
-			u.ban_evade = 0
 			u.ban_reason = None
 			if u.is_banned:
 				u.is_banned = 0
@@ -778,6 +773,10 @@ def admin_link_accounts(v):
 		)
 
 	g.db.add(new_alt)
+	g.db.flush()
+
+	check_for_alts(g.db.get(User, u1))
+	check_for_alts(g.db.get(User, u2))
 
 	ma = ModAction(
 		kind="link_accounts",
@@ -857,7 +856,7 @@ def agendaposter(user_id, v):
 	g.db.add(user)
 
 	if days: note = f"for {days} days"
-	else: note = "permenantly"
+	else: note = "permanently"
 
 	ma = ModAction(
 		kind="agendaposter",
@@ -935,11 +934,9 @@ def shadowban(user_id, v):
 def unshadowban(user_id, v):
 	user = get_account(user_id)
 	user.shadowbanned = None
-	user.ban_evade = 0
 	g.db.add(user)
 	for alt in user.alts:
 		alt.shadowbanned = None
-		alt.ban_evade = 0
 		g.db.add(alt)
 
 	ma = ModAction(
@@ -1062,7 +1059,6 @@ def unban_user(user_id, v):
 
 	user.is_banned = 0
 	user.unban_utc = 0
-	user.ban_evade = 0
 	user.ban_reason = None
 	send_repeatable_notification(user.id, f"@{v.username} has unbanned you!")
 	g.db.add(user)
@@ -1071,7 +1067,6 @@ def unban_user(user_id, v):
 		if x.is_banned: send_repeatable_notification(x.id, f"@{v.username} has unbanned you!")
 		x.is_banned = 0
 		x.unban_utc = 0
-		x.ban_evade = 0
 		x.ban_reason = None
 		g.db.add(x)
 

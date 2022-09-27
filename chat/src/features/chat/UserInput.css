@@ -1,0 +1,17 @@
+.UserInput {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.UserInput-input {
+  flex: 1;
+  margin-right: 2rem;
+}
+
+.UserInput-emoji {
+  cursor: pointer;
+  font-size: 20px;
+  transform: rotateY(180deg);
+  margin-right: 1rem;
+}

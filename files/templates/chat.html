@@ -1,260 +1,44 @@
-{%- from 'util/assetcache.html' import asset, asset_siteimg with context -%}
 {%- import 'util/helpers.html' as help -%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<script defer src="{{asset('js/bootstrap.js')}}"></script>
-
+	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
 	<meta name="description" content="{{DESCRIPTION}}">
 	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
-
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
 	<meta name="author" content="">
 
-	<link id="favicon" rel="icon" type="image/webp" href="{{asset_siteimg('icon.webp')}}">
-
+	<link id="favicon" rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
 	<title>Chat</title>
 
 	<style>:root{--primary:#{{v.themecolor}}}</style>
-	<link rel="stylesheet" href="{{asset('css/main.css')}}">
-	<link rel="stylesheet" href="{{asset('css/' + v.theme + '.css')}}">
+	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
+	<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
 	{% if v.css %}
 		<style>
 			{{v.css | safe}}
 		</style>
 	{% endif %}
-
-	<style>
-		#chat-window {
-			max-height: calc(100vh - 220px);
-			overflow-y: auto;
-			background-color: transparent !important;
-		}
-
-		#online {
-			max-height: calc(100vh - 200px);
-			overflow-y: auto;
-			background-color: var(--background) !important;
-		}
-
-		#chat-window .chat-profile {
-			min-width: 42px;
-			width: 42px;
-			height: 42px;
-		}
-
-		#chat-window::-webkit-scrollbar {
-			display: none;
-		}
-
-		#chat-window {
-			-ms-overflow-style: none;
-			scrollbar-width: none;
-		}
-
-		.chat-mention {
-			background-color: #{{v.themecolor}}55;
-			border-radius: 3px;
-		}
-
-		p, h1, h2, h3, h4, h5 {
-			display: inherit;
-		}
-
-		blockquote + :not(blockquote) {
-			display: inline-block;
-			margin-top: 0.5rem;
-		}
-
-		blockquote {
-			margin-top: 0.5rem;
-		}
-
-		.diff {
-			margin-top: 1rem;
-		}
-
-		@media (max-width: 768px) {
-			#shrink * {
-				font-size: 10px !important;
-			}
-			.fa-reply:before {
-				font-size: 9px;
-			}
-			.diff {
-				margin-top: 0.5rem;
-			}
-			#chat-window {
-				max-height: 62vh;
-			}
-		}
-
-		p {
-			margin: 0;
-		}
-
-		.chat-line .btn {
-			background-color: transparent !important;
-		}
-
-		.chat-line-content {
-			width: 100%;
-		}
-
-		.cdiv {
-			overflow: hidden;
-			margin-left: 27px;
-		}
-
-		.quote {
-			display: inline-block;
-			padding: 0 0.5rem !important;
-			margin-bottom: 0.25rem !important;
-			border-color: transparent !important;
-		}
-
-		.del {
-			float: right;
-		}
-
-		lite-youtube {
-			min-width: min(80vw,500px);
-		}
-	</style>
+	<link rel="stylesheet" href="{{'css/chat_done.css' | asset}}">
 </head>
 
 <body>
 	{% include "header.html" %}
-	
-	<div class="container pb-4">
-		<div class="row justify-content-around" id="main-content-row">
-			<div class="col h-100 {% block customPadding %}{% if request.path.startswith('/@') %}user-gutters{% else %}custom-gutters{% endif %}{% endblock %}" id="main-content-col">	
+	{% include "expanded_image_modal.html" %}
+	{% include "emoji_modal.html" %}
 
-			<div class="border-right pb-1 pt-2 px-3">
-				<span id="online2" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now" class="text-muted">
-					<i class="far fa-user fa-sm mr-1"></i>
-					<span class="board-chat-count">0</span>
-				</span>
-			</div>
-
-			<div id="chat-line-template" class="d-none">
-				<div class="chat-line">
-					<div class="d-flex align-items-center">
-						<div class="pl-md-3 text-muted chat-line-content">
-							<div>
-								<div class="avatar profile-pic-20-wrapper">
-									<img class="avatar-pic pp20 mr-1">
-									<img class="avatar-hat profile-pic-20-hat hat" loading="lazy">
-								</div>
-								<a href="" class="font-weight-bold text-black userlink" target="_blank"></a>
-								<span class="text-black time ml-2 d-none">just now</span>
-								<div class="cdiv">
-									<span class="chat-message text-black text-break"></span>
-									<span class="text d-none"></span>
-									<button class="quote btn" onclick="quote(this)"><i class="fas fa-reply" aria-hidden="true"></i></button>
-									{% if v.admin_level > 1 %}
-										<button class="quote btn del" onclick="this.nextElementSibling.classList.remove('d-none');this.classList.add('d-none')">
-											<i class="fas fa-trash-alt" aria-hidden="true"></i>
-										</button>
-										<button class="quote btn d-none del delmsg" onclick="del(this)">
-											<i class="fas fa-trash-alt text-danger" aria-hidden="true"></i>
-										</button>
-									{% endif %}
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div id="shrink">
-				<div id="chat-window" class="container pl-0 py-0">
-					{% for m in messages %}
-						{% set text_html = m['text_censored'] if v.slurreplacer else m['text_html'] %}
-						{% set link = '<a href="/id/' + v.id|string + '">' %}
-						{% set same = loop.index > 1 and m['username'] == messages[loop.index-2]['username'] %}
-						<div class="chat-line {% if link in text_html %}chat-mention{% endif %} {% if not same %}diff{% endif %}">
-							<div class="d-flex align-items-center">
-								<div class="pl-md-3 text-muted chat-line-content">
-									<div>
-										{% if not same %}
-											<div class="profile-pic-20-wrapper">
-												<img src="{{m['avatar']}}" class="pp20 mr-1">
-												{% if m.get('hat') -%}
-													<img class="profile-pic-20-hat hat" loading="lazy" src="{{m['hat']}}?h=7">
-												{%- endif %}
-											</div>
-										{% endif %}
-
-										<a class="{% if same %}d-none{% endif %} font-weight-bold text-black userlink" style="color:#{{m['namecolor']}}" target="_blank" href="/@{{m['username']}}">{{m['username']}}</a>
-
-										{% if not same %}
-											<span class="text-black time ml-2">{{m['time'] | timestamp}}</span>
-										{% endif %}
-
-										<div class="cdiv">
-											<span class="chat-message text-black text-break">{{text_html | safe}}</span>
-											<span class="text d-none">{{m['text']}}</span>
-											<button class="quote btn" onclick="quote(this)"><i class="fas fa-reply" aria-hidden="true"></i></button>
-											{% if v.admin_level > 1 %}
-												<button class="quote btn del" onclick="this.nextElementSibling.classList.remove('d-none');this.classList.add('d-none')">
-													<i class="fas fa-trash-alt" aria-hidden="true"></i>
-												</button>
-												<button class="quote btn d-none del delmsg" onclick="del(this)">
-													<i class="fas fa-trash-alt text-danger" aria-hidden="true"></i>
-												</button>
-											{% endif %}
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					{% endfor %}
-				</div>
-
-				<div id='message' class="d-none position-relative form-group d-flex mt-3">
-					<div class="position-absolute text-muted text-small ml-1" style="bottom: -1.5rem; line-height: 1;">
-						<span id="typing-indicator"></span>
-						<span id="loading-indicator" class="d-none"></span>
-					</div>
-					<i class="btn btn-secondary mr-2 fas fa-smile-beam" style="padding-top:0.65rem" onclick="loadEmojis('input-text')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-placement="bottom" title="Add Emoji"></i>
-					<textarea onclick="scroll_chat()" id="input-text" minlength="1" maxlength="{% if SITE == 'rdrama.net' %}200{% else %}1000{% endif %}" style="font-size:16px!important" class="form-control" placeholder="Message" autocomplete="off" autofocus rows="1"></textarea>
-					<button id="chatsend" onclick="send()" class="btn btn-primary ml-3" type="submit" onclick="disable(this)">Send</button>
-				</div>
-			</div>
-		</div>
-
-		<div class="col text-left d-none d-lg-block pt-3" style="max-width:300px">
-			<h4>Users in chat right now</h4>
-			<div id="online" class="mt-3"></div>
-
+	<div
+		id="root"
+		data-id="{{v.id}}"
+		data-username="{{v.username}}"
+		data-admin="{{v.admin_level > 1}}"
+		data-censored="{{v.slurreplacer}}"
+		data-sitename="{{SITE_NAME}}"
+		data-themecolor="{{v.themecolor}}">
 	</div>
-
-</div>
-
-<input id="vid" type="hidden" value="{{v.id}}">
-<input id="vusername" type="hidden" value="{{v.username}}">
-<input id="site_name" type="hidden" value="{{SITE_NAME}}">
-<input id="slurreplacer" type="hidden" value="{{v.slurreplacer}}">
-
-{% include "emoji_modal.html" %}
-{% include "expanded_image_modal.html" %}
-
-<script defer src="{{asset('js/lozad.js')}}"></script>
-<script defer src="/assets/js/lite-youtube.js?v=4000"></script>
-<script defer src="/chat.js?h=7"></script>
-
-{% if v.admin_level > 1 %}
-	<script>
-		document.addEventListener('click', function (e) {
-			if (!e.target.classList.contains('del') && !e.target.classList.contains('fa-trash-alt')) {
-				for (const btn of document.querySelectorAll('.delmsg:not(.d-none)')) {
-					btn.classList.add('d-none');
-					btn.previousElementSibling.classList.remove('d-none');
-				}
-			}
-		});
-	</script>
-{% endif %}
+	<script>window.global = window</script>
+	<script defer src="{{'js/chat_done.js' | asset}}"></script>
+	<script defer src="{{'js/lozad.js' | asset}}"></script>
 </body>
+

@@ -7,6 +7,7 @@ max_requests = 30000
 max_requests_jitter = 30000
 
 reload = True
+reload_engine = 'poll'
 #print_config = True
 
 def worker_abort(worker):
@@ -27,4 +28,3 @@ def worker_abort(worker):
 
 	import os
 	os.abort()
-

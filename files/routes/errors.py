@@ -64,6 +64,10 @@ def error_415(e):
 	if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": "Please upload only Image, Video, or Audio files!"}, 415
 	else: return render_template('errors/415.html', err=True), 415
 
+@app.errorhandler(417)
+def error_417(e):
+	return {"error": "Image already exists!"}, 417
+
 @app.errorhandler(418)
 def error_418(e):
 	if request.headers.get("Authorization") or request.headers.get("xhr"):

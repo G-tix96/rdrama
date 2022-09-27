@@ -27,7 +27,7 @@ def marseys(v):
 		if sort == "usage": marseys = marseys.order_by(Marsey.count.desc(), User.username).all()
 		else: marseys = marseys.order_by(User.username, Marsey.count.desc()).all()
 
-		original = listdir("/asset_submissions/marseys/original")
+		original = os.listdir("/asset_submissions/marseys/original")
 		for marsey, user in marseys:
 			if f'{marsey.name}.png' in original:
 				marsey.og = f'{marsey.name}.png'
@@ -434,3 +434,179 @@ if not os.path.exists(f'files/templates/donate_{SITE_NAME}.html'):
 @auth_required
 def donate(v):
 	return render_template(f'donate_{SITE_NAME}.html', v=v)
+
+
+if SITE == 'pcmemes.net':
+	from files.classes.streamers import *
+
+	id_regex = re.compile('"externalId":"([^"]*?)"', flags=re.A)
+	live_regex = re.compile('playerOverlayVideoDetailsRenderer":\{"title":\{"simpleText":"(.*?)"\},"subtitle":\{"runs":\[\{"text":"(.*?)"\},\{"text":" • "\},\{"text":"(.*?)"\}', flags=re.A)
+	live_thumb_regex = re.compile('\{"thumbnail":\{"thumbnails":\[\{"url":"(.*?)"', flags=re.A)
+	offline_regex = re.compile('","title":"(.*?)".*?"width":48,"height":48\},\{"url":"(.*?)"', flags=re.A)
+	offline_details_regex = re.compile('simpleText":"Μεταδόθηκε πριν από ([0-9]*?) ([^"]*?)"\},"viewCountText":\{"simpleText":"([0-9.]*?) προβολές"', flags=re.A)
+
+	def process_streamer(id, live='live'):
+		url = f'https://www.youtube.com/channel/{id}/{live}'
+		req = requests.get(url, cookies={'CONSENT': 'YES+1'}, timeout=5)
+		text = req.text
+		if '"videoDetails":{"videoId"' in text:
+			y = live_regex.search(text)
+			count = y.group(3)
+			if 'περιμένει' in count:
+				return process_streamer(id, '')
+
+			try: count = int(count.replace('.', ''))
+			except Exception as e:
+				print(e)
+				with open('files/assets/count.txt', 'w', encoding='utf-8') as f:
+					f.write(text)
+				return None
+
+			t = live_thumb_regex.search(text)
+
+			thumb = t.group(1)
+			name = y.group(2)
+			title = y.group(1)
+			
+			return (True, (id, req.url, thumb, name, title, count))
+		else:
+			t = offline_regex.search(text)
+			y = offline_details_regex.search(text)
+
+			if y:
+				views = y.group(3).replace('.', '')
+				quantity = int(y.group(1))
+				unit = y.group(2)
+
+				if unit.startswith('λεπτ'):
+					unit = 'minute'
+					modifier = 1
+				if unit.startswith('ώρ'):
+					unit = 'hour'
+					modifier = 60
+				if unit.startswith('ημέρ'):
+					unit = 'day'
+					modifier = 1440
+				if unit.startswith('εβδομάδ'):
+					unit = 'week'
+					modifier = 10080
+				elif unit.startswith('μήν'):
+					unit = 'month'
+					modifier = 43800
+				elif unit.startswith('έτ'):
+					unit = 'year'
+					modifier = 525600
+
+				minutes = quantity * modifier
+
+				actual = f'{quantity} {unit}'
+				if quantity > 1: actual += 's'
+			else:
+				minutes = 0
+				actual = '???'
+				views = 0
+
+			print(req.url, flush=True)
+			try: thumb = t.group(2)
+			except Exception as e:
+				print(e)
+				with open('files/assets/thumb.txt', 'w', encoding='utf-8') as f:
+					f.write(text)
+				return None
+
+			name = t.group(1)
+
+			return (False, (id, req.url.rstrip('/live'), thumb, name, minutes, actual, views))
+
+
+	def live_cached():
+		live = []
+		offline = []
+		db = db_session()
+		streamers = [x[0] for x in db.query(Streamer.id).all()]
+		db.close()
+		for id in streamers:
+			processed = process_streamer(id)
+			if processed:
+				if processed[0]: live.append(processed[1])
+				else: offline.append(processed[1])
+
+		live = sorted(live, key=lambda x: x[5], reverse=True)
+		offline = sorted(offline, key=lambda x: x[4])
+
+		if live: cache.set('live', live)
+		if offline: cache.set('offline', offline)
+
+
+	@app.get('/live')
+	@app.get('/logged_out/live')
+	@auth_desired_with_logingate
+	def live_list(v):
+		live = cache.get('live') or []
+		offline = cache.get('offline') or []
+
+		return render_template('live.html', v=v, live=live, offline=offline)
+
+	@app.post('/live/add')
+	@admin_level_required(2)
+	def live_add(v):
+		if v.id not in (AEVANN_ID, KIPPY_ID, 1550):
+			return {"error": 'Only Kippy can add channels!'}, 403
+
+		link = request.values.get('link').strip()
+
+		if 'youtube.com/channel/' in link:
+			id = link.split('youtube.com/channel/')[1].rstrip('/')
+		else:
+			text = requests.get(link, cookies={'CONSENT': 'YES+1'}, timeout=5).text
+			try: id = id_regex.search(text).group(1)
+			except: return {"error": "Invalid ID"}
+
+		live = cache.get('live') or []
+		offline = cache.get('offline') or []
+
+		if not id or len(id) != 24:
+			return {"error": "Invalid ID"}
+
+		existing = g.db.get(Streamer, id)
+		if not existing:
+			streamer = Streamer(id=id)
+			g.db.add(streamer)
+			g.db.flush()
+			if v.id != KIPPY_ID:
+				send_repeatable_notification(KIPPY_ID, f"@{v.username} has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
+
+			processed = process_streamer(id)
+			if processed:
+				if processed[0]: live.append(processed[1])
+				else: offline.append(processed[1])
+
+		live = sorted(live, key=lambda x: x[5], reverse=True)
+		offline = sorted(offline, key=lambda x: x[4])
+
+		if live: cache.set('live', live)
+		if offline: cache.set('offline', offline)
+
+		return redirect('/live')
+
+	@app.post('/live/remove')
+	@admin_level_required(2)
+	def live_remove(v):
+		id = request.values.get('id').strip()
+		if not id: abort(400)
+		streamer = g.db.get(Streamer, id)
+		if streamer:
+			if v.id != KIPPY_ID:
+				send_repeatable_notification(KIPPY_ID, f"@{v.username} has removed a [YouTube channel](https://www.youtube.com/channel/{streamer.id})")
+			g.db.delete(streamer)
+
+		live = cache.get('live') or []
+		offline = cache.get('offline') or []
+
+		live = [x for x in live if x[0] != id]
+		offline = [x for x in offline if x[0] != id]
+
+		if live: cache.set('live', live)
+		if offline: cache.set('offline', offline)
+
+		return redirect('/live')

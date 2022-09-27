@@ -78,10 +78,15 @@
 								overflow: hidden;
 								border: none
 							}
+							.emoji2 > img {
+								-o-object-fit: contain;
+								object-fit: contain;
+							}
+
 						</style>
 						<template id="emoji-button-template">
 							<button class="btn m-1 px-0 emoji2" data-bs-toggle="tooltip" delay:="0">
-								<img loading="lazy" width=60>
+								<img loading="lazy" width=60 height=85>
 							</button>
 						</template>
 
@@ -92,4 +97,4 @@
 	</div>
 </div>
 
-<script defer src="{{asset('js/emoji_modal.js')}}"></script>
+<script defer src="{{'js/emoji_modal.js' | asset}}"></script>

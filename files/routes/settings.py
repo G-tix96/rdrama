@@ -100,12 +100,12 @@ def settings_profile_post(v):
 		updated = True
 		v.is_nofollow = request.values.get("nofollow") == 'true'
 
-	elif request.values.get("marsify", v.marsify) != v.marsify and v.marsify <= 1:
+	elif request.values.get("spider", v.spider) != v.spider and v.spider <= 1:
 		updated = True
-		v.marsify = int(request.values.get("marsify") == 'true')
-		if v.marsify: badge_grant(user=v, badge_id=170)
+		v.spider = int(request.values.get("spider") == 'true')
+		if v.spider: badge_grant(user=v, badge_id=179)
 		else: 
-			badge = v.has_badge(170)
+			badge = v.has_badge(179)
 			if badge: g.db.delete(badge)
 
 	elif request.values.get("bio") == "":

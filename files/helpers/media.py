@@ -8,7 +8,7 @@ import requests
 import time
 from .const import *
 import gevent
-
+import imagehash
 
 def process_files():
 	body = ''
@@ -30,7 +30,7 @@ def process_files():
 
 
 def process_other(file):
-	req = requests.request("POST", "https://pomf2.lain.la/upload.php", files={'files[]': file}, timeout=20).json()
+	req = requests.post("https://pomf2.lain.la/upload.php", files={'files[]': file}, timeout=20).json()
 	return req['files'][0]['url']
 
 
@@ -47,8 +47,7 @@ def process_audio(file):
 	if os.stat(name).st_size > 8 * 1024 * 1024:
 		with open(name, 'rb') as f:
 			os.remove(name)
-			req = requests.request("POST", "https://pomf2.lain.la/upload.php",
-				files={'files[]': f}, timeout=20).json()
+			req = requests.post("https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=20).json()
 		return req['files'][0]['url']
 
 	return f'{SITE_FULL}{name}'
@@ -68,8 +67,7 @@ def process_video(file):
 	if os.stat(new).st_size > 8 * 1024 * 1024:
 		with open(new, 'rb') as f:
 			os.remove(new)
-			req = requests.request("POST", "https://pomf2.lain.la/upload.php",
-				files={'files[]': f}, timeout=20).json()
+			req = requests.post("https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=20).json()
 		return req['files'][0]['url']
 	return f'{SITE_FULL}{new}'
 
@@ -104,5 +102,37 @@ def process_image(filename=None, resize=0, trim=False):
 		else:
 			i = ImageOps.exif_transpose(i)
 			i.save(filename, format="WEBP", method=6, quality=88)
+
+
+	if resize in (300,400,1200):
+		if os.stat(filename).st_size > 1 * 1024 * 1024:
+			os.remove(filename)
+			abort(413)
+
+		if resize == 1200:
+			path = f'files/assets/images/{SITE_NAME}/banners'
+		elif resize == 400:
+			path = f'files/assets/images/{SITE_NAME}/sidebar'
+		else:
+			path = f'files/assets/images/badges'
+
+		hashes = {}
+
+		for img in os.listdir(path):
+			if resize == 400 and img in ('256.webp','585.webp'): continue
+			img_path = f'{path}/{img}'
+			if img_path == filename: continue
+			img = Image.open(img_path)
+			i_hash = str(imagehash.phash(img))
+			if i_hash in hashes.keys():
+				print(hashes[i_hash], flush=True)
+				print(img_path, flush=True)
+			else: hashes[i_hash] = img_path
+
+		i = Image.open(filename)
+		i_hash = str(imagehash.phash(i))
+		if i_hash in hashes.keys():
+			os.remove(filename)
+			abort(417)
 
 	return filename

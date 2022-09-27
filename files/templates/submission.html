@@ -588,13 +588,13 @@
 <meta name="twitter:site" content="{{SITE_FULL}}">
 
 {% if not v_forbid_deleted -%}
-	<meta property="og:image" content="{% if p.is_image %}{{p.realurl(v)}}{% elif p.has_thumb%}{{p.thumb_url}}{% else %}{{SITE_FULL}}{{asset_siteimg('site_preview.webp')}}{% endif %}">
+	<meta property="og:image" content="{% if p.is_image %}{{p.realurl(v)}}{% elif p.has_thumb%}{{p.thumb_url}}{% else %}{{SITE_FULL}}{{'site_preview.webp' | asset_siteimg}}{% endif %}">
 	{% if p.is_video %}
 		<meta property="og:video" content="{{p.realurl(v)}}">
 	{% elif p.is_audio %}
 		<meta property="og:audio" content="{{p.realurl(v)}}">
 	{% endif %}
-	<meta name="twitter:image" content="{% if p.is_image %}{{p.realurl(v)}}{% elif p.has_thumb%}{{p.thumb_url}}{% else %}{{SITE_FULL}}{{asset_siteimg('site_preview.webp')}}{% endif %}">
+	<meta name="twitter:image" content="{% if p.is_image %}{{p.realurl(v)}}{% elif p.has_thumb%}{{p.thumb_url}}{% else %}{{SITE_FULL}}{{'site_preview.webp' | asset_siteimg}}{% endif %}">
 {% endif %}
 
 
@@ -816,9 +816,9 @@
 							{% if p.domain == "twitter.com" %}
 								{{p.embed_url | safe}}
 								{% if v and v.theme.split("_")[0] in ["light", "coffee", "4chan"] %}
-									<script defer src="/assets/js/twitterlight.js?v=4000"></script>
+									<script defer src="{{'js/twitterlight.js' | asset}}"></script>
 								{% else %}
-									<script defer src="/assets/js/twitter.js?v=4000"></script>
+									<script defer src="{{'js/twitter.js' | asset}}"></script>
 								{% endif %}
 							{% elif p.domain in ['youtu.be','youtube.com'] and p.embed_url and p.embed_url.startswith('<lite-youtube') %}
 								{{p.embed_url | safe}}
@@ -1170,28 +1170,28 @@
 {% endif %}
 
 {% if v and (v.id == p.author_id or v.admin_level > 1 and v.admin_level > 2) %}
-	<script defer src="/assets/js/togglePostEdit.js?v=4000"></script>
+	<script defer src="{{'js/togglePostEdit.js' | asset}}"></script>
 {% endif %}
 
 {% if not v or v.highlightcomments %}
-	<script defer src="/assets/js/new_comments_count.js?v=4000"></script>
+	<script defer src="{{'js/new_comments_count.js' | asset}}"></script>
 {% endif %}
 
-<script defer src="/assets/js/clipboard.js?v=4000"></script>
+<script defer src="{{'js/clipboard.js' | asset}}"></script>
 
 {% if not p.replies %}
 	{% include "comments.html" %}
 {% endif %}
 
 {% if p.award_count("shit", v) %}
-	<script defer src="/assets/js/critters.js?v=4000"></script>
-	<script defer src="/assets/js/bugs.js?v=4000"></script>
+	<script defer src="{{'js/critters.js' | asset}}"></script>
+	<script defer src="{{'js/bugs.js' | asset}}"></script>
 {% endif %}
 
 
 {% if p.award_count("fireflies", v) %}
-	<script defer src="/assets/js/critters.js?v=4000"></script>
-	<script defer src="/assets/js/fireflies.js?v=4001"></script>
+	<script defer src="{{'js/critters.js' | asset}}"></script>
+	<script defer src="{{'js/fireflies.js' | asset}}"></script>
 {% endif %}
 
 
@@ -1261,7 +1261,7 @@
 {% endif %}
 
 {% if p.award_count("firework", v) %}
-	<script defer src="/assets/js/fireworks.js?v=4000"></script>
+	<script defer src="{{'js/fireworks.js' | asset}}"></script>
 	<div class="firework">
 		<img src="">
 	</div>
@@ -1286,7 +1286,7 @@
 {% endif %}
 
 {% if p.award_count("ricardo", v) %}
-	<script defer src="/assets/js/ricardo.js?v=4000"></script>
+	<script defer src="{{'js/ricardo.js' | asset}}"></script>
 	<div id="ricardo1" class="ricardo ricardoleft">
 		<img src="/i/ricardo1.webp">
 	</div>

@@ -19,6 +19,7 @@ import gevent
 from sys import stdout
 import os
 import json
+from .login import check_for_alts
 
 def leaderboard_thread():	
 	db = db_session()
@@ -51,7 +52,7 @@ def leaderboard_thread():
 	stdout.flush()
 
 
-gevent.spawn(leaderboard_thread())
+gevent.spawn(leaderboard_thread)
 
 
 
@@ -235,6 +236,57 @@ def downvoting_comments(v, username, uid):
 
 	return render_template("voted_comments.html", next_exists=next_exists, listing=listing, page=page, v=v, standalone=True)
 
+
+@app.get("/@<username>/upvoted/posts")
+@auth_required
+def user_upvoted_posts(v, username):
+	u = get_user(username)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
+
+	page = max(1, int(request.values.get("page", 1)))
+
+	listing = g.db.query(Submission).join(Vote).filter(
+			Submission.ghost == False,
+			Submission.is_banned == False,
+			Submission.deleted_utc == 0,
+			Submission.author_id != u.id,
+			Vote.user_id == u.id,
+			Vote.vote_type == 1
+		).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
+
+	listing = [p.id for p in listing]
+	next_exists = len(listing) > 25
+	listing = listing[:25]
+	listing = get_posts(listing, v=v)
+
+	return render_template("voted_posts.html", next_exists=next_exists, listing=listing, page=page, v=v)
+
+
+@app.get("/@<username>/upvoted/comments")
+@auth_required
+def user_upvoted_comments(v, username):
+	u = get_user(username)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
+
+	page = max(1, int(request.values.get("page", 1)))
+
+	listing = g.db.query(Comment).join(CommentVote).filter(
+			Comment.ghost == False,
+			Comment.is_banned == False,
+			Comment.deleted_utc == 0,
+			Comment.author_id != u.id,
+			CommentVote.user_id == u.id,
+			CommentVote.vote_type == 1
+		).order_by(Comment.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
+
+	listing = [c.id for c in listing]
+	next_exists = len(listing) > 25
+	listing = listing[:25]
+	listing = get_comments(listing, v=v)
+
+	return render_template("voted_comments.html", next_exists=next_exists, listing=listing, page=page, v=v, standalone=True)
 
 
 @app.get("/poorcels")
@@ -668,8 +720,10 @@ def song(song):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def subscribe(v, post_id):
-	new_sub = Subscription(user_id=v.id, submission_id=post_id)
-	g.db.add(new_sub)
+	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
+	if not existing:
+		new_sub = Subscription(user_id=v.id, submission_id=post_id)
+		g.db.add(new_sub)
 	return {"message": "Subscribed to post successfully!"}
 	
 @app.post("/unsubscribe/<post_id>")
@@ -677,9 +731,9 @@ def subscribe(v, post_id):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def unsubscribe(v, post_id):
-	sub=g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
-	if sub:
-		g.db.delete(sub)
+	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
+	if existing:
+		g.db.delete(existing)
 	return {"message": "Unsubscribed from post successfully!"}
 
 @app.post("/@<username>/message")
@@ -707,7 +761,7 @@ def message2(v, username):
 		existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
 																Comment.sentto == user.id,
 																Comment.body_html == body_html,
-																).one_or_none()
+																).first()
 
 		if existing: return {"error": "Message already exists."}, 403
 
@@ -911,6 +965,16 @@ def followers(username, v):
 		.filter(Follow.user_id == User.id) \
 		.order_by(Follow.created_utc).all()
 	return render_template("followers.html", v=v, u=u, users=users)
+
+@app.get("/@<username>/blockers")
+@auth_required
+def blockers(username, v):
+	u = get_user(username, v=v)
+
+	users = g.db.query(UserBlock, User).join(UserBlock, UserBlock.target_id == u.id) \
+		.filter(UserBlock.user_id == User.id) \
+		.order_by(UserBlock.created_utc).all()
+	return render_template("blockers.html", v=v, u=u, users=users)
 
 @app.get("/@<username>/following")
 @auth_required
@@ -1332,6 +1396,7 @@ def fp(v, fp):
 		g.db.add(new_alt)
 		g.db.flush()
 		print(v.username + ' + ' + u.username, flush=True)
+		check_for_alts(v)
 	g.db.add(v)
 	return '', 204
 

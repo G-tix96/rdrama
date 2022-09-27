@@ -1,5 +1,5 @@
 from shutil import move, copyfile
-from os import listdir, rename, path
+from os import rename, path
 
 from files.__main__ import app, limiter
 from files.helpers.const import *
@@ -76,7 +76,7 @@ def submit_marsey(v):
 
 	filename = f'/asset_submissions/marseys/{name}.webp'
 	copyfile(highquality, filename)
-	process_image(filename, resize=250, trim=True)
+	process_image(filename, resize=200, trim=True)
 
 	marsey = Marsey(name=name, author_id=author.id, tags=tags, count=0, submitter_id=v.id)
 	g.db.add(marsey)
@@ -94,7 +94,7 @@ def submit_marsey(v):
 @app.post("/admin/approve/marsey/<name>")
 @admin_level_required(3)
 def approve_marsey(v, name):
-	if v.id not in (AEVANN_ID, CARP_ID):
+	if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, SNAKES_ID):
 		return {"error": "Only Carp can approve marseys!"}, 403
 
 	name = name.lower().strip()
@@ -253,7 +253,7 @@ def submit_hat(v):
 @app.post("/admin/approve/hat/<name>")
 @admin_level_required(3)
 def approve_hat(v, name):
-	if v.id not in (AEVANN_ID, CARP_ID):
+	if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, SNAKES_ID):
 		return {"error": "Only Carp can approve hats!"}, 403
 
 	name = name.strip()
@@ -347,12 +347,17 @@ def remove_hat(v, name):
 @app.get("/admin/update/marseys")
 @admin_level_required(3)
 def update_marseys(v):
+	if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, GEESE_ID, SNAKES_ID):
+		abort(403)
+
 	return render_template("update_assets.html", v=v, type="Marsey")
 
 
 @app.post("/admin/update/marseys")
 @admin_level_required(3)
 def update_marsey(v):
+	if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, GEESE_ID, SNAKES_ID):
+		abort(403)
 
 	file = request.files["image"]
 	name = request.values.get('name').lower().strip()
@@ -386,10 +391,17 @@ def update_marsey(v):
 
 	filename = f"files/assets/images/emojis/{name}.webp"
 	copyfile(new_path, filename)
-	process_image(filename, resize=250, trim=True)
+	process_image(filename, resize=200, trim=True)
 
 	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
 		data=f'{{"files": ["https://{SITE}/e/{name}.webp", "https://{SITE}/assets/images/emojis/{name}.webp", "https://{SITE}/asset_submissions/marseys/original/{name}.{format}"]}}', timeout=5)
+
+	ma = ModAction(
+		kind="update_marsey",
+		user_id=v.id,
+		_note=name
+	)
+	g.db.add(ma)
 
 	return render_template("update_assets.html", v=v, msg=f"'{name}' updated successfully!", type="Marsey")
 
@@ -398,12 +410,17 @@ def update_marsey(v):
 @app.get("/admin/update/hats")
 @admin_level_required(3)
 def update_hats(v):
+	if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, GEESE_ID, SNAKES_ID):
+		abort(403)
+
 	return render_template("update_assets.html", v=v, type="Hat")
 
 
 @app.post("/admin/update/hats")
 @admin_level_required(3)
 def update_hat(v):
+	if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, GEESE_ID, SNAKES_ID):
+		abort(403)
 
 	file = request.files["image"]
 	name = request.values.get('name').strip()
@@ -447,5 +464,12 @@ def update_hat(v):
 
 	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
 		data=f'{{"files": ["https://{SITE}/i/hats/{name}.webp", "https://{SITE}/assets/images/hats/{name}.webp", "https://{SITE}/asset_submissions/hats/original/{name}.{format}"]}}', timeout=5)
+
+	ma = ModAction(
+		kind="update_hat",
+		user_id=v.id,
+		_note=name
+	)
+	g.db.add(ma)
 
 	return render_template("update_assets.html", v=v, msg=f"'{name}' updated successfully!", type="Hat")

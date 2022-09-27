@@ -201,14 +201,14 @@ def comment(v):
 						num = int(li.split('.webp')[0]) + 1
 						filename = f'files/assets/images/{SITE_NAME}/sidebar/{num}.webp'
 						copyfile(oldname, filename)
-						process_image(filename, 600)
+						process_image(filename, resize=400)
 					elif parent_post.id == BANNER_THREAD:
 						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/banners'),
 							key=lambda e: int(e.split('.webp')[0]))[-1]
 						num = int(li.split('.webp')[0]) + 1
 						filename = f'files/assets/images/{SITE_NAME}/banners/{num}.webp'
 						copyfile(oldname, filename)
-						process_image(filename)
+						process_image(filename, resize=1200)
 					elif parent_post.id == BADGE_THREAD:
 						try:
 							badge_def = loads(body)
@@ -222,7 +222,7 @@ def comment(v):
 							g.db.flush()
 							filename = f'files/assets/images/badges/{badge.id}.webp'
 							copyfile(oldname, filename)
-							process_image(filename, 400)
+							process_image(filename, resize=300)
 							requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
 								data=f'{{"files": ["https://{SITE}/assets/images/badges/{badge.id}.webp"]}}', timeout=5)
 						except Exception as e:
@@ -324,6 +324,11 @@ def comment(v):
 	c.upvotes = 1
 	g.db.add(c)
 	g.db.flush()
+
+	if blackjack and any(i in c.body.lower() for i in blackjack.split()):
+		v.shadowbanned = 'AutoJanny'
+		notif = Notification(comment_id=c.id, user_id=CARP_ID)
+		g.db.add(notif)
 
 	if c.level == 1: c.top_comment_id = c.id
 	else: c.top_comment_id = parent.top_comment_id
@@ -684,6 +689,14 @@ def edit_comment(cid, v):
 		c.body = body[:10000]
 		c.body_html = body_html
 
+		if blackjack and any(i in c.body.lower() for i in blackjack.split()):
+			v.shadowbanned = 'AutoJanny'
+			g.db.add(v)
+			notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=CARP_ID).one_or_none()
+			if not notif:
+				notif = Notification(comment_id=c.id, user_id=CARP_ID)
+				g.db.add(notif)
+
 		if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and c.post.sub != 'chudrama':
 			return {"error": f'You have to include "{AGENDAPOSTER_PHRASE}" in your comment!'}, 403
 
@@ -700,7 +713,7 @@ def edit_comment(cid, v):
 				n = Notification(comment_id=c.id, user_id=x)
 				g.db.add(n)
 
-
+	g.db.commit()
 	return {"comment": c.realbody(v)}
 
 

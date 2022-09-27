@@ -62,7 +62,7 @@
 				data-bs-toggle="tooltip"
 				data-bs-placement="bottom"
 				height="13"
-				src="{{asset_siteimg('coins.webp')}}"
+				src="{{'coins.webp' | asset_siteimg}}"
 				aria-label="coins"
 				title="coins"
 				style="display: none; position: relative; top: -2px"
@@ -122,7 +122,7 @@
 			data-bs-toggle="tooltip"
 			data-bs-placement="bottom"
 			height="13"
-			src="{{asset_siteimg('coins.webp')}}"
+			src="{{'coins.webp' | asset_siteimg}}"
 			aria-label="coins"
 			title="coins"
 		/>
@@ -186,7 +186,7 @@
 	</div>
 	</div>
 
-	<script defer src="{{asset('js/lottery.js')}}"></script>
+	<script defer src="{{'js/lottery.js' | asset}}"></script>
 </div>
 
 {% endblock %}

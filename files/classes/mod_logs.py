@@ -433,6 +433,16 @@ ACTIONTYPES = {
 		"str": 'unshadowbanned {self.target_link}', 
 		"icon": 'fa-eye', 
 		"color": 'bg-success'
+	},
+	'update_hat': {
+		"str": 'updated hat image', 
+		"icon": 'fa-hat-cowboy', 
+		"color": 'bg-success'
+	},
+	'update_marsey': {
+		"str": 'updated marsey image', 
+		"icon": 'fa-cat', 
+		"color": 'bg-success'
 	}
 }
 

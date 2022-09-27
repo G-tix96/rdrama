@@ -33,8 +33,7 @@ def get_mentions(queries):
 	mentions = []
 	for kind, query in itertools.product(kinds, queries):
 		try:
-			data = requests.get(f'https://api.pushshift.io/reddit/{kind}/search'
-				+ f'?html_decode=true&q={query}&size=1', timeout=5).json()['data']
+			data = requests.get(f'https://api.pushshift.io/reddit/{kind}/search?html_decode=true&q={query}&size=1', timeout=5).json()['data']
 		except: break
 
 		for i in data:

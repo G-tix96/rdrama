@@ -1,4 +1,3 @@
-{%- from 'util/assetcache.html' import asset, asset_siteimg with context -%}
 {%- import 'util/helpers.html' as help -%}
 {% if not request.headers.get("xhr") %}
 	{% if comment_info %}
@@ -501,8 +500,7 @@
 				</div>
 				{% endif %}
 			</div>
-
-		{% if v and v.id != c.author_id and c.body %}
+		{% if v and v.id != c.author_id and c.body and not (c.post and c.post.club and not v.paid_dues) %}
 			<div autocomplete="off" class="markdown d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{c.id}}" readonly>{{c.body.strip()}}</div>
 		{% endif %}
 
@@ -553,7 +551,7 @@
 
 	{% if render_replies %}
 		<div id="replies-of-{{c.fullname}}">
-			{% if request.path.startswith('/notifications') and replies|length > 8 %}
+			{% if request.path.startswith('/notifications/') and replies|length > 8 %}
 				{% for reply in replies %}
 					{{single_comment(reply, level=level+1, collapse=(not reply.unread and loop.index != replies|length))}}
 				{% endfor %}
@@ -812,20 +810,20 @@
 	{% endif %}
 
 	{% if v %}
-		<script defer src="{{asset('js/marked.js')}}"></script>
-		<script defer src="{{asset('js/comments_v.js')}}"></script>
+		<script defer src="{{'js/marked.js' | asset}}"></script>
+		<script defer src="{{'js/comments_v.js' | asset}}"></script>
 	{% endif %}
 
-	<script defer src="/assets/js/clipboard.js?v=4000"></script>
+	<script defer src="{{'js/clipboard.js' | asset}}"></script>
 
 	{% if v and v.admin_level >= 2 %}
-		<script defer src="{{asset('js/comments_admin.js')}}"></script>
+		<script defer src="{{'js/comments_admin.js' | asset}}"></script>
 	{% endif %}
 
 	{% include "expanded_image_modal.html" %}
 
-	<script defer src="/assets/js/comments+submission_listing.js?h=7"></script>
-	<script defer src="/assets/js/comments.js?v=4000"></script>
+	<script defer src="{{'js/comments+submission_listing.js' | asset}}"></script>
+	<script defer src="{{'js/comments.js' | asset}}"></script>
 
 	<script>
 		{% if p and (not v or v.highlightcomments) %}

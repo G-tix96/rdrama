@@ -128,7 +128,6 @@ class User(Base):
 	is_nofollow = Column(Boolean, default=False)
 	custom_filter_list = Column(String)
 	discord_id = Column(String)
-	ban_evade = Column(Integer, default=0)
 	original_username = Column(String)
 	referred_by = Column(Integer, ForeignKey("users.id"))
 	currently_held_lottery_tickets = Column(Integer, default=0)
@@ -142,7 +141,7 @@ class User(Base):
 	owoify = Column(Integer)
 	marsify = Column(Integer, default=0)
 	rainbow = Column(Integer)
-	spider = Column(Integer)
+	spider = Column(Integer, default=0)
 
 	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
 	subscriptions = relationship("Subscription", back_populates="user")
@@ -832,13 +831,6 @@ class User(Base):
 	@lazy
 	def is_suspended_permanently(self):
 		return (self.is_banned and self.unban_utc == 0)
-
-	@property
-	@lazy
-	def has_shadowbanned_alts(self):
-		for u in self.alts_unique:
-			if u.shadowbanned or u.is_suspended_permanently: return True
-		return False
 
 	@property
 	@lazy

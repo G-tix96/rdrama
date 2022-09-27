@@ -5,6 +5,7 @@ from files.helpers.get import *
 from files.helpers.regex import *
 from files.classes import *
 from .front import frontlist
+from sqlalchemy import nullslast
 import tldextract
 
 @app.post("/exile/post/<pid>")
@@ -197,7 +198,9 @@ def sub_exilees(v, sub):
 	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
 
-	users = g.db.query(User, Exile).join(Exile, Exile.user_id==User.id).filter_by(sub=sub.name).all()
+	users = g.db.query(User, Exile).join(Exile, Exile.user_id==User.id) \
+				.filter_by(sub=sub.name) \
+				.order_by(nullslast(Exile.created_utc.desc()), User.username).all()
 
 	return render_template("sub/exilees.html", v=v, sub=sub, users=users)
 
@@ -208,10 +211,13 @@ def sub_blockers(v, sub):
 	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
 
-	users = g.db.query(User).join(SubBlock).filter_by(sub=sub.name).all()
+	users = g.db.query(User).join(SubBlock) \
+				.filter_by(sub=sub.name) \
+				.order_by(nullslast(SubBlock.created_utc.desc()), User.username).all()
 
 	return render_template("sub/blockers.html", 
 		v=v, sub=sub, users=users, verb="blocking")
+
 
 @app.get("/h/<sub>/followers")
 @auth_required
@@ -219,9 +225,9 @@ def sub_followers(v, sub):
 	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
 
-	users = g.db.query(User) \
-			.join(SubSubscription) \
-			.filter_by(sub=sub.name).all()
+	users = g.db.query(User).join(SubSubscription) \
+			.filter_by(sub=sub.name) \
+			.order_by(nullslast(SubSubscription.created_utc.desc()), User.username).all()
 
 	return render_template("sub/blockers.html", 
 		v=v, sub=sub, users=users, verb="following")
@@ -507,7 +513,7 @@ def subs(v):
 	return render_template('sub/subs.html', v=v, subs=subs)
 
 @app.post("/hole_pin/<pid>")
-@auth_required
+@is_not_permabanned
 def hole_pin(v, pid):
 	p = get_post(pid)
 
@@ -525,7 +531,7 @@ def hole_pin(v, pid):
 	return {"message": f"Post pinned to /h/{p.sub} successfully!"}
 
 @app.post("/hole_unpin/<pid>")
-@auth_required
+@is_not_permabanned
 def hole_unpin(v, pid):
 	p = get_post(pid)
 

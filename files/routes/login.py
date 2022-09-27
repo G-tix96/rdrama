@@ -21,7 +21,11 @@ def login_get(v):
 	return render_template("login.html", failed=False, redirect=redir)
 
 
-def check_for_alts(current_id):
+def check_for_alts(current):
+	current_id = current.id
+	if current_id in (1691,6790,7069,36152):
+		session["history"] = []
+		return
 	ids = [x[0] for x in g.db.query(User.id).all()]
 	past_accs = set(session.get("history", []))
 
@@ -78,6 +82,14 @@ def check_for_alts(current_id):
 	
 	past_accs.add(current_id)
 	session["history"] = list(past_accs)
+	g.db.flush()
+	for u in current.alts_unique:
+		if u.shadowbanned:
+			current.shadowbanned = u.shadowbanned
+			g.db.add(current)
+		elif current.shadowbanned:
+			u.shadowbanned = current.shadowbanned
+			g.db.add(u)
 
 
 @app.post("/login")
@@ -154,8 +166,7 @@ def on_login(account, redir=None):
 	session["lo_user"] = account.id
 	session["login_nonce"] = account.login_nonce
 	if account.id == AEVANN_ID: session["verified"] = time.time()
-
-	check_for_alts(account.id)
+	check_for_alts(account)
 
 @app.get("/me")
 @app.get("/@me")
@@ -333,7 +344,6 @@ def sign_up_post(v):
 		password=request.values.get("password"),
 		email=email,
 		referred_by=ref_id or None,
-		ban_evade =int(any((x.is_banned or x.shadowbanned) and not x.unban_utc for x in g.db.query(User).filter(User.id.in_(session.get("history", []))).all() if x)),
 		profileurl=profileurl
 		)
 
@@ -356,11 +366,7 @@ def sign_up_post(v):
 		send_verification_email(new_user)
 
 
-	check_for_alts(new_user.id)
-	if new_user.has_shadowbanned_alts:
-		new_user.shadowbanned = "AutoJanny"
-		g.db.add(new_user)
-		g.db.commit()
+	check_for_alts(new_user)
 	
 	send_notification(new_user.id, WELCOME_MSG)
 

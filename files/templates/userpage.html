@@ -57,6 +57,9 @@
 									<h5 class="text-primary" id="profile--unban">{{u.unban_string}}</h5>
 								{% endif %}
 							{% endif %}
+							{% if v and v.admin_level >= 2 and u.shadowbanned %}
+								<h5 class="text-primary" id="profile--shadowbanned">SHADOWBANNED USER</h5>
+							{% endif %}
 							<div class="d-flex align-items-center mt-1 mb-2">
 								<h1 class="font-weight-bolder h3 my-0 mr-2" id="profile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.username}}</span></h1>
 
@@ -122,12 +125,12 @@
 				{% endif %}
 				
 				{% if v and (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']) -%}
-				<div class="font-weight-bolder mb-2" id="profile--simphate"><a class="mr-1" href="/@{{u.username}}/upvoters">Simps</a> | <a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | <a class="mx-1" href="/@{{u.username}}/upvoting">Simps for</a> | <a class="ml-1" href="/@{{u.username}}/downvoting">Hates</a></div>
+				<div class="font-weight-bolder mb-2" id="profile--simphate"><a class="mr-1" href="/@{{u.username}}/upvoters">Simps</a> | <a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | <a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> | <a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> | <a class="ml-1" href="/@{{u.username}}/upvoted/posts">Upvoted</a></div>
 				{%- endif %}
 
 				<div class="font-weight-bolder">
 					<span id="profile-coins-amount">{{u.coins}}</span>
-					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="20" src="{{asset_siteimg('coins.webp')}}">&nbsp;&nbsp;
+					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="20" src="{{'coins.webp' | asset_siteimg}}">&nbsp;&nbsp;
 
 					{% if FEATURES['PROCOINS'] %}
 						<span id="profile-bux-amount">{{u.procoins}}</span>
@@ -457,12 +460,12 @@
 				{% endif %}
 
 				{% if v and (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']) -%}
-				<div class="font-weight-bolder mb-2" id="profile-mobile--simphate"><a class="mr-1" href="/@{{u.username}}/upvoters">Simps</a> | <a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | <a class="mx-1" href="/@{{u.username}}/upvoting">Simps for</a> | <a class="ml-1" href="/@{{u.username}}/downvoting">Hates</a></div>
+				<div class="font-weight-bolder mb-2" id="profile-mobile--simphate"><a class="mr-1" href="/@{{u.username}}/upvoters">Simps</a> | <a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | <a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> | <a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> | <a class="ml-1" href="/@{{u.username}}/upvoted/posts">Upvoted</a></div>
 				{%- endif %}
 
 				<div class="font-weight-normal">
 					<span id="profile-coins-amount-mobile" class="font-weight-bold">{{u.coins}}</span>
-					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="15" src="{{asset_siteimg('coins.webp')}}">&nbsp;&nbsp;
+					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="15" src="{{'coins.webp' | asset_siteimg}}">&nbsp;&nbsp;
 
 					{% if FEATURES['PROCOINS'] %}
 						<span id="profile-bux-amount-mobile" class="font-weight-bold">{{u.procoins}}</span>
@@ -818,11 +821,11 @@
 
 {% if v %}
 <div id='tax' class="d-none">{% if v.patron or u.patron or v.alts_patron or u.alts_patron %}0{% else %}0.03{% endif %}</div>
-<script defer src="{{asset('js/userpage_v.js')}}"></script>
+<script defer src="{{'js/userpage_v.js' | asset}}"></script>
 <div id="username" class="d-none">{{u.username}}</div>
 {% endif %}
 
-<script defer src="{{asset('js/userpage.js')}}"></script>
+<script defer src="{{'js/userpage.js' | asset}}"></script>
 
 {% endblock %}
 
@@ -849,7 +852,7 @@
 {% endif %}
 
 {% if not request.path.endswith('/comments') %}
-	<script defer src="{{asset('js/marked.js')}}"></script>
+	<script defer src="{{'js/marked.js' | asset}}"></script>
 {% endif %}
 
 {% if v and v.id != u.id and '/comments' not in request.path %}

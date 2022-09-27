@@ -91,16 +91,9 @@ def get_logged_in_user():
 
 	return v
 
-def check_ban_evade(v):
-	if v and not v.patron and v.admin_level < 2 and v.ban_evade and not v.unban_utc:
-		v.shadowbanned = "AutoJanny"
-		g.db.add(v)
-
 def auth_desired(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
-
-		check_ban_evade(v)
 
 		return make_response(f(*args, v=v, **kwargs))
 
@@ -120,8 +113,6 @@ def auth_desired_with_logingate(f):
 			if not redir: redir = '/'
 			return redirect(redir)
 
-		check_ban_evade(v)
-
 		return make_response(f(*args, v=v, **kwargs))
 
 	wrapper.__name__ = f.__name__
@@ -131,8 +122,6 @@ def auth_required(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
 		if not v: abort(401)
-
-		check_ban_evade(v)
 
 		return make_response(f(*args, v=v, **kwargs))
 
@@ -146,8 +135,6 @@ def is_not_permabanned(f):
 		v = get_logged_in_user()
 
 		if not v: abort(401)
-		
-		check_ban_evade(v)
 
 		if v.is_suspended_permanently:
 			return {"error": "Internal server error"}, 500

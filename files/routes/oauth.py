@@ -100,7 +100,8 @@ def delete_oauth_app(v, aid):
 
 	aid = int(aid)
 	app = g.db.get(OauthApp, aid)
-
+	if not app: abort(404)
+	
 	if app.author_id != v.id: abort(403)
 
 	for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id).all():
@@ -120,6 +121,7 @@ def edit_oauth_app(v, aid):
 
 	aid = int(aid)
 	app = g.db.get(OauthApp, aid)
+	if not app: abort(404)
 
 	if app.author_id != v.id: abort(403)
 
@@ -139,6 +141,8 @@ def edit_oauth_app(v, aid):
 def admin_app_approve(v, aid):
 
 	app = g.db.get(OauthApp, aid)
+	if not app: abort(404)
+
 	user = app.author
 
 	if not app.client_id:
@@ -221,10 +225,9 @@ def admin_app_reject(v, aid):
 @app.get("/admin/app/<aid>")
 @admin_level_required(3)
 def admin_app_id(v, aid):
-
 	aid=aid
-
 	oauth = g.db.get(OauthApp, aid)
+	if not oauth: abort(404)
 
 	pids=oauth.idlist(page=int(request.values.get("page",1)))
 
@@ -247,6 +250,7 @@ def admin_app_id_comments(v, aid):
 	aid=aid
 
 	oauth = g.db.get(OauthApp, aid)
+	if not oauth: abort(404)
 
 	cids=oauth.comments_idlist(page=int(request.values.get("page",1)),
 		)
@@ -284,6 +288,7 @@ def reroll_oauth_tokens(aid, v):
 	aid = aid
 
 	a = g.db.get(OauthApp, aid)
+	if not a: abort(404)
 
 	if a.author_id != v.id: abort(403)
 

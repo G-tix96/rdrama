@@ -1,4 +1,4 @@
-from os import environ, listdir
+from os import environ
 import re
 from copy import deepcopy
 from json import loads
@@ -219,7 +219,7 @@ if SITE == 'rdrama.net':
 	BADGE_THREAD = 37833
 	SNAPPY_THREAD = 37749
 
-	HOLE_COST = 100000
+	HOLE_COST = 50000
 	HOLE_INACTIVITY_DELETION = True
 
 	AUTOJANNY_ID = 1046
@@ -308,6 +308,8 @@ elif SITE == 'watchpeopledie.co':
 	SNAKES_ID = 32
 
 	GIFT_NOTIF_ID = CARP_ID
+
+	SIDEBAR_THREAD = 5403
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
@@ -539,8 +541,8 @@ AWARDS = {
 	},
 	"unpin": {
 		"kind": "unpin",
-		"title": "1-Hour Unpin",
-		"description": "Removes 1 hour from the pin duration of the post/comment.",
+		"title": "Unpin",
+		"description": "Removes 1 hour from the pin duration of a post or 6 hours from the pin duration of a comment.",
 		"icon": "fas fa-thumbtack fa-rotate--45",
 		"color": "text-black",
 		"price": 1000
@@ -555,8 +557,8 @@ AWARDS = {
 	},
 	"pin": {
 		"kind": "pin",
-		"title": "1-Hour Pin",
-		"description": "Pins the post/comment.",
+		"title": "Pin",
+		"description": "Pins a post for 1 hour or a comment for 6 hours.",
 		"icon": "fas fa-thumbtack fa-rotate--45",
 		"color": "text-warning",
 		"price": 1500
@@ -1011,7 +1013,13 @@ approved_embed_hosts = {
 	'substackcdn.com',
 	'9gag.com',
 	'ifunny.co',
-	'wixmp.com'
+	'wixmp.com',
+	'derpicdn.net',
+	'twibooru.org',
+	'ponybooru.org',
+	'e621.net',
+	'ponerpics.org',
+	'furaffinity.net'
 	}
 
 
@@ -1088,6 +1096,6 @@ forced_hats = {
 	"owoify": ("Cat Ears (wiggly)", "Nuzzles, pounces on you, UwU, you're so warm!.."),
 	"earlylife": ("The Merchant", "SHUT IT DOWN, the goys know!"),
 	"marsify": ("Marsified", "I can't pick my own Marseys, help!"),
-	"is_banned": ("Behind Bars", "This user is banned and needs to do better!"),
+	"is_suspended": ("Behind Bars", "This user is banned and needs to do better!"),
 	"agendaposter": ("Egg_irl", "This user is getting in touch with xir identity!")
 }

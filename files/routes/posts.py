@@ -1058,6 +1058,7 @@ def submit_post(v, sub=None):
 	if not post.private and SITE == 'watchpeopledie.co':
 		send_wpd_message(post.permalink)
 
+	g.db.commit()
 	if request.headers.get("Authorization"): return post.json
 	else:
 		post.voted = 1

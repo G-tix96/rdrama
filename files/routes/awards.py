@@ -166,21 +166,23 @@ def award_thing(v, thing_type, id):
 
 	author = thing.author
 
-	if author.id in (PIZZASHILL_ID, DAD_ID) and v.id not in (PIZZASHILL_ID, DAD_ID):
+	if SITE == 'rdrama.net' and author.id in (PIZZASHILL_ID, CARP_ID):
 		return {"error": "This user is immune to awards."}, 403
 
 	if kind == "benefactor" and author.id == v.id:
 		return {"error": "You can't use this award on yourself."}, 400
 
 	if kind == 'marsify' and author.marsify == 1:
-		return {"error": "User is already permenantly marsified!"}, 403
+		return {"error": "User is already permanently marsified!"}, 403
 
 	if v.id != author.id:
+		safe_username = "👻" if thing.ghost else f"@{author.username}"
+		
 		if author.deflector and v.deflector:
 			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award but it was deflected on them, they also had a deflector up, so it bounced back and forth until it vaporized!"
 			send_repeatable_notification(author.id, msg)
 
-			msg = f"@{author.username} is under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you but your deflector protected you, the award bounced back and forth until it vaporized!"
+			msg = f"{safe_username} is under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you but your deflector protected you, the award bounced back and forth until it vaporized!"
 			send_repeatable_notification(v.id, msg)
 
 			g.db.delete(award)
@@ -193,10 +195,10 @@ def award_thing(v, thing_type, id):
 		if author.deflector and v.id != AEVANN_ID and (AWARDS[kind]['price'] > 500 or kind == 'marsify' or kind.istitle()) and kind not in ('pin','unpin','benefactor'):
 			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award but it was deflected and applied to them :marseytroll:"
 			send_repeatable_notification(author.id, msg)
-			msg = f"@{author.username} is under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you :marseytroll:"
+			msg = f"{safe_username} is under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you :marseytroll:"
 			send_repeatable_notification(v.id, msg)
 			author = v
-		else:
+		elif kind != 'spider':
 			msg = f"@{v.username} has given your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award!"
 			if note: msg += f"\n\n> {note}"
 			send_repeatable_notification(author.id, msg)
@@ -232,7 +234,6 @@ def award_thing(v, thing_type, id):
 		else:
 			author.unban_utc = 0
 			author.is_banned = 0
-			author.ban_evade = 0
 			author.ban_reason = None
 			send_repeatable_notification(author.id, "You have been unbanned!")
 
@@ -268,12 +269,20 @@ def award_thing(v, thing_type, id):
 			thing.stickied_utc += 3600
 		else:
 			thing.stickied = f'{v.username} (pin award)'
-			thing.stickied_utc = int(time.time()) + 3600
+			if thing_type == 'comment':
+				thing.stickied_utc = int(time.time()) + 3600*6
+			else:
+				thing.stickied_utc = int(time.time()) + 3600
 		g.db.add(thing)
 		cache.delete_memoized(frontlist)
 	elif kind == "unpin":
 		if not thing.stickied_utc: abort(403)
-		t = thing.stickied_utc - 3600
+
+		if thing_type == 'comment':
+			t = thing.stickied_utc - 3600*6
+		else:
+			t = thing.stickied_utc - 3600
+
 		if time.time() > t:
 			thing.stickied = None
 			thing.stickied_utc = None
@@ -288,6 +297,15 @@ def award_thing(v, thing_type, id):
 		else: author.agendaposter = int(time.time()) + 86400
 		
 		badge_grant(user=author, badge_id=28)
+
+		if v.admin_level > 2:
+			ma = ModAction(
+				kind="agendaposter",
+				user_id=v.id,
+				target_user_id=author.id,
+				note=f"for 1 day"
+			)
+			g.db.add(ma)
 	elif kind == "flairlock":
 		if thing.ghost: abort(403)
 		new_name = note[:100].replace("𒐪","")
@@ -357,16 +375,16 @@ def award_thing(v, thing_type, id):
 		else: author.rehab = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=109)
 	elif kind == "deflector":
-		if author.deflector: author.deflector += 36000
-		else: author.deflector = int(time.time()) + 36000
+		author.deflector = int(time.time()) + 36000
 	elif kind == "beano":
 		badge_grant(user=author, badge_id=128)
 	elif kind == "checkmark":
 		author.verified = "Verified"
 		badge_grant(user=author, badge_id=150)
 	elif kind == 'marsify':
-		if author.marsify: author.marsify += 21600
-		else: author.marsify = int(time.time()) + 21600
+		if not author.marsify or author.marsify != 1:
+			if author.marsify: author.marsify += 21600
+			else: author.marsify = int(time.time()) + 21600
 		badge_grant(user=author, badge_id=170)
 
 		if thing_type == 'comment' and (not author.deflector or v.id == AEVANN_ID):
@@ -406,11 +424,9 @@ def award_thing(v, thing_type, id):
 		else: author.rainbow = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=171)
 	elif kind == "spider":
-		if author.id == CARP_ID:
-			return {"error": "Carp is immune to the spider award!"}, 403
 		if author.spider: author.spider += 86400
 		else: author.spider = int(time.time()) + 86400
-		badge_grant(user=author, badge_id=179)
+		badge_grant(user=author, badge_id=179, notify=False)
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1

@@ -8,7 +8,7 @@ from files.helpers.slots import *
 import random
 from urllib.parse import quote
 
-def badge_grant(user, badge_id, description=None, url=None):
+def badge_grant(user, badge_id, description=None, url=None, notify=True):
 	assert user != None
 	if user.has_badge(badge_id):
 		return
@@ -23,9 +23,10 @@ def badge_grant(user, badge_id, description=None, url=None):
 	g.db.add(badge)
 	g.db.flush()
 
-	send_repeatable_notification(user.id,
-		f"@AutoJanny has given you the following profile badge:\n\n" +
-		f"![]({badge.path})\n\n**{badge.name}**\n\n{badge.badge.description}")
+	if notify:
+		send_repeatable_notification(user.id,
+			f"@AutoJanny has given you the following profile badge:\n\n" +
+			f"![]({badge.path})\n\n**{badge.name}**\n\n{badge.badge.description}")
 
 
 def archiveorg(url):
@@ -91,7 +92,7 @@ def execute_snappy(post, v):
 
 	body += "\n\n"
 
-	if post.url and not post.url.startswith(SITE_FULL):
+	if post.url and not post.url.startswith(SITE_FULL) and not post.url.startswith('/') and not post.url.startswith('https://rdrama.org/'):
 		if post.url.startswith('https://old.reddit.com/r/'):
 			rev = post.url.replace('https://old.reddit.com/', '')
 			rev = f"* [unddit.com](https://unddit.com/{rev})\n"
@@ -100,10 +101,8 @@ def execute_snappy(post, v):
 			rev = f"* [camas.unddit.com](https://camas.unddit.com/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
 		else: rev = ''
 		
-		newposturl = post.url
-		if newposturl.startswith('/'): newposturl = f"{SITE_FULL}{newposturl}"
-		body += f"Snapshots:\n\n{rev}* [archive.org](https://web.archive.org/{newposturl})\n* [archive.ph](https://archive.ph/?url={quote(newposturl)}&run=1) (click to archive)\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(newposturl)}) (click to archive)\n\n"
-		archive_url(newposturl)
+		body += f"Snapshots:\n\n{rev}* [archive.org](https://web.archive.org/{post.url})\n* [archive.ph](https://archive.ph/?url={quote(post.url)}&run=1) (click to archive)\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(post.url)}) (click to archive)\n\n"
+		archive_url(post.url)
 
 	captured = []
 	body_for_snappy = post.body_html.replace(' data-src="', ' src="')
@@ -122,7 +121,7 @@ def execute_snappy(post, v):
 
 
 	for href, title in captured:
-		if href.startswith(SITE_FULL): continue
+		if href.startswith(SITE_FULL) or href.startswith('https://rdrama.org/'): continue
 
 		if "Snapshots:\n\n" not in body: body += "Snapshots:\n\n"
 

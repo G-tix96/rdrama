@@ -184,7 +184,7 @@
 {% if PUSHER_ID != 'blahblahblah' and v %}
 	<div class="d-none" id="strid">{{SITE}}{{v.id}}</div>
 	<div class="d-none" id="pusherid">{{PUSHER_ID}}</div>
-	<script defer src="/assets/js/pusher.js?v=4001"></script>
+	<script defer src="{{'js/pusher.js' | asset}}"></script>
 	<script>
 		if (typeof Android != 'undefined') {
 			Android.Subscribe('{{SITE}}{{v.id}}');
@@ -250,7 +250,7 @@
 				script.onload = resolve;
 				script.onerror = reject;
 				script.async = true;
-				script.src = "/assets/js/fp.js?v=4000";
+				script.src = "{{'js/fp.js' | asset}}";
 				document.head.appendChild(script);
 			})
 				.then(() => FingerprintJS.load({token: '{{FP}}'}));

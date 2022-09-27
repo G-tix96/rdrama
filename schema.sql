@@ -888,7 +888,6 @@ CREATE TABLE public.users (
     custom_filter_list character varying(1000) DEFAULT ''::character varying,
     discord_id character varying(64),
     stored_subscriber_count integer DEFAULT 0 NOT NULL,
-    ban_evade integer DEFAULT 0 NOT NULL,
     original_username character varying(30),
     customtitle character varying(1000),
     defaultsorting character varying(15) DEFAULT 'hot'::character varying NOT NULL,

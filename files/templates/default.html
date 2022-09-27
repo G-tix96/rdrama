@@ -1,9 +1,8 @@
-{%- from 'util/assetcache.html' import asset, asset_siteimg with context -%}
 {%- import 'util/helpers.html' as help -%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<script defer src="{{asset('js/bootstrap.js')}}"></script>
+	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
 
 	<meta name="description" content="{{DESCRIPTION}}">
 
@@ -15,10 +14,10 @@
 
 	{% if v %}
 		<style>:root{--primary:#{{v.themecolor}}}</style>
-		<link rel="stylesheet" href="{{asset('css/main.css')}}">
-		<!--<link rel="stylesheet" href="{{asset('css/' + v.theme + '.css')}}">-->
-		<link rel="stylesheet" href="{{asset('css/midnight.css')}}">
-		<link rel="stylesheet" href="/assets/css/awards.css?v=4000">
+		<link rel="stylesheet" href="{{'css/main.css' | asset}}">
+		<!--<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset }}">-->
+		<link rel="stylesheet" href="{{'css/midnight.css' | asset}}">
+		<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 		<link rel="stylesheet" href="/assets/css/halloween/spooky.css">
 		{% if v.agendaposter %}
 			<style>
@@ -44,13 +43,13 @@
 		{% endif %}
 	{% else %}
 		<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
-		<link rel="stylesheet" href="{{asset('css/main.css')}}">
-		<link rel="stylesheet" href="/assets/css/{{DEFAULT_THEME}}.css?v=4000">
-		<link rel="stylesheet" href="/assets/css/awards.css?v=4000">
+		<link rel="stylesheet" href="{{'css/main.css' | asset}}">
+		<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
+		<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 	{% endif %}
 
 	{% if request.path.endswith('/catalog') %}
-		<link rel="stylesheet" href="{{asset('css/catalog.css')}}">
+		<link rel="stylesheet" href="{{'css/catalog.css' | asset}}">
 	{% endif %}
 
 	{% if sub and sub.css and not request.path.endswith('settings') and not request.values.get('nocss') %}
@@ -80,16 +79,16 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<meta name="thumbnail" content="{{asset_siteimg('site_preview.webp')}}">
+	<meta name="thumbnail" content="{{'site_preview.webp' | asset_siteimg}}">
 
-	<link rel="icon" type="image/webp" href="{{asset_siteimg('icon.webp')}}">
+	<link rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
 	{% block title %}
 	<title>{{SITE_NAME}}</title>
 
 	<meta property="og:type" content="article">
 	<meta property="og:title" content="{{SITE_NAME}}">
 	<meta property="og:site_name" content="{{SITE}}">
-	<meta property="og:image" content="{{asset_siteimg('site_preview.webp')}}">
+	<meta property="og:image" content="{{'site_preview.webp' | asset_siteimg}}">
 	<meta property="og:url" content="{{request.full_path}}">
 	<meta property="og:description" name="description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
 	<meta property="og:author" name="author" content="{{SITE_FULL}}">
@@ -99,7 +98,7 @@
 	<meta name="twitter:title" content="{{SITE_NAME}}">
 	<meta name="twitter:creator" content="{{SITE_FULL}}">
 	<meta name="twitter:description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
-	<meta name="twitter:image" content="{{asset_siteimg('site_preview.webp')}}">
+	<meta name="twitter:image" content="{{'site_preview.webp' | asset_siteimg}}">
 	<meta name="twitter:url" content="{{request.full_path}}">
 	{% endblock %}
 
@@ -108,10 +107,10 @@
 	<meta name="format-detection" content="telephone=no">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 
-	<link rel="apple-touch-icon" sizes="180x180" href="{{asset_siteimg('icon.webp')}}">
+	<link rel="apple-touch-icon" sizes="180x180" href="{{'icon.webp' | asset_siteimg}}">
 		<link rel="manifest" href="/assets/manifest_{{SITE_NAME}}.json?v=6">
-		<link rel="mask-icon" href="{{asset_siteimg('icon.webp')}}">
-		<link rel="shortcut icon" href="{{asset_siteimg('icon.webp')}}">
+		<link rel="mask-icon" href="{{'icon.webp' | asset_siteimg}}">
+		<link rel="shortcut icon" href="{{'icon.webp' | asset_siteimg}}">
 		<meta name="apple-mobile-web-app-title" content="{{SITE_NAME}}">
 		<meta name="application-name" content="{{SITE_NAME}}">
 		<meta name="msapplication-TileColor" content="#{% if v %}{{v.themecolor}}{% else %}{{DEFAULT_COLOR}}{% endif %}">
@@ -123,127 +122,127 @@
 		<link
 		rel="apple-touch-startup-image"
 		sizes="320x480"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="640x960"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-icon"
 		sizes="640x1136"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-icon"
 		sizes="750x1334"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="768x1004"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="768x1024"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="828x1792"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="1024x748"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="1024x768"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="1125x2436"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="1242x2208"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="1242x2688"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="1334x750"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="1536x2008"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="1536x2048"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="1668x2224"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="1792x828"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="2048x1496"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="2048x1536"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="2048x2732"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="2208x1242"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="2224x1668"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="2436x1125"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="2668x1242"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 		<link
 		rel="apple-touch-startup-image"
 		sizes="2737x2048"
-		href="{{asset_siteimg('icon.webp')}}"
+		href="{{'icon.webp' | asset_siteimg}}"
 		>
 
 		{% block fixedMobileBarJS %}
@@ -280,7 +279,7 @@
 				{% else %}
 					{% set path = "assets/images/" + SITE_NAME + "/banners" %}
 					{% set image = "/" + path + "/" + listdir('files/' + path)|random() + '?v=25' %}
-					<img alt="site banner" src="{% if v %}{{image}}{% else %}{{asset_siteimg('cached.webp')}}{% endif %}" width="100%">
+					<img alt="site banner" src="{% if v %}{{image}}{% else %}{{'cached.webp' | asset_siteimg}}{% endif %}" width="100%">
 				{% endif %}
 			</a>
 			-->
@@ -288,14 +287,14 @@
 		{% else %}
 			{% if SITE_NAME == 'WPD' %}
 				{% if v %}
-					{% set banner = asset_siteimg('banner.webp') %}
+					{% set banner = 'banner.webp' | asset_siteimg %}
 				{% else %}
-					{% set banner = asset_siteimg('cached.webp') %}
+					{% set banner = 'cached.webp' | asset_siteimg %}
 				{% endif %}
 			{% elif SITE_NAME == 'PCM' %}
-				{% set banner = asset_siteimg('banners/great-value-v2.webp') %}
+				{% set banner = 'banners/great-value-v2.webp' | asset_siteimg %}
 			{% else %}
-				{% set banner = asset_siteimg('banner.webp') %}
+				{% set banner = 'banner.webp' | asset_siteimg %}
 			{% endif %}
 
 			<a href="{{banner}}">
@@ -382,17 +381,17 @@
 	</div>
 </div>
 
-<script defer src="{{asset('js/lozad.js')}}"></script>
+<script defer src="{{'js/lozad.js' | asset}}"></script>
 
 {% if v %}
-	<script defer src="{{asset('js/formatting.js')}}"></script>
+	<script defer src="{{'js/formatting.js' | asset}}"></script>
 {% endif %}
 
-<script defer src="/assets/js/lite-youtube.js?v=4000"></script>
+<script defer src="{{'js/lite-youtube.js' | asset}}"></script>
 
 {% if v and v.spider %}
-	<script defer src="/assets/js/critters.js?v=4000"></script>
-	<script defer src="/assets/js/spider.js?v=4000"></script>
+	<script defer src="{{'js/critters.js' | asset}}"></script>
+	<script defer src="{{'js/spider.js' | asset}}"></script>
 {% endif %}
 </body>
 

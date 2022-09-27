@@ -384,7 +384,7 @@
 	<tr {% if v.id == user.id %}class="self"{% endif %}>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		<td><a href="/blockers/{{user.id}}">{{"{:,}".format(num)}}</a></td>
+		<td><a href="/@{{user.username}}/blockers">{{"{:,}".format(num)}}</a></td>
 	</tr>
 {% endfor %}
 {% if pos16 and (pos16[0] > 25 or not pos16[1]) %}
@@ -395,7 +395,7 @@
 				{% include "user_in_table.html" %}
 			{% endwith %}
 		</td>
-		<td><a href="/blockers/{{v.id}}">{{"{:,}".format(pos16[1])}}</a></td>
+		<td><a href="/@{{v.username}}/blockers">{{"{:,}".format(pos16[1])}}</a></td>
 	</tr>
 {% endif %}
 </table>
