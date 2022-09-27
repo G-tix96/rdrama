@@ -52,7 +52,7 @@ def leaderboard_thread():
 	stdout.flush()
 
 
-gevent.spawn(leaderboard_thread())
+gevent.spawn(leaderboard_thread)
 
 
 
