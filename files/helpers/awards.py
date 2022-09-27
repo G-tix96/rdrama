@@ -67,11 +67,9 @@ def award_timers(v, bot=False):
 		badge = v.has_badge(167)
 	if v.bite and v.bite < now:
 		v.bite = None
-
 		notify_if_not_bot("Your vampire status has ended!")
 		v.house = v.old_house
 		v.old_house = ''
-
 		badge = v.has_badge(168)
 		if badge: g.db.delete(badge)
 	if v.earlylife and v.earlylife < now:
