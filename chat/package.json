@@ -1,6 +1,6 @@
 {
   "name": "chat",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "main": "./src/index.tsx",
   "license": "MIT",
   "dependencies": {
