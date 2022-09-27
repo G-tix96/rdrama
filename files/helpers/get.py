@@ -1,7 +1,6 @@
 from files.classes import *
 from flask import g
 
-print('testing smth', flush=True)
 def get_id(username, v=None, graceful=False):
 	
 	username = username.replace('\\', '').replace('_', '\_').replace('%', '').strip()
