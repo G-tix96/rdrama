@@ -345,6 +345,9 @@ function emojiAddToInput(event)
 
 	emojiInputTargetDOM.setRangeText(strToInsert);
 
+	const emojiInsertedEvent = new CustomEvent("emojiInserted", { detail: { emoji: strToInsert } });
+	document.dispatchEvent(emojiInsertedEvent);
+
 	// Sir, come out and drink your Chromium complaint web
 	// I HATE CHROME. I HATE CHROME
 	if(window.chrome !== undefined)

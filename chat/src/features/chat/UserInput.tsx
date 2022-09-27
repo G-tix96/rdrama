@@ -6,6 +6,7 @@ import React, {
   useRef,
   useMemo,
   useState,
+  useEffect,
 } from "react";
 import { useChat, useDrawer, useEmojis } from "../../hooks";
 import { EmojiDrawer, QuickEmojis } from "../emoji";
@@ -13,7 +14,6 @@ import "./UserInput.css";
 
 export function UserInput() {
   const { draft, sendMessage, updateDraft } = useChat();
-  const { reveal, hide, open } = useDrawer();
   const builtChatInput = useRef<HTMLTextAreaElement>(null);
   const { visible, addQuery } = useEmojis();
   const form = useRef<HTMLFormElement>(null);
@@ -53,25 +53,6 @@ export function UserInput() {
     },
     [handleSendMessage]
   );
-  const handleToggleEmojiDrawer = useCallback(() => {
-    if (open) {
-      builtChatInput.current?.focus();
-      hide();
-    } else {
-      reveal({
-        title: "Select an emoji",
-        content: (
-          <EmojiDrawer
-            onSelectEmoji={handleSelectEmoji}
-            onClose={() => builtChatInput.current?.focus()}
-          />
-        ),
-      });
-    }
-  }, [open]);
-  const handleSelectEmoji = useCallback((emoji: string) => {
-    updateDraft((prev) => `${prev} :${emoji}: `);
-  }, []);
   const handleInsertQuickEmoji = useCallback(
     (emoji: string) => {
       const [openEmojiToken, closeEmojiToken] = locateEmojiTokens(draft);
@@ -86,6 +67,18 @@ export function UserInput() {
   );
   const handleFocus = useCallback(() => {
     builtChatInput.current?.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
+  // Listen for changes from the Emoji Modal and reflect them in draft
+  useEffect(() => {
+    const handleEmojiInsert = (event: CustomEvent<{ emoji: string }>) =>
+      updateDraft((prev) => `${prev} ${event.detail.emoji} `);
+
+    document.addEventListener("emojiInserted", handleEmojiInsert);
+
+    return () => {
+      document.removeEventListener("emojiInserted", handleEmojiInsert);
+    }
   }, []);
 
   return (
@@ -122,6 +115,7 @@ export function UserInput() {
         onChange={handleChange}
         onKeyUp={handleKeyUp}
         onFocus={handleFocus}
+        onInput={console.log}
         placeholder="Message"
         autoComplete="off"
         value={draft}
