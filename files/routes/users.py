@@ -720,8 +720,10 @@ def song(song):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def subscribe(v, post_id):
-	new_sub = Subscription(user_id=v.id, submission_id=post_id)
-	g.db.add(new_sub)
+	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none():
+	if not existing:
+		new_sub = Subscription(user_id=v.id, submission_id=post_id)
+		g.db.add(new_sub)
 	return {"message": "Subscribed to post successfully!"}
 	
 @app.post("/unsubscribe/<post_id>")
@@ -729,9 +731,9 @@ def subscribe(v, post_id):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def unsubscribe(v, post_id):
-	sub=g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
-	if sub:
-		g.db.delete(sub)
+	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
+	if existing:
+		g.db.delete(existing)
 	return {"message": "Unsubscribed from post successfully!"}
 
 @app.post("/@<username>/message")
