@@ -1,5 +1,6 @@
 html,
 body {
+  overscroll-behavior-y: none;
 }
 
 html {
@@ -9,7 +10,7 @@ html {
 body {
   min-height: 100vh;
   min-height: calc(var(--vh, 1vh) * 100);
-  /* overflow: hidden; */
+  overflow: hidden;
   /* mobile viewport bug fix */
   min-height: -webkit-fill-available;
 }

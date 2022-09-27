@@ -25,6 +25,9 @@
 
 <body>
 	{% include "header.html" %}
+	{% include "expanded_image_modal.html" %}
+	{% include "emoji_modal.html" %}
+
 	<div
 		id="root"
 		data-id="{{v.id}}"
@@ -35,7 +38,7 @@
 		data-themecolor="{{v.themecolor}}">
 	</div>
 	<script>window.global = window</script>
-	<script defer src="{{'js/lite-youtube.js' | asset}}"></script>
 	<script defer src="{{'js/chat_done.js' | asset}}"></script>
+	<script defer src="{{'js/lozad.js' | asset}}"></script>
 </body>
 

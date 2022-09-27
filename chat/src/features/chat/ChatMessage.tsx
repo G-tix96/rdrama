@@ -206,7 +206,6 @@ export function ChatMessageList() {
 
     for (const image of images) {
       image.src = image.dataset.src;
-      image.dataset.src = undefined;
     }
   }, [messages]);
 

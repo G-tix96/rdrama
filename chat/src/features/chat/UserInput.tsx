@@ -128,7 +128,14 @@ export function UserInput() {
       />
       <i
         role="button"
-        onClick={handleToggleEmojiDrawer}
+        data-bs-toggle="modal"
+        data-bs-target="#emojiModal"
+        data-bs-placement="bottom"
+        title="Add Emoji"
+        onClick={() => {
+          const whatever = window as any;
+          whatever.loadEmojis("builtChatInput");
+        }}
         className="UserInput-emoji fas fa-smile-beam"
       />
       <button
