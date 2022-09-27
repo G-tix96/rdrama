@@ -1,5 +1,5 @@
 from shutil import move, copyfile
-from os import listdir, rename, path
+from os import rename, path
 
 from files.__main__ import app, limiter
 from files.helpers.const import *
