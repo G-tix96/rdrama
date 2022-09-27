@@ -107,7 +107,7 @@ setInterval(loop, 1000 / 60);
 
 // Audio
 
-var audio = new Audio('/assets/halloween_songs/Stranger%20things%20demogorgon%20theme.mp3');
+var audio = new Audio('/assets/media/halloween/Stranger%20things%20demogorgon%20theme.mp3');
 audio.loop=true;
 
 function pause() {

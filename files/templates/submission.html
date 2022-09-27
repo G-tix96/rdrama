@@ -332,7 +332,7 @@
 
 {% if p.award_count("upsidedown", v) %}
 <canvas id="canvas" class="particles"></canvas>
-<link href="/assets/css/upsidedown.css" rel="stylesheet">
+<link href="/assets/css/halloween/upsidedown.css" rel="stylesheet">
 <img id="demogorgon-1" class="demogorgon" src="/assets/images/halloween/demogorgon.png" alt="demogorgon"/>
 <img id="demogorgon-2" class="demogorgon" src="/assets/images/halloween/demogorgon.png" alt="demogorgon"/>
 <script src="/assets/js/halloween/upsidedown.js"></script>
@@ -1321,7 +1321,7 @@
 	];
 	const selected = trackList[Math.floor(Math.random() * trackList.length)];
 
-	const audio = new Audio(`/assets/media/halloween_songs/${selected}.mp3`);
+	const audio = new Audio(`/assets/media/halloween/${selected}.mp3`);
 	audio.loop=true;
 
 	function play() {
