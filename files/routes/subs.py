@@ -513,7 +513,7 @@ def subs(v):
 	return render_template('sub/subs.html', v=v, subs=subs)
 
 @app.post("/hole_pin/<pid>")
-@auth_required
+@is_not_permabanned
 def hole_pin(v, pid):
 	p = get_post(pid)
 
@@ -531,7 +531,7 @@ def hole_pin(v, pid):
 	return {"message": f"Post pinned to /h/{p.sub} successfully!"}
 
 @app.post("/hole_unpin/<pid>")
-@auth_required
+@is_not_permabanned
 def hole_unpin(v, pid):
 	p = get_post(pid)
 

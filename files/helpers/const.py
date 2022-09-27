@@ -1013,7 +1013,13 @@ approved_embed_hosts = {
 	'substackcdn.com',
 	'9gag.com',
 	'ifunny.co',
-	'wixmp.com'
+	'wixmp.com',
+	'derpicdn.net',
+	'twibooru.org',
+	'ponybooru.org',
+	'e621.net',
+	'ponerpics.org',
+	'furaffinity.net'
 	}
 
 
