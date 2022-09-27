@@ -1203,6 +1203,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycarpprotest',2,'sign fish mad carpathianflorist sign admin jannie',1663163535),
 ('marseycarpsnipe',2,'shooter shooting gun sniper rifle scope crosshairs carpathianflorist kill murder bullet crosshair ajab',NULL),
 ('marseycarptrophy',2,'carp head decapitated anticarp trophy defeat dead teaparty',NULL),
+('marseycarpupset',2,'carp upset',1664262142),
 ('marseycarsuicide',2,'kms suicide kill death car vehicle carbon monoxide co muffler suffocation suffocate',NULL),
 ('marseycat',2,'fursona skin animal costume furry neko fursuit cat',NULL),
 ('marseycatgirl',2,'uwu waifu anime fursona furry owo weebshit fursuit',NULL),
