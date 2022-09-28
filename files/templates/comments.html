@@ -131,7 +131,7 @@
 				{% if c.post %}
 					{% set sub = c.post.sub %}
 					{% if sub and c.author.exiled_from(sub) %}
-						<a role="button"><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{sub}}"></i></a>
+						<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{sub}}"></i></a>
 					{% endif %}
 				{% endif %}
 
