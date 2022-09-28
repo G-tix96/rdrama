@@ -79,6 +79,7 @@ def sidebar(v):
 @app.get("/stats")
 @auth_required
 def participation_stats(v):
+	if request.headers.get("Authorization"): return stats_cached()
 	return render_template("stats.html", v=v, title="Content Statistics", data=stats_cached())
 
 @cache.memoize(timeout=86400)
