@@ -58,9 +58,11 @@ const ChatContext = createContext<ChatProviderContext>({
 });
 
 const MINIMUM_TYPING_UPDATE_INTERVAL = 250;
+export const DIRECT_MESSAGE_ID = "DIRECT_MESSAGE";
+export const OPTIMISTIC_MESSAGE_ID = "OPTIMISTIC";
 
 export function ChatProvider({ children }: PropsWithChildren) {
-  const { username, siteName } = useRootContext();
+  const { username, id, siteName, hat, avatar, nameColor } = useRootContext();
   const socket = useRef<null | Socket>(null);
   const [online, setOnline] = useState<string[]>([]);
   const [typing, setTyping] = useState<string[]>([]);
@@ -73,13 +75,69 @@ export function ChatProvider({ children }: PropsWithChildren) {
   const [notifications, setNotifications] = useState<number>(0);
   const [messageLookup, setMessageLookup] = useState({});
   const addMessage = useCallback((message: IChatMessage) => {
-    setMessages((prev) => [...prev.slice(-99), message]);
+    if (message.id === OPTIMISTIC_MESSAGE_ID) {
+      setMessages((prev) => prev.concat(message));
+    } else {
+      // Are there any optimistic messages that have the same text?
+      setMessages((prev) => {
+        const matchingOptimisticMessage = prev.findIndex(
+          (prevMessage) =>
+            prevMessage.id === OPTIMISTIC_MESSAGE_ID &&
+            prevMessage.text.trim() === message.text.trim()
+        );
+
+        if (matchingOptimisticMessage === -1) {
+          return prev.slice(-99).concat(message);
+        } else {
+          const before = prev.slice(0, matchingOptimisticMessage);
+          const after = prev.slice(matchingOptimisticMessage + 1);
+
+          return [...before, message, ...after];
+        }
+      });
+    }
 
     if (message.username !== username && !document.hasFocus()) {
       setNotifications((prev) => prev + 1);
     }
   }, []);
   const sendMessage = useCallback(() => {
+    if (userToDm) {
+      const directMessage = `<small class="text-primary"><em>(Sent to @${userToDm.username}):</em></small> ${draft}`;
+
+      addMessage({
+        id: DIRECT_MESSAGE_ID,
+        username,
+        user_id: id,
+        avatar,
+        hat,
+        namecolor: nameColor,
+        text: directMessage,
+        base_text_censored: directMessage,
+        text_censored: directMessage,
+        text_html: directMessage,
+        time: new Date().getTime() / 1000,
+        quotes: null,
+        dm: true,
+      });
+    } else {
+      addMessage({
+        id: OPTIMISTIC_MESSAGE_ID,
+        username,
+        user_id: id,
+        avatar,
+        hat,
+        namecolor: nameColor,
+        text: draft,
+        base_text_censored: draft,
+        text_censored: draft,
+        text_html: draft,
+        time: new Date().getTime() / 1000,
+        quotes: null,
+        dm: false,
+      });
+    }
+
     socket.current?.emit(ChatHandlers.SPEAK, {
       message: draft,
       quotes: quote?.id ?? null,

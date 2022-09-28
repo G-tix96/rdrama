@@ -1,15 +1,30 @@
 import { useEffect, useState } from "react";
 
 export function useRootContext() {
-  const [{ admin, id, username, censored, themeColor, siteName }, setContext] =
-    useState({
-      id: "",
-      username: "",
-      admin: false,
-      censored: true,
-      themeColor: "#ff66ac",
-      siteName: "",
-    });
+  const [
+    {
+      admin,
+      id,
+      username,
+      censored,
+      themeColor,
+      siteName,
+      nameColor,
+      avatar,
+      hat,
+    },
+    setContext,
+  ] = useState({
+    id: "",
+    username: "",
+    admin: false,
+    censored: true,
+    themeColor: "#ff66ac",
+    siteName: "",
+    nameColor: "",
+    avatar: "",
+    hat: "",
+  });
 
   useEffect(() => {
     const root = document.getElementById("root");
@@ -21,8 +36,21 @@ export function useRootContext() {
       censored: root.dataset.censored === "True",
       themeColor: root.dataset.themecolor,
       siteName: root.dataset.sitename,
+      nameColor: root.dataset.namecolor,
+      avatar: root.dataset.avatar,
+      hat: root.dataset.hat,
     });
   }, []);
 
-  return { id, admin, username, censored, themeColor, siteName };
+  return {
+    id,
+    admin,
+    username,
+    censored,
+    themeColor,
+    siteName,
+    nameColor,
+    avatar,
+    hat,
+  };
 }
