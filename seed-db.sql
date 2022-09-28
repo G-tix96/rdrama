@@ -1911,7 +1911,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseynerd',2,'dork loser dweeb geek glasses aevann',NULL),
 ('marseynerd2',2,'geek glasses dork loser pimples zits',NULL),
 ('marseynietzsche',2,'philosophy history',NULL),
-('marseyniggy',2,'niggy love live school idol',1664377592),
+('marseyniggy',2,'idolmaster sachiko 4chan smug anime',1664383012),
 ('marseynightmare',2,'striped sweater freddy freddie horror halloween krueger holiday claws monster',NULL),
 ('marseyninja',2,'samurai japanese killer stealthy sneaky assassin weeb',NULL),
 ('marseynintendo',2,'mario gamer switch gaymer video game mustache soy',NULL),
