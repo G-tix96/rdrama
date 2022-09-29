@@ -751,6 +751,43 @@ CREATE TABLE public.sub_subscriptions (
 
 
 --
+-- Name: subactions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.subactions (
+    id integer NOT NULL,
+    sub character varying(25) NOT NULL,
+    user_id integer,
+    target_user_id integer,
+    target_submission_id integer,
+    target_comment_id integer,
+    created_utc integer NOT NULL,
+    kind character varying(32) DEFAULT NULL::character varying,
+    _note character varying(500) DEFAULT NULL::character varying
+);
+
+
+--
+-- Name: subactions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.subactions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: subactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.subactions_id_seq OWNED BY public.subactions.id;
+
+
+--
 -- Name: submission_option_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -1077,6 +1114,13 @@ ALTER TABLE ONLY public.oauth_apps ALTER COLUMN id SET DEFAULT nextval('public.o
 
 
 --
+-- Name: subactions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subactions ALTER COLUMN id SET DEFAULT nextval('public.subactions_id_seq'::regclass);
+
+
+--
 -- Name: submissions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1379,6 +1423,14 @@ ALTER TABLE ONLY public.sub_subscriptions
 
 
 --
+-- Name: subactions subactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subactions
+    ADD CONSTRAINT subactions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: submission_option_votes submission_option_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1678,6 +1730,13 @@ CREATE INDEX fki_sub_joins_sub_fkey ON public.sub_joins USING btree (sub);
 --
 
 CREATE INDEX fki_sub_subscriptions_sub_fkey ON public.sub_subscriptions USING btree (sub);
+
+
+--
+-- Name: fki_subactions_user_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_subactions_user_fkey ON public.subactions USING btree (target_user_id);
 
 
 --
@@ -2427,6 +2486,38 @@ ALTER TABLE ONLY public.sub_subscriptions
 
 ALTER TABLE ONLY public.sub_subscriptions
     ADD CONSTRAINT sub_subscriptions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
+
+
+--
+-- Name: subactions subactions_comment_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subactions
+    ADD CONSTRAINT subactions_comment_fkey FOREIGN KEY (target_comment_id) REFERENCES public.comments(id);
+
+
+--
+-- Name: subactions subactions_sub_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subactions
+    ADD CONSTRAINT subactions_sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name);
+
+
+--
+-- Name: subactions subactions_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subactions
+    ADD CONSTRAINT subactions_submission_fkey FOREIGN KEY (target_submission_id) REFERENCES public.submissions(id);
+
+
+--
+-- Name: subactions subactions_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subactions
+    ADD CONSTRAINT subactions_user_fkey FOREIGN KEY (target_user_id) REFERENCES public.users(id);
 
 
 --
