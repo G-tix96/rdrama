@@ -295,6 +295,9 @@ elif SITE == 'watchpeopledie.co':
 
 	PERMS['HOLE_CREATE'] = 2
 
+	SIDEBAR_THREAD = 5403
+	BANNER_THREAD = 9869
+
 	HOLE_NAME = 'flair'
 	HOLE_STYLE_FLAIR = True
 	HOLE_REQUIRED = True
@@ -310,7 +313,6 @@ elif SITE == 'watchpeopledie.co':
 
 	GIFT_NOTIF_ID = CARP_ID
 
-	SIDEBAR_THREAD = 5403
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
