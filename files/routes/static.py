@@ -459,7 +459,8 @@ if SITE == 'pcmemes.net':
 
 			try: count = int(count.replace('.', ''))
 			except Exception as e:
-				print(e)
+				print('count error', flush=True)
+				print(e, flush=True)
 				with open('files/assets/count.txt', 'w', encoding='utf-8') as f:
 					f.write(text)
 				return None
@@ -511,7 +512,8 @@ if SITE == 'pcmemes.net':
 			print(req.url, flush=True)
 			try: thumb = t.group(2)
 			except Exception as e:
-				print(e)
+				print('thumb error', flush=True)
+				print(e, flush=True)
 				with open('files/assets/thumb.txt', 'w', encoding='utf-8') as f:
 					f.write(text)
 				return None
