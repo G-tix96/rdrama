@@ -6287,3 +6287,9 @@ div.markdown {
 .bug {
 	pointer-events: none !important;
 }
+
+@media (min-width: 768px) {
+	#desktop-expanded-image {
+		max-width: 80% !important;
+	}
+}
