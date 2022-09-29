@@ -189,7 +189,7 @@ def with_sigalrm_timeout(timeout: int):
 	return inner
 
 
-@with_sigalrm_timeout(2)
+@with_sigalrm_timeout(5)
 def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False):
 	sanitized = sanitized.strip()
 
