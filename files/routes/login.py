@@ -372,7 +372,7 @@ def sign_up_post(v):
 
 	session["lo_user"] = new_user.id
 	
-	if CARP_ID:
+	if SITE == 'watchpeopledie.co':
 		carp = get_account(CARP_ID)
 		new_follow = Follow(user_id=new_user.id, target_id=carp.id)
 		g.db.add(new_follow)
