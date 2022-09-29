@@ -238,6 +238,9 @@ INSERT INTO public.hat_defs VALUES (3, 'Cat Ears I', 'Mew :3', 2, 500, NULL, 166
 
 
 
+
+
+
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (92, 'Top Hat (black)', 'Traditional. Classy. Elegant.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (714, 'Captain Falcon', 'The chad that every smash player wanted to imitate, if only his moveset included a shower.', 2, 500, NULL, 1663474615);
@@ -888,7 +891,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 743, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 746, true);
 
 
 --
@@ -1476,6 +1479,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyeyemixer3',2,'eye mixer animated stirrer blind mutilation gore blood gouge',NULL),
 ('marseyeyeroll',2,'rolleyes rolling eyes mock animated reaction roll eyes duh',NULL),
 ('marseyeyeroll2',2,'animated duh rolling eyes',NULL),
+('marseyezramiller',2,'flash psycho ezra miller nb nonbinary jewish actor movie',1664416463),
 ('marseyface',2,'mask psycho face horror halloween kill killer stab knife holiday evil murder scary murderer',NULL),
 ('marseyfacepalm',2,'reaction omfg judgment',NULL),
 ('marseyfacepeel',2,'watchpeopledie kitti gore face psycho horror flay',NULL),
