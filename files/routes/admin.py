@@ -862,7 +862,7 @@ def agendaposter(user_id, v):
 		kind="agendaposter",
 		user_id=v.id,
 		target_user_id=user.id,
-		note=note
+		_note=note
 	)
 	g.db.add(ma)
 

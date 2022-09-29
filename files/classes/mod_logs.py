@@ -70,10 +70,6 @@ class ModAction(Base):
 		else:
 			return self._note or ""
 
-	@note.setter
-	def note(self, x):
-		self._note=x
-
 	@property
 	@lazy
 	def string(self):
@@ -295,7 +291,7 @@ ACTIONTYPES = {
 		"color": 'bg-danger'
 	},
 	'pin_comment': {
-		"str": 'pinned a {self.target_link}', 
+		"str": 'pinned {self.target_link}', 
 		"icon": 'fa-thumbtack fa-rotate--45', 
 		"color": 'bg-success'
 	},
@@ -395,7 +391,7 @@ ACTIONTYPES = {
 		"color": 'bg-success'
 	},
 	'unpin_comment': {
-		"str": 'unpinned a {self.target_link}', 
+		"str": 'unpinned {self.target_link}', 
 		"icon": 'fa-thumbtack fa-rotate--45', 
 		"color": 'bg-muted'
 	},

@@ -335,7 +335,7 @@
 
 		</div>
 		{% block sidebar %}
-			{% if has_sidebar and (home or p) %}
+			{% if has_sidebar and (home or p or request.path.startswith('/h/')) %}
 				{% include "sidebar_" + SITE_NAME + ".html" %}
 			{% endif %}
 		{% endblock %}

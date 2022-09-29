@@ -42,9 +42,11 @@ def flag_post(pid, v):
 			g.db.add(ma)
 		else:
 			ma = SubAction(
+				sub=post.sub,
 				kind="flair_post",
 				user_id=v.id,
-				target_submission_id=post.id
+				target_submission_id=post.id,
+				_note=f'"{post.flair}"'
 			)
 			g.db.add(ma)
 
@@ -84,6 +86,7 @@ def flag_post(pid, v):
 				g.db.add(ma)
 			else:
 				ma = SubAction(
+					sub=sub_from,
 					kind='move_chudrama',
 					user_id=v.id,
 					target_submission_id=post.id

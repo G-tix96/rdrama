@@ -31,6 +31,7 @@ def exile_post(v, pid):
 		send_notification(u.id, f"@{v.username} has exiled you from /h/{sub} for [{p.title}]({p.shortlink})")
 
 		ma = SubAction(
+			sub=sub,
 			kind='exile_user',
 			user_id=v.id,
 			target_user_id=u.id,
@@ -65,6 +66,7 @@ def exile_comment(v, cid):
 		send_notification(u.id, f"@{v.username} has exiled you from /h/{sub} for [{c.permalink}]({c.shortlink})")
 
 		ma = SubAction(
+			sub=sub,
 			kind='exile_user',
 			user_id=v.id,
 			target_user_id=u.id,
@@ -89,6 +91,7 @@ def unexile(v, sub, uid):
 		send_notification(u.id, f"@{v.username} has revoked your exile from /h/{sub}")
 
 		ma = SubAction(
+			sub=sub,
 			kind='unexile_user',
 			user_id=v.id,
 			target_user_id=u.id
@@ -280,6 +283,7 @@ def add_mod(v, sub):
 			send_repeatable_notification(user.id, f"@{v.username} has added you as a mod to /h/{sub}")
 
 		ma = SubAction(
+			sub=sub,
 			kind='make_mod',
 			user_id=v.id,
 			target_user_id=user.id
@@ -320,6 +324,7 @@ def remove_mod(v, sub):
 		send_repeatable_notification(user.id, f"@{v.username} has removed you as a mod from /h/{sub}")
 
 	ma = SubAction(
+		sub=sub,
 		kind='remove_mod',
 		user_id=v.id,
 		target_user_id=user.id
@@ -395,6 +400,7 @@ def kick(v, pid):
 		g.db.add(ma)
 	else:
 		ma = SubAction(
+			sub=old,
 			kind='kick_post',
 			user_id=v.id,
 			target_submission_id=post.id
@@ -441,7 +447,8 @@ def post_sub_sidebar(v, sub):
 	g.db.add(sub)
 
 	ma = SubAction(
-		kind='change_sidebar',
+		sub=sub.name,
+		kind='edit_sidebar',
 		user_id=v.id
 	)
 	g.db.add(ma)
@@ -472,7 +479,8 @@ def post_sub_css(v, sub):
 	g.db.add(sub)
 
 	ma = SubAction(
-		kind='change_css',
+		sub=sub.name,
+		kind='edit_css',
 		user_id=v.id
 	)
 	g.db.add(ma)
@@ -515,6 +523,7 @@ def sub_banner(v, sub):
 		g.db.add(sub)
 
 	ma = SubAction(
+		sub=sub.name,
 		kind='change_banner',
 		user_id=v.id
 	)
@@ -547,6 +556,7 @@ def sub_sidebar(v, sub):
 		g.db.add(sub)
 
 	ma = SubAction(
+		sub=sub.name,
 		kind='change_sidebar_image',
 		user_id=v.id
 	)
@@ -579,6 +589,7 @@ def sub_marsey(v, sub):
 		g.db.add(sub)
 
 	ma = SubAction(
+		sub=sub.name,
 		kind='change_marsey',
 		user_id=v.id
 	)
@@ -609,6 +620,7 @@ def hole_pin(v, pid):
 		send_repeatable_notification(p.author_id, message)
 
 	ma = SubAction(
+		sub=p.sub,
 		kind='pin_post',
 		user_id=v.id,
 		target_submission_id=p.id
@@ -634,6 +646,7 @@ def hole_unpin(v, pid):
 		send_repeatable_notification(p.author_id, message)
 
 	ma = SubAction(
+		sub=p.sub,
 		kind='unpin_post',
 		user_id=v.id,
 		target_submission_id=p.id
@@ -659,6 +672,7 @@ def sub_stealth(v, sub):
 
 	if sub.stealth:
 		ma = SubAction(
+			sub=sub.name,
 			kind='enable_stealth',
 			user_id=v.id
 		)
@@ -666,6 +680,7 @@ def sub_stealth(v, sub):
 		return {"message": f"Stealth mode has been enabled for /h/{sub} successfully!"}
 	else:
 		ma = SubAction(
+			sub=sub.name,
 			kind='disable_stealth',
 			user_id=v.id
 		)
@@ -688,6 +703,7 @@ def mod_pin(cid, v):
 		g.db.add(comment)
 
 		ma = SubAction(
+			sub=comment.post.sub,
 			kind="pin_comment",
 			user_id=v.id,
 			target_comment_id=comment.id
@@ -700,7 +716,7 @@ def mod_pin(cid, v):
 
 	return {"message": "Comment pinned!"}
 
-@app.post("/mod_unpin/<cid>")
+@app.post("/unmod_pin/<cid>")
 @is_not_permabanned
 def mod_unpin(cid, v):
 	
@@ -713,6 +729,7 @@ def mod_unpin(cid, v):
 		g.db.add(comment)
 
 		ma = SubAction(
+			sub=comment.post.sub,
 			kind="unpin_comment",
 			user_id=v.id,
 			target_comment_id=comment.id
@@ -731,7 +748,7 @@ def mod_unpin(cid, v):
 def hole_log(v, sub):
 	sub = g.db.get(Sub, sub.strip().lower())
 	if not sub: abort(404)
-	sub = sub.name
+	sub = sub
 
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
@@ -748,7 +765,7 @@ def hole_log(v, sub):
 		kind = None
 		actions = []
 	else:
-		actions = g.db.query(SubAction).filter_by(sub=sub)
+		actions = g.db.query(SubAction).filter_by(sub=sub.name)
 
 		if mod_id:
 			actions = actions.filter_by(user_id=mod_id)
@@ -763,14 +780,17 @@ def hole_log(v, sub):
 	
 	next_exists=len(actions)>25
 	actions=actions[:25]
-	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub).all()]
+	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub.name).all()]
 	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username).all()]
 
-	return render_template("log.html", v=v, mods=mods, types=types, mod=mod, type=kind, actions=actions, next_exists=next_exists, page=page)
+	return render_template("log.html", v=v, admins=mods, types=types, admin=mod, type=kind, actions=actions, next_exists=next_exists, page=page, sub=sub)
 
 @app.get("/h/<sub>/log/<id>")
 @auth_required
 def hole_log_item(id, v, sub):
+	sub = g.db.get(Sub, sub.strip().lower())
+	if not sub: abort(404)
+	sub = sub
 
 	try: id = int(id)
 	except: abort(404)
@@ -779,9 +799,9 @@ def hole_log_item(id, v, sub):
 
 	if not action: abort(404)
 
-	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub).all()]
+	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub.name).all()]
 	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username).all()]
 
 	types = ACTIONTYPES
 
-	return render_template("log.html", v=v, actions=[action], next_exists=False, page=1, action=action, mods=mods, types=types)
+	return render_template("log.html", v=v, actions=[action], next_exists=False, page=1, action=action, admins=mods, types=types, sub=sub)

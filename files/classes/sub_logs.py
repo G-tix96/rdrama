@@ -61,25 +61,12 @@ class SubAction(Base):
 			return f"{years}yr ago"
 
 	@property
-	def note(self):
-
-		if self.kind=="ban_user":
-			if self.target_post: return f'for <a href="{self.target_post.permalink}">post</a>'
-			else: return self._note
-		else:
-			return self._note or ""
-
-	@note.setter
-	def note(self, x):
-		self._note=x
-
-	@property
 	@lazy
 	def string(self):
 
 		output = ACTIONTYPES[self.kind]["str"].format(self=self, cc=CC_TITLE)
 
-		if self.note: output += f" <i>({self.note})</i>"
+		if self._note: output += f" <i>({self._note})</i>"
 
 		return output
 
@@ -90,6 +77,7 @@ class SubAction(Base):
 		elif self.target_post:
 			if self.target_post.club: return f'<a href="{self.target_post.permalink}">{CC} ONLY</a>'
 			return censor_slurs(f'<a href="{self.target_post.permalink}">{self.target_post.title_html}</a>', None)
+		elif self.target_comment_id: return f'<a href="/comment/{self.target_comment_id}?context=8#context">comment</a>'
 
 	@property
 	@lazy
@@ -113,12 +101,12 @@ ACTIONTYPES = {
 		"color": 'bg-danger'
 	},
 	'unexile_user': {
-		"str": 'unexile user {self.target_link}', 
+		"str": 'unexiled user {self.target_link}', 
 		"icon": 'fa-user', 
 		"color": 'bg-success'
 	},
 	'make_mod': {
-		"str": 'made {self.target_link} mod', 
+		"str": 'made {self.target_link} a mod', 
 		"icon": 'fa-user-crown', 
 		"color": 'bg-success'
 	},
@@ -133,7 +121,7 @@ ACTIONTYPES = {
 		"color": 'bg-danger'
 	},
 	'move_chudrama': {
-		"str": 'moved post {self.target_link} to /h/chudrama', 
+		"str": 'moved post {self.target_link} to <a href="/h/chudrama">/h/chudrama</a>', 
 		"icon": 'fa-feather-alt', 
 		"color": 'bg-danger'
 	},
@@ -142,13 +130,13 @@ ACTIONTYPES = {
 		"icon": 'fa-tag', 
 		"color": 'bg-primary'
 	},
-	'change_sidebar': {
-		"str": 'changed the sidebar', 
+	'edit_sidebar': {
+		"str": 'edited the sidebar', 
 		"icon": 'fa-columns', 
 		"color": 'bg-primary'
 	},
-	'change_css': {
-		"str": 'changed the css', 
+	'edit_css': {
+		"str": 'edited the css', 
 		"icon": 'fa-css3-alt', 
 		"color": 'bg-primary'
 	},
@@ -178,12 +166,12 @@ ACTIONTYPES = {
 		"color": 'bg-muted'
 	},
 	'pin_comment': {
-		"str": 'pinned comment {self.target_link}', 
+		"str": 'pinned {self.target_link}', 
 		"icon": 'fa-thumbtack fa-rotate--45', 
 		"color": 'bg-success'
 	},
 	'unpin_comment': {
-		"str": 'unpinned comment {self.target_link}', 
+		"str": 'unpinned {self.target_link}', 
 		"icon": 'fa-thumbtack fa-rotate--45', 
 		"color": 'bg-muted'
 	},
