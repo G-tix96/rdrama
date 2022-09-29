@@ -74,6 +74,12 @@ def flag_post(pid, v):
 			)
 			g.db.add(ma)
 
+		if v.id != post.author_id:
+			if v.admin_level >= 3: position = 'Admin'
+			else: position = 'Mod'
+			message = f"@{v.username} ({position}) has moved [{post.title}]({post.shortlink}) to /h/{post.sub}"
+			send_repeatable_notification(post.author_id, message)
+
 		return {"message": f"Post moved to /h/{post.sub}"}
 	else:
 		existing = g.db.query(Flag.post_id).filter_by(user_id=v.id, post_id=post.id).one_or_none()

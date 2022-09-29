@@ -366,6 +366,13 @@ def kick(v, pid):
 			_note=f'{old_str} → main feed',
 		)
 		g.db.add(ma)
+
+	if v.id != post.author_id:
+		if v.admin_level >= 3: position = 'Admin'
+		else: position = 'Mod'
+		message = f"@{v.username} ({position}) has moved [{post.title}]({post.shortlink}) from /h/{old} to the main feed!"
+		send_repeatable_notification(post.author_id, message)
+
 	g.db.add(post)
 
 	cache.delete_memoized(frontlist)
