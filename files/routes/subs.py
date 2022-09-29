@@ -30,6 +30,13 @@ def exile_post(v, pid):
 
 		send_notification(u.id, f"@{v.username} has exiled you from /h/{sub} for [{p.title}]({p.shortlink})")
 
+		ma = SubAction(
+			kind='exile_user',
+			user_id=v.id,
+			target_user_id=u.id,
+			_note=f'for <a href="{p.permalink}">{p.title_html}</a>'
+		)
+		g.db.add(ma)
 	
 	return {"message": f"@{u.username} has been exiled from /h/{sub} successfully!"}
 
@@ -57,7 +64,14 @@ def exile_comment(v, cid):
 
 		send_notification(u.id, f"@{v.username} has exiled you from /h/{sub} for [{c.permalink}]({c.shortlink})")
 
-	
+		ma = SubAction(
+			kind='exile_user',
+			user_id=v.id,
+			target_user_id=u.id,
+			_note=f'for <a href="/comment/{c.id}?context=8#context">comment</a>'
+		)
+		g.db.add(ma)
+
 	return {"message": f"@{u.username} has been exiled from /h/{sub} successfully!"}
 
 
@@ -74,7 +88,12 @@ def unexile(v, sub, uid):
 
 		send_notification(u.id, f"@{v.username} has revoked your exile from /h/{sub}")
 
-	
+		ma = SubAction(
+			kind='unexile_user',
+			user_id=v.id,
+			target_user_id=u.id
+		)
+		g.db.add(ma)
 	
 	if request.headers.get("Authorization") or request.headers.get("xhr"):
 		return {"message": f"@{u.username} has been unexiled from /h/{sub} successfully!"}
@@ -84,14 +103,10 @@ def unexile(v, sub, uid):
 
 
 
-
-
-
-
 @app.post("/h/<sub>/block")
 @auth_required
 def block_sub(v, sub):
-	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	sub = g.db.get(Sub, sub.strip().lower())
 	if not sub: abort(404)
 	sub = sub.name
 
@@ -108,7 +123,7 @@ def block_sub(v, sub):
 @app.post("/h/<sub>/unblock")
 @auth_required
 def unblock_sub(v, sub):
-	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	sub = g.db.get(Sub, sub.strip().lower())
 	if not sub: abort(404)
 	sub = sub.name
 
@@ -124,7 +139,7 @@ def unblock_sub(v, sub):
 @app.post("/h/<sub>/subscribe")
 @auth_required
 def subscribe_sub(v, sub):
-	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	sub = g.db.get(Sub, sub.strip().lower())
 	if not sub: abort(404)
 	sub = sub.name
 
@@ -140,7 +155,7 @@ def subscribe_sub(v, sub):
 @app.post("/h/<sub>/unsubscribe")
 @auth_required
 def unsubscribe_sub(v, sub):
-	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	sub = g.db.get(Sub, sub.strip().lower())
 	if not sub: abort(404)
 	sub = sub.name
 
@@ -155,7 +170,7 @@ def unsubscribe_sub(v, sub):
 @app.post("/h/<sub>/follow")
 @auth_required
 def follow_sub(v, sub):
-	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	sub = g.db.get(Sub, sub.strip().lower())
 	if not sub: abort(404)
 
 	existing = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
@@ -170,7 +185,7 @@ def follow_sub(v, sub):
 @app.post("/h/<sub>/unfollow")
 @auth_required
 def unfollow_sub(v, sub):
-	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	sub = g.db.get(Sub, sub.strip().lower())
 	if not sub: abort(404)
 
 	subscription = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
@@ -184,7 +199,7 @@ def unfollow_sub(v, sub):
 @app.get("/h/<sub>/mods")
 @auth_required
 def mods(v, sub):
-	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	sub = g.db.get(Sub, sub.strip().lower())
 	if not sub: abort(404)
 
 	users = g.db.query(User, Mod).join(Mod).filter_by(sub=sub.name).order_by(Mod.created_utc).all()
@@ -195,7 +210,7 @@ def mods(v, sub):
 @app.get("/h/<sub>/exilees")
 @auth_required
 def sub_exilees(v, sub):
-	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	sub = g.db.get(Sub, sub.strip().lower())
 	if not sub: abort(404)
 
 	users = g.db.query(User, Exile).join(Exile, Exile.user_id==User.id) \
@@ -208,7 +223,7 @@ def sub_exilees(v, sub):
 @app.get("/h/<sub>/blockers")
 @auth_required
 def sub_blockers(v, sub):
-	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	sub = g.db.get(Sub, sub.strip().lower())
 	if not sub: abort(404)
 
 	users = g.db.query(User).join(SubBlock) \
@@ -222,7 +237,7 @@ def sub_blockers(v, sub):
 @app.get("/h/<sub>/followers")
 @auth_required
 def sub_followers(v, sub):
-	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	sub = g.db.get(Sub, sub.strip().lower())
 	if not sub: abort(404)
 
 	users = g.db.query(User).join(SubSubscription) \
@@ -240,7 +255,7 @@ def sub_followers(v, sub):
 def add_mod(v, sub):
 	if SITE_NAME == 'WPD': abort(403)
 
-	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	sub = g.db.get(Sub, sub.strip().lower())
 	if not sub: abort(404)
 	sub = sub.name
 
@@ -264,14 +279,20 @@ def add_mod(v, sub):
 		if v.id != user.id:
 			send_repeatable_notification(user.id, f"@{v.username} has added you as a mod to /h/{sub}")
 
-	
+		ma = SubAction(
+			kind='make_mod',
+			user_id=v.id,
+			target_user_id=user.id
+		)
+		g.db.add(ma)
+
 	return redirect(f'/h/{sub}/mods')
 
 
 @app.post("/h/<sub>/remove_mod")
 @is_not_permabanned
 def remove_mod(v, sub):
-	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	sub = g.db.get(Sub, sub.strip().lower())
 	if not sub: abort(404)
 	sub = sub.name
 
@@ -298,7 +319,13 @@ def remove_mod(v, sub):
 	if v.id != user.id:
 		send_repeatable_notification(user.id, f"@{v.username} has removed you as a mod from /h/{sub}")
 
-	
+	ma = SubAction(
+		kind='remove_mod',
+		user_id=v.id,
+		target_user_id=user.id
+	)
+	g.db.add(ma)
+
 	return redirect(f'/h/{sub}/mods')
 
 @app.get("/create_hole")
@@ -322,7 +349,7 @@ def create_sub2(v):
 	if not valid_sub_regex.fullmatch(name):
 		return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error=f"{HOLE_NAME.capitalize()} name not allowed."), 400
 
-	sub = g.db.query(Sub).filter_by(name=name).one_or_none()
+	sub = g.db.get(Sub, name)
 	if not sub:
 		if v.coins < HOLE_COST:
 			return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error="You don't have enough coins!"), 403
@@ -366,6 +393,13 @@ def kick(v, pid):
 			_note=f'{old_str} → main feed',
 		)
 		g.db.add(ma)
+	else:
+		ma = SubAction(
+			kind='kick_post',
+			user_id=v.id,
+			target_submission_id=post.id
+		)
+		g.db.add(ma)
 
 	if v.id != post.author_id:
 		if v.admin_level >= 3: position = 'Admin'
@@ -382,7 +416,7 @@ def kick(v, pid):
 @app.get('/h/<sub>/settings')
 @is_not_permabanned
 def sub_settings(v, sub):
-	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	sub = g.db.get(Sub, sub.strip().lower())
 	if not sub: abort(404)
 
 	if not v.mods(sub.name): abort(403)
@@ -395,7 +429,7 @@ def sub_settings(v, sub):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def post_sub_sidebar(v, sub):
-	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	sub = g.db.get(Sub, sub.strip().lower())
 	if not sub: abort(404)
 	
 	if not v.mods(sub.name): abort(403)
@@ -406,6 +440,11 @@ def post_sub_sidebar(v, sub):
 
 	g.db.add(sub)
 
+	ma = SubAction(
+		kind='change_sidebar',
+		user_id=v.id
+	)
+	g.db.add(ma)
 
 	return redirect(f'/h/{sub}/settings')
 
@@ -415,7 +454,7 @@ def post_sub_sidebar(v, sub):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def post_sub_css(v, sub):
-	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	sub = g.db.get(Sub, sub.strip().lower())
 	css = request.values.get('css', '').strip()
 
 	if not sub: abort(404)
@@ -431,6 +470,12 @@ def post_sub_css(v, sub):
 
 	sub.css = css
 	g.db.add(sub)
+
+	ma = SubAction(
+		kind='change_css',
+		user_id=v.id
+	)
+	g.db.add(ma)
 
 	return redirect(f'/h/{sub}/settings')
 
@@ -451,7 +496,7 @@ def get_sub_css(sub):
 def sub_banner(v, sub):
 	if request.headers.get("cf-ipcountry") == "T1": return {"error":"Image uploads are not allowed through TOR."}, 403
 
-	sub = g.db.query(Sub).filter_by(name=sub.lower().strip()).one_or_none()
+	sub = g.db.get(Sub, sub.lower().strip())
 	if not sub: abort(404)
 
 	if not v.mods(sub.name): abort(403)
@@ -469,6 +514,12 @@ def sub_banner(v, sub):
 		sub.bannerurl = bannerurl
 		g.db.add(sub)
 
+	ma = SubAction(
+		kind='change_banner',
+		user_id=v.id
+	)
+	g.db.add(ma)
+
 	return redirect(f'/h/{sub}/settings')
 
 @app.post("/h/<sub>/sidebar_image")
@@ -478,7 +529,7 @@ def sub_banner(v, sub):
 def sub_sidebar(v, sub):
 	if request.headers.get("cf-ipcountry") == "T1": return {"error":"Image uploads are not allowed through TOR."}, 403
 
-	sub = g.db.query(Sub).filter_by(name=sub.lower().strip()).one_or_none()
+	sub = g.db.get(Sub, sub.lower().strip())
 	if not sub: abort(404)
 
 	if not v.mods(sub.name): abort(403)
@@ -495,6 +546,12 @@ def sub_sidebar(v, sub):
 		sub.sidebarurl = sidebarurl
 		g.db.add(sub)
 
+	ma = SubAction(
+		kind='change_sidebar_image',
+		user_id=v.id
+	)
+	g.db.add(ma)
+
 	return redirect(f'/h/{sub}/settings')
 
 @app.post("/h/<sub>/marsey_image")
@@ -504,7 +561,7 @@ def sub_sidebar(v, sub):
 def sub_marsey(v, sub):
 	if request.headers.get("cf-ipcountry") == "T1": return {"error":"Image uploads are not allowed through TOR."}, 403
 
-	sub = g.db.query(Sub).filter_by(name=sub.lower().strip()).one_or_none()
+	sub = g.db.get(Sub, sub.lower().strip())
 	if not sub: abort(404)
 
 	if not v.mods(sub.name): abort(403)
@@ -520,6 +577,12 @@ def sub_marsey(v, sub):
 			if path.isfile(fpath): os.remove(fpath)
 		sub.marseyurl = marseyurl
 		g.db.add(sub)
+
+	ma = SubAction(
+		kind='change_marsey',
+		user_id=v.id
+	)
+	g.db.add(ma)
 
 	return redirect(f'/h/{sub}/settings')
 
@@ -545,6 +608,13 @@ def hole_pin(v, pid):
 		message = f"@{v.username} (Mod) has pinned [{p.title}]({p.shortlink}) in /h/{p.sub}"
 		send_repeatable_notification(p.author_id, message)
 
+	ma = SubAction(
+		kind='pin_post',
+		user_id=v.id,
+		target_submission_id=p.id
+	)
+	g.db.add(ma)
+
 	return {"message": f"Post pinned to /h/{p.sub} successfully!"}
 
 @app.post("/hole_unpin/<pid>")
@@ -563,13 +633,20 @@ def hole_unpin(v, pid):
 		message = f"@{v.username} (Mod) has unpinned [{p.title}]({p.shortlink}) in /h/{p.sub}"
 		send_repeatable_notification(p.author_id, message)
 
+	ma = SubAction(
+		kind='unpin_post',
+		user_id=v.id,
+		target_submission_id=p.id
+	)
+	g.db.add(ma)
+
 	return {"message": f"Post unpinned from /h/{p.sub} successfully!"}
 
 
 @app.post('/h/<sub>/stealth')
 @is_not_permabanned
 def sub_stealth(v, sub):
-	sub = g.db.query(Sub).filter_by(name=sub.strip().lower()).one_or_none()
+	sub = g.db.get(Sub, sub.strip().lower())
 	if not sub: abort(404)
 
 	if sub.name == 'braincels': abort(403)
@@ -581,6 +658,130 @@ def sub_stealth(v, sub):
 	cache.delete_memoized(frontlist)
 
 	if sub.stealth:
+		ma = SubAction(
+			kind='enable_stealth',
+			user_id=v.id
+		)
+		g.db.add(ma)
 		return {"message": f"Stealth mode has been enabled for /h/{sub} successfully!"}
 	else:
+		ma = SubAction(
+			kind='disable_stealth',
+			user_id=v.id
+		)
+		g.db.add(ma)
 		return {"message": f"Stealth mode has been disabled for /h/{sub} successfully!"}
+
+
+@app.post("/mod_pin/<cid>")
+@is_not_permabanned
+def mod_pin(cid, v):
+	if not FEATURES['PINS']:
+		abort(403)
+	comment = get_comment(cid, v=v)
+	
+	if not comment.stickied:
+		if not (comment.post.sub and v.mods(comment.post.sub)): abort(403)
+		
+		comment.stickied = v.username + " (Mod)"
+
+		g.db.add(comment)
+
+		ma = SubAction(
+			kind="pin_comment",
+			user_id=v.id,
+			target_comment_id=comment.id
+		)
+		g.db.add(ma)
+
+		if v.id != comment.author_id:
+			message = f"@{v.username} (Mod) has pinned your [comment]({comment.shortlink})!"
+			send_repeatable_notification(comment.author_id, message)
+
+	return {"message": "Comment pinned!"}
+
+@app.post("/mod_unpin/<cid>")
+@is_not_permabanned
+def mod_unpin(cid, v):
+	
+	comment = get_comment(cid, v=v)
+	
+	if comment.stickied:
+		if not (comment.post.sub and v.mods(comment.post.sub)): abort(403)
+
+		comment.stickied = None
+		g.db.add(comment)
+
+		ma = SubAction(
+			kind="unpin_comment",
+			user_id=v.id,
+			target_comment_id=comment.id
+		)
+		g.db.add(ma)
+
+		if v.id != comment.author_id:
+			message = f"@{v.username} (Mod) has unpinned your [comment]({comment.shortlink})!"
+			send_repeatable_notification(comment.author_id, message)
+	return {"message": "Comment unpinned!"}
+
+
+@app.get("/h/<sub>/log")
+@app.get("/h/<sub>/modlog")
+@auth_required
+def hole_log(v, sub):
+	sub = g.db.get(Sub, sub.strip().lower())
+	if not sub: abort(404)
+	sub = sub.name
+
+	try: page = max(int(request.values.get("page", 1)), 1)
+	except: page = 1
+
+	mod = request.values.get("mod")
+	if mod: mod_id = get_id(mod)
+	else: mod_id = 0
+
+	kind = request.values.get("kind")
+
+	types = ACTIONTYPES
+
+	if kind and kind not in types:
+		kind = None
+		actions = []
+	else:
+		actions = g.db.query(SubAction).filter_by(sub=sub)
+
+		if mod_id:
+			actions = actions.filter_by(user_id=mod_id)
+			kinds = set([x.kind for x in actions])
+			types2 = {}
+			for k,val in types.items():
+				if k in kinds: types2[k] = val
+			types = types2
+		if kind: actions = actions.filter_by(kind=kind)
+
+		actions = actions.order_by(SubAction.id.desc()).offset(25*(page-1)).limit(26).all()
+	
+	next_exists=len(actions)>25
+	actions=actions[:25]
+	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub).all()]
+	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username).all()]
+
+	return render_template("log.html", v=v, mods=mods, types=types, mod=mod, type=kind, actions=actions, next_exists=next_exists, page=page)
+
+@app.get("/h/<sub>/log/<id>")
+@auth_required
+def hole_log_item(id, v, sub):
+
+	try: id = int(id)
+	except: abort(404)
+
+	action=g.db.get(SubAction, id)
+
+	if not action: abort(404)
+
+	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub).all()]
+	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username).all()]
+
+	types = ACTIONTYPES
+
+	return render_template("log.html", v=v, actions=[action], next_exists=False, page=1, action=action, mods=mods, types=types)

@@ -410,12 +410,12 @@ ACTIONTYPES = {
 		"color": 'bg-success'
 	},
 	'unpin_comment': {
-		"str": 'un-pinned a {self.target_link}', 
+		"str": 'unpinned a {self.target_link}', 
 		"icon": 'fa-thumbtack fa-rotate--45', 
 		"color": 'bg-muted'
 	},
 	'unpin_post': {
-		"str": 'un-pinned post {self.target_link}', 
+		"str": 'unpinned post {self.target_link}', 
 		"icon": 'fa-thumbtack fa-rotate--45', 
 		"color": 'bg-muted'
 	},
