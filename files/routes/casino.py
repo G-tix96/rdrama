@@ -31,9 +31,10 @@ def casino_game_page(v, game):
     feed = json.dumps(get_game_feed(game))
     leaderboard = json.dumps(get_game_leaderboard(game))
 
-    game_state = None
+    game_state = ''
     if game == 'blackjack':
-        game_state = json.dumps(get_active_twentyone_game_state(gambler))
+        if get_active_twentyone_game(v):
+            game_state = json.dumps(get_active_twentyone_game_state(v))
 
     return render_template(
         f"casino/{game}_screen.html",
