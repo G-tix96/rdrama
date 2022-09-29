@@ -969,8 +969,6 @@ approved_embed_hosts = {
 	'pinimg.com',
 	'kindpng.com',
 	'shopify.com',
-	'discordapp.com',
-	'discordapp.net',
 	'twimg.com',
 	'wikimedia.org',
 	'wp.com',
