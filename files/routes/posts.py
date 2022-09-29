@@ -1220,7 +1220,8 @@ def get_post_title(v):
 	url = request.values.get("url")
 	if not url or '\\' in url: abort(400)
 
-	if any((url.lower().endswith(x) for x in extensions)):
+	checking_url = url.lower().rstrip('%3F').rstrip('?')
+	if any((checking_url.endswith(x) for x in extensions)):
 		abort(400)
 
 	try: x = requests.get(url, headers=titleheaders, timeout=5, proxies=proxies)
