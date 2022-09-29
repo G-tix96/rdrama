@@ -6,7 +6,6 @@ from files.helpers.discord import remove_user
 from files.helpers.media import *
 from files.helpers.const import *
 from files.classes.casino_game import Casino_Game
-from files.helpers.twentyone import get_active_twentyone_game_state
 from files.helpers.sorting_and_time import *
 from .alts import Alt
 from .saves import *
@@ -929,11 +928,6 @@ class User(Base):
 		if self.agendaposter: return True
 		if self.patron: return True
 		return False
-
-	@property
-	@lazy
-	def active_blackjack_game(self):
-		return json.dumps(get_active_twentyone_game_state(self))
 
 	@property
 	@lazy

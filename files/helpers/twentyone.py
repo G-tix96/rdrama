@@ -3,6 +3,7 @@ from math import floor
 import random
 from enum import Enum
 from files.classes.casino_game import Casino_Game
+from files.helpers.casino import distribute_wager_badges
 from flask import g
 
 
@@ -243,6 +244,12 @@ def handle_payout(gambler, state, game):
 
     gambler.pay_account(game.currency, payout)
     
+    if game.currency == 'coins':
+        if status in (BlackjackStatus.BLACKJACK, BlackjackStatus.WON):
+            distribute_wager_badges(gambler, game.wager, won=True)
+        elif status == BlackjackStatus.LOST:
+            distribute_wager_badges(gambler, game.wager, won=False)
+
     game.active = False
     g.db.add(game)
 
