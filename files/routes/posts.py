@@ -908,7 +908,7 @@ def submit_post(v, sub=None):
 
 	post = Submission(
 		private=bool(request.values.get("private","")),
-		notify=bool(request.values.get("notify","")),
+		notify=bool(request.values.get("notify","True")),
 		club=club,
 		author_id=v.id,
 		over_18=bool(request.values.get("over_18","")),
