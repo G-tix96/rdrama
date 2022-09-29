@@ -454,16 +454,14 @@ if SITE == 'pcmemes.net':
 		if '"videoDetails":{"videoId"' in text:
 			y = live_regex.search(text)
 			count = y.group(3)
+
+			if count == '1 παρακολουθεί τώρα':
+				count = 1
+
 			if 'περιμένει' in count:
 				return process_streamer(id, '')
 
-			try: count = int(count.replace('.', ''))
-			except Exception as e:
-				print('count error', flush=True)
-				print(e, flush=True)
-				with open('files/assets/count.txt', 'w', encoding='utf-8') as f:
-					f.write(text)
-				return None
+			count = int(count.replace('.', ''))
 
 			t = live_thumb_regex.search(text)
 
@@ -509,14 +507,8 @@ if SITE == 'pcmemes.net':
 				actual = '???'
 				views = 0
 
-			print(req.url, flush=True)
 			try: thumb = t.group(2)
-			except Exception as e:
-				print('thumb error', flush=True)
-				print(e, flush=True)
-				with open('files/assets/thumb.txt', 'w', encoding='utf-8') as f:
-					f.write(text)
-				return None
+			except: return None
 
 			name = t.group(1)
 
