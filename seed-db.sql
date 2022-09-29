@@ -1247,6 +1247,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseychicken',2,'bird fowl poultry beak hen rooster happy',NULL),
 ('marseychimera',2,'fullmetal alchemist chimera science trans doctor anime dog sad depressed tragic anime fma weeb',NULL),
 ('marseychinchilla',2,'pet rodent capy cute hamster south american andes',NULL),
+('marseychinchilla2',2,'pet rodent cute bipoc black fur animal friend',1664466896),
 ('marseychinchillalove',2,'pet rodent capy cute hamster south american andes',NULL),
 ('marseychinesedevil',2,'devil evil horns satan china hell demonic',NULL),
 ('marseychingchong',2,'racist asian chinese chinx chink gook japanese vietnamese rice farmer nip racist paddy teeth hat china',NULL),
