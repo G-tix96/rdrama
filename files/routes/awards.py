@@ -303,7 +303,7 @@ def award_thing(v, thing_type, id):
 				kind="agendaposter",
 				user_id=v.id,
 				target_user_id=author.id,
-				note=f"for 1 day"
+				_note=f"for 1 day"
 			)
 			g.db.add(ma)
 	elif kind == "flairlock":

@@ -817,45 +817,6 @@ def unpin_comment(cid, v):
 	return {"message": "Comment unpinned!"}
 
 
-@app.post("/mod_pin/<cid>")
-@auth_required
-def mod_pin(cid, v):
-	if not FEATURES['PINS']:
-		abort(403)
-	comment = get_comment(cid, v=v)
-	
-	if not comment.stickied:
-		if not (comment.post.sub and v.mods(comment.post.sub)): abort(403)
-		
-		comment.stickied = v.username + " (Mod)"
-
-		g.db.add(comment)
-
-		if v.id != comment.author_id:
-			message = f"@{v.username} (Mod) has pinned your [comment]({comment.shortlink})!"
-			send_repeatable_notification(comment.author_id, message)
-
-	return {"message": "Comment pinned!"}
-	
-
-@app.post("/mod_unpin/<cid>")
-@auth_required
-def mod_unpin(cid, v):
-	
-	comment = get_comment(cid, v=v)
-	
-	if comment.stickied:
-		if not (comment.post.sub and v.mods(comment.post.sub)): abort(403)
-
-		comment.stickied = None
-		g.db.add(comment)
-
-		if v.id != comment.author_id:
-			message = f"@{v.username} (Mod) has unpinned your [comment]({comment.shortlink})!"
-			send_repeatable_notification(comment.author_id, message)
-	return {"message": "Comment unpinned!"}
-
-
 @app.post("/save_comment/<cid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')

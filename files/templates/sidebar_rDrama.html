@@ -37,6 +37,7 @@
 			{% if v.can_create_hole -%}
 				<a class="btn btn-primary btn-block mb-3" href="/create_hole">CREATE {{HOLE_NAME|upper}}</a>
 			{%- endif %}
+			<a class="btn btn-primary btn-block mb-3" href="/h/{{sub}}/log">{{HOLE_NAME|upper}} LOG</a>
 			{% if v.mods(sub.name) %}
 				<a class="btn btn-primary btn-block mb-3" href="/h/{{sub}}/settings">{{HOLE_NAME|upper}} SETTINGS</a>
 			{% endif %}

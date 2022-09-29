@@ -45,6 +45,7 @@ AJ_REPLACEMENTS = {
 SLURS = {
 	"nigger": "BIPOC",
 	"niglet": "BIPOClet",
+	"negress": "BIPOC woman",
 	"faggot": "cute twink",
 	"fag": "strag",
 	"spic ": "hard-working American ",
@@ -969,8 +970,6 @@ approved_embed_hosts = {
 	'pinimg.com',
 	'kindpng.com',
 	'shopify.com',
-	'discordapp.com',
-	'discordapp.net',
 	'twimg.com',
 	'wikimedia.org',
 	'wp.com',
