@@ -134,7 +134,7 @@
 				{% endfor %}
 
 				{% if v and v.admin_level > 1 and p.author.shadowbanned %}
-					<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Shadowbanned by @{{p.author.shadowbanned}}"></i>
+					<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{p.author.shadowbanned}} for "{{p.author.ban_reason}}"'></i>
 				{% endif %}
 
 				{% if p.stickied %}
