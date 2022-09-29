@@ -233,15 +233,14 @@ INSERT INTO public.hat_defs VALUES (733, 'Kanohi Ignika', 'The Mask of Life. Mat
 INSERT INTO public.hat_defs VALUES (734, 'Kanohi Pakari (Onua)', 'Toa of Earth. The wisdom of the group, but wisdom is useless if you don''t share it. Why is your element separate from Stone? Answer me that, wise guy!', 2, 500, NULL, 1663970191);
 INSERT INTO public.hat_defs VALUES (735, 'The Yakub', 'Proof that science has, in fact, gone too far', 2, 500, NULL, 1664054894);
 INSERT INTO public.hat_defs VALUES (737, 'Duel Wielding', 'Oh shit you''re packing? My bad carry on', 2, 500, NULL, 1664088304);
-
-
 INSERT INTO public.hat_defs VALUES (3, 'Cat Ears I', 'Mew :3', 2, 500, NULL, 1662167687);
-
-
-
-
-
-
+INSERT INTO public.hat_defs VALUES (738, 'Godots Visor', '"An A-press is an A-press, you can''t say it''s only half." - TJ "Henry" Yoshi', 2, 500, NULL, 1664189703);
+INSERT INTO public.hat_defs VALUES (741, 'Eazy-E Hat', 'BIPOCs wtih Attitude', 2, 500, NULL, 1664339102);
+INSERT INTO public.hat_defs VALUES (743, 'Face Hugger', 'This thing bled acid! Who knows what it''s gonna'' do when it''s dead!', 2, 500, NULL, 1664402395);
+INSERT INTO public.hat_defs VALUES (740, 'Sleepy', '...Please... ...Let me sleep... ...A little more... ...Please...', 2, 1000, NULL, 1664285288);
+INSERT INTO public.hat_defs VALUES (744, 'Webbed', 'It isn''t cum on your face this time-Happy Halloween', 2, 500, NULL, 1664415784);
+INSERT INTO public.hat_defs VALUES (745, 'The Jason', 'Slash away those filthy campers jason-Happy Halloween', 2, 500, NULL, 1664415825);
+INSERT INTO public.hat_defs VALUES (746, 'Sawwed', 'Ouch you need an Advil?-Happy Halloween', 2, 500, NULL, 1664415857);
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (92, 'Top Hat (black)', 'Traditional. Classy. Elegant.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (714, 'Captain Falcon', 'The chad that every smash player wanted to imitate, if only his moveset included a shower.', 2, 500, NULL, 1663474615);
@@ -1210,7 +1209,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycarpprotest',2,'sign fish mad carpathianflorist sign admin jannie',1663163535),
 ('marseycarpsnipe',2,'shooter shooting gun sniper rifle scope crosshairs carpathianflorist kill murder bullet crosshair ajab',NULL),
 ('marseycarptrophy',2,'carp head decapitated anticarp trophy defeat dead teaparty',NULL),
-('marseycarpupset',2,'carp upset',1664262142),
+('marseycarpupset',2,'carpathianflorist administrator jannie janitor fish crying tears',1664262142),
 ('marseycarsuicide',2,'kms suicide kill death car vehicle carbon monoxide co muffler suffocation suffocate',NULL),
 ('marseycat',2,'fursona skin animal costume furry neko fursuit cat',NULL),
 ('marseycatgirl',2,'uwu waifu anime fursona furry owo weebshit fursuit',NULL),
