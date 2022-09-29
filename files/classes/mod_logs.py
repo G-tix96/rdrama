@@ -149,16 +149,6 @@ ACTIONTYPES = {
 		"icon": 'fa-user-slash', 
 		"color": 'bg-danger'
 	},
-	'change_sidebar': {
-		"str": 'changed the sidebar', 
-		"icon": 'fa-columns', 
-		"color": 'bg-primary'
-	},
-	'check': {
-		"str": 'gave {self.target_link} a checkmark', 
-		"icon": 'fa-badge-check', 
-		"color": 'bg-success'
-	},
 	'club_allow': {
 		"str": 'allowed user {self.target_link} into the {cc}', 
 		"icon": 'fa-golf-club', 
@@ -275,7 +265,7 @@ ACTIONTYPES = {
 		"color": 'bg-success'
 	},
 	'make_admin': {
-		"str": 'made {self.target_link} admin', 
+		"str": 'made {self.target_link} an admin', 
 		"icon": 'fa-user-crown', 
 		"color": 'bg-success'
 	},
@@ -388,11 +378,6 @@ ACTIONTYPES = {
 		"str": 'unbanned user {self.target_link}', 
 		"icon": 'fa-user', 
 		"color": 'bg-success'
-	},
-	'uncheck': {
-		"str": 'removed checkmark from {self.target_link}', 
-		"icon": 'fa-badge-check', 
-		"color": 'bg-muted'
 	},
 	'undistinguish_comment': {
 		"str": 'un-distinguished {self.target_link}', 
