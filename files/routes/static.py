@@ -472,6 +472,8 @@ if SITE == 'pcmemes.net':
 			return (True, (id, req.url, thumb, name, title, count))
 		else:
 			t = offline_regex.search(text)
+			if not t: return process_streamer(id, '')
+
 			y = offline_details_regex.search(text)
 
 			if y:
@@ -507,8 +509,7 @@ if SITE == 'pcmemes.net':
 				actual = '???'
 				views = 0
 
-			try: thumb = t.group(2)
-			except: return None
+			thumb = t.group(2)
 
 			name = t.group(1)
 
