@@ -1920,6 +1920,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyniqabpearlclutch',2,'bombasticpussy sjw snowflake burka burqa',1663350191),
 ('marseyno',2,'denied refuse rejection reaction ugh deny hand',NULL),
 ('marseynooo',2,'reaction snob no way',NULL),
+('marseynoooticer',2,'notice stats racist iq chud bigot numbers observe see hmm wrong think thonk',1664406781),
 ('marseynope',2,'bush grass simpsons homer hide avoid',1663895054),
 ('marseynosleep',2,'horror scary halloween holiday',NULL),
 ('marseynotes',2,'notes writer writing journ*list therapist doodle',NULL),
