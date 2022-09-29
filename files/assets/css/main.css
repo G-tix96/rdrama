@@ -6289,7 +6289,7 @@ div.markdown {
 }
 
 @media (min-width: 768px) {
-	#desktop-expanded-image {
+	.expandedimage {
 		max-width: 80% !important;
 	}
 }
