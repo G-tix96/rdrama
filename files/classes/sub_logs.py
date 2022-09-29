@@ -92,7 +92,7 @@ class SubAction(Base):
 	@property
 	@lazy
 	def permalink(self):
-		return f"{SITE_FULL}/log/{self.id}"
+		return f"{SITE_FULL}/h/{self.sub}/log/{self.id}"
 
 ACTIONTYPES = {
 	'exile_user': {
