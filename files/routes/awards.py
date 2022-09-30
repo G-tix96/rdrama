@@ -467,7 +467,7 @@ def admin_userawards_post(v):
 
 	whitelist = ("shit", "fireflies", "train", "scooter", "wholesome", "tilt", "glowie")
 
-	u = get_user(u, graceful=False, v=v)
+	u = get_user(u, v=v)
 
 	notify_awards = {}
 

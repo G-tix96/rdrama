@@ -300,10 +300,7 @@ def revert_actions(v, username):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(2)
 def club_allow(v, username):
-
 	u = get_user(username, v=v)
-
-	if not u: abort(404)
 
 	if u.admin_level >= v.admin_level: return {"error": "noob"}, 400
 
@@ -327,10 +324,7 @@ def club_allow(v, username):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(2)
 def club_ban(v, username):
-
 	u = get_user(username, v=v)
-
-	if not u: abort(404)
 
 	if u.admin_level >= v.admin_level: return {"error": "noob"}, 400
 
