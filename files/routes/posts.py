@@ -105,16 +105,7 @@ def submit_get(v, sub=None):
 @app.get("/logged_out/h/<sub>/post/<pid>/<anything>")
 @auth_desired_with_logingate
 def post_id(pid, anything=None, v=None, sub=None):
-
-	try: pid = int(pid)
-	except Exception as e: pass
-
-
-	try: pid = int(pid)
-	except: abort(404)
-
 	post = get_post(pid, v=v)
-
 	if not post.can_see(v): abort(403)
 
 	if post.over_18 and not (v and v.over_18) and session.get('over_18', 0) < int(time.time()):
