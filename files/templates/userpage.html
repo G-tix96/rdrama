@@ -52,6 +52,7 @@
 									{% if u.ban_reason %}:
 										{{u.ban_reason | safe}}
 									{% endif %}
+									(by <a href="{{u.banned_by.url}}">@{{u.banned_by.username}}</a>)
 								</h5>
 								{% if u.unban_utc %}
 									<h5 class="text-primary" id="profile--unban">{{u.unban_string}}</h5>
@@ -62,6 +63,7 @@
 									{% if u.ban_reason %}:
 										{{u.ban_reason | safe}}
 									{% endif %}
+									(by <a href="/@{{u.shadowbanned}}">@{{u.shadowbanned}}</a>)
 								</h5>
 							{% endif %}
 							<div class="d-flex align-items-center mt-1 mb-2">
@@ -387,9 +389,6 @@
 								{% endfor %}
 							</ul>
 						{% endif %}
-						{% if u.is_suspended %}
-							<p id="profile--info--bannedby">Banned by: <a href="{{u.banned_by.url}}">@{{u.banned_by.username}}</a></p>
-						{% endif %}
 					</div>
 				</div>
 			</div>
@@ -437,12 +436,12 @@
 			</div>
 			<div class="mt-n3 py-3">
 				{% if u.is_suspended %}
-					<h5 class="text-primary" id="profile-mobile--banned">BANNED USER{% if u.ban_reason %}: {{u.ban_reason | safe}}{% endif %}</h5>
+					<h5 class="text-primary" id="profile-mobile--banned">BANNED USER{% if u.ban_reason %}: {{u.ban_reason | safe}}{% endif %} (by <a href="{{u.banned_by.url}}">@{{u.banned_by.username}}</a>)</h5>
 					{% if u.unban_utc %}<h5 class="text-primary" id="profile-mobile--unban">{{u.unban_string}}</h5>{% endif %}
 				{% endif %}
 
 				{% if u.shadowbanned %}
-					<h5 class="text-primary" id="profile-mobile--banned">SHADOWBANNED USER{% if u.ban_reason %}: {{u.ban_reason | safe}}{% endif %}</h5>
+					<h5 class="text-primary" id="profile-mobile--banned">SHADOWBANNED USER{% if u.ban_reason %}: {{u.ban_reason | safe}}{% endif %} (by <a href="/@{{u.shadowbanned}}">@{{u.shadowbanned}}</a>)</h5>
 				{% endif %}
 
 				<h1 class="h5 d-inline-block" id="profile-mobile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.username}}</span></h1>
@@ -749,9 +748,6 @@
 								<li><a href="{{account.url}}">@{{account.username}}</a>{% if account._is_manual %} [m]{% endif %}</li>
 							{% endfor %}
 						</ul>
-					{% endif %}
-					{% if u.is_suspended %}
-						<p id="profile-mobile--info--bannedby">Banned by: <a href="{{u.banned_by.url}}">@{{u.banned_by.username}}</a></p>
 					{% endif %}
 				</div>
 			</div>
