@@ -500,7 +500,10 @@ if SITE == 'pcmemes.net':
 					unit = 'year'
 					modifier = 525600
 
-				minutes = quantity * modifier
+				try: minutes = quantity * modifier
+				except:
+					print(unit, flush=True)
+					return None
 
 				actual = f'{quantity} {unit}'
 				if quantity > 1: actual += 's'
