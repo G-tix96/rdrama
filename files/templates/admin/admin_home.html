@@ -49,7 +49,7 @@
 		<li><a href="/agendaposters">Users with Chud Theme</a></li>
 		<li><a href="/grassed">Currently Grassed Users</a></li>
 	{%- endif %}
-	{% if FEATURES['PROCOINS'] and (not AEVANN_ID or v.id == AEVANN_ID) -%}
+	{% if FEATURES['PROCOINS'] and (not AEVANN_ID or v.id in (AEVANN_ID, CARP_ID, SNAKES_ID)) -%}
 		<li><a href="/patrons">Patrons</a></li>
 	{%- endif %}
 	<li><a href="/admin/loggedin">Currently Logged-in Users</a></li>
