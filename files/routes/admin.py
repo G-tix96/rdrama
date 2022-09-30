@@ -1318,10 +1318,7 @@ def unsticky_comment(cid, v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(2)
 def remove_comment(c_id, v):
-
 	comment = get_comment(c_id)
-	if not comment:
-		abort(404)
 
 	comment.is_banned = True
 	comment.is_approved = None
