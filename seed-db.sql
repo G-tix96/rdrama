@@ -1300,6 +1300,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycoleporter',2,'coleporter anythinggoes',1663967082),
 ('marseycolombo',2,'cop detective tv smart colombo classic investigator',NULL),
 ('marseycolossal',2,'halloween skin holiday scary mouths',NULL),
+('marseycomet',2,'dallas college university texas temoc',1664559810),
 ('marseycommitted',2,'psycho crazy insane straitjacket asylum reaction loony bin straightjacket',NULL),
 ('marseycomrade',2,'marxist ussr ccp communist authleft communism juche soviet kgb idio3 idio',NULL),
 ('marseycomradehandshake',2,'ussr russia communist shaking hand communism soviet',NULL),
