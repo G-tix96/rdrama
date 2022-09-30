@@ -456,7 +456,7 @@ if SITE == 'pcmemes.net':
 			count = y.group(3)
 
 			if count == '1 παρακολουθεί τώρα':
-				count = 1
+				count = "1"
 
 			if 'περιμένει' in count:
 				return process_streamer(id, '')
