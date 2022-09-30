@@ -1762,6 +1762,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyklennyclap',2,'klenny klenvastergan animated corgi dog clap clapping',NULL),
 ('marseyklennywinner',2,'medal award dog klenvastergan corgi',NULL),
 ('marseykneel',2,'blm bow black lives matter chauvin supremacy respect supreme',NULL),
+('marseykoalalove',2,'eucalyptus',1664497197),
 ('marseykoolaid',2,'oh yeah juice cult ice pitcher drink',NULL),
 ('marseykrampus',2,'demon monster christmas',NULL),
 ('marseykrampus2',2,'demon monster christmas',NULL),
