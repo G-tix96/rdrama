@@ -67,7 +67,7 @@ def submit_marsey(v):
 	if not tags_regex.fullmatch(tags):
 		return error("Invalid tags!")
 
-	author = get_user(username, graceful=True)
+	author = get_user(username, v=v, graceful=True, include_shadowbanned=False)
 	if not author:
 		return error(f"A user with the name '{username}' was not found!")
 
@@ -221,7 +221,7 @@ def submit_hat(v):
 	if not description_regex.fullmatch(description):
 		return error("Invalid description!")
 
-	author = get_user(username, graceful=True)
+	author = get_user(username, v=v, graceful=True, include_shadowbanned=False)
 	if not author:
 		return error(f"A user with the name '{username}' was not found!")
 

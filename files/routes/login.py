@@ -273,7 +273,7 @@ def sign_up_post(v):
 
 		args = {"error": error}
 		if request.values.get("referred_by"):
-			user = get_account(request.values.get("referred_by"))
+			user = get_account(request.values.get("referred_by"), include_shadowbanned=False)
 			if user: args["ref"] = user.username
 
 		return redirect(f"/signup?{urlencode(args)}")

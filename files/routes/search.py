@@ -71,7 +71,7 @@ def searchposts(v):
 
 	if 'author' in criteria:
 		posts = posts.filter(Submission.ghost == False)
-		author = get_user(criteria['author'])
+		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
 		if not author: return {"error": "User not found"}, 400
 		if author.is_private and author.id != v.id and v.admin_level < 2 and not v.eye:
 			if request.headers.get("Authorization"):
@@ -208,7 +208,7 @@ def searchcomments(v):
 
 	if 'author' in criteria:
 		comments = comments.filter(Comment.ghost == False)
-		author = get_user(criteria['author'])
+		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
 		if not author: return {"error": "User not found"}, 400
 		if author.is_private and author.id != v.id and v.admin_level < 2 and not v.eye:
 			if request.headers.get("Authorization"):
