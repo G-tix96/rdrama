@@ -1,7 +1,7 @@
 from files.classes import *
 from flask import g
 
-def get_id(username, v=None, graceful=False):
+def get_id(username, v=None, graceful=False, include_shadowbanned=True):
 	
 	username = username.replace('\\', '').replace('_', '\_').replace('%', '').strip()
 
@@ -14,17 +14,14 @@ def get_id(username, v=None, graceful=False):
 			)
 		).one_or_none()
 
-	if not user:
-		if not graceful:
-			abort(404)
-		else:
-			return None
+	if not user or (user.shadowbanned and not (include_shadowbanned or (v and (v.admin_level >= 2 or v.shadowbanned)))):
+		if not graceful: abort(404)
+		else: return None
 
 	return user[0]
 
 
-def get_user(username, v=None, graceful=False, rendered=False):
-
+def get_user(username, v=None, graceful=False, rendered=False, include_blocks=False, include_shadowbanned=True):
 	if not username:
 		if not graceful: abort(404)
 		else: return None
@@ -42,11 +39,11 @@ def get_user(username, v=None, graceful=False, rendered=False):
 
 	user = user.one_or_none()
 
-	if not user:
+	if not user or (user.shadowbanned and not (include_shadowbanned or (v and (v.admin_level >= 2 or v.shadowbanned)))):
 		if not graceful: abort(404)
 		else: return None
 
-	if rendered and v:
+	if rendered and v and include_blocks:
 		if v.id == user.id:
 			user.is_blocked = False
 			user.is_blocking = False
@@ -88,18 +85,21 @@ def get_users(usernames, graceful=False):
 
 	return users
 
-def get_account(id, v=None, graceful=False):
+def get_account(id, v=None, graceful=False, include_blocks=False, include_shadowbanned=True):
 
-	try: id = int(id)
-	except: abort(404)
-
-	user = g.db.get(User, id)
-
-	if not user:
+	try: 
+		id = int(id)
+	except:
 		if not graceful: abort(404)
 		else: return None
 
-	if v:
+	user = g.db.get(User, id)
+
+	if not user or (user.shadowbanned and not (include_shadowbanned or (v and (v.admin_level >= 2 or v.shadowbanned)))):
+		if not graceful: abort(404)
+		else: return None
+
+	if v and include_blocks:
 		block = g.db.query(UserBlock).filter(
 			or_(
 				and_(

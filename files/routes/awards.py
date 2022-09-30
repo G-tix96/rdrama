@@ -165,6 +165,7 @@ def award_thing(v, thing_type, id):
 	note = request.values.get("note", "").strip()
 
 	author = thing.author
+	if author.shadowbanned: return {"error": f"This {thing_type} doesn't exist."}, 404
 
 	if SITE == 'rdrama.net' and author.id in (PIZZASHILL_ID, CARP_ID):
 		return {"error": "This user is immune to awards."}, 403

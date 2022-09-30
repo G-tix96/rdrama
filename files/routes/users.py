@@ -61,7 +61,7 @@ gevent.spawn(leaderboard_thread)
 @app.get("/@<username>/upvoters/<uid>/posts")
 @auth_required
 def upvoters_posts(v, username, uid):
-	u = get_user(username)
+	u = get_user(username, v=v, include_shadowbanned=False)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
@@ -83,7 +83,7 @@ def upvoters_posts(v, username, uid):
 @app.get("/@<username>/upvoters/<uid>/comments")
 @auth_required
 def upvoters_comments(v, username, uid):
-	u = get_user(username)
+	u = get_user(username, v=v, include_shadowbanned=False)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
@@ -105,7 +105,7 @@ def upvoters_comments(v, username, uid):
 @app.get("/@<username>/downvoters/<uid>/posts")
 @auth_required
 def downvoters_posts(v, username, uid):
-	u = get_user(username)
+	u = get_user(username, v=v, include_shadowbanned=False)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
@@ -127,7 +127,7 @@ def downvoters_posts(v, username, uid):
 @app.get("/@<username>/downvoters/<uid>/comments")
 @auth_required
 def downvoters_comments(v, username, uid):
-	u = get_user(username)
+	u = get_user(username, v=v, include_shadowbanned=False)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
@@ -152,7 +152,7 @@ def downvoters_comments(v, username, uid):
 @app.get("/@<username>/upvoting/<uid>/posts")
 @auth_required
 def upvoting_posts(v, username, uid):
-	u = get_user(username)
+	u = get_user(username, v=v, include_shadowbanned=False)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
@@ -174,7 +174,7 @@ def upvoting_posts(v, username, uid):
 @app.get("/@<username>/upvoting/<uid>/comments")
 @auth_required
 def upvoting_comments(v, username, uid):
-	u = get_user(username)
+	u = get_user(username, v=v, include_shadowbanned=False)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
@@ -196,7 +196,7 @@ def upvoting_comments(v, username, uid):
 @app.get("/@<username>/downvoting/<uid>/posts")
 @auth_required
 def downvoting_posts(v, username, uid):
-	u = get_user(username)
+	u = get_user(username, v=v, include_shadowbanned=False)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
@@ -218,7 +218,7 @@ def downvoting_posts(v, username, uid):
 @app.get("/@<username>/downvoting/<uid>/comments")
 @auth_required
 def downvoting_comments(v, username, uid):
-	u = get_user(username)
+	u = get_user(username, v=v, include_shadowbanned=False)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
@@ -240,7 +240,7 @@ def downvoting_comments(v, username, uid):
 @app.get("/@<username>/upvoted/posts")
 @auth_required
 def user_upvoted_posts(v, username):
-	u = get_user(username)
+	u = get_user(username, v=v, include_shadowbanned=False)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 
@@ -266,7 +266,7 @@ def user_upvoted_posts(v, username):
 @app.get("/@<username>/upvoted/comments")
 @auth_required
 def user_upvoted_comments(v, username):
-	u = get_user(username)
+	u = get_user(username, v=v, include_shadowbanned=False)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 
@@ -314,7 +314,7 @@ def agendaposters(v):
 @app.get("/@<username>/upvoters")
 @auth_required
 def upvoters(v, username):
-	id = get_user(username).id
+	id = get_user(username, v=v, include_shadowbanned=False).id
 	if not (v.id == id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']):
 		abort(403)
 
@@ -347,7 +347,7 @@ def upvoters(v, username):
 @app.get("/@<username>/downvoters")
 @auth_required
 def downvoters(v, username):
-	id = get_user(username).id
+	id = get_user(username, v=v, include_shadowbanned=False).id
 	if not (v.id == id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']):
 		abort(403)
 
@@ -378,7 +378,7 @@ def downvoters(v, username):
 @app.get("/@<username>/upvoting")
 @auth_required
 def upvoting(v, username):
-	id = get_user(username).id
+	id = get_user(username, v=v, include_shadowbanned=False).id
 	if not (v.id == id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']):
 		abort(403)
 
@@ -409,7 +409,7 @@ def upvoting(v, username):
 @app.get("/@<username>/downvoting")
 @auth_required
 def downvoting(v, username):
-	id = get_user(username).id
+	id = get_user(username, v=v, include_shadowbanned=False).id
 	if not (v.id == id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']):
 		abort(403)
 
@@ -457,7 +457,7 @@ def suicide(v, username):
 @app.get("/@<username>/coins")
 @auth_required
 def get_coins(v, username):
-	user = get_user(username)
+	user = get_user(username, v=v, include_shadowbanned=False)
 	if user != None: return {"coins": user.coins}, 200
 	else: return {"error": "invalid_user"}, 404
 
@@ -466,7 +466,7 @@ def get_coins(v, username):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def transfer_coins(v, username):
-	receiver = get_user(username)
+	receiver = get_user(username, v=v, include_shadowbanned=False)
 
 	if receiver is None: return {"error": "This user doesn't exist."}, 404
 
@@ -511,7 +511,7 @@ def transfer_coins(v, username):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def transfer_bux(v, username):
-	receiver = get_user(username)
+	receiver = get_user(username, v=v, include_shadowbanned=False)
 
 	if not receiver: return {"error": "This user doesn't exist."}, 404
 
@@ -741,7 +741,7 @@ def unsubscribe(v, post_id):
 @limiter.limit("1/second;10/minute;20/hour;50/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def message2(v, username):
-	user = get_user(username, v=v)
+	user = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
 
 	if hasattr(user, 'is_blocking') and user.is_blocking:
 		return {"error": "You're blocking this user."}, 403
@@ -955,7 +955,7 @@ def redditor_moment_redirect(username, v):
 @app.get("/@<username>/followers")
 @auth_required
 def followers(username, v):
-	u = get_user(username, v=v)
+	u = get_user(username, v=v, include_shadowbanned=False)
 	if u.id == CARP_ID and SITE == 'watchpeopledie.co': abort(403)
 
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
@@ -969,7 +969,7 @@ def followers(username, v):
 @app.get("/@<username>/blockers")
 @auth_required
 def blockers(username, v):
-	u = get_user(username, v=v)
+	u = get_user(username, v=v, include_shadowbanned=False)
 
 	users = g.db.query(UserBlock, User).join(UserBlock, UserBlock.target_id == u.id) \
 		.filter(UserBlock.user_id == User.id) \
@@ -979,7 +979,7 @@ def blockers(username, v):
 @app.get("/@<username>/following")
 @auth_required
 def following(username, v):
-	u = get_user(username, v=v)
+	u = get_user(username, v=v, include_shadowbanned=False)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
 		abort(403)
 
@@ -1003,7 +1003,7 @@ def visitors(v):
 @auth_desired_with_logingate
 def u_username(username, v=None):
 
-	u = get_user(username, v=v, rendered=True)
+	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False, rendered=True)
 
 	if v and username == v.username:
 		is_following = False
@@ -1019,9 +1019,6 @@ def u_username(username, v=None):
 			return {"error": f"This username is reserved for: {u.reserved}"}, 418
 
 		return render_template("userpage_reserved.html", u=u, v=v)
-
-	if u.shadowbanned and not (v and (v.admin_level >= 2 or v.shadowbanned)):
-		abort(404)
 
 	if v and v.id not in (u.id, DAD_ID) and u.viewers_recorded:
 		g.db.flush()
@@ -1104,7 +1101,7 @@ def u_username(username, v=None):
 @auth_desired_with_logingate
 def u_username_comments(username, v=None):
 
-	user = get_user(username, v=v, rendered=True)
+	user = get_user(username, v=v, include_blocks=True, include_shadowbanned=False, rendered=True)
 
 	if v and username == v.username:
 		is_following = False
@@ -1179,7 +1176,7 @@ def u_username_comments(username, v=None):
 @auth_required
 def u_username_info(username, v=None):
 
-	user=get_user(username, v=v)
+	user=get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
 
 	if hasattr(user, 'is_blocking') and user.is_blocking:
 		return {"error": "You're blocking this user."}, 401
@@ -1192,7 +1189,7 @@ def u_username_info(username, v=None):
 @auth_required
 def u_user_id_info(id, v=None):
 
-	user=get_account(id, v=v)
+	user=get_account(id, v=v, include_blocks=True, include_shadowbanned=False)
 
 	if hasattr(user, 'is_blocking') and user.is_blocking:
 		return {"error": "You're blocking this user."}, 401
@@ -1207,7 +1204,7 @@ def u_user_id_info(id, v=None):
 @auth_required
 def follow_user(username, v):
 
-	target = get_user(username)
+	target = get_user(username, v=v, include_shadowbanned=False)
 
 	if target.id==v.id:
 		return {"error": "You can't follow yourself!"}, 400
