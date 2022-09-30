@@ -1121,12 +1121,7 @@ def mute_user(v, user_id, mute_status):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(2)
 def remove_post(post_id, v):
-
 	post = get_post(post_id)
-
-	if not post:
-		abort(400)
-
 	post.is_banned = True
 	post.is_approved = None
 	post.stickied = None
@@ -1164,9 +1159,6 @@ def approve_post(post_id, v):
 	if post.author.id == v.id and post.author.agendaposter and AGENDAPOSTER_PHRASE not in post.body.lower() and post.sub != 'chudrama':
 		return {"error": "You can't bypass the chud award!"}, 400
 
-	if not post:
-		abort(400)
-
 	if post.is_banned:
 		ma=ModAction(
 			kind="unban_post",
@@ -1192,10 +1184,7 @@ def approve_post(post_id, v):
 @app.post("/distinguish/<post_id>")
 @admin_level_required(1)
 def distinguish_post(post_id, v):
-
 	post = get_post(post_id)
-
-	if not post: abort(404)
 
 	if post.author_id != v.id and v.admin_level < 2 : abort(403)
 
@@ -1227,7 +1216,7 @@ def sticky_post(post_id, v):
 		abort(403)
 
 	post = get_post(post_id)
-	if post and not post.stickied:
+	if not post.stickied:
 		pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
 		if pins >= PIN_LIMIT:
 			if v.admin_level > 2:
@@ -1255,7 +1244,7 @@ def sticky_post(post_id, v):
 def unsticky_post(post_id, v):
 
 	post = get_post(post_id)
-	if post and post.stickied:
+	if post.stickied:
 		if post.stickied.endswith('(pin award)'): return {"error": "Can't unpin award pins!"}, 403
 
 		post.stickied = None
