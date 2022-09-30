@@ -76,6 +76,7 @@ def award_timers(v, bot=False):
 		v.earlylife = None
 		notify_if_not_bot("Your earlylife status has expired!")
 		badge = v.has_badge(169)
+		if badge: g.db.delete(badge)
 	if v.marsify and v.marsify < now and v.marsify != 1:
 		v.marsify = 0
 		if SITE_NAME != 'rDrama': notify_if_not_bot("Your marsify status has expired!")

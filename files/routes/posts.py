@@ -234,8 +234,6 @@ def post_id(pid, anything=None, v=None, sub=None):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @auth_desired_with_logingate
 def viewmore(v, pid, sort, offset):
-	try: pid = int(pid)
-	except: abort(400)
 	post = get_post(pid, v=v)
 	if post.club and not (v and (v.paid_dues or v.id == post.author_id)): abort(403)
 

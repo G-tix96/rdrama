@@ -133,8 +133,6 @@ def award_thing(v, thing_type, id):
 	if thing_type == 'post': thing = get_post(id)
 	else: thing = get_comment(id)
 
-	if not thing: return {"error": f"This {thing_type} doesn't exist."}, 404
-
 	if v.shadowbanned: return render_template('errors/500.html', err=True, v=v), 500
 	
 	kind = request.values.get("kind", "").strip()
@@ -165,7 +163,7 @@ def award_thing(v, thing_type, id):
 	note = request.values.get("note", "").strip()
 
 	author = thing.author
-	if author.shadowbanned: return {"error": f"This {thing_type} doesn't exist."}, 404
+	if author.shadowbanned: abort(404)
 
 	if SITE == 'rdrama.net' and author.id in (PIZZASHILL_ID, CARP_ID):
 		return {"error": "This user is immune to awards."}, 403
@@ -469,7 +467,7 @@ def admin_userawards_post(v):
 
 	whitelist = ("shit", "fireflies", "train", "scooter", "wholesome", "tilt", "glowie")
 
-	u = get_user(u, graceful=False, v=v)
+	u = get_user(u, v=v)
 
 	notify_awards = {}
 

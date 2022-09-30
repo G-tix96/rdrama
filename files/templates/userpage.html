@@ -440,7 +440,7 @@
 					{% if u.unban_utc %}<h5 class="text-primary" id="profile-mobile--unban">{{u.unban_string}}</h5>{% endif %}
 				{% endif %}
 
-				{% if u.shadowbanned %}
+				{% if v and v.admin_level >= 2 and u.shadowbanned %}
 					<h5 class="text-primary" id="profile-mobile--banned">SHADOWBANNED USER{% if u.ban_reason %}: {{u.ban_reason | safe}}{% endif %} (by <a href="/@{{u.shadowbanned}}">@{{u.shadowbanned}}</a>)</h5>
 				{% endif %}
 

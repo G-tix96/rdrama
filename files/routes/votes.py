@@ -133,10 +133,6 @@ def vote_comment(comment_id, new, v):
 	if request.headers.get("Authorization") and v.id != BBBB_ID: abort(403)
 
 	new = int(new)
-
-	try: comment_id = int(comment_id)
-	except: abort(404)
-
 	comment = get_comment(comment_id)
 	
 	coin_delta = 1

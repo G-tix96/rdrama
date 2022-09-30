@@ -48,9 +48,6 @@ def exile_post(v, pid):
 @is_not_permabanned
 def exile_comment(v, cid):
 	if v.shadowbanned: return {"error": "Internal Server Error"}, 500
-	try: cid = int(cid)
-	except: abort(400)
-
 	c = get_comment(cid)
 	sub = c.post.sub
 	if not sub: abort(400)

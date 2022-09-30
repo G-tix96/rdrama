@@ -458,8 +458,7 @@ def suicide(v, username):
 @auth_required
 def get_coins(v, username):
 	user = get_user(username, v=v, include_shadowbanned=False)
-	if user != None: return {"coins": user.coins}, 200
-	else: return {"error": "invalid_user"}, 404
+	return {"coins": user.coins}
 
 @app.post("/@<username>/transfer_coins")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -467,8 +466,6 @@ def get_coins(v, username):
 @is_not_permabanned
 def transfer_coins(v, username):
 	receiver = get_user(username, v=v, include_shadowbanned=False)
-
-	if receiver is None: return {"error": "This user doesn't exist."}, 404
 
 	if receiver.id != v.id:
 		amount = request.values.get("amount", "").strip()
@@ -512,9 +509,7 @@ def transfer_coins(v, username):
 @is_not_permabanned
 def transfer_bux(v, username):
 	receiver = get_user(username, v=v, include_shadowbanned=False)
-
-	if not receiver: return {"error": "This user doesn't exist."}, 404
-
+	
 	if receiver.id != v.id:
 		amount = request.values.get("amount", "").strip()
 		amount = int(amount) if amount.isdigit() else None
