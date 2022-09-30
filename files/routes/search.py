@@ -185,7 +185,7 @@ def searchposts(v):
 @auth_required
 def searchcomments(v):
 
-
+	abort(403)
 	query = request.values.get("q", '').strip()
 
 	try: page = max(1, int(request.values.get("page", 1)))
