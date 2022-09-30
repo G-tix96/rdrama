@@ -1197,14 +1197,14 @@ def pin_post(post_id, v):
 
 
 extensions = (
-	'.webp','.jpg','.png','.jpeg','.gif',
+	'.webp','.jpg','.png','.jpeg','.gif','.gifv','.tif', '.tiff',
 	'.mp4','.webm','.mov',
 	'.mp3','.wav','.ogg','.aac','.m4a','.flac'
 )
 
 @app.get("/submit/title")
-@limiter.limit("6/minute")
-@limiter.limit("6/minute", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@limiter.limit("3/minute")
+@limiter.limit("3/minute", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def get_post_title(v):
 
@@ -1217,6 +1217,9 @@ def get_post_title(v):
 
 	try: x = requests.get(url, headers=titleheaders, timeout=5, proxies=proxies)
 	except: abort(400)
+		
+	content_type = x.headers.get("Content-Type")
+	if not content_type or "text/html" not in content_type: abort(400)
 
 	soup = BeautifulSoup(x.content, 'lxml')
 
