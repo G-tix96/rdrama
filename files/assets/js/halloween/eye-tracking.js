@@ -15,8 +15,6 @@ const coordsLookup = {
 const banner = document.querySelector("img[alt~=sidebar]")
 const eye_left = document.getElementById("eye-left")
 const eye_right = document.getElementById("eye-right")
-const pupil_left = eye_left.getElementsByClassName("pupil")[0]
-const pupil_right = eye_right.getElementsByClassName("pupil")[0]
 
 eye_left.style.left = coordsLookup["banner1"]["left"]["x"]
 eye_left.style.top = coordsLookup["banner1"]["left"]["y"]
@@ -25,11 +23,13 @@ eye_right.style.left = coordsLookup["banner1"]["right"]["x"]
 eye_right.style.top = coordsLookup["banner1"]["right"]["y"]
 
 /* tracking */
+const pupil_left = eye_left.getElementsByClassName("pupil")[0]
+const pupil_right = eye_right.getElementsByClassName("pupil")[0]
+
 const eye_left_center = getCenter(eye_left)
 const eye_right_center = getCenter(eye_right)
 
 document.onmousemove = function(event){
-	eye_left.setAttribute('Style','left:'+coordsLookup["banner1"]["left"]["x"])
 	let click = {x: event.clientX, y: event.clientY}
 	
 	let new_left = newCenter(click, eye_left_center)
