@@ -878,3 +878,16 @@ Z-INDEX
   }
 }
 
+/* Eyes */
+.eye {
+	position: relative;
+	width: 28px;
+	height: 28px;
+}
+
+.pupil {
+	fill: white;	
+	r: 4;
+	cy: 14;
+	cx: 14;
+}
