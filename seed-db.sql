@@ -1261,6 +1261,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseychonker2',2,'fat obese pig disgusting fatty fattie',NULL),
 ('marseychonkerbutch',2,'fat obese brap bitch dyke dangerhair lesbian',NULL),
 ('marseychonkerfoid',2,'female woman fds fat obese hambeast landwhale porker pig bleeder birthing person bangs',NULL),
+('marseychonkerfoidpuke',2,'fat huge sick yuck eat barf',1664574968),
 ('marseychristmas',2,'candy cane santa christmas holiday',NULL),
 ('marseychristmasbulb',2,'ornament christmas happy holiday china',NULL),
 ('marseychristmasbulb2',2,'ornament holiday christmas',NULL),
