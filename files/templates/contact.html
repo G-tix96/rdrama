@@ -21,35 +21,38 @@
 
 	<h1 class="article-title">Contact {{SITE_NAME}} Admins</h1>
 
-	<p>Use this form to contact {{SITE_NAME}} Admins.</p>
+	{% if v %}
+		<p>Use this form to contact {{SITE_NAME}} Admins.</p>
 
-	<form id="contactform" action="/send_admin" method="post" enctype="multipart/form-data">
+		<form id="contactform" action="/send_admin" method="post" enctype="multipart/form-data">
 
-		<label for="input-message" class="mt-3">Your message</label>
-		<input type="hidden" name="formkey" value="{{v.formkey}}">
-		<textarea autocomplete="off" maxlength="10000" id="input-message" form="contactform" name="message" class="form-control" required></textarea>
-		<label class="btn btn-secondary format m-0 mt-3" onclick="loadEmojis('input-message')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji">
-			<i class="fas fa-smile-beam"></i>
-		</label>
-		<label class="btn btn-secondary m-0 mt-3" for="file-upload">
-			<div id="filename"><i class="fas fa-file"></i></div>
-			<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file" multiple="multiple" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename','file-upload')" hidden>
-		</label>
-		<input type="submit" onclick="disable(this)" value="Submit" class="btn btn-primary mt-3">
-	</form>
+			<label for="input-message" class="mt-3">Your message</label>
+			<input type="hidden" name="formkey" value="{{v.formkey}}">
+			<textarea autocomplete="off" maxlength="10000" id="input-message" form="contactform" name="message" class="form-control" required></textarea>
+			<label class="btn btn-secondary format m-0 mt-3" onclick="loadEmojis('input-message')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji">
+				<i class="fas fa-smile-beam"></i>
+			</label>
+			<label class="btn btn-secondary m-0 mt-3" for="file-upload">
+				<div id="filename"><i class="fas fa-file"></i></div>
+				<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file" multiple="multiple" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename','file-upload')" hidden>
+			</label>
+			<input type="submit" onclick="disable(this)" value="Submit" class="btn btn-primary mt-3">
+		</form>
 
-	<pre>
-
-
-	</pre>
-
-	<p>Warrant Canary has been moved to <a href="/search/posts/?q=%22Monthly%20Website%20Stats%20Post%22&sort=new&t=all">Monthly Website Stats Posts</a>.</p>
-
-	<pre>
+		<pre>
 
 
-	</pre>
+		</pre>
 
-	{% include "emoji_modal.html" %}
+		<p>Warrant Canary has been moved to <a href="/search/posts/?q=%22Monthly%20Website%20Stats%20Post%22&sort=new&t=all">Monthly Website Stats Posts</a>.</p>
 
+		<pre>
+
+
+		</pre>
+
+		{% include "emoji_modal.html" %}
+	{% else %}
+		<h4>by email: {{MAIL_USERNAME}}</h4>
+	{% endif %}
 {% endblock %}

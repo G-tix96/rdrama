@@ -197,7 +197,7 @@ def api(v):
 @app.get("/contact_us")
 @app.get("/press")
 @app.get("/media")
-@auth_required
+@auth_desired
 def contact(v):
 	return render_template("contact.html", v=v)
 
