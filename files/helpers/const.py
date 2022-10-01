@@ -98,9 +98,9 @@ if SITE_NAME == 'rDrama':
 		"elon musk": "rocket daddy",
 		"fake and gay": "fake and straight",
 		" rapist": " male feminist",
-		" kys ": " keep yourself safe ",
-		" pedo ": " libertarian ",
-		" pedos ": " libertarians ",
+		" pedo": " libertarian",
+		" kys": " keep yourself safe",
+		"kys ": "keep yourself safe ",
 	}
 	SLURS.update(RDRAMA_SLURS)
 
