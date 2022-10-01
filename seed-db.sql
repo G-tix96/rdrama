@@ -257,6 +257,12 @@ INSERT INTO public.hat_defs VALUES (760, 'Foxy Grandpa', 'Goddamn you are one fo
 
 
 
+
+
+
+
+
+
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO OOO', 2, 500, NULL, 1664595865);
 INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
@@ -912,7 +918,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 769, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 775, true);
 
 
 --
@@ -2535,6 +2541,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyupmarsey',2,'upvote vote upmarsey arrow reddit up animated',NULL),
 ('marseyupset',2,'marsey upset tears',1663697961),
 ('marseyupvote',2,'updoot upmarsey agree yes good based true',1664181430),
+('marseyupvote2',2,'upvote reddit narwhal orangered updoot',1664658174),
 ('marseyusa',2,'burger patriot america freedom liberty justice love independence freedom guns trump biden state flag',NULL),
 ('marseyuwuw',2,'fursona furry fursuit',NULL),
 ('marseyvampire',2,'undead sanguine horror spooky halloween fangs holiday monster',NULL),
@@ -2555,6 +2562,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyvirus',2,'phage infect infection plagued',NULL),
 ('marseyw',2,'win winner dub',NULL),
 ('marseywagie',2,'crypto rightoid ancap poor wagecuck mcdonalds maccas reaction',NULL),
+('marseywaifucarp',2,'this was actually really cute and i couldnt help myself to post it here carpathian florist girl cute',1664660946),
 ('marseywait',2,'time watch wait waiting bored',NULL),
 ('marseywalking',2,'stroll walk strut gallivant animated',NULL),
 ('marseywall',2,'foid female birthing person woman girl 30 fds femcel single mom single mother itsover old gross yuck nasty gussy',NULL),
