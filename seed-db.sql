@@ -1248,6 +1248,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseychad',2,'canthal tilt jaw hunter eyes',NULL),
 ('marseychadthundercock',2,'vvc virgin foid pimp hot player big dick huge cock ouch gigachad meme',NULL),
 ('marseychadyes',2,'based gigachad',NULL),
+('marseycharlesiii',2,'king england britain royalty royal monarch',1664652665),
 ('marseycharlesmanson',2,'charlie manson charliemanson murderer killer swastika crazy psycho schizo helterskelter prison cult',NULL),
 ('marseychartbar',2,'stats statistics chart graph plot data bar column',NULL),
 ('marseychartgaussian',2,'stats statistics chart graph plot data gaussian normal bell distribution',NULL),
