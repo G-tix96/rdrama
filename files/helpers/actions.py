@@ -168,6 +168,23 @@ def execute_snappy(post, v):
 			post.stickied = "Snappy"
 			post.stickied_utc = int(time.time()) + 3600
 
+		if SITE_NAME == 'rDrama' and body.startswith(':#marseyban:'):
+			days = 0.01
+			reason = f'<a href="/post/{post.id}">/post/{post.id}</a>'
+			v.ban(admin=snappy, reason=reason, days=days)
+			text = f"@Snappy has banned you for **{days}** days for the following reason:\n\n> {reason}"
+			send_repeatable_notification(v.id, text)
+			duration = f"for {days} days"
+			note = f'reason: "{reason}", duration: {duration}'
+			ma=ModAction(
+				kind="ban_user",
+				user_id=snappy.id,
+				target_user_id=v.id,
+				_note=note
+				)
+			g.db.add(ma)
+			post.bannedfor = f'{duration} by @Snappy'
+
 		g.db.flush()
 
 		c.top_comment_id = c.id
