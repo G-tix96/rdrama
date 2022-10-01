@@ -29,11 +29,6 @@ def process_files():
 	return body
 
 
-def process_other(file):
-	req = requests.post("https://pomf2.lain.la/upload.php", files={'files[]': file}, timeout=20).json()
-	return req['files'][0]['url']
-
-
 def process_audio(file):
 	name = f'/audio/{time.time()}'.replace('.','')
 
