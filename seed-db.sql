@@ -250,6 +250,8 @@ INSERT INTO public.hat_defs VALUES (757, 'Beanie baby tag', 'Now you''re a plush
 INSERT INTO public.hat_defs VALUES (758, 'Target', 'Bullseye!', 2, 500, NULL, 1664604233);
 INSERT INTO public.hat_defs VALUES (760, 'Foxy Grandpa', 'Goddamn you are one foxy grandpa-SalaciousWombat', 2, 500, NULL, 1664633035);
 
+
+
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO OOO', 2, 500, NULL, 1664595865);
 INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
@@ -904,7 +906,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 761, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 763, true);
 
 
 --
@@ -2475,6 +2477,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseytrad',2,'dramarama dress foid tradwife floral girl',NULL),
 ('marseytrad2',2,'wojak tradwife soyjak 4chan meme foid',NULL),
 ('marseytrain',2,'troomer tranny transgender trains troid transsexual animated',NULL),
+('marseytrain2',2,'trans pass locomotive dilate mtf ftm',1664639764),
 ('marseytrans',2,'pitty transgender pitbull dog pibble transsexual',NULL),
 ('marseytrans2',2,'troon tranny transgender troomer lgbt trannies troid transsexual',NULL),
 ('marseytransattentionseeker',2,'needy enby nonbinary notice mtf ftm train attn',NULL),
