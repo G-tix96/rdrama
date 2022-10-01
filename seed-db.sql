@@ -254,6 +254,8 @@ INSERT INTO public.hat_defs VALUES (760, 'Foxy Grandpa', 'Goddamn you are one fo
 
 
 
+
+
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO OOO', 2, 500, NULL, 1664595865);
 INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
@@ -263,6 +265,7 @@ INSERT INTO public.hat_defs VALUES (715, 'Inspector Gadget', '"Go go Gadget Brow
 INSERT INTO public.hat_defs VALUES (724, 'Spartan Helmet', 'THIS IS SPARTA!', 2, 500, NULL, 1663892367);
 INSERT INTO public.hat_defs VALUES (751, 'Butter', 'Southern-fried and full of love.', 2, 500, NULL, 1664595886);
 INSERT INTO public.hat_defs VALUES (754, 'Crusader helmet', 'RETAKE THE HOLY LAND!', 2, 500, NULL, 1664595954);
+
 INSERT INTO public.hat_defs VALUES (676, 'Kepi', 'Army cap for those unlucky enough to be French', 2, 500, NULL, 1663303083);
 INSERT INTO public.hat_defs VALUES (678, 'Turkroach', 'Come on Carp this one''s hilarious. It''s semi transparent to clarify', 2, 500, NULL, 1663305640);
 INSERT INTO public.hat_defs VALUES (679, 'Judge Dredd', 'THIS USER IS THE LAW', 2, 500, NULL, 1663309533);
@@ -908,7 +911,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 765, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 768, true);
 
 
 --
@@ -2197,6 +2200,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyrussel',2,'old pipe history',NULL),
 ('marseyrussiadolls',2,'toys ussr babushka matryoshka soviet',NULL),
 ('marseyrussiaglow',2,'animated russia red putin fsb kgb glow trump commie communist hat comrade',NULL),
+('marseyrussian',2,'russian putin russia vodka adidas tracksuit vatnik ai alcohol beer drunk moscow',1664643821),
 ('marseyrustyventure',2,'dramamine venture bros brothers adult swim cartoon character glasses goattee goatee beard',NULL),
 ('marseysad',2,'concerned worried waiting prepared reaction',NULL),
 ('marseysad2',2,'reaction disappointed disappointment upset',NULL),
