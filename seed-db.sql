@@ -243,11 +243,17 @@ INSERT INTO public.hat_defs VALUES (745, 'The Jason', 'Slash away those filthy c
 INSERT INTO public.hat_defs VALUES (746, 'Sawwed', 'Ouch you need an Advil?-Happy Halloween', 2, 500, NULL, 1664415857);
 
 
+INSERT INTO public.hat_defs VALUES (749, 'Stacked', 'Now you''re cute and delicious.', 2, 500, NULL, 1664595845);
+INSERT INTO public.hat_defs VALUES (752, 'Gas Mask', 'When the nukes hit you''re first prepared!', 2, 500, NULL, 1664595913);
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
+INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO OOO', 2, 500, NULL, 1664595865);
+INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
 INSERT INTO public.hat_defs VALUES (92, 'Top Hat (black)', 'Traditional. Classy. Elegant.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (714, 'Captain Falcon', 'The chad that every smash player wanted to imitate, if only his moveset included a shower.', 2, 500, NULL, 1663474615);
 INSERT INTO public.hat_defs VALUES (715, 'Inspector Gadget', '"Go go Gadget Brown Bricks!"', 2, 500, NULL, 1663477536);
 INSERT INTO public.hat_defs VALUES (724, 'Spartan Helmet', 'THIS IS SPARTA!', 2, 500, NULL, 1663892367);
+
+INSERT INTO public.hat_defs VALUES (751, 'Butter', 'Southern-fried and full of love.', 2, 500, NULL, 1664595886);
 INSERT INTO public.hat_defs VALUES (676, 'Kepi', 'Army cap for those unlucky enough to be French', 2, 500, NULL, 1663303083);
 INSERT INTO public.hat_defs VALUES (678, 'Turkroach', 'Come on Carp this one''s hilarious. It''s semi transparent to clarify', 2, 500, NULL, 1663305640);
 INSERT INTO public.hat_defs VALUES (679, 'Judge Dredd', 'THIS USER IS THE LAW', 2, 500, NULL, 1663309533);
@@ -893,7 +899,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 748, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 754, true);
 
 
 --
@@ -1690,6 +1696,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyinbread',2,'food meme inbred',NULL),
 ('marseyinnocent',2,'innocent naive angelic dumb halo',NULL),
 ('marseyinshallah',2,'begging muslim animated please',NULL),
+('marseyinverted',2,'inverted marsey black',1664594376),
 ('marseyinvestigate',2,'pepe apu peepo investigate magnifying magnifier look lookup',NULL),
 ('marseyinvisible',2,'stealth',NULL),
 ('marseyira',2,'car bomb irish ireland',NULL),
