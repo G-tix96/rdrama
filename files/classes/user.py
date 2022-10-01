@@ -281,7 +281,7 @@ class User(Base):
 
 	@lazy
 	def mods(self, sub):
-		if self.is_suspended or self.shadowbanned: return False
+		if self.is_suspended_permanently or self.shadowbanned: return False
 		return self.admin_level > 2 or bool(g.db.query(Mod.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
 
 	@lazy
