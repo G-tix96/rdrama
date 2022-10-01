@@ -13,6 +13,7 @@
 		<th>Usage</th>
 		{% if SITE == 'rdrama.net' %}
 			<th><a href="?sort=author">Author</a></th>
+			<th><a href="?sort=added">Added</a></th>
 			<th>Original File</th>
 		{% endif %}
 	</tr>
@@ -26,6 +27,7 @@
 			<td><img class="marsey" loading="lazy" data-bs-toggle="tooltip" alt=":#{{marsey.name}}:" title=":{{marsey.name}}:" src="/e/{{marsey.name}}.webp"></td>
 			<td>{{marsey.count}}</td>
 			<td>{% include "user_in_table.html" %}</td>
+			<td {% if marsey.created_utc != None %}data-time="{{marsey.created_utc}}"{% endif %}></td>
 			<td>
 				{% if marsey.og %}
 					<a href="/asset_submissions/marseys/original/{{marsey.og}}">{{marsey.og}}</a>

@@ -4,7 +4,7 @@ from files.helpers.alerts import *
 from files.helpers.const import *
 from files.helpers.actions import *
 from files.classes.award import AWARDS
-from sqlalchemy import func
+from sqlalchemy import func, nullslast
 import os
 from files.classes.mod_logs import ACTIONTYPES, ACTIONTYPES2
 from files.classes.badges import BadgeDef
@@ -25,8 +25,12 @@ def marseys(v):
 	if SITE == 'rdrama.net':
 		marseys = g.db.query(Marsey, User).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id==None)
 		sort = request.values.get("sort", "usage")
-		if sort == "usage": marseys = marseys.order_by(Marsey.count.desc(), User.username).all()
-		else: marseys = marseys.order_by(User.username, Marsey.count.desc()).all()
+		if sort == "usage":
+			marseys = marseys.order_by(Marsey.count.desc(), User.username).all()
+		elif sort == "added":
+			marseys = marseys.order_by(nullslast(Marsey.created_utc.desc()), User.username).all()
+		else: # implied sort == "author"
+			marseys = marseys.order_by(User.username, Marsey.count.desc()).all()
 
 		original = os.listdir("/asset_submissions/marseys/original")
 		for marsey, user in marseys:
