@@ -256,6 +256,7 @@ INSERT INTO public.hat_defs VALUES (760, 'Foxy Grandpa', 'Goddamn you are one fo
 
 
 
+
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO OOO', 2, 500, NULL, 1664595865);
 INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
@@ -911,7 +912,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 768, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 769, true);
 
 
 --
@@ -1578,6 +1579,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyfugg',2,'spurdo sparde fugg',NULL),
 ('marseyfugg2',2,'spurdo sparde',NULL),
 ('marseyfunko',2,'action figure doll funko toy soy',NULL),
+('marseyfuntriptime',2,'lsd drugs joy happy gay schizo',1664656681),
 ('marseyfuriosa',2,'mad max madmax imperator furryosa fury road furyroad post apocalyptic apocalypse australian australia',NULL),
 ('marseyfurry',2,'fursona furry fursuit kitsune',NULL),
 ('marseyfurry2',2,'furry fur degenerate sex',NULL),
@@ -1728,6 +1730,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyjamming',2,'mp3 headphones beat ipod music happy',NULL),
 ('marseyjanny',2,'jannie unpaid volunteer administrator janitor free moderator',NULL),
 ('marseyjanny2',2,'jannie unpaid volunteer administrator janitor free moderator',NULL),
+('marseyjannymini',2,'janny minigun gun clean gatling jannie',1664657815),
 ('marseyjapanese',2,'nippon rising sun weeb japan animated',NULL),
 ('marseyjason',2,'hockey mask horror halloween kill fridaythe13th knife stab voorheys friday the 13th evil monster holiday',NULL),
 ('marseyjavelin',2,'ukraine russia missile rocket rpg grenade launcher kyiv kiev kiyv zelensky putin tank',NULL),
@@ -2132,6 +2135,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseypunished2',2,'punished venom snake metal gear solid kojima eyepatch drama',NULL),
 ('marseypunisher',2,'thin blue line rightoid police cops',NULL),
 ('marseypuppy',2,'dog dalle2 puppy',NULL),
+('marseypureevil',2,'satan evil demon pointy horns horny red carp',1664656928),
 ('marseypusheen',2,'grey gray',NULL),
 ('marseypussyhat',2,'feminist feminism activism activist protester protesting foid gussy woman birthing person roasty roastie thot slut whore',NULL),
 ('marseyputin',2,'vladimir russian kgb moscow ukraine dictator leader',NULL),
