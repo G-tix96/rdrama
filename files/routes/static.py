@@ -131,7 +131,7 @@ def log(v):
 	except: page = 1
 
 	admin = request.values.get("admin")
-	if admin: admin_id = get_id(admin, v=v, include_shadowbanned=False)
+	if admin: admin_id = get_id(admin, v=v)
 	else: admin_id = 0
 
 	kind = request.values.get("kind")
