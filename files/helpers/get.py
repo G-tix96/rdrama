@@ -1,7 +1,7 @@
 from files.classes import *
 from flask import g
 
-def get_id(username, v=None, graceful=False, include_shadowbanned=True):
+def get_id(username, graceful=False):
 	
 	username = username.replace('\\', '').replace('_', '\_').replace('%', '').strip()
 
@@ -14,7 +14,7 @@ def get_id(username, v=None, graceful=False, include_shadowbanned=True):
 			)
 		).one_or_none()
 
-	if not user or (user.shadowbanned and not (include_shadowbanned or (v and (v.admin_level >= 2 or v.shadowbanned)))):
+	if not user:
 		if not graceful: abort(404)
 		else: return None
 
