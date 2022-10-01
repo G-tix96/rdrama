@@ -1462,6 +1462,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyecstatic',2,'ecstatic happy creepy smile',1664490819),
 ('marseyedelgard',2,'fireemblem anime weeb fantasy nintendo princess',NULL),
 ('marseyedelgard2',2,'princess fireemblem nintendo anime weeb videogame',1663283895),
+('marseyedgy',2,'house edgy houseedgy horn horns devil demon evil villain houe openmouth emo goth loser deviantart oc originalcharacter clothed fullyclothed ai aigenerated',1664650319),
 ('marseyeerie1',2,'eerie excited calico',NULL),
 ('marseyeerie2',2,'eerie contented calico',NULL),
 ('marseyeerie3',2,'eerie contented calico yarn knitting troublemaker',NULL),
