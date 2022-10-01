@@ -481,16 +481,19 @@ if SITE == 'pcmemes.net':
 				quantity = int(y.group(1))
 				unit = y.group(2)
 
-				if unit.startswith('λεπτ'):
+				if unit.startswith('δε'):
+					unit = 'second'
+					modifier = 1/60
+				elif unit.startswith('λεπτ'):
 					unit = 'minute'
 					modifier = 1
-				if unit.startswith('ώρ'):
+				elif unit.startswith('ώρ'):
 					unit = 'hour'
 					modifier = 60
-				if unit.startswith('ημέρ'):
+				elif unit.startswith('ημέρ'):
 					unit = 'day'
 					modifier = 1440
-				if unit.startswith('εβδομάδ'):
+				elif unit.startswith('εβδομάδ'):
 					unit = 'week'
 					modifier = 10080
 				elif unit.startswith('μήν'):
@@ -500,10 +503,7 @@ if SITE == 'pcmemes.net':
 					unit = 'year'
 					modifier = 525600
 
-				try: minutes = quantity * modifier
-				except:
-					print(unit, flush=True)
-					return None
+				minutes = quantity * modifier
 
 				actual = f'{quantity} {unit}'
 				if quantity > 1: actual += 's'
