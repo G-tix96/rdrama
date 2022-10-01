@@ -168,7 +168,7 @@ def execute_snappy(post, v):
 			post.stickied = "Snappy"
 			post.stickied_utc = int(time.time()) + 3600
 
-		if SITE_NAME == 'rDrama' and body.startswith(':#marseyban:'):
+		elif SITE_NAME == 'rDrama' and body.startswith(':#marseyban:'):
 			days = 0.01
 			reason = f'<a href="/post/{post.id}">/post/{post.id}</a>'
 			v.ban(admin=snappy, reason=reason, days=days)
