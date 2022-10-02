@@ -207,8 +207,9 @@ def searchcomments(v):
 		else: comments = comments.filter(Comment.author_id == author.id)
 
 	if 'q' in criteria:
-		comments = comments.filter(Comment.body_ts.op('@@')(
-			func.plainto_tsquery(' & '.join(criteria['q']))))
+		comments = comments.filter(Comment.body_ts.match(
+			' & '.join(criteria['q']),
+			postgresql_regconfig='english'))
 
 	if 'over18' in criteria: comments = comments.filter(Comment.over_18 == True)
 
