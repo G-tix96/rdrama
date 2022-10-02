@@ -391,7 +391,8 @@ CREATE TABLE public.comments (
     slots_result character varying(36),
     blackjack_result character varying(860),
     treasure_amount character varying(10),
-    wordle_result character varying(115)
+    wordle_result character varying(115),
+    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('english'::regconfig, (body)::text)) STORED
 );
 
 
@@ -1618,6 +1619,13 @@ CREATE INDEX comment_parent_index ON public.comments USING btree (parent_comment
 --
 
 CREATE INDEX comment_post_id_index ON public.comments USING btree (parent_submission);
+
+
+--
+-- Name: comments_body_ts_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comments_body_ts_idx ON public.comments USING gin (body_ts);
 
 
 --
