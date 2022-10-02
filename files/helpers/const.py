@@ -62,8 +62,6 @@ SLURS = {
 
 if SITE_NAME == 'rDrama':
 	RDRAMA_SLURS = {
-		"tiananmen square": "tiananmen square didn't happen (but it should have)",
-		"dasha": "beautiful angelic perfect Dasha/future Mrs. Carp",
 		"retarded": "r-slurred",
 		"retard": "r-slur",
 		"pedophile": "libertarian",
@@ -76,7 +74,6 @@ if SITE_NAME == 'rDrama':
 		"latina": "latinx",
 		"hispanics": "latinx",
 		"hispanic": "latinx",
-		"uss liberty incident": "tragic accident aboard the USS Liberty",
 		"lavon affair": "Lavon Misunderstanding",
 		"shylock": "Israeli friend",
 		"i hate marsey": "i love marsey",
@@ -86,7 +83,6 @@ if SITE_NAME == 'rDrama':
 		"tenant": "renthog",
 		"renter": "rentoid",
 		"autistic": "neurodivergent",
-		"holohoax": "i tried to claim the Holocaust didn't happen because I am a pencil-dicked imbecile and the word filter caught me lol",
 		"i hate carp": "i love Carp",
 		"gamer": "g*mer",
 		"journalist": "journ*list",
