@@ -60,7 +60,7 @@ class Comment(Base):
 	realupvotes = Column(Integer, default=1)
 	body = Column(String)
 	body_html = Column(String)
-	body_ts = Column(TSVECTOR)
+	body_ts = Column(TSVECTOR(), server_default=FetchedValue())
 	ban_reason = Column(String)
 	wordle_result = Column(String)
 	treasure_amount = Column(String)
