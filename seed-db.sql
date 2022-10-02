@@ -2403,6 +2403,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyspinner',2,'animated loading webdev spin circle',NULL),
 ('marseyspirit',2,'ghost halloween holiday',NULL),
 ('marseyspit',2,'surprising reaction shocking water surprised shocked',NULL),
+('marseyspock',2,'spock star trek nimoy science space',1664740894),
 ('marseyspooky',2,'art horror halloween holiday evil scary monster lovecraftian eldritch',NULL),
 ('marseyspookysmile',2,'horror halloween holiday evil scary monster',NULL),
 ('marseyspy',2,'spy agent shill glowie russia china',NULL),
