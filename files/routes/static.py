@@ -113,7 +113,7 @@ def patrons(v):
 
 	users = g.db.query(User).filter(User.patron > 0).order_by(User.patron.desc(), User.id).all()
 
-	return render_template("patrons.html", v=v, users=users)
+	return render_template("patrons.html", v=v, users=users, benefactor_def=AWARDS['benefactor'])
 
 @app.get("/admins")
 @app.get("/badmins")
