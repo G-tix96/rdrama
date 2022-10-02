@@ -4,6 +4,7 @@ from urllib.parse import urlencode, urlparse, parse_qs
 from flask import *
 from sqlalchemy import *
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import TSVECTOR
 from files.__main__ import Base
 from files.classes.votes import CommentVote
 from files.helpers.const import *
@@ -59,6 +60,7 @@ class Comment(Base):
 	realupvotes = Column(Integer, default=1)
 	body = Column(String)
 	body_html = Column(String)
+	body_ts = Column(TSVECTOR)
 	ban_reason = Column(String)
 	wordle_result = Column(String)
 	treasure_amount = Column(String)
