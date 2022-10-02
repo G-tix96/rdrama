@@ -14,11 +14,10 @@ valid_params = [
 	'author',
 	'domain',
 	'over18',
-	"post",
-	"before",
-	"after",
-	"title",
-	"exact",
+	'post',
+	'before',
+	'after',
+	'title',
 	search_operator_hole,
 ]
 
@@ -90,14 +89,7 @@ def searchposts(v):
 								)
 		else: posts = posts.filter(Submission.author_id == author.id)
 
-	if 'exact' in criteria and 'full_text' in criteria:
-		regex_str = '[[:<:]]'+criteria['full_text']+'[[:>:]]' # https://docs.oracle.com/cd/E17952_01/mysql-5.5-en/regexp.html "word boundaries"
-		if 'title' in criteria:
-			words = [Submission.title.regexp_match(regex_str)]
-		else:
-			words = [or_(Submission.title.regexp_match(regex_str), Submission.body.regexp_match(regex_str))]
-		posts = posts.filter(*words)
-	elif 'q' in criteria:
+	if 'q' in criteria:
 		if('title' in criteria):
 			words = [or_(Submission.title.ilike('%'+x+'%')) \
 					for x in criteria['q']]
@@ -183,9 +175,6 @@ def searchposts(v):
 @app.get("/search/comments")
 @auth_required
 def searchcomments(v):
-
-	return {"error": "Searching comments is disabled temporarily."}, 403
-
 	query = request.values.get("q", '').strip()
 
 	try: page = max(1, int(request.values.get("page", 1)))
@@ -217,14 +206,10 @@ def searchcomments(v):
 
 		else: comments = comments.filter(Comment.author_id == author.id)
 
-	if 'exact' in criteria and 'full_text' in criteria:
-		regex_str = '[[:<:]]'+criteria['full_text']+'[[:>:]]' # https://docs.oracle.com/cd/E17952_01/mysql-5.5-en/regexp.html "word boundaries"
-		words = [Comment.body.regexp_match(regex_str)]
-		comments = comments.filter(*words)
-	elif 'q' in criteria:
-		words = [or_(Comment.body.ilike('%'+x+'%')) \
-				for x in criteria['q']]
-		comments = comments.filter(*words)
+	if 'q' in criteria:
+		comments = comments.filter(Comment.body_ts.match(
+			' & '.join(criteria['q']),
+			postgresql_regconfig='english'))
 
 	if 'over18' in criteria: comments = comments.filter(Comment.over_18 == True)
 
