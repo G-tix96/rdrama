@@ -327,6 +327,7 @@ def comment(v):
 
 	if blackjack and any(i in c.body.lower() for i in blackjack.split()):
 		v.shadowbanned = 'AutoJanny'
+		if not v.is_banned: v.ban_reason = 'Blackjack'
 		notif = Notification(comment_id=c.id, user_id=CARP_ID)
 		g.db.add(notif)
 
@@ -692,6 +693,7 @@ def edit_comment(cid, v):
 
 		if blackjack and any(i in c.body.lower() for i in blackjack.split()):
 			v.shadowbanned = 'AutoJanny'
+			if not v.is_banned: v.ban_reason = 'Blackjack'
 			g.db.add(v)
 			notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=CARP_ID).one_or_none()
 			if not notif:

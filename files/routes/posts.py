@@ -437,6 +437,7 @@ def edit_post(pid, v):
 
 		if blackjack and any(i in f'{p.body} {p.title} {p.url}'.lower() for i in blackjack.split()):
 			v.shadowbanned = 'AutoJanny'
+			if not v.is_banned: v.ban_reason = 'Blackjack'
 			g.db.add(v)
 			send_repeatable_notification(CARP_ID, p.permalink)
 
@@ -919,6 +920,7 @@ def submit_post(v, sub=None):
 
 	if blackjack and any(i in f'{post.body} {post.title} {post.url}'.lower() for i in blackjack.split()):
 		v.shadowbanned = 'AutoJanny'
+		if not v.is_banned: v.ban_reason = 'Blackjack'
 		g.db.add(v)
 		send_repeatable_notification(CARP_ID, post.permalink)
 

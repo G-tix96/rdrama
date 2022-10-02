@@ -18,6 +18,7 @@ def flag_post(pid, v):
 
 	if blackjack and any(i in reason.lower() for i in blackjack.split()):
 		v.shadowbanned = 'AutoJanny'
+		if not v.is_banned: v.ban_reason = 'Blackjack'
 		send_repeatable_notification(CARP_ID, f"reports on {post.permalink}")
 
 	if v.is_muted:
@@ -127,6 +128,7 @@ def flag_comment(cid, v):
 
 	if blackjack and any(i in reason.lower() for i in blackjack.split()):
 		v.shadowbanned = 'AutoJanny'
+		if not v.is_banned: v.ban_reason = 'Blackjack'
 		send_repeatable_notification(CARP_ID, f"reports on {comment.permalink}")
 
 	reason = reason[:100]

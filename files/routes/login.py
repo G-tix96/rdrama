@@ -86,9 +86,11 @@ def check_for_alts(current):
 	for u in current.alts_unique:
 		if u.shadowbanned:
 			current.shadowbanned = u.shadowbanned
+			if not current.is_banned: current.ban_reason = u.ban_reason
 			g.db.add(current)
 		elif current.shadowbanned:
 			u.shadowbanned = current.shadowbanned
+			if not u.is_banned: u.ban_reason = current.ban_reason
 			g.db.add(u)
 
 
