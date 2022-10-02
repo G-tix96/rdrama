@@ -208,6 +208,7 @@ def searchcomments(v):
 
 	if 'q' in criteria:
 		tokens = map(lambda x: re.sub(r'[\0():|&*!]', '', x), criteria['q'])
+		tokens = map(lambda x: re.sub(r'\s+', ' <-> ', x), tokens)
 		comments = comments.filter(Comment.body_ts.match(
 			' & '.join(tokens),
 			postgresql_regconfig='english'))
