@@ -235,7 +235,10 @@ class User(Base):
 	def forced_hat(self):
 		user_forced_hats = []
 		for k, val in forced_hats.items():
-			if getattr(self, k):
+			if k == 'marsify':
+				if self.marsify > 1:
+					user_forced_hats.append(val)
+			elif getattr(self, k):
 				user_forced_hats.append(val)
 		if user_forced_hats: return random.choice(user_forced_hats)
 		else: return None
