@@ -1031,6 +1031,7 @@ def submit_post(v, sub=None):
 	if v.id == PIZZASHILL_ID:
 		for uid in PIZZA_VOTERS:
 			autovote = Vote(user_id=uid, submission_id=post.id, vote_type=1)
+			autovote.created_utc += 1
 			g.db.add(autovote)
 		v.coins += 3
 		v.truecoins += 3

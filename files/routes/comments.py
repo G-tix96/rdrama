@@ -562,6 +562,7 @@ def comment(v):
 	if v.id == PIZZASHILL_ID:
 		for uid in PIZZA_VOTERS:
 			autovote = CommentVote(user_id=uid, comment_id=c.id, vote_type=1)
+			autovote.created_utc += 1
 			g.db.add(autovote)
 		v.coins += 3
 		v.truecoins += 3
