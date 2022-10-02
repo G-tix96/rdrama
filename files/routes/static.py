@@ -297,6 +297,10 @@ def static_service(path):
 
 	return resp
 
+### BEGIN FALLBACK ASSET SERVING
+# In production, we have nginx serve these locations now.
+# These routes stay for local testing. Requests don't reach them on prod.
+
 @app.get('/images/<path>')
 @app.get('/hostedimages/<path>')
 @app.get("/static/images/<path>")
@@ -324,6 +328,8 @@ def audio(path):
 	resp.headers.remove("Cache-Control")
 	resp.headers.add("Cache-Control", "public, max-age=3153600")
 	return resp
+
+### END FALLBACK ASSET SERVING
 
 @app.get("/robots.txt")
 def robots_txt():

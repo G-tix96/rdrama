@@ -1,28 +1,42 @@
 server {
-        server_name rdrama.net;
-        client_max_body_size 100m;
-        listen      443 ssl;
-        listen [::]:443 ssl;
-        ssl_certificate '/rdrama.pem';
-        ssl_certificate_key '/rdrama.key';
-        proxy_set_header  Host $host;
+	server_name rdrama.net;
+	client_max_body_size 100m;
+	listen      443 ssl;
+	listen [::]:443 ssl;
+	ssl_certificate '/rdrama.pem';
+	ssl_certificate_key '/rdrama.key';
+	proxy_set_header  Host $host;
 
-        location / {
-            proxy_pass http://localhost:5000/;
-        }
-        location /socket.io {
-            include proxy_params;
-            proxy_http_version 1.1;
-            proxy_buffering off;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "Upgrade";
-            proxy_pass http://127.0.0.1:5001/socket.io;
-        }
-        location /chat {
-            proxy_pass http://127.0.0.1:5001/chat;
-        }
-        error_page 502 = /error_page/502.html;
-        location /error_page/ {
-            alias /rDrama/files/templates/errors/;
-        }
+	location / {
+		proxy_pass http://localhost:5000/;
+	}
+	location /socket.io {
+		include proxy_params;
+		proxy_http_version 1.1;
+		proxy_buffering off;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "Upgrade";
+		proxy_pass http://127.0.0.1:5001/socket.io;
+	}
+	location /chat {
+		proxy_pass http://127.0.0.1:5001/chat;
+	}
+
+	location /images/ {
+		include includes/serve-static;
+	}
+	location /videos/ {
+		include includes/serve-static;
+	}
+	location /audio/ {
+		include includes/serve-static;
+	}
+	location /asset_submissions/ {
+		include includes/serve-static;
+	}
+
+	error_page 502 = /error_page/502.html;
+	location /error_page/ {
+		alias /rDrama/files/templates/errors/;
+	}
 }

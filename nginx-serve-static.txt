@@ -1,0 +1,8 @@
+root /;
+try_files $uri =404;
+add_header 'Cache-Control' "public, max-age=3153600";
+
+sendfile on;
+sendfile_max_chunk 1m;
+tcp_nopush on;
+directio 4m;
