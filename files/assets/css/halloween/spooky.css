@@ -3,24 +3,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Emilys+Candy&display=swap');
 
 :root {
-	--primary: #FB8B24;
-	--dark: #170535;
-	--secondary: #820263;
-	--white: #E1E1E1;
-	--black: #CFCFCF;
-	--light: #170535;
-	--muted: #E1E1E1;
-	--gray: #383838;
-	--gray-100: #E1E1E1;
-	--gray-200: #E1E1E1;
-	--gray-300: #291720;
-	--gray-400: #303030;
-	--gray-500: #170535;
-	--gray-600: #170535;
-	--gray-700: #170535;
-	--gray-800: #170535;
-	--gray-900: #170535;
-	--background: var(--dark);
+  /*--primary: #ee5e0a;
+  --dark: #1f0339;*/
+  --primary: #F66A3C;
+  --dark: #140224;
+  --secondary: #820263;
+  --white: #E1E1E1;
+  --black: #CFCFCF;
+  --light: #170535;
+  --muted: #E1E1E1;
+  --gray: #383838;
+  --gray-100: #E1E1E1;
+  --gray-200: #E1E1E1;
+  --gray-300: #291720;
+  --gray-400: #303030;
+  --gray-500: var(--dark);
+  --gray-600: var(--dark);
+  --gray-700: var(--dark);
+  --gray-800: var(--dark);
+  --gray-900: var(--dark);
+  --background: var(--dark);
 }
 
 * {

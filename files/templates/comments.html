@@ -887,7 +887,8 @@
 	<div id="viewmore-{{offset}}"><button id="viewbtn" class="btn btn-primary" onclick="viewmore({{pid}},'{{sort}}',{{offset}},{{ids}})">VIEW MORE COMMENTS</a></div>
 {% endif %}
 
-{% if SITE_NAME == 'rDrama' and not request.headers.get("xhr") and v and 'SamsungBrowser' not in g.agent %}
+
+<!--{% if SITE_NAME == 'rDrama' and not request.headers.get("xhr") and v and 'SamsungBrowser' not in g.agent %}
 	<div id="detection" style="display:none;background-color:canvas;color-scheme:light"></div>
 	<script>
 		const detectionDiv = document.querySelector('#detection');
@@ -909,6 +910,6 @@
 			}
 		}
 	</script>
-{% endif %}
+{% endif %}-->
 
 </body>
