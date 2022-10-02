@@ -249,21 +249,16 @@ INSERT INTO public.hat_defs VALUES (755, 'Ski-mask EYES', 'When 2 eyes isn''t en
 INSERT INTO public.hat_defs VALUES (757, 'Beanie baby tag', 'Now you''re a plush, into the jar with you-parx5', 2, 500, NULL, 1664602656);
 INSERT INTO public.hat_defs VALUES (758, 'Target', 'Bullseye!', 2, 500, NULL, 1664604233);
 INSERT INTO public.hat_defs VALUES (760, 'Foxy Grandpa', 'Goddamn you are one foxy grandpa-SalaciousWombat', 2, 500, NULL, 1664633035);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+INSERT INTO public.hat_defs VALUES (764, 'Generic Religious Figurehead', 'Good morning', 2, 500, NULL, 1664640654);
+INSERT INTO public.hat_defs VALUES (762, 'Cthulhu Mask', 'I would kiss that cutie.', 2, 500, NULL, 1664638109);
+INSERT INTO public.hat_defs VALUES (763, 'Top Hat (pentagram)', 'mages vs matriarchy headgear', 2, 500, NULL, 1664638170);
+INSERT INTO public.hat_defs VALUES (770, 'Shroom head', 'You really went so long without a shower mushrooms grew?', 2, 500, NULL, 1664658333);
+INSERT INTO public.hat_defs VALUES (771, 'Escoffion', 'Look dark... AND STYLISH!', 2, 500, NULL, 1664658375);
+INSERT INTO public.hat_defs VALUES (772, 'Attifet', 'You''re a European woman in the 1600s??', 2, 500, NULL, 1664658421);
+INSERT INTO public.hat_defs VALUES (774, 'French Fries', 'Now your salty and tasty!', 2, 500, NULL, 1664658675);
+INSERT INTO public.hat_defs VALUES (775, 'Condiment Top', 'Now you can squirt out tasty condiments!', 2, 500, NULL, 1664658867);
+INSERT INTO public.hat_defs VALUES (767, 'bleh', 'froggy go “bleh”', 2, 500, NULL, 1664646019);
+INSERT INTO public.hat_defs VALUES (768, 'PLAYER 1', 'you only have 2 lives left oop', 2, 500, NULL, 1664646508);
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO OOO', 2, 500, NULL, 1664595865);
 INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
@@ -273,7 +268,7 @@ INSERT INTO public.hat_defs VALUES (715, 'Inspector Gadget', '"Go go Gadget Brow
 INSERT INTO public.hat_defs VALUES (724, 'Spartan Helmet', 'THIS IS SPARTA!', 2, 500, NULL, 1663892367);
 INSERT INTO public.hat_defs VALUES (751, 'Butter', 'Southern-fried and full of love.', 2, 500, NULL, 1664595886);
 INSERT INTO public.hat_defs VALUES (754, 'Crusader helmet', 'RETAKE THE HOLY LAND!', 2, 500, NULL, 1664595954);
-
+INSERT INTO public.hat_defs VALUES (766, 'book', 'i can read! heheh', 2, 500, NULL, 1664645746);
 INSERT INTO public.hat_defs VALUES (676, 'Kepi', 'Army cap for those unlucky enough to be French', 2, 500, NULL, 1663303083);
 INSERT INTO public.hat_defs VALUES (678, 'Turkroach', 'Come on Carp this one''s hilarious. It''s semi transparent to clarify', 2, 500, NULL, 1663305640);
 INSERT INTO public.hat_defs VALUES (679, 'Judge Dredd', 'THIS USER IS THE LAW', 2, 500, NULL, 1663309533);
@@ -1638,6 +1633,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseygoose2',2,'goose geese kill cat bird death bite chomp',NULL),
 ('marseygossip',2,'tea rotary phone popcorn gabbing',NULL),
 ('marseygrad',2,'graduate graduation school degree diploma hat tassel animated college university',NULL),
+('marseygrapes',2,'fat roman emperor fruit chubby snacking healthy',1664677557),
 ('marseygras',2,'mardi gras fat tuesday nola new orleans neworleans holiday louisiana mardigras carnival beads mask',NULL),
 ('marseygrass',2,'reaction outside touchgrass touch grass',NULL),
 ('marseygrilling',2,'barbecue bbq centrist boomer barbeque',NULL),
@@ -2011,6 +2007,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyoldguard',2,'napoleon war soldier musket french france history europe reaction',NULL),
 ('marseyoldtimey',2,'cartoon disney vintage olde classic retro',NULL),
 ('marseyonacid',2,'tripping trippy drugs lcd animated',NULL),
+('marseyoperaphantom',2,'phantom opera music incel',1664677165),
 ('marseyopossum',2,'possum trash',NULL),
 ('marseyoppenheimer',2,'scientist nuke bomb ww2 atomic nuclear mushroom cloud',NULL),
 ('marseyorca',2,'orca whale idate smoke smoking anime weeks sal',NULL),
