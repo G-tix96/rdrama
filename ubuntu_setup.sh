@@ -12,8 +12,10 @@ cp ./env /env
 sed -i 's/^/export /g;s/=/="/g;s/$/"/g' /env
 . /env
 
-cp ./startup.sh /s
-cp ./startup_chat.sh /s2
+mkdir /scripts
+cp ./startup.sh /scripts/s
+cp ./startup_chat.sh /scripts/s2
+chmod +x /scripts/*
 
 sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
