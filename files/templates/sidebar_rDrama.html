@@ -5,7 +5,8 @@
 	{% else %}
 		<!--{% set path = "assets/images/" + SITE_NAME + "/sidebar" %}-->
 		{% set path = "assets/images/halloween/sidebar" %}
-		{% set image = "/" + path + "/" + listdir('files/' + path)|random() + '?v=45' %}
+		{% set selected_image = listdir('files/' + path)|random() %}
+		{% set image = "/" + path + "/" + selected_image + '?v=45' %}
 	{% endif %}
 
 	{% if request.path != '/sidebar' %}
@@ -84,4 +85,9 @@
 
 
 	</pre>
+	{% block javascript %}
+		<script>
+			var banner = "{{selected_image}}".slice(-13,7)
+		</script>
+	{% endblock %}
 </div>
