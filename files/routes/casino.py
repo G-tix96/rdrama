@@ -27,6 +27,8 @@ def casino(v):
 def casino_game_page(v, game):
     if v.rehab:
         return render_template("casino/rehab.html", v=v)
+    if game not in CASINO_GAME_KINDS:
+        abort(404)
 
     feed = json.dumps(get_game_feed(game))
     leaderboard = json.dumps(get_game_leaderboard(game))
@@ -52,6 +54,8 @@ def casino_game_page(v, game):
 def casino_game_feed(v, game):
     if v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
+    if game not in CASINO_GAME_KINDS:
+        abort(404)
 
     feed = get_game_feed(game)
     return {"feed": feed}
