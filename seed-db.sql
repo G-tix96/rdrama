@@ -1307,6 +1307,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseychtorrr',2,'reddit administrator place moderator',NULL),
 ('marseychtorrr2',2,'reddit admin chonker fat',NULL),
 ('marseychucky',2,'doll halloween kill stab knife holiday possessed monster',NULL),
+('marseychudnotes',2,'chud notes write writing manifesto',1664829809),
 ('marseychungus',2,'bugs bunny meme fat chonker big',NULL),
 ('marseycia',2,'bane cia glowie plane big guy dr pavel',NULL),
 ('marseycirno',2,'is cirno anime weebshit otaku loli pedoshit pedophile',NULL),
