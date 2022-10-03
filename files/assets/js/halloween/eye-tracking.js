@@ -19,6 +19,16 @@ const coordsLookup = {
 			x: "64px",
 			y: "-337px"
 		}	
+	},
+	banner3: {
+		left: {
+			x: "88px",
+			y: "-272px"
+		},
+		right: {
+			x: "116px",
+			y: "-276px"
+		}	
 	}
 }
 
@@ -41,11 +51,13 @@ function initEye(side) {
 }
 
 /*eye movement*/
-const eye_left_center = getCenter(eye_left),
-	  eye_right_center = getCenter(eye_right)
-
 document.onmousemove = function(event) {
-	let click = {x: event.clientX, y: event.clientY}
+	let click = {x: event.clientX, y: event.clientY},
+		/*recalculating eye position on every mousemove is less efficient
+		but ensures eyes track properly upon pageload even if script doesnt fire*/
+		eye_left_center = getCenter(eye_left),
+		eye_right_center = getCenter(eye_right)
+
 	eye_left.style.transform = 'rotate('+getAngle(click, eye_left_center)+'rad)'
 	eye_right.style.transform = 'rotate('+getAngle(click, eye_right_center)+'rad)'
 }
