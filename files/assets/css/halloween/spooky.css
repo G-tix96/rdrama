@@ -155,30 +155,30 @@ body::after {
 /* Haunted Effect */
 
 .haunt > div:not(.modal) {
-	animation: haunted 5000ms infinite;
+	animation: haunted 10s infinite;
 }
 
 @keyframes haunted {
 	0% {
 		filter: brightness(20%);
 	}
-	48% {
+	1% {
 		filter: brightness(20%);
 	}
-	50% {
+	2% {
 		filter: sepia(1) contrast(1.5) brightness(200%);
 	}
-	60% {
-		filter: sepia(1) contrast(1.5) brightness(200%);
+	3% {
+		filter: sepia(1) contrast(1.5) brightness(20%);
 	}
-	62% {
-		filter: brightness(20%);
-	}
-	96% {
-		filter: brightness(20%);
-	}
-	96% {
+	4% {
 		filter: brightness(300%);
+	}
+	7% {
+		filter: brightness(1);
+	} 
+	100% {
+    filter: brightness(1);
 	}
 }
 

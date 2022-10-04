@@ -323,11 +323,7 @@
 
 <!-- homoween -->
 {% if p.award_count("haunt", v) %}
-<style>
-	body {
-		animation: haunted 3s infinite!important;
-	}
-</style>
+<script defer src="/assets/js/halloween/haunted.js"></script>
 {% endif %}
 
 {% if p.award_count("upsidedown", v) %}
@@ -1305,7 +1301,7 @@
 {% endif %}
 
 <!-- homoween audio -->
-{% if not p.award_count("upsidedown", v) %}
+{% if not p.award_count("upsidedown", v) and not p.award_count("haunt", v) %}
 <script>
 	const trackList = [
 	'burton',
