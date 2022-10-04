@@ -1,16 +1,13 @@
-# locale-gen "en_US.UTF-8"
-# update-locale LANG=en_US.utf8
-# update-locale LC_ALL=en_US.utf8
-# reboot
+cd /rDrama
+cp ./env /env
+sed -i 's/^/export /g;s/=/="/g;s/$/"/g' /env
+. /env
+
 apt -y update
 apt -y upgrade
 apt -y install git redis-server python3-pip ffmpeg imagemagick tmux nginx snapd ufw gpg-agent htop 
 
 git config --global credential.helper store
-cd /rDrama
-cp ./env /env
-sed -i 's/^/export /g;s/=/="/g;s/$/"/g' /env
-. /env
 
 mkdir /scripts
 cp ./startup.sh /scripts/s
