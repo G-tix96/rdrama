@@ -267,6 +267,7 @@ INSERT INTO public.hat_defs VALUES (768, 'PLAYER 1', 'you only have 2 lives left
 
 
 
+
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO OOO', 2, 500, NULL, 1664595865);
 INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
@@ -922,7 +923,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 784, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 785, true);
 
 
 --
@@ -1225,6 +1226,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycarpbuff',2,'muscles tough strong carpathianflorist admin mod jannie',NULL),
 ('marseycarpcrying',2,'tear reaction carpathianflorist fish sob tears sad',NULL),
 ('marseycarpdead',2,'fish janny kill',NULL),
+('marseycarpdetermined',2,'marsey carpathianflorist admin jannie fish',1664900717),
 ('marseycarpdevil',2,'carp devil demon horns anticarp hell',NULL),
 ('marseycarpdino',2,'dinosaur costume furry fursuit carpathianflorist extinct reptile lizard rawr prehistoric jurassic',NULL),
 ('marseycarpfisherman',2,'admin janny bait caught mod sardine srdine carpathianflorist jannie',1663283814),
@@ -1421,6 +1423,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyderp',2,'hehe teehee troll animated durr giggle',NULL),
 ('marseydespair',2,'doomer reaction depression horrified suicidal depressed judgment',NULL),
 ('marseydetective',2,'holmes sherlock magnifying glass bowtie',NULL),
+('marseydetermined',2,'masey determined',1664900786),
 ('marseydeterminedgun',2,'shooting blam blatt shooter kill die threatening animated',NULL),
 ('marseydeux',2,'frenchman deuxrama baguette frog frenchie',NULL),
 ('marseydeuxfoid',2,'deuxrama asian azn hardislife hil',NULL),
@@ -2526,6 +2529,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseytucker',2,'tucker carlsen fox rightoid conservative republican television tv',NULL),
 ('marseytuckermilkers',2,'tucker tits titties milkers trans teacher beachballs',1663895672),
 ('marseytunaktunak',2,'turban animated curry indian pajeet dance',NULL),
+('marseyturban',2,'hindu turban bindi india pajeet canadian indian punjabi punjab sikh paki',1664911851),
 ('marseyturkey',2,'beak bird thanksgiving holiday feathers',NULL),
 ('marseyturkeyhappy',2,'bird thanksgiving food dinner yum delicious holiday',NULL),
 ('marseyturkroach',2,'turk turkish turkroach bug cockroach mehmet erdogan fez roach',NULL),

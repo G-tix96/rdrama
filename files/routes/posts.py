@@ -1112,6 +1112,9 @@ def toggle_comment_nsfw(cid, v):
 
 	if comment.author_id != v.id and not v.admin_level > 1 and not (comment.post.sub and v.mods(comment.post.sub)):
 		abort(403)
+		
+	if comment.over_18 and v.is_suspended_permanently:
+		abort(403)
 
 	comment.over_18 = not comment.over_18
 	g.db.add(comment)
@@ -1133,6 +1136,9 @@ def toggle_post_nsfw(pid, v):
 	post = get_post(pid)
 
 	if post.author_id != v.id and not v.admin_level > 1 and not (post.sub and v.mods(post.sub)):
+		abort(403)
+		
+	if post.over_18 and v.is_suspended_permanently:
 		abort(403)
 
 	post.over_18 = not post.over_18
