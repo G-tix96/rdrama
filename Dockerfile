@@ -10,8 +10,7 @@ RUN apt install -y ffmpeg
 RUN apt install -y imagemagick
 RUN apt install -y postgresql
 RUN apt install -y libpq-dev
-
-COPY supervisord.conf /etc/supervisord.conf
+RUN apt install -y nano
 
 COPY requirements.txt /etc/requirements.txt
 
@@ -39,6 +38,11 @@ RUN node --version
 RUN npm --version
 RUN npm i -g yarn
 
+RUN apt install -y nginx
+RUN rm /etc/nginx/sites-available -r
+RUN rm /etc/nginx/sites-enabled/default
+RUN mkdir /etc/nginx/includes
+
 EXPOSE 80/tcp
 
-CMD [ "/usr/bin/supervisord", "-c", "/etc/supervisord.conf" ]
+CMD [ "/usr/bin/supervisord", "-c", "/rDrama/supervisord.conf" ]

@@ -4,7 +4,7 @@
 # reboot
 apt -y update
 apt -y upgrade
-apt -y install git redis-server python3-pip ffmpeg imagemagick tmux nginx snapd ufw gpg-agent htop 
+apt -y install git redis-server python3-pip ffmpeg imagemagick tmux nginx snapd ufw gpg-agent htop nano
 
 git config --global credential.helper store
 cd /rDrama
@@ -29,8 +29,9 @@ chown postgres:postgres /etc/postgresql/14/main/pg_hba.conf
 sudo rm /etc/nginx/sites-available -r
 sudo rm /etc/nginx/sites-enabled/default
 sudo mkdir /etc/nginx/includes
-sudo cp nginx.txt /etc/nginx/sites-enabled/1
-sudo cp nginx-serve-static.txt /etc/nginx/includes/serve-static
+sudo cp nginx.conf /etc/nginx/sites-enabled/1
+sudo cp nginx-serve-static.conf /etc/nginx/includes/serve-static
+/etc/init.d/nginx reload
 
 psql -U postgres -f schema.sql postgres
 psql -U postgres -f seed-db.sql postgres
