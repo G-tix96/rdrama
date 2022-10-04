@@ -284,7 +284,7 @@ def sign_up_post(v):
 		return signup_error("There was a problem. Please try again.")
 
 	if not hmac.compare_digest(correct_formkey, form_formkey):
-		return signup_error("There was a problem. Please try again.")
+		return signup_error("There was a problem. Please try again!")
 
 	if not request.values.get(
 			"password") == request.values.get("password_confirm"):

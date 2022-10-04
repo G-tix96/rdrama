@@ -43,16 +43,17 @@
 	<button id="club3-{{p.id}}" class="{% if p.club %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-danger text-left" role="button" onclick="post_toast(this,'/toggle_club/{{p.id}}','club3-{{p.id}}','unclub3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-slash mr-2"></i>Mark club</button>
 	<button id="unclub3-{{p.id}}" class="{% if not p.club %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-success text-left" role="button" onclick="post_toast(this,'/toggle_club/{{p.id}}','club3-{{p.id}}','unclub3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye mr-2"></i>Unmark club</button>
 	{%- endif %}
-
-	<button id="mark3-{{p.id}}" class="{% if p.over_18 %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-danger" onclick="post_toast(this,'/toggle_post_nsfw/{{p.id}}','mark3-{{p.id}}','unmark3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="far fa-eye-evil text-center mr-2"></i>Mark +18</button>
-	<button id="unmark3-{{p.id}}" class="{% if not p.over_18 %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-success" onclick="post_toast(this,'/toggle_post_nsfw/{{p.id}}','mark3-{{p.id}}','unmark3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="far fa-eye-evil text-center mr-2"></i>Unmark +18</button>
 {% else %}
-
 	{% if not p.ghost %}
 		<button id="unblock2-{{p.id}}" class="nobackground btn btn-link btn-block btn-lg text-success text-left{% if not p.is_blocking %} d-none{% endif %}" data-bs-dismiss="modal" onclick="post_toast(this,'/settings/unblock?username={{p.author.username}}','block2-{{p.id}}','unblock2-{{p.id}}','d-none')"><i class="fas fa-eye mr-2 text-success"></i>Unblock user</button>
 		<button id="prompt2-{{p.id}}" class="blockuser nobackground btn btn-link btn-block btn-lg text-danger text-left d-none" data-bs-dismiss="modal" onclick="post_toast(this,'/settings/block?username={{p.author.username}}','prompt2-{{p.id}}','unblock2-{{p.id}}','d-none')"><i class="fas fa-eye-slash mr-2 text-danger"></i>Are you sure?</button>
 		<button id="block2-{{p.id}}" class="blockuser nobackground btn btn-link btn-block btn-lg text-danger text-left{% if p.is_blocking %} d-none{% endif %}" onclick="document.getElementById('block2-{{p.id}}').classList.toggle('d-none');document.getElementById('prompt2-{{p.id}}').classList.toggle('d-none');"><i class="fas fa-eye-slash mr-2 text-danger"></i>Block user</button>
 	{% endif %}
+{% endif %}
+
+{% if v.id==p.author_id or (p.sub and v.mods(p.sub)) %}
+	<button id="mark3-{{p.id}}" class="{% if p.over_18 %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-danger" onclick="post_toast(this,'/toggle_post_nsfw/{{p.id}}','mark3-{{p.id}}','unmark3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="far fa-eye-evil text-center mr-2"></i>Mark +18</button>
+	<button id="unmark3-{{p.id}}" class="{% if not p.over_18 %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-success" onclick="post_toast(this,'/toggle_post_nsfw/{{p.id}}','mark3-{{p.id}}','unmark3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="far fa-eye-evil text-center mr-2"></i>Unmark +18</button>
 {% endif %}
 
 {% if p.sub and v.mods(p.sub) %}

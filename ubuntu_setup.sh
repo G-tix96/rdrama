@@ -1,13 +1,16 @@
+# locale-gen "en_US.UTF-8"
+# update-locale LANG=en_US.utf8
+# update-locale LC_ALL=en_US.utf8
+# reboot
+apt -y update
+apt -y upgrade
+apt -y install git redis-server python3-pip ffmpeg imagemagick tmux nginx snapd ufw gpg-agent htop nano
+
+git config --global credential.helper store
 cd /rDrama
 cp ./env /env
 sed -i 's/^/export /g;s/=/="/g;s/$/"/g' /env
 . /env
-
-apt -y update
-apt -y upgrade
-apt -y install git redis-server python3-pip ffmpeg imagemagick tmux nginx snapd ufw gpg-agent htop 
-
-git config --global credential.helper store
 
 mkdir /scripts
 cp ./startup.sh /scripts/s
@@ -18,16 +21,17 @@ sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 apt -y update
 apt -y install postgresql-14
-sudo rm /etc/postgresql/14/main/pg_hba.conf
-sudo cp pg_hba.conf /etc/postgresql/14/main/pg_hba.conf
+rm /etc/postgresql/14/main/pg_hba.conf
+cp pg_hba.conf /etc/postgresql/14/main/pg_hba.conf
 service postgresql restart
 chown postgres:postgres /etc/postgresql/14/main/pg_hba.conf
 
-sudo rm /etc/nginx/sites-available -r
-sudo rm /etc/nginx/sites-enabled/default
-sudo mkdir /etc/nginx/includes
-sudo cp nginx.txt /etc/nginx/sites-enabled/1
-sudo cp nginx-serve-static.txt /etc/nginx/includes/serve-static
+rm /etc/nginx/sites-available -r
+rm /etc/nginx/sites-enabled/default
+mkdir /etc/nginx/includes
+cp nginx.conf /etc/nginx/sites-enabled/1
+cp nginx-serve-static.conf /etc/nginx/includes/serve-static
+/etc/init.d/nginx reload
 
 psql -U postgres -f schema.sql postgres
 psql -U postgres -f seed-db.sql postgres

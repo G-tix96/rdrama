@@ -16,11 +16,17 @@ git clone https://github.com/Aevann1/rDrama/
 
 cd rDrama
 
-docker-compose down --rmi all --remove-orphans --volumes
-
 docker-compose up
 ```
 
 3- That's it! Visit `localhost` in your browser and make an account (the first account to be made will have full admin rights)
 
 4- Optional: to change the domain from "localhost" to something else and configure the site settings, as well as integrate it with the external services the website uses, edit the variables in the `env` file and then restart the docker container.
+
+
+------
+
+For returning contributors, we have noticed the following issues (if you can help fix them, we will be very grateful!):
+
+1. Docker doesn't know when we add a new Python dependency, `docker-compose build` is needed.
+2. DB schema changes are not applied automatically, the easiest way to deal with that is to delete the entire environment from the Docker GUI and do `docker-compose up`. Also wait five minutes for a "sneed" commit from Aevann meaning that the sql file was regenerated.

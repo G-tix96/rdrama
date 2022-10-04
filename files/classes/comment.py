@@ -328,7 +328,7 @@ class Comment(Base):
 
 	@lazy
 	def realbody(self, v):
-		if self.post and self.post.club and not (v and (v.paid_dues or v.id in [self.author_id, self.post.author_id])): return f"<p>{CC} ONLY</p>"
+		if self.post and self.post.club and not (v and (v.paid_dues or v.id in [self.author_id, self.parent_comment.author_id, self.top_comment.author_id, self.post.author_id])): return f"<p>{CC} ONLY</p>"
 
 		body = self.body_html or ""
 
@@ -392,7 +392,7 @@ class Comment(Base):
 
 	@lazy
 	def plainbody(self, v):
-		if self.post and self.post.club and not (v and (v.paid_dues or v.id in [self.author_id, self.post.author_id])): return f"<p>{CC} ONLY</p>"
+		if self.post and self.post.club and not (v and (v.paid_dues or v.id in [self.author_id, self.parent_comment.author_id, self.top_comment.author_id, self.post.author_id])): return f"<p>{CC} ONLY</p>"
 
 		body = self.body
 

@@ -94,7 +94,7 @@ if SITE_NAME == 'rDrama':
 		"elon musk": "rocket daddy",
 		"fake and gay": "fake and straight",
 		" rapist": " male feminist",
-		" pedo": " libertarian",
+		" pedo ": " libertarian ",
 		" kys": " keep yourself safe",
 		"kys ": "keep yourself safe ",
 	}
