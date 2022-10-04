@@ -220,7 +220,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	sanitized = strikethrough_regex.sub(r'\1<del>\2</del>', sanitized)
 
-	sanitized = sanitized.replace('‎','').replace('​','').replace("\ufeff", "").replace("𒐪","")
+	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("𒐪","").replace("\u0589", ":")
 
 	sanitized = reddit_regex.sub(r'\1<a href="https://old.reddit.com/\2" rel="nofollow noopener noreferrer" target="_blank">/\2</a>', sanitized)
 	sanitized = sub_regex.sub(r'\1<a href="/\2">/\2</a>', sanitized)
