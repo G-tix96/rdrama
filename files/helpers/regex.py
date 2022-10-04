@@ -33,7 +33,7 @@ based_regex = re.compile("based and (.{1,20}?)(-| )pilled", flags=re.I|re.A)
 
 controversial_regex = re.compile('["> ](https:\/\/old\.reddit\.com/r/[a-zA-Z0-9_]{3,20}\/comments\/[\w\-.#&/=\?@%+]{5,250})["< ]', flags=re.A)
 
-fishylinks_regex = re.compile("https?://\S+", flags=re.A)
+fishylinks_regex = re.compile("https?[:։]\/\/\S+", flags=re.A)
 
 spoiler_regex = re.compile('''\|\|(.+)\|\|''', flags=re.A)
 reddit_regex = re.compile('(^|\s|<p>)\/?((r|u)\/(\w|-){3,25})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
