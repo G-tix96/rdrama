@@ -1225,7 +1225,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycarpbuff',2,'muscles tough strong carpathianflorist admin mod jannie',NULL),
 ('marseycarpcrying',2,'tear reaction carpathianflorist fish sob tears sad',NULL),
 ('marseycarpdead',2,'fish janny kill',NULL),
-('marseycarpdetermined',2,'marsey carp',1664900717),
+('marseycarpdetermined',2,'marsey carpathianflorist admin jannie fish',1664900717),
 ('marseycarpdevil',2,'carp devil demon horns anticarp hell',NULL),
 ('marseycarpdino',2,'dinosaur costume furry fursuit carpathianflorist extinct reptile lizard rawr prehistoric jurassic',NULL),
 ('marseycarpfisherman',2,'admin janny bait caught mod sardine srdine carpathianflorist jannie',1663283814),
