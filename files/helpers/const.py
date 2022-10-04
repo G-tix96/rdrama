@@ -770,8 +770,8 @@ if SITE_NAME == 'PCM':
 # Disable unused awards, and site-specific award inclusion/exclusion.
 AWARDS_DISABLED = [
 	'ghost', 'nword', 'lootbox', # Generic
-	'snow', 'gingerbread', 'lights', 'candycane', 'fireplace', # Fistmas
-	'grinch', #'haunt', 'upsidedown', 'stab', 'spiders', 'fog', # Homoween
+	'snow', 'gingerbread', 'lights', 'candycane', 'fireplace', 'grinch', # Fistmas
+	'upsidedown', #'haunt', 'stab', 'spiders', 'fog', # Homoween
 ]
 
 

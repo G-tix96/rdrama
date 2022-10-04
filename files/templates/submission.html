@@ -326,14 +326,6 @@
 <script defer src="/assets/js/halloween/haunted.js"></script>
 {% endif %}
 
-{% if p.award_count("upsidedown", v) %}
-<canvas id="canvas" class="particles"></canvas>
-<link href="/assets/css/halloween/upsidedown.css" rel="stylesheet">
-<img id="demogorgon-1" class="demogorgon" src="/assets/images/halloween/demogorgon.png" alt="demogorgon"/>
-<img id="demogorgon-2" class="demogorgon" src="/assets/images/halloween/demogorgon.png" alt="demogorgon"/>
-<script src="/assets/js/halloween/upsidedown.js"></script>
-{% endif %}
-
 {% if p.award_count("stab", v) and p.award_count("stab", v) <= 5 %}
 <style>
 	canvas.sketch {
@@ -358,7 +350,7 @@
 	{% endfor %}
 {% endif %}
 
-{% if p.award_count("fog", v) and p.award_count("upsidedown", v) %}
+{% if p.award_count("fog", v) %}
 {% set puffs = 10/p.award_count("fog", v) if p.award_count("fog", v) < 2 else 5 %}
 
 <style>
@@ -682,7 +674,7 @@
 	<div id="post-root" class="col-12">
 
 		<div class="card border-0 mt-3 {% if p.stickied %}stickied{% endif %} {% if voted==1 %}upvoted{% elif voted==-1 %} downvoted{% endif %}">
-			<div id="post-{{p.id}}" class="actual-post {% if p.is_banned %}banned{% endif %} {% if p.deleted_utc %}deleted {% endif %} {% if p.award_count('tilt', v) %}p-3{% endif %} {% if p.award_count('glowie', v) %}glow{% endif %} {% if p.award_count('upsidedown', v) %}bg-transparent{% endif %} d-flex flex-row-reverse flex-nowrap justify-content-end">
+			<div id="post-{{p.id}}" class="actual-post {% if p.is_banned %}banned{% endif %} {% if p.deleted_utc %}deleted {% endif %} {% if p.award_count('tilt', v) %}p-3{% endif %} {% if p.award_count('glowie', v) %}glow{% endif %} d-flex flex-row-reverse flex-nowrap justify-content-end">
 
 				{% if not p.is_image and p.thumb_url and not p.embed_url %}
 				<div class="card-header bg-transparent border-0 d-none d-md-flex flex-row flex-nowrap pl-3 p-0">
@@ -1020,7 +1012,7 @@
 	<div autocomplete="off" class="markdown d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{p.id}}" readonly>{{p.body.strip()}}</div>
 {% endif %}
 
-<div class="row border-md-0 comment-section pb-3 {% if p.award_count('upsidedown', v) %}bg-transparent{% endif %}">
+<div class="row border-md-0 comment-section pb-3">
 	<div class="col border-top">
 		<div class="comments-count py-3">
 			<div class="dropdown dropdown-actions">
@@ -1097,7 +1089,7 @@
 	{% endif %}
 
 {% if p.replies %}
-	<div class="comment-section {% if p.award_count('upsidedown', v) %}bg-transparent{% endif %}" id="replies-of-{{p.fullname}}">
+	<div class="comment-section" id="replies-of-{{p.fullname}}">
 		{% with comments=p.replies %}
 			{% include "comments.html" %}
 		{% endwith %}
@@ -1139,7 +1131,7 @@
 		</script>
 	{% endif %}
 {% elif not p.replies and p.deleted_utc == 0 %}
-	<div class="comment-section text-center py-7 {% if p.award_count('upsidedown', v) %}bg-transparent{% endif %}" id="replies-of-{{p.fullname}}">
+	<div class="comment-section text-center py-7" id="replies-of-{{p.fullname}}">
 		<span class="fa-stack fa-2x text-muted mb-4">
 			<i class="fas fa-square text-gray-500 opacity-25 fa-stack-2x"></i>
 			<i class="fas text-gray-500 fa-ghost fa-stack-1x text-lg"></i>
@@ -1301,7 +1293,7 @@
 {% endif %}
 
 <!-- homoween audio -->
-{% if not p.award_count("upsidedown", v) and not p.award_count("haunt", v) %}
+{% if not p.award_count("haunt", v) %}
 <script>
 	const trackList = [
 	'burton',
