@@ -351,37 +351,6 @@
 {% endif %}
 
 {% if p.award_count("fog", v) %}
-{% set puffs = 10/p.award_count("fog", v) if p.award_count("fog", v) < 2 else 5 %}
-
-<style>
-	:root::before {
-		z-index: 1;
-		content: '';
-		display: block;
-		width: 100%;
-		height: 100%;
-		position: fixed;
-		pointer-events: none;
-		background: radial-gradient(
-			circle {{ puffs }}vmax at var(--cursorX) var(--cursorY),
-			rgba(0,0,0,0) 0%,
-			rgba(0,0,0,.5) 80%,
-			rgba(0,0,0,.93) 100%
-			);
-	}
-
-	@media (max-width: 767.98px) {
-		:root::before {
-			background: radial-gradient(
-				circle 70px at var(--cursorX) var(--cursorY),
-				rgba(0,0,0,0) 0%,
-				rgba(0,0,0,.5) 80%,
-				rgba(0,0,0,.93) 100%
-				);
-		}
-	}
-</style>
-{% elif p.award_count("fog", v) %}
 <canvas id="fog-effect" class="fog-effect"></canvas>
 <script src="/assets/js/halloween/fog.js"></script>
 {% endif %}
