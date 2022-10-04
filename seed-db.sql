@@ -267,6 +267,7 @@ INSERT INTO public.hat_defs VALUES (768, 'PLAYER 1', 'you only have 2 lives left
 
 
 
+
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO OOO', 2, 500, NULL, 1664595865);
 INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
@@ -922,7 +923,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 784, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 785, true);
 
 
 --
@@ -2528,6 +2529,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseytucker',2,'tucker carlsen fox rightoid conservative republican television tv',NULL),
 ('marseytuckermilkers',2,'tucker tits titties milkers trans teacher beachballs',1663895672),
 ('marseytunaktunak',2,'turban animated curry indian pajeet dance',NULL),
+('marseyturban',2,'hindu turban bindi india pajeet canadian indian punjabi punjab sikh paki',1664911851),
 ('marseyturkey',2,'beak bird thanksgiving holiday feathers',NULL),
 ('marseyturkeyhappy',2,'bird thanksgiving food dinner yum delicious holiday',NULL),
 ('marseyturkroach',2,'turk turkish turkroach bug cockroach mehmet erdogan fez roach',NULL),
