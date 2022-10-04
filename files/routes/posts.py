@@ -1110,7 +1110,7 @@ def undelete_post_pid(pid, v):
 def toggle_comment_nsfw(cid, v):
 	comment = get_comment(cid)
 
-	if comment.author_id != v.id and not v.admin_level > 1:
+	if comment.author_id != v.id and not v.admin_level > 1 and not (comment.post.sub and v.mods(comment.post.sub)):
 		abort(403)
 
 	comment.over_18 = not comment.over_18
@@ -1132,7 +1132,7 @@ def toggle_comment_nsfw(cid, v):
 def toggle_post_nsfw(pid, v):
 	post = get_post(pid)
 
-	if post.author_id != v.id and not v.admin_level > 1:
+	if post.author_id != v.id and not v.admin_level > 1 and not (post.sub and v.mods(post.sub)):
 		abort(403)
 
 	post.over_18 = not post.over_18
