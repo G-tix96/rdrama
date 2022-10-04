@@ -61,10 +61,6 @@ def sub_inactive_purge_task():
 			Submission.private == False, Submission.is_banned == False,
 			Submission.deleted_utc == 0).all()]
 	active_holes.append('changelog') # system hole immune from deletion
-	active_holes.append('furry') # house holes immune from deletion
-	active_holes.append('vampire')
-	active_holes.append('racist')
-	active_holes.append('femboy')
 
 	dead_holes = g.db.query(Sub).filter(Sub.name.notin_(active_holes)).all()
 	names = [x.name for x in dead_holes]
