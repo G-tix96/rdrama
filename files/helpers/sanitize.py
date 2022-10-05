@@ -190,10 +190,16 @@ def with_sigalrm_timeout(timeout: int):
 
 
 def sanitize_raw_title(sanitized):
-	if not sanitized: return None
+	if not sanitized: return ""
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\r","").replace("\n", "")
 	sanitized = sanitized.strip()
 	return sanitized[:500] # should really be a constant
+
+def sanitize_raw_body(sanitized):
+	if not sanitized: return ""
+	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\r\n", "\n")
+	sanitized = sanitized.strip()
+	return sanitized[:20000] # this also should really be a constant
 
 
 @with_sigalrm_timeout(5)
