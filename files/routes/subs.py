@@ -124,6 +124,7 @@ def block_sub(v, sub):
 @auth_required
 def unblock_sub(v, sub):
 	sub = get_sub_by_name(sub).name
+	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	block = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub).one_or_none()
 
 	if block:
@@ -162,6 +163,7 @@ def unsubscribe_sub(v, sub):
 @auth_required
 def follow_sub(v, sub):
 	sub = get_sub_by_name(sub)
+	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	existing = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
 	if not existing:
 		subscription = SubSubscription(user_id=v.id, sub=sub.name)
@@ -185,6 +187,7 @@ def unfollow_sub(v, sub):
 @auth_required
 def mods(v, sub):
 	sub = get_sub_by_name(sub)
+	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	users = g.db.query(User, Mod).join(Mod).filter_by(sub=sub.name).order_by(Mod.created_utc).all()
 
 	return render_template("sub/mods.html", v=v, sub=sub, users=users)
@@ -194,6 +197,7 @@ def mods(v, sub):
 @auth_required
 def sub_exilees(v, sub):
 	sub = get_sub_by_name(sub)
+	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	users = g.db.query(User, Exile).join(Exile, Exile.user_id==User.id) \
 				.filter_by(sub=sub.name) \
 				.order_by(nullslast(Exile.created_utc.desc()), User.username).all()
@@ -205,6 +209,7 @@ def sub_exilees(v, sub):
 @auth_required
 def sub_blockers(v, sub):
 	sub = get_sub_by_name(sub)
+	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	users = g.db.query(User).join(SubBlock) \
 				.filter_by(sub=sub.name) \
 				.order_by(nullslast(SubBlock.created_utc.desc()), User.username).all()
@@ -217,6 +222,7 @@ def sub_blockers(v, sub):
 @auth_required
 def sub_followers(v, sub):
 	sub = get_sub_by_name(sub)
+	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	users = g.db.query(User).join(SubSubscription) \
 			.filter_by(sub=sub.name) \
 			.order_by(nullslast(SubSubscription.created_utc.desc()), User.username).all()
@@ -710,6 +716,7 @@ def mod_unpin(cid, v):
 @auth_required
 def hole_log(v, sub):
 	sub = get_sub_by_name(sub)
+	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
@@ -749,6 +756,7 @@ def hole_log(v, sub):
 @auth_required
 def hole_log_item(id, v, sub):
 	sub = get_sub_by_name(sub)
+	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	try: id = int(id)
 	except: abort(404)
 
