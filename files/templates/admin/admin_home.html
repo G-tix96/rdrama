@@ -65,9 +65,6 @@
 {% if FEATURES['BADGES'] or FEATURES['AWARDS'] -%}
 <h4>Grant</h4>
 <ul>
-	{% if FEATURES['AWARDS'] -%}
-		<li><a href="/admin/awards">Give User Award</a></li>
-	{%- endif %}
 	{% if FEATURES['BADGES'] -%}
 		<li><a href="/admin/badge_grant">Grant Badges</a></li>
 		<li><a href="/admin/badge_remove">Remove Badges</a></li>
