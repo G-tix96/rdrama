@@ -860,7 +860,7 @@ def submit_post(v, sub=None):
 		body = body.replace(i.group(0), "")
 
 	body += process_files()
-	body = body.strip()
+	body = body.strip()[:POST_BODY_LENGTH_LIMIT] # process_files() adds content to the body, so we need to re-strip
 
 	torture = (v.agendaposter and not v.marseyawarded and sub != 'chudrama')
 
@@ -869,7 +869,7 @@ def submit_post(v, sub=None):
 	if v.marseyawarded and marseyaward_body_regex.search(body_html):
 		return error("You can only type marseys!")
 
-	if len(body_html) > 40000: return error("Submission body_html too long! (max 40k characters)")
+	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: return error(f"Submission body_html too long! (max {POST_BODY_HTML_LENGTH_LIMIT} characters)")
 
 	club = False
 	if FEATURES['COUNTRY_CLUB']:

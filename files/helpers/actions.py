@@ -139,13 +139,13 @@ def execute_snappy(post, v):
 			body += addition
 			archive_url(href)
 
-	body = body.strip()
+	body = body.strip()[:POST_BODY_LENGTH_LIMIT]
 	body_html = sanitize(body)
 
 	if len(body_html) == 0:
 		return
 
-	if len(body_html) < 40000:
+	if len(body_html) < POST_BODY_HTML_LENGTH_LIMIT:
 		c = Comment(author_id=SNAPPY_ID,
 			distinguish_level=6,
 			parent_submission=post.id,
