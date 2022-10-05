@@ -442,7 +442,7 @@ def edit_post(pid, v):
 			g.db.add(v)
 			send_repeatable_notification(CARP_ID, p.permalink)
 
-		if len(body_html) > 40000: return {"error":"Submission body_html too long! (max 40k characters)"}, 400
+		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: return {"error":"Submission body_html too long! (max 40k characters)"}, 400
 
 		p.body_html = body_html
 
@@ -679,7 +679,7 @@ def submit_post(v, sub=None):
 	title_html = filter_emojis_only(title, graceful=True, count_marseys=True, torture=torture)
 	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 		return error("You can only type marseys!")
-	if len(title_html) > 1500: 
+	if len(title_html) > POST_TITLE_HTML_LENGTH_LIMIT: 
 		return error("Rendered title is too big!")
 
 	sub = request.values.get("sub", "").lower().replace('/h/','').strip()
