@@ -561,9 +561,6 @@ if SITE == 'pcmemes.net':
 	@app.post('/live/add')
 	@admin_level_required(2)
 	def live_add(v):
-		if v.id not in (AEVANN_ID, KIPPY_ID, 1550):
-			return {"error": 'Only Kippy can add channels!'}, 403
-
 		link = request.values.get('link').strip()
 
 		if 'youtube.com/channel/' in link:
