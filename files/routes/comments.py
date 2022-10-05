@@ -163,6 +163,8 @@ def comment(v):
 		level = parent.level + 1
 		if parent.author_id == v.id: rts = True
 	else: abort(400)
+	
+	if parent.deleted_utc != 0: abort(404)
 
 	body = request.values.get("body", "").strip().replace('‎','')
 
