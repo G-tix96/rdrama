@@ -259,6 +259,21 @@ INSERT INTO public.hat_defs VALUES (774, 'French Fries', 'Now your salty and tas
 INSERT INTO public.hat_defs VALUES (775, 'Condiment Top', 'Now you can squirt out tasty condiments!', 2, 500, NULL, 1664658867);
 INSERT INTO public.hat_defs VALUES (767, 'bleh', 'froggy go “bleh”', 2, 500, NULL, 1664646019);
 INSERT INTO public.hat_defs VALUES (768, 'PLAYER 1', 'you only have 2 lives left oop', 2, 500, NULL, 1664646508);
+INSERT INTO public.hat_defs VALUES (783, 'A Beautiful Mind', 'Or a euphemism for schizophrenia', 2, 1000, NULL, 1664825990);
+INSERT INTO public.hat_defs VALUES (784, 'Yolo swag 420 rekt', 'Also known as the epilepsy inducer', 2, 1000, NULL, 1664826603);
+INSERT INTO public.hat_defs VALUES (782, 'Fatass minecrap streamer mask', 'I suck his dick / for hours at a time / stare at his nutsack / while I hold back my cum tonite', 2, 500, NULL, 1664768706);
+INSERT INTO public.hat_defs VALUES (777, 'Fat and Stinky Visor', 'Why would you put those pins on a visor?!', 2, 500, NULL, 1664683498);
+INSERT INTO public.hat_defs VALUES (778, 'Coke Jail', 'You drank pepsi, to coke jail with you.-CocaColaMan', 2, 500, NULL, 1664727469);
+INSERT INTO public.hat_defs VALUES (779, 'nemean lion hood', 'Like a true roman, wear a lion!-gudi', 2, 500, NULL, 1664728578);
+INSERT INTO public.hat_defs VALUES (780, 'Winged Hussar', 'To battle with wings on your head!', 2, 500, NULL, 1664731432);
+INSERT INTO public.hat_defs VALUES (786, 'Ricks hair', 'Wubba lubba dub dub', 2, 500, NULL, 1664930047);
+INSERT INTO public.hat_defs VALUES (781, 'BTC', 'Only wear this if you''re worth billions.', 2, 500, NULL, 1664750970);
+
+
+
+
+
+
 
 
 
@@ -923,7 +938,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 785, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 802, true);
 
 
 --
@@ -1462,6 +1477,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydrawing1',2,'drawing artist canvas painting recursion recursive',1664490986),
 ('marseydream',2,'spirals trippy swirls rainbow',NULL),
 ('marseydrone',2,'obama rotors',NULL),
+('marseydrowned',2,'drowned dead marsey',1664998341),
 ('marseydrunk',2,'drinking shitfaced alcoholic liquor happy beer dizzy',NULL),
 ('marseydrunk2',2,'drinking shitfaced alcoholic liquor happy beer dizzy',NULL),
 ('marseyduchamp',2,'art urinal duchamp modern abstract',NULL),

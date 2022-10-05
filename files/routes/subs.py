@@ -109,10 +109,7 @@ def unexile(v, sub, uid):
 @app.post("/h/<sub>/block")
 @auth_required
 def block_sub(v, sub):
-	sub = g.db.get(Sub, sub.strip().lower())
-	if not sub: abort(404)
-	sub = sub.name
-
+	sub = get_sub_by_name(sub).name
 	existing = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub).one_or_none()
 
 	if not existing:
@@ -126,10 +123,8 @@ def block_sub(v, sub):
 @app.post("/h/<sub>/unblock")
 @auth_required
 def unblock_sub(v, sub):
-	sub = g.db.get(Sub, sub.strip().lower())
-	if not sub: abort(404)
-	sub = sub.name
-
+	sub = get_sub_by_name(sub).name
+	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	block = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub).one_or_none()
 
 	if block:
@@ -142,10 +137,7 @@ def unblock_sub(v, sub):
 @app.post("/h/<sub>/subscribe")
 @auth_required
 def subscribe_sub(v, sub):
-	sub = g.db.get(Sub, sub.strip().lower())
-	if not sub: abort(404)
-	sub = sub.name
-
+	sub = get_sub_by_name(sub).name
 	existing = g.db.query(SubJoin).filter_by(user_id=v.id, sub=sub).one_or_none()
 
 	if not existing:
@@ -158,10 +150,7 @@ def subscribe_sub(v, sub):
 @app.post("/h/<sub>/unsubscribe")
 @auth_required
 def unsubscribe_sub(v, sub):
-	sub = g.db.get(Sub, sub.strip().lower())
-	if not sub: abort(404)
-	sub = sub.name
-
+	sub = get_sub_by_name(sub).name
 	subscribe = g.db.query(SubJoin).filter_by(user_id=v.id, sub=sub).one_or_none()
 
 	if subscribe:
@@ -173,11 +162,9 @@ def unsubscribe_sub(v, sub):
 @app.post("/h/<sub>/follow")
 @auth_required
 def follow_sub(v, sub):
-	sub = g.db.get(Sub, sub.strip().lower())
-	if not sub: abort(404)
-
+	sub = get_sub_by_name(sub)
+	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	existing = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
-	
 	if not existing:
 		subscription = SubSubscription(user_id=v.id, sub=sub.name)
 		g.db.add(subscription)
@@ -188,11 +175,8 @@ def follow_sub(v, sub):
 @app.post("/h/<sub>/unfollow")
 @auth_required
 def unfollow_sub(v, sub):
-	sub = g.db.get(Sub, sub.strip().lower())
-	if not sub: abort(404)
-
+	sub = get_sub_by_name(sub)
 	subscription = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
-	
 	if subscription:
 		g.db.delete(subscription)
 		cache.delete_memoized(frontlist)
@@ -202,9 +186,8 @@ def unfollow_sub(v, sub):
 @app.get("/h/<sub>/mods")
 @auth_required
 def mods(v, sub):
-	sub = g.db.get(Sub, sub.strip().lower())
-	if not sub: abort(404)
-
+	sub = get_sub_by_name(sub)
+	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	users = g.db.query(User, Mod).join(Mod).filter_by(sub=sub.name).order_by(Mod.created_utc).all()
 
 	return render_template("sub/mods.html", v=v, sub=sub, users=users)
@@ -213,9 +196,8 @@ def mods(v, sub):
 @app.get("/h/<sub>/exilees")
 @auth_required
 def sub_exilees(v, sub):
-	sub = g.db.get(Sub, sub.strip().lower())
-	if not sub: abort(404)
-
+	sub = get_sub_by_name(sub)
+	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	users = g.db.query(User, Exile).join(Exile, Exile.user_id==User.id) \
 				.filter_by(sub=sub.name) \
 				.order_by(nullslast(Exile.created_utc.desc()), User.username).all()
@@ -226,9 +208,8 @@ def sub_exilees(v, sub):
 @app.get("/h/<sub>/blockers")
 @auth_required
 def sub_blockers(v, sub):
-	sub = g.db.get(Sub, sub.strip().lower())
-	if not sub: abort(404)
-
+	sub = get_sub_by_name(sub)
+	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	users = g.db.query(User).join(SubBlock) \
 				.filter_by(sub=sub.name) \
 				.order_by(nullslast(SubBlock.created_utc.desc()), User.username).all()
@@ -240,9 +221,8 @@ def sub_blockers(v, sub):
 @app.get("/h/<sub>/followers")
 @auth_required
 def sub_followers(v, sub):
-	sub = g.db.get(Sub, sub.strip().lower())
-	if not sub: abort(404)
-
+	sub = get_sub_by_name(sub)
+	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	users = g.db.query(User).join(SubSubscription) \
 			.filter_by(sub=sub.name) \
 			.order_by(nullslast(SubSubscription.created_utc.desc()), User.username).all()
@@ -257,11 +237,7 @@ def sub_followers(v, sub):
 @is_not_permabanned
 def add_mod(v, sub):
 	if SITE_NAME == 'WPD': abort(403)
-
-	sub = g.db.get(Sub, sub.strip().lower())
-	if not sub: abort(404)
-	sub = sub.name
-
+	sub = get_sub_by_name(sub).name
 	if not v.mods(sub): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/mods')
 
@@ -297,10 +273,8 @@ def add_mod(v, sub):
 @app.post("/h/<sub>/remove_mod")
 @is_not_permabanned
 def remove_mod(v, sub):
-	sub = g.db.get(Sub, sub.strip().lower())
-	if not sub: abort(404)
-	sub = sub.name
-
+	sub = get_sub_by_name(sub).name
+	
 	if not v.mods(sub): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/mods')
 
@@ -356,7 +330,7 @@ def create_sub2(v):
 	if not valid_sub_regex.fullmatch(name):
 		return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error=f"{HOLE_NAME.capitalize()} name not allowed."), 400
 
-	sub = g.db.get(Sub, name)
+	sub = get_sub_by_name(sub, graceful=True)
 	if not sub:
 		if v.coins < HOLE_COST:
 			return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error="You don't have enough coins!"), 403
@@ -425,11 +399,8 @@ def kick(v, pid):
 @app.get('/h/<sub>/settings')
 @is_not_permabanned
 def sub_settings(v, sub):
-	sub = g.db.get(Sub, sub.strip().lower())
-	if not sub: abort(404)
-
+	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
-
 	return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub)
 
 
@@ -438,9 +409,7 @@ def sub_settings(v, sub):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def post_sub_sidebar(v, sub):
-	sub = g.db.get(Sub, sub.strip().lower())
-	if not sub: abort(404)
-	
+	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
 
@@ -465,7 +434,7 @@ def post_sub_sidebar(v, sub):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def post_sub_css(v, sub):
-	sub = g.db.get(Sub, sub.strip().lower())
+	sub = get_sub_by_name(sub)
 	css = request.values.get('css', '').strip()
 
 	if not sub: abort(404)
@@ -509,9 +478,7 @@ def get_sub_css(sub):
 def sub_banner(v, sub):
 	if request.headers.get("cf-ipcountry") == "T1": return {"error":"Image uploads are not allowed through TOR."}, 403
 
-	sub = g.db.get(Sub, sub.lower().strip())
-	if not sub: abort(404)
-
+	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
 
@@ -544,9 +511,7 @@ def sub_banner(v, sub):
 def sub_sidebar(v, sub):
 	if request.headers.get("cf-ipcountry") == "T1": return {"error":"Image uploads are not allowed through TOR."}, 403
 
-	sub = g.db.get(Sub, sub.lower().strip())
-	if not sub: abort(404)
-
+	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
 	
@@ -578,9 +543,7 @@ def sub_sidebar(v, sub):
 def sub_marsey(v, sub):
 	if request.headers.get("cf-ipcountry") == "T1": return {"error":"Image uploads are not allowed through TOR."}, 403
 
-	sub = g.db.get(Sub, sub.lower().strip())
-	if not sub: abort(404)
-
+	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
 	
@@ -667,9 +630,7 @@ def hole_unpin(v, pid):
 @app.post('/h/<sub>/stealth')
 @is_not_permabanned
 def sub_stealth(v, sub):
-	sub = g.db.get(Sub, sub.strip().lower())
-	if not sub: abort(404)
-
+	sub = get_sub_by_name(sub)
 	if sub.name == 'braincels': abort(403)
 	if not v.mods(sub.name): abort(403)
 
@@ -754,10 +715,8 @@ def mod_unpin(cid, v):
 @app.get("/h/<sub>/modlog")
 @auth_required
 def hole_log(v, sub):
-	sub = g.db.get(Sub, sub.strip().lower())
-	if not sub: abort(404)
-	sub = sub
-
+	sub = get_sub_by_name(sub)
+	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
@@ -796,10 +755,8 @@ def hole_log(v, sub):
 @app.get("/h/<sub>/log/<id>")
 @auth_required
 def hole_log_item(id, v, sub):
-	sub = g.db.get(Sub, sub.strip().lower())
-	if not sub: abort(404)
-	sub = sub
-
+	sub = get_sub_by_name(sub)
+	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	try: id = int(id)
 	except: abort(404)
 

@@ -22,11 +22,11 @@ def vote_option(option_id, v):
 		return {"error": f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}"}, 400
 
 	if option.exclusive == 2:
-		if v.coins < 200: return {"error": "You don't have 200 coins!"}, 400
-		v.coins -= 200
+		if v.coins < POLL_BET_COINS: return {"error": f"You don't have {POLL_BET_COINS} coins!"}, 400
+		v.coins -= POLL_BET_COINS
 		g.db.add(v)
 		autojanny = get_account(AUTOJANNY_ID)
-		autojanny.coins += 200
+		autojanny.coins += POLL_BET_COINS
 		g.db.add(autojanny)
 
 	if option.exclusive:

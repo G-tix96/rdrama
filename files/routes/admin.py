@@ -213,7 +213,7 @@ def distribute(v, option_id):
 	pool = 0
 	for o in post.options:
 		if o.exclusive >= 2: pool += o.upvotes
-	pool *= 200
+	pool *= POLL_BET_COINS
 
 	autojanny.coins -= pool
 	if autojanny.coins < 0: autojanny.coins = 0
@@ -229,7 +229,7 @@ def distribute(v, option_id):
 		add_notif(cid, u.id)
 
 
-	cid = notif_comment(f"You lost the 200 coins you bet on [{post.title}]({post.shortlink}) :marseylaugh:")
+	cid = notif_comment(f"You lost the {POLL_BET_COINS} coins you bet on [{post.title}]({post.shortlink}) :marseylaugh:")
 	losing_voters = []
 	for o in post.options:
 		if o.exclusive == 2:

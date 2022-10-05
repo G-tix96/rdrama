@@ -87,8 +87,7 @@ def publish(pid, v):
 @app.get("/h/<sub>/submit")
 @auth_required
 def submit_get(v, sub=None):
-	if sub: sub = g.db.get(Sub, sub.strip().lower())
-	
+	sub = get_sub_by_name(sub, graceful=True)
 	if request.path.startswith('/h/') and not sub: abort(404)
 
 	SUBS = [x[0] for x in g.db.query(Sub.name).order_by(Sub.name).all()]
