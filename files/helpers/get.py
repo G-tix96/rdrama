@@ -298,6 +298,19 @@ def get_comments(cids, v=None, load_parent=False):
 
 	return sorted(output, key=lambda x: cids.index(x.id))
 
+def get_sub_by_name(sub, v=None, graceful=False):
+	if not sub:
+		if graceful: return None
+		else: abort(404)
+	sub = sub.replace('/h/', '').strip().lower()
+	if not sub:
+		if graceful: return None
+		else: abort(404)
+	sub = g.db.get(Sub, sub)
+	if not sub:
+		if graceful: return None
+		else: abort(404)
+	return sub
 
 def get_domain(s):
 

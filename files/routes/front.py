@@ -22,7 +22,7 @@ def front_all(v, sub=None, subdomain=None):
 	if sub:
 		sub = sub.strip().lower()
 		if sub == 'chudrama' and not (v and v.can_see_chudrama): abort(403)
-		sub = g.db.get(Sub, sub)
+		sub = get_sub_by_name(sub, graceful=True)
 	
 	if (request.path.startswith('/h/') or request.path.startswith('/s/')) and not sub: abort(404)
 
