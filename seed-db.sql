@@ -275,6 +275,12 @@ INSERT INTO public.hat_defs VALUES (781, 'BTC', 'Only wear this if you''re worth
 
 
 
+
+
+
+
+
+
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO OOO', 2, 500, NULL, 1664595865);
 INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
@@ -930,7 +936,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 794, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 800, true);
 
 
 --
@@ -1469,6 +1475,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydrawing1',2,'drawing artist canvas painting recursion recursive',1664490986),
 ('marseydream',2,'spirals trippy swirls rainbow',NULL),
 ('marseydrone',2,'obama rotors',NULL),
+('marseydrowned',2,'drowned dead marsey',1664998341),
 ('marseydrunk',2,'drinking shitfaced alcoholic liquor happy beer dizzy',NULL),
 ('marseydrunk2',2,'drinking shitfaced alcoholic liquor happy beer dizzy',NULL),
 ('marseyduchamp',2,'art urinal duchamp modern abstract',NULL),
