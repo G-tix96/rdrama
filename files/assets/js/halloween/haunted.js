@@ -12,7 +12,7 @@ setInterval(function(){
     } else {
         lightningStrike("normal")
     }
-},20000)
+},14000)
 
 function lightningStrike(strike) {
     document.body.style.overflowX = "hidden"
