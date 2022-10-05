@@ -269,6 +269,12 @@ INSERT INTO public.hat_defs VALUES (780, 'Winged Hussar', 'To battle with wings 
 INSERT INTO public.hat_defs VALUES (786, 'Ricks hair', 'Wubba lubba dub dub', 2, 500, NULL, 1664930047);
 INSERT INTO public.hat_defs VALUES (781, 'BTC', 'Only wear this if you''re worth billions.', 2, 500, NULL, 1664750970);
 
+
+
+
+
+
+
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO OOO', 2, 500, NULL, 1664595865);
 INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
@@ -924,7 +930,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 787, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 794, true);
 
 
 --
