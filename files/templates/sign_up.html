@@ -7,136 +7,140 @@
 	<link rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
 
 	<meta name="description" content="{{DESCRIPTION}}">
-		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
+	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
 
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-		<meta name="author" content="">
-		<meta property="og:type" content="article">
-		<meta property="og:title" content="{{SITE_NAME}}">
-		<meta property="og:site_name" content="{{SITE}}">
-		<meta property="og:image" content="{{'site_preview.webp' | asset_siteimg}}">
-		<meta property="og:url" content="{{SITE_FULL}}">
-		<meta property="og:description" name="description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
-		<meta property="og:author" name="author" content="{{SITE_FULL}}">
+	<meta name="author" content="">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="{{SITE_NAME}}">
+	<meta property="og:site_name" content="{{SITE}}">
+	<meta property="og:image" content="{{'site_preview.webp' | asset_siteimg}}">
+	<meta property="og:url" content="{{SITE_FULL}}">
+	<meta property="og:description" name="description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
+	<meta property="og:author" name="author" content="{{SITE_FULL}}">
 
-		<meta name="twitter:card" content="summary_large_image">
-		<meta name="twitter:site" content="{{SITE_FULL}}">
-		<meta name="twitter:title" content="{{SITE_NAME}}">
-		<meta name="twitter:creator" content="{{SITE_FULL}}">
-		<meta name="twitter:description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
-		<meta name="twitter:image" content="{{'site_preview.webp' | asset_siteimg}}">
-		<meta name="twitter:url" content="{{SITE_FULL}}">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="{{SITE_FULL}}">
+	<meta name="twitter:title" content="{{SITE_NAME}}">
+	<meta name="twitter:creator" content="{{SITE_FULL}}">
+	<meta name="twitter:description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
+	<meta name="twitter:image" content="{{'site_preview.webp' | asset_siteimg}}">
+	<meta name="twitter:url" content="{{SITE_FULL}}">
 
-		<title>{% if ref_user %}{{ref_user.username}} invites you to {{SITE_NAME}}{% else %}Sign up - {{SITE_NAME}}{% endif %}</title>
+	<title>{% if ref_user %}{{ref_user.username}} invites you to {{SITE_NAME}}{% else %}Sign up - {{SITE_NAME}}{% endif %}</title>
 
-		<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
-		<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-		<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
+	<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
+	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
+	<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
 
 </head>
 
 <body id="login">
 
 <div class="container-fluid position-absolute h-100 p-0 overflow-auto">
-		<div class="row no-gutters h-100">
+	<div class="row no-gutters h-100">
 
-				<div class="col-12 col-md-6 my-auto p-3">
+		<div class="col-12 col-md-6 my-auto p-3">
 
-						<div class="row justify-content-center">
+			<div class="row justify-content-center">
 
-								<div class="col-10 col-md-7">
+				<div class="col-10 col-md-7">
 
-										<div class="mb-3">
-												<a href="/" class="text-decoration-none"><span class="h3 text-primary">‎</span></a>
-										</div>
+					<div class="mb-3">
+						<a href="/" class="text-decoration-none"><span class="h3 text-primary">‎</span></a>
+					</div>
 
-										<div id="register-form" class="">
+					<div id="register-form" class="">
 
-											{% if ref_user %}
-											<h1 class="h2">@{{ref_user.username}} has invited you!</h1>
-											<p class="text-muted mb-md-2">Looks like someone wants you to join {{SITE_NAME}}.</p>
-											{% else %}
-											<h1 class="h2">Create your account.</h1>
-											<p class="text-muted mb-md-2">No email address required.</p>
-											{% endif %}
+						{% if ref_user %}
+						<h1 class="h2">@{{ref_user.username}} has invited you!</h1>
+						<p class="text-muted mb-md-2">Looks like someone wants you to join {{SITE_NAME}}.</p>
+						{% elif SITE_NAME == 'WPD' and site_settings['login_required'] %}
+						<p class="text-muted text-justify mb-1" style="line-height: 1.2em">
+							<strong>Hi you!</strong> &mdash; <span style="font-variant-caps: small-caps;">WatchPeopleDie.co</span> is currently doing our monthly 24(ish) hours of "everyone needs to have an account"&mdash;sorry about that! But making an account is actually super easy. <strong>You don't even need an email address!</strong> Literally just pick a username, set a password, and that's that. Bam, done, like 8 seconds, tops.<br>
+						</p>
+						<p class="text-muted mb-md-2">
+							We WANT you with us &#128150;<br>
+							Please join!
+						</p>
+						<hr>
+						{% else %}
+						<h1 class="h2">Create your account.</h1>
+						<p class="text-muted mb-md-2">No email address required.</p>
+						{% endif %}
 
-											<form action="/signup" method="post" class="mt-md-3" id="signup">
+						<form action="/signup" method="post" class="mt-md-3" id="signup">
 
-												{% if error %}<span class="text-danger">{{error}}</span><br>{% endif %}
+						{% if error %}<span class="text-danger">{{error}}</span><br>{% endif %}
 
-												<input type="hidden" name="formkey" value="{{formkey}}">
-												<input type="hidden" name="now" value="{{now}}">
+						<input type="hidden" name="formkey" value="{{formkey}}">
+						<input type="hidden" name="now" value="{{now}}">
 
-												{% if redirect %}<input type="hidden" name="redirect" value="{{redirect}}">{% endif %}
-												{% if ref_user %}
-												<input type="hidden" name="referred_by" value="{{ref_user.id}}">{% endif %}
+						{% if redirect %}<input type="hidden" name="redirect" value="{{redirect}}">{% endif %}
+						{% if ref_user %}
+						<input type="hidden" name="referred_by" value="{{ref_user.id}}">{% endif %}
 
-												<label for="username-register" class="mt-3">Username</label>
+						<label for="username-register" class="mt-3">Username</label>
 
-												<input autocomplete="off" class="form-control" id="username-register"
-												aria-describedby="usernameHelpRegister" type="text" name="username" pattern="[a-zA-Z0-9_\-]{3,25}" min="3" max="25" required="">
-												<small id="usernameHelpRegister"></small>
+						<input autocomplete="off" class="form-control" id="username-register"
+						aria-describedby="usernameHelpRegister" type="text" name="username" pattern="[a-zA-Z0-9_\-]{3,25}" min="3" max="25" required="">
+						<small id="usernameHelpRegister"></small>
 
-												<label for="email-register" class="mt-3">Email Address</label>
+						<label for="email-register" class="mt-3">Email Address</label>
 
-												<small class="d-inline-block text-muted ml-1">(optional)</small>
+						<small class="d-inline-block text-muted ml-1">(optional)</small>
 
-												<input style="background-color: var(--gray-800)" autocomplete="off" class="form-control" id="email-register"
-												aria-describedby="emailHelpRegister" type="email" pattern='([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+' name="email" readonly onfocus="if (this.hasAttribute('readonly')) {this.removeAttribute('readonly');this.blur();this.focus()}">
+						<input style="background-color: var(--gray-800)" autocomplete="off" class="form-control" id="email-register"
+						aria-describedby="emailHelpRegister" type="email" pattern='([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+' name="email" readonly onfocus="if (this.hasAttribute('readonly')) {this.removeAttribute('readonly');this.blur();this.focus()}">
 
-												<label for="password-register" class="mt-3">Password</label>
+						<label for="password-register" class="mt-3">Password</label>
 
-												<input autocomplete="off" class="form-control" id="password-register"
-												aria-describedby="passwordHelpReigster" type="password" name="password" required="">
-												<small id="passwordHelpRegister" class="form-text font-weight-bold text-muted d-none mt-1">Minimum of 8
-														characters
-												required.</small>
-												<small id="passwordHelpSuccess" class="form-text font-weight-bold text-success d-none mt-1">Your password meets the requirements.
-												</small>
+						<input autocomplete="off" class="form-control" id="password-register"
+						aria-describedby="passwordHelpReigster" type="password" name="password" required="">
+						<small id="passwordHelpRegister" class="form-text font-weight-bold text-muted d-none mt-1">Minimum of 8
+							characters
+						required.</small>
+						<small id="passwordHelpSuccess" class="form-text font-weight-bold text-success d-none mt-1">Your password meets the requirements.
+						</small>
 
-												<label for="password_confirm" class="mt-3">Confirm Password</label>
+						<label for="password_confirm" class="mt-3">Confirm Password</label>
 
-												<input autocomplete="off" class="form-control" id="password_confirm"
-												aria-describedby="passwordConfirmHelp" type="password" name="password_confirm"
-												required="">
-												<div class="custom-control custom-checkbox mt-4">
-														<input autocomplete="off" type="checkbox" class="custom-control-input" id="termsCheck" required>
-														<label class="custom-control-label terms" for="termsCheck">I accept the <a href="/logged_out/sidebar">rules</a></label>
-												</div>
-
-												{% if hcaptcha %}
-													<div class="h-captcha" data-sitekey="{{hcaptcha}}" data-theme="dark"></div>
-												{% endif %}
-
-												<button class="btn btn-primary login w-100 mt-3" id="register_button">Register</button>
-
-												<div class="text-center text-muted text-small mt-5 mb-3">
-													Already have an account? <a href="/login{{'?redirect='+redirect if redirect else ''}}" class="font-weight-bold toggle-login">Log in</a>
-												</div>
-											</form>
-
-										</div>
-
-								</div>
-
+						<input autocomplete="off" class="form-control" id="password_confirm"
+						aria-describedby="passwordConfirmHelp" type="password" name="password_confirm"
+						required="">
+						<div class="custom-control custom-checkbox mt-4">
+							<input autocomplete="off" type="checkbox" class="custom-control-input" id="termsCheck" required>
+							<label class="custom-control-label terms" for="termsCheck">I accept the <a href="/logged_out/sidebar">rules</a></label>
 						</div>
+
+						{% if hcaptcha %}
+							<div class="h-captcha" data-sitekey="{{hcaptcha}}" data-theme="dark"></div>
+						{% endif %}
+
+						<button class="btn btn-primary login w-100 mt-3" id="register_button">Register</button>
+
+						<div class="text-center text-muted text-small mt-5 mb-3">
+							Already have an account? <a href="/login{{'?redirect='+redirect if redirect else ''}}" class="font-weight-bold toggle-login">Log in</a>
+						</div>
+						</form>
+
+					</div>
 
 				</div>
 
-				<div class="col-12 col-md-6 d-none d-md-block">
-
-						<div class="splash-wrapper">
-
-								<div class="splash-overlay"></div>
-
-								<img alt="cover" loading="lazy" class="splash-img" src="{{'cover.webp' | asset_siteimg}}"></img>
-						</div>
-
-				</div>
+			</div>
 
 		</div>
+
+		<div class="col-12 col-md-6 d-none d-md-block">
+			<div class="splash-wrapper">
+				<div class="splash-overlay"></div>
+				<img alt="cover" loading="lazy" class="splash-img" src="{{'cover.webp' | asset_siteimg}}"></img>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script defer src="{{'js/signup.js' | asset}}"></script>

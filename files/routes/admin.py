@@ -430,7 +430,6 @@ def admin_home(v):
 	
 	return render_template("admin/admin_home.html", v=v, 
 		under_attack=under_attack, 
-		site_settings=app.config['SETTINGS'],
 		gitref=gitref)
 
 def admin_git_head():
