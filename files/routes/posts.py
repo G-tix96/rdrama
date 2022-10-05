@@ -376,9 +376,7 @@ def edit_post(pid, v):
 
 	title = sanitize_raw_title(request.values.get("title", ""))
 
-	body = request.values.get("body", "").strip().replace('‎','')
-
-	body = body.replace('\r\n', '\n')[:20000]
+	body = sanitize_raw_body(request.values.get("body", ""))
 
 	if v.id != p.author_id and v.admin_level < 2:
 		abort(403)
@@ -403,8 +401,7 @@ def edit_post(pid, v):
 		p.title_html = title_html
 
 	body += process_files()
-
-	body = body.strip()
+	body = body.strip()[:POST_BODY_LENGTH_LIMIT] # process_files() may be adding stuff to the body
 
 	if body != p.body:
 		for i in poll_regex.finditer(body):
@@ -442,7 +439,7 @@ def edit_post(pid, v):
 			g.db.add(v)
 			send_repeatable_notification(CARP_ID, p.permalink)
 
-		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: return {"error":"Submission body_html too long! (max 40k characters)"}, 400
+		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: return {"error":f"Submission body_html too long! (max {POST_BODY_HTML_LENGTH_LIMIT} characters)"}, 400
 
 		p.body_html = body_html
 
