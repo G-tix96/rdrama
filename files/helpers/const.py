@@ -1071,6 +1071,7 @@ tiers={
 	"(Zombie)": 3,
 	"(Ghost)": 4,
 	"(Survivor)": 5,
+	"(Jigsaw)": 6,
 	}
 
 DISCORD_WELCOME_CHANNEL = "846509313941700618"
