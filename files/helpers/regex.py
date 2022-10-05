@@ -90,7 +90,7 @@ ascii_only_regex = re.compile("[ -~]+", flags=re.A)
 
 reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|u)\/', flags=re.A)
 
-reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(([A-z]{2})(-[A-z]{2})" "?|beta|i|m|pay|ssl|www|old|new|alpha)\.reddit\.com|libredd\.it|teddit\.net)\/(r|u)\/", flags=re.A)
+reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|new\.reddit.com|np\.reddit.com|www\.reddit.com|i\.reddit\.com|libredd\.it|teddit\.net)\/(r|u)\/", flags=re.A)
 
 color_regex = re.compile("[a-z0-9]{6}", flags=re.A)
 
