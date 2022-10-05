@@ -374,7 +374,7 @@ def morecomments(v, cid):
 def edit_post(pid, v):
 	p = get_post(pid)
 
-	title = request.values.get("title", "").strip().replace('‎','')
+	title = sanitize_raw_title(request.values.get("title", ""))
 
 	body = request.values.get("body", "").strip().replace('‎','')
 
@@ -389,6 +389,8 @@ def edit_post(pid, v):
 		elif v.bird and len(body) > 140:
 			return {"error":"You have to type less than 140 characters!"}, 403
 
+	if not title:
+		return {"error": "Please enter a better title."}, 400
 	if title != p.title:
 		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
 
@@ -397,7 +399,7 @@ def edit_post(pid, v):
 		if v.id == p.author_id and v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 			return {"error":"You can only type marseys!"}, 403
 
-		p.title = title[:500]
+		p.title = title
 		p.title_html = title_html
 
 	body += process_files()
@@ -661,7 +663,7 @@ def submit_post(v, sub=None):
 
 	if '\\' in url: abort(400)
 
-	title = request.values.get("title", "").strip()[:500].replace('‎','')
+	title = sanitize_raw_title(request.values.get("title", ""))
 	
 	body = request.values.get("body", "").strip().replace('‎','')
 
@@ -673,6 +675,13 @@ def submit_post(v, sub=None):
 		SUBS = [x[0] for x in g.db.query(Sub.name).order_by(Sub.name).all()]
 		return render_template("submit.html", SUBS=SUBS, v=v, error=error, title=title, url=url, body=body), 400
 
+	if not title:
+		return error("Please enter a better title.")
+	torture = (v.agendaposter and not v.marseyawarded and sub != 'chudrama')
+	title_html = filter_emojis_only(title, graceful=True, count_marseys=True, torture=torture)
+	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
+		return error("You can only type marseys!")
+	if len(title_html) > 1500: return error("Rendered title is too big!")
 
 	sub = request.values.get("sub", "").lower().replace('/h/','').strip()
 
@@ -696,15 +705,6 @@ def submit_post(v, sub=None):
 		return error(f"You must choose a {HOLE_NAME} for your post!")
 
 	if v.is_suspended: return error("You can't perform this action while banned.")
-	
-	torture = (v.agendaposter and not v.marseyawarded and sub != 'chudrama')
-
-	title_html = filter_emojis_only(title, graceful=True, count_marseys=True, torture=torture)
-
-	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
-		return error("You can only type marseys!")
-
-	if len(title_html) > 1500: return error("Rendered title is too big!")
 
 	if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
 		return error("You have to type more than 280 characters!")
@@ -786,13 +786,6 @@ def submit_post(v, sub=None):
 
 	if not url and not request.values.get("body") and not request.files.get("file") and not request.files.get("file-url"):
 		return error("Please enter a url or some text.")
-
-	if not title:
-		return error("Please enter a better title.")
-
-
-	elif len(title) > 500:
-		return error("There's a 500 character limit for titles.")
 
 	dup = g.db.query(Submission).filter(
 		Submission.author_id == v.id,
@@ -908,7 +901,7 @@ def submit_post(v, sub=None):
 		body=body[:20000],
 		body_html=body_html,
 		embed_url=embed,
-		title=title[:500],
+		title=title,
 		title_html=title_html,
 		sub=sub,
 		ghost=ghost
