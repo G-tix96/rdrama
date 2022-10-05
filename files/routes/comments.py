@@ -907,3 +907,38 @@ def handle_wordle_action(cid, v):
 		g.db.add(comment)
 	
 	return {"response" : comment.wordle_html(v)}
+
+
+@app.post("/toggle_comment_nsfw/<cid>")
+@auth_required
+def toggle_comment_nsfw(cid, v):
+	comment = get_comment(cid)
+
+	if comment.author_id != v.id and not v.admin_level > 1 and not (comment.post.sub and v.mods(comment.post.sub)):
+		abort(403)
+		
+	if comment.over_18 and v.is_suspended_permanently:
+		abort(403)
+
+	comment.over_18 = not comment.over_18
+	g.db.add(comment)
+
+	if comment.author_id != v.id:
+		if v.admin_level > 2:
+			ma = ModAction(
+					kind = "set_nsfw_comment" if comment.over_18 else "unset_nsfw_comment",
+					user_id = v.id,
+					target_comment_id = comment.id,
+				)
+			g.db.add(ma)
+		else:
+			ma = SubAction(
+					sub = comment.post.sub,
+					kind = "set_nsfw_comment" if comment.over_18 else "unset_nsfw_comment",
+					user_id = v.id,
+					target_comment_id = comment.id,
+				)
+			g.db.add(ma)
+
+	if comment.over_18: return {"message": "Comment has been marked as +18!"}
+	else: return {"message": "Comment has been unmarked as +18!"}

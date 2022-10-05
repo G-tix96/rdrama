@@ -184,5 +184,25 @@ ACTIONTYPES = {
 		"str": 'disabled stealth mode', 
 		"icon": 'fa-user-ninja', 
 		"color": 'bg-muted'
-	}
+	},
+	'set_nsfw': {
+		"str": 'set nsfw on post {self.target_link}', 
+		"icon": 'fa-eye-evil', 
+		"color": 'bg-danger'
+	},
+	'unset_nsfw': {
+		"str": 'un-set nsfw on post {self.target_link}', 
+		"icon": 'fa-eye-evil', 
+		"color": 'bg-success'
+	},
+	'set_nsfw_comment': {
+		"str": 'set nsfw on a {self.target_link}', 
+		"icon": 'fa-eye-evil', 
+		"color": 'bg-danger'
+	},
+	'unset_nsfw_comment': {
+		"str": 'un-set nsfw on a {self.target_link}', 
+		"icon": 'fa-eye-evil', 
+		"color": 'bg-success'
+	},
 }
