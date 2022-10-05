@@ -668,7 +668,7 @@ def submit_post(v, sub=None):
 	body = sanitize_raw_body(request.values.get("body", ""))
 
 	def error(error):
-		if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": error}, 403
+		if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": error}, 400
 	
 		SUBS = [x[0] for x in g.db.query(Sub.name).order_by(Sub.name).all()]
 		return render_template("submit.html", SUBS=SUBS, v=v, error=error, title=title, url=url, body=body), 400
@@ -679,7 +679,8 @@ def submit_post(v, sub=None):
 	title_html = filter_emojis_only(title, graceful=True, count_marseys=True, torture=torture)
 	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 		return error("You can only type marseys!")
-	if len(title_html) > 1500: return error("Rendered title is too big!")
+	if len(title_html) > 1500: 
+		return error("Rendered title is too big!")
 
 	sub = request.values.get("sub", "").lower().replace('/h/','').strip()
 
