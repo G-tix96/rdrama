@@ -21,7 +21,7 @@ def process_files():
 			if file.content_type.startswith('image/'):
 				name = f'/images/{time.time()}'.replace('.','') + '.webp'
 				file.save(name)
-				url = process_image(name)
+				url = process_image(name, patron=g.v.patron)
 				body += f"\n\n![]({url})"
 			elif file.content_type.startswith('video/'):
 				body += f"\n\n{process_video(file)}"
@@ -112,10 +112,10 @@ def process_video(file):
 
 
 
-def process_image(filename=None, resize=0, trim=False):
+def process_image(filename=None, resize=0, trim=False, patron=False):
 	size = os.stat(filename).st_size
 
-	if size > 16 * 1024 * 1024 or not g.v.patron and size > 8 * 1024 * 1024:
+	if size > 16 * 1024 * 1024 or not patron and size > 8 * 1024 * 1024:
 		os.remove(filename)
 		abort(413)
 

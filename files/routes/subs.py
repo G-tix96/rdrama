@@ -486,7 +486,7 @@ def sub_banner(v, sub):
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
-	bannerurl = process_image(name)
+	bannerurl = process_image(name, patron=v.patron)
 
 	if bannerurl:
 		if sub.bannerurl and '/images/' in sub.bannerurl:
@@ -518,7 +518,7 @@ def sub_sidebar(v, sub):
 	file = request.files["sidebar"]
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
-	sidebarurl = process_image(name)
+	sidebarurl = process_image(name, patron=v.patron)
 
 	if sidebarurl:
 		if sub.sidebarurl and '/images/' in sub.sidebarurl:
@@ -550,7 +550,7 @@ def sub_marsey(v, sub):
 	file = request.files["marsey"]
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
-	marseyurl = process_image(name)
+	marseyurl = process_image(name, patron=v.patron)
 
 	if marseyurl:
 		if sub.marseyurl and '/images/' in sub.marseyurl:

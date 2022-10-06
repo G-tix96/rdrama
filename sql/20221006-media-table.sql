@@ -1,6 +1,6 @@
 CREATE TABLE public.media (
     kind character varying(5) NOT NULL,
-    filename character varying(23) NOT NULL,
+    filename character varying(55) NOT NULL,
 	user_id Integer NOT NULL,
     created_utc integer NOT NULL,
     size integer NOT NULL

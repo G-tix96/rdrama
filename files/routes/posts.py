@@ -949,7 +949,7 @@ def submit_post(v, sub=None):
 		if file.content_type.startswith('image/'):
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			file.save(name)
-			post.url = process_image(name)
+			post.url = process_image(name, patron=v.patron)
 
 			name2 = name.replace('.webp', 'r.webp')
 			copyfile(name, name2)
