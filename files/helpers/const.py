@@ -136,6 +136,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'BYPASS_PIN_LIMIT': 3,
 	'VIEW_PENDING_SUBMITTED_MARSEYS': 3,
 	'VIEW_PENDING_SUBMITTED_HATS': 3,
+	'BUY_GHOST_AWARD': 2,
 }
 
 FEATURES = {
