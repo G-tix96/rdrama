@@ -225,7 +225,7 @@
 					<span class="text-info d-none {{p.id}}-new-comments"></span>
 				</a>
 
-				{% if v and v.admin_level > 1 %}
+				{% if v and v.admin_level >= PERMS['ADMIN_HOME_VISIBLE'] %}
 					<a class="ml-2" role="button" data-bs-toggle="modal" data-bs-target="#adminModal-{{p.id}}">
 						<i class="fas fa-broom"></i>
 					</a>
@@ -311,7 +311,7 @@
 </script>
 
 
-{% if v and v.admin_level > 1 %}
+{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 	{% include "post_admin_actions_mobile.html" %}
 {% endif %}
 

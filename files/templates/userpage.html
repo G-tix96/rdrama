@@ -270,7 +270,7 @@
 						<a class="btn btn-secondary" role="button" onclick="toggle()">Toggle anthem</a>
 					{% endif %}
 
-					{% if v and v.id != u.id and v.admin_level > 1 %}
+					{% if v and v.id != u.id and v.admin_level >= PERMS['ADMIN_HOME_VISIBLE'] %}
 						<br><br>
 						<div class="body d-lg-flex border-bottom">
 							{% if v.admin_level >= PERMS['USER_TITLE_CHANGE'] %}
@@ -638,12 +638,12 @@
 						<button class="btn btn-primary mt-2 mb-3" onclick="transferBux(true)">Gift</button>
 					</div>
 
-					{% if v.admin_level > 1 %}
+					{% if v and v.admin_level >= PERMS['ADMIN_HOME_VISIBLE'] %}
 
-					{% if FEATURES['COUNTRY_CLUB'] and v.admin_level >= PERMS['USER_CLUB_ALLOW_BAN'] -%}
-					<button id="grant" class="{% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="post_toast(this,'/@{{u.username}}/club_allow','grant','bar','d-none')">Grant club access</button>
-					<button id="bar" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="post_toast(this,'/@{{u.username}}/club_ban','grant','bar','d-none')">Bar from club</button>
-					{%- endif %}
+						{% if FEATURES['COUNTRY_CLUB'] and v.admin_level >= PERMS['USER_CLUB_ALLOW_BAN'] -%}
+							<button id="grant" class="{% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="post_toast(this,'/@{{u.username}}/club_allow','grant','bar','d-none')">Grant club access</button>
+							<button id="bar" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="post_toast(this,'/@{{u.username}}/club_ban','grant','bar','d-none')">Bar from club</button>
+						{%- endif %}
 
 						<br><br>
 						<div class="body d-lg-flex border-bottom">
