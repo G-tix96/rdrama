@@ -124,7 +124,7 @@ def block_sub(v, sub):
 @auth_required
 def unblock_sub(v, sub):
 	sub = get_sub_by_name(sub).name
-	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
+	if sub == "chudrama" and not v.can_see_chudrama: abort(403)
 	block = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub).one_or_none()
 
 	if block:
