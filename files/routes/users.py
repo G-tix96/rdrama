@@ -13,7 +13,7 @@ from flask import *
 from files.__main__ import app, limiter, db_session
 import sqlalchemy
 from sqlalchemy.orm import aliased
-from sqlalchemy import text
+from sqlalchemy import desc
 from collections import Counter
 import gevent
 from sys import stdout
@@ -554,35 +554,24 @@ def leaderboard(v):
 		sq = g.db.query(User.id, func.rank().over(order_by=User.coins_spent.desc()).label("rank")).subquery()
 		pos7 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
 
-	# Received Downvotes
-	dv_stmt = text("""
-		SELECT
-			u.id,
-			(coalesce(cv.count, 0) + coalesce(pv.count, 0)) as downvotes
-		FROM
-			users u
-		LEFT OUTER JOIN
-			(SELECT c.author_id, COUNT(*) FROM commentvotes v
-				JOIN comments c ON v.comment_id = c.id WHERE v.vote_type = -1
-				GROUP BY c.author_id) AS cv
-			ON cv.author_id = u.id
-		LEFT OUTER JOIN
-			(SELECT p.author_id, COUNT(*) FROM votes v
-				JOIN submissions p ON v.submission_id = p.id WHERE v.vote_type = -1
-				GROUP BY p.author_id) AS pv
-			ON pv.author_id = u.id
-		ORDER BY downvotes DESC;
-	""")
-	dv_result = g.db.execute(dv_stmt).fetchall() or [(None,None)]
-	users9_1, users9_2 = zip(*dv_result[:25])
 
-	users9_accs = g.db.query(User).filter(User.id.in_(users9_1)).all()
-	users9_accs = sorted(users9_accs, key=lambda x: users9_1.index(x.id))
-	users9_accs = zip(users9_accs, users9_2)
-	try:
-		pos9 = [x[0] for x in dv_result].index(v.id)
-		pos9 = (pos9+1, dv_result[pos9][1])
-	except: pos9 = (len(dv_result)+1, 0)
+
+
+	sq1 = g.db.query(Submission.author_id.label("id"), func.count(Submission.author_id).label("count")).join(Vote, Submission.id == Vote.submission_id).filter_by(vote_type=-1).group_by(Submission.author_id).subquery()
+
+	sq2 = g.db.query(Comment.author_id.label("id"), func.count(Comment.author_id).label("count")).join(CommentVote, Comment.id == CommentVote.comment_id).filter_by(vote_type=-1).group_by(Comment.author_id).subquery()
+
+	users9 = g.db.query(User, (func.coalesce(sq1.c.count, 0) + func.coalesce(sq2.c.count, 0)).label("count")).outerjoin(sq1, User.id==sq1.c.id).outerjoin(sq2, User.id==sq2.c.id).order_by(desc('count'))
+
+
+	sq = g.db.query(User.id, (func.coalesce(sq1.c.count, 0) + func.coalesce(sq2.c.count, 0)).label("count"), func.rank().over(order_by=desc('count')).label("rank")).outerjoin(sq1, User.id==sq1.c.id).outerjoin(sq2, User.id==sq2.c.id).order_by(desc('count')).subquery()
+
+	pos9 = g.db.query(sq.c.rank, sq.c.count).join(User, User.id == sq.c.id).filter(sq.c.id == v.id).limit(1).one_or_none()
+
+	if not pos9: pos9 = (users9.count()+1, 0)
+	users9 = users9.limit(25).all()
+
+
 
 	users10 = users.order_by(User.truecoins.desc()).limit(25).all()
 	if v in users10:
@@ -609,23 +598,9 @@ def leaderboard(v):
 		users12 = None
 		pos12 = None
 
-	# winnings_sq = g.db.query(Casino_Game.user_id, func.sum(Casino_Game.winnings)).group_by(Casino_Game.user_id).subquery()
-	# users14 = g.db.query(User).join(winnings_sq, winnings_sq.c.user_id == User.id).order_by(winnings_sq.c.sum.desc()).limit(25).all()
-	# if v in users14:
-	# 	pos14 = None
-	# else:
-	# 	sq = g.db.query(User.id, func.rank().over(order_by=winnings_sq.c.sum.desc()).label("rank")).join(winnings_sq, winnings_sq.c.user_id == User.id).subquery()
-	# 	pos14 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
-
-	# users15 = g.db.query(User).join(winnings_sq, winnings_sq.c.user_id == User.id).order_by(winnings_sq.c.sum.asc()).limit(25).all()
-	# if v in users15:
-	# 	pos15 = None
-	# else:
-	# 	sq = g.db.query(User.id, func.rank().over(order_by=winnings_sq.c.sum.asc()).label("rank")).join(winnings_sq, winnings_sq.c.user_id == User.id).subquery()
-	# 	pos15 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
-
 	sq = g.db.query(UserBlock.target_id, func.count(UserBlock.target_id).label("count")).group_by(UserBlock.target_id).subquery()
 	users16 = g.db.query(User, sq.c.count).join(User, User.id == sq.c.target_id).order_by(sq.c.count.desc())
+	
 	sq = g.db.query(UserBlock.target_id, func.count(UserBlock.target_id).label("count"), func.rank().over(order_by=func.count(UserBlock.target_id).desc()).label("rank")).group_by(UserBlock.target_id).subquery()
 	pos16 = g.db.query(sq.c.rank, sq.c.count).join(User, User.id == sq.c.target_id).filter(sq.c.target_id == v.id).limit(1).one_or_none()
 	if not pos16: pos16 = (users16.count()+1, 0)
@@ -645,7 +620,7 @@ def leaderboard(v):
 
 	return render_template("leaderboard.html", v=v, users1=users1, pos1=pos1, users2=users2, pos2=pos2, 
 		users3=users3, pos3=pos3, users4=users4, pos4=pos4, users5=users5, pos5=pos5, 
-		users7=users7, pos7=pos7, users9=users9_accs, pos9=pos9, 
+		users7=users7, pos7=pos7, users9=users9, pos9=pos9, 
 		users10=users10, pos10=pos10, users11=users11, pos11=pos11, users12=users12, pos12=pos12, users16=users16, pos16=pos16, users17=users17, pos17=pos17, users18=users18, pos18=pos18)
 
 @app.get("/<id>/css")
