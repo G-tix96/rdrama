@@ -299,7 +299,7 @@ def revert_actions(v, username):
 
 @app.post("/@<username>/club_allow")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['USER_CLUB_ALLOW_BAN'])
 def club_allow(v, username):
 	u = get_user(username, v=v)
 
@@ -323,7 +323,7 @@ def club_allow(v, username):
 
 @app.post("/@<username>/club_ban")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['USER_CLUB_ALLOW_BAN'])
 def club_ban(v, username):
 	u = get_user(username, v=v)
 

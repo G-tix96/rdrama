@@ -133,6 +133,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'USER_BAN': 2,
 	'USER_SHADOWBAN': 2,
 	'USER_AGENDAPOSTER': 2,
+	'USER_CLUB_ALLOW_BAN': 2,
 	'POST_TO_CHANGELOG': 1,
 	'BYPASS_PIN_LIMIT': 3,
 	'VIEW_PENDING_SUBMITTED_MARSEYS': 3,
@@ -240,6 +241,7 @@ GIFT_NOTIF_ID = 5
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
+	PERMS['ADMIN_ADD_PERM_LEVEL'] = 0 # extra check here to disallow adding admins on site
 
 	SIDEBAR_THREAD = 37696
 	BANNER_THREAD = 37697
