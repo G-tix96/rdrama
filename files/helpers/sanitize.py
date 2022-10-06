@@ -468,7 +468,7 @@ def normalize_url(url):
 
 def validate_css(css):
 	if '@import' in css:
-		return False, "@import statements not allowed."
+		return False, "@import statements are not allowed!"
 
 	for i in css_url_regex.finditer(css):
 		url = i.group(1)
