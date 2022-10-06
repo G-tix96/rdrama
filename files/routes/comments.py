@@ -914,7 +914,7 @@ def handle_wordle_action(cid, v):
 def toggle_comment_nsfw(cid, v):
 	comment = get_comment(cid)
 
-	if comment.author_id != v.id and not v.admin_level > 1 and not (comment.post.sub and v.mods(comment.post.sub)):
+	if comment.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (comment.post.sub and v.mods(comment.post.sub)):
 		abort(403)
 		
 	if comment.over_18 and v.is_suspended_permanently:
@@ -924,7 +924,7 @@ def toggle_comment_nsfw(cid, v):
 	g.db.add(comment)
 
 	if comment.author_id != v.id:
-		if v.admin_level > 2:
+		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma = ModAction(
 					kind = "set_nsfw_comment" if comment.over_18 else "unset_nsfw_comment",
 					user_id = v.id,

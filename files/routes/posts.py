@@ -35,7 +35,7 @@ def toggle_club(pid, v):
 		abort(403)
 
 	post = get_post(pid)
-	if post.author_id != v.id and v.admin_level < 2: abort(403)
+	if post.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']: abort(403)
 
 	post.club = not post.club
 	g.db.add(post)
@@ -222,7 +222,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	template = "submission.html"
 	if (post.is_banned or post.author.shadowbanned) \
-			and not (v and (v.admin_level >= 2 or post.author_id == v.id)):
+			and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)):
 		template = "submission_banned.html"
 
 	return render_template(template, v=v, p=post, ids=list(ids),
@@ -378,7 +378,7 @@ def edit_post(pid, v):
 
 	body = sanitize_raw_body(request.values.get("body", ""))
 
-	if v.id != p.author_id and v.admin_level < 2:
+	if v.id != p.author_id and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		abort(403)
 
 	if v.id == p.author_id:
@@ -1097,7 +1097,7 @@ def undelete_post_pid(pid, v):
 def toggle_post_nsfw(pid, v):
 	post = get_post(pid)
 
-	if post.author_id != v.id and not v.admin_level > 1 and not (post.sub and v.mods(post.sub)):
+	if post.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (post.sub and v.mods(post.sub)):
 		abort(403)
 		
 	if post.over_18 and v.is_suspended_permanently:
@@ -1107,7 +1107,7 @@ def toggle_post_nsfw(pid, v):
 	g.db.add(post)
 
 	if post.author_id != v.id:
-		if v.admin_level > 2:
+		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma = ModAction(
 					kind = "set_nsfw" if post.over_18 else "unset_nsfw",
 					user_id = v.id,

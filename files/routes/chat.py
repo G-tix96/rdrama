@@ -153,7 +153,7 @@ def typing_indicator(data, v):
 
 
 @socketio.on('delete')
-@admin_level_required(2)
+@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def delete(text, v):
 
 	for message in messages:

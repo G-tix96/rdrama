@@ -127,6 +127,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'USER_BLOCKS_VISIBLE': 0,
 	'USER_FOLLOWS_VISIBLE': 0,
 	'USER_VOTERS_VISIBLE': 0,
+	'POST_COMMENT_MODERATION': 2,
 }
 
 FEATURES = {

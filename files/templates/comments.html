@@ -28,7 +28,7 @@
 	{% endif %}
 {% endif %}
 
-{% if c.is_blocking and not c.ghost or (c.is_banned or c.deleted_utc) and not (v and v.admin_level > 1) and not (v and v.id==c.author_id) %}
+{% if c.is_blocking and not c.ghost or (c.is_banned or c.deleted_utc) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id==c.author_id) %}
 
 	<div id="comment-{{c.id}}" class="comment">
 			<span class="comment-collapse-desktop d-none d-md-block" style="border-left: 2px solid #{{c.author.name_color}}"onclick="collapse_comment('{{c.id}}', this.parentElement)"></span>
@@ -298,7 +298,7 @@
 						<div class="post-actions">
 							<ul class="list-inline text-right d-flex">
 								<li class="list-inline-item mr-auto">
-									{% if v and v.admin_level > 1 %}
+									{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 										<a role="button" data-bs-toggle="modal" data-bs-target="#adminModal-{{c.id}}">
 											<i class="fas fa-broom"></i>
 										</a>
@@ -446,7 +446,7 @@
 {% if c.post %}
 {% set url = "" %}
 
-{% if v.admin_level > 1%}
+{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 	{% set url = "sticky_comment" %}
 {% elif v.id == c.post.author_id %}
 	{% set url = "pin_comment" %}
@@ -462,7 +462,7 @@
 {% endif %}
 
 
-{% if v.admin_level > 1 %}
+{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 {% if "/reported/" in request.path %}
 	<button class="dropdown-item list-inline-item text-success" onclick="approveComment('{{c.id}}')"><i class="fas fa-check text-success fa-fw"></i>Approve</button>
 	<button class="dropdown-item list-inline-item text-danger" onclick="removeComment('{{c.id}}')"><i class="fas fa-ban text-danger fa-fw"></i>Remove</button>
@@ -480,7 +480,7 @@
 	{% endif %}
 {% endif %}
 
-{% if c.parent_submission and (c.author_id==v.id or v.admin_level > 1 or (c.post.sub and v.mods(c.post.sub))) %}
+{% if c.parent_submission and (c.author_id==v.id or v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (c.post.sub and v.mods(c.post.sub))) %}
 	<button id="unmark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.over_18 %}d-md-block{% endif %} text-danger" onclick="post_toast(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-danger fa-fw"></i>Unmark +18</button>
 	<button id="mark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.over_18 %}d-md-block{% endif %} text-danger" onclick="post_toast(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-danger fa-fw"></i>Mark +18</button>
 {% endif %}
@@ -653,7 +653,7 @@
 							<a id="unmark2-{{c.id}}" class="{% if not c.over_18 %}d-none{% endif %} list-group-item text-danger" role="button" onclick="post_toast(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-danger mr-2"></i>Unmark +18</a>
 						{% endif %}
 
-						{% if v.admin_level < 2 %}
+						{% if v.admin_level < PERMS['POST_COMMENT_MODERATION'] %}
 							{% if c.post and v.id == c.post.author_id %}
 								<a id="pin2-{{c.id}}" class="list-group-item {% if c.stickied %}d-none{% endif %} text-info" role="button" data-bs-target="#actionsModal-{{c.id}}" onclick="post_toast(this,'/pin_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</a>
 								<a id="unpin2-{{c.id}}" class="list-group-item {% if not c.stickied %}d-none{% endif %} text-info" role="button" data-bs-target="#actionsModal-{{c.id}}" onclick="post_toast(this,'/unpin_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</a>

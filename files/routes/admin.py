@@ -353,7 +353,7 @@ def shadowbanned(v):
 
 
 @app.get("/admin/image_posts")
-@admin_level_required(2)
+@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def image_posts_listing(v):
 
 	try: page = int(request.values.get('page', 1))
@@ -371,7 +371,7 @@ def image_posts_listing(v):
 
 
 @app.get("/admin/reported/posts")
-@admin_level_required(2)
+@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def reported_posts(v):
 
 	page = max(1, int(request.values.get("page", 1)))
@@ -392,7 +392,7 @@ def reported_posts(v):
 
 
 @app.get("/admin/reported/comments")
-@admin_level_required(2)
+@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def reported_comments(v):
 
 	page = max(1, int(request.values.get("page", 1)))
@@ -783,7 +783,7 @@ def admin_link_accounts(v):
 
 
 @app.get("/admin/removed/posts")
-@admin_level_required(2)
+@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_removed(v):
 
 	try: page = int(request.values.get("page", 1))
@@ -810,7 +810,7 @@ def admin_removed(v):
 
 
 @app.get("/admin/removed/comments")
-@admin_level_required(2)
+@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_removed_comments(v):
 
 	try: page = int(request.values.get("page", 1))
@@ -1112,7 +1112,7 @@ def mute_user(v, user_id, mute_status):
 
 @app.post("/remove_post/<post_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def remove_post(post_id, v):
 	post = get_post(post_id)
 	post.is_banned = True
@@ -1144,7 +1144,7 @@ def remove_post(post_id, v):
 
 @app.post("/approve_post/<post_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def approve_post(post_id, v):
 
 	post = get_post(post_id)
@@ -1179,7 +1179,7 @@ def approve_post(post_id, v):
 def distinguish_post(post_id, v):
 	post = get_post(post_id)
 
-	if post.author_id != v.id and v.admin_level < 2 : abort(403)
+	if post.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']: abort(403)
 
 	if post.distinguish_level:
 		post.distinguish_level = 0
@@ -1203,7 +1203,7 @@ def distinguish_post(post_id, v):
 
 
 @app.post("/sticky/<post_id>")
-@admin_level_required(2)
+@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def sticky_post(post_id, v):
 	if not FEATURES['PINS']:
 		abort(403)
@@ -1233,7 +1233,7 @@ def sticky_post(post_id, v):
 	return {"message": "Post pinned!"}
 
 @app.post("/unsticky/<post_id>")
-@admin_level_required(2)
+@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def unsticky_post(post_id, v):
 
 	post = get_post(post_id)
@@ -1258,7 +1258,7 @@ def unsticky_post(post_id, v):
 	return {"message": "Post unpinned!"}
 
 @app.post("/sticky_comment/<cid>")
-@admin_level_required(2)
+@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def sticky_comment(cid, v):
 	
 	comment = get_comment(cid, v=v)
@@ -1282,7 +1282,7 @@ def sticky_comment(cid, v):
 	
 
 @app.post("/unsticky_comment/<cid>")
-@admin_level_required(2)
+@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def unsticky_comment(cid, v):
 	
 	comment = get_comment(cid, v=v)
@@ -1309,7 +1309,7 @@ def unsticky_comment(cid, v):
 
 @app.post("/remove_comment/<c_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def remove_comment(c_id, v):
 	comment = get_comment(c_id)
 
@@ -1329,7 +1329,7 @@ def remove_comment(c_id, v):
 
 @app.post("/approve_comment/<c_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def approve_comment(c_id, v):
 
 	comment = get_comment(c_id)
