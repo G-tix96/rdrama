@@ -44,7 +44,7 @@ def loggedout_list(v):
 	return render_template("loggedout.html", v=v, users=users)
 
 @app.get('/admin/merge/<id1>/<id2>')
-@admin_level_required(3)
+@admin_level_required(PERMS['MERGE_USERS'])
 def merge(v, id1, id2):
 	if v.id != AEVANN_ID: abort(403)
 
@@ -106,7 +106,7 @@ def merge(v, id1, id2):
 
 
 @app.get('/admin/merge_all/<id>')
-@admin_level_required(3)
+@admin_level_required(PERMS['MERGE_USERS'])
 def merge_all(v, id):
 	if v.id != AEVANN_ID: abort(403)
 
