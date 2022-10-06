@@ -6301,4 +6301,7 @@ div.markdown {
 		width: 50px;
 		height: 50px;
 	}
+	.emoji-modal, .awardmodal {
+		max-width: 90% !important
+	}	
 }
