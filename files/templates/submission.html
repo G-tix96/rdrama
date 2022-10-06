@@ -590,7 +590,7 @@
 	</div>
 {% endif %}
 
-{% if v and v.admin_level > 1 %}
+{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 	{% include "post_admin_actions_mobile.html" %}
 {% endif %}
 

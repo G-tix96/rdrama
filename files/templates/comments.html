@@ -490,7 +490,7 @@
 <button id="ban-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.author.is_suspended %}d-md-block{% endif %} text-danger" data-bs-toggle="modal" data-bs-target="#banModal" onclick="banModal('/comment/{{c.id}}', '{{c.author.id}}', '{{c.author_name}}')"><i class="fas fa-user-slash text-danger fa-fw"></i>Ban user</button>
 {% endif %}
 
-{% if v.admin_level > 1 and c.oauth_app %}
+{% if v.admin_level >= PERMS['APPS_MODERATE'] and c.oauth_app %}
 	<a href="{{c.oauth_app.permalink}}/comments" class="dropdown-item list-inline-item d-none d-md-block text-primary"><i class="fas fa-code text-primary fa-fw"></i>API App</a>
 {% endif %}
 							</ul>
@@ -567,7 +567,7 @@
 		</div>
 
 		{% if request.path.startswith('/notifications') and c.level == 1 and c.sentto and not c.parent_submission and c.author_id != AUTOJANNY_ID %}
-			{% if (v and v.admin_level >= 2) and (c.sentto == 2) and not c.author.is_muted %} 
+			{% if (v and v.admin_level >= PERMS['USER_BAN']) and (c.sentto == 2) and not c.author.is_muted %} 
 				<a class="btn btn-primary" role="button" id="mute-user-{{c.id}}" onclick="adminMuteUser({{c.author_id}}, 1, {{c.id}})">Mute</a>
 			{% endif %}
 
@@ -720,7 +720,7 @@
 							<a id="approve2-{{c.id}}" class="{% if not c.is_banned %}d-none{% endif %} list-group-item text-success" role="button" onclick="approveComment2('{{c.id}}','approve2-{{c.id}}','remove2-{{c.id}}')" data-bs-dismiss="modal"><i class="fas fa-check text-success mr-2"></i>Approve</a>
 						{% endif %}
 
-						{% if c.oauth_app %}
+						{% if c.oauth_app and v.admin_level >= PERMS['APPS_MODERATE'] %}
 							<a href="{{c.oauth_app.permalink}}/comments" class="list-group-item text-info"><i class="fas fa-code text-info mr-2"></i>API App</a>
 						{% endif %}
 					</ul>
