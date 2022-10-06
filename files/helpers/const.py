@@ -189,6 +189,7 @@ CARP_ID = 0
 JOAN_ID = 0
 AEVANN_ID = 0
 SNAKES_ID = 0
+JUSTCOOL_ID = 0
 HOMO_ID = 0
 SOREN_ID = 0
 LAWLZ_ID = 0
@@ -243,6 +244,7 @@ if SITE == 'rdrama.net':
 	JOAN_ID = 28
 	AEVANN_ID = 1
 	SNAKES_ID = 10288
+	JUSTCOOL_ID = 4999
 	HOMO_ID = 147
 	SOREN_ID = 2546
 	LAWLZ_ID = 3833
@@ -858,6 +860,7 @@ NOTIFIED_USERS = {
 	'scitzocel': SCHIZO_ID,
 	'snakes': SNAKES_ID,
 	'sneks': SNAKES_ID,
+	'justcool': JUSTCOOL_ID,
 	'geese': GEESE_ID,
 	'clit': CARP_ID,
 	'kippy': KIPPY_ID,
