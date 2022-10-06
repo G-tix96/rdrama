@@ -153,6 +153,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_ADD': 3, # note: explicitly disabled on rDrama
 	'ADMIN_REMOVE': 3,
 	'ADMIN_ADD_PERM_LEVEL': 2, # permission level given when user added via site
+	'ADMIN_ACTIONS_REVERT': 3,
 }
 
 FEATURES = {

@@ -249,7 +249,7 @@ def distribute(v, option_id):
 
 @app.post("/@<username>/revert_actions")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(3)
+@admin_level_required(PERMS['ADMIN_ACTIONS_REVERT'])
 def revert_actions(v, username):
 	user = get_user(username)
 
