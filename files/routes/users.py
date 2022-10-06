@@ -561,12 +561,12 @@ def leaderboard(v):
 
 	sq2 = g.db.query(Comment.author_id.label("id"), func.count(Comment.author_id).label("count")).join(CommentVote, Comment.id == CommentVote.comment_id).filter_by(vote_type=-1).group_by(Comment.author_id).subquery()
 
-	users9 = g.db.query(User, (func.coalesce(sq1.c.count, 0) + func.coalesce(sq2.c.count, 0)).label("count")).outerjoin(sq1, User.id==sq1.c.id).outerjoin(sq2, User.id==sq2.c.id).order_by(desc('count'))
+	users9 = g.db.query(User, (func.coalesce(sq1.c.count, 0) + func.coalesce(sq2.c.count, 0)).label('totalcount')).outerjoin(sq1, User.id==sq1.c.id).outerjoin(sq2, User.id==sq2.c.id).order_by(desc('totalcount'))
 
 
-	sq = g.db.query(User.id, (func.coalesce(sq1.c.count, 0) + func.coalesce(sq2.c.count, 0)).label("count"), func.rank().over(order_by=desc('count')).label("rank")).outerjoin(sq1, User.id==sq1.c.id).outerjoin(sq2, User.id==sq2.c.id).order_by(desc('count')).subquery()
+	sq = g.db.query(User.id, (func.coalesce(sq1.c.count, 0) + func.coalesce(sq2.c.count, 0)).label('totalcount'), func.rank().over(order_by=desc(func.coalesce(sq1.c.count, 0) + func.coalesce(sq2.c.count, 0))).label("rank")).outerjoin(sq1, User.id==sq1.c.id).outerjoin(sq2, User.id==sq2.c.id).order_by(desc('totalcount')).subquery()
 
-	pos9 = g.db.query(sq.c.rank, sq.c.count).join(User, User.id == sq.c.id).filter(sq.c.id == v.id).limit(1).one_or_none()
+	pos9 = g.db.query(sq.c.rank, sq.c.totalcount).join(User, User.id == sq.c.id).filter(sq.c.id == v.id).limit(1).one_or_none()
 
 	if not pos9: pos9 = (users9.count()+1, 0)
 	users9 = users9.limit(25).all()
