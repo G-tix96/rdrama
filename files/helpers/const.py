@@ -169,6 +169,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_ADD_PERM_LEVEL': 2, # permission level given when user added via site
 	'ADMIN_ACTIONS_REVERT': 3,
 	'ADMIN_MOP_VISIBLE': 2,
+	'ADMIN_HOME_VISIBLE': 2,
 	'SITE_SETTINGS': 3,
 	'SITE_SETTINGS_SIDEBARS_BANNERS_BADGES': 3,
 	'SITE_SETTINGS_SNAPPY_QUOTES': 3,

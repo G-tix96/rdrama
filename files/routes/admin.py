@@ -418,7 +418,7 @@ def reported_comments(v):
 						standalone=True)
 
 @app.get("/admin")
-@admin_level_required(2)
+@admin_level_required(PERMS['ADMIN_HOME_VISIBLE'])
 def admin_home(v):
 	under_attack = False
 

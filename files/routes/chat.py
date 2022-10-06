@@ -97,7 +97,7 @@ def speak(data, v):
 
 	total += 1
 
-	if v.admin_level > 1:
+	if v.admin_level >= PERMS['USER_BAN']:
 		text = text.lower()
 		for i in mute_regex.finditer(text):
 			username = i.group(1).lower()
