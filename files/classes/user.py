@@ -458,11 +458,8 @@ class User(Base):
 
 		posts = g.db.query(Submission.id).filter_by(author_id=self.id, is_pinned=False)
 
-		if not (v and (v.admin_level > PERMS['POST_COMMENT_MODERATION'] or v.id == self.id)):
+		if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.id)):
 			posts = posts.filter_by(is_banned=False, private=False, ghost=False)
-
-		if not (v and v.admin_level > PERMS['POST_COMMENT_MODERATION']):
-			posts = posts.filter_by(deleted_utc=0)
 
 		posts = apply_time_filter(t, posts, Submission)
 

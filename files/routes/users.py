@@ -1145,11 +1145,9 @@ def u_username_comments(username, v=None):
 		comments = comments.filter(
 			Comment.is_banned == False,
 			Comment.ghost == False,
-			comment_post_author.shadowbanned == None
+			comment_post_author.shadowbanned == None,
+			Comment.deleted_utc == 0,
 		)
-
-	if not (v and v.admin_level > PERMS['POST_COMMENT_MODERATION']):
-		comments = comments.filter(Comment.deleted_utc == 0)
 
 	comments = apply_time_filter(t, comments, Comment)
 
