@@ -83,7 +83,7 @@ def request_api_keys(v):
 
 	new_comment.top_comment_id = new_comment.id
 
-	for admin in g.db.query(User).filter(User.admin_level > 2).all():
+	for admin in g.db.query(User).filter(User.admin_level >= PERMS['APPS_MODERATE']).all():
 		notif = Notification(comment_id=new_comment.id, user_id=admin.id)
 		g.db.add(notif)
 
@@ -137,7 +137,7 @@ def edit_oauth_app(v, aid):
 
 @app.post("/admin/app/approve/<aid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(3)
+@admin_level_required(PERMS['APPS_MODERATE'])
 def admin_app_approve(v, aid):
 
 	app = g.db.get(OauthApp, aid)
@@ -173,7 +173,7 @@ def admin_app_approve(v, aid):
 
 @app.post("/admin/app/revoke/<aid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(3)
+@admin_level_required(PERMS['APPS_MODERATE'])
 def admin_app_revoke(v, aid):
 
 	app = g.db.get(OauthApp, aid)
@@ -198,7 +198,7 @@ def admin_app_revoke(v, aid):
 
 @app.post("/admin/app/reject/<aid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(3)
+@admin_level_required(PERMS['APPS_MODERATE'])
 def admin_app_reject(v, aid):
 
 	app = g.db.get(OauthApp, aid)
@@ -223,7 +223,7 @@ def admin_app_reject(v, aid):
 
 
 @app.get("/admin/app/<aid>")
-@admin_level_required(3)
+@admin_level_required(PERMS['APPS_MODERATE'])
 def admin_app_id(v, aid):
 	aid=aid
 	oauth = g.db.get(OauthApp, aid)
@@ -244,7 +244,7 @@ def admin_app_id(v, aid):
 						)
 
 @app.get("/admin/app/<aid>/comments")
-@admin_level_required(3)
+@admin_level_required(PERMS['APPS_MODERATE'])
 def admin_app_id_comments(v, aid):
 
 	aid=aid
@@ -271,7 +271,7 @@ def admin_app_id_comments(v, aid):
 
 
 @app.get("/admin/apps")
-@admin_level_required(3)
+@admin_level_required(PERMS['APPS_MODERATE'])
 def admin_apps_list(v):
 
 	apps = g.db.query(OauthApp).order_by(OauthApp.id.desc()).all()
