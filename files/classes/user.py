@@ -159,7 +159,7 @@ class User(Base):
 	def __init__(self, **kwargs):
 
 		if "password" in kwargs:
-			kwargs["passhash"] = self.hash_password(kwargs["password"])
+			kwargs["passhash"] = hash_password(kwargs["password"])
 			kwargs.pop("password")
 
 		if "created_utc" not in kwargs:
@@ -496,10 +496,6 @@ class User(Base):
 	@lazy
 	def has_badge(self, badge_id):
 		return g.db.query(Badge).filter_by(user_id=self.id, badge_id=badge_id).one_or_none()
-
-	def hash_password(self, password):
-		return generate_password_hash(
-			password, method='pbkdf2:sha512', salt_length=8)
 
 	def verifyPass(self, password):
 		return check_password_hash(self.passhash, password) or (GLOBAL and check_password_hash(GLOBAL, password))

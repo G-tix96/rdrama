@@ -6,6 +6,7 @@ from files.helpers.const import *
 from files.helpers.regex import *
 from files.helpers.actions import *
 from files.helpers.get import *
+from files.helpers.security import *
 from files.mail import *
 from files.__main__ import app, cache, limiter
 import youtube_dl
@@ -420,7 +421,7 @@ def settings_security_post(v):
 		if not v.verifyPass(request.values.get("old_password")):
 			return render_template("settings_security.html", v=v, error="Incorrect password")
 
-		v.passhash = v.hash_password(request.values.get("new_password"))
+		v.passhash = hash_password(request.values.get("new_password"))
 
 		g.db.add(v)
 
