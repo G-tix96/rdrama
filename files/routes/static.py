@@ -72,11 +72,8 @@ def marsey_list():
 
 	return jsonify(emojis)
 
-@app.get('/rules')
 @app.get('/sidebar')
-@app.get('/logged_out/rules')
-@app.get('/logged_out/sidebar')
-@auth_desired_with_logingate
+@auth_desired
 def sidebar(v):
 	return render_template('sidebar.html', v=v)
 

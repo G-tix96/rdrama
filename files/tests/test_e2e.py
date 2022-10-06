@@ -5,7 +5,7 @@ from files.__main__ import app
 # these tests require `docker-compose up` first
 
 def test_rules():
-	response = app.test_client().get("/logged_out/rules")
+	response = app.test_client().get("/sidebar")
 	assert response.status_code == 200
 	assert response.text.startswith("<!DOCTYPE html>")
 
