@@ -190,7 +190,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'MESSAGE_BLOCKED_USERS': 1,
 	'APPS_MODERATION': 3,
 	'STREAMERS_MODERATION': 2,
-	'UNKNOWN_ADMIN_LEVEL2_PERM4': 2,
+	'UNKNOWN_ADMIN_LEVEL2_PERM4': 2, # TODO: figure out what this is and remove it if unnecessary
 }
 
 FEATURES = {

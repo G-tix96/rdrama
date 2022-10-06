@@ -270,7 +270,7 @@
 						<a class="btn btn-secondary" role="button" onclick="toggle()">Toggle anthem</a>
 					{% endif %}
 
-					{% if v and v.id != u.id and v.admin_level >= PERMS['ADMIN_HOME_VISIBLE'] %}
+					{% if v and v.id != u.id and v.admin_level >= PERMS['USER_MODERATION_TOOLS_VISIBLE'] %}
 						<br><br>
 						<div class="body d-lg-flex border-bottom">
 							{% if v.admin_level >= PERMS['USER_TITLE_CHANGE'] %}
@@ -350,13 +350,11 @@
 						<a id="unagendaposter" class="{% if not u.agendaposter %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/unagendaposter/{{u.id}}','agendaposter1','unagendaposter','d-none')">Disable Chud Theme</a>
 					{% endif %}
 						<pre></pre>
-
+					{% if v and v.admin_level >= PERMS['USER_BAN']}
 						<a id="mute-user" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/1','mute-user','unmute-user','d-none')">Mute</a>
-
 						<a id="unmute-user" class="{% if not u.is_muted %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/0','mute-user','unmute-user','d-none')">Unmute</a>
-
-
 						<pre></pre>
+					{% endif %}
 					{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 						<form action="/admin/unnuke_user" method="post">
 							<input type="hidden" name="formkey", value="{{v.formkey}}">
@@ -370,14 +368,10 @@
 							<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Remove User's Content">
 						</form>
 					{% endif %}
-					{% if v and v.admin_level >= PERMS['USER_CLUB_ALLOW_BAN'] %}
+					{% if FEATURES['COUNTRY_CLUB'] and v and v.admin_level >= PERMS['USER_CLUB_ALLOW_BAN'] %}
 						<pre></pre>
-						{% if FEATURES['COUNTRY_CLUB'] -%}
 						<button id="grant2" class="{% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="post_toast(this,'/@{{u.username}}/club_allow','grant2','bar2','d-none')">Grant club access</button>
 						<button id="bar2" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="post_toast(this,'/@{{u.username}}/club_ban','grant2','bar2','d-none')">Bar from club</button>
-						{%- endif %}
-
-						{% endif %}
 					{% endif %}
 					<pre></pre>
 					<div id="profile--info">
@@ -386,7 +380,7 @@
 						<p id="profile--info--truescore">True score: {{u.truecoins}}</p>
 						<p id="profile--info--winnings">Winnings: {{u.winnings}}</p>
 						{% if u.is_private %}
-							<p id="profile--info--private">User has private mode enabled.</p>
+							<p id="profile--info--private">User has private mode enabled</p>
 						{% endif %}
 						{% if v and (v.admin_level >= PERMS['VIEW_ALTS'] or v.alt) %}
 							<span id="profile--alts">Alts:</span>
@@ -711,34 +705,34 @@
 						{% endif %}
 						<pre></pre>
 						<pre></pre>
-
-						<form id="agendaposter2" class="{% if u.agendaposter %}d-none{% endif %}" action="/agendaposter/{{u.id}}" method="post">
-							<input type="hidden" name="formkey", value="{{v.formkey}}">
-							<input autocomplete="off" type="number" step="any" name="days" class="form-control" placeholder="Days (0 or blank = permanent)">
-							<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Lock Chud Theme">
-						</form>
+						{% if v.admin_level >= PERMS['USER_AGENDAPOSTER'] %}
+							<form id="agendaposter2" class="{% if u.agendaposter %}d-none{% endif %}" action="/agendaposter/{{u.id}}" method="post">
+								<input type="hidden" name="formkey", value="{{v.formkey}}">
+								<input autocomplete="off" type="number" step="any" name="days" class="form-control" placeholder="Days (0 or blank = permanent)">
+								<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Lock Chud Theme">
+							</form>
+							<pre></pre>
+							<a id="unagendaposter2" class="{% if not u.agendaposter %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/unagendaposter/{{u.id}}','agendaposter2','unagendaposter2','d-none')">Disable Chud Theme</a>
+							<pre></pre>
+						{% endif %}
+						{% if v.admin_level >= PERMS['USER_BAN'] %}
+							<a id="mute-user2" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/1','mute-user2','unmute-user2','d-none')">Mute</a>
+							<a id="unmute-user2" class="{% if not u.is_muted %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/0','mute-user2','unmute-user2','d-none')">Unmute</a>
+						{% endif %}
 						<pre></pre>
-
-						<a id="unagendaposter2" class="{% if not u.agendaposter %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/unagendaposter/{{u.id}}','agendaposter2','unagendaposter2','d-none')">Disable Chud Theme</a>
-
-						<pre></pre>
-
-						<a id="mute-user2" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/1','mute-user2','unmute-user2','d-none')">Mute</a>
-
-						<a id="unmute-user2" class="{% if not u.is_muted %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/0','mute-user2','unmute-user2','d-none')">Unmute</a>
-
-						<pre></pre>
-						<form action="/admin/unnuke_user" method="post">
-							<input type="hidden" name="formkey", value="{{v.formkey}}">
-							<input type="hidden" name="user" value="{{u.username}}">
-							<input type="submit" onclick="disable(this)" class="btn btn-success" value="Approve User's Content">
-						</form>
-						<pre></pre>
-						<form action="/admin/nuke_user" method="post">
-							<input type="hidden" name="formkey", value="{{v.formkey}}">
-							<input type="hidden" name="user" value="{{u.username}}">
-							<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Remove User's Content">
-						</form>
+						{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+							<form action="/admin/unnuke_user" method="post">
+								<input type="hidden" name="formkey", value="{{v.formkey}}">
+								<input type="hidden" name="user" value="{{u.username}}">
+								<input type="submit" onclick="disable(this)" class="btn btn-success" value="Approve User's Content">
+							</form>
+							<pre></pre>
+							<form action="/admin/nuke_user" method="post">
+								<input type="hidden" name="formkey", value="{{v.formkey}}">
+								<input type="hidden" name="user" value="{{u.username}}">
+								<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Remove User's Content">
+							</form>
+						{% endif %}
 					{% endif %}
 				{% endif %}
 				<pre></pre>
@@ -748,7 +742,7 @@
 					<p id="profile-mobile--info--truescore">True score: {{u.truecoins}}</p>
 					<p id="profile-mobile--info--winnings">Winnings: {{u.winnings}}</p>
 					{% if u.is_private %}
-						<p id="profile-mobile--info--private">User has private mode enabled.</p>
+						<p id="profile-mobile--info--private">User has private mode enabled</p>
 					{% endif %}
 					{% if v and (v.admin_level >= PERMS['VIEW_ALTS'] or v.alt) %}
 						<span id="profile-mobile--alts">Alts:</span>
