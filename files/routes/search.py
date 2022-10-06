@@ -222,7 +222,7 @@ def searchcomments(v):
 
 	comments = apply_time_filter(t, comments, Comment)
 
-	if v.admin_level < 2:
+	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		private = [x[0] for x in g.db.query(Submission.id).filter(Submission.private == True).all()]
 
 		comments = comments.filter(Comment.is_banned==False, Comment.deleted_utc == 0, Comment.parent_submission.notin_(private))
