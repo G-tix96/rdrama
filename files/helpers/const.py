@@ -131,6 +131,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'GLOBAL_HOLE_MODERATION': 3,
 	'POST_EDITING': 3,
 	'USER_BAN': 2,
+	'USER_SHADOWBAN': 2,
 }
 
 FEATURES = {

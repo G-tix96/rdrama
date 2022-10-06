@@ -41,7 +41,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 
 	if not comment.can_see(v): abort(403)
 	
-	if comment.author.shadowbanned and not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
+	if comment.author.shadowbanned and not (v and v.shadowbanned) and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
 		abort(404)
 
 	if v and request.values.get("read"):
@@ -52,7 +52,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 
 	if comment.post and comment.post.club and not (v and (v.paid_dues or v.id in [comment.author_id, comment.post.author_id])): abort(403)
 
-	if not comment.parent_submission and not (v and (comment.author.id == v.id or comment.sentto == v.id)) and not (v and v.admin_level > 1) : abort(403)
+	if not comment.parent_submission and not (v and (comment.author.id == v.id or comment.sentto == v.id)) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) : abort(403)
 	
 	if not pid:
 		if comment.parent_submission: pid = comment.parent_submission
@@ -96,7 +96,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 			blocked.c.target_id,
 		)
 
-		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
+		if not (v and v.shadowbanned) and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
 			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
 		 
 		comments=comments.filter(

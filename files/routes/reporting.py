@@ -95,7 +95,7 @@ def flag_post(pid, v):
 				g.db.add(ma)
 
 		if v.id != post.author_id:
-			if v.admin_level >= 3: position = 'Admin'
+			if v.admin_level >= PERMS['POST_COMMENT_MODERATION']: position = 'Admin'
 			else: position = 'Mod'
 			message = f"@{v.username} ({position}) has moved [{post.title}]({post.shortlink}) to /h/{post.sub}"
 			send_repeatable_notification(post.author_id, message)

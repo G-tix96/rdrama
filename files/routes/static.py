@@ -148,7 +148,7 @@ def log(v):
 		actions = []
 	else:
 		actions = g.db.query(ModAction)
-		if not (v and v.admin_level >= 2): 
+		if not (v and v.admin_level >= PERMS['USER_SHADOWBAN']): 
 			actions = actions.filter(ModAction.kind.notin_(["shadowban","unshadowban"]))
 
 		if admin_id:

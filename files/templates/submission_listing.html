@@ -133,7 +133,7 @@
 					<i class="{{a.class_list}} px-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{a.title}} Award given by @{{a.user.username}}"></i>
 				{% endfor %}
 
-				{% if v and v.admin_level > 1 and p.author.shadowbanned %}
+				{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and p.author.shadowbanned %}
 					<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{p.author.shadowbanned}} for "{{p.author.ban_reason}}"'></i>
 				{% endif %}
 

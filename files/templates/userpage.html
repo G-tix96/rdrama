@@ -58,7 +58,7 @@
 									<h5 class="text-primary" id="profile--unban">{{u.unban_string}}</h5>
 								{% endif %}
 							{% endif %}
-							{% if v and v.admin_level >= 2 and u.shadowbanned %}
+							{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and u.shadowbanned %}
 								<h5 class="text-primary" id="profile--shadowbanned">SHADOWBANNED USER
 									{% if u.ban_reason %}:
 										{{u.ban_reason | safe}}
@@ -319,23 +319,25 @@
 						{% endif %}
 						<pre></pre>
 						<pre></pre>
-
-						{% if u.shadowbanned %}
-							<form action="/unshadowban/{{u.id}}" method="post" action="">
-								<input type="hidden" name="formkey" value="{{v.formkey}}">
-								<input type="submit" onclick="disable(this)" class="btn btn-success" value="Unshadowban user">
-							</form>
-						{% else %}
-							<form action="/shadowban/{{u.id}}" method="post" action="">
-								<input type="hidden" name="formkey" value="{{v.formkey}}">
-								<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Shadowban Reason" oninput="document.getElementById('user-shadowban-submit').disabled=false" required>
-								<div class="custom-control custom-checkbox mb-1">
+						{% if v.admin_level >= PERMS['USER_SHADOWBAN'] %}
+							{% if u.shadowbanned %}
+								<form action="/unshadowban/{{u.id}}" method="post" action="">
+									<input type="hidden" name="formkey" value="{{v.formkey}}">
+									<input type="submit" onclick="disable(this)" class="btn btn-success" value="Unshadowban user">
+								</form>
+							{% else %}
+								<form action="/shadowban/{{u.id}}" method="post" action="">
+									<input type="hidden" name="formkey" value="{{v.formkey}}">
+									<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Shadowban Reason" oninput="document.getElementById('user-shadowban-submit').disabled=false" required>
+									<div class="custom-control custom-checkbox mb-1">
 									<input autocomplete="off" type="checkbox" id="shadowban-alts-2-desktop" class="custom-control-input" name="alts" value="1">
 									<label class="custom-control-label" for="shadowban-alts-2-desktop">Include alts</label>
-								</div>
-								<input autocomplete="off" id="user-shadowban-submit" type="submit" onclick="disable(this)" class="btn btn-danger" value="Shadowban user" disabled>
-							</form>
+									</div>
+									<input autocomplete="off" id="user-shadowban-submit" type="submit" onclick="disable(this)" class="btn btn-danger" value="Shadowban user" disabled>
+								</form>
 						{% endif %}
+					{% endif %}
+								
 						<pre></pre>
 						<pre></pre>
 
@@ -442,7 +444,7 @@
 					{% if u.unban_utc %}<h5 class="text-primary" id="profile-mobile--unban">{{u.unban_string}}</h5>{% endif %}
 				{% endif %}
 
-				{% if v and v.admin_level >= 2 and u.shadowbanned %}
+				{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and u.shadowbanned %}
 					<h5 class="text-primary" id="profile-mobile--banned">SHADOWBANNED USER{% if u.ban_reason %}: {{u.ban_reason | safe}}{% endif %} (by <a href="/@{{u.shadowbanned}}">@{{u.shadowbanned}}</a>)</h5>
 				{% endif %}
 
@@ -664,43 +666,46 @@
 						</div>
 						<pre></pre>
 						<pre></pre>
-						{% if u.is_suspended %}
-							<form action="/unban_user/{{u.id}}" method="post">
-								<input type="hidden" name="formkey", value="{{v.formkey}}">
-								<input type="hidden" name="redir" value="true">
-								<input type="submit" onclick="disable(this)" class="btn btn-success" value="Unban user">
-							</form>
-						{% else %}
-							<form action="/ban_user/{{u.id}}" method="post">
-								<input type="hidden" name="formkey" value="{{v.formkey}}">
-								<input type="hidden" name="redir" value="true">
-								<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Ban Reason" oninput="document.getElementById('user-ban-submit2').disabled=false" required>
-								<input autocomplete="off" style="font-size:11px" type="number" step="any" class="form-control" name="days" placeholder="Days (blank = permanent)">
-								<div class="custom-control custom-checkbox mb-1">
-									<input autocomplete="off" type="checkbox" id="alts-2-mobile" class="custom-control-input" name="alts" value="1">
-									<label class="custom-control-label" for="alts-2-mobile">Include alts</label>
-								</div>
-								<input autocomplete="off" id="user-ban-submit2" type="submit" onclick="disable(this)" class="btn btn-danger" value="Ban user" disabled>
-							</form>
+						{% if v.admin_level >= PERMS['USER_BAN']}
+							{% if u.is_suspended %}
+								<form action="/unban_user/{{u.id}}" method="post">
+									<input type="hidden" name="formkey", value="{{v.formkey}}">
+									<input type="hidden" name="redir" value="true">
+									<input type="submit" onclick="disable(this)" class="btn btn-success" value="Unban user">
+								</form>
+							{% else %}
+								<form action="/ban_user/{{u.id}}" method="post">
+									<input type="hidden" name="formkey" value="{{v.formkey}}">
+									<input type="hidden" name="redir" value="true">
+									<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Ban Reason" oninput="document.getElementById('user-ban-submit2').disabled=false" required>
+									<input autocomplete="off" style="font-size:11px" type="number" step="any" class="form-control" name="days" placeholder="Days (blank = permanent)">
+									<div class="custom-control custom-checkbox mb-1">
+										<input autocomplete="off" type="checkbox" id="alts-2-mobile" class="custom-control-input" name="alts" value="1">
+										<label class="custom-control-label" for="alts-2-mobile">Include alts</label>
+									</div>
+									<input autocomplete="off" id="user-ban-submit2" type="submit" onclick="disable(this)" class="btn btn-danger" value="Ban user" disabled>
+								</form>
+							{% endif %}
 						{% endif %}
 						<pre></pre>
 						<pre></pre>
-
-						{% if u.shadowbanned %}
-							<form action="/unshadowban/{{u.id}}" method="post">
-								<input type="hidden" name="formkey", value="{{v.formkey}}">
-								<input type="submit" onclick="disable(this)" class="btn btn-success" value="Unshadowban user">
-							</form>
-						{% else %}
-							<form action="/shadowban/{{u.id}}" method="post">
-								<input type="hidden" name="formkey" value="{{v.formkey}}">
-								<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Shadowban Reason" oninput="document.getElementById('user-shadowban-submit2').disabled=false" required>
-								<div class="custom-control custom-checkbox mb-1">
-									<input autocomplete="off" type="checkbox" id="shadowban-alts-2-mobile" class="custom-control-input" name="alts" value="1">
-									<label class="custom-control-label" for="shadowban-alts-2-mobile">Include alts</label>
-								</div>
-								<input autocomplete="off" id="user-shadowban-submit2" type="submit" onclick="disable(this)" class="btn btn-danger" value="Shadowban user" disabled>
-							</form>
+						{% if v.admin_level >= PERMS['USER_SHADOWBAN']}
+							{% if u.shadowbanned %}
+								<form action="/unshadowban/{{u.id}}" method="post">
+									<input type="hidden" name="formkey", value="{{v.formkey}}">
+									<input type="submit" onclick="disable(this)" class="btn btn-success" value="Unshadowban user">
+								</form>
+							{% else %}
+								<form action="/shadowban/{{u.id}}" method="post">
+									<input type="hidden" name="formkey" value="{{v.formkey}}">
+									<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Shadowban Reason" oninput="document.getElementById('user-shadowban-submit2').disabled=false" required>
+									<div class="custom-control custom-checkbox mb-1">
+										<input autocomplete="off" type="checkbox" id="shadowban-alts-2-mobile" class="custom-control-input" name="alts" value="1">
+										<label class="custom-control-label" for="shadowban-alts-2-mobile">Include alts</label>
+									</div>
+									<input autocomplete="off" id="user-shadowban-submit2" type="submit" onclick="disable(this)" class="btn btn-danger" value="Shadowban user" disabled>
+								</form>
+							{% endif %}
 						{% endif %}
 						<pre></pre>
 						<pre></pre>

@@ -249,7 +249,7 @@ def award_thing(v, thing_type, id):
 		author.unban_utc = int(time.time()) + 30 * 86400
 		send_repeatable_notification(author.id, f"Your account has been banned permanently for {link}. You must [provide the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
 
-		if v.admin_level > 2:
+		if v.admin_level >= PERMS['USER_BAN']:
 			log_link = f'/{thing_type}/{thing.id}'
 			reason = f'<a href="{log_link}">{log_link}</a>'
 

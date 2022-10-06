@@ -132,7 +132,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 			blocked.c.target_id,
 		)
 		
-		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
+		if not (v and v.shadowbanned) and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
 			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
  
 		comments=comments.filter(Comment.parent_submission == post.id, Comment.level < 10).join(

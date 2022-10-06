@@ -282,7 +282,7 @@ def searchusers(v):
 		)
 	)
 	
-	if v.admin_level < 2:
+	if v.admin_level < PERMS['USER_SHADOWBAN']:
 		users = users.filter(User.shadowbanned == None)
 
 	users=users.order_by(User.username.ilike(term).desc(), User.stored_subscriber_count.desc())

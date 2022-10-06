@@ -39,7 +39,7 @@ def get_user(username, v=None, graceful=False, rendered=False, include_blocks=Fa
 
 	user = user.one_or_none()
 
-	if not user or (user.shadowbanned and not (include_shadowbanned or (v and (v.admin_level >= 2 or v.shadowbanned)))):
+	if not user or (user.shadowbanned and not (include_shadowbanned or (v and (v.admin_level >= PERMS['USER_SHADOWBAN'] or v.shadowbanned)))):
 		if not graceful: abort(404)
 		else: return None
 
@@ -264,7 +264,7 @@ def get_comments(cids, v=None, load_parent=False):
 			blocked.c.target_id,
 		).filter(Comment.id.in_(cids))
  
-		if not (v and (v.shadowbanned or v.admin_level >= 2)):
+		if not (v and (v.shadowbanned or v.admin_level >= PERMS['USER_SHADOWBAN'])):
 			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
 
 		comments = comments.join(
