@@ -148,6 +148,9 @@ PERMS = { # Minimum admin_level to perform action.
 	'PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES': 3,
 	'VIEW_ACTIVE_USERS': 2,
 	'MERGE_USERS': 3, # note: extra check for Aevann
+	'ADMIN_ADD': 3, # note: explicitly disabled on rDrama
+	'ADMIN_REMOVE': 3,
+	'ADMIN_ADD_PERM_LEVEL': 2, # permission level given when user added via site
 }
 
 FEATURES = {

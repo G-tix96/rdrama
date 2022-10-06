@@ -156,13 +156,13 @@ def merge_all(v, id):
 
 
 @app.post("/@<username>/make_admin")
-@admin_level_required(3)
+@admin_level_required(PERMS['ADMIN_ADD'])
 def make_admin(v, username):
 	if SITE == 'rdrama.net': abort(403)
 
 	user = get_user(username)
 
-	user.admin_level = 2
+	user.admin_level = PERMS['ADMIN_ADD_PERM_LEVEL']
 	g.db.add(user)
 
 	ma = ModAction(
@@ -176,7 +176,7 @@ def make_admin(v, username):
 
 
 @app.post("/@<username>/remove_admin")
-@admin_level_required(3)
+@admin_level_required(PERMS['ADMIN_REMOVE'])
 def remove_admin(v, username):
 	user = get_user(username)
 	user.admin_level = 0
