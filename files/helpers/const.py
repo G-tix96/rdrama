@@ -848,7 +848,9 @@ TROLLTITLES = [
 ]
 
 NOTIFIED_USERS = {
-	'aev': AEVANN_ID,
+	'aevan': AEVANN_ID,
+	' aev': AEVANN_ID,
+	'aev ': AEVANN_ID,
 	'avean': AEVANN_ID,
 	'joan': JOAN_ID,
 	'pewkie': JOAN_ID,
