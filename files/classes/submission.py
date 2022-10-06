@@ -411,7 +411,7 @@ class Submission(Base):
 
 		if not body: return ""
 
-		body = censor_slurs(body, v)
+		body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
 
 		body = normalize_urls_runtime(body, v)
 		return body
@@ -436,7 +436,7 @@ class Submission(Base):
 			else: return f'{CC} MEMBERS ONLY'
 		else: title = self.title
 
-		title = censor_slurs(title, v)
+		title = censor_slurs(title, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
 
 		return title
 

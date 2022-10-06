@@ -404,7 +404,9 @@ class Comment(Base):
 
 		if not body: return ""
 
-		return censor_slurs(body, v)
+		body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
+
+		return body
 
 	@lazy
 	def collapse_for_user(self, v, path):
