@@ -193,7 +193,7 @@ def remove_admin(v, username):
 
 @app.post("/distribute/<option_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(3)
+@admin_level_required(PERMS['POST_BETS_DISTRIBUTE'])
 def distribute(v, option_id):
 	autojanny = get_account(AUTOJANNY_ID)
 	if autojanny.coins == 0: return {"error": "@AutoJanny has 0 coins"}, 400

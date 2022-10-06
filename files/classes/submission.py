@@ -377,7 +377,7 @@ class Submission(Base):
 				if o.exclusive == 3:
 					body += " - <b>WINNER!</b>"
 				
-				if not winner and v and v.admin_level > 2:
+				if not winner and v and v.admin_level >= PERMS['POST_BETS_DISTRIBUTE']:
 					body += f'''<button class="btn btn-primary distribute" onclick="this.nextElementSibling.classList.remove('d-none');this.classList.add('d-none')">Declare winner</button><button class="btn btn-primary distribute d-none" onclick="post_toast(this,'/distribute/{o.id}',true)">Are you sure?</button>'''
 				body += "</div>"
 			else:

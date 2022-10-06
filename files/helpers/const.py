@@ -141,6 +141,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'POST_TO_CHANGELOG': 1,
 	'POST_TO_POLL_THREAD': 2,
 	'POST_BETS': 3,
+	'POST_BETS_DISTRIBUTE': 3, # probably should be the same as POST_BETS but w/e
 	'BYPASS_PIN_LIMIT': 3,
 	'VIEW_PENDING_SUBMITTED_MARSEYS': 3,
 	'VIEW_PENDING_SUBMITTED_HATS': 3,
