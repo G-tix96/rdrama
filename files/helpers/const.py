@@ -121,7 +121,15 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 ################################################################################
 
 PERMS = { # Minimum admin_level to perform action.
+	'ADMIN_ADD': 3, # note: explicitly disabled on rDrama
+	'ADMIN_REMOVE': 3,
+	'ADMIN_ADD_PERM_LEVEL': 2, # permission level given when user added via site
+	'ADMIN_ACTIONS_REVERT': 3,
+	'ADMIN_MOP_VISIBLE': 2,
+	'ADMIN_HOME_VISIBLE': 2,
+	'DOMAINS_BAN': 3,
 	'HOLE_CREATE': 0,
+	'HOLE_GLOBAL_MODERATION': 3,
 	'FLAGS_REMOVE': 2,
 	'VOTES_VISIBLE': 0,
 	'USER_BLOCKS_VISIBLE': 0,
@@ -129,7 +137,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'USER_VOTERS_VISIBLE': 0,
 	'POST_COMMENT_MODERATION': 2,
 	'POST_COMMENT_DISTINGUISH': 1,
-	'GLOBAL_HOLE_MODERATION': 3,
 	'POST_EDITING': 3,
 	'USER_BADGES': 2,
 	'USER_BAN': 2,
@@ -137,6 +144,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'USER_AGENDAPOSTER': 2,
 	'USER_CLUB_ALLOW_BAN': 2,
 	'USER_LINK': 2,
+	'USER_MERGE': 3, # note: extra check for Aevann
 	'USER_TITLE_CHANGE': 2,
 	'POST_TO_CHANGELOG': 1,
 	'POST_TO_POLL_THREAD': 2,
@@ -165,20 +173,12 @@ PERMS = { # Minimum admin_level to perform action.
 	'VIEW_LAST_ACTIVE': 2,
 	'VIEW_PATRONS': 3, # note: extra check for Aevann, carp, or snakes
 	'PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES': 3, # note: explicitly disabled on rDrama
-	'MERGE_USERS': 3, # note: extra check for Aevann
-	'ADMIN_ADD': 3, # note: explicitly disabled on rDrama
-	'ADMIN_REMOVE': 3,
-	'ADMIN_ADD_PERM_LEVEL': 2, # permission level given when user added via site
-	'ADMIN_ACTIONS_REVERT': 3,
-	'ADMIN_MOP_VISIBLE': 2,
-	'ADMIN_HOME_VISIBLE': 2,
 	'SITE_SETTINGS': 3,
 	'SITE_SETTINGS_SIDEBARS_BANNERS_BADGES': 3,
 	'SITE_SETTINGS_SNAPPY_QUOTES': 3,
 	'SITE_SETTINGS_UNDER_ATTACK': 3,
 	'SITE_CACHE_PURGE_CDN': 3,
 	'SITE_CACHE_DUMP_INTERNAL': 2,
-	'DOMAINS_BAN': 3,
 	'NOTIFICATIONS_HOLE_INACTIVITY_DELETION': 2,
 	'NOTIFICATIONS_HOLE_CREATION': 2,
 	'NOTIFICATIONS_FROM_SHADOWBANNED_USERS': 3,
