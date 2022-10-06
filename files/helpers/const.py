@@ -133,6 +133,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'USER_BAN': 2,
 	'USER_SHADOWBAN': 2,
 	'POST_TO_CHANGELOG': 1,
+	'BYPASS_PIN_LIMIT': 3,
 }
 
 FEATURES = {
