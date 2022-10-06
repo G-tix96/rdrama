@@ -218,12 +218,12 @@
 
 						<a class="btn btn-primary" role="button" onclick="post_toast(this,'/settings/block?username={{u.username}}',true)">Block</a>
 
-						{% if v.admin_level >= PERMS['ADMIN_ADD'] and SITE != 'rdrama.net' and not u.admin_level %}
-								<a id="admin" class="{% if u.admin_level > 1 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/make_admin','admin','unadmin','d-none')">Make admin</a>
+						{% if v.admin_level >= PERMS['ADMIN_ADD'] and SITE != 'rdrama.net' %}
+							<a id="admin" class="{% if u.admin_level >= PERMS['ADMIN_ADD_PERM_LEVEL'] %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/make_admin','admin','unadmin','d-none')">Make admin</a>
 						{% endif %}
-						{% if v.admin_level >= PERMS['ADMIN_REMOVE'] and u.admin_level %}
-							<a id="unadmin" class="{% if u.admin_level < 2 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/remove_admin','admin','unadmin','d-none')">Remove admin</a>
-
+						{% if v.admin_level >= PERMS['ADMIN_REMOVE'] %}
+							<a id="unadmin" class="{% if u.admin_level < PERMS['ADMIN_ADD_PERM_LEVEL'] %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/remove_admin','admin','unadmin','d-none')">Remove admin</a>
+						{% endif %}
 						{% if u.admin_level >= PERMS['ADMIN_ACTIONS_REVERT'] %}
 							<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/revert_actions')">Revert admin actions</a>
 						{% endif %}
@@ -594,12 +594,12 @@
 
 					<a class="btn btn-primary" role="button" onclick="post_toast(this,'/settings/block?username={{u.username}}',true)">Block</a>
 
-					{% if v.admin_level >= PERMS['ADMIN_ADD'] and SITE != 'rdrama.net' and not u.admin_level %}
-						<a id="admin2" class="{% if u.admin_level > 1 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/make_admin','admin2','unadmin2','d-none')">Make admin</a>
+					{% if v.admin_level >= PERMS['ADMIN_ADD'] and SITE != 'rdrama.net' %}
+						<a id="admin2" class="{% if u.admin_level >= PERMS['ADMIN_ADD_PERM_LEVEL'] %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/make_admin','admin2','unadmin2','d-none')">Make admin</a>
 					{% endif %}
 
-					{% if v.admin_level >= PERMS['ADMIN_REMOVE'] and u.admin_level %}
-						<a id="unadmin2" class="{% if u.admin_level < 2 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/remove_admin','admin2','unadmin2','d-none')">Remove admin</a>
+					{% if v.admin_level >= PERMS['ADMIN_REMOVE'] %}
+						<a id="unadmin2" class="{% if u.admin_level < PERMS['ADMIN_ADD_PERM_LEVEL'] %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/remove_admin','admin2','unadmin2','d-none')">Remove admin</a>
 					{% endif %}
 
 					{% if u.admin_level >= PERMS['ADMIN_ACTIONS_REVERT'] %}
