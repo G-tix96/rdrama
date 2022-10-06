@@ -155,6 +155,11 @@ EMOJI_SRCS = ['files/assets/emojis.json']
 
 PIN_LIMIT = 3
 POST_RATE_LIMIT = '1/second;2/minute;10/hour;50/day'
+POST_TITLE_LENGTH_LIMIT = 500 # do not make larger than 500 without altering the table
+POST_TITLE_HTML_LENGTH_LIMIT = 1500 # do not make larger than 1500 without altering the table
+POST_BODY_LENGTH_LIMIT = 20000 # do not make larger than 20000 without altering the table
+POST_BODY_HTML_LENGTH_LIMIT = 40000 # do not make larger than 40000 without altering the table
+
 LOGGEDIN_ACTIVE_TIME = 15 * 60
 PFP_DEFAULT_MARSEY = True
 NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
