@@ -679,12 +679,9 @@ def submit_post(v, sub=None):
 
 	sub = request.values.get("sub", "").lower().replace('/h/','').strip()
 
-	if sub == 'changelog':
-		allowed = []
-		if v.admin_level >= PERMS['POST_TO_CHANGELOG']:
-			allowed.append(v.id)
-		if v.id not in allowed: # only query for badges if doesn't have permissions (this is a bit weird tbh)
-			allowed = g.db.query(Badge.user_id).filter_by(badge_id=3).all()
+	if sub == 'changelog' and not v.admin_level >= PERMS['POST_TO_CHANGELOG']:
+		# we also allow 'code contributor' badgeholders to post to the changelog hole
+		allowed = g.db.query(Badge.user_id).filter_by(badge_id=3).all()
 		allowed = [x[0] for x in allowed]
 		if v.id not in allowed: return error(f"You don't have sufficient permissions to post in /h/changelog")
 

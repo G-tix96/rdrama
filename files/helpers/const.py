@@ -146,7 +146,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'USER_LINK': 2,
 	'USER_MERGE': 3, # note: extra check for Aevann
 	'USER_TITLE_CHANGE': 2,
-	'POST_TO_CHANGELOG': 1,
+	'POST_TO_CHANGELOG': 1, # note: code contributors can also post to changelog
 	'POST_TO_POLL_THREAD': 2,
 	'POST_BETS': 3,
 	'POST_BETS_DISTRIBUTE': 3, # probably should be the same as POST_BETS but w/e
