@@ -323,20 +323,14 @@ a.user-name {
 
 .spider:nth-child(7) {
 	animation-delay: 400ms;
-	animation-duration: 800ms;
+	animation-duration: 2100ms;
 	left: 70%;
 }
 
 .spider:nth-child(8) {
-	animation-delay: 5000ms;
+	animation-delay: 4000ms;
 	animation-duration: 200ms;
 	left: 80%;
-}
-
-.spider:nth-child(9) {
-	animation-delay: 6000ms;
-	animation-duration: 200ms;
-	left: 90%;
 }
 
 .spider {
@@ -346,7 +340,7 @@ a.user-name {
 	top: 0;
 	left: 10%;
 
-	/* 4. Animatie */
+	/* 4. Animate */
 	animation: swing 2s infinite;
 	transform-origin: top;
 
@@ -355,7 +349,7 @@ a.user-name {
 }
 
 .spider:hover .body {
-	transform: rotate(15deg);
+	transform: rotate(20deg);
 	transition: 0.4s ease-in-out;
 }
 
@@ -380,10 +374,10 @@ a.user-name {
 }
 
 .spider .body .eye {
-	width: 25px;
-	height: 25px;
+	width: 28px;
+	height: 28px;
 	position: absolute;
-	bottom: 20px;
+	bottom: 24px;
 	background: #fff;
 	border-radius: 50%;
 }
@@ -405,8 +399,13 @@ a.user-name {
 	margin: 55%;
 	border-radius: 50%;
 
-	/* 3. Animatie */
+	/* 3. Animate */
 	animation: look 4s infinite;
+}
+
+.spider:nth-child(8) .body .eye {
+  background-color: #FF0000;
+  background: radial-gradient(#FF9B9B, #FF0000);
 }
 
 .spider:nth-child(odd) .body .eye:after {
@@ -463,7 +462,7 @@ a.user-name {
 	margin-left: -30px;
 }
 
-/* 1. Animatie */
+/* 1. Animate */
 @keyframes look {
 	0%,
 	40%,
@@ -473,11 +472,11 @@ a.user-name {
 
 	45%,
 	95% {
-		transform: translateX(-110%);
+		transform: translateX(-100%);
 	}
 }
 
-/* 3. Animatie */
+/* 3. Animate */
 @keyframes swing {
 	0%,
 	100% {
@@ -485,28 +484,26 @@ a.user-name {
 	}
 
 	50% {
-		transform: translateY(-20px);
+		transform: translateY(-24px);
 	}
 }
 
-/* 3. Animatie */
+/* 3. Animate */
 @keyframes swingFast {
 	0%,
 	100% {
 		transform: translateY(0);
 	}
 
-	50% {
-		transform: translateY(-30px);
+	55% {
+		transform: translateY(-36px);
 	}
 }
 
-/* Fog Effect */
-
+/* Fog effect */
 .fog-effect {
-	opacity: 0.7;
+	opacity: 0.8;
 }
-
 #fog-effect {
 	pointer-events: none;
 	position:fixed;

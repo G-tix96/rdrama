@@ -8,8 +8,8 @@ pCount = 0;
 
 pCollection = new Array();
 
-var puffs = 10;
-var particlesPerPuff = 2000;
+var puffs = 1;
+var particlesPerPuff = 1000;
 var img = '/assets/images/halloween/smoke.png';
 
 var smokeImage = new Image();
@@ -21,7 +21,7 @@ for (var i1 = 0 ; i1 < puffs; i1++)
 
   for (var i2 = 0 ; i2 < particlesPerPuff; i2++)
   {
-    addNewParticle((i2*50) + puffDelay);
+    addNewParticle((i2*50) + puffDelay);    
   }
 }
 
@@ -38,7 +38,7 @@ function addNewParticle(delay)
   p.left = randBetween(-200,800);
 
   p.start = new Date().getTime() + delay;
-  p.life = 20000;
+  p.life = 16000;
   p.speedUp = 30;
 
 
@@ -69,14 +69,14 @@ function draw(startT, totalT)
   var stillAlive = false;
 
   //Grab and clear the canvas
-  var fog=document.getElementById("fog-effect");
-  var ctx=fog.getContext("2d");
-  ctx.clearRect(0, 0, fog.width, fog.height);
-  fog.width = fog.width;
+  var c=document.getElementById("fog-effect");
+  var ctx=c.getContext("2d");
+  ctx.clearRect(0, 0, c.width, c.height);
+  c.width = c.width;
 
   //Loop through particles
   for (var i= 0; i < pCount; i++)
-  {
+  {    
     //Grab the particle
     var p = pCollection[i];
 
@@ -99,16 +99,18 @@ function draw(startT, totalT)
       p.newLeft = newLeft;
 
       //Draw!
-      ctx.fillStyle = 'rgba(150,150,150,' + newOpacity + ')';
+      ctx.fillStyle = 'rgba(150,150,150,' + newOpacity + ')';      
       ctx.globalAlpha  = newOpacity;
       ctx.drawImage(smokeImage, newLeft, newTop, newSize, newSize);
     }
   }
 
+
+
   //Repeat if there's still a living particle
   if (stillAlive)
   {
-    requestAnimationFrame(function(){draw(startT,totalT);});
+    requestAnimationFrame(function(){draw(startT,totalT);}); 
   }
   else
   {
@@ -132,6 +134,6 @@ function randOffset(n, variance)
 }
 
 function clog(s)
-{
+{  
   console.log(s);
 }
