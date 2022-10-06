@@ -10,6 +10,7 @@ from .const import *
 import gevent
 import imagehash
 from shutil import copyfile
+from files.classes.media import *
 
 def process_files():
 	body = ''
@@ -45,6 +46,14 @@ def process_audio(file):
 		os.remove(name)
 		abort(413)
 
+	media = Media(
+		kind='audio',
+		filename=name.split('/')[-1],
+		user_id=g.v.id,
+		size=size
+	)
+	g.db.add(media)
+
 	return f'{SITE_FULL}{name}'
 
 
@@ -77,6 +86,14 @@ def process_video(file):
 	else:
 		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
 		os.remove(old)
+
+	media = Media(
+		kind='video',
+		filename=new.split('/')[-1],
+		user_id=g.v.id,
+		size=os.stat(new).st_size
+	)
+	g.db.add(media)
 
 	return f'{SITE_FULL}{new}'
 
@@ -143,5 +160,13 @@ def process_image(filename=None, resize=0, trim=False):
 		if i_hash in hashes.keys():
 			os.remove(filename)
 			abort(417)
+
+	media = Media(
+		kind='image',
+		filename=filename.split('/')[-1],
+		user_id=g.v.id,
+		size=os.stat(filename).st_size
+	)
+	g.db.add(media)
 
 	return filename
