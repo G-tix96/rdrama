@@ -137,6 +137,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'USER_AGENDAPOSTER': 2,
 	'USER_CLUB_ALLOW_BAN': 2,
 	'USER_LINK': 2,
+	'USER_TITLE_CHANGE': 2,
 	'POST_TO_CHANGELOG': 1,
 	'POST_TO_POLL_THREAD': 2,
 	'POST_BETS': 3,

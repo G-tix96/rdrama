@@ -273,6 +273,7 @@
 					{% if v and v.id != u.id and v.admin_level > 1 %}
 						<br><br>
 						<div class="body d-lg-flex border-bottom">
+							{% if v.admin_level >= PERMS['USER_TITLE_CHANGE'] %}
 							<div class="w-lg-100">
 
 								<form action="/admin/title_change/{{u.id}}" method="post">
@@ -290,7 +291,7 @@
 									</div>
 								</form>
 							</div>
-
+							{% endif %}
 						</div>
 						<pre></pre>
 						<pre></pre>
@@ -646,9 +647,8 @@
 
 						<br><br>
 						<div class="body d-lg-flex border-bottom">
-
+							{% if v.admin_level >= PERMS['USER_TITLE_CHANGE'] %}
 							<div class="w-lg-100">
-
 								<form action="/admin/title_change/{{u.id}}" method="post">
 									<input type="hidden" name="formkey" value="{{v.formkey}}">
 									<input maxlength=100 autocomplete="off" id="customtitlebody-mobile" type="text" name="title" class="form-control" placeholder='Enter a flair here' value="{% if u.customtitleplain %}{{u.customtitleplain}}{% endif %}">
@@ -664,7 +664,7 @@
 									</div>
 								</form>
 							</div>
-
+							{% endif %}
 						</div>
 						<pre></pre>
 						<pre></pre>

@@ -954,7 +954,7 @@ def unshadowban(user_id, v):
 
 @app.post("/admin/title_change/<user_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['USER_TITLE_CHANGE'])
 def admin_title_change(user_id, v):
 
 	user = get_account(user_id)
