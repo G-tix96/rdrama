@@ -167,7 +167,6 @@ CREATE TABLE public.award_relationships (
     kind character varying(20) NOT NULL,
     awarded_utc integer,
     created_utc integer,
-    granted_by integer
 );
 
 
@@ -2102,14 +2101,6 @@ ALTER TABLE ONLY public.award_relationships
 
 
 --
--- Name: award_relationships award_granted_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.award_relationships
-    ADD CONSTRAINT award_granted_by_fkey FOREIGN KEY (granted_by) REFERENCES public.users(id);
-
-
---
 -- Name: award_relationships award_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2688,4 +2679,3 @@ ALTER TABLE ONLY public.comment_option_votes
 --
 -- PostgreSQL database dump complete
 --
-
