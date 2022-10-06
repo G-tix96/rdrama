@@ -139,8 +139,9 @@
 			<label class="custom-control-label" for="under_attack">Under attack mode</label>
 		</div>
 	{% endif %}
-
-	<button class="btn btn-primary mt-3" onclick="post_toast(this,'/admin/purge_cache');" style="margin-bottom: 2em;">PURGE CACHE</button>
+	{% if v.admin_level >= PERMS['SITE_CACHE_PURGE_CDN'] %}
+		<button class="btn btn-primary mt-3" onclick="post_toast(this,'/admin/purge_cache');" style="margin-bottom: 2em;">PURGE CACHE</button>
+	{% endif %}
 	<br>
 	{% if SITE_NAME == 'PCM' and v.admin_level >= PERMS['PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES'] %}
 		<button class="btn btn-primary" onclick="post_toast(this,'/kippy');" style="margin-bottom: 2em;">Print 10k Marseybux</button>

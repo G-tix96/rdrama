@@ -471,7 +471,7 @@ def change_settings(v, setting):
 
 
 @app.post("/admin/purge_cache")
-@admin_level_required(PERMS['CACHE_PURGE_CDN'])
+@admin_level_required(PERMS['SITE_CACHE_PURGE_CDN'])
 def purge_cache(v):
 	online = cache.get(ONLINE_STR)
 	cache.clear()
@@ -1386,7 +1386,7 @@ def admin_distinguish_comment(c_id, v):
 	else: return {"message": "Comment undistinguished!"}
 
 @app.get("/admin/dump_cache")
-@admin_level_required(PERMS['CACHE_DUMP_INTERNAL'])
+@admin_level_required(PERMS['SITE_CACHE_DUMP_INTERNAL'])
 def admin_dump_cache(v):
 	online = cache.get(ONLINE_STR)
 	cache.clear()
