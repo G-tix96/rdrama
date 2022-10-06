@@ -16,4 +16,4 @@ class Media(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<Streamer(id={self.id})>"
+		return f"<Media(kind={self.kind}, filename={self.filename})>"

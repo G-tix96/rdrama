@@ -11,6 +11,7 @@ import gevent
 import imagehash
 from shutil import copyfile
 from files.classes.media import *
+from files.__main__ import db_session
 
 def process_files():
 	body = ''
@@ -57,13 +58,25 @@ def process_audio(file):
 	return f'{SITE_FULL}{name}'
 
 
-def webm_to_mp4(old, new):
+def webm_to_mp4(old, new, vid):
 	tmp = new.replace('.mp4', '-t.mp4')
 	subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", tmp, "-threads:v", "1"], check=True, stderr=subprocess.STDOUT)
 	os.replace(tmp, new)
 	os.remove(old)
 	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
 		data=f'{{"files": ["{SITE_FULL}{new}"]}}', timeout=5)
+
+	db = db_session()
+	media = Media(
+		kind='video',
+		filename=new.split('/')[-1],
+		user_id=vid,
+		size=os.stat(new).st_size
+	)
+	db.add(media)
+	db.commit()
+	db.close()
+
 
 def process_video(file):
 	old = f'/videos/{time.time()}'.replace('.','')
@@ -82,18 +95,18 @@ def process_video(file):
 	if extension == 'webm':
 		new = new.replace('.webm', '.mp4')
 		copyfile(old, new)
-		gevent.spawn(webm_to_mp4, old, new)
+		gevent.spawn(webm_to_mp4, old, new, g.v.id)
 	else:
 		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
 		os.remove(old)
 
-	media = Media(
-		kind='video',
-		filename=new.split('/')[-1],
-		user_id=g.v.id,
-		size=os.stat(new).st_size
-	)
-	g.db.add(media)
+		media = Media(
+			kind='video',
+			filename=new.split('/')[-1],
+			user_id=g.v.id,
+			size=os.stat(new).st_size
+		)
+		g.db.add(media)
 
 	return f'{SITE_FULL}{new}'
 
