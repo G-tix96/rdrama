@@ -31,14 +31,14 @@ def kippy(v):
 	return '10k marseycoins printed!'
 
 @app.get('/admin/loggedin')
-@admin_level_required(2)
+@admin_level_required(PERMS['VIEW_ACTIVE_USERS'])
 def loggedin_list(v):
 	ids = [x for x,val in cache.get(f'{SITE}_loggedin').items() if time.time()-val < LOGGEDIN_ACTIVE_TIME]
 	users = g.db.query(User).filter(User.id.in_(ids)).order_by(User.admin_level.desc(), User.truecoins.desc()).all()
 	return render_template("loggedin.html", v=v, users=users)
 
 @app.get('/admin/loggedout')
-@admin_level_required(2)
+@admin_level_required(PERMS['VIEW_ACTIVE_USERS'])
 def loggedout_list(v):
 	users = sorted([val[1] for x,val in cache.get(f'{SITE}_loggedout').items() if time.time()-val[0] < LOGGEDIN_ACTIVE_TIME])
 	return render_template("loggedout.html", v=v, users=users)
