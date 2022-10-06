@@ -4806,7 +4806,7 @@ input[type=radio] ~ .custom-control-label::before {
 	border-radius: 50%;
 }
 .emoji-modal {
-	max-width: 90% !important
+	max-width: 85% !important
 }
 .emj, .emoji, strong a img, img[alt^=":"]:not(img[b]):not(img[alt*="#"]) {
 	height: 40px !important;
@@ -5075,7 +5075,7 @@ img[glow]:not([data-src]) {
 }
 
 .awardmodal {
-	max-width: 90% !important;
+	max-width: 85% !important;
 	min-height: 90% !important;
 	max-height: 90% !important;
 	height: 90% !important;
@@ -5130,7 +5130,7 @@ html {
 
 @media (max-width: 991.98px) {
 	.popover {
-		max-width: 90% !important;
+		max-width: 85% !important;
 	}
 }
 
