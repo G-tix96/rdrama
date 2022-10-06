@@ -48,7 +48,7 @@
 
 		{% if not postembed %}
 			<div class="voting my-2 d-none d-md-flex pr-2">
-				{% if v and request.path.startswith('/@') and v.admin_level < PERMS['UNKNOWN_ADMIN_LEVEL2_PERM5'] %}
+				{% if v and request.path.startswith('/@') and v.admin_level < PERMS['VIEW_VOTE_BUTTONS_ON_USER_PAGE'] %}
 					<div tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% else %}d-none{% endif %}"></div>
 
 					<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}>{{score}}</span>
@@ -245,7 +245,7 @@
 				</li>
 			{% endif %}
 			{% if not postembed %}
-				{% if v and request.path.startswith('/@') and v.admin_level < PERMS['UNKNOWN_ADMIN_LEVEL2_PERM6'] %}
+				{% if v and request.path.startswith('/@') and v.admin_level < PERMS['VIEW_VOTE_BUTTONS_ON_USER_PAGE'] %}
 					<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none">
 
 						<span tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '1')" class="post-mobile-{{p.id}}-up mx-0 pr-1 arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% else %}d-none{% endif %}"></span>
