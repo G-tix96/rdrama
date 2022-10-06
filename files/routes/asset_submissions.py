@@ -22,7 +22,7 @@ def asset_submissions(path):
 @app.get("/submit/marseys")
 @auth_required
 def submit_marseys(v):
-	if v.admin_level > 2:
+	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']:
 		marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None).all()
 	else:
 		marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id).all()
@@ -44,7 +44,7 @@ def submit_marsey(v):
 	username = request.values.get('author').lower().strip()
 
 	def error(error):
-		if v.admin_level > 2: marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None).all()
+		if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']: marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None).all()
 		else: marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id).all()
 		for marsey in marseys:
 			marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
@@ -82,7 +82,7 @@ def submit_marsey(v):
 	g.db.add(marsey)
 
 	g.db.flush()
-	if v.admin_level > 2: marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None).all()
+	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']: marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None).all()
 	else: marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id).all()
 	for marsey in marseys:
 		marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
@@ -186,7 +186,7 @@ def remove_marsey(v, name):
 @app.get("/submit/hats")
 @auth_required
 def submit_hats(v):
-	if v.admin_level > 2: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
+	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
 	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id).all()
 	return render_template("submit_hats.html", v=v, hats=hats)
 
@@ -200,7 +200,7 @@ def submit_hat(v):
 	username = request.values.get('author').strip()
 
 	def error(error):
-		if v.admin_level > 2: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
+		if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
 		else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id).all()
 		return render_template("submit_hats.html", v=v, hats=hats, error=error, name=name, description=description, username=username), 400
 
@@ -245,7 +245,7 @@ def submit_hat(v):
 
 	g.db.commit()
 
-	if v.admin_level > 2: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
+	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
 	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id).all()
 	return render_template("submit_hats.html", v=v, hats=hats, msg=f"'{name}' submitted successfully!")
 
