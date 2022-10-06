@@ -40,7 +40,7 @@
 	{% if v %}
 		<a class="list-inline-item" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h fa-fw"></i></a>
 		<ul class="dropdown-menu">
-			{% if v.admin_level %}
+			{% if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH'] %}
 				<a id="distinguish-{{p.id}}" class="dropdown-item {% if p.distinguish_level %}d-none{% endif %} list-inline-item text-info" role="button" onclick="post_toast(this,'/distinguish/{{p.id}}','distinguish-{{p.id}}','undistinguish-{{p.id}}','d-none')"><i class="fas fa-crown"></i>Distinguish</a>
 				<a id="undistinguish-{{p.id}}" class="dropdown-item {% if not p.distinguish_level %}d-none{% endif %} list-inline-item text-info" role="button" onclick="post_toast(this,'/distinguish/{{p.id}}','distinguish-{{p.id}}','undistinguish-{{p.id}}','d-none')"><i class="fas fa-crown"></i>Undistinguish</a>
 			{% endif %}

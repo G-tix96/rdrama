@@ -432,7 +432,7 @@
 							<button style="margin-top:0.2rem" class="btn caction py-0 nobackground px-1 text-muted" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h fa-fw"></i></button>
 							<ul class="dropdown-menu">
 
-{% if v.admin_level and v.id==c.author_id %}
+{% if (v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH'] and (v.id==c.author_id or v.admin_level >= PERMS['POST_COMMENT_MODERATION']) %}
 	<button id="undistinguish-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.distinguish_level %}d-md-block{% endif %} text-info" onclick="post_toast(this,'/distinguish_comment/{{c.id}}','distinguish-{{c.id}}','undistinguish-{{c.id}}','d-md-block')"><i class="fas fa-id-badge text-info fa-fw"></i>Undistinguish</button>
 	<button id="distinguish-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.distinguish_level %}d-md-block{% endif %} text-info" onclick="post_toast(this,'/distinguish_comment/{{c.id}}','distinguish-{{c.id}}','undistinguish-{{c.id}}','d-md-block')"><i class="fas fa-id-badge text-info fa-fw"></i>Distinguish</button>
 {% endif %}

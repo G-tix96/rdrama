@@ -1176,7 +1176,7 @@ def approve_post(post_id, v):
 
 
 @app.post("/distinguish/<post_id>")
-@admin_level_required(1)
+@admin_level_required(PERMS['POST_COMMENT_DISTINGUISH'])
 def distinguish_post(post_id, v):
 	post = get_post(post_id)
 
@@ -1357,7 +1357,7 @@ def approve_comment(c_id, v):
 
 
 @app.post("/distinguish_comment/<c_id>")
-@admin_level_required(1)
+@admin_level_required(PERMS['POST_COMMENT_DISTINGUISH'])
 def admin_distinguish_comment(c_id, v):
 	
 	
