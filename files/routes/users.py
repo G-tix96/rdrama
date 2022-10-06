@@ -1146,7 +1146,7 @@ def u_username_comments(username, v=None):
 			Comment.is_banned == False,
 			Comment.ghost == False,
 			comment_post_author.shadowbanned == None,
-			Comment.deleted_utc == 0,
+			Comment.deleted_utc == 0
 		)
 
 	comments = apply_time_filter(t, comments, Comment)
