@@ -2586,6 +2586,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyvibing',2,'animated bopping vibe jam dancing headbang music rainbow dance',NULL),
 ('marseyvietnam',2,'army born to kill soldier war',NULL),
 ('marseyvirus',2,'phage infect infection plagued',NULL),
+('marseyvore',2,'eating cannibalism cannibalize fetish kinky digest trapped letmeout',1665074856),
+('marseyvore2',2,'eating marcus cannibalize cannibalism fetish kinky',1665074817),
 ('marseyvorezombiewolf',2,'furry furfag food eat yum degenerate fetish hungry',1665041705),
 ('marseyw',2,'win winner dub',NULL),
 ('marseywagie',2,'crypto rightoid ancap poor wagecuck mcdonalds maccas reaction',NULL),
