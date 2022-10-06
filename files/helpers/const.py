@@ -136,6 +136,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'USER_SHADOWBAN': 2,
 	'USER_AGENDAPOSTER': 2,
 	'USER_CLUB_ALLOW_BAN': 2,
+	'USER_LINK': 2,
 	'POST_TO_CHANGELOG': 1,
 	'POST_TO_POLL_THREAD': 2,
 	'POST_BETS': 3,
@@ -158,6 +159,8 @@ PERMS = { # Minimum admin_level to perform action.
 	'VIEW_SORTED_ADMIN_LIST': 3,
 	'PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES': 3,
 	'VIEW_ACTIVE_USERS': 2,
+	'VIEW_ALL_USERS': 2,
+	'VIEW_ALT_VOTES': 2,
 	'MERGE_USERS': 3, # note: extra check for Aevann
 	'ADMIN_ADD': 3, # note: explicitly disabled on rDrama
 	'ADMIN_REMOVE': 3,

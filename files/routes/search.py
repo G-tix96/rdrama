@@ -61,12 +61,14 @@ def searchposts(v):
 	if not v.paid_dues:
 		posts = posts.filter(Submission.club == False)
 	
-	if v.admin_level < 2:
+	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		posts = posts.filter(
 			Submission.deleted_utc == 0,
 			Submission.is_banned == False,
-			Submission.private == False,
-			User.shadowbanned == None)
+			Submission.private == False)
+	
+	if v.admin_level < PERMS['USER_SHADOWBAN']:
+		posts = posts.filter(User.shadowbanned == None)
 
 	if 'author' in criteria:
 		posts = posts.filter(Submission.ghost == False)

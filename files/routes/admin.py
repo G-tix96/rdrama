@@ -626,7 +626,7 @@ def badge_remove_post(v):
 
 
 @app.get("/admin/users")
-@admin_level_required(2)
+@admin_level_required(PERMS['VIEW_ALL_USERS'])
 def users_list(v):
 
 	try: page = int(request.values.get("page", 1))
@@ -647,7 +647,7 @@ def users_list(v):
 
 
 @app.get("/admin/alt_votes")
-@admin_level_required(2)
+@admin_level_required(PERMS['VIEW_ALT_VOTES'])
 def alt_votes_get(v):
 
 	u1 = request.values.get("u1")
@@ -754,7 +754,7 @@ def alt_votes_get(v):
 
 @app.post("/admin/link_accounts")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['USER_LINK'])
 def admin_link_accounts(v):
 
 	u1 = int(request.values.get("u1"))
