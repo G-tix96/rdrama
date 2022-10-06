@@ -140,7 +140,7 @@ def log(v):
 
 	kind = request.values.get("kind")
 
-	if v and v.admin_level > 1: types = ACTIONTYPES
+	if v and v.admin_level >= PERMS['USER_SHADOWBAN']: types = ACTIONTYPES
 	else: types = ACTIONTYPES2
 
 	if kind and kind not in types:
