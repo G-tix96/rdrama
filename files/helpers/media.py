@@ -60,7 +60,7 @@ def process_audio(file):
 
 def webm_to_mp4(old, new, vid):
 	tmp = new.replace('.mp4', '-t.mp4')
-	subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", tmp, "-threads:v", "1"], check=True, stderr=subprocess.STDOUT)
+	subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp], check=True, stderr=subprocess.STDOUT)
 	os.replace(tmp, new)
 	os.remove(old)
 	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
@@ -97,7 +97,7 @@ def process_video(file):
 		copyfile(old, new)
 		gevent.spawn(webm_to_mp4, old, new, g.v.id)
 	else:
-		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
+		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
 		os.remove(old)
 
 		media = Media(
