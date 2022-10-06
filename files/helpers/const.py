@@ -155,6 +155,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'VIEW_PRIVATE_PROFILES': 2,
 	'VIEW_ALTS': 2,
 	'VIEW_PROFILE_VIEWS': 2,
+	'VIEW_SORTED_ADMIN_LIST': 3,
 	'PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES': 3,
 	'VIEW_ACTIVE_USERS': 2,
 	'MERGE_USERS': 3, # note: extra check for Aevann
@@ -173,6 +174,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'NOTIFICATIONS_HOLE_CREATION': 2,
 	'NOTIFICATIONS_FROM_SHADOWBANNED_USERS': 3,
 	'NOTIFICATIONS_MODMAIL': 3,
+	'MESSAGE_BLOCKED_USERS': 1,
 }
 
 FEATURES = {

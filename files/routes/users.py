@@ -741,7 +741,7 @@ def message2(v, username):
 	if hasattr(user, 'is_blocking') and user.is_blocking:
 		return {"error": "You're blocking this user."}, 403
 
-	if v.admin_level <= 1 and hasattr(user, 'is_blocked') and user.is_blocked:
+	if v.admin_level <= PERMS['MESSAGE_BLOCKED_USERS'] and hasattr(user, 'is_blocked') and user.is_blocked:
 		return {"error": "This user is blocking you."}, 403
 
 	message = request.values.get("message", "").strip()[:10000].strip()
