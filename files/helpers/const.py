@@ -158,10 +158,11 @@ PERMS = { # Minimum admin_level to perform action.
 	'VIEW_ALTS': 2,
 	'VIEW_PROFILE_VIEWS': 2,
 	'VIEW_SORTED_ADMIN_LIST': 3,
-	'PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES': 3,
 	'VIEW_ACTIVE_USERS': 2,
 	'VIEW_ALL_USERS': 2,
 	'VIEW_ALT_VOTES': 2,
+	'VIEW_PATRONS': 3, # note: extra check for Aevann, carp, or snakes
+	'PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES': 3,
 	'MERGE_USERS': 3, # note: extra check for Aevann
 	'ADMIN_ADD': 3, # note: explicitly disabled on rDrama
 	'ADMIN_REMOVE': 3,

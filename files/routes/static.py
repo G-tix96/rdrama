@@ -107,7 +107,7 @@ def daily_chart(v):
 
 @app.get("/patrons")
 @app.get("/paypigs")
-@admin_level_required(3)
+@admin_level_required(PERMS['VIEW_PATRONS'])
 def patrons(v):
 	if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, SNAKES_ID): abort(404)
 
