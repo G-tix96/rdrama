@@ -114,7 +114,7 @@
 			{% endif %}
 			
 		{% if not err %}
-			{% if v and v.admin_level > 1 %}
+			{% if v and v.admin_level >= PERMS['ADMIN_HOME_VISIBLE'] %}
 				<a class="mobile-nav-icon d-md-none" href="/admin"><i class="fas fa-crown align-middle text-gray-500 black"></i></a>
 			{% endif %}
 
@@ -159,7 +159,7 @@
 				</li>
 				{% endif %}
 
-				{% if v.admin_level > 1 %}
+				{% if v.admin_level >= PERMS['ADMIN_HOME_VISIBLE'] %}
 				<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
 					<a class="nav-link" href="/admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin Tools"><i class="fas fa-crown"></i></a>
 				</li>
