@@ -598,7 +598,7 @@ def thumbnail_thread(pid):
 		for chunk in image_req.iter_content(1024):
 			file.write(chunk)
 
-	post.thumburl = process_image(name, resize=100)
+	post.thumburl = process_image(name, resize=100, uploader=post.author_id)
 	db.add(post)
 	db.commit()
 	db.close()
