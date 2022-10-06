@@ -153,6 +153,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'VIEW_CLUB': 1,
 	'VIEW_CHUDRAMA': 1,
 	'VIEW_PRIVATE_PROFILES': 2,
+	'VIEW_ALTS': 2,
 	'PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES': 3,
 	'VIEW_ACTIVE_USERS': 2,
 	'MERGE_USERS': 3, # note: extra check for Aevann

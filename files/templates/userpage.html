@@ -387,7 +387,7 @@
 						{% if u.is_private %}
 							<p id="profile--info--private">User has private mode enabled.</p>
 						{% endif %}
-						{% if v and (v.admin_level > 1 or v.alt) %}
+						{% if v and (v.admin_level >= PERMS['VIEW_ALTS'] or v.alt) %}
 							<span id="profile--alts">Alts:</span>
 							<ul id="profile--alts-list">
 								{% for account in u.alts_unique %}
@@ -750,7 +750,7 @@
 					{% if u.is_private %}
 						<p id="profile-mobile--info--private">User has private mode enabled.</p>
 					{% endif %}
-					{% if v and (v.admin_level > 1 or v.alt) %}
+					{% if v and (v.admin_level >= PERMS['VIEW_ALTS'] or v.alt) %}
 						<span id="profile-mobile--alts">Alts:</span>
 						<ul id="profile-mobile--alts-list">
 							{% for account in u.alts_unique %}
