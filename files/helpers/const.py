@@ -427,6 +427,14 @@ AWARDS = {
 		"color": "text-gray",
 		"price": 200
 	},
+	"flashlight": {
+		"kind": "flashlight",
+		"title": "Flashlight",
+		"description": "",
+		"icon": "fas fa-flashlight",
+		"color": "",
+		"price": 400
+	},
 	"marsify": {
 		"kind": "marsify",
 		"title": "Marsify",
@@ -771,7 +779,7 @@ if SITE_NAME == 'PCM':
 AWARDS_DISABLED = [
 	'ghost', 'nword', 'lootbox', # Generic
 	'snow', 'gingerbread', 'lights', 'candycane', 'fireplace', 'grinch', # Fistmas
-	'upsidedown', #'haunt', 'stab', 'spiders', 'fog', # Homoween
+	'upsidedown', #'haunt', 'stab', 'spiders', 'fog', 'flashlight' # Homoween
 ]
 
 

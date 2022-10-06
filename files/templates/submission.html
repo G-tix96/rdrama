@@ -354,6 +354,40 @@
 <canvas id="fog-effect" class="fog-effect"></canvas>
 <script src="/assets/js/halloween/fog.js"></script>
 {% endif %}
+
+{% if p.award_count("flashlight", v) %}
+<style>
+	:root {
+		--Xpos: 50vw;
+		--Ypos: 50vh;
+	}
+	:root:before {
+		content: "";
+		display: block;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		pointer-events: none;
+		background: radial-gradient(
+			circle 11vmax at var(--Xpos) var(--Ypos),
+			rgba(0,0,0,0) 0%,
+			rgba(0,0,0,.5) 60%,
+			rgba(0,0,0,.93) 100%
+			);
+	}
+	@media (max-width: 767.98px) {
+		:root::before {
+			background: radial-gradient(
+				circle 125px at var(--cursorX) var(--cursorY),
+				rgba(0,0,0,0) 0%,
+				rgba(0,0,0,.5) 80%,
+				rgba(0,0,0,.93) 100%
+			);
+		}
+	}
+</style>
+<script src="/assets/js/halloween/flashlight.js"></script>
+{% endif %}
 <!-- end homoween -->
 
 
