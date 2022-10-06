@@ -9,6 +9,7 @@ import time
 from .const import *
 import gevent
 import imagehash
+from shutil import copyfile
 
 def process_files():
 	body = ''
@@ -71,7 +72,7 @@ def process_video(file):
 
 	if extension == 'webm':
 		new = new.replace('.webm', '.mp4')
-		file.save(new)
+		copyfile(old, new)
 		gevent.spawn(webm_to_mp4, old, new)
 	else:
 		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
