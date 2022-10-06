@@ -6,7 +6,7 @@
     }
   </style>
   {% if '/post/' not in request.path %}
-  <script defer src="/assets/js/halloween/banner.js"></script>
+  <script defer src="{{'js/halloween/banner.js' | asset}}"></script>
   <style>
     #banner-halloween-title {
       animation: float infinite 8s ease-in-out;

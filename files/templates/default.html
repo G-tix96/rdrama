@@ -15,7 +15,6 @@
 	{% if v %}
 		<style>:root{--primary:#{{v.themecolor}}}</style>
 		<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-		<!--<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset }}">-->
 		<link rel="stylesheet" href="{{'css/midnight.css' | asset}}">
 		<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 		<link rel="stylesheet" href="{{'css/halloween/spooky.css' | asset}}">
@@ -46,6 +45,7 @@
 		<link rel="stylesheet" href="{{'css/main.css' | asset}}">
 		<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
 		<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
+		<link rel="stylesheet" href="{{'css/halloween/spooky.css' | asset}}">
 	{% endif %}
 
 	{% if request.path.endswith('/catalog') %}

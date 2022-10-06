@@ -323,7 +323,7 @@
 
 <!-- homoween -->
 {% if p.award_count("haunt", v) %}
-<script defer src="/assets/js/halloween/haunted.js"></script>
+<script defer src="{{'js/halloween/haunted.js' | asset}}"></script>
 {% endif %}
 
 {% if p.award_count("stab", v) and p.award_count("stab", v) <= 5 %}
@@ -332,14 +332,14 @@
 		opacity: calc(0.1*{{ p.award_count("stab", v) }});
 	}
 </style>
-<script src="/assets/js/halloween/blood.js" defer></script>
+<script src="{{'js/halloween/blood.js' | asset}}" defer></script>
 {% elif p.award_count("stab", v) %}
 <style>
 	canvas.sketch {
 		opacity: 0.5;
 	}
 </style>
-<script src="/assets/js/halloween/blood.js" defer></script>
+<script src="{{'js/halloween/blood.js' | asset}}" defer></script>
 {% endif %}
 
 {% if p.award_count("spiders", v) %}
@@ -352,7 +352,7 @@
 
 {% if p.award_count("fog", v) %}
 <canvas id="fog-effect" class="fog-effect"></canvas>
-<script src="/assets/js/halloween/fog.js"></script>
+<script src="{{'js/halloween/fog.js' | asset}}"></script>
 {% endif %}
 
 {% if p.award_count("flashlight", v) %}
@@ -386,7 +386,7 @@
 		}
 	}
 </style>
-<script src="/assets/js/halloween/flashlight.js"></script>
+<script defer src="{{'js/halloween/flashlight.js' | asset}}"></script>
 {% endif %}
 <!-- end homoween -->
 
