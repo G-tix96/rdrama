@@ -48,7 +48,7 @@ def process_audio(file):
 
 
 def webm_to_mp4(old, new):
-	tmp = f"{new}.tmp"
+	tmp = new.replace('.mp4', '-t.mp4')
 	subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", tmp, "-threads:v", "1"], check=True, stderr=subprocess.STDOUT)
 	os.replace(tmp, new)
 	os.remove(old)
