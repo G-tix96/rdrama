@@ -22,8 +22,9 @@ import requests
 from urllib.parse import quote, urlencode
 
 @app.post('/kippy')
-@admin_level_required(3)
+@admin_level_required(PERMS['PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES'])
 def kippy(v):
+	if SITE == 'rdrama.net': abort(404)
 	kippy = get_account(KIPPY_ID)
 	kippy.procoins += 10000
 	g.db.add(kippy)
