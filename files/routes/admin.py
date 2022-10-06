@@ -450,7 +450,7 @@ def admin_git_head():
 	return gitref
 
 @app.post("/admin/site_settings/<setting>")
-@admin_level_required(3)
+@admin_level_required(PERMS['SITE_SETTINGS'])
 def change_settings(v, setting):
 	site_settings = app.config['SETTINGS']
 	site_settings[setting] = not site_settings[setting] 
@@ -471,7 +471,7 @@ def change_settings(v, setting):
 
 
 @app.post("/admin/purge_cache")
-@admin_level_required(3)
+@admin_level_required(PERMS['CACHE_PURGE_CDN'])
 def purge_cache(v):
 	online = cache.get(ONLINE_STR)
 	cache.clear()
@@ -490,7 +490,7 @@ def purge_cache(v):
 
 
 @app.post("/admin/under_attack")
-@admin_level_required(3)
+@admin_level_required(PERMS['SITE_SETTINGS_UNDER_ATTACK'])
 def under_attack(v):
 	response = requests.get(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, timeout=5).json()['result']['value']
 
@@ -1386,7 +1386,7 @@ def admin_distinguish_comment(c_id, v):
 	else: return {"message": "Comment undistinguished!"}
 
 @app.get("/admin/dump_cache")
-@admin_level_required(2)
+@admin_level_required(PERMS['CACHE_DUMP_INTERNAL'])
 def admin_dump_cache(v):
 	online = cache.get(ONLINE_STR)
 	cache.clear()
@@ -1402,7 +1402,7 @@ def admin_dump_cache(v):
 
 
 @app.get("/admin/banned_domains/")
-@admin_level_required(3)
+@admin_level_required(PERMS['DOMAINS_BAN'])
 def admin_banned_domains(v):
 
 	banned_domains = g.db.query(BannedDomain).all()
@@ -1410,7 +1410,7 @@ def admin_banned_domains(v):
 
 @app.post("/admin/banned_domains")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(3)
+@admin_level_required(PERMS['DOMAINS_BAN'])
 def admin_toggle_ban_domain(v):
 
 	domain=request.values.get("domain", "").strip()

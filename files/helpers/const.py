@@ -155,6 +155,11 @@ PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_REMOVE': 3,
 	'ADMIN_ADD_PERM_LEVEL': 2, # permission level given when user added via site
 	'ADMIN_ACTIONS_REVERT': 3,
+	'SITE_SETTINGS': 3,
+	'SITE_SETTINGS_UNDER_ATTACK': 3,
+	'CACHE_PURGE_CDN': 3,
+	'CACHE_DUMP_INTERNAL': 2,
+	'DOMAINS_BAN': 3,
 }
 
 FEATURES = {
