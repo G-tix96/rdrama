@@ -151,7 +151,7 @@
 
 					<span id="profile--joined">joined <span id="profile--joined--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--joined--time','{{u.created_utc}}')">{{u.created_date}}</span></span>
 
-					{% if v and v.admin_level >= 2 -%}
+					{% if v and v.admin_level >= PERMS['VIEW_LAST_ACTIVE'] -%}
 						<span id="profile--lastactive" class="ml-2">last active <span id="profile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--lastactive--time','{{u.last_active}}')">{{u.last_active_date}}</span></span>
 					{%- endif %}
 				</div>
@@ -515,7 +515,7 @@
 
 					<br><span id="profile-mobile--joined">joined <span id="profile-mobile--joined--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile-mobile--joined--time','{{u.created_utc}}')" class="font-weight-bold">{{u.created_date}}</span></span>
 
-					{% if v and v.admin_level >= 2 -%}
+					{% if v and v.admin_level >= PERMS['VIEW_LAST_ACTIVE'] -%}
 						<br><span id="profile-mobile--lastactive">last active <span id="profile-mobile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile-mobile--lastactive--time','{{u.last_active}}')" class="font-weight-bold">{{u.last_active_date}}</span></span>
 					{%- endif %}
 				</div>
