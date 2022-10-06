@@ -1028,7 +1028,7 @@ def u_username(username, v=None):
 		g.db.commit()
 
 		
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)):
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)):
 		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
 			return {"error": "This userpage is private"}, 403
 
@@ -1116,7 +1116,7 @@ def u_username_comments(username, v=None):
 		return render_template("userpage_reserved.html", u=u, v=v)
 
 
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)):
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)):
 		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
 			return {"error": "This userpage is private"}, 403
 		return render_template("userpage_private.html", u=u, v=v)
