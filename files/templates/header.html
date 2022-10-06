@@ -68,14 +68,16 @@
 				<style>
 					{% if g.webview %}
 						@media (min-width: 480px) {
+					{% elif SITE_NAME == 'WPD' %}
+						@media (min-width: 1000px) {
 					{% else %}
 						@media (min-width: 380px) {
+					{% endif %}
 							#logo {
 								width: 100px;
 								margin-left: 0.5rem !important;
 							}
 						}
-					{% endif %}
 				</style>
 				<div id="logo-container" class="flex-grow-1 logo-container">
 				<a href="/">
