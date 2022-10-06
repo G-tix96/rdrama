@@ -132,6 +132,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'POST_EDITING': 3,
 	'USER_BAN': 2,
 	'USER_SHADOWBAN': 2,
+	'USER_AGENDAPOSTER': 2,
 	'POST_TO_CHANGELOG': 1,
 	'BYPASS_PIN_LIMIT': 3,
 	'VIEW_PENDING_SUBMITTED_MARSEYS': 3,

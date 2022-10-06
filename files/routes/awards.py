@@ -297,7 +297,7 @@ def award_thing(v, thing_type, id):
 		
 		badge_grant(user=author, badge_id=28)
 
-		if v.admin_level > 2:
+		if v.admin_level >= PERMS['USER_AGENDAPOSTER']:
 			ma = ModAction(
 				kind="agendaposter",
 				user_id=v.id,

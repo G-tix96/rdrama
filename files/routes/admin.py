@@ -835,7 +835,7 @@ def admin_removed_comments(v):
 
 
 @app.post("/agendaposter/<user_id>")
-@admin_level_required(2)
+@admin_level_required(PERMS['USER_AGENDAPOSTER'])
 def agendaposter(user_id, v):
 	user = get_account(user_id)
 
@@ -869,7 +869,7 @@ def agendaposter(user_id, v):
 
 
 @app.post("/unagendaposter/<user_id>")
-@admin_level_required(2)
+@admin_level_required(PERMS['USER_AGENDAPOSTER'])
 def unagendaposter(user_id, v):
 	user = get_account(user_id)
 
@@ -898,7 +898,7 @@ def unagendaposter(user_id, v):
 
 @app.post("/shadowban/<user_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['USER_SHADOWBAN'])
 def shadowban(user_id, v):
 	user = get_account(user_id)
 	if user.admin_level != 0: abort(403)
@@ -928,7 +928,7 @@ def shadowban(user_id, v):
 
 @app.post("/unshadowban/<user_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['USER_SHADOWBAN'])
 def unshadowban(user_id, v):
 	user = get_account(user_id)
 	user.shadowbanned = None
