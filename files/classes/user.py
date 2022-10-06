@@ -903,7 +903,7 @@ class User(Base):
 	def viewers_recorded(self):
 		if SITE_NAME == 'WPD': # WPD gets profile views
 			return True
-		elif self.admin_level >= 2: # Admins get profile views
+		elif self.admin_level >= PERMS['VIEW_PROFILE_VIEWS']: # Admins get profile views
 			return True
 		elif self.patron: # Patrons get profile views as a perk
 			return True

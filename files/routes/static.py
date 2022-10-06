@@ -235,7 +235,7 @@ def submit_contact(v):
 	g.db.flush()
 	new_comment.top_comment_id = new_comment.id
 	
-	admins = g.db.query(User).filter(User.admin_level > 2)
+	admins = g.db.query(User).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'])
 	if SITE == 'watchpeopledie.co':
 		admins = admins.filter(User.id != AEVANN_ID)
 

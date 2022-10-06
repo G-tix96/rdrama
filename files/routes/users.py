@@ -62,7 +62,7 @@ gevent.spawn(leaderboard_thread)
 @auth_required
 def upvoters_posts(v, username, uid):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
@@ -84,7 +84,7 @@ def upvoters_posts(v, username, uid):
 @auth_required
 def upvoters_comments(v, username, uid):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
@@ -106,7 +106,7 @@ def upvoters_comments(v, username, uid):
 @auth_required
 def downvoters_posts(v, username, uid):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
@@ -128,7 +128,7 @@ def downvoters_posts(v, username, uid):
 @auth_required
 def downvoters_comments(v, username, uid):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
@@ -153,7 +153,7 @@ def downvoters_comments(v, username, uid):
 @auth_required
 def upvoting_posts(v, username, uid):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
@@ -175,7 +175,7 @@ def upvoting_posts(v, username, uid):
 @auth_required
 def upvoting_comments(v, username, uid):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
@@ -197,7 +197,7 @@ def upvoting_comments(v, username, uid):
 @auth_required
 def downvoting_posts(v, username, uid):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
@@ -219,7 +219,7 @@ def downvoting_posts(v, username, uid):
 @auth_required
 def downvoting_comments(v, username, uid):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
@@ -241,7 +241,7 @@ def downvoting_comments(v, username, uid):
 @auth_required
 def user_upvoted_posts(v, username):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 
 	page = max(1, int(request.values.get("page", 1)))
@@ -267,7 +267,7 @@ def user_upvoted_posts(v, username):
 @auth_required
 def user_upvoted_comments(v, username):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 
 	page = max(1, int(request.values.get("page", 1)))
@@ -877,7 +877,7 @@ def messagereply(v):
 
 
 	if c.top_comment.sentto == 2:
-		admins = g.db.query(User.id).filter(User.admin_level > 2, User.id != v.id)
+		admins = g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id)
 		if SITE == 'watchpeopledie.co':
 			admins = admins.filter(User.id != AEVANN_ID)
 
