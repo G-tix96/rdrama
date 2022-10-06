@@ -490,7 +490,7 @@
 <button id="ban-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.author.is_suspended %}d-md-block{% endif %} text-danger" data-bs-toggle="modal" data-bs-target="#banModal" onclick="banModal('/comment/{{c.id}}', '{{c.author.id}}', '{{c.author_name}}')"><i class="fas fa-user-slash text-danger fa-fw"></i>Ban user</button>
 {% endif %}
 
-{% if v.admin_level >= PERMS['APPS_MODERATE'] and c.oauth_app %}
+{% if v.admin_level >= PERMS['APPS_MODERATION'] and c.oauth_app %}
 	<a href="{{c.oauth_app.permalink}}/comments" class="dropdown-item list-inline-item d-none d-md-block text-primary"><i class="fas fa-code text-primary fa-fw"></i>API App</a>
 {% endif %}
 							</ul>
@@ -721,7 +721,7 @@
 							{% endif %}
 						{% endif %}
 
-						{% if c.oauth_app and v.admin_level >= PERMS['APPS_MODERATE'] %}
+						{% if c.oauth_app and v.admin_level >= PERMS['APPS_MODERATION'] %}
 							<a href="{{c.oauth_app.permalink}}/comments" class="list-group-item text-info"><i class="fas fa-code text-info mr-2"></i>API App</a>
 						{% endif %}
 					</ul>

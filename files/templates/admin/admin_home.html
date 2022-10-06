@@ -102,7 +102,7 @@
 	{% if v.admin_level >= PERMS['HOLE_CREATE'] %}
 		<li><a href="/create_hole">Create {{ HOLE_NAME | capitalize }}</a></li>
 	{% endif %}
-	{% if v.admin_level >= PERMS['APPS_MODERATE'] %}
+	{% if v.admin_level >= PERMS['APPS_MODERATION'] %}
 		<li><a href="/admin/apps">Apps</a></li>
 	{% endif %}
 </ul>

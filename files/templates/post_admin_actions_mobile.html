@@ -34,7 +34,7 @@
 						<button id="approve2-{{p.id}}" class="{% if not p.is_banned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-success text-left" role="button" onclick="post_toast(this,'/approve_post/{{p.id}}','remove2-{{p.id}}','approve2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="far fa-check text-center mr-2"></i>Approve</button>
 					{% endif %}
 
-					{% if p.oauth_app and v.admin_level >= PERMS['APPS_MODERATE'] %}
+					{% if p.oauth_app and v.admin_level >= PERMS['APPS_MODERATION'] %}
 						<a href="{{p.oauth_app.permalink}}"><button class="nobackground btn btn-link btn-block btn-lg text-muted text-left"><i class="far fa-code text-center text-info mr-2"></i>API App</button></a>
 					{% endif %}
 
