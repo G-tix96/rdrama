@@ -112,7 +112,7 @@ def process_video(file):
 
 
 
-def process_image(filename=None, resize=0, trim=False, uploader=None, patron=False):
+def process_image(filename=None, resize=0, trim=False, uploader=None, patron=False, db=None):
 	size = os.stat(filename).st_size
 
 	if size > 16 * 1024 * 1024 or not patron and size > 8 * 1024 * 1024:
@@ -180,6 +180,7 @@ def process_image(filename=None, resize=0, trim=False, uploader=None, patron=Fal
 		user_id=uploader or g.v.id,
 		size=os.stat(filename).st_size
 	)
-	g.db.add(media)
+	db = db or g.db
+	db.add(media)
 
 	return filename

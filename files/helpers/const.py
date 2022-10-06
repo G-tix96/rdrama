@@ -957,7 +957,8 @@ YOUTUBE_KEY = environ.get("YOUTUBE_KEY", "").strip()
 
 ADMIGGERS = {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD, SNAPPY_THREAD}
 
-proxies = {"http":"http://127.0.0.1:18080","https":"http://127.0.0.1:18080"}
+OPERA_URL = environ.get("OPERA_URL", "http://localhost:18080")
+proxies = {"http":OPERA_URL,"https":OPERA_URL}
 
 blackjack = environ.get("BLACKJACK", "").strip()
 
