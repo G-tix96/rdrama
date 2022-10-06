@@ -790,7 +790,7 @@
 					</div>
 					{% endif %}
 
-					{% if v and (v.id==p.author_id or v.admin_level > 2) and not v.is_suspended %}
+					{% if v and (v.id==p.author_id or v.admin_level >= PERMS['POST_EDITING']) and not v.is_suspended %}
 						<div id="edit-post-body-{{p.id}}" class="d-none comment-write collapsed child">
 							<form id="post-edit-form-{{p.id}}" action="/edit_post/{{p.id}}" method="post" enctype="multipart/form-data">
 									<input type="hidden" name="formkey" value="{{v.formkey}}">
@@ -844,7 +844,7 @@
 							</a>
 						</li>
 
-						{% if v and (v.id==p.author_id or v.admin_level > 1 and v.admin_level > 2) %}
+						{% if v and (v.id==p.author_id or v.admin_level >= PERMS['POST_EDITING']) %}
 							<a class="list-inline-item" role="button" onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit"></i>Edit</a>
 						{% endif %}
 
@@ -1092,7 +1092,7 @@
 	{% include "report_post_modal.html" %}
 {% endif %}
 
-{% if v and (v.id == p.author_id or v.admin_level > 1 and v.admin_level > 2) %}
+{% if v and (v.id == p.author_id or v.admin_level >= PERMS['POST_EDITING']) %}
 	<script defer src="{{'js/togglePostEdit.js' | asset}}"></script>
 {% endif %}
 

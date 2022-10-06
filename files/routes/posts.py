@@ -373,13 +373,12 @@ def morecomments(v, cid):
 @auth_required
 def edit_post(pid, v):
 	p = get_post(pid)
+	if v.id != p.author_id and v.admin_level < PERMS['POST_EDITING']:
+		abort(403)
 
 	title = sanitize_raw_title(request.values.get("title", ""))
 
 	body = sanitize_raw_body(request.values.get("body", ""))
-
-	if v.id != p.author_id and v.admin_level < 3:
-		abort(403)
 
 	if v.id == p.author_id:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
