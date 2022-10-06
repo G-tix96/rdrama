@@ -20,16 +20,18 @@ function lightningStrike(strike) {
 
     if(strike == "haunted"){
         let art1 = sidebar.firstElementChild,
-            art2 = document.getElementsByClassName("banner")[0]
+            banner_text_normal = document.getElementById("banner-halloween-title"),
+            banner_text_evil = document.getElementById("banner-halloween-text-evil")
 
         thunder2.play()
         art1.style.setProperty("filter","invert(1)")
-        art2.setAttribute("src", "/assets/images/halloween/banner_evil.png")
-
+        banner_text_normal.style.opacity = 0
+        banner_text_evil.style.opacity = 1
         setTimeout(function(){
             art1.style.setProperty("filter","invert(0)")
-            art2.setAttribute("src", "/assets/images/halloween/banner.png")
-        },750)
+            banner_text_normal.style.opacity = 1
+            banner_text_evil.style.opacity = 0
+        },700)
     }
 
     thunder1.play()

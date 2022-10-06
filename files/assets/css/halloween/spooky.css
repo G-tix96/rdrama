@@ -166,10 +166,10 @@ body::after {
 		filter: brightness(20%);
 	}
 	2% {
-		filter: sepia(1) contrast(1.5) brightness(200%);
+		filter: sepia(0.8) contrast(1.5) brightness(200%);
 	}
 	3% {
-		filter: sepia(1) contrast(1.5) brightness(20%);
+		filter: sepia(0.8) contrast(1.5) brightness(20%);
 	}
 	4% {
 		filter: brightness(300%);
@@ -181,6 +181,11 @@ body::after {
     filter: brightness(1);
 	}
 }
+
+@font-face {
+	font-family: "Jo_wrote_a_lovesong";
+	src: url("/assets/fonts/Jo_wrote_a_lovesong.woff") format("woff");
+  }
 
 /* Upside Down */
 
@@ -515,365 +520,58 @@ a.user-name {
 }
 
 /* Halloween Banner */
-
-.banner-halloween {
-  position: relative;
-  background-color: linear-gradient(to bottom, #020107 0%, var(--dark) 100%);
-  min-height:100%;
-  height: 340px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  overflow:hidden;
-  margin-top: -3px;
-  margin-bottom: 0.5rem;
+#banner-halloween-title.life > tspan {
+  opacity: 1;
 }
-
+#banner-halloween-title-II {
+  text-shadow: 0 4px 10px #ff000060;
+}
+#banner-halloween-title.life > #banner-halloween-title-II {
+  animation: blinker 0.5s forwards;
+}
 @media (max-width: 767.98px) {
-  .banner-halloween {
-    height: 200px;
+  #banner-halloween-title {
+    transform: scale(1.4) translate(-90px, -120px);
+    animation:none !important;
+  }
+  #banner-halloween-presenting {
+    transform: scale(1.4) translate(-90px, -120px);
+  }
+  #banner-halloween-bats {
+    display:none;
   }
 }
 
-/*
-
-  TITLE "HALLOWEEN"
-
-  */
-
-  .banner-halloween h1 {
-    font-size:6em;
-    font-family: 'Emilys Candy', sans-serif;
-    width:5.5em;
-    height:2.5em;
-    position:relative;
-    color:var(--primary);
+@keyframes float {
+  0% {
+    transform: translateY(0px);
   }
-
-  @media (max-width: 767.98px) {
-    .banner-halloween h1 {
-      font-size: 4em;
-    }
+  50% {
+    transform: translateY(-6px);
   }
-
-  .banner-halloween .happy{
-    font-family: lato, sans-serif;
-    font-size:18px;
-    font-weight:400;
-    letter-spacing:.1em;
-    color:#FB8B24;
-    text-transform:uppercase;
-  }
-
-  .banner-halloween .halloween{
-    position:relative;
-    display:block;
-
-  }
-  .banner-halloween .halloween span{
-    position:absolute;
-  }
-
-  /* TITLE CHARACTERS */
-  .char1{ /*H*/
-    font-size:1.15em;
-    left:0;
-    color:#FB8B24;
-    animation:bounce-in 1000ms linear both;
-  }
-  .char2{ /*O*/
-    font-size:0.75em;
-    top:.25em;
-    left:1.25em;
-    color:#F66A3C;
-    animation:bounce-in 1000ms linear both;
-    animation-delay:300ms;
-  }
-  .char3{ /*M*/
-    font-size:.65em;
-    left:2.5em;
-    top:0.25em;
-    color:#FCA413;
-    animation:bounce-in 1000ms linear both;
-    animation-delay:500ms;
-  }
-  .char4{ /*O*/
-    font-size:.85em;
-    left:2.7em;
-    top:.25em;
-    color:#FB8B24;
-    animation:bounce-in 1000ms linear both;
-    animation-delay:200ms;
-  }
-  .char5{ /*W*/
-    font-size:.9em;
-    left:3.25em;
-    top:-0.01em;
-    color:#F66A3C;
-    animation:bounce-in 1000ms linear both;
-    animation-delay:250ms;
-  }
-  .char6{ /*E*/
-    font-size:0.76em;
-    left:4.65em;
-    top:0.05em;
-    color:#FCA413;
-    animation:bounce-in 1000ms linear both;
-    animation-delay:800ms;
-  }
-  .char7{ /*E*/
-    font-size: 0.9em;
-    left: 4.6em;
-    top: 0.05em;
-    color:#FB8B24;
-    animation:bounce-in 1000ms linear both;
-    animation-delay:700ms;
-  }
-  .char8{ /*N*/
-    font-size:0.75em;
-    left:6.5em;
-    top:0.25em;
-    color:#F66A3C;
-    animation:bounce-in 1000ms linear both;
-    animation-delay:1100ms;
-  }
-
-
-  @keyframes bounce-in{0%{transform:matrix3d(0.00,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-    opacity:0;}3.333333%{transform:matrix3d(0.32635,0,0,0,0,.68602,0,0,0,0,1,0,0,0,0,1)}6.666667%{transform:matrix3d(0.61701,0,0,0,0,.90691,0,0,0,0,1,0,0,0,0,1)}10%{transform:matrix3d(0.86271,0,0,0,0,1.07226,0,0,0,0,1,0,0,0,0,1);opacity:1;}13.333333%{transform:matrix3d(1.03605,0,0,0,0,1.14684,0,0,0,0,1,0,0,0,0,1)}16.666667%{transform:matrix3d(1.13384,0,0,0,0,1.14088,0,0,0,0,1,0,0,0,0,1)}20%{transform:matrix3d(1.16809,0,0,0,0,1.08847,0,0,0,0,1,0,0,0,0,1)}23.333333%{transform:matrix3d(1.15775,0,0,0,0,1.02623,0,0,0,0,1,0,0,0,0,1)}26.666667%{transform:matrix3d(1.12245,0,0,0,0,.97964,0,0,0,0,1,0,0,0,0,1)}30%{transform:matrix3d(1.07861,0,0,0,0,.95863,0,0,0,0,1,0,0,0,0,1)}33.333333%{transform:matrix3d(1.03771,0,0,0,0,.9603,0,0,0,0,1,0,0,0,0,1)}36.666667%{transform:matrix3d(1.00612,0,0,0,0,.97507,0,0,0,0,1,0,0,0,0,1)}40%{transform:matrix3d(0.98596,0,0,0,0,.99261,0,0,0,0,1,0,0,0,0,1)}43.333333%{transform:matrix3d(0.9764,0,0,0,0,1.00574,0,0,0,0,1,0,0,0,0,1)}46.666667%{transform:matrix3d(0.97499,0,0,0,0,1.01166,0,0,0,0,1,0,0,0,0,1)}50%{transform:matrix3d(0.97875,0,0,0,0,1.01119,0,0,0,0,1,0,0,0,0,1)}53.333333%{transform:matrix3d(0.98493,0,0,0,0,1.00702,0,0,0,0,1,0,0,0,0,1)}56.666667%{transform:matrix3d(0.99143,0,0,0,0,1.00208,0,0,0,0,1,0,0,0,0,1)}60%{transform:matrix3d(0.99693,0,0,0,0,.99838,0,0,0,0,1,0,0,0,0,1)}63.333333%{transform:matrix3d(1.00081,0,0,0,0,.99672,0,0,0,0,1,0,0,0,0,1)}66.666667%{transform:matrix3d(1.00299,0,0,0,0,.99685,0,0,0,0,1,0,0,0,0,1)}70%{transform:matrix3d(1.00376,0,0,0,0,.99802,0,0,0,0,1,0,0,0,0,1)}73.333333%{transform:matrix3d(1.00353,0,0,0,0,.99941,0,0,0,0,1,0,0,0,0,1)}76.666667%{transform:matrix3d(1.00274,0,0,0,0,1.00046,0,0,0,0,1,0,0,0,0,1)}80%{transform:matrix3d(1.00176,0,0,0,0,1.00093,0,0,0,0,1,0,0,0,0,1)}83.333333%{transform:matrix3d(1.00084,0,0,0,0,1.00089,0,0,0,0,1,0,0,0,0,1)}86.666667%{transform:matrix3d(1.00014,0,0,0,0,1.00056,0,0,0,0,1,0,0,0,0,1)}90%{transform:matrix3d(0.99969,0,0,0,0,1.00017,0,0,0,0,1,0,0,0,0,1)}93.333333%{transform:matrix3d(0.99947,0,0,0,0,.99987,0,0,0,0,1,0,0,0,0,1)}96.666667%{transform:matrix3d(0.99944,0,0,0,0,.99974,0,0,0,0,1,0,0,0,0,1)}100%{transform:matrix3d(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1)}}
-/*
-
-  MOON
-
-  */
-  .moon{
-    height:7em;
-    width:7em;
-    background-color:#ddd;
-    border-radius:5em;
-    position:absolute;
-    top:1em;
-    right:1em;
-    animation:moonlight 5s alternate infinite;
-  }
-
-  .moon li{
-    position: absolute;
-    list-style: none;
-    background: #aaa;
-    border-radius: 50%;
-    box-shadow:inset 0.4em -0.05em 0.1em #777;
-  }
-  .moon li:nth-child(1) {
-    top:1.15em;
-    left:1.25em;
-    height:.75em;
-    width:.75em;
-  }
-  .moon li:nth-child(2) {
-    top:1.05em;
-    left:3.65em;
-    height:1.15em;
-    width:1.15em;
-  }
-  .moon li:nth-child(3) {
-    top:2.95em;
-    left:0.8em;
-    height:1.75em;
-    width:1.75em;
-  }
-  .moon li:nth-child(4) {
-    top:3em;
-    left:3.25em;
-    height:.5em;
-    width:.5em;
-  }
-  .moon li:nth-child(5) {
-    top:4em;
-    left:5.25em;
-    height:.65em;
-    width:.65em;
-  }
-  .moon li:nth-child(5) {
-    top:3.5em;
-    left:4.15em;
-    height:2.25em;
-    width:2.25em;
-  }
-  .moon li:nth-child(6) {
-    top:5.25em;
-    left:2.5em;
-    height:1.25em;
-    width:1.25em;
-  }
-
-  @keyframes moonlight{
-    0%{box-shadow: inset -5px -4px 0px 0px rgba(50, 50, 50, 0.75), 0px 0px 20px rgba(255,255,255,.5);}
-    100%{box-shadow: inset -5px -4px 0px 0px rgba(50, 50, 50, 0.75), 0px 0px 40px rgba(255,255,255,.75);}
-  }
-
-/*
-
-CLOUDS
-
-*/
-.cloud {
-  background:#fafafa;
-  height:4em;
-  width:9em;
-  border-radius:3em;
-  position:absolute;
-  animation-name:clouds;
-  animation-iteration-count:infinite;
-  animation-timing-function:linear;
-}
-.cloud:before,.cloud:after{
-  content:"";
-  background:#fff;
-  position:absolute;
-  border-radius:50%;
-}
-.cloud:before{
-  height:3em;
-  width:3em;
-  top:-1.3em;
-  left:1.1em;
-}
-.cloud:after{
-  height:5em;
-  width:5em;
-  top:-2em;
-  right:0.85em;
-}
-.cloud:nth-child(1){
-  top:2em;
-  left:10em;
-  animation-duration:90s;
-}
-.cloud:nth-child(2){
-  top:9em;
-  left:2.5em;
-  opacity:.45;
-  animation-duration:120s;
-}
-.cloud:nth-child(3){
-  top:15em;
-  left:11em;
-  opacity:.65;
-  animation-duration:70s;
-}
-.cloud:nth-child(4){
-  top:7em;
-  left:40em;
-  opacity:.65;
-  animation-duration:70s;
-}
-.cloud:nth-child(5){
-  top:17em;
-  left:30em;
-  opacity:.25;
-  animation-duration:70s;
-}
-@keyframes clouds{
-  0%{margin-left:-10%;opacity:0;}
-  15%{opacity:100%;}
-  100% {margin-left: 110%;}
-}
-
-/*
-
-Z-INDEX
-
-*/
-
-.banner-halloween h1{z-index:10;}
-.banner-halloween .moon{z-index:2;}
-.banner-halloween .marsey-witch{z-index:2;}
-.banner-halloween .cloud{z-index:2;}
-.banner-halloween .cloud:nth-child(even){z-index:11;}
-
-/* Marsey */
-
-.marsey-witch {
-  animation-name:clouds;
-  animation-iteration-count:infinite;
-  animation-timing-function:linear;
-  position: absolute;
-  top:2.5em;
-  left:3em;
-  animation-duration:60s;
-}
-
-.marsey-witch img {
-	width: 150px;
-}
-
-/* Stars */
-
-.stars, .twinkling, .clouds {
-  position: absolute;
-  display: block;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.stars {
-  z-index: 0;
-  background: #000 url("/assets/images/halloween/stars.png") repeat top center;
-}
-
-.twinkling {
-  z-index: 1;
-  background: transparent url("/assets/images/halloween/twinkling.png") repeat top center;
-  -webkit-animation: move-twink-back 200s linear infinite;
-          animation: move-twink-back 200s linear infinite;
-}
-
-.clouds {
-  z-index: 2;
-  background: transparent url("/assets/images/halloween/clouds.png") repeat top center;
-  -webkit-animation: move-clouds-back 200s linear infinite;
-          animation: move-clouds-back 200s linear infinite;
-}
-
-@-webkit-keyframes move-twink-back {
-  from {
-    background-position: 0 0;
-  }
-  to {
-    background-position: -10000px 5000px;
+  100% {
+    transform: translateY(0px);
   }
 }
-
-@keyframes move-twink-back {
-  from {
-    background-position: 0 0;
+@keyframes blinker {
+  10% {
+    opacity: 0;
   }
-  to {
-    background-position: -10000px 5000px;
+  ,
+  30% {
+    opacity: 0.4;
   }
-}
-@-webkit-keyframes move-clouds-back {
-  from {
-    background-position: 0 0;
+  ,
+  60% {
+    opacity: 0.2;
   }
-  to {
-    background-position: 10000px 0;
+  ,
+  85% {
+    opacity: 0.5;
   }
-}
-@keyframes move-clouds-back {
-  from {
-    background-position: 0 0;
-  }
-  to {
-    background-position: 10000px 0;
+  ,
+  100% {
+    opacity: 0.9;
   }
 }
 

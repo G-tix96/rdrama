@@ -1,177 +1,103 @@
 <a  rel="nofollow noopener noreferrer" href="{% if 'rama' in request.host %}https://youtu.be/3l7X94GLqSQ?t=16{% else %}/{% endif %}">
-  <svg viewBox="0 0 1558.0001 379.99999" version="1.1" id="banner-halloween" width="100%" sodipodi:docname="banner_modified.svg" inkscape:version="1.2.1 (9c6d41e410, 2022-07-14, custom)" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
-    <style id="style619">
-        .banner-halloween-house-window-pane-stop1 { 
-          stop-color:#8DC39C; 
-        }
-        .banner-halloween-house-window-pane-stop2 { 
-          stop-color:#B3C691; 
-        }
-        .banner-halloween-bat {
-          fill:#240441;
-        }
-      </style>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Creepster&display=swap");
+    #banner-halloween-svg {
+      background-image: radial-gradient(at bottom, #bf0583 25%, #560272 60%);
+    }
+  </style>
+  {% if '/post/' not in request.path %}
+  <script defer src="/assets/js/halloween/banner.js"></script>
+  <style>
+    #banner-halloween-title {
+      animation: float infinite 8s ease-in-out;
+    }
+    #banner-halloween-title > tspan {
+      opacity: 0;
+    }
+  </style>
+  {% endif %} 
+  <svg viewBox="0 0 1558 340" version="1.1" id="banner-halloween-svg" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
     <g id="banner-halloween-scene" transform="matrix(1,0,0,1.0023048,427.09249,-121.25261)">
-      <radialGradient cx="376.3316" cy="310.01541" r="250.0006" gradientTransform="matrix(3.116,0,0,0.75825239,-817.69784,120.97379)" gradientUnits="userSpaceOnUse" id="banner-halloween-sky-gradient">
-        <stop offset="0" style="stop-color:#bf0583" id="banner-halloween-sky-gradient-start" />
-        <stop offset="1" style="stop-color:#560272" id="banner-halloween-sky-gradient-stop" />
-      </radialGradient>
-      <rect x="-427.0925" width="1558" height="379.12619" id="banner-halloween-sky" y="120.97379" style="stroke-width:1.25505;fill:url(#banner-halloween-sky-gradient)" />
-      <g id="banner-halloween-bats" transform="translate(369.01441,-6.9206685)">
-        <path d="m 168,214.3 c -0.1,0 -4.2,-1.1 -5.1,2.9 0,0 -3.4,-1.7 -5,1.8 0,0 -2.9,-2.6 -5.2,1.2 0,0 -3.6,-2.8 -5.8,1.6 0,0 -4,-0.5 -3.1,4.6 -0.9,-5.1 -4.5,-3.3 -4.5,-3.3 -3.5,-3.4 -6,0.5 -6,0.5 -3.5,-2.9 -5.3,0.6 -5.3,0.6 -2.7,-2.7 -5.3,0 -5.3,0 -2.2,-3.5 -5.6,-1 -5.7,-1 3.1,-9.9 13.5,-10.9 13.5,-10.9 3.3,5.8 9.8,4.6 9.8,4.6 l -0.5,-2.6 2,0.9 1.6,-1.5 0.5,2.6 c 0,0 6.6,-1.2 7.7,-7.7 0,0.1 10,-2.6 16.4,5.7 z" class="banner-halloween-bat" id="path627" />
-        <path d="m 210.1,229.7 c 0.1,0 2.5,-0.7 3,1.7 0,0 2,-1 3,1.1 0,0 1.7,-1.6 3.1,0.7 0,0 2.1,-1.7 3.4,0.9 0,0 2.4,-0.3 1.8,2.8 0.5,-3 2.7,-2 2.7,-2 2.1,-2 3.5,0.3 3.5,0.3 2.1,-1.7 3.2,0.4 3.2,0.4 1.6,-1.6 3.2,0 3.2,0 1.3,-2.1 3.4,-0.6 3.4,-0.6 -1.9,-5.9 -8,-6.5 -8,-6.5 -1.9,3.4 -5.9,2.7 -5.9,2.7 l 0.3,-1.6 -1.2,0.6 -0.9,-0.9 -0.3,1.6 c 0,0 -3.9,-0.7 -4.6,-4.6 0.1,0.1 -5.9,-1.5 -9.7,3.4 z" class="banner-halloween-bat" id="path629" />
-        <path d="m 211.4,245.7 c 0,0 -1.4,-0.4 -1.7,1 0,0 -1.1,-0.6 -1.7,0.6 0,0 -1,-0.9 -1.7,0.4 0,0 -1.2,-0.9 -1.9,0.5 0,0 -1.3,-0.2 -1,1.5 -0.3,-1.7 -1.5,-1.1 -1.5,-1.1 -1.2,-1.1 -2,0.2 -2,0.2 -1.2,-1 -1.8,0.2 -1.8,0.2 -0.9,-0.9 -1.8,0 -1.8,0 -0.7,-1.2 -1.9,-0.3 -1.9,-0.3 1,-3.3 4.5,-3.6 4.5,-3.6 1.1,1.9 3.3,1.5 3.3,1.5 l -0.2,-0.9 0.7,0.3 0.5,-0.5 0.2,0.9 c 0,0 2.2,-0.4 2.6,-2.6 0,0 3.3,-0.8 5.4,1.9 z" class="banner-halloween-bat" id="path631" />
+      <g id="banner-halloween-bats" transform="translate(369.01441,-6.9206685)" fill="#240441">
+        <path d="m 168,214.3 c -0.1,0 -4.2,-1.1 -5.1,2.9 0,0 -3.4,-1.7 -5,1.8 0,0 -2.9,-2.6 -5.2,1.2 0,0 -3.6,-2.8 -5.8,1.6 0,0 -4,-0.5 -3.1,4.6 -0.9,-5.1 -4.5,-3.3 -4.5,-3.3 -3.5,-3.4 -6,0.5 -6,0.5 -3.5,-2.9 -5.3,0.6 -5.3,0.6 -2.7,-2.7 -5.3,0 -5.3,0 -2.2,-3.5 -5.6,-1 -5.7,-1 3.1,-9.9 13.5,-10.9 13.5,-10.9 3.3,5.8 9.8,4.6 9.8,4.6 l -0.5,-2.6 2,0.9 1.6,-1.5 0.5,2.6 c 0,0 6.6,-1.2 7.7,-7.7 0,0.1 10,-2.6 16.4,5.7 z" class="banner-halloween-bat" />
+        <path d="m 210.1,229.7 c 0.1,0 2.5,-0.7 3,1.7 0,0 2,-1 3,1.1 0,0 1.7,-1.6 3.1,0.7 0,0 2.1,-1.7 3.4,0.9 0,0 2.4,-0.3 1.8,2.8 0.5,-3 2.7,-2 2.7,-2 2.1,-2 3.5,0.3 3.5,0.3 2.1,-1.7 3.2,0.4 3.2,0.4 1.6,-1.6 3.2,0 3.2,0 1.3,-2.1 3.4,-0.6 3.4,-0.6 -1.9,-5.9 -8,-6.5 -8,-6.5 -1.9,3.4 -5.9,2.7 -5.9,2.7 l 0.3,-1.6 -1.2,0.6 -0.9,-0.9 -0.3,1.6 c 0,0 -3.9,-0.7 -4.6,-4.6 0.1,0.1 -5.9,-1.5 -9.7,3.4 z" class="banner-halloween-bat" />
+        <path d="m 211.4,245.7 c 0,0 -1.4,-0.4 -1.7,1 0,0 -1.1,-0.6 -1.7,0.6 0,0 -1,-0.9 -1.7,0.4 0,0 -1.2,-0.9 -1.9,0.5 0,0 -1.3,-0.2 -1,1.5 -0.3,-1.7 -1.5,-1.1 -1.5,-1.1 -1.2,-1.1 -2,0.2 -2,0.2 -1.2,-1 -1.8,0.2 -1.8,0.2 -0.9,-0.9 -1.8,0 -1.8,0 -0.7,-1.2 -1.9,-0.3 -1.9,-0.3 1,-3.3 4.5,-3.6 4.5,-3.6 1.1,1.9 3.3,1.5 3.3,1.5 l -0.2,-0.9 0.7,0.3 0.5,-0.5 0.2,0.9 c 0,0 2.2,-0.4 2.6,-2.6 0,0 3.3,-0.8 5.4,1.9 z" class="banner-halloween-bat" />
       </g>
-      <g id="banner-halloween-text" transform="translate(-27.135979,1.5613725)">
-        <text transform="scale(1.0011517,0.99884961)" id="text636"><tspan style="font-size:31.9632px;line-height:125%;font-family:Basic_LAZER;-inkscape-font-specification:Basic_LAZER;letter-spacing:0px;word-spacing:0px;fill:#1a1a1a;stroke-width:0" x="164.12509" y="242.53059" id="tspan634"> rdrama presents
-            </tspan></text>
-        <g style="fill:#1a1a1a" id="g646">
-          <text xml:space="preserve" transform="scale(1.0011517,0.99884965)" id="text640">
-              <tspan style="font-size:63.9264px;font-family:lazer84;-inkscape-font-specification:lazer84;stroke-width:0.99885px" x="552.47217" y="308.69586" id="tspan638"> II
-              </tspan>
-            </text>
-          <text transform="scale(1.0011517,0.99884965)" id="text644"><tspan style="font-size:63.9264px;font-family:lazer84;-inkscape-font-specification:lazer84;stroke-width:0.99885px" x="162.51279" y="309.10678" id="tspan642"> HOMOWEEN
-              </tspan></text>
+      <g id="banner-halloween-text" transform="translate(-27.135979,1.5613725)" fill="#fff" style="transform:rotate(-6deg) skewX(-12deg)">
+        <text id="banner-halloween-presenting" style="font-family:verdana,arial;text-transform:uppercase">
+          <tspan x="200" y="290">Rdrama Presents</tspan>
+        </text>
+        <g>
+          <text id="banner-halloween-title" x="200" y="370" style="font-size:80px;font-family:Creepster,arial;" fill-opacity="0.9">
+            <tspan dx="0">H</tspan>
+            <tspan dx="-18">O</tspan>
+            <tspan dx="-18">M</tspan>
+            <tspan dx="-18">O</tspan>
+            <tspan dx="-18">W</tspan>
+            <tspan dx="-18">E</tspan>
+            <tspan dx="-18">E</tspan>
+            <tspan dx="-18">N</tspan>
+            <tspan id="banner-halloween-title-II" fill="#f00" fill-opacity="0.8">II</tspan>
+          </text>
         </g>
+        <text id="banner-halloween-text-evil" style="opacity:0">
+          <tspan x="200" y="370" fill=white style="font-size:72px;font-family:Jo_wrote_a_lovesong;">straggotween</tspan>
+        </text>
       </g>
-      <g id="banner-halloween-moon">
-        <ellipse style="fill:#e4e4e4;stroke-width:0" cx="374.23993" cy="423.94751" rx="86.480286" ry="74.513489" id="ellipse649" />
+      <g id="banner-halloween-moon" style="filter: drop-shadow(0px 0px 10px #deddcf)">
+        <ellipse fill="#e4e4e4" cx="374.23993" cy="423.94751" rx="86.480286" ry="74.513489" />
       </g>
       <g id="banner-halloween-house" transform="translate(-166.09098,3.8681347)">
         <linearGradient id="banner-halloween-house-fill-gradient" gradientUnits="userSpaceOnUse" x1="149.4008" y1="260.50101" x2="149.4008" y2="546.78699">
-          <stop offset="0" style="stop-color:#0C0A0C" id="stop652" />
-          <stop offset="1" style="stop-color:#5818bd" id="stop654" />
+          <stop offset="0" style="stop-color:#0C0A0C" />
+          <stop offset="1" style="stop-color:#5818bd" />
         </linearGradient>
         <path fill="url(#banner-halloween-house-fill-gradient)" d="m 227.4,354.9 c 0.4,-10 13.8,-34.6 13.8,-34.6 -7.1,1.4 -15.3,2.4 -23.6,3.1 l 3.2,-14.8 6.9,-0.3 c -9.2,-11.2 -10.4,-19 -10.4,-19 -4.4,0 -19.1,0.4 -24.8,0.5 l 1,-11.7 c 3.3,0.1 5.3,0.2 5.3,0.2 -10.4,-7.5 -18.4,-31.7 -20.7,-38.6 0,0 -1.7,7.8 -10.4,22.2 -1.4,2.3 -2.7,4.3 -4,6 -3.8,-4.3 -9.3,-12.1 -6.4,-18.6 l -7.1,-0.2 -0.3,-5.1 4.4,0.2 c -5.8,-3.3 -12.1,-15.6 -12.1,-15.6 0,0 -4,11.9 -8.8,14.6 l 3.6,0.2 -0.4,5.4 -43.4,-1 c 0,0 1.5,6.1 -0.4,10.8 -1.9,4.6 -13.4,14.2 -13.4,14.2 l 15,1.9 1,42.6 -29.8,-3.1 c 0,0 19.6,26.1 21.9,40.7 1.2,7.3 0.7,12.9 -0.1,16.6 l -29.9,14.1 h 182.8 l -14.7,-11.1 c 0.6,-3.9 1.5,-12.3 1.8,-19.6 z m -30.2,-38.7 5.8,0.2 v 6.1 c -3.3,-0.6 -6.4,-3 -5.8,-6.3 z m 12.8,1.1 c 0,0.1 0,0.1 0,0 0,3.5 -2.3,5 -4.9,5.3 -0.1,-1.6 -0.2,-3.9 -0.3,-6.2 l 5.1,0.1 c 0.1,0.3 0.1,0.6 0.1,0.8 z m -72.4,16.9 c 0,0 10.3,1 21.3,2 l -0.5,10.5 -18.8,0.2 c -0.5,-4.7 -1.2,-9.4 -2,-12.7 z m 32.2,-39.2 6,-0.3 -0.4,11 -6.1,-0.3 z m 10,51.4 -17.9,0.2 0.5,-10.2 c 7.2,0.6 14.2,1.1 18.4,1.2 z m -21.6,2.7 -0.8,15.5 c -6.6,-0.2 -13.1,-0.3 -16.4,-0.4 0,0 -0.4,-7.4 -1.2,-15.3 z m 3.6,0 17.7,0.2 -1.8,15.8 c 0,0 -7.9,-0.2 -16.6,-0.4 z m 30.2,0.1 0.4,-12.1 5.2,-0.1 -0.3,12.2 z m 10.1,0 0.4,-12.1 5.2,-0.1 -0.3,12.2 z m 14.6,0 h -5.3 l 0.4,-12.1 5.2,-0.1 z m -33.7,-43.1 -6,-0.3 0.6,-11.1 6.2,-0.3 z m 0.9,-12.9 -6.2,0.1 0.5,-9.7 h 6.4 z m -8,0.1 -6,0.1 0.4,-9.8 h 5.9 z m -59.3,72.3 -6.7,0.4 v -32.6 l 5.8,0.4 z m -18.3,-32.3 5.8,0.4 1,31.9 -6.7,0.4 v -32.7 z m 111.4,-17.7 c -1.3,0 -3.1,0 -4.9,-0.1 -0.1,-1.9 -0.1,-3.7 -0.2,-5 0.6,0.1 1.2,0.2 1.8,0.5 1.6,0.8 2.8,2.8 3.3,4.6 z m -6.7,-5 v 4.9 c -2.2,-0.1 -4.3,-0.2 -5.5,-0.2 0.3,-0.6 0.7,-1.2 1,-1.8 1.1,-1.7 2.7,-2.7 4.5,-2.9 z m -61.4,-6.6 -9.9,0.1 0.1,-13.2 h 10 c -0.3,5.4 -0.6,11.2 -0.2,13.1 z m -23.4,-13.1 h 10.7 l -1.1,13.2 -11.8,0.1 c 0,0 2,-4.4 2.2,-13.3 z m 23.8,-2.1 -10.2,0.2 0.1,-8.9 10.9,0.2 c 0,0 -0.4,3.9 -0.8,8.5 z m -12.2,-8.8 -0.8,9 -10.9,0.2 c 0,-2.8 -0.2,-6 -0.7,-9.5 z" id="banner-halloween-house-fill" style="fill:url(#banner-halloween-house-fill-gradient)" />
-        <g id="banner-halloween-house-window6">
-          <radialGradient id="SVGID_12_" cx="148.24361" cy="340.56931" r="8.7750998" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop658" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop660" />
-          </radialGradient>
-          <radialGradient id="SVGID_13_" cx="149.02921" cy="356.75369" r="8.5517998" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop663" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop665" />
-          </radialGradient>
-          <radialGradient id="SVGID_14_" cx="170.26469" cy="357.07059" r="8.5992002" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop668" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop670" />
-          </radialGradient>
-          <radialGradient id="SVGID_15_" cx="171.3461" cy="341.5607" r="7.5949001" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop673" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop675" />
-          </radialGradient>
-          <path d="m 158.9,336.2 c -11,-0.9 -21.3,-2 -21.3,-2 0.8,3.3 1.5,8 2,12.7 l 18.8,-0.2 z" style="fill:url(#SVGID_12_)" id="path678" />
-          <path d="m 157.4,364.6 0.8,-15.5 -18.4,-0.2 c 0.8,7.9 1.2,15.3 1.2,15.3 3.4,0.1 9.9,0.2 16.4,0.4 z" style="fill:url(#SVGID_13_)" id="path680" />
-          <path d="m 177.6,365 1.8,-15.8 -17.7,-0.2 -0.7,15.6 c 8.7,0.3 16.6,0.4 16.6,0.4 z" style="fill:url(#SVGID_14_)" id="path682" />
-          <path d="m 162.4,336.5 -0.5,10.2 17.9,-0.2 1,-8.8 c -4.3,-0.1 -11.3,-0.6 -18.4,-1.2 z" style="fill:url(#SVGID_15_)" id="path684" />
-        </g>
-        <g id="banner-halloween-house-window5">
-          <radialGradient id="SVGID_16_" cx="194.84599" cy="343.0647" r="4.7625999" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop687" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop689" />
-          </radialGradient>
-          <radialGradient id="SVGID_17_" cx="204.929" cy="343.0647" r="4.7625999" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop692" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop694" />
-          </radialGradient>
-          <radialGradient id="SVGID_18_" cx="214.1476" cy="343.0647" r="4.7625999" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop697" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop699" />
-          </radialGradient>
-          <polygon points="197.7,336.9 192.5,337.1 192,349.2 197.4,349.2 " style="fill:url(#SVGID_16_)" id="polygon702" />
-          <polygon points="207.7,336.9 202.6,337.1 202.1,349.2 207.4,349.2 " style="fill:url(#SVGID_17_)" id="polygon704" />
-          <polygon points="211.8,337.1 211.3,349.2 216.7,349.2 217,336.9 " style="fill:url(#SVGID_18_)" id="polygon706" />
-        </g>
-        <g id="banner-halloween-house-window4">
-          <radialGradient id="SVGID_19_" cx="113.1982" cy="349.6666" r="11.7854" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop709" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop711" />
-          </radialGradient>
-          <radialGradient id="SVGID_20_" cx="101.6749" cy="349.6666" r="11.7854" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop714" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop716" />
-          </radialGradient>
-          <polygon points="109.8,333.3 109.8,366 116.6,365.6 115.6,333.7 " style="fill:url(#SVGID_19_)" id="polygon719" />
-          <polygon points="105,365.6 104.1,333.7 98.3,333.3 98.3,366 " style="fill:url(#SVGID_20_)" id="polygon721" />
-        </g>
-        <g id="banner-halloween-house-window3">
-          <radialGradient id="SVGID_21_" cx="122.4464" cy="297.57141" r="6.5695" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop724" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop726" />
-          </radialGradient>
-          <radialGradient id="SVGID_22_" cx="137.3138" cy="284.55569" r="4.9892998" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop729" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop731" />
-          </radialGradient>
-          <radialGradient id="SVGID_23_" cx="136.8096" cy="297.48279" r="5.8698001" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop734" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop736" />
-          </radialGradient>
-          <radialGradient id="SVGID_24_" cx="123.6279" cy="284.52969" r="5.5345001" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop739" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop741" />
-          </radialGradient>
-          <path d="m 128.9,290.9 h -10.7 c -0.1,8.9 -2.2,13.3 -2.2,13.3 l 11.8,-0.1 z" style="fill:url(#SVGID_21_)" id="path744" />
-          <path d="m 131.9,289 10.2,-0.2 c 0.4,-4.6 0.8,-8.5 0.8,-8.5 L 132,280.1 Z" style="fill:url(#SVGID_22_)" id="path746" />
-          <path d="m 131.8,290.9 -0.1,13.2 9.9,-0.1 c -0.4,-1.9 -0.1,-7.7 0.2,-13.1 z" style="fill:url(#SVGID_23_)" id="path748" />
-          <path d="m 129.1,289.1 0.8,-9 -12.4,-0.3 c 0.5,3.6 0.7,6.8 0.7,9.5 z" style="fill:url(#SVGID_24_)" id="path750" />
-        </g>
-        <g id="banner-halloween-house-window2">
-          <radialGradient id="SVGID_25_" cx="172.6015" cy="300.26239" r="4.5011001" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop753" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop755" />
-          </radialGradient>
-          <radialGradient id="SVGID_26_" cx="173.0728" cy="288.4841" r="4.1163001" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop758" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop760" />
-          </radialGradient>
-          <radialGradient id="SVGID_27_" cx="181.1006" cy="288.44421" r="4.2041998" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop763" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop765" />
-          </radialGradient>
-          <radialGradient id="SVGID_28_" cx="180.3941" cy="300.24921" r="4.7711" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop768" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop770" />
-          </radialGradient>
-          <polygon points="175.4,305.7 175.8,294.8 169.8,295 169.4,305.5 " style="fill:url(#SVGID_25_)" id="polygon773" />
-          <polygon points="170.3,283.6 169.9,293.4 175.9,293.3 176.2,283.6 " style="fill:url(#SVGID_26_)" id="polygon775" />
-          <polygon points="178.2,283.6 177.7,293.3 183.9,293.2 184.5,283.6 " style="fill:url(#SVGID_27_)" id="polygon777" />
-          <polygon points="183.8,294.4 177.6,294.7 177,305.8 183,306.1 " style="fill:url(#SVGID_28_)" id="polygon779" />
-        </g>
-        <g id="banner-halloween-house-window1">
-          <radialGradient id="SVGID_29_" cx="207.1711" cy="313.09601" r="2.5335" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop782" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop784" />
-          </radialGradient>
-          <radialGradient id="SVGID_30_" cx="200.052" cy="319.35959" r="3.0378001" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop787" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop789" />
-          </radialGradient>
-          <radialGradient id="SVGID_31_" cx="207.40691" cy="319.51419" r="2.8412001" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop792" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop794" />
-          </radialGradient>
-          <radialGradient id="SVGID_32_" cx="200.2301" cy="313.021" r="2.6087" gradientUnits="userSpaceOnUse">
-            <stop offset="0" class="banner-halloween-house-window-pane-stop2" id="stop797" />
-            <stop offset="1" class="banner-halloween-house-window-pane-stop1" id="stop799" />
-          </radialGradient>
-          <path d="m 204.8,315.5 c 1.8,0.1 3.6,0.1 4.9,0.1 -0.5,-1.9 -1.7,-3.8 -3.3,-4.5 -0.6,-0.3 -1.2,-0.4 -1.8,-0.5 0.1,1.2 0.1,3 0.2,4.9 z" style="fill:url(#SVGID_29_)" id="path802" />
-          <path d="m 203,322.5 v -6.1 l -5.8,-0.2 c -0.6,3.3 2.5,5.7 5.8,6.3 z" style="fill:url(#SVGID_30_)" id="path804" />
-          <path d="m 205.1,322.6 c 2.6,-0.2 4.9,-1.8 4.9,-5.2 0,0 0,0 0,-0.1 0,-0.2 0,-0.5 -0.1,-0.8 l -5.1,-0.1 c 0.1,2.3 0.2,4.6 0.3,6.2 z" style="fill:url(#SVGID_31_)" id="path806" />
-          <path d="m 203,315.5 v -4.9 c -1.8,0.2 -3.4,1.3 -4.5,2.8 -0.4,0.6 -0.8,1.2 -1,1.8 1.2,0.1 3.3,0.2 5.5,0.3 z" style="fill:url(#SVGID_32_)" id="path808" />
+        <radialGradient id="banner-halloween-house-window-gradient">
+          <stop  offset="0" style="stop-color:#B3C691"/>
+          <stop  offset="1" style="stop-color:#8DC39C"/>
+        </radialGradient>
+        <g id="banner-halloween-house-windows" fill="url(#banner-halloween-house-window-gradient)" style="filter: drop-shadow(0px 0px 10px #00a100);">
+          <!--window 1-->
+          <path d="m 158.9,336.2 c -11,-0.9 -21.3,-2 -21.3,-2 0.8,3.3 1.5,8 2,12.7 l 18.8,-0.2 z" />
+          <path d="m 157.4,364.6 0.8,-15.5 -18.4,-0.2 c 0.8,7.9 1.2,15.3 1.2,15.3 3.4,0.1 9.9,0.2 16.4,0.4 z" />
+          <path d="m 177.6,365 1.8,-15.8 -17.7,-0.2 -0.7,15.6 c 8.7,0.3 16.6,0.4 16.6,0.4 z" />
+          <path d="m 162.4,336.5 -0.5,10.2 17.9,-0.2 1,-8.8 c -4.3,-0.1 -11.3,-0.6 -18.4,-1.2 z" />
+          <!--window 2-->
+          <polygon points="197.7,336.9 192.5,337.1 192,349.2 197.4,349.2 " />
+          <polygon points="207.7,336.9 202.6,337.1 202.1,349.2 207.4,349.2 " />
+          <polygon points="211.8,337.1 211.3,349.2 216.7,349.2 217,336.9 " />
+          <!--window 3-->
+          <polygon points="109.8,333.3 109.8,366 116.6,365.6 115.6,333.7 " />
+          <polygon points="105,365.6 104.1,333.7 98.3,333.3 98.3,366 " />
+          <!--window 4-->
+          <path d="m 128.9,290.9 h -10.7 c -0.1,8.9 -2.2,13.3 -2.2,13.3 l 11.8,-0.1 z" />
+          <path d="m 131.9,289 10.2,-0.2 c 0.4,-4.6 0.8,-8.5 0.8,-8.5 L 132,280.1 Z" />
+          <path d="m 131.8,290.9 -0.1,13.2 9.9,-0.1 c -0.4,-1.9 -0.1,-7.7 0.2,-13.1 z" />
+          <path d="m 129.1,289.1 0.8,-9 -12.4,-0.3 c 0.5,3.6 0.7,6.8 0.7,9.5 z" />
+          <!--window 5-->
+          <polygon points="175.4,305.7 175.8,294.8 169.8,295 169.4,305.5 " />
+          <polygon points="170.3,283.6 169.9,293.4 175.9,293.3 176.2,283.6 " />
+          <polygon points="178.2,283.6 177.7,293.3 183.9,293.2 184.5,283.6 " />
+          <polygon points="183.8,294.4 177.6,294.7 177,305.8 183,306.1 " />
+          <!--window 6-->
+          <path d="m 204.8,315.5 c 1.8,0.1 3.6,0.1 4.9,0.1 -0.5,-1.9 -1.7,-3.8 -3.3,-4.5 -0.6,-0.3 -1.2,-0.4 -1.8,-0.5 0.1,1.2 0.1,3 0.2,4.9 z" />
+          <path d="m 203,322.5 v -6.1 l -5.8,-0.2 c -0.6,3.3 2.5,5.7 5.8,6.3 z" />
+          <path d="m 205.1,322.6 c 2.6,-0.2 4.9,-1.8 4.9,-5.2 0,0 0,0 0,-0.1 0,-0.2 0,-0.5 -0.1,-0.8 l -5.1,-0.1 c 0.1,2.3 0.2,4.6 0.3,6.2 z" />
+          <path d="m 203,315.5 v -4.9 c -1.8,0.2 -3.4,1.3 -4.5,2.8 -0.4,0.6 -0.8,1.2 -1,1.8 1.2,0.1 3.3,0.2 5.5,0.3 z" />
         </g>
       </g>
       <linearGradient id="banner-halloween-ground-gradient" gradientUnits="userSpaceOnUse" x1="375" y1="451.8345" x2="375" y2="228.17931" gradientTransform="matrix(2.0773333,0,0,1,-427.09249,0)">
-        <stop offset="0" style="stop-color:#140224" id="stop812" />
-        <stop offset="1" style="stop-color:#5818bd" id="stop814" />
+        <stop offset="0" style="stop-color:#140224" />
+        <stop offset="1" style="stop-color:#5818bd" />
       </linearGradient>
       <path d="m 1033.896,367.2 c -77.89999,5.6 -117.16159,-0.1 -203.16319,1.7 -24.097,0.5 -48.6096,-0.7 -72.4989,0.5 -57.7499,2.9 -118.8235,3.8 -173.0419,10.8 -104.07437,13.4 -154.55357,8.3 -271.09197,3.1 -48.6096,-2.1 -127.1328,-1.3 -175.95013,-2.4 -126.09413,-2.8 -205.24053,9.3 -325.10267,1.8 -74.57626,-4.7 -136.4808,-3.8 -202.74773,-15.7 -12.04853,-2.1 -24.51253,-4.2 -37.392,-6 V 500.1 H 1130.9075 V 364.6 c -33.4451,3 -62.32,0.1 -97.0115,2.6 z" id="banner-halloween-ground" style="fill:url(#banner-halloween-ground-gradient);stroke-width:1.4413" />
-      <g id="banner-halloween-tombstones" style="fill:#240441" transform="translate(401.83223,-17.586078)">
-        <path d="m 511.07106,391.70251 c 0,0 2.7,-37.3 13.3,-38 10.7,-0.7 24,3.3 12.7,37.7 z" id="path818" />
-        <path d="m 473.03033,397.16784 c 0,0 -9.3,-22.6 -3.2,-26.1 6.1,-3.5 15,-5 18.4,18.4 z" id="path820" />
-        <path d="m 261.40415,405.16163 c 0,0 0.1,-24.5 7.1,-25.4 6.9,-0.9 15.8,1.1 9.9,24 z" id="path822" />
-        <path d="m 154.275,403.64299 c 0,0 0.1,-24.5 7.1,-25.4 6.9,-0.9 15.8,1.1 9.9,24 z" id="path824" />
-        <path d="m 414.1,367.5 -0.6,-4.4 2.7,-0.6 -0.4,-2.8 -2.7,0.6 -0.5,-3.5 -3.1,0.5 0.5,3.7 -3.1,0.8 0.8,2.4 2.7,-0.6 0.6,4.4 c -0.2,0.1 -0.5,0.1 -0.7,0.2 -6.6,2.1 -2.3,26.2 -2.3,26.2 l 16.4,-4.4 c 1.4,-19.1 -4.4,-22.9 -10.3,-22.5 z" id="path826" />
+      <g id="banner-halloween-tombstones" fill="#240441" transform="translate(401.83223,-17.586078)">
+        <path d="m 511.07106,391.70251 c 0,0 2.7,-37.3 13.3,-38 10.7,-0.7 24,3.3 12.7,37.7 z" />
+        <path d="m 473.03033,397.16784 c 0,0 -9.3,-22.6 -3.2,-26.1 6.1,-3.5 15,-5 18.4,18.4 z" />
+        <path d="m 261.40415,405.16163 c 0,0 0.1,-24.5 7.1,-25.4 6.9,-0.9 15.8,1.1 9.9,24 z" />
+        <path d="m 154.275,403.64299 c 0,0 0.1,-24.5 7.1,-25.4 6.9,-0.9 15.8,1.1 9.9,24 z" />
+        <path d="m 414.1,367.5 -0.6,-4.4 2.7,-0.6 -0.4,-2.8 -2.7,0.6 -0.5,-3.5 -3.1,0.5 0.5,3.7 -3.1,0.8 0.8,2.4 2.7,-0.6 0.6,4.4 c -0.2,0.1 -0.5,0.1 -0.7,0.2 -6.6,2.1 -2.3,26.2 -2.3,26.2 l 16.4,-4.4 c 1.4,-19.1 -4.4,-22.9 -10.3,-22.5 z" />
       </g>
     </g>
   </svg>

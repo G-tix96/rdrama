@@ -272,17 +272,6 @@
 				<img alt="/h/{{sub}} banner" onclick="expandDesktopImage()" src="{{sub.banner_url}}" width=100% style="object-fit:cover;max-height:min(42vh,30vw)!important">
 			</a>
 		{% elif SITE_NAME == 'rDrama' %}
-			<!--
-			<a href="https://secure.transequality.org/site/Donation2?df_id=1480">
-				{% if v and (v.is_banned or v.agendaposter) %}
-					<img alt="site banner" src="/i/{{SITE_NAME}}/banner2.webp?v=2000" width="100%">
-				{% else %}
-					{% set path = "assets/images/" + SITE_NAME + "/banners" %}
-					{% set image = "/" + path + "/" + listdir('files/' + path)|random() + '?v=25' %}
-					<img alt="site banner" src="{% if v %}{{image}}{% else %}{{'cached.webp' | asset_siteimg}}{% endif %}" width="100%">
-				{% endif %}
-			</a>
-			-->
 			{% include "halloween/banner.html" %}
 		{% else %}
 			{% if SITE_NAME == 'WPD' %}
