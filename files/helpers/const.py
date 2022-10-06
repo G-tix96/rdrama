@@ -130,6 +130,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'POST_COMMENT_MODERATION': 2,
 	'GLOBAL_HOLE_MODERATION': 3,
 	'POST_EDITING': 3,
+	'USER_BADGES': 2,
 	'USER_BAN': 2,
 	'USER_SHADOWBAN': 2,
 	'USER_AGENDAPOSTER': 2,

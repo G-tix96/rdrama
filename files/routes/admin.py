@@ -516,7 +516,7 @@ def under_attack(v):
 		return {"error": "Failed to enable under attack mode."}, 400
 
 @app.get("/admin/badge_grant")
-@admin_level_required(2)
+@admin_level_required(PERMS['USER_BADGES'])
 def badge_grant_get(v):
 	if not FEATURES['BADGES']:
 		abort(404)
@@ -527,7 +527,7 @@ def badge_grant_get(v):
 
 @app.post("/admin/badge_grant")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['USER_BADGES'])
 def badge_grant_post(v):
 	if not FEATURES['BADGES']:
 		abort(404)
@@ -577,7 +577,7 @@ def badge_grant_post(v):
 
 
 @app.get("/admin/badge_remove")
-@admin_level_required(2)
+@admin_level_required(PERMS['USER_BADGES'])
 def badge_remove_get(v):
 	if not FEATURES['BADGES']:
 		abort(404)
@@ -589,7 +589,7 @@ def badge_remove_get(v):
 
 @app.post("/admin/badge_remove")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['USER_BADGES'])
 def badge_remove_post(v):
 	if not FEATURES['BADGES']:
 		abort(404)
