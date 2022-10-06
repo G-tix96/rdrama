@@ -12,7 +12,6 @@
 	<a href="#leaderboard-posts">Posts</a> &bull;
 	<a href="#leaderboard-comments">Comments</a> &bull;
 	<a href="#leaderboard-awards">Awards</a> &bull;
-	<a href="#leaderboard-downvotes">Downvotes</a> &bull;
 	<a href="#leaderboard-badges">Badges</a> &bull;
 	{% if users12 %}<a href="#leaderboard-marseys">Marseys</a> &bull; {% endif %}
 	<a href="#leaderboard-blocked">Blocked</a> &bull;
@@ -232,39 +231,6 @@
 	</tr>
 {% endif %}
 </table>
-
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-downvotes">Top 25 by received downvotes</a></h5>
-
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-	<thead class="bg-primary text-white">
-		<tr>
-			<th>#</th>
-			<th>Name</th>
-			<th>Downvotes</th>
-		</tr>
-	</thead>
-	<tbody>
-	{% for user, num in users9 %}
-		<tr {% if v.id == user.id %}class="self"{% endif %}>
-			<td>{{loop.index}}</td>
-			<td>{% include "user_in_table.html" %}</td>
-			<td>{{"{:,}".format(num)}}</td>
-		</tr>
-	{% endfor %}
-	{% if pos9 and (pos9[0] > 25 or not pos9[1]) %}
-		<tr style="border-top:2px solid var(--primary)">
-			<td>{{pos9[0]}}</td>
-			<td>
-				{% with user=v %}
-					{% include "user_in_table.html" %}
-				{% endwith %}
-			</td>
-		<td>{{"{:,}".format(pos9[1])}}</td>
-		</tr>
-	{% endif %}
-	</tbody>
-</table>
-
 
 <h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-badges">Top 25 by badges</a></h5>
 

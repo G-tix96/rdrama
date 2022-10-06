@@ -556,23 +556,6 @@ def leaderboard(v):
 
 
 
-
-	sq1 = g.db.query(Submission.author_id.label("id"), func.count(Submission.author_id).label("count")).join(Vote, Submission.id == Vote.submission_id).filter_by(vote_type=-1).group_by(Submission.author_id).subquery()
-
-	sq2 = g.db.query(Comment.author_id.label("id"), func.count(Comment.author_id).label("count")).join(CommentVote, Comment.id == CommentVote.comment_id).filter_by(vote_type=-1).group_by(Comment.author_id).subquery()
-
-	users9 = g.db.query(User, (func.coalesce(sq1.c.count, 0) + func.coalesce(sq2.c.count, 0)).label('totalcount')).outerjoin(sq1, User.id==sq1.c.id).outerjoin(sq2, User.id==sq2.c.id).order_by(desc('totalcount'))
-
-
-	sq = g.db.query(User.id, (func.coalesce(sq1.c.count, 0) + func.coalesce(sq2.c.count, 0)).label('totalcount'), func.rank().over(order_by=desc(func.coalesce(sq1.c.count, 0) + func.coalesce(sq2.c.count, 0))).label("rank")).outerjoin(sq1, User.id==sq1.c.id).outerjoin(sq2, User.id==sq2.c.id).order_by(desc('totalcount')).subquery()
-
-	pos9 = g.db.query(sq.c.rank, sq.c.totalcount).join(User, User.id == sq.c.id).filter(sq.c.id == v.id).limit(1).one_or_none()
-
-	if not pos9: pos9 = (users9.count()+1, 0)
-	users9 = users9.limit(25).all()
-
-
-
 	users10 = users.order_by(User.truecoins.desc()).limit(25).all()
 	if v in users10:
 		pos10 = None
@@ -620,8 +603,7 @@ def leaderboard(v):
 
 	return render_template("leaderboard.html", v=v, users1=users1, pos1=pos1, users2=users2, pos2=pos2, 
 		users3=users3, pos3=pos3, users4=users4, pos4=pos4, users5=users5, pos5=pos5, 
-		users7=users7, pos7=pos7, users9=users9, pos9=pos9, 
-		users10=users10, pos10=pos10, users11=users11, pos11=pos11, users12=users12, pos12=pos12, users16=users16, pos16=pos16, users17=users17, pos17=pos17, users18=users18, pos18=pos18)
+		users7=users7, pos7=pos7, users10=users10, pos10=pos10, users11=users11, pos11=pos11, users12=users12, pos12=pos12, users16=users16, pos16=pos16, users17=users17, pos17=pos17, users18=users18, pos18=pos18)
 
 @app.get("/<id>/css")
 def get_css(id):
