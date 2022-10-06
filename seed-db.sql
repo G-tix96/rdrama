@@ -2654,6 +2654,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyzombiewolflove',2,'hug cuddle love marseylove zombiewolf zombie wolf',NULL),
 ('marseyzombiewolfmarseymask',2,'sussy amogus fraud fake phony cope seethe',NULL),
 ('marseyzombiewolftrample',2,'kill murder mascot animated walking animated tramplewolf',NULL),
+('marseyzombiewolfvore',2,'furry furfag food eat yum carp degenerate',1665041705),
 ('marseyzoomer',2,'child brat kid zoomie',NULL),
 ('marseyzwei',2,'drinking germany lederhosen zweirama bavarian beer',NULL),
 ('marsheen',2,'pusheen animated meme cute',NULL),

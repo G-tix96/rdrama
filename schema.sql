@@ -166,7 +166,7 @@ CREATE TABLE public.award_relationships (
     comment_id integer,
     kind character varying(20) NOT NULL,
     awarded_utc integer,
-    created_utc integer,
+    created_utc integer
 );
 
 
@@ -566,7 +566,7 @@ CREATE TABLE public.marseys (
 
 CREATE TABLE public.media (
     kind character varying(5) NOT NULL,
-    filename character varying(23) NOT NULL,
+    filename character varying(55) NOT NULL,
     user_id integer NOT NULL,
     created_utc integer NOT NULL,
     size integer NOT NULL
@@ -2679,3 +2679,4 @@ ALTER TABLE ONLY public.comment_option_votes
 --
 -- PostgreSQL database dump complete
 --
+
