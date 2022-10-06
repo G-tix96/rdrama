@@ -559,7 +559,7 @@ if SITE == 'pcmemes.net':
 		return render_template('live.html', v=v, live=live, offline=offline)
 
 	@app.post('/live/add')
-	@admin_level_required(2)
+	@admin_level_required(PERMS['STREAMERS_MODERATION'])
 	def live_add(v):
 		link = request.values.get('link').strip()
 
@@ -598,7 +598,7 @@ if SITE == 'pcmemes.net':
 		return redirect('/live')
 
 	@app.post('/live/remove')
-	@admin_level_required(2)
+	@admin_level_required(PERMS['STREAMERS_MODERATION'])
 	def live_remove(v):
 		id = request.values.get('id').strip()
 		if not id: abort(400)
