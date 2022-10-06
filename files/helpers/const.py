@@ -140,6 +140,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'BUY_GHOST_AWARD': 2,
 	'LOTTERY_ADMIN': 3,
 	'LOTTERY_VIEW_PARTICIPANTS': 2,
+	'VIEW_MODMAIL': 2,
 }
 
 FEATURES = {

@@ -36,7 +36,7 @@ def unread(v):
 
 
 @app.get("/notifications/modmail")
-@admin_level_required(2)
+@admin_level_required(PERMS['VIEW_MODMAIL'])
 def notifications_modmail(v):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
