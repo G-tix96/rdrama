@@ -10,19 +10,21 @@
 <pre></pre>
 <h3 class="pb-2">Admin Tools</h3>
 
-{% if v.admin_level > 2 and (SITE_NAME == 'rDrama' or SIDEBAR_THREAD or BANNER_THREAD or BADGE_THREAD or SNAPPY_THREAD) %}
+{% if (v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES'] or v.admin_level >= PERMS['SITE_SETTINGS_SNAPPY_QUOTES']) and (SITE_NAME == 'rDrama' or SIDEBAR_THREAD or BANNER_THREAD or BADGE_THREAD or SNAPPY_THREAD) %}
 	<h4>Add Stuff</h4>
 	<ul>
-		{% if SIDEBAR_THREAD %}
-			<li><a href="/post/{{SIDEBAR_THREAD}}">Add Sidebar Images</a></li>
+		{% if v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES'] %}
+			{% if SIDEBAR_THREAD %}
+				<li><a href="/post/{{SIDEBAR_THREAD}}">Add Sidebar Images</a></li>
+			{% endif %}
+			{% if BANNER_THREAD %}
+				<li><a href="/post/{{BANNER_THREAD}}">Add Banners</a></li>
+			{% endif %}
+			{% if BADGE_THREAD %}
+				<li><a href="/post/{{BADGE_THREAD}}">Add Badges</a></li>
+			{% endif %}
 		{% endif %}
-		{% if BANNER_THREAD %}
-			<li><a href="/post/{{BANNER_THREAD}}">Add Banners</a></li>
-		{% endif %}
-		{% if BADGE_THREAD %}
-			<li><a href="/post/{{BADGE_THREAD}}">Add Badges</a></li>
-		{% endif %}
-		{% if SNAPPY_THREAD %}
+		{% if SNAPPY_THREAD and v.admin_level >= PERMS['SITE_SETTINGS_SNAPPY_QUOTES'] %}
 			<li><a href="/post/{{SNAPPY_THREAD}}">Add Snappy Quotes</a></li>
 		{% endif %}
 		{% if SITE_NAME == 'rDrama' %}
@@ -35,16 +37,22 @@
 <h4>Content</h4>
 <ul>
 	<li><a href="/log">Moderation Log</a></li>
-	<li><a href="/admin/image_posts">Image Posts</a></li>
-	<li><a href="/admin/reported/posts">Reported Posts/Comments</a></li>
-	<li><a href="/admin/removed/posts">Removed Posts/Comments</a></li>
+	{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+		<li><a href="/admin/image_posts">Image Posts</a></li>
+		<li><a href="/admin/reported/posts">Reported Posts/Comments</a></li>
+		<li><a href="/admin/removed/posts">Removed Posts/Comments</a></li>
+	{% endif %}
 </ul>
 
 <h4>Users</h4>
 <ul>
-	<li><a href="/admin/users">Users Feed</a></li>
-	<li><a href="/admin/shadowbanned">Shadowbanned Users</a></li>
-	<li><a href="/banned">Permabanned Users</a></li>
+	{% if v.admin_level >= PERMS['VIEW_ALL_USERS'] %}
+		<li><a href="/admin/users">Users Feed</a></li>
+	{% endif %}
+	{% if v.admin_level >= PERMS['USER_SHADOWBAN'] %}
+		<li><a href="/admin/shadowbanned">Shadowbanned Users</a></li>
+	{% endif %}
+		<li><a href="/banned">Permabanned Users</a></li>
 	{% if FEATURES['AWARDS'] -%}
 		<li><a href="/agendaposters">Users with Chud Theme</a></li>
 		<li><a href="/grassed">Currently Grassed Users</a></li>
@@ -52,8 +60,10 @@
 	{% if FEATURES['PROCOINS'] and (not AEVANN_ID or v.id in (AEVANN_ID, CARP_ID, SNAKES_ID)) -%}
 		<li><a href="/patrons">Patrons</a></li>
 	{%- endif %}
-	<li><a href="/admin/loggedin">Currently Logged-in Users</a></li>
-	<li><a href="/admin/loggedout">Currently Logged-out Users</a></li>
+	{% if v.admin_level >= PERMS['VIEW_ACTIVE_USERS'] %}
+		<li><a href="/admin/loggedin">Currently Logged-in Users</a></li>
+		<li><a href="/admin/loggedout">Currently Logged-out Users</a></li>
+	{% endif %}
 </ul>
 
 <h4>Safety</h4>
@@ -65,7 +75,7 @@
 {% if FEATURES['BADGES'] or FEATURES['AWARDS'] -%}
 <h4>Grant</h4>
 <ul>
-	{% if FEATURES['BADGES'] -%}
+	{% if FEATURES['BADGES'] and v.admin_level >= PERMS['USER_BADGES'] -%}
 		<li><a href="/admin/badge_grant">Grant Badges</a></li>
 		<li><a href="/admin/badge_remove">Remove Badges</a></li>
 	{%- endif %}
@@ -89,11 +99,15 @@
 
 <h4>Configuration</h4>
 <ul>
-	<li><a href="/create_hole">Create {{ HOLE_NAME | capitalize }}</a></li>
-	<li><a href="/admin/apps">Apps</a></li>
+	{% if v.admin_level >= PERMS['HOLE_CREATE'] %}
+		<li><a href="/create_hole">Create {{ HOLE_NAME | capitalize }}</a></li>
+	{% endif %}
+	{% if v.admin_level >= PERMS['APPS_MODERATE'] %}
+		<li><a href="/admin/apps">Apps</a></li>
+	{% endif %}
 </ul>
 
-{% if v.admin_level > 2 %}
+{% if v.admin_level >= PERMS['SITE_SETTINGS'] %}
 	<pre></pre>
 	<div class="custom-control custom-switch">
 		<input autocomplete="off" type="checkbox" class="custom-control-input" id="signups" {% if site_settings['Signups'] %}checked{% endif %} onchange="post_toast(this,'/admin/site_settings/Signups');">
@@ -119,15 +133,16 @@
 		<input autocomplete="off" type="checkbox" class="custom-control-input" id="Read-only mode" {% if site_settings['Read-only mode'] %}checked{% endif %} onchange="post_toast(this,'/admin/site_settings/Read-only mode');">
 		<label class="custom-control-label" for="Read-only mode">Read-only mode</label>
 	</div>
-
-	<div class="custom-control custom-switch">
-		<input autocomplete="off" type="checkbox" class="custom-control-input" id="under_attack" name="under_attack" {% if under_attack%}checked{% endif %} onchange="post_toast(this,'/admin/under_attack');">
-		<label class="custom-control-label" for="under_attack">Under attack mode</label>
-	</div>
+	{% if v.admin_level >= PERMS['SITE_SETTINGS_UNDER_ATTACK'] %}
+		<div class="custom-control custom-switch">
+			<input autocomplete="off" type="checkbox" class="custom-control-input" id="under_attack" name="under_attack" {% if under_attack%}checked{% endif %} onchange="post_toast(this,'/admin/under_attack');">
+			<label class="custom-control-label" for="under_attack">Under attack mode</label>
+		</div>
+	{% endif %}
 
 	<button class="btn btn-primary mt-3" onclick="post_toast(this,'/admin/purge_cache');" style="margin-bottom: 2em;">PURGE CACHE</button>
 	<br>
-	{% if SITE_NAME == 'PCM' %}
+	{% if SITE_NAME == 'PCM' and v.admin_level >= PERMS['PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES'] %}
 		<button class="btn btn-primary" onclick="post_toast(this,'/kippy');" style="margin-bottom: 2em;">Print 10k Marseybux</button>
 	{% endif %}
 {% endif %}
