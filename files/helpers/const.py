@@ -150,6 +150,8 @@ PERMS = { # Minimum admin_level to perform action.
 	'LOTTERY_ADMIN': 3,
 	'LOTTERY_VIEW_PARTICIPANTS': 2,
 	'VIEW_MODMAIL': 2,
+	'VIEW_CLUB': 1,
+	'VIEW_CHUDRAMA': 1,
 	'PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES': 3,
 	'VIEW_ACTIVE_USERS': 2,
 	'MERGE_USERS': 3, # note: extra check for Aevann

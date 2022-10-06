@@ -414,9 +414,10 @@ class User(Base):
 	@property
 	@lazy
 	def paid_dues(self):
-		if not FEATURES['COUNTRY_CLUB']:
-			return True
-		return not self.shadowbanned and not (self.is_banned and not self.unban_utc) and (self.admin_level or self.club_allowed or (self.club_allowed != False and self.truecoins >= dues))
+		if not FEATURES['COUNTRY_CLUB']: return True
+		if self.shadowbanned: return False
+		if self.is_suspended_permanently: return False
+		return self.admin_level >= PERMS['VIEW_CLUB'] or self.club_allowed or (self.club_allowed != False and self.truecoins >= dues)
 
 	@lazy
 	def any_block_exists(self, other):
@@ -926,7 +927,7 @@ class User(Base):
 	@property
 	@lazy
 	def can_see_chudrama(self):
-		if self.admin_level: return True
+		if self.admin_level >= PERMS['VIEW_CHUDRAMA']: return True
 		if self.client: return True
 		if self.truecoins >= 5000: return True
 		if self.agendaposter: return True
