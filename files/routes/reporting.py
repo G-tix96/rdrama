@@ -30,7 +30,7 @@ def flag_post(pid, v):
 
 	if len(reason) > 350: return {"error": "Too long."}, 400
 
-	if reason.startswith('!') and (v.admin_level > 1 or post.sub and v.mods(post.sub)):
+	if reason.startswith('!') and (v.admin_level > PERMS['POST_COMMENT_MODERATION'] or post.sub and v.mods(post.sub)):
 		post.flair = reason[1:]
 		g.db.add(post)
 		if v.admin_level > 1:
@@ -51,7 +51,7 @@ def flag_post(pid, v):
 			)
 			g.db.add(ma)
 
-	elif reason.startswith('/h/') and (v.admin_level >= 2 or v.id == post.author_id or (reason == '/h/chudrama' and v.mods(post.sub))):
+	elif reason.startswith('/h/') and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == post.author_id or (reason == '/h/chudrama' and v.mods(post.sub))):
 
 		sub_from = post.sub
 		sub_to = reason[3:].strip().lower()

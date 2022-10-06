@@ -1141,14 +1141,14 @@ def u_username_comments(username, v=None):
 					Comment.parent_submission != None
 				)
 
-	if not v or (v.id != u.id and v.admin_level < 2):
+	if not v or (v.id != u.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']):
 		comments = comments.filter(
 			Comment.is_banned == False,
 			Comment.ghost == False,
 			comment_post_author.shadowbanned == None
 		)
 
-	if not (v and v.admin_level > 1):
+	if not (v and v.admin_level > PERMS['POST_COMMENT_MODERATION']):
 		comments = comments.filter(Comment.deleted_utc == 0)
 
 	comments = apply_time_filter(t, comments, Comment)
