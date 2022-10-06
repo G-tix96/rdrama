@@ -156,7 +156,7 @@ def comment(v):
 		parent_comment_id = None
 		level = 1
 
-		if POLL_THREAD and parent.id == POLL_THREAD and v.admin_level < 2: abort(403)
+		if POLL_THREAD and parent.id == POLL_THREAD and v.admin_level < PERMS['POST_TO_POLL_THREAD']: abort(403)
 	elif parent_fullname.startswith("c_"):
 		parent = get_comment(parent_fullname.split("_")[1], v=v)
 		parent_comment_id = parent.id
@@ -196,7 +196,7 @@ def comment(v):
 				file.save(oldname)
 				image = process_image(oldname)
 				if image == "": return {"error":"Image upload failed"}, 400
-				if v.admin_level > 2 and level == 1:
+				if v.admin_level > PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES'] and level == 1:
 					if parent_post.id == SIDEBAR_THREAD:
 						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/sidebar'),
 							key=lambda e: int(e.split('.webp')[0]))[-1]
@@ -239,7 +239,7 @@ def comment(v):
 
 	body = body.strip()
 	
-	if v.admin_level > 2 and parent_post.id == SNAPPY_THREAD and level == 1:
+	if v.admin_level > PERMS['SITE_SETTINGS_SNAPPY_QUOTES'] and parent_post.id == SNAPPY_THREAD and level == 1:
 		with open(f"snappy_{SITE_NAME}.txt", "a", encoding="utf-8") as f:
 			f.write('\n{[para]}\n' + body)
 

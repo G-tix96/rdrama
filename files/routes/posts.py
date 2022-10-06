@@ -842,7 +842,7 @@ def submit_post(v, sub=None):
 	if len(url) > 2048:
 		return error("There's a 2048 character limit for URLs.")
 
-	if v and v.admin_level > 2:
+	if v and v.admin_level > PERMS['POST_BETS']:
 		bets = []
 		for i in bet_regex.finditer(body):
 			bets.append(i.group(1))
@@ -929,7 +929,7 @@ def submit_post(v, sub=None):
 		)
 		g.db.add(choice)
 
-	if v and v.admin_level > 2:
+	if v and v.admin_level > PERMS['POST_BETS']:
 		for bet in bets:
 			bet = SubmissionOption(
 				submission_id=post.id,
