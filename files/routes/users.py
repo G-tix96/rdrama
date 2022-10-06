@@ -554,24 +554,35 @@ def leaderboard(v):
 		sq = g.db.query(User.id, func.rank().over(order_by=User.coins_spent.desc()).label("rank")).subquery()
 		pos7 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
 
-	votes1 = db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote).filter(Vote.vote_type==-1).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
-	votes2 = db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(CommentVote.vote_type==-1).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
-	votes3 = Counter(dict(votes1)) + Counter(dict(votes2))
-	users8 = db.query(User.id).filter(User.id.in_(votes3.keys())).all()
-	users9 = []
-	for user in users8:
-		users9.append((user.id, votes3[user.id]))
-	if not users9: users9 = [(None,None)]
-	users9 = sorted(users9, key=lambda x: x[1], reverse=True)
-	users9_1, users9_2 = zip(*users9[:25])
+	# Received Downvotes
+	dv_stmt = text("""
+		SELECT
+			u.id,
+			(coalesce(cv.count, 0) + coalesce(pv.count, 0)) as downvotes
+		FROM
+			users u
+		LEFT OUTER JOIN
+			(SELECT c.author_id, COUNT(*) FROM commentvotes v
+				JOIN comments c ON v.comment_id = c.id WHERE v.vote_type = -1
+				GROUP BY c.author_id) AS cv
+			ON cv.author_id = u.id
+		LEFT OUTER JOIN
+			(SELECT p.author_id, COUNT(*) FROM votes v
+				JOIN submissions p ON v.submission_id = p.id WHERE v.vote_type = -1
+				GROUP BY p.author_id) AS pv
+			ON pv.author_id = u.id
+		ORDER BY downvotes DESC;
+	""")
+	dv_result = g.db.execute(dv_stmt).fetchall() or [(None,None)]
+	users9_1, users9_2 = zip(*dv_result[:25])
 
 	users9_accs = g.db.query(User).filter(User.id.in_(users9_1)).all()
 	users9_accs = sorted(users9_accs, key=lambda x: users9_1.index(x.id))
 	users9_accs = zip(users9_accs, users9_2)
 	try:
-		pos9 = [x[0] for x in users9].index(v.id)
-		pos9 = (pos9+1, users9[pos9][1])
-	except: pos9 = (len(users9)+1, 0)
+		pos9 = [x[0] for x in dv_result].index(v.id)
+		pos9 = (pos9+1, dv_result[pos9][1])
+	except: pos9 = (len(dv_result)+1, 0)
 
 	users10 = users.order_by(User.truecoins.desc()).limit(25).all()
 	if v in users10:
