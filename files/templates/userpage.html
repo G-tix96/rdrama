@@ -218,16 +218,14 @@
 
 						<a class="btn btn-primary" role="button" onclick="post_toast(this,'/settings/block?username={{u.username}}',true)">Block</a>
 
-						{% if v.admin_level > 2 %}
-							{% if SITE != 'rdrama.net' %}
+						{% if v.admin_level >= PERMS['ADMIN_ADD'] and SITE != 'rdrama.net' and not u.admin_level %}
 								<a id="admin" class="{% if u.admin_level > 1 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/make_admin','admin','unadmin','d-none')">Make admin</a>
-							{% endif %}
-
+						{% endif %}
+						{% if v.admin_level >= PERMS['ADMIN_REMOVE'] and u.admin_level %}
 							<a id="unadmin" class="{% if u.admin_level < 2 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/remove_admin','admin','unadmin','d-none')">Remove admin</a>
 
-							{% if u.admin_level > 1 %}
-								<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/revert_actions')">Revert admin actions</a>
-							{% endif %}
+						{% if u.admin_level >= PERMS['ADMIN_ACTIONS_REVERT'] %}
+							<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/revert_actions')">Revert admin actions</a>
 						{% endif %}
 						</div>
 
@@ -340,7 +338,7 @@
 								
 						<pre></pre>
 						<pre></pre>
-
+					{% if v and v.admin_level >= PERMS['USER_AGENDAPOSTER'] %}
 						<form id="agendaposter1" class="{% if u.agendaposter %}d-none{% endif %}" action="/agendaposter/{{u.id}}" method="post">
 							<input type="hidden" name="formkey", value="{{v.formkey}}">
 							<input autocomplete="off" type="number" step="any" name="days" class="form-control" placeholder="Days (0 or blank = permanent)">
@@ -349,7 +347,7 @@
 						<pre></pre>
 
 						<a id="unagendaposter" class="{% if not u.agendaposter %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/unagendaposter/{{u.id}}','agendaposter1','unagendaposter','d-none')">Disable Chud Theme</a>
-
+					{% endif %}
 						<pre></pre>
 
 						<a id="mute-user" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/1','mute-user','unmute-user','d-none')">Mute</a>
@@ -358,6 +356,7 @@
 
 
 						<pre></pre>
+					{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 						<form action="/admin/unnuke_user" method="post">
 							<input type="hidden" name="formkey", value="{{v.formkey}}">
 							<input type="hidden" name="user" value="{{u.username}}">
@@ -369,6 +368,8 @@
 							<input type="hidden" name="user" value="{{u.username}}">
 							<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Remove User's Content">
 						</form>
+					{% endif %}
+					{% if v and v.admin_level >= PERMS['USER_CLUB_ALLOW_BAN'] %}
 						<pre></pre>
 						{% if FEATURES['COUNTRY_CLUB'] -%}
 						<button id="grant2" class="{% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="post_toast(this,'/@{{u.username}}/club_allow','grant2','bar2','d-none')">Grant club access</button>
@@ -376,6 +377,7 @@
 						{%- endif %}
 
 						{% endif %}
+					{% endif %}
 					<pre></pre>
 					<div id="profile--info">
 						<p id="profile--info--id">User ID: {{u.id}}</p>
@@ -591,16 +593,16 @@
 
 					<a class="btn btn-primary" role="button" onclick="post_toast(this,'/settings/block?username={{u.username}}',true)">Block</a>
 
-					{% if v.admin_level > 2 %}
-						{% if SITE != 'rdrama.net' %}
-							<a id="admin2" class="{% if u.admin_level > 1 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/make_admin','admin2','unadmin2','d-none')">Make admin</a>
-						{% endif %}
+					{% if v.admin_level >= PERMS['ADMIN_ADD'] and SITE != 'rdrama.net' and not u.admin_level %}
+						<a id="admin2" class="{% if u.admin_level > 1 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/make_admin','admin2','unadmin2','d-none')">Make admin</a>
+					{% endif %}
 
+					{% if v.admin_level >= PERMS['ADMIN_REMOVE'] and u.admin_level %}
 						<a id="unadmin2" class="{% if u.admin_level < 2 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/remove_admin','admin2','unadmin2','d-none')">Remove admin</a>
+					{% endif %}
 
-						{% if u.admin_level > 1 %}
-							<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/revert_actions')">Revert admin actions</a>
-						{% endif %}
+					{% if u.admin_level >= PERMS['ADMIN_ACTIONS_REVERT'] %}
+						<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/revert_actions')">Revert admin actions</a>
 					{% endif %}
 
 					<form class="d-none toggleable" id='message-mobile' action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
@@ -637,7 +639,7 @@
 
 					{% if v.admin_level > 1 %}
 
-					{% if FEATURES['COUNTRY_CLUB'] -%}
+					{% if FEATURES['COUNTRY_CLUB'] and v.admin_level >= PERMS['USER_CLUB_ALLOW_BAN'] -%}
 					<button id="grant" class="{% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="post_toast(this,'/@{{u.username}}/club_allow','grant','bar','d-none')">Grant club access</button>
 					<button id="bar" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="post_toast(this,'/@{{u.username}}/club_ban','grant','bar','d-none')">Bar from club</button>
 					{%- endif %}
