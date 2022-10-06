@@ -638,7 +638,7 @@
 						<button class="btn btn-primary mt-2 mb-3" onclick="transferBux(true)">Gift</button>
 					</div>
 
-					{% if v and v.admin_level >= PERMS['ADMIN_HOME_VISIBLE'] %}
+					{% if v and v.admin_level >= PERMS['USER_MODERATION_TOOLS_VISIBLE'] %}
 
 						{% if FEATURES['COUNTRY_CLUB'] and v.admin_level >= PERMS['USER_CLUB_ALLOW_BAN'] -%}
 							<button id="grant" class="{% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="post_toast(this,'/@{{u.username}}/club_allow','grant','bar','d-none')">Grant club access</button>

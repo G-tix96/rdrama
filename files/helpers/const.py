@@ -137,7 +137,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'USER_VOTERS_VISIBLE': 0,
 	'POST_COMMENT_MODERATION': 2,
 	'POST_COMMENT_DISTINGUISH': 1,
-	'POST_COMMENT_MODERATION_TOOLS_VISIBLE': 2,
+	'POST_COMMENT_MODERATION_TOOLS_VISIBLE': 2, # note: does not affect API at all
 	'POST_EDITING': 3,
 	'USER_BADGES': 2,
 	'USER_BAN': 2,
@@ -147,6 +147,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'USER_LINK': 2,
 	'USER_MERGE': 3, # note: extra check for Aevann
 	'USER_TITLE_CHANGE': 2,
+	'USER_MODERATION_TOOLS_VISIBLE': 2, # note: does not affect API at all
 	'POST_TO_CHANGELOG': 1, # note: code contributors can also post to changelog
 	'POST_TO_POLL_THREAD': 2,
 	'POST_BETS': 3,
