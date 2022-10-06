@@ -137,6 +137,10 @@ PERMS = { # Minimum admin_level to perform action.
 	'BYPASS_PIN_LIMIT': 3,
 	'VIEW_PENDING_SUBMITTED_MARSEYS': 3,
 	'VIEW_PENDING_SUBMITTED_HATS': 3,
+	'MODERATE_PENDING_SUBMITTED_MARSEYS': 3, # note: there is an extra check so that only """carp""" can approve them
+	'MODERATE_PENDING_SUBMITTED_HATS': 3, # note: there is an extra check so that only """carp""" can approve them
+	'UPDATE_MARSEYS': 3, # note: extra check is here for 4 different users
+	'UPDATE_HATS': 3, # note: extra check is here for 4 different users
 	'BUY_GHOST_AWARD': 2,
 	'LOTTERY_ADMIN': 3,
 	'LOTTERY_VIEW_PARTICIPANTS': 2,

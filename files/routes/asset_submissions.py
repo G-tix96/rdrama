@@ -92,7 +92,7 @@ def submit_marsey(v):
 
 
 @app.post("/admin/approve/marsey/<name>")
-@admin_level_required(3)
+@admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_MARSEYS'])
 def approve_marsey(v, name):
 	if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, SNAKES_ID):
 		return {"error": "Only Carp can approve marseys!"}, 403
@@ -251,7 +251,7 @@ def submit_hat(v):
 
 
 @app.post("/admin/approve/hat/<name>")
-@admin_level_required(3)
+@admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_HATS'])
 def approve_hat(v, name):
 	if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, SNAKES_ID):
 		return {"error": "Only Carp can approve hats!"}, 403
@@ -345,7 +345,7 @@ def remove_hat(v, name):
 
 
 @app.get("/admin/update/marseys")
-@admin_level_required(3)
+@admin_level_required(PERMS['UPDATE_MARSEYS'])
 def update_marseys(v):
 	if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, GEESE_ID, SNAKES_ID):
 		abort(403)
@@ -354,7 +354,7 @@ def update_marseys(v):
 
 
 @app.post("/admin/update/marseys")
-@admin_level_required(3)
+@admin_level_required(PERMS['UPDATE_MARSEYS'])
 def update_marsey(v):
 	if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, GEESE_ID, SNAKES_ID):
 		abort(403)
@@ -408,7 +408,7 @@ def update_marsey(v):
 
 
 @app.get("/admin/update/hats")
-@admin_level_required(3)
+@admin_level_required(PERMS['UPDATE_HATS'])
 def update_hats(v):
 	if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, GEESE_ID, SNAKES_ID):
 		abort(403)
@@ -417,7 +417,7 @@ def update_hats(v):
 
 
 @app.post("/admin/update/hats")
-@admin_level_required(3)
+@admin_level_required(PERMS['UPDATE_HATS'])
 def update_hat(v):
 	if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, GEESE_ID, SNAKES_ID):
 		abort(403)
