@@ -422,7 +422,7 @@ def reported_comments(v):
 def admin_home(v):
 	under_attack = False
 
-	if v.admin_level > 2:
+	if v.admin_level >= PERMS['SITE_SETTINGS_UNDER_ATTACK']:
 		if CF_ZONE == 'blahblahblah': response = 'high'
 		else: response = requests.get(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, timeout=5).json()['result']['value']
 		under_attack = response == 'under_attack'
