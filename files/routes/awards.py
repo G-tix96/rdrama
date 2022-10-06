@@ -212,7 +212,7 @@ def award_thing(v, thing_type, id):
 			author.unban_utc += 86400
 			send_repeatable_notification(author.id, f"Your account has been banned for **yet another day** for {link}. Seriously man?")
 
-		if v.admin_level > 2:
+		if v.admin_level >= PERMS['USER_BAN']:
 			log_link = f'/{thing_type}/{thing.id}'
 			reason = f'<a href="{log_link}">{log_link}</a>'
 
@@ -236,7 +236,7 @@ def award_thing(v, thing_type, id):
 			author.ban_reason = None
 			send_repeatable_notification(author.id, "You have been unbanned!")
 
-		if v.admin_level > 2:
+		if v.admin_level >= PERMS['USER_BAN']:
 			ma=ModAction(
 				kind="unban_user",
 				user_id=v.id,

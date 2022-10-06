@@ -366,7 +366,7 @@ def kick(v, pid):
 	old = post.sub
 	post.sub = None
 	
-	if v.admin_level >= 3 and v.id != post.author_id:
+	if v.admin_level >= PERMS['GLOBAL_MODERATION'] and v.id != post.author_id:
 		old_str = f'<a href="/h/{old}">/h/{old}</a>'
 		ma = ModAction(
 			kind='move_hole',
@@ -385,7 +385,7 @@ def kick(v, pid):
 		g.db.add(ma)
 
 	if v.id != post.author_id:
-		if v.admin_level >= 3: position = 'Admin'
+		if v.admin_level >= PERMS['GLOBAL_MODERATION']: position = 'Admin'
 		else: position = 'Mod'
 		message = f"@{v.username} ({position}) has moved [{post.title}]({post.shortlink}) from /h/{old} to the main feed!"
 		send_repeatable_notification(post.author_id, message)

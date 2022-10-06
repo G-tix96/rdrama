@@ -988,7 +988,7 @@ def admin_title_change(user_id, v):
 
 @app.post("/ban_user/<user_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['USER_BAN'])
 def ban_user(user_id, v):
 	user = get_account(user_id)
 
@@ -1051,7 +1051,7 @@ def ban_user(user_id, v):
 
 @app.post("/unban_user/<user_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['USER_BAN'])
 def unban_user(user_id, v):
 	user = get_account(user_id)
 	if not user.is_banned:
@@ -1082,7 +1082,7 @@ def unban_user(user_id, v):
 
 @app.post("/mute_user/<int:user_id>/<int:mute_status>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['USER_BAN'])
 def mute_user(v, user_id, mute_status):
 	user = get_account(user_id)
 
@@ -1442,7 +1442,7 @@ def admin_toggle_ban_domain(v):
 
 @app.post("/admin/nuke_user")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_nuke_user(v):
 
 	user=get_user(request.values.get("user"))
@@ -1475,7 +1475,7 @@ def admin_nuke_user(v):
 
 @app.post("/admin/unnuke_user")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(2)
+@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_nunuke_user(v):
 
 	user=get_user(request.values.get("user"))

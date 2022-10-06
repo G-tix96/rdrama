@@ -33,7 +33,7 @@ def flag_post(pid, v):
 	if reason.startswith('!') and (v.admin_level > PERMS['POST_COMMENT_MODERATION'] or post.sub and v.mods(post.sub)):
 		post.flair = reason[1:]
 		g.db.add(post)
-		if v.admin_level > 1:
+		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma=ModAction(
 				kind="flair_post",
 				user_id=v.id,

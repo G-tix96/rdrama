@@ -418,7 +418,7 @@
 {% if v %}
 	{% include "delete_post_modal.html" %}
 	{% include "report_post_modal.html" %}
-	{% if v.admin_level > 1 %}
+	{% if v.admin_level >= PERMS['USER_BAN'] %}
 		{% include "ban_modal.html" %}
 	{% endif %}
 {% endif %}

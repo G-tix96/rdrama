@@ -755,7 +755,7 @@
 	{% if v %}
 		{% include "gif_modal.html" %}
 		{% include "emoji_modal.html" %}
-		{% if v.admin_level > 1 %}
+		{% if v.admin_level >= PERMS['USER_BAN'] %}
 			{% include "ban_modal.html" %}
 		{% endif %}
 
