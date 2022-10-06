@@ -47,6 +47,12 @@ def process_audio(file):
 	return f'{SITE_FULL}{name}'
 
 
+def webm_to_mp4(old, new):
+	subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", new, "-threads:v", "1"], check=True, stderr=subprocess.STDOUT)
+	os.remove(old)
+	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
+		data=f'{{"files": ["{SITE_FULL}{new}"]}}', timeout=5)
+
 def process_video(file):
 	old = f'/videos/{time.time()}'.replace('.','')
 	file.save(old)
@@ -61,8 +67,14 @@ def process_video(file):
 		extension = 'mp4'
 	new = old + '.' + extension
 
-	subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
-	os.remove(old)
+	if extension == 'webm':
+		new = new.replace('.webm', '.mp4')
+		file.save(new)
+		gevent.spawn(webm_to_mp4, old, new)
+	else:
+		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
+		os.remove(old)
+
 	return f'{SITE_FULL}{new}'
 
 
