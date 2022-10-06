@@ -39,11 +39,10 @@ def process_audio(file):
 
 	file.save(name)
 
-	if os.stat(name).st_size > 8 * 1024 * 1024:
-		with open(name, 'rb') as f:
-			os.remove(name)
-			req = requests.post("https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=20).json()
-		return req['files'][0]['url']
+	size = os.stat(name).st_size
+	if size > 16 * 1024 * 1024 or not g.v.patron and size > 8 * 1024 * 1024:
+		os.remove(name)
+		abort(413)
 
 	return f'{SITE_FULL}{name}'
 
@@ -52,6 +51,11 @@ def process_video(file):
 	old = f'/videos/{time.time()}'.replace('.','')
 	file.save(old)
 
+	size = os.stat(old).st_size
+	if SITE_NAME != 'WPD' and (size > 32 * 1024 * 1024 or not g.v.patron and size > 64 * 1024 * 1024):
+		os.remove(old)
+		abort(414)
+
 	extension = file.filename.split('.')[-1].lower()
 	if extension not in ['avi', 'mp4', 'webm', 'm4v', 'mov', 'mkv']:
 		extension = 'mp4'
@@ -59,11 +63,6 @@ def process_video(file):
 
 	subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
 	os.remove(old)
-	if os.stat(new).st_size > 8 * 1024 * 1024:
-		with open(new, 'rb') as f:
-			os.remove(new)
-			req = requests.post("https://pomf2.lain.la/upload.php", files={'files[]': f}, timeout=20).json()
-		return req['files'][0]['url']
 	return f'{SITE_FULL}{new}'
 
 
@@ -71,7 +70,7 @@ def process_video(file):
 def process_image(filename=None, resize=0, trim=False):
 	size = os.stat(filename).st_size
 
-	if size > 16 * 1024 * 1024 or not patron and size > 8 * 1024 * 1024:
+	if size > 16 * 1024 * 1024 or not g.v.patron and size > 8 * 1024 * 1024:
 		os.remove(filename)
 		abort(413)
 
