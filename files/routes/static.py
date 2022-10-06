@@ -516,7 +516,7 @@ if SITE == 'pcmemes.net':
 				actual = f'{quantity} {unit}'
 				if quantity > 1: actual += 's'
 			else:
-				minutes = 0
+				minutes = 99999999
 				actual = '???'
 				views = 0
 
