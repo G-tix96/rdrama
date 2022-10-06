@@ -562,6 +562,19 @@ CREATE TABLE public.marseys (
 
 
 --
+-- Name: media; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.media (
+    kind character varying(5) NOT NULL,
+    filename character varying(23) NOT NULL,
+    user_id integer NOT NULL,
+    created_utc integer NOT NULL,
+    size integer NOT NULL
+);
+
+
+--
 -- Name: modactions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1317,6 +1330,14 @@ ALTER TABLE ONLY public.lotteries
 
 ALTER TABLE ONLY public.marseys
     ADD CONSTRAINT marseys_pkey PRIMARY KEY (name);
+
+
+--
+-- Name: media media_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.media
+    ADD CONSTRAINT media_pkey PRIMARY KEY (kind, filename);
 
 
 --
@@ -2350,6 +2371,14 @@ ALTER TABLE ONLY public.marseys
 
 ALTER TABLE ONLY public.marseys
     ADD CONSTRAINT marsey_submitter_fkey FOREIGN KEY (submitter_id) REFERENCES public.users(id);
+
+
+--
+-- Name: media media_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.media
+    ADD CONSTRAINT media_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
