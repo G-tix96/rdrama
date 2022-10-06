@@ -946,3 +946,16 @@ class User(Base):
 			return False
 
 		return True
+
+	@property
+	@lazy
+	def user_name(self):
+		if self.earlylife:
+			expiry = int(self.earlylife - time.time())
+			if expiry > 86400:
+				name = self.username
+				for i in range(int(expiry / 86400 + 1)):
+					name = f'((({name})))'
+				return name
+			return f'((({self.username})))'
+		return self.username

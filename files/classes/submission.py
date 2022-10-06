@@ -204,15 +204,7 @@ class Submission(Base):
 	@lazy
 	def author_name(self):
 		if self.ghost: return '👻'
-		if self.author.earlylife:
-			expiry = int(self.author.earlylife - time.time())
-			if expiry > 86400:
-				name = self.author.username
-				for i in range(int(expiry / 86400 + 1)):
-					name = f'((({name})))'
-				return name
-			return f'((({self.author.username})))'
-		return self.author.username
+		return self.author.user_name
 
 	@property
 	@lazy
