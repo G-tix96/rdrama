@@ -70,8 +70,7 @@ def publish(pid, v):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
 
-	if (v.admin_level > 0 or v.has_badge(3)) and post.sub == 'changelog':
-		send_changelog_message(post.permalink)
+	send_changelog_message(post.permalink)
 
 	if SITE == 'watchpeopledie.co':
 		send_wpd_message(post.permalink)
@@ -681,7 +680,11 @@ def submit_post(v, sub=None):
 	sub = request.values.get("sub", "").lower().replace('/h/','').strip()
 
 	if sub == 'changelog':
-		allowed = g.db.query(User.id).filter(User.admin_level > 0).all() + g.db.query(Badge.user_id).filter_by(badge_id=3).all()
+		allowed = []
+		if v.admin_level >= PERMS['POST_TO_CHANGELOG']:
+			allowed.append(v.id)
+		if v.id not in allowed: # only query for badges if doesn't have permissions (this is a bit weird tbh)
+			allowed = g.db.query(Badge.user_id).filter_by(badge_id=3).all()
 		allowed = [x[0] for x in allowed]
 		if v.id not in allowed: return error(f"You don't have sufficient permissions to post in /h/changelog")
 
@@ -1030,7 +1033,7 @@ def submit_post(v, sub=None):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
 
-	if (v.admin_level > 0 or v.has_badge(3)) and post.sub == 'changelog' and not post.private:
+	if post.sub == 'changelog' and not post.private:
 		send_changelog_message(post.permalink)
 
 	if not post.private and SITE == 'watchpeopledie.co':
