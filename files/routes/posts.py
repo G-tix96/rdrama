@@ -378,7 +378,7 @@ def edit_post(pid, v):
 
 	body = sanitize_raw_body(request.values.get("body", ""))
 
-	if v.id != p.author_id and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
+	if v.id != p.author_id and v.admin_level < 3:
 		abort(403)
 
 	if v.id == p.author_id:
