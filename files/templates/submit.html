@@ -44,17 +44,6 @@
 			<link rel="stylesheet" href="{{'css/main.css' | asset}}">
 			<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
 		{% endif %}
-
-		{% if v.earlylife %}
-			<style>
-				.nav-item .text-small.font-weight-bold::before {
-					content: "((("
-				}
-				.nav-item .text-small.font-weight-bold::after {
-					content: ")))"
-				}
-			</style>
-		{% endif %}
 	{% endblock %}
 </head>
 
