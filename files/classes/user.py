@@ -453,14 +453,14 @@ class User(Base):
 	@cache.memoize(timeout=86400)
 	def userpagelisting(self, site=None, v=None, page=1, sort="new", t="all"):
 
-		if self.shadowbanned and not (v and (v.admin_level > 1 or v.id == self.id)): return []
+		if self.shadowbanned and not (v and (v.admin_level >= PERMS['USER_SHADOWBAN'] or v.id == self.id)): return []
 
 		posts = g.db.query(Submission.id).filter_by(author_id=self.id, is_pinned=False)
 
-		if not (v and (v.admin_level > 1 or v.id == self.id)):
+		if not (v and (v.admin_level > PERMS['POST_COMMENT_MODERATION'] or v.id == self.id)):
 			posts = posts.filter_by(is_banned=False, private=False, ghost=False)
 
-		if not (v and v.admin_level > 1):
+		if not (v and v.admin_level > PERMS['POST_COMMENT_MODERATION']):
 			posts = posts.filter_by(deleted_utc=0)
 
 		posts = apply_time_filter(t, posts, Submission)
@@ -592,7 +592,7 @@ class User(Base):
 			Notification.user_id == self.id, Notification.read == False, 
 			Comment.is_banned == False, Comment.deleted_utc == 0)
 		
-		if not self.shadowbanned and self.admin_level < 3:
+		if not self.shadowbanned and self.admin_level < PERMS['USER_SHADOWBAN']:
 			notifs = notifs.join(Comment.author).filter(User.shadowbanned == None)
 		
 		return notifs.count() + self.post_notifications_count + self.modaction_notifications_count
@@ -617,7 +617,7 @@ class User(Base):
 					Comment.parent_submission == None,
 				)
 
-		if not self.shadowbanned and self.admin_level < 3:
+		if not self.shadowbanned and self.admin_level < PERMS['USER_SHADOWBAN']:
 			notifs = notifs.join(Comment.author).filter(User.shadowbanned == None)
 
 		return notifs.count()
@@ -774,8 +774,8 @@ class User(Base):
 				'bannerurl': self.banner_url,
 				'bio_html': self.bio_html_eager,
 				'coins': self.coins,
-				'post_count': 0 if self.shadowbanned and not (v and (v.shadowbanned or v.admin_level >= 2)) else self.post_count,
-				'comment_count': 0 if self.shadowbanned and not (v and (v.shadowbanned or v.admin_level >= 2)) else self.comment_count,
+				'post_count': 0 if self.shadowbanned and not (v and (v.shadowbanned or v.admin_level >= PERMS['USER_SHADOWBAN'])) else self.post_count,
+				'comment_count': 0 if self.shadowbanned and not (v and (v.shadowbanned or v.admin_level >= PERMS['USER_SHADOWBAN'])) else self.comment_count,
 				'badges': [x.path for x in self.badges],
 				}
 
