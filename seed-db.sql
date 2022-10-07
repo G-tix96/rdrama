@@ -268,25 +268,22 @@ INSERT INTO public.hat_defs VALUES (779, 'nemean lion hood', 'Like a true roman,
 INSERT INTO public.hat_defs VALUES (780, 'Winged Hussar', 'To battle with wings on your head!', 2, 500, NULL, 1664731432);
 INSERT INTO public.hat_defs VALUES (786, 'Ricks hair', 'Wubba lubba dub dub', 2, 500, NULL, 1664930047);
 INSERT INTO public.hat_defs VALUES (781, 'BTC', 'Only wear this if you''re worth billions.', 2, 500, NULL, 1664750970);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+INSERT INTO public.hat_defs VALUES (803, 'BERSERKER HELM', 'BERSERKER HELM', 2, 500, NULL, 1665088512);
+INSERT INTO public.hat_defs VALUES (790, 'LGBTUSSR Officer Hat 2', 'Be fascist and GAYYY!', 2, 1000, NULL, 1664994701);
+INSERT INTO public.hat_defs VALUES (793, 'Pornhub', 'We all know why you bought this...', 2, 500, NULL, 1664995981);
+INSERT INTO public.hat_defs VALUES (795, 'Ass Eater', 'Good announcement, now show us eating yours.', 2, 500, NULL, 1664996448);
+INSERT INTO public.hat_defs VALUES (796, 'Pinhead Mask', 'Your mask is a bit... small.-Happy Halloween!', 2, 500, NULL, 1664997385);
+INSERT INTO public.hat_defs VALUES (801, 'Ramen', 'Eatin'' ramen, watchin'' ramen, bein'' ramen', 2, 500, NULL, 1665000479);
+INSERT INTO public.hat_defs VALUES (804, 'TF2 Stacked', 'Why wear one hat when you can wear 3!-momomo', 2, 500, NULL, 1665102373);
+INSERT INTO public.hat_defs VALUES (806, 'Lotus', 'Now you look and smell pretty like a lotus!-sarah', 2, 500, NULL, 1665103737);
+INSERT INTO public.hat_defs VALUES (797, 'Happy Halloween', '🦇 a spooopy title for you 🎃', 2, 500, NULL, 1664998497);
+INSERT INTO public.hat_defs VALUES (798, 'BOO', '👻 floating little baby ghosties …… BOO!', 2, 500, NULL, 1664998569);
+INSERT INTO public.hat_defs VALUES (799, 'Boobies', 'sorry no, not those kind of boobies', 2, 500, NULL, 1664998710);
+INSERT INTO public.hat_defs VALUES (800, 'Peekaboo', 'this little guy will watch over you, just remember to feed him!', 2, 500, NULL, 1664998845);
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO OOO', 2, 500, NULL, 1664595865);
 INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
+INSERT INTO public.hat_defs VALUES (807, 'The Capy', 'You''re the chosen one! No one can hurt you!', 2, 500, NULL, 1665104052);
 INSERT INTO public.hat_defs VALUES (92, 'Top Hat (black)', 'Traditional. Classy. Elegant.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (714, 'Captain Falcon', 'The chad that every smash player wanted to imitate, if only his moveset included a shower.', 2, 500, NULL, 1663474615);
 INSERT INTO public.hat_defs VALUES (715, 'Inspector Gadget', '"Go go Gadget Brown Bricks!"', 2, 500, NULL, 1663477536);
@@ -294,6 +291,11 @@ INSERT INTO public.hat_defs VALUES (724, 'Spartan Helmet', 'THIS IS SPARTA!', 2,
 INSERT INTO public.hat_defs VALUES (751, 'Butter', 'Southern-fried and full of love.', 2, 500, NULL, 1664595886);
 INSERT INTO public.hat_defs VALUES (754, 'Crusader helmet', 'RETAKE THE HOLY LAND!', 2, 500, NULL, 1664595954);
 INSERT INTO public.hat_defs VALUES (766, 'book', 'i can read! heheh', 2, 500, NULL, 1664645746);
+INSERT INTO public.hat_defs VALUES (787, 'Turban', 'Turban with Bindi Dot (Namaste)', 2, 500, NULL, 1664980060);
+INSERT INTO public.hat_defs VALUES (788, 'LGBTUSSR Officer Hat', 'Rule with an iron fist... And use that iron fist for more than ruling ;)', 2, 1000, NULL, 1664994148);
+INSERT INTO public.hat_defs VALUES (808, 'The Capy 2', 'The drippiest and pimpiest capybara out there.', 2, 500, NULL, 1665104484);
+
+
 INSERT INTO public.hat_defs VALUES (676, 'Kepi', 'Army cap for those unlucky enough to be French', 2, 500, NULL, 1663303083);
 INSERT INTO public.hat_defs VALUES (678, 'Turkroach', 'Come on Carp this one''s hilarious. It''s semi transparent to clarify', 2, 500, NULL, 1663305640);
 INSERT INTO public.hat_defs VALUES (679, 'Judge Dredd', 'THIS USER IS THE LAW', 2, 500, NULL, 1663309533);
@@ -939,7 +941,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 803, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 810, true);
 
 
 --
@@ -996,6 +998,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyamazon',2,'warehouse piss bottle driver wagecuck piss jug pissbottle pissjug wagie',NULL),
 ('marseyamber',2,'dalle2 generated',NULL),
 ('marseyamogus',2,'sussy baka impostor imposter stonetoss among us shh vent',NULL),
+('marseyanalvore',2,'anal vore soy shock carp goatse',1665109289),
 ('marseyandjesus',2,'christianity christian jesus god love cute wholesome happy hug',NULL),
 ('marseyandmarcus',2,'bed sleeping cuddling cuddle marseyismywaifu',NULL),
 ('marseyangel',2,'reaction angelic happy innocent',NULL),
@@ -1203,8 +1206,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycapitalistmanlet',2,'money top hat rich landlord cigar llm tophat',NULL),
 ('marseycapy',2,'capybara rodent aevann happy cute',NULL),
 ('marseycapy2022',2,'aevann caypbara new year party celebration',NULL),
-('marseycapyautism',2,'capy aevann autism hat patient capybara',1665095792),
-('marseycapyautismchad',2,'capy aevann autism hat patient capybara chad gigachad',1665098772),
+('marseycapyautism',2,'capy aevann autism hat patient capybara administrator jannie janitor',1665095792),
+('marseycapyautismchad',2,'capy aevann autism hat patient administrator moderator jannie capybara chad gigachad',1665098772),
 ('marseycapybigbrain',2,'capybara aevann smart codecel brain',NULL),
 ('marseycapyblackface',2,'racist minstrelsy bowtie racism capybara aevann',NULL),
 ('marseycapyblowkiss',2,'capybara rodent aevann happy cute love',NULL),
