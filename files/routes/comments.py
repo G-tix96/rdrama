@@ -164,6 +164,7 @@ def comment(v):
 		if parent.author_id == v.id: rts = True
 	else: abort(400)
 	
+	if not parent.can_see(v): abort(404)
 	if parent.deleted_utc != 0: abort(404)
 
 	body = request.values.get("body", "").strip().replace('‎','')
