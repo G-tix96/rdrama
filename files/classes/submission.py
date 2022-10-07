@@ -204,15 +204,7 @@ class Submission(Base):
 	@lazy
 	def author_name(self):
 		if self.ghost: return '👻'
-		if self.author.earlylife:
-			expiry = int(self.author.earlylife - time.time())
-			if expiry > 86400:
-				name = self.author.username
-				for i in range(int(expiry / 86400 + 1)):
-					name = f'((({name})))'
-				return name
-			return f'((({self.author.username})))'
-		return self.author.username
+		return self.author.user_name
 
 	@property
 	@lazy
@@ -334,6 +326,8 @@ class Submission(Base):
 	@lazy
 	def realbody(self, v, listing=False):
 		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"<p>{CC} ONLY</p>"
+		if self.deleted_utc != 0 and not (v and (v.admin_level >= 2 or v.id == self.author.id)): return "[Deleted by user]"
+		if self.is_banned and not (v and v.admin_level >= 2): return "[Removed by admins]"
 
 		body = self.body_html or ""
 
@@ -364,12 +358,12 @@ class Submission(Base):
 			if o.exclusive > 1:
 				body += f'''<div class="custom-control mt-2"><input name="option-{self.id}" autocomplete="off" class="custom-control-input bet" type="radio" id="{o.id}" onchange="bet_vote('{o.id}','{self.id}')"'''
 				if o.voted(v): body += " checked "
-				if not (v and v.coins >= 200) or self.total_bet_voted(v): body += " disabled "
+				if not (v and v.coins >= POLL_BET_COINS) or self.total_bet_voted(v): body += " disabled "
 
 				body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
 				body += f'"> - <a href="/votes/post/option/{o.id}"><span id="option-{o.id}">{o.upvotes}</span> bets</a>'
 				if not self.total_bet_voted(v):
-					body += '''<span class="cost"> (cost of entry: 200 coins)</span>'''
+					body += f'''<span class="cost"> (cost of entry: {POLL_BET_COINS} coins)</span>'''
 				body += "</label>"
 
 				if o.exclusive == 3:
@@ -401,13 +395,15 @@ class Submission(Base):
 
 	@lazy
 	def plainbody(self, v):
+		if self.deleted_utc != 0 and not (v and (v.admin_level >= 2 or v.id == self.author.id)): return "[Deleted by user]"
+		if self.is_banned and not (v and v.admin_level >= 2): return "[Removed by admins]"
 		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"<p>{CC} ONLY</p>"
 
 		body = self.body
 
 		if not body: return ""
 
-		body = censor_slurs(body, v)
+		body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
 
 		body = normalize_urls_runtime(body, v)
 		return body
@@ -432,7 +428,7 @@ class Submission(Base):
 			else: return f'{CC} MEMBERS ONLY'
 		else: title = self.title
 
-		title = censor_slurs(title, v)
+		title = censor_slurs(title, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
 
 		return title
 

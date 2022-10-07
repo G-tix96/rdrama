@@ -65,11 +65,6 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.185.tgz#c9843f5a40703a8f5edfd53358a58ae729816908"
   integrity sha512-evMDG1bC4rgQg4ku9tKpuMh5iBNEwNa3tf9zRHdP1qlv+1WUg44xat4IxCE14gIpZRGUUWAx2VhItCZc25NfMA==
 
-"@types/lozad@^1.16.1":
-  version "1.16.1"
-  resolved "https://registry.yarnpkg.com/@types/lozad/-/lozad-1.16.1.tgz#fc06f73bfd787a456b0e12a9d83a954b56431400"
-  integrity sha512-wmGW368y1zu9ark/7fMNHdZ/c3wGV7fxoEqtK+V3Dsv2QGQQp34D9elDowuW12zZwxjO9NkNUorqg+D9j1VRGQ==
-
 "@types/prop-types@*":
   version "15.7.5"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
@@ -430,11 +425,6 @@ loose-envify@^1.1.0:
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
-
-lozad@^1.16.0:
-  version "1.16.0"
-  resolved "https://registry.yarnpkg.com/lozad/-/lozad-1.16.0.tgz#86ce732c64c69926ccdebb81c8c90bb3735948b4"
-  integrity sha512-JBr9WjvEFeKoyim3svo/gsQPTkgG/mOHJmDctZ/+U9H3ymUuvEkqpn8bdQMFsvTMcyRJrdJkLv0bXqGm0sP72w==
 
 "memoize-one@>=3.1.1 <6":
   version "5.2.1"

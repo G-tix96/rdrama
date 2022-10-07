@@ -27,9 +27,7 @@
 		{% if v %}
 			<style>:root{--primary:#{{v.themecolor}}}</style>
 			<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-			<!--<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">-->
-			<link rel="stylesheet" href="{{'css/midnight.css' | asset}}">
-			<link rel="stylesheet" href="{{'css/halloween/spooky.css' | asset}}">
+			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
 			{% if v.agendaposter %}
 				<style>
 					html {
@@ -45,17 +43,6 @@
 			<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
 			<link rel="stylesheet" href="{{'css/main.css' | asset}}">
 			<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
-		{% endif %}
-
-		{% if v.earlylife %}
-			<style>
-				.nav-item .text-small.font-weight-bold::before {
-					content: "((("
-				}
-				.nav-item .text-small.font-weight-bold::after {
-					content: ")))"
-				}
-			</style>
 		{% endif %}
 	{% endblock %}
 </head>

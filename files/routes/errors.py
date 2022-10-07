@@ -59,6 +59,12 @@ def error_413(e):
 		return {"error": "Max image/audio size is 8 MB (16 MB for paypigs)"}, 413
 	else: return render_template('errors/413.html', err=True), 413
 
+@app.errorhandler(414)
+def error_414(e):
+	if request.headers.get("Authorization") or request.headers.get("xhr"):
+		return {"error": "Max video size is 32 MB (64 MB for paypigs)"}, 414
+	else: return render_template('errors/414.html', err=True), 414
+
 @app.errorhandler(415)
 def error_415(e):
 	if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": "Please upload only Image, Video, or Audio files!"}, 415

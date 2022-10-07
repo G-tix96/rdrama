@@ -8,10 +8,6 @@ from files.helpers.assetcache import assetcache_path
 
 @app.template_filter("post_embed")
 def post_embed(id, v):
-
-	try: id = int(id)
-	except: return None
-	
 	p = get_post(id, v, graceful=True)
 	
 	if p: return render_template("submission_listing.html", listing=[p], v=v)
@@ -72,4 +68,12 @@ def inject_constants():
 			"CASINO_ENABLED":CASINO_ENABLED, "GUMROAD_LINK":GUMROAD_LINK,
 			"DEFAULT_THEME":DEFAULT_THEME, "DESCRIPTION":DESCRIPTION,
 			"has_sidebar":has_sidebar, "has_logo":has_logo, "has_app":has_app,
-			"FP":FP, "NOTIF_MODACTION_JL_MIN":NOTIF_MODACTION_JL_MIN, "cache":cache, "ONLINE_STR":ONLINE_STR, "patron":patron, "approved_embed_hosts":approved_embed_hosts, "dues":dues, "SIDEBAR_THREAD":SIDEBAR_THREAD, "BANNER_THREAD":BANNER_THREAD, "BADGE_THREAD":BADGE_THREAD, "SNAPPY_THREAD":SNAPPY_THREAD, "KOFI_TOKEN":KOFI_TOKEN, "KOFI_LINK":KOFI_LINK}
+			"FP":FP, "NOTIF_MODACTION_JL_MIN":NOTIF_MODACTION_JL_MIN, "cache":cache,
+			"ONLINE_STR":ONLINE_STR, "patron":patron, "dues":dues,
+			"SIDEBAR_THREAD":SIDEBAR_THREAD, "BANNER_THREAD":BANNER_THREAD,
+			"BADGE_THREAD":BADGE_THREAD, "SNAPPY_THREAD":SNAPPY_THREAD,
+			"KOFI_TOKEN":KOFI_TOKEN, "KOFI_LINK":KOFI_LINK,
+			"approved_embed_hosts":approved_embed_hosts,
+			"site_settings":app.config['SETTINGS'],
+			"MAIL_USERNAME":app.config['MAIL_USERNAME'],
+			}

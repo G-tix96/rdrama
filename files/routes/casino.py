@@ -4,11 +4,11 @@ from files.helpers.alerts import *
 from files.helpers.get import *
 from files.helpers.const import *
 from files.helpers.wrappers import *
-from files.helpers.slots import *
-from files.helpers.lottery import *
 from files.helpers.casino import *
+from files.helpers.slots import *
 from files.helpers.twentyone import *
 from files.helpers.roulette import *
+from files.helpers.lottery import *
 
 
 @app.get("/casino")
@@ -27,16 +27,24 @@ def casino(v):
 def casino_game_page(v, game):
     if v.rehab:
         return render_template("casino/rehab.html", v=v)
+    if game not in CASINO_GAME_KINDS:
+        abort(404)
 
     feed = json.dumps(get_game_feed(game))
     leaderboard = json.dumps(get_game_leaderboard(game))
+
+    game_state = ''
+    if game == 'blackjack':
+        if get_active_twentyone_game(v):
+            game_state = json.dumps(get_active_twentyone_game_state(v))
 
     return render_template(
         f"casino/{game}_screen.html",
         v=v,
         game=game,
         feed=feed,
-        leaderboard=leaderboard
+        leaderboard=leaderboard,
+        game_state=game_state
     )
 
 
@@ -46,6 +54,8 @@ def casino_game_page(v, game):
 def casino_game_feed(v, game):
     if v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
+    if game not in CASINO_GAME_KINDS:
+        abort(404)
 
     feed = get_game_feed(game)
     return {"feed": feed}

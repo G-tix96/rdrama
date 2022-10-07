@@ -163,6 +163,8 @@ def comment(v):
 		level = parent.level + 1
 		if parent.author_id == v.id: rts = True
 	else: abort(400)
+	
+	if parent.deleted_utc != 0: abort(404)
 
 	body = request.values.get("body", "").strip().replace('‎','')
 
@@ -192,7 +194,7 @@ def comment(v):
 			if file.content_type.startswith('image/'):
 				oldname = f'/images/{time.time()}'.replace('.','') + '.webp'
 				file.save(oldname)
-				image = process_image(oldname)
+				image = process_image(oldname, patron=v.patron)
 				if image == "": return {"error":"Image upload failed"}, 400
 				if v.admin_level > 2 and level == 1:
 					if parent_post.id == SIDEBAR_THREAD:
@@ -327,6 +329,7 @@ def comment(v):
 
 	if blackjack and any(i in c.body.lower() for i in blackjack.split()):
 		v.shadowbanned = 'AutoJanny'
+		if not v.is_banned: v.ban_reason = 'Blackjack'
 		notif = Notification(comment_id=c.id, user_id=CARP_ID)
 		g.db.add(notif)
 
@@ -562,6 +565,7 @@ def comment(v):
 	if v.id == PIZZASHILL_ID:
 		for uid in PIZZA_VOTERS:
 			autovote = CommentVote(user_id=uid, comment_id=c.id, vote_type=1)
+			autovote.created_utc += 1
 			g.db.add(autovote)
 		v.coins += 3
 		v.truecoins += 3
@@ -691,6 +695,7 @@ def edit_comment(cid, v):
 
 		if blackjack and any(i in c.body.lower() for i in blackjack.split()):
 			v.shadowbanned = 'AutoJanny'
+			if not v.is_banned: v.ban_reason = 'Blackjack'
 			g.db.add(v)
 			notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=CARP_ID).one_or_none()
 			if not notif:
@@ -817,45 +822,6 @@ def unpin_comment(cid, v):
 	return {"message": "Comment unpinned!"}
 
 
-@app.post("/mod_pin/<cid>")
-@auth_required
-def mod_pin(cid, v):
-	if not FEATURES['PINS']:
-		abort(403)
-	comment = get_comment(cid, v=v)
-	
-	if not comment.stickied:
-		if not (comment.post.sub and v.mods(comment.post.sub)): abort(403)
-		
-		comment.stickied = v.username + " (Mod)"
-
-		g.db.add(comment)
-
-		if v.id != comment.author_id:
-			message = f"@{v.username} (Mod) has pinned your [comment]({comment.shortlink})!"
-			send_repeatable_notification(comment.author_id, message)
-
-	return {"message": "Comment pinned!"}
-	
-
-@app.post("/mod_unpin/<cid>")
-@auth_required
-def mod_unpin(cid, v):
-	
-	comment = get_comment(cid, v=v)
-	
-	if comment.stickied:
-		if not (comment.post.sub and v.mods(comment.post.sub)): abort(403)
-
-		comment.stickied = None
-		g.db.add(comment)
-
-		if v.id != comment.author_id:
-			message = f"@{v.username} (Mod) has unpinned your [comment]({comment.shortlink})!"
-			send_repeatable_notification(comment.author_id, message)
-	return {"message": "Comment unpinned!"}
-
-
 @app.post("/save_comment/<cid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
@@ -941,3 +907,38 @@ def handle_wordle_action(cid, v):
 		g.db.add(comment)
 	
 	return {"response" : comment.wordle_html(v)}
+
+
+@app.post("/toggle_comment_nsfw/<cid>")
+@auth_required
+def toggle_comment_nsfw(cid, v):
+	comment = get_comment(cid)
+
+	if comment.author_id != v.id and not v.admin_level > 1 and not (comment.post.sub and v.mods(comment.post.sub)):
+		abort(403)
+		
+	if comment.over_18 and v.is_suspended_permanently:
+		abort(403)
+
+	comment.over_18 = not comment.over_18
+	g.db.add(comment)
+
+	if comment.author_id != v.id:
+		if v.admin_level > 2:
+			ma = ModAction(
+					kind = "set_nsfw_comment" if comment.over_18 else "unset_nsfw_comment",
+					user_id = v.id,
+					target_comment_id = comment.id,
+				)
+			g.db.add(ma)
+		else:
+			ma = SubAction(
+					sub = comment.post.sub,
+					kind = "set_nsfw_comment" if comment.over_18 else "unset_nsfw_comment",
+					user_id = v.id,
+					target_comment_id = comment.id,
+				)
+			g.db.add(ma)
+
+	if comment.over_18: return {"message": "Comment has been marked as +18!"}
+	else: return {"message": "Comment has been unmarked as +18!"}

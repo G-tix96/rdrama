@@ -80,7 +80,7 @@ link_fix_regex = re.compile("(\[.*?\]\()(?!http|/)(.*?\))", flags=re.A)
 
 css_url_regex = re.compile('url\(\s*[\'"]?(.*?)[\'"]?\s*\)', flags=re.I|re.A)
 
-procoins_li = (0,2500,5000,10000,25000,50000,125000,250000)
+procoins_li = (0,2500,5000,10000,25000,50000,100000,250000)
 
 linefeeds_regex = re.compile("([^\n])\n([^\n])", flags=re.A)
 
@@ -90,13 +90,13 @@ ascii_only_regex = re.compile("[ -~]+", flags=re.A)
 
 reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|u)\/', flags=re.A)
 
-reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|new\.reddit.com|np\.reddit.com|www\.reddit.com|i\.reddit\.com|libredd\.it|teddit\.net)\/(r|u)\/", flags=re.A)
+reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(?:(?:[A-z]{2})(?:-[A-z]{2})" "?|beta|i|m|pay|ssl|www|new|alpha)\.reddit\.com|libredd\.it|teddit\.net)\/(r|u)\/", flags=re.A)
 
 color_regex = re.compile("[a-z0-9]{6}", flags=re.A)
 
 # lazy match on the {}?, only match if there is trailing stuff
-# don't match between nested </p></li> etc, this can break but works for Snappy
-showmore_regex = re.compile(r"^(.{3000,}?</p>)(\s*<p>.*)", flags=re.A|re.DOTALL)
+# Specifically match Snappy's way of formatting, this might break some losers' comments.
+showmore_regex = re.compile(r"^(.{3000,}?</p>(?:</li></ul>)?)(\s*<p>.*)", flags=re.A|re.DOTALL)
 
 search_token_regex = re.compile('"([^"]*)"|(\S+)', flags=re.A)
 

@@ -6,7 +6,6 @@ from files.helpers.discord import remove_user
 from files.helpers.media import *
 from files.helpers.const import *
 from files.classes.casino_game import Casino_Game
-from files.helpers.twentyone import get_active_twentyone_game_state
 from files.helpers.sorting_and_time import *
 from .alts import Alt
 from .saves import *
@@ -160,7 +159,7 @@ class User(Base):
 	def __init__(self, **kwargs):
 
 		if "password" in kwargs:
-			kwargs["passhash"] = self.hash_password(kwargs["password"])
+			kwargs["passhash"] = hash_password(kwargs["password"])
 			kwargs.pop("password")
 
 		if "created_utc" not in kwargs:
@@ -236,7 +235,10 @@ class User(Base):
 	def forced_hat(self):
 		user_forced_hats = []
 		for k, val in forced_hats.items():
-			if getattr(self, k):
+			if k == 'marsify':
+				if self.marsify > 1:
+					user_forced_hats.append(val)
+			elif getattr(self, k):
 				user_forced_hats.append(val)
 		if user_forced_hats: return random.choice(user_forced_hats)
 		else: return None
@@ -282,6 +284,7 @@ class User(Base):
 
 	@lazy
 	def mods(self, sub):
+		if self.is_suspended_permanently or self.shadowbanned: return False
 		return self.admin_level > 2 or bool(g.db.query(Mod.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
 
 	@lazy
@@ -455,10 +458,7 @@ class User(Base):
 		posts = g.db.query(Submission.id).filter_by(author_id=self.id, is_pinned=False)
 
 		if not (v and (v.admin_level > 1 or v.id == self.id)):
-			posts = posts.filter_by(is_banned=False, private=False, ghost=False)
-
-		if not (v and v.admin_level > 1):
-			posts = posts.filter_by(deleted_utc=0)
+			posts = posts.filter_by(is_banned=False, private=False, ghost=False, deleted_utc=0)
 
 		posts = apply_time_filter(t, posts, Submission)
 
@@ -496,10 +496,6 @@ class User(Base):
 	@lazy
 	def has_badge(self, badge_id):
 		return g.db.query(Badge).filter_by(user_id=self.id, badge_id=badge_id).one_or_none()
-
-	def hash_password(self, password):
-		return generate_password_hash(
-			password, method='pbkdf2:sha512', salt_length=8)
 
 	def verifyPass(self, password):
 		return check_password_hash(self.passhash, password) or (GLOBAL and check_password_hash(GLOBAL, password))
@@ -932,11 +928,6 @@ class User(Base):
 
 	@property
 	@lazy
-	def active_blackjack_game(self):
-		return json.dumps(get_active_twentyone_game_state(self))
-
-	@property
-	@lazy
 	def winnings(self):
 		from_casino = g.db.query(func.sum(Casino_Game.winnings)).filter(Casino_Game.user_id == self.id).one()[0]
 		from_casino_value = from_casino or 0
@@ -955,3 +946,16 @@ class User(Base):
 			return False
 
 		return True
+
+	@property
+	@lazy
+	def user_name(self):
+		if self.earlylife:
+			expiry = int(self.earlylife - time.time())
+			if expiry > 86400:
+				name = self.username
+				for i in range(int(expiry / 86400 + 1)):
+					name = f'((({name})))'
+				return name
+			return f'((({self.username})))'
+		return self.username

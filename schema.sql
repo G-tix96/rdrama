@@ -166,8 +166,7 @@ CREATE TABLE public.award_relationships (
     comment_id integer,
     kind character varying(20) NOT NULL,
     awarded_utc integer,
-    created_utc integer,
-    granted_by integer
+    created_utc integer
 );
 
 
@@ -391,7 +390,8 @@ CREATE TABLE public.comments (
     slots_result character varying(36),
     blackjack_result character varying(860),
     treasure_amount character varying(10),
-    wordle_result character varying(115)
+    wordle_result character varying(115),
+    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('english'::regconfig, (body)::text)) STORED
 );
 
 
@@ -557,6 +557,19 @@ CREATE TABLE public.marseys (
     count integer DEFAULT 0 NOT NULL,
     submitter_id integer,
     created_utc integer
+);
+
+
+--
+-- Name: media; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.media (
+    kind character varying(5) NOT NULL,
+    filename character varying(55) NOT NULL,
+    user_id integer NOT NULL,
+    created_utc integer NOT NULL,
+    size integer NOT NULL
 );
 
 
@@ -748,6 +761,43 @@ CREATE TABLE public.sub_subscriptions (
     sub character varying(25) NOT NULL,
     created_utc integer
 );
+
+
+--
+-- Name: subactions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.subactions (
+    id integer NOT NULL,
+    sub character varying(25) NOT NULL,
+    user_id integer,
+    target_user_id integer,
+    target_submission_id integer,
+    target_comment_id integer,
+    created_utc integer NOT NULL,
+    kind character varying(32) DEFAULT NULL::character varying,
+    _note character varying(500) DEFAULT NULL::character varying
+);
+
+
+--
+-- Name: subactions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.subactions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: subactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.subactions_id_seq OWNED BY public.subactions.id;
 
 
 --
@@ -1077,6 +1127,13 @@ ALTER TABLE ONLY public.oauth_apps ALTER COLUMN id SET DEFAULT nextval('public.o
 
 
 --
+-- Name: subactions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subactions ALTER COLUMN id SET DEFAULT nextval('public.subactions_id_seq'::regclass);
+
+
+--
 -- Name: submissions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1275,6 +1332,14 @@ ALTER TABLE ONLY public.marseys
 
 
 --
+-- Name: media media_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.media
+    ADD CONSTRAINT media_pkey PRIMARY KEY (kind, filename);
+
+
+--
 -- Name: modactions modactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1376,6 +1441,14 @@ ALTER TABLE ONLY public.sub_joins
 
 ALTER TABLE ONLY public.sub_subscriptions
     ADD CONSTRAINT sub_subscriptions_pkey PRIMARY KEY (user_id, sub);
+
+
+--
+-- Name: subactions subactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subactions
+    ADD CONSTRAINT subactions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1569,6 +1642,13 @@ CREATE INDEX comment_post_id_index ON public.comments USING btree (parent_submis
 
 
 --
+-- Name: comments_body_ts_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comments_body_ts_idx ON public.comments USING gin (body_ts);
+
+
+--
 -- Name: comments_user_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1678,6 +1758,13 @@ CREATE INDEX fki_sub_joins_sub_fkey ON public.sub_joins USING btree (sub);
 --
 
 CREATE INDEX fki_sub_subscriptions_sub_fkey ON public.sub_subscriptions USING btree (sub);
+
+
+--
+-- Name: fki_subactions_user_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_subactions_user_fkey ON public.subactions USING btree (target_user_id);
 
 
 --
@@ -2014,14 +2101,6 @@ ALTER TABLE ONLY public.award_relationships
 
 
 --
--- Name: award_relationships award_granted_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.award_relationships
-    ADD CONSTRAINT award_granted_by_fkey FOREIGN KEY (granted_by) REFERENCES public.users(id);
-
-
---
 -- Name: award_relationships award_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2286,6 +2365,14 @@ ALTER TABLE ONLY public.marseys
 
 
 --
+-- Name: media media_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.media
+    ADD CONSTRAINT media_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: mods mod_sub_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2427,6 +2514,38 @@ ALTER TABLE ONLY public.sub_subscriptions
 
 ALTER TABLE ONLY public.sub_subscriptions
     ADD CONSTRAINT sub_subscriptions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
+
+
+--
+-- Name: subactions subactions_comment_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subactions
+    ADD CONSTRAINT subactions_comment_fkey FOREIGN KEY (target_comment_id) REFERENCES public.comments(id);
+
+
+--
+-- Name: subactions subactions_sub_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subactions
+    ADD CONSTRAINT subactions_sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name);
+
+
+--
+-- Name: subactions subactions_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subactions
+    ADD CONSTRAINT subactions_submission_fkey FOREIGN KEY (target_submission_id) REFERENCES public.submissions(id);
+
+
+--
+-- Name: subactions subactions_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subactions
+    ADD CONSTRAINT subactions_user_fkey FOREIGN KEY (target_user_id) REFERENCES public.users(id);
 
 
 --

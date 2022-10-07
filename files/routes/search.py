@@ -14,11 +14,10 @@ valid_params = [
 	'author',
 	'domain',
 	'over18',
-	"post",
-	"before",
-	"after",
-	"title",
-	"exact",
+	'post',
+	'before',
+	'after',
+	'title',
 	search_operator_hole,
 ]
 
@@ -71,8 +70,7 @@ def searchposts(v):
 
 	if 'author' in criteria:
 		posts = posts.filter(Submission.ghost == False)
-		author = get_user(criteria['author'])
-		if not author: return {"error": "User not found"}, 400
+		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
 		if author.is_private and author.id != v.id and v.admin_level < 2 and not v.eye:
 			if request.headers.get("Authorization"):
 				return {"error": f"@{author.username}'s profile is private; You can't use the 'author' syntax on them"}, 400
@@ -91,14 +89,7 @@ def searchposts(v):
 								)
 		else: posts = posts.filter(Submission.author_id == author.id)
 
-	if 'exact' in criteria and 'full_text' in criteria:
-		regex_str = '[[:<:]]'+criteria['full_text']+'[[:>:]]' # https://docs.oracle.com/cd/E17952_01/mysql-5.5-en/regexp.html "word boundaries"
-		if 'title' in criteria:
-			words = [Submission.title.regexp_match(regex_str)]
-		else:
-			words = [or_(Submission.title.regexp_match(regex_str), Submission.body.regexp_match(regex_str))]
-		posts = posts.filter(*words)
-	elif 'q' in criteria:
+	if 'q' in criteria:
 		if('title' in criteria):
 			words = [or_(Submission.title.ilike('%'+x+'%')) \
 					for x in criteria['q']]
@@ -184,8 +175,6 @@ def searchposts(v):
 @app.get("/search/comments")
 @auth_required
 def searchcomments(v):
-
-
 	query = request.values.get("q", '').strip()
 
 	try: page = max(1, int(request.values.get("page", 1)))
@@ -208,8 +197,7 @@ def searchcomments(v):
 
 	if 'author' in criteria:
 		comments = comments.filter(Comment.ghost == False)
-		author = get_user(criteria['author'])
-		if not author: return {"error": "User not found"}, 400
+		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
 		if author.is_private and author.id != v.id and v.admin_level < 2 and not v.eye:
 			if request.headers.get("Authorization"):
 				return {"error": f"@{author.username}'s profile is private; You can't use the 'author' syntax on them"}, 400
@@ -218,14 +206,12 @@ def searchcomments(v):
 
 		else: comments = comments.filter(Comment.author_id == author.id)
 
-	if 'exact' in criteria and 'full_text' in criteria:
-		regex_str = '[[:<:]]'+criteria['full_text']+'[[:>:]]' # https://docs.oracle.com/cd/E17952_01/mysql-5.5-en/regexp.html "word boundaries"
-		words = [Comment.body.regexp_match(regex_str)]
-		comments = comments.filter(*words)
-	elif 'q' in criteria:
-		words = [or_(Comment.body.ilike('%'+x+'%')) \
-				for x in criteria['q']]
-		comments = comments.filter(*words)
+	if 'q' in criteria:
+		tokens = map(lambda x: re.sub(r'[\0():|&*!<>]', '', x), criteria['q'])
+		tokens = map(lambda x: re.sub(r'\s+', ' <-> ', x), tokens)
+		comments = comments.filter(Comment.body_ts.match(
+			' & '.join(tokens),
+			postgresql_regconfig='english'))
 
 	if 'over18' in criteria: comments = comments.filter(Comment.over_18 == True)
 

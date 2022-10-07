@@ -45,6 +45,7 @@ AJ_REPLACEMENTS = {
 SLURS = {
 	"nigger": "BIPOC",
 	"niglet": "BIPOClet",
+	"negress": "BIPOC woman",
 	"faggot": "cute twink",
 	"fag": "strag",
 	"spic ": "hard-working American ",
@@ -61,8 +62,6 @@ SLURS = {
 
 if SITE_NAME == 'rDrama':
 	RDRAMA_SLURS = {
-		"tiananmen square": "tiananmen square didn't happen (but it should have)",
-		"dasha": "beautiful angelic perfect Dasha/future Mrs. Carp",
 		"retarded": "r-slurred",
 		"retard": "r-slur",
 		"pedophile": "libertarian",
@@ -75,7 +74,6 @@ if SITE_NAME == 'rDrama':
 		"latina": "latinx",
 		"hispanics": "latinx",
 		"hispanic": "latinx",
-		"uss liberty incident": "tragic accident aboard the USS Liberty",
 		"lavon affair": "Lavon Misunderstanding",
 		"shylock": "Israeli friend",
 		"i hate marsey": "i love marsey",
@@ -85,7 +83,6 @@ if SITE_NAME == 'rDrama':
 		"tenant": "renthog",
 		"renter": "rentoid",
 		"autistic": "neurodivergent",
-		"holohoax": "i tried to claim the Holocaust didn't happen because I am a pencil-dicked imbecile and the word filter caught me lol",
 		"i hate carp": "i love Carp",
 		"gamer": "g*mer",
 		"journalist": "journ*list",
@@ -97,9 +94,9 @@ if SITE_NAME == 'rDrama':
 		"elon musk": "rocket daddy",
 		"fake and gay": "fake and straight",
 		" rapist": " male feminist",
-		" kys ": " keep yourself safe ",
 		" pedo ": " libertarian ",
-		" pedos ": " libertarians ",
+		" kys": " keep yourself safe",
+		"kys ": "keep yourself safe ",
 	}
 	SLURS.update(RDRAMA_SLURS)
 
@@ -158,9 +155,14 @@ EMOJI_SRCS = ['files/assets/emojis.json']
 
 PIN_LIMIT = 3
 POST_RATE_LIMIT = '1/second;2/minute;10/hour;50/day'
+POST_TITLE_LENGTH_LIMIT = 500 # do not make larger than 500 without altering the table
+POST_TITLE_HTML_LENGTH_LIMIT = 1500 # do not make larger than 1500 without altering the table
+POST_BODY_LENGTH_LIMIT = 20000 # do not make larger than 20000 without altering the table
+POST_BODY_HTML_LENGTH_LIMIT = 40000 # do not make larger than 40000 without altering the table
+
 LOGGEDIN_ACTIVE_TIME = 15 * 60
 PFP_DEFAULT_MARSEY = True
-NOTIFICATION_SPAM_AGE_THRESHOLD = 3 * 86400
+NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
 
 HOLE_NAME = 'hole'
 HOLE_STYLE_FLAIR = False
@@ -187,6 +189,7 @@ CARP_ID = 0
 JOAN_ID = 0
 AEVANN_ID = 0
 SNAKES_ID = 0
+JUSTCOOL_ID = 0
 HOMO_ID = 0
 SOREN_ID = 0
 LAWLZ_ID = 0
@@ -196,6 +199,7 @@ DONGER_ID = 0
 GEESE_ID = 0
 
 POLL_THREAD = 0
+POLL_BET_COINS = 200
 WELCOME_MSG = f"Welcome to {SITE_NAME}!"
 ROLES={}
 
@@ -240,6 +244,7 @@ if SITE == 'rdrama.net':
 	JOAN_ID = 28
 	AEVANN_ID = 1
 	SNAKES_ID = 10288
+	JUSTCOOL_ID = 4999
 	HOMO_ID = 147
 	SOREN_ID = 2546
 	LAWLZ_ID = 3833
@@ -252,7 +257,7 @@ if SITE == 'rdrama.net':
 
 	POLL_THREAD = 79285
 
-	WELCOME_MSG = "Hi there! It's me, your soon-to-be favorite rDrama user @carpathianflorist here to give you a brief rundown on some of the sick features we have here. ~You'll probably want to start by following me, though. So go ahead and click my name and then smash that Follow button. This is actually really important, so go on. Hurry.~ Actually, not enough of you were able to follow even the simplest of instructions, so now everyone is following me by default! If you'd like, you can still get some clicking practice in by hitting the unfollow button. But I'll be notified of that, and you're new, and you wouldn't want to get off on the wrong foot here, would you?\nThanks!\nNext up: If you're a member of the media, similarly just shoot me a DM and I'll set about verifying you and then we can take care of your sad journalism stuff.\n**FOR EVERYONE ELSE**\n Begin by navigating to [the settings page](/settings/profile) (we'll be prettying this up so it's less convoluted soon, don't worry) and getting some basic customization done.\n### Themes\nDefinitely change your theme right away, the default one (Midnight) is pretty enough, but why not use something *exotic* like Win98, or *flashy* like Tron? Even Coffee is super tasteful and way more fun than the default. More themes to come when we get around to it!\n### Avatar/pfp\nYou'll want to set this pretty soon. Set the banner too while you're at it. Your profile is important!\n### Flairs\nSince you're already on the settings page, you may as well set a flair, too. As with your username, you can - obviously - choose the color of this, either with a hex value or just from the preset colors. And also like your username, you can change this at any time. [Paypigs](https://marsey1.gumroad.com/l/rdrama) can even further relive the glory days of 90s-00s internet and set obnoxious signatures.\n### PROFILE ANTHEMS\nSpeaking of profiles, hey, remember MySpace? Do you miss autoplaying music assaulting your ears every time you visited a friend's page? Yeah, we brought that back. Enter a YouTube URL, wait a few seconds for it to process, and then BAM! you've got a profile anthem which people cannot mute. Unless they spend 20,000 dramacoin in the shop for a mute button. Which you can then remove from your profile by spending 40,000 dramacoin on an unmuteable anthem. Get fucked poors!\n### Dramacoin?\nDramacoin is basically our take on the karma system. Except unlike the karma system, it's not gay and boring and stupid and useless. Dramacoin can be spent at [Marsey's Dramacoin Emporium](/shop) on upgrades to your user experience (many more coming than what's already listed there), and best of all on tremendously annoying awards to fuck with your fellow dramautists. We're always adding more, so check back regularly in case you happen to miss one of the announcement posts.\nLike karma, dramacoin is obtained by getting upvotes on your threads and comments. *Unlike* karma, it's also obtained by getting downvotes on your threads and comments. Downvotes don't really do anything here - they pay the same amount of dramacoin and they increase thread/comment ranking just the same as an upvote. You just use them to express petty disapproval and hopefully start a fight. Because all votes are visible here. To hell with your anonymity.\nDramacoin can also be traded amongst users from their profiles. Note that there is a 3% transaction fee.\n### Badges\nRemember all those neat little metallic icons you saw on my profile when you were following me? If not, scroll back up and go have a look. And doublecheck to make sure you pressed the Follow button. Anyway, those are badges. You earn them by doing a variety of things. Some of them even offer benefits, like discounts at the shop. A [complete list of badges and their requirements can be found here](/badges), though I add more pretty regularly, so keep an eye on the [changelog](/h/changelog).\n### Other stuff\nWe're always adding new features, and we take a fun-first approach to development. If you have a suggestion for something that would be fun, funny, annoying - or best of all, some combination of all three - definitely make a thread about it. Or just DM me if you're shy. Weirdo. Anyway there's also the [leaderboards](/leaderboard), boring stuff like two-factor authentication you can toggle on somewhere in the settings page (psycho), the ability to save posts and comments, more than a thousand emojis already (most of which are rDrama originals), and on and on and on and on. This is just the basics, mostly to help you get acquainted with some of the things you can do here to make it more easy on the eyes, customizable, and enjoyable. If you don't enjoy it, just go away! We're not changing things to suit you! Get out of here loser! And no, you can't delete your account :na:\nI love you.<BR>*xoxo Carp* 💋"
+	WELCOME_MSG = "Hi there! It's me, your soon-to-be favorite rDrama user @carpathianflorist here to give you a brief rundown on some of the sick features we have here. You'll probably want to start by following me, though. So go ahead and click my name and then smash that Follow button. This is actually really important, so go on. Hurry.\n\nThanks!\n\nNext up: If you're a member of the media, similarly just shoot me a DM and I'll set about verifying you and then we can take care of your sad journalism stuff.\n\n**FOR EVERYONE ELSE**\n\n Begin by navigating to [the settings page](/settings/profile) (we'll be prettying this up so it's less convoluted soon, don't worry) and getting some basic customization done.\n\n### Themes\n\nDefinitely change your theme right away, the default one (Midnight) is pretty enough, but why not use something *exotic* like Win98, or *flashy* like Tron? Even Coffee is super tasteful and way more fun than the default. More themes to come when we get around to it!\n\n### Avatar/pfp\n\nYou'll want to set this pretty soon. Set the banner too while you're at it. Your profile is important!\n\n### Flairs\n\nSince you're already on the settings page, you may as well set a flair, too. As with your username, you can - obviously - choose the color of this, either with a hex value or just from the preset colors. And also like your username, you can change this at any time. [Paypigs](https://marsey1.gumroad.com/l/rdrama) can even further relive the glory days of 90s-00s internet and set obnoxious signatures.\n\n### PROFILE ANTHEMS\n\nSpeaking of profiles, hey, remember MySpace? Do you miss autoplaying music assaulting your ears every time you visited a friend's page? Yeah, we brought that back. Enter a YouTube URL, wait a few seconds for it to process, and then BAM! you've got a profile anthem which people cannot mute. Unless they spend 20,000 dramacoin in the shop for a mute button. Which you can then remove from your profile by spending 40,000 dramacoin on an unmuteable anthem. Get fucked poors!\n\n### Dramacoin?\n\nDramacoin is basically our take on the karma system. Except unlike the karma system, it's not gay and boring and stupid and useless. Dramacoin can be spent at [Marsey's Dramacoin Emporium](/shop) on upgrades to your user experience (many more coming than what's already listed there), and best of all on tremendously annoying awards to fuck with your fellow dramautists. We're always adding more, so check back regularly in case you happen to miss one of the announcement posts.\n\nLike karma, dramacoin is obtained by getting upvotes on your threads and comments. *Unlike* karma, it's also obtained by getting downvotes on your threads and comments. Downvotes don't really do anything here - they pay the same amount of dramacoin and they increase thread/comment ranking just the same as an upvote. You just use them to express petty disapproval and hopefully start a fight. Because all votes are visible here. To hell with your anonymity.\n\nDramacoin can also be traded amongst users from their profiles. Note that there is a 3% transaction fee.\n\n### Badges\n\nRemember all those neat little metallic icons you saw on my profile when you were following me? If not, scroll back up and go have a look. And doublecheck to make sure you pressed the Follow button. Anyway, those are badges. You earn them by doing a variety of things. Some of them even offer benefits, like discounts at the shop. A [complete list of badges and their requirements can be found here](/badges), though I add more pretty regularly, so keep an eye on the [changelog](/h/changelog).\n\n### Other stuff\n\nWe're always adding new features, and we take a fun-first approach to development. If you have a suggestion for something that would be fun, funny, annoying - or best of all, some combination of all three - definitely make a thread about it. Or just DM me if you're shy. Weirdo. Anyway there's also the [leaderboards](/leaderboard), boring stuff like two-factor authentication you can toggle on somewhere in the settings page (psycho), the ability to save posts and comments, more than a thousand emojis already (most of which are rDrama originals), and on and on and on and on. This is just the basics, mostly to help you get acquainted with some of the things you can do here to make it more easy on the eyes, customizable, and enjoyable. If you don't enjoy it, just go away! We're not changing things to suit you! Get out of here loser! And no, you can't delete your account :na:\n\nI love you.<BR>*xoxo Carp* 💋"
 	ROLES={
 		"admin": "992254560330600508",
 		"linked": "890342909390520382",
@@ -294,6 +299,9 @@ elif SITE == 'watchpeopledie.co':
 
 	PERMS['HOLE_CREATE'] = 2
 
+	SIDEBAR_THREAD = 5403
+	BANNER_THREAD = 9869
+
 	HOLE_NAME = 'flair'
 	HOLE_STYLE_FLAIR = True
 	HOLE_REQUIRED = True
@@ -309,7 +317,6 @@ elif SITE == 'watchpeopledie.co':
 
 	GIFT_NOTIF_ID = CARP_ID
 
-	SIDEBAR_THREAD = 5403
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
@@ -850,6 +857,8 @@ TROLLTITLES = [
 
 NOTIFIED_USERS = {
 	'aevan': AEVANN_ID,
+	' aev': AEVANN_ID,
+	'aev ': AEVANN_ID,
 	'avean': AEVANN_ID,
 	'joan': JOAN_ID,
 	'pewkie': JOAN_ID,
@@ -861,6 +870,7 @@ NOTIFIED_USERS = {
 	'scitzocel': SCHIZO_ID,
 	'snakes': SNAKES_ID,
 	'sneks': SNAKES_ID,
+	'justcool': JUSTCOOL_ID,
 	'geese': GEESE_ID,
 	'clit': CARP_ID,
 	'kippy': KIPPY_ID,
@@ -957,7 +967,8 @@ YOUTUBE_KEY = environ.get("YOUTUBE_KEY", "").strip()
 
 ADMIGGERS = {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD, SNAPPY_THREAD}
 
-proxies = {"http":"http://127.0.0.1:18080","https":"http://127.0.0.1:18080"}
+OPERA_URL = environ.get("OPERA_URL", "http://localhost:18080")
+proxies = {"http":OPERA_URL,"https":OPERA_URL}
 
 blackjack = environ.get("BLACKJACK", "").strip()
 
@@ -977,8 +988,6 @@ approved_embed_hosts = {
 	'pinimg.com',
 	'kindpng.com',
 	'shopify.com',
-	'discordapp.com',
-	'discordapp.net',
 	'twimg.com',
 	'wikimedia.org',
 	'wp.com',
@@ -1081,6 +1090,7 @@ tiers={
 	"(Zombie)": 3,
 	"(Ghost)": 4,
 	"(Survivor)": 5,
+	"(Jigsaw)": 6,
 	}
 
 DISCORD_WELCOME_CHANNEL = "846509313941700618"

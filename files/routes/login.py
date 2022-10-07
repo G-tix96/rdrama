@@ -86,9 +86,11 @@ def check_for_alts(current):
 	for u in current.alts_unique:
 		if u.shadowbanned:
 			current.shadowbanned = u.shadowbanned
+			if not current.is_banned: current.ban_reason = u.ban_reason
 			g.db.add(current)
 		elif current.shadowbanned:
 			u.shadowbanned = current.shadowbanned
+			if not u.is_banned: u.ban_reason = current.ban_reason
 			g.db.add(u)
 
 
@@ -273,7 +275,7 @@ def sign_up_post(v):
 
 		args = {"error": error}
 		if request.values.get("referred_by"):
-			user = get_account(request.values.get("referred_by"))
+			user = get_account(request.values.get("referred_by"), include_shadowbanned=False)
 			if user: args["ref"] = user.username
 
 		return redirect(f"/signup?{urlencode(args)}")
@@ -282,7 +284,7 @@ def sign_up_post(v):
 		return signup_error("There was a problem. Please try again.")
 
 	if not hmac.compare_digest(correct_formkey, form_formkey):
-		return signup_error("There was a problem. Please try again.")
+		return signup_error("There was a problem. Please try again!")
 
 	if not request.values.get(
 			"password") == request.values.get("password_confirm"):
@@ -372,13 +374,22 @@ def sign_up_post(v):
 
 	session["lo_user"] = new_user.id
 	
-	if CARP_ID:
+	if SITE == 'rdrama.net':
+		send_notification(CARP_ID, f"A new user - @{new_user.username} - has signed up!")
+	if SITE == 'watchpeopledie.co':
 		carp = get_account(CARP_ID)
 		new_follow = Follow(user_id=new_user.id, target_id=carp.id)
 		g.db.add(new_follow)
 		carp.stored_subscriber_count += 1
 		g.db.add(carp)
 		send_notification(carp.id, f"A new user - @{new_user.username} - has followed you automatically!")
+	if SITE == 'pcmemes.net':
+		kippy = get_account(KIPPY_ID)
+		new_follow = Follow(user_id=new_user.id, target_id=kippy.id)
+		g.db.add(new_follow)
+		kippy.stored_subscriber_count += 1
+		g.db.add(kippy)
+		send_notification(kippy.id, f"A new user - @{new_user.username} - has followed you automatically!")
 
 	redir = request.values.get("redirect")
 	if redir:

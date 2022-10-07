@@ -129,10 +129,7 @@ def teardown_request(error):
 		del g.db
 	stdout.flush()
 
-if app.config["SERVER_NAME"] == 'localhost':
-	from files.routes import *
-	from files.routes.chat import *
-elif "load_chat" in argv:
+if "load_chat" in argv:
 	from files.routes.chat import *
 else:
 	from files.routes import *

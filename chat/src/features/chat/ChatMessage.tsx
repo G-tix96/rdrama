@@ -11,7 +11,12 @@ import key from "weak-key";
 import humanizeDuration from "humanize-duration";
 import cloneDeep from "lodash.clonedeep";
 import { Username } from "./Username";
-import { useChat, useRootContext } from "../../hooks";
+import {
+  DIRECT_MESSAGE_ID,
+  OPTIMISTIC_MESSAGE_ID,
+  useChat,
+  useRootContext,
+} from "../../hooks";
 import { QuotedMessageLink } from "./QuotedMessageLink";
 import "./ChatMessage.css";
 
@@ -34,6 +39,7 @@ export function ChatMessage({
 }: ChatMessageProps) {
   const {
     id,
+    user_id,
     avatar,
     namecolor,
     username,
@@ -68,6 +74,8 @@ export function ChatMessage({
     (text_html.includes(`/id/${userId}`) &&
       userUsername &&
       username !== userUsername);
+  const isDirect = id === DIRECT_MESSAGE_ID;
+  const isOptimistic = id === OPTIMISTIC_MESSAGE_ID;
   const timestamp = useMemo(
     () => formatTimeAgo(time),
     [time, timestampUpdates]
@@ -116,6 +124,7 @@ export function ChatMessage({
     <div
       className={cx("ChatMessage", {
         ChatMessage__isDm: dm,
+        ChatMessage__isOptimistic: isOptimistic,
       })}
       id={id}
       style={
@@ -127,19 +136,8 @@ export function ChatMessage({
           : {}
       }
     >
-      {!actionsOpen && (
+      {!isDirect && !isOptimistic && !actionsOpen && (
         <div className="ChatMessage-actions-button">
-          <button
-            className="btn btn-secondary"
-            style={{
-              position: "relative",
-              top: 2,
-              left: -12,
-            }}
-            onClick={() => handleDirectMessage()}
-          >
-            📨
-          </button>
           <button
             className="btn btn-secondary"
             onClick={() => {
@@ -157,14 +155,16 @@ export function ChatMessage({
           </button>
         </div>
       )}
-      {actionsOpen && (
+      {!isDirect && !isOptimistic && actionsOpen && (
         <div className="ChatMessage-actions">
-          <button
-            className="btn btn-secondary ChatMessage-button"
-            onClick={() => handleDirectMessage(true)}
-          >
-            📨 DM @{message.username}
-          </button>
+          {userId && parseInt(userId) !== parseInt(user_id) && (
+            <button
+              className="btn btn-secondary ChatMessage-button"
+              onClick={() => handleDirectMessage(true)}
+            >
+              📨 DM @{message.username}
+            </button>
+          )}
           <button
             className="btn btn-secondary ChatMessage-button"
             onClick={handleQuoteMessageAction}
@@ -206,7 +206,7 @@ export function ChatMessage({
           <QuotedMessageLink message={quotedMessage} />
         </div>
       )}
-      {dm && (
+      {!isDirect && dm && (
         <small className="ChatMessage-quoted-link text-primary">
           <em>(Sent only to you)</em>
         </small>

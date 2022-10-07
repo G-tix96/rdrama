@@ -1,4 +1,4 @@
-FLASK_APP=/service/files/cli:app
+FLASK_APP=/rDrama/files/cli:app
 MASTER_KEY=blahblahblah
 DOMAIN=localhost
 SITE_NAME=rDrama

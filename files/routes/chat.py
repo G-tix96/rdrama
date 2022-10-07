@@ -83,6 +83,7 @@ def speak(data, v):
 	elif blackjack and any(i in text.lower() for i in blackjack.split()):
 		emit('speak', data)
 		v.shadowbanned = 'AutoJanny'
+		if not v.is_banned: v.ban_reason = 'Blackjack'
 		g.db.add(v)
 		send_repeatable_notification(CARP_ID, f"{v.username} has been shadowbanned because of a chat message.")
 	elif recipient:

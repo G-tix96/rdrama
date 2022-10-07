@@ -2,6 +2,7 @@ from sqlalchemy import *
 from files.__main__ import Base
 import time
 
+CASINO_GAME_KINDS = ['blackjack', 'slots', 'roulette']
 
 class Casino_Game(Base):
 	__tablename__ = "casino_games"

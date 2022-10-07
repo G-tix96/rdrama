@@ -9,6 +9,7 @@
 		<th>#</th>
 		<th>Name</th>
 		<th>Shadowbanned by</th>
+		<th>Shadowban reason</th>
 	</tr>
 </thead>
 {% for user in users %}
@@ -16,6 +17,7 @@
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
 		<td>{{user.shadowbanned}}</td>
+		<td>{{user.ban_reason}}</td>
 	</tr>
 {% endfor %}
 </table>

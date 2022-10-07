@@ -3,6 +3,7 @@ from json.encoder import INFINITY
 import random
 from .const import *
 from files.classes.casino_game import Casino_Game
+from files.helpers.casino import distribute_wager_badges
 from flask import g
 
 minimum_bet = 5
@@ -25,6 +26,9 @@ def casino_slot_pull(gambler, wager_value, currency):
 		reward = wager_value * payout
 
 		gambler.pay_account(currency, reward)
+
+		if currency == 'coins':
+			distribute_wager_badges(gambler, wager_value, won=(payout > 0))
 
 		symbols = build_symbols(payout)
 		text = build_text(wager_value, payout, currency)

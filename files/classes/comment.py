@@ -4,6 +4,7 @@ from urllib.parse import urlencode, urlparse, parse_qs
 from flask import *
 from sqlalchemy import *
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import TSVECTOR
 from files.__main__ import Base
 from files.classes.votes import CommentVote
 from files.helpers.const import *
@@ -23,8 +24,8 @@ def normalize_urls_runtime(body, v):
 	if v.reddit != 'old.reddit.com':
 		body = reddit_to_vreddit_regex.sub(rf'\1https://{v.reddit}/\2/', body)
 	if v.nitter:
-		body = body.replace('https://twitter.com/', 'https://nitter.42l.fr/')
-		body = body.replace('https://nitter.42l.fr/i/', 'https://twitter.com/i/')
+		body = body.replace('https://twitter.com/', 'https://nitter.lacontrevoie.fr/')
+		body = body.replace('https://nitter.lacontrevoie.fr/i/', 'https://twitter.com/i/')
 	if v.imginn:
 		body = body.replace('https://instagram.com/', 'https://imginn.com/')
 
@@ -59,6 +60,7 @@ class Comment(Base):
 	realupvotes = Column(Integer, default=1)
 	body = Column(String)
 	body_html = Column(String)
+	body_ts = Column(TSVECTOR(), server_default=FetchedValue())
 	ban_reason = Column(String)
 	wordle_result = Column(String)
 	treasure_amount = Column(String)
@@ -259,15 +261,7 @@ class Comment(Base):
 	@lazy
 	def author_name(self):
 		if self.ghost: return '👻'
-		if self.author.earlylife:
-			expiry = int(self.author.earlylife - time.time())
-			if expiry > 86400:
-				name = self.author.username
-				for i in range(int(expiry / 86400 + 1)):
-					name = f'((({name})))'
-				return name
-			return f'((({self.author.username})))'
-		return self.author.username
+		return self.author.user_name
 
 	@lazy
 	def award_count(self, kind, v):
@@ -326,7 +320,10 @@ class Comment(Base):
 
 	@lazy
 	def realbody(self, v):
-		if self.post and self.post.club and not (v and (v.paid_dues or v.id in [self.author_id, self.post.author_id])): return f"<p>{CC} ONLY</p>"
+		if self.post and self.post.club and not (v and (v.paid_dues or v.id in [self.author_id, self.post.author_id] or (self.parent_comment and v.id == self.parent_comment.author_id))):
+			return f"<p>{CC} ONLY</p>"
+		if self.deleted_utc != 0 and not (v and (v.admin_level >= 2 or v.id == self.author.id)): return "[Deleted by user]"
+		if self.is_banned and not (v and v.admin_level >= 2): return "[Removed by admins]";
 
 		body = self.body_html or ""
 
@@ -390,13 +387,18 @@ class Comment(Base):
 
 	@lazy
 	def plainbody(self, v):
-		if self.post and self.post.club and not (v and (v.paid_dues or v.id in [self.author_id, self.post.author_id])): return f"<p>{CC} ONLY</p>"
+		if self.post and self.post.club and not (v and (v.paid_dues or v.id in [self.author_id, self.post.author_id] or (self.parent_comment and v.id == self.parent_comment.author_id))):
+			return f"{CC} ONLY"
+		if self.deleted_utc != 0 and not (v and (v.admin_level >= 2 or v.id == self.author.id)): return "[Deleted by user]"
+		if self.is_banned and not (v and v.admin_level >= 2): return "[Removed by admins]";
 
 		body = self.body
 
 		if not body: return ""
 
-		return censor_slurs(body, v)
+		body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
+
+		return body
 
 	@lazy
 	def collapse_for_user(self, v, path):

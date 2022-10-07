@@ -9,6 +9,10 @@
   border-bottom: 1px dashed var(--primary);
 }
 
+.ChatMessage__isOptimistic {
+  opacity: 0.5;
+}
+
 .ChatMessage p {
   margin: 0;
 }

@@ -44,8 +44,8 @@
 							</div>
 
 					</div>
-
-		{% if render_replies %}
+					
+		{% if render_replies %} 
 			<div id="replies-of-{{c.fullname}}">
 				{% if level<9 or request.path.startswith('/notifications') %}
 					{% for reply in replies %}
@@ -113,7 +113,7 @@
 	{% set isreply = False %}
 {% endif %}
 
-<div id="comment-{{c.id}}" class="anchor comment {% if standalone and level==1 %} mt-0{% endif %} {% if collapse or c.collapse_for_user(v,request.full_path) %}collapsed{% endif %} {% if c.award_count('stab', v) %} blood{% endif %}" style="{% if isreply %}padding-left:0!important;{% else %}border-left: 2px solid {% if c.ghost %}var(--primary){% else %}#{{c.author.name_color}};{% endif %}{% endif %}">
+<div id="comment-{{c.id}}" class="anchor comment {% if standalone and level==1 %} mt-0{% endif %} {% if collapse or c.collapse_for_user(v,request.full_path) %}collapsed{% endif %}" style="{% if isreply %}padding-left:0!important;{% else %}border-left: 2px solid {% if c.ghost %}var(--primary){% else %}#{{c.author.name_color}};{% endif %}{% endif %}">
 	{% if not isreply %}
 		<span class="comment-collapse-desktop d-none d-md-block" style="border-left: 2px solid {% if c.ghost %}var(--primary){% else %}#{{c.author.name_color}}{% endif %}" onclick="collapse_comment('{{c.id}}', this.parentElement)"></span>
 	{% endif %}
@@ -131,7 +131,7 @@
 				{% if c.post %}
 					{% set sub = c.post.sub %}
 					{% if sub and c.author.exiled_from(sub) %}
-						<a role="button"><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{sub}}"></i></a>
+						<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{sub}}"></i></a>
 					{% endif %}
 				{% endif %}
 
@@ -140,7 +140,7 @@
 				{% endif %}
 				{% if c.active_flags(v) %}<a class="btn btn-primary" style="padding:1px 5px; font-size:10px"role="button" onclick="document.getElementById('flaggers-{{c.id}}').classList.toggle('d-none')">{{c.active_flags(v)}} Report{{ help.plural(c.active_flags(v)) }}</a>{% endif %}
 				{% if c.over_18 %}<span class="badge badge-danger text-small-extra mr-1">+18</span>{% endif %}
-				{% if v and v.admin_level > 1 and c.author.shadowbanned %}<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Shadowbanned by @{{c.author.shadowbanned}}"></i>{% endif %}
+				{% if v and v.admin_level > 1 and c.author.shadowbanned %}<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{c.author.shadowbanned}} for "{{c.author.ban_reason}}"'></i>{% endif %}
 				{% if c.stickied %}
 					<i id='pinned-{{c.id}}'class="fas fa-thumbtack fa-rotate--45 text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned by @{{c.stickied}}" {% if c.stickied_utc %}onmouseover="pinned_timestamp('pinned-{{c.id}}')" data-timestamp={{c.stickied_utc}} {% endif %}></i>
 				{% endif %}
@@ -188,7 +188,7 @@
 				{% elif c.created_utc %}
 					<span id="timestamp-{{c.id}}" onmouseover="timestamp('timestamp-{{c.id}}','{{c.created_utc}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" class="time-stamp">&nbsp;{{c.age_string}}</span>
 				{% endif %}
-
+				
 				{% if c.edited_utc %}
 				<span class="time-edited" id="time-edit-{{c.id}}" onmouseover="timestamp('time-edit-{{c.id}}','{{c.edited_utc}}')"><span>&#183;</span> <span class="font-italic">Edited {{c.edited_string}}</span></span>
 				{% endif %}
@@ -225,7 +225,7 @@
 			{% if c.is_banned and c.ban_reason %}
 				<div id="comment-banned-warning" class="comment-text text-removed mb-0">removed by @{{c.ban_reason}}</div>
 			{% endif %}
-
+			
 			{% if c.award_count("tilt", v) %}
 				<style>
 					@keyframes c{{c.id}}-tilt {
@@ -259,13 +259,13 @@
 
 				{% if v and v.id==c.author_id %}
 				<div id="comment-edit-{{c.id}}" class="d-none comment-write collapsed child">
-					<form id="comment-edit-form-{{c.id}}" action="/edit_comment/{{c.id}}" method="post" enctype="multipart/form-data">
+					<form id="comment-edit-form-{{c.id}}" action="/edit_comment/{{c.id}}" method="post" enctype="multipart/form-data"> 
 						<input type="hidden" name="formkey" value="{{v.formkey}}">
-						<textarea autocomplete="off" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}10000{% endif %}" data-preview="preview-edit-{{c.id}}" oninput="markdown(this);charLimit('comment-edit-body-{{c.id}}','charcount-edit-{{c.id}}')" id="comment-edit-body-{{c.id}}" data-id="{{c.id}}" name="body" form="comment-edit-form-{{c.id}}" class="comment-box form-control rounded" aria-label="With textarea" placeholder="Add your comment..." rows="3">{{c.body}}</textarea>
-
+						<textarea autocomplete="off" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}10000{% endif %}" data-preview="preview-edit-{{c.id}}" oninput="markdown(this);charLimit('comment-edit-body-{{c.id}}','charcount-edit-{{c.id}}')" id="comment-edit-body-{{c.id}}" data-id="{{c.id}}" name="body" form="comment-edit-form-{{c.id}}" class="comment-box form-control rounded" aria-label="With textarea" placeholder="Add your comment..." rows="3">{{c.body}}</textarea> 
+						
 						<div class="text-small font-weight-bold mt-1" id="charcount-edit-{{c.id}}" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
-						<div class="comment-format">
+						<div class="comment-format"> 
 							<a class="btn btn-secondary format m-0" role="button" onclick="makeBold('comment-edit-body-{{c.id}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Bold"><i class="fas fa-bold"></i></a>
 							&nbsp;
 							<a class="btn btn-secondary format m-0" role="button" onclick="makeItalics('comment-edit-body-{{c.id}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Italicize"><i class="fas fa-italic"></i></a>
@@ -277,14 +277,14 @@
 							&nbsp;
 							<small class="btn btn-secondary format m-0" aria-hidden="true" onclick="loadEmojis('comment-edit-body-{{c.id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></small>
 							&nbsp;
-
+							
 							<label class="btn btn-secondary format m-0" for="file-edit-reply-{{c.id}}">
 								<div id="filename-edit-reply-{{c.id}}"><i class="fas fa-file"></i></div>
 								<input autocomplete="off" id="file-edit-reply-{{c.id}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-edit-reply-{{c.id}}','file-edit-reply-{{c.id}}')" hidden>
 							</label>
 						</div>
-						<a id="edit-btn-{{c.id}}" role="button" form="comment-edit-form-{{c.id}}" class="btn btn-primary ml-2 fl-r commentmob" onclick="comment_edit('{{c.id}}');remove_dialog()">Save Edit</a>
-						<a id="cancel-edit-{{c.id}}" role="button" onclick="toggleEdit('{{c.id}}');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r commentmob">Cancel</a>
+						<a id="edit-btn-{{c.id}}" role="button" form="comment-edit-form-{{c.id}}" class="btn btn-primary ml-2 fl-r commentmob" onclick="comment_edit('{{c.id}}');remove_dialog()">Save Edit</a> 
+						<a id="cancel-edit-{{c.id}}" role="button" onclick="toggleEdit('{{c.id}}');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r commentmob">Cancel</a> 
 					</form>
 					<div id="preview-edit-{{c.id}}" class="preview mb-3 mt-5"></div>
 					<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
@@ -304,49 +304,49 @@
 										</a>
 									{% endif %}
 								</li>
-
+																
 								{% if v %}
 									<a class="list-inline-item mr-3" role="button" onclick="ToggleReplyBox('reply-to-{{c.id}}')"><i class="fas fa-reply" style="margin-top:0.35rem"></i></a>
 								{% endif %}
-
+								
 								<li class="list-inline-item">
 									<a role="button" data-bs-toggle="modal" data-bs-target="#actionsModal-{{c.id}}">
 										<i class="fas fa-ellipsis-h mt-1"></i>
 									</a>
 								</li>
-
+					
 								{% if v and request.path.startswith('/@') and v.admin_level < 2 %}
 									<li id="voting-{{c.id}}-mobile" class="voting list-inline-item d-md-none">
 										{% if voted==1 %}
 											<span class="mr-2 arrow-up comment-{{c.id}}-up active"></span>
 										{% endif %}
-
+								
 										<span class="comment-mobile-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if c.controversial %} controversial{% endif %}"{% if not c.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}>{{score}}</span>
-
+								
 										{% if voted==-1 %}
 											<span class="ml-2 my-0 arrow-down comment-{{c.id}}-down active"></span>
 										{% endif %}
 									</li>
 								{% elif v %}
 									<li id="voting-{{c.id}}-mobile" class="voting list-inline-item d-md-none">
-
+								
 										<span tabindex="0" role="button" onclick="vote('comment-mobile', '{{c.id}}', '1')" class="comment-mobile-{{c.id}}-up mx-0 pr-1 arrow-up upvote-button comment-{{c.id}}-up {% if voted==1 %}active{% endif %}">
 										</span>
-
+								
 										<span class="comment-mobile-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if c.controversial %} controversial{% endif %}"{% if not c.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}>{{score}}</span>
-
+								
 										<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('comment-mobile', '{{c.id}}', '-1')" class="comment-mobile-{{c.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button comment-{{c.id}}-down {% if voted==-1 %}active{% endif %}">
 										</span>
-
+								
 									</li>
 								{% else %}
 									<li id="voting-{{c.id}}-mobile" class="voting list-inline-item d-md-none">
 										<span tabindex="0" class="arrow-{{c.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" onclick="location.href='/login';">
 											<i class="fas fa-arrow-alt-up mx-0" aria-hidden="true"></i>
 										</span>
-
+								
 										<span class="comment-mobile-score-{{c.id}} score{% if c.controversial %} controversial{% endif %}"{% if not c.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}>{{score}}</span>
-
+								
 										<span tabindex="0" class="arrow-{{c.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" onclick="location.href='/login';">
 											<i class="fas fa-arrow-alt-down mx-0" aria-hidden="true"></i>
 										</span>
@@ -355,7 +355,7 @@
 								</ul>
 							</div>
 						</div>
-
+					
 
 
 
@@ -371,33 +371,33 @@
 								<button class="btn caction py-0 m-0 px-3 nobackground arrow-up mx-0 comment-{{c.id}}-up active"></button>
 							{% endif %}
 						{% elif v %}
-
+						
 							<button tabindex="0" role="button" onclick="vote('comment', '{{c.id}}', '1')" class="comment-{{c.id}}-up btn caction py-0 m-0 px-3 nobackground arrow-up upvote-button mx-0 comment-{{c.id}}-up {% if voted==1 %}active{% endif %}"></button>
-
+						
 						{% else %}
 							<button tabindex="0" class="comment-{{c.id}}-up btn caction nobackground py-0 m-0 px-3 arrow-up" onclick="location.href='/login';"></button>
-
+						
 						{% endif %}
-
+						
 						<button class="btn caction nobackground p-0 m-0">
 							<span data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}" class="comment-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if c.controversial %} controversial{% endif %}">{{score}}</span>
 						</button>
-
+						
 						{% if v and request.path.startswith('/@') and v.admin_level < 2 %}
 							{% if voted==-1 %}
 								<li class=" arrow-down py-0 m-0 px-3 comment-{{c.id}}-down active"></li>
 							{% endif %}
 						{% elif v %}
 							<button {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('comment', '{{c.id}}', '-1')" class="comment-{{c.id}}-down btn caction py-0 m-0 px-3 nobackground arrow-down downvote-button comment-{{c.id}}-down {% if voted==-1 %}active{% endif %}"></button>
-
+						
 						{% else %}
-
+						
 							<button {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" class="comment-{{c.id}}-down btn caction py-0 m-0 px-3 nobackground arrow-down" onclick="location.href='/login';"></button>
-
+						
 						{% endif %}
-
+						
 						{% if v and ((not c.ghost and v.admin_level >= PERMS['VOTES_VISIBLE']) or v.id == AEVANN_ID) %}<a href="/votes/{{c.fullname}}" class="btn caction nobackground px-1 text-muted"><i class="fas fa-arrows-v"></i>Votes</a>{% endif %}
-
+						
 						<a class="btn caction nobackground px-1 text-muted" href="{{c.permalink}}"><i class="fas fa-book-open"></i>Context</a>
 
 						<button class="btn caction py-0 nobackground px-1 text-muted copy-link" data-clipboard-text="{% if SITE == 'rdrama.net' %}https://rdrama.org{{c.shortlink}}{% else %}{{c.permalink}}{% endif %}"><i class="fas fa-copy"></i>Copy link</button>
@@ -410,16 +410,16 @@
 							{% if FEATURES['AWARDS'] -%}
 							<button class="btn caction py-0 nobackground px-1 text-muted" role="button" data-bs-toggle="modal" data-bs-target="#awardModal" data-url="/award/comment/{{c.id}}" onclick="document.getElementById('awardTarget').action = this.dataset.url"><i class="fas fa-gift" aria-hidden="true"></i>Give Award</button>
 							{%- endif %}
-
+							
 							<button id="unsave-{{c.id}}" class="btn caction py-0 nobackground px-1 {% if c.id in v.saved_comment_idlist %}d-md-inline-block{% endif %} text-muted d-none" role="button" onclick="post_toast(this,'/unsave_comment/{{c.id}}','save-{{c.id}}','unsave-{{c.id}}','d-md-inline-block')"><i class="fas fa-save"></i>Unsave</button>
-
+							
 							<button id="save-{{c.id}}" class="btn caction py-0 nobackground px-1 {% if c.id not in v.saved_comment_idlist %}d-md-inline-block{% endif %} text-muted d-none" role="button" onclick="post_toast(this,'/save_comment/{{c.id}}','save-{{c.id}}','unsave-{{c.id}}','d-md-inline-block')"><i class="fas fa-save"></i>Save</button>
 						{% endif %}
 
 						{% if c.parent_submission %}
 							{% if v and c.author_id == v.id %}
 								<button class="btn caction py-0 nobackground px-1 text-muted" onclick="toggleEdit('{{c.id}}')"><i class="fas fa-edit fa-fw"></i>Edit</button>
-
+								
 								<button id="undelete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if not c.deleted_utc %}d-none{% endif %}" onclick="post_toast(this,'/undelete/comment/{{c.id}}','delete-{{c.id}}','undelete-{{c.id}}','d-none');document.getElementById('comment-{{c.id}}').classList.remove('deleted')"><i class="fas fa-trash-alt fa-fw"></i>Undelete</button>
 
 								<button id="delete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if c.deleted_utc %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#deleteCommentModal" onclick="delete_commentModal('{{c.id}}')"><i class="fas fa-trash-alt fa-fw"></i>Delete</button>
@@ -456,7 +456,7 @@
 
 {% if url != "" %}
 	<button id="unpin-{{c.id}}" class="dropdown-item list-inline-item {% if c.stickied %}d-md-block{% endif %} text-muted d-none text-info" data-bs-dismiss="modal" data-bs-target="#actionsModal-{{c.id}}" onclick="post_toast(this,'/un{{url}}/{{c.id}}','pin-{{c.id}}','unpin-{{c.id}}','d-md-block')"><i class="fas fa-thumbtack fa-rotate--45 text-info fa-fw"></i>Unpin</button>
-
+		
 	<button id="pin-{{c.id}}" class="dropdown-item list-inline-item {% if not c.stickied %}d-md-block{% endif %} text-muted d-none text-info" data-bs-dismiss="modal" data-bs-target="#actionsModal-{{c.id}}" onclick="post_toast(this,'/{{url}}/{{c.id}}','pin-{{c.id}}','unpin-{{c.id}}','d-md-block')"><i class="fas fa-thumbtack fa-rotate--45 text-info fa-fw"></i>Pin</button>
 {% endif %}
 {% endif %}
@@ -480,9 +480,9 @@
 	{% endif %}
 {% endif %}
 
-{% if c.parent_submission and (c.author_id==v.id or v.admin_level > 1) %}
-<button id="unmark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.over_18 %}d-md-block{% endif %} text-danger" onclick="post_toast(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-danger fa-fw"></i>Unmark +18</button>
-<button id="mark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.over_18 %}d-md-block{% endif %} text-danger" onclick="post_toast(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-danger fa-fw"></i>Mark +18</button>
+{% if c.parent_submission and (c.author_id==v.id or v.admin_level > 1 or (c.post.sub and v.mods(c.post.sub))) %}
+	<button id="unmark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.over_18 %}d-md-block{% endif %} text-danger" onclick="post_toast(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-danger fa-fw"></i>Unmark +18</button>
+	<button id="mark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.over_18 %}d-md-block{% endif %} text-danger" onclick="post_toast(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-danger fa-fw"></i>Mark +18</button>
 {% endif %}
 
 {% if v.admin_level > 1 and v.id != c.author_id %}
@@ -500,22 +500,23 @@
 				</div>
 				{% endif %}
 			</div>
+
 		{% if v and v.id != c.author_id and c.body and not (c.post and c.post.club and not v.paid_dues) %}
-			<div autocomplete="off" class="markdown d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{c.id}}" readonly>{{c.body.strip()}}</div>
+			<div autocomplete="off" class="markdown d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{c.id}}" readonly>{{c.body.strip()}}</div> 
 		{% endif %}
 
 
 		<div id="reply-to-{{c.id}}" class="d-none">
 			<div id="comment-form-space-{{c.fullname}}" class="comment-write collapsed child">
-				<form id="reply-to-c_{{c.id}}" action="/comment" method="post" enctype="multipart/form-data">
-					<input type="hidden" name="formkey" value="{{v.formkey}}">
-					<input type="hidden" name="parent_fullname" value="{{c.fullname}}">
-					<input autocomplete="off" id="reply-form-submission-{{c.fullname}}" type="hidden" name="submission" value="{{c.post.id}}">
-					<textarea required autocomplete="off" {% if v.longpost %}minlength="280"{% else %}minlength="1"{% endif %} maxlength="{% if v.bird %}140{% else %}10000{% endif %}" data-preview="form-preview-{{c.fullname}}" oninput="markdown(this);charLimit('reply-form-body-{{c.fullname}}','charcount-{{c.id}}')" id="reply-form-body-{{c.fullname}}" data-fullname="{{c.fullname}}" name="body" form="reply-to-c_{{c.id}}" class="comment-box form-control rounded" aria-label="With textarea" placeholder="Add your comment..." rows="3"></textarea>
+				<form id="reply-to-c_{{c.id}}" action="/comment" method="post" enctype="multipart/form-data"> 
+					<input type="hidden" name="formkey" value="{{v.formkey}}"> 
+					<input type="hidden" name="parent_fullname" value="{{c.fullname}}"> 
+					<input autocomplete="off" id="reply-form-submission-{{c.fullname}}" type="hidden" name="submission" value="{{c.post.id}}"> 
+					<textarea required autocomplete="off" {% if v.longpost %}minlength="280"{% else %}minlength="1"{% endif %} maxlength="{% if v.bird %}140{% else %}10000{% endif %}" data-preview="form-preview-{{c.fullname}}" oninput="markdown(this);charLimit('reply-form-body-{{c.fullname}}','charcount-{{c.id}}')" id="reply-form-body-{{c.fullname}}" data-fullname="{{c.fullname}}" name="body" form="reply-to-c_{{c.id}}" class="comment-box form-control rounded" aria-label="With textarea" placeholder="Add your comment..." rows="3"></textarea> 
 
 					<div class="text-small font-weight-bold mt-1" id="charcount-{{c.id}}" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
-					<div class="comment-format" id="comment-format-bar-{{c.id}}">
+					<div class="comment-format" id="comment-format-bar-{{c.id}}"> 
 						<a class="btn btn-secondary format m-0" role="button" onclick="makeBold('reply-form-body-{{c.fullname}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Bold"><i class="fas fa-bold"></i></a>
 						&nbsp;
 						<a class="btn btn-secondary format m-0" role="button" onclick="makeItalics('reply-form-body-{{c.fullname}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Italicize"><i class="fas fa-italic"></i></a>
@@ -525,7 +526,7 @@
 
 						<label class="btn btn-secondary format m-0" for="gif-reply-btn-{{c.fullname}}" onclick="commentForm('reply-form-body-{{c.fullname}}');getGif()" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">
 							<span id="gif-reply-btn-{{c.fullname}}" class="font-weight-bolder text-uppercase">GIF</span>
-						</label>
+						</label> 
 						&nbsp;
 						<label class="btn btn-secondary format m-0" for="gif-reply-btn-{{c.fullname}}" onclick="loadEmojis('reply-form-body-{{c.fullname}}')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji">
 							<i id="emoji-reply-btn-{{c.fullname}}" class="fas fa-smile-beam"></i>
@@ -537,7 +538,7 @@
 						</label>
 					</div>
 					<a id="save-reply-to-{{c.fullname}}" class="btn btn-primary ml-2 fl-r commentmob" onclick="post_comment('{{c.fullname}}', 'reply-to-{{c.id}}');remove_dialog()"role="button">Comment</a>
-					<a role="button" onclick="document.getElementById('reply-to-{{c.id}}').classList.add('d-none');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r commentmob">Cancel</a>
+					<a role="button" onclick="document.getElementById('reply-to-{{c.id}}').classList.add('d-none');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r commentmob">Cancel</a> 
 				</form>
 				<div id="form-preview-{{c.fullname}}" class="preview mb-3 mt-5"></div>
 				<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
@@ -549,7 +550,7 @@
 		<a role="button" class="copy-link" role="button" data-clipboard-text="{{c.log_link}}"><i class="far fa-copy ml-1 text-muted"></i></a>
 	{% endif %}
 
-	{% if render_replies %}
+	{% if render_replies %} 
 		<div id="replies-of-{{c.fullname}}">
 			{% if request.path.startswith('/notifications/') and replies|length > 8 %}
 				{% for reply in replies %}
@@ -566,7 +567,7 @@
 		</div>
 
 		{% if request.path.startswith('/notifications') and c.level == 1 and c.sentto and not c.parent_submission and c.author_id != AUTOJANNY_ID %}
-			{% if (v and v.admin_level >= 2) and (c.sentto == 2) and not c.author.is_muted %}
+			{% if (v and v.admin_level >= 2) and (c.sentto == 2) and not c.author.is_muted %} 
 				<a class="btn btn-primary" role="button" id="mute-user-{{c.id}}" onclick="adminMuteUser({{c.author_id}}, 1, {{c.id}})">Mute</a>
 			{% endif %}
 
@@ -574,9 +575,9 @@
 			<div id="reply-message-{{c.id}}" class="d-none">
 				<div id="comment-form-space-{{c.id}}" class="comment-write collapsed child">
 					<form id="reply-to-message-{{c.id}}" action="/reply" method="post" class="input-group" enctype="multipart/form-data">
-						<input type="hidden" name="formkey" value="{{v.formkey}}">
-						<textarea required autocomplete="off" minlength="1" maxlength="10000" name="body" form="reply-to-c_{{c.id}}" data-id="{{c.id}}" class="comment-box form-control rounded" id="reply-form-body-{{c.id}}" aria-label="With textarea" rows="3" data-preview="message-reply-{{c.id}}" oninput="markdown(this)"></textarea>
-						<div class="comment-format" id="comment-format-bar-{{c.id}}">
+						<input type="hidden" name="formkey" value="{{v.formkey}}"> 
+						<textarea required autocomplete="off" minlength="1" maxlength="10000" name="body" form="reply-to-c_{{c.id}}" data-id="{{c.id}}" class="comment-box form-control rounded" id="reply-form-body-{{c.id}}" aria-label="With textarea" rows="3" data-preview="message-reply-{{c.id}}" oninput="markdown(this)"></textarea> 
+						<div class="comment-format" id="comment-format-bar-{{c.id}}"> 
 							<div onclick="loadEmojis('reply-form-body-{{c.id}}')" class="btn btn-secondary m-0 mt-3 mr-1" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>
 
 							{% if c.sentto == 2 %}
@@ -587,8 +588,8 @@
 							{% endif %}
 						</div>
 
-						<a role="button" onclick="document.getElementById('reply-message-{{c.id}}').classList.add('d-none');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form">Cancel</a>
-						<a id="save-reply-to-{{c.id}}" class="btn btn-primary ml-2" onclick="post_reply('{{c.id}}');remove_dialog()" role="button">Reply</a>
+						<a role="button" onclick="document.getElementById('reply-message-{{c.id}}').classList.add('d-none');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form">Cancel</a> 
+						<a id="save-reply-to-{{c.id}}" class="btn btn-primary ml-2" onclick="post_reply('{{c.id}}');remove_dialog()" role="button">Reply</a> 
 					</form>
 					<div id="message-reply-{{c.id}}" class="preview mt-2"></div>
 				</div>
@@ -631,13 +632,10 @@
 
 						{% if c.author_id == v.id %}
 							<a role="button" data-bs-dismiss="modal" onclick="toggleEdit('{{c.id}}')" class="list-group-item"><i class="fas fa-edit mr-2"></i>Edit</a>
-
+							
 							<a id="undelete2-{{c.id}}" class="{% if not c.deleted_utc %}d-none{% endif %} list-group-item text-success" role="button" onclick="post_toast(this,'/undelete/comment/{{c.id}}', 'delete2-{{c.id}}', 'undelete2-{{c.id}}','d-none');document.getElementById('comment-{{c.id}}').classList.remove('deleted')" data-bs-dismiss="modal"><i class="far fa-trash-alt text-success mr-2"></i>Undelete</a>
 
 							<a id="delete2-{{c.id}}" class="{% if c.deleted_utc %}d-none{% endif %} list-group-item text-danger" role="button" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deleteCommentModal" onclick="delete_commentModal('{{c.id}}')"><i class="far fa-trash-alt text-danger mr-2"></i>Delete</a>
-
-							<a id="mark2-{{c.id}}" class="{% if c.over_18 %}d-none{% endif %} list-group-item text-danger" role="button" onclick="post_toast(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-danger mr-2"></i>Mark +18</a>
-							<a id="unmark2-{{c.id}}" class="{% if not c.over_18 %}d-none{% endif %} list-group-item text-danger" role="button" onclick="post_toast(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-danger mr-2"></i>Unmark +18</a>
 						{% else %}
 							{% if c.body %}
 								<a role="button" data-bs-dismiss="modal" onclick="expandMarkdown('{{c.id}}','c')" class="list-group-item"><i class="fas text-expand-icon-{{c.id}} fa-expand-alt mr-2"></i><span class="expand-text-c-{{c.id}}">View source</span></a>
@@ -648,6 +646,11 @@
 								<a id="prompt2-{{c.id}}" data-bs-dismiss="modal" class="blockuser list-group-item d-none text-danger" role="button" onclick="post_toast(this,'/settings/block?username={{c.author.username}}','prompt2-{{c.id}}','unblock2-{{c.id}}','d-none')"><i class="fas fa-eye-slash fa-fw text-danger mr-2"></i>Are you sure?</a>
 								<a id="block2-{{c.id}}" class="{% if c.is_blocking %}d-none{% endif %} list-group-item text-danger" role="button" onclick="document.getElementById('block2-{{c.id}}').classList.toggle('d-none');document.getElementById('prompt2-{{c.id}}').classList.toggle('d-none');"><i class="fas fa-eye-slash fa-fw text-danger mr-2"></i>Block user</a>
 							{% endif %}
+						{% endif %}
+
+						{% if c.author_id == v.id or (c.post.sub and v.mods(c.post.sub)) %}
+							<a id="mark2-{{c.id}}" class="{% if c.over_18 %}d-none{% endif %} list-group-item text-danger" role="button" onclick="post_toast(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-danger mr-2"></i>Mark +18</a>
+							<a id="unmark2-{{c.id}}" class="{% if not c.over_18 %}d-none{% endif %} list-group-item text-danger" role="button" onclick="post_toast(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-danger mr-2"></i>Unmark +18</a>
 						{% endif %}
 
 						{% if v.admin_level < 2 %}
@@ -776,7 +779,7 @@
 				<p class="d-none d-md-block">Your comment will be deleted everywhere on {{SITE_NAME}}.</p>
 
 				<p class="text-muted d-md-none">Your comment will be deleted everywhere on {{SITE_NAME}}.</p>
-
+		
 				<button id="deleteCommentButton" class="btn btn-danger btn-block mt-5" data-bs-dismiss="modal">Delete comment</button>
 
 				<button class="btn btn-secondary btn-block" data-bs-dismiss="modal">Cancel</button>
@@ -833,7 +836,7 @@
 			{
 				{% for c in p.comments %}
 					{% if not (v and v.id==c.author_id) and not c.voted %}
-						if ({{c.created_utc*1000}} > lastCount.t)
+						if ({{c.created_utc*1000}} > lastCount.t) 
 						try {document.getElementById("comment-{{c.id}}-only").classList.add('unread')}
 						catch(e) {}
 					{% endif %}
@@ -864,7 +867,7 @@
 						{
 							{% for c in p.comments %}
 								{% if not (v and v.id==c.author_id) and not c.voted %}
-									if ({{c.created_utc*1000}} > lastCount.t)
+									if ({{c.created_utc*1000}} > lastCount.t) 
 									try {document.getElementById("comment-{{c.id}}-only").classList.add('unread')}
 									catch(e) {}
 								{% endif %}
@@ -887,8 +890,7 @@
 	<div id="viewmore-{{offset}}"><button id="viewbtn" class="btn btn-primary" onclick="viewmore({{pid}},'{{sort}}',{{offset}},{{ids}})">VIEW MORE COMMENTS</a></div>
 {% endif %}
 
-
-<!--{% if SITE_NAME == 'rDrama' and not request.headers.get("xhr") and v and 'SamsungBrowser' not in g.agent %}
+{% if SITE_NAME == 'rDrama' and not request.headers.get("xhr") and v and 'SamsungBrowser' not in g.agent %}
 	<div id="detection" style="display:none;background-color:canvas;color-scheme:light"></div>
 	<script>
 		const detectionDiv = document.querySelector('#detection');
@@ -903,13 +905,13 @@
 					return `<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='50px' height='50px'><text transform='translate(10, 50) rotate(-45)' fill='${color}' font-size='20'>${name}</text></svg>`;
 				};
 				const base64Mark = btoa(markTemplate("{{v.id}}"));
-
+				
 				var style = document.createElement('style');
 				style.innerHTML = `.actual-post:not(.deleted):not(.banned),.comment-section>.comment{background-image:url("data:image/svg+xml;base64,${base64Mark}")}`;
 				document.getElementsByTagName('head')[0].appendChild(style);
 			}
 		}
 	</script>
-{% endif %}-->
+{% endif %}
 
 </body>

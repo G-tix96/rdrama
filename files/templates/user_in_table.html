@@ -5,5 +5,5 @@
 			<img class="profile-pic-20-hat hat" loading="lazy" src="{{user.hat_active}}?h=7" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{user.hat_tooltip(v)}}">
 		{%- endif %}
 	</div>
-	<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.username}}</span>
+	<span {% if user.patron %}class="patron" style="background-color:#{{user.name_color}}"{% endif %}>{{user.user_name}}</span>
 </a>

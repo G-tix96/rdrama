@@ -70,10 +70,6 @@ class ModAction(Base):
 		else:
 			return self._note or ""
 
-	@note.setter
-	def note(self, x):
-		self._note=x
-
 	@property
 	@lazy
 	def string(self):
@@ -148,16 +144,6 @@ ACTIONTYPES = {
 		"str": 'banned user {self.target_link}', 
 		"icon": 'fa-user-slash', 
 		"color": 'bg-danger'
-	},
-	'change_sidebar': {
-		"str": 'changed the sidebar', 
-		"icon": 'fa-columns', 
-		"color": 'bg-primary'
-	},
-	'check': {
-		"str": 'gave {self.target_link} a checkmark', 
-		"icon": 'fa-badge-check', 
-		"color": 'bg-success'
 	},
 	'club_allow': {
 		"str": 'allowed user {self.target_link} into the {cc}', 
@@ -264,18 +250,13 @@ ACTIONTYPES = {
 		"icon": 'fa-tag', 
 		"color": 'bg-primary'
 	},
-	'grant_awards': {
-		"str": 'granted awards to {self.target_link}', 
-		"icon": 'fa-gift', 
-		"color": 'bg-primary'
-	},
 	'link_accounts': {
 		"str": 'linked {self.target_link}', 
 		"icon": 'fa-link', 
 		"color": 'bg-success'
 	},
 	'make_admin': {
-		"str": 'made {self.target_link} admin', 
+		"str": 'made {self.target_link} an admin', 
 		"icon": 'fa-user-crown', 
 		"color": 'bg-success'
 	},
@@ -305,7 +286,7 @@ ACTIONTYPES = {
 		"color": 'bg-danger'
 	},
 	'pin_comment': {
-		"str": 'pinned a {self.target_link}', 
+		"str": 'pinned {self.target_link}', 
 		"icon": 'fa-thumbtack fa-rotate--45', 
 		"color": 'bg-success'
 	},
@@ -389,11 +370,6 @@ ACTIONTYPES = {
 		"icon": 'fa-user', 
 		"color": 'bg-success'
 	},
-	'uncheck': {
-		"str": 'removed checkmark from {self.target_link}', 
-		"icon": 'fa-badge-check', 
-		"color": 'bg-muted'
-	},
 	'undistinguish_comment': {
 		"str": 'un-distinguished {self.target_link}', 
 		"icon": 'fa-crown', 
@@ -410,12 +386,12 @@ ACTIONTYPES = {
 		"color": 'bg-success'
 	},
 	'unpin_comment': {
-		"str": 'un-pinned a {self.target_link}', 
+		"str": 'unpinned {self.target_link}', 
 		"icon": 'fa-thumbtack fa-rotate--45', 
 		"color": 'bg-muted'
 	},
 	'unpin_post': {
-		"str": 'un-pinned post {self.target_link}', 
+		"str": 'unpinned post {self.target_link}', 
 		"icon": 'fa-thumbtack fa-rotate--45', 
 		"color": 'bg-muted'
 	},

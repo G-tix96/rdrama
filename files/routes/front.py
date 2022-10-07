@@ -22,7 +22,7 @@ def front_all(v, sub=None, subdomain=None):
 	if sub:
 		sub = sub.strip().lower()
 		if sub == 'chudrama' and not (v and v.can_see_chudrama): abort(403)
-		sub = g.db.query(Sub).filter_by(name=sub).one_or_none()
+		sub = get_sub_by_name(sub, graceful=True)
 	
 	if (request.path.startswith('/h/') or request.path.startswith('/s/')) and not sub: abort(404)
 
@@ -118,7 +118,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	if sort == 'hot':
 		ti = int(time.time()) + 3600
 		if SITE_NAME == 'rDrama':
-			posts = posts.order_by(-1000000*(Submission.realupvotes + 1 + Submission.comment_count/5 + func.least(10, (func.length(Submission.body_html)-func.length(func.replace(Submission.body_html,'<a href="https://','')))/5))/(func.power(((ti - Submission.created_utc)/1000), 1.23)), Submission.created_utc.desc())
+			posts = posts.order_by(-1000000*(Submission.realupvotes + 1 + Submission.comment_count/5)/(func.power(((ti - Submission.created_utc)/1000), 1.23)), Submission.created_utc.desc())
 		else:
 			posts = posts.order_by(-1000000*(Submission.upvotes - Submission.downvotes + 1)/(func.power(((ti - Submission.created_utc)/1000), 1.23)), Submission.created_utc.desc())
 	elif sort == "bump":
