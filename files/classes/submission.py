@@ -311,6 +311,10 @@ class Submission(Base):
 			if "?" in url: url += "&context=9" 
 			else: url += "?context=8"
 			if v and v.controversial: url += "&sort=controversial"
+		elif url.startswith("https://watchpeopledie.co/videos/"):
+			# Semi-temporary fix for self-hosted unproxied video serving
+			url = url.replace("https://watchpeopledie.co/videos/",
+							  "https://videos.watchpeopledie.co/", 1)
 
 		return url
 	
