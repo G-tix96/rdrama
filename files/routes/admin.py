@@ -318,6 +318,8 @@ def club_allow(v, username):
 	)
 	g.db.add(ma)
 
+	send_repeatable_notification(u.id, f"@{v.username} (admin) has inducted you into the {CC_TITLE}!")
+
 	return {"message": f"@{u.username} has been allowed into the {CC_TITLE}!"}
 
 @app.post("/@<username>/club_ban")
@@ -341,7 +343,9 @@ def club_ban(v, username):
 	)
 	g.db.add(ma)
 
-	return {"message": f"@{u.username} has been kicked from the {CC_TITLE}. Deserved."}
+	send_repeatable_notification(u.id, f"@{v.username} (admin) has disallowed you from the {CC_TITLE}!")
+
+	return {"message": f"@{u.username} has been disallowed from the {CC_TITLE}. Deserved."}
 
 
 @app.get("/admin/shadowbanned")
