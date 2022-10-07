@@ -275,7 +275,9 @@
 			{% else %}
 				{% set banner = 'cached.webp' | asset_siteimg %}
 			{% endif %}
-			<img alt="site banner" src="{{banner}}" width="100%">
+			<a href="{{banner}}">
+				<img alt="site banner" src="{{banner}}" width="100%">
+			</a>
 		{% else %}
 			{% if SITE_NAME == 'PCM' %}
 				{% set path = "assets/images/" + SITE_NAME + "/banners" %}
