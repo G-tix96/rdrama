@@ -117,10 +117,10 @@ def buy(v, award):
 	g.db.add(v)
 
 	if CARP_ID and v.id != CARP_ID and og_price >= 10000:
-		send_repeatable_notification(CARP_ID, f"@{v.username} has bought a `{award}` award!")
+		send_repeatable_notification(CARP_ID, f"@{v.username} has bought a `{AWARDS[award]['title']}` award!")
 
 
-	return {"message": f"{award} award bought!"}
+	return {"message": f"{AWARDS[award]['title']} award bought!"}
 
 @app.post("/award/<thing_type>/<id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -133,7 +133,7 @@ def award_thing(v, thing_type, id):
 	if thing_type == 'post': thing = get_post(id)
 	else: thing = get_comment(id)
 
-	if v.shadowbanned: return render_template('errors/500.html', err=True, v=v), 500
+	if v.shadowbanned: abort(500)
 	
 	kind = request.values.get("kind", "").strip()
 	
@@ -186,10 +186,7 @@ def award_thing(v, thing_type, id):
 
 			g.db.delete(award)
 
-			if request.referrer and len(request.referrer) > 1:
-				if request.referrer == f'{SITE_FULL}/submit': return redirect(thing.permalink)
-				elif request.referrer.startswith(f'{SITE_FULL}/'): return redirect(request.referrer)
-			return redirect(SITE_FULL)
+			return {"message": f"{AWARDS[kind]['title']} award given to {thing_type} successfully!"}
 
 		if author.deflector and v.id != AEVANN_ID and (AWARDS[kind]['price'] > 500 or kind == 'marsify' or kind.istitle()) and kind not in ('pin','unpin','benefactor'):
 			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award but it was deflected and applied to them :marseytroll:"
@@ -431,7 +428,4 @@ def award_thing(v, thing_type, id):
 	else: author.received_award_count = 1
 	g.db.add(author)
 
-	if request.referrer and len(request.referrer) > 1:
-		if request.referrer == f'{SITE_FULL}/submit': return redirect(thing.permalink)
-		elif request.referrer.startswith(f'{SITE_FULL}/'): return redirect(request.referrer)
-	return redirect(SITE_FULL)
+	return {"message": f"{AWARDS[kind]['title']} award given to {thing_type} successfully!"}

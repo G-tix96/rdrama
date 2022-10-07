@@ -248,7 +248,8 @@ function post_toast_callback(url, data, callback) {
 
 	form.append("formkey", formkey());
 	xhr.onload = function() {
-		let result = callback(xhr);
+		let result
+		if (callback) result = callback(xhr);
 		if (xhr.status >= 200 && xhr.status < 300) {
 			var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error'));
 			myToast.hide();

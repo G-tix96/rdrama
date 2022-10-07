@@ -178,3 +178,12 @@ function buy(mb) {
 	xhr.send(form);
 
 }
+
+function giveaward(t) {
+	post_toast_callback(t.dataset.action,
+		{
+		"kind": document.getElementById('kind').value,
+		"note": document.getElementById('note').value
+		}
+	);
+}
