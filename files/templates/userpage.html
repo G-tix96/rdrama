@@ -685,7 +685,7 @@
 						{% endif %}
 						<pre></pre>
 						<pre></pre>
-						{% if v.admin_level >= PERMS['USER_SHADOWBAN']}
+						{% if v.admin_level >= PERMS['USER_SHADOWBAN'] %}
 							{% if u.shadowbanned %}
 								<form action="/unshadowban/{{u.id}}" method="post">
 									<input type="hidden" name="formkey", value="{{v.formkey}}">
