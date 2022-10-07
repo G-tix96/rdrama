@@ -349,7 +349,7 @@
 							<a id="unagendaposter" class="{% if not u.agendaposter %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/unagendaposter/{{u.id}}','agendaposter1','unagendaposter','d-none')">Disable Chud Theme</a>
 						{% endif %}
 						<pre></pre>
-						{% if v and v.admin_level >= PERMS['USER_BAN']}
+						{% if v and v.admin_level >= PERMS['USER_BAN'] %}
 							<a id="mute-user" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/1','mute-user','unmute-user','d-none')">Mute</a>
 							<a id="unmute-user" class="{% if not u.is_muted %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/0','mute-user','unmute-user','d-none')">Unmute</a>
 						{% endif %}
