@@ -28,21 +28,57 @@ import os
 titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
 
 
-@app.post("/toggle_club/<pid>")
+@app.post("/club_post/<pid>")
 @auth_required
-def toggle_club(pid, v):
+def club_post(pid, v):
 	if not FEATURES['COUNTRY_CLUB']:
 		abort(403)
 
 	post = get_post(pid)
 	if post.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']: abort(403)
 
-	post.club = not post.club
-	g.db.add(post)
+	if not post.club:
+		post.club = True
+		g.db.add(post)
 
+		if post.author_id != v.id:
+			ma = ModAction(
+				kind = "club_post",
+				user_id = v.id,
+				target_submission_id = post.id,
+			)
+			g.db.add(ma)
 
-	if post.club: return {"message": "Post has been marked as club-only!"}
-	else: return {"message": "Post has been unmarked as club-only!"}
+			message = f"@{v.username} (admin) has moved [{post.title}]({post.shortlink}) to the {CC_TITLE}!"
+			send_repeatable_notification(post.author_id, message)
+
+	return {"message": f"Post has been moved to the {CC_TITLE}!"}
+
+@app.post("/unclub_post/<pid>")
+@auth_required
+def unclub_post(pid, v):
+	if not FEATURES['COUNTRY_CLUB']:
+		abort(403)
+
+	post = get_post(pid)
+	if post.author_id != v.id and v.admin_level < 2: abort(403)
+
+	if post.club:
+		post.club = False
+		g.db.add(post)
+
+		if post.author_id != v.id:
+			ma = ModAction(
+				kind = "unclub_post",
+				user_id = v.id,
+				target_submission_id = post.id,
+			)
+			g.db.add(ma)
+
+			message = f"@{v.username} (admin) has removed [{post.title}]({post.shortlink}) from the {CC_TITLE}!"
+			send_repeatable_notification(post.author_id, message)
+
+	return {"message": f"Post has been removed from the {CC_TITLE}!"}
 
 
 @app.post("/publish/<pid>")
