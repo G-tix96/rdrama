@@ -30,7 +30,7 @@
 						<input type="hidden" name="formkey" value="{{v.formkey}}">
 						<input type="hidden" name="redir" value="true">
 						<input type="submit" onclick="disable(this)" class="btn btn-success" value="Unban user">
-						</form>
+					</form>
 				{% else %}
 					<form action="/ban_user/{{u.id}}" method="post">
 						<input type="hidden" name="formkey" value="{{v.formkey}}">
