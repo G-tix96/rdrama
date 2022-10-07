@@ -278,7 +278,8 @@
 			<img alt="site banner" src="{{banner}}" width="100%">
 		{% else %}
 			{% if SITE_NAME == 'PCM' %}
-				{% set banner = 'banners/halloween.webp' | asset_siteimg %}
+				{% set path = "assets/images/" + SITE_NAME + "/banners" %}
+				{% set banner = "/" + path + "/" + listdir('files/' + path)|last + '?v=1' %}
 			{% else %}
 				{% set banner = 'banner.webp' | asset_siteimg %}
 			{% endif %}
