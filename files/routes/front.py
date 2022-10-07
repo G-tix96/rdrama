@@ -239,7 +239,7 @@ def comment_idlist(page=1, v=None, nsfw=False, sort="new", t="all", gt=0, lt=0, 
 
 	comments = g.db.query(Comment.id).filter(Comment.parent_submission != None, Comment.author_id.notin_(v.userblocks))
 
-	if v.admin_level < 2:
+	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		private = [x[0] for x in g.db.query(Submission.id).filter(Submission.private == True).all()]
 
 		comments = comments.filter(Comment.is_banned==False, Comment.deleted_utc == 0, Comment.parent_submission.notin_(private))

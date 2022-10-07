@@ -41,7 +41,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 
 	if not comment.can_see(v): abort(403)
 	
-	if comment.author.shadowbanned and not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
+	if comment.author.shadowbanned and not (v and v.shadowbanned) and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
 		abort(404)
 
 	if v and request.values.get("read"):
@@ -52,7 +52,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 
 	if comment.post and comment.post.club and not (v and (v.paid_dues or v.id in [comment.author_id, comment.post.author_id])): abort(403)
 
-	if not comment.parent_submission and not (v and (comment.author.id == v.id or comment.sentto == v.id)) and not (v and v.admin_level > 1) : abort(403)
+	if not comment.parent_submission and not (v and (comment.author.id == v.id or comment.sentto == v.id)) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) : abort(403)
 	
 	if not pid:
 		if comment.parent_submission: pid = comment.parent_submission
@@ -96,7 +96,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 			blocked.c.target_id,
 		)
 
-		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
+		if not (v and v.shadowbanned) and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
 			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
 		 
 		comments=comments.filter(
@@ -127,7 +127,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 			
 	if request.headers.get("Authorization"): return top_comment.json
 	else: 
-		if post.is_banned and not (v and (v.admin_level > 1 or post.author_id == v.id)): template = "submission_banned.html"
+		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)): template = "submission_banned.html"
 		else: template = "submission.html"
 		return render_template(template, v=v, p=post, sort=sort, comment_info=comment_info, render_replies=True, sub=post.subr)
 
@@ -156,7 +156,7 @@ def comment(v):
 		parent_comment_id = None
 		level = 1
 
-		if POLL_THREAD and parent.id == POLL_THREAD and v.admin_level < 2: abort(403)
+		if POLL_THREAD and parent.id == POLL_THREAD and v.admin_level < PERMS['POST_TO_POLL_THREAD']: abort(403)
 	elif parent_fullname.startswith("c_"):
 		parent = get_comment(parent_fullname.split("_")[1], v=v)
 		parent_comment_id = parent.id
@@ -196,7 +196,7 @@ def comment(v):
 				file.save(oldname)
 				image = process_image(oldname, patron=v.patron)
 				if image == "": return {"error":"Image upload failed"}, 400
-				if v.admin_level > 2 and level == 1:
+				if v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES'] and level == 1:
 					if parent_post.id == SIDEBAR_THREAD:
 						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/sidebar'),
 							key=lambda e: int(e.split('.webp')[0]))[-1]
@@ -239,7 +239,7 @@ def comment(v):
 
 	body = body.strip()
 	
-	if v.admin_level > 2 and parent_post.id == SNAPPY_THREAD and level == 1:
+	if v.admin_level >= PERMS['SITE_SETTINGS_SNAPPY_QUOTES'] and parent_post.id == SNAPPY_THREAD and level == 1:
 		with open(f"snappy_{SITE_NAME}.txt", "a", encoding="utf-8") as f:
 			f.write('\n{[para]}\n' + body)
 
@@ -263,7 +263,7 @@ def comment(v):
 																	).first()
 		if existing: return {"error": f"You already made that comment: /comment/{existing.id}"}, 409
 
-	if parent.author.any_block_exists(v) and v.admin_level < 2:
+	if parent.author.any_block_exists(v) and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		return {"error": "You can't reply to users who have blocked you, or users you have blocked."}, 403
 
 	is_bot = v.id != 12125 and (bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
@@ -914,7 +914,7 @@ def handle_wordle_action(cid, v):
 def toggle_comment_nsfw(cid, v):
 	comment = get_comment(cid)
 
-	if comment.author_id != v.id and not v.admin_level > 1 and not (comment.post.sub and v.mods(comment.post.sub)):
+	if comment.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (comment.post.sub and v.mods(comment.post.sub)):
 		abort(403)
 		
 	if comment.over_18 and v.is_suspended_permanently:
@@ -924,7 +924,7 @@ def toggle_comment_nsfw(cid, v):
 	g.db.add(comment)
 
 	if comment.author_id != v.id:
-		if v.admin_level > 2:
+		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma = ModAction(
 					kind = "set_nsfw_comment" if comment.over_18 else "unset_nsfw_comment",
 					user_id = v.id,

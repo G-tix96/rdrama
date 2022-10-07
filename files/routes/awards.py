@@ -51,7 +51,7 @@ def buy(v, award):
 	if award == 'benefactor' and not request.values.get("mb"):
 		return {"error": "You can only buy the Benefactor award with marseybux."}, 403
 
-	if award == 'ghost' and v.admin_level < 2:
+	if award == 'ghost' and v.admin_level < PERMS['BUY_GHOST_AWARD']:
 		return {"error": "Only admins can buy this award."}, 403
 
 	AWARDS = deepcopy(AWARDS2)
@@ -209,7 +209,7 @@ def award_thing(v, thing_type, id):
 			author.unban_utc += 86400
 			send_repeatable_notification(author.id, f"Your account has been banned for **yet another day** for {link}. Seriously man?")
 
-		if v.admin_level > 2:
+		if v.admin_level >= PERMS['USER_BAN']:
 			log_link = f'/{thing_type}/{thing.id}'
 			reason = f'<a href="{log_link}">{log_link}</a>'
 
@@ -233,7 +233,7 @@ def award_thing(v, thing_type, id):
 			author.ban_reason = None
 			send_repeatable_notification(author.id, "You have been unbanned!")
 
-		if v.admin_level > 2:
+		if v.admin_level >= PERMS['USER_BAN']:
 			ma=ModAction(
 				kind="unban_user",
 				user_id=v.id,
@@ -246,7 +246,7 @@ def award_thing(v, thing_type, id):
 		author.unban_utc = int(time.time()) + 30 * 86400
 		send_repeatable_notification(author.id, f"Your account has been banned permanently for {link}. You must [provide the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
 
-		if v.admin_level > 2:
+		if v.admin_level >= PERMS['USER_BAN']:
 			log_link = f'/{thing_type}/{thing.id}'
 			reason = f'<a href="{log_link}">{log_link}</a>'
 
@@ -294,7 +294,7 @@ def award_thing(v, thing_type, id):
 		
 		badge_grant(user=author, badge_id=28)
 
-		if v.admin_level > 2:
+		if v.admin_level >= PERMS['USER_AGENDAPOSTER']:
 			ma = ModAction(
 				kind="agendaposter",
 				user_id=v.id,

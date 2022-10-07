@@ -8,7 +8,7 @@ from files.helpers.lottery import *
 import requests
 
 @app.post("/lottery/end")
-@admin_level_required(3)
+@admin_level_required(PERMS['LOTTERY_ADMIN'])
 @casino_required
 def lottery_end(v):
 	success, message = end_lottery_session()
@@ -16,7 +16,7 @@ def lottery_end(v):
 
 
 @app.post("/lottery/start")
-@admin_level_required(3)
+@admin_level_required(PERMS['LOTTERY_ADMIN'])
 @casino_required
 def lottery_start(v):
 	start_new_lottery_session()
@@ -51,7 +51,7 @@ def lottery_active(v):
 	return {"message": "", "stats": {"user": v.lottery_stats, "lottery": lottery, "participants": participants}}
 
 @app.get("/admin/lottery/participants")
-@admin_level_required(2)
+@admin_level_required(PERMS['LOTTERY_VIEW_PARTICIPANTS'])
 @casino_required
 def lottery_admin(v):
 	participants = get_users_participating_in_lottery()

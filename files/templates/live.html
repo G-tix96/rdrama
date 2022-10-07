@@ -54,7 +54,7 @@
 							<td>{{name}}</td>
 							<td>{{title}}</td>
 							<td>{{viewers}} watching</td>
-							{% if v and v.admin_level > 1 %}
+							{% if v and v.admin_level >= PERMS['STREAMERS_MODERATION'] %}
 								<td>
 									<form action="/live/remove" method="post">
 										<input type="hidden" name="formkey" value="{{v.formkey}}">
@@ -80,7 +80,7 @@
 							<td>{{name}}</td>
 							<td>{{actual}} ago</td>
 							<td>{{views}} views</td>
-							{% if v and v.admin_level > 1 %}
+							{% if v and v.admin_level >= PERMS['STREAMERS_MODERATION'] %}
 								<td>
 									<form action="/live/remove" method="post">
 										<input type="hidden" name="formkey" value="{{v.formkey}}">
@@ -96,7 +96,7 @@
 			</table>
 		</div>
 
-		{% if v and v.admin_level > 1 %}
+		{% if v and v.admin_level >= PERMS['STREAMERS_MODERATION'] %}
 			<form action="/live/add" method="post">
 				<input type="hidden" name="formkey" value="{{v.formkey}}">
 				<input class="form-control" autocomplete="off" type="text" name="link" class="form-control" placeholder="Enter channel link.." required>

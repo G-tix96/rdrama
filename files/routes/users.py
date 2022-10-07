@@ -26,7 +26,7 @@ from .login import check_for_alts
 @auth_required
 def upvoters_posts(v, username, uid):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
@@ -48,7 +48,7 @@ def upvoters_posts(v, username, uid):
 @auth_required
 def upvoters_comments(v, username, uid):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
@@ -70,7 +70,7 @@ def upvoters_comments(v, username, uid):
 @auth_required
 def downvoters_posts(v, username, uid):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
@@ -92,7 +92,7 @@ def downvoters_posts(v, username, uid):
 @auth_required
 def downvoters_comments(v, username, uid):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
@@ -117,7 +117,7 @@ def downvoters_comments(v, username, uid):
 @auth_required
 def upvoting_posts(v, username, uid):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
@@ -139,7 +139,7 @@ def upvoting_posts(v, username, uid):
 @auth_required
 def upvoting_comments(v, username, uid):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
@@ -161,7 +161,7 @@ def upvoting_comments(v, username, uid):
 @auth_required
 def downvoting_posts(v, username, uid):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
@@ -183,7 +183,7 @@ def downvoting_posts(v, username, uid):
 @auth_required
 def downvoting_comments(v, username, uid):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	uid = int(uid)
@@ -205,7 +205,7 @@ def downvoting_comments(v, username, uid):
 @auth_required
 def user_upvoted_posts(v, username):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 
 	page = max(1, int(request.values.get("page", 1)))
@@ -231,7 +231,7 @@ def user_upvoted_posts(v, username):
 @auth_required
 def user_upvoted_comments(v, username):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)): abort(403)
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 
 	page = max(1, int(request.values.get("page", 1)))
@@ -674,7 +674,7 @@ def message2(v, username):
 	if hasattr(user, 'is_blocking') and user.is_blocking:
 		return {"error": "You're blocking this user."}, 403
 
-	if v.admin_level <= 1 and hasattr(user, 'is_blocked') and user.is_blocked:
+	if v.admin_level <= PERMS['MESSAGE_BLOCKED_USERS'] and hasattr(user, 'is_blocked') and user.is_blocked:
 		return {"error": "This user is blocking you."}, 403
 
 	message = request.values.get("message", "").strip()[:10000].strip()
@@ -810,7 +810,7 @@ def messagereply(v):
 
 
 	if c.top_comment.sentto == 2:
-		admins = g.db.query(User.id).filter(User.admin_level > 2, User.id != v.id)
+		admins = g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id)
 		if SITE == 'watchpeopledie.co':
 			admins = admins.filter(User.id != AEVANN_ID)
 
@@ -961,7 +961,7 @@ def u_username(username, v=None):
 		g.db.commit()
 
 		
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)):
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)):
 		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
 			return {"error": "This userpage is private"}, 403
 
@@ -1049,7 +1049,7 @@ def u_username_comments(username, v=None):
 		return render_template("userpage_reserved.html", u=u, v=v)
 
 
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < 2 and not v.eye)):
+	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)):
 		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
 			return {"error": "This userpage is private"}, 403
 		return render_template("userpage_private.html", u=u, v=v)
@@ -1074,7 +1074,7 @@ def u_username_comments(username, v=None):
 					Comment.parent_submission != None
 				)
 
-	if not v or (v.id != u.id and v.admin_level < 2):
+	if not v or (v.id != u.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']):
 		comments = comments.filter(
 			Comment.is_banned == False,
 			Comment.ghost == False,

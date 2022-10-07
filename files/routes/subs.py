@@ -345,7 +345,7 @@ def create_sub2(v):
 		mod = Mod(user_id=v.id, sub=sub.name)
 		g.db.add(mod)
 
-		admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level > 1, User.id != v.id).all()]
+		admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id).all()]
 		for admin in admins:
 			send_repeatable_notification(admin, f":!marseyparty: /h/{sub} has been created by @{v.username} :marseyparty:")
 
@@ -366,7 +366,7 @@ def kick(v, pid):
 	old = post.sub
 	post.sub = None
 	
-	if v.admin_level >= 3 and v.id != post.author_id:
+	if v.admin_level >= PERMS['HOLE_GLOBAL_MODERATION'] and v.id != post.author_id:
 		old_str = f'<a href="/h/{old}">/h/{old}</a>'
 		ma = ModAction(
 			kind='move_hole',
@@ -385,7 +385,7 @@ def kick(v, pid):
 		g.db.add(ma)
 
 	if v.id != post.author_id:
-		if v.admin_level >= 3: position = 'Admin'
+		if v.admin_level >= PERMS['HOLE_GLOBAL_MODERATION']: position = 'Admin'
 		else: position = 'Mod'
 		message = f"@{v.username} ({position}) has moved [{post.title}]({post.shortlink}) from /h/{old} to the main feed!"
 		send_repeatable_notification(post.author_id, message)

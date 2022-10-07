@@ -121,12 +121,76 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 ################################################################################
 
 PERMS = { # Minimum admin_level to perform action.
+	'ADMIN_ADD': 3, # note: explicitly disabled on rDrama
+	'ADMIN_REMOVE': 3,
+	'ADMIN_ADD_PERM_LEVEL': 2, # permission level given when user added via site
+	'ADMIN_ACTIONS_REVERT': 3,
+	'ADMIN_MOP_VISIBLE': 2,
+	'ADMIN_HOME_VISIBLE': 2,
+	'DOMAINS_BAN': 3,
 	'HOLE_CREATE': 0,
+	'HOLE_GLOBAL_MODERATION': 3,
 	'FLAGS_REMOVE': 2,
 	'VOTES_VISIBLE': 0,
 	'USER_BLOCKS_VISIBLE': 0,
 	'USER_FOLLOWS_VISIBLE': 0,
 	'USER_VOTERS_VISIBLE': 0,
+	'POST_COMMENT_MODERATION': 2,
+	'POST_COMMENT_DISTINGUISH': 1,
+	'POST_COMMENT_MODERATION_TOOLS_VISIBLE': 2, # note: does not affect API at all
+	'POST_EDITING': 3,
+	'USER_BADGES': 2,
+	'USER_BAN': 2,
+	'USER_SHADOWBAN': 2,
+	'USER_AGENDAPOSTER': 2,
+	'USER_CLUB_ALLOW_BAN': 2,
+	'USER_LINK': 2,
+	'USER_MERGE': 3, # note: extra check for Aevann
+	'USER_TITLE_CHANGE': 2,
+	'USER_MODERATION_TOOLS_VISIBLE': 2, # note: does not affect API at all
+	'POST_TO_CHANGELOG': 1, # note: code contributors can also post to changelog
+	'POST_TO_POLL_THREAD': 2,
+	'POST_BETS': 3,
+	'POST_BETS_DISTRIBUTE': 3, # probably should be the same as POST_BETS but w/e
+	'BYPASS_PIN_LIMIT': 3,
+	'VIEW_PENDING_SUBMITTED_MARSEYS': 3,
+	'VIEW_PENDING_SUBMITTED_HATS': 3,
+	'MODERATE_PENDING_SUBMITTED_MARSEYS': 3, # note: there is an extra check so that only """carp""" can approve them
+	'MODERATE_PENDING_SUBMITTED_HATS': 3, # note: there is an extra check so that only """carp""" can approve them
+	'UPDATE_MARSEYS': 3, # note: extra check is here for 4 different users
+	'UPDATE_HATS': 3, # note: extra check is here for 4 different users
+	'BUY_GHOST_AWARD': 2,
+	'LOTTERY_ADMIN': 3,
+	'LOTTERY_VIEW_PARTICIPANTS': 2,
+	'VIEW_MODMAIL': 2,
+	'VIEW_CLUB': 1,
+	'VIEW_CHUDRAMA': 1,
+	'VIEW_PRIVATE_PROFILES': 2,
+	'VIEW_ALTS': 2,
+	'VIEW_PROFILE_VIEWS': 2,
+	'VIEW_SORTED_ADMIN_LIST': 3,
+	'VIEW_ACTIVE_USERS': 2,
+	'VIEW_ALL_USERS': 2,
+	'VIEW_ALT_VOTES': 2,
+	'VIEW_LAST_ACTIVE': 2,
+	'VIEW_PATRONS': 3, # note: extra check for Aevann, carp, or snakes
+	'VIEW_VOTE_BUTTONS_ON_USER_PAGE': 2,
+	'PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES': 3, # note: explicitly disabled on rDrama
+	'SITE_SETTINGS': 3,
+	'SITE_SETTINGS_SIDEBARS_BANNERS_BADGES': 3,
+	'SITE_SETTINGS_SNAPPY_QUOTES': 3,
+	'SITE_SETTINGS_UNDER_ATTACK': 3,
+	'SITE_CACHE_PURGE_CDN': 3,
+	'SITE_CACHE_DUMP_INTERNAL': 2,
+	'NOTIFICATIONS_HOLE_INACTIVITY_DELETION': 2,
+	'NOTIFICATIONS_HOLE_CREATION': 2,
+	'NOTIFICATIONS_FROM_SHADOWBANNED_USERS': 3,
+	'NOTIFICATIONS_MODMAIL': 3,
+	'NOTIFICATIONS_SPECIFIC_WPD_COMMENTS': 1,
+	'MESSAGE_BLOCKED_USERS': 1,
+	'APPS_MODERATION': 3,
+	'STREAMERS_MODERATION': 2,
+	'UNKNOWN_ADMIN_LEVEL2_PERM4': 2, # TODO: figure out what this is and remove it if unnecessary
 }
 
 FEATURES = {
@@ -217,6 +281,7 @@ GIFT_NOTIF_ID = 5
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
+	PERMS['ADMIN_ADD_PERM_LEVEL'] = 0 # extra check here to disallow adding admins on site
 
 	SIDEBAR_THREAD = 37696
 	BANNER_THREAD = 37697

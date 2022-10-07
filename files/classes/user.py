@@ -285,7 +285,7 @@ class User(Base):
 	@lazy
 	def mods(self, sub):
 		if self.is_suspended_permanently or self.shadowbanned: return False
-		return self.admin_level > 2 or bool(g.db.query(Mod.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
+		return self.admin_level >= PERMS['HOLE_GLOBAL_MODERATION'] or bool(g.db.query(Mod.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
 
 	@lazy
 	def exiled_from(self, sub):
@@ -319,7 +319,7 @@ class User(Base):
 
 	@lazy
 	def mod_date(self, sub):
-		if self.admin_level >= 3: return 1
+		if self.admin_level >= PERMS['HOLE_GLOBAL_MODERATION']: return 1
 		mod = g.db.query(Mod).filter_by(user_id=self.id, sub=sub).one_or_none()
 		if not mod: return None
 		return mod.created_utc
@@ -414,9 +414,10 @@ class User(Base):
 	@property
 	@lazy
 	def paid_dues(self):
-		if not FEATURES['COUNTRY_CLUB']:
-			return True
-		return not self.shadowbanned and not (self.is_banned and not self.unban_utc) and (self.admin_level or self.club_allowed or (self.club_allowed != False and self.truecoins >= dues))
+		if not FEATURES['COUNTRY_CLUB']: return True
+		if self.shadowbanned: return False
+		if self.is_suspended_permanently: return False
+		return self.admin_level >= PERMS['VIEW_CLUB'] or self.club_allowed or (self.club_allowed != False and self.truecoins >= dues)
 
 	@lazy
 	def any_block_exists(self, other):
@@ -453,11 +454,11 @@ class User(Base):
 	@cache.memoize(timeout=86400)
 	def userpagelisting(self, site=None, v=None, page=1, sort="new", t="all"):
 
-		if self.shadowbanned and not (v and (v.admin_level > 1 or v.id == self.id)): return []
+		if self.shadowbanned and not (v and (v.admin_level >= PERMS['USER_SHADOWBAN'] or v.id == self.id)): return []
 
 		posts = g.db.query(Submission.id).filter_by(author_id=self.id, is_pinned=False)
 
-		if not (v and (v.admin_level > 1 or v.id == self.id)):
+		if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.id)):
 			posts = posts.filter_by(is_banned=False, private=False, ghost=False, deleted_utc=0)
 
 		posts = apply_time_filter(t, posts, Submission)
@@ -565,7 +566,7 @@ class User(Base):
 	@property
 	@lazy
 	def modaction_num(self):
-		if self.admin_level < 2: return 0
+		if self.admin_level < PERMS['ADMIN_MOP_VISIBLE']: return 0
 		return g.db.query(ModAction).filter_by(user_id=self.id).count()
 
 	@property
@@ -585,7 +586,7 @@ class User(Base):
 			Notification.user_id == self.id, Notification.read == False, 
 			Comment.is_banned == False, Comment.deleted_utc == 0)
 		
-		if not self.shadowbanned and self.admin_level < 3:
+		if not self.shadowbanned and self.admin_level < PERMS['USER_SHADOWBAN']:
 			notifs = notifs.join(Comment.author).filter(User.shadowbanned == None)
 		
 		return notifs.count() + self.post_notifications_count + self.modaction_notifications_count
@@ -610,7 +611,7 @@ class User(Base):
 					Comment.parent_submission == None,
 				)
 
-		if not self.shadowbanned and self.admin_level < 3:
+		if not self.shadowbanned and self.admin_level < PERMS['USER_SHADOWBAN']:
 			notifs = notifs.join(Comment.author).filter(User.shadowbanned == None)
 
 		return notifs.count()
@@ -767,8 +768,8 @@ class User(Base):
 				'bannerurl': self.banner_url,
 				'bio_html': self.bio_html_eager,
 				'coins': self.coins,
-				'post_count': 0 if self.shadowbanned and not (v and (v.shadowbanned or v.admin_level >= 2)) else self.post_count,
-				'comment_count': 0 if self.shadowbanned and not (v and (v.shadowbanned or v.admin_level >= 2)) else self.comment_count,
+				'post_count': 0 if self.shadowbanned and not (v and (v.shadowbanned or v.admin_level >= PERMS['USER_SHADOWBAN'])) else self.post_count,
+				'comment_count': 0 if self.shadowbanned and not (v and (v.shadowbanned or v.admin_level >= PERMS['USER_SHADOWBAN'])) else self.comment_count,
 				'badges': [x.path for x in self.badges],
 				}
 
@@ -895,7 +896,7 @@ class User(Base):
 	def viewers_recorded(self):
 		if SITE_NAME == 'WPD': # WPD gets profile views
 			return True
-		elif self.admin_level >= 2: # Admins get profile views
+		elif self.admin_level >= PERMS['VIEW_PROFILE_VIEWS']: # Admins get profile views
 			return True
 		elif self.patron: # Patrons get profile views as a perk
 			return True
@@ -919,7 +920,7 @@ class User(Base):
 	@property
 	@lazy
 	def can_see_chudrama(self):
-		if self.admin_level: return True
+		if self.admin_level >= PERMS['VIEW_CHUDRAMA']: return True
 		if self.client: return True
 		if self.truecoins >= 5000: return True
 		if self.agendaposter: return True
