@@ -90,7 +90,7 @@ pre {
 
 .arrow-up::before, .arrow-down::before {
 	content: '\f720';
-	width: 14px;
+	width: 20px;
 }
 
 .arrow-down::before {
