@@ -360,6 +360,7 @@
 	:root {
 		--Xpos: 50vw;
 		--Ypos: 50vh;
+		position: relative;
 	}
 	:root:before {
 		content: "";
@@ -374,6 +375,7 @@
 			rgba(0,0,0,.5) 60%,
 			rgba(0,0,0,.93) 100%
 			);
+		z-index: 1051;
 	}
 	@media (max-width: 767.98px) {
 		:root::before {
