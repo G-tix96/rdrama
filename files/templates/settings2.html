@@ -52,8 +52,6 @@
 {% include "header.html" %}
 
 {% block subNav %}
-
-{% set mod = (v and v.admin_level >= PERMS['UNKNOWN_ADMIN_LEVEL2_PERM4']) %}
 	{% if not request.path.startswith('/h/') %}
 		<div class="container-fluid bg-white sticky d-none d-md-block" style="padding-top: 50px; padding-bottom: 0 !important;">
 			<div class="row box-shadow-bottom">
