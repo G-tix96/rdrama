@@ -172,7 +172,7 @@ def notifications_posts(v):
 
 
 @app.get("/notifications/modactions")
-@admin_level_required(NOTIF_MODACTION_JL_MIN)
+@admin_level_required(PERMS['NOTIFICATIONS_MODERATOR_ACTIONS'])
 def notifications_modactions(v):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1

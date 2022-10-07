@@ -379,7 +379,7 @@ class User(Base):
 	@property
 	@lazy
 	def can_view_offsitementions(self):
-		return self.offsitementions or self.admin_level >= REDDIT_NOTIFS_JL_MIN
+		return self.offsitementions or self.admin_level >= PERMS['NOTIFICATIONS_REDDIT']
 
 	@property
 	@lazy

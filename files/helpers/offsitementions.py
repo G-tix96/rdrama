@@ -8,15 +8,16 @@ from files.classes.comment import Comment
 from files.classes.notifications import Notification
 from files.helpers.sanitize import sanitize
 
-# https://api.pushshift.io/meta provides key server_ratelimit_per_minute
-# At time of writing, the ratelimit is 120 req/min. We get nowhere near this 
+# Note: while https://api.pushshift.io/meta provides the key
+# server_ratelimit_per_minute, in practice Cloudflare puts stricter,
+# unofficially documented limits at around 60/minute. We get nowhere near this 
 # with current keyword quantities. If this ever changes, consider reading the 
-# value from /meta and doing a random selection of keywords.
+# value from /meta (or just guessing) and doing a random selection of keywords.
 
 def offsite_mentions_task():
 	if const.REDDIT_NOTIFS_SITE:
 		row_send_to = g.db.query(User.id) \
-			.filter(or_(User.admin_level >= const.REDDIT_NOTIFS_JL_MIN,
+			.filter(or_(User.admin_level >= const.PERMS['NOTIFICATIONS_REDDIT'],
 				User.offsitementions == True)).all()
 		send_to = [x[0] for x in row_send_to]
 
