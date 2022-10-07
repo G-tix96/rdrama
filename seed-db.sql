@@ -295,7 +295,6 @@ INSERT INTO public.hat_defs VALUES (787, 'Turban', 'Turban with Bindi Dot (Namas
 INSERT INTO public.hat_defs VALUES (788, 'LGBTUSSR Officer Hat', 'Rule with an iron fist... And use that iron fist for more than ruling ;)', 2, 1000, NULL, 1664994148);
 INSERT INTO public.hat_defs VALUES (808, 'The Capy 2', 'The drippiest and pimpiest capybara out there.', 2, 500, NULL, 1665104484);
 
-
 INSERT INTO public.hat_defs VALUES (676, 'Kepi', 'Army cap for those unlucky enough to be French', 2, 500, NULL, 1663303083);
 INSERT INTO public.hat_defs VALUES (678, 'Turkroach', 'Come on Carp this one''s hilarious. It''s semi transparent to clarify', 2, 500, NULL, 1663305640);
 INSERT INTO public.hat_defs VALUES (679, 'Judge Dredd', 'THIS USER IS THE LAW', 2, 500, NULL, 1663309533);
@@ -2125,6 +2124,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyplaying',2,'fish playful mischief srdine animated',NULL),
 ('marseyplaying2',2,'fish playful mischief srdine animated',NULL),
 ('marseypleading',2,'sad eyes begging puppy dog eyes',NULL),
+('marseypleading2',2,'please beg pls shy sad puppy eyes adorable',1665169734),
 ('marseyplugged',2,'electric technology gif animated plug',NULL),
 ('marseyplush',2,'bow ribbon doll plushie button eyes',NULL),
 ('marseyplushie',2,'yunann plush statue',NULL),
