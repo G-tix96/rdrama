@@ -95,7 +95,7 @@ def NOTIFY_USERS(text, v):
 			notify_users.add(user.id)
 
 	if SITE_NAME == "WPD" and 'daisy' in text.lower():
-		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level > 0).all()]
+		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_SPECIFIC_WPD_COMMENTS']).all()]
 		notify_users.update(admin_ids)
 
 	return notify_users - bots

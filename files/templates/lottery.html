@@ -10,7 +10,7 @@
 		/>
 	</div>
 	<div class="lottery-page--stats">
-		{% if v.admin_level > 2 %}
+		{% if v.admin_level >= PERMS['LOTTERY_ADMIN'] %}
 		<div
 		class="lottery-page--stat"
 		style="position: relative; padding-top: 1rem; overflow: hidden"

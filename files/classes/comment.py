@@ -322,8 +322,8 @@ class Comment(Base):
 	def realbody(self, v):
 		if self.post and self.post.club and not (v and (v.paid_dues or v.id in [self.author_id, self.post.author_id] or (self.parent_comment and v.id == self.parent_comment.author_id))):
 			return f"<p>{CC} ONLY</p>"
-		if self.deleted_utc != 0 and not (v and (v.admin_level >= 2 or v.id == self.author.id)): return "[Deleted by user]"
-		if self.is_banned and not (v and v.admin_level >= 2): return "[Removed by admins]";
+		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "[Deleted by user]"
+		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']): return "[Removed by admins]"
 
 		body = self.body_html or ""
 
@@ -389,8 +389,8 @@ class Comment(Base):
 	def plainbody(self, v):
 		if self.post and self.post.club and not (v and (v.paid_dues or v.id in [self.author_id, self.post.author_id] or (self.parent_comment and v.id == self.parent_comment.author_id))):
 			return f"{CC} ONLY"
-		if self.deleted_utc != 0 and not (v and (v.admin_level >= 2 or v.id == self.author.id)): return "[Deleted by user]"
-		if self.is_banned and not (v and v.admin_level >= 2): return "[Removed by admins]";
+		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "[Deleted by user]"
+		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']): return "[Removed by admins]"
 
 		body = self.body
 

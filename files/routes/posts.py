@@ -35,7 +35,7 @@ def club_post(pid, v):
 		abort(403)
 
 	post = get_post(pid)
-	if post.author_id != v.id and v.admin_level < 2: abort(403)
+	if post.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']: abort(403)
 
 	if not post.club:
 		post.club = True
@@ -106,8 +106,7 @@ def publish(pid, v):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
 
-	if (v.admin_level > 0 or v.has_badge(3)) and post.sub == 'changelog':
-		send_changelog_message(post.permalink)
+	send_changelog_message(post.permalink)
 
 	if SITE == 'watchpeopledie.co':
 		send_wpd_message(post.permalink)
@@ -168,7 +167,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 			blocked.c.target_id,
 		)
 		
-		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
+		if not (v and v.shadowbanned) and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
 			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
  
 		comments=comments.filter(Comment.parent_submission == post.id, Comment.level < 10).join(
@@ -258,7 +257,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	template = "submission.html"
 	if (post.is_banned or post.author.shadowbanned) \
-			and not (v and (v.admin_level >= 2 or post.author_id == v.id)):
+			and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)):
 		template = "submission_banned.html"
 
 	return render_template(template, v=v, p=post, ids=list(ids),
@@ -290,7 +289,7 @@ def viewmore(v, pid, sort, offset):
 			blocked.c.target_id,
 		).filter(Comment.parent_submission == pid, Comment.stickied == None, Comment.id.notin_(ids), Comment.level < 10)
 		
-		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
+		if not (v and v.shadowbanned) and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
 			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
  
 		comments=comments.join(
@@ -409,13 +408,12 @@ def morecomments(v, cid):
 @auth_required
 def edit_post(pid, v):
 	p = get_post(pid)
+	if v.id != p.author_id and v.admin_level < PERMS['POST_EDITING']:
+		abort(403)
 
 	title = sanitize_raw_title(request.values.get("title", ""))
 
 	body = sanitize_raw_body(request.values.get("body", ""))
-
-	if v.id != p.author_id and v.admin_level < 2:
-		abort(403)
 
 	if v.id == p.author_id:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
@@ -717,8 +715,9 @@ def submit_post(v, sub=None):
 
 	sub = request.values.get("sub", "").lower().replace('/h/','').strip()
 
-	if sub == 'changelog':
-		allowed = g.db.query(User.id).filter(User.admin_level > 0).all() + g.db.query(Badge.user_id).filter_by(badge_id=3).all()
+	if sub == 'changelog' and not v.admin_level >= PERMS['POST_TO_CHANGELOG']:
+		# we also allow 'code contributor' badgeholders to post to the changelog hole
+		allowed = g.db.query(Badge.user_id).filter_by(badge_id=3).all()
 		allowed = [x[0] for x in allowed]
 		if v.id not in allowed: return error(f"You don't have sufficient permissions to post in /h/changelog")
 
@@ -876,7 +875,7 @@ def submit_post(v, sub=None):
 	if len(url) > 2048:
 		return error("There's a 2048 character limit for URLs.")
 
-	if v and v.admin_level > 2:
+	if v and v.admin_level >= PERMS['POST_BETS']:
 		bets = []
 		for i in bet_regex.finditer(body):
 			bets.append(i.group(1))
@@ -963,7 +962,7 @@ def submit_post(v, sub=None):
 		)
 		g.db.add(choice)
 
-	if v and v.admin_level > 2:
+	if v and v.admin_level >= PERMS['POST_BETS']:
 		for bet in bets:
 			bet = SubmissionOption(
 				submission_id=post.id,
@@ -1067,7 +1066,7 @@ def submit_post(v, sub=None):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
 
-	if (v.admin_level > 0 or v.has_badge(3)) and post.sub == 'changelog' and not post.private:
+	if post.sub == 'changelog' and not post.private:
 		send_changelog_message(post.permalink)
 
 	if not post.private and SITE == 'watchpeopledie.co':
@@ -1133,7 +1132,7 @@ def undelete_post_pid(pid, v):
 def toggle_post_nsfw(pid, v):
 	post = get_post(pid)
 
-	if post.author_id != v.id and not v.admin_level > 1 and not (post.sub and v.mods(post.sub)):
+	if post.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (post.sub and v.mods(post.sub)):
 		abort(403)
 		
 	if post.over_18 and v.is_suspended_permanently:
@@ -1143,7 +1142,7 @@ def toggle_post_nsfw(pid, v):
 	g.db.add(post)
 
 	if post.author_id != v.id:
-		if v.admin_level > 2:
+		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma = ModAction(
 					kind = "set_nsfw" if post.over_18 else "unset_nsfw",
 					user_id = v.id,

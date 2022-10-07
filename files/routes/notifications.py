@@ -36,7 +36,7 @@ def unread(v):
 
 
 @app.get("/notifications/modmail")
-@admin_level_required(2)
+@admin_level_required(PERMS['VIEW_MODMAIL'])
 def notifications_modmail(v):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
@@ -75,7 +75,7 @@ def notifications_messages(v):
 		Comment.parent_submission == None,
 		Comment.level == 1,
 	)
-	if not v.shadowbanned and v.admin_level < 3:
+	if not v.shadowbanned and v.admin_level < PERMS['NOTIFICATIONS_FROM_SHADOWBANNED_USERS']:
 		message_threads = message_threads.join(Comment.author) \
 							.filter(User.shadowbanned == None)
 
@@ -258,7 +258,7 @@ def notifications(v):
 		or_(Comment.sentto == None, Comment.sentto == 2),
 	).order_by(Notification.created_utc.desc())
 
-	if not (v and (v.shadowbanned or v.admin_level > 2)):
+	if not (v and (v.shadowbanned or v.admin_level >= PERMS['NOTIFICATIONS_FROM_SHADOWBANNED_USERS'])):
 		comments = comments.join(Comment.author).filter(User.shadowbanned == None)
 
 	comments = comments.offset(25 * (page - 1)).limit(26).all()
