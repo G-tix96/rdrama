@@ -1,6 +1,6 @@
 {% macro userAdminToolsLower(deviceType) -%}
     {% if v and v.id != u.id and v.admin_level >= PERMS['USER_MODERATION_TOOLS_VISIBLE'] %}
-        <div class="admintools-lower-{{deviceType}}">
+        <div class="admintools-user-lower-{{deviceType}}">
             <br><br>
             {% if v.admin_level >= PERMS['USER_TITLE_CHANGE'] %}
                 <div class="body d-lg-flex border-bottom">
@@ -35,13 +35,13 @@
 					<form action="/ban_user/{{u.id}}" method="post">
 						<input type="hidden" name="formkey" value="{{v.formkey}}">
 						<input type="hidden" name="redir" value="true">
-						<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Ban Reason" oninput="document.getElementById('user-ban-submit').disabled=false" required>
+						<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Ban Reason" oninput="document.getElementById('user-ban-submit-{{deviceType}}').disabled=false" required>
 						<input autocomplete="off" style="font-size:11px" type="number" step="any" class="form-control" name="days" placeholder="Days (blank = permanent)">
 						<div class="custom-control custom-checkbox mb-1">
 							<input autocomplete="off" type="checkbox" id="alts-2-{{deviceType}}" class="custom-control-input" name="alts" value="1">
 							<label class="custom-control-label" for="alts-2-{{deviceType}}">Include alts</label>
 						</div>
-							<input autocomplete="off" id="user-ban-submit" type="submit" onclick="disable(this)" class="btn btn-danger" value="Ban user" disabled>
+							<input autocomplete="off" id="user-ban-submit-{{deviceType}}" type="submit" onclick="disable(this)" class="btn btn-danger" value="Ban user" disabled>
 					</form>
 				{% endif %}
                 <pre></pre>
@@ -56,12 +56,12 @@
 				{% else %}
 					<form action="/shadowban/{{u.id}}" method="post">
 						<input type="hidden" name="formkey" value="{{v.formkey}}">
-						<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Shadowban Reason" oninput="document.getElementById('user-shadowban-submit').disabled=false" required>
+						<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Shadowban Reason" oninput="document.getElementById('user-shadowban-submit-{{deviceType}}').disabled=false" required>
 						<div class="custom-control custom-checkbox mb-1">
-						    <input autocomplete="off" type="checkbox" id="shadowban-alts-2-{{deviceType}}" class="custom-control-input" name="alts" value="1">
-							<label class="custom-control-label" for="shadowban-alts-2-{{deviceType}}">Include alts</label>
+						    <input autocomplete="off" type="checkbox" id="shadowban-alts-{{deviceType}}" class="custom-control-input" name="alts" value="1">
+							<label class="custom-control-label" for="shadowban-alts-{{deviceType}}">Include alts</label>
 						</div>
-						<input autocomplete="off" id="user-shadowban-submit" type="submit" onclick="disable(this)" class="btn btn-danger" value="Shadowban user" disabled>
+						<input autocomplete="off" id="user-shadowban-submit--{{deviceType}}" type="submit" onclick="disable(this)" class="btn btn-danger" value="Shadowban user" disabled>
 					</form>
 				{% endif %}
                 <pre></pre>
@@ -74,11 +74,11 @@
 				    <input type="submit" onclick="disable(this)" class="btn btn-danger" value="Lock Chud Theme">
 				</form>
 				<pre></pre>
-				<a id="unagendaposter-{{deviceType}}" class="{% if not u.agendaposter %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/unagendaposter/{{u.id}}','agendaposter1','unagendaposter','d-none')">Disable Chud Theme</a>
+				<a id="unagendaposter-{{deviceType}}" class="{% if not u.agendaposter %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/unagendaposter/{{u.id}}','agendaposter-{{deviceType}}','unagendaposter-{{deviceType}}','d-none')">Disable Chud Theme</a>
 			{% endif %}
             {% if v.admin_level >= PERMS['USER_BAN'] %}
-                <a id="mute-user-{{deviceType}}" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/1','mute-user','unmute-user','d-none')">Mute</a>
-                <a id="unmute-user-{{deviceType}}" class="{% if not u.is_muted %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/0','mute-user','unmute-user','d-none')">Unmute</a>
+                <a id="mute-user-{{deviceType}}" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/1','mute-user-{{deviceType}}','unmute-user-{{deviceType}}','d-none')">Mute</a>
+                <a id="unmute-user-{{deviceType}}" class="{% if not u.is_muted %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/0','mute-user-{{deviceType}}','unmute-user-{{deviceType}}','d-none')">Unmute</a>
                 <pre></pre>
             {% endif %}
             {% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
@@ -96,8 +96,8 @@
 			{% endif %}
             {% if FEATURES['COUNTRY_CLUB'] and v and v.admin_level >= PERMS['USER_CLUB_ALLOW_BAN'] %}
                 <pre></pre>
-                <button id="grant-{{device}}" class="{% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="post_toast(this,'/@{{u.username}}/club_allow','grant2','bar2','d-none')">Grant club access</button>
-                <button id="bar-{{device}}" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="post_toast(this,'/@{{u.username}}/club_ban','grant2','bar2','d-none')">Bar from club</button>
+                <button id="grant-{{device}}" class="{% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="post_toast(this,'/@{{u.username}}/club_allow','grant-{{device}}','bar-{{device}}','d-none')">Grant club access</button>
+                <button id="bar-{{device}}" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="post_toast(this,'/@{{u.username}}/club_ban','grant-{{device}}','bar-{{device}}','d-none')">Bar from club</button>
             {% endif %}
         </div>
     {% endif %}
