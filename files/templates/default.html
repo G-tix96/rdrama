@@ -279,7 +279,7 @@
 		{% else %}
 			{% if SITE_NAME == 'PCM' %}
 				{% set path = "assets/images/" + SITE_NAME + "/banners" %}
-				{% set banner = "/" + path + "/" + listdir('files/' + path)|last + '?v=1' %}
+				{% set banner = "/" + path + "/" + listdir('files/' + path)|max + '?v=1' %}
 			{% else %}
 				{% set banner = 'banner.webp' | asset_siteimg %}
 			{% endif %}
