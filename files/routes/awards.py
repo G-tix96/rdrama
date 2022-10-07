@@ -62,6 +62,7 @@ def buy(v, award):
 	if award not in AWARDS: abort(400)
 	og_price = AWARDS[award]["price"]
 
+	award_title = AWARDS[award]['title']
 	price = int(og_price * v.discount)
 
 	if request.values.get("mb"):
@@ -92,11 +93,11 @@ def buy(v, award):
 
 	if award == "lootbox":
 		lootbox_items = []
-		for i in [1,2,3,4,5]:
-			award = random.choice(["firework", "confetti", "ricardo", "wholesome", "shit", "fireflies", "scooter", "train"])
-			lootbox_items.append(AWARDS[award]['title'])
-			award = AwardRelationship(user_id=v.id, kind=award)
-			g.db.add(award)
+		for i in range(5): # five items per lootbox
+			lb_award = random.choice(["firework", "confetti", "ricardo", "wholesome", "shit", "fireflies", "scooter", "train"])
+			lootbox_items.append(AWARDS[lb_award]['title'])
+			lb_award = AwardRelationship(user_id=v.id, kind=lb_award)
+			g.db.add(lb_award)
 			g.db.flush()
 
 		v.lootboxes_bought += 1
@@ -117,10 +118,10 @@ def buy(v, award):
 	g.db.add(v)
 
 	if CARP_ID and v.id != CARP_ID and og_price >= 10000:
-		send_repeatable_notification(CARP_ID, f"@{v.username} has bought a `{AWARDS[award]['title']}` award!")
+		send_repeatable_notification(CARP_ID, f"@{v.username} has bought a `{award_title}` award!")
 
 
-	return {"message": f"{AWARDS[award]['title']} award bought!"}
+	return {"message": f"{award_title} award bought!"}
 
 @app.post("/award/<thing_type>/<id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
