@@ -662,7 +662,7 @@
 						</div>
 						<pre></pre>
 						<pre></pre>
-						{% if v.admin_level >= PERMS['USER_BAN']}
+						{% if v.admin_level >= PERMS['USER_BAN'] %}
 							{% if u.is_suspended %}
 								<form action="/unban_user/{{u.id}}" method="post">
 									<input type="hidden" name="formkey", value="{{v.formkey}}">
