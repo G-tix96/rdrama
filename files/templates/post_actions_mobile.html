@@ -40,8 +40,8 @@
 
 
 	{% if FEATURES['COUNTRY_CLUB'] -%}
-	<button id="club3-{{p.id}}" class="{% if p.club %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-danger text-left" role="button" onclick="post_toast(this,'/toggle_club/{{p.id}}','club3-{{p.id}}','unclub3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-slash mr-2"></i>Mark club</button>
-	<button id="unclub3-{{p.id}}" class="{% if not p.club %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-success text-left" role="button" onclick="post_toast(this,'/toggle_club/{{p.id}}','club3-{{p.id}}','unclub3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye mr-2"></i>Unmark club</button>
+		<button id="club3-{{p.id}}" class="{% if p.club %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-danger text-left" role="button" onclick="post_toast(this,'/club_post/{{p.id}}','club3-{{p.id}}','unclub3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-slash mr-2"></i>Mark club</button>
+		<button id="unclub3-{{p.id}}" class="{% if not p.club %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-success text-left" role="button" onclick="post_toast(this,'/unclub_post/{{p.id}}','club3-{{p.id}}','unclub3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye mr-2"></i>Unmark club</button>
 	{%- endif %}
 {% else %}
 	{% if not p.ghost %}
