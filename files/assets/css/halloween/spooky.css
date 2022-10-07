@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-@import url('https://fonts.googleapis.com/css2?family=Emilys+Candy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Griffy&display=swap');
 
 :root {
   /*--primary: #ee5e0a;
@@ -84,12 +84,12 @@ pre {
 /* Halloween Theming */
 
 .post-title a {
-	font-family: 'Emilys Candy';
+	font-family: 'Griffy';
 	font-size: 1.25rem;
 }
 
 .arrow-up::before, .arrow-down::before {
-	content: '\f6e2';
+	content: '\f720';
 	width: 14px;
 }
 
@@ -186,109 +186,6 @@ body::after {
 	font-family: "Jo_wrote_a_lovesong";
 	src: url("/assets/fonts/Jo_wrote_a_lovesong.woff") format("woff");
   }
-
-/* Upside Down */
-
-/*.upsidedown {
-	filter: sepia(100%) hue-rotate(180deg) saturate(300%);
-}*/
-
-.upsidedown {
-	position: relative;
-}
-
-/*.upsidedown.blood::before {
-	display: none;
-}*/
-
-/* Upside Down Lights */
-
-@keyframes lights {
-    0% {
-       /*Two zeros, not one !!*/
-       /*[0] is equivalent to [0 50%] and will create a different animation */
-        background-position:0 0;
-    }
-    100% {
-        background-position:0 -138px;
-    }
-}
-
-.upsidedown .lights {
-	pointer-events: none;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-    height:69px;
-    background:url('/assets/images/halloween/lights.png');
-    animation: lights 1s infinite steps(2);
-    z-index: 4;
-}
-
-/* Upside Down Award Icon */
-.fad.fa-lights-holiday:after {
-	animation: blinker 1s linear infinite;
-}
-.fa-lights-holiday:before {
-	color: #17AA31;
-}
-@keyframes blinker {
-	10% {
-		opacity: 0;
-	}
-	20% {
-		opacity: 0.2;
-		color: #FFD600;
-	}
-	30% {
-		opacity: 0;
-	}
-	40% {
-		opacity: 0.6;
-		color: #FFD600;
-	}
-	45% {
-		opacity: 0;
-	}
-	50% {
-		opacity: 0.2;
-		color: #FFD600;
-
-	}
-	70% {
-		opacity: 0.4;
-		color: #FF2000;
-	}
-	90% {
-		opacity: 0;
-	}
-	92% {
-		opacity: 0.8;
-		color: #FF2000;
-
-	}
-	100% {
-		opacity: 0.8;
-		color: #FF2000;
-	}
-}
-
-/* Ghost */
-
-/*.user-name *, .user-name-reply * {
-	display: none;
-}
-.user-name:after, .user-name-reply:after {
-	content: '👻';
-}
-a.user-name {
-	pointer-events: none;
-}*/
-
-.post-meta.ghosts .fa-broom, .post-meta.ghosts .fa-robot {
-	display: none;
-}
 
 /* Spiders */
 
