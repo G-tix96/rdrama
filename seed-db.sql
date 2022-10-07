@@ -283,6 +283,7 @@ INSERT INTO public.hat_defs VALUES (781, 'BTC', 'Only wear this if you''re worth
 
 
 
+
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO OOO', 2, 500, NULL, 1664595865);
 INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
@@ -938,7 +939,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 802, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 803, true);
 
 
 --
@@ -1202,6 +1203,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycapitalistmanlet',2,'money top hat rich landlord cigar llm tophat',NULL),
 ('marseycapy',2,'capybara rodent aevann happy cute',NULL),
 ('marseycapy2022',2,'aevann caypbara new year party celebration',NULL),
+('marseycapyautism',2,'capy aevann autism hat patient capybara',1665095792),
+('marseycapyautismchad',2,'capy aevann autism hat patient capybara chad gigachad',1665098772),
 ('marseycapybigbrain',2,'capybara aevann smart codecel brain',NULL),
 ('marseycapyblackface',2,'racist minstrelsy bowtie racism capybara aevann',NULL),
 ('marseycapyblowkiss',2,'capybara rodent aevann happy cute love',NULL),
@@ -2586,6 +2589,9 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyvibing',2,'animated bopping vibe jam dancing headbang music rainbow dance',NULL),
 ('marseyvietnam',2,'army born to kill soldier war',NULL),
 ('marseyvirus',2,'phage infect infection plagued',NULL),
+('marseyvore',2,'eating cannibalism cannibalize fetish kinky digest trapped letmeout',1665074856),
+('marseyvore2',2,'eating marcus cannibalize cannibalism fetish kinky',1665074817),
+('marseyvorezombiewolf',2,'furry furfag food eat yum degenerate fetish hungry',1665041705),
 ('marseyw',2,'win winner dub',NULL),
 ('marseywagie',2,'crypto rightoid ancap poor wagecuck mcdonalds maccas reaction',NULL),
 ('marseywait',2,'time watch wait waiting bored',NULL),

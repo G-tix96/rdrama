@@ -67,7 +67,7 @@
 								</h5>
 							{% endif %}
 							<div class="d-flex align-items-center mt-1 mb-2">
-								<h1 class="font-weight-bolder h3 my-0 mr-2" id="profile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.username}}</span></h1>
+								<h1 class="font-weight-bolder h3 my-0 mr-2" id="profile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.user_name}}</span></h1>
 
 								{% if u.username != u.original_username %}
 								<span id="profile--origname">
@@ -445,7 +445,7 @@
 					<h5 class="text-primary" id="profile-mobile--banned">SHADOWBANNED USER{% if u.ban_reason %}: {{u.ban_reason | safe}}{% endif %} (by <a href="/@{{u.shadowbanned}}">@{{u.shadowbanned}}</a>)</h5>
 				{% endif %}
 
-				<h1 class="h5 d-inline-block" id="profile-mobile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.username}}</span></h1>
+				<h1 class="h5 d-inline-block" id="profile-mobile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.user_name}}</span></h1>
 
 				{% if u.username != u.original_username %}
 					<span id="profile-mobile--origname">

@@ -204,15 +204,7 @@ class Submission(Base):
 	@lazy
 	def author_name(self):
 		if self.ghost: return '👻'
-		if self.author.earlylife:
-			expiry = int(self.author.earlylife - time.time())
-			if expiry > 86400:
-				name = self.author.username
-				for i in range(int(expiry / 86400 + 1)):
-					name = f'((({name})))'
-				return name
-			return f'((({self.author.username})))'
-		return self.author.username
+		return self.author.user_name
 
 	@property
 	@lazy
@@ -411,7 +403,7 @@ class Submission(Base):
 
 		if not body: return ""
 
-		body = censor_slurs(body, v)
+		body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
 
 		body = normalize_urls_runtime(body, v)
 		return body
@@ -436,7 +428,7 @@ class Submission(Base):
 			else: return f'{CC} MEMBERS ONLY'
 		else: title = self.title
 
-		title = censor_slurs(title, v)
+		title = censor_slurs(title, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
 
 		return title
 

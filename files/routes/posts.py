@@ -596,7 +596,7 @@ def thumbnail_thread(pid):
 		for chunk in image_req.iter_content(1024):
 			file.write(chunk)
 
-	post.thumburl = process_image(name, resize=100)
+	post.thumburl = process_image(name, resize=100, uploader=post.author_id, db=db)
 	db.add(post)
 	db.commit()
 	db.close()
@@ -948,7 +948,7 @@ def submit_post(v, sub=None):
 		if file.content_type.startswith('image/'):
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			file.save(name)
-			post.url = process_image(name)
+			post.url = process_image(name, patron=v.patron)
 
 			name2 = name.replace('.webp', 'r.webp')
 			copyfile(name, name2)

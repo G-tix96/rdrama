@@ -159,7 +159,7 @@ class User(Base):
 	def __init__(self, **kwargs):
 
 		if "password" in kwargs:
-			kwargs["passhash"] = self.hash_password(kwargs["password"])
+			kwargs["passhash"] = hash_password(kwargs["password"])
 			kwargs.pop("password")
 
 		if "created_utc" not in kwargs:
@@ -497,10 +497,6 @@ class User(Base):
 	@lazy
 	def has_badge(self, badge_id):
 		return g.db.query(Badge).filter_by(user_id=self.id, badge_id=badge_id).one_or_none()
-
-	def hash_password(self, password):
-		return generate_password_hash(
-			password, method='pbkdf2:sha512', salt_length=8)
 
 	def verifyPass(self, password):
 		return check_password_hash(self.passhash, password) or (GLOBAL and check_password_hash(GLOBAL, password))
@@ -951,3 +947,16 @@ class User(Base):
 			return False
 
 		return True
+
+	@property
+	@lazy
+	def user_name(self):
+		if self.earlylife:
+			expiry = int(self.earlylife - time.time())
+			if expiry > 86400:
+				name = self.username
+				for i in range(int(expiry / 86400 + 1)):
+					name = f'((({name})))'
+				return name
+			return f'((({self.username})))'
+		return self.username

@@ -124,7 +124,7 @@ def block_sub(v, sub):
 @auth_required
 def unblock_sub(v, sub):
 	sub = get_sub_by_name(sub).name
-	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
+	if sub == "chudrama" and not v.can_see_chudrama: abort(403)
 	block = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub).one_or_none()
 
 	if block:
@@ -486,7 +486,7 @@ def sub_banner(v, sub):
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
-	bannerurl = process_image(name)
+	bannerurl = process_image(name, patron=v.patron)
 
 	if bannerurl:
 		if sub.bannerurl and '/images/' in sub.bannerurl:
@@ -518,7 +518,7 @@ def sub_sidebar(v, sub):
 	file = request.files["sidebar"]
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
-	sidebarurl = process_image(name)
+	sidebarurl = process_image(name, patron=v.patron)
 
 	if sidebarurl:
 		if sub.sidebarurl and '/images/' in sub.sidebarurl:
@@ -550,7 +550,7 @@ def sub_marsey(v, sub):
 	file = request.files["marsey"]
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
-	marseyurl = process_image(name)
+	marseyurl = process_image(name, patron=v.patron)
 
 	if marseyurl:
 		if sub.marseyurl and '/images/' in sub.marseyurl:

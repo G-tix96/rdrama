@@ -166,8 +166,7 @@ CREATE TABLE public.award_relationships (
     comment_id integer,
     kind character varying(20) NOT NULL,
     awarded_utc integer,
-    created_utc integer,
-    granted_by integer
+    created_utc integer
 );
 
 
@@ -558,6 +557,19 @@ CREATE TABLE public.marseys (
     count integer DEFAULT 0 NOT NULL,
     submitter_id integer,
     created_utc integer
+);
+
+
+--
+-- Name: media; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.media (
+    kind character varying(5) NOT NULL,
+    filename character varying(55) NOT NULL,
+    user_id integer NOT NULL,
+    created_utc integer NOT NULL,
+    size integer NOT NULL
 );
 
 
@@ -1317,6 +1329,14 @@ ALTER TABLE ONLY public.lotteries
 
 ALTER TABLE ONLY public.marseys
     ADD CONSTRAINT marseys_pkey PRIMARY KEY (name);
+
+
+--
+-- Name: media media_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.media
+    ADD CONSTRAINT media_pkey PRIMARY KEY (kind, filename);
 
 
 --
@@ -2081,14 +2101,6 @@ ALTER TABLE ONLY public.award_relationships
 
 
 --
--- Name: award_relationships award_granted_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.award_relationships
-    ADD CONSTRAINT award_granted_by_fkey FOREIGN KEY (granted_by) REFERENCES public.users(id);
-
-
---
 -- Name: award_relationships award_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2350,6 +2362,14 @@ ALTER TABLE ONLY public.marseys
 
 ALTER TABLE ONLY public.marseys
     ADD CONSTRAINT marsey_submitter_fkey FOREIGN KEY (submitter_id) REFERENCES public.users(id);
+
+
+--
+-- Name: media media_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.media
+    ADD CONSTRAINT media_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --

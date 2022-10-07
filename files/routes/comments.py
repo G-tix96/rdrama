@@ -194,7 +194,7 @@ def comment(v):
 			if file.content_type.startswith('image/'):
 				oldname = f'/images/{time.time()}'.replace('.','') + '.webp'
 				file.save(oldname)
-				image = process_image(oldname)
+				image = process_image(oldname, patron=v.patron)
 				if image == "": return {"error":"Image upload failed"}, 400
 				if v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES'] and level == 1:
 					if parent_post.id == SIDEBAR_THREAD:

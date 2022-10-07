@@ -95,8 +95,8 @@ reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(?:(?:[A-z]{2
 color_regex = re.compile("[a-z0-9]{6}", flags=re.A)
 
 # lazy match on the {}?, only match if there is trailing stuff
-# don't match between nested </p></li> etc, this can break but works for Snappy
-showmore_regex = re.compile(r"^(.{3000,}?</p>)(\s*<p>.*)", flags=re.A|re.DOTALL)
+# Specifically match Snappy's way of formatting, this might break some losers' comments.
+showmore_regex = re.compile(r"^(.{3000,}?</p>(?:</li></ul>)?)(\s*<p>.*)", flags=re.A|re.DOTALL)
 
 search_token_regex = re.compile('"([^"]*)"|(\S+)', flags=re.A)
 

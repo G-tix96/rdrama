@@ -11,6 +11,7 @@ services:
         environment:
             - DATABASE_URL=postgresql://postgres@postgres:5432
             - REDIS_URL=redis://redis
+            - OPERA_URL=http://opera-proxy:18080
         links:
             - "redis"
             - "postgres"
@@ -37,3 +38,9 @@ services:
             - POSTGRES_HOST_AUTH_METHOD=trust
         ports:
             - "5432:5432"
+
+    opera-proxy:
+        container_name: "opera-proxy"
+        image: yarmak/opera-proxy
+        ports:
+            - "18080:18080"

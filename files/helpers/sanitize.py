@@ -386,7 +386,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	if '<pre>' not in sanitized:
 		sanitized = sanitized.replace('\n','')
 
-	if showmore and len(sanitized) > 5000:
+	if showmore and len(sanitized) > 3500:
 		sanitized = showmore_regex.sub(r'\1<p><button class="showmore" onclick="showmore()">SHOW MORE</button></p><d class="d-none">\2</d>', sanitized, count=1)
 
 	return sanitized.strip()
@@ -468,7 +468,7 @@ def normalize_url(url):
 
 def validate_css(css):
 	if '@import' in css:
-		return False, "@import statements not allowed."
+		return False, "@import statements are not allowed!"
 
 	for i in css_url_regex.finditer(css):
 		url = i.group(1)

@@ -28,17 +28,6 @@
 				{{v.css | safe}}
 			</style>
 		{% endif %}
-
-		{% if v.earlylife %}
-			<style>
-				.nav-item .text-small.font-weight-bold::before {
-					content: "((("
-				}
-				.nav-item .text-small.font-weight-bold::after {
-					content: ")))"
-				}
-			</style>
-		{% endif %}
 	{% else %}
 		<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
 		<link rel="stylesheet" href="{{'css/main.css' | asset}}">
@@ -289,7 +278,8 @@
 			<img alt="site banner" src="{{banner}}" width="100%">
 		{% else %}
 			{% if SITE_NAME == 'PCM' %}
-				{% set banner = 'banners/halloween.webp' | asset_siteimg %}
+				{% set path = "assets/images/" + SITE_NAME + "/banners" %}
+				{% set banner = "/" + path + "/" + listdir('files/' + path)|max + '?v=1' %}
 			{% else %}
 				{% set banner = 'banner.webp' | asset_siteimg %}
 			{% endif %}

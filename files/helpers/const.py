@@ -253,6 +253,7 @@ CARP_ID = 0
 JOAN_ID = 0
 AEVANN_ID = 0
 SNAKES_ID = 0
+JUSTCOOL_ID = 0
 HOMO_ID = 0
 SOREN_ID = 0
 LAWLZ_ID = 0
@@ -308,6 +309,7 @@ if SITE == 'rdrama.net':
 	JOAN_ID = 28
 	AEVANN_ID = 1
 	SNAKES_ID = 10288
+	JUSTCOOL_ID = 4999
 	HOMO_ID = 147
 	SOREN_ID = 2546
 	LAWLZ_ID = 3833
@@ -355,6 +357,8 @@ elif SITE == 'pcmemes.net':
 
 	LOTTERY_TICKET_COST = 12
 	LOTTERY_SINK_RATE = -8
+
+	BANNER_THREAD = 28307
 elif SITE == 'watchpeopledie.co':
 	WELCOME_MSG = """Hi, you! Welcome to WatchPeopleDie.co, this really cool site where you can go to watch people die. I'm @CLiTPEELER! If you have any questions about how things work here, or suggestions on how to make them work better than they already do, definitely slide on into my DMs (no fat chicks).\nThere's an enormously robust suite of fun features we have here and we're always looking for more to add. Way, way too many to go over in an automated welcome message. And you're probably here for the videos of people dying more than any sort of weird, paradoxical digital community aspect anyway, so I won't bore you with a tedious overview of them. Just head on over to [your settings page](https://watchpeopledie.co/settings/profile) and have a look at some of the basic profile stuff, at least. You can change your profile picture, username, flair, colors, banners, bio, profile anthem (autoplaying song on your page, like it's MySpace or some shit, hell yeah), CSS, all sorts of things.\nOr you can just go back to the main feed and carry on with watching people die. That's what the site is for, after all. Have fun!\nThough, while I have your attention (realistically I probably don't; this is quite a lot of text) - if you'd like to fund WPD's continued existence in the face of commercial and governmental censors, it would be really cool if you'd stop by our [Kofi page](https://ko-fi.com/wpdco/tiers) and consider contributing some paltry sum each month to help us pay for hosting. *But only if you want*. **We do not serve ads. We will never serve ads. We do not sell data. We will never sell data. We do not paywall ANY usage of the site. We will never paywall ANY usage of the site.** Any and all contributions are strictly voluntary and should only be because you'd like to help the site continue to grow and thrive.\nAnyway, in closing, WPD is entirely open source. We don't really need new full-time coders or anything, but if you'd like to take a look at our repo - or even submit a PR to change, fix, or add some things - go right ahead! We are on [GitHub](https://github.com/Aevann1/rDrama).\nWell, that's all. Thanks again for signing up. It's an automated message and all, but I really do mean that. Thank you, specifically. I love you. Romantically. Deeply. Passionately.\nHave fun!"""
 
@@ -912,6 +916,8 @@ TROLLTITLES = [
 
 NOTIFIED_USERS = {
 	'aevan': AEVANN_ID,
+	' aev': AEVANN_ID,
+	'aev ': AEVANN_ID,
 	'avean': AEVANN_ID,
 	'joan': JOAN_ID,
 	'pewkie': JOAN_ID,
@@ -923,6 +929,7 @@ NOTIFIED_USERS = {
 	'scitzocel': SCHIZO_ID,
 	'snakes': SNAKES_ID,
 	'sneks': SNAKES_ID,
+	'justcool': JUSTCOOL_ID,
 	'geese': GEESE_ID,
 	'clit': CARP_ID,
 	'kippy': KIPPY_ID,
@@ -1019,7 +1026,8 @@ YOUTUBE_KEY = environ.get("YOUTUBE_KEY", "").strip()
 
 ADMIGGERS = {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD, SNAPPY_THREAD}
 
-proxies = {"http":"http://127.0.0.1:18080","https":"http://127.0.0.1:18080"}
+OPERA_URL = environ.get("OPERA_URL", "http://localhost:18080")
+proxies = {"http":OPERA_URL,"https":OPERA_URL}
 
 blackjack = environ.get("BLACKJACK", "").strip()
 
