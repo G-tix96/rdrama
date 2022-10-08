@@ -10,7 +10,7 @@ import tldextract
 from os import path
 
 
-SITE = environ.get("DOMAIN").strip()
+SITE = environ.get("SITE").strip()
 SITE_NAME = environ.get("SITE_NAME").strip()
 MASTER_KEY = environ.get("MASTER_KEY").strip()
 PROXY_URL = environ.get("PROXY_URL").strip()
