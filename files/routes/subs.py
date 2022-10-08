@@ -330,7 +330,7 @@ def create_sub2(v):
 	if not valid_sub_regex.fullmatch(name):
 		return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error=f"{HOLE_NAME.capitalize()} name not allowed."), 400
 
-	sub = get_sub_by_name(sub, graceful=True)
+	sub = get_sub_by_name(name, graceful=True)
 	if not sub:
 		if v.coins < HOLE_COST:
 			return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error="You don't have enough coins!"), 403
