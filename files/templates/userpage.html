@@ -227,7 +227,9 @@
 							<a id="unadmin" class="{% if u.admin_level < 1 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/remove_admin','admin','unadmin','d-none')">Remove admin</a>
 						{% endif %}
 						</div>
-
+						{% if v.admin_level >= PERMS['ADMIN_ACTIONS_REVERT'] and u.admin_level %}
+							<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/revert_actions')">Revert admin actions</a>
+						{% endif %}
 						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
 							<input type="hidden" name="formkey" value="{{v.formkey}}"> 
 							<pre></pre>
@@ -493,7 +495,9 @@
 					{% if v.admin_level >= PERMS['ADMIN_REMOVE'] %}
 						<a id="unadmin2" class="{% if u.admin_level < 1 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/remove_admin','admin2','unadmin2','d-none')">Remove admin</a>
 					{% endif %}
-					
+					{% if v.admin_level >= PERMS['ADMIN_ACTIONS_REVERT'] and u.admin_level %}
+						<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/revert_actions')">Revert admin actions</a>
+					{% endif %}
 					<form class="d-none toggleable" id='message-mobile' action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
 						<pre></pre>
 						<input type="hidden" name="formkey" value="{{v.formkey}}"> 
