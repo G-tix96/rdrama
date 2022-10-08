@@ -311,6 +311,10 @@ INSERT INTO public.hat_defs VALUES (808, 'The Capy 2', 'The drippiest and pimpie
 INSERT INTO public.hat_defs VALUES (676, 'Kepi', 'Army cap for those unlucky enough to be French', 2, 500, NULL, 1663303083);
 
 
+
+
+
+
 INSERT INTO public.hat_defs VALUES (678, 'Turkroach', 'Come on Carp this one''s hilarious. It''s semi transparent to clarify', 2, 500, NULL, 1663305640);
 INSERT INTO public.hat_defs VALUES (679, 'Judge Dredd', 'THIS USER IS THE LAW', 2, 500, NULL, 1663309533);
 INSERT INTO public.hat_defs VALUES (680, 'Hat Stack', 'You are as presumptuous as you are poor and Irish. Challenge not the majesty of my tower of hats.', 2, 500, NULL, 1663310312);
@@ -350,6 +354,7 @@ INSERT INTO public.hat_defs VALUES (9, 'Dreads', 'Finally, an excuse for poor hy
 INSERT INTO public.hat_defs VALUES (10, 'The XXXTentacion', 'Pay homage to your favorite dead criminal!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (12, 'The Elvis', 'Remember when this dude nailed a 13-year-old?', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (13, 'Gussy Hat', 'Let everyone know that you''re NOT a rapist. Honest.', 2, 500, NULL, 1662167687);
+
 
 INSERT INTO public.hat_defs VALUES (14, 'Riveter', 'Can you do it? Really?', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (15, 'Top Hat (leprechaun)', 'LLM but Irish', 2, 500, NULL, 1662167687);
@@ -956,7 +961,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 827, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 832, true);
 
 
 --
@@ -1750,6 +1755,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyicecream',2,'ice cream sad disappoint pout cry.',NULL),
 ('marseyicecreamcone',2,'sweet dessert dairy',1663284406),
 ('marseyidio3',2,'idio3 russia belarus communist commie flask drink computer online monitor display keyboard idio',NULL),
+('marseyidk',2,'marsey idk',1665254242),
 ('marseyill',2,'winter chilly cold ill sick brr flu',NULL),
 ('marseyilluminati',2,'eye egypt pyramid big brother watching',NULL),
 ('marseyilluminati2',2,'eye egypt pyramid big brother watching',NULL),
@@ -2014,6 +2020,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyniqab',2,'burka islam muslim burqa',NULL),
 ('marseyniqabpearlclutch',2,'bombasticpussy sjw snowflake burka burqa',1663350191),
 ('marseyno',2,'denied refuse rejection reaction ugh deny hand',NULL),
+('marseynodox',2,'sign',1665250355),
 ('marseynooo',2,'reaction snob no way',NULL),
 ('marseynoooticer',2,'notice stats racist iq chud bigot numbers observe see hmm wrong think thonk',1664406781),
 ('marseynope',2,'bush grass simpsons homer hide avoid',1663895054),
@@ -2402,6 +2409,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseysmug4',2,'confident emoticon plain simple smile',1664490741),
 ('marseysmugautist',2,'autism retard brainlet drool hat',NULL),
 ('marseysmugretard',2,'srdine drooling brainlet idiot fool buffoon idiot',NULL),
+('marseysmugsideeyes',2,'marsey smug',1665254121),
 ('marseysnap',2,'mad angry furious anger animated snap',NULL),
 ('marseysnappyautism',2,'snapshillbot hat neurodivergent robot autistic marppy',NULL),
 ('marseysnappyhug',2,'hug love robot sentient wholesome',1664490893),
@@ -2636,6 +2644,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseywholesome',2,'seal award reddit tene',NULL),
 ('marseywinemom',2,'drunk wine aunt flirt cigarette drunk lush elfbinn fartbinn cougar',NULL),
 ('marseywink',2,'wink reaction cheeky flirt smirk imply hint',NULL),
+('marseywink2',2,'marsey winking',1665254177),
 ('marseywinner',2,'reaction trophy gold prize first place',NULL),
 ('marseywise',2,'hood cloak wizard pipe',NULL),
 ('marseywitch',2,'spooky halloween magick holiday evil scary',NULL),
