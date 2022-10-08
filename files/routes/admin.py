@@ -247,56 +247,6 @@ def distribute(v, option_id):
 
 	return {"message": f"Each winner has received {coinsperperson} coins!"}
 
-@app.post("/@<username>/revert_actions")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(PERMS['ADMIN_ACTIONS_REVERT'])
-def revert_actions(v, username):
-	user = get_user(username)
-
-	ma = ModAction(
-		kind="revert",
-		user_id=v.id,
-		target_user_id=user.id
-	)
-	g.db.add(ma)
-
-	cutoff = int(time.time()) - 86400
-
-	posts = [x[0] for x in g.db.query(ModAction.target_submission_id).filter(ModAction.user_id == user.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_post').all()]
-	posts = g.db.query(Submission).filter(Submission.id.in_(posts)).all()
-
-	comments = [x[0] for x in g.db.query(ModAction.target_comment_id).filter(ModAction.user_id == user.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_comment').all()]
-	comments = g.db.query(Comment).filter(Comment.id.in_(comments)).all()
-	
-	for item in posts + comments:
-		item.is_banned = False
-		item.ban_reason = None
-		item.is_approved = v.id
-		g.db.add(item)
-
-	users = (x[0] for x in g.db.query(ModAction.target_user_id).filter(ModAction.user_id == user.id, ModAction.created_utc > cutoff, ModAction.kind.in_(('shadowban', 'ban_user'))).all())
-	users = g.db.query(User).filter(User.id.in_(users)).all()
-
-	for user in users:
-		user.shadowbanned = None
-		user.unban_utc = 0
-		user.ban_reason = None
-		if user.is_banned:
-			user.is_banned = 0
-			send_repeatable_notification(user.id, f"@{v.username} has unbanned you!")
-		g.db.add(user)
-		
-		for u in user.alts:
-			u.shadowbanned = None
-			u.unban_utc = 0
-			u.ban_reason = None
-			if u.is_banned:
-				u.is_banned = 0
-				send_repeatable_notification(u.id, f"@{v.username} has unbanned you!")
-			g.db.add(u)
-
-	return {"message": f"@{user.username}'s admin actions has been reverted!"}
-
 @app.post("/@<username>/club_allow")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(PERMS['USER_CLUB_ALLOW_BAN'])
