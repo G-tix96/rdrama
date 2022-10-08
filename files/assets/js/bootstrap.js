@@ -338,3 +338,18 @@ function timestamp(str, ti) {
 	const date = new Date(ti*1000);
 	document.getElementById(str).setAttribute("data-bs-original-title", formatDate(date));
 };
+
+function areyousure(t) {
+	if (t.value) {
+		t.type = 'submit';
+		t.value = 'Are you sure?'
+	}
+	else
+	{
+		t.innerHTML = t.innerHTML.replace(t.textContent, 'Are you sure?')
+	}
+    t.setAttribute("onclick", t.dataset.click);
+
+	if (t.dataset.dismiss)
+    	t.setAttribute("data-bs-dismiss", t.dataset.dismiss);
+}

@@ -374,7 +374,7 @@ class Submission(Base):
 					body += " - <b>WINNER!</b>"
 				
 				if not winner and v and v.admin_level >= PERMS['POST_BETS_DISTRIBUTE']:
-					body += f'''<button class="btn btn-primary distribute" onclick="this.nextElementSibling.classList.remove('d-none');this.classList.add('d-none')">Declare winner</button><button class="btn btn-primary distribute d-none" onclick="post_toast(this,'/distribute/{o.id}',true)">Are you sure?</button>'''
+					body += f'''<button class="btn btn-primary distribute" data-click="post_toast(this,'/distribute/{o.id}',true)" onclick="areyousure(this)">Declare winner</button>'''
 				body += "</div>"
 			else:
 				input_type = 'radio' if o.exclusive else 'checkbox'
