@@ -202,16 +202,8 @@
 
 						<a class="btn btn-primary" role="button" onclick="post_toast(this,'/settings/block?username={{u.username}}',true)">Block</a>
 
-						{% if v.admin_level >= PERMS['ADMIN_ADD'] and SITE != 'rdrama.net' %}
-							<a id="admin" class="{% if u.admin_level >= PERMS['ADMIN_ADD_PERM_LEVEL'] %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/make_admin','admin','unadmin','d-none')">Make admin</a>
-						{% endif %}
-						{% if v.admin_level >= PERMS['ADMIN_REMOVE'] %}
-							<a id="unadmin" class="{% if u.admin_level < 1 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/remove_admin','admin','unadmin','d-none')">Remove admin</a>
-						{% endif %}
-						</div>
-						{% if v.admin_level >= PERMS['ADMIN_ACTIONS_REVERT'] and u.admin_level %}
-							<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/revert_actions')">Revert admin actions</a>
-						{% endif %}
+						{{ userpage_admintools.userAdminToolsUpper('desktop') }}
+						
 						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
 							<input type="hidden" name="formkey" value="{{v.formkey}}"> 
 							<pre></pre>
@@ -319,7 +311,6 @@
 			</div>
 			<div class="mt-n3 py-3">
 				{{ userpage_admintools.userBanBlock('desktop') }}
-				
 				<h1 class="h5 d-inline-block" id="profile-mobile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.user_name}}</span></h1>
 
 				{% if u.username != u.original_username %}
@@ -463,16 +454,7 @@
 
 					<a class="btn btn-primary" role="button" onclick="post_toast(this,'/settings/block?username={{u.username}}',true)">Block</a>
 
-					{% if v.admin_level >= PERMS['ADMIN_ADD'] and SITE != 'rdrama.net' %}
-						<a id="admin2" class="{% if u.admin_level >= PERMS['ADMIN_ADD_PERM_LEVEL'] %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/make_admin','admin2','unadmin2','d-none')">Make admin</a>
-					{% endif %}
-
-					{% if v.admin_level >= PERMS['ADMIN_REMOVE'] %}
-						<a id="unadmin2" class="{% if u.admin_level < 1 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/remove_admin','admin2','unadmin2','d-none')">Remove admin</a>
-					{% endif %}
-					{% if v.admin_level >= PERMS['ADMIN_ACTIONS_REVERT'] and u.admin_level %}
-						<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/revert_actions')">Revert admin actions</a>
-					{% endif %}
+					{{ userpage_admintools.userAdminToolsUpper('mobile') }}
 					<form class="d-none toggleable" id='message-mobile' action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
 						<pre></pre>
 						<input type="hidden" name="formkey" value="{{v.formkey}}"> 

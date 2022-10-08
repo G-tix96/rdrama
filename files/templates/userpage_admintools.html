@@ -20,6 +20,19 @@
 	{% endif %}
 {%- endmacro %}
 
+{% macro userAdminToolsUpper(deviceType) -%}
+	{% if v and v.id != u.id and v.admin_level >= PERMS['USER_MODERATION_TOOLS_VISIBLE'] %}
+		{% if v.admin_level >= PERMS['ADMIN_ADD'] and SITE != 'rdrama.net' %}
+			<a id="add-admin-{{deviceType}}" class="{% if u.admin_level >= PERMS['ADMIN_ADD_PERM_LEVEL'] %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/make_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Make admin</a>
+		{% endif %}
+		{% if v.admin_level >= PERMS['ADMIN_REMOVE'] %}
+			<a id="remove-admin-{{deviceType}}" class="{% if u.admin_level < 1 %}d-none{% endif %} btn btn-danger" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/remove_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Remove admin</a>
+		{% endif %}
+		{% if v.admin_level >= PERMS['ADMIN_ACTIONS_REVERT'] and u.admin_level %}
+			<a class="btn btn-danger" role="button" onclick="post_toast(this,'/@{{u.username}}/revert_actions')">Revert admin actions</a>
+		{% endif %}
+{%- endmacro %}
+
 {% macro userAdminToolsLower(deviceType) -%}
 	{% if v and v.id != u.id and v.admin_level >= PERMS['USER_MODERATION_TOOLS_VISIBLE'] %}
 		<div class="admintools-user-lower-{{deviceType}}">
