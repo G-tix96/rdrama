@@ -1,4 +1,4 @@
-{% macro userBanBlock(deviceType) -%}
+{% macro userBanBlock(deviceType) %}
 	{% if u.is_suspended %}
 		<h5 class="text-primary" id="profile-{{deviceType}}--banned">BANNED USER
 		{% if u.ban_reason %}:
@@ -18,9 +18,9 @@
 		(by <a href="/@{{u.shadowbanned}}">@{{u.shadowbanned}}</a>)
 		</h5>
 	{% endif %}
-{%- endmacro %}
+{% endmacro %}
 
-{% macro userAdminToolsUpper(deviceType) -%}
+{% macro userAdminToolsUpper(deviceType) %}
 	{% if v and v.id != u.id and v.admin_level >= PERMS['USER_MODERATION_TOOLS_VISIBLE'] %}
 		{% if v.admin_level >= PERMS['ADMIN_ADD'] and SITE != 'rdrama.net' %}
 			<a id="add-admin-{{deviceType}}" class="{% if u.admin_level >= PERMS['ADMIN_ADD_PERM_LEVEL'] %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/make_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Make admin</a>
@@ -32,7 +32,7 @@
 			<a class="btn btn-danger" role="button" data-click="post_toast(this,'/@{{u.username}}/revert_actions')" onclick="areyousure(this)">Revert admin actions</a>
 		{% endif %}
 	{% endif %}
-{%- endmacro %}
+{% endmacro %}
 
 {% macro userAdminToolsLower(deviceType) -%}
 	{% if v and v.id != u.id and v.admin_level >= PERMS['USER_MODERATION_TOOLS_VISIBLE'] %}
