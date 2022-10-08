@@ -379,6 +379,7 @@ if SITE == 'rdrama.net':
 elif SITE == 'pcmemes.net':
 	PIN_LIMIT = 10
 	FEATURES['REPOST_DETECTION'] = False
+	FEATURES['GAMBLING'] = False
 	POST_RATE_LIMIT = '1/second;4/minute;20/hour;100/day'
 
 	HOLE_COST = 2000
@@ -397,6 +398,7 @@ elif SITE == 'pcmemes.net':
 
 	WELCOME_MSG = "Welcome to pcmemes.net! Don't forget to turn off the slur filter [here](/settings/content#slurreplacer)"
 
+	CASINO_ENABLED = False
 	LOTTERY_TICKET_COST = 12
 	LOTTERY_SINK_RATE = -8
 
