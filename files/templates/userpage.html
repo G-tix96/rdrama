@@ -187,23 +187,23 @@
 					<div>
 					{% if v and v.id != u.id %}
 						<div id="profile--actionbtns">
-						<a id="button-unsub" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" role="button" onclick="post_toast(this,'/unfollow/{{u.username}}','button-unsub','button-sub','d-none')">Unfollow</a>
+							<a id="button-unsub" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" role="button" onclick="post_toast(this,'/unfollow/{{u.username}}','button-unsub','button-sub','d-none')">Unfollow</a>
 
-						<a id="button-sub" class="btn btn-primary {% if is_following or u.is_nofollow or u.is_blocked %}d-none{% endif %}" role="button" onclick="post_toast(this,'/follow/{{u.username}}','button-unsub','button-sub','d-none')">Follow</a>						
-						<a class="btn btn-primary" role="button" onclick="toggleElement('message', 'input-message')">Message</a>
+							<a id="button-sub" class="btn btn-primary {% if is_following or u.is_nofollow or u.is_blocked %}d-none{% endif %}" role="button" onclick="post_toast(this,'/follow/{{u.username}}','button-unsub','button-sub','d-none')">Follow</a>						
+							<a class="btn btn-primary" role="button" onclick="toggleElement('message', 'input-message')">Message</a>
 
-						{% if FEATURES['USERS_SUICIDE'] -%}
-						<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/suicide')">Get Them Help</a>
-						{%- endif %}
-						<a class="btn btn-primary" role="button" onclick="toggleElement('coin-transfer', 'coin-transfer-amount')">Gift Coins</a>
-						{% if FEATURES['PROCOINS'] -%}
-							<a class="btn btn-primary" role="button" onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</a>
-						{%- endif %}
+							{% if FEATURES['USERS_SUICIDE'] -%}
+								<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/suicide')">Get Them Help</a>
+							{%- endif %}
+							<a class="btn btn-primary" role="button" onclick="toggleElement('coin-transfer', 'coin-transfer-amount')">Gift Coins</a>
+							{% if FEATURES['PROCOINS'] -%}
+								<a class="btn btn-primary" role="button" onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</a>
+							{%- endif %}
 
-						<a class="btn btn-primary" role="button" onclick="post_toast(this,'/settings/block?username={{u.username}}',true)">Block</a>
+							<a class="btn btn-primary" role="button" onclick="post_toast(this,'/settings/block?username={{u.username}}',true)">Block</a>
 
-						{{ userpage_admintools.userAdminToolsUpper('desktop') }}
-						
+							{{ userpage_admintools.userAdminToolsUpper('desktop') }}
+						</div>
 						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
 							<input type="hidden" name="formkey" value="{{v.formkey}}"> 
 							<pre></pre>
