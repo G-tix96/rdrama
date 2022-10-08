@@ -15,7 +15,9 @@ from files.helpers.lottery import *
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def casino(v):
-    if v.rehab:
+    if not FEATURES['GAMBLING']:
+        abort(404)
+    elif v.rehab:
         return render_template("casino/rehab.html", v=v)
 
     return render_template("casino.html", v=v)
@@ -25,9 +27,11 @@ def casino(v):
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def casino_game_page(v, game):
-    if v.rehab:
+    if not FEATURES['GAMBLING']:
+        abort(404)
+    elif v.rehab:
         return render_template("casino/rehab.html", v=v)
-    if game not in CASINO_GAME_KINDS:
+    elif game not in CASINO_GAME_KINDS:
         abort(404)
 
     feed = json.dumps(get_game_feed(game))
@@ -52,9 +56,11 @@ def casino_game_page(v, game):
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def casino_game_feed(v, game):
-    if v.rehab:
+    if not FEATURES['GAMBLING']:
+        abort(404)
+    elif v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
-    if game not in CASINO_GAME_KINDS:
+    elif game not in CASINO_GAME_KINDS:
         abort(404)
 
     feed = get_game_feed(game)
@@ -66,7 +72,9 @@ def casino_game_feed(v, game):
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def lottershe(v):
-    if v.rehab:
+    if not FEATURES['GAMBLING']:
+        abort(404)  
+    elif v.rehab:
         return render_template("casino/rehab.html", v=v)
 
     participants = get_users_participating_in_lottery()
@@ -77,7 +85,9 @@ def lottershe(v):
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def pull_slots(v):
-    if v.rehab:
+    if not FEATURES['GAMBLING']:
+        abort(404)
+    elif v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
 
     try:
@@ -106,7 +116,9 @@ def pull_slots(v):
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def blackjack_deal_to_player(v):
-    if v.rehab:
+    if not FEATURES['GAMBLING']:
+        abort(404)
+    elif v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
 
     try:
@@ -125,7 +137,9 @@ def blackjack_deal_to_player(v):
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def blackjack_player_hit(v):
-    if v.rehab:
+    if not FEATURES['GAMBLING']:
+        abort(404)
+    elif v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
 
     try:
@@ -140,7 +154,9 @@ def blackjack_player_hit(v):
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def blackjack_player_stay(v):
-    if v.rehab:
+    if not FEATURES['GAMBLING']:
+        abort(404)
+    elif v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
 
     try:
@@ -155,7 +171,9 @@ def blackjack_player_stay(v):
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def blackjack_player_doubled_down(v):
-    if v.rehab:
+    if not FEATURES['GAMBLING']:
+        abort(404)
+    elif v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
 
     try:
@@ -170,7 +188,9 @@ def blackjack_player_doubled_down(v):
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def blackjack_player_bought_insurance(v):
-    if v.rehab:
+    if not FEATURES['GAMBLING']:
+        abort(404)
+    elif v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
 
     try:
@@ -185,7 +205,9 @@ def blackjack_player_bought_insurance(v):
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def roulette_get_bets(v):
-    if v.rehab:
+    if not FEATURES['GAMBLING']:
+        abort(404)
+    elif v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
 
     bets = get_roulette_bets()
@@ -197,7 +219,9 @@ def roulette_get_bets(v):
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def roulette_player_placed_bet(v):
-    if v.rehab:
+    if not FEATURES['GAMBLING']:
+        abort(404)
+    elif v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
 
     try:
