@@ -1,5 +1,5 @@
 FLASK_APP=/rDrama/files/cli:app
-DOMAIN=localhost
+SITE=localhost
 SITE_NAME=rDrama
 MASTER_KEY=blahblahblah
 PROXY_URL=http://localhost:18080
