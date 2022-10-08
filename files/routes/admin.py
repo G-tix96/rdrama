@@ -295,7 +295,7 @@ def revert_actions(v, username):
 				send_repeatable_notification(u.id, f"@{v.username} has unbanned you!")
 			g.db.add(u)
 
-	return {"message": f"@{user.username}'s admin actions has been reverted!"}
+	return {"message": f"@{user.username}'s admin actions have been reverted!"}
 
 @app.post("/@<username>/club_allow")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
