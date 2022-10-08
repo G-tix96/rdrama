@@ -1,3 +1,4 @@
+import requests
 import time
 from flask import *
 from urllib.parse import quote
@@ -8,14 +9,23 @@ from files.helpers.const import *
 from files.helpers.get import *
 from files.helpers.actions import *
 from files.classes import *
-from files.__main__ import app, mail, limiter
-from flask_mail import Message
+from files.__main__ import app, limiter
 
 
 def send_mail(to_address, subject, html):
+	if MAILGUN_KEY == 'blahblahblah': return
 
-	msg = Message(html=html, subject=subject, sender=app.config['MAIL_USERNAME'], recipients=[to_address])
-	mail.send(msg)
+	url = f"https://api.mailgun.net/v3/{SITE}/messages"
+
+	auth = ("api", MAILGUN_KEY)
+
+	data = {"from": EMAIL,
+			"to": [to_address],
+			"subject": subject,
+			"html": html,
+			}
+	
+	requests.post(url, auth=auth, data=data)
 
 
 def send_verification_email(user, email=None):

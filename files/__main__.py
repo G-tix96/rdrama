@@ -6,7 +6,6 @@ from flask import *
 from flask_caching import Cache
 from flask_limiter import Limiter
 from flask_compress import Compress
-from flask_mail import Mail
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import *
@@ -41,16 +40,6 @@ app.config['SQLALCHEMY_DATABASE_URL'] = environ.get("DATABASE_URL", "postgresql:
 app.config["CACHE_TYPE"] = "RedisCache"
 app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL", "redis://localhost")
 
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-
-if environ.get("MAIL_USERNAME2") and random.random() < 0.5:
-	app.config['MAIL_USERNAME'] = environ.get("MAIL_USERNAME2", "").strip()
-	app.config['MAIL_PASSWORD'] = environ.get("MAIL_PASSWORD2", "").strip()
-else:
-	app.config['MAIL_USERNAME'] = environ.get("MAIL_USERNAME", "").strip()
-	app.config['MAIL_PASSWORD'] = environ.get("MAIL_PASSWORD", "").strip()
 
 app.config['SETTINGS'] = {}
 
@@ -76,7 +65,6 @@ db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
 
 cache = Cache(app)
 Compress(app)
-mail = Mail(app)
 
 if not path.isfile(f'/site_settings.json'):
 	with open('/site_settings.json', 'w', encoding='utf_8') as f:

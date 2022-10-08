@@ -1,4 +1,4 @@
-from files.__main__ import app, limiter, mail
+from files.__main__ import app, limiter
 from files.helpers.alerts import *
 from files.helpers.wrappers import *
 from files.helpers.get import *

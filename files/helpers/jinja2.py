@@ -75,5 +75,5 @@ def inject_constants():
 			"KOFI_TOKEN":KOFI_TOKEN, "KOFI_LINK":KOFI_LINK,
 			"approved_embed_hosts":approved_embed_hosts,
 			"site_settings":app.config['SETTINGS'],
-			"MAIL_USERNAME":app.config['MAIL_USERNAME'],
+			"EMAIL":EMAIL,
 			}
