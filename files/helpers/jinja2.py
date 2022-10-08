@@ -69,7 +69,7 @@ def inject_constants():
 			"DEFAULT_THEME":DEFAULT_THEME, "DESCRIPTION":DESCRIPTION,
 			"has_sidebar":has_sidebar, "has_logo":has_logo, "has_app":has_app,
 			"FP":FP, "NOTIF_MODACTION_JL_MIN":NOTIF_MODACTION_JL_MIN, "cache":cache,
-			"ONLINE_STR":ONLINE_STR, "patron":patron, "dues":dues,
+			"ONLINE_STR":ONLINE_STR, "patron":patron, "DUES":DUES,
 			"SIDEBAR_THREAD":SIDEBAR_THREAD, "BANNER_THREAD":BANNER_THREAD,
 			"BADGE_THREAD":BADGE_THREAD, "SNAPPY_THREAD":SNAPPY_THREAD,
 			"KOFI_TOKEN":KOFI_TOKEN, "KOFI_LINK":KOFI_LINK,

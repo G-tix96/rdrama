@@ -310,7 +310,7 @@ def sign_up_post(v):
 	if existing_account:
 		return signup_error("An account with that username already exists.")
 
-	if HCAPTCHA_SITEKEY:
+	if HCAPTCHA_SITEKEY != 'blahblahblah':
 		token = request.values.get("h-captcha-response")
 		if not token:
 			return signup_error("Unable to verify captcha [1].")

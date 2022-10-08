@@ -417,7 +417,7 @@ class User(Base):
 		if not FEATURES['COUNTRY_CLUB']: return True
 		if self.shadowbanned: return False
 		if self.is_suspended_permanently: return False
-		return self.admin_level >= PERMS['VIEW_CLUB'] or self.club_allowed or (self.club_allowed != False and self.truecoins >= dues)
+		return self.admin_level >= PERMS['VIEW_CLUB'] or self.club_allowed or (self.club_allowed != False and self.truecoins >= DUES)
 
 	@lazy
 	def any_block_exists(self, other):
