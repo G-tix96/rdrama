@@ -253,6 +253,7 @@
 						<p id="profile--info--spent">Coins spent: {{u.coins_spent}}</p>
 						<p id="profile--info--truescore">True score: {{u.truecoins}}</p>
 						<p id="profile--info--winnings">Winnings: {{u.winnings}}</p>
+						<p id="profile--info--hats-owned">{{owned_hats}}/{{total_num_of_hats}} ({{owned_hats_pct}})</p>
 						{% if u.is_private %}
 							<p id="profile--info--private">User has private mode enabled</p>
 						{% endif %}
@@ -496,6 +497,7 @@
 					<p id="profile-mobile--info--spent">Coins spent: {{u.coins_spent}}</p>
 					<p id="profile-mobile--info--truescore">True score: {{u.truecoins}}</p>
 					<p id="profile-mobile--info--winnings">Winnings: {{u.winnings}}</p>
+					<p id="profile--info--hats-owned">{{owned_hats}}/{{total_num_of_hats}} ({{owned_hats_pct}})</p>
 					{% if u.is_private %}
 						<p id="profile-mobile--info--private">User has private mode enabled</p>
 					{% endif %}

@@ -994,6 +994,11 @@ def u_username(username, v=None):
 
 	listing = get_posts(ids, v=v)
 
+	# this is probably totalllly inefficient but maybe someone can fix it later
+	total_num_of_hats = g.db.query(HatDef).filter(HatDef.submitter_id == None).count()
+	owned_hats = len(u.owned_hats)
+	owned_hats_pct = f'{owned_hats / total_num_of_hats:.0%}'
+
 	if u.unban_utc:
 		if request.headers.get("Authorization") or request.path.endswith(".json"):
 			return {"data": [x.json for x in listing]}
@@ -1007,7 +1012,10 @@ def u_username(username, v=None):
 												sort=sort,
 												t=t,
 												next_exists=next_exists,
-												is_following=is_following)
+												is_following=is_following,
+												owned_hats=owned_hats,
+												owned_hats_pct=owned_hats_pct,
+												total_num_of_hats=total_num_of_hats)
 
 
 
