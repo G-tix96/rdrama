@@ -1385,6 +1385,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycool2',2,'cigarette hip shades sunglasses jacket smoking smoke',NULL),
 ('marseycoomer',2,'masturbation goon cumbrain porn masturbate',NULL),
 ('marseycoomer2',2,'gooning masturbation fapping cumming gooner nofap',NULL),
+('marseycoomer3',2,'coomer cumming masturbation blueballed',1665238828),
 ('marseycoonass',2,'student lsu university louisana state',NULL),
 ('marseycop',2,'acab thin blue line chauvin police officer',NULL),
 ('marseycop2',2,'police officer acab thin blue line pig',NULL),
