@@ -467,7 +467,10 @@ if SITE == 'pcmemes.net':
 				count = "1"
 
 			if 'περιμένει' in count:
-				return process_streamer(id, '')
+				if live != '':
+					return process_streamer(id, '')
+				else:
+					return None
 
 			count = int(count.replace('.', ''))
 
@@ -480,7 +483,11 @@ if SITE == 'pcmemes.net':
 			return (True, (id, req.url, thumb, name, title, count))
 		else:
 			t = offline_regex.search(text)
-			if not t: return process_streamer(id, '')
+			if not t:
+				if live != '':
+					return process_streamer(id, '')
+				else:
+					return None
 
 			y = offline_details_regex.search(text)
 

@@ -267,7 +267,7 @@ def revert_actions(v, username):
 
 	comments = [x[0] for x in g.db.query(ModAction.target_comment_id).filter(ModAction.user_id == user.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_comment').all()]
 	comments = g.db.query(Comment).filter(Comment.id.in_(comments)).all()
-	
+
 	for item in posts + comments:
 		item.is_banned = False
 		item.ban_reason = None
@@ -285,7 +285,7 @@ def revert_actions(v, username):
 			user.is_banned = 0
 			send_repeatable_notification(user.id, f"@{v.username} has unbanned you!")
 		g.db.add(user)
-		
+
 		for u in user.alts:
 			u.shadowbanned = None
 			u.unban_utc = 0

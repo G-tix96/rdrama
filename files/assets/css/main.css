@@ -5569,15 +5569,20 @@ audio, video {
 	font-size: 0.95rem;
 }
 
-#sidebar-wpd--flairs {
+.sidebar-wpd--flairs {
 	display: grid;
 	align-items: center;
-	grid-template-columns: repeat(3, 1fr);
-	margin-bottom: 2rem;
 	grid-gap: 1px;
 }
 
-#sidebar-wpd--flairs a {
+.sidebar-wpd--flairs--3 {
+	grid-template-columns: repeat(3, 1fr);
+}
+.sidebar-wpd--flairs--2 {
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.sidebar-wpd--flairs a {
 	padding: 5px 5px 4px 5px;
 	text-align: center;
 	color: var(--muted);
@@ -5585,18 +5590,9 @@ audio, video {
 	box-shadow: 0 0 0 1px var(--primary);
 }
 
-#sidebar-wpd--flairs a:hover {
+.sidebar-wpd--flairs a:hover {
 	color: #fff;
 	text-decoration: none;
-}
-
-#sidebar-lgb--host-notice img {
-	display: block;
-	margin: 1.5rem auto 1rem auto;
-}
-#sidebar-lgb--host-notice a {
-	display: block;
-	text-align: center;
 }
 
 #sidebar--directory--head {
