@@ -31,6 +31,7 @@
 		{% if v.admin_level >= PERMS['ADMIN_ACTIONS_REVERT'] and u.admin_level %}
 			<a class="btn btn-danger" role="button" onclick="post_toast(this,'/@{{u.username}}/revert_actions')">Revert admin actions</a>
 		{% endif %}
+	{% endif %}
 {%- endmacro %}
 
 {% macro userAdminToolsLower(deviceType) -%}
