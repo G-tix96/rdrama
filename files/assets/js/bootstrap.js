@@ -340,15 +340,12 @@ function timestamp(str, ti) {
 };
 
 function areyousure(t) {
-	if (t.value) {
-		t.type = 'submit';
+	if (t.value)
 		t.value = 'Are you sure?'
-	}
 	else
-	{
 		t.innerHTML = t.innerHTML.replace(t.textContent, 'Are you sure?')
-	}
-    t.setAttribute("onclick", t.dataset.click);
+
+	t.setAttribute("onclick", t.dataset.click);
 
 	if (t.dataset.dismiss)
     	t.setAttribute("data-bs-dismiss", t.dataset.dismiss);
