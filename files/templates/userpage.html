@@ -30,6 +30,8 @@
 {% endblock %}
 
 {% import 'userpage_admintools.html' as userpage_admintools with context %}
+{% set hats_total = u.hats_owned_proportion_display[1] %}
+{% set hats_owned_percent = u.hats_owned_proportion_display[0] %}
 
 {% block desktopUserBanner %}
 
@@ -253,7 +255,7 @@
 						<p id="profile--info--spent">Coins spent: {{u.coins_spent}}</p>
 						<p id="profile--info--truescore">True score: {{u.truecoins}}</p>
 						<p id="profile--info--winnings">Winnings: {{u.winnings}}</p>
-						<p id="profile--info--hats-owned" {% if u.num_of_owned_hats == total_num_of_hats %}class="profile-owned-all-hats"{% endif %}>{{u.num_of_owned_hats}} / {{total_num_of_hats}} hats owned ({{ '{:.0%}'.format(u.num_of_owned_hats / total_num_of_hats) }})</p>
+						<p id="profile--info--hats-owned" {% if u.num_of_owned_hats == hats_total %}class="profile-owned-all-hats"{% endif %}>{{u.num_of_owned_hats}} / {{hats_total}} hats owned ({{hats_owned_percent}})</p>
 						{% if u.is_private %}
 							<p id="profile--info--private">User has private mode enabled</p>
 						{% endif %}
@@ -497,7 +499,7 @@
 					<p id="profile-mobile--info--spent">Coins spent: {{u.coins_spent}}</p>
 					<p id="profile-mobile--info--truescore">True score: {{u.truecoins}}</p>
 					<p id="profile-mobile--info--winnings">Winnings: {{u.winnings}}</p>
-					<p id="profile-mobile--info--hats-owned" {% if u.num_of_owned_hats == total_num_of_hats %}class="profile-owned-all-hats"{% endif %}>{{u.num_of_owned_hats}} / {{total_num_of_hats}} hats owned ({{ '{:.0%}'.format(u.num_of_owned_hats / total_num_of_hats) }})</p>
+					<p id="profile-mobile--info--hats-owned" {% if u.num_of_owned_hats == hats_total %}class="profile-owned-all-hats"{% endif %}>{{u.num_of_owned_hats}} / {{hats_total}} hats owned ({{hats_owned_percent}})</p>
 					{% if u.is_private %}
 						<p id="profile-mobile--info--private">User has private mode enabled</p>
 					{% endif %}
