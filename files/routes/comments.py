@@ -206,12 +206,13 @@ def comment(v):
 						copyfile(oldname, filename)
 						process_image(filename, resize=400)
 					elif parent_post.id == BANNER_THREAD:
+						banner_width = 1200 if not SITE_NAME == 'PCM' else 0
 						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/banners'),
 							key=lambda e: int(e.split('.webp')[0]))[-1]
 						num = int(li.split('.webp')[0]) + 1
 						filename = f'files/assets/images/{SITE_NAME}/banners/{num}.webp'
 						copyfile(oldname, filename)
-						process_image(filename, resize=1200)
+						process_image(filename, resize=banner_width)
 					elif parent_post.id == BADGE_THREAD:
 						try:
 							badge_def = loads(body)
