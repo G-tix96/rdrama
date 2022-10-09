@@ -248,7 +248,7 @@ def execute_zozbot(c, level, parent_submission, v):
 
 def execute_longpostbot(c, level, body, body_html, parent_submission, v):
 	if not len(c.body.split()) >= 200: return
-	if "<" in body and "</blockquote>" in body_html: return
+	if "</blockquote>" in body_html: return
 	body = random.choice(LONGPOST_REPLIES)
 	if body.startswith('▼'):
 		body = body[1:]
