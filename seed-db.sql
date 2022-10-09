@@ -565,10 +565,14 @@ INSERT INTO public.hat_defs VALUES (152, 'Kung Lao', 'Why did I make a Kung Lao 
 INSERT INTO public.hat_defs VALUES (153, 'Top Hat (steampunk)', 'Like a regular top hat but with goggles and gears', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (154, 'Brain Hat', 'Peter Griffin''s dog', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (155, 'The TED_SIMP', 'Wear this hat to express your undying adoration for carp', 2, 500, NULL, 1662167687);
+
 INSERT INTO public.hat_defs VALUES (667, 'The Orb', 'Ponder into one''s soul', 2, 500, NULL, 1663279906);
 INSERT INTO public.hat_defs VALUES (652, 'Leather Helmet', 'Wow, what a n00b', 2, 500, NULL, 1663133381);
 INSERT INTO public.hat_defs VALUES (669, 'Backwards cap 2', 'lookin'' cool', 2, 500, NULL, 1663280007);
 INSERT INTO public.hat_defs VALUES (396, 'Obey Snapback w Blunt', 'dude weed lmao', 2, 500, NULL, 1662167687);
+
+
+
 INSERT INTO public.hat_defs VALUES (663, 'Santa Hat II', '''Tis the season!', 2, 500, NULL, 1663279621);
 INSERT INTO public.hat_defs VALUES (672, 'Birthday Hat', 'Ruins every thread on October 1st (ed: what does this mean????)', 2, 500, NULL, 1663280145);
 INSERT INTO public.hat_defs VALUES (156, 'The Brandon', 'Listen here fat', 2, 500, NULL, 1662167687);
@@ -1003,7 +1007,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 874, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 878, true);
 
 
 --
