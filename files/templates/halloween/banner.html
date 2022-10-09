@@ -1,4 +1,4 @@
-<a  rel="nofollow noopener noreferrer" href="{% if 'rama' in request.host %}https://youtu.be/3l7X94GLqSQ?t=16{% else %}/{% endif %}">
+<a  rel="nofollow noopener noreferrer" href="{% if 'rama' in request.host %}https://youtu.be/3l7X94GLqSQ?t=16{% else %}/{% endif %}" style="text-decoration: none !important">
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Creepster&display=swap");
     #banner-halloween-svg {
@@ -8,7 +8,7 @@
   {% if '/post/' not in request.path %}
   <script defer src="{{'js/halloween/banner.js' | asset}}"></script>
   <style>
-    #banner-halloween-title {
+    #banner-halloween-title-group {
       animation: float infinite 8s ease-in-out;
     }
     #banner-halloween-title > tspan {
@@ -27,18 +27,18 @@
         <text id="banner-halloween-presenting" style="font-family:verdana,arial;text-transform:uppercase">
           <tspan x="200" y="290">Rdrama Presents</tspan>
         </text>
-        <g>
-          <text id="banner-halloween-title" x="200" y="370" style="font-size:80px;font-family:Creepster,arial;" fill-opacity="0.9">
-            <tspan dx="0">H</tspan>
-            <tspan dx="-18">O</tspan>
-            <tspan dx="-18">M</tspan>
-            <tspan dx="-18">O</tspan>
-            <tspan dx="-18">W</tspan>
-            <tspan dx="-18">E</tspan>
-            <tspan dx="-18">E</tspan>
-            <tspan dx="-18">N</tspan>
-            <tspan id="banner-halloween-title-II" fill="#f00" fill-opacity="0.8">II</tspan>
-          </text>
+        <g id="banner-halloween-title-group" style="font-size:80px;font-family:Creepster,arial;">
+          <text id="banner-halloween-title" y="370" fill-opacity="0.9">
+            <tspan x="200">H</tspan>
+						<tspan x="235">O</tspan>
+						<tspan x="270">M</tspan>
+						<tspan x="320">O</tspan>
+						<tspan x="355">W</tspan>
+						<tspan x="405">E</tspan>
+						<tspan x="440">E</tspan>
+						<tspan x="475">N</tspan>
+						<tspan x="540" id="banner-halloween-title-II" fill="#f00" fill-opacity="0.8">II</tspan>
+					</text>
         </g>
         <text id="banner-halloween-text-evil" style="opacity:0">
           <tspan x="200" y="370" fill=white style="font-size:72px;font-family:Jo_wrote_a_lovesong;">straggotween</tspan>

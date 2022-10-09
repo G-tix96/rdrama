@@ -35,7 +35,7 @@
 
 			<div class="comment-body">
 
-					<div id="comment-{{c.id}}-only" class="{% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only">
+					<div id="comment-{{c.id}}-only" class="{% if c.award_count('ectoplasm', v) %}ectoplasm{% elif c.award_count('glowie', v) and not c.award_count('candy-corn', v) %}glow{% endif %}  comment-{{c.id}}-only">
 
 							<div class="user-info">
 								<span class="comment-collapse-icon" onclick="collapse_comment('{{c.id}}', this.parentElement.parentElement.parentElement.parentElement)"></span>
@@ -119,7 +119,7 @@
 	{% endif %}
 	<div class="comment-body">
 
-		<div id="{% if comment_info and comment_info.id == c.id %}context{%else%}comment-{{c.id}}-only{% endif %}" class="{% if c.unread %}unread{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only comment-anchor {% if comment_info and comment_info.id == c.id %}context{%endif%}{% if c.is_banned %} banned{% endif %}{% if c.deleted_utc %} deleted{% endif %}">
+		<div id="{% if comment_info and comment_info.id == c.id %}context{%else%}comment-{{c.id}}-only{% endif %}" class="{% if c.unread %}unread{% endif %} {% if c.award_count('ectoplasm', v) %}ectoplasm{% elif c.award_count('glowie', v) and not c.award_count('candy-corn', v) %}glow{% endif %} {% if c.award_count('stab', v) %}blood{% endif %} comment-{{c.id}}-only comment-anchor {% if comment_info and comment_info.id == c.id %}context{%endif%}{% if c.is_banned %} banned{% endif %}{% if c.deleted_utc %} deleted{% endif %}">
 
 			<div class="user-info">
 				<span class="comment-collapse-icon" onclick="collapse_comment('{{c.id}}', this.parentElement.parentElement.parentElement.parentElement)"></span>
@@ -252,7 +252,7 @@
 				</style>
 			{% endif %}
 
-			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.author.agendaposter and not (c.parent_submission and c.post.sub == 'chudrama') %}agendaposter{% endif %} {% if c.author.rainbow %}rainbow-text{% endif %}">
+			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.author.agendaposter and not (c.parent_submission and c.post.sub == 'chudrama') %}agendaposter{% endif %}  {% if c.award_count("candy-corn", v) %}candy-corn{% elif c.award_count("ectoplasm", v)%}ectoplasm{% elif c.author.rainbow and not c.award_count("stab", v) %}rainbow-text{% endif %}">
 				{{c.realbody(v) | safe}}
 			</div>
 			{% if c.parent_submission %}
@@ -890,7 +890,7 @@
 	<div id="viewmore-{{offset}}"><button id="viewbtn" class="btn btn-primary" onclick="viewmore({{pid}},'{{sort}}',{{offset}},{{ids}})">VIEW MORE COMMENTS</a></div>
 {% endif %}
 
-{% if SITE_NAME == 'rDrama' and not request.headers.get("xhr") and v and 'SamsungBrowser' not in g.agent %}
+<!--{% if SITE_NAME == 'rDrama' and not request.headers.get("xhr") and v and 'SamsungBrowser' not in g.agent %}
 	<div id="detection" style="display:none;background-color:canvas;color-scheme:light"></div>
 	<script>
 		const detectionDiv = document.querySelector('#detection');
@@ -912,6 +912,6 @@
 			}
 		}
 	</script>
-{% endif %}
+{% endif %}-->
 
 </body>

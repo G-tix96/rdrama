@@ -439,7 +439,23 @@ AWARDS = {
 		"title": "Flashlight",
 		"description": "",
 		"icon": "fas fa-flashlight",
-		"color": "",
+		"color": "text-white",
+		"price": 400
+	},
+	"candy-corn": {
+		"kind": "candy-corn",
+		"title": "Candy Corn",
+		"description": "",
+		"icon": "fas fa-candy-corn",
+		"color": "text-orange",
+		"price": 400
+	},
+	"ectoplasm": {
+		"kind": "ectoplasm",
+		"title": "Ectoplasm",
+		"description": "",
+		"icon": "fas fa-ghost",
+		"color": "text-green",
 		"price": 400
 	},
 	"marsify": {
