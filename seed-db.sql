@@ -451,6 +451,7 @@ INSERT INTO public.hat_defs VALUES (861, 'Bowl Cut', 'Who cut your hair? Your mo
 INSERT INTO public.hat_defs VALUES (866, 'Venom Mask', 'PUT THE TOUNGUE AWAY', 2, 500, NULL, 1665272503);
 INSERT INTO public.hat_defs VALUES (871, 'Kirby Beanie', 'Be careful he''ll swallow you', 2, 500, NULL, 1665272632);
 INSERT INTO public.hat_defs VALUES (872, 'Pinwheels', 'Holland hat holland hat', 2, 1000, NULL, 1665272653);
+
 INSERT INTO public.hat_defs VALUES (631, 'Country Club Visor', 'What country club members wear when discussing your reddit account', 2, 500, NULL, 1663033011);
 INSERT INTO public.hat_defs VALUES (632, 'Jotaro Hat', 'The iconic cap of a buff punchy weebshit guy', 2, 500, NULL, 1663033206);
 INSERT INTO public.hat_defs VALUES (629, 'Marisas Big Witch Hat', 'Fascism is when witches wear big hats, the bigger the hat the more fascist you are.', 2, 500, NULL, 1663010108);
@@ -625,6 +626,7 @@ INSERT INTO public.hat_defs VALUES (415, 'WANTED', 'Dangerous thought criminal. 
 INSERT INTO public.hat_defs VALUES (421, 'Emperor Hat', 'Made in China', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (877, 'Reaper Hood I', 'Spooooooky!', 2, 500, NULL, 1665314511);
 INSERT INTO public.hat_defs VALUES (878, 'Reaper Hood II', 'Now with scythe!', 2, 500, NULL, 1665314534);
+
 INSERT INTO public.hat_defs VALUES (397, 'Funko Pop', '...and then he turned himself into Funko Pop. Funniest shit I ever saw.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (668, 'Maxwell Hat', 'Scribblethot', 2, 500, NULL, 1663279953);
 INSERT INTO public.hat_defs VALUES (543, 'Harkinian (Faces of Evil)', 'Marsey mah boy', 2, 500, NULL, 1662167687);
@@ -707,6 +709,12 @@ INSERT INTO public.hat_defs VALUES (846, 'Twinkle', 'TWINKle', 2, 1000, NULL, 16
 
 INSERT INTO public.hat_defs VALUES (875, 'Aces Strawhat', 'Idfk what this is man why are you submitting these esoteric fucking hats with no indication of what they are AAAHHHHH', 2, 500, NULL, 1665314089);
 
+
+
+
+
+
+
 INSERT INTO public.hat_defs VALUES (531, 'Zen', 'follow the fish follow the fish follow the fish follow the fish follow the fish', 2, 1000, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (612, 'Wizard Hat (pixel)', 'Some sort of vidya thing idfk', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (614, 'Chickenhead', '🤗', 2, 500, NULL, 1662167687);
@@ -771,6 +779,8 @@ INSERT INTO public.hat_defs VALUES (284, 'The Gary Plauche', 'We can''t expect G
 INSERT INTO public.hat_defs VALUES (292, 'Marsey Smug Mask', 'I''m not seething, you''re seething', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (295, 'Pinkhat', 'It''s a hat and it''s pink and your nan looks adorable in it. Not you, though.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (400, 'Current Thing (support)', 'Slava Ukraini!', 2, 500, NULL, 1662167687);
+
+
 INSERT INTO public.hat_defs VALUES (847, 'Flaming Sword', '??????????', 2, 1000, NULL, 1665262102);
 INSERT INTO public.hat_defs VALUES (310, 'Bandit Bandana', 'This thread ain''t big enough fer the  of us', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (327, 'Ageplayer', 'It''s cool if it''s not your thing, just don''t yuck someone else''s yum :)', 2, 500, NULL, 1662167687);
@@ -851,6 +861,7 @@ INSERT INTO public.hat_defs VALUES (386, 'Curts New Hat', 'Have you *seen* it?',
 INSERT INTO public.hat_defs VALUES (387, 'Gray Cowl of Nocturnal', 'Capital!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (388, 'Tricorne', 'This hat is for TRUE AMERICAN PATRIOTS only', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (404, 'Knight Helmet', 'kNIGht 🤗', 2, 500, NULL, 1662167687);
+
 INSERT INTO public.hat_defs VALUES (352, 'John Deere Hat', 'She (male) thinks my tractor''s sexy', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (355, 'Chef Hat', 'Cloudflare just bent the knee and I''m nauseated and don''t feel like writing descriptions for hats sorry', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (392, 'Chris-Chan', 'Hat to the extreme!', 2, 500, NULL, 1662167687);
@@ -862,6 +873,14 @@ INSERT INTO public.hat_defs VALUES (422, 'Booba', 'O_O', 2, 500, NULL, 166216768
 INSERT INTO public.hat_defs VALUES (409, 'AI Core', 'Thought this said AL Core for a minute like Al gore but no it''s ai like the robot thing and apparently it''s from a vidya so here we go description done 🤌', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (424, 'Pearl Clutcher', 'REEEEEEEEEEEEEEEEE', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (462, 'Rasta Hat', 'Jah bless', 2, 500, NULL, 1662167687);
+
+
+
+
+
+
+
+
 INSERT INTO public.hat_defs VALUES (398, 'The Catman', 'This counts as a fursuit', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (401, 'Current Thing (oppose)', 'Denazify Ukraine!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (402, 'T-34 Tank', 'For denazification purposes', 2, 500, NULL, 1662167687);
@@ -993,7 +1012,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 881, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 900, true);
 
 
 --
