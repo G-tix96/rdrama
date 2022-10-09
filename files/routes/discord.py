@@ -23,16 +23,17 @@ def join_discord(v):
 @app.get("/discord_redirect")
 @auth_required
 def discord_redirect(v):
+	now = int(time.time())
+	state = request.values.get('state')
+	if not state or not '.' in state: abort(400)
+	state = state.split('.')
+	timestamp= state[0]
+	state= state[1]
 
-
-	now=int(time.time())
-	state=request.values.get('state','').split('.')
-
-	timestamp=state[0]
-
-	state=state[1]
-
-	if int(timestamp) < now-600:
+	try:
+		if int(timestamp) < now-600:
+			abort(400)
+	except:
 		abort(400)
 
 	if not validate_hash(f"{timestamp}+{v.id}+discord", state):
