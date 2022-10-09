@@ -345,37 +345,7 @@ def comment(v):
 		g.db.add(choice)
 
 	if SITE == 'pcmemes.net' and c.body.lower().startswith("based"):
-		pill = based_regex.match(body)
-
-		if level == 1: basedguy = get_account(parent_post.author_id)
-		else: basedguy = get_account(c.parent_comment.author_id)
-		basedguy.basedcount += 1
-		if pill:
-			if basedguy.pills: basedguy.pills += f", {pill.group(1)}"
-			else: basedguy.pills += f"{pill.group(1)}"
-		g.db.add(basedguy)
-
-		body2 = f"@{basedguy.username}'s Based Count has increased by 1. Their Based Count is now {basedguy.basedcount}."
-		if basedguy.pills: body2 += f"\n\nPills: {basedguy.pills}"
-		
-		body_based_html = sanitize(body2)
-
-		c_based = Comment(author_id=BASEDBOT_ID,
-			parent_submission=parent_submission,
-			distinguish_level=6,
-			parent_comment_id=c.id,
-			level=level+1,
-			is_bot=True,
-			body_html=body_based_html,
-			top_comment_id=c.top_comment_id,
-			ghost=c.ghost
-			)
-
-		g.db.add(c_based)
-		g.db.flush()
-
-		n = Notification(comment_id=c_based.id, user_id=v.id)
-		g.db.add(n)
+		execute_basedbot(c, level, body, parent_submission, parent_post, v)
 
 	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and parent_post.sub != 'chudrama':
 
