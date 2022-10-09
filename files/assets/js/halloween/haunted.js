@@ -1,9 +1,16 @@
 const thunder1 = new Audio(`/assets/media/halloween/haunted/thunder1.mp3`),
-      thunder2 = new Audio(`/assets/media/halloween/haunted/thunder2.mp3`)
+      thunder2 = new Audio(`/assets/media/halloween/haunted/thunder2.mp3`),
+      stylesheet_haunted = document.createElement("STYLE")
 
 window.onload = function(){
-    lightningStrike("normal")
+    temp = document.createTextNode("#banner-halloween-title {opacity:0;}#banner-halloween-text-evil {opacity:1!important;}img {filter: invert(1);}")
+    stylesheet_haunted.appendChild(temp)
+    document.head.appendChild(stylesheet_haunted)
+    stylesheet_haunted.disabled = true
+
     thunder2.volume = 0.5
+
+    lightningStrike("normal")
 }
 
 setInterval(function(){
@@ -19,18 +26,10 @@ function lightningStrike(strike) {
     document.body.style.animation = "haunted 20s"
 
     if(strike == "haunted"){
-        let art1 = sidebar.firstElementChild,
-            banner_text_normal = document.getElementById("banner-halloween-title"),
-            banner_text_evil = document.getElementById("banner-halloween-text-evil")
-
+        stylesheet_haunted.disabled = false
         thunder2.play()
-        art1.style.setProperty("filter","invert(1)")
-        banner_text_normal.style.opacity = 0
-        banner_text_evil.style.opacity = 1
         setTimeout(function(){
-            art1.style.setProperty("filter","invert(0)")
-            banner_text_normal.style.opacity = 1
-            banner_text_evil.style.opacity = 0
+            stylesheet_haunted.disabled = true
         },700)
     }
 
