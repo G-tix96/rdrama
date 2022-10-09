@@ -149,9 +149,9 @@ body::after {
 	position: relative;
 }
 
-.blood .comment-text:not(.ectoplasm) {
+.blood .comment-text {
 	color: #dc3545 !important;
-	font-family: 'Nosifer';
+	font-family: 'DoubleFeature';
 }
 
 
@@ -161,6 +161,11 @@ body::after {
 	top: 0;
 	left: 0;
 	pointer-events: none;
+}
+
+@font-face {
+	font-family: "DoubleFeature";
+	src: url("/assets/fonts/halloween/DoubleFeature.woff") format("woff");
 }
 
 /* Haunted Effect */
@@ -195,7 +200,7 @@ body::after {
 
 @font-face {
 	font-family: "Jo_wrote_a_lovesong";
-	src: url("/assets/fonts/Jo_wrote_a_lovesong.woff") format("woff");
+	src: url("/assets/fonts/halloween/Jo_wrote_a_lovesong.woff") format("woff");
   }
 
 /* Spiders */
@@ -538,7 +543,24 @@ body::after {
 }
 
 .ectoplasm .comment-text > p, .ectoplasm .post-body, h1.ectoplasm {
-	font-family: 'Creepster' !important;
-	color: #90ee90 !important;
+	font-family: 'Creepster';
+	color: #90ee90;
 	letter-spacing: 0.15em;
+}
+
+.ectoplasm .candy-corn {
+	--color3: rgb(140, 255, 0);
+	--color2: rgb(0, 111, 0);
+	--color1: rgb(131, 255, 131);
+	text-shadow: none;
+}
+
+.ectoplasm.blood .comment-text > p {
+	font-family: 'DoubleFeature';
+	letter-spacing: initial;
+}
+
+.ectoplasm .rainbow-text > p {
+	color: #90ee90 !important;
+	font-weight: initial;
 }

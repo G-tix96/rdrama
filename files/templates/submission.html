@@ -390,6 +390,15 @@
 </style>
 <script defer src="{{'js/halloween/flashlight.js' | asset}}"></script>
 {% endif %}
+
+{% if p.award_count("ectoplasm", v) %}
+<style>
+	#banner-halloween-title {
+		text-shadow: 0 0 40px #3AE63A;
+		fill: #90ee90;
+	}
+</style>
+{% endif %}
 <!-- end homoween -->
 
 
@@ -1298,27 +1307,20 @@
 {% endif %}
 
 <!-- homoween audio -->
-{% if not p.award_count("haunt", v) %}
+{% if p.award_count("ectoplasm", v) %}
+	{% set song = "/assets/media/halloween/ghostbusters.mp3" %}
+{% elif p.award_count("haunt", v) %}
+	{% set song = "" %}
+{% else %}
+	{% set path = "assets/media/halloween/music" %}
+	{% set song = "/" + path + "/" + listdir('files/' + path)|random() + '?v=45' %}
+{% endif %}
 <script>
-	const trackList = [
-	'burton',
-	'headsroll',
-	'monstermash',
-	'owo',
-	'scooby',
-	'strangerintro',
-	'halloween',
-	'twilightzone',
-	'psycho',
-	'exorcist'
-	];
-	const selected = trackList[Math.floor(Math.random() * trackList.length)];
-
-	const audio = new Audio(`/assets/media/halloween/${selected}.mp3`);
+	const audio = new Audio("{{song}}");
 	audio.loop=true;
 
 	function play() {
-  		audio.play();
+		audio.play();
 	}
 
 	console.log(audio)
@@ -1333,7 +1335,6 @@
 
 	});
 </script>
-{% endif %}
 <!-- end homoween audio -->
 
 {% endblock %}

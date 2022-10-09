@@ -252,7 +252,7 @@
 				</style>
 			{% endif %}
 
-			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.author.agendaposter and not (c.parent_submission and c.post.sub == 'chudrama') %}agendaposter{% endif %}  {% if c.award_count("candy-corn", v) %}candy-corn{% elif c.award_count("ectoplasm", v)%}ectoplasm{% elif c.author.rainbow and not c.award_count("stab", v) %}rainbow-text{% endif %}">
+			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.author.agendaposter and not (c.parent_submission and c.post.sub == 'chudrama') %}agendaposter{% endif %}  {% if c.award_count("candy-corn", v) %}candy-corn{% elif c.author.rainbow and not c.award_count("stab", v) %}rainbow-text{% endif %}">
 				{{c.realbody(v) | safe}}
 			</div>
 			{% if c.parent_submission %}
