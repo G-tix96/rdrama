@@ -318,6 +318,13 @@ INSERT INTO public.hat_defs VALUES (676, 'Kepi', 'Army cap for those unlucky eno
 INSERT INTO public.hat_defs VALUES (678, 'Turkroach', 'Come on Carp this one''s hilarious. It''s semi transparent to clarify', 2, 500, NULL, 1663305640);
 INSERT INTO public.hat_defs VALUES (679, 'Judge Dredd', 'THIS USER IS THE LAW', 2, 500, NULL, 1663309533);
 INSERT INTO public.hat_defs VALUES (680, 'Hat Stack', 'You are as presumptuous as you are poor and Irish. Challenge not the majesty of my tower of hats.', 2, 500, NULL, 1663310312);
+
+
+
+
+
+
+
 INSERT INTO public.hat_defs VALUES (684, 'cans dot wav', 'I am your host, the man they call Ghost.', 2, 500, NULL, 1663378616);
 INSERT INTO public.hat_defs VALUES (685, 'The Lawlz II', 'Ben 10 aficionado and connoisseur.', 2, 500, NULL, 1663400628);
 INSERT INTO public.hat_defs VALUES (686, 'Pingas', 'Snooping as usual, I see!', 2, 500, NULL, 1663400760);
@@ -356,13 +363,38 @@ INSERT INTO public.hat_defs VALUES (12, 'The Elvis', 'Remember when this dude na
 INSERT INTO public.hat_defs VALUES (13, 'Gussy Hat', 'Let everyone know that you''re NOT a rapist. Honest.', 2, 500, NULL, 1662167687);
 
 
+
+
+
+
+
+
 INSERT INTO public.hat_defs VALUES (14, 'Riveter', 'Can you do it? Really?', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (15, 'Top Hat (leprechaun)', 'LLM but Irish', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (16, 'Drinky Beer Hat', 'I actually didn''t know these were real things until I made this', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (17, 'Viking', 'Rape, pillage, never bathe. Live the dream.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (532, 'Under His Eye', 'WATCH ANOTHER SHOW', 2, 500, NULL, 1662167687);
+
+
+
+
+
+
+
+
+
 INSERT INTO public.hat_defs VALUES (22, 'Southern Gentleman', 'Slaveowner? Fried chicken chain founder? You decide!', 2, 500, NULL, 1662167687);
+
+
+
+
 INSERT INTO public.hat_defs VALUES (23, 'Cowboy I', 'Make him wish he could quit you', 2, 500, NULL, 1662167687);
+
+
+
+
+
+
 INSERT INTO public.hat_defs VALUES (24, 'Cowboy II', 'You''re my favorite deputy!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (25, 'Halo', 'Dramamine criticized this one and now I''m too self-conscious about it to write a description', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (26, 'Fedora I', 'M''arsey', 2, 500, NULL, 1662167687);
@@ -427,8 +459,16 @@ INSERT INTO public.hat_defs VALUES (85, 'Carls Jr', 'Purveyor of literally the f
 INSERT INTO public.hat_defs VALUES (86, 'Whataburger', 'Texans don''t know any better', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (87, 'Five Guys', 'I love having 5 guys in my mouth', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (88, 'Taco Bell', 'Enabler of drunken mistakes', 2, 500, NULL, 1662167687);
+
+
+
+
 INSERT INTO public.hat_defs VALUES (89, 'Marsey-In-A-Box', 'Awww you''re playing make-believe!', 2, 500, NULL, 1662167687);
+
+
 INSERT INTO public.hat_defs VALUES (90, 'Orthodox Hood', 'User is a schismatic lunatic', 2, 500, NULL, 1662167687);
+
+
 INSERT INTO public.hat_defs VALUES (631, 'Country Club Visor', 'What country club members wear when discussing your reddit account', 2, 500, NULL, 1663033011);
 INSERT INTO public.hat_defs VALUES (632, 'Jotaro Hat', 'The iconic cap of a buff punchy weebshit guy', 2, 500, NULL, 1663033206);
 INSERT INTO public.hat_defs VALUES (629, 'Marisas Big Witch Hat', 'Fascism is when witches wear big hats, the bigger the hat the more fascist you are.', 2, 500, NULL, 1663010108);
@@ -444,12 +484,14 @@ INSERT INTO public.hat_defs VALUES (644, 'Poppy', 'The TRUE rDrama mascot', 2, 5
 INSERT INTO public.hat_defs VALUES (645, 'The SRDine', 'CANNED', 2, 500, NULL, 1663132545);
 INSERT INTO public.hat_defs VALUES (646, 'Turtle Helmet', 'u/awkwardtheturtle is VERY mad at you', 2, 500, NULL, 1663132947);
 INSERT INTO public.hat_defs VALUES (648, 'Diamond Helmet', 'So I did some mining off camera...', 2, 500, NULL, 1663133082);
+
 INSERT INTO public.hat_defs VALUES (91, 'Afro', 'Pool''s closed motherlover', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (18, 'Nonspecific Military Officer Hat', '[removed]', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (19, 'Soviet Officer I', 'OUR hat', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (408, 'Chef Hat II', 'Toque blanche', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (414, 'Trilby', '*tip*', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (419, 'Alimony Hair', 'Stay norwooding, king', 2, 500, NULL, 1662167687);
+
 INSERT INTO public.hat_defs VALUES (93, 'Wizard I', 'Three decades a KHHV', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (94, 'Wizard II', 'Avada kedavra ✨', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (95, 'Witch I', 'Hex the patriarchy', 2, 500, NULL, 1662167687);
@@ -961,7 +1003,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 832, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 874, true);
 
 
 --
