@@ -21,8 +21,9 @@ def join_discord(v):
 
 
 @app.get("/discord_redirect")
-@auth_required
+@is_not_permabanned
 def discord_redirect(v):
+	if v.shadowbanned: abort(400)
 	now = int(time.time())
 	state = request.values.get('state')
 	if not state or not '.' in state: abort(400)
