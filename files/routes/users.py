@@ -275,7 +275,7 @@ def transfer_coins(v, username):
 			notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount-tax} coins!"
 
 			if reason:
-				if len(reason) > 200: return {"error": "Reason is too long, max 200 characters"},400
+				if len(reason) > TRANSFER_MESSAGE_LENGTH_LIMIT: return {"error": f"Reason is too long, max {TRANSFER_MESSAGE_LENGTH_LIMIT} characters"},400
 				notif_text += f"\n\n> {reason}"
 				log_message += f"\n\n> {reason}"
 
@@ -566,7 +566,7 @@ def message2(v, username):
 @auth_required
 def messagereply(v):
 	body = request.values.get("body", "").strip().replace('‎','')
-	body = body.replace('\r\n', '\n')[:10000]
+	body = body.replace('\r\n', '\n')[:COMMENT_BODY_LENGTH_LIMIT]
 
 	if not body and not request.files.get("file"): return {"error": "Message is empty!"}, 400
 

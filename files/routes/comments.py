@@ -169,7 +169,7 @@ def comment(v):
 
 	body = request.values.get("body", "").strip().replace('‎','')
 
-	body = body.replace('\r\n', '\n')[:10000]
+	body = body.replace('\r\n', '\n')[:COMMENT_BODY_LENGTH_LIMIT]
 
 	if parent_post.id not in ADMIGGERS:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
