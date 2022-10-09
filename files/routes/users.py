@@ -177,6 +177,8 @@ def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 	id = get_user(username, v=v, include_shadowbanned=False).id
 	if not (v.id == id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']):
 		abort(403)
+	votes = []
+	votes2 = []
 	if is_who_simps_hates:
 		votes = g.db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==vote_dir, Vote.user_id==id).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
 		votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, CommentVote.user_id==id).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
