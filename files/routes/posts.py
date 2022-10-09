@@ -353,7 +353,7 @@ def viewmore(v, pid, sort, offset):
 @auth_desired_with_logingate
 def morecomments(v, cid):
 	try: cid = int(cid)
-	except: abort(400)
+	except: abort(404)
 
 	tcid = g.db.query(Comment.top_comment_id).filter_by(id=cid).one_or_none()[0]
 

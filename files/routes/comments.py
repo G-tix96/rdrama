@@ -33,12 +33,7 @@ WORDLE_COLOR_MAPPINGS = {-1: "🟥", 0: "🟨", 1: "🟩"}
 @app.get("/logged_out/h/<sub>/post/<pid>/<anything>/<cid>")
 @auth_desired_with_logingate
 def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
-
-	try: cid = int(cid)
-	except: abort(404)
-
 	comment = get_comment(cid, v=v)
-
 	if not comment.can_see(v): abort(403)
 	
 	if comment.author.shadowbanned and not (v and v.shadowbanned) and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
@@ -59,9 +54,6 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 		elif SITE_NAME == 'rDrama': pid = 6489
 		elif SITE == 'pcmemes.net': pid = 2487
 		else: pid = 1
-	
-	try: pid = int(pid)
-	except: abort(404)
 	
 	post = get_post(pid, v=v)
 	
