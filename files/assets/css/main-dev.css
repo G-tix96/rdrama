@@ -1,0 +1,804 @@
+/************************************************
+ *               Main-rewrite file              *
+ *               Live Debootstrap               *
+ ************************************************/
+
+
+/* TODO move to html ref for compatibility */
+@import url("fontawesome.css");
+
+@charset "UTF-8";
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+.modal
+{
+    display: none;
+}
+/* END Temporary */
+
+html, body {
+	margin: 0;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: var(--white, #212529);
+	background-color: var(--body-background, #fff);
+}
+
+/* Make all links look like regular text
+ *
+ * A lot of links are used as buttons and stuff, so if you want to
+ * make a regular link, undo these for specific areas like post content, etc */
+a, a:visited, a:hover, a:active {
+    text-decoration: none;
+    color: var(--primary, #000);
+}
+
+/* Font stuff */
+html, body, input, a, button {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+/* Hide focus thing */
+[tabindex="-1"]:focus:not(:focus-visible) {
+	outline: 0 !important;
+}
+
+/* Unlinkify "links" */
+.srd a {
+    color: var(--white, #fff);
+}
+
+.srd {
+    display: block;
+    text-align: center;
+    background-color: var(--primary);
+    padding: 2px;
+    color: #fff;
+}
+
+nav {
+    position: sticky;
+    top: 0px;
+    z-index: 999;
+}
+
+#navbar {
+    width: 100%;
+    top: 0px;
+    display: flex;
+    flex-direction: row;
+    padding: 6px 16px 6px 12px;
+    align-items: center;
+    flex-wrap: nowrap;
+    font-size: .9rem;
+    background-color: var(--navbar, #fff);
+}
+
+#navbar i,
+.dropdown-menu i
+{
+    margin-right: 12px;
+    font-size: 1rem;
+}
+
+#navbar i
+{
+    vertical-align: middle;
+}
+
+.header--currency {
+    margin-right: 3px;
+    display: inline;
+}
+
+.header--currency img
+{
+    max-height: 13px;
+    margin-right: 2px;
+    vertical-align: middle;
+}
+
+.header--currency span
+{
+    vertical-align: middle;;
+}
+
+.dropdown-btn {
+    cursor: pointer;
+}
+
+.navbar-nav {
+    display: inline-block;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* .container { */
+/*     display: flex; */
+/* } */
+
+#login {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+    padding-top: 0;
+}
+
+#register-form-container {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+
+}
+
+#register-form {
+    flex: 0 0 58.3333333333%;
+    align-self: center;
+    min-width: 100px;
+}
+
+.splash-wrapper
+{
+    position: relative;
+    width: 50%;
+}
+
+.splash-wrapper:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(127,127,127,.25);
+    background-image: linear-gradient(135deg,rgba(30,30,36,0.1) 0%,var(--primary) 150%);
+    z-index: 50;
+}
+
+.splash-img
+{
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-position: bottom;
+    object-fit: cover;
+}
+
+#frontpage #main-content-view {
+    display: flex;
+    flex: 1;
+}
+
+#main-content { flex-grow: 1; }
+
+#submit .submit-view
+{
+    padding: 2px 42px;
+}
+
+.sidebar {
+    max-width: 300px;
+}
+
+.custom-gutters {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    display: none;
+    width: 210px;
+    padding: 5px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background-color: var(--background, #fff);
+    box-shadow: 0px 7px 12px rgba(0, 0, 0, 0.13);
+}
+
+.dropdown-menu .dropdown-item {
+    display: block;
+    padding: 6px 8px;
+    margin: 1px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--white, #000);
+    font-size: 0.9rem;
+    border: 1px solid transparent;
+    text-decoration: none;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: var(--trinary, #efefef);
+    border: 1px solid var(--trinary-tint, #bababa);
+}
+
+@keyframes expand
+{
+    0% { opacity: 0.0; transform: scaleY(0.7) scaleX(0.9); }
+    100% { opacity: 1.0; transform: scaleY(1.0) scaleX(1.0); }
+}
+
+.dropdown-menu-right {
+    margin-top: 2px;
+    right: 0px;
+    box-shadow: 0px 7px 12px rgba(0, 0, 0, 0.13);
+}
+
+
+.dropdown-item.dropdown-item-sub .dropdown-menu
+{
+    position: absolute;
+    margin-top: -35px;
+    left: -210px;
+    display: block;
+    opacity: 0.0;
+    visibility: hidden;
+    transition: visibility .2s .1s, left .2s .2s, opacity .2s .1s;
+}
+
+/* Since there's a gap, make it disappear with a delay */
+
+.dropdown-item.dropdown-item-sub:hover .dropdown-menu
+{
+    
+    transition: visibility .2s 0s, left .2s 0s, opacity .2s 0s;
+    left: -215px;
+    opacity: 1.0;
+    visibility: visible;
+}
+
+#dropdownMenuLink {
+    display: inline-block;
+}
+
+.navbar-nav-mobile {
+    display: none;
+}
+
+.dropdown-label {
+    display: inline-block;
+}
+
+.user-info,
+.profile {
+    display: inline-block;
+}
+
+.user-info {
+    font-size: .7rem;
+    vertical-align: middle;
+}
+
+.profile {
+    vertical-align: middle;
+}
+
+.profile-pic-navbar {
+    display: inline-block;
+    object-fit: cover;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    border: 1px solid #cacaca;
+}
+
+.pronouns
+{
+    font-size: 9px;
+    margin-left: .25rem;
+    font-weight: 700;
+    padding: 2px 5px 3px;
+    border-radius: 5px;
+    border: 2px solid transparent;
+}
+
+.checkbox-display {
+    display: flex;
+}
+
+.checkbox-display:checked + .dropdown-menu
+{
+    display: block;
+    transform-origin: top;
+    animation: expand .16s 1;
+}
+
+.nav-item
+{
+    vertical-align: middle;
+}
+
+.navbar-nav li.nav-item {
+    display: inline-block;
+}
+
+
+#logo {
+    flex-grow: 1;
+}
+
+#logo img
+{
+    width: 100px;
+}
+
+.brand, #logo
+{
+    display: flex;
+    align-items: center;
+}
+
+/* Input stuff */
+.search-input, input[type=text], input[type=url], input[type=password], input[type=email], .pseudo-textbox {
+    border-radius: 4px;
+    border: 2px solid var(--background-tint, #cacaca);
+    padding: 6px 10px;
+    cursor: text;
+    color: var(--muted, #404040);
+    background-color: var(--background, #fafafa);
+}
+
+.pseudo-submit-form {
+    margin-bottom: 8px;
+}
+
+.search-input {
+    width: 400px;
+
+    /* Cheat the searchbox forward a tiny bit, it's off place */
+    position: relative;
+    left: 30px;
+}
+
+.search-icon
+{
+    position: relative;
+    color: var(--muted, #606060);
+}
+
+.toast {
+    display: none;
+    position: fixed;
+    bottom: 1.5rem;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    width: 375px;
+    text-align: center;
+    z-index: 1000;
+    background-color: var(--secondary);
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: 1px solid var(--gray-400);
+}
+
+.toast i
+{
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+#formkey { display: none; }
+
+.sub-name {}
+
+#navbarResponsive {
+    display: flex;
+    flex-grow: 2;
+    flex-direction: row;
+    justify-content: flex-end;
+    
+}
+
+/* Mobile stuff */
+.mobile-nav-icon,
+.navbar-toggler
+{
+    display: none;
+}
+
+.card {
+    display: block;
+    border: 1px solid var(--gray-100);
+    border-radius: 4px;
+}
+
+.card-title {
+    text-transform: uppercase;
+    color: 1px solid var(--gray-300);
+}
+
+.card-header {
+    display: block;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.card-body, .card-header {
+    padding: 8px;
+}
+
+.card-body {
+    
+}
+
+.btn {
+    display: inline-block;
+    padding: 4px 15px;
+    background-color: unset;
+    border: 1px solid var(--background-tint, #dadada);
+    color: var(--white, #000);
+    font-size: .9rem;
+    min-height: 32px;
+    cursor: pointer;
+    border-radius: 3px;
+    margin: 2px;
+    text-decoration: none;
+}
+
+.btn-primary {
+    border: 1px solid var(--primary, #dadada);
+    font-weight: bold;
+}
+
+.input-block {
+    display: block;
+}
+
+.form-header {
+    margin-bottom: 24px;
+}
+
+.form-header-text {
+    font-size: 1.7rem;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.form-header-text-alt {
+    margin: 5px 1px;
+    font-size: 0.9rem;
+}
+
+.btn i  {
+    margin-right: 4px;
+}
+
+.flex-gap {
+    flex: 1;
+}
+
+.editor textarea {
+    border: unset;
+    color: var(--white, #000);
+    background-color: var(--background, #fff);
+}
+
+.editor {
+    display: flex;
+    flex-direction: column;
+    width: 700px;
+    border: 2px solid var(--background-tint, #dadada);
+    border-radius: 4px;
+}
+
+.editor .editor-footer {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--body-background, #fff);
+    z-index: 5;
+    padding: 4px;
+    border-top: 1px solid #cacaca;
+}
+
+.editor .character-count {
+    margin-top: -20px;
+    font-size: 0.8rem;
+    margin-left: 4px;
+}
+
+.form-title {
+    display: block;
+    font-weight: bold;
+    margin: 9px 1px 4px;
+    font-size: 0.75rem;
+}
+
+.form-block {
+    display: block;
+    width: 100%;
+}
+
+.account-already-have {
+    font-size: 0.75rem;
+    margin-top: 36px;
+    text-align: center;
+}
+
+.terms {
+    font-size: 0.8rem;
+}
+
+.error-icon {
+    text-align: center;
+}
+
+.error-icon .fa-ghost {
+    text-align: center;
+    color: var(--background);
+}
+
+
+/* One thing I'll keep from bootstrap... */
+/* .d-none { */
+/*     display: none !important; */
+/* } */
+
+.form-title-alt {
+    display: inline;
+    font-weight: normal;
+    color: var(--gray-200, #303030);
+    font-size: 0.75rem;
+}
+
+.form-text {
+    display: block;
+    font-size: 0.7rem;
+}
+
+.submit-form-wrapper {
+    display: flex;
+}
+
+.submit-form-wrapper input[type=text],
+.submit-form-wrapper input[type=url] {
+    flex: 1;
+}
+
+.submit-form-wrapper .editor {
+    flex: 1;
+    width: 100%;
+}
+
+.form-group {
+    display: block;
+    margin-bottom: 12px;
+}
+
+/* Button group */
+.input-group {
+    display: flex;
+    flex-direction: row;
+}
+
+.input-group .btn
+{
+    border-radius: 0;
+    border-right: 0;
+    margin: 2px 0;
+}
+
+.input-group .btn:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.input-group .btn:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-right: 1px solid #cacaca;
+}
+
+.button-tabs {
+    display: flex;
+    justify-content: flex-end;
+    padding: 6px;
+    padding-right: 0;
+}
+
+.form-bottom-submit {
+    display: flex;
+    flex-direction: row;
+}
+
+.submit-view {
+    margin-bottom: 324px;
+}
+
+.fixed-bottom {
+    padding: 12px;
+    border-top: 1px solid var(--background, #cacaca);
+    z-index: 100;
+    background-color: var(--body-background, #fff);
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+}
+
+.submit-pseudo-text {
+    display: block;
+    height: 30px;
+    width: 100%;
+}
+
+.submission {
+    display: flex;
+    flex-direction: row;
+}
+
+#post-content {
+    flex-grow: 1;
+}
+
+.submission .profile-pic,
+#post-content .profile-pic,
+.user-info .profile-pic {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    vertical-align: middle;
+}
+
+.post-actions {
+    font-size: .9rem;
+}
+
+.post-actions i {
+    margin-right: 5px;
+}
+
+.post-actions a {
+    color: #000;
+    padding: 4px;
+    margin-right: 3px;
+    display: inline-block;
+}
+
+.submission-meta {
+    font-size: 0.85rem;
+}
+
+.submission-title {
+    font-size: 1.1rem;
+    margin-bottom: 3px;
+    font-weight: bold;
+}
+
+.post-actions-mobile {
+    display: none;
+}
+
+.submission-content {
+    display: none;
+}
+
+.post-meta {
+    vertical-align: middle;
+    padding: 4px;
+}
+
+/* Big submissions */
+.post-root {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.post-root .post-img {
+
+}
+
+.post-img {
+    width: 100px;
+    height: 70px;
+    object-fit: cover;
+    background-color: var(--gray-300);
+    border: .1px solid var(--background);
+    border-radius: .35rem;
+}
+
+/* Voting buttons */
+.arrow-up::before {
+	cursor: pointer;
+	font-size: 1.3rem;
+	color: var(--gray-200);
+	font-family: "font awesome 5 pro" !important;
+	font-weight: 900;
+	content: "\f357";
+}
+
+.arrow-down::before {
+	cursor: pointer;
+	font-size: 1.3rem;
+	color: var(--gray-200);
+	font-family: "font awesome 5 pro" !important;
+	font-weight: 900;
+	content: "\f354";
+}
+
+.voting {
+    text-align: center;
+    padding: 3px 4px;
+    margin-left: 7px;
+}
+
+/* Everything below is best applied last */
+.d-none, .hidden {
+    /* Important disabled because the old navbar is autistic */
+    display: none /* !important */;
+}
+
+/****************************************
+ *         Speed Carot Model            *
+ *      i.e. inline Emoji picker        *
+ ****************************************/
+.ghostdiv
+{
+    display: block;
+    white-space: pre-wrap;
+    word-break: break-word;
+    /* Attempt to copy the textarea/input padding */
+    padding: 15px;
+}
+
+#speed-carot-modal
+{
+    background-color: var(--gray-700);
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#speed-carot-modal .speed-modal-option
+{
+    border-bottom: 1px solid #606060;
+    padding: 4px;
+    cursor: pointer;
+}
+
+#speed-carot-modal .speed-modal-option:hover,
+#speed-carot-modal .speed-modal-option:focus,
+#speed-carot-modal .speed-modal-option.selected
+{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+#speed-carot-modal .speed-modal-image
+{
+    object-fit: contain;
+    width: 50px;
+    height: 50px;
+}
+
+#speed-carot-modal .speed-modal-option span
+{
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.rainbow-text {
+	background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    font-weight: 700;
+}

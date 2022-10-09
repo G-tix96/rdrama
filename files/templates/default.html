@@ -14,25 +14,24 @@
 
 	{% if v %}
 		<style>:root{--primary:#{{v.themecolor}}}</style>
-		<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-		<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
-		<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
-		{% if v.agendaposter %}
-			<style>
-				html {
-					cursor:url('/i/dildo.webp?v=2000'), auto;
-				}
-			</style>
-		{% elif v.css %}
-			<style>
-				{{v.css | safe}}
-			</style>
-		{% endif %}
 	{% else %}
 		<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
-		<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-		<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
-		<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
+	{% endif %}
+	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
+    <!-- COMMENT / UNCOMMENT FOR NEKOCEL DEV SHIT -->
+    <!-- <link rel="stylesheet" href="{{'css/main-dev.css' | asset}}"> -->
+	<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
+	<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
+	{% if v.agendaposter %}
+		<style>
+		 * {
+			 cursor:url('/i/dildo.webp') !important;
+		 }
+		</style>
+	{% elif v.css %}
+		<style>
+		 {{v.css | safe}}
+		</style>
 	{% endif %}
 
 	{% if request.path.endswith('/catalog') %}
@@ -103,8 +102,6 @@
 		<meta name="msapplication-TileColor" content="#{% if v %}{{v.themecolor}}{% else %}{{DEFAULT_COLOR}}{% endif %}">
 		<meta name="msapplication-config" content="/assets/browserconfig.xml?v=3009">
 		<meta name="theme-color" content="#{% if v %}{{v.themecolor}}{% else %}{{DEFAULT_COLOR}}{% endif %}">
-
-
 
 		<link
 		rel="apple-touch-startup-image"
