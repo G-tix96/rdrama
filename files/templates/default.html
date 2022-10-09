@@ -20,7 +20,7 @@
 	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
     <!-- COMMENT / UNCOMMENT FOR NEKOCEL DEV SHIT -->
     <!-- <link rel="stylesheet" href="{{'css/main-dev.css' | asset}}"> -->
-	<link rel="stylesheet" href="{% if v %}{{('css/'~v.themecolor~'.css') | asset}}{% else %}{{('css/'~DEFAULT_THEME~'.css') | asset}}{% endif %}">
+	<link rel="stylesheet" href="{% if v %}{{('css/'~v.theme~'.css') | asset}}{% else %}{{('css/'~DEFAULT_THEME~'.css') | asset}}{% endif %}">
 	<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 	{% if v.agendaposter %}
 		<style>
