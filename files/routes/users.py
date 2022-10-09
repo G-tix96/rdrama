@@ -161,134 +161,68 @@ def agendaposters(v):
 	users = g.db.query(User).filter(User.agendaposter > 0).order_by(User.username).all()
 	return render_template("agendaposters.html", v=v, users=users)
 
+def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
+	vote_str = 'votes'
+	simps_haters = 'voters'
+	vote_name = 'Neutral'
+	if vote_dir == 1:
+		vote_str = 'upvotes'
+		simps_haters = 'simps for' if is_who_simps_hates else 'simps'
+		vote_name = 'Up'
+	elif vote_dir == -1:
+		vote_str = 'downvotes'
+		simps_haters = 'hates' if is_who_simps_hates else 'haters'
+		vote_name = 'Down'
+
+	id = get_user(username, v=v, include_shadowbanned=False).id
+	if not (v.id == id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']):
+		abort(403)
+	if is_who_simps_hates:
+		votes = g.db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==vote_dir, Vote.user_id==id).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
+		votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, CommentVote.user_id==id).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
+	else:
+		votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Submission).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==vote_dir, Submission.author_id==id).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
+		votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, Comment.author_id==id).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
+	votes = Counter(dict(votes)) + Counter(dict(votes2))
+	total = sum(votes.values())	
+	users = g.db.query(User).filter(User.id.in_(votes.keys())).all()
+	users2 = []
+	for user in users: 
+		users2.append((user, votes[user.id]))
+	users = sorted(users2, key=lambda x: x[1], reverse=True)
+
+	try:
+		pos = [x[0].id for x in users].index(v.id)
+		pos = (pos+1, users[pos][1])
+	except: pos = (len(users)+1, 0)
+
+	received_given = 'given' if is_who_simps_hates else 'received'
+	if total == 1: vote_str = vote_str[:-1] # we want to unpluralize if only 1 vote
+	total = f'{total} {vote_str} {received_given}'
+
+	name2 = f'Who @{username} {simps_haters}' if is_who_simps_hates else f'@{username} biggest {simps_haters}'
+
+	return render_template("voters.html", v=v, users=users[:25], pos=pos, name=vote_name, name2=name2, total=total)
 
 @app.get("/@<username>/upvoters")
 @auth_required
 def upvoters(v, username):
-	id = get_user(username, v=v, include_shadowbanned=False).id
-	if not (v.id == id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']):
-		abort(403)
-
-	votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Submission).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==1, Submission.author_id==id).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
-
-	votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==1, Comment.author_id==id).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
-
-	votes = Counter(dict(votes)) + Counter(dict(votes2))
-
-	total = sum(votes.values())
-
-	users = g.db.query(User).filter(User.id.in_(votes.keys())).all()
-	users2 = []
-	for user in users: users2.append((user, votes[user.id]))
-
-	users = sorted(users2, key=lambda x: x[1], reverse=True)
-	
-	try:
-		pos = [x[0].id for x in users].index(v.id)
-		pos = (pos+1, users[pos][1])
-	except: pos = (len(users)+1, 0)
-
-	if total == 1: total=f'{total} upvote received'
-	else: total=f'{total} upvotes received'
-
-	return render_template("voters.html", v=v, users=users[:25], pos=pos, name='Up', name2=f'@{username} biggest simps', total=total)
-
-
+	return all_upvoters_downvoters(v, username, 1, False)
 
 @app.get("/@<username>/downvoters")
 @auth_required
 def downvoters(v, username):
-	id = get_user(username, v=v, include_shadowbanned=False).id
-	if not (v.id == id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']):
-		abort(403)
-
-	votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Submission).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==-1, Submission.author_id==id).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
-
-	votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==-1, Comment.author_id==id).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
-
-	votes = Counter(dict(votes)) + Counter(dict(votes2))
-
-	total = sum(votes.values())
-
-	users = g.db.query(User).filter(User.id.in_(votes.keys())).all()
-	users2 = []
-	for user in users: users2.append((user, votes[user.id]))
-
-	users = sorted(users2, key=lambda x: x[1], reverse=True)
-	
-	try:
-		pos = [x[0].id for x in users].index(v.id)
-		pos = (pos+1, users[pos][1])
-	except: pos = (len(users)+1, 0)
-
-	if total == 1: total=f'{total} downvote received'
-	else: total=f'{total} downvotes received'
-
-	return render_template("voters.html", v=v, users=users[:25], pos=pos, name='Down', name2=f'@{username} biggest haters', total=total)
+	return all_upvoters_downvoters(v, username, -1, False)
 
 @app.get("/@<username>/upvoting")
 @auth_required
 def upvoting(v, username):
-	id = get_user(username, v=v, include_shadowbanned=False).id
-	if not (v.id == id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']):
-		abort(403)
-
-	votes = g.db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==1, Vote.user_id==id).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
-
-	votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==1, CommentVote.user_id==id).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
-
-	votes = Counter(dict(votes)) + Counter(dict(votes2))
-
-	total = sum(votes.values())
-
-	users = g.db.query(User).filter(User.id.in_(votes.keys())).all()
-	users2 = []
-	for user in users: users2.append((user, votes[user.id]))
-
-	users = sorted(users2, key=lambda x: x[1], reverse=True)
-	
-	try:
-		pos = [x[0].id for x in users].index(v.id)
-		pos = (pos+1, users[pos][1])
-	except: pos = (len(users)+1, 0)
-
-	if total == 1: total=f'{total} upvote given'
-	else: total=f'{total} upvotes given'
-
-	return render_template("voters.html", v=v, users=users[:25], pos=pos, name='Up', name2=f'Who @{username} simps for', total=total)
+	return all_upvoters_downvoters(v, username, 1, True)
 
 @app.get("/@<username>/downvoting")
 @auth_required
 def downvoting(v, username):
-	id = get_user(username, v=v, include_shadowbanned=False).id
-	if not (v.id == id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']):
-		abort(403)
-
-	votes = g.db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==-1, Vote.user_id==id).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
-
-	votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==-1, CommentVote.user_id==id).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
-
-	votes = Counter(dict(votes)) + Counter(dict(votes2))
-
-	total = sum(votes.values())
-
-	users = g.db.query(User).filter(User.id.in_(votes.keys())).all()
-	users2 = []
-	for user in users: users2.append((user, votes[user.id]))
-
-	users = sorted(users2, key=lambda x: x[1], reverse=True)
-	
-	try:
-		pos = [x[0].id for x in users].index(v.id)
-		pos = (pos+1, users[pos][1])
-	except: pos = (len(users)+1, 0)
-
-	if total == 1: total=f'{total} downvote given'
-	else: total=f'{total} downvotes given'
-
-	return render_template("voters.html", v=v, users=users[:25], pos=pos, name='Down', name2=f'Who @{username} hates', total=total)
-
-
+	return all_upvoters_downvoters(v, username, -1, True)
 
 @app.post("/@<username>/suicide")
 @limiter.limit("1/second;5/day")
