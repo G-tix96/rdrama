@@ -195,16 +195,16 @@ def execute_snappy(post, v):
 def execute_zozbot(c, level, parent_submission, v):
 	if random.random() >= 0.001: return
 	c2 = Comment(author_id=ZOZBOT_ID,
-			parent_submission=parent_submission,
-			parent_comment_id=c.id,
-			level=level+1,
-			is_bot=True,
-			body="zoz",
-			body_html="<p>zoz</p>",
-			top_comment_id=c.top_comment_id,
-			ghost=c.ghost,
-			distinguish_level=6
-			)
+		parent_submission=parent_submission,
+		parent_comment_id=c.id,
+		level=level+1,
+		is_bot=True,
+		body="zoz",
+		body_html="<p>zoz</p>",
+		top_comment_id=c.top_comment_id,
+		ghost=c.ghost,
+		distinguish_level=6
+	)
 
 	g.db.add(c2)
 	g.db.flush()
