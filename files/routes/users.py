@@ -21,10 +21,7 @@ import os
 import json
 from .login import check_for_alts
 
-
-@app.get("/@<username>/upvoters/<uid>/posts")
-@auth_required
-def upvoters_posts(v, username, uid):
+def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v, include_shadowbanned=False)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
@@ -33,7 +30,7 @@ def upvoters_posts(v, username, uid):
 
 	page = max(1, int(request.values.get("page", 1)))
 
-	listing = g.db.query(Submission).join(Vote).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==1, Submission.author_id==id, Vote.user_id==uid).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
+	listing = g.db.query(cls).join(vote_cls).filter(cls.ghost == False, cls.is_banned == False, cls.deleted_utc == 0, vote_cls.vote_type==vote_dir, cls.author_id==id, vote_cls.user_id==uid).order_by(cls.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
 
 	listing = [p.id for p in listing]
 	next_exists = len(listing) > 25
@@ -41,56 +38,32 @@ def upvoters_posts(v, username, uid):
 
 	listing = get_posts(listing, v=v)
 
-	return render_template("voted_posts.html", next_exists=next_exists, listing=listing, page=page, v=v)
+	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
+
+@app.get("/@<username>/upvoters/<uid>/posts")
+@auth_required
+def upvoters_posts(v, username, uid):
+	return upvoters_downvoters(v, username, uid, Submission, Vote, 1, "voted_posts.html", None)
 
 
 @app.get("/@<username>/upvoters/<uid>/comments")
 @auth_required
 def upvoters_comments(v, username, uid):
-	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
-	id = u.id
-	uid = int(uid)
-
-	page = max(1, int(request.values.get("page", 1)))
-
-	listing = g.db.query(Comment).join(CommentVote).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==1, Comment.author_id==id, CommentVote.user_id==uid).order_by(Comment.id.desc()).offset(25 * (page - 1)).limit(26).all()
-
-	listing = [c.id for c in listing]
-	next_exists = len(listing) > 25
-	listing = listing[:25]
-
-	listing = get_comments(listing, v=v)
-
-	return render_template("voted_comments.html", next_exists=next_exists, listing=listing, page=page, v=v, standalone=True)
+	return upvoters_downvoters(v, username, uid, Comment, CommentVote, 1, "voted_comments.html", True)
 
 
 @app.get("/@<username>/downvoters/<uid>/posts")
 @auth_required
 def downvoters_posts(v, username, uid):
-	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
-	id = u.id
-	uid = int(uid)
-
-	page = max(1, int(request.values.get("page", 1)))
-
-	listing = g.db.query(Submission).join(Vote).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==-1, Submission.author_id==id, Vote.user_id==uid).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
-
-	listing = [p.id for p in listing]
-	next_exists = len(listing) > 25
-	listing = listing[:25]
-
-	listing = get_posts(listing, v=v)
-
-	return render_template("voted_posts.html", next_exists=next_exists, listing=listing, page=page, v=v)
+	return upvoters_downvoters(v, username, uid, Submission, Vote, -1, "voted_posts.html", None)
 
 
 @app.get("/@<username>/downvoters/<uid>/comments")
 @auth_required
 def downvoters_comments(v, username, uid):
+	return upvoters_downvoters(v, username, uid, Comment, CommentVote, -1, "voted_comments.html", True)
+
+def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v, include_shadowbanned=False)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
@@ -99,32 +72,7 @@ def downvoters_comments(v, username, uid):
 
 	page = max(1, int(request.values.get("page", 1)))
 
-	listing = g.db.query(Comment).join(CommentVote).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==-1, Comment.author_id==id, CommentVote.user_id==uid).order_by(Comment.id.desc()).offset(25 * (page - 1)).limit(26).all()
-
-	listing = [c.id for c in listing]
-	next_exists = len(listing) > 25
-	listing = listing[:25]
-
-	listing = get_comments(listing, v=v)
-
-	return render_template("voted_comments.html", next_exists=next_exists, listing=listing, page=page, v=v, standalone=True)
-
-
-
-
-
-@app.get("/@<username>/upvoting/<uid>/posts")
-@auth_required
-def upvoting_posts(v, username, uid):
-	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
-	id = u.id
-	uid = int(uid)
-
-	page = max(1, int(request.values.get("page", 1)))
-
-	listing = g.db.query(Submission).join(Vote).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==1, Vote.user_id==id, Submission.author_id==uid).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
+	listing = g.db.query(cls).join(vote_cls).filter(cls.ghost == False, cls.is_banned == False, cls.deleted_utc == 0, vote_cls.vote_type==vote_dir, vote_cls.user_id==id, cls.author_id==uid).order_by(cls.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
 
 	listing = [p.id for p in listing]
 	next_exists = len(listing) > 25
@@ -132,125 +80,64 @@ def upvoting_posts(v, username, uid):
 
 	listing = get_posts(listing, v=v)
 
-	return render_template("voted_posts.html", next_exists=next_exists, listing=listing, page=page, v=v)
+	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
+
+@app.get("/@<username>/upvoting/<uid>/posts")
+@auth_required
+def upvoting_posts(v, username, uid):
+	return upvoting_downvoting(v, username, uid, Submission, Vote, 1, "voted_posts.html", None)
 
 
 @app.get("/@<username>/upvoting/<uid>/comments")
 @auth_required
 def upvoting_comments(v, username, uid):
-	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
-	id = u.id
-	uid = int(uid)
-
-	page = max(1, int(request.values.get("page", 1)))
-
-	listing = g.db.query(Comment).join(CommentVote).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==1, CommentVote.user_id==id, Comment.author_id==uid).order_by(Comment.id.desc()).offset(25 * (page - 1)).limit(26).all()
-
-	listing = [c.id for c in listing]
-	next_exists = len(listing) > 25
-	listing = listing[:25]
-
-	listing = get_comments(listing, v=v)
-
-	return render_template("voted_comments.html", next_exists=next_exists, listing=listing, page=page, v=v, standalone=True)
+	return upvoting_downvoting(v, username, uid, Comment, CommentVote, 1, "voted_comments.html", True)
 
 
 @app.get("/@<username>/downvoting/<uid>/posts")
 @auth_required
 def downvoting_posts(v, username, uid):
-	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
-	id = u.id
-	uid = int(uid)
-
-	page = max(1, int(request.values.get("page", 1)))
-
-	listing = g.db.query(Submission).join(Vote).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==-1, Vote.user_id==id, Submission.author_id==uid).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
-
-	listing = [p.id for p in listing]
-	next_exists = len(listing) > 25
-	listing = listing[:25]
-
-	listing = get_posts(listing, v=v)
-
-	return render_template("voted_posts.html", next_exists=next_exists, listing=listing, page=page, v=v)
+	return upvoting_downvoting(v, username, uid, Submission, Vote, -1, "voted_posts.html", None)
 
 
 @app.get("/@<username>/downvoting/<uid>/comments")
 @auth_required
 def downvoting_comments(v, username, uid):
-	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
-	id = u.id
-	uid = int(uid)
+	return upvoting_downvoting(v, username, uid, Comment, CommentVote, -1, "voted_comments.html", True)
 
-	page = max(1, int(request.values.get("page", 1)))
-
-	listing = g.db.query(Comment).join(CommentVote).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==-1, CommentVote.user_id==id, Comment.author_id==uid).order_by(Comment.id.desc()).offset(25 * (page - 1)).limit(26).all()
-
-	listing = [c.id for c in listing]
-	next_exists = len(listing) > 25
-	listing = listing[:25]
-
-	listing = get_comments(listing, v=v)
-
-	return render_template("voted_comments.html", next_exists=next_exists, listing=listing, page=page, v=v, standalone=True)
-
-
-@app.get("/@<username>/upvoted/posts")
-@auth_required
-def user_upvoted_posts(v, username):
+def user_voted(v, username, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v, include_shadowbanned=False)
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 
 	page = max(1, int(request.values.get("page", 1)))
 
-	listing = g.db.query(Submission).join(Vote).filter(
-			Submission.ghost == False,
-			Submission.is_banned == False,
-			Submission.deleted_utc == 0,
-			Submission.author_id != u.id,
-			Vote.user_id == u.id,
-			Vote.vote_type == 1
-		).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
+	listing = g.db.query(cls).join(vote_cls).filter(
+			cls.ghost == False,
+			cls.is_banned == False,
+			cls.deleted_utc == 0,
+			cls.author_id != u.id,
+			vote_cls.user_id == u.id,
+			vote_cls.vote_type == vote_dir
+		).order_by(cls.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
 
 	listing = [p.id for p in listing]
 	next_exists = len(listing) > 25
 	listing = listing[:25]
 	listing = get_posts(listing, v=v)
 
-	return render_template("voted_posts.html", next_exists=next_exists, listing=listing, page=page, v=v)
+	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
+
+@app.get("/@<username>/upvoted/posts")
+@auth_required
+def user_upvoted_posts(v, username):
+	return user_voted(v, username, Submission, Vote, 1, "voted_posts.html", None)
 
 
 @app.get("/@<username>/upvoted/comments")
 @auth_required
 def user_upvoted_comments(v, username):
-	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
-
-	page = max(1, int(request.values.get("page", 1)))
-
-	listing = g.db.query(Comment).join(CommentVote).filter(
-			Comment.ghost == False,
-			Comment.is_banned == False,
-			Comment.deleted_utc == 0,
-			Comment.author_id != u.id,
-			CommentVote.user_id == u.id,
-			CommentVote.vote_type == 1
-		).order_by(Comment.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
-
-	listing = [c.id for c in listing]
-	next_exists = len(listing) > 25
-	listing = listing[:25]
-	listing = get_comments(listing, v=v)
-
-	return render_template("voted_comments.html", next_exists=next_exists, listing=listing, page=page, v=v, standalone=True)
+	return user_voted(v, username, Comment, CommentVote, -1, "voted_comments.html", True)
 
 
 @app.get("/poorcels")
