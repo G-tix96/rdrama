@@ -261,7 +261,7 @@ def comment(v):
 	if parent.author.any_block_exists(v) and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		return {"error": "You can't reply to users who have blocked you or users that you have blocked."}, 403
 
-	is_bot = v.id != 12125 and (bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
+	is_bot = v.id != BBBB_ID and (bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
 
 	if len(body) > 50:
 		now = int(time.time())

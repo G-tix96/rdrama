@@ -907,7 +907,7 @@ def submit_post(v, sub=None):
 	
 	if embed and len(embed) > 1500: embed = None
 
-	is_bot = v.id != 12125 and bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID)
+	is_bot = v.id != BBBB_ID and bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID)
 
 	if request.values.get("ghost") and v.coins >= 100:
 		v.coins -= 100
