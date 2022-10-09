@@ -266,6 +266,8 @@ POST_TITLE_HTML_LENGTH_LIMIT = 1500 # do not make larger than 1500 without alter
 POST_BODY_LENGTH_LIMIT = 20000 # do not make larger than 20000 without altering the table
 POST_BODY_HTML_LENGTH_LIMIT = 40000 # do not make larger than 40000 without altering the table
 COMMENT_BODY_LENGTH_LIMIT = 10000 # do not make larger than 10000 characters without altering the table
+COMMENT_BODY_HTML_LENGTH_LIMIT = 20000 # do not make larger than 20000 characters without altering the table
+COMMENT_MAX_DEPTH = 200
 TRANSFER_MESSAGE_LENGTH_LIMIT = 200 # do not make larger than 10000 characters (comment limit) without altering the table
 
 LOGGEDIN_ACTIVE_TIME = 15 * 60

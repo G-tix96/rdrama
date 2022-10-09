@@ -195,11 +195,11 @@ def sanitize_raw_title(sanitized):
 	sanitized = sanitized.strip()
 	return sanitized[:POST_TITLE_LENGTH_LIMIT]
 
-def sanitize_raw_body(sanitized):
+def sanitize_raw_body(sanitized, is_post):
 	if not sanitized: return ""
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\r\n", "\n")
 	sanitized = sanitized.strip()
-	return sanitized[:POST_BODY_LENGTH_LIMIT]
+	return sanitized[:POST_BODY_LENGTH_LIMIT if is_post else COMMENT_BODY_LENGTH_LIMIT]
 
 
 @with_sigalrm_timeout(5)

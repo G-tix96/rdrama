@@ -155,13 +155,14 @@ def comment(v):
 		level = parent.level + 1
 		if parent.author_id == v.id: rts = True
 	else: abort(400)
-	
+
 	if not parent.can_see(v): abort(404)
 	if parent.deleted_utc != 0: abort(404)
 
-	body = request.values.get("body", "").strip().replace('‎','')
+	if level > COMMENT_MAX_DEPTH:
+		return {"error": f"Max comment level is {COMMENT_MAX_DEPTH}"}, 400
 
-	body = body.replace('\r\n', '\n')[:COMMENT_BODY_LENGTH_LIMIT]
+	body = sanitize_raw_body(request.values.get("body", ""), False)
 
 	if parent_post.id not in ADMIGGERS:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
@@ -231,7 +232,7 @@ def comment(v):
 			else:
 				abort(415)
 
-	body = body.strip()
+	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
 	
 	if v.admin_level >= PERMS['SITE_SETTINGS_SNAPPY_QUOTES'] and parent_post.id == SNAPPY_THREAD and level == 1:
 		with open(f"snappy_{SITE_NAME}.txt", "a", encoding="utf-8") as f:
@@ -258,7 +259,7 @@ def comment(v):
 		if existing: return {"error": f"You already made that comment: /comment/{existing.id}"}, 409
 
 	if parent.author.any_block_exists(v) and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
-		return {"error": "You can't reply to users who have blocked you, or users you have blocked."}, 403
+		return {"error": "You can't reply to users who have blocked you or users that you have blocked."}, 403
 
 	is_bot = v.id != 12125 and (bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
 
@@ -300,10 +301,7 @@ def comment(v):
 			g.db.commit()
 			return {"error": "Too much spam!"}, 403
 
-	if len(body_html) > 20000: abort(400)
-
-	if level > 200:
-		return {"error": "Max comment level is 200"}, 400
+	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
 	c = Comment(author_id=v.id,
 				parent_submission=parent_submission,
@@ -313,7 +311,7 @@ def comment(v):
 				is_bot=is_bot,
 				app_id=v.client.application.id if v.client else None,
 				body_html=body_html,
-				body=body[:10000],
+				body=body,
 				ghost=parent_post.ghost
 				)
 
@@ -592,17 +590,15 @@ def comment(v):
 @limiter.limit("1/second;10/minute;100/hour;200/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def edit_comment(cid, v):
-
 	c = get_comment(cid, v=v)
 
 	if time.time() - c.created_utc > 7*24*60*60 and not (c.post and c.post.private):
 		return {"error":"You can't edit comments older than 1 week!"}, 403
 
 	if c.author_id != v.id: abort(403)
+	if not c.post: abort(403)
 
-	body = request.values.get("body", "").strip().replace('‎','')
-
-	body = body.replace('\r\n', '\n')[:10000]
+	body = sanitize_raw_body(request.values.get("body", ""), False)
 
 	if len(body) < 1 and not (request.files.get("file") and request.headers.get("cf-ipcountry") != "T1"):
 		return {"error":"You have to actually type something!"}, 400
@@ -666,8 +662,7 @@ def edit_comment(cid, v):
 				return {"error": "Too much spam!"}, 403
 
 		body += process_files()
-
-		body = body.strip()
+		body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT] # process_files potentially adds characters to the post
 
 		body_for_sanitize = body
 		if v.owoify:
@@ -679,12 +674,12 @@ def edit_comment(cid, v):
 
 		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, torture=torture)
 
-		if len(body_html) > 20000: abort(400)
+		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
 		if v.marseyawarded and marseyaward_body_regex.search(body_html):
 			return {"error":"You can only type marseys!"}, 403
 
-		c.body = body[:10000]
+		c.body = body
 		c.body_html = body_html
 
 		if blackjack and any(i in c.body.lower() for i in blackjack.split()):

@@ -412,8 +412,7 @@ def edit_post(pid, v):
 		abort(403)
 
 	title = sanitize_raw_title(request.values.get("title", ""))
-
-	body = sanitize_raw_body(request.values.get("body", ""))
+	body = sanitize_raw_body(request.values.get("body", ""), True)
 
 	if v.id == p.author_id:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
@@ -695,8 +694,7 @@ def submit_post(v, sub=None):
 	if '\\' in url: abort(400)
 
 	title = sanitize_raw_title(request.values.get("title", ""))
-	
-	body = sanitize_raw_body(request.values.get("body", ""))
+	body = sanitize_raw_body(request.values.get("body", ""), True)
 
 	def error(error):
 		if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": error}, 400
