@@ -30,8 +30,8 @@
 {% endblock %}
 
 {% import 'userpage_admintools.html' as userpage_admintools with context %}
-{% set hats_total = u.hats_owned_proportion_display[1] %}
-{% set hats_owned_percent = u.hats_owned_proportion_display[0] %}
+{% set hats_total = u.hats_owned_proportion_display[1] if u else 0 %}
+{% set hats_owned_percent = u.hats_owned_proportion_display[0] if u else '' %}
 
 {% block desktopUserBanner %}
 
