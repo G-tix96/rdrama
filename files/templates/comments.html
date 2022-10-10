@@ -138,7 +138,7 @@
 				{% if c.bannedfor %}
 					<i class="fas fa-hammer-crash text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was banned for this comment {{c.bannedfor}}"></i>
 				{% endif %}
-				{% if c.active_flags(v) %}<a class="btn btn-primary" style="padding:1px 5px; font-size:10px"role="button" onclick="document.getElementById('flaggers-{{c.id}}').classList.toggle('d-none')">{{c.active_flags(v)}} Report{{ help.plural(c.active_flags(v)) }}</a>{% endif %}
+				{% if c.active_flags(v) %}<a class="btn btn-primary" style="padding:1px 5px; font-size:10px"role="button" onclick="document.getElementById('flaggers-{{c.id}}').classList.toggle('d-none')">{{c.active_flags(v)}} Report{{help.plural(c.active_flags(v))}}</a>{% endif %}
 				{% if c.over_18 %}<span class="badge badge-danger text-small-extra mr-1">+18</span>{% endif %}
 				{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and c.author.shadowbanned %}<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{c.author.shadowbanned}} for "{{c.author.ban_reason}}"'></i>{% endif %}
 				{% if c.stickied %}

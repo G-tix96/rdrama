@@ -853,7 +853,9 @@ def agendaposter(user_id, v):
 	user.agendaposter = expiry
 	g.db.add(user)
 
-	if days: note = f"for {days} days"
+	if days:
+		days_txt = str(days).rstrip('.0')
+		note = f"for {days_txt} days"
 	else: note = "permanently"
 
 	ma = ModAction(
@@ -1015,8 +1017,9 @@ def ban_user(user_id, v):
 			x.ban(admin=v, reason=reason, days=days)
 
 	if days:
-		if reason: text = f"@{v.username} has banned you for **{days}** days for the following reason:\n\n> {reason}"
-		else: text = f"@{v.username} has banned you for **{days}** days."
+		days_txt = str(days).rstrip('.0')
+		if reason: text = f"@{v.username} has banned you for **{days_txt}** days for the following reason:\n\n> {reason}"
+		else: text = f"@{v.username} has banned you for **{days_txt}** days."
 	else:
 		if reason: text = f"@{v.username} has banned you permanently for the following reason:\n\n> {reason}"
 		else: text = f"@{v.username} has banned you permanently."
@@ -1025,7 +1028,7 @@ def ban_user(user_id, v):
 	
 	if days == 0: duration = "permanently"
 	elif days == 1: duration = "for 1 day"
-	else: duration = f"for {days} days"
+	else: duration = f"for {days_txt} days"
 
 	note = f'reason: "{reason}", duration: {duration}'
 	ma=ModAction(

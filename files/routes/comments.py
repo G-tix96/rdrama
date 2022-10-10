@@ -33,12 +33,7 @@ WORDLE_COLOR_MAPPINGS = {-1: "🟥", 0: "🟨", 1: "🟩"}
 @app.get("/logged_out/h/<sub>/post/<pid>/<anything>/<cid>")
 @auth_desired_with_logingate
 def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
-
-	try: cid = int(cid)
-	except: abort(404)
-
 	comment = get_comment(cid, v=v)
-
 	if not comment.can_see(v): abort(403)
 	
 	if comment.author.shadowbanned and not (v and v.shadowbanned) and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
@@ -59,9 +54,6 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 		elif SITE_NAME == 'rDrama': pid = 6489
 		elif SITE == 'pcmemes.net': pid = 2487
 		else: pid = 1
-	
-	try: pid = int(pid)
-	except: abort(404)
 	
 	post = get_post(pid, v=v)
 	
@@ -163,13 +155,14 @@ def comment(v):
 		level = parent.level + 1
 		if parent.author_id == v.id: rts = True
 	else: abort(400)
-	
+
 	if not parent.can_see(v): abort(404)
 	if parent.deleted_utc != 0: abort(404)
 
-	body = request.values.get("body", "").strip().replace('‎','')
+	if level > COMMENT_MAX_DEPTH:
+		return {"error": f"Max comment level is {COMMENT_MAX_DEPTH}"}, 400
 
-	body = body.replace('\r\n', '\n')[:10000]
+	body = sanitize_raw_body(request.values.get("body", ""), False)
 
 	if parent_post.id not in ADMIGGERS:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
@@ -239,7 +232,7 @@ def comment(v):
 			else:
 				abort(415)
 
-	body = body.strip()
+	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
 	
 	if v.admin_level >= PERMS['SITE_SETTINGS_SNAPPY_QUOTES'] and parent_post.id == SNAPPY_THREAD and level == 1:
 		with open(f"snappy_{SITE_NAME}.txt", "a", encoding="utf-8") as f:
@@ -266,9 +259,9 @@ def comment(v):
 		if existing: return {"error": f"You already made that comment: /comment/{existing.id}"}, 409
 
 	if parent.author.any_block_exists(v) and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
-		return {"error": "You can't reply to users who have blocked you, or users you have blocked."}, 403
+		return {"error": "You can't reply to users who have blocked you or users that you have blocked."}, 403
 
-	is_bot = v.id != 12125 and (bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
+	is_bot = v.id != BBBB_ID and (bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
 
 	if len(body) > 50:
 		now = int(time.time())
@@ -308,10 +301,7 @@ def comment(v):
 			g.db.commit()
 			return {"error": "Too much spam!"}, 403
 
-	if len(body_html) > 20000: abort(400)
-
-	if level > 200:
-		return {"error": "Max comment level is 200"}, 400
+	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
 	c = Comment(author_id=v.id,
 				parent_submission=parent_submission,
@@ -321,7 +311,7 @@ def comment(v):
 				is_bot=is_bot,
 				app_id=v.client.application.id if v.client else None,
 				body_html=body_html,
-				body=body[:10000],
+				body=body,
 				ghost=parent_post.ghost
 				)
 
@@ -355,37 +345,7 @@ def comment(v):
 		g.db.add(choice)
 
 	if SITE == 'pcmemes.net' and c.body.lower().startswith("based"):
-		pill = based_regex.match(body)
-
-		if level == 1: basedguy = get_account(parent_post.author_id)
-		else: basedguy = get_account(c.parent_comment.author_id)
-		basedguy.basedcount += 1
-		if pill:
-			if basedguy.pills: basedguy.pills += f", {pill.group(1)}"
-			else: basedguy.pills += f"{pill.group(1)}"
-		g.db.add(basedguy)
-
-		body2 = f"@{basedguy.username}'s Based Count has increased by 1. Their Based Count is now {basedguy.basedcount}."
-		if basedguy.pills: body2 += f"\n\nPills: {basedguy.pills}"
-		
-		body_based_html = sanitize(body2)
-
-		c_based = Comment(author_id=BASEDBOT_ID,
-			parent_submission=parent_submission,
-			distinguish_level=6,
-			parent_comment_id=c.id,
-			level=level+1,
-			is_bot=True,
-			body_html=body_based_html,
-			top_comment_id=c.top_comment_id,
-			ghost=c.ghost
-			)
-
-		g.db.add(c_based)
-		g.db.flush()
-
-		n = Notification(comment_id=c_based.id, user_id=v.id)
-		g.db.add(n)
+		execute_basedbot(c, level, body, parent_submission, parent_post, v)
 
 	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and parent_post.sub != 'chudrama':
 
@@ -419,101 +379,9 @@ def comment(v):
 		n = Notification(comment_id=c_jannied.id, user_id=v.id)
 		g.db.add(n)
 
-
-	if SITE_NAME == 'rDrama' and len(c.body.split()) >= 200 and "<" not in body and "</blockquote>" not in body_html:
-	
-		body = random.choice(LONGPOST_REPLIES)
-
-
-		if body.startswith('▼'):
-			body = body[1:]
-			vote = CommentVote(user_id=LONGPOSTBOT_ID,
-						vote_type=-1,
-						comment_id=c.id,
-						real = True
-						)
-			g.db.add(vote)
-			c.downvotes = 1
-
-
-		c2 = Comment(author_id=LONGPOSTBOT_ID,
-			parent_submission=parent_submission,
-			parent_comment_id=c.id,
-			level=level+1,
-			is_bot=True,
-			body=body,
-			body_html=f"<p>{body}</p>",
-			top_comment_id=c.top_comment_id,
-			ghost=c.ghost
-			)
-
-		g.db.add(c2)
-
-		longpostbot = get_account(LONGPOSTBOT_ID)
-		longpostbot.comment_count += 1
-		longpostbot.coins += 1
-		g.db.add(longpostbot)
-		
-		g.db.flush()
-
-		n = Notification(comment_id=c2.id, user_id=v.id)
-		g.db.add(n)
-
-
-	if SITE_NAME == 'rDrama' and random.random() < 0.001:
-		c2 = Comment(author_id=ZOZBOT_ID,
-			parent_submission=parent_submission,
-			parent_comment_id=c.id,
-			level=level+1,
-			is_bot=True,
-			body="zoz",
-			body_html="<p>zoz</p>",
-			top_comment_id=c.top_comment_id,
-			ghost=c.ghost,
-			distinguish_level=6
-			)
-
-		g.db.add(c2)
-		g.db.flush()
-		n = Notification(comment_id=c2.id, user_id=v.id)
-		g.db.add(n)
-
-
-
-		c3 = Comment(author_id=ZOZBOT_ID,
-			parent_submission=parent_submission,
-			parent_comment_id=c2.id,
-			level=level+2,
-			is_bot=True,
-			body="zle",
-			body_html="<p>zle</p>",
-			top_comment_id=c.top_comment_id,
-			ghost=c.ghost,
-			distinguish_level=6
-			)
-
-		g.db.add(c3)
-		g.db.flush()
-		
-
-		c4 = Comment(author_id=ZOZBOT_ID,
-			parent_submission=parent_submission,
-			parent_comment_id=c3.id,
-			level=level+3,
-			is_bot=True,
-			body="zozzle",
-			body_html="<p>zozzle</p>",
-			top_comment_id=c.top_comment_id,
-			ghost=c.ghost,
-			distinguish_level=6
-			)
-
-		g.db.add(c4)
-
-		zozbot = get_account(ZOZBOT_ID)
-		zozbot.comment_count += 3
-		zozbot.coins += 3
-		g.db.add(zozbot)
+	if SITE_NAME == 'rDrama':
+		execute_longpostbot(c, level, body, body_html, parent_submission, v)
+		execute_zozbot(c, level, parent_submission, v)
 
 	if not v.shadowbanned:
 		notify_users = NOTIFY_USERS(body, v)
@@ -600,17 +468,15 @@ def comment(v):
 @limiter.limit("1/second;10/minute;100/hour;200/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def edit_comment(cid, v):
-
 	c = get_comment(cid, v=v)
 
 	if time.time() - c.created_utc > 7*24*60*60 and not (c.post and c.post.private):
 		return {"error":"You can't edit comments older than 1 week!"}, 403
 
 	if c.author_id != v.id: abort(403)
+	if not c.post: abort(403)
 
-	body = request.values.get("body", "").strip().replace('‎','')
-
-	body = body.replace('\r\n', '\n')[:10000]
+	body = sanitize_raw_body(request.values.get("body", ""), False)
 
 	if len(body) < 1 and not (request.files.get("file") and request.headers.get("cf-ipcountry") != "T1"):
 		return {"error":"You have to actually type something!"}, 400
@@ -674,8 +540,7 @@ def edit_comment(cid, v):
 				return {"error": "Too much spam!"}, 403
 
 		body += process_files()
-
-		body = body.strip()
+		body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT] # process_files potentially adds characters to the post
 
 		body_for_sanitize = body
 		if v.owoify:
@@ -687,12 +552,12 @@ def edit_comment(cid, v):
 
 		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, torture=torture)
 
-		if len(body_html) > 20000: abort(400)
+		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
 		if v.marseyawarded and marseyaward_body_regex.search(body_html):
 			return {"error":"You can only type marseys!"}, 403
 
-		c.body = body[:10000]
+		c.body = body
 		c.body_html = body_html
 
 		if blackjack and any(i in c.body.lower() for i in blackjack.split()):

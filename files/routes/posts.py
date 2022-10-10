@@ -353,7 +353,7 @@ def viewmore(v, pid, sort, offset):
 @auth_desired_with_logingate
 def morecomments(v, cid):
 	try: cid = int(cid)
-	except: abort(400)
+	except: abort(404)
 
 	tcid = g.db.query(Comment.top_comment_id).filter_by(id=cid).one_or_none()[0]
 
@@ -412,8 +412,7 @@ def edit_post(pid, v):
 		abort(403)
 
 	title = sanitize_raw_title(request.values.get("title", ""))
-
-	body = sanitize_raw_body(request.values.get("body", ""))
+	body = sanitize_raw_body(request.values.get("body", ""), True)
 
 	if v.id == p.author_id:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
@@ -695,8 +694,7 @@ def submit_post(v, sub=None):
 	if '\\' in url: abort(400)
 
 	title = sanitize_raw_title(request.values.get("title", ""))
-	
-	body = sanitize_raw_body(request.values.get("body", ""))
+	body = sanitize_raw_body(request.values.get("body", ""), True)
 
 	def error(error):
 		if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": error}, 400
@@ -909,7 +907,7 @@ def submit_post(v, sub=None):
 	
 	if embed and len(embed) > 1500: embed = None
 
-	is_bot = v.id != 12125 and bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID)
+	is_bot = v.id != BBBB_ID and bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID)
 
 	if request.values.get("ghost") and v.coins >= 100:
 		v.coins -= 100

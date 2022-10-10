@@ -60,9 +60,9 @@
 				{% if FEATURES['PROCOINS'] %}
 					<span class="text-small text-muted pl-1">Must be same email as the one you used to donate on 
 						{% if KOFI_TOKEN %}
-							<a class="text-primary" href="{{KOFI_LINK}}">Kofi</a>
+							<a rel="nofollow noopener noreferrer" class="text-primary" href="{{KOFI_LINK}}">Kofi</a>
 						{% else %}
-							<a class="text-primary" href="{{GUMROAD_LINK}}">Gumroad</a>
+							<a rel="nofollow noopener noreferrer" class="text-primary" href="{{GUMROAD_LINK}}">Gumroad</a>
 						{% endif %}
 					</span>
 				{% endif %}

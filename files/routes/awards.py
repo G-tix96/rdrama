@@ -209,19 +209,6 @@ def award_thing(v, thing_type, id):
 		elif author.unban_utc:
 			author.unban_utc += 86400
 			send_repeatable_notification(author.id, f"Your account has been banned for **yet another day** for {link}. Seriously man?")
-
-		if v.admin_level >= PERMS['USER_BAN']:
-			log_link = f'/{thing_type}/{thing.id}'
-			reason = f'<a href="{log_link}">{log_link}</a>'
-
-			note = f'reason: "{reason}", duration: for 1 day'
-			ma=ModAction(
-				kind="ban_user",
-				user_id=v.id,
-				target_user_id=author.id,
-				_note=note
-				)
-			g.db.add(ma)
 	elif kind == "unban":
 		if not author.is_suspended or not author.unban_utc or time.time() > author.unban_utc: abort(403)
 
@@ -233,32 +220,11 @@ def award_thing(v, thing_type, id):
 			author.is_banned = 0
 			author.ban_reason = None
 			send_repeatable_notification(author.id, "You have been unbanned!")
-
-		if v.admin_level >= PERMS['USER_BAN']:
-			ma=ModAction(
-				kind="unban_user",
-				user_id=v.id,
-				target_user_id=author.id,
-				)
-			g.db.add(ma)
 	elif kind == "grass":
 		author.is_banned = AUTOJANNY_ID
 		author.ban_reason = f"grass award used by @{v.username} on /{thing_type}/{thing.id}"
 		author.unban_utc = int(time.time()) + 30 * 86400
 		send_repeatable_notification(author.id, f"Your account has been banned permanently for {link}. You must [provide the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
-
-		if v.admin_level >= PERMS['USER_BAN']:
-			log_link = f'/{thing_type}/{thing.id}'
-			reason = f'<a href="{log_link}">{log_link}</a>'
-
-			note = f'reason: "{reason}", duration: for 30 days'
-			ma=ModAction(
-				kind="ban_user",
-				user_id=v.id,
-				target_user_id=author.id,
-				_note=note
-				)
-			g.db.add(ma)
 	elif kind == "pin":
 		if not FEATURES['PINS']:
 			abort(403)
@@ -294,15 +260,6 @@ def award_thing(v, thing_type, id):
 		else: author.agendaposter = int(time.time()) + 86400
 		
 		badge_grant(user=author, badge_id=28)
-
-		if v.admin_level >= PERMS['USER_AGENDAPOSTER']:
-			ma = ModAction(
-				kind="agendaposter",
-				user_id=v.id,
-				target_user_id=author.id,
-				_note=f"for 1 day"
-			)
-			g.db.add(ma)
 	elif kind == "flairlock":
 		if thing.ghost: abort(403)
 		new_name = note[:100].replace("𒐪","")

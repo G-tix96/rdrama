@@ -204,7 +204,7 @@
 	</style>
 
 	<div id="mobile-prompt-container" class="fixed-top">
-		<div id="mobile-prompt" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-container="#mobile-prompt-container" data-bs-placement="top" data-bs-trigger="click" data-bs-html="true" title="<i class='beg-icon fas fa-x'></i>Install the {{SITE_NAME}} webapp by saving this page to your home screen!"></div>
+		<div id="mobile-prompt" data-bs-toggle="tooltip" data-bs-container="#mobile-prompt-container" data-bs-placement="top" data-bs-trigger="click" data-bs-html="true" title="<i class='beg-icon fas fa-x'></i>Install the {{SITE_NAME}} webapp by saving this page to your home screen!"></div>
 	</div>
 
 	<script>
@@ -213,7 +213,7 @@
 				document.addEventListener('DOMContentLoaded', function() {
 					const tt = bootstrap.Tooltip.getOrCreateInstance(document.getElementById('mobile-prompt'))
 					tt.show()
-					document.getElementsByClassName('tooltip')[0].onclick = function(event){
+					document.getElementsByClassName('tooltip')[0].onclick = function() {
 						tt.hide()
 						var xhr = new XMLHttpRequest();
 						xhr.withCredentials=true;

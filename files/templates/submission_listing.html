@@ -152,7 +152,7 @@
 				{% if p.is_blocking and not p.ghost %}<i class="fas fa-user-minus text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="You're blocking this user, but you can see this post because you're an admin."></i>{% endif %}
 				{% if p.is_blocked %}<i class="fas fa-user-minus text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="This user is blocking you."></i>{% endif %}
 				{% if p.private %}<span class="badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
-				{% if p.active_flags(v) %}<a class="btn btn-primary" role="button" style="padding:1px 5px; font-size:10px"onclick="document.getElementById('flaggers-{{p.id}}').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{ help.plural(p.active_flags(v)) }}</a>{% endif %}
+				{% if p.active_flags(v) %}<a class="btn btn-primary" role="button" style="padding:1px 5px; font-size:10px"onclick="document.getElementById('flaggers-{{p.id}}').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{help.plural(p.active_flags(v))}}</a>{% endif %}
 				
 				{% if p.ghost %}
 					<span {% if p.distinguish_level %}class="mod"{% endif %}>👻</span>

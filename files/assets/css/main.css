@@ -4026,6 +4026,9 @@ ul.comment-section {
 .profile-actions .dropdown-item:hover .fa, .profile-actions .dropdown-item:hover .fas, .profile-actions .dropdown-item:active .far {
 	color: var(--black);
 }
+.profile-owned-all-hats {
+	color: gold;
+}
 #page .footer h1, #page .footer h2, #page .footer h3, #page .footer h4, #page .footer h5, #page .footer h6, #article .footer h1, #article .footer h2, #article .footer h3, #article .footer h4, #article .footer h5, #article .footer h6 {
 	font-weight: 600;
 }

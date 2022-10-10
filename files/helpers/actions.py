@@ -191,3 +191,123 @@ def execute_snappy(post, v):
 
 		post.comment_count += 1
 		post.replies = [c]
+
+def execute_zozbot(c, level, parent_submission, v):
+	if random.random() >= 0.001: return
+	c2 = Comment(author_id=ZOZBOT_ID,
+		parent_submission=parent_submission,
+		parent_comment_id=c.id,
+		level=level+1,
+		is_bot=True,
+		body="zoz",
+		body_html="<p>zoz</p>",
+		top_comment_id=c.top_comment_id,
+		ghost=c.ghost,
+		distinguish_level=6
+	)
+
+	g.db.add(c2)
+	g.db.flush()
+	n = Notification(comment_id=c2.id, user_id=v.id)
+	g.db.add(n)
+
+	c3 = Comment(author_id=ZOZBOT_ID,
+		parent_submission=parent_submission,
+		parent_comment_id=c2.id,
+		level=level+2,
+		is_bot=True,
+		body="zle",
+		body_html="<p>zle</p>",
+		top_comment_id=c.top_comment_id,
+		ghost=c.ghost,
+		distinguish_level=6
+	)
+
+	g.db.add(c3)
+	g.db.flush()
+		
+
+	c4 = Comment(author_id=ZOZBOT_ID,
+		parent_submission=parent_submission,
+		parent_comment_id=c3.id,
+		level=level+3,
+		is_bot=True,
+		body="zozzle",
+		body_html="<p>zozzle</p>",
+		top_comment_id=c.top_comment_id,
+		ghost=c.ghost,
+		distinguish_level=6
+	)
+
+	g.db.add(c4)
+
+	zozbot = get_account(ZOZBOT_ID)
+	zozbot.comment_count += 3
+	zozbot.coins += 3
+	g.db.add(zozbot)
+
+def execute_longpostbot(c, level, body, body_html, parent_submission, v):
+	if not len(c.body.split()) >= 200: return
+	if "</blockquote>" in body_html: return
+	body = random.choice(LONGPOST_REPLIES)
+	if body.startswith('▼'):
+		body = body[1:]
+		vote = CommentVote(user_id=LONGPOSTBOT_ID,
+			vote_type=-1,
+			comment_id=c.id,
+			real = True
+		)
+		g.db.add(vote)
+		c.downvotes = 1
+
+	c2 = Comment(author_id=LONGPOSTBOT_ID,
+		parent_submission=parent_submission,
+		parent_comment_id=c.id,
+		level=level+1,
+		is_bot=True,
+		body=body,
+		body_html=f"<p>{body}</p>",
+		top_comment_id=c.top_comment_id,
+		ghost=c.ghost
+	)
+
+	g.db.add(c2)
+
+	longpostbot = get_account(LONGPOSTBOT_ID)
+	longpostbot.comment_count += 1
+	longpostbot.coins += 1
+	g.db.add(longpostbot)
+	g.db.flush()
+	n = Notification(comment_id=c2.id, user_id=v.id)
+	g.db.add(n)
+
+def execute_basedbot(c, level, body, parent_submission, parent_post, v):
+	pill = based_regex.match(body)
+	if level == 1: basedguy = get_account(parent_post.author_id)
+	else: basedguy = get_account(c.parent_comment.author_id)
+	basedguy.basedcount += 1
+	if pill:
+		if basedguy.pills: basedguy.pills += f", {pill.group(1)}"
+		else: basedguy.pills += f"{pill.group(1)}"
+	g.db.add(basedguy)
+
+	body2 = f"@{basedguy.username}'s Based Count has increased by 1. Their Based Count is now {basedguy.basedcount}."
+	if basedguy.pills: body2 += f"\n\nPills: {basedguy.pills}"
+	
+	body_based_html = sanitize(body2)
+	c_based = Comment(author_id=BASEDBOT_ID,
+		parent_submission=parent_submission,
+		distinguish_level=6,
+		parent_comment_id=c.id,
+		level=level+1,
+		is_bot=True,
+		body_html=body_based_html,
+		top_comment_id=c.top_comment_id,
+		ghost=c.ghost
+	)
+
+	g.db.add(c_based)
+	g.db.flush()
+
+	n = Notification(comment_id=c_based.id, user_id=v.id)
+	g.db.add(n)

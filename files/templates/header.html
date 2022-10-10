@@ -40,7 +40,7 @@
 					' throwing shade right now',
 				]
 				-%}
-				{{g.loggedin_counter+g.loggedout_counter}} {{ VISITORS_HERE_FLAVOR|random|safe }} ({{ g.loggedin_counter }} logged in)
+				{{g.loggedin_counter+g.loggedout_counter}} {{VISITORS_HERE_FLAVOR|random|safe}} ({{g.loggedin_counter}} logged in)
 			{% endif %}
 		{% else %}
 			{{g.loggedin_counter+g.loggedout_counter}} people here now ({{g.loggedin_counter}} logged in)
@@ -225,7 +225,7 @@
 							</div>
 							<div class="text-left pl-2">
 								<div style="color: #{{v.name_color}}" class="text-small font-weight-bold"><span id="header--username" {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.user_name}}</span></div>
-								<div class="header--currency"><img alt="coins" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{'coins.webp' | asset_siteimg}}" title="coins" aria-label="coins"><span id="user-coins-amount">{{v.coins}}</span>{% if not FEATURES['PROCOINS'] %} Coin{{ help.plural(v.coins) }}{% endif %}</div>
+								<div class="header--currency"><img alt="coins" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{'coins.webp' | asset_siteimg}}" title="coins" aria-label="coins"><span id="user-coins-amount">{{v.coins}}</span>{% if not FEATURES['PROCOINS'] %} Coin{{help.plural(v.coins)}}{% endif %}</div>
 								{% if FEATURES['PROCOINS'] %}
 									<div class="header--currency"><img alt="marseybux" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="/i/marseybux.webp?v=2000" title="Marseybux" aria-label="Marseybux"><span id="user-bux-amount">{{v.procoins}}</span></div>
 								{% endif %}
@@ -253,8 +253,8 @@
 							<a class="dropdown-item" rel="nofollow noopener noreferrer" href="https://rdrama.net/post/18459"><i class="fas fa-bug fa-fw mr-3"></i>Bugs/Suggestions</a>
 
 							{% if SITE_NAME == 'rDrama' %}
-								<a class="dropdown-item" href="https://t.me/rdramanet"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Channel</a>
-								<a class="dropdown-item" href="https://t.me/+tOgq7xeeir83OTU0"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Chat</a>
+								<a rel="nofollow noopener noreferrer" class="dropdown-item" href="https://t.me/rdramanet"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Channel</a>
+								<a rel="nofollow noopener noreferrer" class="dropdown-item" href="https://t.me/+tOgq7xeeir83OTU0"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Chat</a>
 								<a class="dropdown-item" href="/discord"><i class="fab fa-discord fa-fw mr-3"></i>Discord</a>
 							{% endif %}
 
@@ -319,8 +319,8 @@
 				<a class="nav-item nav-link" rel="nofollow noopener noreferrer" href="https://rdrama.net/post/18459"><i class="fas fa-bug fa-fw mr-3"></i>Bugs/Suggestions</a>
 
 				{% if SITE_NAME == 'rDrama' %}
-					<a class="nav-item nav-link" href="https://t.me/rdramanet"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Channel</a>
-					<a class="nav-item nav-link" href="https://t.me/+tOgq7xeeir83OTU0"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Chat</a>
+					<a rel="nofollow noopener noreferrer" class="nav-item nav-link" href="https://t.me/rdramanet"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Channel</a>
+					<a rel="nofollow noopener noreferrer" class="nav-item nav-link" href="https://t.me/+tOgq7xeeir83OTU0"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Chat</a>
 					<a class="nav-item nav-link" href="/discord"><i class="fab fa-discord fa-fw mr-3"></i>Discord</a>
 				{% endif %}
 
