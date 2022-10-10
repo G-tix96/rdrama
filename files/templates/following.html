@@ -22,7 +22,7 @@
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
 		{% if v.id == u.id %}
-		<td><div class="btn btn-danger" onclick="removeFollowing(event, '{{user.username}}')">Unfollow</div></td>
+		<td><div class="btn btn-danger" onclick="removeFollowing(this, '{{user.username}}')">Unfollow</div></td>
 		{% endif %}
 	</tr>
 {% endfor %}

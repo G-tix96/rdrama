@@ -213,7 +213,7 @@
 				document.addEventListener('DOMContentLoaded', function() {
 					const tt = bootstrap.Tooltip.getOrCreateInstance(document.getElementById('mobile-prompt'))
 					tt.show()
-					document.getElementsByClassName('tooltip')[0].onclick = function(event){
+					document.getElementsByClassName('tooltip')[0].onclick = function() {
 						tt.hide()
 						var xhr = new XMLHttpRequest();
 						xhr.withCredentials=true;
