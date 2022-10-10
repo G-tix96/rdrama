@@ -2,12 +2,12 @@
 <div style="margin-top: 5rem">
 	<div class="lottery-page--wrapper">
 	<div class="lottery-page--image">
-		<img src="/i/{{SITE_NAME}}/lottery.webp?v=2000" />
+		<img src="/i/{{SITE_NAME}}/lottery.webp?v=2000">
 		<img
 		id="lotteryTicketPulled"
 		src="/i/{{SITE_NAME}}/lottery_active.webp?v=2000"
 		style="display: none"
-		/>
+		>
 	</div>
 	<div class="lottery-page--stats">
 		{% if v.admin_level >= PERMS['LOTTERY_ADMIN'] %}
@@ -66,7 +66,7 @@
 				aria-label="coins"
 				title="coins"
 				style="display: none; position: relative; top: -2px"
-			/>
+			>
 			<span id="prize">-</span>
 			</div>
 			<div id="timeLeft">-</div>
@@ -104,7 +104,7 @@
 				name="ticketPurchaseQuantity"
 				type="number"
 				style="flex: 1; max-width: 100px; text-align: center"
-			/>
+			>
 			</div>
 		</div>
 		</div>
@@ -125,7 +125,7 @@
 			src="{{'coins.webp' | asset_siteimg}}"
 			aria-label="coins"
 			title="coins"
-		/>
+		>
 
 		<span id="totalCostOfTickets">12</span>
 		</button>
