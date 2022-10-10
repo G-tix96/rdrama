@@ -374,22 +374,15 @@ def sign_up_post(v):
 
 	session["lo_user"] = new_user.id
 	
-	if SITE == 'rdrama.net':
+	if SIGNUP_FOLLOW_ID:
+		signup_autofollow = get_account(SIGNUP_FOLLOW_ID)
+		new_follow = Follow(user_id=new_user.id, target_id=signup_autofollow.id)
+		g.db.add(new_follow)
+		signup_autofollow.stored_subscriber_count += 1
+		g.db.add(signup_autofollow)
+		send_notification(signup_autofollow.id, f"A new user - @{new_user.username} - has followed you automatically!")
+	elif CARP_ID:
 		send_notification(CARP_ID, f"A new user - @{new_user.username} - has signed up!")
-	if SITE == 'watchpeopledie.co':
-		carp = get_account(CARP_ID)
-		new_follow = Follow(user_id=new_user.id, target_id=carp.id)
-		g.db.add(new_follow)
-		carp.stored_subscriber_count += 1
-		g.db.add(carp)
-		send_notification(carp.id, f"A new user - @{new_user.username} - has followed you automatically!")
-	if SITE == 'pcmemes.net':
-		kippy = get_account(KIPPY_ID)
-		new_follow = Follow(user_id=new_user.id, target_id=kippy.id)
-		g.db.add(new_follow)
-		kippy.stored_subscriber_count += 1
-		g.db.add(kippy)
-		send_notification(kippy.id, f"A new user - @{new_user.username} - has followed you automatically!")
 
 	redir = request.values.get("redirect")
 	if redir:

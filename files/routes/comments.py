@@ -51,9 +51,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	
 	if not pid:
 		if comment.parent_submission: pid = comment.parent_submission
-		elif SITE_NAME == 'rDrama': pid = 6489
-		elif SITE == 'pcmemes.net': pid = 2487
-		else: pid = 1
+		else: pid = NOTIFICATION_THREAD
 	
 	post = get_post(pid, v=v)
 	
