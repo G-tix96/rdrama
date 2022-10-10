@@ -40,7 +40,7 @@
 					' throwing shade right now',
 				]
 				-%}
-				{{g.loggedin_counter+g.loggedout_counter}} {{ VISITORS_HERE_FLAVOR|random|safe }} ({{ g.loggedin_counter }} logged in)
+				{{g.loggedin_counter+g.loggedout_counter}} {{VISITORS_HERE_FLAVOR|random|safe}} ({{g.loggedin_counter}} logged in)
 			{% endif %}
 		{% else %}
 			{{g.loggedin_counter+g.loggedout_counter}} people here now ({{g.loggedin_counter}} logged in)
@@ -225,7 +225,7 @@
 							</div>
 							<div class="text-left pl-2">
 								<div style="color: #{{v.name_color}}" class="text-small font-weight-bold"><span id="header--username" {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.user_name}}</span></div>
-								<div class="header--currency"><img alt="coins" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{'coins.webp' | asset_siteimg}}" title="coins" aria-label="coins"><span id="user-coins-amount">{{v.coins}}</span>{% if not FEATURES['PROCOINS'] %} Coin{{ help.plural(v.coins) }}{% endif %}</div>
+								<div class="header--currency"><img alt="coins" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{'coins.webp' | asset_siteimg}}" title="coins" aria-label="coins"><span id="user-coins-amount">{{v.coins}}</span>{% if not FEATURES['PROCOINS'] %} Coin{{help.plural(v.coins)}}{% endif %}</div>
 								{% if FEATURES['PROCOINS'] %}
 									<div class="header--currency"><img alt="marseybux" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="/i/marseybux.webp?v=2000" title="Marseybux" aria-label="Marseybux"><span id="user-bux-amount">{{v.procoins}}</span></div>
 								{% endif %}

@@ -100,7 +100,7 @@
 <h4>Configuration</h4>
 <ul>
 	{% if v.admin_level >= PERMS['HOLE_CREATE'] %}
-		<li><a href="/create_hole">Create {{ HOLE_NAME | capitalize }}</a></li>
+		<li><a href="/create_hole">Create {{HOLE_NAME | capitalize}}</a></li>
 	{% endif %}
 	{% if v.admin_level >= PERMS['APPS_MODERATION'] %}
 		<li><a href="/admin/apps">Apps</a></li>
@@ -150,7 +150,7 @@
 
 <h4>Server Status</h4>
 <div>
-	Live Revision: <code>{{ gitref }}</code> <br>
+	Live Revision: <code>{{gitref}}</code> <br>
 </div>
 
 {% endblock %}

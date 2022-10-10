@@ -51,7 +51,7 @@
 							</a>
 						</div>
 						<div id="profilestuff" class="ml-3 w-100">
-							{{ userpage_admintools.userBanBlock('desktop') }}
+							{{userpage_admintools.userBanBlock('desktop')}}
 							<div class="d-flex align-items-center mt-1 mb-2">
 								<h1 class="font-weight-bolder h3 my-0 mr-2" id="profile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.user_name}}</span></h1>
 
@@ -204,7 +204,7 @@
 
 							<a class="btn btn-primary" role="button" onclick="post_toast(this,'/settings/block?username={{u.username}}',true)">Block</a>
 
-							{{ userpage_admintools.userAdminToolsUpper('desktop') }}
+							{{userpage_admintools.userAdminToolsUpper('desktop')}}
 						</div>
 						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
 							<input type="hidden" name="formkey" value="{{v.formkey}}"> 
@@ -247,7 +247,7 @@
 						<a class="btn btn-secondary" role="button" onclick="toggle()">Toggle anthem</a>
 					{% endif %}
 					
-					{{ userpage_admintools.userAdminToolsLower('desktop') }}
+					{{userpage_admintools.userAdminToolsLower('desktop')}}
 
 					<pre></pre>
 					<div id="profile--info">
@@ -313,7 +313,7 @@
 				</a>
 			</div>
 			<div class="mt-n3 py-3">
-				{{ userpage_admintools.userBanBlock('mobile') }}
+				{{userpage_admintools.userBanBlock('mobile')}}
 				<h1 class="h5 d-inline-block" id="profile-mobile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.user_name}}</span></h1>
 
 				{% if u.username != u.original_username %}
@@ -457,7 +457,7 @@
 
 					<a class="btn btn-primary" role="button" onclick="post_toast(this,'/settings/block?username={{u.username}}',true)">Block</a>
 
-					{{ userpage_admintools.userAdminToolsUpper('mobile') }}
+					{{userpage_admintools.userAdminToolsUpper('mobile')}}
 					<form class="d-none toggleable" id='message-mobile' action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
 						<pre></pre>
 						<input type="hidden" name="formkey" value="{{v.formkey}}"> 
@@ -490,7 +490,7 @@
 						<button class="btn btn-primary mt-2 mb-3" onclick="transferBux(true)">Gift</button>
 					</div>
 
-					{{ userpage_admintools.userAdminToolsLower('mobile') }}
+					{{userpage_admintools.userAdminToolsLower('mobile')}}
 					
 				{% endif %}
 				<pre></pre>
