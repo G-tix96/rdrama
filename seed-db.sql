@@ -285,6 +285,8 @@ INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO 
 INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
 INSERT INTO public.hat_defs VALUES (807, 'The Capy', 'You''re the chosen one! No one can hurt you!', 2, 500, NULL, 1665104052);
 
+
+
 INSERT INTO public.hat_defs VALUES (92, 'Top Hat (black)', 'Traditional. Classy. Elegant.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (714, 'Captain Falcon', 'The chad that every smash player wanted to imitate, if only his moveset included a shower.', 2, 500, NULL, 1663474615);
 INSERT INTO public.hat_defs VALUES (715, 'Inspector Gadget', '"Go go Gadget Brown Bricks!"', 2, 500, NULL, 1663477536);
@@ -1024,11 +1026,12 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 916, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 919, true);
 
 
 --
@@ -2044,6 +2047,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyminion',2,'gru pixar',NULL),
 ('marseyminipixel',2,'miniature small smol place 8bit mouse',NULL),
 ('marseymischief',2,'interface clown',NULL),
+('marseymisinformation',2,'marsey meme sphere ball text misinformation internet purposefully  spread',1665415192),
 ('marseymissing',2,'absent low effort',NULL),
 ('marseymissing2',2,'missing notexture source image not found broken',NULL),
 ('marseymobster2',2,'bat gangster mafia kneecapper',NULL),
