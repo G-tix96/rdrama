@@ -1490,7 +1490,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycrying',2,'tear cried despair weeping reaction depression sob tears sadness depressed animated sad',NULL),
 ('marseycrying2',2,'marsey cry',1664261857),
 ('marseycrystal',2,'gem crystal diamond sparkle precious shiny glass',NULL),
-('marseycrystalmaiden',2,'gamer video game gaymer',NULL),
+('marseycrystalmaiden',2,'gamer video game gaymer getogeto rpg character rpgcharacter dota2',NULL),
 ('marseycthulhu',2,'horror halloween lovecraftian holiday eldritch evil scary monster',NULL),
 ('marseycuck',2,'soyboy funko redditor neckbeard loser',NULL),
 ('marseycumjar1',2,'semen jizz sperm spunk bukkake',NULL),
