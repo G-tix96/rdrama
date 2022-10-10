@@ -283,7 +283,7 @@ def revert_actions(v, username):
 		user.ban_reason = None
 		if user.is_banned:
 			user.is_banned = 0
-			send_repeatable_notification(user.id, f"@{v.username} has unbanned you!")
+			send_repeatable_notification(user.id, f"@{v.username} (Admin) has unbanned you!")
 		g.db.add(user)
 
 		for u in user.alts:
@@ -292,7 +292,7 @@ def revert_actions(v, username):
 			u.ban_reason = None
 			if u.is_banned:
 				u.is_banned = 0
-				send_repeatable_notification(u.id, f"@{v.username} has unbanned you!")
+				send_repeatable_notification(u.id, f"@{v.username} (Admin) has unbanned you!")
 			g.db.add(u)
 
 	return {"message": f"@{user.username}'s admin actions have been reverted!"}
@@ -319,7 +319,7 @@ def club_allow(v, username):
 	)
 	g.db.add(ma)
 
-	send_repeatable_notification(u.id, f"@{v.username} (admin) has inducted you into the {CC_TITLE}!")
+	send_repeatable_notification(u.id, f"@{v.username} (Admin) has inducted you into the {CC_TITLE}!")
 
 	return {"message": f"@{u.username} has been allowed into the {CC_TITLE}!"}
 
@@ -344,7 +344,7 @@ def club_ban(v, username):
 	)
 	g.db.add(ma)
 
-	send_repeatable_notification(u.id, f"@{v.username} (admin) has disallowed you from the {CC_TITLE}!")
+	send_repeatable_notification(u.id, f"@{v.username} (Admin) has disallowed you from the {CC_TITLE}!")
 
 	return {"message": f"@{u.username} has been disallowed from the {CC_TITLE}. Deserved."}
 
@@ -565,7 +565,7 @@ def badge_grant_post(v):
 	g.db.flush()
 
 	if v.id != user.id:
-		text = f"@{v.username} has given you the following profile badge:\n\n![]({new_badge.path})\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
+		text = f"@{v.username} (Admin) has given you the following profile badge:\n\n![]({new_badge.path})\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
 		send_repeatable_notification(user.id, text)
 	
 	ma = ModAction(
@@ -612,7 +612,7 @@ def badge_remove_post(v):
 		return render_template("admin/badge_remove.html", v=v, badge_types=badges, error="User doesn't have that badge.")
 
 	if v.id != user.id:
-		text = f"@{v.username} has removed the following profile badge from you:\n\n![]({badge.path})\n\n**{badge.name}**\n\n{badge.badge.description}"
+		text = f"@{v.username} (Admin) has removed the following profile badge from you:\n\n![]({badge.path})\n\n**{badge.name}**\n\n{badge.badge.description}"
 		send_repeatable_notification(user.id, text)
 
 	ma = ModAction(
@@ -868,7 +868,7 @@ def agendaposter(user_id, v):
 
 	badge_grant(user=user, badge_id=28)
 
-	send_repeatable_notification(user.id, f"@{v.username} has marked you as a chud ({note}).")
+	send_repeatable_notification(user.id, f"@{v.username} (Admin) has marked you as a chud ({note}).")
 
 	
 	return redirect(user.url)
@@ -898,7 +898,7 @@ def unagendaposter(user_id, v):
 	badge = user.has_badge(28)
 	if badge: g.db.delete(badge)
 
-	send_repeatable_notification(user.id, f"@{v.username} has unmarked you as a chud.")
+	send_repeatable_notification(user.id, f"@{v.username} (Admin) has unmarked you as a chud.")
 
 	return {"message": f"@{user.username}'s chud theme has been disabled!"}
 
@@ -1018,11 +1018,11 @@ def ban_user(user_id, v):
 
 	if days:
 		days_txt = str(days).rstrip('.0')
-		if reason: text = f"@{v.username} has banned you for **{days_txt}** days for the following reason:\n\n> {reason}"
-		else: text = f"@{v.username} has banned you for **{days_txt}** days."
+		if reason: text = f"@{v.username} (Admin) has banned you for **{days_txt}** days for the following reason:\n\n> {reason}"
+		else: text = f"@{v.username} (Admin) has banned you for **{days_txt}** days."
 	else:
-		if reason: text = f"@{v.username} has banned you permanently for the following reason:\n\n> {reason}"
-		else: text = f"@{v.username} has banned you permanently."
+		if reason: text = f"@{v.username} (Admin) has banned you permanently for the following reason:\n\n> {reason}"
+		else: text = f"@{v.username} (Admin) has banned you permanently."
 
 	send_repeatable_notification(user.id, text)
 	
@@ -1068,11 +1068,11 @@ def unban_user(user_id, v):
 	user.is_banned = 0
 	user.unban_utc = 0
 	user.ban_reason = None
-	send_repeatable_notification(user.id, f"@{v.username} has unbanned you!")
+	send_repeatable_notification(user.id, f"@{v.username} (Admin) has unbanned you!")
 	g.db.add(user)
 
 	for x in user.alts:
-		if x.is_banned: send_repeatable_notification(x.id, f"@{v.username} has unbanned you!")
+		if x.is_banned: send_repeatable_notification(x.id, f"@{v.username} (Admin) has unbanned you!")
 		x.is_banned = 0
 		x.unban_utc = 0
 		x.ban_reason = None
@@ -1235,7 +1235,7 @@ def sticky_post(post_id, v):
 		g.db.add(ma)
 
 		if v.id != post.author_id:
-			send_repeatable_notification(post.author_id, f"@{v.username} has pinned [{post.title}](/post/{post_id})!")
+			send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has pinned [{post.title}](/post/{post_id})!")
 
 		cache.delete_memoized(frontlist)
 	return {"message": "Post pinned!"}
@@ -1260,7 +1260,7 @@ def unsticky_post(post_id, v):
 		g.db.add(ma)
 
 		if v.id != post.author_id:
-			send_repeatable_notification(post.author_id, f"@{v.username} has unpinned [{post.title}](/post/{post_id})!")
+			send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has unpinned [{post.title}](/post/{post_id})!")
 
 		cache.delete_memoized(frontlist)
 	return {"message": "Post unpinned!"}
@@ -1283,7 +1283,7 @@ def sticky_comment(cid, v):
 		g.db.add(ma)
 
 		if v.id != comment.author_id:
-			message = f"@{v.username} has pinned your [comment]({comment.shortlink})!"
+			message = f"@{v.username} (Admin) has pinned your [comment]({comment.shortlink})!"
 			send_repeatable_notification(comment.author_id, message)
 
 	return {"message": "Comment pinned!"}
@@ -1309,7 +1309,7 @@ def unsticky_comment(cid, v):
 		g.db.add(ma)
 
 		if v.id != comment.author_id:
-			message = f"@{v.username} has unpinned your [comment]({comment.shortlink})!"
+			message = f"@{v.username} (Admin) has unpinned your [comment]({comment.shortlink})!"
 			send_repeatable_notification(comment.author_id, message)
 
 	return {"message": "Comment unpinned!"}

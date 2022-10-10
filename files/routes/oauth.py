@@ -158,7 +158,7 @@ def admin_app_approve(v, aid):
 
 		g.db.add(new_auth)
 
-		send_repeatable_notification(user.id, f"@{v.username} has approved your application `{app.app_name}`. Here's your access token: `{access_token}`\nPlease check the guide [here](/api) if you don't know what to do next, and join this [discord server](/discord) if you need help!")
+		send_repeatable_notification(user.id, f"@{v.username} (Admin) has approved your application `{app.app_name}`. Here's your access token: `{access_token}`\nPlease check the guide [here](/api) if you don't know what to do next, and join this [discord server](/discord) if you need help!")
 
 		ma = ModAction(
 			kind="approve_app",
@@ -181,7 +181,7 @@ def admin_app_revoke(v, aid):
 		for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id).all(): g.db.delete(auth)
 
 		if v.id != app.author.id:
-			send_repeatable_notification(app.author.id, f"@{v.username} has revoked your application `{app.app_name}`.")
+			send_repeatable_notification(app.author.id, f"@{v.username} (Admin) has revoked your application `{app.app_name}`.")
 
 		g.db.delete(app)
 
@@ -207,7 +207,7 @@ def admin_app_reject(v, aid):
 		for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id).all(): g.db.delete(auth)
 
 		if v.id != app.author.id:
-			send_repeatable_notification(app.author.id, f"@{v.username} has rejected your application `{app.app_name}`.")
+			send_repeatable_notification(app.author.id, f"@{v.username} (Admin) has rejected your application `{app.app_name}`.")
 
 		g.db.delete(app)
 

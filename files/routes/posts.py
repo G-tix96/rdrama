@@ -49,7 +49,7 @@ def club_post(pid, v):
 			)
 			g.db.add(ma)
 
-			message = f"@{v.username} (admin) has moved [{post.title}]({post.shortlink}) to the {CC_TITLE}!"
+			message = f"@{v.username} (Admin) has moved [{post.title}]({post.shortlink}) to the {CC_TITLE}!"
 			send_repeatable_notification(post.author_id, message)
 
 	return {"message": f"Post has been moved to the {CC_TITLE}!"}
@@ -75,7 +75,7 @@ def unclub_post(pid, v):
 			)
 			g.db.add(ma)
 
-			message = f"@{v.username} (admin) has removed [{post.title}]({post.shortlink}) from the {CC_TITLE}!"
+			message = f"@{v.username} (Admin) has removed [{post.title}]({post.shortlink}) from the {CC_TITLE}!"
 			send_repeatable_notification(post.author_id, message)
 
 	return {"message": f"Post has been removed from the {CC_TITLE}!"}
