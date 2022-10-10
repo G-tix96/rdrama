@@ -12,10 +12,13 @@
 		img.thumb {
 			border-radius: 4px;
 		}
+		.remove-streamer {
+			width: 50%
+		}
 	</style>
 	<script>
 		function go_to(e, link) {
-			if (!e.target.classList.contains('donttrigger'))
+			if (!e.target.classList.contains('remove-streamer'))
 				window.open(link, '_blank');
 		}
 	</script>
@@ -59,7 +62,7 @@
 									<form action="/live/remove" method="post">
 										<input type="hidden" name="formkey" value="{{v.formkey}}">
 										<input type="hidden" name="id" value="{{id}}">
-										<input autocomplete="off" class="btn btn-primary ml-auto donttrigger" data-click="disable(this);this.parentElement.submit()" onclick="areyousure(this)" value="Remove">
+										<input autocomplete="off" class="btn btn-primary ml-auto remove-streamer" data-click="disable(this);this.parentElement.submit()" onclick="areyousure(this)" value="Remove">
 									</form>
 								</td>
 							{% endif %}
@@ -84,7 +87,7 @@
 									<form action="/live/remove" method="post">
 										<input type="hidden" name="formkey" value="{{v.formkey}}">
 										<input type="hidden" name="id" value="{{id}}">
-										<input autocomplete="off" class="btn btn-primary ml-auto donttrigger" data-click="disable(this);this.parentElement.submit()" onclick="areyousure(this)" value="Remove">
+										<input autocomplete="off" class="btn btn-primary ml-auto remove-streamer" data-click="disable(this);this.parentElement.submit()" onclick="areyousure(this)" value="Remove">
 									</form>
 								</td>
 							{% endif %}
