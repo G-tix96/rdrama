@@ -348,10 +348,8 @@ def badge_list(site):
 
 @app.get("/badges")
 @auth_required
+@feature_required('BADGES')
 def badges(v):
-	if not FEATURES['BADGES']:
-		abort(404)
-
 	badges, counts = badge_list(SITE)
 	return render_template("badges.html", v=v, badges=badges, counts=counts)
 
@@ -586,7 +584,7 @@ if SITE == 'pcmemes.net':
 			g.db.add(streamer)
 			g.db.flush()
 			if v.id != KIPPY_ID:
-				send_repeatable_notification(KIPPY_ID, f"@{v.username} has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
+				send_repeatable_notification(KIPPY_ID, f"@{v.username} (Admin) has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 
 			processed = process_streamer(id)
 			if processed:
@@ -609,7 +607,7 @@ if SITE == 'pcmemes.net':
 		streamer = g.db.get(Streamer, id)
 		if streamer:
 			if v.id != KIPPY_ID:
-				send_repeatable_notification(KIPPY_ID, f"@{v.username} has removed a [YouTube channel](https://www.youtube.com/channel/{streamer.id})")
+				send_repeatable_notification(KIPPY_ID, f"@{v.username} (Admin) has removed a [YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 			g.db.delete(streamer)
 
 		live = cache.get('live') or []

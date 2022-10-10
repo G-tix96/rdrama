@@ -30,10 +30,8 @@ titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWe
 
 @app.post("/club_post/<pid>")
 @auth_required
+@feature_required('COUNTRY_CLUB')
 def club_post(pid, v):
-	if not FEATURES['COUNTRY_CLUB']:
-		abort(403)
-
 	post = get_post(pid)
 	if post.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']: abort(403)
 
@@ -49,17 +47,15 @@ def club_post(pid, v):
 			)
 			g.db.add(ma)
 
-			message = f"@{v.username} (admin) has moved [{post.title}]({post.shortlink}) to the {CC_TITLE}!"
+			message = f"@{v.username} (Admin) has moved [{post.title}]({post.shortlink}) to the {CC_TITLE}!"
 			send_repeatable_notification(post.author_id, message)
 
 	return {"message": f"Post has been moved to the {CC_TITLE}!"}
 
 @app.post("/unclub_post/<pid>")
 @auth_required
+@feature_required('COUNTRY_CLUB')
 def unclub_post(pid, v):
-	if not FEATURES['COUNTRY_CLUB']:
-		abort(403)
-
 	post = get_post(pid)
 	if post.author_id != v.id and v.admin_level < 2: abort(403)
 
@@ -75,7 +71,7 @@ def unclub_post(pid, v):
 			)
 			g.db.add(ma)
 
-			message = f"@{v.username} (admin) has removed [{post.title}]({post.shortlink}) from the {CC_TITLE}!"
+			message = f"@{v.username} (Admin) has removed [{post.title}]({post.shortlink}) from the {CC_TITLE}!"
 			send_repeatable_notification(post.author_id, message)
 
 	return {"message": f"Post has been removed from the {CC_TITLE}!"}

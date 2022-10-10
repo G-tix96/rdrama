@@ -12,7 +12,7 @@ from os import path
 
 SITE = environ.get("SITE").strip()
 SITE_NAME = environ.get("SITE_NAME").strip()
-MASTER_KEY = environ.get("MASTER_KEY").strip()
+SECRET_KEY = environ.get("SECRET_KEY").strip()
 PROXY_URL = environ.get("PROXY_URL").strip()
 GIPHY_KEY = environ.get('GIPHY_KEY').strip()
 DISCORD_SERVER_ID = environ.get("DISCORD_SERVER_ID").strip()
@@ -307,6 +307,7 @@ DAD_ID = 0
 MOM_ID = 0
 DONGER_ID = 0
 GEESE_ID = 0
+BLACKJACKBTZ_ID = 0
 
 POLL_THREAD = 0
 POLL_BET_COINS = 200
@@ -323,6 +324,8 @@ BANNER_THREAD = 0
 BADGE_THREAD = 0
 SNAPPY_THREAD = 0
 GIFT_NOTIF_ID = 5
+SIGNUP_FOLLOW_ID = 0
+NOTIFICATION_THREAD = 1
 
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
@@ -333,6 +336,7 @@ if SITE == 'rdrama.net':
 	BANNER_THREAD = 37697
 	BADGE_THREAD = 37833
 	SNAPPY_THREAD = 37749
+	NOTIFICATION_THREAD = 6489
 
 	HOLE_COST = 50000
 	HOLE_INACTIVITY_DELETION = True
@@ -363,6 +367,7 @@ if SITE == 'rdrama.net':
 	MOM_ID = 4588
 	DONGER_ID = 541
 	GEESE_ID = 1710
+	BLACKJACKBTZ_ID = 12732
 
 	GIFT_NOTIF_ID = CARP_ID
 
@@ -395,7 +400,9 @@ elif SITE == 'pcmemes.net':
 	BASEDBOT_ID = 800
 
 	KIPPY_ID = 1592
-	GIFT_NOTIF_ID = 1592
+	GIFT_NOTIF_ID = KIPPY_ID
+	SIGNUP_FOLLOW_ID = KIPPY_ID
+	NOTIFICATION_THREAD = 2487
 	CARP_ID = 13
 	AEVANN_ID = 1
 	SNAKES_ID = 2279
@@ -431,6 +438,7 @@ elif SITE == 'watchpeopledie.co':
 	SNAKES_ID = 32
 
 	GIFT_NOTIF_ID = CARP_ID
+	SIGNUP_FOLLOW_ID = CARP_ID
 
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True

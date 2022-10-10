@@ -24,7 +24,7 @@ app.jinja_env.auto_reload = True
 app.jinja_env.add_extension('jinja2.ext.do')
 faulthandler.enable()
 
-app.config['SECRET_KEY'] = environ.get('MASTER_KEY')
+app.config['SECRET_KEY'] = environ.get('SECRET_KEY').strip()
 app.config["SERVER_NAME"] = environ.get("SITE").strip()
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 3153600
 app.config["SESSION_COOKIE_NAME"] = "session_" + environ.get("SITE_NAME").strip().lower()
@@ -35,15 +35,15 @@ app.config["PERMANENT_SESSION_LIFETIME"] = 60 * 60 * 24 * 365
 app.config['SESSION_REFRESH_EACH_REQUEST'] = False
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URL'] = environ.get("DATABASE_URL", "postgresql://postgres@localhost:5432")
+app.config['SQLALCHEMY_DATABASE_URL'] = environ.get("DATABASE_URL").strip()
 
 app.config["CACHE_TYPE"] = "RedisCache"
-app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL", "redis://localhost")
+app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL").strip()
 
 
 app.config['SETTINGS'] = {}
 
-r=redis.Redis(host=environ.get("REDIS_URL", "redis://localhost"), decode_responses=True, ssl_cert_reqs=None)
+r=redis.Redis(host=environ.get("REDIS_URL").strip(), decode_responses=True, ssl_cert_reqs=None)
 
 def get_CF():
 	with app.app_context():
