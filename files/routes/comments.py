@@ -51,9 +51,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	
 	if not pid:
 		if comment.parent_submission: pid = comment.parent_submission
-		elif SITE_NAME == 'rDrama': pid = 6489
-		elif SITE == 'pcmemes.net': pid = 2487
-		else: pid = 1
+		else: pid = NOTIFICATION_THREAD
 	
 	post = get_post(pid, v=v)
 	
@@ -647,9 +645,8 @@ def undelete_comment(cid, v):
 
 @app.post("/pin_comment/<cid>")
 @auth_required
+@feature_required('PINS')
 def pin_comment(cid, v):
-	if not FEATURES['PINS']:
-		abort(403)
 	comment = get_comment(cid, v=v)
 	
 	if not comment.stickied:

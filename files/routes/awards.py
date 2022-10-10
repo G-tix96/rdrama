@@ -17,10 +17,8 @@ from copy import deepcopy
 @app.get("/shop")
 @app.get("/settings/shop")
 @auth_required
+@feature_required('AWARDS')
 def shop(v):
-	if not FEATURES['AWARDS']:
-		abort(404)
-
 	AWARDS = deepcopy(AWARDS2)
 
 	if v.house:
@@ -44,10 +42,8 @@ def shop(v):
 @app.post("/buy/<award>")
 @limiter.limit("100/minute;200/hour;1000/day")
 @auth_required
+@feature_required('AWARDS')
 def buy(v, award):
-	if not FEATURES['AWARDS']:
-		abort(404)
-
 	if award == 'benefactor' and not request.values.get("mb"):
 		return {"error": "You can only buy the Benefactor award with marseybux."}, 403
 
@@ -127,10 +123,8 @@ def buy(v, award):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
+@feature_required('AWARDS')
 def award_thing(v, thing_type, id):
-	if not FEATURES['AWARDS']:
-		abort(404)
-
 	if thing_type == 'post': thing = get_post(id)
 	else: thing = get_comment(id)
 

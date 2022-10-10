@@ -164,6 +164,17 @@ def admin_level_required(x):
 
 	return wrapper_maker
 
+def feature_required(x):
+	def wrapper_maker(f):
+		def wrapper(*args, **kwargs):
+			v = get_logged_in_user()
+			if not FEATURES[x]: abort(404)
+			return make_response(f(*args, v=v, **kwargs))
+
+		wrapper.__name__ = f.__name__
+		return wrapper
+	return wrapper_maker
+
 def casino_required(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()

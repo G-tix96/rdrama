@@ -14,10 +14,9 @@ from files.helpers.lottery import *
 @app.get("/casino")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
+@feature_required('GAMBLING')
 def casino(v):
-    if not FEATURES['GAMBLING']:
-        abort(404)
-    elif v.rehab:
+    if v.rehab:
         return render_template("casino/rehab.html", v=v)
 
     return render_template("casino.html", v=v)
@@ -26,10 +25,9 @@ def casino(v):
 @app.get("/casino/<game>")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
+@feature_required('GAMBLING')
 def casino_game_page(v, game):
-    if not FEATURES['GAMBLING']:
-        abort(404)
-    elif v.rehab:
+    if v.rehab:
         return render_template("casino/rehab.html", v=v)
     elif game not in CASINO_GAME_KINDS:
         abort(404)
@@ -55,10 +53,9 @@ def casino_game_page(v, game):
 @app.get("/casino/<game>/feed")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
+@feature_required('GAMBLING')
 def casino_game_feed(v, game):
-    if not FEATURES['GAMBLING']:
-        abort(404)
-    elif v.rehab:
+    if v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
     elif game not in CASINO_GAME_KINDS:
         abort(404)
@@ -71,10 +68,9 @@ def casino_game_feed(v, game):
 @app.get("/lottershe")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
+@feature_required('GAMBLING')
 def lottershe(v):
-    if not FEATURES['GAMBLING']:
-        abort(404)  
-    elif v.rehab:
+    if v.rehab:
         return render_template("casino/rehab.html", v=v)
 
     participants = get_users_participating_in_lottery()
@@ -84,10 +80,9 @@ def lottershe(v):
 @app.post("/casino/slots")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
+@feature_required('GAMBLING')
 def pull_slots(v):
-    if not FEATURES['GAMBLING']:
-        abort(404)
-    elif v.rehab:
+    if v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
 
     try:
@@ -115,10 +110,9 @@ def pull_slots(v):
 @app.post("/casino/twentyone/deal")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
+@feature_required('GAMBLING')
 def blackjack_deal_to_player(v):
-    if not FEATURES['GAMBLING']:
-        abort(404)
-    elif v.rehab:
+    if v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
 
     try:
@@ -136,10 +130,9 @@ def blackjack_deal_to_player(v):
 @app.post("/casino/twentyone/hit")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
+@feature_required('GAMBLING')
 def blackjack_player_hit(v):
-    if not FEATURES['GAMBLING']:
-        abort(404)
-    elif v.rehab:
+    if v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
 
     try:
@@ -153,10 +146,9 @@ def blackjack_player_hit(v):
 @app.post("/casino/twentyone/stay")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
+@feature_required('GAMBLING')
 def blackjack_player_stay(v):
-    if not FEATURES['GAMBLING']:
-        abort(404)
-    elif v.rehab:
+    if v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
 
     try:
@@ -170,10 +162,9 @@ def blackjack_player_stay(v):
 @app.post("/casino/twentyone/double-down")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
+@feature_required('GAMBLING')
 def blackjack_player_doubled_down(v):
-    if not FEATURES['GAMBLING']:
-        abort(404)
-    elif v.rehab:
+    if v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
 
     try:
@@ -187,10 +178,9 @@ def blackjack_player_doubled_down(v):
 @app.post("/casino/twentyone/buy-insurance")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
+@feature_required('GAMBLING')
 def blackjack_player_bought_insurance(v):
-    if not FEATURES['GAMBLING']:
-        abort(404)
-    elif v.rehab:
+    if v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
 
     try:
@@ -204,10 +194,9 @@ def blackjack_player_bought_insurance(v):
 @app.get("/casino/roulette/bets")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
+@feature_required('GAMBLING')
 def roulette_get_bets(v):
-    if not FEATURES['GAMBLING']:
-        abort(404)
-    elif v.rehab:
+    if v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
 
     bets = get_roulette_bets()
@@ -218,10 +207,9 @@ def roulette_get_bets(v):
 @app.post("/casino/roulette/place-bet")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
+@feature_required('GAMBLING')
 def roulette_player_placed_bet(v):
-    if not FEATURES['GAMBLING']:
-        abort(404)
-    elif v.rehab:
+    if v.rehab:
         return {"error": "You are under Rehab award effect!"}, 400
 
     try:
