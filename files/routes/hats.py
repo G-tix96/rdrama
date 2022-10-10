@@ -8,8 +8,9 @@ from flask import g
 
 @app.get("/hats")
 @auth_required
-@feature_required('HATS')
 def hats(v):
+	if not FEATURES['HATS']: abort(404)
+
 	owned_hat_ids = [x.hat_id for x in v.owned_hats]
 
 	if request.values.get("sort") == 'author_asc':
@@ -33,8 +34,9 @@ def hats(v):
 
 @app.post("/buy_hat/<hat_id>")
 @auth_required
-@feature_required('HATS')
 def buy_hat(v, hat_id):
+	if not FEATURES['HATS']: abort(404)
+
 	try: hat_id = int(hat_id)
 	except: return {"error": "Hat not found!"}, 400
 
@@ -83,8 +85,9 @@ def buy_hat(v, hat_id):
 
 @app.post("/equip_hat/<hat_id>")
 @auth_required
-@feature_required('HATS')
 def equip_hat(v, hat_id):
+	if not FEATURES['HATS']: abort(404)
+
 	try: hat_id = int(hat_id)
 	except: return {"error": "Hat not found!"}, 400
 
@@ -98,8 +101,9 @@ def equip_hat(v, hat_id):
 
 @app.post("/unequip_hat/<hat_id>")
 @auth_required
-@feature_required('HATS')
 def unequip_hat(v, hat_id):
+	if not FEATURES['HATS']: abort(404)
+
 	try: hat_id = int(hat_id)
 	except: return {"error": "Hat not found!"}, 400
 

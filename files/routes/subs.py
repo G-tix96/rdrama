@@ -653,8 +653,9 @@ def sub_stealth(v, sub):
 
 @app.post("/mod_pin/<cid>")
 @is_not_permabanned
-@feature_required('PINS')
 def mod_pin(cid, v):
+	if not FEATURES['PINS']:
+		abort(403)
 	comment = get_comment(cid, v=v)
 	
 	if not comment.stickied:

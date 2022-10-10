@@ -645,8 +645,9 @@ def undelete_comment(cid, v):
 
 @app.post("/pin_comment/<cid>")
 @auth_required
-@feature_required('PINS')
 def pin_comment(cid, v):
+	if not FEATURES['PINS']:
+		abort(403)
 	comment = get_comment(cid, v=v)
 	
 	if not comment.stickied:
