@@ -6,7 +6,7 @@ def generate_hash(string):
 
 	msg = bytes(string, "utf-16")
 
-	return hmac.new(key=bytes(MASTER_KEY, "utf-16"),
+	return hmac.new(key=bytes(SECRET_KEY, "utf-16"),
 					msg=msg,
 					digestmod='md5'
 					).hexdigest()

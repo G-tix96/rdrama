@@ -7,11 +7,6 @@ services:
             - "./:/rDrama"
             - "./nginx.conf:/etc/nginx/sites-enabled/1"
             - "./nginx-serve-static.conf:/etc/nginx/includes/serve-static"
-        env_file: env
-        environment:
-            - DATABASE_URL=postgresql://postgres@postgres:5432
-            - REDIS_URL=redis://redis
-            - PROXY_URL=http://opera-proxy:18080
         links:
             - "redis"
             - "postgres"

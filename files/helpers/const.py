@@ -12,7 +12,7 @@ from os import path
 
 SITE = environ.get("SITE").strip()
 SITE_NAME = environ.get("SITE_NAME").strip()
-MASTER_KEY = environ.get("MASTER_KEY").strip()
+SECRET_KEY = environ.get("SECRET_KEY").strip()
 PROXY_URL = environ.get("PROXY_URL").strip()
 GIPHY_KEY = environ.get('GIPHY_KEY').strip()
 DISCORD_SERVER_ID = environ.get("DISCORD_SERVER_ID").strip()
