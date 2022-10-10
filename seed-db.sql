@@ -284,6 +284,7 @@ INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 5
 INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO OOO', 2, 500, NULL, 1664595865);
 INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
 INSERT INTO public.hat_defs VALUES (807, 'The Capy', 'You''re the chosen one! No one can hurt you!', 2, 500, NULL, 1665104052);
+
 INSERT INTO public.hat_defs VALUES (92, 'Top Hat (black)', 'Traditional. Classy. Elegant.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (714, 'Captain Falcon', 'The chad that every smash player wanted to imitate, if only his moveset included a shower.', 2, 500, NULL, 1663474615);
 INSERT INTO public.hat_defs VALUES (715, 'Inspector Gadget', '"Go go Gadget Brown Bricks!"', 2, 500, NULL, 1663477536);
@@ -881,6 +882,19 @@ INSERT INTO public.hat_defs VALUES (462, 'Rasta Hat', 'Jah bless', 2, 500, NULL,
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 INSERT INTO public.hat_defs VALUES (398, 'The Catman', 'This counts as a fursuit', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (401, 'Current Thing (oppose)', 'Denazify Ukraine!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (402, 'T-34 Tank', 'For denazification purposes', 2, 500, NULL, 1662167687);
@@ -1008,11 +1022,13 @@ INSERT INTO public.hat_defs VALUES (501, 'Dancing Marsey', 'Omg she''s so happy 
 INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t Crusader Kings, stop it', 2, 500, NULL, 1662167687);
 
 
+
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 900, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 916, true);
 
 
 --
@@ -1492,12 +1508,12 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydagothur2',2,'elder scrolls morrowind game mask dagothur',NULL),
 ('marseydamosuzuki',2,'damo suzuki musician music singer krautrock asian japan germany celebrity',NULL),
 ('marseydance',2,'excited stomp jump feet step run animated',NULL),
-('marseydarkbrandon',2,'ridin biden dem hunter sniff old senile president usa cool daddy delaware confused',1665323885),
+('marseydarkbrandon',2,'biden lasereyes gas sticker evil confused dementia daddy',1665323885),
 ('marseydarkcarp',2,'lasereyes carpathianflorist fish admin jannie mod banned yalled',1663211530),
 ('marseydarkcomrade',2,'communist commie pinko lasereyes russian kgb hat soviet ussr tankie',1663254781),
 ('marseydarkmarsey2',2,'lasereyes redglow scary chudrama',NULL),
 ('marseydarkpizzashill',2,'chud rightoid leftoid debate owned lasereyes footlocker',1663210672),
-('marseydarktrump',2,'maga laser eye chud conservative republican nazi kkk mayo white orange tan cool daddy',1665323820),
+('marseydarktrump',2,'maga lasereyes chud republican orange daddy donald',1665323820),
 ('marseydarkxd',2,'laugh ragecomics lmao despair shadow',NULL),
 ('marseydarwin',2,'history darwinian euphoric atheist charles',NULL),
 ('marseydawnbreaker',2,'gamer video game warhammer',NULL),
@@ -1921,6 +1937,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyleafeon',2,'trick or treat pokemon halloween eevee costume holiday',NULL),
 ('marseyleftoidschizo',2,'sjw shitlib radlib liberal cuck redditor soy crazy animated',NULL),
 ('marseylegion',2,'zombie wolf fallout new vegas fnv caesar courier video game roman',NULL),
+('marseylego',2,'marsey lego toy game',1665356921),
 ('marseylemon',2,'pucker sour lemon fruit citrus tear ',NULL),
 ('marseylenin',2,'ussr russia communism socialism marxist commie soviet proletariat marxism marxist leninist leninism revolution bolshevik',NULL),
 ('marseylenny',2,'innuendo dirty sex horny emoticon perverted',NULL),
@@ -2498,6 +2515,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseysoylentgrin',2,'numale nu male menslib redditor plebbitor happy glasses soyjak nerd loser beta smile smiling',NULL),
 ('marseysoypoint',2,'soyboy soy boy beard reaction pointing',NULL),
 ('marseysoypoint2',2,'wojak soyjak soyjack pointing beta redditors',NULL),
+('marseysoypointglow',2,'glowie radioactive pointing',1665352060),
+('marseysoypointgold',2,'glow wave',1665351969),
 ('marseysoyrope',2,'redditor dead suicide kms kys hanging lynched hung soyjak',NULL),
 ('marseysoyseethe',2,'soyjack soyjak reddit angry yelling wojak',NULL),
 ('marseyspa',2,'spa towel cucumber facial relax calm selfcare foid hygiene beauty',NULL),
