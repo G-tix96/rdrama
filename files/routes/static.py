@@ -348,9 +348,9 @@ def badge_list(site):
 
 @app.get("/badges")
 @auth_required
+@feature_required('BADGES')
 def badges(v):
-	if not FEATURES['BADGES']:
-		abort(404)
+	
 
 	badges, counts = badge_list(SITE)
 	return render_template("badges.html", v=v, badges=badges, counts=counts)

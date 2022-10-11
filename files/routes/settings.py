@@ -547,9 +547,9 @@ def settings_images_profile(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
+@feature_required('USER_PROFILE_BANNER')
 def settings_images_banner(v):
-	if not FEATURES['USERS_PROFILE_BANNER']:
-		abort(403)
+	
 
 	if request.headers.get("cf-ipcountry") == "T1": return {"error":"Image uploads are not allowed through TOR."}, 403
 
@@ -755,9 +755,9 @@ def settings_name_change(v):
 @limiter.limit("3/second;10/day")
 @limiter.limit("3/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
+@feature_required('USER_PROFILE_SONG')
 def settings_song_change_mp3(v):
-	if not FEATURES['USERS_PROFILE_SONG']:
-		abort(403)
+	
 
 	file = request.files['file']
 	if file.content_type != 'audio/mpeg':
@@ -787,9 +787,9 @@ def settings_song_change_mp3(v):
 @limiter.limit("3/second;10/day")
 @limiter.limit("3/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
+@feature_required('USER_PROFILE_SONG')
 def settings_song_change(v):
-	if not FEATURES['USERS_PROFILE_SONG']:
-		abort(403)
+	
 
 	song=request.values.get("song").strip()
 
@@ -892,9 +892,9 @@ def settings_title_change(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
+@feature_required('PRONOUNS')
 def settings_pronouns_change(v):
-	if not FEATURES['PRONOUNS']:
-		abort(403)
+	
 	
 	pronouns = request.values.get("pronouns").replace("𒐪","").strip()
 

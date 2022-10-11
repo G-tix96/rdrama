@@ -155,6 +155,7 @@ def feature_required(x):
 			return make_response(f(*args, v=v, **kwargs))
 		wrapper.__name__ = f.__name__
 		return wrapper
+	return wrapper_maker
 
 def casino_required(f):
 	def wrapper(*args, **kwargs):
