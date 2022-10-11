@@ -148,7 +148,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	if post.new or 'megathread' in post.title.lower(): defaultsortingcomments = 'new'
 	elif v: defaultsortingcomments = v.defaultsortingcomments
-	else: defaultsortingcomments = "top"
+	else: defaultsortingcomments = "hot"
 	sort = request.values.get("sort", defaultsortingcomments)
 
 	if post.club and not (v and (v.paid_dues or v.id == post.author_id)): abort(403)
@@ -414,26 +414,26 @@ def edit_post(pid, v):
 	# Disable edits on things older than 1wk unless it's a draft or editor is a jannie
 	if (time.time() - p.created_utc > 7*24*60*60 and not p.private
 			and not v.admin_level >= PERMS['POST_EDITING']):
-		return {"error": "You can't edit posts older than 1 week!"}, 403
+		abort(403, "You can't edit posts older than 1 week!")
 
 	title = sanitize_raw_title(request.values.get("title", ""))
 	body = sanitize_raw_body(request.values.get("body", ""), True)
 
 	if v.id == p.author_id:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-			return {"error":"You have to type more than 280 characters!"}, 403
+			abort(403, "You have to type more than 280 characters!")
 		elif v.bird and len(body) > 140:
-			return {"error":"You have to type less than 140 characters!"}, 403
+			abort(403, "You have to type less than 140 characters!")
 
 	if not title:
-		return {"error": "Please enter a better title."}, 400
+		abort(400, "Please enter a better title.")
 	if title != p.title:
 		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
 
 		title_html = filter_emojis_only(title, golden=False, torture=torture)
 
 		if v.id == p.author_id and v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
-			return {"error":"You can only type marseys!"}, 403
+			abort(403, "You can only type marseys!")
 
 		p.title = title
 		p.title_html = title_html
@@ -466,7 +466,7 @@ def edit_post(pid, v):
 		body_html = sanitize(body, golden=False, limit_pings=100, showmore=False, torture=torture)
 
 		if v.id == p.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
-			return {"error":"You can only type marseys!"}, 403
+			abort(403, "You can only type marseys!")
 
 
 		p.body = body
@@ -477,12 +477,13 @@ def edit_post(pid, v):
 			g.db.add(v)
 			send_repeatable_notification(CARP_ID, p.permalink)
 
-		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: return {"error":f"Submission body_html too long! (max {POST_BODY_HTML_LENGTH_LIMIT} characters)"}, 400
+		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: 
+			abort(400, f"Submission body_html too long! (max {POST_BODY_HTML_LENGTH_LIMIT} characters)")
 
 		p.body_html = body_html
 
 		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{p.body}{p.title}'.lower() and p.sub != 'chudrama':
-			return {"error": f'You have to include "{AGENDAPOSTER_PHRASE}" in your post!'}, 403
+			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your post!')
 
 
 	if not p.private and not p.ghost:
@@ -702,7 +703,7 @@ def submit_post(v, sub=None):
 	body = sanitize_raw_body(request.values.get("body", ""), True)
 
 	def error(error):
-		if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": error}, 400
+		if request.headers.get("Authorization") or request.headers.get("xhr"): abort(400, error)
 	
 		SUBS = [x[0] for x in g.db.query(Sub.name).order_by(Sub.name).all()]
 		return render_template("submit.html", SUBS=SUBS, v=v, error=error, title=title, url=url, body=body), 400
@@ -1204,7 +1205,7 @@ def pin_post(post_id, v):
 
 	post = get_post(post_id)
 	if post:
-		if v.id != post.author_id: return {"error": "Only the post author's can do that!"}, 400
+		if v.id != post.author_id: abort(400, "Only the post author's can do that!")
 		post.is_pinned = not post.is_pinned
 		g.db.add(post)
 
@@ -1212,7 +1213,7 @@ def pin_post(post_id, v):
 
 		if post.is_pinned: return {"message": "Post pinned!"}
 		else: return {"message": "Post unpinned!"}
-	return {"error": "Post not found!"}, 400
+	return abort(404, "Post not found!")
 
 
 extensions = (

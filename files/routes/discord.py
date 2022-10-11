@@ -8,15 +8,10 @@ import requests
 @app.get("/discord")
 @is_not_permabanned
 def join_discord(v):
-	
-	if v.shadowbanned: return {"error": "Internal server error"}, 400
-	
+	if v.shadowbanned: return {"error": "Internal Server Error"}, 500
 	now=int(time.time())
-
 	state=generate_hash(f"{now}+{v.id}+discord")
-
 	state=f"{now}.{state}"
-
 	return redirect(f"https://discord.com/api/oauth2/authorize?client_id={DISCORD_CLIENT_ID}&redirect_uri=https%3A%2F%2F{SITE}%2Fdiscord_redirect&response_type=code&scope=identify%20guilds.join&state={state}")
 
 

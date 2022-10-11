@@ -257,6 +257,73 @@ FEATURES = {
 	'PATRON_ICONS': False,
 }
 
+WERKZEUG_ERROR_DESCRIPTIONS = {
+	400: "The browser (or proxy) sent a request that this server could not understand.",
+	401: "The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required.",
+	403: "You don't have the permission to access the requested resource. It is either read-protected or not readable by the server.",
+	404: "The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.",
+	405: "The method is not allowed for the requested URL.",
+	406: "The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.",
+	409: "A conflict happened while processing the request. The resource might have been modified while the request was being processed.",
+	413: "The data value transmitted exceeds the capacity limit.",
+	414: "The length of the requested URL exceeds the capacity limit for this server. The request cannot be processed.",
+	415: "The server does not support the media type transmitted in the request.",
+	417: "The server could not meet the requirements of the Expect header",
+	418: "This server is a teapot, not a coffee machine",
+	429: "This user has exceeded an allotted request count. Try again later.",
+	500: "The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.",
+}
+
+ERROR_TITLES = {
+	400: "Bad Request",
+	401: "Unauthorized",
+	403: "Forbidden",
+	404: "Not Found",
+	405: "Method Not Allowed",
+	406: "Too Many Pings",
+	409: "Conflict",
+	413: "Max image/audio size is 8 MB (16 MB for paypigs)",
+	414: "Max video size is 32 MB (64 MB for paypigs)",
+	415: "Unsupported Media Type",
+	417: "Image already exists!",
+	418: "WEBM videos are not allowed",
+	429: "Too Many Requests",
+	500: "Internal Server Error",
+}
+
+ERROR_MSGS = {
+	400: "That request was bad and you should feel bad.",
+	401: "What you're trying to do requires an account. I think. The original error message said something about a castle and I hated that.",
+	403: "YOU AREN'T WELCOME HERE GO AWAY",
+	404: "Someone typed something wrong and it was probably you, please do better.",
+	405: "idk how anyone gets this error but if you see this, remember to follow @carpathianflorist<BR>the original error text here talked about internet gremlins and wtf",
+	406: "Max limit is 5 for comments and 50 for posts",
+	409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do. So maybe like... don't try and do that? Sorry not sorry",
+	413: "Max image/audio size is 8 MB (16 MB for paypigs)",
+	414: "Max video size is 32 MB (64 MB for paypigs)",
+	415: "Please upload only Image, Video, or Audio files!",
+	417: "Image already exists!",
+	418: "Please convert your video to MP4 and re-upload it!",
+	429: "go spam somewhere else nerd",
+	500: "Hiiiii it's carp! I think this error means that there's a timeout error. And I think that means something took too long to load so it decided not to work at all. If you keep seeing this on the same page <I>but not other pages</I>, then something is probably wrong with that specific function. It may not be called a function, but that sounds right to me. Anyway, ping me and I'll whine to someone smarter to fix it. Don't bother them. Thanks ily &lt;3",
+}
+
+ERROR_MARSEYS = {
+	400: "marseybrainlet",
+	401: "marseydead",
+	403: "marseytroll",
+	404: "marseyconfused",
+	405: "marseyretard",
+	406: "marseyrage",
+	409: "marseynoyou",
+	413: "marseyretard",
+	414: "marseychonker2",
+	415: "marseydetective",
+	418: "marseytea",
+	429: "marseyrentfree",
+	500: "marseycarp3",
+}
+
 EMOJI_MARSEYS = True
 EMOJI_SRCS = ['files/assets/emojis.json']
 
@@ -389,6 +456,8 @@ elif SITE == 'pcmemes.net':
 	PIN_LIMIT = 10
 	FEATURES['REPOST_DETECTION'] = False
 	FEATURES['GAMBLING'] = False
+	ERROR_MSGS[500] = "Hiiiii it's <b>nigger</b>! I think this error means that there's a <b>nigger</b> error. And I think that means something took too long to load so it decided to be a <b>nigger</b>. If you keep seeing this on the same page but not other pages, then something its probably a <b>niggerfaggot</b>. It may not be called a <b>nigger</b>, but that sounds right to me. Anyway, ping me and I'll whine to someone smarter to fix it. Don't bother them. Thanks ily &lt;3"
+	ERROR_MARSEYS[500] = "wholesome"
 	POST_RATE_LIMIT = '1/second;4/minute;20/hour;100/day'
 
 	HOLE_COST = 2000
