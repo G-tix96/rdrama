@@ -53,6 +53,10 @@ ERROR_MSGS = {
 	500: "Hiiiii it's carp! I think this error means that there's a timeout error. And I think that means something took too long to load so it decided not to work at all. If you keep seeing this on the same page <I>but not other pages</I>, then something is probably wrong with that specific function. It may not be called a function, but that sounds right to me. Anyway, ping me and I'll whine to someone smarter to fix it. Don't bother them. Thanks ily &lt;3",
 }
 
+ERROR_MSGS_PCM = {
+	500: "Hiiiii it's <b>nigger</b>! I think this error means that there's a <b>nigger</b> error. And I think that means something took too long to load so it decided to be a <b>nigger</b>. If you keep seeing this on the same page but not other pages, then something its probably a <b>niggerfaggot</b>. It may not be called a <b>nigger</b>, but that sounds right to me. Anyway, ping me and I'll whine to someone smarter to fix it. Don't bother them. Thanks ily &lt;3"
+}
+
 ERROR_MARSEYS = {
 	400: "marseybrainlet",
 	401: "marseydead",
@@ -88,11 +92,14 @@ def error(e):
 	if request.headers.get("Authorization") or request.headers.get("xhr"):
 		return {"error": title, "code": e.code, "description": msg, "details": details}
 	img = ERROR_MARSEYS.get(e.code, 'marseyl')
+	if e.code == 500 and SITE_NAME == 'PCM':
+		msg = ERROR_MSGS_PCM.get(e.code, str(e.code))
+		img = "wholesome"
 	return render_template('errors/error.html', err=True, title=title, msg=msg, details=details, img=img), e.code
 
 @app.errorhandler(401)
 def error_401(e):
-	if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": "401 Unauthorized"}, 401
+	if request.headers.get("Authorization") or request.headers.get("xhr"): return error(e)
 	else:
 		path = request.path
 		qs = urlencode(dict(request.values))
@@ -104,8 +111,7 @@ def error_401(e):
 @app.errorhandler(500)
 def error_500(e):
 	g.db.rollback()
-	if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": "500 Internal Server Error"}, 500
-	else: return render_template('errors/500.html', err=True), 500
+	return error(e)
 
 
 @app.post("/allow_nsfw")
