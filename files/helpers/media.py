@@ -71,7 +71,7 @@ def webm_to_mp4(old, new, vid):
 
 	db = db_session()
 
-	media = db.query(Media).filter_by(filename=name, kind='video').one_or_none()
+	media = db.query(Media).filter_by(filename=new, kind='video').one_or_none()
 	if media: db.delete(media)
 
 	media = Media(
@@ -107,7 +107,7 @@ def process_video(file):
 		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
 		os.remove(old)
 
-		media = g.db.query(Media).filter_by(filename=name, kind='video').one_or_none()
+		media = g.db.query(Media).filter_by(filename=new, kind='video').one_or_none()
 		if media: g.db.delete(media)
 
 		media = Media(
@@ -186,7 +186,7 @@ def process_image(filename=None, resize=0, trim=False, uploader=None, patron=Fal
 
 	db = db or g.db
 
-	media = db.query(Media).filter_by(filename=name, kind='image').one_or_none()
+	media = db.query(Media).filter_by(filename=filename, kind='image').one_or_none()
 	if media: db.delete(media)
 
 	media = Media(
