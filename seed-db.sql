@@ -294,6 +294,12 @@ INSERT INTO public.hat_defs VALUES (807, 'The Capy', 'You''re the chosen one! No
 
 
 
+
+
+
+
+
+
 INSERT INTO public.hat_defs VALUES (92, 'Top Hat (black)', 'Traditional. Classy. Elegant.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (714, 'Captain Falcon', 'The chad that every smash player wanted to imitate, if only his moveset included a shower.', 2, 500, NULL, 1663474615);
 INSERT INTO public.hat_defs VALUES (715, 'Inspector Gadget', '"Go go Gadget Brown Bricks!"', 2, 500, NULL, 1663477536);
@@ -376,6 +382,7 @@ INSERT INTO public.hat_defs VALUES (844, 'Snek Peek', 'When the friendly snek se
 INSERT INTO public.hat_defs VALUES (17, 'Viking', 'Rape, pillage, never bathe. Live the dream.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (532, 'Under His Eye', 'WATCH ANOTHER SHOW', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (845, 'Loading', 'please wait', 2, 1000, NULL, 1665261780);
+
 
 INSERT INTO public.hat_defs VALUES (22, 'Southern Gentleman', 'Slaveowner? Fried chicken chain founder? You decide!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (23, 'Cowboy I', 'Make him wish he could quit you', 2, 500, NULL, 1662167687);
@@ -1039,7 +1046,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 927, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 934, true);
 
 
 --
@@ -1220,6 +1227,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseybigbrain',2,'high iq highiq smart genius brain',NULL),
 ('marseybigdog',2,'bussy big dog poster',NULL),
 ('marseybigfoot',2,'bigfoot monkey footage ape cryptid',1664490937),
+('marseybikechainincident',2,'biike chain toilet wet kid child abuse bardfinn silly clumsy mistake helpful retard idiot closet',1665438964),
 ('marseybikecuck',2,'owlturd bicycle cuckold webcomic happiness',NULL),
 ('marseybiker',2,'motorcycle harley bicycle helmet',NULL),
 ('marseybingus',2,'floppa shaved hairless',NULL),
@@ -2067,6 +2075,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseymonk',2,'meditate levitating pray buddhist fish asian levitate animated yingyang buddhism karma zen',NULL),
 ('marseymonke',2,'retvrn return',NULL),
 ('marseymononoke',2,'anime japanese miyazaki ghibli asian cartoon princess character fictionnal ashitaka san wild wolf nature',NULL),
+('marseymoonshine',2,'alcohol hick drunk booze drink illegal prohibition',1665436053),
 ('marseymoose',2,'moosin antlers',NULL),
 ('marseymoplicker',2,'janny moderator admin',NULL),
 ('marseymormon',2,'backpack tie jesus god christian missionary',NULL),
