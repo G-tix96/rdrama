@@ -257,7 +257,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 	@admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_HATS'])
 	def approve_hat(v, name):
 		if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, SNAKES_ID):
-			abort(403, "Only Carp can approve hats!"}, 403
+			abort(403, "Only Carp can approve hats!")
 
 		name = name.strip()
 
