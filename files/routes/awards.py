@@ -49,10 +49,10 @@ def buy(v, award):
 	
 
 	if award == 'benefactor' and not request.values.get("mb"):
-		return {"error": "You can only buy the Benefactor award with marseybux."}, 403
+		abort(403, "You can only buy the Benefactor award with marseybux.")
 
 	if award == 'ghost' and v.admin_level < PERMS['BUY_GHOST_AWARD']:
-		return {"error": "Only admins can buy this award."}, 403
+		abort(403, "Only admins can buy this award")
 
 	AWARDS = deepcopy(AWARDS2)
 
@@ -67,15 +67,15 @@ def buy(v, award):
 
 	if request.values.get("mb"):
 		if award == "grass":
-			return {"error": "You can't buy the grass award with marseybux."}, 403
+			abort(403, "You can't buy the grass award with marseybux.")
 
 		charged = v.charge_account('procoins', price)
 		if not charged:
-			return {"error": "Not enough marseybux."}, 400
+			abort(400, "Not enough marseybux.")
 	else:
 		charged = v.charge_account('coins', price)
 		if not charged:
-			return {"error": "Not enough coins."}, 400
+			abort(400, "Not enough coins.")
 
 		v.coins_spent += price
 		if v.coins_spent >= 1000000:
@@ -129,8 +129,6 @@ def buy(v, award):
 @is_not_permabanned
 @feature_required('BADGES')
 def award_thing(v, thing_type, id):
-	
-
 	if thing_type == 'post': thing = get_post(id)
 	else: thing = get_comment(id)
 
@@ -142,8 +140,7 @@ def award_thing(v, thing_type, id):
 	if v.house:
 		AWARDS[v.house] = HOUSE_AWARDS[v.house]
 
-	if kind not in AWARDS:
-		return {"error": "This award doesn't exist."}, 404
+	if kind not in AWARDS: abort(404, "This award doesn't exist")
 
 	award = g.db.query(AwardRelationship).filter(
 		AwardRelationship.kind == kind,
@@ -152,8 +149,7 @@ def award_thing(v, thing_type, id):
 		AwardRelationship.comment_id == None
 	).first()
 
-	if not award:
-		return {"error": "You don't have that award."}, 404
+	if not award: abort(404, "You don't have that award")
 
 	if thing_type == 'post': award.submission_id = thing.id
 	else: award.comment_id = thing.id
@@ -167,13 +163,13 @@ def award_thing(v, thing_type, id):
 	if author.shadowbanned: abort(404)
 
 	if SITE == 'rdrama.net' and author.id in (PIZZASHILL_ID, CARP_ID):
-		return {"error": "This user is immune to awards."}, 403
+		abort(403, "This user is immune to awards.")
 
 	if kind == "benefactor" and author.id == v.id:
-		return {"error": "You can't use this award on yourself."}, 400
+		abort(400, "You can't use this award on yourself.")
 
 	if kind == 'marsify' and author.marsify == 1:
-		return {"error": "User is already permanently marsified!"}, 403
+		abort(403, "User is already permanently marsified!")
 
 	if v.id != author.id:
 		safe_username = "👻" if thing.ghost else f"@{author.username}"
@@ -254,7 +250,7 @@ def award_thing(v, thing_type, id):
 		g.db.add(thing)
 	elif kind == "agendaposter" and not (author.agendaposter and author.agendaposter == 0):
 		if author.marseyawarded:
-			return {"error": "This user is the under the effect of a conflicting award: Marsey award."}, 404
+			abort(400, "This user is under the effect of a conflicting award: Marsey award.")
 
 		if author.agendaposter and time.time() < author.agendaposter: author.agendaposter += 86400
 		else: author.agendaposter = int(time.time()) + 86400
@@ -284,13 +280,13 @@ def award_thing(v, thing_type, id):
 		badge_grant(user=author, badge_id=98)
 	elif kind == "pizzashill":
 		if author.bird:
-			return {"error": "This user is the under the effect of a conflicting award: Bird Site award."}, 404
+			abort(400, "This user is under the effect of a conflicting award: Bird Site award.")
 		if author.longpost: author.longpost += 86400
 		else: author.longpost = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=97)
 	elif kind == "bird":
 		if author.longpost:
-			return {"error": "This user is the under the effect of a conflicting award: Pizzashill award."}, 404
+			abort(400, "This user is under the effect of a conflicting award: Pizzashill award.")
 		if author.bird: author.bird += 86400
 		else: author.bird = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=95)
@@ -317,7 +313,7 @@ def award_thing(v, thing_type, id):
 		else: author.progressivestack = int(time.time()) + 21600
 		badge_grant(user=author, badge_id=94)
 	elif kind == "benefactor":
-		if author.patron: return {"error": "This user is already a paypig!"}, 400
+		if author.patron: abort(400, "This user is already a paypig!")
 		author.patron = 1
 		if author.patron_utc: author.patron_utc += 2629746
 		else: author.patron_utc = int(time.time()) + 2629746

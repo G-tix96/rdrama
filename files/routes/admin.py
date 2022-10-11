@@ -196,7 +196,7 @@ def remove_admin(v, username):
 @admin_level_required(PERMS['POST_BETS_DISTRIBUTE'])
 def distribute(v, option_id):
 	autojanny = get_account(AUTOJANNY_ID)
-	if autojanny.coins == 0: return {"error": "@AutoJanny has 0 coins"}, 400
+	if autojanny.coins == 0: abort(400, "@AutoJanny has 0 coins")
 
 	try: option_id = int(option_id)
 	except: abort(400)
@@ -303,7 +303,7 @@ def revert_actions(v, username):
 def club_allow(v, username):
 	u = get_user(username, v=v)
 
-	if u.admin_level >= v.admin_level: return {"error": "noob"}, 400
+	if u.admin_level >= v.admin_level: abort(403, 'noob')
 
 	u.club_allowed = True
 	g.db.add(u)
@@ -329,7 +329,7 @@ def club_allow(v, username):
 def club_ban(v, username):
 	u = get_user(username, v=v)
 
-	if u.admin_level >= v.admin_level: return {"error": "noob"}, 400
+	if u.admin_level >= v.admin_level: abort(403, 'noob')
 
 	u.club_allowed = False
 
@@ -490,7 +490,7 @@ def purge_cache(v):
 	g.db.add(ma)
 
 	if response == "<Response [200]>": return {"message": "Cache purged!"}
-	return {"error": "Failed to purge cache."}, 400
+	abort(400, 'Failed to purge cache.')
 
 
 @app.post("/admin/under_attack")
@@ -507,7 +507,7 @@ def under_attack(v):
 
 		response = str(requests.patch(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, data='{"value":"high"}', timeout=5))
 		if response == "<Response [200]>": return {"message": "Under attack mode disabled!"}
-		return {"error": "Failed to disable under attack mode."}, 400
+		abort(400, "Failed to disable under attack mode.")
 	else:
 		ma = ModAction(
 			kind="enable_under_attack",
@@ -517,7 +517,7 @@ def under_attack(v):
 
 		response = str(requests.patch(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, data='{"value":"under_attack"}', timeout=5))
 		if response == "<Response [200]>": return {"message": "Under attack mode enabled!"}
-		return {"error": "Failed to enable under attack mode."}, 400
+		abort(400, "Failed to enable under attack mode.")
 
 @app.get("/admin/badge_grant")
 @admin_level_required(PERMS['USER_BADGES'])
@@ -1158,7 +1158,7 @@ def approve_post(post_id, v):
 	post = get_post(post_id)
 
 	if post.author.id == v.id and post.author.agendaposter and AGENDAPOSTER_PHRASE not in post.body.lower() and post.sub != 'chudrama':
-		return {"error": "You can't bypass the chud award!"}, 400
+		abort(400, "You can't bypass the chud award!")
 
 	if post.is_banned:
 		ma=ModAction(
@@ -1223,7 +1223,7 @@ def sticky_post(post_id, v):
 			if v.admin_level >= PERMS['BYPASS_PIN_LIMIT']:
 				post.stickied = v.username
 				post.stickied_utc = int(time.time()) + 3600
-			else: return {"error": f"Can't exceed {PIN_LIMIT} pinned posts limit!"}, 403
+			else: abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
 		else: post.stickied = v.username
 		g.db.add(post)
 
@@ -1246,7 +1246,7 @@ def unsticky_post(post_id, v):
 
 	post = get_post(post_id)
 	if post.stickied:
-		if post.stickied.endswith('(pin award)'): return {"error": "Can't unpin award pins!"}, 403
+		if post.stickied.endswith('(pin award)'): abort(403, "Can't unpin award pins!")
 
 		post.stickied = None
 		post.stickied_utc = None
@@ -1296,7 +1296,7 @@ def unsticky_comment(cid, v):
 	comment = get_comment(cid, v=v)
 	
 	if comment.stickied:
-		if comment.stickied.endswith("(pin award)"): return {"error": "Can't unpin award pins!"}, 403
+		if comment.stickied.endswith("(pin award)"): abort(403, "Can't unpin award pins!")
 
 		comment.stickied = None
 		g.db.add(comment)
@@ -1344,7 +1344,7 @@ def approve_comment(c_id, v):
 	if not comment: abort(404)
 	
 	if comment.author.id == v.id and comment.author.agendaposter and AGENDAPOSTER_PHRASE not in comment.body.lower() and comment.post.sub != 'chudrama':
-		return {"error": "You can't bypass the chud award!"}, 400
+		abort(400, "You can't bypass the chud award!")
 
 	if comment.is_banned:
 		ma=ModAction(

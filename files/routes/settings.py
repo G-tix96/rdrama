@@ -263,7 +263,7 @@ def settings_profile_post(v):
 	if theme:
 		if theme in {"4chan","classic","classic_dark","coffee","dark","dramblr","light","midnight","transparent","tron","win98"}:
 			if theme == "transparent" and not v.background: 
-				return {"error": "You need to set a background to use the transparent theme!"}, 400
+				abort(400, "You need to set a background to use the transparent theme!")
 			v.theme = theme
 			if theme == "win98": v.themecolor = "30409f"
 			updated = True
@@ -294,7 +294,7 @@ def settings_profile_post(v):
 		return {"message": "Your settings have been updated."}
 
 	else:
-		return {"error": "You didn't change anything."}, 400
+		abort(400, "You didn't change anything.")
 
 
 @app.post("/settings/filters")
@@ -348,23 +348,23 @@ def themecolor(v):
 @auth_required
 def gumroad(v):
 	if not (v.email and v.is_activated):
-		return {"error": f"You must have a verified email to verify {patron} status and claim your rewards!"}, 400
+		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
 
 	data = {'access_token': GUMROAD_TOKEN, 'email': v.email}
 	response = requests.get('https://api.gumroad.com/v2/sales', data=data, timeout=5).json()["sales"]
 
-	if len(response) == 0: return {"error": "Email not found"}, 404
+	if len(response) == 0: abort(404, "Email not found")
 
 	response = [x for x in response if x['variants_and_quantity']]
 	response = response[0]
 	tier = tiers[response["variants_and_quantity"]]
-	if v.patron == tier: return {"error": f"{patron} rewards already claimed"}, 400
+	if v.patron == tier: abort(400, f"{patron} rewards already claimed")
 
 	procoins = procoins_li[tier] - procoins_li[v.patron]
-	if procoins < 0: return {"error": f"{patron} rewards already claimed"}, 400
+	if procoins < 0: abort(400, f"{patron} rewards already claimed")
 
 	existing = g.db.query(User.id).filter(User.email == v.email, User.is_activated == True, User.patron >= tier).first()
-	if existing: return {"error": f"{patron} rewards already claimed on another account"}, 400
+	if existing: abort(400, f"{patron} rewards already claimed on another account")
 
 	v.patron = tier
 	if v.discord_id: add_role(v, f"{tier}")
@@ -513,7 +513,7 @@ def settings_log_out_others(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def settings_images_profile(v):
-	if request.headers.get("cf-ipcountry") == "T1": return {"error":"Image uploads are not allowed through TOR."}, 403
+	if request.headers.get("cf-ipcountry") == "T1": abort(403, "Image uploads are not allowed through TOR.")
 
 	file = request.files["profile"]
 
@@ -549,9 +549,7 @@ def settings_images_profile(v):
 @auth_required
 @feature_required('USERS_PROFILE_BANNER')
 def settings_images_banner(v):
-	
-
-	if request.headers.get("cf-ipcountry") == "T1": return {"error":"Image uploads are not allowed through TOR."}, 403
+	if request.headers.get("cf-ipcountry") == "T1": abort(403, "Image uploads are not allowed through TOR.")
 
 	file = request.files["banner"]
 
@@ -586,12 +584,12 @@ def settings_css_get(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def settings_css(v):
-	if v.agendaposter: return {"error": "Agendapostered users can't edit css!"}, 400
+	if v.agendaposter: abort(400, "Agendapostered users can't edit CSS!")
 
 	css = request.values.get("css").strip().replace('\\', '').strip()[:4000]
 
 	if '</style' in css.lower():
-		return {"error": "Please message @Aevann if you get this error"}, 400
+		abort(400, "Please message @Aevann if you get this error")
 
 	v.css = css
 	g.db.add(v)
@@ -625,12 +623,12 @@ def settings_profilecss(v):
 def settings_block_user(v):
 	user = get_user(request.values.get("username"), graceful=True)
 
-	if not user: return {"error": "This user doesn't exist."}, 404
+	if not user: abort(404, "This user doesn't exist.")
 	
 	if user.unblockable:
 		if not v.shadowbanned:
 			send_notification(user.id, f"@{v.username} has tried to block you and failed because of your unblockable status!")
-		return {"error": "This user is unblockable."}, 403
+		abort(403, "This user is unblockable.")
 
 	if user.id == v.id:
 		return {"error": "You can't block yourself."}, 409
