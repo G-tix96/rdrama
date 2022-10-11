@@ -47,6 +47,9 @@ def process_audio(file):
 		os.remove(name)
 		abort(413)
 
+	media = g.db.query(Media).filter_by(filename=name, kind='audio').one_or_none()
+	if media: g.db.delete(media)
+
 	media = Media(
 		kind='audio',
 		filename=name,
@@ -67,6 +70,10 @@ def webm_to_mp4(old, new, vid):
 		data=f'{{"files": ["{SITE_FULL}{new}"]}}', timeout=5)
 
 	db = db_session()
+
+	media = db.query(Media).filter_by(filename=name, kind='video').one_or_none()
+	if media: db.delete(media)
+
 	media = Media(
 		kind='video',
 		filename=new,
@@ -99,6 +106,9 @@ def process_video(file):
 	else:
 		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
 		os.remove(old)
+
+		media = g.db.query(Media).filter_by(filename=name, kind='video').one_or_none()
+		if media: g.db.delete(media)
 
 		media = Media(
 			kind='video',
@@ -174,13 +184,17 @@ def process_image(filename=None, resize=0, trim=False, uploader=None, patron=Fal
 			os.remove(filename)
 			abort(417)
 
+	db = db or g.db
+
+	media = db.query(Media).filter_by(filename=name, kind='image').one_or_none()
+	if media: db.delete(media)
+
 	media = Media(
 		kind='image',
 		filename=filename,
 		user_id=uploader or g.v.id,
 		size=os.stat(filename).st_size
 	)
-	db = db or g.db
 	db.add(media)
 
 	return filename
