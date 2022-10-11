@@ -93,16 +93,14 @@ def get_logged_in_user():
 
 def auth_desired(f):
 	def wrapper(*args, **kwargs):
-		v = get_logged_in_user()
-
+		v = kwargs.pop('v', get_logged_in_user())
 		return make_response(f(*args, v=v, **kwargs))
-
 	wrapper.__name__ = f.__name__
 	return wrapper
 
 def auth_desired_with_logingate(f):
 	def wrapper(*args, **kwargs):
-		v = get_logged_in_user()
+		v = kwargs.pop('v', get_logged_in_user())
 		if app.config['SETTINGS']['login_required'] and not v: abort(401)
 
 		if not v and not request.path.startswith('/logged_out'):
@@ -120,7 +118,7 @@ def auth_desired_with_logingate(f):
 
 def auth_required(f):
 	def wrapper(*args, **kwargs):
-		v = get_logged_in_user()
+		v = kwargs.pop('v', get_logged_in_user())
 		if not v: abort(401)
 
 		return make_response(f(*args, v=v, **kwargs))
@@ -130,39 +128,38 @@ def auth_required(f):
 
 def is_not_permabanned(f):
 	def wrapper(*args, **kwargs):
-		v = get_logged_in_user()
+		v = kwargs.pop('v', get_logged_in_user())
 		if not v: abort(401)
 		if v.is_suspended_permanently: abort(403)
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
 
-
 def admin_level_required(x):
-
 	def wrapper_maker(f):
-
 		def wrapper(*args, **kwargs):
-
-			v = get_logged_in_user()
-
+			v = kwargs.pop('v', get_logged_in_user())
 			if not v: abort(401)
-
 			if v.admin_level < x: abort(403)
-			
 			return make_response(f(*args, v=v, **kwargs))
 
 		wrapper.__name__ = f.__name__
 		return wrapper
-
 	return wrapper_maker
+
+def feature_required(x):
+	def wrapper_maker(f):
+		def wrapper(*args, **kwargs):
+			v = kwargs.pop('v', get_logged_in_user())
+			if not FEATURES[x]: abort(404)
+			return make_response(f(*args, v=v, **kwargs))
+		wrapper.__name__ = f.__name__
+		return wrapper
 
 def casino_required(f):
 	def wrapper(*args, **kwargs):
-		v = get_logged_in_user()
-
+		v = kwargs.pop('v', get_logged_in_user())
 		if not CASINO_ENABLED: abort(404)
-
 		return make_response(f(v=v))
 
 	wrapper.__name__ = f.__name__
