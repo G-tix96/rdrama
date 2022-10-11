@@ -182,7 +182,7 @@ if (document.readyState === "complete" ||
 }
 
 function post_toast(t, url, button1, button2, classname, extra_actions) {
-	let isShopConfirm = t.id.startsWith('buy1-go') || t.id.startsWith('buy2-go');
+	let isShopConfirm = t.id.startsWith('buy1-') || t.id.startsWith('buy2-');
 
 	if (!isShopConfirm)
 	{
