@@ -128,7 +128,7 @@
 
 			<a class="mobile-nav-icon d-md-none" href="/random_user"><i class="fas fa-music align-middle text-gray-500 black"></i></a>
 
-			{% if v and CASINO_ENABLED and FEATURES['GAMBLING'] %}
+			{% if v and FEATURES['GAMBLING'] %}
 				<a class="mobile-nav-icon d-md-none" href="/casino">
 					<i class="fas fa-cards align-middle text-gray-500 black"></i>
 				</a>
@@ -194,7 +194,7 @@
 					<a class="nav-link" href="/leaderboard" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Leaderboard"><i class="fas fa-trophy"></i></a>
 				</li>
 
-				{% if CASINO_ENABLED and FEATURES['GAMBLING'] %}
+				{% if FEATURES['GAMBLING'] %}
 					<li class="nav-item d-flex align-items-center justify-content-center text-center mx-1">
 						<a class="nav-link" href="/casino" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Casino"><i class="fas fa-cards"></i></a>
 					</li>

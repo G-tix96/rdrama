@@ -9,7 +9,7 @@ import requests
 
 @app.post("/lottery/end")
 @admin_level_required(PERMS['LOTTERY_ADMIN'])
-@casino_required
+@feature_required('GAMBLING')
 def lottery_end(v):
 	success, message = end_lottery_session()
 	return {"message": message} if success else {"error": message}
@@ -17,7 +17,7 @@ def lottery_end(v):
 
 @app.post("/lottery/start")
 @admin_level_required(PERMS['LOTTERY_ADMIN'])
-@casino_required
+@feature_required('GAMBLING')
 def lottery_start(v):
 	start_new_lottery_session()
 	return {"message": "Lottery started."}
@@ -26,7 +26,7 @@ def lottery_start(v):
 @app.post("/lottery/buy")
 @limiter.limit("3/second;100/minute;500/hour;1000/day")
 @auth_required
-@casino_required
+@feature_required('GAMBLING')
 def lottery_buy(v):
 	try: quantity = int(request.values.get("quantity"))
 	except: return {"error": "Invalid ticket quantity."}, 400
@@ -44,7 +44,7 @@ def lottery_buy(v):
 @app.get("/lottery/active")
 @limiter.limit("3/second;100/minute;500/hour;1000/day")
 @auth_required
-@casino_required
+@feature_required('GAMBLING')
 def lottery_active(v):
 	lottery, participants = get_active_lottery_stats()
 
@@ -52,7 +52,7 @@ def lottery_active(v):
 
 @app.get("/admin/lottery/participants")
 @admin_level_required(PERMS['LOTTERY_VIEW_PARTICIPANTS'])
-@casino_required
+@feature_required('GAMBLING')
 def lottery_admin(v):
 	participants = get_users_participating_in_lottery()
 	return render_template("admin/lottery.html", v=v, participants=participants)

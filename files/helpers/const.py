@@ -315,7 +315,6 @@ POLL_BET_COINS = 200
 WELCOME_MSG = f"Welcome to {SITE_NAME}!"
 ROLES={}
 
-CASINO_ENABLED = True
 LOTTERY_TICKET_COST = 12
 LOTTERY_SINK_RATE = 3
 LOTTERY_DURATION = 60 * 60 * 24 * 7
@@ -410,7 +409,6 @@ elif SITE == 'pcmemes.net':
 
 	WELCOME_MSG = "Welcome to pcmemes.net! Don't forget to turn off the slur filter [here](/settings/content#slurreplacer)"
 
-	CASINO_ENABLED = False
 	LOTTERY_TICKET_COST = 12
 	LOTTERY_SINK_RATE = -8
 
