@@ -297,7 +297,13 @@ function escapeHTML(unsafe) {
 }
 
 function changename(s1,s2) {
-	let files = document.getElementById(s2).files;
+	const files = document.getElementById(s2).files;
+	if (files.length > 4)
+	{
+		alert("You can't upload more than 4 files at one time!")
+		document.getElementById(s2).files = null
+		return
+	}
 	let filename = '';
 	for (const e of files) {
 		filename += e.name.substr(0, 20) + ', ';

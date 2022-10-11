@@ -283,50 +283,48 @@ function post_comment(fullname, hide){
 
 document.onpaste = function(event) {
 	var focused = document.activeElement;
+	const files = event.clipboardData.files
+
+	if (files.length > 4)
+	{
+		alert("You can't upload more than 4 files at one time!")
+		return
+	}
+
+	if (!files.length) return
+
 	if (focused.id.includes('reply-form-body-')) {
-		files = event.clipboardData.files
-		if (files.length)
-		{
-			var fullname = focused.dataset.fullname;
-			f=document.getElementById('file-upload-reply-' + fullname);
-			try {
-				let filename = ''
-				for (const file of files)
-					filename += file.name + ', '
-				filename = filename.toLowerCase().slice(0, -2)
-				f.files = files;
-				document.getElementById('filename-show-reply-' + fullname).textContent = filename;
-			}
-			catch(e) {}
+		var fullname = focused.dataset.fullname;
+		f=document.getElementById('file-upload-reply-' + fullname);
+		try {
+			let filename = ''
+			for (const file of files)
+				filename += file.name + ', '
+			filename = filename.toLowerCase().slice(0, -2)
+			f.files = files;
+			document.getElementById('filename-show-reply-' + fullname).textContent = filename;
 		}
+		catch(e) {}
 	}
 	else if (focused.id.includes('comment-edit-body-')) {
-		files = event.clipboardData.files
-		if (files.length)
-		{
-			var id = focused.dataset.id;
-			f=document.getElementById('file-edit-reply-' + id);
-			let filename = ''
-			for (const file of files)
-				filename += file.name + ', '
-			filename = filename.toLowerCase().slice(0, -2)
-			f.files = files;
-			document.getElementById('filename-edit-reply-' + id).textContent = filename;
-		}
+		var id = focused.dataset.id;
+		f=document.getElementById('file-edit-reply-' + id);
+		let filename = ''
+		for (const file of files)
+			filename += file.name + ', '
+		filename = filename.toLowerCase().slice(0, -2)
+		f.files = files;
+		document.getElementById('filename-edit-reply-' + id).textContent = filename;
 	}
 	else if (focused.id.includes('post-edit-box-')) {
-		files = event.clipboardData.files
-		if (files.length)
-		{
-			var id = focused.dataset.id;
-			f=document.getElementById('file-upload-edit-' + id);
-			let filename = ''
-			for (const file of files)
-				filename += file.name + ', '
-			filename = filename.toLowerCase().slice(0, -2)
-			f.files = files;
-			document.getElementById('filename-show-edit-' + id).textContent = filename;
-		}
+		var id = focused.dataset.id;
+		f=document.getElementById('file-upload-edit-' + id);
+		let filename = ''
+		for (const file of files)
+			filename += file.name + ', '
+		filename = filename.toLowerCase().slice(0, -2)
+		f.files = files;
+		document.getElementById('filename-show-edit-' + id).textContent = filename;
 	}
 }
 
