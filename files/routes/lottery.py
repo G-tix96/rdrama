@@ -29,7 +29,7 @@ def lottery_start(v):
 @feature_required('GAMBLING')
 def lottery_buy(v):
 	try: quantity = int(request.values.get("quantity"))
-	except: return {"error": "Invalid ticket quantity."}, 400
+	except: abort(400, "Invalid ticket quantity.")
 
 	success, message = purchase_lottery_tickets(v, quantity)
 	lottery, participants = get_active_lottery_stats()

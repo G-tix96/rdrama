@@ -49,7 +49,7 @@ def vote_info_get(v, link):
 @is_not_permabanned
 def vote_post(post_id, new, v):
 
-	if new == "-1" and DISABLE_DOWNVOTES: return {"error": "forbidden."}, 403
+	if new == "-1" and DISABLE_DOWNVOTES: abort(403)
 
 	if new not in ["-1", "0", "1"]: abort(400)
 
@@ -126,7 +126,7 @@ def vote_post(post_id, new, v):
 @is_not_permabanned
 def vote_comment(comment_id, new, v):
 
-	if new == "-1" and DISABLE_DOWNVOTES: return {"error": "forbidden."}, 403
+	if new == "-1" and DISABLE_DOWNVOTES: abort(403, "forbidden.")
 
 	if new not in ["-1", "0", "1"]: abort(400)
 

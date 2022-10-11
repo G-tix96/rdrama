@@ -75,7 +75,7 @@ def searchposts(v):
 		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
 		if author.is_private and author.id != v.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye:
 			if request.headers.get("Authorization"):
-				return {"error": f"@{author.username}'s profile is private; You can't use the 'author' syntax on them"}, 400
+				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
 			return render_template("search.html",
 								v=v,
 								query=query,
@@ -193,7 +193,7 @@ def searchcomments(v):
 	
 	if 'post' in criteria:
 		try: post = int(criteria['post'])
-		except: return {"error": f"Post with id {post} does not exist."}, 400
+		except: abort(404, f"Post with id {post} does not exist.")
 		comments = comments.filter(Comment.parent_submission == post)
 
 
@@ -202,7 +202,7 @@ def searchcomments(v):
 		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
 		if author.is_private and author.id != v.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye:
 			if request.headers.get("Authorization"):
-				return {"error": f"@{author.username}'s profile is private; You can't use the 'author' syntax on them"}, 400
+				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
 
 			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, next_exists=False, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them.")
 

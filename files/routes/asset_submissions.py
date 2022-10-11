@@ -96,27 +96,27 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 	@admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_MARSEYS'])
 	def approve_marsey(v, name):
 		if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, SNAKES_ID):
-			return {"error": "Only Carp can approve marseys!"}, 403
+			abort(403, "Only Carp can approve marseys!")
 
 		name = name.lower().strip()
 
 		marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
 		if not marsey:
-			return {"error": f"This marsey '{name}' doesn't exist!"}, 404
+			abort(404, f"This marsey '{name}' doesn't exist!")
 
 		tags = request.values.get('tags').lower().strip()
 		if not tags:
-			return {"error": "You need to include tags!"}, 400
+			abort(400, "You need to include tags!")
 
 		new_name = request.values.get('name').lower().strip()
 		if not new_name:
-			return {"error": "You need to include name!"}, 400
+			abort(400, "You need to include name!")
 
 
 		if not marsey_regex.fullmatch(new_name):
-			return {"error": "Invalid name!"}, 400
+			abort(400, "Invalid name!")
 		if not tags_regex.fullmatch(tags):
-			return {"error": "Invalid tags!"}, 400
+			abort(400, "Invalid tags!")
 
 
 		marsey.name = new_name
@@ -168,10 +168,10 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 
 		marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
 		if not marsey:
-			return {"error": f"This marsey '{name}' doesn't exist!"}, 404
+			abort(404, f"This marsey '{name}' doesn't exist!")
 
 		if v.id not in (marsey.submitter_id, AEVANN_ID, CARP_ID):
-			return {"error": "Only Carp can remove marseys!"}, 403
+			abort(403, "Only Carp can remove marseys!")
 
 		if v.id != marsey.submitter_id:
 			msg = f"@{v.username} has rejected a marsey you submitted: `'{marsey.name}'`"
@@ -257,27 +257,20 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 	@admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_HATS'])
 	def approve_hat(v, name):
 		if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, SNAKES_ID):
-			return {"error": "Only Carp can approve hats!"}, 403
+			abort(403, "Only Carp can approve hats!")
 
 		name = name.strip()
 
 		hat = g.db.query(HatDef).filter_by(name=name).one_or_none()
-		if not hat:
-			return {"error": f"This hat '{name}' doesn't exist!"}, 404
+		if not hat: abort(404, f"This hat '{name}' doesn't exist!")
 
 		description = request.values.get('description').strip()
-		if not description:
-			return {"error": "You need to include description!"}, 400
+		if not description: abort(400, "You need to include a description!")
 
 		new_name = request.values.get('name').strip()
-		if not new_name:
-			return {"error": "You need to include name!"}, 400
-
-		if not hat_regex.fullmatch(new_name):
-			return {"error": "Invalid name!"}, 400
-
-		if not description_regex.fullmatch(description):
-			return {"error": "Invalid description!"}, 400
+		if not new_name: abort(400, "You need to include a name!")
+		if not hat_regex.fullmatch(new_name): abort(400, "Invalid name!")
+		if not description_regex.fullmatch(description): abort(400, "Invalid description!")
 
 		hat.price = int(request.values.get('price'))
 		hat.name = new_name
@@ -332,11 +325,9 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 		name = name.strip()
 
 		hat = g.db.query(HatDef).filter_by(name=name).one_or_none()
-		if not hat:
-			return {"error": f"This hat '{name}' doesn't exist!"}, 404
-
+		if not hat: abort(404, f"This hat '{name}' doesn't exist!")
 		if v.id not in (hat.submitter_id, AEVANN_ID, CARP_ID):
-			return {"error": "Only Carp can remove hats!"}, 403
+			abort(403, 'Only Carp can remove hats!')
 
 		if v.id != hat.submitter_id:
 			msg = f"@{v.username} has rejected a hat you submitted: `'{hat.name}'`"
