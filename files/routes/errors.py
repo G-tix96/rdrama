@@ -1,9 +1,13 @@
 from files.helpers.wrappers import *
 from flask import *
-from werkzeug.exceptions import HTTPException
 from urllib.parse import quote, urlencode
 import time
 from files.__main__ import app, limiter
+
+# If you're adding an error, go here:
+# https://github.com/pallets/werkzeug/blob/main/src/werkzeug/exceptions.py
+# and copy the description for the error code you're adding so that the
+# default error message doesn't show up on the message. Please be exact.
 
 WERKZEUG_ERROR_DESCRIPTIONS = {
 	400: "The browser (or proxy) sent a request that this server could not understand.",
@@ -18,7 +22,7 @@ WERKZEUG_ERROR_DESCRIPTIONS = {
 	417: "The server could not meet the requirements of the Expect header",
 	418: "This server is a teapot, not a coffee machine",
 	429: "This user has exceeded an allotted request count. Try again later.",
-	500: "The server encountered an internal error and was unable to  complete your request. Either the server is overloaded or there is an error in the application.",
+	500: "The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.",
 }
 
 ERROR_TITLES = {
