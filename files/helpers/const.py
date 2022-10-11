@@ -217,6 +217,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'VIEW_PATRONS': 3, # note: extra check for Aevann, carp, or snakes
 	'VIEW_VOTE_BUTTONS_ON_USER_PAGE': 2,
 	'PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES': 3, # note: explicitly disabled on rDrama
+	'SITE_BYPASS_READ_ONLY_MODE': 1,
 	'SITE_SETTINGS': 3,
 	'SITE_SETTINGS_SIDEBARS_BANNERS_BADGES': 3,
 	'SITE_SETTINGS_SNAPPY_QUOTES': 3,
