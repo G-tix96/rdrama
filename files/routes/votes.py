@@ -69,6 +69,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		existing = existing.filter_by(comment_id=target.id)
 	else:
 		abort(400)
+	existing = existing.one_or_none()
 	
 	if DOUBLE_XP_ENABLED > 0:
 		if not existing and int(time.time()) > DOUBLE_XP_ENABLED:
