@@ -1,0 +1,22 @@
+{% extends "default.html" %}
+
+{% block title %}
+<title>{{code}} {{title}}</title>
+{% endblock %}
+
+{% block pagetype %}error-{{code}}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+	<div class="col-10 col-md-5">
+	<div class="text-center px-3 my-8">
+			{% if img %}
+				<img alt=":#{{img}}:" loading="lazy" src="/e/{{img}}.webp">
+			{% endif %}
+			<pre></pre>
+			<h1 class="h5">{{code}} {{title}}</h1>
+			<p class="text-muted mb-5">{{msg}}</p>
+		</div>
+	</div>
+</div>
+{% endblock %}
