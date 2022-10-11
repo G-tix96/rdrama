@@ -333,7 +333,7 @@ class Comment(Base):
 			body = normalize_urls_runtime(body, v)
 
 
-			if v and v.controversial:
+			if not v or v.controversial:
 				captured = []
 				for i in controversial_regex.finditer(body):
 					if i.group(1) in captured: continue
