@@ -77,8 +77,13 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	listing = [p.id for p in listing]
 	next_exists = len(listing) > 25
 	listing = listing[:25]
-
-	listing = get_posts(listing, v=v)
+	
+	if cls == Submission:
+		listing = get_posts(listing, v=v)
+	elif cls == Comment:
+		listing = get_comments(listing, v=v)
+	else:
+		listing = []
 
 	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
 
