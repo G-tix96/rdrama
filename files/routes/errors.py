@@ -85,13 +85,13 @@ def error(e):
 	if WERKZEUG_ERROR_DESCRIPTIONS.get(e.code, None) == details:
 		details = None
 	if request.headers.get("Authorization") or request.headers.get("xhr"):
-		return {"error": msg, "code": e.code, "details": details}
+		return {"error": title, "code": e.code, "description": msg, "details": details}
 	img = ERROR_MARSEYS.get(e.code, 'marseyl')
 	return render_template('errors/error.html', err=True, title=title, msg=msg, details=details, img=img), e.code
 
 @app.errorhandler(401)
 def error_401(e):
-	if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": "401 Not Authorized"}, 401
+	if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": "401 Unauthorized"}, 401
 	else:
 		path = request.path
 		qs = urlencode(dict(request.values))
@@ -103,7 +103,8 @@ def error_401(e):
 @app.errorhandler(500)
 def error_500(e):
 	g.db.rollback()
-	return error(e)
+	if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": "500 Internal Server Error"}, 500
+	else: return render_template('errors/500.html', err=True), 500
 
 
 @app.post("/allow_nsfw")
