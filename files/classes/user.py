@@ -94,7 +94,7 @@ class User(Base):
 	alt = Column(Boolean)
 	offsitementions = Column(Boolean, default=False, nullable=False)
 	frontsize = Column(Integer, default=25)
-	controversial = Column(Boolean, default=False)
+	controversial = Column(Boolean, default=True)
 	bio = deferred(Column(String))
 	bio_html = Column(String)
 	sig = deferred(Column(String))
