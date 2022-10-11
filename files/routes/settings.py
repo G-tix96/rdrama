@@ -547,7 +547,7 @@ def settings_images_profile(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
-@feature_required('USER_PROFILE_BANNER')
+@feature_required('USERS_PROFILE_BANNER')
 def settings_images_banner(v):
 	
 
@@ -755,7 +755,7 @@ def settings_name_change(v):
 @limiter.limit("3/second;10/day")
 @limiter.limit("3/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
-@feature_required('USER_PROFILE_SONG')
+@feature_required('USERS_PROFILE_SONG')
 def settings_song_change_mp3(v):
 	
 
