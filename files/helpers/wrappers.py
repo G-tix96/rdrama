@@ -129,18 +129,11 @@ def auth_required(f):
 	return wrapper
 
 def is_not_permabanned(f):
-
 	def wrapper(*args, **kwargs):
-
 		v = get_logged_in_user()
-
 		if not v: abort(401)
-
-		if v.is_suspended_permanently:
-			return {"error": "Internal server error"}, 500
-
+		if v.is_suspended_permanently: abort(403)
 		return make_response(f(*args, v=v, **kwargs))
-
 	wrapper.__name__ = f.__name__
 	return wrapper
 
