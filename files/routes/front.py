@@ -115,16 +115,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	if not (v and v.shadowbanned):
 		posts = posts.join(Submission.author).filter(User.shadowbanned == None)
 
-	if sort == 'hot':
-		ti = int(time.time()) + 3600
-		if SITE_NAME == 'rDrama':
-			posts = posts.order_by(-1000000*(Submission.realupvotes + 1 + Submission.comment_count/5)/(func.power(((ti - Submission.created_utc)/1000), 1.23)), Submission.created_utc.desc())
-		else:
-			posts = posts.order_by(-1000000*(Submission.upvotes - Submission.downvotes + 1)/(func.power(((ti - Submission.created_utc)/1000), 1.23)), Submission.created_utc.desc())
-	elif sort == "bump":
-		posts = posts.filter(Submission.comment_count > 1).order_by(Submission.bump_utc.desc(), Submission.created_utc.desc())
-	else:
-		posts = sort_posts(sort, posts)
+	posts = sort_posts(sort, posts)
 
 	if v: size = v.frontsize or 0
 	else: size = 25

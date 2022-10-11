@@ -148,7 +148,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	if post.new or 'megathread' in post.title.lower(): defaultsortingcomments = 'new'
 	elif v: defaultsortingcomments = v.defaultsortingcomments
-	else: defaultsortingcomments = "top"
+	else: defaultsortingcomments = "hot"
 	sort = request.values.get("sort", defaultsortingcomments)
 
 	if post.club and not (v and (v.paid_dues or v.id == post.author_id)): abort(403)

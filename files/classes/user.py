@@ -121,7 +121,7 @@ class User(Base):
 	mfa_secret = deferred(Column(String))
 	is_private = Column(Boolean, default=False)
 	stored_subscriber_count = Column(Integer, default=0)
-	defaultsortingcomments = Column(String, default="top")
+	defaultsortingcomments = Column(String, default="hot")
 	defaultsorting = Column(String, default="hot")
 	defaulttime = Column(String, default=DEFAULT_TIME_FILTER)
 	is_nofollow = Column(Boolean, default=False)

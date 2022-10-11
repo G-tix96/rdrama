@@ -940,7 +940,7 @@ CREATE TABLE public.users (
     stored_subscriber_count integer DEFAULT 0 NOT NULL,
     original_username character varying(30),
     customtitle character varying(1000),
-    defaultsorting character varying(15) DEFAULT 'hot'::character varying NOT NULL,
+    defaultsorting character varying(15) NOT NULL,
     defaulttime character varying(5) NOT NULL,
     namecolor character varying(6) NOT NULL,
     titlecolor character varying(6) NOT NULL,
@@ -949,7 +949,7 @@ CREATE TABLE public.users (
     hidevotedon boolean DEFAULT false NOT NULL,
     newtab boolean DEFAULT false NOT NULL,
     flairchanged integer,
-    defaultsortingcomments character varying(15) DEFAULT 'top'::character varying NOT NULL,
+    defaultsortingcomments character varying(15) NOT NULL,
     theme character varying(15) NOT NULL,
     song character varying(50),
     slurreplacer boolean DEFAULT true NOT NULL,
@@ -2679,4 +2679,3 @@ ALTER TABLE ONLY public.comment_option_votes
 --
 -- PostgreSQL database dump complete
 --
-
