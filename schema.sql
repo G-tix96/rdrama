@@ -566,7 +566,7 @@ CREATE TABLE public.marseys (
 
 CREATE TABLE public.media (
     kind character varying(5) NOT NULL,
-    filename character varying(55) NOT NULL,
+    filename character varying(200) NOT NULL,
     user_id integer NOT NULL,
     created_utc integer NOT NULL,
     size integer NOT NULL

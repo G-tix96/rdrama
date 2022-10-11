@@ -49,7 +49,7 @@ def process_audio(file):
 
 	media = Media(
 		kind='audio',
-		filename=name.split('/')[-1],
+		filename=name,
 		user_id=g.v.id,
 		size=size
 	)
@@ -69,7 +69,7 @@ def webm_to_mp4(old, new, vid):
 	db = db_session()
 	media = Media(
 		kind='video',
-		filename=new.split('/')[-1],
+		filename=new,
 		user_id=vid,
 		size=os.stat(new).st_size
 	)
@@ -102,7 +102,7 @@ def process_video(file):
 
 		media = Media(
 			kind='video',
-			filename=new.split('/')[-1],
+			filename=new,
 			user_id=g.v.id,
 			size=os.stat(new).st_size
 		)
@@ -176,7 +176,7 @@ def process_image(filename=None, resize=0, trim=False, uploader=None, patron=Fal
 
 	media = Media(
 		kind='image',
-		filename=filename.split('/')[-1],
+		filename=filename,
 		user_id=uploader or g.v.id,
 		size=os.stat(filename).st_size
 	)
