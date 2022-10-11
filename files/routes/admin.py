@@ -997,7 +997,8 @@ def admin_title_change(user_id, v):
 def ban_user(user_id, v):
 	user = get_account(user_id)
 
-	if user.admin_level >= v.admin_level: abort(403)
+	if user.admin_level > v.admin_level:
+		abort(403)
 
 	days = float(request.values.get("days")) if request.values.get('days') else 0
 
@@ -1011,7 +1012,8 @@ def ban_user(user_id, v):
 
 	if request.values.get("alts"):
 		for x in user.alts:
-			if x.admin_level: break
+			if x.admin_level > v.admin_level:
+				continue
 			x.ban(admin=v, reason=reason, days=days)
 
 	if days:
