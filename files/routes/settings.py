@@ -630,14 +630,9 @@ def settings_block_user(v):
 			send_notification(user.id, f"@{v.username} has tried to block you and failed because of your unblockable status!")
 		abort(403, "This user is unblockable.")
 
-	if user.id == v.id:
-		return {"error": "You can't block yourself."}, 409
-
-	if v.has_blocked(user):
-		return {"error": f"You have already blocked @{user.username}."}, 409
-
-	if user.id == AUTOJANNY_ID:
-		return {"error": "You can't block this user."}, 409
+	if user.id == v.id: abort(400, "You can't block yourself")
+	if user.id == AUTOJANNY_ID: abort(403, "You can't block this user")
+	if v.has_blocked(user): abort(409, f"You have already blocked @{user.username}")
 
 	new_block = UserBlock(user_id=v.id,
 						target_id=user.id,
@@ -658,13 +653,9 @@ def settings_block_user(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def settings_unblock_user(v):
-
 	user = get_user(request.values.get("username"))
-
 	x = v.has_blocked(user)
-	
-	if not x: abort(409)
-
+	if not x: abort(409, "You can't unblock someone you haven't blocked")
 	g.db.delete(x)
 
 	if not v.shadowbanned and user.admin_level >= PERMS['USER_BLOCKS_VISIBLE']:

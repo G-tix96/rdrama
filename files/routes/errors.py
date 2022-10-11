@@ -16,6 +16,7 @@ WERKZEUG_ERROR_DESCRIPTIONS = {
 	404: "The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.",
 	405: "The method is not allowed for the requested URL.",
 	406: "The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.",
+	409: "A conflict happened while processing the request. The resource might have been modified while the request was being processed.",
 	413: "The data value transmitted exceeds the capacity limit.",
 	414: "The length of the requested URL exceeds the capacity limit for this server. The request cannot be processed.",
 	415: "The server does not support the media type transmitted in the request.",
@@ -32,6 +33,7 @@ ERROR_TITLES = {
 	404: "Not Found",
 	405: "Method Not Allowed",
 	406: "Too Many Pings",
+	409: "Conflict",
 	413: "Max image/audio size is 8 MB (16 MB for paypigs)",
 	414: "Max video size is 32 MB (64 MB for paypigs)",
 	415: "Unsupported Media Type",
@@ -48,6 +50,7 @@ ERROR_MSGS = {
 	404: "Someone typed something wrong and it was probably you, please do better.",
 	405: "idk how anyone gets this error but if you see this, remember to follow @carpathianflorist<BR>the original error text here talked about internet gremlins and wtf",
 	406: "Max limit is 5 for comments and 50 for posts",
+	409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do, sorry not sorry",
 	413: "Max image/audio size is 8 MB (16 MB for paypigs)",
 	414: "Max video size is 32 MB (64 MB for paypigs)",
 	415: "Please upload only Image, Video, or Audio files!",
@@ -68,6 +71,7 @@ ERROR_MARSEYS = {
 	404: "marseyconfused",
 	405: "marseyretard",
 	406: "marseyrage",
+	409: "marseynoyou",
 	413: "marseyretard",
 	414: "marseychonker2",
 	415: "marseydetective",
@@ -81,6 +85,7 @@ ERROR_MARSEYS = {
 @app.errorhandler(404)
 @app.errorhandler(405)
 @app.errorhandler(406)
+@app.errorhandler(409)
 @app.errorhandler(413)
 @app.errorhandler(414)
 @app.errorhandler(415)
