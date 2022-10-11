@@ -411,6 +411,11 @@ def edit_post(pid, v):
 	if v.id != p.author_id and v.admin_level < PERMS['POST_EDITING']:
 		abort(403)
 
+	# Disable edits on things older than 1wk unless it's a draft or editor is a jannie
+	if (time.time() - p.created_utc > 7*24*60*60 and not p.private
+			and not v.admin_level >= PERMS['POST_EDITING']):
+		return {"error": "You can't edit posts older than 1 week!"}, 403
+
 	title = sanitize_raw_title(request.values.get("title", ""))
 	body = sanitize_raw_body(request.values.get("body", ""), True)
 
