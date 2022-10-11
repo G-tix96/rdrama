@@ -50,7 +50,7 @@ ERROR_MSGS = {
 	404: "Someone typed something wrong and it was probably you, please do better.",
 	405: "idk how anyone gets this error but if you see this, remember to follow @carpathianflorist<BR>the original error text here talked about internet gremlins and wtf",
 	406: "Max limit is 5 for comments and 50 for posts",
-	409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do, sorry not sorry",
+	409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do. So maybe like... don't try and do that? Sorry not sorry",
 	413: "Max image/audio size is 8 MB (16 MB for paypigs)",
 	414: "Max video size is 32 MB (64 MB for paypigs)",
 	415: "Please upload only Image, Video, or Audio files!",
