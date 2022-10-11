@@ -250,7 +250,7 @@ def award_thing(v, thing_type, id):
 		g.db.add(thing)
 	elif kind == "agendaposter" and not (author.agendaposter and author.agendaposter == 0):
 		if author.marseyawarded:
-			abort(400, "This user is under the effect of a conflicting award: Marsey award.")
+			abort(409, "This user is under the effect of a conflicting award: Marsey award.")
 
 		if author.agendaposter and time.time() < author.agendaposter: author.agendaposter += 86400
 		else: author.agendaposter = int(time.time()) + 86400
@@ -280,13 +280,13 @@ def award_thing(v, thing_type, id):
 		badge_grant(user=author, badge_id=98)
 	elif kind == "pizzashill":
 		if author.bird:
-			abort(400, "This user is under the effect of a conflicting award: Bird Site award.")
+			abort(409, "This user is under the effect of a conflicting award: Bird Site award.")
 		if author.longpost: author.longpost += 86400
 		else: author.longpost = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=97)
 	elif kind == "bird":
 		if author.longpost:
-			abort(400, "This user is under the effect of a conflicting award: Pizzashill award.")
+			abort(409, "This user is under the effect of a conflicting award: Pizzashill award.")
 		if author.bird: author.bird += 86400
 		else: author.bird = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=95)
