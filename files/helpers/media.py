@@ -43,7 +43,7 @@ def process_audio(file):
 	file.save(name)
 
 	size = os.stat(name).st_size
-	if size > 16 * 1024 * 1024 or not g.v.patron and size > 8 * 1024 * 1024:
+	if size > MAX_IMAGE_SIZE_MB_PATRON * 1024 * 1024 or not g.v.patron and size > MAX_IMAGE_SIZE_MB * 1024 * 1024:
 		os.remove(name)
 		abort(413)
 
@@ -90,7 +90,7 @@ def process_video(file):
 	file.save(old)
 
 	size = os.stat(old).st_size
-	if SITE_NAME != 'WPD' and (size > 32 * 1024 * 1024 or not g.v.patron and size > 64 * 1024 * 1024):
+	if SITE_NAME != 'WPD' and (size > MAX_VIDEO_SIZE_MB * 1024 * 1024 or not g.v.patron and size > MAX_VIDEO_SIZE_MB_PATRON * 1024 * 1024):
 		os.remove(old)
 		abort(414)
 
@@ -125,7 +125,7 @@ def process_video(file):
 def process_image(filename=None, resize=0, trim=False, uploader=None, patron=False, db=None):
 	size = os.stat(filename).st_size
 
-	if size > 16 * 1024 * 1024 or not patron and size > 8 * 1024 * 1024:
+	if size > MAX_IMAGE_SIZE_MB_PATRON * 1024 * 1024 or not patron and size > MAX_IMAGE_SIZE_MB * 1024 * 1024:
 		os.remove(filename)
 		abort(413)
 
@@ -154,7 +154,7 @@ def process_image(filename=None, resize=0, trim=False, uploader=None, patron=Fal
 
 
 	if resize in (300,400,1200):
-		if os.stat(filename).st_size > 1 * 1024 * 1024:
+		if os.stat(filename).st_size > MAX_IMAGE_SIZE_BANNER_RESIZED_MB * 1024 * 1024:
 			os.remove(filename)
 			abort(413)
 
