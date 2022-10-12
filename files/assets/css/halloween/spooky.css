@@ -432,62 +432,6 @@ body::after {
 	z-index: 1031;
 }
 
-/* Halloween Banner */
-#banner-halloween-title.life > tspan {
-	opacity: 1;
-  }
-  #banner-halloween-title-II {
-	text-shadow: 0 4px 10px #ff000060;
-  }
-  #banner-halloween-title.life > #banner-halloween-title-II {
-	animation: blinker 0.5s forwards;
-  }
-  @media (max-width: 767.98px) {
-	#banner-halloween-title {
-	  transform: scale(1.4) translate(-90px, -120px);
-	  animation:none !important;
-	}
-	#banner-halloween-presenting {
-	  transform: scale(1.4) translate(-90px, -120px);
-	}
-	#banner-halloween-bats {
-	  display:none;
-	}
-  }
-  
-  @keyframes float {
-	0% {
-	  transform: translateY(0px);
-	}
-	50% {
-	  transform: translateY(-6px);
-	}
-	100% {
-	  transform: translateY(0px);
-	}
-  }
-  @keyframes blinker {
-	10% {
-	  opacity: 0;
-	}
-	,
-	30% {
-	  opacity: 0.4;
-	}
-	,
-	60% {
-	  opacity: 0.2;
-	}
-	,
-	85% {
-	  opacity: 0.5;
-	}
-	,
-	100% {
-	  opacity: 0.9;
-	}
-  }
-
 /* Eyes */
 .eye {
 	position: relative;

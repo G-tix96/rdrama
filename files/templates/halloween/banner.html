@@ -1,8 +1,25 @@
 <a  rel="nofollow noopener noreferrer" href="{% if 'rama' in request.host %}https://youtu.be/3l7X94GLqSQ?t=16{% else %}/{% endif %}" style="text-decoration: none !important">
+  {% set banner_day = 4 %}
+  <link rel="stylesheet" href="{{'css/halloween/banner.css' | asset}}">
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Creepster&display=swap");
-    #banner-halloween-svg {
+    /*#banner-halloween-svg {
       background-image: radial-gradient(at bottom, #bf0583 25%, #560272 60%);
+    }*/
+    #banner-halloween-svg {
+      background-image: var(--sky-gradient{{banner_day}});
+    }
+
+    #banner-halloween-ground-gradient stop[offset="1"]{
+      stop-color: var(--ground-shadow{{banner_day}}) !important
+    }
+
+    #banner-halloween-house-fill-gradient stop[offset="1"]{
+      stop-color: var(--house-shadow{{banner_day}}) !important	
+    }
+
+    #banner-halloween-bats, #banner-halloween-tombstones {
+      fill: var(--object-color{{banner_day}});
     }
   </style>
   {% if '/post/' not in request.path %}

@@ -1,0 +1,86 @@
+/* Halloween Banner */
+#banner-halloween-title.life > tspan {
+	opacity: 1;
+}
+#banner-halloween-title-II {
+	text-shadow: 0 4px 10px #ff000060;
+}
+#banner-halloween-title.life > #banner-halloween-title-II {
+	animation: blinker 0.5s forwards;
+}
+@media (max-width: 767.98px) {
+	#banner-halloween-title {
+		transform: scale(1.4) translate(-90px, -120px);
+		animation:none !important;
+	}
+	#banner-halloween-presenting {
+		transform: scale(1.4) translate(-90px, -120px);
+	}
+	#banner-halloween-bats {
+		display:none;
+	}
+}
+
+@keyframes float {
+	0% {
+		transform: translateY(0px);
+	}
+	50% {
+		transform: translateY(-6px);
+	}
+	100% {
+		transform: translateY(0px);
+	}
+}
+@keyframes blinker {
+	10% {
+		opacity: 0;
+	}
+	,
+	30% {
+		opacity: 0.4;
+	}
+	,
+	60% {
+		opacity: 0.2;
+	}
+	,
+	85% {
+		opacity: 0.5;
+	}
+	,
+	100% {
+		opacity: 0.9;
+	}
+}
+
+/*gradients*/
+:root {
+	--sky-gradient1: radial-gradient(at bottom, #bf0583 25%, #560272 60%);
+	--sky-gradient2: radial-gradient(at bottom, #930184 5%, #490272 70%);
+	--sky-gradient3: radial-gradient(at bottom, #69017a 25%, #390271 70%);
+	--sky-gradient4: radial-gradient(at bottom, #af00a6 -20%, #270146 70%);
+	--sky-gradient5: radial-gradient(at bottom, #69047b -10%, #1e0037 70%);
+	--sky-gradient6: radial-gradient(at bottom, #34014f 20%, #150026 60%);
+	
+	--ground-shadow1:#5818bd;
+	--ground-shadow2:#5818bd;
+	--ground-shadow3:#4e16a6;
+	--ground-shadow4:#51009a;
+	--ground-shadow5:#4b028c;
+	--ground-shadow6:#41017b;
+	
+	--house-shadow1:#5818bd;
+	--house-shadow2:#5818bd;
+	--house-shadow3:#5818bd;
+	--house-shadow4:#4a149f;
+	--house-shadow5:#431290;
+	--house-shadow6:#3e1086;
+	
+	--object-color1:#240441;
+	--object-color2:#240441;
+	--object-color3:#240441;
+	--object-color4:#240441;
+	--object-color5:#240441;
+	--object-color6:#240441;
+}
