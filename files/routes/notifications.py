@@ -258,9 +258,6 @@ def notifications(v):
 		or_(Comment.sentto == None, Comment.sentto == 2),
 	).order_by(Notification.created_utc.desc())
 
-	if not (v and v.can_see_shadowbanned):
-		comments = comments.join(Comment.author).filter(User.shadowbanned == None)
-
 	comments = comments.offset(25 * (page - 1)).limit(26).all()
 
 	next_exists = (len(comments) > 25)

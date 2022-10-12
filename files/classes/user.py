@@ -7,6 +7,7 @@ from files.helpers.media import *
 from files.helpers.const import *
 from files.classes.casino_game import Casino_Game
 from files.helpers.sorting_and_time import *
+from files.classes.comment import sort_objects
 from .alts import Alt
 from .saves import *
 from .notifications import Notification
@@ -470,7 +471,7 @@ class User(Base):
 
 		posts = apply_time_filter(t, posts, Submission)
 
-		posts = sort_objects(sort, posts, Submission)
+		posts = sort_objects(sort, posts, Submission, v)
 	
 		posts = posts.offset(25 * (page - 1)).limit(26).all()
 

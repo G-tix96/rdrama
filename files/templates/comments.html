@@ -21,11 +21,7 @@
 {% set score=ups-downs %}
 
 {% if render_replies %}
-	{% if v and v.can_see_shadowbanned %}
-		{% set replies=c.replies3(sort) %}
-	{% else %}
-		{% set replies=c.replies(sort) %}
-	{% endif %}
+	{% set replies=c.replies(sort=sort, v=v) %}
 {% endif %}
 
 {% if c.is_blocking and not c.ghost or (c.is_banned or c.deleted_utc) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id==c.author_id) %}

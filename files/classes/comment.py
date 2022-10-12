@@ -9,7 +9,6 @@ from files.__main__ import Base
 from files.classes.votes import CommentVote
 from files.helpers.const import *
 from files.helpers.regex import *
-from files.helpers.regex import *
 from files.helpers.lazy import lazy
 from .flags import CommentFlag
 from .votes import CommentVote
@@ -17,6 +16,31 @@ from .saves import CommentSaveRelationship
 from random import randint
 from math import floor
 
+
+def sort_objects(sort, objects, Class, v):
+	if not (v and v.can_see_shadowbanned):
+		objects = objects.join(Class.author).filter(User.shadowbanned == None)
+
+	if sort == 'hot':
+		ti = int(time.time()) + 3600
+		if SITE_NAME == 'rDrama': metric = Class.realupvotes
+		else: metric = Class.upvotes - Class.downvotes
+		if Class.__name__ == "Submission": metric += Class.comment_count/5
+		return objects.order_by(-1000000*(metric + 1)/(func.power(((ti - Class.created_utc)/1000), 1.23)), Class.created_utc.desc())
+	elif sort == "bump" and Class.__name__ == "Submission":
+		return objects.filter(Class.comment_count > 1).order_by(Class.bump_utc.desc(), Class.created_utc.desc())
+	elif sort == "comments" and Class.__name__ == "Submission":
+		return objects.order_by(Class.comment_count.desc(), Class.created_utc.desc())
+	elif sort == "new":
+		return objects.order_by(Class.created_utc.desc())
+	elif sort == "old":
+		return objects.order_by(Class.created_utc)
+	elif sort == "controversial":
+		return objects.order_by((Class.upvotes+1)/(Class.downvotes+1) + (Class.downvotes+1)/(Class.upvotes+1), Class.downvotes.desc(), Class.created_utc.desc())
+	elif sort == "bottom":
+		return objects.order_by(Class.upvotes - Class.downvotes, Class.created_utc.desc())
+	else:
+		return objects.order_by(Class.downvotes - Class.upvotes, Class.created_utc.desc())
 
 def normalize_urls_runtime(body, v):
 	if not v: return body
@@ -69,8 +93,7 @@ class Comment(Base):
 	post = relationship("Submission", back_populates="comments")
 	author = relationship("User", primaryjoin="User.id==Comment.author_id")
 	senttouser = relationship("User", primaryjoin="User.id==Comment.sentto")
-	parent_comment = relationship("Comment", remote_side=[id], back_populates="child_comments")
-	child_comments = relationship("Comment", order_by="Comment.stickied, Comment.realupvotes.desc()", remote_side=[parent_comment_id], back_populates="parent_comment")
+	parent_comment = relationship("Comment", remote_side=[id])
 	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="comment")
 	flags = relationship("CommentFlag", order_by="CommentFlag.created_utc")
 	options = relationship("CommentOption", order_by="CommentOption.id")
@@ -207,26 +230,15 @@ class Comment(Base):
 		elif self.parent_submission: return f"p_{self.parent_submission}"
 
 	@lazy
-	def replies(self, sort=None):
-		if self.replies2 != None:
-			replies = self.replies2
-		elif not self.parent_submission:
-			replies = g.db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.id).all()
-		else: 
-			replies = self.child_comments
-
-		return [x for x in replies if not x.author.shadowbanned]
-
-
-	@lazy
-	def replies3(self, sort):
+	def replies(self, sort, v):
 		if self.replies2 != None:
 			return self.replies2
-		
-		if not self.parent_submission:
-			return g.db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.id).all()
 
-		return self.child_comments
+		replies = g.db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.stickied)
+		
+		if not self.parent_submission: sort='old'
+
+		return sort_objects(sort, replies, Comment, v)
 
 
 	@property
@@ -311,7 +323,7 @@ class Comment(Base):
 				'is_bot': self.is_bot,
 				'flags': flags,
 				'author': '👻' if self.ghost else self.author.json,
-				'replies': [x.json for x in self.replies()]
+				'replies': [x.json for x in self.replies(sort="old", v=None)]
 				}
 
 		if self.level >= 2: data['parent_comment_id'] = self.parent_comment_id

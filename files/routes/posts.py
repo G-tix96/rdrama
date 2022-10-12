@@ -11,6 +11,7 @@ from files.helpers.slots import *
 from files.helpers.get import *
 from files.helpers.actions import *
 from files.helpers.sorting_and_time import *
+from files.classes.comment import sort_objects
 from files.classes import *
 from flask import *
 from io import BytesIO
@@ -196,7 +197,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 		comments = comments.filter(Comment.level == 1, Comment.stickied == None)
 
-		comments = sort_objects(sort, comments, Comment)
+		comments = sort_objects(sort, comments, Comment, v)
 
 		comments = [c[0] for c in comments.all()]
 	else:
@@ -204,7 +205,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 		comments = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.parent_submission == post.id, Comment.level == 1, Comment.stickied == None)
 
-		comments = sort_objects(sort, comments, Comment)
+		comments = sort_objects(sort, comments, Comment, v)
 
 		comments = comments.all()
 
@@ -316,13 +317,13 @@ def viewmore(v, pid, sort, offset):
 		
 		comments = comments.filter(Comment.level == 1)
 
-		comments = sort_objects(sort, comments, Comment)
+		comments = sort_objects(sort, comments, Comment, v)
 
 		comments = [c[0] for c in comments.all()]
 	else:
 		comments = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.parent_submission == pid, Comment.level == 1, Comment.stickied == None, Comment.id.notin_(ids))
 
-		comments = sort_objects(sort, comments, Comment)
+		comments = sort_objects(sort, comments, Comment, v)
 		
 		comments = comments.offset(offset).all()
 
@@ -395,7 +396,7 @@ def morecomments(v, cid):
 		comments = output
 	else:
 		c = get_comment(cid)
-		comments = c.replies(None)
+		comments = c.replies(sort=request.values.get('sort'), v=v)
 
 	if comments: p = comments[0].post
 	else: p = None

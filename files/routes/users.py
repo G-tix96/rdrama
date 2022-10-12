@@ -8,6 +8,7 @@ from files.helpers.alerts import *
 from files.helpers.sanitize import *
 from files.helpers.const import *
 from files.helpers.sorting_and_time import *
+from files.classes.comment import sort_objects
 from files.mail import *
 from flask import *
 from files.__main__ import app, limiter, db_session
@@ -650,7 +651,7 @@ def messagereply(v):
 			notif = Notification(comment_id=c.id, user_id=admin)
 			g.db.add(notif)
 
-		ids = [c.top_comment.id] + [x.id for x in c.top_comment.replies(None)]
+		ids = [c.top_comment.id] + [x.id for x in c.top_comment.replies(sort="old", v=v)]
 		notifications = g.db.query(Notification).filter(Notification.comment_id.in_(ids), Notification.user_id.in_(admins))
 		for n in notifications:
 			g.db.delete(n)
@@ -909,7 +910,7 @@ def u_username_comments(username, v=None):
 
 	comments = apply_time_filter(t, comments, Comment)
 
-	comments = sort_objects(sort, comments, Comment)
+	comments = sort_objects(sort, comments, Comment, v)
 
 	comments = comments.offset(25 * (page - 1)).limit(26).all()
 	ids = [x.id for x in comments]

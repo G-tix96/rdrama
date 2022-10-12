@@ -264,9 +264,6 @@ def get_comments(cids, v=None, load_parent=False):
 			blocked.c.target_id,
 		).filter(Comment.id.in_(cids))
  
-		if not (v and v.can_see_shadowbanned):
-			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
-
 		comments = comments.join(
 			votes,
 			votes.c.comment_id == Comment.id,
