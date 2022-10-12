@@ -832,48 +832,7 @@ def submit_post(v, sub=None):
 
 	if dup and SITE != 'localhost': return redirect(dup.permalink)
 
-	now = int(time.time())
-	cutoff = now - 60 * 60 * 24
-
-
-	similar_posts = g.db.query(Submission).filter(
-					Submission.author_id == v.id,
-					Submission.title.op('<->')(title) < SPAM_SIMILARITY_THRESHOLD,
-					Submission.created_utc > cutoff
-	).all()
-
-	if url:
-		similar_urls = g.db.query(Submission).filter(
-					Submission.author_id == v.id,
-					Submission.url.op('<->')(url) < SPAM_URL_SIMILARITY_THRESHOLD,
-					Submission.created_utc > cutoff
-		).all()
-	else: similar_urls = []
-
-	threshold = SPAM_SIMILAR_COUNT_THRESHOLD
-	if v.age >= (60 * 60 * 24 * 7): threshold *= 3
-	elif v.age >= (60 * 60 * 24): threshold *= 2
-
-	if max(len(similar_urls), len(similar_posts)) >= threshold:
-
-		text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
-		send_repeatable_notification(v.id, text)
-
-		v.ban(reason="Spamming.",
-			  days=1)
-
-		for post in similar_posts + similar_urls:
-			post.is_banned = True
-			post.is_pinned = False
-			post.ban_reason = "AutoJanny"
-			g.db.add(post)
-			ma=ModAction(
-					user_id=AUTOJANNY_ID,
-					target_submission_id=post.id,
-					kind="ban_post",
-					_note="spam"
-					)
-			g.db.add(ma)
+	if not execute_antispam_submission_check(title, v, url):
 		return redirect("/notifications")
 
 	if len(url) > 2048:
