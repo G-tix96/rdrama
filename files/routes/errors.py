@@ -17,9 +17,7 @@ from files.__main__ import app, limiter
 @app.errorhandler(406)
 @app.errorhandler(409)
 @app.errorhandler(413)
-@app.errorhandler(414)
 @app.errorhandler(415)
-@app.errorhandler(417)
 @app.errorhandler(418)
 @app.errorhandler(429)
 def error(e):
@@ -30,7 +28,7 @@ def error(e):
 	if WERKZEUG_ERROR_DESCRIPTIONS.get(e.code, None) == details:
 		details = None
 	if request.headers.get("Authorization") or request.headers.get("xhr"):
-		return {"error": title, "code": e.code, "description": msg, "details": details}
+		return {"error": title, "code": e.code, "description": msg, "details": details}, e.code
 	img = ERROR_MARSEYS.get(e.code, 'marseyl')
 	return render_template('errors/error.html', err=True, title=title, msg=msg, details=details, img=img), e.code
 
@@ -47,8 +45,6 @@ def error_401(e):
 
 @app.errorhandler(500)
 def error_500(e):
-	if not g: print("500: not g")
-	if not g.db: print("500: not g.db")
 	g.db.rollback()
 	return error(e)
 

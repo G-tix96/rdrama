@@ -3,7 +3,6 @@ from files.helpers.get import *
 from files.helpers.discord import *
 from files.helpers.const import *
 from files.helpers.sorting_and_time import *
-from files.classes.comment import sort_objects
 from files.__main__ import app, cache, limiter
 from files.classes.submission import Submission
 from files.helpers.awards import award_timers
@@ -116,7 +115,8 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	if not (v and v.shadowbanned):
 		posts = posts.join(Submission.author).filter(User.shadowbanned == None)
 
-	posts = sort_objects(sort, posts, Submission, v)
+	posts = sort_objects(sort, posts, Submission,
+		include_shadowbanned=(not (v and v.can_see_shadowbanned)))
 
 	if v: size = v.frontsize or 0
 	else: size = 25
@@ -236,7 +236,8 @@ def comment_idlist(page=1, v=None, nsfw=False, sort="new", t="all", gt=0, lt=0, 
 	if not gt and not lt:
 		comments = apply_time_filter(t, comments, Comment)
 
-	comments = sort_objects(sort, comments, Comment, v)
+	comments = sort_objects(sort, comments, Comment,
+		include_shadowbanned=(not (v and v.can_see_shadowbanned)))
 
 	comments = comments.offset(25 * (page - 1)).limit(26).all()
 	return [x[0] for x in comments]

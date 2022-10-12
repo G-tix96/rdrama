@@ -157,6 +157,7 @@ function buy(mb) {
 		} else {
 			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
 			if (data && data["error"]) document.getElementById('toast-post-error-text2').innerText = data["error"];
+			if (data && data["details"]) document.getElementById('toast-post-error-text2').innerText = data["details"];
 			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error2')).show();
 		}
 	};

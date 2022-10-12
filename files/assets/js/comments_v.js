@@ -46,6 +46,7 @@ function report_commentModal(id, author) {
 			} else {
 				document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
 				if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
+				if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
 				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
 			}
 		};
@@ -121,6 +122,7 @@ function delete_commentModal(id) {
 			} else {
 				document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
 				if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
+				if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
 				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
 			}
 		};
@@ -169,6 +171,7 @@ function post_reply(id){
 		else {
 			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
 			else document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
+			if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
 			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
 		}
 		setTimeout(() => {
@@ -212,6 +215,7 @@ function comment_edit(id){
 		else {
 			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
 			else document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
+			if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
 			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
 		}
 		setTimeout(() => {
@@ -271,6 +275,7 @@ function post_comment(fullname, hide){
 		else {
 			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
 			else document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
+			if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
 			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
 			setTimeout(() => {
 				btn.disabled = false;
@@ -360,6 +365,7 @@ function handle_action(type, cid, thing) {
 		else {
 			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
 			else document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
+			if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
 			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
 		}
 		setTimeout(() => {

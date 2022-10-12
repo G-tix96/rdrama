@@ -8,7 +8,6 @@ from files.helpers.alerts import *
 from files.helpers.sanitize import *
 from files.helpers.const import *
 from files.helpers.sorting_and_time import *
-from files.classes.comment import sort_objects
 from files.mail import *
 from flask import *
 from files.__main__ import app, limiter, db_session
@@ -910,7 +909,8 @@ def u_username_comments(username, v=None):
 
 	comments = apply_time_filter(t, comments, Comment)
 
-	comments = sort_objects(sort, comments, Comment, v)
+	comments = sort_objects(sort, comments, Comment,
+		include_shadowbanned=(not (v and v.can_see_shadowbanned)))
 
 	comments = comments.offset(25 * (page - 1)).limit(26).all()
 	ids = [x.id for x in comments]
