@@ -41,7 +41,7 @@
 					{% endwith %}
 				</td>
 				<td>{{"{:,}".format(vote.user.truecoins)}}</td>
-				<td data-time="{{vote.created_utc}}"></td>
+				<td {% if vote.created_utc > 1599343262 %}data-time="{{vote.created_utc}}"{% endif %}></td>
 			</tr>
 		{% endfor %}
 	</table>
@@ -68,7 +68,7 @@
 					{% endwith %}
 				</td>
 				<td>{{"{:,}".format(vote.user.truecoins)}}</td>
-				<td data-time="{{vote.created_utc}}"></td>
+				<td {% if vote.created_utc > 1599343262 %}data-time="{{vote.created_utc}}"{% endif %}></td>
 			</tr>
 		{% endfor %}
 	</table>
