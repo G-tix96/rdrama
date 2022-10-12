@@ -125,7 +125,10 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		votes = votes.filter_by(vote_type=dir)
 		if real_instead_of_dir:
 			votes = votes.filter_by(real=True)
-		elif vote_cls == Vote:
+		else:
+			votes = votes.filter_by(vote_type=dir)
+
+		if vote_cls == Vote:
 			votes = votes.filter_by(submission_id=target.id)
 		elif vote_cls == CommentVote:
 			votes = votes.filter_by(comment_id=target.id)
