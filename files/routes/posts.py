@@ -879,7 +879,7 @@ def submit_post(v, sub=None):
 	is_bot = v.id != BBBB_ID and bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID)
 
 	if request.values.get("ghost") and v.coins >= 100:
-		v.coins -= 100
+		v.charge_account('coins', 100)
 		ghost = True
 	else: ghost = False
 

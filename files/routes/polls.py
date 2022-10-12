@@ -23,7 +23,7 @@ def vote_option(option_id, v):
 
 	if option.exclusive == 2:
 		if v.coins < POLL_BET_COINS: abort(400, f"You don't have {POLL_BET_COINS} coins!")
-		v.coins -= POLL_BET_COINS
+		v.charge_account('coins', POLL_BET_COINS)
 		g.db.add(v)
 		autojanny = get_account(AUTOJANNY_ID)
 		autojanny.coins += POLL_BET_COINS

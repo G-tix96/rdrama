@@ -332,7 +332,7 @@ def create_sub2(v):
 		if v.coins < HOLE_COST:
 			return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error="You don't have enough coins!"), 403
 
-		v.coins -= HOLE_COST
+		v.charge_account('coins', HOLE_COST)
 		g.db.add(v)
 		if v.shadowbanned: return {"error": "Internal Server Error"}, 500
 

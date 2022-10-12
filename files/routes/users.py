@@ -271,7 +271,7 @@ def transfer_coins(v, username):
 		if not v.patron and not receiver.patron and not v.alts_patron and not receiver.alts_patron: tax = math.ceil(amount*0.03)
 		else: tax = 0
 
-		v.coins -= amount
+		v.charge_account('coins', amount)
 
 		if not v.shadowbanned:
 			receiver.coins += amount - tax
@@ -310,7 +310,7 @@ def transfer_bux(v, username):
 		if v.procoins < amount: abort(400, "You don't have enough marseybux")
 		if amount < 100: abort(400, "You have to gift at least 100 marseybux.")
 
-		v.procoins -= amount
+		v.charge_account('procoins', amount)
 
 		if not v.shadowbanned:
 			receiver.procoins += amount

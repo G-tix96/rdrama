@@ -216,7 +216,7 @@ def distribute(v, option_id):
 		if o.exclusive >= 2: pool += o.upvotes
 	pool *= POLL_BET_COINS
 
-	autojanny.coins -= pool
+	autojanny.charge_account('coins', pool)
 	if autojanny.coins < 0: autojanny.coins = 0
 	g.db.add(autojanny)
 
@@ -1175,7 +1175,7 @@ def approve_post(post_id, v):
 
 	cache.delete_memoized(frontlist)
 
-	v.coins -= 1
+	v.charge_account('coins', 1)
 	g.db.add(v)
 
 	return {"message": "Post approved!"}

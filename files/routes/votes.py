@@ -86,7 +86,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			existing.vote_type = new
 			g.db.add(existing)
 		elif existing.vote_type != 0 and new == 0:
-			target.author.coins -= coin_delta * coin_mult
+			target.author.charge_account('coins', coin_delta * coin_mult)
 			target.author.truecoins -= coin_delta
 			g.db.add(target.author)
 			g.db.delete(existing)
