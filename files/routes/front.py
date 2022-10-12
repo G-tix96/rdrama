@@ -121,19 +121,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	if v: size = v.frontsize or 0
 	else: size = 25
 
-	if False:
-		posts = posts.offset(size * (page - 1)).limit(100).all()
-		social_found = False
-		music_found = False
-		for post in posts:
-			if post.sub == 'social':
-				if social_found: posts.remove(post)
-				else: social_found = True
-			elif post.sub == 'music':
-				if music_found: posts.remove(post)
-				else: music_found = True
-	else:
-		posts = posts.offset(size * (page - 1)).limit(size+1).all()
+	posts = posts.offset(size * (page - 1)).limit(size+1).all()
 
 	next_exists = (len(posts) > size)
 

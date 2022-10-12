@@ -98,9 +98,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		target.author.truecoins += coin_delta
 		g.db.add(target.author)
 
-		if new == 1 and (v.agendaposter or v.shadowbanned or (v.is_banned and not v.unban_utc) or (v.profile_url.startswith('/e/') and not v.customtitle and v.namecolor == DEFAULT_COLOR)): real = False
-		else: real = True
-
+		real = new != 1 or v.is_votes_real
 		vote = None
 		if vote_cls == Vote:
 			vote = Vote(user_id=v.id,
