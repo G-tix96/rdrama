@@ -775,8 +775,8 @@ class User(Base):
 				'bannerurl': self.banner_url,
 				'bio_html': self.bio_html_eager,
 				'coins': self.coins,
-				'post_count': 0 if self.shadowbanned and not (v and (v.shadowbanned or v.admin_level >= PERMS['USER_SHADOWBAN'])) else self.post_count,
-				'comment_count': 0 if self.shadowbanned and not (v and (v.shadowbanned or v.admin_level >= PERMS['USER_SHADOWBAN'])) else self.comment_count,
+				'post_count': 0 if self.shadowbanned and not (v and v.can_see_shadowbanned) else self.post_count,
+				'comment_count': 0 if self.shadowbanned and not (v and v.can_see_shadowbanned) else self.comment_count,
 				'badges': [x.path for x in self.badges],
 				}
 
@@ -967,3 +967,8 @@ class User(Base):
 				return name
 			return f'((({self.username})))'
 		return self.username
+
+	@property
+	@lazy
+	def can_see_shadowbanned(self):
+		return self.shadowbanned or self.admin_level >= PERMS['USER_SHADOWBAN']

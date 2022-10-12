@@ -21,7 +21,7 @@
 {% set score=ups-downs %}
 
 {% if render_replies %}
-	{% if v and (v.shadowbanned or v.admin_level >= PERMS['USER_SHADOWBAN']) %}
+	{% if v and v.can_see_shadowbanned %}
 		{% set replies=c.replies3(sort) %}
 	{% else %}
 		{% set replies=c.replies(sort) %}
@@ -850,6 +850,7 @@
 			btn.innerHTML = "Requesting...";
 			const form = new FormData();
 			form.append("formkey", formkey());
+			form.append("sort", "{{sort}}");
 			const xhr = new XMLHttpRequest();
 			xhr.open("get", `/morecomments/${cid}`);
 			xhr.setRequestHeader('xhr', 'xhr');
