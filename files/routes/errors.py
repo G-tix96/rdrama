@@ -17,9 +17,7 @@ from files.__main__ import app, limiter
 @app.errorhandler(406)
 @app.errorhandler(409)
 @app.errorhandler(413)
-@app.errorhandler(414)
 @app.errorhandler(415)
-@app.errorhandler(417)
 @app.errorhandler(418)
 @app.errorhandler(429)
 def error(e):

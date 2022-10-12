@@ -284,8 +284,7 @@ ERROR_TITLES = {
 	409: "Conflict",
 	413: "Payload Too Large",
 	415: "Unsupported Media Type",
-	417: "Image already exists!",
-	418: "WEBM videos are not allowed",
+	418: "I'm a teapot",
 	429: "Too Many Requests",
 	500: "Internal Server Error",
 }
@@ -300,8 +299,7 @@ ERROR_MSGS = {
 	409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do. So maybe like... don't try and do that? Sorry not sorry",
 	413: "That's a heckin' chonker of a file! Please make it smaller or maybe like upload it somewhere else idk",
 	415: "Please upload only Image, Video, or Audio files!",
-	417: "Image already exists!",
-	418: "Please convert your video to MP4 and re-upload it!",
+	418: "this really shouldn't happen now that we autoconvert webm files but if it does there's a cool teapot marsey so there's that",
 	429: "go spam somewhere else nerd",
 	500: "Hiiiii it's carp! I think this error means that there's a timeout error. And I think that means something took too long to load so it decided not to work at all. If you keep seeing this on the same page <I>but not other pages</I>, then something is probably wrong with that specific function. It may not be called a function, but that sounds right to me. Anyway, ping me and I'll whine to someone smarter to fix it. Don't bother them. Thanks ily &lt;3",
 }

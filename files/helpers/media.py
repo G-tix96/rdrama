@@ -182,7 +182,7 @@ def process_image(filename=None, resize=0, trim=False, uploader=None, patron=Fal
 		i_hash = str(imagehash.phash(i))
 		if i_hash in hashes.keys():
 			os.remove(filename)
-			abort(417)
+			abort(409, "Image already exists!")
 
 	db = db or g.db
 
