@@ -215,7 +215,7 @@ class Comment(Base):
 		if not self.parent_submission: sort='old'
 
 		return sort_objects(sort, replies, Comment,
-			include_shadowbanned=(not (v and v.can_see_shadowbanned)))
+			include_shadowbanned=(not (v and v.can_see_shadowbanned))).all()
 
 
 	@property
