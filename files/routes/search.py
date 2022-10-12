@@ -5,7 +5,6 @@ from flask import *
 from files.__main__ import app
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import *
-from files.classes.comment import sort_objects
 import time
 from calendar import timegm
 
@@ -146,7 +145,8 @@ def searchposts(v):
 
 	posts = apply_time_filter(t, posts, Submission)
 
-	posts = sort_objects(sort, posts, Submission, v)
+	posts = sort_objects(sort, posts, Submission,
+		include_shadowbanned=(not (v and v.can_see_shadowbanned)))
 
 	total = posts.count()
 
@@ -249,7 +249,8 @@ def searchcomments(v):
 			except: abort(400)
 		comments = comments.filter(Comment.created_utc < before)
 
-	comments = sort_objects(sort, comments, Comment, v)
+	comments = sort_objects(sort, comments, Comment,
+		include_shadowbanned=(not (v and v.can_see_shadowbanned)))
 
 	total = comments.count()
 

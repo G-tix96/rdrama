@@ -10,37 +10,13 @@ from files.classes.votes import CommentVote
 from files.helpers.const import *
 from files.helpers.regex import *
 from files.helpers.lazy import lazy
+from files.helpers.sorting_and_time import *
 from .flags import CommentFlag
 from .votes import CommentVote
 from .saves import CommentSaveRelationship
 from random import randint
 from math import floor
 
-
-def sort_objects(sort, objects, Class, v):
-	if not (v and v.can_see_shadowbanned):
-		objects = objects.join(Class.author).filter(User.shadowbanned == None)
-
-	if sort == 'hot':
-		ti = int(time.time()) + 3600
-		if SITE_NAME == 'rDrama': metric = Class.realupvotes
-		else: metric = Class.upvotes - Class.downvotes
-		if Class.__name__ == "Submission": metric += Class.comment_count/5
-		return objects.order_by(-1000000*(metric + 1)/(func.power(((ti - Class.created_utc)/1000), 1.23)), Class.created_utc.desc())
-	elif sort == "bump" and Class.__name__ == "Submission":
-		return objects.filter(Class.comment_count > 1).order_by(Class.bump_utc.desc(), Class.created_utc.desc())
-	elif sort == "comments" and Class.__name__ == "Submission":
-		return objects.order_by(Class.comment_count.desc(), Class.created_utc.desc())
-	elif sort == "new":
-		return objects.order_by(Class.created_utc.desc())
-	elif sort == "old":
-		return objects.order_by(Class.created_utc)
-	elif sort == "controversial":
-		return objects.order_by((Class.upvotes+1)/(Class.downvotes+1) + (Class.downvotes+1)/(Class.upvotes+1), Class.downvotes.desc(), Class.created_utc.desc())
-	elif sort == "bottom":
-		return objects.order_by(Class.upvotes - Class.downvotes, Class.created_utc.desc())
-	else:
-		return objects.order_by(Class.downvotes - Class.upvotes, Class.created_utc.desc())
 
 def normalize_urls_runtime(body, v):
 	if not v: return body
@@ -238,7 +214,8 @@ class Comment(Base):
 		
 		if not self.parent_submission: sort='old'
 
-		return sort_objects(sort, replies, Comment, v)
+		return sort_objects(sort, replies, Comment,
+			include_shadowbanned=(not (v and v.can_see_shadowbanned)))
 
 
 	@property
