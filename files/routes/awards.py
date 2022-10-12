@@ -313,7 +313,7 @@ def award_thing(v, thing_type, id):
 		else: author.progressivestack = int(time.time()) + 21600
 		badge_grant(user=author, badge_id=94)
 	elif kind == "benefactor":
-		if author.patron: abort(400, "This user is already a paypig!")
+		if author.patron: abort(409, f"This user is already a {patron.lower()}!")
 		author.patron = 1
 		if author.patron_utc: author.patron_utc += 2629746
 		else: author.patron_utc = int(time.time()) + 2629746
