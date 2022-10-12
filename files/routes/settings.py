@@ -776,7 +776,7 @@ def settings_song_change_mp3(v):
 @limiter.limit("3/second;10/day")
 @limiter.limit("3/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
-@feature_required('USER_PROFILE_SONG')
+@feature_required('USERS_PROFILE_SONG')
 def settings_song_change(v):
 	
 
