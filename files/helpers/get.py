@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 from files.classes import *
 from flask import g
 
@@ -161,7 +161,7 @@ def get_post(i, v=None, graceful=False) -> Optional[Submission]:
 	return x
 
 
-def get_posts(pids, v=None) -> list[Submission]:
+def get_posts(pids, v=None) -> List[Submission]:
 	if not pids:
 		return []
 
@@ -238,7 +238,7 @@ def get_comment(i, v=None, graceful=False) -> Optional[Comment]:
 	return comment
 
 
-def get_comments(cids, v=None, load_parent=False) -> list[Comment]:
+def get_comments(cids, v=None, load_parent=False) -> List[Comment]:
 	if not cids: return []
 
 	if v:
