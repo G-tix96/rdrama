@@ -30,7 +30,7 @@ def error(e):
 	if WERKZEUG_ERROR_DESCRIPTIONS.get(e.code, None) == details:
 		details = None
 	if request.headers.get("Authorization") or request.headers.get("xhr"):
-		return {"error": title, "code": e.code, "description": msg, "details": details}
+		return {"error": title, "code": e.code, "description": msg, "details": details}, e.code
 	img = ERROR_MARSEYS.get(e.code, 'marseyl')
 	return render_template('errors/error.html', err=True, title=title, msg=msg, details=details, img=img), e.code
 
