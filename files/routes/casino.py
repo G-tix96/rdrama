@@ -219,7 +219,7 @@ def roulette_player_placed_bet(v):
         currency = request.values.get("currency")
 
         if amount < 5:
-            return {"error": f"Minimum bet is 5 {currency}."}
+            abort(400, f"Minimum bet is 5 {currency}.")
 
         gambler_placed_roulette_bet(v, bet, which, amount, currency)
 

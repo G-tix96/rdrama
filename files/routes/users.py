@@ -280,7 +280,7 @@ def transfer_coins(v, username):
 			notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount-tax} coins!"
 
 			if reason:
-				if len(reason) > TRANSFER_MESSAGE_LENGTH_LIMIT: return {"error": f"Reason is too long, max {TRANSFER_MESSAGE_LENGTH_LIMIT} characters"},400
+				if len(reason) > TRANSFER_MESSAGE_LENGTH_LIMIT: abort(400, f"Reason is too long, max {TRANSFER_MESSAGE_LENGTH_LIMIT} characters")
 				notif_text += f"\n\n> {reason}"
 				log_message += f"\n\n> {reason}"
 
@@ -319,7 +319,7 @@ def transfer_bux(v, username):
 			notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount} marseybux!"
 
 			if reason:
-				if len(reason) > 200: return {"error": "Reason is too long, max 200 characters"},400
+				if len(reason) > 200: abort(400, "Reason is too long, max 200 characters")
 				notif_text += f"\n\n> {reason}"
 				log_message += f"\n\n> {reason}"
 
@@ -773,7 +773,7 @@ def u_username(username, v=None):
 
 	if u.reserved:
 		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
-			return {"error": f"This username is reserved for: {u.reserved}"}, 418
+			abort(418, f"This username is reserved for: {u.reserved}")
 
 		return render_template("userpage_reserved.html", u=u, v=v)
 
@@ -870,7 +870,7 @@ def u_username_comments(username, v=None):
 
 	if u.reserved:
 		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
-			return {"error": f"This username is reserved for: {u.reserved}"}, 418
+			abort(418, f"This username is reserved for: {u.reserved}")
 		return render_template("userpage_reserved.html", u=u, v=v)
 
 

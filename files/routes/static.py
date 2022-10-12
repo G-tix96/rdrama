@@ -572,13 +572,13 @@ if SITE == 'pcmemes.net':
 		else:
 			text = requests.get(link, cookies={'CONSENT': 'YES+1'}, timeout=5).text
 			try: id = id_regex.search(text).group(1)
-			except: return {"error": "Invalid ID"}
+			except: abort(400, "Invalid ID")
 
 		live = cache.get('live') or []
 		offline = cache.get('offline') or []
 
 		if not id or len(id) != 24:
-			return {"error": "Invalid ID"}
+			abort(400, "Invalid ID")
 
 		existing = g.db.get(Streamer, id)
 		if not existing:

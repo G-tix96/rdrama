@@ -251,7 +251,7 @@ def comment(v):
 																	Comment.parent_submission == parent_submission,
 																	Comment.body_html == body_html
 																	).first()
-		if existing: return {"error": f"You already made that comment: /comment/{existing.id}"}, 409
+		if existing: abort(409, f"You already made that comment: /comment/{existing.id}")
 
 	if parent.author.any_block_exists(v) and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		abort(403, "You can't reply to users who have blocked you or users that you have blocked.")
@@ -605,7 +605,7 @@ def unpin_comment(cid, v):
 		if v.id != comment.post.author_id: abort(403)
 
 		if not comment.stickied.endswith(" (OP)"): 
-			return {"error": "You can only unpin comments you have pinned!"}, 400
+			abort(403, "You can only unpin comments you have pinned!")
 
 		comment.stickied = None
 		g.db.add(comment)
