@@ -201,7 +201,7 @@ body::after {
 @font-face {
 	font-family: "Jo_wrote_a_lovesong";
 	src: url("/assets/fonts/halloween/Jo_wrote_a_lovesong.woff") format("woff");
-  }
+}
 
 /* Spiders */
 

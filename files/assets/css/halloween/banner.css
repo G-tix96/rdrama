@@ -1,4 +1,5 @@
 /* Halloween Banner */
+@import url("https://fonts.googleapis.com/css2?family=Creepster&display=swap");
 #banner-halloween-title.life > tspan {
 	opacity: 1;
 }
@@ -54,33 +55,67 @@
 	}
 }
 
-/*gradients*/
+/*days*/
 :root {
-	--sky-gradient1: radial-gradient(at bottom, #bf0583 25%, #560272 60%);
-	--sky-gradient2: radial-gradient(at bottom, #930184 5%, #490272 70%);
-	--sky-gradient3: radial-gradient(at bottom, #69017a 25%, #390271 70%);
-	--sky-gradient4: radial-gradient(at bottom, #af00a6 -20%, #270146 70%);
-	--sky-gradient5: radial-gradient(at bottom, #69047b -10%, #1e0037 70%);
-	--sky-gradient6: radial-gradient(at bottom, #34014f 20%, #150026 60%);
+	/*sky*/
+	--sky-gradient-day1: radial-gradient(at bottom, #bf055c 25%, #6b007d 60%);
+	--sky-gradient-day2: radial-gradient(at bottom, #bf0583 5%, #560272 60%);
+	--sky-gradient-day3: radial-gradient(at bottom, #930184 -15%, #490272 60%);
+	--sky-gradient-day4: radial-gradient(at bottom, #69017a 25%, #390271 70%);
+	--sky-gradient-day5: radial-gradient(at bottom, #69017a 25%, #2d005b 70%);
+	--sky-gradient-day6: radial-gradient(at bottom, #af00a6 -20%, #270146 70%);
+	--sky-gradient-day7: radial-gradient(at bottom, #69047b -10%, #1e0037 70%);
+	/*--sky-gradient-day8: radial-gradient(at bottom, #34014f 20%, #150026 60%);*/
 	
-	--ground-shadow1:#5818bd;
-	--ground-shadow2:#5818bd;
-	--ground-shadow3:#4e16a6;
-	--ground-shadow4:#51009a;
-	--ground-shadow5:#4b028c;
-	--ground-shadow6:#41017b;
+	/*moon*/
+	--moon-fill-day1:gold;
+	--moon-fill-day2:goldenrod;
+	--moon-fill-day3:none;
+	--moon-fill-day4:#e4e4e4;
+	--moon-fill-day5:#e4e4e4;
+	--moon-fill-day6:#e4e4e4;
+	--moon-fill-day7:#e4e4e4;
+
+	--moon-shadow-day1:drop-shadow(0px 0px 20px yellow);
+	--moon-shadow-day2:drop-shadow(0px 0px 20px gold);
+	--moon-shadow-day3:none;
+	--moon-shadow-day4:drop-shadow(0px 0px 5px #deddcf);
+	--moon-shadow-day5:drop-shadow(0px 0px 10px #deddcf);
+	--moon-shadow-day6:drop-shadow(0px 0px 10px #deddcf);
+	--moon-shadow-day7:drop-shadow(0px 0px 10px #deddcf);
+
+	--moon-position-day1:308;
+	--moon-position-day2:320;
+	--moon-position-day3:350;
+	--moon-position-day4:322;
+	--moon-position-day5:312;
+	--moon-position-day6:303;
+	--moon-position-day7:300;
+
+	/*ground*/
+	--ground-shadow-day1:#5818bd;
+	--ground-shadow-day2:#5818bd;
+	--ground-shadow-day3:#5818bd;
+	--ground-shadow-day4:#5818bd;
+	--ground-shadow-day5:#4e16a6;	
+	--ground-shadow-day6:#51009a;
+	--ground-shadow-day7:#4b028c;
+	/*--ground-shadow-day8:#41017b;*/
 	
-	--house-shadow1:#5818bd;
-	--house-shadow2:#5818bd;
-	--house-shadow3:#5818bd;
-	--house-shadow4:#4a149f;
-	--house-shadow5:#431290;
-	--house-shadow6:#3e1086;
+	--house-shadow-day1:#5818bd;
+	--house-shadow-day2:#5818bd;
+	--house-shadow-day3:#5818bd;
+	--house-shadow-day4:#5818bd;
+	--house-shadow-day5:#5818bd;
+	--house-shadow-day6:#4a149f;
+	--house-shadow-day7:#431290;
+	/*--house-shadow-day8:#3e1086;*/
 	
-	--object-color1:#240441;
-	--object-color2:#240441;
-	--object-color3:#240441;
-	--object-color4:#240441;
-	--object-color5:#240441;
-	--object-color6:#240441;
+	--object-fill-day1:#240441;
+	--object-fill-day2:#240441;
+	--object-fill-day3:#240441;
+	--object-fill-day4:#240441;
+	--object-fill-day5:#240441;
+	--object-fill-day6:#1e0538;
+	--object-fill-day7:#18042c;
 }
