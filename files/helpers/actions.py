@@ -311,3 +311,83 @@ def execute_basedbot(c, level, body, parent_submission, parent_post, v):
 
 	n = Notification(comment_id=c_based.id, user_id=v.id)
 	g.db.add(n)
+
+def execute_antispam_submission_check(title, v, url):
+	now = int(time.time())
+	cutoff = now - 60 * 60 * 24
+
+	similar_posts = g.db.query(Submission).filter(
+					Submission.author_id == v.id,
+					Submission.title.op('<->')(title) < SPAM_SIMILARITY_THRESHOLD,
+					Submission.created_utc > cutoff
+	).all()
+
+	if url:
+		similar_urls = g.db.query(Submission).filter(
+					Submission.author_id == v.id,
+					Submission.url.op('<->')(url) < SPAM_URL_SIMILARITY_THRESHOLD,
+					Submission.created_utc > cutoff
+		).all()
+	else: similar_urls = []
+
+	threshold = SPAM_SIMILAR_COUNT_THRESHOLD
+	if v.age >= (60 * 60 * 24 * 7): threshold *= 3
+	elif v.age >= (60 * 60 * 24): threshold *= 2
+
+	if max(len(similar_urls), len(similar_posts)) >= threshold:
+		text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
+		send_repeatable_notification(v.id, text)
+
+		v.ban(reason="Spamming.",
+			  days=1)
+
+		for post in similar_posts + similar_urls:
+			post.is_banned = True
+			post.is_pinned = False
+			post.ban_reason = "AutoJanny"
+			g.db.add(post)
+			ma=ModAction(
+					user_id=AUTOJANNY_ID,
+					target_submission_id=post.id,
+					kind="ban_post",
+					_note="spam"
+					)
+			g.db.add(ma)
+		return False
+	return True
+
+def execute_antispam_comment_check(body, v):
+	if len(body) <= COMMENT_SPAM_LENGTH_THRESHOLD: return
+	now = int(time.time())
+	cutoff = now - 60 * 60 * 24
+
+	similar_comments = g.db.query(Comment).filter(
+		Comment.author_id == v.id,
+		Comment.body.op('<->')(body) < COMMENT_SPAM_SIMILAR_THRESHOLD,
+		Comment.created_utc > cutoff
+	).all()
+
+	threshold = COMMENT_SPAM_COUNT_THRESHOLD
+	if v.age >= (60 * 60 * 24 * 7):
+		threshold *= 3
+	elif v.age >= (60 * 60 * 24):
+		threshold *= 2
+	
+	if len(similar_comments) <= threshold: return
+	text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
+	send_repeatable_notification(v.id, text)
+	v.ban(reason="Spamming.",
+			days=1)
+	for comment in similar_comments:
+		comment.is_banned = True
+		comment.ban_reason = "AutoJanny"
+		g.db.add(comment)
+		ma=ModAction(
+			user_id=AUTOJANNY_ID,
+			target_comment_id=comment.id,
+			kind="ban_comment",
+			_note="spam"
+		)
+		g.db.add(ma)
+	g.db.commit()
+	abort(403, "Too much spam!")

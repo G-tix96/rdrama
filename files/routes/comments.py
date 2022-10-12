@@ -260,43 +260,7 @@ def comment(v):
 
 	is_bot = v.id != BBBB_ID and (bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
 
-	if len(body) > 50:
-		now = int(time.time())
-		cutoff = now - 60 * 60 * 24
-
-		similar_comments = g.db.query(Comment).filter(
-			Comment.author_id == v.id,
-			Comment.body.op('<->')(body) < COMMENT_SPAM_SIMILAR_THRESHOLD,
-			Comment.created_utc > cutoff
-		).all()
-
-		threshold = COMMENT_SPAM_COUNT_THRESHOLD
-		if v.age >= (60 * 60 * 24 * 7):
-			threshold *= 3
-		elif v.age >= (60 * 60 * 24):
-			threshold *= 2
-
-		if len(similar_comments) > threshold:
-			text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
-			send_repeatable_notification(v.id, text)
-
-			v.ban(reason="Spamming.",
-					days=1)
-
-			for comment in similar_comments:
-				comment.is_banned = True
-				comment.ban_reason = "AutoJanny"
-				g.db.add(comment)
-				ma=ModAction(
-					user_id=AUTOJANNY_ID,
-					target_comment_id=comment.id,
-					kind="ban_comment",
-					_note="spam"
-					)
-				g.db.add(ma)
-
-			g.db.commit()
-			abort(403, "Too much spam!")
+	execute_antispam_comment_check(body, v)
 
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
@@ -502,39 +466,7 @@ def edit_comment(cid, v):
 			)
 			g.db.add(option)
 
-		if len(body) > 50:
-			now = int(time.time())
-			cutoff = now - 60 * 60 * 24
-
-			similar_comments = g.db.query(Comment
-			).filter(
-				Comment.author_id == v.id,
-				Comment.body.op('<->')(body) < SPAM_SIMILARITY_THRESHOLD,
-				Comment.created_utc > cutoff
-			).all()
-
-			threshold = SPAM_SIMILAR_COUNT_THRESHOLD
-			if v.age >= (60 * 60 * 24 * 30):
-				threshold *= 4
-			elif v.age >= (60 * 60 * 24 * 7):
-				threshold *= 3
-			elif v.age >= (60 * 60 * 24):
-				threshold *= 2
-
-			if len(similar_comments) > threshold:
-				text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
-				send_repeatable_notification(v.id, text)
-
-				v.ban(reason="Spamming.",
-						days=1)
-
-				for comment in similar_comments:
-					comment.is_banned = True
-					comment.ban_reason = "AutoJanny"
-					g.db.add(comment)
-
-				g.db.commit()
-				abort(403, "Too much spam!")
+		execute_antispam_comment_check(body, v)
 
 		body += process_files()
 		body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT] # process_files potentially adds characters to the post
