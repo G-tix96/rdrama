@@ -115,7 +115,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	if not (v and v.shadowbanned):
 		posts = posts.join(Submission.author).filter(User.shadowbanned == None)
 
-	posts = sort_posts(sort, posts)
+	posts = sort_objects(sort, posts, Submission)
 
 	if v: size = v.frontsize or 0
 	else: size = 25
@@ -247,7 +247,7 @@ def comment_idlist(page=1, v=None, nsfw=False, sort="new", t="all", gt=0, lt=0, 
 	if not gt and not lt:
 		comments = apply_time_filter(t, comments, Comment)
 
-	comments = sort_comments(sort, comments)
+	comments = sort_objects(sort, comments, Comment)
 
 	comments = comments.offset(25 * (page - 1)).limit(26).all()
 	return [x[0] for x in comments]

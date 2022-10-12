@@ -470,7 +470,7 @@ class User(Base):
 
 		posts = apply_time_filter(t, posts, Submission)
 
-		posts = sort_posts(sort, posts)
+		posts = sort_objects(sort, posts, Submission)
 	
 		posts = posts.offset(25 * (page - 1)).limit(26).all()
 

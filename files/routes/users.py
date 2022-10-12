@@ -909,7 +909,7 @@ def u_username_comments(username, v=None):
 
 	comments = apply_time_filter(t, comments, Comment)
 
-	comments = sort_comments(sort, comments)
+	comments = sort_objects(sort, comments, Comment)
 
 	comments = comments.offset(25 * (page - 1)).limit(26).all()
 	ids = [x.id for x in comments]

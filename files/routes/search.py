@@ -145,7 +145,7 @@ def searchposts(v):
 
 	posts = apply_time_filter(t, posts, Submission)
 
-	posts = sort_posts(sort, posts)
+	posts = sort_objects(sort, posts, Submission)
 
 	total = posts.count()
 
@@ -248,7 +248,7 @@ def searchcomments(v):
 			except: abort(400)
 		comments = comments.filter(Comment.created_utc < before)
 
-	comments = sort_comments(sort, comments)
+	comments = sort_objects(sort, comments, Comment)
 
 	total = comments.count()
 

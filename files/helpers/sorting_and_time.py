@@ -21,41 +21,24 @@ def apply_time_filter(t, objects, Class):
 
 	return objects.filter(Class.created_utc >= cutoff)
 
-def sort_comments(sort, comments):
+def sort_objects(sort, objects, Class):
 	if sort == 'hot':
 		ti = int(time.time()) + 3600
-		if SITE_NAME == 'rDrama': metric = Comment.realupvotes
-		else: metric = Comment.upvotes - Comment.downvotes
-		return comments.order_by(-1000000*(metric + 1)/(func.power(((ti - Comment.created_utc)/1000), 1.23)), Comment.created_utc.desc())
-	elif sort == 'new':
-		return comments.order_by(Comment.id.desc())
-	elif sort == 'old':
-		return comments.order_by(Comment.id)
-	elif sort == 'controversial':
-		return comments.order_by((Comment.upvotes+1)/(Comment.downvotes+1) + (Comment.downvotes+1)/(Comment.upvotes+1), Comment.downvotes.desc(), Comment.id.desc())
-	elif sort == "bottom":
-		return comments.order_by(Comment.upvotes - Comment.downvotes)
-	else:
-		return comments.order_by(Comment.downvotes - Comment.upvotes, Comment.id.desc())
-
-def sort_posts(sort, posts):
-	if sort == 'hot':
-		ti = int(time.time()) + 3600
-		if SITE_NAME == 'rDrama':
-			return posts.order_by(-1000000*(Submission.realupvotes + 1 + Submission.comment_count/5)/(func.power(((ti - Submission.created_utc)/1000), 1.23)), Submission.created_utc.desc())
-		else:
-			return posts.order_by(-1000000*(Submission.upvotes - Submission.downvotes + 1)/(func.power(((ti - Submission.created_utc)/1000), 1.23)), Submission.created_utc.desc())
-	elif sort == "bump":
-		return posts.filter(Submission.comment_count > 1).order_by(Submission.bump_utc.desc(), Submission.created_utc.desc())
+		if SITE_NAME == 'rDrama': metric = Class.realupvotes
+		else: metric = Class.upvotes - Class.downvotes
+		if Class == Submission: metric += Class.comment_count/5
+		return objects.order_by(-1000000*(metric + 1)/(func.power(((ti - Class.created_utc)/1000), 1.23)), Class.created_utc.desc())
+	elif sort == "bump" and Class == Submission:
+		return objects.filter(Class.comment_count > 1).order_by(Class.bump_utc.desc(), Class.created_utc.desc())
+	elif sort == "comments" and Class == Submission:
+		return objects.order_by(Class.comment_count.desc(), Class.created_utc.desc())
 	elif sort == "new":
-		return posts.order_by(Submission.created_utc.desc())
+		return objects.order_by(Class.created_utc.desc())
 	elif sort == "old":
-		return posts.order_by(Submission.created_utc)
+		return objects.order_by(Class.created_utc)
 	elif sort == "controversial":
-		return posts.order_by((Submission.upvotes+1)/(Submission.downvotes+1) + (Submission.downvotes+1)/(Submission.upvotes+1), Submission.downvotes.desc(), Submission.created_utc.desc())
+		return objects.order_by((Class.upvotes+1)/(Class.downvotes+1) + (Class.downvotes+1)/(Class.upvotes+1), Class.downvotes.desc(), Class.created_utc.desc())
 	elif sort == "bottom":
-		return posts.order_by(Submission.upvotes - Submission.downvotes, Submission.created_utc.desc())
-	elif sort == "comments":
-		return posts.order_by(Submission.comment_count.desc(), Submission.created_utc.desc())
+		return objects.order_by(Class.upvotes - Class.downvotes, Class.created_utc.desc())
 	else:
-		return posts.order_by(Submission.downvotes - Submission.upvotes, Submission.created_utc.desc())
+		return objects.order_by(Class.downvotes - Class.upvotes, Class.created_utc.desc())
