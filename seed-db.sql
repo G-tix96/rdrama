@@ -300,6 +300,14 @@ INSERT INTO public.hat_defs VALUES (807, 'The Capy', 'You''re the chosen one! No
 
 
 
+
+
+
+
+
+
+
+
 INSERT INTO public.hat_defs VALUES (92, 'Top Hat (black)', 'Traditional. Classy. Elegant.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (714, 'Captain Falcon', 'The chad that every smash player wanted to imitate, if only his moveset included a shower.', 2, 500, NULL, 1663474615);
 INSERT INTO public.hat_defs VALUES (715, 'Inspector Gadget', '"Go go Gadget Brown Bricks!"', 2, 500, NULL, 1663477536);
@@ -1046,7 +1054,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 934, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 944, true);
 
 
 --
@@ -1154,6 +1162,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyaward',2,'medal good job good work retard reaction great job great work nice',NULL),
 ('marseyawardretard',2,'medal retarded drooling idiot moron prize congratulations congrats',NULL),
 ('marseyaware',2,'aware clueless surely animated',1663638979),
+('marseyawesomeface',2,'epic troll joyous laugh',1665535565),
 ('marseyaxolotl',2,'axolotl salamander sea fish ocean gills amphibian',NULL),
 ('marseyaynrand',2,'ayn rand objectivist objectivism libertarian girlboss capitalist capitalism author randsey',NULL),
 ('marseyaynrand2',2,'ayn rand objectivist objectivism libertarian girlboss capitalist capitalism book atlas shrugged',NULL),
@@ -1874,6 +1883,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyisrael',2,'kike yid jewish hebrew merchant colonizer israeli banker',NULL),
 ('marseyisraellove',2,'love ally israel holocaust zionism',NULL),
 ('marseyit',2,'balloon halloween pennywise clown holiday evil',NULL),
+('marseyitsallsotiresome',2,'empire of dust tooka all so tiresome chinese racist congolese drc kinshasa lubumbashi enough bullshit tired resigned despair black',1665543793),
 ('marseyitsover',2,'its over never began incels give up giveup sad sigh defeated',NULL),
 ('marseyjackson',2,'music king pop mayo whiteface michael',NULL),
 ('marseyjacksparrow',2,'johnny depp amber heard abuse violence punch beat feminist Jack sparrow',NULL),
@@ -2159,6 +2169,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyoctopus4',2,'octopus nrol39 bait patch globe obvious',NULL),
 ('marseyohno',2,'panic frightened scared horror scream afraid reaction horrified nervous shock gasp',NULL),
 ('marseyokapi',2,'okapi furry deer',NULL),
+('marseyokay',2,'gesture sign fine alright agree accept adl white power hate symbol',1665533646),
+('marseyokaymilk',2,'gesture hate racist adl altright white supremacist dogwhistle',1665533325),
 ('marseyolantern',2,'halloween scary pumpking',NULL),
 ('marseyoldguard',2,'napoleon war soldier musket french france history europe reaction',NULL),
 ('marseyoldtimey',2,'cartoon disney vintage olde classic retro',NULL),
