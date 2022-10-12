@@ -350,9 +350,8 @@ def club_ban(v, username):
 
 
 @app.get("/admin/shadowbanned")
-@auth_required
+@admin_level_required(PERMS['USER_SHADOWBAN'])
 def shadowbanned(v):
-	if not (v and v.admin_level >= PERMS['USER_SHADOWBAN']): abort(404)
 	users = g.db.query(User).filter(User.shadowbanned != None).order_by(User.shadowbanned).all()
 	return render_template("shadowbanned.html", v=v, users=users)
 

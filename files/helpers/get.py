@@ -39,7 +39,7 @@ def get_user(username, v=None, graceful=False, rendered=False, include_blocks=Fa
 
 	user = user.one_or_none()
 
-	if not user or (user.shadowbanned and not (include_shadowbanned or (v and (v.admin_level >= PERMS['USER_SHADOWBAN'] or v.shadowbanned)))):
+	if not user or (user.shadowbanned and not (include_shadowbanned or (v and v.can_see_shadowbanned))):
 		if not graceful: abort(404)
 		else: return None
 
@@ -95,7 +95,7 @@ def get_account(id, v=None, graceful=False, include_blocks=False, include_shadow
 
 	user = g.db.get(User, id)
 
-	if not user or (user.shadowbanned and not (include_shadowbanned or (v and (v.admin_level >= PERMS['USER_SHADOWBAN'] or v.shadowbanned)))):
+	if not user or (user.shadowbanned and not (include_shadowbanned or (v and v.can_see_shadowbanned))):
 		if not graceful: abort(404)
 		else: return None
 

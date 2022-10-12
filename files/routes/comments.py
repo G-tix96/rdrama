@@ -36,7 +36,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	comment = get_comment(cid, v=v)
 	if not comment.can_see(v): abort(403)
 	
-	if comment.author.shadowbanned and not (v and v.shadowbanned) and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
+	if comment.author.shadowbanned and not (v and v.can_see_shadowbanned):
 		abort(404)
 
 	if v and request.values.get("read"):
@@ -86,7 +86,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 			blocked.c.target_id,
 		)
 
-		if not (v and v.shadowbanned) and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
+		if not (v and v.can_see_shadowbanned):
 			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
 		 
 		comments=comments.filter(
