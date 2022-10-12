@@ -188,28 +188,26 @@ def comment(v):
 				image = process_image(oldname, patron=v.patron)
 				if image == "": abort(400, "Image upload failed")
 				if v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES'] and level == 1:
-					if parent_post.id == SIDEBAR_THREAD:
-						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/sidebar'),
+					def process_sidebar_or_banner(type, resize=0):
+						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/{type}'),
 							key=lambda e: int(e.split('.webp')[0]))[-1]
 						num = int(li.split('.webp')[0]) + 1
-						filename = f'files/assets/images/{SITE_NAME}/sidebar/{num}.webp'
+						filename = f'files/assets/images/{SITE_NAME}/{type}/{num}.webp'
 						copyfile(oldname, filename)
-						process_image(filename, resize=400)
+						process_image(filename, resize=resize)
+
+					if parent_post.id == SIDEBAR_THREAD:
+						process_sidebar_or_banner('sidebar', 400)
 					elif parent_post.id == BANNER_THREAD:
 						banner_width = 1200 if not SITE_NAME == 'PCM' else 0
-						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/banners'),
-							key=lambda e: int(e.split('.webp')[0]))[-1]
-						num = int(li.split('.webp')[0]) + 1
-						filename = f'files/assets/images/{SITE_NAME}/banners/{num}.webp'
-						copyfile(oldname, filename)
-						process_image(filename, resize=banner_width)
+						process_sidebar_or_banner('banners', banner_width)
 					elif parent_post.id == BADGE_THREAD:
 						try:
 							badge_def = loads(body)
 							name = badge_def["name"]
 
 							existing = g.db.query(BadgeDef).filter_by(name=name).one_or_none()
-							if existing: abort(403, "A badge with this name already exists!")
+							if existing: abort(409, "A badge with this name already exists!")
 
 							badge = BadgeDef(name=name, description=badge_def["description"])
 							g.db.add(badge)
