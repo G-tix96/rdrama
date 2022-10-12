@@ -282,8 +282,7 @@ ERROR_TITLES = {
 	405: "Method Not Allowed",
 	406: "Too Many Pings",
 	409: "Conflict",
-	413: "Max image/audio size is 8 MB (16 MB for paypigs)",
-	414: "Max video size is 32 MB (64 MB for paypigs)",
+	413: "Payload Too Large",
 	415: "Unsupported Media Type",
 	417: "Image already exists!",
 	418: "WEBM videos are not allowed",
@@ -299,8 +298,7 @@ ERROR_MSGS = {
 	405: "idk how anyone gets this error but if you see this, remember to follow @carpathianflorist<BR>the original error text here talked about internet gremlins and wtf",
 	406: "Max limit is 5 for comments and 50 for posts",
 	409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do. So maybe like... don't try and do that? Sorry not sorry",
-	413: "Max image/audio size is 8 MB (16 MB for paypigs)",
-	414: "Max video size is 32 MB (64 MB for paypigs)",
+	413: "That's a heckin' chonker of a file! Please make it smaller or maybe like upload it somewhere else idk",
 	415: "Please upload only Image, Video, or Audio files!",
 	417: "Image already exists!",
 	418: "Please convert your video to MP4 and re-upload it!",
@@ -316,8 +314,7 @@ ERROR_MARSEYS = {
 	405: "marseyretard",
 	406: "marseyrage",
 	409: "marseynoyou",
-	413: "marseyretard",
-	414: "marseychonker2",
+	413: "marseychonker2",
 	415: "marseydetective",
 	418: "marseytea",
 	429: "marseyrentfree",
@@ -396,8 +393,8 @@ SIGNUP_FOLLOW_ID = 0
 NOTIFICATION_THREAD = 1
 
 MAX_IMAGE_SIZE_BANNER_RESIZED_MB = 1
-MAX_IMAGE_SIZE_MB = 8
-MAX_IMAGE_SIZE_MB_PATRON = 16
+MAX_IMAGE_AUDIO_SIZE_MB = 8
+MAX_IMAGE_AUDIO_SIZE_MB_PATRON = 16
 MAX_VIDEO_SIZE_MB = 32
 MAX_VIDEO_SIZE_MB_PATRON = 64
 
