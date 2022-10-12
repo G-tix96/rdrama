@@ -47,6 +47,8 @@ def error_401(e):
 
 @app.errorhandler(500)
 def error_500(e):
+	if not g: print("500: not g")
+	if not g.db: print("500: not g.db")
 	g.db.rollback()
 	return error(e)
 
