@@ -64,7 +64,7 @@ def get_user(username, v=None, graceful=False, rendered=False, include_blocks=Fa
 
 	return user
 
-def get_users(usernames, graceful=False) -> list[User]:
+def get_users(usernames, graceful=False) -> List[User]:
 	def clean(n):
 		return n.replace('\\', '').replace('_', '\_').replace('%', '').strip()
 
