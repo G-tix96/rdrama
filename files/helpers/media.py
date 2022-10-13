@@ -11,6 +11,7 @@ import gevent
 import imagehash
 from shutil import copyfile
 from files.classes.media import *
+from files.helpers.cloudflare import purge_files_in_cache
 from files.__main__ import db_session
 
 def process_files():
@@ -43,13 +44,16 @@ def process_audio(file):
 	file.save(name)
 
 	size = os.stat(name).st_size
-	if size > 16 * 1024 * 1024 or not g.v.patron and size > 8 * 1024 * 1024:
+	if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not g.v.patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
 		os.remove(name)
-		abort(413)
+		abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for {patron.lower()}s)")
+
+	media = g.db.query(Media).filter_by(filename=name, kind='audio').one_or_none()
+	if media: g.db.delete(media)
 
 	media = Media(
 		kind='audio',
-		filename=name.split('/')[-1],
+		filename=name,
 		user_id=g.v.id,
 		size=size
 	)
@@ -63,13 +67,15 @@ def webm_to_mp4(old, new, vid):
 	subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp], check=True, stderr=subprocess.STDOUT)
 	os.replace(tmp, new)
 	os.remove(old)
-	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
-		data=f'{{"files": ["{SITE_FULL}{new}"]}}', timeout=5)
-
+	purge_files_in_cache(f"{SITE_FULL}{new}")
 	db = db_session()
+
+	media = db.query(Media).filter_by(filename=new, kind='video').one_or_none()
+	if media: db.delete(media)
+
 	media = Media(
 		kind='video',
-		filename=new.split('/')[-1],
+		filename=new,
 		user_id=vid,
 		size=os.stat(new).st_size
 	)
@@ -83,9 +89,9 @@ def process_video(file):
 	file.save(old)
 
 	size = os.stat(old).st_size
-	if SITE_NAME != 'WPD' and (size > 32 * 1024 * 1024 or not g.v.patron and size > 64 * 1024 * 1024):
+	if SITE_NAME != 'WPD' and (size > MAX_VIDEO_SIZE_MB * 1024 * 1024 or not g.v.patron and size > MAX_VIDEO_SIZE_MB_PATRON * 1024 * 1024):
 		os.remove(old)
-		abort(414)
+		abort(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for paypigs)")
 
 	extension = file.filename.split('.')[-1].lower()
 	if extension not in ['avi', 'mp4', 'webm', 'm4v', 'mov', 'mkv']:
@@ -100,9 +106,12 @@ def process_video(file):
 		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
 		os.remove(old)
 
+		media = g.db.query(Media).filter_by(filename=new, kind='video').one_or_none()
+		if media: g.db.delete(media)
+
 		media = Media(
 			kind='video',
-			filename=new.split('/')[-1],
+			filename=new,
 			user_id=g.v.id,
 			size=os.stat(new).st_size
 		)
@@ -115,9 +124,9 @@ def process_video(file):
 def process_image(filename=None, resize=0, trim=False, uploader=None, patron=False, db=None):
 	size = os.stat(filename).st_size
 
-	if size > 16 * 1024 * 1024 or not patron and size > 8 * 1024 * 1024:
+	if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
 		os.remove(filename)
-		abort(413)
+		abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for paypigs)")
 
 	i = Image.open(filename)
 
@@ -144,9 +153,9 @@ def process_image(filename=None, resize=0, trim=False, uploader=None, patron=Fal
 
 
 	if resize in (300,400,1200):
-		if os.stat(filename).st_size > 1 * 1024 * 1024:
+		if os.stat(filename).st_size > MAX_IMAGE_SIZE_BANNER_RESIZED_MB * 1024 * 1024:
 			os.remove(filename)
-			abort(413)
+			abort(413, f"Max size for banners, sidebars, and badges is {MAX_IMAGE_SIZE_BANNER_RESIZED_MB}")
 
 		if resize == 1200:
 			path = f'files/assets/images/{SITE_NAME}/banners'
@@ -172,15 +181,19 @@ def process_image(filename=None, resize=0, trim=False, uploader=None, patron=Fal
 		i_hash = str(imagehash.phash(i))
 		if i_hash in hashes.keys():
 			os.remove(filename)
-			abort(417)
+			abort(409, "Image already exists!")
+
+	db = db or g.db
+
+	media = db.query(Media).filter_by(filename=filename, kind='image').one_or_none()
+	if media: db.delete(media)
 
 	media = Media(
 		kind='image',
-		filename=filename.split('/')[-1],
+		filename=filename,
 		user_id=uploader or g.v.id,
 		size=os.stat(filename).st_size
 	)
-	db = db or g.db
 	db.add(media)
 
 	return filename

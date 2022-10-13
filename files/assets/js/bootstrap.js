@@ -58,7 +58,7 @@ function autoExpand (field) {
 	+ parseInt(computed.getPropertyValue('border-bottom-width'), 10);
 
 	field.style.height = height + 'px';
-
+	if (Math.abs(window.scrollX - xpos) < 1 && Math.abs(window.scrollY - ypos) < 1) return;
 	window.scrollTo(xpos,ypos);
 };
 
@@ -182,7 +182,7 @@ if (document.readyState === "complete" ||
 }
 
 function post_toast(t, url, button1, button2, classname, extra_actions) {
-	let isShopConfirm = t.id.startsWith('buy1-go') || t.id.startsWith('buy2-go');
+	let isShopConfirm = t.id.startsWith('buy1-') || t.id.startsWith('buy2-');
 
 	if (!isShopConfirm)
 	{
@@ -218,6 +218,7 @@ function post_toast(t, url, button1, button2, classname, extra_actions) {
 		} else {
 			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
 			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
+			if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
 			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
 		}
 		if (!isShopConfirm)
@@ -248,7 +249,8 @@ function post_toast_callback(url, data, callback) {
 
 	form.append("formkey", formkey());
 	xhr.onload = function() {
-		let result = callback(xhr);
+		let result
+		if (callback) result = callback(xhr);
 		if (xhr.status >= 200 && xhr.status < 300) {
 			var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error'));
 			myToast.hide();
@@ -295,7 +297,13 @@ function escapeHTML(unsafe) {
 }
 
 function changename(s1,s2) {
-	let files = document.getElementById(s2).files;
+	const files = document.getElementById(s2).files;
+	if (files.length > 4)
+	{
+		alert("You can't upload more than 4 files at one time!")
+		document.getElementById(s2).files = null
+		return
+	}
 	let filename = '';
 	for (const e of files) {
 		filename += e.name.substr(0, 20) + ', ';
@@ -337,3 +345,15 @@ function timestamp(str, ti) {
 	const date = new Date(ti*1000);
 	document.getElementById(str).setAttribute("data-bs-original-title", formatDate(date));
 };
+
+function areyousure(t) {
+	if (t.value)
+		t.value = 'Are you sure?'
+	else
+		t.innerHTML = t.innerHTML.replace(t.textContent, 'Are you sure?')
+
+	t.setAttribute("onclick", t.dataset.click);
+
+	if (t.dataset.dismiss)
+    	t.setAttribute("data-bs-dismiss", t.dataset.dismiss);
+}

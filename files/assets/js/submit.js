@@ -55,6 +55,12 @@ function hide_image() {
 document.onpaste = function(event) {
 	files = event.clipboardData.files
 
+	if (files.length > 4)
+	{
+		alert("You can't upload more than 4 files at one time!")
+		return
+	}
+
 	filename = files[0]
 
 	if (filename)

@@ -42,7 +42,7 @@ def get_logged_in_user():
 				v.client = None
 
 
-	if request.method.lower() != "get" and app.config['SETTINGS']['Read-only mode'] and not (v and v.admin_level):
+	if request.method.lower() != "get" and app.config['SETTINGS']['Read-only mode'] and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
 		abort(403)
 
 
@@ -86,17 +86,13 @@ def get_logged_in_user():
 				if f'@{v.username}, ' not in f.read():
 					t = str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time())))
 					f.write(f'@{v.username}, {v.truecoins}, {ip}, {t}\n')
-		elif not v and request.path not in ('/login','/signup'):
-			abort(401)
 
 	return v
 
 def auth_desired(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
-
 		return make_response(f(*args, v=v, **kwargs))
-
 	wrapper.__name__ = f.__name__
 	return wrapper
 
@@ -129,48 +125,31 @@ def auth_required(f):
 	return wrapper
 
 def is_not_permabanned(f):
-
 	def wrapper(*args, **kwargs):
-
 		v = get_logged_in_user()
-
 		if not v: abort(401)
-
-		if v.is_suspended_permanently:
-			return {"error": "Internal server error"}, 500
-
+		if v.is_suspended_permanently: abort(403)
 		return make_response(f(*args, v=v, **kwargs))
-
 	wrapper.__name__ = f.__name__
 	return wrapper
 
-
 def admin_level_required(x):
-
 	def wrapper_maker(f):
-
 		def wrapper(*args, **kwargs):
-
 			v = get_logged_in_user()
-
 			if not v: abort(401)
-
 			if v.admin_level < x: abort(403)
-			
 			return make_response(f(*args, v=v, **kwargs))
 
 		wrapper.__name__ = f.__name__
 		return wrapper
-
 	return wrapper_maker
 
-def casino_required(f):
-	def wrapper(*args, **kwargs):
-		v = get_logged_in_user()
-
-		if not CASINO_ENABLED: abort(404)
-
-		return make_response(f(v=v))
-
-	wrapper.__name__ = f.__name__
-	return wrapper
+def feature_required(x):
+	def wrapper_maker(f):
+		def wrapper(*args, **kwargs):
+			if not FEATURES[x]: abort(404)
+			return make_response(f(*args, **kwargs))
+		wrapper.__name__ = f.__name__
+		return wrapper
+	return wrapper_maker

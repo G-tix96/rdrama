@@ -195,11 +195,11 @@ def sanitize_raw_title(sanitized):
 	sanitized = sanitized.strip()
 	return sanitized[:POST_TITLE_LENGTH_LIMIT]
 
-def sanitize_raw_body(sanitized):
+def sanitize_raw_body(sanitized, is_post):
 	if not sanitized: return ""
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\r\n", "\n")
 	sanitized = sanitized.strip()
-	return sanitized[:POST_BODY_LENGTH_LIMIT]
+	return sanitized[:POST_BODY_LENGTH_LIMIT if is_post else COMMENT_BODY_LENGTH_LIMIT]
 
 
 @with_sigalrm_timeout(5)
@@ -241,7 +241,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	v = getattr(g, 'v', None)
 
 	names = set(m.group(2) for m in mention_regex.finditer(sanitized))
-	if limit_pings and len(names) > limit_pings and not v.admin_level: abort(406)
+	if limit_pings and len(names) > limit_pings and not v.admin_level >= PERMS['POST_COMMENT_INFINITE_PINGS']: abort(406)
 	users_list = get_users(names, graceful=True)
 	users_dict = {}
 	for u in users_list:

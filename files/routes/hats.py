@@ -8,9 +8,8 @@ from flask import g
 
 @app.get("/hats")
 @auth_required
+@feature_required('HATS')
 def hats(v):
-	if not FEATURES['HATS']: abort(404)
-
 	owned_hat_ids = [x.hat_id for x in v.owned_hats]
 
 	if request.values.get("sort") == 'author_asc':
@@ -34,29 +33,26 @@ def hats(v):
 
 @app.post("/buy_hat/<hat_id>")
 @auth_required
+@feature_required('HATS')
 def buy_hat(v, hat_id):
-	if not FEATURES['HATS']: abort(404)
-
 	try: hat_id = int(hat_id)
-	except: return {"error": "Hat not found!"}, 400
+	except: abort(404, "Hat not found!")
 
 	hat = g.db.query(HatDef).filter_by(submitter_id=None, id=hat_id).one_or_none()
-	if not hat: return {"error": "Hat not found!"}, 400
+	if not hat: abort(404, "Hat not found!")
 
 	existing = g.db.query(Hat).filter_by(user_id=v.id, hat_id=hat.id).one_or_none()
-	if existing: return {"error": "You already own this hat!"}, 400
+	if existing: abort(400, "You already own this hat!")
 
 	if request.values.get("mb"):
 		charged = v.charge_account('procoins', hat.price)
-		if not charged:
-			return {"error": "Not enough marseybux."}, 400
+		if not charged: abort(400, "Not enough marseybux.")
 
 		hat.author.procoins += hat.price * 0.1
 		currency = "marseybux"
 	else:
 		charged = v.charge_account('coins', hat.price)
-		if not charged:
-			return {"error": "Not enough coins."}, 400
+		if not charged: abort(400, "Not enough coins.")
 
 		v.coins_spent_on_hats += hat.price
 		hat.author.coins += hat.price * 0.1
@@ -85,14 +81,13 @@ def buy_hat(v, hat_id):
 
 @app.post("/equip_hat/<hat_id>")
 @auth_required
+@feature_required('HATS')
 def equip_hat(v, hat_id):
-	if not FEATURES['HATS']: abort(404)
-
 	try: hat_id = int(hat_id)
-	except: return {"error": "Hat not found!"}, 400
+	except: abort(404, "Hat not found!")
 
 	hat = g.db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
-	if not hat: return {"error": "You don't own this hat!"}, 400
+	if not hat: abort(403, "You don't own this hat!")
 
 	hat.equipped = True
 	g.db.add(hat)
@@ -101,14 +96,13 @@ def equip_hat(v, hat_id):
 
 @app.post("/unequip_hat/<hat_id>")
 @auth_required
+@feature_required('HATS')
 def unequip_hat(v, hat_id):
-	if not FEATURES['HATS']: abort(404)
-
 	try: hat_id = int(hat_id)
-	except: return {"error": "Hat not found!"}, 400
+	except: abort(404, "Hat not found!")
 
 	hat = g.db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
-	if not hat: return {"error": "You don't own this hat!"}, 400
+	if not hat: abort(403, "You don't own this hat!")
 
 	hat.equipped = False
 	g.db.add(hat)

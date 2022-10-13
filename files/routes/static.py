@@ -1,5 +1,5 @@
 from files.mail import *
-from files.__main__ import app, limiter, mail
+from files.__main__ import app, limiter
 from files.helpers.alerts import *
 from files.helpers.const import *
 from files.helpers.actions import *
@@ -104,7 +104,7 @@ def daily_chart(v):
 
 @app.get("/patrons")
 @app.get("/paypigs")
-@admin_level_required(3)
+@admin_level_required(PERMS['VIEW_PATRONS'])
 def patrons(v):
 	if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, SNAKES_ID): abort(404)
 
@@ -116,7 +116,7 @@ def patrons(v):
 @app.get("/badmins")
 @auth_required
 def admins(v):
-	if v and v.admin_level > 2:
+	if v.admin_level >= PERMS['VIEW_SORTED_ADMIN_LIST']:
 		admins = g.db.query(User).filter(User.admin_level>1).order_by(User.truecoins.desc()).all()
 		admins += g.db.query(User).filter(User.admin_level==1).order_by(User.truecoins.desc()).all()
 	else: admins = g.db.query(User).filter(User.admin_level>0).order_by(User.truecoins.desc()).all()
@@ -137,7 +137,7 @@ def log(v):
 
 	kind = request.values.get("kind")
 
-	if v and v.admin_level > 1: types = ACTIONTYPES
+	if v and v.admin_level >= PERMS['USER_SHADOWBAN']: types = ACTIONTYPES
 	else: types = ACTIONTYPES2
 
 	if kind and kind not in types:
@@ -145,7 +145,7 @@ def log(v):
 		actions = []
 	else:
 		actions = g.db.query(ModAction)
-		if not (v and v.admin_level >= 2): 
+		if not (v and v.admin_level >= PERMS['USER_SHADOWBAN']): 
 			actions = actions.filter(ModAction.kind.notin_(["shadowban","unshadowban"]))
 
 		if admin_id:
@@ -162,7 +162,7 @@ def log(v):
 	
 	next_exists=len(actions)>25
 	actions=actions[:25]
-	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= 2).order_by(User.username).all()]
+	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.username).all()]
 
 	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, next_exists=next_exists, page=page)
 
@@ -177,9 +177,9 @@ def log_item(id, v):
 
 	if not action: abort(404)
 
-	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level > 1).all()]
+	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).all()]
 
-	if v and v.admin_level > 1: types = ACTIONTYPES
+	if v and v.admin_level >= PERMS['USER_SHADOWBAN']: types = ACTIONTYPES
 	else: types = ACTIONTYPES2
 
 	return render_template("log.html", v=v, actions=[action], next_exists=False, page=1, action=action, admins=admins, types=types)
@@ -232,7 +232,7 @@ def submit_contact(v):
 	g.db.flush()
 	new_comment.top_comment_id = new_comment.id
 	
-	admins = g.db.query(User).filter(User.admin_level > 2)
+	admins = g.db.query(User).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'])
 	if SITE == 'watchpeopledie.co':
 		admins = admins.filter(User.id != AEVANN_ID)
 
@@ -348,9 +348,9 @@ def badge_list(site):
 
 @app.get("/badges")
 @auth_required
+@feature_required('BADGES')
 def badges(v):
-	if not FEATURES['BADGES']:
-		abort(404)
+	
 
 	badges, counts = badge_list(SITE)
 	return render_template("badges.html", v=v, badges=badges, counts=counts)
@@ -467,7 +467,10 @@ if SITE == 'pcmemes.net':
 				count = "1"
 
 			if 'περιμένει' in count:
-				return process_streamer(id, '')
+				if live != '':
+					return process_streamer(id, '')
+				else:
+					return None
 
 			count = int(count.replace('.', ''))
 
@@ -480,7 +483,11 @@ if SITE == 'pcmemes.net':
 			return (True, (id, req.url, thumb, name, title, count))
 		else:
 			t = offline_regex.search(text)
-			if not t: return process_streamer(id, '')
+			if not t:
+				if live != '':
+					return process_streamer(id, '')
+				else:
+					return None
 
 			y = offline_details_regex.search(text)
 
@@ -556,7 +563,7 @@ if SITE == 'pcmemes.net':
 		return render_template('live.html', v=v, live=live, offline=offline)
 
 	@app.post('/live/add')
-	@admin_level_required(2)
+	@admin_level_required(PERMS['STREAMERS_MODERATION'])
 	def live_add(v):
 		link = request.values.get('link').strip()
 
@@ -565,13 +572,13 @@ if SITE == 'pcmemes.net':
 		else:
 			text = requests.get(link, cookies={'CONSENT': 'YES+1'}, timeout=5).text
 			try: id = id_regex.search(text).group(1)
-			except: return {"error": "Invalid ID"}
+			except: abort(400, "Invalid ID")
 
 		live = cache.get('live') or []
 		offline = cache.get('offline') or []
 
 		if not id or len(id) != 24:
-			return {"error": "Invalid ID"}
+			abort(400, "Invalid ID")
 
 		existing = g.db.get(Streamer, id)
 		if not existing:
@@ -579,7 +586,7 @@ if SITE == 'pcmemes.net':
 			g.db.add(streamer)
 			g.db.flush()
 			if v.id != KIPPY_ID:
-				send_repeatable_notification(KIPPY_ID, f"@{v.username} has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
+				send_repeatable_notification(KIPPY_ID, f"@{v.username} (Admin) has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 
 			processed = process_streamer(id)
 			if processed:
@@ -595,14 +602,14 @@ if SITE == 'pcmemes.net':
 		return redirect('/live')
 
 	@app.post('/live/remove')
-	@admin_level_required(2)
+	@admin_level_required(PERMS['STREAMERS_MODERATION'])
 	def live_remove(v):
 		id = request.values.get('id').strip()
 		if not id: abort(400)
 		streamer = g.db.get(Streamer, id)
 		if streamer:
 			if v.id != KIPPY_ID:
-				send_repeatable_notification(KIPPY_ID, f"@{v.username} has removed a [YouTube channel](https://www.youtube.com/channel/{streamer.id})")
+				send_repeatable_notification(KIPPY_ID, f"@{v.username} (Admin) has removed a [YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 			g.db.delete(streamer)
 
 		live = cache.get('live') or []

@@ -28,8 +28,9 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 	g.db = db_session()
 
 	if every_5m:
-		lottery.check_if_end_lottery_task()
-		spin_roulette_wheel()
+		if FEATURES['GAMBLING']:
+			lottery.check_if_end_lottery_task()
+			spin_roulette_wheel()
 		offsitementions.offsite_mentions_task()
 		if SITE == 'pcmemes.net':
 			route_static.live_cached()
@@ -65,7 +66,7 @@ def sub_inactive_purge_task():
 	dead_holes = g.db.query(Sub).filter(Sub.name.notin_(active_holes)).all()
 	names = [x.name for x in dead_holes]
 
-	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level > 1).all()]
+	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_INACTIVITY_DELETION']).all()]
 
 	mods = g.db.query(Mod).filter(Mod.sub.in_(names)).all()
 	for x in mods:

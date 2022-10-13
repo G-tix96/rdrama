@@ -4,7 +4,7 @@
 <head>
 	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
 	<meta name="description" content="{{DESCRIPTION}}">
-	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
+	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'{% if SITE == 'localhost'} rdrama.net{% endif %}; connect-src 'self'; object-src 'none';">
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="author" content="">
@@ -20,7 +20,11 @@
 			{{v.css | safe}}
 		</style>
 	{% endif %}
-	<link rel="stylesheet" href="{{'css/chat_done.css' | asset}}">
+	{% if SITE == 'localhost' %}
+		<link rel="stylesheet" href="https://rdrama.net/assets/css/chat_done.css">
+	{% else %}
+		<link rel="stylesheet" href="{{'css/chat_done.css' | asset}}">
+	{% endif %}
 </head>
 
 <body>
@@ -32,7 +36,7 @@
 		id="root"
 		data-id="{{v.id}}"
 		data-username="{{v.username}}"
-		data-admin="{{v.admin_level > 1}}"
+		data-admin="{{v.admin_level >= PERMS['ADMIN_MOP_VISIBLE']}}"
 		data-censored="{{v.slurreplacer}}"
 		data-sitename="{{SITE_NAME}}"
 		data-themecolor="{{v.themecolor}}"
@@ -41,8 +45,11 @@
 		data-hat="{{v.hat_active}}">
 	</div>
 	<script>window.global = window</script>
-	<script defer src="{{'js/chat_done.js' | asset}}"></script>
+	{% if SITE == 'localhost' %}
+		<script defer src="https://rdrama.net/assets/js/chat_done.js"></script>
+	{% else %}
+		<script defer src="{{'js/chat_done.js' | asset}}"></script>
+	{% endif %}
 	<script defer src="{{'js/lozad.js' | asset}}"></script>
 	<script defer src="{{'js/lite-youtube.js' | asset}}"></script>
 </body>
-

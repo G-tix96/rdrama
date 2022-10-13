@@ -28,21 +28,57 @@ import os
 titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
 
 
-@app.post("/toggle_club/<pid>")
+@app.post("/club_post/<pid>")
 @auth_required
-def toggle_club(pid, v):
-	if not FEATURES['COUNTRY_CLUB']:
-		abort(403)
+@feature_required('COUNTRY_CLUB')
+def club_post(pid, v):
+	
+
+	post = get_post(pid)
+	if post.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']: abort(403)
+
+	if not post.club:
+		post.club = True
+		g.db.add(post)
+
+		if post.author_id != v.id:
+			ma = ModAction(
+				kind = "club_post",
+				user_id = v.id,
+				target_submission_id = post.id,
+			)
+			g.db.add(ma)
+
+			message = f"@{v.username} (Admin) has moved [{post.title}]({post.shortlink}) to the {CC_TITLE}!"
+			send_repeatable_notification(post.author_id, message)
+
+	return {"message": f"Post has been moved to the {CC_TITLE}!"}
+
+@app.post("/unclub_post/<pid>")
+@auth_required
+@feature_required('COUNTRY_CLUB')
+def unclub_post(pid, v):
+	
 
 	post = get_post(pid)
 	if post.author_id != v.id and v.admin_level < 2: abort(403)
 
-	post.club = not post.club
-	g.db.add(post)
+	if post.club:
+		post.club = False
+		g.db.add(post)
 
+		if post.author_id != v.id:
+			ma = ModAction(
+				kind = "unclub_post",
+				user_id = v.id,
+				target_submission_id = post.id,
+			)
+			g.db.add(ma)
 
-	if post.club: return {"message": "Post has been marked as club-only!"}
-	else: return {"message": "Post has been unmarked as club-only!"}
+			message = f"@{v.username} (Admin) has removed [{post.title}]({post.shortlink}) from the {CC_TITLE}!"
+			send_repeatable_notification(post.author_id, message)
+
+	return {"message": f"Post has been removed from the {CC_TITLE}!"}
 
 
 @app.post("/publish/<pid>")
@@ -70,8 +106,7 @@ def publish(pid, v):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
 
-	if (v.admin_level > 0 or v.has_badge(3)) and post.sub == 'changelog':
-		send_changelog_message(post.permalink)
+	send_changelog_message(post.permalink)
 
 	if SITE == 'watchpeopledie.co':
 		send_wpd_message(post.permalink)
@@ -113,7 +148,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	if post.new or 'megathread' in post.title.lower(): defaultsortingcomments = 'new'
 	elif v: defaultsortingcomments = v.defaultsortingcomments
-	else: defaultsortingcomments = "top"
+	else: defaultsortingcomments = "hot"
 	sort = request.values.get("sort", defaultsortingcomments)
 
 	if post.club and not (v and (v.paid_dues or v.id == post.author_id)): abort(403)
@@ -131,10 +166,6 @@ def post_id(pid, anything=None, v=None, sub=None):
 			blocking.c.target_id,
 			blocked.c.target_id,
 		)
-		
-		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
-			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
- 
 		comments=comments.filter(Comment.parent_submission == post.id, Comment.level < 10).join(
 			votes,
 			votes.c.comment_id == Comment.id,
@@ -161,15 +192,21 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 		comments = comments.filter(Comment.level == 1, Comment.stickied == None)
 
-		comments = sort_comments(sort, comments)
+		comments = sort_objects(sort, comments, Comment,
+			include_shadowbanned=(v and v.can_see_shadowbanned))
 
 		comments = [c[0] for c in comments.all()]
 	else:
 		pinned = g.db.query(Comment).filter(Comment.parent_submission == post.id, Comment.stickied != None).all()
 
-		comments = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.parent_submission == post.id, Comment.level == 1, Comment.stickied == None)
+		comments = g.db.query(Comment).filter(
+				Comment.parent_submission == post.id,
+				Comment.level == 1,
+				Comment.stickied == None
+			)
 
-		comments = sort_comments(sort, comments)
+		comments = sort_objects(sort, comments, Comment,
+			include_shadowbanned=False)
 
 		comments = comments.all()
 
@@ -222,7 +259,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	template = "submission.html"
 	if (post.is_banned or post.author.shadowbanned) \
-			and not (v and (v.admin_level >= 2 or post.author_id == v.id)):
+			and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)):
 		template = "submission_banned.html"
 
 	return render_template(template, v=v, p=post, ids=list(ids),
@@ -253,10 +290,6 @@ def viewmore(v, pid, sort, offset):
 			blocking.c.target_id,
 			blocked.c.target_id,
 		).filter(Comment.parent_submission == pid, Comment.stickied == None, Comment.id.notin_(ids), Comment.level < 10)
-		
-		if not (v and v.shadowbanned) and not (v and v.admin_level >= 2):
-			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
- 
 		comments=comments.join(
 			votes,
 			votes.c.comment_id == Comment.id,
@@ -281,13 +314,20 @@ def viewmore(v, pid, sort, offset):
 		
 		comments = comments.filter(Comment.level == 1)
 
-		comments = sort_comments(sort, comments)
+		comments = sort_objects(sort, comments, Comment,
+			include_shadowbanned=(v and v.can_see_shadowbanned))
 
 		comments = [c[0] for c in comments.all()]
 	else:
-		comments = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.parent_submission == pid, Comment.level == 1, Comment.stickied == None, Comment.id.notin_(ids))
+		comments = g.db.query(Comment).filter(
+				Comment.parent_submission == pid,
+				Comment.level == 1,
+				Comment.stickied == None,
+				Comment.id.notin_(ids)
+			)
 
-		comments = sort_comments(sort, comments)
+		comments = sort_objects(sort, comments, Comment,
+			include_shadowbanned=False)
 		
 		comments = comments.offset(offset).all()
 
@@ -318,7 +358,7 @@ def viewmore(v, pid, sort, offset):
 @auth_desired_with_logingate
 def morecomments(v, cid):
 	try: cid = int(cid)
-	except: abort(400)
+	except: abort(404)
 
 	tcid = g.db.query(Comment.top_comment_id).filter_by(id=cid).one_or_none()[0]
 
@@ -360,7 +400,7 @@ def morecomments(v, cid):
 		comments = output
 	else:
 		c = get_comment(cid)
-		comments = c.replies(None)
+		comments = c.replies(sort=request.values.get('sort'), v=v)
 
 	if comments: p = comments[0].post
 	else: p = None
@@ -373,29 +413,32 @@ def morecomments(v, cid):
 @auth_required
 def edit_post(pid, v):
 	p = get_post(pid)
+	if v.id != p.author_id and v.admin_level < PERMS['POST_EDITING']:
+		abort(403)
+
+	# Disable edits on things older than 1wk unless it's a draft or editor is a jannie
+	if (time.time() - p.created_utc > 7*24*60*60 and not p.private
+			and not v.admin_level >= PERMS['POST_EDITING']):
+		abort(403, "You can't edit posts older than 1 week!")
 
 	title = sanitize_raw_title(request.values.get("title", ""))
-
-	body = sanitize_raw_body(request.values.get("body", ""))
-
-	if v.id != p.author_id and v.admin_level < 2:
-		abort(403)
+	body = sanitize_raw_body(request.values.get("body", ""), True)
 
 	if v.id == p.author_id:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-			return {"error":"You have to type more than 280 characters!"}, 403
+			abort(403, "You have to type more than 280 characters!")
 		elif v.bird and len(body) > 140:
-			return {"error":"You have to type less than 140 characters!"}, 403
+			abort(403, "You have to type less than 140 characters!")
 
 	if not title:
-		return {"error": "Please enter a better title."}, 400
+		abort(400, "Please enter a better title.")
 	if title != p.title:
 		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
 
 		title_html = filter_emojis_only(title, golden=False, torture=torture)
 
 		if v.id == p.author_id and v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
-			return {"error":"You can only type marseys!"}, 403
+			abort(403, "You can only type marseys!")
 
 		p.title = title
 		p.title_html = title_html
@@ -428,7 +471,7 @@ def edit_post(pid, v):
 		body_html = sanitize(body, golden=False, limit_pings=100, showmore=False, torture=torture)
 
 		if v.id == p.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
-			return {"error":"You can only type marseys!"}, 403
+			abort(403, "You can only type marseys!")
 
 
 		p.body = body
@@ -439,12 +482,13 @@ def edit_post(pid, v):
 			g.db.add(v)
 			send_repeatable_notification(CARP_ID, p.permalink)
 
-		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: return {"error":f"Submission body_html too long! (max {POST_BODY_HTML_LENGTH_LIMIT} characters)"}, 400
+		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: 
+			abort(400, f"Submission body_html too long! (max {POST_BODY_HTML_LENGTH_LIMIT} characters)")
 
 		p.body_html = body_html
 
 		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{p.body}{p.title}'.lower() and p.sub != 'chudrama':
-			return {"error": f'You have to include "{AGENDAPOSTER_PHRASE}" in your post!'}, 403
+			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your post!')
 
 
 	if not p.private and not p.ghost:
@@ -661,11 +705,10 @@ def submit_post(v, sub=None):
 	if '\\' in url: abort(400)
 
 	title = sanitize_raw_title(request.values.get("title", ""))
-	
-	body = sanitize_raw_body(request.values.get("body", ""))
+	body = sanitize_raw_body(request.values.get("body", ""), True)
 
 	def error(error):
-		if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error": error}, 400
+		if request.headers.get("Authorization") or request.headers.get("xhr"): abort(400, error)
 	
 		SUBS = [x[0] for x in g.db.query(Sub.name).order_by(Sub.name).all()]
 		return render_template("submit.html", SUBS=SUBS, v=v, error=error, title=title, url=url, body=body), 400
@@ -681,8 +724,9 @@ def submit_post(v, sub=None):
 
 	sub = request.values.get("sub", "").lower().replace('/h/','').strip()
 
-	if sub == 'changelog':
-		allowed = g.db.query(User.id).filter(User.admin_level > 0).all() + g.db.query(Badge.user_id).filter_by(badge_id=3).all()
+	if sub == 'changelog' and not v.admin_level >= PERMS['POST_TO_CHANGELOG']:
+		# we also allow 'code contributor' badgeholders to post to the changelog hole
+		allowed = g.db.query(Badge.user_id).filter_by(badge_id=3).all()
 		allowed = [x[0] for x in allowed]
 		if v.id not in allowed: return error(f"You don't have sufficient permissions to post in /h/changelog")
 
@@ -793,54 +837,13 @@ def submit_post(v, sub=None):
 
 	if dup and SITE != 'localhost': return redirect(dup.permalink)
 
-	now = int(time.time())
-	cutoff = now - 60 * 60 * 24
-
-
-	similar_posts = g.db.query(Submission).filter(
-					Submission.author_id == v.id,
-					Submission.title.op('<->')(title) < SPAM_SIMILARITY_THRESHOLD,
-					Submission.created_utc > cutoff
-	).all()
-
-	if url:
-		similar_urls = g.db.query(Submission).filter(
-					Submission.author_id == v.id,
-					Submission.url.op('<->')(url) < SPAM_URL_SIMILARITY_THRESHOLD,
-					Submission.created_utc > cutoff
-		).all()
-	else: similar_urls = []
-
-	threshold = SPAM_SIMILAR_COUNT_THRESHOLD
-	if v.age >= (60 * 60 * 24 * 7): threshold *= 3
-	elif v.age >= (60 * 60 * 24): threshold *= 2
-
-	if max(len(similar_urls), len(similar_posts)) >= threshold:
-
-		text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
-		send_repeatable_notification(v.id, text)
-
-		v.ban(reason="Spamming.",
-			  days=1)
-
-		for post in similar_posts + similar_urls:
-			post.is_banned = True
-			post.is_pinned = False
-			post.ban_reason = "AutoJanny"
-			g.db.add(post)
-			ma=ModAction(
-					user_id=AUTOJANNY_ID,
-					target_submission_id=post.id,
-					kind="ban_post",
-					_note="spam"
-					)
-			g.db.add(ma)
+	if not execute_antispam_submission_check(title, v, url):
 		return redirect("/notifications")
 
 	if len(url) > 2048:
 		return error("There's a 2048 character limit for URLs.")
 
-	if v and v.admin_level > 2:
+	if v and v.admin_level >= PERMS['POST_BETS']:
 		bets = []
 		for i in bet_regex.finditer(body):
 			bets.append(i.group(1))
@@ -874,10 +877,10 @@ def submit_post(v, sub=None):
 	
 	if embed and len(embed) > 1500: embed = None
 
-	is_bot = v.id != 12125 and bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID)
+	is_bot = v.id != BBBB_ID and bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID)
 
 	if request.values.get("ghost") and v.coins >= 100:
-		v.coins -= 100
+		v.charge_account('coins', 100)
 		ghost = True
 	else: ghost = False
 
@@ -927,7 +930,7 @@ def submit_post(v, sub=None):
 		)
 		g.db.add(choice)
 
-	if v and v.admin_level > 2:
+	if v and v.admin_level >= PERMS['POST_BETS']:
 		for bet in bets:
 			bet = SubmissionOption(
 				submission_id=post.id,
@@ -1031,7 +1034,7 @@ def submit_post(v, sub=None):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
 
-	if (v.admin_level > 0 or v.has_badge(3)) and post.sub == 'changelog' and not post.private:
+	if post.sub == 'changelog' and not post.private:
 		send_changelog_message(post.permalink)
 
 	if not post.private and SITE == 'watchpeopledie.co':
@@ -1053,6 +1056,9 @@ def submit_post(v, sub=None):
 def delete_post_pid(pid, v):
 	post = get_post(pid)
 	if post.author_id != v.id: abort(403)
+
+	# Temporary special logic by Carp request for events of 2022-10-10
+	if SITE_NAME == 'rDrama' and post.author_id == 3161: abort(403)
 
 	if not post.deleted_utc:
 		post.deleted_utc = int(time.time())
@@ -1097,7 +1103,7 @@ def undelete_post_pid(pid, v):
 def toggle_post_nsfw(pid, v):
 	post = get_post(pid)
 
-	if post.author_id != v.id and not v.admin_level > 1 and not (post.sub and v.mods(post.sub)):
+	if post.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (post.sub and v.mods(post.sub)):
 		abort(403)
 		
 	if post.over_18 and v.is_suspended_permanently:
@@ -1107,7 +1113,7 @@ def toggle_post_nsfw(pid, v):
 	g.db.add(post)
 
 	if post.author_id != v.id:
-		if v.admin_level > 2:
+		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma = ModAction(
 					kind = "set_nsfw" if post.over_18 else "unset_nsfw",
 					user_id = v.id,
@@ -1163,7 +1169,7 @@ def pin_post(post_id, v):
 
 	post = get_post(post_id)
 	if post:
-		if v.id != post.author_id: return {"error": "Only the post author's can do that!"}, 400
+		if v.id != post.author_id: abort(400, "Only the post author's can do that!")
 		post.is_pinned = not post.is_pinned
 		g.db.add(post)
 
@@ -1171,7 +1177,7 @@ def pin_post(post_id, v):
 
 		if post.is_pinned: return {"message": "Post pinned!"}
 		else: return {"message": "Post unpinned!"}
-	return {"error": "Post not found!"}, 400
+	return abort(404, "Post not found!")
 
 
 extensions = (

@@ -219,7 +219,7 @@ def sign_up_get(v):
 
 	formkey_hashstr = str(now) + token + g.agent
 
-	formkey = hmac.new(key=bytes(MASTER_KEY, "utf-16"),
+	formkey = hmac.new(key=bytes(SECRET_KEY, "utf-16"),
 					msg=bytes(formkey_hashstr, "utf-16"),
 					digestmod='md5'
 					).hexdigest()
@@ -258,7 +258,7 @@ def sign_up_post(v):
 
 	correct_formkey_hashstr = form_timestamp + submitted_token + g.agent
 
-	correct_formkey = hmac.new(key=bytes(MASTER_KEY, "utf-16"),
+	correct_formkey = hmac.new(key=bytes(SECRET_KEY, "utf-16"),
 								msg=bytes(correct_formkey_hashstr, "utf-16"),
 								digestmod='md5'
 							).hexdigest()
@@ -310,7 +310,7 @@ def sign_up_post(v):
 	if existing_account:
 		return signup_error("An account with that username already exists.")
 
-	if HCAPTCHA_SITEKEY:
+	if HCAPTCHA_SITEKEY != 'blahblahblah':
 		token = request.values.get("h-captcha-response")
 		if not token:
 			return signup_error("Unable to verify captcha [1].")
@@ -374,22 +374,15 @@ def sign_up_post(v):
 
 	session["lo_user"] = new_user.id
 	
-	if SITE == 'rdrama.net':
+	if SIGNUP_FOLLOW_ID:
+		signup_autofollow = get_account(SIGNUP_FOLLOW_ID)
+		new_follow = Follow(user_id=new_user.id, target_id=signup_autofollow.id)
+		g.db.add(new_follow)
+		signup_autofollow.stored_subscriber_count += 1
+		g.db.add(signup_autofollow)
+		send_notification(signup_autofollow.id, f"A new user - @{new_user.username} - has followed you automatically!")
+	elif CARP_ID:
 		send_notification(CARP_ID, f"A new user - @{new_user.username} - has signed up!")
-	if SITE == 'watchpeopledie.co':
-		carp = get_account(CARP_ID)
-		new_follow = Follow(user_id=new_user.id, target_id=carp.id)
-		g.db.add(new_follow)
-		carp.stored_subscriber_count += 1
-		g.db.add(carp)
-		send_notification(carp.id, f"A new user - @{new_user.username} - has followed you automatically!")
-	if SITE == 'pcmemes.net':
-		kippy = get_account(KIPPY_ID)
-		new_follow = Follow(user_id=new_user.id, target_id=kippy.id)
-		g.db.add(new_follow)
-		kippy.stored_subscriber_count += 1
-		g.db.add(kippy)
-		send_notification(kippy.id, f"A new user - @{new_user.username} - has followed you automatically!")
 
 	redir = request.values.get("redirect")
 	if redir:

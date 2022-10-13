@@ -97,30 +97,16 @@ function vote(type, id, dir) {
 
 function pick(kind, canbuy1, canbuy2) {
 	const buy1 = document.getElementById('buy1')
-	const buy1go = document.getElementById('buy1-go')
 	if (canbuy1 && kind != "grass")
-	{
 		buy1.disabled=false;
-		buy1go.disabled=false;
-	}
 	else
-	{
 		buy1.disabled=true;
-		buy1go.disabled=true;
-	}
 
 	const buy2 = document.getElementById('buy2')
-	const buy2go = document.getElementById('buy2-go')
 	if (canbuy2 && kind != "benefactor")
-	{
 		buy2.disabled=false;
-		buy2go.disabled=false;
-	}
 	else
-	{
 		buy2.disabled=true;
-		buy2go.disabled=true;
-	}
 
 	let ownednum = Number(document.getElementById(`${kind}-owned`).textContent);
 	document.getElementById('giveaward').disabled = (ownednum == 0);
@@ -171,10 +157,20 @@ function buy(mb) {
 		} else {
 			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
 			if (data && data["error"]) document.getElementById('toast-post-error-text2').innerText = data["error"];
+			if (data && data["details"]) document.getElementById('toast-post-error-text2').innerText = data["details"];
 			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error2')).show();
 		}
 	};
 
 	xhr.send(form);
 
+}
+
+function giveaward(t) {
+	post_toast_callback(t.dataset.action,
+		{
+		"kind": document.getElementById('kind').value,
+		"note": document.getElementById('note').value
+		}
+	);
 }

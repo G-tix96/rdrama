@@ -83,7 +83,7 @@ def request_api_keys(v):
 
 	new_comment.top_comment_id = new_comment.id
 
-	for admin in g.db.query(User).filter(User.admin_level > 2).all():
+	for admin in g.db.query(User).filter(User.admin_level >= PERMS['APPS_MODERATION']).all():
 		notif = Notification(comment_id=new_comment.id, user_id=admin.id)
 		g.db.add(notif)
 
@@ -137,7 +137,7 @@ def edit_oauth_app(v, aid):
 
 @app.post("/admin/app/approve/<aid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(3)
+@admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_approve(v, aid):
 
 	app = g.db.get(OauthApp, aid)
@@ -158,7 +158,7 @@ def admin_app_approve(v, aid):
 
 		g.db.add(new_auth)
 
-		send_repeatable_notification(user.id, f"@{v.username} has approved your application `{app.app_name}`. Here's your access token: `{access_token}`\nPlease check the guide [here](/api) if you don't know what to do next, and join this [discord server](/discord) if you need help!")
+		send_repeatable_notification(user.id, f"@{v.username} (Admin) has approved your application `{app.app_name}`. Here's your access token: `{access_token}`\nPlease check the guide [here](/api) if you don't know what to do next, and join this [discord server](/discord) if you need help!")
 
 		ma = ModAction(
 			kind="approve_app",
@@ -173,7 +173,7 @@ def admin_app_approve(v, aid):
 
 @app.post("/admin/app/revoke/<aid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(3)
+@admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_revoke(v, aid):
 
 	app = g.db.get(OauthApp, aid)
@@ -181,7 +181,7 @@ def admin_app_revoke(v, aid):
 		for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id).all(): g.db.delete(auth)
 
 		if v.id != app.author.id:
-			send_repeatable_notification(app.author.id, f"@{v.username} has revoked your application `{app.app_name}`.")
+			send_repeatable_notification(app.author.id, f"@{v.username} (Admin) has revoked your application `{app.app_name}`.")
 
 		g.db.delete(app)
 
@@ -198,7 +198,7 @@ def admin_app_revoke(v, aid):
 
 @app.post("/admin/app/reject/<aid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@admin_level_required(3)
+@admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_reject(v, aid):
 
 	app = g.db.get(OauthApp, aid)
@@ -207,7 +207,7 @@ def admin_app_reject(v, aid):
 		for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id).all(): g.db.delete(auth)
 
 		if v.id != app.author.id:
-			send_repeatable_notification(app.author.id, f"@{v.username} has rejected your application `{app.app_name}`.")
+			send_repeatable_notification(app.author.id, f"@{v.username} (Admin) has rejected your application `{app.app_name}`.")
 
 		g.db.delete(app)
 
@@ -223,7 +223,7 @@ def admin_app_reject(v, aid):
 
 
 @app.get("/admin/app/<aid>")
-@admin_level_required(3)
+@admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_id(v, aid):
 	aid=aid
 	oauth = g.db.get(OauthApp, aid)
@@ -244,7 +244,7 @@ def admin_app_id(v, aid):
 						)
 
 @app.get("/admin/app/<aid>/comments")
-@admin_level_required(3)
+@admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_id_comments(v, aid):
 
 	aid=aid
@@ -271,7 +271,7 @@ def admin_app_id_comments(v, aid):
 
 
 @app.get("/admin/apps")
-@admin_level_required(3)
+@admin_level_required(PERMS['APPS_MODERATION'])
 def admin_apps_list(v):
 
 	apps = g.db.query(OauthApp).order_by(OauthApp.id.desc()).all()

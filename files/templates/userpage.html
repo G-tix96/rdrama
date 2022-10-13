@@ -29,6 +29,10 @@
 <meta name="twitter:url" content="{{u.url}}">
 {% endblock %}
 
+{% import 'userpage_admintools.html' as userpage_admintools with context %}
+{% set hats_total = u.hats_owned_proportion_display[1] if u else 0 %}
+{% set hats_owned_percent = u.hats_owned_proportion_display[0] if u else '' %}
+
 {% block desktopUserBanner %}
 
 <div class="row d-none d-md-block">
@@ -47,25 +51,7 @@
 							</a>
 						</div>
 						<div id="profilestuff" class="ml-3 w-100">
-							{% if u.is_suspended %}
-								<h5 class="text-primary" id="profile--banned">BANNED USER
-									{% if u.ban_reason %}:
-										{{u.ban_reason | safe}}
-									{% endif %}
-									(by <a href="{{u.banned_by.url}}">@{{u.banned_by.username}}</a>)
-								</h5>
-								{% if u.unban_utc %}
-									<h5 class="text-primary" id="profile--unban">{{u.unban_string}}</h5>
-								{% endif %}
-							{% endif %}
-							{% if v and v.admin_level >= 2 and u.shadowbanned %}
-								<h5 class="text-primary" id="profile--shadowbanned">SHADOWBANNED USER
-									{% if u.ban_reason %}:
-										{{u.ban_reason | safe}}
-									{% endif %}
-									(by <a href="/@{{u.shadowbanned}}">@{{u.shadowbanned}}</a>)
-								</h5>
-							{% endif %}
+							{{userpage_admintools.userBanBlock('desktop')}}
 							<div class="d-flex align-items-center mt-1 mb-2">
 								<h1 class="font-weight-bolder h3 my-0 mr-2" id="profile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.user_name}}</span></h1>
 
@@ -87,7 +73,7 @@
 									<span id="profile--verified"><i class="fas fa-badge-check align-middle ml-2 {% if u.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if u.verifiedcolor %}#{{u.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.verified}}"></i></span>
 								{% endif %}
 
-								{% if u.admin_level > 1 %}
+								{% if u.admin_level >= PERMS['ADMIN_MOP_VISIBLE'] %}
 									<span id="profile--mop">
 										<i class="fas fa-broom text-admin align-middle ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin"></i>
 									</span>
@@ -151,7 +137,7 @@
 
 					<span id="profile--joined">joined <span id="profile--joined--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--joined--time','{{u.created_utc}}')">{{u.created_date}}</span></span>
 
-					{% if v and v.admin_level >= 2 -%}
+					{% if v and v.admin_level >= PERMS['VIEW_LAST_ACTIVE'] -%}
 						<span id="profile--lastactive" class="ml-2">last active <span id="profile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--lastactive--time','{{u.last_active}}')">{{u.last_active_date}}</span></span>
 					{%- endif %}
 				</div>
@@ -203,34 +189,23 @@
 					<div>
 					{% if v and v.id != u.id %}
 						<div id="profile--actionbtns">
-						<a id="button-unsub" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" role="button" onclick="post_toast(this,'/unfollow/{{u.username}}','button-unsub','button-sub','d-none')">Unfollow</a>
+							<a id="button-unsub" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" role="button" onclick="post_toast(this,'/unfollow/{{u.username}}','button-unsub','button-sub','d-none')">Unfollow</a>
 
-						<a id="button-sub" class="btn btn-primary {% if is_following or u.is_nofollow or u.is_blocked %}d-none{% endif %}" role="button" onclick="post_toast(this,'/follow/{{u.username}}','button-unsub','button-sub','d-none')">Follow</a>						
-						<a class="btn btn-primary" role="button" onclick="toggleElement('message', 'input-message')">Message</a>
+							<a id="button-sub" class="btn btn-primary {% if is_following or u.is_nofollow or u.is_blocked %}d-none{% endif %}" role="button" onclick="post_toast(this,'/follow/{{u.username}}','button-unsub','button-sub','d-none')">Follow</a>						
+							<a class="btn btn-primary" role="button" onclick="toggleElement('message', 'input-message')">Message</a>
 
-						{% if FEATURES['USERS_SUICIDE'] -%}
-						<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/suicide')">Get Them Help</a>
-						{%- endif %}
-						<a class="btn btn-primary" role="button" onclick="toggleElement('coin-transfer', 'coin-transfer-amount')">Gift Coins</a>
-						{% if FEATURES['PROCOINS'] -%}
-							<a class="btn btn-primary" role="button" onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</a>
-						{%- endif %}
+							{% if FEATURES['USERS_SUICIDE'] -%}
+								<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/suicide')">Get Them Help</a>
+							{%- endif %}
+							<a class="btn btn-primary" role="button" onclick="toggleElement('coin-transfer', 'coin-transfer-amount')">Gift Coins</a>
+							{% if FEATURES['PROCOINS'] -%}
+								<a class="btn btn-primary" role="button" onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</a>
+							{%- endif %}
 
-						<a class="btn btn-primary" role="button" onclick="post_toast(this,'/settings/block?username={{u.username}}',true)">Block</a>
+							<a class="btn btn-primary" role="button" onclick="post_toast(this,'/settings/block?username={{u.username}}',true)">Block</a>
 
-						{% if v.admin_level > 2 %}
-							{% if SITE != 'rdrama.net' %}
-								<a id="admin" class="{% if u.admin_level > 1 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/make_admin','admin','unadmin','d-none')">Make admin</a>
-							{% endif %}
-
-							<a id="unadmin" class="{% if u.admin_level < 2 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/remove_admin','admin','unadmin','d-none')">Remove admin</a>
-
-							{% if u.admin_level > 1 %}
-								<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/revert_actions')">Revert admin actions</a>
-							{% endif %}
-						{% endif %}
+							{{userpage_admintools.userAdminToolsUpper('desktop')}}
 						</div>
-
 						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
 							<input type="hidden" name="formkey" value="{{v.formkey}}"> 
 							<pre></pre>
@@ -271,117 +246,20 @@
 					{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
 						<a class="btn btn-secondary" role="button" onclick="toggle()">Toggle anthem</a>
 					{% endif %}
+					
+					{{userpage_admintools.userAdminToolsLower('desktop')}}
 
-					{% if v and v.id != u.id and v.admin_level > 1 %}
-						<br><br>
-						<div class="body d-lg-flex border-bottom">
-							<div class="w-lg-100">
-
-								<form action="/admin/title_change/{{u.id}}" method="post">
-									<input type="hidden" name="formkey" value="{{v.formkey}}">
-									<input maxlength=100 autocomplete="off" id="customtitlebody" type="text" name="title" class="form-control" placeholder='Enter a flair here' value="{% if u.customtitleplain %}{{u.customtitleplain}}{% endif %}">
-									<div class="d-flex mt-2">
-										<a class="format" role="button"><i class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('customtitlebody')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></i></a>
-										&nbsp;&nbsp;&nbsp;
-										<div class="custom-control custom-checkbox">
-											<input autocomplete="off" type="checkbox" class="custom-control-input" id="locked" name="locked" {% if u.flairchanged %}checked{% endif %}>
-											<label class="custom-control-label" for="locked">locked</label>
-										</div>
-										&nbsp;&nbsp;&nbsp;
-										<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Change Flair">
-									</div>
-								</form>
-							</div>
-
-						</div>
-						<pre></pre>
-						<pre></pre>
-						{% if u.is_suspended %}
-							<form action="/unban_user/{{u.id}}" method="post" action="">
-								<input type="hidden" name="formkey" value="{{v.formkey}}">
-								<input type="hidden" name="redir" value="true">
-								<input type="submit" onclick="disable(this)" class="btn btn-success" value="Unban user">
-							</form>
-						{% else %}
-							<form action="/ban_user/{{u.id}}" method="post" action="">
-								<input type="hidden" name="formkey" value="{{v.formkey}}">
-								<input type="hidden" name="redir" value="true">
-								<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Ban Reason" oninput="document.getElementById('user-ban-submit').disabled=false" required>
-								<input autocomplete="off" style="font-size:11px" type="number" step="any" class="form-control" name="days" placeholder="Days (blank = permanent)">
-								<div class="custom-control custom-checkbox mb-1">
-									<input autocomplete="off" type="checkbox" id="alts-2-desktop" class="custom-control-input" name="alts" value="1">
-									<label class="custom-control-label" for="alts-2-desktop">Include alts</label>
-								</div>
-								<input autocomplete="off" id="user-ban-submit" type="submit" onclick="disable(this)" class="btn btn-danger" value="Ban user" disabled>
-							</form>
-						{% endif %}
-						<pre></pre>
-						<pre></pre>
-
-						{% if u.shadowbanned %}
-							<form action="/unshadowban/{{u.id}}" method="post" action="">
-								<input type="hidden" name="formkey" value="{{v.formkey}}">
-								<input type="submit" onclick="disable(this)" class="btn btn-success" value="Unshadowban user">
-							</form>
-						{% else %}
-							<form action="/shadowban/{{u.id}}" method="post" action="">
-								<input type="hidden" name="formkey" value="{{v.formkey}}">
-								<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Shadowban Reason" oninput="document.getElementById('user-shadowban-submit').disabled=false" required>
-								<div class="custom-control custom-checkbox mb-1">
-									<input autocomplete="off" type="checkbox" id="shadowban-alts-2-desktop" class="custom-control-input" name="alts" value="1">
-									<label class="custom-control-label" for="shadowban-alts-2-desktop">Include alts</label>
-								</div>
-								<input autocomplete="off" id="user-shadowban-submit" type="submit" onclick="disable(this)" class="btn btn-danger" value="Shadowban user" disabled>
-							</form>
-						{% endif %}
-						<pre></pre>
-						<pre></pre>
-
-						<form id="agendaposter1" class="{% if u.agendaposter %}d-none{% endif %}" action="/agendaposter/{{u.id}}" method="post">
-							<input type="hidden" name="formkey", value="{{v.formkey}}">
-							<input autocomplete="off" type="number" step="any" name="days" class="form-control" placeholder="Days (0 or blank = permanent)">
-							<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Lock Chud Theme">
-						</form>
-						<pre></pre>
-
-						<a id="unagendaposter" class="{% if not u.agendaposter %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/unagendaposter/{{u.id}}','agendaposter1','unagendaposter','d-none')">Disable Chud Theme</a>
-
-						<pre></pre>
-
-						<a id="mute-user" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/1','mute-user','unmute-user','d-none')">Mute</a>
-
-						<a id="unmute-user" class="{% if not u.is_muted %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/0','mute-user','unmute-user','d-none')">Unmute</a>
-
-
-						<pre></pre>
-						<form action="/admin/unnuke_user" method="post">
-							<input type="hidden" name="formkey", value="{{v.formkey}}">
-							<input type="hidden" name="user" value="{{u.username}}">
-							<input type="submit" onclick="disable(this)" class="btn btn-success" value="Approve User's Content">
-						</form>
-						<pre></pre>
-						<form action="/admin/nuke_user" method="post">
-							<input type="hidden" name="formkey", value="{{v.formkey}}">
-							<input type="hidden" name="user" value="{{u.username}}">
-							<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Remove User's Content">
-						</form>
-						<pre></pre>
-						{% if FEATURES['COUNTRY_CLUB'] -%}
-						<button id="grant2" class="{% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="post_toast(this,'/@{{u.username}}/club_allow','grant2','bar2','d-none')">Grant club access</button>
-						<button id="bar2" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="post_toast(this,'/@{{u.username}}/club_ban','grant2','bar2','d-none')">Bar from club</button>
-						{%- endif %}
-
-						{% endif %}
 					<pre></pre>
 					<div id="profile--info">
 						<p id="profile--info--id">User ID: {{u.id}}</p>
 						<p id="profile--info--spent">Coins spent: {{u.coins_spent}}</p>
 						<p id="profile--info--truescore">True score: {{u.truecoins}}</p>
 						<p id="profile--info--winnings">Winnings: {{u.winnings}}</p>
+						<p id="profile--info--hats-owned" {% if u.num_of_owned_hats == hats_total %}class="profile-owned-all-hats"{% endif %}>{{u.num_of_owned_hats}} / {{hats_total}} hats owned ({{hats_owned_percent}})</p>
 						{% if u.is_private %}
-							<p id="profile--info--private">User has private mode enabled.</p>
+							<p id="profile--info--private">User has private mode enabled</p>
 						{% endif %}
-						{% if v and (v.admin_level > 1 or v.alt) %}
+						{% if v and (v.admin_level >= PERMS['VIEW_ALTS'] or v.alt) %}
 							<span id="profile--alts">Alts:</span>
 							<ul id="profile--alts-list">
 								{% for account in u.alts_unique %}
@@ -419,7 +297,7 @@
 <div class="container-fluid pb-0 text-center bg-white d-md-none" style="margin-top:-6px;border-radius:0!important;">
 	<div class="row">
 		<div class="col px-0">
-			<a href="{{u.banner_url}}">
+			<a rel="nofollow noopener noreferrer" href="{{u.banner_url}}">
 				<img alt="@{{u.username}}'s banner" onclick="expandDesktopImage()" loading="lazy" src="{{u.banner_url}}" width=100% style="object-fit:cover;max-height:30vh!important">
 			</a>
 		</div>
@@ -435,15 +313,7 @@
 				</a>
 			</div>
 			<div class="mt-n3 py-3">
-				{% if u.is_suspended %}
-					<h5 class="text-primary" id="profile-mobile--banned">BANNED USER{% if u.ban_reason %}: {{u.ban_reason | safe}}{% endif %} (by <a href="{{u.banned_by.url}}">@{{u.banned_by.username}}</a>)</h5>
-					{% if u.unban_utc %}<h5 class="text-primary" id="profile-mobile--unban">{{u.unban_string}}</h5>{% endif %}
-				{% endif %}
-
-				{% if v and v.admin_level >= 2 and u.shadowbanned %}
-					<h5 class="text-primary" id="profile-mobile--banned">SHADOWBANNED USER{% if u.ban_reason %}: {{u.ban_reason | safe}}{% endif %} (by <a href="/@{{u.shadowbanned}}">@{{u.shadowbanned}}</a>)</h5>
-				{% endif %}
-
+				{{userpage_admintools.userBanBlock('mobile')}}
 				<h1 class="h5 d-inline-block" id="profile-mobile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.user_name}}</span></h1>
 
 				{% if u.username != u.original_username %}
@@ -464,7 +334,7 @@
 					<span id="profile-mobile--verified"><i class="fas fa-badge-check align-middle ml-2 {% if u.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if u.verifiedcolor %}#{{u.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.verified}}"></i></span>&nbsp;
 				{% endif %}
 
-				{% if u.admin_level > 1 %}
+				{% if u.admin_level >= PERMS['ADMIN_MOP_VISIBLE'] %}
 					<span id="profile-mobile--mop">
 						<i class="fas fa-broom text-admin align-middle ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin"></i>
 					</span>
@@ -508,7 +378,7 @@
 
 					<br><span id="profile-mobile--joined">joined <span id="profile-mobile--joined--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile-mobile--joined--time','{{u.created_utc}}')" class="font-weight-bold">{{u.created_date}}</span></span>
 
-					{% if v and v.admin_level >= 2 -%}
+					{% if v and v.admin_level >= PERMS['VIEW_LAST_ACTIVE'] -%}
 						<br><span id="profile-mobile--lastactive">last active <span id="profile-mobile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile-mobile--lastactive--time','{{u.last_active}}')" class="font-weight-bold">{{u.last_active_date}}</span></span>
 					{%- endif %}
 				</div>
@@ -587,18 +457,7 @@
 
 					<a class="btn btn-primary" role="button" onclick="post_toast(this,'/settings/block?username={{u.username}}',true)">Block</a>
 
-					{% if v.admin_level > 2 %}
-						{% if SITE != 'rdrama.net' %}
-							<a id="admin2" class="{% if u.admin_level > 1 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/make_admin','admin2','unadmin2','d-none')">Make admin</a>
-						{% endif %}
-
-						<a id="unadmin2" class="{% if u.admin_level < 2 %}d-none{% endif %} btn btn-primary" href="javascript:void(0)" onclick="post_toast(this,'/@{{u.username}}/remove_admin','admin2','unadmin2','d-none')">Remove admin</a>
-
-						{% if u.admin_level > 1 %}
-							<a class="btn btn-primary" role="button" onclick="post_toast(this,'/@{{u.username}}/revert_actions')">Revert admin actions</a>
-						{% endif %}
-					{% endif %}
-
+					{{userpage_admintools.userAdminToolsUpper('mobile')}}
 					<form class="d-none toggleable" id='message-mobile' action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
 						<pre></pre>
 						<input type="hidden" name="formkey" value="{{v.formkey}}"> 
@@ -631,106 +490,8 @@
 						<button class="btn btn-primary mt-2 mb-3" onclick="transferBux(true)">Gift</button>
 					</div>
 
-					{% if v.admin_level > 1 %}
-
-					{% if FEATURES['COUNTRY_CLUB'] -%}
-					<button id="grant" class="{% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="post_toast(this,'/@{{u.username}}/club_allow','grant','bar','d-none')">Grant club access</button>
-					<button id="bar" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="post_toast(this,'/@{{u.username}}/club_ban','grant','bar','d-none')">Bar from club</button>
-					{%- endif %}
-
-						<br><br>
-						<div class="body d-lg-flex border-bottom">
-
-							<div class="w-lg-100">
-
-								<form action="/admin/title_change/{{u.id}}" method="post">
-									<input type="hidden" name="formkey" value="{{v.formkey}}">
-									<input maxlength=100 autocomplete="off" id="customtitlebody-mobile" type="text" name="title" class="form-control" placeholder='Enter a flair here' value="{% if u.customtitleplain %}{{u.customtitleplain}}{% endif %}">
-									<div class="d-flex mt-2">
-										<a class="format" role="button"><i class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('customtitlebody-mobile')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></i></a>
-										&nbsp;&nbsp;&nbsp;
-										<div class="custom-control custom-checkbox">
-											<input autocomplete="off" type="checkbox" class="custom-control-input" id="locked-mobile" name="locked" {% if u.flairchanged %}checked{% endif %}>
-											<label class="custom-control-label" for="locked-mobile">locked</label>
-										</div>
-										&nbsp;&nbsp;&nbsp;
-										<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Change Flair">
-									</div>
-								</form>
-							</div>
-
-						</div>
-						<pre></pre>
-						<pre></pre>
-						{% if u.is_suspended %}
-							<form action="/unban_user/{{u.id}}" method="post">
-								<input type="hidden" name="formkey", value="{{v.formkey}}">
-								<input type="hidden" name="redir" value="true">
-								<input type="submit" onclick="disable(this)" class="btn btn-success" value="Unban user">
-							</form>
-						{% else %}
-							<form action="/ban_user/{{u.id}}" method="post">
-								<input type="hidden" name="formkey" value="{{v.formkey}}">
-								<input type="hidden" name="redir" value="true">
-								<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Ban Reason" oninput="document.getElementById('user-ban-submit2').disabled=false" required>
-								<input autocomplete="off" style="font-size:11px" type="number" step="any" class="form-control" name="days" placeholder="Days (blank = permanent)">
-								<div class="custom-control custom-checkbox mb-1">
-									<input autocomplete="off" type="checkbox" id="alts-2-mobile" class="custom-control-input" name="alts" value="1">
-									<label class="custom-control-label" for="alts-2-mobile">Include alts</label>
-								</div>
-								<input autocomplete="off" id="user-ban-submit2" type="submit" onclick="disable(this)" class="btn btn-danger" value="Ban user" disabled>
-							</form>
-						{% endif %}
-						<pre></pre>
-						<pre></pre>
-
-						{% if u.shadowbanned %}
-							<form action="/unshadowban/{{u.id}}" method="post">
-								<input type="hidden" name="formkey", value="{{v.formkey}}">
-								<input type="submit" onclick="disable(this)" class="btn btn-success" value="Unshadowban user">
-							</form>
-						{% else %}
-							<form action="/shadowban/{{u.id}}" method="post">
-								<input type="hidden" name="formkey" value="{{v.formkey}}">
-								<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Shadowban Reason" oninput="document.getElementById('user-shadowban-submit2').disabled=false" required>
-								<div class="custom-control custom-checkbox mb-1">
-									<input autocomplete="off" type="checkbox" id="shadowban-alts-2-mobile" class="custom-control-input" name="alts" value="1">
-									<label class="custom-control-label" for="shadowban-alts-2-mobile">Include alts</label>
-								</div>
-								<input autocomplete="off" id="user-shadowban-submit2" type="submit" onclick="disable(this)" class="btn btn-danger" value="Shadowban user" disabled>
-							</form>
-						{% endif %}
-						<pre></pre>
-						<pre></pre>
-
-						<form id="agendaposter2" class="{% if u.agendaposter %}d-none{% endif %}" action="/agendaposter/{{u.id}}" method="post">
-							<input type="hidden" name="formkey", value="{{v.formkey}}">
-							<input autocomplete="off" type="number" step="any" name="days" class="form-control" placeholder="Days (0 or blank = permanent)">
-							<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Lock Chud Theme">
-						</form>
-						<pre></pre>
-
-						<a id="unagendaposter2" class="{% if not u.agendaposter %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/unagendaposter/{{u.id}}','agendaposter2','unagendaposter2','d-none')">Disable Chud Theme</a>
-
-						<pre></pre>
-
-						<a id="mute-user2" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/1','mute-user2','unmute-user2','d-none')">Mute</a>
-
-						<a id="unmute-user2" class="{% if not u.is_muted %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/0','mute-user2','unmute-user2','d-none')">Unmute</a>
-
-						<pre></pre>
-						<form action="/admin/unnuke_user" method="post">
-							<input type="hidden" name="formkey", value="{{v.formkey}}">
-							<input type="hidden" name="user" value="{{u.username}}">
-							<input type="submit" onclick="disable(this)" class="btn btn-success" value="Approve User's Content">
-						</form>
-						<pre></pre>
-						<form action="/admin/nuke_user" method="post">
-							<input type="hidden" name="formkey", value="{{v.formkey}}">
-							<input type="hidden" name="user" value="{{u.username}}">
-							<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Remove User's Content">
-						</form>
-					{% endif %}
+					{{userpage_admintools.userAdminToolsLower('mobile')}}
+					
 				{% endif %}
 				<pre></pre>
 				<div id="profile-mobile--info">
@@ -738,10 +499,11 @@
 					<p id="profile-mobile--info--spent">Coins spent: {{u.coins_spent}}</p>
 					<p id="profile-mobile--info--truescore">True score: {{u.truecoins}}</p>
 					<p id="profile-mobile--info--winnings">Winnings: {{u.winnings}}</p>
+					<p id="profile-mobile--info--hats-owned" {% if u.num_of_owned_hats == hats_total %}class="profile-owned-all-hats"{% endif %}>{{u.num_of_owned_hats}} / {{hats_total}} hats owned ({{hats_owned_percent}})</p>
 					{% if u.is_private %}
-						<p id="profile-mobile--info--private">User has private mode enabled.</p>
+						<p id="profile-mobile--info--private">User has private mode enabled</p>
 					{% endif %}
-					{% if v and (v.admin_level > 1 or v.alt) %}
+					{% if v and (v.admin_level >= PERMS['VIEW_ALTS'] or v.alt) %}
 						<span id="profile-mobile--alts">Alts:</span>
 						<ul id="profile-mobile--alts-list">
 							{% for account in u.alts_unique %}

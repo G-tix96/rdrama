@@ -61,19 +61,18 @@ def searchposts(v):
 	if not v.paid_dues:
 		posts = posts.filter(Submission.club == False)
 	
-	if v.admin_level < 2:
+	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		posts = posts.filter(
 			Submission.deleted_utc == 0,
 			Submission.is_banned == False,
-			Submission.private == False,
-			User.shadowbanned == None)
-
+			Submission.private == False)
+	
 	if 'author' in criteria:
 		posts = posts.filter(Submission.ghost == False)
 		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
-		if author.is_private and author.id != v.id and v.admin_level < 2 and not v.eye:
+		if author.is_private and author.id != v.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye:
 			if request.headers.get("Authorization"):
-				return {"error": f"@{author.username}'s profile is private; You can't use the 'author' syntax on them"}, 400
+				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
 			return render_template("search.html",
 								v=v,
 								query=query,
@@ -143,7 +142,8 @@ def searchposts(v):
 
 	posts = apply_time_filter(t, posts, Submission)
 
-	posts = sort_posts(sort, posts)
+	posts = sort_objects(sort, posts, Submission,
+		include_shadowbanned=(v and v.can_see_shadowbanned))
 
 	total = posts.count()
 
@@ -191,16 +191,16 @@ def searchcomments(v):
 	
 	if 'post' in criteria:
 		try: post = int(criteria['post'])
-		except: return {"error": f"Post with id {post} does not exist."}, 400
+		except: abort(404, f"Post with id {post} does not exist.")
 		comments = comments.filter(Comment.parent_submission == post)
 
 
 	if 'author' in criteria:
 		comments = comments.filter(Comment.ghost == False)
 		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
-		if author.is_private and author.id != v.id and v.admin_level < 2 and not v.eye:
+		if author.is_private and author.id != v.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye:
 			if request.headers.get("Authorization"):
-				return {"error": f"@{author.username}'s profile is private; You can't use the 'author' syntax on them"}, 400
+				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
 
 			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, next_exists=False, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them.")
 
@@ -220,7 +220,7 @@ def searchcomments(v):
 
 	comments = apply_time_filter(t, comments, Comment)
 
-	if v.admin_level < 2:
+	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		private = [x[0] for x in g.db.query(Submission.id).filter(Submission.private == True).all()]
 
 		comments = comments.filter(Comment.is_banned==False, Comment.deleted_utc == 0, Comment.parent_submission.notin_(private))
@@ -246,7 +246,8 @@ def searchcomments(v):
 			except: abort(400)
 		comments = comments.filter(Comment.created_utc < before)
 
-	comments = sort_comments(sort, comments)
+	comments = sort_objects(sort, comments, Comment,
+		include_shadowbanned=(v and v.can_see_shadowbanned))
 
 	total = comments.count()
 
@@ -282,7 +283,7 @@ def searchusers(v):
 		)
 	)
 	
-	if v.admin_level < 2:
+	if v.admin_level < PERMS['USER_SHADOWBAN']:
 		users = users.filter(User.shadowbanned == None)
 
 	users=users.order_by(User.username.ilike(term).desc(), User.stored_subscriber_count.desc())

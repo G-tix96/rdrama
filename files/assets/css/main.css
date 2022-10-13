@@ -4026,6 +4026,9 @@ ul.comment-section {
 .profile-actions .dropdown-item:hover .fa, .profile-actions .dropdown-item:hover .fas, .profile-actions .dropdown-item:active .far {
 	color: var(--black);
 }
+.profile-owned-all-hats {
+	color: gold;
+}
 #page .footer h1, #page .footer h2, #page .footer h3, #page .footer h4, #page .footer h5, #page .footer h6, #article .footer h1, #article .footer h2, #article .footer h3, #article .footer h4, #article .footer h5, #article .footer h6 {
 	font-weight: 600;
 }
@@ -5569,15 +5572,20 @@ audio, video {
 	font-size: 0.95rem;
 }
 
-#sidebar-wpd--flairs {
+.sidebar-wpd--flairs {
 	display: grid;
 	align-items: center;
-	grid-template-columns: repeat(3, 1fr);
-	margin-bottom: 2rem;
 	grid-gap: 1px;
 }
 
-#sidebar-wpd--flairs a {
+.sidebar-wpd--flairs--3 {
+	grid-template-columns: repeat(3, 1fr);
+}
+.sidebar-wpd--flairs--2 {
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.sidebar-wpd--flairs a {
 	padding: 5px 5px 4px 5px;
 	text-align: center;
 	color: var(--muted);
@@ -5585,18 +5593,9 @@ audio, video {
 	box-shadow: 0 0 0 1px var(--primary);
 }
 
-#sidebar-wpd--flairs a:hover {
+.sidebar-wpd--flairs a:hover {
 	color: #fff;
 	text-decoration: none;
-}
-
-#sidebar-lgb--host-notice img {
-	display: block;
-	margin: 1.5rem auto 1rem auto;
-}
-#sidebar-lgb--host-notice a {
-	display: block;
-	text-align: center;
 }
 
 #sidebar--directory--head {
@@ -6041,6 +6040,7 @@ g {
 .fa-trees:before{content:"\f724"}
 .fa-flashlight:before{content:"\f8b8"}
 .fa-candy-corn:before{content:"\f6bd"}
+.fa-club:before{content:"\f327"}
 
 .pronouns {
 	font-size: 9px;
@@ -6236,7 +6236,7 @@ blockquote + blockquote, div > blockquote:first-child, blockquote:last-child {
 
 
 #searchparams-dropdown {
-	z-index: 100;
+	z-index: 1;
 }
 .contain {
 	-o-object-fit: contain;

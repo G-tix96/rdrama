@@ -102,13 +102,11 @@
 				{% set kind = a['kind'] %}
 				<td class="shop-table-actions">
 					{% if kind != "benefactor" %}
-						<a id="buy1-{{loop.index}}" class="btn btn-success {% if v.coins < a['price'] %}disabled{% endif %}" role="button" onclick="this.classList.add('d-none');document.getElementById('buy1-go-{{loop.index}}').classList.remove('d-none')"><span class="m-auto">Buy</span></a>
-						<a id="buy1-go-{{loop.index}}" class="d-none btn btn-success {% if v.coins < a['price'] %}disabled{% endif %}" role="button" onclick="post_toast(this,'/buy/{{kind}}')"><span class="m-auto">Are you sure?</span></a>
+						<a id="buy1-{{loop.index}}" class="btn btn-success {% if v.coins < a['price'] %}disabled{% endif %}" role="button" data-click="post_toast(this,'/buy/{{kind}}')" onclick="areyousure(this)"><span class="m-auto">Buy</span></a>
 					{% endif %}
 					{% if FEATURES['PROCOINS'] %}
 						{% if kind != "grass" %}
-							<a id="buy2-{{loop.index}}" class="marseybux btn btn-success {% if v.procoins < a['price'] %}disabled{% endif %}" role="button" onclick="this.classList.add('d-none');document.getElementById('buy2-go-{{loop.index}}').classList.remove('d-none')"><span class="m-auto">Buy with MBux</span></a>
-							<a id="buy2-go-{{loop.index}}" class="d-none marseybux btn btn-success {% if v.procoins < a['price'] %}disabled{% endif %}" role="button" onclick="post_toast(this,'/buy/{{kind}}?mb=true')"><span class="m-auto">Are you sure?</span></a>
+							<a id="buy2-{{loop.index}}" class="marseybux btn btn-success {% if v.procoins < a['price'] %}disabled{% endif %}" role="button" data-click="post_toast(this,'/buy/{{kind}}?mb=true')" onclick="areyousure(this)"><span class="m-auto">Buy with MBux</span></a>
 						{% endif %}
 					{% endif %}
 				</td>

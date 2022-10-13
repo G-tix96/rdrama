@@ -12,10 +12,13 @@
 		img.thumb {
 			border-radius: 4px;
 		}
+		.remove-streamer {
+			width: 130px;
+		}
 	</style>
 	<script>
 		function go_to(e, link) {
-			if (!e.target.classList.contains('donttrigger'))
+			if (!e.target.classList.contains('remove-streamer'))
 				window.open(link, '_blank');
 		}
 	</script>
@@ -54,13 +57,12 @@
 							<td>{{name}}</td>
 							<td>{{title}}</td>
 							<td>{{viewers}} watching</td>
-							{% if v and v.admin_level > 1 %}
+							{% if v and v.admin_level >= PERMS['STREAMERS_MODERATION'] %}
 								<td>
 									<form action="/live/remove" method="post">
 										<input type="hidden" name="formkey" value="{{v.formkey}}">
 										<input type="hidden" name="id" value="{{id}}">
-										<input autocomplete="off" class="btn btn-primary ml-auto donttrigger" onclick="this.nextElementSibling.classList.remove('d-none');this.classList.add('d-none')" value="Remove" style="width:75px">
-										<input autocomplete="off" class="btn btn-primary ml-auto d-none donttrigger" type="submit" onclick="disable(this)" value="Are you sure?">
+										<input autocomplete="off" class="btn btn-primary ml-auto remove-streamer" data-click="disable(this);this.parentElement.submit()" onclick="areyousure(this)" value="Remove">
 									</form>
 								</td>
 							{% endif %}
@@ -80,13 +82,12 @@
 							<td>{{name}}</td>
 							<td>{{actual}} ago</td>
 							<td>{{views}} views</td>
-							{% if v and v.admin_level > 1 %}
+							{% if v and v.admin_level >= PERMS['STREAMERS_MODERATION'] %}
 								<td>
 									<form action="/live/remove" method="post">
 										<input type="hidden" name="formkey" value="{{v.formkey}}">
 										<input type="hidden" name="id" value="{{id}}">
-										<input autocomplete="off" class="btn btn-primary ml-auto donttrigger" onclick="this.nextElementSibling.classList.remove('d-none');this.classList.add('d-none')" value="Remove" style="width:75px">
-										<input autocomplete="off" class="btn btn-primary ml-auto d-none donttrigger" type="submit" onclick="disable(this)" value="Are you sure?">
+										<input autocomplete="off" class="btn btn-primary ml-auto remove-streamer" data-click="disable(this);this.parentElement.submit()" onclick="areyousure(this)" value="Remove">
 									</form>
 								</td>
 							{% endif %}
@@ -96,7 +97,7 @@
 			</table>
 		</div>
 
-		{% if v and v.admin_level > 1 %}
+		{% if v and v.admin_level >= PERMS['STREAMERS_MODERATION'] %}
 			<form action="/live/add" method="post">
 				<input type="hidden" name="formkey" value="{{v.formkey}}">
 				<input class="form-control" autocomplete="off" type="text" name="link" class="form-control" placeholder="Enter channel link.." required>

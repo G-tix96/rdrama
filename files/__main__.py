@@ -6,7 +6,6 @@ from flask import *
 from flask_caching import Cache
 from flask_limiter import Limiter
 from flask_compress import Compress
-from flask_mail import Mail
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import *
@@ -25,8 +24,8 @@ app.jinja_env.auto_reload = True
 app.jinja_env.add_extension('jinja2.ext.do')
 faulthandler.enable()
 
-app.config['SECRET_KEY'] = environ.get('MASTER_KEY')
-app.config["SERVER_NAME"] = environ.get("DOMAIN").strip()
+app.config['SECRET_KEY'] = environ.get('SECRET_KEY').strip()
+app.config["SERVER_NAME"] = environ.get("SITE").strip()
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 3153600
 app.config["SESSION_COOKIE_NAME"] = "session_" + environ.get("SITE_NAME").strip().lower()
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
@@ -36,25 +35,15 @@ app.config["PERMANENT_SESSION_LIFETIME"] = 60 * 60 * 24 * 365
 app.config['SESSION_REFRESH_EACH_REQUEST'] = False
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URL'] = environ.get("DATABASE_URL", "postgresql://postgres@localhost:5432")
+app.config['SQLALCHEMY_DATABASE_URL'] = environ.get("DATABASE_URL").strip()
 
 app.config["CACHE_TYPE"] = "RedisCache"
-app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL", "redis://localhost")
+app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL").strip()
 
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-
-if environ.get("MAIL_USERNAME2") and random.random() < 0.5:
-	app.config['MAIL_USERNAME'] = environ.get("MAIL_USERNAME2", "").strip()
-	app.config['MAIL_PASSWORD'] = environ.get("MAIL_PASSWORD2", "").strip()
-else:
-	app.config['MAIL_USERNAME'] = environ.get("MAIL_USERNAME", "").strip()
-	app.config['MAIL_PASSWORD'] = environ.get("MAIL_PASSWORD", "").strip()
 
 app.config['SETTINGS'] = {}
 
-r=redis.Redis(host=environ.get("REDIS_URL", "redis://localhost"), decode_responses=True, ssl_cert_reqs=None)
+r=redis.Redis(host=environ.get("REDIS_URL").strip(), decode_responses=True, ssl_cert_reqs=None)
 
 def get_CF():
 	with app.app_context():
@@ -76,7 +65,6 @@ db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
 
 cache = Cache(app)
 Compress(app)
-mail = Mail(app)
 
 if not path.isfile(f'/site_settings.json'):
 	with open('/site_settings.json', 'w', encoding='utf_8') as f:
@@ -97,8 +85,8 @@ def before_request():
 	with open('/site_settings.json', 'r', encoding='utf_8') as f:
 		app.config['SETTINGS'] = json.load(f)
 
-	if request.host != app.config["SERVER_NAME"]: return {"error":"Unauthorized host provided."}, 401
-	if request.headers.get("CF-Worker"): return {"error":"Cloudflare workers are not allowed to access this website."}, 401
+	if request.host != app.config["SERVER_NAME"]: return {"error": "Unauthorized host provided."}, 403
+	if request.headers.get("CF-Worker"): return {"error": "Cloudflare workers are not allowed to access this website."}, 403
 
 	if not app.config['SETTINGS']['Bots'] and request.headers.get("Authorization"): abort(403)
 

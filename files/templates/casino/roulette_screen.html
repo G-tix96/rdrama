@@ -213,8 +213,8 @@
     function buildPokerChip(avatar) {
         return `
             <div class="roulette-poker-chip">
-                <img src="/i/pokerchip.webp" width="40" height="40" />
-                <img src="${avatar}" width="40" height="40" />
+                <img src="/i/pokerchip.webp" width="40" height="40">
+                <img src="${avatar}" width="40" height="40">
             </div>
         `;
     }
@@ -232,7 +232,7 @@
                 data-bs-placement="bottom"
                 title=""
                 aria-label="Coin"
-                data-bs-original-title="Coin" />
+                data-bs-original-title="Coin">
         `;
         const marseybuxImgHtml = `
             <img
@@ -243,7 +243,7 @@
                 title=""
                 aria-label="Marseybux"
                 width="32"  class="mr-1 ml-1"  
-                data-bs-original-title="Marseybux" />
+                data-bs-original-title="Marseybux">
         `;
         const { participants, coin, marseybux } = flatBets.reduce((prev, next) => {
             if (!prev.participants.includes(next.gambler_username)) {
@@ -266,7 +266,7 @@
 
         let betHtml = `
             <small class="roulette-total-bets">${fullTotalText}</small>
-            <hr />
+            <hr>
         `;
 
         for (player of normalizedBets.gamblers) {
@@ -491,8 +491,8 @@ Bets
     <div class="roulette-bet-summary">
         <div class="roulette-bet-summary--heading">
             <div class="roulette-poker-chip">
-                <img src="/i/pokerchip.webp" width="40" height="40" />
-                <img src="/e/marseycodecellove.webp" width="40" height="40" />
+                <img src="/i/pokerchip.webp" width="40" height="40">
+                <img src="/e/marseycodecellove.webp" width="40" height="40">
             </div>
             <p>111 is betting 4 and 4:
             </p>
@@ -510,7 +510,7 @@ Bets
 
 <div class="game_screen-title">
     <h5>How to Bet</h5>
-    <hr />
+    <hr>
 </div>
 <table class="table">
     <thead>
@@ -525,7 +525,7 @@ Bets
             <td>Straight Up</td>
             <td>35:1</td>
             <td>
-                Click any single number. <br />
+                Click any single number. <br>
                 You win if the roulette lands on that number.
             </td>
         </tr>
@@ -533,7 +533,7 @@ Bets
             <td>Line</td>
             <td>5:1</td>
             <td>
-                Click Line 1, Line 2 ... Line 6. <br />
+                Click Line 1, Line 2 ... Line 6. <br>
                 You win if the roulette lands on any of the six numbers beneath the line.
             </td>
         </tr>
@@ -541,7 +541,7 @@ Bets
             <td>Column</td>
             <td>2:1</td>
             <td>
-                Click Col 1, Col 2 or Col 3. <br />
+                Click Col 1, Col 2 or Col 3. <br>
                 You win if the roulette lands on any of the 12 numbers to the left of the column.
             </td>
         </tr>
@@ -549,7 +549,7 @@ Bets
             <td>Dozen</td>
             <td>2:1</td>
             <td>
-                Click 1st12, 2nd12 or 3rd12. <br />
+                Click 1st12, 2nd12 or 3rd12. <br>
                 You win if the roulette lands on a number within 1-12, 13-24 or 25-36, respectively.
             </td>
         </tr>
@@ -557,7 +557,7 @@ Bets
             <td>Even/Odd</td>
             <td>1:1</td>
             <td>
-                Click EVEN or ODD. <br />
+                Click EVEN or ODD. <br>
                 You win if the roulette lands on a number that matches your choice.
             </td>
         </tr>
@@ -565,7 +565,7 @@ Bets
             <td>Red/Black</td>
             <td>1:1</td>
             <td>
-                Click RED or BLACK. <br />
+                Click RED or BLACK. <br>
                 You win if the roulette lands on a number that is the same color as your choice.
             </td>
         </tr>
@@ -573,7 +573,7 @@ Bets
             <td>High/Low</td>
             <td>1:1</td>
             <td>
-                Click 1:18 or 19:36. <br />
+                Click 1:18 or 19:36. <br>
                 You win if the roulette lands on a number within your selected range.
             </td>
         </tr>

@@ -164,19 +164,19 @@
     const formatLocalCurrencyName = currency => ({ coins: 'coins', procoins: 'marseybux' })[currency];
 
     biggestWinnerAllTime.innerHTML = `
-      <a href="/@${leaderboardData.all_time.biggest_win.user}">${leaderboardData.all_time.biggest_win.user}</a> <br /><small>${leaderboardData.all_time.biggest_win.amount} ${formatLocalCurrencyName(leaderboardData.all_time.biggest_win.currency)}</small>
+      <a href="/@${leaderboardData.all_time.biggest_win.user}">${leaderboardData.all_time.biggest_win.user}</a> <br><small>${leaderboardData.all_time.biggest_win.amount} ${formatLocalCurrencyName(leaderboardData.all_time.biggest_win.currency)}</small>
     `;
 
     biggestWinner24h.innerHTML = `
-      <a href="/@${leaderboardData.last_24h.biggest_win.user}">${leaderboardData.last_24h.biggest_win.user}</a> <br /> <small>${leaderboardData.last_24h.biggest_win.amount} ${formatLocalCurrencyName(leaderboardData.last_24h.biggest_win.currency)}</small>
+      <a href="/@${leaderboardData.last_24h.biggest_win.user}">${leaderboardData.last_24h.biggest_win.user}</a> <br> <small>${leaderboardData.last_24h.biggest_win.amount} ${formatLocalCurrencyName(leaderboardData.last_24h.biggest_win.currency)}</small>
     `;
 
     biggestLoser24h.innerHTML = `
-      <a href="/@${leaderboardData.last_24h.biggest_loss.user}">${leaderboardData.last_24h.biggest_loss.user}</a> <br /> <small>${leaderboardData.last_24h.biggest_loss.amount} ${formatLocalCurrencyName(leaderboardData.last_24h.biggest_loss.currency)}</small>
+      <a href="/@${leaderboardData.last_24h.biggest_loss.user}">${leaderboardData.last_24h.biggest_loss.user}</a> <br> <small>${leaderboardData.last_24h.biggest_loss.amount} ${formatLocalCurrencyName(leaderboardData.last_24h.biggest_loss.currency)}</small>
     `;
 
     biggestLoserAllTime.innerHTML = `
-      <a href="/@${leaderboardData.all_time.biggest_loss.user}">${leaderboardData.all_time.biggest_loss.user}</a> <br /> <small>${leaderboardData.all_time.biggest_loss.amount} ${formatLocalCurrencyName(leaderboardData.all_time.biggest_loss.currency)}</small>
+      <a href="/@${leaderboardData.all_time.biggest_loss.user}">${leaderboardData.all_time.biggest_loss.user}</a> <br> <small>${leaderboardData.all_time.biggest_loss.amount} ${formatLocalCurrencyName(leaderboardData.all_time.biggest_loss.currency)}</small>
     `;
   }
 
@@ -356,7 +356,7 @@
   <div class="row row-cols-1">
     <div class="col game_screen-title">
       <h3>{{game}}</h3>
-      <hr />
+      <hr>
     </div>
     <div class="col">{% block screen %} {% endblock %}</div>
     <div class="col">
@@ -369,27 +369,27 @@
         <div class="col">
           <div class="game_screen-title">
             <h5>Wager</h5>
-            <hr />
+            <hr>
           </div>
-          <input id="wagerAmount" type="number" min="5" step="1" value="5" class="form-control" />
+          <input id="wagerAmount" type="number" min="5" step="1" value="5" class="form-control">
         </div>
         <div class="col">
           <div class="game_screen-title">
             <h5>Currency</h5>
-            <hr />
+            <hr>
           </div>
           <div class="btn-group" role="group" aria-label="Select a currency.">
             <input type="radio" class="btn-check" name="wagerCurrency" autocomplete="off" id="wagerCoins"
-              value="coin" checked />
+              value="coin" checked>
             <label for="wagerCoins" class="btn btn-primary">
               <img src="/i/rDrama/coins.webp?v=3009" alt="coin" width="32" data-bs-toggle="tooltip"
-                data-bs-placement="bottom" title="Coin" aria-label="Coin" />
+                data-bs-placement="bottom" title="Coin" aria-label="Coin">
             </label>
             <input type="radio" class="btn-check ml-2" name="wagerCurrency" autocomplete="off" id="wagerProcoins"
-              value="marseybux" />
+              value="marseybux">
             <label for="wagerProcoins" class="btn btn-primary">
               <img src="/i/marseybux.webp?v=2000" alt="marseybux" width="32" data-bs-toggle="tooltip"
-                data-bs-placement="bottom" title="Marseybux" aria-label="Marseybux" />
+                data-bs-placement="bottom" title="Marseybux" aria-label="Marseybux">
             </label>
           </div>
         </div>
@@ -398,14 +398,14 @@
     <div class="col">
       <div class="game_screen-title">
         <h5>{% block actiontext %}Actions{% endblock %}</h5>
-        <hr />
+        <hr>
       </div>
       {% block actions %} {% endblock %}
     </div>
     <div id="casinoGameFeed" data-feed="{{feed}}" class="col">
       <div class="game_screen-title">
         <h5>Feed</h5>
-        <hr />
+        <hr>
       </div>
       <ul id="casinoGameFeedList"></ul>
       <button type="button" class="btn btn-secondary" style="width: 100%" onclick="reloadFeed()">
@@ -415,13 +415,13 @@
     <div class="col">
       <div class="game_screen-title">
         <h5>Leaders</h5>
-        <hr />
+        <hr>
       </div>
       <div id="gameLeaderboard" data-leaderboard="{{leaderboard}}">
         <!-- Biggest Winner All Time -->
         <div class="casino-game-leaderboard">
           <div class="leaderboard-marsey-trophy">
-            <img class="leaderboard-marsey-trophy__marsey" src="/e/marseyhappytears.webp" />
+            <img class="leaderboard-marsey-trophy__marsey" src="/e/marseyhappytears.webp">
             <i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: gold;"></i>
           </div>
           <div class="casino-game-leaderboard-info">
@@ -432,7 +432,7 @@
         <!-- Biggest Winner 24h -->
         <div class="casino-game-leaderboard">
           <div class="leaderboard-marsey-trophy">
-            <img class="leaderboard-marsey-trophy__marsey" src="/e/marseyexcited.webp" />
+            <img class="leaderboard-marsey-trophy__marsey" src="/e/marseyexcited.webp">
             <i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: gold;"></i>
           </div>
           <div class="casino-game-leaderboard-info">
@@ -443,7 +443,7 @@
         <!-- Biggest Loser 24h -->
         <div class="casino-game-leaderboard">
           <div class="leaderboard-marsey-trophy">
-            <img class="leaderboard-marsey-trophy__marsey" src="/e/marseycry.webp" />
+            <img class="leaderboard-marsey-trophy__marsey" src="/e/marseycry.webp">
             <i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: darkred;"></i>
           </div>
           <div class="casino-game-leaderboard-info">
@@ -454,7 +454,7 @@
         <!-- Biggest Loser All Time -->
         <div class="casino-game-leaderboard">
           <div class="leaderboard-marsey-trophy">
-            <img class="leaderboard-marsey-trophy__marsey" src="/e/marseyrain.webp" />
+            <img class="leaderboard-marsey-trophy__marsey" src="/e/marseyrain.webp">
             <i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: darkred;"></i>
           </div>
           <div class="casino-game-leaderboard-info">

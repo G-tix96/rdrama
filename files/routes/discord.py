@@ -8,31 +8,28 @@ import requests
 @app.get("/discord")
 @is_not_permabanned
 def join_discord(v):
-	
-	if v.shadowbanned: return {"error": "Internal server error"}, 400
-	
+	if v.shadowbanned: return {"error": "Internal Server Error"}, 500
 	now=int(time.time())
-
 	state=generate_hash(f"{now}+{v.id}+discord")
-
 	state=f"{now}.{state}"
-
 	return redirect(f"https://discord.com/api/oauth2/authorize?client_id={DISCORD_CLIENT_ID}&redirect_uri=https%3A%2F%2F{SITE}%2Fdiscord_redirect&response_type=code&scope=identify%20guilds.join&state={state}")
 
 
 @app.get("/discord_redirect")
-@auth_required
+@is_not_permabanned
 def discord_redirect(v):
+	if v.shadowbanned: abort(400)
+	now = int(time.time())
+	state = request.values.get('state')
+	if not state or not '.' in state: abort(400)
+	state = state.split('.')
+	timestamp= state[0]
+	state= state[1]
 
-
-	now=int(time.time())
-	state=request.values.get('state','').split('.')
-
-	timestamp=state[0]
-
-	state=state[1]
-
-	if int(timestamp) < now-600:
+	try:
+		if int(timestamp) < now-600:
+			abort(400)
+	except:
 		abort(400)
 
 	if not validate_hash(f"{timestamp}+{v.id}+discord", state):

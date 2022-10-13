@@ -21,19 +21,18 @@ def flag_post(pid, v):
 		if not v.is_banned: v.ban_reason = 'Blackjack'
 		send_repeatable_notification(CARP_ID, f"reports on {post.permalink}")
 
-	if v.is_muted:
-		return {"error": "You are forbidden from making reports."}, 400
+	if v.is_muted: abort(400, "You are forbidden from making reports.")
 
 	reason = reason[:100]
 
 	reason = filter_emojis_only(reason)
 
-	if len(reason) > 350: return {"error": "Too long."}, 400
+	if len(reason) > 350: abort(400, "Too long.")
 
-	if reason.startswith('!') and (v.admin_level > 1 or post.sub and v.mods(post.sub)):
+	if reason.startswith('!') and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.sub and v.mods(post.sub)):
 		post.flair = reason[1:]
 		g.db.add(post)
-		if v.admin_level > 1:
+		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma=ModAction(
 				kind="flair_post",
 				user_id=v.id,
@@ -51,23 +50,23 @@ def flag_post(pid, v):
 			)
 			g.db.add(ma)
 
-	elif reason.startswith('/h/') and (v.admin_level >= 2 or v.id == post.author_id or (reason == '/h/chudrama' and v.mods(post.sub))):
+	elif reason.startswith('/h/') and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == post.author_id or (reason == '/h/chudrama' and v.mods(post.sub))):
 
 		sub_from = post.sub
 		sub_to = reason[3:].strip().lower()
 		sub_to = g.db.get(Sub, sub_to)
 		sub_to = sub_to.name if sub_to else None
 
-		if sub_from == sub_to: {"error": f"Post is already in /h/{sub_to}"}, 400
+		if sub_from == sub_to: abort(400, f"Post is already in /h/{sub_to}")
 		
 		if post.author.exiled_from(sub_to):
-			return {"error": f"User is exiled from this {HOLE_NAME}!"}, 400
+			abort(400, f"User is exiled from this {HOLE_NAME}!")
 
 		if sub_to in ('furry','vampire','racist','femboy') and not v.client and not post.author.house.lower().startswith(sub_to):
 			if v.id == post.author_id:
-				return {"error": f"You need to be a member of House {sub.capitalize()} to post in /h/{sub}"}, 403
+				abort(403, f"You need to be a member of House {sub_to.capitalize()} to post in /h/{sub_to}")
 			else:
-				return {"error": f"@{post.author.username} needs to be a member of House {sub.capitalize()} for their post to be moved to /h/{sub}"}, 400
+				abort(403, f"@{post.author.username} needs to be a member of House {sub_to.capitalize()} for their post to be moved to /h/{sub_to}")
 
 		post.sub = sub_to
 		g.db.add(post)
@@ -95,7 +94,7 @@ def flag_post(pid, v):
 				g.db.add(ma)
 
 		if v.id != post.author_id:
-			if v.admin_level >= 3: position = 'Admin'
+			if v.admin_level >= PERMS['POST_COMMENT_MODERATION']: position = 'Admin'
 			else: position = 'Mod'
 			message = f"@{v.username} ({position}) has moved [{post.title}]({post.shortlink}) to /h/{post.sub}"
 			send_repeatable_notification(post.author_id, message)
@@ -103,8 +102,7 @@ def flag_post(pid, v):
 		return {"message": f"Post moved to /h/{post.sub}"}
 	else:
 		existing = g.db.query(Flag.post_id).filter_by(user_id=v.id, post_id=post.id).one_or_none()
-		if existing:
-			return {"error": "You already reported this post!"}, 409
+		if existing: abort(409, "You already reported this post!")
 		flag = Flag(post_id=post.id, user_id=v.id, reason=reason)
 		g.db.add(flag)
 
@@ -121,8 +119,7 @@ def flag_comment(cid, v):
 	comment = get_comment(cid)
 	
 	existing = g.db.query(CommentFlag.comment_id).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
-	if existing:
-		return {"error": "You already reported this comment!"}, 409
+	if existing: abort(409, "You already reported this comment!")
 
 	reason = request.values.get("reason", "").strip()
 
@@ -135,7 +132,7 @@ def flag_comment(cid, v):
 
 	reason = filter_emojis_only(reason)
 
-	if len(reason) > 350: return {"error": "Too long."}, 400
+	if len(reason) > 350: abort(400, "Too long.")
 
 	flag = CommentFlag(comment_id=comment.id, user_id=v.id, reason=reason)
 

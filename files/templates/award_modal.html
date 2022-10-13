@@ -1,3 +1,5 @@
+<script defer src="{{'js/award_modal.js' | asset}}"></script>
+
 <div class="modal fade" id="awardModal" tabindex="-1" role="dialog" aria-labelledby="awardModalTitle" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered awardmodal pt-5" role="document">
 		<div class="modal-content">
@@ -8,37 +10,33 @@
 				</button>
 			</div>
 			<div id="awardModalBody" class="modal-body mb-3">
-				<form id="awardTarget" class="pt-3 pb-0" method="post">
-					<input type="hidden" name="formkey", value="{{v.formkey}}">
-					<div class="card-columns award-columns awards-wrapper">
-						{% for award in v.user_awards %}
-							<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{award.description}}" role="button" id="{{award.kind}}" class="card" onclick="pick('{{award.kind}}', {{award.price}}*{{v.discount}} <= {{v.procoins}}, {{award.price}}*{{v.discount}} <= {{v.coins}})">
-								<i class="{{award.icon}} {{award.color}}"></i>
-								<div class="pt-2" style="font-weight: bold; font-size: 14px; color:#E1E1E1">{{award.title}}</div>
-								<div class="text-muted"><span id="{{award.kind}}-owned">{{award.owned}}</span> owned</div>
-							</a>
-						{% endfor %}
-						{% if v.user_awards|length % 2 %}
-							<a class="card disabled d-md-none" style="border:none">
-								<i class="fas fa-volume-mute" style="opacity:0"></i>
-								<div class="pt-2" style="font-weight: bold; font-size: 14px; color:#E1E1E1">&nbsp;</div>
-								<div class="text-muted">&nbsp;</div>
-							</a>
-						{% endif %}
-					</div>
-					<label id="notelabel" for="note" class="pt-4">Note (optional):</label>
-					<input autocomplete="off" id="kind" name="kind" value="" hidden>
-					<textarea autocomplete="off" id="note" maxlength="200" name="note" class="form-control" placeholder="Note to include in award notification..."></textarea>
-					<input autocomplete="off" id="giveaward" class="awardbtn btn btn-primary mt-3" style="float:right" type="submit" onclick="disable(this)" value="Give Award" disabled>
+				<div class="card-columns award-columns awards-wrapper">
+					{% for award in v.user_awards %}
+						<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{award.description}}" role="button" id="{{award.kind}}" class="card" onclick="pick('{{award.kind}}', {{award.price}}*{{v.discount}} <= {{v.procoins}}, {{award.price}}*{{v.discount}} <= {{v.coins}})">
+							<i class="{{award.icon}} {{award.color}}"></i>
+							<div class="pt-2" style="font-weight: bold; font-size: 14px; color:#E1E1E1">{{award.title}}</div>
+							<div class="text-muted"><span id="{{award.kind}}-owned">{{award.owned}}</span> owned</div>
+						</a>
+					{% endfor %}
+					{% if v.user_awards|length % 2 %}
+						<a class="card disabled d-md-none" style="border:none">
+							<i class="fas fa-volume-mute" style="opacity:0"></i>
+							<div class="pt-2" style="font-weight: bold; font-size: 14px; color:#E1E1E1">&nbsp;</div>
+							<div class="text-muted">&nbsp;</div>
+						</a>
+					{% endif %}
+				</div>
+				<label id="notelabel" for="note" class="pt-4">Note (optional):</label>
+				<input autocomplete="off" id="kind" value="" hidden>
+				<textarea autocomplete="off" id="note" maxlength="200" class="form-control" placeholder="Note to include in award notification..."></textarea>
 
-					<button id="buy1" class="awardbtn btn btn-primary mt-3 mx-3 {% if SITE_NAME == 'WPD' %}d-none{% endif %}" type="button" disabled style="float:right" onclick="this.classList.add('d-none');document.getElementById('buy1-go').classList.remove('d-none')">Buy with marseybux</button>
-					<button id="buy1-go" class="awardbtn btn btn-primary mt-3 mx-3 d-none" type="button" disabled style="float:right" onclick="buy(true)">Are you sure?</button>
+				<input autocomplete="off" id="giveaward" class="awardbtn btn btn-primary mt-3" style="float:right" type="submit" onclick="giveaward(this)" value="Give Award" data-bs-dismiss="modal" disabled>
 
-					<button id="buy2" class="awardbtn btn btn-primary mt-3" type="button" disabled style="float:right" onclick="this.classList.add('d-none');document.getElementById('buy2-go').classList.remove('d-none')">Buy</button>
-					<button id="buy2-go" class="awardbtn btn btn-primary mt-3 d-none" type="button" disabled style="float:right" onclick="buy()">Are you sure?</button>
-					<pre>
-					</pre>
-				</form>
+				<button id="buy1" class="awardbtn btn btn-primary mt-3 mx-3 {% if SITE_NAME == 'WPD' %}d-none{% endif %}" type="button" disabled style="float:right" data-click="buy(true)" onclick="areyousure(this)">Buy with marseybux</button>
+
+				<button id="buy2" class="awardbtn btn btn-primary mt-3" type="button" disabled style="float:right" data-click="buy()" onclick="areyousure(this)">Buy</button>
+				<pre>
+				</pre>
 			</div>
 		</div>
 	</div>
@@ -54,5 +52,3 @@
 		</div>
 	</div>	
 </div>
-
-<script defer src="{{'js/award_modal.js' | asset}}"></script>

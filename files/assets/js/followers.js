@@ -1,5 +1,5 @@
-function removeFollower(event, username) {
-	post_toast(event.target,'/remove_follow/' + username);
+function removeFollower(t, username) {
+	post_toast(t,'/remove_follow/' + username);
 	let table = document.getElementById("followers-table");
-	table.removeChild(event.target.parentElement.parentElement);
+	table.removeChild(t.parentElement.parentElement);
 }

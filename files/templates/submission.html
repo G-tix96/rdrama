@@ -11,7 +11,7 @@
 	{% set voted=-2 %}
 {% endif %}
 
-{% set v_forbid_deleted = (p.deleted_utc != 0) and not (v and v.admin_level >= 2) and not (v and v.id == p.author_id) %}
+{% set v_forbid_deleted = (p.deleted_utc != 0) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == p.author_id) %}
 
 {% block title %}
 
@@ -685,7 +685,7 @@
 	</div>
 {% endif %}
 
-{% if v and v.admin_level > 1 %}
+{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION_TOOLS_VISIBLE'] %}
 	{% include "post_admin_actions_mobile.html" %}
 {% endif %}
 
@@ -735,7 +735,7 @@
 							<i class="{{a.class_list}} px-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{a.title}} Award given by @{{a.user.username}}"></i>
 						{% endfor %}
 
-						{% if v and v.admin_level > 1 and p.author.shadowbanned %}<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{p.author.shadowbanned}} for "{{p.author.ban_reason}}"'></i>{% endif %}
+						{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and p.author.shadowbanned %}<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{p.author.shadowbanned}} for "{{p.author.ban_reason}}"'></i>{% endif %}
 
 						{% if p.stickied %}
 							<i id='pinned-{{p.id}}' class="fas fa-thumbtack fa-rotate--45 text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned by @{{p.stickied}}" {% if p.stickied_utc %}onmouseover="pinned_timestamp('pinned-{{p.id}}')" data-timestamp={{p.stickied_utc}} {% endif %}></i>
@@ -750,7 +750,7 @@
 						{% if p.is_bot %} <i class="fas fa-robot text-info" data-bs-toggle="tooltip" data-bs-placement="bottom"	title="Bot"></i>{% endif %}
 						{% if p.over_18 %}<span class="badge badge-danger text-small-extra mr-1">+18</span>{% endif %}
 						{% if p.private %}<span class="badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
-						{% if p.active_flags(v) %}<a class="btn btn-primary" role="button" style="padding:1px 5px; font-size:10px"onclick="document.getElementById('flaggers').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{ help.plural(p.active_flags(v)) }}</a>{% endif %}
+						{% if p.active_flags(v) %}<a class="btn btn-primary" role="button" style="padding:1px 5px; font-size:10px"onclick="document.getElementById('flaggers').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{help.plural(p.active_flags(v))}}</a>{% endif %}
 
 						{% if p.ghost %}
 							<span {% if p.distinguish_level %}class="mod"{% endif %}>👻</span>
@@ -874,7 +874,7 @@
 							{{p.realbody(v) | safe}}
 
 							{% if p.is_banned and p.ban_reason %}
-								<div class="text-removed mb-0">removed by @{{p.ban_reason}}</div>
+								<div class="text-removed mb-0">removed by @{{p.ban_reason}} (Admin)</div>
 							{% endif %}
 
 						</div>
@@ -885,7 +885,7 @@
 					</div>
 					{% endif %}
 
-					{% if v and (v.id==p.author_id or v.admin_level > 2) and not v.is_suspended %}
+					{% if v and (v.id==p.author_id or v.admin_level >= PERMS['POST_EDITING']) and not v.is_suspended %}
 						<div id="edit-post-body-{{p.id}}" class="d-none comment-write collapsed child">
 							<form id="post-edit-form-{{p.id}}" action="/edit_post/{{p.id}}" method="post" enctype="multipart/form-data">
 									<input type="hidden" name="formkey" value="{{v.formkey}}">
@@ -939,7 +939,7 @@
 							</a>
 						</li>
 
-						{% if v and (v.id==p.author_id or v.admin_level > 1 and v.admin_level > 2) %}
+						{% if v and (v.id==p.author_id or v.admin_level >= PERMS['POST_EDITING']) %}
 							<a class="list-inline-item" role="button" onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit"></i>Edit</a>
 						{% endif %}
 
@@ -960,7 +960,7 @@
 					<div id="voting" class="voting d-none d-md-block mb-auto">
 						<div tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}"></div>
 
-						<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}">{{score}}</span>
+						<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"style="cursor: default">{{score}}</span>
 						<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></div>
 					</div>
 
@@ -969,7 +969,7 @@
 					<div id="voting" class="voting d-none d-md-block mb-auto">
 						<div tabindex="0" role="button" class="post-{{p.id}}-up arrow-up mx-auto" onclick="location.href='/login?redirect={{request.path | urlencode}}';">
 						</div>
-						<span class="post-{{p.id}}-score-none score text-muted{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}>{{score}}</span>
+						<span class="post-{{p.id}}-score-none score text-muted{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 						<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down arrow-down mx-auto" onclick="location.href='/login?redirect={{request.path | urlencode}}';"></div>
 					</div>
 
@@ -997,7 +997,7 @@
 						<span class="text-info d-none {{p.id}}-new-comments"></span>
 					</a>
 
-					{% if v and v.admin_level > 1 %}
+					{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION_TOOLS_VISIBLE'] %}
 						<a class="ml-2" role="button" data-bs-toggle="modal" data-bs-target="#adminModal-{{p.id}}">
 							<i class="fas fa-broom"></i>
 						</a>
@@ -1021,7 +1021,7 @@
 						</span>
 					{% endif %}
 
-					<span class="post-mobile-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 or v.id == AEVANN_ID %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}">{{score}}</span>
+					<span class="post-mobile-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 or v.id == AEVANN_ID %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"style="cursor: default">{{score}}</span>
 
 					{% if v %}
 						<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '-1')" class="post-mobile-{{p.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></span>
@@ -1047,6 +1047,7 @@
 		<div class="comments-count py-3">
 			<div class="dropdown dropdown-actions">
 				<button class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					{% if sort=="hot" %}<i class="fas fa-fire mr-1"></i>{% endif %}
 					{% if sort=="top" %}<i class="fas fa-arrow-alt-circle-up mr-1"></i>{% endif %}
 					{% if sort=="bottom" %}<i class="fas fa-arrow-alt-circle-down mr-1"></i>{% endif %}
 					{% if sort=="new" %}<i class="fas fa-sparkles mr-1"></i>{% endif %}
@@ -1055,6 +1056,7 @@
 					{{sort | capitalize}}
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px);">
+					{% if sort != "hot" %}<a class="dropdown-item" href="?sort=hot"><i class="fas fa-fire mr-2"></i>Hot</a>{% endif %}
 					{% if sort != "top" %}<a class="dropdown-item" href="?sort=top"><i class="fas fa-arrow-alt-circle-up mr-2"></i>Top</a>{% endif %}
 					{% if sort != "bottom" %}<a class="dropdown-item" href="?sort=bottom"><i class="fas fa-arrow-alt-circle-down mr-2"></i>Bottom</a>{% endif %}
 					{% if sort != "new" %}<a class="dropdown-item" href="?sort=new"><i class="fas fa-sparkles mr-2"></i>New</a>{% endif %}
@@ -1187,7 +1189,7 @@
 	{% include "report_post_modal.html" %}
 {% endif %}
 
-{% if v and (v.id == p.author_id or v.admin_level > 1 and v.admin_level > 2) %}
+{% if v and (v.id == p.author_id or v.admin_level >= PERMS['POST_EDITING']) %}
 	<script defer src="{{'js/togglePostEdit.js' | asset}}"></script>
 {% endif %}
 

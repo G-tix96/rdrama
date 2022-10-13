@@ -419,7 +419,17 @@ ACTIONTYPES = {
 		"str": 'updated marsey image', 
 		"icon": 'fa-cat', 
 		"color": 'bg-success'
-	}
+	},
+	'club_post': {
+		"str": 'moved post {self.target_link} to the {cc}', 
+		"icon": 'fa-club', 
+		"color": 'bg-success'
+	},
+	'unclub_post': {
+		"str": 'removed post {self.target_link} from the {cc}', 
+		"icon": 'fa-club', 
+		"color": 'bg-muted'
+	},
 }
 
 ACTIONTYPES2 = deepcopy(ACTIONTYPES)

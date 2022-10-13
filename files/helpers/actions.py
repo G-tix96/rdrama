@@ -191,3 +191,203 @@ def execute_snappy(post, v):
 
 		post.comment_count += 1
 		post.replies = [c]
+
+def execute_zozbot(c, level, parent_submission, v):
+	if random.random() >= 0.001: return
+	c2 = Comment(author_id=ZOZBOT_ID,
+		parent_submission=parent_submission,
+		parent_comment_id=c.id,
+		level=level+1,
+		is_bot=True,
+		body="zoz",
+		body_html="<p>zoz</p>",
+		top_comment_id=c.top_comment_id,
+		ghost=c.ghost,
+		distinguish_level=6
+	)
+
+	g.db.add(c2)
+	g.db.flush()
+	n = Notification(comment_id=c2.id, user_id=v.id)
+	g.db.add(n)
+
+	c3 = Comment(author_id=ZOZBOT_ID,
+		parent_submission=parent_submission,
+		parent_comment_id=c2.id,
+		level=level+2,
+		is_bot=True,
+		body="zle",
+		body_html="<p>zle</p>",
+		top_comment_id=c.top_comment_id,
+		ghost=c.ghost,
+		distinguish_level=6
+	)
+
+	g.db.add(c3)
+	g.db.flush()
+		
+
+	c4 = Comment(author_id=ZOZBOT_ID,
+		parent_submission=parent_submission,
+		parent_comment_id=c3.id,
+		level=level+3,
+		is_bot=True,
+		body="zozzle",
+		body_html="<p>zozzle</p>",
+		top_comment_id=c.top_comment_id,
+		ghost=c.ghost,
+		distinguish_level=6
+	)
+
+	g.db.add(c4)
+
+	zozbot = get_account(ZOZBOT_ID)
+	zozbot.comment_count += 3
+	zozbot.coins += 3
+	g.db.add(zozbot)
+
+def execute_longpostbot(c, level, body, body_html, parent_submission, v):
+	if not len(c.body.split()) >= 200: return
+	if "</blockquote>" in body_html: return
+	body = random.choice(LONGPOST_REPLIES)
+	if body.startswith('▼'):
+		body = body[1:]
+		vote = CommentVote(user_id=LONGPOSTBOT_ID,
+			vote_type=-1,
+			comment_id=c.id,
+			real = True
+		)
+		g.db.add(vote)
+		c.downvotes = 1
+
+	c2 = Comment(author_id=LONGPOSTBOT_ID,
+		parent_submission=parent_submission,
+		parent_comment_id=c.id,
+		level=level+1,
+		is_bot=True,
+		body=body,
+		body_html=f"<p>{body}</p>",
+		top_comment_id=c.top_comment_id,
+		ghost=c.ghost
+	)
+
+	g.db.add(c2)
+
+	longpostbot = get_account(LONGPOSTBOT_ID)
+	longpostbot.comment_count += 1
+	longpostbot.coins += 1
+	g.db.add(longpostbot)
+	g.db.flush()
+	n = Notification(comment_id=c2.id, user_id=v.id)
+	g.db.add(n)
+
+def execute_basedbot(c, level, body, parent_submission, parent_post, v):
+	pill = based_regex.match(body)
+	if level == 1: basedguy = get_account(parent_post.author_id)
+	else: basedguy = get_account(c.parent_comment.author_id)
+	basedguy.basedcount += 1
+	if pill:
+		if basedguy.pills: basedguy.pills += f", {pill.group(1)}"
+		else: basedguy.pills += f"{pill.group(1)}"
+	g.db.add(basedguy)
+
+	body2 = f"@{basedguy.username}'s Based Count has increased by 1. Their Based Count is now {basedguy.basedcount}."
+	if basedguy.pills: body2 += f"\n\nPills: {basedguy.pills}"
+	
+	body_based_html = sanitize(body2)
+	c_based = Comment(author_id=BASEDBOT_ID,
+		parent_submission=parent_submission,
+		distinguish_level=6,
+		parent_comment_id=c.id,
+		level=level+1,
+		is_bot=True,
+		body_html=body_based_html,
+		top_comment_id=c.top_comment_id,
+		ghost=c.ghost
+	)
+
+	g.db.add(c_based)
+	g.db.flush()
+
+	n = Notification(comment_id=c_based.id, user_id=v.id)
+	g.db.add(n)
+
+def execute_antispam_submission_check(title, v, url):
+	now = int(time.time())
+	cutoff = now - 60 * 60 * 24
+
+	similar_posts = g.db.query(Submission).filter(
+					Submission.author_id == v.id,
+					Submission.title.op('<->')(title) < SPAM_SIMILARITY_THRESHOLD,
+					Submission.created_utc > cutoff
+	).all()
+
+	if url:
+		similar_urls = g.db.query(Submission).filter(
+					Submission.author_id == v.id,
+					Submission.url.op('<->')(url) < SPAM_URL_SIMILARITY_THRESHOLD,
+					Submission.created_utc > cutoff
+		).all()
+	else: similar_urls = []
+
+	threshold = SPAM_SIMILAR_COUNT_THRESHOLD
+	if v.age >= (60 * 60 * 24 * 7): threshold *= 3
+	elif v.age >= (60 * 60 * 24): threshold *= 2
+
+	if max(len(similar_urls), len(similar_posts)) >= threshold:
+		text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
+		send_repeatable_notification(v.id, text)
+
+		v.ban(reason="Spamming.",
+			  days=1)
+
+		for post in similar_posts + similar_urls:
+			post.is_banned = True
+			post.is_pinned = False
+			post.ban_reason = "AutoJanny"
+			g.db.add(post)
+			ma=ModAction(
+					user_id=AUTOJANNY_ID,
+					target_submission_id=post.id,
+					kind="ban_post",
+					_note="spam"
+					)
+			g.db.add(ma)
+		return False
+	return True
+
+def execute_antispam_comment_check(body, v):
+	if len(body) <= COMMENT_SPAM_LENGTH_THRESHOLD: return
+	now = int(time.time())
+	cutoff = now - 60 * 60 * 24
+
+	similar_comments = g.db.query(Comment).filter(
+		Comment.author_id == v.id,
+		Comment.body.op('<->')(body) < COMMENT_SPAM_SIMILAR_THRESHOLD,
+		Comment.created_utc > cutoff
+	).all()
+
+	threshold = COMMENT_SPAM_COUNT_THRESHOLD
+	if v.age >= (60 * 60 * 24 * 7):
+		threshold *= 3
+	elif v.age >= (60 * 60 * 24):
+		threshold *= 2
+	
+	if len(similar_comments) <= threshold: return
+	text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
+	send_repeatable_notification(v.id, text)
+	v.ban(reason="Spamming.",
+			days=1)
+	for comment in similar_comments:
+		comment.is_banned = True
+		comment.ban_reason = "AutoJanny"
+		g.db.add(comment)
+		ma=ModAction(
+			user_id=AUTOJANNY_ID,
+			target_comment_id=comment.id,
+			kind="ban_comment",
+			_note="spam"
+		)
+		g.db.add(ma)
+	g.db.commit()
+	abort(403, "Too much spam!")

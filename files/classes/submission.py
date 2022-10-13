@@ -310,7 +310,11 @@ class Submission(Base):
 		if url.startswith("https://old.reddit.com/r/") and '/comments/' in url and "sort=" not in url:
 			if "?" in url: url += "&context=9" 
 			else: url += "?context=8"
-			if v and v.controversial: url += "&sort=controversial"
+			if not v or v.controversial: url += "&sort=controversial"
+		elif url.startswith("https://watchpeopledie.co/videos/"):
+			# Semi-temporary fix for self-hosted unproxied video serving
+			url = url.replace("https://watchpeopledie.co/videos/",
+							  "https://videos.watchpeopledie.co/", 1)
 
 		return url
 	
@@ -326,8 +330,8 @@ class Submission(Base):
 	@lazy
 	def realbody(self, v, listing=False):
 		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"<p>{CC} ONLY</p>"
-		if self.deleted_utc != 0 and not (v and (v.admin_level >= 2 or v.id == self.author.id)): return "[Deleted by user]"
-		if self.is_banned and not (v and v.admin_level >= 2): return "[Removed by admins]"
+		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "[Deleted by user]"
+		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return ""
 
 		body = self.body_html or ""
 
@@ -369,8 +373,8 @@ class Submission(Base):
 				if o.exclusive == 3:
 					body += " - <b>WINNER!</b>"
 				
-				if not winner and v and v.admin_level > 2:
-					body += f'''<button class="btn btn-primary distribute" onclick="this.nextElementSibling.classList.remove('d-none');this.classList.add('d-none')">Declare winner</button><button class="btn btn-primary distribute d-none" onclick="post_toast(this,'/distribute/{o.id}',true)">Are you sure?</button>'''
+				if not winner and v and v.admin_level >= PERMS['POST_BETS_DISTRIBUTE']:
+					body += f'''<button class="btn btn-primary distribute" data-click="post_toast(this,'/distribute/{o.id}',true)" onclick="areyousure(this)">Declare winner</button>'''
 				body += "</div>"
 			else:
 				input_type = 'radio' if o.exclusive else 'checkbox'
@@ -395,8 +399,8 @@ class Submission(Base):
 
 	@lazy
 	def plainbody(self, v):
-		if self.deleted_utc != 0 and not (v and (v.admin_level >= 2 or v.id == self.author.id)): return "[Deleted by user]"
-		if self.is_banned and not (v and v.admin_level >= 2): return "[Removed by admins]"
+		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "[Deleted by user]"
+		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return ""
 		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"<p>{CC} ONLY</p>"
 
 		body = self.body
@@ -412,7 +416,7 @@ class Submission(Base):
 	def realtitle(self, v):
 		if self.club and not (v and (v.paid_dues or v.id == self.author_id)):
 			if v: return random.choice(TROLLTITLES).format(username=v.username)
-			elif dues == -2: return f'Please make an account to see this post'
+			elif DUES == -2: return f'Please make an account to see this post'
 			else: return f'{CC} MEMBERS ONLY'
 		elif self.title_html: title = self.title_html
 		else: title = self.title

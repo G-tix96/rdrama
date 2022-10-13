@@ -9,8 +9,49 @@ from flask import request
 import tldextract
 from os import path
 
-SITE = environ.get("DOMAIN", '').strip()
-SITE_NAME = environ.get("SITE_NAME", '').strip()
+
+SITE = environ.get("SITE").strip()
+SITE_NAME = environ.get("SITE_NAME").strip()
+SECRET_KEY = environ.get("SECRET_KEY").strip()
+PROXY_URL = environ.get("PROXY_URL").strip()
+GIPHY_KEY = environ.get('GIPHY_KEY').strip()
+DISCORD_SERVER_ID = environ.get("DISCORD_SERVER_ID").strip()
+DISCORD_CLIENT_ID = environ.get("DISCORD_CLIENT_ID").strip()
+DISCORD_CLIENT_SECRET = environ.get("DISCORD_CLIENT_SECRET").strip()
+DISCORD_BOT_TOKEN = environ.get("DISCORD_BOT_TOKEN").strip()
+HCAPTCHA_SITEKEY = environ.get("HCAPTCHA_SITEKEY").strip()
+HCAPTCHA_SECRET = environ.get("HCAPTCHA_SECRET").strip()
+YOUTUBE_KEY = environ.get("YOUTUBE_KEY").strip()
+PUSHER_ID = environ.get("PUSHER_ID").strip()
+PUSHER_KEY = environ.get("PUSHER_KEY").strip()
+IMGUR_KEY = environ.get("IMGUR_KEY").strip()
+SPAM_SIMILARITY_THRESHOLD = float(environ.get("SPAM_SIMILARITY_THRESHOLD").strip())
+SPAM_URL_SIMILARITY_THRESHOLD = float(environ.get("SPAM_URL_SIMILARITY_THRESHOLD").strip())
+SPAM_SIMILAR_COUNT_THRESHOLD = int(environ.get("SPAM_SIMILAR_COUNT_THRESHOLD").strip())
+COMMENT_SPAM_SIMILAR_THRESHOLD = float(environ.get("COMMENT_SPAM_SIMILAR_THRESHOLD").strip())
+COMMENT_SPAM_COUNT_THRESHOLD = int(environ.get("COMMENT_SPAM_COUNT_THRESHOLD").strip())
+DEFAULT_TIME_FILTER = environ.get("DEFAULT_TIME_FILTER").strip()
+GUMROAD_TOKEN = environ.get("GUMROAD_TOKEN").strip()
+GUMROAD_LINK = environ.get("GUMROAD_LINK").strip()
+GUMROAD_ID = environ.get("GUMROAD_ID").strip()
+CARD_VIEW = bool(int(environ.get("CARD_VIEW").strip()))
+DISABLE_DOWNVOTES = bool(int(environ.get("DISABLE_DOWNVOTES").strip()))
+DUES = int(environ.get("DUES").strip())
+DEFAULT_THEME = environ.get("DEFAULT_THEME").strip()
+DEFAULT_COLOR = environ.get("DEFAULT_COLOR").strip()
+EMAIL = environ.get("EMAIL").strip()
+MAILGUN_KEY = environ.get("MAILGUN_KEY").strip()
+DESCRIPTION = environ.get("DESCRIPTION").strip()
+CF_KEY = environ.get("CF_KEY").strip()
+CF_ZONE = environ.get("CF_ZONE").strip()
+
+GLOBAL = environ.get("GLOBAL", "").strip()
+blackjack = environ.get("BLACKJACK", "").strip()
+FP = environ.get("FP", "").strip()
+KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
+KOFI_LINK = environ.get("KOFI_LINK", "").strip()
+
+
 if SITE == "localhost": SITE_FULL = 'http://' + SITE
 else: SITE_FULL = 'https://' + SITE
 
@@ -121,12 +162,79 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 ################################################################################
 
 PERMS = { # Minimum admin_level to perform action.
+	'ADMIN_ADD': 3, # note: explicitly disabled on rDrama
+	'ADMIN_REMOVE': 3,
+	'ADMIN_ADD_PERM_LEVEL': 2, # permission level given when user added via site
+	'ADMIN_ACTIONS_REVERT': 3,
+	'ADMIN_MOP_VISIBLE': 2,
+	'ADMIN_HOME_VISIBLE': 2,
+	'DOMAINS_BAN': 3,
 	'HOLE_CREATE': 0,
+	'HOLE_GLOBAL_MODERATION': 3,
 	'FLAGS_REMOVE': 2,
 	'VOTES_VISIBLE': 0,
 	'USER_BLOCKS_VISIBLE': 0,
 	'USER_FOLLOWS_VISIBLE': 0,
 	'USER_VOTERS_VISIBLE': 0,
+	'POST_COMMENT_INFINITE_PINGS': 1,
+	'POST_COMMENT_MODERATION': 2,
+	'POST_COMMENT_DISTINGUISH': 1,
+	'POST_COMMENT_MODERATION_TOOLS_VISIBLE': 2, # note: does not affect API at all
+	'POST_EDITING': 3,
+	'USER_BADGES': 2,
+	'USER_BAN': 2,
+	'USER_SHADOWBAN': 2,
+	'USER_AGENDAPOSTER': 2,
+	'USER_CLUB_ALLOW_BAN': 2,
+	'USER_LINK': 2,
+	'USER_MERGE': 3, # note: extra check for Aevann
+	'USER_TITLE_CHANGE': 2,
+	'USER_MODERATION_TOOLS_VISIBLE': 2, # note: does not affect API at all
+	'POST_TO_CHANGELOG': 1, # note: code contributors can also post to changelog
+	'POST_TO_POLL_THREAD': 2,
+	'POST_BETS': 3,
+	'POST_BETS_DISTRIBUTE': 3, # probably should be the same as POST_BETS but w/e
+	'BYPASS_PIN_LIMIT': 3,
+	'VIEW_PENDING_SUBMITTED_MARSEYS': 3,
+	'VIEW_PENDING_SUBMITTED_HATS': 3,
+	'MODERATE_PENDING_SUBMITTED_MARSEYS': 3, # note: there is an extra check so that only """carp""" can approve them
+	'MODERATE_PENDING_SUBMITTED_HATS': 3, # note: there is an extra check so that only """carp""" can approve them
+	'UPDATE_MARSEYS': 3, # note: extra check is here for 4 different users
+	'UPDATE_HATS': 3, # note: extra check is here for 4 different users
+	'BUY_GHOST_AWARD': 2,
+	'LOTTERY_ADMIN': 3,
+	'LOTTERY_VIEW_PARTICIPANTS': 2,
+	'VIEW_MODMAIL': 2,
+	'VIEW_CLUB': 1,
+	'VIEW_CHUDRAMA': 1,
+	'VIEW_PRIVATE_PROFILES': 2,
+	'VIEW_ALTS': 2,
+	'VIEW_PROFILE_VIEWS': 2,
+	'VIEW_SORTED_ADMIN_LIST': 3,
+	'VIEW_ACTIVE_USERS': 2,
+	'VIEW_ALL_USERS': 2,
+	'VIEW_ALT_VOTES': 2,
+	'VIEW_LAST_ACTIVE': 2,
+	'VIEW_PATRONS': 3, # note: extra check for Aevann, carp, or snakes
+	'VIEW_VOTE_BUTTONS_ON_USER_PAGE': 2,
+	'PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES': 3, # note: explicitly disabled on rDrama
+	'SITE_BYPASS_READ_ONLY_MODE': 1,
+	'SITE_SETTINGS': 3,
+	'SITE_SETTINGS_SIDEBARS_BANNERS_BADGES': 3,
+	'SITE_SETTINGS_SNAPPY_QUOTES': 3,
+	'SITE_SETTINGS_UNDER_ATTACK': 3,
+	'SITE_CACHE_PURGE_CDN': 3,
+	'SITE_CACHE_DUMP_INTERNAL': 2,
+	'NOTIFICATIONS_HOLE_INACTIVITY_DELETION': 2,
+	'NOTIFICATIONS_HOLE_CREATION': 2,
+	'NOTIFICATIONS_FROM_SHADOWBANNED_USERS': 3,
+	'NOTIFICATIONS_MODMAIL': 3,
+	'NOTIFICATIONS_MODERATOR_ACTIONS': 2,
+	'NOTIFICATIONS_REDDIT': 1,
+	'NOTIFICATIONS_SPECIFIC_WPD_COMMENTS': 1,
+	'MESSAGE_BLOCKED_USERS': 1,
+	'APPS_MODERATION': 3,
+	'STREAMERS_MODERATION': 2,
 }
 
 FEATURES = {
@@ -150,6 +258,68 @@ FEATURES = {
 	'PATRON_ICONS': False,
 }
 
+WERKZEUG_ERROR_DESCRIPTIONS = {
+	400: "The browser (or proxy) sent a request that this server could not understand.",
+	401: "The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required.",
+	403: "You don't have the permission to access the requested resource. It is either read-protected or not readable by the server.",
+	404: "The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.",
+	405: "The method is not allowed for the requested URL.",
+	406: "The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.",
+	409: "A conflict happened while processing the request. The resource might have been modified while the request was being processed.",
+	413: "The data value transmitted exceeds the capacity limit.",
+	414: "The length of the requested URL exceeds the capacity limit for this server. The request cannot be processed.",
+	415: "The server does not support the media type transmitted in the request.",
+	417: "The server could not meet the requirements of the Expect header",
+	418: "This server is a teapot, not a coffee machine",
+	429: "This user has exceeded an allotted request count. Try again later.",
+	500: "The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.",
+}
+
+ERROR_TITLES = {
+	400: "Bad Request",
+	401: "Unauthorized",
+	403: "Forbidden",
+	404: "Not Found",
+	405: "Method Not Allowed",
+	406: "Too Many Pings",
+	409: "Conflict",
+	413: "Payload Too Large",
+	415: "Unsupported Media Type",
+	418: "I'm a teapot",
+	429: "Too Many Requests",
+	500: "Internal Server Error",
+}
+
+ERROR_MSGS = {
+	400: "That request was bad and you should feel bad.",
+	401: "What you're trying to do requires an account. I think. The original error message said something about a castle and I hated that.",
+	403: "YOU AREN'T WELCOME HERE GO AWAY",
+	404: "Someone typed something wrong and it was probably you, please do better.",
+	405: "idk how anyone gets this error but if you see this, remember to follow @carpathianflorist<BR>the original error text here talked about internet gremlins and wtf",
+	406: "Max limit is 5 for comments and 50 for posts",
+	409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do. So maybe like... don't try and do that? Sorry not sorry",
+	413: "That's a heckin' chonker of a file! Please make it smaller or maybe like upload it somewhere else idk",
+	415: "Please upload only Image, Video, or Audio files!",
+	418: "this really shouldn't happen now that we autoconvert webm files but if it does there's a cool teapot marsey so there's that",
+	429: "go spam somewhere else nerd",
+	500: "Hiiiii it's carp! I think this error means that there's a timeout error. And I think that means something took too long to load so it decided not to work at all. If you keep seeing this on the same page <I>but not other pages</I>, then something is probably wrong with that specific function. It may not be called a function, but that sounds right to me. Anyway, ping me and I'll whine to someone smarter to fix it. Don't bother them. Thanks ily &lt;3",
+}
+
+ERROR_MARSEYS = {
+	400: "marseybrainlet",
+	401: "marseydead",
+	403: "marseytroll",
+	404: "marseyconfused",
+	405: "marseyretard",
+	406: "marseyrage",
+	409: "marseynoyou",
+	413: "marseychonker2",
+	415: "marseydetective",
+	418: "marseytea",
+	429: "marseyrentfree",
+	500: "marseycarp3",
+}
+
 EMOJI_MARSEYS = True
 EMOJI_SRCS = ['files/assets/emojis.json']
 
@@ -159,10 +329,15 @@ POST_TITLE_LENGTH_LIMIT = 500 # do not make larger than 500 without altering the
 POST_TITLE_HTML_LENGTH_LIMIT = 1500 # do not make larger than 1500 without altering the table
 POST_BODY_LENGTH_LIMIT = 20000 # do not make larger than 20000 without altering the table
 POST_BODY_HTML_LENGTH_LIMIT = 40000 # do not make larger than 40000 without altering the table
+COMMENT_BODY_LENGTH_LIMIT = 10000 # do not make larger than 10000 characters without altering the table
+COMMENT_BODY_HTML_LENGTH_LIMIT = 20000 # do not make larger than 20000 characters without altering the table
+COMMENT_MAX_DEPTH = 200
+TRANSFER_MESSAGE_LENGTH_LIMIT = 200 # do not make larger than 10000 characters (comment limit) without altering the table
 
 LOGGEDIN_ACTIVE_TIME = 15 * 60
 PFP_DEFAULT_MARSEY = True
 NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
+COMMENT_SPAM_LENGTH_THRESHOLD = 50
 
 HOLE_NAME = 'hole'
 HOLE_STYLE_FLAIR = False
@@ -197,13 +372,13 @@ DAD_ID = 0
 MOM_ID = 0
 DONGER_ID = 0
 GEESE_ID = 0
+BLACKJACKBTZ_ID = 0
 
 POLL_THREAD = 0
 POLL_BET_COINS = 200
 WELCOME_MSG = f"Welcome to {SITE_NAME}!"
 ROLES={}
 
-CASINO_ENABLED = True
 LOTTERY_TICKET_COST = 12
 LOTTERY_SINK_RATE = 3
 LOTTERY_DURATION = 60 * 60 * 24 * 7
@@ -213,15 +388,25 @@ BANNER_THREAD = 0
 BADGE_THREAD = 0
 SNAPPY_THREAD = 0
 GIFT_NOTIF_ID = 5
+SIGNUP_FOLLOW_ID = 0
+NOTIFICATION_THREAD = 1
+
+MAX_IMAGE_SIZE_BANNER_RESIZED_MB = 1
+MAX_IMAGE_AUDIO_SIZE_MB = 8
+MAX_IMAGE_AUDIO_SIZE_MB_PATRON = 16
+MAX_VIDEO_SIZE_MB = 32
+MAX_VIDEO_SIZE_MB_PATRON = 64
 
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
+	PERMS['ADMIN_ADD_PERM_LEVEL'] = 0 # extra check here to disallow adding admins on site
 
 	SIDEBAR_THREAD = 37696
 	BANNER_THREAD = 37697
 	BADGE_THREAD = 37833
 	SNAPPY_THREAD = 37749
+	NOTIFICATION_THREAD = 6489
 
 	HOLE_COST = 50000
 	HOLE_INACTIVITY_DELETION = True
@@ -252,6 +437,7 @@ if SITE == 'rdrama.net':
 	MOM_ID = 4588
 	DONGER_ID = 541
 	GEESE_ID = 1710
+	BLACKJACKBTZ_ID = 12732
 
 	GIFT_NOTIF_ID = CARP_ID
 
@@ -272,6 +458,8 @@ if SITE == 'rdrama.net':
 elif SITE == 'pcmemes.net':
 	PIN_LIMIT = 10
 	FEATURES['REPOST_DETECTION'] = False
+	ERROR_MSGS[500] = "Hiiiii it's <b>nigger</b>! I think this error means that there's a <b>nigger</b> error. And I think that means something took too long to load so it decided to be a <b>nigger</b>. If you keep seeing this on the same page but not other pages, then something its probably a <b>niggerfaggot</b>. It may not be called a <b>nigger</b>, but that sounds right to me. Anyway, ping me and I'll whine to someone smarter to fix it. Don't bother them. Thanks ily &lt;3"
+	ERROR_MARSEYS[500] = "wholesome"
 	POST_RATE_LIMIT = '1/second;4/minute;20/hour;100/day'
 
 	HOLE_COST = 2000
@@ -283,7 +471,9 @@ elif SITE == 'pcmemes.net':
 	BASEDBOT_ID = 800
 
 	KIPPY_ID = 1592
-	GIFT_NOTIF_ID = 1592
+	GIFT_NOTIF_ID = KIPPY_ID
+	SIGNUP_FOLLOW_ID = KIPPY_ID
+	NOTIFICATION_THREAD = 2487
 	CARP_ID = 13
 	AEVANN_ID = 1
 	SNAKES_ID = 2279
@@ -292,6 +482,8 @@ elif SITE == 'pcmemes.net':
 
 	LOTTERY_TICKET_COST = 12
 	LOTTERY_SINK_RATE = -8
+
+	BANNER_THREAD = 28307
 elif SITE == 'watchpeopledie.co':
 	WELCOME_MSG = """Hi, you! Welcome to WatchPeopleDie.co, this really cool site where you can go to watch people die. I'm @CLiTPEELER! If you have any questions about how things work here, or suggestions on how to make them work better than they already do, definitely slide on into my DMs (no fat chicks).\nThere's an enormously robust suite of fun features we have here and we're always looking for more to add. Way, way too many to go over in an automated welcome message. And you're probably here for the videos of people dying more than any sort of weird, paradoxical digital community aspect anyway, so I won't bore you with a tedious overview of them. Just head on over to [your settings page](https://watchpeopledie.co/settings/profile) and have a look at some of the basic profile stuff, at least. You can change your profile picture, username, flair, colors, banners, bio, profile anthem (autoplaying song on your page, like it's MySpace or some shit, hell yeah), CSS, all sorts of things.\nOr you can just go back to the main feed and carry on with watching people die. That's what the site is for, after all. Have fun!\nThough, while I have your attention (realistically I probably don't; this is quite a lot of text) - if you'd like to fund WPD's continued existence in the face of commercial and governmental censors, it would be really cool if you'd stop by our [Kofi page](https://ko-fi.com/wpdco/tiers) and consider contributing some paltry sum each month to help us pay for hosting. *But only if you want*. **We do not serve ads. We will never serve ads. We do not sell data. We will never sell data. We do not paywall ANY usage of the site. We will never paywall ANY usage of the site.** Any and all contributions are strictly voluntary and should only be because you'd like to help the site continue to grow and thrive.\nAnyway, in closing, WPD is entirely open source. We don't really need new full-time coders or anything, but if you'd like to take a look at our repo - or even submit a PR to change, fix, or add some things - go right ahead! We are on [GitHub](https://github.com/Aevann1/rDrama).\nWell, that's all. Thanks again for signing up. It's an automated message and all, but I really do mean that. Thank you, specifically. I love you. Romantically. Deeply. Passionately.\nHave fun!"""
 
@@ -316,6 +508,7 @@ elif SITE == 'watchpeopledie.co':
 	SNAKES_ID = 32
 
 	GIFT_NOTIF_ID = CARP_ID
+	SIGNUP_FOLLOW_ID = CARP_ID
 
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
@@ -323,10 +516,6 @@ else: # localhost or testing environment implied
 
 bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, BASEDBOT_ID}
 
-IMGUR_KEY = environ.get("IMGUR_KEY").strip()
-PUSHER_ID = environ.get("PUSHER_ID", "").strip()
-PUSHER_KEY = environ.get("PUSHER_KEY", "").strip()
-DEFAULT_COLOR = environ.get("DEFAULT_COLOR", "805ad5").strip()
 COLORS = {'ff66ac','805ad5','62ca56','38a169','80ffff','2a96f3','eb4963','ff0000','f39731','30409f','3e98a7','e4432d','7b9ae4','ec72de','7f8fa6', 'f8db58','8cdbe6', DEFAULT_COLOR}
 
 AWARDS = {
@@ -903,11 +1092,8 @@ FACTCHECK_REPLIES = ('<b style="color:#6023f8">Factcheck: This claim has been co
 
 EIGHTBALL_REPLIES = ('<b style="color:#7FEC11">The 8-Ball Says: It is certain.</b>', '<b style="color:#7FEC11">The 8-Ball Says: It is decidedly so.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Without a doubt.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Yes definitely.</b>', '<b style="color:#7FEC11">The 8-Ball Says: You may rely on it.</b>', '<b style="color:#7FEC11">The 8-Ball Says: As I see it, yes.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Most likely.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Outlook good.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Yes.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Signs point to yes.</b>', '<b style="color:#E7890C">The 8-Ball Says: Reply hazy, try again.</b>', '<b style="color:#E7890C">The 8-Ball Says: Ask again later.</b>', '<b style="color:#E7890C">The 8-Ball Says: Better not tell you now.</b>', '<b style="color:#E7890C">The 8-Ball Says: Cannot predict now.</b>', '<b style="color:#E7890C">The 8-Ball Says: Concentrate and ask again.</b>', '<b style="color:#FD4D32">The 8-Ball Says: Don\'t count on it.</b>', '<b style="color:#FD4D32">The 8-Ball Says: My reply is no.</b>', '<b style="color:#FD4D32">The 8-Ball Says: My sources say no.</b>', '<b style="color:#FD4D32">The 8-Ball Says: Outlook not so good.</b>', '<b style="color:#FD4D32">The 8-Ball Says: Very doubtful.</b>')
 
+NOTIF_MODACTION_JL_MIN = PERMS['NOTIFICATIONS_MODERATOR_ACTIONS']
 
-
-NOTIF_MODACTION_JL_MIN = 2
-
-REDDIT_NOTIFS_JL_MIN = 1
 REDDIT_NOTIFS_SITE = set()
 REDDIT_NOTIFS_USERS = {}
 
@@ -943,13 +1129,9 @@ discounts = {
 	78: 0.01,
 }
 
-CF_KEY = environ.get("CF_KEY", "").strip()
-CF_ZONE = environ.get("CF_ZONE", "").strip()
 CF_HEADERS = {"Authorization": f"Bearer {CF_KEY}", "Content-Type": "application/json"}
 
 WORDLE_LIST = ('aaron','about','above','abuse','acids','acres','actor','acute','adams','added','admin','admit','adopt','adult','after','again','agent','aging','agree','ahead','aimed','alarm','album','alert','alias','alice','alien','align','alike','alive','allah','allan','allen','allow','alloy','alone','along','alpha','alter','amber','amend','amino','among','angel','anger','angle','angry','anime','annex','annie','apart','apple','apply','april','areas','arena','argue','arise','armed','armor','array','arrow','aruba','ascii','asian','aside','asked','asset','atlas','audio','audit','autos','avoid','award','aware','awful','babes','bacon','badge','badly','baker','balls','bands','banks','barry','based','bases','basic','basin','basis','batch','baths','beach','beads','beans','bears','beast','beats','began','begin','begun','being','belle','belly','below','belts','bench','berry','betty','bible','bikes','bills','billy','bingo','birds','birth','bitch','black','blade','blair','blake','blame','blank','blast','blend','bless','blind','blink','block','blogs','blond','blood','bloom','blues','board','boats','bobby','bonds','bones','bonus','boobs','books','boost','booth','boots','booty','bored','bound','boxed','boxes','brain','brake','brand','brass','brave','bread','break','breed','brian','brick','bride','brief','bring','broad','broke','brook','brown','bruce','brush','bryan','bucks','buddy','build','built','bunch','bunny','burke','burns','burst','buses','busty','butts','buyer','bytes','cabin','cable','cache','cakes','calif','calls','camel','camps','canal','candy','canon','cards','carey','cargo','carlo','carol','carry','cases','casey','casio','catch','cause','cedar','cells','cents','chain','chair','chaos','charm','chart','chase','cheap','cheat','check','chess','chest','chevy','chick','chief','child','chile','china','chips','choir','chose','chris','chuck','cindy','cisco','cited','civic','civil','claim','clara','clark','class','clean','clear','clerk','click','cliff','climb','clips','clock','clone','close','cloth','cloud','clubs','coach','coast','cocks','codes','cohen','coins','colin','colon','color','combo','comes','comic','condo','congo','const','coral','corps','costa','costs','could','count','court','cover','crack','craft','craig','craps','crash','crazy','cream','creek','crest','crime','crops','cross','crowd','crown','crude','cubic','curve','cyber','cycle','czech','daddy','daily','dairy','daisy','dance','danny','dated','dates','david','davis','deals','dealt','death','debug','debut','decor','delay','delhi','delta','dense','depot','depth','derby','derek','devel','devil','devon','diana','diane','diary','dicke','dicks','diego','diffs','digit','dildo','dirty','disco','discs','disks','dodge','doing','dolls','donna','donor','doors','doubt','dover','dozen','draft','drain','rDrama','drawn','draws','dream','dress','dried','drill','drink','drive','drops','drove','drugs','drums','drunk','dryer','dubai','dutch','dying','dylan','eagle','early','earth','ebony','ebook','eddie','edgar','edges','egypt','eight','elder','elect','elite','ellen','ellis','elvis','emacs','email','emily','empty','ended','endif','enemy','enjoy','enter','entry','epson','equal','error','essay','essex','euros','evans','event','every','exact','exams','excel','exist','extra','faced','faces','facts','fails','fairy','faith','falls','false','fancy','fares','farms','fatal','fatty','fault','favor','fears','feeds','feels','fence','ferry','fever','fewer','fiber','fibre','field','fifth','fifty','fight','filed','files','filme','films','final','finds','fired','fires','firms','first','fixed','fixes','flags','flame','flash','fleet','flesh','float','flood','floor','flour','flows','floyd','fluid','flush','flyer','focal','focus','folks','fonts','foods','force','forge','forms','forth','forty','forum','found','frame','frank','fraud','fresh','front','frost','fruit','fully','funds','funky','funny','fuzzy','gains','games','gamma','gates','gauge','genes','genre','ghana','ghost','giant','gifts','girls','given','gives','glass','glenn','globe','glory','gnome','goals','going','gonna','goods','gotta','grace','grade','grain','grams','grand','grant','graph','grass','grave','great','greek','green','grill','gross','group','grove','grown','grows','guard','guess','guest','guide','guild','hairy','haiti','hands','handy','happy','harry','haven','hayes','heads','heard','heart','heath','heavy','helen','hello','helps','hence','henry','herbs','highs','hills','hindu','hints','hired','hobby','holds','holes','holly','homes','honda','honey','honor','hoped','hopes','horny','horse','hosts','hotel','hours','house','human','humor','icons','idaho','ideal','ideas','image','inbox','index','india','indie','inner','input','intel','inter','intro','iraqi','irish','isaac','islam','issue','italy','items','ivory','jacob','james','jamie','janet','japan','jason','jeans','jenny','jerry','jesse','jesus','jewel','jimmy','johns','joins','joint','jokes','jones','joyce','judge','juice','julia','julie','karen','karma','kathy','katie','keeps','keith','kelly','kenny','kenya','kerry','kevin','kills','kinda','kinds','kings','kitty','klein','knife','knock','known','knows','kodak','korea','label','labor','laden','lakes','lamps','lance','lands','lanes','lanka','large','larry','laser','later','latex','latin','laugh','laura','layer','leads','learn','lease','least','leave','leeds','legal','lemon','leone','level','lewis','lexus','light','liked','likes','limit','linda','lined','lines','links','linux','lions','lists','lived','liver','lives','lloyd','loads','loans','lobby','local','locks','lodge','logan','logic','login','logos','looks','loops','loose','lopez','lotus','louis','loved','lover','loves','lower','lucas','lucia','lucky','lunch','lycos','lying','lyric','macro','magic','mails','maine','major','maker','makes','males','malta','mambo','manga','manor','maple','march','marco','mardi','maria','marie','mario','marks','mason','match','maybe','mayor','mazda','meals','means','meant','medal','media','meets','menus','mercy','merge','merit','merry','metal','meter','metro','meyer','miami','micro','might','milan','miles','milfs','mills','minds','mines','minor','minus','mixed','mixer','model','modem','modes','money','monte','month','moore','moral','moses','motel','motor','mount','mouse','mouth','moved','moves','movie','mpegs','msgid','multi','music','myers','nails','naked','named','names','nancy','nasty','naval','needs','nepal','nerve','never','newer','newly','niger','night','nikon','noble','nodes','noise','nokia','north','noted','notes','notre','novel','nurse','nylon','oasis','occur','ocean','offer','often','older','olive','omaha','omega','onion','opens','opera','orbit','order','organ','oscar','other','ought','outer','owned','owner','oxide','ozone','packs','pages','paint','pairs','panel','panic','pants','paper','papua','paris','parks','parts','party','pasta','paste','patch','paths','patio','paxil','peace','pearl','peers','penis','penny','perry','perth','peter','phase','phone','photo','phpbb','piano','picks','piece','pills','pilot','pipes','pitch','pixel','pizza','place','plain','plane','plans','plant','plate','plays','plaza','plots','poems','point','poker','polar','polls','pools','porno','ports','posts','pound','power','press','price','pride','prime','print','prior','prize','probe','promo','proof','proud','prove','proxy','pulse','pumps','punch','puppy','purse','pussy','qatar','queen','query','quest','queue','quick','quiet','quilt','quite','quote','races','racks','radar','radio','raise','rally','ralph','ranch','randy','range','ranks','rapid','rated','rates','ratio','reach','reads','ready','realm','rebel','refer','rehab','relax','relay','remix','renew','reply','reset','retro','rhode','rider','rides','ridge','right','rings','risks','river','roads','robin','robot','rocks','rocky','roger','roles','rolls','roman','rooms','roots','roses','rouge','rough','round','route','rover','royal','rugby','ruled','rules','rural','safer','sagem','saint','salad','salem','sales','sally','salon','samba','samoa','sandy','santa','sanyo','sarah','satin','sauce','saudi','saved','saver','saves','sbjct','scale','scary','scene','scoop','scope','score','scott','scout','screw','scuba','seats','seeds','seeks','seems','sells','sends','sense','serum','serve','setup','seven','shade','shaft','shake','shall','shame','shape','share','shark','sharp','sheep','sheer','sheet','shelf','shell','shift','shine','ships','shirt','shock','shoes','shoot','shops','shore','short','shots','shown','shows','sides','sight','sigma','signs','silly','simon','since','singh','sites','sixth','sized','sizes','skill','skins','skirt','skype','slave','sleep','slide','slope','slots','sluts','small','smart','smell','smile','smith','smoke','snake','socks','solar','solid','solve','songs','sonic','sorry','sorts','souls','sound','south','space','spain','spank','sparc','spare','speak','specs','speed','spell','spend','spent','sperm','spice','spies','spine','split','spoke','sport','spots','spray','squad','stack','staff','stage','stamp','stand','stars','start','state','stats','stays','steal','steam','steel','steps','steve','stick','still','stock','stone','stood','stops','store','storm','story','strap','strip','stuck','study','stuff','style','sucks','sudan','sugar','suite','suits','sunny','super','surge','susan','sweet','swift','swing','swiss','sword','syria','table','tahoe','taken','takes','tales','talks','tamil','tampa','tanks','tapes','tasks','taste','taxes','teach','teams','tears','teddy','teens','teeth','tells','terms','terry','tests','texas','texts','thank','thats','theft','their','theme','there','these','thick','thing','think','third','thong','those','three','throw','thumb','tiger','tight','tiles','timer','times','tions','tired','tires','title','today','token','tokyo','tommy','toner','tones','tools','tooth','topic','total','touch','tough','tours','tower','towns','toxic','trace','track','tract','tracy','trade','trail','train','trans','trash','treat','trees','trend','trial','tribe','trick','tried','tries','trips','trout','truck','truly','trunk','trust','truth','tubes','tulsa','tumor','tuner','tunes','turbo','turns','tvcom','twice','twiki','twins','twist','tyler','types','ultra','uncle','under','union','units','unity','until','upper','upset','urban','usage','users','using','usual','utils','valid','value','valve','vault','vegas','venue','verde','verse','video','views','villa','vinyl','viral','virus','visit','vista','vital','vocal','voice','volvo','voted','votes','vsnet','wages','wagon','wales','walks','walls','wanna','wants','waste','watch','water','watts','waves','wayne','weeks','weird','wells','welsh','wendy','whale','whats','wheat','wheel','where','which','while','white','whole','whore','whose','wider','width','wiley','winds','wines','wings','wired','wires','witch','wives','woman','women','woods','words','works','world','worry','worse','worst','worth','would','wound','wrist','write','wrong','wrote','xanax','xerox','xhtml','yacht','yahoo','yards','years','yeast','yemen','yield','young','yours','youth','yukon','zones','gypsy','etika','funko','abort','gabby','soros','twink','biden','janny','chapo','4chan','tariq','tweet','trump','bussy','sneed','chink','nigga','wigga','caulk','putin','negus','gussy','soren')
-
-dues = int(environ.get("DUES").strip())
 
 christian_emojis = [':#marseyjesus:',':#marseyimmaculate:',':#marseymothermary:',
 	':#marseyfatherjoseph:',':#gigachadorthodox:',':#marseyorthodox:',':#marseyorthodoxpat:',
@@ -979,14 +1161,10 @@ if path.isfile(f'snappy_{SITE_NAME}.txt'):
 	with open(f'snappy_{SITE_NAME}.txt', "r", encoding="utf-8") as f:
 		SNAPPY_QUOTES = f.read().split("\n{[para]}\n")
 
-YOUTUBE_KEY = environ.get("YOUTUBE_KEY", "").strip()
-
 ADMIGGERS = {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD, SNAPPY_THREAD}
 
-OPERA_URL = environ.get("OPERA_URL", "http://localhost:18080")
-proxies = {"http":OPERA_URL,"https":OPERA_URL}
+proxies = {"http":PROXY_URL,"https":PROXY_URL}
 
-blackjack = environ.get("BLACKJACK", "").strip()
 
 approved_embed_hosts = {
 	SITE,
@@ -1065,33 +1243,6 @@ def is_safe_url(url):
 
 hosts = "|".join(approved_embed_hosts).replace('.','\.')
 
-SITE_NAME = environ.get("SITE_NAME").strip()
-HCAPTCHA_SITEKEY = environ.get("HCAPTCHA_SITEKEY","").strip()
-HCAPTCHA_SECRET = environ.get("HCAPTCHA_SECRET","").strip()
-SPAM_SIMILARITY_THRESHOLD = float(environ.get("SPAM_SIMILARITY_THRESHOLD", 0.5))
-SPAM_URL_SIMILARITY_THRESHOLD = float(environ.get("SPAM_URL_SIMILARITY_THRESHOLD", 0.1))
-SPAM_SIMILAR_COUNT_THRESHOLD = int(environ.get("SPAM_SIMILAR_COUNT_THRESHOLD", 10))
-COMMENT_SPAM_SIMILAR_THRESHOLD = float(environ.get("COMMENT_SPAM_SIMILAR_THRESHOLD", 0.5))
-COMMENT_SPAM_COUNT_THRESHOLD = int(environ.get("COMMENT_SPAM_COUNT_THRESHOLD", 10))
-DESCRIPTION = environ.get("DESCRIPTION", "rdrama.net caters to drama in all forms such as: Real life, videos, photos, gossip, rumors, news sites, Reddit, and Beyond™. There isn't drama we won't touch, and we want it all!").strip()
-GUMROAD_LINK = environ.get("GUMROAD_LINK", "https://marsey1.gumroad.com/l/rdrama").strip()
-GUMROAD_TOKEN = environ.get("GUMROAD_TOKEN", "").strip()
-GUMROAD_ID = environ.get("GUMROAD_ID", "rdrama").strip()
-DEFAULT_THEME = environ.get("DEFAULT_THEME", "midnight").strip()
-DEFAULT_TIME_FILTER = environ.get("DEFAULT_TIME_FILTER", "all").strip()
-CARD_VIEW = bool(int(environ.get("CARD_VIEW", 1)))
-DISABLE_DOWNVOTES = bool(int(environ.get("DISABLE_DOWNVOTES", 0)))
-DISCORD_SERVER_ID = environ.get("DISCORD_SERVER_ID",'').strip()
-DISCORD_CLIENT_ID = environ.get("DISCORD_CLIENT_ID",'').strip()
-DISCORD_CLIENT_SECRET = environ.get("DISCORD_CLIENT_SECRET",'').strip()
-DISCORD_BOT_TOKEN = environ.get("DISCORD_BOT_TOKEN",'').strip()
-DISCORD_AUTH = environ.get("DISCORD_AUTH",'').strip()
-GIPHY_KEY = environ.get('GIPHY_KEY').strip()
-MASTER_KEY = environ.get("MASTER_KEY")
-FP = environ.get("FP")
-KOFI_TOKEN = environ.get("KOFI_TOKEN")
-KOFI_LINK = environ.get("KOFI_LINK")
-
 tiers={
 	"(Paypig)": 1,
 	"(Renthog)": 2,
@@ -1114,8 +1265,6 @@ DISCORD_WELCOME_CHANNEL = "846509313941700618"
 has_sidebar = path.exists(f'files/templates/sidebar_{SITE_NAME}.html')
 has_logo = path.exists(f'files/assets/images/{SITE_NAME}/logo.webp')
 has_app = path.exists(f'files/assets/app_{SITE_NAME}_v2.4.apk')
-
-GLOBAL = environ.get("GLOBAL")
 
 ONLINE_STR = f'{SITE}_online'
 

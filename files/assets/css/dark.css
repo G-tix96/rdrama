@@ -95,3 +95,7 @@ pre {
 h5.post-title a:visited {
 	color: #7a7a7a !important;
 }
+
+.empty-state-img {
+    filter: brightness(99);
+}

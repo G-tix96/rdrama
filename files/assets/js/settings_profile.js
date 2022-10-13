@@ -87,7 +87,14 @@ function updatebgselection(){
 document.onpaste = function(event) {
 	var focused = document.activeElement;
 	if (focused.id == 'bio-text') {
-		files = event.clipboardData.files
+		const files = event.clipboardData.files
+
+		if (files.length > 4)
+		{
+			alert("You can't upload more than 4 files at one time!")
+			return
+		}
+	
 		if (files.length)
 		{
 			f=document.getElementById('file-upload');
