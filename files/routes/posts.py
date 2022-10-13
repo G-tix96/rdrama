@@ -197,7 +197,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		comments = comments.filter(Comment.level == 1, Comment.stickied == None)
 
 		comments = sort_objects(sort, comments, Comment,
-			include_shadowbanned=(not (v and v.can_see_shadowbanned)))
+			include_shadowbanned=(v and v.can_see_shadowbanned))
 
 		comments = [c[0] for c in comments.all()]
 	else:
@@ -206,7 +206,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		comments = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.parent_submission == post.id, Comment.level == 1, Comment.stickied == None)
 
 		comments = sort_objects(sort, comments, Comment,
-			include_shadowbanned=(not (v and v.can_see_shadowbanned)))
+			include_shadowbanned=False)
 
 		comments = comments.all()
 
@@ -319,14 +319,14 @@ def viewmore(v, pid, sort, offset):
 		comments = comments.filter(Comment.level == 1)
 
 		comments = sort_objects(sort, comments, Comment,
-			include_shadowbanned=(not (v and v.can_see_shadowbanned)))
+			include_shadowbanned=(v and v.can_see_shadowbanned))
 
 		comments = [c[0] for c in comments.all()]
 	else:
 		comments = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.parent_submission == pid, Comment.level == 1, Comment.stickied == None, Comment.id.notin_(ids))
 
 		comments = sort_objects(sort, comments, Comment,
-			include_shadowbanned=(not (v and v.can_see_shadowbanned)))
+			include_shadowbanned=False)
 		
 		comments = comments.offset(offset).all()
 

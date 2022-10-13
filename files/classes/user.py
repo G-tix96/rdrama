@@ -479,7 +479,7 @@ class User(Base):
 		posts = apply_time_filter(t, posts, Submission)
 
 		posts = sort_objects(sort, posts, Submission,
-			include_shadowbanned=(not (v and v.can_see_shadowbanned)))
+			include_shadowbanned=(v and v.can_see_shadowbanned))
 	
 		posts = posts.offset(25 * (page - 1)).limit(26).all()
 
@@ -980,4 +980,4 @@ class User(Base):
 	@property
 	@lazy
 	def can_see_shadowbanned(self):
-		return self.shadowbanned or self.admin_level >= PERMS['USER_SHADOWBAN']
+		return (self.admin_level >= PERMS['USER_SHADOWBAN']) or self.shadowbanned

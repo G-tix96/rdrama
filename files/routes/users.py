@@ -910,7 +910,7 @@ def u_username_comments(username, v=None):
 	comments = apply_time_filter(t, comments, Comment)
 
 	comments = sort_objects(sort, comments, Comment,
-		include_shadowbanned=(not (v and v.can_see_shadowbanned)))
+		include_shadowbanned=(v and v.can_see_shadowbanned))
 
 	comments = comments.offset(25 * (page - 1)).limit(26).all()
 	ids = [x.id for x in comments]
