@@ -58,7 +58,7 @@ function autoExpand (field) {
 	+ parseInt(computed.getPropertyValue('border-bottom-width'), 10);
 
 	field.style.height = height + 'px';
-
+	if (Math.abs(window.scrollX - xpos) < 1 && Math.abs(window.scrollY - ypos) < 1) return;
 	window.scrollTo(xpos,ypos);
 };
 
@@ -182,7 +182,7 @@ if (document.readyState === "complete" ||
 }
 
 function post_toast(t, url, button1, button2, classname, extra_actions) {
-	let isShopConfirm = t.id.startsWith('buy1-') || t.id.startsWith('buy2-');
+	let isShopConfirm = t.id.startsWith('buy1-go') || t.id.startsWith('buy2-go');
 
 	if (!isShopConfirm)
 	{
