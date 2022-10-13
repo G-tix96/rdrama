@@ -67,9 +67,6 @@ def searchposts(v):
 			Submission.is_banned == False,
 			Submission.private == False)
 	
-	if v.admin_level < PERMS['USER_SHADOWBAN']:
-		posts = posts.filter(User.shadowbanned == None)
-
 	if 'author' in criteria:
 		posts = posts.filter(Submission.ghost == False)
 		author = get_user(criteria['author'], v=v, include_shadowbanned=False)

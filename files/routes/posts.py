@@ -166,10 +166,6 @@ def post_id(pid, anything=None, v=None, sub=None):
 			blocking.c.target_id,
 			blocked.c.target_id,
 		)
-		
-		if not (v and v.can_see_shadowbanned):
-			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
- 
 		comments=comments.filter(Comment.parent_submission == post.id, Comment.level < 10).join(
 			votes,
 			votes.c.comment_id == Comment.id,
@@ -203,7 +199,11 @@ def post_id(pid, anything=None, v=None, sub=None):
 	else:
 		pinned = g.db.query(Comment).filter(Comment.parent_submission == post.id, Comment.stickied != None).all()
 
-		comments = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.parent_submission == post.id, Comment.level == 1, Comment.stickied == None)
+		comments = g.db.query(Comment).filter(
+				Comment.parent_submission == post.id,
+				Comment.level == 1,
+				Comment.stickied == None
+			)
 
 		comments = sort_objects(sort, comments, Comment,
 			include_shadowbanned=False)
@@ -290,10 +290,6 @@ def viewmore(v, pid, sort, offset):
 			blocking.c.target_id,
 			blocked.c.target_id,
 		).filter(Comment.parent_submission == pid, Comment.stickied == None, Comment.id.notin_(ids), Comment.level < 10)
-		
-		if not (v and v.can_see_shadowbanned):
-			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
- 
 		comments=comments.join(
 			votes,
 			votes.c.comment_id == Comment.id,
@@ -323,7 +319,12 @@ def viewmore(v, pid, sort, offset):
 
 		comments = [c[0] for c in comments.all()]
 	else:
-		comments = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.parent_submission == pid, Comment.level == 1, Comment.stickied == None, Comment.id.notin_(ids))
+		comments = g.db.query(Comment).filter(
+				Comment.parent_submission == pid,
+				Comment.level == 1,
+				Comment.stickied == None,
+				Comment.id.notin_(ids)
+			)
 
 		comments = sort_objects(sort, comments, Comment,
 			include_shadowbanned=False)

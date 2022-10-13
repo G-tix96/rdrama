@@ -112,9 +112,6 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 			word = word.replace('\\', '').replace('_', '\_').replace('%', '\%').strip()
 			posts=posts.filter(not_(Submission.title.ilike(f'%{word}%')))
 
-	if not (v and v.shadowbanned):
-		posts = posts.join(Submission.author).filter(User.shadowbanned == None)
-
 	posts = sort_objects(sort, posts, Submission,
 		include_shadowbanned=(v and v.can_see_shadowbanned))
 

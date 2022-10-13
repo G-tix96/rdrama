@@ -903,7 +903,6 @@ def u_username_comments(username, v=None):
 		comments = comments.filter(
 			Comment.is_banned == False,
 			Comment.ghost == False,
-			comment_post_author.shadowbanned == None,
 			Comment.deleted_utc == 0
 		)
 
