@@ -490,7 +490,6 @@ body::after {
 	font-family: 'Creepster';
 	color: #90ee90;
 	letter-spacing: 0.15em;
-	overflow:visible;
 }
 
 .ectoplasm .candy-corn {
@@ -508,6 +507,10 @@ body::after {
 .ectoplasm .rainbow-text > p {
 	color: #90ee90 !important;
 	font-weight: initial;
+}
+
+.ectoplasm .comment-text, .ectoplasm .post-body, h1.ectoplasm {
+	overflow:visible;
 }
 
 /*upsidedown*/
