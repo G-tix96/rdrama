@@ -321,6 +321,7 @@ INSERT INTO public.hat_defs VALUES (807, 'The Capy', 'You''re the chosen one! No
 
 
 
+
 INSERT INTO public.hat_defs VALUES (92, 'Top Hat (black)', 'Traditional. Classy. Elegant.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (714, 'Captain Falcon', 'The chad that every smash player wanted to imitate, if only his moveset included a shower.', 2, 500, NULL, 1663474615);
 INSERT INTO public.hat_defs VALUES (715, 'Inspector Gadget', '"Go go Gadget Brown Bricks!"', 2, 500, NULL, 1663477536);
@@ -1071,7 +1072,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 963, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 964, true);
 
 
 --
@@ -2382,6 +2383,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyrightoidschizo',2,'nazi conspiracy crazy tin foil tinfoil conservative animated ruqqus',NULL),
 ('marseyrobber',2,'mask balaclava gun shooter shooting thief criminal nigger jogger ahmaud arbery george floyd',NULL),
 ('marseyrobot',2,'npc snappy sentient ai glow tech computer',1664034073),
+('marseyroguspanish',2,'rogu spanish marsey american dad',1665625304),
 ('marseyroo',2,'kangaroo australian',NULL),
 ('marseyrope',2,'reaction suicidal shotgun facelift suicide',NULL),
 ('marseyropewithchingchong',2,'suicide chink chinese asian die kys together strawhat slit zip gook nip buckteeth',NULL),
