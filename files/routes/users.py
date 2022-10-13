@@ -510,6 +510,9 @@ def message2(v, username):
 
 	if 'linkedin.com' in message: abort(403, "This domain 'linkedin.com' is banned.")
 
+	if 'discord.gg' in message or 'discord.com' in message or 'discordapp.com' in message:
+		abort(403, "Stop grooming!")
+
 	body_html = sanitize(message)
 
 	if not (SITE == 'rdrama.net' and user.id == BLACKJACKBTZ_ID):
@@ -574,7 +577,10 @@ def messagereply(v):
 
 	if not body and not request.files.get("file"): abort(400, "Message is empty!")
 
-	if 'linkedin.com' in body: abort(400, "this domain 'linkedin.com' is banned")
+	if 'linkedin.com' in body: abort(403, "This domain 'linkedin.com' is banned")
+
+	if 'discord.gg' in body or 'discord.com' in body or 'discordapp.com' in body:
+		abort(403, "Stop grooming!")
 
 	id = int(request.values.get("parent_id"))
 	parent = get_comment(id, v=v)
