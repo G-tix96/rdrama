@@ -510,7 +510,7 @@ body::after {
 }
 
 .ectoplasm .comment-text, .ectoplasm .post-body, h1.ectoplasm {
-	overflow:visible;
+	overflow:visible !important;
 }
 
 /*upsidedown*/
