@@ -331,7 +331,7 @@ class Submission(Base):
 	def realbody(self, v, listing=False):
 		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"<p>{CC} ONLY</p>"
 		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "[Deleted by user]"
-		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and v.id != self.author.id: return ""
+		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return ""
 
 		body = self.body_html or ""
 
@@ -400,7 +400,7 @@ class Submission(Base):
 	@lazy
 	def plainbody(self, v):
 		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "[Deleted by user]"
-		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and v.id != self.author.id: return ""
+		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return ""
 		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"<p>{CC} ONLY</p>"
 
 		body = self.body
