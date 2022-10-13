@@ -29,4 +29,8 @@ docker-compose up
 For returning contributors, we have noticed the following issues (if you can help fix them, we will be very grateful!):
 
 1. Docker doesn't know when we add a new Python dependency, `docker-compose build` is needed.
-2. DB schema changes are not applied automatically, the easiest way to deal with that is to delete the entire environment from the Docker GUI and do `docker-compose up`. Also wait five minutes for a "sneed" commit from Aevann meaning that the sql file was regenerated.
+2. DB schema changes are not applied automatically, the easiest way to deal with that is to delete the entire environment from the Docker GUI <sup>[1]</sup> and do `docker-compose up`. Also wait five minutes for a "sneed" commit from Aevann meaning that the sql file was regenerated.
+
+---
+
+<sup>[1]</sup> For command line users, this can be achieved by running `docker rm CONTAINER` and `docker volume rm VOLUME`. If you want to remove all docker containers and volumes at once, you can run `docker rm $(docker ps -a -q) && docker volume rm $(docker volume ls -q)`, but please keep in mind that this will remove ALL docker environments, not just rDrama
