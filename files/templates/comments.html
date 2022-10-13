@@ -36,7 +36,7 @@
 							<div class="user-info">
 								<span class="comment-collapse-icon" onclick="collapse_comment('{{c.id}}', this.parentElement.parentElement.parentElement.parentElement)"></span>
 								{% if standalone and c.over_18 %}<span class="badge badge-danger">+18</span> {% endif %}
-								{% if c.is_banned %}removed by @{{c.ban_reason}}{% elif c.deleted_utc %}Deleted by author{% elif c.is_blocking %}You are blocking @{{c.author_name}}{% endif %}
+								{% if c.is_banned %}removed by @{{c.ban_reason}} (Admin){% elif c.deleted_utc %}Deleted by author{% elif c.is_blocking %}You are blocking @{{c.author_name}}{% endif %}
 							</div>
 
 					</div>
@@ -219,7 +219,7 @@
 			{% endif %}
 
 			{% if c.is_banned and c.ban_reason %}
-				<div id="comment-banned-warning" class="comment-text text-removed mb-0">removed by @{{c.ban_reason}}</div>
+				<div id="comment-banned-warning" class="comment-text text-removed mb-0">removed by @{{c.ban_reason}} (Admin)</div>
 			{% endif %}
 			
 			{% if c.award_count("tilt", v) %}
