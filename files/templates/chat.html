@@ -20,7 +20,11 @@
 			{{v.css | safe}}
 		</style>
 	{% endif %}
-	<link rel="stylesheet" href="{{'css/chat_done.css' | asset}}">
+	{% if SITE == 'localhost' %}
+		<link rel="stylesheet" href="https://rdrama.net/assets/css/chat_done.css">
+	{% else %}
+		<link rel="stylesheet" href="{{'css/chat_done.css' | asset}}">
+	{% endif %}
 </head>
 
 <body>
@@ -41,8 +45,11 @@
 		data-hat="{{v.hat_active}}">
 	</div>
 	<script>window.global = window</script>
-	<script defer src="{{'js/chat_done.js' | asset}}"></script>
+	{% if SITE == 'localhost' %}
+		<script defer src="https://rdrama.net/assets/js/chat_done.js"></script>
+	{% else %}
+		<script defer src="{{'js/chat_done.js' | asset}}"></script>
+	{% endif %}
 	<script defer src="{{'js/lozad.js' | asset}}"></script>
 	<script defer src="{{'js/lite-youtube.js' | asset}}"></script>
 </body>
-
