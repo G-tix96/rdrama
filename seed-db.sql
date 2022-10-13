@@ -308,6 +308,19 @@ INSERT INTO public.hat_defs VALUES (807, 'The Capy', 'You''re the chosen one! No
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 INSERT INTO public.hat_defs VALUES (92, 'Top Hat (black)', 'Traditional. Classy. Elegant.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (714, 'Captain Falcon', 'The chad that every smash player wanted to imitate, if only his moveset included a shower.', 2, 500, NULL, 1663474615);
 INSERT INTO public.hat_defs VALUES (715, 'Inspector Gadget', '"Go go Gadget Brown Bricks!"', 2, 500, NULL, 1663477536);
@@ -390,6 +403,9 @@ INSERT INTO public.hat_defs VALUES (844, 'Snek Peek', 'When the friendly snek se
 INSERT INTO public.hat_defs VALUES (17, 'Viking', 'Rape, pillage, never bathe. Live the dream.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (532, 'Under His Eye', 'WATCH ANOTHER SHOW', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (845, 'Loading', 'please wait', 2, 1000, NULL, 1665261780);
+
+
+
 
 
 INSERT INTO public.hat_defs VALUES (22, 'Southern Gentleman', 'Slaveowner? Fried chicken chain founder? You decide!', 2, 500, NULL, 1662167687);
@@ -477,6 +493,7 @@ INSERT INTO public.hat_defs VALUES (861, 'Bowl Cut', 'Who cut your hair? Your mo
 INSERT INTO public.hat_defs VALUES (866, 'Venom Mask', 'PUT THE TOUNGUE AWAY', 2, 500, NULL, 1665272503);
 INSERT INTO public.hat_defs VALUES (871, 'Kirby Beanie', 'Be careful he''ll swallow you', 2, 500, NULL, 1665272632);
 INSERT INTO public.hat_defs VALUES (872, 'Pinwheels', 'Holland hat holland hat', 2, 1000, NULL, 1665272653);
+
 
 INSERT INTO public.hat_defs VALUES (631, 'Country Club Visor', 'What country club members wear when discussing your reddit account', 2, 500, NULL, 1663033011);
 INSERT INTO public.hat_defs VALUES (632, 'Jotaro Hat', 'The iconic cap of a buff punchy weebshit guy', 2, 500, NULL, 1663033206);
@@ -1054,7 +1071,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 944, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 963, true);
 
 
 --
@@ -1620,6 +1637,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydunce',2,'stupid moron imbecile dolt dunce retard dumb cap hat sped',NULL),
 ('marseydunkon',2,'basketball dunk seethe cope rage sports',NULL),
 ('marseydylan',2,'columbine school shooter psycho gun pistol klebold',NULL),
+('marseydylannroof',2,'mayo streetwear dylann roof shooter confederate flag fashion',1665607955),
 ('marseydynamite',2,'dynomite black afro gun',NULL),
 ('marseyearrape',2,'breakcore goreshit headphones noisecore',NULL),
 ('marseyecstatic',2,'ecstatic happy creepy smile',1664490819),
