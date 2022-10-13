@@ -1,21 +1,24 @@
 @charset "UTF-8";
 
-@import url('https://fonts.googleapis.com/css2?family=Griffy&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nosifer&display=swap');
+/* Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Creepster&display=swap");
 
 @font-face {
 	font-family: "DoubleFeature";
 	src: url("/assets/fonts/halloween/DoubleFeature.woff") format("woff");
 }
+
 @font-face {
 	font-family: "Jo_wrote_a_lovesong";
 	src: url("/assets/fonts/halloween/Jo_wrote_a_lovesong.woff") format("woff");
 }
+
 @font-face {
-	font-family: "Unutterable";
-	src: url("/assets/fonts/halloween/Unutterable.woff") format("woff");
+	font-family: "XTypewriter-Regular";
+	src: url("/assets/fonts/halloween/XTypewriter-Regular.woff") format("woff");
 }
+
+/* Halloween Theming */
 :root {
   --primary: #F66A3C;
   --dark: #140224;
@@ -42,7 +45,7 @@
 }
 
 a:hover.user-name {
-	cursor: url('/assets/images/halloween/machete.png') 36 36, auto;
+	cursor: url('/assets/images/halloween/machete.png') 36 36, auto !important;
 }
 
 .border {
@@ -93,12 +96,9 @@ pre {
 	color: #7a7a7a !important;
 }
 
-/* Halloween Theming */
-
 .post-title a, h1.post-title {
-	font-family: 'Unutterable';
+	font-family: 'XTypewriter-Regular';
 	font-size: 1.25rem;
-	text-transform: lowercase;
 }
 
 .arrow-up::before, .arrow-down::before {
@@ -112,7 +112,6 @@ pre {
 }
 
 /* Cob Webs */
-
 body::before {
 	content: '';
 	position: fixed;
@@ -145,7 +144,6 @@ body::after {
 }
 
 /* Blood Effect */
-
 .blood::before {
 	content: '';
 	position: absolute;
@@ -176,7 +174,6 @@ body::after {
 }
 
 /* Haunted Effect */
-
 .haunt > div:not(.modal) {
 	animation: haunted 10s infinite;
 }
@@ -206,7 +203,6 @@ body::after {
 }
 
 /* Spiders */
-
 .spider:nth-child(odd) {
 	animation-name: swingFast;
 }
@@ -260,11 +256,9 @@ body::after {
 	top: 0;
 	left: 10%;
 
-	/* 4. Animate */
 	animation: swing 2s infinite;
 	transform-origin: top;
 
-	/* Bonus */
 	transition: 0.8s ease-in-out;
 }
 
@@ -319,7 +313,6 @@ body::after {
 	margin: 55%;
 	border-radius: 50%;
 
-	/* 3. Animate */
 	animation: look 4s infinite;
 }
 
@@ -382,7 +375,6 @@ body::after {
 	margin-left: -30px;
 }
 
-/* 1. Animate */
 @keyframes look {
 	0%,
 	40%,
@@ -396,7 +388,6 @@ body::after {
 	}
 }
 
-/* 3. Animate */
 @keyframes swing {
 	0%,
 	100% {
@@ -408,7 +399,6 @@ body::after {
 	}
 }
 
-/* 3. Animate */
 @keyframes swingFast {
 	0%,
 	100% {
@@ -424,6 +414,7 @@ body::after {
 .fog-effect {
 	opacity: 0.8;
 }
+
 #fog-effect {
 	pointer-events: none;
 	position:fixed;
@@ -515,7 +506,7 @@ body::after {
 	overflow:visible !important;
 }
 
-/*upsidedown*/
+/* Upsidedown */
 #canvas {
 	position:absolute;
 	overflow:hidden;
