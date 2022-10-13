@@ -86,8 +86,6 @@ def get_logged_in_user():
 				if f'@{v.username}, ' not in f.read():
 					t = str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time())))
 					f.write(f'@{v.username}, {v.truecoins}, {ip}, {t}\n')
-		elif not v and request.path not in ('/login','/signup'):
-			abort(401)
 
 	return v
 
