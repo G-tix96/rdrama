@@ -504,7 +504,7 @@ def under_attack(v):
 		user_id=v.id,
 	)
 	g.db.add(ma)
-	return {"message": f"Under attack mode {enable_disable_str}!"}
+	return {"message": f"Under attack mode {enable_disable_str}d!"}
 
 @app.get("/admin/badge_grant")
 @admin_level_required(PERMS['USER_BADGES'])
