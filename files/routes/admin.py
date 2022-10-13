@@ -11,6 +11,7 @@ from files.helpers.get import *
 from files.helpers.media import *
 from files.helpers.const import *
 from files.helpers.actions import *
+from files.helpers.cloudflare import *
 from files.classes import *
 from flask import *
 from files.__main__ import app, cache, limiter
@@ -426,9 +427,7 @@ def admin_home(v):
 	under_attack = False
 
 	if v.admin_level >= PERMS['SITE_SETTINGS_UNDER_ATTACK']:
-		if CF_ZONE == 'blahblahblah': response = 'high'
-		else: response = requests.get(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, timeout=5).json()['result']['value']
-		under_attack = response == 'under_attack'
+		under_attack = (get_security_level() or 'high') == 'under_attack'
 
 	gitref = admin_git_head()
 	
@@ -479,44 +478,33 @@ def purge_cache(v):
 	online = cache.get(ONLINE_STR)
 	cache.clear()
 	cache.set(ONLINE_STR, online)
-
-	response = str(requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, data='{"purge_everything":true}', timeout=5))
-
+	if not purge_entire_cache():
+		abort(400, 'Failed to purge cache')
 	ma = ModAction(
 		kind="purge_cache",
 		user_id=v.id
 	)
 	g.db.add(ma)
-
-	if response == "<Response [200]>": return {"message": "Cache purged!"}
-	abort(400, 'Failed to purge cache.')
+	return {"message": "Cache purged!"}
 
 
 @app.post("/admin/under_attack")
 @admin_level_required(PERMS['SITE_SETTINGS_UNDER_ATTACK'])
 def under_attack(v):
-	response = requests.get(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, timeout=5).json()['result']['value']
-
-	if response == 'under_attack':
-		ma = ModAction(
-			kind="disable_under_attack",
-			user_id=v.id,
-		)
-		g.db.add(ma)
-
-		response = str(requests.patch(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, data='{"value":"high"}', timeout=5))
-		if response == "<Response [200]>": return {"message": "Under attack mode disabled!"}
-		abort(400, "Failed to disable under attack mode.")
-	else:
-		ma = ModAction(
-			kind="enable_under_attack",
-			user_id=v.id,
-		)
-		g.db.add(ma)
-
-		response = str(requests.patch(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, data='{"value":"under_attack"}', timeout=5))
-		if response == "<Response [200]>": return {"message": "Under attack mode enabled!"}
-		abort(400, "Failed to enable under attack mode.")
+	response = get_security_level()
+	if not response:
+		abort(400, 'Could not retrieve the current security level')
+	old_under_attack_mode = response == 'under_attack'
+	enable_disable_str = 'disable' if old_under_attack_mode else 'enable'
+	new_security_level = 'high' if old_under_attack_mode else 'under_attack'
+	if not set_security_level(new_security_level):
+		abort(400, f'Failed to {enable_disable_str} under attack mode')
+	ma = ModAction(
+		kind=f"{enable_disable_str}_under_attack",
+		user_id=v.id,
+	)
+	g.db.add(ma)
+	return {"message": f"Under attack mode {enable_disable_str}!"}
 
 @app.get("/admin/badge_grant")
 @admin_level_required(PERMS['USER_BADGES'])
@@ -1142,10 +1130,7 @@ def remove_post(post_id, v):
 
 	v.coins += 1
 	g.db.add(v)
-
-	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS,
-		data=f'{{"files": ["https://{SITE}/logged_out"]}}', timeout=5)
-
+	purge_files_in_cache(f"https://{SITE}/logged_out")
 	return {"message": "Post removed!"}
 
 

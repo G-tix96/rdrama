@@ -215,8 +215,7 @@ def comment(v):
 							filename = f'files/assets/images/badges/{badge.id}.webp'
 							copyfile(oldname, filename)
 							process_image(filename, resize=300)
-							requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
-								data=f'{{"files": ["https://{SITE}/assets/images/badges/{badge.id}.webp"]}}', timeout=5)
+							purge_files_in_cache(f"https://{SITE}/assets/images/badges/{badge.id}.webp")
 						except Exception as e:
 							abort(400, str(e))
 				body += f"\n\n![]({image})"

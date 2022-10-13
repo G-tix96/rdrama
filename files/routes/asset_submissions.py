@@ -132,9 +132,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 			badge_grant(badge_id=16, user=author)
 		else:
 			badge_grant(badge_id=17, user=author)
-
-		requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
-			data=f'{{"files": ["https://{SITE}/e/{marsey.name}.webp"]}}', timeout=5)
+		purge_files_in_cache(f"https://{SITE}/e/{marsey.name}/webp")
 		cache.delete_memoized(marsey_list)
 
 
@@ -389,9 +387,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 		filename = f"files/assets/images/emojis/{name}.webp"
 		copyfile(new_path, filename)
 		process_image(filename, resize=200, trim=True)
-
-		requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
-			data=f'{{"files": ["https://{SITE}/e/{name}.webp", "https://{SITE}/assets/images/emojis/{name}.webp", "https://{SITE}/asset_submissions/marseys/original/{name}.{format}"]}}', timeout=5)
+		purge_files_in_cache([f"https://{SITE}/e/{name}.webp", f"https://{SITE}/assets/images/emojis/{name}.webp", f"https://{SITE}/asset_submissions/marseys/original/{name}.{format}"])
 
 		ma = ModAction(
 			kind="update_marsey",
@@ -458,10 +454,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 		filename = f"files/assets/images/hats/{name}.webp"
 		copyfile(new_path, filename)
 		process_image(filename)
-
-		requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
-			data=f'{{"files": ["https://{SITE}/i/hats/{name}.webp", "https://{SITE}/assets/images/hats/{name}.webp", "https://{SITE}/asset_submissions/hats/original/{name}.{format}"]}}', timeout=5)
-
+		purge_files_in_cache([f"https://{SITE}/i/hats/{name}.webp", f"https://{SITE}/assets/images/hats/{name}.webp", f"https://{SITE}/asset_submissions/hats/original/{name}.{format}"])
 		ma = ModAction(
 			kind="update_hat",
 			user_id=v.id,

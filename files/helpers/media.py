@@ -11,6 +11,7 @@ import gevent
 import imagehash
 from shutil import copyfile
 from files.classes.media import *
+from files.helpers.cloudflare import purge_files_in_cache
 from files.__main__ import db_session
 
 def process_files():
@@ -66,9 +67,7 @@ def webm_to_mp4(old, new, vid):
 	subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp], check=True, stderr=subprocess.STDOUT)
 	os.replace(tmp, new)
 	os.remove(old)
-	requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
-		data=f'{{"files": ["{SITE_FULL}{new}"]}}', timeout=5)
-
+	purge_files_in_cache(f"{SITE_FULL}{new}")
 	db = db_session()
 
 	media = db.query(Media).filter_by(filename=new, kind='video').one_or_none()
