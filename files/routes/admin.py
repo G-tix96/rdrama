@@ -425,14 +425,10 @@ def reported_comments(v):
 def admin_home(v):
 	under_attack = False
 
-	### TODO: This is timing out in gevent, something to do with _SSLErrorReadTimeout.
-	### For some reason it manages to take down all the workers in the process.
-	### Major service disruptions. Non-essential, so will resolve later. [2022-10-13]
-	### TODO: Make more robust to API outages/timeouts. And move to a helper.
-	#if v.admin_level >= PERMS['SITE_SETTINGS_UNDER_ATTACK']:
-	#	if CF_ZONE == 'blahblahblah': response = 'high'
-	#	else: response = requests.get(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, timeout=5).json()['result']['value']
-	#	under_attack = response == 'under_attack'
+	if v.admin_level >= PERMS['SITE_SETTINGS_UNDER_ATTACK']:
+		if CF_ZONE == 'blahblahblah': response = 'high'
+		else: response = requests.get(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, timeout=5).json()['result']['value']
+		under_attack = response == 'under_attack'
 
 	gitref = admin_git_head()
 	
