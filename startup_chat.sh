@@ -1,7 +1,6 @@
 #!/bin/bash
 
 cd /rDrama
-git pull
 
 . /env
 PATH="${NVM_DIR}/versions/node/v${NODE_VERSION}/bin/:${PATH}"
