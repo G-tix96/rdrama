@@ -2,10 +2,21 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Griffy&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nosifer&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Creepster&display=swap");
 
+@font-face {
+	font-family: "DoubleFeature";
+	src: url("/assets/fonts/halloween/DoubleFeature.woff") format("woff");
+}
+@font-face {
+	font-family: "Jo_wrote_a_lovesong";
+	src: url("/assets/fonts/halloween/Jo_wrote_a_lovesong.woff") format("woff");
+}
+@font-face {
+	font-family: "Unutterable";
+	src: url("/assets/fonts/halloween/Unutterable.woff") format("woff");
+}
 :root {
-  /*--primary: #ee5e0a;
-  --dark: #1f0339;*/
   --primary: #F66A3C;
   --dark: #140224;
   --secondary: #820263;
@@ -84,9 +95,10 @@ pre {
 
 /* Halloween Theming */
 
-.post-title a {
-	font-family: 'Griffy';
+.post-title a, h1.post-title {
+	font-family: 'Unutterable';
 	font-size: 1.25rem;
+	text-transform: lowercase;
 }
 
 .arrow-up::before, .arrow-down::before {
@@ -163,11 +175,6 @@ body::after {
 	pointer-events: none;
 }
 
-@font-face {
-	font-family: "DoubleFeature";
-	src: url("/assets/fonts/halloween/DoubleFeature.woff") format("woff");
-}
-
 /* Haunted Effect */
 
 .haunt > div:not(.modal) {
@@ -196,11 +203,6 @@ body::after {
 	100% {
     filter: brightness(1);
 	}
-}
-
-@font-face {
-	font-family: "Jo_wrote_a_lovesong";
-	src: url("/assets/fonts/halloween/Jo_wrote_a_lovesong.woff") format("woff");
 }
 
 /* Spiders */
