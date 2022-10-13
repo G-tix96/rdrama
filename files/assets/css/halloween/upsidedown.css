@@ -1,47 +1,12 @@
-/* Flashlight Overlay */
-:root {
-  cursor: none;
-  --cursorX: 50vw;
-  --cursorY: 50vh;
-  background-image: url('/assets/images/halloween/woods.jpg');
-  background-size: cover;
-  background-attachment: fixed;
-}
-
-:root::before {
-  z-index: 1;
-  content: '';
-  display: block;
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  pointer-events: none;
-  background: radial-gradient(
-    circle 11vmax at var(--cursorX) var(--cursorY),
-    rgba(0,0,0,0) 0%,
-    rgba(0,0,0,.5) 80%,
-    rgba(0,0,0,.93) 100%
-  );
-  /*animation-name: lightning 1350ms 5000ms 1;*/
-}
-
-@media (max-width: 767.98px) {
-  :root::before {
-    background: radial-gradient(
-    circle 125px at var(--cursorX) var(--cursorY),
-    rgba(0,0,0,0) 0%,
-    rgba(0,0,0,.5) 80%,
-    rgba(0,0,0,.93) 100%
-  );
-  }
-}
+/* <body> tag 'background-color' is boilerplate here. We only care about the box-shadow and filter effects. We can add a woods background-image for added effect. */
 
 body {
-  background-image: url('/assets/images/halloween/woods.jpg') !important;
   background-size: cover;
   background-attachment: fixed;
-  background-color: transparent;
+  background-color: #000;
   filter: sepia(100%) hue-rotate(180deg) saturate(300%);
+  box-shadow: 0 0 900px rgba(0, 0, 0, 0.9) inset;
+  overflow-x: hidden;
 }
 
 canvas.particles {
@@ -52,43 +17,6 @@ canvas.particles {
   z-index: 1;
   filter: blur(1.5px);
   animation: flicker 4s infinite;
-}
-
-@keyframes lightning {
-  0% {
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  13% {
-    opacity: 0;
-  }
-  16% {
-    opacity: 1;
-  }
-  20% {
-    opacity: 0;
-  }
-  30% {
-    opacity: 1;
-  }
-  35% {
-    opacity: 0;
-  }
-  70% {
-    opacity: 1;
-  }
-}
-
-@keyframes lightning-appear {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    display: none;
-  }
 }
 
 @keyframes flicker {
@@ -109,7 +37,6 @@ canvas.particles {
   }
   78% {
     filter: brightness(20%);
-
   }
   84% {
     filter: brightness(40%);
@@ -126,47 +53,4 @@ canvas.particles {
   100% {
     filter: brightness(90%);
   }
-}
-
-#demogorgon-1, #demogorgon-2 {
-  display: none;
-}
-
-#demogorgon-1.audio-playing {
-  opacity: 0;
-  position: fixed;
-  display: block;
-  left: 10%;
-  bottom: -500px;
-  width: 720px;
-  filter: brightness(.17);
-  animation: lightning-appear 500ms step-end 37100ms 1 forwards
-  /*animation-duration: 1350ms;
-  animation-delay: 36900ms;
-  animation-iteration-count: 1;
-  animation-timing-function: linear;
-  animation-fill-mode: forwards;*/
-}
-
-#demogorgon-2.audio-playing {
-  opacity: 0;
-  position: fixed;
-  display: block;
-  left: 15%;
-  bottom: -490px;
-  width: 860px;
-  filter: brightness(.2);
-  animation: lightning-appear 500ms step-end 1 forwards;
-}
-
-@media (max-width: 767.98px) {
-  #demogorgon-1.audio-playing, #demogorgon-2.audio-playing {
-    left: 0;
-  }
-}
-
-/* Modify existing element styling to function with theme */
-
-.comment-write {
-  z-index: 1;
 }

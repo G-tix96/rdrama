@@ -28,7 +28,7 @@
 		<a class="sidebar-link" href="/log" data-bs-toggle="tooltip" data-bs-placement="top" title="Moderation Log"><i class="fas fa-scroll-old"></i></a>
 		<a class="sidebar-link" href="/transfers" data-bs-toggle="tooltip" data-bs-placement="top" title="Transfers"><i class="fas fa-arrow-right-arrow-left"></i></a>
 		<a class="sidebar-link" href="/random_post" data-bs-toggle="tooltip" data-bs-placement="top" title="Random Post"><i class="fas fa-random"></i></a>
-		<a class="sidebar-link" href="/" data-bs-toggle="tooltip" data-bs-placement="top" title="???"><i class="fas fa-trees"></i></a>
+		<span class="sidebar-link" onclick="if(localStorage.getItem('setting_upsidedown')=='true'){localStorage.setItem('setting_upsidedown', 'false')}else{localStorage.setItem('setting_upsidedown', 'true')};location.reload()" style="display:inline" data-bs-toggle="tooltip" data-bs-placement="top" title="???"><i class="fas fa-trees"></i></span>
 	</p>
 
 	{% if sub %}

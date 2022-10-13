@@ -399,6 +399,22 @@
 	}
 </style>
 {% endif %}
+
+<script>
+	let upsidedown = localStorage.getItem('setting_upsidedown')
+	if(upsidedown == 'true'){
+		let script = document.createElement("script"),
+			styles = document.createElement("link")
+
+		script.setAttribute("src", "{{'js/halloween/upsidedown.js' | asset}}")
+		document.head.appendChild(script)
+
+		styles.setAttribute("rel", "stylesheet")
+		styles.setAttribute("href", "{{'css/halloween/upsidedown.css' | asset}}")
+		document.head.appendChild(styles)
+	}
+</script>
+<canvas id="canvas"></canvas>
 <!-- end homoween -->
 
 

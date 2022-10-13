@@ -490,6 +490,7 @@ body::after {
 	font-family: 'Creepster';
 	color: #90ee90;
 	letter-spacing: 0.15em;
+	overflow:visible;
 }
 
 .ectoplasm .candy-corn {
@@ -508,3 +509,10 @@ body::after {
 	color: #90ee90 !important;
 	font-weight: initial;
 }
+
+/*upsidedown*/
+#canvas {
+	position:absolute;
+	overflow:hidden;
+}
+  
