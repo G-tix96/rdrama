@@ -652,11 +652,12 @@ def thumbnail_thread(pid):
 
 @app.post("/is_repost")
 def is_repost():
+	not_a_repost = {'permalink': ''}
 	if not FEATURES['REPOST_DETECTION']:
-		return {'permalink': ''}
+		return not_a_repost
 
 	url = request.values.get('url')
-	if not url: abort(400)
+	if not url or len(url) < MIN_REPOST_CHECK_URL_LENGTH: abort(400)
 
 	url = normalize_url(url)
 	parsed_url = urlparse(url)
@@ -681,7 +682,6 @@ def is_repost():
 							fragment=parsed_url.fragment)
 	
 	url = urlunparse(new_url)
-
 	url = url.rstrip('/')
 
 	search_url = url.replace('%', '').replace('\\', '').replace('_', '\_').strip()
@@ -691,7 +691,7 @@ def is_repost():
 		Submission.is_banned == False
 	).first()
 	if repost: return {'permalink': repost.permalink}
-	else: return {'permalink': ''}
+	else: return not_a_repost
 
 @app.post("/submit")
 @app.post("/h/<sub>/submit")

@@ -333,6 +333,7 @@ COMMENT_BODY_LENGTH_LIMIT = 10000 # do not make larger than 10000 characters wit
 COMMENT_BODY_HTML_LENGTH_LIMIT = 20000 # do not make larger than 20000 characters without altering the table
 COMMENT_MAX_DEPTH = 200
 TRANSFER_MESSAGE_LENGTH_LIMIT = 200 # do not make larger than 10000 characters (comment limit) without altering the table
+MIN_REPOST_CHECK_URL_LENGTH = 9 # also change the constant in checkRepost() of submit.js
 
 LOGGEDIN_ACTIVE_TIME = 15 * 60
 PFP_DEFAULT_MARSEY = True
