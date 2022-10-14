@@ -304,9 +304,6 @@ def sign_up_post(v):
 	else: email = None
 
 	existing_account = get_user(username, graceful=True)
-	if existing_account and existing_account.reserved:
-		return redirect(existing_account.url)
-
 	if existing_account:
 		return signup_error("An account with that username already exists.")
 

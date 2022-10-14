@@ -777,12 +777,6 @@ def u_username(username, v=None):
 	if username != u.username:
 		return redirect(SITE_FULL + request.full_path.replace(username, u.username))
 
-	if u.reserved:
-		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
-			abort(418, f"This username is reserved for: {u.reserved}")
-
-		return render_template("userpage_reserved.html", u=u, v=v)
-
 	if v and v.id not in (u.id, DAD_ID) and u.viewers_recorded:
 		g.db.flush()
 		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
@@ -873,12 +867,6 @@ def u_username_comments(username, v=None):
 		return redirect(f'/@{user.username}/comments')
 
 	u = user
-
-	if u.reserved:
-		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
-			abort(418, f"This username is reserved for: {u.reserved}")
-		return render_template("userpage_reserved.html", u=u, v=v)
-
 
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)):
 		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):

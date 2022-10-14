@@ -930,7 +930,6 @@ CREATE TABLE public.users (
     is_banned integer DEFAULT 0 NOT NULL,
     ban_reason character varying(256),
     login_nonce integer DEFAULT 0 NOT NULL,
-    reserved character varying(256),
     mfa_secret character varying(32),
     is_private boolean DEFAULT false NOT NULL,
     unban_utc integer DEFAULT 0 NOT NULL,
@@ -2679,4 +2678,3 @@ ALTER TABLE ONLY public.comment_option_votes
 --
 -- PostgreSQL database dump complete
 --
-

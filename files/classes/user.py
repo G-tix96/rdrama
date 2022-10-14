@@ -114,7 +114,6 @@ class User(Base):
 	is_muted = Column(Boolean, default=False, nullable=False)
 	club_allowed = Column(Boolean)
 	login_nonce = Column(Integer, default=0)
-	reserved = deferred(Column(String))
 	coins = Column(Integer, default=0)
 	truecoins = Column(Integer, default=0)
 	procoins = Column(Integer, default=0)
