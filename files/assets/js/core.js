@@ -46,7 +46,7 @@ function postToastLoad(xhr, className, extraActionsOnSuccess, extraActionsOnErro
     } else {
         let message = data && data["error"] ? data["error"] : "Error, please try again later"
 		if (data && data["details"]) message = data["details"];
-        showToast(true, message);
+        showToast(false, message);
         if (extraActionsOnError) extraActionsOnError(xhr);
     }
 }
@@ -62,8 +62,13 @@ function postPostToastNonShopActions(t, url, button1, button2, className) {
 	}
 }
 
+/* temporary compatability function. js styling wants us to use thisCase so any new things should use that */
 function post_toast(t, url, button1, button2, classname, extra_actions, extra_actions_error) {
-	prePostToastNonShopActions(t, url, button1, button2, classname)
+    postToast(t, url, button1, button2, classname, extra_actions, extra_actions_error);
+}
+
+function postToast(t, url, button1, button2, className, extraActions, extraActionsError) {
+	prePostToastNonShopActions(t, url, button1, button2, className)
 	const xhr = new XMLHttpRequest();
 	xhr.open("POST", url);
 	xhr.setRequestHeader('xhr', 'xhr');
@@ -71,8 +76,8 @@ function post_toast(t, url, button1, button2, classname, extra_actions, extra_ac
 	form.append("formkey", formkey());
 
 	xhr.onload = function() {
-		postToastLoad(xhr, classname, extra_actions, extra_actions_error)
-		postPostToastNonShopActions(t, url, button1, button2, classname)
+		postToastLoad(xhr, className, extraActions, extraActionsError)
+		postPostToastNonShopActions(t, url, button1, button2, className)
 	};
 	xhr.send(form);
 }
