@@ -88,7 +88,7 @@ function vote(type, id, dir) {
 	}
 	
 	const xhr = createXhrWithFormKey("/vote/" + type.replace('-mobile','') + "/" + id + "/" + votedirection);
-	xhr.send(form);
+	xhr[0].send(xhr[1]);
 }
 
 function pick(kind, canbuy1, canbuy2) {
@@ -131,14 +131,11 @@ function buy(mb) {
 				form.append(k, data[k]);
 		}
 	}
-
-
-	form.append("formkey", formkey());
-	xhr.onload = function() {
+	xhr[0].onload = function() {
 		let data
-		try {data = JSON.parse(xhr.response)}
+		try {data = JSON.parse(xhr[0].response)}
 		catch(e) {console.log(e)}
-		success = xhr.status >= 200 && xhr.status < 300;
+		success = xhr[0].status >= 200 && xhr.status < 300;
 		showToast(success, getMessageFromJsonData(success, data), true);
 		if (success) {
 			document.getElementById('giveaward').disabled=false;
@@ -148,7 +145,7 @@ function buy(mb) {
 		}
 	};
 
-	xhr.send(form);
+	xhr[0].send(xhr[1]);
 
 }
 

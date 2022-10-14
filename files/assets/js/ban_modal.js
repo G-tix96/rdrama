@@ -5,20 +5,15 @@ function banModal(link, id, name) {
 
 	document.getElementById("banUserButton").onclick = function() {
 		let form = new FormData(document.getElementById("banModalForm"));
-		form.append("formkey", formkey());
-
-		const xhr = new XMLHttpRequest();
-		xhr.open("POST", `/ban_user/${id}?form`);
-		xhr.setRequestHeader('xhr', 'xhr');
-
-		xhr.onload = function() {
+		const xhr = createXhrWithFormKey(`/ban_user/${id}?form`, "POST", form);
+		xhr[0].onload = function() {
 			let data
 			try {data = JSON.parse(xhr.response)}
 			catch(e) {console.log(e)}
-			success = xhr.status >= 200 && xhr.status < 300;
+			success = xhr[0].status >= 200 && xhr[0].status < 300;
 			showToast(success, getMessageFromJsonData(success, data));
 		};
 
-		xhr.send(form);
+		xhr[0].send(xhr[1]);
 	}
 }

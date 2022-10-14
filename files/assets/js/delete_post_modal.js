@@ -1,15 +1,11 @@
 function delete_postModal(id) {
 	document.getElementById("deletePostButton").onclick = function() {
-		const xhr = new XMLHttpRequest();
-		xhr.open("POST", `/delete_post/${id}`);
-		xhr.setRequestHeader('xhr', 'xhr');
-		const form = new FormData()
-		form.append("formkey", formkey());
-		xhr.onload = function() {
+		const xhr = createXhrWithFormKey(`/delete_post/${id}`);
+		xhr[0].onload = function() {
 			let data
 			try {data = JSON.parse(xhr.response)}
 			catch(e) {console.log(e)}
-			success = xhr.status >= 200 && xhr.status < 300;
+			success = xhr[0].status >= 200 && xhr[0].status < 300;
 			showToast(success, getMessageFromJsonData(success, data));
 			if (success && data["message"]) {
 				document.getElementById(`post-${id}`).classList.add('deleted');
@@ -21,6 +17,6 @@ function delete_postModal(id) {
 				showToast(false, getMessageFromJsonData(false, data));
 			}
 		};
-		xhr.send(form);
+		xhr[0].send(xhr[1]);
 	};
 }

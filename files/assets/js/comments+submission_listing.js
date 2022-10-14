@@ -73,12 +73,8 @@ document.addEventListener("click", function(){
 });
 
 function post(url) {
-	const xhr = new XMLHttpRequest();
-	xhr.open("POST", url);
-	xhr.setRequestHeader('xhr', 'xhr');
-	const form = new FormData()
-	form.append("formkey", formkey());
-	xhr.send(form);
+	const xhr = createXhrWithFormKey(url);
+	xhr[0].send(xhr[1]);
 };
 
 function poll_vote_0(oid, parentid, kind) {

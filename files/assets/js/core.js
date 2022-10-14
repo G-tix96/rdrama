@@ -82,17 +82,17 @@ function createXhrWithFormKey(url, method="POST", form=null) {
         form = new FormData();
     }
     form.append("formkey", formkey());
-    return xhr;
+    return [xhr, form]; // hacky but less stupid than what we were doing before
 }
 
 function postToast(t, url, button1, button2, className, extraActions, extraActionsError) {
 	prePostToastNonShopActions(t, url, button1, button2, className);
 	const xhr = createXhrWithFormKey(url);
-	xhr.onload = function() {
-		postToastLoad(xhr, className, extraActions, extraActionsError)
+	xhr[0].onload = function() {
+		postToastLoad(xhr[0], className, extraActions, extraActionsError)
 		postPostToastNonShopActions(t, url, button1, button2, className)
 	};
-	xhr.send(form);
+	xhr[0].send(xhr[1]);
 }
 
 /* temporary compatability function. js styling wants us to use thisCase so any new things should use that */
@@ -101,28 +101,29 @@ function post_toast(t, url, button1, button2, classname, extra_actions, extra_ac
 }
 
 function post_toast_callback(url, data, callback) {
-	const xhr = createXhrWithFormKey(url);
+    let form = new FormData();
 	if(typeof data === 'object' && data !== null) {
 		for(let k of Object.keys(data)) {
 			form.append(k, data[k]);
 		}
 	}
-	xhr.onload = function() {
+    const xhr = createXhrWithFormKey(url, "POST", form);
+	xhr[0].onload = function() {
 		let result
-		if (callback) result = callback(xhr);
+		if (callback) result = callback(xhr[0]);
         let message;
-        let success = xhr.status >= 200 && xhr.status < 300;
+        let success = xhr[0].status >= 200 && xhr[0].status < 300;
         if (typeof result == "string") {
             message = result;
         } else {
-            message = getMessageFromJsonData(success, JSON.parse(xhr.response));
+            message = getMessageFromJsonData(success, JSON.parse(xhr[0].response));
         }
         let oldToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-' + (success ? 'error': 'success'))); // intentionally reversed here: this is the old toast
         oldToast.hide();
         showToast(success, message);
         return success;
 	};
-	xhr.send(form);
+	xhr[0].send(xhr[1]);
 }
 
 if (window.location.pathname != '/submit')
