@@ -1,5 +1,8 @@
 <a  rel="nofollow noopener noreferrer" href="{% if 'rama' in request.host %}https://youtu.be/3l7X94GLqSQ?t=16{% else %}/{% endif %}" style="text-decoration: none !important">
-  {% set banner_day = 1 %}
+  {% set banner_day = time.gmtime()[6] %}
+  {% if banner_day == 0 %}
+    {% set banner_day = 7 %}  
+  {% endif %}
   <link rel="stylesheet" href="{{'css/halloween/banner.css' | asset}}">
   {% if '/post/' not in request.path %}
   <script defer src="{{'js/halloween/banner.js' | asset}}"></script>
