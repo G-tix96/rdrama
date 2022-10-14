@@ -392,7 +392,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 		ma = ModAction(
 			kind="update_marsey",
 			user_id=v.id,
-			_note=name
+			_note=f'<a href="/e/{name}.webp">{name}</a>'
 		)
 		g.db.add(ma)
 
@@ -458,7 +458,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 		ma = ModAction(
 			kind="update_hat",
 			user_id=v.id,
-			_note=name
+			_note=f'<a href="/i/hats/{name}.webp">{name}</a>'
 		)
 		g.db.add(ma)
 
