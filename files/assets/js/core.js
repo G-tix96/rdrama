@@ -1,11 +1,11 @@
 /*const bootstrap = require("./bootstrap");*/
 
 function isShopConfirmation(t) {
-    return t.id.startsWith('buy1-') || t.id.startsWith('buy2-');
+	return t.id.startsWith('buy1-') || t.id.startsWith('buy2-');
 }
 
 function prePostToastNonShopActions(t, url, button1, button2, className) {
-    let isShopConfirm = isShopConfirmation(t);
+	let isShopConfirm = isShopConfirmation(t);
 
 	if (!isShopConfirm)
 	{
@@ -15,45 +15,45 @@ function prePostToastNonShopActions(t, url, button1, button2, className) {
 }
 
 function showToast(success, message) {
-    let element = success ? "toast-post-success" : "toast-post-error"
-    if (!message) {
-        message = success ? "Success" : "Error, please try again later";
-    }
-    document.getElementById(element + "-text").innerText = message;
-    bootstrap.Toast.getOrCreateInstance(document.getElementById(element)).show();
+	let element = success ? "toast-post-success" : "toast-post-error"
+	if (!message) {
+		message = success ? "Success" : "Error, please try again later";
+	}
+	document.getElementById(element + "-text").innerText = message;
+	bootstrap.Toast.getOrCreateInstance(document.getElementById(element)).show();
 }
 
 function postToastLoad(xhr, className, extraActionsOnSuccess, extraActionsOnError) {
-    let data
-    try {
-        data = JSON.parse(xhr.response)
-    }
-    catch (e) {
-        console.log(e)
-    }
-    if (xhr.status >= 200 && xhr.status < 300) {
-        showToast(true, data && data["message"] ? data["message"] : "Success!");
-        if (button1)
-        {
-            if (typeof(button1) == 'boolean')
-                location.reload()
-            else {
-                document.getElementById(button1).classList.toggle(className);
-                document.getElementById(button2).classList.toggle(className);
-            }
-        }
-        if (extraActionsOnSuccess) extraActionsOnSuccess(xhr);
-    } else {
-        let message = data && data["error"] ? data["error"] : "Error, please try again later"
+	let data
+	try {
+		data = JSON.parse(xhr.response)
+	}
+	catch (e) {
+		console.log(e)
+	}
+	if (xhr.status >= 200 && xhr.status < 300) {
+		showToast(true, data && data["message"] ? data["message"] : "Success!");
+		if (button1)
+		{
+			if (typeof(button1) == 'boolean') {
+				location.reload()
+            } else {
+				document.getElementById(button1).classList.toggle(className);
+				document.getElementById(button2).classList.toggle(className);
+			}
+		}
+		if (extraActionsOnSuccess) extraActionsOnSuccess(xhr);
+	} else {
+		let message = data && data["error"] ? data["error"] : "Error, please try again later"
 		if (data && data["details"]) message = data["details"];
-        showToast(false, message);
-        if (extraActionsOnError) extraActionsOnError(xhr);
-    }
+		showToast(false, message);
+		if (extraActionsOnError) extraActionsOnError(xhr);
+	}
 }
 
 function postPostToastNonShopActions(t, url, button1, button2, className) {
-    let isShopConfirm = isShopConfirmation(t);
-    if (!isShopConfirm)
+	let isShopConfirm = isShopConfirmation(t);
+	if (!isShopConfirm)
 	{
 		setTimeout(() => {
 			t.disabled = false;
@@ -79,7 +79,7 @@ function postToast(t, url, button1, button2, className, extraActions, extraActio
 
 /* temporary compatability function. js styling wants us to use thisCase so any new things should use that */
 function post_toast(t, url, button1, button2, classname, extra_actions, extra_actions_error) {
-    postToast(t, url, button1, button2, classname, extra_actions, extra_actions_error);
+	postToast(t, url, button1, button2, classname, extra_actions, extra_actions_error);
 }
 
 function post_toast_callback(url, data, callback) {
@@ -358,7 +358,7 @@ function formatDate(d) {
 	var tzAbbr = d.toLocaleTimeString('en-us', {timeZoneName: 'short'}).split(' ')[2];
 
 	return (day + " " + monthAbbr + " " + year + " "
-	         + hour + ":" + minute + ":" + second + " " + tzAbbr);
+			 + hour + ":" + minute + ":" + second + " " + tzAbbr);
 }
 
 const timestamps = document.querySelectorAll('[data-time]');
@@ -382,5 +382,5 @@ function areyousure(t) {
 	t.setAttribute("onclick", t.dataset.click);
 
 	if (t.dataset.dismiss)
-    	t.setAttribute("data-bs-dismiss", t.dataset.dismiss);
+		t.setAttribute("data-bs-dismiss", t.dataset.dismiss);
 }
