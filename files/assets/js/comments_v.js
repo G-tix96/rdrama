@@ -169,7 +169,7 @@ function comment_edit(id){
 			form.append('file', e);
 	}
 	catch(e) {}
-	const xhr = createXhrWithFormKey("/reply", "POST", form);
+	const xhr = createXhrWithFormKey("/edit_comment/"+id, "POST", form);
 	xhr[0].onload=function(){
 		let data
 		try {data = JSON.parse(xhr[0].response)}
