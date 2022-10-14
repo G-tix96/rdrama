@@ -40,7 +40,7 @@ if (typeof showNewCommentCounts === 'undefined') {
 	setTimeout(cleanCache, 500)
 }
 
-function pin_post(t, id) {
+function pinPost(t, id) {
 	t.disabled = true;
 	t.classList.add("disabled");
 	post_toast_callback(`/sticky/${id}`,
