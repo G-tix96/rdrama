@@ -1,59 +1,80 @@
-function post_toast(t, url, button1, button2, classname, extra_actions) {
-	let isShopConfirm = t.id.startsWith('buy1-') || t.id.startsWith('buy2-');
+/*const bootstrap = require("./bootstrap");*/
+
+function isShopConfirmation(t) {
+    return t.id.startsWith('buy1-') || t.id.startsWith('buy2-');
+}
+
+function prePostToastNonShopActions(t, url, button1, button2, className) {
+    let isShopConfirm = isShopConfirmation(t);
 
 	if (!isShopConfirm)
 	{
 		t.disabled = true;
 		t.classList.add("disabled");
 	}
+}
+
+function showToast(success, message) {
+    let element = success ? "toast-post-success" : "toast-post-error"
+    if (!message) {
+        message = success ? "Success" : "Error, please try again later";
+    }
+    document.getElementById(element + "-text").innerText = message;
+    bootstrap.Toast.getOrCreateInstance(document.getElementById(element)).show();
+}
+
+function postToastLoad(xhr, className, extraActionsOnSuccess, extraActionsOnError) {
+    let data
+    try {
+        data = JSON.parse(xhr.response)
+    }
+    catch (e) {
+        console.log(e)
+    }
+    if (xhr.status >= 200 && xhr.status < 300) {
+        showToast(true, data && data["message"] ? data["message"] : "Success!");
+        if (button1)
+        {
+            if (typeof(button1) == 'boolean')
+                location.reload()
+            else {
+                document.getElementById(button1).classList.toggle(classname);
+                document.getElementById(button2).classList.toggle(classname);
+            }
+        }
+        if (extraActionsOnSuccess) extraActionsOnSuccess(xhr);
+    } else {
+        let message = data && data["error"] ? data["error"] : "Error, please try again later"
+		if (data && data["details"]) message = data["details"];
+        showToast(true, message);
+        if (extraActionsOnError) extraActionsOnError(xhr);
+    }
+}
+
+function postPostToastNonShopActions(t, url, button1, button2, className) {
+    let isShopConfirm = isShopConfirmation(t);
+    if (!isShopConfirm)
+	{
+		setTimeout(() => {
+			t.disabled = false;
+			t.classList.remove("disabled");
+		}, 2000);
+	}
+}
+
+function post_toast(t, url, button1, button2, classname, extra_actions, extra_actions_error) {
+	prePostToastNonShopActions(t, url, button1, button2, classname)
 	const xhr = new XMLHttpRequest();
 	xhr.open("POST", url);
 	xhr.setRequestHeader('xhr', 'xhr');
 	const form = new FormData()
 	form.append("formkey", formkey());
 
-
 	xhr.onload = function() {
-		let data
-		try {
-            data = JSON.parse(xhr.response)
-        }
-		catch(e) {
-            console.log(e)
-        }
-        if (xhr.status >= 200 && xhr.status < 300) {
-            statusMsg = "Success!"
-            if (data && data['message']) {
-                document.getElementById('toast-post-success-text').innerText = data["message"];
-            }
-            bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success')).show();
-            if (button1)
-			{
-				if (typeof(button1) == 'boolean')
-					location.reload()
-				else {
-					document.getElementById(button1).classList.toggle(classname);
-					document.getElementById(button2).classList.toggle(classname);
-				}
-			}
-			if (extra_actions) extra_actions(xhr);
-        } else {
-			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
-			if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
-			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
-		}
-		if (!isShopConfirm)
-		{
-			setTimeout(() => {
-				t.disabled = false;
-				t.classList.remove("disabled");
-			}, 2000);
-		}
+		postToastLoad(xhr, classname, extra_actions, extra_actions_error)
+		postPostToastNonShopActions(t, url, button1, button2, classname)
 	};
-
 	xhr.send(form);
-
 }
 
 function post_toast_callback(url, data, callback) {
@@ -109,9 +130,7 @@ function post_toast_callback(url, data, callback) {
 			return false;
 		}
 	};
-
 	xhr.send(form);
-
 }
 
 if (window.location.pathname != '/submit')
