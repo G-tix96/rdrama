@@ -582,7 +582,7 @@ def messagereply(v):
 	if 'discord.gg' in body or 'discord.com' in body or 'discordapp.com' in body:
 		abort(403, "Stop grooming!")
 
-	id = int(request.values.get("parent_id"))
+	id = request.values.get("parent_id")
 	parent = get_comment(id, v=v)
 	user_id = parent.author.id
 
