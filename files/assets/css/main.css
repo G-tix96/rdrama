@@ -5206,7 +5206,7 @@ a.emojitab {
 .expandedimage {
 	width: fit-content;
 	width: -moz-fit-content;
-	max-width: 100% !important;
+	max-width: 80% !important;
 }
 
 .m-5 {
@@ -6293,9 +6293,6 @@ div.markdown {
 }
 
 @media (min-width: 768px) {
-	.expandedimage {
-		max-width: 80% !important;
-	}
 	#speed-carot-modal .speed-modal-image
 	{
 		width: 50px;
