@@ -269,10 +269,8 @@ def award_thing(v, thing_type, id):
 			author.flairchanged = int(time.time()) + 86400
 			badge_grant(user=author, badge_id=96)
 	elif kind == "pause":
-		author.mute = True
 		badge_grant(badge_id=68, user=author)
 	elif kind == "unpausable":
-		author.unmutable = True
 		badge_grant(badge_id=67, user=author)
 	elif kind == "marsey":
 		if author.marseyawarded: author.marseyawarded += 86400
@@ -291,20 +289,15 @@ def award_thing(v, thing_type, id):
 		else: author.bird = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=95)
 	elif kind == "eye":
-		author.eye = True
 		badge_grant(badge_id=83, user=author)
 	elif kind == "offsitementions":
-		author.offsitementions = True
 		badge_grant(user=author, badge_id=140)
 	elif kind == "alt":
-		author.alt = True
 		badge_grant(badge_id=84, user=author)
 	elif kind == "unblockable":
-		author.unblockable = True
 		badge_grant(badge_id=87, user=author)
 		for block in g.db.query(UserBlock).filter_by(target_id=author.id).all(): g.db.delete(block)
 	elif kind == "fish":
-		author.fish = True
 		badge_grant(badge_id=90, user=author)
 	elif kind == "progressivestack":
 		if not FEATURES['PINS']:

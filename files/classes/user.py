@@ -59,7 +59,6 @@ class User(Base):
 	marseyawarded = Column(Integer)
 	rehab = Column(Integer)
 	longpost = Column(Integer)
-	unblockable = Column(Boolean)
 	bird = Column(Integer)
 	email = deferred(Column(String))
 	css = Column(String)
@@ -88,11 +87,6 @@ class User(Base):
 	reddit = Column(String, default='old.reddit.com')
 	nitter = Column(Boolean)
 	imginn = Column(Boolean)
-	mute = Column(Boolean)
-	unmutable = Column(Boolean)
-	eye = Column(Boolean)
-	alt = Column(Boolean)
-	offsitementions = Column(Boolean, default=False, nullable=False)
 	frontsize = Column(Integer, default=25)
 	controversial = Column(Boolean, default=True)
 	bio = deferred(Column(String))
@@ -101,7 +95,6 @@ class User(Base):
 	sig_html = Column(String)
 	fp = Column(String)
 	sigs_disabled = Column(Boolean)
-	fish = Column(Boolean)
 	progressivestack = Column(Integer)
 	deflector = Column(Integer)
 	friends = deferred(Column(String))
@@ -980,3 +973,39 @@ class User(Base):
 	@lazy
 	def can_see_shadowbanned(self):
 		return (self.admin_level >= PERMS['USER_SHADOWBAN']) or self.shadowbanned
+
+
+	@property
+	@lazy
+	def unmutable(self):
+		return self.has_badge(67)
+
+	@property
+	@lazy
+	def mute(self):
+		return self.has_badge(68)
+
+	@property
+	@lazy
+	def eye(self):
+		return self.has_badge(83)
+
+	@property
+	@lazy
+	def alt(self):
+		return self.has_badge(84)
+
+	@property
+	@lazy
+	def unblockable(self):
+		return self.has_badge(87)
+
+	@property
+	@lazy
+	def fish(self):
+		return self.has_badge(90)
+
+	@property
+	@lazy
+	def offsitementions(self):
+		return self.has_badge(140)

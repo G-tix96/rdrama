@@ -16,10 +16,11 @@ from files.helpers.sanitize import sanitize
 
 def offsite_mentions_task():
 	if const.REDDIT_NOTIFS_SITE:
-		row_send_to = g.db.query(User.id) \
-			.filter(or_(User.admin_level >= const.PERMS['NOTIFICATIONS_REDDIT'],
-				User.offsitementions == True)).all()
+		row_send_to = g.db.query(Badge.user_id).filter_by(badge_id=140).all()
+		row_send_to += g.db.query(User.id).filter(or_(User.admin_level >= const.PERMS['NOTIFICATIONS_REDDIT'])).all()
+
 		send_to = [x[0] for x in row_send_to]
+		send_to = set(send_to)
 
 		site_mentions = get_mentions(const.REDDIT_NOTIFS_SITE)
 		notify_mentions(send_to, site_mentions)
