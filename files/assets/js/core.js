@@ -25,11 +25,11 @@ function getMessageFromJsonData(success, json) {
 
 function showToast(success, message, isToastTwo=false) {
 	let element = success ? "toast-post-success" : "toast-post-error";
-    let textElement = element + "-text";
+	let textElement = element + "-text";
 	if (isToastTwo) {
-        element = element + "2";
-        textElement = textElement + "2";
-    }
+		element = element + "2";
+		textElement = textElement + "2";
+	}
 	if (!message) {
 		message = success ? "Success" : "Error, please try again later";
 	}
@@ -75,14 +75,14 @@ function postPostToastNonShopActions(t, url, button1, button2, className) {
 }
 
 function createXhrWithFormKey(url, method="POST", form=null) {
-    const xhr = new XMLHttpRequest();
-    xhr.open(method, url);
-    xhr.setRequestHeader('xhr', 'xhr');
-    if (!form) {
-        form = new FormData();
-    }
-    form.append("formkey", formkey());
-    return [xhr, form]; // hacky but less stupid than what we were doing before
+	const xhr = new XMLHttpRequest();
+	xhr.open(method, url);
+	xhr.setRequestHeader('xhr', 'xhr');
+	if (!form) {
+		form = new FormData();
+	}
+	form.append("formkey", formkey());
+	return [xhr, form]; // hacky but less stupid than what we were doing before
 }
 
 function postToast(t, url, button1, button2, className, extraActions, extraActionsError) {
@@ -101,27 +101,27 @@ function post_toast(t, url, button1, button2, classname, extra_actions, extra_ac
 }
 
 function post_toast_callback(url, data, callback) {
-    let form = new FormData();
+	let form = new FormData();
 	if(typeof data === 'object' && data !== null) {
 		for(let k of Object.keys(data)) {
 			form.append(k, data[k]);
 		}
 	}
-    const xhr = createXhrWithFormKey(url, "POST", form);
+	const xhr = createXhrWithFormKey(url, "POST", form);
 	xhr[0].onload = function() {
 		let result
 		if (callback) result = callback(xhr[0]);
-        let message;
-        let success = xhr[0].status >= 200 && xhr[0].status < 300;
-        if (typeof result == "string") {
-            message = result;
-        } else {
-            message = getMessageFromJsonData(success, JSON.parse(xhr[0].response));
-        }
-        let oldToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-' + (success ? 'error': 'success'))); // intentionally reversed here: this is the old toast
-        oldToast.hide();
-        showToast(success, message);
-        return success;
+		let message;
+		let success = xhr[0].status >= 200 && xhr[0].status < 300;
+		if (typeof result == "string") {
+			message = result;
+		} else {
+			message = getMessageFromJsonData(success, JSON.parse(xhr[0].response));
+		}
+		let oldToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-' + (success ? 'error': 'success'))); // intentionally reversed here: this is the old toast
+		oldToast.hide();
+		showToast(success, message);
+		return success;
 	};
 	xhr[0].send(xhr[1]);
 }
