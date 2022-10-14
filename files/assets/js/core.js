@@ -37,7 +37,7 @@ function showToast(success, message, isToastTwo=false) {
 	bootstrap.Toast.getOrCreateInstance(document.getElementById(element)).show();
 }
 
-function postToastLoad(xhr, className, extraActionsOnSuccess, extraActionsOnError) {
+function postToastLoad(xhr, className, button1, button2, extraActionsOnSuccess, extraActionsOnError) {
 	let data
 	try {
 		data = JSON.parse(xhr.response)
@@ -87,7 +87,7 @@ function postToast(t, url, button1, button2, className, extraActions, extraActio
 	prePostToastNonShopActions(t, url, button1, button2, className);
 	const xhr = createXhrWithFormKey(url);
 	xhr[0].onload = function() {
-		postToastLoad(xhr[0], className, extraActions, extraActionsError)
+		postToastLoad(xhr[0], className, button1, button2, extraActions, extraActionsError)
 		postPostToastNonShopActions(t, url, button1, button2, className)
 	};
 	xhr[0].send(xhr[1]);
