@@ -17,6 +17,11 @@
 			<a href="{{image}}">
 				<img class="mb-4" alt="sidebar image" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
 			</a>
+			{% block javascript %}
+			<script>
+				var banner = "{{selected_image}}".slice(-13,7)
+			</script>
+		{% endblock %}
 		{% endif %}
 	{% endif %}
 
@@ -86,9 +91,4 @@
 
 
 	</pre>
-	{% block javascript %}
-		<script>
-			var banner = "{{selected_image}}".slice(-13,7)
-		</script>
-	{% endblock %}
 </div>
