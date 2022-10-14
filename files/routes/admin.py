@@ -1218,7 +1218,7 @@ def sticky_post(post_id, v):
 		code = 200
 	else:
 		post.stickied_utc = None
-		pin_time = 'permantently'
+		pin_time = 'permanently'
 		code = 201
 
 	post.stickied = v.username
