@@ -14,12 +14,28 @@ function prePostToastNonShopActions(t, url, button1, button2, className) {
 	}
 }
 
-function showToast(success, message) {
-	let element = success ? "toast-post-success" : "toast-post-error"
+function getMessageFromJsonData(success, json) {
+	let message = success ? "Success!" : "Error, please try again later";
+	let key = success ? "message" : "error";
+	if (!json || !json[key]) return message;
+	message = json[key];
+	if (!success && json["details"]) {
+		message = json["details"];
+	}
+	return message;
+}
+
+function showToast(success, message, isToastTwo=false) {
+	let element = success ? "toast-post-success" : "toast-post-error";
+    let textElement = element + "-text";
+	if (isToastTwo) {
+        element = element + "2";
+        textElement = textElement + "2";
+    }
 	if (!message) {
 		message = success ? "Success" : "Error, please try again later";
 	}
-	document.getElementById(element + "-text").innerText = message;
+	document.getElementById(textElement).innerText = message;
 	bootstrap.Toast.getOrCreateInstance(document.getElementById(element)).show();
 }
 
@@ -31,22 +47,20 @@ function postToastLoad(xhr, className, extraActionsOnSuccess, extraActionsOnErro
 	catch (e) {
 		console.log(e)
 	}
-	if (xhr.status >= 200 && xhr.status < 300) {
-		showToast(true, data && data["message"] ? data["message"] : "Success!");
+	success = xhr.status >= 200 && xhr.status < 300;
+	showToast(success, getMessageFromJsonData(success, data));
+	if (success) {
 		if (button1)
 		{
 			if (typeof(button1) == 'boolean') {
 				location.reload()
-            } else {
+			} else {
 				document.getElementById(button1).classList.toggle(className);
 				document.getElementById(button2).classList.toggle(className);
 			}
 		}
 		if (extraActionsOnSuccess) extraActionsOnSuccess(xhr);
 	} else {
-		let message = data && data["error"] ? data["error"] : "Error, please try again later"
-		if (data && data["details"]) message = data["details"];
-		showToast(false, message);
 		if (extraActionsOnError) extraActionsOnError(xhr);
 	}
 }

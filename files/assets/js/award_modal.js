@@ -147,18 +147,13 @@ function buy(mb) {
 		let data
 		try {data = JSON.parse(xhr.response)}
 		catch(e) {console.log(e)}
-		if (xhr.status >= 200 && xhr.status < 300 && data && data["message"]) {
-			document.getElementById('toast-post-success-text2').innerText = data["message"];
-			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success2')).show();
+		success = xhr.status >= 200 && xhr.status < 300;
+		showToast(success, getMessageFromJsonData(success, data), true);
+		if (success) {
 			document.getElementById('giveaward').disabled=false;
 			let owned = document.getElementById(`${kind}-owned`)
 			let ownednum = Number(owned.textContent);
 			owned.textContent = ownednum + 1
-		} else {
-			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-			if (data && data["error"]) document.getElementById('toast-post-error-text2').innerText = data["error"];
-			if (data && data["details"]) document.getElementById('toast-post-error-text2').innerText = data["details"];
-			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error2')).show();
 		}
 	};
 
