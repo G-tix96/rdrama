@@ -38,8 +38,8 @@ function postToastLoad(xhr, className, extraActionsOnSuccess, extraActionsOnErro
             if (typeof(button1) == 'boolean')
                 location.reload()
             else {
-                document.getElementById(button1).classList.toggle(classname);
-                document.getElementById(button2).classList.toggle(classname);
+                document.getElementById(button1).classList.toggle(className);
+                document.getElementById(button2).classList.toggle(className);
             }
         }
         if (extraActionsOnSuccess) extraActionsOnSuccess(xhr);
