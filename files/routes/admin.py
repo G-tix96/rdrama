@@ -1205,30 +1205,40 @@ def distinguish_post(post_id, v):
 @feature_required('PINS')
 def sticky_post(post_id, v):
 	
+	pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
+
+	if pins >= PIN_LIMIT and v.admin_level < PERMS['BYPASS_PIN_LIMIT']:
+		abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
 
 	post = get_post(post_id)
-	if not post.stickied:
-		pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
-		if pins >= PIN_LIMIT:
-			if v.admin_level >= PERMS['BYPASS_PIN_LIMIT']:
-				post.stickied = v.username
-				post.stickied_utc = int(time.time()) + 3600
-			else: abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
-		else: post.stickied = v.username
-		g.db.add(post)
 
-		ma=ModAction(
-			kind="pin_post",
-			user_id=v.id,
-			target_submission_id=post.id
-		)
-		g.db.add(ma)
+	if not post.stickied_utc:
+		post.stickied_utc = int(time.time()) + 3600
+		pin_time = 'for 1 hour'
+		code = 200
+	else:
+		post.stickied_utc = None
+		pin_time = 'permantently'
+		code = 201
 
-		if v.id != post.author_id:
-			send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has pinned [{post.title}](/post/{post_id})!")
+	post.stickied = v.username
 
-		cache.delete_memoized(frontlist)
-	return {"message": "Post pinned!"}
+	g.db.add(post)
+
+	ma=ModAction(
+		kind="pin_post",
+		user_id=v.id,
+		target_submission_id=post.id,
+		_note=pin_time
+	)
+	g.db.add(ma)
+
+	if v.id != post.author_id:
+		send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has pinned [{post.title}](/post/{post_id}) {pin_time}!")
+
+	cache.delete_memoized(frontlist)
+
+	return {"message": f"Post pinned {pin_time}!"}, code
 
 @app.post("/unsticky/<post_id>")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
