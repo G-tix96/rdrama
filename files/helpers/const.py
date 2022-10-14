@@ -1280,5 +1280,5 @@ forced_hats = {
 	"earlylife": ("The Merchant", "SHUT IT DOWN, the goys know!"),
 	"marsify": ("Marsified", "I can't pick my own Marseys, help!"),
 	"is_suspended": ("Behind Bars", "This user is banned and needs to do better!"),
-	"agendaposter": ("Egg_irl", "This user is getting in touch with xir identity!")
+	"agendaposter": ("Clown Wig", "The tears of a chud")
 }

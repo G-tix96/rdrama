@@ -766,7 +766,7 @@ class User(Base):
 	@lazy
 	def profile_url(self):
 		if self.agendaposter:
-			return f"{SITE_FULL}/assets/images/pfps/agendaposter/{random.randint(1, 57)}.webp?v=1"
+			return f"{SITE_FULL}/assets/images/halloween/agendaposter/{random.randint(1, 19)}.webp?v=1"
 		if self.rainbow:
 			return f"{SITE_FULL}/e/marseysalutepride.webp"
 		if self.profileurl: 

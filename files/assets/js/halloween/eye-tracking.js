@@ -29,6 +29,16 @@ const coordsLookup = {
 			x: "116px",
 			y: "-276px"
 		}	
+	},
+	banner4: {
+		left: {
+			x: "28px",
+			y: "-152px"
+		},
+		right: {
+			x: "36px",
+			y: "-152px"
+		}	
 	}
 }
 

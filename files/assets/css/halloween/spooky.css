@@ -202,6 +202,30 @@ body::after {
 	}
 }
 
+@keyframes haunted-upsidedown {
+	0% {
+		filter: brightness(20%) sepia(1) saturate(3) hue-rotate(180deg);
+	}
+	1% {
+		filter: brightness(20%) sepia(1) saturate(3) hue-rotate(180deg);
+	}
+	2% {
+		filter: sepia(1) contrast(1.5) brightness(200%) saturate(3)  hue-rotate(180deg);
+	}
+	3% {
+		filter: sepia(1) contrast(1.5) brightness(20%) saturate(3)  hue-rotate(180deg);
+	}
+	4% {
+		filter: brightness(300%) sepia(1) saturate(3) hue-rotate(180deg);
+	}
+	7% {
+		filter: brightness(1) sepia(1) saturate(3) hue-rotate(180deg);
+	} 
+	100% {
+    filter: brightness(1) sepia(1) saturate(3) hue-rotate(180deg);
+	}
+}
+
 /* Spiders */
 .spider:nth-child(odd) {
 	animation-name: swingFast;

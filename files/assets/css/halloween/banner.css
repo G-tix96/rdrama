@@ -1,4 +1,4 @@
-/* Halloween Banner */
+/* text */
 #banner-halloween-title.life > tspan {
 	opacity: 1;
 }
@@ -117,4 +117,87 @@
 	--object-fill-day5:#240441;
 	--object-fill-day6:#1e0538;
 	--object-fill-day7:#18042c;
+
+	--star-opacity-day1: 0;
+	--star-opacity-day2: 0;
+	--star-opacity-day3: 0.2;
+	--star-opacity-day4: 0.4;
+	--star-opacity-day5: 0.5;
+	--star-opacity-day6: 0.5;
+	--star-opacity-day7: 0.6;
+}
+
+/* stars */
+.star {
+	animation: linear infinite alternate twinkle;
+}
+
+.star1 {
+	animation-duration: 3s;
+}
+
+.star2 {
+	animation-duration: 4s;
+}
+
+.star3 {
+	animation-duration: 3.5s;
+}
+
+.star4 {
+	animation-duration: 2s;
+}
+
+.star5 {
+	animation-duration: 4s;
+}
+
+.star1 circle {
+	r: 0.5;
+}
+.star2 circle {
+	r: 0.75;
+}
+.star3 circle {
+	r: 1.0;
+}
+.star4 circle {
+	r: 1.2;
+}
+.star5 circle {
+	r: 1.5;
+}
+
+@media (max-width: 767.98px) {
+	.star {
+		animation: none;
+		fill-opacity: 0.5;
+	}
+	.star1 circle {
+		r: 1;
+	}
+	.star2 circle {
+		r: 1.5;
+	}
+	.star3 circle {
+		r: 2;
+	}
+	.star4 circle {
+		r: 2;
+	}
+	.star5 circle {
+		r: 2.5;
+	}
+}
+
+@keyframes twinkle {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }
