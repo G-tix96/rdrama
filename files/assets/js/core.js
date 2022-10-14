@@ -62,11 +62,6 @@ function postPostToastNonShopActions(t, url, button1, button2, className) {
 	}
 }
 
-/* temporary compatability function. js styling wants us to use thisCase so any new things should use that */
-function post_toast(t, url, button1, button2, classname, extra_actions, extra_actions_error) {
-    postToast(t, url, button1, button2, classname, extra_actions, extra_actions_error);
-}
-
 function postToast(t, url, button1, button2, className, extraActions, extraActionsError) {
 	prePostToastNonShopActions(t, url, button1, button2, className)
 	const xhr = new XMLHttpRequest();
@@ -80,6 +75,11 @@ function postToast(t, url, button1, button2, className, extraActions, extraActio
 		postPostToastNonShopActions(t, url, button1, button2, className)
 	};
 	xhr.send(form);
+}
+
+/* temporary compatability function. js styling wants us to use thisCase so any new things should use that */
+function post_toast(t, url, button1, button2, classname, extra_actions, extra_actions_error) {
+    postToast(t, url, button1, button2, classname, extra_actions, extra_actions_error);
 }
 
 function post_toast_callback(url, data, callback) {
