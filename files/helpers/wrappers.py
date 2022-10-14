@@ -52,9 +52,6 @@ def get_logged_in_user():
 		
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
 	loggedout = cache.get(f'{SITE}_loggedout') or {}
-	g.loggedin_counter = 0
-	g.loggedout_counter = 0
-
 	timestamp = int(time.time())
 	if v:
 		if session["session_id"] in loggedout: del loggedout[session["session_id"]]
@@ -69,11 +66,13 @@ def get_logged_in_user():
 		if 'spider' not in ua.lower() and 'bot' not in ua.lower():
 			loggedout[session["session_id"]] = (timestamp, ua)
 	
-	g.loggedin_counter = len([x for x in loggedin.values() if timestamp-x < LOGGEDIN_ACTIVE_TIME])
+	loggedin = {k: v for k, v in loggedin.items() if (timestamp - v) < LOGGEDIN_ACTIVE_TIME}
+	loggedout = {k: v for k, v in loggedout.items() if (timestamp - v[0]) < LOGGEDIN_ACTIVE_TIME}
 	cache.set(f'{SITE}_loggedin', loggedin)
-
-	g.loggedout_counter = len([x for x in loggedout.values() if timestamp-x[0] < LOGGEDIN_ACTIVE_TIME])
 	cache.set(f'{SITE}_loggedout', loggedout)
+
+	g.loggedin_counter = len(loggedin)
+	g.loggedout_counter = len(loggedout)
 
 	g.v = v
 
