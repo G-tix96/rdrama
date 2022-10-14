@@ -1099,7 +1099,11 @@
 {% endif %}
 
 {% if not v or v.highlightcomments %}
-	<script defer src="{{'js/submission+submission_listing.js' | asset}}"></script>
+	<script defer src="{{'js/highlightcomments.js' | asset}}"></script>
+{% endif %}
+
+{% if v and v.admin_level > 1 %}
+	<script defer src="{{'js/pinpost.js' | asset}}"></script>
 {% endif %}
 
 <script defer src="{{'js/clipboard.js' | asset}}"></script>
