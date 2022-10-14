@@ -297,8 +297,6 @@ document.onpaste = function(event) {
 }
 
 function handle_action(type, cid, thing) {
-
-
 	const btns = document.getElementsByClassName(`action-${cid}`)
 	for (const btn of btns)
 	{

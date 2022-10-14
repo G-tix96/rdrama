@@ -77,16 +77,12 @@ function endLotterySession() {
 
 // Composed
 function handleLotteryRequest(uri, method, callback = () => {}) {
-	const xhr = new XMLHttpRequest();
-	const url = `/lottery/${uri}`;
-	xhr.open(method, url);
-	xhr.onload = handleLotteryResponse.bind(null, xhr, method, callback);
-
 	const form = new FormData();
 	form.append("formkey", formkey());
-	form.append("quantity", purchaseQuantity)
-
-	xhr.send(form);
+	form.append("quantity", purchaseQuantity);
+	const xhr = createXhrWithFormKey(`/lottery/${uri}`, method, form);
+	xhr[0].onload = handleLotteryResponse.bind(null, xhr[0], method, callback);
+	xhr[0].send(xhr[1]);
 }
 
 function handleLotteryResponse(xhr, method, callback) {

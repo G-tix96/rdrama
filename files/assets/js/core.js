@@ -74,13 +74,11 @@ function postPostToastNonShopActions(t, url, button1, button2, className) {
 	}
 }
 
-function createXhrWithFormKey(url, method="POST", form=null) {
+function createXhrWithFormKey(url, method="POST", form=new FormData()) {
 	const xhr = new XMLHttpRequest();
 	xhr.open(method, url);
 	xhr.setRequestHeader('xhr', 'xhr');
-	if (!form) {
-		form = new FormData();
-	}
+	if (!form) form = new FormData();
 	form.append("formkey", formkey());
 	return [xhr, form]; // hacky but less stupid than what we were doing before
 }
