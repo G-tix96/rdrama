@@ -1216,6 +1216,8 @@ def sticky_post(post_id, v):
 		post.stickied_utc = int(time.time()) + 3600
 		pin_time = 'for 1 hour'
 		code = 200
+		if v.id != post.author_id:
+			send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has pinned [{post.title}](/post/{post_id})!")
 	else:
 		post.stickied_utc = None
 		pin_time = 'permanently'
@@ -1232,9 +1234,6 @@ def sticky_post(post_id, v):
 		_note=pin_time
 	)
 	g.db.add(ma)
-
-	if v.id != post.author_id:
-		send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has pinned [{post.title}](/post/{post_id}) {pin_time}!")
 
 	cache.delete_memoized(frontlist)
 
