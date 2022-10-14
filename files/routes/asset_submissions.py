@@ -1,5 +1,6 @@
 from shutil import move, copyfile
 from os import rename, path
+from typing import Union
 
 from files.__main__ import app, limiter
 from files.helpers.const import *
@@ -10,6 +11,10 @@ from files.helpers.wrappers import *
 from files.routes.static import marsey_list
 
 if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
+	ASSET_TYPES = (Marsey, HatDef)
+	CAN_APPROVE_ASSETS = (AEVANN_ID, CARP_ID, SNAKES_ID)
+	CAN_UPDATE_ASSETS = (AEVANN_ID, CARP_ID, SNAKES_ID, GEESE_ID)
+
 	@app.get('/asset_submissions/<path:path>')
 	@limiter.exempt
 	def asset_submissions(path):
@@ -38,7 +43,6 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 	@app.post("/submit/marseys")
 	@auth_required
 	def submit_marsey(v):
-
 		file = request.files["image"]
 		name = request.values.get('name').lower().strip()
 		tags = request.values.get('tags').lower().strip()
@@ -91,19 +95,21 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 
 		return render_template("submit_marseys.html", v=v, marseys=marseys, msg=f"'{name}' submitted successfully!")
 
+	def verify_permissions_and_get_asset(cls, asset_type:str, v:User, name:str, make_lower=False):
+		if cls not in ASSET_TYPES: raise Exception("not a valid asset type")
+		if AEVANN_ID and v.id not in CAN_APPROVE_ASSETS:
+			abort(403, f"Only Carp can approve {asset_type}!")
+		name = name.strip()
+		if make_lower: name = name.lower()
+		asset = g.db.query(cls).filter_by(name=name).one_or_none()
+		if not asset:
+			abort(404, f"This {asset} '{name}' doesn't exist!")
+		return asset
 
 	@app.post("/admin/approve/marsey/<name>")
 	@admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_MARSEYS'])
 	def approve_marsey(v, name):
-		if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, SNAKES_ID):
-			abort(403, "Only Carp can approve marseys!")
-
-		name = name.lower().strip()
-
-		marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
-		if not marsey:
-			abort(404, f"This marsey '{name}' doesn't exist!")
-
+		marsey = verify_permissions_and_get_asset(Marsey, "marsey", v, name, True)
 		tags = request.values.get('tags').lower().strip()
 		if not tags:
 			abort(400, "You need to include tags!")
@@ -158,31 +164,29 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 
 		return {"message": f"'{marsey.name}' approved!"}
 
+	def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
+		if cls not in ASSET_TYPES: raise Exception("not a valid asset type")
+		name = name.lower.strip()
+		if not name:
+			abort(400, f"You need to specify a {type_name}!")
+		asset = g.db.query(cls).filter_by(name=name).one_or_none()
+		if not asset:
+			abort(404, f"This {type_name} '{name}' doesn't exist!")
+		if v.id not in (asset.submitter_id, AEVANN_ID, CARP_ID):
+			abort(403, f"Only Carp can remove {type_name}s!")
+		name = asset.name
+		if v.id != asset.submitter_id:
+			msg = f"@{v.username} has rejected a {type_name} you submitted: `'{name}'`"
+			send_repeatable_notification(asset.submitter_id, msg)
+		g.db.delete(asset)
+		os.remove(f"/asset_submissions/{type_name}s/{name}.webp")
+		os.remove(f"/asset_submissions/{type_name}s/{name}")
+		return {"message": f"'{name}' removed!"}
 
 	@app.post("/remove/marsey/<name>")
 	@auth_required
 	def remove_marsey(v, name):
-		name = name.lower().strip()
-
-		marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
-		if not marsey:
-			abort(404, f"This marsey '{name}' doesn't exist!")
-
-		if v.id not in (marsey.submitter_id, AEVANN_ID, CARP_ID):
-			abort(403, "Only Carp can remove marseys!")
-
-		if v.id != marsey.submitter_id:
-			msg = f"@{v.username} has rejected a marsey you submitted: `'{marsey.name}'`"
-			send_repeatable_notification(marsey.submitter_id, msg)
-
-		g.db.delete(marsey)
-		os.remove(f"/asset_submissions/marseys/{marsey.name}.webp")
-		os.remove(f"/asset_submissions/marseys/{marsey.name}")
-
-		return {"message": f"'{marsey.name}' removed!"}
-
-
-
+		return remove_asset(Marsey, "marsey", v, name)
 
 	@app.get("/submit/hats")
 	@auth_required
@@ -195,7 +199,6 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 	@app.post("/submit/hats")
 	@auth_required
 	def submit_hat(v):
-
 		name = request.values.get('name').strip()
 		description = request.values.get('description').strip()
 		username = request.values.get('author').strip()
@@ -254,14 +257,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 	@app.post("/admin/approve/hat/<name>")
 	@admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_HATS'])
 	def approve_hat(v, name):
-		if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, SNAKES_ID):
-			abort(403, "Only Carp can approve hats!")
-
-		name = name.strip()
-
-		hat = g.db.query(HatDef).filter_by(name=name).one_or_none()
-		if not hat: abort(404, f"This hat '{name}' doesn't exist!")
-
+		hat = verify_permissions_and_get_asset(HatDef, "hat", v, name, False)
 		description = request.values.get('description').strip()
 		if not description: abort(400, "You need to include a description!")
 
@@ -320,24 +316,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 	@app.post("/remove/hat/<name>")
 	@auth_required
 	def remove_hat(v, name):
-		name = name.strip()
-
-		hat = g.db.query(HatDef).filter_by(name=name).one_or_none()
-		if not hat: abort(404, f"This hat '{name}' doesn't exist!")
-		if v.id not in (hat.submitter_id, AEVANN_ID, CARP_ID):
-			abort(403, 'Only Carp can remove hats!')
-
-		if v.id != hat.submitter_id:
-			msg = f"@{v.username} has rejected a hat you submitted: `'{hat.name}'`"
-			send_repeatable_notification(hat.submitter_id, msg)
-
-		g.db.delete(hat)
-		os.remove(f"/asset_submissions/hats/{hat.name}.webp")
-		os.remove(f"/asset_submissions/hats/{hat.name}")
-
-		return {"message": f"'{hat.name}' removed!"}
-
-
+		return remove_asset(HatDef, 'hat', v, name)
 
 	@app.get("/admin/update/marseys")
 	@admin_level_required(PERMS['UPDATE_MARSEYS'])
