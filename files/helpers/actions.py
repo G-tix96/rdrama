@@ -135,17 +135,17 @@ def execute_snappy(post, v):
 			addition += f'* [archive.org](https://web.archive.org/{href})\n'
 			addition += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n'
 			addition += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)}) (click to archive)\n\n'
-			if len(f'{body}{addition}') > 10000: break
+			if len(f'{body}{addition}') > COMMENT_BODY_LENGTH_LIMIT: break
 			body += addition
 			archive_url(href)
 
-	body = body.strip()[:POST_BODY_LENGTH_LIMIT]
+	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
 	body_html = sanitize(body)
 
 	if len(body_html) == 0:
 		return
 
-	if len(body_html) < POST_BODY_HTML_LENGTH_LIMIT:
+	if len(body_html) < COMMENT_BODY_HTML_LENGTH_LIMIT:
 		c = Comment(author_id=SNAPPY_ID,
 			distinguish_level=6,
 			parent_submission=post.id,
