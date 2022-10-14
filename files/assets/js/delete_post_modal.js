@@ -18,10 +18,7 @@ function delete_postModal(id) {
 				document.getElementById('toast-post-success-text').innerText = data["message"];
 				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success')).show();
 			} else {
-				document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-				if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
-				if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
+				showToast(false, getMessageFromJsonData(false, data));
 			}
 		};
 		xhr.send(form);

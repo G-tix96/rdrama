@@ -40,15 +40,8 @@ function report_commentModal(id, author) {
 			let data
 			try {data = JSON.parse(xhr.response)}
 			catch(e) {console.log(e)}
-			if (xhr.status >= 200 && xhr.status < 300 && data && data['message']) {
-				document.getElementById('toast-post-success-text').innerText = data["message"];
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success')).show();
-			} else {
-				document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-				if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
-				if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
-			}
+			success = xhr.status >= 200 && xhr.status < 300;
+			showToast(success, getMessageFromJsonData(success, data));
 		};
 
 		xhr.onerror=function(){alert(errortext)};
@@ -117,13 +110,9 @@ function delete_commentModal(id) {
 				document.getElementById(`undelete-${id}`).classList.remove('d-none');
 				document.getElementById(`delete2-${id}`).classList.add('d-none');
 				document.getElementById(`undelete2-${id}`).classList.remove('d-none');
-				document.getElementById('toast-post-success-text').innerText = data["message"];
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success')).show();
+				showToast(true, getMessageFromJsonData(true, data));
 			} else {
-				document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-				if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
-				if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
+				showToast(false, getMessageFromJsonData(false, data));
 			}
 		};
 		xhr.send(form);
@@ -167,12 +156,8 @@ function post_reply(id){
 			document.getElementById('reply-form-body-'+id).value = ''
 			document.getElementById('message-reply-'+id).innerHTML = ''
 			ToggleReplyBox('reply-message-'+id)
-		}
-		else {
-			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
-			else document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-			if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
-			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
+		} else {
+			showToast(false, getMessageFromJsonData(false, data));
 		}
 		setTimeout(() => {
 			btn.disabled = false;
@@ -213,10 +198,7 @@ function comment_edit(id){
 			document.getElementById('filename-edit-reply-' + id).innerHTML = '<i class="fas fa-file"></i>';
 		}
 		else {
-			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
-			else document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-			if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
-			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
+			showToast(false, getMessageFromJsonData(false, data));
 		}
 		setTimeout(() => {
 			btn.disabled = false;
@@ -273,10 +255,7 @@ function post_comment(fullname, hide){
 			document.getElementById('filename-show-reply-' + fullname).innerHTML = '<i class="fas fa-file"></i>';
 		}
 		else {
-			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
-			else document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-			if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
-			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
+			showToast(false, getMessageFromJsonData(false, data));
 			setTimeout(() => {
 				btn.disabled = false;
 				btn.classList.remove('disabled');
@@ -361,12 +340,8 @@ function handle_action(type, cid, thing) {
 		if (data && data["response"]) {
 			const element = document.getElementById(`${type}-${cid}`);
 			element.innerHTML = data["response"]
-		}
-		else {
-			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
-			else document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-			if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
-			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
+		} else {
+			showToast(false, getMessageFromJsonData(false, data));
 		}
 		setTimeout(() => {
 			for (const btn of btns)
