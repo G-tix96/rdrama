@@ -1,5 +1,3 @@
-/*const bootstrap = require("./bootstrap");*/
-
 function isShopConfirmation(t) {
 	return t.id.startsWith('buy1-') || t.id.startsWith('buy2-');
 }
@@ -76,14 +74,20 @@ function postPostToastNonShopActions(t, url, button1, button2, className) {
 	}
 }
 
-function postToast(t, url, button1, button2, className, extraActions, extraActionsError) {
-	prePostToastNonShopActions(t, url, button1, button2, className)
-	const xhr = new XMLHttpRequest();
-	xhr.open("POST", url);
-	xhr.setRequestHeader('xhr', 'xhr');
-	const form = new FormData()
-	form.append("formkey", formkey());
+function createXhrWithFormKey(url, method="POST", form=null) {
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url);
+    xhr.setRequestHeader('xhr', 'xhr');
+    if (!form) {
+        form = new FormData();
+    }
+    form.append("formkey", formkey());
+    return xhr;
+}
 
+function postToast(t, url, button1, button2, className, extraActions, extraActionsError) {
+	prePostToastNonShopActions(t, url, button1, button2, className);
+	const xhr = createXhrWithFormKey(url);
 	xhr.onload = function() {
 		postToastLoad(xhr, className, extraActions, extraActionsError)
 		postPostToastNonShopActions(t, url, button1, button2, className)
@@ -97,57 +101,26 @@ function post_toast(t, url, button1, button2, classname, extra_actions, extra_ac
 }
 
 function post_toast_callback(url, data, callback) {
-	const xhr = new XMLHttpRequest();
-	xhr.open("POST", url);
-	xhr.setRequestHeader('xhr', 'xhr');
-	const form = new FormData()
-	form.append("formkey", formkey());
-
+	const xhr = createXhrWithFormKey(url);
 	if(typeof data === 'object' && data !== null) {
 		for(let k of Object.keys(data)) {
 			form.append(k, data[k]);
 		}
 	}
-
-	form.append("formkey", formkey());
 	xhr.onload = function() {
 		let result
 		if (callback) result = callback(xhr);
-		if (xhr.status >= 200 && xhr.status < 300) {
-			var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error'));
-			myToast.hide();
-
-			var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success'));
-			myToast.show();
-
-			try {
-				if(typeof result == "string") {
-					document.getElementById('toast-post-success-text').innerText = result;
-				} else {
-					document.getElementById('toast-post-success-text').innerText = JSON.parse(xhr.response)["message"];
-				}
-			} catch(e) {
-			}
-
-			return true;
-		} else {
-			var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success'));
-			myToast.hide();
-
-			var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error'));
-			myToast.show();
-
-			try {
-				if(typeof result == "string") {
-					document.getElementById('toast-post-error-text').innerText = result;
-				} else {
-					document.getElementById('toast-post-error-text').innerText = JSON.parse(xhr.response)["error"];
-				}
-				return false
-			} catch(e) {console.log(e)}
-
-			return false;
-		}
+        let message;
+        let success = xhr.status >= 200 && xhr.status < 300;
+        if (typeof result == "string") {
+            message = result;
+        } else {
+            message = getMessageFromJsonData(success, JSON.parse(xhr.response));
+        }
+        let oldToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-' + (success ? 'error': 'success'))); // intentionally reversed here: this is the old toast
+        oldToast.hide();
+        showToast(success, message);
+        return success;
 	};
 	xhr.send(form);
 }

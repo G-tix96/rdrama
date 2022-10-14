@@ -86,12 +86,8 @@ function vote(type, id, dir) {
 			}
 		}
 	}
-
-	const xhr = new XMLHttpRequest();
-	xhr.open("POST", "/vote/" + type.replace('-mobile','') + "/" + id + "/" + votedirection);
-	xhr.setRequestHeader('xhr', 'xhr');
-	const form = new FormData()
-	form.append("formkey", formkey());
+	
+	const xhr = createXhrWithFormKey("/vote/" + type.replace('-mobile','') + "/" + id + "/" + votedirection);
 	xhr.send(form);
 }
 
@@ -127,14 +123,9 @@ function pick(kind, canbuy1, canbuy2) {
 
 function buy(mb) {
 	const kind = document.getElementById('kind').value;
-	const xhr = new XMLHttpRequest();
 	url = `/buy/${kind}`
 	if (mb) url += "?mb=true"
-	xhr.open("POST", url);
-	xhr.setRequestHeader('xhr', 'xhr');
-	const form = new FormData()
-	form.append("formkey", formkey());
-
+	const xhr = createXhrWithFormKey(url);
 	if(typeof data === 'object' && data !== null) {
 		for(let k of Object.keys(data)) {
 				form.append(k, data[k]);
