@@ -5,6 +5,7 @@ from os import listdir, environ
 from .const import * 
 import time
 from files.helpers.assetcache import assetcache_path
+from files.helpers.wrappers import calc_users
 
 @app.template_filter("post_embed")
 def post_embed(id, v):
@@ -74,5 +75,5 @@ def inject_constants():
 			"KOFI_TOKEN":KOFI_TOKEN, "KOFI_LINK":KOFI_LINK,
 			"approved_embed_hosts":approved_embed_hosts,
 			"site_settings":app.config['SETTINGS'],
-			"EMAIL":EMAIL,
+			"EMAIL":EMAIL, "calc_users": calc_users
 			}
