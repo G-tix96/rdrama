@@ -111,6 +111,11 @@ pre {
 	transform: rotate(180deg);
 }
 
+#thread .arrow-up::before, #thread .arrow-down::before {
+	content: '\f720';
+	width: 17px;
+  }
+
 /* Cob Webs */
 body::before {
 	content: '';
