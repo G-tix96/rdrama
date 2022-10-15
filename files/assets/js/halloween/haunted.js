@@ -10,7 +10,6 @@ window.onload = function(){
     stylesheet_haunted.disabled = true
 
     thunder2.volume = 0.5
-    document.body.style.overflowX = "hidden"
 
     lightningStrike("normal")
 }

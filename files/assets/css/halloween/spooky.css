@@ -40,6 +40,10 @@
   --background: var(--dark);
 }
 
+body {
+	overflow-x: hidden;
+}
+
 * {
 	border-color: var(--primary);
 }
@@ -168,7 +172,6 @@ body::after {
 	color: #dc3545 !important;
 	font-family: 'DoubleFeature';
 }
-
 
 .sketch {
 	z-index: 10000;
@@ -538,6 +541,13 @@ body::after {
 /* Upsidedown */
 #canvas {
 	position:absolute;
-	overflow:hidden;
 }
-  
+
+/* Bones */
+#animate{
+	margin-left:50%;
+	margin-top:-5%;
+	position: fixed;
+	z-index:999;
+	pointer-events: none;
+}

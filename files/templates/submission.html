@@ -402,18 +402,6 @@
 
 {% if p.award_count("bones", v) %}
 <div id="animate"></div>
-<style>
-	body {
-		overflow-x: hidden;
-	}
-	#animate{
-		margin: 0 auto;
-		width: 20px;
-		overflow: visible;
-		position: relative;
-		z-index:999;
-	}
-</style>
 <script src="{{'js/halloween/bones.js' | asset}}"></script>
 <script defer>
 	bones({{ p.award_count("bones", v) }})
