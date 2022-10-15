@@ -156,6 +156,8 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 <p>Don't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards the trans community. Feel free to resubmit your {type} with <code>{AGENDAPOSTER_PHRASE}</code> included.</p>
 <p><em>This is an automated message; if you need help, you can message us <a href="/contact">here</a>.</em></p>"""
 
+DISCORD_CHANGELOG_CHANNEL_IDS = [924485611715452940, 1013992002624426015]
+WPD_CHANNEL_ID = 1013990963846332456
 
 ################################################################################
 ### SITE SPECIFIC CONSTANTS
@@ -333,6 +335,7 @@ COMMENT_BODY_LENGTH_LIMIT = 10000 # do not make larger than 10000 characters wit
 COMMENT_BODY_HTML_LENGTH_LIMIT = 20000 # do not make larger than 20000 characters without altering the table
 COMMENT_MAX_DEPTH = 200
 TRANSFER_MESSAGE_LENGTH_LIMIT = 200 # do not make larger than 10000 characters (comment limit) without altering the table
+MIN_REPOST_CHECK_URL_LENGTH = 9 # also change the constant in checkRepost() of submit.js
 
 LOGGEDIN_ACTIVE_TIME = 15 * 60
 PFP_DEFAULT_MARSEY = True
@@ -391,7 +394,7 @@ GIFT_NOTIF_ID = 5
 SIGNUP_FOLLOW_ID = 0
 NOTIFICATION_THREAD = 1
 
-MAX_IMAGE_SIZE_BANNER_RESIZED_MB = 1
+MAX_IMAGE_SIZE_BANNER_RESIZED_KB = 500
 MAX_IMAGE_AUDIO_SIZE_MB = 8
 MAX_IMAGE_AUDIO_SIZE_MB_PATRON = 16
 MAX_VIDEO_SIZE_MB = 32

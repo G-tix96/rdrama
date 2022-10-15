@@ -39,15 +39,8 @@ function report_postModal(id) {
 			let data
 			try {data = JSON.parse(xhr.response)}
 			catch(e) {console.log(e)}
-			if (xhr.status >= 200 && xhr.status < 300 && data && data['message']) {
-				document.getElementById('toast-post-success-text').innerText = data["message"];
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success')).show();
-			} else {
-				document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-				if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
-				if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
-			}
+			success = xhr.status >= 200 && xhr.status < 300;
+			showToast(success, getMessageFromJsonData(success, data));
 		};
 
 		xhr.onerror=function(){alert(errortext)};

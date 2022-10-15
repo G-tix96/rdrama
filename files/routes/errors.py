@@ -27,6 +27,7 @@ def error(e):
 
 	if WERKZEUG_ERROR_DESCRIPTIONS.get(e.code, None) == details:
 		details = None
+	# for here and 401, not using g.is_api_or_xhr is intentional since API users won't get invalid token errors otherwise
 	if request.headers.get("Authorization") or request.headers.get("xhr"):
 		return {"error": title, "code": e.code, "description": msg, "details": details}, e.code
 	img = ERROR_MARSEYS.get(e.code, 'marseyl')

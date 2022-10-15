@@ -8,14 +8,36 @@ import functools
 import user_agents
 import time
 
+def calc_users(v):
+	# Some globals we expect aren't available when rendering error pages
+	if (not g or not hasattr(g, 'agent')
+			or not session or not ('session_id' in session)):
+		return ''
+
+	loggedin = cache.get(f'{SITE}_loggedin') or {}
+	loggedout = cache.get(f'{SITE}_loggedout') or {}
+	timestamp = int(time.time())
+	if v:
+		if session["session_id"] in loggedout: del loggedout[session["session_id"]]
+		loggedin[v.id] = timestamp
+	else:
+		ua = str(user_agents.parse(g.agent))
+		if 'spider' not in ua.lower() and 'bot' not in ua.lower():
+			loggedout[session["session_id"]] = (timestamp, ua)
+	
+	loggedin = {k: v for k, v in loggedin.items() if (timestamp - v) < LOGGEDIN_ACTIVE_TIME}
+	loggedout = {k: v for k, v in loggedout.items() if (timestamp - v[0]) < LOGGEDIN_ACTIVE_TIME}
+	cache.set(f'{SITE}_loggedin', loggedin)
+	cache.set(f'{SITE}_loggedout', loggedout)
+
+	g.loggedin_counter = len(loggedin)
+	g.loggedout_counter = len(loggedout)
+	return ''
+
 def get_logged_in_user():
-
 	if hasattr(g, 'v'): return g.v
-
 	if not (hasattr(g, 'db') and g.db): g.db = db_session()
-
 	v = None
-
 	token = request.headers.get("Authorization","").strip()
 	if token:
 		client = g.db.query(ClientAuth).filter(ClientAuth.access_token == token).one_or_none()
@@ -40,7 +62,7 @@ def get_logged_in_user():
 					if not v.validate_formkey(submitted_key): abort(401)
 
 				v.client = None
-
+	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
 
 	if request.method.lower() != "get" and app.config['SETTINGS']['Read-only mode'] and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
 		abort(403)
@@ -49,35 +71,18 @@ def get_logged_in_user():
 	if not session.get("session_id"):
 		session.permanent = True
 		session["session_id"] = secrets.token_hex(49)
-		
-	loggedin = cache.get(f'{SITE}_loggedin') or {}
-	loggedout = cache.get(f'{SITE}_loggedout') or {}
-	g.loggedin_counter = 0
-	g.loggedout_counter = 0
 
-	timestamp = int(time.time())
-	if v:
-		if session["session_id"] in loggedout: del loggedout[session["session_id"]]
-		loggedin[v.id] = timestamp
-		# Check against last_active + ACTIVE_TIME to reduce frequency of
-		# UPDATEs in exchange for a ±ACTIVE_TIME margin of error.
-		if (v.last_active + LOGGEDIN_ACTIVE_TIME) < timestamp:
-			v.last_active = timestamp
-			g.db.add(v)
-	else:
-		ua = str(user_agents.parse(g.agent))
-		if 'spider' not in ua.lower() and 'bot' not in ua.lower():
-			loggedout[session["session_id"]] = (timestamp, ua)
-	
-	g.loggedin_counter = len([x for x in loggedin.values() if timestamp-x < LOGGEDIN_ACTIVE_TIME])
-	cache.set(f'{SITE}_loggedin', loggedin)
-
-	g.loggedout_counter = len([x for x in loggedout.values() if timestamp-x[0] < LOGGEDIN_ACTIVE_TIME])
-	cache.set(f'{SITE}_loggedout', loggedout)
 
 	g.v = v
 
-	if v: v.poor = session.get('poor')
+	if v:
+		v.poor = session.get('poor')
+		# Check against last_active + ACTIVE_TIME to reduce frequency of
+		# UPDATEs in exchange for a ±ACTIVE_TIME margin of error.
+		timestamp = int(time.time())
+		if (v.last_active + LOGGEDIN_ACTIVE_TIME) < timestamp:
+			v.last_active = timestamp
+			g.db.add(v)
 
 	if AEVANN_ID and request.headers.get("Cf-Ipcountry") == 'EG':
 		if v and not v.username.startswith('Aev'):

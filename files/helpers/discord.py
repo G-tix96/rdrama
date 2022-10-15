@@ -46,9 +46,9 @@ def set_nick(user, nick):
 
 def send_changelog_message(message):
 	data={"content": message}
-	requests.post("https://discordapp.com/api/channels/924485611715452940/messages", headers=headers, data=data, timeout=5)
-	requests.post("https://discordapp.com/api/channels/1013992002624426015/messages", headers=headers, data=data, timeout=5)
+	for id in DISCORD_CHANGELOG_CHANNEL_IDS:
+		requests.post(f"https://discordapp.com/api/channels/{id}/messages", headers=headers, data=data, timeout=5)
 
 def send_wpd_message(message):
 	data={"content": message}
-	requests.post("https://discordapp.com/api/channels/1013990963846332456/messages", headers=headers, data=data, timeout=5)
+	requests.post(f"https://discordapp.com/api/channels/{WPD_CHANNEL_ID}/messages", headers=headers, data=data, timeout=5)

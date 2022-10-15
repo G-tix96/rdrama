@@ -13,6 +13,7 @@
 		}
 	</style>
 
+{{calc_users(v)}}
 {% if g.loggedin_counter and not err and (SITE_NAME in ('PCM','rDrama') or g.loggedin_counter+g.loggedout_counter > 100) %}
 	<div class="srd">
 		{% if SITE_NAME == 'rDrama' %}

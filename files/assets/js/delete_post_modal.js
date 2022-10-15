@@ -1,29 +1,22 @@
 function delete_postModal(id) {
 	document.getElementById("deletePostButton").onclick = function() {
-		const xhr = new XMLHttpRequest();
-		xhr.open("POST", `/delete_post/${id}`);
-		xhr.setRequestHeader('xhr', 'xhr');
-		const form = new FormData()
-		form.append("formkey", formkey());
-		xhr.onload = function() {
+		const xhr = createXhrWithFormKey(`/delete_post/${id}`);
+		xhr[0].onload = function() {
 			let data
 			try {data = JSON.parse(xhr.response)}
 			catch(e) {console.log(e)}
-			if (xhr.status >= 200 && xhr.status < 300 && data && data['message']) {
+			success = xhr[0].status >= 200 && xhr[0].status < 300;
+			showToast(success, getMessageFromJsonData(success, data));
+			if (success && data["message"]) {
 				document.getElementById(`post-${id}`).classList.add('deleted');
 				document.getElementById(`delete-${id}`).classList.add('d-none');
 				document.getElementById(`undelete-${id}`).classList.remove('d-none');
 				document.getElementById(`delete2-${id}`).classList.add('d-none');
 				document.getElementById(`undelete2-${id}`).classList.remove('d-none');
-				document.getElementById('toast-post-success-text').innerText = data["message"];
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success')).show();
 			} else {
-				document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-				if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
-				if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
+				showToast(false, getMessageFromJsonData(false, data));
 			}
 		};
-		xhr.send(form);
+		xhr[0].send(xhr[1]);
 	};
 }

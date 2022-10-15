@@ -163,8 +163,9 @@ function checkRepost() {
 	const system = document.getElementById('system')
 	system.innerHTML = `To post an image, use a direct image link such as i.imgur.com`;
 	const url = document.getElementById('post-url').value
+	const min_repost_check = 9;
 
-	if (url) {
+	if (url && url.length >= min_repost_check) {
 		const xhr = new XMLHttpRequest();
 		xhr.open("post", "/is_repost");
 		xhr.setRequestHeader('xhr', 'xhr');

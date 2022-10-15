@@ -11,9 +11,7 @@ from files.helpers.sanitize import filter_emojis_only
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def flag_post(pid, v):
-
 	post = get_post(pid)
-
 	reason = request.values.get("reason", "").strip()
 
 	if blackjack and any(i in reason.lower() for i in blackjack.split()):

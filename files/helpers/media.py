@@ -153,9 +153,9 @@ def process_image(filename=None, resize=0, trim=False, uploader=None, patron=Fal
 
 
 	if resize in (300,400,1200):
-		if os.stat(filename).st_size > MAX_IMAGE_SIZE_BANNER_RESIZED_MB * 1024 * 1024:
+		if os.stat(filename).st_size > MAX_IMAGE_SIZE_BANNER_RESIZED_KB * 1024:
 			os.remove(filename)
-			abort(413, f"Max size for banners, sidebars, and badges is {MAX_IMAGE_SIZE_BANNER_RESIZED_MB}")
+			abort(413, f"Max size for banners, sidebars, and badges is {MAX_IMAGE_SIZE_BANNER_RESIZED_KB} KB")
 
 		if resize == 1200:
 			path = f'files/assets/images/{SITE_NAME}/banners'

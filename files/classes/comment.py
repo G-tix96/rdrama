@@ -120,64 +120,12 @@ class Comment(Base):
 		if notif_utc: timestamp = notif_utc
 		elif self.created_utc: timestamp = self.created_utc
 		else: return None
-		
-		age = int(time.time()) - timestamp
-
-		if age < 60:
-			return "just now"
-		elif age < 3600:
-			minutes = int(age / 60)
-			return f"{minutes}m ago"
-		elif age < 86400:
-			hours = int(age / 3600)
-			return f"{hours}hr ago"
-		elif age < 2678400:
-			days = int(age / 86400)
-			return f"{days}d ago"
-
-		now = time.gmtime()
-		ctd = time.gmtime(timestamp)
-
-		months = now.tm_mon - ctd.tm_mon + 12 * (now.tm_year - ctd.tm_year)
-		if now.tm_mday < ctd.tm_mday:
-			months -= 1
-
-		if months < 12:
-			return f"{months}mo ago"
-		else:
-			years = int(months / 12)
-			return f"{years}yr ago"
+		return make_age_string(timestamp)
 
 	@property
 	@lazy
 	def edited_string(self):
-
-		age = int(time.time()) - self.edited_utc
-
-		if age < 60:
-			return "just now"
-		elif age < 3600:
-			minutes = int(age / 60)
-			return f"{minutes}m ago"
-		elif age < 86400:
-			hours = int(age / 3600)
-			return f"{hours}hr ago"
-		elif age < 2678400:
-			days = int(age / 86400)
-			return f"{days}d ago"
-
-		now = time.gmtime()
-		ctd = time.gmtime(self.edited_utc)
-
-		months = now.tm_mon - ctd.tm_mon + 12 * (now.tm_year - ctd.tm_year)
-		if now.tm_mday < ctd.tm_mday:
-			months -= 1
-
-		if months < 12:
-			return f"{months}mo ago"
-		else:
-			years = int(months / 12)
-			return f"{years}yr ago"
+		return make_age_string(self.edited_utc)
 
 	@property
 	@lazy

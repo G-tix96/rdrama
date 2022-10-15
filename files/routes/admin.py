@@ -530,7 +530,10 @@ def badge_grant_post(v):
 	try: badge_id = int(request.values.get("badge_id"))
 	except: abort(400)
 
-	if badge_id in {16,17,21,22,23,24,25,26,27,94,95,96,97,98,109,137} and v.id != AEVANN_ID and SITE != 'pcmemes.net':
+	if SITE == 'watchpeopledie.co' and badge_id not in {99,101}:
+		abort(403)
+
+	if badge_id in {16,17,21,22,23,24,25,26,27,94,95,96,97,98,109,137,67,68,83,84,87,90,140} and v.id != AEVANN_ID and SITE != 'pcmemes.net':
 		abort(403)
 
 	if user.has_badge(badge_id):
@@ -591,6 +594,9 @@ def badge_remove_post(v):
 
 	try: badge_id = int(request.values.get("badge_id"))
 	except: abort(400)
+
+	if badge_id in {67,68,83,84,87,90,140} and v.id != AEVANN_ID and SITE != 'pcmemes.net':
+		abort(403)
 
 	badge = user.has_badge(badge_id)
 	if not badge:
@@ -987,7 +993,11 @@ def ban_user(user_id, v):
 	if user.admin_level > v.admin_level:
 		abort(403)
 
-	days = float(request.values.get("days")) if request.values.get('days') else 0
+	days = 0.0
+	try:
+		days = float(request.values.get("days"))
+	except:
+		pass
 
 	reason = request.values.get("reason").strip()[:256]
 	reason = filter_emojis_only(reason)
@@ -1003,8 +1013,11 @@ def ban_user(user_id, v):
 				continue
 			x.ban(admin=v, reason=reason, days=days)
 
+	duration = "permanently"
 	if days:
 		days_txt = str(days).rstrip('.0')
+		duration = f"for {days_txt} day"
+		if days != 1: duration += "s"
 		if reason: text = f"@{v.username} (Admin) has banned you for **{days_txt}** days for the following reason:\n\n> {reason}"
 		else: text = f"@{v.username} (Admin) has banned you for **{days_txt}** days."
 	else:
@@ -1012,10 +1025,6 @@ def ban_user(user_id, v):
 		else: text = f"@{v.username} (Admin) has banned you permanently."
 
 	send_repeatable_notification(user.id, text)
-	
-	if days == 0: duration = "permanently"
-	elif days == 1: duration = "for 1 day"
-	else: duration = f"for {days_txt} days"
 
 	note = f'reason: "{reason}", duration: {duration}'
 	ma=ModAction(
@@ -1199,30 +1208,41 @@ def distinguish_post(post_id, v):
 @feature_required('PINS')
 def sticky_post(post_id, v):
 	
+	pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
+
+	if pins >= PIN_LIMIT and v.admin_level < PERMS['BYPASS_PIN_LIMIT']:
+		abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
 
 	post = get_post(post_id)
-	if not post.stickied:
-		pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
-		if pins >= PIN_LIMIT:
-			if v.admin_level >= PERMS['BYPASS_PIN_LIMIT']:
-				post.stickied = v.username
-				post.stickied_utc = int(time.time()) + 3600
-			else: abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
-		else: post.stickied = v.username
-		g.db.add(post)
 
-		ma=ModAction(
-			kind="pin_post",
-			user_id=v.id,
-			target_submission_id=post.id
-		)
-		g.db.add(ma)
-
+	if not post.stickied_utc:
+		post.stickied_utc = int(time.time()) + 3600
+		pin_time = 'for 1 hour'
+		code = 200
 		if v.id != post.author_id:
 			send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has pinned [{post.title}](/post/{post_id})!")
+	else:
+		if pins >= PIN_LIMIT:
+			abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
+		post.stickied_utc = None
+		pin_time = 'permanently'
+		code = 201
 
-		cache.delete_memoized(frontlist)
-	return {"message": "Post pinned!"}
+	post.stickied = v.username
+
+	g.db.add(post)
+
+	ma=ModAction(
+		kind="pin_post",
+		user_id=v.id,
+		target_submission_id=post.id,
+		_note=pin_time
+	)
+	g.db.add(ma)
+
+	cache.delete_memoized(frontlist)
+
+	return {"message": f"Post pinned {pin_time}!"}, code
 
 @app.post("/unsticky/<post_id>")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])

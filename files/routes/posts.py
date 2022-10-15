@@ -143,7 +143,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	if not post.can_see(v): abort(403)
 
 	if post.over_18 and not (v and v.over_18) and session.get('over_18', 0) < int(time.time()):
-		if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error":"Must be 18+ to view"}, 451
+		if g.is_api_or_xhr: return {"error":"Must be 18+ to view"}, 451
 		return render_template("errors/nsfw.html", v=v)
 
 	if post.new or 'megathread' in post.title.lower(): defaultsortingcomments = 'new'
@@ -216,7 +216,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	if v and v.poorcel: threshold = 50
 	else: threshold = 100
 
-	if post.comment_count > threshold+25 and not request.headers.get("Authorization") and not request.values.get("all"):
+	if post.comment_count > threshold+25 and not (v and v.client) and not request.values.get("all"):
 		comments2 = []
 		count = 0
 		if post.created_utc > 1638672040:
@@ -254,7 +254,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	post.views += 1
 	g.db.add(post)
 
-	if request.headers.get("Authorization"):
+	if v and v.client:
 		return post.json
 
 	template = "submission.html"
@@ -652,11 +652,12 @@ def thumbnail_thread(pid):
 
 @app.post("/is_repost")
 def is_repost():
+	not_a_repost = {'permalink': ''}
 	if not FEATURES['REPOST_DETECTION']:
-		return {'permalink': ''}
+		return not_a_repost
 
 	url = request.values.get('url')
-	if not url: abort(400)
+	if not url or len(url) < MIN_REPOST_CHECK_URL_LENGTH: abort(400)
 
 	url = normalize_url(url)
 	parsed_url = urlparse(url)
@@ -681,7 +682,6 @@ def is_repost():
 							fragment=parsed_url.fragment)
 	
 	url = urlunparse(new_url)
-
 	url = url.rstrip('/')
 
 	search_url = url.replace('%', '').replace('\\', '').replace('_', '\_').strip()
@@ -691,7 +691,7 @@ def is_repost():
 		Submission.is_banned == False
 	).first()
 	if repost: return {'permalink': repost.permalink}
-	else: return {'permalink': ''}
+	else: return not_a_repost
 
 @app.post("/submit")
 @app.post("/h/<sub>/submit")
@@ -708,7 +708,7 @@ def submit_post(v, sub=None):
 	body = sanitize_raw_body(request.values.get("body", ""), True)
 
 	def error(error):
-		if request.headers.get("Authorization") or request.headers.get("xhr"): abort(400, error)
+		if g.is_api_or_xhr: abort(400, error)
 	
 		SUBS = [x[0] for x in g.db.query(Sub.name).order_by(Sub.name).all()]
 		return render_template("submit.html", SUBS=SUBS, v=v, error=error, title=title, url=url, body=body), 400
@@ -843,8 +843,8 @@ def submit_post(v, sub=None):
 	if len(url) > 2048:
 		return error("There's a 2048 character limit for URLs.")
 
+	bets = []
 	if v and v.admin_level >= PERMS['POST_BETS']:
-		bets = []
 		for i in bet_regex.finditer(body):
 			bets.append(i.group(1))
 			body = body.replace(i.group(0), "")
@@ -877,8 +877,6 @@ def submit_post(v, sub=None):
 	
 	if embed and len(embed) > 1500: embed = None
 
-	is_bot = v.id != BBBB_ID and bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID)
-
 	if request.values.get("ghost") and v.coins >= 100:
 		v.charge_account('coins', 100)
 		ghost = True
@@ -894,7 +892,7 @@ def submit_post(v, sub=None):
 		over_18=bool(request.values.get("over_18","")),
 		new=bool(request.values.get("new","")),
 		app_id=v.client.application.id if v.client else None,
-		is_bot = is_bot,
+		is_bot=(v.client is not None),
 		url=url,
 		body=body,
 		body_html=body_html,
@@ -1041,7 +1039,7 @@ def submit_post(v, sub=None):
 		send_wpd_message(post.permalink)
 
 	g.db.commit()
-	if request.headers.get("Authorization"): return post.json
+	if v.client: return post.json
 	else:
 		post.voted = 1
 		if post.new or 'megathread' in post.title.lower(): sort = 'new'

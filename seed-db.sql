@@ -322,6 +322,11 @@ INSERT INTO public.hat_defs VALUES (807, 'The Capy', 'You''re the chosen one! No
 
 
 
+
+
+
+
+
 INSERT INTO public.hat_defs VALUES (92, 'Top Hat (black)', 'Traditional. Classy. Elegant.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (714, 'Captain Falcon', 'The chad that every smash player wanted to imitate, if only his moveset included a shower.', 2, 500, NULL, 1663474615);
 INSERT INTO public.hat_defs VALUES (715, 'Inspector Gadget', '"Go go Gadget Brown Bricks!"', 2, 500, NULL, 1663477536);
@@ -1072,7 +1077,7 @@ INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 964, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 969, true);
 
 
 --
@@ -1245,10 +1250,12 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseybeekeeper',2,'bee beekeeper honey honeybee insect honeypot apiary apiculture pollinate pollen',NULL),
 ('marseybeggar',2,'poor busking panhandler gofundme busker',NULL),
 ('marseybegging',2,'pls plz pleading reaction tears in eyes animated',NULL),
+('marseybegoneprot',2,'tooka cross christian catholic orthodox protestant begone religion holy pepe apu peepo demon exorcise',1665684007),
 ('marseybegonethot',2,'pepe apu peepo begon thot cross demon exorcise slut whore',NULL),
 ('marseyben10',2,'ten anime cartoon lawlz',NULL),
 ('marseybestfriends',2,'snoo reddit alien slice kill kys stab blood wpd',NULL),
 ('marseybetauprising',2,'blackops2cel blops2cel incel volcel lasereyes dark involuntary celibate saint',1663213986),
+('marseybiast',2,'darrell brooks court biased biast',1665784922),
 ('marseybiden',2,'ddd dementia daddy president sleepy joe',NULL),
 ('marseybiden2',2,'biden ddd dementia daddy president sleepy joe gas petrol ididthat',NULL),
 ('marseybigbrain',2,'high iq highiq smart genius brain',NULL),
@@ -1378,6 +1385,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycarp2',2,'harm cutting selfharm cutter reaction carpathianflorist self animated',NULL),
 ('marseycarp3',2,'reaction fish carpathianflorist catfish',NULL),
 ('marseycarp4',2,'sicksadworld banhammer pin awards janny mod admin',1664034021),
+('marseycarpabusivewife',2,'carpathianflorist boobs sweater yesdear demeaning jannie fish',1665700295),
 ('marseycarpasian',2,'carpathianflorist fish azn racist hat paddy gook nip ching chong chink',NULL),
 ('marseycarpautism',2,'carpathianflorist special assburgers aspergers retarded janitor jannie',NULL),
 ('marseycarpboobs',2,'carpathianflorist boobs booba titties tiddies tits boobs breasts censored fish administrator jannie janny janitor',1663771699),
@@ -1922,6 +1930,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyjesus2',2,'crucify crucifixion christianity easter persecuted religion saint martyr religious cross',NULL),
 ('marseyjetbombing',2,'obama bush animated usa animated american pilot bomber plane war usaf air force',NULL),
 ('marseyjetfighter',2,'pilot plane airforce air force usaf bomber dogfight war',NULL),
+('marseyjewish',2,'jew jewish religon hat',1665706842),
 ('marseyjewishkkk',2,'klan israel racism hood blue',1664491568),
 ('marseyjewoftheorient',2,'china chinese greedy jew jewish merchant',NULL),
 ('marseyjewoftheorientglow',2,'animated glow rice china chinese chink commie mao xi',NULL),
@@ -1938,6 +1947,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyjumpscare',2,'undead living dead romero halloween horror corpse scary rotten animated spooky aaaahhhhh trick prank bait and switch',NULL),
 ('marseyjunkie',2,'needles heroin reaction shooting up addicted shoot up syringe',NULL),
 ('marseyjunkie2',2,'addicted drugs pills glue huffing ether overdose',NULL),
+('marseyjurisdiction',2,'darrell brooks court subject matter jurisdiction',1665785047),
 ('marseykaiser',2,'prussian history wwi rifle reich wilhelm germany soldier',NULL),
 ('marseykamikaze',2,'kamikaze japanese nip pilot ww2 wwii world war',NULL),
 ('marseykatamarireddit',2,'rolling animated vidya video game damaci damacy reddit',NULL),
@@ -2367,6 +2377,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyreindeer2',2,'santa christmas rudolf holiday',NULL),
 ('marseyreindeer3',2,'rudolf dasher dancer prancer vixen comet cupid donner blitzen santa sleigh sled christmas winter holiday',NULL),
 ('marseyreindeer4',2,'rudolf dasher dancer prancer vixen comet cupid donner blitzen santa sleigh sled christmas winter holiday',NULL),
+('marseyrelevancy',2,'darrell brooks court relevancy relevance',1665785008),
 ('marseyreluctant',2,'stare doubt skeptical wary cautious uncertain uhh umm',NULL),
 ('marseyremastered',2,'4k hd hi def hidef high definition uhd rtx',NULL),
 ('marseyrentfree',2,'reaction no charge obsessed obsession',NULL),
@@ -2392,6 +2403,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyropeyourself2',2,'kill yourself kys lynch reaction keep yourself safe hanging noose',NULL),
 ('marseyropeyourselfmirror',2,'suicide kms kys death hanging noose chair suicidal depression depressed reflection',NULL),
 ('marseyrowling',2,'harry potter terf jkr transphobe',NULL),
+('marseyroxsneed',2,'roxy roxxane wolf fnaf freddy furry fur chuck fuck suck',1665715251),
 ('marseyroxy',2,'fnaf roxanne wolf freddy keytar rockstar vidya furry',1663987934),
 ('marseyrs',2,'runescape party hat phat crown lowpoly low poly',NULL),
 ('marseyrulebritannia',2,'britain british bongistan chips london england lasereyes',1663211275),
@@ -2637,6 +2649,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseysylveon',2,'trick or treat pokemon halloween eevee costume holiday',NULL),
 ('marseytabletired',2,'tiresome depressed sad desk',NULL),
 ('marseytabletired2',2,'beer tiresome depressed sad alcoholic alcoholism despair',NULL),
+('marseytakit',2,'darrell brooks court takit tacit agreement',1665785068),
 ('marseytaliban',2,'mujahideen janniejihad islam afganistan shariah afghanistan muslim',NULL),
 ('marseytalking',2,'speech bubble smug gossip',NULL),
 ('marseytampon',2,'period menstrual menses menstruation bloody',NULL),
