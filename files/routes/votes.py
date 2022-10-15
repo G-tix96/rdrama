@@ -52,6 +52,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		target = get_post(target_id)
 	elif cls == Comment:
 		target = get_comment(target_id)
+		if not target.post: abort(404)
 	else:
 		abort(404)
 
