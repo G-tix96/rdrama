@@ -1,64 +1,9 @@
 /*init*/
-const coordsLookup = {
-	banner1: {
-		left: {
-			x: "72px",
-			y: "-205px"
-		},
-		right: {
-			x: "116px",
-			y: "-209px"
-		}	
-	}, 	
-	banner2: {
-		left: {
-			x: "35px",
-			y: "-335px"
-		},
-		right: {
-			x: "64px",
-			y: "-337px"
-		}	
-	},
-	banner3: {
-		left: {
-			x: "88px",
-			y: "-272px"
-		},
-		right: {
-			x: "116px",
-			y: "-276px"
-		}	
-	},
-	banner4: {
-		left: {
-			x: "28px",
-			y: "-152px"
-		},
-		right: {
-			x: "36px",
-			y: "-152px"
-		}	
-	}
-}
-
 let sidebar = document.getElementById("main-content-row")
 sidebar = sidebar.getElementsByClassName("sidebar")[0].firstElementChild
 
-const eye_left = initEye("left"),
-	  eye_right = initEye("right")
-
-function initEye(side) {
-	let eye = document.createElement("img")
-
-	eye.setAttribute("class", "eye")
-	eye.setAttribute("src", "/assets/images/halloween/eye.png")
-	eye.style.left = coordsLookup[banner][side]["x"]
-	eye.style.top = coordsLookup[banner][side]["y"]
-	
-	sidebar.appendChild(eye)
-	return(eye)
-}
+const eye_left = sidebar.getElementsByClassName("eye")[0],
+	  eye_right = sidebar.getElementsByClassName("eye")[1]
 
 /*eye movement*/
 document.onmousemove = function(event) {

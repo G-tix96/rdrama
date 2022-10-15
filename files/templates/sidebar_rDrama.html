@@ -1,7 +1,7 @@
 <div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3 pb-5" {% if request.path != '/sidebar' %}id="sidebar-content"{% endif %}>
 
 	{% if sub %}
-		{% set image=sub.sidebar_url %}
+		{% set image = sub.sidebar_url %}
 	{% else %}
 		{% set path = "assets/images/halloween/sidebar" %}
 		{% set selected_image = listdir('files/' + path)|random() %}
@@ -14,14 +14,54 @@
 				<img class="mb-4" alt="sidebar image" onclick="expandDesktopImage()" loading="lazy" src="/i/{{SITE_NAME}}/sidebar2.webp" width=100%>
 			</a>
 		{% elif not (sub and sub.name == 'chudrama' and v.truecoins < 5000) %}
-			<a href="{{image}}">
+			{% set coordsLookup = ({
+					"banner1.webp":({
+						"left":({
+							"x":"72px",
+							"y":"-205px"
+						}),
+						"right":({
+							"x":"112px",
+							"y":"-209px"
+						})
+					}),
+					"banner2.webp":({
+						"left":({
+							"x":"35px",
+							"y":"-335px"
+						}),
+						"right":({
+							"x":"60px",
+							"y":"-337px"
+						})
+					}),
+					"banner3.webp":({
+						"left":({
+							"x":"88px",
+							"y":"-272px"
+						}),
+						"right":({
+							"x":"112px",
+							"y":"-276px"
+						})
+					}),
+					"banner4.webp":({
+						"left":({
+							"x":"28px",
+							"y":"-152px"
+						}),
+						"right":({
+							"x":"32px",
+							"y":"-152px"
+						})
+					})
+				}) 
+			%}
+			<a href="{{image}}" style="text-decoration:none">
 				<img class="mb-4" alt="sidebar image" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
+				<img id="left-eye" class="eye" src="/assets/images/halloween/eye.png" loading="lazy" style="left:{{[coordsLookup][0][selected_image]['left']['x']}};top:{{[coordsLookup][0][selected_image]['left']['y']}}">
+				<img id="right-eye" class="eye" src="/assets/images/halloween/eye.png" loading="lazy" style="left:{{[coordsLookup][0][selected_image]['right']['x']}};top:{{[coordsLookup][0][selected_image]['right']['y']}}">
 			</a>
-			{% block javascript %}
-			<script>
-				var banner = "{{selected_image}}".slice(-13,7)
-			</script>
-		{% endblock %}
 		{% endif %}
 	{% endif %}
 

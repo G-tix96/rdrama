@@ -201,12 +201,10 @@
         <stop offset="0" style="stop-color:#0f021b"/>
         <stop offset="1" style="stop-color:var(--house-shadow-day{{banner_day}})" id="house-fill-gradient-stop"/>
       </linearGradient>
-
       <radialGradient id="banner-halloween-house-window-gradient">
         <stop  offset="0" style="stop-color:#B3C691"/>
         <stop  offset="1" style="stop-color:#8DC39C"/>
       </radialGradient>
-
       <linearGradient id="ground-gradient" gradientUnits="userSpaceOnUse" x1="375" y1="451.8345" x2="375" y2="228.17931" gradientTransform="matrix(2.0773333,0,0,1,-427.09249,0)">
         <stop offset="0" style="stop-color:#140224"/>
         <stop offset="1" style="stop-color:var(--ground-shadow-day{{banner_day}})" id="ground-gradient-stop"/>
@@ -217,7 +215,7 @@
 
 <!--debug-->
 {% if SITE == 'localhost' or SITE == 'devrama.net' %}
-<script>
+<script defer>
   function setBannerDay(day){
     let sky = document.getElementById("banner-halloween-svg"),
         moon = document.getElementById("banner-halloween-moon"),

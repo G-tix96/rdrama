@@ -323,7 +323,7 @@
 
 <!-- homoween -->
 {% if p.award_count("haunt", v) %}
-<script defer src="{{'js/halloween/haunted.js' | asset}}"></script>
+<script src="{{'js/halloween/haunted.js' | asset}}" defer></script>
 {% endif %}
 
 {% if p.award_count("stab", v) and p.award_count("stab", v) <= 5 %}
@@ -352,7 +352,7 @@
 
 {% if p.award_count("fog", v) %}
 <canvas id="fog-effect" class="fog-effect"></canvas>
-<script src="{{'js/halloween/fog.js' | asset}}"></script>
+<script src="{{'js/halloween/fog.js' | asset}}" defer></script>
 {% endif %}
 
 {% if p.award_count("flashlight", v) %}
@@ -388,7 +388,7 @@
 		}
 	}
 </style>
-<script defer src="{{'js/halloween/flashlight.js' | asset}}"></script>
+<script src="{{'js/halloween/flashlight.js' | asset}}" defer></script>
 {% endif %}
 
 {% if p.award_count("ectoplasm", v) %}
@@ -406,12 +406,12 @@
 		let script = document.createElement("script"),
 			styles = document.createElement("link")
 
-		script.setAttribute("src", "{{'js/halloween/upsidedown.js' | asset}}")
-		document.head.appendChild(script)
-
 		styles.setAttribute("rel", "stylesheet")
 		styles.setAttribute("href", "{{'css/halloween/upsidedown.css' | asset}}")
 		document.head.appendChild(styles)
+
+		script.setAttribute("src", "{{'js/halloween/upsidedown.js' | asset}}")
+		document.head.appendChild(script)
 	}
 </script>
 <canvas id="canvas"></canvas>
@@ -1333,15 +1333,13 @@
 	{% set path = "assets/media/halloween/music" %}
 	{% set song = "/" + path + "/" + listdir('files/' + path)|random() + '?v=45' %}
 {% endif %}
-<script>
+<script async>
 	const audio = new Audio("{{song}}");
 	audio.loop=true;
 
 	function play() {
 		audio.play();
 	}
-
-	console.log(audio)
 
 	audio.loop=true;
 

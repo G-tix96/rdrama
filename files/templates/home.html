@@ -39,13 +39,14 @@
 		if(upsidedown == 'true'){
 			let script = document.createElement("script"),
 				styles = document.createElement("link")
-	
-			script.setAttribute("src", "{{'js/halloween/upsidedown.js' | asset}}")
-			document.head.appendChild(script)
-	
+
 			styles.setAttribute("rel", "stylesheet")
 			styles.setAttribute("href", "{{'css/halloween/upsidedown.css' | asset}}")
 			document.head.appendChild(styles)
+
+			script.setAttribute("src", "{{'js/halloween/upsidedown.js' | asset}}")
+			document.head.appendChild(script)
+
 		}
 	</script>
 	<canvas id="canvas"></canvas>
@@ -279,7 +280,7 @@
 
 <!-- homoween audio -->
 {% set song = "assets/media/halloween/CARPENTER_MASTER.mp3" %}
-<script>
+<script async>
 	const audio = new Audio("{{song}}");
 	audio.loop=true;
 
@@ -287,13 +288,11 @@
 		audio.play();
 	}
 
-	console.log(audio)
-
 	audio.loop=true;
 
 	window.addEventListener('load', function() {
 		audio.play();
-		document.getElementById('thread').addEventListener('click', () => {
+		document.getElementById('frontpage').addEventListener('click', () => {
 			if (audio.paused) audio.play();
 		}, {once : true});
 
