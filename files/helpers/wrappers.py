@@ -15,11 +15,6 @@ def calc_users(v):
 	if v:
 		if session["session_id"] in loggedout: del loggedout[session["session_id"]]
 		loggedin[v.id] = timestamp
-		# Check against last_active + ACTIVE_TIME to reduce frequency of
-		# UPDATEs in exchange for a ±ACTIVE_TIME margin of error.
-		if (v.last_active + LOGGEDIN_ACTIVE_TIME) < timestamp:
-			v.last_active = timestamp
-			g.db.add(v)
 	else:
 		ua = str(user_agents.parse(g.agent))
 		if 'spider' not in ua.lower() and 'bot' not in ua.lower():
@@ -75,7 +70,14 @@ def get_logged_in_user():
 
 	g.v = v
 
-	if v: v.poor = session.get('poor')
+	if v:
+		v.poor = session.get('poor')
+		# Check against last_active + ACTIVE_TIME to reduce frequency of
+		# UPDATEs in exchange for a ±ACTIVE_TIME margin of error.
+		timestamp = int(time.time())
+		if (v.last_active + LOGGEDIN_ACTIVE_TIME) < timestamp:
+			v.last_active = timestamp
+			g.db.add(v)
 
 	if AEVANN_ID and request.headers.get("Cf-Ipcountry") == 'EG':
 		if v and not v.username.startswith('Aev'):
