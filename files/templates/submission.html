@@ -400,6 +400,20 @@
 </style>
 {% endif %}
 
+{% if p.award_count("bones", v) %}
+<script src="{{'js/halloween/bones.js' | asset}}" defer></script>
+<div id="animate"></div>
+<style>
+	#animate{
+		margin: 0 auto;
+		width: 20px;
+		overflow: visible;
+		position: relative;
+		z-index:999;
+	}
+</style>
+{% endif %}
+
 <script>
 	let upsidedown = localStorage.getItem('setting_upsidedown')
 	if(upsidedown == 'true'){

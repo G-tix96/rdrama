@@ -647,6 +647,14 @@ AWARDS = {
 		"color": "text-green",
 		"price": 400
 	},
+	"bones": {
+		"kind": "bones",
+		"title": "bones",
+		"description": "",
+		"icon": "fas fa-bone",
+		"color": "text-white",
+		"price": 400
+	},
 	"marsify": {
 		"kind": "marsify",
 		"title": "Marsify",
@@ -1157,8 +1165,8 @@ if SITE_NAME != 'PCM':
 	SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
 
 SNAPPY_QUOTES = []
-if path.isfile(f'snappy_{SITE_NAME}.txt'):
-	with open(f'snappy_{SITE_NAME}.txt', "r", encoding="utf-8") as f:
+if path.isfile(f'snappy_halloween.txt'):
+	with open(f'snappy_halloween.txt', "r", encoding="utf-8") as f:
 		SNAPPY_QUOTES = f.read().split("\n{[para]}\n")
 
 ADMIGGERS = {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD, SNAPPY_THREAD}
