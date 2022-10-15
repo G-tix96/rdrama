@@ -45,7 +45,7 @@ def vote_info_get(v, link):
 def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if new == "-1" and DISABLE_DOWNVOTES: abort(403)
 	if new not in ["-1", "0", "1"]: abort(400)
-	if request.headers.get("Authorization") and v.id != BBBB_ID: abort(403)
+	if v.client and v.id != BBBB_ID: abort(403)
 	new = int(new)
 	target = None
 	if cls == Submission:

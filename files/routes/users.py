@@ -789,14 +789,14 @@ def u_username(username, v=None):
 
 		
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)):
-		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
+		if g.is_api_or_xhr or request.path.endswith(".json"):
 			abort(403, "This userpage is private")
 
 		return render_template("userpage_private.html", u=u, v=v)
 
 	
 	if v and hasattr(u, 'is_blocking') and u.is_blocking:
-		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
+		if g.is_api_or_xhr or request.path.endswith(".json"):
 			abort(403, f"You are blocking @{u.username}.")
 
 		return render_template("userpage_blocking.html", u=u, v=v)
@@ -822,7 +822,7 @@ def u_username(username, v=None):
 	listing = get_posts(ids, v=v)
 
 	if u.unban_utc:
-		if request.headers.get("Authorization") or request.path.endswith(".json"):
+		if (v and v.client) or request.path.endswith(".json"):
 			return {"data": [x.json for x in listing]}
 		
 		return render_template("userpage.html",
@@ -836,7 +836,7 @@ def u_username(username, v=None):
 												next_exists=next_exists,
 												is_following=is_following)
 
-	if request.headers.get("Authorization") or request.path.endswith(".json"):
+	if (v and v.client) or request.path.endswith(".json"):
 		return {"data": [x.json for x in listing]}
 	
 	return render_template("userpage.html",
@@ -869,12 +869,12 @@ def u_username_comments(username, v=None):
 	u = user
 
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)):
-		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
+		if g.is_api_or_xhr or request.path.endswith(".json"):
 			abort(403, "This userpage is private")
 		return render_template("userpage_private.html", u=u, v=v)
 
 	if v and hasattr(u, 'is_blocking') and u.is_blocking:
-		if request.headers.get("Authorization") or request.headers.get("xhr") or request.path.endswith(".json"):
+		if g.is_api_or_xhr or request.path.endswith(".json"):
 			abort(403, f"You are blocking @{u.username}.")
 		return render_template("userpage_blocking.html", u=u, v=v)
 
@@ -913,7 +913,7 @@ def u_username_comments(username, v=None):
 
 	listing = get_comments(ids, v=v)
 
-	if request.headers.get("Authorization") or request.path.endswith(".json"):
+	if v.client or request.path.endswith(".json"):
 		return {"data": [c.json for c in listing]}
 	
 	return render_template("userpage_comments.html", u=user, v=v, listing=listing, page=page, sort=sort, t=t,next_exists=next_exists, is_following=is_following, standalone=True)
@@ -1063,7 +1063,7 @@ def saved_posts(v, username):
 
 	listing = get_posts(ids, v=v)
 
-	if request.headers.get("Authorization"): return {"data": [x.json for x in listing]}
+	if v.client: return {"data": [x.json for x in listing]}
 	return render_template("userpage.html",
 											u=v,
 											v=v,
@@ -1087,7 +1087,7 @@ def saved_comments(v, username):
 
 	listing = get_comments(ids, v=v)
 
-	if request.headers.get("Authorization"): return {"data": [x.json for x in listing]}
+	if v.client: return {"data": [x.json for x in listing]}
 	return render_template("userpage_comments.html",
 											u=v,
 											v=v,
@@ -1110,7 +1110,7 @@ def subscribed_posts(v, username):
 
 	listing = get_posts(ids, v=v)
 
-	if request.headers.get("Authorization"): return {"data": [x.json for x in listing]}
+	if v.client: return {"data": [x.json for x in listing]}
 	return render_template("userpage.html",
 											u=v,
 											v=v,

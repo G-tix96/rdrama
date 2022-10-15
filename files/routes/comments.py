@@ -56,8 +56,8 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	post = get_post(pid, v=v)
 	
 	if post.over_18 and not (v and v.over_18) and not session.get('over_18', 0) >= int(time.time()):
-		if request.headers.get("Authorization"): abort(403, "This content is not suitable for some users and situations.")
-		else: return render_template("errors/nsfw.html", v=v)
+		if v and v.client: abort(403, "This content is not suitable for some users and situations.")
+		else: return render_template("errors/nsfw.html", v=v), 403
 
 	try: context = min(int(request.values.get("context", 0)), 8)
 	except: context = 0
@@ -115,7 +115,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 
 	post.replies=[top_comment]
 			
-	if request.headers.get("Authorization"): return top_comment.json
+	if v and v.client: return top_comment.json
 	else: 
 		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)): template = "submission_banned.html"
 		else: template = "submission.html"
@@ -255,7 +255,7 @@ def comment(v):
 	if parent.author.any_block_exists(v) and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		abort(403, "You can't reply to users who have blocked you or users that you have blocked.")
 
-	is_bot = v.id != BBBB_ID and (bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
+	is_bot = v.id != BBBB_ID and v.client or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
 
 	execute_antispam_comment_check(body, v)
 
@@ -416,7 +416,7 @@ def comment(v):
 
 	g.db.flush()
 
-	if request.headers.get("Authorization"): return c.json
+	if v.client: return c.json
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
 

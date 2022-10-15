@@ -174,7 +174,7 @@ def on_login(account, redir=None):
 @app.get("/@me")
 @auth_required
 def me(v):
-	if request.headers.get("Authorization"): return v.json
+	if v.client: return v.json
 	else: return redirect(v.url)
 
 

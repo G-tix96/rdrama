@@ -71,7 +71,7 @@ def searchposts(v):
 		posts = posts.filter(Submission.ghost == False)
 		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
 		if author.is_private and author.id != v.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye:
-			if request.headers.get("Authorization"):
+			if v.client:
 				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
 			return render_template("search.html",
 								v=v,
@@ -159,7 +159,7 @@ def searchposts(v):
 
 	posts = get_posts(ids, v=v)
 
-	if request.headers.get("Authorization"): return {"total":total, "data":[x.json for x in posts]}
+	if v.client: return {"total":total, "data":[x.json for x in posts]}
 
 	return render_template("search.html",
 						v=v,
@@ -199,7 +199,7 @@ def searchcomments(v):
 		comments = comments.filter(Comment.ghost == False)
 		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
 		if author.is_private and author.id != v.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye:
-			if request.headers.get("Authorization"):
+			if v.client:
 				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
 
 			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, next_exists=False, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them.")
@@ -260,7 +260,7 @@ def searchcomments(v):
 
 	comments = get_comments(ids, v=v)
 
-	if request.headers.get("Authorization"): return {"total":total, "data":[x.json for x in comments]}
+	if v.client: return {"total":total, "data":[x.json for x in comments]}
 	return render_template("search_comments.html", v=v, query=query, total=total, page=page, comments=comments, sort=sort, t=t, next_exists=next_exists, standalone=True)
 
 
@@ -294,5 +294,5 @@ def searchusers(v):
 	next_exists=(len(users)>25)
 	users=users[:25]
 
-	if request.headers.get("Authorization"): return {"data": [x.json for x in users]}
+	if v.client: return {"data": [x.json for x in users]}
 	return render_template("search_users.html", v=v, query=query, total=total, page=page, users=users, sort=sort, t=t, next_exists=next_exists)

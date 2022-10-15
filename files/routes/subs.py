@@ -95,7 +95,7 @@ def unexile(v, sub, uid):
 		)
 		g.db.add(ma)
 	
-	if request.headers.get("Authorization") or request.headers.get("xhr"):
+	if g.is_api_or_xhr:
 		return {"message": f"@{u.username} has been unexiled from /h/{sub} successfully!"}
 
 	

@@ -143,7 +143,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	if not post.can_see(v): abort(403)
 
 	if post.over_18 and not (v and v.over_18) and session.get('over_18', 0) < int(time.time()):
-		if request.headers.get("Authorization") or request.headers.get("xhr"): return {"error":"Must be 18+ to view"}, 451
+		if g.is_api_or_xhr: return {"error":"Must be 18+ to view"}, 451
 		return render_template("errors/nsfw.html", v=v)
 
 	if post.new or 'megathread' in post.title.lower(): defaultsortingcomments = 'new'
@@ -216,7 +216,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	if v and v.poorcel: threshold = 50
 	else: threshold = 100
 
-	if post.comment_count > threshold+25 and not request.headers.get("Authorization") and not request.values.get("all"):
+	if post.comment_count > threshold+25 and not (v and v.client) and not request.values.get("all"):
 		comments2 = []
 		count = 0
 		if post.created_utc > 1638672040:
@@ -254,7 +254,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	post.views += 1
 	g.db.add(post)
 
-	if request.headers.get("Authorization"):
+	if v and v.client:
 		return post.json
 
 	template = "submission.html"
@@ -708,7 +708,7 @@ def submit_post(v, sub=None):
 	body = sanitize_raw_body(request.values.get("body", ""), True)
 
 	def error(error):
-		if request.headers.get("Authorization") or request.headers.get("xhr"): abort(400, error)
+		if g.is_api_or_xhr: abort(400, error)
 	
 		SUBS = [x[0] for x in g.db.query(Sub.name).order_by(Sub.name).all()]
 		return render_template("submit.html", SUBS=SUBS, v=v, error=error, title=title, url=url, body=body), 400
@@ -877,7 +877,7 @@ def submit_post(v, sub=None):
 	
 	if embed and len(embed) > 1500: embed = None
 
-	is_bot = v.id != BBBB_ID and bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID)
+	is_bot = v.id != BBBB_ID and v.client or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID)
 
 	if request.values.get("ghost") and v.coins >= 100:
 		v.charge_account('coins', 100)
@@ -1041,7 +1041,7 @@ def submit_post(v, sub=None):
 		send_wpd_message(post.permalink)
 
 	g.db.commit()
-	if request.headers.get("Authorization"): return post.json
+	if v.client: return post.json
 	else:
 		post.voted = 1
 		if post.new or 'megathread' in post.title.lower(): sort = 'new'

@@ -35,13 +35,9 @@ def calc_users(v):
 	return ''
 
 def get_logged_in_user():
-
 	if hasattr(g, 'v'): return g.v
-
 	if not (hasattr(g, 'db') and g.db): g.db = db_session()
-
 	v = None
-
 	token = request.headers.get("Authorization","").strip()
 	if token:
 		client = g.db.query(ClientAuth).filter(ClientAuth.access_token == token).one_or_none()
@@ -66,7 +62,7 @@ def get_logged_in_user():
 					if not v.validate_formkey(submitted_key): abort(401)
 
 				v.client = None
-
+	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
 
 	if request.method.lower() != "get" and app.config['SETTINGS']['Read-only mode'] and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
 		abort(403)
