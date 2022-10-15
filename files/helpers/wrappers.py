@@ -32,7 +32,7 @@ def calc_users(v):
 
 	g.loggedin_counter = len(loggedin)
 	g.loggedout_counter = len(loggedout)
-
+	return ''
 
 def get_logged_in_user():
 
