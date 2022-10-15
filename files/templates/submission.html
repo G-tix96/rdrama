@@ -25,7 +25,7 @@
 {% if SITE_NAME == 'PCM' %}
 	{% set wholesome = '/i/wholesome.webp' %}
 {% else %}
-	{% set wholesome = '/e/marseywholesome.webp' %}
+	{% set wholesome = '/e/marseypumpkin.webp' %}
 {% endif %}
 
 {% if p.award_count("confetti", v) %}
@@ -1320,18 +1320,18 @@
 {% if p.award_count("ricardo", v) %}
 	<script defer src="{{'js/ricardo.js' | asset}}"></script>
 	<div id="ricardo1" class="ricardo ricardoleft">
-		<img src="/i/ricardo1.webp">
+		<img src="/assets/images/halloween/ricardo.webp">
 	</div>
 
 	{% if p.award_count("ricardo", v) > 1 %}
 		<div id="ricardo2" class="ricardo">
-			<img src="/i/ricardo2.webp" style="max-height:200px">
+			<img src="/assets/images/halloween/ricardo2.webp" style="max-height:200px">
 		</div>
 	{% endif %}
 
 	{% if p.award_count("ricardo", v) > 2 %}
 		<div id="ricardo3" class="ricardo">
-			<img src="/i/ricardo3.webp" style="max-height:150px">
+			<img src="/assets/images/halloween/ricardo3.webp" style="max-height:150px">
 		</div>
 	{% endif %}
 {% endif %}
