@@ -255,7 +255,9 @@ def comment(v):
 	if parent.author.any_block_exists(v) and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		abort(403, "You can't reply to users who have blocked you or users that you have blocked.")
 
-	is_bot = v.id != BBBB_ID and v.client or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID)
+	is_bot = (v.client is not None
+		and v.id != BBBB_ID
+		or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
 
 	execute_antispam_comment_check(body, v)
 

@@ -877,8 +877,6 @@ def submit_post(v, sub=None):
 	
 	if embed and len(embed) > 1500: embed = None
 
-	is_bot = v.id != BBBB_ID and v.client or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID)
-
 	if request.values.get("ghost") and v.coins >= 100:
 		v.charge_account('coins', 100)
 		ghost = True
@@ -894,7 +892,7 @@ def submit_post(v, sub=None):
 		over_18=bool(request.values.get("over_18","")),
 		new=bool(request.values.get("new","")),
 		app_id=v.client.application.id if v.client else None,
-		is_bot = is_bot,
+		is_bot=(v.client is not None),
 		url=url,
 		body=body,
 		body_html=body_html,
