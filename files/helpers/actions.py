@@ -62,6 +62,7 @@ def execute_snappy(post, v):
 			else: SNAPPY_CHOICES = SNAPPY_QUOTES
 		elif SNAPPY_MARSEYS: SNAPPY_CHOICES = SNAPPY_MARSEYS
 		elif SNAPPY_QUOTES: SNAPPY_CHOICES = SNAPPY_QUOTES
+		else: SNAPPY_CHOICES = [""]
 
 		body = random.choice(SNAPPY_CHOICES).strip()
 		if body.startswith('▼'):

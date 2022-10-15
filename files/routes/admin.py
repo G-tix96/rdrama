@@ -993,7 +993,11 @@ def ban_user(user_id, v):
 	if user.admin_level > v.admin_level:
 		abort(403)
 
-	days = float(request.values.get("days")) if request.values.get('days') else 0
+	days = 0.0
+	try:
+		days = float(request.values.get("days"))
+	except:
+		pass
 
 	reason = request.values.get("reason").strip()[:256]
 	reason = filter_emojis_only(reason)
@@ -1009,8 +1013,11 @@ def ban_user(user_id, v):
 				continue
 			x.ban(admin=v, reason=reason, days=days)
 
+	duration = "permanently"
 	if days:
 		days_txt = str(days).rstrip('.0')
+		duration = f"for {days_txt} day"
+		if days != 1: duration += "s"
 		if reason: text = f"@{v.username} (Admin) has banned you for **{days_txt}** days for the following reason:\n\n> {reason}"
 		else: text = f"@{v.username} (Admin) has banned you for **{days_txt}** days."
 	else:
@@ -1018,10 +1025,6 @@ def ban_user(user_id, v):
 		else: text = f"@{v.username} (Admin) has banned you permanently."
 
 	send_repeatable_notification(user.id, text)
-	
-	if days == 0: duration = "permanently"
-	elif days == 1: duration = "for 1 day"
-	else: duration = f"for {days_txt} days"
 
 	note = f'reason: "{reason}", duration: {duration}'
 	ma=ModAction(
