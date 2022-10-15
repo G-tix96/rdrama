@@ -160,11 +160,11 @@ def grassed(v):
 
 	return render_template("grassed.html", v=v, users=users)
 
-@app.get("/agendaposters")
+@app.get("/chuds")
 @auth_required
-def agendaposters(v):
+def chuds(v):
 	users = g.db.query(User).filter(User.agendaposter > 0).order_by(User.username).all()
-	return render_template("agendaposters.html", v=v, users=users)
+	return render_template("chuds.html", v=v, users=users)
 
 def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 	vote_str = 'votes'
