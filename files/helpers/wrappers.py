@@ -9,6 +9,11 @@ import user_agents
 import time
 
 def calc_users(v):
+	# Some globals we expect aren't available when rendering error pages
+	if (not g or not hasattr(g, 'agent')
+			or not session or not ('session_id' in session)):
+		return ''
+
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
 	loggedout = cache.get(f'{SITE}_loggedout') or {}
 	timestamp = int(time.time())
