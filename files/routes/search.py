@@ -191,7 +191,7 @@ def searchcomments(v):
 	
 	if 'post' in criteria:
 		try: post = int(criteria['post'])
-		except: abort(404, f"Post with id {post} does not exist.")
+		except: abort(404)
 		comments = comments.filter(Comment.parent_submission == post)
 
 
