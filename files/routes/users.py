@@ -913,7 +913,7 @@ def u_username_comments(username, v=None):
 
 	listing = get_comments(ids, v=v)
 
-	if v.client or request.path.endswith(".json"):
+	if (v and v.client) or request.path.endswith(".json"):
 		return {"data": [c.json for c in listing]}
 	
 	return render_template("userpage_comments.html", u=user, v=v, listing=listing, page=page, sort=sort, t=t,next_exists=next_exists, is_following=is_following, standalone=True)
