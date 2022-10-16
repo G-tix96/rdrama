@@ -142,7 +142,7 @@ def user_upvoted_posts(v, username):
 @app.get("/@<username>/upvoted/comments")
 @auth_required
 def user_upvoted_comments(v, username):
-	return user_voted(v, username, Comment, CommentVote, -1, "voted_comments.html", True)
+	return user_voted(v, username, Comment, CommentVote, 1, "voted_comments.html", True)
 
 
 @app.get("/poorcels")
