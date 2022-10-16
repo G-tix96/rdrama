@@ -36,7 +36,12 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	next_exists = len(listing) > 25
 	listing = listing[:25]
 
-	listing = get_posts(listing, v=v)
+	if cls == Submission:
+		listing = get_posts(listing, v=v)
+	elif cls == Comment:
+		listing = get_comments(listing, v=v)
+	else:
+		listing = []
 
 	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
 
@@ -129,7 +134,12 @@ def user_voted(v, username, cls, vote_cls, vote_dir, template, standalone):
 	listing = [p.id for p in listing]
 	next_exists = len(listing) > 25
 	listing = listing[:25]
-	listing = get_posts(listing, v=v)
+	if cls == Submission:
+		listing = get_posts(listing, v=v)
+	elif cls == Comment:
+		listing = get_comments(listing, v=v)
+	else:
+		listing = []
 
 	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
 
@@ -149,7 +159,6 @@ def user_upvoted_comments(v, username):
 @auth_required
 def poorcels(v):
 	users = g.db.query(User).filter_by(poorcel=True).all()
-
 	return render_template("poorcels.html", v=v, users=users)
 
 
@@ -157,7 +166,6 @@ def poorcels(v):
 @auth_required
 def grassed(v):
 	users = g.db.query(User).filter(User.ban_reason.like('grass award used by @%')).all()
-
 	return render_template("grassed.html", v=v, users=users)
 
 @app.get("/chuds")
