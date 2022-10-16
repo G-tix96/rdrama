@@ -26,7 +26,10 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
-	uid = int(uid)
+	try:
+		uid = int(uid)
+	except:
+		abort(404)
 
 	page = max(1, int(request.values.get("page", 1)))
 
@@ -73,7 +76,10 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
-	uid = int(uid)
+	try:
+		uid = int(uid)
+	except:
+		abort(404)
 
 	page = max(1, int(request.values.get("page", 1)))
 
