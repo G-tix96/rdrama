@@ -32,8 +32,6 @@ titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWe
 @auth_required
 @feature_required('COUNTRY_CLUB')
 def club_post(pid, v):
-	
-
 	post = get_post(pid)
 	if post.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']: abort(403)
 
@@ -58,10 +56,8 @@ def club_post(pid, v):
 @auth_required
 @feature_required('COUNTRY_CLUB')
 def unclub_post(pid, v):
-	
-
 	post = get_post(pid)
-	if post.author_id != v.id and v.admin_level < 2: abort(403)
+	if post.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']: abort(403)
 
 	if post.club:
 		post.club = False
