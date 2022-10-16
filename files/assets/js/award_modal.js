@@ -107,7 +107,9 @@ function pick(kind, canbuy1, canbuy2) {
 	let ownednum = Number(document.getElementById(`${kind}-owned`).textContent);
 	document.getElementById('giveaward').disabled = (ownednum == 0);
 	document.getElementById('kind').value=kind;
-	try {document.getElementsByClassName('picked')[0].classList.toggle('picked');} catch(e) {console.log(e)}
+	if (document.getElementsByClassName('picked').length > 0) {
+		document.getElementsByClassName('picked')[0].classList.toggle('picked');
+	}
 	document.getElementById(kind).classList.toggle('picked')
 	if (kind == "flairlock") {
 		document.getElementById('notelabel').innerHTML = "New flair:";
