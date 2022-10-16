@@ -1203,7 +1203,11 @@ def kofi():
 	id = data['kofi_transaction_id']
 	created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
 	type = data['type']
-	amount = int(float(data['amount']))
+	amount = 0
+	try:
+		amount = int(float(data['amount']))
+	except:
+		abort(400, 'invalid amount')
 	email = data['email']
 
 	transaction = Transaction(
