@@ -302,7 +302,11 @@ def sign_up_post(v):
 
 	session.pop("signup_token")
 
-	ref_id = int(request.values.get("referred_by", 0))
+	ref_id = 0
+	try:
+		ref_id = int(request.values.get("referred_by", 0))
+	except:
+		pass
 
 	users_count = g.db.query(User).count()
 	if users_count == 4:
@@ -409,10 +413,12 @@ def post_forgot():
 
 @app.get("/reset")
 def get_reset():
-
 	user_id = request.values.get("id")
-
-	timestamp = int(request.values.get("time",0))
+	timestamp = 0
+	try:
+		timestamp = int(request.values.get("time",0))
+	except:
+		pass
 	token = request.values.get("token")
 
 	now = int(time.time())
@@ -448,8 +454,11 @@ def post_reset(v):
 	if v: return redirect('/')
 
 	user_id = request.values.get("user_id")
-
-	timestamp = int(request.values.get("time"))
+	timestamp = 0
+	try:
+		timestamp = int(request.values.get("time"))
+	except:
+		abort(400)
 	token = request.values.get("token")
 
 	password = request.values.get("password")
@@ -534,11 +543,13 @@ def request_2fa_disable():
 
 @app.get("/reset_2fa")
 def reset_2fa():
-
 	now=int(time.time())
 	t = request.values.get("t")
 	if not t: abort(400)
-	t = int(t)
+	try:
+		t = int(t)
+	except:
+		abort(400)
 
 	if now > t+3600*24:
 		return render_template("message.html",

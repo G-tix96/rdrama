@@ -272,8 +272,9 @@ def post_id(pid, anything=None, v=None, sub=None):
 def viewmore(v, pid, sort, offset):
 	post = get_post(pid, v=v)
 	if post.club and not (v and (v.paid_dues or v.id == post.author_id)): abort(403)
-
-	offset = int(offset)
+	try:
+		offset = int(offset)
+	except: abort(400)
 	try: ids = set(int(x) for x in request.values.get("ids").split(','))
 	except: abort(400)
 	

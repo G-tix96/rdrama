@@ -751,9 +751,8 @@ def alt_votes_get(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(PERMS['USER_LINK'])
 def admin_link_accounts(v):
-
-	u1 = int(request.values.get("u1"))
-	u2 = int(request.values.get("u2"))
+	u1 = get_account(request.values.get("u1")).id
+	u2 = get_account(request.values.get("u2")).id
 
 	new_alt = Alt(
 		user1=u1, 

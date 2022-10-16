@@ -97,8 +97,10 @@ def request_api_keys(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def delete_oauth_app(v, aid):
-
-	aid = int(aid)
+	try:
+		aid = int(aid)
+	except:
+		abort(404)
 	app = g.db.get(OauthApp, aid)
 	if not app: abort(404)
 	
@@ -118,8 +120,10 @@ def delete_oauth_app(v, aid):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def edit_oauth_app(v, aid):
-
-	aid = int(aid)
+	try:
+		aid = int(aid)
+	except:
+		abort(404)
 	app = g.db.get(OauthApp, aid)
 	if not app: abort(404)
 

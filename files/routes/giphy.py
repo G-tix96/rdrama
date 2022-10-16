@@ -12,7 +12,11 @@ from files.__main__ import app
 def giphy(v=None, path=None):
 
 	searchTerm = request.values.get("searchTerm", "").strip()
-	limit = int(request.values.get("limit", 48))
+	limit = 48
+	try:
+		limit = int(request.values.get("limit", 48))
+	except:
+		pass
 	if searchTerm and limit:
 		url = f"https://api.giphy.com/v1/gifs/search?q={searchTerm}&api_key={GIPHY_KEY}&limit={limit}"
 	elif searchTerm and not limit:

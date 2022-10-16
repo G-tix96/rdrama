@@ -169,7 +169,6 @@ def log(v):
 @app.get("/log/<id>")
 @auth_required
 def log_item(id, v):
-
 	try: id = int(id)
 	except: abort(404)
 

@@ -266,7 +266,10 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 		if not hat_regex.fullmatch(new_name): abort(400, "Invalid name!")
 		if not description_regex.fullmatch(description): abort(400, "Invalid description!")
 
-		hat.price = int(request.values.get('price'))
+		try:
+			hat.price = int(request.values.get('price'))
+		except:
+			abort(400, "Invalid hat price")
 		hat.name = new_name
 		hat.description = description
 		g.db.add(hat)
