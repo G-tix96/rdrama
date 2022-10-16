@@ -85,7 +85,7 @@ def get_logged_in_user():
 			g.db.add(v)
 
 	if AEVANN_ID and request.headers.get("Cf-Ipcountry") == 'EG':
-		if v and not v.username.startswith('Aev'):
+		if v and not v.username.startswith('Aev') and v.truecoins > 0:
 			with open(f"/eg", "r+", encoding="utf-8") as f:
 				ip = request.headers.get('CF-Connecting-IP')
 				if f'@{v.username}, ' not in f.read():
