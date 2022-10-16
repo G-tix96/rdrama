@@ -408,6 +408,18 @@
 </script>
 {% endif %}
 
+{% if p.award_count("pumpkin", v) %}
+{% set count = p.award_count("pumpkin", v) * 2 if p.award_count("pumpkin", v) <= 10 else 20 %}
+<div class="fall-pumpkins">
+	{% for i in range(count) %}
+	<div class="fall-pumpkin">
+		<img src="/e/marseypumpking.webp" class="animate-spin" style="width: 40px; height: 40px;" alt="animate marsey pumpkin icon"/>
+	</div>
+	{% endfor %}
+</div>
+{% endif %}
+
+
 <script>
 	let upsidedown = localStorage.getItem('setting_upsidedown')
 	if(upsidedown == 'true'){

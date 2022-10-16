@@ -631,7 +631,7 @@ AWARDS = {
 		"title": "Flashlight",
 		"description": "",
 		"icon": "fas fa-flashlight",
-		"color": "text-white",
+		"color": "text-black",
 		"price": 400
 	},
 	"candy-corn": {
@@ -647,16 +647,24 @@ AWARDS = {
 		"title": "Ectoplasm",
 		"description": "",
 		"icon": "fas fa-ghost",
-		"color": "text-green",
+		"color": "text-success",
 		"price": 400
 	},
 	"bones": {
 		"kind": "bones",
-		"title": "bones",
+		"title": "Bones",
 		"description": "",
 		"icon": "fas fa-bone",
 		"color": "text-white",
-		"price": 400
+		"price": 200
+	},
+	"pumpkin": {
+		"kind": "pumpkin",
+		"title": "Pumpkin",
+		"description": "",
+		"icon": "fas fa-jack-o-lantern",
+		"color": "text-orange",
+		"price": 200
 	},
 	"marsify": {
 		"kind": "marsify",
