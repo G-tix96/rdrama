@@ -13,8 +13,7 @@
 		}
 	</style>
 
-{{calc_users(v)}}
-{% if g.loggedin_counter and not err and (SITE_NAME in ('PCM','rDrama') or g.loggedin_counter+g.loggedout_counter > 100) %}
+{% if not err %}
 	<div class="srd">
 		{% if SITE_NAME == 'rDrama' %}
 			{% if range(1,5) | random == 1 %}
@@ -41,9 +40,11 @@
 					' throwing shade right now',
 				]
 				-%}
+				{{calc_users(v)}}
 				{{g.loggedin_counter+g.loggedout_counter}} {{VISITORS_HERE_FLAVOR|random|safe}} ({{g.loggedin_counter}} logged in)
 			{% endif %}
 		{% else %}
+			{{calc_users(v)}}
 			{{g.loggedin_counter+g.loggedout_counter}} people here now ({{g.loggedin_counter}} logged in)
 		{% endif %}
 	</div>
