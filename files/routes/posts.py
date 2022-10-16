@@ -843,8 +843,8 @@ def submit_post(v, sub=None):
 	if len(url) > 2048:
 		return error("There's a 2048 character limit for URLs.")
 
+	bets = []
 	if v and v.admin_level >= PERMS['POST_BETS']:
-		bets = []
 		for i in bet_regex.finditer(body):
 			bets.append(i.group(1))
 			body = body.replace(i.group(0), "")

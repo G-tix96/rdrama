@@ -1,4 +1,5 @@
 import time
+from typing import Optional
 from files.helpers.const import *
 from sqlalchemy.sql import func
 
@@ -44,3 +45,30 @@ def sort_objects(sort, objects, cls, include_shadowbanned=False):
 		return objects.order_by(cls.upvotes - cls.downvotes, cls.created_utc.desc())
 	else:
 		return objects.order_by(cls.downvotes - cls.upvotes, cls.created_utc.desc())
+
+def make_age_string(compare:Optional[int]) -> str:
+	if not compare or compare < 1577865600: return ""
+	age = int(time.time()) - compare
+
+	if age < 60:
+		return "just now"
+	elif age < 3600:
+		minutes = int(age / 60)
+		return f"{minutes}m ago"
+	elif age < 86400:
+		hours = int(age / 3600)
+		return f"{hours}hr ago"
+	elif age < 2678400:
+		days = int(age / 86400)
+		return f"{days}d ago"
+
+	now = time.gmtime()
+	ctd = time.gmtime(compare)
+	months = now.tm_mon - ctd.tm_mon + 12 * (now.tm_year - ctd.tm_year)
+	if now.tm_mday < ctd.tm_mday:
+		months -= 1
+	if months < 12:
+		return f"{months}mo ago"
+	else:
+		years = int(months / 12)
+		return f"{years}yr ago"
