@@ -137,7 +137,7 @@ function buy(mb) {
 		let data
 		try {data = JSON.parse(xhr[0].response)}
 		catch(e) {console.log(e)}
-		success = xhr[0].status >= 200 && xhr.status < 300;
+		success = xhr[0].status >= 200 && xhr[0].status < 300;
 		showToast(success, getMessageFromJsonData(success, data), true);
 		if (success) {
 			document.getElementById('giveaward').disabled=false;
