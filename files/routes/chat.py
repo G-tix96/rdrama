@@ -86,6 +86,9 @@ def speak(data, v):
 		if not v.is_banned: v.ban_reason = 'Blackjack'
 		g.db.add(v)
 		send_repeatable_notification(CARP_ID, f"{v.username} has been shadowbanned because of a chat message.")
+	elif ('discord.gg' in text or 'discord.com' in text or 'discordapp.com' in text):
+		# Follows same logic as in users.py:message2/messagereply; TODO: unify?
+		emit('speak', data)
 	elif recipient:
 		if user_ids_to_socket_ids.get(recipient):
 			recipient_sid = user_ids_to_socket_ids[recipient]
