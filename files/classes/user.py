@@ -2,7 +2,6 @@ from sqlalchemy.orm import deferred, aliased
 from sqlalchemy.sql import func
 from secrets import token_hex
 import pyotp
-from files.helpers.discord import remove_user
 from files.helpers.media import *
 from files.helpers.const import *
 from files.classes.casino_game import Casino_Game
@@ -819,7 +818,6 @@ class User(Base):
 		if days:
 			self.unban_utc = int(time.time()) + (days * 86400)
 			g.db.add(self)
-		elif self.discord_id: remove_user(self)
 
 		self.is_banned = admin.id if admin else AUTOJANNY_ID
 		if reason and len(reason) <= 256:

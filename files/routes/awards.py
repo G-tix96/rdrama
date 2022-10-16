@@ -4,7 +4,6 @@ from files.helpers.alerts import *
 from files.helpers.get import *
 from files.helpers.const import *
 from files.helpers.regex import *
-from files.helpers.discord import *
 from files.helpers.actions import *
 from files.classes.award import *
 from .front import frontlist
@@ -19,8 +18,6 @@ from copy import deepcopy
 @auth_required
 @feature_required('AWARDS')
 def shop(v):
-	
-
 	AWARDS = deepcopy(AWARDS2)
 
 	if v.house:
@@ -311,7 +308,6 @@ def award_thing(v, thing_type, id):
 		if author.patron_utc: author.patron_utc += 2629746
 		else: author.patron_utc = int(time.time()) + 2629746
 		author.procoins += 2500
-		if author.discord_id: add_role(author, "1")
 		badge_grant(user=v, badge_id=103)
 	elif kind == "rehab":
 		if author.rehab: author.rehab += 86400

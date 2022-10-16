@@ -9,15 +9,11 @@ from flask import request
 import tldextract
 from os import path
 
-
 SITE = environ.get("SITE").strip()
 SITE_NAME = environ.get("SITE_NAME").strip()
 SECRET_KEY = environ.get("SECRET_KEY").strip()
 PROXY_URL = environ.get("PROXY_URL").strip()
 GIPHY_KEY = environ.get('GIPHY_KEY').strip()
-DISCORD_SERVER_ID = environ.get("DISCORD_SERVER_ID").strip()
-DISCORD_CLIENT_ID = environ.get("DISCORD_CLIENT_ID").strip()
-DISCORD_CLIENT_SECRET = environ.get("DISCORD_CLIENT_SECRET").strip()
 DISCORD_BOT_TOKEN = environ.get("DISCORD_BOT_TOKEN").strip()
 HCAPTCHA_SITEKEY = environ.get("HCAPTCHA_SITEKEY").strip()
 HCAPTCHA_SECRET = environ.get("HCAPTCHA_SECRET").strip()
@@ -1238,8 +1234,6 @@ tiers={
 	"(Survivor)": 5,
 	"(Jigsaw)": 6,
 	}
-
-DISCORD_WELCOME_CHANNEL = "846509313941700618"
 
 has_sidebar = path.exists(f'files/templates/sidebar_{SITE_NAME}.html')
 has_logo = path.exists(f'files/assets/images/{SITE_NAME}/logo.webp')

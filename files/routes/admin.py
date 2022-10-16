@@ -17,7 +17,6 @@ from flask import *
 from files.__main__ import app, cache, limiter
 from .front import frontlist
 from .login import check_for_alts
-from files.helpers.discord import add_role
 import datetime
 import requests
 from urllib.parse import quote, urlencode
