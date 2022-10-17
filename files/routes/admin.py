@@ -1438,6 +1438,7 @@ def admin_toggle_ban_domain(v):
 		g.db.add(ma)
 
 	else:
+		if not reason: abort(400, 'Reason is required!')
 		d = BannedDomain(domain=domain, reason=reason)
 		g.db.add(d)
 		ma = ModAction(
