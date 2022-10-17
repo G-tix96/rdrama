@@ -2044,6 +2044,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseylongpostglow',2,'animated pippy glow fedpost longpost words mad angry rage wtf green chud fbi mossad fed atf police reaction scrolling',NULL),
 ('marseylongsurfing',2,'surf surfing water ocean long surfboard',NULL),
 ('marseyloss',2,'isthis meme comic webcomic hospital ethan tim buckley',1663284338),
+('marseylouisiana',2,'state cajun usa map crawfish southern gulf poverty mississippi orleans mardi gras',1665955191),
 ('marseylove',2,'heart reaction adoration loving adore',NULL),
 ('marseylovecraft',2,'eldritch horror niggerman cat hp tentacle insane halloween',NULL),
 ('marseylovecraft2',2,'eldritch horror niggerman cat hp tentacle insane halloween',NULL),
