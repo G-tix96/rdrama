@@ -13,6 +13,7 @@
 {% block pagetype %}message{% endblock %}
 
 {% block Banner %}
+<img src="/assets/images/halloween/jumpscare/jumpscare1.gif" id="jump-scare-img" style="display: none;"/>
 	<style>
 		.shop-tabs {
 			padding-top: 50px;
@@ -72,6 +73,15 @@
 {% endblock %}
 
 {% block content %}
+	<div style="text-align:center;">
+		<button id="trick-or-treat" class="btn btn-success triggerClass"> twink or treat</a>
+	</div>
+	{% set current_time = time.time() %}
+	<script src="{{'js/halloween/trickortreat.js' | asset}}"></script>
+	<script>
+		trickOrTreat({{current_time}})
+	</script>
+
 	<pre>
 	</pre>
 

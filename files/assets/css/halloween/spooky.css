@@ -745,3 +745,40 @@ body::after {
     transform: rotate(360deg);
   }
 }
+
+/* Trick or Treat */
+#trick-or-treat {
+	font-family: Jo_wrote_a_lovesong;
+	font-size: 2rem;
+	letter-spacing: 0.5rem;
+	border-color: var(--primary) !important;
+}
+
+#trick-or-treat::before {
+	content:"";
+	background-image:url('/e/marseyface.webp'); ;
+	background-size: cover;
+	height:28px;
+	width:32px;
+	display:inline-block;
+}
+
+#trick-or-treat::after {
+	content:"";
+	background-image:url('/e/marseytrickortreat.webp'); ;
+	background-size: cover;
+	height:28px;
+	width:32px;
+	display:inline-block;
+}
+
+#jump-scare-img {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 9999;
+	object-fit: cover;
+	pointer-events: none;
+  }

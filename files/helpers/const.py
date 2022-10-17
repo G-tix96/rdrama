@@ -615,7 +615,7 @@ AWARDS = {
 		"title": "Spiders",
 		"description": "",
 		"icon": "fas fa-spider",
-		"color": "text-black",
+		"color": "text-gray",
 		"price": 200
 	},
 	"fog": {
