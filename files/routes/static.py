@@ -253,45 +253,34 @@ def archives(path):
 	if request.path.endswith('.css'): resp.headers.add("Content-Type", "text/css")
 	return resp
 
+def static_file(dir:str, path:str, should_cache:bool, is_webp:bool) -> Response:
+	resp = make_response(send_from_directory(dir, path))
+	if should_cache:
+		resp.headers.remove("Cache-Control")
+		resp.headers.add("Cache-Control", "public, max-age=3153600")
+	if is_webp:
+		resp.headers.remove("Content-Type")
+		resp.headers.add("Content-Type", "image/webp")
+	return resp
+
 @app.get('/e/<emoji>')
 @limiter.exempt
 def emoji(emoji):
 	if not emoji.endswith('.webp'): abort(404)
-	resp = make_response(send_from_directory('assets/images/emojis', emoji))
-	resp.headers.remove("Cache-Control")
-	resp.headers.add("Cache-Control", "public, max-age=3153600")
-	resp.headers.remove("Content-Type")
-	resp.headers.add("Content-Type", "image/webp")
-	return resp
+	return static_file('assets/images/emojis', emoji, True, True)
 
 @app.get('/i/<path:path>')
 @limiter.exempt
 def image(path):
-	resp = make_response(send_from_directory('assets/images', path))
-	if request.path.endswith('.webp') or request.path.endswith('.gif') or request.path.endswith('.ttf') or request.path.endswith('.woff2'):
-		resp.headers.remove("Cache-Control")
-		resp.headers.add("Cache-Control", "public, max-age=3153600")
-
-	if request.path.endswith('.webp'):
-		resp.headers.remove("Content-Type")
-		resp.headers.add("Content-Type", "image/webp")
-
-	return resp
+	is_webp = path.endswith('.webp')
+	return static_file('assets/images', path, is_webp or path.endswith('.gif') or path.endswith('.ttf') or path.endswith('.woff2'), is_webp)
 
 @app.get('/assets/<path:path>')
 @app.get('/static/assets/<path:path>')
 @limiter.exempt
 def static_service(path):
-	resp = make_response(send_from_directory('assets', path))
-	if request.path.endswith('.webp') or request.path.endswith('.gif') or request.path.endswith('.ttf') or request.path.endswith('.woff2'):
-		resp.headers.remove("Cache-Control")
-		resp.headers.add("Cache-Control", "public, max-age=3153600")
-
-	if request.path.endswith('.webp'):
-		resp.headers.remove("Content-Type")
-		resp.headers.add("Content-Type", "image/webp")
-
-	return resp
+	is_webp = path.endswith('.webp')
+	return static_file('assets', path, is_webp or path.endswith('.gif') or path.endswith('.ttf') or path.endswith('.woff2'), is_webp)
 
 ### BEGIN FALLBACK ASSET SERVING
 # In production, we have nginx serve these locations now.
@@ -302,28 +291,17 @@ def static_service(path):
 @app.get("/static/images/<path>")
 @limiter.exempt
 def images(path):
-	resp = make_response(send_from_directory('/images', path))
-	resp.headers.remove("Cache-Control")
-	resp.headers.add("Cache-Control", "public, max-age=3153600")
-	resp.headers.remove("Content-Type")
-	resp.headers.add("Content-Type" ,"image/webp")
-	return resp
+	return static_file('/images', path, True, True)
 
 @app.get('/videos/<path>')
 @limiter.exempt
 def videos(path):
-	resp = make_response(send_from_directory('/videos', path))
-	resp.headers.remove("Cache-Control")
-	resp.headers.add("Cache-Control", "public, max-age=3153600")
-	return resp
+	return static_file('/videos', path, True, False)
 
 @app.get('/audio/<path>')
 @limiter.exempt
 def audio(path):
-	resp = make_response(send_from_directory('/audio', path))
-	resp.headers.remove("Cache-Control")
-	resp.headers.add("Cache-Control", "public, max-age=3153600")
-	return resp
+	return static_file('/audio', path, True, False)
 
 ### END FALLBACK ASSET SERVING
 
@@ -349,16 +327,12 @@ def badge_list(site):
 @auth_required
 @feature_required('BADGES')
 def badges(v):
-	
-
 	badges, counts = badge_list(SITE)
 	return render_template("badges.html", v=v, badges=badges, counts=counts)
 
 @app.get("/blocks")
 @admin_level_required(PERMS['USER_BLOCKS_VISIBLE'])
 def blocks(v):
-
-
 	blocks=g.db.query(UserBlock).all()
 	users = []
 	targets = []
@@ -374,14 +348,12 @@ def blocks(v):
 @app.get("/banned")
 @auth_required
 def banned(v):
-
 	users = g.db.query(User).filter(User.is_banned > 0, User.unban_utc == 0).all()
 	return render_template("banned.html", v=v, users=users)
 
 @app.get("/formatting")
 @auth_required
 def formatting(v):
-
 	return render_template("formatting.html", v=v)
 
 @app.get("/service-worker.js")
@@ -392,7 +364,6 @@ def serviceworker():
 @app.get("/settings/security")
 @auth_required
 def settings_security(v):
-
 	return render_template("settings_security.html",
 						v=v,
 						mfa_secret=pyotp.random_base32() if not v.mfa_secret else None
