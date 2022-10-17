@@ -1266,6 +1266,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseybiker',2,'motorcycle harley bicycle helmet',NULL),
 ('marseybingus',2,'floppa shaved hairless',NULL),
 ('marseybinladen',2,'turban al qaeda terrorist islam beard osama martyr muslim',NULL),
+('marseybipocmerchant',2,'black ni jew money greed rich gibs grift wuz kang africa brown kendi',1666001688),
 ('marseybiting',2,'reaction datass lip bite dat ass',NULL),
 ('marseyblack',2,'basketball black african american bipoc coon fade jersey sports kang gang jogger',NULL),
 ('marseyblack2',2,'nigger african coon ape monkey bipoc excited happy',NULL),
