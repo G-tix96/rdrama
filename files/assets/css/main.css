@@ -6306,3 +6306,14 @@ div.markdown {
 .d-block {
 	display: block !important;
 }
+
+.popover-bio-div {
+	max-height: 50vh !important;
+	overflow: auto;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.popover-bio-div::-webkit-scrollbar {
+	background: transparent;
+}
