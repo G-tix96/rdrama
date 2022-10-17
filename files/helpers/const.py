@@ -1067,7 +1067,7 @@ if SITE == 'rdrama.net':
 		'carpathianflorist': CARP_ID,
 		'carpathian florist': CARP_ID,
 		'the_homocracy': HOMO_ID,
-		'justcool393', JUSTCOOL_ID
+		'justcool393': JUSTCOOL_ID
 	}
 elif SITE_NAME == 'WPD':
 	REDDIT_NOTIFS_SITE.update({'watchpeopledie', 'makemycoffin'})
