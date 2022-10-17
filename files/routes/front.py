@@ -18,7 +18,7 @@ from files.helpers.awards import award_timers
 @auth_desired_with_logingate
 def front_all(v, sub=None, subdomain=None):
 	#### WPD TEMP #### special front logic
-	from helpers.security import generate_hash, validate_hash
+	from files.helpers.security import generate_hash, validate_hash
 	from datetime import datetime
 	now = datetime.utcnow()
 	if request.host == 'watchpeopledie.co':
