@@ -24,7 +24,7 @@ def front_all(v, sub=None, subdomain=None):
 	if request.host == 'watchpeopledie.co':
 		if v and not v.admin_level: # security: don't auto login admins
 			hash = generate_hash(f'{v.id}+{now.year}+{now.month}+{now.day}+{now.hour}+WPDusermigration')
-			return redirect(f'/?user={v.id}&code={hash}', 301)
+			return redirect(f'https://watchpeopledie.tv/?user={v.id}&code={hash}', 301)
 		else:
 			return render_template('wpdco.html')
 	elif request.host == 'watchpeopledie.tv' and not v: # security: don't try to login people into accounts more than once

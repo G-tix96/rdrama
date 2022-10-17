@@ -74,7 +74,6 @@ if not path.isfile(f'/site_settings.json'):
 
 @app.before_request
 def before_request():
-
 	g.agent = request.headers.get("User-Agent")
 	if not g.agent and request.path != '/kofi':
 		return 'Please use a "User-Agent" header!', 403
@@ -91,7 +90,7 @@ def before_request():
 		if not request.path: request.path = '/'
 		if request.path != '/':
 			return redirect('/')
-	if request.host != app.config["SERVER_NAME"]: return {"error": "Unauthorized host provided."}, 403
+	elif request.host != app.config["SERVER_NAME"]: return {"error": "Unauthorized host provided."}, 403
 	if request.headers.get("CF-Worker"): return {"error": "Cloudflare workers are not allowed to access this website."}, 403
 
 	if not app.config['SETTINGS']['Bots'] and request.headers.get("Authorization"): abort(403)
