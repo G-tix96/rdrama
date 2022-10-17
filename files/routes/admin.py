@@ -529,7 +529,7 @@ def badge_grant_post(v):
 	try: badge_id = int(request.values.get("badge_id"))
 	except: abort(400)
 
-	if SITE == 'watchpeopledie.co' and badge_id not in {99,101}:
+	if SITE == 'watchpeopledie.tv' and badge_id not in {99,101}:
 		abort(403)
 
 	if badge_id in {16,17,21,22,23,24,25,26,27,94,95,96,97,98,109,137,67,68,83,84,87,90,140} and v.id != AEVANN_ID and SITE != 'pcmemes.net':

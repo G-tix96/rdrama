@@ -232,7 +232,7 @@ def submit_contact(v):
 	new_comment.top_comment_id = new_comment.id
 	
 	admins = g.db.query(User).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'])
-	if SITE == 'watchpeopledie.co':
+	if SITE == 'watchpeopledie.tv':
 		admins = admins.filter(User.id != AEVANN_ID)
 
 	for admin in admins.all():

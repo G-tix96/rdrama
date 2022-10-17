@@ -658,7 +658,7 @@ def messagereply(v):
 
 	if c.top_comment.sentto == 2:
 		admins = g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id)
-		if SITE == 'watchpeopledie.co':
+		if SITE == 'watchpeopledie.tv':
 			admins = admins.filter(User.id != AEVANN_ID)
 
 		admins = [x[0] for x in admins.all()]
@@ -733,7 +733,7 @@ def redditor_moment_redirect(username, v):
 @auth_required
 def followers(username, v):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.id == CARP_ID and SITE == 'watchpeopledie.co': abort(403)
+	if u.id == CARP_ID and SITE == 'watchpeopledie.tv': abort(403)
 
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
 		abort(403)

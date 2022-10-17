@@ -105,7 +105,7 @@ def publish(pid, v):
 	if post.sub == 'changelog':
 		send_changelog_message(post.permalink)
 
-	if SITE == 'watchpeopledie.co':
+	if SITE == 'watchpeopledie.tv':
 		send_wpd_message(post.permalink)
 
 	execute_snappy(post, v)
@@ -1033,7 +1033,7 @@ def submit_post(v, sub=None):
 	if post.sub == 'changelog' and not post.private:
 		send_changelog_message(post.permalink)
 
-	if not post.private and SITE == 'watchpeopledie.co':
+	if not post.private and SITE == 'watchpeopledie.tv':
 		send_wpd_message(post.permalink)
 
 	g.db.commit()

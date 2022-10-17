@@ -10,7 +10,7 @@ from files.helpers.get import *
 from files.helpers.wrappers import *
 from files.routes.static import marsey_list
 
-if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
+if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 	ASSET_TYPES = (Marsey, HatDef)
 	CAN_APPROVE_ASSETS = (AEVANN_ID, CARP_ID, SNAKES_ID)
 	CAN_UPDATE_ASSETS = (AEVANN_ID, CARP_ID, SNAKES_ID, GEESE_ID)
