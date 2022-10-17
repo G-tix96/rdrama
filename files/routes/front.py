@@ -17,7 +17,29 @@ from files.helpers.awards import award_timers
 @limiter.limit("3/second;30/minute;5000/hour;10000/day")
 @auth_desired_with_logingate
 def front_all(v, sub=None, subdomain=None):
-
+	#### WPD TEMP #### special front logic
+	from helpers.security import generate_hash, validate_hash
+	from datetime import datetime
+	today = datetime.today()
+	if request.host == 'watchpeopledie.co':
+		if v and not v.admin_level: # security: don't auto login admins
+			hash = generate_hash(f'{v.id}+{today.year}+{today.month}+{today.day}+{today.hour}+WPDusermigration')
+			return redirect(f'/?user={v.id}&code={hash}', 301)
+		else:
+			return render_template('wpdco.html')
+	elif request.host == 'watchpeopledie.tv' and not v: # security: don't try to login people into accounts more than once
+		req_user = request.values.get('user')
+		req_code = request.values.get('code')
+		if req_user and req_code:
+			from routes.login import on_login
+			user = get_account(req_user)
+			if user:
+				if user.admin_level:
+					abort(401)
+				else:
+					if validate_hash(req_code, f'{v.id}+{today.year}+{today.month}+{today.day}+{today.hour}+WPDusermigration'):
+						on_login(user)
+	#### WPD TEMP #### end special front logic
 	if sub:
 		sub = sub.strip().lower()
 		if sub == 'chudrama' and not (v and v.can_see_chudrama): abort(403)

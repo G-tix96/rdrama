@@ -85,6 +85,10 @@ def before_request():
 	with open('/site_settings.json', 'r', encoding='utf_8') as f:
 		app.config['SETTINGS'] = json.load(f)
 
+	if request.host == 'watchpeopledie.co' and app.config["SERVER_NAME"] == "watchpeopledie.tv":
+		#### WPD TEMP #### temporary WPD migration logic: redirect to /
+		if request.host != '/':
+			return redirect('/')
 	if request.host != app.config["SERVER_NAME"]: return {"error": "Unauthorized host provided."}, 403
 	if request.headers.get("CF-Worker"): return {"error": "Cloudflare workers are not allowed to access this website."}, 403
 
