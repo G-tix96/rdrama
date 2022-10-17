@@ -20,10 +20,10 @@ def front_all(v, sub=None, subdomain=None):
 	#### WPD TEMP #### special front logic
 	from helpers.security import generate_hash, validate_hash
 	from datetime import datetime
-	today = datetime.today()
+	now = datetime.utcnow()
 	if request.host == 'watchpeopledie.co':
 		if v and not v.admin_level: # security: don't auto login admins
-			hash = generate_hash(f'{v.id}+{today.year}+{today.month}+{today.day}+{today.hour}+WPDusermigration')
+			hash = generate_hash(f'{v.id}+{now.year}+{now.month}+{now.day}+{now.hour}+WPDusermigration')
 			return redirect(f'/?user={v.id}&code={hash}', 301)
 		else:
 			return render_template('wpdco.html')
@@ -37,7 +37,7 @@ def front_all(v, sub=None, subdomain=None):
 				if user.admin_level:
 					abort(401)
 				else:
-					if validate_hash(req_code, f'{v.id}+{today.year}+{today.month}+{today.day}+{today.hour}+WPDusermigration'):
+					if validate_hash(req_code, f'{v.id}+{now.year}+{now.month}+{now.day}+{now.hour}+WPDusermigration'):
 						on_login(user)
 	#### WPD TEMP #### end special front logic
 	if sub:
