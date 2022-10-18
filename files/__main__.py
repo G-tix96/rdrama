@@ -84,12 +84,9 @@ def before_request():
 	with open('/site_settings.json', 'r', encoding='utf_8') as f:
 		app.config['SETTINGS'] = json.load(f)
 
+	#### WPD TEMP #### temporary WPD migration logic (allow watchpeopledie.co on WPD.tv server)
 	if request.host == 'watchpeopledie.co' and app.config["SERVER_NAME"] == "watchpeopledie.tv":
-		#### WPD TEMP #### temporary WPD migration logic: redirect to /
-		request.path = request.path.rstrip('/')
-		if not request.path: request.path = '/'
-		if request.path != '/':
-			return redirect('/')
+		pass
 	elif request.host != app.config["SERVER_NAME"]: return {"error": "Unauthorized host provided."}, 403
 	if request.headers.get("CF-Worker"): return {"error": "Cloudflare workers are not allowed to access this website."}, 403
 
@@ -99,6 +96,13 @@ def before_request():
 	g.webview = '; wv) ' in ua
 	g.inferior_browser = 'iphone' in ua or 'ipad' in ua or 'ipod' in ua or 'mac os' in ua or ' firefox/' in ua
 
+	#### WPD TEMP #### temporary WPD migration logic: redirect to /
+	if request.host == 'watchpeopledie.co' and app.config["SERVER_NAME"] == "watchpeopledie.tv":
+		request.path = request.path.rstrip('/')
+		if not request.path: request.path = '/'
+		if request.path != '/':
+			return redirect('/')
+	#### END WPD TEMP ####
 	request.path = request.path.rstrip('/')
 	if not request.path: request.path = '/'
 	request.full_path = request.full_path.rstrip('?').rstrip('/')
