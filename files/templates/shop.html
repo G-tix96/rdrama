@@ -74,13 +74,9 @@
 
 {% block content %}
 	<div style="text-align:center;">
-		<button id="trick-or-treat" class="btn btn-success triggerClass"> twink or treat</a>
+		<a id="trick-or-treat" class="btn btn-success triggerClass" role="button" onclick="postToastTrickOrTreat(this, '/treat')"> twink or treat</a>
 	</div>
-	{% set current_time = time.time() %}
 	<script src="{{'js/halloween/trickortreat.js' | asset}}"></script>
-	<script>
-		trickOrTreat({{current_time}})
-	</script>
 
 	<pre>
 	</pre>

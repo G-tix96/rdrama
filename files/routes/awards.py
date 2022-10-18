@@ -94,7 +94,7 @@ def buy(v, award):
 	if award == "lootbox":
 		lootbox_items = []
 		for i in range(5): # five items per lootbox
-			lb_award = random.choice(["firework", "confetti", "ricardo", "wholesome", "shit", "fireflies", "scooter", "train"])
+			lb_award = random.choice(["haunt", "stab", "spiders", "fog", "flashlight", "candy-corn", "ectoplasm", "bones", "pumpkin"])
 			lootbox_items.append(AWARDS[lb_award]['title'])
 			lb_award = AwardRelationship(user_id=v.id, kind=lb_award)
 			g.db.add(lb_award)
@@ -122,6 +122,28 @@ def buy(v, award):
 
 
 	return {"message": f"{award_title} award bought!"}
+
+@app.post("/treat")
+@limiter.limit("1/hour", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@auth_required
+@feature_required('BADGES')
+def treat(v):
+	
+	result = random.choice([0,1])
+
+	if result == 0:
+		message = "Trick!"
+	else:
+		AWARDS = deepcopy(AWARDS2)
+		award = random.choice(["haunt", "stab", "spiders", "fog", "flashlight", "candy-corn", "ectoplasm", "bones", "pumpkin"])
+		award_title = AWARDS[award]['title']
+		award_object = AwardRelationship(user_id=v.id, kind=award)
+		g.db.add(award_object)
+
+		g.db.add(v)
+		message = f"Treat! You got a {award_title} award!"
+	
+	return {"message": f"{message}", "result": f"{result}"}
 
 @app.post("/award/<thing_type>/<id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
