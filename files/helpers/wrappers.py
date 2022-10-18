@@ -106,6 +106,11 @@ def auth_desired_with_logingate(f):
 		v = get_logged_in_user()
 		if app.config['SETTINGS']['login_required'] and not v: abort(401)
 
+		#### WPD TEMP #### disable this /logged_out thing on .co
+		if request.host == 'watchpeopledie.co':
+			return make_response(f(*args, v=v, **kwargs))
+		#### END WPD TEMP ####
+
 		if not v and not request.path.startswith('/logged_out'):
 			return redirect(f"/logged_out{request.full_path}")
 
