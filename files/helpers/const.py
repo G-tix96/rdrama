@@ -666,6 +666,22 @@ AWARDS = {
 		"color": "text-orange",
 		"price": 200
 	},
+	"hw-bite": {
+		"kind": "hw-bite",
+		"title": "Zombie Bite",
+		"description": "",
+		"icon": "fas fa-biohazard",
+		"color": "text-danger",
+		"price": 500
+	},
+	"hw-vax": {
+		"kind": "hw-vax",
+		"title": "Vaxxmaxx",
+		"description": "",
+		"icon": "fas fa-syringe",
+		"color": "text-blue",
+		"price": 500
+	},
 	"marsify": {
 		"kind": "marsify",
 		"title": "Marsify",

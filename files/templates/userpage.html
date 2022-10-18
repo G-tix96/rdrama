@@ -107,7 +107,7 @@
 				</div>
 
 				{% if FEATURES['PRONOUNS'] %}
-					<p class="font-weight-bolder" id="profile--pronouns" style="color: #{{u.titlecolor}}">{{u.pronouns}}</p>
+					<p class="font-weight-bolder" id="profile--pronouns" style="color: #{{u.titlecolor}}">{{u.pronouns_display}}</p>
 				{% endif %}
 
 				{% if u.customtitle %}
@@ -344,7 +344,7 @@
 				{% endif %}
 
 				{% if FEATURES['PRONOUNS'] %}
-					<p style="color: #{{u.titlecolor}}" id="profile-mobile--pronouns">{{u.pronouns}}</p>
+					<p style="color: #{{u.titlecolor}}" id="profile-mobile--pronouns">{{u.pronouns_display}}</p>
 				{% endif %}
 
 				{% if u.customtitle %}

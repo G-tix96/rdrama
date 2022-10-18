@@ -117,6 +117,11 @@ def buy(v, award):
 
 	g.db.add(v)
 
+	if CARP_ID and award == "hw-vax":
+		u_carp = get_account(CARP_ID)
+		currency = 'procoins' if request.values.get("mb") else 'coins'
+		u_carp.pay_account(currency, 100)
+
 	if CARP_ID and v.id != CARP_ID and og_price >= 10000:
 		send_repeatable_notification(CARP_ID, f"@{v.username} has bought a `{award_title}` award!")
 
@@ -392,6 +397,20 @@ def award_thing(v, thing_type, id):
 		if author.spider: author.spider += 86400
 		else: author.spider = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=179, notify=False)
+	elif kind == "hw-bite":
+		if author.homoween_zombie == 'ZOMBIE':
+			author = v
+
+		if author.homoween_zombie == 'HEALTHY':
+			author.homoween_zombie = 'ZOMBIE'
+		elif author.homoween_zombie == 'VAXXED':
+			author.homoween_zombie = 'HEALTHY'
+	elif kind == "hw-vax":
+		if author.id != v.id:
+			if author.homoween_zombie == 'ZOMBIE':
+				author.homoween_zombie = 'HEALTHY'
+			elif author.homoween_zombie == 'HEALTHY':
+				author.homoween_zombie = 'VAXXED'
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1
