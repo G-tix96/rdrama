@@ -2259,6 +2259,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseypepe',2,'ok rightoid mellokind frog reaction',NULL),
 ('marseypepe2',2,'reaction frog mellokind',NULL),
 ('marseypepsi',2,'cola coke soda soft drink pop red white blue usa america',NULL),
+('marseypeterson',2,'jordan b peterson professor intellectual chud rightoid incel twelve rules for life zoloft depressed antidepressant depression tired old smart',1666054938),
 ('marseypharaoh',2,'egyptian aevann pyramids',NULL),
 ('marseypharaoh2',2,'gods egyptian aevann animated',NULL),
 ('marseypharaohcat',2,'egyptian illuminati aevann pyramid sand ancient alien artifact museum history king cleopatra',NULL),
