@@ -63,7 +63,7 @@ class Badge(Base):
 		if self.badge_id == 168: return self.user.bite
 		if self.badge_id == 169: return self.user.earlylife
 		if self.badge_id == 171: return self.user.rainbow
-
+		
 		return None
 
 	@property

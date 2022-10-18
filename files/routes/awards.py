@@ -403,14 +403,23 @@ def award_thing(v, thing_type, id):
 
 		if author.homoween_zombie == 'HEALTHY':
 			author.homoween_zombie = 'ZOMBIE'
+			award_object = AwardRelationship(user_id=author.id, kind='hw-bite')
+			g.db.add(award_object)
+			badge_grant(user=author, badge_id=181)
+
 		elif author.homoween_zombie == 'VAXXED':
 			author.homoween_zombie = 'HEALTHY'
+			badge = author.has_badge(182)
+			if badge: g.db.delete(badge)
 	elif kind == "hw-vax":
-		if author.id != v.id:
-			if author.homoween_zombie == 'ZOMBIE':
+		if author.homoween_zombie == 'ZOMBIE':
+			if author.id != v.id:
 				author.homoween_zombie = 'HEALTHY'
-			elif author.homoween_zombie == 'HEALTHY':
-				author.homoween_zombie = 'VAXXED'
+				badge = author.has_badge(181)
+				if badge: g.db.delete(badge)
+		elif author.homoween_zombie == 'HEALTHY':
+			author.homoween_zombie = 'VAXXED'
+			badge_grant(user=author, badge_id=182)
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1

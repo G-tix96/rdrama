@@ -3,11 +3,10 @@ function bones(number){
   
   // Stackable
   // With each award, append a new image to array
-  const sources = ['/assets/images/halloween/skeletons/skeleton1.gif','/assets/images/halloween/skeletons/skeleton2.gif','/assets/images/halloween/skeletons/skeleton3.gif'];
+  const sources = ['skeleton1.gif','skeleton2.gif','skeleton3.gif','skeleton4.gif','skeleton5.gif','skeleton6.gif'];
 
-  const n = sources.length - number;
-
-  const emoji = sources.slice(n)
+  const n = sources.length - number,
+        emoji = sources.slice(n)
 
   let circles = [];
 
@@ -45,7 +44,7 @@ function bones(number){
     this.element.style.opacity = 0;
     this.element.style.position = 'absolute';
     this.element.style.width = '36px';
-    this.element.src = c;
+    this.element.src = "/assets/images/halloween/skeletons/"+c;
     container.appendChild(this.element);
 
     this.update = function() {
