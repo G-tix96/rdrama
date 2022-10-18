@@ -46,6 +46,9 @@ def error_401(e):
 
 @app.errorhandler(500)
 def error_500(e):
+	if not getattr(g, 'db', None):
+		print(f'error 500 with no db: {request.full_path}')
+		return error(e)
 	g.db.rollback()
 	return error(e)
 
