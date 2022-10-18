@@ -22,23 +22,11 @@
 			{% else %}
 				{%-
 				set VISITORS_HERE_FLAVOR = [
-					' incels currently stalking roasties',
-					' gooners currently edging to <img src="/e/marseycumjar3.webp" style="height: 1.5em;">',
-					' fanboys currently obsessing over Carp',
-					' NEETs currently LDARmaxxing',
-					' valid women currently dilating',
-					' negholes currently being pozzed',
-					' bussies currently on standby',
-					' gamers currently harassing women',
-					' dramanauts hurtling through Safe Space™',
-					' Soros shills currently plotting mayocide',
-					' furries currently yiffing',
-					' incels currently harassing women',
-					' chuds currently agendaposting',
-					' coomers currently gooning',
-					' bacons currently narwhaling',
-					' well-behaved rule following goodthinkers',
-					' throwing shade right now',
+					' jack-off-lanterns currently jerking each other off',
+					' cute twinks currently trick or treating',
+					' scary skeletons currently spooking',
+					' cute twinks currently enjoying cocktoberfest"',
+					' headless horsemen currently horsing around',
 				]
 				-%}
 				{{g.loggedin_counter+g.loggedout_counter}} {{VISITORS_HERE_FLAVOR|random|safe}} ({{g.loggedin_counter}} logged in)
@@ -60,7 +48,19 @@
 		<div class="navbar navbar-expand-md navbar-light" id="navbar">
 			<div class="container-fluid" style="padding:0;">
 			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not sub %}flex-grow-1{% endif %}">
-				<img id="header--icon" alt="header icon" {% if sub %}src="{{sub.marsey_url}}"{% else %} src="/e/marseyscalped.webp"{% endif %}>
+				{%- set icon = [
+					'marseyscalped',
+					'marseybaphomet',
+					'marseydemonicgrin',
+					'marseyjason',
+					'marseyolantern',
+					'marseyskeleton',
+					'marseyzombie',
+					'marseydracula',
+					'marseywitch3',
+					'marseyhannibal'
+					] -%}
+				<img id="header--icon" alt="header icon" {% if sub %}src="{{sub.marsey_url}}"{% else %} src="/e/{{icon|random|safe}}.webp"{% endif %}>
 			</a>
 
 			{% if sub %}
