@@ -74,7 +74,6 @@ if not path.isfile(f'/site_settings.json'):
 
 @app.before_request
 def before_request():
-
 	g.agent = request.headers.get("User-Agent")
 	if not g.agent and request.path != '/kofi':
 		return 'Please use a "User-Agent" header!', 403
@@ -94,6 +93,13 @@ def before_request():
 	g.webview = '; wv) ' in ua
 	g.inferior_browser = 'iphone' in ua or 'ipad' in ua or 'ipod' in ua or 'mac os' in ua or ' firefox/' in ua
 
+	#### WPD TEMP #### temporary WPD migration logic: redirect to /
+	if request.host == 'watchpeopledie.co' and app.config["SERVER_NAME"] == "watchpeopledie.co":
+		request.path = request.path.rstrip('/')
+		if not request.path: request.path = '/'
+		if request.path != '/':
+			return redirect('/')
+	#### END WPD TEMP ####
 	request.path = request.path.rstrip('/')
 	if not request.path: request.path = '/'
 	request.full_path = request.full_path.rstrip('?').rstrip('/')

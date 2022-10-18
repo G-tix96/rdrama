@@ -358,7 +358,7 @@ def award_thing(v, thing_type, id):
 			if author.marsify: body = marsify(body)
 			thing.body_html = sanitize(body, limit_pings=5)
 			g.db.add(thing)
-	elif ("Femboy" in kind and kind == v.house):
+	elif ("Femboy" in kind and kind == v.house) or kind == 'rainbow':
 		if author.rainbow: author.rainbow += 86400
 		else: author.rainbow = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=171)

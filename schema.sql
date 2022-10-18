@@ -1020,7 +1020,8 @@ CREATE TABLE public.users (
     is_muted boolean DEFAULT false NOT NULL,
     coins_spent_on_hats integer DEFAULT 0 NOT NULL,
     rainbow integer,
-    spider integer
+    spider integer,
+    homoween_zombie character varying(7) DEFAULT 'HEALTHY'::character varying
 );
 
 
