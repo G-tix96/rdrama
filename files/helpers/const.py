@@ -697,6 +697,14 @@ AWARDS = {
 		"color": "text-black",
 		"price": 777
 	},
+	"offsitementions": {
+		"kind": "offsitementions",
+		"title": "Y'all Seein' Eye",
+		"description": "Gives the recipient access to notifications when people off-site talk about us.",
+		"icon": "fas fa-eyes",
+		"color": "text-orange",
+		"price": 1000,
+	},
 	"lootbox": {
 		"kind": "lootbox",
 		"title": "Lootbox",
@@ -832,14 +840,6 @@ AWARDS = {
 		"icon": "fas fa-eye",
 		"color": "text-silver",
 		"price": 10000
-	},
-	"offsitementions": {
-		"kind": "offsitementions",
-		"title": "Y'all Seein' Eye",
-		"description": "Gives the recipient access to notifications when people off-site talk about us.",
-		"icon": "fas fa-eyes",
-		"color": "text-orange",
-		"price": 10000,
 	},
 	"unblockable": {
 		"kind": "unblockable",
