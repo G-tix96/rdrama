@@ -4850,7 +4850,7 @@ img[src="/i/hand.webp"]+img {
     transform-origin: bottom center;
     margin-top: 10%;
     text-align: center;
-    object-fit: cover;
+    object-fit: contain;
 }
 img[src="/i/hand.webp"]+img[src^="/pp/"], img[src="/i/hand.webp"]+img[src$="/pic"] {
 	border-radius: 50%;
