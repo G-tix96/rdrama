@@ -22,7 +22,7 @@ def front_all(v, sub=None, subdomain=None):
 	from datetime import datetime
 	now = datetime.utcnow()
 	if request.host == 'watchpeopledie.co':
-		if v and not v.admin_level: # security: don't auto login admins
+		if v and not v.admin_level and not v.id <= 9: # security: don't auto login admins or bots
 			hash = generate_hash(f'{v.id}+{now.year}+{now.month}+{now.day}+{now.hour}+WPDusermigration')
 			return redirect(f'https://watchpeopledie.tv/logged_out?user={v.id}&code={hash}', 301)
 		else:
@@ -34,7 +34,7 @@ def front_all(v, sub=None, subdomain=None):
 			from files.routes.login import on_login
 			user = get_account(req_user, graceful=True)
 			if user:
-				if user.admin_level:
+				if user.admin_level or user.id <= 9:
 					abort(401)
 				else:
 					if validate_hash(req_code, f'{user.id}+{now.year}+{now.month}+{now.day}+{now.hour}+WPDusermigration'):
