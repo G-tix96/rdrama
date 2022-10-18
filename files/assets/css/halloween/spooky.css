@@ -44,6 +44,12 @@ body {
 	overflow-x: hidden;
 }
 
+#header--icon {
+	height: 33px;
+	width: 33px;
+	object-fit: contain;
+}
+
 * {
 	border-color: var(--primary);
 }
@@ -773,7 +779,7 @@ body::after {
 }
 
 #jump-scare-img {
-	position: absolute;
+	position: fixed;
 	left: 0;
 	top: 0;
 	height: 100%;

@@ -761,7 +761,7 @@ class User(Base):
 	@lazy
 	def profile_url(self):
 		if self.homoween_zombie == 'ZOMBIE':
-			return f"{SITE_FULL}/e/marseyzombie.webp"
+			return f"{SITE_FULL}/assets/images/halloween/zombies/{random.randint(1, 10)}.webp?v=1"
 		if self.agendaposter:
 			return f"{SITE_FULL}/assets/images/halloween/agendaposter/{random.randint(1, 19)}.webp?v=1"
 		if self.rainbow:

@@ -128,11 +128,11 @@ def buy(v, award):
 
 	return {"message": f"{award_title} award bought!"}
 
-@app.post("/treat")
+@app.post("/trick-or-treat")
 @limiter.limit("1/hour", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 @feature_required('BADGES')
-def treat(v):
+def trick_or_treat(v):
 	
 	result = random.choice([0,1])
 
@@ -403,22 +403,27 @@ def award_thing(v, thing_type, id):
 
 		if author.homoween_zombie == 'HEALTHY':
 			author.homoween_zombie = 'ZOMBIE'
+
 			award_object = AwardRelationship(user_id=author.id, kind='hw-bite')
 			g.db.add(award_object)
 			badge_grant(user=author, badge_id=181)
 
 		elif author.homoween_zombie == 'VAXXED':
 			author.homoween_zombie = 'HEALTHY'
+			send_repeatable_notification(author.id, "You are no longer **VAXXMAXXED**! Time for another booster!")
+
 			badge = author.has_badge(182)
 			if badge: g.db.delete(badge)
-	elif kind == "hw-vax":
+	elif kind == "hw-vax" and author.id != v.id:
 		if author.homoween_zombie == 'ZOMBIE':
-			if author.id != v.id:
 				author.homoween_zombie = 'HEALTHY'
+				send_repeatable_notification(author.id, "You are no longer **INFECTED**! Praise Fauci!")
+
 				badge = author.has_badge(181)
 				if badge: g.db.delete(badge)
 		elif author.homoween_zombie == 'HEALTHY':
 			author.homoween_zombie = 'VAXXED'
+
 			badge_grant(user=author, badge_id=182)
 
 	if author.received_award_count: author.received_award_count += 1
