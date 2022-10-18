@@ -52,7 +52,7 @@ if SITE == "localhost": SITE_FULL = 'http://' + SITE
 else: SITE_FULL = 'https://' + SITE
 
 
-if SITE == 'pcmemes.net': CC = "SPLASH MOUNTAIN"
+if SITE_NAME == 'PCM': CC = "SPLASH MOUNTAIN"
 else: CC = "COUNTRY CLUB"
 CC_TITLE = CC.title()
 
@@ -993,8 +993,10 @@ for k, val in temp:
 if SITE_NAME != 'rDrama':
 	AWARDS_DISABLED.append('progressivestack')
 
-if SITE == 'pcmemes.net':
-	AWARDS_DISABLED.extend(['ban','pizzashill','marsey','bird','grass','chud','unblockable'])
+if SITE_NAME == 'PCM':
+	# Previous set of disabled, changed temporarily by request 2022-10-17
+	#AWARDS_DISABLED.extend(['ban','pizzashill','marsey','bird','grass','chud','unblockable'])
+	AWARDS_DISABLED.extend(['unblockable'])
 	AWARDS_DISABLED.remove('ghost')
 elif SITE_NAME == 'WPD':
 	AWARDS_DISABLED.remove('lootbox')
