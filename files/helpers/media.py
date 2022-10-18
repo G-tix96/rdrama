@@ -25,9 +25,9 @@ def process_files():
 				url = process_image(name, patron=g.v.patron)
 				body += f"\n\n![]({url})"
 			elif file.content_type.startswith('video/'):
-				body += f"\n\n{process_video(file)}"
+				body += f"\n\n{SITE_FULL}{process_video(file)}"
 			elif file.content_type.startswith('audio/'):
-				body += f"\n\n{process_audio(file)}"
+				body += f"\n\n{SITE_FULL}{process_audio(file)}"
 			else:
 				abort(415)
 	return body
@@ -59,7 +59,7 @@ def process_audio(file):
 	)
 	g.db.add(media)
 
-	return f'{SITE_FULL}{name}'
+	return name
 
 
 def webm_to_mp4(old, new, vid):
@@ -117,7 +117,7 @@ def process_video(file):
 		)
 		g.db.add(media)
 
-	return f'{SITE_FULL}{new}'
+	return new
 
 
 

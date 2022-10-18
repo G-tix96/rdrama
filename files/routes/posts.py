@@ -882,6 +882,9 @@ def submit_post(v, sub=None):
 
 	if embed: embed = embed.strip()
 
+	if url and url.startswith(SITE_FULL):
+		url = url.split(SITE_FULL)[1]
+
 	post = Submission(
 		private=bool(request.values.get("private","")),
 		notify=bool(request.values.get("notify","")),
