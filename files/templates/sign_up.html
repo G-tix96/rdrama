@@ -116,7 +116,7 @@
 							<label class="custom-control-label terms" for="termsCheck">I accept the <a href="/sidebar">rules</a></label>
 						</div>
 
-						{% if hcaptcha %}
+						{% if hcaptcha != 'blahblahblah' %}
 							<div class="h-captcha" data-sitekey="{{hcaptcha}}" data-theme="dark"></div>
 						{% endif %}
 
@@ -146,7 +146,7 @@
 
 <script defer src="{{'js/signup.js' | asset}}"></script>
 
-{% if hcaptcha %}
+{% if hcaptcha != 'blahblahblah' %}
 	<script defer src="{{'js/hcaptcha.js' | asset}}"></script>
 {% endif %}
 
