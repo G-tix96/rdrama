@@ -269,6 +269,44 @@
 	</script>
 	{% endblock %}
 	<canvas id="canvas"></canvas>
+	
+	{% set jumpscare_path = "/halloween/jumpscares" %}
+	{% set audio_src = "/assets/media" + jumpscare_path + "/" + listdir('files/assets/media' + jumpscare_path)|random() + '?v=45' %}
+	<script>
+		const jumpscare_audio = new Audio("{{audio_src}}");
+	</script>
+	
+	{% set image_src = "/assets/images" + jumpscare_path + "/" + listdir('files/assets/images' + jumpscare_path)|random() + '?v=45' %}
+	<img src="{{image_src}}" id="jump-scare-img" style="display: none;"/>
+	<script src="{{'js/halloween/jumpscare.js' | asset}}"></script>
+	
+	{% if v and v.jumpscare %}
+		<script defer>
+			setTimeout(function () {
+				const xhr = new XMLHttpRequest();
+				xhr.open("POST", "/jumpscare");
+				xhr.setRequestHeader('xhr', 'xhr');
+				
+				form = new FormData();
+				form.append("formkey", formkey());
+				
+				xhr.onload = function() {
+					let data
+					try {
+						data = JSON.parse(xhr.response)
+					}
+					catch (e) {
+						console.log(e)
+					}
+
+					if (data["trigger"] == "true"){
+						scare()
+					}
+				};
+				xhr.send(form)
+			}, 3000);
+		</script>
+	{% endif %}
 
 {% block Banner %}
 	{% include "expanded_image_modal.html" %}

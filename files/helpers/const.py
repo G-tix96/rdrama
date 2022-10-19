@@ -614,8 +614,8 @@ AWARDS = {
 		"kind": "spiders",
 		"title": "Spiders",
 		"description": "",
-		"icon": "fas fa-spider",
-		"color": "text-gray",
+		"icon": "fas fa-spider-web",
+		"color": "text-black",
 		"price": 200
 	},
 	"fog": {
@@ -681,6 +681,14 @@ AWARDS = {
 		"icon": "fas fa-syringe",
 		"color": "text-blue",
 		"price": 500
+	},
+	"jumpscare": {
+		"kind": "jumpscare",
+		"title": "Jumpscare",
+		"description": "",
+		"icon": "fas fa-coffin-cross",
+		"color": "text-purple",
+		"price": 2000
 	},
 	"marsify": {
 		"kind": "marsify",

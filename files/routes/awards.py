@@ -131,7 +131,6 @@ def buy(v, award):
 @app.post("/trick-or-treat")
 @limiter.limit("1/hour", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
-@feature_required('BADGES')
 def trick_or_treat(v):
 	
 	result = random.choice([0,1])
@@ -149,6 +148,20 @@ def trick_or_treat(v):
 		message = f"Treat! You got a {award_title} award!"
 	
 	return {"message": f"{message}", "result": f"{result}"}
+
+@app.post("/jumpscare")
+@auth_required
+def execute_jumpscare(v):
+
+	result = random.randrange(1,11)
+	
+	if result == 10 and v.jumpscare > 0:
+		v.jumpscare -= 1
+		g.db.add(v)
+		
+		return {"trigger": "true"}
+		
+	return {"trigger": "false"}
 
 @app.post("/award/<thing_type>/<id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -425,6 +438,8 @@ def award_thing(v, thing_type, id):
 			author.homoween_zombie = 'VAXXED'
 
 			badge_grant(user=author, badge_id=182)
+	elif kind == "jumpscare":
+		author.jumpscare += 1
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1
