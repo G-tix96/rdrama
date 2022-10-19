@@ -381,10 +381,9 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 			process_image(filename, resize=200, trim=True)
 			purge_files_in_cache([f"https://{SITE}/e/{name}.webp", f"https://{SITE}/assets/images/emojis/{name}.webp", f"https://{SITE}/asset_submissions/marseys/original/{name}.{format}"])
 		
-		if tags and not marsey.tags == tags:
-			marsey.tags = tags
-			g.db.add(marsey)
-			pass
+		if tags and existing.tags != tags:
+			existing.tags = tags
+			g.db.add(existing)
 		
 		if not file and not tags:
 			return error("You need to update this marsey!")
