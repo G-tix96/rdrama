@@ -3,7 +3,7 @@ function delete_postModal(id) {
 		const xhr = createXhrWithFormKey(`/delete_post/${id}`);
 		xhr[0].onload = function() {
 			let data
-			try {data = JSON.parse(xhr.response)}
+			try {data = JSON.parse(xhr[0].response)}
 			catch(e) {console.log(e)}
 			success = xhr[0].status >= 200 && xhr[0].status < 300;
 			showToast(success, getMessageFromJsonData(success, data));
