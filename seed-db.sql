@@ -22,7 +22,7 @@ INSERT INTO public.users (username, passhash, created_utc, admin_level, over_18,
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.4
+-- Dumped from database version 14.5
 -- Dumped by pg_dump version 14.5 (Ubuntu 14.5-1.pgdg20.04+1)
 
 SET statement_timeout = 0;
@@ -198,7 +198,7 @@ SELECT pg_catalog.setval('public.badge_defs_id_seq', 182, true);
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.4
+-- Dumped from database version 14.5
 -- Dumped by pg_dump version 14.5 (Ubuntu 14.5-1.pgdg20.04+1)
 
 SET statement_timeout = 0;
