@@ -78,6 +78,15 @@
 		<span class="sidebar-link" onclick="if(localStorage.getItem('setting_upsidedown')=='true'){localStorage.setItem('setting_upsidedown', 'false')}else{localStorage.setItem('setting_upsidedown', 'true')};location.reload()" style="display:inline" data-bs-toggle="tooltip" data-bs-placement="top" title="???"><i class="fas fa-trees"></i></span>
 	</p>
 
+	<div class="progress">
+		<div style="--width:70%;" class="bar"></div>
+		<div class="legend">
+			<!-- Place tooltips to show exact count -->
+			<span>70% Healthy</span>
+			<span>30% Infected</span>
+		</div>
+	</div>
+
 	{% if sub %}
 		{% if sub.sidebar_html %}
 			<div class="mb-4">{{sub.sidebar_html|safe}}</div>
