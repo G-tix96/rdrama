@@ -1021,7 +1021,8 @@ CREATE TABLE public.users (
     coins_spent_on_hats integer DEFAULT 0 NOT NULL,
     rainbow integer,
     spider integer,
-    homoween_zombie character varying(7) DEFAULT 'HEALTHY'::character varying
+    homoween_zombie character varying(7) DEFAULT 'HEALTHY'::character varying,
+    jumpscare boolean DEFAULT false NOT NULL
 );
 
 
