@@ -281,29 +281,21 @@
 	<script src="{{'js/halloween/jumpscare.js' | asset}}"></script>
 	
 	{% if v and v.jumpscare %}
+		{% set roll = range(1,11) | random %}
 		<script defer>
 			setTimeout(function () {
-				const xhr = new XMLHttpRequest();
-				xhr.open("POST", "/jumpscare");
-				xhr.setRequestHeader('xhr', 'xhr');
-				
-				form = new FormData();
-				form.append("formkey", formkey());
-				
-				xhr.onload = function() {
-					let data
-					try {
-						data = JSON.parse(xhr.response)
-					}
-					catch (e) {
-						console.log(e)
-					}
-
-					if (data["trigger"] == "true"){
-						scare()
-					}
-				};
-				xhr.send(form)
+				roll = {{roll}}
+				if(roll == 10){
+					const xhr = new XMLHttpRequest();
+					
+					xhr.open("POST", "/jumpscare");
+					xhr.setRequestHeader('xhr', 'xhr');
+					form = new FormData();
+					form.append("formkey", formkey());
+					
+					xhr.send(form)
+					scare()
+				}
 			}, 3000);
 		</script>
 	{% endif %}

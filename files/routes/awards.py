@@ -153,15 +153,11 @@ def trick_or_treat(v):
 @auth_required
 def execute_jumpscare(v):
 
-	result = random.randrange(1,11)
-	
-	if result == 10 and v.jumpscare > 0:
+	if v.jumpscare > 0:
 		v.jumpscare -= 1
 		g.db.add(v)
-		
-		return {"trigger": "true"}
-		
-	return {"trigger": "false"}
+				
+	return {}
 
 @app.post("/award/<thing_type>/<id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
