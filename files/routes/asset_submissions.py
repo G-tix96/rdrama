@@ -13,7 +13,7 @@ from files.routes.static import marsey_list
 if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 	ASSET_TYPES = (Marsey, HatDef)
 	CAN_APPROVE_ASSETS = (AEVANN_ID, CARP_ID, SNAKES_ID)
-	CAN_UPDATE_ASSETS = (AEVANN_ID, CARP_ID, SNAKES_ID, GEESE_ID)
+	CAN_UPDATE_ASSETS = (AEVANN_ID, CARP_ID, SNAKES_ID, GEESE_ID, JUSTCOOL_ID)
 
 	@app.get('/asset_submissions/<path:path>')
 	@limiter.exempt
@@ -324,29 +324,33 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 	@app.get("/admin/update/marseys")
 	@admin_level_required(PERMS['UPDATE_MARSEYS'])
 	def update_marseys(v):
-		if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, GEESE_ID, SNAKES_ID):
+		if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
 			abort(403)
-
-		return render_template("update_assets.html", v=v, type="Marsey")
+		name = request.values.get('name')
+		tags = None
+		error = None
+		if request.values.get('name'):
+			marsey = g.db.get(Marsey).filter_by(name=name).one_or_none()
+			if marsey:
+				tags = marsey.tags
+			else:
+				name = None
+				error = "A marsey with this name doesn't exist!"
+		return render_template("update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
 
 
 	@app.post("/admin/update/marseys")
 	@admin_level_required(PERMS['UPDATE_MARSEYS'])
 	def update_marsey(v):
-		if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, GEESE_ID, SNAKES_ID):
+		if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
 			abort(403)
 
 		file = request.files["image"]
 		name = request.values.get('name').lower().strip()
+		tags = request.values.get('tags').lower().strip()
 
 		def error(error):
 			return render_template("update_assets.html", v=v, error=error, type="Marsey")
-
-		if request.headers.get("cf-ipcountry") == "T1":
-			return error("Image uploads are not allowed through TOR.")
-
-		if not file or not file.content_type.startswith('image/'):
-			return error("You need to submit an image!")
 
 		if not marsey_regex.fullmatch(name):
 			return error("Invalid name!")
@@ -355,21 +359,35 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 		if not existing:
 			return error("A marsey with this name doesn't exist!")
 
-		for x in ('png','jpeg','webp','gif'):
-			if path.isfile(f'/asset_submissions/marseys/original/{name}.{x}'):
-				os.remove(f'/asset_submissions/marseys/original/{name}.{x}')
+		if file:
+			if request.headers.get("cf-ipcountry") == "T1":
+				return error("Image uploads are not allowed through TOR.")
+			if not file.content_type.startswith('image/'):
+				return error("You need to submit an image!")
+			
+			for x in ('png','jpeg','webp','gif'):
+				if path.isfile(f'/asset_submissions/marseys/original/{name}.{x}'):
+					os.remove(f'/asset_submissions/marseys/original/{name}.{x}')
 
-		highquality = f"/asset_submissions/marseys/{name}"
-		file.save(highquality)
-		with Image.open(highquality) as i:
-			format = i.format.lower()
-		new_path = f'/asset_submissions/marseys/original/{name}.{format}'
-		rename(highquality, new_path)
+			highquality = f"/asset_submissions/marseys/{name}"
+			file.save(highquality)
+			with Image.open(highquality) as i:
+				format = i.format.lower()
+			new_path = f'/asset_submissions/marseys/original/{name}.{format}'
+			rename(highquality, new_path)
 
-		filename = f"files/assets/images/emojis/{name}.webp"
-		copyfile(new_path, filename)
-		process_image(filename, resize=200, trim=True)
-		purge_files_in_cache([f"https://{SITE}/e/{name}.webp", f"https://{SITE}/assets/images/emojis/{name}.webp", f"https://{SITE}/asset_submissions/marseys/original/{name}.{format}"])
+			filename = f"files/assets/images/emojis/{name}.webp"
+			copyfile(new_path, filename)
+			process_image(filename, resize=200, trim=True)
+			purge_files_in_cache([f"https://{SITE}/e/{name}.webp", f"https://{SITE}/assets/images/emojis/{name}.webp", f"https://{SITE}/asset_submissions/marseys/original/{name}.{format}"])
+		
+		if tags and not marsey.tags == tags:
+			marsey.tags = tags
+			g.db.add(marsey)
+			pass
+		
+		if not file and not tags:
+			return error("You need to update this marsey!")
 
 		ma = ModAction(
 			kind="update_marsey",
@@ -378,14 +396,12 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 		)
 		g.db.add(ma)
 
-		return render_template("update_assets.html", v=v, msg=f"'{name}' updated successfully!", type="Marsey")
-
-
+		return render_template("update_assets.html", v=v, msg=f"'{name}' updated successfully!", name=name, tags=tags, type="Marsey")
 
 	@app.get("/admin/update/hats")
 	@admin_level_required(PERMS['UPDATE_HATS'])
 	def update_hats(v):
-		if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, GEESE_ID, SNAKES_ID):
+		if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
 			abort(403)
 
 		return render_template("update_assets.html", v=v, type="Hat")
