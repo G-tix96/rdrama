@@ -329,8 +329,8 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 		name = request.values.get('name')
 		tags = None
 		error = None
-		if request.values.get('name'):
-			marsey = g.db.get(Marsey).filter_by(name=name).one_or_none()
+		if name:
+			marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
 			if marsey:
 				tags = marsey.tags
 			else:
