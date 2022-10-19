@@ -1239,3 +1239,5 @@ forced_hats = {
 	"is_suspended": ("Behind Bars", "This user is banned and needs to do better!"),
 	"agendaposter": ("Egg_irl", "This user is getting in touch with xir identity!")
 }
+
+EMAIL_REGEX_PATTERN = '[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63}'
