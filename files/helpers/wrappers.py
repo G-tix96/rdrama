@@ -63,11 +63,6 @@ def get_logged_in_user():
 		abort(403)
 
 
-	if not session.get("session_id"):
-		session.permanent = True
-		session["session_id"] = secrets.token_hex(49)
-
-
 	g.v = v
 
 	if v:

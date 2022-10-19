@@ -109,6 +109,10 @@ def before_request():
 	request.full_path = request.full_path.rstrip('?').rstrip('/')
 	if not request.full_path: request.full_path = '/'
 
+	if not session.get("session_id"):
+		session.permanent = True
+		session["session_id"] = secrets.token_hex(49)
+
 @app.after_request
 def after_request(response):
 	response.headers.add("Strict-Transport-Security", "max-age=31536000")
