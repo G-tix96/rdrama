@@ -152,10 +152,18 @@ function buy(mb) {
 }
 
 function giveaward(t) {
+	const kind = document.getElementById('kind').value;
 	post_toast_callback(t.dataset.action,
 		{
-		"kind": document.getElementById('kind').value,
+		"kind": kind,
 		"note": document.getElementById('note').value
-		}
+		},
+		(xhr) => {
+			if(xhr.status == 200) {
+				let owned = document.getElementById(`${kind}-owned`)
+				let ownednum = Number(owned.textContent);
+				owned.textContent = ownednum - 1	
+			}
+		}	
 	);
 }
