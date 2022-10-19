@@ -350,12 +350,12 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 		tags = request.values.get('tags').lower().strip()
 
 		def error(error):
-			return render_template("update_assets.html", v=v, error=error, type="Marsey")
+			return render_template("update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
 
 		if not marsey_regex.fullmatch(name):
 			return error("Invalid name!")
 
-		existing = g.db.query(Marsey.name).filter_by(name=name).one_or_none()
+		existing = g.db.query(Marsey).filter_by(name=name).one_or_none()
 		if not existing:
 			return error("A marsey with this name doesn't exist!")
 
@@ -384,8 +384,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 		if tags and existing.tags != tags:
 			existing.tags = tags
 			g.db.add(existing)
-		
-		if not file and not tags:
+		elif not file:
 			return error("You need to update this marsey!")
 
 		ma = ModAction(
