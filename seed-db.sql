@@ -302,7 +302,6 @@ INSERT INTO public.hat_defs VALUES (807, 'The Capy', 'You''re the chosen one! No
 
 
 
-
 INSERT INTO public.hat_defs VALUES (965, 'FDJ', '"Jetzt bin ich ein Freier Deutsche Jugendfunktionär"', 2, 500, NULL, 1665686729);
 INSERT INTO public.hat_defs VALUES (969, 'Elite Pedo Sniper', 'The shemagh gives you +10 accuracy', 2, 500, NULL, 1665817338);
 INSERT INTO public.hat_defs VALUES (933, 'Rascal', 'See this person 3 times and they have to give you something-Minecraft MV22', 2, 500, NULL, 1665434625);
@@ -378,6 +377,7 @@ INSERT INTO public.hat_defs VALUES (838, 'Bats', 'Closest you''ll ever be to bat
 INSERT INTO public.hat_defs VALUES (839, 'Confetti', 'WOOOO you must be special you have confetti!', 2, 1000, NULL, 1665260585);
 INSERT INTO public.hat_defs VALUES (840, 'Crawling spider', 'AHHH SPIDER HIT IT', 2, 1000, NULL, 1665260749);
 INSERT INTO public.hat_defs VALUES (842, 'Cursor', 'You should click this users profile!', 2, 1000, NULL, 1665260982);
+INSERT INTO public.hat_defs VALUES (712, 'Thursday The 20th', '20% off on every Thursday. 30% off on the 20th of every month. 50% off on Thurday the 20th!', 2, 250, NULL, 1663434472);
 INSERT INTO public.hat_defs VALUES (699, 'Gendo', '"Get in the fucking robot, Marsey."', 2, 500, NULL, 1663431457);
 INSERT INTO public.hat_defs VALUES (698, 'Osama', 'Did you ever see that picture of the bin Laden family in the 70''s?', 2, 500, NULL, 1663431148);
 INSERT INTO public.hat_defs VALUES (690, 'Dragon Ball Scouter', 'It''s Over 9000!', 2, 500, NULL, 1663428978);
@@ -394,7 +394,6 @@ INSERT INTO public.hat_defs VALUES (706, 'Dolan', 'Gooby pls', 2, 500, NULL, 166
 INSERT INTO public.hat_defs VALUES (707, 'Live Tucker Reaction', 'Your look of concerned bewilderment will outrage millions.', 2, 500, NULL, 1663433476);
 INSERT INTO public.hat_defs VALUES (710, 'Neuron activation', 'Once the autism awakened, it never went away.', 2, 500, NULL, 1663433999);
 INSERT INTO public.hat_defs VALUES (711, 'Penguin Classics', 'Required Reading', 2, 500, NULL, 1663434089);
-INSERT INTO public.hat_defs VALUES (712, 'Thursday The 20th', '20% off on every Thursday. 30% off on the 20th of every month. 50% off on Thurday the 20th!', 2, 500, NULL, 1663434472);
 INSERT INTO public.hat_defs VALUES (713, 'Marseyrain', 'Gloomy day, hope the weather clears up', 2, 500, NULL, 1663439931);
 INSERT INTO public.hat_defs VALUES (2, 'Fur Hat', 'The first step on your path to fursuit ownership', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (4, 'Cat Ears II', 'Meow :3', 2, 500, NULL, 1662167687);
@@ -2832,6 +2831,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseywords',2,'longpost too long tldr reaction wordswordswords',NULL),
 ('marseyworldcup',2,'world cup soccer football winner sports champion',1663033833),
 ('marseyworried',2,'monkaw anxiety sweat panic scared sweaty sweating anxious nervous stressed',NULL),
+('marseywraith',2,'evil scary ghost halloween undead',1666281502),
 ('marseywrongthonk',2,'wrongthink hmmm thinking 1984 arrested police woke notice noticing',NULL),
 ('marseywtf',2,'scared reaction shook surprised shocked',NULL),
 ('marseywtf2',2,'shocked reaction wth disturbing disturbed what the fuck',NULL),
