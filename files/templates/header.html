@@ -13,8 +13,7 @@
 		}
 	</style>
 
-{{calc_users(v)}}
-{% if g.loggedin_counter and not err and (SITE_NAME in ('PCM','rDrama') or g.loggedin_counter+g.loggedout_counter > 100) %}
+{% if not err %}
 	<div class="srd">
 		{% if SITE_NAME == 'rDrama' %}
 			{% if range(1,5) | random == 1 %}
@@ -29,9 +28,11 @@
 					' headless horsemen currently horsing around',
 				]
 				-%}
+				{{calc_users(v)}}
 				{{g.loggedin_counter+g.loggedout_counter}} {{VISITORS_HERE_FLAVOR|random|safe}} ({{g.loggedin_counter}} logged in)
 			{% endif %}
 		{% else %}
+			{{calc_users(v)}}
 			{{g.loggedin_counter+g.loggedout_counter}} people here now ({{g.loggedin_counter}} logged in)
 		{% endif %}
 	</div>
@@ -237,14 +238,14 @@
 						<div class="px-2">
 							<a class="dropdown-item" href="{{v.url}}"><i class="fas fa-user-circle fa-fw mr-3"></i>My profile</a>
 							<a class="dropdown-item" href="/settings"><i class="fas fa-cog fa-fw mr-3"></i>Settings</a>
-							{% if FEATURES['PROCOINS'] %}
+							{% if FEATURES['PROCOINS'] and v.truecoins %}
 								<a class="dropdown-item" rel="nofollow noopener noreferrer" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 							{% endif %}
 
 							<button class="dropdown-item copy-link" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}"><i class="fas fa-user-friends fa-fw mr-3"></i>Invite friends</button>
 
 							{% if has_app -%}
-							<a class="dropdown-item" href="/assets/app_{{SITE_NAME}}_v2.4.apk"><i class="fab fa-android fa-fw mr-3"></i>Android app</a>
+							<a class="dropdown-item" href="/assets/app_{{SITE_NAME}}_v2.5.apk"><i class="fab fa-android fa-fw mr-3"></i>Android app</a>
 							{%- endif %}
 
 							<a class="dropdown-item" href="https://rdrama.net/h/changelog"><i class="fas fa-clipboard fa-fw mr-3"></i>Changelog</a>
@@ -253,10 +254,8 @@
 
 							<a class="dropdown-item" rel="nofollow noopener noreferrer" href="https://rdrama.net/post/18459"><i class="fas fa-bug fa-fw mr-3"></i>Bugs/Suggestions</a>
 
-							{% if SITE_NAME == 'rDrama' %}
-								<a rel="nofollow noopener noreferrer" class="dropdown-item" href="https://t.me/rdramanet"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Channel</a>
-								<a rel="nofollow noopener noreferrer" class="dropdown-item" href="https://t.me/+tOgq7xeeir83OTU0"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Chat</a>
-								<a class="dropdown-item" href="/discord"><i class="fab fa-discord fa-fw mr-3"></i>Discord</a>
+							{% if TELEGRAM_LINK != 'blahblahblah' %}
+								<a rel="nofollow noopener noreferrer" class="dropdown-item" href="{{TELEGRAM_LINK}}"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Channel</a>
 							{% endif %}
 
 							{% if SITE_NAME == 'rDrama' %}
@@ -299,7 +298,7 @@
 					<a class="nav-link" href="/settings"><i class="fas fa-cog fa-fw mr-3"></i>Settings</a>
 				</li>
 
-				{% if FEATURES['PROCOINS'] %}
+				{% if FEATURES['PROCOINS'] and v.truecoins %}
 					<a class="nav-item nav-link" rel="nofollow noopener noreferrer" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 				{% endif %}
 
@@ -310,7 +309,7 @@
 				{% endif %}
 
 				{% if has_app -%}
-					<a class="nav-item nav-link" href="/assets/app_{{SITE_NAME}}_v2.4.apk"><i class="fab fa-android fa-fw mr-3"></i>Android app</a>
+					<a class="nav-item nav-link" href="/assets/app_{{SITE_NAME}}_v2.5.apk"><i class="fab fa-android fa-fw mr-3"></i>Android app</a>
 				{%- endif %}
 
 				<a class="nav-item nav-link" href="https://rdrama.net/h/changelog"><i class="fas fa-clipboard fa-fw mr-3"></i>Changelog</a>
@@ -319,10 +318,8 @@
 
 				<a class="nav-item nav-link" rel="nofollow noopener noreferrer" href="https://rdrama.net/post/18459"><i class="fas fa-bug fa-fw mr-3"></i>Bugs/Suggestions</a>
 
-				{% if SITE_NAME == 'rDrama' %}
-					<a rel="nofollow noopener noreferrer" class="nav-item nav-link" href="https://t.me/rdramanet"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Channel</a>
-					<a rel="nofollow noopener noreferrer" class="nav-item nav-link" href="https://t.me/+tOgq7xeeir83OTU0"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Chat</a>
-					<a class="nav-item nav-link" href="/discord"><i class="fab fa-discord fa-fw mr-3"></i>Discord</a>
+				{% if TELEGRAM_LINK != 'blahblahblah' %}
+					<a rel="nofollow noopener noreferrer" class="nav-item nav-link" href="{{TELEGRAM_LINK}}"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Channel</a>
 				{% endif %}
 
 				{% if SITE_NAME == 'rDrama' %}<a class="nav-item nav-link" href="/archives"><i class="fas fa-book fa-fw mr-3"></i>Archives</a>{% endif %}

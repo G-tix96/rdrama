@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.4
+-- Dumped from database version 14.5
 -- Dumped by pg_dump version 14.5 (Ubuntu 14.5-1.pgdg20.04+1)
 
 SET statement_timeout = 0;
@@ -1020,7 +1020,9 @@ CREATE TABLE public.users (
     is_muted boolean DEFAULT false NOT NULL,
     coins_spent_on_hats integer DEFAULT 0 NOT NULL,
     rainbow integer,
-    spider integer
+    spider integer,
+    homoween_zombie character varying(7) DEFAULT 'HEALTHY'::character varying,
+    jumpscare integer DEFAULT 0 NOT NULL
 );
 
 

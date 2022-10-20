@@ -832,15 +832,15 @@
 					{% endif %}
 
 							{% if p.embed_url and "http" not in p.embed_url and "<" not in p.embed_url %}
-							<div id="crosspost-embed">
-							<div class="row no-gutters">
-								<div id="frontpage" class="col-12 pt-0">
-								<div class="posts" id="posts">
-									{{p.embed_url | post_embed(v) | safe}}
+								<div id="crosspost-embed" class="mb-3">
+									<div class="row no-gutters">
+										<div id="frontpage" class="col-12 pt-0">
+											<div class="posts" id="posts">
+												{{p.embed_url | post_embed(v) | safe}}
+											</div>
+										</div>
+									</div>
 								</div>
-								</div>
-							</div>
-							</div>
 							{% endif %}
 							<div class="d-none d-md-flex justify-content-between align-items-center mt-2">
 								<div class="post-actions mt-2">
@@ -927,7 +927,7 @@
 				{% endif %}
 				<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
 					{% if v %}
-						<span tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '1')" class="post-mobile-{{p.id}}-up mx-0 pr-1 arrow-up upvote-button post-{{p.id}}-up {% if voted==1 or v.id == AEVANN_ID %}active{% endif %}">
+						<span tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '1')" class="post-mobile-{{p.id}}-up mx-0 pr-1 arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}">
 						</span>
 					{% else %}
 						<span tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" onclick="location.href='/login?redirect={{request.path | urlencode}}';">
@@ -935,7 +935,7 @@
 						</span>
 					{% endif %}
 
-					<span class="post-mobile-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 or v.id == AEVANN_ID %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"style="cursor: default">{{score}}</span>
+					<span class="post-mobile-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"style="cursor: default">{{score}}</span>
 
 					{% if v %}
 						<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '-1')" class="post-mobile-{{p.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></span>
@@ -1014,7 +1014,7 @@
 				</div>
 				<a id="save-reply-to-{{p.fullname}}" role="button" form="reply-to-{{p.fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="post_comment('{{p.fullname}}');remove_dialog()">Comment</a>
 			</form>
-			<div id="form-preview-{{p.fullname}}" class="mb-3 mt-5"></div>
+			<div id="form-preview-{{p.fullname}}" class="preview mb-3 mt-5"></div>
 			<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
 		</div>
 	{% else %}

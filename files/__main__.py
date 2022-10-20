@@ -74,7 +74,6 @@ if not path.isfile(f'/site_settings.json'):
 
 @app.before_request
 def before_request():
-
 	g.agent = request.headers.get("User-Agent")
 	if not g.agent and request.path != '/kofi':
 		return 'Please use a "User-Agent" header!', 403
@@ -84,8 +83,12 @@ def before_request():
 
 	with open('/site_settings.json', 'r', encoding='utf_8') as f:
 		app.config['SETTINGS'] = json.load(f)
-
-	if request.host != app.config["SERVER_NAME"]: return {"error": "Unauthorized host provided."}, 403
+	### WPD TEMP ####
+	if request.host != app.config["SERVER_NAME"] and app.config["SERVER_NAME"] != "watchpeopledie.co":
+		return {"error": "Unauthorized host provided"}, 403
+	#### END WPD TEMP ####
+	# uncomment below after done with WPD migration
+	# if request.host != app.config["SERVER_NAME"]: return {"error": "Unauthorized host provided."}, 403
 	if request.headers.get("CF-Worker"): return {"error": "Cloudflare workers are not allowed to access this website."}, 403
 
 	if not app.config['SETTINGS']['Bots'] and request.headers.get("Authorization"): abort(403)
@@ -94,10 +97,21 @@ def before_request():
 	g.webview = '; wv) ' in ua
 	g.inferior_browser = 'iphone' in ua or 'ipad' in ua or 'ipod' in ua or 'mac os' in ua or ' firefox/' in ua
 
+	#### WPD TEMP #### temporary WPD migration logic: redirect to /
+	if request.host == 'watchpeopledie.co' and app.config["SERVER_NAME"] == "watchpeopledie.co":
+		request.path = request.path.rstrip('/')
+		if not request.path: request.path = '/'
+		if request.path != '/':
+			return redirect('/')
+	#### END WPD TEMP ####
 	request.path = request.path.rstrip('/')
 	if not request.path: request.path = '/'
 	request.full_path = request.full_path.rstrip('?').rstrip('/')
 	if not request.full_path: request.full_path = '/'
+
+	if not session.get("session_id"):
+		session.permanent = True
+		session["session_id"] = secrets.token_hex(49)
 
 @app.after_request
 def after_request(response):

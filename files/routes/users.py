@@ -26,7 +26,10 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
-	uid = int(uid)
+	try:
+		uid = int(uid)
+	except:
+		abort(404)
 
 	page = max(1, int(request.values.get("page", 1)))
 
@@ -36,7 +39,12 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	next_exists = len(listing) > 25
 	listing = listing[:25]
 
-	listing = get_posts(listing, v=v)
+	if cls == Submission:
+		listing = get_posts(listing, v=v)
+	elif cls == Comment:
+		listing = get_comments(listing, v=v)
+	else:
+		listing = []
 
 	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
 
@@ -68,7 +76,10 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	if u.is_private and (not v or (v.id != u.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye)): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
-	uid = int(uid)
+	try:
+		uid = int(uid)
+	except:
+		abort(404)
 
 	page = max(1, int(request.values.get("page", 1)))
 
@@ -129,7 +140,12 @@ def user_voted(v, username, cls, vote_cls, vote_dir, template, standalone):
 	listing = [p.id for p in listing]
 	next_exists = len(listing) > 25
 	listing = listing[:25]
-	listing = get_posts(listing, v=v)
+	if cls == Submission:
+		listing = get_posts(listing, v=v)
+	elif cls == Comment:
+		listing = get_comments(listing, v=v)
+	else:
+		listing = []
 
 	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
 
@@ -142,14 +158,13 @@ def user_upvoted_posts(v, username):
 @app.get("/@<username>/upvoted/comments")
 @auth_required
 def user_upvoted_comments(v, username):
-	return user_voted(v, username, Comment, CommentVote, -1, "voted_comments.html", True)
+	return user_voted(v, username, Comment, CommentVote, 1, "voted_comments.html", True)
 
 
 @app.get("/poorcels")
 @auth_required
 def poorcels(v):
 	users = g.db.query(User).filter_by(poorcel=True).all()
-
 	return render_template("poorcels.html", v=v, users=users)
 
 
@@ -157,7 +172,6 @@ def poorcels(v):
 @auth_required
 def grassed(v):
 	users = g.db.query(User).filter(User.ban_reason.like('grass award used by @%')).all()
-
 	return render_template("grassed.html", v=v, users=users)
 
 @app.get("/chuds")
@@ -644,7 +658,7 @@ def messagereply(v):
 
 	if c.top_comment.sentto == 2:
 		admins = g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id)
-		if SITE == 'watchpeopledie.co':
+		if SITE == 'watchpeopledie.tv':
 			admins = admins.filter(User.id != AEVANN_ID)
 
 		admins = [x[0] for x in admins.all()]
@@ -719,7 +733,7 @@ def redditor_moment_redirect(username, v):
 @auth_required
 def followers(username, v):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.id == CARP_ID and SITE == 'watchpeopledie.co': abort(403)
+	if u.id == CARP_ID and SITE == 'watchpeopledie.tv': abort(403)
 
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
 		abort(403)
@@ -1189,7 +1203,11 @@ def kofi():
 	id = data['kofi_transaction_id']
 	created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
 	type = data['type']
-	amount = int(float(data['amount']))
+	amount = 0
+	try:
+		amount = int(float(data['amount']))
+	except:
+		abort(400, 'invalid amount')
 	email = data['email']
 
 	transaction = Transaction(
@@ -1229,7 +1247,6 @@ def settings_kofi(v):
 	tier = kofi_tiers[transaction.amount]
 
 	v.patron = tier
-	if v.discord_id: add_role(v, f"{tier}")
 
 	procoins = procoins_li[tier]
 

@@ -387,7 +387,7 @@ ACTIONTYPES = {
 		"color": 'bg-success'
 	},
 	'update_marsey': {
-		"str": 'updated marsey image', 
+		"str": 'updated marsey', 
 		"icon": 'fa-cat', 
 		"color": 'bg-success'
 	},

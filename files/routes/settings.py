@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 from files.helpers.alerts import *
 from files.helpers.sanitize import *
-from files.helpers.discord import remove_user, set_nick
 from files.helpers.const import *
 from files.helpers.regex import *
 from files.helpers.actions import *
@@ -13,7 +12,6 @@ import youtube_dl
 from .front import frontlist
 import os
 from files.helpers.sanitize import filter_emojis_only
-from files.helpers.discord import add_role
 from shutil import copyfile
 import requests
 import tldextract
@@ -367,7 +365,6 @@ def gumroad(v):
 	if existing: abort(400, f"{patron} rewards already claimed on another account")
 
 	v.patron = tier
-	if v.discord_id: add_role(v, f"{tier}")
 
 	v.procoins += procoins
 	send_repeatable_notification(v.id, f"You have received {procoins} Marseybux! You can use them to buy awards in the [shop](/shop).")
@@ -673,21 +670,6 @@ def settings_apps(v):
 
 	return render_template("settings_apps.html", v=v)
 
-
-@app.post("/settings/remove_discord")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
-@auth_required
-def settings_remove_discord(v):
-
-	remove_user(v)
-
-	v.discord_id=None
-	g.db.add(v)
-
-
-	return redirect("/settings/profile")
-
 @app.get("/settings/content")
 @auth_required
 def settings_content_get(v):
@@ -699,7 +681,6 @@ def settings_content_get(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def settings_name_change(v):
-
 	new_name=request.values.get("name").strip()
 
 	if new_name==v.username:
@@ -727,14 +708,9 @@ def settings_name_change(v):
 						error=f"Username `{new_name}` is already in use.")
 
 	v=get_account(v.id)
-
 	v.username=new_name
 	v.name_changed_utc=int(time.time())
-
-	set_nick(v, new_name)
-
 	g.db.add(v)
-
 
 	return redirect("/settings/profile")
 

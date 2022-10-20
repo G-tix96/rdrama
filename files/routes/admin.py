@@ -17,7 +17,6 @@ from flask import *
 from files.__main__ import app, cache, limiter
 from .front import frontlist
 from .login import check_for_alts
-from files.helpers.discord import add_role
 import datetime
 import requests
 from urllib.parse import quote, urlencode
@@ -530,7 +529,7 @@ def badge_grant_post(v):
 	try: badge_id = int(request.values.get("badge_id"))
 	except: abort(400)
 
-	if SITE == 'watchpeopledie.co' and badge_id not in {99,101}:
+	if SITE == 'watchpeopledie.tv' and badge_id not in {99,101}:
 		abort(403)
 
 	if badge_id in {16,17,21,22,23,24,25,26,27,94,95,96,97,98,109,137,67,68,83,84,87,90,140} and v.id != AEVANN_ID and SITE != 'pcmemes.net':
@@ -751,9 +750,8 @@ def alt_votes_get(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(PERMS['USER_LINK'])
 def admin_link_accounts(v):
-
-	u1 = int(request.values.get("u1"))
-	u2 = int(request.values.get("u2"))
+	u1 = get_account(request.values.get("u1")).id
+	u2 = get_account(request.values.get("u2")).id
 
 	new_alt = Alt(
 		user1=u1, 
@@ -1222,7 +1220,7 @@ def sticky_post(post_id, v):
 		if v.id != post.author_id:
 			send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has pinned [{post.title}](/post/{post_id})!")
 	else:
-		if pins >= PIN_LIMIT:
+		if pins >= PIN_LIMIT + 1:
 			abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
 		post.stickied_utc = None
 		pin_time = 'permanently'
@@ -1440,6 +1438,7 @@ def admin_toggle_ban_domain(v):
 		g.db.add(ma)
 
 	else:
+		if not reason: abort(400, 'Reason is required!')
 		d = BannedDomain(domain=domain, reason=reason)
 		g.db.add(d)
 		ma = ModAction(

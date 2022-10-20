@@ -9,15 +9,11 @@ from flask import request
 import tldextract
 from os import path
 
-
 SITE = environ.get("SITE").strip()
 SITE_NAME = environ.get("SITE_NAME").strip()
 SECRET_KEY = environ.get("SECRET_KEY").strip()
 PROXY_URL = environ.get("PROXY_URL").strip()
 GIPHY_KEY = environ.get('GIPHY_KEY').strip()
-DISCORD_SERVER_ID = environ.get("DISCORD_SERVER_ID").strip()
-DISCORD_CLIENT_ID = environ.get("DISCORD_CLIENT_ID").strip()
-DISCORD_CLIENT_SECRET = environ.get("DISCORD_CLIENT_SECRET").strip()
 DISCORD_BOT_TOKEN = environ.get("DISCORD_BOT_TOKEN").strip()
 HCAPTCHA_SITEKEY = environ.get("HCAPTCHA_SITEKEY").strip()
 HCAPTCHA_SECRET = environ.get("HCAPTCHA_SECRET").strip()
@@ -44,6 +40,7 @@ MAILGUN_KEY = environ.get("MAILGUN_KEY").strip()
 DESCRIPTION = environ.get("DESCRIPTION").strip()
 CF_KEY = environ.get("CF_KEY").strip()
 CF_ZONE = environ.get("CF_ZONE").strip()
+TELEGRAM_LINK = environ.get("TELEGRAM_LINK").strip()
 
 GLOBAL = environ.get("GLOBAL", "").strip()
 blackjack = environ.get("BLACKJACK", "").strip()
@@ -56,7 +53,7 @@ if SITE == "localhost": SITE_FULL = 'http://' + SITE
 else: SITE_FULL = 'https://' + SITE
 
 
-if SITE == 'pcmemes.net': CC = "SPLASH MOUNTAIN"
+if SITE_NAME == 'PCM': CC = "SPLASH MOUNTAIN"
 else: CC = "COUNTRY CLUB"
 CC_TITLE = CC.title()
 
@@ -94,7 +91,6 @@ SLURS = {
 	"tranny": '<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">',
 	"troon": '<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">',
 	"dyke": "cute lesbian",
-	"gook": "superior IQ Asian",
 	"kike": "jewish chad",
 	"daisy's destruction": "Cars 2",
 	"daisys destruction": "Cars 2",
@@ -108,17 +104,13 @@ if SITE_NAME == 'rDrama':
 		"pedophile": "libertarian",
 		"kill yourself": "keep yourself safe",
 		"steve akins": "penny verity oaken",
-		"nonewnormal": "HorseDewormerAddicts",
 		"latinos": "latinx",
 		"latino": "latinx",
 		"latinas": "latinx",
 		"latina": "latinx",
 		"hispanics": "latinx",
 		"hispanic": "latinx",
-		"lavon affair": "Lavon Misunderstanding",
-		"shylock": "Israeli friend",
 		"i hate marsey": "i love marsey",
-		"dancing israelis": "i love Israel",
 		"sodomite": "total dreamboat",
 		"pajeet": "sexy Indian dude",
 		"tenant": "renthog",
@@ -128,10 +120,6 @@ if SITE_NAME == 'rDrama':
 		"gamer": "g*mer",
 		"journalist": "journ*list",
 		"journalism": "journ*lism",
-		"wuhan flu": "SARS-CoV-2 syndemic",
-		"china flu": "SARS-CoV-2 syndemic",
-		"china virus": "SARS-CoV-2 syndemic",
-		"kung flu": "SARS-CoV-2 syndemic",
 		"elon musk": "rocket daddy",
 		"fake and gay": "fake and straight",
 		" rapist": " male feminist",
@@ -156,7 +144,7 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 <p>Don't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards the trans community. Feel free to resubmit your {type} with <code>{AGENDAPOSTER_PHRASE}</code> included.</p>
 <p><em>This is an automated message; if you need help, you can message us <a href="/contact">here</a>.</em></p>"""
 
-DISCORD_CHANGELOG_CHANNEL_IDS = [924485611715452940, 1013992002624426015]
+DISCORD_CHANGELOG_CHANNEL_IDS = [1022232469606498324]
 WPD_CHANNEL_ID = 1013990963846332456
 
 ################################################################################
@@ -326,7 +314,7 @@ EMOJI_MARSEYS = True
 EMOJI_SRCS = ['files/assets/emojis.json']
 
 PIN_LIMIT = 3
-POST_RATE_LIMIT = '1/second;2/minute;10/hour;50/day'
+POST_RATE_LIMIT = '1/second;10/hour;50/day'
 POST_TITLE_LENGTH_LIMIT = 500 # do not make larger than 500 without altering the table
 POST_TITLE_HTML_LENGTH_LIMIT = 1500 # do not make larger than 1500 without altering the table
 POST_BODY_LENGTH_LIMIT = 20000 # do not make larger than 20000 without altering the table
@@ -380,7 +368,6 @@ BLACKJACKBTZ_ID = 0
 POLL_THREAD = 0
 POLL_BET_COINS = 200
 WELCOME_MSG = f"Welcome to {SITE_NAME}!"
-ROLES={}
 
 LOTTERY_TICKET_COST = 12
 LOTTERY_SINK_RATE = 3
@@ -446,18 +433,7 @@ if SITE == 'rdrama.net':
 
 	POLL_THREAD = 79285
 
-	WELCOME_MSG = "Hi there! It's me, your soon-to-be favorite rDrama user @carpathianflorist here to give you a brief rundown on some of the sick features we have here. You'll probably want to start by following me, though. So go ahead and click my name and then smash that Follow button. This is actually really important, so go on. Hurry.\n\nThanks!\n\nNext up: If you're a member of the media, similarly just shoot me a DM and I'll set about verifying you and then we can take care of your sad journalism stuff.\n\n**FOR EVERYONE ELSE**\n\n Begin by navigating to [the settings page](/settings/profile) (we'll be prettying this up so it's less convoluted soon, don't worry) and getting some basic customization done.\n\n### Themes\n\nDefinitely change your theme right away, the default one (Midnight) is pretty enough, but why not use something *exotic* like Win98, or *flashy* like Tron? Even Coffee is super tasteful and way more fun than the default. More themes to come when we get around to it!\n\n### Avatar/pfp\n\nYou'll want to set this pretty soon. Set the banner too while you're at it. Your profile is important!\n\n### Flairs\n\nSince you're already on the settings page, you may as well set a flair, too. As with your username, you can - obviously - choose the color of this, either with a hex value or just from the preset colors. And also like your username, you can change this at any time. [Paypigs](https://marsey1.gumroad.com/l/rdrama) can even further relive the glory days of 90s-00s internet and set obnoxious signatures.\n\n### PROFILE ANTHEMS\n\nSpeaking of profiles, hey, remember MySpace? Do you miss autoplaying music assaulting your ears every time you visited a friend's page? Yeah, we brought that back. Enter a YouTube URL, wait a few seconds for it to process, and then BAM! you've got a profile anthem which people cannot mute. Unless they spend 20,000 dramacoin in the shop for a mute button. Which you can then remove from your profile by spending 40,000 dramacoin on an unmuteable anthem. Get fucked poors!\n\n### Dramacoin?\n\nDramacoin is basically our take on the karma system. Except unlike the karma system, it's not gay and boring and stupid and useless. Dramacoin can be spent at [Marsey's Dramacoin Emporium](/shop) on upgrades to your user experience (many more coming than what's already listed there), and best of all on tremendously annoying awards to fuck with your fellow dramautists. We're always adding more, so check back regularly in case you happen to miss one of the announcement posts.\n\nLike karma, dramacoin is obtained by getting upvotes on your threads and comments. *Unlike* karma, it's also obtained by getting downvotes on your threads and comments. Downvotes don't really do anything here - they pay the same amount of dramacoin and they increase thread/comment ranking just the same as an upvote. You just use them to express petty disapproval and hopefully start a fight. Because all votes are visible here. To hell with your anonymity.\n\nDramacoin can also be traded amongst users from their profiles. Note that there is a 3% transaction fee.\n\n### Badges\n\nRemember all those neat little metallic icons you saw on my profile when you were following me? If not, scroll back up and go have a look. And doublecheck to make sure you pressed the Follow button. Anyway, those are badges. You earn them by doing a variety of things. Some of them even offer benefits, like discounts at the shop. A [complete list of badges and their requirements can be found here](/badges), though I add more pretty regularly, so keep an eye on the [changelog](/h/changelog).\n\n### Other stuff\n\nWe're always adding new features, and we take a fun-first approach to development. If you have a suggestion for something that would be fun, funny, annoying - or best of all, some combination of all three - definitely make a thread about it. Or just DM me if you're shy. Weirdo. Anyway there's also the [leaderboards](/leaderboard), boring stuff like two-factor authentication you can toggle on somewhere in the settings page (psycho), the ability to save posts and comments, more than a thousand emojis already (most of which are rDrama originals), and on and on and on and on. This is just the basics, mostly to help you get acquainted with some of the things you can do here to make it more easy on the eyes, customizable, and enjoyable. If you don't enjoy it, just go away! We're not changing things to suit you! Get out of here loser! And no, you can't delete your account :na:\n\nI love you.<BR>*xoxo Carp* 💋"
-	ROLES={
-		"admin": "992254560330600508",
-		"linked": "890342909390520382",
-		"1": "868129042346414132",
-		"2": "875569477671067688",
-		"3": "869434199575236649",
-		"4": "868140288013664296",
-		"5": "947236580794450010",
-		"6": "947236351445725204",
-		"7": "886781932430565418",
-	}
+	WELCOME_MSG = "Hi there! It's me, your soon-to-be favorite rDrama user @carpathianflorist here to give you a brief rundown on some of the sick features we have here. You'll probably want to start by following me, though. So go ahead and click my name and then smash that Follow button. This is actually really important, so go on. Hurry.\n\nThanks!\n\nNext up: If you're a member of the media, similarly just shoot me a DM and I'll set about verifying you and then we can take care of your sad journalism stuff.\n\n**FOR EVERYONE ELSE**\n\n Begin by navigating to [the settings page](/settings/profile) (we'll be prettying this up so it's less convoluted soon, don't worry) and getting some basic customization done.\n\n### Themes\n\nDefinitely change your theme right away, the default one (Midnight) is pretty enough, but why not use something *exotic* like Win98, or *flashy* like Tron? Even Coffee is super tasteful and way more fun than the default. More themes to come when we get around to it!\n\n### Avatar/pfp\n\nYou'll want to set this pretty soon. Set the banner too while you're at it. Your profile is important!\n\n### Flairs\n\nSince you're already on the settings page, you may as well set a flair, too. As with your username, you can - obviously - choose the color of this, either with a hex value or just from the preset colors. And also like your username, you can change this at any time. Paypigs can even further relive the glory days of 90s-00s internet and set obnoxious signatures.\n\n### PROFILE ANTHEMS\n\nSpeaking of profiles, hey, remember MySpace? Do you miss autoplaying music assaulting your ears every time you visited a friend's page? Yeah, we brought that back. Enter a YouTube URL, wait a few seconds for it to process, and then BAM! you've got a profile anthem which people cannot mute. Unless they spend 20,000 dramacoin in the shop for a mute button. Which you can then remove from your profile by spending 40,000 dramacoin on an unmuteable anthem. Get fucked poors!\n\n### Dramacoin?\n\nDramacoin is basically our take on the karma system. Except unlike the karma system, it's not gay and boring and stupid and useless. Dramacoin can be spent at [Marsey's Dramacoin Emporium](/shop) on upgrades to your user experience (many more coming than what's already listed there), and best of all on tremendously annoying awards to fuck with your fellow dramautists. We're always adding more, so check back regularly in case you happen to miss one of the announcement posts.\n\nLike karma, dramacoin is obtained by getting upvotes on your threads and comments. *Unlike* karma, it's also obtained by getting downvotes on your threads and comments. Downvotes don't really do anything here - they pay the same amount of dramacoin and they increase thread/comment ranking just the same as an upvote. You just use them to express petty disapproval and hopefully start a fight. Because all votes are visible here. To hell with your anonymity.\n\nDramacoin can also be traded amongst users from their profiles. Note that there is a 3% transaction fee.\n\n### Badges\n\nRemember all those neat little metallic icons you saw on my profile when you were following me? If not, scroll back up and go have a look. And doublecheck to make sure you pressed the Follow button. Anyway, those are badges. You earn them by doing a variety of things. Some of them even offer benefits, like discounts at the shop. A [complete list of badges and their requirements can be found here](/badges), though I add more pretty regularly, so keep an eye on the [changelog](/h/changelog).\n\n### Other stuff\n\nWe're always adding new features, and we take a fun-first approach to development. If you have a suggestion for something that would be fun, funny, annoying - or best of all, some combination of all three - definitely make a thread about it. Or just DM me if you're shy. Weirdo. Anyway there's also the [leaderboards](/leaderboard), boring stuff like two-factor authentication you can toggle on somewhere in the settings page (psycho), the ability to save posts and comments, more than a thousand emojis already (most of which are rDrama originals), and on and on and on and on. This is just the basics, mostly to help you get acquainted with some of the things you can do here to make it more easy on the eyes, customizable, and enjoyable. If you don't enjoy it, just go away! We're not changing things to suit you! Get out of here loser! And no, you can't delete your account :na:\n\nI love you.<BR>*xoxo Carp* 💋"
 elif SITE == 'pcmemes.net':
 	PIN_LIMIT = 10
 	FEATURES['REPOST_DETECTION'] = False
@@ -487,12 +463,13 @@ elif SITE == 'pcmemes.net':
 	LOTTERY_SINK_RATE = -8
 
 	BANNER_THREAD = 28307
-elif SITE == 'watchpeopledie.co':
-	WELCOME_MSG = """Hi, you! Welcome to WatchPeopleDie.co, this really cool site where you can go to watch people die. I'm @CLiTPEELER! If you have any questions about how things work here, or suggestions on how to make them work better than they already do, definitely slide on into my DMs (no fat chicks).\nThere's an enormously robust suite of fun features we have here and we're always looking for more to add. Way, way too many to go over in an automated welcome message. And you're probably here for the videos of people dying more than any sort of weird, paradoxical digital community aspect anyway, so I won't bore you with a tedious overview of them. Just head on over to [your settings page](https://watchpeopledie.co/settings/profile) and have a look at some of the basic profile stuff, at least. You can change your profile picture, username, flair, colors, banners, bio, profile anthem (autoplaying song on your page, like it's MySpace or some shit, hell yeah), CSS, all sorts of things.\nOr you can just go back to the main feed and carry on with watching people die. That's what the site is for, after all. Have fun!\nThough, while I have your attention (realistically I probably don't; this is quite a lot of text) - if you'd like to fund WPD's continued existence in the face of commercial and governmental censors, it would be really cool if you'd stop by our [Kofi page](https://ko-fi.com/wpdco/tiers) and consider contributing some paltry sum each month to help us pay for hosting. *But only if you want*. **We do not serve ads. We will never serve ads. We do not sell data. We will never sell data. We do not paywall ANY usage of the site. We will never paywall ANY usage of the site.** Any and all contributions are strictly voluntary and should only be because you'd like to help the site continue to grow and thrive.\nAnyway, in closing, WPD is entirely open source. We don't really need new full-time coders or anything, but if you'd like to take a look at our repo - or even submit a PR to change, fix, or add some things - go right ahead! We are on [GitHub](https://github.com/Aevann1/rDrama).\nWell, that's all. Thanks again for signing up. It's an automated message and all, but I really do mean that. Thank you, specifically. I love you. Romantically. Deeply. Passionately.\nHave fun!"""
+elif SITE == 'watchpeopledie.tv':
+	WELCOME_MSG = """Hi, you! Welcome to WatchPeopleDie.tv, this really cool site where you can go to watch people die. I'm @CLiTPEELER! If you have any questions about how things work here, or suggestions on how to make them work better than they already do, definitely slide on into my DMs (no fat chicks).\nThere's an enormously robust suite of fun features we have here and we're always looking for more to add. Way, way too many to go over in an automated welcome message. And you're probably here for the videos of people dying more than any sort of weird, paradoxical digital community aspect anyway, so I won't bore you with a tedious overview of them. Just head on over to [your settings page](https://watchpeopledie.tv/settings/profile) and have a look at some of the basic profile stuff, at least. You can change your profile picture, username, flair, colors, banners, bio, profile anthem (autoplaying song on your page, like it's MySpace or some shit, hell yeah), CSS, all sorts of things.\nOr you can just go back to the main feed and carry on with watching people die. That's what the site is for, after all. Have fun!\nAnyway, in closing, WPD is entirely open source. We don't really need new full-time coders or anything, but if you'd like to take a look at our repo - or even submit a PR to change, fix, or add some things - go right ahead! We are on [GitHub](https://github.com/Aevann1/rDrama).\nWell, that's all. Thanks again for signing up. It's an automated message and all, but I really do mean that. Thank you, specifically. I love you. Romantically. Deeply. Passionately.\nHave fun!"""
 
 	FEATURES['PATRON_ICONS'] = True
 
 	PERMS['HOLE_CREATE'] = 2
+	PERMS['POST_EDITING'] = 2
 
 	SIDEBAR_THREAD = 5403
 	BANNER_THREAD = 9869
@@ -786,6 +763,14 @@ AWARDS = {
 		"color": "text-black",
 		"price": 777
 	},
+	"offsitementions": {
+		"kind": "offsitementions",
+		"title": "Y'all Seein' Eye",
+		"description": "Gives the recipient access to notifications when people off-site talk about us.",
+		"icon": "fas fa-eyes",
+		"color": "text-orange",
+		"price": 1000,
+	},
 	"lootbox": {
 		"kind": "lootbox",
 		"title": "Lootbox",
@@ -921,14 +906,6 @@ AWARDS = {
 		"icon": "fas fa-eye",
 		"color": "text-silver",
 		"price": 10000
-	},
-	"offsitementions": {
-		"kind": "offsitementions",
-		"title": "Y'all Seein' Eye",
-		"description": "Gives the recipient access to notifications when people off-site talk about us.",
-		"icon": "fas fa-eyes",
-		"color": "text-orange",
-		"price": 10000,
 	},
 	"unblockable": {
 		"kind": "unblockable",
@@ -1082,8 +1059,10 @@ for k, val in temp:
 if SITE_NAME != 'rDrama':
 	AWARDS_DISABLED.append('progressivestack')
 
-if SITE == 'pcmemes.net':
-	AWARDS_DISABLED.extend(['ban','pizzashill','marsey','bird','grass','chud','unblockable'])
+if SITE_NAME == 'PCM':
+	# Previous set of disabled, changed temporarily by request 2022-10-17
+	#AWARDS_DISABLED.extend(['ban','pizzashill','marsey','bird','grass','chud','unblockable'])
+	AWARDS_DISABLED.extend(['unblockable'])
 	AWARDS_DISABLED.remove('ghost')
 elif SITE_NAME == 'WPD':
 	AWARDS_DISABLED.remove('lootbox')
@@ -1148,6 +1127,7 @@ if SITE != 'localhost':
 
 if SITE == 'rdrama.net':
 	REDDIT_NOTIFS_SITE.add('marsey')
+	REDDIT_NOTIFS_SITE.add('"r/Drama"')
 	REDDIT_NOTIFS_USERS = {
 		'idio3': IDIO_ID,
 		'aevann': AEVANN_ID,
@@ -1155,6 +1135,7 @@ if SITE == 'rdrama.net':
 		'carpathianflorist': CARP_ID,
 		'carpathian florist': CARP_ID,
 		'the_homocracy': HOMO_ID,
+		'justcool393': JUSTCOOL_ID
 	}
 elif SITE_NAME == 'WPD':
 	REDDIT_NOTIFS_SITE.update({'watchpeopledie', 'makemycoffin'})
@@ -1213,7 +1194,7 @@ approved_embed_hosts = {
 	SITE,
 	'rdrama.net',
 	'pcmemes.net',
-	'watchpeopledie.co',
+	'watchpeopledie.tv',
 	'imgur.com',
 	'lain.la',
 	'pngfind.com',
@@ -1303,11 +1284,9 @@ tiers={
 	"(Jigsaw)": 6,
 	}
 
-DISCORD_WELCOME_CHANNEL = "846509313941700618"
-
 has_sidebar = path.exists(f'files/templates/sidebar_{SITE_NAME}.html')
 has_logo = path.exists(f'files/assets/images/{SITE_NAME}/logo.webp')
-has_app = path.exists(f'files/assets/app_{SITE_NAME}_v2.4.apk')
+has_app = path.exists(f'files/assets/app_{SITE_NAME}_v2.5.apk')
 
 ONLINE_STR = f'{SITE}_online'
 
@@ -1325,3 +1304,5 @@ forced_hats = {
 	"is_suspended": ("Behind Bars", "This user is banned and needs to do better!"),
 	"agendaposter": ("Clown Wig", "The tears of a chud")
 }
+
+EMAIL_REGEX_PATTERN = '[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63}'

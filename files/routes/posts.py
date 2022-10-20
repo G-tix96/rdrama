@@ -32,8 +32,6 @@ titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWe
 @auth_required
 @feature_required('COUNTRY_CLUB')
 def club_post(pid, v):
-	
-
 	post = get_post(pid)
 	if post.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']: abort(403)
 
@@ -58,10 +56,8 @@ def club_post(pid, v):
 @auth_required
 @feature_required('COUNTRY_CLUB')
 def unclub_post(pid, v):
-	
-
 	post = get_post(pid)
-	if post.author_id != v.id and v.admin_level < 2: abort(403)
+	if post.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']: abort(403)
 
 	if post.club:
 		post.club = False
@@ -106,9 +102,10 @@ def publish(pid, v):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
 
-	send_changelog_message(post.permalink)
+	if post.sub == 'changelog':
+		send_changelog_message(post.permalink)
 
-	if SITE == 'watchpeopledie.co':
+	if SITE == 'watchpeopledie.tv':
 		send_wpd_message(post.permalink)
 
 	execute_snappy(post, v)
@@ -272,8 +269,9 @@ def post_id(pid, anything=None, v=None, sub=None):
 def viewmore(v, pid, sort, offset):
 	post = get_post(pid, v=v)
 	if post.club and not (v and (v.paid_dues or v.id == post.author_id)): abort(403)
-
-	offset = int(offset)
+	try:
+		offset = int(offset)
+	except: abort(400)
 	try: ids = set(int(x) for x in request.values.get("ids").split(','))
 	except: abort(400)
 	
@@ -787,7 +785,7 @@ def submit_post(v, sub=None):
 			Submission.deleted_utc == 0,
 			Submission.is_banned == False
 		).first()
-		if repost and FEATURES['REPOST_DETECTION']:
+		if repost and FEATURES['REPOST_DETECTION'] and not v.admin_level:
 			return redirect(repost.permalink)
 
 		domain_obj = get_domain(domain)
@@ -883,6 +881,9 @@ def submit_post(v, sub=None):
 	else: ghost = False
 
 	if embed: embed = embed.strip()
+
+	if url and url.startswith(SITE_FULL):
+		url = url.split(SITE_FULL)[1]
 
 	post = Submission(
 		private=bool(request.values.get("private","")),
@@ -1035,7 +1036,7 @@ def submit_post(v, sub=None):
 	if post.sub == 'changelog' and not post.private:
 		send_changelog_message(post.permalink)
 
-	if not post.private and SITE == 'watchpeopledie.co':
+	if not post.private and SITE == 'watchpeopledie.tv':
 		send_wpd_message(post.permalink)
 
 	g.db.commit()

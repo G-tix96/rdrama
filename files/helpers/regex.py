@@ -50,7 +50,7 @@ emoji_regex3 = re.compile(f'(?<!"):([!@{valid_username_chars}]{{1,35}}?):', flag
 snappy_url_regex = re.compile('<a href="(https?:\/\/.+?)".*?>(.+?)<\/a>', flags=re.A)
 snappy_youtube_regex = re.compile('<lite-youtube videoid="(.+?)" params="autoplay=1', flags=re.A)
 
-email_regex = re.compile('[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}', flags=re.A|re.I)
+email_regex = re.compile(EMAIL_REGEX_PATTERN, flags=re.A)
 
 utm_regex = re.compile('utm_[0-z]+=[0-z_]+&', flags=re.A)
 utm_regex2 = re.compile('[?&]utm_[0-z]+=[0-z_]+', flags=re.A)

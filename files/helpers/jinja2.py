@@ -59,5 +59,6 @@ def inject_constants():
 			"KOFI_TOKEN":KOFI_TOKEN, "KOFI_LINK":KOFI_LINK,
 			"approved_embed_hosts":approved_embed_hosts,
 			"site_settings":app.config['SETTINGS'],
-			"EMAIL":EMAIL, "calc_users": calc_users, "bar_position": bar_position()
+			"EMAIL":EMAIL, "calc_users":calc_users, "TELEGRAM_LINK":TELEGRAM_LINK,
+			"EMAIL_REGEX_PATTERN":EMAIL_REGEX_PATTERN,
 			}

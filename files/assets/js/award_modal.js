@@ -107,7 +107,9 @@ function pick(kind, canbuy1, canbuy2) {
 	let ownednum = Number(document.getElementById(`${kind}-owned`).textContent);
 	document.getElementById('giveaward').disabled = (ownednum == 0);
 	document.getElementById('kind').value=kind;
-	try {document.getElementsByClassName('picked')[0].classList.toggle('picked');} catch(e) {console.log(e)}
+	if (document.getElementsByClassName('picked').length > 0) {
+		document.getElementsByClassName('picked')[0].classList.toggle('picked');
+	}
 	document.getElementById(kind).classList.toggle('picked')
 	if (kind == "flairlock") {
 		document.getElementById('notelabel').innerHTML = "New flair:";
@@ -135,7 +137,7 @@ function buy(mb) {
 		let data
 		try {data = JSON.parse(xhr[0].response)}
 		catch(e) {console.log(e)}
-		success = xhr[0].status >= 200 && xhr.status < 300;
+		success = xhr[0].status >= 200 && xhr[0].status < 300;
 		showToast(success, getMessageFromJsonData(success, data), true);
 		if (success) {
 			document.getElementById('giveaward').disabled=false;
@@ -150,10 +152,18 @@ function buy(mb) {
 }
 
 function giveaward(t) {
+	const kind = document.getElementById('kind').value;
 	post_toast_callback(t.dataset.action,
 		{
-		"kind": document.getElementById('kind').value,
+		"kind": kind,
 		"note": document.getElementById('note').value
-		}
+		},
+		(xhr) => {
+			if(xhr.status == 200) {
+				let owned = document.getElementById(`${kind}-owned`)
+				let ownednum = Number(owned.textContent);
+				owned.textContent = ownednum - 1	
+			}
+		}	
 	);
 }

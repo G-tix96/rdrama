@@ -9,13 +9,12 @@ from files.__main__ import app
 @app.post("/vote/post/option/<option_id>")
 @is_not_permabanned
 def vote_option(option_id, v):
-
-	option_id = int(option_id)
-
+	try:
+		option_id = int(option_id)
+	except:
+		abort(404)
 	option = g.db.get(SubmissionOption, option_id)
-
 	if not option: abort(404)
-
 	sub = option.post.sub
 
 	if sub in ('furry','vampire','racist','femboy') and not v.house.lower().startswith(sub):
@@ -54,15 +53,13 @@ def vote_option(option_id, v):
 @app.get("/votes/post/option/<option_id>")
 @auth_required
 def option_votes(option_id, v):
-
-	option_id = int(option_id)
-
+	try:
+		option_id = int(option_id)
+	except:
+		abort(404)
 	option = g.db.get(SubmissionOption, option_id)
-
 	if not option: abort(404)
-
 	if option.post.ghost: abort(403)
-
 	ups = g.db.query(SubmissionOptionVote).filter_by(option_id=option_id).order_by(SubmissionOptionVote.created_utc).all()
 
 	return render_template("poll_votes.html",
@@ -75,15 +72,13 @@ def option_votes(option_id, v):
 @app.post("/vote/comment/option/<option_id>")
 @is_not_permabanned
 def vote_option_comment(option_id, v):
-
-	option_id = int(option_id)
-
+	try:
+		option_id = int(option_id)
+	except:
+		abort(404)
 	option = g.db.get(CommentOption, option_id)
-
 	if not option: abort(404)
-
 	sub = option.comment.post.sub
-
 	if sub in ('furry','vampire','racist','femboy') and not v.house.lower().startswith(sub):
 		abort(403, f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}")
 
@@ -111,9 +106,10 @@ def vote_option_comment(option_id, v):
 @app.get("/votes/comment/option/<option_id>")
 @auth_required
 def option_votes_comment(option_id, v):
-
-	option_id = int(option_id)
-
+	try:
+		option_id = int(option_id)
+	except:
+		abort(404)
 	option = g.db.get(CommentOption, option_id)
 
 	if not option: abort(404)

@@ -9,11 +9,6 @@ import user_agents
 import time
 
 def calc_users(v):
-	# Some globals we expect aren't available when rendering error pages
-	if (not g or not hasattr(g, 'agent')
-			or not session or not ('session_id' in session)):
-		return ''
-
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
 	loggedout = cache.get(f'{SITE}_loggedout') or {}
 	timestamp = int(time.time())
@@ -68,11 +63,6 @@ def get_logged_in_user():
 		abort(403)
 
 
-	if not session.get("session_id"):
-		session.permanent = True
-		session["session_id"] = secrets.token_hex(49)
-
-
 	g.v = v
 
 	if v:
@@ -85,7 +75,7 @@ def get_logged_in_user():
 			g.db.add(v)
 
 	if AEVANN_ID and request.headers.get("Cf-Ipcountry") == 'EG':
-		if v and not v.username.startswith('Aev'):
+		if v and not v.username.startswith('Aev') and v.truecoins > 0:
 			with open(f"/eg", "r+", encoding="utf-8") as f:
 				ip = request.headers.get('CF-Connecting-IP')
 				if f'@{v.username}, ' not in f.read():
@@ -105,6 +95,11 @@ def auth_desired_with_logingate(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
 		if app.config['SETTINGS']['login_required'] and not v: abort(401)
+
+		#### WPD TEMP #### disable this /logged_out thing on .co
+		if request.host == 'watchpeopledie.co':
+			return make_response(f(*args, v=v, **kwargs))
+		#### END WPD TEMP ####
 
 		if not v and not request.path.startswith('/logged_out'):
 			return redirect(f"/logged_out{request.full_path}")

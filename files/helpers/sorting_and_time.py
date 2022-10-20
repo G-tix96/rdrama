@@ -47,7 +47,7 @@ def sort_objects(sort, objects, cls, include_shadowbanned=False):
 		return objects.order_by(cls.downvotes - cls.upvotes, cls.created_utc.desc())
 
 def make_age_string(compare:Optional[int]) -> str:
-	if not compare: return "never"
+	if not compare or compare < 1577865600: return ""
 	age = int(time.time()) - compare
 
 	if age < 60:

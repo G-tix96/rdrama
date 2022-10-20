@@ -36,13 +36,12 @@ def get_mentions(queries):
 	mentions = []
 	for kind, query in itertools.product(kinds, queries):
 		try:
-			data = requests.get(f'https://api.pushshift.io/reddit/{kind}/search?html_decode=true&q={query}&size=1', timeout=5).json()['data']
+			# Special cases: PokemonGoRaids says 'Marsey' a lot unrelated to us.
+			# SubSimulatorGPT2 is just bots
+			data = requests.get(f'https://api.pushshift.io/reddit/{kind}/search?html_decode=true&q={query}&subreddit=!PokemonGoRaids,!SubSimulatorGPT2&size=1', timeout=5).json()['data']
 		except: break
 
 		for i in data:
-			# Special case: PokemonGoRaids says 'Marsey' a lot unrelated to us.
-			if i['subreddit'] == 'PokemonGoRaids': continue
-
 			if kind == 'comment':
 				body = i["body"].replace('>', '> ')
 				text = f'<blockquote><p>{body}</p></blockquote>'

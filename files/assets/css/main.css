@@ -4850,7 +4850,7 @@ img[src="/i/hand.webp"]+img {
     transform-origin: bottom center;
     margin-top: 10%;
     text-align: center;
-    object-fit: cover;
+    object-fit: contain;
 }
 img[src="/i/hand.webp"]+img[src^="/pp/"], img[src="/i/hand.webp"]+img[src$="/pic"] {
 	border-radius: 50%;
@@ -6311,4 +6311,19 @@ div.markdown {
 	.emoji-modal, .awardmodal {
 		max-width: 90% !important
 	}	
+}
+
+.d-block {
+	display: block !important;
+}
+
+.popover-bio-div {
+	max-height: 50vh !important;
+	overflow: auto;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.popover-bio-div::-webkit-scrollbar {
+	background: transparent;
 }
