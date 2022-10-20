@@ -289,19 +289,6 @@ INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 5
 INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO OOO', 2, 500, NULL, 1664595865);
 INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
 INSERT INTO public.hat_defs VALUES (807, 'The Capy', 'You''re the chosen one! No one can hurt you!', 2, 500, NULL, 1665104052);
-
-
-
-
-
-
-
-
-
-
-
-
-
 INSERT INTO public.hat_defs VALUES (965, 'FDJ', '"Jetzt bin ich ein Freier Deutsche Jugendfunktionär"', 2, 500, NULL, 1665686729);
 INSERT INTO public.hat_defs VALUES (969, 'Elite Pedo Sniper', 'The shemagh gives you +10 accuracy', 2, 500, NULL, 1665817338);
 INSERT INTO public.hat_defs VALUES (933, 'Rascal', 'See this person 3 times and they have to give you something-Minecraft MV22', 2, 500, NULL, 1665434625);
@@ -335,6 +322,9 @@ INSERT INTO public.hat_defs VALUES (955, 'Gambler', 'PLAY THIS MAN IN BLACK JACK
 INSERT INTO public.hat_defs VALUES (890, 'Starfall', 'What a stary night!', 2, 1000, NULL, 1665340169);
 INSERT INTO public.hat_defs VALUES (888, 'Balloons I', '99 luftballons', 2, 1000, NULL, 1665339993);
 INSERT INTO public.hat_defs VALUES (889, 'Balloons II', 'Upular (LOOK THIS SONG UP IT IS SO GOOD)', 2, 1000, NULL, 1665340023);
+INSERT INTO public.hat_defs VALUES (963, 'Buried', 'You''re buried in sand?! HOW DID THIS HAPPEN?', 2, 500, NULL, 1665616459);
+INSERT INTO public.hat_defs VALUES (968, 'Bloody Tusks', '🐘🐘🐘🐘🐘🐘🐘🐘', 2, 500, NULL, 1665728710);
+INSERT INTO public.hat_defs VALUES (923, 'Bartman', 'Have a cow idfc', 2, 500, NULL, 1665425863);
 INSERT INTO public.hat_defs VALUES (714, 'Captain Falcon', 'The chad that every smash player wanted to imitate, if only his moveset included a shower.', 2, 500, NULL, 1663474615);
 INSERT INTO public.hat_defs VALUES (715, 'Inspector Gadget', '"Go go Gadget Brown Bricks!"', 2, 500, NULL, 1663477536);
 INSERT INTO public.hat_defs VALUES (724, 'Spartan Helmet', 'THIS IS SPARTA!', 2, 500, NULL, 1663892367);
@@ -416,12 +406,11 @@ INSERT INTO public.hat_defs VALUES (844, 'Snek Peek', 'When the friendly snek se
 INSERT INTO public.hat_defs VALUES (17, 'Viking', 'Rape, pillage, never bathe. Live the dream.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (532, 'Under His Eye', 'WATCH ANOTHER SHOW', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (845, 'Loading', 'please wait', 2, 1000, NULL, 1665261780);
-
-
-
-
 INSERT INTO public.hat_defs VALUES (921, 'Dishonored Overseer mask', 'Protect the dark one!', 2, 500, NULL, 1665422229);
 INSERT INTO public.hat_defs VALUES (893, 'Heart Poof', '*POOF POOF*', 2, 1000, NULL, 1665340533);
+INSERT INTO public.hat_defs VALUES (929, 'astolfo 2', 'Pretty pink hair!', 2, 500, NULL, 1665433847);
+INSERT INTO public.hat_defs VALUES (949, 'Kasa 1', 'Keeps the sun out your eyes but blinds you at the same time!', 2, 500, NULL, 1665609122);
+INSERT INTO public.hat_defs VALUES (951, 'Kasa 3', 'This is just a basket. What farmers wore this?? BLIND ONES?', 2, 500, NULL, 1665609168);
 INSERT INTO public.hat_defs VALUES (22, 'Southern Gentleman', 'Slaveowner? Fried chicken chain founder? You decide!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (23, 'Cowboy I', 'Make him wish he could quit you', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (24, 'Cowboy II', 'You''re my favorite deputy!', 2, 500, NULL, 1662167687);
@@ -507,9 +496,9 @@ INSERT INTO public.hat_defs VALUES (861, 'Bowl Cut', 'Who cut your hair? Your mo
 INSERT INTO public.hat_defs VALUES (866, 'Venom Mask', 'PUT THE TOUNGUE AWAY', 2, 500, NULL, 1665272503);
 INSERT INTO public.hat_defs VALUES (871, 'Kirby Beanie', 'Be careful he''ll swallow you', 2, 500, NULL, 1665272632);
 INSERT INTO public.hat_defs VALUES (872, 'Pinwheels', 'Holland hat holland hat', 2, 1000, NULL, 1665272653);
-
-
 INSERT INTO public.hat_defs VALUES (894, 'Jellyfish Fields', 'Great on Krabby Patties', 2, 1000, NULL, 1665340702);
+INSERT INTO public.hat_defs VALUES (884, 'Lightning strike', '*ZAP*', 2, 1000, NULL, 1665339450);
+INSERT INTO public.hat_defs VALUES (950, 'Kasa 2', 'The most known farmer hat from japan!', 2, 500, NULL, 1665609141);
 INSERT INTO public.hat_defs VALUES (631, 'Country Club Visor', 'What country club members wear when discussing your reddit account', 2, 500, NULL, 1663033011);
 INSERT INTO public.hat_defs VALUES (632, 'Jotaro Hat', 'The iconic cap of a buff punchy weebshit guy', 2, 500, NULL, 1663033206);
 INSERT INTO public.hat_defs VALUES (629, 'Marisas Big Witch Hat', 'Fascism is when witches wear big hats, the bigger the hat the more fascist you are.', 2, 500, NULL, 1663010108);
@@ -684,7 +673,6 @@ INSERT INTO public.hat_defs VALUES (415, 'WANTED', 'Dangerous thought criminal. 
 INSERT INTO public.hat_defs VALUES (421, 'Emperor Hat', 'Made in China', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (877, 'Reaper Hood I', 'Spooooooky!', 2, 500, NULL, 1665314511);
 INSERT INTO public.hat_defs VALUES (878, 'Reaper Hood II', 'Now with scythe!', 2, 500, NULL, 1665314534);
-
 INSERT INTO public.hat_defs VALUES (397, 'Funko Pop', '...and then he turned himself into Funko Pop. Funniest shit I ever saw.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (668, 'Maxwell Hat', 'Scribblethot', 2, 500, NULL, 1663279953);
 INSERT INTO public.hat_defs VALUES (543, 'Harkinian (Faces of Evil)', 'Marsey mah boy', 2, 500, NULL, 1662167687);
@@ -764,13 +752,7 @@ INSERT INTO public.hat_defs VALUES (571, 'Purple Emoji Crown', '💜💜💜when
 INSERT INTO public.hat_defs VALUES (570, 'Carl', 'based and dramapilled llama', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (828, 'monopoly thimbler', 'Even thimblier than the last one', 2, 500, NULL, 1665250441);
 INSERT INTO public.hat_defs VALUES (846, 'Twinkle', 'TWINKle', 2, 1000, NULL, 1665261883);
-
 INSERT INTO public.hat_defs VALUES (875, 'Aces Strawhat', 'Idfk what this is man why are you submitting these esoteric fucking hats with no indication of what they are AAAHHHHH', 2, 500, NULL, 1665314089);
-
-
-
-
-
 INSERT INTO public.hat_defs VALUES (531, 'Zen', 'follow the fish follow the fish follow the fish follow the fish follow the fish', 2, 1000, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (612, 'Wizard Hat (pixel)', 'Some sort of vidya thing idfk', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (614, 'Chickenhead', '🤗', 2, 500, NULL, 1662167687);
@@ -835,7 +817,9 @@ INSERT INTO public.hat_defs VALUES (284, 'The Gary Plauche', 'We can''t expect G
 INSERT INTO public.hat_defs VALUES (292, 'Marsey Smug Mask', 'I''m not seething, you''re seething', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (295, 'Pinkhat', 'It''s a hat and it''s pink and your nan looks adorable in it. Not you, though.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (400, 'Current Thing (support)', 'Slava Ukraini!', 2, 500, NULL, 1662167687);
-
+INSERT INTO public.hat_defs VALUES (881, 'Fedora (ice)', 'Cooool as ice😎', 2, 500, NULL, 1665327379);
+INSERT INTO public.hat_defs VALUES (885, 'Coin Fall (red)', 'ITS RAINING MONEYYYYYY', 2, 1000, NULL, 1665339781);
+INSERT INTO public.hat_defs VALUES (886, 'Coin Fall (green)', 'CHA-CHING!', 2, 1000, NULL, 1665339812);
 INSERT INTO public.hat_defs VALUES (847, 'Flaming Sword', '??????????', 2, 1000, NULL, 1665262102);
 INSERT INTO public.hat_defs VALUES (310, 'Bandit Bandana', 'This thread ain''t big enough fer the  of us', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (327, 'Ageplayer', 'It''s cool if it''s not your thing, just don''t yuck someone else''s yum :)', 2, 500, NULL, 1662167687);
@@ -928,15 +912,6 @@ INSERT INTO public.hat_defs VALUES (422, 'Booba', 'O_O', 2, 500, NULL, 166216768
 INSERT INTO public.hat_defs VALUES (409, 'AI Core', 'Thought this said AL Core for a minute like Al gore but no it''s ai like the robot thing and apparently it''s from a vidya so here we go description done 🤌', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (424, 'Pearl Clutcher', 'REEEEEEEEEEEEEEEEE', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (462, 'Rasta Hat', 'Jah bless', 2, 500, NULL, 1662167687);
-
-
-
-
-
-
-
-
-
 INSERT INTO public.hat_defs VALUES (895, 'Target practice', 'KEEP SHOOTING TILL THE BEAST IS DEAD', 2, 1000, NULL, 1665341399);
 INSERT INTO public.hat_defs VALUES (896, 'Cheers', 'HOORAY! All hail the special one!', 2, 1000, NULL, 1665341566);
 INSERT INTO public.hat_defs VALUES (897, 'Patrick Lick', 'You taste sweet', 2, 1000, NULL, 1665341627);
@@ -1007,6 +982,13 @@ INSERT INTO public.hat_defs VALUES (901, 'Wombat', 'Multipurpose head wombat', 2
 INSERT INTO public.hat_defs VALUES (904, 'RIP BOZO', 'Rest in piss faggot', 2, 500, NULL, 1665348882);
 INSERT INTO public.hat_defs VALUES (905, 'The Poo', '💩💩💩💩💩💩💩💩', 2, 500, NULL, 1665349075);
 INSERT INTO public.hat_defs VALUES (910, 'Rocket League', 'Time for car FOOTBALL!', 2, 1000, NULL, 1665355493);
+INSERT INTO public.hat_defs VALUES (906, 'Lantern head', 'Light your path in inconvenient ways!', 2, 500, NULL, 1665349271);
+INSERT INTO public.hat_defs VALUES (900, 'Trapped', '😔😔😔', 2, 500, NULL, 1665343188);
+INSERT INTO public.hat_defs VALUES (907, 'Venus Flytrap', 'You''re a bug to this plant!', 2, 1000, NULL, 1665350150);
+INSERT INTO public.hat_defs VALUES (908, 'Psychedelic', 'Trippy and Pretty!', 2, 1000, NULL, 1665350405);
+INSERT INTO public.hat_defs VALUES (909, 'Nicholas Cage Vore', 'Face/off', 2, 500, NULL, 1665350658);
+INSERT INTO public.hat_defs VALUES (916, 'Blood Rain', 'Mmmmm.', 2, 1000, NULL, 1665356178);
+INSERT INTO public.hat_defs VALUES (915, 'Top Hat (double rainbow)', 'Double the rainbow double the pride', 2, 1000, NULL, 1665356065);
 INSERT INTO public.hat_defs VALUES (473, 'Warning Tape', 'This user is a walking red flag', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (474, 'The Merchant', 'What did he mean by this? 🤔', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (475, 'Stickbug', 'Lookit this lil fella go', 2, 1000, NULL, 1662167687);
@@ -1072,9 +1054,9 @@ INSERT INTO public.hat_defs VALUES (479, 'Pizza Hut', 'For when ‘good enough''
 INSERT INTO public.hat_defs VALUES (484, 'Slav-sya', 'Enough about human rights, let''s talk about human wrongs', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (501, 'Dancing Marsey', 'Omg she''s so happy lookit her GO', 2, 1000, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t Crusader Kings, stop it', 2, 500, NULL, 1662167687);
-
-
-
+INSERT INTO public.hat_defs VALUES (902, 'Shovel Knight', 'Cosplay as the shovel man himself!', 2, 500, NULL, 1665347426);
+INSERT INTO public.hat_defs VALUES (917, 'Bell Pepper (red)', 'Now you can cosplay as a bell pepper and make mama proud!', 2, 500, NULL, 1665417006);
+INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with my wife', 2, 500, NULL, 1665355513);
 
 
 --
@@ -1793,6 +1775,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseygeisha',2,'foid birthing person girl woman girl lady slut thot noodlewhore chink jap gook asian azn blow kiss blowing kiss blowkiss love heart stockings nylons fishnets',NULL),
 ('marseygenetakovic',2,'bcs better call saul breaking bad disguise cinnabon gene',1664491944),
 ('marseyghost',2,'spooky halloween costume holiday scary sheet',NULL),
+('marseyghostface',2,'ghostface scary halloween horror scream knife killer',1666281841),
+('marseyghostface2',2,'ghostface scary scream wassup',1666295002),
 ('marseygift',2,'present christmas wrapping paper holiday',NULL),
 ('marseygigachad',2,'reaction hunter eyes canthal tilt jawline',NULL),
 ('marseygigaretard',2,'idiot neurodivergent dumb stupid drooling moron puddle',NULL),
@@ -2694,6 +2678,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseytherapist',2,'therapy writing mental illness',NULL),
 ('marseythief',2,'steal final fantasy video game vidya',NULL),
 ('marseything',2,'halloween holiday scary monster teeth',NULL),
+('marseythinkinghallowseve',2,'halloween thinking vampire candy',1666292942),
 ('marseythinkorino',2,'reaction judgment thinking',NULL),
 ('marseythomas',2,'tank engine train locomotive',NULL),
 ('marseythonk',2,'confused reaction thinking thunk thonk',NULL),
@@ -2783,7 +2768,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyvaxmaxx',2,'mask coronavirus covid gigavax corona vaccine vaccination hazmat',NULL),
 ('marseyvelociraptor',2,'dinosaur velocimarsey extinct predator claws',NULL),
 ('marseyvengeance',2,'gore undead shotgun horror halloween revenge monster bloody head wound holiday',NULL),
-('marseyveryworried',2,'worry anxiety fear animated scared sweat yikes',NULL),
+('marseyveryworried',2,'worry anxiety fear animated scared sweat yikes shook',NULL),
+('marseyveryworriedfed',2,'spook cia fbi glowie glownigger atf afraid shook animated worry anxiety fear animated scared sweat yikes',1666282095),
 ('marseyvibing',2,'animated bopping vibe jam dancing headbang music rainbow dance',NULL),
 ('marseyvietnam',2,'army born to kill soldier war',NULL),
 ('marseyvirus',2,'phage infect infection plagued',NULL),
@@ -2831,7 +2817,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseywords',2,'longpost too long tldr reaction wordswordswords',NULL),
 ('marseyworldcup',2,'world cup soccer football winner sports champion',1663033833),
 ('marseyworried',2,'monkaw anxiety sweat panic scared sweaty sweating anxious nervous stressed',NULL),
-('marseywraith',2,'evil scary ghost halloween undead',1666281502),
+('marseywraith',2,'evil scary ghost halloween undead horror',1666281502),
 ('marseywrongthonk',2,'wrongthink hmmm thinking 1984 arrested police woke notice noticing',NULL),
 ('marseywtf',2,'scared reaction shook surprised shocked',NULL),
 ('marseywtf2',2,'shocked reaction wth disturbing disturbed what the fuck',NULL),
@@ -2855,6 +2841,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyzaku',2,'gundam mecha robot helmet mask',NULL),
 ('marseyzizek',2,'zizek philosophy philosopher communism marxism nose slovenian slavic critique',NULL),
 ('marseyzodiac',2,'zodiac killer zodiackiller tedcruz ted cruz murderer crazy mask gun shooter shooting death',NULL),
+('marseyzodiac2',2,'halloween killer zodiac tedcruise gun horror violence serial',1666290517),
 ('marseyzombie',2,'dead undead eye horror intestines halloween holiday monster',NULL),
 ('marseyzombie2',2,'undead living dead romero halloween horror corpse scary rotten',NULL),
 ('marseyzombiewolfamogus',2,'amongus among us stonetoss sussy baka imposter impostor fraud fake phony',NULL),
