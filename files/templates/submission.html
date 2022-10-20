@@ -322,7 +322,11 @@
 
 
 <!-- homoween -->
-{% include "halloween/awards.html" %}
+{% if not (v and v.poorcel) %}
+	{% include "halloween/awards.html" %}
+{% else %}
+	{% include "halloween/awards_eco.html" %}
+{% endif %}
 
 
 {% if p.award_count("train", v) or p.award_count("scooter", v) %}
@@ -595,6 +599,10 @@
 	{% include "post_admin_actions_mobile.html" %}
 {% endif %}
 
+{% endblock %}
+
+{% block hauntBg %}
+<div id="haunt-bg"></div>
 {% endblock %}
 
 {% block content %}
