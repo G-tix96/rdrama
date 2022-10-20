@@ -60,5 +60,5 @@ def inject_constants():
 			"approved_embed_hosts":approved_embed_hosts,
 			"site_settings":app.config['SETTINGS'],
 			"EMAIL":EMAIL, "calc_users":calc_users, "TELEGRAM_LINK":TELEGRAM_LINK,
-			"EMAIL_REGEX_PATTERN":EMAIL_REGEX_PATTERN,
+			"EMAIL_REGEX_PATTERN":EMAIL_REGEX_PATTERN, "bar_position": bar_position()
 			}
