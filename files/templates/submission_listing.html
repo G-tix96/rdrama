@@ -330,9 +330,7 @@
 		</div>
 	{% elif p.is_video %}
 		<div id="video-{{p.id}}" style="text-align: center" class="{% if p.over_18 or not ((v and v.cardview) or (not v and CARD_VIEW)) %}d-none{% endif %} mt-4">
-			<video id="video2-{{p.id}}" controls preload="none">
-				<source src="{{p.realurl(v)}}">
-			</video>
+			<video id="video2-{{p.id}}" controls preload="none" src="{{p.realurl(v)}}"></video>
 		</div>
 	{% elif p.is_audio %}
 		<div id="video-{{p.id}}" style="text-align: center" class="{% if p.over_18 or not ((v and v.cardview) or (not v and CARD_VIEW)) %}d-none{% endif %} mt-4">
