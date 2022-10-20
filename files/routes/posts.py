@@ -785,7 +785,7 @@ def submit_post(v, sub=None):
 			Submission.deleted_utc == 0,
 			Submission.is_banned == False
 		).first()
-		if repost and FEATURES['REPOST_DETECTION'] and not v.admin_level:
+		if repost and FEATURES['REPOST_DETECTION'] and not v.admin_level >= PERMS['POST_BYPASS_REPOST_CHECKING']:
 			return redirect(repost.permalink)
 
 		domain_obj = get_domain(domain)
