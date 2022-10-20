@@ -582,9 +582,7 @@ def message2(v, username):
 @limiter.limit("1/second;6/minute;50/hour;200/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def messagereply(v):
-	body = request.values.get("body", "").strip().replace('‎','')
-	body = body.replace('\r\n', '\n')[:COMMENT_BODY_LENGTH_LIMIT]
-
+	body = sanitize_raw_body(request.values.get("body"), False)
 	if not body and not request.files.get("file"): abort(400, "Message is empty!")
 
 	if 'linkedin.com' in body: abort(403, "This domain 'linkedin.com' is banned")
