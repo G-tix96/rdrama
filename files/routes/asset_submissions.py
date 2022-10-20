@@ -166,7 +166,9 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 
 	def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
 		if cls not in ASSET_TYPES: raise Exception("not a valid asset type")
-		name = name.lower().strip()
+		should_make_lower = cls == HatDef
+		if should_make_lower: name = name.lower()
+		name = name.strip()
 		if not name:
 			abort(400, f"You need to specify a {type_name}!")
 		asset = g.db.query(cls).filter_by(name=name).one_or_none()
