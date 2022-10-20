@@ -518,12 +518,9 @@ def message2(v, username):
 	if v.admin_level <= PERMS['MESSAGE_BLOCKED_USERS'] and hasattr(user, 'is_blocked') and user.is_blocked:
 		abort(403, "This user is blocking you.")
 
-	message = request.values.get("message", "").strip()[:10000].strip()
-
+	message = sanitize_raw_body(request.values.get("message"), False)
 	if not message: abort(400, "Message is empty!")
-
 	if 'linkedin.com' in message: abort(403, "This domain 'linkedin.com' is banned.")
-
 	if 'discord.gg' in message or 'discord.com' in message or 'discordapp.com' in message:
 		abort(403, "Stop grooming!")
 
@@ -544,7 +541,6 @@ def message2(v, username):
 						body_html=body_html
 						)
 	g.db.add(c)
-
 	g.db.flush()
 
 	if blackjack and any(i in c.body_html.lower() for i in blackjack.split()):
