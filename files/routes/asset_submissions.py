@@ -166,7 +166,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 
 	def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
 		if cls not in ASSET_TYPES: raise Exception("not a valid asset type")
-		should_make_lower = cls == HatDef
+		should_make_lower = cls == Marsey
 		if should_make_lower: name = name.lower()
 		name = name.strip()
 		if not name:
