@@ -2217,6 +2217,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyorthodoxcarphug',2,'schismatic heretic embrace hug love bartholomew carpathianflorist',NULL),
 ('marseyorthodoxsmug',2,'schismatic heretic scoff christian priest gloat',NULL),
 ('marseyotter',2,'otter fish sea swim lake nature seal sealion river. wuzizname float',NULL),
+('marseyouroboros',2,'onelargesnakeeatingitsowntail',1666219885),
 ('marseyoutletsuicide',2,'fork outlet plug socket kill kms electricity electrocution electrocute death die',NULL),
 ('marseyoutline',2,'blank empty void',NULL),
 ('marseyoverseether',2,'rdrama meta seething fire red bigmad angry anger',NULL),
