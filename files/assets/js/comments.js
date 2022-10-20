@@ -1,6 +1,5 @@
 function poll_vote_no_v() {
-	document.getElementById('toast-post-error-text').innerText = "Only logged-in users can vote!";
-	bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
+	showToast(false, "Only logged-in users can vote!");
 }
 
 function expandMarkdown(id,type) {
