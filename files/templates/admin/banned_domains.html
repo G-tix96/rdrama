@@ -10,28 +10,43 @@
 
 </pre>
 
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-	<thead class="bg-primary text-white">
-		<tr>
-			<th>Domain</th>
-			<th>Ban reason</th>
-		</tr>
-	</thead>
+<script>
+	function unbanDomain(t, domain) {
+		post_toast(t,'/admin/unban_domain/' + domain);
+		t.parentElement.parentElement.remove();
+	}
+</script>
 
-	{% for domain in banned_domains %}
-		<tr>
-			<td>{{domain.domain}}</td>
-			<td>{{domain.reason}}</td>
-		</tr>
-	{% endfor %}
-</table>
+<div class="overflow-x-auto">
+	<table class="table table-striped mb-5" id="domains-table">
+		<thead class="bg-primary text-white">
+			<tr>
+				<th>Domain</th>
+				<th>Ban reason</th>
+				<th></th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{% for domain in banned_domains %}
+				<tr>
+					<td>{{domain.domain}}</td>
+					<td>{{domain.reason}}</td>
+					<td>
+						<button class="btn btn-danger" onclick="unbanDomain(this, '{{domain.domain}}')">Unban</button>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
 
-<form action="/admin/banned_domains" method="post">
-	<input type="hidden" name="formkey" value="{{v.formkey}}">
-	<input autocomplete="off" name="domain" placeholder="Enter domain here.." class="form-control" required>
-	<input autocomplete="off" name="reason" placeholder="Enter ban reason here.." oninput="document.getElementById('ban-submit').disabled=false" class="form-control">
-	<input autocomplete="off" id="ban-submit" type="submit" onclick="disable(this)" class="btn btn-primary" value="Toggle ban" disabled>
-</form>
+	<form action="/admin/ban_domain" method="post">
+		<input type="hidden" name="formkey" value="{{v.formkey}}">
+		<input autocomplete="off" name="domain" placeholder="Enter domain here.." class="form-control" required>
+		<input autocomplete="off" name="reason" placeholder="Enter ban reason here.." oninput="document.getElementById('ban-submit').disabled=false" class="form-control mt-2">
+		<input autocomplete="off" id="ban-submit" type="submit" onclick="disable(this)" class="btn btn-primary mt-2" value="Ban domain" disabled>
+	</form>
+</div>
 
 {% endblock %}

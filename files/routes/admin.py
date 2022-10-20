@@ -1417,28 +1417,19 @@ def admin_banned_domains(v):
 	banned_domains = g.db.query(BannedDomain).all()
 	return render_template("admin/banned_domains.html", v=v, banned_domains=banned_domains)
 
-@app.post("/admin/banned_domains")
+@app.post("/admin/ban_domain")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(PERMS['DOMAINS_BAN'])
-def admin_toggle_ban_domain(v):
+def ban_domain(v):
 
 	domain=request.values.get("domain", "").strip()
 	if not domain: abort(400)
 
 	reason=request.values.get("reason").strip()
+	if not reason: abort(400, 'Reason is required!')
 
-	d = g.db.query(BannedDomain).filter_by(domain=domain).one_or_none()
-	if d:
-		g.db.delete(d)
-		ma = ModAction(
-			kind="unban_domain",
-			user_id=v.id,
-			_note=domain
-		)
-		g.db.add(ma)
-
-	else:
-		if not reason: abort(400, 'Reason is required!')
+	existing = g.db.get(BannedDomain, domain)
+	if not existing:
 		d = BannedDomain(domain=domain, reason=reason)
 		g.db.add(d)
 		ma = ModAction(
@@ -1448,8 +1439,27 @@ def admin_toggle_ban_domain(v):
 		)
 		g.db.add(ma)
 
-
 	return redirect("/admin/banned_domains/")
+
+
+@app.post("/admin/unban_domain/<domain>")
+@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@admin_level_required(PERMS['DOMAINS_BAN'])
+def unban_domain(v, domain):
+	existing = g.db.get(BannedDomain, domain)
+	if not existing: abort(400, 'Domain is not banned!')
+	
+	g.db.delete(existing)
+	ma = ModAction(
+		kind="unban_domain",
+		user_id=v.id,
+		_note=domain
+	)
+	g.db.add(ma)
+
+	return {"message": f"{domain} has been unbanned!"}
+
+
 
 @app.post("/admin/nuke_user")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
