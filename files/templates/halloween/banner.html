@@ -1,7 +1,7 @@
 <a  rel="nofollow noopener noreferrer" href="{% if 'rama' in request.host %}https://youtu.be/3l7X94GLqSQ?t=16{% else %}/{% endif %}" style="text-decoration: none !important">
-  {% set banner_day = time.gmtime()[6] %}
-  {% if banner_day == 0 %}
-    {% set banner_day = 7 %}  
+  {% set banner_day = time.gmtime()[2]-21 %}
+  {% if banner_day < 1 %}
+    {% set banner_day = 1 %}  
   {% endif %}
   <link rel="stylesheet" href="{{'css/halloween/banner.css' | asset}}">
   {% if '/post/' not in request.path %}
@@ -215,23 +215,5 @@
 
 <!--debug-->
 {% if SITE == 'localhost' or SITE == 'devrama.net' %}
-<script defer>
-  function setBannerDay(day){
-    let sky = document.getElementById("banner-halloween-svg"),
-        moon = document.getElementById("banner-halloween-moon"),
-        house = document.getElementById("house-fill-gradient-stop"),
-        ground = document.getElementById("ground-gradient-stop"),
-        objects = document.getElementById("banner-halloween-objects"),
-        stars = document.getElementById("banner-halloween-stars")
-
-    sky.style.backgroundImage = "var(--sky-gradient-day"+day+")"
-    moon.style.fill = "var(--moon-fill-day"+day+")"
-    moon.style.filter = "var(--moon-shadow-day"+day+")"
-    moon.style.cy = "var(--moon-position-day"+day+")"
-    house.style.stopColor = "var(--house-shadow-day"+day+")"
-    ground.style.stopColor = "var(--ground-shadow-day"+day+")" 
-    objects.style.fill = "var(--object-fill-day"+day+")"
-    stars.style.opacity = "var(--star-opacity-day"+day+")"
-  }
-</script>
+<script defer src="{{'js/halloween/banner-debug.js' | asset}}"></script>
 {% endif %}

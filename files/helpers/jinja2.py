@@ -6,6 +6,7 @@ from .const import *
 import time
 from files.helpers.assetcache import assetcache_path
 from files.helpers.wrappers import calc_users
+import math
 
 @app.template_filter("post_embed")
 def post_embed(id, v):
@@ -31,6 +32,16 @@ def template_asset_siteimg(asset_path):
 def timestamp(timestamp):
 	return make_age_string(timestamp)
 
+def bar_position():
+    t = float(time.time())
+    f = 0.5 \
+        + 0.15 * math.sin((t + 35000) / 23000) \
+        + 0.10 * math.sin((t +  2500) / 11000) \
+        + 0.05 * math.sin((t +   500) /  7000) \
+        + 0.05 * math.sin((t +  6000) /  3000) \
+        + 0.02 * math.sin((t +  1000) /  1000)
+    return (int(f*100))
+
 @app.context_processor
 def inject_constants():
 	return {"environ":environ, "SITE":SITE, "SITE_NAME":SITE_NAME, "SITE_FULL":SITE_FULL,
@@ -48,5 +59,5 @@ def inject_constants():
 			"KOFI_TOKEN":KOFI_TOKEN, "KOFI_LINK":KOFI_LINK,
 			"approved_embed_hosts":approved_embed_hosts,
 			"site_settings":app.config['SETTINGS'],
-			"EMAIL":EMAIL, "calc_users": calc_users
+			"EMAIL":EMAIL, "calc_users": calc_users, "bar_position": bar_position()
 			}

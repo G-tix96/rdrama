@@ -263,25 +263,27 @@
 {% endif %}
 
 <!-- homoween audio -->
-{% set song = "assets/media/halloween/CARPENTER_MASTER.mp3" %}
-<script async>
-	const audio = new Audio("{{song}}");
-	audio.loop=true;
+{% if not (v and v.poorcel) %}
+	{% set song = "assets/media/halloween/CARPENTER_MASTER.mp3" %}
+	<script async>
+		const audio = new Audio("{{song}}");
+		audio.loop=true;
 
-	function play() {
-		audio.play();
-	}
+		function play() {
+			audio.play();
+		}
 
-	audio.loop=true;
+		audio.loop=true;
 
-	window.addEventListener('load', function() {
-		audio.play();
-		document.getElementById('frontpage').addEventListener('click', () => {
-			if (audio.paused) audio.play();
-		}, {once : true});
+		window.addEventListener('load', function() {
+			audio.play();
+			document.getElementById('frontpage').addEventListener('click', () => {
+				if (audio.paused) audio.play();
+			}, {once : true});
 
-	});
-</script>
+		});
+	</script>
+{% endif %}
 <!-- end homoween audio -->
 
 {% endblock %}

@@ -637,10 +637,10 @@
 
 var blood = Sketch.create({autoclear: false}),
     drops = [],
-    dropCount = 75,
+    dropCount = 25,
     Drop = function() {
       this.x = random(0,blood.width);
-      this.radius = random(2.5,5);
+      this.radius = random(5,10);
       this.y = -this.radius - random(10,50);
       this.vy = this.radius/3;
       this.r = ~~random(240,255);

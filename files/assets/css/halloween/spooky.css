@@ -450,7 +450,7 @@ body::after {
 
 /* Fog effect */
 .fog-effect {
-	opacity: 0.8;
+	opacity: 0.4;
 }
 
 #fog-effect {
@@ -799,9 +799,9 @@ body::after {
 	box-shadow: inset 0px 12px 2px #ffffff10;
 	backdrop-filter: blur(2px) brightness(101%);
 	margin-bottom: 40px;
-  }
-  
-  .progress::before {
+}
+
+.progress::before {
 	content: "\f48e";
 	font-family: "Font Awesome 6 Pro";
 	position: absolute;
@@ -809,8 +809,8 @@ body::after {
 	top: 2px;
 	font-size: 13px;
 	color: #fff;
-  }
-  .progress::after {
+}
+.progress::after {
 	content: "\f780";
 	font-family: "Font Awesome 6 Pro";
 	position: absolute;
@@ -818,9 +818,9 @@ body::after {
 	top: 2px;
 	font-size: 13px;
 	color: #fff;
-  }
-  
-  .progress > .legend {
+}
+
+.progress > .legend {
 	display: flex;
 	justify-content: space-between;
 	margin-top: 6px;
@@ -828,13 +828,13 @@ body::after {
 	color: #dc3545;
 	font-family: -apple-system,BlinkMacSystemFont,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
 	font-size: 12px;
-  }
-  
-  .progress > .legend span:nth-child(1) {
+}
+
+.progress > .legend span:nth-child(1) {
 	color: #59b1ec;
-  }
-  
-  .bar {
+}
+
+.bar {
 	width: var(--width);
 	height: 100%;
 	border-top-left-radius: 4px;
@@ -844,5 +844,5 @@ body::after {
 	box-shadow: inset 0px 12px 2px #ffffff20;
 	color: white;
 	text-align: center;
-  }
-  
+}
+

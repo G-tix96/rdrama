@@ -252,23 +252,25 @@
 
  <body id="{% if request.path != '/comments' %}{% block pagetype %}frontpage{% endblock %}{% endif %}" {% if SITE_NAME == 'rDrama' and v and (v.is_banned or v.agendaposter) %}style="overflow-x: hidden;background:url(/assets/images/backgrounds/anime/1.webp?v=3) center center fixed; background-color: var(--background)"{% elif v and v.background %}style="{% if path != '/formatting' %}overflow-x: hidden; {% endif %} background:url(/assets/images/backgrounds/{{v.background}}?v=3) center center fixed; background-color: var(--background){% if 'anime' not in v.background %};background-size: cover{% endif %}"{% endif %}>
 
-	{% block javascript %}
-	<script>
-		let upsidedown = localStorage.getItem('setting_upsidedown')
-		if(upsidedown == 'true'){
-			let script = document.createElement("script"),
-				styles = document.createElement("link")
+	{% if not (v and v.poorcel) %}
+		{% block javascript %}
+		<script>
+			let upsidedown = localStorage.getItem('setting_upsidedown')
+			if(upsidedown == 'true'){
+				let script = document.createElement("script"),
+					styles = document.createElement("link")
 
-			styles.setAttribute("rel", "stylesheet")
-			styles.setAttribute("href", "{{'css/halloween/upsidedown.css' | asset}}")
-			document.head.appendChild(styles)
+				styles.setAttribute("rel", "stylesheet")
+				styles.setAttribute("href", "{{'css/halloween/upsidedown.css' | asset}}")
+				document.head.appendChild(styles)
 
-			script.setAttribute("src", "{{'js/halloween/upsidedown.js' | asset}}")
-			document.head.appendChild(script)
-		}
-	</script>
-	{% endblock %}
-	<canvas id="canvas"></canvas>
+				script.setAttribute("src", "{{'js/halloween/upsidedown.js' | asset}}")
+				document.head.appendChild(script)
+			}
+		</script>
+		{% endblock %}
+		<canvas id="canvas"></canvas>
+	{% endif %}
 	
 	{% set jumpscare_path = "/halloween/jumpscares" %}
 	{% set audio_src = "/assets/media" + jumpscare_path + "/" + listdir('files/assets/media' + jumpscare_path)|random() + '?v=45' %}
@@ -414,7 +416,9 @@
 	<script defer src="{{'js/spider.js' | asset}}"></script>
 {% endif %}
 
+{% if not(v and v.poorcel) %}
 <script defer src="{{'js/halloween/eye-tracking.js' | asset}}" ></script>
+{% endif %}
 </body>
 
 </html>

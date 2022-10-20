@@ -237,7 +237,8 @@ class Submission(Base):
 
 	@lazy
 	def award_count(self, kind, v):
-		if v and v.poor:
+		hw_awards = ('haunt', 'stab', 'spiders', 'fog', 'flashlight', 'candy-corn', 'ectoplasm', 'bones', 'pumpkin')
+		if v and v.poor and kind not in hw_awards:
 			return 0
 		elif self.distinguish_level:
 			if SITE_NAME == 'rDrama' and kind in ('glowie', 'tilt',):

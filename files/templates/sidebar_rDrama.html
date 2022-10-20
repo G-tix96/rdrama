@@ -80,11 +80,11 @@
 
 	{% set healthy = range(50,70) | random %}
 	<div class="progress">
-		<div style="--width:{{healthy}}%;" class="bar"></div>
+		<div style="--width:{{bar_position}}%;" class="bar"></div>
 		<div class="legend">
 			<!-- Place tooltips to show exact count -->
-			<span>{{healthy}}% Healthy</span>
-			<span>{{100-healthy}}% Infected</span>
+			<span>{{bar_position}}% Healthy</span>
+			<span>{{100-bar_position}}% Infected</span>
 		</div>
 	</div>
 
