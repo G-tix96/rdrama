@@ -1,26 +1,9 @@
 {%- import 'util/helpers.html' as help -%}
+{%- import 'html_head.html' as html_head with context -%}
 <!DOCTYPE html>
 <html lang="en">
-
+{{html_head.html_head(false, false, false, none, none, '', '', false)}}
 <head>
-	<link rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
-
-	<meta name="description" content="{{DESCRIPTION}}">
-		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
-
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-		<meta name="author" content="">
-
-		<title>2-Step Login - {{SITE_NAME}}</title>
-
-		<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
-		<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-		<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
-
-</head>
-
 <body id="login">
 
 <div class="container-fluid position-absolute h-100 p-0 overflow-auto">

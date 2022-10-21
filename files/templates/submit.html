@@ -1,53 +1,8 @@
 {%- import 'util/helpers.html' as help -%}
+{%- import 'html_head.html' as html_head with context -%}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
-	<script defer src="{{'js/core.js' | asset}}"></script>
-
-	<meta name="description" content="{{DESCRIPTION}}">
-	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
-
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<meta name="author" content="">
-	<link rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
-
-	{% if SITE == 'pcmemes.net' %}
-		{% set cc='Splash Mountain' %}
-	{% else %}
-		{% set cc='Country Club' %}
-	{% endif %}
-
-	{% block title %}
-		<title>Create a post - {{SITE_NAME}}</title>
-	{% endblock %}
-
-	{% block stylesheets %}
-		{% if v %}
-			<style>:root{--primary:#{{v.themecolor}}}</style>
-			<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
-			{% if v.agendaposter %}
-				<style>
-					html {
-						cursor:url('/i/dildo.webp?v=2000'), auto;
-					}
-				</style>
-			{% elif v.css %}
-				<style>
-					{{v.css | safe}}
-				</style>
-			{% endif %}
-		{% else %}
-			<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
-			<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-			<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
-		{% endif %}
-	{% endblock %}
-</head>
-
+{{html_head.html_head(true, false, true, none, "Create a post", none, "", false)}}
 <body id="submit" {% if SITE_NAME == 'rDrama' and v and (v.is_banned or v.agendaposter) %}style="overflow-x: hidden;background:url(/assets/images/backgrounds/anime/1.webp?v=3) center center fixed; background-color: var(--background)"{% elif v and v.background %}style="overflow-x: hidden; background:url(/assets/images/backgrounds/{{v.background}}?v=3) center center fixed; background-color: var(--background)display: block{% if 'anime' not in v.background %};background-size: cover{% endif %}"{% endif %}>
 
 				{% include "header.html" %}
