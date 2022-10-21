@@ -2685,6 +2685,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseytherapist',2,'therapy writing mental illness',NULL),
 ('marseythief',2,'steal final fantasy video game vidya',NULL),
 ('marseything',2,'halloween holiday scary monster teeth',NULL),
+('marseything2',2,'spider arachnid creepy crawler arthropod halloween alien carpenter horror scary animal creature spooky',1666334228),
 ('marseythinkinghallowseve',2,'halloween thinking vampire candy trickortreat costume mask',1666292942),
 ('marseythinkorino',2,'reaction judgment thinking',NULL),
 ('marseythomas',2,'tank engine train locomotive',NULL),
