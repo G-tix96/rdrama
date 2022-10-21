@@ -358,7 +358,7 @@ def execute_antispam_submission_check(title, v, url):
 	return True
 
 def execute_blackjack(v, target, body, type):
-	if not blackjack: return
+	if not blackjack or not body: return True
 	if any(i in body.lower() for i in blackjack.split()):
 		v.shadowbanned = 'AutoJanny'
 		if not v.is_banned: v.ban_reason = f"Blackjack"
