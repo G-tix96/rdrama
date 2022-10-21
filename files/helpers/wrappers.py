@@ -97,7 +97,7 @@ def auth_desired_with_logingate(f):
 		if app.config['SETTINGS']['login_required'] and not v: abort(401)
 
 		#### WPD TEMP #### disable this /logged_out thing on .co
-		if SITE == 'watchpeopledie.co':
+		if request.host == 'watchpeopledie.co':
 			return make_response(f(*args, v=v, **kwargs))
 		#### END WPD TEMP ####
 

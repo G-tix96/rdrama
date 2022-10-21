@@ -21,13 +21,13 @@ def front_all(v, sub=None, subdomain=None):
 	from files.helpers.security import generate_hash, validate_hash
 	from datetime import datetime
 	now = datetime.utcnow()
-	if SITE == 'watchpeopledie.co':
+	if request.host == 'watchpeopledie.co':
 		if v and not v.admin_level and not v.id <= 9: # security: don't auto login admins or bots
 			hash = generate_hash(f'{v.id}+{now.year}+{now.month}+{now.day}+{now.hour}+WPDusermigration')
 			return redirect(f'https://watchpeopledie.tv/logged_out?user={v.id}&code={hash}', 301)
 		else:
 			return redirect('https://watchpeopledie.tv/logged_out', 301)
-	elif SITE == 'watchpeopledie.tv' and not v: # security: don't try to login people into accounts more than once
+	elif request.host == 'watchpeopledie.tv' and not v: # security: don't try to login people into accounts more than once
 		req_user = request.values.get('user')
 		req_code = request.values.get('code')
 		if req_user and req_code:
