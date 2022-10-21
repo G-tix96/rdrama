@@ -25,7 +25,6 @@
 		{{cf_2fa_verify()}}
 	{% endif %}
 	{% if 'chat' in request.path %}
-		<link id="favicon" rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
 		{% if SITE == 'localhost' %}
 			<link rel="stylesheet" href="https://rdrama.net/assets/css/chat_done.css">
 		{% else %}
@@ -81,7 +80,7 @@
 
 {% macro stylesheets(include_user_css, extra_css) %}
 	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-	<link rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
+	<link id="favicon" rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
 	{% if v %}
 		<style>:root{--primary:#{{v.themecolor}}}</style>
 		{% if v.agendaposter %}
