@@ -25,6 +25,7 @@
 		{{cf_2fa_verify()}}
 	{% endif %}
 	{% if 'chat' in request.path %}
+		<link id="favicon" rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
 		{% if SITE == 'localhost' %}
 			<link rel="stylesheet" href="https://rdrama.net/assets/css/chat_done.css">
 		{% else %}
