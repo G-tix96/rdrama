@@ -27,6 +27,7 @@ faulthandler.enable()
 app.config['SECRET_KEY'] = environ.get('SECRET_KEY').strip()
 SITE = environ.get("SITE").strip()
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 3153600
+app.config['SESSION_COOKIE_DOMAIN'] = SITE
 app.config["SESSION_COOKIE_NAME"] = "session_" + environ.get("SITE_NAME").strip().lower()
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
 app.config["SESSION_COOKIE_SECURE"] = True
@@ -39,7 +40,6 @@ app.config['SQLALCHEMY_DATABASE_URL'] = environ.get("DATABASE_URL").strip()
 
 app.config["CACHE_TYPE"] = "RedisCache"
 app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL").strip()
-
 
 app.config['SETTINGS'] = {}
 
