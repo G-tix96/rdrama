@@ -74,6 +74,9 @@ if not path.isfile(f'/site_settings.json'):
 
 @app.before_request
 def before_request():
+	if SITE == 'marsey.world' and request.path != '/kofi':
+		abort(404)
+
 	g.agent = request.headers.get("User-Agent")
 	if not g.agent and request.path != '/kofi':
 		return 'Please use a "User-Agent" header!', 403
