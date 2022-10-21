@@ -904,8 +904,8 @@ def submit_post(v, sub=None):
 	g.db.add(post)
 	g.db.flush()
 
-	for text in [p.body, p.title, p.url]:
-		if not execute_blackjack(v, p, text, 'submission'): break
+	for text in [post.body, post.title, post.url]:
+		if not execute_blackjack(v, post, text, 'submission'): break
 
 	for option in options:
 		option = SubmissionOption(
