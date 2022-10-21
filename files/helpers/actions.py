@@ -364,10 +364,9 @@ def execute_blackjack(v, target, body, type):
 		if not v.is_banned: v.ban_reason = f"Blackjack"
 		g.db.add(v)
 		notif = None
-		extra_info = None
+		extra_info = "unknown entity"
 		if type == 'submission':
 			extra_info = f"submission ({target.permalink})"
-			send_repeatable_notification(CARP_ID, target.permalink)
 		elif type == 'comment' or type == 'message':
 			extra_info = f"{type} ({target.permalink})"
 			notif = Notification(comment_id=target.id, user_id=CARP_ID)
@@ -375,8 +374,7 @@ def execute_blackjack(v, target, body, type):
 			extra_info = "chat message"
 		elif type == 'flag':
 			extra_info = f"reports on {target.permalink}"
-		else:
-			extra_info = "unknown entity"
+
 		if notif: 
 			g.db.add(notif)
 			g.db.flush()
