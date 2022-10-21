@@ -9,11 +9,6 @@
 {% endif %}
 {{html_head.html_head(true, true, true, csp, "Chat", none, "", false)}}
 <body>
-	{% if SITE == 'localhost' %}
-		<link rel="stylesheet" href="https://rdrama.net/assets/css/chat_done.css">
-	{% else %}
-		<link rel="stylesheet" href="{{'css/chat_done.css' | asset}}">
-	{% endif %}
 	{% include "header.html" %}
 	{% include "expanded_image_modal.html" %}
 	{% include "emoji_modal.html" %}
