@@ -86,12 +86,10 @@ def before_request():
 
 	with open('/site_settings.json', 'r', encoding='utf_8') as f:
 		app.config['SETTINGS'] = json.load(f)
-	### WPD TEMP ####
-	if request.host != SITE and SITE != "watchpeopledie.co":
+
+	if request.host != SITE:
 		return {"error": "Unauthorized host provided"}, 403
-	#### END WPD TEMP ####
-	# uncomment below after done with WPD migration
-	# if request.host != SITE: return {"error": "Unauthorized host provided."}, 403
+
 	if request.headers.get("CF-Worker"): return {"error": "Cloudflare workers are not allowed to access this website."}, 403
 
 	if not app.config['SETTINGS']['Bots'] and request.headers.get("Authorization"): abort(403)
@@ -101,12 +99,10 @@ def before_request():
 	g.inferior_browser = 'iphone' in ua or 'ipad' in ua or 'ipod' in ua or 'mac os' in ua or ' firefox/' in ua
 
 	#### WPD TEMP #### temporary WPD migration logic: redirect to /
-	if request.host == 'watchpeopledie.co' and SITE == "watchpeopledie.co":
-		request.path = request.path.rstrip('/')
-		if not request.path: request.path = '/'
-		if request.path != '/':
-			return redirect('/')
+	if SITE == "watchpeopledie.co" and request.path != '/':
+		return redirect('/')
 	#### END WPD TEMP ####
+
 	request.path = request.path.rstrip('/')
 	if not request.path: request.path = '/'
 	request.full_path = request.full_path.rstrip('?').rstrip('/')
