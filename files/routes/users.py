@@ -8,6 +8,7 @@ from files.helpers.alerts import *
 from files.helpers.sanitize import *
 from files.helpers.const import *
 from files.helpers.sorting_and_time import *
+from files.helpers.actions import *
 from files.mail import *
 from flask import *
 from files.__main__ import app, limiter, db_session
@@ -542,17 +543,7 @@ def message2(v, username):
 						)
 	g.db.add(c)
 	g.db.flush()
-
-	if blackjack and any(i in c.body_html.lower() for i in blackjack.split()):
-		v.shadowbanned = 'AutoJanny'
-		if not v.is_banned: v.ban_reason = 'Blackjack'
-		g.db.add(v)
-		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=CARP_ID).one_or_none()
-		if not notif:
-			notif = Notification(comment_id=c.id, user_id=CARP_ID)
-			g.db.add(notif)
-			g.db.flush()
-
+	execute_blackjack(v, c, c.body_html, 'message')
 	c.top_comment_id = c.id
 
 	if user.id not in bots:
@@ -619,16 +610,7 @@ def messagereply(v):
 							)
 	g.db.add(c)
 	g.db.flush()
-
-	if blackjack and any(i in c.body_html.lower() for i in blackjack.split()):
-		v.shadowbanned = 'AutoJanny'
-		if not v.is_banned: v.ban_reason = 'Blackjack'
-		g.db.add(v)
-		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=CARP_ID).one_or_none()
-		if not notif:
-			notif = Notification(comment_id=c.id, user_id=CARP_ID)
-			g.db.add(notif)
-			g.db.flush()
+	execute_blackjack(v, c, c.body_html, 'message')
 
 	if user_id and user_id not in (v.id, 2, bots):
 		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()

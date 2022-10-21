@@ -279,11 +279,7 @@ def comment(v):
 	g.db.add(c)
 	g.db.flush()
 
-	if blackjack and any(i in c.body.lower() for i in blackjack.split()):
-		v.shadowbanned = 'AutoJanny'
-		if not v.is_banned: v.ban_reason = 'Blackjack'
-		notif = Notification(comment_id=c.id, user_id=CARP_ID)
-		g.db.add(notif)
+	execute_blackjack(v, c, c.body, "comment")
 
 	if c.level == 1: c.top_comment_id = c.id
 	else: c.top_comment_id = parent.top_comment_id
@@ -308,18 +304,12 @@ def comment(v):
 		execute_basedbot(c, level, body, parent_submission, parent_post, v)
 
 	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and parent_post.sub != 'chudrama':
-
 		c.is_banned = True
 		c.ban_reason = "AutoJanny"
-
 		g.db.add(c)
 
-
 		body = AGENDAPOSTER_MSG.format(username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
-
 		body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
-
-
 
 		c_jannied = Comment(author_id=AUTOJANNY_ID,
 			parent_submission=parent_submission,
@@ -488,14 +478,7 @@ def edit_comment(cid, v):
 		c.body = body
 		c.body_html = body_html
 
-		if blackjack and any(i in c.body.lower() for i in blackjack.split()):
-			v.shadowbanned = 'AutoJanny'
-			if not v.is_banned: v.ban_reason = 'Blackjack'
-			g.db.add(v)
-			notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=CARP_ID).one_or_none()
-			if not notif:
-				notif = Notification(comment_id=c.id, user_id=CARP_ID)
-				g.db.add(notif)
+		execute_blackjack(v, c, c.body, "comment")
 
 		if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and c.post.sub != 'chudrama':
 			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your comment!')
