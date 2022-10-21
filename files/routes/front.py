@@ -26,7 +26,7 @@ def front_all(v, sub=None, subdomain=None):
 			hash = generate_hash(f'{v.id}+{now.year}+{now.month}+{now.day}+{now.hour}+WPDusermigration')
 			return redirect(f'https://watchpeopledie.tv/logged_out?user={v.id}&code={hash}', 301)
 		else:
-			return render_template('wpdco.html')
+			return redirect('https://watchpeopledie.tv/logged_out', 301)
 	elif SITE == 'watchpeopledie.tv' and not v: # security: don't try to login people into accounts more than once
 		req_user = request.values.get('user')
 		req_code = request.values.get('code')
