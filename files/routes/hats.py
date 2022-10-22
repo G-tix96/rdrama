@@ -34,6 +34,7 @@ def hats(v):
 @app.post("/buy_hat/<hat_id>")
 @auth_required
 @feature_required('HATS')
+@limiter.limit('100/minute;1000/day')
 def buy_hat(v, hat_id):
 	try: hat_id = int(hat_id)
 	except: abort(404, "Hat not found!")
