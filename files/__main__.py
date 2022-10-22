@@ -29,8 +29,6 @@ SITE_HOSTS = environ.get("SITE_HOSTS").split(',')
 
 app.config['SECRET_KEY'] = environ.get('SECRET_KEY').strip()
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 3153600
-if SITE == 'rdrama.net': #### RDRAMA TEMP: temporary behavior to fix session issues, remove when properly fixed
-	app.config['SERVER_NAME'] = SITE
 app.config["SESSION_COOKIE_NAME"] = "session_" + environ.get("SITE_NAME").strip().lower()
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
 app.config["SESSION_COOKIE_SECURE"] = True
@@ -77,6 +75,7 @@ if not path.isfile(f'/site_settings.json'):
 
 @app.before_request
 def before_request():
+	app.config['SESSION_COOKIE_DOMAIN'] = f'.{request.host}'
 	if request.host == 'marsey.world' and request.path != '/kofi':
 		abort(404)
 
