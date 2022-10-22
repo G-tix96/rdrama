@@ -303,6 +303,7 @@ body::after {
 	transform-origin: top;
 
 	transition: 0.8s ease-in-out;
+	pointer-events: none;
 }
 
 .spider:hover .body {
