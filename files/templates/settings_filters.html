@@ -11,6 +11,30 @@
 
 		<div class="settings">
 
+			{% if v.has_badge(185) %}
+			<h2 class="h5" name="referral">Hallowgrinch Mode</h2>
+
+			<div class="settings-section rounded">
+				<div class="d-lg-flex border-bottom">
+					<div class="title w-lg-25">
+						<label for="hwmusic">Hallowgrinch Mode</label>
+					</div>
+
+					<div class="body w-lg-100">
+
+						<div class="custom-control custom-switch">
+							<input autocomplete="off" type="checkbox" class="custom-control-input" id="hwmusic" name="hwmusic"{% if v.hwmusic %} checked{% endif %} onchange="post_toast(this,'/settings/profile?hwmusic='+document.getElementById('hwmusic').checked);">
+							<label class="custom-control-label" for="hwmusic"></label>
+						</div>
+
+						<span class="text-small text-muted">Mutes event music.</span>
+
+					</div>
+
+				</div>
+			</div>
+			{% endif %}
+			
 			<h2 class="h5" name="referral">Poorcel Mode</h2>
 
 			<div class="settings-section rounded">

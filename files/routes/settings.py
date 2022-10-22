@@ -51,6 +51,10 @@ def settings_profile_post(v):
 		v.poorcel = request.values.get("poorcel") == 'true'
 		session['poor'] = v.poorcel
 
+	elif request.values.get("hwmusic", v.hwmusic) != v.hwmusic:
+		updated = True
+		v.hwmusic = request.values.get("hwmusic") == 'true'
+
 	elif request.values.get("hidevotedon", v.hidevotedon) != v.hidevotedon:
 		updated = True
 		v.hidevotedon = request.values.get("hidevotedon") == 'true'
