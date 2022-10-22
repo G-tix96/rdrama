@@ -671,7 +671,7 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-coffin-cross",
 		"color": "text-purple",
-		"price": 2000
+		"price": 1000
 	},
 	"marsify": {
 		"kind": "marsify",
