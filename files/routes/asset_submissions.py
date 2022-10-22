@@ -244,7 +244,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 
 		filename = f'/asset_submissions/hats/{name}.webp'
 		copyfile(highquality, filename)
-		process_image(filename)
+		process_image(filename, resize=100)
 
 		hat = HatDef(name=name, author_id=author.id, description=description, price=price, submitter_id=v.id)
 		g.db.add(hat)
@@ -451,7 +451,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 
 		filename = f"files/assets/images/hats/{name}.webp"
 		copyfile(new_path, filename)
-		process_image(filename)
+		process_image(filename, resize=100)
 		purge_files_in_cache([f"https://{SITE}/i/hats/{name}.webp", f"https://{SITE}/assets/images/hats/{name}.webp", f"https://{SITE}/asset_submissions/hats/original/{name}.{format}"])
 		ma = ModAction(
 			kind="update_hat",
