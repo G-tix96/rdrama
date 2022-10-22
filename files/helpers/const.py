@@ -1078,7 +1078,7 @@ if not FEATURES['PROCOINS']:
 AWARDS2 = {x: AWARDS[x] for x in AWARDS if x not in AWARDS_DISABLED}
 AWARDS3 = {x: AWARDS2[x] for x in AWARDS2 if AWARDS2[x]['price'] <= 500}
 
-DOUBLE_XP_ENABLED = -1 # set to unixtime for when DXP begins, -1 to disable
+DOUBLE_XP_ENABLED = 1666402200 # set to unixtime for when DXP begins, -1 to disable
 
 TROLLTITLES = [
 	"how will @{username} ever recover?",
