@@ -101,8 +101,9 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 			abort(403, f"Only Carp can approve {asset_type}!")
 		name = name.strip()
 		if make_lower: name = name.lower()
+		asset = None
 		if cls == HatDef:
-			asset = g.db.query(HatDef).filter_by(name=name).one_or_none()
+			asset = g.db.query(cls).filter_by(name=name).one_or_none()
 		else:
 			asset = g.db.get(cls, name)
 		if not asset:
@@ -174,7 +175,11 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 		name = name.strip()
 		if not name:
 			abort(400, f"You need to specify a {type_name}!")
-		asset = g.db.get(cls, name)
+		asset = None
+		if cls == HatDef:
+			asset = g.db.query(cls).filter_by(name=name).one_or_none()
+		else:
+			asset = g.db.get(cls, name)
 		if not asset:
 			abort(404, f"This {type_name} '{name}' doesn't exist!")
 		if v.id not in (asset.submitter_id, AEVANN_ID, CARP_ID):
@@ -273,7 +278,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 
 		try:
 			hat.price = int(request.values.get('price'))
-			if hat.price < 0: raise Exception("Invalid hat price")
+			if hat.price < 0: raise ValueError("Invalid hat price")
 		except:
 			abort(400, "Invalid hat price")
 		hat.name = new_name
