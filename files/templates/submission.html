@@ -1250,7 +1250,7 @@
 		{% set song = "" %}
 	{% else %}
 		{% set path = "assets/media/halloween/music" %}
-		{% set song = "/" + path + "/" + listdir('files/' + path)|random() + '?v=45' %}
+		{% set song = SITE_FULL + "/" + path + "/" + listdir('files/' + path)|random() + '?v=45' %}
 	{% endif %}
 	<script async>
 		const audio = new Audio("{{song}}");
