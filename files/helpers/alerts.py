@@ -91,7 +91,10 @@ def NOTIFY_USERS(text, v):
 
 	names = set(m.group(2) for m in mention_regex.finditer(text))
 	for user in get_users(names, graceful=True):
-		if v.id != user.id and not v.any_block_exists(user):
+		if user.username == 'jannies':
+			admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level > 1).all()]
+			notify_users.update(admins)
+		elif v.id != user.id and not v.any_block_exists(user):
 			notify_users.add(user.id)
 
 	if SITE_NAME == "WPD" and 'daisy' in text.lower():
