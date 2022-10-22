@@ -75,6 +75,7 @@ if not path.isfile(f'/site_settings.json'):
 
 @app.before_request
 def before_request():
+	app.config['SESSION_COOKIE_DOMAIN'] = f'.{request.host}'
 	if request.host == 'marsey.world' and request.path != '/kofi':
 		abort(404)
 
