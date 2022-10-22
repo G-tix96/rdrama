@@ -18,6 +18,11 @@
 	src: url("/assets/fonts/halloween/XTypewriter-Regular.woff") format("woff");
 }
 
+@font-face {
+	font-family: "SpecialElite-Regular";
+	src: url("/assets/fonts/halloween/SpecialElite-Regular.woff") format("woff");
+}
+
 /* Halloween Theming */
 :root {
   --primary: #F66A3C;
@@ -107,7 +112,7 @@ pre {
 }
 
 .post-title a, h1.post-title {
-	font-family: 'XTypewriter-Regular';
+	font-family: 'SpecialElite-Regular';
 	font-size: 1.25rem;
 }
 
