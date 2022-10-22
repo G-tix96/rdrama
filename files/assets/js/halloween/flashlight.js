@@ -16,12 +16,12 @@ const isTouchDevice = () => {
 function getMousePosition(e) {
 	try {
 		// Get position of mouse or touch
-		mouseX = !isTouchDevice() ? e.pageX : e.touches[0].pageX;
-		mouseY = !isTouchDevice() ? e.pageY : e.touches[0].pageY;
+		mouseX = !isTouchDevice() ? e.clientX : e.touches[0].clientX;
+		mouseY = !isTouchDevice() ? e.clientY : e.touches[0].clientY;
 
 		// Set the Xpos and Ypos variables to current mouse/touch position
-		document.documentElement.style.setProperty("--Xpos", mouseX + "px");
-document.documentElement.style.setProperty("--Ypos", mouseY + "px");
+		document.getElementById("flashlight").style.setProperty("--Xpos", mouseX + "px");
+document.getElementById("flashlight").style.setProperty("--Ypos", mouseY + "px");
 	} catch (e) {}
 }
 
