@@ -843,7 +843,7 @@ def agendaposter(user_id, v):
 	g.db.add(user)
 
 	if days:
-		days_txt = str(days).rstrip('.0')
+		days_txt = str(days).split('.0')[0]
 		note = f"for {days_txt} days"
 	else: note = "permanently"
 
@@ -1013,7 +1013,7 @@ def ban_user(user_id, v):
 
 	duration = "permanently"
 	if days:
-		days_txt = str(days).rstrip('.0')
+		days_txt = str(days).split('.0')[0]
 		duration = f"for {days_txt} day"
 		if days != 1: duration += "s"
 		if reason: text = f"@{v.username} (Admin) has banned you for **{days_txt}** days for the following reason:\n\n> {reason}"
