@@ -1,6 +1,19 @@
+<style>
+	.modal {
+		z-index:99999 !important;
+	}
+</style>
+
 {% if p.award_count("haunt", v) %}
 <script src="{{'js/halloween/haunted.js' | asset}}" defer></script>
+<div id="haunted-effect" class="fixed-top"></div>
 <style>
+	#haunted-effect {
+		position: fixed;
+		width:100%;
+		height:100%;
+		pointer-events:none;
+	}
 	#haunt-bg{
 		position: fixed;
 		background-repeat: no-repeat;
@@ -43,16 +56,18 @@
 
 {% if p.award_count("flashlight", v) %}
 <style>
-	#flashlight {
+	#flashlight-effect {
 		--Xpos: 50vw;
 		--Ypos: 50vh;
 		position: fixed;
 		width:100%;
 		height:100%;
-		z-index:99999;
+		z-index:1061;
 		pointer-events:none;
+		opacity:0.8;
+		backdrop-filter: brightness(1.5);
 	}
-	#flashlight:before {
+	#flashlight-effect:before {
 		content: "";
 		display: block;
 		width: 100%;
@@ -60,26 +75,28 @@
 		position: absolute;
 		pointer-events: none;
 		background: radial-gradient(
-			circle 20vmax at var(--Xpos) var(--Ypos),
+			circle 30vmax at var(--Xpos) var(--Ypos),
 			rgba(0,0,0,0) 0%,
-			rgba(0,0,0,.5) 60%,
+			rgba(0,0,0,.5) 70%,
 			rgba(0,0,0,.93) 100%
 			);
 		z-index: 1061;
 	}
 	@media (max-width: 767.98px) {
-		#flashlight::before {
+		#flashlight-effect::before {
 			background: radial-gradient(
 				circle 20em at 50% var(--Ypos),
 				rgba(0,0,0,0) 0%,
 				rgba(0,0,0,0) 80%,
 				rgba(0,0,0,.93) 100%
 			);
+			opacity:0.8;
+			pointer-events: none;
 		}
 	}
 </style>
-<div id="flashlight" class="fixed-top"></div>
-<script src="{{'js/halloween/flashlight.js' | asset}}" defer></script>
+<div id="flashlight-effect" class="fixed-top"></div>
+<script src="{{'js/halloween/flashlight.js' | asset}}"></script>
 {% endif %}
 
 {% if p.award_count("ectoplasm", v) %}

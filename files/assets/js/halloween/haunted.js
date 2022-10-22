@@ -1,7 +1,8 @@
 const thunder1 = new Audio(`/assets/media/halloween/haunted/thunder1.mp3`),
       thunder2 = new Audio(`/assets/media/halloween/haunted/thunder2.mp3`),
       stylesheet_haunted = document.createElement("STYLE"),
-      is_upsidedown = localStorage.getItem('setting_upsidedown')
+      is_upsidedown = localStorage.getItem('setting_upsidedown'),
+      div = document.getElementById("haunted-effect")
 
 window.onload = function(){
     temp = document.createTextNode("#banner-halloween-title {opacity:0;}#banner-halloween-text-evil {opacity:1!important;}img {filter: invert(1);}")
@@ -24,9 +25,9 @@ setInterval(function(){
 
 function lightningStrike(strike) {
     if(is_upsidedown == 'true'){
-        document.body.style.animation = "haunted-upsidedown 20s"
+        div.style.animation = "haunted-upsidedown 20s"
     } else {
-        document.body.style.animation = "haunted 20s"
+        div.style.animation = "haunted 20s"
     }
 
     if(strike == "haunted"){
@@ -39,6 +40,6 @@ function lightningStrike(strike) {
 
     thunder1.play()
     setTimeout(function(){
-        document.body.style.animation = "none"
+		div.style.animation = "none"
     },1000)
 }

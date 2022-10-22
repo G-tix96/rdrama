@@ -569,6 +569,38 @@ AWARDS = {
 		"color": "text-green-500",
 		"price": 1000
 	},
+	"jumpscare": {
+		"kind": "jumpscare",
+		"title": "Jumpscare",
+		"description": "",
+		"icon": "fas fa-coffin-cross",
+		"color": "text-purple",
+		"price": 1000
+	},
+	"hw-bite": {
+		"kind": "hw-bite",
+		"title": "Zombie Bite",
+		"description": "",
+		"icon": "fas fa-biohazard",
+		"color": "text-danger",
+		"price": 500
+	},
+	"hw-vax": {
+		"kind": "hw-vax",
+		"title": "Vaxxmaxx",
+		"description": "",
+		"icon": "fas fa-syringe",
+		"color": "text-blue",
+		"price": 500
+	},
+	"hw-grinch": {
+		"kind": "hw-grinch",
+		"title": "Hallowgrinch",
+		"description": "",
+		"icon": "fas fa-angry",
+		"color": "text-orange",
+		"price": 1000
+	},
 	"haunt": {
 		"kind": "haunt",
 		"title": "Haunt",
@@ -648,30 +680,6 @@ AWARDS = {
 		"icon": "fas fa-jack-o-lantern",
 		"color": "text-orange",
 		"price": 200
-	},
-	"hw-bite": {
-		"kind": "hw-bite",
-		"title": "Zombie Bite",
-		"description": "",
-		"icon": "fas fa-biohazard",
-		"color": "text-danger",
-		"price": 500
-	},
-	"hw-vax": {
-		"kind": "hw-vax",
-		"title": "Vaxxmaxx",
-		"description": "",
-		"icon": "fas fa-syringe",
-		"color": "text-blue",
-		"price": 500
-	},
-	"jumpscare": {
-		"kind": "jumpscare",
-		"title": "Jumpscare",
-		"description": "",
-		"icon": "fas fa-coffin-cross",
-		"color": "text-purple",
-		"price": 1000
 	},
 	"marsify": {
 		"kind": "marsify",

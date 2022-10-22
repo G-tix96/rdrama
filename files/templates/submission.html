@@ -567,6 +567,10 @@
 
 {% block pagetype %}thread{% endblock %}
 
+{% block hauntBg %}
+<div id="haunt-bg"></div>
+{% endblock %}
+
 {% block actionsModal %}
 
 {% if v %}
@@ -599,10 +603,6 @@
 	{% include "post_admin_actions_mobile.html" %}
 {% endif %}
 
-{% endblock %}
-
-{% block hauntBg %}
-<div id="haunt-bg"></div>
 {% endblock %}
 
 {% block content %}
@@ -1241,7 +1241,7 @@
 {% endif %}
 
 <!-- homoween audio -->
-{% if v and not v.poorcel %}
+{% if not (v and v.poorcel) and not (v and v.has_badge(185)) %}
 	{% if p.award_count("ectoplasm", v) %}
 		{% set song = "/assets/media/halloween/ghostbusters.mp3" %}
 	{% elif p.award_count("bones", v) %}

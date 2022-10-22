@@ -111,6 +111,9 @@
 {% block mobileUserBanner %}
 {% endblock %}
 
+{% block hauntBg %}
+{% endblock %}
+
 <div class="container">
 	<div class="row justify-content-around" id="main-content-row">
 
@@ -126,9 +129,6 @@
 			{% endblock %}
 
 			{% block searchText %}
-			{% endblock %}
-
-			{% block hauntBg %}
 			{% endblock %}
 
 			{% block content %}
@@ -193,7 +193,7 @@
 	<script defer src="{{'js/spider.js' | asset}}"></script>
 {% endif %}
 
-{% if not(v and v.poorcel) %}
+{% if not (v and v.poorcel) %}
 <script defer src="{{'js/halloween/eye-tracking.js' | asset}}" ></script>
 {% endif %}
 </body>
