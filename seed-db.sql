@@ -325,6 +325,7 @@ INSERT INTO public.hat_defs VALUES (889, 'Balloons II', 'Upular (LOOK THIS SONG 
 INSERT INTO public.hat_defs VALUES (963, 'Buried', 'You''re buried in sand?! HOW DID THIS HAPPEN?', 2, 500, NULL, 1665616459);
 INSERT INTO public.hat_defs VALUES (968, 'Bloody Tusks', '🐘🐘🐘🐘🐘🐘🐘🐘', 2, 500, NULL, 1665728710);
 INSERT INTO public.hat_defs VALUES (923, 'Bartman', 'Have a cow idfc', 2, 500, NULL, 1665425863);
+
 INSERT INTO public.hat_defs VALUES (714, 'Captain Falcon', 'The chad that every smash player wanted to imitate, if only his moveset included a shower.', 2, 500, NULL, 1663474615);
 INSERT INTO public.hat_defs VALUES (715, 'Inspector Gadget', '"Go go Gadget Brown Bricks!"', 2, 500, NULL, 1663477536);
 INSERT INTO public.hat_defs VALUES (724, 'Spartan Helmet', 'THIS IS SPARTA!', 2, 500, NULL, 1663892367);
@@ -1063,7 +1064,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 969, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 970, true);
 
 
 --
@@ -2650,6 +2651,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseystroke',2,'derp retard reaction stupid drooling',NULL),
 ('marseystuffed',2,'fur meme statuesque indifferent figurine statue stuffed art',NULL),
 ('marseysuffragette',2,'19a foid feminist 19th terrible feminism regret woman women mistake',NULL),
+('marseysuicidesquidward',2,'creepypasta squidward suicide',1666404282),
 ('marseysuit',2,'businessman businessperson corporate boss manager rich adult professional lawyer banker',NULL),
 ('marseysulk',2,'unlucky crying reaction depression sobbing depressed sad',NULL),
 ('marseysully',2,'disney pixar monsters inc horned horns',NULL),
@@ -2775,6 +2777,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyvampeek',2,'vampire hello wake awaken coffin peek halloween horror',1666234320),
 ('marseyvampire',2,'undead sanguine horror spooky halloween fangs holiday monster',NULL),
 ('marseyvampirebite',2,'cope seethe mask house',1663376896),
+('marseyvampirelove',2,'halloween heart love',1666404726),
 ('marseyvan',2,'libertarian pedobear free candy pedophile groomer lolbert chomo molester pedo toucher',NULL),
 ('marseyvapecrying',2,'meme vape juul crying depressed emo tears feels',NULL),
 ('marseyvaporeon',2,'trick or treat pokemon halloween eevee costume holiday',NULL),
