@@ -575,7 +575,7 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-coffin-cross",
 		"color": "text-purple",
-		"price": 1000
+		"price": 600
 	},
 	"hw-bite": {
 		"kind": "hw-bite",
@@ -681,6 +681,14 @@ AWARDS = {
 		"color": "text-orange",
 		"price": 200
 	},
+	"lootbox": {
+		"kind": "lootbox",
+		"title": "Lootbox",
+		"description": "",
+		"icon": "fas fa-box-open",
+		"color": "text-blue",
+		"price": 1000
+	},
 	"marsify": {
 		"kind": "marsify",
 		"title": "Marsify",
@@ -784,14 +792,6 @@ AWARDS = {
 		"icon": "fas fa-eyes",
 		"color": "text-orange",
 		"price": 1000,
-	},
-	"lootbox": {
-		"kind": "lootbox",
-		"title": "Lootbox",
-		"description": "",
-		"icon": "fas fa-box-open",
-		"color": "text-blue",
-		"price": 1000
 	},
 	"beano": {
 		"kind": "beano",
