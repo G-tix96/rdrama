@@ -553,6 +553,7 @@ body::after {
 /* Upsidedown */
 #canvas {
 	position:absolute;
+	pointer-events:none;
 }
 
 /* Bones */
