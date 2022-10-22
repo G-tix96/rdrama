@@ -91,7 +91,7 @@
 			</style>
 		{% endif %}
 		{% if include_user_css %}
-			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
+			<link rel="stylesheet" href="{{('css/midnight.css') | asset}}">
 			<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 			<link rel="stylesheet" href="{{'css/halloween/spooky.css' | asset}}">
 			{% if v.css and not request.path.startswith('/settings/css') %}
