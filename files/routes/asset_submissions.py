@@ -270,6 +270,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 
 		try:
 			hat.price = int(request.values.get('price'))
+			if hat.price < 0: raise Exception("Invalid hat price")
 		except:
 			abort(400, "Invalid hat price")
 		hat.name = new_name
