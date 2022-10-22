@@ -48,6 +48,11 @@ FP = environ.get("FP", "").strip()
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
 KOFI_LINK = environ.get("KOFI_LINK", "").strip()
 
+PUSHER_ID_CSP = ""
+if PUSHER_ID != "blahblahblah":
+	PUSHER_ID_CSP = f" {PUSHER_ID}.pushnotifications.pusher.com"
+CONTENT_SECURITY_POLICY_DEFAULT = "script-src 'self' 'unsafe-inline' ajax.cloudflare.com; connect-src 'self'; object-src 'none';"
+CONTENT_SECURITY_POLICY_HOME = f"script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' tls-user1.fpapi.io api.fpjs.io{PUSHER_ID_CSP}; object-src 'none';"
 
 if SITE == "localhost": SITE_FULL = 'http://' + SITE
 else: SITE_FULL = 'https://' + SITE
@@ -160,7 +165,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_HOME_VISIBLE': 2,
 	'DOMAINS_BAN': 3,
 	'HOLE_CREATE': 0,
-	'HOLE_GLOBAL_MODERATION': 3,
+	'HOLE_GLOBAL_MODERATION': 4,
 	'FLAGS_REMOVE': 2,
 	'VOTES_VISIBLE': 0,
 	'USER_BLOCKS_VISIBLE': 0,
@@ -170,6 +175,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'POST_COMMENT_MODERATION': 2,
 	'POST_COMMENT_DISTINGUISH': 1,
 	'POST_COMMENT_MODERATION_TOOLS_VISIBLE': 2, # note: does not affect API at all
+	'POST_BYPASS_REPOST_CHECKING': 1,
 	'POST_EDITING': 3,
 	'USER_BADGES': 2,
 	'USER_BAN': 2,

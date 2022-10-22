@@ -101,7 +101,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 			abort(403, f"Only Carp can approve {asset_type}!")
 		name = name.strip()
 		if make_lower: name = name.lower()
-		asset = g.db.query(cls).filter_by(name=name).one_or_none()
+		asset = g.db.get(cls, name)
 		if not asset:
 			abort(404, f"This {asset} '{name}' doesn't exist!")
 		return asset
@@ -171,7 +171,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 		name = name.strip()
 		if not name:
 			abort(400, f"You need to specify a {type_name}!")
-		asset = g.db.query(cls).filter_by(name=name).one_or_none()
+		asset = g.db.get(cls, name)
 		if not asset:
 			abort(404, f"This {type_name} '{name}' doesn't exist!")
 		if v.id not in (asset.submitter_id, AEVANN_ID, CARP_ID):
@@ -332,7 +332,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 		tags = None
 		error = None
 		if name:
-			marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
+			marsey = g.db.get(Marsey, name)
 			if marsey:
 				tags = marsey.tags
 			else:
@@ -357,7 +357,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 		if not marsey_regex.fullmatch(name):
 			return error("Invalid name!")
 
-		existing = g.db.query(Marsey).filter_by(name=name).one_or_none()
+		existing = g.db.get(Marsey, name)
 		if not existing:
 			return error("A marsey with this name doesn't exist!")
 

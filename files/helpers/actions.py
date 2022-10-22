@@ -356,6 +356,31 @@ def execute_antispam_submission_check(title, v, url):
 		return False
 	return True
 
+def execute_blackjack(v, target, body, type):
+	if not blackjack or not body: return True
+	if any(i in body.lower() for i in blackjack.split()):
+		v.shadowbanned = 'AutoJanny'
+		if not v.is_banned: v.ban_reason = f"Blackjack"
+		g.db.add(v)
+		notif = None
+		extra_info = "unknown entity"
+		if type == 'submission':
+			extra_info = f"submission ({target.permalink})"
+		elif type == 'comment' or type == 'message':
+			extra_info = f"{type} ({target.permalink})"
+			notif = Notification(comment_id=target.id, user_id=CARP_ID)
+		elif type == 'chat':
+			extra_info = "chat message"
+		elif type == 'flag':
+			extra_info = f"reports on {target.permalink}"
+
+		if notif: 
+			g.db.add(notif)
+			g.db.flush()
+		elif extra_info: send_repeatable_notification(CARP_ID, f"Blackjack for {v.name}: {extra_info}")
+		return False
+	return True
+
 def execute_antispam_comment_check(body, v):
 	if len(body) <= COMMENT_SPAM_LENGTH_THRESHOLD: return
 	now = int(time.time())

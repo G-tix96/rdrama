@@ -1,13 +1,8 @@
 function block_user() {
-
 	var usernameField = document.getElementById("exile-username");
-
 	var isValidUsername = usernameField.checkValidity();
-
 	username = usernameField.value;
-
 	if (isValidUsername) {
-
 		const xhr = new XMLHttpRequest();
 		xhr.open("post", "/settings/block");
 		xhr.setRequestHeader('xhr', 'xhr');
@@ -19,11 +14,7 @@ function block_user() {
 				location.reload();
 			}
 			else {
-				var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success'));
-				myToast.hide();
-				var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error'));
-				myToast.show();
-				document.getElementById("toast-error-message").textContent = "Error. Please try again later.";
+				showToast(false, "Error, please try again later.");
 			}
 		}
 		xhr.send(f)

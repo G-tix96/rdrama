@@ -24,8 +24,10 @@ app.jinja_env.auto_reload = True
 app.jinja_env.add_extension('jinja2.ext.do')
 faulthandler.enable()
 
+SITE = environ.get("SITE").strip()
+SITE_HOSTS = environ.get("SITE_HOSTS").split(',')
+
 app.config['SECRET_KEY'] = environ.get('SECRET_KEY').strip()
-app.config["SERVER_NAME"] = environ.get("SITE").strip()
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 3153600
 app.config["SESSION_COOKIE_NAME"] = "session_" + environ.get("SITE_NAME").strip().lower()
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
@@ -39,7 +41,6 @@ app.config['SQLALCHEMY_DATABASE_URL'] = environ.get("DATABASE_URL").strip()
 
 app.config["CACHE_TYPE"] = "RedisCache"
 app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL").strip()
-
 
 app.config['SETTINGS'] = {}
 
@@ -74,6 +75,9 @@ if not path.isfile(f'/site_settings.json'):
 
 @app.before_request
 def before_request():
+	if request.host == 'marsey.world' and request.path != '/kofi':
+		abort(404)
+
 	g.agent = request.headers.get("User-Agent")
 	if not g.agent and request.path != '/kofi':
 		return 'Please use a "User-Agent" header!', 403
@@ -83,12 +87,10 @@ def before_request():
 
 	with open('/site_settings.json', 'r', encoding='utf_8') as f:
 		app.config['SETTINGS'] = json.load(f)
-	### WPD TEMP ####
-	if request.host != app.config["SERVER_NAME"] and app.config["SERVER_NAME"] != "watchpeopledie.co":
+
+	if request.host not in SITE_HOSTS:
 		return {"error": "Unauthorized host provided"}, 403
-	#### END WPD TEMP ####
-	# uncomment below after done with WPD migration
-	# if request.host != app.config["SERVER_NAME"]: return {"error": "Unauthorized host provided."}, 403
+
 	if request.headers.get("CF-Worker"): return {"error": "Cloudflare workers are not allowed to access this website."}, 403
 
 	if not app.config['SETTINGS']['Bots'] and request.headers.get("Authorization"): abort(403)
@@ -97,13 +99,6 @@ def before_request():
 	g.webview = '; wv) ' in ua
 	g.inferior_browser = 'iphone' in ua or 'ipad' in ua or 'ipod' in ua or 'mac os' in ua or ' firefox/' in ua
 
-	#### WPD TEMP #### temporary WPD migration logic: redirect to /
-	if request.host == 'watchpeopledie.co' and app.config["SERVER_NAME"] == "watchpeopledie.co":
-		request.path = request.path.rstrip('/')
-		if not request.path: request.path = '/'
-		if request.path != '/':
-			return redirect('/')
-	#### END WPD TEMP ####
 	request.path = request.path.rstrip('/')
 	if not request.path: request.path = '/'
 	request.full_path = request.full_path.rstrip('?').rstrip('/')

@@ -1,6 +1,7 @@
 from files.helpers.wrappers import *
 from files.helpers.get import *
 from files.helpers.alerts import *
+from files.helpers.actions import *
 from flask import g
 from files.__main__ import app, limiter
 from os import path
@@ -14,17 +15,10 @@ def flag_post(pid, v):
 	post = get_post(pid)
 	reason = request.values.get("reason", "").strip()
 
-	if blackjack and any(i in reason.lower() for i in blackjack.split()):
-		v.shadowbanned = 'AutoJanny'
-		if not v.is_banned: v.ban_reason = 'Blackjack'
-		send_repeatable_notification(CARP_ID, f"reports on {post.permalink}")
-
+	execute_blackjack(v, post, reason, 'flag')
 	if v.is_muted: abort(400, "You are forbidden from making reports.")
-
 	reason = reason[:100]
-
 	reason = filter_emojis_only(reason)
-
 	if len(reason) > 350: abort(400, "Too long.")
 
 	if reason.startswith('!') and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.sub and v.mods(post.sub)):
@@ -120,14 +114,8 @@ def flag_comment(cid, v):
 	if existing: abort(409, "You already reported this comment!")
 
 	reason = request.values.get("reason", "").strip()
-
-	if blackjack and any(i in reason.lower() for i in blackjack.split()):
-		v.shadowbanned = 'AutoJanny'
-		if not v.is_banned: v.ban_reason = 'Blackjack'
-		send_repeatable_notification(CARP_ID, f"reports on {comment.permalink}")
-
+	execute_blackjack(v, comment, reason, 'flag')
 	reason = reason[:100]
-
 	reason = filter_emojis_only(reason)
 
 	if len(reason) > 350: abort(400, "Too long.")

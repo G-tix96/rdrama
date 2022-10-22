@@ -1,0 +1,272 @@
+{% macro html_head(js, include_seo, include_user_css, csp, title2, author, extra_css, include_2fa_verify, include_seo2) %}
+{# submission.py does a lot of stupid stuff with the title and we don't want to override that #}
+{# remember, this is very temporary #}
+<head>
+	{% if js %}
+		{{javascript()}}
+	{% endif %}
+	{{meta_tags_1(csp, author)}}
+	{{stylesheets(include_user_css, extra_css)}}
+	{% if title2 %}
+		<title>{{title2 | default(SITE_NAME, true)}} - {{SITE_NAME}}</title>
+		{{meta_tags_2(title2, author)}}
+	{% elif not include_seo2 %}
+		{% block title %}
+			<title>{% block pagetitle %}{{SITE_NAME}}{% endblock %}</title>
+			{{meta_tags_2(self.pagetitle(), author)}}
+		{% endblock %}
+	{% else %}
+		{{self.title()}}
+	{% endif %}
+	{% if include_seo %}
+		{{seo()}}
+	{% endif %}
+	{% if include_2fa_verify %}
+		{{cf_2fa_verify()}}
+	{% endif %}
+	{% if 'chat' in request.path %}
+		{% if SITE == 'localhost' %}
+			<link rel="stylesheet" href="https://rdrama.net/assets/css/chat_done.css">
+		{% else %}
+			<link rel="stylesheet" href="{{'css/chat_done.css' | asset}}">
+		{% endif %}
+	{% endif %}
+</head>
+{% endmacro %}
+
+{% macro cf_2fa_verify() %}
+	{% if SITE == 'rdrama.net' %}
+		<meta name="cf-2fa-verify" content="4f40ca1ca249313">
+	{% elif SITE == 'watchpeopledie.tv' %}
+		<meta name="cf-2fa-verify" content="372aba5b9338e00">
+	{% elif SITE == 'pcmemes.net' %}
+		<meta name="cf-2fa-verify" content="bf22ffe56e4bcda">
+	{% endif %}
+{% endmacro %}
+
+{% macro javascript() %}
+	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
+	<script defer src="{{'js/core.js' | asset}}"></script>
+{% endmacro %}
+
+{% macro meta_tags_1(csp, author, exclude_author) %}
+	<meta charset="utf-8">
+	<meta name="description" content="{{DESCRIPTION}}">
+	<meta http-equiv="Content-Security-Policy" content="{{csp | default(CONTENT_SECURITY_POLICY_DEFAULT, true) | safe}}">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="thumbnail" content="{{'site_preview.webp' | asset_siteimg}}">
+	{% if not exclude_author %}
+		<meta name="author" content="{{author}}">
+	{% endif %}
+{% endmacro %}
+
+{% macro meta_tags_2(title, author) %}
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="{{title}}">
+	<meta property="og:site_name" content="{{SITE}}">
+	<meta property="og:image" content="{{'site_preview.webp' | asset_siteimg}}">
+	<meta property="og:url" content="{{request.full_path}}">
+	<meta property="og:description" name="description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
+	<meta property="og:author" name="author" content="{{author | default(SITE_FULL, true)}}">
+
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="{{SITE_FULL}}">
+	<meta name="twitter:title" content="{{SITE_NAME}}">
+	<meta name="twitter:creator" content="{{SITE_FULL}}">
+	<meta name="twitter:description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
+	<meta name="twitter:image" content="{{'site_preview.webp' | asset_siteimg}}">
+	<meta name="twitter:url" content="{{request.full_path}}">
+{% endmacro %}
+
+{% macro stylesheets(include_user_css, extra_css) %}
+	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
+	<link id="favicon" rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
+	{% if v %}
+		<style>:root{--primary:#{{v.themecolor}}}</style>
+		{% if v.agendaposter %}
+			<style>
+				html {
+					cursor:url('/i/dildo.webp?v=2000'), auto;
+				}
+			</style>
+		{% endif %}
+		{% if include_user_css %}
+			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
+			<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
+			<link rel="stylesheet" href="{{'css/halloween/spooky.css' | asset}}">
+			{% if v.css and not request.path.startswith('/settings/css') %}
+				<style>
+					{{v.css | safe}}
+				</style>
+			{% endif %}
+			{% if v.themecolor == '30409f' %}
+				<style>
+					p a {
+						color: #2a96f3;
+					}
+				</style>
+			{% endif %}
+		{% endif %}
+	{% else %}
+		<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
+		<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
+		<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
+		<link rel="stylesheet" href="{{'css/halloween/spooky.css' | asset}}">
+	{% endif %}
+
+	{% if request.path.endswith('/catalog') %}
+		<link rel="stylesheet" href="{{'css/catalog.css' | asset}}">
+	{% endif %}
+
+	{% if sub and sub.css and not request.path.endswith('settings') and not request.values.get('nocss') %}
+		<link rel="stylesheet" href="/h/{{sub}}/css" type="text/css">
+	{% endif %}
+
+	{% if SITE_NAME == 'rDrama' %}
+		<link rel="stylesheet" href="{{'css/rDrama.css' | asset}}">
+	{% endif %}
+	{{extra_css}}
+{% endmacro %}
+
+{% macro seo() %}
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link rel="apple-touch-icon" sizes="180x180" href="{{'icon.webp' | asset_siteimg}}">
+	<link rel="manifest" href="/assets/manifest_{{SITE_NAME}}.json?v=6">
+	<link rel="mask-icon" href="{{'icon.webp' | asset_siteimg}}">
+	<link rel="shortcut icon" href="{{'icon.webp' | asset_siteimg}}">
+	<meta name="apple-mobile-web-app-title" content="{{SITE_NAME}}">
+	<meta name="application-name" content="{{SITE_NAME}}">
+	<meta name="msapplication-TileColor" content="#{% if v %}{{v.themecolor}}{% else %}{{DEFAULT_COLOR}}{% endif %}">
+	<meta name="msapplication-config" content="/assets/browserconfig.xml?v=3009">
+	<meta name="theme-color" content="#{% if v %}{{v.themecolor}}{% else %}{{DEFAULT_COLOR}}{% endif %}">
+
+	<link
+	rel="apple-touch-startup-image"
+	sizes="320x480"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="640x960"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-icon"
+	sizes="640x1136"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-icon"
+	sizes="750x1334"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="768x1004"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="768x1024"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="828x1792"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="1024x748"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="1024x768"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="1125x2436"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="1242x2208"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="1242x2688"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="1334x750"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="1536x2008"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="1536x2048"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="1668x2224"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="1792x828"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="2048x1496"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="2048x1536"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="2048x2732"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="2208x1242"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="2224x1668"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="2436x1125"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="2668x1242"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+	<link
+	rel="apple-touch-startup-image"
+	sizes="2737x2048"
+	href="{{'icon.webp' | asset_siteimg}}"
+	>
+{% endmacro %}

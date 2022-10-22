@@ -1,33 +1,13 @@
 {%- import 'util/helpers.html' as help -%}
+{%- import 'html_head.html' as html_head with context -%}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
-	<script defer src="{{'js/core.js' | asset}}"></script>
-	<meta name="description" content="{{DESCRIPTION}}">
-	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'{% if SITE == 'localhost' %} rdrama.net{% endif %}; connect-src 'self'; object-src 'none';">
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="author" content="">
-
-	<link id="favicon" rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
-	<title>Chat</title>
-
-	<style>:root{--primary:#{{v.themecolor}}}</style>
-	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-	<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
-	{% if v.css %}
-		<style>
-			{{v.css | safe}}
-		</style>
-	{% endif %}
-	{% if SITE == 'localhost' %}
-		<link rel="stylesheet" href="https://rdrama.net/assets/css/chat_done.css">
-	{% else %}
-		<link rel="stylesheet" href="{{'css/chat_done.css' | asset}}">
-	{% endif %}
-</head>
-
+{% if SITE == 'localhost' %}
+	{% set csp="script-src 'self' 'unsafe-inline' rdrama.net; connect-src 'self'; object-src 'none';" %}
+{% else %}
+	{% set csp=none %}
+{% endif %}
+{{html_head.html_head(true, true, true, csp, "Chat", none, "", false)}}
 <body>
 	{% include "header.html" %}
 	{% include "expanded_image_modal.html" %}

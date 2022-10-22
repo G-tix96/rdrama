@@ -33,4 +33,4 @@ class ViewerRelationship(Base):
 	@property
 	@lazy
 	def last_view_string(self):
-		return make_age_string(self.last_view_since)
+		return make_age_string(self.last_view_utc)

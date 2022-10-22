@@ -1,0 +1,7 @@
+.mod:before {
+    content: '(((';
+}
+
+.mod:after {
+    content: ')))';
+}

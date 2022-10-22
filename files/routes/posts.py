@@ -474,11 +474,8 @@ def edit_post(pid, v):
 
 		p.body = body
 
-		if blackjack and any(i in f'{p.body} {p.title} {p.url}'.lower() for i in blackjack.split()):
-			v.shadowbanned = 'AutoJanny'
-			if not v.is_banned: v.ban_reason = 'Blackjack'
-			g.db.add(v)
-			send_repeatable_notification(CARP_ID, p.permalink)
+		for text in [p.body, p.title, p.url]:
+			if not execute_blackjack(v, p, text, 'submission'): break
 
 		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: 
 			abort(400, f"Submission body_html too long! (max {POST_BODY_HTML_LENGTH_LIMIT} characters)")
@@ -785,7 +782,7 @@ def submit_post(v, sub=None):
 			Submission.deleted_utc == 0,
 			Submission.is_banned == False
 		).first()
-		if repost and FEATURES['REPOST_DETECTION'] and not v.admin_level:
+		if repost and FEATURES['REPOST_DETECTION'] and not v.admin_level >= PERMS['POST_BYPASS_REPOST_CHECKING']:
 			return redirect(repost.permalink)
 
 		domain_obj = get_domain(domain)
@@ -907,11 +904,8 @@ def submit_post(v, sub=None):
 	g.db.add(post)
 	g.db.flush()
 
-	if blackjack and any(i in f'{post.body} {post.title} {post.url}'.lower() for i in blackjack.split()):
-		v.shadowbanned = 'AutoJanny'
-		if not v.is_banned: v.ban_reason = 'Blackjack'
-		g.db.add(v)
-		send_repeatable_notification(CARP_ID, post.permalink)
+	for text in [post.body, post.title, post.url]:
+		if not execute_blackjack(v, post, text, 'submission'): break
 
 	for option in options:
 		option = SubmissionOption(

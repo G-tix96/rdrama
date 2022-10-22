@@ -1,43 +1,13 @@
 {%- import 'util/helpers.html' as help -%}
+{%- import 'html_head.html' as html_head with context -%}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
-	<script defer src="{{'js/core.js' | asset}}"></script>
-
-	<link rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
-
-	<meta name="description" content="{{DESCRIPTION}}">
-	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
-
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<meta name="author" content="">
-	<meta property="og:type" content="article">
-	<meta property="og:title" content="{{SITE_NAME}}">
-	<meta property="og:site_name" content="{{SITE}}">
-	<meta property="og:image" content="{{'site_preview.webp' | asset_siteimg}}">
-	<meta property="og:url" content="{{SITE_FULL}}">
-	<meta property="og:description" name="description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
-	<meta property="og:author" name="author" content="{{SITE_FULL}}">
-
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:site" content="{{SITE_FULL}}">
-	<meta name="twitter:title" content="{{SITE_NAME}}">
-	<meta name="twitter:creator" content="{{SITE_FULL}}">
-	<meta name="twitter:description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
-	<meta name="twitter:image" content="{{'site_preview.webp' | asset_siteimg}}">
-	<meta name="twitter:url" content="{{SITE_FULL}}">
-
-	<title>{% if ref_user %}{{ref_user.username}} invites you to {{SITE_NAME}}{% else %}Sign up - {{SITE_NAME}}{% endif %}</title>
-
-	<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
-	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-	<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
-
-</head>
-
+{% if ref_user %}
+	{% set title= ref_user.username + "invites you to " + SITE_NAME %}
+{% else %}
+	{% set title="Sign up" %}
+{% endif %}
+{{html_head.html_head(true, false, false, none, title, none, "", false)}}
 <body id="login">
 
 <div class="container-fluid position-absolute h-100 p-0 overflow-auto">
