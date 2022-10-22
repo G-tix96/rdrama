@@ -5,7 +5,7 @@
 {% if request.path == '/' %}
 	{% set csp=CONTENT_SECURITY_POLICY_HOME %}
 {% endif %}
-{% if not 'post/' in request.path and not '@' is request.path %}
+{% if not 'post/' in request.path and not '@' in request.path %}
 	{{html_head.html_head(true, true, true, csp, none, "", "", true, 'post/' in request.path)}}
 {% else %}
 {# this should really be fixed at some point, prolly after 10/31 #}
