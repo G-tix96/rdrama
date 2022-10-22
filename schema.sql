@@ -1022,7 +1022,8 @@ CREATE TABLE public.users (
     rainbow integer,
     spider integer,
     homoween_zombie character varying(7) DEFAULT 'HEALTHY'::character varying,
-    jumpscare integer DEFAULT 0 NOT NULL
+    jumpscare integer DEFAULT 0 NOT NULL,
+    hwmusic boolean DEFAULT false NOT NULL
 );
 
 

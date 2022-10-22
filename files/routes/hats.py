@@ -45,6 +45,9 @@ def buy_hat(v, hat_id):
 	existing = g.db.query(Hat).filter_by(user_id=v.id, hat_id=hat.id).one_or_none()
 	if existing: abort(400, "You already own this hat!")
 
+	if hat.price == 0 and v.id != CARP_ID: #### TEMP HOMOWEEN
+		abort(403, "Only Carp can buy that hat!")
+
 	if request.values.get("mb"):
 		charged = v.charge_account('procoins', hat.price)
 		if not charged: abort(400, "Not enough marseybux.")

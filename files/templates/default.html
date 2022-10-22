@@ -5,7 +5,7 @@
 {% if request.path == '/' %}
 	{% set csp=CONTENT_SECURITY_POLICY_HOME %}
 {% endif %}
-{% if not 'post/' in request.path and not '@' is request.path %}
+{% if not 'post/' in request.path and not '@' in request.path %}
 	{{html_head.html_head(true, true, true, csp, none, "", "", true, 'post/' in request.path)}}
 {% else %}
 {# this should really be fixed at some point, prolly after 10/31 #}
@@ -111,6 +111,9 @@
 {% block mobileUserBanner %}
 {% endblock %}
 
+{% block hauntBg %}
+{% endblock %}
+
 <div class="container">
 	<div class="row justify-content-around" id="main-content-row">
 
@@ -126,9 +129,6 @@
 			{% endblock %}
 
 			{% block searchText %}
-			{% endblock %}
-
-			{% block hauntBg %}
 			{% endblock %}
 
 			{% block content %}
@@ -193,7 +193,7 @@
 	<script defer src="{{'js/spider.js' | asset}}"></script>
 {% endif %}
 
-{% if not(v and v.poorcel) %}
+{% if not (v and v.poorcel) %}
 <script defer src="{{'js/halloween/eye-tracking.js' | asset}}" ></script>
 {% endif %}
 </body>

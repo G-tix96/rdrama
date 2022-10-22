@@ -323,8 +323,14 @@ INSERT INTO public.hat_defs VALUES (890, 'Starfall', 'What a stary night!', 2, 1
 INSERT INTO public.hat_defs VALUES (888, 'Balloons I', '99 luftballons', 2, 1000, NULL, 1665339993);
 INSERT INTO public.hat_defs VALUES (889, 'Balloons II', 'Upular (LOOK THIS SONG UP IT IS SO GOOD)', 2, 1000, NULL, 1665340023);
 INSERT INTO public.hat_defs VALUES (963, 'Buried', 'You''re buried in sand?! HOW DID THIS HAPPEN?', 2, 500, NULL, 1665616459);
+
 INSERT INTO public.hat_defs VALUES (968, 'Bloody Tusks', '🐘🐘🐘🐘🐘🐘🐘🐘', 2, 500, NULL, 1665728710);
+
 INSERT INTO public.hat_defs VALUES (923, 'Bartman', 'Have a cow idfc', 2, 500, NULL, 1665425863);
+
+
+
+
 
 INSERT INTO public.hat_defs VALUES (714, 'Captain Falcon', 'The chad that every smash player wanted to imitate, if only his moveset included a shower.', 2, 500, NULL, 1663474615);
 INSERT INTO public.hat_defs VALUES (715, 'Inspector Gadget', '"Go go Gadget Brown Bricks!"', 2, 500, NULL, 1663477536);
@@ -412,6 +418,9 @@ INSERT INTO public.hat_defs VALUES (893, 'Heart Poof', '*POOF POOF*', 2, 1000, N
 INSERT INTO public.hat_defs VALUES (929, 'astolfo 2', 'Pretty pink hair!', 2, 500, NULL, 1665433847);
 INSERT INTO public.hat_defs VALUES (949, 'Kasa 1', 'Keeps the sun out your eyes but blinds you at the same time!', 2, 500, NULL, 1665609122);
 INSERT INTO public.hat_defs VALUES (951, 'Kasa 3', 'This is just a basket. What farmers wore this?? BLIND ONES?', 2, 500, NULL, 1665609168);
+
+
+
 INSERT INTO public.hat_defs VALUES (22, 'Southern Gentleman', 'Slaveowner? Fried chicken chain founder? You decide!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (23, 'Cowboy I', 'Make him wish he could quit you', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (24, 'Cowboy II', 'You''re my favorite deputy!', 2, 500, NULL, 1662167687);
@@ -1064,7 +1073,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 970, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 979, true);
 
 
 --
@@ -2789,6 +2798,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyvargselfdefense',2,'vikernes euronymous mayhem burzum black metal norway norwegian stab knife kill murder',NULL),
 ('marseyvatnik',2,'russian alcoholic alcoholism',NULL),
 ('marseyvaxmaxx',2,'mask coronavirus covid gigavax corona vaccine vaccination hazmat',NULL),
+('marseyvaxxtroll',2,'halloween alive healthy glow',1666460515),
 ('marseyvelociraptor',2,'dinosaur velocimarsey extinct predator claws',NULL),
 ('marseyvengeance',2,'gore undead shotgun horror halloween revenge monster bloody head wound holiday',NULL),
 ('marseyveryworried',2,'worry anxiety fear animated scared sweat yikes shook',NULL),
@@ -2868,6 +2878,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyzodiac2',2,'halloween killer zodiac tedcruise gun horror violence serial',1666290517),
 ('marseyzombie',2,'dead undead eye horror intestines halloween holiday monster',NULL),
 ('marseyzombie2',2,'undead living dead romero halloween horror corpse scary rotten',NULL),
+('marseyzombietroll',2,'halloween undead',1666460457),
 ('marseyzombiewolfamogus',2,'amongus among us stonetoss sussy baka imposter impostor fraud fake phony',NULL),
 ('marseyzombiewolflove',2,'hug cuddle love marseylove zombiewolf zombie wolf',NULL),
 ('marseyzombiewolfmarseymask',2,'sussy amogus fraud fake phony cope seethe',NULL),

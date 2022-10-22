@@ -20,8 +20,8 @@ function getMousePosition(e) {
 		mouseY = !isTouchDevice() ? e.clientY : e.touches[0].clientY;
 
 		// Set the Xpos and Ypos variables to current mouse/touch position
-		document.getElementById("flashlight").style.setProperty("--Xpos", mouseX + "px");
-document.getElementById("flashlight").style.setProperty("--Ypos", mouseY + "px");
+		document.getElementById("flashlight-effect").style.setProperty("--Xpos", mouseX + "px");
+document.getElementById("flashlight-effect").style.setProperty("--Ypos", mouseY + "px");
 	} catch (e) {}
 }
 

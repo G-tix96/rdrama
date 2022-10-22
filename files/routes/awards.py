@@ -91,7 +91,7 @@ def buy(v, award):
 	if award == "lootbox":
 		lootbox_items = []
 		for i in range(5): # five items per lootbox
-			lb_award = random.choice(["haunt", "stab", "spiders", "fog", "flashlight", "candy-corn", "ectoplasm", "bones", "pumpkin"])
+			lb_award = random.choice(["haunt", "stab", "spiders", "fog", "flashlight", "candy-corn", "ectoplasm", "bones", "pumpkin", "jumpscare", "hw-bite", "hw-vax"])
 			lootbox_items.append(AWARDS[lb_award]['title'])
 			lb_award = AwardRelationship(user_id=v.id, kind=lb_award)
 			g.db.add(lb_award)
@@ -136,7 +136,7 @@ def trick_or_treat(v):
 		message = "Trick!"
 	else:
 		AWARDS = deepcopy(AWARDS2)
-		award = random.choice(["haunt", "stab", "spiders", "fog", "flashlight", "candy-corn", "ectoplasm", "bones", "pumpkin"])
+		award = random.choice(["haunt", "stab", "spiders", "fog", "flashlight", "candy-corn", "ectoplasm", "bones", "pumpkin", "jumpscare", "hw-bite", "hw-vax"])
 		award_title = AWARDS[award]['title']
 		award_object = AwardRelationship(user_id=v.id, kind=award)
 		g.db.add(award_object)
@@ -432,6 +432,10 @@ def award_thing(v, thing_type, id):
 			badge_grant(user=author, badge_id=182)
 	elif kind == "jumpscare":
 		author.jumpscare += 1
+		
+	elif kind == "hw-grinch":
+		badge_grant(user=author, badge_id=185)
+		author.hwmusic = True
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1
