@@ -115,6 +115,8 @@ function submitFormAjax(e) {
 				myToast.show();
 				document.getElementById('toast-post-error-text').innerText = data["error"];
 				if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
+				document.getElementById('input-message').value = ''
+				document.getElementById('input-message-mobile').value = ''
 			} catch(e) {
 				var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success'));
 				myToast.hide();
