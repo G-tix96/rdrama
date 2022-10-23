@@ -17,7 +17,7 @@
 			<a href="{{image}}" style="text-decoration:none">
 				<img class="mb-4" alt="sidebar image" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
 				{% if not sub and selected_image in coordsLookup %}
-					{% set coordsLookup = ({
+					{% set coordsLookup = {
 						"banner1.webp":({
 							"left":({
 								"x":"72px",
@@ -58,10 +58,10 @@
 								"y":"-152px"
 							})
 						})
-					}) %}
+					} %}
 					<div style="position:absolute">
-						<img id="left-eye" class="eye" src="/assets/images/halloween/eye.png" loading="lazy" style="left:{{[coordsLookup][0][selected_image]['left']['x']}};top:{{[coordsLookup][0][selected_image]['left']['y']}}">
-						<img id="right-eye" class="eye" src="/assets/images/halloween/eye.png" loading="lazy" style="left:{{[coordsLookup][0][selected_image]['right']['x']}};top:{{[coordsLookup][0][selected_image]['right']['y']}}">
+						<img id="left-eye" class="eye" src="/assets/images/halloween/eye.png" loading="lazy" style="left:{{[coordsLookup][selected_image]['left']['x']}};top:{{[coordsLookup][selected_image]['left']['y']}}">
+						<img id="right-eye" class="eye" src="/assets/images/halloween/eye.png" loading="lazy" style="left:{{[coordsLookup][selected_image]['right']['x']}};top:{{[coordsLookup][selected_image]['right']['y']}}">
 					</div>
 				{% endif %}
 			</a>
