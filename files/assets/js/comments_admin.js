@@ -1,7 +1,7 @@
 function removeComment(t,post_id,button1,button2,cls) {
 	url="/remove_comment/"+post_id
 
-	post_toast(t,url)
+	post_toast(t,url,button1,button2,cls)
 
 	if (window.location.pathname == '/admin/reported/comments')
 	{
@@ -15,15 +15,13 @@ function removeComment(t,post_id,button1,button2,cls) {
 		} catch(e) {
 			document.getElementById("context").classList.add("banned");
 		}
-		document.getElementById(button1).classList.toggle(cls);
-		document.getElementById(button2).classList.toggle(cls);
 	}
 };
 
 function approveComment(t,post_id,button1,button2,cls) {
 	url="/approve_comment/"+post_id
 
-	post_toast(t,url)
+	post_toast(t,url,button1,button2,cls)
 
 	if (window.location.pathname == '/admin/reported/comments')
 	{
@@ -37,8 +35,6 @@ function approveComment(t,post_id,button1,button2,cls) {
 		} catch(e) {
 			document.getElementById("context").classList.remove("banned");
 		}
-		document.getElementById(button1).classList.toggle(cls);
-		document.getElementById(button2).classList.toggle(cls);
 	}
 }
 
