@@ -1205,11 +1205,9 @@ def distinguish_post(post_id, v):
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 @feature_required('PINS')
 def sticky_post(post_id, v):
-	
 	post = get_post(post_id)
-
+	if post.is_banned: abort(403, "Can't sticky removed posts!")
 	if post.stickied.endswith('(pin award)'): abort(403, "Can't pin award pins!")
-
 	pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
 
 	if pins >= PIN_LIMIT and v.admin_level < PERMS['BYPASS_PIN_LIMIT']:

@@ -255,8 +255,8 @@ def award_thing(v, thing_type, id):
 		author.unban_utc = int(time.time()) + 30 * 86400
 		send_repeatable_notification(author.id, f"Your account has been banned permanently for {link}. You must [provide the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
 	elif kind == "pin":
-		if not FEATURES['PINS']:
-			abort(403)
+		if not FEATURES['PINS']: abort(403)
+		if thing.is_banned: abort(403)
 		if thing.stickied and thing.stickied_utc:
 			thing.stickied_utc += 3600
 		else:
@@ -268,7 +268,7 @@ def award_thing(v, thing_type, id):
 		g.db.add(thing)
 		cache.delete_memoized(frontlist)
 	elif kind == "unpin":
-		if not thing.stickied_utc: abort(403)
+		if not thing.stickied_utc: abort(400)
 		if thing.author_id == LAWLZ_ID and SITE_NAME == 'rDrama': abort(403, "You can't unpin lawlzposts!")
 
 		if thing_type == 'comment':
