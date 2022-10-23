@@ -16,7 +16,7 @@
 		{% elif not (sub and sub.name == 'chudrama' and v.truecoins < 5000) %}
 			<a href="{{image}}" style="text-decoration:none">
 				<img class="mb-4" alt="sidebar image" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
-				{% if not sub and selected_image in coordsLookup %}
+				{% if not sub and selected_image not in ['banner5.webp','banner6.webp'] %}
 					{% set coordsLookup = {
 						"banner1.webp":({
 							"left":({
