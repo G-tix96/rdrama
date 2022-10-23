@@ -1114,6 +1114,7 @@ NOTIFIED_USERS = {
 	'scitzocel': SCHIZO_ID,
 	'snakes': SNAKES_ID,
 	'sneks': SNAKES_ID,
+	'jc': JUSTCOOL_ID,
 	'justcool': JUSTCOOL_ID,
 	'geese': GEESE_ID,
 	'clit': CARP_ID,
@@ -1145,6 +1146,7 @@ if SITE != 'localhost':
 if SITE == 'rdrama.net':
 	REDDIT_NOTIFS_SITE.add('marsey')
 	REDDIT_NOTIFS_SITE.add('"r/Drama"')
+	REDDIT_NOTIFS_SITE.add('justice4darrell')
 	REDDIT_NOTIFS_USERS = {
 		'idio3': IDIO_ID,
 		'aevann': AEVANN_ID,
