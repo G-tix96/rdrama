@@ -459,7 +459,7 @@
 
 
 {% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-	<button id="approve-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.is_banned or "/reported/" in request.path %}d-md-block{% endif %} text-success" onclick="approveComment('{{c.id}}','approve-{{c.id}}','remove-{{c.id}}','d-md-block')"><i class="fas fa-check text-success fa-fw"></i>Approve</button>
+	<button id="approve-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.is_banned or request.path == '/admin/reported/comments' %}d-md-block{% endif %} text-success" onclick="approveComment('{{c.id}}','approve-{{c.id}}','remove-{{c.id}}','d-md-block')"><i class="fas fa-check text-success fa-fw"></i>Approve</button>
 	<button id="remove-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.is_banned %}d-md-block{% endif %} text-danger" onclick="removeComment('{{c.id}}','approve-{{c.id}}','remove-{{c.id}}','d-md-block')"><i class="fas fa-ban text-danger fa-fw"></i>Remove</button>
 {% endif %}
 
@@ -704,7 +704,7 @@
 						{% endif %}
 						{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 							<a id="remove2-{{c.id}}" class="{% if c.is_banned %}d-none{% endif %} list-group-item text-danger" role="button" onclick="removeComment('{{c.id}}','approve2-{{c.id}}','remove2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-ban text-danger mr-2"></i>Remove</a>
-							<a id="approve2-{{c.id}}" class="{% if not c.is_banned or "/reported/" in request.path %}d-none{% endif %} list-group-item text-success" role="button" onclick="approveComment('{{c.id}}','approve2-{{c.id}}','remove2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-check text-success mr-2"></i>Approve</a>
+							<a id="approve2-{{c.id}}" class="{% if not c.is_banned or request.path == '/admin/reported/comments' %}d-none{% endif %} list-group-item text-success" role="button" onclick="approveComment('{{c.id}}','approve2-{{c.id}}','remove2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-check text-success mr-2"></i>Approve</a>
 						{% endif %}
 
 						{% if c.oauth_app and v.admin_level >= PERMS['APPS_MODERATION'] %}
