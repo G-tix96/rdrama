@@ -14,6 +14,7 @@ class Vote(Base):
 	vote_type = Column(Integer)
 	app_id = Column(Integer, ForeignKey("oauth_apps.id"))
 	real = Column(Boolean, default=True)
+	coins = Column(Integer, default=1, nullable=False)
 	created_utc = Column(Integer)
 
 	user = relationship("User")
@@ -44,6 +45,7 @@ class CommentVote(Base):
 	vote_type = Column(Integer)
 	app_id = Column(Integer, ForeignKey("oauth_apps.id"))
 	real = Column(Boolean, default=True)
+	coins = Column(Integer, default=1, nullable=False)
 	created_utc = Column(Integer)
 
 	user = relationship("User")

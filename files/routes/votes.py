@@ -72,22 +72,21 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		abort(400)
 	existing = existing.one_or_none()
 	
-	if DOUBLE_XP_ENABLED > 0:
-		if not existing and int(time.time()) > DOUBLE_XP_ENABLED:
-			coin_mult = 2
-		elif existing and existing.created_utc > DOUBLE_XP_ENABLED:
-			coin_mult = 2
+	if DOUBLE_XP_ENABLED > 0 and int(time.time()) > DOUBLE_XP_ENABLED:
+		coin_mult = 2
+	coin_value = coin_delta * coin_mult
 
 	if existing and existing.vote_type == new: return "", 204
 	if existing:
 		if existing.vote_type == 0 and new != 0:
-			target.author.coins += coin_delta * coin_mult
+			target.author.coins += coin_value
 			target.author.truecoins += coin_delta
 			g.db.add(target.author)
 			existing.vote_type = new
+			existing.coins = coin_value
 			g.db.add(existing)
 		elif existing.vote_type != 0 and new == 0:
-			target.author.charge_account('coins', coin_delta * coin_mult)
+			target.author.charge_account('coins', existing.coins)
 			target.author.truecoins -= coin_delta
 			g.db.add(target.author)
 			g.db.delete(existing)
@@ -95,7 +94,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			existing.vote_type = new
 			g.db.add(existing)
 	elif new != 0:
-		target.author.coins += coin_delta * coin_mult
+		target.author.coins += coin_value
 		target.author.truecoins += coin_delta
 		g.db.add(target.author)
 
@@ -106,14 +105,16 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 						vote_type=new,
 						submission_id=target_id,
 						app_id=v.client.application.id if v.client else None,
-						real = real
+						real=real,
+						coins=coin_value
 			)
 		elif vote_cls == CommentVote:		
 			vote = CommentVote(user_id=v.id,
 						vote_type=new,
 						comment_id=target_id,
 						app_id=v.client.application.id if v.client else None,
-						real=real
+						real=real,
+						coins=coin_value
 			)
 		g.db.add(vote)
 	g.db.flush()
