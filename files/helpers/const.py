@@ -508,6 +508,7 @@ bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, BASEDBOT_ID}
 COLORS = {'ff66ac','805ad5','62ca56','38a169','80ffff','2a96f3','eb4963','ff0000','f39731','30409f','3e98a7','e4432d','7b9ae4','ec72de','7f8fa6', 'f8db58','8cdbe6', DEFAULT_COLOR}
 
 AWARDS = {
+	### Deprecated
 	"ghost": {
 		"kind": "ghost",
 		"title": "Ghost",
@@ -524,6 +525,7 @@ AWARDS = {
 		"color": "text-success",
 		"price": 10000
 	},
+	### Fistmas 2021
 	"snow": {
 		"kind": "snow",
 		"title": "Snow",
@@ -572,6 +574,7 @@ AWARDS = {
 		"color": "text-green-500",
 		"price": 1000
 	},
+	### Homoween 2021 & 2022
 	"haunt": {
 		"kind": "haunt",
 		"title": "Haunt",
@@ -612,6 +615,80 @@ AWARDS = {
 		"color": "text-gray",
 		"price": 200
 	},
+	### Homoween 2022
+	"jumpscare": {
+		"kind": "jumpscare",
+		"title": "Jumpscare",
+		"description": "",
+		"icon": "fas fa-coffin-cross",
+		"color": "text-purple",
+		"price": 600
+	},
+	"hw-bite": {
+		"kind": "hw-bite",
+		"title": "Zombie Bite",
+		"description": "",
+		"icon": "fas fa-biohazard",
+		"color": "text-danger",
+		"price": 500
+	},
+	"hw-vax": {
+		"kind": "hw-vax",
+		"title": "Vaxxmaxx",
+		"description": "",
+		"icon": "fas fa-syringe",
+		"color": "text-blue",
+		"price": 500
+	},
+	"hw-grinch": {
+		"kind": "hw-grinch",
+		"title": "Hallowgrinch",
+		"description": "",
+		"icon": "fas fa-angry",
+		"color": "text-orange",
+		"price": 1000
+	},
+	"flashlight": {
+		"kind": "flashlight",
+		"title": "Flashlight",
+		"description": "",
+		"icon": "fas fa-flashlight",
+		"color": "text-black",
+		"price": 400
+	},
+	"candy-corn": {
+		"kind": "candy-corn",
+		"title": "Candy Corn",
+		"description": "",
+		"icon": "fas fa-candy-corn",
+		"color": "text-orange",
+		"price": 400
+	},
+	"ectoplasm": {
+		"kind": "ectoplasm",
+		"title": "Ectoplasm",
+		"description": "",
+		"icon": "fas fa-ghost",
+		"color": "text-success",
+		"price": 400
+	},
+	"bones": {
+		"kind": "bones",
+		"title": "Bones",
+		"description": "",
+		"icon": "fas fa-bone",
+		"color": "text-white",
+		"price": 200
+	},
+	"pumpkin": {
+		"kind": "pumpkin",
+		"title": "Pumpkin",
+		"description": "",
+		"icon": "fas fa-jack-o-lantern",
+		"color": "text-orange",
+		"price": 200
+	},
+	### Standard
 	"marsify": {
 		"kind": "marsify",
 		"title": "Marsify",
