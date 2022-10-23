@@ -408,10 +408,14 @@ def award_thing(v, thing_type, id):
 
 		if author.homoween_zombie == 'HEALTHY':
 			author.homoween_zombie = 'ZOMBIE'
+			badge_grant(user=author, badge_id=181)
 
 			award_object = AwardRelationship(user_id=author.id, kind='hw-bite')
 			g.db.add(award_object)
-			badge_grant(user=author, badge_id=181)
+			send_repeatable_notification(author.id,
+				"As the zombie virus washes over your mind, you feel the urge "
+				"to… BITE YUMMY BRAINS :marseyzombie:<br>"
+				"You receive a free **Zombie Bite** award: pass it on!")
 
 		elif author.homoween_zombie == 'VAXXED':
 			author.homoween_zombie = 'HEALTHY'
