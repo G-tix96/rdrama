@@ -264,7 +264,6 @@
 
 <!-- homoween audio -->
 {% if not (v and v.poorcel) and not (v and v.hwmusic) and not (sub and sub.name == 'music') %}
-	{{v.hwmusic}}
 	{% set song = SITE_FULL + "/assets/media/halloween/CARPENTER_MASTER.mp3" %}
 	<script async>
 		const audio = new Audio("{{song}}");
