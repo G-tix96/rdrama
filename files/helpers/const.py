@@ -472,6 +472,7 @@ elif SITE == 'pcmemes.net':
 
 	BANNER_THREAD = 28307
 elif SITE == 'watchpeopledie.tv':
+	PIN_LIMIT = 4
 	WELCOME_MSG = """Hi, you! Welcome to WatchPeopleDie.tv, this really cool site where you can go to watch people die. I'm @CLiTPEELER! If you have any questions about how things work here, or suggestions on how to make them work better than they already do, definitely slide on into my DMs (no fat chicks).\nThere's an enormously robust suite of fun features we have here and we're always looking for more to add. Way, way too many to go over in an automated welcome message. And you're probably here for the videos of people dying more than any sort of weird, paradoxical digital community aspect anyway, so I won't bore you with a tedious overview of them. Just head on over to [your settings page](https://watchpeopledie.tv/settings/profile) and have a look at some of the basic profile stuff, at least. You can change your profile picture, username, flair, colors, banners, bio, profile anthem (autoplaying song on your page, like it's MySpace or some shit, hell yeah), CSS, all sorts of things.\nOr you can just go back to the main feed and carry on with watching people die. That's what the site is for, after all. Have fun!\nAnyway, in closing, WPD is entirely open source. We don't really need new full-time coders or anything, but if you'd like to take a look at our repo - or even submit a PR to change, fix, or add some things - go right ahead! We are on [GitHub](https://github.com/Aevann1/rDrama).\nWell, that's all. Thanks again for signing up. It's an automated message and all, but I really do mean that. Thank you, specifically. I love you. Romantically. Deeply. Passionately.\nHave fun!"""
 
 	FEATURES['PATRON_ICONS'] = True
@@ -625,7 +626,7 @@ AWARDS = {
 		"description": "Makes flies swarm the post.",
 		"icon": "fas fa-poop",
 		"color": "text-black-50",
-		"price": 500
+		"price": 300
 	},
 	"fireflies": {
 		"kind": "fireflies",
@@ -633,7 +634,7 @@ AWARDS = {
 		"description": "Makes fireflies swarm the post.",
 		"icon": "fas fa-sparkles",
 		"color": "text-warning",
-		"price": 500
+		"price": 300
 	},
 	"train": {
 		"kind": "train",
@@ -641,7 +642,7 @@ AWARDS = {
 		"description": "Summons a train on the post.",
 		"icon": "fas fa-train",
 		"color": "text-pink",
-		"price": 500
+		"price": 300
 	},
 	"scooter": {
 		"kind": "scooter",
@@ -649,7 +650,7 @@ AWARDS = {
 		"description": "Summons a scooter on the post.",
 		"icon": "fas fa-flag-usa",
 		"color": "text-muted",
-		"price": 500
+		"price": 300
 	},
 	"wholesome": {
 		"kind": "wholesome",
@@ -657,7 +658,7 @@ AWARDS = {
 		"description": "Summons a wholesome marsey on the post.",
 		"icon": "fas fa-smile-beam",
 		"color": "text-yellow",
-		"price": 500
+		"price": 300
 	},
 	"firework": {
 		"kind": "firework",
@@ -665,7 +666,7 @@ AWARDS = {
 		"description": "Summons fireworks on the post.",
 		"icon": "fas fa-bahai",
 		"color": "text-danger",
-		"price": 500
+		"price": 300
 	},
 	"confetti": {
 		"kind": "confetti",
@@ -673,7 +674,7 @@ AWARDS = {
 		"description": "Summons confetti to fall on the post.",
 		"icon": "fas fa-party-horn",
 		"color": "text-yellow",
-		"price": 500
+		"price": 300
 	},
 	"ricardo": {
 		"kind": "ricardo",
@@ -681,7 +682,7 @@ AWARDS = {
 		"description": "Summons Ricardo to dance on the post.",
 		"icon": "fas fa-pinata",
 		"color": "text-pink",
-		"price": 500
+		"price": 300
 	},
 	"tilt": {
 		"kind": "tilt",
@@ -689,7 +690,7 @@ AWARDS = {
 		"description": "Tilts the post or comment",
 		"icon": "fas fa-car-tilt",
 		"color": "text-blue",
-		"price": 500
+		"price": 300
 	},
 	"glowie": {
 		"kind": "glowie",
@@ -697,7 +698,7 @@ AWARDS = {
 		"description": "Indicates that the recipient can be seen when driving. Just run them over.",
 		"icon": "fas fa-user-secret",
 		"color": "text-green",
-		"price": 500
+		"price": 300
 	},
 	"rehab": {
 		"kind": "rehab",
@@ -930,7 +931,7 @@ if SITE_NAME == 'PCM':
 			"description": "Summons Croag on the post.",
 			"icon": "fas fa-head-side",
 			"color": "text-gold",
-			"price": 500
+			"price": 300
 		},
 		"toe": {
 			"kind": "toe",
@@ -938,7 +939,7 @@ if SITE_NAME == 'PCM':
 			"description": "Summons Blade's toe on the post.",
 			"icon": "fas fa-socks",
 			"color": "text-blue",
-			"price": 500
+			"price": 300
 		},
 		"crab": {
 			"kind": "crab",
