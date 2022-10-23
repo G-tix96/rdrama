@@ -74,6 +74,8 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	
 	if DOUBLE_XP_ENABLED > 0 and int(time.time()) > DOUBLE_XP_ENABLED:
 		coin_mult = 2
+		if target.author.hw_zombie > 0:
+			coin_mult += 1
 	coin_value = coin_delta * coin_mult
 
 	if existing and existing.vote_type == new: return "", 204

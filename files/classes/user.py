@@ -775,7 +775,9 @@ class User(Base):
 	@property
 	@lazy
 	def pronouns_display(self):
-		if self.hw_zombie > 0:
+		if self.hw_zombie > 2:
+			return 'VAX/MAXXED'
+		elif self.hw_zombie > 0:
 			return 'giga/boosted'
 		return self.pronouns
 
