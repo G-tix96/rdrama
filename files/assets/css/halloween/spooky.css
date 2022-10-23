@@ -60,7 +60,7 @@ body {
 }
 
 a:hover.user-name {
-	cursor: url('/assets/images/halloween/machete.png') 36 36, auto !important;
+	cursor: url('/assets/images/halloween/machete.png'), auto !important;
 }
 
 .border {
