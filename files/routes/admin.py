@@ -1249,6 +1249,7 @@ def unsticky_post(post_id, v):
 	post = get_post(post_id)
 	if post.stickied:
 		if post.stickied.endswith('(pin award)'): abort(403, "Can't unpin award pins!")
+		if post.author_id == LAWLZ_ID and SITE_NAME == 'rDrama': abort(403, "Can't unpin lawlzposts!")
 
 		post.stickied = None
 		post.stickied_utc = None
