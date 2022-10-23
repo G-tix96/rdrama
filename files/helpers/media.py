@@ -157,29 +157,31 @@ def process_image(filename=None, resize=0, trim=False, uploader=None, patron=Fal
 	if resize:
 		if os.stat(filename).st_size > MAX_IMAGE_SIZE_BANNER_RESIZED_KB * 1024:
 			os.remove(filename)
-			abort(413, f"Max size for banners, sidebars, and badges is {MAX_IMAGE_SIZE_BANNER_RESIZED_KB} KB")
+			abort(413, f"Max size for site assets is {MAX_IMAGE_SIZE_BANNER_RESIZED_KB} KB")
 
 		if filename.startswith('files/assets/images/'):
 			path = filename.rsplit('/', 1)[0]
+			kind = path.split('/')[-1]
 
-			hashes = {}
+			if kind in ('banners','sidebar','badges'):
+				hashes = {}
 
-			for img in os.listdir(path):
-				if resize == 400 and img in ('256.webp','585.webp'): continue
-				img_path = f'{path}/{img}'
-				if img_path == filename: continue
-				img = Image.open(img_path)
-				i_hash = str(imagehash.phash(img))
+				for img in os.listdir(path):
+					if resize == 400 and img in ('256.webp','585.webp'): continue
+					img_path = f'{path}/{img}'
+					if img_path == filename: continue
+					img = Image.open(img_path)
+					i_hash = str(imagehash.phash(img))
+					if i_hash in hashes.keys():
+						print(hashes[i_hash], flush=True)
+						print(img_path, flush=True)
+					else: hashes[i_hash] = img_path
+
+				i = Image.open(filename)
+				i_hash = str(imagehash.phash(i))
 				if i_hash in hashes.keys():
-					print(hashes[i_hash], flush=True)
-					print(img_path, flush=True)
-				else: hashes[i_hash] = img_path
-
-			i = Image.open(filename)
-			i_hash = str(imagehash.phash(i))
-			if i_hash in hashes.keys():
-				os.remove(filename)
-				abort(409, "Image already exists!")
+					os.remove(filename)
+					abort(409, "Image already exists!")
 
 	db = db or g.db
 
