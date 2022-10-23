@@ -5,7 +5,6 @@
 -- Dumped from database version 14.5
 -- Dumped by pg_dump version 14.5 (Ubuntu 14.5-1.pgdg20.04+1)
 
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
