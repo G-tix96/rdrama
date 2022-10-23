@@ -404,11 +404,11 @@ def award_thing(v, thing_type, id):
 		else: author.spider = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=179, notify=False)
 	elif kind == "hw-bite":
-		if author.homoween_zombie == 'ZOMBIE':
+		if author.hw_zombie < 0:
 			author = v
 
-		if author.homoween_zombie == 'HEALTHY':
-			author.homoween_zombie = 'ZOMBIE'
+		if author.hw_zombie == 0:
+			author.hw_zombie = -1
 			badge_grant(user=author, badge_id=181)
 
 			award_object = AwardRelationship(user_id=author.id, kind='hw-bite')
@@ -418,21 +418,22 @@ def award_thing(v, thing_type, id):
 				"to… BITE YUMMY BRAINS :marseyzombie:<br>"
 				"You receive a free **Zombie Bite** award: pass it on!")
 
-		elif author.homoween_zombie == 'VAXXED':
-			author.homoween_zombie = 'HEALTHY'
-			send_repeatable_notification(author.id, "You are no longer **VAXXMAXXED**! Time for another booster!")
+		elif author.hw_zombie > 0:
+			author.hw_zombie -= 1
+			if author.hw_zombie == 0:
+				send_repeatable_notification(author.id, "You are no longer **VAXXMAXXED**! Time for another booster!")
 
-			badge = author.has_badge(182)
-			if badge: g.db.delete(badge)
-	elif kind == "hw-vax" and author.id != v.id:
-		if author.homoween_zombie == 'ZOMBIE':
-				author.homoween_zombie = 'HEALTHY'
-				send_repeatable_notification(author.id, "You are no longer **INFECTED**! Praise Fauci!")
-
-				badge = author.has_badge(181)
+				badge = author.has_badge(182)
 				if badge: g.db.delete(badge)
-		elif author.homoween_zombie == 'HEALTHY':
-			author.homoween_zombie = 'VAXXED'
+	elif kind == "hw-vax":
+		if author.hw_zombie < 0:
+			author.hw_zombie = 0
+			send_repeatable_notification(author.id, "You are no longer **INFECTED**! Praise Fauci!")
+
+			badge = author.has_badge(181)
+			if badge: g.db.delete(badge)
+		elif author.hw_zombie == 0:
+			author.hw_zombie += 2
 
 			badge_grant(user=author, badge_id=182)
 	elif kind == "jumpscare":

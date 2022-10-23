@@ -36,12 +36,10 @@ def timestamp(timestamp):
 @cache.memoize(timeout=60)
 def bar_position():
 	db = db_session()
-	res = db.execute(text("SELECT homoween_zombie, COUNT(*) FROM users "
-		"WHERE last_active > 1666402200 GROUP BY homoween_zombie")).all()
-
-	counts = dict(res)
-	infected = counts['ZOMBIE'] if 'ZOMBIE' in counts else 0
-	total = sum(counts.values())
+	infected = db.execute(text("SELECT COUNT(*) FROM users "
+		"WHERE last_active > 1666402200 AND hw_zombie < 0")).one()[0]
+	total = db.execute(text("SELECT COUNT(*) FROM users "
+		"WHERE last_active > 1666402200")).one()[0]
 
 	return int(((total - infected) * 100) / total)
 

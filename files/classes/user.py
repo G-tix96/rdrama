@@ -133,8 +133,8 @@ class User(Base):
 	rainbow = Column(Integer)
 	spider = Column(Integer, default=0)
 	# TODO: Remove after homoween.
-	# ALTER TABLE users ADD COLUMN homoween_zombie character varying(7) DEFAULT 'HEALTHY';
-	homoween_zombie = Column(String(length=7), default='HEALTHY')
+	#homoween_zombie = Column(String(length=7), default='HEALTHY')
+	hw_zombie = Column(Integer, default=0, nullable=False) # > 0 vaxxed; < 0 zombie
 	jumpscare = Column(Integer, default=0)
 	hwmusic = Column(Boolean, default=False)
 
@@ -761,7 +761,7 @@ class User(Base):
 	@property
 	@lazy
 	def profile_url(self):
-		if self.homoween_zombie == 'ZOMBIE':
+		if self.hw_zombie < 0:
 			return f"{SITE_FULL}/assets/images/halloween/zombies/{random.randint(1, 10)}.webp?v=1"
 		if self.agendaposter:
 			return f"{SITE_FULL}/assets/images/halloween/agendaposter/{random.randint(1, 19)}.webp?v=1"
@@ -775,7 +775,7 @@ class User(Base):
 	@property
 	@lazy
 	def pronouns_display(self):
-		if self.homoween_zombie == 'VAXXED':
+		if self.hw_zombie > 0:
 			return 'giga/boosted'
 		return self.pronouns
 
