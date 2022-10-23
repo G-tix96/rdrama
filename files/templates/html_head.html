@@ -92,7 +92,6 @@
 		{% endif %}
 		{% if include_user_css %}
 			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
-			<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 			{% if v.css and not request.path.startswith('/settings/css') %}
 				<style>
 					{{v.css | safe}}
@@ -105,12 +104,13 @@
 					}
 				</style>
 			{% endif %}
+		{% else %}
+			{{default_theme()}}
 		{% endif %}
 	{% else %}
-		<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
-		<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
-		<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
+		{{default_theme()}}
 	{% endif %}
+	<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 
 	{% if request.path.endswith('/catalog') %}
 		<link rel="stylesheet" href="{{'css/catalog.css' | asset}}">
@@ -124,6 +124,11 @@
 		<link rel="stylesheet" href="{{'css/rDrama.css' | asset}}">
 	{% endif %}
 	{{extra_css}}
+{% endmacro %}
+
+{% macro default_theme() %}
+	<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
+	<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
 {% endmacro %}
 
 {% macro seo() %}
