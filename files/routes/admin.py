@@ -1207,7 +1207,7 @@ def distinguish_post(post_id, v):
 def sticky_post(post_id, v):
 	post = get_post(post_id)
 	if post.is_banned: abort(403, "Can't sticky removed posts!")
-	if post.stickied.endswith('(pin award)'):
+	if post.stickied and post.stickied.endswith('(pin award)'):
 		abort(403, "Can't pin award pins!")
 
 	pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
