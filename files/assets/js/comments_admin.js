@@ -1,75 +1,44 @@
-function removeComment(post_id,button1,button2) {
+function removeComment(post_id,button1,button2,cls) {
 	url="/remove_comment/"+post_id
 
 	post(url)
 
-	try {
-		document.getElementById("comment-"+post_id+"-only").classList.add("banned");
-	} catch(e) {
-		document.getElementById("context").classList.add("banned");
+	if (window.location.pathname == '/admin/reported/comments')
+	{
+		document.getElementById("post-info-"+post_id).remove()
+		document.getElementById("comment-"+post_id).remove()
 	}
-
-	var button=document.getElementById("remove-"+post_id);
-	button.onclick=function(){approveComment(post_id)};
-	button.innerHTML='<i class="fas fa-clipboard-check"></i>Approve'
-
-	if (typeof button1 !== 'undefined') {
-		document.getElementById(button1).classList.toggle("d-md-block");
-		document.getElementById(button2).classList.toggle("d-md-block");
+	else
+	{
+		try {
+			document.getElementById("comment-"+post_id+"-only").classList.add("banned");
+		} catch(e) {
+			document.getElementById("context").classList.add("banned");
+		}
+		document.getElementById(button1).classList.toggle(cls);
+		document.getElementById(button2).classList.toggle(cls);
 	}
 };
 
-function approveComment(post_id,button1,button2) {
+function approveComment(post_id,button1,button2,cls) {
 	url="/approve_comment/"+post_id
 
 	post(url)
 
-	try {
-		document.getElementById("comment-"+post_id+"-only").classList.remove("banned");
-	} catch(e) {
-		document.getElementById("context").classList.remove("banned");
+	if (window.location.pathname == '/admin/reported/comments')
+	{
+		document.getElementById("post-info-"+post_id).remove()
+		document.getElementById("comment-"+post_id).remove()
 	}
-
-	var button=document.getElementById("remove-"+post_id);
-	button.onclick=function(){removeComment(post_id)};
-	button.innerHTML='<i class="fas fa-trash-alt"></i>Remove'
-
-	if (typeof button1 !== 'undefined') {
-		document.getElementById(button1).classList.toggle("d-md-block");
-		document.getElementById(button2).classList.toggle("d-md-block");
-	}
-}
-
-
-function removeComment2(post_id,button1,button2) {
-	url="/remove_comment/"+post_id
-
-	post(url)
-
-	document.getElementById("comment-"+post_id+"-only").classList.add("banned");
-	var button=document.getElementById("remove-"+post_id);
-	button.onclick=function(){approveComment(post_id)};
-	button.innerHTML='<i class="fas fa-clipboard-check"></i>Approve'
-
-	if (typeof button1 !== 'undefined') {
-		document.getElementById(button1).classList.toggle("d-none");
-		document.getElementById(button2).classList.toggle("d-none");
-	}
-};
-
-function approveComment2(post_id,button1,button2) {
-	url="/approve_comment/"+post_id
-
-	post(url)
-
-	document.getElementById("comment-"+post_id+"-only").classList.remove("banned");
-	var button=document.getElementById("remove-"+post_id);
-	button.onclick=function(){removeComment(post_id)};
-	button.innerHTML='<i class="fas fa-trash-alt"></i>Remove'
-
-	if (typeof button1 !== 'undefined') {
-		document.getElementById(button1).classList.toggle("d-none");
-		document.getElementById(button2).classList.toggle("d-none");
+	else
+	{
+		try {
+			document.getElementById("comment-"+post_id+"-only").classList.remove("banned");
+		} catch(e) {
+			document.getElementById("context").classList.remove("banned");
+		}
+		document.getElementById(button1).classList.toggle(cls);
+		document.getElementById(button2).classList.toggle(cls);
 	}
 }
 
