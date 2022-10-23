@@ -1121,10 +1121,10 @@ def remove_post(post_id, v):
 	post = get_post(post_id)
 	post.is_banned = True
 	post.is_approved = None
+	post.stickied = None
+	post.is_pinned = False
 	post.ban_reason = v.username
 	g.db.add(post)
-
-	
 
 	ma=ModAction(
 		kind="ban_post",
@@ -1205,9 +1205,8 @@ def distinguish_post(post_id, v):
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 @feature_required('PINS')
 def sticky_post(post_id, v):
-
 	post = get_post(post_id)
-
+	if post.is_banned: abort(403, "Can't sticky removed posts!")
 	if post.stickied.endswith('(pin award)'):
 		abort(403, "Can't pin award pins!")
 
