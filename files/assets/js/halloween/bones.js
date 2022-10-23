@@ -3,7 +3,7 @@ function bones(number){
   
   // Stackable
   // With each award, append a new image to array
-  const sources = ['skeleton1.gif','skeleton2.gif','skeleton3.gif','skeleton4.gif','skeleton5.gif','skeleton6.gif'];
+  const sources = ['skeleton1.webp','skeleton2.webp','skeleton3.webp','skeleton4.webp','skeleton5.webp','skeleton6.webp'];
 
   const n = sources.length - number,
         emoji = sources.slice(n)

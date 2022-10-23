@@ -10,7 +10,7 @@ pCollection = new Array();
 
 var puffs = 1;
 var particlesPerPuff = 1000;
-var img = '/assets/images/halloween/smoke.png';
+var img = '/assets/images/halloween/smoke.webp';
 
 var smokeImage = new Image();
 smokeImage.src = img;
