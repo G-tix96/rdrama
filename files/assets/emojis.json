@@ -651,6 +651,9 @@
 	{"name":"truestorybro","class":"Rage"},
 	{"name":"xallthey","class":"Rage"},
 	{"name":"yuno","class":"Rage"},
+	{"name":"antichrist","class":"Rage"},
+	{"name":"antichristfffuuuu","class":"Rage"},
+	{"name":"bluehelmet","class":"Rage"},
 
 	{"name":"afroblackjak","class":"Wojak"},
 	{"name":"altgirlblackjack","class":"Wojak"},
@@ -732,6 +735,7 @@
 	{"name":"chadlatino","tags": ["latinx"],"class":"Wojak"},
 	{"name":"chadlibleft","tags": ["libleft"],"class":"Wojak"},
 	{"name":"chadnordic","tags": ["nordic", "nazi"],"class":"Wojak"},
+	{"name":"chadmediterranean","class":"Wojak"},
 	{"name":"chadsikh","tags": ["sikh", "indian"],"class":"Wojak"},
 	{"name":"chadusa","tags": ["usa", "america", "freedom"],"class":"Wojak"},
 	{"name":"chadsoy","class":"Wojak","tags": ["soy"]},
@@ -895,6 +899,11 @@
 	{"name":"snoosurprise","class":"Misc"},
 	{"name":"snooupvote","class":"Misc"},
 	{"name":"snoothumbsup","class":"Misc"},
+	{"name":"brooksannoyed","tags":["darrell", "suv", "waukesha", "retard", "idiot", "annoyed", "irritated", "mask", "suit", "black"],"class":"Misc"},
+	{"name":"brookslaugh","class":"Misc"},
+	{"name":"brookscringe","class":"Misc"},
+	{"name":"brooksjustright","class":"Misc"},
+	{"name":"brookskiss","class":"Misc"},
 	{"name":"gimp","class":"Misc"},
 	{"name":"taddance","class":"Misc","tags":["terry","davis","templeos","dance"]},
 	{"name":"realisticelephant","class":"Misc","tags":["terry","davis","templeos"]},
@@ -912,6 +921,7 @@
 	{"name":"deuxwaifu","class":"Misc"},
 	{"name":"flairlessmong","class":"Misc"},
 	{"name":"hardislife","class":"Misc"},
+	{"name":"ben10","class":"Misc"},
 	{"name":"redditgigachad","tags": ["chad", "gigachad"],"class":"Misc"},
 	{"name":"rfybear","class":"Misc"},
 	{"name":"etika","class":"Misc"},
@@ -940,8 +950,8 @@
 	{"name":"srdinepoppy","class":"Misc"},
 	{"name":"gunt","class":"Misc"},
 	{"name":"sneedbuddy","class":"Misc"},
+	{"name":"chuckbuddy","class":"Misc"},
 	{"name":"soren","class":"Misc"},
 	{"name":"upsoren","class":"Misc"},
-	{"name":"downdonger","class":"Misc"},
-	{"name":"brooksannoyed","tags":["darrell", "suv", "waukesha", "retard", "idiot", "annoyed", "irritated", "mask", "suit", "black"],"class":"Misc"}
+	{"name":"downdonger","class":"Misc"}
 ]
