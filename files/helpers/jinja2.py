@@ -1,5 +1,6 @@
 from files.__main__ import app, cache
 from jinja2 import pass_context
+from sqlalchemy import text
 from .get import *
 from os import listdir, environ
 from .const import * 
@@ -32,15 +33,17 @@ def template_asset_siteimg(asset_path):
 def timestamp(timestamp):
 	return make_age_string(timestamp)
 
+@cache.memoize(timeout=60)
 def bar_position():
-    t = float(time.time())
-    f = 0.5 \
-        + 0.15 * math.sin((t + 35000) / 23000) \
-        + 0.10 * math.sin((t +  2500) / 11000) \
-        + 0.05 * math.sin((t +   500) /  7000) \
-        + 0.05 * math.sin((t +  6000) /  3000) \
-        + 0.02 * math.sin((t +  1000) /  1000)
-    return (int(f*100))
+	db = db_session()
+	res = db.execute(text("SELECT homoween_zombie, COUNT(*) FROM users "
+		"WHERE last_active > 1666402200 GROUP BY homoween_zombie")).all()
+
+	counts = dict(res)
+	infected = counts['ZOMBIE'] if 'ZOMBIE' in counts else 0
+	total = sum(counts.values())
+
+	return int(((total - infected) * 100) / total)
 
 @app.context_processor
 def inject_constants():
