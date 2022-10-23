@@ -459,11 +459,11 @@
 
 
 {% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-	{% if v.id != c.author.id %}
-		<button id="approve-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.is_banned or request.path == '/admin/reported/comments' %}d-md-block{% endif %} text-success" onclick="approveComment('{{c.id}}','approve-{{c.id}}','remove-{{c.id}}','d-md-block')"><i class="fas fa-check text-success fa-fw"></i>Approve</button>
-	{% endif %}
+	<button id="approve-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.is_banned or request.path == '/admin/reported/comments' %}d-md-block{% endif %} text-success" onclick="approveComment('{{c.id}}','approve-{{c.id}}','remove-{{c.id}}','d-md-block')"><i class="fas fa-check text-success fa-fw"></i>Approve</button>
 
-	<button id="remove-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.is_banned %}d-md-block{% endif %} text-danger" onclick="removeComment('{{c.id}}','approve-{{c.id}}','remove-{{c.id}}','d-md-block')"><i class="fas fa-ban text-danger fa-fw"></i>Remove</button>
+	{% if v.id != c.author.id %}
+		<button id="remove-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.is_banned %}d-md-block{% endif %} text-danger" onclick="removeComment('{{c.id}}','approve-{{c.id}}','remove-{{c.id}}','d-md-block')"><i class="fas fa-ban text-danger fa-fw"></i>Remove</button>
+	{% endif %}
 {% endif %}
 
 {% if c.post %}
