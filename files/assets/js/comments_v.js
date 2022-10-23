@@ -98,11 +98,19 @@ function delete_commentModal(id) {
 			try {data = JSON.parse(xhr[0].response)}
 			catch(e) {console.log(e)}
 			if (xhr[0].status >= 200 && xhr[0].status < 300 && data && data['message']) {
-				document.getElementsByClassName(`comment-${id}-only`)[0].classList.add('deleted');
-				document.getElementById(`delete-${id}`).classList.add('d-none');
-				document.getElementById(`undelete-${id}`).classList.remove('d-none');
-				document.getElementById(`delete2-${id}`).classList.add('d-none');
-				document.getElementById(`undelete2-${id}`).classList.remove('d-none');
+				if (window.location.pathname == '/admin/reported/comments')
+				{
+					document.getElementById("post-info-"+id).remove()
+					document.getElementById("comment-"+id).remove()
+				}
+				else
+				{			
+					document.getElementsByClassName(`comment-${id}-only`)[0].classList.add('deleted');
+					document.getElementById(`delete-${id}`).classList.add('d-none');
+					document.getElementById(`undelete-${id}`).classList.remove('d-none');
+					document.getElementById(`delete2-${id}`).classList.add('d-none');
+					document.getElementById(`undelete2-${id}`).classList.remove('d-none');
+				}
 				showToast(true, getMessageFromJsonData(true, data));
 			} else {
 				showToast(false, getMessageFromJsonData(false, data));
