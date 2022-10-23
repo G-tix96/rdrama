@@ -6,19 +6,20 @@ function bones(number){
   const sources = ['skeleton1.gif','skeleton2.gif','skeleton3.gif','skeleton4.gif','skeleton5.gif','skeleton6.gif'];
 
   const n = sources.length - number,
-        emoji = sources.slice(n)
+        emoji = sources.slice(n),
+        pw = screen.availWidth/6
 
   let circles = [];
 
   for (var i = 0; i < 5; i++) {
-    addCircle(i * 150, [10 + 0, 300], emoji[Math.floor(Math.random() * emoji.length)]);
-    addCircle(i * 150, [10 + 0, -300], emoji[Math.floor(Math.random() * emoji.length)]);
-    addCircle(i * 150, [10 - 200, -300], emoji[Math.floor(Math.random() * emoji.length)]);
-    addCircle(i * 150, [10 + 200, 300], emoji[Math.floor(Math.random() * emoji.length)]);
-    addCircle(i * 150, [10 - 400, -300], emoji[Math.floor(Math.random() * emoji.length)]);
-    addCircle(i * 150, [10 + 400, 300], emoji[Math.floor(Math.random() * emoji.length)]);
-    addCircle(i * 150, [10 - 600, -300], emoji[Math.floor(Math.random() * emoji.length)]);
-    addCircle(i * 150, [10 + 600, 300], emoji[Math.floor(Math.random() * emoji.length)]);
+    addCircle(i * 150, [10 + 0, pw], emoji[Math.floor(Math.random() * emoji.length)]);
+    addCircle(i * 150, [10 + 0, -pw], emoji[Math.floor(Math.random() * emoji.length)]);
+    addCircle(i * 150, [10 - (0.5*pw), -pw], emoji[Math.floor(Math.random() * emoji.length)]);
+    addCircle(i * 150, [10 + (0.5*pw), pw], emoji[Math.floor(Math.random() * emoji.length)]);
+    addCircle(i * 150, [10 - (1.5*pw), -pw], emoji[Math.floor(Math.random() * emoji.length)]);
+    addCircle(i * 150, [10 + (1.5*pw), pw], emoji[Math.floor(Math.random() * emoji.length)]);
+    addCircle(i * 150, [10 - (2*pw), -pw], emoji[Math.floor(Math.random() * emoji.length)]);
+    addCircle(i * 150, [10 + (2*pw), pw], emoji[Math.floor(Math.random() * emoji.length)]);
   }
 
 
@@ -43,12 +44,12 @@ function bones(number){
     /*this.element.style.display = 'block';*/
     this.element.style.opacity = 0;
     this.element.style.position = 'absolute';
-    this.element.style.width = '36px';
+    this.element.style.width = '3rem';
     this.element.src = "/assets/images/halloween/skeletons/"+c;
     container.appendChild(this.element);
 
     this.update = function() {
-      if (_this.y > 800) {
+      if (_this.y > window.innerHeight) {
         _this.y = 80 + Math.random() * 4;
         _this.x = _this.range[0] + Math.random() * _this.range[1];
       }
