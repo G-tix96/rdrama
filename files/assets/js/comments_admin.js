@@ -1,7 +1,7 @@
-function removeComment(post_id,button1,button2,cls) {
+function removeComment(t,post_id,button1,button2,cls) {
 	url="/remove_comment/"+post_id
 
-	post(url)
+	post_toast(t,url)
 
 	if (window.location.pathname == '/admin/reported/comments')
 	{
@@ -20,10 +20,10 @@ function removeComment(post_id,button1,button2,cls) {
 	}
 };
 
-function approveComment(post_id,button1,button2,cls) {
+function approveComment(t,post_id,button1,button2,cls) {
 	url="/approve_comment/"+post_id
 
-	post(url)
+	post_toast(t,url)
 
 	if (window.location.pathname == '/admin/reported/comments')
 	{
