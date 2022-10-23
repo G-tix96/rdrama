@@ -233,6 +233,7 @@ def award_thing(v, thing_type, id):
 		cache.delete_memoized(frontlist)
 	elif kind == "unpin":
 		if not thing.stickied_utc: abort(403)
+		if thing.author_id == LAWLZ_ID and SITE_NAME == 'rDrama': abort(403, "You can't unpin lawlzposts!")
 
 		if thing_type == 'comment':
 			t = thing.stickied_utc - 3600*6

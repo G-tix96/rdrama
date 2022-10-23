@@ -421,6 +421,7 @@ def execute_antispam_comment_check(body, v):
 def execute_lawlz_actions(v:User, p:Submission):
 	if v.id != LAWLZ_ID: return
 	if SITE_NAME != 'rDrama': return
+	if not FEATURES['PINS']: return
 	p.stickied_utc = int(time.time()) + 86400
 	p.stickied = v.username
 	p.distinguish_level = 6
