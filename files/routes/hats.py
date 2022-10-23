@@ -1,4 +1,4 @@
-from files.__main__ import app
+from files.__main__ import app, limiter
 from files.classes.hats import *
 from files.helpers.alerts import *
 from files.helpers.wrappers import *
@@ -32,6 +32,7 @@ def hats(v):
 	return render_template("hats.html", owned_hat_ids=owned_hat_ids, hats=hats, v=v, sales=sales, num_of_hats=num_of_hats)
 
 @app.post("/buy_hat/<hat_id>")
+@limiter.limit('100/minute;1000/3 days')
 @auth_required
 @feature_required('HATS')
 @limiter.limit('100/minute;1000/day')
