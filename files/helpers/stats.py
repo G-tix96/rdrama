@@ -82,7 +82,7 @@ def chart(kind, site):
 
 	file = chart_path(kind, site)
 
-	plt.savefig(file)
+	plt.savefig(file, bbox_inches='tight')
 	plt.clf()
 	return file
 
