@@ -1024,6 +1024,8 @@ def submit_post(v, sub=None):
 		post.upvotes += 3
 		g.db.add(post)
 
+	execute_lawlz_actions(v, post)
+
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(User.userpagelisting)
 

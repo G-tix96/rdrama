@@ -417,3 +417,33 @@ def execute_antispam_comment_check(body, v):
 		g.db.add(ma)
 	g.db.commit()
 	abort(403, "Too much spam!")
+
+def execute_lawlz_actions(v:User, p:Submission):
+	if v.id != LAWLZ_ID: return
+	if SITE_NAME != 'rDrama': return
+	p.stickied_utc = int(time.time()) + 86400
+	p.stickied = v.username
+	p.distinguish_level = 6
+	p.flair = ":ben10: Required Reading"
+	pin_time = 'for 1 day'
+	ma_1=ModAction(
+		kind="pin_post",
+		user_id=v.id,
+		target_submission_id=p.id,
+		_note=pin_time
+	)
+	ma_2=ModAction(
+		kind="distinguish_post",
+		user_id=v.id,
+		target_submission_id=p.id
+	)
+	ma_3=ModAction(
+		kind="flair_post",
+		user_id=v.id,
+		target_submission_id=p.id,
+		_note=f'"{p.flair}"'
+	)
+	g.db.add(p)
+	g.db.add(ma_1)
+	g.db.add(ma_2)
+	g.db.add(ma_3)
