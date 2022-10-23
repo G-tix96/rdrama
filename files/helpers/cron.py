@@ -1,5 +1,6 @@
 from files.cli import g, app, db_session
 import click
+from sqlalchemy import text
 from files.helpers.const import *
 from files.helpers.alerts import send_repeatable_notification
 from files.helpers.roulette import spin_roulette_wheel
@@ -37,6 +38,8 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 
 	if every_1h:
 		awards.award_timers_bots_task()
+		if time.gmtime().tm_hour in [0, 8, 16]:
+			cron_homoween()
 
 	if every_1d:
 		stats.generate_charts_task(SITE)
@@ -51,6 +54,12 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 	g.db.commit()
 	g.db.close()
 	stdout.flush()
+
+def cron_homoween():
+	g.db.execute(text(
+		"INSERT INTO award_relationships (user_id, kind, created_utc) "
+		f"SELECT id, 'hw-bite', {int(time.time())} FROM users "
+		"WHERE users.hw_zombie < 0"))
 
 def sub_inactive_purge_task():
 	if not HOLE_INACTIVITY_DELETION:
