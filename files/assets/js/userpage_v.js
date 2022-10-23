@@ -106,6 +106,8 @@ function submitFormAjax(e) {
 		if (xhr.status >= 200 && xhr.status < 300) {
 			let data = JSON.parse(xhr.response);
 			showToast(true, getMessageFromJsonData(true, data));
+			document.getElementById('input-message').value = ''
+			document.getElementById('input-message-mobile').value = ''
 			return true
 		} else {
 			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
