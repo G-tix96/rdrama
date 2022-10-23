@@ -1799,6 +1799,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseygardener',2,'gardening watering',NULL),
 ('marseygarfield',2,'mondays lasagna',NULL),
 ('marseygarfieldpipe',2,'marfield pipe smoking john yelling comic smoke',NULL),
+('marseygas',2,'giygas earthbound horror alien boss vidya game video',1666512009),
 ('marseygasp',2,'wow woah what how why whoa reaction appalled',NULL),
 ('marseygeisha',2,'foid birthing person girl woman girl lady slut thot noodlewhore chink jap gook asian azn blow kiss blowing kiss blowkiss love heart stockings nylons fishnets',NULL),
 ('marseygenetakovic',2,'bcs better call saul breaking bad disguise cinnabon gene',1664491944),
