@@ -35,7 +35,6 @@ def hats(v):
 @limiter.limit('100/minute;1000/3 days')
 @auth_required
 @feature_required('HATS')
-@limiter.limit('100/minute;1000/day')
 def buy_hat(v, hat_id):
 	try: hat_id = int(hat_id)
 	except: abort(404, "Hat not found!")
