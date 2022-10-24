@@ -38,7 +38,7 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 
 	if every_1h:
 		awards.award_timers_bots_task()
-		if time.gmtime().tm_hour in [0, 8, 16]:
+		if time.gmtime().tm_hour in [0,]:
 			cron_homoween()
 
 	if every_1d:
