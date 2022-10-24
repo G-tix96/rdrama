@@ -763,16 +763,23 @@ class User(Base):
 	@lazy
 	def profile_url(self):
 		host = current_host()
-		if self.hw_zombie < 0:
-			return f"{host}/assets/images/halloween/zombies/{random.randint(1, 10)}.webp?v=1"
 		if self.agendaposter:
-			return f"{SITE_FULL}/assets/images/halloween/agendaposter/{random.randint(1, 19)}.webp?v=1"
+			return f"{host}/assets/images/halloween/agendaposter/{random.randint(1, 19)}.webp?v=1"
 		if self.rainbow:
 			return f"{host}/e/marseysalutepride.webp"
 		if self.profileurl: 
 			if self.profileurl.startswith('/'): return host + self.profileurl
 			return self.profileurl
-		return f"{SITE_FULL}/assets/images/default-profile-pic.webp?v=1008"
+		return f"{host}/assets/images/default-profile-pic.webp?v=1008"
+
+	@property
+	@lazy
+	def pronouns_display(self):
+		if self.hw_zombie > 2:
+			return 'VAX/MAXXED'
+		elif self.hw_zombie > 0:
+			return 'giga/boosted'
+		return self.pronouns
 
 	@property
 	@lazy
