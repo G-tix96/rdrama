@@ -1,12 +1,8 @@
 <div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3 pb-5" {% if request.path != '/sidebar' %}id="sidebar-content"{% endif %}>
 
-	{% if sub %}
-		{% set image = sub.sidebar_url %}
-	{% else %}
-		{% set path = "assets/images/halloween/sidebar" %}
-		{% set selected_image = listdir('files/' + path)|random() %}
-		{% set image = "/" + path + "/" + selected_image + '?v=45' %}
-	{% endif %}
+	{% set path = "assets/images/halloween/sidebar" %}
+	{% set selected_image = listdir('files/' + path)|random() %}
+	{% set image = "/" + path + "/" + selected_image + '?v=45' %}
 
 	{% if request.path != '/sidebar' %}
 		{% if v and (v.is_banned or v.agendaposter) %}
