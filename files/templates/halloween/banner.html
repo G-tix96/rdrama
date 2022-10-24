@@ -133,21 +133,23 @@
       <ellipse id="banner-halloween-moon" fill="var(--moon-fill-day{{banner_day}}" style="cy:var(--moon-position-day{{banner_day}});filter:var(--moon-shadow-day{{banner_day}})" cx="802" rx="86" ry="74" />
     </g>
     <g id="banner-halloween-scene" transform="matrix(1,0,0,1.0023048,427.09249,-121.25261)">
-      <g id="banner-halloween-text" fill="#fff" transform="translate(-27.135979,1.5613725)" style="transform:rotate(-6deg) skewX(-12deg)">
-        <text id="banner-halloween-presenting" style="font-family:verdana,arial;text-transform:uppercase">
-          <tspan x="200" y="290">Rdrama Presents</tspan>
-        </text>
-        <g style="font-size:80px;font-family:Creepster,arial;">
-          <text id="banner-halloween-title" y="370" fill-opacity="0.9">
-            <tspan x="200">H</tspan><tspan x="235">O</tspan><tspan x="270">M</tspan><tspan x="320">O</tspan>
-						<tspan x="355">W</tspan><tspan x="405">E</tspan><tspan x="440">E</tspan><tspan x="475">N</tspan>
-						<tspan x="540" id="banner-halloween-title-II" fill="#f00" fill-opacity="0.8">II</tspan>
-					</text>
+      {% if SITE_NAME == 'rDrama' %}
+        <g id="banner-halloween-text" fill="#fff" transform="translate(-27.135979,1.5613725)" style="transform:rotate(-6deg) skewX(-12deg)">
+          <text id="banner-halloween-presenting" style="font-family:verdana,arial;text-transform:uppercase">
+            <tspan x="200" y="290">{{SITE_NAME}} Presents</tspan>
+          </text>
+          <g style="font-size:80px;font-family:Creepster,arial;">
+            <text id="banner-halloween-title" y="370" fill-opacity="0.9">
+              <tspan x="200">H</tspan><tspan x="235">O</tspan><tspan x="270">M</tspan><tspan x="320">O</tspan>
+              <tspan x="355">W</tspan><tspan x="405">E</tspan><tspan x="440">E</tspan><tspan x="475">N</tspan>
+              <tspan x="540" id="banner-halloween-title-II" fill="#f00" fill-opacity="0.8">II</tspan>
+            </text>
+          </g>
+          <text id="banner-halloween-text-evil" style="opacity:0">
+            <tspan x="200" y="370" fill="white" style="font-size:72px;font-family:Jo_wrote_a_lovesong;">straggotween</tspan>
+          </text>
         </g>
-        <text id="banner-halloween-text-evil" style="opacity:0">
-          <tspan x="200" y="370" fill="white" style="font-size:72px;font-family:Jo_wrote_a_lovesong;">straggotween</tspan>
-        </text>
-      </g>
+      {% endif %}
       <g id="banner-halloween-house" transform="translate(-166.09098,3.8681347)">
         <path id="banner-halloween-house-fill" fill="url(#house-fill-gradient)" d="m 227.4,354.9 c 0.4,-10 13.8,-34.6 13.8,-34.6 -7.1,1.4 -15.3,2.4 -23.6,3.1 l 3.2,-14.8 6.9,-0.3 c -9.2,-11.2 -10.4,-19 -10.4,-19 -4.4,0 -19.1,0.4 -24.8,0.5 l 1,-11.7 c 3.3,0.1 5.3,0.2 5.3,0.2 -10.4,-7.5 -18.4,-31.7 -20.7,-38.6 0,0 -1.7,7.8 -10.4,22.2 -1.4,2.3 -2.7,4.3 -4,6 -3.8,-4.3 -9.3,-12.1 -6.4,-18.6 l -7.1,-0.2 -0.3,-5.1 4.4,0.2 c -5.8,-3.3 -12.1,-15.6 -12.1,-15.6 0,0 -4,11.9 -8.8,14.6 l 3.6,0.2 -0.4,5.4 -43.4,-1 c 0,0 1.5,6.1 -0.4,10.8 -1.9,4.6 -13.4,14.2 -13.4,14.2 l 15,1.9 1,42.6 -29.8,-3.1 c 0,0 19.6,26.1 21.9,40.7 1.2,7.3 0.7,12.9 -0.1,16.6 l -29.9,14.1 h 182.8 l -14.7,-11.1 c 0.6,-3.9 1.5,-12.3 1.8,-19.6 z m -30.2,-38.7 5.8,0.2 v 6.1 c -3.3,-0.6 -6.4,-3 -5.8,-6.3 z m 12.8,1.1 c 0,0.1 0,0.1 0,0 0,3.5 -2.3,5 -4.9,5.3 -0.1,-1.6 -0.2,-3.9 -0.3,-6.2 l 5.1,0.1 c 0.1,0.3 0.1,0.6 0.1,0.8 z m -72.4,16.9 c 0,0 10.3,1 21.3,2 l -0.5,10.5 -18.8,0.2 c -0.5,-4.7 -1.2,-9.4 -2,-12.7 z m 32.2,-39.2 6,-0.3 -0.4,11 -6.1,-0.3 z m 10,51.4 -17.9,0.2 0.5,-10.2 c 7.2,0.6 14.2,1.1 18.4,1.2 z m -21.6,2.7 -0.8,15.5 c -6.6,-0.2 -13.1,-0.3 -16.4,-0.4 0,0 -0.4,-7.4 -1.2,-15.3 z m 3.6,0 17.7,0.2 -1.8,15.8 c 0,0 -7.9,-0.2 -16.6,-0.4 z m 30.2,0.1 0.4,-12.1 5.2,-0.1 -0.3,12.2 z m 10.1,0 0.4,-12.1 5.2,-0.1 -0.3,12.2 z m 14.6,0 h -5.3 l 0.4,-12.1 5.2,-0.1 z m -33.7,-43.1 -6,-0.3 0.6,-11.1 6.2,-0.3 z m 0.9,-12.9 -6.2,0.1 0.5,-9.7 h 6.4 z m -8,0.1 -6,0.1 0.4,-9.8 h 5.9 z m -59.3,72.3 -6.7,0.4 v -32.6 l 5.8,0.4 z m -18.3,-32.3 5.8,0.4 1,31.9 -6.7,0.4 v -32.7 z m 111.4,-17.7 c -1.3,0 -3.1,0 -4.9,-0.1 -0.1,-1.9 -0.1,-3.7 -0.2,-5 0.6,0.1 1.2,0.2 1.8,0.5 1.6,0.8 2.8,2.8 3.3,4.6 z m -6.7,-5 v 4.9 c -2.2,-0.1 -4.3,-0.2 -5.5,-0.2 0.3,-0.6 0.7,-1.2 1,-1.8 1.1,-1.7 2.7,-2.7 4.5,-2.9 z m -61.4,-6.6 -9.9,0.1 0.1,-13.2 h 10 c -0.3,5.4 -0.6,11.2 -0.2,13.1 z m -23.4,-13.1 h 10.7 l -1.1,13.2 -11.8,0.1 c 0,0 2,-4.4 2.2,-13.3 z m 23.8,-2.1 -10.2,0.2 0.1,-8.9 10.9,0.2 c 0,0 -0.4,3.9 -0.8,8.5 z m -12.2,-8.8 -0.8,9 -10.9,0.2 c 0,-2.8 -0.2,-6 -0.7,-9.5 z"  />
         <g id="banner-halloween-house-windows" fill="url(#banner-halloween-house-window-gradient)" style="filter: drop-shadow(0px 0px 10px #00a100);">
