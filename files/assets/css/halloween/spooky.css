@@ -835,6 +835,7 @@ body::after {
 	color: #dc3545;
 	font-family: -apple-system,BlinkMacSystemFont,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
 	font-size: 12px;
+	font-weight: bold;
 }
 
 .progress > .legend span:nth-child(1) {
