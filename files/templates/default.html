@@ -84,24 +84,8 @@
 			<a href="{{sub.banner_url}}">
 				<img alt="/h/{{sub}} banner" onclick="expandDesktopImage()" src="{{sub.banner_url}}" width=100% style="object-fit:cover;max-height:min(42vh,30vw)!important">
 			</a>
-		{% elif SITE_NAME == 'rDrama' %}
-			{% include "halloween/banner.html" %}
 		{% else %}
-			{% if SITE_NAME == 'WPD' %}
-				{% if v %}
-					{% set banner = 'banner.webp' | asset_siteimg %}
-				{% else %}
-					{% set banner = 'cached.webp' | asset_siteimg %}
-				{% endif %}
-			{% elif SITE_NAME == 'PCM' %}
-				{% set banner = 'banners/great-value-v2.webp' | asset_siteimg %}
-			{% else %}
-				{% set banner = 'banner.webp' | asset_siteimg %}
-			{% endif %}
-
-			<a href="{{banner}}">
-				<img alt="site banner" onclick="expandDesktopImage()" src="{{banner}}" width="100%">
-			</a>
+			{% include "halloween/banner.html" %}
 		{% endif %}
 	{% endif %}
 {% endblock %}
