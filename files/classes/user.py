@@ -24,6 +24,7 @@ from .sub_join import *
 from .hats import *
 from files.__main__ import Base, cache
 from files.helpers.security import *
+from files.helpers.hosts import current_host
 from copy import deepcopy
 import random
 from os import remove, path
@@ -756,12 +757,15 @@ class User(Base):
 	@property
 	@lazy
 	def profile_url(self):
+		host = current_host()
+		if self.hw_zombie < 0:
+			return f"{host}/assets/images/halloween/zombies/{random.randint(1, 10)}.webp?v=1"
 		if self.agendaposter:
 			return f"{SITE_FULL}/e/chudsey.webp"
 		if self.rainbow:
-			return f"{SITE_FULL}/e/marseysalutepride.webp"
+			return f"{host}/e/marseysalutepride.webp"
 		if self.profileurl: 
-			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
+			if self.profileurl.startswith('/'): return host + self.profileurl
 			return self.profileurl
 		return f"{SITE_FULL}/assets/images/default-profile-pic.webp?v=1008"
 
