@@ -1840,6 +1840,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseygrapes',2,'fat roman emperor fruit chubby snacking healthy',1664677557),
 ('marseygras',2,'mardi gras fat tuesday nola new orleans neworleans holiday louisiana mardigras carnival beads mask',NULL),
 ('marseygrass',2,'reaction outside touchgrass touch grass',NULL),
+('marseygreatpumpkin',2,'great pumpkin trick or treat charlie brown ghost costume halloween homoween rock',1666634608),
 ('marseygrilling',2,'barbecue bbq centrist boomer barbeque',NULL),
 ('marseygrilling2',2,'bbq boomer barbecue barbeque',NULL),
 ('marseygrimreaper',2,'grimreaper grim reaper scythe homoween skull scary horror death',1666468259),
