@@ -561,8 +561,9 @@
 		</div>
 
 		{% if request.path.startswith('/notifications') and c.level == 1 and c.sentto and not c.parent_submission and c.author_id != AUTOJANNY_ID %}
-			{% if (v and v.admin_level >= PERMS['USER_BAN']) and (c.sentto == 2) and not c.author.is_muted %} 
-				<a class="btn btn-primary mr-3" role="button" id="mute-user-{{c.id}}" onclick="adminMuteUser({{c.author_id}}, 1, {{c.id}})">Mute</a>
+			{% if (v and v.admin_level >= PERMS['USER_BAN']) and (c.sentto == 2) %} 
+				<a class="btn btn-primary mr-3 {% if c.author.is_muted %}d-none{% endif %}" role="button" id="mute-user-{{c.id}}" onclick="adminToggleMute({{c.author_id}}, 1, {{c.id}})">Mute</a>
+				<a class="btn btn-primary mr-3 {% if not c.author.is_muted %}d-none{% endif %}" role="button" id="unmute-user-{{c.id}}" onclick="adminToggleMute({{c.author_id}}, 0, {{c.id}})">Unmute</a>
 			{% endif %}
 
 			<a class="btn btn-primary" role="button" onclick="ToggleReplyBox('reply-message-{{c.id}}')">Reply</a>

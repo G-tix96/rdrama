@@ -38,7 +38,7 @@ function approveComment(t,post_id,button1,button2,cls) {
 	}
 }
 
-function adminMuteUser(userId, muteStatus, buttonId) {
+function adminToggleMute(userId, muteStatus, buttonId) {
 	const xhr = createXhrWithFormKey(`/mute_user/${userId}/${muteStatus}`);
 	xhr[0].onload = function() {
 		let data
@@ -48,5 +48,6 @@ function adminMuteUser(userId, muteStatus, buttonId) {
 		showToast(success, getMessageFromJsonData(success, data));
 	};
 	xhr[0].send(xhr[1]);
-	document.getElementById('mute-user-' + buttonId).classList.add("d-none");
+	document.getElementById('mute-user-' + buttonId).classList.toggle("d-none");
+	document.getElementById('unmute-user-' + buttonId).classList.toggle("d-none");
 }
