@@ -1175,25 +1175,7 @@
 			if (audio.paused) audio.play();
 		}, {once : true});
 
-		for (const video of document.getElementsByTagName('video'))
-		{
-			video.addEventListener('play', (event) => {
-				if (!audio.paused)
-				{
-					audio.pause();
-				}
-			});
-		}
-
-		for (const a of document.getElementsByTagName('audio'))
-		{
-			a.addEventListener('play', (event) => {
-				if (!audio.paused)
-				{
-					audio.pause();
-				}
-			});
-		}
+		prepare_to_pause(audio)
 	</script>
 {% endif %}
 
@@ -1272,7 +1254,7 @@
 		{% set path = "assets/media/halloween/music" %}
 		{% set song = SITE_FULL + "/" + path + "/" + listdir('files/' + path)|random() + '?v=45' %}
 	{% endif %}
-	<script async>
+	<script>
 		const audio = new Audio("{{song}}");
 		audio.loop=true;
 
@@ -1287,28 +1269,9 @@
 			document.getElementById('thread').addEventListener('click', () => {
 				if (audio.paused) audio.play();
 			}, {once : true});
-
+			prepare_to_pause(audio)
 		});
 
-		for (const video of document.getElementsByTagName('video'))
-		{
-			video.addEventListener('play', (event) => {
-				if (!audio.paused)
-				{
-					audio.pause();
-				}
-			});
-		}
-
-		for (const a of document.getElementsByTagName('audio'))
-		{
-			a.addEventListener('play', (event) => {
-				if (!audio.paused)
-				{
-					audio.pause();
-				}
-			});
-		}
 	</script>
 {% endif %}
 <!-- end homoween audio -->

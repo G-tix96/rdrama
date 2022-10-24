@@ -265,7 +265,7 @@
 <!-- homoween audio -->
 {% if not (v and v.poorcel) and not (v and v.hwmusic) and not (sub and sub.name == 'music') %}
 	{% set song = SITE_FULL + "/assets/media/halloween/CARPENTER_MASTER.mp3" %}
-	<script async>
+	<script>
 		const audio = new Audio("{{song}}");
 		audio.loop=true;
 
@@ -280,28 +280,8 @@
 			document.getElementById('frontpage').addEventListener('click', () => {
 				if (audio.paused) audio.play();
 			}, {once : true});
-
+			prepare_to_pause(audio)
 		});
-
-		for (const video of document.getElementsByTagName('video'))
-		{
-			video.addEventListener('play', (event) => {
-				if (!audio.paused)
-				{
-					audio.pause();
-				}
-			});
-		}
-
-		for (const a of document.getElementsByTagName('audio'))
-		{
-			a.addEventListener('play', (event) => {
-				if (!audio.paused)
-				{
-					audio.pause();
-				}
-			});
-		}
 	</script>
 {% endif %}
 <!-- end homoween audio -->

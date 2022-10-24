@@ -16,6 +16,8 @@ if (u_username)
 	document.getElementById('userpage').addEventListener('click', () => {
 		if (audio.paused) audio.play();
 	}, {once : true});
+
+	prepare_to_pause(audio)
 }
 else
 {
@@ -49,28 +51,11 @@ else
 				if (audio.paused) audio.play();
 			}, {once : true});
 		}
+
+		prepare_to_pause(audio)
 	}
 }
 
-for (const video of document.getElementsByTagName('video'))
-{
-	video.addEventListener('play', (event) => {
-		if (!audio.paused)
-		{
-			audio.pause();
-		}
-	});
-}
-
-for (const a of document.getElementsByTagName('audio'))
-{
-	a.addEventListener('play', (event) => {
-		if (!audio.paused)
-		{
-			audio.pause();
-		}
-	});
-}
 
 function badge_timestamp(t) {
 	const date = new Date(t.dataset.until*1000);
