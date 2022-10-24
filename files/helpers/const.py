@@ -11,7 +11,7 @@ from os import path
 
 SITE = environ.get("SITE").strip()
 SITE_NAME = environ.get("SITE_NAME").strip()
-SITE_HOSTS = environ.get("SITE_HOSTS").strip()
+SITE_HOSTS = environ.get("SITE_HOSTS").strip().split(',')
 SECRET_KEY = environ.get("SECRET_KEY").strip()
 PROXY_URL = environ.get("PROXY_URL").strip()
 GIPHY_KEY = environ.get('GIPHY_KEY').strip()
