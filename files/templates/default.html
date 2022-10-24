@@ -84,6 +84,8 @@
 			<a href="{{sub.banner_url}}">
 				<img alt="/h/{{sub}} banner" onclick="expandDesktopImage()" src="{{sub.banner_url}}" width=100% style="object-fit:cover;max-height:min(42vh,30vw)!important">
 			</a>
+		{% elif SITE_NAME != 'PCM' %}
+			{% include "halloween/banner_" + SITE_NAME + ".html" %}
 		{% else %}
 			{% include "halloween/banner.html" %}
 		{% endif %}
