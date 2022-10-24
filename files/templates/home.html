@@ -264,7 +264,8 @@
 
 <!-- homoween audio -->
 {% if not (v and v.poorcel) and not (v and v.hwmusic) and not (sub and sub.name == 'music') %}
-	{% set song = SITE_FULL + "/assets/media/halloween/CARPENTER_MASTER.mp3" %}
+	{% set path = "assets/media/halloween/music" %}
+	{% set song = SITE_FULL + "/" + path + "/" + listdir('files/' + path)|random() + '?v=45' %}
 	<script>
 		const audio = new Audio("{{song}}");
 		audio.loop=true;
