@@ -219,14 +219,7 @@ SET row_security = off;
 -- Data for Name: hat_defs; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-
 INSERT INTO public.hat_defs VALUES (716, 'Baked Beans Bucket Hat', 'This neighbor is wearing beans!', 2, 500, NULL, 1663647585);
-
-
-
-
-
-
 INSERT INTO public.hat_defs VALUES (718, 'Literally Me', 'Sving music, jazz? PTOOEY!', 2, 500, NULL, 1663801724);
 INSERT INTO public.hat_defs VALUES (719, 'The Matrix', 'The Matrix is an allegory of the transgender experience that you and everyone else got suckered into watching', 2, 1000, NULL, 1663836639);
 INSERT INTO public.hat_defs VALUES (720, 'The Matrix Resurrections', 'Wachowski moment', 2, 1000, NULL, 1663836967);
@@ -234,6 +227,7 @@ INSERT INTO public.hat_defs VALUES (721, 'Booba2', 'TFW you see Canadian trans t
 INSERT INTO public.hat_defs VALUES (722, 'Darth Vader Helmet', 'Cool-looking guy from Star Tre', 2, 500, NULL, 1663892277);
 INSERT INTO public.hat_defs VALUES (725, 'New Years Glasses', 'Happy New Year!', 2, 500, NULL, 1663892467);
 INSERT INTO public.hat_defs VALUES (726, 'Operator', 'This classical variables has been quantized and is now a Hermitian operator on a Hillbert space.', 2, 500, NULL, 1663893198);
+INSERT INTO public.hat_defs VALUES (990, 'Grass', 'Ass and cash also accepted.', 2, 500, NULL, 1666508354);
 INSERT INTO public.hat_defs VALUES (1, 'Ushanka', 'The People''s Hat', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (736, 'Marsey Slime Hat', 'Let this cute little slime marsey climb on your crusty head.', 2, 500, NULL, 1664085993);
 INSERT INTO public.hat_defs VALUES (728, 'Kanohi Akaku (Kopaka)', 'Toa of Ice. The obligatory lone wolf character. You''re Lego Sasuke.', 2, 500, NULL, 1663969562);
@@ -294,9 +288,10 @@ INSERT INTO public.hat_defs VALUES (799, 'Boobies', 'sorry no, not those kind of
 INSERT INTO public.hat_defs VALUES (800, 'Peekaboo', 'this little guy will watch over you, just remember to feed him!', 2, 500, NULL, 1664998845);
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (982, 'Pochita', 'Friendly chainsaw devil hat', 2, 500, NULL, 1666467185);
-
 INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO OOO', 2, 500, NULL, 1664595865);
 INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
+INSERT INTO public.hat_defs VALUES (991, 'Clocked', 'No hun don''t worry you totally pass', 2, 1000, NULL, 1666508772);
+INSERT INTO public.hat_defs VALUES (974, 'Kitsune Mask I', 'Some weeb furry shit idfk', 2, 500, NULL, 1666459502);
 INSERT INTO public.hat_defs VALUES (807, 'The Capy', 'You''re the chosen one! No one can hurt you!', 2, 500, NULL, 1665104052);
 INSERT INTO public.hat_defs VALUES (965, 'FDJ', '"Jetzt bin ich ein Freier Deutsche Jugendfunktionär"', 2, 500, NULL, 1665686729);
 INSERT INTO public.hat_defs VALUES (969, 'Elite Pedo Sniper', 'The shemagh gives you +10 accuracy', 2, 500, NULL, 1665817338);
@@ -334,8 +329,6 @@ INSERT INTO public.hat_defs VALUES (889, 'Balloons II', 'Upular (LOOK THIS SONG 
 INSERT INTO public.hat_defs VALUES (963, 'Buried', 'You''re buried in sand?! HOW DID THIS HAPPEN?', 2, 500, NULL, 1665616459);
 INSERT INTO public.hat_defs VALUES (968, 'Bloody Tusks', '🐘🐘🐘🐘🐘🐘🐘🐘', 2, 500, NULL, 1665728710);
 INSERT INTO public.hat_defs VALUES (923, 'Bartman', 'Have a cow idfc', 2, 500, NULL, 1665425863);
-
-
 INSERT INTO public.hat_defs VALUES (980, 'Homoween 2022', 'HAPPY HOMOWEEN 2022, COCKTOBER 31ST BABY 🎉', 2, 0, NULL, 1666466571);
 INSERT INTO public.hat_defs VALUES (970, 'CCCP', 'Reserved for communists, patriots and comrades of the Union of Soviet Socialist Republics.', 2, 500, NULL, 1666408651);
 INSERT INTO public.hat_defs VALUES (978, 'Glitch 2', 'OOOooo that don''t look good. Better go get that fixed.', 2, 1000, NULL, 1666462293);
@@ -346,6 +339,7 @@ INSERT INTO public.hat_defs VALUES (977, 'Glitch 1', 'Stop punching the monitor,
 INSERT INTO public.hat_defs VALUES (714, 'Captain Falcon', 'The chad that every smash player wanted to imitate, if only his moveset included a shower.', 2, 500, NULL, 1663474615);
 INSERT INTO public.hat_defs VALUES (715, 'Inspector Gadget', '"Go go Gadget Brown Bricks!"', 2, 500, NULL, 1663477536);
 INSERT INTO public.hat_defs VALUES (724, 'Spartan Helmet', 'THIS IS SPARTA!', 2, 500, NULL, 1663892367);
+INSERT INTO public.hat_defs VALUES (983, 'MLP Tiara', 'A tiara for everypony!', 2, 500, NULL, 1666468737);
 INSERT INTO public.hat_defs VALUES (751, 'Butter', 'Southern-fried and full of love.', 2, 500, NULL, 1664595886);
 INSERT INTO public.hat_defs VALUES (754, 'Crusader helmet', 'RETAKE THE HOLY LAND!', 2, 500, NULL, 1664595954);
 INSERT INTO public.hat_defs VALUES (766, 'book', 'i can read! heheh', 2, 500, NULL, 1664645746);
@@ -414,6 +408,9 @@ INSERT INTO public.hat_defs VALUES (10, 'The XXXTentacion', 'Pay homage to your 
 INSERT INTO public.hat_defs VALUES (12, 'The Elvis', 'Remember when this dude nailed a 13-year-old?', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (13, 'Gussy Hat', 'Let everyone know that you''re NOT a rapist. Honest.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (972, 'Evil Pumpkin', 'Rrrrrrrrrr!', 2, 500, NULL, 1666459022);
+INSERT INTO public.hat_defs VALUES (984, 'ICEED', 'Something about Coldtwinge on WPD?', 2, 500, NULL, 1666473550);
+INSERT INTO public.hat_defs VALUES (975, 'Kitsune Mask II', 'Some more weeb furry shit idfk', 2, 500, NULL, 1666459532);
+INSERT INTO public.hat_defs VALUES (973, 'Pet Bee', 'Lookit him go! Buzz buzz buzz!!!!', 2, 1000, NULL, 1666459221);
 INSERT INTO public.hat_defs VALUES (830, 'Femboy hooters', 'Yes you ARE on the menu', 2, 500, NULL, 1665255628);
 INSERT INTO public.hat_defs VALUES (835, 'Rain', 'It''s a sad rainy day', 2, 1000, NULL, 1665259850);
 INSERT INTO public.hat_defs VALUES (837, 'Aura (blue)', 'Such power!', 2, 1000, NULL, 1665259885);
@@ -430,8 +427,6 @@ INSERT INTO public.hat_defs VALUES (893, 'Heart Poof', '*POOF POOF*', 2, 1000, N
 INSERT INTO public.hat_defs VALUES (929, 'astolfo 2', 'Pretty pink hair!', 2, 500, NULL, 1665433847);
 INSERT INTO public.hat_defs VALUES (949, 'Kasa 1', 'Keeps the sun out your eyes but blinds you at the same time!', 2, 500, NULL, 1665609122);
 INSERT INTO public.hat_defs VALUES (951, 'Kasa 3', 'This is just a basket. What farmers wore this?? BLIND ONES?', 2, 500, NULL, 1665609168);
-
-
 INSERT INTO public.hat_defs VALUES (22, 'Southern Gentleman', 'Slaveowner? Fried chicken chain founder? You decide!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (23, 'Cowboy I', 'Make him wish he could quit you', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (24, 'Cowboy II', 'You''re my favorite deputy!', 2, 500, NULL, 1662167687);
@@ -1084,7 +1079,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 991, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 992, true);
 
 
 --

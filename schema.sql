@@ -5,7 +5,6 @@
 -- Dumped from database version 14.5
 -- Dumped by pg_dump version 14.5 (Ubuntu 14.5-1.pgdg20.04+1)
 
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
@@ -426,7 +425,8 @@ CREATE TABLE public.commentvotes (
     user_id integer NOT NULL,
     app_id integer,
     "real" boolean DEFAULT true NOT NULL,
-    created_utc integer NOT NULL
+    created_utc integer NOT NULL,
+    coins smallint DEFAULT 1 NOT NULL
 );
 
 
@@ -1024,7 +1024,8 @@ CREATE TABLE public.users (
     spider integer,
     homoween_zombie character varying(7) DEFAULT 'HEALTHY'::character varying,
     jumpscare integer DEFAULT 0 NOT NULL,
-    hwmusic boolean DEFAULT false NOT NULL
+    hwmusic boolean DEFAULT false NOT NULL,
+    hw_zombie integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1070,7 +1071,8 @@ CREATE TABLE public.votes (
     vote_type integer NOT NULL,
     app_id integer,
     "real" boolean DEFAULT true NOT NULL,
-    created_utc integer NOT NULL
+    created_utc integer NOT NULL,
+    coins smallint DEFAULT 1 NOT NULL
 );
 
 
