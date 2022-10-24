@@ -370,3 +370,20 @@ function areyousure(t) {
 	if (t.dataset.dismiss)
 		t.setAttribute("data-bs-dismiss", t.dataset.dismiss);
 }
+
+function prepare_to_pause(audio) {
+	for (const e of document.querySelectorAll('video,audio'))
+	{
+		console.log(e)
+		e.addEventListener('play', () => {
+			if (!audio.paused) audio.pause();
+		});
+	}
+
+	for (const e of document.getElementsByTagName('lite-youtube'))
+	{
+		e.addEventListener('click', (event) => {
+			if (!audio.paused) audio.pause();
+		});
+	}
+}
