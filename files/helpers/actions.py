@@ -381,7 +381,8 @@ def execute_blackjack(v, target, body, type):
 		return False
 	return True
 
-def execute_antispam_comment_check(body, v):
+def execute_antispam_comment_check(body:str, v:User):
+	if v.id in ANTISPAM_BYPASS_IDS: return
 	if len(body) <= COMMENT_SPAM_LENGTH_THRESHOLD: return
 	now = int(time.time())
 	cutoff = now - 60 * 60 * 24
