@@ -9,6 +9,7 @@ from files.helpers.sanitize import *
 from files.helpers.const import *
 from files.helpers.sorting_and_time import *
 from files.helpers.actions import *
+from files.helpers.hosts import current_host
 from files.mail import *
 from flask import *
 from files.__main__ import app, limiter, db_session
@@ -765,7 +766,7 @@ def u_username(username, v=None):
 
 
 	if username != u.username:
-		return redirect(SITE_FULL + request.full_path.replace(username, u.username))
+		return redirect(current_host() + request.full_path.replace(username, u.username))
 
 	if v and v.id not in (u.id, DAD_ID) and u.viewers_recorded:
 		g.db.flush()
