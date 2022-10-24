@@ -87,7 +87,8 @@ document.onpaste = function(event) {
 			}
 			document.getElementById('file-upload').setAttribute('required', 'false');
 			document.getElementById('post-url').value = null;
-			localStorage.setItem("post-url", "")	
+			localStorage.setItem("post-url", "")
+			document.getElementById('image-upload-block').classList.remove('d-none')
 		}
 		checkForRequired();
 	}
