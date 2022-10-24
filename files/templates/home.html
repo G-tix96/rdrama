@@ -282,6 +282,26 @@
 			}, {once : true});
 
 		});
+
+		for (const video of document.getElementsByTagName('video'))
+		{
+			video.addEventListener('play', (event) => {
+				if (!audio.paused)
+				{
+					audio.pause();
+				}
+			});
+		}
+
+		for (const a of document.getElementsByTagName('audio'))
+		{
+			a.addEventListener('play', (event) => {
+				if (!audio.paused)
+				{
+					audio.pause();
+				}
+			});
+		}
 	</script>
 {% endif %}
 <!-- end homoween audio -->
