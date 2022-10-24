@@ -838,7 +838,7 @@ body::after {
 }
 
 .progress > .legend span:nth-child(1) {
-	color: #59b1ec;
+	color: #d3bc00;
 }
 
 .bar-left {
