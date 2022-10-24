@@ -86,9 +86,9 @@ document.onpaste = function(event) {
 				fileReader.addEventListener("load", function () {document.getElementById('image-preview').setAttribute('src', this.result);});
 			}
 			document.getElementById('file-upload').setAttribute('required', 'false');
+			document.getElementById('post-url').value = null;
+			localStorage.setItem("post-url", "")	
 		}
-		document.getElementById('post-url').value = null;
-		localStorage.setItem("post-url", "")
 		checkForRequired();
 	}
 }
