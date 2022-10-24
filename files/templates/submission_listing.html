@@ -200,7 +200,7 @@
 				{{p.realtitle(v) | safe}}
 			</a></h5>
 
-			<div class="post-actions mt-2 d-none d-md-block">
+			<div class="post-actions mt-2 d-mob-none">
 				<ul class="list-inline text-right d-flex">
 						{% if p.realbody(v, True) %}
 							<a class="list-inline-item" role="button" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mr-0 text-expand-icon-{{p.id}}"></i></a>
@@ -423,3 +423,6 @@
 <script defer src="{{'js/clipboard.js' | asset}}"></script>
 <script defer src="{{'js/comments+submission_listing.js' | asset}}"></script>
 <script defer src="{{'js/submission_listing.js' | asset}}"></script>
+{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']  %}
+	<script defer src="{{'js/submission_listing_admin.js' | asset}}"></script>
+{% endif %}

@@ -382,7 +382,8 @@ def reported_posts(v):
 
 	listing = g.db.query(Submission).filter_by(
 		is_approved=None,
-		is_banned=False
+		is_banned=False,
+		deleted_utc=0
 	).join(Submission.flags).order_by(Submission.id.desc()).offset(25 * (page - 1)).limit(26)
 
 	listing = [p.id for p in listing]
@@ -404,7 +405,8 @@ def reported_comments(v):
 	listing = g.db.query(Comment
 					).filter_by(
 		is_approved=None,
-		is_banned=False
+		is_banned=False,
+		deleted_utc=0
 	).join(Comment.flags).order_by(Comment.id.desc()).offset(25 * (page - 1)).limit(26).all()
 
 	listing = [c.id for c in listing]
@@ -1124,8 +1126,6 @@ def remove_post(post_id, v):
 	post.ban_reason = v.username
 	g.db.add(post)
 
-	
-
 	ma=ModAction(
 		kind="ban_post",
 		user_id=v.id,
@@ -1209,6 +1209,7 @@ def sticky_post(post_id, v):
 	if post.is_banned: abort(403, "Can't sticky removed posts!")
 	if post.stickied and post.stickied.endswith('(pin award)'):
 		abort(403, "Can't pin award pins!")
+
 	pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
 
 	if pins >= PIN_LIMIT and v.admin_level < PERMS['BYPASS_PIN_LIMIT']:
@@ -1250,7 +1251,7 @@ def unsticky_post(post_id, v):
 	post = get_post(post_id)
 	if post.stickied:
 		if post.stickied.endswith('(pin award)'): abort(403, "Can't unpin award pins!")
-		if post.author_id == LAWLZ_ID and post.stickied_utc and SITE_NAME == 'rDrama': abort(403, "Can't unpin lawlzposts!")
+		if post.author_id == LAWLZ_ID and post.stickied_utc and SITE_NAME == 'rDrama': abort(403, "Can't unpin lawlzposts!")		
 
 		post.stickied = None
 		post.stickied_utc = None

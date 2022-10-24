@@ -8,11 +8,19 @@ function delete_postModal(id) {
 			success = xhr[0].status >= 200 && xhr[0].status < 300;
 			showToast(success, getMessageFromJsonData(success, data));
 			if (success && data["message"]) {
-				document.getElementById(`post-${id}`).classList.add('deleted');
-				document.getElementById(`delete-${id}`).classList.add('d-none');
-				document.getElementById(`undelete-${id}`).classList.remove('d-none');
-				document.getElementById(`delete2-${id}`).classList.add('d-none');
-				document.getElementById(`undelete2-${id}`).classList.remove('d-none');
+				if (window.location.pathname == '/admin/reported/posts')
+				{
+					document.getElementById("flaggers-"+id).remove()
+					document.getElementById("post-"+id).remove()
+				}
+				else
+				{
+					document.getElementById(`post-${id}`).classList.add('deleted');
+					document.getElementById(`delete-${id}`).classList.add('d-none');
+					document.getElementById(`undelete-${id}`).classList.remove('d-none');
+					document.getElementById(`delete2-${id}`).classList.add('d-none');
+					document.getElementById(`undelete2-${id}`).classList.remove('d-none');
+				}
 			} else {
 				showToast(false, getMessageFromJsonData(false, data));
 			}

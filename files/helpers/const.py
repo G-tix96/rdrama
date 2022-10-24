@@ -512,6 +512,7 @@ bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, BASEDBOT_ID}
 COLORS = {'ff66ac','805ad5','62ca56','38a169','80ffff','2a96f3','eb4963','ff0000','f39731','30409f','3e98a7','e4432d','7b9ae4','ec72de','7f8fa6', 'f8db58','8cdbe6', DEFAULT_COLOR}
 
 AWARDS = {
+	### Deprecated
 	"ghost": {
 		"kind": "ghost",
 		"title": "Ghost",
@@ -528,6 +529,7 @@ AWARDS = {
 		"color": "text-success",
 		"price": 10000
 	},
+	### Fistmas 2021
 	"snow": {
 		"kind": "snow",
 		"title": "Snow",
@@ -710,7 +712,7 @@ AWARDS = {
 		"description": "Makes flies swarm the post.",
 		"icon": "fas fa-poop",
 		"color": "text-black-50",
-		"price": 500
+		"price": 300
 	},
 	"fireflies": {
 		"kind": "fireflies",
@@ -718,7 +720,7 @@ AWARDS = {
 		"description": "Makes fireflies swarm the post.",
 		"icon": "fas fa-sparkles",
 		"color": "text-warning",
-		"price": 500
+		"price": 300
 	},
 	"train": {
 		"kind": "train",
@@ -726,7 +728,7 @@ AWARDS = {
 		"description": "Summons a train on the post.",
 		"icon": "fas fa-train",
 		"color": "text-pink",
-		"price": 500
+		"price": 300
 	},
 	"scooter": {
 		"kind": "scooter",
@@ -734,7 +736,7 @@ AWARDS = {
 		"description": "Summons a scooter on the post.",
 		"icon": "fas fa-flag-usa",
 		"color": "text-muted",
-		"price": 500
+		"price": 300
 	},
 	"wholesome": {
 		"kind": "wholesome",
@@ -742,7 +744,7 @@ AWARDS = {
 		"description": "Summons a wholesome marsey on the post.",
 		"icon": "fas fa-smile-beam",
 		"color": "text-yellow",
-		"price": 500
+		"price": 300
 	},
 	"firework": {
 		"kind": "firework",
@@ -750,7 +752,7 @@ AWARDS = {
 		"description": "Summons fireworks on the post.",
 		"icon": "fas fa-bahai",
 		"color": "text-danger",
-		"price": 500
+		"price": 300
 	},
 	"confetti": {
 		"kind": "confetti",
@@ -758,7 +760,7 @@ AWARDS = {
 		"description": "Summons confetti to fall on the post.",
 		"icon": "fas fa-party-horn",
 		"color": "text-yellow",
-		"price": 500
+		"price": 300
 	},
 	"ricardo": {
 		"kind": "ricardo",
@@ -766,7 +768,7 @@ AWARDS = {
 		"description": "Summons Ricardo to dance on the post.",
 		"icon": "fas fa-pinata",
 		"color": "text-pink",
-		"price": 500
+		"price": 300
 	},
 	"tilt": {
 		"kind": "tilt",
@@ -774,7 +776,7 @@ AWARDS = {
 		"description": "Tilts the post or comment",
 		"icon": "fas fa-car-tilt",
 		"color": "text-blue",
-		"price": 500
+		"price": 300
 	},
 	"glowie": {
 		"kind": "glowie",
@@ -782,7 +784,7 @@ AWARDS = {
 		"description": "Indicates that the recipient can be seen when driving. Just run them over.",
 		"icon": "fas fa-user-secret",
 		"color": "text-green",
-		"price": 500
+		"price": 300
 	},
 	"rehab": {
 		"kind": "rehab",
@@ -1007,7 +1009,7 @@ if SITE_NAME == 'PCM':
 			"description": "Summons Croag on the post.",
 			"icon": "fas fa-head-side",
 			"color": "text-gold",
-			"price": 500
+			"price": 300
 		},
 		"toe": {
 			"kind": "toe",
@@ -1015,7 +1017,7 @@ if SITE_NAME == 'PCM':
 			"description": "Summons Blade's toe on the post.",
 			"icon": "fas fa-socks",
 			"color": "text-blue",
-			"price": 500
+			"price": 300
 		},
 		"crab": {
 			"kind": "crab",

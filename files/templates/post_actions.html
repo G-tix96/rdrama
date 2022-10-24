@@ -61,13 +61,11 @@
 			{% endif %}
 
 			{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-				{% if "/reported/" in request.path %}
-					{% if v.id != p.author.id %}<a class="dropdown-item list-inline-item text-danger" role="button" onclick="post_toast(this,'/remove_post/{{p.id}}')"><i class="fas fa-ban"></i>Remove</a>{% endif %}
-					<a class="dropdown-item list-inline-item text-success" role="button" onclick="post_toast(this,'/approve_post/{{p.id}}')"><i class="fas fa-check"></i>Approve</a>
-				{% else %}
-					{% if v.id != p.author.id %}<a id="remove-{{p.id}}" class="dropdown-item {% if p.is_banned %}d-none{% endif %} list-inline-item text-danger" role="button" onclick="post_toast(this,'/remove_post/{{p.id}}','remove-{{p.id}}','approve-{{p.id}}','d-none')"><i class="fas fa-ban"></i>Remove</a>{% endif %}
-					<a id="approve-{{p.id}}" class="dropdown-item {% if not p.is_banned %}d-none{% endif %} list-inline-item text-success" role="button" onclick="post_toast(this,'/approve_post/{{p.id}}','remove-{{p.id}}','approve-{{p.id}}','d-none')"><i class="fas fa-check"></i>Approve</a>
+				{% if v.id != p.author.id %}
+					<a id="remove-{{p.id}}" class="dropdown-item {% if p.is_banned %}d-none{% endif %} list-inline-item text-danger" role="button" onclick="removePost(this,'{{p.id}}','remove-{{p.id}}','approve-{{p.id}}','d-none')"><i class="fas fa-ban"></i>Remove</a>
 				{% endif %}
+
+				<a id="approve-{{p.id}}" class="dropdown-item {% if not p.is_banned and request.path != '/admin/reported/posts' %}d-none{% endif %} list-inline-item text-success" role="button" onclick="approvePost(this,'{{p.id}}','remove-{{p.id}}','approve-{{p.id}}','d-none')"><i class="fas fa-check"></i>Approve</a>
 
 				{% if p.oauth_app %}
 					<a class="dropdown-item list-inline-item" href="{{p.oauth_app.permalink}}"><i class="fas fa-code"></i>API App</a>
