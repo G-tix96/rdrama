@@ -602,14 +602,6 @@ AWARDS = {
 		"color": "text-blue",
 		"price": 500
 	},
-	"hw-grinch": {
-		"kind": "hw-grinch",
-		"title": "Hallowgrinch",
-		"description": "",
-		"icon": "fas fa-angry",
-		"color": "text-orange",
-		"price": 1000
-	},
 	"haunt": {
 		"kind": "haunt",
 		"title": "Haunt",
