@@ -602,6 +602,14 @@ AWARDS = {
 		"color": "text-blue",
 		"price": 500
 	},
+	"hw-grinch": {
+		"kind": "hw-grinch",
+		"title": "Hallowgrinch",
+		"description": "",
+		"icon": "fas fa-angry",
+		"color": "text-orange",
+		"price": 1000
+	},
 	"haunt": {
 		"kind": "haunt",
 		"title": "Haunt",
@@ -1024,6 +1032,7 @@ if SITE_NAME == 'PCM':
 
 # Disable unused awards, and site-specific award inclusion/exclusion.
 AWARDS_DISABLED = [
+	'hw-grinch',
 	'ghost', 'nword', #'lootbox', # Generic
 	'snow', 'gingerbread', 'lights', 'candycane', 'fireplace', 'grinch', # Fistmas
 	'upsidedown', #'haunt', 'stab', 'spiders', 'fog', 'flashlight' # Homoween
