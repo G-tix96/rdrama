@@ -36,12 +36,12 @@ def timestamp(timestamp):
 @cache.memoize(timeout=60)
 def bar_position():
 	db = db_session()
-	infected = db.execute(text("SELECT COUNT(*) FROM users "
-		"WHERE last_active > 1666402200 AND hw_zombie < 0")).one()[0]
-	total = db.execute(text("SELECT COUNT(*) FROM users "
-		"WHERE last_active > 1666402200")).one()[0]
+	vaxxed = db.execute(text("SELECT COUNT(*) FROM users WHERE hw_zombie > 0")).one()[0]
+	zombie = db.execute(text("SELECT COUNT(*) FROM users WHERE hw_zombie < 0")).one()[0]
+	total = db.execute(text("SELECT COUNT(*) FROM (SELECT DISTINCT ON (author_id) "
+		"author_id FROM comments WHERE created_utc > 1666402200) AS q")).one()[0]
 
-	return int(((total - infected) * 100) / total)
+	return [int((vaxxed * 100) / total), int((zombie * 100) / total)]
 
 @app.context_processor
 def inject_constants():
