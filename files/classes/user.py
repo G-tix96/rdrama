@@ -922,6 +922,8 @@ class User(Base):
 			return 'Contributed at least $50'
 		if self.patron == 5:
 			return 'Contributed at least $100'
+		if self.patron == 6:
+			return 'Contributed at least $200'
 		return ''
 
 	@property
