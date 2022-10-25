@@ -1007,7 +1007,6 @@ CREATE TABLE public.users (
     total_lottery_winnings integer DEFAULT 0 NOT NULL,
     offsitementions boolean DEFAULT false NOT NULL,
     last_active integer DEFAULT 0 NOT NULL,
-    poorcel boolean DEFAULT false NOT NULL,
     last_viewed_post_notifs integer NOT NULL,
     pronouns character varying(11) NOT NULL,
     last_viewed_log_notifs integer NOT NULL,
@@ -2681,4 +2680,3 @@ ALTER TABLE ONLY public.comment_option_votes
 --
 -- PostgreSQL database dump complete
 --
-

@@ -163,13 +163,6 @@ def user_upvoted_comments(v, username):
 	return user_voted(v, username, Comment, CommentVote, 1, "voted_comments.html", True)
 
 
-@app.get("/poorcels")
-@auth_required
-def poorcels(v):
-	users = g.db.query(User).filter_by(poorcel=True).all()
-	return render_template("poorcels.html", v=v, users=users)
-
-
 @app.get("/grassed")
 @auth_required
 def grassed(v):

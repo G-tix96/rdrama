@@ -11,19 +11,19 @@
 
 		<div class="settings">
 
-			<h2 class="h5" name="referral">Poorcel Mode</h2>
+			<h2 class="h5" name="referral">Poor Mode</h2>
 
 			<div class="settings-section rounded">
 				<div class="d-lg-flex border-bottom">
 					<div class="title w-lg-25">
-						<label for="poorcel">Poorcel Mode</label>
+						<label for="poor">Poor Mode</label>
 					</div>
 
 					<div class="body w-lg-100">
 
 						<div class="custom-control custom-switch">
-							<input autocomplete="off" type="checkbox" class="custom-control-input" id="poorcel" name="poorcel"{% if v.poor %} checked{% endif %} onchange="post_toast(this,'/settings/profile?poorcel='+document.getElementById('poorcel').checked);">
-							<label class="custom-control-label" for="poorcel"></label>
+							<input autocomplete="off" type="checkbox" class="custom-control-input" id="poor" name="poor"{% if v.poor %} checked{% endif %} onchange="post_toast(this,'/settings/profile?poor='+document.getElementById('poor').checked);">
+							<label class="custom-control-label" for="poor"></label>
 						</div>
 
 						<span class="text-small text-muted">Makes the site much faster for low-end devices.</span>

@@ -79,7 +79,6 @@ class User(Base):
 	over_18 = Column(Boolean, default=False)
 	hidevotedon = Column(Boolean, default=False)
 	highlightcomments = Column(Boolean, default=True)
-	poorcel = Column(Boolean, default=False)
 	slurreplacer = Column(Boolean, default=True)
 	flairchanged = Column(Integer)
 	newtab = Column(Boolean, default=False)

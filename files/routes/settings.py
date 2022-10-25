@@ -46,10 +46,10 @@ def settings_profile_post(v):
 		updated = True
 		v.slurreplacer = request.values.get("slurreplacer") == 'true'
 
-	elif request.values.get("poorcel", v.poor) != v.poor:
+	elif request.values.get("poor", v.poor) != v.poor:
 		updated = True
-		v.poorcel = request.values.get("poorcel") == 'true'
-		session['poor'] = v.poorcel
+		v.poor = request.values.get("poor") == 'true'
+		session['poor'] = v.poor
 
 	elif request.values.get("hidevotedon", v.hidevotedon) != v.hidevotedon:
 		updated = True
