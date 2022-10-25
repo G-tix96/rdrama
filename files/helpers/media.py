@@ -170,15 +170,18 @@ def process_image(filename=None, resize=0, trim=False, uploader=None, patron=Fal
 					if resize == 400 and img in ('256.webp','585.webp'): continue
 					img_path = f'{path}/{img}'
 					if img_path == filename: continue
-					img = Image.open(img_path)
-					i_hash = str(imagehash.phash(img))
+
+					with Image.open(img_path) as i:
+						i_hash = str(imagehash.phash(i))
+
 					if i_hash in hashes.keys():
 						print(hashes[i_hash], flush=True)
 						print(img_path, flush=True)
 					else: hashes[i_hash] = img_path
 
-				i = Image.open(filename)
-				i_hash = str(imagehash.phash(i))
+				with Image.open(filename) as i:
+					i_hash = str(imagehash.phash(i))
+
 				if i_hash in hashes.keys():
 					os.remove(filename)
 					abort(409, "Image already exists!")

@@ -16,7 +16,7 @@ from files.classes import *
 from flask import *
 from io import BytesIO
 from files.__main__ import app, limiter, cache, db_session
-from PIL import Image as PILimage
+from PIL import Image
 from .front import frontlist
 from urllib.parse import ParseResult, urlunparse, urlparse, quote, unquote
 from os import path
@@ -607,9 +607,9 @@ def thumbnail_thread(pid):
 			if image_req.headers.get("Content-Type","").startswith("image/svg"):
 				continue
 
-			image = PILimage.open(BytesIO(image_req.content))
-			if image.width < 30 or image.height < 30:
-				continue
+			with Image.open(BytesIO(image_req.content)) as i:
+				if i.width < 30 or i.height < 30:
+					continue
 
 			break
 
@@ -621,13 +621,13 @@ def thumbnail_thread(pid):
 
 	elif x.headers.get("Content-Type","").startswith("image/"):
 		image_req=x
-		image = PILimage.open(BytesIO(x.content))
+		with Image.open(BytesIO(x.content)) as i:
+			size = len(i.fp.read())
 
 	else:
 		db.close()
 		return
 
-	size = len(image.fp.read())
 	if size > 8 * 1024 * 1024:
 		db.close()
 		return

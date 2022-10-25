@@ -242,10 +242,10 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 		highquality = f'/asset_submissions/hats/{name}'
 		file.save(highquality)
 
-		i = Image.open(highquality)
-		if i.width > 100 or i.height > 130:
-			os.remove(highquality)
-			return error("Images must be 100x130")
+		with Image.open(highquality) as i:
+			if i.width > 100 or i.height > 130:
+				os.remove(highquality)
+				return error("Images must be 100x130")
 
 		if len(list(Iterator(i))) > 1: price = 1000
 		else: price = 500
