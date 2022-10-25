@@ -210,8 +210,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	offset = 0
 	ids = set()
 
-	if v and v.poorcel: threshold = 50
-	else: threshold = 100
+	threshold = 100
 
 	if post.comment_count > threshold+25 and not (v and v.client) and not request.values.get("all"):
 		comments2 = []
