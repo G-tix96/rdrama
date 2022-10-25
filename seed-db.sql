@@ -2165,6 +2165,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseymutt',2,'american burger 56 percent mayo',NULL),
 ('marseymutt2',2,'american burger 56 percent mayo',NULL),
 ('marseymyeisha',2,'kween black fds',NULL),
+('marseymyers',2,'knife halloween kill mask scary michael stab',1666654966),
 ('marseymyspacetom',2,'carp friend carpathianflrost anderson',NULL),
 ('marseyn8',2,'nate redditor powermod powerjannie moderator',NULL),
 ('marseynails',2,'manicure emoji pedicure',NULL),
