@@ -108,8 +108,7 @@
 			{{default_theme()}}
 		{% endif %}
 	{% else %}
-		<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
-		<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
+		{{default_theme()}}
 	{% endif %}
 	<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 	<link rel="stylesheet" href="{{'css/halloween/spooky.css' | asset}}">
