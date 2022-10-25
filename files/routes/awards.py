@@ -129,7 +129,8 @@ def buy(v, award):
 @limiter.limit("1/hour", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def trick_or_treat(v):
-	
+	if v.client: abort(403, "Not allowed from the API")
+
 	result = random.choice([0,1])
 
 	if result == 0:
@@ -149,7 +150,7 @@ def trick_or_treat(v):
 @app.post("/jumpscare")
 @auth_required
 def execute_jumpscare(v):
-
+	if v.client: abort(403, "Not allowed from the API")
 	if v.jumpscare > 0:
 		v.jumpscare -= 1
 		g.db.add(v)
