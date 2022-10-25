@@ -37,8 +37,6 @@ def process_audio(file):
 	name = f'/audio/{time.time()}'.replace('.','')
 
 	extension = file.filename.split('.')[-1].lower()
-	if extension not in ['aac', 'amr', 'flac', 'm4a', 'm4b', 'mp3', 'ogg', 'wav']:
-		extension = 'mp3'
 	name = name + '.' + extension
 
 	file.save(name)
@@ -96,8 +94,6 @@ def process_video(file):
 		abort(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for paypigs)")
 
 	extension = file.filename.split('.')[-1].lower()
-	if extension not in ['avi', 'mp4', 'webm', 'm4v', 'mov', 'mkv']:
-		extension = 'mp4'
 	new = old + '.' + extension
 
 	if extension == 'webm':
