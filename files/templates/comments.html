@@ -302,7 +302,7 @@
 								</li>
 																
 								{% if v %}
-									<a class="list-inline-item mr-3" role="button" onclick="ToggleReplyBox('reply-to-{{c.id}}')"><i class="fas fa-reply" style="margin-top:0.35rem"></i></a>
+									<a class="list-inline-item mr-3" role="button" onclick="ToggleReplyBox('reply-to-{{c.id}}');makeQuote('reply-form-body-{{c.full_name}}')"><i class="fas fa-reply" style="margin-top:0.35rem"></i></a>
 								{% endif %}
 								
 								<li class="list-inline-item">
