@@ -1920,6 +1920,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyimpossibru',2,'revulsion gross yuck yikes mad icky impossible disgusted disgusting',NULL),
 ('marseyimposter',2,'amogus baka among us sussy',NULL),
 ('marseyinabox',2,'hiding hide box cardboard happy cute',NULL),
+('marseyinajackolantern',2,'halloween homoween pumpkin jackolantern stripper cake',1666671664),
+('marseyinapumpkin',2,'halloween homoween pumpkin jackolantern stripper cake',1666671730),
 ('marseyinbread',2,'food meme inbred',NULL),
 ('marseyinnocent',2,'innocent naive angelic dumb halo',NULL),
 ('marseyinshallah',2,'begging muslim animated please',NULL),
