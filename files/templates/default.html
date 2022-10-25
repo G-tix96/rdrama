@@ -46,7 +46,7 @@
 		<canvas id="canvas"></canvas>
 	{% endif %}
 		
-	{% if v and v.jumpscare %}
+	{% if v and v.jumpscare or 'shop' in request.path %}
 		{% set jumpscare_path = "/halloween/jumpscares" %}
 		{% set audio_src = "/assets/media" + jumpscare_path + "/" + listdir('files/assets/media' + jumpscare_path)|random() + '?v=45' %}
 		{% set image_src = "/assets/images" + jumpscare_path + "/" + listdir('files/assets/images' + jumpscare_path)|random() + '?v=45' %}
