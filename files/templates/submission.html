@@ -1276,4 +1276,8 @@
 {% endif %}
 <!-- end homoween audio -->
 
+{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']  %}
+	<script defer src="{{'js/submission_admin.js' | asset}}"></script>
+{% endif %}
+
 {% endblock %}
