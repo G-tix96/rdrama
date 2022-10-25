@@ -45,20 +45,16 @@
 		{% endblock %}
 		<canvas id="canvas"></canvas>
 	{% endif %}
-	
-	{% set jumpscare_path = "/halloween/jumpscares" %}
-	{% set audio_src = "/assets/media" + jumpscare_path + "/" + listdir('files/assets/media' + jumpscare_path)|random() + '?v=45' %}
-	<script>
-		const jumpscare_audio = new Audio("{{audio_src}}");
-	</script>
-	
-	{% set image_src = "/assets/images" + jumpscare_path + "/" + listdir('files/assets/images' + jumpscare_path)|random() + '?v=45' %}
-	<img src="{{image_src}}" id="jump-scare-img" style="display: none;"/>
-	<script src="{{'js/halloween/jumpscare.js' | asset}}"></script>
-	
+		
 	{% if v and v.jumpscare %}
+		{% set jumpscare_path = "/halloween/jumpscares" %}
+		{% set audio_src = "/assets/media" + jumpscare_path + "/" + listdir('files/assets/media' + jumpscare_path)|random() + '?v=45' %}
+		{% set image_src = "/assets/images" + jumpscare_path + "/" + listdir('files/assets/images' + jumpscare_path)|random() + '?v=45' %}
+		<img src="{{image_src}}" id="jump-scare-img" style="display: none;"/>
+		<script src="{{'js/halloween/jumpscare.js' | asset}}"></script>
 		{% set roll = range(1,11) | random %}
-		<script defer>
+		<script>
+			const jumpscare_audio = new Audio("{{audio_src}}");
 			setTimeout(function () {
 				roll = {{roll}}
 				if(roll == 10){
