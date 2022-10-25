@@ -1505,6 +1505,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyclown3',2,'unicycle animated',NULL),
 ('marseyclueless',2,'dumb stupid hmm uhuh uh huh smug today i will todayiwill',NULL),
 ('marseycoal',2,'christmas naughty santa cigarette present gift holiday doom',NULL),
+('marseycocaine',2,'coke drugs snort insufflate tweak stim white powder euphoria high trip',1666703460),
 ('marseycodecel',2,'coder coding coode aevann programming python developer',NULL),
 ('marseycodecellove',2,'love bsod code dev hug heart computer tech admin admigger program',NULL),
 ('marseycodegeass',2,'geass anime weeb chapose japan chink animated',NULL),
