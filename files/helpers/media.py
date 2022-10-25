@@ -131,9 +131,11 @@ def process_image(filename=None, resize=0, trim=False, uploader=None, patron=Fal
 		abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for paypigs)")
 
 	with Image.open(filename) as i:
-		params = ["convert", filename, "-coalesce"]
-		if trim and len(list(Iterator(i))) == 1: params.append("-trim")
-		if resize and i.width > resize: params.extend(["-resize", f"{resize}>"])
+		params = ["convert", filename, "-quality", "88"]
+		if trim and len(list(Iterator(i))) == 1:
+			params.append("-trim")
+		if resize and i.width > resize:
+			params.extend(["-resize", f"{resize}>"])
 
 	params.append(filename)
 	subprocess.run(params)
