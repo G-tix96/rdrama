@@ -1121,8 +1121,7 @@ def remove_post(post_id, v):
 	post = get_post(post_id)
 	post.is_banned = True
 	post.is_approved = None
-	if post.stickied and not post.stickied.endswith('(pin award)'):
-		post.stickied = None
+	post.stickied = None
 	post.is_pinned = False
 	post.ban_reason = v.username
 	g.db.add(post)
