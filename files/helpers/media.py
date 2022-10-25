@@ -130,28 +130,13 @@ def process_image(filename=None, resize=0, trim=False, uploader=None, patron=Fal
 		os.remove(filename)
 		abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for paypigs)")
 
-	i = Image.open(filename)
+	with Image.open(filename) as i:
+		params = ["convert", filename, "-coalesce"]
+		if trim and len(list(Iterator(i))) == 1: params.append("-trim")
+		if resize and i.width > resize: params.extend(["-resize", f"{resize}>"])
 
-	if resize and i.width > resize:
-		if trim and len(list(Iterator(i))) == 1:
-			subprocess.run(["convert", filename, "-coalesce", "-trim", "-resize", f"{resize}>", filename])
-		else:
-			try: subprocess.run(["convert", filename, "-coalesce", "-resize", f"{resize}>", filename])
-			except: pass
-	elif i.format.lower() != "webp":
-
-		exif = i.getexif()
-		for k in exif.keys():
-			if k != 0x0112:
-				exif[k] = None
-				del exif[k]
-		i.info["exif"] = exif.tobytes()
-
-		if i.format.lower() == "gif":
-			gifwebp(input_image=filename, output_image=filename, option="-mixed -metadata none -f 100 -mt -m 6")
-		else:
-			i = ImageOps.exif_transpose(i)
-			i.save(filename, format="WEBP", method=6, quality=88)
+	params.append(filename)
+	subprocess.run(params)
 
 
 	if resize:
@@ -170,15 +155,18 @@ def process_image(filename=None, resize=0, trim=False, uploader=None, patron=Fal
 					if resize == 400 and img in ('256.webp','585.webp'): continue
 					img_path = f'{path}/{img}'
 					if img_path == filename: continue
-					img = Image.open(img_path)
-					i_hash = str(imagehash.phash(img))
+
+					with Image.open(img_path) as i:
+						i_hash = str(imagehash.phash(i))
+
 					if i_hash in hashes.keys():
 						print(hashes[i_hash], flush=True)
 						print(img_path, flush=True)
 					else: hashes[i_hash] = img_path
 
-				i = Image.open(filename)
-				i_hash = str(imagehash.phash(i))
+				with Image.open(filename) as i:
+					i_hash = str(imagehash.phash(i))
+
 				if i_hash in hashes.keys():
 					os.remove(filename)
 					abort(409, "Image already exists!")
