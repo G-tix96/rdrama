@@ -152,6 +152,7 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 
 DISCORD_CHANGELOG_CHANNEL_IDS = [1022232469606498324]
 WPD_CHANNEL_ID = 1013990963846332456
+PIN_AWARD_TEXT = " (pin award)"
 
 ################################################################################
 ### SITE SPECIFIC CONSTANTS

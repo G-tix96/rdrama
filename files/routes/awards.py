@@ -224,7 +224,7 @@ def award_thing(v, thing_type, id):
 		if thing.stickied and thing.stickied_utc:
 			thing.stickied_utc += 3600
 		else:
-			thing.stickied = f'{v.username} (pin award)'
+			thing.stickied = f'{v.username}{PIN_AWARD_TEXT}'
 			if thing_type == 'comment':
 				thing.stickied_utc = int(time.time()) + 3600*6
 			else:

@@ -5,16 +5,19 @@ function pinPost(t, id) {
 		{
 		},
 		(xhr) => {
-			if(xhr.status == 200) {
-				t.innerHTML = t.innerHTML.replace(t.textContent, 'Pin permanently')
+			if (xhr.status >= 200 && xhr.status < 300) {
+				response = JSON.parse(xhr.response);
+				length = response["length"];
+				if (length == "permanently") {
+					t.innerHTML = t.innerHTML.replace(t.textContent, 'Pin for 1 hour');
+					t.classList.add('d-none');
+				} else {
+					t.innerHTML = t.innerHTML.replace(t.textContent, 'Pin permanently');
+				}
+				t.nextElementSibling.classList.remove('d-none');
+				t.disabled = false;
+				t.classList.remove("disabled");	
 			}
-			else if(xhr.status == 201) {
-				t.innerHTML = t.innerHTML.replace(t.textContent, 'Pin for 1 hour')
-				t.classList.add('d-none')
-			}
-			t.nextElementSibling.classList.remove('d-none')
-			t.disabled = false;
-			t.classList.remove("disabled");	
 		}
 	);
 	setTimeout(() => {
