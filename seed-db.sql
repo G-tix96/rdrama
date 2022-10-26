@@ -345,7 +345,10 @@ INSERT INTO public.hat_defs VALUES (754, 'Crusader helmet', 'RETAKE THE HOLY LAN
 INSERT INTO public.hat_defs VALUES (766, 'book', 'i can read! heheh', 2, 500, NULL, 1664645746);
 INSERT INTO public.hat_defs VALUES (787, 'Turban', 'Turban with Bindi Dot (Namaste)', 2, 500, NULL, 1664980060);
 INSERT INTO public.hat_defs VALUES (788, 'LGBTUSSR Officer Hat', 'Rule with an iron fist... And use that iron fist for more than ruling ;)', 2, 1000, NULL, 1664994148);
+INSERT INTO public.hat_defs VALUES (993, 'Autumn Leaves', 'we call it fall becoz leaf fall down p:', 2, 1000, NULL, 1666729982);
 INSERT INTO public.hat_defs VALUES (808, 'The Capy 2', 'The drippiest and pimpiest capybara out there.', 2, 500, NULL, 1665104484);
+
+
 INSERT INTO public.hat_defs VALUES (676, 'Kepi', 'Army cap for those unlucky enough to be French', 2, 500, NULL, 1663303083);
 INSERT INTO public.hat_defs VALUES (678, 'Turkroach', 'Come on Carp this one''s hilarious. It''s semi transparent to clarify', 2, 500, NULL, 1663305640);
 INSERT INTO public.hat_defs VALUES (679, 'Judge Dredd', 'THIS USER IS THE LAW', 2, 500, NULL, 1663309533);
@@ -415,6 +418,7 @@ INSERT INTO public.hat_defs VALUES (830, 'Femboy hooters', 'Yes you ARE on the m
 INSERT INTO public.hat_defs VALUES (835, 'Rain', 'It''s a sad rainy day', 2, 1000, NULL, 1665259850);
 INSERT INTO public.hat_defs VALUES (837, 'Aura (blue)', 'Such power!', 2, 1000, NULL, 1665259885);
 INSERT INTO public.hat_defs VALUES (14, 'Riveter', 'Can you do it? Really?', 2, 500, NULL, 1662167687);
+INSERT INTO public.hat_defs VALUES (995, 'Annoying user', 'This user IS ANNOYING', 2, 500, NULL, 1666730032);
 INSERT INTO public.hat_defs VALUES (15, 'Top Hat (leprechaun)', 'LLM but Irish', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (843, 'Pet Snek', 'This user has a pet snek', 2, 1000, NULL, 1665261142);
 INSERT INTO public.hat_defs VALUES (16, 'Drinky Beer Hat', 'I actually didn''t know these were real things until I made this', 2, 500, NULL, 1662167687);
@@ -1079,7 +1083,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 992, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 997, true);
 
 
 --
