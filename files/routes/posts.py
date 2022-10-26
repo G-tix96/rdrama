@@ -537,7 +537,7 @@ def thumbnail_thread(pid):
 	fetch_url = post.url
 
 	if fetch_url.startswith('/') and '\\' not in fetch_url:
-		fetch_url = f"{current_host()}{fetch_url}"
+		fetch_url = f"{SITE}{fetch_url}"
 
 	headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
 
