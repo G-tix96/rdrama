@@ -74,7 +74,7 @@ def check_for_alts(current:User):
 
 
 @app.post("/login")
-@limiter.limit("1/10 seconds;6/minute;100/hour;500/day")
+@limiter.limit("1/5 seconds;6/minute;100/hour;500/day")
 def login_post():
 	template = ''
 
