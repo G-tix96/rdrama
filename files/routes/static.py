@@ -443,7 +443,7 @@ if SITE == 'pcmemes.net':
 				else:
 					return None
 
-			count = int(count.replace('.', ''))
+			count = int(count.replace('.', '').replace(' waiting', ''))
 
 			t = live_thumb_regex.search(text)
 
