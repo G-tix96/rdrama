@@ -413,7 +413,7 @@ if not os.path.exists(f'files/templates/donate_{SITE_NAME}.html'):
 @app.get('/donate')
 @auth_required
 def donate(v):
-	if not v.truecoins: abort(404)
+	if v.truecoins < 1000: abort(404)
 	return render_template(f'donate_{SITE_NAME}.html', v=v)
 
 
