@@ -1,6 +1,6 @@
 from urllib.parse import urlencode
 from files.mail import *
-from files.__main__ import app, limiter
+from files.__main__ import app, get_CF, limiter
 from files.helpers.const import *
 from files.helpers.regex import *
 from files.helpers.actions import *
@@ -74,7 +74,7 @@ def check_for_alts(current:User):
 
 
 @app.post("/login")
-@limiter.limit("1/second;6/minute;200/hour;1000/day")
+@limiter.limit("1/5 seconds;6/minute;100/hour;500/day")
 def login_post():
 	template = ''
 
@@ -97,8 +97,8 @@ def login_post():
 
 
 	if request.values.get("password"):
-
 		if not account.verifyPass(request.values.get("password")):
+			log_failed_admin_login_attempt(account, "password")
 			time.sleep(random.uniform(0, 2))
 			return render_template("login.html", failed=True)
 
@@ -126,6 +126,7 @@ def login_post():
 
 		if not account.validate_2fa(request.values.get("2fa_token", "").strip()):
 			hash = generate_hash(f"{account.id}+{now}+2fachallenge")
+			log_failed_admin_login_attempt(account, "2FA token")
 			return render_template("login_2fa.html",
 								v=account,
 								time=now,
@@ -142,6 +143,17 @@ def login_post():
 		redir = redir.replace("/logged_out", "").strip().rstrip('?')
 		if is_site_url(redir): return redirect(redir)
 	return redirect('/')
+
+def log_failed_admin_login_attempt(account:User, type:str):
+		if not account or account.admin_level < PERMS['SITE_WARN_ON_INVALID_AUTH']: return
+		ip = get_CF()
+		print(f"Admin user from {ip} failed to login to account {account.user_name} (invalid {type})!")
+		try:
+			with open(f"/admin_failed_logins", "a+", encoding="utf-8") as f:
+				t = str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time())))
+				f.write(f"{t}, {ip}, {account.username}, {type}\n")
+		except:
+			pass
 
 def on_login(account, redir=None):
 	session["lo_user"] = account.id
