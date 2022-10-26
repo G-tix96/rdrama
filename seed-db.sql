@@ -1414,6 +1414,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycarphug',2,'love squish squeeze hug squeeze fish carpathianflorist',NULL),
 ('marseycarphug2',2,'fish love bottomfeeder carpathianflorist heart blow admin cute',NULL),
 ('marseycarpina',2,'carpathianflorist drag transgender admin jannie',NULL),
+('marseycarpjannie',2,'carp jannie clean mop bucket mod moderator janny tears',1666803210),
+('marseycarpjannie2',2,'carp jannie clean mop bucket mod moderator janny piss pee urine',1666803246),
 ('marseycarplazy',2,'carpathianflorist fish couch sleeping slacker idc antiwork janitor',NULL),
 ('marseycarpler',2,'carpathianflorist administrator fascist mustache fish salute jannie nazi armband swastika',1664137088),
 ('marseycarpmerchant',2,'jewish money redbubble merch carpathianflorist money yid heeb sheeny sheenie greedy handrubbery rubbing hands kike israeli',1663465891),
