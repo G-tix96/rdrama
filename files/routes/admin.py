@@ -1212,8 +1212,9 @@ def sticky_post(post_id, v):
 		abort(403, "Can't pin award pins!")
 
 	pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
+	extra_pin_slots = 1 if post.stickied else 0
 
-	if pins >= PIN_LIMIT + 1 and v.admin_level < PERMS['BYPASS_PIN_LIMIT']:
+	if pins >= PIN_LIMIT + extra_pin_slots and v.admin_level < PERMS['BYPASS_PIN_LIMIT']:
 		abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
 
 	if not post.stickied_utc:
