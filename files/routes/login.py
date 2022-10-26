@@ -126,7 +126,7 @@ def login_post():
 
 		if not account.validate_2fa(request.values.get("2fa_token", "").strip()):
 			hash = generate_hash(f"{account.id}+{now}+2fachallenge")
-			log_failed_admin_login_attempt(account, "2FA Token")
+			log_failed_admin_login_attempt(account, "2FA token")
 			return render_template("login_2fa.html",
 								v=account,
 								time=now,
