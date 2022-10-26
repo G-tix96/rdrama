@@ -763,6 +763,8 @@ class User(Base):
 	@lazy
 	def profile_url(self):
 		host = current_host()
+		if self.hw_zombie < 0:
+			return f"{host}/assets/images/halloween/zombies/{random.randint(1, 10)}.webp?v=1"
 		if self.agendaposter:
 			return f"{host}/assets/images/halloween/agendaposter/{random.randint(1, 19)}.webp?v=1"
 		if self.rainbow:

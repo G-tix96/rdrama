@@ -1,0 +1,24 @@
+{% if not (v and v.poorcel) and not (v and v.hwmusic) and not (sub and sub.name == 'music') %}
+	{% if not song %}
+		{% set path = "assets/media/halloween/music" %}
+		{% set song = current_host + "/" + path + "/" + listdir('files/' + path)|random() + '?v=45' %}
+	{% endif %}
+	<script>
+		const audio = new Audio("{{song}}");
+		audio.loop=true;
+
+		function play() {
+			audio.play();
+		}
+
+		audio.loop=true;
+
+		window.addEventListener('load', function() {
+			audio.play();
+			document.getElementById('frontpage').addEventListener('click', () => {
+				if (audio.paused) audio.play();
+			}, {once : true});
+			prepare_to_pause(audio)
+		});
+	</script>
+{% endif %}

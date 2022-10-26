@@ -456,7 +456,7 @@ body::after {
 
 /* Fog effect */
 .fog-effect {
-	opacity: 0.4;
+	opacity: 0.35;
 }
 
 #fog-effect {
@@ -558,11 +558,12 @@ body::after {
 
 /* Bones */
 #animate{
-	margin-left:50%;
+	margin-left:45%;
 	margin-top:-5%;
 	position: fixed;
 	z-index:999;
 	pointer-events: none;
+	opacity:0.9;
 }
 
 /* Pumpkin */

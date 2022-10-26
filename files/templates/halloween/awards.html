@@ -65,7 +65,9 @@
 		z-index:1061;
 		pointer-events:none;
 		opacity:0.8;
+		/*looks better but is too expensive to justify :(*/
 		backdrop-filter: brightness(1.5);
+		background-color: rgba(256,256,256,0.06);
 	}
 	#flashlight-effect:before {
 		content: "";
@@ -90,7 +92,7 @@
 				rgba(0,0,0,0) 80%,
 				rgba(0,0,0,.93) 100%
 			);
-			opacity:0.8;
+			opacity:0.9;
 			pointer-events: none;
 		}
 	}

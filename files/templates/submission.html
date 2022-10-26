@@ -1242,42 +1242,19 @@
 	{% endif %}
 {% endif %}
 
-<!-- homoween audio -->
-{% if not (v and v.poorcel) and not (v and v.hwmusic) and not (sub and sub.name == 'music') %}
+{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']  %}
+	<script defer src="{{'js/submission_admin.js' | asset}}"></script>
+{% endif %}
+
+{% endblock %}
+
+{% block homoweenAudio %}
 	{% if p.award_count("ectoplasm", v) %}
 		{% set song = "/assets/media/halloween/ghostbusters.mp3" %}
 	{% elif p.award_count("bones", v) %}
 		{% set song = "/assets/media/halloween/Spooky_Scary_Skeletons.mp3" %}
 	{% elif p.award_count("haunt", v) %}
-		{% set song = "" %}
-	{% else %}
-		{% set path = "assets/media/halloween/music" %}
-		{% set song = SITE_FULL + "/" + path + "/" + listdir('files/' + path)|random() + '?v=45' %}
+		{% set song = true %}
 	{% endif %}
-	<script>
-		const audio = new Audio("{{song}}");
-		audio.loop=true;
-
-		function play() {
-			audio.play();
-		}
-
-		audio.loop=true;
-
-		window.addEventListener('load', function() {
-			audio.play();
-			document.getElementById('thread').addEventListener('click', () => {
-				if (audio.paused) audio.play();
-			}, {once : true});
-			prepare_to_pause(audio)
-		});
-
-	</script>
-{% endif %}
-<!-- end homoween audio -->
-
-{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']  %}
-	<script defer src="{{'js/submission_admin.js' | asset}}"></script>
-{% endif %}
-
+	{% include "halloween/music.html" %}
 {% endblock %}
