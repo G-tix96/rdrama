@@ -437,13 +437,13 @@ if SITE == 'pcmemes.net':
 			if count == '1 παρακολουθεί τώρα':
 				count = "1"
 
-			if 'περιμένει' in count:
+			if 'περιμένει' in count or 'waiting' in count:
 				if live != '':
 					return process_streamer(id, '')
 				else:
 					return None
 
-			count = int(count.replace('.', '').replace(' waiting', ''))
+			count = int(count.replace('.', ''))
 
 			t = live_thumb_regex.search(text)
 
