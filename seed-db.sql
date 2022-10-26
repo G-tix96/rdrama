@@ -1914,6 +1914,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyhypno',2,'hypnosis spiral brainwash animated hypnotoad',NULL),
 ('marseyicecream',2,'ice cream sad disappoint pout cry.',NULL),
 ('marseyicecreamcone',2,'sweet dessert dairy',1663284406),
+('marseyicet',2,'marsey icet rapper',1666753447),
 ('marseyidio3',2,'idio3 russia belarus communist commie flask drink computer online monitor display keyboard idio',NULL),
 ('marseyidk',2,'what weird cringe',1665254242),
 ('marseyill',2,'winter chilly cold ill sick brr flu',NULL),
