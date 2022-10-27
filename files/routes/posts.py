@@ -793,10 +793,7 @@ def submit_post(v, sub=None):
 		domain_obj = get_domain(domain)
 		if not domain_obj: domain_obj = get_domain(domain+parsed_url.path)
 
-		if domain_obj:
-			reason = f"Remove the {domain_obj.domain} link from your post and try again. {domain_obj.reason}"
-			return error(reason)
-		elif "twitter.com" == domain:
+		if "twitter.com" == domain:
 			try:
 				embed = requests.get("https://publish.twitter.com/oembed", params={"url":url, "omit_script":"t"}, timeout=5).json()["html"]
 				embed = embed.replace('<a href', '<a rel="nofollow noopener noreferrer" href')
