@@ -91,16 +91,16 @@
 	--moon-shadow-day9:drop-shadow(0px 0px 10px #deddcf);
 	--moon-shadow-day10:drop-shadow(0px 0px 10px #deddcf);
 
-	--moon-position-day1:303;
-	--moon-position-day2:308;
-	--moon-position-day3:320;
-	--moon-position-day4:350;
-	--moon-position-day5:350;	
-	--moon-position-day6:322;
-	--moon-position-day7:312;
-	--moon-position-day8:308;
-	--moon-position-day9:303;
-	--moon-position-day10:300;
+	--moon-position-day1:303px;
+	--moon-position-day2:308px;
+	--moon-position-day3:320px;
+	--moon-position-day4:350px;
+	--moon-position-day5:350px;	
+	--moon-position-day6:322px;
+	--moon-position-day7:312px;
+	--moon-position-day8:308px;
+	--moon-position-day9:303px;
+	--moon-position-day10:300px;
 
 	/*ground*/
 	--ground-shadow-day1:#5818bd;
@@ -174,19 +174,19 @@
 }
 
 .star1 circle {
-	r: 0.5;
+	r: 0.5px;
 }
 .star2 circle {
-	r: 0.75;
+	r: 0.75px;
 }
 .star3 circle {
-	r: 1.0;
+	r: 1.0px;
 }
 .star4 circle {
-	r: 1.2;
+	r: 1.2px;
 }
 .star5 circle {
-	r: 1.5;
+	r: 1.5px;
 }
 
 @media (max-width: 767.98px) {
@@ -195,19 +195,19 @@
 		fill-opacity: 0.5;
 	}
 	.star1 circle {
-		r: 1;
+		r: 1px;
 	}
 	.star2 circle {
-		r: 1.5;
+		r: 1.5px;
 	}
 	.star3 circle {
-		r: 2;
+		r: 2px;
 	}
 	.star4 circle {
-		r: 2;
+		r: 2px;
 	}
 	.star5 circle {
-		r: 2.5;
+		r: 2.5px;
 	}
 }
 
