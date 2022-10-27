@@ -785,13 +785,13 @@ def submit_post(v, sub=None):
 		if repost and FEATURES['REPOST_DETECTION'] and not v.admin_level >= PERMS['POST_BYPASS_REPOST_CHECKING']:
 			return redirect(repost.permalink)
 
-		domain_obj = get_domain(domain)
-		if not domain_obj: domain_obj = get_domain(domain+parsed_url.path)
+		y = domain + parsed_url.path
+		banned_domains = g.db.query(BannedDomain).all()
+		for x in banned_domains:
+			if y.startswith(x.domain):
+				return error(f'Remove the banned link "{x.domain}" and try again!<br>Reason for link ban: "{x.reason}"')
 
-		if domain_obj:
-			reason = f"Remove the {domain_obj.domain} link from your post and try again. {domain_obj.reason}"
-			return error(reason)
-		elif "twitter.com" == domain:
+		if "twitter.com" == domain:
 			try:
 				embed = requests.get("https://publish.twitter.com/oembed", params={"url":url, "omit_script":"t"}, timeout=5).json()["html"]
 				embed = embed.replace('<a href', '<a rel="nofollow noopener noreferrer" href')
