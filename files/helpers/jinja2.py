@@ -6,7 +6,6 @@ from .const import *
 import time
 from files.helpers.assetcache import assetcache_path
 from files.helpers.wrappers import calc_users
-from files.helpers.hosts import current_host
 
 @app.template_filter("post_embed")
 def post_embed(id, v):
@@ -53,5 +52,4 @@ def inject_constants():
 			"EMAIL_REGEX_PATTERN":EMAIL_REGEX_PATTERN,
 			"CONTENT_SECURITY_POLICY_DEFAULT":CONTENT_SECURITY_POLICY_DEFAULT,
 			"CONTENT_SECURITY_POLICY_HOME":CONTENT_SECURITY_POLICY_HOME,
-			"current_host": current_host()
 			}

@@ -1,6 +1,5 @@
 export FLASK_APP="/rDrama/files/cli:app"
 export SITE="localhost"
-export SITE_HOSTS="localhost,127.0.0.1"
 export SITE_NAME="rDrama"
 export SECRET_KEY="blahblahblah"
 export DATABASE_URL="postgresql://postgres@localhost:5432"

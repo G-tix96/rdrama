@@ -11,7 +11,6 @@ from files.helpers.slots import *
 from files.helpers.get import *
 from files.helpers.actions import *
 from files.helpers.sorting_and_time import *
-from files.helpers.hosts import current_host
 from files.classes import *
 from flask import *
 from io import BytesIO
@@ -537,7 +536,7 @@ def thumbnail_thread(pid):
 	fetch_url = post.url
 
 	if fetch_url.startswith('/') and '\\' not in fetch_url:
-		fetch_url = f"{SITE}{fetch_url}"
+		fetch_url = f"{SITE_FULL}{fetch_url}"
 
 	headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
 

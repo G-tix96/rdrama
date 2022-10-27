@@ -5,7 +5,6 @@ from files.helpers.const import *
 from files.helpers.regex import *
 from files.helpers.actions import *
 from files.helpers.get import *
-from files.helpers.hosts import current_host
 import requests
 import secrets
 
@@ -190,7 +189,7 @@ def sign_up_get(v):
 	if not app.config['SETTINGS']['Signups']:
 		return {"error": "New account registration is currently closed. Please come back later."}, 403
 
-	if v: return redirect(current_host())
+	if v: return redirect(SITE_FULL)
 
 	ref = request.values.get("ref")
 

@@ -11,7 +11,6 @@ from os import path
 
 SITE = environ.get("SITE").strip()
 SITE_NAME = environ.get("SITE_NAME").strip()
-SITE_HOSTS = environ.get("SITE_HOSTS").strip().split(',')
 SECRET_KEY = environ.get("SECRET_KEY").strip()
 PROXY_URL = environ.get("PROXY_URL").strip()
 GIPHY_KEY = environ.get('GIPHY_KEY').strip()
@@ -41,7 +40,7 @@ MAILGUN_KEY = environ.get("MAILGUN_KEY").strip()
 DESCRIPTION = environ.get("DESCRIPTION").strip()
 CF_KEY = environ.get("CF_KEY").strip()
 CF_ZONE = environ.get("CF_ZONE").strip()
-TELEGRAM_LINK = environ.get("TELEGRAM_LINK", "blahblahblah").strip()
+TELEGRAM_LINK = environ.get("TELEGRAM_LINK").strip()
 
 GLOBAL = environ.get("GLOBAL", "").strip()
 blackjack = environ.get("BLACKJACK", "").strip()

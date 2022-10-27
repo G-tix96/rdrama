@@ -25,8 +25,8 @@ app.jinja_env.add_extension('jinja2.ext.do')
 faulthandler.enable()
 
 SITE = environ.get("SITE").strip()
-SITE_HOSTS = environ.get("SITE_HOSTS").split(',')
 
+app.config['SERVER_NAME'] = SITE
 app.config['SECRET_KEY'] = environ.get('SECRET_KEY').strip()
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 3153600
 app.config["SESSION_COOKIE_NAME"] = "session_" + environ.get("SITE_NAME").strip().lower()
@@ -75,9 +75,7 @@ if not path.isfile(f'/site_settings.json'):
 
 @app.before_request
 def before_request():
-	if SITE != 'localhost':
-		app.config['SESSION_COOKIE_DOMAIN'] = f'.{request.host}'
-	if request.host == 'marsey.world' and request.path != '/kofi':
+	if SITE == 'marsey.world' and request.path != '/kofi':
 		abort(404)
 
 	g.agent = request.headers.get("User-Agent")
@@ -90,7 +88,7 @@ def before_request():
 	with open('/site_settings.json', 'r', encoding='utf_8') as f:
 		app.config['SETTINGS'] = json.load(f)
 
-	if request.host not in SITE_HOSTS:
+	if request.host != SITE:
 		return {"error": "Unauthorized host provided"}, 403
 
 	if request.headers.get("CF-Worker"): return {"error": "Cloudflare workers are not allowed to access this website."}, 403

@@ -11,7 +11,6 @@ from files.helpers.const import *
 from files.helpers.regex import *
 from files.helpers.lazy import lazy
 from files.helpers.sorting_and_time import *
-from files.helpers.hosts import current_host
 from .flags import CommentFlag
 from .votes import CommentVote
 from .saves import CommentSaveRelationship
@@ -183,12 +182,12 @@ class Comment(Base):
 	@property
 	@lazy
 	def permalink(self):
-		return f"{current_host()}{self.shortlink}"
+		return f"{SITE_FULL}{self.shortlink}"
 
 	@property
 	@lazy
 	def log_link(self):
-		return f"{current_host()}/transfers/{self.id}"
+		return f"{SITE_FULL}/transfers/{self.id}"
 
 	@property
 	@lazy

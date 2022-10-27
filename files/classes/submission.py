@@ -10,7 +10,6 @@ from files.helpers.const import *
 from files.helpers.regex import *
 from files.helpers.lazy import lazy
 from files.helpers.sorting_and_time import make_age_string
-from files.helpers.hosts import current_host
 from .flags import Flag
 from .comment import Comment, normalize_urls_runtime
 from .saves import SaveRelationship
@@ -139,7 +138,7 @@ class Submission(Base):
 	@property
 	@lazy
 	def permalink(self):
-		return current_host() + self.shortlink
+		return SITE_FULL + self.shortlink
 
 	@property
 	@lazy
@@ -164,17 +163,16 @@ class Submission(Base):
 	@property
 	@lazy
 	def thumb_url(self):
-		host = current_host()
-		if self.over_18: return f"{host}/assets/images/nsfw.webp?v=1"
-		elif not self.url: return f"{host}/assets/images/{SITE_NAME}/default_text.webp?v=2"
+		if self.over_18: return f"{SITE_FULL}/assets/images/nsfw.webp?v=1"
+		elif not self.url: return f"{SITE_FULL}/assets/images/{SITE_NAME}/default_text.webp?v=2"
 		elif self.thumburl: 
-			if self.thumburl.startswith('/'): return host + self.thumburl
+			if self.thumburl.startswith('/'): return SITE_FULL + self.thumburl
 			return self.thumburl
-		elif self.is_youtube or self.is_video: return f"{host}/assets/images/default_thumb_video.webp?v=1"
-		elif self.is_audio: return f"{host}/assets/images/default_thumb_audio.webp?v=1"
+		elif self.is_youtube or self.is_video: return f"{SITE_FULL}/assets/images/default_thumb_video.webp?v=1"
+		elif self.is_audio: return f"{SITE_FULL}/assets/images/default_thumb_audio.webp?v=1"
 		elif self.domain.split('.')[0] == SITE.split('.')[0]:
-			return f"{host}/assets/images/{SITE_NAME}/site_preview.webp?v=3009"
-		else: return f"{host}/assets/images/default_thumb_link.webp?v=1"
+			return f"{SITE_FULL}/assets/images/{SITE_NAME}/site_preview.webp?v=3009"
+		else: return f"{SITE_FULL}/assets/images/default_thumb_link.webp?v=1"
 
 	@property
 	@lazy
@@ -254,7 +252,7 @@ class Submission(Base):
 
 		if not url: return ''
 
-		if url.startswith('/'): return current_host() + url
+		if url.startswith('/'): return SITE_FULL + url
 
 		url = normalize_urls_runtime(url, v)
 
