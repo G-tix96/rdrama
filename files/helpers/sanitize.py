@@ -363,25 +363,16 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	domain_list = set()
 
 	for link in links:
-
 		href = link.get("href")
 		if not href: continue
-
 		url = urlparse(href)
-		domain = url.netloc
-		url_path = url.path
-		domain_list.add(domain+url_path)
+		domain_list.add(url.netloc + url.path)
 
-		parts = domain.split(".")
-		for i in range(len(parts)):
-			new_domain = parts[i]
-			for j in range(i + 1, len(parts)):
-				new_domain += "." + parts[j]
-				domain_list.add(new_domain)
-
-	bans = g.db.query(BannedDomain.domain).filter(BannedDomain.domain.in_(list(domain_list))).all()
-
-	if bans: abort(403, description=f"Remove the banned domains {bans} and try again!")
+	banned_domains = g.db.query(BannedDomain).all()
+	for x in banned_domains:
+		for y in domain_list:
+			if y.startswith(x.domain):
+				abort(403, description=f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
 
 	if '<pre>' not in sanitized:
 		sanitized = sanitized.replace('\n','')

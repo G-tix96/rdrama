@@ -784,6 +784,12 @@ def submit_post(v, sub=None):
 		if repost and FEATURES['REPOST_DETECTION'] and not v.admin_level >= PERMS['POST_BYPASS_REPOST_CHECKING']:
 			return redirect(repost.permalink)
 
+		y = domain + parsed_url.path
+		banned_domains = g.db.query(BannedDomain).all()
+		for x in banned_domains:
+			if y.startswith(x.domain):
+				return error(f'Remove the banned link "{x.domain}" and try again!<br>Reason for link ban: "{x.reason}"')
+
 		domain_obj = get_domain(domain)
 		if not domain_obj: domain_obj = get_domain(domain+parsed_url.path)
 

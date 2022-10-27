@@ -299,22 +299,3 @@ def get_sub_by_name(sub, v=None, graceful=False) -> Optional[Sub]:
 		if graceful: return None
 		else: abort(404)
 	return sub
-
-def get_domain(s) -> Optional[BannedDomain]:
-	parts = s.split(".")
-	domain_list = set()
-	for i in range(len(parts)):
-		new_domain = parts[i]
-		for j in range(i + 1, len(parts)):
-			new_domain += "." + parts[j]
-
-		domain_list.add(new_domain)
-
-	doms = g.db.query(BannedDomain).filter(BannedDomain.domain.in_(domain_list)).all()
-
-	if not doms:
-		return None
-
-	doms = sorted(doms, key=lambda x: len(x.domain), reverse=True)
-
-	return doms[0]
