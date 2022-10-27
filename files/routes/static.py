@@ -437,7 +437,7 @@ if SITE == 'pcmemes.net':
 			if count == '1 παρακολουθεί τώρα':
 				count = "1"
 
-			if 'περιμένει' in count:
+			if 'περιμένει' in count or 'waiting' in count:
 				if live != '':
 					return process_streamer(id, '')
 				else:

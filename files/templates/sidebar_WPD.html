@@ -7,7 +7,6 @@
 
 		<a href="{{image}}" style="text-decoration:none">
 			<img class="mb-4" alt="sidebar image" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
-
 			{% set coordsLookup = ({
 				"1.webp":({
 					"left":({
@@ -62,16 +61,15 @@
 				"6.webp":({
 					"left":({
 						"x":"125px",
-						"y":"-217px"
+						"y":"-219px"
 					}),
 					"right":({
-						"x":"150px",
-						"y":"-217px"
+						"x":"153px",
+						"y":"-219px"
 					})
 				})
 			}) %}
-
-			<div class="d-none d-md-block" style="position:absolute">
+			<div class="d-none d-lg-block" style="position:absolute">
 				<img id="left-eye" class="eye" src="/assets/images/halloween/eye.webp" loading="lazy" style="left:{{[coordsLookup][0][selected_image]['left']['x']}};top:{{[coordsLookup][0][selected_image]['left']['y']}}">
 				<img id="right-eye" class="eye" src="/assets/images/halloween/eye.webp" loading="lazy" style="left:{{[coordsLookup][0][selected_image]['right']['x']}};top:{{[coordsLookup][0][selected_image]['right']['y']}}">
 			</div>
@@ -181,3 +179,5 @@
 
 	</pre>
 </div>
+
+<script defer src="{{'js/halloween/eye-tracking.js' | asset}}" ></script>
