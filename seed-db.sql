@@ -2590,6 +2590,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyskeletontrex',2,'dinosaur skeleton spooky dead extinct halloween bones',1666234623),
 ('marseyskeletonvelociraptor',2,'dinosaur skeleton extinct dead spooky halloween bones',1666234714),
 ('marseyskeletor',2,'skeleton mask heman 80s man halloween he man cartooon he holiday',NULL),
+('marseyskellington',2,'marsey skeleton skellington tim christmas halloween before burton jack nightmare musical movie film',1666840958),
 ('marseyski',2,'skier skiing sking winter snow',NULL),
 ('marseyskinnedwalk',2,'watchpeopledie zllctnxaspywgb3 animated skinned walking trotting skeleton bones organs',NULL),
 ('marseyskull',2,'skull dead skeleton punisher kill bone',NULL),
