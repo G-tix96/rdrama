@@ -1,4 +1,4 @@
-{% if not (v and v.poorcel) and not (v and v.hwmusic) and not (sub and sub.name == 'music') %}
+{% if SITE_NAME != 'WPD' and not (v and v.poorcel) and not (v and v.hwmusic) and not (sub and sub.name == 'music') %}
 	{% if not song %}
 		{% set path = "assets/media/halloween/music" %}
 		{% set song = current_host + "/" + path + "/" + listdir('files/' + path)|random() + '?v=45' %}
