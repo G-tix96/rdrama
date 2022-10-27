@@ -11,12 +11,14 @@
 	<tr>
 		<th>#</th>
 		<th>Name</th>
+		<th>{{verb.title()}} since</th>
 	</tr>
 </thead>
-{% for user in users %}
+{% for user, object in users %}
 	<tr>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
+		<td {% if object.created_utc %}data-time="{{object.created_utc}}"{% endif %}></td>
 	</tr>
 {% endfor %}
 </table>

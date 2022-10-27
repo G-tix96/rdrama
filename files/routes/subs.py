@@ -207,7 +207,7 @@ def sub_exilees(v, sub):
 def sub_blockers(v, sub):
 	sub = get_sub_by_name(sub)
 	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
-	users = g.db.query(User).join(SubBlock) \
+	users = g.db.query(User, SubBlock).join(SubBlock) \
 				.filter_by(sub=sub.name) \
 				.order_by(nullslast(SubBlock.created_utc.desc()), User.username).all()
 
@@ -220,7 +220,7 @@ def sub_blockers(v, sub):
 def sub_followers(v, sub):
 	sub = get_sub_by_name(sub)
 	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
-	users = g.db.query(User).join(SubSubscription) \
+	users = g.db.query(User, SubSubscription).join(SubSubscription) \
 			.filter_by(sub=sub.name) \
 			.order_by(nullslast(SubSubscription.created_utc.desc()), User.username).all()
 
