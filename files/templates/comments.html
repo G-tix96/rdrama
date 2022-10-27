@@ -302,7 +302,7 @@
 								</li>
 																
 								{% if v %}
-									<a class="list-inline-item mr-3" role="button" onclick="ToggleReplyBox('reply-to-{{c.id}}');makeQuote('reply-form-body-{{c.fullname}}')"><i class="fas fa-reply" style="margin-top:0.35rem"></i></a>
+									<button class="list-inline-item mr-3 btn" onclick="ToggleReplyBox('reply-to-{{c.id}}')"><i class="fas fa-reply" style="margin-top:0.35rem"></i></button>
 								{% endif %}
 								
 								<li class="list-inline-item">
@@ -565,7 +565,7 @@
 				<a class="btn btn-primary mr-3" role="button" id="mute-user-{{c.id}}" onclick="adminMuteUser({{c.author_id}}, 1, {{c.id}})">Mute</a>
 			{% endif %}
 
-			<a class="btn btn-primary" role="button" onclick="ToggleReplyBox('reply-message-{{c.id}}')">Reply</a>
+			<button class="btn btn-primary" onclick="ToggleReplyBox('reply-message-{{c.id}}')">Reply</button>
 			<div id="reply-message-{{c.id}}" class="d-none">
 				<div id="comment-form-space-{{c.id}}" class="comment-write collapsed child">
 					<form id="reply-to-message-{{c.id}}" action="/reply" method="post" class="input-group" enctype="multipart/form-data">
@@ -882,7 +882,7 @@
 	<div id="viewmore-{{offset}}"><button id="viewbtn" class="btn btn-primary" onclick="viewmore({{pid}},'{{sort}}',{{offset}},{{ids}})">VIEW MORE COMMENTS</a></div>
 {% endif %}
 
-<!--{% if SITE_NAME == 'rDrama' and not request.headers.get("xhr") and v and 'SamsungBrowser' not in g.agent %}
+{% if SITE_NAME == 'rDrama' and not request.headers.get("xhr") and v and 'SamsungBrowser' not in g.agent %}
 	<div id="detection" style="display:none;background-color:canvas;color-scheme:light"></div>
 	<script>
 		const detectionDiv = document.querySelector('#detection');
@@ -904,6 +904,6 @@
 			}
 		}
 	</script>
-{% endif %}-->
+{% endif %}
 
 </body>
