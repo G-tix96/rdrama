@@ -756,13 +756,13 @@ class User(Base):
 	@lazy
 	def profile_url(self):
 		if self.agendaposter:
-			return f"{host}/e/chudsey.webp"
+			return f"{SITE_FULL}/e/chudsey.webp"
 		if self.rainbow:
 			return f"{SITE_FULL}/e/marseysalutepride.webp"
 		if self.profileurl: 
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl
-		return f"{host}/assets/images/default-profile-pic.webp?v=1008"
+		return f"{SITE_FULL}/assets/images/default-profile-pic.webp?v=1008"
 
 	@lazy
 	def json_popover(self, v):
