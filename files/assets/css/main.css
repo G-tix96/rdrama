@@ -3601,6 +3601,7 @@ small, .small {
 .post-actions .fa, .post-actions .fas, .post-actions .far {
 	font-size: 12px;
 	margin-right: 0.5rem;
+	margin-left: 0.5rem;
 	width: 1rem;
 }
 .post-actions .voting .fa, .post-actions .voting .fas, .post-actions .voting .far {

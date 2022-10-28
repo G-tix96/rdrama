@@ -288,9 +288,9 @@
 							<ul class="list-inline text-right d-flex">
 								<li class="list-inline-item mr-auto">
 									{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-										<a role="button" data-bs-toggle="modal" data-bs-target="#adminModal-{{c.id}}">
+										<button data-bs-toggle="modal" data-bs-target="#adminModal-{{c.id}}">
 											<i class="fas fa-broom"></i>
-										</a>
+										</button>
 									{% endif %}
 								</li>
 																
@@ -299,9 +299,9 @@
 								{% endif %}
 								
 								<li class="list-inline-item">
-									<a role="button" data-bs-toggle="modal" data-bs-target="#actionsModal-{{c.id}}">
+									<button data-bs-toggle="modal" data-bs-target="#actionsModal-{{c.id}}">
 										<i class="fas fa-ellipsis-h mt-1"></i>
-									</a>
+									</button>
 								</li>
 					
 								{% if v and request.path.startswith('/@') and v.admin_level < PERMS['VIEW_VOTE_BUTTONS_ON_USER_PAGE'] %}
@@ -648,8 +648,8 @@
 						{% if c.post %}
 							{% set sub = c.post.sub %}
 							{% if sub and v.mods(sub) and not c.author.mods(sub) %}
-								<a data-bs-dismiss="modal" id="exile2-{{c.id}}" class="{% if c.author.exiled_from(sub) %}d-none{% endif %} list-group-item text-danger" onclick="post_toast(this,'/exile/comment/{{c.id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-danger mr-2"></i>Exile user</a>
-								<a data-bs-dismiss="modal" id="unexile2-{{c.id}}" class="{% if not c.author.exiled_from(sub) %}d-none{% endif %} list-group-item text-success" onclick="post_toast(this,'/h/{{sub}}/unexile/{{c.author_id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-success mr-2"></i>Unexile user</a>
+								<button data-bs-dismiss="modal" id="exile2-{{c.id}}" class="{% if c.author.exiled_from(sub) %}d-none{% endif %} list-group-item text-danger" onclick="post_toast(this,'/exile/comment/{{c.id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-danger mr-2"></i>Exile user</button>
+								<button data-bs-dismiss="modal" id="unexile2-{{c.id}}" class="{% if not c.author.exiled_from(sub) %}d-none{% endif %} list-group-item text-success" onclick="post_toast(this,'/h/{{sub}}/unexile/{{c.author_id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-success mr-2"></i>Unexile user</button>
 							{% endif %}
 						{% endif %}
 					{% endif %}

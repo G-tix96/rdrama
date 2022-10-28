@@ -24,7 +24,7 @@
 {% endmacro %}
 
 {% macro leaderboard_table(lb) %}
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-{{lb.html_id}}">Top {{lb.limit}} by {{lb.table_header_name}}</a></h5>
+<h5 class="font-weight-bolder text-center pt-2 pb-3"><span id="leaderboard-{{lb.html_id}}">Top {{lb.limit}} by {{lb.table_header_name}}</span></h5>
 <div class="overflow-x-auto">
 {# TODO: check at some point if the nesting divs are intentional #}
 <table class="table table-striped mb-5">

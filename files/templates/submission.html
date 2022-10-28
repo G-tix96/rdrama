@@ -898,9 +898,9 @@
 					</a>
 
 					{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION_TOOLS_VISIBLE'] %}
-						<a class="ml-2" role="button" data-bs-toggle="modal" data-bs-target="#adminModal-{{p.id}}">
+						<button class="ml-2" data-bs-toggle="modal" data-bs-target="#adminModal-{{p.id}}">
 							<i class="fas fa-broom"></i>
-						</a>
+						</button>
 					{% endif %}
 				</li>
 
