@@ -349,7 +349,7 @@ def leaderboard(v):
 	users = g.db.query(User)
 
 	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, v.coins, g.db, users, LEADERBOARD_LIMIT)
-	subscribers = Leaderboard("Followers", "followers", "followers", "Followers", None, Leaderboard.get_simple_lb, User.stored_subscriber_count, v, v.stored_subs, g.db, users, LEADERBOARD_LIMIT)
+	subscribers = Leaderboard("Followers", "followers", "followers", "Followers", None, Leaderboard.get_simple_lb, User.stored_subscriber_count, v, v.stored_subscriber_count, g.db, users, LEADERBOARD_LIMIT)
 	posts = Leaderboard("Posts", "post count", "posts", "Posts", None, Leaderboard.get_simple_lb, User.post_count, v, v.post_count, users, LEADERBOARD_LIMIT)
 	comments = Leaderboard("Comments", "comment count", "comments", "Comments", None, Leaderboard.get_simple_lb, User.post_count, v, v.post_count, users, LEADERBOARD_LIMIT)
 	received_awards = Leaderboard("Awards", "received awards", "awards", "Awards", None, Leaderboard.get_simple_lb, User.received_award_count, v, v.received_award_count, db, users, LEADERBOARD_LIMIT)
