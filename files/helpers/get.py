@@ -4,6 +4,9 @@ from flask import g
 
 def get_id(username:str, graceful=False) -> Optional[int]:
 	username = username.replace('\\', '').replace('_', '\_').replace('%', '').strip()
+	if not username:
+		if graceful: return None
+		abort(404)
 	user = g.db.query(
 		User.id
 		).filter(
@@ -14,17 +17,20 @@ def get_id(username:str, graceful=False) -> Optional[int]:
 		).one_or_none()
 
 	if not user:
-		if not graceful: abort(404)
-		else: return None
+		if graceful: return None
+		abort(404)
 
 	return user[0]
 
 def get_user(username:str, v:Optional[User]=None, graceful=False, rendered=False, include_blocks=False, include_shadowbanned=True) -> Optional[User]:
 	if not username:
-		if not graceful: abort(404)
-		else: return None
+		if graceful: return None
+		abort(404)
 
 	username = username.replace('\\', '').replace('_', '\_').replace('%', '').replace('(', '').replace(')', '').strip()
+	if not username:
+		if graceful: return None
+		abort(404)
 	user = g.db.query(
 		User
 		).filter(
@@ -37,8 +43,8 @@ def get_user(username:str, v:Optional[User]=None, graceful=False, rendered=False
 	user = user.one_or_none()
 
 	if not user or (user.shadowbanned and not (include_shadowbanned or (v and v.can_see_shadowbanned))):
-		if not graceful: abort(404)
-		else: return None
+		if graceful: return None
+		abort(404)
 
 	if rendered and v and include_blocks:
 		if v.id == user.id:
@@ -68,6 +74,9 @@ def get_users(usernames:List[str], graceful=False) -> List[User]:
 		return n.replace('\\', '').replace('_', '\_').replace('%', '').strip()
 
 	usernames = [clean(n) for n in usernames]
+	if not any(usernames):
+		if graceful and len(usernames) == 0: return []
+		abort(404)
 	users = g.db.query(User).filter(
 		or_(
 			User.username.ilike(any_(usernames)),
@@ -84,8 +93,8 @@ def get_account(id:Union[str, int], v=None, graceful=False, include_blocks=False
 	try: 
 		id = int(id)
 	except:
-		if not graceful: abort(404)
-		else: return None
+		if graceful: return None
+		abort(404)
 
 	user = g.db.get(User, id)
 
@@ -114,7 +123,9 @@ def get_account(id:Union[str, int], v=None, graceful=False, include_blocks=False
 
 def get_post(i:Union[str, int], v=None, graceful=False) -> Optional[Submission]:
 	try: i = int(i)
-	except: abort(404)
+	except:
+		if graceful: return None
+		else: abort(404)
 
 	if not i:
 		if graceful: return None
@@ -204,7 +215,9 @@ def get_posts(pids:List[int], v:Optional[User]=None) -> List[Submission]:
 
 def get_comment(i:Union[str, int], v=None, graceful=False) -> Optional[Comment]:
 	try: i = int(i)
-	except: abort(404)
+	except:
+		if graceful: return None
+		abort(404)
 
 	if not i:
 		if graceful: return None
