@@ -203,7 +203,7 @@
 			<div class="post-actions mt-2 d-mob-none">
 				<ul class="list-inline text-right d-flex">
 						{% if p.realbody(v, True) %}
-							<a class="list-inline-item" role="button" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mr-0 text-expand-icon-{{p.id}}"></i></a>
+							<button class="list-inline-item" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mr-0 text-expand-icon-{{p.id}}"></i></button>
 						{% endif %}
 						<li class="list-inline-item">
 							<a {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}">
@@ -235,7 +235,7 @@
 			</li>
 			
 			{% if p.realbody(v, True) %}
-				<a class="list-inline-item" role="button" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mr-0 text-expand-icon-{{p.id}}"></i></a>
+				<button class="list-inline-item" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mr-0 text-expand-icon-{{p.id}}"></i></button>
 			{% endif %}
 
 			{% if v %}

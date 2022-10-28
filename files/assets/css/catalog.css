@@ -13,7 +13,7 @@
         font-size: 18px;
     }
 
-    #frontpage .post-meta, #frontpage .post-actions {
+    #frontpage .post-meta, .post-actions button, .post-actions a {
         font-size:14px;
     }
 }

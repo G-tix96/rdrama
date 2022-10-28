@@ -799,7 +799,7 @@
 									<div class="text-small font-weight-bold mt-1" id="charcount-post-edit" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
 									<div class="comment-format">
-										<a class="format btn btn-secondary" role="button"><span class="font-weight-bolder text-uppercase" onclick="commentForm('post-edit-box-{{p.id}}');getGif()" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span></a>
+										<button class="format btn btn-secondary"><span class="font-weight-bolder text-uppercase" onclick="commentForm('post-edit-box-{{p.id}}');getGif()" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span></button>
 										<div onclick="loadEmojis('post-edit-box-{{p.id}}')" class="format btn btn-secondary" role="button" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>	
 
 										<label class="format btn btn-secondary m-0 ml-1 {% if v %}d-inline-block{% else %}d-none{% endif %}" for="file-upload-edit-{{p.id}}">
@@ -840,11 +840,11 @@
 						</li>
 
 						{% if v and (v.id==p.author_id or v.admin_level >= PERMS['POST_EDITING']) %}
-							<a class="list-inline-item" role="button" onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit"></i>Edit</a>
+							<button class="list-inline-item" onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit"></i>Edit</button>
 						{% endif %}
 
 						{% if v and v.id != p.author_id and p.body and not v_forbid_deleted %}
-							<a class="list-inline-item" role="button" onclick="expandMarkdown('{{p.id}}','p')"><i class="fas text-expand-icon-{{p.id}} fa-expand-alt"></i><span class="expand-text-p-{{p.id}}">View source</span></a>
+							<button class="list-inline-item" role="button" onclick="expandMarkdown('{{p.id}}','p')"><i class="fas text-expand-icon-{{p.id}} fa-expand-alt"></i><span class="expand-text-p-{{p.id}}">View source</span></button>
 						{% endif %}
 
 						{% include 'post_actions.html' %}

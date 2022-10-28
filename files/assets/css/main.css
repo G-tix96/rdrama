@@ -3594,19 +3594,9 @@ small, .small {
 .modal .post-actions .list-group-item:focus, .modal .post-actions .list-group-item:hover {
 	background-color: var(--gray-300);
 }
-.modal .post-actions a, .post-actions button {
-	color: var(--black);
-	font-size: 1rem;
-}
 .modal .post-actions .fa, .modal .post-actions .fas, .modal .post-actions .far {
 	width: 1.25rem;
 	font-size: 1rem;
-}
-.post-actions {
-	position: relative;
-	color: var(--muted);
-	font-weight: 600;
-	font-size: 12px;
 }
 .post-actions .fa, .post-actions .fas, .post-actions .far {
 	font-size: 12px;
@@ -3621,9 +3611,6 @@ small, .small {
 }
 .post-actions .dropdown-item:hover .fa, .post-actions .dropdown-item:hover .fas {
 	color: var(--gray);
-}
-.post-actions a, .post-actions button:hover .fa, .post-actions a, .post-actions button:hover .fas {
-	color: var(--black);
 }
 .post-actions:hover, .post-actions:focus {
 	z-index: 4;
@@ -3730,10 +3717,12 @@ small, .small {
 }
 .post-actions a, .post-actions button {
 	color: var(--gray-100);
+	font-weight: 600;
+	font-size: 12px;
 	text-decoration: none;
 	text-transform: none;
 }
-.post-actions a, .post-actions button:hover {
+.post-actions a:hover, .post-actions button:hover {
 	color: var(--black);
 }
 .post-actions .dropdown-item:hover {
@@ -4375,13 +4364,6 @@ pre .com, code .com {
 	.post-meta {
 		font-size: 1rem;
 		padding-left: 3px;
-}
-	.post-actions {
-		font-weight: 400;
-}
-	.post-actions a, .post-actions button {
-		font-size: 1rem;
-		color: var(--gray-200);
 }
 	.post-actions .fa, .post-actions .fas, .post-actions .far {
 		font-size: 1rem;
@@ -6102,12 +6084,6 @@ g {
 
 .btn:active {
 	opacity: 0.65;
-}
-
-@media (max-width: 767.98px) {
-	.post-actions {
-		margin-top: -5px;
-	}
 }
 
 .ghostdiv
