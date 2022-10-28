@@ -392,7 +392,7 @@ def leaderboard(v):
 		if lb_criteria != UserBlock.target_id:
 			raise ValueError("This leaderboard function only supports UserBlock.target_id")
 		sq = g.db.query(lb_criteria, count_and_label(lb_criteria)).group_by(lb_criteria).subquery()
-		leaderboard = g.db.query(sq.c.rank, sq.c.count).join(User, User.id == sq.c.target_id).filter(sq.c.target_id == v.id).limit(1).one_or_none()
+		leaderboard = g.db.query(User, sq.c.count).join(User, User.id == sq.c.target_id).order_by(sq.c.count.desc())
 		
 		sq = g.db.query(lb_criteria, count_and_label(lb_criteria), rank_filtered_rank_label_by_desc(lb_criteria)).group_by(lb_criteria).subquery()
 		position = g.db.query(sq.c.rank, sq.c.count).join(User, User.id == sq.c.target_id).filter(sq.c.target_id == v.id).limit(1).one_or_none()
