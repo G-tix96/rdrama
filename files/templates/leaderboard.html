@@ -39,10 +39,11 @@
 	{% for user in lb.all_users %}
 		{% if v.id == user.id %}
 			{% set style="class=\"self\"" %}
+			{% set has_seen_v=true %}
 		{% endif %}
 		{{format_user_in_table(user, style, loop.index, lb.value_func(user))}}
 	{% endfor %}
-	{% if position %}
+	{% if position or not has_seen_v %}
 		{{format_user_in_table(v, "style=\"border-top:2px solid var(--primary)\"", lb.v_position, lb.v_value)}}
 	{% endif %}
 	</tbody>

@@ -37,7 +37,7 @@ class Leaderboard:
 				self.value_func = value_func
 				self.v_value = value_func(v)
 			else:
-				self.value_func = lambda u: u[1]
+				self.value_func = lambda u: u[1] or 0
 
 	@classmethod
 	def get_simple_lb(cls, order_by, v:User, db:scoped_session, users, limit:int):
