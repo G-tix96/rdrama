@@ -40,7 +40,7 @@
 		<pre></pre>
 		<ul style="padding-left:20px; margin-bottom: 0;word-wrap:break-word">
 			{% for f in p.filtered_flags(v) %}
-				<li><a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %} {% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}<button onclick="post_toast(this,'/del_report/post/{{f.post_id}}/{{f.user_id}}')">[remove]</button>{% endif %}</li>
+				<li><a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %} {% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}<button type="button" onclick="post_toast(this,'/del_report/post/{{f.post_id}}/{{f.user_id}}')">[remove]</button>{% endif %}</li>
 			{% endfor %}
 		</ul>
 	</div>
@@ -153,7 +153,7 @@
 				{% if p.is_blocking and not p.ghost %}<i class="fas fa-user-minus text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="You're blocking this user, but you can see this post because you're an admin."></i>{% endif %}
 				{% if p.is_blocked %}<i class="fas fa-user-minus text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="This user is blocking you."></i>{% endif %}
 				{% if p.private %}<span class="badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
-				{% if p.active_flags(v) %}<button class="btn btn-primary" style="padding:1px 5px; font-size:10px"onclick="document.getElementById('flaggers-{{p.id}}').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{help.plural(p.active_flags(v))}}</button>{% endif %}
+				{% if p.active_flags(v) %}<button type="button" class="btn btn-primary" style="padding:1px 5px; font-size:10px"onclick="document.getElementById('flaggers-{{p.id}}').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{help.plural(p.active_flags(v))}}</button>{% endif %}
 				
 				{% if p.ghost %}
 					<span {% if p.distinguish_level %}class="mod"{% endif %}>👻</span>
@@ -203,7 +203,7 @@
 			<div class="post-actions mt-2 d-mob-none">
 				<ul class="list-inline text-right d-flex">
 						{% if p.realbody(v, True) %}
-							<button class="list-inline-item" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mr-0 text-expand-icon-{{p.id}}"></i></button>
+							<button type="button" class="list-inline-item" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mr-0 text-expand-icon-{{p.id}}"></i></button>
 						{% endif %}
 						<li class="list-inline-item">
 							<a {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}">
@@ -227,7 +227,7 @@
 				</a>
 
 				{% if v and v.admin_level >= PERMS['ADMIN_HOME_VISIBLE'] %}
-					<button class="ml-2" data-bs-toggle="modal" data-bs-target="#adminModal-{{p.id}}">
+					<button type="button" class="ml-2" data-bs-toggle="modal" data-bs-target="#adminModal-{{p.id}}">
 						<i class="fas fa-broom"></i>
 					</button>
 				{% endif %}
@@ -235,12 +235,12 @@
 			</li>
 			
 			{% if p.realbody(v, True) %}
-				<button class="list-inline-item" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mr-0 text-expand-icon-{{p.id}}"></i></button>
+				<button type="button" class="list-inline-item" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mr-0 text-expand-icon-{{p.id}}"></i></button>
 			{% endif %}
 
 			{% if v %}
 				<li class="list-inline-item">
-					<button data-bs-toggle="modal" data-bs-target="#actionsModal-{{p.id}}">
+					<button type="button" data-bs-toggle="modal" data-bs-target="#actionsModal-{{p.id}}">
 						<i class="fas fa-ellipsis-h"></i>
 					</button>
 				</li>
@@ -287,7 +287,7 @@
 			<div class="modal-content">
 				<div class="modal-header p-3">
 					<h5 class="col modal-title text-center h6">More options</h5>
-					<button class="close position-absolute py-3" style="right: 1rem"data-bs-dismiss="modal" aria-label="Close">
+					<button type="button" class="close position-absolute py-3" style="right: 1rem"data-bs-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true"><i class="fas fa-times-circle text-gray-500"></i></span>
 					</button>
 				</div>

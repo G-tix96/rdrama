@@ -88,7 +88,7 @@
 <h4>Casino</h4>
 <ul>
 	<li><a href="/admin/lottery/participants">Participants</a></li>
-	<button class="btn btn-primary mt-3" onclick="post_toast(this,'/casino/blackjack/purge');" style="margin-bottom: 2em;">PURGE BAD BLACKJACK GAMES</button>
+	<button type="button" class="btn btn-primary mt-3" onclick="post_toast(this,'/casino/blackjack/purge');" style="margin-bottom: 2em;">PURGE BAD BLACKJACK GAMES</button>
 </ul>
 {%- endif %}
 
@@ -142,11 +142,11 @@
 		</div>
 	{% endif %}
 	{% if v.admin_level >= PERMS['SITE_CACHE_PURGE_CDN'] %}
-		<button class="btn btn-primary mt-3" onclick="post_toast(this,'/admin/purge_cache');" style="margin-bottom: 2em;">PURGE CACHE</button>
+		<button type="button" class="btn btn-primary mt-3" onclick="post_toast(this,'/admin/purge_cache');" style="margin-bottom: 2em;">PURGE CACHE</button>
 	{% endif %}
 	<br>
 	{% if SITE_NAME == 'PCM' and v.admin_level >= PERMS['PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES'] %}
-		<button class="btn btn-primary" onclick="post_toast(this,'/kippy');" style="margin-bottom: 2em;">Print 10k Marseybux</button>
+		<button type="button" class="btn btn-primary" onclick="post_toast(this,'/kippy');" style="margin-bottom: 2em;">Print 10k Marseybux</button>
 	{% endif %}
 {% endif %}
 
