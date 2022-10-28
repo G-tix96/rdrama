@@ -866,13 +866,13 @@ AWARDS = {
 		"price": 1500
 	},
 	"spider": {
-        "kind": "spider",
-        "title": "Spider!",
-        "description": f"Summons a spider to terrorize the recipient for 24 hours.",
-        "icon": "fas fa-spider",
-        "color": "text-brown",
-        "price": 2000
-    },
+		"kind": "spider",
+		"title": "Spider!",
+		"description": f"Summons a spider to terrorize the recipient for 24 hours.",
+		"icon": "fas fa-spider",
+		"color": "text-brown",
+		"price": 2000
+	},
 	"agendaposter": {
 		"kind": "agendaposter",
 		"title": "Chud",

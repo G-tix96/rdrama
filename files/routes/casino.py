@@ -16,10 +16,10 @@ from files.helpers.lottery import *
 @auth_required
 @feature_required('GAMBLING')
 def casino(v):
-    if v.rehab:
-        return render_template("casino/rehab.html", v=v)
+	if v.rehab:
+		return render_template("casino/rehab.html", v=v)
 
-    return render_template("casino.html", v=v)
+	return render_template("casino.html", v=v)
 
 
 @app.get("/casino/<game>")
@@ -27,27 +27,27 @@ def casino(v):
 @auth_required
 @feature_required('GAMBLING')
 def casino_game_page(v, game):
-    if v.rehab:
-        return render_template("casino/rehab.html", v=v)
-    elif game not in CASINO_GAME_KINDS:
-        abort(404)
+	if v.rehab:
+		return render_template("casino/rehab.html", v=v)
+	elif game not in CASINO_GAME_KINDS:
+		abort(404)
 
-    feed = json.dumps(get_game_feed(game))
-    leaderboard = json.dumps(get_game_leaderboard(game))
+	feed = json.dumps(get_game_feed(game))
+	leaderboard = json.dumps(get_game_leaderboard(game))
 
-    game_state = ''
-    if game == 'blackjack':
-        if get_active_twentyone_game(v):
-            game_state = json.dumps(get_active_twentyone_game_state(v))
+	game_state = ''
+	if game == 'blackjack':
+		if get_active_twentyone_game(v):
+			game_state = json.dumps(get_active_twentyone_game_state(v))
 
-    return render_template(
-        f"casino/{game}_screen.html",
-        v=v,
-        game=game,
-        feed=feed,
-        leaderboard=leaderboard,
-        game_state=game_state
-    )
+	return render_template(
+		f"casino/{game}_screen.html",
+		v=v,
+		game=game,
+		feed=feed,
+		leaderboard=leaderboard,
+		game_state=game_state
+	)
 
 
 @app.get("/casino/<game>/feed")
@@ -55,13 +55,13 @@ def casino_game_page(v, game):
 @auth_required
 @feature_required('GAMBLING')
 def casino_game_feed(v, game):
-    if v.rehab: 
-        abort(403, "You are under Rehab award effect!")
-    elif game not in CASINO_GAME_KINDS:
-        abort(404)
+	if v.rehab: 
+		abort(403, "You are under Rehab award effect!")
+	elif game not in CASINO_GAME_KINDS:
+		abort(404)
 
-    feed = get_game_feed(game)
-    return {"feed": feed}
+	feed = get_game_feed(game)
+	return {"feed": feed}
 
 
 # Lottershe
@@ -70,11 +70,11 @@ def casino_game_feed(v, game):
 @auth_required
 @feature_required('GAMBLING')
 def lottershe(v):
-    if v.rehab:
-        return render_template("casino/rehab.html", v=v)
+	if v.rehab:
+		return render_template("casino/rehab.html", v=v)
 
-    participants = get_users_participating_in_lottery()
-    return render_template("lottery.html", v=v, participants=participants)
+	participants = get_users_participating_in_lottery()
+	return render_template("lottery.html", v=v, participants=participants)
 
 # Slots
 @app.post("/casino/slots")
@@ -82,28 +82,28 @@ def lottershe(v):
 @auth_required
 @feature_required('GAMBLING')
 def pull_slots(v):
-    if v.rehab:
-        abort(403, "You are under Rehab award effect!")
+	if v.rehab:
+		abort(403, "You are under Rehab award effect!")
 
-    try:
-        wager = int(request.values.get("wager"))
-    except:
-        abort(400, "Invalid wager.")
+	try:
+		wager = int(request.values.get("wager"))
+	except:
+		abort(400, "Invalid wager.")
 
-    try:
-        currency = request.values.get("currency")
-    except:
-        abort(400, "Invalid currency (expected 'coin' or 'marseybux').")
+	try:
+		currency = request.values.get("currency")
+	except:
+		abort(400, "Invalid currency (expected 'coin' or 'marseybux').")
 
-    if (currency == "coin" and wager > v.coins) or (currency == "marseybux" and wager > v.procoins):
-        abort(400, f"Not enough {currency} to make that bet")
+	if (currency == "coin" and wager > v.coins) or (currency == "marseybux" and wager > v.procoins):
+		abort(400, f"Not enough {currency} to make that bet")
 
-    success, game_state = casino_slot_pull(v, wager, currency)
+	success, game_state = casino_slot_pull(v, wager, currency)
 
-    if success:
-        return {"game_state": game_state, "gambler": {"coins": v.coins, "procoins": v.procoins}}
-    else:
-        abort(400, f"Wager must be more than 5 {currency}")
+	if success:
+		return {"game_state": game_state, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+	else:
+		abort(400, f"Wager must be more than 5 {currency}")
 
 
 # 21
@@ -112,19 +112,19 @@ def pull_slots(v):
 @auth_required
 @feature_required('GAMBLING')
 def blackjack_deal_to_player(v):
-    if v.rehab:
-        abort(403, "You are under Rehab award effect!")
+	if v.rehab:
+		abort(403, "You are under Rehab award effect!")
 
-    try:
-        wager = int(request.values.get("wager"))
-        currency = request.values.get("currency")
-        create_new_game(v, wager, currency)
-        state = dispatch_action(v, BlackjackAction.DEAL)
-        feed = get_game_feed('blackjack')
+	try:
+		wager = int(request.values.get("wager"))
+		currency = request.values.get("currency")
+		create_new_game(v, wager, currency)
+		state = dispatch_action(v, BlackjackAction.DEAL)
+		feed = get_game_feed('blackjack')
 
-        return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
-    except Exception as e:
-        abort(400, str(e))
+		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+	except Exception as e:
+		abort(400, str(e))
 
 
 @app.post("/casino/twentyone/hit")
@@ -132,15 +132,15 @@ def blackjack_deal_to_player(v):
 @auth_required
 @feature_required('GAMBLING')
 def blackjack_player_hit(v):
-    if v.rehab:
-        abort(403, "You are under Rehab award effect!")
+	if v.rehab:
+		abort(403, "You are under Rehab award effect!")
 
-    try:
-        state = dispatch_action(v, BlackjackAction.HIT)
-        feed = get_game_feed('blackjack')
-        return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
-    except:
-        abort(400, "Unable to hit.")
+	try:
+		state = dispatch_action(v, BlackjackAction.HIT)
+		feed = get_game_feed('blackjack')
+		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+	except:
+		abort(400, "Unable to hit.")
 
 
 @app.post("/casino/twentyone/stay")
@@ -148,15 +148,15 @@ def blackjack_player_hit(v):
 @auth_required
 @feature_required('GAMBLING')
 def blackjack_player_stay(v):
-    if v.rehab:
-        abort(403, "You are under Rehab award effect!")
+	if v.rehab:
+		abort(403, "You are under Rehab award effect!")
 
-    try:
-        state = dispatch_action(v, BlackjackAction.STAY)
-        feed = get_game_feed('blackjack')
-        return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
-    except:
-        abort(400, "Unable to stay.")
+	try:
+		state = dispatch_action(v, BlackjackAction.STAY)
+		feed = get_game_feed('blackjack')
+		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+	except:
+		abort(400, "Unable to stay.")
 
 
 @app.post("/casino/twentyone/double-down")
@@ -164,15 +164,15 @@ def blackjack_player_stay(v):
 @auth_required
 @feature_required('GAMBLING')
 def blackjack_player_doubled_down(v):
-    if v.rehab:
-        abort(403, "You are under Rehab award effect!")
+	if v.rehab:
+		abort(403, "You are under Rehab award effect!")
 
-    try:
-        state = dispatch_action(v, BlackjackAction.DOUBLE_DOWN)
-        feed = get_game_feed('blackjack')
-        return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
-    except:
-        abort(400, "Unable to double down.")
+	try:
+		state = dispatch_action(v, BlackjackAction.DOUBLE_DOWN)
+		feed = get_game_feed('blackjack')
+		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+	except:
+		abort(400, "Unable to double down.")
 
 
 @app.post("/casino/twentyone/buy-insurance")
@@ -180,15 +180,15 @@ def blackjack_player_doubled_down(v):
 @auth_required
 @feature_required('GAMBLING')
 def blackjack_player_bought_insurance(v):
-    if v.rehab:
-        abort(403, "You are under Rehab award effect!")
+	if v.rehab:
+		abort(403, "You are under Rehab award effect!")
 
-    try:
-        state = dispatch_action(v, BlackjackAction.BUY_INSURANCE)
-        feed = get_game_feed('blackjack')
-        return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
-    except:
-        abort(403, "Unable to buy insurance.")
+	try:
+		state = dispatch_action(v, BlackjackAction.BUY_INSURANCE)
+		feed = get_game_feed('blackjack')
+		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+	except:
+		abort(403, "Unable to buy insurance.")
 
 # Roulette
 @app.get("/casino/roulette/bets")
@@ -196,12 +196,12 @@ def blackjack_player_bought_insurance(v):
 @auth_required
 @feature_required('GAMBLING')
 def roulette_get_bets(v):
-    if v.rehab:
-        abort(403, "You are under Rehab award effect!")
+	if v.rehab:
+		abort(403, "You are under Rehab award effect!")
 
-    bets = get_roulette_bets()
+	bets = get_roulette_bets()
 
-    return {"success": True, "bets": bets, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+	return {"success": True, "bets": bets, "gambler": {"coins": v.coins, "procoins": v.procoins}}
 
 
 @app.post("/casino/roulette/place-bet")
@@ -209,22 +209,22 @@ def roulette_get_bets(v):
 @auth_required
 @feature_required('GAMBLING')
 def roulette_player_placed_bet(v):
-    if v.rehab:
-        abort(403, "You are under Rehab award effect!")
+	if v.rehab:
+		abort(403, "You are under Rehab award effect!")
 
-    try:
-        bet = request.values.get("bet")
-        which = request.values.get("which")
-        amount = int(request.values.get("wager"))
-        currency = request.values.get("currency")
+	try:
+		bet = request.values.get("bet")
+		which = request.values.get("which")
+		amount = int(request.values.get("wager"))
+		currency = request.values.get("currency")
 
-        if amount < 5:
-            abort(400, f"Minimum bet is 5 {currency}.")
+		if amount < 5:
+			abort(400, f"Minimum bet is 5 {currency}.")
 
-        gambler_placed_roulette_bet(v, bet, which, amount, currency)
+		gambler_placed_roulette_bet(v, bet, which, amount, currency)
 
-        bets = get_roulette_bets()
+		bets = get_roulette_bets()
 
-        return {"success": True, "bets": bets, "gambler": {"coins": v.coins, "procoins": v.procoins}}
-    except:
-        abort(400, "Unable to place a bet.")
+		return {"success": True, "bets": bets, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+	except:
+		abort(400, "Unable to place a bet.")

@@ -199,58 +199,58 @@ def get_comment(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Opt
 	return add_vote_and_block_props(comment, v, CommentVote)
 
 def add_block_props(target:Union[Submission, Comment, User], v:Optional[User]):
-    if not v: return target
-    id = None
+	if not v: return target
+	id = None
 
-    if any(isinstance(target, cls) for cls in [Submission, Comment]):
-        id = target.author_id
-    elif isinstance(target, User):
-        id = target.id
-    else:
-        raise TypeError("add_block_props only supports non-None submissions, comments, and users")
-    
-    if hasattr(target, 'is_blocking') and hasattr(target, 'is_blocked'):
-        return target
+	if any(isinstance(target, cls) for cls in [Submission, Comment]):
+		id = target.author_id
+	elif isinstance(target, User):
+		id = target.id
+	else:
+		raise TypeError("add_block_props only supports non-None submissions, comments, and users")
+	
+	if hasattr(target, 'is_blocking') and hasattr(target, 'is_blocked'):
+		return target
 
-    if v.id == id or id == AUTOJANNY_ID: # users can't block or be blocked by themselves or AutoJanny
-        target.is_blocking = False
-        target.is_blocked = False
-        return target
+	if v.id == id or id == AUTOJANNY_ID: # users can't block or be blocked by themselves or AutoJanny
+		target.is_blocking = False
+		target.is_blocked = False
+		return target
 
-    block = g.db.query(UserBlock).filter(
-        or_(
-            and_(
-                UserBlock.user_id == v.id,
-                UserBlock.target_id == id
-            ),
-            and_(
-                UserBlock.user_id == id,
-                UserBlock.target_id == v.id
-            )
-        )
-    ).first()
-    target.is_blocking = block and block.user_id == v.id
-    target.is_blocked = block and block.target_id == v.id
-    return target
+	block = g.db.query(UserBlock).filter(
+		or_(
+			and_(
+				UserBlock.user_id == v.id,
+				UserBlock.target_id == id
+			),
+			and_(
+				UserBlock.user_id == id,
+				UserBlock.target_id == v.id
+			)
+		)
+	).first()
+	target.is_blocking = block and block.user_id == v.id
+	target.is_blocked = block and block.target_id == v.id
+	return target
 
 def add_vote_props(target:Union[Submission, Comment], v:Optional[User], vote_cls):
-    if hasattr(target, 'voted'): return target
+	if hasattr(target, 'voted'): return target
 
-    vt = g.db.query(vote_cls.vote_type).filter_by(user_id=v.id)
-    if vote_cls == Vote:
-        vt = vt.filter_by(submission_id=target.id)
-    elif vote_cls == CommentVote:
-        vt = vt.filter_by(comment_id=target.id)
-    else:
-        vt = None
-    if vt: vt = vt.one_or_none()
-    target.voted = vt.vote_type if vt else 0
-    return target
+	vt = g.db.query(vote_cls.vote_type).filter_by(user_id=v.id)
+	if vote_cls == Vote:
+		vt = vt.filter_by(submission_id=target.id)
+	elif vote_cls == CommentVote:
+		vt = vt.filter_by(comment_id=target.id)
+	else:
+		vt = None
+	if vt: vt = vt.one_or_none()
+	target.voted = vt.vote_type if vt else 0
+	return target
 
 def add_vote_and_block_props(target:Union[Submission, Comment], v:Optional[User], vote_cls):
-    if not v: return target
-    target = add_block_props(target, v)
-    return add_vote_props(target, v, vote_cls)
+	if not v: return target
+	target = add_block_props(target, v)
+	return add_vote_props(target, v, vote_cls)
 
 def get_comments(cids:Iterable[int], v:Optional[User]=None) -> List[Comment]:
 	if not cids: return []

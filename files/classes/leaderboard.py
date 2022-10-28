@@ -20,7 +20,7 @@ class Leaderboard:
 	value_func = None
 
 	def __init__(self, header_name:str, table_header_name:str, html_id:str, table_column_name:str, 
-		        user_relative_url:Optional[str], query_function:Callable[..., Tuple[Any, Any, Any]], 
+				user_relative_url:Optional[str], query_function:Callable[..., Tuple[Any, Any, Any]], 
 				criteria, v:User, value_func:Optional[Callable[[User], Union[int, Column]]], db:scoped_session, users, limit=LEADERBOARD_LIMIT):
 		self.header_name = header_name
 		self.table_header_name = table_header_name
