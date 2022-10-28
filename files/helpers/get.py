@@ -47,26 +47,7 @@ def get_user(username:str, v:Optional[User]=None, graceful=False, rendered=False
 		abort(404)
 
 	if rendered and v and include_blocks:
-		if v.id == user.id:
-			user.is_blocked = False
-			user.is_blocking = False
-		else:
-			block = g.db.query(UserBlock).filter(
-				or_(
-					and_(
-						UserBlock.user_id == v.id,
-						UserBlock.target_id == user.id
-					),
-					and_(UserBlock.user_id == user.id,
-						UserBlock.target_id == v.id
-						)
-				)
-			).first()
-
-			user.is_blocking = block and block.user_id == v.id
-			user.is_blocked = block and block.target_id == v.id
-
-
+		user = add_block_props(user, v)
 	return user
 
 def get_users(usernames:List[str], graceful=False) -> List[User]:
@@ -89,7 +70,7 @@ def get_users(usernames:List[str], graceful=False) -> List[User]:
 
 	return users
 
-def get_account(id:Union[str, int], v=None, graceful=False, include_blocks=False, include_shadowbanned=True) -> Optional[User]:
+def get_account(id:Union[str, int], v:Optional[User]=None, graceful=False, include_blocks=False, include_shadowbanned=True) -> Optional[User]:
 	try: 
 		id = int(id)
 	except:
@@ -102,26 +83,12 @@ def get_account(id:Union[str, int], v=None, graceful=False, include_blocks=False
 		if not graceful: abort(404)
 		else: return None
 
-	if v and include_blocks:
-		block = g.db.query(UserBlock).filter(
-			or_(
-				and_(
-					UserBlock.user_id == v.id,
-					UserBlock.target_id == user.id
-				),
-				and_(UserBlock.user_id == user.id,
-					 UserBlock.target_id == v.id
-					 )
-			)
-		).first()
-
-		user.is_blocking = block and block.user_id == v.id
-		user.is_blocked = block and block.target_id == v.id
-
+	if include_blocks:
+		user = add_block_props(user, v)
 	return user
 
 
-def get_post(i:Union[str, int], v=None, graceful=False) -> Optional[Submission]:
+def get_post(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Optional[Submission]:
 	try: i = int(i)
 	except:
 		if graceful: return None
@@ -213,7 +180,7 @@ def get_posts(pids:List[int], v:Optional[User]=None) -> List[Submission]:
 
 	return sorted(output, key=lambda x: pids.index(x.id))
 
-def get_comment(i:Union[str, int], v=None, graceful=False) -> Optional[Comment]:
+def get_comment(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Optional[Comment]:
 	try: i = int(i)
 	except:
 		if graceful: return None
@@ -228,27 +195,61 @@ def get_comment(i:Union[str, int], v=None, graceful=False) -> Optional[Comment]:
 		if graceful: return None
 		else: abort(404)
 
-	if v:
-		block = g.db.query(UserBlock).filter(
-			or_(
-				and_(
-					UserBlock.user_id == v.id,
-					UserBlock.target_id == comment.author_id
-				),
-				and_(
-					UserBlock.user_id == comment.author_id,
-					UserBlock.target_id == v.id
-				)
-			)
-		).first()
+	return add_vote_and_block_props(comment, v, CommentVote)
 
-		vt = g.db.query(CommentVote.vote_type).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
-		comment.is_blocking = block and block.user_id == v.id
-		comment.is_blocked = block and block.target_id == v.id
-		comment.voted = vt.vote_type if vt else 0
+def add_block_props(target:Union[Submission, Comment, User], v:Optional[User]):
+    if not v: return target
+    id = None
 
-	return comment
+    if any(isinstance(target, cls) for cls in [Submission, Comment]):
+        id = target.author_id
+    elif isinstance(target, User):
+        id = target.id
+    else:
+        raise TypeError("add_block_props only supports non-None submissions, comments, and users")
+    
+    if hasattr(target, 'is_blocking') and hasattr(target, 'is_blocked'):
+        return target
 
+    if v.id == id or id == AUTOJANNY_ID: # users can't block or be blocked by themselves or AutoJanny
+        target.is_blocking = False
+        target.is_blocked = False
+        return target
+
+    block = g.db.query(UserBlock).filter(
+        or_(
+            and_(
+                UserBlock.user_id == v.id,
+                UserBlock.target_id == id
+            ),
+            and_(
+                UserBlock.user_id == id,
+                UserBlock.target_id == v.id
+            )
+        )
+    ).first()
+    target.is_blocking = block and block.user_id == v.id
+    target.is_blocked = block and block.target_id == v.id
+    return target
+
+def add_vote_props(target:Union[Submission, Comment], v:Optional[User], vote_cls):
+    if hasattr(target, 'voted'): return target
+
+    vt = g.db.query(vote_cls.vote_type).filter_by(user_id=v.id)
+    if vote_cls == Vote:
+        vt = vt.filter_by(submission_id=target.id)
+    elif vote_cls == CommentVote:
+        vt = vt.filter_by(comment_id=target.id)
+    else:
+        vt = None
+    if vt: vt = vt.one_or_none()
+    target.voted = vt.vote_type if vt else 0
+    return target
+
+def add_vote_and_block_props(target:Union[Submission, Comment], v:Optional[User], vote_cls):
+    if not v: return target
+    target = add_block_props(target, v)
+    return add_vote_props(target, v, vote_cls)
 
 def get_comments(cids:List[int], v:Optional[User]=None) -> List[Comment]:
 	if not cids: return []
