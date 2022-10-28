@@ -28,10 +28,6 @@
 	color: var(--primary) !important;
 }
 
-.modal .comment-actions a {
-	color: var(--gray-500);
-}
-
 .navbar-light .navbar-nav .nav-link .fa, .navbar-light .navbar-nav .nav-link .fas, .navbar-light .navbar-nav .nav-link .far, .navbar-light .navbar-nav .nav-link .fab {
 	color: var(--black);
 }
@@ -154,4 +150,8 @@ blockquote a {
 
 h5.post-title a:visited {
 	color: #949494 !important;
+}
+
+.comment-actions > * {
+	color: var(--gray-500);
 }

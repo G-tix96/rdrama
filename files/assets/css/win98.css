@@ -131,10 +131,6 @@ blockquote {
 	color: var(--muted) !important;
 }
 
-.modal-header, .modal .comment-actions a, .modal-title {
-	color: var(--white) !important;
-}
-
 .text-info
 {
 	color: var(--primary) !important;
@@ -168,4 +164,8 @@ blockquote {
 
 h5.post-title a:visited {
 	color: #5c5c5c !important;
+}
+
+.comment-actions > * {
+	color: var(--white);
 }
