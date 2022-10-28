@@ -15,7 +15,7 @@
 	<tr {{style | safe}}>
 		<td>{{position_no}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		{% if user_relative_url %}
+		{% if user_relative_url is not none %}
 			<td><a href="/@{{user.username}}/{{user_relative_url}}">{{"{:,}".format(value)}}</a></td>
 		{% else %}
 			<td>{{"{:,}".format(value)}}</td>
