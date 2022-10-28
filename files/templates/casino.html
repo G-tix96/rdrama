@@ -33,7 +33,7 @@ Icon (fa-foo-bar), Color (#ff0000), URL (/post/12345/) #}
 <h2 style="text-transform: uppercase; text-align: center; letter-spacing: 3px; margin-top: 2rem;">Casino</h2>
 <div id="directory--wrapper">
 	{% for game in GAME_INDEX %}
-	<a role="button" class="directory--link" href="{{game[4]}}">
+	<a class="directory--link" href="{{game[4]}}">
 		<div class="directory--link-content">
 			<i class="directory--link--icon fas {{game[2]}}" style="color:{{game[3]}}"></i>
 			<div class="directory--link--title">{{game[0]|safe}}</div>
