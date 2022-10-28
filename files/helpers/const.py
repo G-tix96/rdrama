@@ -158,7 +158,7 @@ WPD_CHANNEL_ID = 1013990963846332456
 ################################################################################
 
 PERMS = { # Minimum admin_level to perform action.
-	'ADMIN_ADD': 3, # note: explicitly disabled on rDrama
+	'ADMIN_ADD': 3,
 	'ADMIN_REMOVE': 3,
 	'ADMIN_ADD_PERM_LEVEL': 2, # permission level given when user added via site
 	'ADMIN_ACTIONS_REVERT': 3,
@@ -402,7 +402,7 @@ ANTISPAM_BYPASS_IDS = []
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
-	PERMS['ADMIN_ADD_PERM_LEVEL'] = 0 # extra check here to disallow adding admins on site
+	PERMS['ADMIN_ADD'] = 4
 
 	SIDEBAR_THREAD = 37696
 	BANNER_THREAD = 37697
@@ -485,6 +485,7 @@ elif SITE == 'watchpeopledie.tv':
 
 	PERMS['HOLE_CREATE'] = 2
 	PERMS['POST_EDITING'] = 2
+	PERMS['ADMIN_ADD'] = 4
 
 	SIDEBAR_THREAD = 5403
 	BANNER_THREAD = 9869

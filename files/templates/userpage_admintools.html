@@ -22,7 +22,7 @@
 
 {% macro userAdminToolsUpper(deviceType) %}
 	{% if v and v.id != u.id and v.admin_level >= PERMS['USER_MODERATION_TOOLS_VISIBLE'] %}
-		{% if v.admin_level >= PERMS['ADMIN_ADD'] and SITE != 'rdrama.net' %}
+		{% if v.admin_level >= PERMS['ADMIN_ADD'] %}
 			<a id="add-admin-{{deviceType}}" class="{% if u.admin_level >= PERMS['ADMIN_ADD_PERM_LEVEL'] %}d-none{% endif %} btn btn-primary" onclick="post_toast(this,'/@{{u.username}}/make_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Make admin</a>
 		{% endif %}
 		{% if v.admin_level >= PERMS['ADMIN_REMOVE'] %}
