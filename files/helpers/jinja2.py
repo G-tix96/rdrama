@@ -46,7 +46,7 @@ def bar_position():
 		"ON q1.uid = q2.uid")).one()[0]
 	total = max(total, 1)
 
-	return [int((vaxxed * 100) / total), int((zombie * 100) / total)]
+	return [int((vaxxed * 100) / total), int((zombie * 100) / total), vaxxed, zombie]
 
 @app.context_processor
 def inject_constants():
