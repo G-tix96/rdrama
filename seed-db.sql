@@ -2642,6 +2642,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseysosa',2,'chief keef sosa glo rap hiphop music drugs lean black',NULL),
 ('marseysoutherner',2,'plantation suit cigar good ol boy buck breaking buck breaker',NULL),
 ('marseysoycry',2,'angry crying soy ',NULL),
+('marseysoycrytremble',2,'shaking libtard magatard reeeeeeeee woke sjw fragile weak low testosterone',1666968847),
 ('marseysoylentgrin',2,'numale nu male menslib redditor plebbitor happy glasses soyjak nerd loser beta smile smiling',NULL),
 ('marseysoypoint',2,'soyboy soy boy beard reaction pointing',NULL),
 ('marseysoypoint2',2,'wojak soyjak soyjack pointing beta redditors',NULL),
