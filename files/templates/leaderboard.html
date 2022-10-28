@@ -9,7 +9,7 @@
 <pre class="d-none d-md-inline-block"></pre>
 <div id="leaderboard-contents" style="text-align: center; margin-bottom: 1.5rem; font-size: 1.2rem;">
 	{% for lb in LEADERBOARDS %}
-		{% if lbs[2] %}
+		{% if lb[2] %}
 			<a href="#leaderboard-{{lb[0]}}">{{lb[1]}}</a>{% if lb[3] %} &bull;{% endif %}
 		{% endif %}
 	{% endfor %}
