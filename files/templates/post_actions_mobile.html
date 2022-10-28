@@ -30,7 +30,7 @@
 
 {% if v.id==p.author_id %}
 	{% if request.path.startswith('/@') %}
-		<button id="pin-profile2-{{p.id}}" class="{% if p.is_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-muted text-left"role="button" onclick="post_toast(this,'/pin/{{p.id}}','pin-profile2-{{p.id}}','unpin-profile2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center mr-2"></i>Pin to profile</button>
+		<button id="pin-profile2-{{p.id}}" class="{% if p.is_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-muted text-left" onclick="post_toast(this,'/pin/{{p.id}}','pin-profile2-{{p.id}}','unpin-profile2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center mr-2"></i>Pin to profile</button>
 		<button id="unpin-profile2-{{p.id}}" class="{% if not p.is_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-muted text-left" onclick="post_toast(this,'/pin/{{p.id}}','pin-profile2-{{p.id}}','unpin-profile2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center mr-2"></i>Unpin from profile</button>
 	{% endif %}
 

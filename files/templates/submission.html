@@ -844,7 +844,7 @@
 						{% endif %}
 
 						{% if v and v.id != p.author_id and p.body and not v_forbid_deleted %}
-							<button class="list-inline-item" role="button" onclick="expandMarkdown('{{p.id}}','p')"><i class="fas text-expand-icon-{{p.id}} fa-expand-alt"></i><span class="expand-text-p-{{p.id}}">View source</span></button>
+							<button class="list-inline-item" onclick="expandMarkdown('{{p.id}}','p')"><i class="fas text-expand-icon-{{p.id}} fa-expand-alt"></i><span class="expand-text-p-{{p.id}}">View source</span></button>
 						{% endif %}
 
 						{% include 'post_actions.html' %}
