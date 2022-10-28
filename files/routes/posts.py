@@ -621,12 +621,11 @@ def thumbnail_thread(pid):
 		image_req=x
 		with Image.open(BytesIO(x.content)) as i:
 			size = len(i.fp.read())
+			if size > 8 * 1024 * 1024:
+				db.close()
+				return
 
 	else:
-		db.close()
-		return
-
-	if size > 8 * 1024 * 1024:
 		db.close()
 		return
 
