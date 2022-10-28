@@ -1,16 +1,11 @@
 {% extends "settings2.html" %}
 {% block pagetitle %}Leaderboard{% endblock %}
 {% block content %}
-{%- set LEADERBOARDS = [
-	('coins', 'Coins', True, True), ('spent', 'Spent in shop', True, True), ('truescore', 'Truescore', True, True), ('followers', 'Followers', True, True),
-	('posts', 'Posts', True, True), ('comments', 'Comments', True, True), ('awards', 'Awards', True, True), ('badges', 'Badges', True, True),
-	('marseys', 'Marseys', SITE_NAME == 'rDrama', True), ('blocked', 'Blocked', True, True), ('owned-hats', 'Owned hats', True, True), ('designed-hats', 'Designed hats', True, False)
-] -%}
 <pre class="d-none d-md-inline-block"></pre>
 <div id="leaderboard-contents" style="text-align: center; margin-bottom: 1.5rem; font-size: 1.2rem;">
-	{% for lb in LEADERBOARDS %}
-		{% if lb[2] %}
-			<a href="#leaderboard-{{lb[0]}}">{{lb[1]}}</a>{% if lb[3] %} &bull;{% endif %}
+	{% for lb in leaderboards %}
+		{% if lb %}
+			<a href="#leaderboard-{{lb.html_id}}">{{lb.header_name}}</a>{% if not loop.last %} &bull;{% endif %}
 		{% endif %}
 	{% endfor %}
 </div>
@@ -28,70 +23,37 @@
 	</tr>
 {% endmacro %}
 
-{% macro leaderboard_table_header(column_name) %}
+{% macro leaderboard_table(lb, position, id, header_name, v_value) %}
+<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-{{id}}">Top {{lb.limit}} by {{table_header_name}}</a></h5>
+<div class="overflow-x-auto">
+{# TODO: check at some point if the nesting divs are intentional #}
+<table class="table table-striped mb-5">
 	<thead class="bg-primary text-white">
 		<tr>
 			<th>#</th>
 			<th>Name</th>
-			<th>{{column_name}}</th>
+			<th>{{lb.table_column_name}}</th>
 		</tr>
 	</thead>
-{% endmacro %}
-
-{% macro leaderboard_table(lb, position, id, total_count, header_name, column_name, attr_name) %}
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-{{id}}">Top {{total_count}} by {{header_name}}</a></h5>
-<div class="overflow-x-auto">
-{# TODO: check at some point if the nesting divs are intentional #}
-<table class="table table-striped mb-5">
-	{{leaderboard_table_header(column_name)}}
 	<tbody>
-	{% for user in lb %}
+	{% for user in lb.all_users %}
 		{% if v.id == user.id %}
 			{% set style="class=\"self\"" %}
 		{% endif %}
-		{{format_user_in_table(user, style, loop.index, user[attr_name])}}
+		{{format_user_in_table(user, style, loop.index, lb.value_func(user))}}
 	{% endfor %}
 	{% if position %}
-		{{format_user_in_table(v, "style=\"border-top:2px solid var(--primary)\"", position, v[attr_name])}}
+		{{format_user_in_table(v, "style=\"border-top:2px solid var(--primary)\"", position, v_value)}}
 	{% endif %}
 	</tbody>
 </table>
 {% endmacro %}
 
-{{leaderboard_table(users1, pos1, 'coins', 25, 'coins', 'Coins', 'coins')}}
-{{leaderboard_table(users7, pos7, 'spent', 25, 'coins spent in shop', 'Coins', 'coins_spent')}}
-{{leaderboard_table(users10, pos10, 'truescore', 25, 'truescore', 'Truescore', 'truecoins')}}
-{{leaderboard_table(users2, pos2, 'followers', 25, 'followers', 'Followers', 'stored_subscriber_count')}}
-{{leaderboard_table(users3, pos3, 'posts', 25, 'post count', 'Posts', 'post_count')}}
-{{leaderboard_table(users4, pos4, 'comments', 25, 'comment count', 'Comments', 'comment_count')}}
-{{leaderboard_table(users5, pos5, 'awards', 25, 'received awards', 'Awards', 'awards')}}
-
-{% macro leaderboard_table_2(lb, position, id, total_count, header_name, column_name, user_relative_url) %}
-	<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-{{id}}">Top {{total_count}} by {{header_name}}</a></h5>
-	<div class="overflow-x-auto">
-	<table class="table table-striped mb-5">
-	{{leaderboard_table_header(column_name)}}
-	<tbody>
-		{% for user, num in lb %}
-			{% if v.id == user.id %}
-				{% set style="class=\"self\"" %}
-			{% endif %}
-			{{format_user_in_table(user, style, loop.index, num, user_relative_url)}}
-		{% endfor %}
-		{% if position and (position[0] > total_count or not position[1]) %}
-			{{format_user_in_table(v, "style=\"border-top:2px solid var(--primary)\"", position[0], position[1], user_relative_url)}}
-		{% endif %}
-	</tbody>
-	</table>
-{% endmacro %}
-
-{{leaderboard_table_2(users11, pos11, 'badges', 25, 'badges', 'Badges')}}
-{% if users12 %}
-	{{leaderboard_table_2(users12, pos12, 'marseys', 25, 'Marseys made', 'Marseys')}}
-{% endif %}
-{{leaderboard_table_2(users16, pos16, 'blocked', 25, 'most blocked', 'Blocked By', 'blockers')}}
-{{leaderboard_table_2(users17, pos17, 'owned-hats', 25, 'owned hats', 'Owned Hats')}}
-{{leaderboard_table_2(users18, pos18, 'designed-hats', 25, 'designed hats', 'Designed Hats')}}
+{% for lb in leaderboards %}
+	{% if lb %}
+		{{leaderboard_table(lb, lb.v_position, lb.html_id, lb.header_name, lb.v_value)}}
+	{% endif %}
+{% endfor %}
 
 <a id="leader--top-btn" href="#leaderboard-contents" role="button"
 		style="position: fixed; bottom: 5rem; right: 2rem; font-size: 3rem;">

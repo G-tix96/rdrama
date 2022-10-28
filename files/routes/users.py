@@ -2,6 +2,7 @@ import qrcode
 import io
 import time
 import math
+from files.classes.leaderboard import Leaderboard
 from files.classes.views import *
 from files.classes.transactions import *
 from files.helpers.alerts import *
@@ -344,80 +345,28 @@ def transfer_bux(v, username):
 @app.get("/leaderboard")
 @auth_required
 def leaderboard(v):
+	LEADERBOARD_LIMIT = 25
 	users = g.db.query(User)
 
-	def get_leaderboard(order_by, limit=25):
-		leaderboard = users.order_by(order_by.desc()).limit(limit).all()
-		position = None
-		if v not in leaderboard:
-			sq = g.db.query(User.id, func.rank().over(order_by=order_by.desc()).label("rank")).subquery()
-			position = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
-		return (leaderboard, position)
-	
-	coins = get_leaderboard(User.coins)
-	subscribers = get_leaderboard(User.stored_subscriber_count)
-	posts = get_leaderboard(User.post_count)
-	comments = get_leaderboard(User.comment_count)
-	received_awards = get_leaderboard(User.received_award_count)
-	coins_spent = get_leaderboard(User.coins_spent)
-	truecoins = get_leaderboard(User.truecoins)
+	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, v.coins, g.db, users, LEADERBOARD_LIMIT)
+	subscribers = Leaderboard("Followers", "followers", "followers", "Followers", None, Leaderboard.get_simple_lb, User.stored_subscriber_count, v, v.stored_subs, g.db, users, LEADERBOARD_LIMIT)
+	posts = Leaderboard("Posts", "post count", "posts", "Posts", None, Leaderboard.get_simple_lb, User.post_count, v, v.post_count, users, LEADERBOARD_LIMIT)
+	comments = Leaderboard("Comments", "comment count", "comments", "Comments", None, Leaderboard.get_simple_lb, User.post_count, v, v.post_count, users, LEADERBOARD_LIMIT)
+	received_awards = Leaderboard("Awards", "received awards", "awards", "Awards", None, Leaderboard.get_simple_lb, User.received_award_count, v, v.received_award_count, db, users, LEADERBOARD_LIMIT)
+	coins_spent = Leaderboard("Spent in shop", "coins spent in shop", "spent", "Coins", None, Leaderboard.get_simple_lb, User.coins_spent, v, v.coins_spent, db, users, LEADERBOARD_LIMIT)
+	truecoins = Leaderboard("Truescore", "truescore", "truescore", "Truescore", None, Leaderboard.get_simple_lb, User.truecoins, v, v.truecoins, db, users, LEADERBOARD_LIMIT)
 
-	def count_and_label(criteria):
-		return func.count(criteria).label("count")
-	
-	def rank_filtered_rank_label_by_desc(criteria):
-		return func.rank().over(order_by=func.count(criteria).desc()).label("rank")
+	badges = Leaderboard("Badges", "badges", "badges", "Badges", None, Leaderboard.get_badge_marsey_lb, Badge.user_id, v, None, db, None, LEADERBOARD_LIMIT)
+	marseys = Leaderboard("Marseys", "Marseys made", "marseys", "Marseys", None, Leaderboard.get_badge_marsey_lb, Marsey.author_id, v, None, db, None, LEADERBOARD_LIMIT) if SITE_NAME == 'rDrama' else None
 
-	def get_leaderboard_2(lb_criteria, limit=25):
-		sq = g.db.query(lb_criteria, count_and_label(lb_criteria), rank_filtered_rank_label_by_desc(lb_criteria)).group_by(lb_criteria).subquery()
-		sq_criteria = None
-		if lb_criteria == Badge.user_id:
-			sq_criteria = User.id == sq.c.user_id
-		elif lb_criteria == Marsey.author_id:
-			sq_criteria = User.id == sq.c.author_id
-		else:
-			raise ValueError("This leaderboard function only supports Badge.user_id and Marsey.author_id")
-		
-		leaderboard = g.db.query(User, sq.c.count).join(sq, sq_criteria).order_by(sq.c.count.desc())
-		position = g.db.query(User.id, sq.c.rank, sq.c.count).join(sq, sq_criteria).filter(User.id == v.id).one_or_none()
-		if position: position = (position[1], position[2])
-		else: position = (leaderboard.count() + 1, 0)
-		leaderboard = leaderboard.limit(limit).all()
-		return (leaderboard, position)
+	blocks = Leaderboard("Blocked", "most blocked", "blocked", "Blocked By", "blockers", Leaderboard.get_blockers_lb, UserBlock.target_id, v, None, db, None, LEADERBOARD_LIMIT)
 
-	badges = get_leaderboard_2(Badge.user_id)
-	marseys = get_leaderboard_2(Marsey.author_id) if SITE_NAME == 'rDrama' else (None, None)
+	owned_hats = Leaderboard("Owned hats", "owned hats", "owned-hats", "Owned Hats", None, Leaderboard.get_hat_lb, User.owned_hats, v, None, db, None, LEADERBOARD_LIMIT)
+	designed_hats = Leaderboard("Designed hats", "designed hats", "designed-hats", "Designed Hats", None, Leaderboard.get_hat_lb, User.designed_hats, v, None, db, None, LEADERBOARD_LIMIT)	
 
-	def get_leaderboard_3(lb_criteria, limit=25):
-		if lb_criteria != UserBlock.target_id:
-			raise ValueError("This leaderboard function only supports UserBlock.target_id")
-		sq = g.db.query(lb_criteria, count_and_label(lb_criteria)).group_by(lb_criteria).subquery()
-		leaderboard = g.db.query(User, sq.c.count).join(User, User.id == sq.c.target_id).order_by(sq.c.count.desc())
-		
-		sq = g.db.query(lb_criteria, count_and_label(lb_criteria), rank_filtered_rank_label_by_desc(lb_criteria)).group_by(lb_criteria).subquery()
-		position = g.db.query(sq.c.rank, sq.c.count).join(User, User.id == sq.c.target_id).filter(sq.c.target_id == v.id).limit(1).one_or_none()
-		if not position: position = (leaderboard.count() + 1, 0)
-		leaderboard = leaderboard.limit(limit).all()
-		return (leaderboard, position)
+	leaderboards = [coins, coins_spent, truecoins, subscribers, posts, comments, received_awards, badges, marseys, blocks, owned_hats, designed_hats]
 
-	blocks = get_leaderboard_3(UserBlock.target_id)
-
-	def get_leaderboard_4(lb_criteria, limit=25):
-		leaderboard = g.db.query(User.id, func.count(lb_criteria)).join(lb_criteria).group_by(User).order_by(func.count(lb_criteria).desc())
-		sq = g.db.query(User.id, count_and_label(lb_criteria), rank_filtered_rank_label_by_desc(lb_criteria)).join(lb_criteria).group_by(User).subquery()
-		position = g.db.query(sq.c.rank, sq.c.count).filter(sq.c.id == v.id).limit(1).one_or_none()
-		if not position: position = (leaderboard.count() + 1, 0)
-		leaderboard = leaderboard.limit(limit).all()
-		return (leaderboard, position)
-	
-	owned_hats = get_leaderboard_4(User.owned_hats)
-	designed_hats = get_leaderboard_4(User.designed_hats)
-
-	return render_template("leaderboard.html", v=v, users1=coins[0], pos1=coins[1], users2=subscribers[0], pos2=subscribers[1], 
-		users3=posts[0], pos3=posts[1], users4=comments[0], pos4=comments[1], users5=received_awards[0], pos5=received_awards[1], 
-		users7=coins_spent[0], pos7=coins_spent[1], users10=truecoins[0], pos10=truecoins[1], users11=badges[0], pos11=badges[1], 
-		users12=marseys[0], pos12=marseys[1], users16=blocks[0], pos16=blocks[1], users17=owned_hats[0], pos17=owned_hats[1], 
-		users18=designed_hats[0], pos18=designed_hats[1])
+	return render_template("leaderboard.html", v=v, leaderboards=leaderboards)
 
 @app.get("/<id>/css")
 def get_css(id):
