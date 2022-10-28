@@ -12,7 +12,7 @@
 
 {% macro format_user_in_table(user, style, position_no, value, user_relative_url) %}
 	{% set value = value | int %}
-	<tr {{style}}>
+	<tr {{style | safe}}>
 		<td>{{position_no}}</td>
 		<td>{% include "user_in_table.html" %}</td>
 		{% if user_relative_url %}
@@ -23,8 +23,8 @@
 	</tr>
 {% endmacro %}
 
-{% macro leaderboard_table(lb, position, id, header_name, v_value) %}
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-{{id}}">Top {{lb.limit}} by {{table_header_name}}</a></h5>
+{% macro leaderboard_table(lb) %}
+<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-{{lb.html_id}}">Top {{lb.limit}} by {{lb.table_header_name}}</a></h5>
 <div class="overflow-x-auto">
 {# TODO: check at some point if the nesting divs are intentional #}
 <table class="table table-striped mb-5">
@@ -43,7 +43,7 @@
 		{{format_user_in_table(user, style, loop.index, lb.value_func(user))}}
 	{% endfor %}
 	{% if position %}
-		{{format_user_in_table(v, "style=\"border-top:2px solid var(--primary)\"", position, v_value)}}
+		{{format_user_in_table(v, "style=\"border-top:2px solid var(--primary)\"", lb.v_position, lb.v_value)}}
 	{% endif %}
 	</tbody>
 </table>
@@ -51,7 +51,7 @@
 
 {% for lb in leaderboards %}
 	{% if lb %}
-		{{leaderboard_table(lb, lb.v_position, lb.html_id, lb.header_name, lb.v_value)}}
+		{{leaderboard_table(lb)}}
 	{% endif %}
 {% endfor %}
 
