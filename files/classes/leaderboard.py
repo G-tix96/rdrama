@@ -35,6 +35,7 @@ class Leaderboard:
 			else:
 				self.value_func = lambda u: u[1]
 
+	@classmethod
 	def get_simple_lb(cls, order_by, v:User, db, users, limit):
 		leaderboard = users.order_by(order_by.desc()).limit(limit).all()
 		position = None
@@ -43,12 +44,15 @@ class Leaderboard:
 			position = db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
 		return (leaderboard, position, None)
 	
+	@classmethod
 	def count_and_label(cls, criteria):
 		return func.count(criteria).label("count")
 	
+	@classmethod
 	def rank_filtered_rank_label_by_desc(cls, criteria):
 		return func.rank().over(order_by=func.count(criteria).desc()).label("rank")
 
+	@classmethod
 	def get_badge_marsey_lb(cls, lb_criteria, v:User, db, users:Any, limit):
 		sq = db.query(lb_criteria, cls.count_and_label(lb_criteria), cls.rank_filtered_rank_label_by_desc(lb_criteria)).group_by(lb_criteria).subquery()
 		sq_criteria = None
@@ -66,6 +70,7 @@ class Leaderboard:
 		leaderboard = leaderboard.limit(limit).all()
 		return (leaderboard, position[0], position[1])
 	
+	@classmethod
 	def get_blockers_lb(cls, lb_criteria, v:User, db, users:Any, limit):
 		if lb_criteria != UserBlock.target_id:
 			raise ValueError("This leaderboard function only supports UserBlock.target_id")
@@ -78,6 +83,7 @@ class Leaderboard:
 		leaderboard = leaderboard.limit(limit).all()
 		return (leaderboard, position[0], position[1])
 	
+	@classmethod
 	def get_hat_lb(cls, lb_criteria, v:User, db, users:Any, limit):
 		leaderboard = db.query(User.id, func.count(lb_criteria)).join(lb_criteria).group_by(User).order_by(func.count(lb_criteria).desc())
 		sq = db.query(User.id, cls.count_and_label(lb_criteria), cls.rank_filtered_rank_label_by_desc(lb_criteria)).join(lb_criteria).group_by(User).subquery()
