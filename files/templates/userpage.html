@@ -211,12 +211,6 @@
 							<pre></pre>
 							<textarea autocomplete="off" id="input-message" form="message" name="message" rows="3" minlength="1" maxlength="10000" class="form-control b2" data-preview="message-preview" oninput="markdown(this)" required></textarea>
 							<pre></pre>
-							<pre class="btn btn-secondary format d-inline-block m-0 fas fa-bold" aria-hidden="true" onclick="makeBold('input-message')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Bold"></pre>
-							&nbsp;
-							<pre class="btn btn-secondary format d-inline-block m-0 fas fa-italic" aria-hidden="true" onclick="makeItalics('input-message')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Italicize"></pre>
-							&nbsp;
-							<pre class="btn btn-secondary format d-inline-block m-0 fas fa-quote-right" aria-hidden="true" onclick="makeQuote('input-message')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Quote"></pre>
-							&nbsp;
 							<pre class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('input-message')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></pre>
 							&nbsp;
 							<input type="submit" onclick="disable(this);remove_dialog()" value="Submit" class="btn btn-primary">
@@ -463,12 +457,6 @@
 						<input type="hidden" name="formkey" value="{{v.formkey}}"> 
 						<textarea autocomplete="off" id="input-message-mobile" form="message-mobile" name="message" rows="3" minlength="1" maxlength="10000" class="form-control" data-preview="message-preview-mobile" oninput="markdown(this)" required></textarea>
 						<pre></pre>
-						<pre class="btn btn-secondary format d-inline-block m-0 fas fa-bold" aria-hidden="true" onclick="makeBold('input-message-mobile')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Bold"></pre>
-						&nbsp;
-						<pre class="btn btn-secondary format d-inline-block m-0 fas fa-italic" aria-hidden="true" onclick="makeItalics('input-message-mobile')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Italicize"></pre>
-						&nbsp;
-						<pre class="btn btn-secondary format d-inline-block m-0 fas fa-quote-right" aria-hidden="true" onclick="makeQuote('input-message-mobile')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Quote"></pre>
-						&nbsp;
 						<pre class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('input-message-mobile')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></pre>
 						&nbsp;
 						<input type="submit" onclick="disable(this);remove_dialog()" value="Submit" class="btn btn-primary">

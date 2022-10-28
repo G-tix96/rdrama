@@ -76,18 +76,6 @@
 													Toggle preview
 												</div>
 
-												<small onclick="makeBold('post-text')" class="btn btn-secondary format d-inline-block m-0">
-												<i class="fas fa-bold" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Bold"></i>
-												</small>
-												&nbsp; 
-												<small onclick="makeItalics('post-text')" class="btn btn-secondary format d-inline-block m-0">
-												<i class="fas fa-italic" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Italicize"></i>
-												</small>
-												&nbsp; 
-												<small onclick="makeQuote('post-text')" class="btn btn-secondary format d-inline-block m-0">
-												<i class="fas fa-quote-right" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Quote"></i>
-												</small>
-												&nbsp;
 												<small class="btn btn-secondary format d-inline-block m-0"><span class="font-weight-bolder text-uppercase" aria-hidden="true" onclick="getGif();commentForm('post-text')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span></small>
 												&nbsp;
 												<div onclick="loadEmojis('post-text')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>
@@ -173,7 +161,6 @@
 		{% endif %}
 
 		<script defer src="{{'js/marked.js' | asset}}"></script>
-		<script defer src="{{'js/formatting.js' | asset}}"></script>
 		<script defer src="{{'js/submit.js' | asset}}"></script>
 		{% include "emoji_modal.html" %}
 		{% include "gif_modal.html" %}
