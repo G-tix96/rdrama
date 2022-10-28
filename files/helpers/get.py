@@ -1,8 +1,8 @@
-from typing import List, Optional
+from typing import List, Optional, Union
 from files.classes import *
 from flask import g
 
-def get_id(username, graceful=False) -> Optional[int]:	
+def get_id(username:str, graceful=False) -> Optional[int]:
 	username = username.replace('\\', '').replace('_', '\_').replace('%', '').strip()
 	user = g.db.query(
 		User.id
@@ -19,8 +19,7 @@ def get_id(username, graceful=False) -> Optional[int]:
 
 	return user[0]
 
-
-def get_user(username, v=None, graceful=False, rendered=False, include_blocks=False, include_shadowbanned=True) -> Optional[User]:
+def get_user(username:str, v:Optional[User]=None, graceful=False, rendered=False, include_blocks=False, include_shadowbanned=True) -> Optional[User]:
 	if not username:
 		if not graceful: abort(404)
 		else: return None
@@ -64,7 +63,7 @@ def get_user(username, v=None, graceful=False, rendered=False, include_blocks=Fa
 
 	return user
 
-def get_users(usernames, graceful=False) -> List[User]:
+def get_users(usernames:List[str], graceful=False) -> List[User]:
 	def clean(n):
 		return n.replace('\\', '').replace('_', '\_').replace('%', '').strip()
 
@@ -81,7 +80,7 @@ def get_users(usernames, graceful=False) -> List[User]:
 
 	return users
 
-def get_account(id, v=None, graceful=False, include_blocks=False, include_shadowbanned=True) -> Optional[User]:
+def get_account(id:Union[str, int], v=None, graceful=False, include_blocks=False, include_shadowbanned=True) -> Optional[User]:
 	try: 
 		id = int(id)
 	except:
@@ -113,7 +112,7 @@ def get_account(id, v=None, graceful=False, include_blocks=False, include_shadow
 	return user
 
 
-def get_post(i, v=None, graceful=False) -> Optional[Submission]:
+def get_post(i:Union[str, int], v=None, graceful=False) -> Optional[Submission]:
 	try: i = int(i)
 	except: abort(404)
 
@@ -161,7 +160,7 @@ def get_post(i, v=None, graceful=False) -> Optional[Submission]:
 	return x
 
 
-def get_posts(pids, v=None) -> List[Submission]:
+def get_posts(pids:List[int], v:Optional[User]=None) -> List[Submission]:
 	if not pids:
 		return []
 
@@ -203,7 +202,7 @@ def get_posts(pids, v=None) -> List[Submission]:
 
 	return sorted(output, key=lambda x: pids.index(x.id))
 
-def get_comment(i, v=None, graceful=False) -> Optional[Comment]:
+def get_comment(i:Union[str, int], v=None, graceful=False) -> Optional[Comment]:
 	try: i = int(i)
 	except: abort(404)
 
@@ -238,7 +237,7 @@ def get_comment(i, v=None, graceful=False) -> Optional[Comment]:
 	return comment
 
 
-def get_comments(cids, v=None) -> List[Comment]:
+def get_comments(cids:List[int], v:Optional[User]=None) -> List[Comment]:
 	if not cids: return []
 	if v:
 		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
@@ -281,7 +280,7 @@ def get_comments(cids, v=None) -> List[Comment]:
 
 	return sorted(output, key=lambda x: cids.index(x.id))
 
-def get_sub_by_name(sub, v=None, graceful=False) -> Optional[Sub]:
+def get_sub_by_name(sub:str, v:Optional[User]=None, graceful=False) -> Optional[Sub]:
 	if not sub:
 		if graceful: return None
 		else: abort(404)
