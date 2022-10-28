@@ -46,9 +46,9 @@
 				<div class="d-flex">
 					{% if FEATURES['PROCOINS'] and v.truecoins >= 1000 %}
 						{% if KOFI_TOKEN %}
-							<a class="btn btn-success" role="button" onclick="post_toast(this,'/settings/kofi')">Claim {{patron}} rewards</a>
+							<button class="btn btn-success" onclick="post_toast(this,'/settings/kofi')">Claim {{patron}} rewards</button>
 						{% else %}
-							<a class="btn btn-success" role="button" onclick="post_toast(this,'/settings/gumroad')">Claim {{patron}} rewards</a>
+							<button class="btn btn-success" onclick="post_toast(this,'/settings/gumroad')">Claim {{patron}} rewards</button>
 						{% endif %}
 					{% endif %}
 					{% if v.email %}

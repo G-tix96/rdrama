@@ -26,10 +26,10 @@
 			<a id="add-admin-{{deviceType}}" class="{% if u.admin_level >= PERMS['ADMIN_ADD_PERM_LEVEL'] %}d-none{% endif %} btn btn-primary" onclick="post_toast(this,'/@{{u.username}}/make_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Make admin</a>
 		{% endif %}
 		{% if v.admin_level >= PERMS['ADMIN_REMOVE'] %}
-			<a id="remove-admin-{{deviceType}}" class="{% if u.admin_level < 1 %}d-none{% endif %} btn btn-danger" onclick="post_toast(this,'/@{{u.username}}/remove_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Remove admin</a>
+			<button id="remove-admin-{{deviceType}}" class="{% if u.admin_level < 1 %}d-none{% endif %} btn btn-danger" onclick="post_toast(this,'/@{{u.username}}/remove_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Remove admin</button>
 		{% endif %}
 		{% if v.admin_level >= PERMS['ADMIN_ACTIONS_REVERT'] and u.admin_level %}
-			<a class="btn btn-danger" role="button" data-click="post_toast(this,'/@{{u.username}}/revert_actions')" onclick="areyousure(this)">Revert admin actions</a>
+			<button class="btn btn-danger" data-click="post_toast(this,'/@{{u.username}}/revert_actions')" onclick="areyousure(this)">Revert admin actions</button>
 		{% endif %}
 	{% endif %}
 {% endmacro %}
@@ -110,11 +110,11 @@
 					<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Lock Chud Theme">
 				</form>
 				<pre></pre>
-				<a id="unagendaposter-{{deviceType}}" class="{% if not u.agendaposter %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/unagendaposter/{{u.id}}','agendaposter-{{deviceType}}','unagendaposter-{{deviceType}}','d-none')">Disable Chud Theme</a>
+				<button id="unagendaposter-{{deviceType}}" class="{% if not u.agendaposter %}d-none{% endif %} btn btn-success" onclick="post_toast(this,'/unagendaposter/{{u.id}}','agendaposter-{{deviceType}}','unagendaposter-{{deviceType}}','d-none')">Disable Chud Theme</button>
 			{% endif %}
 			{% if v.admin_level >= PERMS['USER_BAN'] %}
-				<a id="mute-user-{{deviceType}}" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/1','mute-user-{{deviceType}}','unmute-user-{{deviceType}}','d-none')">Mute</a>
-				<a id="unmute-user-{{deviceType}}" class="{% if not u.is_muted %}d-none{% endif %} btn btn-success" role="button" onclick="post_toast(this,'/mute_user/{{u.id}}/0','mute-user-{{deviceType}}','unmute-user-{{deviceType}}','d-none')">Unmute</a>
+				<button id="mute-user-{{deviceType}}" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" onclick="post_toast(this,'/mute_user/{{u.id}}/1','mute-user-{{deviceType}}','unmute-user-{{deviceType}}','d-none')">Mute</button>
+				<button id="unmute-user-{{deviceType}}" class="{% if not u.is_muted %}d-none{% endif %} btn btn-success" onclick="post_toast(this,'/mute_user/{{u.id}}/0','mute-user-{{deviceType}}','unmute-user-{{deviceType}}','d-none')">Unmute</button>
 				<pre></pre>
 			{% endif %}
 			{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}

@@ -655,7 +655,7 @@
 						{% if p.is_bot %} <i class="fas fa-robot text-info" data-bs-toggle="tooltip" data-bs-placement="bottom"	title="Bot"></i>{% endif %}
 						{% if p.over_18 %}<span class="badge badge-danger text-small-extra mr-1">+18</span>{% endif %}
 						{% if p.private %}<span class="badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
-						{% if p.active_flags(v) %}<a class="btn btn-primary" role="button" style="padding:1px 5px; font-size:10px"onclick="document.getElementById('flaggers').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{help.plural(p.active_flags(v))}}</a>{% endif %}
+						{% if p.active_flags(v) %}<button class="btn btn-primary" style="padding:1px 5px; font-size:10px"onclick="document.getElementById('flaggers').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{help.plural(p.active_flags(v))}}</button>{% endif %}
 
 						{% if p.ghost %}
 							<span {% if p.distinguish_level %}class="mod"{% endif %}>👻</span>
@@ -992,7 +992,7 @@
 						<input autocomplete="off" id="file-upload-reply-{{p.fullname}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show-reply-{{p.fullname}}','file-upload-reply-{{p.fullname}}')" hidden>
 					</label>
 				</div>
-				<a id="save-reply-to-{{p.fullname}}" role="button" form="reply-to-{{p.fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="post_comment('{{p.fullname}}');remove_dialog()">Comment</a>
+				<button id="save-reply-to-{{p.fullname}}" form="reply-to-{{p.fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="post_comment('{{p.fullname}}');remove_dialog()">Comment</button>
 			</form>
 			<div id="form-preview-{{p.fullname}}" class="preview mb-3 mt-5"></div>
 			<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>

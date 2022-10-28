@@ -134,7 +134,7 @@
 				{% if c.bannedfor %}
 					<i class="fas fa-hammer-crash text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was banned for this comment {{c.bannedfor}}"></i>
 				{% endif %}
-				{% if c.active_flags(v) %}<a class="btn btn-primary" style="padding:1px 5px; font-size:10px"role="button" onclick="document.getElementById('flaggers-{{c.id}}').classList.toggle('d-none')">{{c.active_flags(v)}} Report{{help.plural(c.active_flags(v))}}</a>{% endif %}
+				{% if c.active_flags(v) %}<button class="btn btn-primary" style="padding:1px 5px; font-size:10px"role="button" onclick="document.getElementById('flaggers-{{c.id}}').classList.toggle('d-none')">{{c.active_flags(v)}} Report{{help.plural(c.active_flags(v))}}</button>{% endif %}
 				{% if c.over_18 %}<span class="badge badge-danger text-small-extra mr-1">+18</span>{% endif %}
 				{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and c.author.shadowbanned %}<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{c.author.shadowbanned}} for "{{c.author.ban_reason}}"'></i>{% endif %}
 				{% if c.stickied %}
@@ -517,7 +517,7 @@
 							<input autocomplete="off" id="file-upload-reply-{{c.fullname}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show-reply-{{c.fullname}}','file-upload-reply-{{c.fullname}}')" hidden>
 						</label>
 					</div>
-					<a id="save-reply-to-{{c.fullname}}" class="btn btn-primary ml-2 fl-r commentmob" onclick="post_comment('{{c.fullname}}', 'reply-to-{{c.id}}');remove_dialog()"role="button">Comment</a>
+					<button id="save-reply-to-{{c.fullname}}" class="btn btn-primary ml-2 fl-r commentmob" onclick="post_comment('{{c.fullname}}', 'reply-to-{{c.id}}');remove_dialog()"role="button">Comment</button>
 					<a role="button" onclick="document.getElementById('reply-to-{{c.id}}').classList.add('d-none');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r commentmob">Cancel</a> 
 				</form>
 				<div id="form-preview-{{c.fullname}}" class="preview mb-3 mt-5"></div>
@@ -550,8 +550,8 @@
 			<button class="btn btn-primary nobackground" onclick="ToggleReplyBox('reply-message-{{c.id}}')">Reply</button>
 
 			{% if (v and v.admin_level >= PERMS['USER_BAN']) and (c.sentto == 2) %} 
-				<a class="btn btn-primary ml-3 {% if c.author.is_muted %}d-none{% endif %}" role="button" id="mute-user-{{c.id}}" onclick="adminToggleMute({{c.author_id}}, 1, {{c.id}})">Mute</a>
-				<a class="btn btn-primary ml-3 {% if not c.author.is_muted %}d-none{% endif %}" role="button" id="unmute-user-{{c.id}}" onclick="adminToggleMute({{c.author_id}}, 0, {{c.id}})">Unmute</a>
+				<button class="btn btn-primary ml-3 {% if c.author.is_muted %}d-none{% endif %}" id="mute-user-{{c.id}}" onclick="adminToggleMute({{c.author_id}}, 1, {{c.id}})">Mute</button>
+				<button class="btn btn-primary ml-3 {% if not c.author.is_muted %}d-none{% endif %}" id="unmute-user-{{c.id}}" onclick="adminToggleMute({{c.author_id}}, 0, {{c.id}})">Unmute</button>
 			{% endif %}
 
 			<div id="reply-message-{{c.id}}" class="d-none">
@@ -571,7 +571,7 @@
 						</div>
 
 						<a role="button" onclick="document.getElementById('reply-message-{{c.id}}').classList.add('d-none');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form">Cancel</a> 
-						<a id="save-reply-to-{{c.id}}" class="btn btn-primary ml-2" onclick="post_reply('{{c.id}}');remove_dialog()" role="button">Reply</a> 
+						<button id="save-reply-to-{{c.id}}" class="btn btn-primary ml-2" onclick="post_reply('{{c.id}}');remove_dialog()">Reply</button>
 					</form>
 					<div id="message-reply-{{c.id}}" class="preview mt-2"></div>
 				</div>
