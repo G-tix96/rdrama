@@ -790,9 +790,6 @@ def submit_post(v, sub=None):
 			if y.startswith(x.domain):
 				return error(f'Remove the banned link "{x.domain}" and try again!<br>Reason for link ban: "{x.reason}"')
 
-		domain_obj = get_domain(domain)
-		if not domain_obj: domain_obj = get_domain(domain+parsed_url.path)
-
 		if "twitter.com" == domain:
 			try:
 				embed = requests.get("https://publish.twitter.com/oembed", params={"url":url, "omit_script":"t"}, timeout=5).json()["html"]
