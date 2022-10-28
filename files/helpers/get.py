@@ -238,9 +238,8 @@ def get_comment(i, v=None, graceful=False) -> Optional[Comment]:
 	return comment
 
 
-def get_comments(cids, v=None, load_parent=False) -> List[Comment]:
+def get_comments(cids, v=None) -> List[Comment]:
 	if not cids: return []
-
 	if v:
 		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
 
@@ -279,10 +278,6 @@ def get_comments(cids, v=None, load_parent=False) -> List[Comment]:
 
 	else:
 		output = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.id.in_(cids)).all()
-
-	if load_parent:
-		parents = [x.parent_comment_id for x in output if x.parent_comment_id]
-		parents = get_comments(parents, v=v)
 
 	return sorted(output, key=lambda x: cids.index(x.id))
 
