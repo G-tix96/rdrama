@@ -33,7 +33,7 @@ class OauthApp(Base):
 	@property
 	@lazy
 	def permalink(self):
-		return f"{SITE_FULL}/admin/app/{self.id}"
+		return f"{SITE_FULL}/admin/app/{self.id}/posts"
 
 	@lazy
 	def idlist(self, page=1):

@@ -226,9 +226,9 @@ def admin_app_reject(v, aid):
 	return {"message": f"'{app.app_name}' rejected!"}
 
 
-@app.get("/admin/app/<aid>")
+@app.get("/admin/app/<aid>/posts")
 @admin_level_required(PERMS['APPS_MODERATION'])
-def admin_app_id(v, aid):
+def admin_app_id_posts(v, aid):
 	aid=aid
 	oauth = g.db.get(OauthApp, aid)
 	if not oauth: abort(404)
