@@ -118,7 +118,6 @@ if SITE_NAME == 'rDrama':
 		"i hate marsey": "i love marsey",
 		"sodomite": "total dreamboat",
 		"pajeet": "sexy Indian dude",
-		"tenant": "renthog",
 		"renter": "rentoid",
 		"autistic": "neurodivergent",
 		"i hate carp": "i love Carp",
