@@ -4,7 +4,7 @@
 {%-set leaderboards = [
 	('coins', 'Coins', True), ('spent', 'Spent in shop', True), ('truescore', 'Truescore', True), ('followers', 'Followers', True),
 	('posts', 'Posts', True), ('comments', 'Comments', True), ('awards', 'Awards', True), ('badges', 'Badges', True),
-	('marseys', 'Marseys', users12) ('blocked', 'Blocked', True), ('owned-hats', 'Owned hats', True), ('designed-hats', 'Designed hats', True, False)
+	('marseys', 'Marseys', SITE_NAME == 'rDrama') ('blocked', 'Blocked', True), ('owned-hats', 'Owned hats', True), ('designed-hats', 'Designed hats', True, False)
 ] -%}
 <pre class="d-none d-md-inline-block"></pre>
 <div id="leaderboard-contents" style="text-align: center; margin-bottom: 1.5rem; font-size: 1.2rem;">
