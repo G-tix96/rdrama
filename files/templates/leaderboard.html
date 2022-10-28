@@ -1,11 +1,10 @@
 {% extends "settings2.html" %}
 {% block pagetitle %}Leaderboard{% endblock %}
 {% block content %}
-{%-
-set LEADERBOARDS = [
+{%- set LEADERBOARDS = [
 	('coins', 'Coins', True, True), ('spent', 'Spent in shop', True, True), ('truescore', 'Truescore', True, True), ('followers', 'Followers', True, True),
 	('posts', 'Posts', True, True), ('comments', 'Comments', True, True), ('awards', 'Awards', True, True), ('badges', 'Badges', True, True),
-	('marseys', 'Marseys', SITE_NAME == 'rDrama', True) ('blocked', 'Blocked', True, True), ('owned-hats', 'Owned hats', True, True), ('designed-hats', 'Designed hats', True, False)
+	('marseys', 'Marseys', SITE_NAME == 'rDrama', True), ('blocked', 'Blocked', True, True), ('owned-hats', 'Owned hats', True, True), ('designed-hats', 'Designed hats', True, False)
 ] -%}
 <pre class="d-none d-md-inline-block"></pre>
 <div id="leaderboard-contents" style="text-align: center; margin-bottom: 1.5rem; font-size: 1.2rem;">
