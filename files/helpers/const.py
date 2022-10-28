@@ -700,7 +700,7 @@ AWARDS = {
 		"description": "Marsifies the recipient's comments for 6 hours.",
 		"icon": "fas fa-cat",
 		"color": "text-white",
-		"price": 400
+		"price": 150
 	},
 	"shit": {
 		"kind": "shit",
@@ -708,7 +708,7 @@ AWARDS = {
 		"description": "Makes flies swarm the post.",
 		"icon": "fas fa-poop",
 		"color": "text-black-50",
-		"price": 300
+		"price": 150
 	},
 	"fireflies": {
 		"kind": "fireflies",
@@ -716,7 +716,7 @@ AWARDS = {
 		"description": "Makes fireflies swarm the post.",
 		"icon": "fas fa-sparkles",
 		"color": "text-warning",
-		"price": 300
+		"price": 150
 	},
 	"train": {
 		"kind": "train",
@@ -724,7 +724,7 @@ AWARDS = {
 		"description": "Summons a train on the post.",
 		"icon": "fas fa-train",
 		"color": "text-pink",
-		"price": 300
+		"price": 150
 	},
 	"scooter": {
 		"kind": "scooter",
@@ -732,7 +732,7 @@ AWARDS = {
 		"description": "Summons a scooter on the post.",
 		"icon": "fas fa-flag-usa",
 		"color": "text-muted",
-		"price": 300
+		"price": 150
 	},
 	"wholesome": {
 		"kind": "wholesome",
@@ -740,7 +740,7 @@ AWARDS = {
 		"description": "Summons a wholesome marsey on the post.",
 		"icon": "fas fa-smile-beam",
 		"color": "text-yellow",
-		"price": 300
+		"price": 150
 	},
 	"firework": {
 		"kind": "firework",
@@ -748,7 +748,7 @@ AWARDS = {
 		"description": "Summons fireworks on the post.",
 		"icon": "fas fa-bahai",
 		"color": "text-danger",
-		"price": 300
+		"price": 150
 	},
 	"confetti": {
 		"kind": "confetti",
@@ -756,7 +756,7 @@ AWARDS = {
 		"description": "Summons confetti to fall on the post.",
 		"icon": "fas fa-party-horn",
 		"color": "text-yellow",
-		"price": 300
+		"price": 150
 	},
 	"ricardo": {
 		"kind": "ricardo",
@@ -764,7 +764,7 @@ AWARDS = {
 		"description": "Summons Ricardo to dance on the post.",
 		"icon": "fas fa-pinata",
 		"color": "text-pink",
-		"price": 300
+		"price": 150
 	},
 	"tilt": {
 		"kind": "tilt",
@@ -772,7 +772,7 @@ AWARDS = {
 		"description": "Tilts the post or comment",
 		"icon": "fas fa-car-tilt",
 		"color": "text-blue",
-		"price": 300
+		"price": 150
 	},
 	"glowie": {
 		"kind": "glowie",
@@ -780,7 +780,7 @@ AWARDS = {
 		"description": "Indicates that the recipient can be seen when driving. Just run them over.",
 		"icon": "fas fa-user-secret",
 		"color": "text-green",
-		"price": 300
+		"price": 150
 	},
 	"rehab": {
 		"kind": "rehab",
@@ -1013,7 +1013,7 @@ if SITE_NAME == 'PCM':
 			"description": "Summons Croag on the post.",
 			"icon": "fas fa-head-side",
 			"color": "text-gold",
-			"price": 300
+			"price": 150
 		},
 		"toe": {
 			"kind": "toe",
@@ -1021,7 +1021,7 @@ if SITE_NAME == 'PCM':
 			"description": "Summons Blade's toe on the post.",
 			"icon": "fas fa-socks",
 			"color": "text-blue",
-			"price": 300
+			"price": 150
 		},
 		"crab": {
 			"kind": "crab",
