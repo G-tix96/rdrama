@@ -366,7 +366,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		href = link.get("href")
 		if not href: continue
 		url = urlparse(href)
-		domain_list.add(url.netloc + url.path)
+		d = tldextract.extract(href).registered_domain + url.path
+		domain_list.add(d)
 
 	banned_domains = g.db.query(BannedDomain).all()
 	for x in banned_domains:
