@@ -16,6 +16,7 @@
 </div>
 
 {% macro format_user_in_table(user, style, position_no, value, user_relative_url) %}
+	{% set value = value | int %}
 	<tr {{style}}>
 		<td>{{position_no}}</td>
 		<td>{% include "user_in_table.html" %}</td>
@@ -40,7 +41,7 @@
 {% macro leaderboard_table(lb, position, id, total_count, header_name, column_name, attr_name) %}
 <h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-{{id}}">Top {{total_count}} by {{header_name}}</a></h5>
 <div class="overflow-x-auto">
-<# TODO: check at some point if the nesting divs are intentional #>
+{# TODO: check at some point if the nesting divs are intentional #}
 <table class="table table-striped mb-5">
 	{{leaderboard_table_header(column_name)}}
 	<tbody>
@@ -78,7 +79,7 @@
 			{{format_user_in_table(user, style, loop.index, num, user_relative_url)}}
 		{% endfor %}
 		{% if position and (position[0] > total_count or not position[1]) %}
-			{{format_user_in_table(v, "style=\"border-top:2px solid var(--primary)\"", position, position[1], user_relative_url)}}
+			{{format_user_in_table(v, "style=\"border-top:2px solid var(--primary)\"", position[0], position[1], user_relative_url)}}
 		{% endif %}
 	</tbody>
 	</table>
