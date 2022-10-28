@@ -2,8 +2,12 @@ from typing import Iterable, List, Optional, Union
 from files.classes import *
 from flask import g
 
+def sanitize_username(username:str) -> str:
+	if not username: return username
+	return username.replace('\\', '').replace('_', '\_').replace('%', '').replace('(', '').replace(')', '').strip()
+
 def get_id(username:str, graceful=False) -> Optional[int]:
-	username = username.replace('\\', '').replace('_', '\_').replace('%', '').strip()
+	username = sanitize_username(username)
 	if not username:
 		if graceful: return None
 		abort(404)
@@ -27,7 +31,7 @@ def get_user(username:str, v:Optional[User]=None, graceful=False, rendered=False
 		if graceful: return None
 		abort(404)
 
-	username = username.replace('\\', '').replace('_', '\_').replace('%', '').replace('(', '').replace(')', '').strip()
+	username = sanitize_username(username)
 	if not username:
 		if graceful: return None
 		abort(404)
@@ -51,10 +55,8 @@ def get_user(username:str, v:Optional[User]=None, graceful=False, rendered=False
 	return user
 
 def get_users(usernames:Iterable[str], graceful=False) -> List[User]:
-	def clean(n):
-		return n.replace('\\', '').replace('_', '\_').replace('%', '').strip()
 	if not usernames: return []
-	usernames = [clean(n) for n in usernames]
+	usernames = [sanitize_username(n) for n in usernames]
 	if not any(usernames):
 		if graceful and len(usernames) == 0: return []
 		abort(404)
