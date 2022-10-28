@@ -80,7 +80,7 @@ def login_deduct_when(resp):
 	return g.login_failed
 
 @app.post("/login")
-@limiter.limit("1/5 seconds;6/minute;15/hour;15/day",
+@limiter.limit("6/minute;15/day",
 	deduct_when=login_deduct_when)
 def login_post():
 	template = ''
