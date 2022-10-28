@@ -81,29 +81,6 @@
 								{% if v and v.id != u.id and v.has_follower(u) %}
 									<span class="followsyou badge badge-secondary text-small align-middle ml-2" id="profile--follows-you">Follows you</span>
 								{% endif %}
-								<div class="profile-actions align-middle d-none ml-2">
-								{% if v and v.id != u.id %}
-								<div class="dropdown show d-none">
-									<a role="button" data-bs-toggle="dropdown"
-									aria-haspopup="true" aria-expanded="false">
-									<i class="far fa-ellipsis-h text-lg align-middle text-gray-600"></i>
-								</a>
-							</div>
-							{% endif %}
-							{% if v and v.id == u.id %}
-							<div class="dropdown show d-none">
-								<a role="button" id="dropdownProfileActionsLink" data-bs-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false">
-								<i class="far fa-ellipsis-h text-lg align-middle text-gray-600"></i>
-							</a>
-
-							<div class="dropdown-menu dropdown-menu-right border-0 shadow" aria-labelledby="dropdownMoreLink">
-								<a class="dropdown-item" href="/settings/profile#bio"><i class="fas fa-edit"></i>Edit profile</a>
-								<a class="dropdown-item" href="/settings/security"><i class="fas fa-cog"></i>Account details</a>
-							</div>
-						</div>
-						{% endif %}
-					</div> 
 				</div>
 
 				{% if FEATURES['PRONOUNS'] %}
