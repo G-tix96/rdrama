@@ -345,24 +345,23 @@ def transfer_bux(v, username):
 @app.get("/leaderboard")
 @auth_required
 def leaderboard(v):
-	LEADERBOARD_LIMIT = 25
 	users = g.db.query(User)
 
-	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, v.coins, g.db, users, LEADERBOARD_LIMIT)
-	subscribers = Leaderboard("Followers", "followers", "followers", "Followers", None, Leaderboard.get_simple_lb, User.stored_subscriber_count, v, v.stored_subscriber_count, g.db, users, LEADERBOARD_LIMIT)
-	posts = Leaderboard("Posts", "post count", "posts", "Posts", None, Leaderboard.get_simple_lb, User.post_count, v, v.post_count, users, LEADERBOARD_LIMIT)
-	comments = Leaderboard("Comments", "comment count", "comments", "Comments", None, Leaderboard.get_simple_lb, User.post_count, v, v.post_count, users, LEADERBOARD_LIMIT)
-	received_awards = Leaderboard("Awards", "received awards", "awards", "Awards", None, Leaderboard.get_simple_lb, User.received_award_count, v, v.received_award_count, db, users, LEADERBOARD_LIMIT)
-	coins_spent = Leaderboard("Spent in shop", "coins spent in shop", "spent", "Coins", None, Leaderboard.get_simple_lb, User.coins_spent, v, v.coins_spent, db, users, LEADERBOARD_LIMIT)
-	truecoins = Leaderboard("Truescore", "truescore", "truescore", "Truescore", None, Leaderboard.get_simple_lb, User.truecoins, v, v.truecoins, db, users, LEADERBOARD_LIMIT)
+	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, v.coins, g.db, users)
+	subscribers = Leaderboard("Followers", "followers", "followers", "Followers", None, Leaderboard.get_simple_lb, User.stored_subscriber_count, v, v.stored_subscriber_count, g.db, users)
+	posts = Leaderboard("Posts", "post count", "posts", "Posts", None, Leaderboard.get_simple_lb, User.post_count, v, v.post_count, g.db, users)
+	comments = Leaderboard("Comments", "comment count", "comments", "Comments", None, Leaderboard.get_simple_lb, User.comment_count, v, v.comment_count, g.db, users)
+	received_awards = Leaderboard("Awards", "received awards", "awards", "Awards", None, Leaderboard.get_simple_lb, User.received_award_count, v, v.received_award_count, g.db, users)
+	coins_spent = Leaderboard("Spent in shop", "coins spent in shop", "spent", "Coins", None, Leaderboard.get_simple_lb, User.coins_spent, v, v.coins_spent, g.db, users)
+	truecoins = Leaderboard("Truescore", "truescore", "truescore", "Truescore", None, Leaderboard.get_simple_lb, User.truecoins, v, v.truecoins, g.db, users)
 
-	badges = Leaderboard("Badges", "badges", "badges", "Badges", None, Leaderboard.get_badge_marsey_lb, Badge.user_id, v, None, db, None, LEADERBOARD_LIMIT)
-	marseys = Leaderboard("Marseys", "Marseys made", "marseys", "Marseys", None, Leaderboard.get_badge_marsey_lb, Marsey.author_id, v, None, db, None, LEADERBOARD_LIMIT) if SITE_NAME == 'rDrama' else None
+	badges = Leaderboard("Badges", "badges", "badges", "Badges", None, Leaderboard.get_badge_marsey_lb, Badge.user_id, v, None, g.db, None)
+	marseys = Leaderboard("Marseys", "Marseys made", "marseys", "Marseys", None, Leaderboard.get_badge_marsey_lb, Marsey.author_id, v, None, g.db, None) if SITE_NAME == 'rDrama' else None
 
-	blocks = Leaderboard("Blocked", "most blocked", "blocked", "Blocked By", "blockers", Leaderboard.get_blockers_lb, UserBlock.target_id, v, None, db, None, LEADERBOARD_LIMIT)
+	blocks = Leaderboard("Blocked", "most blocked", "blocked", "Blocked By", "blockers", Leaderboard.get_blockers_lb, UserBlock.target_id, v, None, g.db, None)
 
-	owned_hats = Leaderboard("Owned hats", "owned hats", "owned-hats", "Owned Hats", None, Leaderboard.get_hat_lb, User.owned_hats, v, None, db, None, LEADERBOARD_LIMIT)
-	designed_hats = Leaderboard("Designed hats", "designed hats", "designed-hats", "Designed Hats", None, Leaderboard.get_hat_lb, User.designed_hats, v, None, db, None, LEADERBOARD_LIMIT)	
+	owned_hats = Leaderboard("Owned hats", "owned hats", "owned-hats", "Owned Hats", None, Leaderboard.get_hat_lb, User.owned_hats, v, None, g.db, None)
+	designed_hats = Leaderboard("Designed hats", "designed hats", "designed-hats", "Designed Hats", None, Leaderboard.get_hat_lb, User.designed_hats, v, None, g.db, None)	
 
 	leaderboards = [coins, coins_spent, truecoins, subscribers, posts, comments, received_awards, badges, marseys, blocks, owned_hats, designed_hats]
 
