@@ -48,10 +48,10 @@
 		{% if v.id == user.id %}
 			{% set style="class=\"self\"" %}
 		{% endif %}
-		{{format_user_in_table(user, style, loop.index, getattr(user, attr_name))}}
+		{{format_user_in_table(user, style, loop.index, user[attr_name])}}
 	{% endfor %}
 	{% if position %}
-		{{format_user_in_table(v, "style=\"border-top:2px solid var(--primary)\"", position, getattr(v, attr_name))}}
+		{{format_user_in_table(v, "style=\"border-top:2px solid var(--primary)\"", position, v[attr_name])}}
 	{% endif %}
 	</tbody>
 </table>
