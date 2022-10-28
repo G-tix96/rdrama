@@ -73,10 +73,19 @@ def check_for_alts(current:User):
 			g.db.add(u)
 
 
+def login_deduct_when(resp):
+	if not g:
+		return False
+	elif not hasattr(g, 'login_failed'):
+		return False
+	return g.login_failed
+
 @app.post("/login")
-@limiter.limit("1/5 seconds;6/minute;100/hour;500/day")
+@limiter.limit("1/5 seconds;6/minute;15/hour;15/day",
+	deduct_when=login_deduct_when)
 def login_post():
 	template = ''
+	g.login_failed = True
 
 	username = request.values.get("username")
 
@@ -105,6 +114,7 @@ def login_post():
 		if account.mfa_secret:
 			now = int(time.time())
 			hash = generate_hash(f"{account.id}+{now}+2fachallenge")
+			g.login_failed = False
 			return render_template("login_2fa.html",
 								v=account,
 								time=now,
@@ -136,6 +146,7 @@ def login_post():
 	else:
 		abort(400)
 
+	g.login_failed = False
 	on_login(account)
 
 	redir = request.values.get("redirect")
@@ -160,6 +171,7 @@ def on_login(account, redir=None):
 	session["login_nonce"] = account.login_nonce
 	if account.id == AEVANN_ID: session["verified"] = time.time()
 	check_for_alts(account)
+
 
 @app.get("/me")
 @app.get("/@me")
