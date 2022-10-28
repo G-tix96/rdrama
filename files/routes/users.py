@@ -344,101 +344,80 @@ def transfer_bux(v, username):
 @app.get("/leaderboard")
 @auth_required
 def leaderboard(v):
-
 	users = g.db.query(User)
 
-	users1 = users.order_by(User.coins.desc()).limit(25).all()
-	if v in users1:
-		pos1 = None
-	else:
-		sq = g.db.query(User.id, func.rank().over(order_by=User.coins.desc()).label("rank")).subquery()
-		pos1 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
-
-	users2 = users.order_by(User.stored_subscriber_count.desc()).limit(25).all()
-	if v in users2:
-		pos2 = None
-	else:
-		sq = g.db.query(User.id, func.rank().over(order_by=User.stored_subscriber_count.desc()).label("rank")).subquery()
-		pos2 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
-
-	users3 = users.order_by(User.post_count.desc()).limit(25).all()
-	if v in users3:
-		pos3 = None
-	else:
-		sq = g.db.query(User.id, func.rank().over(order_by=User.post_count.desc()).label("rank")).subquery()
-		pos3 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
-
-	users4 = users.order_by(User.comment_count.desc()).limit(25).all()
-	if v in users4:
-		pos4 = None
-	else:
-		sq = g.db.query(User.id, func.rank().over(order_by=User.comment_count.desc()).label("rank")).subquery()
-		pos4 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
-
-	users5 = users.order_by(User.received_award_count.desc()).limit(25).all()
-	if v in users5:
-		pos5 = None
-	else:
-		sq = g.db.query(User.id, func.rank().over(order_by=User.received_award_count.desc()).label("rank")).subquery()
-		pos5 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
-
-	users7 = users.order_by(User.coins_spent.desc()).limit(25).all()
-	if v in users7:
-		pos7 = None
-	else:
-		sq = g.db.query(User.id, func.rank().over(order_by=User.coins_spent.desc()).label("rank")).subquery()
-		pos7 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
-
-
-
-	users10 = users.order_by(User.truecoins.desc()).limit(25).all()
-	if v in users10:
-		pos10 = None
-	else:
-		sq = g.db.query(User.id, func.rank().over(order_by=User.truecoins.desc()).label("rank")).subquery()
-		pos10 = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
-
-	sq = g.db.query(Badge.user_id, func.count(Badge.user_id).label("count"), func.rank().over(order_by=func.count(Badge.user_id).desc()).label("rank")).group_by(Badge.user_id).subquery()
-	users11 = g.db.query(User, sq.c.count).join(sq, User.id==sq.c.user_id).order_by(sq.c.count.desc())
-	pos11 = g.db.query(User.id, sq.c.rank, sq.c.count).join(sq, User.id==sq.c.user_id).filter(User.id == v.id).one_or_none()
-	if pos11: pos11 = (pos11[1],pos11[2])
-	else: pos11 = (users11.count()+1, 0)
-	users11 = users11.limit(25).all()
-
-	if SITE_NAME == 'rDrama':
-		sq = g.db.query(Marsey.author_id, func.count(Marsey.author_id).label("count"), func.rank().over(order_by=func.count(Marsey.author_id).desc()).label("rank")).filter(Marsey.submitter_id==None).group_by(Marsey.author_id).subquery()
-		users12 = g.db.query(User, sq.c.count).join(sq, User.id==sq.c.author_id).order_by(sq.c.count.desc())
-		pos12 = g.db.query(User.id, sq.c.rank, sq.c.count).join(sq, User.id==sq.c.author_id).filter(User.id == v.id).one_or_none()
-		if pos12: pos12 = (pos12[1],pos12[2])
-		else: pos12 = (users12.count()+1, 0)
-		users12 = users12.limit(25).all()
-	else:
-		users12 = None
-		pos12 = None
-
-	sq = g.db.query(UserBlock.target_id, func.count(UserBlock.target_id).label("count")).group_by(UserBlock.target_id).subquery()
-	users16 = g.db.query(User, sq.c.count).join(User, User.id == sq.c.target_id).order_by(sq.c.count.desc())
+	def get_leaderboard(order_by, limit=25):
+		leaderboard = users.order_by(order_by.desc()).limit(limit).all()
+		position = None
+		if v not in leaderboard:
+			sq = g.db.query(User.id, func.rank().over(order_by=order_by.desc()).label("rank")).subquery()
+			position = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
+		return (leaderboard, position)
 	
-	sq = g.db.query(UserBlock.target_id, func.count(UserBlock.target_id).label("count"), func.rank().over(order_by=func.count(UserBlock.target_id).desc()).label("rank")).group_by(UserBlock.target_id).subquery()
-	pos16 = g.db.query(sq.c.rank, sq.c.count).join(User, User.id == sq.c.target_id).filter(sq.c.target_id == v.id).limit(1).one_or_none()
-	if not pos16: pos16 = (users16.count()+1, 0)
-	users16 = users16.limit(25).all()
+	coins = get_leaderboard(User.coins)
+	subscribers = get_leaderboard(User.stored_subscriber_count)
+	posts = get_leaderboard(User.post_count)
+	comments = get_leaderboard(User.comment_count)
+	received_awards = get_leaderboard(User.received_award_count)
+	coins_spent = get_leaderboard(User.coins_spent)
+	truecoins = get_leaderboard(User.truecoins)
 
-	users17 = g.db.query(User, func.count(User.owned_hats)).join(User.owned_hats).group_by(User).order_by(func.count(User.owned_hats).desc())
-	sq = g.db.query(User.id, func.count(User.owned_hats).label("count"), func.rank().over(order_by=func.count(User.owned_hats).desc()).label("rank")).join(User.owned_hats).group_by(User).subquery()
-	pos17 = g.db.query(sq.c.rank, sq.c.count).filter(sq.c.id == v.id).limit(1).one_or_none()
-	if not pos17: pos17 = (users17.count()+1, 0)
-	users17 = users17.limit(25).all()
+	def count_and_label(criteria):
+		return func.count(criteria).label("count")
+	
+	def rank_filtered_rank_label_by_desc(criteria):
+		return func.rank().over(order_by=func.count(criteria).desc()).label("rank")
 
-	users18 = g.db.query(User, func.count(User.designed_hats)).join(User.designed_hats).group_by(User).order_by(func.count(User.designed_hats).desc())
-	sq = g.db.query(User.id, func.count(User.designed_hats).label("count"), func.rank().over(order_by=func.count(User.designed_hats).desc()).label("rank")).join(User.designed_hats).group_by(User).subquery()
-	pos18 = g.db.query(sq.c.rank, sq.c.count).filter(sq.c.id == v.id).limit(1).one_or_none()
-	if not pos18: pos18 = (users18.count()+1, 0)
-	users18 = users18.limit(25).all()
+	def get_leaderboard_2(lb_criteria, limit=25):
+		sq = g.db.query(lb_criteria, count_and_label(lb_criteria), rank_filtered_rank_label_by_desc(lb_criteria)).group_by(lb_criteria).subquery()
+		sq_criteria = None
+		if lb_criteria == Badge.user_id:
+			sq_criteria = User.id == sq.c.user_id
+		elif lb_criteria == Marsey.author_id:
+			sq_criteria = User.id == sq.c.author_id
+		else:
+			raise ValueError("This leaderboard function only supports Badge.user_id and Marsey.author_id")
+		
+		leaderboard = g.db.query(User, sq.c.count).join(sq, sq_criteria).order_by(sq.c.count.desc())
+		position = g.db.query(User.id, sq.c.rank, sq.c.count).join(sq, sq_criteria).filter(User.id == v.id).one_or_none()
+		if position: position = (position[1], position[2])
+		else: position = (leaderboard.count() + 1, 0)
+		leaderboard = leaderboard.limit(limit).all()
+		return (leaderboard, position)
 
-	return render_template("leaderboard.html", v=v, users1=users1, pos1=pos1, users2=users2, pos2=pos2, 
-		users3=users3, pos3=pos3, users4=users4, pos4=pos4, users5=users5, pos5=pos5, 
-		users7=users7, pos7=pos7, users10=users10, pos10=pos10, users11=users11, pos11=pos11, users12=users12, pos12=pos12, users16=users16, pos16=pos16, users17=users17, pos17=pos17, users18=users18, pos18=pos18)
+	badges = get_leaderboard_2(Badge.user_id)
+	marseys = get_leaderboard_2(Marsey.author_id) if SITE_NAME == 'rDrama' else (None, None)
+
+	def get_leaderboard_3(lb_criteria, limit=25):
+		if lb_criteria != UserBlock.target_id:
+			raise ValueError("This leaderboard function only supports UserBlock.target_id")
+		sq = g.db.query(lb_criteria, count_and_label(lb_criteria)).group_by(lb_criteria).subquery()
+		leaderboard = g.db.query(sq.c.rank, sq.c.count).join(User, User.id == sq.c.target_id).filter(sq.c.target_id == v.id).limit(1).one_or_none()
+		
+		sq = g.db.query(lb_criteria, count_and_label(lb_criteria), rank_filtered_rank_label_by_desc(lb_criteria)).group_by(lb_criteria).subquery()
+		position = g.db.query(sq.c.rank, sq.c.count).join(User, User.id == sq.c.target_id).filter(sq.c.target_id == v.id).limit(1).one_or_none()
+		if not position: position = (leaderboard.count() + 1, 0)
+		leaderboard = leaderboard.limit(limit).all()
+		return (leaderboard, position)
+
+	blocks = get_leaderboard_3(UserBlock.target_id)
+
+	def get_leaderboard_4(lb_criteria, limit=25):
+		leaderboard = g.db.query(User.id, func.count(lb_criteria)).join(lb_criteria).group_by(User).order_by(func.count(lb_criteria).desc())
+		sq = g.db.query(User.id, count_and_label(lb_criteria), rank_filtered_rank_label_by_desc(lb_criteria)).join(lb_criteria).group_by(User).subquery()
+		position = g.db.query(sq.c.rank, sq.c.count).filter(sq.c.id).limit(1).one_or_none()
+		if not position: position = (leaderboard.count() + 1, 0)
+		leaderboard = leaderboard.limit(limit).all()
+		return (leaderboard, position)
+	
+	owned_hats = get_leaderboard_4(User.owned_hats)
+	designed_hats = get_leaderboard_4(User.designed_hats)
+
+	return render_template("leaderboard.html", v=v, users1=coins[0], pos1=coins[1], users2=subscribers[0], pos2=subscribers[1], 
+		users3=posts[0], pos3=posts[1], users4=comments[0], pos4=comments[1], users5=received_awards[0], pos5=received_awards[1], 
+		users7=coins_spent[0], pos7=coins_spent[1], users10=truecoins[0], pos10=truecoins[1], users11=badges[0], pos11=badges[1], 
+		users12=marseys[0], pos12=marseys[1], users16=blocks[0], pos16=blocks[1], users17=owned_hats[0], pos17=owned_hats[1], 
+		users18=designed_hats[0], pos18=designed_hats[1])
 
 @app.get("/<id>/css")
 def get_css(id):
