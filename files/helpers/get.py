@@ -1,4 +1,4 @@
-from typing import List, Optional, Union
+from typing import Iterable, List, Optional, Union
 from files.classes import *
 from flask import g
 
@@ -50,10 +50,10 @@ def get_user(username:str, v:Optional[User]=None, graceful=False, rendered=False
 		user = add_block_props(user, v)
 	return user
 
-def get_users(usernames:List[str], graceful=False) -> List[User]:
+def get_users(usernames:Iterable[str], graceful=False) -> List[User]:
 	def clean(n):
 		return n.replace('\\', '').replace('_', '\_').replace('%', '').strip()
-
+	if not usernames: return []
 	usernames = [clean(n) for n in usernames]
 	if not any(usernames):
 		if graceful and len(usernames) == 0: return []
@@ -138,9 +138,8 @@ def get_post(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Option
 	return x
 
 
-def get_posts(pids:List[int], v:Optional[User]=None) -> List[Submission]:
-	if not pids:
-		return []
+def get_posts(pids:Iterable[int], v:Optional[User]=None) -> List[Submission]:
+	if not pids: return []
 
 	if v:
 		vt = g.db.query(Vote.vote_type, Vote.submission_id).filter(
@@ -251,7 +250,7 @@ def add_vote_and_block_props(target:Union[Submission, Comment], v:Optional[User]
     target = add_block_props(target, v)
     return add_vote_props(target, v, vote_cls)
 
-def get_comments(cids:List[int], v:Optional[User]=None) -> List[Comment]:
+def get_comments(cids:Iterable[int], v:Optional[User]=None) -> List[Comment]:
 	if not cids: return []
 	if v:
 		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
