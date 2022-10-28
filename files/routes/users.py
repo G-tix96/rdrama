@@ -405,7 +405,7 @@ def leaderboard(v):
 	def get_leaderboard_4(lb_criteria, limit=25):
 		leaderboard = g.db.query(User.id, func.count(lb_criteria)).join(lb_criteria).group_by(User).order_by(func.count(lb_criteria).desc())
 		sq = g.db.query(User.id, count_and_label(lb_criteria), rank_filtered_rank_label_by_desc(lb_criteria)).join(lb_criteria).group_by(User).subquery()
-		position = g.db.query(sq.c.rank, sq.c.count).filter(sq.c.id).limit(1).one_or_none()
+		position = g.db.query(sq.c.rank, sq.c.count).filter(sq.c.id == v.id).limit(1).one_or_none()
 		if not position: position = (leaderboard.count() + 1, 0)
 		leaderboard = leaderboard.limit(limit).all()
 		return (leaderboard, position)
