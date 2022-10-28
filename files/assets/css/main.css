@@ -1,4 +1,10 @@
 @charset "UTF-8";
+button {
+	background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
 *, *::before, *::after {
 	box-sizing: border-box;
 }

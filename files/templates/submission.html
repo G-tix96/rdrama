@@ -906,9 +906,9 @@
 
 				{% if v %}
 				<li class="list-inline-item">
-					<a role="button" data-bs-toggle="modal" data-bs-target="#actionsModal">
+					<button data-bs-toggle="modal" data-bs-target="#actionsModal">
 						<i class="fas fa-ellipsis-h"></i>
-					</a>
+					</button>
 				</li>
 				{% endif %}
 				<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
