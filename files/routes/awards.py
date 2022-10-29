@@ -246,9 +246,12 @@ def award_thing(v, thing_type, id):
 			cache.delete_memoized(frontlist)
 		else: thing.stickied_utc = t
 		g.db.add(thing)
-	elif kind == "agendaposter" and not (author.agendaposter and author.agendaposter == 0):
+	elif kind == "agendaposter":
 		if author.marseyawarded:
 			abort(409, "This user is under the effect of a conflicting award: Marsey award.")
+
+ 		if author.agendaposter and author.agendaposter == 0:
+			abort(409, "This user is perma-chudded.")
 
 		if author.agendaposter and time.time() < author.agendaposter: author.agendaposter += 86400
 		else: author.agendaposter = int(time.time()) + 86400
