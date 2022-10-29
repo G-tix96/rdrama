@@ -15,7 +15,7 @@
 
 		window.addEventListener('load', function() {
 			audio.play();
-			document.getElementById('frontpage').addEventListener('click', () => {
+			window.addEventListener('click', () => {
 				if (audio.paused) audio.play();
 			}, {once : true});
 			prepare_to_pause(audio)
