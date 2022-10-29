@@ -2500,6 +2500,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseysargonofaccat',2,'sargon akkad ancient historical king mesopotamia sumer',NULL),
 ('marseysartre',2,'philosophy frenchman history',NULL),
 ('marseysaruh',2,'cute dress bread baguette valid trappy ts trappysaruh trans deuxrama celeb glamour train',NULL),
+('marseysatangoat',2,'evil satan goat halloween spooky',1667021744),
 ('marseysatisfied',2,'satisfying happy smile delightful grateful glad wholesome',1662997904),
 ('marseysatisfiedmarcus',2,'black bipoc satisfying happy smile delightful grateful glad wholesome',1662998420),
 ('marseysaturn',2,'devouring eating snoo kill de goya anger reddit',NULL),
