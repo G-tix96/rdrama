@@ -786,6 +786,14 @@ AWARDS = {
 		"color": "text-green",
 		"price": 150
 	},
+	"agendaposter": {
+		"kind": "agendaposter",
+		"title": "Chud",
+		"description": "Forces the chud theme on the recipient for 24 hours.",
+		"icon": "fas fa-snooze",
+		"color": "text-purple",
+		"price": 500
+	},
 	"rehab": {
 		"kind": "rehab",
 		"title": "Rehab",
@@ -873,14 +881,6 @@ AWARDS = {
 		"icon": "fas fa-spider",
 		"color": "text-brown",
 		"price": 2000
-	},
-	"agendaposter": {
-		"kind": "agendaposter",
-		"title": "Chud",
-		"description": "Forces the chud theme on the recipient for 24 hours.",
-		"icon": "fas fa-snooze",
-		"color": "text-purple",
-		"price": 2500
 	},
 	"deflector": {
 		"kind": "deflector",
