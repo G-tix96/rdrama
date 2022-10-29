@@ -398,9 +398,7 @@ class Submission(Base):
 	@property
 	@lazy
 	def is_image(self):
-		if self.url and (self.url.lower().endswith('.webp') or self.url.lower().endswith('.jpg') or self.url.lower().endswith('.png') or self.url.lower().endswith('.gif') or self.url.lower().endswith('.jpeg') or self.url.lower().endswith('?maxwidth=9999') or self.url.lower().endswith('&fidelity=high')) and is_safe_url(self.url):
-			return True
-		return False
+		return self.url and any((self.url.lower().endswith(x) for x in ('.webp','.jpg','.png','.gif','.jpeg','?maxwidth=9999','&fidelity=high'))) and is_safe_url(self.url)
 
 	@lazy
 	def filtered_flags(self, v):
