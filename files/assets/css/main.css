@@ -3468,7 +3468,6 @@ small, .small {
 	border-bottom: 0.1px solid var(--gray-400);
 }
 .card-thumbnail {
-	z-index: 3;
 	display: flex;
 	align-items: center;
 }
@@ -6202,11 +6201,6 @@ blockquote + blockquote, div > blockquote:first-child, blockquote:last-child {
 	margin-top: 0 !important;
 }
 
-
-
-#searchparams-dropdown {
-	z-index: 1;
-}
 .contain {
 	-o-object-fit: contain;
 	object-fit: contain;
