@@ -103,7 +103,7 @@ def pull_slots(v):
 	if success:
 		return {"game_state": game_state, "gambler": {"coins": v.coins, "procoins": v.procoins}}
 	else:
-		abort(400, f"Wager must be more than 5 {currency}")
+		abort(400, f"Wager must be 5 {currency} or more")
 
 
 # 21
