@@ -959,77 +959,47 @@ def user_profile_name(username):
 	x = get_user(username)
 	return redirect(x.profile_url)
 
+def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone=False):
+	PAGE_SIZE = 25
+	if relationship_cls in (SaveRelationship, Subscription):
+		query = relationship_cls.submission_id
+		join = relationship_cls.post
+		cls = Submission
+	elif relationship_cls in (CommentSaveRelationship):
+		query = relationship_cls.comment_id
+		join = relationship_cls.comment
+		cls = Comment
+	else:
+		raise TypeError("Relationships supported is SaveRelationship, Subscription, CommentSaveRelationship")
+	ids = [x[0] for x in g.db.query(query).join(join).filter(relationship_cls.user_id == v.id).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()]
+	next_exists = len(ids) > PAGE_SIZE
+	ids = ids[:PAGE_SIZE]
+	if cls is Submission:
+		listing = get_posts(ids, v=v)
+	elif cls is Comment:
+		listing = get_comments(ids, v=v)
+	else:
+		raise TypeError("Only supports Submissions and Comments. This is probably the result of a bug with *this* function")
+	if v.client: return {"data": [x.json for x in listing]}
+	return render_template(template, u=v, v=v, listing=listing, page=page, next_exists=next_exists, standalone=standalone)
+
 @app.get("/@<username>/saved/posts")
 @auth_required
 def saved_posts(v, username):
-
-	page=int(request.values.get("page",1))
-
-	ids = [x[0] for x in g.db.query(SaveRelationship.submission_id).join(SaveRelationship.post).filter(SaveRelationship.user_id == v.id).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()]
-
-	next_exists=len(ids)>25
-
-	ids=ids[:25]
-
-	listing = get_posts(ids, v=v)
-
-	if v.client: return {"data": [x.json for x in listing]}
-	return render_template("userpage.html",
-											u=v,
-											v=v,
-											listing=listing,
-											page=page,
-											next_exists=next_exists,
-											)
-
+	page = max(1, int(request.values.get("page", 1)))
+	return get_saves_and_subscribes(v, "userpage.html", SaveRelationship, page, False)
 
 @app.get("/@<username>/saved/comments")
 @auth_required
 def saved_comments(v, username):
-
-	page=int(request.values.get("page",1))
-
-	ids = [x[0] for x in g.db.query(CommentSaveRelationship.comment_id).join(CommentSaveRelationship.comment).filter(CommentSaveRelationship.user_id == v.id).order_by(Comment.id.desc()).offset(25 * (page - 1)).limit(26).all()]
-
-	next_exists=len(ids) > 25
-
-	ids=ids[:25]
-
-	listing = get_comments(ids, v=v)
-
-	if v.client: return {"data": [x.json for x in listing]}
-	return render_template("userpage_comments.html",
-											u=v,
-											v=v,
-											listing=listing,
-											page=page,
-											next_exists=next_exists,
-											standalone=True)
+	page = max(1, int(request.values.get("page", 1)))
+	return get_saves_and_subscribes(v, "userpage_comments.html", CommentSaveRelationship, page, True)
 
 @app.get("/@<username>/subscribed/posts")
 @auth_required
 def subscribed_posts(v, username):
-
-	page=int(request.values.get("page",1))
-
-	ids = [x[0] for x in g.db.query(Subscription.submission_id).join(Subscription.post).filter(Subscription.user_id == v.id).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()]
-
-	next_exists=len(ids)>25
-
-	ids=ids[:25]
-
-	listing = get_posts(ids, v=v)
-
-	if v.client: return {"data": [x.json for x in listing]}
-	return render_template("userpage.html",
-											u=v,
-											v=v,
-											listing=listing,
-											page=page,
-											next_exists=next_exists,
-											)
-
-
+	page = max(1, int(request.values.get("page", 1)))
+	return get_saves_and_subscribes(v, "userpage.html", Subscription, page, False)
 
 @app.post("/fp/<fp>")
 @auth_required
