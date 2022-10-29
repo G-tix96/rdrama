@@ -151,47 +151,13 @@ def post_id(pid, anything=None, v=None, sub=None):
 	if post.club and not (v and (v.paid_dues or v.id == post.author_id)): abort(403)
 
 	if v:
-		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
-
-		blocking = v.blocking.subquery()
-
-		blocked = v.blocked.subquery()
-
-		comments = g.db.query(
-			Comment,
-			votes.c.vote_type,
-			blocking.c.target_id,
-			blocked.c.target_id,
-		)
-		comments=comments.filter(Comment.parent_submission == post.id, Comment.level < 10).join(
-			votes,
-			votes.c.comment_id == Comment.id,
-			isouter=True
-		).join(
-			blocking,
-			blocking.c.target_id == Comment.author_id,
-			isouter=True
-		).join(
-			blocked,
-			blocked.c.user_id == Comment.author_id,
-			isouter=True
-		)
-
-		output = []
-		for c in comments.all():
-			comment = c[0]
-			comment.voted = c[1] or 0
-			comment.is_blocking = c[2] or 0
-			comment.is_blocked = c[3] or 0
-			output.append(comment)
-
+		# shadowban check is done in sort_objects
+		# output is needed: see comments.py
+		comments, output = get_comments_v_properties(v, True, None, Comment.parent_submission == post.id, Comment.level < 10)
 		pinned = [c[0] for c in comments.filter(Comment.stickied != None).all()]
-
 		comments = comments.filter(Comment.level == 1, Comment.stickied == None)
-
 		comments = sort_objects(sort, comments, Comment,
 			include_shadowbanned=(v and v.can_see_shadowbanned))
-
 		comments = [c[0] for c in comments.all()]
 	else:
 		pinned = g.db.query(Comment).filter(Comment.parent_submission == post.id, Comment.stickied != None).all()
@@ -275,42 +241,10 @@ def viewmore(v, pid, sort, offset):
 	except: abort(400)
 	
 	if v:
-		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
-
-		blocking = v.blocking.subquery()
-
-		blocked = v.blocked.subquery()
-
-		comments = g.db.query(
-			Comment,
-			votes.c.vote_type,
-			blocking.c.target_id,
-			blocked.c.target_id,
-		).filter(Comment.parent_submission == pid, Comment.stickied == None, Comment.id.notin_(ids), Comment.level < 10)
-		comments=comments.join(
-			votes,
-			votes.c.comment_id == Comment.id,
-			isouter=True
-		).join(
-			blocking,
-			blocking.c.target_id == Comment.author_id,
-			isouter=True
-		).join(
-			blocked,
-			blocked.c.user_id == Comment.author_id,
-			isouter=True
-		)
-
-		output = []
-		for c in comments.all():
-			comment = c[0]
-			comment.voted = c[1] or 0
-			comment.is_blocking = c[2] or 0
-			comment.is_blocked = c[3] or 0
-			output.append(comment)
-		
+		# shadowban check is done in sort_objects
+		# output is needed: see comments.py
+		comments, output = get_comments_v_properties(v, True, None, Comment.parent_submission == pid, Comment.stickied == None, Comment.id.notin_(ids), Comment.level < 10)
 		comments = comments.filter(Comment.level == 1)
-
 		comments = sort_objects(sort, comments, Comment,
 			include_shadowbanned=(v and v.can_see_shadowbanned))
 
@@ -360,40 +294,9 @@ def morecomments(v, cid):
 	tcid = g.db.query(Comment.top_comment_id).filter_by(id=cid).one_or_none()[0]
 
 	if v:
-		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
-
-		blocking = v.blocking.subquery()
-
-		blocked = v.blocked.subquery()
-
-		comments = g.db.query(
-			Comment,
-			votes.c.vote_type,
-			blocking.c.target_id,
-			blocked.c.target_id,
-		).filter(Comment.top_comment_id == tcid, Comment.level > 9).join(
-			votes,
-			votes.c.comment_id == Comment.id,
-			isouter=True
-		).join(
-			blocking,
-			blocking.c.target_id == Comment.author_id,
-			isouter=True
-		).join(
-			blocked,
-			blocked.c.user_id == Comment.author_id,
-			isouter=True
-		)
-
-		output = []
-		dump = []
-		for c in comments.all():
-			comment = c[0]
-			comment.voted = c[1] or 0
-			comment.is_blocking = c[2] or 0
-			comment.is_blocked = c[3] or 0
-			if c[0].parent_comment_id == int(cid): output.append(comment)
-			else: dump.append(comment)
+		# shadowban check is done in sort_objects i think
+		# output is needed: see comments.py
+		comments, output = get_comments_v_properties(v, True, lambda c:bool(c.parent_comment_id == int(cid)), Comment.top_comment_id == tcid, Comment.level > 9)
 		comments = output
 	else:
 		c = get_comment(cid)

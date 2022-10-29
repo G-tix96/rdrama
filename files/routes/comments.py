@@ -46,7 +46,6 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 			g.db.add(notif)
 
 	if comment.post and comment.post.club and not (v and (v.paid_dues or v.id in [comment.author_id, comment.post.author_id])): abort(403)
-
 	if not comment.parent_submission and not (v and (comment.author.id == v.id or comment.sentto == v.id)) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) : abort(403)
 	
 	if not pid:
@@ -73,46 +72,9 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	sort=request.values.get("sort", defaultsortingcomments)
 
 	if v:
-		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
-
-		blocking = v.blocking.subquery()
-
-		blocked = v.blocked.subquery()
-
-		comments = g.db.query(
-			Comment,
-			votes.c.vote_type,
-			blocking.c.target_id,
-			blocked.c.target_id,
-		)
-
-		if not (v and v.can_see_shadowbanned):
-			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
-		 
-		comments=comments.filter(
-			Comment.top_comment_id == c.top_comment_id
-		).join(
-			votes,
-			votes.c.comment_id == Comment.id,
-			isouter=True
-		).join(
-			blocking,
-			blocking.c.target_id == Comment.author_id,
-			isouter=True
-		).join(
-			blocked,
-			blocked.c.user_id == Comment.author_id,
-			isouter=True
-		)
-
-		output = []
-		for c in comments:
-			comment = c[0]
-			comment.voted = c[1] or 0
-			comment.is_blocking = c[2] or 0
-			comment.is_blocked = c[3] or 0
-			output.append(comment)
-
+		# this is required because otherwise the vote and block
+		# props won't save properly unless you put them in a list
+		output = get_comments_v_properties(v, False, None, Comment.top_comment_id == c.top_comment_id)[1]
 	post.replies=[top_comment]
 			
 	if v and v.client: return top_comment.json
