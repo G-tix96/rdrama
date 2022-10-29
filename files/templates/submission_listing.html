@@ -180,16 +180,16 @@
 						<span class="pronouns" style="color:#{{p.author.titlecolor}};border-color:#{{p.author.titlecolor}}">{{p.author.pronouns}}</span>
 					{% endif %}
 					{% if p.author.customtitle %}
-						<bdi style="color: #{{p.author.titlecolor}}">&nbsp;&nbsp;{{p.author.customtitle | safe}}</bdi>
+						<bdi class="ml-2" style="color: #{{p.author.titlecolor}}">{{p.author.customtitle | safe}}</bdi>
 					{% endif %}
 				{% endif %}
 				<span data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('timestamp-{{p.id}}','{{p.created_utc}}')" id="timestamp-{{p.id}}">&nbsp;{{p.age_string}}</span>
 				&nbsp;
 				({% if p.is_image %}image post{% elif p.is_video %}video post{% elif p.is_audio %}audio post{% elif p.domain %}<a href="/search/posts/?q=domain%3A{{p.domain}}&sort=new&t=all" class="post-meta-domain" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>{{p.domain|truncate(50, True)}}</a>{% else %}text post{% endif %})
 				{% if p.edited_utc %}
-					&nbsp;&nbsp;Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" id="edited_timestamp-{{p.id}}" onmouseover="timestamp('edited_timestamp-{{p.id}}','{{p.edited_utc}}')">{{p.edited_string}}</span>
+					<span class="ml-2">Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" id="edited_timestamp-{{p.id}}" onmouseover="timestamp('edited_timestamp-{{p.id}}','{{p.edited_utc}}')">{{p.edited_string}}</span></span>
 				{% endif %}
-				&nbsp;&nbsp;{{p.views}} thread views
+				<span class="ml-2">{{p.views}} thread views</span>
 			</div>
 
 			<h5 class="card-title post-title text-left w-lg-95 mb-0 pb-0 pb-md-1">

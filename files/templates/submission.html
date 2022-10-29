@@ -690,9 +690,9 @@
 						({% if p.is_image %}image post{% elif p.is_video %}video post{% elif p.is_audio %}audio post{% elif p.domain %}<a href="/search/posts/?q=domain%3A{{p.domain}}&sort=new&t=all" class="post-meta-domain" {% if not v or v.newtabexternal %}target="_blank"{% endif %}>{{p.domain|truncate(50, True)}}</a>{% else %}text post{% endif %})
 
 						{% if p.edited_utc %}
-							&nbsp;&nbsp;Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('edited_timestamp','{{p.edited_utc}}')" id="edited_timestamp">{{p.edited_string}}</span>
+							<span class="ml-2">Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('edited_timestamp','{{p.edited_utc}}')" id="edited_timestamp">{{p.edited_string}}</span></span>
 						{% endif %}
-						&nbsp;&nbsp;{{p.views}} thread views
+						<span class="ml-2">{{p.views}} thread views</span>
 					</div>
 					{% if p.active_flags(v) %}
 					<div id="flaggers" class="flaggers d-none">

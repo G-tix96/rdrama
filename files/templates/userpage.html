@@ -97,17 +97,17 @@
 
 				<div class="font-weight-bolder">
 					<span id="profile-coins-amount">{{u.coins}}</span>
-					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="20" src="{{'coins.webp' | asset_siteimg}}">&nbsp;&nbsp;
+					<img alt="coins" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="20" src="{{'coins.webp' | asset_siteimg}}">
 
 					{% if FEATURES['PROCOINS'] %}
 						<span id="profile-bux-amount">{{u.procoins}}</span>
-						<img alt="marseybux" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="20" width="46" src="/i/marseybux.webp?v=2000">&nbsp;&nbsp;
+						<img alt="marseybux" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="20" width="46" src="/i/marseybux.webp?v=2000">
 					{% endif %}
 
 					{% if PERMS['USER_FOLLOWS_VISIBLE'] == 0 or (v and v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']) -%}
-						<a href="/@{{u.username}}/followers" id="profile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a>&nbsp;&nbsp;
+						<a class="mr-2" href="/@{{u.username}}/followers" id="profile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a>
 
-						<a href="/@{{u.username}}/following" id="profile--following">follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a>&nbsp;&nbsp;
+						<a class="mr-2" href="/@{{u.username}}/following" id="profile--following">follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a>
 					{%- endif %}
 
 					<span id="profile--joined">joined <span id="profile--joined--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--joined--time','{{u.created_utc}}')">{{u.created_date}}</span></span>
@@ -322,17 +322,17 @@
 
 				<div class="font-weight-normal">
 					<span id="profile-coins-amount-mobile" class="font-weight-bold">{{u.coins}}</span>
-					<img alt="coins" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="15" src="{{'coins.webp' | asset_siteimg}}">&nbsp;&nbsp;
+					<img alt="coins" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="coins" height="15" src="{{'coins.webp' | asset_siteimg}}">
 
 					{% if FEATURES['PROCOINS'] %}
 						<span id="profile-bux-amount-mobile" class="font-weight-bold">{{u.procoins}}</span>
-						<img alt="marseybux" class="ml-1 mb-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="15" width="35" src="/i/marseybux.webp?v=2000">&nbsp;&nbsp;
+						<img alt="marseybux" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="15" width="35" src="/i/marseybux.webp?v=2000">
 					{% endif %}
 
 					{% if PERMS['USER_FOLLOWS_VISIBLE'] == 0 or (v and v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']) -%}
-						<a href="/@{{u.username}}/followers" class="font-weight-bold" id="profile-mobile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a>&nbsp;&nbsp;
+						<a href="/@{{u.username}}/followers" class="font-weight-bold mr-2" id="profile-mobile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a>
 
-						<a href="/@{{u.username}}/following" class="font-weight-bold" id="profile-mobile--following" style="display:block">follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a>&nbsp;&nbsp;
+						<a href="/@{{u.username}}/following" class="font-weight-bold mr-2" id="profile-mobile--following" style="display:block">follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a>
 					{%- endif %}
 
 					{% if u.basedcount %}
