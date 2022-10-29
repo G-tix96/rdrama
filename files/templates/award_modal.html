@@ -12,18 +12,18 @@
 			<div id="awardModalBody" class="modal-body mb-3">
 				<div class="card-columns award-columns awards-wrapper">
 					{% for award in v.user_awards %}
-						<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{award.description}}" id="{{award.kind}}" class="card" onclick="pick('{{award.kind}}', {{award.price}}*{{v.discount}} <= {{v.procoins}}, {{award.price}}*{{v.discount}} <= {{v.coins}})">
+						<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{award.description}}" id="{{award.kind}}" class="card" onclick="pick('{{award.kind}}', {{award.price}}*{{v.discount}} <= {{v.procoins}}, {{award.price}}*{{v.discount}} <= {{v.coins}})">
 							<i class="{{award.icon}} {{award.color}}"></i>
 							<div class="pt-2" style="font-weight: bold; font-size: 14px; color:#E1E1E1">{{award.title}}</div>
 							<div class="text-muted"><span id="{{award.kind}}-owned">{{award.owned}}</span> owned</div>
-						</a>
+						</div>
 					{% endfor %}
 					{% if v.user_awards|length % 2 %}
-						<a class="card disabled d-md-none" style="border:none">
+						<div class="card disabled d-md-none" style="border:none">
 							<i class="fas fa-volume-mute" style="opacity:0"></i>
 							<div class="pt-2" style="font-weight: bold; font-size: 14px; color:#E1E1E1">&nbsp;</div>
 							<div class="text-muted">&nbsp;</div>
-						</a>
+						</div>
 					{% endif %}
 				</div>
 				<label id="notelabel" for="note" class="pt-4">Note (optional):</label>
