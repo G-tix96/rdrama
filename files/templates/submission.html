@@ -964,7 +964,7 @@
 			</div>
 		</div>
 
-	{% if v %}
+	{% if v and not p.deleted_utc %}
 		<div id="comment-form-space-{{p.fullname}}" class="comment-write mb-3">
 			<form id="reply-to-{{p.fullname}}" action="/comment" method="post">
 				<input type="hidden" name="formkey" value="{{v.formkey}}">
