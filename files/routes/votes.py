@@ -143,7 +143,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 	if (target.author.progressivestack
 			or (cls == Submission and (target.sub in ('space', 'istory', 'dinos')
-				or target.domain.endswith('.win')))
+				or target.domain.endswith('.win') or target.domain in BOOSTED_SITES))
 			or target.author.hw_zombie < 0):
 		target.realupvotes *= 2
 	g.db.add(target)
