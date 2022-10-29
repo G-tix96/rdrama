@@ -44,7 +44,7 @@
 					<div class="d-md-flex text-center text-md-left">
 						<div id="profile--pfp" {% if u.hat_active %}class="profile--pfp--hat hat"{% endif %}>
 							<a rel="nofollow noopener noreferrer" href="{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}" class="profile-pic-100-wrapper">
-								<img referrerpolicy="no-referrer" onclick="expandDesktopImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic profile-pic-100 mb-5">
+								<img onclick="expandDesktopImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic profile-pic-100 mb-5">
 								{% if u.hat_active -%}
 									<img onclick="expandDesktopImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-100-hat hat" loading="lazy" src="{{u.hat_active}}?h=7" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.hat_tooltip(v)}}">
 								{%- endif %}
@@ -271,7 +271,7 @@
 		<div class="col">
 			<div style="margin-top: -34px;" id="profile-mobile--pfp">
 				<a rel="nofollow noopener noreferrer" href="{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}" class="profile-pic-65-wrapper">
-					<img referrerpolicy="no-referrer" onclick="expandDesktopImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic-65 bg-white mb-2">
+					<img onclick="expandDesktopImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic-65 bg-white mb-2">
 					{% if u.hat_active -%}
 						<img onclick="expandDesktopImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-65-hat hat" loading="lazy" src="{{u.hat_active}}?h=7">
 					{%- endif %}
