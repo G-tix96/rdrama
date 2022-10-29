@@ -82,7 +82,7 @@
 						<script defer src="{{'js/search.js' | asset}}"></script>
 					{% endif %}
 					<div class="text-muted text-small mb-1">Showing {% block listinglength %}{{listing | length}}{% endblock %} of {{total}} result{{'s' if total != 1 else ''}} for</div>
-					<h1 class="h4 mb-0">{{query}}</h1>
+					<h4 class=" mb-0">{{query}}</h4>
 
 					{% if not '/users' in request.path %}
 						<div class="mt-3 d-flex align-items-center" style="float:right">
