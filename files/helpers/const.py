@@ -152,8 +152,6 @@ DISCORD_CHANGELOG_CHANNEL_IDS = [1022232469606498324]
 WPD_CHANNEL_ID = 1013990963846332456
 PIN_AWARD_TEXT = " (pin award)"
 
-LEADERBOARD_LIMIT = 25
-
 ################################################################################
 ### SITE SPECIFIC CONSTANTS
 ################################################################################
@@ -399,6 +397,9 @@ MAX_VIDEO_SIZE_MB = 32
 MAX_VIDEO_SIZE_MB_PATRON = 64
 
 ANTISPAM_BYPASS_IDS = ()
+
+PAGE_SIZE = 25
+LEADERBOARD_LIMIT = PAGE_SIZE
 
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True

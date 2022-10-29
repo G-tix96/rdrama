@@ -41,9 +41,9 @@ def notifications_modmail(v):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	comments = g.db.query(Comment).filter(Comment.sentto==2).order_by(Comment.id.desc()).offset(25*(page-1)).limit(26).all()
-	next_exists = (len(comments) > 25)
-	listing = comments[:25]
+	comments = g.db.query(Comment).filter(Comment.sentto==2).order_by(Comment.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
+	next_exists = (len(comments) > PAGE_SIZE)
+	listing = comments[:PAGE_SIZE]
 
 	g.db.commit()
 
@@ -92,7 +92,7 @@ def notifications_messages(v):
 	message_threads = message_threads.join(thread_order,
 						thread_order.c.top_comment_id == Comment.top_comment_id)
 	message_threads = message_threads.order_by(thread_order.c.created_utc.desc()) \
-						.offset(25*(page-1)).limit(26).all()
+						.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
 
 	# Clear notifications (used for unread indicator only) for all user messages.
 	notifs_unread_row = g.db.query(Notification.comment_id).join(Comment).filter(
@@ -147,7 +147,7 @@ def notifications_posts(v):
 		Submission.author_id != v.id,
 		Submission.ghost == False,
 		Submission.author_id.notin_(v.userblocks)
-	).order_by(Submission.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()]
+	).order_by(Submission.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()]
 
 	next_exists = (len(listing) > 25)
 	listing = listing[:25]
@@ -177,10 +177,10 @@ def notifications_modactions(v):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	listing = g.db.query(ModAction).filter(ModAction.user_id != v.id).order_by(ModAction.id.desc()).offset(25*(page-1)).limit(26).all()
+	listing = g.db.query(ModAction).filter(ModAction.user_id != v.id).order_by(ModAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
 
-	next_exists = len(listing) > 25
-	listing = listing[:25]
+	next_exists = len(listing) > PAGE_SIZE
+	listing = listing[:PAGE_SIZE]
 
 	for ma in listing:
 		ma.unread = ma.created_utc > v.last_viewed_log_notifs
@@ -258,13 +258,11 @@ def notifications(v):
 		or_(Comment.sentto == None, Comment.sentto == 2),
 	).order_by(Notification.created_utc.desc())
 
-	comments = comments.offset(25 * (page - 1)).limit(26).all()
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
 
-	next_exists = (len(comments) > 25)
-	comments = comments[:25]
-
+	next_exists = (len(comments) > PAGE_SIZE)
+	comments = comments[:PAGE_SIZE]
 	cids = [x[0].id for x in comments]
-
 	comms = get_comments(cids, v=v)
 
 	listing = []

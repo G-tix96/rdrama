@@ -147,15 +147,12 @@ def searchposts(v):
 
 	total = posts.count()
 
-	posts = posts.offset(25 * (page - 1)).limit(26).all()
+	posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
 
 	ids = [x[0] for x in posts]
 
-
-
-
-	next_exists = (len(ids) > 25)
-	ids = ids[:25]
+	next_exists = (len(ids) > PAGE_SIZE)
+	ids = ids[:PAGE_SIZE]
 
 	posts = get_posts(ids, v=v)
 
@@ -252,12 +249,12 @@ def searchcomments(v):
 
 	total = comments.count()
 
-	comments = comments.offset(25 * (page - 1)).limit(26).all()
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
 
 	ids = [x[0] for x in comments]
 
-	next_exists = (len(ids) > 25)
-	ids = ids[:25]
+	next_exists = (len(ids) > PAGE_SIZE)
+	ids = ids[:PAGE_SIZE]
 
 	comments = get_comments(ids, v=v)
 
@@ -291,9 +288,9 @@ def searchusers(v):
 	
 	total=users.count()
 	
-	users = users.offset(25 * (page-1)).limit(26).all()
-	next_exists=(len(users)>25)
-	users=users[:25]
+	users = users.offset(PAGE_SIZE * (page-1)).limit(PAGE_SIZE+1).all()
+	next_exists=(len(users)>PAGE_SIZE)
+	users=users[:PAGE_SIZE]
 
 	if v.client: return {"data": [x.json for x in users]}
 	return render_template("search_users.html", v=v, query=query, total=total, page=page, users=users, sort=sort, t=t, next_exists=next_exists)

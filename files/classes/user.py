@@ -458,7 +458,6 @@ class User(Base):
 
 	@cache.memoize(timeout=86400)
 	def userpagelisting(self, site=None, v=None, page=1, sort="new", t="all"):
-
 		if self.shadowbanned and not (v and v.can_see_shadowbanned): return []
 
 		posts = g.db.query(Submission.id).filter_by(author_id=self.id, is_pinned=False, is_banned=False)
@@ -471,7 +470,7 @@ class User(Base):
 		posts = sort_objects(sort, posts, Submission,
 			include_shadowbanned=(v and v.can_see_shadowbanned))
 	
-		posts = posts.offset(25 * (page - 1)).limit(26).all()
+		posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
 
 		return [x[0] for x in posts]
 

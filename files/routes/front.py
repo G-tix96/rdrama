@@ -139,7 +139,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 		include_shadowbanned=(v and v.can_see_shadowbanned))
 
 	if v: size = v.frontsize or 0
-	else: size = 25
+	else: size = PAGE_SIZE
 
 	posts = posts.offset(size * (page - 1)).limit(size+1).all()
 
@@ -201,8 +201,6 @@ def random_user(v):
 @app.get("/comments")
 @auth_required
 def all_comments(v):
-
-
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
@@ -214,7 +212,6 @@ def all_comments(v):
 
 	try: lt=int(request.values.get("before", 0))
 	except: lt=0
-
 	idlist = comment_idlist(v=v,
 							page=page,
 							sort=sort,
@@ -225,10 +222,8 @@ def all_comments(v):
 							)
 
 	comments = get_comments(idlist, v=v)
-
-	next_exists = len(idlist) > 25
-
-	idlist = idlist[:25]
+	next_exists = len(idlist) > PAGE_SIZE
+	idlist = idlist[:PAGE_SIZE]
 
 	if v.client: return {"data": [x.json for x in comments]}
 	return render_template("home_comments.html", v=v, sort=sort, t=t, page=page, comments=comments, standalone=True, next_exists=next_exists)
@@ -260,5 +255,5 @@ def comment_idlist(v=None, page=1, sort="new", t="all", gt=0, lt=0, site=None):
 	comments = sort_objects(sort, comments, Comment,
 		include_shadowbanned=(v and v.can_see_shadowbanned))
 
-	comments = comments.offset(25 * (page - 1)).limit(26).all()
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 	return [x[0] for x in comments]

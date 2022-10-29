@@ -365,11 +365,11 @@ def image_posts_listing(v):
 
 	posts = g.db.query(Submission).order_by(Submission.id.desc())
 
-	firstrange = 25 * (page - 1)
-	secondrange = firstrange+26
+	firstrange = PAGE_SIZE * (page - 1)
+	secondrange = firstrange + PAGE_SIZE + 1
 	posts = [x.id for x in posts if x.is_image][firstrange:secondrange]
-	next_exists = (len(posts) > 25)
-	posts = get_posts(posts[:25], v=v)
+	next_exists = (len(posts) > PAGE_SIZE)
+	posts = get_posts(posts[:PAGE_SIZE], v=v)
 
 	return render_template("admin/image_posts.html", v=v, listing=posts, next_exists=next_exists, page=page, sort="new")
 
@@ -384,11 +384,11 @@ def reported_posts(v):
 		is_approved=None,
 		is_banned=False,
 		deleted_utc=0
-	).join(Submission.flags).order_by(Submission.id.desc()).offset(25 * (page - 1)).limit(26)
+	).join(Submission.flags).order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1)
 
 	listing = [p.id for p in listing]
-	next_exists = len(listing) > 25
-	listing = listing[:25]
+	next_exists = len(listing) > PAGE_SIZE
+	listing = listing[:PAGE_SIZE]
 
 	listing = get_posts(listing, v=v)
 
@@ -407,11 +407,11 @@ def reported_comments(v):
 		is_approved=None,
 		is_banned=False,
 		deleted_utc=0
-	).join(Comment.flags).order_by(Comment.id.desc()).offset(25 * (page - 1)).limit(26).all()
+	).join(Comment.flags).order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
 
 	listing = [c.id for c in listing]
-	next_exists = len(listing) > 25
-	listing = listing[:25]
+	next_exists = len(listing) > PAGE_SIZE
+	listing = listing[:PAGE_SIZE]
 
 	listing = get_comments(listing, v=v)
 
@@ -628,10 +628,10 @@ def users_list(v):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 
-	users = g.db.query(User).order_by(User.id.desc()).offset(25 * (page - 1)).limit(26).all()
+	users = g.db.query(User).order_by(User.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
-	next_exists = (len(users) > 25)
-	users = users[:25]
+	next_exists = (len(users) > PAGE_SIZE)
+	users = users[:PAGE_SIZE]
 
 	return render_template("user_cards.html",
 						v=v,
@@ -781,19 +781,13 @@ def admin_link_accounts(v):
 @app.get("/admin/removed/posts")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_removed(v):
-
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
-
 	if page < 1: abort(400)
-	
-	ids = g.db.query(Submission.id).join(Submission.author).filter(or_(Submission.is_banned==True, User.shadowbanned != None)).order_by(Submission.id.desc()).offset(25 * (page - 1)).limit(26).all()
-
+	ids = g.db.query(Submission.id).join(Submission.author).filter(or_(Submission.is_banned==True, User.shadowbanned != None)).order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 	ids=[x[0] for x in ids]
-
-	next_exists = len(ids) > 25
-
-	ids = ids[:25]
+	next_exists = len(ids) > PAGE_SIZE
+	ids = ids[:PAGE_SIZE]
 
 	posts = get_posts(ids, v=v)
 
@@ -808,20 +802,14 @@ def admin_removed(v):
 @app.get("/admin/removed/comments")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_removed_comments(v):
-
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 	
-	ids = g.db.query(Comment.id).join(Comment.author).filter(or_(Comment.is_banned==True, User.shadowbanned != None)).order_by(Comment.id.desc()).offset(25 * (page - 1)).limit(26).all()
-
+	ids = g.db.query(Comment.id).join(Comment.author).filter(or_(Comment.is_banned==True, User.shadowbanned != None)).order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	ids=[x[0] for x in ids]
-
-	next_exists = len(ids) > 25
-
-	ids = ids[:25]
-
+	next_exists = len(ids) > PAGE_SIZE
+	ids = ids[:PAGE_SIZE]
 	comments = get_comments(ids, v=v)
-
 	return render_template("admin/removed_comments.html",
 						v=v,
 						listing=comments,

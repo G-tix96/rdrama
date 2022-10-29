@@ -35,11 +35,11 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 
 	page = max(1, int(request.values.get("page", 1)))
 
-	listing = g.db.query(cls).join(vote_cls).filter(cls.ghost == False, cls.is_banned == False, cls.deleted_utc == 0, vote_cls.vote_type==vote_dir, cls.author_id==id, vote_cls.user_id==uid).order_by(cls.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
+	listing = g.db.query(cls).join(vote_cls).filter(cls.ghost == False, cls.is_banned == False, cls.deleted_utc == 0, vote_cls.vote_type==vote_dir, cls.author_id==id, vote_cls.user_id==uid).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
 	listing = [p.id for p in listing]
-	next_exists = len(listing) > 25
-	listing = listing[:25]
+	next_exists = len(listing) > PAGE_SIZE
+	listing = listing[:PAGE_SIZE]
 
 	if cls == Submission:
 		listing = get_posts(listing, v=v)
@@ -85,11 +85,11 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 
 	page = max(1, int(request.values.get("page", 1)))
 
-	listing = g.db.query(cls).join(vote_cls).filter(cls.ghost == False, cls.is_banned == False, cls.deleted_utc == 0, vote_cls.vote_type==vote_dir, vote_cls.user_id==id, cls.author_id==uid).order_by(cls.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
+	listing = g.db.query(cls).join(vote_cls).filter(cls.ghost == False, cls.is_banned == False, cls.deleted_utc == 0, vote_cls.vote_type==vote_dir, vote_cls.user_id==id, cls.author_id==uid).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
 	listing = [p.id for p in listing]
-	next_exists = len(listing) > 25
-	listing = listing[:25]
+	next_exists = len(listing) > PAGE_SIZE
+	listing = listing[:PAGE_SIZE]
 	
 	if cls == Submission:
 		listing = get_posts(listing, v=v)
@@ -137,11 +137,11 @@ def user_voted(v, username, cls, vote_cls, vote_dir, template, standalone):
 			cls.author_id != u.id,
 			vote_cls.user_id == u.id,
 			vote_cls.vote_type == vote_dir
-		).order_by(cls.created_utc.desc()).offset(25 * (page - 1)).limit(26).all()
+		).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
 	listing = [p.id for p in listing]
-	next_exists = len(listing) > 25
-	listing = listing[:25]
+	next_exists = len(listing) > PAGE_SIZE
+	listing = listing[:PAGE_SIZE]
 	if cls == Submission:
 		listing = get_posts(listing, v=v)
 	elif cls == Comment:
@@ -218,7 +218,7 @@ def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 
 	name2 = f'Who @{username} {simps_haters}' if is_who_simps_hates else f'@{username} biggest {simps_haters}'
 
-	return render_template("voters.html", v=v, users=users[:25], pos=pos, name=vote_name, name2=name2, total=total)
+	return render_template("voters.html", v=v, users=users[:PAGE_SIZE], pos=pos, name=vote_name, name2=name2, total=total)
 
 @app.get("/@<username>/upvoters")
 @auth_required
@@ -719,8 +719,8 @@ def u_username(username, v=None):
 
 	ids = u.userpagelisting(site=SITE, v=v, page=page, sort=sort, t=t)
 
-	next_exists = (len(ids) > 25)
-	ids = ids[:25]
+	next_exists = (len(ids) > PAGE_SIZE)
+	ids = ids[:PAGE_SIZE]
 
 	if page == 1:
 		sticky = []
@@ -815,11 +815,11 @@ def u_username_comments(username, v=None):
 	comments = sort_objects(sort, comments, Comment,
 		include_shadowbanned=(v and v.can_see_shadowbanned))
 
-	comments = comments.offset(25 * (page - 1)).limit(26).all()
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
 	ids = [x.id for x in comments]
 
-	next_exists = (len(ids) > 25)
-	ids = ids[:25]
+	next_exists = (len(ids) > PAGE_SIZE)
+	ids = ids[:PAGE_SIZE]
 
 	listing = get_comments(ids, v=v)
 
@@ -1047,10 +1047,10 @@ def bid_list(v, bid):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 
-	users = g.db.query(User).join(User.badges).filter(Badge.badge_id==bid).offset(25 * (page - 1)).limit(26).all()
+	users = g.db.query(User).join(User.badges).filter(Badge.badge_id==bid).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
-	next_exists = (len(users) > 25)
-	users = users[:25]
+	next_exists = (len(users) > PAGE_SIZE)
+	users = users[:PAGE_SIZE]
 
 	return render_template("user_cards.html",
 						v=v,

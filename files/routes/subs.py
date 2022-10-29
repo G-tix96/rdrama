@@ -737,7 +737,7 @@ def hole_log(v, sub):
 			types = types2
 		if kind: actions = actions.filter_by(kind=kind)
 
-		actions = actions.order_by(SubAction.id.desc()).offset(25*(page-1)).limit(26).all()
+		actions = actions.order_by(SubAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
 	
 	next_exists=len(actions)>25
 	actions=actions[:25]

@@ -113,17 +113,16 @@ def unequip_hat(v, hat_id):
 @app.get("/hat_owners/<hat_id>")
 @auth_required
 def hat_owners(v, hat_id):
-
 	try: hat_id = int(hat_id)
 	except: abort(400)
 
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 
-	users = [x[1] for x in g.db.query(Hat, User).join(Hat.owners).filter(Hat.hat_id == hat_id).offset(25 * (page - 1)).limit(26).all()]
+	users = [x[1] for x in g.db.query(Hat, User).join(Hat.owners).filter(Hat.hat_id == hat_id).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()]
 
-	next_exists = (len(users) > 25)
-	users = users[:25]
+	next_exists = (len(users) > PAGE_SIZE)
+	users = users[:PAGE_SIZE]
 
 	return render_template("user_cards.html",
 						v=v,

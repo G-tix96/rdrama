@@ -158,10 +158,10 @@ def log(v):
 			types = types2
 		if kind: actions = actions.filter_by(kind=kind)
 
-		actions = actions.order_by(ModAction.id.desc()).offset(25*(page-1)).limit(26).all()
+		actions = actions.order_by(ModAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
 	
-	next_exists=len(actions)>25
-	actions=actions[:25]
+	next_exists=len(actions) > PAGE_SIZE
+	actions=actions[:PAGE_SIZE]
 	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.username).all()]
 
 	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, next_exists=next_exists, page=page)
@@ -397,9 +397,9 @@ def transfers(v):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	comments = comments.offset(25 * (page - 1)).limit(26).all()
-	next_exists = len(comments) > 25
-	comments = comments[:25]
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+	next_exists = len(comments) > PAGE_SIZE
+	comments = comments[:PAGE_SIZE]
 
 	if v.client:
 		return {"data": [x.json for x in comments]}
