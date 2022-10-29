@@ -139,7 +139,39 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	target.downvotes = get_vote_count(-1, False)
 	target.realupvotes = get_vote_count(0, True) # first arg is ignored here
 
-	if target.author.progressivestack or (cls == Submission and (target.sub in ('space', 'istory', 'dinos') or target.domain.endswith('.win'))):
+	boost_sites = {
+		'quora.com',
+		'cumtown.org',
+		'notabug.io',
+		'talk.lol',
+		'discussions.app',
+		'gab.com',
+		'kiwifarms.net',
+		'gettr.com',
+		'scored.co',
+		'parler.com',
+		'bitchute.com',
+		'4chan.org',
+		'givesendgo.com',
+		'thepinkpill.com',
+		'ovarit.com',
+		'rdrama.cc',
+		'lolcow.farm',
+		'truthsocial.com',
+		'rumble.com',
+		'saidit.net',
+		'kiwifarms.cc',
+		'8kun.top',
+		'goyimtv.tv',
+		'poal.co',
+		'stormfront.org',
+		'arete.network',
+		'poa.st',
+		'lbry.com',
+		'crystal.cafe',
+	}
+
+	if target.author.progressivestack or (cls == Submission and (target.sub in ('space', 'istory', 'dinos') or target.domain.endswith('.win') or target.domain in boost_sites)):
 		target.realupvotes *= 2
 	g.db.add(target)
 	return "", 204
