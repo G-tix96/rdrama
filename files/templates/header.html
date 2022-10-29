@@ -239,7 +239,7 @@
 							<a class="dropdown-item" href="{{v.url}}"><i class="fas fa-user-circle fa-fw mr-3"></i>My profile</a>
 							<a class="dropdown-item" href="/settings"><i class="fas fa-cog fa-fw mr-3"></i>Settings</a>
 							{% if FEATURES['PROCOINS'] and v.truecoins >= 1000 %}
-								<a class="dropdown-item" rel="nofollow noopener noreferrer" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
+								<a class="dropdown-item" rel="nofollow noopener" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 							{% endif %}
 
 							<button type="button" class="dropdown-item copy-link" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}"><i class="fas fa-user-friends fa-fw mr-3"></i>Invite friends</button>
@@ -250,12 +250,12 @@
 
 							<a class="dropdown-item" href="https://rdrama.net/h/changelog"><i class="fas fa-clipboard fa-fw mr-3"></i>Changelog</a>
 
-							<a class="dropdown-item" rel="nofollow noopener noreferrer" href="https://github.com/Aevann1/rDrama"><i class="fab fa-github fa-fw mr-3"></i>Source code</a>
+							<a class="dropdown-item" rel="nofollow noopener" href="https://github.com/Aevann1/rDrama"><i class="fab fa-github fa-fw mr-3"></i>Source code</a>
 
-							<a class="dropdown-item" rel="nofollow noopener noreferrer" href="https://rdrama.net/post/18459"><i class="fas fa-bug fa-fw mr-3"></i>Bugs/Suggestions</a>
+							<a class="dropdown-item" rel="nofollow noopener" href="https://rdrama.net/post/18459"><i class="fas fa-bug fa-fw mr-3"></i>Bugs/Suggestions</a>
 
 							{% if TELEGRAM_LINK != 'blahblahblah' %}
-								<a rel="nofollow noopener noreferrer" class="dropdown-item" href="{{TELEGRAM_LINK}}"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Channel</a>
+								<a rel="nofollow noopener" class="dropdown-item" href="{{TELEGRAM_LINK}}"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Channel</a>
 							{% endif %}
 
 							{% if SITE_NAME == 'rDrama' %}
@@ -299,7 +299,7 @@
 				</li>
 
 				{% if FEATURES['PROCOINS'] and v.truecoins >= 1000 %}
-					<a class="nav-item nav-link" rel="nofollow noopener noreferrer" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
+					<a class="nav-item nav-link" rel="nofollow noopener" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 				{% endif %}
 
 				{% if not g.webview %}
@@ -314,12 +314,12 @@
 
 				<a class="nav-item nav-link" href="https://rdrama.net/h/changelog"><i class="fas fa-clipboard fa-fw mr-3"></i>Changelog</a>
 
-				<a class="nav-item nav-link" rel="nofollow noopener noreferrer" href="https://github.com/Aevann1/rDrama"><i class="fab fa-github fa-fw mr-3"></i>Source code</a>
+				<a class="nav-item nav-link" rel="nofollow noopener" href="https://github.com/Aevann1/rDrama"><i class="fab fa-github fa-fw mr-3"></i>Source code</a>
 
-				<a class="nav-item nav-link" rel="nofollow noopener noreferrer" href="https://rdrama.net/post/18459"><i class="fas fa-bug fa-fw mr-3"></i>Bugs/Suggestions</a>
+				<a class="nav-item nav-link" rel="nofollow noopener" href="https://rdrama.net/post/18459"><i class="fas fa-bug fa-fw mr-3"></i>Bugs/Suggestions</a>
 
 				{% if TELEGRAM_LINK != 'blahblahblah' %}
-					<a rel="nofollow noopener noreferrer" class="nav-item nav-link" href="{{TELEGRAM_LINK}}"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Channel</a>
+					<a rel="nofollow noopener" class="nav-item nav-link" href="{{TELEGRAM_LINK}}"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Channel</a>
 				{% endif %}
 
 				{% if SITE_NAME == 'rDrama' %}<a class="nav-item nav-link" href="/archives"><i class="fas fa-book fa-fw mr-3"></i>Archives</a>{% endif %}
