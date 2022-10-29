@@ -18,6 +18,7 @@ export function Username({ avatar, color, name, hat = "" }: UsernameProps) {
             className="avatar-hat profile-pic-20-hat hat"
             loading="lazy"
             src={hat}
+            referrerPolicy="no-referrer"
           />
         )}
       </div>
@@ -26,7 +27,7 @@ export function Username({ avatar, color, name, hat = "" }: UsernameProps) {
         style={{ color: `#${color}` }}
         target="_blank"
         href={`/@${name}`}
-        rel="noopener noreferrer"
+        rel="nofollow noopener noreferrer"
       >
         {name}
       </a>

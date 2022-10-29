@@ -218,7 +218,7 @@
 						aria-haspopup="true" aria-expanded="false">
 						<div class="d-flex">
 							<div class="profile-pic-35-wrapper">
-								<img loading="lazy" src="{{v.profile_url}}" class="profile-pic-35">
+								<img referrerpolicy="no-referrer" loading="lazy" src="{{v.profile_url}}" class="profile-pic-35">
 								{% if v.hat_active -%}
 									<img id="profile-pic-35-hat" class="profile-pic-35-hat hat" loading="lazy" src="{{v.hat_active}}?h=7">
 								{% elif request.path == '/hats' %}
