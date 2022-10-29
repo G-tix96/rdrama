@@ -209,8 +209,7 @@
 			{% if c.active_flags(v) %}
 			<div id="flaggers-{{c.id}}" class="flaggers d-none">
 				<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
-				<pre></pre>
-				<ul style="padding-left:20px; margin-bottom: 0;word-wrap:break-word">
+				<ul class="mt-1 mb-0" style="padding-left:20px;word-wrap:break-word">
 					{% for f in c.filtered_flags(v) %}
 						<li>{% if c.ghost %}👻{% else %}<a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>{% endif %}{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %} {% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}<button type="button" onclick="post_toast(this,'/del_report/comment/{{f.comment_id}}/{{f.user_id}}')">[remove]</button>{% endif %}</li>
 					{% endfor %}
@@ -780,8 +779,7 @@
 					</div>
 					<div class="modal-body">
 						<div class="h6">We're sorry something here is wrong.</div>
-						<small class="form-text text-muted">Please enter a reason for reporting below.</small>
-						<pre></pre>
+						<small class="form-text text-muted mb-1">Please enter a reason for reporting below.</small>
 						<input autocomplete="off" maxlength="100" id="reason_comment" class="form-control">
 					</div>
 					<div class="modal-footer">

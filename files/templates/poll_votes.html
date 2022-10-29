@@ -9,11 +9,7 @@
 
 {% if thing %}
 
-<pre>
-	
-</pre>
-
-<h3>{{thing.body_html | safe}} - {{ups | length}} {% if thing.exclusive == 2 %}bets{% else %}votes{% endif %}</h3>
+<h3 class="mt-2">{{thing.body_html | safe}} - {{ups | length}} {% if thing.exclusive == 2 %}bets{% else %}votes{% endif %}</h3>
 <div class="overflow-x-auto mt-5">
 	<table class="table table-striped mb-5">
 		<thead class="bg-primary text-white">

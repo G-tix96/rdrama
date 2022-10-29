@@ -196,8 +196,7 @@
 					</div>
 					{% if v.background %}
 						<div class="d-flex mt-2">
-							<button type="button" class="btn btn-primary ml-auto" onclick="post_toast(this,'/settings/removebackground', true)">Remove Background</button>
-							<pre></pre>
+							<button type="button" class="btn btn-primary ml-auto mb-1" onclick="post_toast(this,'/settings/removebackground', true)">Remove Background</button>
 						</div>
 					{% endif %}
 					<div id="bgcontainer"></div>
@@ -585,8 +584,7 @@
 												<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file" multiple="multiple" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show','file-upload')" hidden>
 											</label>
 										</div>
-										<pre></pre>
-										<div class="d-flex">
+										<div class="d-flex mt-1">
 											<small>Limit of 1500 characters</small>
 											<input autocomplete="off" class="btn btn-primary ml-auto" id="bioSave" type="submit" onclick="disable(this)" value="Save Changes">
 										</div>
@@ -604,8 +602,7 @@
 									<form id="profile-friends" action="/settings/profile" method="post" enctype="multipart/form-data">
 										<input type="hidden" name="formkey" value="{{v.formkey}}">
 										<textarea autocomplete="off" id="friends-text" class="form-control rounded" aria-label="With textarea" placeholder="Enter your friends on the site..." rows="3" name="friends" form="profile-friends" maxlength="1500">{% if v.friends %}{{v.friends}}{% endif %}</textarea>
-										<pre></pre>
-										<div class="d-flex">
+										<div class="d-flex mt-1">
 											<small>Limit of 500 characters</small>
 											<input autocomplete="off" class="btn btn-primary ml-auto" id="friendsSave" type="submit" onclick="disable(this)" value="Save Changes">
 										</div>
@@ -623,8 +620,7 @@
 									<form id="profile-enemies" action="/settings/profile" method="post" enctype="multipart/form-data">
 										<input type="hidden" name="formkey" value="{{v.formkey}}">
 										<textarea autocomplete="off" id="enemies-text" class="form-control rounded" aria-label="With textarea" placeholder="Enter your enemies on the site..." rows="3" name="enemies" form="profile-enemies" maxlength="1500">{% if v.enemies %}{{v.enemies}}{% endif %}</textarea>
-										<pre></pre>
-										<div class="d-flex">
+										<div class="d-flex mt-1">
 											<small>Limit of 500 characters</small>
 											<input autocomplete="off" class="btn btn-primary ml-auto" id="enemiesSave" type="submit" onclick="disable(this)" value="Save Changes">
 										</div>
@@ -648,8 +644,7 @@
 											&nbsp;
 											<pre style="padding-top:0.7rem" class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('sig-text')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></pre>
 										</div>
-										<pre></pre>
-										<div class="d-flex">
+										<div class="d-flex mt-1">
 											<small>Limit of 200 characters</small>
 											<input autocomplete="off" class="btn btn-primary ml-auto" id="sigSave" type="submit" onclick="disable(this)" value="Save Changes">
 										</div>

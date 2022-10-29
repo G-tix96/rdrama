@@ -697,8 +697,7 @@
 					{% if p.active_flags(v) %}
 					<div id="flaggers" class="flaggers d-none">
 						<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
-						<pre></pre>
-						<ul style="padding-left:20px; margin-bottom: 0;word-wrap:break-word">
+						<ul class="mt-1 mb-0" style="padding-left:20px; word-wrap:break-word">
 							{% for f in p.filtered_flags(v) %}
 								<li><a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %} {% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}<button type="button" onclick="post_toast(this,'/del_report/post/{{f.post_id}}/{{f.user_id}}')">[remove]</button>{% endif %}</li>
 							{% endfor %}
@@ -751,28 +750,24 @@
 						
 						<div id="post-text" class="{% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %}">
 							{% if p.is_image %}
-								<div class="row no-gutters">
+								<div class="row no-gutters mb-1">
 									<div class="col">
 										<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener noreferrer" href="{{p.realurl(v)}}">
 											<img onclick="expandDesktopImage()" src="{{p.realurl(v)}}" class="img-fluid" style="max-height:500px" alt="Unable to load image">
 										</a>
 									</div>
 								</div>
-								<pre></pre>
 							{% elif p.is_video %}
-								<div class="row no-gutters">
+								<div class="row no-gutters mb-1">
 									<div class="col">
 										<video controls preload="none" src="{{p.realurl(v)}}"></video>
 									</div>
 								</div>
-								<pre></pre>
-							{% elif p.is_audio %}
-								<div class="row no-gutters">
+\							{% elif p.is_audio %}
+								<div class="row no-gutters mb-1">
 									<div class="col">
 										<audio controls preload="none" src="{{p.realurl(v)}}"></audio>
 									</div>
-								</div>
-								<pre></pre>
 							{% endif %}
 							{{p.realbody(v) | safe}}
 
@@ -964,8 +959,7 @@
 					{% if sort != "controversial" %}<a class="dropdown-item" href="?sort=controversial"><i class="fas fa-bullhorn mr-2"></i>Controversial</a>{% endif %}
 				</div>
 				{% if comment_info and p.comment_count >= 2%}
-					<pre></pre>
-					<div class="total"><a href="{{p.permalink}}">View entire discussion</a></div>
+					<div class="total mt-1"><a href="{{p.permalink}}">View entire discussion</a></div>
 				{% endif %}
 			</div>
 		</div>

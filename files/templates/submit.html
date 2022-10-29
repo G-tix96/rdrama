@@ -87,9 +87,7 @@
 
 												<div id="preview" class="preview my-3"></div>
 
-												<pre></pre>
-												<div class="form-text text-small"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
-												<pre></pre>
+												<div class="form-text text-small my-1"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
 
 												<div class="custom-control custom-checkbox">
 													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-notify" name="notify" onchange="savetext()" checked>
@@ -117,19 +115,10 @@
 												</div>
 												{%- endif %}
 
-												<div class="custom-control custom-checkbox">
+												<div class="custom-control custom-checkbox mb-5">
 													<input onchange='draft(this);' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost" {% if v.coins < 100 %}disabled{% endif %}>
 													<label class="custom-control-label" for="post-ghost">Ghost thread (cost: 100 coins)</label>
 												</div>
-
-												<pre>
-
-
-
-
-
-
-												</pre>
 										</div>
 
 								</div>

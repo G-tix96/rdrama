@@ -37,8 +37,7 @@
 {% if p.active_flags(v) %}
 	<div id="flaggers-{{p.id}}" class="flaggers d-none">
 		<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
-		<pre></pre>
-		<ul style="padding-left:20px; margin-bottom: 0;word-wrap:break-word">
+		<ul class="mt-1 mb-0" style="padding-left:20px; word-wrap:break-word">
 			{% for f in p.filtered_flags(v) %}
 				<li><a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %} {% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}<button type="button" onclick="post_toast(this,'/del_report/post/{{f.post_id}}/{{f.user_id}}')">[remove]</button>{% endif %}</li>
 			{% endfor %}
@@ -384,9 +383,7 @@
 				<i class="fas text-gray-500 fa-scroll-old fa-stack-1x text-lg"></i>
 			</span>
 			<h2 class="h5">@{{u.username}} hasn't made a post yet</h2>
-			<p class="text-muted">Their posting history will show here.</p>
-			<pre>
-			</pre>
+			<p class="text-muted mb-1">Their posting history will show here.</p>
 		</div>			
 	</div>	
 </div>

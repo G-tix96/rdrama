@@ -89,8 +89,6 @@
 
 				{% if u.customtitle %}
 					<p class="font-weight-bolder" id="profile--flair" style="color: #{{u.titlecolor}}">{{u.customtitle | safe}}</p>
-				{% else %}
-					<pre></pre>
 				{% endif %}
 				
 				{% if v and (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']) -%}
@@ -122,8 +120,7 @@
 
 				{% if FEATURES['USERS_PROFILE_BODYTEXT'] -%}
 					{% if u.bio_html %}
-						<pre></pre>
-						<div class="text-muted font-weight-bolder" id="profile--bio">{{u.bio_html | safe}}</div>
+						<div class="text-muted font-weight-bolder mt-1" id="profile--bio">{{u.bio_html | safe}}</div>
 					{% else %}
 						<p class="text-muted" id="profile--bio">No bio...</p>
 					{% endif %}
@@ -185,9 +182,7 @@
 						</div>
 						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
 							<input type="hidden" name="formkey" value="{{v.formkey}}"> 
-							<pre></pre>
-							<textarea autocomplete="off" id="input-message" form="message" name="message" rows="3" minlength="1" maxlength="10000" class="form-control b2" data-preview="message-preview" oninput="markdown(this)" required></textarea>
-							<pre></pre>
+							<textarea autocomplete="off" id="input-message" form="message" name="message" rows="3" minlength="1" maxlength="10000" class="form-control b2 mt-1" data-preview="message-preview" oninput="markdown(this)" required></textarea>
 							<pre class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('input-message')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></pre>
 							&nbsp;
 							<input type="submit" onclick="disable(this);remove_dialog()" value="Submit" class="btn btn-primary">
@@ -220,8 +215,7 @@
 					
 					{{userpage_admintools.userAdminToolsLower('desktop')}}
 
-					<pre></pre>
-					<div id="profile--info">
+					<div class="mt-1" id="profile--info">
 						<p id="profile--info--id">User ID: {{u.id}}</p>
 						<p id="profile--info--spent">Coins spent: {{u.coins_spent}}</p>
 						<p id="profile--info--truescore">True score: {{u.truecoins}}</p>
@@ -320,8 +314,6 @@
 
 				{% if u.customtitle %}
 					<p style="color: #{{u.titlecolor}}" id="profile-mobile--flair">{{u.customtitle | safe}}</p>
-				{% else %}
-					<pre></pre>
 				{% endif %}
 
 				{% if v and (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']) -%}
@@ -430,11 +422,9 @@
 
 					{{userpage_admintools.userAdminToolsUpper('mobile')}}
 					<form class="d-none toggleable" id='message-mobile' action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
-						<pre></pre>
-						<input type="hidden" name="formkey" value="{{v.formkey}}"> 
+						<input class="mt-1" type="hidden" name="formkey" value="{{v.formkey}}"> 
 						<textarea autocomplete="off" id="input-message-mobile" form="message-mobile" name="message" rows="3" minlength="1" maxlength="10000" class="form-control" data-preview="message-preview-mobile" oninput="markdown(this)" required></textarea>
-						<pre></pre>
-						<pre class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('input-message-mobile')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></pre>
+						<pre class="mt-1 btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('input-message-mobile')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></pre>
 						&nbsp;
 						<input type="submit" onclick="disable(this);remove_dialog()" value="Submit" class="btn btn-primary">
 					</form>
@@ -458,8 +448,7 @@
 					{{userpage_admintools.userAdminToolsLower('mobile')}}
 					
 				{% endif %}
-				<pre></pre>
-				<div id="profile-mobile--info">
+				<div class="mt-1" id="profile-mobile--info">
 					<p id="profile-mobile--info--id">User ID: {{u.id}}</p>
 					<p id="profile-mobile--info--spent">Coins spent: {{u.coins_spent}}</p>
 					<p id="profile-mobile--info--truescore">True score: {{u.truecoins}}</p>
