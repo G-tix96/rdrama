@@ -1344,6 +1344,7 @@ BOOSTED_SITES = {
 	'rdrama.net',
 	'pcmemes.net',
 	'watchpeopledie.tv',
+	'themotte.org',
 	'quora.com',
 	'cumtown.org',
 	'notabug.io',
