@@ -219,7 +219,7 @@ def award_thing(v, thing_type, id):
 
 			return {"message": f"{AWARDS[kind]['title']} award given to {thing_type} successfully!"}
 
-		if author.deflector and v.id != AEVANN_ID and (AWARDS[kind]['price'] > 500 or kind == 'marsify' or kind.istitle()) and kind not in ('pin','unpin','benefactor'):
+		if author.deflector and (AWARDS[kind]['price'] > 500 or kind == 'marsify' or kind.istitle()) and kind not in ('pin','unpin','benefactor'):
 			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award but it was deflected and applied to them :marseytroll:"
 			send_repeatable_notification(author.id, msg)
 			msg = f"{safe_username} is under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you :marseytroll:"
@@ -364,7 +364,7 @@ def award_thing(v, thing_type, id):
 			else: author.marsify = int(time.time()) + 21600
 		badge_grant(user=author, badge_id=170)
 
-		if thing_type == 'comment' and (not author.deflector or v.id == AEVANN_ID):
+		if thing_type == 'comment' and not author.deflector:
 			body = thing.body
 			if author.owoify: body = owoify(body)
 			body = marsify(body)
@@ -390,7 +390,7 @@ def award_thing(v, thing_type, id):
 		else: author.owoify = int(time.time()) + 21600
 		badge_grant(user=author, badge_id=167)
 
-		if thing_type == 'comment' and not (author.deflector or v.id == AEVANN_ID):
+		if thing_type == 'comment' and not author.deflector :
 			body = thing.body
 			body = owoify(body)
 			if author.marsify: body = marsify(body)
