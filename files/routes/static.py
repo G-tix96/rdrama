@@ -434,10 +434,10 @@ if SITE == 'pcmemes.net':
 			y = live_regex.search(text)
 			count = y.group(3)
 
-			if count == '1 παρακολουθεί τώρα':
+			if count == '1 watching now':
 				count = "1"
 
-			if 'περιμένει' in count or 'waiting' in count:
+			if 'waiting' in count:
 				if live != '':
 					return process_streamer(id, '')
 				else:
