@@ -1085,7 +1085,7 @@
 	<script defer src="{{'js/highlightcomments.js' | asset}}"></script>
 {% endif %}
 
-{% if v and v.admin_level > 1 %}
+{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 	<script defer src="{{'js/pinpost.js' | asset}}"></script>
 {% endif %}
 
