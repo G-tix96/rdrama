@@ -424,7 +424,7 @@ if SITE == 'pcmemes.net':
 	live_regex = re.compile('playerOverlayVideoDetailsRenderer":\{"title":\{"simpleText":"(.*?)"\},"subtitle":\{"runs":\[\{"text":"(.*?)"\},\{"text":" • "\},\{"text":"(.*?)"\}', flags=re.A)
 	live_thumb_regex = re.compile('\{"thumbnail":\{"thumbnails":\[\{"url":"(.*?)"', flags=re.A)
 	offline_regex = re.compile('","title":"(.*?)".*?"width":48,"height":48\},\{"url":"(.*?)"', flags=re.A)
-	offline_details_regex = re.compile('simpleText":"Streamed ([0-9]*?) ([^"]*?)"\},"viewCountText":\{"simpleText":"([0-9.]*?) views"', flags=re.A)
+	offline_details_regex = re.compile('simpleText":"Streamed ([0-9]*?) ([^"]*?)"\},.*?"viewCountText":\{"simpleText":"([0-9.]*?) views"', flags=re.A)
 
 	def process_streamer(id, live='live'):
 		url = f'https://www.youtube.com/channel/{id}/{live}'
