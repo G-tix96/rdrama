@@ -486,6 +486,9 @@ if SITE == 'pcmemes.net':
 
 				actual = f'{quantity} {unit}'
 			else:
+				with open(f"/streamers/{id}", "w", encoding='utf_8') as f:
+					f.write(text)
+
 				minutes = 9999999999
 				actual = '???'
 				views = 0
