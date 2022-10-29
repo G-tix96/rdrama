@@ -112,7 +112,6 @@ def before_request():
 def after_request(response):
 	response.headers.add("Strict-Transport-Security", "max-age=31536000")
 	response.headers.add("X-Frame-Options", "deny")
-	response.headers.add("Referrer-Policy", "same-origin")
 	if response.status_code < 400:
 		g.db.commit()
 		g.db.close()
