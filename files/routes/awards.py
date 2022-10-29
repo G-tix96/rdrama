@@ -250,7 +250,7 @@ def award_thing(v, thing_type, id):
 		if author.marseyawarded:
 			abort(409, "This user is under the effect of a conflicting award: Marsey award.")
 
- 		if author.agendaposter and author.agendaposter == 0:
+		if author.agendaposter and author.agendaposter == 0:
 			abort(409, "This user is perma-chudded.")
 
 		if author.agendaposter and time.time() < author.agendaposter: author.agendaposter += 86400
