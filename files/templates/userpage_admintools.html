@@ -46,12 +46,10 @@
 							<input maxlength=100 autocomplete="off" id="customtitlebody-{{deviceType}}" type="text" name="title" class="form-control" placeholder='Enter a flair here' value="{% if u.customtitleplain %}{{u.customtitleplain}}{% endif %}">
 							<div class="d-flex mt-2">
 								<div class="format" role="button"><i class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('customtitlebody-{{deviceType}}')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></i></div>
-								&nbsp;&nbsp;&nbsp;
-								<div class="custom-control custom-checkbox">
+								<div class="custom-control custom-checkbox ml-3">
 									<input autocomplete="off" type="checkbox" class="custom-control-input" id="locked" name="locked" {% if u.flairchanged %}checked{% endif %}>
 									<label class="custom-control-label" for="locked">locked</label>
 								</div>
-								&nbsp;&nbsp;&nbsp;
 								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Change Flair">
 							</div>
 						</form>
