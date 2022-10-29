@@ -53,7 +53,7 @@
 						<div id="profilestuff" class="ml-3 w-100">
 							{{userpage_admintools.userBanBlock('desktop')}}
 							<div class="d-flex align-items-center mt-1 mb-2">
-								<h1 class="font-weight-bolder h3 my-0 mr-2" id="profile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.user_name}}</span></h1>
+								<h3 class="font-weight-bolder my-0 mr-2" id="profile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.user_name}}</span></h3>
 
 								{% if u.username != u.original_username %}
 								<span id="profile--origname">
