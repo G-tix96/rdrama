@@ -485,7 +485,6 @@ if SITE == 'pcmemes.net':
 				minutes = quantity * modifier
 
 				actual = f'{quantity} {unit}'
-				if quantity > 1: actual += 's'
 			else:
 				minutes = 9999999999
 				actual = '???'
