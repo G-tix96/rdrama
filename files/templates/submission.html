@@ -569,17 +569,17 @@
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header p-3">
-					<h5 class="col modal-title text-center h6">More options</h5>
-					<button class="close position-absolute py-3" style="right: 1rem"data-bs-dismiss="modal" aria-label="Close">
+					<h6 class="col modal-title text-center">More options</h6>
+					<button type="button" class="close position-absolute py-3" style="right: 1rem"data-bs-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true"><i class="fas fa-times-circle text-gray-500"></i></span>
 					</button>
 				</div>
 				<div class="modal-body">
 					<ul class="list-group post-actions">
 						{% if v.id==p.author_id %}
-							<button class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" onclick="togglePostEdit('{{p.id}}')"><i class="far fa-edit text-center text-muted mr-2"></i>Edit</button>
+							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" onclick="togglePostEdit('{{p.id}}')"><i class="far fa-edit text-center text-muted mr-2"></i>Edit</button>
 						{% elif p.body %}
-							<button class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" onclick="expandMarkdown('{{p.id}}','p')"><i class="fas text-expand-icon-{{p.id}} fa-expand-alt text-center mr-2"></i><span class="expand-text-p-{{p.id}}">View source</span></button>
+							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" onclick="expandMarkdown('{{p.id}}','p')"><i class="fas text-expand-icon-{{p.id}} fa-expand-alt text-center mr-2"></i><span class="expand-text-p-{{p.id}}">View source</span></button>
 						{% endif %}
 
 						{% include "post_actions_mobile.html" %}
@@ -613,7 +613,7 @@
 
 				{% if not p.is_image and p.thumb_url and not p.embed_url %}
 				<div class="card-header bg-transparent border-0 d-none d-md-flex flex-row flex-nowrap pl-3 p-0">
-					<a rel="nofollow noopener noreferrer" href="{{p.realurl(v)}}" style="height: fit-content"{% if not v or v.newtabexternal %}target="_blank"{% endif %}><img loading="lazy" src="{{p.thumb_url}}" class="post-img d-none d-md-block" alt="Unable to load image"></a>
+					<a rel="nofollow noopener noreferrer" href="{{p.realurl(v)}}" style="height: fit-content"{% if not v or v.newtabexternal %}target="_blank"{% endif %}><img loading="lazy" src="{{p.thumb_url}}" class="post-img d-mob-none" alt="Unable to load image"></a>
 				</div>
 				{% endif %}
 
@@ -622,7 +622,7 @@
 					<div class="post-meta text-left mb-2">
 						{% if p.sub %}
 							{% if not HOLE_STYLE_FLAIR -%}
-								<a href='/h/{{p.sub}}'>/h/{{p.sub}}</a>&nbsp;&nbsp;
+								<a class="mr-2" href='/h/{{p.sub}}'>/h/{{p.sub}}</a>
 							{%- else -%}
 								<a href='/h/{{p.sub}}' class="sub-flair">{{p.sub|capitalize}}</a>
 							{%- endif %}
@@ -655,7 +655,7 @@
 						{% if p.is_bot %} <i class="fas fa-robot text-info" data-bs-toggle="tooltip" data-bs-placement="bottom"	title="Bot"></i>{% endif %}
 						{% if p.over_18 %}<span class="badge badge-danger text-small-extra mr-1">+18</span>{% endif %}
 						{% if p.private %}<span class="badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
-						{% if p.active_flags(v) %}<a class="btn btn-primary" role="button" style="padding:1px 5px; font-size:10px"onclick="document.getElementById('flaggers').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{ help.plural(p.active_flags(v)) }}</a>{% endif %}
+						{% if p.active_flags(v) %}<button type="button" class="btn btn-primary" style="padding:1px 5px; font-size:10px"onclick="document.getElementById('flaggers').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{help.plural(p.active_flags(v))}}</button>{% endif %}
 
 						{% if p.ghost %}
 							<span {% if p.distinguish_level %}class="mod"{% endif %}>👻</span>
@@ -670,7 +670,7 @@
 
 							{% if p.author.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if p.author.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if p.author.verifiedcolor %}#{{p.author.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.verified}}"></i>
 							{% endif %}
-							<a class="user-name text-decoration-none" href="{{p.author.url}}" data-pop-info='{{p.author.json_popover(v) | tojson}}' onclick='popclick(event)' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="click" data-content-id="popover" role="button" tabindex="0" style="color: #{{p.author.name_color}}; font-weight: bold"class="user-name">
+							<a class="user-name text-decoration-none" href="{{p.author.url}}" data-pop-info='{{p.author.json_popover(v) | tojson}}' onclick='popclick(event)' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="click" data-content-id="popover" tabindex="0" style="color: #{{p.author.name_color}}; font-weight: bold"class="user-name">
 								<div class="profile-pic-30-wrapper">
 									<img loading="lazy" src="{{p.author.profile_url}}" class="profile-pic-30 mr-2">
 									{% if p.author.hat_active -%}
@@ -690,17 +690,16 @@
 						({% if p.is_image %}image post{% elif p.is_video %}video post{% elif p.is_audio %}audio post{% elif p.domain %}<a href="/search/posts/?q=domain%3A{{p.domain}}&sort=new&t=all" class="post-meta-domain" {% if not v or v.newtabexternal %}target="_blank"{% endif %}>{{p.domain|truncate(50, True)}}</a>{% else %}text post{% endif %})
 
 						{% if p.edited_utc %}
-							&nbsp;&nbsp;Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('edited_timestamp','{{p.edited_utc}}')" id="edited_timestamp">{{p.edited_string}}</span>
+							<span class="ml-2">Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('edited_timestamp','{{p.edited_utc}}')" id="edited_timestamp">{{p.edited_string}}</span></span>
 						{% endif %}
-						&nbsp;&nbsp;{{p.views}} thread views
+						<span class="ml-2">{{p.views}} thread views</span>
 					</div>
 					{% if p.active_flags(v) %}
 					<div id="flaggers" class="flaggers d-none">
 						<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
-						<pre></pre>
-						<ul style="padding-left:20px; margin-bottom: 0;word-wrap:break-word">
+						<ul class="mt-1 mb-0" style="padding-left:20px; word-wrap:break-word">
 							{% for f in p.filtered_flags(v) %}
-								<li><a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %} {% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}<a role="button" onclick="post_toast(this,'/del_report/post/{{f.post_id}}/{{f.user_id}}')">[remove]</a>{% endif %}</li>
+								<li><a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %} {% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}<button type="button" onclick="post_toast(this,'/del_report/post/{{f.post_id}}/{{f.user_id}}')">[remove]</button>{% endif %}</li>
 							{% endfor %}
 						</ul>
 					</div>
@@ -751,35 +750,29 @@
 						
 						<div id="post-text" class="{% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %}">
 							{% if p.is_image %}
-								<div class="row no-gutters">
+								<div class="row no-gutters mb-1">
 									<div class="col">
 										<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener noreferrer" href="{{p.realurl(v)}}">
 											<img onclick="expandDesktopImage()" src="{{p.realurl(v)}}" class="img-fluid" style="max-height:500px" alt="Unable to load image">
 										</a>
 									</div>
 								</div>
-								<pre></pre>
 							{% elif p.is_video %}
-								<div class="row no-gutters">
+								<div class="row no-gutters mb-1">
 									<div class="col">
-										<video controls preload="metadata">
-											<source src="{{p.realurl(v)}}">
-										</video>
+										<video controls preload="none" src="{{p.realurl(v)}}"></video>
 									</div>
 								</div>
-								<pre></pre>
-							{% elif p.is_audio %}
-								<div class="row no-gutters">
+\							{% elif p.is_audio %}
+								<div class="row no-gutters mb-1">
 									<div class="col">
-										<audio controls preload="metadata" src="{{p.realurl(v)}}"></audio>
+										<audio controls preload="none" src="{{p.realurl(v)}}"></audio>
 									</div>
-								</div>
-								<pre></pre>
 							{% endif %}
 							{{p.realbody(v) | safe}}
 
 							{% if p.is_banned and p.ban_reason %}
-								<div class="text-removed mb-0">removed by @{{p.ban_reason}}</div>
+								<div class="text-removed mb-0">removed by @{{p.ban_reason}} (Admin)</div>
 							{% endif %}
 
 						</div>
@@ -801,10 +794,7 @@
 									<div class="text-small font-weight-bold mt-1" id="charcount-post-edit" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
 									<div class="comment-format">
-										<small class="format btn btn-secondary"><i class="fas fa-bold" aria-hidden="true" onclick="makeBold('post-edit-box-{{p.id}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Bold"></i></small> 
-										<a class="format btn btn-secondary" role="button"><i class="fas fa-italic" aria-hidden="true" onclick="makeItalics('post-edit-box-{{p.id}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Italicize"></i></a> 
-										<a class="format btn btn-secondary" role="button"><i class="fas fa-quote-right" aria-hidden="true" onclick="makeQuote('post-edit-box-{{p.id}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Quote"></i></a>
-										<a class="format btn btn-secondary" role="button"><span class="font-weight-bolder text-uppercase" onclick="commentForm('post-edit-box-{{p.id}}');getGif()" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span></a>
+										<button type="button" class="format btn btn-secondary"><span class="font-weight-bolder text-uppercase" onclick="commentForm('post-edit-box-{{p.id}}');getGif()" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span></button>
 										<div onclick="loadEmojis('post-edit-box-{{p.id}}')" class="format btn btn-secondary" role="button" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>	
 
 										<label class="format btn btn-secondary m-0 ml-1 {% if v %}d-inline-block{% else %}d-none{% endif %}" for="file-upload-edit-{{p.id}}">
@@ -814,8 +804,8 @@
 						
 										<small class="format d-none"><i class="fas fa-link" aria-hidden="true"></i></small> 
 								</div>
-								<button form="post-edit-form-{{p.id}}" class="btn btn-primary ml-2 fl-r" onclick="disable(this);remove_dialog()">Save Edit</button>
-								<a role="button" onclick="togglePostEdit('{{p.id}}');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r">Cancel</a> 
+								<button type="submit" form="post-edit-form-{{p.id}}" class="btn btn-primary ml-2 fl-r" onclick="disable(this);remove_dialog()">Save Edit</button>
+								<button type="button" onclick="togglePostEdit('{{p.id}}');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r">Cancel</button> 
 							</form>
 							<div id="post-edit-{{p.id}}" class="preview mb-3 mt-5"></div>
 							<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
@@ -823,15 +813,15 @@
 					{% endif %}
 
 							{% if p.embed_url and "http" not in p.embed_url and "<" not in p.embed_url %}
-							<div id="crosspost-embed">
-							<div class="row no-gutters">
-								<div id="frontpage" class="col-12 pt-0">
-								<div class="posts" id="posts">
-									{{p.embed_url | post_embed(v) | safe}}
+								<div id="crosspost-embed" class="mb-3">
+									<div class="row no-gutters">
+										<div id="frontpage" class="col-12 pt-0">
+											<div class="posts" id="posts">
+												{{p.embed_url | post_embed(v) | safe}}
+											</div>
+										</div>
+									</div>
 								</div>
-								</div>
-							</div>
-							</div>
 							{% endif %}
 							<div class="d-none d-md-flex justify-content-between align-items-center mt-2">
 								<div class="post-actions mt-2">
@@ -845,11 +835,11 @@
 						</li>
 
 						{% if v and (v.id==p.author_id or v.admin_level >= PERMS['POST_EDITING']) %}
-							<a class="list-inline-item" role="button" onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit"></i>Edit</a>
+							<button type="button" class="list-inline-item" onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit"></i>Edit</button>
 						{% endif %}
 
 						{% if v and v.id != p.author_id and p.body and not v_forbid_deleted %}
-							<a class="list-inline-item" role="button" onclick="expandMarkdown('{{p.id}}','p')"><i class="fas text-expand-icon-{{p.id}} fa-expand-alt"></i><span class="expand-text-p-{{p.id}}">View source</span></a>
+							<button type="button" class="list-inline-item" onclick="expandMarkdown('{{p.id}}','p')"><i class="fas text-expand-icon-{{p.id}} fa-expand-alt"></i><span class="expand-text-p-{{p.id}}">View source</span></button>
 						{% endif %}
 
 						{% include 'post_actions.html' %}
@@ -862,19 +852,19 @@
 					
 					{% if v %}
 
-					<div id="voting" class="voting d-none d-md-block mb-auto">
+					<div id="voting" class="voting d-mob-none mb-auto">
 						<div tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}"></div>
 
-						<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}">{{score}}</span>
+						<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"style="cursor: default">{{score}}</span>
 						<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></div>
 					</div>
 
 					{% else %}
 
-					<div id="voting" class="voting d-none d-md-block mb-auto">
+					<div id="voting" class="voting d-mob-none mb-auto">
 						<div tabindex="0" role="button" class="post-{{p.id}}-up arrow-up mx-auto" onclick="location.href='/login?redirect={{request.path | urlencode}}';">
 						</div>
-						<span class="post-{{p.id}}-score-none score text-muted{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}>{{score}}</span>
+						<span class="post-{{p.id}}-score-none score text-muted{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 						<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down arrow-down mx-auto" onclick="location.href='/login?redirect={{request.path | urlencode}}';"></div>
 					</div>
 
@@ -903,22 +893,22 @@
 					</a>
 
 					{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION_TOOLS_VISIBLE'] %}
-						<a class="ml-2" role="button" data-bs-toggle="modal" data-bs-target="#adminModal-{{p.id}}">
+						<button type="button" class="ml-2" data-bs-toggle="modal" data-bs-target="#adminModal-{{p.id}}">
 							<i class="fas fa-broom"></i>
-						</a>
+						</button>
 					{% endif %}
 				</li>
 
 				{% if v %}
 				<li class="list-inline-item">
-					<a role="button" data-bs-toggle="modal" data-bs-target="#actionsModal">
+					<button type="button" data-bs-toggle="modal" data-bs-target="#actionsModal">
 						<i class="fas fa-ellipsis-h"></i>
-					</a>
+					</button>
 				</li>
 				{% endif %}
 				<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
 					{% if v %}
-						<span tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '1')" class="post-mobile-{{p.id}}-up mx-0 pr-1 arrow-up upvote-button post-{{p.id}}-up {% if voted==1 or v.id == AEVANN_ID %}active{% endif %}">
+						<span tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '1')" class="post-mobile-{{p.id}}-up mx-0 pr-1 arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}">
 						</span>
 					{% else %}
 						<span tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" onclick="location.href='/login?redirect={{request.path | urlencode}}';">
@@ -926,7 +916,7 @@
 						</span>
 					{% endif %}
 
-					<span class="post-mobile-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 or v.id == AEVANN_ID %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}">{{score}}</span>
+					<span class="post-mobile-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"style="cursor: default">{{score}}</span>
 
 					{% if v %}
 						<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '-1')" class="post-mobile-{{p.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></span>
@@ -951,7 +941,8 @@
 	<div class="col border-top">
 		<div class="comments-count py-3">
 			<div class="dropdown dropdown-actions">
-				<button class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					{% if sort=="hot" %}<i class="fas fa-fire mr-1"></i>{% endif %}
 					{% if sort=="top" %}<i class="fas fa-arrow-alt-circle-up mr-1"></i>{% endif %}
 					{% if sort=="bottom" %}<i class="fas fa-arrow-alt-circle-down mr-1"></i>{% endif %}
 					{% if sort=="new" %}<i class="fas fa-sparkles mr-1"></i>{% endif %}
@@ -960,6 +951,7 @@
 					{{sort | capitalize}}
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px);">
+					{% if sort != "hot" %}<a class="dropdown-item" href="?sort=hot"><i class="fas fa-fire mr-2"></i>Hot</a>{% endif %}
 					{% if sort != "top" %}<a class="dropdown-item" href="?sort=top"><i class="fas fa-arrow-alt-circle-up mr-2"></i>Top</a>{% endif %}
 					{% if sort != "bottom" %}<a class="dropdown-item" href="?sort=bottom"><i class="fas fa-arrow-alt-circle-down mr-2"></i>Bottom</a>{% endif %}
 					{% if sort != "new" %}<a class="dropdown-item" href="?sort=new"><i class="fas fa-sparkles mr-2"></i>New</a>{% endif %}
@@ -967,8 +959,7 @@
 					{% if sort != "controversial" %}<a class="dropdown-item" href="?sort=controversial"><i class="fas fa-bullhorn mr-2"></i>Controversial</a>{% endif %}
 				</div>
 				{% if comment_info and p.comment_count >= 2%}
-					<pre></pre>
-					<div class="total"><a href="{{p.permalink}}">View entire discussion</a></div>
+					<div class="total mt-1"><a href="{{p.permalink}}">View entire discussion</a></div>
 				{% endif %}
 			</div>
 		</div>
@@ -984,12 +975,6 @@
 				<div class="text-small font-weight-bold mt-1" id="charcount-reply" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
 				<div class="comment-format">
-					<a class="btn btn-secondary format d-inline-block m-0" role="button"><i class="fas fa-bold" onclick="makeBold('reply-form-body-{{p.fullname}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Bold"></i></a>
-					&nbsp;
-					<a class="btn btn-secondary format d-inline-block m-0" role="button"><i class="fas fa-italic" onclick="makeItalics('reply-form-body-{{p.fullname}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Italicize"></i></a>
-					&nbsp;
-					<a class="btn btn-secondary format d-inline-block m-0" role="button"><i class="fas fa-quote-right" onclick="makeQuote('reply-form-body-{{p.fullname}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Quote"></i></a>
-					&nbsp;
 					<label class="btn btn-secondary format d-inline-block m-0" for="gif-reply-btn-{{p.fullname}}">
 						<span id="gif-reply-btn-{{p.fullname}}" class="font-weight-bolder text-uppercase" onclick="commentForm('reply-form-body-{{p.fullname}}');getGif()" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span>
 					</label> 
@@ -1001,9 +986,9 @@
 						<input autocomplete="off" id="file-upload-reply-{{p.fullname}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show-reply-{{p.fullname}}','file-upload-reply-{{p.fullname}}')" hidden>
 					</label>
 				</div>
-				<a id="save-reply-to-{{p.fullname}}" role="button" form="reply-to-{{p.fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="post_comment('{{p.fullname}}');remove_dialog()">Comment</a>
+				<button type="button" id="save-reply-to-{{p.fullname}}" form="reply-to-{{p.fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="post_comment('{{p.fullname}}');remove_dialog()">Comment</button>
 			</form>
-			<div id="form-preview-{{p.fullname}}" class="mb-3 mt-5"></div>
+			<div id="form-preview-{{p.fullname}}" class="preview mb-3 mt-5"></div>
 			<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
 		</div>
 	{% else %}
@@ -1071,7 +1056,7 @@
 			<i class="fas fa-square text-gray-500 opacity-25 fa-stack-2x"></i>
 			<i class="fas text-gray-500 fa-ghost fa-stack-1x text-lg"></i>
 		</span>
-		<h2 class="h5">Be the first to comment!</h2>
+		<h5>Be the first to comment!</h5>
 		{% if v %}
 		<p class="text-muted">This comment section is a ghost town...</p>
 		{% else %}
@@ -1097,7 +1082,11 @@
 {% endif %}
 
 {% if not v or v.highlightcomments %}
-	<script defer src="{{'js/new_comments_count.js' | asset}}"></script>
+	<script defer src="{{'js/highlightcomments.js' | asset}}"></script>
+{% endif %}
+
+{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+	<script defer src="{{'js/pinpost.js' | asset}}"></script>
 {% endif %}
 
 <script defer src="{{'js/clipboard.js' | asset}}"></script>
@@ -1161,6 +1150,8 @@
 		window.addEventListener('click', () => {
 			if (audio.paused) audio.play(); 
 		}, {once : true});
+
+		prepare_to_pause(audio)
 	</script>
 {% endif %}
 
@@ -1225,6 +1216,10 @@
 			<img src="/i/ricardo3.webp" style="max-height:150px">
 		</div>
 	{% endif %}
+{% endif %}
+
+{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']  %}
+	<script defer src="{{'js/submission_admin.js' | asset}}"></script>
 {% endif %}
 
 {% endblock %}

@@ -5,10 +5,10 @@
 
 {% endblock %}
 
+{% block customPadding %}px-3{% endblock %}
+
 {% block content %}
-<pre></pre>
-<pre></pre>
-<h3 class="pb-2">Admin Tools</h3>
+<h3 class="pb-2 mt-2">Admin Tools</h3>
 
 {% if (v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES'] or v.admin_level >= PERMS['SITE_SETTINGS_SNAPPY_QUOTES']) and (SITE_NAME == 'rDrama' or SIDEBAR_THREAD or BANNER_THREAD or BADGE_THREAD or SNAPPY_THREAD) %}
 	<h4>Add Stuff</h4>
@@ -54,7 +54,7 @@
 	{% endif %}
 		<li><a href="/banned">Permabanned Users</a></li>
 	{% if FEATURES['AWARDS'] -%}
-		<li><a href="/agendaposters">Users with Chud Theme</a></li>
+		<li><a href="/chuds">Users with Chud Theme</a></li>
 		<li><a href="/grassed">Currently Grassed Users</a></li>
 	{%- endif %}
 	{% if FEATURES['PROCOINS'] and (not AEVANN_ID or v.id in (AEVANN_ID, CARP_ID, SNAKES_ID)) -%}
@@ -82,11 +82,11 @@
 </ul>
 {%- endif %}
 
-{% if CASINO_ENABLED -%}
+{% if FEATURES['GAMBLING'] -%}
 <h4>Casino</h4>
 <ul>
 	<li><a href="/admin/lottery/participants">Participants</a></li>
-	<button class="btn btn-primary mt-3" onclick="post_toast(this,'/casino/blackjack/purge');" style="margin-bottom: 2em;">PURGE BAD BLACKJACK GAMES</button>
+	<button type="button" class="btn btn-primary mt-3" onclick="post_toast(this,'/casino/blackjack/purge');" style="margin-bottom: 2em;">PURGE BAD BLACKJACK GAMES</button>
 </ul>
 {%- endif %}
 
@@ -100,7 +100,7 @@
 <h4>Configuration</h4>
 <ul>
 	{% if v.admin_level >= PERMS['HOLE_CREATE'] %}
-		<li><a href="/create_hole">Create {{ HOLE_NAME | capitalize }}</a></li>
+		<li><a href="/create_hole">Create {{HOLE_NAME | capitalize}}</a></li>
 	{% endif %}
 	{% if v.admin_level >= PERMS['APPS_MODERATION'] %}
 		<li><a href="/admin/apps">Apps</a></li>
@@ -108,20 +108,19 @@
 </ul>
 
 {% if v.admin_level >= PERMS['SITE_SETTINGS'] %}
-	<pre></pre>
-	<div class="custom-control custom-switch">
+	<div class="custom-control custom-switch mt-1">
 		<input autocomplete="off" type="checkbox" class="custom-control-input" id="signups" {% if site_settings['Signups'] %}checked{% endif %} onchange="post_toast(this,'/admin/site_settings/Signups');">
 		<label class="custom-control-label" for="signups">Signups</label>
 	</div>
 
 	<div class="custom-control custom-switch">
-		<input autocomplete="off" type="checkbox" class="custom-control-input" id="login_required" {% if site_settings['login_required'] %}checked{% endif %} onchange="post_toast(this,'/admin/site_settings/login_required');">
-		<label class="custom-control-label" for="login_required">Login Required</label>
+		<input autocomplete="off" type="checkbox" class="custom-control-input" id="bots" {% if site_settings['Bots'] %}checked{% endif %} onchange="post_toast(this,'/admin/site_settings/Bots');">
+		<label class="custom-control-label" for="bots">Bots</label>
 	</div>
 
 	<div class="custom-control custom-switch">
-		<input autocomplete="off" type="checkbox" class="custom-control-input" id="bots" {% if site_settings['Bots'] %}checked{% endif %} onchange="post_toast(this,'/admin/site_settings/Bots');">
-		<label class="custom-control-label" for="bots">Bots</label>
+		<input autocomplete="off" type="checkbox" class="custom-control-input" id="login_required" {% if site_settings['login_required'] %}checked{% endif %} onchange="post_toast(this,'/admin/site_settings/login_required');">
+		<label class="custom-control-label" for="login_required">Login Required</label>
 	</div>
 
 	<div class="custom-control custom-switch">
@@ -140,17 +139,17 @@
 		</div>
 	{% endif %}
 	{% if v.admin_level >= PERMS['SITE_CACHE_PURGE_CDN'] %}
-		<button class="btn btn-primary mt-3" onclick="post_toast(this,'/admin/purge_cache');" style="margin-bottom: 2em;">PURGE CACHE</button>
+		<button type="button" class="btn btn-primary mt-3" onclick="post_toast(this,'/admin/purge_cache');" style="margin-bottom: 2em;">PURGE CACHE</button>
 	{% endif %}
 	<br>
 	{% if SITE_NAME == 'PCM' and v.admin_level >= PERMS['PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES'] %}
-		<button class="btn btn-primary" onclick="post_toast(this,'/kippy');" style="margin-bottom: 2em;">Print 10k Marseybux</button>
+		<button type="button" class="btn btn-primary" onclick="post_toast(this,'/kippy');" style="margin-bottom: 2em;">Print 10k Marseybux</button>
 	{% endif %}
 {% endif %}
 
 <h4>Server Status</h4>
 <div>
-	Live Revision: <code>{{ gitref }}</code> <br>
+	Live Revision: <code>{{gitref}}</code> <br>
 </div>
 
 {% endblock %}

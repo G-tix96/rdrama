@@ -11,22 +11,29 @@
 
 		<div class="settings">
 
-			<h2 class="h5" name="referral">Poorcel Mode</h2>
+			<h5 name="referral">Poor Mode</h5>
 
 			<div class="settings-section rounded">
 				<div class="d-lg-flex border-bottom">
 					<div class="title w-lg-25">
-						<label for="poorcel">Poorcel Mode</label>
+						<label for="poor">Poor Mode</label>
 					</div>
 
 					<div class="body w-lg-100">
 
 						<div class="custom-control custom-switch">
-							<input autocomplete="off" type="checkbox" class="custom-control-input" id="poorcel" name="poorcel"{% if v.poor %} checked{% endif %} onchange="post_toast(this,'/settings/profile?poorcel='+document.getElementById('poorcel').checked);">
-							<label class="custom-control-label" for="poorcel"></label>
+							<input autocomplete="off" type="checkbox" class="custom-control-input" id="poor" name="poor"{% if v.poor %} checked{% endif %} onchange="post_toast(this,'/settings/profile?poor='+document.getElementById('poor').checked);">
+							<label class="custom-control-label" for="poor"></label>
 						</div>
 
-						<span class="text-small text-muted">Makes the site much faster for low-end devices.</span>
+						<span class="text-small text-muted">Makes the site faster for low-end devices:</span>
+
+						<ul>
+							<li><small>Disables the effects of cosmetic awards.</small></li>
+							<li><small>Hides signatures.</small></li>
+							<li><small>Makes emoji search only start when you press Enter.</small></li>
+							<li><small>Disables UI animations.</small></li>
+						</ul>
 
 					</div>
 
@@ -34,7 +41,7 @@
 			</div>
 
 			
-			<h2 class="h5" name="referral">Frontpage Size</h2>
+			<h5 name="referral">Frontpage Size</h5>
 
 			<div class="settings-section rounded">
 				<div class="d-lg-flex border-bottom">
@@ -58,7 +65,7 @@
 			</div>
 
 
-			<h2 class="h5" name="referral">Default Sorting and Time Filter</h2>
+			<h5 name="referral">Default Sorting and Time Filter</h5>
 
 			<div class="settings-section rounded">
 
@@ -71,7 +78,7 @@
 							<p>Change the default sorting for comments.</p>
 							<div class="input-group mb2">
 								<select autocomplete="off" id='defaultsortingcomments' class="form-control" form="profile-settings" name="defaultsortingcomments" onchange="post_toast(this,'/settings/profile?defaultsortingcomments='+document.getElementById('defaultsortingcomments').value)">
-								{% for entry in ["new", "old", "top", "bottom", "controversial"] %}
+								{% for entry in ["new", "old", "top", "hot", "bottom", "controversial"] %}
 									<option value="{{entry}}"{{' selected' if v.defaultsortingcomments==entry}}>{{entry}}</option>
 								{% endfor %}
 							</select>
@@ -121,7 +128,7 @@
 
 			</div>
 
-			<h2 class="h5">Tab Behaviour</h2>
+			<h5>Tab Behaviour</h5>
 
 			<div class="settings-section rounded">
 
@@ -168,7 +175,7 @@
 
 			</div>
 
-			<h2 class="h5">Twitter Links</h2>
+			<h5>Twitter Links</h5>
 
 			<div class="settings-section rounded">
 
@@ -194,7 +201,7 @@
 			</div>
 
 
-			<h2 class="h5">Instagram Links</h2>
+			<h5>Instagram Links</h5>
 
 			<div class="settings-section rounded">
 
@@ -220,7 +227,7 @@
 			</div>
 
 
-			<h2 class="h5">Reddit Links</h2>
+			<h5>Reddit Links</h5>
 
 			<div class="settings-section rounded">
 
@@ -263,7 +270,7 @@
 				</div>
 			</div>
 
-			<h2 class="h5">Content Filters</h2>
+			<h5>Content Filters</h5>
 
 				<div class="settings-section rounded">
 

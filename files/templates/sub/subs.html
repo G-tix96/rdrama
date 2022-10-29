@@ -1,11 +1,6 @@
 {% extends "default.html" %}
 {% block content %}
-<pre>
-
-	
-</pre>
-<h5>{{HOLE_NAME|capitalize}} List</h5>
-<pre></pre>
+<h5 class="mt-3 mb-1">{{HOLE_NAME|capitalize}} List</h5>
 <div class="overflow-x-auto">
 	<table class="table table-striped mb-5">
 		<thead class="bg-primary text-white">
@@ -15,6 +10,7 @@
 				<th onclick="sort_table(2)">Posts</th>
 				<th onclick="sort_table(3)">Followers</th>
 				<th onclick="sort_table(4)">Blockers</th>
+				<th onclick="sort_table(5)">Created on</th>
 			</tr>
 		</thead>
 
@@ -25,6 +21,7 @@
 				<td><a href="/h/{{sub}}" >{{count}}</a></td>
 				<td><a href="/h/{{sub}}/followers">{{sub.follow_num}}</a></td>
 				<td><a href="/h/{{sub}}/blockers">{{sub.block_num}}</a></td>
+				<td data-time="{{sub.created_utc}}"></td>
 			</tr>
 		{% endfor %}
 	</table>

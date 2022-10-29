@@ -1,4 +1,4 @@
-from files.__main__ import app
+from files.__main__ import app, limiter
 from files.classes.hats import *
 from files.helpers.alerts import *
 from files.helpers.wrappers import *
@@ -8,9 +8,8 @@ from flask import g
 
 @app.get("/hats")
 @auth_required
+@feature_required('HATS')
 def hats(v):
-	if not FEATURES['HATS']: abort(404)
-
 	owned_hat_ids = [x.hat_id for x in v.owned_hats]
 
 	if request.values.get("sort") == 'author_asc':
@@ -33,30 +32,28 @@ def hats(v):
 	return render_template("hats.html", owned_hat_ids=owned_hat_ids, hats=hats, v=v, sales=sales, num_of_hats=num_of_hats)
 
 @app.post("/buy_hat/<hat_id>")
+@limiter.limit('100/minute;1000/3 days')
 @auth_required
+@feature_required('HATS')
 def buy_hat(v, hat_id):
-	if not FEATURES['HATS']: abort(404)
-
 	try: hat_id = int(hat_id)
-	except: return {"error": "Hat not found!"}, 400
+	except: abort(404, "Hat not found!")
 
 	hat = g.db.query(HatDef).filter_by(submitter_id=None, id=hat_id).one_or_none()
-	if not hat: return {"error": "Hat not found!"}, 400
+	if not hat: abort(404, "Hat not found!")
 
 	existing = g.db.query(Hat).filter_by(user_id=v.id, hat_id=hat.id).one_or_none()
-	if existing: return {"error": "You already own this hat!"}, 400
+	if existing: abort(400, "You already own this hat!")
 
 	if request.values.get("mb"):
 		charged = v.charge_account('procoins', hat.price)
-		if not charged:
-			return {"error": "Not enough marseybux."}, 400
+		if not charged: abort(400, "Not enough marseybux.")
 
 		hat.author.procoins += hat.price * 0.1
 		currency = "marseybux"
 	else:
 		charged = v.charge_account('coins', hat.price)
-		if not charged:
-			return {"error": "Not enough coins."}, 400
+		if not charged: abort(400, "Not enough coins.")
 
 		v.coins_spent_on_hats += hat.price
 		hat.author.coins += hat.price * 0.1
@@ -85,14 +82,13 @@ def buy_hat(v, hat_id):
 
 @app.post("/equip_hat/<hat_id>")
 @auth_required
+@feature_required('HATS')
 def equip_hat(v, hat_id):
-	if not FEATURES['HATS']: abort(404)
-
 	try: hat_id = int(hat_id)
-	except: return {"error": "Hat not found!"}, 400
+	except: abort(404, "Hat not found!")
 
 	hat = g.db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
-	if not hat: return {"error": "You don't own this hat!"}, 400
+	if not hat: abort(403, "You don't own this hat!")
 
 	hat.equipped = True
 	g.db.add(hat)
@@ -101,14 +97,13 @@ def equip_hat(v, hat_id):
 
 @app.post("/unequip_hat/<hat_id>")
 @auth_required
+@feature_required('HATS')
 def unequip_hat(v, hat_id):
-	if not FEATURES['HATS']: abort(404)
-
 	try: hat_id = int(hat_id)
-	except: return {"error": "Hat not found!"}, 400
+	except: abort(404, "Hat not found!")
 
 	hat = g.db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
-	if not hat: return {"error": "You don't own this hat!"}, 400
+	if not hat: abort(403, "You don't own this hat!")
 
 	hat.equipped = False
 	g.db.add(hat)
@@ -118,17 +113,16 @@ def unequip_hat(v, hat_id):
 @app.get("/hat_owners/<hat_id>")
 @auth_required
 def hat_owners(v, hat_id):
-
 	try: hat_id = int(hat_id)
 	except: abort(400)
 
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 
-	users = [x[1] for x in g.db.query(Hat, User).join(Hat.owners).filter(Hat.hat_id == hat_id).offset(25 * (page - 1)).limit(26).all()]
+	users = [x[1] for x in g.db.query(Hat, User).join(Hat.owners).filter(Hat.hat_id == hat_id).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()]
 
-	next_exists = (len(users) > 25)
-	users = users[:25]
+	next_exists = (len(users) > PAGE_SIZE)
+	users = users[:PAGE_SIZE]
 
 	return render_template("user_cards.html",
 						v=v,

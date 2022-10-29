@@ -34,18 +34,31 @@
 		<div class="d-flex">
 			{% if not app.client_id%}
 
-				<a role="button" class="btn btn-primary ml-auto mr-2" onclick="post_toast(this,'/admin/app/approve/{{app.id}}')">Approve</a>
-				<a role="button" class="btn btn-secondary mr-0" onclick="post_toast(this,'/admin/app/reject/{{app.id}}')">Reject</a> 
+				<button type="button" class="btn btn-primary ml-auto mr-2" onclick="post_toast(this,'/admin/app/approve/{{app.id}}',true)">Approve</button>
+				<button type="button" class="btn btn-secondary mr-0" onclick="post_toast(this,'/admin/app/reject/{{app.id}}',true)">Reject</button> 
 
 			{% else %}
 
-				<a role="button" class="btn btn-primary ml-auto" onclick="post_toast(this,'/admin/app/revoke/{{app.id}}')">Revoke</a>
+				<button type="button" class="btn btn-primary ml-auto" onclick="post_toast(this,'/admin/app/revoke/{{app.id}}'),true">Revoke</button>
 			{% endif %}
 		</div>
 	</div>
 </div>
 
 </div>
+
+<ul class="nav post-nav py-2">
+	<li class="nav-item">
+		<a class="nav-link {% if request.path.endswith('/posts') %} active{% endif %}" href="{{request.path.replace('/posts','/comments')}}">
+			<div>Posts</div>
+		</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link {% if request.path.endswith('/comments') %} active{% endif %}" href="{{request.path.replace('/posts','/comments')}}">
+			<div>Comments</div>
+		</a>
+	</li>
+</ul>
 
 {% if listing %}
 		{% include "submission_listing.html" %}

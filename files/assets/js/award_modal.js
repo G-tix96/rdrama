@@ -86,13 +86,9 @@ function vote(type, id, dir) {
 			}
 		}
 	}
-
-	const xhr = new XMLHttpRequest();
-	xhr.open("POST", "/vote/" + type.replace('-mobile','') + "/" + id + "/" + votedirection);
-	xhr.setRequestHeader('xhr', 'xhr');
-	const form = new FormData()
-	form.append("formkey", formkey());
-	xhr.send(form);
+	
+	const xhr = createXhrWithFormKey("/vote/" + type.replace('-mobile','') + "/" + id + "/" + votedirection);
+	xhr[0].send(xhr[1]);
 }
 
 function pick(kind, canbuy1, canbuy2) {
@@ -111,7 +107,9 @@ function pick(kind, canbuy1, canbuy2) {
 	let ownednum = Number(document.getElementById(`${kind}-owned`).textContent);
 	document.getElementById('giveaward').disabled = (ownednum == 0);
 	document.getElementById('kind').value=kind;
-	try {document.getElementsByClassName('picked')[0].classList.toggle('picked');} catch(e) {console.log(e)}
+	if (document.getElementsByClassName('picked').length > 0) {
+		document.getElementsByClassName('picked')[0].classList.toggle('picked');
+	}
 	document.getElementById(kind).classList.toggle('picked')
 	if (kind == "flairlock") {
 		document.getElementById('notelabel').innerHTML = "New flair:";
@@ -127,49 +125,45 @@ function pick(kind, canbuy1, canbuy2) {
 
 function buy(mb) {
 	const kind = document.getElementById('kind').value;
-	const xhr = new XMLHttpRequest();
 	url = `/buy/${kind}`
 	if (mb) url += "?mb=true"
-	xhr.open("POST", url);
-	xhr.setRequestHeader('xhr', 'xhr');
-	const form = new FormData()
-	form.append("formkey", formkey());
-
+	const xhr = createXhrWithFormKey(url);
 	if(typeof data === 'object' && data !== null) {
 		for(let k of Object.keys(data)) {
 				form.append(k, data[k]);
 		}
 	}
-
-
-	form.append("formkey", formkey());
-	xhr.onload = function() {
+	xhr[0].onload = function() {
 		let data
-		try {data = JSON.parse(xhr.response)}
+		try {data = JSON.parse(xhr[0].response)}
 		catch(e) {console.log(e)}
-		if (xhr.status >= 200 && xhr.status < 300 && data && data["message"]) {
-			document.getElementById('toast-post-success-text2').innerText = data["message"];
-			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success2')).show();
+		success = xhr[0].status >= 200 && xhr[0].status < 300;
+		showToast(success, getMessageFromJsonData(success, data), true);
+		if (success) {
 			document.getElementById('giveaward').disabled=false;
 			let owned = document.getElementById(`${kind}-owned`)
 			let ownednum = Number(owned.textContent);
 			owned.textContent = ownednum + 1
-		} else {
-			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-			if (data && data["error"]) document.getElementById('toast-post-error-text2').innerText = data["error"];
-			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error2')).show();
 		}
 	};
 
-	xhr.send(form);
+	xhr[0].send(xhr[1]);
 
 }
 
 function giveaward(t) {
+	const kind = document.getElementById('kind').value;
 	post_toast_callback(t.dataset.action,
 		{
-		"kind": document.getElementById('kind').value,
+		"kind": kind,
 		"note": document.getElementById('note').value
-		}
+		},
+		(xhr) => {
+			if(xhr.status == 200) {
+				let owned = document.getElementById(`${kind}-owned`)
+				let ownednum = Number(owned.textContent);
+				owned.textContent = ownednum - 1	
+			}
+		}	
 	);
 }

@@ -6,6 +6,7 @@ from files.helpers.sanitize import sanitize
 from files.helpers.const import *
 from files.helpers.alerts import *
 from files.helpers.regex import *
+from files.helpers.actions import *
 from flask_socketio import SocketIO, emit
 from files.__main__ import app, limiter, cache
 from flask import render_template
@@ -78,14 +79,11 @@ def speak(data, v):
 		"time": int(time.time()),
 	}
 	
-	if v.shadowbanned:
+	if v.shadowbanned or not execute_blackjack(v, None, text, "chat"):
 		emit('speak', data)
-	elif blackjack and any(i in text.lower() for i in blackjack.split()):
+	elif ('discord.gg' in text or 'discord.com' in text or 'discordapp.com' in text):
+		# Follows same logic as in users.py:message2/messagereply; TODO: unify?
 		emit('speak', data)
-		v.shadowbanned = 'AutoJanny'
-		if not v.is_banned: v.ban_reason = 'Blackjack'
-		g.db.add(v)
-		send_repeatable_notification(CARP_ID, f"{v.username} has been shadowbanned because of a chat message.")
 	elif recipient:
 		if user_ids_to_socket_ids.get(recipient):
 			recipient_sid = user_ids_to_socket_ids[recipient]

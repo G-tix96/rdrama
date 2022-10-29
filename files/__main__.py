@@ -24,8 +24,10 @@ app.jinja_env.auto_reload = True
 app.jinja_env.add_extension('jinja2.ext.do')
 faulthandler.enable()
 
-app.config['SECRET_KEY'] = environ.get('MASTER_KEY')
-app.config["SERVER_NAME"] = environ.get("SITE").strip()
+SITE = environ.get("SITE").strip()
+
+app.config['SERVER_NAME'] = SITE
+app.config['SECRET_KEY'] = environ.get('SECRET_KEY').strip()
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 3153600
 app.config["SESSION_COOKIE_NAME"] = "session_" + environ.get("SITE_NAME").strip().lower()
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
@@ -35,15 +37,14 @@ app.config["PERMANENT_SESSION_LIFETIME"] = 60 * 60 * 24 * 365
 app.config['SESSION_REFRESH_EACH_REQUEST'] = False
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URL'] = environ.get("DATABASE_URL", "postgresql://postgres@localhost:5432")
+app.config['SQLALCHEMY_DATABASE_URL'] = environ.get("DATABASE_URL").strip()
 
 app.config["CACHE_TYPE"] = "RedisCache"
-app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL", "redis://localhost")
-
+app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL").strip()
 
 app.config['SETTINGS'] = {}
 
-r=redis.Redis(host=environ.get("REDIS_URL", "redis://localhost"), decode_responses=True, ssl_cert_reqs=None)
+r=redis.Redis(host=environ.get("REDIS_URL").strip(), decode_responses=True, ssl_cert_reqs=None)
 
 def get_CF():
 	with app.app_context():
@@ -74,6 +75,8 @@ if not path.isfile(f'/site_settings.json'):
 
 @app.before_request
 def before_request():
+	if SITE == 'marsey.world' and request.path != '/kofi':
+		abort(404)
 
 	g.agent = request.headers.get("User-Agent")
 	if not g.agent and request.path != '/kofi':
@@ -85,8 +88,10 @@ def before_request():
 	with open('/site_settings.json', 'r', encoding='utf_8') as f:
 		app.config['SETTINGS'] = json.load(f)
 
-	if request.host != app.config["SERVER_NAME"]: return {"error":"Unauthorized host provided."}, 401
-	if request.headers.get("CF-Worker"): return {"error":"Cloudflare workers are not allowed to access this website."}, 401
+	if request.host != SITE:
+		return {"error": "Unauthorized host provided"}, 403
+
+	if request.headers.get("CF-Worker"): return {"error": "Cloudflare workers are not allowed to access this website."}, 403
 
 	if not app.config['SETTINGS']['Bots'] and request.headers.get("Authorization"): abort(403)
 
@@ -98,6 +103,10 @@ def before_request():
 	if not request.path: request.path = '/'
 	request.full_path = request.full_path.rstrip('?').rstrip('/')
 	if not request.full_path: request.full_path = '/'
+
+	if not session.get("session_id"):
+		session.permanent = True
+		session["session_id"] = secrets.token_hex(49)
 
 @app.after_request
 def after_request(response):

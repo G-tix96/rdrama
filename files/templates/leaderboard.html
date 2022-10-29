@@ -1,399 +1,61 @@
 {% extends "settings2.html" %}
-
 {% block pagetitle %}Leaderboard{% endblock %}
-
 {% block content %}
 <pre class="d-none d-md-inline-block"></pre>
 <div id="leaderboard-contents" style="text-align: center; margin-bottom: 1.5rem; font-size: 1.2rem;">
-	<a href="#leaderboard-coins">Coins</a> &bull;
-	<a href="#leaderboard-spent">Spent in shop</a> &bull;
-	<a href="#leaderboard-truescore">Truescore</a> &bull;
-	<a href="#leaderboard-followers">Followers</a> &bull;
-	<a href="#leaderboard-posts">Posts</a> &bull;
-	<a href="#leaderboard-comments">Comments</a> &bull;
-	<a href="#leaderboard-awards">Awards</a> &bull;
-	<a href="#leaderboard-badges">Badges</a> &bull;
-	{% if users12 %}<a href="#leaderboard-marseys">Marseys</a> &bull; {% endif %}
-	<a href="#leaderboard-blocked">Blocked</a> &bull;
-	<a href="#leaderboard-owned-hats">Owned hats</a> &bull;
-	<a href="#leaderboard-designed-hats">Designed hats</a>
+	{% for lb in leaderboards %}
+		{% if lb %}
+			<a href="#leaderboard-{{lb.html_id}}">{{lb.header_name}}</a>{% if not loop.last %} &bull;{% endif %}
+		{% endif %}
+	{% endfor %}
 </div>
 
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-coins">Top 25 by coins</a></h5>
-
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>#</th>
-		<th>Name</th>
-		<th>Coins</th>
-	</tr>
-</thead>
-{% for user in users1 %}
-	<tr {% if v.id == user.id %}class="self"{% endif %}>
-		<td>{{loop.index}}</td>
+{% macro format_user_in_table(user, style, position_no, value, user_relative_url) %}
+	{% set value = value | int %}
+	<tr {{style | safe}}>
+		<td>{{position_no}}</td>
 		<td>{% include "user_in_table.html" %}</td>
-		<td>{{"{:,}".format(user.coins)}}</td>
-	</tr>
-{% endfor %}
-{% if pos1 %}
-	<tr style="border-top:2px solid var(--primary)">
-		<td>{{pos1}}</td>
-		<td>
-			{% with user=v %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
-		<td>{{"{:,}".format(v.coins)}}</td>
-	</tr>
-{% endif %}
-</table>
-
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-spent">Top 25 by coins spent in shop</a></h5>
-
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>#</th>
-		<th>Name</th>
-		<th>Coins</th>
-	</tr>
-</thead>
-
-{% for user in users7 %}
-	<tr {% if v.id == user.id %}class="self"{% endif %}>
-		<td>{{loop.index}}</td>
-		<td>{% include "user_in_table.html" %}</td>
-		<td>{{"{:,}".format(user.coins_spent)}}</td>
-	</tr>
-{% endfor %}
-{% if pos7 %}
-	<tr style="border-top:2px solid var(--primary)">
-		<td>{{pos7}}</td>
-		<td>
-			{% with user=v %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
-		<td>{{"{:,}".format(v.coins_spent)}}</td>
-	</tr>
-{% endif %}
-</table>
-
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-truescore">Top 25 by truescore</a></h5>
-
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-	<thead class="bg-primary text-white">
-		<tr>
-			<th>#</th>
-			<th>Name</th>
-			<th>Truescore</th>
-		</tr>
-	</thead>
-	<tbody>
-	{% for user in users10 %}
-		<tr {% if v.id == user.id %}class="self"{% endif %}>
-			<td>{{loop.index}}</td>
-			<td>{% include "user_in_table.html" %}</td>
-			<td>{{"{:,}".format(user.truecoins)}}</td>
-		</tr>
-	{% endfor %}
-	{% if pos10 %}
-		<tr style="border-top:2px solid var(--primary)">
-			<td>{{pos10}}</td>
-			<td>
-				{% with user=v %}
-					{% include "user_in_table.html" %}
-				{% endwith %}
-			</td>
-			<td>{{"{:,}".format(v.truecoins)}}</td>
-		</tr>
-	{% endif %}
-	</tbody>
-</table>
-
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-followers">Top 25 by followers</a></h5>
-
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>#</th>
-		<th>Name</th>
-		<th>Followers</th>
-	</tr>
-</thead>
-{% for user in users2 %}
-	<tr {% if v.id == user.id %}class="self"{% endif %}>
-		<td>{{loop.index}}</td>
-		<td>{% include "user_in_table.html" %}</td>
-		<td><a href="/@{{user.username}}/followers">{{"{:,}".format(user.stored_subscriber_count)}}</a></td>
-	</tr>
-{% endfor %}
-{% if pos2 %}
-	<tr style="border-top:2px solid var(--primary)">
-		<td>{{pos2}}</td>
-		<td>
-			{% with user=v %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
-		<td><a href="/@{{v.username}}/followers">{{"{:,}".format(v.stored_subscriber_count)}}</a></td>
-	</tr>
-{% endif %}
-</table>
-
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-posts">Top 25 by post count</a></h5>
-
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>#</th>
-		<th>Name</th>
-		<th>Posts</th>
-	</tr>
-</thead>
-{% for user in users3 %}
-	<tr {% if v.id == user.id %}class="self"{% endif %}>
-		<td>{{loop.index}}</td>
-		<td>{% include "user_in_table.html" %}</td>
-		<td>{{"{:,}".format(user.post_count)}}</td>
-	</tr>
-{% endfor %}
-{% if pos3 %}
-	<tr style="border-top:2px solid var(--primary)">
-		<td>{{pos3}}</td>
-		<td>
-			{% with user=v %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
-		<td>{{"{:,}".format(v.post_count)}}</td>
-	</tr>
-{% endif %}
-</table>
-
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-comments">Top 25 by comment count</a></h5>
-
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>#</th>
-		<th>Name</th>
-		<th>Comments</th>
-	</tr>
-</thead>
-{% for user in users4 %}
-	<tr {% if v.id == user.id %}class="self"{% endif %}>
-		<td>{{loop.index}}</td>
-		<td>{% include "user_in_table.html" %}</td>
-		<td>{{"{:,}".format(user.comment_count)}}</td>
-	</tr>
-{% endfor %}
-{% if pos4 %}
-	<tr style="border-top:2px solid var(--primary)">
-		<td>{{pos4}}</td>
-		<td>
-			{% with user=v %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
-		<td>{{"{:,}".format(v.comment_count)}}</td>
-	</tr>
-{% endif %}
-</table>
-
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-awards">Top 25 by received awards</a></h5>
-
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>#</th>
-		<th>Name</th>
-		<th>Awards</th>
-	</tr>
-</thead>
-{% for user in users5 %}
-	<tr {% if v.id == user.id %}class="self"{% endif %}>
-		<td>{{loop.index}}</td>
-		<td>{% include "user_in_table.html" %}</td>
-		<td>{{"{:,}".format(user.received_award_count)}}</td>
-	</tr>
-{% endfor %}
-{% if pos5 %}
-	<tr style="border-top:2px solid var(--primary)">
-		<td>{{pos5}}</td>
-		<td>
-			{% with user=v %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
-		<td>{{"{:,}".format(v.received_award_count)}}</td>
-	</tr>
-{% endif %}
-</table>
-
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-badges">Top 25 by badges</a></h5>
-
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-	<thead class="bg-primary text-white">
-		<tr>
-			<th>#</th>
-			<th>Name</th>
-			<th>Badges</th>
-		</tr>
-	</thead>
-	<tbody>
-	{% for user, num in users11 %}
-		<tr {% if v.id == user.id %}class="self"{% endif %}>
-			<td>{{loop.index}}</td>
-			<td>{% include "user_in_table.html" %}</td>
-			<td>{{"{:,}".format(num)}}</td>
-		</tr>
-	{% endfor %}
-	{% if pos11 and (pos11[0] > 25 or not pos11[1]) %}
-		<tr style="border-top:2px solid var(--primary)">
-			<td>{{pos11[0]}}</td>
-			<td>
-				{% with user=v %}
-					{% include "user_in_table.html" %}
-				{% endwith %}
-			</td>
-			<td>{{"{:,}".format(pos11[1])}}</td>
-		</tr>
-	{% endif %}
-	</tbody>
-</table>
-
-
-
-{% if users12 %}
-
-	<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-marseys">Top 25 by Marseys made</a></h5>
-
-	<div class="overflow-x-auto"><table class="table table-striped mb-5">
-		<thead class="bg-primary text-white">
-			<tr>
-				<th>#</th>
-				<th>Name</th>
-				<th>Marseys</th>
-			</tr>
-		</thead>
-		<tbody>
-		{% for user, num in users12 %}
-			<tr {% if v.id == user.id %}class="self"{% endif %}>
-				<td>{{loop.index}}</td>
-				<td>{% include "user_in_table.html" %}</td>
-				<td>{{"{:,}".format(num)}}</td>
-			</tr>
-		{% endfor %}
-		{% if pos12 and (pos12[0] > 25 or not pos12[1]) %}
-			<tr style="border-top:2px solid var(--primary)">
-				<td>{{pos12[0]}}</td>
-				<td>
-					{% with user=v %}
-						{% include "user_in_table.html" %}
-					{% endwith %}
-				</td>
-				<td>{{"{:,}".format(pos12[1])}}</td>
-			</tr>
+		{% if user_relative_url is not none %}
+			<td><a href="/@{{user.username}}/{{user_relative_url}}">{{"{:,}".format(value)}}</a></td>
+		{% else %}
+			<td>{{"{:,}".format(value)}}</td>
 		{% endif %}
-		</tbody>
-	</table>
-{% endif %}
+	</tr>
+{% endmacro %}
 
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-blocked">Top 25 most blocked</a></h5>
-
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>#</th>
-		<th>Name</th>
-		<th>Blocked By</th>
-	</tr>
-</thead>
-{% for user, num in users16 %}
-	<tr {% if v.id == user.id %}class="self"{% endif %}>
-		<td>{{loop.index}}</td>
-		<td>{% include "user_in_table.html" %}</td>
-		<td><a href="/@{{user.username}}/blockers">{{"{:,}".format(num)}}</a></td>
-	</tr>
-{% endfor %}
-{% if pos16 and (pos16[0] > 25 or not pos16[1]) %}
-	<tr style="border-top:2px solid var(--primary)">
-		<td>{{pos16[0]}}</td>
-		<td>
-			{% with user=v %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
-		<td><a href="/@{{v.username}}/blockers">{{"{:,}".format(pos16[1])}}</a></td>
-	</tr>
-{% endif %}
+{% macro leaderboard_table(lb) %}
+<h5 class="font-weight-bolder text-center pt-2 pb-3"><span id="leaderboard-{{lb.html_id}}">Top {{lb.limit}} by {{lb.table_header_name}}</span></h5>
+<div class="overflow-x-auto">
+{# TODO: check at some point if the nesting divs are intentional #}
+<table class="table table-striped mb-5">
+	<thead class="bg-primary text-white">
+		<tr>
+			<th>#</th>
+			<th>Name</th>
+			<th>{{lb.table_column_name}}</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for user in lb.all_users %}
+		{% if v.id == user.id %}
+			{% set style="class=\"self\"" %}
+		{% endif %}
+		{{format_user_in_table(user, style, loop.index, lb.value_func(user), lb.user_relative_url)}}
+	{% endfor %}
+	{% if lb.v_position %}
+		{{format_user_in_table(v, "style=\"border-top:2px solid var(--primary)\"", lb.v_position, lb.v_value, lb.user_relative_url)}}
+	{% endif %}
+	</tbody>
 </table>
+{% endmacro %}
 
-
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-owned-hats">Top 25 by owned hats</a></h5>
-
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>#</th>
-		<th>Name</th>
-		<th>Owned Hats</th>
-	</tr>
-</thead>
-{% for user,num in users17 %}
-	<tr {% if v.id == user.id %}class="self"{% endif %}>
-		<td>{{loop.index}}</td>
-		<td>{% include "user_in_table.html" %}</td>
-		<td>{{"{:,}".format(num)}}</td>
-	</tr>
+{% for lb in leaderboards %}
+	{% if lb %}
+		{{leaderboard_table(lb)}}
+	{% endif %}
 {% endfor %}
-{% if pos17 and (pos17[0] > 25 or not pos17[1]) %}
-	<tr style="border-top:2px solid var(--primary)">
-		<td>{{pos17[0]}}</td>
-		<td>
-			{% with user=v %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
-		<td>{{"{:,}".format(pos17[1])}}</a></td>
-	</tr>
-{% endif %}
-</table>
 
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><a id="leaderboard-designed-hats">Top 25 by designed hats</a></h5>
-
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>#</th>
-		<th>Name</th>
-		<th>Designed Hats</th>
-	</tr>
-</thead>
-{% for user,num in users18 %}
-	<tr {% if v.id == user.id %}class="self"{% endif %}>
-		<td>{{loop.index}}</td>
-		<td>{% include "user_in_table.html" %}</td>
-		<td>{{"{:,}".format(num)}}</td>
-	</tr>
-{% endfor %}
-{% if pos18 and (pos18[0] > 25 or not pos18[1]) %}
-	<tr style="border-top:2px solid var(--primary)">
-		<td>{{pos18[0]}}</td>
-		<td>
-			{% with user=v %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
-		<td>{{"{:,}".format(pos18[1])}}</a></td>
-	</tr>
-{% endif %}
-</table>
-
-
-<a id="leader--top-btn" href="#leaderboard-contents" role="button"
+<a id="leader--top-btn" href="#leaderboard-contents"
 		style="position: fixed; bottom: 5rem; right: 2rem; font-size: 3rem;">
 	<i class="fas fa-arrow-alt-circle-up"></i>
 </a>

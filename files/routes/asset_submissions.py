@@ -1,5 +1,6 @@
 from shutil import move, copyfile
 from os import rename, path
+from typing import Union
 
 from files.__main__ import app, limiter
 from files.helpers.const import *
@@ -9,7 +10,11 @@ from files.helpers.get import *
 from files.helpers.wrappers import *
 from files.routes.static import marsey_list
 
-if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
+if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
+	ASSET_TYPES = (Marsey, HatDef)
+	CAN_APPROVE_ASSETS = (AEVANN_ID, CARP_ID, SNAKES_ID)
+	CAN_UPDATE_ASSETS = (AEVANN_ID, CARP_ID, SNAKES_ID, GEESE_ID, JUSTCOOL_ID)
+
 	@app.get('/asset_submissions/<path:path>')
 	@limiter.exempt
 	def asset_submissions(path):
@@ -38,7 +43,6 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 	@app.post("/submit/marseys")
 	@auth_required
 	def submit_marsey(v):
-
 		file = request.files["image"]
 		name = request.values.get('name').lower().strip()
 		tags = request.values.get('tags').lower().strip()
@@ -91,32 +95,38 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 
 		return render_template("submit_marseys.html", v=v, marseys=marseys, msg=f"'{name}' submitted successfully!")
 
+	def verify_permissions_and_get_asset(cls, asset_type:str, v:User, name:str, make_lower=False):
+		if cls not in ASSET_TYPES: raise Exception("not a valid asset type")
+		if AEVANN_ID and v.id not in CAN_APPROVE_ASSETS:
+			abort(403, f"Only Carp can approve {asset_type}!")
+		name = name.strip()
+		if make_lower: name = name.lower()
+		asset = None
+		if cls == HatDef:
+			asset = g.db.query(cls).filter_by(name=name).one_or_none()
+		else:
+			asset = g.db.get(cls, name)
+		if not asset:
+			abort(404, f"This {asset} '{name}' doesn't exist!")
+		return asset
 
 	@app.post("/admin/approve/marsey/<name>")
 	@admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_MARSEYS'])
 	def approve_marsey(v, name):
-		if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, SNAKES_ID):
-			return {"error": "Only Carp can approve marseys!"}, 403
-
-		name = name.lower().strip()
-
-		marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
-		if not marsey:
-			return {"error": f"This marsey '{name}' doesn't exist!"}, 404
-
+		marsey = verify_permissions_and_get_asset(Marsey, "marsey", v, name, True)
 		tags = request.values.get('tags').lower().strip()
 		if not tags:
-			return {"error": "You need to include tags!"}, 400
+			abort(400, "You need to include tags!")
 
 		new_name = request.values.get('name').lower().strip()
 		if not new_name:
-			return {"error": "You need to include name!"}, 400
+			abort(400, "You need to include name!")
 
 
 		if not marsey_regex.fullmatch(new_name):
-			return {"error": "Invalid name!"}, 400
+			abort(400, "Invalid name!")
 		if not tags_regex.fullmatch(tags):
-			return {"error": "Invalid tags!"}, 400
+			abort(400, "Invalid tags!")
 
 
 		marsey.name = new_name
@@ -132,9 +142,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 			badge_grant(badge_id=16, user=author)
 		else:
 			badge_grant(badge_id=17, user=author)
-
-		requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
-			data=f'{{"files": ["https://{SITE}/e/{marsey.name}.webp"]}}', timeout=5)
+		purge_files_in_cache(f"https://{SITE}/e/{marsey.name}/webp")
 		cache.delete_memoized(marsey_list)
 
 
@@ -147,42 +155,48 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 
 		author.coins += 250
 		g.db.add(author)
-		msg = f"@{v.username} has approved a marsey you made: :{marsey.name}:\nYou have received 250 coins as a reward!"
-		send_repeatable_notification(author.id, msg)
 
-		if v.id not in (author.id, marsey.submitter_id):
-			msg = f"@{v.username} has approved a marsey you submitted: :{marsey.name}:"
+		if v.id != author.id:
+			msg = f"@{v.username} (Admin) has approved a marsey you made: :{marsey.name}:\nYou have received 250 coins as a reward!"
+			send_repeatable_notification(author.id, msg)
+
+		if v.id != marsey.submitter_id and author.id != marsey.submitter_id:
+			msg = f"@{v.username} (Admin) has approved a marsey you submitted: :{marsey.name}:"
 			send_repeatable_notification(marsey.submitter_id, msg)
 
 		marsey.submitter_id = None
 
 		return {"message": f"'{marsey.name}' approved!"}
 
+	def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
+		if cls not in ASSET_TYPES: raise Exception("not a valid asset type")
+		should_make_lower = cls == Marsey
+		if should_make_lower: name = name.lower()
+		name = name.strip()
+		if not name:
+			abort(400, f"You need to specify a {type_name}!")
+		asset = None
+		if cls == HatDef:
+			asset = g.db.query(cls).filter_by(name=name).one_or_none()
+		else:
+			asset = g.db.get(cls, name)
+		if not asset:
+			abort(404, f"This {type_name} '{name}' doesn't exist!")
+		if v.id not in (asset.submitter_id, AEVANN_ID, CARP_ID):
+			abort(403, f"Only Carp can remove {type_name}s!")
+		name = asset.name
+		if v.id != asset.submitter_id:
+			msg = f"@{v.username} has rejected a {type_name} you submitted: `'{name}'`"
+			send_repeatable_notification(asset.submitter_id, msg)
+		g.db.delete(asset)
+		os.remove(f"/asset_submissions/{type_name}s/{name}.webp")
+		os.remove(f"/asset_submissions/{type_name}s/{name}")
+		return {"message": f"'{name}' removed!"}
 
 	@app.post("/remove/marsey/<name>")
 	@auth_required
 	def remove_marsey(v, name):
-		name = name.lower().strip()
-
-		marsey = g.db.query(Marsey).filter_by(name=name).one_or_none()
-		if not marsey:
-			return {"error": f"This marsey '{name}' doesn't exist!"}, 404
-
-		if v.id not in (marsey.submitter_id, AEVANN_ID, CARP_ID):
-			return {"error": "Only Carp can remove marseys!"}, 403
-
-		if v.id != marsey.submitter_id:
-			msg = f"@{v.username} has rejected a marsey you submitted: `'{marsey.name}'`"
-			send_repeatable_notification(marsey.submitter_id, msg)
-
-		g.db.delete(marsey)
-		os.remove(f"/asset_submissions/marseys/{marsey.name}.webp")
-		os.remove(f"/asset_submissions/marseys/{marsey.name}")
-
-		return {"message": f"'{marsey.name}' removed!"}
-
-
-
+		return remove_asset(Marsey, "marsey", v, name)
 
 	@app.get("/submit/hats")
 	@auth_required
@@ -195,7 +209,6 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 	@app.post("/submit/hats")
 	@auth_required
 	def submit_hat(v):
-
 		name = request.values.get('name').strip()
 		description = request.values.get('description').strip()
 		username = request.values.get('author').strip()
@@ -229,17 +242,17 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 		highquality = f'/asset_submissions/hats/{name}'
 		file.save(highquality)
 
-		i = Image.open(highquality)
-		if i.width > 100 or i.height > 130:
-			os.remove(highquality)
-			return error("Images must be 100x130")
+		with Image.open(highquality) as i:
+			if i.width > 100 or i.height > 130:
+				os.remove(highquality)
+				return error("Images must be 100x130")
 
 		if len(list(Iterator(i))) > 1: price = 1000
 		else: price = 500
 
 		filename = f'/asset_submissions/hats/{name}.webp'
 		copyfile(highquality, filename)
-		process_image(filename)
+		process_image(filename, resize=100)
 
 		hat = HatDef(name=name, author_id=author.id, description=description, price=price, submitter_id=v.id)
 		g.db.add(hat)
@@ -254,30 +267,20 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 	@app.post("/admin/approve/hat/<name>")
 	@admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_HATS'])
 	def approve_hat(v, name):
-		if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, SNAKES_ID):
-			return {"error": "Only Carp can approve hats!"}, 403
-
-		name = name.strip()
-
-		hat = g.db.query(HatDef).filter_by(name=name).one_or_none()
-		if not hat:
-			return {"error": f"This hat '{name}' doesn't exist!"}, 404
-
+		hat = verify_permissions_and_get_asset(HatDef, "hat", v, name, False)
 		description = request.values.get('description').strip()
-		if not description:
-			return {"error": "You need to include description!"}, 400
+		if not description: abort(400, "You need to include a description!")
 
 		new_name = request.values.get('name').strip()
-		if not new_name:
-			return {"error": "You need to include name!"}, 400
+		if not new_name: abort(400, "You need to include a name!")
+		if not hat_regex.fullmatch(new_name): abort(400, "Invalid name!")
+		if not description_regex.fullmatch(description): abort(400, "Invalid description!")
 
-		if not hat_regex.fullmatch(new_name):
-			return {"error": "Invalid name!"}, 400
-
-		if not description_regex.fullmatch(description):
-			return {"error": "Invalid description!"}, 400
-
-		hat.price = int(request.values.get('price'))
+		try:
+			hat.price = int(request.values.get('price'))
+			if hat.price < 0: raise ValueError("Invalid hat price")
+		except:
+			abort(400, "Invalid hat price")
 		hat.name = new_name
 		hat.description = description
 		g.db.add(hat)
@@ -304,9 +307,12 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 		g.db.add(hat_copy)
 
 
+		if v.id != author.id:
+			msg = f"@{v.username} (Admin) has approved a hat you made: '{hat.name}'"
+			send_repeatable_notification(author.id, msg)
 
-		if v.id != hat.submitter_id:
-			msg = f"@{v.username} has approved a hat you submitted: '{hat.name}'"
+		if v.id != hat.submitter_id and author.id != hat.submitter_id:
+			msg = f"@{v.username} (Admin) has approved a hat you submitted: '{hat.name}'"
 			send_repeatable_notification(hat.submitter_id, msg)
 
 		hat.submitter_id = None
@@ -324,94 +330,87 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 	@app.post("/remove/hat/<name>")
 	@auth_required
 	def remove_hat(v, name):
-		name = name.strip()
-
-		hat = g.db.query(HatDef).filter_by(name=name).one_or_none()
-		if not hat:
-			return {"error": f"This hat '{name}' doesn't exist!"}, 404
-
-		if v.id not in (hat.submitter_id, AEVANN_ID, CARP_ID):
-			return {"error": "Only Carp can remove hats!"}, 403
-
-		if v.id != hat.submitter_id:
-			msg = f"@{v.username} has rejected a hat you submitted: `'{hat.name}'`"
-			send_repeatable_notification(hat.submitter_id, msg)
-
-		g.db.delete(hat)
-		os.remove(f"/asset_submissions/hats/{hat.name}.webp")
-		os.remove(f"/asset_submissions/hats/{hat.name}")
-
-		return {"message": f"'{hat.name}' removed!"}
-
-
+		return remove_asset(HatDef, 'hat', v, name)
 
 	@app.get("/admin/update/marseys")
 	@admin_level_required(PERMS['UPDATE_MARSEYS'])
 	def update_marseys(v):
-		if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, GEESE_ID, SNAKES_ID):
+		if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
 			abort(403)
-
-		return render_template("update_assets.html", v=v, type="Marsey")
+		name = request.values.get('name')
+		tags = None
+		error = None
+		if name:
+			marsey = g.db.get(Marsey, name)
+			if marsey:
+				tags = marsey.tags
+			else:
+				name = None
+				error = "A marsey with this name doesn't exist!"
+		return render_template("update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
 
 
 	@app.post("/admin/update/marseys")
 	@admin_level_required(PERMS['UPDATE_MARSEYS'])
 	def update_marsey(v):
-		if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, GEESE_ID, SNAKES_ID):
+		if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
 			abort(403)
 
 		file = request.files["image"]
 		name = request.values.get('name').lower().strip()
+		tags = request.values.get('tags').lower().strip()
 
 		def error(error):
-			return render_template("update_assets.html", v=v, error=error, type="Marsey")
-
-		if request.headers.get("cf-ipcountry") == "T1":
-			return error("Image uploads are not allowed through TOR.")
-
-		if not file or not file.content_type.startswith('image/'):
-			return error("You need to submit an image!")
+			return render_template("update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
 
 		if not marsey_regex.fullmatch(name):
 			return error("Invalid name!")
 
-		existing = g.db.query(Marsey.name).filter_by(name=name).one_or_none()
+		existing = g.db.get(Marsey, name)
 		if not existing:
 			return error("A marsey with this name doesn't exist!")
 
-		for x in ('png','jpeg','webp','gif'):
-			if path.isfile(f'/asset_submissions/marseys/original/{name}.{x}'):
-				os.remove(f'/asset_submissions/marseys/original/{name}.{x}')
+		if file:
+			if request.headers.get("cf-ipcountry") == "T1":
+				return error("Image uploads are not allowed through TOR.")
+			if not file.content_type.startswith('image/'):
+				return error("You need to submit an image!")
+			
+			for x in ('png','jpeg','webp','gif'):
+				if path.isfile(f'/asset_submissions/marseys/original/{name}.{x}'):
+					os.remove(f'/asset_submissions/marseys/original/{name}.{x}')
 
-		highquality = f"/asset_submissions/marseys/{name}"
-		file.save(highquality)
-		with Image.open(highquality) as i:
-			format = i.format.lower()
-		new_path = f'/asset_submissions/marseys/original/{name}.{format}'
-		rename(highquality, new_path)
+			highquality = f"/asset_submissions/marseys/{name}"
+			file.save(highquality)
+			with Image.open(highquality) as i:
+				format = i.format.lower()
+			new_path = f'/asset_submissions/marseys/original/{name}.{format}'
+			rename(highquality, new_path)
 
-		filename = f"files/assets/images/emojis/{name}.webp"
-		copyfile(new_path, filename)
-		process_image(filename, resize=200, trim=True)
-
-		requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
-			data=f'{{"files": ["https://{SITE}/e/{name}.webp", "https://{SITE}/assets/images/emojis/{name}.webp", "https://{SITE}/asset_submissions/marseys/original/{name}.{format}"]}}', timeout=5)
+			filename = f"files/assets/images/emojis/{name}.webp"
+			copyfile(new_path, filename)
+			process_image(filename, resize=200, trim=True)
+			purge_files_in_cache([f"https://{SITE}/e/{name}.webp", f"https://{SITE}/assets/images/emojis/{name}.webp", f"https://{SITE}/asset_submissions/marseys/original/{name}.{format}"])
+		
+		if tags and existing.tags != tags:
+			existing.tags = tags
+			g.db.add(existing)
+		elif not file:
+			return error("You need to update this marsey!")
 
 		ma = ModAction(
 			kind="update_marsey",
 			user_id=v.id,
-			_note=name
+			_note=f'<a href="/e/{name}.webp">{name}</a>'
 		)
 		g.db.add(ma)
 
-		return render_template("update_assets.html", v=v, msg=f"'{name}' updated successfully!", type="Marsey")
-
-
+		return render_template("update_assets.html", v=v, msg=f"'{name}' updated successfully!", name=name, tags=tags, type="Marsey")
 
 	@app.get("/admin/update/hats")
 	@admin_level_required(PERMS['UPDATE_HATS'])
 	def update_hats(v):
-		if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, GEESE_ID, SNAKES_ID):
+		if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
 			abort(403)
 
 		return render_template("update_assets.html", v=v, type="Hat")
@@ -461,15 +460,12 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.co'):
 
 		filename = f"files/assets/images/hats/{name}.webp"
 		copyfile(new_path, filename)
-		process_image(filename)
-
-		requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
-			data=f'{{"files": ["https://{SITE}/i/hats/{name}.webp", "https://{SITE}/assets/images/hats/{name}.webp", "https://{SITE}/asset_submissions/hats/original/{name}.{format}"]}}', timeout=5)
-
+		process_image(filename, resize=100)
+		purge_files_in_cache([f"https://{SITE}/i/hats/{name}.webp", f"https://{SITE}/assets/images/hats/{name}.webp", f"https://{SITE}/asset_submissions/hats/original/{name}.{format}"])
 		ma = ModAction(
 			kind="update_hat",
 			user_id=v.id,
-			_note=name
+			_note=f'<a href="/i/hats/{name}.webp">{name}</a>'
 		)
 		g.db.add(ma)
 

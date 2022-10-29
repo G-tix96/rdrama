@@ -6,6 +6,7 @@ from files.helpers.lazy import lazy
 from copy import deepcopy
 from files.helpers.const import *
 from files.helpers.regex import censor_slurs
+from files.helpers.sorting_and_time import make_age_string
 
 class ModAction(Base):
 	__tablename__ = "modactions"
@@ -32,37 +33,10 @@ class ModAction(Base):
 	@property
 	@lazy
 	def age_string(self):
-
-		age = int(time.time()) - self.created_utc
-
-		if age < 60:
-			return "just now"
-		elif age < 3600:
-			minutes = int(age / 60)
-			return f"{minutes}m ago"
-		elif age < 86400:
-			hours = int(age / 3600)
-			return f"{hours}hr ago"
-		elif age < 2678400:
-			days = int(age / 86400)
-			return f"{days}d ago"
-
-		now = time.gmtime()
-		ctd = time.gmtime(self.created_utc)
-
-		months = now.tm_mon - ctd.tm_mon + 12 * (now.tm_year - ctd.tm_year)
-		if now.tm_mday < ctd.tm_mday:
-			months -= 1
-
-		if months < 12:
-			return f"{months}mo ago"
-		else:
-			years = int(months / 12)
-			return f"{years}yr ago"
+		return make_age_string(self.created_utc)
 
 	@property
 	def note(self):
-
 		if self.kind=="ban_user":
 			if self.target_post: return f'for <a href="{self.target_post.permalink}">post</a>'
 			elif self.target_comment_id: return f'for <a href="/comment/{self.target_comment_id}">comment</a>'
@@ -73,11 +47,8 @@ class ModAction(Base):
 	@property
 	@lazy
 	def string(self):
-
 		output = ACTIONTYPES[self.kind]["str"].format(self=self, cc=CC_TITLE)
-
 		if self.note: output += f" <i>({self.note})</i>"
-
 		return output
 
 	@property
@@ -416,7 +387,7 @@ ACTIONTYPES = {
 		"color": 'bg-success'
 	},
 	'update_marsey': {
-		"str": 'updated marsey image', 
+		"str": 'updated marsey', 
 		"icon": 'fa-cat', 
 		"color": 'bg-success'
 	},

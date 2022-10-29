@@ -9,15 +9,11 @@ from flask import request
 import tldextract
 from os import path
 
-
 SITE = environ.get("SITE").strip()
 SITE_NAME = environ.get("SITE_NAME").strip()
-MASTER_KEY = environ.get("MASTER_KEY").strip()
+SECRET_KEY = environ.get("SECRET_KEY").strip()
 PROXY_URL = environ.get("PROXY_URL").strip()
 GIPHY_KEY = environ.get('GIPHY_KEY').strip()
-DISCORD_SERVER_ID = environ.get("DISCORD_SERVER_ID").strip()
-DISCORD_CLIENT_ID = environ.get("DISCORD_CLIENT_ID").strip()
-DISCORD_CLIENT_SECRET = environ.get("DISCORD_CLIENT_SECRET").strip()
 DISCORD_BOT_TOKEN = environ.get("DISCORD_BOT_TOKEN").strip()
 HCAPTCHA_SITEKEY = environ.get("HCAPTCHA_SITEKEY").strip()
 HCAPTCHA_SECRET = environ.get("HCAPTCHA_SECRET").strip()
@@ -44,6 +40,7 @@ MAILGUN_KEY = environ.get("MAILGUN_KEY").strip()
 DESCRIPTION = environ.get("DESCRIPTION").strip()
 CF_KEY = environ.get("CF_KEY").strip()
 CF_ZONE = environ.get("CF_ZONE").strip()
+TELEGRAM_LINK = environ.get("TELEGRAM_LINK").strip()
 
 GLOBAL = environ.get("GLOBAL", "").strip()
 blackjack = environ.get("BLACKJACK", "").strip()
@@ -51,12 +48,17 @@ FP = environ.get("FP", "").strip()
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
 KOFI_LINK = environ.get("KOFI_LINK", "").strip()
 
+PUSHER_ID_CSP = ""
+if PUSHER_ID != "blahblahblah":
+	PUSHER_ID_CSP = f" {PUSHER_ID}.pushnotifications.pusher.com"
+CONTENT_SECURITY_POLICY_DEFAULT = "script-src 'self' 'unsafe-inline' ajax.cloudflare.com; connect-src 'self'; object-src 'none';"
+CONTENT_SECURITY_POLICY_HOME = f"script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' tls-user1.fpapi.io api.fpjs.io{PUSHER_ID_CSP}; object-src 'none';"
 
 if SITE == "localhost": SITE_FULL = 'http://' + SITE
 else: SITE_FULL = 'https://' + SITE
 
 
-if SITE == 'pcmemes.net': CC = "SPLASH MOUNTAIN"
+if SITE_NAME == 'PCM': CC = "SPLASH MOUNTAIN"
 else: CC = "COUNTRY CLUB"
 CC_TITLE = CC.title()
 
@@ -94,7 +96,6 @@ SLURS = {
 	"tranny": '<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">',
 	"troon": '<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">',
 	"dyke": "cute lesbian",
-	"gook": "superior IQ Asian",
 	"kike": "jewish chad",
 	"daisy's destruction": "Cars 2",
 	"daisys destruction": "Cars 2",
@@ -108,30 +109,21 @@ if SITE_NAME == 'rDrama':
 		"pedophile": "libertarian",
 		"kill yourself": "keep yourself safe",
 		"steve akins": "penny verity oaken",
-		"nonewnormal": "HorseDewormerAddicts",
 		"latinos": "latinx",
 		"latino": "latinx",
 		"latinas": "latinx",
 		"latina": "latinx",
 		"hispanics": "latinx",
 		"hispanic": "latinx",
-		"lavon affair": "Lavon Misunderstanding",
-		"shylock": "Israeli friend",
 		"i hate marsey": "i love marsey",
-		"dancing israelis": "i love Israel",
 		"sodomite": "total dreamboat",
 		"pajeet": "sexy Indian dude",
-		"tenant": "renthog",
 		"renter": "rentoid",
 		"autistic": "neurodivergent",
 		"i hate carp": "i love Carp",
 		"gamer": "g*mer",
 		"journalist": "journ*list",
 		"journalism": "journ*lism",
-		"wuhan flu": "SARS-CoV-2 syndemic",
-		"china flu": "SARS-CoV-2 syndemic",
-		"china virus": "SARS-CoV-2 syndemic",
-		"kung flu": "SARS-CoV-2 syndemic",
 		"elon musk": "rocket daddy",
 		"fake and gay": "fake and straight",
 		" rapist": " male feminist",
@@ -156,13 +148,16 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 <p>Don't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards the trans community. Feel free to resubmit your {type} with <code>{AGENDAPOSTER_PHRASE}</code> included.</p>
 <p><em>This is an automated message; if you need help, you can message us <a href="/contact">here</a>.</em></p>"""
 
+DISCORD_CHANGELOG_CHANNEL_IDS = [1022232469606498324]
+WPD_CHANNEL_ID = 1013990963846332456
+PIN_AWARD_TEXT = " (pin award)"
 
 ################################################################################
 ### SITE SPECIFIC CONSTANTS
 ################################################################################
 
 PERMS = { # Minimum admin_level to perform action.
-	'ADMIN_ADD': 3, # note: explicitly disabled on rDrama
+	'ADMIN_ADD': 3,
 	'ADMIN_REMOVE': 3,
 	'ADMIN_ADD_PERM_LEVEL': 2, # permission level given when user added via site
 	'ADMIN_ACTIONS_REVERT': 3,
@@ -170,15 +165,17 @@ PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_HOME_VISIBLE': 2,
 	'DOMAINS_BAN': 3,
 	'HOLE_CREATE': 0,
-	'HOLE_GLOBAL_MODERATION': 3,
+	'HOLE_GLOBAL_MODERATION': 4,
 	'FLAGS_REMOVE': 2,
 	'VOTES_VISIBLE': 0,
 	'USER_BLOCKS_VISIBLE': 0,
 	'USER_FOLLOWS_VISIBLE': 0,
 	'USER_VOTERS_VISIBLE': 0,
+	'POST_COMMENT_INFINITE_PINGS': 1,
 	'POST_COMMENT_MODERATION': 2,
 	'POST_COMMENT_DISTINGUISH': 1,
 	'POST_COMMENT_MODERATION_TOOLS_VISIBLE': 2, # note: does not affect API at all
+	'POST_BYPASS_REPOST_CHECKING': 1,
 	'POST_EDITING': 3,
 	'USER_BADGES': 2,
 	'USER_BAN': 2,
@@ -193,7 +190,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'POST_TO_POLL_THREAD': 2,
 	'POST_BETS': 3,
 	'POST_BETS_DISTRIBUTE': 3, # probably should be the same as POST_BETS but w/e
-	'BYPASS_PIN_LIMIT': 3,
+	'BYPASS_PIN_LIMIT': 2,
 	'VIEW_PENDING_SUBMITTED_MARSEYS': 3,
 	'VIEW_PENDING_SUBMITTED_HATS': 3,
 	'MODERATE_PENDING_SUBMITTED_MARSEYS': 3, # note: there is an extra check so that only """carp""" can approve them
@@ -217,12 +214,15 @@ PERMS = { # Minimum admin_level to perform action.
 	'VIEW_PATRONS': 3, # note: extra check for Aevann, carp, or snakes
 	'VIEW_VOTE_BUTTONS_ON_USER_PAGE': 2,
 	'PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES': 3, # note: explicitly disabled on rDrama
+	'SITE_BYPASS_READ_ONLY_MODE': 1,
 	'SITE_SETTINGS': 3,
 	'SITE_SETTINGS_SIDEBARS_BANNERS_BADGES': 3,
 	'SITE_SETTINGS_SNAPPY_QUOTES': 3,
 	'SITE_SETTINGS_UNDER_ATTACK': 3,
 	'SITE_CACHE_PURGE_CDN': 3,
 	'SITE_CACHE_DUMP_INTERNAL': 2,
+	'SITE_WARN_ON_INVALID_AUTH': 1,
+	'NOTIFICATIONS_ADMIN_PING': 2,
 	'NOTIFICATIONS_HOLE_INACTIVITY_DELETION': 2,
 	'NOTIFICATIONS_HOLE_CREATION': 2,
 	'NOTIFICATIONS_FROM_SHADOWBANNED_USERS': 3,
@@ -256,11 +256,73 @@ FEATURES = {
 	'PATRON_ICONS': False,
 }
 
+WERKZEUG_ERROR_DESCRIPTIONS = {
+	400: "The browser (or proxy) sent a request that this server could not understand.",
+	401: "The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required.",
+	403: "You don't have the permission to access the requested resource. It is either read-protected or not readable by the server.",
+	404: "The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.",
+	405: "The method is not allowed for the requested URL.",
+	406: "The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.",
+	409: "A conflict happened while processing the request. The resource might have been modified while the request was being processed.",
+	413: "The data value transmitted exceeds the capacity limit.",
+	414: "The length of the requested URL exceeds the capacity limit for this server. The request cannot be processed.",
+	415: "The server does not support the media type transmitted in the request.",
+	417: "The server could not meet the requirements of the Expect header",
+	418: "This server is a teapot, not a coffee machine",
+	429: "This user has exceeded an allotted request count. Try again later.",
+	500: "The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.",
+}
+
+ERROR_TITLES = {
+	400: "Bad Request",
+	401: "Unauthorized",
+	403: "Forbidden",
+	404: "Not Found",
+	405: "Method Not Allowed",
+	406: "Too Many Pings",
+	409: "Conflict",
+	413: "Payload Too Large",
+	415: "Unsupported Media Type",
+	418: "I'm a teapot",
+	429: "Too Many Requests",
+	500: "Internal Server Error",
+}
+
+ERROR_MSGS = {
+	400: "That request was bad and you should feel bad.",
+	401: "What you're trying to do requires an account. I think. The original error message said something about a castle and I hated that.",
+	403: "YOU AREN'T WELCOME HERE GO AWAY",
+	404: "Someone typed something wrong and it was probably you, please do better.",
+	405: "idk how anyone gets this error but if you see this, remember to follow @carpathianflorist<br>the original error text here talked about internet gremlins and wtf",
+	406: "Max limit is 5 for comments and 50 for posts",
+	409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do. So maybe like... don't try and do that? Sorry not sorry",
+	413: "That's a heckin' chonker of a file! Please make it smaller or maybe like upload it somewhere else idk",
+	415: "Please upload only Image, Video, or Audio files!",
+	418: "this really shouldn't happen now that we autoconvert webm files but if it does there's a cool teapot marsey so there's that",
+	429: "go spam somewhere else nerd",
+	500: "Hiiiii it's carp! I think this error means that there's a timeout error. And I think that means something took too long to load so it decided not to work at all. If you keep seeing this on the same page <I>but not other pages</I>, then something is probably wrong with that specific function. It may not be called a function, but that sounds right to me. Anyway, ping me and I'll whine to someone smarter to fix it. Don't bother them. Thanks ily &lt;3",
+}
+
+ERROR_MARSEYS = {
+	400: "marseybrainlet",
+	401: "marseydead",
+	403: "marseytroll",
+	404: "marseyconfused",
+	405: "marseyretard",
+	406: "marseyrage",
+	409: "marseynoyou",
+	413: "marseychonker2",
+	415: "marseydetective",
+	418: "marseytea",
+	429: "marseyrentfree",
+	500: "marseycarp3",
+}
+
 EMOJI_MARSEYS = True
 EMOJI_SRCS = ['files/assets/emojis.json']
 
 PIN_LIMIT = 3
-POST_RATE_LIMIT = '1/second;2/minute;10/hour;50/day'
+POST_RATE_LIMIT = '1/second;10/hour;50/day'
 POST_TITLE_LENGTH_LIMIT = 500 # do not make larger than 500 without altering the table
 POST_TITLE_HTML_LENGTH_LIMIT = 1500 # do not make larger than 1500 without altering the table
 POST_BODY_LENGTH_LIMIT = 20000 # do not make larger than 20000 without altering the table
@@ -269,10 +331,13 @@ COMMENT_BODY_LENGTH_LIMIT = 10000 # do not make larger than 10000 characters wit
 COMMENT_BODY_HTML_LENGTH_LIMIT = 20000 # do not make larger than 20000 characters without altering the table
 COMMENT_MAX_DEPTH = 200
 TRANSFER_MESSAGE_LENGTH_LIMIT = 200 # do not make larger than 10000 characters (comment limit) without altering the table
+MIN_REPOST_CHECK_URL_LENGTH = 9 # also change the constant in checkRepost() of submit.js
+ADMIN_PING_TRUESCORE_MINIMUM = 500
 
 LOGGEDIN_ACTIVE_TIME = 15 * 60
 PFP_DEFAULT_MARSEY = True
 NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
+COMMENT_SPAM_LENGTH_THRESHOLD = 50
 
 HOLE_NAME = 'hole'
 HOLE_STYLE_FLAIR = False
@@ -307,13 +372,12 @@ DAD_ID = 0
 MOM_ID = 0
 DONGER_ID = 0
 GEESE_ID = 0
+BLACKJACKBTZ_ID = 0
 
 POLL_THREAD = 0
 POLL_BET_COINS = 200
 WELCOME_MSG = f"Welcome to {SITE_NAME}!"
-ROLES={}
 
-CASINO_ENABLED = True
 LOTTERY_TICKET_COST = 12
 LOTTERY_SINK_RATE = 3
 LOTTERY_DURATION = 60 * 60 * 24 * 7
@@ -323,16 +387,30 @@ BANNER_THREAD = 0
 BADGE_THREAD = 0
 SNAPPY_THREAD = 0
 GIFT_NOTIF_ID = 5
+SIGNUP_FOLLOW_ID = 0
+NOTIFICATION_THREAD = 1
+
+MAX_IMAGE_SIZE_BANNER_RESIZED_KB = 500
+MAX_IMAGE_AUDIO_SIZE_MB = 8
+MAX_IMAGE_AUDIO_SIZE_MB_PATRON = 16
+MAX_VIDEO_SIZE_MB = 32
+MAX_VIDEO_SIZE_MB_PATRON = 64
+
+ANTISPAM_BYPASS_IDS = ()
+
+PAGE_SIZE = 25
+LEADERBOARD_LIMIT = PAGE_SIZE
 
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
-	PERMS['ADMIN_ADD_PERM_LEVEL'] = 0 # extra check here to disallow adding admins on site
+	PERMS['ADMIN_ADD'] = 4
 
 	SIDEBAR_THREAD = 37696
 	BANNER_THREAD = 37697
 	BADGE_THREAD = 37833
 	SNAPPY_THREAD = 37749
+	NOTIFICATION_THREAD = 6489
 
 	HOLE_COST = 50000
 	HOLE_INACTIVITY_DELETION = True
@@ -363,27 +441,20 @@ if SITE == 'rdrama.net':
 	MOM_ID = 4588
 	DONGER_ID = 541
 	GEESE_ID = 1710
+	BLACKJACKBTZ_ID = 12732
+
+	ANTISPAM_BYPASS_IDS = (1703, 13427)
 
 	GIFT_NOTIF_ID = CARP_ID
 
 	POLL_THREAD = 79285
 
-	WELCOME_MSG = "Hi there! It's me, your soon-to-be favorite rDrama user @carpathianflorist here to give you a brief rundown on some of the sick features we have here. You'll probably want to start by following me, though. So go ahead and click my name and then smash that Follow button. This is actually really important, so go on. Hurry.\n\nThanks!\n\nNext up: If you're a member of the media, similarly just shoot me a DM and I'll set about verifying you and then we can take care of your sad journalism stuff.\n\n**FOR EVERYONE ELSE**\n\n Begin by navigating to [the settings page](/settings/profile) (we'll be prettying this up so it's less convoluted soon, don't worry) and getting some basic customization done.\n\n### Themes\n\nDefinitely change your theme right away, the default one (Midnight) is pretty enough, but why not use something *exotic* like Win98, or *flashy* like Tron? Even Coffee is super tasteful and way more fun than the default. More themes to come when we get around to it!\n\n### Avatar/pfp\n\nYou'll want to set this pretty soon. Set the banner too while you're at it. Your profile is important!\n\n### Flairs\n\nSince you're already on the settings page, you may as well set a flair, too. As with your username, you can - obviously - choose the color of this, either with a hex value or just from the preset colors. And also like your username, you can change this at any time. [Paypigs](https://marsey1.gumroad.com/l/rdrama) can even further relive the glory days of 90s-00s internet and set obnoxious signatures.\n\n### PROFILE ANTHEMS\n\nSpeaking of profiles, hey, remember MySpace? Do you miss autoplaying music assaulting your ears every time you visited a friend's page? Yeah, we brought that back. Enter a YouTube URL, wait a few seconds for it to process, and then BAM! you've got a profile anthem which people cannot mute. Unless they spend 20,000 dramacoin in the shop for a mute button. Which you can then remove from your profile by spending 40,000 dramacoin on an unmuteable anthem. Get fucked poors!\n\n### Dramacoin?\n\nDramacoin is basically our take on the karma system. Except unlike the karma system, it's not gay and boring and stupid and useless. Dramacoin can be spent at [Marsey's Dramacoin Emporium](/shop) on upgrades to your user experience (many more coming than what's already listed there), and best of all on tremendously annoying awards to fuck with your fellow dramautists. We're always adding more, so check back regularly in case you happen to miss one of the announcement posts.\n\nLike karma, dramacoin is obtained by getting upvotes on your threads and comments. *Unlike* karma, it's also obtained by getting downvotes on your threads and comments. Downvotes don't really do anything here - they pay the same amount of dramacoin and they increase thread/comment ranking just the same as an upvote. You just use them to express petty disapproval and hopefully start a fight. Because all votes are visible here. To hell with your anonymity.\n\nDramacoin can also be traded amongst users from their profiles. Note that there is a 3% transaction fee.\n\n### Badges\n\nRemember all those neat little metallic icons you saw on my profile when you were following me? If not, scroll back up and go have a look. And doublecheck to make sure you pressed the Follow button. Anyway, those are badges. You earn them by doing a variety of things. Some of them even offer benefits, like discounts at the shop. A [complete list of badges and their requirements can be found here](/badges), though I add more pretty regularly, so keep an eye on the [changelog](/h/changelog).\n\n### Other stuff\n\nWe're always adding new features, and we take a fun-first approach to development. If you have a suggestion for something that would be fun, funny, annoying - or best of all, some combination of all three - definitely make a thread about it. Or just DM me if you're shy. Weirdo. Anyway there's also the [leaderboards](/leaderboard), boring stuff like two-factor authentication you can toggle on somewhere in the settings page (psycho), the ability to save posts and comments, more than a thousand emojis already (most of which are rDrama originals), and on and on and on and on. This is just the basics, mostly to help you get acquainted with some of the things you can do here to make it more easy on the eyes, customizable, and enjoyable. If you don't enjoy it, just go away! We're not changing things to suit you! Get out of here loser! And no, you can't delete your account :na:\n\nI love you.<BR>*xoxo Carp* 💋"
-	ROLES={
-		"admin": "992254560330600508",
-		"linked": "890342909390520382",
-		"1": "868129042346414132",
-		"2": "875569477671067688",
-		"3": "869434199575236649",
-		"4": "868140288013664296",
-		"5": "947236580794450010",
-		"6": "947236351445725204",
-		"7": "886781932430565418",
-	}
+	WELCOME_MSG = "Hi there! It's me, your soon-to-be favorite rDrama user @carpathianflorist here to give you a brief rundown on some of the sick features we have here. You'll probably want to start by following me, though. So go ahead and click my name and then smash that Follow button. This is actually really important, so go on. Hurry.\n\nThanks!\n\nNext up: If you're a member of the media, similarly just shoot me a DM and I'll set about verifying you and then we can take care of your sad journalism stuff.\n\n**FOR EVERYONE ELSE**\n\n Begin by navigating to [the settings page](/settings/profile) (we'll be prettying this up so it's less convoluted soon, don't worry) and getting some basic customization done.\n\n### Themes\n\nDefinitely change your theme right away, the default one (Midnight) is pretty enough, but why not use something *exotic* like Win98, or *flashy* like Tron? Even Coffee is super tasteful and way more fun than the default. More themes to come when we get around to it!\n\n### Avatar/pfp\n\nYou'll want to set this pretty soon. Set the banner too while you're at it. Your profile is important!\n\n### Flairs\n\nSince you're already on the settings page, you may as well set a flair, too. As with your username, you can - obviously - choose the color of this, either with a hex value or just from the preset colors. And also like your username, you can change this at any time. Paypigs can even further relive the glory days of 90s-00s internet and set obnoxious signatures.\n\n### PROFILE ANTHEMS\n\nSpeaking of profiles, hey, remember MySpace? Do you miss autoplaying music assaulting your ears every time you visited a friend's page? Yeah, we brought that back. Enter a YouTube URL, wait a few seconds for it to process, and then BAM! you've got a profile anthem which people cannot mute. Unless they spend 20,000 dramacoin in the shop for a mute button. Which you can then remove from your profile by spending 40,000 dramacoin on an unmuteable anthem. Get fucked poors!\n\n### Dramacoin?\n\nDramacoin is basically our take on the karma system. Except unlike the karma system, it's not gay and boring and stupid and useless. Dramacoin can be spent at [Marsey's Dramacoin Emporium](/shop) on upgrades to your user experience (many more coming than what's already listed there), and best of all on tremendously annoying awards to fuck with your fellow dramautists. We're always adding more, so check back regularly in case you happen to miss one of the announcement posts.\n\nLike karma, dramacoin is obtained by getting upvotes on your threads and comments. *Unlike* karma, it's also obtained by getting downvotes on your threads and comments. Downvotes don't really do anything here - they pay the same amount of dramacoin and they increase thread/comment ranking just the same as an upvote. You just use them to express petty disapproval and hopefully start a fight. Because all votes are visible here. To hell with your anonymity.\n\nDramacoin can also be traded amongst users from their profiles. Note that there is a 3% transaction fee.\n\n### Badges\n\nRemember all those neat little metallic icons you saw on my profile when you were following me? If not, scroll back up and go have a look. And doublecheck to make sure you pressed the Follow button. Anyway, those are badges. You earn them by doing a variety of things. Some of them even offer benefits, like discounts at the shop. A [complete list of badges and their requirements can be found here](/badges), though I add more pretty regularly, so keep an eye on the [changelog](/h/changelog).\n\n### Other stuff\n\nWe're always adding new features, and we take a fun-first approach to development. If you have a suggestion for something that would be fun, funny, annoying - or best of all, some combination of all three - definitely make a thread about it. Or just DM me if you're shy. Weirdo. Anyway there's also the [leaderboards](/leaderboard), boring stuff like two-factor authentication you can toggle on somewhere in the settings page (psycho), the ability to save posts and comments, more than a thousand emojis already (most of which are rDrama originals), and on and on and on and on. This is just the basics, mostly to help you get acquainted with some of the things you can do here to make it more easy on the eyes, customizable, and enjoyable. If you don't enjoy it, just go away! We're not changing things to suit you! Get out of here loser! And no, you can't delete your account :na:\n\nI love you.<br>*xoxo Carp* 💋"
 elif SITE == 'pcmemes.net':
 	PIN_LIMIT = 10
 	FEATURES['REPOST_DETECTION'] = False
-	FEATURES['GAMBLING'] = False
+	ERROR_MSGS[500] = "Hiiiii it's <b>nigger</b>! I think this error means that there's a <b>nigger</b> error. And I think that means something took too long to load so it decided to be a <b>nigger</b>. If you keep seeing this on the same page but not other pages, then something its probably a <b>niggerfaggot</b>. It may not be called a <b>nigger</b>, but that sounds right to me. Anyway, ping me and I'll whine to someone smarter to fix it. Don't bother them. Thanks ily &lt;3"
+	ERROR_MARSEYS[500] = "wholesome"
 	POST_RATE_LIMIT = '1/second;4/minute;20/hour;100/day'
 
 	HOLE_COST = 2000
@@ -395,24 +466,28 @@ elif SITE == 'pcmemes.net':
 	BASEDBOT_ID = 800
 
 	KIPPY_ID = 1592
-	GIFT_NOTIF_ID = 1592
+	GIFT_NOTIF_ID = KIPPY_ID
+	SIGNUP_FOLLOW_ID = KIPPY_ID
+	NOTIFICATION_THREAD = 2487
 	CARP_ID = 13
 	AEVANN_ID = 1
 	SNAKES_ID = 2279
 
-	WELCOME_MSG = "Welcome to pcmemes.net! Don't forget to turn off the slur filter [here](/settings/content#slurreplacer)"
+	WELCOME_MSG = "Welcome to pcmemes.net! Don't forget to turn off the slur filter [here](/settings/content#slurreplacer)!"
 
-	CASINO_ENABLED = False
 	LOTTERY_TICKET_COST = 12
 	LOTTERY_SINK_RATE = -8
 
 	BANNER_THREAD = 28307
-elif SITE == 'watchpeopledie.co':
-	WELCOME_MSG = """Hi, you! Welcome to WatchPeopleDie.co, this really cool site where you can go to watch people die. I'm @CLiTPEELER! If you have any questions about how things work here, or suggestions on how to make them work better than they already do, definitely slide on into my DMs (no fat chicks).\nThere's an enormously robust suite of fun features we have here and we're always looking for more to add. Way, way too many to go over in an automated welcome message. And you're probably here for the videos of people dying more than any sort of weird, paradoxical digital community aspect anyway, so I won't bore you with a tedious overview of them. Just head on over to [your settings page](https://watchpeopledie.co/settings/profile) and have a look at some of the basic profile stuff, at least. You can change your profile picture, username, flair, colors, banners, bio, profile anthem (autoplaying song on your page, like it's MySpace or some shit, hell yeah), CSS, all sorts of things.\nOr you can just go back to the main feed and carry on with watching people die. That's what the site is for, after all. Have fun!\nThough, while I have your attention (realistically I probably don't; this is quite a lot of text) - if you'd like to fund WPD's continued existence in the face of commercial and governmental censors, it would be really cool if you'd stop by our [Kofi page](https://ko-fi.com/wpdco/tiers) and consider contributing some paltry sum each month to help us pay for hosting. *But only if you want*. **We do not serve ads. We will never serve ads. We do not sell data. We will never sell data. We do not paywall ANY usage of the site. We will never paywall ANY usage of the site.** Any and all contributions are strictly voluntary and should only be because you'd like to help the site continue to grow and thrive.\nAnyway, in closing, WPD is entirely open source. We don't really need new full-time coders or anything, but if you'd like to take a look at our repo - or even submit a PR to change, fix, or add some things - go right ahead! We are on [GitHub](https://github.com/Aevann1/rDrama).\nWell, that's all. Thanks again for signing up. It's an automated message and all, but I really do mean that. Thank you, specifically. I love you. Romantically. Deeply. Passionately.\nHave fun!"""
+elif SITE == 'watchpeopledie.tv':
+	PIN_LIMIT = 4
+	WELCOME_MSG = """Hi, you! Welcome to WatchPeopleDie.tv, this really cool site where you can go to watch people die. I'm @CLiTPEELER! If you have any questions about how things work here, or suggestions on how to make them work better than they already do, definitely slide on into my DMs (no fat chicks).\nThere's an enormously robust suite of fun features we have here and we're always looking for more to add. Way, way too many to go over in an automated welcome message. And you're probably here for the videos of people dying more than any sort of weird, paradoxical digital community aspect anyway, so I won't bore you with a tedious overview of them. Just head on over to [your settings page](https://watchpeopledie.tv/settings/profile) and have a look at some of the basic profile stuff, at least. You can change your profile picture, username, flair, colors, banners, bio, profile anthem (autoplaying song on your page, like it's MySpace or some shit, hell yeah), CSS, all sorts of things.\nOr you can just go back to the main feed and carry on with watching people die. That's what the site is for, after all. Have fun!\nAnyway, in closing, WPD is entirely open source. We don't really need new full-time coders or anything, but if you'd like to take a look at our repo - or even submit a PR to change, fix, or add some things - go right ahead! We are on [GitHub](https://github.com/Aevann1/rDrama).\nWell, that's all. Thanks again for signing up. It's an automated message and all, but I really do mean that. Thank you, specifically. I love you. Romantically. Deeply. Passionately.\nHave fun!"""
 
 	FEATURES['PATRON_ICONS'] = True
 
 	PERMS['HOLE_CREATE'] = 2
+	PERMS['POST_EDITING'] = 2
+	PERMS['ADMIN_ADD'] = 4
 
 	SIDEBAR_THREAD = 5403
 	BANNER_THREAD = 9869
@@ -431,6 +506,7 @@ elif SITE == 'watchpeopledie.co':
 	SNAKES_ID = 32
 
 	GIFT_NOTIF_ID = CARP_ID
+	SIGNUP_FOLLOW_ID = CARP_ID
 
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
@@ -441,6 +517,7 @@ bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, BASEDBOT_ID}
 COLORS = {'ff66ac','805ad5','62ca56','38a169','80ffff','2a96f3','eb4963','ff0000','f39731','30409f','3e98a7','e4432d','7b9ae4','ec72de','7f8fa6', 'f8db58','8cdbe6', DEFAULT_COLOR}
 
 AWARDS = {
+	### Deprecated
 	"ghost": {
 		"kind": "ghost",
 		"title": "Ghost",
@@ -457,6 +534,7 @@ AWARDS = {
 		"color": "text-success",
 		"price": 10000
 	},
+	### Fistmas 2021
 	"snow": {
 		"kind": "snow",
 		"title": "Snow",
@@ -505,6 +583,7 @@ AWARDS = {
 		"color": "text-green-500",
 		"price": 1000
 	},
+	### Homoween 2021 & 2022
 	"haunt": {
 		"kind": "haunt",
 		"title": "Haunt",
@@ -545,13 +624,87 @@ AWARDS = {
 		"color": "text-gray",
 		"price": 200
 	},
+	### Homoween 2022
+	"jumpscare": {
+		"kind": "jumpscare",
+		"title": "Jumpscare",
+		"description": "",
+		"icon": "fas fa-coffin-cross",
+		"color": "text-purple",
+		"price": 600
+	},
+	"hw-bite": {
+		"kind": "hw-bite",
+		"title": "Zombie Bite",
+		"description": "",
+		"icon": "fas fa-biohazard",
+		"color": "text-danger",
+		"price": 500
+	},
+	"hw-vax": {
+		"kind": "hw-vax",
+		"title": "Vaxxmaxx",
+		"description": "",
+		"icon": "fas fa-syringe",
+		"color": "text-blue",
+		"price": 500
+	},
+	"hw-grinch": {
+		"kind": "hw-grinch",
+		"title": "Hallowgrinch",
+		"description": "",
+		"icon": "fas fa-angry",
+		"color": "text-orange",
+		"price": 1000
+	},
+	"flashlight": {
+		"kind": "flashlight",
+		"title": "Flashlight",
+		"description": "",
+		"icon": "fas fa-flashlight",
+		"color": "text-black",
+		"price": 400
+	},
+	"candy-corn": {
+		"kind": "candy-corn",
+		"title": "Candy Corn",
+		"description": "",
+		"icon": "fas fa-candy-corn",
+		"color": "text-orange",
+		"price": 400
+	},
+	"ectoplasm": {
+		"kind": "ectoplasm",
+		"title": "Ectoplasm",
+		"description": "",
+		"icon": "fas fa-ghost",
+		"color": "text-success",
+		"price": 400
+	},
+	"bones": {
+		"kind": "bones",
+		"title": "Bones",
+		"description": "",
+		"icon": "fas fa-bone",
+		"color": "text-white",
+		"price": 200
+	},
+	"pumpkin": {
+		"kind": "pumpkin",
+		"title": "Pumpkin",
+		"description": "",
+		"icon": "fas fa-jack-o-lantern",
+		"color": "text-orange",
+		"price": 200
+	},
+	### Standard
 	"marsify": {
 		"kind": "marsify",
 		"title": "Marsify",
 		"description": "Marsifies the recipient's comments for 6 hours.",
 		"icon": "fas fa-cat",
 		"color": "text-white",
-		"price": 400
+		"price": 150
 	},
 	"shit": {
 		"kind": "shit",
@@ -559,7 +712,7 @@ AWARDS = {
 		"description": "Makes flies swarm the post.",
 		"icon": "fas fa-poop",
 		"color": "text-black-50",
-		"price": 500
+		"price": 150
 	},
 	"fireflies": {
 		"kind": "fireflies",
@@ -567,7 +720,7 @@ AWARDS = {
 		"description": "Makes fireflies swarm the post.",
 		"icon": "fas fa-sparkles",
 		"color": "text-warning",
-		"price": 500
+		"price": 150
 	},
 	"train": {
 		"kind": "train",
@@ -575,7 +728,7 @@ AWARDS = {
 		"description": "Summons a train on the post.",
 		"icon": "fas fa-train",
 		"color": "text-pink",
-		"price": 500
+		"price": 150
 	},
 	"scooter": {
 		"kind": "scooter",
@@ -583,7 +736,7 @@ AWARDS = {
 		"description": "Summons a scooter on the post.",
 		"icon": "fas fa-flag-usa",
 		"color": "text-muted",
-		"price": 500
+		"price": 150
 	},
 	"wholesome": {
 		"kind": "wholesome",
@@ -591,7 +744,7 @@ AWARDS = {
 		"description": "Summons a wholesome marsey on the post.",
 		"icon": "fas fa-smile-beam",
 		"color": "text-yellow",
-		"price": 500
+		"price": 150
 	},
 	"firework": {
 		"kind": "firework",
@@ -599,7 +752,7 @@ AWARDS = {
 		"description": "Summons fireworks on the post.",
 		"icon": "fas fa-bahai",
 		"color": "text-danger",
-		"price": 500
+		"price": 150
 	},
 	"confetti": {
 		"kind": "confetti",
@@ -607,7 +760,7 @@ AWARDS = {
 		"description": "Summons confetti to fall on the post.",
 		"icon": "fas fa-party-horn",
 		"color": "text-yellow",
-		"price": 500
+		"price": 150
 	},
 	"ricardo": {
 		"kind": "ricardo",
@@ -615,7 +768,7 @@ AWARDS = {
 		"description": "Summons Ricardo to dance on the post.",
 		"icon": "fas fa-pinata",
 		"color": "text-pink",
-		"price": 500
+		"price": 150
 	},
 	"tilt": {
 		"kind": "tilt",
@@ -623,7 +776,7 @@ AWARDS = {
 		"description": "Tilts the post or comment",
 		"icon": "fas fa-car-tilt",
 		"color": "text-blue",
-		"price": 500
+		"price": 150
 	},
 	"glowie": {
 		"kind": "glowie",
@@ -631,7 +784,7 @@ AWARDS = {
 		"description": "Indicates that the recipient can be seen when driving. Just run them over.",
 		"icon": "fas fa-user-secret",
 		"color": "text-green",
-		"price": 500
+		"price": 150
 	},
 	"rehab": {
 		"kind": "rehab",
@@ -640,6 +793,14 @@ AWARDS = {
 		"icon": "fas fa-dice-six",
 		"color": "text-black",
 		"price": 777
+	},
+	"offsitementions": {
+		"kind": "offsitementions",
+		"title": "Y'all Seein' Eye",
+		"description": "Gives the recipient access to notifications when people off-site talk about us.",
+		"icon": "fas fa-eyes",
+		"color": "text-orange",
+		"price": 1000,
 	},
 	"lootbox": {
 		"kind": "lootbox",
@@ -706,13 +867,13 @@ AWARDS = {
 		"price": 1500
 	},
 	"spider": {
-        "kind": "spider",
-        "title": "Spider!",
-        "description": f"Summons a spider to terrorize the recipient for 24 hours.",
-        "icon": "fas fa-spider",
-        "color": "text-brown",
-        "price": 2000
-    },
+		"kind": "spider",
+		"title": "Spider!",
+		"description": f"Summons a spider to terrorize the recipient for 24 hours.",
+		"icon": "fas fa-spider",
+		"color": "text-brown",
+		"price": 2000
+	},
 	"agendaposter": {
 		"kind": "agendaposter",
 		"title": "Chud",
@@ -776,14 +937,6 @@ AWARDS = {
 		"icon": "fas fa-eye",
 		"color": "text-silver",
 		"price": 10000
-	},
-	"offsitementions": {
-		"kind": "offsitementions",
-		"title": "Y'all Seein' Eye",
-		"description": "Gives the recipient access to notifications when people off-site talk about us.",
-		"icon": "fas fa-eyes",
-		"color": "text-orange",
-		"price": 10000,
 	},
 	"unblockable": {
 		"kind": "unblockable",
@@ -864,7 +1017,7 @@ if SITE_NAME == 'PCM':
 			"description": "Summons Croag on the post.",
 			"icon": "fas fa-head-side",
 			"color": "text-gold",
-			"price": 500
+			"price": 150
 		},
 		"toe": {
 			"kind": "toe",
@@ -872,7 +1025,7 @@ if SITE_NAME == 'PCM':
 			"description": "Summons Blade's toe on the post.",
 			"icon": "fas fa-socks",
 			"color": "text-blue",
-			"price": 500
+			"price": 150
 		},
 		"crab": {
 			"kind": "crab",
@@ -888,8 +1041,10 @@ if SITE_NAME == 'PCM':
 # Disable unused awards, and site-specific award inclusion/exclusion.
 AWARDS_DISABLED = [
 	'ghost', 'nword', 'lootbox', # Generic
-	'snow', 'gingerbread', 'lights', 'candycane', 'fireplace', # Fistmas
-	'grinch', 'haunt', 'upsidedown', 'stab', 'spiders', 'fog', # Homoween
+	'snow', 'gingerbread', 'lights', 'candycane', 'fireplace', 'grinch', # Fistmas
+	'haunt', 'upsidedown', 'stab', 'spiders', 'fog', # Homoween '21
+	'jumpscare', 'hw-bite', 'hw-vax', 'hw-grinch', 'flashlight', # Homoween '22
+	'candy-corn', 'ectoplasm', 'bones', 'pumpkin', # Homoween '22 (cont'd)
 ]
 
 
@@ -937,8 +1092,10 @@ for k, val in temp:
 if SITE_NAME != 'rDrama':
 	AWARDS_DISABLED.append('progressivestack')
 
-if SITE == 'pcmemes.net':
-	AWARDS_DISABLED.extend(['ban','pizzashill','marsey','bird','grass','chud','unblockable'])
+if SITE_NAME == 'PCM':
+	# Previous set of disabled, changed temporarily by request 2022-10-17
+	#AWARDS_DISABLED.extend(['ban','pizzashill','marsey','bird','grass','chud','unblockable'])
+	AWARDS_DISABLED.extend(['unblockable'])
 	AWARDS_DISABLED.remove('ghost')
 elif SITE_NAME == 'WPD':
 	AWARDS_DISABLED.remove('lootbox')
@@ -960,8 +1117,6 @@ TROLLTITLES = [
 
 NOTIFIED_USERS = {
 	'aevan': AEVANN_ID,
-	' aev': AEVANN_ID,
-	'aev ': AEVANN_ID,
 	'avean': AEVANN_ID,
 	'joan': JOAN_ID,
 	'pewkie': JOAN_ID,
@@ -973,6 +1128,7 @@ NOTIFIED_USERS = {
 	'scitzocel': SCHIZO_ID,
 	'snakes': SNAKES_ID,
 	'sneks': SNAKES_ID,
+	'jc': JUSTCOOL_ID,
 	'justcool': JUSTCOOL_ID,
 	'geese': GEESE_ID,
 	'clit': CARP_ID,
@@ -1003,6 +1159,8 @@ if SITE != 'localhost':
 
 if SITE == 'rdrama.net':
 	REDDIT_NOTIFS_SITE.add('marsey')
+	REDDIT_NOTIFS_SITE.add('"r/Drama"')
+	REDDIT_NOTIFS_SITE.add('justice4darrell')
 	REDDIT_NOTIFS_USERS = {
 		'idio3': IDIO_ID,
 		'aevann': AEVANN_ID,
@@ -1010,6 +1168,7 @@ if SITE == 'rdrama.net':
 		'carpathianflorist': CARP_ID,
 		'carpathian florist': CARP_ID,
 		'the_homocracy': HOMO_ID,
+		'justcool393': JUSTCOOL_ID
 	}
 elif SITE_NAME == 'WPD':
 	REDDIT_NOTIFS_SITE.update({'watchpeopledie', 'makemycoffin'})
@@ -1068,7 +1227,7 @@ approved_embed_hosts = {
 	SITE,
 	'rdrama.net',
 	'pcmemes.net',
-	'watchpeopledie.co',
+	'watchpeopledie.tv',
 	'imgur.com',
 	'lain.la',
 	'pngfind.com',
@@ -1158,11 +1317,9 @@ tiers={
 	"(Jigsaw)": 6,
 	}
 
-DISCORD_WELCOME_CHANNEL = "846509313941700618"
-
 has_sidebar = path.exists(f'files/templates/sidebar_{SITE_NAME}.html')
 has_logo = path.exists(f'files/assets/images/{SITE_NAME}/logo.webp')
-has_app = path.exists(f'files/assets/app_{SITE_NAME}_v2.4.apk')
+has_app = path.exists(f'files/assets/app_{SITE_NAME}_v2.5.apk')
 
 ONLINE_STR = f'{SITE}_online'
 
@@ -1180,3 +1337,5 @@ forced_hats = {
 	"is_suspended": ("Behind Bars", "This user is banned and needs to do better!"),
 	"agendaposter": ("Egg_irl", "This user is getting in touch with xir identity!")
 }
+
+EMAIL_REGEX_PATTERN = '[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63}'

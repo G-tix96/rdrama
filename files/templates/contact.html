@@ -13,7 +13,7 @@
 			<span>
 				{{msg}}
 			</span>
-			<button class="close" data-bs-dismiss="alert" aria-label="Close">
+			<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true"><i class="far fa-times"></i></span>
 			</button>
 		</div>
@@ -39,17 +39,7 @@
 			<input type="submit" onclick="disable(this)" value="Submit" class="btn btn-primary mt-3">
 		</form>
 
-		<pre>
-
-
-		</pre>
-
-		<p>Warrant Canary has been moved to <a href="/search/posts/?q=%22Monthly%20Website%20Stats%20Post%22&sort=new&t=all">Monthly Website Stats Posts</a>.</p>
-
-		<pre>
-
-
-		</pre>
+		<p class="my-3">Warrant Canary has been moved to <a href="/search/posts/?q=%22Monthly%20Website%20Stats%20Post%22&sort=new&t=all">Monthly Website Stats Posts</a>.</p>
 
 		{% include "emoji_modal.html" %}
 	{% else %}

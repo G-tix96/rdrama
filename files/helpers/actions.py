@@ -62,6 +62,7 @@ def execute_snappy(post, v):
 			else: SNAPPY_CHOICES = SNAPPY_QUOTES
 		elif SNAPPY_MARSEYS: SNAPPY_CHOICES = SNAPPY_MARSEYS
 		elif SNAPPY_QUOTES: SNAPPY_CHOICES = SNAPPY_QUOTES
+		else: SNAPPY_CHOICES = [""]
 
 		body = random.choice(SNAPPY_CHOICES).strip()
 		if body.startswith('▼'):
@@ -135,17 +136,17 @@ def execute_snappy(post, v):
 			addition += f'* [archive.org](https://web.archive.org/{href})\n'
 			addition += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n'
 			addition += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)}) (click to archive)\n\n'
-			if len(f'{body}{addition}') > 10000: break
+			if len(f'{body}{addition}') > COMMENT_BODY_LENGTH_LIMIT: break
 			body += addition
 			archive_url(href)
 
-	body = body.strip()[:POST_BODY_LENGTH_LIMIT]
+	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
 	body_html = sanitize(body)
 
 	if len(body_html) == 0:
 		return
 
-	if len(body_html) < POST_BODY_HTML_LENGTH_LIMIT:
+	if len(body_html) < COMMENT_BODY_HTML_LENGTH_LIMIT:
 		c = Comment(author_id=SNAPPY_ID,
 			distinguish_level=6,
 			parent_submission=post.id,
@@ -311,3 +312,140 @@ def execute_basedbot(c, level, body, parent_submission, parent_post, v):
 
 	n = Notification(comment_id=c_based.id, user_id=v.id)
 	g.db.add(n)
+
+def execute_antispam_submission_check(title, v, url):
+	now = int(time.time())
+	cutoff = now - 60 * 60 * 24
+
+	similar_posts = g.db.query(Submission).filter(
+					Submission.author_id == v.id,
+					Submission.title.op('<->')(title) < SPAM_SIMILARITY_THRESHOLD,
+					Submission.created_utc > cutoff
+	).all()
+
+	if url:
+		similar_urls = g.db.query(Submission).filter(
+					Submission.author_id == v.id,
+					Submission.url.op('<->')(url) < SPAM_URL_SIMILARITY_THRESHOLD,
+					Submission.created_utc > cutoff
+		).all()
+	else: similar_urls = []
+
+	threshold = SPAM_SIMILAR_COUNT_THRESHOLD
+	if v.age >= (60 * 60 * 24 * 7): threshold *= 3
+	elif v.age >= (60 * 60 * 24): threshold *= 2
+
+	if max(len(similar_urls), len(similar_posts)) >= threshold:
+		text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
+		send_repeatable_notification(v.id, text)
+
+		v.ban(reason="Spamming.",
+			  days=1)
+
+		for post in similar_posts + similar_urls:
+			post.is_banned = True
+			post.is_pinned = False
+			post.ban_reason = "AutoJanny"
+			g.db.add(post)
+			ma=ModAction(
+					user_id=AUTOJANNY_ID,
+					target_submission_id=post.id,
+					kind="ban_post",
+					_note="spam"
+					)
+			g.db.add(ma)
+		return False
+	return True
+
+def execute_blackjack(v, target, body, type):
+	if not blackjack or not body: return True
+	if any(i in body.lower() for i in blackjack.split()):
+		v.shadowbanned = 'AutoJanny'
+		if not v.is_banned: v.ban_reason = f"Blackjack"
+		g.db.add(v)
+		notif = None
+		extra_info = "unknown entity"
+		if type == 'submission':
+			extra_info = f"submission ({target.permalink})"
+		elif type == 'comment' or type == 'message':
+			extra_info = f"{type} ({target.permalink})"
+			notif = Notification(comment_id=target.id, user_id=CARP_ID)
+		elif type == 'chat':
+			extra_info = "chat message"
+		elif type == 'flag':
+			extra_info = f"reports on {target.permalink}"
+
+		if notif: 
+			g.db.add(notif)
+			g.db.flush()
+		elif extra_info: send_repeatable_notification(CARP_ID, f"Blackjack for {v.name}: {extra_info}")
+		return False
+	return True
+
+def execute_antispam_comment_check(body:str, v:User):
+	if v.id in ANTISPAM_BYPASS_IDS: return
+	if len(body) <= COMMENT_SPAM_LENGTH_THRESHOLD: return
+	now = int(time.time())
+	cutoff = now - 60 * 60 * 24
+
+	similar_comments = g.db.query(Comment).filter(
+		Comment.author_id == v.id,
+		Comment.body.op('<->')(body) < COMMENT_SPAM_SIMILAR_THRESHOLD,
+		Comment.created_utc > cutoff
+	).all()
+
+	threshold = COMMENT_SPAM_COUNT_THRESHOLD
+	if v.age >= (60 * 60 * 24 * 7):
+		threshold *= 3
+	elif v.age >= (60 * 60 * 24):
+		threshold *= 2
+	
+	if len(similar_comments) <= threshold: return
+	text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
+	send_repeatable_notification(v.id, text)
+	v.ban(reason="Spamming.",
+			days=1)
+	for comment in similar_comments:
+		comment.is_banned = True
+		comment.ban_reason = "AutoJanny"
+		g.db.add(comment)
+		ma=ModAction(
+			user_id=AUTOJANNY_ID,
+			target_comment_id=comment.id,
+			kind="ban_comment",
+			_note="spam"
+		)
+		g.db.add(ma)
+	g.db.commit()
+	abort(403, "Too much spam!")
+
+def execute_lawlz_actions(v:User, p:Submission):
+	if v.id != LAWLZ_ID: return
+	if SITE_NAME != 'rDrama': return
+	if not FEATURES['PINS']: return
+	p.stickied_utc = int(time.time()) + 86400
+	p.stickied = v.username
+	p.distinguish_level = 6
+	p.flair = ":ben10: Required Reading"
+	pin_time = 'for 1 day'
+	ma_1=ModAction(
+		kind="pin_post",
+		user_id=v.id,
+		target_submission_id=p.id,
+		_note=pin_time
+	)
+	ma_2=ModAction(
+		kind="distinguish_post",
+		user_id=v.id,
+		target_submission_id=p.id
+	)
+	ma_3=ModAction(
+		kind="flair_post",
+		user_id=v.id,
+		target_submission_id=p.id,
+		_note=f'"{p.flair}"'
+	)
+	g.db.add(p)
+	g.db.add(ma_1)
+	g.db.add(ma_2)
+	g.db.add(ma_3)

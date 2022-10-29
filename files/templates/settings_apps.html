@@ -11,11 +11,9 @@
 		<div class="settings">
 
 
-<h2 class="h5"><a href="/api">API Guide</a></h2>
+<h5><a href="/api">API Guide</a></h5>
 
-<pre></pre>
-
-<h2 class="h5">Your API Applications</h2>
+<h5 class=" mt-1">Your API Applications</h5>
 
 {% for app in v.applications if app.client_id %}
 
@@ -43,7 +41,7 @@
 		</div>
 		<div class="footer">
 			<div class="d-flex">
-				<a role="button" class="btn btn-secondary ml-auto" onclick="post_toast(this,'/reroll/{{app.id}}', true)">Reroll Client ID</a>
+				<button type="button" class="btn btn-secondary ml-auto" onclick="post_toast(this,'/reroll/{{app.id}}', true)">Reroll Client ID</button>
 				<input type="submit" onclick="disable(this)" class="btn btn-primary ml-2" value="Save Changes">
 			</div>
 		</div>
@@ -54,7 +52,7 @@
 <p>None</p>
 {% endfor %}
 
-<h2 class="h5">API Applications Awaiting Approval</h2>
+<h5>API Applications Awaiting Approval</h5>
 
 {% for app in v.applications if not app.client_id %}
 
@@ -92,7 +90,7 @@
 <p>None</p>
 {% endfor %}
 
-<h2 class="h5">Your Authorized Applications</h2>
+<h5>Your Authorized Applications</h5>
 
 {% for auth in v.authorizations %}
 
@@ -109,7 +107,7 @@
 		</div>
 		<div class="footer">
 			<div class="d-flex">
-				<a role="button" class="btn btn-primary ml-auto text-white" onclick="post_toast(this,'/rescind/{{auth.application.id}}')">Revoke</a>
+				<button type="button" class="btn btn-primary ml-auto text-white" onclick="post_toast(this,'/rescind/{{auth.application.id}}',true)">Revoke</button>
 			</div>
 		</div>
 	</div>

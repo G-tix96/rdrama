@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.4
+-- Dumped from database version 14.5
 -- Dumped by pg_dump version 14.5 (Ubuntu 14.5-1.pgdg20.04+1)
 
 SET statement_timeout = 0;
@@ -566,7 +566,7 @@ CREATE TABLE public.marseys (
 
 CREATE TABLE public.media (
     kind character varying(5) NOT NULL,
-    filename character varying(55) NOT NULL,
+    filename character varying(200) NOT NULL,
     user_id integer NOT NULL,
     created_utc integer NOT NULL,
     size integer NOT NULL
@@ -940,7 +940,7 @@ CREATE TABLE public.users (
     stored_subscriber_count integer DEFAULT 0 NOT NULL,
     original_username character varying(30),
     customtitle character varying(1000),
-    defaultsorting character varying(15) DEFAULT 'hot'::character varying NOT NULL,
+    defaultsorting character varying(15) NOT NULL,
     defaulttime character varying(5) NOT NULL,
     namecolor character varying(6) NOT NULL,
     titlecolor character varying(6) NOT NULL,
@@ -949,7 +949,7 @@ CREATE TABLE public.users (
     hidevotedon boolean DEFAULT false NOT NULL,
     newtab boolean DEFAULT false NOT NULL,
     flairchanged integer,
-    defaultsortingcomments character varying(15) DEFAULT 'top'::character varying NOT NULL,
+    defaultsortingcomments character varying(15) NOT NULL,
     theme character varying(15) NOT NULL,
     song character varying(50),
     slurreplacer boolean DEFAULT true NOT NULL,
@@ -1007,7 +1007,6 @@ CREATE TABLE public.users (
     total_lottery_winnings integer DEFAULT 0 NOT NULL,
     offsitementions boolean DEFAULT false NOT NULL,
     last_active integer DEFAULT 0 NOT NULL,
-    poorcel boolean DEFAULT false NOT NULL,
     last_viewed_post_notifs integer NOT NULL,
     pronouns character varying(11) NOT NULL,
     last_viewed_log_notifs integer NOT NULL,
@@ -1020,7 +1019,9 @@ CREATE TABLE public.users (
     is_muted boolean DEFAULT false NOT NULL,
     coins_spent_on_hats integer DEFAULT 0 NOT NULL,
     rainbow integer,
-    spider integer
+    spider integer,
+    homoween_zombie character varying(7) DEFAULT 'HEALTHY'::character varying,
+    jumpscare integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2679,4 +2680,3 @@ ALTER TABLE ONLY public.comment_option_votes
 --
 -- PostgreSQL database dump complete
 --
-

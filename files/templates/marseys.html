@@ -1,10 +1,6 @@
 {% extends "default.html" %}
 {% block content %}
-<pre>
-
-	
-</pre>
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
+<div class="overflow-x-auto mt-3"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
 	<tr>
 		<th>#</th>
@@ -13,7 +9,7 @@
 		<th>Usage</th>
 		{% if SITE == 'rdrama.net' %}
 			<th><a href="?sort=author">Author</a></th>
-			<th><a href="?sort=added">Added</a></th>
+			<th><a href="?sort=added">Added on</a></th>
 			<th>Original File</th>
 		{% endif %}
 	</tr>

@@ -5,6 +5,7 @@ from sqlalchemy import or_
 import files.helpers.const as const
 from files.classes.user import User
 from files.classes.comment import Comment
+from files.classes.badges import Badge
 from files.classes.notifications import Notification
 from files.helpers.sanitize import sanitize
 
@@ -16,10 +17,11 @@ from files.helpers.sanitize import sanitize
 
 def offsite_mentions_task():
 	if const.REDDIT_NOTIFS_SITE:
-		row_send_to = g.db.query(User.id) \
-			.filter(or_(User.admin_level >= const.PERMS['NOTIFICATIONS_REDDIT'],
-				User.offsitementions == True)).all()
+		row_send_to = g.db.query(Badge.user_id).filter_by(badge_id=140).all()
+		row_send_to += g.db.query(User.id).filter(or_(User.admin_level >= const.PERMS['NOTIFICATIONS_REDDIT'])).all()
+
 		send_to = [x[0] for x in row_send_to]
+		send_to = set(send_to)
 
 		site_mentions = get_mentions(const.REDDIT_NOTIFS_SITE)
 		notify_mentions(send_to, site_mentions)
@@ -34,13 +36,12 @@ def get_mentions(queries):
 	mentions = []
 	for kind, query in itertools.product(kinds, queries):
 		try:
-			data = requests.get(f'https://api.pushshift.io/reddit/{kind}/search?html_decode=true&q={query}&size=1', timeout=5).json()['data']
+			# Special cases: PokemonGoRaids says 'Marsey' a lot unrelated to us.
+			# SubSimulatorGPT2 is just bots
+			data = requests.get(f'https://api.pushshift.io/reddit/{kind}/search?html_decode=true&q={query}&subreddit=!PokemonGoRaids,!SubSimulatorGPT2&size=1', timeout=5).json()['data']
 		except: break
 
 		for i in data:
-			# Special case: PokemonGoRaids says 'Marsey' a lot unrelated to us.
-			if i['subreddit'] == 'PokemonGoRaids': continue
-
 			if kind == 'comment':
 				body = i["body"].replace('>', '> ')
 				text = f'<blockquote><p>{body}</p></blockquote>'

@@ -1,10 +1,16 @@
+from typing import Callable, Iterable, List, Optional, Union
 from files.classes import *
 from flask import g
 
-def get_id(username, graceful=False):
-	
-	username = username.replace('\\', '').replace('_', '\_').replace('%', '').strip()
+def sanitize_username(username:str) -> str:
+	if not username: return username
+	return username.replace('\\', '').replace('_', '\_').replace('%', '').replace('(', '').replace(')', '').strip()
 
+def get_id(username:str, graceful=False) -> Optional[int]:
+	username = sanitize_username(username)
+	if not username:
+		if graceful: return None
+		abort(404)
 	user = g.db.query(
 		User.id
 		).filter(
@@ -15,19 +21,20 @@ def get_id(username, graceful=False):
 		).one_or_none()
 
 	if not user:
-		if not graceful: abort(404)
-		else: return None
+		if graceful: return None
+		abort(404)
 
 	return user[0]
 
-
-def get_user(username, v=None, graceful=False, rendered=False, include_blocks=False, include_shadowbanned=True):
+def get_user(username:str, v:Optional[User]=None, graceful=False, rendered=False, include_blocks=False, include_shadowbanned=True) -> Optional[User]:
 	if not username:
-		if not graceful: abort(404)
-		else: return None
+		if graceful: return None
+		abort(404)
 
-	username = username.replace('\\', '').replace('_', '\_').replace('%', '').replace('(', '').replace(')', '').strip()
-
+	username = sanitize_username(username)
+	if not username:
+		if graceful: return None
+		abort(404)
 	user = g.db.query(
 		User
 		).filter(
@@ -39,40 +46,20 @@ def get_user(username, v=None, graceful=False, rendered=False, include_blocks=Fa
 
 	user = user.one_or_none()
 
-	if not user or (user.shadowbanned and not (include_shadowbanned or (v and (v.admin_level >= PERMS['USER_SHADOWBAN'] or v.shadowbanned)))):
-		if not graceful: abort(404)
-		else: return None
+	if not user or (user.shadowbanned and not (include_shadowbanned or (v and v.can_see_shadowbanned))):
+		if graceful: return None
+		abort(404)
 
 	if rendered and v and include_blocks:
-		if v.id == user.id:
-			user.is_blocked = False
-			user.is_blocking = False
-		else:
-			block = g.db.query(UserBlock).filter(
-				or_(
-					and_(
-						UserBlock.user_id == v.id,
-						UserBlock.target_id == user.id
-					),
-					and_(UserBlock.user_id == user.id,
-						UserBlock.target_id == v.id
-						)
-				)
-			).first()
-
-			user.is_blocking = block and block.user_id == v.id
-			user.is_blocked = block and block.target_id == v.id
-
-
+		user = add_block_props(user, v)
 	return user
 
-def get_users(usernames, graceful=False):
-
-	def clean(n):
-		return n.replace('\\', '').replace('_', '\_').replace('%', '').strip()
-
-	usernames = [clean(n) for n in usernames]
-
+def get_users(usernames:Iterable[str], graceful=False) -> List[User]:
+	if not usernames: return []
+	usernames = [sanitize_username(n) for n in usernames]
+	if not any(usernames):
+		if graceful and len(usernames) == 0: return []
+		abort(404)
 	users = g.db.query(User).filter(
 		or_(
 			User.username.ilike(any_(usernames)),
@@ -85,43 +72,29 @@ def get_users(usernames, graceful=False):
 
 	return users
 
-def get_account(id, v=None, graceful=False, include_blocks=False, include_shadowbanned=True):
-
+def get_account(id:Union[str, int], v:Optional[User]=None, graceful=False, include_blocks=False, include_shadowbanned=True) -> Optional[User]:
 	try: 
 		id = int(id)
 	except:
-		if not graceful: abort(404)
-		else: return None
+		if graceful: return None
+		abort(404)
 
 	user = g.db.get(User, id)
 
-	if not user or (user.shadowbanned and not (include_shadowbanned or (v and (v.admin_level >= PERMS['USER_SHADOWBAN'] or v.shadowbanned)))):
+	if not user or (user.shadowbanned and not (include_shadowbanned or (v and v.can_see_shadowbanned))):
 		if not graceful: abort(404)
 		else: return None
 
-	if v and include_blocks:
-		block = g.db.query(UserBlock).filter(
-			or_(
-				and_(
-					UserBlock.user_id == v.id,
-					UserBlock.target_id == user.id
-				),
-				and_(UserBlock.user_id == user.id,
-					 UserBlock.target_id == v.id
-					 )
-			)
-		).first()
-
-		user.is_blocking = block and block.user_id == v.id
-		user.is_blocked = block and block.target_id == v.id
-
+	if include_blocks:
+		user = add_block_props(user, v)
 	return user
 
 
-def get_post(i, v=None, graceful=False):
-
+def get_post(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Optional[Submission]:
 	try: i = int(i)
-	except: abort(404)
+	except:
+		if graceful: return None
+		else: abort(404)
 
 	if not i:
 		if graceful: return None
@@ -167,10 +140,8 @@ def get_post(i, v=None, graceful=False):
 	return x
 
 
-def get_posts(pids, v=None):
-
-	if not pids:
-		return []
+def get_posts(pids:Iterable[int], v:Optional[User]=None) -> List[Submission]:
+	if not pids: return []
 
 	if v:
 		vt = g.db.query(Vote.vote_type, Vote.submission_id).filter(
@@ -210,10 +181,11 @@ def get_posts(pids, v=None):
 
 	return sorted(output, key=lambda x: pids.index(x.id))
 
-def get_comment(i, v=None, graceful=False):
-
+def get_comment(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Optional[Comment]:
 	try: i = int(i)
-	except: abort(404)
+	except:
+		if graceful: return None
+		abort(404)
 
 	if not i:
 		if graceful: return None
@@ -224,81 +196,113 @@ def get_comment(i, v=None, graceful=False):
 		if graceful: return None
 		else: abort(404)
 
-	if v:
-		block = g.db.query(UserBlock).filter(
-			or_(
-				and_(
-					UserBlock.user_id == v.id,
-					UserBlock.target_id == comment.author_id
-				),
-				and_(
-					UserBlock.user_id == comment.author_id,
-					UserBlock.target_id == v.id
-				)
+	return add_vote_and_block_props(comment, v, CommentVote)
+
+def add_block_props(target:Union[Submission, Comment, User], v:Optional[User]):
+	if not v: return target
+	id = None
+
+	if any(isinstance(target, cls) for cls in [Submission, Comment]):
+		id = target.author_id
+	elif isinstance(target, User):
+		id = target.id
+	else:
+		raise TypeError("add_block_props only supports non-None submissions, comments, and users")
+	
+	if hasattr(target, 'is_blocking') and hasattr(target, 'is_blocked'):
+		return target
+
+	if v.id == id or id == AUTOJANNY_ID: # users can't block or be blocked by themselves or AutoJanny
+		target.is_blocking = False
+		target.is_blocked = False
+		return target
+
+	block = g.db.query(UserBlock).filter(
+		or_(
+			and_(
+				UserBlock.user_id == v.id,
+				UserBlock.target_id == id
+			),
+			and_(
+				UserBlock.user_id == id,
+				UserBlock.target_id == v.id
 			)
-		).first()
+		)
+	).first()
+	target.is_blocking = block and block.user_id == v.id
+	target.is_blocked = block and block.target_id == v.id
+	return target
 
-		vt = g.db.query(CommentVote.vote_type).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
-		comment.is_blocking = block and block.user_id == v.id
-		comment.is_blocked = block and block.target_id == v.id
-		comment.voted = vt.vote_type if vt else 0
+def add_vote_props(target:Union[Submission, Comment], v:Optional[User], vote_cls):
+	if hasattr(target, 'voted'): return target
 
-	return comment
+	vt = g.db.query(vote_cls.vote_type).filter_by(user_id=v.id)
+	if vote_cls == Vote:
+		vt = vt.filter_by(submission_id=target.id)
+	elif vote_cls == CommentVote:
+		vt = vt.filter_by(comment_id=target.id)
+	else:
+		vt = None
+	if vt: vt = vt.one_or_none()
+	target.voted = vt.vote_type if vt else 0
+	return target
 
+def add_vote_and_block_props(target:Union[Submission, Comment], v:Optional[User], vote_cls):
+	if not v: return target
+	target = add_block_props(target, v)
+	return add_vote_props(target, v, vote_cls)
 
-def get_comments(cids, v=None, load_parent=False):
-
+def get_comments(cids:Iterable[int], v:Optional[User]=None) -> List[Comment]:
 	if not cids: return []
-
 	if v:
-		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
-
-		blocking = v.blocking.subquery()
-
-		blocked = v.blocked.subquery()
-
-		comments = g.db.query(
-			Comment,
-			votes.c.vote_type,
-			blocking.c.target_id,
-			blocked.c.target_id,
-		).filter(Comment.id.in_(cids))
- 
-		if not (v and (v.shadowbanned or v.admin_level >= PERMS['USER_SHADOWBAN'])):
-			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
-
-		comments = comments.join(
-			votes,
-			votes.c.comment_id == Comment.id,
-			isouter=True
-		).join(
-			blocking,
-			blocking.c.target_id == Comment.author_id,
-			isouter=True
-		).join(
-			blocked,
-			blocked.c.user_id == Comment.author_id,
-			isouter=True
-		).all()
-
-		output = []
-		for c in comments:
-			comment = c[0]
-			comment.voted = c[1] or 0
-			comment.is_blocking = c[2] or 0
-			comment.is_blocked = c[3] or 0
-			output.append(comment)
-
+		output = get_comments_v_properties(v, True, None, Comment.id.in_(cids))[1]
 	else:
 		output = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.id.in_(cids)).all()
-
-	if load_parent:
-		parents = [x.parent_comment_id for x in output if x.parent_comment_id]
-		parents = get_comments(parents, v=v)
-
 	return sorted(output, key=lambda x: cids.index(x.id))
 
-def get_sub_by_name(sub, v=None, graceful=False):
+def get_comments_v_properties(v:User, include_shadowbanned=True, should_keep_func:Optional[Callable[[Comment], bool]]=None, *criterion):
+	if not v:
+		raise TypeError("A user is required")
+	votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
+	blocking = v.blocking.subquery()
+	blocked = v.blocked.subquery()
+	comments = g.db.query(
+		Comment,
+		votes.c.vote_type,
+		blocking.c.target_id,
+		blocked.c.target_id,
+	)
+
+	if not include_shadowbanned and not v.can_see_shadowbanned:
+		comments = comments.join(Comment.author).filter(User.shadowbanned == None)
+
+	comments = comments.filter(*criterion)
+	comments = comments.join(
+		votes,
+		votes.c.comment_id == Comment.id,
+		isouter=True
+	).join(
+		blocking,
+		blocking.c.target_id == Comment.author_id,
+		isouter=True
+	).join(
+		blocked,
+		blocked.c.user_id == Comment.author_id,
+		isouter=True
+	)
+	queried = comments.all()
+	output = []
+	dump = []
+	for c in queried:
+		comment = c[0]
+		comment.voted = c[1] or 0
+		comment.is_blocking = c[2] or 0
+		comment.is_blocked = c[3] or 0
+		if not should_keep_func or should_keep_func(c[0]): output.append(comment)
+		else: dump.append(comment)
+	return (comments, output)
+
+def get_sub_by_name(sub:str, v:Optional[User]=None, graceful=False) -> Optional[Sub]:
 	if not sub:
 		if graceful: return None
 		else: abort(404)
@@ -311,23 +315,3 @@ def get_sub_by_name(sub, v=None, graceful=False):
 		if graceful: return None
 		else: abort(404)
 	return sub
-
-def get_domain(s):
-
-	parts = s.split(".")
-	domain_list = set()
-	for i in range(len(parts)):
-		new_domain = parts[i]
-		for j in range(i + 1, len(parts)):
-			new_domain += "." + parts[j]
-
-		domain_list.add(new_domain)
-
-	doms = g.db.query(BannedDomain).filter(BannedDomain.domain.in_(domain_list)).all()
-
-	if not doms:
-		return None
-
-	doms = sorted(doms, key=lambda x: len(x.domain), reverse=True)
-
-	return doms[0]

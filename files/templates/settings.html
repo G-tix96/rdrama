@@ -1,52 +1,11 @@
 {%- import 'util/helpers.html' as help -%}
+{%- import 'html_head.html' as html_head with context -%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
-
-	<meta name="description" content="{{DESCRIPTION}}">
-	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
-
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<meta name="author" content="">
-
-	<link rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
-
 	<title>{% block pagetitle %}Settings - {{SITE_NAME}}{% endblock %}</title>
-		<meta property="og:type" content="article">
-		<meta property="og:title" content="{{SITE_NAME}}">
-		<meta property="og:site_name" content="{{SITE}}">
-		<meta property="og:image" content="{{'site_preview.webp' | asset_siteimg}}">
-		<meta property="og:url" content="{{SITE_FULL}}">
-		<meta property="og:description" name="description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
-		<meta property="og:author" name="author" content="{{SITE_FULL}}">
-
-		<meta name="twitter:card" content="summary_large_image">
-		<meta name="twitter:site" content="{{SITE_FULL}}">
-		<meta name="twitter:title" content="{{SITE_NAME}}">
-		<meta name="twitter:creator" content="{{SITE_FULL}}">
-		<meta name="twitter:description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
-		<meta name="twitter:image" content="{{'site_preview.webp' | asset_siteimg}}">
-		<meta name="twitter:url" content="{{SITE_FULL}}">
-
-
-	<style>:root{--primary:#{{v.themecolor}}}</style>
-	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-	<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
-	{% if v.agendaposter %}
-		<style>
-			html {
-				cursor:url('/i/dildo.webp?v=2000'), auto;
-			}
-		</style>
-	{% elif v.css and not request.path.startswith('/settings/css') %}
-		<style>
-			{{v.css | safe}}
-		</style>
-	{% endif %}
 </head>
+{{html_head.html_head(true, false, true, none, "Settings", "", "", false)}}
 
 <body id="settings" {% if SITE_NAME == 'rDrama' and v and (v.is_banned or v.agendaposter) %}style="overflow-x: hidden;background:url(/assets/images/backgrounds/anime/1.webp?v=3) center center fixed; background-color: var(--background)"{% elif v and v.background %}style="overflow-x: hidden;background:url(/assets/images/backgrounds/{{v.background}}?v=3) center center fixed; background-color: var(--background){% if 'anime' not in v.background %};background-size: cover{% endif %}"{% endif %}>
 
@@ -63,7 +22,7 @@
 			<span>
 				{{error}}
 			</span>
-			<button class="close" data-bs-dismiss="alert" aria-label="Close">
+			<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true"><i class="far fa-times"></i></span>
 			</button>
 		</div>
@@ -74,7 +33,7 @@
 			<span>
 				{{msg}}
 			</span>
-			<button class="close" data-bs-dismiss="alert" aria-label="Close">
+			<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true"><i class="far fa-times"></i></span>
 			</button>
 		</div>
@@ -82,9 +41,9 @@
 
 		<div class="mt-3">
 
-			<h1 class="d-none d-md-block">Settings</h1>
+			<h1 class="d-mob-none">Settings</h1>
 
-			<h2 class="h3 mt-5 d-md-none">Settings</h2>
+			<h3 class=" mt-5 d-md-none">Settings</h3>
 
 		</div>
 
@@ -160,7 +119,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">{% if mfa_secret %}Setup two-step login{% elif mfa_secret and not v.email %}Email required for two-step login{% else %}Disable two-step login{% endif %}</h5>
-					<button class="close" data-bs-dismiss="modal" aria-label="Close">
+					<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true"><i class="far fa-times"></i></span>
 					</button>
 				</div>
@@ -175,8 +134,7 @@
 							</p>
 							<div class="text-center mb-3">
 								<img alt="two-factor QR code" loading="lazy" class="img-fluid" width=175 src="/2faqr/{{mfa_secret}}">
-								<pre></pre>
-								<div class="text-small text-muted">Or enter this code: {{mfa_secret}}</div>
+								<div class="text-small text-muted mt-1">Or enter this code: {{mfa_secret}}</div>
 							</div>
 							<p>
 								<span class="font-weight-bold">Step 2:</span> Enter the six-digit code generated in the authenticator app and your {{SITE_NAME}} account password.
@@ -188,7 +146,7 @@
 							<input autocomplete="off" type="password" class="form-control mb-2" id="2fa_input_password" name="password" oninput="document.getElementById('enable2faButton').disabled=false" required>
 						</div>
 						<div class="modal-footer">
-							<button class="btn btn-link text-muted" data-bs-dismiss="modal">Cancel</button>
+							<button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">Cancel</button>
 							<input autocomplete="off" id="enable2faButton" class="btn btn-primary" type="submit" onclick="disable(this)" value="Enable 2-step login" disabled>
 						</div>
 					</form>
@@ -212,7 +170,7 @@
 							<input autocomplete="off" type="text" class="form-control mb-2" id="2fa_input" name="2fa_remove" placeholder="# # # # # #" oninput="document.getElementById('disable2faButton').disabled=false" required>
 						</div>
 						<div class="modal-footer">
-							<button class="btn btn-link text-muted" data-bs-dismiss="modal">Cancel</button>
+							<button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">Cancel</button>
 							<input autocomplete="off" id="disable2faButton" class="btn btn-primary" type="submit" onclick="disable(this)" value="Disable 2-step login" disabled>
 						</div>
 					</form>

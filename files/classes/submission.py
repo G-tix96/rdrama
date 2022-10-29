@@ -9,6 +9,7 @@ from files.__main__ import Base
 from files.helpers.const import *
 from files.helpers.regex import *
 from files.helpers.lazy import lazy
+from files.helpers.sorting_and_time import make_age_string
 from .flags import Flag
 from .comment import Comment, normalize_urls_runtime
 from .saves import SaveRelationship
@@ -100,64 +101,12 @@ class Submission(Base):
 	@property
 	@lazy
 	def age_string(self):
-
-		age = int(time.time()) - self.created_utc
-
-		if age < 60:
-			return "just now"
-		elif age < 3600:
-			minutes = int(age / 60)
-			return f"{minutes}m ago"
-		elif age < 86400:
-			hours = int(age / 3600)
-			return f"{hours}hr ago"
-		elif age < 2678400:
-			days = int(age / 86400)
-			return f"{days}d ago"
-
-		now = time.gmtime()
-		ctd = time.gmtime(self.created_utc)
-
-		months = now.tm_mon - ctd.tm_mon + 12 * (now.tm_year - ctd.tm_year)
-		if now.tm_mday < ctd.tm_mday:
-			months -= 1
-
-		if months < 12:
-			return f"{months}mo ago"
-		else:
-			years = int(months / 12)
-			return f"{years}yr ago"
+		return make_age_string(self.created_utc)
 
 	@property
 	@lazy
 	def edited_string(self):
-
-		age = int(time.time()) - self.edited_utc
-
-		if age < 60:
-			return "just now"
-		elif age < 3600:
-			minutes = int(age / 60)
-			return f"{minutes}m ago"
-		elif age < 86400:
-			hours = int(age / 3600)
-			return f"{hours}hr ago"
-		elif age < 2678400:
-			days = int(age / 86400)
-			return f"{days}d ago"
-
-		now = time.gmtime()
-		ctd = time.gmtime(self.edited_utc)
-		months = now.tm_mon - ctd.tm_mon + 12 * (now.tm_year - ctd.tm_year)
-		if now.tm_mday < ctd.tm_mday:
-			months -= 1
-
-		if months < 12:
-			return f"{months}mo ago"
-		else:
-			years = int(months / 12)
-			return f"{years}yr ago"
-
+		return make_age_string(self.edited_utc)
 
 	@property
 	@lazy
@@ -310,11 +259,11 @@ class Submission(Base):
 		if url.startswith("https://old.reddit.com/r/") and '/comments/' in url and "sort=" not in url:
 			if "?" in url: url += "&context=9" 
 			else: url += "?context=8"
-			if v and v.controversial: url += "&sort=controversial"
-		elif url.startswith("https://watchpeopledie.co/videos/"):
+			if not v or v.controversial: url += "&sort=controversial"
+		elif url.startswith("https://watchpeopledie.tv/videos/"):
 			# Semi-temporary fix for self-hosted unproxied video serving
-			url = url.replace("https://watchpeopledie.co/videos/",
-							  "https://videos.watchpeopledie.co/", 1)
+			url = url.replace("https://watchpeopledie.tv/videos/",
+							  "https://videos.watchpeopledie.tv/", 1)
 
 		return url
 	
@@ -331,7 +280,7 @@ class Submission(Base):
 	def realbody(self, v, listing=False):
 		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"<p>{CC} ONLY</p>"
 		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "[Deleted by user]"
-		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']): return "[Removed by admins]"
+		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return ""
 
 		body = self.body_html or ""
 
@@ -400,7 +349,7 @@ class Submission(Base):
 	@lazy
 	def plainbody(self, v):
 		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "[Deleted by user]"
-		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']): return "[Removed by admins]"
+		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return ""
 		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"<p>{CC} ONLY</p>"
 
 		body = self.body
@@ -449,9 +398,7 @@ class Submission(Base):
 	@property
 	@lazy
 	def is_image(self):
-		if self.url and (self.url.lower().endswith('.webp') or self.url.lower().endswith('.jpg') or self.url.lower().endswith('.png') or self.url.lower().endswith('.gif') or self.url.lower().endswith('.jpeg') or self.url.lower().endswith('?maxwidth=9999') or self.url.lower().endswith('&fidelity=high')) and is_safe_url(self.url):
-			return True
-		return False
+		return self.url and any((self.url.lower().endswith(x) for x in ('.webp','.jpg','.png','.gif','.jpeg','?maxwidth=9999','&fidelity=high'))) and is_safe_url(self.url)
 
 	@lazy
 	def filtered_flags(self, v):

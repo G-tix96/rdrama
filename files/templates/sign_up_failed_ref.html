@@ -1,43 +1,8 @@
 {%- import 'util/helpers.html' as help -%}
+{%- import 'html_head.html' as html_head with context -%}
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
-
-	<link rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
-
-	<meta name="description" content="{{DESCRIPTION}}">
-		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
-
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-		<meta name="author" content="">
-		<meta property="og:type" content="article">
-		<meta property="og:title" content="{{SITE_NAME}}">
-		<meta property="og:site_name" content="{{SITE}}">
-		<meta property="og:image" content="{{'site_preview.webp' | asset_siteimg}}">
-		<meta property="og:url" content="{{SITE_FULL}}">
-		<meta property="og:description" name="description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
-		<meta property="og:author" name="author" content="{{SITE_FULL}}">
-
-		<meta name="twitter:card" content="summary_large_image">
-		<meta name="twitter:site" content="{{SITE_FULL}}">
-		<meta name="twitter:title" content="{{SITE_NAME}}">
-		<meta name="twitter:creator" content="{{SITE_FULL}}">
-		<meta name="twitter:description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
-		<meta name="twitter:image" content="{{'site_preview.webp' | asset_siteimg}}">
-		<meta name="twitter:url" content="{{SITE_FULL}}">
-
-		<title>{% if ref_user %}{{ref_user.username}} invites you to {{SITE_NAME}}{% else %}{{SITE_NAME}}{% endif %}</title>
-
-		<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
-		<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-		<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
-
-</head>
-
+{{html_head.html_head(true, false, false, none, none, none, false)}}
 <body id="login">
 
 <div class="container-fluid position-absolute h-100 p-0">
@@ -49,12 +14,8 @@
 
 								<div class="col-10 col-md-7">
 
-										<div class="text-center mb-5">
-												<a href="/" class="text-decoration-none"><span class="h3 text-primary">‎</span></a>
-										</div>
-
-										<div id="register-form" class="">
-												<h1 class="h4 font-weight-normal text-center">Whoops! You can't refer yourself!</h1>
+										<div id="register-form">
+												<h4 class=" font-weight-normal text-center">Whoops! You can't refer yourself!</h4>
 												<p class="text-center text-muted mb-md-5">Send this link to a friend instead :)</p>
 												<label>Referral code</label>
 												<input autocomplete="off" type="text" class="form-control copy-link" readonly value="{{SITE_FULL}}/signup?ref={{request.values.get('ref')}}" data-clipboard-text="{{SITE_FULL}}/signup?ref={{request.values.get('ref')}}">
@@ -68,7 +29,7 @@
 
 						</div>
 
-						<div class="col-12 col-md-6 d-none d-md-block">
+						<div class="col-12 col-md-6 d-mob-none">
 
 								<div class="splash-wrapper">
 

@@ -4,7 +4,6 @@ from files.helpers.alerts import *
 from files.helpers.get import *
 from files.helpers.const import *
 from files.helpers.regex import *
-from files.helpers.discord import *
 from files.helpers.actions import *
 from files.classes.award import *
 from .front import frontlist
@@ -17,10 +16,8 @@ from copy import deepcopy
 @app.get("/shop")
 @app.get("/settings/shop")
 @auth_required
+@feature_required('AWARDS')
 def shop(v):
-	if not FEATURES['AWARDS']:
-		abort(404)
-
 	AWARDS = deepcopy(AWARDS2)
 
 	if v.house:
@@ -44,15 +41,15 @@ def shop(v):
 @app.post("/buy/<award>")
 @limiter.limit("100/minute;200/hour;1000/day")
 @auth_required
+@feature_required('BADGES')
 def buy(v, award):
-	if not FEATURES['AWARDS']:
-		abort(404)
+	
 
 	if award == 'benefactor' and not request.values.get("mb"):
-		return {"error": "You can only buy the Benefactor award with marseybux."}, 403
+		abort(403, "You can only buy the Benefactor award with marseybux.")
 
 	if award == 'ghost' and v.admin_level < PERMS['BUY_GHOST_AWARD']:
-		return {"error": "Only admins can buy this award."}, 403
+		abort(403, "Only admins can buy this award")
 
 	AWARDS = deepcopy(AWARDS2)
 
@@ -67,15 +64,15 @@ def buy(v, award):
 
 	if request.values.get("mb"):
 		if award == "grass":
-			return {"error": "You can't buy the grass award with marseybux."}, 403
+			abort(403, "You can't buy the grass award with marseybux.")
 
 		charged = v.charge_account('procoins', price)
 		if not charged:
-			return {"error": "Not enough marseybux."}, 400
+			abort(400, "Not enough marseybux.")
 	else:
 		charged = v.charge_account('coins', price)
 		if not charged:
-			return {"error": "Not enough coins."}, 400
+			abort(400, "Not enough coins.")
 
 		v.coins_spent += price
 		if v.coins_spent >= 1000000:
@@ -127,10 +124,8 @@ def buy(v, award):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
+@feature_required('BADGES')
 def award_thing(v, thing_type, id):
-	if not FEATURES['AWARDS']:
-		abort(404)
-
 	if thing_type == 'post': thing = get_post(id)
 	else: thing = get_comment(id)
 
@@ -142,8 +137,7 @@ def award_thing(v, thing_type, id):
 	if v.house:
 		AWARDS[v.house] = HOUSE_AWARDS[v.house]
 
-	if kind not in AWARDS:
-		return {"error": "This award doesn't exist."}, 404
+	if kind not in AWARDS: abort(404, "This award doesn't exist")
 
 	award = g.db.query(AwardRelationship).filter(
 		AwardRelationship.kind == kind,
@@ -152,8 +146,7 @@ def award_thing(v, thing_type, id):
 		AwardRelationship.comment_id == None
 	).first()
 
-	if not award:
-		return {"error": "You don't have that award."}, 404
+	if not award: abort(404, "You don't have that award")
 
 	if thing_type == 'post': award.submission_id = thing.id
 	else: award.comment_id = thing.id
@@ -167,13 +160,13 @@ def award_thing(v, thing_type, id):
 	if author.shadowbanned: abort(404)
 
 	if SITE == 'rdrama.net' and author.id in (PIZZASHILL_ID, CARP_ID):
-		return {"error": "This user is immune to awards."}, 403
+		abort(403, "This user is immune to awards.")
 
 	if kind == "benefactor" and author.id == v.id:
-		return {"error": "You can't use this award on yourself."}, 400
+		abort(400, "You can't use this award on yourself.")
 
 	if kind == 'marsify' and author.marsify == 1:
-		return {"error": "User is already permanently marsified!"}, 403
+		abort(403, "User is already permanently marsified!")
 
 	if v.id != author.id:
 		safe_username = "👻" if thing.ghost else f"@{author.username}"
@@ -209,19 +202,6 @@ def award_thing(v, thing_type, id):
 		elif author.unban_utc:
 			author.unban_utc += 86400
 			send_repeatable_notification(author.id, f"Your account has been banned for **yet another day** for {link}. Seriously man?")
-
-		if v.admin_level >= PERMS['USER_BAN']:
-			log_link = f'/{thing_type}/{thing.id}'
-			reason = f'<a href="{log_link}">{log_link}</a>'
-
-			note = f'reason: "{reason}", duration: for 1 day'
-			ma=ModAction(
-				kind="ban_user",
-				user_id=v.id,
-				target_user_id=author.id,
-				_note=note
-				)
-			g.db.add(ma)
 	elif kind == "unban":
 		if not author.is_suspended or not author.unban_utc or time.time() > author.unban_utc: abort(403)
 
@@ -233,39 +213,18 @@ def award_thing(v, thing_type, id):
 			author.is_banned = 0
 			author.ban_reason = None
 			send_repeatable_notification(author.id, "You have been unbanned!")
-
-		if v.admin_level >= PERMS['USER_BAN']:
-			ma=ModAction(
-				kind="unban_user",
-				user_id=v.id,
-				target_user_id=author.id,
-				)
-			g.db.add(ma)
 	elif kind == "grass":
 		author.is_banned = AUTOJANNY_ID
 		author.ban_reason = f"grass award used by @{v.username} on /{thing_type}/{thing.id}"
 		author.unban_utc = int(time.time()) + 30 * 86400
 		send_repeatable_notification(author.id, f"Your account has been banned permanently for {link}. You must [provide the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
-
-		if v.admin_level >= PERMS['USER_BAN']:
-			log_link = f'/{thing_type}/{thing.id}'
-			reason = f'<a href="{log_link}">{log_link}</a>'
-
-			note = f'reason: "{reason}", duration: for 30 days'
-			ma=ModAction(
-				kind="ban_user",
-				user_id=v.id,
-				target_user_id=author.id,
-				_note=note
-				)
-			g.db.add(ma)
 	elif kind == "pin":
-		if not FEATURES['PINS']:
-			abort(403)
+		if not FEATURES['PINS']: abort(403)
+		if thing.is_banned: abort(403)
 		if thing.stickied and thing.stickied_utc:
 			thing.stickied_utc += 3600
 		else:
-			thing.stickied = f'{v.username} (pin award)'
+			thing.stickied = f'{v.username}{PIN_AWARD_TEXT}'
 			if thing_type == 'comment':
 				thing.stickied_utc = int(time.time()) + 3600*6
 			else:
@@ -273,7 +232,8 @@ def award_thing(v, thing_type, id):
 		g.db.add(thing)
 		cache.delete_memoized(frontlist)
 	elif kind == "unpin":
-		if not thing.stickied_utc: abort(403)
+		if not thing.stickied_utc: abort(400)
+		if thing.author_id == LAWLZ_ID and SITE_NAME == 'rDrama': abort(403, "You can't unpin lawlzposts!")
 
 		if thing_type == 'comment':
 			t = thing.stickied_utc - 3600*6
@@ -288,21 +248,12 @@ def award_thing(v, thing_type, id):
 		g.db.add(thing)
 	elif kind == "agendaposter" and not (author.agendaposter and author.agendaposter == 0):
 		if author.marseyawarded:
-			return {"error": "This user is the under the effect of a conflicting award: Marsey award."}, 404
+			abort(409, "This user is under the effect of a conflicting award: Marsey award.")
 
 		if author.agendaposter and time.time() < author.agendaposter: author.agendaposter += 86400
 		else: author.agendaposter = int(time.time()) + 86400
 		
 		badge_grant(user=author, badge_id=28)
-
-		if v.admin_level >= PERMS['USER_AGENDAPOSTER']:
-			ma = ModAction(
-				kind="agendaposter",
-				user_id=v.id,
-				target_user_id=author.id,
-				_note=f"for 1 day"
-			)
-			g.db.add(ma)
 	elif kind == "flairlock":
 		if thing.ghost: abort(403)
 		new_name = note[:100].replace("𒐪","")
@@ -316,10 +267,8 @@ def award_thing(v, thing_type, id):
 			author.flairchanged = int(time.time()) + 86400
 			badge_grant(user=author, badge_id=96)
 	elif kind == "pause":
-		author.mute = True
 		badge_grant(badge_id=68, user=author)
 	elif kind == "unpausable":
-		author.unmutable = True
 		badge_grant(badge_id=67, user=author)
 	elif kind == "marsey":
 		if author.marseyawarded: author.marseyawarded += 86400
@@ -327,31 +276,26 @@ def award_thing(v, thing_type, id):
 		badge_grant(user=author, badge_id=98)
 	elif kind == "pizzashill":
 		if author.bird:
-			return {"error": "This user is the under the effect of a conflicting award: Bird Site award."}, 404
+			abort(409, "This user is under the effect of a conflicting award: Bird Site award.")
 		if author.longpost: author.longpost += 86400
 		else: author.longpost = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=97)
 	elif kind == "bird":
 		if author.longpost:
-			return {"error": "This user is the under the effect of a conflicting award: Pizzashill award."}, 404
+			abort(409, "This user is under the effect of a conflicting award: Pizzashill award.")
 		if author.bird: author.bird += 86400
 		else: author.bird = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=95)
 	elif kind == "eye":
-		author.eye = True
 		badge_grant(badge_id=83, user=author)
 	elif kind == "offsitementions":
-		author.offsitementions = True
 		badge_grant(user=author, badge_id=140)
 	elif kind == "alt":
-		author.alt = True
 		badge_grant(badge_id=84, user=author)
 	elif kind == "unblockable":
-		author.unblockable = True
 		badge_grant(badge_id=87, user=author)
 		for block in g.db.query(UserBlock).filter_by(target_id=author.id).all(): g.db.delete(block)
 	elif kind == "fish":
-		author.fish = True
 		badge_grant(badge_id=90, user=author)
 	elif kind == "progressivestack":
 		if not FEATURES['PINS']:
@@ -360,12 +304,11 @@ def award_thing(v, thing_type, id):
 		else: author.progressivestack = int(time.time()) + 21600
 		badge_grant(user=author, badge_id=94)
 	elif kind == "benefactor":
-		if author.patron: return {"error": "This user is already a paypig!"}, 400
+		if author.patron: abort(409, f"This user is already a {patron.lower()}!")
 		author.patron = 1
 		if author.patron_utc: author.patron_utc += 2629746
 		else: author.patron_utc = int(time.time()) + 2629746
 		author.procoins += 2500
-		if author.discord_id: add_role(author, "1")
 		badge_grant(user=v, badge_id=103)
 	elif kind == "rehab":
 		if author.rehab: author.rehab += 86400
@@ -416,7 +359,7 @@ def award_thing(v, thing_type, id):
 			if author.marsify: body = marsify(body)
 			thing.body_html = sanitize(body, limit_pings=5)
 			g.db.add(thing)
-	elif ("Femboy" in kind and kind == v.house):
+	elif ("Femboy" in kind and kind == v.house) or kind == 'rainbow':
 		if author.rainbow: author.rainbow += 86400
 		else: author.rainbow = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=171)

@@ -46,8 +46,8 @@ body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textare
 
 .sidebar
 {
-    border-radius: 6px;
-    margin-top: 6px;
+	border-radius: 6px;
+	margin-top: 6px;
 }
 
 .table th, .table td {

@@ -81,7 +81,7 @@ def sidebar(v):
 @app.get("/stats")
 @auth_required
 def participation_stats(v):
-	if request.headers.get("Authorization"): return stats_cached()
+	if v.client: return stats_cached()
 	return render_template("stats.html", v=v, title="Content Statistics", data=stats_cached())
 
 @cache.memoize(timeout=86400)
@@ -158,10 +158,10 @@ def log(v):
 			types = types2
 		if kind: actions = actions.filter_by(kind=kind)
 
-		actions = actions.order_by(ModAction.id.desc()).offset(25*(page-1)).limit(26).all()
+		actions = actions.order_by(ModAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
 	
-	next_exists=len(actions)>25
-	actions=actions[:25]
+	next_exists=len(actions) > PAGE_SIZE
+	actions=actions[:PAGE_SIZE]
 	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.username).all()]
 
 	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, next_exists=next_exists, page=page)
@@ -169,7 +169,6 @@ def log(v):
 @app.get("/log/<id>")
 @auth_required
 def log_item(id, v):
-
 	try: id = int(id)
 	except: abort(404)
 
@@ -233,7 +232,7 @@ def submit_contact(v):
 	new_comment.top_comment_id = new_comment.id
 	
 	admins = g.db.query(User).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'])
-	if SITE == 'watchpeopledie.co':
+	if SITE == 'watchpeopledie.tv':
 		admins = admins.filter(User.id != AEVANN_ID)
 
 	for admin in admins.all():
@@ -254,45 +253,34 @@ def archives(path):
 	if request.path.endswith('.css'): resp.headers.add("Content-Type", "text/css")
 	return resp
 
+def static_file(dir:str, path:str, should_cache:bool, is_webp:bool) -> Response:
+	resp = make_response(send_from_directory(dir, path))
+	if should_cache:
+		resp.headers.remove("Cache-Control")
+		resp.headers.add("Cache-Control", "public, max-age=3153600")
+	if is_webp:
+		resp.headers.remove("Content-Type")
+		resp.headers.add("Content-Type", "image/webp")
+	return resp
+
 @app.get('/e/<emoji>')
 @limiter.exempt
 def emoji(emoji):
 	if not emoji.endswith('.webp'): abort(404)
-	resp = make_response(send_from_directory('assets/images/emojis', emoji))
-	resp.headers.remove("Cache-Control")
-	resp.headers.add("Cache-Control", "public, max-age=3153600")
-	resp.headers.remove("Content-Type")
-	resp.headers.add("Content-Type", "image/webp")
-	return resp
+	return static_file('assets/images/emojis', emoji, True, True)
 
 @app.get('/i/<path:path>')
 @limiter.exempt
 def image(path):
-	resp = make_response(send_from_directory('assets/images', path))
-	if request.path.endswith('.webp') or request.path.endswith('.gif') or request.path.endswith('.ttf') or request.path.endswith('.woff2'):
-		resp.headers.remove("Cache-Control")
-		resp.headers.add("Cache-Control", "public, max-age=3153600")
-
-	if request.path.endswith('.webp'):
-		resp.headers.remove("Content-Type")
-		resp.headers.add("Content-Type", "image/webp")
-
-	return resp
+	is_webp = path.endswith('.webp')
+	return static_file('assets/images', path, is_webp or path.endswith('.gif') or path.endswith('.ttf') or path.endswith('.woff2'), is_webp)
 
 @app.get('/assets/<path:path>')
 @app.get('/static/assets/<path:path>')
 @limiter.exempt
 def static_service(path):
-	resp = make_response(send_from_directory('assets', path))
-	if request.path.endswith('.webp') or request.path.endswith('.gif') or request.path.endswith('.ttf') or request.path.endswith('.woff2'):
-		resp.headers.remove("Cache-Control")
-		resp.headers.add("Cache-Control", "public, max-age=3153600")
-
-	if request.path.endswith('.webp'):
-		resp.headers.remove("Content-Type")
-		resp.headers.add("Content-Type", "image/webp")
-
-	return resp
+	is_webp = path.endswith('.webp')
+	return static_file('assets', path, is_webp or path.endswith('.gif') or path.endswith('.ttf') or path.endswith('.woff2'), is_webp)
 
 ### BEGIN FALLBACK ASSET SERVING
 # In production, we have nginx serve these locations now.
@@ -303,28 +291,17 @@ def static_service(path):
 @app.get("/static/images/<path>")
 @limiter.exempt
 def images(path):
-	resp = make_response(send_from_directory('/images', path))
-	resp.headers.remove("Cache-Control")
-	resp.headers.add("Cache-Control", "public, max-age=3153600")
-	resp.headers.remove("Content-Type")
-	resp.headers.add("Content-Type" ,"image/webp")
-	return resp
+	return static_file('/images', path, True, True)
 
 @app.get('/videos/<path>')
 @limiter.exempt
 def videos(path):
-	resp = make_response(send_from_directory('/videos', path))
-	resp.headers.remove("Cache-Control")
-	resp.headers.add("Cache-Control", "public, max-age=3153600")
-	return resp
+	return static_file('/videos', path, True, False)
 
 @app.get('/audio/<path>')
 @limiter.exempt
 def audio(path):
-	resp = make_response(send_from_directory('/audio', path))
-	resp.headers.remove("Cache-Control")
-	resp.headers.add("Cache-Control", "public, max-age=3153600")
-	return resp
+	return static_file('/audio', path, True, False)
 
 ### END FALLBACK ASSET SERVING
 
@@ -348,18 +325,14 @@ def badge_list(site):
 
 @app.get("/badges")
 @auth_required
+@feature_required('BADGES')
 def badges(v):
-	if not FEATURES['BADGES']:
-		abort(404)
-
 	badges, counts = badge_list(SITE)
 	return render_template("badges.html", v=v, badges=badges, counts=counts)
 
 @app.get("/blocks")
 @admin_level_required(PERMS['USER_BLOCKS_VISIBLE'])
 def blocks(v):
-
-
 	blocks=g.db.query(UserBlock).all()
 	users = []
 	targets = []
@@ -375,14 +348,12 @@ def blocks(v):
 @app.get("/banned")
 @auth_required
 def banned(v):
-
 	users = g.db.query(User).filter(User.is_banned > 0, User.unban_utc == 0).all()
 	return render_template("banned.html", v=v, users=users)
 
 @app.get("/formatting")
 @auth_required
 def formatting(v):
-
 	return render_template("formatting.html", v=v)
 
 @app.get("/service-worker.js")
@@ -393,7 +364,6 @@ def serviceworker():
 @app.get("/settings/security")
 @auth_required
 def settings_security(v):
-
 	return render_template("settings_security.html",
 						v=v,
 						mfa_secret=pyotp.random_base32() if not v.mfa_secret else None
@@ -427,11 +397,11 @@ def transfers(v):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	comments = comments.offset(25 * (page - 1)).limit(26).all()
-	next_exists = len(comments) > 25
-	comments = comments[:25]
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+	next_exists = len(comments) > PAGE_SIZE
+	comments = comments[:PAGE_SIZE]
 
-	if request.headers.get("Authorization"):
+	if v.client:
 		return {"data": [x.json for x in comments]}
 	else:
 		return render_template("transfers.html", v=v, page=page, comments=comments, standalone=True, next_exists=next_exists)
@@ -443,6 +413,7 @@ if not os.path.exists(f'files/templates/donate_{SITE_NAME}.html'):
 @app.get('/donate')
 @auth_required
 def donate(v):
+	if v.truecoins < 1000: abort(404)
 	return render_template(f'donate_{SITE_NAME}.html', v=v)
 
 
@@ -463,16 +434,16 @@ if SITE == 'pcmemes.net':
 			y = live_regex.search(text)
 			count = y.group(3)
 
-			if count == '1 παρακολουθεί τώρα':
+			if count == '1 watching now':
 				count = "1"
 
-			if 'περιμένει' in count:
+			if 'waiting' in count:
 				if live != '':
 					return process_streamer(id, '')
 				else:
 					return None
 
-			count = int(count.replace('.', ''))
+			count = int(count.replace(',', ''))
 
 			t = live_thumb_regex.search(text)
 
@@ -572,13 +543,13 @@ if SITE == 'pcmemes.net':
 		else:
 			text = requests.get(link, cookies={'CONSENT': 'YES+1'}, timeout=5).text
 			try: id = id_regex.search(text).group(1)
-			except: return {"error": "Invalid ID"}
+			except: abort(400, "Invalid ID")
 
 		live = cache.get('live') or []
 		offline = cache.get('offline') or []
 
 		if not id or len(id) != 24:
-			return {"error": "Invalid ID"}
+			abort(400, "Invalid ID")
 
 		existing = g.db.get(Streamer, id)
 		if not existing:
@@ -586,7 +557,7 @@ if SITE == 'pcmemes.net':
 			g.db.add(streamer)
 			g.db.flush()
 			if v.id != KIPPY_ID:
-				send_repeatable_notification(KIPPY_ID, f"@{v.username} has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
+				send_repeatable_notification(KIPPY_ID, f"@{v.username} (Admin) has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 
 			processed = process_streamer(id)
 			if processed:
@@ -609,7 +580,7 @@ if SITE == 'pcmemes.net':
 		streamer = g.db.get(Streamer, id)
 		if streamer:
 			if v.id != KIPPY_ID:
-				send_repeatable_notification(KIPPY_ID, f"@{v.username} has removed a [YouTube channel](https://www.youtube.com/channel/{streamer.id})")
+				send_repeatable_notification(KIPPY_ID, f"@{v.username} (Admin) has removed a [YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 			g.db.delete(streamer)
 
 		live = cache.get('live') or []

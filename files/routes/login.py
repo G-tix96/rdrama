@@ -1,6 +1,6 @@
 from urllib.parse import urlencode
 from files.mail import *
-from files.__main__ import app, limiter
+from files.__main__ import app, get_CF, limiter
 from files.helpers.const import *
 from files.helpers.regex import *
 from files.helpers.actions import *
@@ -21,7 +21,7 @@ def login_get(v):
 	return render_template("login.html", failed=False, redirect=redir)
 
 
-def check_for_alts(current):
+def check_for_alts(current:User):
 	current_id = current.id
 	if current_id in (1691,6790,7069,36152):
 		session["history"] = []
@@ -29,8 +29,15 @@ def check_for_alts(current):
 	ids = [x[0] for x in g.db.query(User.id).all()]
 	past_accs = set(session.get("history", []))
 
+	def add_alt(user1:int, user2:int):
+		li = [user1, user2]
+		existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
+		if not existing:
+			new_alt = Alt(user1=user1, user2=user2)
+			g.db.add(new_alt)
+			g.db.flush()
+
 	for past_id in list(past_accs):
-		
 		if past_id not in ids:
 			past_accs.remove(past_id)
 			continue
@@ -39,46 +46,17 @@ def check_for_alts(current):
 		if past_id == current_id: continue
 
 		li = [past_id, current_id]
-		existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
-
-		if not existing:
-			new_alt = Alt(user1=past_id, user2=current_id)
-			g.db.add(new_alt)
-			g.db.flush()
-			
-		otheralts = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).all()
-		for a in otheralts:
+		add_alt(past_id, current_id)
+		other_alts = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).all()
+		for a in other_alts:
 			if a.user1 != past_id:
-				li = [a.user1, past_id]
-				existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
-				if not existing:
-					new_alt = Alt(user1=a.user1, user2=past_id)
-					g.db.add(new_alt)
-					g.db.flush()
-
+				add_alt(a.user1, past_id)
 			if a.user1 != current_id:
-				li = [a.user1, current_id]
-				existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
-				if not existing:
-					new_alt = Alt(user1=a.user1, user2=current_id)
-					g.db.add(new_alt)
-					g.db.flush()
-
+				add_alt(a.user1, current_id)
 			if a.user2 != past_id:
-				li = [a.user2, past_id]
-				existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
-				if not existing:
-					new_alt = Alt(user1=a.user2, user2=past_id)
-					g.db.add(new_alt)
-					g.db.flush()
-
+				add_alt(a.user2, past_id)
 			if a.user2 != current_id:
-				li = [a.user2, current_id]
-				existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
-				if not existing:
-					new_alt = Alt(user1=a.user2, user2=current_id)
-					g.db.add(new_alt)
-					g.db.flush()
+				add_alt(a.user2, current_id)
 	
 	past_accs.add(current_id)
 	session["history"] = list(past_accs)
@@ -94,10 +72,19 @@ def check_for_alts(current):
 			g.db.add(u)
 
 
+def login_deduct_when(resp):
+	if not g:
+		return False
+	elif not hasattr(g, 'login_failed'):
+		return False
+	return g.login_failed
+
 @app.post("/login")
-@limiter.limit("1/second;6/minute;200/hour;1000/day")
+@limiter.limit("6/minute;10/day",
+	deduct_when=login_deduct_when)
 def login_post():
 	template = ''
+	g.login_failed = True
 
 	username = request.values.get("username")
 
@@ -118,14 +105,15 @@ def login_post():
 
 
 	if request.values.get("password"):
-
 		if not account.verifyPass(request.values.get("password")):
+			log_failed_admin_login_attempt(account, "password")
 			time.sleep(random.uniform(0, 2))
 			return render_template("login.html", failed=True)
 
 		if account.mfa_secret:
 			now = int(time.time())
 			hash = generate_hash(f"{account.id}+{now}+2fachallenge")
+			g.login_failed = False
 			return render_template("login_2fa.html",
 								v=account,
 								time=now,
@@ -147,6 +135,7 @@ def login_post():
 
 		if not account.validate_2fa(request.values.get("2fa_token", "").strip()):
 			hash = generate_hash(f"{account.id}+{now}+2fachallenge")
+			log_failed_admin_login_attempt(account, "2FA token")
 			return render_template("login_2fa.html",
 								v=account,
 								time=now,
@@ -156,6 +145,7 @@ def login_post():
 	else:
 		abort(400)
 
+	g.login_failed = False
 	on_login(account)
 
 	redir = request.values.get("redirect")
@@ -164,17 +154,29 @@ def login_post():
 		if is_site_url(redir): return redirect(redir)
 	return redirect('/')
 
+def log_failed_admin_login_attempt(account:User, type:str):
+		if not account or account.admin_level < PERMS['SITE_WARN_ON_INVALID_AUTH']: return
+		ip = get_CF()
+		print(f"Admin user from {ip} failed to login to account @{account.user_name} (invalid {type})!")
+		try:
+			with open(f"/admin_failed_logins", "a+", encoding="utf-8") as f:
+				t = str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time())))
+				f.write(f"{t}, {ip}, {account.username}, {type}\n")
+		except:
+			pass
+
 def on_login(account, redir=None):
 	session["lo_user"] = account.id
 	session["login_nonce"] = account.login_nonce
 	if account.id == AEVANN_ID: session["verified"] = time.time()
 	check_for_alts(account)
 
+
 @app.get("/me")
 @app.get("/@me")
 @auth_required
 def me(v):
-	if request.headers.get("Authorization"): return v.json
+	if v.client: return v.json
 	else: return redirect(v.url)
 
 
@@ -219,7 +221,7 @@ def sign_up_get(v):
 
 	formkey_hashstr = str(now) + token + g.agent
 
-	formkey = hmac.new(key=bytes(MASTER_KEY, "utf-16"),
+	formkey = hmac.new(key=bytes(SECRET_KEY, "utf-16"),
 					msg=bytes(formkey_hashstr, "utf-16"),
 					digestmod='md5'
 					).hexdigest()
@@ -258,7 +260,7 @@ def sign_up_post(v):
 
 	correct_formkey_hashstr = form_timestamp + submitted_token + g.agent
 
-	correct_formkey = hmac.new(key=bytes(MASTER_KEY, "utf-16"),
+	correct_formkey = hmac.new(key=bytes(SECRET_KEY, "utf-16"),
 								msg=bytes(correct_formkey_hashstr, "utf-16"),
 								digestmod='md5'
 							).hexdigest()
@@ -304,9 +306,6 @@ def sign_up_post(v):
 	else: email = None
 
 	existing_account = get_user(username, graceful=True)
-	if existing_account and existing_account.reserved:
-		return redirect(existing_account.url)
-
 	if existing_account:
 		return signup_error("An account with that username already exists.")
 
@@ -327,7 +326,11 @@ def sign_up_post(v):
 
 	session.pop("signup_token")
 
-	ref_id = int(request.values.get("referred_by", 0))
+	ref_id = 0
+	try:
+		ref_id = int(request.values.get("referred_by", 0))
+	except:
+		pass
 
 	users_count = g.db.query(User).count()
 	if users_count == 4:
@@ -374,22 +377,15 @@ def sign_up_post(v):
 
 	session["lo_user"] = new_user.id
 	
-	if SITE == 'rdrama.net':
+	if SIGNUP_FOLLOW_ID:
+		signup_autofollow = get_account(SIGNUP_FOLLOW_ID)
+		new_follow = Follow(user_id=new_user.id, target_id=signup_autofollow.id)
+		g.db.add(new_follow)
+		signup_autofollow.stored_subscriber_count += 1
+		g.db.add(signup_autofollow)
+		send_notification(signup_autofollow.id, f"A new user - @{new_user.username} - has followed you automatically!")
+	elif CARP_ID:
 		send_notification(CARP_ID, f"A new user - @{new_user.username} - has signed up!")
-	if SITE == 'watchpeopledie.co':
-		carp = get_account(CARP_ID)
-		new_follow = Follow(user_id=new_user.id, target_id=carp.id)
-		g.db.add(new_follow)
-		carp.stored_subscriber_count += 1
-		g.db.add(carp)
-		send_notification(carp.id, f"A new user - @{new_user.username} - has followed you automatically!")
-	if SITE == 'pcmemes.net':
-		kippy = get_account(KIPPY_ID)
-		new_follow = Follow(user_id=new_user.id, target_id=kippy.id)
-		g.db.add(new_follow)
-		kippy.stored_subscriber_count += 1
-		g.db.add(kippy)
-		send_notification(kippy.id, f"A new user - @{new_user.username} - has followed you automatically!")
 
 	redir = request.values.get("redirect")
 	if redir:
@@ -441,10 +437,12 @@ def post_forgot():
 
 @app.get("/reset")
 def get_reset():
-
 	user_id = request.values.get("id")
-
-	timestamp = int(request.values.get("time",0))
+	timestamp = 0
+	try:
+		timestamp = int(request.values.get("time",0))
+	except:
+		pass
 	token = request.values.get("token")
 
 	now = int(time.time())
@@ -480,8 +478,11 @@ def post_reset(v):
 	if v: return redirect('/')
 
 	user_id = request.values.get("user_id")
-
-	timestamp = int(request.values.get("time"))
+	timestamp = 0
+	try:
+		timestamp = int(request.values.get("time"))
+	except:
+		abort(400)
 	token = request.values.get("token")
 
 	password = request.values.get("password")
@@ -566,11 +567,13 @@ def request_2fa_disable():
 
 @app.get("/reset_2fa")
 def reset_2fa():
-
 	now=int(time.time())
 	t = request.values.get("t")
 	if not t: abort(400)
-	t = int(t)
+	try:
+		t = int(t)
+	except:
+		abort(400)
 
 	if now > t+3600*24:
 		return render_template("message.html",

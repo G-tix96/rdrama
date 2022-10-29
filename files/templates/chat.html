@@ -1,28 +1,13 @@
 {%- import 'util/helpers.html' as help -%}
+{%- import 'html_head.html' as html_head with context -%}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
-	<meta name="description" content="{{DESCRIPTION}}">
-	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="author" content="">
-
-	<link id="favicon" rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
-	<title>Chat</title>
-
-	<style>:root{--primary:#{{v.themecolor}}}</style>
-	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-	<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
-	{% if v.css %}
-		<style>
-			{{v.css | safe}}
-		</style>
-	{% endif %}
-	<link rel="stylesheet" href="{{'css/chat_done.css' | asset}}">
-</head>
-
+{% if SITE == 'localhost' %}
+	{% set csp="script-src 'self' 'unsafe-inline' rdrama.net; connect-src 'self'; object-src 'none';" %}
+{% else %}
+	{% set csp=none %}
+{% endif %}
+{{html_head.html_head(true, true, true, csp, "Chat", none, "", false)}}
 <body>
 	{% include "header.html" %}
 	{% include "expanded_image_modal.html" %}
@@ -41,8 +26,11 @@
 		data-hat="{{v.hat_active}}">
 	</div>
 	<script>window.global = window</script>
-	<script defer src="{{'js/chat_done.js' | asset}}"></script>
+	{% if SITE == 'localhost' %}
+		<script defer src="https://rdrama.net/assets/js/chat_done.js"></script>
+	{% else %}
+		<script defer src="{{'js/chat_done.js' | asset}}"></script>
+	{% endif %}
 	<script defer src="{{'js/lozad.js' | asset}}"></script>
 	<script defer src="{{'js/lite-youtube.js' | asset}}"></script>
 </body>
-

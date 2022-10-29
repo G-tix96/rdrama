@@ -29,29 +29,20 @@ function report_commentModal(id, author) {
 		this.innerHTML='Reporting comment';
 		this.disabled = true;
 		this.classList.add('disabled');
-		const xhr = new XMLHttpRequest();
-		xhr.open("POST", '/report/comment/'+id);
-		xhr.setRequestHeader('xhr', 'xhr');
-		const form = new FormData()
-		form.append("formkey", formkey());
+		const form = new FormData();
 		form.append("reason", reason_comment.value);
+		const xhr = createXhrWithFormKey("/report/comment/" + id, "POST", form);
 
-		xhr.onload = function() {
+		xhr[0].onload = function() {
 			let data
-			try {data = JSON.parse(xhr.response)}
+			try {data = JSON.parse(xhr[0].response)}
 			catch(e) {console.log(e)}
-			if (xhr.status >= 200 && xhr.status < 300 && data && data['message']) {
-				document.getElementById('toast-post-success-text').innerText = data["message"];
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success')).show();
-			} else {
-				document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-				if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
-			}
+			success = xhr[0].status >= 200 && xhr[0].status < 300;
+			showToast(success, getMessageFromJsonData(success, data));
 		};
 
-		xhr.onerror=function(){alert(errortext)};
-		xhr.send(form);
+		xhr[0].onerror=function(){alert(errortext)};
+		xhr[0].send(xhr[1]);
 	}
 
 };
@@ -101,30 +92,31 @@ function toggleEdit(id){
 
 function delete_commentModal(id) {
 	document.getElementById("deleteCommentButton").onclick = function() {
-		const xhr = new XMLHttpRequest();
-		xhr.open("POST", `/delete/comment/${id}`);
-		xhr.setRequestHeader('xhr', 'xhr');
-		const form = new FormData()
-		form.append("formkey", formkey());
-		xhr.onload = function() {
+		const xhr = createXhrWithFormKey(`/delete/comment/${id}`);
+		xhr[0].onload = function() {
 			let data
-			try {data = JSON.parse(xhr.response)}
+			try {data = JSON.parse(xhr[0].response)}
 			catch(e) {console.log(e)}
-			if (xhr.status >= 200 && xhr.status < 300 && data && data['message']) {
-				document.getElementsByClassName(`comment-${id}-only`)[0].classList.add('deleted');
-				document.getElementById(`delete-${id}`).classList.add('d-none');
-				document.getElementById(`undelete-${id}`).classList.remove('d-none');
-				document.getElementById(`delete2-${id}`).classList.add('d-none');
-				document.getElementById(`undelete2-${id}`).classList.remove('d-none');
-				document.getElementById('toast-post-success-text').innerText = data["message"];
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success')).show();
+			if (xhr[0].status >= 200 && xhr[0].status < 300 && data && data['message']) {
+				if (window.location.pathname == '/admin/reported/comments')
+				{
+					document.getElementById("post-info-"+id).remove()
+					document.getElementById("comment-"+id).remove()
+				}
+				else
+				{			
+					document.getElementsByClassName(`comment-${id}-only`)[0].classList.add('deleted');
+					document.getElementById(`delete-${id}`).classList.add('d-none');
+					document.getElementById(`undelete-${id}`).classList.remove('d-none');
+					document.getElementById(`delete2-${id}`).classList.add('d-none');
+					document.getElementById(`undelete2-${id}`).classList.remove('d-none');
+				}
+				showToast(true, getMessageFromJsonData(true, data));
 			} else {
-				document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-				if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
+				showToast(false, getMessageFromJsonData(false, data));
 			}
 		};
-		xhr.send(form);
+		xhr[0].send(xhr[1]);
 	};
 }
 
@@ -134,22 +126,18 @@ function post_reply(id){
 	btn.classList.add('disabled');
 
 	const form = new FormData();
-	form.append('formkey', formkey());
 	form.append('parent_id', id);
 	form.append('body', document.getElementById('reply-form-body-'+id).value);
-
 	try {
 		for (const e of document.getElementById('file-upload').files)
 			form.append('file', e);
 	}
 	catch(e) {}
-
-	const xhr = new XMLHttpRequest();
-	xhr.open("post", "/reply");
-	xhr.setRequestHeader('xhr', 'xhr');
-	xhr.onload=function(){
+	
+	const xhr = createXhrWithFormKey("/reply", "POST", form);
+	xhr[0].onload=function(){
 		let data
-		try {data = JSON.parse(xhr.response)}
+		try {data = JSON.parse(xhr[0].response)}
 		catch(e) {console.log(e)}
 		if (data && data["comment"]) {
 			const comments = document.getElementById('replies-of-c_' + id);
@@ -165,18 +153,15 @@ function post_reply(id){
 			document.getElementById('reply-form-body-'+id).value = ''
 			document.getElementById('message-reply-'+id).innerHTML = ''
 			ToggleReplyBox('reply-message-'+id)
-		}
-		else {
-			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
-			else document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
+		} else {
+			showToast(false, getMessageFromJsonData(false, data));
 		}
 		setTimeout(() => {
 			btn.disabled = false;
 			btn.classList.remove('disabled');
 		}, 2000);
 	}
-	xhr.send(form)
+	xhr[0].send(xhr[1]);
 }
 
 function comment_edit(id){
@@ -185,8 +170,6 @@ function comment_edit(id){
 	btn.classList.add('disabled');
 
 	const form = new FormData();
-
-	form.append('formkey', formkey());
 	form.append('body', document.getElementById('comment-edit-body-'+id).value);
 
 	try {
@@ -194,13 +177,10 @@ function comment_edit(id){
 			form.append('file', e);
 	}
 	catch(e) {}
-
-	const xhr = new XMLHttpRequest();
-	xhr.open("post", "/edit_comment/"+id);
-	xhr.setRequestHeader('xhr', 'xhr');
-	xhr.onload=function(){
+	const xhr = createXhrWithFormKey("/edit_comment/"+id, "POST", form);
+	xhr[0].onload=function(){
 		let data
-		try {data = JSON.parse(xhr.response)}
+		try {data = JSON.parse(xhr[0].response)}
 		catch(e) {console.log(e)}
 		if (data && data["comment"]) {
 			commentForm=document.getElementById('comment-text-'+id);
@@ -210,16 +190,14 @@ function comment_edit(id){
 			document.getElementById('filename-edit-reply-' + id).innerHTML = '<i class="fas fa-file"></i>';
 		}
 		else {
-			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
-			else document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
+			showToast(false, getMessageFromJsonData(false, data));
 		}
 		setTimeout(() => {
 			btn.disabled = false;
 			btn.classList.remove('disabled');
 		}, 1000);
 	}
-	xhr.send(form)
+	xhr[0].send(xhr[1]);
 }
 
 function post_comment(fullname, hide){
@@ -269,9 +247,7 @@ function post_comment(fullname, hide){
 			document.getElementById('filename-show-reply-' + fullname).innerHTML = '<i class="fas fa-file"></i>';
 		}
 		else {
-			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
-			else document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
+			showToast(false, getMessageFromJsonData(false, data));
 			setTimeout(() => {
 				btn.disabled = false;
 				btn.classList.remove('disabled');
@@ -283,56 +259,52 @@ function post_comment(fullname, hide){
 
 document.onpaste = function(event) {
 	var focused = document.activeElement;
+	const files = event.clipboardData.files
+
+	if (files.length > 4)
+	{
+		alert("You can't upload more than 4 files at one time!")
+		return
+	}
+
+	if (!files.length) return
+
 	if (focused.id.includes('reply-form-body-')) {
-		files = event.clipboardData.files
-		if (files.length)
-		{
-			var fullname = focused.dataset.fullname;
-			f=document.getElementById('file-upload-reply-' + fullname);
-			try {
-				let filename = ''
-				for (const file of files)
-					filename += file.name + ', '
-				filename = filename.toLowerCase().slice(0, -2)
-				f.files = files;
-				document.getElementById('filename-show-reply-' + fullname).textContent = filename;
-			}
-			catch(e) {}
+		var fullname = focused.dataset.fullname;
+		f=document.getElementById('file-upload-reply-' + fullname);
+		try {
+			let filename = ''
+			for (const file of files)
+				filename += file.name + ', '
+			filename = filename.toLowerCase().slice(0, -2)
+			f.files = files;
+			document.getElementById('filename-show-reply-' + fullname).textContent = filename;
 		}
+		catch(e) {}
 	}
 	else if (focused.id.includes('comment-edit-body-')) {
-		files = event.clipboardData.files
-		if (files.length)
-		{
-			var id = focused.dataset.id;
-			f=document.getElementById('file-edit-reply-' + id);
-			let filename = ''
-			for (const file of files)
-				filename += file.name + ', '
-			filename = filename.toLowerCase().slice(0, -2)
-			f.files = files;
-			document.getElementById('filename-edit-reply-' + id).textContent = filename;
-		}
+		var id = focused.dataset.id;
+		f=document.getElementById('file-edit-reply-' + id);
+		let filename = ''
+		for (const file of files)
+			filename += file.name + ', '
+		filename = filename.toLowerCase().slice(0, -2)
+		f.files = files;
+		document.getElementById('filename-edit-reply-' + id).textContent = filename;
 	}
 	else if (focused.id.includes('post-edit-box-')) {
-		files = event.clipboardData.files
-		if (files.length)
-		{
-			var id = focused.dataset.id;
-			f=document.getElementById('file-upload-edit-' + id);
-			let filename = ''
-			for (const file of files)
-				filename += file.name + ', '
-			filename = filename.toLowerCase().slice(0, -2)
-			f.files = files;
-			document.getElementById('filename-show-edit-' + id).textContent = filename;
-		}
+		var id = focused.dataset.id;
+		f=document.getElementById('file-upload-edit-' + id);
+		let filename = ''
+		for (const file of files)
+			filename += file.name + ', '
+		filename = filename.toLowerCase().slice(0, -2)
+		f.files = files;
+		document.getElementById('filename-show-edit-' + id).textContent = filename;
 	}
 }
 
 function handle_action(type, cid, thing) {
-
-
 	const btns = document.getElementsByClassName(`action-${cid}`)
 	for (const btn of btns)
 	{
@@ -358,11 +330,8 @@ function handle_action(type, cid, thing) {
 		if (data && data["response"]) {
 			const element = document.getElementById(`${type}-${cid}`);
 			element.innerHTML = data["response"]
-		}
-		else {
-			if (data && data["error"]) document.getElementById('toast-post-error-text').innerText = data["error"];
-			else document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-			bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
+		} else {
+			showToast(false, getMessageFromJsonData(false, data));
 		}
 		setTimeout(() => {
 			for (const btn of btns)

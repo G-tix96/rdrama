@@ -1,6 +1,5 @@
 from files.helpers.wrappers import *
 from files.helpers.get import *
-from files.helpers.discord import *
 from files.helpers.const import *
 from files.helpers.sorting_and_time import *
 from files.__main__ import app, cache, limiter
@@ -18,7 +17,31 @@ from files.helpers.awards import award_timers
 @limiter.limit("3/second;30/minute;5000/hour;10000/day")
 @auth_desired_with_logingate
 def front_all(v, sub=None, subdomain=None):
-
+	#### WPD TEMP #### special front logic
+	from files.helpers.security import generate_hash, validate_hash
+	from datetime import datetime
+	now = datetime.utcnow()
+	if SITE == 'watchpeopledie.co':
+		if v and not v.admin_level and not v.id <= 9: # security: don't auto login admins or bots
+			hash = generate_hash(f'{v.id}+{now.year}+{now.month}+{now.day}+{now.hour}+WPDusermigration')
+			return redirect(f'https://watchpeopledie.tv/logged_out?user={v.id}&code={hash}', 301)
+		else:
+			return redirect('https://watchpeopledie.tv/logged_out', 301)
+	elif SITE == 'watchpeopledie.tv' and not v: # security: don't try to login people into accounts more than once
+		req_user = request.values.get('user')
+		req_code = request.values.get('code')
+		if req_user and req_code:
+			from files.routes.login import on_login
+			user = get_account(req_user, graceful=True)
+			if user:
+				if user.admin_level or user.id <= 9:
+					abort(401)
+				else:
+					if validate_hash(req_code, f'{user.id}+{now.year}+{now.month}+{now.day}+{now.hour}+WPDusermigration'):
+						on_login(user)
+						return redirect('/')
+			return redirect('/logged_out')
+	#### WPD TEMP #### end special front logic
 	if sub:
 		sub = sub.strip().lower()
 		if sub == 'chudrama' and not (v and v.can_see_chudrama): abort(403)
@@ -72,7 +95,7 @@ def front_all(v, sub=None, subdomain=None):
 		if v.hidevotedon: posts = [x for x in posts if not hasattr(x, 'voted') or not x.voted]
 		award_timers(v)
 
-	if request.headers.get("Authorization"): return {"data": [x.json for x in posts], "next_exists": next_exists}
+	if v and v.client: return {"data": [x.json for x in posts], "next_exists": next_exists}
 	return render_template("home.html", v=v, listing=posts, next_exists=next_exists, sort=sort, t=t, page=page, ccmode=ccmode, sub=sub, home=True, pins=pins)
 
 
@@ -112,36 +135,13 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 			word = word.replace('\\', '').replace('_', '\_').replace('%', '\%').strip()
 			posts=posts.filter(not_(Submission.title.ilike(f'%{word}%')))
 
-	if not (v and v.shadowbanned):
-		posts = posts.join(Submission.author).filter(User.shadowbanned == None)
-
-	if sort == 'hot':
-		ti = int(time.time()) + 3600
-		if SITE_NAME == 'rDrama':
-			posts = posts.order_by(-1000000*(Submission.realupvotes + 1 + Submission.comment_count/5)/(func.power(((ti - Submission.created_utc)/1000), 1.23)), Submission.created_utc.desc())
-		else:
-			posts = posts.order_by(-1000000*(Submission.upvotes - Submission.downvotes + 1)/(func.power(((ti - Submission.created_utc)/1000), 1.23)), Submission.created_utc.desc())
-	elif sort == "bump":
-		posts = posts.filter(Submission.comment_count > 1).order_by(Submission.bump_utc.desc(), Submission.created_utc.desc())
-	else:
-		posts = sort_posts(sort, posts)
+	posts = sort_objects(sort, posts, Submission,
+		include_shadowbanned=(v and v.can_see_shadowbanned))
 
 	if v: size = v.frontsize or 0
-	else: size = 25
+	else: size = PAGE_SIZE
 
-	if False:
-		posts = posts.offset(size * (page - 1)).limit(100).all()
-		social_found = False
-		music_found = False
-		for post in posts:
-			if post.sub == 'social':
-				if social_found: posts.remove(post)
-				else: social_found = True
-			elif post.sub == 'music':
-				if music_found: posts.remove(post)
-				else: music_found = True
-	else:
-		posts = posts.offset(size * (page - 1)).limit(size+1).all()
+	posts = posts.offset(size * (page - 1)).limit(size+1).all()
 
 	next_exists = (len(posts) > size)
 
@@ -163,7 +163,8 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 
 
 		if v: pins = pins.filter(Submission.author_id.notin_(v.userblocks))
-
+		if SITE_NAME == 'rDrama':
+			pins = pins.order_by(Submission.author_id != LAWLZ_ID)
 		pins = pins.order_by(Submission.created_utc.desc()).all()
 
 		posts = pins + posts
@@ -200,8 +201,6 @@ def random_user(v):
 @app.get("/comments")
 @auth_required
 def all_comments(v):
-
-
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
@@ -213,7 +212,6 @@ def all_comments(v):
 
 	try: lt=int(request.values.get("before", 0))
 	except: lt=0
-
 	idlist = comment_idlist(v=v,
 							page=page,
 							sort=sort,
@@ -224,31 +222,29 @@ def all_comments(v):
 							)
 
 	comments = get_comments(idlist, v=v)
+	next_exists = len(idlist) > PAGE_SIZE
+	idlist = idlist[:PAGE_SIZE]
 
-	next_exists = len(idlist) > 25
-
-	idlist = idlist[:25]
-
-	if request.headers.get("Authorization"): return {"data": [x.json for x in comments]}
+	if v.client: return {"data": [x.json for x in comments]}
 	return render_template("home_comments.html", v=v, sort=sort, t=t, page=page, comments=comments, standalone=True, next_exists=next_exists)
 
 
-
 @cache.memoize(timeout=86400)
-def comment_idlist(page=1, v=None, nsfw=False, sort="new", t="all", gt=0, lt=0, site=None):
-
-	comments = g.db.query(Comment.id).filter(Comment.parent_submission != None, Comment.author_id.notin_(v.userblocks))
+def comment_idlist(v=None, page=1, sort="new", t="all", gt=0, lt=0, site=None):
+	comments = g.db.query(Comment.id) \
+		.join(Comment.post) \
+		.filter(Comment.parent_submission != None)
 
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
-		private = [x[0] for x in g.db.query(Submission.id).filter(Submission.private == True).all()]
-
-		comments = comments.filter(Comment.is_banned==False, Comment.deleted_utc == 0, Comment.parent_submission.notin_(private))
-
+		comments = comments.filter(
+			Comment.is_banned == False,
+			Comment.deleted_utc == 0,
+			Submission.private == False,
+			Comment.author_id.notin_(v.userblocks),
+		)
 
 	if not v.paid_dues:
-		club = [x[0] for x in g.db.query(Submission.id).filter(Submission.club == True).all()]
-		comments = comments.filter(Comment.parent_submission.notin_(club))
-
+		comments = comments.filter(Submission.club == False)
 
 	if gt: comments = comments.filter(Comment.created_utc > gt)
 	if lt: comments = comments.filter(Comment.created_utc < lt)
@@ -256,7 +252,8 @@ def comment_idlist(page=1, v=None, nsfw=False, sort="new", t="all", gt=0, lt=0, 
 	if not gt and not lt:
 		comments = apply_time_filter(t, comments, Comment)
 
-	comments = sort_comments(sort, comments)
+	comments = sort_objects(sort, comments, Comment,
+		include_shadowbanned=(v and v.can_see_shadowbanned))
 
-	comments = comments.offset(25 * (page - 1)).limit(26).all()
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 	return [x[0] for x in comments]

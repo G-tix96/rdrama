@@ -1,4 +1,4 @@
-<div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3 pb-5" {% if request.path != '/sidebar' %}id="sidebar-content"{% endif %}>
+<div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3 pb-5 mb-5" {% if request.path != '/sidebar' %}id="sidebar-content"{% endif %}>
 
 	{% if sub %}
 		{% set image=sub.sidebar_url %}
@@ -76,12 +76,4 @@
 			<span style="color:hotpink">𝐜𝐚𝐫𝐩 𝐰𝐨𝐳 𝐞𝐫𝐞</span><br><br>
 		</div>
 	{% endif %}
-	<pre>
-
-
-
-
-
-
-	</pre>
 </div>

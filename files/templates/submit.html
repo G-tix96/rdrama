@@ -1,52 +1,8 @@
 {%- import 'util/helpers.html' as help -%}
+{%- import 'html_head.html' as html_head with context -%}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
-
-	<meta name="description" content="{{DESCRIPTION}}">
-	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
-
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<meta name="author" content="">
-	<link rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
-
-	{% if SITE == 'pcmemes.net' %}
-		{% set cc='Splash Mountain' %}
-	{% else %}
-		{% set cc='Country Club' %}
-	{% endif %}
-
-	{% block title %}
-		<title>Create a post - {{SITE_NAME}}</title>
-	{% endblock %}
-
-	{% block stylesheets %}
-		{% if v %}
-			<style>:root{--primary:#{{v.themecolor}}}</style>
-			<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
-			{% if v.agendaposter %}
-				<style>
-					html {
-						cursor:url('/i/dildo.webp?v=2000'), auto;
-					}
-				</style>
-			{% elif v.css %}
-				<style>
-					{{v.css | safe}}
-				</style>
-			{% endif %}
-		{% else %}
-			<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
-			<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-			<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
-		{% endif %}
-	{% endblock %}
-</head>
-
+{{html_head.html_head(true, false, true, none, "Create a post", none, "", false)}}
 <body id="submit" {% if SITE_NAME == 'rDrama' and v and (v.is_banned or v.agendaposter) %}style="overflow-x: hidden;background:url(/assets/images/backgrounds/anime/1.webp?v=3) center center fixed; background-color: var(--background)"{% elif v and v.background %}style="overflow-x: hidden; background:url(/assets/images/backgrounds/{{v.background}}?v=3) center center fixed; background-color: var(--background)display: block{% if 'anime' not in v.background %};background-size: cover{% endif %}"{% endif %}>
 
 				{% include "header.html" %}
@@ -120,18 +76,6 @@
 													Toggle preview
 												</div>
 
-												<small onclick="makeBold('post-text')" class="btn btn-secondary format d-inline-block m-0">
-												<i class="fas fa-bold" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Bold"></i>
-												</small>
-												&nbsp; 
-												<small onclick="makeItalics('post-text')" class="btn btn-secondary format d-inline-block m-0">
-												<i class="fas fa-italic" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Italicize"></i>
-												</small>
-												&nbsp; 
-												<small onclick="makeQuote('post-text')" class="btn btn-secondary format d-inline-block m-0">
-												<i class="fas fa-quote-right" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Quote"></i>
-												</small>
-												&nbsp;
 												<small class="btn btn-secondary format d-inline-block m-0"><span class="font-weight-bolder text-uppercase" aria-hidden="true" onclick="getGif();commentForm('post-text')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span></small>
 												&nbsp;
 												<div onclick="loadEmojis('post-text')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>
@@ -143,9 +87,7 @@
 
 												<div id="preview" class="preview my-3"></div>
 
-												<pre></pre>
-												<div class="form-text text-small"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
-												<pre></pre>
+												<div class="form-text text-small my-1"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
 
 												<div class="custom-control custom-checkbox">
 													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-notify" name="notify" onchange="savetext()" checked>
@@ -173,19 +115,10 @@
 												</div>
 												{%- endif %}
 
-												<div class="custom-control custom-checkbox">
+												<div class="custom-control custom-checkbox mb-5">
 													<input onchange='draft(this);' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost" {% if v.coins < 100 %}disabled{% endif %}>
 													<label class="custom-control-label" for="post-ghost">Ghost thread (cost: 100 coins)</label>
 												</div>
-
-												<pre>
-
-
-
-
-
-
-												</pre>
 										</div>
 
 								</div>
@@ -198,8 +131,8 @@
 										<a href="/" class="btn btn-secondary">Cancel</a>
 								</div>
 								<div class="col text-right">
-										{% if error %}<span class="text-danger text-large mr-2">{{error}}</span>{% endif %}
-										<button class="btn btn-primary" id="create_button" type="submit" onclick="disable(this)" disabled>Post</button>
+										{% if error %}<span class="text-danger text-large mr-2">{{error | safe}}</span>{% endif %}
+										<button type="submit" class="btn btn-primary" id="create_button" type="submit" onclick="disable(this)" disabled>Post</button>
 								</div>
 						</div>
 				</div>
@@ -217,7 +150,6 @@
 		{% endif %}
 
 		<script defer src="{{'js/marked.js' | asset}}"></script>
-		<script defer src="{{'js/formatting.js' | asset}}"></script>
 		<script defer src="{{'js/submit.js' | asset}}"></script>
 		{% include "emoji_modal.html" %}
 		{% include "gif_modal.html" %}

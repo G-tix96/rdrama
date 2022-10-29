@@ -67,15 +67,12 @@ def searchposts(v):
 			Submission.is_banned == False,
 			Submission.private == False)
 	
-	if v.admin_level < PERMS['USER_SHADOWBAN']:
-		posts = posts.filter(User.shadowbanned == None)
-
 	if 'author' in criteria:
 		posts = posts.filter(Submission.ghost == False)
 		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
 		if author.is_private and author.id != v.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye:
-			if request.headers.get("Authorization"):
-				return {"error": f"@{author.username}'s profile is private; You can't use the 'author' syntax on them"}, 400
+			if v.client:
+				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
 			return render_template("search.html",
 								v=v,
 								query=query,
@@ -145,23 +142,21 @@ def searchposts(v):
 
 	posts = apply_time_filter(t, posts, Submission)
 
-	posts = sort_posts(sort, posts)
+	posts = sort_objects(sort, posts, Submission,
+		include_shadowbanned=(v and v.can_see_shadowbanned))
 
 	total = posts.count()
 
-	posts = posts.offset(25 * (page - 1)).limit(26).all()
+	posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
 
 	ids = [x[0] for x in posts]
 
-
-
-
-	next_exists = (len(ids) > 25)
-	ids = ids[:25]
+	next_exists = (len(ids) > PAGE_SIZE)
+	ids = ids[:PAGE_SIZE]
 
 	posts = get_posts(ids, v=v)
 
-	if request.headers.get("Authorization"): return {"total":total, "data":[x.json for x in posts]}
+	if v.client: return {"total":total, "data":[x.json for x in posts]}
 
 	return render_template("search.html",
 						v=v,
@@ -193,7 +188,7 @@ def searchcomments(v):
 	
 	if 'post' in criteria:
 		try: post = int(criteria['post'])
-		except: return {"error": f"Post with id {post} does not exist."}, 400
+		except: abort(404)
 		comments = comments.filter(Comment.parent_submission == post)
 
 
@@ -201,8 +196,8 @@ def searchcomments(v):
 		comments = comments.filter(Comment.ghost == False)
 		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
 		if author.is_private and author.id != v.id and v.admin_level < PERMS['VIEW_PRIVATE_PROFILES'] and not v.eye:
-			if request.headers.get("Authorization"):
-				return {"error": f"@{author.username}'s profile is private; You can't use the 'author' syntax on them"}, 400
+			if v.client:
+				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
 
 			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, next_exists=False, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them.")
 
@@ -210,6 +205,7 @@ def searchcomments(v):
 
 	if 'q' in criteria:
 		tokens = map(lambda x: re.sub(r'[\0():|&*!<>]', '', x), criteria['q'])
+		tokens = filter(lambda x: len(x) > 0, tokens)
 		tokens = map(lambda x: re.sub(r'\s+', ' <-> ', x), tokens)
 		comments = comments.filter(Comment.body_ts.match(
 			' & '.join(tokens),
@@ -248,20 +244,21 @@ def searchcomments(v):
 			except: abort(400)
 		comments = comments.filter(Comment.created_utc < before)
 
-	comments = sort_comments(sort, comments)
+	comments = sort_objects(sort, comments, Comment,
+		include_shadowbanned=(v and v.can_see_shadowbanned))
 
 	total = comments.count()
 
-	comments = comments.offset(25 * (page - 1)).limit(26).all()
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
 
 	ids = [x[0] for x in comments]
 
-	next_exists = (len(ids) > 25)
-	ids = ids[:25]
+	next_exists = (len(ids) > PAGE_SIZE)
+	ids = ids[:PAGE_SIZE]
 
 	comments = get_comments(ids, v=v)
 
-	if request.headers.get("Authorization"): return {"total":total, "data":[x.json for x in comments]}
+	if v.client: return {"total":total, "data":[x.json for x in comments]}
 	return render_template("search_comments.html", v=v, query=query, total=total, page=page, comments=comments, sort=sort, t=t, next_exists=next_exists, standalone=True)
 
 
@@ -291,9 +288,9 @@ def searchusers(v):
 	
 	total=users.count()
 	
-	users = users.offset(25 * (page-1)).limit(26).all()
-	next_exists=(len(users)>25)
-	users=users[:25]
+	users = users.offset(PAGE_SIZE * (page-1)).limit(PAGE_SIZE+1).all()
+	next_exists=(len(users)>PAGE_SIZE)
+	users=users[:PAGE_SIZE]
 
-	if request.headers.get("Authorization"): return {"data": [x.json for x in users]}
+	if v.client: return {"data": [x.json for x in users]}
 	return render_template("search_users.html", v=v, query=query, total=total, page=page, users=users, sort=sort, t=t, next_exists=next_exists)

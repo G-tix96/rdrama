@@ -3,9 +3,18 @@
  *               Live Debootstrap               *
  ************************************************/
 
+/**
+ * Q: WHAT!!! MY CHANGE ISNT APPLYING!!!
+ * A: Not all files are adapted for this main-dev.css file,
+ *    The only known pages with these applications are login.html and sign_up.html
+ */
 
 /* TODO move to html ref for compatibility */
-@import url("fontawesome.css");
+/* Commented out due to main.css */
+/* @import url("fontawesome.css"); */
+
+/* TEMP */
+@import url("midnight.css");
 
 @charset "UTF-8";
 *, *::before, *::after {
@@ -33,7 +42,7 @@ html, body {
  * make a regular link, undo these for specific areas like post content, etc */
 a, a:visited, a:hover, a:active {
     text-decoration: none;
-    color: var(--primary, #000);
+    color: var(--primary, #805ad5);
 }
 
 /* Font stuff */
@@ -133,6 +142,35 @@ nav {
     padding-top: 0;
 }
 
+#login .splash-wrapper
+{
+    transition: .4s;
+}
+
+/* Make login mobile */
+@media (max-width: 800px) {
+    #login .splash-wrapper
+    {
+        z-index: -999;
+        position: absolute;
+        display: block;
+        right: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        filter: contrast(0.4) blur(12px) sepia(20%) saturate(180%) brightness(30%);
+    }
+    #login input
+    {
+        background-color: transparent;
+    }
+    #login h1,
+    #login p
+    {
+        text-align:  center;
+    }
+}
+
 #register-form-container {
     display: flex;
     flex: 1;
@@ -160,7 +198,7 @@ nav {
     width: 100%;
     height: 100%;
     background-color: rgba(127,127,127,.25);
-    background-image: linear-gradient(135deg,rgba(30,30,36,0.1) 0%,var(--primary) 150%);
+    background-image: linear-gradient(135deg,rgba(30,30,36,0.1) 0%,var(--primary, #805ad5) 150%);
     z-index: 50;
 }
 

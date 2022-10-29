@@ -14,7 +14,7 @@
 
 
 
-		<h2 class="h5">Email</h2>
+		<h5>Email</h5>
 
 		<p class="text-small text-muted">Change the email address used to sign in to your account.</p>
 		<div class="settings-section rounded">
@@ -25,9 +25,9 @@
 						<label for="new-email" class="w-lg-25">Email</label>
 						<div class="w-lg-100">
 							<input autocomplete="off" class="form-control" id="new_email" {% if v.email %}placeholder="{{v.email}}"{% else %}placeholder="Your email"{% endif %}
-							aria-describedby="new_email" type="email" pattern='([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+' name="new_email" required>
+							aria-describedby="new_email" type="email" pattern='{{EMAIL_REGEX_PATTERN}}' name="new_email" required>
 							{% if v.email and not v.is_activated %}
-								<div class="text-danger text-small mt-1" id="email-verify-text">Email not verified. You will not be able to recover your account with this email until you verify it. <u><a role="button" onclick="post_toast(this,'/verify_email');emailVerifyText()"class="text-danger">Verify now.</a></u></div>
+								<div class="text-danger text-small mt-1" id="email-verify-text">Email not verified. You will not be able to recover your account with this email until you verify it. <u><button type="button" onclick="post_toast(this,'/verify_email');emailVerifyText()"class="text-primary font-weight-bold ml-1">Verify now.</button></u></div>
 							{% elif not v.email %}
 								<div class="text-danger text-small mt-1" id="email-verify-text">Add an email to secure your account in case you forget your password.</div>
 							{% endif %}
@@ -44,11 +44,11 @@
 			</div>
 			<div class="footer">
 				<div class="d-flex">
-					{% if FEATURES['PROCOINS'] %}
+					{% if FEATURES['PROCOINS'] and v.truecoins >= 1000 %}
 						{% if KOFI_TOKEN %}
-							<a class="btn btn-success" role="button" onclick="post_toast(this,'/settings/kofi')">Claim {{patron}} rewards</a>
+							<button type="button" class="btn btn-success" onclick="post_toast(this,'/settings/kofi')">Claim {{patron}} rewards</button>
 						{% else %}
-							<a class="btn btn-success" role="button" onclick="post_toast(this,'/settings/gumroad')">Claim {{patron}} rewards</a>
+							<button type="button" class="btn btn-success" onclick="post_toast(this,'/settings/gumroad')">Claim {{patron}} rewards</button>
 						{% endif %}
 					{% endif %}
 					{% if v.email %}
@@ -57,12 +57,12 @@
 						<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Add email">
 					{% endif %}
 				</div>
-				{% if FEATURES['PROCOINS'] %}
+				{% if FEATURES['PROCOINS'] and v.truecoins >= 1000 %}
 					<span class="text-small text-muted pl-1">Must be same email as the one you used to donate on 
 						{% if KOFI_TOKEN %}
-							<a class="text-primary" href="{{KOFI_LINK}}">Kofi</a>
+							<a rel="nofollow noopener noreferrer" class="text-primary" href="{{KOFI_LINK}}">Kofi</a>
 						{% else %}
-							<a class="text-primary" href="{{GUMROAD_LINK}}">Gumroad</a>
+							<a rel="nofollow noopener noreferrer" class="text-primary" href="{{GUMROAD_LINK}}">Gumroad</a>
 						{% endif %}
 					</span>
 				{% endif %}
@@ -72,7 +72,7 @@
 
 
 
-		<h2 class="h5">Password</h2>
+		<h5>Password</h5>
 
 		<p class="text-small text-muted">Change your account password.</p>
 
@@ -150,7 +150,7 @@
 </div>
 
 
-<h2 class="h5">Two-Factor Authentication</h2>
+<h5>Two-Factor Authentication</h5>
 
 <p class="text-small text-muted">Change the two-factor settings for your account.</p>
 
@@ -177,7 +177,7 @@
 
 </div>
 
-<h2 class="h5">Log Out Everywhere</h2>
+<h5>Log Out Everywhere</h5>
 
 <p class="text-small text-muted">Log all other devices out of your {{SITE_NAME}} account.</p>
 
@@ -235,11 +235,11 @@
 <div class="modal-content">
 <div class="modal-header">
 	<h5 class="modal-title">Delete your {{SITE_NAME}} account</h5>
-	<button class="close" data-bs-dismiss="modal" aria-label="Close">
+	<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 		<span aria-hidden="true"><i class="far fa-times"></i></span>
 	</button>
 </div>
-<div class="" id="deleteFormContainer">
+<div id="deleteFormContainer">
 	<form id="deleteAccountForm" method="post" action="/settings/delete_account">
 		<input type="hidden" name="formkey" value="{{v.formkey}}">
 		<div class="modal-body body">

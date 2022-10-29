@@ -17,7 +17,7 @@ import requests
 
 allowed_tags = ('b','blockquote','br','code','del','em','h1','h2','h3','h4','h5','h6','hr','i',
 	'li','ol','p','pre','strong','sub','sup','table','tbody','th','thead','td','tr','ul',
-	'marquee','a','span','ruby','rp','rt','spoiler','img','lite-youtube','video','source','audio','g')
+	'marquee','a','span','ruby','rp','rt','spoiler','img','lite-youtube','video','audio','g')
 
 allowed_styles = ['color', 'background-color', 'font-weight', 'text-align', 'filter',]
 
@@ -57,10 +57,8 @@ def allowed_attributes(tag, name, value):
 	if tag == 'video':
 		if name == 'controls' and value == '': return True
 		if name == 'preload' and value == 'none': return True
-		return False
-
-	if tag == 'source':
 		if name == 'src': return is_safe_url(value)
+		return False
 
 	if tag == 'audio':
 		if name == 'src': return is_safe_url(value)
@@ -197,6 +195,7 @@ def sanitize_raw_title(sanitized):
 
 def sanitize_raw_body(sanitized, is_post):
 	if not sanitized: return ""
+	sanitized = html_comment_regex.sub('', sanitized)
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\r\n", "\n")
 	sanitized = sanitized.strip()
 	return sanitized[:POST_BODY_LENGTH_LIMIT if is_post else COMMENT_BODY_LENGTH_LIMIT]
@@ -233,7 +232,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	sanitized = strikethrough_regex.sub(r'\1<del>\2</del>', sanitized)
 
-	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("𒐪","").replace("\u0589", ":")
+	# replacing zero width characters, overlines, fake colons
+	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\u033f","").replace("\u0589", ":")
 
 	sanitized = reddit_regex.sub(r'\1<a href="https://old.reddit.com/\2" rel="nofollow noopener noreferrer" target="_blank">/\2</a>', sanitized)
 	sanitized = sub_regex.sub(r'\1<a href="/\2">/\2</a>', sanitized)
@@ -241,7 +241,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	v = getattr(g, 'v', None)
 
 	names = set(m.group(2) for m in mention_regex.finditer(sanitized))
-	if limit_pings and len(names) > limit_pings and not v.admin_level: abort(406)
+	if limit_pings and len(names) > limit_pings and not v.admin_level >= PERMS['POST_COMMENT_INFINITE_PINGS']: abort(406)
 	users_list = get_users(names, graceful=True)
 	users_dict = {}
 	for u in users_list:
@@ -336,7 +336,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 		sanitized = sanitized.replace(i.group(0), htmlsource)
 
-	sanitized = video_sub_regex.sub(r'\1<video controls preload="none"><source src="\2"></video>', sanitized)
+	sanitized = video_sub_regex.sub(r'\1<video controls preload="none" src="\2"></video>', sanitized)
 	sanitized = audio_sub_regex.sub(r'\1<audio controls preload="none" src="\2"></audio>', sanitized)
 
 	if count_marseys:
@@ -363,25 +363,17 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	domain_list = set()
 
 	for link in links:
-
 		href = link.get("href")
 		if not href: continue
-
 		url = urlparse(href)
-		domain = url.netloc
-		url_path = url.path
-		domain_list.add(domain+url_path)
+		d = tldextract.extract(href).registered_domain + url.path
+		domain_list.add(d)
 
-		parts = domain.split(".")
-		for i in range(len(parts)):
-			new_domain = parts[i]
-			for j in range(i + 1, len(parts)):
-				new_domain += "." + parts[j]
-				domain_list.add(new_domain)
-
-	bans = g.db.query(BannedDomain.domain).filter(BannedDomain.domain.in_(list(domain_list))).all()
-
-	if bans: abort(403, description=f"Remove the banned domains {bans} and try again!")
+	banned_domains = g.db.query(BannedDomain).all()
+	for x in banned_domains:
+		for y in domain_list:
+			if y.startswith(x.domain):
+				abort(403, description=f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
 
 	if '<pre>' not in sanitized:
 		sanitized = sanitized.replace('\n','')

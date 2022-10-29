@@ -11,7 +11,11 @@
 {% endif %}
 
 {% if not v or v.highlightcomments %}
-	<script defer src="{{'js/new_comments_count.js' | asset}}"></script>
+	<script defer src="{{'js/highlightcomments.js' | asset}}"></script>
+{% endif %}
+
+{% if v and v.admin_level > 1 %}
+	<script defer src="{{'js/pinpost.js' | asset}}"></script>
 {% endif %}
 
 {% include "popover.html" %}
@@ -33,10 +37,9 @@
 {% if p.active_flags(v) %}
 	<div id="flaggers-{{p.id}}" class="flaggers d-none">
 		<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
-		<pre></pre>
-		<ul style="padding-left:20px; margin-bottom: 0;word-wrap:break-word">
+		<ul class="mt-1 mb-0" style="padding-left:20px; word-wrap:break-word">
 			{% for f in p.filtered_flags(v) %}
-				<li><a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %} {% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}<a role="button" onclick="post_toast(this,'/del_report/post/{{f.post_id}}/{{f.user_id}}')">[remove]</a>{% endif %}</li>
+				<li><a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %} {% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}<button type="button" onclick="post_toast(this,'/del_report/post/{{f.post_id}}/{{f.user_id}}')">[remove]</button>{% endif %}</li>
 			{% endfor %}
 		</ul>
 	</div>
@@ -45,35 +48,32 @@
 <div id="post-{{p.id}}" class="actual-post {% if p.unread %}unread{% else %}card{% endif %} {% if p.is_banned %} banned{% endif %}{% if p.deleted_utc %} deleted{% endif %}{% if p.stickied %} stickied{% endif %}{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}{% if p.over_18 %} nsfw{% endif %}">
 
 	<div class="d-flex flex-row-reverse flex-md-row flex-nowrap justify-content-end">
+		<div class="voting my-2 d-none d-md-flex pr-2">
+			{% if v and request.path.startswith('/@') and v.admin_level < PERMS['VIEW_VOTE_BUTTONS_ON_USER_PAGE'] %}
+				<div tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% else %}d-none{% endif %}"></div>
 
-		{% if not postembed %}
-			<div class="voting my-2 d-none d-md-flex pr-2">
-				{% if v and request.path.startswith('/@') and v.admin_level < PERMS['VIEW_VOTE_BUTTONS_ON_USER_PAGE'] %}
-					<div tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% else %}d-none{% endif %}"></div>
+				<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 
-					<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}>{{score}}</span>
+				<div tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% else %}d-none{% endif %}"></div>
+			{% elif v %}
 
-					<div tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% else %}d-none{% endif %}"></div>
-				{% elif v %}
+				<div tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}"></div>
 
-					<div tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}"></div>
+				<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 
-					<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}>{{score}}</span>
+				<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></div>
 
-					<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></div>
+			{% else %}
 
-				{% else %}
+				<div tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up" onclick="location.href='/login';"></div>
 
-					<div tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up" onclick="location.href='/login';"></div>
+				<span class="post-{{p.id}}-score-none score{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 
-					<span class="post-{{p.id}}-score-none score{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}>{{score}}</span>
+				<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down" onclick="location.href='/login';"></div>
 
-					<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down" onclick="location.href='/login';"></div>
+			{% endif %}
 
-				{% endif %}
-
-			</div>
-		{% endif %}
+		</div>
 
 		<div class="card-header bg-transparent border-0 d-flex flex-row flex-nowrap pl-2 pl-md-0 p-0 mr-md-2">
 
@@ -115,7 +115,7 @@
 			<div class="post-meta text-left x-scroll mb-md-2">
 				{% if p.sub %}
 					{% if not HOLE_STYLE_FLAIR -%}
-						<a href='/h/{{p.sub}}'>/h/{{p.sub}}</a>&nbsp;&nbsp;
+						<a class="mr-2" href='/h/{{p.sub}}'>/h/{{p.sub}}</a>
 					{%- else -%}
 						<a href='/h/{{p.sub}}' class="sub-flair">{{p.sub|capitalize}}</a>
 					{%- endif %}
@@ -152,7 +152,7 @@
 				{% if p.is_blocking and not p.ghost %}<i class="fas fa-user-minus text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="You're blocking this user, but you can see this post because you're an admin."></i>{% endif %}
 				{% if p.is_blocked %}<i class="fas fa-user-minus text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="This user is blocking you."></i>{% endif %}
 				{% if p.private %}<span class="badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
-				{% if p.active_flags(v) %}<a class="btn btn-primary" role="button" style="padding:1px 5px; font-size:10px"onclick="document.getElementById('flaggers-{{p.id}}').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{ help.plural(p.active_flags(v)) }}</a>{% endif %}
+				{% if p.active_flags(v) %}<button type="button" class="btn btn-primary" style="padding:1px 5px; font-size:10px"onclick="document.getElementById('flaggers-{{p.id}}').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{help.plural(p.active_flags(v))}}</button>{% endif %}
 				
 				{% if p.ghost %}
 					<span {% if p.distinguish_level %}class="mod"{% endif %}>👻</span>
@@ -167,7 +167,7 @@
 
 					{% if p.author.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if p.author.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if p.author.verifiedcolor %}#{{p.author.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.verified}}"></i>
 					{% endif %}
-					<a class="user-name text-decoration-none" href="{{p.author.url}}" data-pop-info='{{p.author.json_popover(v) | tojson}}' onclick='popclick(event)' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="click" data-content-id="popover" role="button" tabindex="0" style="color: #{{p.author.name_color}}; font-weight: bold;">
+					<a class="user-name text-decoration-none" href="{{p.author.url}}" data-pop-info='{{p.author.json_popover(v) | tojson}}' onclick='popclick(event)' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="click" data-content-id="popover" tabindex="0" style="color: #{{p.author.name_color}}; font-weight: bold;">
 						<div class="profile-pic-30-wrapper" style="margin-top:9px">
 							<img loading="lazy" src="{{p.author.profile_url}}" class="profile-pic-30 mr-2">
 							{% if p.author.hat_active -%}
@@ -180,16 +180,16 @@
 						<span class="pronouns" style="color:#{{p.author.titlecolor}};border-color:#{{p.author.titlecolor}}">{{p.author.pronouns}}</span>
 					{% endif %}
 					{% if p.author.customtitle %}
-						<bdi style="color: #{{p.author.titlecolor}}">&nbsp;&nbsp;{{p.author.customtitle | safe}}</bdi>
+						<bdi class="ml-2" style="color: #{{p.author.titlecolor}}">{{p.author.customtitle | safe}}</bdi>
 					{% endif %}
 				{% endif %}
 				<span data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('timestamp-{{p.id}}','{{p.created_utc}}')" id="timestamp-{{p.id}}">&nbsp;{{p.age_string}}</span>
 				&nbsp;
 				({% if p.is_image %}image post{% elif p.is_video %}video post{% elif p.is_audio %}audio post{% elif p.domain %}<a href="/search/posts/?q=domain%3A{{p.domain}}&sort=new&t=all" class="post-meta-domain" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>{{p.domain|truncate(50, True)}}</a>{% else %}text post{% endif %})
 				{% if p.edited_utc %}
-					&nbsp;&nbsp;Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" id="edited_timestamp-{{p.id}}" onmouseover="timestamp('edited_timestamp-{{p.id}}','{{p.edited_utc}}')">{{p.edited_string}}</span>
+					<span class="ml-2">Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" id="edited_timestamp-{{p.id}}" onmouseover="timestamp('edited_timestamp-{{p.id}}','{{p.edited_utc}}')">{{p.edited_string}}</span></span>
 				{% endif %}
-				&nbsp;&nbsp;{{p.views}} thread views
+				<span class="ml-2">{{p.views}} thread views</span>
 			</div>
 
 			<h5 class="card-title post-title text-left w-lg-95 mb-0 pb-0 pb-md-1">
@@ -199,10 +199,10 @@
 				{{p.realtitle(v) | safe}}
 			</a></h5>
 
-			<div class="post-actions mt-2 d-none d-md-block">
+			<div class="post-actions mt-2 d-mob-none">
 				<ul class="list-inline text-right d-flex">
 						{% if p.realbody(v, True) %}
-							<a class="list-inline-item" role="button" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mr-0 text-expand-icon-{{p.id}}"></i></a>
+							<button type="button" class="list-inline-item" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mr-0 text-expand-icon-{{p.id}}"></i></button>
 						{% endif %}
 						<li class="list-inline-item">
 							<a {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}">
@@ -221,62 +221,60 @@
 		<ul class="list-inline text-right d-flex">
 			<li class="list-inline-item mr-auto">
 				<a {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}">
-					<i class="fas fa-comment-dots"></i>{{p.comment_count}}
+					<i class="fas fa-comment-dots ml-0"></i>{{p.comment_count}}
 					<span class="text-info d-none {{p.id}}-new-comments"></span>
 				</a>
 
 				{% if v and v.admin_level >= PERMS['ADMIN_HOME_VISIBLE'] %}
-					<a class="ml-2" role="button" data-bs-toggle="modal" data-bs-target="#adminModal-{{p.id}}">
+					<button type="button" class="ml-2" data-bs-toggle="modal" data-bs-target="#adminModal-{{p.id}}">
 						<i class="fas fa-broom"></i>
-					</a>
+					</button>
 				{% endif %}
 
 			</li>
 			
 			{% if p.realbody(v, True) %}
-				<a class="list-inline-item" role="button" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mr-0 text-expand-icon-{{p.id}}"></i></a>
+				<button type="button" class="list-inline-item" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mr-0 text-expand-icon-{{p.id}}"></i></button>
 			{% endif %}
 
 			{% if v %}
 				<li class="list-inline-item">
-					<a role="button" data-bs-toggle="modal" data-bs-target="#actionsModal-{{p.id}}">
+					<button type="button" data-bs-toggle="modal" data-bs-target="#actionsModal-{{p.id}}">
 						<i class="fas fa-ellipsis-h"></i>
-					</a>
+					</button>
 				</li>
 			{% endif %}
-			{% if not postembed %}
-				{% if v and request.path.startswith('/@') and v.admin_level < PERMS['VIEW_VOTE_BUTTONS_ON_USER_PAGE'] %}
-					<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none">
+			{% if v and request.path.startswith('/@') and v.admin_level < PERMS['VIEW_VOTE_BUTTONS_ON_USER_PAGE'] %}
+				<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none">
 
-						<span tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '1')" class="post-mobile-{{p.id}}-up mx-0 pr-1 arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% else %}d-none{% endif %}"></span>
+					<span tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '1')" class="post-mobile-{{p.id}}-up mx-0 pr-1 arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% else %}d-none{% endif %}"></span>
 
-						<span class="post-mobile-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}>{{score}}</span>
+					<span class="post-mobile-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 
-						<span tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '-1')" class="post-mobile-{{p.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% else %}d-none{% endif %}"></span>
-					</li>
-				{% elif v %}
-					<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none">
+					<span tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '-1')" class="post-mobile-{{p.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% else %}d-none{% endif %}"></span>
+				</li>
+			{% elif v %}
+				<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none">
 
-						<span tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '1')" class="post-mobile-{{p.id}}-up mx-0 pr-1 arrow-up upvote-button post-{{p.id}}-up {% if voted==1 or v.id == AEVANN_ID %}active{% endif %}"></span>
+					<span tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '1')" class="post-mobile-{{p.id}}-up mx-0 pr-1 arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}"></span>
 
-						<span class="post-mobile-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 or v.id == AEVANN_ID %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}>{{score}}</span>
+					<span class="post-mobile-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 
-						<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '-1')" class="post-mobile-{{p.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></span>
+					<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '-1')" class="post-mobile-{{p.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></span>
 
-					</li>
-				{% else %}
-					<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none">
-						<span tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" onclick="location.href='/login';">
-							<i class="fas fa-arrow-alt-up mx-0" aria-hidden="true"></i>
-						</span>
+				</li>
+			{% else %}
+				<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none">
+					<span tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" onclick="location.href='/login';">
+						<i class="fas fa-arrow-alt-up mx-0" aria-hidden="true"></i>
+					</span>
 
-						<span class="post-mobile-score-{{p.id}} score{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}>{{score}}</span>
+					<span class="post-mobile-score-{{p.id}} score{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 
-						<span tabindex="0" class="arrow-{{p.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" onclick="location.href='/login';">
-							<i class="fas fa-arrow-alt-down mx-0" aria-hidden="true"></i>
-						</span>
-					</li>
-				{% endif %}
+					<span tabindex="0" class="arrow-{{p.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" onclick="location.href='/login';">
+						<i class="fas fa-arrow-alt-down mx-0" aria-hidden="true"></i>
+					</span>
+				</li>
 			{% endif %}
 		</ul>
 	</div>
@@ -287,8 +285,8 @@
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header p-3">
-					<h5 class="col modal-title text-center h6">More options</h5>
-					<button class="close position-absolute py-3" style="right: 1rem"data-bs-dismiss="modal" aria-label="Close">
+					<h6 class="col modal-title text-center">More options</h6>
+					<button type="button" class="close position-absolute py-3" style="right: 1rem"data-bs-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true"><i class="fas fa-times-circle text-gray-500"></i></span>
 					</button>
 				</div>
@@ -331,9 +329,7 @@
 		</div>
 	{% elif p.is_video %}
 		<div id="video-{{p.id}}" style="text-align: center" class="{% if p.over_18 or not ((v and v.cardview) or (not v and CARD_VIEW)) %}d-none{% endif %} mt-4">
-			<video id="video2-{{p.id}}" controls preload="none">
-				<source src="{{p.realurl(v)}}">
-			</video>
+			<video id="video2-{{p.id}}" controls preload="none" src="{{p.realurl(v)}}"></video>
 		</div>
 	{% elif p.is_audio %}
 		<div id="video-{{p.id}}" style="text-align: center" class="{% if p.over_18 or not ((v and v.cardview) or (not v and CARD_VIEW)) %}d-none{% endif %} mt-4">
@@ -355,7 +351,7 @@
 <div class="row no-gutters">	
 	<div class="col">			
 		<div class="text-center py-7">
-			<div class="h4 p-2">This queue is empty. (That's a good thing.)</div>
+			<h4 class="p-2">This queue is empty. (That's a good thing.)</h4>
 		</div>			
 	</div>	
 </div>
@@ -370,7 +366,7 @@
 				<i class="fas fa-square text-gray-500 opacity-25 fa-stack-2x"></i>
 				<i class="fas text-gray-500 fa-ghost fa-stack-1x text-lg"></i>
 			</span>
-			<h2 class="h5">You haven't {% if "/saved/" in request.path %}saved{% elif "/subscribed/" in request.path %}subscribed to{% else %}made{% endif %} a post yet</h2>
+			<h5>You haven't {% if "/saved/" in request.path %}saved{% elif "/subscribed/" in request.path %}subscribed to{% else %}made{% endif %} a post yet</h5>
 			<p class="text-muted mb-md-5">Your {% if "/saved/" in request.path %}saved posts{% elif "/subscribed/" in request.path %}subscribed posts{% else %}posting history{% endif %} will show here.</p>
 			{% if "/saved/" not in request.path and "/subscribed/" not in request.path %}<a href="/submit" class="btn btn-primary">Create a post</a>{% endif %}
 		</div>			
@@ -386,10 +382,8 @@
 				<i class="fas fa-square text-gray-500 opacity-25 fa-stack-2x"></i>
 				<i class="fas text-gray-500 fa-scroll-old fa-stack-1x text-lg"></i>
 			</span>
-			<h2 class="h5">@{{u.username}} hasn't made a post yet</h2>
-			<p class="text-muted">Their posting history will show here.</p>
-			<pre>
-			</pre>
+			<h5>@{{u.username}} hasn't made a post yet</h5>
+			<p class="text-muted mb-1">Their posting history will show here.</p>
 		</div>			
 	</div>	
 </div>
@@ -404,7 +398,7 @@
 				<i class="fas text-gray-500 fa-ghost fa-stack-1x text-lg"></i>
 			</span>
 			{% if request.path.startswith('/search') and error %}
-				<h2 class="h5">{{error}}</h2>
+				<h5>{{error}}</h5>
 			{% endif %}
 		</div>			
 	</div>	
@@ -426,3 +420,6 @@
 <script defer src="{{'js/clipboard.js' | asset}}"></script>
 <script defer src="{{'js/comments+submission_listing.js' | asset}}"></script>
 <script defer src="{{'js/submission_listing.js' | asset}}"></script>
+{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']  %}
+	<script defer src="{{'js/submission_admin.js' | asset}}"></script>
+{% endif %}

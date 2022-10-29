@@ -3,8 +3,8 @@
 		<div class="row fixed-bottom bg-white border-top p-2" id="mobile-bottom-navigation-bar"
 		style="z-index: 100; bottom: 0px; transition: bottom cubic-bezier(0, 0, 0.2, 1) 220ms;">
 
-				<button class="col px-0 ml-3 btn btn-dead m-0" style="background: None !important; border: None;">
-						<a href="/" class="text-decoration-none" role="button">
+				<button type="button" class="col px-0 ml-3 btn btn-dead m-0" style="background: None !important; border: None;">
+						<a href="/" class="text-decoration-none">
 								<div class="text-center {% if request.path=='/' and request.full_path!='/?sort=hot&t=all' and request.full_path!='/?sort=new&t=all' %}text-primary{% else %}text-muted{% endif %}">
 										<i class="fas fa-home-alt text-lg"></i>
 										<div class="text-small">Home</div>
@@ -12,8 +12,8 @@
 						</a>
 				</button>
 {% if v and v.defaultsorting == 'new' %}
-				<button class="col px-0 btn btn-dead m-0" style="background: None !important; border: None;">
-						<a href="/?sort=hot&t=all" class="text-decoration-none" role="button">
+				<button type="button" class="col px-0 btn btn-dead m-0" style="background: None !important; border: None;">
+						<a href="/?sort=hot&t=all" class="text-decoration-none">
 								<div class="text-center {% if request.full_path=='/?sort=hot&t=all' %}text-primary{% else %}text-muted{% endif %}">
 										<i class="fas fa-fire text-lg"></i>
 										<div class="text-small">Hot</div>
@@ -21,8 +21,8 @@
 						</a>
 				</button>
 {% else %}
-				<button class="col px-0 btn btn-dead m-0" style="background: None !important; border: None;">
-						<a href="/?sort=new&t=all" class="text-decoration-none" role="button">
+				<button type="button" class="col px-0 btn btn-dead m-0" style="background: None !important; border: None;">
+						<a href="/?sort=new&t=all" class="text-decoration-none">
 								<div class="text-center {% if request.full_path=='/?sort=new&t=all' %}text-primary{% else %}text-muted{% endif %}">
 										<i class="fas fa-sparkles text-lg"></i>
 										<div class="text-small">New</div>
@@ -30,16 +30,16 @@
 						</a>
 				</button>
 {% endif %}
-				<button class="col px-2 btn btn-dead m-0" style="background: None !important; border: None;">
-						<a href="/comments" class="text-decoration-none" role="button">
+				<button type="button" class="col px-2 btn btn-dead m-0" style="background: None !important; border: None;">
+						<a href="/comments" class="text-decoration-none">
 								<div class="text-center {% if request.path=='/comments' %}text-primary{% else %}text-muted{% endif %}">
 										<i class="fas fa-comment-dots text-lg"></i>
 										<div class="text-small">Comments</div>
 								</div>
 						</a>
 				</button>
-				<button class="col px-0 btn btn-dead m-0" style="background: None !important; border: None;">
-						<a href="/leaderboard" class="text-decoration-none" role="button">
+				<button type="button" class="col px-0 btn btn-dead m-0" style="background: None !important; border: None;">
+						<a href="/leaderboard" class="text-decoration-none">
 								<div class="text-center {% if request.path=='/leaderboard' %}text-primary{% else %}text-muted{% endif %}">
 										<i class="fas fa-trophy text-lg"></i>
 										<div class="text-small">Users</div>
@@ -48,8 +48,8 @@
 				</button>
 {% if v %}
 				{% if FEATURES['CHAT'] -%}
-				<button class="col px-0 btn btn-dead m-0 pt-0" style="background: None !important; border: None;">
-						<a href="/chat" class="text-decoration-none" role="button">
+				<button type="button" class="col px-0 btn btn-dead m-0 pt-0" style="background: None !important; border: None;">
+						<a href="/chat" class="text-decoration-none">
 								<div class="text-center {% if request.path=='/chat' %}text-primary{% else %}text-muted{% endif %}">
 									<b class="text-lg" style="padding-top:10px" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">{{cache.get(ONLINE_STR)}}</b>
 									<div class="text-small">Chat</div>
@@ -58,8 +58,8 @@
 				</button>
 				{%- endif %}
 				{% if FEATURES['AWARDS'] -%}
-				<button class="col px-0 mr-3 btn btn-dead m-0" style="background: None !important; border: None;">
-						<a href="/shop" class="text-decoration-none" role="button">
+				<button type="button" class="col px-0 mr-3 btn btn-dead m-0" style="background: None !important; border: None;">
+						<a href="/shop" class="text-decoration-none">
 								<div class="text-center {% if request.path=='/shop' %}text-primary{% else %}text-muted{% endif %}">
 										<i class="fas fa-store text-lg"></i>
 										<div class="text-small">Shop</div>
@@ -68,8 +68,8 @@
 				</button>
 				{%- endif %}
 {% else %}
-				<button class="col px-0 mr-3 btn btn-dead m-0" style="background: None !important; border: None;">
-						<a href="/signup" class="text-decoration-none" role="button">
+				<button type="button" class="col px-0 mr-3 btn btn-dead m-0" style="background: None !important; border: None;">
+						<a href="/signup" class="text-decoration-none">
 								<div class="text-center text-muted">
 										<i class="fas fa-user-plus text-lg"></i>
 										<div class="text-small">Sign Up</div>

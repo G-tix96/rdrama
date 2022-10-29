@@ -9,21 +9,20 @@ from files.__main__ import app
 @app.post("/vote/post/option/<option_id>")
 @is_not_permabanned
 def vote_option(option_id, v):
-
-	option_id = int(option_id)
-
+	try:
+		option_id = int(option_id)
+	except:
+		abort(404)
 	option = g.db.get(SubmissionOption, option_id)
-
 	if not option: abort(404)
-
 	sub = option.post.sub
 
 	if sub in ('furry','vampire','racist','femboy') and not v.house.lower().startswith(sub):
-		return {"error": f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}"}, 400
+		abort(403, f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}")
 
 	if option.exclusive == 2:
-		if v.coins < POLL_BET_COINS: return {"error": f"You don't have {POLL_BET_COINS} coins!"}, 400
-		v.coins -= POLL_BET_COINS
+		if v.coins < POLL_BET_COINS: abort(400, f"You don't have {POLL_BET_COINS} coins!")
+		v.charge_account('coins', POLL_BET_COINS)
 		g.db.add(v)
 		autojanny = get_account(AUTOJANNY_ID)
 		autojanny.coins += POLL_BET_COINS
@@ -35,7 +34,7 @@ def vote_option(option_id, v):
 			SubmissionOptionVote.submission_id==option.submission_id,
 			SubmissionOption.exclusive==option.exclusive).one_or_none()
 		if vote:
-			if option.exclusive == 2: return {"error": "You already voted on this bet!"}, 400
+			if option.exclusive == 2: abort(400, "You already voted on this bet!")
 			g.db.delete(vote)
 
 	existing = g.db.query(SubmissionOptionVote).filter_by(option_id=option_id, user_id=v.id).one_or_none()
@@ -54,15 +53,13 @@ def vote_option(option_id, v):
 @app.get("/votes/post/option/<option_id>")
 @auth_required
 def option_votes(option_id, v):
-
-	option_id = int(option_id)
-
+	try:
+		option_id = int(option_id)
+	except:
+		abort(404)
 	option = g.db.get(SubmissionOption, option_id)
-
 	if not option: abort(404)
-
 	if option.post.ghost: abort(403)
-
 	ups = g.db.query(SubmissionOptionVote).filter_by(option_id=option_id).order_by(SubmissionOptionVote.created_utc).all()
 
 	return render_template("poll_votes.html",
@@ -75,17 +72,15 @@ def option_votes(option_id, v):
 @app.post("/vote/comment/option/<option_id>")
 @is_not_permabanned
 def vote_option_comment(option_id, v):
-
-	option_id = int(option_id)
-
+	try:
+		option_id = int(option_id)
+	except:
+		abort(404)
 	option = g.db.get(CommentOption, option_id)
-
 	if not option: abort(404)
-
 	sub = option.comment.post.sub
-
 	if sub in ('furry','vampire','racist','femboy') and not v.house.lower().startswith(sub):
-		return {"error": f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}"}, 400
+		abort(403, f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}")
 
 	if option.exclusive:
 		vote = g.db.query(CommentOptionVote).join(CommentOption).filter(
@@ -111,9 +106,10 @@ def vote_option_comment(option_id, v):
 @app.get("/votes/comment/option/<option_id>")
 @auth_required
 def option_votes_comment(option_id, v):
-
-	option_id = int(option_id)
-
+	try:
+		option_id = int(option_id)
+	except:
+		abort(404)
 	option = g.db.get(CommentOption, option_id)
 
 	if not option: abort(404)

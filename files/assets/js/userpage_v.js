@@ -105,13 +105,9 @@ function submitFormAjax(e) {
 	xhr.onload = function() {
 		if (xhr.status >= 200 && xhr.status < 300) {
 			let data = JSON.parse(xhr.response);
-			try {
-				document.getElementById('toast-post-success-text').innerText = data["message"];
-			} catch(e) {
-				document.getElementById('toast-post-success-text').innerText = "Action successful!";
-			}
-			var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success'));
-			myToast.show();
+			showToast(true, getMessageFromJsonData(true, data));
+			document.getElementById('input-message').value = ''
+			document.getElementById('input-message-mobile').value = ''
 			return true
 		} else {
 			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
@@ -120,6 +116,7 @@ function submitFormAjax(e) {
 				var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error'));
 				myToast.show();
 				document.getElementById('toast-post-error-text').innerText = data["error"];
+				if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
 			} catch(e) {
 				var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success'));
 				myToast.hide();

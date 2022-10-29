@@ -1,59 +1,15 @@
 {%- import 'util/helpers.html' as help -%}
+{%- import 'html_head.html' as html_head with context -%}
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
-
-	<meta name="description" content="{{DESCRIPTION}}">
-	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
-
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<meta name="author" content="">
-	<meta name="thumbnail" content="{{'site_preview.webp' | asset_siteimg}}">
-	<link rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
-
-	<meta property="og:type" content="article">
-	<meta property="og:title" content="{{SITE_NAME}}">
-	<meta property="og:site_name" content="{{SITE}}">
-	<meta property="og:image" content="{{'site_preview.webp' | asset_siteimg}}">
-	<meta property="og:url" content="{{request.full_path}}">
-	<meta property="og:description" name="description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
-	<meta property="og:author" name="author" content="{{SITE_FULL}}">
-
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:site" content="{{SITE_FULL}}">
-	<meta name="twitter:title" content="{{SITE_NAME}}">
-	<meta name="twitter:creator" content="{{SITE_FULL}}">
-	<meta name="twitter:description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
-	<meta name="twitter:image" content="{{'site_preview.webp' | asset_siteimg}}">
-	<meta name="twitter:url" content="{{request.full_path}}">
-
-
-
-	<title>{% block pagetitle %}{{SITE_NAME}}{% endblock %}</title>
-
-	
-	{% if v %}
-		<style>:root{--primary:#{{v.themecolor}}}</style>
-		<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-		<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
-	{% else %}
-		<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
-		<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-		<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
-	{% endif %}
-</head>
-
+{{html_head.html_head(true, false, true, none, none, "", "")}}
 <body id="settings2" {% if SITE_NAME == 'rDrama' and v and (v.is_banned or v.agendaposter) %}style="overflow-x: hidden;background:url(/assets/images/backgrounds/anime/1.webp?v=3) center center fixed; background-color: var(--background)"{% elif v and v.background %}style="overflow-x: hidden;background:url(/assets/images/backgrounds/{{v.background}}?v=3) center center fixed; background-color: var(--background){% if 'anime' not in v.background %};background-size: cover{% endif %}"{% endif %}>
 
 {% include "header.html" %}
 
 {% block subNav %}
 	{% if not request.path.startswith('/h/') %}
-		<div class="container-fluid bg-white sticky d-none d-md-block" style="padding-top: 50px; padding-bottom: 0 !important;">
+		<div class="container-fluid bg-white sticky d-mob-none" style="padding-top: 50px; padding-bottom: 0 !important;">
 			<div class="row box-shadow-bottom">
 				<div class="col">
 					<div class="container" style="padding-bottom: 0;">

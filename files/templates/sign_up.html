@@ -1,41 +1,22 @@
 {%- import 'util/helpers.html' as help -%}
+{%- import 'html_head.html' as html_head with context -%}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<script defer src="{{'js/bootstrap.js' | asset}}"></script>
+    <head>
+        {{html_head.javascript()}}
+	    {#{html_head.stylesheets(true, '')}#}
+	    {{html_head.meta_tags_1(csp, none, true)}}
+	    <link rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
+	    {% block title %}
+	    <title>{{SITE_NAME}}</title>
+	    {{html_head.meta_tags_2(SITE_NAME, SITE_FULL)}}
+	    {% endblock %}
+	    {{html_head.seo()}}
+	    {{html_head.cf_2fa_verify()}}
 
-	<link rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
-
-	<meta name="description" content="{{DESCRIPTION}}">
-	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
-
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<meta name="author" content="">
-	<meta property="og:type" content="article">
-	<meta property="og:title" content="{{SITE_NAME}}">
-	<meta property="og:site_name" content="{{SITE}}">
-	<meta property="og:image" content="{{'site_preview.webp' | asset_siteimg}}">
-	<meta property="og:url" content="{{SITE_FULL}}">
-	<meta property="og:description" name="description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
-	<meta property="og:author" name="author" content="{{SITE_FULL}}">
-
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:site" content="{{SITE_FULL}}">
-	<meta name="twitter:title" content="{{SITE_NAME}}">
-	<meta name="twitter:creator" content="{{SITE_FULL}}">
-	<meta name="twitter:description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
-	<meta name="twitter:image" content="{{'site_preview.webp' | asset_siteimg}}">
-	<meta name="twitter:url" content="{{SITE_FULL}}">
-
-	<title>{% if ref_user %}{{ref_user.username}} invites you to {{SITE_NAME}}{% else %}Sign up - {{SITE_NAME}}{% endif %}</title>
-
-	<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
-	<link rel="stylesheet" href="{{'css/main-dev.css' | asset}}">
-	<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
-
-</head>
+        <!-- COMMENT / UNCOMMENT FOR NEKOCEL DEV SHIT -->
+        <link rel="stylesheet" href="{{'css/main-dev.css' | asset}}">
+    </head>
 
     <body id="login">
 		<div id="register-form-container">
@@ -44,13 +25,40 @@
 			        {% if ref_user %}
 			        <h1 class="form-header-text">@{{ref_user.username}} has invited you!</h1>
 			        <p class="form-header-text-alt">Looks like someone wants you to join {{SITE_NAME}}.</p>
+					{% elif SITE_NAME == 'rDrama' and site_settings['login_required'] %}
+					<p class="text-muted text-justify mb-3" style="line-height: 1.2em">
+						Hiiiiii it’s your favorite user Carp! We’re currently on <span style="font-variant-caps: small-caps;">Login Required</span> mode for one of a few reasons:
+					</p>
+					<ol style="padding-left: 1.5em">
+						<li>The site is running really slowly and we think it might be miscreants up to no good, or</li>
+						<li>It’s our monthly 24 hours of login-required-mode to encourage lovely lurkers to become lovely new friends of ours, or</li>
+						<li>Someone clicked the toggle by mistake lol oops sorry!</li>
+					</ol>
+					<p class="text-muted text-justify mb-1" style="line-height: 1.2em">
+						But that’s all fine. Signing up is easy. It takes literally like 4 seconds if you’re slow. You don’t even need an email! Just pick a username, make up some neat new password where you replace all the e’s with 3s or whatever and bam, done, you’re in.<br>
+						Remember to click “Follow” on my profile!
+					</p>
+					<p class="text-muted mb-md-2">
+						I love you.<br>
+						<em>xoxo carp</em> 💋
+					</p>
+					<hr>
+					{% elif SITE_NAME == 'WPD' and site_settings['login_required'] %}
+					<p class="text-muted text-justify mb-1" style="line-height: 1.2em">
+						<strong>Hi you!</strong> &mdash; <span style="font-variant-caps: small-caps;">watchpeopledie.tv</span> is currently doing our monthly 24(ish) hours of "everyone needs to have an account" &mdash; sorry about that! But making an account is actually super easy. <strong>You don't even need an email address!</strong> Literally just pick a username, set a password, and that's that. Bam, done, like 8 seconds, tops.<br>
+					</p>
+					<p class="text-muted mb-md-2">
+						We WANT you with us &#128150;<br>
+						Please join!
+					</p>
+					<hr>
 			        {% else %}
 			        <h1 class="form-header-text">Create your account.</h1>
 			        <p class="form-header-text-alt">No email address required.</p>
 			        {% endif %}
                 </div>
 
-			    <form action="/signup" method="post" class="mt-md-3" id="signup">
+			    <form action="/signup" method="post" id="signup">
 
 				    {% if error %}<span class="text-danger">{{error}}</span><br>{% endif %}
 
@@ -101,8 +109,8 @@
 					    I accept the <a href="/logged_out/sidebar">rules</a>
 				    </label>
 
-				    {% if hcaptcha %}
-				    <div class="h-captcha" data-sitekey="{{hcaptcha}}"></div>
+				    {% if hcaptcha != 'blahblahblah' %}
+				        <div class="h-captcha" data-sitekey="{{hcaptcha}}" dark-theme="dark"></div>
 				    {% endif %}
 
 				    <button class="btn btn-primary form-block" id="register_button">Register</button>
@@ -117,12 +125,11 @@
 		<div class="splash-wrapper">
 			<img alt="cover" loading="lazy" class="splash-img" src="{{'cover.webp' | asset_siteimg}}"></img>
 		</div>
-        <script defer src="/assets/js/signup.js?v=4000"></script>
 
-        {% if hcaptcha %}
-	    <script defer src="/assets/js/hcaptcha.js?v=4000"></script>
+        <!-- Bloat -->
+        <script defer src="{{'js/signup.js' | asset}}"></script>
+        {% if hcaptcha != 'blahblahblah' %}
+        <script defer src="{{'js/hcaptcha.js' | asset}}"></script>
         {% endif %}
-
     </body>
-
 </html>

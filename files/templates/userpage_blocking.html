@@ -15,9 +15,9 @@
 				<i class="fas fa-square text-danger opacity-25 fa-stack-2x"></i>
 				<i class="fas text-danger fa-user-cog fa-stack-1x text-lg"></i>
 			</span>
-			<h2 class="h5">You are blocking @{{u.username}}.</h2>
+			<h5>You are blocking @{{u.username}}.</h5>
 			<p class="text-muted">So we aren't going to show you their profile.</p>
-			<button class="btn btn-success text-success mt-2" onclick="post_toast(this,'/settings/unblock?username={{u.username}}', true)"><i class="fas fa-eye text-success mr-2"></i>Unblock user</a>
+			<button type="button" class="btn btn-success text-success mt-2" onclick="post_toast(this,'/settings/unblock?username={{u.username}}', true)"><i class="fas fa-eye text-success mr-2"></i>Unblock user</a>
 		</div>
 	</div>
 </div>

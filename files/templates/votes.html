@@ -9,10 +9,7 @@
 
 {% if thing %}
 
-<pre>
-
-</pre>
-<h1>Info</h1>
+<h1 class="mt-2">Info</h1>
 <p><a href="{{thing.permalink}}">{{thing.permalink}}</a></p>
 <p><b>Author:</b> <a href="{{thing.author.url}}">@{{thing.author.username}}</a></p>
 <p><b>Author Created At:</b> <span data-time="{{thing.author.created_utc}}"></span></p>
@@ -41,7 +38,7 @@
 					{% endwith %}
 				</td>
 				<td>{{"{:,}".format(vote.user.truecoins)}}</td>
-				<td data-time="{{vote.created_utc}}"></td>
+				<td {% if vote.created_utc > 1599343262 %}data-time="{{vote.created_utc}}"{% endif %}></td>
 			</tr>
 		{% endfor %}
 	</table>
@@ -68,7 +65,7 @@
 					{% endwith %}
 				</td>
 				<td>{{"{:,}".format(vote.user.truecoins)}}</td>
-				<td data-time="{{vote.created_utc}}"></td>
+				<td {% if vote.created_utc > 1599343262 %}data-time="{{vote.created_utc}}"{% endif %}></td>
 			</tr>
 		{% endfor %}
 	</table>

@@ -1,22 +1,19 @@
 {% extends "default.html" %}
 {% block content %}
-<pre>
-
-	
-</pre>
-<h5>Users {{verb}} /h/{{sub}}</h5>
-<pre></pre>
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
+<h5 class="mt-3">Users {{verb}} /h/{{sub}}</h5>
+<div class="overflow-x-auto mt-1"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
 	<tr>
 		<th>#</th>
 		<th>Name</th>
+		<th>{{verb.title()}} since</th>
 	</tr>
 </thead>
-{% for user in users %}
+{% for user, object in users %}
 	<tr>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
+		<td {% if object.created_utc %}data-time="{{object.created_utc}}"{% endif %}></td>
 	</tr>
 {% endfor %}
 </table>

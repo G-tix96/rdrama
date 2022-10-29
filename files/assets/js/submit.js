@@ -55,6 +55,12 @@ function hide_image() {
 document.onpaste = function(event) {
 	files = event.clipboardData.files
 
+	if (files.length > 4)
+	{
+		alert("You can't upload more than 4 files at one time!")
+		return
+	}
+
 	filename = files[0]
 
 	if (filename)
@@ -80,9 +86,10 @@ document.onpaste = function(event) {
 				fileReader.addEventListener("load", function () {document.getElementById('image-preview').setAttribute('src', this.result);});
 			}
 			document.getElementById('file-upload').setAttribute('required', 'false');
+			document.getElementById('post-url').value = null;
+			localStorage.setItem("post-url", "")
+			document.getElementById('image-upload-block').classList.remove('d-none')
 		}
-		document.getElementById('post-url').value = null;
-		localStorage.setItem("post-url", "")
 		checkForRequired();
 	}
 }
@@ -157,8 +164,9 @@ function checkRepost() {
 	const system = document.getElementById('system')
 	system.innerHTML = `To post an image, use a direct image link such as i.imgur.com`;
 	const url = document.getElementById('post-url').value
+	const min_repost_check = 9;
 
-	if (url) {
+	if (url && url.length >= min_repost_check) {
 		const xhr = new XMLHttpRequest();
 		xhr.open("post", "/is_repost");
 		xhr.setRequestHeader('xhr', 'xhr');

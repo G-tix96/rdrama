@@ -25,10 +25,15 @@ set JOURNOID_BANNERS = [
 		"https://www.audacy.com/podcasts/the-glenn-beck-program-45436/elon-musk-vs-the-world-guests-rob-collins-riaz-patel-42722-1386209895", 
 		"/post/64305"
 	),
+	(
+		"As placed on the record of State v. Darrell Brooks 👩‍⚖️️",
+		"https://wcca.wicourts.gov/caseDetail.html?caseNo=2021CF001848&countyNo=67&index=0&mode=details#records",
+		"/post/116580"
+	),
 ]
 -%}
 {% set journoid = JOURNOID_BANNERS|random %}
 
-<a id="srd-link" href="{{ journoid[1] }}">{{ journoid[0] }}</a>
+<a rel="nofollow noopener noreferrer" id="srd-link" href="{{journoid[1]}}">{{journoid[0]}}</a>
 <span id="srd-separator">&mdash;</span>
-<a id="srd-discuss" href="{{ journoid[2] }}">(discuss)</a>
+<a id="srd-discuss" href="{{journoid[2]}}">(discuss)</a>

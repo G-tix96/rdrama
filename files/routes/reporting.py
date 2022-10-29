@@ -1,6 +1,7 @@
 from files.helpers.wrappers import *
 from files.helpers.get import *
 from files.helpers.alerts import *
+from files.helpers.actions import *
 from flask import g
 from files.__main__ import app, limiter
 from os import path
@@ -11,24 +12,14 @@ from files.helpers.sanitize import filter_emojis_only
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def flag_post(pid, v):
-
 	post = get_post(pid)
-
 	reason = request.values.get("reason", "").strip()
 
-	if blackjack and any(i in reason.lower() for i in blackjack.split()):
-		v.shadowbanned = 'AutoJanny'
-		if not v.is_banned: v.ban_reason = 'Blackjack'
-		send_repeatable_notification(CARP_ID, f"reports on {post.permalink}")
-
-	if v.is_muted:
-		return {"error": "You are forbidden from making reports."}, 400
-
+	execute_blackjack(v, post, reason, 'flag')
+	if v.is_muted: abort(400, "You are forbidden from making reports.")
 	reason = reason[:100]
-
 	reason = filter_emojis_only(reason)
-
-	if len(reason) > 350: return {"error": "Too long."}, 400
+	if len(reason) > 350: abort(400, "Too long.")
 
 	if reason.startswith('!') and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.sub and v.mods(post.sub)):
 		post.flair = reason[1:]
@@ -58,16 +49,16 @@ def flag_post(pid, v):
 		sub_to = g.db.get(Sub, sub_to)
 		sub_to = sub_to.name if sub_to else None
 
-		if sub_from == sub_to: {"error": f"Post is already in /h/{sub_to}"}, 400
+		if sub_from == sub_to: abort(400, f"Post is already in /h/{sub_to}")
 		
 		if post.author.exiled_from(sub_to):
-			return {"error": f"User is exiled from this {HOLE_NAME}!"}, 400
+			abort(400, f"User is exiled from this {HOLE_NAME}!")
 
 		if sub_to in ('furry','vampire','racist','femboy') and not v.client and not post.author.house.lower().startswith(sub_to):
 			if v.id == post.author_id:
-				return {"error": f"You need to be a member of House {sub.capitalize()} to post in /h/{sub}"}, 403
+				abort(403, f"You need to be a member of House {sub_to.capitalize()} to post in /h/{sub_to}")
 			else:
-				return {"error": f"@{post.author.username} needs to be a member of House {sub.capitalize()} for their post to be moved to /h/{sub}"}, 400
+				abort(403, f"@{post.author.username} needs to be a member of House {sub_to.capitalize()} for their post to be moved to /h/{sub_to}")
 
 		post.sub = sub_to
 		g.db.add(post)
@@ -103,8 +94,7 @@ def flag_post(pid, v):
 		return {"message": f"Post moved to /h/{post.sub}"}
 	else:
 		existing = g.db.query(Flag.post_id).filter_by(user_id=v.id, post_id=post.id).one_or_none()
-		if existing:
-			return {"error": "You already reported this post!"}, 409
+		if existing: abort(409, "You already reported this post!")
 		flag = Flag(post_id=post.id, user_id=v.id, reason=reason)
 		g.db.add(flag)
 
@@ -121,21 +111,14 @@ def flag_comment(cid, v):
 	comment = get_comment(cid)
 	
 	existing = g.db.query(CommentFlag.comment_id).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
-	if existing:
-		return {"error": "You already reported this comment!"}, 409
+	if existing: abort(409, "You already reported this comment!")
 
 	reason = request.values.get("reason", "").strip()
-
-	if blackjack and any(i in reason.lower() for i in blackjack.split()):
-		v.shadowbanned = 'AutoJanny'
-		if not v.is_banned: v.ban_reason = 'Blackjack'
-		send_repeatable_notification(CARP_ID, f"reports on {comment.permalink}")
-
+	execute_blackjack(v, comment, reason, 'flag')
 	reason = reason[:100]
-
 	reason = filter_emojis_only(reason)
 
-	if len(reason) > 350: return {"error": "Too long."}, 400
+	if len(reason) > 350: abort(400, "Too long.")
 
 	flag = CommentFlag(comment_id=comment.id, user_id=v.id, reason=reason)
 
@@ -148,12 +131,10 @@ def flag_comment(cid, v):
 @limiter.limit("4/second;100/minute;300/hour;2000/day")
 @admin_level_required(PERMS['FLAGS_REMOVE'])
 def remove_report_post(v, pid, uid):
-
 	try:
 		pid = int(pid)
 		uid = int(uid)
 	except: abort(400)
-
 	report = g.db.query(Flag).filter_by(post_id=pid, user_id=uid).one_or_none()
 
 	if report:
@@ -175,10 +156,10 @@ def remove_report_post(v, pid, uid):
 @limiter.limit("4/second;100/minute;300/hour;2000/day")
 @admin_level_required(PERMS['FLAGS_REMOVE'])
 def remove_report_comment(v, cid, uid):
-	
-	cid = int(cid)
-	uid = int(uid)
-	
+	try:
+		cid = int(cid)
+		uid = int(uid)
+	except: abort(400)
 	report = g.db.query(CommentFlag).filter_by(comment_id=cid, user_id=uid).one_or_none()
 	
 	if report:

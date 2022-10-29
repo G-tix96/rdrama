@@ -1,4 +1,4 @@
-<div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3 pb-5" {% if request.path != '/sidebar' %}id="sidebar-content"{% endif %}>
+<div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3 pb-5 mb-5" {% if request.path != '/sidebar' %}id="sidebar-content"{% endif %}>
 
 	{%- if v -%}
 		{%- set art_path = 'assets/images/WPD/sidebar' -%}
@@ -47,9 +47,15 @@
 		<a href="/h/maiming">Maiming</a>
 		<a href="/h/police">Police</a>
 		<a href="/h/combat">Combat</a>
-		<a href="/h/gore">Gore</a>
 		<a href="/h/other">Other</a>
+		<a href="/h/compilation">Compilation</a>
 		<a href="/h/request" class="font-italic">Request</a>
+	</div>
+	<hr>
+	<div class="sidebar-wpd--flairs sidebar-wpd--flairs--3">
+		<a href="/h/gore">Gore</a>
+		<a href="/h/aftermath">Aftermath</a>
+		<a href="/h/selfharm">Self-Harm</a>
 	</div>
 	<hr>
 	<div class="sidebar-wpd--flairs sidebar-wpd--flairs--2 mb-4">
@@ -64,9 +70,10 @@
 		<ol id="sidebar--rules--list">
 			<li>Do not post anything illegal under US law.
 				<ul>
-					<li>Do not request illegal content.</li>
 					<li>Do not threaten or advocate violence.</li>
 					<li>Do not sexualize minors.</li>
+					<li>Do not post animal cruelty/abuse.</li>
+					<li>Do not request illegal content.</li>
 				</ul>
 			</li>
 			<li>No doxing. No witch hunts.</li>
@@ -90,12 +97,4 @@
 			</li>
 		</ol>
 	</div>
-	<pre>
-
-
-
-
-
-
-	</pre>
 </div>

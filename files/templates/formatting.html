@@ -5,19 +5,11 @@
 {% endblock %}
 
 {% block content %}
-<pre>
-
-
-</pre>
-<h1>Markdown Formatting</h1>
+<h1 mt-3>Markdown Formatting</h1>
 
 You can use Markdown formatting:
 
-<pre>
-
-</pre>
-
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
+<div class="overflow-x-auto mt-3"><table class="table table-striped mb-5">
 	<thead class="bg-primary text-white">
 		<tr>
 			<th>Name</th>
@@ -79,7 +71,9 @@ Text 2
 		<tr>
 			<td>Video Files</td>
 			<td>https://files.catbox.moe/v4om92.mp4</td>
-			<td><video controls preload="metadata"><source referrerpolicy="no-referrer" src="https://files.catbox.moe/v4om92.mp4"></video></td>
+			<td>
+				<video controls preload="none" src="https://files.catbox.moe/v4om92.mp4"></video>
+			</td>
 		</tr>
 		<tr>
 			<td>Emojis</td>
@@ -238,11 +232,7 @@ Text 2
 
 And we allow custom HTML in most places:
 
-<pre>
-
-</pre>
-
-<h4>Allowed Tags</h4>
+<h4 class="mt-2">Allowed Tags</h4>
 
 <div class="overflow-x-auto"><table class="table table-striped mb-5">
 	<thead class="bg-primary text-white">
@@ -521,7 +511,7 @@ line breaks
 				This is a &lt;a href='https://www.w3schools.com/tags/tag_a.asp'&gt;link&lt;/a&gt;
 			</td>
 			<td>
-				This is a <a href='https://www.w3schools.com/tags/tag_a.asp'>link</a>
+				This is a <a rel="nofollow noopener noreferrer" href='https://www.w3schools.com/tags/tag_a.asp'>link</a>
 			</td>
 		</tr>
 		<tr>

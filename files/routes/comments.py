@@ -36,7 +36,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	comment = get_comment(cid, v=v)
 	if not comment.can_see(v): abort(403)
 	
-	if comment.author.shadowbanned and not (v and v.shadowbanned) and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
+	if comment.author.shadowbanned and not (v and v.can_see_shadowbanned):
 		abort(404)
 
 	if v and request.values.get("read"):
@@ -46,20 +46,17 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 			g.db.add(notif)
 
 	if comment.post and comment.post.club and not (v and (v.paid_dues or v.id in [comment.author_id, comment.post.author_id])): abort(403)
-
 	if not comment.parent_submission and not (v and (comment.author.id == v.id or comment.sentto == v.id)) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) : abort(403)
 	
 	if not pid:
 		if comment.parent_submission: pid = comment.parent_submission
-		elif SITE_NAME == 'rDrama': pid = 6489
-		elif SITE == 'pcmemes.net': pid = 2487
-		else: pid = 1
+		else: pid = NOTIFICATION_THREAD
 	
 	post = get_post(pid, v=v)
 	
 	if post.over_18 and not (v and v.over_18) and not session.get('over_18', 0) >= int(time.time()):
-		if request.headers.get("Authorization"): return {"error": 'This content is not suitable for some users and situations.'}, 403
-		else: return render_template("errors/nsfw.html", v=v)
+		if v and v.client: abort(403, "This content is not suitable for some users and situations.")
+		else: return render_template("errors/nsfw.html", v=v), 403
 
 	try: context = min(int(request.values.get("context", 0)), 8)
 	except: context = 0
@@ -71,53 +68,16 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	top_comment = c
 
 	if v: defaultsortingcomments = v.defaultsortingcomments
-	else: defaultsortingcomments = "top"
+	else: defaultsortingcomments = "hot"
 	sort=request.values.get("sort", defaultsortingcomments)
 
 	if v:
-		votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
-
-		blocking = v.blocking.subquery()
-
-		blocked = v.blocked.subquery()
-
-		comments = g.db.query(
-			Comment,
-			votes.c.vote_type,
-			blocking.c.target_id,
-			blocked.c.target_id,
-		)
-
-		if not (v and v.shadowbanned) and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
-			comments = comments.join(Comment.author).filter(User.shadowbanned == None)
-		 
-		comments=comments.filter(
-			Comment.top_comment_id == c.top_comment_id
-		).join(
-			votes,
-			votes.c.comment_id == Comment.id,
-			isouter=True
-		).join(
-			blocking,
-			blocking.c.target_id == Comment.author_id,
-			isouter=True
-		).join(
-			blocked,
-			blocked.c.user_id == Comment.author_id,
-			isouter=True
-		)
-
-		output = []
-		for c in comments:
-			comment = c[0]
-			comment.voted = c[1] or 0
-			comment.is_blocking = c[2] or 0
-			comment.is_blocked = c[3] or 0
-			output.append(comment)
-
+		# this is required because otherwise the vote and block
+		# props won't save properly unless you put them in a list
+		output = get_comments_v_properties(v, False, None, Comment.top_comment_id == c.top_comment_id)[1]
 	post.replies=[top_comment]
 			
-	if request.headers.get("Authorization"): return top_comment.json
+	if v and v.client: return top_comment.json
 	else: 
 		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)): template = "submission_banned.html"
 		else: template = "submission.html"
@@ -128,17 +88,17 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 @limiter.limit("1/second;20/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def comment(v):
-	if v.is_suspended: return {"error": "You can't perform this action while banned."}, 403
+	if v.is_suspended: abort(403, "You can't perform this action while banned.")
 
 	parent_submission = request.values.get("submission").strip()
 	parent_fullname = request.values.get("parent_fullname").strip()
 
 	parent_post = get_post(parent_submission, v=v)
 	sub = parent_post.sub
-	if sub and v.exiled_from(sub): return {"error": f"You're exiled from /h/{sub}"}, 403
+	if sub and v.exiled_from(sub): abort(403, f"You're exiled from /h/{sub}")
 
 	if sub in ('furry','vampire','racist','femboy') and not v.client and not v.house.lower().startswith(sub):
-		return {"error": f"You need to be a member of House {sub.capitalize()} to comment in /h/{sub}"}, 400
+		abort(403, f"You need to be a member of House {sub.capitalize()} to comment in /h/{sub}")
 
 	if parent_post.club and not (v and (v.paid_dues or v.id == parent_post.author_id)): abort(403)
 
@@ -159,18 +119,17 @@ def comment(v):
 	if not parent.can_see(v): abort(404)
 	if parent.deleted_utc != 0: abort(404)
 
-	if level > COMMENT_MAX_DEPTH:
-		return {"error": f"Max comment level is {COMMENT_MAX_DEPTH}"}, 400
+	if level > COMMENT_MAX_DEPTH: abort(400, f"Max comment level is {COMMENT_MAX_DEPTH}")
 
 	body = sanitize_raw_body(request.values.get("body", ""), False)
 
 	if parent_post.id not in ADMIGGERS:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-			return {"error":"You have to type more than 280 characters!"}, 403
+			abort(403, "You have to type more than 280 characters!")
 		elif v.bird and len(body) > 140:
-			return {"error":"You have to type less than 140 characters!"}, 403
+			abort(403, "You have to type less than 140 characters!")
 
-	if not body and not request.files.get('file'): return {"error":"You need to actually write something!"}, 400
+	if not body and not request.files.get('file'): abort(400, "You need to actually write something!")
 	
 	options = []
 	for i in poll_regex.finditer(body):
@@ -189,30 +148,28 @@ def comment(v):
 				oldname = f'/images/{time.time()}'.replace('.','') + '.webp'
 				file.save(oldname)
 				image = process_image(oldname, patron=v.patron)
-				if image == "": return {"error":"Image upload failed"}, 400
+				if image == "": abort(400, "Image upload failed")
 				if v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES'] and level == 1:
-					if parent_post.id == SIDEBAR_THREAD:
-						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/sidebar'),
+					def process_sidebar_or_banner(type, resize=0):
+						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/{type}'),
 							key=lambda e: int(e.split('.webp')[0]))[-1]
 						num = int(li.split('.webp')[0]) + 1
-						filename = f'files/assets/images/{SITE_NAME}/sidebar/{num}.webp'
+						filename = f'files/assets/images/{SITE_NAME}/{type}/{num}.webp'
 						copyfile(oldname, filename)
-						process_image(filename, resize=400)
+						process_image(filename, resize=resize)
+
+					if parent_post.id == SIDEBAR_THREAD:
+						process_sidebar_or_banner('sidebar', 400)
 					elif parent_post.id == BANNER_THREAD:
 						banner_width = 1200 if not SITE_NAME == 'PCM' else 0
-						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/banners'),
-							key=lambda e: int(e.split('.webp')[0]))[-1]
-						num = int(li.split('.webp')[0]) + 1
-						filename = f'files/assets/images/{SITE_NAME}/banners/{num}.webp'
-						copyfile(oldname, filename)
-						process_image(filename, resize=banner_width)
+						process_sidebar_or_banner('banners', banner_width)
 					elif parent_post.id == BADGE_THREAD:
 						try:
 							badge_def = loads(body)
 							name = badge_def["name"]
 
 							existing = g.db.query(BadgeDef).filter_by(name=name).one_or_none()
-							if existing: return {"error": "A badge with this name already exists!"}, 403
+							if existing: abort(409, "A badge with this name already exists!")
 
 							badge = BadgeDef(name=name, description=badge_def["description"])
 							g.db.add(badge)
@@ -220,15 +177,14 @@ def comment(v):
 							filename = f'files/assets/images/badges/{badge.id}.webp'
 							copyfile(oldname, filename)
 							process_image(filename, resize=300)
-							requests.post(f'https://api.cloudflare.com/client/v4/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, 
-								data=f'{{"files": ["https://{SITE}/assets/images/badges/{badge.id}.webp"]}}', timeout=5)
+							purge_files_in_cache(f"https://{SITE}/assets/images/badges/{badge.id}.webp")
 						except Exception as e:
-							return {"error": str(e)}, 400
+							abort(400, str(e))
 				body += f"\n\n![]({image})"
 			elif file.content_type.startswith('video/'):
-				body += f"\n\n{process_video(file)}"
+				body += f"\n\n{SITE_FULL}{process_video(file)}"
 			elif file.content_type.startswith('audio/'):
-				body += f"\n\n{process_audio(file)}"
+				body += f"\n\n{SITE_FULL}{process_audio(file)}"
 			else:
 				abort(415)
 
@@ -256,50 +212,16 @@ def comment(v):
 																	Comment.parent_submission == parent_submission,
 																	Comment.body_html == body_html
 																	).first()
-		if existing: return {"error": f"You already made that comment: /comment/{existing.id}"}, 409
+		if existing: abort(409, f"You already made that comment: /comment/{existing.id}")
 
 	if parent.author.any_block_exists(v) and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
-		return {"error": "You can't reply to users who have blocked you or users that you have blocked."}, 403
+		abort(403, "You can't reply to users who have blocked you or users that you have blocked.")
 
-	is_bot = v.id != BBBB_ID and (bool(request.headers.get("Authorization")) or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
+	is_bot = (v.client is not None
+		and v.id != BBBB_ID
+		or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
 
-	if len(body) > 50:
-		now = int(time.time())
-		cutoff = now - 60 * 60 * 24
-
-		similar_comments = g.db.query(Comment).filter(
-			Comment.author_id == v.id,
-			Comment.body.op('<->')(body) < COMMENT_SPAM_SIMILAR_THRESHOLD,
-			Comment.created_utc > cutoff
-		).all()
-
-		threshold = COMMENT_SPAM_COUNT_THRESHOLD
-		if v.age >= (60 * 60 * 24 * 7):
-			threshold *= 3
-		elif v.age >= (60 * 60 * 24):
-			threshold *= 2
-
-		if len(similar_comments) > threshold:
-			text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
-			send_repeatable_notification(v.id, text)
-
-			v.ban(reason="Spamming.",
-					days=1)
-
-			for comment in similar_comments:
-				comment.is_banned = True
-				comment.ban_reason = "AutoJanny"
-				g.db.add(comment)
-				ma=ModAction(
-					user_id=AUTOJANNY_ID,
-					target_comment_id=comment.id,
-					kind="ban_comment",
-					_note="spam"
-					)
-				g.db.add(ma)
-
-			g.db.commit()
-			return {"error": "Too much spam!"}, 403
+	execute_antispam_comment_check(body, v)
 
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
@@ -319,11 +241,7 @@ def comment(v):
 	g.db.add(c)
 	g.db.flush()
 
-	if blackjack and any(i in c.body.lower() for i in blackjack.split()):
-		v.shadowbanned = 'AutoJanny'
-		if not v.is_banned: v.ban_reason = 'Blackjack'
-		notif = Notification(comment_id=c.id, user_id=CARP_ID)
-		g.db.add(notif)
+	execute_blackjack(v, c, c.body, "comment")
 
 	if c.level == 1: c.top_comment_id = c.id
 	else: c.top_comment_id = parent.top_comment_id
@@ -348,18 +266,12 @@ def comment(v):
 		execute_basedbot(c, level, body, parent_submission, parent_post, v)
 
 	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and parent_post.sub != 'chudrama':
-
 		c.is_banned = True
 		c.ban_reason = "AutoJanny"
-
 		g.db.add(c)
 
-
 		body = AGENDAPOSTER_MSG.format(username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
-
 		body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
-
-
 
 		c_jannied = Comment(author_id=AUTOJANNY_ID,
 			parent_submission=parent_submission,
@@ -444,7 +356,7 @@ def comment(v):
 		g.db.add(c)
 
 	if v.marseyawarded and parent_post.id not in ADMIGGERS and marseyaward_body_regex.search(body_html):
-		return {"error":"You can only type marseys!"}, 403
+		abort(403, "You can only type marseys!")
 
 	check_for_treasure(body, c)
 
@@ -458,7 +370,7 @@ def comment(v):
 
 	g.db.flush()
 
-	if request.headers.get("Authorization"): return c.json
+	if v.client: return c.json
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
 
@@ -471,7 +383,7 @@ def edit_comment(cid, v):
 	c = get_comment(cid, v=v)
 
 	if time.time() - c.created_utc > 7*24*60*60 and not (c.post and c.post.private):
-		return {"error":"You can't edit comments older than 1 week!"}, 403
+		abort(403, "You can't edit comments older than 1 week!")
 
 	if c.author_id != v.id: abort(403)
 	if not c.post: abort(403)
@@ -479,13 +391,13 @@ def edit_comment(cid, v):
 	body = sanitize_raw_body(request.values.get("body", ""), False)
 
 	if len(body) < 1 and not (request.files.get("file") and request.headers.get("cf-ipcountry") != "T1"):
-		return {"error":"You have to actually type something!"}, 400
+		abort(400, "You have to actually type something!")
 
 	if body != c.body or request.files.get("file") and request.headers.get("cf-ipcountry") != "T1":
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-			return {"error":"You have to type more than 280 characters!"}, 403
+			abort(403, "You have to type more than 280 characters!")
 		elif v.bird and len(body) > 140:
-			return {"error":"You have to type less than 140 characters!"}, 403
+			abort(403, "You have to type less than 140 characters!")
 
 		for i in poll_regex.finditer(body):
 			body = body.replace(i.group(0), "")
@@ -505,39 +417,7 @@ def edit_comment(cid, v):
 			)
 			g.db.add(option)
 
-		if len(body) > 50:
-			now = int(time.time())
-			cutoff = now - 60 * 60 * 24
-
-			similar_comments = g.db.query(Comment
-			).filter(
-				Comment.author_id == v.id,
-				Comment.body.op('<->')(body) < SPAM_SIMILARITY_THRESHOLD,
-				Comment.created_utc > cutoff
-			).all()
-
-			threshold = SPAM_SIMILAR_COUNT_THRESHOLD
-			if v.age >= (60 * 60 * 24 * 30):
-				threshold *= 4
-			elif v.age >= (60 * 60 * 24 * 7):
-				threshold *= 3
-			elif v.age >= (60 * 60 * 24):
-				threshold *= 2
-
-			if len(similar_comments) > threshold:
-				text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
-				send_repeatable_notification(v.id, text)
-
-				v.ban(reason="Spamming.",
-						days=1)
-
-				for comment in similar_comments:
-					comment.is_banned = True
-					comment.ban_reason = "AutoJanny"
-					g.db.add(comment)
-
-				g.db.commit()
-				return {"error": "Too much spam!"}, 403
+		execute_antispam_comment_check(body, v)
 
 		body += process_files()
 		body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT] # process_files potentially adds characters to the post
@@ -555,22 +435,15 @@ def edit_comment(cid, v):
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
 		if v.marseyawarded and marseyaward_body_regex.search(body_html):
-			return {"error":"You can only type marseys!"}, 403
+			abort(403, "You can only type marseys!")
 
 		c.body = body
 		c.body_html = body_html
 
-		if blackjack and any(i in c.body.lower() for i in blackjack.split()):
-			v.shadowbanned = 'AutoJanny'
-			if not v.is_banned: v.ban_reason = 'Blackjack'
-			g.db.add(v)
-			notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=CARP_ID).one_or_none()
-			if not notif:
-				notif = Notification(comment_id=c.id, user_id=CARP_ID)
-				g.db.add(notif)
+		execute_blackjack(v, c, c.body, "comment")
 
 		if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and c.post.sub != 'chudrama':
-			return {"error": f'You have to include "{AGENDAPOSTER_PHRASE}" in your comment!'}, 403
+			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your comment!')
 
 
 		if int(time.time()) - c.created_utc > 60 * 3: c.edited_utc = int(time.time())
@@ -647,9 +520,9 @@ def undelete_comment(cid, v):
 
 @app.post("/pin_comment/<cid>")
 @auth_required
+@feature_required('PINS')
 def pin_comment(cid, v):
-	if not FEATURES['PINS']:
-		abort(403)
+	
 	comment = get_comment(cid, v=v)
 	
 	if not comment.stickied:
@@ -678,7 +551,7 @@ def unpin_comment(cid, v):
 		if v.id != comment.post.author_id: abort(403)
 
 		if not comment.stickied.endswith(" (OP)"): 
-			return {"error": "You can only unpin comments you have pinned!"}, 400
+			abort(403, "You can only unpin comments you have pinned!")
 
 		comment.stickied = None
 		g.db.add(comment)
@@ -747,7 +620,6 @@ def diff_words(answer, guess):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def handle_wordle_action(cid, v):
-
 	comment = get_comment(cid)
 
 	if v.id != comment.author_id:
@@ -759,8 +631,7 @@ def handle_wordle_action(cid, v):
 	try: guess = request.values.get("thing").strip().lower()
 	except: abort(400)
 
-	if len(guess) != 5:
-		return {"error": "Not a valid guess!"}, 400
+	if len(guess) != 5: abort(400, "Not a valid guess!")
 
 	if status == "active":
 		guesses += "".join(cg + WORDLE_COLOR_MAPPINGS[diff] for cg, diff in zip(guess, diff_words(answer, guess)))

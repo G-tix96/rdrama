@@ -8,7 +8,7 @@
 
 {% block content %}
 
-												<div id="login-form" class="">
+												<div id="login-form">
 
 														<form action="/request_2fa_disable" method="post" class="mt-3">
 
@@ -24,7 +24,7 @@
 
 																<label for="email" class="mt-3">Email</label>
 
-																<input autocomplete="off" class="form-control" id="password" type="email" pattern='([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+' name="email" required=""{% if v %} value="{{v.email}}" disabled{% endif %}>
+																<input autocomplete="off" class="form-control" id="password" type="email" pattern='{{EMAIL_REGEX_PATTERN}}' name="email" required=""{% if v %} value="{{v.email}}" disabled{% endif %}>
 
 																<input autocomplete="off" class="btn btn-primary login w-100 mt-3" type="submit" onclick="disable(this)" value="Send recovery link">
 
