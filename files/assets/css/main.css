@@ -5567,8 +5567,16 @@ audio, video {
 	text-transform: uppercase;
 }
 
-#sidebar--rules--list {
+.sidebar--rules-list {
+	margin-left: 0;
 	padding-left: 0;
+}
+
+.sidebar--rules-list--rdrama li {
+	margin-bottom: 1rem;
+}
+
+.sidebar--rules-list--wpd {
 	font-size: 0.95rem;
 }
 
