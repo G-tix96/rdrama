@@ -49,7 +49,9 @@ def get_logged_in_user():
 				return None
 			else:
 				nonce = session.get("login_nonce", 0)
-				if nonce < v.login_nonce or v.id != id: abort(401)
+				if nonce < v.login_nonce or v.id != id:
+					session.clear()
+					return None
 
 				if request.method != "GET":
 					submitted_key = request.values.get("formkey")
