@@ -1,9 +1,10 @@
 {% extends "default.html" %}
-
-{% block title %}
-<title>Badge Grant</title>
-{% endblock %}
-
+{% if grant %}
+	{% set title="Badge Grant" %}
+{% else %}
+	{% set title="Badge Remove" %}
+{% endif %}
+{% block pagetitle %}{{title}}{% endblock %}
 {% block pagetype %}message{% endblock %}
 
 {% block content %}
@@ -31,11 +32,16 @@
 		</div>
 		{% endif %}
 
-<h5 class="mt-2">Badge Grant</h5>
+<h5 class="mt-2">{{title}}</h5>
 
-<form action="/admin/badge_grant", method="post">
+{% if grant %}
+	{% set form_action="/admin/badge_grant" %}
+{% else %}
+	{% set form_action="/admin/badge_remove" %}
+{% endif %}
+
+<form action="{{form_action}}", method="post">
 <input type="hidden" name="formkey" value="{{v.formkey}}">
-
 
 <label for="input-username">Username</label><br>
 <input autocomplete="off" id="input-username" class="form-control" type="text" name="username" required>
@@ -68,13 +74,13 @@
 </tr>
 {% endfor %}
 </table>
-
+{% if grant %}
 <label for="input-url">URL</label><br>
 <input autocomplete="off" id="input-url" class="form-control" type="text" name="url" type="url" placeholder="Optional">
 
 <label for="input-description">Custom description</label><br>
 <input autocomplete="off" id="input-description" class="form-control" type="text" name="description" placeholder="Leave blank for badge default">
-
+{% endif %}
 <input autocomplete="off" class="btn btn-primary mt-3" type="submit" onclick="disable(this)">
 
 </form>
