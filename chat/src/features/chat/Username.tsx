@@ -26,7 +26,7 @@ export function Username({ avatar, color, name, hat = "" }: UsernameProps) {
         style={{ color: `#${color}` }}
         target="_blank"
         href={`/@${name}`}
-        rel="nofollow noopener noreferrer"
+        rel="nofollow noopener"
       >
         {name}
       </a>

@@ -72,7 +72,7 @@ def notify_mentions(send_to, mentions, mention_str='site mention'):
 		permalink = m['permalink']
 		text = sanitize(m['text'], golden=False)
 		notif_text = \
-			f"""<p>New {mention_str} by <a href="https://old.reddit.com/u/{author}" rel="nofollow noopener noreferrer" target="_blank">/u/{author}</a></p><p><a href="https://old.reddit.com{permalink}?context=89" rel="nofollow noopener noreferrer" target="_blank">https://old.reddit.com{permalink}?context=89</a></p>{text}"""
+			f"""<p>New {mention_str} by <a href="https://old.reddit.com/u/{author}" rel="nofollow noopener" target="_blank">/u/{author}</a></p><p><a href="https://old.reddit.com{permalink}?context=89" rel="nofollow noopener" target="_blank">https://old.reddit.com{permalink}?context=89</a></p>{text}"""
 
 		existing_comment = g.db.query(Comment.id).filter_by(
 			author_id=const.AUTOJANNY_ID,
