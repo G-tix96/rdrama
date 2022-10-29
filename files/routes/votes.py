@@ -140,6 +140,9 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	target.realupvotes = get_vote_count(0, True) # first arg is ignored here
 
 	boost_sites = {
+		'rdrama.net',
+		'pcmemes.net',
+		'watchpeopledie.tv',
 		'quora.com',
 		'cumtown.org',
 		'notabug.io',
@@ -169,6 +172,16 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		'poa.st',
 		'lbry.com',
 		'crystal.cafe',
+		'tribel.com',
+		'mstdn.social',
+		'mastodon.online',
+		'steemit.com',
+		'hexbear.net',
+		'raddle.me',
+		'lemmy.ml',
+		'bluelight.org',
+		'incels.is',
+		'groups.google.com',
 	}
 
 	if target.author.progressivestack or (cls == Submission and (target.sub in ('space', 'istory', 'dinos') or target.domain.endswith('.win') or target.domain in boost_sites)):
