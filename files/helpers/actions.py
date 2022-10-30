@@ -28,9 +28,13 @@ def badge_grant(user, badge_id, description=None, url=None, notify=True):
 			f"![]({badge.path})\n\n**{badge.name}**\n\n{badge.badge.description}")
 
 
+headers = {'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}
+
 def archiveorg(url):
-	try: requests.get(f'https://web.archive.org/save/{url}', headers={'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}, timeout=100)
+	try: requests.get(f'https://web.archive.org/save/{url}', headers=headers, timeout=10)
 	except: pass
+	requests.post('https://ghostarchive.org/archive2', data={"archive": url}, headers=headers, timeout=10)
+
 
 def archive_url(url):	
 	gevent.spawn(archiveorg, url)
@@ -101,7 +105,7 @@ def execute_snappy(post, v):
 			rev = f"* [camas.unddit.com](https://camas.unddit.com/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
 		else: rev = ''
 		
-		body += f"Snapshots:\n\n{rev}* [archive.org](https://web.archive.org/{post.url})\n* [archive.ph](https://archive.ph/?url={quote(post.url)}&run=1) (click to archive)\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(post.url)}) (click to archive)\n\n"
+		body += f"Snapshots:\n\n{rev}* [archive.org](https://web.archive.org/{post.url})\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(post.url)})\n* [archive.ph](https://archive.ph/?url={quote(post.url)}&run=1) (click to archive)\n\n"
 		archive_url(post.url)
 
 	captured = []
@@ -134,8 +138,8 @@ def execute_snappy(post, v):
 				rev = href.replace('https://old.reddit.com/u/', '')
 				addition += f"* [camas.unddit.com](https://camas.unddit.com/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
 			addition += f'* [archive.org](https://web.archive.org/{href})\n'
+			addition += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)})\n'
 			addition += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n'
-			addition += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)}) (click to archive)\n\n'
 			if len(f'{body}{addition}') > COMMENT_BODY_LENGTH_LIMIT: break
 			body += addition
 			archive_url(href)
