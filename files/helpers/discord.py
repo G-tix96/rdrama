@@ -10,8 +10,7 @@ def discord_message_send(channel_id, message):
 		timeout=5)
 
 def send_changelog_message(message):
-	for channel_id in DISCORD_CHANGELOG_CHANNEL_IDS:
-		discord_message_send(channel_id, message)
+	discord_message_send(DISCORD_CHANGELOG_CHANNEL_ID, message)
 
 def send_wpd_message(message):
 	discord_message_send(WPD_CHANNEL_ID, message)

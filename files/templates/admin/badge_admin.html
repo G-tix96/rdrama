@@ -42,7 +42,7 @@
 <form action="{{form_action}}" method="post">
 <input type="hidden" name="formkey" value="{{v.formkey}}">
 
-<label for="input-username">Username</label><br>
+<label for="input-username">Username</label>
 <input autocomplete="off" id="input-username" class="form-control" type="text" name="username" required>
 
 <div class="overflow-x-auto"><table class="table table-striped">
@@ -74,10 +74,10 @@
 {% endfor %}
 </table>
 {% if grant %}
-<label for="input-url">URL</label><br>
+<label for="input-url">URL</label>
 <input autocomplete="off" id="input-url" class="form-control" type="text" name="url" type="url" placeholder="Optional">
 
-<label for="input-description">Custom description</label><br>
+<label for="input-description">Custom description</label>
 <input autocomplete="off" id="input-description" class="form-control" type="text" name="description" placeholder="Leave blank for badge default">
 {% endif %}
 <input autocomplete="off" class="btn btn-primary mt-3" type="submit" onclick="disable(this)">

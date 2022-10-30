@@ -95,15 +95,16 @@ def pull_slots(v):
 	except:
 		abort(400, "Invalid currency (expected 'coin' or 'marseybux').")
 
-	if (currency == "coin" and wager > v.coins) or (currency == "marseybux" and wager > v.procoins):
+	if (currency == "coins" and wager > v.coins) or (currency == "procoins" and wager > v.procoins):
 		abort(400, f"Not enough {currency} to make that bet")
 
-	success, game_state = casino_slot_pull(v, wager, currency)
+	game_id, game_state = casino_slot_pull(v, wager, currency)
+	success = bool(game_id)
 
 	if success:
 		return {"game_state": game_state, "gambler": {"coins": v.coins, "procoins": v.procoins}}
 	else:
-		abort(400, f"Wager must be more than 5 {currency}")
+		abort(400, f"Wager must be 5 {currency} or more")
 
 
 # 21

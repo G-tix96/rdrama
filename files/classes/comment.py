@@ -64,6 +64,9 @@ class Comment(Base):
 	ban_reason = Column(String)
 	wordle_result = Column(String)
 	treasure_amount = Column(String)
+	slots_result = Column(String)
+	blackjack_result = Column(String)
+	casino_game_id = Column(Integer, ForeignKey("casino_games.id"))
 
 	oauth_app = relationship("OauthApp")
 	post = relationship("Submission", back_populates="comments")
@@ -73,6 +76,7 @@ class Comment(Base):
 	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="comment")
 	flags = relationship("CommentFlag", order_by="CommentFlag.created_utc")
 	options = relationship("CommentOption", order_by="CommentOption.id")
+	casino_game = relationship("Casino_Game")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:
@@ -385,5 +389,42 @@ class Comment(Base):
 		elif wordle_status == 'lost':
 			body += f"<strong class='ml-2'>Lost. The answer was: {wordle_answer}</strong>"
 		
+		body += '</span>'
+		return body
+
+	@property
+	@lazy
+	def blackjack_html(self):
+		if not self.blackjack_result: return ''
+
+		split_result = self.blackjack_result.split('_')
+		blackjack_status = split_result[3]
+		player_hand = split_result[0].replace('X', '10')
+		dealer_hand = split_result[1].split('/')[0] if blackjack_status == 'active' else split_result[1]
+		dealer_hand = dealer_hand.replace('X', '10')
+		wager = int(split_result[4])
+		try: kind = split_result[5]
+		except: kind = "coins"
+		currency_kind = "Coins" if kind == "coins" else "Marseybux"
+
+		try: is_insured = split_result[6]
+		except: is_insured = "0"
+
+		body = f"<span id='blackjack-{self.id}' class='ml-2'><em>{player_hand} vs. {dealer_hand}</em>"
+
+		if blackjack_status == 'push':
+			body += f"<strong class='ml-2'>Pushed. Refunded {wager} {currency_kind}.</strong>"
+		elif blackjack_status == 'bust':
+			body += f"<strong class='ml-2'>Bust. Lost {wager} {currency_kind}.</strong>"
+		elif blackjack_status == 'lost':
+			body += f"<strong class='ml-2'>Lost {wager} {currency_kind}.</strong>"
+		elif blackjack_status == 'won':
+			body += f"<strong class='ml-2'>Won {wager} {currency_kind}.</strong>"
+		elif blackjack_status == 'blackjack':
+			body += f"<strong class='ml-2'>Blackjack! Won {floor(wager * 3/2)} {currency_kind}.</strong>"
+
+		if is_insured == "1":
+			body += f" <em class='text-success'>Insured.</em>"
+
 		body += '</span>'
 		return body

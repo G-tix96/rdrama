@@ -3477,7 +3477,6 @@ small, .small {
 	border-bottom: 0.1px solid var(--gray-400);
 }
 .card-thumbnail {
-	z-index: 3;
 	display: flex;
 	align-items: center;
 }
@@ -5557,8 +5556,16 @@ audio, video {
 	text-transform: uppercase;
 }
 
-#sidebar--rules--list {
+.sidebar--rules-list {
+	margin-left: 0;
 	padding-left: 0;
+}
+
+.sidebar--rules-list--rdrama li {
+	margin-bottom: 1rem;
+}
+
+.sidebar--rules-list--wpd {
 	font-size: 0.95rem;
 }
 
@@ -5844,11 +5851,6 @@ blockquote + blockquote, div > blockquote:first-child, blockquote:last-child {
 	margin-top: 0 !important;
 }
 
-
-
-#searchparams-dropdown {
-	z-index: 1;
-}
 .contain {
 	-o-object-fit: contain;
 	object-fit: contain;

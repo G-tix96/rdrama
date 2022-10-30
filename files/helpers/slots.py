@@ -45,10 +45,11 @@ def casino_slot_pull(gambler, wager_value, currency):
 		casino_game.kind = 'slots'
 		casino_game.game_state = json.dumps(game_state)
 		g.db.add(casino_game)
+		g.db.flush()
 
-		return True, casino_game.game_state
+		return casino_game.id, casino_game.game_state
 	else:
-		return False, "{}"
+		return 0, "{}", 
 
 
 def build_symbols(for_payout):

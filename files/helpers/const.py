@@ -52,7 +52,7 @@ PUSHER_ID_CSP = ""
 if PUSHER_ID != "blahblahblah":
 	PUSHER_ID_CSP = f" {PUSHER_ID}.pushnotifications.pusher.com"
 CONTENT_SECURITY_POLICY_DEFAULT = "script-src 'self' 'unsafe-inline' ajax.cloudflare.com; connect-src 'self'; object-src 'none';"
-CONTENT_SECURITY_POLICY_HOME = f"script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' tls-user1.fpapi.io api.fpjs.io{PUSHER_ID_CSP}; object-src 'none';"
+CONTENT_SECURITY_POLICY_HOME = f"script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' tls-use1.fpapi.io api.fpjs.io{PUSHER_ID_CSP}; object-src 'none';"
 
 if SITE == "localhost": SITE_FULL = 'http://' + SITE
 else: SITE_FULL = 'https://' + SITE
@@ -148,7 +148,7 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 <p>Don't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards the trans community. Feel free to resubmit your {type} with <code>{AGENDAPOSTER_PHRASE}</code> included.</p>
 <p><em>This is an automated message; if you need help, you can message us <a href="/contact">here</a>.</em></p>"""
 
-DISCORD_CHANGELOG_CHANNEL_IDS = [1022232469606498324]
+DISCORD_CHANGELOG_CHANNEL_ID = 1034632681788538980
 WPD_CHANNEL_ID = 1013990963846332456
 PIN_AWARD_TEXT = " (pin award)"
 
@@ -786,6 +786,14 @@ AWARDS = {
 		"color": "text-green",
 		"price": 150
 	},
+	"agendaposter": {
+		"kind": "agendaposter",
+		"title": "Chud",
+		"description": "Forces the chud theme on the recipient for 24 hours.",
+		"icon": "fas fa-snooze",
+		"color": "text-purple",
+		"price": 500
+	},
 	"rehab": {
 		"kind": "rehab",
 		"title": "Rehab",
@@ -873,14 +881,6 @@ AWARDS = {
 		"icon": "fas fa-spider",
 		"color": "text-brown",
 		"price": 2000
-	},
-	"agendaposter": {
-		"kind": "agendaposter",
-		"title": "Chud",
-		"description": "Forces the chud theme on the recipient for 24 hours.",
-		"icon": "fas fa-snooze",
-		"color": "text-purple",
-		"price": 2500
 	},
 	"deflector": {
 		"kind": "deflector",
@@ -1339,3 +1339,51 @@ forced_hats = {
 }
 
 EMAIL_REGEX_PATTERN = '[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63}'
+
+BOOSTED_SITES = {
+	'rdrama.net',
+	'pcmemes.net',
+	'watchpeopledie.tv',
+	'themotte.org',
+	'quora.com',
+	'cumtown.org',
+	'notabug.io',
+	'talk.lol',
+	'discussions.app',
+	'gab.com',
+	'kiwifarms.net',
+	'gettr.com',
+	'scored.co',
+	'parler.com',
+	'bitchute.com',
+	'4chan.org',
+	'givesendgo.com',
+	'thepinkpill.com',
+	'ovarit.com',
+	'rdrama.cc',
+	'lolcow.farm',
+	'truthsocial.com',
+	'rumble.com',
+	'saidit.net',
+	'kiwifarms.cc',
+	'8kun.top',
+	'goyimtv.tv',
+	'poal.co',
+	'stormfront.org',
+	'arete.network',
+	'poa.st',
+	'lbry.com',
+	'crystal.cafe',
+	'tribel.com',
+	'mstdn.social',
+	'mastodon.online',
+	'steemit.com',
+	'hexbear.net',
+	'raddle.me',
+	'lemmy.ml',
+	'bluelight.org',
+	'incels.is',
+	'groups.google.com',
+	't.me',
+	'web.telegram.org'
+}

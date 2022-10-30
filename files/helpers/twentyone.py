@@ -76,7 +76,7 @@ def get_active_twentyone_game(gambler):
 
 def get_active_twentyone_game_state(gambler):
 	active_game = get_active_twentyone_game(gambler)
-	full_state = json.loads(active_game.game_state)
+	full_state = active_game.game_state_json
 	return remove_exploitable_information(full_state)
 
 
@@ -286,7 +286,7 @@ def dispatch_action(gambler, action):
 		raise Exception(
 			f'Illegal action {action} passed to Blackjack#dispatch_action.')
 
-	state = json.loads(game.game_state)
+	state = game.game_state_json
 
 	if action == BlackjackAction.BUY_INSURANCE:
 		if not can_purchase_insurance(state):

@@ -36,7 +36,7 @@ def allowed_attributes(tag, name, value):
 	if tag == 'a':
 		if name == 'href' and '\\' not in value and 'xn--' not in value:
 			return True
-		if name == 'rel' and value == 'nofollow noopener noreferrer': return True
+		if name == 'rel' and value == 'nofollow noopener': return True
 		if name == 'target' and value == '_blank': return True
 		return False
 
@@ -46,7 +46,6 @@ def allowed_attributes(tag, name, value):
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
 		if name in ['g','b','glow'] and not value: return True
 		if name in ['alt','title']: return True
-		if name == 'referrerpolicy' and value == 'no-referrer': return True
 		return False
 
 	if tag == 'lite-youtube':
@@ -120,7 +119,7 @@ def callback(attrs, new=False):
 
 	if not href.startswith('/') and not href.startswith(f'{SITE_FULL}/'):
 		attrs[(None, "target")] = "_blank"
-		attrs[(None, "rel")] = "nofollow noopener noreferrer"
+		attrs[(None, "rel")] = "nofollow noopener"
 
 	return attrs
 
@@ -235,7 +234,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	# replacing zero width characters, overlines, fake colons
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\u033f","").replace("\u0589", ":")
 
-	sanitized = reddit_regex.sub(r'\1<a href="https://old.reddit.com/\2" rel="nofollow noopener noreferrer" target="_blank">/\2</a>', sanitized)
+	sanitized = reddit_regex.sub(r'\1<a href="https://old.reddit.com/\2" rel="nofollow noopener" target="_blank">/\2</a>', sanitized)
 	sanitized = sub_regex.sub(r'\1<a href="/\2">/\2</a>', sanitized)
 
 	v = getattr(g, 'v', None)
@@ -262,7 +261,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	for tag in soup.find_all("img"):
 		if tag.get("src") and not tag["src"].startswith('/pp/'):
 			if not is_safe_url(tag["src"]):
-				a = soup.new_tag("a", href=tag["src"], rel="nofollow noopener noreferrer", target="_blank")
+				a = soup.new_tag("a", href=tag["src"], rel="nofollow noopener", target="_blank")
 				a.string = tag["src"]
 				tag.replace_with(a)
 				continue
@@ -272,13 +271,10 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 			tag["src"] = "/i/l.webp"
 			tag['alt'] = f'![]({tag["data-src"]})'
 
-			if not is_site_url(tag["data-src"]):
-				tag['referrerpolicy'] = "no-referrer"
-
 			if tag.parent.name != 'a':
 				a = soup.new_tag("a", href=tag["data-src"])
 				if not is_site_url(a["href"]):
-					a["rel"] = "nofollow noopener noreferrer"
+					a["rel"] = "nofollow noopener"
 					a["target"] = "_blank"
 				tag = tag.replace_with(a)
 				a.append(tag)

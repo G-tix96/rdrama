@@ -424,7 +424,7 @@ if SITE == 'pcmemes.net':
 	live_regex = re.compile('playerOverlayVideoDetailsRenderer":\{"title":\{"simpleText":"(.*?)"\},"subtitle":\{"runs":\[\{"text":"(.*?)"\},\{"text":" • "\},\{"text":"(.*?)"\}', flags=re.A)
 	live_thumb_regex = re.compile('\{"thumbnail":\{"thumbnails":\[\{"url":"(.*?)"', flags=re.A)
 	offline_regex = re.compile('","title":"(.*?)".*?"width":48,"height":48\},\{"url":"(.*?)"', flags=re.A)
-	offline_details_regex = re.compile('simpleText":"Μεταδόθηκε πριν από ([0-9]*?) ([^"]*?)"\},"viewCountText":\{"simpleText":"([0-9.]*?) προβολές"', flags=re.A)
+	offline_details_regex = re.compile('simpleText":"Streamed ([0-9]*?) ([^"]*?)"\},.*?"viewCountText":\{"simpleText":"([0-9,]*?) views"', flags=re.A)
 
 	def process_streamer(id, live='live'):
 		url = f'https://www.youtube.com/channel/{id}/{live}'
@@ -463,36 +463,28 @@ if SITE == 'pcmemes.net':
 			y = offline_details_regex.search(text)
 
 			if y:
-				views = y.group(3).replace('.', '')
+				views = y.group(3).replace(',', '')
 				quantity = int(y.group(1))
 				unit = y.group(2)
 
-				if unit.startswith('δε'):
-					unit = 'second'
+				if unit.startswith('second'):
 					modifier = 1/60
-				elif unit.startswith('λεπτ'):
-					unit = 'minute'
+				elif unit.startswith('minute'):
 					modifier = 1
-				elif unit.startswith('ώρ'):
-					unit = 'hour'
+				elif unit.startswith('hour'):
 					modifier = 60
-				elif unit.startswith('ημέρ'):
-					unit = 'day'
+				elif unit.startswith('day'):
 					modifier = 1440
-				elif unit.startswith('εβδομάδ'):
-					unit = 'week'
+				elif unit.startswith('week'):
 					modifier = 10080
-				elif unit.startswith('μήν'):
-					unit = 'month'
+				elif unit.startswith('month'):
 					modifier = 43800
-				elif unit.startswith('έτ'):
-					unit = 'year'
+				elif unit.startswith('year'):
 					modifier = 525600
 
 				minutes = quantity * modifier
 
 				actual = f'{quantity} {unit}'
-				if quantity > 1: actual += 's'
 			else:
 				minutes = 9999999999
 				actual = '???'

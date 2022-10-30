@@ -53,7 +53,7 @@
 				<tbody>
 					{% for id, link, thumb, name, title, viewers in live %}
 						<tr onclick="go_to(event,'{{link}}')">
-							<td width="48"><img loading="lazy" class="thumb" src="{{thumb}}" alt="{{name}} thumbnail" referrerpolicy="no-referrer" width="48"></td>
+							<td width="48"><img loading="lazy" class="thumb" src="{{thumb}}" alt="{{name}} thumbnail" width="48"></td>
 							<td>{{name}}</td>
 							<td>{{title}}</td>
 							<td>{{viewers}} watching</td>
@@ -78,9 +78,9 @@
 				<tbody>
 					{% for id, link, thumb, name, minutes, actual, views in offline %}
 						<tr onclick="go_to(event,'{{link}}')">
-							<td width="48"><img loading="lazy" class="thumb" src="{{thumb}}" alt="{{name}} thumbnail" referrerpolicy="no-referrer" width="48"></td>
+							<td width="48"><img loading="lazy" class="thumb" src="{{thumb}}" alt="{{name}} thumbnail" width="48"></td>
 							<td>{{name}}</td>
-							<td>{{actual}} ago</td>
+							<td>{{actual}}</td>
 							<td>{{views}} views</td>
 							{% if v and v.admin_level >= PERMS['STREAMERS_MODERATION'] %}
 								<td>

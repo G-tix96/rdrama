@@ -202,6 +202,17 @@
 				{% endif %}
 				{% endif %}
 
+				{% if c.slots_result %}
+					<em style="position: relative; top: 2px; margin-left: 0.5rem">{{c.slots_result}}</em>
+				{% elif c.casino_game_id %}
+					{% set game_state = c.casino_game.game_state_json %}
+					<em style="position: relative; top: 2px; margin-left: 0.5rem">{{game_state['symbols'].replace(',','')}} {{game_state['text']}}</em>
+				{% endif %}
+
+				{% if c.blackjack_result %}
+					{{c.blackjack_html | safe}}
+				{% endif %}
+
 				{% if c.wordle_result %}
 					{{c.wordle_html(v) | safe}}
 				{% endif %}
@@ -292,8 +303,8 @@
 										</button>
 									{% endif %}
 								</li>
-																
-								{% if v %}
+
+								{% if v and not c.deleted_utc %}
 									<button type="button" class="list-inline-item mr-3 btn nobackground" onclick="ToggleReplyBox('reply-to-{{c.id}}')"><i class="fas fa-reply" style="margin-top:0.35rem"></i></button>
 								{% endif %}
 								
@@ -391,7 +402,9 @@
 						<button type="button" class="btn caction py-0 nobackground px-1 text-muted copy-link" data-clipboard-text="{% if SITE == 'rdrama.net' %}https://rdrama.org{{c.shortlink}}{% else %}{{c.permalink}}{% endif %}"><i class="fas fa-copy"></i>Copy link</button>
 
 						{% if v %}
-							<button type="button" class="btn caction py-0 nobackground px-1 text-muted" onclick="ToggleReplyBox('reply-to-{{c.id}}')"><i class="fas fa-reply" aria-hidden="true"></i>Reply</button>
+							{% if not c.deleted_utc %}
+								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" onclick="ToggleReplyBox('reply-to-{{c.id}}')"><i class="fas fa-reply" aria-hidden="true"></i>Reply</button>
+							{% endif %}
 
 							<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-bs-toggle="modal" data-bs-target="#reportCommentModal" onclick="report_commentModal('{{c.id}}','{{c.author_name}}',)"><i class="fas fa-flag fa-fw"></i>Report</button>
 
