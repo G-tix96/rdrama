@@ -79,9 +79,10 @@
 {% endmacro %}
 
 {% macro stylesheets(include_user_css, extra_css, include_neko_debootstrap) %}
-	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
 	{% if include_neko_debootstrap %}
 		<link rel="stylesheet" href="{{'css/main-dev.css' | asset}}">
+	{% else %}
+		<link rel="stylesheet" href="{{'css/main.css' | asset}}">
 	{% endif %}
 	<link id="favicon" rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
 	{% if v %}
