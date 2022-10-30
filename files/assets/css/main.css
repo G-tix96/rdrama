@@ -2918,7 +2918,7 @@ ol > li::before {
 .post-nav > .nav-item > .nav-link.active {
 	color: var(--primary);
 }
-.settings-nav > .nav-item > .nav-link.active {
+.settings-nav > .nav-item > .nav-link.active, .settings-nav > .nav-item > .nav-link:focus, .settings-nav > .nav-item > .nav-link:hover {
 	color: var(--primary);
 	box-shadow: inset 0 -2px 0 var(--primary);
 }
