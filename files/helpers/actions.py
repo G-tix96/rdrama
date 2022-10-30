@@ -282,7 +282,7 @@ def execute_longpostbot(c, level, body, body_html, parent_submission, v):
 	n = Notification(comment_id=c2.id, user_id=v.id)
 	g.db.add(n)
 
-def execute_basedbot(c, level, body, parent_submission, parent_post, v):
+def execute_basedbot(c, level, body, parent_post, v):
 	pill = based_regex.match(body)
 	if level == 1: basedguy = get_account(parent_post.author_id)
 	else: basedguy = get_account(c.parent_comment.author_id)
@@ -297,7 +297,7 @@ def execute_basedbot(c, level, body, parent_submission, parent_post, v):
 	
 	body_based_html = sanitize(body2)
 	c_based = Comment(author_id=BASEDBOT_ID,
-		parent_submission=parent_submission,
+		parent_submission=parent_post.id,
 		distinguish_level=6,
 		parent_comment_id=c.id,
 		level=level+1,
