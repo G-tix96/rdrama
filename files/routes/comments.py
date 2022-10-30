@@ -335,7 +335,7 @@ def comment(v):
 		notify_users = NOTIFY_USERS(body, v)
 
 		if c.level == 1:
-			subscribers = g.db.query(Subscription.user_id).filter(Subscription.submission_id == c.parent_post.id, Subscription.user_id != v.id).all()
+			subscribers = g.db.query(Subscription.user_id).filter(Subscription.submission_id == parent_post.id, Subscription.user_id != v.id).all()
 
 			for x in subscribers:
 				notify_users.add(x[0])
