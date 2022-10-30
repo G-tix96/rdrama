@@ -47,7 +47,7 @@
 
 			{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 				<button type="button" id="pin-{{p.id}}" class="dropdown-item {% if p.stickied and not p.stickied_utc %}d-none{% endif %} list-inline-item text-info" onclick="pinPost(this, '{{p.id}}')"><i class="fas fa-thumbtack fa-rotate--45"></i>Pin {% if p.stickied_utc %}permanently{% else %}for 1 hour{% endif %}</button>
-				<button type="button" id="unpin-{{p.id}}" class="dropdown-item {% if not p.stickied %}d-none{% endif %} list-inline-item text-info"  onclick="postToast(this,'/unsticky/{{p.id}}','pin-{{p.id}}','unpin-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin</button>
+				<button type="button" id="unpin-{{p.id}}" class="dropdown-item {% if not p.stickied %}d-none{% endif %} list-inline-item text-info"  onclick="unpinPost(this, '{{p.id}}')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin</button>
 			{% endif %}
 
 			{% if p.sub and v.mods(p.sub) %}

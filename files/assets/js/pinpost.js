@@ -25,3 +25,24 @@ function pinPost(t, id) {
 		t.classList.remove("disabled");
 	}, 2000);
 }
+
+function unpinPost(t, id) {
+	t.disabled = true;
+	t.classList.add("disabled");
+	postToast_callback(`/unsticky/${id}`,
+		{
+		},
+		(xhr) => {
+			if (xhr.status >= 200 && xhr.status < 300) {
+				t.classList.add('d-none');
+				t.previousElementSibling.classList.remove('d-none');
+				t.disabled = false;
+				t.classList.remove("disabled");	
+			}
+		}
+	);
+	setTimeout(() => {
+		t.disabled = false;
+		t.classList.remove("disabled");
+	}, 2000);
+}
