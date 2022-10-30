@@ -642,17 +642,11 @@ def visitors(v):
 @app.get("/logged_out/@<username>")
 @auth_desired_with_logingate
 def u_username(username, v=None):
-
 	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False, rendered=True)
-
-	if v and username == v.username:
-		is_following = False
-	else:
-		is_following = (v and u.has_follower(v))
-
-
 	if username != u.username:
 		return redirect(SITE_FULL + request.full_path.replace(username, u.username))
+	
+	is_following = (v and u.has_follower(v))
 
 	if v and v.id not in (u.id, DAD_ID) and u.viewers_recorded:
 		g.db.flush()

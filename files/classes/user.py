@@ -741,7 +741,7 @@ class User(Base):
 
 	@lazy
 	def has_follower(self, user):
-
+		if not user or self.id == user.id: return False # users can't follow themselves
 		return g.db.query(Follow).filter_by(target_id=self.id, user_id=user.id).one_or_none()
 
 	@property
