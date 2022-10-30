@@ -305,6 +305,7 @@ def transfer_coins(v, username):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
+@feature_required('PROCOINS')
 def transfer_bux(v, username):
 	return transfer_currency(v, username, 'procoins', False)
 
