@@ -1390,7 +1390,24 @@ BOOSTED_SITES = {
 	'incels.is',
 	'groups.google.com',
 	't.me',
-	'web.telegram.org'
+	'web.telegram.org',
+	'news.ycombinator.com',
+	'tigerdroppings.com',
+	'instagram.com',
+	'facebook.com',
+	'twitch.tv',
+	'tiktok.com',
+	'vm.tiktok.com',
+	'github.com',
+	'boards.4channel.org',
+	'boards.4chan.org',
+	'archive.4plebs.org',
+	'lipstickalley.com',
+	'resetera.com',
+	'steamcommunity.com',
+	'nairaland.com',
+	'marsey.club',
+	'odysee.com',
 }
 
 IMAGE_FORMATS = ('webp','jpg','jpeg','png','gif','gifv','tif','tiff')
