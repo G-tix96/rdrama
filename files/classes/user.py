@@ -743,6 +743,12 @@ class User(Base):
 	def has_follower(self, user):
 		if not user or self.id == user.id: return False # users can't follow themselves
 		return g.db.query(Follow).filter_by(target_id=self.id, user_id=user.id).one_or_none()
+	
+	@lazy
+	def is_visible_to(self, user) -> bool:
+		if not self.is_private: return True
+		if self.id == user.id: return True
+		return user.admin_level >= PERMS['VIEW_PRIVATE_PROFILES'] or user.eye
 
 	@property
 	@lazy
@@ -971,7 +977,6 @@ class User(Base):
 	@lazy
 	def can_see_shadowbanned(self):
 		return (self.admin_level >= PERMS['USER_SHADOWBAN']) or self.shadowbanned
-
 
 	@property
 	@lazy
