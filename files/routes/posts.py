@@ -1068,11 +1068,7 @@ def pin_post(post_id, v):
 	return abort(404, "Post not found!")
 
 
-extensions = (
-	'.webp','.jpg','.png','.jpeg','.gif','.gifv','.tif', '.tiff',
-	'.mp4','.webm','.mov',
-	'.mp3','.wav','.ogg','.aac','.m4a','.flac'
-)
+extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
 
 @app.get("/submit/title")
 @limiter.limit("3/minute")
@@ -1083,8 +1079,8 @@ def get_post_title(v):
 	url = request.values.get("url")
 	if not url or '\\' in url: abort(400)
 
-	checking_url = url.lower().rstrip('%3F').rstrip('?')
-	if any((checking_url.endswith(x) for x in extensions)):
+	checking_url = url.lower().split('?')[0].split('%3F')[0]
+	if any((checking_url.endswith(f'.{x}') for x in extensions)):
 		abort(400)
 
 	try: x = requests.get(url, headers=titleheaders, timeout=5, proxies=proxies)
