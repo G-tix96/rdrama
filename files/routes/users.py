@@ -261,86 +261,51 @@ def get_coins(v, username):
 	user = get_user(username, v=v, include_shadowbanned=False)
 	return {"coins": user.coins}
 
+def transfer_currency(v, username, currency_name, apply_tax):
+	MIN_CURRENCY_TRANSFER = 100
+	TAX_PCT = 0.03
+	friendly_currency_name = 'marseybux' if currency_name == 'procoins' else 'coins'
+	receiver = get_user(username, v=v, include_shadowbanned=False)
+	if receiver.id == v.id: abort(400, f"You can't transfer {friendly_currency_name} to yourself!")
+	amount = request.values.get("amount", "").strip()
+	amount = int(amount) if amount.isdigit() else None
+
+	if amount is None or amount <= 0: abort(400, f"Invalid number of {friendly_currency_name}")
+	if v.coins < amount: abort(400, f"You don't have enough {friendly_currency_name}")
+	if amount < MIN_CURRENCY_TRANSFER: abort(400, f"You have to gift at least {MIN_CURRENCY_TRANSFER} {friendly_currency_name}")
+	tax = 0
+	if apply_tax and not v.patron and not receiver.patron and not v.alts_patron and not receiver.alts_patron:
+		tax = math.ceil(amount*TAX_PCT)
+
+	reason = request.values.get("reason", "").strip()
+	log_message = f"@{v.username} has transferred {amount} {friendly_currency_name} to @{receiver.username}"
+	notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount-tax} {friendly_currency_name}!"
+	if reason:
+		if len(reason) > TRANSFER_MESSAGE_LENGTH_LIMIT: abort(400, f"Reason is too long, max {TRANSFER_MESSAGE_LENGTH_LIMIT} characters")
+		notif_text += f"\n\n> {reason}"
+		log_message += f"\n\n> {reason}"
+	v.charge_account(currency_name)
+	if not v.shadowbanned:
+		receiver.coins += amount - tax
+		g.db.add(receiver)
+		send_repeatable_notification(GIFT_NOTIF_ID, log_message)
+		send_repeatable_notification(receiver.id, notif_text)
+	g.db.add(v)
+	return {"message": f"{amount - tax} {friendly_currency_name} have been transferred to @{receiver.username}"}
+	
 @app.post("/@<username>/transfer_coins")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def transfer_coins(v, username):
-	receiver = get_user(username, v=v, include_shadowbanned=False)
-
-	if receiver.id != v.id:
-		amount = request.values.get("amount", "").strip()
-		amount = int(amount) if amount.isdigit() else None
-		reason = request.values.get("reason", "").strip()
-
-		if amount is None or amount <= 0: abort(400, "Invalid amount of coins.")
-		if v.coins < amount: abort(400, "You don't have enough coins.")
-		if amount < 100: abort(400, "You have to gift at least 100 coins.")
-
-		if not v.patron and not receiver.patron and not v.alts_patron and not receiver.alts_patron: tax = math.ceil(amount*0.03)
-		else: tax = 0
-
-		v.charge_account('coins', amount)
-
-		if not v.shadowbanned:
-			receiver.coins += amount - tax
-
-			log_message = f"@{v.username} has transferred {amount} coins to @{receiver.username}"
-			notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount-tax} coins!"
-
-			if reason:
-				if len(reason) > TRANSFER_MESSAGE_LENGTH_LIMIT: abort(400, f"Reason is too long, max {TRANSFER_MESSAGE_LENGTH_LIMIT} characters")
-				notif_text += f"\n\n> {reason}"
-				log_message += f"\n\n> {reason}"
-
-			send_repeatable_notification(GIFT_NOTIF_ID, log_message)
-			send_repeatable_notification(receiver.id, notif_text)
-
-		g.db.add(receiver)
-		g.db.add(v)
-
-		return {"message": f"{amount-tax} coins have been transferred to @{receiver.username}"}, 200
-	abort(400, "You can't transfer coins to yourself!")
-
+	return transfer_currency(v, username, 'coins', True)
 
 @app.post("/@<username>/transfer_bux")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def transfer_bux(v, username):
-	receiver = get_user(username, v=v, include_shadowbanned=False)
-	
-	if receiver.id != v.id:
-		amount = request.values.get("amount", "").strip()
-		amount = int(amount) if amount.isdigit() else None
-		reason = request.values.get("reason", "").strip()
-
-		if not amount or amount < 0: abort(400, "Invalid amount of marseybux.")
-		if v.procoins < amount: abort(400, "You don't have enough marseybux")
-		if amount < 100: abort(400, "You have to gift at least 100 marseybux.")
-
-		v.charge_account('procoins', amount)
-
-		if not v.shadowbanned:
-			receiver.procoins += amount
-
-			log_message = f"@{v.username} has transferred {amount} marseybux to @{receiver.username}"
-			notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount} marseybux!"
-
-			if reason:
-				if len(reason) > 200: abort(400, "Reason is too long, max 200 characters")
-				notif_text += f"\n\n> {reason}"
-				log_message += f"\n\n> {reason}"
-
-			send_repeatable_notification(GIFT_NOTIF_ID, log_message)
-			send_repeatable_notification(receiver.id, notif_text)
-
-		g.db.add(receiver)
-		g.db.add(v)
-		return {"message": f"{amount} marseybux have been transferred to @{receiver.username}"}, 200
-
-	abort(400, "You can't transfer marseybux to yourslef!")
-
+	return transfer_currency(v, username, 'procoins', False)
 
 @app.get("/leaderboard")
 @auth_required
