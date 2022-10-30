@@ -1,3 +1,4 @@
+from typing import Literal
 import qrcode
 import io
 import time
@@ -261,7 +262,7 @@ def get_coins(v, username):
 	user = get_user(username, v=v, include_shadowbanned=False)
 	return {"coins": user.coins}
 
-def transfer_currency(v, username, currency_name, apply_tax):
+def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'procoins'], apply_tax:bool):
 	MIN_CURRENCY_TRANSFER = 100
 	TAX_PCT = 0.03
 	friendly_currency_name = 'marseybux' if currency_name == 'procoins' else 'coins'
@@ -284,7 +285,7 @@ def transfer_currency(v, username, currency_name, apply_tax):
 		if len(reason) > TRANSFER_MESSAGE_LENGTH_LIMIT: abort(400, f"Reason is too long, max {TRANSFER_MESSAGE_LENGTH_LIMIT} characters")
 		notif_text += f"\n\n> {reason}"
 		log_message += f"\n\n> {reason}"
-	v.charge_account(currency_name)
+	v.charge_account(currency_name, amount)
 	if not v.shadowbanned:
 		receiver.coins += amount - tax
 		g.db.add(receiver)
