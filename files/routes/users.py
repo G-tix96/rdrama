@@ -742,12 +742,12 @@ def u_username_comments(username, v=None):
 	if not u.is_visible_to(v):
 		if g.is_api_or_xhr or request.path.endswith(".json"):
 			abort(403, "This userpage is private")
-		return render_template("userpage_private.html", u=u, v=v)
+		return render_template("userpage_private.html", u=u, v=v), 403
 
 	if v and hasattr(u, 'is_blocking') and u.is_blocking:
 		if g.is_api_or_xhr or request.path.endswith(".json"):
 			abort(403, f"You are blocking @{u.username}.")
-		return render_template("userpage_blocking.html", u=u, v=v)
+		return render_template("userpage_blocking.html", u=u, v=v), 403
 
 	try: page = max(int(request.values.get("page", "1")), 1)
 	except: page = 1
