@@ -15,24 +15,24 @@
 <button type="button" class="list-inline-item copy-link"  data-clipboard-text="{% if SITE == 'rdrama.net' %}https://rdrama.org{{p.shortlink}}{% else %}{{p.permalink}}{% endif %}"><i class="fas fa-copy"></i>Copy link</button>
 
 {% if v %}
-	<button type="button" id="subscribe-{{p.id}}" class="{% if p.id in v.subscribed_idlist %}d-none{% endif %} list-inline-item"  data-click="post_toast(this,'/subscribe/{{p.id}}','subscribe-{{p.id}}','unsubscribe-{{p.id}}','d-none')" onclick="areyousure(this)"><i class="fas fa-eye"></i>Subscribe</button>
-	<button type="button" id="unsubscribe-{{p.id}}" class="{% if p.id not in v.subscribed_idlist %}d-none{% endif %} list-inline-item"  onclick="post_toast(this,'/unsubscribe/{{p.id}}','subscribe-{{p.id}}','unsubscribe-{{p.id}}','d-none')"><i class="fas fa-eye-slash"></i>Unsubscribe</button>
+	<button type="button" id="subscribe-{{p.id}}" class="{% if p.id in v.subscribed_idlist %}d-none{% endif %} list-inline-item"  data-click="postToast(this,'/subscribe/{{p.id}}','subscribe-{{p.id}}','unsubscribe-{{p.id}}','d-none')" onclick="areyousure(this)"><i class="fas fa-eye"></i>Subscribe</button>
+	<button type="button" id="unsubscribe-{{p.id}}" class="{% if p.id not in v.subscribed_idlist %}d-none{% endif %} list-inline-item"  onclick="postToast(this,'/unsubscribe/{{p.id}}','subscribe-{{p.id}}','unsubscribe-{{p.id}}','d-none')"><i class="fas fa-eye-slash"></i>Unsubscribe</button>
 {% endif %}
 
 {% if v %}
-	<button type="button" id="save-{{p.id}}" class="{% if p.id in v.saved_idlist %}d-none{% endif %} list-inline-item"  onclick="post_toast(this,'/save_post/{{p.id}}','save-{{p.id}}','unsave-{{p.id}}','d-none')"><i class="fas fa-save"></i>Save</button>
-	<button type="button" id="unsave-{{p.id}}" class="{% if not p.id in v.saved_idlist %}d-none{% endif %} list-inline-item"  onclick="post_toast(this,'/unsave_post/{{p.id}}','save-{{p.id}}','unsave-{{p.id}}','d-none')"><i class="fas fa-save"></i>Unsave</button>
+	<button type="button" id="save-{{p.id}}" class="{% if p.id in v.saved_idlist %}d-none{% endif %} list-inline-item"  onclick="postToast(this,'/save_post/{{p.id}}','save-{{p.id}}','unsave-{{p.id}}','d-none')"><i class="fas fa-save"></i>Save</button>
+	<button type="button" id="unsave-{{p.id}}" class="{% if not p.id in v.saved_idlist %}d-none{% endif %} list-inline-item"  onclick="postToast(this,'/unsave_post/{{p.id}}','save-{{p.id}}','unsave-{{p.id}}','d-none')"><i class="fas fa-save"></i>Unsave</button>
 	
 	<button type="button" class="list-inline-item"  data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#reportPostModal" onclick="report_postModal('{{p.id}}')"><i class="fas fa-flag"></i>Report</button>
 {% endif %}
 
 {% if v and v.id==p.author_id %}
 	{% if request.path.startswith('/@') %}
-		<button type="button" id="pin-profile-{{p.id}}" class="{% if p.is_pinned %}d-none{% endif %} list-inline-item text-muted"  onclick="post_toast(this,'/pin/{{p.id}}','unpin-profile-{{p.id}}','pin-profile-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Pin to profile</button>
-		<button type="button" id="unpin-profile-{{p.id}}" class="{% if not p.is_pinned %}d-none{% endif %} list-inline-item text-muted"  onclick="post_toast(this,'/pin/{{p.id}}','unpin-profile-{{p.id}}','pin-profile-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin from profile</button>
+		<button type="button" id="pin-profile-{{p.id}}" class="{% if p.is_pinned %}d-none{% endif %} list-inline-item text-muted"  onclick="postToast(this,'/pin/{{p.id}}','unpin-profile-{{p.id}}','pin-profile-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Pin to profile</button>
+		<button type="button" id="unpin-profile-{{p.id}}" class="{% if not p.is_pinned %}d-none{% endif %} list-inline-item text-muted"  onclick="postToast(this,'/pin/{{p.id}}','unpin-profile-{{p.id}}','pin-profile-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin from profile</button>
 	{% endif %}
 
-		<button type="button" id="undelete2-{{p.id}}" class="{% if not p.deleted_utc %}d-none{% endif %} list-inline-item"  onclick="post_toast(this,'/undelete_post/{{p.id}}', 'delete2-{{p.id}}', 'undelete2-{{p.id}}','d-none');document.getElementById('post-{{p.id}}').classList.remove('deleted')"><i class="fas fa-trash-alt"></i>Undelete</button>
+		<button type="button" id="undelete2-{{p.id}}" class="{% if not p.deleted_utc %}d-none{% endif %} list-inline-item"  onclick="postToast(this,'/undelete_post/{{p.id}}', 'delete2-{{p.id}}', 'undelete2-{{p.id}}','d-none');document.getElementById('post-{{p.id}}').classList.remove('deleted')"><i class="fas fa-trash-alt"></i>Undelete</button>
 
 		<button type="button" id="delete2-{{p.id}}" class="{% if p.deleted_utc %}d-none{% endif %} list-inline-item"  data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deletePostModal" onclick="delete_postModal('{{p.id}}')"><i class="fas fa-trash-alt"></i>Delete</button>
 	{% endif %}
@@ -41,23 +41,23 @@
 		<button type="button" class="list-inline-item"  data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h fa-fw"></i></button>
 		<ul class="dropdown-menu">
 			{% if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH'] %}
-				<button type="button" id="distinguish-{{p.id}}" class="dropdown-item {% if p.distinguish_level %}d-none{% endif %} list-inline-item text-info"  onclick="post_toast(this,'/distinguish/{{p.id}}','distinguish-{{p.id}}','undistinguish-{{p.id}}','d-none')"><i class="fas fa-crown"></i>Distinguish</button>
-				<button type="button" id="undistinguish-{{p.id}}" class="dropdown-item {% if not p.distinguish_level %}d-none{% endif %} list-inline-item text-info"  onclick="post_toast(this,'/distinguish/{{p.id}}','distinguish-{{p.id}}','undistinguish-{{p.id}}','d-none')"><i class="fas fa-crown"></i>Undistinguish</button>
+				<button type="button" id="distinguish-{{p.id}}" class="dropdown-item {% if p.distinguish_level %}d-none{% endif %} list-inline-item text-info"  onclick="postToast(this,'/distinguish/{{p.id}}','distinguish-{{p.id}}','undistinguish-{{p.id}}','d-none')"><i class="fas fa-crown"></i>Distinguish</button>
+				<button type="button" id="undistinguish-{{p.id}}" class="dropdown-item {% if not p.distinguish_level %}d-none{% endif %} list-inline-item text-info"  onclick="postToast(this,'/distinguish/{{p.id}}','distinguish-{{p.id}}','undistinguish-{{p.id}}','d-none')"><i class="fas fa-crown"></i>Undistinguish</button>
 			{% endif %}
 
 			{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 				<button type="button" id="pin-{{p.id}}" class="dropdown-item {% if p.stickied and not p.stickied_utc %}d-none{% endif %} list-inline-item text-info" onclick="pinPost(this, '{{p.id}}')"><i class="fas fa-thumbtack fa-rotate--45"></i>Pin {% if p.stickied_utc %}permanently{% else %}for 1 hour{% endif %}</button>
-				<button type="button" id="unpin-{{p.id}}" class="dropdown-item {% if not p.stickied %}d-none{% endif %} list-inline-item text-info"  onclick="post_toast(this,'/unsticky/{{p.id}}','pin-{{p.id}}','unpin-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin</button>
+				<button type="button" id="unpin-{{p.id}}" class="dropdown-item {% if not p.stickied %}d-none{% endif %} list-inline-item text-info"  onclick="postToast(this,'/unsticky/{{p.id}}','pin-{{p.id}}','unpin-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin</button>
 			{% endif %}
 
 			{% if p.sub and v.mods(p.sub) %}
-				<button type="button" id="hole-pin-{{p.id}}" class="dropdown-item {% if p.hole_pinned %}d-none{% endif %} list-inline-item text-info"  onclick="post_toast(this,'/hole_pin/{{p.id}}','hole-pin-{{p.id}}','hole-unpin-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Pin to /h/{{p.sub}}</button>
-				<button type="button" id="hole-unpin-{{p.id}}" class="dropdown-item {% if not p.hole_pinned %}d-none{% endif %} list-inline-item text-info"  onclick="post_toast(this,'/hole_unpin/{{p.id}}','hole-pin-{{p.id}}','hole-unpin-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin from /h/{{p.sub}}</button>
+				<button type="button" id="hole-pin-{{p.id}}" class="dropdown-item {% if p.hole_pinned %}d-none{% endif %} list-inline-item text-info"  onclick="postToast(this,'/hole_pin/{{p.id}}','hole-pin-{{p.id}}','hole-unpin-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Pin to /h/{{p.sub}}</button>
+				<button type="button" id="hole-unpin-{{p.id}}" class="dropdown-item {% if not p.hole_pinned %}d-none{% endif %} list-inline-item text-info"  onclick="postToast(this,'/hole_unpin/{{p.id}}','hole-pin-{{p.id}}','hole-unpin-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin from /h/{{p.sub}}</button>
 			{% endif %}
 
 			{% if FEATURES['COUNTRY_CLUB'] and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == p.author_id) %}
-				<button type="button" id="club-{{p.id}}" class="dropdown-item {% if p.club %}d-none{% endif %} list-inline-item text-info"  onclick="post_toast(this,'/club_post/{{p.id}}','club-{{p.id}}','unclub-{{p.id}}','d-none')"><i class="fas fa-eye-slash"></i>Mark club</button>
-				<button type="button" id="unclub-{{p.id}}" class="dropdown-item {% if not p.club %}d-none{% endif %} list-inline-item text-info"  onclick="post_toast(this,'/unclub_post/{{p.id}}','club-{{p.id}}','unclub-{{p.id}}','d-none')"><i class="fas fa-eye"></i>Unmark club</button>
+				<button type="button" id="club-{{p.id}}" class="dropdown-item {% if p.club %}d-none{% endif %} list-inline-item text-info"  onclick="postToast(this,'/club_post/{{p.id}}','club-{{p.id}}','unclub-{{p.id}}','d-none')"><i class="fas fa-eye-slash"></i>Mark club</button>
+				<button type="button" id="unclub-{{p.id}}" class="dropdown-item {% if not p.club %}d-none{% endif %} list-inline-item text-info"  onclick="postToast(this,'/unclub_post/{{p.id}}','club-{{p.id}}','unclub-{{p.id}}','d-none')"><i class="fas fa-eye"></i>Unmark club</button>
 			{% endif %}
 
 			{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
@@ -72,30 +72,30 @@
 
 
 			{% if v.id != p.author_id and not p.ghost %}
-				<button type="button" id="unblock-{{p.id}}" class="dropdown-item text-success list-inline-item {% if not p.is_blocking %}d-none{% endif %}"  onclick="post_toast(this,'/settings/unblock?username={{p.author.username}}','block-{{p.id}}','unblock-{{p.id}}','d-none')"><i class="fas fa-eye text-success"></i>Unblock user</button>
+				<button type="button" id="unblock-{{p.id}}" class="dropdown-item text-success list-inline-item {% if not p.is_blocking %}d-none{% endif %}"  onclick="postToast(this,'/settings/unblock?username={{p.author.username}}','block-{{p.id}}','unblock-{{p.id}}','d-none')"><i class="fas fa-eye text-success"></i>Unblock user</button>
 
-				<button type="button" id="block-{{p.id}}" class="dropdown-item list-inline-item text-danger {% if p.is_blocking %}d-none{% endif %}"  onclick="post_toast(this,'/settings/block?username={{p.author.username}}','block-{{p.id}}','unblock-{{p.id}}','d-none')"><i class="fas fa-eye-slash text-danger"></i>Block user</button>
+				<button type="button" id="block-{{p.id}}" class="dropdown-item list-inline-item text-danger {% if p.is_blocking %}d-none{% endif %}"  onclick="postToast(this,'/settings/block?username={{p.author.username}}','block-{{p.id}}','unblock-{{p.id}}','d-none')"><i class="fas fa-eye-slash text-danger"></i>Block user</button>
 			{% endif %}
 
 
 			{% if p.sub and v.mods(p.sub) %}
-				<button type="button" class="dropdown-item list-inline-item text-danger"  onclick="post_toast(this,'/kick/{{p.id}}')"><i class="fas fa-sign-out text-danger"></i>Kick</button>
+				<button type="button" class="dropdown-item list-inline-item text-danger"  onclick="postToast(this,'/kick/{{p.id}}')"><i class="fas fa-sign-out text-danger"></i>Kick</button>
 				
 				{% if not p.author.mods(p.sub) %}
-					<button type="button" id="exile-{{p.id}}" class="{% if p.author.exiled_from(p.sub) %}d-none{% endif %} dropdown-item list-inline-item text-danger"  onclick="post_toast(this,'/exile/post/{{p.id}}','exile-{{p.id}}','unexile-{{p.id}}','d-none')"><i class="fas fa-campfire text-danger"></i>Exile user</button>
-					<button type="button" id="unexile-{{p.id}}" class="{% if not p.author.exiled_from(p.sub) %}d-none{% endif %} dropdown-item list-inline-item text-success"  onclick="post_toast(this,'/h/{{sub}}/unexile/{{p.author_id}}','exile-{{p.id}}','unexile-{{p.id}}','d-none')"><i class="fas fa-campfire text-success"></i>Unexile user</button>
+					<button type="button" id="exile-{{p.id}}" class="{% if p.author.exiled_from(p.sub) %}d-none{% endif %} dropdown-item list-inline-item text-danger"  onclick="postToast(this,'/exile/post/{{p.id}}','exile-{{p.id}}','unexile-{{p.id}}','d-none')"><i class="fas fa-campfire text-danger"></i>Exile user</button>
+					<button type="button" id="unexile-{{p.id}}" class="{% if not p.author.exiled_from(p.sub) %}d-none{% endif %} dropdown-item list-inline-item text-success"  onclick="postToast(this,'/h/{{sub}}/unexile/{{p.author_id}}','exile-{{p.id}}','unexile-{{p.id}}','d-none')"><i class="fas fa-campfire text-success"></i>Unexile user</button>
 				{% endif %}
 			{% endif %}
 
 
 			{% if v.id==p.author_id or v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (p.sub and v.mods(p.sub)) %}
-				<button type="button" id="mark-{{p.id}}" class="dropdown-item {% if p.over_18 %}d-none{% endif %} list-inline-item text-danger"  onclick="post_toast(this,'/toggle_post_nsfw/{{p.id}}','mark-{{p.id}}','unmark-{{p.id}}','d-none')"><i class="fas fa-eye-evil"></i>Mark +18</button>
-				<button type="button" id="unmark-{{p.id}}" class="dropdown-item {% if not p.over_18 %}d-none{% endif %} list-inline-item text-success"  onclick="post_toast(this,'/toggle_post_nsfw/{{p.id}}','mark-{{p.id}}','unmark-{{p.id}}','d-none')"><i class="fas fa-eye-evil"></i>Unmark +18</button>
+				<button type="button" id="mark-{{p.id}}" class="dropdown-item {% if p.over_18 %}d-none{% endif %} list-inline-item text-danger"  onclick="postToast(this,'/toggle_post_nsfw/{{p.id}}','mark-{{p.id}}','unmark-{{p.id}}','d-none')"><i class="fas fa-eye-evil"></i>Mark +18</button>
+				<button type="button" id="unmark-{{p.id}}" class="dropdown-item {% if not p.over_18 %}d-none{% endif %} list-inline-item text-success"  onclick="postToast(this,'/toggle_post_nsfw/{{p.id}}','mark-{{p.id}}','unmark-{{p.id}}','d-none')"><i class="fas fa-eye-evil"></i>Unmark +18</button>
 			{% endif %}
 
 			{% if v.admin_level >= PERMS['USER_BAN'] and v.id != p.author_id %}
 				<button type="button" id="ban-{{p.id}}" class="dropdown-item {% if p.author.is_suspended %}d-none{% endif %} list-inline-item text-danger" id="exile-comment-{{p.id}}"  data-bs-toggle="modal" data-bs-target="#banModal" onclick="banModal('/post/{{p.id}}', '{{p.author.id}}', '{{p.author_name}}')"><i class="fas fa-user-slash text-danger fa-fw"></i>Ban user</button>
-				<button type="button" id="unban-{{p.id}}" class="dropdown-item {% if not p.author.is_suspended %}d-none{% endif %} list-inline-item text-danger" id="unexile2-user-{{p.id}}"  onclick="post_toast(this,'/unban_user/{{p.author_id}}','ban-{{p.id}}','unban-{{p.id}}','d-none')"><i class="fas fa-user-slash"></i>Unban user</button>
+				<button type="button" id="unban-{{p.id}}" class="dropdown-item {% if not p.author.is_suspended %}d-none{% endif %} list-inline-item text-danger" id="unexile2-user-{{p.id}}"  onclick="postToast(this,'/unban_user/{{p.author_id}}','ban-{{p.id}}','unban-{{p.id}}','d-none')"><i class="fas fa-user-slash"></i>Unban user</button>
 			{% endif %}
 		</ul>
 	{% endif %}

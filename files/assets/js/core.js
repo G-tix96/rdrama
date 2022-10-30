@@ -93,12 +93,7 @@ function postToast(t, url, button1, button2, className, extraActions, extraActio
 	xhr[0].send(xhr[1]);
 }
 
-/* temporary compatability function. js styling wants us to use thisCase so any new things should use that */
-function post_toast(t, url, button1, button2, classname, extra_actions, extra_actions_error) {
-	postToast(t, url, button1, button2, classname, extra_actions, extra_actions_error);
-}
-
-function post_toast_callback(url, data, callback) {
+function postToast_callback(url, data, callback) {
 	let form = new FormData();
 	if(typeof data === 'object' && data !== null) {
 		for(let k of Object.keys(data)) {

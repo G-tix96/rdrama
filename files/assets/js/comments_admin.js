@@ -1,7 +1,7 @@
 function removeComment(t,post_id,button1,button2,cls) {
 	url="/remove_comment/"+post_id
 
-	post_toast(t,url,button1,button2,cls)
+	postToast(t,url,button1,button2,cls)
 
 	if (window.location.pathname == '/admin/reported/comments')
 	{
@@ -21,7 +21,7 @@ function removeComment(t,post_id,button1,button2,cls) {
 function approveComment(t,post_id,button1,button2,cls) {
 	url="/approve_comment/"+post_id
 
-	post_toast(t,url,button1,button2,cls)
+	postToast(t,url,button1,button2,cls)
 
 	if (window.location.pathname == '/admin/reported/comments')
 	{

@@ -116,7 +116,7 @@
 		function approve_hat(t, name) {
 			t.disabled = true;
 			t.classList.add("disabled");
-			post_toast_callback(`/admin/approve/hat/${name}`,
+			postToast_callback(`/admin/approve/hat/${name}`,
 				{
 					"description": document.getElementById(`${name}-description`).value,
 					"name": document.getElementById(`${name}-name`).value,
@@ -137,7 +137,7 @@
 		function remove_hat(t, name) {
 			t.disabled = true;
 			t.classList.add("disabled");
-			post_toast_callback(`/remove/hat/${name}`,
+			postToast_callback(`/remove/hat/${name}`,
 				{
 				},
 				(xhr) => {

@@ -41,7 +41,7 @@
 		</div>
 		<div class="footer">
 			<div class="d-flex">
-				<button type="button" class="btn btn-secondary ml-auto" onclick="post_toast(this,'/reroll/{{app.id}}', true)">Reroll Client ID</button>
+				<button type="button" class="btn btn-secondary ml-auto" onclick="postToast(this,'/reroll/{{app.id}}', true)">Reroll Client ID</button>
 				<input type="submit" onclick="disable(this)" class="btn btn-primary ml-2" value="Save Changes">
 			</div>
 		</div>
@@ -107,7 +107,7 @@
 		</div>
 		<div class="footer">
 			<div class="d-flex">
-				<button type="button" class="btn btn-primary ml-auto text-white" onclick="post_toast(this,'/rescind/{{auth.application.id}}',true)">Revoke</button>
+				<button type="button" class="btn btn-primary ml-auto text-white" onclick="postToast(this,'/rescind/{{auth.application.id}}',true)">Revoke</button>
 			</div>
 		</div>
 	</div>

@@ -1,7 +1,7 @@
 function removePost(t,post_id,button1,button2,cls) {
 	url="/remove_post/"+post_id
 
-	post_toast(t,url,button1,button2,cls)
+	postToast(t,url,button1,button2,cls)
 
 	if (window.location.pathname == '/admin/reported/posts')
 	{
@@ -17,7 +17,7 @@ function removePost(t,post_id,button1,button2,cls) {
 function approvePost(t,post_id,button1,button2,cls) {
 	url="/approve_post/"+post_id
 
-	post_toast(t,url,button1,button2,cls)
+	postToast(t,url,button1,button2,cls)
 
 	if (window.location.pathname == '/admin/reported/posts')
 	{

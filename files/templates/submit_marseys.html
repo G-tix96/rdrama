@@ -118,7 +118,7 @@
 		function approve_marsey(t, name) {
 			t.disabled = true;
 			t.classList.add("disabled");
-			post_toast_callback(`/admin/approve/marsey/${name}`,
+			postToast_callback(`/admin/approve/marsey/${name}`,
 				{
 					"tags": document.getElementById(`${name}-tags`).value,
 					"name": document.getElementById(`${name}-name`).value,
@@ -138,7 +138,7 @@
 		function remove_marsey(t, name) {
 			t.disabled = true;
 			t.classList.add("disabled");
-			post_toast_callback(`/remove/marsey/${name}`,
+			postToast_callback(`/remove/marsey/${name}`,
 				{
 				},
 				(xhr) => {

@@ -1,7 +1,7 @@
 function pinPost(t, id) {
 	t.disabled = true;
 	t.classList.add("disabled");
-	post_toast_callback(`/sticky/${id}`,
+	postToast_callback(`/sticky/${id}`,
 		{
 		},
 		(xhr) => {
