@@ -2,75 +2,57 @@
 {%- import 'html_head.html' as html_head with context -%}
 <!DOCTYPE html>
 <html lang="en">
-{{html_head.html_head(true, false, false, none, 'Login', '', '', false)}}
-<body id="login">
+    {{html_head.html_head(true, false, false, none, 'Login', '', '', false, false, true)}}
+    <body id="login">
+		<div id="register-form-container">
+            <div id="register-form">
+                <div class="form-header">
+			        <h1 class="form-header-text">Welcome back.</h1>
+			        <p class="form-header-text-alt">Glad to have you back!</p>
+                </div>
 
-<div class="container-fluid position-absolute h-100 p-0 overflow-auto">
-	<div class="row no-gutters h-100">
-		<div class="col-12 col-md-6 my-auto p-3">
-			<div class="row justify-content-center">
-				<div class="col-10 col-md-7">
+			    <form action="/login" method="post" class="mt-md-3" id="signup">
 
-					{% block content %}
+				    {% if error %}<span class="text-danger">{{error}}</span><br>{% endif %}
 
-					<div id="login-form">
+				    <input type="hidden" name="formkey" value="{{formkey}}">
+				    <input type="hidden" name="now" value="{{now}}">
 
-						<h2>Welcome back.</h2>
+				    {% if redirect %}<input type="hidden" name="redirect" value="{{redirect}}">{% endif %}
+				    {% if ref_user %}
+				    <input type="hidden" name="referred_by" value="{{ref_user.id}}">{% endif %}
 
-						<p class="text-muted mb-md-5">Glad to have you back!</p>
+				    <label for="username-register" class="form-group">
+                        <span class="form-title">Username</span>
+                        <input autocomplete="off" class="form-block" id="username-register"
+					           aria-describedby="usernameHelpRegister" type="text" name="username" pattern="[a-zA-Z0-9_\-]{3,25}" min="3" max="25" required="">
+				        <small id="usernameHelpRegister"></small>
+                    </label>
 
-						{% if failed %}
-						<div class="alert alert-danger alert-dismissible fade show d-flex my-3" role="alert">
-							<i class="fas fa-exclamation-circle my-auto"></i>
-							<div>
-									Incorrect username, email address, or password.
-									<br>
-									<a href="/forgot" class="alert-link">Forgot password?</a>
-							</div>
-							<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-						</button>
-						</div>
-						{% endif %}
+				    <label for="password-register" class="form-group">
+                        <span class="form-title">Password</span>
+                    
+				        <input autocomplete="off" class="form-block" id="password-register"
+					           aria-describedby="passwordHelpReigster" type="password" name="password" required="">
+                        <small>
+                            <a href="/forgot">Forgot password?</a>
+                        </small>
+                    </label>
 
-						<form action="/login" method="post" class="mt-md-3" id="login">
+				    <button class="btn btn-primary form-block" id="register_button">Login</button>
 
-								<label for="username" class="mt-3">Username or Email Address</label>
+				    <div class="account-already-have">
+                        Don't have an account? <a href="/signup{{'?redirect='+redirect if redirect else ''}}" class="font-weight-bold toggle-login">Sign up</a>
 
-								<input autocomplete="off" class="form-control" id="username" aria-describedby="usernameHelp"
-								type="text" name="username" required="">
-								<input type="hidden" name="redirect" value="{{redirect}}">
-
-								<label for="password" class="mt-3">Password</label>
-
-								<input autocomplete="off" class="form-control" id="password" aria-describedby="passwordHelp"
-								type="password" name="password" required="">
-
-
-								<small class="d-block my-3"><a href="/forgot">Forgot password?</a></small>
-
-								<button type="submit" class="btn btn-primary login w-100 mt-3" id="login_button">Sign In</button>
-
-								<div class="text-center text-muted text-small mt-5 mb-3">
-									Don't have an account? <a href="/signup{{'?redirect='+redirect if redirect else ''}}" class="font-weight-bold toggle-login">Sign up</a>
-								</div>
-						</form>
-					</div>
-
-					{% endblock %}
-				</div>
-			</div>
+				    </div>
+			    </form>
+            </div>
 		</div>
 
-		<div class="col-12 col-md-6 d-mob-none">
-			<div class="splash-wrapper">
-				<div class="splash-overlay"></div>
-				<img alt="cover" loading="lazy" class="splash-img" src="{{'cover.webp' | asset_siteimg}}"></img>
-			</div>
+		<div class="splash-wrapper">
+			<img alt="cover" loading="lazy" class="splash-img" src="{{'cover.webp' | asset_siteimg}}"></img>
 		</div>
-	</div>
-</div>
-
-</body>
-
+    </body>
 </html>
+
+

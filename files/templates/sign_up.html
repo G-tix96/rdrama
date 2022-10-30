@@ -2,138 +2,119 @@
 {%- import 'html_head.html' as html_head with context -%}
 <!DOCTYPE html>
 <html lang="en">
-{% if ref_user %}
-	{% set title= ref_user.username + "invites you to " + SITE_NAME %}
-{% else %}
-	{% set title="Sign up" %}
-{% endif %}
-{{html_head.html_head(true, false, false, none, title, none, "", false)}}
-<body id="login">
+	{{html_head.html_head(true, false, false, none, title, none, "", false, false, true)}}
+    <body id="login">
+		<div id="register-form-container">
+            <div id="register-form">
+                <div class="form-header">
+			        {% if ref_user %}
+			        <h1 class="form-header-text">@{{ref_user.username}} has invited you!</h1>
+			        <p class="form-header-text-alt">Looks like someone wants you to join {{SITE_NAME}}.</p>
+					{% elif SITE_NAME == 'rDrama' and site_settings['login_required'] %}
+					<p class="text-muted text-justify mb-3" style="line-height: 1.2em">
+						Hiiiiii it’s your favorite user Carp! We’re currently on <span style="font-variant-caps: small-caps;">Login Required</span> mode for one of a few reasons:
+					</p>
+					<ol style="padding-left: 1.5em">
+						<li>The site is running really slowly and we think it might be miscreants up to no good, or</li>
+						<li>It’s our monthly 24 hours of login-required-mode to encourage lovely lurkers to become lovely new friends of ours, or</li>
+						<li>Someone clicked the toggle by mistake lol oops sorry!</li>
+					</ol>
+					<p class="text-muted text-justify mb-1" style="line-height: 1.2em">
+						But that’s all fine. Signing up is easy. It takes literally like 4 seconds if you’re slow. You don’t even need an email! Just pick a username, make up some neat new password where you replace all the e’s with 3s or whatever and bam, done, you’re in.<br>
+						Remember to click “Follow” on my profile!
+					</p>
+					<p class="text-muted mb-md-2">
+						I love you.<br>
+						<em>xoxo carp</em> 💋
+					</p>
+					<hr>
+					{% elif SITE_NAME == 'WPD' and site_settings['login_required'] %}
+					<p class="text-muted text-justify mb-1" style="line-height: 1.2em">
+						<strong>Hi you!</strong> &mdash; <span style="font-variant-caps: small-caps;">watchpeopledie.tv</span> is currently doing our monthly 24(ish) hours of "everyone needs to have an account" &mdash; sorry about that! But making an account is actually super easy. <strong>You don't even need an email address!</strong> Literally just pick a username, set a password, and that's that. Bam, done, like 8 seconds, tops.<br>
+					</p>
+					<p class="text-muted mb-md-2">
+						We WANT you with us &#128150;<br>
+						Please join!
+					</p>
+					<hr>
+			        {% else %}
+			        <h1 class="form-header-text">Create your account.</h1>
+			        <p class="form-header-text-alt">No email address required.</p>
+			        {% endif %}
+                </div>
 
-<div class="container-fluid position-absolute h-100 p-0 overflow-auto">
-	<div class="row no-gutters h-100">
+			    <form action="/signup" method="post" id="signup">
 
-		<div class="col-12 col-md-6 my-auto p-3">
+				    {% if error %}<span class="text-danger">{{error}}</span><br>{% endif %}
 
-			<div class="row justify-content-center">
+				    <input type="hidden" name="formkey" value="{{formkey}}">
+				    <input type="hidden" name="now" value="{{now}}">
 
-				<div class="col-10 col-md-7">
+				    {% if redirect %}<input type="hidden" name="redirect" value="{{redirect}}">{% endif %}
+				    {% if ref_user %}
+				    <input type="hidden" name="referred_by" value="{{ref_user.id}}">{% endif %}
 
-					<div id="register-form">
+				    <label for="username-register" class="form-group">
+                        <span class="form-title">Username</span>
+                        <input autocomplete="off" class="form-block" id="username-register"
+					           aria-describedby="usernameHelpRegister" type="text" name="username" pattern="[a-zA-Z0-9_\-]{3,25}" min="3" max="25" required="">
+				        <small id="usernameHelpRegister"></small>
+                    </label>
 
-						{% if ref_user %}
-						<h2>@{{ref_user.username}} has invited you!</h2>
-						<p class="text-muted mb-md-2">Looks like someone wants you to join {{SITE_NAME}}.</p>
-						{% elif SITE_NAME == 'rDrama' and site_settings['login_required'] %}
-						<p class="text-muted text-justify mb-3" style="line-height: 1.2em">
-							Hiiiiii it’s your favorite user Carp! We’re currently on <span style="font-variant-caps: small-caps;">Login Required</span> mode for one of a few reasons:
-						</p>
-						<ol style="padding-left: 1.5em">
-							<li>The site is running really slowly and we think it might be miscreants up to no good, or</li>
-							<li>It’s our monthly 24 hours of login-required-mode to encourage lovely lurkers to become lovely new friends of ours, or</li>
-							<li>Someone clicked the toggle by mistake lol oops sorry!</li>
-						</ol>
-						<p class="text-muted text-justify mb-1" style="line-height: 1.2em">
-							But that’s all fine. Signing up is easy. It takes literally like 4 seconds if you’re slow. You don’t even need an email! Just pick a username, make up some neat new password where you replace all the e’s with 3s or whatever and bam, done, you’re in.<br>
-							Remember to click “Follow” on my profile!
-						</p>
-						<p class="text-muted mb-md-2">
-							I love you.<br>
-							<em>xoxo carp</em> 💋
-						</p>
-						<hr>
-						{% elif SITE_NAME == 'WPD' and site_settings['login_required'] %}
-						<p class="text-muted text-justify mb-1" style="line-height: 1.2em">
-							<strong>Hi you!</strong> &mdash; <span style="font-variant-caps: small-caps;">watchpeopledie.tv</span> is currently doing our monthly 24(ish) hours of "everyone needs to have an account" &mdash; sorry about that! But making an account is actually super easy. <strong>You don't even need an email address!</strong> Literally just pick a username, set a password, and that's that. Bam, done, like 8 seconds, tops.<br>
-						</p>
-						<p class="text-muted mb-md-2">
-							We WANT you with us &#128150;<br>
-							Please join!
-						</p>
-						<hr>
-						{% else %}
-						<h2>Create your account.</h2>
-						<p class="text-muted mb-md-2">No email address required.</p>
-						{% endif %}
+				    <label for="email-register" class="form-group">
+                        <span class="form-title">Email Address <small class="form-title-alt">(optional)</small></span>
 
-						<form action="/signup" method="post" class="mt-md-3" id="signup">
+				        <input autocomplete="off" class="form-block" id="email-register"
+					           aria-describedby="emailHelpRegister" type="email" pattern='([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+' name="email" readonly onfocus="if (this.hasAttribute('readonly')) {this.removeAttribute('readonly');this.blur();this.focus()}">
+                    </label>
 
-						{% if error %}<div class="text-danger mb-2">{{error}}</div>{% endif %}
+				    <label for="password-register" class="form-group">
+                        <span class="form-title">Password</span>
+                    
+				        <input autocomplete="off" class="form-block" id="password-register"
+					           aria-describedby="passwordHelpReigster" type="password" name="password" required="">
+				        <small id="passwordHelpRegister" class="form-text font-weight-bold text-muted d-none mt-1">Minimum of 8
+					        characters
+					        required.</small>
+				        <small id="passwordHelpSuccess" class="form-text font-weight-bold text-success d-none mt-1">Your password meets the requirements.
+				        </small>
+                    </label>
 
-						<input type="hidden" name="formkey" value="{{formkey}}">
-						<input type="hidden" name="now" value="{{now}}">
+				    <label for="password_confirm" class="form-group">
+                        <span class="form-title">Confirm Password</span>
 
-						{% if redirect %}<input type="hidden" name="redirect" value="{{redirect}}">{% endif %}
-						{% if ref_user %}
-						<input type="hidden" name="referred_by" value="{{ref_user.id}}">{% endif %}
+				        <input autocomplete="off" class="form-block" id="password_confirm"
+					           aria-describedby="passwordConfirmHelp" type="password" name="password_confirm"
+					           required="">
 
-						<label for="username-register" class="mt-3">Username</label>
+                    </label>
 
-						<input autocomplete="off" class="form-control" id="username-register"
-						aria-describedby="usernameHelpRegister" type="text" name="username" pattern="[a-zA-Z0-9_\-]{3,25}" min="3" max="25" required="">
-						<small id="usernameHelpRegister"></small>
+                    <label class="form-group terms" for="termsCheck">
+					    <input autocomplete="off" type="checkbox" id="termsCheck" required>
+					    I accept the <a href="/logged_out/sidebar">rules</a>
+				    </label>
 
-						<label for="email-register" class="mt-3">Email Address</label>
+				    {% if hcaptcha != 'blahblahblah' %}
+				        <div class="h-captcha" data-sitekey="{{hcaptcha}}" dark-theme="dark"></div>
+				    {% endif %}
 
-						<small class="d-inline-block text-muted ml-1">(optional)</small>
+				    <button class="btn btn-primary form-block" id="register_button">Register</button>
 
-						<input style="background-color: var(--gray-800)" autocomplete="off" class="form-control" id="email-register"
-						aria-describedby="emailHelpRegister" type="email" pattern='{{EMAIL_REGEX_PATTERN}}' name="email" readonly onfocus="if (this.hasAttribute('readonly')) {this.removeAttribute('readonly');this.blur();this.focus()}">
-
-						<label for="password-register" class="mt-3">Password</label>
-
-						<input autocomplete="off" class="form-control" id="password-register"
-						aria-describedby="passwordHelpReigster" type="password" name="password" required="">
-						<small id="passwordHelpRegister" class="form-text font-weight-bold text-muted d-none mt-1">Minimum of 8
-							characters
-						required.</small>
-						<small id="passwordHelpSuccess" class="form-text font-weight-bold text-success d-none mt-1">Your password meets the requirements.
-						</small>
-
-						<label for="password_confirm" class="mt-3">Confirm Password</label>
-
-						<input autocomplete="off" class="form-control" id="password_confirm"
-						aria-describedby="passwordConfirmHelp" type="password" name="password_confirm"
-						required="">
-						<div class="custom-control custom-checkbox mt-4">
-							<input autocomplete="off" type="checkbox" class="custom-control-input" id="termsCheck" required>
-							<label class="custom-control-label terms" for="termsCheck">I accept the <a href="/sidebar">rules</a></label>
-						</div>
-
-						{% if hcaptcha != 'blahblahblah' %}
-							<div class="h-captcha" data-sitekey="{{hcaptcha}}" data-theme="dark"></div>
-						{% endif %}
-
-						<button type="submit" class="btn btn-primary login w-100 mt-3" id="register_button">Register</button>
-
-						<div class="text-center text-muted text-small mt-5 mb-3">
-							Already have an account? <a href="/login{{'?redirect='+redirect if redirect else ''}}" class="font-weight-bold toggle-login">Log in</a>
-						</div>
-						</form>
-
-					</div>
-
-				</div>
-
-			</div>
-
+				    <div class="account-already-have">
+					    Already have an account? <a href="/login{{'?redirect='+redirect if redirect else ''}}" class="font-weight-bold toggle-login">Log in</a>
+				    </div>
+			    </form>
+            </div>
 		</div>
 
-		<div class="col-12 col-md-6 d-mob-none">
-			<div class="splash-wrapper">
-				<div class="splash-overlay"></div>
-				<img alt="cover" loading="lazy" class="splash-img" src="{{'cover.webp' | asset_siteimg}}"></img>
-			</div>
+		<div class="splash-wrapper">
+			<img alt="cover" loading="lazy" class="splash-img" src="{{'cover.webp' | asset_siteimg}}"></img>
 		</div>
-	</div>
-</div>
 
-<script defer src="{{'js/signup.js' | asset}}"></script>
-
-{% if hcaptcha != 'blahblahblah' %}
-	<script defer src="{{'js/hcaptcha.js' | asset}}"></script>
-{% endif %}
-
-</body>
-
+        <!-- Bloat -->
+        <script defer src="{{'js/signup.js' | asset}}"></script>
+        {% if hcaptcha != 'blahblahblah' %}
+        <script defer src="{{'js/hcaptcha.js' | asset}}"></script>
+        {% endif %}
+    </body>
 </html>
