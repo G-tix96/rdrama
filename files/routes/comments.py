@@ -344,16 +344,7 @@ def comment(v):
 
 	c.voted = 1
 	
-	if v.id == PIZZASHILL_ID:
-		for uid in PIZZA_VOTERS:
-			autovote = CommentVote(user_id=uid, comment_id=c.id, vote_type=1)
-			autovote.created_utc += 1
-			g.db.add(autovote)
-		v.coins += 3
-		v.truecoins += 3
-		g.db.add(v)
-		c.upvotes += 3
-		g.db.add(c)
+	execute_pizza_autovote(v, c)
 
 	if v.marseyawarded and parent_post.id not in ADMIGGERS and marseyaward_body_regex.search(body_html):
 		abort(403, "You can only type marseys!")
