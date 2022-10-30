@@ -10,7 +10,7 @@
 			        {% if ref_user %}
 			        <h1 class="form-header-text">@{{ref_user.username}} has invited you!</h1>
 			        <p class="form-header-text-alt">Looks like someone wants you to join {{SITE_NAME}}.</p>
-					{% elif SITE_NAME == 'rDrama'  %}
+					{% elif SITE_NAME == 'rDrama' and site_settings['login_required'] %}
 					<p class="text-muted text-justify mb-3" style="line-height: 1.2em">
 						Hiiiiii it’s your favorite user Carp! We’re currently on <span style="font-variant-caps: small-caps;">Login Required</span> mode for one of a few reasons:
 					</p>
