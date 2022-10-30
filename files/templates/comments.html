@@ -202,6 +202,13 @@
 				{% endif %}
 				{% endif %}
 
+				{% if c.slots_result %}
+					<em style="position: relative; top: 2px; margin-left: 0.5rem">{{c.slots_result}}</em>
+				{% elif c.casino_game_id %}
+					{% set game_state = c.casino_game.game_state_json %}
+					<em style="position: relative; top: 2px; margin-left: 0.5rem">{{game_state['symbols'].replace(',','')}} {{game_state['text']}}</em>
+				{% endif %}
+
 				{% if c.wordle_result %}
 					{{c.wordle_html(v) | safe}}
 				{% endif %}

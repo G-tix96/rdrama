@@ -64,6 +64,8 @@ class Comment(Base):
 	ban_reason = Column(String)
 	wordle_result = Column(String)
 	treasure_amount = Column(String)
+	slots_result = Column(String)
+	casino_game_id = Column(Integer, ForeignKey("casino_games.id"))
 
 	oauth_app = relationship("OauthApp")
 	post = relationship("Submission", back_populates="comments")
@@ -73,6 +75,7 @@ class Comment(Base):
 	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="comment")
 	flags = relationship("CommentFlag", order_by="CommentFlag.created_utc")
 	options = relationship("CommentOption", order_by="CommentOption.id")
+	casino_game = relationship("Casino_Game")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:
