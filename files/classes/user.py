@@ -747,6 +747,7 @@ class User(Base):
 	@lazy
 	def is_visible_to(self, user) -> bool:
 		if not self.is_private: return True
+		if not user: return False
 		if self.id == user.id: return True
 		return user.admin_level >= PERMS['VIEW_PRIVATE_PROFILES'] or user.eye
 
