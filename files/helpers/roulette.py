@@ -95,7 +95,7 @@ def gambler_placed_roulette_bet(gambler, bet, which, amount, currency):
 	if len(active_games) == 0:
 		parent_id = int(time.time())
 	else:
-		parent_id = json.loads(active_games[0].game_state)['parent_id']
+		parent_id = active_games[0].game_state_json['parent_id']
 
 	charge_gambler(gambler, amount, currency)
 
@@ -130,7 +130,7 @@ def get_roulette_bets_and_betters():
 			participants.append(game.user_id)
 
 		user = get_account(game.user_id)
-		game_state = json.loads(game.game_state)
+		game_state = game.game_state_json
 		bet = game_state['bet']
 		bets[bet].append({
 			'game_id': game.id,

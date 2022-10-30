@@ -1,6 +1,8 @@
 from sqlalchemy import *
 from files.__main__ import Base
 import time
+from files.helpers.lazy import lazy
+import json
 
 CASINO_GAME_KINDS = ['blackjack', 'slots', 'roulette']
 
@@ -24,3 +26,8 @@ class Casino_Game(Base):
 
 	def __repr__(self):
 		return f"<CasinoGame(id={self.id})>"
+
+	@property
+	@lazy
+	def game_state_json(self):
+		return json.loads(self.game_state)
