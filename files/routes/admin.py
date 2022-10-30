@@ -1147,8 +1147,6 @@ def approve_post(post_id, v):
 def distinguish_post(post_id, v):
 	post = get_post(post_id)
 
-	if post.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']: abort(403)
-
 	if post.distinguish_level:
 		post.distinguish_level = 0
 		kind = 'undistinguish_post'
@@ -1339,8 +1337,6 @@ def admin_distinguish_comment(c_id, v):
 	
 	
 	comment = get_comment(c_id, v=v)
-
-	if comment.author_id != v.id: abort(403)
 
 	if comment.distinguish_level:
 		comment.distinguish_level = 0
