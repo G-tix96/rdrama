@@ -391,7 +391,8 @@ CREATE TABLE public.comments (
     blackjack_result character varying(860),
     treasure_amount character varying(10),
     wordle_result character varying(115),
-    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('english'::regconfig, (body)::text)) STORED
+    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('english'::regconfig, (body)::text)) STORED,
+    casino_game_id integer
 );
 
 
@@ -2152,6 +2153,14 @@ ALTER TABLE ONLY public.userblocks
 
 ALTER TABLE ONLY public.userblocks
     ADD CONSTRAINT block_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: comments casino_game_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT casino_game_fkey FOREIGN KEY (casino_game_id) REFERENCES public.casino_games(id);
 
 
 --
