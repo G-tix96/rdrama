@@ -1,3 +1,4 @@
+from typing import Union
 from flask import g
 from files.classes.badges import Badge
 from files.helpers.alerts import send_repeatable_notification
@@ -281,7 +282,7 @@ def execute_longpostbot(c, level, body, body_html, parent_submission, v):
 	n = Notification(comment_id=c2.id, user_id=v.id)
 	g.db.add(n)
 
-def execute_basedbot(c, level, body, parent_submission, parent_post, v):
+def execute_basedbot(c, level, body, parent_post, v):
 	pill = based_regex.match(body)
 	if level == 1: basedguy = get_account(parent_post.author_id)
 	else: basedguy = get_account(c.parent_comment.author_id)
@@ -296,7 +297,7 @@ def execute_basedbot(c, level, body, parent_submission, parent_post, v):
 	
 	body_based_html = sanitize(body2)
 	c_based = Comment(author_id=BASEDBOT_ID,
-		parent_submission=parent_submission,
+		parent_submission=parent_post.id,
 		distinguish_level=6,
 		parent_comment_id=c.id,
 		level=level+1,
@@ -418,7 +419,6 @@ def execute_antispam_comment_check(body:str, v:User):
 	g.db.commit()
 	abort(403, "Too much spam!")
 
-
 def execute_lawlz_actions(v:User, p:Submission):
 	if v.id != LAWLZ_ID: return
 	if SITE_NAME != 'rDrama': return
@@ -449,3 +449,22 @@ def execute_lawlz_actions(v:User, p:Submission):
 	g.db.add(ma_1)
 	g.db.add(ma_2)
 	g.db.add(ma_3)
+
+def execute_pizza_autovote(v:User, target:Union[Submission, Comment]):
+	if v.id != PIZZASHILL_ID: return
+	if SITE_NAME != 'rDrama': return
+	votes = len(PIZZA_VOTERS)
+	for uid in PIZZA_VOTERS:
+		if isinstance(target, Submission):
+			autovote = Vote(user_id=uid, submission_id=target.id, vote_type=1)
+		elif isinstance(target, Comment):
+			autovote = CommentVote(user_id=uid, comment_id=target.id, vote_type=1)
+		else:
+			raise TypeError("Expected Submission or Comment")
+		autovote.created_utc += 1
+		g.db.add(autovote)
+	v.coins += votes
+	v.truecoins += votes
+	g.db.add(v)
+	target.upvotes += votes
+	g.db.add(target)

@@ -128,10 +128,24 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 def comment(v):
 	if v.is_suspended: abort(403, "You can't perform this action while banned.")
 
-	parent_submission = request.values.get("submission").strip()
 	parent_fullname = request.values.get("parent_fullname").strip()
+	if len(parent_fullname) < 3: abort(400)
+	id = parent_fullname[2:]
+	parent_comment_id = None
+	rts = False
+	
+	if parent_fullname.startswith("p_"):
+		parent = get_post(id, v=v)
+		parent_post = parent
+		if POLL_THREAD and parent.id == POLL_THREAD and v.admin_level < PERMS['POST_TO_POLL_THREAD']: abort(403)
+	elif parent_fullname.startswith("c_"):
+		parent = get_comment(id, v=v)
+		parent_post = get_post(parent.parent_submission, v=v)
+		parent_comment_id = parent.id
+		if parent.author_id == v.id: rts = True
+	else: abort(400)
 
-	parent_post = get_post(parent_submission, v=v)
+	level = 1 if isinstance(parent, Submission) else parent.level + 1
 	sub = parent_post.sub
 	if sub and v.exiled_from(sub): abort(403, f"You're exiled from /h/{sub}")
 
@@ -139,20 +153,6 @@ def comment(v):
 		abort(403, f"You need to be a member of House {sub.capitalize()} to comment in /h/{sub}")
 
 	if parent_post.club and not (v and (v.paid_dues or v.id == parent_post.author_id)): abort(403)
-
-	rts = False
-	if parent_fullname.startswith("p_"):
-		parent = parent_post
-		parent_comment_id = None
-		level = 1
-
-		if POLL_THREAD and parent.id == POLL_THREAD and v.admin_level < PERMS['POST_TO_POLL_THREAD']: abort(403)
-	elif parent_fullname.startswith("c_"):
-		parent = get_comment(parent_fullname.split("_")[1], v=v)
-		parent_comment_id = parent.id
-		level = parent.level + 1
-		if parent.author_id == v.id: rts = True
-	else: abort(400)
 
 	if not parent.can_see(v): abort(404)
 	if parent.deleted_utc != 0: abort(404)
@@ -239,15 +239,13 @@ def comment(v):
 		body_for_sanitize = marsify(body_for_sanitize)
 
 	torture = (v.agendaposter and not v.marseyawarded and parent_post.sub != 'chudrama' and parent_post.id not in ADMIGGERS)
-
 	body_html = sanitize(body_for_sanitize, limit_pings=5, count_marseys=not v.marsify, torture=torture)
-
 
 	if parent_post.id not in ADMIGGERS and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
 		existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
 																	Comment.deleted_utc == 0,
 																	Comment.parent_comment_id == parent_comment_id,
-																	Comment.parent_submission == parent_submission,
+																	Comment.parent_submission == parent_post.id,
 																	Comment.body_html == body_html
 																	).first()
 		if existing: abort(409, f"You already made that comment: /comment/{existing.id}")
@@ -264,7 +262,7 @@ def comment(v):
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
 	c = Comment(author_id=v.id,
-				parent_submission=parent_submission,
+				parent_submission=parent_post.id,
 				parent_comment_id=parent_comment_id,
 				level=level,
 				over_18=parent_post.over_18 or request.values.get("over_18")=="true",
@@ -301,9 +299,9 @@ def comment(v):
 		g.db.add(choice)
 
 	if SITE == 'pcmemes.net' and c.body.lower().startswith("based"):
-		execute_basedbot(c, level, body, parent_submission, parent_post, v)
+		execute_basedbot(c, level, body, parent_post, v)
 
-	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and parent_post.sub != 'chudrama':
+	if parent_post.id not in ADMIGGERS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and parent_post.sub != 'chudrama':
 		c.is_banned = True
 		c.ban_reason = "AutoJanny"
 		g.db.add(c)
@@ -312,7 +310,7 @@ def comment(v):
 		body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
 		c_jannied = Comment(author_id=AUTOJANNY_ID,
-			parent_submission=parent_submission,
+			parent_submission=parent_post.id,
 			distinguish_level=6,
 			parent_comment_id=c.id,
 			level=level+1,
@@ -330,14 +328,14 @@ def comment(v):
 		g.db.add(n)
 
 	if SITE_NAME == 'rDrama':
-		execute_longpostbot(c, level, body, body_html, parent_submission, v)
-		execute_zozbot(c, level, parent_submission, v)
+		execute_longpostbot(c, level, body, body_html, parent_post.id, v)
+		execute_zozbot(c, level, parent_post.id, v)
 
 	if not v.shadowbanned:
 		notify_users = NOTIFY_USERS(body, v)
 
 		if c.level == 1:
-			subscribers = g.db.query(Subscription.user_id).filter(Subscription.submission_id == c.parent_submission, Subscription.user_id != v.id).all()
+			subscribers = g.db.query(Subscription.user_id).filter(Subscription.submission_id == c.parent_post.id, Subscription.user_id != v.id).all()
 
 			for x in subscribers:
 				notify_users.add(x[0])
@@ -382,16 +380,7 @@ def comment(v):
 
 	c.voted = 1
 	
-	if v.id == PIZZASHILL_ID:
-		for uid in PIZZA_VOTERS:
-			autovote = CommentVote(user_id=uid, comment_id=c.id, vote_type=1)
-			autovote.created_utc += 1
-			g.db.add(autovote)
-		v.coins += 3
-		v.truecoins += 3
-		g.db.add(v)
-		c.upvotes += 3
-		g.db.add(c)
+	execute_pizza_autovote(v, c)
 
 	if v.marseyawarded and parent_post.id not in ADMIGGERS and marseyaward_body_regex.search(body_html):
 		abort(403, "You can only type marseys!")
