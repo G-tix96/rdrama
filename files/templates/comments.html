@@ -399,7 +399,7 @@
 						
 						<a class="btn caction nobackground px-1 text-muted" href="{{c.permalink}}"><i class="fas fa-book-open"></i>Context</a>
 
-						<button type="button" class="btn caction py-0 nobackground px-1 text-muted copy-link" data-clipboard-text="{% if SITE == 'rdrama.net' %}https://rdrama.org{{c.shortlink}}{% else %}{{c.permalink}}{% endif %}"><i class="fas fa-copy"></i>Copy link</button>
+						<button type="button" class="btn caction py-0 nobackground px-1 text-muted copy-link" data-clipboard-text="{% if SITE == 'rdrama.net' %}https://{{BAN_EVASION_DOMAIN}}{{c.shortlink}}{% else %}{{c.permalink}}{% endif %}"><i class="fas fa-copy"></i>Copy link</button>
 
 						{% if v %}
 							{% if not c.deleted_utc %}
@@ -611,7 +611,7 @@
 
 					<a class="list-group-item" href="{{c.permalink}}"><i class="fas fa-book-open mr-2"></i>Context</a>
 
-					<button type="button" class="list-group-item copy-link" data-bs-dismiss="modal" data-clipboard-text="{% if SITE == 'rdrama.net' %}https://rdrama.org{{c.shortlink}}{% else %}{{c.permalink}}{% endif %}"><i class="fas fa-copy mr-2"></i>Copy link</button>
+					<button type="button" class="list-group-item copy-link" data-bs-dismiss="modal" data-clipboard-text="{% if SITE == 'rdrama.net' %}https://{{BAN_EVASION_DOMAIN}}{{c.shortlink}}{% else %}{{c.permalink}}{% endif %}"><i class="fas fa-copy mr-2"></i>Copy link</button>
 
 					{% if v %}
 						<button type="button" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#reportCommentModal" onclick="report_commentModal('{{c.id}}','{{c.author_name}}')" class="list-group-item"><i class="fas fa-flag mr-2"></i>Report</button>

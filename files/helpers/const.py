@@ -517,6 +517,8 @@ bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, BASEDBOT_ID}
 
 COLORS = {'ff66ac','805ad5','62ca56','38a169','80ffff','2a96f3','eb4963','ff0000','f39731','30409f','3e98a7','e4432d','7b9ae4','ec72de','7f8fa6', 'f8db58','8cdbe6', DEFAULT_COLOR}
 
+BAN_EVASION_DOMAIN = 'rdrama.life'
+
 AWARDS = {
 	### Deprecated
 	"ghost": {
@@ -1227,6 +1229,7 @@ proxies = {"http":PROXY_URL,"https":PROXY_URL}
 approved_embed_hosts = {
 	SITE,
 	'rdrama.net',
+	BAN_EVASION_DOMAIN,
 	'pcmemes.net',
 	'watchpeopledie.tv',
 	'imgur.com',
@@ -1343,6 +1346,7 @@ EMAIL_REGEX_PATTERN = '[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63
 
 BOOSTED_SITES = {
 	'rdrama.net',
+	BAN_EVASION_DOMAIN,
 	'pcmemes.net',
 	'watchpeopledie.tv',
 	'themotte.org',
