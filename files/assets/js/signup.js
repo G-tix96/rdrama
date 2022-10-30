@@ -18,7 +18,7 @@ document.getElementById('username-register').addEventListener('input', function 
 	const userName = document.getElementById("username-register").value;
 	const id = document.getElementById("usernameHelpRegister");
 
-	if (/[^a-zA-Z0-9_\-$]/.test(userName) && false) {
+	if (/[^a-zA-Z0-9_\-$]/.test(userName)) {
 		id.innerHTML = '<span class="form-text font-weight-bold text-danger mt-1">No special characters or spaces allowed.</span>';
 	} else {
 		id.innerHTML = '<span class="form-text font-weight-bold text-success mt-1">Username is a-okay!</span>';
