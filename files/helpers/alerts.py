@@ -91,10 +91,7 @@ def NOTIFY_USERS(text, v):
 
 	names = set(m.group(2) for m in mention_regex.finditer(text))
 	for user in get_users(names, graceful=True):
-		if user.username == 'jannies' and v.truecoins >= ADMIN_PING_TRUESCORE_MINIMUM and not v.shadowbanned:
-			admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_ADMIN_PING']).all()]
-			notify_users.update(admins)
-		elif v.id != user.id and not v.any_block_exists(user):
+		if v.id != user.id and not v.any_block_exists(user):
 			notify_users.add(user.id)
 
 	if SITE_NAME == "WPD" and 'daisy' in text.lower():
