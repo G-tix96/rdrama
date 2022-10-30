@@ -411,9 +411,9 @@ if not os.path.exists(f'files/templates/donate_{SITE_NAME}.html'):
 	copyfile(f'files/templates/donate_rDrama.html', f'files/templates/donate_{SITE_NAME}.html')
 
 @app.get('/donate')
-@auth_required
+@app.get('/logged_out/donate')
+@auth_desired_with_logingate
 def donate(v):
-	if v.truecoins < TRUESCORE_DONATE_LIMIT: abort(404)
 	return render_template(f'donate_{SITE_NAME}.html', v=v)
 
 

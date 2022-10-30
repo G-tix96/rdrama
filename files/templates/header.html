@@ -238,7 +238,7 @@
 						<div class="px-2">
 							<a class="dropdown-item" href="{{v.url}}"><i class="fas fa-user-circle fa-fw mr-3"></i>My profile</a>
 							<a class="dropdown-item" href="/settings"><i class="fas fa-cog fa-fw mr-3"></i>Settings</a>
-							{% if FEATURES['PROCOINS'] and v.truecoins >= TRUESCORE_DONATE_LIMIT %}
+							{% if FEATURES['PROCOINS'] %}
 								<a class="dropdown-item" rel="nofollow noopener" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 							{% endif %}
 
@@ -260,17 +260,20 @@
 
 							{% if SITE_NAME == 'rDrama' %}
 								<a class="dropdown-item" href="/archives"><i class="fas fa-book fa-fw mr-3"></i>Archives</a>
-								{% endif %}
-								<a class="dropdown-item" href="/contact"><i class="fas fa-file-signature fa-fw mr-3"></i>Contact us</a>
+							{% endif %}
+							<a class="dropdown-item" href="/contact"><i class="fas fa-file-signature fa-fw mr-3"></i>Contact us</a>
 							<button type="button" class="dropdown-item" onclick="postToast(this,'/logout', true)"><i class="fas fa-sign-out fa-fw mr-3"></i>Log out</button>
 						</div>
 					</div>
 				</li>
 			{% else %}
 			<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
+				<a class="btn btn-primary" href="/logged_out/donate">Donate</a>
+			</li>
+			<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
 				<a class="btn btn-primary" href="/contact">Contact us</a>
 			</li>
-				<li class="nav-item d-flex align-items-center justify-content-center mx-1">
+			<li class="nav-item d-flex align-items-center justify-content-center mx-1">
 				<a class="btn btn-primary" href="/login?redirect={{request.path | urlencode}}">Sign in</a>
 			</li>
 			<li class="nav-item d-flex align-items-center justify-content-center mx-1">
@@ -298,7 +301,7 @@
 					<a class="nav-link" href="/settings"><i class="fas fa-cog fa-fw mr-3"></i>Settings</a>
 				</li>
 
-				{% if FEATURES['PROCOINS'] and v.truecoins >= TRUESCORE_DONATE_LIMIT %}
+				{% if FEATURES['PROCOINS'] %}
 					<a class="nav-item nav-link" rel="nofollow noopener" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 				{% endif %}
 
@@ -322,13 +325,19 @@
 					<a rel="nofollow noopener" class="nav-item nav-link" href="{{TELEGRAM_LINK}}"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Channel</a>
 				{% endif %}
 
-				{% if SITE_NAME == 'rDrama' %}<a class="nav-item nav-link" href="/archives"><i class="fas fa-book fa-fw mr-3"></i>Archives</a>{% endif %}
+				{% if SITE_NAME == 'rDrama' %}
+					<a class="nav-item nav-link" href="/archives"><i class="fas fa-book fa-fw mr-3"></i>Archives</a>
+				{% endif %}
+				
 				<a class="nav-item nav-link" href="/contact"><i class="fas fa-file-signature fa-fw mr-3"></i>Contact us</a>
 
 				<li class="nav-item border-top border-bottom mt-2 pt-2">
 					<button type="button" class="nav-link" onclick="postToast(this,'/logout', true)"><i class="fas fa-sign-out fa-fw mr-3 text-danger"></i>Log out</button>
 				</li>
 			{% else %}
+				<li class="nav-item d-flex align-items-center justify-content-center pb-3">
+					<a class="btn btn-primary btn-block" href="/logged_out/donate">Donate</a>
+				</li>
 				<li class="nav-item d-flex align-items-center justify-content-center pb-3">
 					<a class="btn btn-primary btn-block" href="/contact">Contact us</a>
 				</li>

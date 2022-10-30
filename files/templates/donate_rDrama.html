@@ -9,10 +9,12 @@
 	<div class="overflow-x-auto">
 		<table class="table table-striped mb-5">
 			<tbody>
-				<tr>
-					<td>Gumroad</td>
-					<td><a rel="nofollow noopener" href="{{GUMROAD_LINK}}">{{GUMROAD_LINK}}</a></td>
-				</tr>
+				{% if v and v.truecoins >= TRUESCORE_DONATE_LIMIT %}
+					<tr>
+						<td>Gumroad</td>
+						<td><a rel="nofollow noopener" href="{{GUMROAD_LINK}}">{{GUMROAD_LINK}}</a></td>
+					</tr>
+				{% endif %}
 				<tr>
 					<td>Ethereum/Brave Attention Token</td>
 					<td>0xBBf1043A60C6894Db17b3118CA960FFDF84c9eea</td>

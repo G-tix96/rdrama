@@ -44,7 +44,7 @@
 			</div>
 			<div class="footer">
 				<div class="d-flex">
-					{% if FEATURES['PROCOINS'] and v.truecoins >= TRUESCORE_DONATE_LIMIT %}
+					{% if FEATURES['PROCOINS'] %}
 						{% if KOFI_TOKEN %}
 							<button type="button" class="btn btn-success" onclick="postToast(this,'/settings/kofi')">Claim {{patron}} rewards</button>
 						{% else %}
@@ -57,12 +57,15 @@
 						<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Add email">
 					{% endif %}
 				</div>
-				{% if FEATURES['PROCOINS'] and v.truecoins >= TRUESCORE_DONATE_LIMIT %}
-					<span class="text-small text-muted pl-1">Must be same email as the one you used to donate on 
-						{% if KOFI_TOKEN %}
-							<a rel="nofollow noopener" class="text-primary" href="{{KOFI_LINK}}">Kofi</a>
-						{% else %}
-							<a rel="nofollow noopener" class="text-primary" href="{{GUMROAD_LINK}}">Gumroad</a>
+				{% if FEATURES['PROCOINS'] %}
+					<span class="text-small text-muted pl-1">Must be same email as the one you used to donate
+						{% if v.truecoins >= TRUESCORE_DONATE_LIMIT %}
+							on 
+							{% if KOFI_TOKEN %}
+								<a rel="nofollow noopener" class="text-primary" href="{{KOFI_LINK}}">Kofi</a>
+							{% else %}
+								<a rel="nofollow noopener" class="text-primary" href="{{GUMROAD_LINK}}">Gumroad</a>
+							{% endif %}
 						{% endif %}
 					</span>
 				{% endif %}
