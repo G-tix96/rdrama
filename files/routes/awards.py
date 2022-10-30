@@ -182,7 +182,7 @@ def award_thing(v, thing_type, id):
 
 			return {"message": f"{AWARDS[kind]['title']} award given to {thing_type} successfully!"}
 
-		if author.deflector and (AWARDS[kind]['price'] > 500 or kind == 'marsify' or kind.istitle()) and kind not in ('pin','unpin','benefactor'):
+		if author.deflector and AWARDS[kind]['deflectable']:
 			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award but it was deflected and applied to them :marseytroll:"
 			send_repeatable_notification(author.id, msg)
 			msg = f"{safe_username} is under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you :marseytroll:"

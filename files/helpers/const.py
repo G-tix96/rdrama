@@ -527,7 +527,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-ghost",
 		"color": "text-white",
-		"price": 3000
+		"price": 3000,
+		"deflectable": False
 	},
 	"nword": {
 		"kind": "nword",
@@ -535,7 +536,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-edit",
 		"color": "text-success",
-		"price": 10000
+		"price": 10000,
+		"deflectable": True
 	},
 	### Fistmas 2021
 	"snow": {
@@ -544,7 +546,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-snowflake",
 		"color": "text-blue-200",
-		"price": 300
+		"price": 300,
+		"deflectable": False
 	},
 	"gingerbread": {
 		"kind": "gingerbread",
@@ -552,7 +555,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-gingerbread-man",
 		"color": "",
-		"price": 300
+		"price": 300,
+		"deflectable": False
 	},
 	"lights": {
 		"kind": "lights",
@@ -560,7 +564,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-lights-holiday",
 		"color": "",
-		"price": 300
+		"price": 300,
+		"deflectable": False
 	},
 	"candycane": {
 		"kind": "candycane",
@@ -568,7 +573,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-candy-cane",
 		"color": "",
-		"price": 400
+		"price": 400,
+		"deflectable": False
 	},
 	"fireplace": {
 		"kind": "fireplace",
@@ -576,7 +582,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-fireplace",
 		"color": "",
-		"price": 600
+		"price": 600,
+		"deflectable": False
 	},
 	"grinch": {
 		"kind": "grinch",
@@ -584,7 +591,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-angry",
 		"color": "text-green-500",
-		"price": 1000
+		"price": 1000,
+		"deflectable": True
 	},
 	### Homoween 2021 & 2022
 	"haunt": {
@@ -593,7 +601,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-book-dead",
 		"color": "text-warning",
-		"price": 500
+		"price": 500,
+		"deflectable": False
 	},
 	"upsidedown": {
 		"kind": "upsidedown",
@@ -601,7 +610,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-lights-holiday",
 		"color": "",
-		"price": 400
+		"price": 400,
+		"deflectable": False
 	},
 	"stab": {
 		"kind": "stab",
@@ -609,7 +619,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-knife-kitchen",
 		"color": "text-danger",
-		"price": 300
+		"price": 300,
+		"deflectable": False
 	},
 	"spiders": {
 		"kind": "spiders",
@@ -617,7 +628,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-spider",
 		"color": "text-black",
-		"price": 200
+		"price": 200,
+		"deflectable": False
 	},
 	"fog": {
 		"kind": "fog",
@@ -625,7 +637,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-smoke",
 		"color": "text-gray",
-		"price": 200
+		"price": 200,
+		"deflectable": False
 	},
 	### Homoween 2022
 	"jumpscare": {
@@ -634,7 +647,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-coffin-cross",
 		"color": "text-purple",
-		"price": 600
+		"price": 600,
+		"deflectable": True
 	},
 	"hw-bite": {
 		"kind": "hw-bite",
@@ -642,7 +656,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-biohazard",
 		"color": "text-danger",
-		"price": 500
+		"price": 500,
+		"deflectable": True
 	},
 	"hw-vax": {
 		"kind": "hw-vax",
@@ -650,7 +665,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-syringe",
 		"color": "text-blue",
-		"price": 500
+		"price": 500,
+		"deflectable": True
 	},
 	"hw-grinch": {
 		"kind": "hw-grinch",
@@ -658,7 +674,9 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-angry",
 		"color": "text-orange",
-		"price": 1000
+		"price": 1000,
+		"deflectable": True
+
 	},
 	"flashlight": {
 		"kind": "flashlight",
@@ -666,7 +684,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-flashlight",
 		"color": "text-black",
-		"price": 400
+		"price": 400,
+		"deflectable": False
 	},
 	"candy-corn": {
 		"kind": "candy-corn",
@@ -674,7 +693,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-candy-corn",
 		"color": "text-orange",
-		"price": 400
+		"price": 400,
+		"deflectable": False
 	},
 	"ectoplasm": {
 		"kind": "ectoplasm",
@@ -682,7 +702,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-ghost",
 		"color": "text-success",
-		"price": 400
+		"price": 400,
+		"deflectable": False
 	},
 	"bones": {
 		"kind": "bones",
@@ -690,7 +711,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-bone",
 		"color": "text-white",
-		"price": 200
+		"price": 200,
+		"deflectable": False
 	},
 	"pumpkin": {
 		"kind": "pumpkin",
@@ -698,7 +720,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-jack-o-lantern",
 		"color": "text-orange",
-		"price": 200
+		"price": 200,
+		"deflectable": False
 	},
 	### Standard
 	"marsify": {
@@ -707,7 +730,8 @@ AWARDS = {
 		"description": "Marsifies the recipient's comments for 6 hours.",
 		"icon": "fas fa-cat",
 		"color": "text-white",
-		"price": 150
+		"price": 150,
+		"deflectable": True
 	},
 	"shit": {
 		"kind": "shit",
@@ -715,7 +739,8 @@ AWARDS = {
 		"description": "Makes flies swarm the post.",
 		"icon": "fas fa-poop",
 		"color": "text-black-50",
-		"price": 150
+		"price": 150,
+		"deflectable": False
 	},
 	"fireflies": {
 		"kind": "fireflies",
@@ -723,7 +748,8 @@ AWARDS = {
 		"description": "Makes fireflies swarm the post.",
 		"icon": "fas fa-sparkles",
 		"color": "text-warning",
-		"price": 150
+		"price": 150,
+		"deflectable": False
 	},
 	"train": {
 		"kind": "train",
@@ -731,7 +757,8 @@ AWARDS = {
 		"description": "Summons a train on the post.",
 		"icon": "fas fa-train",
 		"color": "text-pink",
-		"price": 150
+		"price": 150,
+		"deflectable": False
 	},
 	"scooter": {
 		"kind": "scooter",
@@ -739,7 +766,8 @@ AWARDS = {
 		"description": "Summons a scooter on the post.",
 		"icon": "fas fa-flag-usa",
 		"color": "text-muted",
-		"price": 150
+		"price": 150,
+		"deflectable": False
 	},
 	"wholesome": {
 		"kind": "wholesome",
@@ -747,7 +775,8 @@ AWARDS = {
 		"description": "Summons a wholesome marsey on the post.",
 		"icon": "fas fa-smile-beam",
 		"color": "text-yellow",
-		"price": 150
+		"price": 150,
+		"deflectable": False
 	},
 	"firework": {
 		"kind": "firework",
@@ -755,7 +784,8 @@ AWARDS = {
 		"description": "Summons fireworks on the post.",
 		"icon": "fas fa-bahai",
 		"color": "text-danger",
-		"price": 150
+		"price": 150,
+		"deflectable": False
 	},
 	"confetti": {
 		"kind": "confetti",
@@ -763,7 +793,8 @@ AWARDS = {
 		"description": "Summons confetti to fall on the post.",
 		"icon": "fas fa-party-horn",
 		"color": "text-yellow",
-		"price": 150
+		"price": 150,
+		"deflectable": False
 	},
 	"ricardo": {
 		"kind": "ricardo",
@@ -771,7 +802,8 @@ AWARDS = {
 		"description": "Summons Ricardo to dance on the post.",
 		"icon": "fas fa-pinata",
 		"color": "text-pink",
-		"price": 150
+		"price": 150,
+		"deflectable": False
 	},
 	"tilt": {
 		"kind": "tilt",
@@ -779,7 +811,8 @@ AWARDS = {
 		"description": "Tilts the post or comment",
 		"icon": "fas fa-car-tilt",
 		"color": "text-blue",
-		"price": 150
+		"price": 150,
+		"deflectable": False
 	},
 	"glowie": {
 		"kind": "glowie",
@@ -787,7 +820,8 @@ AWARDS = {
 		"description": "Indicates that the recipient can be seen when driving. Just run them over.",
 		"icon": "fas fa-user-secret",
 		"color": "text-green",
-		"price": 150
+		"price": 150,
+		"deflectable": False
 	},
 	"agendaposter": {
 		"kind": "agendaposter",
@@ -795,7 +829,8 @@ AWARDS = {
 		"description": "Forces the chud theme on the recipient for 24 hours.",
 		"icon": "fas fa-snooze",
 		"color": "text-purple",
-		"price": 500
+		"price": 500,
+		"deflectable": True
 	},
 	"rehab": {
 		"kind": "rehab",
@@ -803,7 +838,8 @@ AWARDS = {
 		"description": "Prevents the user from gambling for 24 hours in a last ditch effort to save them from themself.",
 		"icon": "fas fa-dice-six",
 		"color": "text-black",
-		"price": 777
+		"price": 777,
+		"deflectable": True
 	},
 	"offsitementions": {
 		"kind": "offsitementions",
@@ -812,6 +848,7 @@ AWARDS = {
 		"icon": "fas fa-eyes",
 		"color": "text-orange",
 		"price": 1000,
+		"deflectable": True
 	},
 	"lootbox": {
 		"kind": "lootbox",
@@ -819,7 +856,8 @@ AWARDS = {
 		"description": "",
 		"icon": "fas fa-box-open",
 		"color": "text-blue",
-		"price": 1000
+		"price": 1000,
+		"deflectable": True
 	},
 	"beano": {
 		"kind": "beano",
@@ -827,7 +865,8 @@ AWARDS = {
 		"description": "Stops you from embarrassing yourself with your flatulence",
 		"icon": "fas fa-gas-pump-slash",
 		"color": "text-green",
-		"price": 1000
+		"price": 1000,
+		"deflectable": True
 	},
 	"unpin": {
 		"kind": "unpin",
@@ -835,7 +874,8 @@ AWARDS = {
 		"description": "Removes 1 hour from the pin duration of a post or 6 hours from the pin duration of a comment.",
 		"icon": "fas fa-thumbtack fa-rotate--45",
 		"color": "text-black",
-		"price": 1000
+		"price": 1000,
+		"deflectable": False
 	},
 	"flairlock": {
 		"kind": "flairlock",
@@ -843,7 +883,8 @@ AWARDS = {
 		"description": "Sets a flair for the recipient and locks it for 24 hours.",
 		"icon": "fas fa-lock",
 		"color": "text-black",
-		"price": 1250
+		"price": 1250,
+		"deflectable": True
 	},
 	"pin": {
 		"kind": "pin",
@@ -851,7 +892,8 @@ AWARDS = {
 		"description": "Pins a post for 1 hour or a comment for 6 hours.",
 		"icon": "fas fa-thumbtack fa-rotate--45",
 		"color": "text-warning",
-		"price": 1500
+		"price": 1500,
+		"deflectable": False
 	},
 	"progressivestack": {
 		"kind": "progressivestack",
@@ -859,7 +901,8 @@ AWARDS = {
 		"description": "Makes votes on the recipient's posts and comments weigh double in the ranking algorithm for 6 hours.",
 		"icon": "fas fa-bullhorn",
 		"color": "text-danger",
-		"price": 1500
+		"price": 1500,
+		"deflectable": True
 	},
 	"pizzashill": {
 		"kind": "pizzashill",
@@ -867,7 +910,8 @@ AWARDS = {
 		"description": "Forces the recipient to make all posts/comments > 280 characters for 24 hours.",
 		"icon": "fas fa-pizza-slice",
 		"color": "text-orange",
-		"price": 1500
+		"price": 1500,
+		"deflectable": True
 	},
 	"bird": {
 		"kind": "bird",
@@ -875,7 +919,8 @@ AWARDS = {
 		"description": "Forces the recipient to make all posts/comments < 140 characters for 24 hours.",
 		"icon": "fab fa-twitter",
 		"color": "text-blue",
-		"price": 1500
+		"price": 1500,
+		"deflectable": True
 	},
 	"spider": {
 		"kind": "spider",
@@ -883,7 +928,8 @@ AWARDS = {
 		"description": f"Summons a spider to terrorize the recipient for 24 hours.",
 		"icon": "fas fa-spider",
 		"color": "text-brown",
-		"price": 2000
+		"price": 2000,
+		"deflectable": True
 	},
 	"deflector": {
 		"kind": "deflector",
@@ -891,7 +937,8 @@ AWARDS = {
 		"description": "Causes most awards received for the next 10 hours to be deflected back at their giver.",
 		"icon": "fas fa-shield",
 		"color": "text-pink",
-		"price": 2750
+		"price": 2750,
+		"deflectable": True
 	},
 	"marsey": {
 		"kind": "marsey",
@@ -899,7 +946,8 @@ AWARDS = {
 		"description": "Makes the recipient unable to post/comment anything but marsey emojis for 24 hours.",
 		"icon": "fas fa-cat",
 		"color": "text-orange",
-		"price": 3000
+		"price": 3000,
+		"deflectable": True
 	},
 	"ban": {
 		"kind": "ban",
@@ -907,7 +955,8 @@ AWARDS = {
 		"description": "Bans the recipient for a day.",
 		"icon": "fas fa-gavel",
 		"color": "text-danger",
-		"price": 3000
+		"price": 3000,
+		"deflectable": True
 	},
 	"unban": {
 		"kind": "unban",
@@ -915,7 +964,8 @@ AWARDS = {
 		"description": "Removes 1 day from the ban duration of the recipient.",
 		"icon": "fas fa-gavel",
 		"color": "text-success",
-		"price": 3500
+		"price": 3500,
+		"deflectable": True
 	},
 	"benefactor": {
 		"kind": "benefactor",
@@ -923,7 +973,8 @@ AWARDS = {
 		"description": f"Grants one month of {patron} status and 2500 marseybux to the recipient. Cannot be used on yourself.",
 		"icon": "fas fa-gift",
 		"color": "text-blue",
-		"price": 4000
+		"price": 4000,
+		"deflectable": False
 	},
 	"grass": {
 		"kind": "grass",
@@ -931,7 +982,8 @@ AWARDS = {
 		"description": "Ban the recipient for 30 days (if they provide a timestamped picture of them touching grass/snow/sand/ass to the admins, they will get unbanned immediately)",
 		"icon": "fas fa-seedling",
 		"color": "text-success",
-		"price": 10000
+		"price": 10000,
+		"deflectable": True
 	},
 	"eye": {
 		"kind": "eye",
@@ -939,7 +991,8 @@ AWARDS = {
 		"description": "Gives the recipient the ability to view private profiles.",
 		"icon": "fas fa-eye",
 		"color": "text-silver",
-		"price": 10000
+		"price": 10000,
+		"deflectable": True
 	},
 	"unblockable": {
 		"kind": "unblockable",
@@ -947,7 +1000,8 @@ AWARDS = {
 		"description": "Makes the recipient unblockable and removes all blocks on them.",
 		"icon": "fas fa-laugh-squint",
 		"color": "text-lightgreen",
-		"price": 20000
+		"price": 20000,
+		"deflectable": True
 	},
 	"fish": {
 		"kind": "fish",
@@ -955,7 +1009,8 @@ AWARDS = {
 		"description": "This user cannot be unfollowed",
 		"icon": "fas fa-fish",
 		"color": "text-lightblue",
-		"price": 20000
+		"price": 20000,
+		"deflectable": True
 	},
 	"pause": {
 		"kind": "pause",
@@ -963,7 +1018,8 @@ AWARDS = {
 		"description": "Gives the recipient the ability to pause profile anthems.",
 		"icon": "fas fa-volume-mute",
 		"color": "text-danger",
-		"price": 20000
+		"price": 20000,
+		"deflectable": True
 	},
 	"unpausable": {
 		"kind": "unpausable",
@@ -971,7 +1027,8 @@ AWARDS = {
 		"description": "Makes the profile anthem of the recipient unpausable.",
 		"icon": "fas fa-volume",
 		"color": "text-success",
-		"price": 40000
+		"price": 40000,
+		"deflectable": True
 	},
 	"alt": {
 		"kind": "alt",
@@ -979,7 +1036,8 @@ AWARDS = {
 		"description": "Gives the recipient the ability to view alts.",
 		"icon": "fas fa-eye",
 		"color": "text-gold",
-		"price": 50000
+		"price": 50000,
+		"deflectable": True
 	},
 	"checkmark": {
 		"kind": "checkmark",
@@ -987,7 +1045,8 @@ AWARDS = {
 		"description": "Gives the recipient a checkmark.",
 		"icon": "fas fa-badge-check",
 		"color": "checkmark",
-		"price": 100000
+		"price": 50000,
+		"deflectable": True
 	},
 }
 
@@ -999,7 +1058,8 @@ if SITE_NAME != 'rDrama':
 			"description": "OwOifies the recipient's comments for 6 hours.",
 			"icon": "fas fa-paw-simple",
 			"color": "text-purple",
-			"price": 400
+			"price": 400,
+			"deflectable": True
 		},
 		"rainbow": {
 			"kind": "rainbow",
@@ -1007,7 +1067,8 @@ if SITE_NAME != 'rDrama':
 			"description": "Makes the recipient's comments and posts in rainbow text for 24 hours.",
 			"icon": "fas fa-cloud-rainbow",
 			"color": "text-pink",
-			"price": 400
+			"price": 400,
+			"deflectable": True
 		},
 	}
 	AWARDS.update(EXTRA_AWARDS)
@@ -1020,7 +1081,8 @@ if SITE_NAME == 'PCM':
 			"description": "Summons Croag on the post.",
 			"icon": "fas fa-head-side",
 			"color": "text-gold",
-			"price": 150
+			"price": 150,
+			"deflectable": False
 		},
 		"toe": {
 			"kind": "toe",
@@ -1028,7 +1090,8 @@ if SITE_NAME == 'PCM':
 			"description": "Summons Blade's toe on the post.",
 			"icon": "fas fa-socks",
 			"color": "text-blue",
-			"price": 150
+			"price": 150,
+			"deflectable": False
 		},
 		"crab": {
 			"kind": "crab",
@@ -1036,7 +1099,8 @@ if SITE_NAME == 'PCM':
 			"description": "Rave time!",
 			"icon": "fas fa-crab",
 			"color": "text-danger",
-			"price": 4000
+			"price": 4000,
+			"deflectable": False
 		}
 	}
 	AWARDS.update(PCM_AWARDS)
@@ -1058,7 +1122,8 @@ HOUSE_AWARDS = {
 		"description": "OwOifies the recipient's comments for 6 hours.",
 		"icon": "fas fa-paw-simple",
 		"color": "text-purple",
-		"price": 400
+		"price": 400,
+		"deflectable": True
 	},
 	"Femboy": {
 		"kind": "Femboy",
@@ -1066,7 +1131,8 @@ HOUSE_AWARDS = {
 		"description": "Makes the recipient's comments and posts in rainbow text for 24 hours.",
 		"icon": "fas fa-cloud-rainbow",
 		"color": "text-pink",
-		"price": 400
+		"price": 400,
+		"deflectable": True
 	},
 	"Vampire": {
 		"kind": "Vampire",
@@ -1074,7 +1140,8 @@ HOUSE_AWARDS = {
 		"description": "Turns the recipient into a vampire for 24 hours.",
 		"icon": "fas fa-bat",
 		"color": "text-gray",
-		"price": 400
+		"price": 400,
+		"deflectable": True
 	},
 	"Racist": {
 		"kind": "Racist",
@@ -1082,7 +1149,8 @@ HOUSE_AWARDS = {
 		"description": "Checks the recipient's Early Life section on Wikipedia. Notices.",
 		"icon": "fas fa-star-of-david",
 		"color": "text-yellow",
-		"price": 400
+		"price": 400,
+		"deflectable": True
 	},
 }
 
