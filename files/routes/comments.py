@@ -123,7 +123,7 @@ def comment(v):
 
 	body = sanitize_raw_body(request.values.get("body", ""), False)
 
-	if parent_post.id not in ADMIGGERS:
+	if parent_post.id not in ADMIGGER_THREADS:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
 			abort(403, "You have to type more than 280 characters!")
 		elif v.bird and len(body) > 140:
@@ -200,12 +200,12 @@ def comment(v):
 	if v.marsify:
 		body_for_sanitize = marsify(body_for_sanitize)
 
-	torture = (v.agendaposter and not v.marseyawarded and parent_post.sub != 'chudrama' and parent_post.id not in ADMIGGERS)
+	torture = (v.agendaposter and not v.marseyawarded and parent_post.sub != 'chudrama' and parent_post.id not in ADMIGGER_THREADS)
 
 	body_html = sanitize(body_for_sanitize, limit_pings=5, count_marseys=not v.marsify, torture=torture)
 
 
-	if parent_post.id not in ADMIGGERS and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
+	if parent_post.id not in ADMIGGER_THREADS and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
 		existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
 																	Comment.deleted_utc == 0,
 																	Comment.parent_comment_id == parent_comment_id,
@@ -265,7 +265,7 @@ def comment(v):
 	if SITE == 'pcmemes.net' and c.body.lower().startswith("based"):
 		execute_basedbot(c, level, body, parent_submission, parent_post, v)
 
-	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and parent_post.sub != 'chudrama':
+	if post.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and parent_post.sub != 'chudrama':
 		c.is_banned = True
 		c.ban_reason = "AutoJanny"
 		g.db.add(c)
@@ -346,7 +346,7 @@ def comment(v):
 	
 	execute_pizza_autovote(v, c)
 
-	if v.marseyawarded and parent_post.id not in ADMIGGERS and marseyaward_body_regex.search(body_html):
+	if v.marseyawarded and parent_post.id not in ADMIGGER_THREADS and marseyaward_body_regex.search(body_html):
 		abort(403, "You can only type marseys!")
 
 	check_for_treasure(body, c)
@@ -462,7 +462,7 @@ def edit_comment(cid, v):
 
 		execute_blackjack(v, c, c.body, "comment")
 
-		if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and c.post.sub != 'chudrama':
+		if post.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and c.post.sub != 'chudrama':
 			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your comment!')
 
 

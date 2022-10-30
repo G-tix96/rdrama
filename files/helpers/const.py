@@ -1221,7 +1221,7 @@ if path.isfile(f'snappy_{SITE_NAME}.txt'):
 	with open(f'snappy_{SITE_NAME}.txt', "r", encoding="utf-8") as f:
 		SNAPPY_QUOTES = f.read().split("\n{[para]}\n")
 
-ADMIGGERS = {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD, SNAPPY_THREAD}
+ADMIGGER_THREADS = {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD, SNAPPY_THREAD}
 
 proxies = {"http":PROXY_URL,"https":PROXY_URL}
 
