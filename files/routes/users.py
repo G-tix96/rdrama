@@ -645,8 +645,7 @@ def u_username(username, v=None):
 	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False, rendered=True)
 	if username != u.username:
 		return redirect(SITE_FULL + request.full_path.replace(username, u.username))
-	
-	is_following = (v and u.has_follower(v))
+	is_following = v and u.has_follower(v)
 
 	if v and v.id not in (u.id, DAD_ID) and u.viewers_recorded:
 		g.db.flush()
@@ -726,18 +725,10 @@ def u_username(username, v=None):
 @app.get("/logged_out/@<username>/comments")
 @auth_desired_with_logingate
 def u_username_comments(username, v=None):
-
-	user = get_user(username, v=v, include_blocks=True, include_shadowbanned=False, rendered=True)
-
-	if v and username == v.username:
-		is_following = False
-	else:
-		is_following = (v and user.has_follower(v))
-
-	if username != user.username:
-		return redirect(f'/@{user.username}/comments')
-
-	u = user
+	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False, rendered=True)
+	if username != u.username:
+		return redirect(f"/@{u.username}/comments")
+	is_following = v and u.has_follower(v)
 
 	if not u.is_visible_to(v):
 		if g.is_api_or_xhr or request.path.endswith(".json"):
