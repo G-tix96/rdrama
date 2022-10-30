@@ -265,7 +265,7 @@ def comment(v):
 	if SITE == 'pcmemes.net' and c.body.lower().startswith("based"):
 		execute_basedbot(c, level, body, parent_submission, parent_post, v)
 
-	if post.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and parent_post.sub != 'chudrama':
+	if parent_post.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and parent_post.sub != 'chudrama':
 		c.is_banned = True
 		c.ban_reason = "AutoJanny"
 		g.db.add(c)
@@ -462,7 +462,7 @@ def edit_comment(cid, v):
 
 		execute_blackjack(v, c, c.body, "comment")
 
-		if post.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and c.post.sub != 'chudrama':
+		if c.post.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and c.post.sub != 'chudrama':
 			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your comment!')
 
 
