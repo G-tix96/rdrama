@@ -209,7 +209,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	if torture:
 		sanitized = torture_ap(sanitized, g.v.username)
-		sanitized += '\n:#trumpjaktalking:'
+		sanitized += '\n:#trumpjaktalking:' if random.random() >= 0.50 else '\n:#reposthorse:'
 
 	sanitized = normalize_url(sanitized)
 

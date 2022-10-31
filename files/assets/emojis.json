@@ -953,5 +953,6 @@
 	{"name":"chuckbuddy","class":"Misc"},
 	{"name":"soren","class":"Misc"},
 	{"name":"upsoren","class":"Misc"},
-	{"name":"downdonger","class":"Misc"}
+	{"name":"downdonger","class":"Misc"},
+	{"name":"reposthorse","class":"Misc"}
 ]
