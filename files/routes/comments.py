@@ -357,19 +357,19 @@ def comment(v):
 		parent_post.comment_count += 1
 		g.db.add(parent_post)
 
-
-	if FEATURES['GAMBLING'] and '!slots' in c.body:
+	body = c.body.lower()
+	if FEATURES['GAMBLING'] and '!slots' in body:
 		if v.rehab:
 			abort(403, "You are under Rehab award effect!")
 
-		if '!slotsmb' in c.body:
+		if '!slotsmb' in body:
 			command_word = '!slotsmb'
 			currency = 'procoins'
 		else:
 			command_word = '!slots'
 			currency = 'coins'
 
-		wager = c.body.split(command_word)[1].split()[0]
+		wager = body.split(command_word)[1].split()[0]
 
 		try:
 			wager = int(wager)
