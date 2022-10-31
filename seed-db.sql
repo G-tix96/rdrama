@@ -225,6 +225,7 @@ INSERT INTO public.hat_defs VALUES (716, 'Baked Beans Bucket Hat', 'This neighbo
 
 
 
+
 INSERT INTO public.hat_defs VALUES (718, 'Literally Me', 'Sving music, jazz? PTOOEY!', 2, 500, NULL, 1663801724);
 INSERT INTO public.hat_defs VALUES (719, 'The Matrix', 'The Matrix is an allegory of the transgender experience that you and everyone else got suckered into watching', 2, 1000, NULL, 1663836639);
 INSERT INTO public.hat_defs VALUES (720, 'The Matrix Resurrections', 'Wachowski moment', 2, 1000, NULL, 1663836967);
@@ -1091,7 +1092,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1005, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1006, true);
 
 
 --
