@@ -39,6 +39,12 @@ set JOURNOID_BANNERS = [
 -%}
 {% set journoid = JOURNOID_BANNERS|random %}
 
+{% set journoid = (
+	"A subsidiary of Open Society Foundations",
+	"https://www.opensocietyfoundations.org",
+	""
+) %}
+
 <a rel="nofollow noopener" id="srd-link" href="{{journoid[1]}}">{{journoid[0]}}</a>
 
 {% if journoid[2] %}
