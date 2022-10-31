@@ -43,7 +43,8 @@ def shop(v):
 @auth_required
 @feature_required('BADGES')
 def buy(v, award):
-	
+	if (award == 'hw-vax' or award == 'hw-bite') and time.time() > HOMOWEEN_EVENT_END:
+		abort(403, "It's over.")
 
 	if award == 'benefactor' and not request.values.get("mb"):
 		abort(403, "You can only buy the Benefactor award with marseybux.")
@@ -130,6 +131,7 @@ def buy(v, award):
 @auth_required
 def trick_or_treat(v):
 	if v.client: abort(403, "Not allowed from the API")
+	if time.time() > HOMOWEEN_EVENT_END: abort(403, "It's over.")
 
 	result = random.choice([0,1])
 
@@ -204,6 +206,9 @@ def award_thing(v, thing_type, id):
 
 	if kind == 'marsify' and author.marsify == 1:
 		abort(403, "User is already permanently marsified!")
+
+	if (kind == "hw-bite" or kind == "hw-vax") and time.time() > HOMOWEEN_EVENT_END:
+		abort(403, "It's over.")
 
 	if v.id != author.id:
 		safe_username = "👻" if thing.ghost else f"@{author.username}"
