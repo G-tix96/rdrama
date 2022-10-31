@@ -142,8 +142,8 @@ function buy(mb) {
 		if (success) {
 			document.getElementById('giveaward').disabled=false;
 			let owned = document.getElementById(`${kind}-owned`)
-			let ownednum = Number(owned.textContent);
-			owned.textContent = ownednum + 1
+			let ownednum = Number(owned.textContent) + 1;
+			owned.textContent = ownednum
 		}
 	};
 
@@ -161,8 +161,10 @@ function giveaward(t) {
 		(xhr) => {
 			if(xhr.status == 200) {
 				let owned = document.getElementById(`${kind}-owned`)
-				let ownednum = Number(owned.textContent);
-				owned.textContent = ownednum - 1	
+				let ownednum = Number(owned.textContent) - 1;
+				owned.textContent = ownednum
+				if (ownednum == 0)
+					document.getElementById('giveaward').disabled=true;
 			}
 		}	
 	);
