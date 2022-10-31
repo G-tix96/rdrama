@@ -1,6 +1,11 @@
 {%-
 set JOURNOID_BANNERS = [
-	( 
+	(
+		"Official site of /r/SubredditDrama 🍿", 
+		"https://reddit.com/r/subredditdrama", 
+		""
+	),
+	(
 		"As seen on The Independent 📰✨💞", 
 		"https://www.independent.co.uk/news/world/americas/us-politics/reddit-conservatives-post-trans-child-fake-b2060803.html", 
 		"/post/61530"
@@ -35,5 +40,8 @@ set JOURNOID_BANNERS = [
 {% set journoid = JOURNOID_BANNERS|random %}
 
 <a rel="nofollow noopener" id="srd-link" href="{{journoid[1]}}">{{journoid[0]}}</a>
-<span id="srd-separator">&mdash;</span>
-<a id="srd-discuss" href="{{journoid[2]}}">(discuss)</a>
+
+{% if journoid[2] %}
+	<span id="srd-separator">&mdash;</span>
+	<a id="srd-discuss" href="{{journoid[2]}}">(discuss)</a>
+{% endif %}
