@@ -9,8 +9,8 @@
 	{{html_head.html_head(true, true, true, csp, none, "", "", true, 'post/' in request.path)}}
 {% else %}
 {# this should really be fixed at some point, prolly after 10/31 #}
-    <head>
-    {{html_head.javascript()}}
+<head>
+	{{html_head.javascript()}}
 	{{html_head.stylesheets(true, '')}}
 	{{html_head.meta_tags_1(csp, none, true)}}
 	<link rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
@@ -20,10 +20,7 @@
 	{% endblock %}
 	{{html_head.seo()}}
 	{{html_head.cf_2fa_verify()}}
-
-    <!-- COMMENT / UNCOMMENT FOR NEKOCEL DEV SHIT -->
-    <!-- <link rel="stylesheet" href="{{'css/main-dev.css' | asset}}"> -->
-    </head>
+ </head>
 {% endif %}
 
 

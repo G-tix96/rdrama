@@ -1,4 +1,4 @@
-{% macro html_head(js, include_seo, include_user_css, csp, title2, author, extra_css, include_2fa_verify, include_seo2, include_neko_debootstrap) %}
+{% macro html_head(js, include_seo, include_user_css, csp, title2, author, extra_css, include_2fa_verify, include_seo2) %}
 {# submission.py does a lot of stupid stuff with the title and we don't want to override that #}
 {# remember, this is very temporary #}
 <head>
@@ -6,7 +6,7 @@
 		{{javascript()}}
 	{% endif %}
 	{{meta_tags_1(csp, author)}}
-	{{stylesheets(include_user_css, extra_css, include_neko_debootstrap)}}
+	{{stylesheets(include_user_css, extra_css)}}
 	{% if title2 %}
 		<title>{{title2 | default(SITE_NAME, true)}} - {{SITE_NAME}}</title>
 		{{meta_tags_2(title2, author)}}
@@ -78,12 +78,8 @@
 	<meta name="twitter:url" content="{{request.full_path}}">
 {% endmacro %}
 
-{% macro stylesheets(include_user_css, extra_css, include_neko_debootstrap) %}
-	{% if include_neko_debootstrap %}
-		<link rel="stylesheet" href="{{'css/main-dev.css' | asset}}">
-	{% else %}
-		<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-	{% endif %}
+{% macro stylesheets(include_user_css, extra_css) %}
+	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
 	<link id="favicon" rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
 	{% if v %}
 		<style>:root{--primary:#{{v.themecolor}}}</style>
