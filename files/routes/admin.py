@@ -1386,7 +1386,7 @@ def admin_banned_domains(v):
 @admin_level_required(PERMS['DOMAINS_BAN'])
 def ban_domain(v):
 
-	domain=request.values.get("domain", "").strip()
+	domain=request.values.get("domain", "").strip().lower()
 	if not domain: abort(400)
 
 	reason=request.values.get("reason").strip()

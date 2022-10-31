@@ -687,6 +687,7 @@ def submit_post(v, sub=None):
 			return redirect(repost.permalink)
 
 		y = tldextract.extract(url).registered_domain + parsed_url.path
+		y = y.lower()
 		banned_domains = g.db.query(BannedDomain).all()
 		for x in banned_domains:
 			if y.startswith(x.domain):
