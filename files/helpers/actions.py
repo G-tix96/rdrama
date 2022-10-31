@@ -31,9 +31,9 @@ def badge_grant(user, badge_id, description=None, url=None, notify=True):
 headers = {'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}
 
 def archiveorg(url):
-	try: requests.get(f'https://web.archive.org/save/{url}', headers=headers, timeout=10)
+	try: requests.get(f'https://web.archive.org/save/{url}', headers=headers, timeout=10, proxies=proxies)
 	except: pass
-	requests.post('https://ghostarchive.org/archive2', data={"archive": url}, headers=headers, timeout=10)
+	requests.post('https://ghostarchive.org/archive2', data={"archive": url}, headers=headers, timeout=10, proxies=proxies)
 
 
 def archive_url(url):	
