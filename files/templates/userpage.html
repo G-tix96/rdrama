@@ -163,22 +163,24 @@
 					<div>
 					{% if v and v.id != u.id %}
 						<div id="profile--actionbtns">
-							<button type="button" id="button-unsub" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" onclick="postToast(this,'/unfollow/{{u.username}}','button-unsub','button-sub','d-none')">Unfollow</button>
+							<div class="actionbtns mb-3">
+								<button type="button" id="button-unsub" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" onclick="postToast(this,'/unfollow/{{u.username}}','button-unsub','button-sub','d-none')">Unfollow</button>
 
-							<button type="button" id="button-sub" class="btn btn-primary {% if is_following or u.is_nofollow or u.is_blocked %}d-none{% endif %}" onclick="postToast(this,'/follow/{{u.username}}','button-unsub','button-sub','d-none')">Follow</button>						
-							<button type="button" class="btn btn-primary" onclick="toggleElement('message', 'input-message')">Message</button>
+								<button type="button" id="button-sub" class="btn btn-primary {% if is_following or u.is_nofollow or u.is_blocked %}d-none{% endif %}" onclick="postToast(this,'/follow/{{u.username}}','button-unsub','button-sub','d-none')">Follow</button>						
+								<button type="button" class="btn btn-primary" onclick="toggleElement('message', 'input-message')">Message</button>
 
-							{% if FEATURES['USERS_SUICIDE'] -%}
-								<button type="button" class="btn btn-primary" onclick="postToast(this,'/@{{u.username}}/suicide')">Get Them Help</button>
-							{%- endif %}
-							<button type="button" class="btn btn-primary" onclick="toggleElement('coin-transfer', 'coin-transfer-amount')">Gift Coins</button>
-							{% if FEATURES['PROCOINS'] -%}
-								<button type="button" class="btn btn-primary" onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</button>
-							{%- endif %}
+								{% if FEATURES['USERS_SUICIDE'] -%}
+									<button type="button" class="btn btn-primary" onclick="postToast(this,'/@{{u.username}}/suicide')">Get Them Help</button>
+								{%- endif %}
+								<button type="button" class="btn btn-primary" onclick="toggleElement('coin-transfer', 'coin-transfer-amount')">Gift Coins</button>
+								{% if FEATURES['PROCOINS'] -%}
+									<button type="button" class="btn btn-primary" onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</button>
+								{%- endif %}
 
-							<button type="button" class="btn btn-primary" onclick="postToast(this,'/settings/block?username={{u.username}}',true)">Block</button>
+								<button type="button" class="btn btn-primary" onclick="postToast(this,'/settings/block?username={{u.username}}',true)">Block</button>
+							</div>
 
-							{{userpage_admintools.userAdminToolsUpper('desktop')}}
+							{{userpage_admintools.userAdminTools('desktop')}}
 						</div>
 						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
 							<input type="hidden" name="formkey" value="{{v.formkey}}"> 
@@ -203,19 +205,22 @@
 							<div>{{u.username}} will receive <span id="bux-transfer-taxed">0</span> marseybux</div>
 							<button type="button" class="btn btn-primary mt-3" onclick="transferBux()">Gift</button>
 						</div>
-
-					{% elif v and v.id == u.id %}
-						<a href="/settings/profile" class="btn btn-secondary">Edit profile</a>
-						<a href="/views" class="btn btn-secondary">Profile views</a>
 					{% endif %}
 
-					{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-						<button type="button" class="btn btn-secondary" onclick="toggle()">Toggle anthem</button>
-					{% endif %}
+					<div class="actionbtns">
+						{% if v and v.id == u.id %}
+							<a href="/settings/profile" class="btn btn-secondary">Edit profile</a>
+							<a href="/views" class="btn btn-secondary">Profile views</a>
+						{% endif %}
+
+						{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
+							<span>
+								<button type="button" class="btn btn-secondary" onclick="toggle()">Toggle anthem</button>
+							</span>
+						{% endif %}
+					</div>
 					
-					{{userpage_admintools.userAdminToolsLower('desktop')}}
-
-					<div class="mt-1" id="profile--info">
+					<div class="mt-2" id="profile--info">
 						<p id="profile--info--id">User ID: {{u.id}}</p>
 						<p id="profile--info--spent">Coins spent: {{u.coins_spent}}</p>
 						<p id="profile--info--truescore">True score: {{u.truecoins}}</p>
@@ -396,31 +401,39 @@
 						{% endif %}
 					{% endfor %}
 				</div>
-				{% if v and v.id == u.id %}
-					<a href="/settings/profile" class="btn btn-secondary ">Edit profile</a>
-					<a href="/views" class="btn btn-secondary">Profile views</a>
-				{% endif %}
 
-				{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-					<button type="button" class="btn btn-secondary" onclick="toggle()">Toggle anthem</button>
-				{% endif %}
+				<div class="actionbtns">
+					{% if v and v.id == u.id %}
+						<a href="/settings/profile" class="btn btn-secondary ">Edit profile</a>
+						<a href="/views" class="btn btn-secondary">Profile views</a>
+					{% endif %}
+
+					{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
+						<span>
+							<button type="button" class="btn btn-secondary" onclick="toggle()">Toggle anthem</button>
+						</span>
+					{% endif %}
+
+					{% if v and v.id != u.id %}
+						<button type="button" id="button-unsub2" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" onclick="postToast(this,'/unfollow/{{u.username}}','button-unsub2','button-sub2','d-none')">Unfollow</button>
+
+						<button type="button" id="button-sub2" class="btn btn-primary {% if is_following or u.is_nofollow or u.is_blocked %}d-none{% endif %}" onclick="postToast(this,'/follow/{{u.username}}','button-unsub2','button-sub2','d-none')">Follow</button>
+
+						<button type="button" class="btn btn-primary" onclick="toggleElement('message-mobile', 'input-message-mobile')">Message</button>
+						{% if FEATURES['USERS_SUICIDE'] -%}
+							<button type="button" class="btn btn-primary" onclick="postToast(this,'/@{{u.username}}/suicide')">Get Them Help</button>
+						{%- endif %}
+						<button type="button" class="btn btn-primary" onclick="toggleElement('coin-transfer-mobile', 'coin-transfer-amount-mobile')">Gift Coins</button>
+						{% if FEATURES['PROCOINS'] -%}
+							<button type="button" class="btn btn-primary" onclick="toggleElement('bux-transfer-mobile', 'bux-transfer-amount-mobile')">Gift Marseybux</button>
+						{%- endif %}
+
+						<button type="button" class="btn btn-primary" onclick="postToast(this,'/settings/block?username={{u.username}}',true)">Block</button>
+					{% endif %}
+				</div>
 
 				{% if v and v.id != u.id %}
-					<button type="button" id="button-unsub2" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" onclick="postToast(this,'/unfollow/{{u.username}}','button-unsub2','button-sub2','d-none')">Unfollow</button>
-
-					<button type="button" id="button-sub2" class="btn btn-primary {% if is_following or u.is_nofollow or u.is_blocked %}d-none{% endif %}" onclick="postToast(this,'/follow/{{u.username}}','button-unsub2','button-sub2','d-none')">Follow</button>						
-					<button type="button" class="btn btn-primary" onclick="toggleElement('message-mobile', 'input-message-mobile')">Message</button>
-					{% if FEATURES['USERS_SUICIDE'] -%}
-						<button type="button" class="btn btn-primary" onclick="postToast(this,'/@{{u.username}}/suicide')">Get Them Help</button>
-					{%- endif %}
-					<button type="button" class="btn btn-primary" onclick="toggleElement('coin-transfer-mobile', 'coin-transfer-amount-mobile')">Gift Coins</button>
-					{% if FEATURES['PROCOINS'] -%}
-						<button type="button" class="btn btn-primary" onclick="toggleElement('bux-transfer-mobile', 'bux-transfer-amount-mobile')">Gift Marseybux</button>
-					{%- endif %}
-
-					<button type="button" class="btn btn-primary" onclick="postToast(this,'/settings/block?username={{u.username}}',true)">Block</button>
-
-					{{userpage_admintools.userAdminToolsUpper('mobile')}}
+					{{userpage_admintools.userAdminTools('mobile')}}
 					<form class="d-none toggleable" id='message-mobile' action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
 						<input class="mt-1" type="hidden" name="formkey" value="{{v.formkey}}"> 
 						<textarea autocomplete="off" id="input-message-mobile" form="message-mobile" name="message" rows="3" minlength="1" maxlength="10000" class="form-control" data-preview="message-preview-mobile" oninput="markdown(this)" required></textarea>
@@ -444,11 +457,9 @@
 						<div>{{u.username}} will receive <span id="bux-transfer-taxed-mobile">0</span> marseybux</div>
 						<button type="button" class="btn btn-primary mt-2 mb-3" onclick="transferBux(true)">Gift</button>
 					</div>
-
-					{{userpage_admintools.userAdminToolsLower('mobile')}}
 					
 				{% endif %}
-				<div class="mt-1" id="profile-mobile--info">
+				<div class="mt-2" id="profile-mobile--info">
 					<p id="profile-mobile--info--id">User ID: {{u.id}}</p>
 					<p id="profile-mobile--info--spent">Coins spent: {{u.coins_spent}}</p>
 					<p id="profile-mobile--info--truescore">True score: {{u.truecoins}}</p>

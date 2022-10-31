@@ -6310,3 +6310,12 @@ div.markdown {
 .comment-actions *:hover {
 	color: var(--black);
 }
+
+.actionbtns > *:not(.d-none) {
+	display: inline !important;
+	margin-bottom: 10px !important;
+	margin-right: 5px !important;
+}
+.actionbtns > form > * {
+	margin-bottom: 10px !important;
+}

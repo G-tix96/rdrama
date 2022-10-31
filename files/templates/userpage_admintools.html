@@ -20,24 +20,9 @@
 	{% endif %}
 {% endmacro %}
 
-{% macro userAdminToolsUpper(deviceType) %}
-	{% if v and v.id != u.id and v.admin_level >= PERMS['USER_MODERATION_TOOLS_VISIBLE'] %}
-		{% if v.admin_level >= PERMS['ADMIN_ADD'] %}
-			<button type="button" id="add-admin-{{deviceType}}" class="{% if u.admin_level >= PERMS['ADMIN_ADD_PERM_LEVEL'] %}d-none{% endif %} btn btn-primary" onclick="postToast(this,'/@{{u.username}}/make_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Make admin</button>
-		{% endif %}
-		{% if v.admin_level >= PERMS['ADMIN_REMOVE'] %}
-			<button type="button" id="remove-admin-{{deviceType}}" class="{% if u.admin_level < 1 %}d-none{% endif %} btn btn-danger" onclick="postToast(this,'/@{{u.username}}/remove_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Remove admin</button>
-		{% endif %}
-		{% if v.admin_level >= PERMS['ADMIN_ACTIONS_REVERT'] and u.admin_level %}
-			<button type="button" class="btn btn-danger" data-click="postToast(this,'/@{{u.username}}/revert_actions')" onclick="areyousure(this)">Revert admin actions</button>
-		{% endif %}
-	{% endif %}
-{% endmacro %}
-
-{% macro userAdminToolsLower(deviceType) -%}
+{% macro userAdminTools(deviceType) %}
 	{% if v and v.id != u.id and v.admin_level >= PERMS['USER_MODERATION_TOOLS_VISIBLE'] %}
 		<div class="admintools-user-lower-{{deviceType}}">
-			<br><br>
 			{% if v.admin_level >= PERMS['USER_TITLE_CHANGE'] %}
 				<div class="body d-lg-flex border-bottom mb-2">
 					<div class="w-lg-100">
@@ -103,26 +88,39 @@
 				</form>
 				<button type="button" id="unagendaposter-{{deviceType}}" class="mt-1 {% if not u.agendaposter %}d-none{% endif %} btn btn-success" onclick="postToast(this,'/unagendaposter/{{u.id}}','agendaposter-{{deviceType}}','unagendaposter-{{deviceType}}','d-none')">Disable Chud Theme</button>
 			{% endif %}
-			{% if v.admin_level >= PERMS['USER_BAN'] %}
-				<button type="button" id="mute-user-{{deviceType}}" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" onclick="postToast(this,'/mute_user/{{u.id}}/1','mute-user-{{deviceType}}','unmute-user-{{deviceType}}','d-none')">Mute</button>
-				<button type="button" id="unmute-user-{{deviceType}}" class="mb-1 {% if not u.is_muted %}d-none{% endif %} btn btn-success" onclick="postToast(this,'/mute_user/{{u.id}}/0','mute-user-{{deviceType}}','unmute-user-{{deviceType}}','d-none')">Unmute</button>
-			{% endif %}
-			{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-				<form action="/admin/unnuke_user" method="post">
-					<input type="hidden" name="formkey", value="{{v.formkey}}">
-					<input type="hidden" name="user" value="{{u.username}}">
-					<input type="submit" onclick="disable(this)" class="btn btn-success" value="Approve User's Content">
-				</form>
-				<form class="mt-1" action="/admin/nuke_user" method="post">
-					<input type="hidden" name="formkey", value="{{v.formkey}}">
-					<input type="hidden" name="user" value="{{u.username}}">
-					<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Remove User's Content">
-				</form>
-			{% endif %}
-			{% if FEATURES['COUNTRY_CLUB'] and v and v.admin_level >= PERMS['USER_CLUB_ALLOW_BAN'] %}
-				<button type="button" id="grant-{{device}}" class="mt-1 {% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="postToast(this,'/@{{u.username}}/club_allow','grant-{{device}}','bar-{{device}}','d-none')">Grant club access</button>
-				<button type="button" id="bar-{{device}}" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="postToast(this,'/@{{u.username}}/club_ban','grant-{{device}}','bar-{{device}}','d-none')">Bar from club</button>
-			{% endif %}
+			
+			<div class="actionbtns mt-3">
+				{% if v.admin_level >= PERMS['ADMIN_ADD'] %}
+					<button type="button" id="add-admin-{{deviceType}}" class="{% if u.admin_level >= PERMS['ADMIN_ADD_PERM_LEVEL'] %}d-none{% endif %} btn btn-primary" onclick="postToast(this,'/@{{u.username}}/make_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Make admin</button>
+				{% endif %}
+				{% if v.admin_level >= PERMS['ADMIN_REMOVE'] %}
+					<button type="button" id="remove-admin-{{deviceType}}" class="{% if u.admin_level < 1 %}d-none{% endif %} btn btn-danger" onclick="postToast(this,'/@{{u.username}}/remove_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Remove admin</button>
+				{% endif %}
+				{% if v.admin_level >= PERMS['ADMIN_ACTIONS_REVERT'] and u.admin_level %}
+					<button type="button" class="btn btn-danger" data-click="postToast(this,'/@{{u.username}}/revert_actions')" onclick="areyousure(this)">Revert admin actions</button>
+				{% endif %}
+
+				{% if v.admin_level >= PERMS['USER_BAN'] %}
+					<button type="button" id="mute-user-{{deviceType}}" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" onclick="postToast(this,'/mute_user/{{u.id}}/1','mute-user-{{deviceType}}','unmute-user-{{deviceType}}','d-none')">Mute</button>
+					<button type="button" id="unmute-user-{{deviceType}}" class="mb-1 {% if not u.is_muted %}d-none{% endif %} btn btn-success" onclick="postToast(this,'/mute_user/{{u.id}}/0','mute-user-{{deviceType}}','unmute-user-{{deviceType}}','d-none')">Unmute</button>
+				{% endif %}
+				{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+					<form action="/admin/unnuke_user" method="post">
+						<input type="hidden" name="formkey", value="{{v.formkey}}">
+						<input type="hidden" name="user" value="{{u.username}}">
+						<input type="submit" onclick="disable(this)" class="btn btn-success" value="Approve User's Content">
+					</form>
+					<form class="mt-1" action="/admin/nuke_user" method="post">
+						<input type="hidden" name="formkey", value="{{v.formkey}}">
+						<input type="hidden" name="user" value="{{u.username}}">
+						<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Remove User's Content">
+					</form>
+				{% endif %}
+				{% if FEATURES['COUNTRY_CLUB'] and v and v.admin_level >= PERMS['USER_CLUB_ALLOW_BAN'] %}
+					<button type="button" id="grant-{{device}}" class="mt-1 {% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="postToast(this,'/@{{u.username}}/club_allow','grant-{{device}}','bar-{{device}}','d-none')">Grant club access</button>
+					<button type="button" id="bar-{{device}}" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="postToast(this,'/@{{u.username}}/club_ban','grant-{{device}}','bar-{{device}}','d-none')">Bar from club</button>
+				{% endif %}
+			</div>
 		</div>
 	{% endif %}
 {%- endmacro %}
