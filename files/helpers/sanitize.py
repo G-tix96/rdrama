@@ -210,7 +210,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	if torture:
 		sanitized = torture_ap(sanitized, g.v.username)
-		sanitized += '\n:#trumpjaktalking:'
+		emoji = choice(['trumpjaktalking', 'reposthorse'])
+		sanitized += f'\n:#{emoji}:'
 
 	sanitized = normalize_url(sanitized)
 
