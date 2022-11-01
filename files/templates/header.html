@@ -16,7 +16,7 @@
 {% if not err %}
 	<div class="srd">
 		{% if SITE_NAME == 'rDrama' %}
-			{% if range(1,5) | random == 1 %}
+			{% if True or range(1,5) | random == 1 %}
 				{% include "journoid_banner.html" %}
 			{% else %}
 				{%-
