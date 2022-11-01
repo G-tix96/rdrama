@@ -91,7 +91,7 @@ class Leaderboard:
 	
 	@classmethod
 	def get_hat_lb(cls, lb_criteria, v:User, db:scoped_session, users:Any, limit):
-		leaderboard = db.query(User.id, func.count(lb_criteria)).join(lb_criteria).group_by(User).order_by(func.count(lb_criteria).desc())
+		leaderboard = db.query(User, func.count(lb_criteria)).join(lb_criteria).group_by(User).order_by(func.count(lb_criteria).desc())
 		sq = db.query(User.id, cls.count_and_label(lb_criteria), cls.rank_filtered_rank_label_by_desc(lb_criteria)).join(lb_criteria).group_by(User).subquery()
 		position = db.query(sq.c.rank, sq.c.count).filter(sq.c.id == v.id).limit(1).one_or_none()
 		if not position: position = (leaderboard.count() + 1, 0)
