@@ -194,14 +194,14 @@
 							<input autocomplete="off" id="coin-transfer-amount" class="form-control" name="amount" type="number" oninput="updateTax()">
 							<input autocomplete="off" id="coin-transfer-reason" maxlength=200 type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
 							<div>{{u.username}} will receive <span id="coins-transfer-taxed">0</span> coins</div>
-							<button type="button" class="btn btn-primary mt-3" onclick="transferCoins()">Gift</button>
+							<button type="button" class="btn btn-primary mt-2 mb-3" onclick="transferCoins()">Gift</button>
 						</div>
 
 						<div class="d-none mt-3 toggleable" id="bux-transfer">
 							<input autocomplete="off" id="bux-transfer-amount" class="form-control" name="amount" type="number" oninput="updateBux()">
 							<input autocomplete="off" id="bux-transfer-reason" type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
 							<div>{{u.username}} will receive <span id="bux-transfer-taxed">0</span> marseybux</div>
-							<button type="button" class="btn btn-primary mt-3" onclick="transferBux()">Gift</button>
+							<button type="button" class="btn btn-primary mt-2 mb-3" onclick="transferBux()">Gift</button>
 						</div>
 
 						{{userpage_admintools.userAdminTools('desktop')}}
