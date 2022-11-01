@@ -36,6 +36,12 @@ class HatDef(Base):
 	def censored_description(self, v):
 		return censor_slurs(self.description, v)
 
+	@property
+	@lazy
+	def is_purchasable(self):
+		return self.price > 0
+
+
 class Hat(Base):
 	__tablename__ = "hats"
 
