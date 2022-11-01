@@ -1,6 +1,6 @@
 from files.__main__ import app, limiter, db_session
 from files.helpers.wrappers import *
-from files.helpers.actions import badge_grant
+from files.helpers.useractions import badge_grant
 from files.helpers.alerts import *
 from files.helpers.get import *
 from files.helpers.const import *

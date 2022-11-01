@@ -4,6 +4,7 @@ from files.helpers.sanitize import *
 from files.helpers.const import *
 from files.helpers.regex import *
 from files.helpers.actions import *
+from files.helpers.useractions import *
 from files.helpers.get import *
 from files.helpers.security import *
 from files.mail import *

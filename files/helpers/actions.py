@@ -1,5 +1,4 @@
 from flask import g
-from files.classes.badges import Badge
 from files.helpers.alerts import send_repeatable_notification
 from files.helpers.const import *
 from files.helpers.get import *
@@ -7,27 +6,6 @@ from files.helpers.sanitize import *
 from files.helpers.slots import execute_slots_command
 import random
 from urllib.parse import quote
-
-def badge_grant(user, badge_id, description=None, url=None, notify=True):
-	assert user != None
-	if user.has_badge(badge_id):
-		return
-
-	badge = Badge(
-		badge_id=int(badge_id),
-		user_id=user.id,
-		description=description,
-		url=url,
-	)
-
-	g.db.add(badge)
-	g.db.flush()
-
-	if notify:
-		send_repeatable_notification(user.id,
-			f"@AutoJanny has given you the following profile badge:\n\n" +
-			f"![]({badge.path})\n\n**{badge.name}**\n\n{badge.badge.description}")
-
 
 headers = {'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}
 
