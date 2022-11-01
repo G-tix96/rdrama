@@ -6025,8 +6025,19 @@ g {
 .fa-css3-alt:before{content:"\f38b"}
 .fa-landscape:before{content:"\e1b5"}
 .fa-user-ninja:before{content:"\f504"}
+.fa-trees:before{content:"\f724"}
+.fa-flashlight:before{content:"\f8b8"}
+.fa-candy-corn:before{content:"\f6bd"}
 .fa-club:before{content:"\f327"}
 .fa-shirt:before{content:"\f553"}
+.fa-bone:before{content:"\f5d7"}
+.fa-jack-o-lantern:before{content:"\f30e"}
+.fa-cloud-bolt:before{content:"\f76c"}
+.fa-biohazard:before{content:"\f780"}
+.fa-syringe:before{content:"\f48e"}
+.fa-spider-web:before{content:"\f719"}
+.fa-coffin-cross:before{content:"\e051"}
+
 
 .pronouns {
 	font-size: 9px;
