@@ -179,8 +179,6 @@
 
 								<button type="button" class="btn btn-primary" onclick="postToast(this,'/settings/block?username={{u.username}}',true)">Block</button>
 							</div>
-
-							{{userpage_admintools.userAdminTools('desktop')}}
 						</div>
 						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
 							<input type="hidden" name="formkey" value="{{v.formkey}}"> 
@@ -205,6 +203,8 @@
 							<div>{{u.username}} will receive <span id="bux-transfer-taxed">0</span> marseybux</div>
 							<button type="button" class="btn btn-primary mt-3" onclick="transferBux()">Gift</button>
 						</div>
+
+						{{userpage_admintools.userAdminTools('desktop')}}
 					{% endif %}
 
 					<div class="actionbtns">
@@ -433,7 +433,6 @@
 				</div>
 
 				{% if v and v.id != u.id %}
-					{{userpage_admintools.userAdminTools('mobile')}}
 					<form class="d-none toggleable" id='message-mobile' action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
 						<input class="mt-1" type="hidden" name="formkey" value="{{v.formkey}}"> 
 						<textarea autocomplete="off" id="input-message-mobile" form="message-mobile" name="message" rows="3" minlength="1" maxlength="10000" class="form-control" data-preview="message-preview-mobile" oninput="markdown(this)" required></textarea>
@@ -457,8 +456,9 @@
 						<div>{{u.username}} will receive <span id="bux-transfer-taxed-mobile">0</span> marseybux</div>
 						<button type="button" class="btn btn-primary mt-2 mb-3" onclick="transferBux(true)">Gift</button>
 					</div>
-					
+					{{userpage_admintools.userAdminTools('mobile')}}
 				{% endif %}
+
 				<div class="mt-2" id="profile-mobile--info">
 					<p id="profile-mobile--info--id">User ID: {{u.id}}</p>
 					<p id="profile-mobile--info--spent">Coins spent: {{u.coins_spent}}</p>
