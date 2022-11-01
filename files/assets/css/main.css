@@ -5263,8 +5263,8 @@ li > .sidebar {
 	width: 13rem;
 }
 
-.shop-table-actions a {
-	display: flex;
+.shop-table-actions button {
+	width: 100%;
 }
 
 .userbanner {
