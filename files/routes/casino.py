@@ -109,7 +109,7 @@ def pull_slots(v):
 
 # 21
 @app.post("/casino/twentyone/deal")
-@limiter.limit("100/minute;2000/hour;12000/day")
+@limiter.limit("1/2 seconds;100/minute;2000/hour;12000/day")
 @auth_required
 @feature_required('GAMBLING')
 def blackjack_deal_to_player(v):
@@ -129,7 +129,7 @@ def blackjack_deal_to_player(v):
 
 
 @app.post("/casino/twentyone/hit")
-@limiter.limit("100/minute;2000/hour;12000/day")
+@limiter.limit("1/2 seconds;100/minute;2000/hour;12000/day")
 @auth_required
 @feature_required('GAMBLING')
 def blackjack_player_hit(v):
@@ -145,7 +145,7 @@ def blackjack_player_hit(v):
 
 
 @app.post("/casino/twentyone/stay")
-@limiter.limit("100/minute;2000/hour;12000/day")
+@limiter.limit("1/2 seconds;100/minute;2000/hour;12000/day")
 @auth_required
 @feature_required('GAMBLING')
 def blackjack_player_stay(v):
@@ -161,7 +161,7 @@ def blackjack_player_stay(v):
 
 
 @app.post("/casino/twentyone/double-down")
-@limiter.limit("100/minute;2000/hour;12000/day")
+@limiter.limit("1/2 seconds;100/minute;2000/hour;12000/day")
 @auth_required
 @feature_required('GAMBLING')
 def blackjack_player_doubled_down(v):
@@ -177,7 +177,7 @@ def blackjack_player_doubled_down(v):
 
 
 @app.post("/casino/twentyone/buy-insurance")
-@limiter.limit("100/minute;2000/hour;12000/day")
+@limiter.limit("1/2 seconds;100/minute;2000/hour;12000/day")
 @auth_required
 @feature_required('GAMBLING')
 def blackjack_player_bought_insurance(v):
