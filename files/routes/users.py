@@ -272,7 +272,6 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'proc
 	amount = int(amount) if amount.isdigit() else None
 
 	if amount is None or amount <= 0: abort(400, f"Invalid number of {friendly_currency_name}")
-	if v.coins < amount: abort(400, f"You don't have enough {friendly_currency_name}")
 	if amount < MIN_CURRENCY_TRANSFER: abort(400, f"You have to gift at least {MIN_CURRENCY_TRANSFER} {friendly_currency_name}")
 	tax = 0
 	if apply_tax and not v.patron and not receiver.patron and not v.alts_patron and not receiver.alts_patron:
@@ -281,11 +280,15 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'proc
 	reason = request.values.get("reason", "").strip()
 	log_message = f"@{v.username} has transferred {amount} {friendly_currency_name} to @{receiver.username}"
 	notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount-tax} {friendly_currency_name}!"
+
 	if reason:
 		if len(reason) > TRANSFER_MESSAGE_LENGTH_LIMIT: abort(400, f"Reason is too long, max {TRANSFER_MESSAGE_LENGTH_LIMIT} characters")
 		notif_text += f"\n\n> {reason}"
 		log_message += f"\n\n> {reason}"
-	v.charge_account(currency_name, amount)
+
+	if not v.charge_account(currency_name, amount):
+		abort(400, f"You don't have enough {friendly_currency_name}")
+
 	if not v.shadowbanned:
 		receiver.coins += amount - tax
 		g.db.add(receiver)

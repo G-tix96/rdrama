@@ -43,8 +43,6 @@ def shop(v):
 @auth_required
 @feature_required('AWARDS')
 def buy(v, award):
-	
-
 	if award == 'benefactor' and not request.values.get("mb"):
 		abort(403, "You can only buy the Benefactor award with marseybux.")
 

@@ -274,9 +274,10 @@ def settings_profile_post(v):
 		if v.house: cost = 2000
 		else: cost = 500
 
-		if v.coins >= cost: v.charge_account('coins', cost)
-		elif v.procoins >= cost: v.charge_account('procoins', cost)
-		else: abort(403)
+		success = v.charge_account('coins', cost)
+		if not success:
+			success = v.charge_account('procoins', cost)
+		if not success: abort(403)
 
 		if house == "None": house = '' 
 		v.house = house

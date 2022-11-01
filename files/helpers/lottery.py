@@ -103,7 +103,8 @@ def purchase_lottery_tickets(v, quantity=1):
 	if (most_recent_lottery is None):
 		return False, "There is no active lottery."
 
-	v.charge_account('coins', LOTTERY_TICKET_COST * quantity)
+	if not v.charge_account('coins', LOTTERY_TICKET_COST * quantity):
+		return False, "You don't have enough coins"
 	v.currently_held_lottery_tickets += quantity
 	v.total_held_lottery_tickets += quantity
 
