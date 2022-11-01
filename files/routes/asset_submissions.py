@@ -182,7 +182,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 			asset = g.db.get(cls, name)
 		if not asset:
 			abort(404, f"This {type_name} '{name}' doesn't exist!")
-		if v.id not in (asset.submitter_id, AEVANN_ID, CARP_ID):
+		if v.id != asset.submitter_id and v.id not in CAN_APPROVE_ASSETS:
 			abort(403, f"Only Carp can remove {type_name}s!")
 		name = asset.name
 		if v.id != asset.submitter_id:
@@ -419,7 +419,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 	@app.post("/admin/update/hats")
 	@admin_level_required(PERMS['UPDATE_HATS'])
 	def update_hat(v):
-		if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, GEESE_ID, SNAKES_ID):
+		if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
 			abort(403)
 
 		file = request.files["image"]
