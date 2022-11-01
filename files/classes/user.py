@@ -173,7 +173,7 @@ class User(Base):
 		
 
 	def charge_account(self, currency, amount):
-		in_db = g.db.query(User).filter(User.id == self.id).one()
+		in_db = g.db.query(User).filter(User.id == self.id).with_for_update().one()
 		succeeded = False
 
 		if currency == 'coins':
