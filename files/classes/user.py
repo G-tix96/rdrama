@@ -172,20 +172,22 @@ class User(Base):
 		g.db.flush()
 		
 
-	def charge_account(self, currency, amount):
+	def charge_account(self, currency, amount, **kwargs):
 		in_db = g.db.query(User).filter(User.id == self.id).with_for_update().one()
 		succeeded = False
+
+		should_check_balance = kwargs.get('should_check_balance', True)
 
 		if currency == 'coins':
 			account_balance = in_db.coins
 			
-			if account_balance >= amount:
+			if not should_check_balance or account_balance >= amount:
 				g.db.query(User).filter(User.id == self.id).update({ User.coins: User.coins - amount })
 				succeeded = True
 		elif currency == 'procoins':
 			account_balance = in_db.procoins
 			
-			if account_balance >= amount:
+			if not should_check_balance or account_balance >= amount:
 				g.db.query(User).filter(User.id == self.id).update({ User.procoins: User.procoins - amount })
 				succeeded = True
 
