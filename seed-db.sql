@@ -2482,7 +2482,6 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseysachiko',2,'idolmaster anime animegirl niggy',1667212045),
 ('marseysad',2,'concerned worried waiting prepared reaction',NULL),
 ('marseysad2',2,'reaction disappointed disappointment upset',NULL),
-('marseysadbox',2,'marsey sad sadge cry crying frown juicebox juice box ball',1666587468),
 ('marseysadcat',2,'upset disappointing disappointment reaction disappointed sad crying',NULL),
 ('marseysadge',2,'frog pepe',NULL),
 ('marseysadgun',2,'pepe mellokind crying tears suicidal suicide kms frog',NULL),
