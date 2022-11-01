@@ -32,12 +32,11 @@ class Leaderboard:
 		self.all_users = lb[0]
 		self.v_position = lb[1]
 		self.v_value = lb[2]
-		if self.v_value is None:
-			if value_func:
-				self.value_func = value_func
-				self.v_value = value_func(v)
-			else:
-				self.value_func = lambda u: u[1] or 0
+		if value_func:
+			self.value_func = value_func
+			self.v_value = value_func(v)
+		else:
+			self.value_func = lambda u: u[1] or 0
 
 	@classmethod
 	def get_simple_lb(cls, order_by, v:User, db:scoped_session, users, limit:int):
