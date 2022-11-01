@@ -1182,8 +1182,9 @@ def sticky_post(post_id, v):
 
 	pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
 	extra_pin_slots = 1 if post.stickied else 0
+	sticky_time = int(time.time()) + 3600 if post.stickied_utc else None
 
-	if pins >= PIN_LIMIT + extra_pin_slots and v.admin_level < PERMS['BYPASS_PIN_LIMIT']:
+	if pins >= PIN_LIMIT + extra_pin_slots and v.admin_level < PERMS['BYPASS_PIN_LIMIT_IF_TEMPORARY'] and not sticky_time:
 		abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
 
 	if not post.stickied_utc:
