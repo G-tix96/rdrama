@@ -41,7 +41,7 @@ def shop(v):
 @app.post("/buy/<award>")
 @limiter.limit("100/minute;200/hour;1000/day")
 @auth_required
-@feature_required('BADGES')
+@feature_required('AWARDS')
 def buy(v, award):
 	
 
@@ -124,7 +124,7 @@ def buy(v, award):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
-@feature_required('BADGES')
+@feature_required('AWARDS')
 def award_thing(v, thing_type, id):
 	if thing_type == 'post': thing = get_post(id)
 	else: thing = get_comment(id)
