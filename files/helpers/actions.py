@@ -4,6 +4,7 @@ from files.helpers.alerts import send_repeatable_notification
 from files.helpers.const import *
 from files.helpers.get import *
 from files.helpers.sanitize import *
+from files.helpers.slots import execute_slots_command
 import random
 from urllib.parse import quote
 
@@ -171,8 +172,7 @@ def execute_snappy(post, v):
 		snappy.coins += 1
 		g.db.add(snappy)
 
-		if c.body.startswith('!slots'):
-			execute_slots_command(snappy, c)
+		execute_slots_command(snappy, v, c)
 
 		if FEATURES['PINS'] and (body.startswith(':#marseypin:') or body.startswith(':#marseypin2:')):
 			post.stickied = "Snappy"

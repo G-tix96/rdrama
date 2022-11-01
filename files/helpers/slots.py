@@ -4,7 +4,9 @@ import random
 from .const import *
 from files.classes.casino_game import Casino_Game
 from files.helpers.casino import distribute_wager_badges
-from flask import g
+from flask import g, abort
+from files.classes.comment import Comment
+from files.classes.user import User
 
 minimum_bet = 5
 maximum_bet = INFINITY
@@ -115,32 +117,42 @@ def shuffle(stuff):
 	return stuff
 
 
-def execute_slots_command(u, c):
+def execute_slots_command(v:User, u:User, c:Comment):
+	if not FEATURES['GAMBLING']: return
 	body = c.body.lower()
-
-	if u.rehab:
-		abort(403, "You are under Rehab award effect!")
 
 	if '!slotsmb' in body:
 		command_word = '!slotsmb'
 		currency = 'procoins'
-	else:
+	elif '!slots' in body:
 		command_word = '!slots'
 		currency = 'coins'
+	else:
+		return
+	
+	if u.rehab:
+		if v.id == u.id:
+			abort(403, "You are under Rehab award effect!")
+		return
 
 	wager = body.split(command_word)[1].split()[0]
 
 	try:
 		wager = int(wager)
 	except:
-		abort(400, "Invalid wager.")
+		if v.id == u.id:
+			abort(400, "Invalid wager.")
+		return
 
 	if wager < 100: 
-		abort(400, f"Wager must be 100 {currency} or more")
+		if v.id == u.id:
+			abort(400, f"Wager must be 100 {currency} or more")
+		return
 
 	if (currency == "coins" and wager > u.coins) or (currency == "procoins" and wager > u.procoins):
-		abort(400, f"Not enough {currency} to make that bet")
+		if v.id == u.id:
+			abort(400, f"Not enough {currency} to make that bet")
+		return
 
 	game_id, game_state = casino_slot_pull(v, wager, currency)
-
 	c.casino_game_id = game_id
