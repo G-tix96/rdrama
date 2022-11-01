@@ -776,7 +776,7 @@ def u_username_comments(username, v=None):
 	if (v and v.client) or request.path.endswith(".json"):
 		return {"data": [c.json for c in listing]}
 	
-	return render_template("userpage_comments.html", u=user, v=v, listing=listing, page=page, sort=sort, t=t,next_exists=next_exists, is_following=is_following, standalone=True)
+	return render_template("userpage_comments.html", u=u, v=v, listing=listing, page=page, sort=sort, t=t,next_exists=next_exists, is_following=is_following, standalone=True)
 
 
 @app.get("/@<username>/info")
