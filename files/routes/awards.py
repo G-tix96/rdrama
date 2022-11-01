@@ -171,7 +171,7 @@ def award_thing(v, thing_type, id):
 	if v.id != author.id:
 		safe_username = "👻" if thing.ghost else f"@{author.username}"
 		
-		if author.deflector and v.deflector:
+		if author.deflector and v.deflector and AWARDS[kind]['deflectable']:
 			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award but it was deflected on them, they also had a deflector up, so it bounced back and forth until it vaporized!"
 			send_repeatable_notification(author.id, msg)
 
