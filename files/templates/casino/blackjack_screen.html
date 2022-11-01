@@ -4,8 +4,8 @@
 <script>
 	function makeBlackjackRequest(action) {
 		const xhr = new XMLHttpRequest();
-		xhr.setRequestHeader('xhr', 'xhr');
 		xhr.open("post", `/casino/twentyone/${action}`);
+		xhr.setRequestHeader('xhr', 'xhr');
 		xhr.onload = handleBlackjackResponse.bind(null, xhr);
 		xhr.blackjackAction = action;
 		return xhr;
