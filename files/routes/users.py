@@ -919,11 +919,11 @@ def user_profile_name(username):
 
 def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone=False):
 	PAGE_SIZE = 25
-	if relationship_cls in (SaveRelationship, Subscription):
+	if relationship_cls in [SaveRelationship, Subscription]:
 		query = relationship_cls.submission_id
 		join = relationship_cls.post
 		cls = Submission
-	elif relationship_cls in (CommentSaveRelationship):
+	elif relationship_cls is CommentSaveRelationship:
 		query = relationship_cls.comment_id
 		join = relationship_cls.comment
 		cls = Comment
