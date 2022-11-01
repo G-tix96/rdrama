@@ -1188,12 +1188,12 @@ def sticky_post(post_id, v):
 		abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
 
 	if not post.stickied_utc:
-		post.stickied_utc = int(time.time()) + 3600
+		post.stickied_utc = sticky_time
 		pin_time = 'for 1 hour'
 		if v.id != post.author_id:
 			send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has pinned [{post.title}](/post/{post_id})!")
 	else:
-		post.stickied_utc = None
+		post.stickied_utc = sticky_time
 		pin_time = 'permanently'
 
 	post.stickied = v.username
