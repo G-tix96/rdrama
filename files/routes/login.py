@@ -21,13 +21,13 @@ def login_get(v):
 	return render_template("login.html", failed=False, redirect=redir)
 
 
-def check_for_alts(current:User):
+def check_for_alts(current:User, include_current_session=True):
 	current_id = current.id
-	if current_id in (1691,6790,7069,36152):
+	if current_id in (1691,6790,7069,36152) and include_current_session:
 		session["history"] = []
 		return
 	ids = [x[0] for x in g.db.query(User.id).all()]
-	past_accs = set(session.get("history", []))
+	past_accs = set(session.get("history", [])) if include_current_session else set()
 
 	def add_alt(user1:int, user2:int):
 		li = [user1, user2]
@@ -59,7 +59,8 @@ def check_for_alts(current:User):
 				add_alt(a.user2, current_id)
 	
 	past_accs.add(current_id)
-	session["history"] = list(past_accs)
+	if include_current_session:
+		session["history"] = list(past_accs)
 	g.db.flush()
 	for u in current.alts_unique:
 		if u.shadowbanned:

@@ -744,8 +744,8 @@ def admin_link_accounts(v):
 	g.db.add(new_alt)
 	g.db.flush()
 
-	check_for_alts(g.db.get(User, u1))
-	check_for_alts(g.db.get(User, u2))
+	check_for_alts(g.db.get(User, u1), include_current_session=False)
+	check_for_alts(g.db.get(User, u2), include_current_session=False)
 
 	ma = ModAction(
 		kind="link_accounts",
