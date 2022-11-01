@@ -3715,6 +3715,9 @@ small, .small {
 .post-actions .list-inline .list-inline-item .dropdown-item:active {
 	color: var(--white);
 }
+.post-actions {
+	position: relative;
+}
 .post-actions a, .post-actions button {
 	color: var(--gray-100);
 	font-weight: 600;
