@@ -11,6 +11,7 @@
 	}
 
 	function handleBlackjackResponse(xhr) {
+		let status;
 		try {
 			const response = JSON.parse(xhr.response);
 			const succeeded = xhr.status >= 200 &&
@@ -19,6 +20,11 @@
 				!response.error;
 
 			clearResult();
+			status = xhr.status;
+
+			if (status == 429) {
+				throw new Error(response["details"]);
+			}
 
 			if (succeeded) {
 				updateBlackjackTable(response.state);
@@ -36,8 +42,13 @@
 				"double-down": "Unable to double down.",
 				"buy-insurance": "Unable to buy insurance."
 			};
+			result = results[xhr.blackjackAction];
 
-			updateResult(results[xhr.blackjackAction], "danger");
+			if (status == 429) {
+				result = error.message;
+			}
+
+			updateResult(result, "danger");
 		}
 	}
 
