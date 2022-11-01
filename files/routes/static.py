@@ -348,7 +348,10 @@ def blocks(v):
 @app.get("/banned")
 @auth_required
 def banned(v):
-	users = g.db.query(User).filter(User.is_banned > 0, User.unban_utc == 0).all()
+	users = g.db.query(User).filter(User.is_banned > 0, User.unban_utc == 0)
+	if not v.can_see_shadowbanned:
+		users = users.filter(User.shadowbanned == None)
+	users = users.all()
 	return render_template("banned.html", v=v, users=users)
 
 @app.get("/formatting")
