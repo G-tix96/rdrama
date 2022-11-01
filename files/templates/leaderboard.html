@@ -40,7 +40,7 @@
 		{% if v.id == user.id %}
 			{% set style="class=\"self\"" %}
 		{% endif %}
-		{{format_user_in_table(user, style, loop.index, lb.value_func(user), lb.user_relative_url)}}
+		{{format_user_in_table(lb.user_func(user), style, loop.index, lb.value_func(user), lb.user_relative_url)}}
 	{% endfor %}
 	{% if lb.v_position %}
 		{{format_user_in_table(v, "style=\"border-top:2px solid var(--primary)\"", lb.v_position, lb.v_value, lb.user_relative_url)}}

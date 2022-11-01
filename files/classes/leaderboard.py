@@ -17,6 +17,7 @@ class Leaderboard:
 	all_users = None
 	v_position = 0
 	v_value = None
+	user_func = None
 	value_func = None
 
 	def __init__(self, header_name:str, table_header_name:str, html_id:str, table_column_name:str, 
@@ -33,9 +34,11 @@ class Leaderboard:
 		self.v_position = lb[1]
 		self.v_value = lb[2]
 		if value_func:
+			self.user_func = lambda u:u
 			self.value_func = value_func
 			self.v_value = value_func(v)
 		else:
+			self.user_func = lambda u:u[0]
 			self.value_func = lambda u: u[1] or 0
 
 	@classmethod
@@ -94,4 +97,3 @@ class Leaderboard:
 		if not position: position = (leaderboard.count() + 1, 0)
 		leaderboard = leaderboard.limit(limit).all()
 		return (leaderboard, position[0], position[1])
-	
