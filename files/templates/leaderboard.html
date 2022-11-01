@@ -35,14 +35,16 @@
 		</tr>
 	</thead>
 	<tbody>
+	{% set v_appears_in_ranking = false %}
 	{% for user in lb.all_users %}
 		{% set user2 = lb.user_func(user) %}
 		{% if v.id == user2.id %}
 			{% set style="class=\"self\"" %}
+			{% set v_appears_in_ranking = true %}
 		{% endif %}
 		{{format_user_in_table(user2, style, loop.index, lb.value_func(user), lb.user_relative_url)}}
 	{% endfor %}
-	{% if lb.v_position %}
+	{% if lb.v_position and not v_appears_in_ranking %}
 		{{format_user_in_table(v, "style=\"border-top:2px solid var(--primary)\"", lb.v_position, lb.v_value, lb.user_relative_url)}}
 	{% endif %}
 	</tbody>
