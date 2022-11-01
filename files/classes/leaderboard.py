@@ -34,7 +34,7 @@ class Leaderboard:
 		self.all_users = lb[0]
 		self.v_position = lb[1]
 		self.v_value = lb[2]
-		self.v_appears_in_ranking = self.v_position and self.v_position <= limit
+		self.v_appears_in_ranking = self.v_position and self.v_position <= len(self.all_users)
 		if value_func:
 			self.user_func = lambda u:u
 			self.value_func = value_func
