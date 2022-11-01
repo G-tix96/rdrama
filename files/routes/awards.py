@@ -324,8 +324,8 @@ def award_thing(v, thing_type, id):
 		badge_grant(user=author, badge_id=150)
 	elif kind == 'marsify':
 		if not author.marsify or author.marsify != 1:
-			if author.marsify: author.marsify += 21600
-			else: author.marsify = int(time.time()) + 21600
+			if author.marsify: author.marsify += 86400
+			else: author.marsify = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=170)
 
 		if thing_type == 'comment' and not author.deflector:
