@@ -425,7 +425,8 @@ CREATE TABLE public.commentvotes (
     user_id integer NOT NULL,
     app_id integer,
     "real" boolean DEFAULT true NOT NULL,
-    created_utc integer NOT NULL
+    created_utc integer NOT NULL,
+    coins smallint DEFAULT 1 NOT NULL
 );
 
 
@@ -1019,9 +1020,7 @@ CREATE TABLE public.users (
     is_muted boolean DEFAULT false NOT NULL,
     coins_spent_on_hats integer DEFAULT 0 NOT NULL,
     rainbow integer,
-    spider integer,
-    homoween_zombie character varying(7) DEFAULT 'HEALTHY'::character varying,
-    jumpscare integer DEFAULT 0 NOT NULL
+    spider integer
 );
 
 
@@ -1067,7 +1066,8 @@ CREATE TABLE public.votes (
     vote_type integer NOT NULL,
     app_id integer,
     "real" boolean DEFAULT true NOT NULL,
-    created_utc integer NOT NULL
+    created_utc integer NOT NULL,
+    coins smallint DEFAULT 1 NOT NULL
 );
 
 
