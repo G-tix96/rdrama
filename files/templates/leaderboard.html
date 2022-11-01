@@ -26,7 +26,6 @@
 {% macro leaderboard_table(lb) %}
 <h5 class="font-weight-bolder text-center pt-2 pb-3"><span id="leaderboard-{{lb.html_id}}">Top {{lb.limit}} by {{lb.table_header_name}}</span></h5>
 <div class="overflow-x-auto">
-{# TODO: check at some point if the nesting divs are intentional #}
 <table class="table table-striped mb-5">
 	<thead class="bg-primary text-white">
 		<tr>
@@ -37,10 +36,11 @@
 	</thead>
 	<tbody>
 	{% for user in lb.all_users %}
-		{% if v.id == user.id %}
+		{% set user2 = lb.user_func(user) %}
+		{% if v.id == user2.id %}
 			{% set style="class=\"self\"" %}
 		{% endif %}
-		{{format_user_in_table(lb.user_func(user), style, loop.index, lb.value_func(user), lb.user_relative_url)}}
+		{{format_user_in_table(user2, style, loop.index, lb.value_func(user), lb.user_relative_url)}}
 	{% endfor %}
 	{% if lb.v_position %}
 		{{format_user_in_table(v, "style=\"border-top:2px solid var(--primary)\"", lb.v_position, lb.v_value, lb.user_relative_url)}}
