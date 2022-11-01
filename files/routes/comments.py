@@ -357,34 +357,8 @@ def comment(v):
 		parent_post.comment_count += 1
 		g.db.add(parent_post)
 
-	body = c.body.lower()
-	if FEATURES['GAMBLING'] and '!slots' in body:
-		if v.rehab:
-			abort(403, "You are under Rehab award effect!")
-
-		if '!slotsmb' in body:
-			command_word = '!slotsmb'
-			currency = 'procoins'
-		else:
-			command_word = '!slots'
-			currency = 'coins'
-
-		wager = body.split(command_word)[1].split()[0]
-
-		try:
-			wager = int(wager)
-		except:
-			abort(400, "Invalid wager.")
-
-		if wager < 100: 
-			abort(400, f"Wager must be 100 {currency} or more")
-
-		if (currency == "coins" and wager > v.coins) or (currency == "procoins" and wager > v.procoins):
-			abort(400, f"Not enough {currency} to make that bet")
-
-		game_id, game_state = casino_slot_pull(v, wager, currency)
-
-		c.casino_game_id = game_id
+	if FEATURES['GAMBLING'] and '!slots' in c.body.lower():
+		execute_slots_command(v, c)
 
 	g.db.flush()
 
