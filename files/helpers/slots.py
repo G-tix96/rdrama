@@ -135,9 +135,8 @@ def execute_slots_command(v:User, u:User, c:Comment):
 			abort(403, "You are under Rehab award effect!")
 		return
 
-	wager = body.split(command_word)[1].split()[0]
-
 	try:
+		wager = body.split(command_word)[1].split()[0]
 		wager = int(wager)
 	except:
 		if v.id == u.id:
