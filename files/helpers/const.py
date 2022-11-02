@@ -727,7 +727,7 @@ AWARDS = {
 	"marsify": {
 		"kind": "marsify",
 		"title": "Marsify",
-		"description": "Marsifies the recipient's comments for 6 hours.",
+		"description": "Marsifies the recipient's comments for 24 hours.",
 		"icon": "fas fa-cat",
 		"color": "text-white",
 		"price": 150,
