@@ -120,20 +120,29 @@ def give_monthly_marseybux_task():
 		u.procoins += procoins
 		send_repeatable_notification(u.id, f"@AutoJanny has given you {procoins} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
 
+	for badge in g.db.query(Badge).filter(Badge.badge_id > 20, Badge.badge_id < 28).all():
+		g.db.delete(badge)
+
 	for u in g.db.query(User).filter(User.patron > 0, User.patron_utc == 0).all():
 		g.db.add(u)
 		if u.admin_level or u.id in GUMROAD_MESSY:
 			give_procoins(u)
 		elif u.email and u.is_activated and u.email.lower() in emails:
 			data = {'access_token': GUMROAD_TOKEN, 'email': u.email}
-			response = requests.get('https://api.gumroad.com/v2/sales', data=data, timeout=5).json()["sales"]
+			try:
+				response = requests.get('https://api.gumroad.com/v2/sales', data=data, timeout=5).json()["sales"]
+			except:
+				print(f'Marseybux monthly granting failed for @{u.username}', flush=True)
+				u.patron = 0
+				continue
+
 			if len(response) == 0:
 				u.patron = 0
 				continue
 			response = [x for x in response if x['variants_and_quantity']][0]
 			tier = tiers[response["variants_and_quantity"]]
 			u.patron = tier
-			badge_grant(badge_id=20+tier, user=u)
+			badge_grant(badge_id=20+tier, user=u, notify=False)
 			give_procoins(u)
 		else:
 			u.patron = 0
