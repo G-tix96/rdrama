@@ -964,48 +964,50 @@
 			</div>
 		</div>
 
-	{% if v and not p.deleted_utc %}
-		<div id="comment-form-space-{{p.fullname}}" class="comment-write mb-3">
-			<form id="reply-to-{{p.fullname}}" action="/comment" method="post">
-				<input type="hidden" name="formkey" value="{{v.formkey}}">
-				<input type="hidden" name="parent_fullname" value="p_{{p.id}}">
-				<input autocomplete="off" id="reply-form-submission-{{p.fullname}}" type="hidden" name="submission" value="{{p.id}}">
-				<textarea required autocomplete="off" {% if not (p and p.id in ADMIGGER_THREADS) %}{% if v.longpost %}minlength="280"{% elif v.bird %}maxlength="140"{% endif %}{% endif %} minlength="1" maxlength="10000" data-preview="form-preview-{{p.fullname}}" oninput="markdown(this);charLimit('reply-form-body-{{p.fullname}}','charcount-reply')" id="reply-form-body-{{p.fullname}}" data-fullname="{{p.fullname}}" class="comment-box form-control rounded" name="body" form="reply-to-{{p.fullname}}" aria-label="With textarea" placeholder="Add your comment..." rows="3"></textarea>
+	{% if not p.deleted_utc %}
+		{% if v %}
+			<div id="comment-form-space-{{p.fullname}}" class="comment-write mb-3">
+				<form id="reply-to-{{p.fullname}}" action="/comment" method="post">
+					<input type="hidden" name="formkey" value="{{v.formkey}}">
+					<input type="hidden" name="parent_fullname" value="p_{{p.id}}">
+					<input autocomplete="off" id="reply-form-submission-{{p.fullname}}" type="hidden" name="submission" value="{{p.id}}">
+					<textarea required autocomplete="off" {% if not (p and p.id in ADMIGGER_THREADS) %}{% if v.longpost %}minlength="280"{% elif v.bird %}maxlength="140"{% endif %}{% endif %} minlength="1" maxlength="10000" data-preview="form-preview-{{p.fullname}}" oninput="markdown(this);charLimit('reply-form-body-{{p.fullname}}','charcount-reply')" id="reply-form-body-{{p.fullname}}" data-fullname="{{p.fullname}}" class="comment-box form-control rounded" name="body" form="reply-to-{{p.fullname}}" aria-label="With textarea" placeholder="Add your comment..." rows="3"></textarea>
 
-				<div class="text-small font-weight-bold mt-1" id="charcount-reply" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
+					<div class="text-small font-weight-bold mt-1" id="charcount-reply" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
-				<div class="comment-format">
-					<label class="btn btn-secondary format d-inline-block m-0" for="gif-reply-btn-{{p.fullname}}">
-						<span id="gif-reply-btn-{{p.fullname}}" class="font-weight-bolder text-uppercase" onclick="commentForm('reply-form-body-{{p.fullname}}');getGif()" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span>
-					</label> 
-					&nbsp;
-					<div onclick="loadEmojis('reply-form-body-{{p.fullname}}')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn-{{p.fullname}}" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>	
-					&nbsp;
-					<label class="format btn btn-secondary m-0 ml-1 {% if v %}d-inline-block{% else %}d-none{% endif %}" for="file-upload-reply-{{p.fullname}}">
-						<div id="filename-show-reply-{{p.fullname}}"><i class="fas fa-file"></i></div>
-						<input autocomplete="off" id="file-upload-reply-{{p.fullname}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show-reply-{{p.fullname}}','file-upload-reply-{{p.fullname}}')" hidden>
-					</label>
-				</div>
-				<button type="button" id="save-reply-to-{{p.fullname}}" form="reply-to-{{p.fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="post_comment('{{p.fullname}}');remove_dialog()">Comment</button>
-			</form>
-			<div id="form-preview-{{p.fullname}}" class="preview mb-3 mt-5"></div>
-			<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
-		</div>
-	{% else %}
-		<div class="comment-write mb-3">
-			<textarea autocomplete="off" maxlength="10000" class="comment-box form-control rounded" name="body" aria-label="With textarea" placeholder="Add your comment..." rows="3" onclick="location.href='/login?redirect={{request.path | urlencode}}';"></textarea>
-		</div>
-	
-		<div class="card border-0 mt-4">
-			<div class="card-body">
-				<h5 class="card-title">Jump in the discussion.</h5>
-				<p class="card-text">No email address required.</p>
-				<div>
-					<a href="/signup" class="btn btn-primary">Sign up</a>
-					<a href="/login?redirect={{request.path | urlencode}}" class="btn btn-link text-muted">Sign in</a>
+					<div class="comment-format">
+						<label class="btn btn-secondary format d-inline-block m-0" for="gif-reply-btn-{{p.fullname}}">
+							<span id="gif-reply-btn-{{p.fullname}}" class="font-weight-bolder text-uppercase" onclick="commentForm('reply-form-body-{{p.fullname}}');getGif()" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span>
+						</label> 
+						&nbsp;
+						<div onclick="loadEmojis('reply-form-body-{{p.fullname}}')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn-{{p.fullname}}" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>	
+						&nbsp;
+						<label class="format btn btn-secondary m-0 ml-1 {% if v %}d-inline-block{% else %}d-none{% endif %}" for="file-upload-reply-{{p.fullname}}">
+							<div id="filename-show-reply-{{p.fullname}}"><i class="fas fa-file"></i></div>
+							<input autocomplete="off" id="file-upload-reply-{{p.fullname}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show-reply-{{p.fullname}}','file-upload-reply-{{p.fullname}}')" hidden>
+						</label>
+					</div>
+					<button type="button" id="save-reply-to-{{p.fullname}}" form="reply-to-{{p.fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="post_comment('{{p.fullname}}');remove_dialog()">Comment</button>
+				</form>
+				<div id="form-preview-{{p.fullname}}" class="preview mb-3 mt-5"></div>
+				<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
+			</div>
+		{% else %}
+			<div class="comment-write mb-3">
+				<textarea autocomplete="off" maxlength="10000" class="comment-box form-control rounded" name="body" aria-label="With textarea" placeholder="Add your comment..." rows="3" onclick="location.href='/login?redirect={{request.path | urlencode}}';"></textarea>
+			</div>
+		
+			<div class="card border-0 mt-4">
+				<div class="card-body">
+					<h5 class="card-title">Jump in the discussion.</h5>
+					<p class="card-text">No email address required.</p>
+					<div>
+						<a href="/signup" class="btn btn-primary">Sign up</a>
+						<a href="/login?redirect={{request.path | urlencode}}" class="btn btn-link text-muted">Sign in</a>
+					</div>
 				</div>
 			</div>
-		</div>
+		{% endif %}
 	{% endif %}
 
 {% if p.replies %}
