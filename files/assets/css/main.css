@@ -3600,7 +3600,6 @@ small, .small {
 .post-actions .fa, .post-actions .fas, .post-actions .far {
 	font-size: 12px;
 	margin-right: 0.5rem;
-	margin-left: 0.5rem;
 	width: 1rem;
 }
 .post-actions .voting .fa, .post-actions .voting .fas, .post-actions .voting .far {
@@ -3627,6 +3626,7 @@ small, .small {
 }
 .post-actions .list-inline .list-inline-item {
 	margin-right: 1rem;
+	margin-left: 0.5rem;
 }
 .post-actions .list-inline .list-inline-item:last-child {
 	margin-right: 0;
