@@ -98,196 +98,48 @@ def stats(site=None):
 	commentvoters = g.db.query(CommentVote.user_id).distinct(CommentVote.user_id).filter(CommentVote.created_utc > week).all()
 	active_users = set(posters) | set(commenters) | set(voters) | set(commentvoters)
 
-	t = time.time()
-	one = g.db.query(Marsey).filter(Marsey.submitter_id==None).count()
-	print(f'one: {time.time() - t}', flush=True)
-
-	t = time.time()
-	two = g.db.query(User).count()
-	print(f'two: {time.time() - t}', flush=True)
-
-	t = time.time()
-	three = g.db.query(User).filter_by(is_private=True).count()
-	print(f'three: {time.time() - t}', flush=True)
-
-	t = time.time()
-	four = g.db.query(User).filter(User.is_banned > 0).count()
-	print(f'four: {time.time() - t}', flush=True)
-
-	t = time.time()
-	five = g.db.query(User).filter_by(is_activated=True).count()
-	print(f'five: {time.time() - t}', flush=True)
-
-	t = time.time()
-	six = g.db.query(func.sum(User.coins)).scalar()
-	print(f'six: {time.time() - t}', flush=True)
-
-	t = time.time()
-	seven = g.db.query(func.sum(User.coins_spent)).scalar()
-	print(f'seven: {time.time() - t}', flush=True)
-
-	t = time.time()
-	eight = g.db.query(User).filter(User.created_utc > day).count()
-	print(f'eight: {time.time() - t}', flush=True)
-
-	t = time.time()
-	nine = g.db.query(Submission).count()
-	print(f'nine: {time.time() - t}', flush=True)
-
-	t = time.time()
-	ten = g.db.query(Submission.author_id).distinct().count()
-	print(f'ten: {time.time() - t}', flush=True)
-
-	t = time.time()
-	eleven = g.db.query(Submission).filter_by(is_banned=False).filter(Submission.deleted_utc == 0).count()
-	print(f'eleven: {time.time() - t}', flush=True)
-
-	t = time.time()
-	twelve = g.db.query(Submission).filter_by(is_banned=True).count()
-	print(f'twelve: {time.time() - t}', flush=True)
-
-	t = time.time()
-	thirteen = g.db.query(Submission).filter(Submission.deleted_utc > 0).count()
-	print(f'thirteen: {time.time() - t}', flush=True)
-
-	t = time.time()
-	fourteen = g.db.query(Submission).filter(Submission.created_utc > day).count()
-	print(f'fourteen: {time.time() - t}', flush=True)
-
-	t = time.time()
-	fifteen = g.db.query(Comment).filter(Comment.author_id != AUTOJANNY_ID).count()
-	print(f'fifteen: {time.time() - t}', flush=True)
-
-	t = time.time()
-	sixteen = g.db.query(Comment.author_id).distinct().count()
-	print(f'sixteen: {time.time() - t}', flush=True)
-
-	t = time.time()
-	seventeen = g.db.query(Comment).filter_by(is_banned=True).count()
-	print(f'seventeen: {time.time() - t}', flush=True)
-
-	t = time.time()
-	eighteen = g.db.query(Comment).filter(Comment.deleted_utc > 0).count()
-	print(f'eighteen: {time.time() - t}', flush=True)
-
-	t = time.time()
-	ninteen = g.db.query(Comment).filter(Comment.created_utc > day, Comment.author_id != AUTOJANNY_ID).count()
-	print(f'ninteen: {time.time() - t}', flush=True)
-
-	t = time.time()
-	twenty = g.db.query(Vote).count()
-	print(f'twenty: {time.time() - t}', flush=True)
-
-	t = time.time()
-	twentyone = g.db.query(Vote.user_id).distinct().count()
-	print(f'twentyone: {time.time() - t}', flush=True)
-
-	t = time.time()
-	twentytwo = g.db.query(CommentVote).count()
-	print(f'twentytwo: {time.time() - t}', flush=True)
-
-	t = time.time()
-	twentythree = g.db.query(CommentVote.user_id).distinct().count()
-	print(f'twentythree: {time.time() - t}', flush=True)
-
-	t = time.time()
-	twentyfour = g.db.query(Vote).filter_by(vote_type=1).count() + g.db.query(CommentVote.comment_id).filter_by(vote_type=1).count()
-	print(f'twentyfour: {time.time() - t}', flush=True)
-
-	t = time.time()
-	twentyfive = g.db.query(Vote).filter_by(vote_type=-1).count() + g.db.query(CommentVote.comment_id).filter_by(vote_type=-1).count()
-	print(f'twentyfive: {time.time() - t}', flush=True)
-
-	t = time.time()
-	twentysix = g.db.query(AwardRelationship).count()
-	print(f'twentysix: {time.time() - t}', flush=True)
-
-	t = time.time()
-	twentyseven = g.db.query(AwardRelationship).filter(or_(AwardRelationship.submission_id != None, AwardRelationship.comment_id != None)).count()
-	print(f'twentyseven: {time.time() - t}', flush=True)
-
-	t = time.time()
-	twentyeight = len(active_users)
-	print(f'twentyeight: {time.time() - t}', flush=True)
-
-	t = time.time()
-	twentynine = g.db.query(User).filter(User.last_active > week).count()
-	print(f'twentynine: {time.time() - t}', flush=True)
-
-	t = time.time()
-	thirty = g.db.query(User).filter(User.house.like('Furry%')).count()
-	print(f'thirty: {time.time() - t}', flush=True)
-
-	t = time.time()
-	thirtyone = g.db.query(User).filter(User.house.like('Femboy%')).count()
-	print(f'thirtyone: {time.time() - t}', flush=True)
-
-	t = time.time()
-	thirtytwo = g.db.query(User).filter(User.house.like('Vampire%')).count()
-	print(f'thirtytwo: {time.time() - t}', flush=True)
-
-	t = time.time()
-	thirtythree = g.db.query(User).filter(User.house.like('Racist%')).count()
-	print(f'thirtythree: {time.time() - t}', flush=True)
-
-	t = time.time()
-	thirtyfour = g.db.query(func.sum(User.truecoins)).filter(User.house.like('Furry%')).scalar(),
-	print(f'thirtyfour: {time.time() - t}', flush=True)
-
-	t = time.time()
-	thirtyfive = g.db.query(func.sum(User.truecoins)).filter(User.house.like('Femboy%')).scalar()
-	print(f'thirtyfive: {time.time() - t}', flush=True)
-
-	t = time.time()
-	thirtysix = g.db.query(func.sum(User.truecoins)).filter(User.house.like('Vampire%')).scalar()
-	print(f'thirtysix: {time.time() - t}', flush=True)
-
-	t = time.time()
-	thirtyseven = g.db.query(func.sum(User.truecoins)).filter(User.house.like('Racist%')).scalar()
-	print(f'thirtyseven: {time.time() - t}', flush=True)
-
 	stats = {
-			"marseys": one,
-			"users": two,
-			"private users": three,
-			"banned users": four,
-			"verified email users": five,
-			"coins in circulation": six,
-			"total shop sales": seven,
-			"signups last 24h": eight,
-			"total posts": nine,
-			"posting users": ten,
-			"listed posts": eleven,
-			"removed posts (by admins)": twelve,
-			"deleted posts (by author)": thirteen,
-			"posts last 24h": fourteen,
-			"total comments": fifteen,
-			"commenting users": sixteen,
-			"removed comments (by admins)": seventeen,
-			"deleted comments (by author)": eighteen,
-			"comments last_24h": ninteen,
-			"post votes": twenty,
-			"post voting users": twentyone,
-			"comment votes": twentytwo,
-			"comment voting users": twentythree,
-			"total upvotes": twentyfour,
-			"total downvotes": twentyfive,
-			"total awards": twentysix,
-			"awards given": twentyseven,
-			"users who posted, commented, or voted in the past 7 days": twentyeight,
-			"users online in the past 7 days": twentynine,
+			"marseys": g.db.query(Marsey).filter(Marsey.submitter_id==None).count(),
+			"users": g.db.query(User).count(),
+			"private users": g.db.query(User).filter_by(is_private=True).count(),
+			"banned users": g.db.query(User).filter(User.is_banned > 0).count(),
+			"verified email users": g.db.query(User).filter_by(is_activated=True).count(),
+			"coins in circulation": g.db.query(func.sum(User.coins)).scalar(),
+			"total shop sales": g.db.query(func.sum(User.coins_spent)).scalar(),
+			"signups last 24h": g.db.query(User).filter(User.created_utc > day).count(),
+			"total posts": g.db.query(Submission).count(),
+			"posting users": g.db.query(Submission.author_id).distinct().count(),
+			"listed posts": g.db.query(Submission).filter_by(is_banned=False).filter(Submission.deleted_utc == 0).count(),
+			"removed posts (by admins)": g.db.query(Submission).filter_by(is_banned=True).count(),
+			"deleted posts (by author)": g.db.query(Submission).filter(Submission.deleted_utc > 0).count(),
+			"posts last 24h": g.db.query(Submission).filter(Submission.created_utc > day).count(),
+			"total comments": g.db.query(Comment).filter(Comment.author_id != AUTOJANNY_ID).count(),
+			"commenting users": g.db.query(Comment.author_id).distinct().count(),
+			"removed comments (by admins)": g.db.query(Comment).filter_by(is_banned=True).count(),
+			"deleted comments (by author)": g.db.query(Comment).filter(Comment.deleted_utc > 0).count(),
+			"comments last_24h": g.db.query(Comment).filter(Comment.created_utc > day, Comment.author_id != AUTOJANNY_ID).count(),
+			"post votes": g.db.query(Vote).count(),
+			"post voting users": g.db.query(Vote.user_id).distinct().count(),
+			"comment votes": g.db.query(CommentVote).count(),
+			"comment voting users": g.db.query(CommentVote.user_id).distinct().count(),
+			"total upvotes": g.db.query(Vote).filter_by(vote_type=1).count() + g.db.query(CommentVote.comment_id).filter_by(vote_type=1).count(),
+			"total downvotes": g.db.query(Vote).filter_by(vote_type=-1).count() + g.db.query(CommentVote.comment_id).filter_by(vote_type=-1).count(),
+			"total awards": g.db.query(AwardRelationship).count(),
+			"awards given": g.db.query(AwardRelationship).filter(or_(AwardRelationship.submission_id != None, AwardRelationship.comment_id != None)).count(),
+			"users who posted, commented, or voted in the past 7 days": len(active_users),
+			"users online in the past 7 days": g.db.query(User).filter(User.last_active > week).count(),
 			}
 
 	if SITE_NAME == 'rDrama' or FEATURES['HOUSES']:
 		stats2 = {
-			"House furry members": thirty,
-			"House femboy members": thirtyone,
-			"House vampire members": thirtytwo,
-			"House racist members": thirtythree,
-			"House furry total truescore": thirtyfour,
-			"House femboy total truescore": thirtyfive,
-			"House vampire total truescore": thirtysix,
-			"House racist total truescore": thirtyseven,
+			"House furry members": g.db.query(User).filter(User.house.like('Furry%')).count(),
+			"House femboy members": g.db.query(User).filter(User.house.like('Femboy%')).count(),
+			"House vampire members": g.db.query(User).filter(User.house.like('Vampire%')).count(),
+			"House racist members": g.db.query(User).filter(User.house.like('Racist%')).count(),
+			"House furry total truescore": g.db.query(func.sum(User.truecoins)).filter(User.house.like('Furry%')).scalar(),
+			"House femboy total truescore": g.db.query(func.sum(User.truecoins)).filter(User.house.like('Femboy%')).scalar(),
+			"House vampire total truescore": g.db.query(func.sum(User.truecoins)).filter(User.house.like('Vampire%')).scalar(),
+			"House racist total truescore": g.db.query(func.sum(User.truecoins)).filter(User.house.like('Racist%')).scalar(),
 			}
 		stats.update(stats2)
 
