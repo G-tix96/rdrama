@@ -35,7 +35,7 @@
 {% endmacro %}
 
 {% macro cf_2fa_verify() %}
-	{% if SITE == 'rdrama.net' %}
+	{% if SITE in ('rdrama.net','rdrama.com') %}
 		<meta name="cf-2fa-verify" content="4f40ca1ca249313">
 	{% elif SITE == 'watchpeopledie.tv' %}
 		<meta name="cf-2fa-verify" content="372aba5b9338e00">

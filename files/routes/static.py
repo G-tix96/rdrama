@@ -22,7 +22,7 @@ def rdrama(id, title):
 @app.get("/marseys")
 @auth_required
 def marseys(v):
-	if SITE == 'rdrama.net':
+	if SITE in ('rdrama.net','rdrama.com'):
 		marseys = g.db.query(Marsey, User).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id==None)
 		sort = request.values.get("sort", "usage")
 		if sort == "usage":
@@ -56,7 +56,7 @@ def marsey_list():
 	if EMOJI_MARSEYS:
 		emojis = [{
 			"name": emoji.name,
-			"author": author if SITE == 'rdrama.net' or author == "anton-d" else None,
+			"author": author if SITE in ('rdrama.net','rdrama.com') or author == "anton-d" else None,
 			# yikes, I don't really like this DB schema. Next time be better
 			"tags": emoji.tags.split(" ") + [emoji.name[len("marsey"):] \
 						if emoji.name.startswith("marsey") else emoji.name],
