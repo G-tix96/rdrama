@@ -108,6 +108,7 @@ if SITE_NAME == 'rDrama':
 		"retard": "r-slur",
 		"pedophile": "libertarian",
 		"kill yourself": "keep yourself safe",
+		"kill yourselves": "keep yourselves safe",
 		"steve akins": "penny verity oaken",
 		"latinos": "latinx",
 		"latino": "latinx",
