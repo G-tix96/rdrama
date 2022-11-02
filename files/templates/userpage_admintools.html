@@ -117,8 +117,8 @@
 					</form>
 				{% endif %}
 				{% if FEATURES['COUNTRY_CLUB'] and v and v.admin_level >= PERMS['USER_CLUB_ALLOW_BAN'] %}
-					<button type="button" id="grant-{{device}}" class="mt-1 {% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="postToast(this,'/@{{u.username}}/club_allow','grant-{{device}}','bar-{{device}}','d-none')">Grant club access</button>
-					<button type="button" id="bar-{{device}}" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="postToast(this,'/@{{u.username}}/club_ban','grant-{{device}}','bar-{{device}}','d-none')">Bar from club</button>
+					<button type="button" id="grant-{{deviceType}}" class="mt-1 {% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="postToast(this,'/@{{u.username}}/club_allow','grant-{{deviceType}}','bar-{{deviceType}}','d-none')">Grant club access</button>
+					<button type="button" id="bar-{{deviceType}}" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="postToast(this,'/@{{u.username}}/club_ban','grant-{{deviceType}}','bar-{{deviceType}}','d-none')">Bar from club</button>
 				{% endif %}
 			</div>
 		</div>
