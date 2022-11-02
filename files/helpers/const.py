@@ -823,15 +823,6 @@ AWARDS = {
 		"price": 150,
 		"deflectable": False
 	},
-	"agendaposter": {
-		"kind": "agendaposter",
-		"title": "Chud",
-		"description": "Forces the chud theme on the recipient for 24 hours.",
-		"icon": "fas fa-snooze",
-		"color": "text-purple",
-		"price": 500,
-		"deflectable": True
-	},
 	"rehab": {
 		"kind": "rehab",
 		"title": "Rehab",
@@ -929,6 +920,15 @@ AWARDS = {
 		"icon": "fas fa-spider",
 		"color": "text-brown",
 		"price": 2000,
+		"deflectable": True
+	},
+	"agendaposter": {
+		"kind": "agendaposter",
+		"title": "Chud",
+		"description": "Forces the chud theme on the recipient for 24 hours.",
+		"icon": "fas fa-snooze",
+		"color": "text-purple",
+		"price": 2500,
 		"deflectable": True
 	},
 	"deflector": {
