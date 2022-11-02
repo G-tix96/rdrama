@@ -843,7 +843,9 @@ def settings_title_change(v):
 	if customtitleplain == v.customtitleplain:
 		return render_template("settings_profile.html", v=v, error="You didn't change anything")
 
-	customtitle = filter_emojis_only(censor_slurs(customtitleplain, None))
+	customtitle = filter_emojis_only(customtitleplain)
+
+	customtitle = censor_slurs(customtitle, None)
 
 	if len(customtitle) > 1000:
 		return render_template("settings_profile.html", v=v, error="Flair too long!")

@@ -263,9 +263,10 @@ def award_thing(v, thing_type, id):
 			author.flairchanged += 86400
 		else:
 			author.customtitleplain = new_name
+			new_name = filter_emojis_only(new_name)
 			new_name = censor_slurs(new_name, None)
-			author.customtitle = filter_emojis_only(new_name)
-			if len(author.customtitle) > 1000: abort(403)
+			if len(new_name) > 1000: abort(403)
+			author.customtitle = new_name
 			author.flairchanged = int(time.time()) + 86400
 			badge_grant(user=author, badge_id=96)
 	elif kind == "pause":

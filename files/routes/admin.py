@@ -929,6 +929,7 @@ def admin_title_change(user_id, v):
 
 	user.customtitleplain=new_name
 	new_name = filter_emojis_only(new_name)
+	new_name = censor_slurs(new_name, None)
 
 	user=get_account(user.id)
 	user.customtitle=new_name
