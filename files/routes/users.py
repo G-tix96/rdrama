@@ -488,6 +488,14 @@ def messagereply(v):
 	if parent.sentto == 2: user_id = None
 	elif v.id == user_id: user_id = parent.sentto
 
+	if user_id:
+		user = get_account(user_id, v=v, include_blocks=True)
+		if hasattr(user, 'is_blocking') and user.is_blocking:
+			abort(403, "You're blocking this user.")
+		elif (v.admin_level <= PERMS['MESSAGE_BLOCKED_USERS']
+				and hasattr(user, 'is_blocked') and user.is_blocked):
+			abort(403, "You're blocked by this user.")
+
 	if parent.sentto == 2:
 		body += process_files()
 
@@ -650,7 +658,7 @@ def visitors(v):
 @app.get("/logged_out/@<username>")
 @auth_desired_with_logingate
 def u_username(username, v=None):
-	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False, rendered=True)
+	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
 	if username != u.username:
 		return redirect(SITE_FULL + request.full_path.replace(username, u.username))
 	is_following = v and u.has_follower(v)
@@ -731,7 +739,7 @@ def u_username(username, v=None):
 @app.get("/logged_out/@<username>/comments")
 @auth_desired_with_logingate
 def u_username_comments(username, v=None):
-	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False, rendered=True)
+	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
 	if username != u.username:
 		return redirect(f"/@{u.username}/comments")
 	is_following = v and u.has_follower(v)

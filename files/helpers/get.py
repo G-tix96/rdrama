@@ -26,7 +26,7 @@ def get_id(username:str, graceful=False) -> Optional[int]:
 
 	return user[0]
 
-def get_user(username:str, v:Optional[User]=None, graceful=False, rendered=False, include_blocks=False, include_shadowbanned=True) -> Optional[User]:
+def get_user(username:str, v:Optional[User]=None, graceful=False, include_blocks=False, include_shadowbanned=True) -> Optional[User]:
 	if not username:
 		if graceful: return None
 		abort(404)
@@ -50,7 +50,7 @@ def get_user(username:str, v:Optional[User]=None, graceful=False, rendered=False
 		if graceful: return None
 		abort(404)
 
-	if rendered and v and include_blocks:
+	if v and include_blocks:
 		user = add_block_props(user, v)
 	return user
 
