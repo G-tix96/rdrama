@@ -225,7 +225,7 @@
 						<p id="profile--info--spent">Coins spent: {{u.coins_spent}}</p>
 						<p id="profile--info--truescore">True score: {{u.truecoins}}</p>
 						<p id="profile--info--winnings">Winnings: {{u.winnings}}</p>
-						<p id="profile--info--hats-owned" {% if u.num_of_owned_hats == hats_total %}class="profile-owned-all-hats"{% endif %}>{{u.num_of_owned_hats}} / {{hats_total}} hats owned ({{hats_owned_percent}})</p>
+						<p id="profile--info--hats-owned" {% if u.num_of_owned_hats >= hats_total %}class="profile-owned-all-hats"{% endif %}>{{u.num_of_owned_hats}} / {{hats_total}} hats owned ({{hats_owned_percent}})</p>
 						{% if u.is_private %}
 							<p id="profile--info--private">User has private mode enabled</p>
 						{% endif %}
@@ -464,7 +464,7 @@
 					<p id="profile-mobile--info--spent">Coins spent: {{u.coins_spent}}</p>
 					<p id="profile-mobile--info--truescore">True score: {{u.truecoins}}</p>
 					<p id="profile-mobile--info--winnings">Winnings: {{u.winnings}}</p>
-					<p id="profile-mobile--info--hats-owned" {% if u.num_of_owned_hats == hats_total %}class="profile-owned-all-hats"{% endif %}>{{u.num_of_owned_hats}} / {{hats_total}} hats owned ({{hats_owned_percent}})</p>
+					<p id="profile-mobile--info--hats-owned" {% if u.num_of_owned_hats >= hats_total %}class="profile-owned-all-hats"{% endif %}>{{u.num_of_owned_hats}} / {{hats_total}} hats owned ({{hats_owned_percent}})</p>
 					{% if u.is_private %}
 						<p id="profile-mobile--info--private">User has private mode enabled</p>
 					{% endif %}
