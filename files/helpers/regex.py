@@ -117,10 +117,12 @@ knowledgebase_page_regex = re.compile("[a-zA-Z0-9_\-]+", flags=re.A)
 
 def sub_matcher(match:re.Match, upper=False, replace_with:Union[dict[str, str], dict[str, List[str]]]=SLURS):
 	group_num = 0 if len(match.groups()) == 0 else 1
-	if match.group(group_num).startswith('<'):
+	match_str = match.group(group_num)
+	if match_str is None: return ""
+	if match_str.startswith('<'):
 		return match.group(group_num)
 	else:
-		repl = replace_with[match.group(group_num).lower()]
+		repl = replace_with[match_str.lower()]
 		if not isinstance(repl, str):
 			repl = random.choice(repl)
 		return repl if not upper or "<img" in repl else repl.upper()
