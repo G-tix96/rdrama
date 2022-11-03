@@ -677,7 +677,7 @@ def u_username(username, v=None):
 	if not u.is_visible_to(v):
 		if g.is_api_or_xhr or request.path.endswith(".json"):
 			abort(403, "This userpage is private")
-		return render_template("userpage_private.html", u=u, v=v), 403
+		return render_template("userpage_private.html", u=u, v=v, is_following=is_following), 403
 
 	
 	if v and hasattr(u, 'is_blocking') and u.is_blocking:
@@ -747,7 +747,7 @@ def u_username_comments(username, v=None):
 	if not u.is_visible_to(v):
 		if g.is_api_or_xhr or request.path.endswith(".json"):
 			abort(403, "This userpage is private")
-		return render_template("userpage_private.html", u=u, v=v), 403
+		return render_template("userpage_private.html", u=u, v=v, is_following=is_following), 403
 
 	if v and hasattr(u, 'is_blocking') and u.is_blocking:
 		if g.is_api_or_xhr or request.path.endswith(".json"):
