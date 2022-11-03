@@ -477,9 +477,10 @@ def change_settings(v, setting):
 @app.post("/admin/purge_cache")
 @admin_level_required(PERMS['SITE_CACHE_PURGE_CDN'])
 def purge_cache(v):
-	online = cache.get(ONLINE_STR)
-	cache.clear()
-	cache.set(ONLINE_STR, online)
+	if v.admin_level >= PERMS['SITE_CACHE_DUMP_INTERNAL']:
+		online = cache.get(ONLINE_STR)
+		cache.clear()
+		cache.set(ONLINE_STR, online)
 	if not purge_entire_cache():
 		abort(400, 'Failed to purge cache')
 	ma = ModAction(
@@ -489,6 +490,20 @@ def purge_cache(v):
 	g.db.add(ma)
 	return {"message": "Cache purged!"}
 
+@app.get("/admin/dump_cache")
+@admin_level_required(PERMS['SITE_CACHE_DUMP_INTERNAL'])
+def admin_dump_cache(v):
+	online = cache.get(ONLINE_STR)
+	cache.clear()
+	cache.set(ONLINE_STR, online)
+
+	ma = ModAction(
+		kind="dump_cache",
+		user_id=v.id
+	)
+	g.db.add(ma)
+
+	return {"message": "Internal cache cleared."}
 
 @app.post("/admin/under_attack")
 @admin_level_required(PERMS['SITE_SETTINGS_UNDER_ATTACK'])
@@ -1362,22 +1377,6 @@ def admin_distinguish_comment(c_id, v):
 
 	if comment.distinguish_level: return {"message": "Comment distinguished!"}
 	else: return {"message": "Comment undistinguished!"}
-
-@app.get("/admin/dump_cache")
-@admin_level_required(PERMS['SITE_CACHE_DUMP_INTERNAL'])
-def admin_dump_cache(v):
-	online = cache.get(ONLINE_STR)
-	cache.clear()
-	cache.set(ONLINE_STR, online)
-
-	ma = ModAction(
-		kind="dump_cache",
-		user_id=v.id
-	)
-	g.db.add(ma)
-
-	return {"message": "Internal cache cleared."}
-
 
 @app.get("/admin/banned_domains/")
 @admin_level_required(PERMS['DOMAINS_BAN'])
