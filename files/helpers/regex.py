@@ -116,13 +116,10 @@ pronouns_regex = re.compile("([a-z]{1,5})/[a-z]{1,5}(/[a-z]{1,5})?", flags=re.A|
 knowledgebase_page_regex = re.compile("[a-zA-Z0-9_\-]+", flags=re.A)
 
 def sub_matcher(match:re.Match, upper=False, replace_with:Union[dict[str, str], dict[str, List[str]]]=SLURS):
-	group_num = 0 if len(match.groups()) == 0 else 1
+	group_num = 0
 	match_str = match.group(group_num)
-	if match_str is None: return ""
-	if group_num == 1:
-		match_str = match_str.replace('\\W', '')
 	if match_str.startswith('<'):
-		return match.group(group_num)
+		return match_str
 	else:
 		repl = replace_with[match_str.lower()]
 		if not isinstance(repl, str):
