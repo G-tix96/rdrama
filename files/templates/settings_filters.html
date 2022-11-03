@@ -318,7 +318,7 @@
 						</div>
 						<div class="body w-lg-100">
 							<div class="custom-control custom-switch">
-								<input autocomplete="off" type="checkbox" class="custom-control-input" id="profanityreplacer" name="profanityreplacer"{% if v.slurreplacer %} checked{% endif %} onchange="postToastSwitch(this,'/settings/profile?profanityreplacer='+document.getElementById('profanityreplacer').checked);">
+								<input autocomplete="off" type="checkbox" class="custom-control-input" id="profanityreplacer" name="profanityreplacer"{% if v.profanityreplacer %} checked{% endif %} onchange="postToastSwitch(this,'/settings/profile?profanityreplacer='+document.getElementById('profanityreplacer').checked);">
 								<label class="custom-control-label" for="profanityreplacer"></label>
 							</div>
 							<span class="text-small text-muted">Enable if you would like to automatically replace profanities.</span>
