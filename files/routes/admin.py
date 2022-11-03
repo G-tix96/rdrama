@@ -159,7 +159,7 @@ def merge_all(v, id):
 @app.post("/@<username>/make_admin")
 @admin_level_required(PERMS['ADMIN_ADD'])
 def make_admin(v, username):
-	if SITE in ('rdrama.net','rdrama.com'): abort(403)
+	if SITE.startswith('rdrama.'): abort(403)
 
 	user = get_user(username)
 

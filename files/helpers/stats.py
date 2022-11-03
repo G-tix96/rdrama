@@ -24,7 +24,7 @@ def chart(kind, site):
 		now.tm_wday, now.tm_yday, 0))
 	today_cutoff = calendar.timegm(midnight_this_morning)
 
-	if SITE in ('rdrama.net','rdrama.com'):
+	if SITE.startswith('rdrama.'):
 		time_diff = time.time() - 1619827200
 		num_of_weeks = int(time_diff / 604800)
 		chart_width = int(num_of_weeks/1.4)

@@ -84,7 +84,7 @@
 				<th scope="col">Hat</th>
 				<th scope="col">Name</th>
 				<th scope="col">Description</th>
-				{% if SITE in ('rdrama.net','rdrama.com') %}
+				{% if SITE.startswith('rdrama.') %}
 					{% if request.values.get("sort") == 'author_asc' %}
 						<th scope="col"><a href="?sort=author_desc">Author</a></th>
 					{% else %}
@@ -114,7 +114,7 @@
 					</td>
 					<td>{{hat.name}}</td>
 					<td style="word-break:break-word">{{hat.censored_description(v)}}</td>
-					{% if SITE in ('rdrama.net','rdrama.com') %}
+					{% if SITE.startswith('rdrama.') %}
 						<td>{% include "user_in_table.html" %}</td>
 					{% endif %}
 					<td><a href="/hat_owners/{{hat.id}}">{{hat.number_sold}}</a></td>

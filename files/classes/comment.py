@@ -89,7 +89,7 @@ class Comment(Base):
 
 	@lazy
 	def can_see(self, v):
-		if SITE not in ('rdrama.net','rdrama.com'): return True
+		if not SITE.startswith('rdrama.'): return True
 		if not self.parent_submission: return True
 		if self.post.sub != 'chudrama': return True
 		if v:

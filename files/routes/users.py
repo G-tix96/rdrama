@@ -428,7 +428,7 @@ def message2(v, username):
 
 	body_html = sanitize(message)
 
-	if not (SITE in ('rdrama.net','rdrama.com') and user.id == BLACKJACKBTZ_ID):
+	if not (SITE.startswith('rdrama.') and user.id == BLACKJACKBTZ_ID):
 		existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
 																Comment.sentto == user.id,
 																Comment.body_html == body_html,

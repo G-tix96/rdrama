@@ -403,7 +403,7 @@ ANTISPAM_BYPASS_IDS = ()
 PAGE_SIZE = 25
 LEADERBOARD_LIMIT = PAGE_SIZE
 
-if SITE in ('rdrama.net','rdrama.com'):
+if SITE.startswith('rdrama.'):
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
 	PERMS['ADMIN_ADD'] = 4
@@ -1229,7 +1229,7 @@ if len(SITE_NAME) > 5:
 if SITE != 'localhost':
 	REDDIT_NOTIFS_SITE.add(SITE)
 
-if SITE in ('rdrama.net','rdrama.com'):
+if SITE.startswith('rdrama.'):
 	REDDIT_NOTIFS_SITE.add('marsey')
 	REDDIT_NOTIFS_SITE.add('"r/Drama"')
 	REDDIT_NOTIFS_SITE.add('justice4darrell')

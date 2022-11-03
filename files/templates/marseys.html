@@ -7,7 +7,7 @@
 		<th>Name</th>
 		<th>Marsey</th>
 		<th>Usage</th>
-		{% if SITE in ('rdrama.net','rdrama.com') %}
+		{% if SITE.startswith('rdrama.') %}
 			<th><a href="?sort=author">Author</a></th>
 			<th><a href="?sort=added">Added on</a></th>
 			<th>Original File</th>
@@ -15,7 +15,7 @@
 	</tr>
 </thead>
 <tbody id="marseys-table">
-{% if SITE in ('rdrama.net','rdrama.com') %}
+{% if SITE.startswith('rdrama.') %}
 	{% for marsey, user in marseys %}
 		<tr>
 			<td>{{loop.index}}</td>
