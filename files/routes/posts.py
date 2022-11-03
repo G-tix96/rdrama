@@ -1052,15 +1052,12 @@ def unsave_post(pid, v):
 @app.post("/pin/<post_id>")
 @auth_required
 def pin_post(post_id, v):
-
 	post = get_post(post_id)
 	if post:
-		if v.id != post.author_id: abort(400, "Only the post author's can do that!")
+		if v.id != post.author_id: abort(403, "Only the post author can do that!")
 		post.is_pinned = not post.is_pinned
 		g.db.add(post)
-
 		cache.delete_memoized(User.userpagelisting)
-
 		if post.is_pinned: return {"message": "Post pinned!"}
 		else: return {"message": "Post unpinned!"}
 	return abort(404, "Post not found!")
