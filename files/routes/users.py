@@ -167,13 +167,19 @@ def user_upvoted_comments(v, username):
 @app.get("/grassed")
 @auth_required
 def grassed(v):
-	users = g.db.query(User).filter(User.ban_reason.like('grass award used by @%')).all()
+	users = g.db.query(User).filter(User.ban_reason.like('grass award used by @%'))
+	if not v.can_see_shadowbanned:
+		users = users.filter(User.shadowbanned == None)
+	users = users.all()
 	return render_template("grassed.html", v=v, users=users)
 
 @app.get("/chuds")
 @auth_required
 def chuds(v):
-	users = g.db.query(User).filter(User.agendaposter > 0).order_by(User.username).all()
+	users = g.db.query(User).filter(User.agendaposter > 0)
+	if not v.can_see_shadowbanned:
+		users = users.filter(User.shadowbanned == None)
+	users = users.order_by(User.username).all()
 	return render_template("chuds.html", v=v, users=users)
 
 def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
