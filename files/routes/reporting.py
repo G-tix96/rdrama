@@ -126,7 +126,7 @@ def remove_report_comment(v, cid, uid):
 def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 	if not reason.startswith('/h/'): return False
 	sub_from = post.sub
-	sub_to = get_sub_by_name(reason[:3].strip().lower())
+	sub_to = get_sub_by_name(reason, graceful=True)
 	sub_to = sub_to.name if sub_to else None
 	
 	can_move_post = v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (post.sub and v.mods(sub_from))
