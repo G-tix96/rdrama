@@ -138,12 +138,19 @@
 			<label class="custom-control-label" for="under_attack">Under attack mode</label>
 		</div>
 	{% endif %}
-	{% if v.admin_level >= PERMS['SITE_CACHE_PURGE_CDN'] %}
-		<button type="button" class="btn btn-primary mt-3" onclick="postToast(this,'/admin/purge_cache');" style="margin-bottom: 2em;">PURGE CACHE</button>
-	{% endif %}
 	<br>
 	{% if SITE_NAME == 'PCM' and v.admin_level >= PERMS['PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES'] %}
 		<button type="button" class="btn btn-primary" onclick="postToast(this,'/kippy');" style="margin-bottom: 2em;">Print 10k Marseybux</button>
+	{% endif %}
+{% endif %}
+
+{% if v.admin_level >= PERMS['SITE_CACHE_PURGE_CDN'] or v.admin_level >= PERMS['SITE_CACHE_DUMP_INTERNAL'] %}
+	<h4>Caching</h4>
+	{% if v.admin_level >= PERMS['SITE_CACHE_PURGE_CDN'] %}
+		<button type="button" class="btn btn-primary mt-3" onclick="postToast(this,'/admin/purge_cache');" style="margin-bottom: 2em;">PURGE CDN CACHE</button>
+	{% endif %}
+	{% if v.admin_level >= PERMS['SITE_CACHE_DUMP_INTERNAL'] %}
+		<button type="button" class="btn btn-primary mt-3" onclick="postToast(this,'/admin/dump_cache');" style="margin-bottom: 2em;">DUMP INTERNAL CACHE</button>
 	{% endif %}
 {% endif %}
 

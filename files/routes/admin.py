@@ -473,14 +473,9 @@ def change_settings(v, setting):
 
 	return {'message': f"{setting} {word}d successfully!"}
 
-
 @app.post("/admin/purge_cache")
 @admin_level_required(PERMS['SITE_CACHE_PURGE_CDN'])
 def purge_cache(v):
-	if v.admin_level >= PERMS['SITE_CACHE_DUMP_INTERNAL']:
-		online = cache.get(ONLINE_STR)
-		cache.clear()
-		cache.set(ONLINE_STR, online)
 	if not purge_entire_cache():
 		abort(400, 'Failed to purge cache')
 	ma = ModAction(
@@ -488,22 +483,20 @@ def purge_cache(v):
 		user_id=v.id
 	)
 	g.db.add(ma)
-	return {"message": "Cache purged!"}
+	return {"message": "CDN cache purged!"}
 
-@app.get("/admin/dump_cache")
+@app.post("/admin/dump_cache")
 @admin_level_required(PERMS['SITE_CACHE_DUMP_INTERNAL'])
 def admin_dump_cache(v):
 	online = cache.get(ONLINE_STR)
 	cache.clear()
 	cache.set(ONLINE_STR, online)
-
 	ma = ModAction(
 		kind="dump_cache",
 		user_id=v.id
 	)
 	g.db.add(ma)
-
-	return {"message": "Internal cache cleared."}
+	return {"message": "Internal cache cleared!"}
 
 @app.post("/admin/under_attack")
 @admin_level_required(PERMS['SITE_SETTINGS_UNDER_ATTACK'])
