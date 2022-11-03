@@ -115,11 +115,12 @@ pronouns_regex = re.compile("([a-z]{1,5})/[a-z]{1,5}(/[a-z]{1,5})?", flags=re.A|
 
 knowledgebase_page_regex = re.compile("[a-zA-Z0-9_\-]+", flags=re.A)
 
-def sub_matcher(match, upper=False, replace_with:Union[dict[str, str], dict[str, List[str]]]=SLURS):
+def sub_matcher(match:re.Match, upper=False, replace_with:Union[dict[str, str], dict[str, List[str]]]=SLURS):
 	if match.group(0).startswith('<'):
 		return match.group(0)
 	else:
-		repl = replace_with[match.group(1).lower()]
+		group = 1 if len(match.groups()) > 1 else 0
+		repl = replace_with[match.group(group).lower()]
 		if not isinstance(repl, str):
 			repl = random.choice(repl)
 		return repl if not upper or "<img" in repl else repl.upper()
