@@ -3,7 +3,7 @@ function removePost(t,post_id,button1,button2,cls) {
 
 	t.disabled = true;
 	t.classList.add("disabled");
-	postToast_callback(url,
+	postToastCallback(url,
 		{
 		},
 		(xhr) => {
@@ -32,7 +32,7 @@ function approvePost(t,post_id,button1,button2,cls) {
 
 	t.disabled = true;
 	t.classList.add("disabled");
-	postToast_callback(url,
+	postToastCallback(url,
 		{
 		},
 		(xhr) => {

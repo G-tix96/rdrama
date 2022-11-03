@@ -153,7 +153,7 @@ function buy(mb) {
 
 function giveaward(t) {
 	const kind = document.getElementById('kind').value;
-	postToast_callback(t.dataset.action,
+	postToastCallback(t.dataset.action,
 		{
 		"kind": kind,
 		"note": document.getElementById('note').value

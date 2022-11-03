@@ -3,7 +3,7 @@ function removeComment(t,comment_id,button1,button2,cls) {
 
 	t.disabled = true;
 	t.classList.add("disabled");
-	postToast_callback(url,
+	postToastCallback(url,
 		{
 		},
 		(xhr) => {
@@ -35,7 +35,7 @@ function approveComment(t,comment_id,button1,button2,cls) {
 
 	t.disabled = true;
 	t.classList.add("disabled");
-	postToast_callback(url,
+	postToastCallback(url,
 		{
 		},
 		(xhr) => {

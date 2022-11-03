@@ -93,7 +93,7 @@ function postToast(t, url, button1, button2, className, extraActions, extraActio
 	xhr[0].send(xhr[1]);
 }
 
-function postToast_callback(url, data, callback) {
+function postToastCallback(url, data, callback) {
 	let form = new FormData();
 	if(typeof data === 'object' && data !== null) {
 		for(let k of Object.keys(data)) {

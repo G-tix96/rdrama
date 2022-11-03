@@ -1,7 +1,7 @@
 function pinPost(t, id) {
 	t.disabled = true;
 	t.classList.add("disabled");
-	postToast_callback(`/sticky/${id}`,
+	postToastCallback(`/sticky/${id}`,
 		{
 		},
 		(xhr) => {
@@ -29,7 +29,7 @@ function pinPost(t, id) {
 function unpinPost(t, id) {
 	t.disabled = true;
 	t.classList.add("disabled");
-	postToast_callback(`/unsticky/${id}`,
+	postToastCallback(`/unsticky/${id}`,
 		{
 		},
 		(xhr) => {
