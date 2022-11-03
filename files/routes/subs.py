@@ -53,7 +53,7 @@ def exile_comment(v, cid):
 
 	u = c.author
 
-	if u.actually_mods(sub): abort(403)
+	if u.mods(sub): abort(403)
 
 	if not u.exiled_from(sub):
 		exile = Exile(user_id=u.id, sub=sub, exiler_id=v.id)
@@ -359,28 +359,16 @@ def kick(v, pid):
 	old = post.sub
 	post.sub = None
 	
-	if v.admin_level >= PERMS['HOLE_GLOBAL_MODERATION'] and v.id != post.author_id:
-		old_str = f'<a href="/h/{old}">/h/{old}</a>'
-		ma = ModAction(
-			kind='move_hole',
-			user_id=v.id,
-			target_submission_id=post.id,
-			_note=f'{old_str} → main feed',
-		)
-		g.db.add(ma)
-	else:
-		ma = SubAction(
-			sub=old,
-			kind='kick_post',
-			user_id=v.id,
-			target_submission_id=post.id
-		)
-		g.db.add(ma)
+	ma = SubAction(
+		sub=old,
+		kind='kick_post',
+		user_id=v.id,
+		target_submission_id=post.id
+	)
+	g.db.add(ma)
 
 	if v.id != post.author_id:
-		if v.admin_level >= PERMS['HOLE_GLOBAL_MODERATION']: position = 'Admin'
-		else: position = 'Mod'
-		message = f"@{v.username} ({position}) has moved [{post.title}]({post.shortlink}) from /h/{old} to the main feed!"
+		message = f"@{v.username} (Mod) has moved [{post.title}]({post.shortlink}) from /h/{old} to the main feed!"
 		send_repeatable_notification(post.author_id, message)
 
 	g.db.add(post)

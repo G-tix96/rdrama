@@ -166,7 +166,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_HOME_VISIBLE': 2,
 	'DOMAINS_BAN': 3,
 	'HOLE_CREATE': 0,
-	'HOLE_GLOBAL_MODERATION': 4,
 	'FLAGS_REMOVE': 2,
 	'VOTES_VISIBLE': 0,
 	'USER_BLOCKS_VISIBLE': 0,
