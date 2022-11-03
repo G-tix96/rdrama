@@ -194,14 +194,14 @@
 							<input autocomplete="off" id="coin-transfer-amount" class="form-control" name="amount" type="number" oninput="updateTax()">
 							<input autocomplete="off" id="coin-transfer-reason" maxlength=200 type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
 							<div>{{u.username}} will receive <span id="coins-transfer-taxed">0</span> coins</div>
-							<button type="button" class="btn btn-primary mt-2 mb-3" onclick="transferCoins()">Gift</button>
+							<button type="button" class="btn btn-primary mt-2 mb-3" onclick="transferCoins(this)">Gift</button>
 						</div>
 
 						<div class="d-none mt-3 toggleable" id="bux-transfer">
 							<input autocomplete="off" id="bux-transfer-amount" class="form-control" name="amount" type="number" oninput="updateBux()">
 							<input autocomplete="off" id="bux-transfer-reason" type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
 							<div>{{u.username}} will receive <span id="bux-transfer-taxed">0</span> marseybux</div>
-							<button type="button" class="btn btn-primary mt-2 mb-3" onclick="transferBux()">Gift</button>
+							<button type="button" class="btn btn-primary mt-2 mb-3" onclick="transferBux(this)">Gift</button>
 						</div>
 
 						{{userpage_admintools.userAdminTools('desktop')}}
@@ -447,14 +447,14 @@
 						<input autocomplete="off" id="coin-transfer-amount-mobile" class="form-control" name="amount" type="number" oninput="updateTax(true)">
 						<input autocomplete="off" id="coin-transfer-reason-mobile" maxlength=200 type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
 						<div>{{u.username}} will receive <span id="coins-transfer-taxed-mobile">0</span> coins</div>
-						<button type="button" class="btn btn-primary mt-2 mb-3" onclick="transferCoins(true)">Gift</button>
+						<button type="button" class="btn btn-primary mt-2 mb-3" onclick="transferCoins(this, true)">Gift</button>
 					</div>
 
 					<div class="d-none mt-3 toggleable" id="bux-transfer-mobile">
 						<input autocomplete="off" id="bux-transfer-amount-mobile" class="form-control" name="amount" type="number" oninput="updateBux(true)">
 						<input autocomplete="off" id="bux-transfer-reason-mobile" type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
 						<div>{{u.username}} will receive <span id="bux-transfer-taxed-mobile">0</span> marseybux</div>
-						<button type="button" class="btn btn-primary mt-2 mb-3" onclick="transferBux(true)">Gift</button>
+						<button type="button" class="btn btn-primary mt-2 mb-3" onclick="transferBux(this, true)">Gift</button>
 					</div>
 					{{userpage_admintools.userAdminTools('mobile')}}
 				{% endif %}

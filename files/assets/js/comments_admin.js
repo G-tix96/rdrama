@@ -1,31 +1,24 @@
 function removeComment(t,comment_id,button1,button2,cls) {
 	url="/remove_comment/"+comment_id
 
-	t.disabled = true;
-	t.classList.add("disabled");
-	postToastCallback(url,
-		{
-		},
-		(xhr) => {
-			if (xhr.status >= 200 && xhr.status < 300) {
-				if (window.location.pathname == '/admin/reported/comments')
-				{
-					document.getElementById("post-info-"+comment_id).remove()
-					document.getElementById("comment-"+comment_id).remove()
-				}
-				else
-				{
-					try {
-						document.getElementById("comment-"+comment_id+"-only").classList.add("banned");
-					} catch(e) {
-						document.getElementById("context").classList.add("banned");
-					}
-					document.getElementById(button1).classList.toggle(cls);
-					document.getElementById(button2).classList.toggle(cls);
+	postToast(t, url,
+		button1,
+		button2,
+		cls,
+		() => {
+			if (window.location.pathname == '/admin/reported/comments')
+			{
+				document.getElementById("post-info-"+comment_id).remove()
+				document.getElementById("comment-"+comment_id).remove()
+			}
+			else
+			{
+				try {
+					document.getElementById("comment-"+comment_id+"-only").classList.add("banned");
+				} catch(e) {
+					document.getElementById("context").classList.add("banned");
 				}
 			}
-			t.disabled = false;
-			t.classList.remove("disabled");		
 		}
 	);
 }
@@ -33,31 +26,24 @@ function removeComment(t,comment_id,button1,button2,cls) {
 function approveComment(t,comment_id,button1,button2,cls) {
 	url="/approve_comment/"+comment_id
 
-	t.disabled = true;
-	t.classList.add("disabled");
-	postToastCallback(url,
-		{
-		},
-		(xhr) => {
-			if (xhr.status >= 200 && xhr.status < 300) {
-				if (window.location.pathname == '/admin/reported/comments')
-				{
-					document.getElementById("post-info-"+comment_id).remove()
-					document.getElementById("comment-"+comment_id).remove()
-				}
-				else
-				{
-					try {
-						document.getElementById("comment-"+comment_id+"-only").classList.remove("banned");
-					} catch(e) {
-						document.getElementById("context").classList.remove("banned");
-					}
-					document.getElementById(button1).classList.toggle(cls);
-					document.getElementById(button2).classList.toggle(cls);
+	postToast(t, url,
+		button1,
+		button2,
+		cls,
+		() => {
+			if (window.location.pathname == '/admin/reported/comments')
+			{
+				document.getElementById("post-info-"+comment_id).remove()
+				document.getElementById("comment-"+comment_id).remove()
+			}
+			else
+			{
+				try {
+					document.getElementById("comment-"+comment_id+"-only").classList.remove("banned");
+				} catch(e) {
+					document.getElementById("context").classList.remove("banned");
 				}
 			}
-			t.disabled = false;
-			t.classList.remove("disabled");		
 		}
 	);
 }

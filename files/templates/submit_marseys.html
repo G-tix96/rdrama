@@ -116,41 +116,25 @@
 		})
 
 		function approve_marsey(t, name) {
-			t.disabled = true;
-			t.classList.add("disabled");
-			postToastCallback(`/admin/approve/marsey/${name}`,
+			postToastCallback(t, `/admin/approve/marsey/${name}`,
 				{
 					"tags": document.getElementById(`${name}-tags`).value,
 					"name": document.getElementById(`${name}-name`).value,
 				},
-				(xhr) => {
-				if(xhr.status == 200) {
+				() => {
 					document.getElementById(`${name}-marsey`).remove()
 				}
-				}
 			);
-			setTimeout(() => {
-				t.disabled = false;
-				t.classList.remove("disabled");
-			}, 2000);
 		}
 
 		function remove_marsey(t, name) {
-			t.disabled = true;
-			t.classList.add("disabled");
-			postToastCallback(`/remove/marsey/${name}`,
+			postToastCallback(t, `/remove/marsey/${name}`,
 				{
 				},
-				(xhr) => {
-				if(xhr.status == 200) {
+				() => {
 					document.getElementById(`${name}-marsey`).remove()
 				}
-				}
 			);
-			setTimeout(() => {
-				t.disabled = false;
-				t.classList.remove("disabled");
-			}, 2000);
 		}
 	</script>
 

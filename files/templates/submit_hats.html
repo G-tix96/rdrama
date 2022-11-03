@@ -114,42 +114,26 @@
 		})
 
 		function approve_hat(t, name) {
-			t.disabled = true;
-			t.classList.add("disabled");
-			postToastCallback(`/admin/approve/hat/${name}`,
+			postToastCallback(t, `/admin/approve/hat/${name}`,
 				{
 					"description": document.getElementById(`${name}-description`).value,
 					"name": document.getElementById(`${name}-name`).value,
 					"price": document.getElementById(`${name}-price`).value,
 				},
-				(xhr) => {
-				if(xhr.status == 200) {
+				() => {
 					document.getElementById(`${name}-hat`).remove()
 				}
-				}
 			);
-			setTimeout(() => {
-				t.disabled = false;
-				t.classList.remove("disabled");
-			}, 2000);
 		}
 
 		function remove_hat(t, name) {
-			t.disabled = true;
-			t.classList.add("disabled");
-			postToastCallback(`/remove/hat/${name}`,
+			postToastCallback(t, `/remove/hat/${name}`,
 				{
 				},
-				(xhr) => {
-				if(xhr.status == 200) {
+				() => {
 					document.getElementById(`${name}-hat`).remove()
 				}
-				}
 			);
-			setTimeout(() => {
-				t.disabled = false;
-				t.classList.remove("disabled");
-			}, 2000);
 		}
 	</script>
 

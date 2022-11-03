@@ -153,19 +153,17 @@ function buy(mb) {
 
 function giveaward(t) {
 	const kind = document.getElementById('kind').value;
-	postToastCallback(t.dataset.action,
+	postToastCallback(t, t.dataset.action,
 		{
 		"kind": kind,
 		"note": document.getElementById('note').value
 		},
-		(xhr) => {
-			if(xhr.status == 200) {
-				let owned = document.getElementById(`${kind}-owned`)
-				let ownednum = Number(owned.textContent) - 1;
-				owned.textContent = ownednum
-				if (ownednum == 0)
-					document.getElementById('giveaward').disabled=true;
-			}
+		() => {
+			let owned = document.getElementById(`${kind}-owned`)
+			let ownednum = Number(owned.textContent) - 1;
+			owned.textContent = ownednum
+			if (ownednum == 0)
+				document.getElementById('giveaward').disabled=true;
 		}	
 	);
 }

@@ -1,17 +1,3 @@
-function isShopConfirmation(t) {
-	return t.id.startsWith('buy1-') || t.id.startsWith('buy2-');
-}
-
-function prePostToastNonShopActions(t, url, button1, button2, className) {
-	let isShopConfirm = isShopConfirmation(t);
-
-	if (!isShopConfirm)
-	{
-		t.disabled = true;
-		t.classList.add("disabled");
-	}
-}
-
 function getMessageFromJsonData(success, json) {
 	let message = success ? "Success!" : "Error, please try again later";
 	let key = success ? "message" : "error";
@@ -37,43 +23,6 @@ function showToast(success, message, isToastTwo=false) {
 	bootstrap.Toast.getOrCreateInstance(document.getElementById(element)).show();
 }
 
-function postToastLoad(xhr, className, button1, button2, extraActionsOnSuccess, extraActionsOnError) {
-	let data
-	try {
-		data = JSON.parse(xhr.response)
-	}
-	catch (e) {
-		console.log(e)
-	}
-	success = xhr.status >= 200 && xhr.status < 300;
-	showToast(success, getMessageFromJsonData(success, data));
-	if (success) {
-		if (button1)
-		{
-			if (typeof(button1) == 'boolean') {
-				location.reload()
-			} else {
-				document.getElementById(button1).classList.toggle(className);
-				document.getElementById(button2).classList.toggle(className);
-			}
-		}
-		if (extraActionsOnSuccess) extraActionsOnSuccess(xhr);
-	} else {
-		if (extraActionsOnError) extraActionsOnError(xhr);
-	}
-}
-
-function postPostToastNonShopActions(t, url, button1, button2, className) {
-	let isShopConfirm = isShopConfirmation(t);
-	if (!isShopConfirm)
-	{
-		setTimeout(() => {
-			t.disabled = false;
-			t.classList.remove("disabled");
-		}, 2000);
-	}
-}
-
 function createXhrWithFormKey(url, method="POST", form=new FormData()) {
 	const xhr = new XMLHttpRequest();
 	xhr.open(method, url);
@@ -83,17 +32,15 @@ function createXhrWithFormKey(url, method="POST", form=new FormData()) {
 	return [xhr, form]; // hacky but less stupid than what we were doing before
 }
 
-function postToast(t, url, button1, button2, className, extraActions, extraActionsError) {
-	prePostToastNonShopActions(t, url, button1, button2, className);
-	const xhr = createXhrWithFormKey(url);
-	xhr[0].onload = function() {
-		postToastLoad(xhr[0], className, button1, button2, extraActions, extraActionsError)
-		postPostToastNonShopActions(t, url, button1, button2, className)
-	};
-	xhr[0].send(xhr[1]);
-}
+function postToastCallback(t, url, data, callback) {
+	const isShopConfirm = t.id.startsWith('buy1-') || t.id.startsWith('buy2-')
 
-function postToastCallback(url, data, callback) {
+	if (!isShopConfirm)
+	{
+		t.disabled = true;
+		t.classList.add("disabled");
+	}
+
 	let form = new FormData();
 	if(typeof data === 'object' && data !== null) {
 		for(let k of Object.keys(data)) {
@@ -103,9 +50,9 @@ function postToastCallback(url, data, callback) {
 	const xhr = createXhrWithFormKey(url, "POST", form);
 	xhr[0].onload = function() {
 		let result
-		if (callback) result = callback(xhr[0]);
 		let message;
 		let success = xhr[0].status >= 200 && xhr[0].status < 300;
+		if (success && callback) result = callback(xhr[0]);
 		if (typeof result == "string") {
 			message = result;
 		} else {
@@ -114,9 +61,33 @@ function postToastCallback(url, data, callback) {
 		let oldToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-' + (success ? 'error': 'success'))); // intentionally reversed here: this is the old toast
 		oldToast.hide();
 		showToast(success, message);
+		if (!isShopConfirm) {
+			t.disabled = false;
+			t.classList.remove("disabled");			
+		}
 		return success;
 	};
 	xhr[0].send(xhr[1]);
+
+	if (!isShopConfirm)
+	{
+		setTimeout(() => {
+			t.disabled = false;
+			t.classList.remove("disabled");
+		}, 2000);
+	}
+}
+
+function postToast(t, url, button1, button2, cls, callback) {
+	postToastCallback(t, url,
+		{
+		},
+		(xhr) => {
+			document.getElementById(button1).classList.toggle(cls);
+			document.getElementById(button2).classList.toggle(cls);
+			if (callback) callback(xhr);
+		}
+	);
 }
 
 if (window.location.pathname != '/submit')
