@@ -27,7 +27,7 @@
 							<input autocomplete="off" class="form-control" id="new_email" {% if v.email %}placeholder="{{v.email}}"{% else %}placeholder="Your email"{% endif %}
 							aria-describedby="new_email" type="email" pattern='{{EMAIL_REGEX_PATTERN}}' name="new_email" required>
 							{% if v.email and not v.is_activated %}
-								<div class="text-danger text-small mt-1" id="email-verify-text">Email not verified. You will not be able to recover your account with this email until you verify it. <u><button type="button" onclick="postToast(this,'/verify_email');emailVerifyText()"class="text-primary font-weight-bold ml-1">Verify now.</button></u></div>
+								<div class="text-danger text-small mt-1" id="email-verify-text">Email not verified. You will not be able to recover your account with this email until you verify it. <u><button type="button" onclick="postToastSwitch(this,'/verify_email');emailVerifyText()"class="text-primary font-weight-bold ml-1">Verify now.</button></u></div>
 							{% elif not v.email %}
 								<div class="text-danger text-small mt-1" id="email-verify-text">Add an email to secure your account in case you forget your password.</div>
 							{% endif %}
@@ -46,9 +46,9 @@
 				<div class="d-flex">
 					{% if FEATURES['PROCOINS'] %}
 						{% if KOFI_TOKEN %}
-							<button type="button" class="btn btn-success" onclick="postToast(this,'/settings/kofi')">Claim {{patron}} rewards</button>
+							<button type="button" class="btn btn-success" onclick="postToastSwitch(this,'/settings/kofi')">Claim {{patron}} rewards</button>
 						{% else %}
-							<button type="button" class="btn btn-success" onclick="postToast(this,'/settings/gumroad')">Claim {{patron}} rewards</button>
+							<button type="button" class="btn btn-success" onclick="postToastSwitch(this,'/settings/gumroad')">Claim {{patron}} rewards</button>
 						{% endif %}
 					{% endif %}
 					{% if v.email %}

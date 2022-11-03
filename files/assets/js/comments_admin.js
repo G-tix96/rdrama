@@ -1,7 +1,7 @@
 function removeComment(t,comment_id,button1,button2,cls) {
 	url="/remove_comment/"+comment_id
 
-	postToast(t, url,
+	postToastSwitch(t, url,
 		button1,
 		button2,
 		cls,
@@ -26,7 +26,7 @@ function removeComment(t,comment_id,button1,button2,cls) {
 function approveComment(t,comment_id,button1,button2,cls) {
 	url="/approve_comment/"+comment_id
 
-	postToast(t, url,
+	postToastSwitch(t, url,
 		button1,
 		button2,
 		cls,

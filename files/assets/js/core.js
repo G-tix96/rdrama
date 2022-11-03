@@ -32,7 +32,7 @@ function createXhrWithFormKey(url, method="POST", form=new FormData()) {
 	return [xhr, form]; // hacky but less stupid than what we were doing before
 }
 
-function postToastCallback(t, url, data, callback) {
+function postToast(t, url, data, callback) {
 	const isShopConfirm = t.id.startsWith('buy1-') || t.id.startsWith('buy2-')
 
 	if (!isShopConfirm)
@@ -78,8 +78,8 @@ function postToastCallback(t, url, data, callback) {
 	}
 }
 
-function postToast(t, url, button1, button2, cls, callback) {
-	postToastCallback(t, url,
+function postToastSwitch(t, url, button1, button2, cls, callback) {
+	postToast(t, url,
 		{
 		},
 		(xhr) => {

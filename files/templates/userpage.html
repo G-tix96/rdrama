@@ -164,20 +164,20 @@
 					{% if v and v.id != u.id %}
 						<div id="profile--actionbtns">
 							<div class="actionbtns mb-3">
-								<button type="button" id="button-unsub" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" onclick="postToast(this,'/unfollow/{{u.username}}','button-unsub','button-sub','d-none')">Unfollow</button>
+								<button type="button" id="button-unsub" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" onclick="postToastSwitch(this,'/unfollow/{{u.username}}','button-unsub','button-sub','d-none')">Unfollow</button>
 
-								<button type="button" id="button-sub" class="btn btn-primary {% if is_following or u.is_nofollow or u.is_blocked %}d-none{% endif %}" onclick="postToast(this,'/follow/{{u.username}}','button-unsub','button-sub','d-none')">Follow</button>						
+								<button type="button" id="button-sub" class="btn btn-primary {% if is_following or u.is_nofollow or u.is_blocked %}d-none{% endif %}" onclick="postToastSwitch(this,'/follow/{{u.username}}','button-unsub','button-sub','d-none')">Follow</button>						
 								<button type="button" class="btn btn-primary" onclick="toggleElement('message', 'input-message')">Message</button>
 
 								{% if FEATURES['USERS_SUICIDE'] -%}
-									<button type="button" class="btn btn-primary" onclick="postToast(this,'/@{{u.username}}/suicide')">Get Them Help</button>
+									<button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/@{{u.username}}/suicide')">Get Them Help</button>
 								{%- endif %}
 								<button type="button" class="btn btn-primary" onclick="toggleElement('coin-transfer', 'coin-transfer-amount')">Gift Coins</button>
 								{% if FEATURES['PROCOINS'] -%}
 									<button type="button" class="btn btn-primary" onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</button>
 								{%- endif %}
 
-								<button type="button" class="btn btn-primary" onclick="postToast(this,'/settings/block?username={{u.username}}',true)">Block</button>
+								<button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/settings/block?username={{u.username}}',true)">Block</button>
 							</div>
 						</div>
 						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
@@ -415,20 +415,20 @@
 					{% endif %}
 
 					{% if v and v.id != u.id %}
-						<button type="button" id="button-unsub2" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" onclick="postToast(this,'/unfollow/{{u.username}}','button-unsub2','button-sub2','d-none')">Unfollow</button>
+						<button type="button" id="button-unsub2" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" onclick="postToastSwitch(this,'/unfollow/{{u.username}}','button-unsub2','button-sub2','d-none')">Unfollow</button>
 
-						<button type="button" id="button-sub2" class="btn btn-primary {% if is_following or u.is_nofollow or u.is_blocked %}d-none{% endif %}" onclick="postToast(this,'/follow/{{u.username}}','button-unsub2','button-sub2','d-none')">Follow</button>
+						<button type="button" id="button-sub2" class="btn btn-primary {% if is_following or u.is_nofollow or u.is_blocked %}d-none{% endif %}" onclick="postToastSwitch(this,'/follow/{{u.username}}','button-unsub2','button-sub2','d-none')">Follow</button>
 
 						<button type="button" class="btn btn-primary" onclick="toggleElement('message-mobile', 'input-message-mobile')">Message</button>
 						{% if FEATURES['USERS_SUICIDE'] -%}
-							<button type="button" class="btn btn-primary" onclick="postToast(this,'/@{{u.username}}/suicide')">Get Them Help</button>
+							<button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/@{{u.username}}/suicide')">Get Them Help</button>
 						{%- endif %}
 						<button type="button" class="btn btn-primary" onclick="toggleElement('coin-transfer-mobile', 'coin-transfer-amount-mobile')">Gift Coins</button>
 						{% if FEATURES['PROCOINS'] -%}
 							<button type="button" class="btn btn-primary" onclick="toggleElement('bux-transfer-mobile', 'bux-transfer-amount-mobile')">Gift Marseybux</button>
 						{%- endif %}
 
-						<button type="button" class="btn btn-primary" onclick="postToast(this,'/settings/block?username={{u.username}}',true)">Block</button>
+						<button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/settings/block?username={{u.username}}',true)">Block</button>
 					{% endif %}
 				</div>
 

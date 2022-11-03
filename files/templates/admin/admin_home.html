@@ -86,7 +86,7 @@
 <h4>Casino</h4>
 <ul>
 	<li><a href="/admin/lottery/participants">Participants</a></li>
-	<button type="button" class="btn btn-primary mt-3" onclick="postToast(this,'/casino/blackjack/purge');" style="margin-bottom: 2em;">PURGE BAD BLACKJACK GAMES</button>
+	<button type="button" class="btn btn-primary mt-3" onclick="postToastSwitch(this,'/casino/blackjack/purge');" style="margin-bottom: 2em;">PURGE BAD BLACKJACK GAMES</button>
 </ul>
 {%- endif %}
 
@@ -109,48 +109,48 @@
 
 {% if v.admin_level >= PERMS['SITE_SETTINGS'] %}
 	<div class="custom-control custom-switch mt-1">
-		<input autocomplete="off" type="checkbox" class="custom-control-input" id="signups" {% if site_settings['Signups'] %}checked{% endif %} onchange="postToast(this,'/admin/site_settings/Signups');">
+		<input autocomplete="off" type="checkbox" class="custom-control-input" id="signups" {% if site_settings['Signups'] %}checked{% endif %} onchange="postToastSwitch(this,'/admin/site_settings/Signups');">
 		<label class="custom-control-label" for="signups">Signups</label>
 	</div>
 
 	<div class="custom-control custom-switch">
-		<input autocomplete="off" type="checkbox" class="custom-control-input" id="bots" {% if site_settings['Bots'] %}checked{% endif %} onchange="postToast(this,'/admin/site_settings/Bots');">
+		<input autocomplete="off" type="checkbox" class="custom-control-input" id="bots" {% if site_settings['Bots'] %}checked{% endif %} onchange="postToastSwitch(this,'/admin/site_settings/Bots');">
 		<label class="custom-control-label" for="bots">Bots</label>
 	</div>
 
 	<div class="custom-control custom-switch">
-		<input autocomplete="off" type="checkbox" class="custom-control-input" id="login_required" {% if site_settings['login_required'] %}checked{% endif %} onchange="postToast(this,'/admin/site_settings/login_required');">
+		<input autocomplete="off" type="checkbox" class="custom-control-input" id="login_required" {% if site_settings['login_required'] %}checked{% endif %} onchange="postToastSwitch(this,'/admin/site_settings/login_required');">
 		<label class="custom-control-label" for="login_required">Login Required</label>
 	</div>
 
 	<div class="custom-control custom-switch">
-		<input autocomplete="off" type="checkbox" class="custom-control-input" id="Fart mode" {% if site_settings['Fart mode'] %}checked{% endif %} onchange="postToast(this,'/admin/site_settings/Fart mode');">
+		<input autocomplete="off" type="checkbox" class="custom-control-input" id="Fart mode" {% if site_settings['Fart mode'] %}checked{% endif %} onchange="postToastSwitch(this,'/admin/site_settings/Fart mode');">
 		<label class="custom-control-label" for="Fart mode">Fart mode</label>
 	</div>
 
 	<div class="custom-control custom-switch">
-		<input autocomplete="off" type="checkbox" class="custom-control-input" id="Read-only mode" {% if site_settings['Read-only mode'] %}checked{% endif %} onchange="postToast(this,'/admin/site_settings/Read-only mode');">
+		<input autocomplete="off" type="checkbox" class="custom-control-input" id="Read-only mode" {% if site_settings['Read-only mode'] %}checked{% endif %} onchange="postToastSwitch(this,'/admin/site_settings/Read-only mode');">
 		<label class="custom-control-label" for="Read-only mode">Read-only mode</label>
 	</div>
 	{% if v.admin_level >= PERMS['SITE_SETTINGS_UNDER_ATTACK'] %}
 		<div class="custom-control custom-switch">
-			<input autocomplete="off" type="checkbox" class="custom-control-input" id="under_attack" name="under_attack" {% if under_attack%}checked{% endif %} onchange="postToast(this,'/admin/under_attack');">
+			<input autocomplete="off" type="checkbox" class="custom-control-input" id="under_attack" name="under_attack" {% if under_attack%}checked{% endif %} onchange="postToastSwitch(this,'/admin/under_attack');">
 			<label class="custom-control-label" for="under_attack">Under attack mode</label>
 		</div>
 	{% endif %}
 	<br>
 	{% if SITE_NAME == 'PCM' and v.admin_level >= PERMS['PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES'] %}
-		<button type="button" class="btn btn-primary" onclick="postToast(this,'/kippy');" style="margin-bottom: 2em;">Print 10k Marseybux</button>
+		<button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/kippy');" style="margin-bottom: 2em;">Print 10k Marseybux</button>
 	{% endif %}
 {% endif %}
 
 {% if v.admin_level >= PERMS['SITE_CACHE_PURGE_CDN'] or v.admin_level >= PERMS['SITE_CACHE_DUMP_INTERNAL'] %}
 	<h4>Caching</h4>
 	{% if v.admin_level >= PERMS['SITE_CACHE_PURGE_CDN'] %}
-		<button type="button" class="btn btn-primary mt-3" onclick="postToast(this,'/admin/purge_cache');" style="margin-bottom: 2em;">PURGE CDN CACHE</button>
+		<button type="button" class="btn btn-primary mt-3" onclick="postToastSwitch(this,'/admin/purge_cache');" style="margin-bottom: 2em;">PURGE CDN CACHE</button>
 	{% endif %}
 	{% if v.admin_level >= PERMS['SITE_CACHE_DUMP_INTERNAL'] %}
-		<button type="button" class="btn btn-primary mt-3" onclick="postToast(this,'/admin/dump_cache');" style="margin-bottom: 2em;">DUMP INTERNAL CACHE</button>
+		<button type="button" class="btn btn-primary mt-3" onclick="postToastSwitch(this,'/admin/dump_cache');" style="margin-bottom: 2em;">DUMP INTERNAL CACHE</button>
 	{% endif %}
 {% endif %}
 

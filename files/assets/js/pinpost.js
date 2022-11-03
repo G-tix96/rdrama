@@ -1,5 +1,5 @@
 function pinPost(t, id) {
-	postToastCallback(t, `/sticky/${id}`,
+	postToast(t, `/sticky/${id}`,
 		{
 		},
 		(xhr) => {
@@ -17,7 +17,7 @@ function pinPost(t, id) {
 }
 
 function unpinPost(t, id) {
-	postToastCallback(t, `/unsticky/${id}`,
+	postToast(t, `/unsticky/${id}`,
 		{
 		},
 		() => {

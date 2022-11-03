@@ -86,23 +86,23 @@
 					<input autocomplete="off" type="number" step="any" name="days" class="form-control" placeholder="Days (0 or blank = permanent)">
 					<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Lock Chud Theme">
 				</form>
-				<button type="button" id="unagendaposter-{{deviceType}}" class="mt-1 {% if not u.agendaposter %}d-none{% endif %} btn btn-success" onclick="postToast(this,'/unagendaposter/{{u.id}}','agendaposter-{{deviceType}}','unagendaposter-{{deviceType}}','d-none')">Disable Chud Theme</button>
+				<button type="button" id="unagendaposter-{{deviceType}}" class="mt-1 {% if not u.agendaposter %}d-none{% endif %} btn btn-success" onclick="postToastSwitch(this,'/unagendaposter/{{u.id}}','agendaposter-{{deviceType}}','unagendaposter-{{deviceType}}','d-none')">Disable Chud Theme</button>
 			{% endif %}
 			
 			<div class="actionbtns mt-3">
 				{% if v.admin_level >= PERMS['ADMIN_ADD'] %}
-					<button type="button" id="add-admin-{{deviceType}}" class="{% if u.admin_level >= PERMS['ADMIN_ADD_PERM_LEVEL'] %}d-none{% endif %} btn btn-primary" onclick="postToast(this,'/@{{u.username}}/make_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Make admin</button>
+					<button type="button" id="add-admin-{{deviceType}}" class="{% if u.admin_level >= PERMS['ADMIN_ADD_PERM_LEVEL'] %}d-none{% endif %} btn btn-primary" onclick="postToastSwitch(this,'/@{{u.username}}/make_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Make admin</button>
 				{% endif %}
 				{% if v.admin_level >= PERMS['ADMIN_REMOVE'] %}
-					<button type="button" id="remove-admin-{{deviceType}}" class="{% if u.admin_level < 1 %}d-none{% endif %} btn btn-danger" onclick="postToast(this,'/@{{u.username}}/remove_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Remove admin</button>
+					<button type="button" id="remove-admin-{{deviceType}}" class="{% if u.admin_level < 1 %}d-none{% endif %} btn btn-danger" onclick="postToastSwitch(this,'/@{{u.username}}/remove_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Remove admin</button>
 				{% endif %}
 				{% if v.admin_level >= PERMS['ADMIN_ACTIONS_REVERT'] and u.admin_level %}
-					<button type="button" class="btn btn-danger" data-click="postToast(this,'/@{{u.username}}/revert_actions')" onclick="areyousure(this)">Revert admin actions</button>
+					<button type="button" class="btn btn-danger" data-click="postToastSwitch(this,'/@{{u.username}}/revert_actions')" onclick="areyousure(this)">Revert admin actions</button>
 				{% endif %}
 
 				{% if v.admin_level >= PERMS['USER_BAN'] %}
-					<button type="button" id="mute-user-{{deviceType}}" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" onclick="postToast(this,'/mute_user/{{u.id}}/1','mute-user-{{deviceType}}','unmute-user-{{deviceType}}','d-none')">Mute</button>
-					<button type="button" id="unmute-user-{{deviceType}}" class="mb-1 {% if not u.is_muted %}d-none{% endif %} btn btn-success" onclick="postToast(this,'/mute_user/{{u.id}}/0','mute-user-{{deviceType}}','unmute-user-{{deviceType}}','d-none')">Unmute</button>
+					<button type="button" id="mute-user-{{deviceType}}" class="{% if u.is_muted %}d-none{% endif %} btn btn-danger" onclick="postToastSwitch(this,'/mute_user/{{u.id}}/1','mute-user-{{deviceType}}','unmute-user-{{deviceType}}','d-none')">Mute</button>
+					<button type="button" id="unmute-user-{{deviceType}}" class="mb-1 {% if not u.is_muted %}d-none{% endif %} btn btn-success" onclick="postToastSwitch(this,'/mute_user/{{u.id}}/0','mute-user-{{deviceType}}','unmute-user-{{deviceType}}','d-none')">Unmute</button>
 				{% endif %}
 				{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 					<form action="/admin/unnuke_user" method="post">
@@ -117,8 +117,8 @@
 					</form>
 				{% endif %}
 				{% if FEATURES['COUNTRY_CLUB'] and v and v.admin_level >= PERMS['USER_CLUB_ALLOW_BAN'] %}
-					<button type="button" id="grant-{{deviceType}}" class="mt-1 {% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="postToast(this,'/@{{u.username}}/club_allow','grant-{{deviceType}}','bar-{{deviceType}}','d-none')">Grant club access</button>
-					<button type="button" id="bar-{{deviceType}}" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="postToast(this,'/@{{u.username}}/club_ban','grant-{{deviceType}}','bar-{{deviceType}}','d-none')">Bar from club</button>
+					<button type="button" id="grant-{{deviceType}}" class="mt-1 {% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="postToastSwitch(this,'/@{{u.username}}/club_allow','grant-{{deviceType}}','bar-{{deviceType}}','d-none')">Grant club access</button>
+					<button type="button" id="bar-{{deviceType}}" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="postToastSwitch(this,'/@{{u.username}}/club_ban','grant-{{deviceType}}','bar-{{deviceType}}','d-none')">Bar from club</button>
 				{% endif %}
 			</div>
 		</div>

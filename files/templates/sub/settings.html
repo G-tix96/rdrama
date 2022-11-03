@@ -34,7 +34,7 @@
 </div>
 <div class="body w-lg-100">
 	<div class="custom-control custom-switch">
-		<input autocomplete="off" type="checkbox" class="custom-control-input" id="stealth" name="stealth" {% if sub.stealth %}checked{% endif %} onchange="postToast(this,'/h/{{sub}}/stealth');">
+		<input autocomplete="off" type="checkbox" class="custom-control-input" id="stealth" name="stealth" {% if sub.stealth %}checked{% endif %} onchange="postToastSwitch(this,'/h/{{sub}}/stealth');">
 		<label class="custom-control-label" for="stealth"></label>
 	</div>
 	<span class="text-small text-muted">Make this hole blocked by default (users can visit it to unblock it).</span>

@@ -114,7 +114,7 @@
 		})
 
 		function approve_hat(t, name) {
-			postToastCallback(t, `/admin/approve/hat/${name}`,
+			postToast(t, `/admin/approve/hat/${name}`,
 				{
 					"description": document.getElementById(`${name}-description`).value,
 					"name": document.getElementById(`${name}-name`).value,
@@ -127,7 +127,7 @@
 		}
 
 		function remove_hat(t, name) {
-			postToastCallback(t, `/remove/hat/${name}`,
+			postToast(t, `/remove/hat/${name}`,
 				{
 				},
 				() => {
