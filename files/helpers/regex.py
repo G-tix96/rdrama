@@ -1,4 +1,7 @@
+import random
 import re
+from files.classes.user import User
+from typing import List, Literal, Optional, Union
 from .const import *
 from random import choice, choices
 
@@ -57,8 +60,11 @@ email_regex = re.compile(EMAIL_REGEX_PATTERN, flags=re.A)
 utm_regex = re.compile('utm_[0-z]+=[0-z_]+&', flags=re.A)
 utm_regex2 = re.compile('[?&]utm_[0-z]+=[0-z_]+', flags=re.A)
 
-slur_regex = re.compile(f"<[^>]*>|{single_words}", flags=re.I|re.A)
-slur_regex_upper = re.compile(f"<[^>]*>|{single_words.upper()}", flags=re.A)
+slur_regex = re.compile(f"<[^>]*>|{slur_single_words}", flags=re.I|re.A)
+slur_regex_upper = re.compile(f"<[^>]*>|{slur_single_words.upper()}", flags=re.A)
+profanity_regex = re.compile(f"<[^>]*>|{profanity_single_words}", flags=re.I|re.A)
+profanity_regex_upper = re.compile(f"<[^>]*>|{profanity_single_words.upper()}", flags=re.A)
+
 torture_regex = re.compile('(^|\s)(i|me) ', flags=re.I|re.A)
 torture_regex2 = re.compile("(^|\s)i'm ", flags=re.I|re.A)
 torture_regex_exclude = re.compile('^\s*>', flags=re.A)
@@ -72,16 +78,14 @@ video_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\
 audio_regex_extensions = '|'.join(AUDIO_FORMATS)
 audio_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({audio_regex_extensions}))', flags=re.A)
 
+image_regex = re.compile("(^|\s)(https:\/\/[\w\-.#&/=\?@%;+,:]{5,250}(\.png|\.jpg|\.jpeg|\.gif|\.webp)(\?[\w\-.#&/=\?@%;+,:]*)?)($|\s)", flags=re.I|re.A)
 image_regex_extensions = '|'.join(IMAGE_FORMATS)
 imgur_regex = re.compile(f'(https:\/\/i\.imgur\.com\/[a-z0-9]+)\.({image_regex_extensions})', flags=re.I|re.A)
 
 giphy_regex = re.compile('(https:\/\/media\.giphy\.com\/media\/[a-z0-9]+\/giphy)\.gif', flags=re.I|re.A)
 
 youtube_regex = re.compile('(<p>[^<]*)(https:\/\/youtube\.com\/watch\?v\=([a-z0-9-_]{5,20})[\w\-.#&/=\?@%+]*)', flags=re.I|re.A)
-
 yt_id_regex = re.compile('[a-z0-9-_]{5,20}', flags=re.I|re.A)
-
-image_regex = re.compile("(^|\s)(https:\/\/[\w\-.#&/=\?@%;+,:]{5,250}(\.png|\.jpg|\.jpeg|\.gif|\.webp)(\?[\w\-.#&/=\?@%;+,:]*)?)($|\s)", flags=re.I|re.A)
 
 link_fix_regex = re.compile("(\[.*?\]\()(?!http|/)(.*?\))", flags=re.A)
 
@@ -96,7 +100,6 @@ greentext_regex = re.compile("(\n|^)>([^ >][^\n]*)", flags=re.A)
 ascii_only_regex = re.compile("[ -~]+", flags=re.A)
 
 reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|u)\/', flags=re.A)
-
 reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(?:(?:[A-z]{2})(?:-[A-z]{2})" "?|beta|i|m|pay|ssl|www|new|alpha)\.reddit\.com|libredd\.it|teddit\.net)\/(r|u)\/", flags=re.A)
 
 color_regex = re.compile("[a-z0-9]{6}", flags=re.A)
@@ -113,20 +116,43 @@ pronouns_regex = re.compile("([a-z]{1,5})/[a-z]{1,5}(/[a-z]{1,5})?", flags=re.A|
 
 knowledgebase_page_regex = re.compile("[a-zA-Z0-9_\-]+", flags=re.A)
 
-def sub_matcher(match, upper=False):
+def sub_matcher(match, upper=False, replace_with:Union[dict[str, str], dict[str, List[str]]]=SLURS):
 	if match.group(0).startswith('<'):
 		return match.group(0)
 	else:
-		repl = SLURS[match.group(0).lower()]
+		repl = replace_with[match.group(0).lower()]
+		if not isinstance(repl, str):
+			repl = random.choice(repl)
 		return repl if not upper or "<img" in repl else repl.upper()
 
-def sub_matcher_upper(match):
-	return sub_matcher(match, upper=True)
+def sub_matcher_upper(match, replace_with:Union[dict[str, str], dict[str, List[str]]]=SLURS):
+	return sub_matcher(match, upper=True, replace_with=replace_with)
 
-def censor_slurs(body, logged_user):
+
+# TODO: make censoring a bit better
+def sub_matcher_slurs(match, upper=False):
+	return sub_matcher(match, upper, replace_with=SLURS)
+
+def sub_matcher_slurs_upper(match):
+	return sub_matcher_slurs(match, upper=True)
+
+def sub_matcher_profanities(match, upper=False):
+	return sub_matcher(match, upper, replace_with=PROFANITIES)
+
+def sub_matcher_profanities_upper(match):
+	return sub_matcher_profanities(match, upper=True)
+
+def censor_slurs(body:Optional[str], logged_user:Union[Optional[User], Literal['chat']]):
+	if not body: return ""
+	def replace_re(body:str, regex:re.Pattern, regex_upper:re.Pattern, sub_func, sub_func_upper):
+		body = regex_upper.sub(sub_func_upper, body)
+		return regex.sub(sub_func, body)
+	
 	if not logged_user or logged_user == 'chat' or logged_user.slurreplacer:
-		body = slur_regex_upper.sub(sub_matcher_upper, body)
-		body = slur_regex.sub(sub_matcher, body)
+		body = replace_re(body, slur_regex, slur_regex_upper, sub_matcher_slurs, sub_matcher_slurs_upper)
+	if not logged_user or logged_user == 'chat' or logged_user.profanityreplacer:
+		body = replace_re(body, profanity_regex, profanity_regex_upper, sub_matcher_profanities, sub_matcher_profanities_upper)
+
 	return body
 
 def torture_ap(body, username):

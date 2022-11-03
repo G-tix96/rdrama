@@ -954,6 +954,7 @@ CREATE TABLE public.users (
     theme character varying(15) NOT NULL,
     song character varying(50),
     slurreplacer boolean DEFAULT true NOT NULL,
+    profanityreplacer boolean DEFAULT true NOT NULL,
     shadowbanned character varying(25),
     newtabexternal boolean DEFAULT true NOT NULL,
     customtitleplain character varying(100),

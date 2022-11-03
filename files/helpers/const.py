@@ -102,6 +102,36 @@ SLURS = {
 	"daisy destruction": "Cars 2",
 }
 
+PROFANITIES = {
+	'motherfucker': ['motherlover'],
+	'fuck': ['frick', 'fudge', 'freak', 'f-word', 'f-bomb', 'cuss'],
+	'asshole': ['butthole', 'ahole'],
+	'arsehole': ['butthole', 'ahole'],
+	'(ass)\W': ['butt', 'backside', 'rear end', 'bum', 'tochus'],
+	'shit': ['poop', 'poop', 'crap', 'puckey'],
+	'lmao': ['lmbo'],
+	'damn': ['dang', 'darn'],
+	'bastard': ['fatherless child'],
+	'piss': ['pee'],
+	'bitch': ['b-word', 'mean lady'],
+	'dick': ['weiner'],
+	'cock': ['weiner'],
+	'penis': ['peepee'],
+	'pussy': ['girl weiner'],
+	'vagina': ['girl peepee'],
+	'cunt': ['rude lady'],
+	'hell': ['heck', 'h-e-double-hockey-sticks'],
+	'sexual intercourse': ['sexual congress'],
+	'(sex)\W': ['intercourse'],
+	'(arse)\W': ['butt', 'backside', 'rear end', 'bum', 'tochus'],
+	'god': ['gosh'],
+	'wanker': ['rude masturbator'],
+	'twat': ['girl weiner'],
+	'cum': ['c*m'],
+	'orgasm': ['sexual climax'],
+	'toilet': ['potty'],
+}
+
 if SITE_NAME == 'rDrama':
 	RDRAMA_SLURS = {
 		"retarded": "r-slurred",
@@ -134,7 +164,8 @@ if SITE_NAME == 'rDrama':
 	}
 	SLURS.update(RDRAMA_SLURS)
 
-single_words = "|".join([slur.lower() for slur in SLURS.keys()])
+slur_single_words = "|".join([slur.lower() for slur in SLURS.keys()])
+profanity_single_words = "|".join([profanity.lower() for profanity in PROFANITIES.keys()])
 
 LONGPOST_REPLIES = ('Wow, you must be a JP fan.', 'This is one of the worst posts I have EVER seen. Delete it.', "No, don't reply like this, please do another wall of unhinged rant please.", '<h1>😴😴😴</h1>', "Ma'am we've been over this before. You need to stop.", "I've known more coherent downies.", "Your pulitzer's in the mail", "That's great and all, but I asked for my burger without cheese.", 'That degree finally paying off', "That's nice sweaty. Why don't you have a seat in the time out corner with Pizzashill until you calm down, then you can have your Capri Sun.", "All them words won't bring your pa back.", "You had a chance to not be completely worthless, but it looks like you threw it away. At least you're consistent.", 'Some people are able to display their intelligence by going on at length on a subject and never actually saying anything. This ability is most common in trades such as politics, public relations, and law. You have impressed me by being able to best them all, while still coming off as an absolute idiot.', "You can type 10,000 characters and you decided that these were the one's that you wanted.", 'Have you owned the libs yet?', "I don't know what you said, because I've seen another human naked.", 'Impressive. Normally people with such severe developmental disabilities struggle to write much more than a sentence or two. He really has exceded our expectations for the writing portion. Sadly the coherency of his writing, along with his abilities in the social skills and reading portions, are far behind his peers with similar disabilities.', "This is a really long way of saying you don't fuck.", "Sorry ma'am, looks like his delusions have gotten worse. We'll have to admit him.", 'If only you could put that energy into your relationships', 'Posts like this is why I do Heroine.', 'still unemployed then?', 'K', 'look im gunna have 2 ask u 2 keep ur giant dumps in the toilet not in my replys 😷😷😷', "Mommy is soooo proud of you, sweaty. Let's put this sperg out up on the fridge with all your other failures.", "Good job bobby, here's a star", "That was a mistake. You're about to find out the hard way why.", f'You sat down and wrote all this shit. You could have done so many other things with your life. What happened to your life that made you decide writing novels of bullshit here was the best option?', "I don't have enough spoons to read this shit", "All those words won't bring daddy back.", 'OUT!', "Damn, you're really mad over this, but thanks for the effort you put into typing that all out! Sadly I won't read it all.", "Jesse what the fuck are you talking about??", "▼you're fucking bananas if you think I'm reading all that, take my downvote and shut up idiot", "Are you feeling okay bud?", '<img loading="lazy" data-bs-toggle="tooltip" alt=":#marseywoah:" src="/e/marseywoah.webp" b title=":#marseywoah:">', 'At no point in your rambling, incoherent post were you even close to anything that could be considered a rational thought. Everyone on this site is now dumber for having read it. May God have mercy on your soul.')
 
