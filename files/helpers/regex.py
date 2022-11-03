@@ -119,7 +119,7 @@ def sub_matcher(match, upper=False, replace_with:Union[dict[str, str], dict[str,
 	if match.group(0).startswith('<'):
 		return match.group(0)
 	else:
-		repl = replace_with[match.group(0).lower()]
+		repl = replace_with[match.group(1).lower()]
 		if not isinstance(repl, str):
 			repl = random.choice(repl)
 		return repl if not upper or "<img" in repl else repl.upper()

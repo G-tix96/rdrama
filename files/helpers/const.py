@@ -130,6 +130,7 @@ PROFANITIES = {
 	'cum': ['c*m'],
 	'orgasm': ['sexual climax'],
 	'toilet': ['potty'],
+	'rape': ['r*pe'],
 }
 
 if SITE_NAME == 'rDrama':
