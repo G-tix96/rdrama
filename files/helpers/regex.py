@@ -1,6 +1,5 @@
 import random
 import re
-from files.classes.user import User
 from typing import List, Literal, Optional, Union
 from .const import *
 from random import choice, choices
@@ -142,7 +141,7 @@ def sub_matcher_profanities(match, upper=False):
 def sub_matcher_profanities_upper(match):
 	return sub_matcher_profanities(match, upper=True)
 
-def censor_slurs(body:Optional[str], logged_user:Union[Optional[User], Literal['chat']]):
+def censor_slurs(body:Optional[str], logged_user):
 	if not body: return ""
 	def replace_re(body:str, regex:re.Pattern, regex_upper:re.Pattern, sub_func, sub_func_upper):
 		body = regex_upper.sub(sub_func_upper, body)
