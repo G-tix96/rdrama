@@ -53,7 +53,7 @@ def exile_comment(v, cid):
 
 	u = c.author
 
-	if u.mods(sub): abort(403)
+	if u.actually_mods(sub): abort(403)
 
 	if not u.exiled_from(sub):
 		exile = Exile(user_id=u.id, sub=sub, exiler_id=v.id)

@@ -288,11 +288,16 @@ class User(Base):
 		if self.agendaposter: return False
 		if self.profile_url.startswith('/e/') and not self.customtitle and self.namecolor == DEFAULT_COLOR: return False
 		return True
+	
+	@lazy
+	def actually_mods(self, sub):
+		if not sub: return False
+		return bool(g.db.query(Mod.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
 
 	@lazy
 	def mods(self, sub):
 		if self.is_suspended_permanently or self.shadowbanned: return False
-		return self.admin_level >= PERMS['HOLE_GLOBAL_MODERATION'] or bool(g.db.query(Mod.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
+		return self.admin_level >= PERMS['HOLE_GLOBAL_MODERATION'] or self.actually_mods(sub)
 
 	@lazy
 	def exiled_from(self, sub):
