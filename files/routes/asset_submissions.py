@@ -44,9 +44,9 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 	@auth_required
 	def submit_marsey(v):
 		file = request.files["image"]
-		name = request.values.get('name').lower().strip()
-		tags = request.values.get('tags').lower().strip()
-		username = request.values.get('author').lower().strip()
+		name = request.values.get('name', '').lower().strip()
+		tags = request.values.get('tags', '').lower().strip()
+		username = request.values.get('author', '').lower().strip()
 
 		def error(error):
 			if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']: marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None).all()
@@ -209,9 +209,9 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 	@app.post("/submit/hats")
 	@auth_required
 	def submit_hat(v):
-		name = request.values.get('name').strip()
-		description = request.values.get('description').strip()
-		username = request.values.get('author').strip()
+		name = request.values.get('name', '').strip()
+		description = request.values.get('description', '').strip()
+		username = request.values.get('author', '').strip()
 
 		def error(error):
 			if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
@@ -256,7 +256,6 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 
 		hat = HatDef(name=name, author_id=author.id, description=description, price=price, submitter_id=v.id)
 		g.db.add(hat)
-
 		g.db.commit()
 
 		if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
