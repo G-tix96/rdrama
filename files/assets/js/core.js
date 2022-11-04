@@ -83,8 +83,15 @@ function postToastSwitch(t, url, button1, button2, cls, callback) {
 		{
 		},
 		(xhr) => {
-			document.getElementById(button1).classList.toggle(cls);
-			document.getElementById(button2).classList.toggle(cls);
+			if (button1)
+			{
+				if (typeof(button1) == 'boolean') {
+					location.reload()
+				} else {
+					document.getElementById(button1).classList.toggle(cls);
+					document.getElementById(button2).classList.toggle(cls);
+				}
+			}
 			if (callback) callback(xhr);
 		}
 	);
