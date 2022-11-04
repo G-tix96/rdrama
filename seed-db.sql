@@ -363,7 +363,6 @@ INSERT INTO public.hat_defs VALUES (993, 'Autumn Leaves', 'we call it fall becoz
 INSERT INTO public.hat_defs VALUES (808, 'The Capy 2', 'The drippiest and pimpiest capybara out there.', 2, 500, NULL, 1665104484);
 INSERT INTO public.hat_defs VALUES (1001, 'Uzi', '*Italian noises*', 2, 500, NULL, 1667083976);
 INSERT INTO public.hat_defs VALUES (1010, 'WallStreetBets', 'stonks', 2, 1000, NULL, 1667402952);
-
 INSERT INTO public.hat_defs VALUES (676, 'Kepi', 'Army cap for those unlucky enough to be French', 2, 500, NULL, 1663303083);
 INSERT INTO public.hat_defs VALUES (678, 'Turkroach', 'Come on Carp this one''s hilarious. It''s semi transparent to clarify', 2, 500, NULL, 1663305640);
 INSERT INTO public.hat_defs VALUES (679, 'Judge Dredd', 'THIS USER IS THE LAW', 2, 500, NULL, 1663309533);
@@ -429,9 +428,7 @@ INSERT INTO public.hat_defs VALUES (1008, 'Time for Chili', 'You''re just mad be
 INSERT INTO public.hat_defs VALUES (972, 'Evil Pumpkin', 'Rrrrrrrrrr!', 2, 500, NULL, 1666459022);
 INSERT INTO public.hat_defs VALUES (984, 'ICEED', 'Something about Coldtwinge on WPD?', 2, 500, NULL, 1666473550);
 INSERT INTO public.hat_defs VALUES (975, 'Kitsune Mask II', 'Some more weeb furry shit idfk', 2, 500, NULL, 1666459532);
-
 INSERT INTO public.hat_defs VALUES (973, 'Pet Bee', 'Lookit him go! Buzz buzz buzz!!!!', 2, 1000, NULL, 1666459221);
-
 INSERT INTO public.hat_defs VALUES (830, 'Femboy hooters', 'Yes you ARE on the menu', 2, 500, NULL, 1665255628);
 INSERT INTO public.hat_defs VALUES (835, 'Rain', 'It''s a sad rainy day', 2, 1000, NULL, 1665259850);
 INSERT INTO public.hat_defs VALUES (837, 'Aura (blue)', 'Such power!', 2, 1000, NULL, 1665259885);
@@ -439,16 +436,19 @@ INSERT INTO public.hat_defs VALUES (14, 'Riveter', 'Can you do it? Really?', 2, 
 INSERT INTO public.hat_defs VALUES (995, 'Annoying user', 'This user IS ANNOYING', 2, 500, NULL, 1666730032);
 INSERT INTO public.hat_defs VALUES (15, 'Top Hat (leprechaun)', 'LLM but Irish', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (843, 'Pet Snek', 'This user has a pet snek', 2, 1000, NULL, 1665261142);
+INSERT INTO public.hat_defs VALUES (1013, 'Moon and Stars', 'Become one with the moon and stars!', 2, 500, NULL, 1667516075);
 INSERT INTO public.hat_defs VALUES (16, 'Drinky Beer Hat', 'I actually didn''t know these were real things until I made this', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (844, 'Snek Peek', 'When the friendly snek sees over your head', 2, 500, NULL, 1665261263);
 INSERT INTO public.hat_defs VALUES (17, 'Viking', 'Rape, pillage, never bathe. Live the dream.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (532, 'Under His Eye', 'WATCH ANOTHER SHOW', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (845, 'Loading', 'please wait', 2, 1000, NULL, 1665261780);
+INSERT INTO public.hat_defs VALUES (1014, 'Pilgrim', 'die injun die', 2, 500, NULL, 1667517948);
 INSERT INTO public.hat_defs VALUES (921, 'Dishonored Overseer mask', 'Protect the dark one!', 2, 500, NULL, 1665422229);
 INSERT INTO public.hat_defs VALUES (893, 'Heart Poof', '*POOF POOF*', 2, 1000, NULL, 1665340533);
 INSERT INTO public.hat_defs VALUES (929, 'astolfo 2', 'Pretty pink hair!', 2, 500, NULL, 1665433847);
 INSERT INTO public.hat_defs VALUES (949, 'Kasa 1', 'Keeps the sun out your eyes but blinds you at the same time!', 2, 500, NULL, 1665609122);
 INSERT INTO public.hat_defs VALUES (951, 'Kasa 3', 'This is just a basket. What farmers wore this?? BLIND ONES?', 2, 500, NULL, 1665609168);
+INSERT INTO public.hat_defs VALUES (1012, 'Marsey Slain', 'You monster... what have you done..', 2, 500, NULL, 1667516047);
 
 INSERT INTO public.hat_defs VALUES (22, 'Southern Gentleman', 'Slaveowner? Fried chicken chain founder? You decide!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (23, 'Cowboy I', 'Make him wish he could quit you', 2, 500, NULL, 1662167687);
@@ -1102,7 +1102,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1015, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1016, true);
 
 
 --
@@ -1579,7 +1579,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycow',2,'cow fursona skin animal costume furry heifer fursuit',NULL),
 ('marseycowboy',2,'western pardner reaction hat tootin yeehaw rootin',NULL),
 ('marseycracka',2,'mayo honkey honky whip buckbreaker buckbreaking whip slaves cotton plantation white nigger master',NULL),
-('marseycrap',2,'carp fish poo poop shit feces dyslexia dyslexic',1667517080),
+('marseycrap',2,'carpathianflorist jannie janitor moderator fish poo poop shit feces',1667517080),
 ('marseycrayfish',2,'crawfish lobster crustacean water swamp bayou south america usa food animal tasty',1665361807),
 ('marseycreepy',2,'pervert pedophile weird reaction chomo creeper sketchy molester',NULL),
 ('marseycringe',2,'pepe frog',NULL),
