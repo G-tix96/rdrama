@@ -356,8 +356,8 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 			abort(403)
 
 		file = request.files["image"]
-		name = request.values.get('name').lower().strip()
-		tags = request.values.get('tags').lower().strip()
+		name = request.values.get('name', '').lower().strip()
+		tags = request.values.get('tags', '').lower().strip()
 
 		def error(error):
 			return render_template("update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
@@ -422,7 +422,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 			abort(403)
 
 		file = request.files["image"]
-		name = request.values.get('name').strip()
+		name = request.values.get('name', '').strip()
 
 		def error(error):
 			return render_template("update_assets.html", v=v, error=error, type="Hat")
