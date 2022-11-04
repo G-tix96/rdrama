@@ -6,6 +6,11 @@ set JOURNOID_BANNERS = [
 		""
 	),
 	(
+		"A subsidiary of Open Society Foundations",
+		"https://www.opensocietyfoundations.org",
+		""	
+	),
+	(
 		"As seen on The Independent 📰✨💞", 
 		"https://www.independent.co.uk/news/world/americas/us-politics/reddit-conservatives-post-trans-child-fake-b2060803.html", 
 		"/post/61530"
@@ -38,12 +43,6 @@ set JOURNOID_BANNERS = [
 ]
 -%}
 {% set journoid = JOURNOID_BANNERS|random %}
-
-{% set journoid = (
-	"A subsidiary of Open Society Foundations",
-	"https://www.opensocietyfoundations.org",
-	""
-) %}
 
 <a rel="nofollow noopener" id="srd-link" href="{{journoid[1]}}">{{journoid[0]}}</a>
 
