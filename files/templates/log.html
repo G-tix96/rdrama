@@ -22,12 +22,6 @@
 	<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
 {% endif %}
 
-{% if sub %}
-	{% set single_user_url="mod" %}
-{% else %}
-	{% set single_user_url="admin" %}
-{% endif %}
-
 <div class="row justify-content-around">
 	<div class="col h-100">
 		<div class="d-md-flex justify-content-between mt-4 ml-1">
