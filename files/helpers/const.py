@@ -1239,7 +1239,6 @@ NOTIFIED_USERS = {
 	'joan': JOAN_ID,
 	'pewkie': JOAN_ID,
 	'carp': CARP_ID,
-	'idio3': IDIO_ID,
 	'idio ': IDIO_ID,
 	'the_homocracy': HOMO_ID,
 	'schizocel': SCHIZO_ID,
