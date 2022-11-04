@@ -98,7 +98,7 @@ SLURS = {
 	"tranny": '<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">',
 	"troon": '<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">',
 	"dyke": "woman who loves women",
-	"dyke": "women who loves women",
+	"dykes": "women who love women",
 	"kike": "jewish chad",
 	"daisy's destruction": "Cars 2",
 	"daisys destruction": "Cars 2",
