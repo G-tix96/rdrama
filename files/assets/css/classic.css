@@ -56,6 +56,15 @@ input, textarea, .form-control {
 	border: 1px solid;
 }
 
+.custom-switch .custom-control-label::after {
+	background-color: #fff !important;
+}
+
+.custom-switch .custom-control-label::before {
+	background-color: var(--muted);
+}
+
+
 /*decoration*/
 .score-up, .active.arrow-up::before, .arrow-up::after, .arrow-up:hover::before {
 	color: var(--upvote) !important;
