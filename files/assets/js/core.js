@@ -78,6 +78,16 @@ function postToast(t, url, data, callback) {
 	}
 }
 
+function postToastReload(t, url) {
+	postToast(t, url,
+		{
+		},
+		() => {
+			location.reload()
+		}
+	);
+}
+
 function postToastSwitch(t, url, button1, button2, cls, callback) {
 	postToast(t, url,
 		{

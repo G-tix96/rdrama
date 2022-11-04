@@ -177,7 +177,7 @@
 									<button type="button" class="btn btn-primary" onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</button>
 								{%- endif %}
 
-								<button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/settings/block?username={{u.username}}',true)">Block</button>
+								<button type="button" class="btn btn-primary" onclick="postToastReload(this,'/settings/block?username={{u.username}}')">Block</button>
 							</div>
 						</div>
 						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" onsubmit="submitFormAjax(event)">
@@ -428,7 +428,7 @@
 							<button type="button" class="btn btn-primary" onclick="toggleElement('bux-transfer-mobile', 'bux-transfer-amount-mobile')">Gift Marseybux</button>
 						{%- endif %}
 
-						<button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/settings/block?username={{u.username}}',true)">Block</button>
+						<button type="button" class="btn btn-primary" onclick="postToastReload(this,'/settings/block?username={{u.username}}')">Block</button>
 					{% endif %}
 				</div>
 
