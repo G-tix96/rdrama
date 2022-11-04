@@ -151,8 +151,9 @@ def censor_slurs(body:Optional[str], logged_user):
 	
 	if not logged_user or logged_user == 'chat' or logged_user.slurreplacer:
 		body = replace_re(body, slur_regex, slur_regex_upper, sub_matcher_slurs, sub_matcher_slurs_upper)
-	if not logged_user or logged_user == 'chat' or logged_user.profanityreplacer:
-		body = replace_re(body, profanity_regex, profanity_regex_upper, sub_matcher_profanities, sub_matcher_profanities_upper)
+	if SITE_NAME == 'rDrama':
+		if not logged_user or logged_user == 'chat' or logged_user.profanityreplacer:
+			body = replace_re(body, profanity_regex, profanity_regex_upper, sub_matcher_profanities, sub_matcher_profanities_upper)
 
 	return body
 

@@ -311,7 +311,7 @@
 							<span class="text-small text-muted">Enable if you would like to automatically replace slurs.</span>
 						</div>
 					</div>
-
+					{% if SITE_NAME == 'rDrama' %}
 					<div class="d-lg-flex border-bottom">
 						<div class="title w-lg-25">
 							<label for="profanityreplacer">Profanity Replacer</label>
@@ -324,7 +324,7 @@
 							<span class="text-small text-muted">Enable if you would like to automatically replace profanities.</span>
 						</div>
 					</div>
-
+					{% endif %}
 					<div class="d-lg-flex border-bottom">
 						<div class="title w-lg-25">
 							<label for="hidevotedon">Hide Posts Voted On</label>
