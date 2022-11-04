@@ -1351,7 +1351,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseybrianna2',2,'trans bear laundrie gabby',NULL),
 ('marseybrick',2,'throw riot subtlety broken paver',NULL),
 ('marseybride',2,'dress tiara married wedding veil marseyismywaifu marriage',NULL),
-('marseybritish',2,'british gasp teeth shocked',1667561297),
+('marseybritish',2,'marsey dumb teeth british gasp shocked',1667590246),
 ('marseybruh',2,'bruhfunny funny or ban',NULL),
 ('marseybruh2',2,'bruh disbelief doubt bro seriously smdh',1663148476),
 ('marseybsod',2,'windows computer blue screen of death error glitch',NULL),
