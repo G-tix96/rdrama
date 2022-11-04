@@ -247,8 +247,8 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 				os.remove(highquality)
 				return error("Images must be 100x130")
 
-		if len(list(Iterator(i))) > 1: price = 1000
-		else: price = 500
+			if len(list(Iterator(i))) > 1: price = 1000
+			else: price = 500
 
 		filename = f'/asset_submissions/hats/{name}.webp'
 		copyfile(highquality, filename)
