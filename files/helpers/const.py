@@ -89,6 +89,7 @@ SLURS = {
 	"nigger": "BIPOC",
 	"niglet": ['BIPOClet', 'baby BIPOC', 'urban youth'],
 	"negress": "BIPOC woman",
+	'nigga': 'neighbor',
 	"faggot": "cute twink",
 	"fag": "strag",
 	"spic ": "hard-working American ",
