@@ -32,7 +32,7 @@ function createXhrWithFormKey(url, method="POST", form=new FormData()) {
 	return [xhr, form]; // hacky but less stupid than what we were doing before
 }
 
-function postToast(t, url, data, callback) {
+function postToast(t, url, data, extraActionsOnSuccess) {
 	const isShopConfirm = t.id.startsWith('buy1-') || t.id.startsWith('buy2-')
 
 	if (!isShopConfirm)
@@ -52,7 +52,7 @@ function postToast(t, url, data, callback) {
 		let result
 		let message;
 		let success = xhr[0].status >= 200 && xhr[0].status < 300;
-		if (success && callback) result = callback(xhr[0]);
+		if (success && extraActionsOnSuccess) result = extraActionsOnSuccess(xhr[0]);
 		if (typeof result == "string") {
 			message = result;
 		} else {
@@ -88,7 +88,7 @@ function postToastReload(t, url) {
 	);
 }
 
-function postToastSwitch(t, url, button1, button2, cls, callback) {
+function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess) {
 	postToast(t, url,
 		{
 		},
@@ -102,7 +102,7 @@ function postToastSwitch(t, url, button1, button2, cls, callback) {
 					document.getElementById(button2).classList.toggle(cls);
 				}
 			}
-			if (callback) callback(xhr);
+			if (extraActionsOnSuccess) extraActionsOnSuccess(xhr);
 		}
 	);
 }
