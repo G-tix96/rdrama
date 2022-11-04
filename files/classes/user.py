@@ -326,7 +326,10 @@ class User(Base):
 
 	@lazy
 	def mod_date(self, sub):
-		return g.db.query(Mod.created_utc).filter_by(user_id=self.id, sub=sub).one()[0]
+		mod_ts = g.db.query(Mod.created_utc).filter_by(user_id=self.id, sub=sub).one_or_none()
+		if mod_ts is None:
+			return None
+		return mod_ts[0]
 
 	@property
 	@lazy
