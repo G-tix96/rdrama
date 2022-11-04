@@ -161,6 +161,10 @@ blockquote {
 	color: white;
 }
 
+blockquote a {
+	color: skyblue;	
+}
+
 .unread {
 	background-color: #9994 !important;
 }
