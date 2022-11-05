@@ -6334,3 +6334,9 @@ div.markdown {
 .actionbtns > form > * {
 	margin-bottom: 10px !important;
 }
+#desktop-expanded-image {
+	height:80vh;
+	border:5px white solid;
+	-o-object-fit: contain;
+	object-fit: contain;
+}
