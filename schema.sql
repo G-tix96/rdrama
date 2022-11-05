@@ -106,7 +106,6 @@ CREATE TABLE public.submissions (
     views integer DEFAULT 0 NOT NULL,
     is_bot boolean DEFAULT false NOT NULL,
     bannedfor character varying(40),
-    chuddedfor character varying(40),
     comment_count integer DEFAULT 0 NOT NULL,
     club boolean DEFAULT false NOT NULL,
     stickied character varying(40),
@@ -124,7 +123,8 @@ CREATE TABLE public.submissions (
     sub character varying(25),
     new boolean,
     hole_pinned character varying(30),
-    notify boolean NOT NULL
+    notify boolean NOT NULL,
+    chuddedfor character varying(40)
 );
 
 
@@ -380,7 +380,6 @@ CREATE TABLE public.comments (
     app_id integer,
     sentto integer,
     bannedfor character varying(40),
-    chuddedfor character varying(40),
     stickied character varying(40),
     body character varying(10000),
     body_html character varying(40000),
@@ -394,7 +393,8 @@ CREATE TABLE public.comments (
     treasure_amount character varying(10),
     wordle_result character varying(115),
     body_ts tsvector GENERATED ALWAYS AS (to_tsvector('english'::regconfig, (body)::text)) STORED,
-    casino_game_id integer
+    casino_game_id integer,
+    chuddedfor character varying(40)
 );
 
 
