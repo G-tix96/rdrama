@@ -46,11 +46,11 @@
 							</div>
 
 							<label class="mt-3" for="name">Name</label>
-							<input autocomplete="off" type="text" id="name" class="form-control" name="name" maxlength="30" placeholder="Required" value="{{name}}" required>
+							<input autocomplete="off" type="text" id="name" class="form-control" name="name" maxlength="30" placeholder="Required" {% if name %}value="{{name}}"{% endif %} required>
 
 							{% if type == "Marsey" %}
 							<label class="mt-3" for="tags">Tags</label>
-							<input autocomplete="off" type="text" id="name" class="form-control" name="tags" maxlength="200" placeholder="Leave empty to keep current tags" value="{{tags}}">
+							<input autocomplete="off" type="text" id="name" class="form-control" name="tags" maxlength="200" placeholder="Leave empty to keep current tags" {% if tags %}value="{{tags}}"{% endif %}>
 							{% endif %}
 							<div class="footer mt-4">
 								<div class="d-flex">
