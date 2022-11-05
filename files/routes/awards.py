@@ -194,7 +194,7 @@ def award_thing(v, thing_type, id):
 
 			msg = f"@{v.username} has given your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award"
 			if awarded_coins > 0:
-				msg += f" and got {awarded_coins} coins"
+				msg += f" and you have received {awarded_coins} coins as a result"
 			msg += "!"
 			if note: msg += f"\n\n> {note}"
 			send_repeatable_notification(author.id, msg)
