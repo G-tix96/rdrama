@@ -188,8 +188,8 @@ def award_thing(v, thing_type, id):
 			send_repeatable_notification(v.id, msg)
 			author = v
 		elif kind != 'spider':
-			awarded_coins = AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT if AWARDS[kind]['is_cosmetic'] else 0
-			if AWARDS[kind]['is_cosmetic']:
+			awarded_coins = AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT if AWARDS[kind]['cosmetic'] else 0
+			if AWARDS[kind]['cosmetic']:
 				author.coins += awarded_coins
 
 			msg = f"@{v.username} has given your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award"
