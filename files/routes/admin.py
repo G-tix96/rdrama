@@ -868,7 +868,7 @@ def unagendaposter(user_id, v):
 
 	send_repeatable_notification(user.id, f"@{v.username} (Admin) has unmarked you as a chud.")
 
-	return {"message": f"@{user.username}'s chud theme has been disabled!"}
+	return {"message": f"@{user.username} has been unchudded!"}
 
 
 @app.post("/shadowban/<user_id>")
