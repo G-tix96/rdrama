@@ -58,12 +58,12 @@
 			{% endif %}
 			{% if v.admin_level >= PERMS['USER_SHADOWBAN'] %}
 				{% if u.shadowbanned %}
-					<form class="mb-2" action="/unshadowban/{{u.id}}" method="post">
+					<form class="mb-3" action="/unshadowban/{{u.id}}" method="post">
 						<input type="hidden" name="formkey" value="{{v.formkey}}">
 						<input type="submit" onclick="disable(this)" class="btn btn-success" value="Unshadowban user">
 					</form>
 				{% else %}
-					<form class="mb-2" action="/shadowban/{{u.id}}" method="post">
+					<form class="mb-3" action="/shadowban/{{u.id}}" method="post">
 						<input type="hidden" name="formkey" value="{{v.formkey}}">
 						<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Shadowban Reason" oninput="document.getElementById('user-shadowban-submit-{{deviceType}}').disabled=false" required>
 						<div class="custom-control custom-checkbox mb-1">
