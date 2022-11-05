@@ -163,7 +163,7 @@ def execute_snappy(post, v):
 			text = f"@Snappy has banned you for **{days}** days for the following reason:\n\n> {reason}"
 			send_repeatable_notification(v.id, text)
 			duration = f"for {days} days"
-			note = f'reason: "{reason}", duration: {duration}'
+			note = f'duration: {duration}, reason: "{reason}"'
 			ma=ModAction(
 				kind="ban_user",
 				user_id=snappy.id,

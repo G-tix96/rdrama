@@ -968,7 +968,7 @@ def ban_user(user_id, v):
 
 	send_repeatable_notification(user.id, text)
 
-	note = f'reason: "{reason}", duration: {duration}'
+	note = f'duration: {duration}, reason: "{reason}"'
 	ma=ModAction(
 		kind="ban_user",
 		user_id=v.id,
@@ -1029,7 +1029,9 @@ def agendaposter(user_id, v):
 
 	send_repeatable_notification(user.id, text)
 
-	note = f'reason: "{reason}", duration: {duration}'
+	note = f'duration: {duration}'
+	if reason: note += f', reason: "{reason}"'
+
 	ma=ModAction(
 		kind="agendaposter",
 		user_id=v.id,
