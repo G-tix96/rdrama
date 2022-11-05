@@ -957,7 +957,8 @@ def ban_user(user_id, v):
 
 	duration = "permanently"
 	if days:
-		days_txt = str(days).split('.0')[0]
+		days_txt = str(days)
+		if days_txt.endswith('.0'): days_txt = days_txt[:-2]
 		duration = f"for {days_txt} day"
 		if days != 1: duration += "s"
 		if reason: text = f"@{v.username} (Admin) has banned you for **{days_txt}** days for the following reason:\n\n> {reason}"
@@ -1018,7 +1019,8 @@ def agendaposter(user_id, v):
 
 	duration = "permanently"
 	if days:
-		days_txt = str(days).split('.0')[0]
+		days_txt = str(days)
+		if days_txt.endswith('.0'): days_txt = days_txt[:-2]
 		duration = f"for {days_txt} day"
 		if days != 1: duration += "s"
 		if reason: text = f"@{v.username} (Admin) has chudded you for **{days_txt}** days for the following reason:\n\n> {reason}"
