@@ -391,7 +391,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 			process_image(filename, resize=200, trim=True)
 			purge_files_in_cache([f"https://{SITE}/e/{name}.webp", f"https://{SITE}/assets/images/emojis/{name}.webp", f"https://{SITE}/asset_submissions/marseys/original/{name}.{format}"])
 		
-		if tags and existing.tags != tags and tags != "None":
+		if tags and existing.tags != tags and tags != "none":
 			existing.tags = tags
 			g.db.add(existing)
 		elif not file:
@@ -410,7 +410,6 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 	def update_hats(v):
 		if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
 			abort(403)
-
 		return render_template("update_assets.html", v=v, type="Hat")
 
 
