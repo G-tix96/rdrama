@@ -18,87 +18,52 @@
 </style>
 
 <div id="posts" class="row">
-
 	<div class="col col-lg-10">
-
 		<div class="settings">
-
-
 			{% if FEATURES['HOUSES'] %}
 				<h5 name="referral">House</h5>
-
 				<div class="settings-section rounded">
-
 					<div class="d-lg-flex border-bottom">
 						<div class="title w-lg-25">
 							<label for="theme">House</label>
 						</div>
-
 						<div class="body w-lg-100">
 							{% if v.house %}
-								{% set cost=2000 %}
-								<p>Change your house (cost: {{cost}} coins or marseybux).</p>
+								<p>Change your house (cost: {{HOUSE_SWITCH_COST}} coins or marseybux).</p>
 							{% else %}
-								{% set cost=500 %}
-								<p>Join a house (cost: {{cost}} coins or marseybux).</p>
+								<p>Join a house (cost: {{HOUSE_JOIN_COST}} coins or marseybux).</p>
+							{% endif %}
+							{% if ' Founder' in v.house %}
+								<p>Warning: you'll lose your founder status if you join a different house</p>
 							{% endif %}
 							<div class="input-group mb2">
 								<select {% if v.coins < cost and v.procoins < cost or v.bite %}disabled{% endif %} autocomplete="off" id='house' class="form-control" form="profile-settings" name="house" onchange="postToastReload(this,'/settings/profile?house='+document.getElementById('house').value)">
 								{% for entry in ("None","Furry","Femboy","Vampire","Racist") %}
-									<option value="{{entry}}" {% if v.house==entry %} selected {% endif %}>
+									<option value="{{entry}}" {% if v.house == entry %} selected {% endif %}>
 										{{entry}}
 									</option>
 								{% endfor %}
 							</select>
 							</div>
-
-							</div>
-
+						</div>
 					</div>
 				</div>
 			{% endif %}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 			<h5 name="referral">Theme</h5>
-
 			<div class="settings-section rounded">
-
 					<div class="d-lg-flex border-bottom">
-
 						<div class="title w-lg-25">
 							<label for="cardview">Card View</label>
 						</div>
-
 						<div class="body w-lg-100">
-
 							<div class="custom-control custom-switch">
 								<input autocomplete="off" type="checkbox" class="custom-control-input" id="cardview" name="cardview"{% if v.cardview %} checked{% endif %} onchange="postToastSwitch(this,'/settings/profile?cardview='+document.getElementById('cardview').checked);">
 								<label class="custom-control-label" for="cardview"></label>
 							</div>
-
 							<span class="text-small text-muted">Enable if you would like to display images and videos in full size on the frontpage.</span>
-
 						</div>
-
 					</div>
-
-
 					<div class="d-lg-flex border-bottom">
 
 						<div class="title w-lg-25">

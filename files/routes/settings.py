@@ -277,9 +277,9 @@ def settings_profile_post(v):
 		if v.bite: abort(403)
 		if v.house:
 			if v.house.replace(' Founder', '') == house: abort(409, f"You're already in House {house}")
-			cost = 2000
+			cost = HOUSE_SWITCH_COST
 		else: 
-			cost = 500
+			cost = HOUSE_JOIN_COST
 
 		success = v.charge_account('coins', cost)
 		if not success:
