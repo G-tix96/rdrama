@@ -107,9 +107,7 @@ def execute_snappy(post, v):
 
 	for href, title in captured:
 		if href.startswith(SITE_FULL) or href.startswith(f'https://{BAN_EVASION_DOMAIN}'): continue
-
 		if "Snapshots:\n\n" not in body: body += "Snapshots:\n\n"
-
 		if f'**[{title}]({href})**:\n\n' not in body:
 			addition = f'**[{title}]({href})**:\n\n'
 			if href.startswith('https://old.reddit.com/r/'):
@@ -121,6 +119,7 @@ def execute_snappy(post, v):
 			addition += f'* [archive.org](https://web.archive.org/{href})\n'
 			addition += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)})\n'
 			addition += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n'
+			addition += '\n'
 			if len(f'{body}{addition}') > COMMENT_BODY_LENGTH_LIMIT: break
 			body += addition
 			archive_url(href)
