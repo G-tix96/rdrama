@@ -839,7 +839,8 @@ def unagendaposter(user_id, v):
 @admin_level_required(PERMS['USER_SHADOWBAN'])
 def shadowban(user_id, v):
 	user = get_account(user_id)
-	if user.admin_level != 0: abort(403)
+	if user.admin_level > v.admin_level:
+		abort(403)
 	user.shadowbanned = v.username
 	reason = request.values.get("reason").strip()[:256]
 	user.ban_reason = reason
@@ -886,7 +887,7 @@ def unshadowban(user_id, v):
 	
 	cache.delete_memoized(frontlist)
 
-	return redirect(user.url)
+	return {"message": f"@{user.username} has been unshadowbanned!"}
 
 
 @app.post("/admin/title_change/<user_id>")

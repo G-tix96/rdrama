@@ -57,22 +57,17 @@
 				</form>
 			{% endif %}
 			{% if v.admin_level >= PERMS['USER_SHADOWBAN'] %}
-				{% if u.shadowbanned %}
-					<form class="mb-3" action="/unshadowban/{{u.id}}" method="post">
-						<input type="hidden" name="formkey" value="{{v.formkey}}">
-						<input type="submit" onclick="disable(this)" class="btn btn-success" value="Unshadowban user">
-					</form>
-				{% else %}
-					<form class="mb-3" action="/shadowban/{{u.id}}" method="post">
-						<input type="hidden" name="formkey" value="{{v.formkey}}">
-						<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Shadowban Reason" oninput="document.getElementById('user-shadowban-submit-{{deviceType}}').disabled=false" required>
-						<div class="custom-control custom-checkbox mb-1">
-							<input autocomplete="off" type="checkbox" id="shadowban-alts-{{deviceType}}" class="custom-control-input" name="alts" value="1">
-							<label class="custom-control-label" for="shadowban-alts-{{deviceType}}">Include alts</label>
-						</div>
-						<input autocomplete="off" id="user-shadowban-submit-{{deviceType}}" type="submit" onclick="disable(this)" class="btn btn-danger" value="Shadowban user" disabled>
-					</form>
-				{% endif %}
+				<button type="button" id="unshadowban-{{deviceType}}" class="mt-1 mb-3 {% if not u.shadowbanned %}d-none{% endif %} btn btn-success" onclick="postToastSwitch(this,'/unshadowban/{{u.id}}','shadowban-{{deviceType}}','unshadowban-{{deviceType}}','d-none')">Unshadowban user</button>
+
+				<form id="shadowban-{{deviceType}}" class="mb-3 {% if u.shadowbanned %}d-none{% endif %}" action="/shadowban/{{u.id}}" method="post">
+					<input type="hidden" name="formkey" value="{{v.formkey}}">
+					<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Shadowban Reason" oninput="document.getElementById('user-shadowban-submit-{{deviceType}}').disabled=false" required>
+					<div class="custom-control custom-checkbox mb-1">
+						<input autocomplete="off" type="checkbox" id="shadowban-alts-{{deviceType}}" class="custom-control-input" name="alts" value="1">
+						<label class="custom-control-label" for="shadowban-alts-{{deviceType}}">Include alts</label>
+					</div>
+					<input autocomplete="off" id="user-shadowban-submit-{{deviceType}}" type="submit" onclick="disable(this)" class="btn btn-danger" value="Shadowban user" disabled>
+				</form>
 			{% endif %}
 			{% if v.admin_level >= PERMS['USER_AGENDAPOSTER'] %}
 				<form id="agendaposter-{{deviceType}}" class="{% if u.agendaposter %}d-none{% endif %}" action="/agendaposter/{{u.id}}" method="post">
