@@ -806,43 +806,6 @@ def admin_removed_comments(v):
 						next_exists=next_exists
 						)
 
-
-@app.post("/agendaposter/<user_id>")
-@admin_level_required(PERMS['USER_AGENDAPOSTER'])
-def agendaposter(user_id, v):
-	user = get_account(user_id)
-
-	days = request.values.get("days")
-
-	if days:
-		expiry = int(time.time() + float(days)*60*60*24)
-	else: expiry = 1
-
-	user.agendaposter = expiry
-	g.db.add(user)
-
-	if days:
-		days_txt = str(days).split('.0')[0]
-		note = f"for {days_txt} days"
-	else: note = "permanently"
-
-	ma = ModAction(
-		kind="agendaposter",
-		user_id=v.id,
-		target_user_id=user.id,
-		_note=note
-	)
-	g.db.add(ma)
-
-	badge_grant(user=user, badge_id=28)
-
-	send_repeatable_notification(user.id, f"@{v.username} (Admin) has marked you as a chud ({note}).")
-
-	
-	return redirect(user.url)
-
-
-
 @app.post("/unagendaposter/<user_id>")
 @admin_level_required(PERMS['USER_AGENDAPOSTER'])
 def unagendaposter(user_id, v):
@@ -1029,6 +992,67 @@ def ban_user(user_id, v):
 
 	if 'redir' in request.values: return redirect(user.url)
 	else: return {"message": f"@{user.username} has been banned!"}
+
+
+@app.post("/agendaposter/<user_id>")
+@admin_level_required(PERMS['USER_AGENDAPOSTER'])
+def agendaposter(user_id, v):
+	user = get_account(user_id)
+
+	if user.admin_level > v.admin_level:
+		abort(403)
+
+	days = 0.0
+	try:
+		days = float(request.values.get("days"))
+	except:
+		pass
+
+	reason = request.values.get("reason", "").strip()
+	if reason and reason.startswith("/") and '\\' not in reason:
+		reason = f'<a href="{reason.split()[0]}">{reason}</a>'
+
+	user.agendaposter = int(time.time()) + (days * 86400)
+	g.db.add(user)
+
+	duration = "permanently"
+	if days:
+		days_txt = str(days).split('.0')[0]
+		duration = f"for {days_txt} day"
+		if days != 1: duration += "s"
+		if reason: text = f"@{v.username} (Admin) has chudded you for **{days_txt}** days for the following reason:\n\n> {reason}"
+		else: text = f"@{v.username} (Admin) has chudded you for **{days_txt}** days."
+	else:
+		if reason: text = f"@{v.username} (Admin) has chudded you permanently for the following reason:\n\n> {reason}"
+		else: text = f"@{v.username} (Admin) has chudded you permanently."
+
+	send_repeatable_notification(user.id, text)
+
+	note = f'reason: "{reason}", duration: {duration}'
+	ma=ModAction(
+		kind="agendaposter",
+		user_id=v.id,
+		target_user_id=user.id,
+		_note=note
+		)
+	g.db.add(ma)
+
+	if 'reason' in request.values:
+		if request.values["reason"].startswith("/post/"):
+			try: post = int(request.values["reason"].split("/post/")[1].split(None, 1)[0])
+			except: abort(400)
+			post = get_post(post)
+			post.chuddedfor = f'{duration} by @{v.username}'
+			g.db.add(post)
+		elif request.values["reason"].startswith("/comment/"):
+			try: comment = int(request.values["reason"].split("/comment/")[1].split(None, 1)[0])
+			except: abort(400)
+			comment = get_comment(comment)
+			comment.chuddedfor = f'{duration} by @{v.username}'
+			g.db.add(comment)
+
+	if 'redir' in request.values: return redirect(user.url)
+	else: return {"message": f"@{user.username} has been chudded!"}
 
 
 @app.post("/unban_user/<user_id>")

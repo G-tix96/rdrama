@@ -77,10 +77,11 @@
 			{% if v.admin_level >= PERMS['USER_AGENDAPOSTER'] %}
 				<form id="agendaposter-{{deviceType}}" class="{% if u.agendaposter %}d-none{% endif %}" action="/agendaposter/{{u.id}}" method="post">
 					<input type="hidden" name="formkey", value="{{v.formkey}}">
+					<input type="hidden" name="redir" value="true">
 					<input autocomplete="off" type="number" step="any" name="days" class="form-control" placeholder="Days (0 or blank = permanent)">
-					<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Lock Chud Theme">
+					<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Chud">
 				</form>
-				<button type="button" id="unagendaposter-{{deviceType}}" class="mt-1 {% if not u.agendaposter %}d-none{% endif %} btn btn-success" onclick="postToastSwitch(this,'/unagendaposter/{{u.id}}','agendaposter-{{deviceType}}','unagendaposter-{{deviceType}}','d-none')">Disable Chud Theme</button>
+				<button type="button" id="unagendaposter-{{deviceType}}" class="mt-1 {% if not u.agendaposter %}d-none{% endif %} btn btn-success" onclick="postToastSwitch(this,'/unagendaposter/{{u.id}}','agendaposter-{{deviceType}}','unagendaposter-{{deviceType}}','d-none')">Unchud</button>
 			{% endif %}
 			
 			<div class="actionbtns mt-3">

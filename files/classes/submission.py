@@ -29,6 +29,7 @@ class Submission(Base):
 	thumburl = Column(String)
 	is_banned = Column(Boolean, default=False)
 	bannedfor = Column(String)
+	chuddedfor = Column(String)
 	ghost = Column(Boolean, default=False)
 	views = Column(Integer, default=0)
 	deleted_utc = Column(Integer, default=0)

@@ -134,6 +134,11 @@
 				{% if c.bannedfor %}
 					<i class="fas fa-hammer-crash text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was banned for this comment {{c.bannedfor}}"></i>
 				{% endif %}
+
+				{% if c.chuddedfor %}
+					<i class="fas fa-face-sleeping text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was chudded for this comment {{c.chuddedfor}}"></i>
+				{% endif %}
+
 				{% if c.active_flags(v) %}<button type="button" class="btn btn-primary" style="padding:1px 5px; font-size:10px" onclick="document.getElementById('flaggers-{{c.id}}').classList.toggle('d-none')">{{c.active_flags(v)}} Report{{help.plural(c.active_flags(v))}}</button>{% endif %}
 				{% if c.over_18 %}<span class="badge badge-danger text-small-extra mr-1">+18</span>{% endif %}
 				{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and c.author.shadowbanned %}<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{c.author.shadowbanned}} for "{{c.author.ban_reason}}"'></i>{% endif %}
@@ -482,8 +487,13 @@
 {% endif %}
 
 {% if v.admin_level >= PERMS['USER_BAN'] and v.id != c.author_id %}
-<button type="button" id="unban-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.author.is_suspended %}d-md-block{% endif %} text-success" onclick="postToastSwitch(this,'/unban_user/{{c.author_id}}','ban-{{c.id}}','unban-{{c.id}}','d-md-block')"><i class="fas fa-user-slash text-success fa-fw"></i>Unban user</button>
-<button type="button" id="ban-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.author.is_suspended %}d-md-block{% endif %} text-danger" data-bs-toggle="modal" data-bs-target="#banModal" onclick="banModal('/comment/{{c.id}}', '{{c.author.id}}', '{{c.author_name}}')"><i class="fas fa-user-slash text-danger fa-fw"></i>Ban user</button>
+	<button type="button" id="unban-{{c.fullname}}" class="dropdown-item list-inline-item d-none {% if c.author.is_suspended %}d-md-block{% endif %} text-success" onclick="postToastSwitch(this,'/unban_user/{{c.author_id}}','ban-{{c.fullname}}','unban-{{c.fullname}}','d-md-block')"><i class="fas fa-user-slash text-success fa-fw"></i>Unban user</button>
+	<button type="button" id="ban-{{c.fullname}}" class="dropdown-item list-inline-item d-none {% if not c.author.is_suspended %}d-md-block{% endif %} text-danger" data-bs-toggle="modal" data-bs-target="#banModal" onclick="banModal('/comment/{{c.id}}', '{{c.author.id}}', '{{c.author_name}}', '{{c.fullname}}','d-md-block')"><i class="fas fa-user-slash text-danger fa-fw"></i>Ban user</button>
+{% endif %}
+
+{% if v.admin_level >= PERMS['USER_AGENDAPOSTER'] and v.id != c.author_id %}
+	<button type="button" id="unchud-{{c.fullname}}" class="dropdown-item list-inline-item d-none {% if c.author.agendaposter %}d-md-block{% endif %} text-success" onclick="postToastSwitch(this,'/unagendaposter/{{c.author_id}}','chud-{{c.fullname}}','unchud-{{c.fullname}}','d-md-block')"><i class="fas fa-face-sleeping text-success fa-fw"></i>Unchud user</button>
+	<button type="button" id="chud-{{c.fullname}}" class="dropdown-item list-inline-item d-none {% if not c.author.agendaposter %}d-md-block{% endif %} text-danger" data-bs-toggle="modal" data-bs-target="#chudModal" onclick="chudModal('/comment/{{c.id}}', '{{c.author.id}}', '{{c.author_name}}', '{{c.fullname}}','d-md-block')"><i class="fas fa-face-sleeping text-danger fa-fw"></i>Chud user</button>
 {% endif %}
 
 {% if v.admin_level >= PERMS['APPS_MODERATION'] and c.oauth_app %}
@@ -699,9 +709,15 @@
 						{% endif %}
 
 						{% if v.id != c.author_id and v.admin_level >= PERMS['USER_BAN'] %}
-							<button type="button" id="ban2-{{c.id}}" class="{% if c.author.is_banned %}d-none{% endif %} list-group-item text-danger" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#banModal" onclick="banModal('/comment/{{c.id}}', '{{c.author.id}}', '{{c.author_name}}')" ><i class="fas fa-user-slash text-danger fa-fw mr-2"></i>Ban user</button>
-							<button type="button" id="unban2-{{c.id}}" class="{% if not c.author.is_banned %}d-none{% endif %} list-group-item text-success"  onclick="postToastSwitch(this,'/unban_user/{{c.author_id}}','ban2-{{c.id}}','unban2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-user-minus fa-fw text-success mr-2"></i>Unban user</button>
+							<button type="button" id="ban2-{{c.fullname}}" class="{% if c.author.is_banned %}d-none{% endif %} list-group-item text-danger" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#banModal" onclick="banModal('/comment/{{c.id}}', '{{c.author.id}}', '{{c.author_name}}', '{{c.fullname}}','d-none')" ><i class="fas fa-user-slash text-danger fa-fw mr-2"></i>Ban user</button>
+							<button type="button" id="unban2-{{c.fullname}}" class="{% if not c.author.is_banned %}d-none{% endif %} list-group-item text-success" onclick="postToastSwitch(this,'/unban_user/{{c.author_id}}','ban2-{{c.fullname}}','unban2-{{c.fullname}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-user-minus fa-fw text-success mr-2"></i>Unban user</button>
 						{% endif %}
+
+						{% if v.id != c.author_id and v.admin_level >= PERMS['USER_AGENDAPOSTER'] %}
+							<button type="button" id="chud2-{{c.fullname}}" class="{% if c.author.agendaposter %}d-none{% endif %} list-group-item text-danger" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#chudModal" onclick="chudModal('/comment/{{c.id}}', '{{c.author.id}}', '{{c.author_name}}', '{{c.fullname}}','d-none')" ><i class="fas fa-face-sleeping text-danger fa-fw mr-2"></i>Chud user</button>
+							<button type="button" id="unchud2-{{c.fullname}}" class="{% if not c.author.agendaposter %}d-none{% endif %} list-group-item text-success" onclick="postToastSwitch(this,'/unagendaposter/{{c.author_id}}','chud2-{{c.fullname}}','unchud2-{{c.fullname}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-face-sleeping fa-fw text-success mr-2"></i>Unchud user</button>
+						{% endif %}
+
 						{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 							{% if v.id != c.author.id %}
 								<button type="button" id="remove2-{{c.id}}" class="{% if c.is_banned %}d-none{% endif %} list-group-item text-danger" onclick="removeComment(this,'{{c.id}}','approve2-{{c.id}}','remove2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-ban text-danger mr-2"></i>Remove</button>
