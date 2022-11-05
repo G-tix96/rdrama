@@ -30,11 +30,11 @@
 						<div class="body w-lg-100">
 							{% if v.house %}
 								<p>Change your house (cost: {{HOUSE_SWITCH_COST}} coins or marseybux).</p>
+								{% if ' Founder' in v.house %}
+									<p>Warning: you'll lose your founder status if you join a different house</p>
+								{% endif %}
 							{% else %}
 								<p>Join a house (cost: {{HOUSE_JOIN_COST}} coins or marseybux).</p>
-							{% endif %}
-							{% if ' Founder' in v.house %}
-								<p>Warning: you'll lose your founder status if you join a different house</p>
 							{% endif %}
 							<div class="input-group mb2">
 								<select {% if v.coins < cost and v.procoins < cost or v.bite %}disabled{% endif %} autocomplete="off" id='house' class="form-control" form="profile-settings" name="house" onchange="postToastReload(this,'/settings/profile?house='+document.getElementById('house').value)">
