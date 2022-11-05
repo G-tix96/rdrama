@@ -381,6 +381,8 @@ TRANSFER_MESSAGE_LENGTH_LIMIT = 200 # do not make larger than 10000 characters (
 MIN_REPOST_CHECK_URL_LENGTH = 9 # also change the constant in checkRepost() of submit.js
 ADMIN_PING_TRUESCORE_MINIMUM = 500
 TRUESCORE_DONATE_LIMIT = 100
+COSMETIC_AWARD_COIN_AWARD_PCT = 0.10
+
 
 LOGGEDIN_ACTIVE_TIME = 15 * 60
 PFP_DEFAULT_MARSEY = True
@@ -575,7 +577,8 @@ AWARDS = {
 		"icon": "fas fa-ghost",
 		"color": "text-white",
 		"price": 3000,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": False
 	},
 	"nword": {
 		"kind": "nword",
@@ -584,7 +587,8 @@ AWARDS = {
 		"icon": "fas fa-edit",
 		"color": "text-success",
 		"price": 10000,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	### Fistmas 2021
 	"snow": {
@@ -594,7 +598,8 @@ AWARDS = {
 		"icon": "fas fa-snowflake",
 		"color": "text-blue-200",
 		"price": 300,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"gingerbread": {
 		"kind": "gingerbread",
@@ -603,7 +608,8 @@ AWARDS = {
 		"icon": "fas fa-gingerbread-man",
 		"color": "",
 		"price": 300,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"lights": {
 		"kind": "lights",
@@ -612,7 +618,8 @@ AWARDS = {
 		"icon": "fas fa-lights-holiday",
 		"color": "",
 		"price": 300,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"candycane": {
 		"kind": "candycane",
@@ -621,7 +628,8 @@ AWARDS = {
 		"icon": "fas fa-candy-cane",
 		"color": "",
 		"price": 400,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"fireplace": {
 		"kind": "fireplace",
@@ -630,7 +638,8 @@ AWARDS = {
 		"icon": "fas fa-fireplace",
 		"color": "",
 		"price": 600,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"grinch": {
 		"kind": "grinch",
@@ -639,7 +648,8 @@ AWARDS = {
 		"icon": "fas fa-angry",
 		"color": "text-green-500",
 		"price": 1000,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	### Homoween 2021 & 2022
 	"haunt": {
@@ -649,7 +659,8 @@ AWARDS = {
 		"icon": "fas fa-book-dead",
 		"color": "text-warning",
 		"price": 500,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"upsidedown": {
 		"kind": "upsidedown",
@@ -658,7 +669,8 @@ AWARDS = {
 		"icon": "fas fa-lights-holiday",
 		"color": "",
 		"price": 400,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"stab": {
 		"kind": "stab",
@@ -667,7 +679,8 @@ AWARDS = {
 		"icon": "fas fa-knife-kitchen",
 		"color": "text-danger",
 		"price": 300,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"spiders": {
 		"kind": "spiders",
@@ -676,7 +689,8 @@ AWARDS = {
 		"icon": "fas fa-spider",
 		"color": "text-black",
 		"price": 200,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"fog": {
 		"kind": "fog",
@@ -685,7 +699,8 @@ AWARDS = {
 		"icon": "fas fa-smoke",
 		"color": "text-gray",
 		"price": 200,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	### Homoween 2022
 	"jumpscare": {
@@ -695,7 +710,8 @@ AWARDS = {
 		"icon": "fas fa-coffin-cross",
 		"color": "text-purple",
 		"price": 600,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"hw-bite": {
 		"kind": "hw-bite",
@@ -704,7 +720,8 @@ AWARDS = {
 		"icon": "fas fa-biohazard",
 		"color": "text-danger",
 		"price": 500,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"hw-vax": {
 		"kind": "hw-vax",
@@ -713,7 +730,8 @@ AWARDS = {
 		"icon": "fas fa-syringe",
 		"color": "text-blue",
 		"price": 500,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"hw-grinch": {
 		"kind": "hw-grinch",
@@ -722,8 +740,8 @@ AWARDS = {
 		"icon": "fas fa-angry",
 		"color": "text-orange",
 		"price": 1000,
-		"deflectable": True
-
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"flashlight": {
 		"kind": "flashlight",
@@ -732,7 +750,8 @@ AWARDS = {
 		"icon": "fas fa-flashlight",
 		"color": "text-black",
 		"price": 400,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"candy-corn": {
 		"kind": "candy-corn",
@@ -741,7 +760,8 @@ AWARDS = {
 		"icon": "fas fa-candy-corn",
 		"color": "text-orange",
 		"price": 400,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"ectoplasm": {
 		"kind": "ectoplasm",
@@ -750,7 +770,8 @@ AWARDS = {
 		"icon": "fas fa-ghost",
 		"color": "text-success",
 		"price": 400,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"bones": {
 		"kind": "bones",
@@ -759,7 +780,8 @@ AWARDS = {
 		"icon": "fas fa-bone",
 		"color": "text-white",
 		"price": 200,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"pumpkin": {
 		"kind": "pumpkin",
@@ -768,7 +790,8 @@ AWARDS = {
 		"icon": "fas fa-jack-o-lantern",
 		"color": "text-orange",
 		"price": 200,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	### Standard
 	"marsify": {
@@ -778,7 +801,8 @@ AWARDS = {
 		"icon": "fas fa-cat",
 		"color": "text-white",
 		"price": 150,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"shit": {
 		"kind": "shit",
@@ -787,7 +811,8 @@ AWARDS = {
 		"icon": "fas fa-poop",
 		"color": "text-black-50",
 		"price": 150,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"fireflies": {
 		"kind": "fireflies",
@@ -796,7 +821,8 @@ AWARDS = {
 		"icon": "fas fa-sparkles",
 		"color": "text-warning",
 		"price": 150,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"train": {
 		"kind": "train",
@@ -805,7 +831,8 @@ AWARDS = {
 		"icon": "fas fa-train",
 		"color": "text-pink",
 		"price": 150,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"scooter": {
 		"kind": "scooter",
@@ -814,7 +841,8 @@ AWARDS = {
 		"icon": "fas fa-flag-usa",
 		"color": "text-muted",
 		"price": 150,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"wholesome": {
 		"kind": "wholesome",
@@ -823,7 +851,8 @@ AWARDS = {
 		"icon": "fas fa-smile-beam",
 		"color": "text-yellow",
 		"price": 150,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"firework": {
 		"kind": "firework",
@@ -832,7 +861,8 @@ AWARDS = {
 		"icon": "fas fa-bahai",
 		"color": "text-danger",
 		"price": 150,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"confetti": {
 		"kind": "confetti",
@@ -841,7 +871,8 @@ AWARDS = {
 		"icon": "fas fa-party-horn",
 		"color": "text-yellow",
 		"price": 150,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"ricardo": {
 		"kind": "ricardo",
@@ -850,7 +881,8 @@ AWARDS = {
 		"icon": "fas fa-pinata",
 		"color": "text-pink",
 		"price": 150,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"tilt": {
 		"kind": "tilt",
@@ -859,7 +891,8 @@ AWARDS = {
 		"icon": "fas fa-car-tilt",
 		"color": "text-blue",
 		"price": 150,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"glowie": {
 		"kind": "glowie",
@@ -868,7 +901,8 @@ AWARDS = {
 		"icon": "fas fa-user-secret",
 		"color": "text-green",
 		"price": 150,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": True
 	},
 	"rehab": {
 		"kind": "rehab",
@@ -877,7 +911,8 @@ AWARDS = {
 		"icon": "fas fa-dice-six",
 		"color": "text-black",
 		"price": 777,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"offsitementions": {
 		"kind": "offsitementions",
@@ -886,7 +921,8 @@ AWARDS = {
 		"icon": "fas fa-eyes",
 		"color": "text-orange",
 		"price": 1000,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"lootbox": {
 		"kind": "lootbox",
@@ -895,7 +931,8 @@ AWARDS = {
 		"icon": "fas fa-box-open",
 		"color": "text-blue",
 		"price": 1000,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"beano": {
 		"kind": "beano",
@@ -904,7 +941,8 @@ AWARDS = {
 		"icon": "fas fa-gas-pump-slash",
 		"color": "text-green",
 		"price": 1000,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"unpin": {
 		"kind": "unpin",
@@ -913,7 +951,8 @@ AWARDS = {
 		"icon": "fas fa-thumbtack fa-rotate--45",
 		"color": "text-black",
 		"price": 1000,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": False
 	},
 	"flairlock": {
 		"kind": "flairlock",
@@ -922,7 +961,8 @@ AWARDS = {
 		"icon": "fas fa-lock",
 		"color": "text-black",
 		"price": 1250,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"pin": {
 		"kind": "pin",
@@ -931,7 +971,8 @@ AWARDS = {
 		"icon": "fas fa-thumbtack fa-rotate--45",
 		"color": "text-warning",
 		"price": 1500,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": False
 	},
 	"progressivestack": {
 		"kind": "progressivestack",
@@ -940,7 +981,8 @@ AWARDS = {
 		"icon": "fas fa-bullhorn",
 		"color": "text-danger",
 		"price": 1500,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"pizzashill": {
 		"kind": "pizzashill",
@@ -949,7 +991,8 @@ AWARDS = {
 		"icon": "fas fa-pizza-slice",
 		"color": "text-orange",
 		"price": 1500,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"bird": {
 		"kind": "bird",
@@ -958,7 +1001,8 @@ AWARDS = {
 		"icon": "fab fa-twitter",
 		"color": "text-blue",
 		"price": 1500,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"spider": {
 		"kind": "spider",
@@ -967,7 +1011,8 @@ AWARDS = {
 		"icon": "fas fa-spider",
 		"color": "text-brown",
 		"price": 2000,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"agendaposter": {
 		"kind": "agendaposter",
@@ -976,7 +1021,8 @@ AWARDS = {
 		"icon": "fas fa-snooze",
 		"color": "text-purple",
 		"price": 2500,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"deflector": {
 		"kind": "deflector",
@@ -985,7 +1031,8 @@ AWARDS = {
 		"icon": "fas fa-shield",
 		"color": "text-pink",
 		"price": 2750,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"marsey": {
 		"kind": "marsey",
@@ -994,7 +1041,8 @@ AWARDS = {
 		"icon": "fas fa-cat",
 		"color": "text-orange",
 		"price": 3000,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"ban": {
 		"kind": "ban",
@@ -1003,7 +1051,8 @@ AWARDS = {
 		"icon": "fas fa-gavel",
 		"color": "text-danger",
 		"price": 3000,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"unban": {
 		"kind": "unban",
@@ -1012,7 +1061,8 @@ AWARDS = {
 		"icon": "fas fa-gavel",
 		"color": "text-success",
 		"price": 3500,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"benefactor": {
 		"kind": "benefactor",
@@ -1021,7 +1071,8 @@ AWARDS = {
 		"icon": "fas fa-gift",
 		"color": "text-blue",
 		"price": 4000,
-		"deflectable": False
+		"deflectable": False,
+		"is_cosmetic": False
 	},
 	"grass": {
 		"kind": "grass",
@@ -1030,7 +1081,8 @@ AWARDS = {
 		"icon": "fas fa-seedling",
 		"color": "text-success",
 		"price": 10000,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"eye": {
 		"kind": "eye",
@@ -1039,7 +1091,8 @@ AWARDS = {
 		"icon": "fas fa-eye",
 		"color": "text-silver",
 		"price": 10000,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"unblockable": {
 		"kind": "unblockable",
@@ -1048,7 +1101,8 @@ AWARDS = {
 		"icon": "fas fa-laugh-squint",
 		"color": "text-lightgreen",
 		"price": 20000,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"fish": {
 		"kind": "fish",
@@ -1057,7 +1111,8 @@ AWARDS = {
 		"icon": "fas fa-fish",
 		"color": "text-lightblue",
 		"price": 20000,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"pause": {
 		"kind": "pause",
@@ -1066,7 +1121,8 @@ AWARDS = {
 		"icon": "fas fa-volume-mute",
 		"color": "text-danger",
 		"price": 20000,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"unpausable": {
 		"kind": "unpausable",
@@ -1075,7 +1131,8 @@ AWARDS = {
 		"icon": "fas fa-volume",
 		"color": "text-success",
 		"price": 40000,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"alt": {
 		"kind": "alt",
@@ -1084,7 +1141,8 @@ AWARDS = {
 		"icon": "fas fa-eye",
 		"color": "text-gold",
 		"price": 50000,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"checkmark": {
 		"kind": "checkmark",
@@ -1093,7 +1151,8 @@ AWARDS = {
 		"icon": "fas fa-badge-check",
 		"color": "checkmark",
 		"price": 50000,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 }
 
@@ -1106,7 +1165,8 @@ if SITE_NAME != 'rDrama':
 			"icon": "fas fa-paw-simple",
 			"color": "text-purple",
 			"price": 400,
-			"deflectable": True
+			"deflectable": True,
+			"is_cosmetic": False
 		},
 		"rainbow": {
 			"kind": "rainbow",
@@ -1115,7 +1175,8 @@ if SITE_NAME != 'rDrama':
 			"icon": "fas fa-cloud-rainbow",
 			"color": "text-pink",
 			"price": 400,
-			"deflectable": True
+			"deflectable": True,
+			"is_cosmetic": False
 		},
 	}
 	AWARDS.update(EXTRA_AWARDS)
@@ -1129,7 +1190,8 @@ if SITE_NAME == 'PCM':
 			"icon": "fas fa-head-side",
 			"color": "text-gold",
 			"price": 150,
-			"deflectable": False
+			"deflectable": False,
+			"is_cosmetic": True
 		},
 		"toe": {
 			"kind": "toe",
@@ -1138,7 +1200,8 @@ if SITE_NAME == 'PCM':
 			"icon": "fas fa-socks",
 			"color": "text-blue",
 			"price": 150,
-			"deflectable": False
+			"deflectable": False,
+			"is_cosmetic": True
 		},
 		"crab": {
 			"kind": "crab",
@@ -1147,7 +1210,8 @@ if SITE_NAME == 'PCM':
 			"icon": "fas fa-crab",
 			"color": "text-danger",
 			"price": 4000,
-			"deflectable": False
+			"deflectable": False,
+			"is_cosmetic": True
 		}
 	}
 	AWARDS.update(PCM_AWARDS)
@@ -1170,7 +1234,8 @@ HOUSE_AWARDS = {
 		"icon": "fas fa-paw-simple",
 		"color": "text-purple",
 		"price": 400,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"Femboy": {
 		"kind": "Femboy",
@@ -1179,7 +1244,8 @@ HOUSE_AWARDS = {
 		"icon": "fas fa-cloud-rainbow",
 		"color": "text-pink",
 		"price": 400,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"Vampire": {
 		"kind": "Vampire",
@@ -1188,7 +1254,8 @@ HOUSE_AWARDS = {
 		"icon": "fas fa-bat",
 		"color": "text-gray",
 		"price": 400,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 	"Racist": {
 		"kind": "Racist",
@@ -1197,7 +1264,8 @@ HOUSE_AWARDS = {
 		"icon": "fas fa-star-of-david",
 		"color": "text-yellow",
 		"price": 400,
-		"deflectable": True
+		"deflectable": True,
+		"is_cosmetic": False
 	},
 }
 
