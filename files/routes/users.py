@@ -327,6 +327,8 @@ def transfer_bux(v, username):
 @auth_required
 def leaderboard(v):
 	users = g.db.query(User)
+	if not v.can_see_shadowbanned:
+		users = users.filter(User.shadowbanned == None)
 
 	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, lambda u:u.coins, g.db, users)
 	subscribers = Leaderboard("Followers", "followers", "followers", "Followers", None, Leaderboard.get_simple_lb, User.stored_subscriber_count, v, lambda u:u.stored_subscriber_count, g.db, users)
