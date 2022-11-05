@@ -77,7 +77,7 @@ class ModAction(Base):
 
 ACTIONTYPES = {
 	'agendaposter': {
-		"str": 'set chud theme on {self.target_link}', 
+		"str": 'chudded {self.target_link}', 
 		"icon": 'fa-snooze', 
 		"color": 'bg-danger'
 	},
@@ -317,7 +317,7 @@ ACTIONTYPES = {
 		"color": 'bg-danger'
 	},
 	'unagendaposter': {
-		"str": 'removed chud theme from {self.target_link}', 
+		"str": 'unchudded {self.target_link}', 
 		"icon": 'fa-snooze', 
 		"color": 'bg-success'
 	},

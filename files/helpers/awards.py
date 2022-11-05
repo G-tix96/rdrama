@@ -23,7 +23,7 @@ def award_timers(v, bot=False):
 		notify_if_not_bot("You have been unbanned!")
 	if v.agendaposter and v.agendaposter != 1 and v.agendaposter < now:
 		v.agendaposter = 0
-		notify_if_not_bot("Your chud theme has expired!")
+		notify_if_not_bot("Your chud status has expired!")
 		badge = v.has_badge(28)
 		if badge: g.db.delete(badge)
 	if v.flairchanged and v.flairchanged < now:

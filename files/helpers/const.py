@@ -972,7 +972,7 @@ AWARDS = {
 	"agendaposter": {
 		"kind": "agendaposter",
 		"title": "Chud",
-		"description": "Forces the chud theme on the recipient for 24 hours.",
+		"description": "Chuds the recipient for 24 hours.",
 		"icon": "fas fa-snooze",
 		"color": "text-purple",
 		"price": 2500,
