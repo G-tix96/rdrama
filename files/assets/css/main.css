@@ -6335,7 +6335,7 @@ div.markdown {
 	margin-bottom: 10px !important;
 }
 #desktop-expanded-image {
-	height:80vh;
+	max-height:90vh;
 	border:5px white solid;
 	-o-object-fit: contain;
 	object-fit: contain;
