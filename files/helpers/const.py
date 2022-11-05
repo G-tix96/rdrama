@@ -180,6 +180,7 @@ if SITE_NAME == 'rDrama':
 		"republican": ['republiKKKan', 'republicunt', 'rethuglican'],
 		"democrat": ['demonrat', 'demoncrat', 'demoncrap', 'demoKKKrat'],
 		"kill all furries": "stop the fursecution",
+		"palestinian": "illegal occupant of occupied Israel",
 		"palestine": "occupied Israel",
 		"israeli": "illegal occupant of occupied Palestine",
 		"israel": "occupied Palestine",
