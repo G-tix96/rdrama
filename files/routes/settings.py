@@ -275,9 +275,11 @@ def settings_profile_post(v):
 	house = request.values.get("house")
 	if house and house in ("None","Furry","Femboy","Vampire","Racist") and FEATURES['HOUSES']:
 		if v.bite: abort(403)
-
-		if v.house: cost = 2000
-		else: cost = 500
+		if v.house:
+			if v.house.replace(' Founder', '') == house: abort(409, f"You're already in House {house}")
+			cost = 2000
+		else: 
+			cost = 500
 
 		success = v.charge_account('coins', cost)
 		if not success:
@@ -294,7 +296,6 @@ def settings_profile_post(v):
 
 	if updated:
 		g.db.add(v)
-
 		return {"message": "Your settings have been updated."}
 
 	else:
