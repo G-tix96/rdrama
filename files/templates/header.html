@@ -367,6 +367,10 @@
 	<div id="formkey" class="d-none">{{v.formkey}}</div>
 {% endif %}
 
+<script>
+	IMAGE_FORMATS = {{IMAGE_FORMATS|safe}};
+</script>
+
 {% if not v %}
 	<style>
 		.pad {

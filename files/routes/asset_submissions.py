@@ -375,7 +375,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 			if not file.content_type.startswith('image/'):
 				return error("You need to submit an image!")
 			
-			for x in ('png','jpeg','webp','gif'):
+			for x in IMAGE_FORMATS:
 				if path.isfile(f'/asset_submissions/marseys/original/{name}.{x}'):
 					os.remove(f'/asset_submissions/marseys/original/{name}.{x}')
 
@@ -449,7 +449,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 			format = i.format.lower()
 		new_path = f'/asset_submissions/hats/original/{name}.{format}'
 
-		for x in ('png','jpeg','webp','gif'):
+		for x in IMAGE_FORMATS:
 			if path.isfile(f'/asset_submissions/hats/original/{name}.{x}'):
 				os.remove(f'/asset_submissions/hats/original/{name}.{x}')
 

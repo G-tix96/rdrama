@@ -79,13 +79,12 @@ document.onpaste = function(event) {
 			f.files = files;
 			document.getElementById('filename-show').textContent = filename;
 			document.getElementById('urlblock').classList.add('d-none');
-			if (filename.endsWith(".jpg") || filename.endsWith(".jpeg") || filename.endsWith(".png") || filename.endsWith(".gif") || filename.endsWith(".webp"))
+			if (IMAGE_FORMATS.some(s => filename.endsWith(s)))
 			{
 				var fileReader = new FileReader();
 				fileReader.readAsDataURL(f.files[0]);
 				fileReader.addEventListener("load", function () {document.getElementById('image-preview').setAttribute('src', this.result);});
 			}
-			document.getElementById('file-upload').setAttribute('required', 'false');
 			document.getElementById('post-url').value = null;
 			localStorage.setItem("post-url", "")
 			document.getElementById('image-upload-block').classList.remove('d-none')
@@ -99,7 +98,7 @@ document.getElementById('file-upload').addEventListener('change', function(){
 	document.getElementById('urlblock').classList.add('d-none');
 	document.getElementById('filename-show').textContent = document.getElementById('file-upload').files[0].name.substr(0, 20);
 	filename = f.files[0].name.toLowerCase()
-	if (filename.endsWith(".jpg") || filename.endsWith(".jpeg") || filename.endsWith(".png") || filename.endsWith(".gif") || filename.endsWith(".webp"))
+	if (IMAGE_FORMATS.some(s => filename.endsWith(s)))
 	{
 		var fileReader = new FileReader();
 		fileReader.readAsDataURL(f.files[0]);

@@ -1598,6 +1598,6 @@ BOOSTED_SITES = {
 	'forums.red'
 }
 
-IMAGE_FORMATS = ('webp','jpg','jpeg','png','gif','gifv','tif','tiff')
-VIDEO_FORMATS = ('mp4','webm','mov','avi','mkv','flv','m4v','3gp')
-AUDIO_FORMATS = ('mp3','wav','ogg','aac','m4a','flac')
+IMAGE_FORMATS = ['png','gif','jpg','jpeg','webp']
+VIDEO_FORMATS = ['mp4','webm','mov','avi','mkv','flv','m4v','3gp']
+AUDIO_FORMATS = ['mp3','wav','ogg','aac','m4a','flac']

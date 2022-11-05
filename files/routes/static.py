@@ -34,14 +34,10 @@ def marseys(v):
 
 		original = os.listdir("/asset_submissions/marseys/original")
 		for marsey, user in marseys:
-			if f'{marsey.name}.png' in original:
-				marsey.og = f'{marsey.name}.png'
-			elif f'{marsey.name}.webp' in original:
-				marsey.og = f'{marsey.name}.webp'
-			elif f'{marsey.name}.gif' in original:
-				marsey.og = f'{marsey.name}.gif'
-			elif f'{marsey.name}.jpeg' in original:
-				marsey.og = f'{marsey.name}.jpeg'
+			for x in IMAGE_FORMATS:
+				if f'{marsey.name}.{x}' in original:
+					marsey.og = f'{marsey.name}.{x}'
+					break
 	else:
 		marseys = g.db.query(Marsey).filter(Marsey.submitter_id==None).order_by(Marsey.count.desc())
 

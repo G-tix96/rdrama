@@ -75,7 +75,7 @@
 				f=document.getElementById('file-upload');
 				f.files = files;
 				document.getElementById('filename-show').textContent = filename;
-				if (filename.endsWith(".jpg") || filename.endsWith(".jpeg") || filename.endsWith(".png") || filename.endsWith(".gif") || filename.endsWith(".webp"))
+				if (IMAGE_FORMATS.some(s => filename.endsWith(s)))
 				{
 					var fileReader = new FileReader();
 					fileReader.readAsDataURL(f.files[0]);
@@ -84,7 +84,6 @@
 						document.getElementById('image-preview').classList.remove('d-none');
 					});
 				}
-				document.getElementById('file-upload').setAttribute('placeholder="Required" required', 'false');
 			}
 		}
 
@@ -92,7 +91,7 @@
 			f=document.getElementById('file-upload');
 			document.getElementById('filename-show').textContent = document.getElementById('file-upload').files[0].name.substr(0, 20);
 			filename = f.files[0].name.toLowerCase()
-			if (filename.endsWith(".jpg") || filename.endsWith(".jpeg") || filename.endsWith(".png") || filename.endsWith(".gif") || filename.endsWith(".webp"))
+			if (IMAGE_FORMATS.some(s => filename.endsWith(s)))
 			{
 				var fileReader = new FileReader();
 				fileReader.readAsDataURL(f.files[0]);
