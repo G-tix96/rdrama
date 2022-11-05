@@ -325,7 +325,6 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 
 		return {"message": f"'{hat.name}' approved!"}
 
-
 	@app.post("/remove/hat/<name>")
 	@auth_required
 	def remove_hat(v, name):
@@ -342,9 +341,10 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 		if name:
 			marsey = g.db.get(Marsey, name)
 			if marsey:
-				tags = marsey.tags
+				tags = marsey.tags or ''
 			else:
-				name = None
+				name = ''
+				tags = ''
 				error = "A marsey with this name doesn't exist!"
 		return render_template("update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
 
@@ -391,7 +391,7 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 			process_image(filename, resize=200, trim=True)
 			purge_files_in_cache([f"https://{SITE}/e/{name}.webp", f"https://{SITE}/assets/images/emojis/{name}.webp", f"https://{SITE}/asset_submissions/marseys/original/{name}.{format}"])
 		
-		if tags and existing.tags != tags:
+		if tags and existing.tags != tags and tags != "None":
 			existing.tags = tags
 			g.db.add(existing)
 		elif not file:
@@ -403,7 +403,6 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 			_note=f'<a href="/e/{name}.webp">{name}</a>'
 		)
 		g.db.add(ma)
-
 		return render_template("update_assets.html", v=v, msg=f"'{name}' updated successfully!", name=name, tags=tags, type="Marsey")
 
 	@app.get("/admin/update/hats")
@@ -467,5 +466,4 @@ if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):
 			_note=f'<a href="/i/hats/{name}.webp">{name}</a>'
 		)
 		g.db.add(ma)
-
 		return render_template("update_assets.html", v=v, msg=f"'{name}' updated successfully!", type="Hat")
