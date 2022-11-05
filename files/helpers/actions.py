@@ -413,7 +413,7 @@ def execute_lawlz_actions(v:User, p:Submission):
 	p.stickied_utc = int(time.time()) + 86400
 	p.stickied = v.username
 	p.distinguish_level = 6
-	p.flair = ":ben10: Required Reading"
+	p.flair = filter_emojis_only(":ben10: Required Reading")
 	pin_time = 'for 1 day'
 	ma_1=ModAction(
 		kind="pin_post",
