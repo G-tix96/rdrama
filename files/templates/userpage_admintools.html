@@ -42,25 +42,19 @@
 				</div>
 			{% endif %}
 			{% if v.admin_level >= PERMS['USER_BAN'] %}
-				{% if u.is_suspended %}
-					<form class="mb-2" action="/unban_user/{{u.id}}" method="post">
-						<input type="hidden" name="formkey" value="{{v.formkey}}">
-						<input type="hidden" name="redir" value="true">
-						<input type="submit" onclick="disable(this)" class="btn btn-success" value="Unban user">
-					</form>
-				{% else %}
-					<form class="mb-2" action="/ban_user/{{u.id}}" method="post">
-						<input type="hidden" name="formkey" value="{{v.formkey}}">
-						<input type="hidden" name="redir" value="true">
-						<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Ban Reason" oninput="document.getElementById('user-ban-submit-{{deviceType}}').disabled=false" required>
-						<input autocomplete="off" style="font-size:11px" type="number" step="any" class="form-control" name="days" placeholder="Days (blank = permanent)">
-						<div class="custom-control custom-checkbox mb-1">
-							<input autocomplete="off" type="checkbox" id="alts-2-{{deviceType}}" class="custom-control-input" name="alts" value="1">
-							<label class="custom-control-label" for="alts-2-{{deviceType}}">Include alts</label>
-						</div>
-						<input autocomplete="off" id="user-ban-submit-{{deviceType}}" type="submit" onclick="disable(this)" class="btn btn-danger" value="Ban user" disabled>
-					</form>
-				{% endif %}
+				<button type="button" id="unban-{{deviceType}}" class="mt-1 mb-3 {% if not u.is_suspended %}d-none{% endif %} btn btn-success" onclick="postToastSwitch(this,'/unban_user/{{u.id}}','ban-{{deviceType}}','unban-{{deviceType}}','d-none')">Unban user</button>
+
+				<form id="ban-{{deviceType}}" class="mb-3 {% if u.is_suspended %}d-none{% endif %}" action="/ban_user/{{u.id}}" method="post">
+					<input type="hidden" name="formkey" value="{{v.formkey}}">
+					<input type="hidden" name="redir" value="true">
+					<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Ban Reason" oninput="document.getElementById('user-ban-submit-{{deviceType}}').disabled=false" required>
+					<input autocomplete="off" style="font-size:11px" type="number" step="any" class="form-control" name="days" placeholder="Days (blank = permanent)">
+					<div class="custom-control custom-checkbox mb-1">
+						<input autocomplete="off" type="checkbox" id="alts-2-{{deviceType}}" class="custom-control-input" name="alts" value="1">
+						<label class="custom-control-label" for="alts-2-{{deviceType}}">Include alts</label>
+					</div>
+					<input autocomplete="off" id="user-ban-submit-{{deviceType}}" type="submit" onclick="disable(this)" class="btn btn-danger" value="Ban user" disabled>
+				</form>
 			{% endif %}
 			{% if v.admin_level >= PERMS['USER_SHADOWBAN'] %}
 				{% if u.shadowbanned %}

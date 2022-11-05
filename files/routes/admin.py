@@ -1062,8 +1062,7 @@ def unban_user(user_id, v):
 		)
 	g.db.add(ma)
 
-	if "@" in request.referrer: return redirect(user.url)
-	else: return {"message": f"@{user.username} has been unbanned!"}
+	return {"message": f"@{user.username} has been unbanned!"}
 
 @app.post("/mute_user/<int:user_id>/<int:mute_status>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
