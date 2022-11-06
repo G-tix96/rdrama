@@ -26,13 +26,13 @@ def settings(v):
 def settings_personal(v):
 	return render_template("settings_personal.html", v=v)
 
-@app.post("/settings/removebackground")
+@app.delete('/settings/background')
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
-@auth_required
-def removebackground(v):
-	v.background = None
-	g.db.add(v)
+def remove_background(v):
+	if v.background:
+		v.background = None
+		g.db.add(v)
 	return {"message": "Background removed!"}
 
 @app.post("/settings/profile")
@@ -42,78 +42,68 @@ def removebackground(v):
 def settings_profile_post(v):
 	updated = False
 
+	def update_flag(column_name:str, request_name:str):
+		request_flag = request.values.get(request_name, '') == 'true'
+		if request_name != getattr(v, column_name):
+			setattr(v, column_name, request_flag)
+			return True
+		return False
+	
+	def update_flag_with_permanence(column_name:str, request_name:str, friendly_name:str, badge_id:Optional[int]):
+		current_value = getattr(v, column_name)
+		if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and current_value > 1:
+			abort(403, "Cannot disable the word filter after you've already set it permanently!")
+		request_flag = int(request.values.get(request_name, '') == 'true')
+		if current_value and request_flag and request.values.get("permanent", '') == 'true' and request.values.get("username") == v.username:
+			if v.client: abort(403, "Cannot set filters permanently from the API")
+			request_flag = int(time.time())
+			setattr(v, column_name, request_flag)
+			if badge_id: badge_grant(v, badge_id)
+			return render_template("settings_personal.html", v=v, msg=f"Set the {friendly_name} filter permanently!")
+		elif current_value != request_flag:
+			setattr(v, column_name, request_flag)
+			return True
+		return False
+
 	if request.values.get("background", v.background) != v.background:
 		updated = True
 		v.background = request.values.get("background")
-
 	elif request.values.get("reddit", v.reddit) != v.reddit:
 		reddit = request.values.get("reddit")
 		if reddit in {'old.reddit.com', 'reddit.com', 'i.reddit.com', 'teddit.net', 'libredd.it', 'unddit.com'}:
 			updated = True
 			v.reddit = reddit
-
-	elif request.values.get("slurreplacer", v.slurreplacer) != v.slurreplacer:
-		updated = True
-		v.slurreplacer = request.values.get("slurreplacer") == 'true'
-
-	elif request.values.get("profanityreplacer", v.profanityreplacer) != v.profanityreplacer:
-		updated = True
-		v.profanityreplacer = request.values.get("profanityreplacer") == 'true'
-
 	elif request.values.get("poor", v.poor) != v.poor:
 		updated = True
-		v.poor = request.values.get("poor") == 'true'
 		session['poor'] = v.poor
+	
+	slur_filter_updated = updated or update_flag_with_permanence("slurfilter", "slurfilter", "slur filter", 143)
+	if isinstance(slur_filter_updated, bool):
+		updated = slur_filter_updated
+	else:
+		g.db.add(v)
+		return slur_filter_updated
+	
+	profanity_filter_updated = updated or update_flag_with_permanence("profanityfilter", "profanityfilter", "profanity filter", 142)
+	if isinstance(profanity_filter_updated, bool):
+		updated = profanity_filter_updated
+	else:
+		g.db.add(v)
+		return profanity_filter_updated
 
-	elif request.values.get("hidevotedon", v.hidevotedon) != v.hidevotedon:
-		updated = True
-		v.hidevotedon = request.values.get("hidevotedon") == 'true'
-
-	elif request.values.get("cardview", v.cardview) != v.cardview:
-		updated = True
-		v.cardview = request.values.get("cardview") == 'true'
-
-	elif request.values.get("highlightcomments", v.highlightcomments) != v.highlightcomments:
-		updated = True
-		v.highlightcomments = request.values.get("highlightcomments") == 'true'
-
-	elif request.values.get("newtab", v.newtab) != v.newtab:
-		updated = True
-		v.newtab = request.values.get("newtab") == 'true'
-
-	elif request.values.get("newtabexternal", v.newtabexternal) != v.newtabexternal:
-		updated = True
-		v.newtabexternal = request.values.get("newtabexternal") == 'true'
-
-	elif request.values.get("nitter", v.nitter) != v.nitter:
-		updated = True
-		v.nitter = request.values.get("nitter") == 'true'
-
-	elif request.values.get("imginn", v.imginn) != v.imginn:
-		updated = True
-		v.imginn = request.values.get("imginn") == 'true'
-
-	elif request.values.get("controversial", v.controversial) != v.controversial:
-		updated = True
-		v.controversial = request.values.get("controversial") == 'true'
-
-	elif request.values.get("sigs_disabled", v.sigs_disabled) != v.sigs_disabled:
-		updated = True
-		v.sigs_disabled = request.values.get("sigs_disabled") == 'true'
-
-	elif request.values.get("over18", v.over_18) != v.over_18:
-		updated = True
-		v.over_18 = request.values.get("over18") == 'true'
-		
-	elif request.values.get("private", v.is_private) != v.is_private:
-		updated = True
-		v.is_private = request.values.get("private") == 'true'
-
-	elif request.values.get("nofollow", v.is_nofollow) != v.is_nofollow:
-		updated = True
-		v.is_nofollow = request.values.get("nofollow") == 'true'
-
-	elif request.values.get("spider", v.spider) != v.spider and v.spider <= 1:
+	updated = updated or update_flag("hidevotedon", "hidevotedon")
+	updated = updated or update_flag("cardview", "cardview")
+	updated = updated or update_flag("highlightcomments", "highlightcomments")
+	updated = updated or update_flag("newtab", "newtab")
+	updated = updated or update_flag("newtabexternal", "newtabexternal")
+	updated = updated or update_flag("nitter", "nitter")
+	updated = updated or update_flag("imginn", "imginn")
+	updated = updated or update_flag("controversial", "controversial")
+	updated = updated or update_flag("sigs_disabled", "sigs_disabled")
+	updated = updated or update_flag("over_18", "over18")
+	updated = updated or update_flag("is_private", "private")
+	updated = updated or update_flag("is_nofollow", "nofollow")
+	if not updated and request.values.get("spider", v.spider) != v.spider and v.spider <= 1:
 		updated = True
 		v.spider = int(request.values.get("spider") == 'true')
 		if v.spider: badge_grant(user=v, badge_id=179)
@@ -121,35 +111,33 @@ def settings_profile_post(v):
 			badge = v.has_badge(179)
 			if badge: g.db.delete(badge)
 
-	elif request.values.get("bio") == "":
+	elif not updated and request.values.get("bio") == "":
 		v.bio = None
 		v.bio_html = None
 		g.db.add(v)
 		return render_template("settings_personal.html", v=v, msg="Your bio has been updated.")
 
-	elif request.values.get("sig") == "":
+	elif not updated and request.values.get("sig") == "":
 		v.sig = None
 		v.sig_html = None
 		g.db.add(v)
 		return render_template("settings_personal.html", v=v, msg="Your sig has been updated.")
 
-	elif request.values.get("friends") == "":
+	elif not updated and request.values.get("friends") == "":
 		v.friends = None
 		v.friends_html = None
 		g.db.add(v)
 		return render_template("settings_personal.html", v=v, msg="Your friends list has been updated.")
 
-	elif request.values.get("enemies") == "":
+	elif not updated and request.values.get("enemies") == "":
 		v.enemies = None
 		v.enemies_html = None
 		g.db.add(v)
 		return render_template("settings_personal.html", v=v, msg="Your enemies list has been updated.")
 
-	elif v.patron and request.values.get("sig"):
+	elif not updated and v.patron and request.values.get("sig"):
 		sig = request.values.get("sig")[:200].replace('\n','').replace('\r','')
-
 		sig_html = sanitize(sig)
-
 		if len(sig_html) > 1000:
 			return render_template("settings_personal.html",
 								v=v,
@@ -165,7 +153,7 @@ def settings_profile_post(v):
 
 
 
-	elif FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("friends"):
+	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("friends"):
 		friends = request.values.get("friends")[:500]
 
 		friends_html = sanitize(friends)
@@ -191,7 +179,7 @@ def settings_profile_post(v):
 							msg="Your friends list has been updated.")
 
 
-	elif FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("enemies"):
+	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("enemies"):
 		enemies = request.values.get("enemies")[:500]
 
 		enemies_html = sanitize(enemies)
@@ -217,7 +205,7 @@ def settings_profile_post(v):
 							msg="Your enemies list has been updated.")
 
 
-	elif FEATURES['USERS_PROFILE_BODYTEXT'] and \
+	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and \
 			(request.values.get("bio") or request.files.get('file')):
 		bio = request.values.get("bio")[:1500]
 
@@ -244,7 +232,7 @@ def settings_profile_post(v):
 
 	frontsize = request.values.get("frontsize")
 	if frontsize:
-		if frontsize in {"15", "25", "50", "100"}:
+		if frontsize in PAGE_SIZES:
 			v.frontsize = int(frontsize)
 			updated = True
 			cache.delete_memoized(frontlist)
@@ -252,37 +240,37 @@ def settings_profile_post(v):
 
 	defaultsortingcomments = request.values.get("defaultsortingcomments")
 	if defaultsortingcomments:
-		if defaultsortingcomments in {"new", "old", "controversial", "top", "hot", "bottom"}:
+		if defaultsortingcomments in COMMENT_SORTS:
 			v.defaultsortingcomments = defaultsortingcomments
 			updated = True
-		else: abort(400)
+		else: abort(400, f"{defaultsortingcomments} is not a valid comment sort")
 
 	defaultsorting = request.values.get("defaultsorting")
 	if defaultsorting:
-		if defaultsorting in {"hot", "bump", "new", "old", "comments", "controversial", "top", "bottom"}:
+		if defaultsorting in SORTS:
 			v.defaultsorting = defaultsorting
 			updated = True
-		else: abort(400)
+		else: abort(400, f"{defaultsorting} is not a valid post sort")
 
 	defaulttime = request.values.get("defaulttime")
 	if defaulttime:
-		if defaulttime in {"hour", "day", "week", "month", "year", "all"}:
+		if defaulttime in TIME_FILTERS:
 			v.defaulttime = defaulttime
 			updated = True
-		else: abort(400)
+		else: abort(400, f"{defaulttime} is not a valid time filter")
 
 	theme = request.values.get("theme")
 	if theme:
-		if theme in {"4chan","classic","classic_dark","coffee","dark","dramblr","light","midnight","transparent","tron","win98"}:
+		if theme in THEMES:
 			if theme == "transparent" and not v.background: 
-				abort(400, "You need to set a background to use the transparent theme!")
+				abort(409, "You need to set a background to use the transparent theme")
 			v.theme = theme
 			if theme == "win98": v.themecolor = "30409f"
 			updated = True
-		else: abort(400)
+		else: abort(400, f"{theme} is not a valid theme")
 
 	house = request.values.get("house")
-	if house and house in ("None","Furry","Femboy","Vampire","Racist") and FEATURES['HOUSES']:
+	if house and house in HOUSES and FEATURES['HOUSES']:
 		if v.bite: abort(403)
 		if v.house:
 			if v.house.replace(' Founder', '') == house: abort(409, f"You're already in House {house}")
@@ -306,7 +294,6 @@ def settings_profile_post(v):
 	if updated:
 		g.db.add(v)
 		return {"message": "Your settings have been updated."}
-
 	else:
 		abort(400, "You didn't change anything.")
 

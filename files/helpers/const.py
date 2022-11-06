@@ -213,7 +213,7 @@ THEMES = ["4chan","classic","classic_dark","coffee","dark","dramblr","light","mi
 COMMENT_SORTS = ["hot", "new", "old", "top", "bottom", "controversial"]
 SORTS = COMMENT_SORTS + ["bump", "comments"]
 TIME_FILTERS = ["hour", "day", "week", "month", "year", "all"]
-PAGE_SIZES = [10, 25, 50, 100]
+PAGE_SIZES = {10, 25, 50, 100}
 
 ################################################################################
 ### SITE SPECIFIC CONSTANTS
@@ -594,7 +594,7 @@ else: # localhost or testing environment implied
 	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 
-HOUSES = ["None","Furry","Femboy","Vampire","Racist"] if FEATURES['HOUSES'] else ["None"]
+HOUSES = ("None","Furry","Femboy","Vampire","Racist") if FEATURES['HOUSES'] else ("None")
 
 bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, BASEDBOT_ID}
 

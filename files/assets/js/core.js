@@ -32,7 +32,7 @@ function createXhrWithFormKey(url, method="POST", form=new FormData()) {
 	return [xhr, form]; // hacky but less stupid than what we were doing before
 }
 
-function postToast(t, url, data, extraActionsOnSuccess) {
+function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
 	const isShopConfirm = t.id.startsWith('buy1-') || t.id.startsWith('buy2-')
 
 	if (!isShopConfirm)
@@ -47,7 +47,7 @@ function postToast(t, url, data, extraActionsOnSuccess) {
 			form.append(k, data[k]);
 		}
 	}
-	const xhr = createXhrWithFormKey(url, "POST", form);
+	const xhr = createXhrWithFormKey(url, method, form);
 	xhr[0].onload = function() {
 		let result
 		let message;
@@ -78,17 +78,17 @@ function postToast(t, url, data, extraActionsOnSuccess) {
 	}
 }
 
-function postToastReload(t, url) {
+function postToastReload(t, url, method="POST") {
 	postToast(t, url,
 		{
 		},
 		() => {
 			location.reload()
 		}
-	);
+	, method);
 }
 
-function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess) {
+function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess, method="POST") {
 	postToast(t, url,
 		{
 		},
@@ -104,7 +104,7 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess) {
 			}
 			if (extraActionsOnSuccess) extraActionsOnSuccess(xhr);
 		}
-	);
+	, method);
 }
 
 if (window.location.pathname != '/submit')
