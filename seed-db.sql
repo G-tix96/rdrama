@@ -398,7 +398,6 @@ INSERT INTO public.hat_defs VALUES (838, 'Bats', 'Closest you''ll ever be to bat
 INSERT INTO public.hat_defs VALUES (839, 'Confetti', 'WOOOO you must be special you have confetti!', 2, 1000, NULL, 1665260585);
 INSERT INTO public.hat_defs VALUES (840, 'Crawling spider', 'AHHH SPIDER HIT IT', 2, 1000, NULL, 1665260749);
 INSERT INTO public.hat_defs VALUES (842, 'Cursor', 'You should click this users profile!', 2, 1000, NULL, 1665260982);
-INSERT INTO public.hat_defs VALUES (712, 'Thursday The 20th', '20% off on every Thursday. 30% off on the 20th of every month. 50% off on Thurday the 20th!', 2, 250, NULL, 1663434472);
 INSERT INTO public.hat_defs VALUES (699, 'Gendo', '"Get in the fucking robot, Marsey."', 2, 500, NULL, 1663431457);
 INSERT INTO public.hat_defs VALUES (698, 'Osama', 'Did you ever see that picture of the bin Laden family in the 70''s?', 2, 500, NULL, 1663431148);
 INSERT INTO public.hat_defs VALUES (690, 'Dragon Ball Scouter', 'It''s Over 9000!', 2, 500, NULL, 1663428978);
@@ -452,6 +451,7 @@ INSERT INTO public.hat_defs VALUES (949, 'Kasa 1', 'Keeps the sun out your eyes 
 INSERT INTO public.hat_defs VALUES (951, 'Kasa 3', 'This is just a basket. What farmers wore this?? BLIND ONES?', 2, 500, NULL, 1665609168);
 INSERT INTO public.hat_defs VALUES (1012, 'Marsey Slain', 'You monster... what have you done..', 2, 500, NULL, 1667516047);
 INSERT INTO public.hat_defs VALUES (1016, 'Antlers', 'Be careful. I''ll shoot ya!', 2, 500, NULL, 1667531769);
+INSERT INTO public.hat_defs VALUES (712, 'Thursday The 20th', '20% off on every Thursday. 30% off on the 20th of every month. 50% off on Thurday the 20th!', 2, 500, NULL, 1663434472);
 INSERT INTO public.hat_defs VALUES (22, 'Southern Gentleman', 'Slaveowner? Fried chicken chain founder? You decide!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (23, 'Cowboy I', 'Make him wish he could quit you', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (24, 'Cowboy II', 'You''re my favorite deputy!', 2, 500, NULL, 1662167687);
@@ -2469,6 +2469,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyrentfree',2,'reaction no charge obsessed obsession',NULL),
 ('marseyreportercnn',2,'reporter journalist journoid interviewer',NULL),
 ('marseyreporterfox',2,'reporter journalist journoid interviewer',NULL),
+('marseyrepostsign',2,'repost sign wink tail wag animated',1667707937),
 ('marseyrespect',2,'darrell brooks respect respecc',1666366039),
 ('marseyretard',2,'special ed retarded reaction slow sped drooling exceptional',NULL),
 ('marseyretard2',2,'drooling stupid idiot sped moron imbecile dolt happy tongue',NULL),
