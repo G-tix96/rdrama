@@ -21,7 +21,6 @@ import requests
 def settings(v):
 	return redirect("/settings/personal")
 
-
 @app.get("/settings/personal")
 @auth_required
 def settings_personal(v):

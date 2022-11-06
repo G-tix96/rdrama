@@ -211,6 +211,19 @@
 			<section id="site-settings-filters-section" class="settings-section-section">
 				<h5>Filters</h5>
 				<div class="settings-section rounded" id="site-settings-filters">
+					{# toggle_section(title, id, name, flag, below_text, disabled) #}
+					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer %}
+						{% set slurtext = 'Enable if you would like to automatically replace slurs. <a class="danger" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
+					{% else %}
+						{% set slurtext = 'Enable if you would like to automatically replace slurs.' %}
+					{% endif %}
+					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer %}
+					{% set slurtext = 'Enable if you would like to automatically replace profanities. <a class="danger" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
+					{% else %}
+						{% set profanitytext = 'Enable if you would like to automatically replace profanities.' %}
+					{% endif %}
+					{{toggle_section("Slur Replacer", "slurreplacer", v.slurreplacer, slurtext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer > 1)}}
+					{{toggle_section("Profanity Replacer", "profanityreplacer", v.slurreplacer, profanitytext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer > 1)}}
 					{# profanity filter toggle (and lock?) #}
 					{# slur filter toggle (and lock?) #}
 				</div>
@@ -249,4 +262,40 @@
 {% endif %}
 
 <script defer src="{{'js/settings_profile.js' | asset}}"></script>
+
+{% macro permanent_filter_modal(id, form_action, field, friendly_name, badge_name) %}
+{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] -%}
+<div class="modal fade" id="modal-{{id}}" tabindex="-1" role="dialog" aria-labelledby="{{id}}modal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<form class="m-auto" action="{{form_action}}" id="exile-form" method="post" onsubmit="return false;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Make {{friendly_name}} Permanent</h5>
+					<button type="button" class="close" data-bs-dismiss="modal" aria-label="Cancel">
+						<span aria-hidden="true"><i class="far fa-times"></i></span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" name="{{field}}" value="true">
+					<input type="hidden" name="permanent" value="true">
+					<input type="hidden" name="formkey" value="{{v.formkey}}">
+					<p>This form will permanently enable the filter for you. You will receive the {{badge_name}} badge and will not be able to disable the filter.<br>Type your username to continue.</p>
+					<input autocomplete="off" type="text" name="username" placeholder="Enter your username" id="username-{{id}}" class="form-control" pattern="{{v.username}}" required>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-danger" id="submit-{{id}}-form">Make Permanent</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+{%- endif %}
+{% endmacro %}
+{% if v.slurreplacer and v.slurreplacer == 1 %}
+{{permanent_filter_modal('slurreplacer', '/settings/profile', 'slurreplacer', 'Slur Replacer', 'Social Justice Berserker')}}
+{% endif %}
+{% if v.profanityreplacer and v.profanityreplacer == 1 %}
+{{permanent_filter_modal('profanityreplacer', '/settings/profile', 'profanityreplacer', 'Profanity Replacer', 'Soapy-Mouthed Angel')}}
+{% endif %}
 {% endblock %}
