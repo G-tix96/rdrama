@@ -1719,6 +1719,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyelliotrodger2',2,'saint er rodgers rogers shooter killer incel hapa little king azn asian supremegentleman supreme gentleman',NULL),
 ('marseyelliotrodger3',2,'saint er rodgers rogers shooter killer incel hapa little king azn asian supremegentleman supreme gentleman',NULL),
 ('marseyelonmusk',2,'elon musk rocket spacex tesla',NULL),
+('marseyelonrentfree',2,'musk tesla twitter cope seethe dilate cry soy wojak south africa',1667732975),
 ('marseyembrace',2,'embracing hugging love happy',NULL),
 ('marseyemo',2,'girl goth scene woman foid',NULL),
 ('marseyemojigrin',2,'emoji reaction grin',NULL),
