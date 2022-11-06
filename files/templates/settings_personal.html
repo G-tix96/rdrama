@@ -219,10 +219,8 @@
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer %}
 						{% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a class="danger" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
 					{% endif %}
-					{{common.toggle_section("Slur Replacer", "slurreplacer", v.slurreplacer, ns.slurtext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer > 1)}}
-					{{common.toggle_section("Profanity Replacer", "profanityreplacer", v.slurreplacer, ns.profanitytext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer > 1)}}
-					{# profanity filter toggle (and lock?) #}
-					{# slur filter toggle (and lock?) #}
+					{{common.toggle_section("Slur Replacer", "slurreplacer", 'slurreplacer', v.slurreplacer, ns.slurtext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer > 1)}}
+					{{common.toggle_section("Profanity Replacer", "profanityreplacer", 'profanityreplacer', v.profanityreplacer, ns.profanitytext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer > 1)}}
 				</div>
 			</section>
 			<section id="site-settings-referral-section" class="settings-section-section">
@@ -264,7 +262,7 @@
 {% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] -%}
 <div class="modal fade" id="modal-{{id}}" tabindex="-1" role="dialog" aria-labelledby="{{id}}modal" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
-		<form class="m-auto" action="{{form_action}}" id="exile-form" method="post" onsubmit="return false;">
+		<form class="m-auto" action="{{form_action}}" id="{{form}}-form" method="post">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Make {{friendly_name}} Permanent</h5>
@@ -275,13 +273,14 @@
 				<div class="modal-body">
 					<input type="hidden" name="{{field}}" value="true">
 					<input type="hidden" name="permanent" value="true">
+					<input type="hidden" name="rendered" value="true">
 					<input type="hidden" name="formkey" value="{{v.formkey}}">
 					<p>This form will permanently enable the filter for you. You will receive the {{badge_name}} badge and will not be able to disable the filter.<br>Type your username to continue.</p>
-					<input autocomplete="off" type="text" name="username" placeholder="Enter your username" id="username-{{id}}" class="form-control" pattern="{{v.username}}" required>
+					<input autocomplete="off" type="text" name="username" placeholder="Enter your username in order to make this permanent change" id="username-{{id}}" class="form-control" pattern="{{v.username}}" required>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-danger" id="submit-{{id}}-form">Make Permanent</button>
+					<button type="submit" class="btn btn-danger" id="submit-{{id}}-form">Make Permanent</button>
 				</div>
 			</div>
 		</form>
