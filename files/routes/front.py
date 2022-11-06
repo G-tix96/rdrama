@@ -142,7 +142,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	else: size = PAGE_SIZE
 
 	if SITE_NAME == 'WPD' and sort == "hot" and sub == None:
-		posts = posts.offset(size * (page - 1)).limit(101).all()
+		posts = posts.offset(size * (page - 1)).limit(201).all()
 		to_remove = [x.id for x in posts if x.sub == 'social'][1:] + [x.id for x in posts if x.sub == 'music'][1:]
 		posts = [x for x in posts if x.id not in to_remove]
 	else:
