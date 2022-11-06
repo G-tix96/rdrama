@@ -34,7 +34,7 @@
 						</div>
 						<div class="body w-lg-100">
 							<div class="input-group mb2">
-								<select autocomplete="off" id='theme' class="form-control" form="profile-settings" name="theme" onchange="postToastReload(this,'/settings/profile?theme='+document.getElementById('theme').value)">
+								<select autocomplete="off" id='theme' class="form-control" form="profile-settings" name="theme" onchange="postToastReload(this,'/settings/personal?theme='+document.getElementById('theme').value)">
 								{% for entry in THEMES %}
 									<option value="{{entry}}" {% if v.theme==entry %} selected {% endif %}>
 										{{entry}}
@@ -90,7 +90,7 @@
 									<p>Join a house (cost: {{cost}} coins or marseybux).</p>
 								{% endif %}
 								<div class="input-group mb2">
-									<select {% if v.coins < cost and v.procoins < cost or v.bite %}disabled{% endif %} autocomplete="off" id='house' class="form-control" form="profile-settings" name="house" onchange="postToastReload(this,'/settings/profile?house='+document.getElementById('house').value)">
+									<select {% if v.coins < cost and v.procoins < cost or v.bite %}disabled{% endif %} autocomplete="off" id='house' class="form-control" form="profile-settings" name="house" onchange="postToastReload(this,'/settings/personal?house='+document.getElementById('house').value)">
 										{% for entry in HOUSES %}
 											<option value="{{entry}}" {% if v.house == entry %} selected {% endif %}>
 												{{entry}}
@@ -200,10 +200,10 @@
 						</div>
 					{%- endif %}
 					{# common.text_area_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, show_extras, show_file_upload, maxlength, show_if) #}
-					{{common.text_area_section('profile-bio', '/settings/profile', 'bio', 'Bio', v.bio, 'Limit of 1500 characters', 'Tell the community a bit about yourself.', true, true, 1500, FEATURES['USERS_PROFILE_BODYTEXT'])}}
-					{{common.text_area_section('profile-friends', '/settings/profile', 'friends', 'Friends', v.friends, 'Limit of 500 characters', 'Enter your friends on the site...', false, false, 500, true)}}
-					{{common.text_area_section('profile-enemies', '/settings/profile', 'enemies', 'Enemies', v.enemies, 'Limit of 500 characters', 'Enter your enemies on the site...', false, false, 500, true)}}
-					{{common.text_area_section('profile-signature', '/settings/profile', 'sig', 'Signature', v.sig, 'Limit of 200 characters', 'Enter a signature...', true, false, 200, v.patron or v.sig)}}
+					{{common.text_area_section('profile-bio', '/settings/personal', 'bio', 'Bio', v.bio, 'Limit of 1500 characters', 'Tell the community a bit about yourself.', true, true, 1500, FEATURES['USERS_PROFILE_BODYTEXT'])}}
+					{{common.text_area_section('profile-friends', '/settings/personal', 'friends', 'Friends', v.friends, 'Limit of 500 characters', 'Enter your friends on the site...', false, false, 500, true)}}
+					{{common.text_area_section('profile-enemies', '/settings/personal', 'enemies', 'Enemies', v.enemies, 'Limit of 500 characters', 'Enter your enemies on the site...', false, false, 500, true)}}
+					{{common.text_area_section('profile-signature', '/settings/personal', 'sig', 'Signature', v.sig, 'Limit of 200 characters', 'Enter a signature...', true, false, 200, v.patron or v.sig)}}
 					{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your post and comment history from others. We will also ask search engines to not index your profile page. (Your content will still be accessible via direct link.)')}}
 					{{common.toggle_section('Spider', 'spiderswitch', 'spider', v.spider, 'Have a spider friend accompany you during your journey on the site.')}}
 				</div>
@@ -262,7 +262,7 @@
 {% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] -%}
 <div class="modal fade" id="modal-{{id}}" tabindex="-1" role="dialog" aria-labelledby="{{id}}modal" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
-		<form class="m-auto" action="{{form_action}}" id="{{form}}-form" method="post">
+		<form class="m-auto" action="{{form_action}}" id="{{id}}-form" method="post">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Make {{friendly_name}} Permanent</h5>
@@ -273,10 +273,9 @@
 				<div class="modal-body">
 					<input type="hidden" name="{{field}}" value="true">
 					<input type="hidden" name="permanent" value="true">
-					<input type="hidden" name="rendered" value="true">
 					<input type="hidden" name="formkey" value="{{v.formkey}}">
-					<p>This form will permanently enable the filter for you. You will receive the {{badge_name}} badge and will not be able to disable the filter.<br>Type your username to continue.</p>
-					<input autocomplete="off" type="text" name="username" placeholder="Enter your username in order to make this permanent change" id="username-{{id}}" class="form-control" pattern="{{v.username}}" required>
+					<p>This form will permanently enable the filter for you. You will receive the {{badge_name}} badge and <strong>will not</strong> be able to disable the filter.<br>Type your username to continue.</p>
+					<input autocomplete="off" type="text" name="username" placeholder="Enter your username to confirm" id="username-{{id}}" class="form-control" pattern="{{v.username}}" required>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">Cancel</button>
@@ -289,9 +288,9 @@
 {%- endif %}
 {% endmacro %}
 {% if v.slurreplacer %}
-{{permanent_filter_modal('slurreplacer', '/settings/profile', 'slurreplacer', 'Slur Replacer', 'Social Justice Berserker')}}
+{{permanent_filter_modal('slurreplacer', '/settings/personal', 'slurreplacer', 'Slur Replacer', 'Social Justice Berserker')}}
 {% endif %}
 {% if v.profanityreplacer %}
-{{permanent_filter_modal('profanityreplacer', '/settings/profile', 'profanityreplacer', 'Profanity Replacer', 'Soapy-Mouthed Angel')}}
+{{permanent_filter_modal('profanityreplacer', '/settings/personal', 'profanityreplacer', 'Profanity Replacer', 'Soapy-Mouthed Angel')}}
 {% endif %}
 {% endblock %}

@@ -36,7 +36,7 @@ def remove_background(v):
 		g.db.add(v)
 	return {"message": "Background removed!"}
 
-@app.post("/settings/profile")
+@app.post("/settings/personal")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
@@ -326,7 +326,7 @@ def namecolor(v):
 
 	v.namecolor = color
 	g.db.add(v)
-	return redirect("/settings/profile")
+	return redirect("/settings/personal")
 	
 @app.post("/settings/themecolor")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -342,7 +342,7 @@ def themecolor(v):
 
 	v.themecolor = themecolor
 	g.db.add(v)
-	return redirect("/settings/profile")
+	return redirect("/settings/personal")
 
 @app.post("/settings/gumroad")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -393,7 +393,7 @@ def titlecolor(v):
 		return render_template("settings_personal.html", v=v, error="Invalid color hex code")
 	v.titlecolor = titlecolor
 	g.db.add(v)
-	return redirect("/settings/profile")
+	return redirect("/settings/personal")
 
 @app.post("/settings/verifiedcolor")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -405,7 +405,7 @@ def verifiedcolor(v):
 	if len(verifiedcolor) != 6: return render_template("settings_personal.html", v=v, error="Invalid color hex code")
 	v.verifiedcolor = verifiedcolor
 	g.db.add(v)
-	return redirect("/settings/profile")
+	return redirect("/settings/personal")
 
 @app.post("/settings/security")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -700,9 +700,7 @@ def settings_name_change(v):
 	v.name_changed_utc=int(time.time())
 	g.db.add(v)
 
-	return redirect("/settings/profile")
-
-
+	return redirect("/settings/personal")
 
 @app.post("/settings/song_change_mp3")
 @limiter.limit("3/second;10/day")
@@ -732,9 +730,7 @@ def settings_song_change_mp3(v):
 	v.song = song
 	g.db.add(v)
 
-	return redirect("/settings/profile")
-
-
+	return redirect("/settings/personal")
 
 @app.post("/settings/song_change")
 @limiter.limit("3/second;10/day")
@@ -751,7 +747,7 @@ def settings_song_change(v):
 			os.remove(f"/songs/{v.song}.mp3")
 		v.song = None
 		g.db.add(v)
-		return redirect("/settings/profile")
+		return redirect("/settings/personal")
 
 	song = song.replace("https://music.youtube.com", "https://youtube.com")
 	if song.startswith(("https://www.youtube.com/watch?v=", "https://youtube.com/watch?v=", "https://m.youtube.com/watch?v=")):
@@ -767,7 +763,7 @@ def settings_song_change(v):
 	if path.isfile(f'/songs/{id}.mp3'): 
 		v.song = id
 		g.db.add(v)
-		return redirect("/settings/profile")
+		return redirect("/settings/personal")
 		
 	
 	req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={id}&key={YOUTUBE_KEY}&part=contentDetails", timeout=5).json()
@@ -812,9 +808,7 @@ def settings_song_change(v):
 
 	v.song = id
 	g.db.add(v)
-
-
-	return redirect("/settings/profile")
+	return redirect("/settings/personal")
 
 @app.post("/settings/title_change")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -840,7 +834,7 @@ def settings_title_change(v):
 	v.customtitle = customtitle
 	g.db.add(v)
 
-	return redirect("/settings/profile")
+	return redirect("/settings/personal")
 
 
 @app.post("/settings/pronouns_change")
@@ -869,7 +863,7 @@ def settings_pronouns_change(v):
 	v.pronouns = pronouns
 	g.db.add(v)
 
-	return redirect("/settings/profile")
+	return redirect("/settings/personal")
 
 
 @app.post("/settings/checkmark_text")
@@ -883,4 +877,4 @@ def settings_checkmark_text(v):
 	if new_name == v.verified: return render_template("settings_personal.html", v=v, error="You didn't change anything")
 	v.verified = new_name
 	g.db.add(v)
-	return redirect("/settings/profile")
+	return redirect("/settings/personal")

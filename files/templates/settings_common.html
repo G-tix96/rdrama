@@ -5,7 +5,7 @@
 	</div>
 	<div class="body w-lg-100">
 		<div class="custom-control custom-switch">
-			<input autocomplete="off" type="checkbox" class="custom-control-input" id="{{id}}" name="{{name}}"{% if flag %} checked{% endif %} {% if disabled %}disabled=""{% else %}onchange="postToastSwitch(this,'/settings/profile?{{name}}='+document.getElementById('{{id}}').checked)"{% endif %}>
+			<input autocomplete="off" type="checkbox" class="custom-control-input" id="{{id}}" name="{{name}}"{% if flag %} checked{% endif %} {% if disabled %}disabled=""{% else %}onchange="postToastSwitch(this,'/settings/personal?{{name}}='+document.getElementById('{{id}}').checked)"{% endif %}>
 			<label class="custom-control-label" for="{{id}}"></label>
 		</div>
 		{% if below_text %}
