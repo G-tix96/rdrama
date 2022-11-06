@@ -360,16 +360,6 @@ def serviceworker():
 	with open("files/assets/js/service-worker.js", "r", encoding="utf-8") as f:
 		return Response(f.read(), mimetype='application/javascript')
 
-@app.get("/settings/security")
-@auth_required
-def settings_security(v):
-	return render_template("settings_security.html",
-						v=v,
-						mfa_secret=pyotp.random_base32() if not v.mfa_secret else None,
-						now=int(time.time())
-						)
-
-
 @app.post("/dismiss_mobile_tip")
 def dismiss_mobile_tip():
 	session["tooltip_last_dismissed"] = int(time.time())

@@ -1,11 +1,9 @@
 {% extends "settings.html" %}
-{% block pagetitle %}<title>Apps/Bots - {{SITE_NAME}}</title>{% endblock %}
+{% block pagetitle %}Apps/Bots - {{SITE_NAME}}{% endblock %}
 {% block content %}
 <div class="row">
 	<div class="col col-lg-8">
 		<div class="settings">
-
-
 <h5><a href="/api">API Guide</a></h5>
 <h5 class="mt-1">Your API Applications</h5>
 {% for app in v.applications if app.client_id %}

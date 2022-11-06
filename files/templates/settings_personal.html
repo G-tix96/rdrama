@@ -1,6 +1,18 @@
 {% extends "settings.html" %}
 {% block pagetitle %}Content Settings - {{SITE_NAME}}{% endblock %}
 {% import 'settings_common.html' as common with context %}
+<style>
+	.bg-image {
+		padding: 0.25rem;
+		width: 15rem;
+		height: 10rem;
+		object-fit: cover;
+	}
+	.bg-button {
+		margin: 0.25rem;
+		padding: 0;
+	}
+</style>
 {# common sections start #}
 {% macro color_section(id, form_action, form_name, section_title, current_color) %}
 <div class="d-lg-flex border-bottom">
