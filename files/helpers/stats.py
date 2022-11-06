@@ -90,8 +90,9 @@ def chart_path(kind, site):
 	return f'/{site}_{kind}.png'
 
 def stats(site=None):
-	day = int(time.time()) - 86400
-	week = int(time.time()) - 604800
+	now = time.time()
+	day = int(now) - 86400
+	week = int(now) - 604800
 	posters = g.db.query(Submission.author_id).distinct(Submission.author_id).filter(Submission.created_utc > week).all()
 	commenters = g.db.query(Comment.author_id).distinct(Comment.author_id).filter(Comment.created_utc > week).all()
 	voters = g.db.query(Vote.user_id).distinct(Vote.user_id).filter(Vote.created_utc > week).all()
@@ -99,6 +100,7 @@ def stats(site=None):
 	active_users = set(posters) | set(commenters) | set(voters) | set(commentvoters)
 
 	stats = {
+			"time": str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(now))),
 			"marseys": "{:,}".format(g.db.query(Marsey).filter(Marsey.submitter_id==None).count()),
 			"users": "{:,}".format(g.db.query(User).count()),
 			"private users": "{:,}".format(g.db.query(User).filter_by(is_private=True).count()),
