@@ -214,10 +214,10 @@
 					{% set ns = namespace(slurtext='Enable if you would like to automatically replace slurs.', profanitytext='Enable if you would like to automatically replace slurs.') %}
 					{# toggle_section(title, id, name, flag, below_text, disabled) #}
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer %}
-						{% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a class="danger" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
+						{% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
 					{% endif %}
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer %}
-						{% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a class="danger" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
+						{% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
 					{% endif %}
 					{{common.toggle_section("Slur Replacer", "slurreplacer", 'slurreplacer', v.slurreplacer, ns.slurtext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer > 1)}}
 					{{common.toggle_section("Profanity Replacer", "profanityreplacer", 'profanityreplacer', v.profanityreplacer, ns.profanitytext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer > 1)}}
