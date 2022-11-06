@@ -241,7 +241,7 @@
 							<div class="title w-lg-25">
 								<label for="anthem">Profile Anthem</label>
 							</div>
-							<div class="w-lg-100">
+							<div class="body w-lg-100">
 								<p>You can use an MP3 file or a YouTube video.</p>
 								<form action="/settings/song_change_mp3" method="post" enctype="multipart/form-data">
 									<input type="hidden" name="formkey" value="{{v.formkey}}">
@@ -269,7 +269,6 @@
 					{{text_area_section('profile-friends', '/settings/profile', 'friends', 'Limit of 500 characters', 'Enter your friends on the site...', false, false, 500, true)}}
 					{{text_area_section('profile-enemies', '/settings/profile', 'enemies', 'Limit of 500 characters', 'Enter your enemies on the site...', false, false, 500, true)}}
 					{{text_area_section('profile-signature', '/settings/profile', 'sig', 'Limit of 200 characters', 'Enter a signature...', true, false, 200, v.patron or v.sig)}}
-					{# toggle_section(title, id, name, flag, below_text) #}
 					{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your post and comment history from others. We will also ask search engines to not index your profile page. (Your content will still be accessible via direct link.)')}}
 					{{common.toggle_section('Spider', 'spiderswitch', 'spider', v.spider, 'Have a spider friend accompany you during your journey on the site.')}}
 				</div>
@@ -284,17 +283,19 @@
 			<section id="site-settings-referral-section" class="settings-section-section">
 				<h5>Refer a Friend!</h5>
 				<div class="settings-section rounded" id="site-settings-referral">
-					<div class="title w-lg-25">
-						<label for="referral_code">Referral code</label>
-					</div>
-					<div class="body w-lg-100">
-						<div class="input-group">
-							<input autocomplete="off" type="text" readonly="" class="form-control copy-link" id="referral_code" value="{{SITE_FULL}}/signup?ref={{v.username}}" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}">
-							<span class="input-group-append" data-bs-toggle="tooltip" data-bs-placement="top" title="You have referred {{v.referral_count}} user{{'s' if v.referral_count != 1 else ''}} so far. {% if v.referral_count==0 %}¯\_(ツ)_/¯{% elif v.referral_count>10%}Wow!{% endif %}">
-								<span class="input-group-text text-primary border-0"><i class="far fa-user mr-1" aria-hidden="true"></i>{{v.referral_count}}</span>
-							</span>
+					<div class="d-lg-flex border-bottom">
+						<div class="title w-lg-25">
+							<label for="referral_code">Referral code</label>
 						</div>
-						<div class="text-small text-muted mt-3">Share this link with a friend. {% if v.referral_count==0 %} When they sign up, you'll get the bronze recruitment badge. <a href="/badges">Learn more.</a>{% elif v.referral_count<10 %} When you refer 10 friends, you'll receive the silver recruitment badge. <a href="/badges">Learn more.</a>{% elif v.referral_count<100 %} When you refer 100 friends, you'll receive the gold recruitment badge. <a href="/badges">Learn more</a>.{% endif %}</div>
+						<div class="body w-lg-100">
+							<div class="input-group">
+								<input autocomplete="off" type="text" readonly="" class="form-control copy-link" id="referral_code" value="{{SITE_FULL}}/signup?ref={{v.username}}" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}">
+								<span class="input-group-append" data-bs-toggle="tooltip" data-bs-placement="top" title="You have referred {{v.referral_count}} user{{'s' if v.referral_count != 1 else ''}} so far. {% if v.referral_count==0 %}¯\_(ツ)_/¯{% elif v.referral_count>10%}Wow!{% endif %}">
+									<span class="input-group-text text-primary border-0"><i class="far fa-user mr-1" aria-hidden="true"></i>{{v.referral_count}}</span>
+								</span>
+							</div>
+							<div class="text-small text-muted mt-3">Share this link with a friend. {% if v.referral_count==0 %} When they sign up, you'll get the bronze recruitment badge. <a href="/badges">Learn more.</a>{% elif v.referral_count<10 %} When you refer 10 friends, you'll receive the silver recruitment badge. <a href="/badges">Learn more.</a>{% elif v.referral_count<100 %} When you refer 100 friends, you'll receive the gold recruitment badge. <a href="/badges">Learn more</a>.{% endif %}</div>
+						</div>
 					</div>
 				</div>
 			</section>
