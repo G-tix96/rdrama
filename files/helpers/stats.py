@@ -117,7 +117,7 @@ def stats(site=None):
 			"commenting users": "{:,}".format(g.db.query(Comment.author_id).distinct().count()),
 			"removed comments (by admins)": "{:,}".format(g.db.query(Comment).filter_by(is_banned=True).count()),
 			"deleted comments (by author)": "{:,}".format(g.db.query(Comment).filter(Comment.deleted_utc > 0).count()),
-			"comments last_24h": "{:,}".format(g.db.query(Comment).filter(Comment.created_utc > day, Comment.author_id != AUTOJANNY_ID).count()),
+			"comments last 24h": "{:,}".format(g.db.query(Comment).filter(Comment.created_utc > day, Comment.author_id != AUTOJANNY_ID).count()),
 			"post votes": "{:,}".format(g.db.query(Vote).count()),
 			"comment votes": "{:,}".format(g.db.query(CommentVote).count()),
 			"total upvotes": "{:,}".format(g.db.query(Vote).filter_by(vote_type=1).count() + g.db.query(CommentVote).filter_by(vote_type=1).count()),
