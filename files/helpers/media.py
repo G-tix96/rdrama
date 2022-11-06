@@ -127,15 +127,18 @@ def process_image(filename=None, resize=0, trim=False, uploader=None, patron=Fal
 		abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for paypigs)")
 
 	with Image.open(filename) as i:
-		params = ["convert", "-coalesce", filename, "-quality", "88", "-define", "webp:method=6", "-strip", "-auto-orient"]
+		params = ["convert", "-coalesce", filename, "-quality", "88", "-define", "webp:method=5", "-strip", "-auto-orient"]
 		if trim and len(list(Iterator(i))) == 1:
 			params.append("-trim")
 		if resize and i.width > resize:
 			params.extend(["-resize", f"{resize}>"])
 
 	params.append(filename)
-	subprocess.run(params)
-
+	try:
+		subprocess.run(params, timeout=MAX_IMAGE_CONVERSION_TIMEOUT)
+	except subprocess.TimeoutExpired:
+		abort(413, ("An uploaded image took too long to convert to WEBP. "
+					"Consider uploading elsewhere."))
 
 	if resize:
 		if os.stat(filename).st_size > MAX_IMAGE_SIZE_BANNER_RESIZED_KB * 1024:
