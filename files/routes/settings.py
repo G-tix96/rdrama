@@ -79,14 +79,14 @@ def settings_personal_post(v):
 		updated = True
 		session['poor'] = v.poor
 	
-	slur_filter_updated = updated or update_flag_with_permanence("slurreplacer", "slurreplacer", "slur replacer", 143)
+	slur_filter_updated = updated or update_flag_with_permanence("slurreplacer", "slurreplacer", "slur replacer", 192)
 	if isinstance(slur_filter_updated, bool):
 		updated = slur_filter_updated
 	else:
 		g.db.add(v)
 		return slur_filter_updated
 	
-	profanity_filter_updated = updated or update_flag_with_permanence("profanityreplacer", "profanityreplacer", "profanity replacer", 142)
+	profanity_filter_updated = updated or update_flag_with_permanence("profanityreplacer", "profanityreplacer", "profanity replacer", 190)
 	if isinstance(profanity_filter_updated, bool):
 		updated = profanity_filter_updated
 	else:
