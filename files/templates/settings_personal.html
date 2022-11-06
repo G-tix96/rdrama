@@ -211,7 +211,7 @@
 			<section id="site-settings-filters-section" class="settings-section-section">
 				<h5>Filters</h5>
 				<div class="settings-section rounded" id="site-settings-filters">
-					{% set ns = namespace(slurtext='Enable if you would like to automatically replace slurs.', profanitytext='Enable if you would like to automatically replace slurs.')}
+					{% set ns = namespace(slurtext='Enable if you would like to automatically replace slurs.', profanitytext='Enable if you would like to automatically replace slurs.') %}
 					{# toggle_section(title, id, name, flag, below_text, disabled) #}
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer %}
 						{% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a class="danger" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
