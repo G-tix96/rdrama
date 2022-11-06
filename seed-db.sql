@@ -2390,6 +2390,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseypope',2,'priest catholicism rome',NULL),
 ('marseyportalsuicide',2,'kill shotgun shoot death die kms animated',NULL),
 ('marseypostal',2,'postal smirk vidya game ginger',1667567600),
+('marseypostal2',2,'postal p3 game ginger',1667746211),
 ('marseypostmodern',2,'postmodernist obscurantist art',NULL),
 ('marseypotofsneed',2,'pot sneed pottery dungeon ornamental ancient',NULL),
 ('marseypredator',2,'predator drone obama wedding military',NULL),
