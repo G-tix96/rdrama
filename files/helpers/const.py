@@ -132,7 +132,6 @@ PROFANITIES = {
 	'vagina': 'girl peepee',
 	'cunt': 'rude lady',
 	' hell ': [' heck ', ' h-e-double-hockey-sticks '],
-	' hell.': [' heck.', ' h-e-double-hockey-sticks.'],
 	' sex ': ' intercourse ',
 	' sexual intercourse ': ' sexual congress ',
 	' god ': ' gosh ',
