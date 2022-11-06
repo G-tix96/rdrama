@@ -176,8 +176,8 @@ ACTIONTYPES = {
 		"icon": 'fa-dollar-sign', 
 		"color": 'bg-success'
 	},
-	'dump_cache': {
-		"str": 'dumped cache', 
+	'clear_internal_cache': {
+		"str": 'cleared internal cache', 
 		"icon": 'fa-trash-alt', 
 		"color": 'bg-muted'
 	},
@@ -266,9 +266,9 @@ ACTIONTYPES = {
 		"icon": 'fa-thumbtack fa-rotate--45', 
 		"color": 'bg-success'
 	},
-	'purge_cache': {
-		"str": 'purged cache', 
-		"icon": 'fa-memory', 
+	'clear_cloudflare_cache': {
+		"str": 'cleared cloudflare cache', 
+		"icon": 'fa-cloudflare', 
 		"color": 'bg-muted'
 	},
 	'reject_app': {

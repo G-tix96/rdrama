@@ -473,26 +473,26 @@ def change_settings(v, setting):
 
 	return {'message': f"{setting} {word}d successfully!"}
 
-@app.post("/admin/purge_cache")
+@app.post("/admin/clear_cloudflare_cache")
 @admin_level_required(PERMS['SITE_CACHE_PURGE_CDN'])
-def purge_cache(v):
-	if not purge_entire_cache():
-		abort(400, 'Failed to purge cache')
+def clear_cloudflare_cache(v):
+	if not clear_cloudflare_cache():
+		abort(400, 'Failed to clear cloudflare cache!')
 	ma = ModAction(
-		kind="purge_cache",
+		kind="clear_cloudflare_cache",
 		user_id=v.id
 	)
 	g.db.add(ma)
-	return {"message": "CDN cache purged!"}
+	return {"message": "Cloudflare cache cleared!"}
 
-@app.post("/admin/dump_cache")
+@app.post("/admin/clear_internal_cache")
 @admin_level_required(PERMS['SITE_CACHE_DUMP_INTERNAL'])
-def admin_dump_cache(v):
+def admin_clear_internal_cache(v):
 	online = cache.get(ONLINE_STR)
 	cache.clear()
 	cache.set(ONLINE_STR, online)
 	ma = ModAction(
-		kind="dump_cache",
+		kind="clear_internal_cache",
 		user_id=v.id
 	)
 	g.db.add(ma)
