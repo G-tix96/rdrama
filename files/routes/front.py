@@ -141,21 +141,10 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	if v: size = v.frontsize or 0
 	else: size = PAGE_SIZE
 
-	if SITE_NAME == 'WPD' and sort == "hot":
+	if True and sort == "hot":
 		posts = posts.offset(size * (page - 1)).limit(100).all()
-		social_found = False
-		music_found = False
-		for post in posts:
-			if v and v.id == AEVANN_ID: print(post.sub, flush=True)
-			if post.sub == 'social':
-				if v and v.id == AEVANN_ID: 
-					print(post.id, flush=True)
-					print(social_found, flush=True)
-				if social_found: posts.remove(post)
-				else: social_found = True
-			elif post.sub == 'music':
-				if music_found: posts.remove(post)
-				else: music_found = True
+		to_remove = [x.id for x in posts if x.sub == 'social'][1:] + [x.id for x in posts if x.sub == 'music'][1:]
+		posts = [x for x in posts if x.id not in to_remove]
 	else:
 		posts = posts.offset(size * (page - 1)).limit(size+1).all()
 
