@@ -956,7 +956,7 @@ CREATE TABLE public.users (
     defaultsortingcomments character varying(15) NOT NULL,
     theme character varying(15) NOT NULL,
     song character varying(50),
-    slurreplacer boolean DEFAULT true NOT NULL,
+    slurreplacer integer DEFAULT 1 NOT NULL,
     shadowbanned character varying(25),
     newtabexternal boolean DEFAULT true NOT NULL,
     customtitleplain character varying(100),
@@ -1017,7 +1017,7 @@ CREATE TABLE public.users (
     coins_spent_on_hats integer DEFAULT 0 NOT NULL,
     rainbow integer,
     spider integer,
-    profanityreplacer boolean DEFAULT true NOT NULL
+    profanityreplacer integer DEFAULT 1 NOT NULL,
 );
 
 
