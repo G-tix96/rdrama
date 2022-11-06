@@ -43,12 +43,12 @@
 		<div class="w-lg-100">
 			<form id="{{id}}-form" action="/settings/pronouns_change" method="post">
 				<input type="hidden" name="formkey" value="{{v.formkey}}">
-				<input minlength=3 maxlength=11 pattern="{{pattern}}" autocomplete="off" id="{{id}}-body" type="text" name="{{form_name}}" class="form-control" placeholder='{{placeholder_text}}' value="{% if contents %}{{contents}}{% endif %}">
+				<input minlength={{minlength}} maxlength={{maxlength}} pattern="{{pattern}}" autocomplete="off" id="{{id}}-body" type="text" name="{{form_name}}" class="form-control" placeholder='{{placeholder_text}}' value="{% if contents %}{{contents}}{% endif %}">
 				<div class="d-flex mt-2">
-					<small>{{below_text}}</small>
 					{% if show_marseys %}
 						<div role="button"><i class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('{{id}}-body')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></i></div>
 					{% endif %}
+					<small>{{below_text}}</small>
 					<input autocomplete="off" class="btn btn-primary ml-auto" id="{{id}}-save" type="submit" onclick="disable(this)" value="{{button_text}}">
 				</div>
 			</form>
@@ -271,10 +271,11 @@
 							</div>
 						</div>
 					{%- endif %}
-					{{text_area_section('profile-bio', '/settings/profile', 'bio', 'Limit of 1500 characters', 'Tell the community a bit about yourself.', true, true, 1500, FEATURES['USERS_PROFILE_BODYTEXT'])}}
-					{{text_area_section('profile-friends', '/settings/profile', 'friends', 'Limit of 500 characters', 'Enter your friends on the site...', false, false, 500, true)}}
-					{{text_area_section('profile-enemies', '/settings/profile', 'enemies', 'Limit of 500 characters', 'Enter your enemies on the site...', false, false, 500, true)}}
-					{{text_area_section('profile-signature', '/settings/profile', 'sig', 'Limit of 200 characters', 'Enter a signature...', true, false, 200, v.patron or v.sig)}}
+					{# {% macro text_area_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, show_extras, show_file_upload, maxlength, show_if) #}
+					{{text_area_section('profile-bio', '/settings/profile', 'bio', 'Bio', v.bio, 'Limit of 1500 characters', 'Tell the community a bit about yourself.', true, true, 1500, FEATURES['USERS_PROFILE_BODYTEXT'])}}
+					{{text_area_section('profile-friends', '/settings/profile', 'friends', 'Friends', v.friends, 'Limit of 500 characters', 'Enter your friends on the site...', false, false, 500, true)}}
+					{{text_area_section('profile-enemies', '/settings/profile', 'enemies', 'Enemies', v.enemies, 'Limit of 500 characters', 'Enter your enemies on the site...', false, false, 500, true)}}
+					{{text_area_section('profile-signature', '/settings/profile', 'sig', 'Signature', v.sig, 'Limit of 200 characters', 'Enter a signature...', true, false, 200, v.patron or v.sig)}}
 					{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your post and comment history from others. We will also ask search engines to not index your profile page. (Your content will still be accessible via direct link.)')}}
 					{{common.toggle_section('Spider', 'spiderswitch', 'spider', v.spider, 'Have a spider friend accompany you during your journey on the site.')}}
 				</div>
