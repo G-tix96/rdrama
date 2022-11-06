@@ -724,15 +724,15 @@ def submit_post(v, sub=None):
 	if not url and not body and not request.files.get("file") and not request.files.get("file-url"):
 		return error("Please enter a url or some text.")
 
-	dup = g.db.query(Submission).filter(
-		Submission.author_id == v.id,
-		Submission.deleted_utc == 0,
-		Submission.title == title,
-		Submission.url == url,
-		Submission.body == body
-	).one_or_none()
-
-	if dup and SITE != 'localhost': return redirect(dup.permalink)
+	if SITE != 'localhost': 
+		dup = g.db.query(Submission).filter(
+			Submission.author_id == v.id,
+			Submission.deleted_utc == 0,
+			Submission.title == title,
+			Submission.url == url,
+			Submission.body == body
+		).one_or_none()
+		if dup: return redirect(dup.permalink)
 
 	if not execute_antispam_submission_check(title, v, url):
 		return redirect("/notifications")
