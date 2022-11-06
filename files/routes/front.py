@@ -146,10 +146,11 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 		social_found = False
 		music_found = False
 		for post in posts:
-			print(post.sub, flush=True)
+			if v and v.id == AEVANN_ID: print(post.sub, flush=True)
 			if post.sub == 'social':
-				print(post.id, flush=True)
-				print(social_found, flush=True)
+				if v and v.id == AEVANN_ID: 
+					print(post.id, flush=True)
+					print(social_found, flush=True)
 				if social_found: posts.remove(post)
 				else: social_found = True
 			elif post.sub == 'music':
