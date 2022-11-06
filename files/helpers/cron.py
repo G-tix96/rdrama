@@ -95,7 +95,8 @@ def sub_inactive_purge_task():
 		+ g.db.query(Exile).filter(Exile.sub.in_(names)).all() \
 		+ g.db.query(SubBlock).filter(SubBlock.sub.in_(names)).all() \
 		+ g.db.query(SubJoin).filter(SubJoin.sub.in_(names)).all() \
-		+ g.db.query(SubSubscription).filter(SubSubscription.sub.in_(names)).all()
+		+ g.db.query(SubSubscription).filter(SubSubscription.sub.in_(names)).all() \
+		+ g.db.query(SubAction).filter(SubAction.sub.in_(names)).all()
 
 	for x in to_delete:
 		g.db.delete(x)
