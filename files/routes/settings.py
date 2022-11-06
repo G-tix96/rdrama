@@ -51,6 +51,7 @@ def settings_profile_post(v):
 		return False
 	
 	def update_flag_with_permanence(column_name:str, request_name:str, friendly_name:str, badge_id:Optional[int]):
+		if not request.values.get(request_name): return False
 		current_value = getattr(v, column_name)
 		if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and current_value > 1:
 			abort(403, "Cannot disable the word filter after you've already set it permanently!")
