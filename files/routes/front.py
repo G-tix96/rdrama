@@ -141,7 +141,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	if v: size = v.frontsize or 0
 	else: size = PAGE_SIZE
 
-	if SITE == 'watchpeopledie.tv':
+	if SITE_NAME == 'WPD' and sort == "hot":
 		posts = posts.offset(size * (page - 1)).limit(100).all()
 		social_found = False
 		music_found = False
