@@ -15,7 +15,7 @@
 </style>
 {# common sections start #}
 {% macro color_section(id, form_action, form_name, section_title, current_color) %}
-<div class="d-lg-flex border-bottom">
+<div class="body d-lg-flex border-bottom">
 	<div class="title w-lg-25">
 		<label for="{{id}}">{{section_title}}</label>
 	</div>
@@ -100,12 +100,12 @@
 {# common sections end #}
 {% block content %}
 <div class="row settings-page" id="settings-page-personal">
-	<div class="col col-lg-8">
+	<div class="col col-lg-10">
 		<div class="settings">
 			<section id="site-settings-experience-section" class="settings-section-section">
 				<h5>Site Experience</h5>
 				<div class="settings-section rounded" id="site-settings-experience">
-					<div class="d-lg-flex border-bottom">
+					<div class="body d-lg-flex border-bottom">
 						<div class="title w-lg-25">
 							<label for="paypig-status">Paypig Status</label>
 						</div>
@@ -114,9 +114,8 @@
 						</div>
 					</div>
 					{# theme #}
-					color_section(id, form_action, form_name, section_title, current_color)
 					{{color_section('theme-color', '/settings/themecolor', 'themecolor', 'Theme Color', v.themecolor)}}
-					<div class="d-lg-flex border-bottom">
+					<div class="body d-lg-flex border-bottom">
 						<div class="title w-lg-25">
 							<label for="background">Website Backgrounds</label>
 						</div>
@@ -143,9 +142,9 @@
 			</section>
 			<section id="site-settings-aesthetic-section" class="settings-section-section">
 				<h5>Your Aesthetic</h5>
-				<div class="settings-section-rounded" id="site-settings-aesthetic">
+				<div class="settings-section rounded" id="site-settings-aesthetic">
 					{% if FEATURES['HOUSES'] %}
-						<div class="d-lg-flex border-bottom">
+						<div class="body d-lg-flex border-bottom">
 							<div class="title w-lg-25">
 								<label for="theme">House</label>
 							</div>
@@ -172,7 +171,7 @@
 							</div>
 						</div>
 					{%- endif %}
-					<div class="d-lg-flex border-bottom">
+					<div class="body d-lg-flex border-bottom">
 						<div class="title w-lg-25 text-md-center">
 							<img loading="lazy" alt="your profile picture" src="{{v.profile_url}}" class="profile-pic-75">
 						</div>
@@ -191,7 +190,7 @@
 						</div>
 					</div>
 					{% if FEATURES['USERS_PROFILE_BANNER'] -%}
-						<div class="d-lg-flex border-bottom">
+						<div class="body d-lg-flex border-bottom">
 							<div class="title w-lg-75 text-md-center">
 								<img loading="lazy" alt="your banner" src="{{v.banner_url}}" class="banner-pic-135">
 							</div>
@@ -210,7 +209,7 @@
 							</div>
 						</div>
 					{%- endif %}
-					<div class="d-lg-flex border-bottom">
+					<div class="body d-lg-flex border-bottom">
 						<div class="title w-lg-25">
 							<label for="name">Username</label>
 						</div>
@@ -236,7 +235,7 @@
 						{{line_text_section('checkmark_text', '/settings/checkmark_text', 'checkmark-text', 'Checkmark Text', v.verified, 'Limit of 100 characters', 'Enter checkmark hover text here', 'Change Text', false, 0, 100, '', v.verified)}}
 					{% endif %}
 					{% if FEATURES['USERS_PROFILE_SONG'] -%}
-						<div class="d-lg-flex border-bottom">
+						<div class="body d-lg-flex border-bottom">
 							<div class="title w-lg-25">
 								<label for="anthem">Profile Anthem</label>
 							</div>
@@ -282,7 +281,7 @@
 			</section>
 			<section id="site-settings-referral-section" class="settings-section-section">
 				<h5>Refer a Friend!</h5>
-				<div class="settings-section-rounded" id="site-settings-referral">
+				<div class="settings-section rounded" id="site-settings-referral">
 					<div class="title w-lg-25">
 						<label for="referral_code">Referral code</label>
 					</div>
