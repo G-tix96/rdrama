@@ -219,8 +219,8 @@
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer %}
 						{% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a class="danger" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
 					{% endif %}
-					{{common.toggle_section("Slur Replacer", "slurreplacer", v.slurreplacer, slurtext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer > 1)}}
-					{{common.toggle_section("Profanity Replacer", "profanityreplacer", v.slurreplacer, profanitytext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer > 1)}}
+					{{common.toggle_section("Slur Replacer", "slurreplacer", v.slurreplacer, ns.slurtext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer > 1)}}
+					{{common.toggle_section("Profanity Replacer", "profanityreplacer", v.slurreplacer, ns.profanitytext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer > 1)}}
 					{# profanity filter toggle (and lock?) #}
 					{# slur filter toggle (and lock?) #}
 				</div>
