@@ -551,6 +551,16 @@ elif SITE == 'watchpeopledie.tv':
 	PERMS['HOLE_CREATE'] = 2
 	PERMS['POST_EDITING'] = 2
 	PERMS['ADMIN_ADD'] = 4
+	
+	ERROR_TITLES[400] = "Bad Request"
+	ERROR_TITLES[401] = "Unauthorized"
+	ERROR_TITLES[403] = "Forbidden"
+	ERROR_TITLES[404] = "Not Found"
+	ERROR_TITLES[405] = "Method Not Allowed"
+	ERROR_TITLES[406] = "Too Many Pings"
+	ERROR_TITLES[409] = "Conflict"
+	ERROR_TITLES[415] = "Unsupported Media Type"
+	ERROR_TITLES[500] = "Internal Server Error"
 
 	SIDEBAR_THREAD = 5403
 	BANNER_THREAD = 9869
