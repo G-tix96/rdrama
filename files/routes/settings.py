@@ -54,7 +54,7 @@ def settings_profile_post(v):
 		current_value = getattr(v, column_name)
 		if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and current_value > 1:
 			abort(403, "Cannot disable the word filter after you've already set it permanently!")
-		request_flag = int(request.values.get(request_name, '') == 'true')
+		request_flag = request.values.get(request_name, '') == 'true' #int(request.values.get(request_name, '') == 'true')
 		if current_value and request_flag and request.values.get("permanent", '') == 'true' and request.values.get("username") == v.username:
 			if v.client: abort(403, "Cannot set filters permanently from the API")
 			request_flag = int(time.time())
