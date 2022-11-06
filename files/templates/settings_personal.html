@@ -211,16 +211,13 @@
 			<section id="site-settings-filters-section" class="settings-section-section">
 				<h5>Filters</h5>
 				<div class="settings-section rounded" id="site-settings-filters">
+					{% set ns = namespace(slurtext='Enable if you would like to automatically replace slurs.', profanitytext='Enable if you would like to automatically replace slurs.')}
 					{# toggle_section(title, id, name, flag, below_text, disabled) #}
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer %}
-						{% set slurtext = 'Enable if you would like to automatically replace slurs. <a class="danger" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
-					{% else %}
-						{% set slurtext = 'Enable if you would like to automatically replace slurs.' %}
+						{% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a class="danger" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
 					{% endif %}
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer %}
-					{% set slurtext = 'Enable if you would like to automatically replace profanities. <a class="danger" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
-					{% else %}
-						{% set profanitytext = 'Enable if you would like to automatically replace profanities.' %}
+						{% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a class="danger" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
 					{% endif %}
 					{{common.toggle_section("Slur Replacer", "slurreplacer", v.slurreplacer, slurtext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer > 1)}}
 					{{common.toggle_section("Profanity Replacer", "profanityreplacer", v.slurreplacer, profanitytext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer > 1)}}
@@ -292,10 +289,10 @@
 </div>
 {%- endif %}
 {% endmacro %}
-{% if v.slurreplacer and v.slurreplacer == 1 %}
+{% if v.slurreplacer %}
 {{permanent_filter_modal('slurreplacer', '/settings/profile', 'slurreplacer', 'Slur Replacer', 'Social Justice Berserker')}}
 {% endif %}
-{% if v.profanityreplacer and v.profanityreplacer == 1 %}
+{% if v.profanityreplacer %}
 {{permanent_filter_modal('profanityreplacer', '/settings/profile', 'profanityreplacer', 'Profanity Replacer', 'Soapy-Mouthed Angel')}}
 {% endif %}
 {% endblock %}
