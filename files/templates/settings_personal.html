@@ -1,5 +1,5 @@
 {% extends "settings.html" %}
-{% block pagetitle %}Content Settings - {{SITE_NAME}}{% endblock %}
+{% block pagetitle %}Personal Settings - {{SITE_NAME}}{% endblock %}
 {% import 'settings_common.html' as common with context %}
 <style>
 	.bg-image {
@@ -23,7 +23,7 @@
 		<form action="{{form_action}}" id="{{id}}-form" method="post" class="color-picker" style="line-height: 0">
 				<input type="hidden" name="formkey" value="{{v.formkey}}">
 				{% for themecolor in COLORS %}
-				<input autocomplete="off" type="radio" name="themecolor" id="{{id}}-{{themecolor}}" value="{{themecolor}}" {% if current_color == themecolor %}checked{% endif %} onclick="document.getElementById('{{id}}-form').submit()">
+				<input autocomplete="off" type="radio" name="{{form_name}}" id="{{id}}-{{themecolor}}" value="{{themecolor}}" {% if current_color == themecolor %}checked{% endif %} onclick="document.getElementById('{{id}}-form').submit()">
 				<label class="color-radio" for="{{id}}-{{themecolor}}">
 					<span style="background-color: #{{themecolor}}">
 					{% if current_color.lower() == themecolor %}
@@ -115,7 +115,7 @@
 					</div>
 					{# theme #}
 					color_section(id, form_action, form_name, section_title, current_color)
-					{{color_section('theme-color', '/settings/themecolor', 'Theme Color', v.themecolor)}}
+					{{color_section('theme-color', '/settings/themecolor', 'themecolor', 'Theme Color', v.themecolor)}}
 					<div class="d-lg-flex border-bottom">
 						<div class="title w-lg-25">
 							<label for="background">Website Backgrounds</label>
@@ -226,11 +226,11 @@
 							</form>
 						</div>
 					</div>
-					{{color_section('namecolor', '/settings/namecolor', 'Name Color', v.name_color)}}
+					{{color_section('namecolor', '/settings/namecolor', 'namecolor', 'Name Color', v.name_color)}}
 					{{line_text_section('pronouns', '/settings/pronouns_change', 'pronouns', 'Pronouns', v.pronouns, '{2-5 characters} / {2-5 characters}', 'Enter pronouns here', 'Change Pronouns', false, 3, 11, '([a-zA-Z]{1,5})/[a-zA-Z]{1,5}(/[a-zA-Z]{1,5})?', FEATURES['PRONOUNS'])}}
 					{# line_text_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, button_text, show_marseys, minlength, maxlength, pattern, show_if) #}
 					{{line_text_section('flair', '/settings/title_change', 'custom-flair', 'Flair', v.customtitleplain, 'Limit of 100 characters', 'Enter a flair here', 'Change Flair', true, 0, 100, '', true)}}
-					{{color_section('flaircolor', '/settings/titlecolor', 'Flair Color', v.titlecolor)}}
+					{{color_section('flaircolor', '/settings/titlecolor', 'titlecolor', 'Flair Color', v.titlecolor)}}
 					{% if v.verified %}
 						{{color_section('verifiedcolor', '/settings/verifiedcolor', 'Checkmark Color', v.verifiedcolor)}}
 						{{line_text_section('checkmark_text', '/settings/checkmark_text', 'checkmark-text', 'Checkmark Text', v.verified, 'Limit of 100 characters', 'Enter checkmark hover text here', 'Change Text', false, 0, 100, '', v.verified)}}
