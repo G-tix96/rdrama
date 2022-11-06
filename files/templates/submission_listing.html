@@ -208,12 +208,10 @@
 						{% if p.realbody(v, True) %}
 							<button type="button" class="list-inline-item ml-2" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mx-0 text-expand-icon-{{p.id}}"></i></button>
 						{% endif %}
-						<li class="list-inline-item">
-							<a {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}">
-								<i class="fas fa-comment-dots mr-2"></i>{{p.comment_count}}
-								<span class="text-info d-none {{p.id}}-new-comments"></span>
-							</a>
-						</li>
+						<a class="list-inline-item" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}">
+							<i class="fas fa-comment-dots mr-2"></i>{{p.comment_count}}
+							<span class="text-info d-none {{p.id}}-new-comments"></span>
+						</a>
 						{% include 'post_actions.html' %}
 			</ul>
 		</div>

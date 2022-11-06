@@ -831,12 +831,10 @@
 								<div class="post-actions mt-2">
 				<ul class="list-inline text-right d-flex">
 
-						<li class="list-inline-item">
-							<a {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}">
-								<i class="fas fa-comment-dots mr-2"></i>{{p.comment_count}}
-								<span class="text-info d-none {{p.id}}-new-comments"></span>
-							</a>
-						</li>
+						<a class="list-inline-item" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}">
+							<i class="fas fa-comment-dots mr-2"></i>{{p.comment_count}}
+							<span class="text-info d-none {{p.id}}-new-comments"></span>
+						</a>
 
 						{% if v and (v.id==p.author_id or v.admin_level >= PERMS['POST_EDITING']) %}
 							<button type="button" class="list-inline-item" onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit"></i>Edit</button>

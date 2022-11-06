@@ -3625,8 +3625,8 @@ small, .small {
 	margin-bottom: 0;
 }
 .post-actions .list-inline .list-inline-item {
-	margin-right: 1rem;
-	margin-left: 0.5rem;
+	margin-right: 0.75rem;
+	margin-left: 0rem;
 }
 .post-actions .list-inline .list-inline-item:last-child {
 	margin-right: 0;
@@ -3724,6 +3724,8 @@ small, .small {
 	font-size: 12px;
 	text-decoration: none;
 	text-transform: none;
+	padding-left: 0.25rem;
+	padding-right: 0.25rem;
 }
 .post-actions a:hover, .post-actions button:hover {
 	color: var(--black);
