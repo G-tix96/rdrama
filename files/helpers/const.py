@@ -395,7 +395,6 @@ COMMENT_BODY_HTML_LENGTH_LIMIT = 20000 # do not make larger than 20000 character
 COMMENT_MAX_DEPTH = 200
 TRANSFER_MESSAGE_LENGTH_LIMIT = 200 # do not make larger than 10000 characters (comment limit) without altering the table
 MIN_REPOST_CHECK_URL_LENGTH = 9 # also change the constant in checkRepost() of submit.js
-ADMIN_PING_TRUESCORE_MINIMUM = 500
 TRUESCORE_DONATE_LIMIT = 100
 COSMETIC_AWARD_COIN_AWARD_PCT = 0.10
 

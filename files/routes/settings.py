@@ -40,7 +40,7 @@ def remove_background(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
-def settings_profile_post(v):
+def settings_personal_post(v):
 	updated = False
 
 	def update_flag(column_name:str, request_name:str):
@@ -54,14 +54,14 @@ def settings_profile_post(v):
 		if not request.values.get(request_name): return False
 		current_value = getattr(v, column_name)
 		if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and current_value > 1:
-			abort(403, "Cannot disable the word filter after you've already set it permanently!")
-		request_flag = request.values.get(request_name, '') == 'true' #int(request.values.get(request_name, '') == 'true')
+			abort(403, f"Cannot disable the {{friendly_name}} after you've already set it permanently!")
+		request_flag = int(request.values.get(request_name, '') == 'true')
 		if current_value and request_flag and request.values.get("permanent", '') == 'true' and request.values.get("username") == v.username:
 			if v.client: abort(403, "Cannot set filters permanently from the API")
 			request_flag = int(time.time())
-			# setattr(v, column_name, request_flag)
+			setattr(v, column_name, request_flag)
 			if badge_id: badge_grant(v, badge_id)
-			return render_template("settings_personal.html", v=v, msg=f"Set the {friendly_name} filter permanently!")
+			return render_template("settings_personal.html", v=v, msg=f"Set the {friendly_name} permanently! Enjoy your new badge!")
 		elif current_value != request_flag:
 			setattr(v, column_name, request_flag)
 			return True
@@ -105,6 +105,7 @@ def settings_profile_post(v):
 	updated = updated or update_flag("over_18", "over18")
 	updated = updated or update_flag("is_private", "private")
 	updated = updated or update_flag("is_nofollow", "nofollow")
+
 	if not updated and request.values.get("spider", v.spider) != v.spider and v.spider <= 1:
 		updated = True
 		v.spider = int(request.values.get("spider") == 'true')
@@ -151,9 +152,6 @@ def settings_profile_post(v):
 		return render_template("settings_personal.html",
 							v=v,
 							msg="Your sig has been updated.")
-
-
-
 
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("friends"):
 		friends = request.values.get("friends")[:500]
@@ -210,11 +208,8 @@ def settings_profile_post(v):
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and \
 			(request.values.get("bio") or request.files.get('file')):
 		bio = request.values.get("bio")[:1500]
-
 		bio += process_files()
-
 		bio = bio.strip()
-
 		bio_html = sanitize(bio)
 
 		if len(bio_html) > 10000:
@@ -234,8 +229,9 @@ def settings_profile_post(v):
 
 	frontsize = request.values.get("frontsize")
 	if frontsize:
+		frontsize = int(frontsize)
 		if frontsize in PAGE_SIZES:
-			v.frontsize = int(frontsize)
+			v.frontsize = frontsize
 			updated = True
 			cache.delete_memoized(frontlist)
 		else: abort(400)
