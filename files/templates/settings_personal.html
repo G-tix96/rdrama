@@ -15,34 +15,36 @@
 </style>
 {# common sections start #}
 {% macro color_section(id, form_action, form_name, section_title, current_color) %}
-<div class="body d-lg-flex border-bottom">
+<div class="d-lg-flex border-bottom">
 	<div class="title w-lg-25">
 		<label for="{{id}}">{{section_title}}</label>
 	</div>
-	<div class="d-flex">
-		<form action="{{form_action}}" id="{{id}}-form" method="post" class="color-picker" style="line-height: 0">
+	<div class="body">
+		<div class="d-flex">
+			<form action="{{form_action}}" id="{{id}}-form" method="post" class="color-picker" style="line-height: 0">
+					<input type="hidden" name="formkey" value="{{v.formkey}}">
+					{% for themecolor in COLORS %}
+					<input autocomplete="off" type="radio" name="{{form_name}}" id="{{id}}-{{themecolor}}" value="{{themecolor}}" {% if current_color == themecolor %}checked{% endif %} onclick="document.getElementById('{{id}}-form').submit()">
+					<label class="color-radio" for="{{id}}-{{themecolor}}">
+						<span style="background-color: #{{themecolor}}">
+						{% if current_color.lower() == themecolor %}
+							<i class="fas fa-check text-white"></i>
+						{% else %}
+							&nbsp;
+						{% endif %}
+						</span>
+					</label>
+					{% endfor %}
+			</form>
+		</div>
+		<p class="text-small mb-2">Or type a color hex code:</p>
+		<div class="d-flex">
+			<form action="{{form_action}}" id="{{id}}-color-code-form" method="post">
 				<input type="hidden" name="formkey" value="{{v.formkey}}">
-				{% for themecolor in COLORS %}
-				<input autocomplete="off" type="radio" name="{{form_name}}" id="{{id}}-{{themecolor}}" value="{{themecolor}}" {% if current_color == themecolor %}checked{% endif %} onclick="document.getElementById('{{id}}-form').submit()">
-				<label class="color-radio" for="{{id}}-{{themecolor}}">
-					<span style="background-color: #{{themecolor}}">
-					{% if current_color.lower() == themecolor %}
-						<i class="fas fa-check text-white"></i>
-					{% else %}
-						&nbsp;
-					{% endif %}
-					</span>
-				</label>
-				{% endfor %}
-		</form>
-	</div>
-	<p class="text-small mb-2">Or type a color hex code:</p>
-	<div class="d-flex">
-		<form action="{{form_action}}" id="{{id}}-color-code-form" method="post">
-			<input type="hidden" name="formkey" value="{{v.formkey}}">
-			<input class="form-control" type="text" name="{{form_name}}" id="{{id}}-color-code" minlength="6" maxlength="6" value="{% if current_color %}{{current_color}}{% endif %}">
-			<label class="btn btn-secondary text-capitalize mr-2 mt-2 mb-0">Update<input type="text" for="{{id}}-color-code" onclick="form.submit()" hidden=""></label>
-		</form>
+				<input class="form-control" type="text" name="{{form_name}}" id="{{id}}-color-code" minlength="6" maxlength="6" value="{% if current_color %}{{current_color}}{% endif %}">
+				<label class="btn btn-secondary text-capitalize mr-2 mt-2 mb-0">Update<input type="text" for="{{id}}-color-code" onclick="form.submit()" hidden=""></label>
+			</form>
+		</div>
 	</div>
 </div>
 {% endmacro %}
@@ -105,7 +107,7 @@
 			<section id="site-settings-experience-section" class="settings-section-section">
 				<h5>Site Experience</h5>
 				<div class="settings-section rounded" id="site-settings-experience">
-					<div class="body d-lg-flex border-bottom">
+					<div class="d-lg-flex border-bottom">
 						<div class="title w-lg-25">
 							<label for="paypig-status">Paypig Status</label>
 						</div>
@@ -115,7 +117,7 @@
 					</div>
 					{# theme #}
 					{{color_section('theme-color', '/settings/themecolor', 'themecolor', 'Theme Color', v.themecolor)}}
-					<div class="body d-lg-flex border-bottom">
+					<div class="d-lg-flex border-bottom">
 						<div class="title w-lg-25">
 							<label for="background">Website Backgrounds</label>
 						</div>
@@ -144,7 +146,7 @@
 				<h5>Your Aesthetic</h5>
 				<div class="settings-section rounded" id="site-settings-aesthetic">
 					{% if FEATURES['HOUSES'] %}
-						<div class="body d-lg-flex border-bottom">
+						<div class="d-lg-flex border-bottom">
 							<div class="title w-lg-25">
 								<label for="theme">House</label>
 							</div>
@@ -171,7 +173,7 @@
 							</div>
 						</div>
 					{%- endif %}
-					<div class="body d-lg-flex border-bottom">
+					<div class="d-lg-flex border-bottom">
 						<div class="title w-lg-25 text-md-center">
 							<img loading="lazy" alt="your profile picture" src="{{v.profile_url}}" class="profile-pic-75">
 						</div>
@@ -190,7 +192,7 @@
 						</div>
 					</div>
 					{% if FEATURES['USERS_PROFILE_BANNER'] -%}
-						<div class="body d-lg-flex border-bottom">
+						<div class="d-lg-flex border-bottom">
 							<div class="title w-lg-75 text-md-center">
 								<img loading="lazy" alt="your banner" src="{{v.banner_url}}" class="banner-pic-135">
 							</div>
@@ -209,7 +211,7 @@
 							</div>
 						</div>
 					{%- endif %}
-					<div class="body d-lg-flex border-bottom">
+					<div class="d-lg-flex border-bottom">
 						<div class="title w-lg-25">
 							<label for="name">Username</label>
 						</div>
@@ -235,7 +237,7 @@
 						{{line_text_section('checkmark_text', '/settings/checkmark_text', 'checkmark-text', 'Checkmark Text', v.verified, 'Limit of 100 characters', 'Enter checkmark hover text here', 'Change Text', false, 0, 100, '', v.verified)}}
 					{% endif %}
 					{% if FEATURES['USERS_PROFILE_SONG'] -%}
-						<div class="body d-lg-flex border-bottom">
+						<div class="d-lg-flex border-bottom">
 							<div class="title w-lg-25">
 								<label for="anthem">Profile Anthem</label>
 							</div>
