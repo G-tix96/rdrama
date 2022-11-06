@@ -29,6 +29,7 @@ def settings_personal(v):
 @app.delete('/settings/background')
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@auth_required
 def remove_background(v):
 	if v.background:
 		v.background = None
@@ -57,7 +58,7 @@ def settings_profile_post(v):
 		if current_value and request_flag and request.values.get("permanent", '') == 'true' and request.values.get("username") == v.username:
 			if v.client: abort(403, "Cannot set filters permanently from the API")
 			request_flag = int(time.time())
-			setattr(v, column_name, request_flag)
+			# setattr(v, column_name, request_flag)
 			if badge_id: badge_grant(v, badge_id)
 			return render_template("settings_personal.html", v=v, msg=f"Set the {friendly_name} filter permanently!")
 		elif current_value != request_flag:
@@ -77,14 +78,14 @@ def settings_profile_post(v):
 		updated = True
 		session['poor'] = v.poor
 	
-	slur_filter_updated = updated or update_flag_with_permanence("slurfilter", "slurfilter", "slur filter", 143)
+	slur_filter_updated = updated or update_flag_with_permanence("slurreplacer", "slurreplacer", "slur replacer", 143)
 	if isinstance(slur_filter_updated, bool):
 		updated = slur_filter_updated
 	else:
 		g.db.add(v)
 		return slur_filter_updated
 	
-	profanity_filter_updated = updated or update_flag_with_permanence("profanityfilter", "profanityfilter", "profanity filter", 142)
+	profanity_filter_updated = updated or update_flag_with_permanence("profanityreplacer", "profanityreplacer", "profanity replacer", 142)
 	if isinstance(profanity_filter_updated, bool):
 		updated = profanity_filter_updated
 	else:
