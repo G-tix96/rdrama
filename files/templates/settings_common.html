@@ -14,3 +14,91 @@
 	</div>
 </div>
 {% endmacro %}
+
+{% macro color_section(id, form_action, form_name, section_title, current_color) %}
+<div class="d-lg-flex border-bottom">
+	<div class="title w-lg-25">
+		<label for="{{id}}">{{section_title}}</label>
+	</div>
+	<div class="body  w-lg-100 d-lg-flex">
+		<div class="d-flex">
+			<form action="{{form_action}}" id="{{id}}-form" method="post" class="color-picker" style="line-height: 0">
+					<input type="hidden" name="formkey" value="{{v.formkey}}">
+					{% for themecolor in COLORS %}
+					<input autocomplete="off" type="radio" name="{{form_name}}" id="{{id}}-{{themecolor}}" value="{{themecolor}}" {% if current_color == themecolor %}checked{% endif %} onclick="document.getElementById('{{id}}-form').submit()">
+					<label class="color-radio" for="{{id}}-{{themecolor}}">
+						<span style="background-color: #{{themecolor}}">
+						{% if current_color.lower() == themecolor %}
+							<i class="fas fa-check text-white"></i>
+						{% else %}
+							&nbsp;
+						{% endif %}
+						</span>
+					</label>
+					{% endfor %}
+			</form>
+		</div>
+		<p class="text-small mb-2">Or type a color hex code:</p>
+		<div class="d-flex">
+			<form action="{{form_action}}" id="{{id}}-color-code-form" method="post">
+				<input type="hidden" name="formkey" value="{{v.formkey}}">
+				<input class="form-control" type="text" name="{{form_name}}" id="{{id}}-color-code" minlength="6" maxlength="6" value="{% if current_color %}{{current_color}}{% endif %}">
+				<label class="btn btn-secondary text-capitalize mr-2 mt-2 mb-0">Update<input type="text" for="{{id}}-color-code" onclick="form.submit()" hidden=""></label>
+			</form>
+		</div>
+	</div>
+</div>
+{% endmacro %}
+
+{% macro line_text_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, button_text, show_marseys, minlength, maxlength, pattern, show_if) %}
+{% if show_if -%}
+	<div class="body d-lg-flex border-bottom">
+		<label class="text-black w-lg-25">{{section_title}}</label>
+		<div class="w-lg-100">
+			<form id="{{id}}-form" action="/settings/pronouns_change" method="post">
+				<input type="hidden" name="formkey" value="{{v.formkey}}">
+				<input minlength={{minlength}} maxlength={{maxlength}} pattern="{{pattern}}" autocomplete="off" id="{{id}}-body" type="text" name="{{form_name}}" class="form-control" placeholder='{{placeholder_text}}' value="{% if contents %}{{contents}}{% endif %}">
+				<div class="d-flex mt-2">
+					{% if show_marseys %}
+						<div role="button"><i class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('{{id}}-body')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></i></div>
+					{% endif %}
+					<small class="ml-3">{{below_text}}</small>
+					<input autocomplete="off" class="btn btn-primary ml-auto" id="{{id}}-save" type="submit" onclick="disable(this)" value="{{button_text}}">
+				</div>
+			</form>
+		</div>
+	</div>
+{%- endif %}
+{% endmacro %}
+
+{% macro text_area_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, show_extras, show_file_upload, maxlength, show_if) %}
+{% if show_if -%}
+<div class="body d-lg-flex border-bottom">					
+	<label class="text-black w-lg-25">{{section_title}}</label>
+	<div class="w-lg-100">						
+		<form id="{{id}}-form" action="{{form_action}}" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="formkey" value="{{v.formkey}}">
+			<textarea autocomplete="off" id="{{id}}-text" class="form-control rounded" aria-label="With textarea" placeholder="{{placeholder_text}}" rows="3" name="bio" form="{{id}}-form" maxlength="{{maxlength}}">{% if contents %}{{contents}}{% endif %}</textarea>
+			{% if show_extras %}
+				<div class="d-flex">
+					<pre style="padding-top:0.7rem;line-height:1" class="btn btn-secondary format d-inline-block m-0 font-weight-bolder text-uppercase" onclick="commentForm('bio-text');getGif()" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</pre>
+					&nbsp;
+					<pre style="padding-top:0.7rem" class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('bio-text')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></pre>
+					&nbsp;
+					{% if show_file_upload and request.headers.get('cf-ipcountry') != "T1" %}
+						<label class="btn btn-secondary format d-inline-block m-0">
+							<div id="filename-show"><i class="fas fa-file"></i></div>
+							<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file" multiple="multiple" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show','file-upload')" hidden>
+						</label>
+					{% endif %}
+				</div>
+			{% endif %}
+			<div class="d-flex mt-1">
+				<small>{{below_text}}</small>
+				<input autocomplete="off" class="btn btn-primary ml-auto" id="bioSave" type="submit" onclick="disable(this)" value="Save Changes">
+			</div>
+		</form>
+	</div>
+</div>
+{%- endif %}
+{% endmacro %}

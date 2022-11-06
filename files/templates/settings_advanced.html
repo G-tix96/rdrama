@@ -70,7 +70,7 @@
 								<p>Change the default sorting for posts.</p>
 								<div class="input-group mb2">
 									<select autocomplete="off" id='defaultsorting' class="form-control" form="profile-settings" name="defaultsorting" onchange="postToastSwitch(this,'/settings/profile?defaultsorting='+document.getElementById('defaultsorting').value)">
-									{% for entry in ["hot", "bump", "new", "old", "top", "bottom", "controversial", "comments"] %}
+									{% for entry in SORTS %}
 									<option value="{{entry}}"{{' selected' if v.defaultsorting==entry}}>{{entry}}</option>
 									{% endfor %}
 								</select>
@@ -85,7 +85,7 @@
 							<p>Change the default time filter for posts.</p>
 							<div class="input-group mb2">
 								<select autocomplete="off" id='defaulttime' class="form-control" form="profile-settings" name="defaulttime" onchange="postToastSwitch(this,'/settings/profile?defaulttime='+document.getElementById('defaulttime').value)">
-								{% for entry in ["hour", "day", "week", "month", "year", "all"] %}
+								{% for entry in TIME_FILTERS %}
 									<option value="{{entry}}"{{' selected' if v.defaulttime==entry}}>{{entry}}</option>
 								{% endfor %}
 							</select>

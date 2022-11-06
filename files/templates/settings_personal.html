@@ -1,93 +1,6 @@
 {% extends "settings.html" %}
 {% block pagetitle %}Personal Settings - {{SITE_NAME}}{% endblock %}
 {% import 'settings_common.html' as common with context %}
-{# common sections start #}
-{% macro color_section(id, form_action, form_name, section_title, current_color) %}
-<div class="d-lg-flex border-bottom">
-	<div class="title w-lg-25">
-		<label for="{{id}}">{{section_title}}</label>
-	</div>
-	<div class="body  w-lg-100 d-lg-flex">
-		<div class="d-flex">
-			<form action="{{form_action}}" id="{{id}}-form" method="post" class="color-picker" style="line-height: 0">
-					<input type="hidden" name="formkey" value="{{v.formkey}}">
-					{% for themecolor in COLORS %}
-					<input autocomplete="off" type="radio" name="{{form_name}}" id="{{id}}-{{themecolor}}" value="{{themecolor}}" {% if current_color == themecolor %}checked{% endif %} onclick="document.getElementById('{{id}}-form').submit()">
-					<label class="color-radio" for="{{id}}-{{themecolor}}">
-						<span style="background-color: #{{themecolor}}">
-						{% if current_color.lower() == themecolor %}
-							<i class="fas fa-check text-white"></i>
-						{% else %}
-							&nbsp;
-						{% endif %}
-						</span>
-					</label>
-					{% endfor %}
-			</form>
-		</div>
-		<p class="text-small mb-2">Or type a color hex code:</p>
-		<div class="d-flex">
-			<form action="{{form_action}}" id="{{id}}-color-code-form" method="post">
-				<input type="hidden" name="formkey" value="{{v.formkey}}">
-				<input class="form-control" type="text" name="{{form_name}}" id="{{id}}-color-code" minlength="6" maxlength="6" value="{% if current_color %}{{current_color}}{% endif %}">
-				<label class="btn btn-secondary text-capitalize mr-2 mt-2 mb-0">Update<input type="text" for="{{id}}-color-code" onclick="form.submit()" hidden=""></label>
-			</form>
-		</div>
-	</div>
-</div>
-{% endmacro %}
-{% macro line_text_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, button_text, show_marseys, minlength, maxlength, pattern, show_if) %}
-{% if show_if -%}
-	<div class="body d-lg-flex border-bottom">
-		<label class="text-black w-lg-25">{{section_title}}</label>
-		<div class="w-lg-100">
-			<form id="{{id}}-form" action="/settings/pronouns_change" method="post">
-				<input type="hidden" name="formkey" value="{{v.formkey}}">
-				<input minlength={{minlength}} maxlength={{maxlength}} pattern="{{pattern}}" autocomplete="off" id="{{id}}-body" type="text" name="{{form_name}}" class="form-control" placeholder='{{placeholder_text}}' value="{% if contents %}{{contents}}{% endif %}">
-				<div class="d-flex mt-2">
-					{% if show_marseys %}
-						<div role="button"><i class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('{{id}}-body')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></i></div>
-					{% endif %}
-					<small>{{below_text}}</small>
-					<input autocomplete="off" class="btn btn-primary ml-auto" id="{{id}}-save" type="submit" onclick="disable(this)" value="{{button_text}}">
-				</div>
-			</form>
-		</div>
-	</div>
-{%- endif %}
-{% endmacro %}
-{% macro text_area_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, show_extras, show_file_upload, maxlength, show_if) %}
-{% if show_if -%}
-<div class="body d-lg-flex border-bottom">					
-	<label class="text-black w-lg-25">{{section_title}}</label>
-	<div class="w-lg-100">						
-		<form id="{{id}}-form" action="{{form_action}}" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="formkey" value="{{v.formkey}}">
-			<textarea autocomplete="off" id="{{id}}-text" class="form-control rounded" aria-label="With textarea" placeholder="{{placeholder_text}}" rows="3" name="bio" form="{{id}}-form" maxlength="{{maxlength}}">{% if contents %}{{contents}}{% endif %}</textarea>
-			{% if show_extras %}
-				<div class="d-flex">
-					<pre style="padding-top:0.7rem;line-height:1" class="btn btn-secondary format d-inline-block m-0 font-weight-bolder text-uppercase" onclick="commentForm('bio-text');getGif()" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</pre>
-					&nbsp;
-					<pre style="padding-top:0.7rem" class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('bio-text')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></pre>
-					&nbsp;
-					{% if show_file_upload and request.headers.get('cf-ipcountry') != "T1" %}
-						<label class="btn btn-secondary format d-inline-block m-0">
-							<div id="filename-show"><i class="fas fa-file"></i></div>
-							<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file" multiple="multiple" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show','file-upload')" hidden>
-						</label>
-					{% endif %}
-				</div>
-			{% endif %}
-			<div class="d-flex mt-1">
-				<small>{{below_text}}</small>
-				<input autocomplete="off" class="btn btn-primary ml-auto" id="bioSave" type="submit" onclick="disable(this)" value="Save Changes">
-			</div>
-		</form>
-	</div>
-</div>
-{%- endif %}
-{% endmacro %}
-{# common sections end #}
 {% block content %}
 <style>
 	.bg-image {
@@ -109,14 +22,29 @@
 				<div class="settings-section rounded" id="site-settings-experience">
 					<div class="d-lg-flex border-bottom">
 						<div class="title w-lg-25">
-							<label for="paypig-status">Paypig Status</label>
+							<label for="patron-status">{{patron}} Status</label>
 						</div>
 						<div class="body w-lg-100">
-							You are a {{v.patron}}. Example text until me carp and sneks figure out what to put here. Dude bussy lmao
+							Internal patron level for logged in user: {{v.patron}}<br>Don't put this in production lol<br>Example text until we figure out what to put here. Dude bussy lmao
 						</div>
 					</div>
-					{# theme #}
-					{{color_section('theme-color', '/settings/themecolor', 'themecolor', 'Theme Color', v.themecolor)}}
+					<div class="d-lg-flex border-bottom">
+						<div class="title w-lg-25">
+							<label for="theme">Website Theme</label>
+						</div>
+						<div class="body w-lg-100">
+							<div class="input-group mb2">
+								<select autocomplete="off" id='theme' class="form-control" form="profile-settings" name="theme" onchange="postToastReload(this,'/settings/profile?theme='+document.getElementById('theme').value)">
+								{% for entry in THEMES %}
+									<option value="{{entry}}" {% if v.theme==entry %} selected {% endif %}>
+										{{entry}}
+									</option>
+								{% endfor %}
+							</select>
+							</div>
+						</div>
+					</div>
+					{{common.color_section('theme-color', '/settings/themecolor', 'themecolor', 'Theme Color', v.themecolor)}}
 					<div class="d-lg-flex border-bottom">
 						<div class="title w-lg-25">
 							<label for="background">Website Backgrounds</label>
@@ -163,7 +91,7 @@
 								{% endif %}
 								<div class="input-group mb2">
 									<select {% if v.coins < cost and v.procoins < cost or v.bite %}disabled{% endif %} autocomplete="off" id='house' class="form-control" form="profile-settings" name="house" onchange="postToastReload(this,'/settings/profile?house='+document.getElementById('house').value)">
-										{% for entry in ("None","Furry","Femboy","Vampire","Racist") %}
+										{% for entry in HOUSES %}
 											<option value="{{entry}}" {% if v.house == entry %} selected {% endif %}>
 												{{entry}}
 											</option>
@@ -233,14 +161,14 @@
 							</form>
 						</div>
 					</div>
-					{{color_section('namecolor', '/settings/namecolor', 'namecolor', 'Name Color', v.name_color)}}
-					{{line_text_section('pronouns', '/settings/pronouns_change', 'pronouns', 'Pronouns', v.pronouns, '{2-5 characters} / {2-5 characters}', 'Enter pronouns here', 'Change Pronouns', false, 3, 11, '([a-zA-Z]{1,5})/[a-zA-Z]{1,5}(/[a-zA-Z]{1,5})?', FEATURES['PRONOUNS'])}}
-					{# line_text_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, button_text, show_marseys, minlength, maxlength, pattern, show_if) #}
-					{{line_text_section('flair', '/settings/title_change', 'custom-flair', 'Flair', v.customtitleplain, 'Limit of 100 characters', 'Enter a flair here', 'Change Flair', true, 0, 100, '', true)}}
-					{{color_section('flaircolor', '/settings/titlecolor', 'titlecolor', 'Flair Color', v.titlecolor)}}
+					{{common.color_section('namecolor', '/settings/namecolor', 'namecolor', 'Name Color', v.name_color)}}
+					{{common.line_text_section('pronouns', '/settings/pronouns_change', 'pronouns', 'Pronouns', v.pronouns, '{2-5 characters} / {2-5 characters}', 'Enter pronouns here', 'Change Pronouns', false, 3, 11, '([a-zA-Z]{1,5})/[a-zA-Z]{1,5}(/[a-zA-Z]{1,5})?', FEATURES['PRONOUNS'])}}
+					{# common.line_text_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, button_text, show_marseys, minlength, maxlength, pattern, show_if) #}
+					{{common.line_text_section('flair', '/settings/title_change', 'custom-flair', 'Flair', v.customtitleplain, 'Limit of 100 characters', 'Enter a flair here', 'Change Flair', true, 0, 100, '', true)}}
+					{{common.color_section('flaircolor', '/settings/titlecolor', 'titlecolor', 'Flair Color', v.titlecolor)}}
 					{% if v.verified %}
-						{{color_section('verifiedcolor', '/settings/verifiedcolor', 'Checkmark Color', v.verifiedcolor)}}
-						{{line_text_section('checkmark_text', '/settings/checkmark_text', 'checkmark-text', 'Checkmark Text', v.verified, 'Limit of 100 characters', 'Enter checkmark hover text here', 'Change Text', false, 0, 100, '', v.verified)}}
+						{{common.color_section('verifiedcolor', '/settings/verifiedcolor', 'Checkmark Color', v.verifiedcolor)}}
+						{{common.line_text_section('checkmark_text', '/settings/checkmark_text', 'checkmark-text', 'Checkmark Text', v.verified, 'Limit of 100 characters', 'Enter checkmark hover text here', 'Change Text', false, 0, 100, '', v.verified)}}
 					{% endif %}
 					{% if FEATURES['USERS_PROFILE_SONG'] -%}
 						<div class="d-lg-flex border-bottom">
@@ -271,11 +199,11 @@
 							</div>
 						</div>
 					{%- endif %}
-					{# {% macro text_area_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, show_extras, show_file_upload, maxlength, show_if) #}
-					{{text_area_section('profile-bio', '/settings/profile', 'bio', 'Bio', v.bio, 'Limit of 1500 characters', 'Tell the community a bit about yourself.', true, true, 1500, FEATURES['USERS_PROFILE_BODYTEXT'])}}
-					{{text_area_section('profile-friends', '/settings/profile', 'friends', 'Friends', v.friends, 'Limit of 500 characters', 'Enter your friends on the site...', false, false, 500, true)}}
-					{{text_area_section('profile-enemies', '/settings/profile', 'enemies', 'Enemies', v.enemies, 'Limit of 500 characters', 'Enter your enemies on the site...', false, false, 500, true)}}
-					{{text_area_section('profile-signature', '/settings/profile', 'sig', 'Signature', v.sig, 'Limit of 200 characters', 'Enter a signature...', true, false, 200, v.patron or v.sig)}}
+					{# common.text_area_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, show_extras, show_file_upload, maxlength, show_if) #}
+					{{common.text_area_section('profile-bio', '/settings/profile', 'bio', 'Bio', v.bio, 'Limit of 1500 characters', 'Tell the community a bit about yourself.', true, true, 1500, FEATURES['USERS_PROFILE_BODYTEXT'])}}
+					{{common.text_area_section('profile-friends', '/settings/profile', 'friends', 'Friends', v.friends, 'Limit of 500 characters', 'Enter your friends on the site...', false, false, 500, true)}}
+					{{common.text_area_section('profile-enemies', '/settings/profile', 'enemies', 'Enemies', v.enemies, 'Limit of 500 characters', 'Enter your enemies on the site...', false, false, 500, true)}}
+					{{common.text_area_section('profile-signature', '/settings/profile', 'sig', 'Signature', v.sig, 'Limit of 200 characters', 'Enter a signature...', true, false, 200, v.patron or v.sig)}}
 					{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your post and comment history from others. We will also ask search engines to not index your profile page. (Your content will still be accessible via direct link.)')}}
 					{{common.toggle_section('Spider', 'spiderswitch', 'spider', v.spider, 'Have a spider friend accompany you during your journey on the site.')}}
 				</div>
@@ -309,7 +237,6 @@
 		</div>
 	</div>
 </div>
-
 {% include "emoji_modal.html" %}
 {% include "gif_modal.html" %}
 

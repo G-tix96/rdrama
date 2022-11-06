@@ -209,6 +209,10 @@ DISCORD_CHANGELOG_CHANNEL_ID = 1034632681788538980
 WPD_CHANNEL_ID = 1013990963846332456
 PIN_AWARD_TEXT = " (pin award)"
 
+THEMES = ["4chan","classic","classic_dark","coffee","dark","dramblr","light","midnight","transparent","tron","win98"]
+SORTS = ["hot", "bump", "new", "old", "top", "bottom", "controversial", "comments"]
+TIME_FILTERS = ["hour", "day", "week", "month", "year", "all"]
+
 ################################################################################
 ### SITE SPECIFIC CONSTANTS
 ################################################################################
@@ -584,6 +588,8 @@ elif SITE == 'watchpeopledie.tv':
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
+
+HOUSES = ["None","Furry","Femboy","Vampire","Racist"] if FEATURES['HOUSES'] else ["None"]
 
 bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, BASEDBOT_ID}
 
