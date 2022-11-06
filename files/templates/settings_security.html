@@ -1,281 +1,230 @@
 {% extends "settings.html" %}
-
 {% block pagetitle %}Security Settings - {{SITE_NAME}}{% endblock %}
-
 {% block content %}
-
 <script defer src="{{'js/settings_security.js' | asset}}"></script>
-
-<div class="row">
-
+<div class="row settings-page" id="settings-page-security">
 <div class="col col-lg-8">
-
 	<div class="settings">
-
-
-
-		<h5>Email</h5>
-
-		<p class="text-small text-muted">Change the email address used to sign in to your account.</p>
-		<div class="settings-section rounded">
-			<form action="/settings/security" method="post">
-				<input type="hidden" name="formkey" value="{{v.formkey}}">
-				<div class="body">
-					<div class="d-lg-flex">
-						<label for="new-email" class="w-lg-25">Email</label>
-						<div class="w-lg-100">
-							<input autocomplete="off" class="form-control" id="new_email" {% if v.email %}placeholder="{{v.email}}"{% else %}placeholder="Your email"{% endif %}
-							aria-describedby="new_email" type="email" pattern='{{EMAIL_REGEX_PATTERN}}' name="new_email" required>
-							{% if v.email and not v.is_activated %}
-								<div class="text-danger text-small mt-1" id="email-verify-text">Email not verified. You will not be able to recover your account with this email until you verify it. <u><button type="button" onclick="postToastSwitch(this,'/verify_email');emailVerifyText()"class="text-primary font-weight-bold ml-1">Verify now.</button></u></div>
-							{% elif not v.email %}
-								<div class="text-danger text-small mt-1" id="email-verify-text">Add an email to secure your account in case you forget your password.</div>
-							{% endif %}
+		<section id="site-settings-email-section" class="settings-section-section">
+			<h5>Email</h5>
+			<div class="settings-section rounded">
+				<form action="/settings/security" method="post">
+					<input type="hidden" name="formkey" value="{{v.formkey}}">
+					<input type="hidden" name="now" value="{{now}}">
+					<div class="body">
+						<div class="d-lg-flex">
+							<label for="new-email" class="w-lg-25">Email</label>
+							<div class="w-lg-100">
+								<input autocomplete="off" class="form-control" id="new_email" {% if v.email %}placeholder="{{v.email}}"{% else %}placeholder="Your email"{% endif %}
+								aria-describedby="new_email" type="email" pattern='{{EMAIL_REGEX_PATTERN}}' name="new_email" required>
+								{% if v.email and not v.is_activated %}
+									<div class="text-danger text-small mt-1" id="email-verify-text">Email not verified. You will not be able to recover your account with this email until you verify it. <u><button type="button" onclick="postToastSwitch(this,'/verify_email');emailVerifyText()"class="text-primary font-weight-bold ml-1">Verify now.</button></u></div>
+								{% elif not v.email %}
+									<div class="text-danger text-small mt-1" id="email-verify-text">Add an email to secure your account in case you forget your password.</div>
+								{% endif %}
+							</div>
 						</div>
-					</div>
-					<div class="d-lg-flex mt-3">
-					<label for="email-password" class="w-lg-25 d-none" id="email-password-label">Password</label>
-					<div class="w-lg-100">
-						<input autocomplete="off" type="password" class="form-control mb-2 d-none" id="email-password" name="password" required>
+						<div class="d-lg-flex mt-3">
+							<label for="email-password" class="w-lg-25 d-none" id="email-password-label">Password</label>
+							<div class="w-lg-100">
+								<input autocomplete="off" type="password" class="form-control mb-2 d-none" id="email-password" name="password" required>
+								<small id="emailpasswordRequired" class="form-text font-weight-bold text-danger d-none mt-1">Password required to update your email.</small>
+							</div>
+						</div>
 						<small id="emailpasswordRequired" class="form-text font-weight-bold text-danger d-none mt-1">Password required to update your email.</small>
 					</div>
-				</div>
-				<small id="emailpasswordRequired" class="form-text font-weight-bold text-danger d-none mt-1">Password required to update your email.</small>
-			</div>
-			<div class="footer">
-				<div class="d-flex">
-					{% if FEATURES['PROCOINS'] %}
-						{% if KOFI_TOKEN %}
-							<button type="button" class="btn btn-success" onclick="postToastSwitch(this,'/settings/kofi')">Claim {{patron}} rewards</button>
-						{% else %}
-							<button type="button" class="btn btn-success" onclick="postToastSwitch(this,'/settings/gumroad')">Claim {{patron}} rewards</button>
-						{% endif %}
-					{% endif %}
-					{% if v.email %}
-						<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Update email">
-					{% else %}
-						<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Add email">
-					{% endif %}
-				</div>
-				{% if FEATURES['PROCOINS'] %}
-					<span class="text-small text-muted pl-1">Must be same email as the one you used to donate
-						{% if v.truecoins >= TRUESCORE_DONATE_LIMIT %}
-							on 
-							{% if KOFI_TOKEN %}
-								<a rel="nofollow noopener" class="text-primary" href="{{KOFI_LINK}}">Kofi</a>
-							{% else %}
-								<a rel="nofollow noopener" class="text-primary" href="{{GUMROAD_LINK}}">Gumroad</a>
+					<div class="footer">
+						<div class="d-flex">
+							{% if FEATURES['PROCOINS'] %}
+								{% if KOFI_TOKEN %}
+									<button type="button" class="btn btn-success" onclick="postToastSwitch(this,'/settings/kofi')">Claim {{patron}} rewards</button>
+								{% else %}
+									<button type="button" class="btn btn-success" onclick="postToastSwitch(this,'/settings/gumroad')">Claim {{patron}} rewards</button>
+								{% endif %}
 							{% endif %}
+							{% if v.email %}
+								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Update email">
+							{% else %}
+								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Add email">
+							{% endif %}
+						</div>
+						{% if FEATURES['PROCOINS'] %}
+							<span class="text-small text-muted pl-1">Must be same email as the one you used to donate
+							{% if v.truecoins >= TRUESCORE_DONATE_LIMIT %}
+							on 
+								{% if KOFI_TOKEN %}
+									<a rel="nofollow noopener" class="text-primary" href="{{KOFI_LINK}}">Kofi</a>
+								{% else %}
+									<a rel="nofollow noopener" class="text-primary" href="{{GUMROAD_LINK}}">Gumroad</a>
+								{% endif %}
+							{% endif %}
+							</span>
 						{% endif %}
-					</span>
-				{% endif %}
+					</div>
+				</form>				
+			</div>
+		</section>
+		<section id="site-settings-password-section" class="settings-section-section">
+			<h5>Password</h5>
+			<div class="settings-section rounded">
+				<form action="/settings/security" method="post">
+					<div class="body">	
+						<div class="d-lg-flex">
+							<label for="old_password" class="mb-0 w-lg-25">Old Password</label>
+							<input autocomplete="off" class="form-control mb-2 w-lg-100" id="old_password" aria-describedby="old_password" type="password" name="old_password" required>
+						</div>
+						<div class="d-lg-flex mt-5">
+							<label for="new_password" class="mb-0 w-lg-25">New Password</label>
+							<input autocomplete="off" class="form-control w-lg-100" id="new_password" aria-describedby="new_password" type="password" name="new_password" required>
+							<small id="passwordHelpChange" class="form-text font-weight-bold text-muted d-none mt-1 w-lg-100">Minimum of 8 characters required.</small>
+							<small id="passwordHelpChangeSuccess" class="form-text font-weight-bold text-success d-none mt-1 w-lg-100">Your password meets the requirements.</small>
+						</div>
+						<div class="d-lg-flex mt-4">
+							<label for="cnf_password" class="mb-0 w-lg-25">Confirm New Password</label>
+							<input autocomplete="off" class="form-control w-lg-100" id="cnf_password" aria-describedby="cnf_password" type="password" name="cnf_password" required>
+							<small id="passwordHelpCnf" class="form-text font-weight-bold text-muted d-none mt-1 w-lg-100">Passwords do not match.</small>
+							<small id="passwordHelpCnfSuccess" class="form-text font-weight-bold text-success d-none mt-1 w-lg-100">Passwords match.</small>
+						</div>
+					</div>
+					<div class="footer">
+						<input type="hidden" name="formkey" value="{{v.formkey}}">
+						<input type="hidden" name="now" value="{{now}}">
+						<div class="d-flex">
+							<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Change Password">
+						</div>
+					</div>
+				</form>
+			</div>
+		</section>
+		<section id="site-settings-2fa-section" class="settings-section-section">
+			<h5>Two-Factor Authentication</h5>
+			<div class="settings-section rounded">
+				<div class="d-lg-flex">
+					<div class="title w-lg-25">
+						<label for="2faToggle">Use 2-step login</label>
+					</div>
+					<div class="body w-lg-100">
+						<div class="custom-control custom-switch">
+						<input autocomplete="off" type="checkbox" class="custom-control-input" id="2faToggle" name="2faToggle" onchange="twoStepModal.show()" {% if v.mfa_secret %}checked{% endif %}>
+						<label class="custom-control-label" for="2faToggle"></label>
+						</div>
+						<span class="text-small text-muted">This requires entering a randomly-generated, 6-digit code and your password to login.</span>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section id="site-settings-logout-everywhere-section" class="settings-section-section">
+			<h5>Log Out Everywhere</h5>
+			<form action="/settings/log_out_all_others" method="post">
+					<input type="hidden" name="formkey" value="{{v.formkey}}">
+				<div class="body">
+					<div class="d-lg-flex">
+						<label for="forcelog-password" class="w-lg-25" id="email-password-label">Password</label>
+						<div class="w-lg-100">
+							<input autocomplete="off" type="password" class="form-control mb-2" id="forcelog-password" name="password" required>
+						</div>
+					</div>
+					<small id="emailpasswordRequired" class="form-text mt-1">This will also invalidate any existing recovery links associated with this account.</small>
+				</div>
+				<div class="footer">
+					<div class="d-flex">
+						<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Log out everywhere">
+					</div>
+				</div>
+			</form>
+		</section>
+		<section id="site-settings-blocks-section" class="settings-section-section">
+			<div class="row">
+				<div class="col">
+					{% if error %}
+					<div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
+						<i class="fas fa-exclamation-circle my-auto"></i>
+						<span>
+							{{error}}
+						</span>
+						<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true"><i class="far fa-times"></i></span>
+						</button>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="d-md-flex justify-content-between mb-3">
+						<div>
+							<h5>Users you block</h5>
+							<p class="text-small text-muted mb-md-0">You have blocked the following users. They cannot reply to your content or notify you with a username mention.</p>
+						</div>
+						<div class="mt-auto">
+							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#blockmodal">Block user</button>
+						</div>
+					</div>
+				{% if v.blocking.first() %}
+				<div class="card mb-5">
+					<div class="overflow-x-auto"><table class="table table-hover rounded mb-0">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col">User</th>
+								<th scope="col">Unblock</th>
+							</tr>
+						</thead>
+						<tbody class="text-muted">
+							{% for block in v.blocking %}
+								{% set user=block.target %}
+								<tr>
+									<td>
+										{% include "user_in_table.html" %}
+									</td>
+									<td>
+										<button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/settings/unblock?username={{user.username}}&formkey={{v.formkey}}')">Unblock</button>
+									</td>
+								</tr>
+							{% else %}
+								<td>There are no blocked users</td>
+							{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					{% else %}
+					<div class="text-center border-md rounded py-7">
+						<i class="fas fa-ghost text-gray-500 mb-3" style="font-size: 3.5rem;"></i>
+						<p class="font-weight-bold text-gray-500 mb-0">No blocked users</p>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</section>
+	</div>
+</div>
+</div>
+<div class="modal fade" id="blockmodal" tabindex="-1" role="dialog" aria-labelledby="blockmodal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<form class="m-auto" action="/settings/block" id="exile-form" method="post" onsubmit="return false;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Block users</h5>
+					<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true"><i class="far fa-times"></i></span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" name="formkey" value="{{v.formkey}}">
+					<input autocomplete="off" type="text" name="username" placeholder="Enter username..." id="exile-username" class="form-control" maxlength=25 required>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-primary" id="exileUserButton" onclick="block_user()">Block user</button>
+				</div>
 			</div>
 		</form>
 	</div>
-
-
-
-		<h5>Password</h5>
-
-		<p class="text-small text-muted">Change your account password.</p>
-
-		<div class="settings-section rounded">
-
-			<form action="/settings/security" method="post">
-
-				<div class="body">
-
-
-					<div class="d-lg-flex">
-
-						<label for="old_password" class="mb-0 w-lg-25">Old Password</label>
-		
-						<input autocomplete="off" class="form-control mb-2 w-lg-100" id="old_password"
-						aria-describedby="old_password" type="password" name="old_password"
-						required>
-		
-					</div>
-		
-					<div class="d-lg-flex mt-5">
-
-						<label for="new_password" class="mb-0 w-lg-25">New Password</label>
-
-						<input autocomplete="off" class="form-control w-lg-100" id="new_password"
-						aria-describedby="new_password" type="password" name="new_password"
-						required>
-						<small id="passwordHelpChange"
-						class="form-text font-weight-bold text-muted d-none mt-1 w-lg-100">Minimum of 8
-						characters
-						required.</small>
-						<small id="passwordHelpChangeSuccess"
-						class="form-text font-weight-bold text-success d-none mt-1 w-lg-100">Your password
-						meets the
-						requirements.
-					</small>
-
-				</div>
-
-				<div class="d-lg-flex mt-4">
-
-					<label for="cnf_password" class="mb-0 w-lg-25">Confirm New Password</label>
-
-					<input autocomplete="off" class="form-control w-lg-100" id="cnf_password"
-					aria-describedby="cnf_password" type="password" name="cnf_password"
-					required>
-
-					<small id="passwordHelpCnf"
-					class="form-text font-weight-bold text-muted d-none mt-1 w-lg-100">Passwords do not
-					match.</small>
-					<small id="passwordHelpCnfSuccess"
-					class="form-text font-weight-bold text-success d-none mt-1 w-lg-100">Passwords match.
-				</small>
-
-			</div>
-
-		</div>
-
-		<div class="footer">
-
-			<input type="hidden" name="formkey" value="{{v.formkey}}">
-			<input type="hidden" name="now" value="1563891643">
-
-			<div class="d-flex">
-
-				<input autocomplete="off" class="btn btn-primary ml-auto"
-				type="submit" onclick="disable(this)" value="Change Password">
-
-			</div>
-
-		</div>
-
-	</form>
-
 </div>
 
-
-<h5>Two-Factor Authentication</h5>
-
-<p class="text-small text-muted">Change the two-factor settings for your account.</p>
-
-<div class="settings-section rounded">
-
-<div class="d-lg-flex">
-
-	<div class="title w-lg-25">
-		<label for="2faToggle">Use 2-step login</label>
+<div class="toast error" id="toast-exile-error" role="alert" aria-live="assertive" aria-atomic="true" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
+	<div class="toast-body text-center">
+		<i class="fas fa-exclamation-circle text-danger mr-2"></i><span id="toast-error-message">Error. Please try again.</span>
 	</div>
-
-	<div class="body w-lg-100">
-
-		<div class="custom-control custom-switch">
-		<input autocomplete="off" type="checkbox" class="custom-control-input" id="2faToggle" name="2faToggle" onchange="twoStepModal.show()" {% if v.mfa_secret %}checked{% endif %}>
-		<label class="custom-control-label" for="2faToggle"></label>
-		</div>
-
-		<span class="text-small text-muted">This requires entering a randomly-generated, 6-digit code and your password to login.</span>
-
-	</div>
-
 </div>
-
-</div>
-
-<h5>Log Out Everywhere</h5>
-
-<p class="text-small text-muted">Log all other devices out of your {{SITE_NAME}} account.</p>
-
-<div class="settings-section rounded">
-
-<form	action="/settings/log_out_all_others" method="post">
-<input type="hidden" name="formkey" value="{{v.formkey}}">
-
-<div class="body">
-
-	<div class="d-lg-flex">
-
-	<label for="forcelog-password" class="w-lg-25" id="email-password-label">Password</label>
-
-	<div class="w-lg-100">
-
-		<input autocomplete="off" type="password" class="form-control mb-2" id="forcelog-password" name="password" required>
-
-	</div>
-
-</div>
-
-<small id="emailpasswordRequired" class="form-text mt-1">This will also invalidate any existing recovery links associated with this account.</small>
-
-</div>
-
-<div class="footer">
-
-<div class="d-flex">
-
-	<input autocomplete="off" class="btn btn-primary ml-auto"
-	type="submit" onclick="disable(this)" value="Log out everywhere">
-
-</div>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog" aria-labelledby="deleteAccountModal" aria-hidden="true">
-<div class="modal-dialog modal-dialog-centered" role="document">
-<div class="modal-content">
-<div class="modal-header">
-	<h5 class="modal-title">Delete your {{SITE_NAME}} account</h5>
-	<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-		<span aria-hidden="true"><i class="far fa-times"></i></span>
-	</button>
-</div>
-<div id="deleteFormContainer">
-	<form id="deleteAccountForm" method="post" action="/settings/delete_account">
-		<input type="hidden" name="formkey" value="{{v.formkey}}">
-		<div class="modal-body body">
-
-			<div class="d-lg-flex">
-
-				<label for="delete-password" class="w-lg-25" id="email-password-label">Password</label>
-
-				<div class="w-lg-100">
-
-						<input autocomplete="off" type="password" class="form-control mb-2" id="delete-password" name="password" required>
-
-				</div>
-
-			</div>
-
-			{% if v.mfa_secret %}
-			<div class="d-lg-flex mt-3">
-
-				<label for="delete-mfa" class="w-lg-25" id="email-password-label">Two-Factor Code</label>
-
-				<div class="w-lg-100">
-
-						<input autocomplete="off" type="text" class="form-control mb-2" id="delete-mfa" name="twofactor" required>
-
-				</div>
-
-			</div>
-			{% endif %}
-
-		</div>
-	</form>
-</div>
-</div>
-
+<script defer src="{{'js/settings_blocks.js' | asset}}"></script>
 {% endblock %}

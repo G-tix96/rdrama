@@ -1,0 +1,16 @@
+{% macro toggle_section(title, id, name, flag, below_text) %}
+<div class="d-lg-flex border-bottom">
+	<div class="title w-lg-25">
+		<label for="{{id}}">{{title}}</label>
+	</div>
+	<div class="body w-lg-100">
+		<div class="custom-control custom-switch">
+			<input autocomplete="off" type="checkbox" class="custom-control-input" id="{{id}}" name="{{name}}"{% if flag %} checked{% endif %} onchange="postToastSwitch(this,'/settings/profile?{{name}}='+document.getElementById('{{id}}').checked)">
+			<label class="custom-control-label" for="{{id}}"></label>
+		</div>
+		{% if below_text %}
+			<span class="text-small text-muted">{{below_text}}</span>
+		{% endif %}
+	</div>
+</div>
+{% endmacro %}

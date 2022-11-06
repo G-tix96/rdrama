@@ -365,7 +365,8 @@ def serviceworker():
 def settings_security(v):
 	return render_template("settings_security.html",
 						v=v,
-						mfa_secret=pyotp.random_base32() if not v.mfa_secret else None
+						mfa_secret=pyotp.random_base32() if not v.mfa_secret else None,
+						now=int(time.time())
 						)
 
 

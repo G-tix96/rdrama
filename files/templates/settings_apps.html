@@ -1,10 +1,5 @@
 {% extends "settings.html" %}
-
-{% block title %}
-<title>{{SITE_NAME}} - FAQ</title>
-
-{% endblock %}
-
+{% block pagetitle %}<title>Apps/Bots - {{SITE_NAME}}</title>{% endblock %}
 {% block content %}
 <div class="row">
 	<div class="col col-lg-8">
@@ -12,18 +7,15 @@
 
 
 <h5><a href="/api">API Guide</a></h5>
-
-<h5 class=" mt-1">Your API Applications</h5>
-
+<h5 class="mt-1">Your API Applications</h5>
 {% for app in v.applications if app.client_id %}
-
 <form id="edit-app-{{app.id}}" action="/edit_app/{{app.id}}" method="post">
 	<div class="settings-section rounded">
 		<div class="d-lg-flex">
 				<div class="title w-lg-25">
-								<label for="over18">{{app.app_name}}</label>
-						</div>
-						<div class="body w-lg-100">
+					<label for="name-{{app.id}}">{{app.app_name}}</label>
+					</div>
+				<div class="body w-lg-100">
 				<input type="hidden" name="formkey" value="{{v.formkey}}">
 				<label for="edit-{{app.id}}-name" class="mb-0 w-lg-25">App Name</label>
 				<input autocomplete="off" id="edit-{{app.id}}-name" class="form-control" type="text" name="name" value="{{app.app_name}}">
@@ -46,23 +38,20 @@
 			</div>
 		</div>
 	</div>
-
 </form>
 {% else %}
 <p>None</p>
 {% endfor %}
 
 <h5>API Applications Awaiting Approval</h5>
-
 {% for app in v.applications if not app.client_id %}
-
 <form id="edit-app-{{app.id}}" action="/edit_app/{{app.id}}" method="post">
 	<div class="settings-section rounded">
 		<div class="d-lg-flex">
 				<div class="title w-lg-25">
-								<label for="over18">{{app.app_name}}</label>
-						</div>
-						<div class="body w-lg-100">
+					<label for="name-{{app.id}}">{{app.app_name}}</label>
+				</div>
+				<div class="body w-lg-100">
 				<input type="hidden" name="formkey" value="{{v.formkey}}">
 				<label for="edit-{{app.id}}-name" class="mb-0 w-lg-25">App Name</label>
 				<input autocomplete="off" id="edit-{{app.id}}-name" class="form-control" type="text" name="name" value="{{app.app_name}}" maxlength="50" required>
@@ -84,22 +73,19 @@
 			</div>
 		</div>
 	</div>
-
 </form>
 {% else %}
 <p>None</p>
 {% endfor %}
 
 <h5>Your Authorized Applications</h5>
-
 {% for auth in v.authorizations %}
-
 	<div id="auth-{{auth.id}}" class="settings-section rounded">
 		<div class="d-lg-flex">
 				<div class="title w-lg-25">
-								<label for="over18">{{auth.application.app_name}}</label>
-						</div>
-						<div class="body w-lg-100">
+					<label for="name-{{app.id}}">{{auth.application.app_name}}</label>
+				</div>
+				<div class="body w-lg-100">
 				<input type="hidden" name="formkey" value="{{v.formkey}}">
 				<label class="mb-0 w-lg-25">Description</label>
 				<textarea autocomplete="off" class="form-control" name="description" maxlength="256" readonly="readonly">{{auth.application.description}}</textarea>
@@ -143,8 +129,6 @@
 </div>
 </div>
 {% endblock %}
-
-
 {% block clipboard %}
 <div class="toast clipboard" id="toast-success" role="alert" aria-live="assertive" aria-atomic="true" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
 	<div class="toast-body text-center">

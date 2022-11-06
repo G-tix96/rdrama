@@ -1,0 +1,304 @@
+{% extends "settings.html" %}
+{% block pagetitle %}Content Settings - {{SITE_NAME}}{% endblock %}
+{% import 'settings_common.html' as common with context %}
+{# common sections start #}
+{% macro color_section(id, form_action, form_name, section_title, current_color) %}
+<div class="d-lg-flex border-bottom">
+	<div class="title w-lg-25">
+		<label for="{{id}}">{{section_title}}</label>
+	</div>
+	<div class="d-flex">
+		<form action="{{form_action}}" id="{{id}}-form" method="post" class="color-picker" style="line-height: 0">
+				<input type="hidden" name="formkey" value="{{v.formkey}}">
+				{% for themecolor in COLORS %}
+				<input autocomplete="off" type="radio" name="themecolor" id="{{id}}-{{themecolor}}" value="{{themecolor}}" {% if current_color == themecolor %}checked{% endif %} onclick="document.getElementById('{{id}}-form').submit()">
+				<label class="color-radio" for="{{id}}-{{themecolor}}">
+					<span style="background-color: #{{themecolor}}">
+					{% if current_color.lower() == themecolor %}
+						<i class="fas fa-check text-white"></i>
+					{% else %}
+						&nbsp;
+					{% endif %}
+					</span>
+				</label>
+				{% endfor %}
+		</form>
+	</div>
+	<p class="text-small mb-2">Or type a color hex code:</p>
+	<div class="d-flex">
+		<form action="{{form_action}}" id="{{id}}-color-code-form" method="post">
+			<input type="hidden" name="formkey" value="{{v.formkey}}">
+			<input class="form-control" type="text" name="{{form_name}}" id="{{id}}-color-code" minlength="6" maxlength="6" value="{% if current_color %}{{current_color}}{% endif %}">
+			<label class="btn btn-secondary text-capitalize mr-2 mt-2 mb-0">Update<input type="text" for="{{id}}-color-code" onclick="form.submit()" hidden=""></label>
+		</form>
+	</div>
+</div>
+{% endmacro %}
+{% macro line_text_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, button_text, show_marseys, minlength, maxlength, pattern, show_if) %}
+{% if show_if -%}
+	<div class="body d-lg-flex border-bottom">
+		<label class="text-black w-lg-25">{{section_title}}</label>
+		<div class="w-lg-100">
+			<form id="{{id}}-form" action="/settings/pronouns_change" method="post">
+				<input type="hidden" name="formkey" value="{{v.formkey}}">
+				<input minlength=3 maxlength=11 pattern="{{pattern}}" autocomplete="off" id="{{id}}-body" type="text" name="{{form_name}}" class="form-control" placeholder='{{placeholder_text}}' value="{% if contents %}{{contents}}{% endif %}">
+				<div class="d-flex mt-2">
+					<small>{{below_text}}</small>
+					{% if show_marseys %}
+						<div role="button"><i class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('{{id}}-body')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></i></div>
+					{% endif %}
+					<input autocomplete="off" class="btn btn-primary ml-auto" id="{{id}}-save" type="submit" onclick="disable(this)" value="{{button_text}}">
+				</div>
+			</form>
+		</div>
+	</div>
+{%- endif %}
+{% endmacro %}
+{% macro text_area_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, show_extras, show_file_upload, maxlength, show_if) %}
+{% if show_if -%}
+<div class="body d-lg-flex border-bottom">					
+	<label class="text-black w-lg-25">{{section_title}}</label>
+	<div class="w-lg-100">						
+		<form id="{{id}}-form" action="{{form_action}}" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="formkey" value="{{v.formkey}}">
+			<textarea autocomplete="off" id="{{id}}-text" class="form-control rounded" aria-label="With textarea" placeholder="{{placeholder_text}}" rows="3" name="bio" form="{{id}}-form" maxlength="{{maxlength}}">{% if contents %}{{contents}}{% endif %}</textarea>
+			{% if show_extras %}
+				<div class="d-flex">
+					<pre style="padding-top:0.7rem;line-height:1" class="btn btn-secondary format d-inline-block m-0 font-weight-bolder text-uppercase" onclick="commentForm('bio-text');getGif()" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</pre>
+					&nbsp;
+					<pre style="padding-top:0.7rem" class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('bio-text')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></pre>
+					&nbsp;
+					{% if show_file_upload and request.headers.get('cf-ipcountry') != "T1" %}
+						<label class="btn btn-secondary format d-inline-block m-0">
+							<div id="filename-show"><i class="fas fa-file"></i></div>
+							<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file" multiple="multiple" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show','file-upload')" hidden>
+						</label>
+					{% endif %}
+				</div>
+			{% endif %}
+			<div class="d-flex mt-1">
+				<small>{{below_text}}</small>
+				<input autocomplete="off" class="btn btn-primary ml-auto" id="bioSave" type="submit" onclick="disable(this)" value="Save Changes">
+			</div>
+		</form>
+	</div>
+</div>
+{%- endif %}
+{% endmacro %}
+{# common sections end #}
+{% block content %}
+<div class="row settings-page" id="settings-page-personal">
+	<div class="col col-lg-8">
+		<div class="settings">
+			<section id="site-settings-experience-section" class="settings-section-section">
+				<h5>Site Experience</h5>
+				<div class="settings-section rounded" id="site-settings-experience">
+					<div class="d-lg-flex border-bottom">
+						<div class="title w-lg-25">
+							<label for="paypig-status">Paypig Status</label>
+						</div>
+						<div class="body w-lg-100">
+							You are a {{v.patron}}. Example text until me carp and sneks figure out what to put here. Dude bussy lmao
+						</div>
+					</div>
+					{# theme #}
+					color_section(id, form_action, form_name, section_title, current_color)
+					{{color_section('theme-color', '/settings/themecolor', 'Theme Color', v.themecolor)}}
+					<div class="d-lg-flex border-bottom">
+						<div class="title w-lg-25">
+							<label for="background">Website Backgrounds</label>
+						</div>
+							<div class="body w-lg-100">
+								<p>Change the background for the website.</p>
+								<div class="input-group mb2">
+									<select autocomplete="off" id='backgroundSelector' class="form-control" form="profile-settings" name="background" onchange="updatebgselection();">								
+									{% for entry in ["anime", "fantasy", "solarpunk", "pixelart"] %}
+										<option value="{{entry}}" {% if v.background and v.background.startswith(entry) %}selected{% endif %}>
+											{{entry}}
+										</option>
+									{% endfor %}
+									</select>
+								</div>
+							{% if v.background %}
+								<div class="d-flex mt-2">
+									<button type="button" class="btn btn-primary ml-auto mb-1" onclick="postToastReload(this,'/settings/removebackground')">Remove Background</button>
+								</div>
+							{% endif %}
+							<div id="bgcontainer"></div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section id="site-settings-aesthetic-section" class="settings-section-section">
+				<h5>Your Aesthetic</h5>
+				<div class="settings-section-rounded" id="site-settings-aesthetic">
+					{% if FEATURES['HOUSES'] %}
+						<div class="d-lg-flex border-bottom">
+							<div class="title w-lg-25">
+								<label for="theme">House</label>
+							</div>
+							<div class="body w-lg-100">
+								{% if v.house %}
+									{% set cost = HOUSE_SWITCH_COST %}
+									<p>Change your house (cost: {{cost}} coins or marseybux).</p>
+									{% if ' Founder' in v.house %}
+										<p>Warning: you'll lose your founder status if you join a different house</p>
+									{% endif %}
+								{% else %}
+									{% set cost = HOUSE_JOIN_COST %}
+									<p>Join a house (cost: {{cost}} coins or marseybux).</p>
+								{% endif %}
+								<div class="input-group mb2">
+									<select {% if v.coins < cost and v.procoins < cost or v.bite %}disabled{% endif %} autocomplete="off" id='house' class="form-control" form="profile-settings" name="house" onchange="postToastReload(this,'/settings/profile?house='+document.getElementById('house').value)">
+										{% for entry in ("None","Furry","Femboy","Vampire","Racist") %}
+											<option value="{{entry}}" {% if v.house == entry %} selected {% endif %}>
+												{{entry}}
+											</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+						</div>
+					{%- endif %}
+					<div class="d-lg-flex border-bottom">
+						<div class="title w-lg-25 text-md-center">
+							<img loading="lazy" alt="your profile picture" src="{{v.profile_url}}" class="profile-pic-75">
+						</div>
+						<div class="body w-lg-100 my-auto">
+							<div class="d-flex">
+								<div>
+									<form action="/settings/images/profile" method="post" enctype="multipart/form-data">
+										<input type="hidden" name="formkey" value="{{v.formkey}}">
+										<label class="btn btn-secondary text-capitalize mr-2 mb-0">
+											Update<input autocomplete="off" type="file" accept="image/*" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} hidden name="profile" onchange="form.submit()">
+										</label>
+									</form>
+								</div>
+							</div>
+							<div class="text-small text-muted mt-3">All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.</div>
+						</div>
+					</div>
+					{% if FEATURES['USERS_PROFILE_BANNER'] -%}
+						<div class="d-lg-flex border-bottom">
+							<div class="title w-lg-75 text-md-center">
+								<img loading="lazy" alt="your banner" src="{{v.banner_url}}" class="banner-pic-135">
+							</div>
+							<div class="body w-lg-100 my-auto">
+								<div class="d-flex">
+									<div>
+										<form action="/settings/images/banner" method="post" enctype="multipart/form-data">
+											<input type="hidden" name="formkey" value="{{v.formkey}}">
+											<label class="btn btn-secondary text-capitalize mr-2 mb-0">
+												Update<input autocomplete="off" type="file" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} accept="image/*" hidden name="banner" onchange="form.submit()">
+											</label>
+										</form>
+									</div>
+								</div>
+								<div class="text-small text-muted mt-3">All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.</div>
+							</div>
+						</div>
+					{%- endif %}
+					<div class="d-lg-flex border-bottom">
+						<div class="title w-lg-25">
+							<label for="name">Username</label>
+						</div>
+						<div class="body w-lg-100">
+							<p>Your original username will always stay reserved for you: <code>{{v.original_username}}</code></p>
+							<form action="/settings/name_change" method="post">
+								<input type="hidden" name="formkey" value="{{v.formkey}}">
+								<input autocomplete="off" type="text" name="name" class="form-control" value="{{v.username}}">
+								<small>3-25 characters, including letters, numbers, _ , and -</small>
+								<div class="d-flex mt-2">
+									<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Change Display Name">
+								</div>
+							</form>
+						</div>
+					</div>
+					{{color_section('namecolor', '/settings/namecolor', 'Name Color', v.name_color)}}
+					{{line_text_section('pronouns', '/settings/pronouns_change', 'pronouns', 'Pronouns', v.pronouns, '{2-5 characters} / {2-5 characters}', 'Enter pronouns here', 'Change Pronouns', false, 3, 11, '([a-zA-Z]{1,5})/[a-zA-Z]{1,5}(/[a-zA-Z]{1,5})?', FEATURES['PRONOUNS'])}}
+					{# line_text_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, button_text, show_marseys, minlength, maxlength, pattern, show_if) #}
+					{{line_text_section('flair', '/settings/title_change', 'custom-flair', 'Flair', v.customtitleplain, 'Limit of 100 characters', 'Enter a flair here', 'Change Flair', true, 0, 100, '', true)}}
+					{{color_section('flaircolor', '/settings/titlecolor', 'Flair Color', v.titlecolor)}}
+					{% if v.verified %}
+						{{color_section('verifiedcolor', '/settings/verifiedcolor', 'Checkmark Color', v.verifiedcolor)}}
+						{{line_text_section('checkmark_text', '/settings/checkmark_text', 'checkmark-text', 'Checkmark Text', v.verified, 'Limit of 100 characters', 'Enter checkmark hover text here', 'Change Text', false, 0, 100, '', v.verified)}}
+					{% endif %}
+					{% if FEATURES['USERS_PROFILE_SONG'] -%}
+						<div class="d-lg-flex border-bottom">
+							<div class="title w-lg-25">
+								<label for="anthem">Profile Anthem</label>
+							</div>
+							<div class="w-lg-100">
+								<p>You can use an MP3 file or a YouTube video.</p>
+								<form action="/settings/song_change_mp3" method="post" enctype="multipart/form-data">
+									<input type="hidden" name="formkey" value="{{v.formkey}}">
+									<label class="btn btn-secondary format d-inline-block m-0 mb-3">
+										<div id="filename-show2"><i class="fas fa-file"></i>
+											{% if v.song and v.song|length in (1,2,3,4,5,17) %}
+												{{v.song}}.mp3
+											{% else %}
+												Use an MP3 file (Max size is 8MB)
+											{% endif %}
+										</div>
+										<input autocomplete="off" id="file-upload2" type="file" name="file" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} accept="audio/mp3" onchange="this.form.submit()" hidden>
+									</label>
+								</form>
+								<form action="/settings/song_change" method="post">
+									<input type="hidden" name="formkey" value="{{v.formkey}}">
+									<input class="form-control" style="display:inline;max-width:75%;font-size: min(3.5vw,16px)!important" autocomplete="off" type="text" name="song" class="form-control" value="{% if v.song and v.song|length not in (1,2,3,4,5,17) %}https://youtu.be/{{v.song}}{% endif %}" placeholder='Enter a YouTube video link here'>
+									<input class="btn btn-primary" style="font-size: min(3.5vw,16px)!important" autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Submit">
+								</form>
+								<br><small>In some browsers, users have to click at least once anywhere in the profile page for the anthem to play.</small>
+							</div>
+						</div>
+					{%- endif %}
+					{{text_area_section('profile-bio', '/settings/profile', 'bio', 'Limit of 1500 characters', 'Tell the community a bit about yourself.', true, true, 1500, FEATURES['USERS_PROFILE_BODYTEXT'])}}
+					{{text_area_section('profile-friends', '/settings/profile', 'friends', 'Limit of 500 characters', 'Enter your friends on the site...', false, false, 500, true)}}
+					{{text_area_section('profile-enemies', '/settings/profile', 'enemies', 'Limit of 500 characters', 'Enter your enemies on the site...', false, false, 500, true)}}
+					{{text_area_section('profile-signature', '/settings/profile', 'sig', 'Limit of 200 characters', 'Enter a signature...', true, false, 200, v.patron or v.sig)}}
+					{# toggle_section(title, id, name, flag, below_text) #}
+					{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your post and comment history from others. We will also ask search engines to not index your profile page. (Your content will still be accessible via direct link.)')}}
+					{{common.toggle_section('Spider', 'spiderswitch', 'spider', v.spider, 'Have a spider friend accompany you during your journey on the site.')}}
+				</div>
+			</section>
+			<section id="site-settings-filters-section" class="settings-section-section">
+				<h5>Filters</h5>
+				<div class="settings-section rounded" id="site-settings-filters">
+					{# profanity filter toggle (and lock?) #}
+					{# slur filter toggle (and lock?) #}
+				</div>
+			</section>
+			<section id="site-settings-referral-section" class="settings-section-section">
+				<h5>Refer a Friend!</h5>
+				<div class="settings-section-rounded" id="site-settings-referral">
+					<div class="title w-lg-25">
+						<label for="referral_code">Referral code</label>
+					</div>
+					<div class="body w-lg-100">
+						<div class="input-group">
+							<input autocomplete="off" type="text" readonly="" class="form-control copy-link" id="referral_code" value="{{SITE_FULL}}/signup?ref={{v.username}}" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}">
+							<span class="input-group-append" data-bs-toggle="tooltip" data-bs-placement="top" title="You have referred {{v.referral_count}} user{{'s' if v.referral_count != 1 else ''}} so far. {% if v.referral_count==0 %}¯\_(ツ)_/¯{% elif v.referral_count>10%}Wow!{% endif %}">
+								<span class="input-group-text text-primary border-0"><i class="far fa-user mr-1" aria-hidden="true"></i>{{v.referral_count}}</span>
+							</span>
+						</div>
+						<div class="text-small text-muted mt-3">Share this link with a friend. {% if v.referral_count==0 %} When they sign up, you'll get the bronze recruitment badge. <a href="/badges">Learn more.</a>{% elif v.referral_count<10 %} When you refer 10 friends, you'll receive the silver recruitment badge. <a href="/badges">Learn more.</a>{% elif v.referral_count<100 %} When you refer 100 friends, you'll receive the gold recruitment badge. <a href="/badges">Learn more</a>.{% endif %}</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>
+
+{% include "emoji_modal.html" %}
+{% include "gif_modal.html" %}
+
+{% if v.flairchanged %}
+	<script>
+		const date = new Date({{v.flairchanged}}*1000).toString();
+		const text = ` - Your flair has been locked until ${date}`
+		document.getElementById('customtitlebody').value += text;
+	</script>
+{% endif %}
+
+<script defer src="{{'js/settings_profile.js' | asset}}"></script>
+{% endblock %}
