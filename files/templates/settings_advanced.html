@@ -97,15 +97,15 @@
 			<section id="site-settings-tab-behavior-section" class="settings-section-section">
 				<h5>Tab Behavior</h5>
 				<div class="settings-section rounded">
-					{{common.toggle_section("Open Internal Links In New Tabs", "newtab", "newtab", v.newtab, "Enable if you would like to automatically open links to other pages on the site in new tabs.")}}
-					{{common.toggle_section("Open External Links In New Tabs", "newtabexternal", "newtabexternal", v.newtabexternal, "Enable if you would like to automatically open links to other sites in new tabs.")}}
+					{{common.toggle_section("Open Internal Links In New Tabs", "newtab", "newtab", v.newtab, "Enable if you would like to automatically open links to other pages on the site in new tabs.", false)}}
+					{{common.toggle_section("Open External Links In New Tabs", "newtabexternal", "newtabexternal", v.newtabexternal, "Enable if you would like to automatically open links to other sites in new tabs.", false)}}
 				</div>
 			</section>
 			<section id="site-settings-external-services-section" class="settings-section-section">
 				<h5>External Services</h5>
 				<div class="settings-section rounded">
-					{{common.toggle_section("Use Nitter for Twitter Links", "nitter", "nitter", v.nitter, "Enable if you would like to automatically convert twitter.com links to nitter.lacontrevoie.fr links.")}}
-					{{common.toggle_section("Use Imginn for Instagram Links", "imginn", "imginn", v.imginn, "Enable if you would like to automatically convert instagram.com links to imginn.com links.")}}
+					{{common.toggle_section("Use Nitter for Twitter Links", "nitter", "nitter", v.nitter, "Enable if you would like to automatically convert twitter.com links to nitter.lacontrevoie.fr links.", false)}}
+					{{common.toggle_section("Use Imginn for Instagram Links", "imginn", "imginn", v.imginn, "Enable if you would like to automatically convert instagram.com links to imginn.com links.", false)}}
 					<div class="d-lg-flex border-bottom">
 						<div class="title w-lg-25">
 							<label for="reddit">Reddit Domain</label>
@@ -121,15 +121,15 @@
 							</div>
 						</div>
 					</div>
-					{{common.toggle_section("Sort Reddit Links by Controversial", "controversial", "controversial", v.controversial, "Enable if you would like to automatically sort reddit.com links by controversial.")}}
+					{{common.toggle_section("Sort Reddit Links by Controversial", "controversial", "controversial", v.controversial, "Enable if you would like to automatically sort reddit.com links by controversial.", false)}}
 				</div>
 			</section>
 			<section id="site-settings-content-filters" class="settings-section-section">
 				<h5>Content Filters</h5>
 				<div class="settings-section rounded">
-					{{common.toggle_section('Disable Signatures', 'sigs_disabled', 'sigs_disabled', v.sigs_disabled, 'Hide user signatures.')}}
-					{{common.toggle_section('Disable +18 Warnings', 'over18', 'over18', v.over18, "Enable if you would like to not get a warning before viewing +18 content.")}}
-					{{common.toggle_section('Hide Posts Voted On', 'hidevotedon', 'hidevotedon', v.hidevotedon, 'Enable if you would like to automatically hide posts you have voted on from your frontpage.')}}
+					{{common.toggle_section('Disable Signatures', 'sigs_disabled', 'sigs_disabled', v.sigs_disabled, 'Hide user signatures.', false)}}
+					{{common.toggle_section('Disable +18 Warnings', 'over18', 'over18', v.over18, "Enable if you would like to not get a warning before viewing +18 content.", false)}}
+					{{common.toggle_section('Hide Posts Voted On', 'hidevotedon', 'hidevotedon', v.hidevotedon, 'Enable if you would like to automatically hide posts you have voted on from your frontpage.', false)}}
 					<div class="d-lg-flex border-bottom">
 						<div class="title w-lg-25">
 							<label for="custom-filter">Custom Filters</label>

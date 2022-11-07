@@ -209,15 +209,15 @@
 					{{common.text_area_section('profile-friends', '/settings/personal', 'friends', 'Friends', v.friends, 'Limit of 500 characters', 'Enter your friends on the site...', false, false, 500, true)}}
 					{{common.text_area_section('profile-enemies', '/settings/personal', 'enemies', 'Enemies', v.enemies, 'Limit of 500 characters', 'Enter your enemies on the site...', false, false, 500, true)}}
 					{{common.text_area_section('profile-signature', '/settings/personal', 'sig', 'Signature', v.sig, 'Limit of 200 characters', 'Enter a signature...', true, false, 200, v.patron or v.sig)}}
-					{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your post and comment history from others. We will also ask search engines to not index your profile page. (Your content will still be accessible via direct link.)')}}
-					{{common.toggle_section('Spider', 'spiderswitch', 'spider', v.spider, 'Have a spider friend accompany you during your journey on the site.')}}
+					{# toggle_section(title, id, name, flag, below_text, disabled) #}
+					{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your post and comment history from others. We will also ask search engines to not index your profile page. (Your content will still be accessible via direct link.)', false)}}
+					{{common.toggle_section('Spider', 'spiderswitch', 'spider', v.spider, 'Have a spider friend accompany you during your journey on the site.', false)}}
 				</div>
 			</section>
 			<section id="site-settings-filters-section" class="settings-section-section">
 				<h5>Filters</h5>
 				<div class="settings-section rounded" id="site-settings-filters">
 					{% set ns = namespace(slurtext='Enable if you would like to automatically replace slurs.', profanitytext='Enable if you would like to automatically replace slurs.') %}
-					{# toggle_section(title, id, name, flag, below_text, disabled) #}
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer %}
 						{% if v.slurreplacer == 1 %}
 							{% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
