@@ -174,18 +174,7 @@ if SITE_NAME == 'rDrama':
 		" pedo ": " libertarian ",
 		" kys": " keep yourself safe",
 		"kys ": "keep yourself safe ",
-		"california": "commiefornia",
-		"hollywood": ['hollyweird', 'pedowood'],
 		"republican": ['republiKKKan', 'republicunt', 'rethuglican'],
-		"democrat": ['demonrat', 'demoncrat', 'demoncrap', 'demoKKKrat'],
-		"kill all furries": "stop the fursecution",
-		"palestinian": "illegal occupant of occupied Israel",
-		"palestine": "occupied Israel",
-		"israeli": "illegal occupant of occupied Palestine",
-		"israel": "occupied Palestine",
-		"nurse": "n*rse",
-		"holes are fine": "holes were a mistake",
-		"holes are good": "holes were a mistake",
 	}
 	SLURS.update(RDRAMA_SLURS)
 
