@@ -172,7 +172,7 @@
 					{{common.line_text_section('flair', '/settings/title_change', 'custom-flair', 'Flair', v.customtitleplain, 'Limit of 100 characters', 'Enter a flair here', 'Change Flair', true, 0, 100, '', true)}}
 					{{common.color_section('flaircolor', '/settings/titlecolor', 'titlecolor', 'Flair Color', v.titlecolor)}}
 					{% if v.verified %}
-						{{common.color_section('verifiedcolor', '/settings/verifiedcolor', 'Checkmark Color', v.verifiedcolor)}}
+						{{common.color_section('verifiedcolor', '/settings/verifiedcolor', 'verifiedcolor', 'Checkmark Color', v.verifiedcolor)}}
 						{{common.line_text_section('checkmark_text', '/settings/checkmark_text', 'checkmark-text', 'Checkmark Text', v.verified, 'Limit of 100 characters', 'Enter checkmark hover text here', 'Change Text', false, 0, 100, '', v.verified)}}
 					{% endif %}
 					{% if FEATURES['USERS_PROFILE_SONG'] -%}
