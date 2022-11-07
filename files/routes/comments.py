@@ -216,7 +216,7 @@ def comment(v):
 		abort(403, "You can't reply to users who have blocked you or users that you have blocked.")
 
 	is_bot = (v.client is not None
-		and v.id != BBBB_ID
+		and v.id not in PRIVILEGED_USER_BOTS
 		or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
 
 	execute_antispam_comment_check(body, v)
