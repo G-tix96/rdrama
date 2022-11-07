@@ -139,7 +139,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	target.downvotes = get_vote_count(-1, False)
 	target.realupvotes = get_vote_count(0, True) # first arg is ignored here
 
-	if target.author.progressivestack or (cls == Submission and (target.domain.endswith('.win') or target.domain in BOOSTED_SITES)):
+	if target.author.progressivestack or (cls == Submission and (target.domain.endswith('.win') or target.domain in BOOSTED_SITES)) or (cls == Submission and not target.sub and len(target.body) > 5000):
 		target.realupvotes *= 2
 
 	if cls == Submission and target.sub and target.sub not in ('space', 'istory', 'dinos', 'furry', 'anime', 'slackernews', 'gaybros', 'againsthateholes', 'femboy'):
