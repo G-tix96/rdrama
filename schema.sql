@@ -1017,7 +1017,7 @@ CREATE TABLE public.users (
     coins_spent_on_hats integer DEFAULT 0 NOT NULL,
     rainbow integer,
     spider integer,
-    profanityreplacer integer DEFAULT 1 NOT NULL,
+    profanityreplacer integer DEFAULT 1 NOT NULL
 );
 
 

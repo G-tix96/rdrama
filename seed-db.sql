@@ -1,7 +1,7 @@
 INSERT INTO public.users (username, passhash, created_utc, admin_level, over_18, is_activated, bio, bio_html, login_nonce, is_private,
 	unban_utc, original_username, customtitle, defaultsorting, defaultsortingcomments, defaulttime, namecolor, titlecolor,
 	customtitleplain, theme, themecolor, reddit, css, profilecss, coins, agendaposter,
-	post_count, comment_count, background, verified, truescore, cardview, profileurl, highres, last_viewed_post_notifs, last_viewed_log_notifs, pronouns, marsify, house) VALUES
+	post_count, comment_count, background, verified, truecoins, cardview, profileurl, highres, last_viewed_post_notifs, last_viewed_log_notifs, pronouns, marsify, house) VALUES
 		('AutoJanny', '', extract(epoch from now()), 0, true, true, '', '', 0, false, 
 			0, 'AutoJanny', '', 'hot', 'top', 'day', 'ff66ac', 'ff66ac',
 			'', 'dark', 'ff66ac', 'old.reddit.com', '', '', 0, 0,
