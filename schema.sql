@@ -976,7 +976,7 @@ CREATE TABLE public.users (
     received_award_count integer DEFAULT 0 NOT NULL,
     highlightcomments boolean DEFAULT true NOT NULL,
     nitter boolean,
-    truecoins integer DEFAULT 0 NOT NULL,
+    truescore integer DEFAULT 0 NOT NULL,
     club_allowed boolean,
     frontsize integer DEFAULT 25 NOT NULL,
     coins_spent integer DEFAULT 0 NOT NULL,
