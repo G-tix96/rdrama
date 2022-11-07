@@ -411,11 +411,11 @@ function sendFormXHR(e, extraActionsOnSuccess) {
 	return false
 }
 
-function sendFormXHRSwitch(t, e) {
+function sendFormXHRSwitch(e) {
 	sendFormXHR(e,
 		() => {
-			t.previousElementSibling.classList.remove('d-none');
-			t.classList.add('d-none');
+			e.target.previousElementSibling.classList.remove('d-none');
+			e.target.classList.add('d-none');
 		}
 	)
 }
