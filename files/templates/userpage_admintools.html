@@ -26,7 +26,7 @@
 			{% if v.admin_level >= PERMS['USER_TITLE_CHANGE'] %}
 				<div class="body d-lg-flex border-bottom mb-2">
 					<div class="w-lg-100">
-						<form action="/admin/title_change/{{u.id}}" method="post">
+						<form action="/admin/title_change/{{u.id}}" method="post" onsubmit="sendFormXHR(event)">
 							<input type="hidden" name="formkey" value="{{v.formkey}}">
 							<input maxlength=100 autocomplete="off" id="customtitlebody-{{deviceType}}" type="text" name="title" class="form-control" placeholder='Enter a flair here' value="{% if u.customtitleplain %}{{u.customtitleplain}}{% endif %}">
 							<div class="d-flex mt-2">
@@ -96,12 +96,12 @@
 					<button type="button" id="unmute-user-{{deviceType}}" class="mb-1 {% if not u.is_muted %}d-none{% endif %} btn btn-success" onclick="postToastSwitch(this,'/mute_user/{{u.id}}/0','mute-user-{{deviceType}}','unmute-user-{{deviceType}}','d-none')">Unmute</button>
 				{% endif %}
 				{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-					<form action="/admin/unnuke_user" method="post">
+					<form action="/admin/unnuke_user" method="post" onsubmit="sendFormXHR(event)">
 						<input type="hidden" name="formkey", value="{{v.formkey}}">
 						<input type="hidden" name="user" value="{{u.username}}">
 						<input type="submit" onclick="disable(this)" class="btn btn-success" value="Approve User's Content">
 					</form>
-					<form class="mt-1" action="/admin/nuke_user" method="post">
+					<form class="mt-1" action="/admin/nuke_user" method="post" onsubmit="sendFormXHR(event)">
 						<input type="hidden" name="formkey", value="{{v.formkey}}">
 						<input type="hidden" name="user" value="{{u.username}}">
 						<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Remove User's Content">

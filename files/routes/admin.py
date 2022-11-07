@@ -924,7 +924,7 @@ def admin_title_change(user_id, v):
 		)
 	g.db.add(ma)
 
-	return redirect(user.url)
+	return {"message": f"@{user.username}'s flair has been changed!"}
 
 @app.post("/ban_user/<user_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -1480,7 +1480,7 @@ def admin_nuke_user(v):
 		)
 	g.db.add(ma)
 
-	return redirect(user.url)
+	return {"message": f"@{user.username}'s content has been removed!"}
 
 
 @app.post("/admin/unnuke_user")
@@ -1515,4 +1515,4 @@ def admin_nunuke_user(v):
 		)
 	g.db.add(ma)
 
-	return redirect(user.url)
+	return {"message": f"@{user.username}'s content has been approved!"}
