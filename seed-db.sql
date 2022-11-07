@@ -2727,6 +2727,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseystarbucks',2,'coffee latte barista marbucks scone',NULL),
 ('marseystars',2,'stareyes reaction star eyes starry eyed stareyed',NULL),
 ('marseystars2',2,'space galaxy cosmic starsey constellation',NULL),
+('marseystarwars',2,'scifi space soy stormtrooper lightsaber disney',1667805994),
 ('marseysteaming',2,'steaming exhale emoji unamused annoyed',NULL),
 ('marseysteer',2,'car drive nervous driving animated',NULL),
 ('marseystein',2,'undead frankenstein abomination halloween holiday monster',NULL),
