@@ -78,7 +78,7 @@ function updatebgselection(){
 		let bgsDir = backgrounds[bgselector.selectedIndex].folder;
 		for (i=0; i < bgsToDisplay.length; i++) {
 			let onclickPost = bgsDir + "/" + bgsToDisplay[i];
-			str += `<button class="btn btn-secondary bg-button"><img class='bg-image' src="/i/backgrounds/${bgsDir}/${bgsToDisplay[i]}?v=2000" alt="${bgsToDisplay[i]}-background" onclick="post('/settings/profile?background=${onclickPost}')"></button>`;
+			str += `<button class="btn btn-secondary bg-button"><img class='bg-image' src="/i/backgrounds/${bgsDir}/${bgsToDisplay[i]}?v=2000" alt="${bgsToDisplay[i]}-background" onclick="post('/settings/personal?background=${onclickPost}')"></button>`;
 		}
 		bgContainer.innerHTML = str;
 	}
