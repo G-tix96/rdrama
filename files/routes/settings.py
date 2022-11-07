@@ -44,6 +44,7 @@ def settings_personal_post(v):
 	updated = False
 
 	def update_flag(column_name:str, request_name:str):
+		if not request.values.get(request_name, ''): return False
 		request_flag = request.values.get(request_name, '') == 'true'
 		if request_flag != getattr(v, column_name):
 			setattr(v, column_name, request_flag)
