@@ -863,7 +863,7 @@ def shadowban(user_id, v):
 	
 	cache.delete_memoized(frontlist)
 
-	return redirect(user.url)
+	return {"message": f"@{user.username} has been shadowbanned!"}
 
 @app.post("/unshadowban/<user_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -992,8 +992,7 @@ def ban_user(user_id, v):
 			comment.bannedfor = f'{duration} by @{v.username}'
 			g.db.add(comment)
 
-	if 'redir' in request.values: return redirect(user.url)
-	else: return {"message": f"@{user.username} has been banned!"}
+	return {"message": f"@{user.username} has been banned!"}
 
 
 @app.post("/agendaposter/<user_id>")
@@ -1058,8 +1057,7 @@ def agendaposter(user_id, v):
 			comment.chuddedfor = f'{duration} by @{v.username}'
 			g.db.add(comment)
 
-	if 'redir' in request.values: return redirect(user.url)
-	else: return {"message": f"@{user.username} has been chudded!"}
+	return {"message": f"@{user.username} has been chudded!"}
 
 
 @app.post("/unban_user/<user_id>")

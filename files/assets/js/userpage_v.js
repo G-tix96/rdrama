@@ -80,44 +80,10 @@ function sendMessage(e) {
 	document.getElementById('message-mobile').classList.add('d-none');
 	document.getElementById('message-preview').classList.add('d-none');
 	document.getElementById('message-preview-mobile').classList.add('d-none');
-
-	const form = e.target;
-	const xhr = new XMLHttpRequest();
-	e.preventDefault();
-
-	formData = new FormData(form);
-
-	formData.append("formkey", formkey());
-	actionPath = form.getAttribute("action");
-
-	xhr.open("POST", actionPath);
-	xhr.setRequestHeader('xhr', 'xhr');
-
-	xhr.onload = function() {
-		if (xhr.status >= 200 && xhr.status < 300) {
-			let data = JSON.parse(xhr.response);
-			showToast(true, getMessageFromJsonData(true, data));
+	sendFormXHR(e,
+		() => {
 			document.getElementById('input-message').value = ''
 			document.getElementById('input-message-mobile').value = ''
-			return true
-		} else {
-			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-			try {
-				let data=JSON.parse(xhr.response);
-				var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error'));
-				myToast.show();
-				document.getElementById('toast-post-error-text').innerText = data["error"];
-				if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
-			} catch(e) {
-				var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success'));
-				myToast.hide();
-				var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error'));
-				myToast.show();
-			}
 		}
-	};
-
-	xhr.send(formData);
-
-	return false
+	)
 }
