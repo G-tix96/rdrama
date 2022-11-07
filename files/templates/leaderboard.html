@@ -24,7 +24,7 @@
 {% endmacro %}
 
 {% macro leaderboard_table(lb) %}
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><span id="leaderboard-{{lb.html_id}}">Top {{lb.limit}} by {{lb.table_header_name}}</span></h5>
+<h5 class="font-weight-bolder text-center pt-2 pb-3"><span id="leaderboard-{{lb.html_id}}">Top {{lb.limit}} {% if lb.table_header_name != 'most blocked' %}by{% endif %} {{lb.table_header_name}}</span></h5>
 <div class="overflow-x-auto">
 <table class="table table-striped mb-5">
 	<thead class="bg-primary text-white">
