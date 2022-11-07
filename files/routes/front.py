@@ -157,6 +157,9 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		else:
 			pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False)
 			
+			if not holes:
+				pins = pins.filter_by(sub=None)
+
 			if v:
 				pins = pins.filter(or_(Submission.sub == None, Submission.sub.notin_(v.all_blocks)))
 				for pin in pins:
