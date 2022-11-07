@@ -2483,6 +2483,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyriddler',2,'riddler batman incel villain halloween',1666309356),
 ('marseyridin',2,'joe biden kamala harris voted voting election american president hat',NULL),
 ('marseyrightoidschizo',2,'nazi conspiracy crazy tin foil tinfoil conservative animated ruqqus',NULL),
+('marseyrise',2,'rise elmo fire',1667772371),
 ('marseyrobber',2,'mask balaclava gun shooter shooting thief criminal nigger jogger ahmaud arbery george floyd',NULL),
 ('marseyrobot',2,'npc snappy sentient ai glow tech computer',1664034073),
 ('marseyroguspanish',2,'rogu spanish marsey american dad',1665625304),
