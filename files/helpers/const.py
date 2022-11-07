@@ -151,7 +151,6 @@ PROFANITIES = {
 	' rape ': ' r*pe ',
 	' hell ': ' heck ',
 	' sex ': ' intercourse ',
-	' god ': ' gosh ',
 	' cum ': ' c*m ',
 	'orgasm': 'sexual climax',
 	'dick': 'peepee',
