@@ -135,6 +135,7 @@ if SITE_NAME == 'rDrama':
 		" kys": " keep yourself safe",
 		"kys ": "keep yourself safe ",
 		"republican": 'republiKKKan',
+		"america": 'amerikkka',
 	}
 	SLURS.update(RDRAMA_SLURS)
 
