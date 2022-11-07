@@ -56,8 +56,10 @@
 			</a>
 		{% else %}
 			{% if SITE_NAME == 'PCM' %}
-				{% set path = "assets/images/" + SITE_NAME + "/banners" %}
-				{% set banner = "/" + path + "/" + listdir('files/' + path)|max + '?v=1' %}
+				{# set path = "assets/images/" + SITE_NAME + "/banners" #}
+				{# set banner = "/" + path + "/" + listdir('files/' + path)|max + '?v=1' #}
+				{% set path = "assets/images/" + SITE_NAME + "/banner_rotation" %}
+				{% set banner = "/" + path + "/" + listdir('files/' + path)|random() + '?v=1' %}
 			{% else %}
 				{% set banner = 'banner.webp' | asset_siteimg %}
 			{% endif %}
