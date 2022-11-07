@@ -1616,7 +1616,10 @@ BOOSTED_SITES = {
 	'marsey.club',
 	'odysee.com',
 	'trp.red',
-	'forums.red'
+	'forums.red',
+	'shitposter.club',
+	'sneed.social',
+	'seal.cafe',
 }
 
 IMAGE_FORMATS = ['png','gif','jpg','jpeg','webp']
