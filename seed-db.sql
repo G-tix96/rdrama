@@ -452,6 +452,7 @@ INSERT INTO public.hat_defs VALUES (951, 'Kasa 3', 'This is just a basket. What 
 INSERT INTO public.hat_defs VALUES (1012, 'Marsey Slain', 'You monster... what have you done..', 2, 500, NULL, 1667516047);
 INSERT INTO public.hat_defs VALUES (1016, 'Antlers', 'Be careful. I''ll shoot ya!', 2, 500, NULL, 1667531769);
 INSERT INTO public.hat_defs VALUES (712, 'Thursday The 20th', '20% off on every Thursday. 30% off on the 20th of every month. 50% off on Thurday the 20th!', 2, 500, NULL, 1663434472);
+
 INSERT INTO public.hat_defs VALUES (22, 'Southern Gentleman', 'Slaveowner? Fried chicken chain founder? You decide!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (23, 'Cowboy I', 'Make him wish he could quit you', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (24, 'Cowboy II', 'You''re my favorite deputy!', 2, 500, NULL, 1662167687);
@@ -1104,7 +1105,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1016, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1017, true);
 
 
 --
@@ -1719,6 +1720,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyelliotrodger2',2,'saint er rodgers rogers shooter killer incel hapa little king azn asian supremegentleman supreme gentleman',NULL),
 ('marseyelliotrodger3',2,'saint er rodgers rogers shooter killer incel hapa little king azn asian supremegentleman supreme gentleman',NULL),
 ('marseyelonmusk',2,'elon musk rocket spacex tesla',NULL),
+('marseyelonpaypig',2,'musk tesla twitter cope seethe dilate cry soy wojak south africa paypig blue check',1667784325),
 ('marseyelonrentfree',2,'musk tesla twitter cope seethe dilate cry soy wojak south africa',1667732975),
 ('marseyembrace',2,'embracing hugging love happy',NULL),
 ('marseyemo',2,'girl goth scene woman foid',NULL),
@@ -2369,6 +2371,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyplane',2,'flying jet pilot',NULL),
 ('marseyplanecrash',2,'flying wreck jet pilot animated',NULL),
 ('marseyplaty',2,'hearts crossover platypus love',NULL),
+('marseyplaugedoctor',2,'plauge doctor black dank scythe hat crow mask',1667786832),
 ('marseyplaying',2,'fish playful mischief srdine animated',NULL),
 ('marseyplaying2',2,'fish playful mischief srdine animated',NULL),
 ('marseypleading',2,'sad eyes begging puppy dog eyes',NULL),
