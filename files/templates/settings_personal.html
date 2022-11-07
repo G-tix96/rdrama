@@ -220,14 +220,14 @@
 					{% set ns = namespace(slurtext='Enable if you would like to automatically replace slurs.', profanitytext='Enable if you would like to automatically replace slurs.') %}
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer %}
 						{% if v.slurreplacer == 1 %}
-							{% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
+							{% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a id="slurreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
 						{% else %}
 							{% set ns.slurttext = "You've enabled the slur replacer permanently! ✊🏿" %}
 						{% endif %}
 					{% endif %}
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer %}
 						{% if v.profanityreplacer == 1 %}
-							{% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
+							{% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a id="profanityreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
 						{% else %}
 							{% set ns.profanitytext = "You've enabled the profanity replacer permanently! 😇" %}
 						{% endif %}
@@ -306,4 +306,20 @@
 {% if v.profanityreplacer == 1 -%}
 {{permanent_filter_modal('profanityreplacer', '/settings/personal', 'profanityreplacer', 'Profanity Replacer', 'Soapy-Mouthed Angel')}}
 {%- endif %}
+{% if FEATURES['PERMANENT_WORD_FILTERS'] -%}
+<script>
+	document.addEventListener("DOMContentLoaded", function (event) {
+		const sr_toggle = document.getElementById("slurreplacer");
+		const sr_link = document.getElementById('slurreplacer-perma-link');
+		const pr_toggle = document.getElementById("profanityreplacer");
+		const pr_link = document.getElementById('profanityreplacer-perma-link');
+		sr_toggle.addEventListener('change', function (event) {
+			sr_link.hidden = !sr_toggle.checked;
+		});
+		pr_toggle.addEventListener('change', function (event) {
+			pr_link.hidden = !pr_toggle.checked;
+		});
+	});
+</script>
+{% endif %}
 {% endblock %}

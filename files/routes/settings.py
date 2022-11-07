@@ -51,14 +51,14 @@ def settings_personal_post(v):
 			return True
 		return False
 	
-	def update_flag_with_permanence(column_name:str, request_name:str, friendly_name:str, badge_id:Optional[int]):
+	def update_potentially_permanent_flag(column_name:str, request_name:str, friendly_name:str, badge_id:Optional[int]):
 		if not request.values.get(request_name): return False
 		current_value = getattr(v, column_name)
 		if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and current_value > 1:
 			abort(403, f"Cannot change the {friendly_name} setting after you've already set it permanently!")
 		request_flag = int(request.values.get(request_name, '') == 'true')
 		if current_value and request_flag and request.values.get("permanent", '') == 'true' and request.values.get("username") == v.username:
-			if v.client: abort(403, "Cannot set filters permanently from the API")
+			if v.client: abort(403, f"Cannot set {friendly_name} permanently from the API")
 			request_flag = int(time.time())
 			setattr(v, column_name, request_flag)
 			if badge_id: badge_grant(v, badge_id)
@@ -80,14 +80,14 @@ def settings_personal_post(v):
 		updated = True
 		session['poor'] = v.poor
 	
-	slur_filter_updated = updated or update_flag_with_permanence("slurreplacer", "slurreplacer", "slur replacer", 192)
+	slur_filter_updated = updated or update_potentially_permanent_flag("slurreplacer", "slurreplacer", "slur replacer", 192)
 	if isinstance(slur_filter_updated, bool):
 		updated = slur_filter_updated
 	else:
 		g.db.add(v)
 		return slur_filter_updated
 	
-	profanity_filter_updated = updated or update_flag_with_permanence("profanityreplacer", "profanityreplacer", "profanity replacer", 190)
+	profanity_filter_updated = updated or update_potentially_permanent_flag("profanityreplacer", "profanityreplacer", "profanity replacer", 190)
 	if isinstance(profanity_filter_updated, bool):
 		updated = profanity_filter_updated
 	else:
