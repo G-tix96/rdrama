@@ -88,11 +88,6 @@ function sendMessage(e) {
 	formData = new FormData(form);
 
 	formData.append("formkey", formkey());
-	if(typeof data === 'object' && data !== null) {
-		for(let k of Object.keys(data)) {
-			form.append(k, data[k]);
-		}
-	}
 	actionPath = form.getAttribute("action");
 
 	xhr.open("POST", actionPath);
