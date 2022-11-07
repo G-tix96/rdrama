@@ -470,6 +470,9 @@ LEADERBOARD_LIMIT = PAGE_SIZE
 HOUSE_JOIN_COST = 500
 HOUSE_SWITCH_COST = 2000
 
+DONATE_SERVICE = "Gumroad" if not KOFI_TOKEN or  KOFI_TOKEN == 'blahblahblah' else "KoFi"
+DONATE_LINK = GUMROAD_LINK if not KOFI_TOKEN or KOFI_TOKEN == 'blahblahblah' else KOFI_LINK
+
 if SITE.startswith('rdrama.'):
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
