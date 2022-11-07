@@ -51,7 +51,7 @@ def casino_slot_pull(gambler, wager_value, currency):
 
 		return casino_game.id, casino_game.game_state
 	else:
-		return 0, "{}", 
+		return None, "{}", 
 
 
 def build_symbols(for_payout):
@@ -117,7 +117,7 @@ def shuffle(stuff):
 	return stuff
 
 
-def execute_slots_command(v:User, u:User, c:Comment):
+def check_slots_command(v:User, u:User, c:Comment):
 	if not FEATURES['GAMBLING']: return
 	body = c.body.lower()
 
@@ -153,5 +153,5 @@ def execute_slots_command(v:User, u:User, c:Comment):
 			abort(400, f"Not enough {currency} to make that bet")
 		return
 
-	game_id, game_state = casino_slot_pull(v, wager, currency)
+	game_id, game_state = casino_slot_pull(u, wager, currency)
 	c.casino_game_id = game_id

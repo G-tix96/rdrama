@@ -357,7 +357,7 @@ def comment(v):
 		parent_post.comment_count += 1
 		g.db.add(parent_post)
 
-	execute_slots_command(v, v, c)
+	check_slots_command(v, v, c)
 
 	g.db.flush()
 
