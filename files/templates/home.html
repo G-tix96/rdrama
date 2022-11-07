@@ -78,7 +78,7 @@
 					{% set bcolor = "secondary" %}
 				{% endif %}
 
-				<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Toggle Pins" class="btn btn-{{bcolor}} text-{{bcolor}} mx-2 smol-fp" href="/toggle_pins/{{sort}}"><i class="fas fas fa-thumbtack fa-rotate--45 mr-2 "></i>Pins</a>
+				<a data-bs-toggle="tooltip" title="Toggle Pins" class="btn btn-{{bcolor}} text-{{bcolor}} mx-2 smol-fp" href="/toggle_pins/{{sort}}"><i class="fas fas fa-thumbtack fa-rotate--45 mr-2 "></i>Pins</a>
 					{% if v.paid_dues %}
 						{% if ccmode=="true" %}
 							<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Only show country club posts" class="btn btn-primary text-primary mx-2 smol-fp" href="?sort={{sort}}&t={{t}}&ccmode=false"><i class="fas fa-golf-club mr-2 "></i>CC</a>
@@ -88,7 +88,7 @@
 					{% endif %}
 				{% endif %}
 
-				<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="Time Filter" class="dropdown dropdown-actions mx-2">
+				<div data-bs-toggle="tooltip" title="Time Filter" class="dropdown dropdown-actions mx-2">
 					<button type="button" class="btn btn-secondary dropdown-toggle smol-fp" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{% if t=="hour" %}<i class="fas fa-clock mr-2 "></i>
 						{% elif t=="day" %}<i class="fas fa-calendar-day mr-2 "></i>
@@ -109,7 +109,7 @@
 					</div>
 				</div>
 
-				<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="Sort" class="dropdown dropdown-actions ml-2">
+				<div data-bs-toggle="tooltip" title="Sort" class="dropdown dropdown-actions ml-2">
 					<button type="button" class="btn btn-secondary dropdown-toggle smol-fp" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{% if sort=="hot" %}<i class="fas fa-fire mr-2 "></i>{% endif %}
 						{% if sort=="bump" %}<i class="fas fa-arrow-up mr-2 "></i>{% endif %}
