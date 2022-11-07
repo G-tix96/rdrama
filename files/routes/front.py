@@ -125,7 +125,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		else: posts = posts.filter_by(stickied=None)
 
 	if not sub and not holes:
-		posts = posts.filter_by(sub=None)
+		posts = posts.filter(or_(Submission.sub == None, Submission.sub == 'changelog'))
 
 	if v:
 		posts = posts.filter(Submission.author_id.notin_(v.userblocks))
