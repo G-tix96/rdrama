@@ -67,9 +67,9 @@
 			{% block navbar %}
 			<div class="d-flex align-items-center">
 				{% if request.path=='/catalog' %}
-					<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Catalog View" class="btn btn-primary text-primary mx-2 d-mob-none" href="/?sort={{sort}}&t={{t}}"><i class="fas fa-columns-3 mr-2 "></i>Catalog</a>
+					<a class="btn btn-primary text-primary mx-2 d-mob-none" href="/?sort={{sort}}&t={{t}}"><i class="fas fa-columns-3 mr-2 "></i>Catalog</a>
 				{% else %}
-					<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Catalog View" class="btn btn-secondary mx-2 d-mob-none" href="/catalog?sort={{sort}}&t={{t}}"><i class="fas fa-columns-3 mr-2 "></i>Catalog</a>
+					<a class="btn btn-secondary mx-2 d-mob-none" href="/catalog?sort={{sort}}&t={{t}}"><i class="fas fa-columns-3 mr-2 "></i>Catalog</a>
 				{% endif %}
 
 				{% if pins %}
@@ -78,7 +78,7 @@
 					{% set pcolor = "secondary" %}
 				{% endif %}
 
-				<a data-bs-toggle="tooltip" title="Toggle Pins" class="btn btn-{{pcolor}} text-{{pcolor}} mx-2 smol-fp" href="/toggle_pins/{{sort}}"><i class="fas fas fa-thumbtack fa-rotate--45 mr-2 "></i>Pins</a>
+				<a class="btn btn-{{pcolor}} text-{{pcolor}} mx-2 smol-fp" href="/toggle_pins/{{sort}}"><i class="fas fas fa-thumbtack fa-rotate--45 mr-2 "></i>Pins</a>
 
 				{% if SITE_NAME != 'WPD' and not sub %}
 					{% if holes %}
@@ -87,10 +87,10 @@
 						{% set hcolor = "secondary" %}
 					{% endif %}
 
-					<a data-bs-toggle="tooltip" title="Toggle Holes" class="btn btn-{{hcolor}} text-{{hcolor}} mx-2 smol-fp" href="/toggle_holes"><i class="fas fas fa-manhole mr-2 "></i>Holes</a>
+					<a class="btn btn-{{hcolor}} text-{{hcolor}} mx-2 smol-fp" href="/toggle_holes"><i class="fas fas fa-manhole mr-2 "></i>Holes</a>
 				{% endif %}
 
-				<div data-bs-toggle="tooltip" title="Time Filter" class="dropdown dropdown-actions mx-2">
+				<div class="dropdown dropdown-actions mx-2">
 					<button type="button" class="btn btn-secondary dropdown-toggle smol-fp" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{% if t=="hour" %}<i class="fas fa-clock mr-2 "></i>
 						{% elif t=="day" %}<i class="fas fa-calendar-day mr-2 "></i>
@@ -111,7 +111,7 @@
 					</div>
 				</div>
 
-				<div data-bs-toggle="tooltip" title="Sort" class="dropdown dropdown-actions ml-2">
+				<div class="dropdown dropdown-actions ml-2">
 					<button type="button" class="btn btn-secondary dropdown-toggle smol-fp" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{% if sort=="hot" %}<i class="fas fa-fire mr-2 "></i>{% endif %}
 						{% if sort=="bump" %}<i class="fas fa-arrow-up mr-2 "></i>{% endif %}
