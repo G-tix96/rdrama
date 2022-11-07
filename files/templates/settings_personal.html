@@ -30,7 +30,7 @@
 							{% else %}
 								<p>You're a freeloader!</p>
 							{% endif %}
-							{% if not v.patron and v.truescore >= TRUESCORE_DONATE_LIMIT %}
+							{% if not v.patron and v.truecoins >= TRUESCORE_DONATE_LIMIT %}
 								<p class="font-italic">To stop freeloading, first <a href="/settings/security#new_email">verify your email</a>, support us on <a href="{{GUMROAD_LINK}}">Gumroad</a> with the same email, and click "Claim {{patron}} Rewards"</p>
 							{% endif %}
 						</div>
