@@ -302,7 +302,7 @@ function changename(s1,s2) {
 	}
 	let filename = '';
 	for (const e of files) {
-		filename += e.name.substr(0, 20) + ', ';
+		filename += e.name.substr(0, 22) + ', ';
 	}
 	document.getElementById(s1).innerHTML = escapeHTML(filename.slice(0, -2));
 }
