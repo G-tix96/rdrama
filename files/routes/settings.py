@@ -64,7 +64,7 @@ def settings_personal_post(v):
 			request_flag = int(time.time())
 			setattr(v, column_name, request_flag)
 			if badge_id: badge_grant(v, badge_id)
-			return render_template("settings_personal.html", v=v, msg=f"Set the {friendly_name} permanently! Enjoy your new badge!")
+			return render_template("settings_personal.html", v=v, msg=f"You have set the {friendly_name} permanently! Enjoy your new badge!")
 		elif current_value != request_flag:
 			setattr(v, column_name, request_flag)
 			return True
