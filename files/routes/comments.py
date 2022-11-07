@@ -14,6 +14,7 @@ from files.__main__ import app, limiter
 from files.helpers.sanitize import filter_emojis_only
 from files.helpers.marsify import marsify
 from files.helpers.owoify import owoify
+from files.helpers.cloudflare import purge_files_in_cache
 import requests
 from shutil import copyfile
 from json import loads

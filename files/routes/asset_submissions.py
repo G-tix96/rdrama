@@ -8,6 +8,7 @@ from files.helpers.useractions import *
 from files.helpers.media import *
 from files.helpers.get import *
 from files.helpers.wrappers import *
+from files.helpers.cloudflare import purge_files_in_cache
 from files.routes.static import marsey_list
 
 if SITE not in ('pcmemes.net', 'watchpeopledie.tv'):

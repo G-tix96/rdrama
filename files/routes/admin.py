@@ -12,7 +12,7 @@ from files.helpers.media import *
 from files.helpers.const import *
 from files.helpers.actions import *
 from files.helpers.useractions import *
-from files.helpers.cloudflare import *
+import files.helpers.cloudflare as cloudflare
 from files.classes import *
 from flask import *
 from files.__main__ import app, cache, limiter
@@ -431,7 +431,7 @@ def admin_home(v):
 	under_attack = False
 
 	if v.admin_level >= PERMS['SITE_SETTINGS_UNDER_ATTACK']:
-		under_attack = (get_security_level() or 'high') == 'under_attack'
+		under_attack = (cloudflare.get_security_level() or 'high') == 'under_attack'
 
 	gitref = admin_git_head()
 	
@@ -478,7 +478,7 @@ def change_settings(v, setting):
 @app.post("/admin/clear_cloudflare_cache")
 @admin_level_required(PERMS['SITE_CACHE_PURGE_CDN'])
 def clear_cloudflare_cache(v):
-	if not clear_cloudflare_cache():
+	if not cloudflare.clear_cloudflare_cache():
 		abort(400, 'Failed to clear cloudflare cache!')
 	ma = ModAction(
 		kind="clear_cloudflare_cache",
@@ -503,13 +503,13 @@ def admin_clear_internal_cache(v):
 @app.post("/admin/under_attack")
 @admin_level_required(PERMS['SITE_SETTINGS_UNDER_ATTACK'])
 def under_attack(v):
-	response = get_security_level()
+	response = cloudflare.get_security_level()
 	if not response:
 		abort(400, 'Could not retrieve the current security level')
 	old_under_attack_mode = response == 'under_attack'
 	enable_disable_str = 'disable' if old_under_attack_mode else 'enable'
 	new_security_level = 'high' if old_under_attack_mode else 'under_attack'
-	if not set_security_level(new_security_level):
+	if not cloudflare.set_security_level(new_security_level):
 		abort(400, f'Failed to {enable_disable_str} under attack mode')
 	ma = ModAction(
 		kind=f"{enable_disable_str}_under_attack",
@@ -1149,7 +1149,7 @@ def remove_post(post_id, v):
 
 	v.coins += 1
 	g.db.add(v)
-	purge_files_in_cache(f"https://{SITE}/logged_out")
+	cloudflare.purge_files_in_cache(f"https://{SITE}/logged_out")
 	return {"message": "Post removed!"}
 
 
