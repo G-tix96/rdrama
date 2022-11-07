@@ -130,7 +130,7 @@ function buy(mb) {
 	const xhr = createXhrWithFormKey(url);
 	if(typeof data === 'object' && data !== null) {
 		for(let k of Object.keys(data)) {
-				form.append(k, data[k]);
+			form.append(k, data[k]);
 		}
 	}
 	xhr[0].onload = function() {

@@ -33,7 +33,7 @@ function createXhrWithFormKey(url, method="POST", form=new FormData()) {
 }
 
 function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
-	const isShopConfirm = t.id.startsWith('buy1-') || t.id.startsWith('buy2-')
+	const isShopConfirm = t.id.startsWith('buy1-') || t.id.startsWith('buy2-') || t.id.startsWith('giveaward')
 
 	if (!isShopConfirm)
 	{
