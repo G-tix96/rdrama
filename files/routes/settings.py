@@ -82,7 +82,7 @@ def settings_personal_post(v):
 	# end common selectors #
 
 	background = request.values.get("background", v.background)
-	if background != v.background and not ".." in background and background.endswith(".webp") and len(background) < 20 and os.path.isfile(background):
+	if background != v.background and not ".." in background and background.endswith(".webp") and len(background) < 20 and os.path.isfile(f"/assets/images/backgrounds/{background}"):
 		v.background = request.values.get("background")
 		updated = True
 	elif request.values.get("reddit", v.reddit) != v.reddit:
