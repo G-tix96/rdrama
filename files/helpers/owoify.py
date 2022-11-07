@@ -22,6 +22,7 @@ OWO_EXCLUDE_PATTERNS = [
 	help_re.poll_regex, # polls
 	help_re.choice_regex,
 	help_re.command_regex, # markup commands
+	re.compile(r'\bthe\b', flags=re.I|re.A), # exclude: 'the' ↦ 'teh'
 ]
 
 def owoify(source: str) -> str:
