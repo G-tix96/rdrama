@@ -323,7 +323,7 @@ def set_color(v:User, attr:str, color:Optional[str]):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def namecolor(v):
-	return set_color(v, "namecolor", request.values.get("color"))
+	return set_color(v, "namecolor", request.values.get("namecolor"))
 	
 @app.post("/settings/themecolor")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
