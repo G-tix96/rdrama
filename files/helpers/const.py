@@ -93,40 +93,14 @@ SLURS = {
 	"faggot": "cute twink",
 	"fag": "strag",
 	"spic ": "hard-working American ",
-	"spics": "hard-working Americans ",
+	"spics": "hard-working Americans",
 	"trannie": '<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">',
 	"tranny": '<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">',
 	"troon": '<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">',
-	"dyke": "woman who loves women",
-	"dykes": "women who love women",
 	"kike": "jewish chad",
 	"daisy's destruction": "Cars 2",
 	"daisys destruction": "Cars 2",
 	"daisy destruction": "Cars 2",
-}
-
-PROFANITIES = {
-	'motherfucker': 'motherlover',
-	'fuck': 'frick',
-	'shitting': 'pooping',
-	'lmao': 'lmbo',
-	'damn': 'darn',
-	'bastard': 'fatherless child',
-	'bitch': 'b-word',
-	'toilet': 'potty',
-	' asshole': ' butthole',
-	' rape ': ' r*pe ',
-	' hell ': ' heck ',
-	' sex ': ' intercourse ',
-	' god ': ' gosh ',
-	' cum ': ' c*m ',
-	'orgasm': 'sexual climax',
-	'dick': 'peepee',
-	'cock': 'peepee',
-	'penis': 'peepee',
-	'pussy': 'girl peepee',
-	'vagina': 'girl peepee',
-	' twat': ' girl peepee',
 }
 
 if SITE_NAME == 'rDrama':
@@ -163,6 +137,30 @@ if SITE_NAME == 'rDrama':
 		"republican": 'republiKKKan',
 	}
 	SLURS.update(RDRAMA_SLURS)
+
+PROFANITIES = {
+	'motherfucker': 'motherlover',
+	'fuck': 'frick',
+	'shitting': 'pooping',
+	'lmao': 'lmbo',
+	'damn': 'darn',
+	'bastard': 'fatherless child',
+	'bitch': 'b-word',
+	'toilet': 'potty',
+	' asshole': ' butthole',
+	' rape ': ' r*pe ',
+	' hell ': ' heck ',
+	' sex ': ' intercourse ',
+	' god ': ' gosh ',
+	' cum ': ' c*m ',
+	'orgasm': 'sexual climax',
+	'dick': 'peepee',
+	'cock': 'peepee',
+	'penis': 'peepee',
+	'pussy': 'girl peepee',
+	'vagina': 'girl peepee',
+	' twat': ' girl peepee',
+}
 
 slur_single_words = "|".join([slur.lower() for slur in SLURS.keys()])
 profanity_single_words = "|".join([profanity.lower() for profanity in PROFANITIES.keys()])
