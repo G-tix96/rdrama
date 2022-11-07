@@ -130,6 +130,9 @@ def comment(v):
 			abort(403, "You have to type less than 140 characters!")
 
 	if not body and not request.files.get('file'): abort(400, "You need to actually write something!")
+
+	if v.admin_level < PERMS['POST_COMMENT_MODERATION'] and parent.author.any_block_exists(v):
+		abort(403, "You can't reply to users who have blocked you or users that you have blocked.")
 	
 	options = []
 	for i in poll_regex.finditer(body):
@@ -211,9 +214,6 @@ def comment(v):
 																	Comment.body_html == body_html
 																	).first()
 		if existing: abort(409, f"You already made that comment: /comment/{existing.id}")
-
-	if parent.author.any_block_exists(v) and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
-		abort(403, "You can't reply to users who have blocked you or users that you have blocked.")
 
 	is_bot = (v.client is not None
 		and v.id not in PRIVILEGED_USER_BOTS
