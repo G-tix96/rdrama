@@ -73,12 +73,12 @@
 				{% endif %}
 
 				{% if pins %}
-					<a class="btn btn-primary text-primary mx-2 smol-fp" href="/toggle_pins/{{sort}}"><i class="fas fas fa-thumbtack fa-rotate--45 mr-2 "></i>Pins</a>
+					{% set bcolor = "primary" %}
 				{% else %}
-					<a class="btn btn-secondary mx-2 smol-fp" href="/toggle_pins/{{sort}}"><i class="fas fas fa-thumbtack fa-rotate--45 mr-2 "></i>Pins</a>
+					{% set bcolor = "secondary" %}
 				{% endif %}
 
-				{% if v and SITE_NAME == 'rDrama' and FEATURES['COUNTRY_CLUB'] %}
+				<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Toggle Pins" class="btn btn-{{bcolor}} text-{{bcolor}} mx-2 smol-fp" href="/toggle_pins/{{sort}}"><i class="fas fas fa-thumbtack fa-rotate--45 mr-2 "></i>Pins</a>
 					{% if v.paid_dues %}
 						{% if ccmode=="true" %}
 							<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Only show country club posts" class="btn btn-primary text-primary mx-2 smol-fp" href="?sort={{sort}}&t={{t}}&ccmode=false"><i class="fas fa-golf-club mr-2 "></i>CC</a>
