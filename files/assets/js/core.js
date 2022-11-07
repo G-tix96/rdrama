@@ -226,7 +226,7 @@ function formkey() {
 function expandDesktopImage(url) {
 	const e = this.event
 	if(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
-		return true;
+		return;
 	e.preventDefault();
 	if (!url)
 	{
@@ -388,7 +388,6 @@ function sendFormXHR(e, extraActionsOnSuccess) {
 			let data = JSON.parse(xhr.response);
 			showToast(true, getMessageFromJsonData(true, data));
 			if (extraActionsOnSuccess) extraActionsOnSuccess(xhr);
-			return true
 		} else {
 			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
 			try {
@@ -407,8 +406,6 @@ function sendFormXHR(e, extraActionsOnSuccess) {
 	};
 
 	xhr.send(formData);
-
-	return false
 }
 
 function sendFormXHRSwitch(e) {

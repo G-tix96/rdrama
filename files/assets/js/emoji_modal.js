@@ -521,7 +521,7 @@ function speed_carot_navigate(e)
 	if (!selecting) return;
 
 	let select_items = speed_carot_modal.querySelectorAll(".speed-modal-option");
-	if (!select_items || !curr_word_is_emoji()) return false;
+	if (!select_items || !curr_word_is_emoji()) return;
 	// Up or down arrow or enter
 	if (e.keyCode == 38 || e.keyCode == 40 || e.keyCode == 13)
 	{

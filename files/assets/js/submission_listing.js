@@ -10,7 +10,7 @@ function expandText(id) {
 function togglevideo(pid) {
 	const e = this.event
 	if(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
-		return true;
+		return;
 	e.preventDefault();
 	let vid = document.getElementById(`video-${pid}`).classList
 	vid.toggle('d-none')
@@ -22,7 +22,7 @@ function togglevideo(pid) {
 function toggleyoutube(pid) {
 	const e = this.event
 	if(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
-		return true;
+		return;
 	e.preventDefault();
 	document.getElementById(`video-${pid}`).classList.toggle('d-none')
 }

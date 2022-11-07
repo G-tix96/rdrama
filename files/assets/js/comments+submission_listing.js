@@ -17,7 +17,7 @@ popClickBadgeTemplateDOM.alt = "badge";
 function popclick(e) {
 	// We let through those methods
 	if(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
-		return true;
+		return;
 	e.preventDefault();
 
 	if(e.currentTarget.dataset.popInfo === undefined)
@@ -59,8 +59,6 @@ function popclick(e) {
 		popover.getElementsByClassName('pop-coins')[0].innerHTML = author["coins"]
 		popover.getElementsByClassName('pop-viewmore')[0].href = author["url"]
 	}, 5);
-
-	return false;
 }
 
 document.addEventListener("click", function(){
