@@ -18,6 +18,7 @@ valid_params = [
 	'before',
 	'after',
 	'title',
+	'cc',
 	search_operator_hole,
 ]
 
@@ -139,6 +140,13 @@ def searchposts(v):
 			try: before = timegm(time.strptime(before, "%Y-%m-%d"))
 			except: abort(400)
 		posts = posts.filter(Submission.created_utc < before)
+
+	if 'cc' in criteria:
+		cc = criteria['cc'].lower().strip()
+		if cc == 'true': cc = True
+		elif cc == 'false': cc = False
+		else: abort(400)
+		posts = posts.filter(Submission.club == cc)
 
 	posts = apply_time_filter(t, posts, Submission)
 
