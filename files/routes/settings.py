@@ -823,8 +823,6 @@ def settings_title_change(v):
 @auth_required
 @feature_required('PRONOUNS')
 def settings_pronouns_change(v):
-	
-	
 	pronouns = request.values.get("pronouns").replace("𒐪","").strip()
 
 	if len(pronouns) > 11:

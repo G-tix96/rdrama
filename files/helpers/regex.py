@@ -102,7 +102,7 @@ ascii_only_regex = re.compile("[ -~]+", flags=re.A)
 reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|u)\/', flags=re.A)
 reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(?:(?:[A-z]{2})(?:-[A-z]{2})" "?|beta|i|m|pay|ssl|www|new|alpha)\.reddit\.com|libredd\.it|teddit\.net)\/(r|u)\/", flags=re.A)
 
-color_regex = re.compile("[a-z0-9]{6}", flags=re.A)
+color_regex = re.compile("[a-f0-9]{6}", flags=re.A)
 
 # lazy match on the {}?, only match if there is trailing stuff
 # Specifically match Snappy's way of formatting, this might break some losers' comments.
