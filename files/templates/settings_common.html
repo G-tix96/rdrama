@@ -28,7 +28,7 @@
 					<input autocomplete="off" type="radio" name="{{form_name}}" id="{{id}}-{{themecolor}}" value="{{themecolor}}" {% if current_color == themecolor %}checked{% endif %} onclick="document.getElementById('{{id}}-form').submit()">
 					<label class="color-radio" for="{{id}}-{{themecolor}}">
 						<span style="background-color: #{{themecolor}}">
-						{% if current_color.lower() == themecolor %}
+						{% if current_color and current_color.lower() == themecolor %}
 							<i class="fas fa-check text-white"></i>
 						{% else %}
 							&nbsp;

@@ -373,7 +373,7 @@ def gumroad(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def titlecolor(v):
-	return set_color(v, "title", request.values.get("titlecolor"))
+	return set_color(v, "titlecolor", request.values.get("titlecolor"))
 
 @app.post("/settings/verifiedcolor")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
