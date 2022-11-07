@@ -107,7 +107,7 @@ class User(Base):
 	club_allowed = Column(Boolean)
 	login_nonce = Column(Integer, default=0)
 	coins = Column(Integer, default=0)
-	truecoins = Column(Integer, default=0)
+	truescore = Column(Integer, default=0)
 	procoins = Column(Integer, default=0)
 	mfa_secret = deferred(Column(String))
 	is_private = Column(Boolean, default=False)
@@ -424,7 +424,7 @@ class User(Base):
 		if not FEATURES['COUNTRY_CLUB']: return True
 		if self.shadowbanned: return False
 		if self.is_suspended_permanently: return False
-		return self.admin_level >= PERMS['VIEW_CLUB'] or self.club_allowed or (self.club_allowed != False and self.truecoins >= DUES)
+		return self.admin_level >= PERMS['VIEW_CLUB'] or self.club_allowed or (self.club_allowed != False and self.truescore >= DUES)
 
 	@lazy
 	def any_block_exists(self, other):
@@ -937,7 +937,7 @@ class User(Base):
 	def can_see_chudrama(self):
 		if self.admin_level >= PERMS['VIEW_CHUDRAMA']: return True
 		if self.client: return True
-		if self.truecoins >= 5000: return True
+		if self.truescore >= 5000: return True
 		if self.agendaposter: return True
 		if self.patron: return True
 		return False

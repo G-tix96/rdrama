@@ -450,7 +450,7 @@ def execute_pizza_autovote(v:User, target:Union[Submission, Comment]):
 		autovote.created_utc += 1
 		g.db.add(autovote)
 	v.coins += votes
-	v.truecoins += votes
+	v.truescore += votes
 	g.db.add(v)
 	target.upvotes += votes
 	g.db.add(target)

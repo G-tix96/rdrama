@@ -13,7 +13,7 @@
 				<img alt=":#marseymerchant:" loading="lazy" class="mb-2" src="/e/marseymerchant.webp">
 				<h5>401 Not Authorized</h5>
 				<p class="text-muted">This page is only available to {% if SITE_NAME == 'rDrama' %}paypigs{% else %}patrons{% endif %}:</p>
-				{% if FEATURES['PROCOINS'] and v.truecoins -%}
+				{% if FEATURES['PROCOINS'] and v.truescore -%}
 					{% if KOFI_LINK %}
 						<a rel="nofollow noopener" href="{{KOFI_LINK}}">{{KOFI_LINK}}</a>
 					{% else %}

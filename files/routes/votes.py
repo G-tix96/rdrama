@@ -80,14 +80,14 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if existing:
 		if existing.vote_type == 0 and new != 0:
 			target.author.coins += coin_value
-			target.author.truecoins += coin_delta
+			target.author.truescore += coin_delta
 			g.db.add(target.author)
 			existing.vote_type = new
 			existing.coins = coin_value
 			g.db.add(existing)
 		elif existing.vote_type != 0 and new == 0:
 			target.author.charge_account('coins', existing.coins, should_check_balance=False)
-			target.author.truecoins -= coin_delta
+			target.author.truescore -= coin_delta
 			g.db.add(target.author)
 			g.db.delete(existing)
 		else:
@@ -95,7 +95,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			g.db.add(existing)
 	elif new != 0:
 		target.author.coins += coin_value
-		target.author.truecoins += coin_delta
+		target.author.truescore += coin_delta
 		g.db.add(target.author)
 
 		real = new != 1 or v.is_votes_real

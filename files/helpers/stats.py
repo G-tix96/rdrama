@@ -136,10 +136,10 @@ def stats(site=None):
 			"House femboy members": "{:,}".format(g.db.query(User).filter(User.house.like('Femboy%')).count()),
 			"House vampire members": "{:,}".format(g.db.query(User).filter(User.house.like('Vampire%')).count()),
 			"House racist members": "{:,}".format(g.db.query(User).filter(User.house.like('Racist%')).count()),
-			"House furry total truescore": "{:,}".format(g.db.query(func.sum(User.truecoins)).filter(User.house.like('Furry%')).scalar() or 0),
-			"House femboy total truescore": "{:,}".format(g.db.query(func.sum(User.truecoins)).filter(User.house.like('Femboy%')).scalar() or 0),
-			"House vampire total truescore": "{:,}".format(g.db.query(func.sum(User.truecoins)).filter(User.house.like('Vampire%')).scalar() or 0),
-			"House racist total truescore": "{:,}".format(g.db.query(func.sum(User.truecoins)).filter(User.house.like('Racist%')).scalar() or 0),
+			"House furry total truescore": "{:,}".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Furry%')).scalar() or 0),
+			"House femboy total truescore": "{:,}".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Femboy%')).scalar() or 0),
+			"House vampire total truescore": "{:,}".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Vampire%')).scalar() or 0),
+			"House racist total truescore": "{:,}".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Racist%')).scalar() or 0),
 			}
 		stats.update(stats2)
 

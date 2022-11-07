@@ -223,7 +223,7 @@
 					<div class="mt-2" id="profile--info">
 						<p id="profile--info--id">User ID: {{u.id}}</p>
 						<p id="profile--info--spent">Coins spent: {{u.coins_spent}}</p>
-						<p id="profile--info--truescore">True score: {{u.truecoins}}</p>
+						<p id="profile--info--truescore">True score: {{u.truescore}}</p>
 						<p id="profile--info--winnings">Winnings: {{u.winnings}}</p>
 						<p id="profile--info--hats-owned" {% if u.num_of_owned_hats >= hats_total %}class="profile-owned-all-hats"{% endif %}>{{u.num_of_owned_hats}} / {{hats_total}} hats owned ({{hats_owned_percent}})</p>
 						{% if u.is_private %}
@@ -462,7 +462,7 @@
 				<div class="mt-2" id="profile-mobile--info">
 					<p id="profile-mobile--info--id">User ID: {{u.id}}</p>
 					<p id="profile-mobile--info--spent">Coins spent: {{u.coins_spent}}</p>
-					<p id="profile-mobile--info--truescore">True score: {{u.truecoins}}</p>
+					<p id="profile-mobile--info--truescore">True score: {{u.truescore}}</p>
 					<p id="profile-mobile--info--winnings">Winnings: {{u.winnings}}</p>
 					<p id="profile-mobile--info--hats-owned" {% if u.num_of_owned_hats >= hats_total %}class="profile-owned-all-hats"{% endif %}>{{u.num_of_owned_hats}} / {{hats_total}} hats owned ({{hats_owned_percent}})</p>
 					{% if u.is_private %}

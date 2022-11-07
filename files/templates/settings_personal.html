@@ -26,7 +26,7 @@
 						</div>
 						<div class="body w-lg-100">
 							<p>You're a {{TIERS_ID_TO_NAME[v.patron] if v.patron else "freeloader"}}!</p>{% if v.patron %} Thanks ily! &lt;3{% endif %}
-							{% if not v.patron and v.truecoins >= TRUESCORE_DONATE_LIMIT %}
+							{% if not v.patron and v.truescore >= TRUESCORE_DONATE_LIMIT %}
 								<p class="font-italic">To stop freeloading, first <a href="/settings/security#new_email">verify your email</a>, support us on <a href="{{DONATE_LINK}}">{{DONATE_SERVICE}}</a> with the same email, and click "Claim {{patron}} Rewards"</p>
 							{% elif not v.patron %}
 								<p class="font-italic">To stop freeloading, you can <a href="/donate">donate via crypto</a>. Please let us know first beforehand by <a href="/contact">sending us a modmail.</a> Thanks!</p>
