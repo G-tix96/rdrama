@@ -819,7 +819,7 @@ def unagendaposter(user_id, v):
 		g.db.add(alt)
 
 	ma = ModAction(
-		kind="unagendaposter",
+		kind="unchud",
 		user_id=v.id,
 		target_user_id=user.id
 	)
@@ -1035,7 +1035,7 @@ def agendaposter(user_id, v):
 	if reason: note += f', reason: "{reason}"'
 
 	ma=ModAction(
-		kind="agendaposter",
+		kind="chud",
 		user_id=v.id,
 		target_user_id=user.id,
 		_note=note

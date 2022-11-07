@@ -76,7 +76,7 @@ class ModAction(Base):
 		return f"{SITE_FULL}/log/{self.id}"
 
 ACTIONTYPES = {
-	'agendaposter': {
+	'chud': {
 		"str": 'chudded {self.target_link}', 
 		"icon": 'fa-snooze', 
 		"color": 'bg-danger'
@@ -316,7 +316,7 @@ ACTIONTYPES = {
 		"icon": 'fa-eye-slash', 
 		"color": 'bg-danger'
 	},
-	'unagendaposter': {
+	'unchud': {
 		"str": 'unchudded {self.target_link}', 
 		"icon": 'fa-snooze', 
 		"color": 'bg-success'
