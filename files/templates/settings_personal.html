@@ -306,7 +306,7 @@
 {% if v.profanityreplacer == 1 -%}
 {{permanent_filter_modal('profanityreplacer', '/settings/personal', 'profanityreplacer', 'Profanity Replacer', 'Soapy-Mouthed Angel')}}
 {%- endif %}
-{% if FEATURES['PERMANENT_WORD_FILTERS'] -%}
+{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] -%}
 <script>
 	document.addEventListener("DOMContentLoaded", function (event) {
 		const sr_toggle = document.getElementById("slurreplacer");
@@ -321,5 +321,5 @@
 		});
 	});
 </script>
-{% endif %}
+{%- endif %}
 {% endblock %}
