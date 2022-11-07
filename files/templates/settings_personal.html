@@ -25,7 +25,14 @@
 							<label for="patron-status">{{patron}} Status</label>
 						</div>
 						<div class="body w-lg-100">
-							Internal patron level for logged in user: {{v.patron}}<br>Don't put this in production lol<br>Example text until we figure out what to put here. Dude bussy lmao
+							{% if v.patron %}
+								<p>You're a {{patron}}!</p>
+							{% else %}
+								<p>You're a freeloader!</p>
+							{% endif %}
+							{% if not v.patron and v.truescore >= TRUESCORE_DONATE_LIMIT %}
+								<p class="font-italic">To stop freeloading, first <a href="/settings/security#new_email">verify your email</a>, support us on <a href="{{GUMROAD_LINK}}">Gumroad</a> with the same email, and click "Claim {{patron}} Rewards"</p>
+							{% endif %}
 						</div>
 					</div>
 					<div class="d-lg-flex border-bottom">
@@ -214,10 +221,18 @@
 					{% set ns = namespace(slurtext='Enable if you would like to automatically replace slurs.', profanitytext='Enable if you would like to automatically replace slurs.') %}
 					{# toggle_section(title, id, name, flag, below_text, disabled) #}
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer %}
-						{% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
+						{% if v.slurreplacer == 1 %}
+							{% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
+						{% else %}
+							{% set ns.slurttext = "You've enabled the slur replacer permanently! ✊🏿" %}
+						{% endif %}
 					{% endif %}
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer %}
-						{% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
+						{% if v.profanityreplacer == 1 %}
+							{% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
+						{% else %}
+							{% set ns.profanitytext = "You've enabled the profanity replacer permanently! 😇" %}
+						{% endif %}
 					{% endif %}
 					{{common.toggle_section("Slur Replacer", "slurreplacer", 'slurreplacer', v.slurreplacer, ns.slurtext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer > 1)}}
 					{{common.toggle_section("Profanity Replacer", "profanityreplacer", 'profanityreplacer', v.profanityreplacer, ns.profanitytext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer > 1)}}
@@ -287,10 +302,10 @@
 </div>
 {%- endif %}
 {% endmacro %}
-{% if v.slurreplacer %}
+{% if v.slurreplacer == 1 -%}
 {{permanent_filter_modal('slurreplacer', '/settings/personal', 'slurreplacer', 'Slur Replacer', 'Social Justice Berserker')}}
-{% endif %}
-{% if v.profanityreplacer %}
+{%- endif %}
+{% if v.profanityreplacer == 1 -%}
 {{permanent_filter_modal('profanityreplacer', '/settings/personal', 'profanityreplacer', 'Profanity Replacer', 'Soapy-Mouthed Angel')}}
-{% endif %}
+{%- endif %}
 {% endblock %}

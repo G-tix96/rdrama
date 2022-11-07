@@ -54,7 +54,7 @@ def settings_personal_post(v):
 		if not request.values.get(request_name): return False
 		current_value = getattr(v, column_name)
 		if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and current_value > 1:
-			abort(403, f"Cannot disable the {{friendly_name}} after you've already set it permanently!")
+			abort(403, f"Cannot change the {friendly_name} setting after you've already set it permanently!")
 		request_flag = int(request.values.get(request_name, '') == 'true')
 		if current_value and request_flag and request.values.get("permanent", '') == 'true' and request.values.get("username") == v.username:
 			if v.client: abort(403, "Cannot set filters permanently from the API")
@@ -309,37 +309,32 @@ def filters(v):
 	return render_template("settings_filters.html", v=v, msg="Your custom filters have been updated.")
 
 
+def set_color(v:User, attr:str, color:Optional[str]):
+	current = getattr(v, attr)
+	color = color.strip().lower() if color else None
+	if color:
+		if color.startswith('#'): color = color[1:]
+		if not color_regex.fullmatch(color):
+			return render_template("settings_personal.html", v=v, error="Invalid color hex code")
+		if color and current != color:
+			setattr(v, attr, color)
+			g.db.add(v)
+	return redirect("/settings/personal")
+
+
 @app.post("/settings/namecolor")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def namecolor(v):
-
-	color = request.values.get("color", "").strip().lower()
-	if color.startswith('#'): color = color[1:]
-
-	if not color_regex.fullmatch(color):
-		return render_template("settings_personal.html", v=v, error="Invalid color hex code")
-
-	v.namecolor = color
-	g.db.add(v)
-	return redirect("/settings/personal")
+	return set_color(v, "namecolor", request.values.get("color"))
 	
 @app.post("/settings/themecolor")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def themecolor(v):
-
-	themecolor = str(request.values.get("themecolor", "")).strip()
-	if themecolor.startswith('#'): themecolor = themecolor[1:]
-
-	if not color_regex.fullmatch(themecolor):
-		return render_template("settings_personal.html", v=v, error="Invalid color hex code")
-
-	v.themecolor = themecolor
-	g.db.add(v)
-	return redirect("/settings/personal")
+	return set_color(v, "themecolor", request.values.get("themecolor"))
 
 @app.post("/settings/gumroad")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
@@ -382,27 +377,15 @@ def gumroad(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def titlecolor(v):
-
-	titlecolor = request.values.get("titlecolor", "").strip().lower()
-	if titlecolor.startswith('#'): titlecolor = titlecolor[1:]
-
-	if not color_regex.fullmatch(titlecolor):
-		return render_template("settings_personal.html", v=v, error="Invalid color hex code")
-	v.titlecolor = titlecolor
-	g.db.add(v)
-	return redirect("/settings/personal")
+	return set_color(v, "title", request.values.get("titlecolor"))
 
 @app.post("/settings/verifiedcolor")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def verifiedcolor(v):
-	verifiedcolor = str(request.values.get("verifiedcolor", "")).strip()
-	if verifiedcolor.startswith('#'): verifiedcolor = verifiedcolor[1:]
-	if len(verifiedcolor) != 6: return render_template("settings_personal.html", v=v, error="Invalid color hex code")
-	v.verifiedcolor = verifiedcolor
-	g.db.add(v)
-	return redirect("/settings/personal")
+	if not v.verified: abort(403, "You don't have a checkmark")
+	return set_color(v, "verifiedcolor", "verifiedcolor")
 
 @app.post("/settings/security")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
