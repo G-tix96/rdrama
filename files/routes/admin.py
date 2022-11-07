@@ -829,7 +829,7 @@ def unagendaposter(user_id, v):
 	badge = user.has_badge(28)
 	if badge: g.db.delete(badge)
 
-	send_repeatable_notification(user.id, f"@{v.username} (Admin) has unmarked you as a chud.")
+	send_repeatable_notification(user.id, f"@{v.username} (Admin) has unchudded you.")
 
 	return {"message": f"@{user.username} has been unchudded!"}
 
