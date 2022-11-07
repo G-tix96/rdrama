@@ -217,12 +217,12 @@
 			<section id="site-settings-filters-section" class="settings-section-section">
 				<h5>Filters</h5>
 				<div class="settings-section rounded" id="site-settings-filters">
-					{% set ns = namespace(slurtext='Enable if you would like to automatically replace slurs.', profanitytext='Enable if you would like to automatically replace slurs.') %}
+					{% set ns = namespace(slurtext='Enable if you would like to automatically replace slurs.', profanitytext='Enable if you would like to automatically replace profanities.') %}
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer %}
 						{% if v.slurreplacer == 1 %}
 							{% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a id="slurreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
 						{% else %}
-							{% set ns.slurttext = "You've enabled the slur replacer permanently! ✊🏿" %}
+							{% set ns.slurtext = "You've enabled the slur replacer permanently! ✊🏿" %}
 						{% endif %}
 					{% endif %}
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer %}
