@@ -298,11 +298,11 @@ def filters(v):
 	filters=request.values.get("filters")[:1000].strip()
 
 	if filters == v.custom_filter_list:
-		return render_template("settings_filters.html", v=v, error="You didn't change anything")
+		return render_template("settings_advanced.html", v=v, error="You didn't change anything")
 
 	v.custom_filter_list=filters
 	g.db.add(v)
-	return render_template("settings_filters.html", v=v, msg="Your custom filters have been updated.")
+	return render_template("settings_advanced.html", v=v, msg="Your custom filters have been updated.")
 
 
 def set_color(v:User, attr:str, color:Optional[str]):
