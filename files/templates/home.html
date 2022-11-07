@@ -88,7 +88,7 @@
 					{% endif %}
 				{% endif %}
 
-				<div class="dropdown dropdown-actions mx-2">
+				<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="Time Filter" class="dropdown dropdown-actions mx-2">
 					<button type="button" class="btn btn-secondary dropdown-toggle smol-fp" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{% if t=="hour" %}<i class="fas fa-clock mr-2 "></i>
 						{% elif t=="day" %}<i class="fas fa-calendar-day mr-2 "></i>
@@ -109,7 +109,7 @@
 					</div>
 				</div>
 
-				<div class="dropdown dropdown-actions ml-2">
+				<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="Sort" class="dropdown dropdown-actions ml-2">
 					<button type="button" class="btn btn-secondary dropdown-toggle smol-fp" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{% if sort=="hot" %}<i class="fas fa-fire mr-2 "></i>{% endif %}
 						{% if sort=="bump" %}<i class="fas fa-arrow-up mr-2 "></i>{% endif %}
