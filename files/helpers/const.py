@@ -554,6 +554,8 @@ elif SITE == 'watchpeopledie.tv':
 	ERROR_TITLES[415] = "Unsupported Media Type"
 	ERROR_TITLES[500] = "Internal Server Error"
 
+	POLL_THREAD = 13225
+
 	SIDEBAR_THREAD = 5403
 	BANNER_THREAD = 9869
 
