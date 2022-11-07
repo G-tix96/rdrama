@@ -169,7 +169,7 @@
 					{{common.color_section('namecolor', '/settings/namecolor', 'namecolor', 'Name Color', v.name_color)}}
 					{{common.line_text_section('pronouns', '/settings/pronouns_change', 'pronouns', 'Pronouns', v.pronouns, '{2-5 characters} / {2-5 characters}', 'Enter pronouns here', 'Change Pronouns', false, 3, 11, '([a-zA-Z]{1,5})/[a-zA-Z]{1,5}(/[a-zA-Z]{1,5})?', FEATURES['PRONOUNS'])}}
 					{# common.line_text_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, button_text, show_marseys, minlength, maxlength, pattern, show_if) #}
-					{{common.line_text_section('flair', '/settings/title_change', 'custom-flair', 'Flair', v.customtitleplain, 'Limit of 100 characters', 'Enter a flair here', 'Change Flair', true, 0, 100, '.*', true)}}
+					{{common.line_text_section('flair', '/settings/title_change', 'title', 'Flair', v.customtitleplain, 'Limit of 100 characters', 'Enter a flair here', 'Change Flair', true, 0, 100, '.*', true)}}
 					{{common.color_section('flaircolor', '/settings/titlecolor', 'titlecolor', 'Flair Color', v.titlecolor)}}
 					{% if v.verified %}
 						{{common.color_section('verifiedcolor', '/settings/verifiedcolor', 'verifiedcolor', 'Checkmark Color', v.verifiedcolor)}}
