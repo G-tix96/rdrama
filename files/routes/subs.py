@@ -273,7 +273,7 @@ def remove_mod(v, sub):
 	sub = get_sub_by_name(sub).name
 	
 	if not v.mods(sub): abort(403)
-	if v.shadowbanned: return redirect(f'/h/{sub}/mods')
+	if v.shadowbanned: abort(500)
 
 	uid = request.values.get('uid')
 
