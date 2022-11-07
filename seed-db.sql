@@ -2548,6 +2548,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseysatisfied',2,'satisfying happy smile delightful grateful glad wholesome',1662997904),
 ('marseysatisfiedmarcus',2,'black bipoc satisfying happy smile delightful grateful glad wholesome',1662998420),
 ('marseysaturn',2,'devouring eating snoo kill de goya anger reddit',NULL),
+('marseysaulgoodman',2,'lawyer saul goodman breaking bad bcs jewish better call saul suit buisness',1667846439),
 ('marseysaw',2,'doll horror halloween jigsaw monster evil torture game holiday',NULL),
 ('marseyscalped',2,'zombie brain alien parasite valve game half life headcrab skull',1663640326),
 ('marseyscared',2,'hide halloween afraid nervous holiday traumatized fearful',NULL),
