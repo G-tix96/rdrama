@@ -1,5 +1,16 @@
 {% extends "default.html" %}
 {% block content %}
+
+<script>
+	function removeMod(e) {
+		sendFormXHR(e,
+			() => {
+				e.target.parentElement.parentElement.remove();
+			}
+		)
+	}
+</script>
+
 <h5 class="mt-2">/h/{{sub}} Mods</h5>
 <div class="overflow-x-auto mt-1"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
@@ -17,7 +28,7 @@
 		<td data-time="{{mod.created_utc}}"></td>
 		<td>
 			{% if v.id == user.id or v.mod_date(sub.name) and v.mod_date(sub.name) < mod.created_utc %}
-				<form action="/h/{{sub}}/remove_mod" method="post">
+				<form action="/h/{{sub}}/remove_mod" method="post" onsubmit="removeMod(event)">
 					<input type="hidden" name="formkey" value="{{v.formkey}}">
 					<input type="hidden" name="uid" value="{{user.id}}">
 					<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="{% if v.id == user.id %}Resign{% else %}Remove Mod{% endif %}">

@@ -304,7 +304,7 @@ def remove_mod(v, sub):
 	)
 	g.db.add(ma)
 
-	return redirect(f'/h/{sub}/mods')
+	return {"message": f"@{user.username} has been removed as a mod!"}
 
 @app.get("/create_hole")
 @is_not_permabanned
