@@ -473,6 +473,15 @@ HOUSE_SWITCH_COST = 2000
 DONATE_SERVICE = "Gumroad" if not KOFI_TOKEN or  KOFI_TOKEN == 'blahblahblah' else "KoFi"
 DONATE_LINK = GUMROAD_LINK if not KOFI_TOKEN or KOFI_TOKEN == 'blahblahblah' else KOFI_LINK
 
+TIERS_ID_TO_NAME = {
+		1: "Paypig",
+		2: "Renthog",
+		3: "Landchad",
+		4: "Terminally online turboautist",
+		5: "JIDF Bankroller",
+		6: "Rich Bich"
+}
+
 if SITE.startswith('rdrama.'):
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
@@ -590,6 +599,15 @@ elif SITE == 'watchpeopledie.tv':
 
 	GIFT_NOTIF_ID = CARP_ID
 	SIGNUP_FOLLOW_ID = CARP_ID
+
+	TIERS_ID_TO_NAME = {
+		1: "Victim",
+		2: "Corpse",
+		3: "Zombie",
+		4: "Ghost",
+		5: "Survivor",
+		6: "Jigsaw"
+	}
 
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
