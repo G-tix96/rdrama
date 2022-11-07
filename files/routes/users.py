@@ -704,7 +704,7 @@ def u_username(username, v=None):
 	next_exists = (len(ids) > PAGE_SIZE)
 	ids = ids[:PAGE_SIZE]
 
-	if page == 1:
+	if page == 1 and sort == 'new':
 		sticky = []
 		sticky = g.db.query(Submission).filter_by(is_pinned=True, author_id=u.id, is_banned=False).all()
 		if sticky:
