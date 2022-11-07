@@ -1281,6 +1281,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseybegging',2,'pls plz pleading reaction tears in eyes animated',NULL),
 ('marseybegoneprot',2,'tooka cross christian catholic orthodox protestant begone religion holy pepe apu peepo demon exorcise',1665684007),
 ('marseybegonethot',2,'pepe apu peepo begon thot cross demon exorcise slut whore',NULL),
+('marseybeheading',2,'blood beheading knife marseymarsey dead',1667808240),
 ('marseyben10',2,'ten anime cartoon lawlz',NULL),
 ('marseybestfriends',2,'snoo reddit alien slice kill kys stab blood wpd',NULL),
 ('marseybetauprising',2,'blackops2cel blops2cel incel volcel lasereyes dark involuntary celibate saint',1663213986),
