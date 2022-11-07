@@ -1011,6 +1011,16 @@ def toggle_pins(sort):
 	return redirect('/')
 
 
+@app.get("/toggle_holes")
+def toggle_holes():
+	holes = session.get('holes', True)
+	session["holes"] = not holes
+
+	if is_site_url(request.referrer):
+		return redirect(request.referrer)
+	return redirect('/')
+
+
 @app.get("/badge_owners/<bid>")
 @auth_required
 def bid_list(v, bid):

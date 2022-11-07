@@ -63,7 +63,6 @@ def front_all(v, sub=None, subdomain=None):
 
 	sort=request.values.get("sort", defaultsorting)
 	t=request.values.get('t', defaulttime)
-	ccmode=request.values.get('ccmode', "false").lower()
 	
 	try: gt=int(request.values.get("after", 0))
 	except: gt=0
@@ -75,18 +74,19 @@ def front_all(v, sub=None, subdomain=None):
 	else: default = False
 
 	pins = session.get(sort, default)
+	holes = session.get('holes', True)
 
 	ids, next_exists = frontlist(sort=sort,
 					page=page,
 					t=t,
 					v=v,
-					ccmode=ccmode,
 					filter_words=v.filter_words if v else [],
 					gt=gt,
 					lt=lt,
 					sub=sub,
 					site=SITE,
-					pins=pins
+					pins=pins,
+					holes=holes
 					)
 
 	posts = get_posts(ids, v=v)
@@ -96,12 +96,12 @@ def front_all(v, sub=None, subdomain=None):
 		award_timers(v)
 
 	if v and v.client: return {"data": [x.json for x in posts], "next_exists": next_exists}
-	return render_template("home.html", v=v, listing=posts, next_exists=next_exists, sort=sort, t=t, page=page, ccmode=ccmode, sub=sub, home=True, pins=pins)
+	return render_template("home.html", v=v, listing=posts, next_exists=next_exists, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, holes=holes)
 
 
 
 @cache.memoize(timeout=86400)
-def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false", filter_words='', gt=0, lt=0, sub=None, site=None, pins=True):
+def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, sub=None, site=None, pins=True, holes=True):
 
 	posts = g.db.query(Submission)
 	
@@ -118,14 +118,14 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	if not gt and not lt:
 		posts = apply_time_filter(t, posts, Submission)
 
-	if (ccmode == "true") and FEATURES['COUNTRY_CLUB']:
-		posts = posts.filter(Submission.club == True)
-
 	posts = posts.filter_by(is_banned=False, private=False, deleted_utc = 0)
 
-	if pins and ccmode == "false" and not gt and not lt:
+	if pins and not gt and not lt:
 		if sub: posts = posts.filter_by(hole_pinned=None)
 		else: posts = posts.filter_by(stickied=None)
+
+	if not sub and not holes:
+		posts = posts.filter_by(sub=None)
 
 	if v:
 		posts = posts.filter(Submission.author_id.notin_(v.userblocks))
@@ -151,7 +151,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, ccmode="false"
 	next_exists = (len(posts) > size)
 	posts = posts[:size]
 
-	if pins and page == 1 and ccmode == "false" and not gt and not lt:
+	if pins and page == 1 and not gt and not lt:
 		if sub:
 			pins = g.db.query(Submission).filter(Submission.sub == sub.name, Submission.hole_pinned != None)
 		else:

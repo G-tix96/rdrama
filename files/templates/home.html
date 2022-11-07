@@ -67,25 +67,27 @@
 			{% block navbar %}
 			<div class="d-flex align-items-center">
 				{% if request.path=='/catalog' %}
-					<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Catalog View" class="btn btn-primary text-primary mx-2 d-mob-none" href="/?sort={{sort}}&t={{t}}&ccmode=false"><i class="fas fa-columns-3 mr-2 "></i>Catalog</a>
+					<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Catalog View" class="btn btn-primary text-primary mx-2 d-mob-none" href="/?sort={{sort}}&t={{t}}"><i class="fas fa-columns-3 mr-2 "></i>Catalog</a>
 				{% else %}
-					<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Catalog View" class="btn btn-secondary mx-2 d-mob-none" href="/catalog?sort={{sort}}&t={{t}}&ccmode=false"><i class="fas fa-columns-3 mr-2 "></i>Catalog</a>
+					<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Catalog View" class="btn btn-secondary mx-2 d-mob-none" href="/catalog?sort={{sort}}&t={{t}}"><i class="fas fa-columns-3 mr-2 "></i>Catalog</a>
 				{% endif %}
 
 				{% if pins %}
-					{% set bcolor = "primary" %}
+					{% set pcolor = "primary" %}
 				{% else %}
-					{% set bcolor = "secondary" %}
+					{% set pcolor = "secondary" %}
 				{% endif %}
 
-				<a data-bs-toggle="tooltip" title="Toggle Pins" class="btn btn-{{bcolor}} text-{{bcolor}} mx-2 smol-fp" href="/toggle_pins/{{sort}}"><i class="fas fas fa-thumbtack fa-rotate--45 mr-2 "></i>Pins</a>
-					{% if v.paid_dues %}
-						{% if ccmode=="true" %}
-							<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Only show country club posts" class="btn btn-primary text-primary mx-2 smol-fp" href="?sort={{sort}}&t={{t}}&ccmode=false"><i class="fas fa-golf-club mr-2 "></i>CC</a>
-						{% else %}
-							<a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Only show country club posts" class="btn btn-secondary mx-2 smol-fp" href="?sort={{sort}}&t={{t}}&ccmode=true"><i class="fas fa-golf-club mr-2 "></i>CC</a>
-						{% endif %}
+				<a data-bs-toggle="tooltip" title="Toggle Pins" class="btn btn-{{pcolor}} text-{{pcolor}} mx-2 smol-fp" href="/toggle_pins/{{sort}}"><i class="fas fas fa-thumbtack fa-rotate--45 mr-2 "></i>Pins</a>
+
+				{% if SITE_NAME != 'WPD' and not sub %}
+					{% if holes %}
+						{% set hcolor = "primary" %}
+					{% else %}
+						{% set hcolor = "secondary" %}
 					{% endif %}
+
+					<a data-bs-toggle="tooltip" title="Toggle Holes" class="btn btn-{{hcolor}} text-{{hcolor}} mx-2 smol-fp" href="/toggle_holes"><i class="fas fas fa-manhole mr-2 "></i>Holes</a>
 				{% endif %}
 
 				<div data-bs-toggle="tooltip" title="Time Filter" class="dropdown dropdown-actions mx-2">
@@ -100,12 +102,12 @@
 						{{t | capitalize}}
 					</button>
 					<div class="dropdown-menu smol-fp" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px;">
-						{% if t != "hour" %}<a class="dropdown-item" href="?sort={{sort}}&t=hour&ccmode={{ccmode}}"><i class="fas fa-clock mr-2 "></i>Hour</a>{% endif %}
-						{% if t != "day" %}<a class="dropdown-item" href="?sort={{sort}}&t=day&ccmode={{ccmode}}"><i class="fas fa-calendar-day mr-2 "></i>Day</a>{% endif %}
-						{% if t != "week" %}<a class="dropdown-item" href="?sort={{sort}}&t=week&ccmode={{ccmode}}"><i class="fas fa-calendar-week mr-2 "></i>Week</a>{% endif %}
-						{% if t != "month" %}<a class="dropdown-item" href="?sort={{sort}}&t=month&ccmode={{ccmode}}"><i class="fas fa-calendar-alt mr-2 "></i>Month</a>{% endif %}
-						{% if t != "year" %}<a class="dropdown-item" href="?sort={{sort}}&t=year&ccmode={{ccmode}}"><i class="fas fa-calendar mr-2 "></i>Year</a>{% endif %}
-						{% if t != "all" %}<a class="dropdown-item" href="?sort={{sort}}&t=all&ccmode={{ccmode}}"><i class="fas fa-infinity mr-2 "></i>All</a>{% endif %}
+						{% if t != "hour" %}<a class="dropdown-item" href="?sort={{sort}}&t=hour"><i class="fas fa-clock mr-2 "></i>Hour</a>{% endif %}
+						{% if t != "day" %}<a class="dropdown-item" href="?sort={{sort}}&t=day"><i class="fas fa-calendar-day mr-2 "></i>Day</a>{% endif %}
+						{% if t != "week" %}<a class="dropdown-item" href="?sort={{sort}}&t=week"><i class="fas fa-calendar-week mr-2 "></i>Week</a>{% endif %}
+						{% if t != "month" %}<a class="dropdown-item" href="?sort={{sort}}&t=month"><i class="fas fa-calendar-alt mr-2 "></i>Month</a>{% endif %}
+						{% if t != "year" %}<a class="dropdown-item" href="?sort={{sort}}&t=year"><i class="fas fa-calendar mr-2 "></i>Year</a>{% endif %}
+						{% if t != "all" %}<a class="dropdown-item" href="?sort={{sort}}&t=all"><i class="fas fa-infinity mr-2 "></i>All</a>{% endif %}
 					</div>
 				</div>
 
@@ -122,14 +124,14 @@
 						{{sort | capitalize}}
 					</button>
 					<div class="dropdown-menu smol-fp" aria-labelledby="dropdownMenuButton2" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px;">
-						{% if sort != "hot" %}<a class="dropdown-item" href="?sort=hot&t={{t}}&ccmode={{ccmode}}"><i class="fas fa-fire mr-2 "></i>Hot</a>{% endif %}
-						{% if sort != "bump" %}<a class="dropdown-item" href="?sort=bump&t={{t}}&ccmode={{ccmode}}"><i class="fas fa-arrow-up mr-2 "></i>Bump</a>{% endif %}
-						{% if sort != "top" %}<a class="dropdown-item" href="?sort=top&t={{t}}&ccmode={{ccmode}}"><i class="fas fa-arrow-alt-circle-up mr-2 "></i>Top</a>{% endif %}
-						{% if sort != "bottom" %}<a class="dropdown-item" href="?sort=bottom&t={{t}}&ccmode={{ccmode}}"><i class="fas fa-arrow-alt-circle-down mr-2 "></i>Bottom</a>{% endif %}
-						{% if sort != "new" %}<a class="dropdown-item" href="?sort=new&t={{t}}&ccmode={{ccmode}}"><i class="fas fa-sparkles mr-2 "></i>New</a>{% endif %}
-						{% if sort != "old" %}<a class="dropdown-item" href="?sort=old&t={{t}}&ccmode={{ccmode}}"><i class="fas fa-book mr-2 "></i>Old</a>{% endif %}
-						{% if sort != "controversial" %}<a class="dropdown-item" href="?sort=controversial&t={{t}}&ccmode={{ccmode}}"><i class="fas fa-bullhorn mr-2 "></i>Controversial</a>{% endif %}
-						{% if sort != "comments" %}<a class="dropdown-item" href="?sort=comments&t={{t}}&ccmode={{ccmode}}"><i class="fas fa-comments mr-2 "></i>Comments</a>{% endif %}
+						{% if sort != "hot" %}<a class="dropdown-item" href="?sort=hot&t={{t}}"><i class="fas fa-fire mr-2 "></i>Hot</a>{% endif %}
+						{% if sort != "bump" %}<a class="dropdown-item" href="?sort=bump&t={{t}}"><i class="fas fa-arrow-up mr-2 "></i>Bump</a>{% endif %}
+						{% if sort != "top" %}<a class="dropdown-item" href="?sort=top&t={{t}}"><i class="fas fa-arrow-alt-circle-up mr-2 "></i>Top</a>{% endif %}
+						{% if sort != "bottom" %}<a class="dropdown-item" href="?sort=bottom&t={{t}}"><i class="fas fa-arrow-alt-circle-down mr-2 "></i>Bottom</a>{% endif %}
+						{% if sort != "new" %}<a class="dropdown-item" href="?sort=new&t={{t}}"><i class="fas fa-sparkles mr-2 "></i>New</a>{% endif %}
+						{% if sort != "old" %}<a class="dropdown-item" href="?sort=old&t={{t}}"><i class="fas fa-book mr-2 "></i>Old</a>{% endif %}
+						{% if sort != "controversial" %}<a class="dropdown-item" href="?sort=controversial&t={{t}}"><i class="fas fa-bullhorn mr-2 "></i>Controversial</a>{% endif %}
+						{% if sort != "comments" %}<a class="dropdown-item" href="?sort=comments&t={{t}}"><i class="fas fa-comments mr-2 "></i>Comments</a>{% endif %}
 					</div>
 				</div>
 			</div>
@@ -165,14 +167,14 @@
 	<ul class="pagination pagination-sm mb-0">
 		{% if page>1 %}
 		<li class="page-item">
-			<small><a class="page-link" href="?sort={{sort}}&page={{page-1}}&t={{t}}&ccmode={{ccmode}}" tabindex="-1">Prev</a></small>
+			<small><a class="page-link" href="?sort={{sort}}&page={{page-1}}&t={{t}}" tabindex="-1">Prev</a></small>
 		</li>
 		{% else %}
 		<li class="page-item disabled"><span class="page-link">Prev</span></li>
 		{% endif %}
 		{% if next_exists %}
 		<li class="page-item">
-			<small><a class="page-link" href="?sort={{sort}}&page={{page+1}}&t={{t}}&ccmode={{ccmode}}">Next</a></small>
+			<small><a class="page-link" href="?sort={{sort}}&page={{page+1}}&t={{t}}">Next</a></small>
 		</li>
 		{% else %}
 		<li class="page-item disabled"><span class="page-link">Next</span></li>
