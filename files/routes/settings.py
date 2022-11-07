@@ -43,6 +43,8 @@ def remove_background(v):
 def settings_personal_post(v):
 	updated = False
 
+	# begin common selectors #
+	
 	def update_flag(column_name:str, request_name:str):
 		if not request.values.get(request_name, ''): return False
 		request_flag = request.values.get(request_name, '') == 'true'
@@ -68,9 +70,21 @@ def settings_personal_post(v):
 			return True
 		return False
 
-	if request.values.get("background", v.background) != v.background:
-		updated = True
+	def set_selector_option(column_name:str, api_name:str, valid_values:Iterable[str], error_msg:str="value"):
+		opt = request.values.get(api_name)
+		if opt: opt = opt.strip()
+		if not opt: return False
+		if opt in valid_values:
+			setattr(v, column_name, opt)
+			return True
+		abort(400, f"'{opt}' is not a valid {error_msg}")
+
+	# end common selectors #
+
+	background = request.values.get("background", v.background)
+	if background != v.background and not ".." in background and background.endswith(".webp") and len(background) < 20 and os.path.isfile(background):
 		v.background = request.values.get("background")
+		updated = True
 	elif request.values.get("reddit", v.reddit) != v.reddit:
 		reddit = request.values.get("reddit")
 		if reddit in {'old.reddit.com', 'reddit.com', 'i.reddit.com', 'teddit.net', 'libredd.it', 'unddit.com'}:
@@ -78,6 +92,7 @@ def settings_personal_post(v):
 			v.reddit = reddit
 	elif request.values.get("poor", v.poor) != v.poor:
 		updated = True
+		v.poor = request.values.get("poor", v.poor) == 'true'
 		session['poor'] = v.poor
 	
 	slur_filter_updated = updated or update_potentially_permanent_flag("slurreplacer", "slurreplacer", "slur replacer", 192)
@@ -164,7 +179,6 @@ def settings_personal_post(v):
 								v=v,
 								error="Your friends list is too long")
 
-
 		notify_users = NOTIFY_USERS(friends, v)
 
 		if notify_users:
@@ -190,9 +204,7 @@ def settings_personal_post(v):
 								v=v,
 								error="Your enemies list is too long")
 
-
 		notify_users = NOTIFY_USERS(enemies, v)
-
 		if notify_users:
 			cid = notif_comment(f"@{v.username} has added you to their enemies list!")
 			for x in notify_users:
@@ -236,30 +248,13 @@ def settings_personal_post(v):
 			updated = True
 			cache.delete_memoized(frontlist)
 		else: abort(400)
-
-	defaultsortingcomments = request.values.get("defaultsortingcomments")
-	if defaultsortingcomments:
-		if defaultsortingcomments in COMMENT_SORTS:
-			v.defaultsortingcomments = defaultsortingcomments
-			updated = True
-		else: abort(400, f"{defaultsortingcomments} is not a valid comment sort")
-
-	defaultsorting = request.values.get("defaultsorting")
-	if defaultsorting:
-		if defaultsorting in SORTS:
-			v.defaultsorting = defaultsorting
-			updated = True
-		else: abort(400, f"{defaultsorting} is not a valid post sort")
-
-	defaulttime = request.values.get("defaulttime")
-	if defaulttime:
-		if defaulttime in TIME_FILTERS:
-			v.defaulttime = defaulttime
-			updated = True
-		else: abort(400, f"{defaulttime} is not a valid time filter")
+	
+	updated = updated or set_selector_option("defaultsortingcomments", "defaultsortingcomments", COMMENT_SORTS, "comment sort")
+	updated = updated or set_selector_option("defaultsorting", "defaultsorting", SORTS, "post sort")
+	updated = updated or set_selector_option("defaulttime", "defaulttime", TIME_FILTERS, "time filter")
 
 	theme = request.values.get("theme")
-	if theme:
+	if not updated and theme:
 		if theme in THEMES:
 			if theme == "transparent" and not v.background: 
 				abort(409, "You need to set a background to use the transparent theme")
@@ -269,7 +264,7 @@ def settings_personal_post(v):
 		else: abort(400, f"{theme} is not a valid theme")
 
 	house = request.values.get("house")
-	if house and house in HOUSES and FEATURES['HOUSES']:
+	if not updated and house and house in HOUSES and FEATURES['HOUSES']:
 		if v.bite: abort(403)
 		if v.house:
 			if v.house.replace(' Founder', '') == house: abort(409, f"You're already in House {house}")
