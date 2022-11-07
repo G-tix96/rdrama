@@ -379,7 +379,8 @@ def image_posts_listing(v):
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def reported_posts(v):
 
-	page = max(1, int(request.values.get("page", 1)))
+	try: page = max(1, int(request.values.get("page", 1)))
+	except: abort(400, "Invalid page input!")
 
 	listing = g.db.query(Submission).filter_by(
 		is_approved=None,
@@ -401,7 +402,8 @@ def reported_posts(v):
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def reported_comments(v):
 
-	page = max(1, int(request.values.get("page", 1)))
+	try: page = max(1, int(request.values.get("page", 1)))
+	except: abort(400, "Invalid page input!")
 
 	listing = g.db.query(Comment
 					).filter_by(

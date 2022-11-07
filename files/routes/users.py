@@ -34,7 +34,8 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	except:
 		abort(404)
 
-	page = max(1, int(request.values.get("page", 1)))
+	try: page = max(1, int(request.values.get("page", 1)))
+	except: abort(400, "Invalid page input!")
 
 	listing = g.db.query(cls).join(vote_cls).filter(cls.ghost == False, cls.is_banned == False, cls.deleted_utc == 0, vote_cls.vote_type==vote_dir, cls.author_id==id, vote_cls.user_id==uid).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
@@ -84,7 +85,8 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	except:
 		abort(404)
 
-	page = max(1, int(request.values.get("page", 1)))
+	try: page = max(1, int(request.values.get("page", 1)))
+	except: abort(400, "Invalid page input!")
 
 	listing = g.db.query(cls).join(vote_cls).filter(cls.ghost == False, cls.is_banned == False, cls.deleted_utc == 0, vote_cls.vote_type==vote_dir, vote_cls.user_id==id, cls.author_id==uid).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
@@ -129,7 +131,8 @@ def user_voted(v, username, cls, vote_cls, vote_dir, template, standalone):
 	if not u.is_visible_to(v): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 
-	page = max(1, int(request.values.get("page", 1)))
+	try: page = max(1, int(request.values.get("page", 1)))
+	except: abort(400, "Invalid page input!")
 
 	listing = g.db.query(cls).join(vote_cls).filter(
 			cls.ghost == False,
@@ -960,19 +963,25 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 @app.get("/@<username>/saved/posts")
 @auth_required
 def saved_posts(v, username):
-	page = max(1, int(request.values.get("page", 1)))
+	try: page = max(1, int(request.values.get("page", 1)))
+	except: abort(400, "Invalid page input!")
+
 	return get_saves_and_subscribes(v, "userpage.html", SaveRelationship, page, False)
 
 @app.get("/@<username>/saved/comments")
 @auth_required
 def saved_comments(v, username):
-	page = max(1, int(request.values.get("page", 1)))
+	try: page = max(1, int(request.values.get("page", 1)))
+	except: abort(400, "Invalid page input!")
+
 	return get_saves_and_subscribes(v, "userpage_comments.html", CommentSaveRelationship, page, True)
 
 @app.get("/@<username>/subscribed/posts")
 @auth_required
 def subscribed_posts(v, username):
-	page = max(1, int(request.values.get("page", 1)))
+	try: page = max(1, int(request.values.get("page", 1)))
+	except: abort(400, "Invalid page input!")
+
 	return get_saves_and_subscribes(v, "userpage.html", Subscription, page, False)
 
 @app.post("/fp/<fp>")
