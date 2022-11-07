@@ -210,18 +210,26 @@ def with_sigalrm_timeout(timeout: int):
 	return inner
 
 
-def sanitize_raw_title(sanitized):
+def sanitize_raw_title(sanitized:Optional[str]) -> str:
 	if not sanitized: return ""
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\r","").replace("\n", "")
 	sanitized = sanitized.strip()
 	return sanitized[:POST_TITLE_LENGTH_LIMIT]
 
-def sanitize_raw_body(sanitized, is_post):
+def sanitize_raw_body(sanitized:Optional[str], is_post:bool) -> str:
 	if not sanitized: return ""
 	sanitized = html_comment_regex.sub('', sanitized)
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\r\n", "\n")
 	sanitized = sanitized.strip()
 	return sanitized[:POST_BODY_LENGTH_LIMIT if is_post else COMMENT_BODY_LENGTH_LIMIT]
+
+
+def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=None) -> str:
+	if not sanitized: return ""
+	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\r", "").replace("\n","")
+	sanitized = sanitized.strip()
+	if max_length: sanitized = sanitized[:max_length]
+	return sanitized
 
 
 @with_sigalrm_timeout(5)

@@ -45,7 +45,7 @@ def settings_personal_post(v):
 
 	def update_flag(column_name:str, request_name:str):
 		request_flag = request.values.get(request_name, '') == 'true'
-		if request_name != getattr(v, column_name):
+		if request_flag != getattr(v, column_name):
 			setattr(v, column_name, request_flag)
 			return True
 		return False
@@ -405,12 +405,9 @@ def settings_security_post(v):
 		v.passhash = hash_password(request.values.get("new_password"))
 
 		g.db.add(v)
-
-
 		return render_template("settings_security.html", v=v, msg="Your password has been changed.")
 
 	if request.values.get("new_email"):
-
 		if not v.verifyPass(request.values.get('password')):
 			return render_template("settings_security.html", v=v, error="Invalid password.")
 
@@ -448,12 +445,9 @@ def settings_security_post(v):
 
 		v.mfa_secret = secret
 		g.db.add(v)
-
-
 		return render_template("settings_security.html", v=v, msg="Two-factor authentication enabled.")
 
 	if request.values.get("2fa_remove"):
-
 		if not v.verifyPass(request.values.get('password')):
 			return render_template("settings_security.html", v=v, error="Invalid password or token.")
 
@@ -464,8 +458,6 @@ def settings_security_post(v):
 
 		v.mfa_secret = None
 		g.db.add(v)
-
-
 		return render_template("settings_security.html", v=v, msg="Two-factor authentication disabled.")
 
 @app.post("/settings/log_out_all_others")
@@ -473,19 +465,13 @@ def settings_security_post(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def settings_log_out_others(v):
-
 	submitted_password = request.values.get("password", "").strip()
-
 	if not v.verifyPass(submitted_password):
 		return render_template("settings_security.html", v=v, error="Incorrect Password"), 401
 
 	v.login_nonce += 1
-
 	session["login_nonce"] = v.login_nonce
-
 	g.db.add(v)
-
-
 	return render_template("settings_security.html", v=v, msg="All other devices have been logged out")
 
 
@@ -688,8 +674,6 @@ def settings_name_change(v):
 @auth_required
 @feature_required('USERS_PROFILE_SONG')
 def settings_song_change_mp3(v):
-	
-
 	file = request.files['file']
 	if file.content_type != 'audio/mpeg':
 		return render_template("settings_personal.html", v=v, error="Not a valid MP3 file")
@@ -718,8 +702,6 @@ def settings_song_change_mp3(v):
 @auth_required
 @feature_required('USERS_PROFILE_SONG')
 def settings_song_change(v):
-	
-
 	song=request.values.get("song").strip()
 
 	if song == "" and v.song:
@@ -795,16 +777,13 @@ def settings_song_change(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def settings_title_change(v):
-
 	if v.flairchanged: abort(403)
 	
-	customtitleplain = request.values.get("title").strip().replace("𒐪","")[:100]
-
+	customtitleplain = sanitize_settings_text(request.values.get("title"), 100)
 	if customtitleplain == v.customtitleplain:
 		return render_template("settings_personal.html", v=v, error="You didn't change anything")
 
 	customtitle = filter_emojis_only(customtitleplain)
-
 	customtitle = censor_slurs(customtitle, None)
 
 	if len(customtitle) > 1000:
@@ -823,7 +802,7 @@ def settings_title_change(v):
 @auth_required
 @feature_required('PRONOUNS')
 def settings_pronouns_change(v):
-	pronouns = request.values.get("pronouns").replace("𒐪","").strip()
+	pronouns = sanitize_settings_text(request.values.get("pronouns"))
 
 	if len(pronouns) > 11:
 		return render_template("settings_personal.html", v=v, error="Your pronouns exceed the character limit (11 characters)")
@@ -850,7 +829,7 @@ def settings_pronouns_change(v):
 @auth_required
 def settings_checkmark_text(v):
 	if not v.verified: abort(403)
-	new_name=request.values.get("title").strip()[:100].replace("𒐪","")
+	new_name = sanitize_settings_text(request.values.get("title"), 100)
 	if not new_name: abort(400)
 	if new_name == v.verified: return render_template("settings_personal.html", v=v, error="You didn't change anything")
 	v.verified = new_name
