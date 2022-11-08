@@ -1623,6 +1623,8 @@ BOOSTED_SITES = {
 	'shitposter.club',
 	'sneed.social',
 	'seal.cafe',
+	'lobste.rs',
+	'stacker.news',
 }
 
 IMAGE_FORMATS = ['png','gif','jpg','jpeg','webp']
