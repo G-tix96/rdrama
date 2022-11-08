@@ -143,9 +143,12 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 		if target.author.progressivestack or (cls == Submission and (target.domain.endswith('.win') or target.domain in BOOSTED_SITES or len(target.body) > 5000 or target.sub == 'masterbaiters')):
 			target.realupvotes *= 2
+		elif cls == Submission and len(target.body) > 2000:
+			target.realupvotes *= 1.5
 
 		if cls == Submission and target.sub and target.sub not in ('space', 'istory', 'dinos', 'furry', 'anime', 'slackernews', 'gaybros', 'againsthateholes', 'femboy'):
-			target.realupvotes = int(target.realupvotes * 0.7)
+			target.realupvotes *= 0.7
+
 
 	g.db.add(target)
 	return "", 204
