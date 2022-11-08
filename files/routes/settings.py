@@ -820,7 +820,7 @@ def settings_pronouns_change(v):
 @auth_required
 def settings_checkmark_text(v):
 	if not v.verified: abort(403)
-	new_name = sanitize_settings_text(request.values.get("title"), 100)
+	new_name = sanitize_settings_text(request.values.get("checkmark-text"), 100)
 	if not new_name: abort(400)
 	if new_name == v.verified: return render_template("settings_personal.html", v=v, error="You didn't change anything")
 	v.verified = new_name
