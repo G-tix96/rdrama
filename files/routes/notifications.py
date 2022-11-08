@@ -172,13 +172,24 @@ def notifications_posts(v):
 
 
 @app.get("/notifications/modactions")
-@admin_level_required(PERMS['NOTIFICATIONS_MODERATOR_ACTIONS'])
+@auth_required
 def notifications_modactions(v):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	listing = g.db.query(ModAction).filter(ModAction.user_id != v.id).order_by(ModAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
+	if v.admin_level >= PERMS['NOTIFICATIONS_MODERATOR_ACTIONS']:
+		cls = ModAction
+	elif v.moderated_subs:
+		cls = SubAction
+	else:
+		abort(403)
 
+	listing = g.db.query(cls).filter(cls.user_id != v.id)
+
+	if cls == SubAction:
+		listing = listing.filter(cls.sub.in_(v.moderated_subs))
+
+	listing = listing.order_by(cls.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
 	next_exists = len(listing) > PAGE_SIZE
 	listing = listing[:PAGE_SIZE]
 

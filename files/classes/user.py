@@ -16,6 +16,7 @@ from .userblock import *
 from .badges import *
 from .clients import *
 from .mod_logs import *
+from .sub_logs import *
 from .mod import *
 from .exiles import *
 from .sub_block import *
@@ -644,11 +645,23 @@ class User(Base):
 	@property
 	@lazy
 	def modaction_notifications_count(self):
-		if not self.admin_level or self.id == AEVANN_ID: return 0
-		return g.db.query(ModAction).filter(
-			ModAction.created_utc > self.last_viewed_log_notifs,
-			ModAction.user_id != self.id,
-		).count()
+		if self.id == AEVANN_ID: return 0
+
+		if self.admin_level:
+			return g.db.query(ModAction).filter(
+				ModAction.created_utc > self.last_viewed_log_notifs,
+				ModAction.user_id != self.id,
+			).count()
+
+		if self.moderated_subs:
+			return g.db.query(SubAction).filter(
+				SubAction.created_utc > self.last_viewed_log_notifs,
+				SubAction.user_id != self.id,
+				SubAction.sub.in_(self.moderated_subs),
+			).count()
+		
+		return 0
+
 
 	@property
 	@lazy
@@ -738,8 +751,7 @@ class User(Base):
 	@property
 	@lazy
 	def moderated_subs(self):
-		modded_subs = g.db.query(Mod.sub).filter_by(user_id=self.id).all()
-		return modded_subs
+		return [x[0] for x in g.db.query(Mod.sub).filter_by(user_id=self.id).all()]
 
 	@lazy
 	def has_follower(self, user):
