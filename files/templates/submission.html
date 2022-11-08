@@ -754,7 +754,7 @@
 						
 						<div id="post-text" class="{% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %}">
 							{% if p.is_image %}
-								<div class="row no-gutters mb-1">
+								<div class="row no-gutters mb-4">
 									<div class="col">
 										<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
 											<img onclick="expandDesktopImage()" src="{{p.realurl(v)}}" class="img-fluid" style="max-height:500px" alt="Unable to load image">
@@ -762,13 +762,13 @@
 									</div>
 								</div>
 							{% elif p.is_video %}
-								<div class="row no-gutters mb-1">
+								<div class="row no-gutters mb-4">
 									<div class="col">
 										<video controls preload="none" src="{{p.realurl(v)}}"></video>
 									</div>
 								</div>
 							{% elif p.is_audio %}
-								<div class="row no-gutters mb-1">
+								<div class="row no-gutters mb-4">
 									<div class="col">
 										<audio controls preload="none" src="{{p.realurl(v)}}"></audio>
 									</div>
