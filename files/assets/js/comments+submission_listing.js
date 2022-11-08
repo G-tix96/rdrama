@@ -36,17 +36,6 @@ function popclick(e) {
 		let popover = document.getElementsByClassName("popover")
 		popover = popover[popover.length-1]
 
-		if (popover.getElementsByClassName('pop-badges').length > 0) {
-			const badgesDOM = popover.getElementsByClassName('pop-badges')[0];
-			badgesDOM.innerHTML = "";
-			for (const badge of author["badges"]) {
-				const badgeDOM = popClickBadgeTemplateDOM.cloneNode();
-				badgeDOM.src = badge + "?b=4";
-
-				badgesDOM.append(badgeDOM);
-			}
-		}
-
 		popover.getElementsByClassName('pop-banner')[0].src = author["bannerurl"]
 		popover.getElementsByClassName('pop-picture')[0].src = author["profile_url"]
 		if (author["hat"]) popover.getElementsByClassName('pop-hat')[0].src = author['hat'] + "?h=7"
