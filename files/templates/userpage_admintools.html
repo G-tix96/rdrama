@@ -44,7 +44,7 @@
 			{% if v.admin_level >= PERMS['USER_BAN'] %}
 				<button type="button" id="unban-{{deviceType}}" class="mt-1 {% if not u.is_suspended %}d-none{% endif %} btn btn-success" onclick="postToastSwitch(this,'/unban_user/{{u.id}}','ban-{{deviceType}}','unban-{{deviceType}}','d-none')">Unban user</button>
 
-				<form id="ban-{{deviceType}}" class="mb-3 {% if u.is_suspended %}d-none{% endif %}" action="/ban_user/{{u.id}}" method="post" onsubmit="sendFormXHRSwitch(event)">
+				<form id="ban-{{deviceType}}" class="my-3 {% if u.is_suspended %}d-none{% endif %}" action="/ban_user/{{u.id}}" method="post" onsubmit="sendFormXHRSwitch(event)">
 					<input type="hidden" name="formkey" value="{{v.formkey}}">
 					<input type="hidden" name="redir" value="true">
 					<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Ban Reason" oninput="document.getElementById('user-ban-submit-{{deviceType}}').disabled=false" required>
@@ -59,7 +59,7 @@
 			{% if v.admin_level >= PERMS['USER_SHADOWBAN'] %}
 				<button type="button" id="unshadowban-{{deviceType}}" class="mt-1 {% if not u.shadowbanned %}d-none{% endif %} btn btn-success" onclick="postToastSwitch(this,'/unshadowban/{{u.id}}','shadowban-{{deviceType}}','unshadowban-{{deviceType}}','d-none')">Unshadowban user</button>
 
-				<form id="shadowban-{{deviceType}}" class="mb-3 {% if u.shadowbanned %}d-none{% endif %}" action="/shadowban/{{u.id}}" method="post" onsubmit="sendFormXHRSwitch(event)">
+				<form id="shadowban-{{deviceType}}" class="my-3 {% if u.shadowbanned %}d-none{% endif %}" action="/shadowban/{{u.id}}" method="post" onsubmit="sendFormXHRSwitch(event)">
 					<input type="hidden" name="formkey" value="{{v.formkey}}">
 					<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Shadowban Reason" oninput="document.getElementById('user-shadowban-submit-{{deviceType}}').disabled=false" required>
 					<div class="custom-control custom-checkbox mb-1">
@@ -72,7 +72,7 @@
 			{% if v.admin_level >= PERMS['USER_AGENDAPOSTER'] %}
 				<button type="button" id="unagendaposter-{{deviceType}}" class="mt-1 {% if not u.agendaposter %}d-none{% endif %} btn btn-success" onclick="postToastSwitch(this,'/unagendaposter/{{u.id}}','agendaposter-{{deviceType}}','unagendaposter-{{deviceType}}','d-none')">Unchud</button>
 
-				<form id="agendaposter-{{deviceType}}" class="{% if u.agendaposter %}d-none{% endif %}" action="/agendaposter/{{u.id}}" method="post" onsubmit="sendFormXHRSwitch(event)">
+				<form id="agendaposter-{{deviceType}}" class="my-3 {% if u.agendaposter %}d-none{% endif %}" action="/agendaposter/{{u.id}}" method="post" onsubmit="sendFormXHRSwitch(event)">
 					<input type="hidden" name="formkey", value="{{v.formkey}}">
 					<input type="hidden" name="redir" value="true">
 					<input autocomplete="off" type="number" step="any" name="days" class="form-control" placeholder="Days (0 or blank = permanent)">
