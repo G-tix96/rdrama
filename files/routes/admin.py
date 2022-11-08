@@ -1015,11 +1015,9 @@ def agendaposter(user_id, v):
 	if reason and reason.startswith("/") and '\\' not in reason:
 		reason = f'<a href="{reason.split()[0]}">{reason}</a>'
 
-	user.agendaposter = int(time.time()) + (days * 86400)
-	g.db.add(user)
-
 	duration = "permanently"
 	if days:
+		user.agendaposter = int(time.time()) + (days * 86400)
 		days_txt = str(days)
 		if days_txt.endswith('.0'): days_txt = days_txt[:-2]
 		duration = f"for {days_txt} day"
@@ -1027,8 +1025,11 @@ def agendaposter(user_id, v):
 		if reason: text = f"@{v.username} (Admin) has chudded you for **{days_txt}** days for the following reason:\n\n> {reason}"
 		else: text = f"@{v.username} (Admin) has chudded you for **{days_txt}** days."
 	else:
+		user.agendaposter = 1
 		if reason: text = f"@{v.username} (Admin) has chudded you permanently for the following reason:\n\n> {reason}"
 		else: text = f"@{v.username} (Admin) has chudded you permanently."
+
+	g.db.add(user)
 
 	send_repeatable_notification(user.id, text)
 
