@@ -37,7 +37,7 @@ def front_all(v, sub=None, subdomain=None):
 				if user.admin_level or user.id <= 9:
 					abort(401)
 				else:
-					if validate_hash(req_code, f'{user.id}+{now.year}+{now.month}+{now.day}+{now.hour}+WPDusermigration'):
+					if validate_hash(f'{user.id}+{now.year}+{now.month}+{now.day}+{now.hour}+WPDusermigration', req_code):
 						on_login(user)
 						return redirect('/')
 			return redirect('/logged_out')
