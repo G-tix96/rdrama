@@ -7,11 +7,9 @@ from files.classes.submission import Submission
 from files.helpers.awards import award_timers
 
 @app.get("/")
-@app.get("/catalog")
 @app.get("/h/<sub>")
 @app.get("/s/<sub>")
 @app.get("/logged_out")
-@app.get("/logged_out/catalog")
 @app.get("/logged_out/h/<sub>")
 @app.get("/logged_out/s/<sub>")
 @limiter.limit("3/second;30/minute;5000/hour;10000/day")

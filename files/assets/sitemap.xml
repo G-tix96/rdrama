@@ -121,11 +121,6 @@
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://rdrama.net/logged_out/catalog?sort=hot&amp;t=day&amp;ccmode=false</loc>
-  <lastmod>2022-06-10T23:42:26+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
   <loc>https://rdrama.net/logged_out?sort=hot&amp;t=hour&amp;ccmode=false</loc>
   <lastmod>2022-06-10T23:42:26+00:00</lastmod>
   <priority>0.80</priority>
