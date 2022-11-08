@@ -540,10 +540,9 @@ def settings_css_get(v):
 @auth_required
 def settings_css(v):
 	if v.agendaposter: abort(400, "Agendapostered users can't edit CSS!")
-	css = request.values.get("css").strip().replace('\\', '').strip()[:4000]
+	css = request.values.get("css", v.css).strip().replace('\\', '').strip()[:4000]
 	if '</style' in css.lower():
 		abort(400, "Please message @Aevann if you get this error")
-
 	v.css = css
 	g.db.add(v)
 
@@ -554,11 +553,10 @@ def settings_css(v):
 @limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def settings_profilecss(v):
-	profilecss = request.values.get("profilecss").strip().replace('\\', '').strip()[:4000]
+	profilecss = request.values.get("profilecss", v.profilecss).strip().replace('\\', '').strip()[:4000]
 	valid, error = validate_css(profilecss)
 	if not valid:
 		return render_template("settings_css.html", error=error, v=v)
-
 	v.profilecss = profilecss
 	g.db.add(v)
 	return redirect('/settings/css')
