@@ -150,7 +150,7 @@ function disable(t) {
 	}, 2000);
 }
 
-function autoExpand (field) {
+function autoExpand(field) {
 	xpos=window.scrollX;
 	ypos=window.scrollY;
 
