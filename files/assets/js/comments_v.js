@@ -69,6 +69,7 @@ function ToggleReplyBox(id) {
 		let text = getSelection().toString().trim()
 		if (text)
 		{
+			text = text.split('> \n> Reply')[0]
 			textarea.value = '> ' + text
 			textarea.value = textarea.value.replace(/\n/g,"\n> ").replace(/\*/g,"\\*")
 			if (!textarea.value.endsWith('\n')) textarea.value += '\n'
