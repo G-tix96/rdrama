@@ -62,11 +62,13 @@
 	top:80%;
 	left:50%;
 	animation: ricardo2 1.7s linear infinite !important;
+	max-height:200px;
 }
 
 #ricardo3 {
 	top:85%;
 	animation: ricardo3 10s linear infinite !important;
+	max-height:150px;
 }
 
 @keyframes ricardo2 {
@@ -87,4 +89,131 @@
 		51% {transform: translate(105vw,-86vh) rotate(180deg);}
 		100% {transform: translate(-70vw,-86vh) rotate(180deg);}
 	}
+}
+
+/*glow*/
+.glow .post-title, .glow a, .glow .post-meta *, .glow .user-info *, .glow .comment-text, .glow .comment-actions *, .glow  {
+	color:lightgreen !important;
+	text-shadow:1px 1px 1px darkgreen, 0 0 5px green;
+}
+
+.glow .score-up, .glow .active.arrow-up::before, .glow .arrow-up::after, .glow .arrow-up:hover::before {
+	color: lime !important;
+}
+
+.glow .score-down, .glow .active.arrow-down::before, .glow .arrow-down::after, .glow .arrow-down:hover::before {
+	color: lime !important;
+}
+
+.glow .arrow-up::before, .glow .arrow-down::before, .glow .score {
+	color: lightgreen;
+}
+
+.glow .post-body a, .glow .comment-text a {
+	text-decoration: underline;
+}
+
+/*train*/
+.train {
+	position:fixed;
+	z-index:9999;
+	pointer-events: none;
+}
+
+.trainimg {
+	width: 100px !important;
+	height: 51px !important;
+}
+
+@media (max-width: 992px) {
+	.trainimg {
+		width: 40px !important;
+		height: 20px !important;
+	}
+}
+
+.train1 {
+	top: 10%
+}
+
+.train2 {
+	top: 35%
+}
+
+.train3 {
+	top: 60%
+}
+
+.train4 {
+	top: 85%
+}
+
+/*scooter*/
+.scooterimg {
+	width: 100px !important;
+	height: 135px !important;
+}
+@media (max-width: 992px) {
+	.scooterimg {
+		width: 40px !important;
+		height: 54px !important;
+	}
+}
+
+/*seal*/
+.seal {
+	position:fixed;
+	z-index:9999;
+	pointer-events: none;
+	width: 100% !important;
+	height: 100% !important;
+}
+
+.sealimg {
+	width: 100px !important;
+	height: 89.5px !important;
+}
+@media (max-width: 992px) {
+	.sealimg {
+		width: 30px !important;
+		height: 27px !important;
+	}
+}
+
+@keyframes moveX {
+	from {} to {transform: translateX(98vw)}
+}
+
+@keyframes moveY {
+	from {} to {transform: translateY(90vh)}
+}
+
+.seal1 {
+	animation: moveX 4s linear 0s infinite alternate !important;
+}
+
+.seal1 > img {
+	animation: moveY 6.8s linear 0s infinite alternate !important;
+}
+
+.seal2 {
+	animation: moveX 5s linear 0s infinite alternate-reverse !important;
+}
+
+.seal2 > img {
+	animation: moveY 8s linear 0s infinite alternate-reverse !important;
+}
+
+.seal3 {
+	animation: moveX 4s linear 0s infinite alternate !important;
+}
+.seal3 > img {
+	animation: moveY 5s linear 0s infinite alternate-reverse !important;
+}
+
+.seal4 {
+	animation: moveX 5s linear 0s infinite alternate-reverse !important;
+}
+.seal4 > img {
+	animation: moveY 6.8s linear 0s infinite alternate !important;
 }

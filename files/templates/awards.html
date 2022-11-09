@@ -1,0 +1,158 @@
+{% if SITE_NAME == 'PCM' %}
+	{% set wholesome = '/i/wholesome.webp' %}
+{% else %}
+	{% set wholesome = '/e/marseywholesome.webp' %}
+{% endif %}
+
+{% if p.award_count("wholesome", v) %}
+	{% if g.inferior_browser %}
+		{% for i in range(4) %}
+			{% if p.award_count("wholesome", v) > i %}
+				<div class="seal seal{{i+1}}" height="100%" width="100%">
+					<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
+				</div>
+			{% endif %}
+		{% endfor %}
+	{% else %}
+		<marquee class="seal" scrollamount=10 behavior="alternate" direction="up" height="100%" width="100%">
+			<marquee direction="right" scrollamount=10 behavior="alternate" height="100%" width="100%">
+				<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
+			</marquee>
+		</marquee>
+
+		{% if p.award_count("wholesome", v) > 1 %}
+			<marquee class="seal" scrollamount=10 behavior="alternate" direction="down" height="100%">
+				<marquee direction="right" scrollamount=10 behavior="alternate" width="100%">
+					<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
+				</marquee>
+			</marquee>
+		{% endif %}
+
+		{% if p.award_count("wholesome", v) > 2 %}
+			<marquee class="seal" scrollamount=10 behavior="alternate" direction="up" height="100%">
+				<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
+					<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
+				</marquee>
+			</marquee>
+		{% endif %}
+
+		{% if p.award_count("wholesome", v) > 3 %}
+			<marquee class="seal" scrollamount=10 behavior="alternate" direction="down" height="100%">
+				<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
+					<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
+				</marquee>
+			</marquee>
+		{% endif %}
+	{% endif %}
+{% endif %}
+
+{% if p.award_count("train", v) %}
+	<marquee class="train train1" direction="left" scrollamount=10 width="100%">
+		<img alt=":#marseytrain:" class="trainimg mirrored" src="/e/marseytrain.webp">
+	</marquee>
+
+	{% if p.award_count("train", v) > 1 %}
+		<marquee class="train train2" direction="right" scrollamount=10 width="100%">
+			<img alt=":#marseytrain:" class="trainimg" src="/e/marseytrain.webp">
+		</marquee>
+	{% endif %}
+
+	{% if p.award_count("train", v) > 2 %}
+		<marquee class="train train3" direction="left" scrollamount=10 width="100%">
+			<img alt=":#marseytrain:" class="trainimg mirrored" src="/e/marseytrain.webp">
+		</marquee>
+	{% endif %}
+
+	{% if p.award_count("train", v) > 3 %}
+		<marquee class="train train4" direction="right" scrollamount=10 width="100%">
+			<img alt=":#marseytrain:" class="trainimg" src="/e/marseytrain.webp">
+		</marquee>
+	{% endif %}
+{% endif %}
+
+{% if p.award_count("scooter", v) %}
+	<marquee class="train train3" direction="right" scrollamount=10 width="100%">
+		<img alt=":#marseyscooter:" class="scooterimg" src="/e/marseyscooter.webp">
+	</marquee>
+
+	{% if p.award_count("scooter", v) > 1 %}
+		<marquee class="train train4" direction="left" scrollamount=10 width="100%">
+			<img alt=":#marseyscooter:" class="scooterimg mirrored" src="/e/marseyscooter.webp">
+		</marquee>
+	{% endif %}
+
+	{% if p.award_count("scooter", v) > 2 %}
+		<marquee class="train train1" direction="right" scrollamount=10 width="100%">
+			<img alt=":#marseyscooter:" class="scooterimg" src="/e/marseyscooter.webp">
+		</marquee>
+	{% endif %}
+
+	{% if p.award_count("scooter", v) > 3 %}
+		<marquee class="train train2" direction="left" scrollamount=10 width="100%">
+			<img alt=":#marseyscooter:" class="scooterimg mirrored" src="/e/marseyscooter.webp">
+		</marquee>
+	{% endif %}
+{% endif %}
+
+{% if p.award_count("tilt", v) %}
+	<style>
+		@keyframes post-tilt {
+			0% {transform: rotate(0deg);}
+			25% {transform: rotate({{p.award_count("tilt", v)}}deg);}
+			75% {transform: rotate(-{{p.award_count("tilt", v)}}deg);}
+			100% {transform: rotate(0deg);}
+		}
+		@media (max-width: 720px) {
+			@keyframes post-tilt {
+				0% {transform: rotate(0deg);}
+				25% {transform: rotate({{p.award_count("tilt", v)/4}}deg);}
+				75% {transform: rotate(-{{p.award_count("tilt", v)/4}}deg);}
+				100% {transform: rotate(0deg);}
+			}
+		}
+		#post-root {
+			animation-name: post-tilt;
+			animation-duration: 60s !important;
+			animation-iteration-count: infinite !important;
+			animation-direction: alternate !important;
+			animation-timing-function: linear !important;
+		}
+	</style>
+{% endif %}
+
+{% if p.award_count("confetti", v) %}
+	<div id="post-award-confetti"></div>
+{% endif %}
+
+{% if p.award_count("firework", v) %}
+	<script defer src="{{'js/fireworks.js' | asset}}"></script>
+	{% for i in range(4) %}
+		{% if p.award_count("firework", v) > i %}
+			<div class="firework">
+				<img src="">
+			</div>
+		{% endif %}
+	{% endfor %}
+{% endif %}
+
+{% if p.award_count("ricardo", v) %}
+	<script defer src="{{'js/ricardo.js' | asset}}"></script>
+	{% for i in range(3) %}
+		{% if p.award_count("ricardo", v) > i %}
+			<div id="ricardo{{i+1}}" class="ricardo">
+				<img src="/i/ricardo{{i+1}}.webp">
+			</div>
+		{% endif %}
+	{% endfor %}
+{% endif %}
+
+{% if p.award_count("shit", v) %}
+	<script defer src="{{'js/critters.js' | asset}}"></script>
+	<script defer src="{{'js/bugs.js' | asset}}"></script>
+{% endif %}
+
+{% if p.award_count("fireflies", v) %}
+	<script defer src="{{'js/critters.js' | asset}}"></script>
+	<script defer src="{{'js/fireflies.js' | asset}}"></script>
+{% endif %}
+
