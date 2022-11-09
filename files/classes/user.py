@@ -222,7 +222,6 @@ class User(Base):
 		try:
 			return self.hats_equipped
 		except:
-			print("except")
 			return g.db.query(Hat).filter_by(user_id=self.id, equipped=True).all()
 
 	@property
