@@ -37,7 +37,7 @@ class Badge(Base):
 	created_utc = Column(Integer)
 
 	user = relationship("User", back_populates="badges")
-	badge = relationship("BadgeDef", primaryjoin="Badge.badge_id == BadgeDef.id")
+	badge = relationship("BadgeDef", primaryjoin="Badge.badge_id == BadgeDef.id", lazy="joined", innerjoin=True)
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:
