@@ -75,6 +75,8 @@ function ToggleReplyBox(id) {
 		}
 		textarea.focus()
 	}
+
+	autoExpand(textarea);
 }
 
 function toggleEdit(id){
