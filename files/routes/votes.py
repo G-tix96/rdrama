@@ -141,15 +141,19 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if SITE_NAME == 'rDrama':
 		target.realupvotes = get_vote_count(0, True) # first arg is ignored here
 
-		if target.author.progressivestack or (cls == Submission and (target.domain.endswith('.win') or target.domain in BOOSTED_SITES or len(target.body) > 5000 or target.sub == 'masterbaiters')):
-			target.realupvotes *= 2
-		elif cls == Submission and len(target.body) < 5000:
-			multipler = len(target.body)/5000 + 1
-			target.realupvotes *= multipler
+		mul = 1
+		if target.author.progressivestack:
+			mul = 2
+		elif cls == Submission:
+			if target.domain.endswith('.win') or target.domain in BOOSTED_SITES or target.sub in BOOSTED_HOLES:
+				mul = 2
+			elif target.sub:
+				mul = 0.7
+			elif len(target.body) > 2000:
+				mul = 1 + len(target.body)/5000
 
-		if cls == Submission and target.sub and target.sub not in ('space', 'istory', 'dinos', 'furry', 'anime', 'slackernews', 'gaybros', 'againsthateholes', 'femboy', 'masterbaiters'):
-			target.realupvotes *= 0.7
-
+		mul = min(mul, 2)
+		target.realupvotes *= mul
 
 	g.db.add(target)
 	return "", 204

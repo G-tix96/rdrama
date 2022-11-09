@@ -1604,6 +1604,15 @@ BOOSTED_SITES = {
 	'tattle.life',
 }
 
+BOOSTED_HOLES = {
+	'furry',
+	'femboy',
+	'anime',
+	'gaybros',
+	'againsthateholes',
+	'masterbaiters',
+}
+
 IMAGE_FORMATS = ['png','gif','jpg','jpeg','webp']
 VIDEO_FORMATS = ['mp4','webm','mov','avi','mkv','flv','m4v','3gp']
 AUDIO_FORMATS = ['mp3','wav','ogg','aac','m4a','flac']
