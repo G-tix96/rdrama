@@ -841,9 +841,6 @@ def follow_user(username, v):
 	if target.id==v.id:
 		abort(400, "You can't follow yourself!")
 
-	if target.is_nofollow:
-		abort(403, "This user has disallowed other users from following them!")
-
 	if g.db.query(Follow).filter_by(user_id=v.id, target_id=target.id).one_or_none():
 		return {"message": f"@{target.username} has been followed!"}
 

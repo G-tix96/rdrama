@@ -120,7 +120,6 @@ def settings_personal_post(v):
 	updated = updated or update_flag("sigs_disabled", "sigs_disabled")
 	updated = updated or update_flag("over_18", "over_18")
 	updated = updated or update_flag("is_private", "private")
-	updated = updated or update_flag("is_nofollow", "nofollow")
 
 	if not updated and request.values.get("spider", v.spider) != v.spider and v.spider <= 1:
 		updated = True

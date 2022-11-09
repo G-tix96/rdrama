@@ -117,7 +117,6 @@ class User(Base):
 	defaultsortingcomments = Column(String, default="hot")
 	defaultsorting = Column(String, default="hot")
 	defaulttime = Column(String, default=DEFAULT_TIME_FILTER)
-	is_nofollow = Column(Boolean, default=False)
 	custom_filter_list = Column(String)
 	discord_id = Column(String)
 	original_username = Column(String)

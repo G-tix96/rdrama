@@ -17,7 +17,7 @@
 					<a class="card-title text-break stretched-link mb-0" href="{{u.url}}"><h5>@{{u.username}}</h5></a>
 
 					{% if v %}
-						{% if v.id!=u.id and not u.is_private and not u.is_nofollow %}
+						{% if v.id != u.id and not u.is_private %}
 						<div id="button-sub-{{u.id}}" style="z-index: 2" class="{% if u.has_follower(v) %}d-none{% endif %}"><button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/follow/{{u.username}}','button-sub-{{u.id}}','button-unsub-{{u.id}}','d-none')">Follow</button></div>
 
 						<div id="button-unsub-{{u.id}}" style="z-index: 2" class="{% if not u.has_follower(v) %} d-none{% endif %}"><button type="button" class="btn btn-secondary" onclick="postToastSwitch(this,'/unfollow/{{u.username}}','button-sub-{{u.id}}','button-unsub-{{u.id}}','d-none')">Unfollow</button></div>
