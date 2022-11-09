@@ -1600,6 +1600,8 @@ BOOSTED_SITES = {
 	'seal.cafe',
 	'lobste.rs',
 	'stacker.news',
+	'breitbart.com',
+	'tattle.life',
 }
 
 IMAGE_FORMATS = ['png','gif','jpg','jpeg','webp']
