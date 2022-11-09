@@ -2,9 +2,6 @@ from os import environ
 import re
 from copy import deepcopy
 from json import loads
-from files.__main__ import db_session
-from files.classes.sub import Sub
-from files.classes.marsey import Marsey
 from flask import request
 import tldextract
 from os import path
@@ -53,6 +50,8 @@ if PUSHER_ID != "blahblahblah":
 	PUSHER_ID_CSP = f" {PUSHER_ID}.pushnotifications.pusher.com"
 CONTENT_SECURITY_POLICY_DEFAULT = "script-src 'self' 'unsafe-inline' ajax.cloudflare.com; connect-src 'self'; object-src 'none';"
 CONTENT_SECURITY_POLICY_HOME = f"script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' tls-use1.fpapi.io api.fpjs.io{PUSHER_ID_CSP}; object-src 'none';"
+
+CLOUDFLARE_COOKIE_VALUE = "yes."
 
 if SITE == "localhost": SITE_FULL = 'http://' + SITE
 else: SITE_FULL = 'https://' + SITE
@@ -1407,33 +1406,9 @@ christian_emojis = [':#marseyjesus:',':#marseyimmaculate:',':#marseymothermary:'
 	':#marseycrucified:',':#chadjesus:',':#marseyandjesus:',':#marseyjesus2:',
 	':#marseyorthodoxsmug:',':#marseypastor:',':#marseypope:',]
 
-db = db_session()
-marseys_const = [x[0] for x in db.query(Marsey.name).filter(Marsey.submitter_id==None, Marsey.name!='chudsey').all()]
-marseys_const2 = marseys_const + ['chudsey','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','exclamationpoint','period','questionmark']
-
-marseys = db.query(Marsey).filter(Marsey.submitter_id==None).all()
-marsey_mappings = {}
-for marsey in marseys:
-	for tag in marsey.tags.split():
-		if tag in marsey_mappings:
-			marsey_mappings[tag].append(marsey.name)
-		else:
-			marsey_mappings[tag] = [marsey.name]
-db.close()
-
-SNAPPY_MARSEYS = []
-if SITE_NAME != 'PCM':
-	SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
-
-SNAPPY_QUOTES = []
-if path.isfile(f'snappy_{SITE_NAME}.txt'):
-	with open(f'snappy_{SITE_NAME}.txt', "r", encoding="utf-8") as f:
-		SNAPPY_QUOTES = f.read().split("\n{[para]}\n")
-
 ADMIGGER_THREADS = {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD, SNAPPY_THREAD}
 
 proxies = {"http":PROXY_URL,"https":PROXY_URL}
-
 
 approved_embed_hosts = {
 	SITE,

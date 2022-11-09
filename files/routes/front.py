@@ -9,9 +9,6 @@ from files.helpers.awards import award_timers
 @app.get("/")
 @app.get("/h/<sub>")
 @app.get("/s/<sub>")
-@app.get("/logged_out")
-@app.get("/logged_out/h/<sub>")
-@app.get("/logged_out/s/<sub>")
 @limiter.limit("3/second;30/minute;5000/hour;10000/day")
 @auth_desired_with_logingate
 def front_all(v, sub=None, subdomain=None):
@@ -22,9 +19,9 @@ def front_all(v, sub=None, subdomain=None):
 	if SITE == 'watchpeopledie.co':
 		if v and not v.admin_level and not v.id <= 9: # security: don't auto login admins or bots
 			hash = generate_hash(f'{v.id}+{now.year}+{now.month}+{now.day}+{now.hour}+WPDusermigration')
-			return redirect(f'https://watchpeopledie.tv/logged_out?user={v.id}&code={hash}', 301)
+			return redirect(f'https://watchpeopledie.tv/?user={v.id}&code={hash}', 301)
 		else:
-			return redirect('https://watchpeopledie.tv/logged_out', 301)
+			return redirect('https://watchpeopledie.tv/', 301)
 	elif SITE == 'watchpeopledie.tv' and not v: # security: don't try to login people into accounts more than once
 		req_user = request.values.get('user')
 		req_code = request.values.get('code')
@@ -37,8 +34,7 @@ def front_all(v, sub=None, subdomain=None):
 				else:
 					if validate_hash(f'{user.id}+{now.year}+{now.month}+{now.day}+{now.hour}+WPDusermigration', req_code):
 						on_login(user)
-						return redirect('/')
-			return redirect('/logged_out')
+			return redirect('/')
 	#### WPD TEMP #### end special front logic
 	if sub:
 		sub = sub.strip().lower()

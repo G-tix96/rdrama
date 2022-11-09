@@ -28,10 +28,6 @@ WORDLE_COLOR_MAPPINGS = {-1: "🟥", 0: "🟨", 1: "🟩"}
 @app.get("/post/<pid>/<anything>/<cid>")
 @app.get("/h/<sub>/comment/<cid>")
 @app.get("/h/<sub>/post/<pid>/<anything>/<cid>")
-@app.get("/logged_out/comment/<cid>")
-@app.get("/logged_out/post/<pid>/<anything>/<cid>")
-@app.get("/logged_out/h/<sub>/comment/<cid>")
-@app.get("/logged_out/h/<sub>/post/<pid>/<anything>/<cid>")
 @auth_desired_with_logingate
 def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	comment = get_comment(cid, v=v)

@@ -478,7 +478,7 @@ def change_settings(v, setting):
 @app.post("/admin/clear_cloudflare_cache")
 @admin_level_required(PERMS['SITE_CACHE_PURGE_CDN'])
 def clear_cloudflare_cache(v):
-	if not cloudflare.clear_cloudflare_cache():
+	if not cloudflare.clear_entire_cache():
 		abort(400, 'Failed to clear cloudflare cache!')
 	ma = ModAction(
 		kind="clear_cloudflare_cache",
@@ -1150,7 +1150,7 @@ def remove_post(post_id, v):
 
 	v.coins += 1
 	g.db.add(v)
-	cloudflare.purge_files_in_cache(f"https://{SITE}/logged_out")
+	cloudflare.purge_files_in_cache(f"https://{SITE}/")
 	return {"message": "Post removed!"}
 
 

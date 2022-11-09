@@ -1,3 +1,7 @@
+# import classes then...
+from files.classes.sub import Sub
+
+# import routes
 from .admin import *
 from .comments import *
 from .errors import *

@@ -2,6 +2,7 @@ from sqlalchemy.orm import deferred, aliased
 from sqlalchemy.sql import func
 from secrets import token_hex
 import pyotp
+from files.classes.sub import Sub
 from files.helpers.media import *
 from files.helpers.const import *
 from files.classes.casino_game import Casino_Game

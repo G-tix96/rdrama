@@ -666,7 +666,6 @@ def visitors(v):
 
 @app.get("/@<username>")
 @app.get("/@<username>.json")
-@app.get("/logged_out/@<username>")
 @auth_desired_with_logingate
 def u_username(username, v=None):
 	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
@@ -747,7 +746,6 @@ def u_username(username, v=None):
 
 @app.get("/@<username>/comments")
 @app.get("/@<username>/comments.json")
-@app.get("/logged_out/@<username>/comments")
 @auth_desired_with_logingate
 def u_username_comments(username, v=None):
 	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
@@ -915,9 +913,6 @@ def remove_follow(username, v):
 @app.get("/pp/<id>")
 @app.get("/uid/<id>/pic")
 @app.get("/uid/<id>/pic/profile")
-@app.get("/logged_out/pp/<id>")
-@app.get("/logged_out/uid/<id>/pic")
-@app.get("/logged_out/uid/<id>/pic/profile")
 @cache.memoize(timeout=86400)
 @limiter.exempt
 def user_profile_uid(id):

@@ -1,4 +1,4 @@
-from .const import marsey_mappings
+from .sanitize import marsey_mappings
 from random import choice
 
 def marsify(text):

@@ -5,14 +5,27 @@ from bleach.css_sanitizer import CSSSanitizer
 from bleach.linkifier import LinkifyFilter
 from functools import partial
 from .get import *
-from os import path, environ
+from os import path
 import re
 from mistletoe import markdown
-from json import loads, dump
 from random import random, choice
 import signal
-import time
-import requests
+from files.__main__ import db_session
+from files.classes.marsey import Marsey
+
+db = db_session()
+marseys_const = [x[0] for x in db.query(Marsey.name).filter(Marsey.submitter_id==None, Marsey.name!='chudsey').all()]
+marseys_const2 = marseys_const + ['chudsey','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','exclamationpoint','period','questionmark']
+
+marseys = db.query(Marsey).filter(Marsey.submitter_id==None).all()
+marsey_mappings = {}
+for marsey in marseys:
+	for tag in marsey.tags.split():
+		if tag in marsey_mappings:
+			marsey_mappings[tag].append(marsey.name)
+		else:
+			marsey_mappings[tag] = [marsey.name]
+db.close()
 
 TLDS = ( # Original gTLDs and ccTLDs
 	'ac','ad','ae','aero','af','ag','ai','al','am','an','ao','aq','ar','arpa','as','asia','at',

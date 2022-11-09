@@ -130,10 +130,6 @@ def submit_get(v, sub=None):
 @app.get("/post/<pid>/<anything>")
 @app.get("/h/<sub>/post/<pid>")
 @app.get("/h/<sub>/post/<pid>/<anything>")
-@app.get("/logged_out/post/<pid>")
-@app.get("/logged_out/post/<pid>/<anything>")
-@app.get("/logged_out/h/<sub>/post/<pid>")
-@app.get("/logged_out/h/<sub>/post/<pid>/<anything>")
 @auth_desired_with_logingate
 def post_id(pid, anything=None, v=None, sub=None):
 	post = get_post(pid, v=v)

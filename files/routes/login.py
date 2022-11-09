@@ -12,9 +12,8 @@ import secrets
 @auth_desired
 def login_get(v):
 
-	redir = request.values.get("redirect", "/")
+	redir = request.values.get("redirect", "/").strip().rstrip('?')
 	if redir:
-		redir = redir.replace("/logged_out", "").strip().rstrip('?')
 		if not is_site_url(redir): redir = "/"
 		if v: return redirect(redir)
 
@@ -149,9 +148,8 @@ def login_post():
 	g.login_failed = False
 	on_login(account)
 
-	redir = request.values.get("redirect")
+	redir = request.values.get("redirect", "").strip().rstrip('?')
 	if redir:
-		redir = redir.replace("/logged_out", "").strip().rstrip('?')
 		if is_site_url(redir): return redirect(redir)
 	return redirect('/')
 
@@ -229,9 +227,8 @@ def sign_up_get(v):
 
 	error = request.values.get("error")
 
-	redir = request.values.get("redirect", "/")
+	redir = request.values.get("redirect", "/").strip().rstrip('?')
 	if redir:
-		redir = redir.replace("/logged_out", "").strip().rstrip('?')
 		if not is_site_url(redir): redir = "/"
 
 	return render_template("sign_up.html",
@@ -388,9 +385,8 @@ def sign_up_post(v):
 	elif CARP_ID:
 		send_notification(CARP_ID, f"A new user - @{new_user.username} - has signed up!")
 
-	redir = request.values.get("redirect")
+	redir = request.values.get("redirect", "").strip().rstrip('?')
 	if redir:
-		redir = redir.replace("/logged_out", "").strip().rstrip('?')
 		if is_site_url(redir): return redirect(redir)
 	return redirect('/')
 

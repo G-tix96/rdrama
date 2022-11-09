@@ -1,14 +1,16 @@
 import json
 from typing import List, Union, Optional
-from files.helpers.const import *
+from files.helpers.const import CF_HEADERS, CF_ZONE
 import requests
 
 CLOUDFLARE_API_URL = "https://api.cloudflare.com/client/v4"
 CLOUDFLARE_REQUEST_TIMEOUT_SECS = 5
 DEFAULT_CLOUDFLARE_ZONE = 'blahblahblah'
 
+CLOUDFLARE_AVAILABLE = CF_ZONE and CF_ZONE != DEFAULT_CLOUDFLARE_ZONE
+
 def _request_from_cloudflare(url:str, method:str, post_data_str) -> bool:
-	if CF_ZONE == DEFAULT_CLOUDFLARE_ZONE: return False
+	if not CLOUDFLARE_AVAILABLE: return False
 	try:
 		res = str(requests.request(method, f"{CLOUDFLARE_API_URL}/zones/{CF_ZONE}/{url}", headers=CF_HEADERS, data=post_data_str, timeout=CLOUDFLARE_REQUEST_TIMEOUT_SECS))
 	except:
@@ -26,11 +28,11 @@ def get_security_level() -> Optional[str]:
 def set_security_level(under_attack="high") -> bool:
 	return _request_from_cloudflare("settings/security_level", "PATCH", f'{{"value":"{under_attack}"}}')
 
-def clear_cloudflare_cache() -> bool:
+def clear_entire_cache() -> bool:
 	return _request_from_cloudflare("purge_cache", "POST", '{"purge_everything":true}')
 
 def purge_files_in_cache(files:Union[List[str],str]) -> bool:
-	if CF_ZONE == DEFAULT_CLOUDFLARE_ZONE: return False
+	if not CLOUDFLARE_AVAILABLE: return False
 	if isinstance(files, str):
 		files = [files]
 	post_data = {"files": files}

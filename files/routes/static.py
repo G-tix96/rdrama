@@ -401,7 +401,6 @@ if not os.path.exists(f'files/templates/donate_{SITE_NAME}.html'):
 	copyfile(f'files/templates/donate_rDrama.html', f'files/templates/donate_{SITE_NAME}.html')
 
 @app.get('/donate')
-@app.get('/logged_out/donate')
 @auth_desired_with_logingate
 def donate(v):
 	return render_template(f'donate_{SITE_NAME}.html', v=v)
@@ -507,7 +506,6 @@ if SITE == 'pcmemes.net':
 
 
 	@app.get('/live')
-	@app.get('/logged_out/live')
 	@auth_desired_with_logingate
 	def live_list(v):
 		live = cache.get('live') or []
