@@ -55,25 +55,25 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 @app.get("/@<username>/upvoters/<uid>/posts")
 @auth_required
 def upvoters_posts(v, username, uid):
-	return upvoters_downvoters(v, username, uid, Submission, Vote, 1, "voted_posts.html", None)
+	return upvoters_downvoters(v, username, uid, Submission, Vote, 1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/upvoters/<uid>/comments")
 @auth_required
 def upvoters_comments(v, username, uid):
-	return upvoters_downvoters(v, username, uid, Comment, CommentVote, 1, "voted_comments.html", True)
+	return upvoters_downvoters(v, username, uid, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
 
 
 @app.get("/@<username>/downvoters/<uid>/posts")
 @auth_required
 def downvoters_posts(v, username, uid):
-	return upvoters_downvoters(v, username, uid, Submission, Vote, -1, "voted_posts.html", None)
+	return upvoters_downvoters(v, username, uid, Submission, Vote, -1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/downvoters/<uid>/comments")
 @auth_required
 def downvoters_comments(v, username, uid):
-	return upvoters_downvoters(v, username, uid, Comment, CommentVote, -1, "voted_comments.html", True)
+	return upvoters_downvoters(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
 
 def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v, include_shadowbanned=False)
@@ -106,25 +106,25 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 @app.get("/@<username>/upvoting/<uid>/posts")
 @auth_required
 def upvoting_posts(v, username, uid):
-	return upvoting_downvoting(v, username, uid, Submission, Vote, 1, "voted_posts.html", None)
+	return upvoting_downvoting(v, username, uid, Submission, Vote, 1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/upvoting/<uid>/comments")
 @auth_required
 def upvoting_comments(v, username, uid):
-	return upvoting_downvoting(v, username, uid, Comment, CommentVote, 1, "voted_comments.html", True)
+	return upvoting_downvoting(v, username, uid, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
 
 
 @app.get("/@<username>/downvoting/<uid>/posts")
 @auth_required
 def downvoting_posts(v, username, uid):
-	return upvoting_downvoting(v, username, uid, Submission, Vote, -1, "voted_posts.html", None)
+	return upvoting_downvoting(v, username, uid, Submission, Vote, -1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/downvoting/<uid>/comments")
 @auth_required
 def downvoting_comments(v, username, uid):
-	return upvoting_downvoting(v, username, uid, Comment, CommentVote, -1, "voted_comments.html", True)
+	return upvoting_downvoting(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
 
 def user_voted(v, username, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v, include_shadowbanned=False)
@@ -158,13 +158,13 @@ def user_voted(v, username, cls, vote_cls, vote_dir, template, standalone):
 @app.get("/@<username>/upvoted/posts")
 @auth_required
 def user_upvoted_posts(v, username):
-	return user_voted(v, username, Submission, Vote, 1, "voted_posts.html", None)
+	return user_voted(v, username, Submission, Vote, 1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/upvoted/comments")
 @auth_required
 def user_upvoted_comments(v, username):
-	return user_voted(v, username, Comment, CommentVote, 1, "voted_comments.html", True)
+	return user_voted(v, username, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
 
 
 @app.get("/grassed")
@@ -228,7 +228,7 @@ def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 
 	name2 = f'Who @{username} {simps_haters}' if is_who_simps_hates else f'@{username} biggest {simps_haters}'
 
-	return render_template("voters.html", v=v, users=users[:PAGE_SIZE], pos=pos, name=vote_name, name2=name2, total=total)
+	return render_template("userpage/voters.html", v=v, users=users[:PAGE_SIZE], pos=pos, name=vote_name, name2=name2, total=total)
 
 @app.get("/@<username>/upvoters")
 @auth_required
@@ -631,7 +631,7 @@ def followers(username, v):
 	users = g.db.query(Follow, User).join(Follow, Follow.target_id == u.id) \
 		.filter(Follow.user_id == User.id) \
 		.order_by(Follow.created_utc).all()
-	return render_template("followers.html", v=v, u=u, users=users)
+	return render_template("userpage/followers.html", v=v, u=u, users=users)
 
 @app.get("/@<username>/blockers")
 @auth_required
@@ -641,7 +641,7 @@ def blockers(username, v):
 	users = g.db.query(UserBlock, User).join(UserBlock, UserBlock.target_id == u.id) \
 		.filter(UserBlock.user_id == User.id) \
 		.order_by(UserBlock.created_utc).all()
-	return render_template("blockers.html", v=v, u=u, users=users)
+	return render_template("userpage/blockers.html", v=v, u=u, users=users)
 
 @app.get("/@<username>/following")
 @auth_required
@@ -653,7 +653,7 @@ def following(username, v):
 	users = g.db.query(User).join(Follow, Follow.user_id == u.id) \
 		.filter(Follow.target_id == User.id) \
 		.order_by(Follow.created_utc).all()
-	return render_template("following.html", v=v, u=u, users=users)
+	return render_template("userpage/following.html", v=v, u=u, users=users)
 
 @app.get("/views")
 @auth_required
@@ -661,7 +661,7 @@ def visitors(v):
 	if not v.viewers_recorded:
 		return render_template("errors/patron.html", v=v)
 	viewers=sorted(v.viewers, key = lambda x: x.last_view_utc, reverse=True)
-	return render_template("viewers.html", v=v, viewers=viewers)
+	return render_template("userpage/viewers.html", v=v, viewers=viewers)
 
 
 @app.get("/@<username>")
@@ -687,13 +687,13 @@ def u_username(username, v=None):
 	if not u.is_visible_to(v):
 		if g.is_api_or_xhr or request.path.endswith(".json"):
 			abort(403, "This userpage is private")
-		return render_template("userpage_private.html", u=u, v=v, is_following=is_following), 403
+		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
 	
 	if v and hasattr(u, 'is_blocking') and u.is_blocking:
 		if g.is_api_or_xhr or request.path.endswith(".json"):
 			abort(403, f"You are blocking @{u.username}.")
-		return render_template("userpage_blocking.html", u=u, v=v), 403
+		return render_template("userpage/blocking.html", u=u, v=v), 403
 
 
 	sort = request.values.get("sort", "new")
@@ -756,12 +756,12 @@ def u_username_comments(username, v=None):
 	if not u.is_visible_to(v):
 		if g.is_api_or_xhr or request.path.endswith(".json"):
 			abort(403, "This userpage is private")
-		return render_template("userpage_private.html", u=u, v=v, is_following=is_following), 403
+		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
 	if v and hasattr(u, 'is_blocking') and u.is_blocking:
 		if g.is_api_or_xhr or request.path.endswith(".json"):
 			abort(403, f"You are blocking @{u.username}.")
-		return render_template("userpage_blocking.html", u=u, v=v), 403
+		return render_template("userpage/blocking.html", u=u, v=v), 403
 
 	try: page = max(int(request.values.get("page", "1")), 1)
 	except: page = 1
@@ -801,7 +801,7 @@ def u_username_comments(username, v=None):
 	if (v and v.client) or request.path.endswith(".json"):
 		return {"data": [c.json for c in listing]}
 	
-	return render_template("userpage_comments.html", u=u, v=v, listing=listing, page=page, sort=sort, t=t,next_exists=next_exists, is_following=is_following, standalone=True)
+	return render_template("userpage/comments.html", u=u, v=v, listing=listing, page=page, sort=sort, t=t,next_exists=next_exists, is_following=is_following, standalone=True)
 
 
 @app.get("/@<username>/info")
@@ -969,7 +969,7 @@ def saved_comments(v, username):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
-	return get_saves_and_subscribes(v, "userpage_comments.html", CommentSaveRelationship, page, True)
+	return get_saves_and_subscribes(v, "userpage/comments.html", CommentSaveRelationship, page, True)
 
 @app.get("/@<username>/subscribed/posts")
 @auth_required
