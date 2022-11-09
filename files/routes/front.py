@@ -96,14 +96,14 @@ def front_all(v, sub=None, subdomain=None):
 
 @cache.memoize(timeout=86400)
 def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, sub=None, site=None, pins=True, holes=True):
-
 	posts = g.db.query(Submission)
 	
 	if v and v.hidevotedon:
-		voted = [x[0] for x in g.db.query(Vote.submission_id).filter_by(user_id=v.id).all()]
-		posts = posts.filter(Submission.id.notin_(voted))
+		posts = posts.outerjoin(Vote,
+					and_(Vote.submission_id == Submission.id, Vote.user_id == v.id)
+				).filter(Vote.submission_id == None)
 
-	if sub: posts = posts.filter_by(sub=sub.name)
+	if sub: posts = posts.filter(Submission.sub == sub.name)
 	elif v: posts = posts.filter(or_(Submission.sub == None, Submission.sub.notin_(v.all_blocks)))
 
 	if gt: posts = posts.filter(Submission.created_utc > gt)
@@ -112,11 +112,15 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 	if not gt and not lt:
 		posts = apply_time_filter(t, posts, Submission)
 
-	posts = posts.filter_by(is_banned=False, private=False, deleted_utc = 0)
+	posts = posts.filter(
+		Submission.is_banned == False,
+		Submission.private == False,
+		Submission.deleted_utc == 0,
+	)
 
 	if pins and not gt and not lt:
-		if sub: posts = posts.filter_by(hole_pinned=None)
-		else: posts = posts.filter_by(stickied=None)
+		if sub: posts = posts.filter(Submission.hole_pinned == None)
+		else: posts = posts.filter(Submission.stickied == None)
 
 	if not sub and not holes:
 		posts = posts.filter(or_(Submission.sub == None, Submission.sub == 'changelog'))
