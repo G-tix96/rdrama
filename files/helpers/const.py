@@ -48,7 +48,7 @@ KOFI_LINK = environ.get("KOFI_LINK", "").strip()
 PUSHER_ID_CSP = ""
 if PUSHER_ID != "blahblahblah":
 	PUSHER_ID_CSP = f" {PUSHER_ID}.pushnotifications.pusher.com"
-CONTENT_SECURITY_POLICY_DEFAULT = "script-src 'self' 'unsafe-inline' ajax.cloudflare.com; connect-src 'self'; object-src 'none';"
+CONTENT_SECURITY_POLICY_DEFAULT = "script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';"
 CONTENT_SECURITY_POLICY_HOME = f"script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' tls-use1.fpapi.io api.fpjs.io{PUSHER_ID_CSP}; object-src 'none';"
 
 CLOUDFLARE_COOKIE_VALUE = "yes."
