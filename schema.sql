@@ -938,7 +938,6 @@ CREATE TABLE public.users (
     mfa_secret character varying(32),
     is_private boolean DEFAULT false NOT NULL,
     unban_utc integer DEFAULT 0 NOT NULL,
-    is_nofollow boolean DEFAULT false NOT NULL,
     custom_filter_list character varying(1000) DEFAULT ''::character varying,
     discord_id character varying(64),
     stored_subscriber_count integer DEFAULT 0 NOT NULL,
