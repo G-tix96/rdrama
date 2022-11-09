@@ -173,7 +173,7 @@
 </nav>
 {% endif %}
 
-{% if PUSHER_ID != 'blahblahblah' and v %}
+{% if request.path == '/' and PUSHER_ID != 'blahblahblah' and v %}
 	<div class="d-none" id="strid">{{SITE}}{{v.id}}</div>
 	<div class="d-none" id="pusherid">{{PUSHER_ID}}</div>
 	<script defer src="{{'js/pusher.js' | asset}}"></script>
@@ -225,7 +225,7 @@
 	</style>
 {% endif %}
 
-{% if v and FP %}
+{% if request.path == '/' and v and FP %}
 	{% if not v.fp %}
 		<script>
 			function fp(fp) {
