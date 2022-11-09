@@ -770,7 +770,7 @@ def submit_post(v, sub=None):
 	
 	if embed and len(embed) > 1500: embed = None
 
-	ghost = request.values.get("ghost")
+	ghost = (request.values.get("ghost") == "on")
 
 	if embed: embed = embed.strip()
 
