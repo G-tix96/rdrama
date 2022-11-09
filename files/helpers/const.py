@@ -1615,6 +1615,7 @@ BOOSTED_HOLES = {
 	'gaybros',
 	'againsthateholes',
 	'masterbaiters',
+	'changelog',
 }
 
 BOOSTED_USERS = {
