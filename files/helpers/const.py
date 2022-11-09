@@ -942,6 +942,16 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False
 	},
+	"agendaposter": {
+		"kind": "agendaposter",
+		"title": "Chud",
+		"description": "Chuds the recipient for 24 hours.",
+		"icon": "fas fa-snooze",
+		"color": "text-purple",
+		"price": 1000,
+		"deflectable": True,
+		"cosmetic": False
+	},
 	"offsitementions": {
 		"kind": "offsitementions",
 		"title": "Y'all Seein' Eye",
@@ -1039,16 +1049,6 @@ AWARDS = {
 		"icon": "fas fa-spider",
 		"color": "text-brown",
 		"price": 2000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"agendaposter": {
-		"kind": "agendaposter",
-		"title": "Chud",
-		"description": "Chuds the recipient for 24 hours.",
-		"icon": "fas fa-snooze",
-		"color": "text-purple",
-		"price": 2500,
 		"deflectable": True,
 		"cosmetic": False
 	},
