@@ -167,6 +167,9 @@ def award_thing(v, thing_type, id):
 	if kind == 'marsify' and author.marsify == 1:
 		abort(403, "User is already permanently marsified!")
 
+	if thing.ghost and not AWARDS[kind]['ghost']:
+		abort(403, "This kind of award can't be used on ghost posts.")
+
 	if v.id != author.id:
 		safe_username = "👻" if thing.ghost else f"@{author.username}"
 		
@@ -264,7 +267,6 @@ def award_thing(v, thing_type, id):
 		
 		badge_grant(user=author, badge_id=28)
 	elif kind == "flairlock":
-		if thing.ghost: abort(403)
 		new_name = note[:100].replace("𒐪","")
 		if not new_name and author.flairchanged:
 			author.flairchanged += 86400

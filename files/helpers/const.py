@@ -1244,6 +1244,12 @@ if SITE_NAME == 'PCM':
 	}
 	AWARDS.update(PCM_AWARDS)
 
+# Permit only cosmetics and pin/unpin on ghosted things.
+for award in AWARDS:
+	AWARDS[award]['ghost'] = AWARDS[award]['cosmetic']
+AWARDS['pin']['ghost'] = True
+AWARDS['unpin']['ghost'] = True
+
 # Disable unused awards, and site-specific award inclusion/exclusion.
 AWARDS_DISABLED = [
 	'ghost', 'nword', 'lootbox', # Generic
@@ -1317,7 +1323,6 @@ if not FEATURES['PROCOINS']:
 	AWARDS_DISABLED.append('benefactor')
 
 AWARDS2 = {x: AWARDS[x] for x in AWARDS if x not in AWARDS_DISABLED}
-AWARDS3 = {x: AWARDS2[x] for x in AWARDS2 if AWARDS2[x]['price'] <= 500}
 
 DOUBLE_XP_ENABLED = -1 # set to unixtime for when DXP begins, -1 to disable
 
