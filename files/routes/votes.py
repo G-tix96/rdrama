@@ -152,7 +152,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			elif len(target.body) > 2000:
 				mul = 1 + len(target.body)/5000
 
-		mul = min(mul, 2)
+		mul = max(mul, 2)
 		target.realupvotes *= mul
 
 	g.db.add(target)
