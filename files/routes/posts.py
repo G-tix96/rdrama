@@ -910,7 +910,6 @@ def submit_post(v, sub=None):
 	v.post_count = g.db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
 	g.db.add(v)
 
-	execute_pizza_autovote(v, post)
 	execute_lawlz_actions(v, post)
 
 	cache.delete_memoized(frontlist)

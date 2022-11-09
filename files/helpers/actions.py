@@ -444,22 +444,3 @@ def execute_lawlz_actions(v:User, p:Submission):
 	g.db.add(ma_1)
 	g.db.add(ma_2)
 	g.db.add(ma_3)
-
-def execute_pizza_autovote(v:User, target:Union[Submission, Comment]):
-	if v.id != PIZZASHILL_ID: return
-	if SITE_NAME != 'rDrama': return
-	votes = len(PIZZA_VOTERS)
-	for uid in PIZZA_VOTERS:
-		if isinstance(target, Submission):
-			autovote = Vote(user_id=uid, submission_id=target.id, vote_type=1)
-		elif isinstance(target, Comment):
-			autovote = CommentVote(user_id=uid, comment_id=target.id, vote_type=1)
-		else:
-			raise TypeError("Expected Submission or Comment")
-		autovote.created_utc += 1
-		g.db.add(autovote)
-	v.coins += votes
-	v.truescore += votes
-	g.db.add(v)
-	target.upvotes += votes
-	g.db.add(target)
