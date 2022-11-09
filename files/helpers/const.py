@@ -1616,6 +1616,7 @@ BOOSTED_HOLES = {
 
 BOOSTED_USERS = {
 	5800, #Impassionata
+	PIZZASHILL_ID,
 }
 
 IMAGE_FORMATS = ['png','gif','jpg','jpeg','webp']
