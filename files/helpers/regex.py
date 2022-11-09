@@ -123,6 +123,8 @@ def sub_matcher(match:re.Match, upper=False, replace_with:Union[dict[str, str], 
 		return match_str
 	else:
 		repl = replace_with[match_str.lower()]
+		if not isinstance(repl, str):
+			repl = random.choice(repl)
 		return repl if not upper or "<img" in repl else repl.upper()
 
 def sub_matcher_upper(match, replace_with:Union[dict[str, str], dict[str, List[str]]]=SLURS):
