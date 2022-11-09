@@ -4,95 +4,37 @@
 	{% set wholesome = '/e/marseywholesome.webp' %}
 {% endif %}
 
-{% if p.award_count("wholesome", v) %}
+{% for i in range(p.award_count("wholesome", v)) %}
 	{% if g.inferior_browser %}
-		{% for i in range(4) %}
-			{% if p.award_count("wholesome", v) > i %}
-				<div class="seal seal{{i+1}}" height="100%" width="100%">
-					<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
-				</div>
-			{% endif %}
-		{% endfor %}
+		<div class="seal seal{{i+1}}" height="100%" width="100%">
+			<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
+		</div>
 	{% else %}
-		<marquee class="seal" scrollamount=10 behavior="alternate" direction="up" height="100%" width="100%">
-			<marquee direction="right" scrollamount=10 behavior="alternate" height="100%" width="100%">
+		{% set seal_vertical = 'up' if (i % 2) == 0 else 'down' %}
+		{% set seal_horizontal = 'right' if i < 2 else 'left' %}
+		<marquee class="seal" scrollamount=10 behavior="alternate" direction="{{seal_vertical}}" height="100%">
+			<marquee direction="{{seal_horizontal}}" scrollamount=10 behavior="alternate" width="100%">
 				<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
 			</marquee>
 		</marquee>
-
-		{% if p.award_count("wholesome", v) > 1 %}
-			<marquee class="seal" scrollamount=10 behavior="alternate" direction="down" height="100%">
-				<marquee direction="right" scrollamount=10 behavior="alternate" width="100%">
-					<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
-				</marquee>
-			</marquee>
-		{% endif %}
-
-		{% if p.award_count("wholesome", v) > 2 %}
-			<marquee class="seal" scrollamount=10 behavior="alternate" direction="up" height="100%">
-				<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
-					<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
-				</marquee>
-			</marquee>
-		{% endif %}
-
-		{% if p.award_count("wholesome", v) > 3 %}
-			<marquee class="seal" scrollamount=10 behavior="alternate" direction="down" height="100%">
-				<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
-					<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
-				</marquee>
-			</marquee>
-		{% endif %}
 	{% endif %}
-{% endif %}
+{% endfor %}
 
-{% if p.award_count("train", v) %}
-	<marquee class="train train1" direction="left" scrollamount=10 width="100%">
-		<img alt=":#marseytrain:" class="trainimg mirrored" src="/e/marseytrain.webp">
+{% for i in range(p.award_count("train", v)) %}
+	{% set train_dir = 'left' if (i % 2) == 0 else 'right' %}
+	{% set train_mirror = ' mirrored' if (i % 2) == 0 else '' %}
+	<marquee class="train train{{i+1}}" direction="{{train_dir}}" scrollamount=10 width="100%">
+		<img alt=":#marseytrain:" class="trainimg{{train_mirror}}" src="/e/marseytrain.webp">
 	</marquee>
+{% endfor %}
 
-	{% if p.award_count("train", v) > 1 %}
-		<marquee class="train train2" direction="right" scrollamount=10 width="100%">
-			<img alt=":#marseytrain:" class="trainimg" src="/e/marseytrain.webp">
-		</marquee>
-	{% endif %}
-
-	{% if p.award_count("train", v) > 2 %}
-		<marquee class="train train3" direction="left" scrollamount=10 width="100%">
-			<img alt=":#marseytrain:" class="trainimg mirrored" src="/e/marseytrain.webp">
-		</marquee>
-	{% endif %}
-
-	{% if p.award_count("train", v) > 3 %}
-		<marquee class="train train4" direction="right" scrollamount=10 width="100%">
-			<img alt=":#marseytrain:" class="trainimg" src="/e/marseytrain.webp">
-		</marquee>
-	{% endif %}
-{% endif %}
-
-{% if p.award_count("scooter", v) %}
-	<marquee class="train train3" direction="right" scrollamount=10 width="100%">
-		<img alt=":#marseyscooter:" class="scooterimg" src="/e/marseyscooter.webp">
+{% for i in range(p.award_count("scooter", v)) %}
+	{% set scooter_dir = 'right' if (i % 2) == 0 else 'left' %}
+	{% set scooter_mirror = '' if (i % 2) == 0 else ' mirrored' %}
+	<marquee class="train train{{(i + 2) % 4 + 1}}" direction="{{scooter_dir}}" scrollamount=10 width="100%">
+		<img alt=":#marseyscooter:" class="scooterimg{{scooter_mirror}}" src="/e/marseyscooter.webp">
 	</marquee>
-
-	{% if p.award_count("scooter", v) > 1 %}
-		<marquee class="train train4" direction="left" scrollamount=10 width="100%">
-			<img alt=":#marseyscooter:" class="scooterimg mirrored" src="/e/marseyscooter.webp">
-		</marquee>
-	{% endif %}
-
-	{% if p.award_count("scooter", v) > 2 %}
-		<marquee class="train train1" direction="right" scrollamount=10 width="100%">
-			<img alt=":#marseyscooter:" class="scooterimg" src="/e/marseyscooter.webp">
-		</marquee>
-	{% endif %}
-
-	{% if p.award_count("scooter", v) > 3 %}
-		<marquee class="train train2" direction="left" scrollamount=10 width="100%">
-			<img alt=":#marseyscooter:" class="scooterimg mirrored" src="/e/marseyscooter.webp">
-		</marquee>
-	{% endif %}
-{% endif %}
+{% endfor %}
 
 {% if p.award_count("tilt", v) %}
 	<style>
@@ -126,23 +68,19 @@
 
 {% if p.award_count("firework", v) %}
 	<script defer src="{{'js/fireworks.js' | asset}}"></script>
-	{% for i in range(4) %}
-		{% if p.award_count("firework", v) > i %}
-			<div class="firework">
-				<img src="">
-			</div>
-		{% endif %}
+	{% for i in range(p.award_count("firework", v)) %}
+		<div class="firework">
+			<img src="">
+		</div>
 	{% endfor %}
 {% endif %}
 
 {% if p.award_count("ricardo", v) %}
 	<script defer src="{{'js/ricardo.js' | asset}}"></script>
-	{% for i in range(3) %}
-		{% if p.award_count("ricardo", v) > i %}
-			<div id="ricardo{{i+1}}" class="ricardo">
-				<img src="/i/ricardo{{i+1}}.webp">
-			</div>
-		{% endif %}
+	{% for i in range(p.award_count("ricardo", v)) %}
+		<div id="ricardo{{i+1}}" class="ricardo">
+			<img src="/i/ricardo{{i+1}}.webp">
+		</div>
 	{% endfor %}
 {% endif %}
 
