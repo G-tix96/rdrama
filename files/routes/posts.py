@@ -770,7 +770,7 @@ def submit_post(v, sub=None):
 	
 	if embed and len(embed) > 1500: embed = None
 
-	ghost = request.values.get("ghost") and v.charge_account('coins', 100)
+	ghost = request.values.get("ghost")
 
 	if embed: embed = embed.strip()
 
