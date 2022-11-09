@@ -104,7 +104,7 @@
 													<label class="custom-control-label" for="post-nsfw">+18</label>
 												</div>
 												<div class="custom-control custom-checkbox">
-													<input onchange='draft(this);' autocomplete="off" type="checkbox" class="custom-control-input" id="post-private" name="private" onchange="savetext()">
+													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-private" name="private" onchange="savetext()">
 													<label class="custom-control-label" for="post-private">Draft</label>
 												</div>
 
@@ -116,7 +116,7 @@
 												{%- endif %}
 
 												<div class="custom-control custom-checkbox mb-5">
-													<input onchange='draft(this);' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost">
+													<input onchange='ghost_toggle(this)' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost">
 													<label class="custom-control-label" for="post-ghost">Ghost thread</label>
 												</div>
 										</div>

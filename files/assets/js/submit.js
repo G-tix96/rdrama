@@ -153,8 +153,8 @@ function autoSuggestTitle()	{
 
 };
 
-function draft(t) {
-	const followers = document.getElementById("followers")
+function ghost_toggle(t) {
+	const followers = document.getElementById("post-notify")
 	if (t.checked == true) {
 		followers.checked = false;
 		followers.disabled = true;
