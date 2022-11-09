@@ -1614,6 +1614,10 @@ BOOSTED_HOLES = {
 	'masterbaiters',
 }
 
+BOOSTED_USERS = {
+	5800, #Impassionata
+}
+
 IMAGE_FORMATS = ['png','gif','jpg','jpeg','webp']
 VIDEO_FORMATS = ['mp4','webm','mov','avi','mkv','flv','m4v','3gp']
 AUDIO_FORMATS = ['mp3','wav','ogg','aac','m4a','flac']
