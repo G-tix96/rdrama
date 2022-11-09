@@ -428,7 +428,7 @@ def message2(v, username):
 	message = sanitize_raw_body(request.values.get("message"), False)
 	if not message: abort(400, "Message is empty!")
 	if 'linkedin.com' in message: abort(403, "This domain 'linkedin.com' is banned.")
-	if v.id != AEVANN_ID and ('discord.gg' in message or 'discord.com' in message or 'discordapp.com' in message):
+	if v.id != AEVANN_ID and ('discord.gg' in message or 'discord.com/invite/' in message or 'discordapp.com/invite/' in message):
 		abort(403, "Stop grooming!")
 
 	body_html = sanitize(message)
@@ -484,7 +484,7 @@ def messagereply(v):
 
 	if 'linkedin.com' in body: abort(403, "This domain 'linkedin.com' is banned")
 
-	if v.id != AEVANN_ID and ('discord.gg' in body or 'discord.com' in body or 'discordapp.com' in body):
+	if v.id != AEVANN_ID and ('discord.gg' in body or 'discord.com/invite/' in body or 'discordapp.com/invite/' in body):
 		abort(403, "Stop grooming!")
 
 	id = request.values.get("parent_id")
