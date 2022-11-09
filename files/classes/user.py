@@ -148,6 +148,10 @@ class User(Base):
 	referrals = relationship("User")
 	designed_hats = relationship("HatDef", primaryjoin="User.id==HatDef.author_id", back_populates="author")
 	owned_hats = relationship("Hat", back_populates="owners")
+	sub_mods = relationship("Mod", primaryjoin="User.id == Mod.user_id", lazy="raise")
+	sub_exiles = relationship("Exile", primaryjoin="User.id == Exile.user_id", lazy="raise")
+
+	_equipped_hats = None
 
 	def __init__(self, **kwargs):
 
@@ -216,9 +220,14 @@ class User(Base):
 		return len(self.designed_hats)
 
 	@property
-	@lazy
 	def equipped_hats(self):
-		return g.db.query(Hat).filter_by(user_id=self.id, equipped=True).all()
+		if self._equipped_hats is None:
+			self._equipped_hats = g.db.query(Hat).filter_by(user_id=self.id, equipped=True).all()
+		return self._equipped_hats
+
+	@equipped_hats.setter
+	def equipped_hats(self, hats):
+		self._equipped_hats = hats
 
 	@property
 	@lazy
@@ -294,11 +303,17 @@ class User(Base):
 	@lazy
 	def mods(self, sub):
 		if self.is_suspended_permanently or self.shadowbanned: return False
-		return bool(g.db.query(Mod.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
+		try:
+			return any(map(lambda x: x.sub == sub, self.sub_mods))
+		except:
+			return bool(g.db.query(Mod.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
 
 	@lazy
 	def exiled_from(self, sub):
-		return bool(g.db.query(Exile.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
+		try:
+			return any(map(lambda x: x.sub == sub, self.sub_exiles))
+		except:
+			return bool(g.db.query(Exile.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
 
 	@property
 	@lazy

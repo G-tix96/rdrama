@@ -163,7 +163,7 @@ def searchposts(v):
 	next_exists = (len(ids) > PAGE_SIZE)
 	ids = ids[:PAGE_SIZE]
 
-	posts = get_posts(ids, v=v)
+	posts = get_posts(ids, v=v, eager=True)
 
 	if v.client: return {"total":total, "data":[x.json for x in posts]}
 

@@ -44,7 +44,7 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	listing = listing[:PAGE_SIZE]
 
 	if cls == Submission:
-		listing = get_posts(listing, v=v)
+		listing = get_posts(listing, v=v, eager=True)
 	elif cls == Comment:
 		listing = get_comments(listing, v=v)
 	else:
@@ -95,7 +95,7 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	listing = listing[:PAGE_SIZE]
 	
 	if cls == Submission:
-		listing = get_posts(listing, v=v)
+		listing = get_posts(listing, v=v, eager=True)
 	elif cls == Comment:
 		listing = get_comments(listing, v=v)
 	else:
@@ -147,7 +147,7 @@ def user_voted(v, username, cls, vote_cls, vote_dir, template, standalone):
 	next_exists = len(listing) > PAGE_SIZE
 	listing = listing[:PAGE_SIZE]
 	if cls == Submission:
-		listing = get_posts(listing, v=v)
+		listing = get_posts(listing, v=v, eager=True)
 	elif cls == Comment:
 		listing = get_comments(listing, v=v)
 	else:
@@ -713,7 +713,7 @@ def u_username(username, v=None):
 			for p in sticky:
 				ids = [p.id] + ids
 
-	listing = get_posts(ids, v=v)
+	listing = get_posts(ids, v=v, eager=True)
 
 	if u.unban_utc:
 		if (v and v.client) or request.path.endswith(".json"):
@@ -947,7 +947,7 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 	next_exists = len(ids) > PAGE_SIZE
 	ids = ids[:PAGE_SIZE]
 	if cls is Submission:
-		listing = get_posts(ids, v=v)
+		listing = get_posts(ids, v=v, eager=True)
 	elif cls is Comment:
 		listing = get_comments(ids, v=v)
 	else:

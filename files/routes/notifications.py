@@ -151,7 +151,7 @@ def notifications_posts(v):
 
 	next_exists = (len(listing) > 25)
 	listing = listing[:25]
-	listing = get_posts(listing, v=v)
+	listing = get_posts(listing, v=v, eager=True)
 
 	for p in listing:
 		p.unread = p.created_utc > v.last_viewed_post_notifs
