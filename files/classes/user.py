@@ -147,10 +147,9 @@ class User(Base):
 	referrals = relationship("User")
 	designed_hats = relationship("HatDef", primaryjoin="User.id==HatDef.author_id", back_populates="author")
 	owned_hats = relationship("Hat", back_populates="owners")
+	hats_equipped = relationship("Hat", lazy="raise", viewonly=True)
 	sub_mods = relationship("Mod", primaryjoin="User.id == Mod.user_id", lazy="raise")
 	sub_exiles = relationship("Exile", primaryjoin="User.id == Exile.user_id", lazy="raise")
-
-	_equipped_hats = None
 
 	def __init__(self, **kwargs):
 
@@ -220,13 +219,11 @@ class User(Base):
 
 	@property
 	def equipped_hats(self):
-		if self._equipped_hats is None:
-			self._equipped_hats = g.db.query(Hat).filter_by(user_id=self.id, equipped=True).all()
-		return self._equipped_hats
-
-	@equipped_hats.setter
-	def equipped_hats(self, hats):
-		self._equipped_hats = hats
+		try:
+			return self.hats_equipped
+		except:
+			print("except")
+			return g.db.query(Hat).filter_by(user_id=self.id, equipped=True).all()
 
 	@property
 	@lazy

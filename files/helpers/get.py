@@ -177,7 +177,7 @@ def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False) -> Li
 	if eager:
 		query = query.options(
 			selectinload(Submission.author).options(
-				selectinload(User.owned_hats.and_(Hat.equipped == True)) \
+				selectinload(User.hats_equipped.and_(Hat.equipped == True)) \
 					.joinedload(Hat.hat_def, innerjoin=True),
 				selectinload(User.sub_mods),
 				selectinload(User.sub_exiles),
@@ -195,7 +195,6 @@ def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False) -> Li
 			output[i].voted = results[i][1] or 0
 			output[i].is_blocking = results[i][2] or 0
 			output[i].is_blocked = results[i][3] or 0
-			output[i].author.equipped_hats = output[i].author.owned_hats
 	else:
 		output = results
 
