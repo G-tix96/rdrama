@@ -47,7 +47,7 @@
 
 <div id="post-{{p.id}}" class="actual-post {% if p.unread %}unread{% else %}card{% endif %} {% if p.is_banned %} banned{% endif %}{% if p.deleted_utc %} deleted{% endif %}{% if p.stickied %} stickied{% endif %}{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}{% if p.over_18 %} nsfw{% endif %}">
 
-	<div class="d-flex flex-row-reverse flex-md-row flex-nowrap justify-content-end">
+	<div class="d-flex flex-row-reverse flex-md-row flex-nowrap" style="align-items:flex-start">
 		<div class="voting my-2 d-none d-md-flex pr-2">
 			{% if v and request.path.startswith('/@') and v.admin_level < PERMS['VIEW_VOTE_BUTTONS_ON_USER_PAGE'] %}
 				<div tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% else %}d-none{% endif %}"></div>
@@ -78,7 +78,7 @@
 		<div class="card-header bg-transparent border-0 d-flex flex-row flex-nowrap pl-2 pl-md-0 p-0 mr-md-2">
 
 			{% if not v_forbid_deleted %}
-			<div class="card-thumbnail">
+			<div class="card-thumbnail mt-3">
 				{% if p.club and not (v and (v.paid_dues or v.id == p.author_id)) %}
 					<img alt="post thumnail" loading="lazy" src="/e/marseyglow.webp" class="post-img">
 				{% elif not p.url %}
@@ -110,9 +110,10 @@
 		</div>
 		 
 		 
-		<div class="card-block text-left x-scroll-parent my-md-auto w-100">
+		<div class="card-block text-left x-scroll-parent w-100">
 
 			<div class="post-meta text-left x-scroll mb-md-2">
+			<div style="white-space:nowrap;width:0">
 				{% if p.sub %}
 					{% if not HOLE_STYLE_FLAIR -%}
 						<a class="mr-2" href='/h/{{p.sub}}'>/h/{{p.sub}}</a>
@@ -195,27 +196,29 @@
 				{% endif %}
 				<span class="ml-2">{{p.views}} thread views</span>
 			</div>
+			</div>
 
-			<h5 class="card-title post-title text-left w-lg-95 mb-0 pb-0 pb-md-1">
+			<h5 class="card-title post-title text-left w-lg-95 pb-0 pb-md-1">
 				<a id="{{p.id}}-title" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}" class="{% if p.sub %}sub{% endif %} stretched-link {% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter{% endif %}">
 				{% if p.club %}<span class="patron font-weight-bolder mr-1" style="background-color:red; font-size:12px; line-height:2;">{{CC}}</span>{% endif %}
 				{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2;">{{p.flair | safe}}</span>{% endif %}
 				{{p.realtitle(v) | safe}}
 			</a></h5>
-
-			<div class="post-actions mt-2 d-mob-none">
-				<ul class="list-inline text-right d-flex">
-						{% if p.realbody(v, True) %}
-							<button type="button" class="list-inline-item ml-2" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mx-0 text-expand-icon-{{p.id}}"></i></button>
-						{% endif %}
-						<a class="list-inline-item" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}">
-							<i class="fas fa-comment-dots mr-2"></i>{{p.comment_count}}
-							<span class="text-info d-none {{p.id}}-new-comments"></span>
-						</a>
-						{% include 'post_actions.html' %}
-			</ul>
-		</div>
 	</div>
+</div>
+
+<div class="post-actions d-mob-none">
+	<div class="d-flex" style="flex-basis:146px"></div>
+	<ul class="list-inline text-right d-flex">
+		{% if p.realbody(v, True) %}
+			<button type="button" class="list-inline-item ml-2" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mx-0 text-expand-icon-{{p.id}}"></i></button>
+		{% endif %}
+		<a class="list-inline-item" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}">
+			<i class="fas fa-comment-dots mr-2"></i>{{p.comment_count}}
+			<span class="text-info d-none {{p.id}}-new-comments"></span>
+		</a>
+		{% include 'post_actions.html' %}
+	</ul>
 </div>
 
 <div class="d-md-none mt-2">
