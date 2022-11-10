@@ -10,9 +10,12 @@
 	--sticky: #228822;
 }
 
-body {
-	background-image: url(/i/classic2.webp);
+.container {
 	background-color: var(--bgc) !important;
+}
+
+#frontpage .container, #thread .container {
+	background-image: url(/i/classic2.webp);
 }
 
 * {
