@@ -1,3 +1,4 @@
+from collections import defaultdict
 from typing import Callable, Iterable, List, Optional, Union
 
 from flask import *
@@ -6,6 +7,7 @@ from sqlalchemy.orm import joinedload, selectinload, Query
 
 from files.classes import Comment, CommentVote, Hat, Sub, Submission, User, UserBlock, Vote
 from files.helpers.const import AUTOJANNY_ID
+from files.helpers.sorting_and_time import sort_comment_results
 
 def sanitize_username(username:str) -> str:
 	if not username: return username
@@ -344,6 +346,79 @@ def get_comments_v_properties(v:User, include_shadowbanned=True, should_keep_fun
 		if not should_keep_func or should_keep_func(c[0]): output.append(comment)
 		else: dump.append(comment)
 	return (comments, output)
+
+
+def get_comment_trees_eager(
+		top_comment_ids:Iterable[int],
+		sort:str="old",
+		v:Optional[User]=None) -> List[Comment]:
+
+	if v:
+		votes = g.db.query(CommentVote).filter_by(user_id=v.id).subquery()
+		blocking = v.blocking.subquery()
+		blocked = v.blocked.subquery()
+
+		query = g.db.query(
+			Comment,
+			votes.c.vote_type,
+			blocking.c.target_id,
+			blocked.c.target_id,
+		).join(
+			votes, votes.c.comment_id==Comment.id, isouter=True
+		).join(
+			blocking,
+			blocking.c.target_id == Comment.author_id,
+			isouter=True
+		).join(
+			blocked,
+			blocked.c.user_id == Comment.author_id,
+			isouter=True
+		)
+	else:
+		query = g.db.query(Comment)
+
+	if v and v.can_see_shadowbanned:
+		query = query.join(Comment.author).filter(User.shadowbanned == None)
+
+	query = query.filter(Comment.top_comment_id.in_(top_comment_ids))
+	query = query.options(
+		selectinload(Comment.author).options(
+			selectinload(User.hats_equipped.and_(Hat.equipped == True)) \
+				.joinedload(Hat.hat_def, innerjoin=True),
+			selectinload(User.sub_mods),
+			selectinload(User.sub_exiles),
+		),
+		selectinload(Comment.flags),
+		selectinload(Comment.awards),
+		selectinload(Comment.options),
+	)
+	results = query.all()
+
+	if v:
+		comments = [c[0] for c in results]
+		for i in range(len(comments)):
+			comments[i].voted = results[i][1] or 0
+			comments[i].is_blocking = results[i][2] or 0
+			comments[i].is_blocked = results[i][3] or 0
+	else:
+		comments = results
+
+	comments_map = {}
+	comments_map_parent = defaultdict(lambda: [])
+	for c in comments:
+		c.replies2 = []
+		comments_map[c.id] = c
+		comments_map_parent[c.parent_comment_id].append(c)
+
+	for parent_id in comments_map_parent:
+		if parent_id is None: continue
+
+		comments_map_parent[parent_id] = sort_comment_results(
+			sort, comments_map_parent[parent_id])
+		comments_map[parent_id].replies2 = comments_map_parent[parent_id]
+
+	return [comments_map[tcid] for tcid in top_comment_ids]
+
 
 def get_sub_by_name(sub:str, v:Optional[User]=None, graceful=False) -> Optional[Sub]:
 	if not sub:

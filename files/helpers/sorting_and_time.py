@@ -48,6 +48,37 @@ def sort_objects(sort, objects, cls, include_shadowbanned=False):
 	else:
 		return objects.order_by(cls.downvotes - cls.upvotes, cls.created_utc.desc())
 
+# Presently designed around files.helpers.get.get_comment_trees_eager
+# Behavior should parallel that of sort_objects above. TODO: Unify someday?
+def sort_comment_results(sort, comments):
+	DESC = (2 << 30) - 1 # descending sorts, Y2038 problem, change before then
+	if sort == "hot":
+		ti = int(time.time()) + 3600
+		if SITE_NAME == 'rDrama': metric = lambda c: c.realupvotes
+		else: metric = lambda c: c.upvotes - c.downvotes
+
+		key_func = lambda c: (
+			-1000000*(metric(c) + 1)/(pow(((ti - c.created_utc)/1000), 1.23)),
+			DESC - c.created_utc,
+		)
+	elif sort == "new":
+		key_func = lambda c: DESC - c.created_utc
+	elif sort == "old":
+		key_func = lambda c: c.created_utc
+	elif sort == "controversial":
+		key_func = lambda c: (
+			(c.upvotes+1)/(c.downvotes+1) + (c.downvotes+1)/(c.upvotes+1),
+			DESC - c.downvotes,
+			DESC - c.created_utc,
+		)
+	elif sort == "bottom":
+		key_func = lambda c: (c.upvotes - c.downvotes, DESC - c.created_utc)
+	else:
+		key_func = lambda c: (c.downvotes - c.upvotes, DESC - c.created_utc)
+
+	key_func_stickied = lambda c: (c.stickied, key_func(c))
+	return sorted(comments, key=key_func_stickied)
+
 def make_age_string(compare:Optional[int]) -> str:
 	if not compare or compare < 1577865600: return ""
 	age = int(time.time()) - compare
