@@ -3519,7 +3519,13 @@ small, .small {
 	z-index: 2;
 	color: var(--muted);
 	font-size: 12px;
-	width: fit-content;
+	width: 100%;
+	overflow-x: scroll;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+.post-meta::-webkit-scrollbar {
+	display: none;
 }
 .sub-flair {
 	padding: 3px 5px 2px 5px;
@@ -3711,7 +3717,17 @@ small, .small {
 }
 .post-actions {
 	position: relative;
+	display: flex;
 }
+.post-actions .list-inline {
+	flex: none;
+}
+@media (max-width: 767.98px) {
+.post-actions .list-inline {
+	flex: auto;
+}
+}
+
 .post-actions a, .post-actions button {
 	color: var(--gray-100);
 	font-weight: 600;
