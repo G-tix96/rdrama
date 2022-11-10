@@ -453,6 +453,7 @@ INSERT INTO public.hat_defs VALUES (1012, 'Marsey Slain', 'You monster... what h
 INSERT INTO public.hat_defs VALUES (1016, 'Antlers', 'Be careful. I''ll shoot ya!', 2, 500, NULL, 1667531769);
 INSERT INTO public.hat_defs VALUES (712, 'Thursday The 20th', '20% off on every Thursday. 30% off on the 20th of every month. 50% off on Thurday the 20th!', 2, 500, NULL, 1663434472);
 
+
 INSERT INTO public.hat_defs VALUES (22, 'Southern Gentleman', 'Slaveowner? Fried chicken chain founder? You decide!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (23, 'Cowboy I', 'Make him wish he could quit you', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (24, 'Cowboy II', 'You''re my favorite deputy!', 2, 500, NULL, 1662167687);
@@ -1105,7 +1106,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1017, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1018, true);
 
 
 --
@@ -1424,6 +1425,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycarp2',2,'harm cutting selfharm cutter reaction carpathianflorist self animated',NULL),
 ('marseycarp3',2,'reaction fish carpathianflorist catfish',NULL),
 ('marseycarp4',2,'sicksadworld banhammer pin awards janny mod admin',1664034021),
+('marseycarp41',2,'carp suicide train rope',1668039193),
 ('marseycarpabusivewife',2,'carpathianflorist boobs sweater yesdear demeaning jannie fish',1665700295),
 ('marseycarpasian',2,'carpathianflorist fish azn racist hat paddy gook nip ching chong chink',NULL),
 ('marseycarpautism',2,'carpathianflorist special assburgers aspergers retarded janitor jannie',NULL),
