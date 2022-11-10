@@ -2884,6 +2884,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyvargfinnselfdefense',2,'bardfinn steve akens aikens penny verity oaken tranny train troon transgender transvestite black metal trve kvlt euronymous varg vikernes mayhem burzum child abuse kid beating stabbing bloody',NULL),
 ('marseyvargselfdefense',2,'vikernes euronymous mayhem burzum black metal norway norwegian stab knife kill murder',NULL),
 ('marseyvatnik',2,'russian alcoholic alcoholism',NULL),
+('marseyvault',2,'fallout vault boy mascot bethesda videogame',1668087230),
 ('marseyvaxmaxx',2,'mask coronavirus covid gigavax corona vaccine vaccination hazmat',NULL),
 ('marseyvaxxtroll',2,'halloween alive healthy glow zombie vaccine vaccinated vaccination',1666460515),
 ('marseyvelociraptor',2,'dinosaur velocimarsey extinct predator claws',NULL),
