@@ -76,7 +76,9 @@ def sort_comment_results(sort, comments):
 	else:
 		key_func = lambda c: (c.downvotes - c.upvotes, DESC - c.created_utc)
 
-	key_func_stickied = lambda c: (c.stickied, key_func(c))
+	key_func_stickied = lambda c: (
+		(c.stickied is None, c.stickied == '', c.stickied), # sort None last
+		key_func(c))
 	return sorted(comments, key=key_func_stickied)
 
 def make_age_string(compare:Optional[int]) -> str:
