@@ -261,6 +261,13 @@ class Comment(Base):
 		return data
 
 	@lazy
+	def total_poll_voted(self, v):
+		if v:
+			for o in self.options:
+				if o.voted(v): return True
+		return False
+
+	@lazy
 	def realbody(self, v):
 		if self.post and self.post.club and not (v and (v.paid_dues or v.id in [self.author_id, self.post.author_id] or (self.parent_comment and v.id == self.parent_comment.author_id))):
 			return f"<p>{CC} ONLY</p>"
@@ -319,8 +326,9 @@ class Comment(Base):
 			else:
 				body += f''' onchange="poll_vote_no_v()"'''
 
-			body += f'''><label class="custom-control-label" for="comment-{o.id}">{o.body_html} - 
-			<a href="/votes/comment/option/{o.id}"><span id="score-comment-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
+			body += f'''><label class="custom-control-label" for="comment-{o.id}">{o.body_html}<span class="presult-{self.id}'''
+			if not self.total_poll_voted(v): body += ' d-none'	
+			body += f'"> - <a href="/votes/comment/option/{o.id}"><span id="score-comment-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
 
 		if not self.ghost and self.author.show_sig(v):
 			body += f"<hr>{self.author.sig_html}"

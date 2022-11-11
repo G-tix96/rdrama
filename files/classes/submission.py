@@ -278,6 +278,13 @@ class Submission(Base):
 		return False
 
 	@lazy
+	def total_poll_voted(self, v):
+		if v:
+			for o in self.options:
+				if o.voted(v): return True
+		return False
+
+	@lazy
 	def realbody(self, v, listing=False):
 		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"<p>{CC} ONLY</p>"
 		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "[Deleted by user]"
@@ -338,8 +345,9 @@ class Submission(Base):
 				else:
 					body += f''' onchange="poll_vote_no_v()"'''
 
-				body += f'''><label class="custom-control-label" for="post-{o.id}">{o.body_html} - 
-				<a href="/votes/post/option/{o.id}"><span id="score-post-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
+				body += f'''><label class="custom-control-label" for="post-{o.id}">{o.body_html}<span class="presult-{self.id}'''
+				if not self.total_poll_voted(v): body += ' d-none'	
+				body += f'"> - <a href="/votes/post/option/{o.id}"><span id="score-post-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
 
 
 		if not listing and not self.ghost and self.author.show_sig(v):
