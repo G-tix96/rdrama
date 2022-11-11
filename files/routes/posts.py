@@ -777,7 +777,8 @@ def submit_post(v, sub=None):
 	if url and url.startswith(SITE_FULL):
 		url = url.split(SITE_FULL)[1]
 
-	if v.agendaposter == 1: sub = 'chudrama'
+	if SITE == 'rdrama.net' and v.agendaposter == 1:
+		sub = 'chudrama'
 
 	post = Submission(
 		private=bool(request.values.get("private","")),
