@@ -1080,7 +1080,7 @@ def get_post_title(v):
 	if not content_type or "text/html" not in content_type: abort(400)
 
 	# no you can't just parse html with reeeeeeeegex
-	match = html_title_regex.match(x.content)
+	match = html_title_regex.match(x.text)
 	if match and match.lastindex >= 1:
 		title = match.group(1)
 	
