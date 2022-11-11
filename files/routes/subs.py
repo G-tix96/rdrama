@@ -553,7 +553,8 @@ def sub_marsey(v, sub):
 @auth_required
 def subs(v):
 	subs = g.db.query(Sub, func.count(Submission.sub)).outerjoin(Submission, Sub.name == Submission.sub).group_by(Sub.name).order_by(func.count(Submission.sub).desc()).all()
-	return render_template('sub/subs.html', v=v, subs=subs)
+	total_users = g.db.query(User).count()
+	return render_template('sub/subs.html', v=v, subs=subs, total_users=total_users)
 
 @app.post("/hole_pin/<pid>")
 @is_not_permabanned

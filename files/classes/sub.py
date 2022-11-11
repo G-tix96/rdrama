@@ -26,6 +26,7 @@ class Sub(Base):
 
 	blocks = relationship("SubBlock", primaryjoin="SubBlock.sub==Sub.name")
 	followers = relationship("SubSubscription", primaryjoin="SubSubscription.sub==Sub.name")
+	joins = relationship("SubJoin", lazy="dynamic", primaryjoin="SubJoin.sub==Sub.name")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -54,8 +55,8 @@ class Sub(Base):
 
 	@property
 	@lazy
-	def subscription_num(self):
-		return self.subscriptions.count()
+	def join_num(self):
+		return self.joins.count()
 
 	@property
 	@lazy
