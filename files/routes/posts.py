@@ -764,14 +764,14 @@ def submit_post(v, sub=None):
 
 	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: return error(f"Submission body_html too long! (max {POST_BODY_HTML_LENGTH_LIMIT} characters)")
 
-	club = False
-	if FEATURES['COUNTRY_CLUB']:
-		club = bool(request.values.get("club",""))
-	
+	flag_notify = (request.values.get("notify", "on") == "on")
+	flag_new = request.values.get("new", False, bool)
+	flag_over_18 = request.values.get("over_18", False, bool)
+	flag_private = request.values.get("private", False, bool)
+	flag_club = (request.values.get("club", False, bool) and FEATURES['COUNTRY_CLUB'])
+	flag_ghost = request.values.get("ghost", False, bool)
+
 	if embed and len(embed) > 1500: embed = None
-
-	ghost = bool(request.values.get("ghost"))
-
 	if embed: embed = embed.strip()
 
 	if url and url.startswith(SITE_FULL):
@@ -781,12 +781,12 @@ def submit_post(v, sub=None):
 		sub = 'chudrama'
 
 	post = Submission(
-		private=bool(request.values.get("private","")),
-		notify=bool(request.values.get("notify","")),
-		club=club,
+		private=flag_private,
+		notify=flag_notify,
+		club=flag_club,
 		author_id=v.id,
-		over_18=bool(request.values.get("over_18","")),
-		new=bool(request.values.get("new","")),
+		over_18=flag_over_18,
+		new=flag_new,
 		app_id=v.client.application.id if v.client else None,
 		is_bot=(v.client is not None),
 		url=url,
@@ -796,7 +796,7 @@ def submit_post(v, sub=None):
 		title=title,
 		title_html=title_html,
 		sub=sub,
-		ghost=ghost
+		ghost=flag_ghost
 	)
 
 	g.db.add(post)
