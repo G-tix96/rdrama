@@ -100,8 +100,8 @@
 							<label class="custom-control-label terms" for="termsCheck">I accept the <a href="/sidebar">rules</a></label>
 						</div>
 
-						{% if hcaptcha != 'blahblahblah' %}
-							<div class="h-captcha" data-sitekey="{{hcaptcha}}" data-theme="dark"></div>
+						{% if turnstile != 'blahblahblah' %}
+							<div class="cf-turnstile" data-sitekey="{{turnstile}}"></div>
 						{% endif %}
 
 						<button type="submit" class="btn btn-primary login w-100 mt-3" id="register_button">Register</button>
@@ -130,8 +130,8 @@
 
 <script defer src="{{'js/signup.js' | asset}}"></script>
 
-{% if hcaptcha != 'blahblahblah' %}
-	<script defer src="{{'js/hcaptcha.js' | asset}}"></script>
+{% if turnstile != 'blahblahblah' %}
+	<script defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
 {% endif %}
 
 </body>

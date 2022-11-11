@@ -235,7 +235,7 @@ def sign_up_get(v):
 						formkey=formkey,
 						now=now,
 						ref_user=ref_user,
-						hcaptcha=HCAPTCHA_SITEKEY,
+						turnstile=TURNSTILE_SITEKEY,
 						error=error,
 						redirect=redir
 						)
@@ -307,15 +307,15 @@ def sign_up_post(v):
 	if existing_account:
 		return signup_error("An account with that username already exists.")
 
-	if HCAPTCHA_SITEKEY != 'blahblahblah':
-		token = request.values.get("h-captcha-response")
+	if TURNSTILE_SITEKEY != 'blahblahblah':
+		token = request.values.get("cf-turnstile-response")
 		if not token:
 			return signup_error("Unable to verify captcha [1].")
 
-		data = {"secret": HCAPTCHA_SECRET,
+		data = {"secret": TURNSTILE_SECRET,
 				"response": token,
-				"sitekey": HCAPTCHA_SITEKEY}
-		url = "https://hcaptcha.com/siteverify"
+				"sitekey": TURNSTILE_SITEKEY}
+		url = "https://challenges.cloudflare.com/turnstile/v0/siteverify"
 
 		x = requests.post(url, data=data, timeout=5)
 
