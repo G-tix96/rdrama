@@ -10,6 +10,7 @@ from .const import *
 import gevent
 import imagehash
 from shutil import copyfile
+from werkzeug.utils import secure_filename
 from files.classes.media import *
 from files.helpers.cloudflare import purge_files_in_cache
 from files.__main__ import db_session
@@ -36,7 +37,8 @@ def process_files():
 def process_audio(file):
 	name = f'/audio/{time.time()}'.replace('.','')
 
-	extension = file.filename.split('.')[-1].lower()
+	name_original = secure_filename(file.filename)
+	extension = name_original.split('.')[-1].lower()
 	name = name + '.' + extension
 
 	file.save(name)
@@ -93,7 +95,8 @@ def process_video(file):
 		os.remove(old)
 		abort(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for paypigs)")
 
-	extension = file.filename.split('.')[-1].lower()
+	name_original = secure_filename(file.filename)
+	extension = name_original.split('.')[-1].lower()
 	new = old + '.' + extension
 
 	if extension == 'webm':

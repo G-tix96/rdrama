@@ -181,9 +181,9 @@ function checkRepost() {
 			catch(e) {console.log(e)}
 
 			if (data && data["permalink"]) {
-				const permalink = data["permalink"]
+				const permalink = encodeURIComponent(data["permalink"])
 				if (permalink) {
-					system.innerHTML = `<span class='text-danger'>This is a repost of <a href=${permalink}>${permalink}</a></span>`;
+					system.innerHTML = `<span class="text-danger">This is a repost of <a href="${permalink}">${permalink}</a></span>`;
 				}
 			}
 		}
