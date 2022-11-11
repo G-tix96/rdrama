@@ -3686,6 +3686,9 @@ small, .small {
 .dropdown-actions .list-inline .list-inline-item:last-child {
 	margin-right: 0;
 }
+#searchparams-dropdown {
+	z-index: 1001;
+}
 .page-link {
 	font-weight: 900;
 	background-color: var(--dark);
