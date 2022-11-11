@@ -1083,7 +1083,6 @@ def get_post_title(v):
 	match = html_title_regex.match(x.text)
 	if match and match.lastindex >= 1:
 		title = match.group(1)
-	
-	if not title: abort(400)
+	else: abort(400)
 
 	return {"url": url, "title": title.string}
