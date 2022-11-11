@@ -808,6 +808,7 @@ class User(Base):
 				'post_count': 0 if self.shadowbanned and not (v and v.can_see_shadowbanned) else self.post_count,
 				'comment_count': 0 if self.shadowbanned and not (v and v.can_see_shadowbanned) else self.comment_count,
 				'badges': [x.path for x in self.badges],
+				'created_date': self.created_date,
 				}
 
 		return data

@@ -58,6 +58,7 @@ function popclick(e) {
 		popover.getElementsByClassName('pop-commentcount')[0].innerHTML = author["comment_count"]
 		popover.getElementsByClassName('pop-coins')[0].innerHTML = author["coins"]
 		popover.getElementsByClassName('pop-viewmore')[0].href = author["url"]
+		popover.getElementsByClassName('pop-created-date')[0].innerHTML = author["created_date"]
 	}, 5);
 }
 
