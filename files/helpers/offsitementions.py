@@ -42,6 +42,8 @@ def get_mentions(queries):
 		except: break
 
 		for i in data:
+			if 'bot' in i['author'].lower(): continue
+
 			if kind == 'comment':
 				body = i["body"].replace('>', '> ')
 				text = f'<blockquote><p>{body}</p></blockquote>'
