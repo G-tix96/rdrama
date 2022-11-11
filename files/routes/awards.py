@@ -158,7 +158,7 @@ def award_thing(v, thing_type, id):
 	author = thing.author
 	if author.shadowbanned: abort(404)
 
-	if SITE.startswith('rdrama.') and author.id in (PIZZASHILL_ID, CARP_ID):
+	if SITE == 'rdrama.net' and author.id in (PIZZASHILL_ID, CARP_ID):
 		abort(403, "This user is immune to awards.")
 
 	if kind == "benefactor" and author.id == v.id:

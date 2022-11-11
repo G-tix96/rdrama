@@ -455,7 +455,7 @@ TIERS_ID_TO_NAME = {
 		6: "Rich Bich"
 }
 
-if SITE.startswith('rdrama.'):
+if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
@@ -1379,7 +1379,7 @@ if len(SITE_NAME) > 5:
 if SITE != 'localhost':
 	REDDIT_NOTIFS_SITE.add(SITE)
 
-if SITE.startswith('rdrama.'):
+if SITE == 'rdrama.net':
 	REDDIT_NOTIFS_SITE.add('marsey')
 	REDDIT_NOTIFS_SITE.add('"r/Drama"')
 	REDDIT_NOTIFS_SITE.add('justice4darrell')

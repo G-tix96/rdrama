@@ -80,7 +80,7 @@ class Submission(Base):
 
 	@lazy
 	def can_see(self, v):
-		if not SITE.startswith('rdrama.'): return True
+		if SITE != 'rdrama.net': return True
 		if self.sub != 'chudrama': return True
 		if v:
 			if v.can_see_chudrama: return True
