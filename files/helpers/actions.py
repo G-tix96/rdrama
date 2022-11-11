@@ -24,7 +24,7 @@ def archiveorg(url):
 	requests.post('https://ghostarchive.org/archive2', data={"archive": url}, headers=headers, timeout=10, proxies=proxies)
 
 
-def archive_url(url):	
+def archive_url(url):
 	gevent.spawn(archiveorg, url)
 	if url.startswith('https://twitter.com/'):
 		url = url.replace('https://twitter.com/', 'https://nitter.lacontrevoie.fr/')
@@ -48,6 +48,8 @@ def execute_snappy(post, v):
 		else: body = "wow, a good lawlzpost for once!"
 	elif not SNAPPY_MARSEYS and not SNAPPY_QUOTES:
 		body = ""
+	elif post.club and random.random() < 0.33:
+		body = "Can you people come up with any ideas that don't involve committing federal crimes"
 	else:
 		if SNAPPY_MARSEYS and SNAPPY_QUOTES:
 			if random.random() < 0.5: SNAPPY_CHOICES = SNAPPY_MARSEYS
@@ -94,7 +96,7 @@ def execute_snappy(post, v):
 			rev = post.url.replace('https://old.reddit.com/u/', '')
 			rev = f"* [camas.unddit.com](https://camas.unddit.com/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
 		else: rev = ''
-		
+
 		body += f"Snapshots:\n\n{rev}* [archive.org](https://web.archive.org/{post.url})\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(post.url)})\n* [archive.ph](https://archive.ph/?url={quote(post.url)}&run=1) (click to archive)\n\n"
 		archive_url(post.url)
 
@@ -221,7 +223,7 @@ def execute_zozbot(c, level, parent_submission, v):
 
 	g.db.add(c3)
 	g.db.flush()
-		
+
 
 	c4 = Comment(author_id=ZOZBOT_ID,
 		parent_submission=parent_submission,
@@ -289,7 +291,7 @@ def execute_basedbot(c, level, body, parent_post, v):
 
 	body2 = f"@{basedguy.username}'s Based Count has increased by 1. Their Based Count is now {basedguy.basedcount}."
 	if basedguy.pills: body2 += f"\n\nPills: {basedguy.pills}"
-	
+
 	body_based_html = sanitize(body2)
 	c_based = Comment(author_id=BASEDBOT_ID,
 		parent_submission=parent_post.id,
@@ -370,7 +372,7 @@ def execute_blackjack(v, target, body, type):
 		elif type == 'flag':
 			extra_info = f"reports on {target.permalink}"
 
-		if notif: 
+		if notif:
 			g.db.add(notif)
 			g.db.flush()
 		elif extra_info: send_repeatable_notification(CARP_ID, f"Blackjack for {v.name}: {extra_info}")
@@ -394,7 +396,7 @@ def execute_antispam_comment_check(body:str, v:User):
 		threshold *= 3
 	elif v.age >= (60 * 60 * 24):
 		threshold *= 2
-	
+
 	if len(similar_comments) <= threshold: return
 	text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
 	send_repeatable_notification(v.id, text)
