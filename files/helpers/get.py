@@ -179,6 +179,7 @@ def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False) -> Li
 			selectinload(Submission.author).options(
 				selectinload(User.hats_equipped.and_(Hat.equipped == True)) \
 					.joinedload(Hat.hat_def, innerjoin=True),
+				selectinload(User.badges),
 				selectinload(User.sub_mods),
 				selectinload(User.sub_exiles),
 			),
