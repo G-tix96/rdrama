@@ -1354,6 +1354,7 @@ NOTIFIED_USERS = {
 	'clit': CARP_ID,
 	'kippy': KIPPY_ID,
 	'mccox': MCCOX_ID,
+	'lawlz': LAWLZ_ID,
 
 	'chiobu': CHIOBU_ID,
 	'donger': DONGER_ID,
