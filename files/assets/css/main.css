@@ -6337,3 +6337,7 @@ div.markdown {
 .fas.fa-ellipsis-h {
 	margin: 0 0.15rem 0 0 !important;
 }
+.pop-badges {
+    max-height: 20vh!important;
+    overflow: auto;
+}
