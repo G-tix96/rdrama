@@ -181,11 +181,7 @@ function smoothScrollTop()
 
 // Click navbar to scroll back to top
 (() => {
-	let toplisteners = [
-		document.querySelector('nav')
-	];
-
-	for (let i of toplisteners)
+	for (const i of document.querySelectorAll('nav'))
 	{
 		i.addEventListener('click', (e) => {
 			if (e.target.id === "navbar" ||
