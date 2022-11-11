@@ -147,9 +147,9 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		elif cls == Submission:
 			if target.domain.endswith('.win') or target.domain in BOOSTED_SITES or target.sub in BOOSTED_HOLES:
 				mul = 2
-			elif target.sub:
+			elif target.sub and target.sub not in ('space', 'istory', 'dino'):
 				mul = 0.7
-			elif len(target.body) > 2000:
+			elif not target.sub and len(target.body) > 2000:
 				mul = 1 + len(target.body)/5000
 
 		mul = min(mul, 2)
