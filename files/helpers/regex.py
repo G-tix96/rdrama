@@ -116,6 +116,8 @@ pronouns_regex = re.compile("([a-z]{1,5})/[a-z]{1,5}(/[a-z]{1,5})?", flags=re.A|
 
 knowledgebase_page_regex = re.compile("[a-zA-Z0-9_\-]+", flags=re.A)
 
+html_title_regex = re.compile("<title>(.{1,200})</title>", flags=re.A|re.I)
+
 def sub_matcher(match:re.Match, upper=False, replace_with:Union[dict[str, str], dict[str, List[str]]]=SLURS):
 	group_num = 0
 	match_str = match.group(group_num)

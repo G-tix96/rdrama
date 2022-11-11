@@ -1066,7 +1066,6 @@ extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
 @limiter.limit("3/minute", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def get_post_title(v):
-
 	url = request.values.get("url")
 	if not url or '\\' in url: abort(400)
 
@@ -1080,9 +1079,11 @@ def get_post_title(v):
 	content_type = x.headers.get("Content-Type")
 	if not content_type or "text/html" not in content_type: abort(400)
 
-	soup = BeautifulSoup(x.content, 'lxml')
-
-	title = soup.find('title')
+	# no you can't just parse html with reeeeeeeegex
+	match = html_title_regex.match(x.content)
+	if match and match.lastindex >= 1:
+		title = match.group(1)
+	
 	if not title: abort(400)
 
 	return {"url": url, "title": title.string}
