@@ -1343,6 +1343,7 @@ NOTIFIED_USERS = {
 	'carp': CARP_ID,
 	'idio3': IDIO_ID,
 	'idio ': IDIO_ID,
+	'telegram ': IDIO_ID,
 	'the_homocracy': HOMO_ID,
 	'schizocel': SCHIZO_ID,
 	'scitzocel': SCHIZO_ID,
