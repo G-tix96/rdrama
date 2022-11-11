@@ -474,7 +474,7 @@ class User(Base):
 	def userpagelisting(self, site=None, v=None, page=1, sort="new", t="all"):
 		if self.shadowbanned and not (v and v.can_see_shadowbanned): return []
 
-		posts = g.db.query(Submission.id).filter_by(author_id=self.id, is_pinned=False, is_banned=False)
+		posts = g.db.query(Submission.id).filter_by(author_id=self.id, is_pinned=False)
 
 		if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.id)):
 			posts = posts.filter_by(is_banned=False, private=False, ghost=False, deleted_utc=0)
