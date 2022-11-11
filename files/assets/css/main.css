@@ -4992,13 +4992,14 @@ lite-youtube.lyt-activated > .lty-playbtn {
 	to {filter: sepia(1) saturate(3) drop-shadow(-1px 1px 3px gold)}
 }
 img.golden, img[g]:not([data-src]) {
-	animation-name: golden !important;
-	animation-duration: 1s !important;
-	animation-iteration-count: infinite !important;
-	animation-direction: alternate !important;
-	animation-timing-function: linear !important;
+	animation: golden 1s infinite alternate linear;
 }
 
+img[src="/i/hand.webp"]+img[g]:not([data-src]),
+img[src="/i/hand.webp"]+img.golden {
+	animation: golden 1s infinite alternate linear,
+	pat-pfp-anim .3s infinite;
+}
 
 @keyframes glowing {
 	from {filter: sepia(1) hue-rotate(80deg) saturate(2)}
@@ -5006,11 +5007,12 @@ img.golden, img[g]:not([data-src]) {
 }
 
 img[glow]:not([data-src]) {
-	animation-name: glowing !important;
-	animation-duration: 1s !important;
-	animation-iteration-count: infinite !important;
-	animation-direction: alternate !important;
-	animation-timing-function: linear !important;
+	animation: glowing 1s infinite alternate linear;
+}
+
+img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
+	animation: glowing 1s infinite alternate linear,
+	pat-pfp-anim .3s infinite;
 }
 
 .text-black {
