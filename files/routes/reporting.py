@@ -31,6 +31,7 @@ def flag_post(pid, v):
 				_note=f'"{post.flair}"'
 			)
 			g.db.add(ma)
+			position = 'Admin'
 		else:
 			ma = SubAction(
 				sub=post.sub,
@@ -40,6 +41,12 @@ def flag_post(pid, v):
 				_note=f'"{post.flair}"'
 			)
 			g.db.add(ma)
+			position = f'/h/{post.sub} Mod'
+
+		if v.id != post.author_id:
+			message = f'@{v.username} ({position}) has flaired [{post.title}]({post.shortlink}) with the flair: `"{post.flair}"`'
+			send_repeatable_notification(post.author_id, message)
+
 		return {"message": "Post flaired successfully!"}
 
 	moved = move_post(post, v, reason)
