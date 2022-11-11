@@ -38,6 +38,10 @@
 
 {% block desktopBanner %}
 
+{% if v and v.id == AEVANN_ID %}
+	<img loading="lazy" src="/i/test.gif">
+{% endif %}
+
 <div class="row" style="overflow: visible;padding-top:5px;">
 	<div class="col">
 		<a class="btn btn-primary btn-block mt-3" href="{% if sub %}/h/{{sub}}{% endif %}/submit"><i class="fas fa-feather-alt mr-2"></i>Create Post</a>
