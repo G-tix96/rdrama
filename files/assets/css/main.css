@@ -1634,6 +1634,7 @@ button.close {
 	backdrop-filter: blur(10px);
 	opacity: 0;
 	border-radius: 0.25rem;
+	pointer-events: none;
 }
 .toast:not(:last-child) {
 	margin-bottom: 0.75rem;
