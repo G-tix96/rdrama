@@ -603,12 +603,19 @@ class User(Base):
 	@property
 	@lazy
 	def notifications_count(self):
-		notifs = g.db.query(Notification.user_id).join(Comment).filter(
-			Notification.user_id == self.id, Notification.read == False, 
-			Comment.is_banned == False, Comment.deleted_utc == 0)
+		notifs = (
+			g.db.query(Notification.user_id)
+				.join(Comment).join(Comment.author)
+				.filter(
+					Notification.read == False,
+					Notification.user_id == self.id,
+					Comment.is_banned == False,
+					Comment.deleted_utc == 0,
+					not_(and_(Comment.sentto == 2, User.is_muted)),
+				))
 		
 		if not self.can_see_shadowbanned:
-			notifs = notifs.join(Comment.author).filter(User.shadowbanned == None)
+			notifs = notifs.filter(User.shadowbanned == None)
 		
 		return notifs.count() + self.post_notifications_count + self.modaction_notifications_count
 
