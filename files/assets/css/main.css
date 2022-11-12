@@ -4524,10 +4524,6 @@ span.green {
 .text-admin {
 	color: var(--primary);
 }
-.object-cover {
-	object-fit: cover;
-}
-
 .spoiler, spoiler {
 	color: var(--white);
 	background-color: var(--white);
