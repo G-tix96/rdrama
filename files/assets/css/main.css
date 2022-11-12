@@ -3328,7 +3328,7 @@ small, .small {
 	border-radius: 50%;
 	margin: auto;
 	text-align: center;
-	object-fit: contain;
+	object-fit: cover;
 	color: var(--white);
 	background-color: #1f2023;
 }
@@ -3343,7 +3343,7 @@ small, .small {
 	height: 20px;
 	border-radius: 50%;
 	text-align: center;
-	object-fit: contain;
+	object-fit: cover;
 	background-color: var(--gray-600);
 }
 .profile-pic-25 {
@@ -3351,7 +3351,7 @@ small, .small {
 	height: 25px;
 	border-radius: 50%;
 	text-align: center;
-	object-fit: contain;
+	object-fit: cover;
 	background-color: var(--gray-600);
 }
 .profile-pic-30 {
@@ -3359,7 +3359,7 @@ small, .small {
 	height: 30px;
 	border-radius: 50%;
 	text-align: center;
-	object-fit: contain;
+	object-fit: cover;
 	background-color: var(--gray-600);
 }
 .profile-pic-35 {
@@ -3367,7 +3367,7 @@ small, .small {
 	height: 35px;
 	border-radius: 50%;
 	text-align: center;
-	object-fit: contain;
+	object-fit: cover;
 	background-color: var(--gray-600);
 }
 .profile-pic-50 {
@@ -3375,7 +3375,7 @@ small, .small {
 	height: 50px;
 	border-radius: 50%;
 	text-align: center;
-	object-fit: contain;
+	object-fit: cover;
 	background-color: var(--gray-600);
 }
 .profile-pic-65 {
@@ -3383,7 +3383,7 @@ small, .small {
 	height: 65px;
 	border-radius: 50%;
 	text-align: center;
-	object-fit: contain;
+	object-fit: cover;
 	background-color: var(--gray-600);
 }
 .profile-pic-75 {
@@ -3391,7 +3391,7 @@ small, .small {
 	height: 75px;
 	border-radius: 50%;
 	text-align: center;
-	object-fit: contain;
+	object-fit: cover;
 	background-color: var(--gray-600);
 }
 .profile-pic-100 {
@@ -3399,7 +3399,7 @@ small, .small {
 	height: 100px;
 	border-radius: 50%;
 	text-align: center;
-	object-fit: contain;
+	object-fit: cover;
 	background-color: var(--gray-600);
 }
 
