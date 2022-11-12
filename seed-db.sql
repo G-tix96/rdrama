@@ -1694,7 +1694,6 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydrsneks',2,'twolargesnakesmating sneks snake snakes nerd glasses',1666416095),
 ('marseydrunk',2,'drinking shitfaced alcoholic liquor happy beer dizzy',NULL),
 ('marseydrunk2',2,'drinking shitfaced alcoholic liquor happy beer dizzy',NULL),
-('marseyduchamp',2,'art urinal duchamp modern abstract',NULL),
 ('marseyduck',2,'bird beak',NULL),
 ('marseyduck2',2,'onesie',NULL),
 ('marseyduck3',2,'duck bird quack beak',NULL),
