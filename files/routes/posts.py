@@ -345,18 +345,22 @@ def edit_post(pid, v):
 	if body != p.body:
 		for i in poll_regex.finditer(body):
 			body = body.replace(i.group(0), "")
+			body_html = filter_emojis_only(i.group(1))
+			if len(body_html) > 500: abort(400, "Poll option too long!")
 			option = SubmissionOption(
 				submission_id=p.id,
-				body_html=filter_emojis_only(i.group(1)),
+				body_html=body_html,
 				exclusive = 0
 			)
 			g.db.add(option)
 
 		for i in choice_regex.finditer(body):
 			body = body.replace(i.group(0), "")
+			body_html = filter_emojis_only(i.group(1))
+			if len(body_html) > 500: abort(400, "Poll option too long!")
 			option = SubmissionOption(
 				submission_id=p.id,
-				body_html=filter_emojis_only(i.group(1)),
+				body_html=body_html,
 				exclusive = 1
 			)
 			g.db.add(option)
@@ -806,26 +810,32 @@ def submit_post(v, sub=None):
 		if not execute_blackjack(v, post, text, 'submission'): break
 
 	for option in options:
+		body_html = filter_emojis_only(option)
+		if len(body_html) > 500: abort(400, "Poll option too long!")
 		option = SubmissionOption(
 			submission_id=post.id,
-			body_html=filter_emojis_only(option),
+			body_html=body_html,
 			exclusive=0
 		)
 		g.db.add(option)
 
 	for choice in choices:
+		body_html = filter_emojis_only(choice)
+		if len(body_html) > 500: abort(400, "Poll option too long!")
 		choice = SubmissionOption(
 			submission_id=post.id,
-			body_html=filter_emojis_only(choice),
+			body_html=body_html,
 			exclusive=1
 		)
 		g.db.add(choice)
 
 	if v and v.admin_level >= PERMS['POST_BETS']:
 		for bet in bets:
+			body_html = filter_emojis_only(bet)
+			if len(body_html) > 500: abort(400, "Bet option too long!")
 			bet = SubmissionOption(
 				submission_id=post.id,
-				body_html=filter_emojis_only(bet),
+				body_html=body_html,
 				exclusive=2
 			)
 			g.db.add(bet)

@@ -242,17 +242,21 @@ def comment(v):
 	else: c.top_comment_id = parent.top_comment_id
 
 	for option in options:
+		body_html = filter_emojis_only(option)
+		if len(body_html) > 500: abort(400, "Poll option too long!")
 		option = CommentOption(
 			comment_id=c.id,
-			body_html=filter_emojis_only(option),
+			body_html=body_html,
 			exclusive=0
 		)
 		g.db.add(option)
 
 	for choice in choices:
+		body_html = filter_emojis_only(choice)
+		if len(body_html) > 500: abort(400, "Poll option too long!")
 		choice = CommentOption(
 			comment_id=c.id,
-			body_html=filter_emojis_only(choice),
+			body_html=body_html,
 			exclusive=1
 		)
 		g.db.add(choice)
@@ -387,18 +391,22 @@ def edit_comment(cid, v):
 
 		for i in poll_regex.finditer(body):
 			body = body.replace(i.group(0), "")
+			body_html = filter_emojis_only(i.group(1))
+			if len(body_html) > 500: abort(400, "Poll option too long!")
 			option = CommentOption(
 				comment_id=c.id,
-				body_html=filter_emojis_only(i.group(1)),
+				body_html=body_html,
 				exclusive = 0
 			)
 			g.db.add(option)
 
 		for i in choice_regex.finditer(body):
 			body = body.replace(i.group(0), "")
+			body_html = filter_emojis_only(i.group(1))
+			if len(body_html) > 500: abort(400, "Poll option too long!")
 			option = CommentOption(
 				comment_id=c.id,
-				body_html=filter_emojis_only(i.group(1)),
+				body_html=body_html,
 				exclusive = 1
 			)
 			g.db.add(option)
