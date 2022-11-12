@@ -161,6 +161,8 @@ def spin_roulette_wheel():
 			payouts = {}
 			rewards_by_game_id = {}
 
+		if number == 37: number = '00'
+
 		# Pay out to the winners and send a notification.
 		for user_id in winners:
 			gambler = get_account(user_id)
