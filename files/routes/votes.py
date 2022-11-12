@@ -17,21 +17,19 @@ def vote_info_get(v, link):
 	if thing.ghost and v.id != AEVANN_ID: abort(403)
 
 	if isinstance(thing, Submission):
-		if thing.author.shadowbanned and not (v and v.admin_level):
+		if thing.author.shadowbanned and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
 			thing_id = g.db.query(Submission.id).filter_by(upvotes=thing.upvotes, downvotes=thing.downvotes).order_by(Submission.id).first()[0]
 		else: thing_id = thing.id
 
 		ups = g.db.query(Vote).filter_by(submission_id=thing_id, vote_type=1).order_by(Vote.created_utc).all()
-
 		downs = g.db.query(Vote).filter_by(submission_id=thing_id, vote_type=-1).order_by(Vote.created_utc).all()
 
 	elif isinstance(thing, Comment):
-		if thing.author.shadowbanned and not (v and v.admin_level):
+		if thing.author.shadowbanned and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
 			thing_id = g.db.query(Comment.id).filter_by(upvotes=thing.upvotes, downvotes=thing.downvotes).order_by(Comment.id).first()[0]
 		else: thing_id = thing.id
 
 		ups = g.db.query(CommentVote).filter_by(comment_id=thing_id, vote_type=1).order_by(CommentVote.created_utc).all()
-
 		downs = g.db.query(CommentVote).filter_by(comment_id=thing_id, vote_type=-1 ).order_by(CommentVote.created_utc).all()
 
 	else: abort(400)
@@ -54,6 +52,10 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		target = get_comment(target_id)
 		if not target.post: abort(404)
 	else:
+		abort(404)
+
+	target_author = target.author
+	if target_author.shadowbanned and not v.can_see_shadowbanned:
 		abort(404)
 
 	coin_delta = 1
@@ -79,23 +81,23 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if existing and existing.vote_type == new: return "", 204
 	if existing:
 		if existing.vote_type == 0 and new != 0:
-			target.author.coins += coin_value
-			target.author.truescore += coin_delta
-			g.db.add(target.author)
+			target_author.coins += coin_value
+			target_author.truescore += coin_delta
+			g.db.add(target_author)
 			existing.vote_type = new
 			existing.coins = coin_value
 			g.db.add(existing)
 		elif existing.vote_type != 0 and new == 0:
-			target.author.charge_account('coins', existing.coins, should_check_balance=False)
-			target.author.truescore -= coin_delta
-			g.db.add(target.author)
+			target_author.charge_account('coins', existing.coins, should_check_balance=False)
+			target_author.truescore -= coin_delta
+			g.db.add(target_author)
 			g.db.delete(existing)
 		else:
 			existing.vote_type = new
 			g.db.add(existing)
 	elif new != 0:
-		target.author.coins += coin_value
-		target.author.truescore += coin_delta
+		target_author.coins += coin_value
+		target_author.truescore += coin_delta
 		g.db.add(target.author)
 
 		real = new != 1 or v.is_votes_real
