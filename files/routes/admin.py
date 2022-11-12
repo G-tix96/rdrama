@@ -1096,35 +1096,43 @@ def unban_user(user_id, v):
 
 	return {"message": f"@{user.username} has been unbanned!"}
 
-@app.post("/mute_user/<int:user_id>/<int:mute_status>")
+@app.post("/mute_user/<int:user_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
 @admin_level_required(PERMS['USER_BAN'])
-def mute_user(v, user_id, mute_status):
+def mute_user(v, user_id):
 	user = get_account(user_id)
 
-	if mute_status != 0 and not user.is_muted:
+	if not user.is_muted:
 		user.is_muted = True
-		log_action = 'mod_mute_user'
-		success_msg = f"@{user.username} has been muted!"
-	elif mute_status == 0 and user.is_muted:
+		ma = ModAction(
+				kind='mod_mute_user',
+				user_id=v.id,
+				target_user_id=user.id,
+				)
+		g.db.add(user)
+		g.db.add(ma)
+
+	return {"message": f"@{user.username} has been muted!"}
+
+
+@app.post("/unmute_user/<int:user_id>")
+@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@admin_level_required(PERMS['USER_BAN'])
+def unmute_user(v, user_id):
+	user = get_account(user_id)
+
+	if user.is_muted:
 		user.is_muted = False
-		log_action = 'mod_unmute_user'
-		success_msg = f"@{user.username} has been un-muted!"
-	else:
-		abort(400)
+		ma = ModAction(
+				kind='mod_unmute_user',
+				user_id=v.id,
+				target_user_id=user.id,
+				)
+		g.db.add(user)
+		g.db.add(ma)
 
-	ma = ModAction(
-			kind=log_action,
-			user_id=v.id,
-			target_user_id=user.id,
-			)
+	return {"message": f"@{user.username} has been unmuted!"}
 
-	g.db.add(user)
-	g.db.add(ma)
-	if 'redir' in request.values:
-		return redirect(user.url)
-	else:
-		return {"message": success_msg}
 
 @app.post("/remove_post/<post_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
