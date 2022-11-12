@@ -194,19 +194,20 @@ def post_id(pid, anything=None, v=None, sub=None):
 		else: offset = 1
 		comments = comments2
 
+	pinned2 = set()
 	for pin in pinned:
 		if pin.stickied_utc and int(time.time()) > pin.stickied_utc:
 			pin.stickied = None
 			pin.stickied_utc = None
 			g.db.add(pin)
-			pinned.remove(pin)
 		elif pin.level > 1:
-			pinned.remove(pin)
-			if pin.top_comment not in pinned:
-				pinned.append(pin.top_comment)
+			pinned2.add(pin.top_comment)
 			if pin.top_comment in comments:
-				comments.remove(pin.top_comment) 
+				comments.remove(pin.top_comment)
+		else:
+			pinned2.add(pin)
 
+	pinned = list(pinned2)
 	post.replies = pinned + comments
 
 	post.views += 1
