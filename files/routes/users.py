@@ -1088,7 +1088,7 @@ def settings_kofi(v):
 	if not (v.email and v.is_activated):
 		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
 
-	transaction = g.db.query(Transaction).filter_by(email=v.email, type="Subscription").order_by(Transaction.created_utc.desc()).first()
+	transaction = g.db.query(Transaction).filter_by(email=v.email).order_by(Transaction.created_utc.desc()).first()
 
 	if not transaction:
 		abort(404, "Email not found")
@@ -1098,8 +1098,6 @@ def settings_kofi(v):
 
 	tier = kofi_tiers[transaction.amount]
 
-	v.patron = tier
-
 	procoins = procoins_li[tier]
 
 	v.procoins += procoins
@@ -1107,7 +1105,11 @@ def settings_kofi(v):
 
 	g.db.add(v)
 
-	badge_grant(badge_id=20+tier, user=v)
+	if tier > v.patron:
+		v.patron = tier
+		for badge in g.db.query(Badge).filter(Badge.user_id == v.id, Badge.badge_id > 20, Badge.badge_id < 28).all():
+			g.db.delete(badge)
+		badge_grant(badge_id=20+tier, user=v)
 
 	transaction.claimed = True
 
