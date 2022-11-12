@@ -452,9 +452,9 @@ INSERT INTO public.hat_defs VALUES (951, 'Kasa 3', 'This is just a basket. What 
 INSERT INTO public.hat_defs VALUES (1012, 'Marsey Slain', 'You monster... what have you done..', 2, 500, NULL, 1667516047);
 INSERT INTO public.hat_defs VALUES (1016, 'Antlers', 'Be careful. I''ll shoot ya!', 2, 500, NULL, 1667531769);
 INSERT INTO public.hat_defs VALUES (712, 'Thursday The 20th', '20% off on every Thursday. 30% off on the 20th of every month. 50% off on Thurday the 20th!', 2, 500, NULL, 1663434472);
-
-
+INSERT INTO public.hat_defs VALUES (1017, 'Gloomy Bear', 'Is he safe to pet?', 2, 500, NULL, 1667792513);
 INSERT INTO public.hat_defs VALUES (22, 'Southern Gentleman', 'Slaveowner? Fried chicken chain founder? You decide!', 2, 500, NULL, 1662167687);
+INSERT INTO public.hat_defs VALUES (1018, 'Seatbelt', 'Don''t worry! You''re safe in a crash. Unless you’re not.', 2, 500, NULL, 1668042586);
 INSERT INTO public.hat_defs VALUES (23, 'Cowboy I', 'Make him wish he could quit you', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (24, 'Cowboy II', 'You''re my favorite deputy!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (25, 'Halo', 'Dramamine criticized this one and now I''m too self-conscious about it to write a description', 2, 500, NULL, 1662167687);
@@ -1183,6 +1183,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyaoc',2,'latina latino hispanic cortez mexican puerto rican ocasio congress alexandria',NULL),
 ('marseyappicon',2,'iphone ios android application googleplay samsung',NULL),
 ('marseyappleseed',2,'american usa johnny history folk fruit food pot pan helmet legend',NULL),
+('marseyaquagrunt',2,'pokemon aqua water drown grunt',1668261272),
+('marseyarchie',2,'pokemon water aqua drown archie',1668261171),
 ('marseyargentina',2,'south america argentinian sudamericano',NULL),
 ('marseyarmy',2,'chiobu soldiers o7 salute saluting',NULL),
 ('marseyarthoe',2,'scene slut foid whore emo scene bpd bangs dangerhair girl woman',NULL),
@@ -1843,17 +1845,17 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseygeisha',2,'foid birthing person girl woman girl lady slut thot noodlewhore chink jap gook asian azn blow kiss blowing kiss blowkiss love heart stockings nylons fishnets',NULL),
 ('marseygenetakovic',2,'bcs better call saul breaking bad disguise cinnabon gene',1664491944),
 ('marseyghost',2,'spooky halloween costume holiday scary sheet',NULL),
-('marseyghost2',2,'ghost spectre phantom spook boo',1668205908),
-('marseyghostangry',2,'ghost specter phantom spook boo angry',1668205996),
-('marseyghostangry2',2,'ghost specter phantom spook boo angry pissed',1668206083),
-('marseyghostbored',2,'ghost specter phantom spook boo bored unimpressed',1668206116),
+('marseyghost2',2,'ghost spectre phantom spook boo halloween horror spirit',1668205908),
+('marseyghostangry',2,'ghost specter phantom spook boo angry halloween horror spirit',1668205996),
+('marseyghostangry2',2,'ghost specter phantom spook boo angry halloween horror spirit pissed',1668206083),
+('marseyghostbored',2,'ghost specter phantom spook halloween horror spirit boo bored unimpressed',1668206116),
 ('marseyghostface',2,'ghostface scary halloween horror scream knife killer',1666281841),
 ('marseyghostface2',2,'ghostface scary scream wassup horror halloween phone',1666295002),
-('marseyghosthappy',2,'ghost specter phantom spook boo happy proud content',1668206327),
-('marseyghostkiss',2,'ghost specter phantom spook boo mwah kiss smooch',1668206390),
-('marseyghostlaugh',2,'ghost specter phantom spook boo laugh xd',1668206044),
-('marseyghostsad',2,'ghost specter phantom spook boo sad upset miss',1668206267),
-('marseyghostshy',2,'ghost specter phantom spook boo shy uwu',1668206211),
+('marseyghosthappy',2,'ghost specter phantom spook halloween horror spirit boo happy proud content',1668206327),
+('marseyghostkiss',2,'ghost specter phantom spook boo mwah kiss smooch halloween horror spirit',1668206390),
+('marseyghostlaugh',2,'ghost specter phantom spook boo laugh xd halloween horror spirit',1668206044),
+('marseyghostsad',2,'ghost specter phantom spook boo halloween horror spirit sad upset miss',1668206267),
+('marseyghostshy',2,'ghost specter phantom spook boo shy uwu halloween horror spirit',1668206211),
 ('marseygift',2,'present christmas wrapping paper holiday',NULL),
 ('marseygigachad',2,'reaction hunter eyes canthal tilt jawline',NULL),
 ('marseygigaretard',2,'idiot neurodivergent dumb stupid drooling moron puddle',NULL),
