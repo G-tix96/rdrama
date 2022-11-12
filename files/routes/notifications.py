@@ -299,6 +299,8 @@ def notifications(v):
 						if x.replies2 == None:
 							x.replies2 = g.db.query(Comment).filter_by(parent_comment_id=x.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
 		else:
+			if c.sentto == 2 and c.author.is_muted:
+				continue
 			while c.parent_comment:
 				c = c.parent_comment
 			c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).order_by(Comment.id).all()
