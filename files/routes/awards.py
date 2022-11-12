@@ -165,10 +165,10 @@ def award_thing(v, thing_type, id):
 		abort(403, "You can't use this award on yourself.")
 
 	if kind == 'marsify' and author.marsify == 1:
-		abort(409, "User is already permanently marsified!")
+		abort(409, f"@{author.username} is already permanently marsified!")
 
 	if kind == 'spider' and author.spider == 1:
-		abort(409, "User already permanently has a spider friend!")
+		abort(409, f"@{author.username} already permanently has a spider friend!")
 
 	if thing.ghost and not AWARDS[kind]['ghost']:
 		abort(403, "This kind of award can't be used on ghost posts.")
