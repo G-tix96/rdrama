@@ -343,6 +343,18 @@ def edit_post(pid, v):
 	body = body.strip()[:POST_BODY_LENGTH_LIMIT] # process_files() may be adding stuff to the body
 
 	if body != p.body:
+		if v and v.admin_level >= PERMS['POST_BETS']:
+			for i in bet_regex.finditer(body):
+				body = body.replace(i.group(0), "")
+				body_html = filter_emojis_only(i.group(1))
+				if len(body_html) > 500: abort(400, "Bet option too long!")
+				bet = SubmissionOption(
+					submission_id=p.id,
+					body_html=body_html,
+					exclusive = 2
+				)
+				g.db.add(bet)
+
 		for i in poll_regex.finditer(body):
 			body = body.replace(i.group(0), "")
 			body_html = filter_emojis_only(i.group(1))
@@ -358,13 +370,12 @@ def edit_post(pid, v):
 			body = body.replace(i.group(0), "")
 			body_html = filter_emojis_only(i.group(1))
 			if len(body_html) > 500: abort(400, "Poll option too long!")
-			option = SubmissionOption(
+			choice = SubmissionOption(
 				submission_id=p.id,
 				body_html=body_html,
 				exclusive = 1
 			)
-			g.db.add(option)
-
+			g.db.add(choice)
 
 		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
 
@@ -809,6 +820,17 @@ def submit_post(v, sub=None):
 	for text in [post.body, post.title, post.url]:
 		if not execute_blackjack(v, post, text, 'submission'): break
 
+	if v and v.admin_level >= PERMS['POST_BETS']:
+		for bet in bets:
+			body_html = filter_emojis_only(bet)
+			if len(body_html) > 500: abort(400, "Bet option too long!")
+			bet = SubmissionOption(
+				submission_id=post.id,
+				body_html=body_html,
+				exclusive=2
+			)
+			g.db.add(bet)
+
 	for option in options:
 		body_html = filter_emojis_only(option)
 		if len(body_html) > 500: abort(400, "Poll option too long!")
@@ -828,17 +850,6 @@ def submit_post(v, sub=None):
 			exclusive=1
 		)
 		g.db.add(choice)
-
-	if v and v.admin_level >= PERMS['POST_BETS']:
-		for bet in bets:
-			body_html = filter_emojis_only(bet)
-			if len(body_html) > 500: abort(400, "Bet option too long!")
-			bet = SubmissionOption(
-				submission_id=post.id,
-				body_html=body_html,
-				exclusive=2
-			)
-			g.db.add(bet)
 
 	vote = Vote(user_id=v.id,
 				vote_type=1,
