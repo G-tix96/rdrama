@@ -1088,7 +1088,7 @@ def settings_kofi(v):
 	if not (v.email and v.is_activated):
 		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
 
-	transaction = g.db.query(Transaction).filter_by(email=v.email).order_by(Transaction.created_utc.desc()).first()
+	transaction = g.db.query(Transaction).filter_by(email=v.email, type="Subscription").order_by(Transaction.created_utc.desc()).first()
 
 	if not transaction:
 		abort(404, "Email not found")
