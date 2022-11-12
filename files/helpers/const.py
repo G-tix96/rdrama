@@ -107,7 +107,7 @@ if SITE_NAME == 'rDrama':
 		"retarded": "r-slurred",
 		"retard": "r-slur",
 		"pedophile": "libertarian",
-		'kill youself': 'keep yourself safe',
+		"kill youself": "keep yourself safe",
 		"kill yourself": "keep yourself safe",
 		"kill yourselves": "keep yourselves safe",
 		"steve akins": "Dr. Penelope Verity Oaken",
