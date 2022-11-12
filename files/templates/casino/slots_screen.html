@@ -13,6 +13,7 @@
 
 		const xhr = new XMLHttpRequest();
 		xhr.open("post", "/casino/slots");
+		xhr.setRequestHeader('xhr', 'xhr');
 		xhr.onload = handleSlotsResponse.bind(null, xhr);
 
 		const form = new FormData();

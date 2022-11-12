@@ -131,6 +131,7 @@
 		const game = document.getElementById('casino-game-wrapper').dataset.game;
 		const xhr = new XMLHttpRequest();
 		xhr.open("get", `/casino/${game}/feed`);
+		xhr.setRequestHeader('xhr', 'xhr');
 		xhr.onload = handleFeedResponse.bind(null, xhr);
 		xhr.send();
 	}

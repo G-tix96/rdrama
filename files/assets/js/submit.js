@@ -147,6 +147,7 @@ function autoSuggestTitle()	{
 			}
 		}
 		x.open('get','/submit/title?url=' + urlField.value);
+		x.setRequestHeader('xhr', 'xhr');
 		x.send(null);
 
 	};
