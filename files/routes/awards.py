@@ -125,8 +125,11 @@ def buy(v, award):
 @is_not_permabanned
 @feature_required('AWARDS')
 def award_thing(v, thing_type, id):
-	if thing_type == 'post': thing = get_post(id)
-	else: thing = get_comment(id)
+	if thing_type == 'post': 
+		thing = get_post(id)
+	else: 
+		thing = get_comment(id)
+		if not thing.parent_submission: abort(404) # don't let users award messages
 
 	if v.shadowbanned: abort(500)
 	
