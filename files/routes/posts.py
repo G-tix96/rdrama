@@ -1068,6 +1068,8 @@ extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
 def get_post_title(v):
 	url = request.values.get("url")
 	if not url or '\\' in url: abort(400)
+	url = url.strip()
+	if not url.startswith('http'): abort(400)
 
 	checking_url = url.lower().split('?')[0].split('%3F')[0]
 	if any((checking_url.endswith(f'.{x}') for x in extensions)):
