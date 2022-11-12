@@ -580,10 +580,10 @@ def settings_block_user(v):
 	if user.unblockable:
 		if not v.shadowbanned:
 			send_notification(user.id, f"@{v.username} has tried to block you and failed because of your unblockable status!")
-		abort(403, "This user is unblockable.")
+		abort(403, f"@{user.username} is unblockable!")
 
 	if user.id == v.id: abort(400, "You can't block yourself")
-	if user.id == AUTOJANNY_ID: abort(403, "You can't block this user")
+	if user.id == AUTOJANNY_ID: abort(403, f"You can't block @{user.username}")
 	if v.has_blocked(user): abort(409, f"You have already blocked @{user.username}")
 
 	new_block = UserBlock(user_id=v.id, target_id=user.id)
