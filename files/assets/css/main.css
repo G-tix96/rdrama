@@ -6336,3 +6336,9 @@ div.markdown {
     max-height: 10vh!important;
     overflow: auto;
 }
+.pop-badge {
+	width: 32px;
+	height: 35px;
+	object-fit: contain;
+	-o-object-fit: contain;
+}

@@ -7,7 +7,7 @@ function pinned_timestamp(id) {
 
 /** @type {HTMLImageElement} */
 const popClickBadgeTemplateDOM = document.createElement("IMG");
-popClickBadgeTemplateDOM.width = 32;
+popClickBadgeTemplateDOM.class = "pop-badge";
 popClickBadgeTemplateDOM.loading = "lazy";
 popClickBadgeTemplateDOM.alt = "badge";
 
