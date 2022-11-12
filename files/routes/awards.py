@@ -159,7 +159,7 @@ def award_thing(v, thing_type, id):
 	if author.shadowbanned: abort(404)
 
 	if SITE == 'rdrama.net' and author.id in (PIZZASHILL_ID, CARP_ID):
-		abort(403, "This user is immune to awards.")
+		abort(403, f"@{author.username} is immune to awards.")
 
 	if kind == "benefactor" and author.id == v.id:
 		abort(400, "You can't use this award on yourself.")
@@ -257,10 +257,10 @@ def award_thing(v, thing_type, id):
 		g.db.add(thing)
 	elif kind == "agendaposter":
 		if author.marseyawarded:
-			abort(409, "This user is under the effect of a conflicting award: Marsey award.")
+			abort(409, f"@{author.username} is under the effect of a conflicting award: Marsey award.")
 
 		if author.agendaposter == 1:
-			abort(409, "This user is perma-chudded.")
+			abort(409, f"@{author.username} is perma-chudded.")
 
 		if author.agendaposter and time.time() < author.agendaposter: author.agendaposter += 86400
 		else: author.agendaposter = int(time.time()) + 86400
@@ -288,13 +288,13 @@ def award_thing(v, thing_type, id):
 		badge_grant(user=author, badge_id=98)
 	elif kind == "pizzashill":
 		if author.bird:
-			abort(409, "This user is under the effect of a conflicting award: Bird Site award.")
+			abort(409, f"@{author.username} is under the effect of a conflicting award: Bird Site award.")
 		if author.longpost: author.longpost += 86400
 		else: author.longpost = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=97)
 	elif kind == "bird":
 		if author.longpost:
-			abort(409, "This user is under the effect of a conflicting award: Pizzashill award.")
+			abort(409, f"@{author.username} is under the effect of a conflicting award: Pizzashill award.")
 		if author.bird: author.bird += 86400
 		else: author.bird = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=95)
@@ -313,13 +313,13 @@ def award_thing(v, thing_type, id):
 		if not FEATURES['PINS']:
 			abort(403)
 
-		if author.id in BOOSTED_USERS: abort(409, f"This user is already permanently progressive-stacked!")
+		if author.id in BOOSTED_USERS: abort(409, f"@{author.username} is already permanently progressive-stacked!")
 
 		if author.progressivestack: author.progressivestack += 21600
 		else: author.progressivestack = int(time.time()) + 21600
 		badge_grant(user=author, badge_id=94)
 	elif kind == "benefactor":
-		if author.patron: abort(409, f"This user is already a {patron.lower()}!")
+		if author.patron: abort(409, f"@{author.username} is already a {patron.lower()}!")
 		author.patron = 1
 		if author.patron_utc: author.patron_utc += 2629746
 		else: author.patron_utc = int(time.time()) + 2629746
