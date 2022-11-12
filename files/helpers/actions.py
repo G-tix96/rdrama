@@ -48,7 +48,7 @@ def execute_snappy(post, v):
 		else: body = "wow, a good lawlzpost for once!"
 	elif not SNAPPY_MARSEYS and not SNAPPY_QUOTES:
 		body = ""
-	elif post.club and random.random() < 0.33:
+	elif post.sub == 'masterbaiters' and random.random() < 0.33:
 		body = "Can you people come up with any ideas that don't involve committing federal crimes"
 	else:
 		if SNAPPY_MARSEYS and SNAPPY_QUOTES:
