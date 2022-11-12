@@ -296,6 +296,7 @@ class User(Base):
 		if self.agendaposter: return False
 		if self.profile_url.startswith('/e/') and not self.customtitle and self.namecolor == DEFAULT_COLOR: return False
 		return True
+
 	@lazy
 	def mods(self, sub):
 		if self.is_suspended_permanently or self.shadowbanned: return False
