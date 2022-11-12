@@ -5284,10 +5284,6 @@ li > .sidebar {
 	width: 100%;
 }
 
-.userbanner {
-	object-fit: cover !important;
-}
-
 @media (max-width: 500px) {
 	.count {
 		display:block;
