@@ -132,6 +132,8 @@ def award_thing(v, thing_type, id):
 		if not thing.parent_submission: abort(404) # don't let users award messages
 
 	if v.shadowbanned: abort(500)
+	author = thing.author
+	if author.shadowbanned: abort(404)
 	
 	kind = request.values.get("kind", "").strip()
 	
@@ -158,8 +160,6 @@ def award_thing(v, thing_type, id):
 
 	note = request.values.get("note", "").strip()
 
-	author = thing.author
-	if author.shadowbanned: abort(404)
 
 	if SITE == 'rdrama.net' and author.id in (PIZZASHILL_ID, CARP_ID):
 		abort(403, f"@{author.username} is immune to awards.")
