@@ -261,12 +261,13 @@ def notifications(v):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	comments = g.db.query(Comment, Notification).join(Notification.comment).filter(
+	comments = g.db.query(Comment, Notification).join(Notification.comment).join(Comment.author).filter(
 		Notification.user_id == v.id,
 		Comment.is_banned == False,
 		Comment.deleted_utc == 0,
 		Comment.body_html.notlike('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
 		or_(Comment.sentto == None, Comment.sentto == 2),
+		not_(and_(Comment.sentto == 2, User.is_muted)),
 	).order_by(Notification.created_utc.desc())
 
 	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
@@ -299,8 +300,6 @@ def notifications(v):
 						if x.replies2 == None:
 							x.replies2 = g.db.query(Comment).filter_by(parent_comment_id=x.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
 		else:
-			if c.sentto == 2 and c.author.is_muted:
-				continue
 			while c.parent_comment:
 				c = c.parent_comment
 			c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).order_by(Comment.id).all()
