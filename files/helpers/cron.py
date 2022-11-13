@@ -31,7 +31,7 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 		if FEATURES['GAMBLING']:
 			lottery.check_if_end_lottery_task()
 			spin_roulette_wheel()
-		offsitementions.offsite_mentions_task()
+		offsitementions.offsite_mentions_task(cache)
 		if SITE == 'pcmemes.net':
 			route_static.live_cached()
 

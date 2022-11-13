@@ -1,3 +1,6 @@
+import time
+from typing import Iterable
+from flask_caching import Cache
 from flask import g
 import itertools
 import requests
@@ -15,7 +18,7 @@ from files.helpers.sanitize import sanitize
 # with current keyword quantities. If this ever changes, consider reading the 
 # value from /meta (or just guessing) and doing a random selection of keywords.
 
-def offsite_mentions_task():
+def offsite_mentions_task(cache:Cache):
 	if const.REDDIT_NOTIFS_SITE:
 		row_send_to = g.db.query(Badge.user_id).filter_by(badge_id=140).all()
 		row_send_to += g.db.query(User.id).filter(or_(User.admin_level >= const.PERMS['NOTIFICATIONS_REDDIT'])).all()
@@ -23,49 +26,59 @@ def offsite_mentions_task():
 		send_to = [x[0] for x in row_send_to]
 		send_to = set(send_to)
 
-		site_mentions = get_mentions(const.REDDIT_NOTIFS_SITE)
+		site_mentions = get_mentions(cache, const.REDDIT_NOTIFS_SITE)
 		notify_mentions(send_to, site_mentions)
 
 	if const.REDDIT_NOTIFS_USERS:
 		for query, send_user in const.REDDIT_NOTIFS_USERS.items():
-			user_mentions = get_mentions([query])
+			user_mentions = get_mentions(cache, [query], reddit_notifs_users=True)
 			notify_mentions([send_user], user_mentions, mention_str='mention of you')
 
-def get_mentions(queries):
+def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
+	CACHE_KEY = 'reddit_notifications'
 	kinds = ['submission', 'comment']
 	mentions = []
-	for kind, query in itertools.product(kinds, queries):
+	exclude_subreddits = ['PokemonGoRaids', 'SubSimulatorGPT2']
+	try:
+		after = int(cache.get(CACHE_KEY) or time.time())
+	except:
+		print("Failed to retrieve last mention time from cache")
+		after = time.time()
+	size = 1 if reddit_notifs_users else 100
+	for kind in kinds:
 		try:
-			# Special cases: PokemonGoRaids says 'Marsey' a lot unrelated to us.
-			# SubSimulatorGPT2 is just bots
-			data = requests.get(f'https://api.pushshift.io/reddit/{kind}/search?html_decode=true&q={query}&subreddit=!PokemonGoRaids,!SubSimulatorGPT2&size=1', timeout=5).json()['data']
-		except: break
+			data = requests.get(f'https://api.pushshift.io/reddit/{kind}/search?html_decode=true&q={"%7C".join(queries)}&subreddit=!{",!".join(exclude_subreddits)}&after={after}&size={size}', timeout=15).json()['data']
+		except:
+			continue
 
-		for i in data:
-			if 'bot' in i['author'].lower(): continue
-
+		for thing in data:
+			if 'bot' in thing['author'].lower(): continue
+			after = max(after, thing["created_utc"]) if thing["created_utc"] else after
 			if kind == 'comment':
-				body = i["body"].replace('>', '> ')
+				body = thing["body"].replace('>', '> ')
 				text = f'<blockquote><p>{body}</p></blockquote>'
 			else:
-				title = i["title"].replace('>', '> ')
+				title = thing["title"].replace('>', '> ')
 
 				# Special case: a spambot says 'WPD' a lot unrelated to us.
 				if 'Kathrine Mclaurin' in title: continue
-
 				text = f'<blockquote><p>{title}</p></blockquote>'
 
-				if i["selftext"]:
-					selftext = i["selftext"].replace('>', '> ')[:5000]
+				if thing["selftext"]:
+					selftext = thing["selftext"].replace('>', '> ')[:5000]
 					text += f'<br><blockquote><p>{selftext}</p></blockquote>'
 
 
 			mentions.append({
-				'permalink': i['permalink'],
-				'author': i['author'],
+				'permalink': thing['permalink'],
+				'author': thing['author'],
 				'text': text,
 			})
-
+	try:
+		if not reddit_notifs_users: 
+			cache.set(CACHE_KEY, after + 1)
+	except:
+		print("Failed to set cache value; there may be duplication of reddit notifications")
 	return mentions
 
 def notify_mentions(send_to, mentions, mention_str='site mention'):
