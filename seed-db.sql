@@ -1662,6 +1662,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydicklet',2,'babydick penis micro dick reaction laugh point and laugh micropenis judgment',NULL),
 ('marseydiehard',2,'die hard christmas holiday terrorist gun bruce willis',NULL),
 ('marseydildo',2,'horse',NULL),
+('marseydinojihad',2,'dino jihad islam',1668355278),
 ('marseydinosaur',2,'fursuit furry scalie scaly reptile happy extinct costume',NULL),
 ('marseydisabled',2,'retarded handicapable handicapped wheelchair crippled',NULL),
 ('marseydisagree',2,'nah uh nod nuh uh reaction wrong no way no negative animated judgment smh',NULL),
