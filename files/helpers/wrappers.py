@@ -146,5 +146,9 @@ def feature_required(x):
 		return wrapper
 	return wrapper_maker
 
-def ratelimit_user(limit=DEFAULT_RATELIMIT_USER):
-	return limiter.limit(limit, key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+def ratelimit_user(limit:Union[str, Callable[[], str]]=DEFAULT_RATELIMIT_USER):
+	'''
+	Ratelimits based on a user. This requires at least auth_required (or stronger) to be present, 
+	otherwise logged out users will receive 500s
+	'''
+	return limiter.limit(limit, key_func=lambda:f'{SITE}-{g.v.id}')
