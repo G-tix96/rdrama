@@ -264,7 +264,7 @@ function post_comment(fullname, hide){
 
 document.onpaste = function(event) {
 	var focused = document.activeElement;
-	const files = event.clipboardData.files
+	const files = structuredClone(event.clipboardData.files);
 
 	if (files.length > 4)
 	{

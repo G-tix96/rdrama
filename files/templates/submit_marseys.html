@@ -76,7 +76,7 @@
 
 	<script>
 		document.onpaste = function(event) {
-			files = event.clipboardData.files
+			files = structuredClone(event.clipboardData.files);
 
 			filename = files[0]
 

@@ -87,7 +87,7 @@ function updatebgselection(){
 document.onpaste = function(event) {
 	var focused = document.activeElement;
 	if (focused.id == 'bio-text') {
-		const files = event.clipboardData.files
+		const files = structuredClone(event.clipboardData.files);
 
 		if (files.length > 4)
 		{

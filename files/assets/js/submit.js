@@ -55,7 +55,7 @@ function hide_image() {
 }
 
 document.onpaste = function(event) {
-	files = event.clipboardData.files
+	files = structuredClone(event.clipboardData.files);
 
 	if (files.length > 4)
 	{
