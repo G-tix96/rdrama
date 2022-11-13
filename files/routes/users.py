@@ -312,14 +312,14 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'proc
 	return {"message": f"{amount - tax} {friendly_currency_name} have been transferred to @{receiver.username}"}
 	
 @app.post("/@<username>/transfer_coins")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @is_not_permabanned
 def transfer_coins(v, username):
 	return transfer_currency(v, username, 'coins', True)
 
 @app.post("/@<username>/transfer_bux")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @is_not_permabanned
 @feature_required('PROCOINS')
@@ -392,7 +392,7 @@ def song(song):
 	return resp
 
 @app.post("/subscribe/<post_id>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def subscribe(v, post_id):
@@ -403,7 +403,7 @@ def subscribe(v, post_id):
 	return {"message": "Subscribed to post successfully!"}
 	
 @app.post("/unsubscribe/<post_id>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def unsubscribe(v, post_id):
@@ -831,7 +831,7 @@ def u_user_id_info(id, v=None):
 	return user.json
 
 @app.post("/follow/<username>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def follow_user(username, v):
@@ -858,7 +858,7 @@ def follow_user(username, v):
 	return {"message": f"@{target.username} has been followed!"}
 
 @app.post("/unfollow/<username>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def unfollow_user(username, v):
@@ -886,7 +886,7 @@ def unfollow_user(username, v):
 	return {"message": f"@{target.username} has been unfollowed!"}
 
 @app.post("/remove_follow/<username>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def remove_follow(username, v):
@@ -1082,7 +1082,7 @@ kofi_tiers={
 	}
 
 @app.post("/settings/kofi")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 def settings_kofi(v):
 	if not (v.email and v.is_activated):

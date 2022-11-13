@@ -27,7 +27,7 @@ def settings_personal(v):
 	return render_template("settings/personal.html", v=v)
 
 @app.delete('/settings/background')
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def remove_background(v):
@@ -37,7 +37,7 @@ def remove_background(v):
 	return {"message": "Background removed!"}
 
 @app.post("/settings/personal")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def settings_personal_post(v):
@@ -318,21 +318,21 @@ def set_color(v:User, attr:str, color:Optional[str]):
 
 
 @app.post("/settings/namecolor")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def namecolor(v):
 	return set_color(v, "namecolor", request.values.get("namecolor"))
 	
 @app.post("/settings/themecolor")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def themecolor(v):
 	return set_color(v, "themecolor", request.values.get("themecolor"))
 
 @app.post("/settings/gumroad")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def gumroad(v):
@@ -368,14 +368,14 @@ def gumroad(v):
 	return {"message": f"{patron} rewards claimed!"}
 
 @app.post("/settings/titlecolor")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def titlecolor(v):
 	return set_color(v, "titlecolor", request.values.get("titlecolor"))
 
 @app.post("/settings/verifiedcolor")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def verifiedcolor(v):
@@ -383,7 +383,7 @@ def verifiedcolor(v):
 	return set_color(v, "verifiedcolor", "verifiedcolor")
 
 @app.post("/settings/security")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def settings_security_post(v):
@@ -456,7 +456,7 @@ def settings_security_post(v):
 		return render_template("settings/security.html", v=v, msg="Two-factor authentication disabled.")
 
 @app.post("/settings/log_out_all_others")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def settings_log_out_others(v):
@@ -471,7 +471,7 @@ def settings_log_out_others(v):
 
 
 @app.post("/settings/images/profile")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def settings_images_profile(v):
@@ -506,7 +506,7 @@ def settings_images_profile(v):
 
 
 @app.post("/settings/images/banner")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 @feature_required('USERS_PROFILE_BANNER')
@@ -534,7 +534,7 @@ def settings_css_get(v):
 	return render_template("settings/css.html", v=v)
 
 @app.post("/settings/css")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def settings_css(v):
@@ -548,7 +548,7 @@ def settings_css(v):
 	return render_template("settings/css.html", v=v)
 
 @app.post("/settings/profilecss")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def settings_profilecss(v):
@@ -597,7 +597,7 @@ def settings_block_user(v):
 
 
 @app.post("/settings/unblock")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def settings_unblock_user(v):
@@ -621,7 +621,7 @@ def settings_advanced_get(v):
 	return render_template("settings/advanced.html", v=v)
 
 @app.post("/settings/name_change")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @is_not_permabanned
 def settings_name_change(v):
@@ -763,7 +763,7 @@ def settings_song_change(v):
 	return redirect("/settings/personal")
 
 @app.post("/settings/title_change")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def settings_title_change(v):
@@ -787,7 +787,7 @@ def settings_title_change(v):
 
 
 @app.post("/settings/pronouns_change")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 @feature_required('PRONOUNS')
@@ -814,7 +814,7 @@ def settings_pronouns_change(v):
 
 
 @app.post("/settings/checkmark_text")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def settings_checkmark_text(v):

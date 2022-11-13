@@ -8,7 +8,7 @@ from os import path
 from files.helpers.sanitize import filter_emojis_only
 
 @app.post("/report/post/<pid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def flag_post(pid, v):
@@ -61,7 +61,7 @@ def flag_post(pid, v):
 
 
 @app.post("/report/comment/<cid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def flag_comment(cid, v):

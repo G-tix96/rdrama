@@ -53,6 +53,10 @@ CONTENT_SECURITY_POLICY_HOME = f"script-src 'self' 'unsafe-inline' 'unsafe-eval'
 
 CLOUDFLARE_COOKIE_VALUE = "yes."
 
+DEFAULT_RATELIMIT = "3/second;30/minute;200/hour;1000/day"
+DEFAULT_RATELIMIT_SLOWER = "1/second;30/minute;200/hour;1000/day"
+DEFAULT_RATELIMIT_USER = DEFAULT_RATELIMIT_SLOWER
+
 if SITE == "localhost": SITE_FULL = 'http://' + SITE
 else: SITE_FULL = 'https://' + SITE
 

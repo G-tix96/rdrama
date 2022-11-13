@@ -146,5 +146,5 @@ def feature_required(x):
 		return wrapper
 	return wrapper_maker
 
-def ratelimit_user(limit="1/second;30/minute;200/hour;1000/day"):
+def ratelimit_user(limit=DEFAULT_RATELIMIT_USER):
 	return limiter.limit(limit, key_func=lambda:f'{SITE}-{session.get("lo_user")}')

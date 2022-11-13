@@ -17,7 +17,7 @@ def authorize_prompt(v):
 
 
 @app.post("/authorize")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def authorize(v):
@@ -39,7 +39,7 @@ def authorize(v):
 
 
 @app.post("/rescind/<aid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def rescind(v, aid):
@@ -51,7 +51,7 @@ def rescind(v, aid):
 
 
 @app.post("/api_keys")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @is_not_permabanned
 def request_api_keys(v):
@@ -93,7 +93,7 @@ def request_api_keys(v):
 
 
 @app.post("/delete_app/<aid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def delete_oauth_app(v, aid):
@@ -116,7 +116,7 @@ def delete_oauth_app(v, aid):
 
 
 @app.post("/edit_app/<aid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @is_not_permabanned
 def edit_oauth_app(v, aid):
@@ -140,7 +140,7 @@ def edit_oauth_app(v, aid):
 
 
 @app.post("/admin/app/approve/<aid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_approve(v, aid):
 
@@ -176,7 +176,7 @@ def admin_app_approve(v, aid):
 
 
 @app.post("/admin/app/revoke/<aid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_revoke(v, aid):
 
@@ -201,7 +201,7 @@ def admin_app_revoke(v, aid):
 
 
 @app.post("/admin/app/reject/<aid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_reject(v, aid):
 
@@ -284,7 +284,7 @@ def admin_apps_list(v):
 
 
 @app.post("/reroll/<aid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def reroll_oauth_tokens(aid, v):

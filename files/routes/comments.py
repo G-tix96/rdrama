@@ -457,7 +457,7 @@ def edit_comment(cid, v):
 
 
 @app.post("/delete/comment/<cid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def delete_comment(cid, v):
@@ -485,7 +485,7 @@ def delete_comment(cid, v):
 	return {"message": "Comment deleted!"}
 
 @app.post("/undelete/comment/<cid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def undelete_comment(cid, v):
@@ -557,7 +557,7 @@ def unpin_comment(cid, v):
 
 
 @app.post("/save_comment/<cid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def save_comment(cid, v):
@@ -574,7 +574,7 @@ def save_comment(cid, v):
 	return {"message": "Comment saved!"}
 
 @app.post("/unsave_comment/<cid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def unsave_comment(cid, v):
@@ -610,7 +610,7 @@ def diff_words(answer, guess):
 
 
 @app.post("/wordle/<cid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def handle_wordle_action(cid, v):

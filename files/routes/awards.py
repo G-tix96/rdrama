@@ -120,7 +120,7 @@ def buy(v, award):
 	return {"message": f"{award_title} award bought!"}
 
 @app.post("/award/<thing_type>/<id>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @is_not_permabanned
 @feature_required('AWARDS')

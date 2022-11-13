@@ -180,7 +180,7 @@ def me(v):
 
 
 @app.post("/logout")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def logout(v):
@@ -397,7 +397,7 @@ def get_forgot():
 
 
 @app.post("/forgot")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 def post_forgot():
 
 	username = request.values.get("username")
@@ -469,7 +469,7 @@ def get_reset():
 
 
 @app.post("/reset")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_desired
 def post_reset(v):
 	if v: return redirect('/')

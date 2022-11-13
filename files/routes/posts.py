@@ -78,7 +78,7 @@ def unclub_post(pid, v):
 
 
 @app.post("/publish/<pid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def publish(pid, v):
@@ -226,7 +226,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		fart=app.config['SETTINGS']['Fart mode'])
 
 @app.get("/viewmore/<pid>/<sort>/<offset>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_desired_with_logingate
 def viewmore(v, pid, sort, offset):
 	post = get_post(pid, v=v)
@@ -282,7 +282,7 @@ def viewmore(v, pid, sort, offset):
 
 
 @app.get("/morecomments/<cid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_desired_with_logingate
 def morecomments(v, cid):
 	try: cid = int(cid)
@@ -954,7 +954,7 @@ def submit_post(v, sub=None):
 
 
 @app.post("/delete_post/<pid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def delete_post_pid(pid, v):
@@ -981,7 +981,7 @@ def delete_post_pid(pid, v):
 	return {"message": "Post deleted!"}
 
 @app.post("/undelete_post/<pid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def undelete_post_pid(pid, v):
@@ -1037,7 +1037,7 @@ def toggle_post_nsfw(pid, v):
 	else: return {"message": "Post has been unmarked as +18!"}
 
 @app.post("/save_post/<pid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def save_post(pid, v):
@@ -1053,7 +1053,7 @@ def save_post(pid, v):
 	return {"message": "Post saved!"}
 
 @app.post("/unsave_post/<pid>")
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @ratelimit_user()
 @auth_required
 def unsave_post(pid, v):
