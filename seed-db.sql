@@ -2765,6 +2765,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseysully',2,'disney pixar monsters inc horned horns',NULL),
 ('marseysunflower',2,'love ukraine threatening pointing russia',NULL),
 ('marseysuper',2,'superstraight lgbt',NULL),
+('marseysupersorensoarin',2,'soren super hero superhero batman superman schizo meta 41',1668289194),
 ('marseysurfing',2,'surfer surfing pikachu water wave meme',NULL),
 ('marseysurprised',2,'reaction shocked shook unexpected',NULL),
 ('marseysus',2,'amogus among us stonetoss sussy baka amongus',NULL),
