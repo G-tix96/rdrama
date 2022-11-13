@@ -79,8 +79,8 @@ def unclub_post(pid, v):
 
 @app.post("/publish/<pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def publish(pid, v):
 	post = get_post(pid)
 	if not post.private: return {"message": "Post published!"}
@@ -955,8 +955,8 @@ def submit_post(v, sub=None):
 
 @app.post("/delete_post/<pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def delete_post_pid(pid, v):
 	post = get_post(pid)
 	if post.author_id != v.id: abort(403)
@@ -982,8 +982,8 @@ def delete_post_pid(pid, v):
 
 @app.post("/undelete_post/<pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def undelete_post_pid(pid, v):
 	post = get_post(pid)
 	if post.author_id != v.id: abort(403)
@@ -1038,8 +1038,8 @@ def toggle_post_nsfw(pid, v):
 
 @app.post("/save_post/<pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def save_post(pid, v):
 
 	post=get_post(pid)
@@ -1054,8 +1054,8 @@ def save_post(pid, v):
 
 @app.post("/unsave_post/<pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def unsave_post(pid, v):
 
 	post=get_post(pid)

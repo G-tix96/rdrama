@@ -313,15 +313,15 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'proc
 	
 @app.post("/@<username>/transfer_coins")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @is_not_permabanned
+@ratelimit_user()
 def transfer_coins(v, username):
 	return transfer_currency(v, username, 'coins', True)
 
 @app.post("/@<username>/transfer_bux")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @is_not_permabanned
+@ratelimit_user()
 @feature_required('PROCOINS')
 def transfer_bux(v, username):
 	return transfer_currency(v, username, 'procoins', False)
@@ -393,8 +393,8 @@ def song(song):
 
 @app.post("/subscribe/<post_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def subscribe(v, post_id):
 	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
 	if not existing:
@@ -404,8 +404,8 @@ def subscribe(v, post_id):
 	
 @app.post("/unsubscribe/<post_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def unsubscribe(v, post_id):
 	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
 	if existing:
@@ -832,8 +832,8 @@ def u_user_id_info(id, v=None):
 
 @app.post("/follow/<username>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def follow_user(username, v):
 
 	target = get_user(username, v=v, include_shadowbanned=False)
@@ -859,8 +859,8 @@ def follow_user(username, v):
 
 @app.post("/unfollow/<username>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def unfollow_user(username, v):
 
 	target = get_user(username)
@@ -887,8 +887,8 @@ def unfollow_user(username, v):
 
 @app.post("/remove_follow/<username>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def remove_follow(username, v):
 	target = get_user(username)
 

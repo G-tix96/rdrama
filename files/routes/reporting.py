@@ -9,8 +9,8 @@ from files.helpers.sanitize import filter_emojis_only
 
 @app.post("/report/post/<pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def flag_post(pid, v):
 	post = get_post(pid)
 	reason = request.values.get("reason", "").strip()
@@ -62,8 +62,8 @@ def flag_post(pid, v):
 
 @app.post("/report/comment/<cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def flag_comment(cid, v):
 
 	comment = get_comment(cid)

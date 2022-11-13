@@ -121,8 +121,8 @@ def buy(v, award):
 
 @app.post("/award/<thing_type>/<id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @is_not_permabanned
+@ratelimit_user()
 @feature_required('AWARDS')
 def award_thing(v, thing_type, id):
 	if thing_type == 'post': 

@@ -387,8 +387,8 @@ def sub_settings(v, sub):
 
 @app.post('/h/<sub>/sidebar')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @is_not_permabanned
+@ratelimit_user()
 def post_sub_sidebar(v, sub):
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
@@ -412,8 +412,8 @@ def post_sub_sidebar(v, sub):
 
 @app.post('/h/<sub>/css')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @is_not_permabanned
+@ratelimit_user()
 def post_sub_css(v, sub):
 	sub = get_sub_by_name(sub)
 	css = request.values.get('css', '').strip()

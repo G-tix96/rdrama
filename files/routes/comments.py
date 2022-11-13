@@ -458,8 +458,8 @@ def edit_comment(cid, v):
 
 @app.post("/delete/comment/<cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def delete_comment(cid, v):
 
 	c = get_comment(cid, v=v)
@@ -486,8 +486,8 @@ def delete_comment(cid, v):
 
 @app.post("/undelete/comment/<cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def undelete_comment(cid, v):
 
 	c = get_comment(cid, v=v)
@@ -558,8 +558,8 @@ def unpin_comment(cid, v):
 
 @app.post("/save_comment/<cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def save_comment(cid, v):
 
 	comment=get_comment(cid)
@@ -575,8 +575,8 @@ def save_comment(cid, v):
 
 @app.post("/unsave_comment/<cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def unsave_comment(cid, v):
 
 	comment=get_comment(cid)
@@ -611,8 +611,8 @@ def diff_words(answer, guess):
 
 @app.post("/wordle/<cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def handle_wordle_action(cid, v):
 	comment = get_comment(cid)
 

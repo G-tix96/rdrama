@@ -18,8 +18,8 @@ def authorize_prompt(v):
 
 @app.post("/authorize")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def authorize(v):
 
 	client_id = request.values.get("client_id")
@@ -40,8 +40,8 @@ def authorize(v):
 
 @app.post("/rescind/<aid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def rescind(v, aid):
 
 	auth = g.db.query(ClientAuth).filter_by(oauth_client = aid, user_id = v.id).one_or_none()
@@ -52,8 +52,8 @@ def rescind(v, aid):
 
 @app.post("/api_keys")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @is_not_permabanned
+@ratelimit_user()
 def request_api_keys(v):
 
 	new_app = OauthApp(
@@ -94,8 +94,8 @@ def request_api_keys(v):
 
 @app.post("/delete_app/<aid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def delete_oauth_app(v, aid):
 	try:
 		aid = int(aid)
@@ -117,8 +117,8 @@ def delete_oauth_app(v, aid):
 
 @app.post("/edit_app/<aid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @is_not_permabanned
+@ratelimit_user()
 def edit_oauth_app(v, aid):
 	try:
 		aid = int(aid)
@@ -285,8 +285,8 @@ def admin_apps_list(v):
 
 @app.post("/reroll/<aid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def reroll_oauth_tokens(aid, v):
 
 	aid = aid

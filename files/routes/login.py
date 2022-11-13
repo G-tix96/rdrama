@@ -181,8 +181,8 @@ def me(v):
 
 @app.post("/logout")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def logout(v):
 
 	loggedin = cache.get(f'{SITE}_loggedin') or {}

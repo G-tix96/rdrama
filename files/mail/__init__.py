@@ -51,8 +51,8 @@ def send_verification_email(user, email=None):
 
 @app.post("/verify_email")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@ratelimit_user()
 @auth_required
+@ratelimit_user()
 def verify_email(v):
 
 	send_verification_email(v)
