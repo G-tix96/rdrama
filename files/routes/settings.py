@@ -28,7 +28,7 @@ def settings_personal(v):
 
 @app.delete('/settings/background')
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def remove_background(v):
 	if v.background:
@@ -38,7 +38,7 @@ def remove_background(v):
 
 @app.post("/settings/personal")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def settings_personal_post(v):
 	updated = False
@@ -319,21 +319,21 @@ def set_color(v:User, attr:str, color:Optional[str]):
 
 @app.post("/settings/namecolor")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def namecolor(v):
 	return set_color(v, "namecolor", request.values.get("namecolor"))
 	
 @app.post("/settings/themecolor")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def themecolor(v):
 	return set_color(v, "themecolor", request.values.get("themecolor"))
 
 @app.post("/settings/gumroad")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def gumroad(v):
 	if not (v.email and v.is_activated):
@@ -369,14 +369,14 @@ def gumroad(v):
 
 @app.post("/settings/titlecolor")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def titlecolor(v):
 	return set_color(v, "titlecolor", request.values.get("titlecolor"))
 
 @app.post("/settings/verifiedcolor")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def verifiedcolor(v):
 	if not v.verified: abort(403, "You don't have a checkmark")
@@ -384,7 +384,7 @@ def verifiedcolor(v):
 
 @app.post("/settings/security")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def settings_security_post(v):
 	if request.values.get("new_password"):
@@ -457,7 +457,7 @@ def settings_security_post(v):
 
 @app.post("/settings/log_out_all_others")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def settings_log_out_others(v):
 	submitted_password = request.values.get("password", "").strip()
@@ -472,7 +472,7 @@ def settings_log_out_others(v):
 
 @app.post("/settings/images/profile")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def settings_images_profile(v):
 	if request.headers.get("cf-ipcountry") == "T1": abort(403, "Image uploads are not allowed through TOR.")
@@ -507,7 +507,7 @@ def settings_images_profile(v):
 
 @app.post("/settings/images/banner")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 @feature_required('USERS_PROFILE_BANNER')
 def settings_images_banner(v):
@@ -535,7 +535,7 @@ def settings_css_get(v):
 
 @app.post("/settings/css")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def settings_css(v):
 	if v.agendaposter: abort(400, "Agendapostered users can't edit CSS!")
@@ -549,7 +549,7 @@ def settings_css(v):
 
 @app.post("/settings/profilecss")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def settings_profilecss(v):
 	profilecss = request.values.get("profilecss", v.profilecss).strip().replace('\\', '').strip()[:4000]
@@ -598,7 +598,7 @@ def settings_block_user(v):
 
 @app.post("/settings/unblock")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def settings_unblock_user(v):
 	user = get_user(request.values.get("username"))
@@ -622,7 +622,7 @@ def settings_advanced_get(v):
 
 @app.post("/settings/name_change")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @is_not_permabanned
 def settings_name_change(v):
 	new_name=request.values.get("name").strip()
@@ -764,7 +764,7 @@ def settings_song_change(v):
 
 @app.post("/settings/title_change")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def settings_title_change(v):
 	if v.flairchanged: abort(403)
@@ -788,7 +788,7 @@ def settings_title_change(v):
 
 @app.post("/settings/pronouns_change")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 @feature_required('PRONOUNS')
 def settings_pronouns_change(v):
@@ -815,7 +815,7 @@ def settings_pronouns_change(v):
 
 @app.post("/settings/checkmark_text")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def settings_checkmark_text(v):
 	if not v.verified: abort(403)

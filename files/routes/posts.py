@@ -79,7 +79,7 @@ def unclub_post(pid, v):
 
 @app.post("/publish/<pid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def publish(pid, v):
 	post = get_post(pid)
@@ -955,7 +955,7 @@ def submit_post(v, sub=None):
 
 @app.post("/delete_post/<pid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def delete_post_pid(pid, v):
 	post = get_post(pid)
@@ -982,7 +982,7 @@ def delete_post_pid(pid, v):
 
 @app.post("/undelete_post/<pid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def undelete_post_pid(pid, v):
 	post = get_post(pid)
@@ -1038,7 +1038,7 @@ def toggle_post_nsfw(pid, v):
 
 @app.post("/save_post/<pid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def save_post(pid, v):
 
@@ -1054,7 +1054,7 @@ def save_post(pid, v):
 
 @app.post("/unsave_post/<pid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def unsave_post(pid, v):
 

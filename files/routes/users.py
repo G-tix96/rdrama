@@ -313,14 +313,14 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'proc
 	
 @app.post("/@<username>/transfer_coins")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @is_not_permabanned
 def transfer_coins(v, username):
 	return transfer_currency(v, username, 'coins', True)
 
 @app.post("/@<username>/transfer_bux")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @is_not_permabanned
 @feature_required('PROCOINS')
 def transfer_bux(v, username):
@@ -393,7 +393,7 @@ def song(song):
 
 @app.post("/subscribe/<post_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def subscribe(v, post_id):
 	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
@@ -404,7 +404,7 @@ def subscribe(v, post_id):
 	
 @app.post("/unsubscribe/<post_id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def unsubscribe(v, post_id):
 	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
@@ -832,7 +832,7 @@ def u_user_id_info(id, v=None):
 
 @app.post("/follow/<username>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def follow_user(username, v):
 
@@ -859,7 +859,7 @@ def follow_user(username, v):
 
 @app.post("/unfollow/<username>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def unfollow_user(username, v):
 
@@ -887,7 +887,7 @@ def unfollow_user(username, v):
 
 @app.post("/remove_follow/<username>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def remove_follow(username, v):
 	target = get_user(username)

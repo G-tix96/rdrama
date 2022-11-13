@@ -145,3 +145,6 @@ def feature_required(x):
 		wrapper.__name__ = f.__name__
 		return wrapper
 	return wrapper_maker
+
+def ratelimit_user(limit="1/second;20/minute;200/hour;1000/day"):
+	return limiter.limit(limit, key_func=lambda:f'{SITE}-{session.get("lo_user")}')

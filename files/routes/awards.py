@@ -121,7 +121,8 @@ def buy(v, award):
 
 @app.post("/award/<thing_type>/<id>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
+@ratelimit_user()
 @is_not_permabanned
 @feature_required('AWARDS')
 def award_thing(v, thing_type, id):

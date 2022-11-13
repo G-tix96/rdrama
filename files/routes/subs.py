@@ -387,7 +387,7 @@ def sub_settings(v, sub):
 
 @app.post('/h/<sub>/sidebar')
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @is_not_permabanned
 def post_sub_sidebar(v, sub):
 	sub = get_sub_by_name(sub)
@@ -412,7 +412,7 @@ def post_sub_sidebar(v, sub):
 
 @app.post('/h/<sub>/css')
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @is_not_permabanned
 def post_sub_css(v, sub):
 	sub = get_sub_by_name(sub)

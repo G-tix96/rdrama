@@ -9,7 +9,7 @@ from files.helpers.sanitize import filter_emojis_only
 
 @app.post("/report/post/<pid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def flag_post(pid, v):
 	post = get_post(pid)
@@ -62,7 +62,7 @@ def flag_post(pid, v):
 
 @app.post("/report/comment/<cid>")
 @limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user()
 @auth_required
 def flag_comment(cid, v):
 
