@@ -787,10 +787,10 @@ def settings_title_change(v):
 
 
 @app.post("/settings/pronouns_change")
+@feature_required('PRONOUNS')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
-@feature_required('PRONOUNS')
 def settings_pronouns_change(v):
 	pronouns = sanitize_settings_text(request.values.get("pronouns"))
 

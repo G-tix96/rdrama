@@ -319,10 +319,10 @@ def transfer_coins(v, username):
 	return transfer_currency(v, username, 'coins', True)
 
 @app.post("/@<username>/transfer_bux")
+@feature_required('PROCOINS')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @is_not_permabanned
 @ratelimit_user()
-@feature_required('PROCOINS')
 def transfer_bux(v, username):
 	return transfer_currency(v, username, 'procoins', False)
 

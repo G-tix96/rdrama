@@ -151,4 +151,10 @@ def ratelimit_user(limit:Union[str, Callable[[], str]]=DEFAULT_RATELIMIT_USER):
 	Ratelimits based on a user. This requires at least auth_required (or stronger) to be present, 
 	otherwise logged out users will receive 500s
 	'''
-	return limiter.limit(limit, key_func=lambda:f'{SITE}-{g.v.id}')
+	def inner(func):
+		@functools.wraps(func)
+		@limiter.limit(limit, key_func=lambda:f'{SITE}-{g.v.id}')
+		def wrapped(*args, **kwargs):
+			return func(*args, **kwargs)
+		return wrapped
+	return inner
