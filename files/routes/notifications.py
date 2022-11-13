@@ -5,6 +5,7 @@ from files.__main__ import app
 import time
 
 @app.post("/clear")
+@ratelimit_user()
 @auth_required
 def clear(v):
 	notifs = g.db.query(Notification).join(Notification.comment).filter(Notification.read == False, Notification.user_id == v.id).all()
@@ -18,6 +19,7 @@ def clear(v):
 
 
 @app.get("/unread")
+@ratelimit_user()
 @auth_required
 def unread(v):
 	listing = g.db.query(Notification, Comment).join(Notification.comment).filter(
