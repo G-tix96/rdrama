@@ -213,12 +213,16 @@ def submit_contact(v):
 		abort(403)
 
 	body = f'This message has been sent automatically to all admins via [/contact](/contact)\n\nMessage:\n\n' + body
-
 	body += process_files()
-
 	body = body.strip()
-	
 	body_html = sanitize(body)
+
+	existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
+											 Comment.parent_submission == None,
+											 Comment.level == 1,
+											 Comment.sentto == 2,
+											 Comment.body_html == body_html).first()
+	if existing: abort(409, f"You already sent that message")
 
 	new_comment = Comment(author_id=v.id,
 						parent_submission=None,
