@@ -57,6 +57,8 @@ DEFAULT_RATELIMIT = "3/second;30/minute;200/hour;1000/day"
 DEFAULT_RATELIMIT_SLOWER = "1/second;30/minute;200/hour;1000/day"
 DEFAULT_RATELIMIT_USER = DEFAULT_RATELIMIT_SLOWER
 
+PUSHER_LIMIT = 1000 # API allows 10 KB but better safe than sorry
+
 if SITE == "localhost": SITE_FULL = 'http://' + SITE
 else: SITE_FULL = 'https://' + SITE
 

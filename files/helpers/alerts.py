@@ -106,6 +106,8 @@ if PUSHER_ID != 'blahblahblah':
 	def pusher_thread(interests, title, notifbody, url):
 		title = censor_slurs(title, None)
 		notifbody = censor_slurs(notifbody, None)
+		if len(notifbody) > PUSHER_LIMIT:
+			notifbody = notifbody[:PUSHER_LIMIT] + "..."
 
 		beams_client.publish_to_interests(
 			interests=[interests],
