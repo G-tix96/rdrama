@@ -142,7 +142,10 @@ def log(v):
 	else:
 		actions = g.db.query(ModAction)
 		if not (v and v.admin_level >= PERMS['USER_SHADOWBAN']): 
-			actions = actions.filter(ModAction.kind.notin_(["shadowban","unshadowban"]))
+			actions = actions.filter(ModAction.kind.notin_([
+				"shadowban","unshadowban",
+				"mod_mute_user","mod_unmute_user",
+				]))
 
 		if admin_id:
 			actions = actions.filter_by(user_id=admin_id)
@@ -199,8 +202,8 @@ def contact(v):
 	return render_template("contact.html", v=v)
 
 @app.post("/send_admin")
-@limiter.limit("1/second;2/minute;6/hour;10/day")
-@limiter.limit("1/second;2/minute;6/hour;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@limiter.limit("1/second;1/2 minutes;10/day")
+@limiter.limit("1/second;1/2 minutes;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def submit_contact(v):
 	body = request.values.get("message")
