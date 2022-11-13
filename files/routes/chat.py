@@ -39,15 +39,17 @@ user_ids_to_socket_ids = {}
 @app.get("/chat")
 @is_not_permabanned
 def chat(v):
+	if TRUESCORE_CHAT_LIMIT and v.truescore < TRUESCORE_CHAT_LIMIT: abort(403)
 	return render_template("chat.html", v=v, messages=messages)
 
 
 @socketio.on('speak')
 @limiter.limit("3/second;10/minute")
-@limiter.limit("3/second;10/minute", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
+@ratelimit_user("3/second;10/minute")
 def speak(data, v):
 	if v.is_banned: return '', 403
+	if TRUESCORE_CHAT_LIMIT and v.truescore < TRUESCORE_CHAT_LIMIT: return '', 403
 
 	vname = v.username.lower()
 	if vname in muted:

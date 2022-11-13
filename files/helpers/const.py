@@ -462,6 +462,8 @@ TIERS_ID_TO_NAME = {
 		6: "Rich Bich"
 }
 
+TRUESCORE_CHAT_LIMIT = 10
+
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
@@ -520,6 +522,8 @@ elif SITE == 'pcmemes.net':
 	POST_RATE_LIMIT = '1/second;4/minute;20/hour;100/day'
 
 	HOLE_COST = 2000
+
+	TRUESCORE_CHAT_LIMIT = 0
 
 	AUTOJANNY_ID = 1046
 	SNAPPY_ID = 261
