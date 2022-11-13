@@ -270,8 +270,12 @@ def notifications(v):
 		Comment.body_html.notlike('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
 		or_(Comment.sentto == None, Comment.sentto == 2),
 		not_(and_(Comment.sentto == 2, User.is_muted)),
-	).order_by(Notification.created_utc.desc())
+	)
 
+	if v.admin_level < PERMS['USER_SHADOWBAN']:
+		comments = comments.filter(User.shadowbanned == None)
+
+	comments = comments.order_by(Notification.created_utc.desc())
 	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
 
 	next_exists = (len(comments) > PAGE_SIZE)
