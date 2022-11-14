@@ -47,10 +47,10 @@ def club_post(pid, v):
 			)
 			g.db.add(ma)
 
-			message = f"@{v.username} (Admin) has moved [{post.title}]({post.shortlink}) to the {CC_TITLE}!"
+			message = f"@{v.username} (Admin) has marked [{post.title}]({post.shortlink}) as {CC_TITLE}!"
 			send_repeatable_notification(post.author_id, message)
 
-	return {"message": f"Post has been moved to the {CC_TITLE}!"}
+	return {"message": f"Post has been marked as {CC_TITLE}!"}
 
 @app.post("/unclub_post/<pid>")
 @auth_required
@@ -71,10 +71,10 @@ def unclub_post(pid, v):
 			)
 			g.db.add(ma)
 
-			message = f"@{v.username} (Admin) has removed [{post.title}]({post.shortlink}) from the {CC_TITLE}!"
+			message = f"@{v.username} (Admin) has unmarked [{post.title}]({post.shortlink}) as {CC_TITLE}!"
 			send_repeatable_notification(post.author_id, message)
 
-	return {"message": f"Post has been removed from the {CC_TITLE}!"}
+	return {"message": f"Post has been unmarked as {CC_TITLE}!"}
 
 
 @app.post("/publish/<pid>")
