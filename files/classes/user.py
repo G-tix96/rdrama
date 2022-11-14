@@ -975,6 +975,16 @@ class User(Base):
 		if self.agendaposter: return True
 		if self.patron: return True
 		return False
+	
+	@property
+	@lazy
+	def can_post_in_ghost_threads(self):
+		if not TRUESCORE_GHOST_LIMIT: return True
+		if self.admin_level >= PERMS['POST_IN_GHOST_THREADS']: return True
+		if self.club_allowed: return True
+		if self.truescore >= TRUESCORE_GHOST_LIMIT: return True
+		if self.patron: return True
+		return False
 
 	@property
 	@lazy

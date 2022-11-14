@@ -229,6 +229,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'USER_MERGE': 3, # note: extra check for Aevann
 	'USER_TITLE_CHANGE': 2,
 	'USER_MODERATION_TOOLS_VISIBLE': 2, # note: does not affect API at all
+	'POST_IN_GHOST_THREADS': 1,
 	'POST_TO_CHANGELOG': 1, # note: code contributors can also post to changelog
 	'POST_TO_POLL_THREAD': 2,
 	'POST_BETS': 3,
@@ -378,6 +379,7 @@ MIN_REPOST_CHECK_URL_LENGTH = 9 # also change the constant in checkRepost() of s
 TRUESCORE_DONATE_LIMIT = 100
 COSMETIC_AWARD_COIN_AWARD_PCT = 0.10
 TRUESCORE_CHAT_LIMIT = 0
+TRUESCORE_GHOST_LIMIT = 0
 POST_GHOST_COST = 100
 
 LOGGEDIN_ACTIVE_TIME = 15 * 60
@@ -476,6 +478,7 @@ if SITE == 'rdrama.net':
 	NOTIFICATION_THREAD = 6489
 
 	TRUESCORE_CHAT_LIMIT = 10
+	TRUESCORE_GHOST_LIMIT = 10
 
 	HOLE_COST = 50000
 	HOLE_INACTIVITY_DELETION = True
@@ -570,6 +573,7 @@ elif SITE == 'watchpeopledie.tv':
 	BANNER_THREAD = 9869
 
 	TRUESCORE_CHAT_LIMIT = 10
+	TRUESCORE_GHOST_LIMIT = 10
 
 	HOLE_NAME = 'flair'
 	HOLE_STYLE_FLAIR = True
