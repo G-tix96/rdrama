@@ -375,7 +375,7 @@ def execute_blackjack(v, target, body, type):
 		if notif:
 			g.db.add(notif)
 			g.db.flush()
-		elif extra_info: send_repeatable_notification(CARP_ID, f"Blackjack for {v.name}: {extra_info}")
+		elif extra_info: send_repeatable_notification(CARP_ID, f"Blackjack for {v.username}: {extra_info}")
 		return False
 	return True
 
