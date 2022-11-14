@@ -117,8 +117,10 @@
 												{%- endif %}
 
 												<div class="custom-control custom-checkbox mb-5">
-													<input onchange='ghost_toggle(this)' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost">
-													<label class="custom-control-label" for="post-ghost">Ghost thread (cost {{POST_GHOST_COST}} coins)</label>
+													{% if v.can_post_in_ghost_threads %}
+														<input onchange='ghost_toggle(this)' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost">
+														<label class="custom-control-label" for="post-ghost">Ghost thread</label>
+													{% endif %}
 												</div>
 										</div>
 
