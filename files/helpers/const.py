@@ -566,6 +566,13 @@ elif SITE == 'watchpeopledie.tv':
 	ERROR_TITLES[413] = "Payload Too Large"
 	ERROR_TITLES[415] = "Unsupported Media Type"
 	ERROR_TITLES[500] = "Internal Server Error"
+	ERROR_MSGS[400] = "That request is invalid"
+	ERROR_MSGS[401] = "You need to login or sign up to do that"
+	ERROR_MSGS[403] = "You're not allowed to do that"
+	ERROR_MSGS[404] = "That wasn't found"
+	ERROR_MSGS[405] = "You can't use this method here... if you keep getting this error tell us it's prolly something borked"
+	ERROR_MSGS[409] = "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do."
+	ERROR_MSGS[413] = "You need to upload a smaller file please"
 
 	POLL_THREAD = 13225
 
