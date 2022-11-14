@@ -152,7 +152,6 @@ PROFANITIES = {
 	'shitting': 'pooping',
 	'lmao': 'lmbo',
 	'damn': 'darn',
-	'bastardized': 'goofed up',
 	'bastard': 'fatherless child',
 	'bitch': 'b-word',
 	'toilet': 'potty',
