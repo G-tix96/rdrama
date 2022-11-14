@@ -573,6 +573,7 @@ elif SITE == 'watchpeopledie.tv':
 	ERROR_MSGS[405] = "You can't use this method here... if you keep getting this error tell us it's prolly something borked"
 	ERROR_MSGS[409] = "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do."
 	ERROR_MSGS[413] = "You need to upload a smaller file please"
+	ERROR_MSGS[429] = "Please wait a bit before doing that"
 
 	POLL_THREAD = 13225
 
