@@ -830,6 +830,7 @@ class User(Base):
 					'url': self.url,
 					'is_banned': True,
 					'is_permanent_ban': not bool(self.unban_utc),
+					'created_utc': self.created_utc,
 					'ban_reason': self.ban_reason,
 					'id': self.id
 					}
