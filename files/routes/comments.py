@@ -368,7 +368,7 @@ def comment(v):
 @app.post("/edit_comment/<cid>")
 @limiter.limit("1/second;10/minute;100/hour;200/day")
 @limiter.limit("1/second;10/minute;100/hour;200/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
-@auth_required
+@is_not_permabanned
 def edit_comment(cid, v):
 	c = get_comment(cid, v=v)
 

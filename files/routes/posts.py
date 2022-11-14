@@ -307,7 +307,7 @@ def morecomments(v, cid):
 @app.post("/edit_post/<pid>")
 @limiter.limit("1/second;10/minute;100/hour;200/day")
 @limiter.limit("1/second;10/minute;100/hour;200/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
-@auth_required
+@is_not_permabanned
 def edit_post(pid, v):
 	p = get_post(pid)
 	if v.id != p.author_id and v.admin_level < PERMS['POST_EDITING']:
