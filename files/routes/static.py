@@ -145,7 +145,7 @@ def log(v):
 			actions = actions.filter(ModAction.kind.notin_([
 				"shadowban","unshadowban",
 				"mod_mute_user","mod_unmute_user",
-				"link_accounts",
+				"link_accounts","delink_accounts",
 				]))
 
 		if admin_id:

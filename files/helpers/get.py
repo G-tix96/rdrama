@@ -27,7 +27,7 @@ def get_id(username:str, graceful=False) -> Optional[int]:
 
 	return user[0]
 
-def get_user(username:str, v:Optional[User]=None, graceful=False, include_blocks=False, include_shadowbanned=True) -> Optional[User]:
+def get_user(username:Optional[str], v:Optional[User]=None, graceful=False, include_blocks=False, include_shadowbanned=True) -> Optional[User]:
 	if not username:
 		if graceful: return None
 		abort(404)

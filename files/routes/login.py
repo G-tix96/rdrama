@@ -48,20 +48,24 @@ def check_for_alts(current:User, include_current_session=True):
 		add_alt(past_id, current_id)
 		other_alts = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).all()
 		for a in other_alts:
-			if a.user1 != past_id:
-				add_alt(a.user1, past_id)
-			if a.user1 != current_id:
-				add_alt(a.user1, current_id)
-			if a.user2 != past_id:
-				add_alt(a.user2, past_id)
-			if a.user2 != current_id:
-				add_alt(a.user2, current_id)
+			if a.deleted:
+				if include_current_session:
+					try: session["history"].remove(a.user1)
+					except: pass
+					try: session["history"].remove(a.user2)
+					except: pass
+				continue # don't propagate deleted alt links
+			if a.user1 != past_id: add_alt(a.user1, past_id)
+			if a.user1 != current_id: add_alt(a.user1, current_id)
+			if a.user2 != past_id: add_alt(a.user2, past_id)
+			if a.user2 != current_id: add_alt(a.user2, current_id)
 	
 	past_accs.add(current_id)
 	if include_current_session:
 		session["history"] = list(past_accs)
 	g.db.flush()
 	for u in current.alts_unique:
+		if u._alt_deleted: continue
 		if u.shadowbanned:
 			current.shadowbanned = u.shadowbanned
 			if not current.is_banned: current.ban_reason = u.ban_reason
@@ -369,11 +373,10 @@ def sign_up_post(v):
 		send_verification_email(new_user)
 
 
-	check_for_alts(new_user)
-	
-	send_notification(new_user.id, WELCOME_MSG)
-
 	session["lo_user"] = new_user.id
+
+	check_for_alts(new_user)
+	send_notification(new_user.id, WELCOME_MSG)
 	
 	if SIGNUP_FOLLOW_ID:
 		signup_autofollow = get_account(SIGNUP_FOLLOW_ID)

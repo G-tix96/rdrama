@@ -230,9 +230,13 @@
 							<p id="profile--info--private">User has private mode enabled</p>
 						{% endif %}
 						{% if v and (v.admin_level >= PERMS['VIEW_ALTS'] or v.alt) %}
-							<span id="profile--alts">Alts:</span>
+							{% if v.admin_level >= PERMS['USER_LINK'] %}
+								<span id="profile--alts"><a href="/@{{u.username}}/alts">Alts</a>:</span>
+							{% else %}
+								<span id="profile--alts">Alts:</span>
+							{% endif %}
 							<ul id="profile--alts-list">
-								{% for account in u.alts_unique %}
+								{% for account in u.alts_unique if not account._alt_deleted and (v.can_see_shadowbanned or not account.shadowbanned) %}
 									<li><a href="{{account.url}}">@{{account.username}}</a>{% if account._is_manual %} [m]{% endif %}</li>
 								{% endfor %}
 							</ul>
@@ -469,11 +473,15 @@
 						<p id="profile-mobile--info--private">User has private mode enabled</p>
 					{% endif %}
 					{% if v and (v.admin_level >= PERMS['VIEW_ALTS'] or v.alt) %}
-						<span id="profile-mobile--alts">Alts:</span>
+						{% if v.admin_level >= PERMS['USER_LINK'] %}
+							<span id="profile-mobile--alts"><a href="/@{{u.username}}/alts">Alts</a>:</span>
+						{% else %}
+							<span id="profile-mobile--alts">Alts:</span>
+						{% endif %}:
 						<ul id="profile-mobile--alts-list">
-							{% for account in u.alts_unique %}
-								<li><a href="{{account.url}}">@{{account.username}}</a>{% if account._is_manual %} [m]{% endif %}</li>
-							{% endfor %}
+						{% for account in u.alts_unique if not account._alt_deleted and (v.can_see_shadowbanned or not account.shadowbanned) %}
+							<li><a href="{{account.url}}">@{{account.username}}</a>{% if account._is_manual %} [m]{% endif %}</li>
+						{% endfor %}
 						</ul>
 					{% endif %}
 				</div>

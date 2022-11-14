@@ -226,6 +226,11 @@ ACTIONTYPES = {
 		"icon": 'fa-link', 
 		"color": 'bg-success'
 	},
+	'delink_accounts': {
+		"str": 'delinked {self.target_link}',
+		"icon": 'fa-link-slash',
+		"color": 'bg-danger'
+	},
 	'make_admin': {
 		"str": 'made {self.target_link} an admin', 
 		"icon": 'fa-user-crown', 

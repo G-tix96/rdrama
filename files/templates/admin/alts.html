@@ -1,0 +1,106 @@
+{% extends "settings2.html" %}
+{% block content %}
+{% if u %}
+	<h5 class="mt-3">Alts for <a href="/@{{u.username}}">@{{u.username}}</a></h5>
+{% else %}
+	<h5 class="mt-3">Alts</h5>
+{% endif %}
+{%- import 'util/helpers.html' as help -%}
+<section class="username-input-section mb-3">
+	<form action="/admin/alts" method="get">
+		<label for="link-input">Username</label>
+		<input autocomplete="off" id="link-input" type="text" class="form-control mb-2" name="username" value="{{u.username if u else ''}}" placeholder="Username">
+		<input type="submit" onclick="disable(this)" value="Submit" class="btn btn-primary">
+	</form>
+</section>
+{% if u %}
+{% set count=alts|length %}
+<section class="userinfo-section">
+	<p><a href="/@{{u.username}}">@{{u.username}}</a> created their account {{u.created_utc|timestamp}} and has {{count}} known alt{{help.plural(count)}}.<br>
+	They are {% if not u.is_suspended_permanently %}not {% endif %}permanently banned{% if v.admin_level >= PERMS['USER_SHADOWBAN'] %} and they are {% if not u.shadowbanned %}not {% endif %}shadowbanned{% endif %}.</p>
+</section>
+<div class="overflow-x-auto">
+	<table class="table table-striped mb-5">
+	<thead class="bg-primary text-white">
+		<tr>
+			<th>#</th>
+			<th>Name</th>
+			<th>Account Created</th>
+			<th>Alt Link Created</th>
+			<th>Manual</th>
+			<th>Delinked</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	{% for user in alts %}
+		<tr>
+			<td>{{loop.index}}</td>
+			<td>{% include "admin/shadowbanned_tooltip.html" %}{% include "user_in_table.html" %}</td>
+			<td>{{user.created_utc|timestamp}}</td>
+			<td>{{user._alt_created_utc|timestamp}}</td>
+			<td>{{user._is_manual}}</td>
+			<td>{{user._alt_deleted}}</td>
+			<td>
+				<button type="button" id="delink-alt-{{u.id}}-{{user.id}}" class="btn btn-danger {% if user._alt_deleted %}d-none{% endif %}" onclick="postToastSwitch(this,'/@{{u.username}}/alts/{{user.id}}/deleted', this.id, 'relink-alt-{{u.id}}-{{user.id}}', 'd-none', null, 'PUT')">Delink</button>
+				<button type="button" id="relink-alt-{{u.id}}-{{user.id}}" class="btn btn-danger {% if not user._alt_deleted %}d-none{% endif %}" onclick="postToastSwitch(this,'/@{{u.username}}/alts/{{user.id}}/deleted', this.id, 'delink-alt-{{u.id}}-{{user.id}}', 'd-none', null, 'DELETE')">Relink</button>
+				<a class="btn btn-secondary" href="/@{{user.username}}/alts">Alts</a>
+				{% if v.admin_level >= PERMS['VIEW_ALT_VOTES'] %}
+					<a class="btn btn-secondary" href="/admin/alt_votes/?u1={{u.username}}&u2={{user.username}}">Alt Votes</a>
+				{% endif %}
+			</td>
+		</tr>
+	{% endfor %}
+	</table>
+</div>
+<section id="add-alt" class="rounded rounded-section p-3">
+	<h5>Add Alt</h5>
+	<p>This tool allows you to add an alt either linked or delinked.<br>
+		Adding linked will link the two alts together manually, while adding delinked will attempt to delink alts whereever possible.<br>
+		You're on your own for reversing any propagation though.
+	</p>
+	<form onsubmit="return false;">
+		<label for="link-input-other">Other Username</label>
+		<input autocomplete="off" id="link-input-other" type="text" class="form-control mb-2" name="other_username" placeholder="Other Username">
+		<button id="add-alt-form-link" class="btn btn-danger mr-3" data-click="submitAddAlt(this)" onclick="areyousure(this)">Add Alt Linked</button>
+		<button id="add-alt-form-delink" class="btn btn-danger" data-click="submitAddAlt(this)" onclick="areyousure(this)">Add Alt Delinked</button>
+	</form>
+</section>
+{% endif %}
+
+<script type="application/javascript">
+	function submitAddAlt(element) {
+		if (!element || !element.form) return;
+		const isLinking = element.id == 'add-alt-form-link';
+		const otherElement = isLinking ? document.getElementById('add-alt-form-delink') : document.getElementById('add-alt-form-link');
+		if (!otherElement) return;
+		element.disabled = true;
+		otherElement.disabled = true;
+		element.classList.add('disabled');
+		otherElement.classList.add('disabled');
+		const form = new FormData();
+		if (!isLinking) form.append('deleted', 'true');
+		form.append('other_username', document.getElementById('link-input-other').value);
+		const xhr = createXhrWithFormKey('/@{{u.username}}/alts/', 'POST', form);
+		xhr[0].onload = function() {
+			let data;
+			try {
+				data = JSON.parse(xhr[0].response);
+			}
+			catch(e) {
+				console.log(e);
+			}
+			if (xhr[0].status >= 200 && xhr[0].status < 300) {
+				showToast(true, getMessageFromJsonData(true, data));
+				window.location.reload();
+			} else {
+				showToast(false, getMessageFromJsonData(false, data));
+				element.disabled = false;
+				otherElement.disabled = false;
+				element.classList.remove('disabled');
+				otherElement.classList.remove('disabled');
+			}
+		}
+		xhr[0].send(xhr[1]);
+	}
+</script>
+{% endblock %}

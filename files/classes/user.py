@@ -739,7 +739,6 @@ class User(Base):
 	@property
 	@lazy
 	def alts(self):
-
 		subq = g.db.query(Alt).filter(
 			or_(
 				Alt.user1 == self.id,
@@ -764,6 +763,8 @@ class User(Base):
 		for x in data:
 			user = x[0]
 			user._is_manual = x[1].is_manual
+			user._alt_deleted = x[1].deleted
+			user._alt_created_utc = x[1].created_utc
 			output.append(user)
 
 		return output

@@ -4084,6 +4084,13 @@ ul.comment-section {
 .rounded {
 	border-radius: 0.35rem;
 }
+
+.rounded-section {
+	margin-bottom: 3rem;
+	border: .1px solid var(--gray-400);
+	border-radius: .35rem;
+	overflow: hidden;
+}
 .rounded-circle {
 	border-radius: 50%;
 }
@@ -5920,6 +5927,7 @@ g {
 .fa-knife-kitchen:before{content:"\f6f5"}
 .fa-lights-holiday:before{content:"\f7b2"}
 .fa-link:before{content:"\f0c1"}
+.fa-link-slash:before{content:"\f127"}
 .fa-lock:before{content:"\f023"}
 .fa-lock-alt:before{content:"\f30d"}
 .fa-search:before{content:"\f002"}

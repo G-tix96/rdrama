@@ -69,7 +69,12 @@
 <h4>Safety</h4>
 <ul>
 	<li><a href="/admin/banned_domains">Banned Domains</a></li>
-	<li><a href="/admin/alt_votes">Multi Vote Analysis</a></li>
+	{% if v.admin_level >= PERMS['USER_LINK'] %}
+		<li><a href="/admin/alts/">View and Link Alts</a></li>
+	{% endif %}
+	{% if v.admin_level >= PERMS['VIEW_ALT_VOTES'] %}
+		<li><a href="/admin/alt_votes">Multi Vote Analysis</a></li>
+	{% endif %}
 </ul>
 
 {% if FEATURES['BADGES'] or FEATURES['AWARDS'] -%}
