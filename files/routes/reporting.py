@@ -6,6 +6,7 @@ from flask import g
 from files.__main__ import app, limiter, cache
 from os import path
 from files.helpers.sanitize import filter_emojis_only
+from files.routes.front import frontlist
 
 @app.post("/report/post/<pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)

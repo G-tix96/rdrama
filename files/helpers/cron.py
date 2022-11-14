@@ -105,8 +105,6 @@ def sub_inactive_purge_task():
 	for x in dead_holes:
 		g.db.delete(x)
 
-	cache.delete_memoized(frontlist)
-
 	return True
 
 
