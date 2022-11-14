@@ -562,7 +562,8 @@ elif SITE == 'watchpeopledie.tv':
 	ERROR_TITLES[404] = "Not Found"
 	ERROR_TITLES[405] = "Method Not Allowed"
 	ERROR_TITLES[406] = "Too Many Pings"
-	ERROR_TITLES[409] = "Conflict"
+	ERROR_TITLES[409] = "Mortal Conflict"
+	ERROR_TITLES[413] = "Payload Too Large"
 	ERROR_TITLES[415] = "Unsupported Media Type"
 	ERROR_TITLES[500] = "Internal Server Error"
 
