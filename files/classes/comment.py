@@ -214,7 +214,7 @@ class Comment(Base):
 	def json(self):
 		if self.is_banned:
 			data = {'is_banned': True,
-					'ban_reason': self.ban_reason if not self.shadowbanned else '',
+					'ban_reason': self.ban_reason,
 					'id': self.id,
 					'post': self.post.id if self.post else 0,
 					'level': self.level,
