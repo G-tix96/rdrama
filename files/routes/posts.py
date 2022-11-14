@@ -785,7 +785,7 @@ def submit_post(v, sub=None):
 	flag_over_18 = request.values.get("over_18", False, bool)
 	flag_private = request.values.get("private", False, bool)
 	flag_club = (request.values.get("club", False, bool) and FEATURES['COUNTRY_CLUB'])
-	flag_ghost = request.values.get("ghost", False, bool)
+	flag_ghost = request.values.get("ghost", False, bool) and v.charge_account('coins', POST_GHOST_COST)
 
 	if embed and len(embed) > 1500: embed = None
 	if embed: embed = embed.strip()
