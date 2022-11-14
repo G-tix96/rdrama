@@ -217,6 +217,7 @@ def comment(v):
 		or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
 
 	execute_antispam_comment_check(body, v)
+	execute_antispam_duplicate_comment_check(v, body_html)
 
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 

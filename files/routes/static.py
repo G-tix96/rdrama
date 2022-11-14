@@ -218,12 +218,7 @@ def submit_contact(v):
 	body = body.strip()
 	body_html = sanitize(body)
 
-	existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
-											 Comment.parent_submission == None,
-											 Comment.level == 1,
-											 Comment.sentto == 2,
-											 Comment.body_html == body_html).first()
-	if existing: abort(409, f"You already sent that message")
+	execute_antispam_duplicate_comment_check(v, body_html)
 
 	new_comment = Comment(author_id=v.id,
 						parent_submission=None,
