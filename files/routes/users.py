@@ -913,12 +913,7 @@ def remove_follow(username, v):
 @cache.memoize(timeout=86400)
 @limiter.exempt
 def user_profile_uid(id):
-	try: id = int(id)
-	except:
-		try: id = int(id, 36)
-		except: abort(404)
-
-	x=get_account(id)
+	x = get_account(id)
 	return redirect(x.profile_url)
 
 @app.get("/@<username>/pic")
