@@ -354,7 +354,11 @@ def execute_antispam_submission_check(title, v, url):
 		return False
 	return True
 
+def execute_blackjack_custom(v, target, body, type):
+	return True
+
 def execute_blackjack(v, target, body, type):
+	if not execute_blackjack_custom(v, target, body, type): return False
 	if not blackjack or not body: return True
 	if any(i in body.lower() for i in blackjack.split()):
 		v.shadowbanned = 'AutoJanny'
@@ -371,6 +375,8 @@ def execute_blackjack(v, target, body, type):
 			extra_info = "chat message"
 		elif type == 'flag':
 			extra_info = f"reports on {target.permalink}"
+		elif type == 'modmail':
+			extra_info = "modmail"
 
 		if notif:
 			g.db.add(notif)
