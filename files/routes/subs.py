@@ -640,8 +640,8 @@ def sub_stealth(v, sub):
 
 
 @app.post("/mod_pin/<cid>")
-@is_not_permabanned
 @feature_required('PINS')
+@is_not_permabanned
 def mod_pin(cid, v):
 	
 	comment = get_comment(cid, v=v)

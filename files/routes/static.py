@@ -324,8 +324,8 @@ def badge_list(site):
 	return badges, counts
 
 @app.get("/badges")
-@auth_required
 @feature_required('BADGES')
+@auth_required
 def badges(v):
 	badges, counts = badge_list(SITE)
 	return render_template("badges.html", v=v, badges=badges, counts=counts)

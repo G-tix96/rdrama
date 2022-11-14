@@ -251,10 +251,10 @@ def downvoting(v, username):
 	return all_upvoters_downvoters(v, username, -1, True)
 
 @app.post("/@<username>/suicide")
+@feature_required('USERS_SUICIDE')
 @limiter.limit("1/second;5/day")
 @limiter.limit("1/second;5/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
-@feature_required('USERS_SUICIDE')
 def suicide(v, username):
 	
 

@@ -29,8 +29,8 @@ titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWe
 
 
 @app.post("/club_post/<pid>")
-@auth_required
 @feature_required('COUNTRY_CLUB')
+@auth_required
 def club_post(pid, v):
 	post = get_post(pid)
 	if post.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']: abort(403)
@@ -53,8 +53,8 @@ def club_post(pid, v):
 	return {"message": f"Post has been marked as {CC_TITLE}!"}
 
 @app.post("/unclub_post/<pid>")
-@auth_required
 @feature_required('COUNTRY_CLUB')
+@auth_required
 def unclub_post(pid, v):
 	post = get_post(pid)
 	if post.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']: abort(403)

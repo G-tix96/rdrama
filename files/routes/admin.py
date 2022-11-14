@@ -520,17 +520,17 @@ def under_attack(v):
 
 @app.get("/admin/badge_grant")
 @app.get("/admin/badge_remove")
-@admin_level_required(PERMS['USER_BADGES'])
 @feature_required('BADGES')
+@admin_level_required(PERMS['USER_BADGES'])
 def badge_grant_get(v):
 	grant = request.url.endswith("grant")
 	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
 	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=grant)
 
 @app.post("/admin/badge_grant")
+@feature_required('BADGES')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_BADGES'])
-@feature_required('BADGES')
 def badge_grant_post(v):
 	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
 
@@ -577,9 +577,9 @@ def badge_grant_post(v):
 	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg=f"{new_badge.name} Badge granted to @{user.username} successfully!")
 
 @app.post("/admin/badge_remove")
+@feature_required('BADGES')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_BADGES'])
-@feature_required('BADGES')
 def badge_remove_post(v):
 	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
 
@@ -1221,8 +1221,8 @@ def distinguish_post(post_id, v):
 
 
 @app.post("/sticky/<post_id>")
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 @feature_required('PINS')
+@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def sticky_post(post_id, v):
 	post = get_post(post_id)
 	if post.is_banned: abort(403, "Can't sticky removed posts!")

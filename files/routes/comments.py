@@ -514,8 +514,8 @@ def undelete_comment(cid, v):
 
 
 @app.post("/pin_comment/<cid>")
-@auth_required
 @feature_required('PINS')
+@auth_required
 def pin_comment(cid, v):
 	
 	comment = get_comment(cid, v=v)

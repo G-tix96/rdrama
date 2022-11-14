@@ -7,8 +7,8 @@ from files.helpers.useractions import *
 from flask import g
 
 @app.get("/hats")
-@auth_required
 @feature_required('HATS')
+@auth_required
 def hats(v):
 	owned_hat_ids = [x.hat_id for x in v.owned_hats]
 
@@ -32,9 +32,9 @@ def hats(v):
 	return render_template("hats.html", owned_hat_ids=owned_hat_ids, hats=hats, v=v, sales=sales, num_of_hats=num_of_hats)
 
 @app.post("/buy_hat/<hat_id>")
+@feature_required('HATS')
 @limiter.limit('100/minute;1000/3 days')
 @auth_required
-@feature_required('HATS')
 def buy_hat(v, hat_id):
 	try: hat_id = int(hat_id)
 	except: abort(404, "Hat not found!")
@@ -84,8 +84,8 @@ def buy_hat(v, hat_id):
 
 
 @app.post("/equip_hat/<hat_id>")
-@auth_required
 @feature_required('HATS')
+@auth_required
 def equip_hat(v, hat_id):
 	try: hat_id = int(hat_id)
 	except: abort(404, "Hat not found!")
@@ -99,8 +99,8 @@ def equip_hat(v, hat_id):
 	return {"message": f"'{hat.name}' equipped!"}
 
 @app.post("/unequip_hat/<hat_id>")
-@auth_required
 @feature_required('HATS')
+@auth_required
 def unequip_hat(v, hat_id):
 	try: hat_id = int(hat_id)
 	except: abort(404, "Hat not found!")

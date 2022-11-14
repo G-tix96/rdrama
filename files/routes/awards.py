@@ -16,8 +16,8 @@ from copy import deepcopy
 
 @app.get("/shop")
 @app.get("/settings/shop")
-@auth_required
 @feature_required('AWARDS')
+@auth_required
 def shop(v):
 	AWARDS = deepcopy(AWARDS2)
 
@@ -40,9 +40,9 @@ def shop(v):
 
 
 @app.post("/buy/<award>")
+@feature_required('AWARDS')
 @limiter.limit("100/minute;200/hour;1000/day")
 @auth_required
-@feature_required('AWARDS')
 def buy(v, award):
 	if award == 'benefactor' and not request.values.get("mb"):
 		abort(403, "You can only buy the Benefactor award with marseybux.")
