@@ -384,6 +384,8 @@ def sign_up_post(v):
 		send_notification(signup_autofollow.id, f"A new user - @{new_user.username} - has followed you automatically!")
 	elif CARP_ID:
 		send_notification(CARP_ID, f"A new user - @{new_user.username} - has signed up!")
+		if JUSTCOOL_ID:
+			send_notification(JUSTCOOL_ID, f"A new user - @{new_user.username} - has signed up!")
 
 	redir = request.values.get("redirect", "").strip().rstrip('?')
 	if redir:
