@@ -1,8 +1,6 @@
 import time
 from urllib.parse import quote, urlencode
 
-from flask import *
-
 from files.__main__ import app, cache, limiter
 from files.classes import *
 from files.helpers.actions import *

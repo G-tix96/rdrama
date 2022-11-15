@@ -8,7 +8,6 @@ from urllib.parse import ParseResult, quote, unquote, urlparse, urlunparse
 
 import gevent
 import requests
-from flask import *
 from PIL import Image
 
 from files.__main__ import app, cache, limiter
