@@ -15,13 +15,11 @@ def authorize_prompt(v):
 	if not application: return {"oauth_error": "Invalid `client_id`"}, 401
 	return render_template("oauth.html", v=v, application=application)
 
-
 @app.post("/authorize")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
 def authorize(v):
-
 	client_id = request.values.get("client_id")
 	application = g.db.query(OauthApp).filter_by(client_id=client_id).one_or_none()
 	if not application: return {"oauth_error": "Invalid `client_id`"}, 401
@@ -32,13 +30,10 @@ def authorize(v):
 		g.db.add(new_auth)
 	except sqlalchemy.exc.IntegrityError:
 		g.db.rollback()
-		g.db.close()
-		del g.db
 		old_auth = g.db.query(ClientAuth).filter_by(oauth_client = application.id, user_id = v.id).one()
 		access_token = old_auth.access_token
 
 	return redirect(f"{application.redirect_uri}?token={access_token}")
-
 
 @app.post("/rescind/<aid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
