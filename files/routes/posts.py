@@ -428,7 +428,8 @@ def edit_post(pid, v):
 	return redirect(p.permalink)
 
 
-def thumbnail_thread(pid:int, db, vid:int):
+def thumbnail_thread(pid:int, vid:int):
+	db = db_session()
 	def expand_url(post_url, fragment_url):
 		if fragment_url.startswith("https://"):
 			return fragment_url
@@ -875,7 +876,7 @@ def submit_post(v, sub=None):
 			abort(415)
 		
 	if not post.thumburl and post.url:
-		gevent.spawn(thumbnail_thread, post.id, db_session(), v.id)
+		gevent.spawn(thumbnail_thread, post.id, v.id)
 
 	if not post.private and not post.ghost:
 		notify_users = NOTIFY_USERS(f'{title} {body}', v)
