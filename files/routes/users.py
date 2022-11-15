@@ -956,7 +956,7 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 		listing = get_comments(ids, v=v)
 	else:
 		raise TypeError("Only supports Submissions and Comments. This is probably the result of a bug with *this* function")
-	if v.client: return {"data": [x.json for x in listing]}
+	if v.client: return {"data": [x.json(g.db) for x in listing]}
 	return render_template(template, u=v, v=v, listing=listing, page=page, next_exists=next_exists, standalone=standalone)
 
 @app.get("/@<username>/saved/posts")

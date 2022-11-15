@@ -53,7 +53,7 @@ def notifications_modmail(v):
 
 	g.db.commit()
 
-	if v.client: return {"data":[x.json for x in listing]}
+	if v.client: return {"data":[x.json(g.db) for x in listing]}
 
 	return render_template("notifications.html",
 							v=v,
@@ -123,7 +123,7 @@ def notifications_messages(v):
 		c.unread = True
 		list_to_perserve_unread_attribute.append(c)
 
-	if v.client: return {"data":[x.json for x in listing]}
+	if v.client: return {"data":[x.json(g.db) for x in listing]}
 
 	return render_template("notifications.html",
 							v=v,
@@ -165,7 +165,7 @@ def notifications_posts(v):
 	v.last_viewed_post_notifs = int(time.time())
 	g.db.add(v)
 
-	if v.client: return {"data":[x.json for x in listing]}
+	if v.client: return {"data":[x.json(g.db) for x in listing]}
 
 	return render_template("notifications.html",
 							v=v,
@@ -247,7 +247,7 @@ def notifications_reddit(v):
 
 	g.db.commit()
 
-	if v.client: return {"data":[x.json for x in listing]}
+	if v.client: return {"data":[x.json(g.db) for x in listing]}
 
 	return render_template("notifications.html",
 							v=v,
@@ -318,7 +318,7 @@ def notifications(v):
 
 	g.db.commit()
 
-	if v.client: return {"data":[x.json for x in listing]}
+	if v.client: return {"data":[x.json(g.db) for x in listing]}
 
 	return render_template("notifications.html",
 							v=v,

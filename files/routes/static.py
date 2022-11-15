@@ -400,7 +400,7 @@ def transfers(v):
 	comments = comments[:PAGE_SIZE]
 
 	if v.client:
-		return {"data": [x.json for x in comments]}
+		return {"data": [x.json(g.db) for x in comments]}
 	else:
 		return render_template("transfers.html", v=v, page=page, comments=comments, standalone=True, next_exists=next_exists)
 

@@ -166,7 +166,7 @@ def searchposts(v):
 
 	posts = get_posts(ids, v=v, eager=True)
 
-	if v.client: return {"total":total, "data":[x.json for x in posts]}
+	if v.client: return {"total":total, "data":[x.json(g.db) for x in posts]}
 
 	return render_template("search.html",
 						v=v,
