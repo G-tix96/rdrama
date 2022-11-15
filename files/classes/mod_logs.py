@@ -276,7 +276,7 @@ ACTIONTYPES = {
 	},
 	'clear_cloudflare_cache': {
 		"str": 'cleared cloudflare cache', 
-		"icon": 'fa-cloudflare', 
+		"icon": 'fa-cloud',
 		"color": 'bg-muted'
 	},
 	'reject_app': {
