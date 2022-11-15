@@ -671,9 +671,9 @@ def userpagelisting(user:User, site=None, v=None, page:int=1, sort="new", t="all
 	posts = g.db.query(Submission.id).filter_by(author_id=user.id, is_pinned=False)
 	if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == user.id)):
 		posts = posts.filter_by(is_banned=False, private=False, ghost=False, deleted_utc=0)
-		posts = apply_time_filter(t, posts, Submission)
-		posts = sort_objects(sort, posts, Submission, include_shadowbanned=v and v.can_see_shadowbanned)
-		posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
+	posts = apply_time_filter(t, posts, Submission)
+	posts = sort_objects(sort, posts, Submission, include_shadowbanned=v and v.can_see_shadowbanned)
+	posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
 	return [x[0] for x in posts]
 
 @app.get("/@<username>")
