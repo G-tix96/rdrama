@@ -745,6 +745,11 @@ class User(Base):
 
 	@property
 	@lazy
+	def alt_ids(self):
+		return [x.id for x in self.alts]
+
+	@property
+	@lazy
 	def moderated_subs(self):
 		return [x[0] for x in g.db.query(Mod.sub).filter_by(user_id=self.id).all()]
 

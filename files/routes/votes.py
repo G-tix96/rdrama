@@ -61,6 +61,9 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if v.id == target.author.id:
 		coin_delta = 0
 
+	if target.author.id in v.alt_ids or v.id in target.author.alt_ids:
+		coin_delta = -1
+
 	coin_mult = 1
 
 	g.db.flush()
