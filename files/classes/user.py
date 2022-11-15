@@ -27,10 +27,8 @@ from .mod import *
 from .mod_logs import *
 from .notifications import Notification
 from .saves import *
-from .sub_block import *
-from .sub_join import *
+from .sub_relationship import *
 from .sub_logs import *
-from .sub_subscription import *
 from .subscriptions import *
 from .userblock import *
 

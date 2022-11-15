@@ -8,8 +8,7 @@ from sqlalchemy.sql.sqltypes import *
 from files.classes import Base
 from files.helpers.lazy import lazy
 
-from .sub_block import *
-from .sub_subscription import *
+from .sub_relationship import *
 
 SITE_NAME = environ.get("SITE_NAME", '').strip()
 SITE = environ.get("SITE", '').strip()
