@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 from PIL import Image
 from PIL import UnidentifiedImageError
 from PIL.ImageSequence import Iterator
-from sqlalchemy.orm import scoped_session
+from sqlalchemy.orm.session import Session
 
 from files.classes.media import *
 from files.helpers.cloudflare import purge_files_in_cache
@@ -103,7 +103,7 @@ def process_video(file, v):
 	if extension == 'webm':
 		new = new.replace('.webm', '.mp4')
 		copyfile(old, new)
-		db = scoped_session()
+		db = Session(bind=g.db.get_bind(), autoflush=False)
 		gevent.spawn(webm_to_mp4, old, new, v.id, db)
 	else:
 		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
