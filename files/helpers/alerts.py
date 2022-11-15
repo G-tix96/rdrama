@@ -1,10 +1,13 @@
-from files.classes import *
+from sys import stdout
+
 from flask import g
-from .sanitize import *
+from pusher_push_notifications import PushNotifications
+
+from files.classes import Comment, Notification
+
 from .const import *
 from .regex import *
-from pusher_push_notifications import PushNotifications
-from sys import stdout
+from .sanitize import *
 
 def create_comment(text_html):
 	new_comment = Comment(author_id=AUTOJANNY_ID,

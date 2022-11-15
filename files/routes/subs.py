@@ -1,12 +1,14 @@
-from files.__main__ import app, limiter
+from sqlalchemy import nullslast
+
+from files.classes import *
 from files.helpers.alerts import *
-from files.helpers.wrappers import *
 from files.helpers.get import *
 from files.helpers.regex import *
-from files.classes import *
+from files.routes.wrappers import *
+
 from .front import frontlist
-from sqlalchemy import nullslast
-import tldextract
+from files.__main__ import app, cache, limiter
+
 
 @app.post("/exile/post/<pid>")
 @is_not_permabanned
@@ -457,7 +459,7 @@ def get_sub_css(sub):
 @limiter.limit("1/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def sub_banner(v, sub):
-	if request.headers.get("cf-ipcountry") == "T1": abort(403, "Image uploads are not allowed through TOR.")
+	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
 
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
@@ -467,7 +469,7 @@ def sub_banner(v, sub):
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
-	bannerurl = process_image(name, patron=v.patron, resize=1200)
+	bannerurl = process_image(name, v, resize=1200)
 
 	if bannerurl:
 		if sub.bannerurl and '/images/' in sub.bannerurl:
@@ -490,7 +492,7 @@ def sub_banner(v, sub):
 @limiter.limit("1/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def sub_sidebar(v, sub):
-	if request.headers.get("cf-ipcountry") == "T1": abort(403, "Image uploads are not allowed through TOR.")
+	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
 
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
@@ -499,7 +501,7 @@ def sub_sidebar(v, sub):
 	file = request.files["sidebar"]
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
-	sidebarurl = process_image(name, patron=v.patron, resize=400)
+	sidebarurl = process_image(name, v, resize=400)
 
 	if sidebarurl:
 		if sub.sidebarurl and '/images/' in sub.sidebarurl:
@@ -522,7 +524,7 @@ def sub_sidebar(v, sub):
 @limiter.limit("1/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def sub_marsey(v, sub):
-	if request.headers.get("cf-ipcountry") == "T1": abort(403, "Image uploads are not allowed through TOR.")
+	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
 
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
@@ -531,7 +533,7 @@ def sub_marsey(v, sub):
 	file = request.files["marsey"]
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
-	marseyurl = process_image(name, patron=v.patron, resize=200)
+	marseyurl = process_image(name, v, resize=200)
 
 	if marseyurl:
 		if sub.marseyurl and '/images/' in sub.marseyurl:

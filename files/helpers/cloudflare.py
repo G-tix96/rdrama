@@ -1,13 +1,14 @@
 import json
-from typing import List, Union, Optional
-from files.helpers.const import CF_HEADERS, CF_ZONE
+from typing import List, Optional, Union
+
 import requests
+
+from files.helpers.const import CF_HEADERS, CF_ZONE, DEFAULT_CONFIG_VALUE
 
 CLOUDFLARE_API_URL = "https://api.cloudflare.com/client/v4"
 CLOUDFLARE_REQUEST_TIMEOUT_SECS = 5
-DEFAULT_CLOUDFLARE_ZONE = 'blahblahblah'
 
-CLOUDFLARE_AVAILABLE = CF_ZONE and CF_ZONE != DEFAULT_CLOUDFLARE_ZONE
+CLOUDFLARE_AVAILABLE = CF_ZONE and CF_ZONE != DEFAULT_CONFIG_VALUE
 
 def _request_from_cloudflare(url:str, method:str, post_data_str) -> bool:
 	if not CLOUDFLARE_AVAILABLE: return False

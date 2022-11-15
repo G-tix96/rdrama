@@ -1,17 +1,17 @@
+import atexit
 import time
 import uuid
-from files.helpers.jinja2 import timestamp
-from files.helpers.wrappers import *
-from files.helpers.sanitize import sanitize
-from files.helpers.const import *
-from files.helpers.alerts import *
-from files.helpers.regex import *
-from files.helpers.actions import *
+
 from flask_socketio import SocketIO, emit
-from files.__main__ import app, limiter, cache
-from flask import render_template
-import sys
-import atexit
+
+from files.helpers.actions import *
+from files.helpers.alerts import *
+from files.helpers.const import *
+from files.helpers.regex import *
+from files.helpers.sanitize import sanitize
+from files.routes.wrappers import *
+
+from files.__main__ import app, cache, limiter
 
 if SITE == 'localhost':
 	socketio = SocketIO(

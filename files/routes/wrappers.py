@@ -1,13 +1,15 @@
-from .get import *
-from .alerts import *
-from files.helpers.const import *
-from files.helpers.get import *
-from files.__main__ import db_session, limiter
-from flask import g, request
-from random import randint
-import functools
-import user_agents
 import time
+
+import user_agents
+from flask import g, request, session
+
+from files.classes.clients import ClientAuth
+from files.helpers.alerts import *
+from files.helpers.const import *
+from files.helpers.get import get_account
+from files.helpers.settings import get_setting
+from files.routes.routehelpers import validate_formkey
+from files.__main__ import app, cache, db_session, limiter
 
 def calc_users(v):
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
@@ -32,7 +34,7 @@ def calc_users(v):
 
 def get_logged_in_user():
 	if hasattr(g, 'v'): return g.v
-	if not (hasattr(g, 'db') and g.db): g.db = db_session()
+	if not getattr(g, 'db', None): g.db = db_session()
 	g.desires_auth = True
 	v = None
 	token = request.headers.get("Authorization","").strip()
@@ -57,13 +59,12 @@ def get_logged_in_user():
 
 				if request.method != "GET":
 					submitted_key = request.values.get("formkey")
-					if not submitted_key: abort(401)
-					if not v.validate_formkey(submitted_key): abort(401)
+					if not validate_formkey(v, submitted_key): abort(401)
 
 				v.client = None
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
 
-	if request.method.lower() != "get" and app.config['SETTINGS']['Read-only mode'] and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
+	if request.method.lower() != "get" and get_setting('Read-only mode') and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
 		abort(403)
 
 	g.v = v
@@ -84,7 +85,6 @@ def get_logged_in_user():
 				if f'@{v.username}, ' not in f.read():
 					t = str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time())))
 					f.write(f'@{v.username}, {v.truescore}, {ip}, {t}\n')
-
 	return v
 
 def auth_desired(f):
@@ -97,7 +97,7 @@ def auth_desired(f):
 def auth_desired_with_logingate(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
-		if app.config['SETTINGS']['login_required'] and not v: abort(401)
+		if get_setting('login_required') and not v: abort(401)
 
 		if request.path.startswith('/logged_out'):
 			redir = request.full_path.replace('/logged_out','')

@@ -1,4 +1,5 @@
 from flask import g
+
 from files.classes.badges import Badge
 from files.helpers.alerts import send_repeatable_notification
 

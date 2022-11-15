@@ -1,8 +1,11 @@
-from sqlalchemy import *
-from files.__main__ import Base
-import time
-from files.helpers.lazy import lazy
 import json
+import time
+
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.sql.sqltypes import *
+
+from files.classes import Base
+from files.helpers.lazy import lazy
 
 CASINO_GAME_KINDS = ['blackjack', 'slots', 'roulette']
 

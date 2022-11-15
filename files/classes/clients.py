@@ -1,15 +1,17 @@
-from flask import *
-from sqlalchemy import *
-from sqlalchemy.orm import relationship
-from .submission import Submission
-from .comment import Comment
-from files.__main__ import Base
-from files.helpers.lazy import lazy
-from files.helpers.const import *
 import time
 
-class OauthApp(Base):
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship, scoped_session
+from sqlalchemy.sql.sqltypes import *
 
+from files.classes import Base
+from files.helpers.const import SITE_FULL
+from files.helpers.lazy import lazy
+
+from .comment import Comment
+from .submission import Submission
+
+class OauthApp(Base):
 	__tablename__ = "oauth_apps"
 
 	id = Column(Integer, primary_key=True)
@@ -36,33 +38,22 @@ class OauthApp(Base):
 		return f"{SITE_FULL}/admin/app/{self.id}/posts"
 
 	@lazy
-	def idlist(self, page=1):
-
-		posts = g.db.query(Submission.id).filter_by(app_id=self.id)
-		
+	def idlist(self, db:scoped_session, page=1):
+		posts = db.query(Submission.id).filter_by(app_id=self.id)
 		posts=posts.order_by(Submission.created_utc.desc())
-
 		posts=posts.offset(100*(page-1)).limit(101)
-
 		return [x[0] for x in posts.all()]
 
 	@lazy
-	def comments_idlist(self, page=1):
-
-		posts = g.db.query(Comment.id).filter_by(app_id=self.id)
-		
+	def comments_idlist(self, db:scoped_session, page=1):
+		posts = db.query(Comment.id).filter_by(app_id=self.id)
 		posts=posts.order_by(Comment.id.desc())
-
 		posts=posts.offset(100*(page-1)).limit(101)
-
 		return [x[0] for x in posts.all()]
 
 
-
 class ClientAuth(Base):
-
 	__tablename__ = "client_auths"
-
 	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 	oauth_client = Column(Integer, ForeignKey("oauth_apps.id"), primary_key=True)
 	access_token = Column(String)

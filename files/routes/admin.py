@@ -1,26 +1,25 @@
 import time
-import re
-from os import remove
-from PIL import Image as IMAGE
+from urllib.parse import quote, urlencode
 
-from files.helpers.wrappers import *
+from flask import *
+
+from files.__main__ import app, cache, limiter
+from files.classes import *
+from files.helpers.actions import *
 from files.helpers.alerts import *
-from files.helpers.sanitize import *
-from files.helpers.security import *
+from files.helpers.cloudflare import *
+from files.helpers.const import *
 from files.helpers.get import *
 from files.helpers.media import *
-from files.helpers.const import *
-from files.helpers.actions import *
+from files.helpers.sanitize import *
+from files.helpers.security import *
+from files.helpers.settings import toggle_setting
 from files.helpers.useractions import *
-import files.helpers.cloudflare as cloudflare
-from files.classes import *
-from flask import *
-from files.__main__ import app, cache, limiter
+from files.routes.routehelpers import check_for_alts
+from files.routes.wrappers import *
+
 from .front import frontlist
-from .login import check_for_alts
-import datetime
-import requests
-from urllib.parse import quote, urlencode
+
 
 @app.post('/kippy')
 @admin_level_required(PERMS['PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES'])
@@ -431,7 +430,7 @@ def admin_home(v):
 	under_attack = False
 
 	if v.admin_level >= PERMS['SITE_SETTINGS_UNDER_ATTACK']:
-		under_attack = (cloudflare.get_security_level() or 'high') == 'under_attack'
+		under_attack = (get_security_level() or 'high') == 'under_attack'
 
 	gitref = admin_git_head()
 	
@@ -458,27 +457,20 @@ def admin_git_head():
 @app.post("/admin/site_settings/<setting>")
 @admin_level_required(PERMS['SITE_SETTINGS'])
 def change_settings(v, setting):
-	site_settings = app.config['SETTINGS']
-	site_settings[setting] = not site_settings[setting] 
-	with open("/site_settings.json", "w", encoding='utf_8') as f:
-		json.dump(site_settings, f)
-
-	if site_settings[setting]: word = 'enable'
+	val = toggle_setting(setting)
+	if val: word = 'enable'
 	else: word = 'disable'
-
 	ma = ModAction(
 		kind=f"{word}_{setting}",
 		user_id=v.id,
 	)
 	g.db.add(ma)
-
-
 	return {'message': f"{setting} {word}d successfully!"}
 
 @app.post("/admin/clear_cloudflare_cache")
 @admin_level_required(PERMS['SITE_CACHE_PURGE_CDN'])
 def clear_cloudflare_cache(v):
-	if not cloudflare.clear_entire_cache():
+	if not clear_entire_cache():
 		abort(400, 'Failed to clear cloudflare cache!')
 	ma = ModAction(
 		kind="clear_cloudflare_cache",
@@ -503,13 +495,13 @@ def admin_clear_internal_cache(v):
 @app.post("/admin/under_attack")
 @admin_level_required(PERMS['SITE_SETTINGS_UNDER_ATTACK'])
 def under_attack(v):
-	response = cloudflare.get_security_level()
+	response = get_security_level()
 	if not response:
 		abort(400, 'Could not retrieve the current security level')
 	old_under_attack_mode = response == 'under_attack'
 	enable_disable_str = 'disable' if old_under_attack_mode else 'enable'
 	new_security_level = 'high' if old_under_attack_mode else 'under_attack'
-	if not cloudflare.set_security_level(new_security_level):
+	if not set_security_level(new_security_level):
 		abort(400, f'Failed to {enable_disable_str} under attack mode')
 	ma = ModAction(
 		kind=f"{enable_disable_str}_under_attack",
@@ -760,7 +752,7 @@ def admin_add_alt(v, username):
 	a = Alt(
 		user1=user1.id,
 		user2=user2.id,
-		manual=True,
+		is_manual=True,
 		deleted=deleted
 	)
 	g.db.add(a)
@@ -1200,7 +1192,7 @@ def remove_post(post_id, v):
 
 	v.coins += 1
 	g.db.add(v)
-	cloudflare.purge_files_in_cache(f"https://{SITE}/")
+	purge_files_in_cache(f"https://{SITE}/")
 	return {"message": "Post removed!"}
 
 
@@ -1208,7 +1200,6 @@ def remove_post(post_id, v):
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def approve_post(post_id, v):
-
 	post = get_post(post_id)
 
 	if post.author.id == v.id and post.author.agendaposter and AGENDAPOSTER_PHRASE not in post.body.lower() and post.sub != 'chudrama':

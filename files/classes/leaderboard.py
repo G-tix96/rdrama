@@ -1,5 +1,6 @@
 from typing import Any, Callable, Optional, Tuple, Union
-from sqlalchemy import func, Column
+
+from sqlalchemy import Column, func
 from sqlalchemy.orm import scoped_session
 
 from files.helpers.const import LEADERBOARD_LIMIT

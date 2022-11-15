@@ -1,32 +1,37 @@
+import os
 import time
-import gevent
-import requests
-from files.helpers.wrappers import *
-from files.helpers.sanitize import *
-from files.helpers.alerts import *
-from files.helpers.discord import *
-from files.helpers.const import *
-from files.helpers.regex import *
-from files.helpers.slots import *
-from files.helpers.get import *
-from files.helpers.actions import *
-from files.helpers.sorting_and_time import *
-from files.classes import *
-from flask import *
 from io import BytesIO
-from files.__main__ import app, limiter, cache, db_session
-from PIL import Image
-from .front import frontlist
-from urllib.parse import ParseResult, urlunparse, urlparse, quote, unquote
 from os import path
-import requests
 from shutil import copyfile
 from sys import stdout
-import os
+from urllib.parse import ParseResult, quote, unquote, urlparse, urlunparse
 
+import gevent
+import requests
+from flask import *
+from PIL import Image
+
+from files.__main__ import app, cache, limiter
+from files.classes import *
+from files.helpers.actions import *
+from files.helpers.alerts import *
+from files.helpers.const import *
+from files.helpers.discord import *
+from files.helpers.get import *
+from files.helpers.regex import *
+from files.helpers.sanitize import *
+from files.helpers.settings import get_setting
+from files.helpers.slots import *
+from files.helpers.sorting_and_time import *
+from files.routes.routehelpers import execute_shadowban_viewers_and_voters
+from files.routes.wrappers import *
+
+from .front import frontlist
+from .users import userpagelisting
+
+from files.__main__ import app, limiter
 
 titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
-
 
 @app.post("/club_post/<pid>")
 @feature_required('COUNTRY_CLUB')
@@ -100,7 +105,7 @@ def publish(pid, v):
 
 
 	cache.delete_memoized(frontlist)
-	cache.delete_memoized(User.userpagelisting)
+	cache.delete_memoized(userpagelisting)
 
 	if post.sub == 'changelog':
 		send_changelog_message(post.permalink)
@@ -147,6 +152,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	if post.club and not (v and (v.paid_dues or v.id == post.author_id)): abort(403)
 
 	if v:
+		execute_shadowban_viewers_and_voters(v, post)
 		# shadowban check is done in sort_objects
 		# output is needed: see comments.py
 		comments, output = get_comments_v_properties(v, True, None, Comment.parent_submission == post.id, Comment.level < 10)
@@ -214,7 +220,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	g.db.add(post)
 
 	if v and v.client:
-		return post.json
+		return post.json(g.db)
 
 	template = "submission.html"
 	if (post.is_banned or post.author.shadowbanned) \
@@ -223,7 +229,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	return render_template(template, v=v, p=post, ids=list(ids),
 		sort=sort, render_replies=True, offset=offset, sub=post.subr,
-		fart=app.config['SETTINGS']['Fart mode'])
+		fart=get_setting('Fart mode'))
 
 @app.get("/viewmore/<pid>/<sort>/<offset>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
@@ -297,7 +303,7 @@ def morecomments(v, cid):
 		comments = output
 	else:
 		c = get_comment(cid)
-		comments = c.replies(sort=request.values.get('sort'), v=v)
+		comments = c.replies(sort=request.values.get('sort'), v=v, db=g.db)
 
 	if comments: p = comments[0].post
 	else: p = None
@@ -340,7 +346,7 @@ def edit_post(pid, v):
 		p.title = title
 		p.title_html = title_html
 
-	body += process_files()
+	body += process_files(request.files, v)
 	body = body.strip()[:POST_BODY_LENGTH_LIMIT] # process_files() may be adding stuff to the body
 
 	if body != p.body:
@@ -422,12 +428,8 @@ def edit_post(pid, v):
 	return redirect(p.permalink)
 
 
-def thumbnail_thread(pid):
-
-	db = db_session()
-
+def thumbnail_thread(pid:int, db, vid:int):
 	def expand_url(post_url, fragment_url):
-
 		if fragment_url.startswith("https://"):
 			return fragment_url
 		elif fragment_url.startswith("https://"):
@@ -464,8 +466,6 @@ def thumbnail_thread(pid):
 	if x.status_code != 200:
 		db.close()
 		return
-	
-
 
 	if x.headers.get("Content-Type","").startswith("text/html"):
 		soup=BeautifulSoup(x.content, 'lxml')
@@ -505,7 +505,6 @@ def thumbnail_thread(pid):
 
 
 		for url in thumb_candidate_urls:
-
 			try:
 				image_req=requests.get(url, headers=headers, timeout=5, proxies=proxies)
 			except:
@@ -523,14 +522,10 @@ def thumbnail_thread(pid):
 			with Image.open(BytesIO(image_req.content)) as i:
 				if i.width < 30 or i.height < 30:
 					continue
-
 			break
-
 		else:
 			db.close()
 			return
-
-
 
 	elif x.headers.get("Content-Type","").startswith("image/"):
 		image_req=x
@@ -550,9 +545,12 @@ def thumbnail_thread(pid):
 		for chunk in image_req.iter_content(1024):
 			file.write(chunk)
 
-	post.thumburl = process_image(name, resize=100, uploader=post.author_id, db=db)
-	db.add(post)
-	db.commit()
+	v = db.get(User, vid)
+	url = process_image(name, v, resize=100, uploader_id=post.author_id, db=db)
+	if url:
+		post.thumburl = url
+		db.add(post)
+		db.commit()
 	db.close()
 	stdout.flush()
 	return
@@ -768,7 +766,7 @@ def submit_post(v, sub=None):
 		choices.append(i.group(1))
 		body = body.replace(i.group(0), "")
 
-	body += process_files()
+	body += process_files(request.files, v)
 	body = body.strip()[:POST_BODY_LENGTH_LIMIT] # process_files() adds content to the body, so we need to re-strip
 
 	torture = (v.agendaposter and not v.marseyawarded and sub != 'chudrama')
@@ -858,33 +856,28 @@ def submit_post(v, sub=None):
 				)
 	g.db.add(vote)
 	
-	if request.files.get('file-url') and request.headers.get("cf-ipcountry") != "T1":
-
+	if request.files.get('file-url') and not g.is_tor:
 		file = request.files['file-url']
 
 		if file.content_type.startswith('image/'):
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			file.save(name)
-			post.url = process_image(name, patron=v.patron)
+			post.url = process_image(name, v)
 
 			name2 = name.replace('.webp', 'r.webp')
 			copyfile(name, name2)
-			post.thumburl = process_image(name2, resize=100)
+			post.thumburl = process_image(name2, v, resize=100)
 		elif file.content_type.startswith('video/'):
-			post.url = process_video(file)
+			post.url = process_video(file, v)
 		elif file.content_type.startswith('audio/'):
-			post.url = process_audio(file)
+			post.url = process_audio(file, v)
 		else:
 			abort(415)
 		
 	if not post.thumburl and post.url:
-		gevent.spawn(thumbnail_thread, post.id)
-
-
-
+		gevent.spawn(thumbnail_thread, post.id, g.db, v.id)
 
 	if not post.private and not post.ghost:
-
 		notify_users = NOTIFY_USERS(f'{title} {body}', v)
 
 		if notify_users:
@@ -936,7 +929,7 @@ def submit_post(v, sub=None):
 	execute_lawlz_actions(v, post)
 
 	cache.delete_memoized(frontlist)
-	cache.delete_memoized(User.userpagelisting)
+	cache.delete_memoized(userpagelisting)
 
 	if post.sub == 'changelog' and not post.private:
 		send_changelog_message(post.permalink)
@@ -945,7 +938,7 @@ def submit_post(v, sub=None):
 		send_wpd_message(post.permalink)
 
 	g.db.commit()
-	if v.client: return post.json
+	if v.client: return post.json(g.db)
 	else:
 		post.voted = 1
 		if post.new or 'megathread' in post.title.lower(): sort = 'new'
@@ -972,7 +965,7 @@ def delete_post_pid(pid, v):
 		g.db.add(post)
 
 		cache.delete_memoized(frontlist)
-		cache.delete_memoized(User.userpagelisting)
+		cache.delete_memoized(userpagelisting)
 
 		g.db.flush()
 		v.post_count = g.db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
@@ -993,7 +986,7 @@ def undelete_post_pid(pid, v):
 		g.db.add(post)
 
 		cache.delete_memoized(frontlist)
-		cache.delete_memoized(User.userpagelisting)
+		cache.delete_memoized(userpagelisting)
 
 		g.db.flush()
 		v.post_count = g.db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
@@ -1075,7 +1068,7 @@ def pin_post(post_id, v):
 		if v.id != post.author_id: abort(403, "Only the post author can do that!")
 		post.is_pinned = not post.is_pinned
 		g.db.add(post)
-		cache.delete_memoized(User.userpagelisting)
+		cache.delete_memoized(userpagelisting)
 		if post.is_pinned: return {"message": "Post pinned!"}
 		else: return {"message": "Post unpinned!"}
 	return abort(404, "Post not found!")

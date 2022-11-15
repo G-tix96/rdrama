@@ -1,8 +1,11 @@
 import time
-from sqlalchemy import *
-from files.__main__ import Base
-from files.helpers.lazy import lazy
+
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.sql.sqltypes import *
+
+from files.classes import Base
 from files.helpers.const import *
+from files.helpers.lazy import lazy
 
 class Lottery(Base):
 	__tablename__ = "lotteries"

@@ -1,8 +1,10 @@
-from files.helpers.wrappers import *
-from flask import *
-from urllib.parse import quote, urlencode
 import time
-from files.__main__ import app, limiter
+from urllib.parse import quote, urlencode
+
+from flask import redirect, render_template, request, session, g
+
+from files.helpers.const import ERROR_MARSEYS, ERROR_MSGS, ERROR_TITLES, WERKZEUG_ERROR_DESCRIPTIONS, is_site_url
+from files.__main__ import app
 
 # If you're adding an error, go here:
 # https://github.com/pallets/werkzeug/blob/main/src/werkzeug/exceptions.py
@@ -53,6 +55,6 @@ def error_500(e):
 @app.post("/allow_nsfw")
 def allow_nsfw():
 	session["over_18"] = int(time.time()) + 3600
-	redir = request.values.get("redir")
+	redir = request.values.get("redir", "/")
 	if is_site_url(redir): return redirect(redir)
 	return redirect('/')

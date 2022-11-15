@@ -1,26 +1,23 @@
-import re
 import time
-from urllib.parse import urlencode, urlparse, parse_qs
-from flask import *
-from sqlalchemy import *
-from sqlalchemy.orm import relationship
-from sqlalchemy.dialects.postgresql import TSVECTOR
-from files.__main__ import Base
-from files.classes.votes import CommentVote
-from files.helpers.const import *
-from files.helpers.regex import *
-from files.helpers.lazy import lazy
-from files.helpers.sorting_and_time import *
-from .flags import CommentFlag
-from .votes import CommentVote
-from .saves import CommentSaveRelationship
-from random import randint
 from math import floor
+from random import randint
+from urllib.parse import parse_qs, urlencode, urlparse
+
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.dialects.postgresql import TSVECTOR
+from sqlalchemy.orm import relationship, scoped_session
+from sqlalchemy.schema import FetchedValue
+from sqlalchemy.sql.sqltypes import *
+
+from files.classes import Base
+from files.helpers.const import *
+from files.helpers.lazy import lazy
+from files.helpers.regex import *
+from files.helpers.sorting_and_time import *
 
 
 def normalize_urls_runtime(body, v):
 	if not v: return body
-
 	if v.reddit != 'old.reddit.com':
 		body = reddit_to_vreddit_regex.sub(rf'\1https://{v.reddit}/\2/', body)
 	if v.nitter:
@@ -28,11 +25,9 @@ def normalize_urls_runtime(body, v):
 		body = body.replace('https://nitter.lacontrevoie.fr/i/', 'https://twitter.com/i/')
 	if v.imginn:
 		body = body.replace('https://instagram.com/', 'https://imginn.com/')
-
 	return body
 
 class Comment(Base):
-
 	__tablename__ = "comments"
 
 	id = Column(Integer, primary_key=True)
@@ -99,12 +94,9 @@ class Comment(Base):
 			if v.id == self.post.author_id: return True
 		return False
 
-
-	@property
 	@lazy
-	def top_comment(self):
-		return g.db.get(Comment, self.top_comment_id)
-
+	def top_comment(self, db:scoped_session):
+		return db.get(Comment, self.top_comment_id)
 
 	@property
 	@lazy
@@ -115,7 +107,7 @@ class Comment(Base):
 	@property
 	@lazy
 	def created_datetime(self):
-		return str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc)))
+		return time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc))
 
 	@property
 	@lazy
@@ -142,15 +134,11 @@ class Comment(Base):
 	def fullname(self):
 		return f"c_{self.id}"
 
-	@property
 	@lazy
-	def parent(self):
-
+	def parent(self, db:scoped_session):
 		if not self.parent_submission: return None
-
 		if self.level == 1: return self.post
-
-		else: return g.db.get(Comment, self.parent_comment_id)
+		else: return db.get(Comment, self.parent_comment_id)
 
 	@property
 	@lazy
@@ -159,14 +147,12 @@ class Comment(Base):
 		elif self.parent_submission: return f"p_{self.parent_submission}"
 
 	@lazy
-	def replies(self, sort, v):
+	def replies(self, sort, v, db:scoped_session):
 		if self.replies2 != None:
 			return self.replies2
 
-		replies = g.db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.stickied)
-		
+		replies = db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.stickied)
 		if not self.parent_submission: sort='old'
-
 		return sort_objects(sort, replies, Comment,
 			include_shadowbanned=(v and v.can_see_shadowbanned)).all()
 
@@ -210,8 +196,7 @@ class Comment(Base):
 		if v and v.poor and kind.islower(): return 0
 		return len([x for x in self.awards if x.kind == kind])
 
-	@property
-	def json(self):
+	def json(self, db:scoped_session):
 		if self.is_banned:
 			data = {'is_banned': True,
 					'ban_reason': self.ban_reason,
@@ -253,7 +238,7 @@ class Comment(Base):
 				'is_bot': self.is_bot,
 				'flags': flags,
 				'author': '👻' if self.ghost else self.author.json,
-				'replies': [x.json for x in self.replies(sort="old", v=None)]
+				'replies': [x.json(db=db) for x in self.replies(sort="old", v=None, db=db)]
 				}
 
 		if self.level >= 2: data['parent_comment_id'] = self.parent_comment_id
@@ -278,10 +263,7 @@ class Comment(Base):
 
 		if body:
 			body = censor_slurs(body, v)
-
 			body = normalize_urls_runtime(body, v)
-
-
 			if not v or v.controversial:
 				captured = []
 				for i in controversial_regex.finditer(body):
@@ -297,16 +279,6 @@ class Comment(Base):
 					url_noquery = url.split('?')[0]
 					body = body.replace(f'"{url}"', f'"{url_noquery}?{urlencode(p, True)}"')
 					body = body.replace(f'>{url}<', f'>{url_noquery}?{urlencode(p, True)}<')
-
-			if v and v.shadowbanned and v.id == self.author_id and 86400 > time.time() - self.created_utc > 60:
-				ti = max(int((time.time() - self.created_utc)/60), 1)
-				maxupvotes = min(ti, 13)
-				rand = randint(0, maxupvotes)
-				if self.upvotes < rand:
-					amount = randint(0, 3)
-					if amount == 1:
-						self.upvotes += amount
-						g.db.add(self)
 
 		if self.options:
 			curr = [x for x in self.options if x.exclusive and x.voted(v)]

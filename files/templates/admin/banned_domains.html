@@ -38,7 +38,7 @@
 
 
 	<form action="/admin/ban_domain" method="post">
-		<input type="hidden" name="formkey" value="{{v.formkey}}">
+		<input type="hidden" name="formkey" value="{{v|formkey}}">
 		<input autocomplete="off" name="domain" placeholder="Enter domain here.." class="form-control" required>
 		<input autocomplete="off" name="reason" placeholder="Enter ban reason here.." oninput="document.getElementById('ban-submit').disabled=false" class="form-control mt-2">
 		<input autocomplete="off" id="ban-submit" type="submit" onclick="disable(this)" class="btn btn-primary mt-2" value="Ban domain" disabled>

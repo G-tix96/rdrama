@@ -1,9 +1,12 @@
-from sqlalchemy import *
-from sqlalchemy.orm import relationship
-from files.__main__ import Base
-from files.helpers.lazy import lazy
-from files.helpers.const import *
 import time
+
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql.sqltypes import *
+
+from files.classes import Base
+from files.helpers.const import SITE_NAME
+from files.helpers.lazy import lazy
 
 class BadgeDef(Base):
 	__tablename__ = "badge_defs"

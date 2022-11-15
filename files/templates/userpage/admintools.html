@@ -27,7 +27,7 @@
 				<div class="body d-lg-flex border-bottom mb-2">
 					<div class="w-lg-100">
 						<form action="/admin/title_change/{{u.id}}" method="post" onsubmit="sendFormXHR(event)">
-							<input type="hidden" name="formkey" value="{{v.formkey}}">
+							<input type="hidden" name="formkey" value="{{v|formkey}}">
 							<input maxlength=100 autocomplete="off" id="customtitlebody-{{deviceType}}" type="text" name="title" class="form-control" placeholder='Enter a flair here' value="{% if u.customtitleplain %}{{u.customtitleplain}}{% endif %}">
 							<div class="d-flex mt-2">
 								<div class="format" role="button"><i class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('customtitlebody-{{deviceType}}')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></i></div>
@@ -45,7 +45,7 @@
 				<button type="button" id="unban-{{deviceType}}" class="mt-1 {% if not u.is_suspended %}d-none{% endif %} btn btn-success" onclick="postToastSwitch(this,'/unban_user/{{u.id}}','ban-{{deviceType}}','unban-{{deviceType}}','d-none')">Unban user</button>
 
 				<form id="ban-{{deviceType}}" class="my-3 {% if u.is_suspended %}d-none{% endif %}" action="/ban_user/{{u.id}}" method="post" onsubmit="sendFormXHRSwitch(event)">
-					<input type="hidden" name="formkey" value="{{v.formkey}}">
+					<input type="hidden" name="formkey" value="{{v|formkey}}">
 					<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Ban Reason" oninput="document.getElementById('user-ban-submit-{{deviceType}}').disabled=false" required>
 					<input autocomplete="off" style="font-size:11px" type="number" step="any" class="form-control" name="days" placeholder="Days (blank = permanent)">
 					<div class="custom-control custom-checkbox mb-1">
@@ -59,7 +59,7 @@
 				<button type="button" id="unshadowban-{{deviceType}}" class="mt-1 {% if not u.shadowbanned %}d-none{% endif %} btn btn-success" onclick="postToastSwitch(this,'/unshadowban/{{u.id}}','shadowban-{{deviceType}}','unshadowban-{{deviceType}}','d-none')">Unshadowban user</button>
 
 				<form id="shadowban-{{deviceType}}" class="my-3 {% if u.shadowbanned %}d-none{% endif %}" action="/shadowban/{{u.id}}" method="post" onsubmit="sendFormXHRSwitch(event)">
-					<input type="hidden" name="formkey" value="{{v.formkey}}">
+					<input type="hidden" name="formkey" value="{{v|formkey}}">
 					<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Shadowban Reason" oninput="document.getElementById('user-shadowban-submit-{{deviceType}}').disabled=false" required>
 					<div class="custom-control custom-checkbox mb-1">
 						<input autocomplete="off" type="checkbox" id="shadowban-alts-{{deviceType}}" class="custom-control-input" name="alts" value="1">
@@ -72,7 +72,7 @@
 				<button type="button" id="unagendaposter-{{deviceType}}" class="mt-1 {% if not u.agendaposter %}d-none{% endif %} btn btn-success" onclick="postToastSwitch(this,'/unagendaposter/{{u.id}}','agendaposter-{{deviceType}}','unagendaposter-{{deviceType}}','d-none')">Unchud</button>
 
 				<form id="agendaposter-{{deviceType}}" class="my-3 {% if u.agendaposter %}d-none{% endif %}" action="/agendaposter/{{u.id}}" method="post" onsubmit="sendFormXHRSwitch(event)">
-					<input type="hidden" name="formkey", value="{{v.formkey}}">
+					<input type="hidden" name="formkey" value="{{v|formkey}}">
 					<input autocomplete="off" type="number" step="any" name="days" class="form-control" placeholder="Days (0 or blank = permanent)">
 					<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Chud">
 				</form>
@@ -95,12 +95,12 @@
 				{% endif %}
 				{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 					<form action="/admin/unnuke_user" method="post" onsubmit="sendFormXHR(event)">
-						<input type="hidden" name="formkey", value="{{v.formkey}}">
+						<input type="hidden" name="formkey", value="{{v|formkey}}">
 						<input type="hidden" name="user" value="{{u.username}}">
 						<input type="submit" onclick="disable(this)" class="btn btn-success" value="Approve User's Content">
 					</form>
 					<form class="mt-1" action="/admin/nuke_user" method="post" onsubmit="sendFormXHR(event)">
-						<input type="hidden" name="formkey", value="{{v.formkey}}">
+						<input type="hidden" name="formkey", value="{{v|formkey}}">
 						<input type="hidden" name="user" value="{{u.username}}">
 						<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Remove User's Content">
 					</form>

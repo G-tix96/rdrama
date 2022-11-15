@@ -1,37 +1,37 @@
+import random
+import time
+from urllib.parse import quote
+
+import gevent
+import requests
 from flask import g
+from files.classes.flags import Flag
+from files.classes.mod_logs import ModAction
+from files.classes.notifications import Notification
+
 from files.helpers.alerts import send_repeatable_notification
 from files.helpers.const import *
+from files.helpers.const_stateful import *
 from files.helpers.get import *
 from files.helpers.sanitize import *
 from files.helpers.slots import check_slots_command
-import random
-from urllib.parse import quote
 
 headers = {'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}
 
-SNAPPY_MARSEYS = []
-if SITE_NAME != 'PCM':
-	SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
-
-SNAPPY_QUOTES = []
-if path.isfile(f'snappy_{SITE_NAME}.txt'):
-	with open(f'snappy_{SITE_NAME}.txt', "r", encoding="utf-8") as f:
-		SNAPPY_QUOTES = f.read().split("\n{[para]}\n")
-
-def archiveorg(url):
+def _archiveorg(url):
 	try: requests.get(f'https://web.archive.org/save/{url}', headers=headers, timeout=10, proxies=proxies)
 	except: pass
 	requests.post('https://ghostarchive.org/archive2', data={"archive": url}, headers=headers, timeout=10, proxies=proxies)
 
 
-def archive_url(url):
-	gevent.spawn(archiveorg, url)
+def archive_url(url):	
+	gevent.spawn(_archiveorg, url)
 	if url.startswith('https://twitter.com/'):
 		url = url.replace('https://twitter.com/', 'https://nitter.lacontrevoie.fr/')
-		gevent.spawn(archiveorg, url)
+		gevent.spawn(_archiveorg, url)
 	if url.startswith('https://instagram.com/'):
 		url = url.replace('https://instagram.com/', 'https://imginn.com/')
-		gevent.spawn(archiveorg, url)
+		gevent.spawn(_archiveorg, url)
 
 
 def execute_snappy(post, v):

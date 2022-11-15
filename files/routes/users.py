@@ -1,28 +1,30 @@
-from typing import Literal
-import qrcode
 import io
-import time
-import math
-from files.classes.leaderboard import Leaderboard
-from files.classes.views import *
-from files.classes.transactions import *
-from files.helpers.alerts import *
-from files.helpers.sanitize import *
-from files.helpers.const import *
-from files.helpers.sorting_and_time import *
-from files.helpers.actions import *
-from files.mail import *
-from flask import *
-from files.__main__ import app, limiter, db_session
-import sqlalchemy
-from sqlalchemy.orm import aliased
-from sqlalchemy import desc
-from collections import Counter
-import gevent
-from sys import stdout
-import os
 import json
-from .login import check_for_alts
+import math
+import time
+from collections import Counter
+from typing import Literal
+
+import gevent
+import qrcode
+from sqlalchemy.orm import aliased
+
+from files.classes import *
+from files.classes.leaderboard import Leaderboard
+from files.classes.transactions import *
+from files.classes.views import *
+from files.helpers.actions import execute_blackjack
+from files.helpers.alerts import *
+from files.helpers.const import *
+from files.helpers.mail import *
+from files.helpers.sanitize import *
+from files.helpers.sorting_and_time import *
+from files.helpers.useractions import badge_grant
+from files.routes.routehelpers import check_for_alts
+from files.routes.wrappers import *
+
+from files.__main__ import app, cache, limiter
+
 
 def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v, include_shadowbanned=False)
@@ -306,7 +308,7 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'proc
 		else:
 			raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
 		g.db.add(receiver)
-		send_repeatable_notification(GIFT_NOTIF_ID, log_message)
+		if GIFT_NOTIF_ID: send_repeatable_notification(GIFT_NOTIF_ID, log_message)
 		send_repeatable_notification(receiver.id, notif_text)
 	g.db.add(v)
 	return {"message": f"{amount - tax} {friendly_currency_name} have been transferred to @{receiver.username}"}
@@ -508,7 +510,7 @@ def messagereply(v):
 			abort(403, f"You're blocked by @{user.username}")
 
 	if parent.sentto == 2:
-		body += process_files()
+		body += process_files(request.files, v)
 
 	body = body.strip()
 
@@ -544,9 +546,9 @@ def messagereply(v):
 
 			gevent.spawn(pusher_thread, interests, title, notifbody, url)
 
+	top_comment = c.top_comment(g.db)
 
-
-	if c.top_comment.sentto == 2:
+	if top_comment.sentto == 2:
 		admins = g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id)
 		if SITE == 'watchpeopledie.tv':
 			admins = admins.filter(User.id != AEVANN_ID)
@@ -560,7 +562,7 @@ def messagereply(v):
 			notif = Notification(comment_id=c.id, user_id=admin)
 			g.db.add(notif)
 
-		ids = [c.top_comment.id] + [x.id for x in c.top_comment.replies(sort="old", v=v)]
+		ids = [top_comment.id] + [x.id for x in top_comment.replies(sort="old", v=v, db=g.db)]
 		notifications = g.db.query(Notification).filter(Notification.comment_id.in_(ids), Notification.user_id.in_(admins))
 		for n in notifications:
 			g.db.delete(n)
@@ -663,6 +665,16 @@ def visitors(v):
 	viewers=sorted(v.viewers, key = lambda x: x.last_view_utc, reverse=True)
 	return render_template("userpage/viewers.html", v=v, viewers=viewers)
 
+@cache.memoize(timeout=86400)
+def userpagelisting(user:User, site=None, v=None, page:int=1, sort="new", t="all"):
+	if user.shadowbanned and not (v and v.can_see_shadowbanned): return []
+	posts = g.db.query(Submission.id).filter_by(author_id=user.id, is_pinned=False)
+	if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == user.id)):
+		posts = posts.filter_by(is_banned=False, private=False, ghost=False, deleted_utc=0)
+		posts = apply_time_filter(t, posts, Submission)
+		posts = sort_objects(sort, posts, Submission, include_shadowbanned=v and v.can_see_shadowbanned)
+		posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
+	return [x[0] for x in posts]
 
 @app.get("/@<username>")
 @app.get("/@<username>.json")
@@ -701,7 +713,7 @@ def u_username(username, v=None):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	ids = u.userpagelisting(site=SITE, v=v, page=page, sort=sort, t=t)
+	ids = userpagelisting(u, site=SITE, v=v, page=page, sort=sort, t=t)
 
 	next_exists = (len(ids) > PAGE_SIZE)
 	ids = ids[:PAGE_SIZE]
@@ -717,7 +729,7 @@ def u_username(username, v=None):
 
 	if u.unban_utc:
 		if (v and v.client) or request.path.endswith(".json"):
-			return {"data": [x.json for x in listing]}
+			return {"data": [x.json(g.db) for x in listing]}
 		
 		return render_template("userpage.html",
 												unban=u.unban_string,
@@ -731,7 +743,7 @@ def u_username(username, v=None):
 												is_following=is_following)
 
 	if (v and v.client) or request.path.endswith(".json"):
-		return {"data": [x.json for x in listing]}
+		return {"data": [x.json(g.db) for x in listing]}
 	
 	return render_template("userpage.html",
 									u=u,
@@ -799,7 +811,7 @@ def u_username_comments(username, v=None):
 	listing = get_comments(ids, v=v)
 
 	if (v and v.client) or request.path.endswith(".json"):
-		return {"data": [c.json for c in listing]}
+		return {"data": [c.json(g.db) for c in listing]}
 	
 	return render_template("userpage/comments.html", u=u, v=v, listing=listing, page=page, sort=sort, t=t,next_exists=next_exists, is_following=is_following, standalone=True)
 
@@ -1082,22 +1094,17 @@ kofi_tiers={
 def settings_kofi(v):
 	if not (v.email and v.is_activated):
 		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
-
 	transaction = g.db.query(Transaction).filter_by(email=v.email).order_by(Transaction.created_utc.desc()).first()
-
 	if not transaction:
 		abort(404, "Email not found")
-
 	if transaction.claimed:
 		abort(400, f"{patron} rewards already claimed")
 
 	tier = kofi_tiers[transaction.amount]
 
 	procoins = procoins_li[tier]
-
 	v.procoins += procoins
 	send_repeatable_notification(v.id, f"You have received {procoins} Marseybux! You can use them to buy awards in the [shop](/shop).")
-
 	g.db.add(v)
 
 	if tier > v.patron:
@@ -1107,7 +1114,5 @@ def settings_kofi(v):
 		badge_grant(badge_id=20+tier, user=v)
 
 	transaction.claimed = True
-
 	g.db.add(transaction)
-
 	return {"message": f"{patron} rewards claimed!"}

@@ -1,6 +1,9 @@
-from sqlalchemy import *
-from files.__main__ import Base
 import time
+
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.sql.sqltypes import *
+
+from files.classes import Base
 
 class Marsey(Base):
 	__tablename__ = "marseys"

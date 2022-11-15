@@ -1,7 +1,11 @@
 from typing import Callable, Iterable, List, Optional, Union
+
+from flask import *
+from sqlalchemy import and_, any_, or_
 from sqlalchemy.orm import joinedload, selectinload
-from files.classes import *
-from flask import g
+
+from files.classes import Comment, CommentVote, Hat, Sub, Submission, User, UserBlock, Vote
+from files.helpers.const import AUTOJANNY_ID
 
 def sanitize_username(username:str) -> str:
 	if not username: return username

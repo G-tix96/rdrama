@@ -1,31 +1,22 @@
 import functools
+import random
+import re
+import signal
+from functools import partial
+from os import path
+from urllib.parse import parse_qs, urlparse
+
 import bleach
-from bs4 import BeautifulSoup
 from bleach.css_sanitizer import CSSSanitizer
 from bleach.linkifier import LinkifyFilter
-from functools import partial
-from .get import *
-from os import path
-import re
+from bs4 import BeautifulSoup
 from mistletoe import markdown
-from random import random, choice
-import signal
-from files.__main__ import db_session
-from files.classes.marsey import Marsey
+from files.classes.domains import BannedDomain
 
-db = db_session()
-marseys_const = [x[0] for x in db.query(Marsey.name).filter(Marsey.submitter_id==None, Marsey.name!='chudsey').all()]
-marseys_const2 = marseys_const + ['chudsey','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','exclamationpoint','period','questionmark']
-
-marseys = db.query(Marsey).filter(Marsey.submitter_id==None).all()
-marsey_mappings = {}
-for marsey in marseys:
-	for tag in marsey.tags.split():
-		if tag in marsey_mappings:
-			marsey_mappings[tag].append(marsey.name)
-		else:
-			marsey_mappings[tag] = [marsey.name]
-db.close()
+from files.helpers.const import *
+from files.helpers.const_stateful import *
+from files.helpers.regex import *
+from .get import *
 
 TLDS = ( # Original gTLDs and ccTLDs
 	'ac','ad','ae','aero','af','ag','ai','al','am','an','ao','aq','ar','arpa','as','asia','at',
@@ -173,12 +164,12 @@ def render_emoji(html, regexp, golden, marseys_used, b=False):
 		attrs = ''
 		if b: attrs += ' b'
 		if golden and len(emojis) <= 20 and ('marsey' in emoji or emoji in marseys_const2):
-			if random() < 0.0025: attrs += ' g'
-			elif random() < 0.00125: attrs += ' glow'
+			if random.random() < 0.0025: attrs += ' g'
+			elif random.random() < 0.00125: attrs += ' glow'
 
 		old = emoji
 		emoji = emoji.replace('!','').replace('#','')
-		if emoji == 'marseyrandom': emoji = choice(marseys_const2)
+		if emoji == 'marseyrandom': emoji = random.choice(marseys_const2)
 
 		emoji_partial_pat = '<img loading="lazy" alt=":{0}:" src="{1}"{2}>'
 		emoji_partial = '<img loading="lazy" data-bs-toggle="tooltip" alt=":{0}:" title=":{0}:" src="{1}"{2}>'
@@ -254,7 +245,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	if torture:
 		sanitized = torture_ap(sanitized, g.v.username)
-		emoji = choice(['trumpjaktalking', 'reposthorse'])
+		emoji = random.choice(['trumpjaktalking', 'reposthorse'])
 		sanitized += f'\n:#{emoji}:'
 
 	sanitized = normalize_url(sanitized)

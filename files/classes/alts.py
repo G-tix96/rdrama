@@ -1,6 +1,9 @@
-from sqlalchemy import *
-from files.__main__ import Base
 import time
+
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.sql.sqltypes import *
+
+from files.classes import Base
 
 class Alt(Base):
 	__tablename__ = "alts"
@@ -16,5 +19,4 @@ class Alt(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-
 		return f"<Alt(id={self.id})>"

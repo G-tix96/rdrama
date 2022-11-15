@@ -117,9 +117,9 @@
 							<div class="d-flex">
 								<div>
 									<form action="/settings/images/profile" method="post" enctype="multipart/form-data">
-										<input type="hidden" name="formkey" value="{{v.formkey}}">
+										<input type="hidden" name="formkey" value="{{v|formkey}}">
 										<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-											Update<input autocomplete="off" type="file" accept="image/*" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} hidden name="profile" onchange="form.submit()">
+											Update<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="profile" onchange="form.submit()">
 										</label>
 									</form>
 								</div>
@@ -139,9 +139,9 @@
 								<div class="d-flex">
 									<div>
 										<form action="/settings/images/banner" method="post" enctype="multipart/form-data">
-											<input type="hidden" name="formkey" value="{{v.formkey}}">
+											<input type="hidden" name="formkey" value="{{v|formkey}}">
 											<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-												Update<input autocomplete="off" type="file" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} accept="image/*" hidden name="banner" onchange="form.submit()">
+												Update<input autocomplete="off" type="file" {% if g.is_tor %}disabled{% endif %} accept="image/*" hidden name="banner" onchange="form.submit()">
 											</label>
 										</form>
 									</div>
@@ -157,7 +157,7 @@
 						<div class="body w-lg-100">
 							<p>Your original username will always stay reserved for you: <code>{{v.original_username}}</code></p>
 							<form action="/settings/name_change" method="post">
-								<input type="hidden" name="formkey" value="{{v.formkey}}">
+								<input type="hidden" name="formkey" value="{{v|formkey}}">
 								<input autocomplete="off" type="text" name="name" class="form-control" value="{{v.username}}">
 								<small>3-25 characters, including letters, numbers, _ , and -</small>
 								<div class="d-flex mt-2">
@@ -183,7 +183,7 @@
 							<div class="body w-lg-100">
 								<p>You can use an MP3 file or a YouTube video.</p>
 								<form action="/settings/song_change_mp3" method="post" enctype="multipart/form-data">
-									<input type="hidden" name="formkey" value="{{v.formkey}}">
+									<input type="hidden" name="formkey" value="{{v|formkey}}">
 									<label class="btn btn-secondary format d-inline-block m-0 mb-3">
 										<div id="filename-show2"><i class="fas fa-file"></i>
 											{% if v.song and v.song|length in (1,2,3,4,5,17) %}
@@ -192,11 +192,11 @@
 												Use an MP3 file (Max size is 8MB)
 											{% endif %}
 										</div>
-										<input autocomplete="off" id="file-upload2" type="file" name="file" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} accept="audio/mp3" onchange="this.form.submit()" hidden>
+										<input autocomplete="off" id="file-upload2" type="file" name="file" {% if g.is_tor %}disabled{% endif %} accept="audio/mp3" onchange="this.form.submit()" hidden>
 									</label>
 								</form>
 								<form action="/settings/song_change" method="post">
-									<input type="hidden" name="formkey" value="{{v.formkey}}">
+									<input type="hidden" name="formkey" value="{{v|formkey}}">
 									<input class="form-control" style="display:inline;max-width:75%;font-size: min(3.5vw,16px)!important" autocomplete="off" type="text" name="song" class="form-control" value="{% if v.song and v.song|length not in (1,2,3,4,5,17) %}https://youtu.be/{{v.song}}{% endif %}" placeholder='Enter a YouTube video link here'>
 									<input class="btn btn-primary" style="font-size: min(3.5vw,16px)!important" autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Submit">
 								</form>
@@ -286,7 +286,7 @@
 				<div class="modal-body">
 					<input type="hidden" name="{{field}}" value="true">
 					<input type="hidden" name="permanent" value="true">
-					<input type="hidden" name="formkey" value="{{v.formkey}}">
+					<input type="hidden" name="formkey" value="{{v|formkey}}">
 					<p>This form will permanently enable the filter for you. You will receive the {{badge_name}} badge and <strong>will not</strong> be able to disable the filter.<br>Type your username to continue.</p>
 					<input autocomplete="off" type="text" name="username" placeholder="Enter your username to confirm" id="username-{{id}}" class="form-control" pattern="{{v.username}}" required>
 				</div>

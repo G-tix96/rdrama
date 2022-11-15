@@ -1,5 +1,6 @@
-from .sanitize import marsey_mappings
 from random import choice
+
+from .const_stateful import marsey_mappings
 
 def marsify(text):
 	new_text = ''

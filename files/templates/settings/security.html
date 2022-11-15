@@ -9,7 +9,7 @@
 			<h5>Email</h5>
 			<div class="settings-section rounded">
 				<form action="/settings/security" method="post">
-					<input type="hidden" name="formkey" value="{{v.formkey}}">
+					<input type="hidden" name="formkey" value="{{v|formkey}}">
 					<input type="hidden" name="now" value="{{now}}">
 					<div class="body">
 						<div class="d-lg-flex">
@@ -87,7 +87,7 @@
 						</div>
 					</div>
 					<div class="footer">
-						<input type="hidden" name="formkey" value="{{v.formkey}}">
+						<input type="hidden" name="formkey" value="{{v|formkey}}">
 						<input type="hidden" name="now" value="{{now}}">
 						<div class="d-flex">
 							<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Change Password">
@@ -116,7 +116,7 @@
 		<section id="site-settings-logout-everywhere-section" class="settings-section-section">
 			<h5>Log Out Everywhere</h5>
 			<form action="/settings/log_out_all_others" method="post">
-					<input type="hidden" name="formkey" value="{{v.formkey}}">
+					<input type="hidden" name="formkey" value="{{v|formkey}}">
 				<div class="body">
 					<div class="d-lg-flex">
 						<label for="forcelog-password" class="w-lg-25" id="email-password-label">Password</label>
@@ -177,7 +177,7 @@
 										{% include "user_in_table.html" %}
 									</td>
 									<td>
-										<button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/settings/unblock?username={{user.username}}&formkey={{v.formkey}}')">Unblock</button>
+										<button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/settings/unblock?username={{user.username}}&formkey={{v|formkey}}')">Unblock</button>
 									</td>
 								</tr>
 							{% else %}
@@ -209,7 +209,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<input type="hidden" name="formkey" value="{{v.formkey}}">
+					<input type="hidden" name="formkey" value="{{v|formkey}}">
 					<input autocomplete="off" type="text" name="username" placeholder="Enter username..." id="exile-username" class="form-control" maxlength=25 required>
 				</div>
 				<div class="modal-footer">

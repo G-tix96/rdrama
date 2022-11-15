@@ -117,7 +117,7 @@
 					{% if SITE == 'rdrama.net' %}
 						<td>{% include "user_in_table.html" %}</td>
 					{% endif %}
-					<td><a href="/hat_owners/{{hat.id}}">{{hat.number_sold}}</a></td>
+					<td><a href="/hat_owners/{{hat.id}}">{{hat.number_sold(g.db)}}</a></td>
 					<td>{{hat.price}}</td>
 					<td class="shop-table-actions" style="width:unset">
 						{% if hat.id not in owned_hat_ids and hat.is_purchasable %}

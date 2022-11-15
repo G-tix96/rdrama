@@ -1,23 +1,24 @@
-from files.cli import g, app, db_session
-import click
-from files.helpers.const import *
-from files.helpers.alerts import send_repeatable_notification
-from files.helpers.roulette import spin_roulette_wheel
-from files.helpers.get import *
-from files.helpers.useractions import *
-from files.classes import *
-from files.__main__ import cache
-
-import files.helpers.lottery as lottery
-import files.helpers.offsitementions as offsitementions
-import files.helpers.stats as stats
-import files.helpers.awards as awards
-import files.routes.static as route_static
-
-from sys import stdout
 import datetime
 import time
+from sys import stdout
+
+import click
 import requests
+
+import files.helpers.awards as awards
+import files.helpers.offsitementions as offsitementions
+import files.helpers.stats as stats
+import files.routes.static as route_static
+import files.routes.streamers as route_streamers
+from files.__main__ import cache
+from files.classes import *
+from files.helpers.alerts import send_repeatable_notification
+from files.helpers.const import *
+from files.helpers.get import *
+from files.helpers.lottery import check_if_end_lottery_task
+from files.helpers.roulette import spin_roulette_wheel
+from files.helpers.useractions import *
+from files.cli import app, db_session, g
 
 @app.cli.command('cron', help='Run scheduled tasks.')
 @click.option('--every-5m', is_flag=True, help='Call every 5 minutes.')
@@ -29,30 +30,30 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 
 	if every_5m:
 		if FEATURES['GAMBLING']:
-			lottery.check_if_end_lottery_task()
+			check_if_end_lottery_task()
 			spin_roulette_wheel()
 		offsitementions.offsite_mentions_task(cache)
-		if SITE == 'pcmemes.net':
-			route_static.live_cached()
+		if FEATURES['STREAMERS']:
+			route_streamers.live_cached()
 
 	if every_1h:
 		awards.award_timers_bots_task()
 
 	if every_1d:
 		stats.generate_charts_task(SITE)
-		sub_inactive_purge_task()
+		_sub_inactive_purge_task()
 		cache.delete_memoized(route_static.stats_cached)
 		route_static.stats_cached()
 
 	if every_1mo:
-		if KOFI_LINK: give_monthly_marseybux_task_kofi()
-		else: give_monthly_marseybux_task()
+		if KOFI_LINK: _give_monthly_marseybux_task_kofi()
+		else: _give_monthly_marseybux_task()
 
 	g.db.commit()
 	g.db.close()
 	stdout.flush()
 
-def sub_inactive_purge_task():
+def _sub_inactive_purge_task():
 	if not HOLE_INACTIVITY_DELETION:
 		return False
 
@@ -108,7 +109,7 @@ def sub_inactive_purge_task():
 	return True
 
 
-def give_monthly_marseybux_task():
+def _give_monthly_marseybux_task():
 	month = datetime.datetime.now() + datetime.timedelta(days=5)
 	month = month.strftime('%B')
 
@@ -157,7 +158,7 @@ def give_monthly_marseybux_task():
 	return True
 
 
-def give_monthly_marseybux_task_kofi():
+def _give_monthly_marseybux_task_kofi():
 	month = datetime.datetime.now() + datetime.timedelta(days=5)
 	month = month.strftime('%B')
 

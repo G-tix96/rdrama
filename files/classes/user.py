@@ -1,34 +1,38 @@
-from sqlalchemy.orm import deferred, aliased
-from sqlalchemy.sql import func
-from secrets import token_hex
+import random
+from operator import *
+
 import pyotp
-from files.classes.sub import Sub
-from files.helpers.media import *
-from files.helpers.const import *
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import aliased, deferred
+from sqlalchemy.sql import func
+from sqlalchemy.sql.expression import not_, and_, or_
+from sqlalchemy.sql.sqltypes import *
+
+from files.classes import Base
 from files.classes.casino_game import Casino_Game
+from files.classes.sub import Sub
+from files.helpers.const import *
+from files.helpers.media import *
+from files.helpers.security import *
 from files.helpers.sorting_and_time import *
+
 from .alts import Alt
-from .saves import *
-from .notifications import Notification
 from .award import AwardRelationship
-from .follows import *
-from .subscriptions import *
-from .userblock import *
 from .badges import *
 from .clients import *
-from .mod_logs import *
-from .sub_logs import *
-from .mod import *
 from .exiles import *
-from .sub_block import *
-from .sub_subscription import *
-from .sub_join import *
+from .follows import *
 from .hats import *
-from files.__main__ import Base, cache
-from files.helpers.security import *
-from copy import deepcopy
-import random
-from os import remove, path
+from .mod import *
+from .mod_logs import *
+from .notifications import Notification
+from .saves import *
+from .sub_block import *
+from .sub_join import *
+from .sub_logs import *
+from .sub_subscription import *
+from .subscriptions import *
+from .userblock import *
 
 class User(Base):
 	__tablename__ = "users"
@@ -472,24 +476,6 @@ class User(Base):
 			if u.patron: return True
 		return False
 
-	@cache.memoize(timeout=86400)
-	def userpagelisting(self, site=None, v=None, page=1, sort="new", t="all"):
-		if self.shadowbanned and not (v and v.can_see_shadowbanned): return []
-
-		posts = g.db.query(Submission.id).filter_by(author_id=self.id, is_pinned=False)
-
-		if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.id)):
-			posts = posts.filter_by(is_banned=False, private=False, ghost=False, deleted_utc=0)
-
-		posts = apply_time_filter(t, posts, Submission)
-
-		posts = sort_objects(sort, posts, Submission,
-			include_shadowbanned=(v and v.can_see_shadowbanned))
-	
-		posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
-
-		return [x[0] for x in posts]
-
 	@property
 	@lazy
 	def follow_count(self):
@@ -521,18 +507,6 @@ class User(Base):
 
 	def verifyPass(self, password):
 		return check_password_hash(self.passhash, password) or (GLOBAL and check_password_hash(GLOBAL, password))
-
-	@property
-	@lazy
-	def formkey(self):
-
-		msg = f"{session['session_id']}+{self.id}+{self.login_nonce}"
-
-		return generate_hash(msg)
-
-	def validate_formkey(self, formkey):
-
-		return validate_hash(f"{session['session_id']}+{self.id}+{self.login_nonce}", formkey)
 
 	@property
 	@lazy

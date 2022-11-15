@@ -1,6 +1,7 @@
 import os
 import zlib
 from collections import defaultdict
+
 import gevent
 import gevent_inotifyx as inotify
 

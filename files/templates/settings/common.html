@@ -23,7 +23,7 @@
 	<div class="body  w-lg-100 d-lg-flex">
 		<div class="d-flex">
 			<form action="{{form_action}}" id="{{id}}-form" method="post" class="color-picker" style="line-height: 0">
-					<input type="hidden" name="formkey" value="{{v.formkey}}">
+					<input type="hidden" name="formkey" value="{{v|formkey}}">
 					{% for themecolor in COLORS %}
 					<input autocomplete="off" type="radio" name="{{form_name}}" id="{{id}}-{{themecolor}}" value="{{themecolor}}" {% if current_color == themecolor %}checked{% endif %} onclick="document.getElementById('{{id}}-form').submit()">
 					<label class="color-radio" for="{{id}}-{{themecolor}}">
@@ -41,7 +41,7 @@
 		<p class="text-small mb-2">Or type a color hex code:</p>
 		<div class="d-flex">
 			<form action="{{form_action}}" id="{{id}}-color-code-form" method="post">
-				<input type="hidden" name="formkey" value="{{v.formkey}}">
+				<input type="hidden" name="formkey" value="{{v|formkey}}">
 				<input class="form-control" type="text" name="{{form_name}}" id="{{id}}-color-code" minlength="6" maxlength="6" value="{% if current_color %}{{current_color}}{% endif %}">
 				<label class="btn btn-secondary text-capitalize mr-2 mt-2 mb-0">Update<input type="text" for="{{id}}-color-code" onclick="form.submit()" hidden=""></label>
 			</form>
@@ -56,7 +56,7 @@
 		<label class="text-black w-lg-25">{{section_title}}</label>
 		<div class="w-lg-100">
 			<form id="{{id}}-form" action="{{form_action}}" method="post">
-				<input type="hidden" name="formkey" value="{{v.formkey}}">
+				<input type="hidden" name="formkey" value="{{v|formkey}}">
 				<input minlength={{minlength}} maxlength={{maxlength}} pattern="{{pattern}}" autocomplete="off" id="{{id}}-body" type="text" name="{{form_name}}" class="form-control" placeholder='{{placeholder_text}}' value="{% if contents %}{{contents}}{% endif %}">
 				<div class="d-flex mt-2">
 					{% if show_marseys %}
@@ -77,7 +77,7 @@
 	<label class="text-black w-lg-25">{{section_title}}</label>
 	<div class="w-lg-100">						
 		<form id="{{id}}-form" action="{{form_action}}" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="formkey" value="{{v.formkey}}">
+			<input type="hidden" name="formkey" value="{{v|formkey}}">
 			<textarea autocomplete="off" id="{{id}}-text" class="form-control rounded" aria-label="With textarea" placeholder="{{placeholder_text}}" rows="3" name="{{form_name}}" form="{{id}}-form" maxlength="{{maxlength}}">{% if contents %}{{contents}}{% endif %}</textarea>
 			{% if show_extras %}
 				<div class="d-flex">
@@ -88,7 +88,7 @@
 					{% if show_file_upload and request.headers.get('cf-ipcountry') != "T1" %}
 						<label class="btn btn-secondary format d-inline-block m-0">
 							<div id="filename-show"><i class="fas fa-file"></i></div>
-							<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file" multiple="multiple" {% if request.headers.get('cf-ipcountry')=="T1" %}disabled{% endif %} onchange="changename('filename-show','file-upload')" hidden>
+							<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file" multiple="multiple" {% if g.is_tor %}disabled{% endif %} onchange="changename('filename-show','file-upload')" hidden>
 						</label>
 					{% endif %}
 				</div>

@@ -1,10 +1,9 @@
-from flask import *
 import requests
-from files.helpers.wrappers import *
+
 from files.helpers.const import *
+from files.routes.wrappers import *
 
 from files.__main__ import app
-
 
 @app.get("/giphy")
 @app.get("/giphy<path>")

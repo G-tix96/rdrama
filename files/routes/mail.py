@@ -1,74 +1,29 @@
-import requests
 import time
-from flask import *
-from urllib.parse import quote
 
-from files.helpers.security import *
-from files.helpers.wrappers import *
+from files.classes import *
 from files.helpers.const import *
 from files.helpers.get import *
+from files.helpers.mail import *
 from files.helpers.useractions import *
-from files.classes import *
+from files.routes.wrappers import *
 from files.__main__ import app, limiter
-
-
-def send_mail(to_address, subject, html):
-	if MAILGUN_KEY == 'blahblahblah': return
-
-	url = f"https://api.mailgun.net/v3/{SITE}/messages"
-
-	auth = ("api", MAILGUN_KEY)
-
-	data = {"from": EMAIL,
-			"to": [to_address],
-			"subject": subject,
-			"html": html,
-			}
-	
-	requests.post(url, auth=auth, data=data)
-
-
-def send_verification_email(user, email=None):
-
-	if not email:
-		email = user.email
-
-	url = f"https://{SITE}/activate"
-	now = int(time.time())
-
-	token = generate_hash(f"{email}+{user.id}+{now}")
-	params = f"?email={quote(email)}&id={user.id}&time={now}&token={token}"
-
-	link = url + params
-
-	send_mail(to_address=email,
-			html=render_template("email/email_verify.html",
-								action_url=link,
-								v=user),
-			subject=f"Validate your {SITE_NAME} account email."
-			)
-
 
 @app.post("/verify_email")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
 def verify_email(v):
-
 	send_verification_email(v)
-
 	return {"message": "Email has been sent (ETA ~5 minutes)"}
 
 
 @app.get("/activate")
 @auth_required
 def activate(v):
-
 	email = request.values.get("email", "").strip().lower()
 
 	if not email_regex.fullmatch(email):
 		return render_template("message.html", v=v, title="Invalid email.", error="Invalid email."), 400
-
 
 	id = request.values.get("id", "").strip()
 	timestamp = int(request.values.get("time", "0"))

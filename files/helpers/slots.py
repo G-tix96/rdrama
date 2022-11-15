@@ -1,12 +1,15 @@
 import json
-from json.encoder import INFINITY
 import random
-from .const import *
+from json.encoder import INFINITY
+
+from flask import abort, g
+
 from files.classes.casino_game import Casino_Game
-from files.helpers.casino import distribute_wager_badges
-from flask import g, abort
 from files.classes.comment import Comment
 from files.classes.user import User
+from files.helpers.casino import distribute_wager_badges
+
+from .const import *
 
 minimum_bet = 5
 maximum_bet = INFINITY

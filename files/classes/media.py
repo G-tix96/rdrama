@@ -1,9 +1,10 @@
-from sqlalchemy import *
-from files.__main__ import Base
 import time
 
-class Media(Base):
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.sql.sqltypes import *
+from files.classes import Base
 
+class Media(Base):
 	__tablename__ = "media"
 	kind = Column(String, primary_key=True)
 	filename = Column(String, primary_key=True)

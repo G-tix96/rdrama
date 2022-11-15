@@ -1,10 +1,14 @@
-from files.helpers.wrappers import *
-from files.helpers.get import *
-from files.helpers.const import *
-from files.helpers.sorting_and_time import *
-from files.__main__ import app, cache, limiter
+
+from sqlalchemy import or_, not_
+
 from files.classes.submission import Submission
+from files.classes.votes import Vote
 from files.helpers.awards import award_timers
+from files.helpers.const import *
+from files.helpers.get import *
+from files.helpers.sorting_and_time import *
+from files.routes.wrappers import *
+from files.__main__ import app, cache, limiter
 
 @app.get("/")
 @app.get("/h/<sub>")
@@ -13,8 +17,9 @@ from files.helpers.awards import award_timers
 @auth_desired_with_logingate
 def front_all(v, sub=None, subdomain=None):
 	#### WPD TEMP #### special front logic
-	from files.helpers.security import generate_hash, validate_hash
 	from datetime import datetime
+
+	from files.helpers.security import generate_hash, validate_hash
 	now = datetime.utcnow()
 	if SITE == 'watchpeopledie.co':
 		if v and not v.admin_level and not v.id <= 9: # security: don't auto login admins or bots
@@ -89,9 +94,8 @@ def front_all(v, sub=None, subdomain=None):
 		if v.hidevotedon: posts = [x for x in posts if not hasattr(x, 'voted') or not x.voted]
 		award_timers(v)
 
-	if v and v.client: return {"data": [x.json for x in posts], "next_exists": next_exists}
+	if v and v.client: return {"data": [x.json(g.db) for x in posts], "next_exists": next_exists}
 	return render_template("home.html", v=v, listing=posts, next_exists=next_exists, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, holes=holes)
-
 
 
 @cache.memoize(timeout=86400)
@@ -227,7 +231,7 @@ def all_comments(v):
 	next_exists = len(idlist) > PAGE_SIZE
 	idlist = idlist[:PAGE_SIZE]
 
-	if v.client: return {"data": [x.json for x in comments]}
+	if v.client: return {"data": [x.json(g.db) for x in comments]}
 	return render_template("home_comments.html", v=v, sort=sort, t=t, page=page, comments=comments, standalone=True, next_exists=next_exists)
 
 

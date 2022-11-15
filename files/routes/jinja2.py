@@ -1,19 +1,29 @@
-from files.__main__ import app, cache
-from jinja2 import pass_context
-from .get import *
-from os import listdir, environ
-from .const import * 
 import time
+
+from os import environ, listdir
+
+from jinja2 import pass_context
+
 from files.helpers.assetcache import assetcache_path
-from files.helpers.wrappers import calc_users
+from files.helpers.const import *
+from files.helpers.settings import get_settings
+from files.helpers.sorting_and_time import make_age_string
+from files.routes.routehelpers import get_formkey
+from files.routes.wrappers import calc_users
+from files.__main__ import app, cache
+
+@app.template_filter("formkey")
+def formkey(u):
+	return get_formkey(u)
 
 @app.template_filter("post_embed")
 def post_embed(id, v):
+	from flask import render_template
+
+	from files.helpers.get import get_post
 	p = get_post(id, v, graceful=True)
-	
 	if p: return render_template("submission_listing.html", listing=[p], v=v)
 	return ''
-
 
 @app.template_filter("asset")
 @pass_context
@@ -25,7 +35,6 @@ def template_asset(ctx, asset_path):
 def template_asset_siteimg(asset_path):
 	# TODO: Add hashing for these using files.helpers.assetcache
 	return f'/i/{SITE_NAME}/{asset_path}?v=3010'
-
 
 @app.template_filter("timestamp")
 def timestamp(timestamp):
@@ -46,7 +55,7 @@ def inject_constants():
 			"BADGE_THREAD":BADGE_THREAD, "SNAPPY_THREAD":SNAPPY_THREAD,
 			"KOFI_TOKEN":KOFI_TOKEN, "KOFI_LINK":KOFI_LINK,
 			"approved_embed_hosts":approved_embed_hosts,
-			"site_settings":app.config['SETTINGS'], "EMAIL":EMAIL, "calc_users":calc_users, 
+			"site_settings":get_settings(), "EMAIL":EMAIL, "calc_users":calc_users, 
 			"max": max, "min": min,
 			"TELEGRAM_LINK":TELEGRAM_LINK, "EMAIL_REGEX_PATTERN":EMAIL_REGEX_PATTERN,
 			"CONTENT_SECURITY_POLICY_DEFAULT":CONTENT_SECURITY_POLICY_DEFAULT,

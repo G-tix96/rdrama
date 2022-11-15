@@ -1,15 +1,15 @@
-from files.__main__ import app
-from files.helpers.wrappers import *
+from files.classes.casino_game import CASINO_GAME_KINDS
 from files.helpers.alerts import *
-from files.helpers.get import *
-from files.helpers.const import *
-from files.helpers.wrappers import *
 from files.helpers.casino import *
+from files.helpers.const import *
+from files.helpers.get import *
+from files.helpers.lottery import *
+from files.helpers.roulette import *
 from files.helpers.slots import *
 from files.helpers.twentyone import *
-from files.helpers.roulette import *
-from files.helpers.lottery import *
+from files.routes.wrappers import *
 
+from files.__main__ import app, limiter
 
 @app.get("/casino")
 @feature_required('GAMBLING')
@@ -32,8 +32,8 @@ def casino_game_page(v, game):
 	elif game not in CASINO_GAME_KINDS:
 		abort(404)
 
-	feed = json.dumps(get_game_feed(game))
-	leaderboard = json.dumps(get_game_leaderboard(game))
+	feed = json.dumps(get_game_feed(game, g.db))
+	leaderboard = json.dumps(get_game_leaderboard(game, g.db))
 
 	game_state = ''
 	if game == 'blackjack':
@@ -60,7 +60,7 @@ def casino_game_feed(v, game):
 	elif game not in CASINO_GAME_KINDS:
 		abort(404)
 
-	feed = get_game_feed(game)
+	feed = get_game_feed(game, g.db)
 	return {"feed": feed}
 
 
@@ -121,7 +121,7 @@ def blackjack_deal_to_player(v):
 		currency = request.values.get("currency")
 		create_new_game(v, wager, currency)
 		state = dispatch_action(v, BlackjackAction.DEAL)
-		feed = get_game_feed('blackjack')
+		feed = get_game_feed('blackjack', g.db)
 
 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
 	except Exception as e:
@@ -138,7 +138,7 @@ def blackjack_player_hit(v):
 
 	try:
 		state = dispatch_action(v, BlackjackAction.HIT)
-		feed = get_game_feed('blackjack')
+		feed = get_game_feed('blackjack', g.db)
 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
 	except:
 		abort(400, "Unable to hit.")
@@ -154,7 +154,7 @@ def blackjack_player_stay(v):
 
 	try:
 		state = dispatch_action(v, BlackjackAction.STAY)
-		feed = get_game_feed('blackjack')
+		feed = get_game_feed('blackjack', g.db)
 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
 	except:
 		abort(400, "Unable to stay.")
@@ -170,7 +170,7 @@ def blackjack_player_doubled_down(v):
 
 	try:
 		state = dispatch_action(v, BlackjackAction.DOUBLE_DOWN)
-		feed = get_game_feed('blackjack')
+		feed = get_game_feed('blackjack', g.db)
 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
 	except:
 		abort(400, "Unable to double down.")
@@ -186,7 +186,7 @@ def blackjack_player_bought_insurance(v):
 
 	try:
 		state = dispatch_action(v, BlackjackAction.BUY_INSURANCE)
-		feed = get_game_feed('blackjack')
+		feed = get_game_feed('blackjack', g.db)
 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
 	except:
 		abort(403, "Unable to buy insurance.")

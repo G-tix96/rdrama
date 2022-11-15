@@ -1,8 +1,9 @@
+import re
+
+from owoify.structures.word import Word
 from owoify.utility.interleave_arrays import interleave_arrays
 from owoify.utility.presets import *
-from owoify.structures.word import Word
 
-import re
 import files.helpers.regex as help_re
 import files.helpers.sanitize as sanitize
 

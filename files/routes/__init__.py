@@ -1,13 +1,29 @@
-# import classes then...
-from files.classes.sub import Sub
+# import constants then...
+from files.helpers.const import FEATURES
 
-# import routes
+# import flask then...
+from flask import g, request, render_template, make_response, redirect, jsonify, send_from_directory, send_file
+
+# import our app then...
+from files.__main__ import app
+
+# import route helpers then...
+from files.routes.routehelpers import *
+
+# import wrappers then...
+from files.routes.wrappers import *
+
+# import jinja2 then... (lmao this was in feeds.py before wtf)
+from files.routes.jinja2 import *
+
+# import routes :)
 from .admin import *
 from .comments import *
 from .errors import *
 from .reporting import *
 from .front import *
 from .login import *
+from .mail import *
 from .oauth import *
 from .posts import *
 from .search import *
@@ -24,4 +40,7 @@ from .casino import *
 from .polls import *
 from .notifications import *
 from .hats import *
-from .asset_submissions import *
+if FEATURES['ASSET_SUBMISSIONS']:
+	from .asset_submissions import *
+if FEATURES['STREAMERS']:
+	from .streamers import *

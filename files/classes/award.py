@@ -1,12 +1,15 @@
-from sqlalchemy import *
-from sqlalchemy.orm import relationship
-from files.__main__ import Base
-from files.helpers.lazy import lazy
-from files.helpers.const import *
 import time
 
-class AwardRelationship(Base):
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql.sqltypes import *
 
+from files.classes import Base
+from files.helpers.const import AWARDS, HOUSE_AWARDS
+from files.helpers.lazy import lazy
+
+
+class AwardRelationship(Base):
 	__tablename__ = "award_relationships"
 
 	id = Column(Integer, primary_key=True)

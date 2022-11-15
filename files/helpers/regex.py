@@ -1,8 +1,9 @@
 import random
 import re
-from typing import List, Literal, Optional, Union
-from .const import *
 from random import choice, choices
+from typing import List, Optional, Union
+
+from .const import *
 
 valid_username_chars = 'a-zA-Z0-9_\-'
 valid_username_regex = re.compile("^[a-zA-Z0-9_\-]{3,25}$", flags=re.A)

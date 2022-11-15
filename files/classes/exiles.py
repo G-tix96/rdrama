@@ -1,10 +1,12 @@
-from sqlalchemy import *
-from sqlalchemy.orm import relationship
-from files.__main__ import Base
 import time
 
-class Exile(Base):
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql.sqltypes import *
 
+from files.classes import Base
+
+class Exile(Base):
 	__tablename__ = "exiles"
 	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 	sub = Column(String, ForeignKey("subs.name"), primary_key=True)

@@ -1,11 +1,13 @@
-from sqlalchemy import *
-from sqlalchemy.orm import relationship
-from files.__main__ import Base
-from files.helpers.lazy import lazy
 import time
 
-class SubmissionOption(Base):
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql.sqltypes import *
 
+from files.classes import Base
+from files.helpers.lazy import lazy
+
+class SubmissionOption(Base):
 	__tablename__ = "submission_options"
 
 	id = Column(Integer, primary_key=True)

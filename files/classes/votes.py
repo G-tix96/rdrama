@@ -1,12 +1,13 @@
-from flask import *
-from sqlalchemy import *
-from sqlalchemy.orm import relationship
-from files.__main__ import Base
-from files.helpers.lazy import lazy
 import time
 
-class Vote(Base):
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql.sqltypes import *
 
+from files.classes import Base
+from files.helpers.lazy import lazy
+
+class Vote(Base):
 	__tablename__ = "votes"
 
 	submission_id = Column(Integer, ForeignKey("submissions.id"), primary_key=True)

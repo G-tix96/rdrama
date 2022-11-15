@@ -1,13 +1,14 @@
-from sqlalchemy import *
-from sqlalchemy.orm import relationship
-from files.__main__ import Base
-from files.helpers.lazy import lazy
-from files.helpers.const import *
-from files.helpers.regex import *
 import time
 
-class Flag(Base):
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql.sqltypes import *
 
+from files.classes import Base
+from files.helpers.lazy import lazy
+from files.helpers.regex import censor_slurs
+
+class Flag(Base):
 	__tablename__ = "flags"
 
 	post_id = Column(Integer, ForeignKey("submissions.id"), primary_key=True)
@@ -30,7 +31,6 @@ class Flag(Base):
 
 
 class CommentFlag(Base):
-
 	__tablename__ = "commentflags"
 
 	comment_id = Column(Integer, ForeignKey("comments.id"), primary_key=True)

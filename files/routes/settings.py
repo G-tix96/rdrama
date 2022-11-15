@@ -1,20 +1,28 @@
 from __future__ import unicode_literals
-from files.helpers.alerts import *
-from files.helpers.sanitize import *
-from files.helpers.const import *
-from files.helpers.regex import *
-from files.helpers.actions import *
-from files.helpers.useractions import *
-from files.helpers.get import *
-from files.helpers.security import *
-from files.mail import *
-from files.__main__ import app, cache, limiter
-import youtube_dl
-from .front import frontlist
+
 import os
-from files.helpers.sanitize import filter_emojis_only
 from shutil import copyfile
+
+import pyotp
 import requests
+import youtube_dl
+
+from files.helpers.actions import *
+from files.helpers.alerts import *
+from files.helpers.const import *
+from files.helpers.get import *
+from files.helpers.mail import *
+from files.helpers.media import process_files, process_image
+from files.helpers.regex import *
+from files.helpers.sanitize import *
+from files.helpers.sanitize import filter_emojis_only
+from files.helpers.security import *
+from files.helpers.useractions import *
+from files.routes.wrappers import *
+
+from .front import frontlist
+from files.__main__ import app, cache, limiter
+
 
 @app.get("/settings")
 @auth_required
@@ -220,7 +228,7 @@ def settings_personal_post(v):
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and \
 			(request.values.get("bio") or request.files.get('file')):
 		bio = request.values.get("bio")[:1500]
-		bio += process_files()
+		bio += process_files(request.files, v)
 		bio = bio.strip()
 		bio_html = sanitize(bio)
 
@@ -336,6 +344,7 @@ def themecolor(v):
 @auth_required
 @ratelimit_user()
 def gumroad(v):
+	if GUMROAD_TOKEN == DEFAULT_CONFIG_VALUE: abort(404)
 	if not (v.email and v.is_activated):
 		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
 
@@ -380,7 +389,7 @@ def titlecolor(v):
 @ratelimit_user()
 def verifiedcolor(v):
 	if not v.verified: abort(403, "You don't have a checkmark")
-	return set_color(v, "verifiedcolor", "verifiedcolor")
+	return set_color(v, "verifiedcolor", request.values.get("verifiedcolor"))
 
 @app.post("/settings/security")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
@@ -475,19 +484,19 @@ def settings_log_out_others(v):
 @auth_required
 @ratelimit_user()
 def settings_images_profile(v):
-	if request.headers.get("cf-ipcountry") == "T1": abort(403, "Image uploads are not allowed through TOR.")
+	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
 
 	file = request.files["profile"]
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
-	highres = process_image(name, patron=v.patron)
+	highres = process_image(name, v)
 
 	if not highres: abort(400)
 
 	name2 = name.replace('.webp', 'r.webp')
 	copyfile(name, name2)
-	imageurl = process_image(name2, resize=100)
+	imageurl = process_image(name2, v, resize=100)
 
 	if not imageurl: abort(400)
 
@@ -511,13 +520,13 @@ def settings_images_profile(v):
 @auth_required
 @ratelimit_user()
 def settings_images_banner(v):
-	if request.headers.get("cf-ipcountry") == "T1": abort(403, "Image uploads are not allowed through TOR.")
+	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
 
 	file = request.files["banner"]
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
-	bannerurl = process_image(name, patron=v.patron)
+	bannerurl = process_image(name, v)
 
 	if bannerurl:
 		if v.bannerurl and '/images/' in v.bannerurl:

@@ -1,23 +1,21 @@
 import random
-import re
 import time
 from urllib.parse import urlparse
-from flask import render_template
-from sqlalchemy import *
-from sqlalchemy.orm import relationship, deferred
-from files.__main__ import Base
+
+from sqlalchemy import Column, FetchedValue, ForeignKey
+from sqlalchemy.orm import deferred, relationship, scoped_session
+from sqlalchemy.sql.sqltypes import *
+
+from files.classes import Base
 from files.helpers.const import *
-from files.helpers.regex import *
 from files.helpers.lazy import lazy
+from files.helpers.regex import *
 from files.helpers.sorting_and_time import make_age_string
-from .flags import Flag
-from .comment import Comment, normalize_urls_runtime
-from .saves import SaveRelationship
+
+from .comment import normalize_urls_runtime
+from .polls import *
 from .sub import *
 from .subscriptions import *
-from .votes import CommentVote
-from .polls import *
-from flask import g
 
 class Submission(Base):
 	__tablename__ = "submissions"
@@ -175,10 +173,8 @@ class Submission(Base):
 			return f"{SITE_FULL}/assets/images/{SITE_NAME}/site_preview.webp?v=3009"
 		else: return f"{SITE_FULL}/assets/images/default_thumb_link.webp?v=1"
 
-	@property
 	@lazy
-	def json(self):
-
+	def json(self, db:scoped_session):
 		if self.is_banned:
 			return {'is_banned': True,
 					'deleted_utc': self.deleted_utc,
@@ -195,7 +191,6 @@ class Submission(Base):
 					'title': self.title,
 					'permalink': self.permalink,
 					}
-
 
 		flags = {}
 		for f in self.flags: flags[f.user.username] = f.reason
@@ -232,7 +227,7 @@ class Submission(Base):
 				}
 
 		if "replies" in self.__dict__:
-			data["replies"]=[x.json for x in self.replies]
+			data["replies"]=[x.json(db) for x in self.replies]
 
 		return data
 
@@ -293,20 +288,7 @@ class Submission(Base):
 		body = self.body_html or ""
 
 		body = censor_slurs(body, v)
-
 		body = normalize_urls_runtime(body, v)
-
-		if v and v.shadowbanned and v.id == self.author_id and 86400 > time.time() - self.created_utc > 20:
-			ti = max(int((time.time() - self.created_utc)/60), 1)
-			maxupvotes = min(ti, 11)
-			rand = random.randint(0, maxupvotes)
-			if self.upvotes < rand:
-				amount = random.randint(0, 3)
-				if amount == 1:
-					self.views += amount*random.randint(3, 5)
-					self.upvotes += amount
-					g.db.add(self)
-
 
 		if self.options:
 			curr = [x for x in self.options if x.exclusive and x.voted(v)]
@@ -362,11 +344,9 @@ class Submission(Base):
 		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"<p>{CC} ONLY</p>"
 
 		body = self.body
-
 		if not body: return ""
 
 		body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
-
 		body = normalize_urls_runtime(body, v)
 		return body
 

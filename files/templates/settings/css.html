@@ -10,7 +10,7 @@
 				<div class="body d-lg-flex border-bottom">
 					<div class="w-lg-100">
 						<form id="profile-settings-css" action="/settings/css" method="post">
-							<input type="hidden" name="formkey" value="{{v.formkey}}">
+							<input type="hidden" name="formkey" value="{{v|formkey}}">
 							<textarea autocomplete="off" class="form-control rounded" id="css-textarea" aria-label="With textarea" placeholder="Custom CSS" rows="3" name="css" form="profile-settings-css" maxlength="4000">{% if v.css %}{{v.csslazy}}{% endif %}</textarea>
 							<small>Limit of 4000 characters</small>
 							<div class="d-flex mt-2">
@@ -28,7 +28,7 @@
 				<div class="body d-lg-flex border-bottom">
 					<div class="w-lg-100">
 						<form id="profile-settings-profilecss" action="/settings/profilecss" method="post">
-							<input type="hidden" name="formkey" value="{{v.formkey}}">
+							<input type="hidden" name="formkey" value="{{v|formkey}}">
 							<textarea autocomplete="off" class="form-control rounded" id="profilecss-textarea" aria-label="With textarea" placeholder="Custom profile CSS" rows="3" name="profilecss" form="profile-settings-profilecss" maxlength="4000">{% if v.profilecss %}{{v.profilecss}}{% endif %}</textarea>
 							<small>Limit of 4000 characters</small>
 							<div class="d-flex mt-2">

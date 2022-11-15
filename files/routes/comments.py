@@ -1,26 +1,27 @@
-from files.helpers.wrappers import *
+import os
+from collections import Counter
+from json import loads
+from shutil import copyfile
+
+import gevent
+
+from files.classes import *
+from files.helpers.actions import *
 from files.helpers.alerts import *
-from files.helpers.media import *
+from files.helpers.cloudflare import purge_files_in_cache
 from files.helpers.const import *
+from files.helpers.get import *
+from files.helpers.marsify import marsify
+from files.helpers.media import *
+from files.helpers.owoify import owoify
 from files.helpers.regex import *
+from files.helpers.sanitize import filter_emojis_only
 from files.helpers.slots import *
 from files.helpers.treasure import *
-from files.helpers.actions import *
-from files.helpers.get import *
-from files.classes import *
 from files.routes.front import comment_idlist
-from flask import *
-from files.__main__ import app, limiter
-from files.helpers.sanitize import filter_emojis_only
-from files.helpers.marsify import marsify
-from files.helpers.owoify import owoify
-from files.helpers.cloudflare import purge_files_in_cache
-import requests
-from shutil import copyfile
-from json import loads
-from collections import Counter
-import gevent
-import os
+from files.routes.routehelpers import execute_shadowban_viewers_and_voters
+from files.routes.wrappers import *
+from files.__main__ import app, cache, limiter
 
 WORDLE_COLOR_MAPPINGS = {-1: "🟥", 0: "🟨", 1: "🟩"}
 
@@ -73,6 +74,9 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 		# props won't save properly unless you put them in a list
 		output = get_comments_v_properties(v, False, None, Comment.top_comment_id == c.top_comment_id)[1]
 	post.replies=[top_comment]
+
+	execute_shadowban_viewers_and_voters(v, post)
+	execute_shadowban_viewers_and_voters(v, comment)
 			
 	if v and v.client: return top_comment.json
 	else: 
@@ -142,13 +146,13 @@ def comment(v):
 		choices.append(i.group(1))
 		body = body.replace(i.group(0), "")
 
-	if request.files.get("file") and request.headers.get("cf-ipcountry") != "T1":
+	if request.files.get("file") and not g.is_tor:
 		files = request.files.getlist('file')[:4]
 		for file in files:
 			if file.content_type.startswith('image/'):
 				oldname = f'/images/{time.time()}'.replace('.','') + '.webp'
 				file.save(oldname)
-				image = process_image(oldname, patron=v.patron)
+				image = process_image(oldname, v)
 				if image == "": abort(400, "Image upload failed")
 				if v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES'] and level == 1:
 					def process_sidebar_or_banner(type, resize=0):
@@ -157,7 +161,7 @@ def comment(v):
 						num = int(li.split('.webp')[0]) + 1
 						filename = f'files/assets/images/{SITE_NAME}/{type}/{num}.webp'
 						copyfile(oldname, filename)
-						process_image(filename, resize=resize)
+						process_image(filename, v, resize=resize)
 
 					if parent_post.id == SIDEBAR_THREAD:
 						process_sidebar_or_banner('sidebar', 400)
@@ -177,15 +181,15 @@ def comment(v):
 							g.db.flush()
 							filename = f'files/assets/images/badges/{badge.id}.webp'
 							copyfile(oldname, filename)
-							process_image(filename, resize=300)
+							process_image(filename, v, resize=300)
 							purge_files_in_cache(f"https://{SITE}/assets/images/badges/{badge.id}.webp")
 						except Exception as e:
 							abort(400, str(e))
 				body += f"\n\n![]({image})"
 			elif file.content_type.startswith('video/'):
-				body += f"\n\n{SITE_FULL}{process_video(file)}"
+				body += f"\n\n{SITE_FULL}{process_video(file, v)}"
 			elif file.content_type.startswith('audio/'):
-				body += f"\n\n{SITE_FULL}{process_audio(file)}"
+				body += f"\n\n{SITE_FULL}{process_audio(file, v)}"
 			else:
 				abort(415)
 
@@ -362,7 +366,7 @@ def comment(v):
 
 	g.db.flush()
 
-	if v.client: return c.json
+	if v.client: return c.json(g.db)
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
 
@@ -382,10 +386,10 @@ def edit_comment(cid, v):
 
 	body = sanitize_raw_body(request.values.get("body", ""), False)
 
-	if len(body) < 1 and not (request.files.get("file") and request.headers.get("cf-ipcountry") != "T1"):
+	if len(body) < 1 and not (request.files.get("file") and not g.is_tor):
 		abort(400, "You have to actually type something!")
 
-	if body != c.body or request.files.get("file") and request.headers.get("cf-ipcountry") != "T1":
+	if body != c.body or request.files.get("file") and not g.is_tor:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
 			abort(403, "You have to type more than 280 characters!")
 		elif v.bird and len(body) > 140:
@@ -415,7 +419,7 @@ def edit_comment(cid, v):
 
 		execute_antispam_comment_check(body, v)
 
-		body += process_files()
+		body += process_files(request.files, v)
 		body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT] # process_files potentially adds characters to the post
 
 		body_for_sanitize = body
@@ -463,17 +467,11 @@ def edit_comment(cid, v):
 @auth_required
 @ratelimit_user()
 def delete_comment(cid, v):
-
 	c = get_comment(cid, v=v)
-
 	if not c.deleted_utc:
-
 		if c.author_id != v.id: abort(403)
-
 		c.deleted_utc = int(time.time())
-
 		g.db.add(c)
-		
 		cache.delete_memoized(comment_idlist)
 
 		g.db.flush()
@@ -483,7 +481,6 @@ def delete_comment(cid, v):
 			Comment.deleted_utc == 0
 		).count()
 		g.db.add(v)
-
 	return {"message": "Comment deleted!"}
 
 @app.post("/undelete/comment/<cid>")
@@ -491,18 +488,12 @@ def delete_comment(cid, v):
 @auth_required
 @ratelimit_user()
 def undelete_comment(cid, v):
-
 	c = get_comment(cid, v=v)
-
 	if c.deleted_utc:
 		if c.author_id != v.id: abort(403)
-
 		c.deleted_utc = 0
-
 		g.db.add(c)
-
 		cache.delete_memoized(comment_idlist)
-
 		g.db.flush()
 		v.comment_count = g.db.query(Comment).filter(
 			Comment.author_id == v.id,
@@ -510,9 +501,7 @@ def undelete_comment(cid, v):
 			Comment.deleted_utc == 0
 		).count()
 		g.db.add(v)
-
 	return {"message": "Comment undeleted!"}
-
 
 @app.post("/pin_comment/<cid>")
 @feature_required('PINS')

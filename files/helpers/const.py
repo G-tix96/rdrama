@@ -1,44 +1,41 @@
-from os import environ
-import re
 from copy import deepcopy
-from json import loads
-from flask import request
+from os import environ, path
+
 import tldextract
-from os import path
 
-SITE = environ.get("SITE").strip()
-SITE_NAME = environ.get("SITE_NAME").strip()
-SECRET_KEY = environ.get("SECRET_KEY").strip()
-PROXY_URL = environ.get("PROXY_URL").strip()
-GIPHY_KEY = environ.get('GIPHY_KEY').strip()
-DISCORD_BOT_TOKEN = environ.get("DISCORD_BOT_TOKEN").strip()
-TURNSTILE_SITEKEY = environ.get("TURNSTILE_SITEKEY").strip()
-TURNSTILE_SECRET = environ.get("TURNSTILE_SECRET").strip()
-YOUTUBE_KEY = environ.get("YOUTUBE_KEY").strip()
-PUSHER_ID = environ.get("PUSHER_ID").strip()
-PUSHER_KEY = environ.get("PUSHER_KEY").strip()
-IMGUR_KEY = environ.get("IMGUR_KEY").strip()
-SPAM_SIMILARITY_THRESHOLD = float(environ.get("SPAM_SIMILARITY_THRESHOLD").strip())
-SPAM_URL_SIMILARITY_THRESHOLD = float(environ.get("SPAM_URL_SIMILARITY_THRESHOLD").strip())
-SPAM_SIMILAR_COUNT_THRESHOLD = int(environ.get("SPAM_SIMILAR_COUNT_THRESHOLD").strip())
-COMMENT_SPAM_SIMILAR_THRESHOLD = float(environ.get("COMMENT_SPAM_SIMILAR_THRESHOLD").strip())
-COMMENT_SPAM_COUNT_THRESHOLD = int(environ.get("COMMENT_SPAM_COUNT_THRESHOLD").strip())
-DEFAULT_TIME_FILTER = environ.get("DEFAULT_TIME_FILTER").strip()
-GUMROAD_TOKEN = environ.get("GUMROAD_TOKEN").strip()
-GUMROAD_LINK = environ.get("GUMROAD_LINK").strip()
-GUMROAD_ID = environ.get("GUMROAD_ID").strip()
-CARD_VIEW = bool(int(environ.get("CARD_VIEW").strip()))
-DISABLE_DOWNVOTES = bool(int(environ.get("DISABLE_DOWNVOTES").strip()))
-DUES = int(environ.get("DUES").strip())
-DEFAULT_THEME = environ.get("DEFAULT_THEME").strip()
-DEFAULT_COLOR = environ.get("DEFAULT_COLOR").strip()
-EMAIL = environ.get("EMAIL").strip()
-MAILGUN_KEY = environ.get("MAILGUN_KEY").strip()
-DESCRIPTION = environ.get("DESCRIPTION").strip()
-CF_KEY = environ.get("CF_KEY").strip()
-CF_ZONE = environ.get("CF_ZONE").strip()
-TELEGRAM_LINK = environ.get("TELEGRAM_LINK").strip()
-
+DEFAULT_CONFIG_VALUE = "blahblahblah"
+SITE = environ.get("SITE", "localhost").strip()
+SITE_NAME = environ.get("SITE_NAME", "rdrama.net").strip()
+SECRET_KEY = environ.get("SECRET_KEY", DEFAULT_CONFIG_VALUE).strip()
+PROXY_URL = environ.get("PROXY_URL", "http://localhost:18080").strip()
+GIPHY_KEY = environ.get("GIPHY_KEY", DEFAULT_CONFIG_VALUE).strip()
+DISCORD_BOT_TOKEN = environ.get("DISCORD_BOT_TOKEN", DEFAULT_CONFIG_VALUE).strip()
+TURNSTILE_SITEKEY = environ.get("TURNSTILE_SITEKEY", DEFAULT_CONFIG_VALUE).strip()
+TURNSTILE_SECRET = environ.get("TURNSTILE_SECRET", DEFAULT_CONFIG_VALUE).strip()
+YOUTUBE_KEY = environ.get("YOUTUBE_KEY", DEFAULT_CONFIG_VALUE).strip()
+PUSHER_ID = environ.get("PUSHER_ID", DEFAULT_CONFIG_VALUE).strip()
+PUSHER_KEY = environ.get("PUSHER_KEY", DEFAULT_CONFIG_VALUE).strip()
+IMGUR_KEY = environ.get("IMGUR_KEY", DEFAULT_CONFIG_VALUE).strip()
+SPAM_SIMILARITY_THRESHOLD = float(environ.get("SPAM_SIMILARITY_THRESHOLD", "0.5").strip())
+SPAM_URL_SIMILARITY_THRESHOLD = float(environ.get("SPAM_URL_SIMILARITY_THRESHOLD", "0.1").strip())
+SPAM_SIMILAR_COUNT_THRESHOLD = int(environ.get("SPAM_SIMILAR_COUNT_THRESHOLD", "10").strip())
+COMMENT_SPAM_SIMILAR_THRESHOLD = float(environ.get("COMMENT_SPAM_SIMILAR_THRESHOLD", "0.5").strip())
+COMMENT_SPAM_COUNT_THRESHOLD = int(environ.get("COMMENT_SPAM_COUNT_THRESHOLD", "10").strip())
+DEFAULT_TIME_FILTER = environ.get("DEFAULT_TIME_FILTER", "all").strip()
+GUMROAD_TOKEN = environ.get("GUMROAD_TOKEN", DEFAULT_CONFIG_VALUE).strip()
+GUMROAD_LINK = environ.get("GUMROAD_LINK", DEFAULT_CONFIG_VALUE).strip()
+GUMROAD_ID = environ.get("GUMROAD_ID", DEFAULT_CONFIG_VALUE).strip()
+DISABLE_DOWNVOTES = bool(int(environ.get("DISABLE_DOWNVOTES", "0").strip()))
+DUES = int(environ.get("DUES", "0").strip())
+DEFAULT_THEME = environ.get("DEFAULT_THEME", "midnight").strip()
+DEFAULT_COLOR = environ.get("DEFAULT_COLOR", "805ad5").strip()
+CARD_VIEW = bool(int(environ.get("CARD_VIEW", "0").strip()))
+EMAIL = environ.get("EMAIL", "blahblahblah@gmail.com").strip()
+MAILGUN_KEY = environ.get("MAILGUN_KEY", DEFAULT_CONFIG_VALUE).strip()
+DESCRIPTION = environ.get("DESCRIPTION", "rdrama.net caters to drama in all forms such as: Real life, videos, photos, gossip, rumors, news sites, Reddit, and Beyond™. There isn't drama we won't touch, and we want it all!").strip()
+CF_KEY = environ.get("CF_KEY", DEFAULT_CONFIG_VALUE).strip()
+CF_ZONE = environ.get("CF_ZONE", DEFAULT_CONFIG_VALUE).strip()
+TELEGRAM_LINK = environ.get("TELEGRAM_LINK", DEFAULT_CONFIG_VALUE).strip()
 GLOBAL = environ.get("GLOBAL", "").strip()
 blackjack = environ.get("BLACKJACK", "").strip()
 FP = environ.get("FP", "").strip()
@@ -46,12 +43,14 @@ KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
 KOFI_LINK = environ.get("KOFI_LINK", "").strip()
 
 PUSHER_ID_CSP = ""
-if PUSHER_ID != "blahblahblah":
+if PUSHER_ID != DEFAULT_CONFIG_VALUE:
 	PUSHER_ID_CSP = f" {PUSHER_ID}.pushnotifications.pusher.com"
 CONTENT_SECURITY_POLICY_DEFAULT = "script-src 'self' 'unsafe-inline' challenges.cloudflare.com; connect-src 'self'; object-src 'none';"
 CONTENT_SECURITY_POLICY_HOME = f"script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' tls-use1.fpapi.io api.fpjs.io{PUSHER_ID_CSP}; object-src 'none';"
 
-CLOUDFLARE_COOKIE_VALUE = "yes."
+CLOUDFLARE_COOKIE_VALUE = "yes." # remember to change this in CloudFlare too
+
+SETTINGS_FILENAME = '/site_settings.json'
 
 DEFAULT_RATELIMIT = "3/second;30/minute;200/hour;1000/day"
 DEFAULT_RATELIMIT_SLOWER = "1/second;30/minute;200/hour;1000/day"
@@ -66,6 +65,8 @@ else: SITE_FULL = 'https://' + SITE
 if SITE_NAME == 'PCM': CC = "SPLASH MOUNTAIN"
 else: CC = "COUNTRY CLUB"
 CC_TITLE = CC.title()
+
+CASINO_RELEASE_DAY = 1662825600
 
 if SITE_NAME == 'rDrama': patron = 'Paypig'
 else: patron = 'Patron'
@@ -298,6 +299,8 @@ FEATURES = {
 	'MARKUP_COMMANDS': True,
 	'REPOST_DETECTION': True,
 	'PATRON_ICONS': False,
+	'ASSET_SUBMISSIONS': False,
+	'STREAMERS': False,
 }
 
 WERKZEUG_ERROR_DESCRIPTIONS = {
@@ -468,6 +471,7 @@ if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
+	FEATURES['ASSET_SUBMISSIONS'] = True
 	PERMS['ADMIN_ADD'] = 4
 
 	SIDEBAR_THREAD = 37696
@@ -520,6 +524,7 @@ if SITE == 'rdrama.net':
 elif SITE == 'pcmemes.net':
 	PIN_LIMIT = 10
 	FEATURES['REPOST_DETECTION'] = False
+	FEATURES['STREAMERS'] = True
 	ERROR_MSGS[500] = "Hiiiii it's <b>nigger</b>! I think this error means that there's a <b>nigger</b> error. And I think that means something took too long to load so it decided to be a <b>nigger</b>. If you keep seeing this on the same page but not other pages, then something its probably a <b>niggerfaggot</b>. It may not be called a <b>nigger</b>, but that sounds right to me. Anyway, ping me and I'll whine to someone smarter to fix it. Don't bother them. Thanks ily &lt;3"
 	ERROR_MARSEYS[500] = "wholesome"
 	POST_RATE_LIMIT = '1/second;4/minute;20/hour;100/day'
@@ -609,9 +614,11 @@ elif SITE == 'watchpeopledie.tv':
 	}
 
 else: # localhost or testing environment implied
+	FEATURES['ASSET_SUBMISSIONS'] = True
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
+	FEATURES['STREAMERS'] = True
 
 HOUSES = ("None","Furry","Femboy","Vampire","Racist") if FEATURES['HOUSES'] else ("None")
 
@@ -1660,3 +1667,7 @@ if SITE_NAME == 'rDrama':
 IMAGE_FORMATS = ['png','gif','jpg','jpeg','webp']
 VIDEO_FORMATS = ['mp4','webm','mov','avi','mkv','flv','m4v','3gp']
 AUDIO_FORMATS = ['mp3','wav','ogg','aac','m4a','flac']
+
+if SECRET_KEY == DEFAULT_CONFIG_VALUE:
+	from warnings import warn
+	warn("Secret key is the default value! Please change it to a secure random number. Thanks <3", RuntimeWarning)

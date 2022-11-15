@@ -181,7 +181,7 @@
 							</div>
 						</div>
 						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" onsubmit="sendMessage(event)">
-							<input type="hidden" name="formkey" value="{{v.formkey}}"> 
+							<input type="hidden" name="formkey" value="{{v|formkey}}"> 
 							<textarea autocomplete="off" id="input-message" form="message" name="message" rows="3" minlength="1" maxlength="10000" class="form-control b2 mt-1" data-preview="message-preview" oninput="markdown(this)" required></textarea>
 							<pre class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('input-message')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></pre>
 							&nbsp;
@@ -438,7 +438,7 @@
 
 				{% if v and v.id != u.id %}
 					<form class="d-none toggleable" id='message-mobile' action="/@{{u.username}}/message" onsubmit="sendMessage(event)">
-						<input class="mt-1" type="hidden" name="formkey" value="{{v.formkey}}"> 
+						<input class="mt-1" type="hidden" name="formkey" value="{{v|formkey}}"> 
 						<textarea autocomplete="off" id="input-message-mobile" form="message-mobile" name="message" rows="3" minlength="1" maxlength="10000" class="form-control" data-preview="message-preview-mobile" oninput="markdown(this)" required></textarea>
 						<pre class="mt-1 btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('input-message-mobile')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></pre>
 						&nbsp;

@@ -1,11 +1,13 @@
 import json
-from random import randint
 from enum import Enum
-from files.helpers.alerts import *
-from files.classes.casino_game import Casino_Game
-from files.helpers.get import get_account
+from random import randint
+import time
+
 from flask import g
 
+from files.classes.casino_game import Casino_Game
+from files.helpers.alerts import *
+from files.helpers.get import get_account
 
 class RouletteAction(str, Enum):
 	STRAIGHT_UP_BET = "STRAIGHT_UP_BET"
