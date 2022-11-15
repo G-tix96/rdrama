@@ -43,9 +43,10 @@ def after_request(response):
 		if CLOUDFLARE_AVAILABLE and CLOUDFLARE_COOKIE_VALUE and getattr(g, 'desires_auth', False):
 			logged_in = bool(getattr(g, 'v', None))
 			response.set_cookie("lo", CLOUDFLARE_COOKIE_VALUE if logged_in else '', max_age=60*60*24*365 if logged_in else 1)
-		g.db.commit()
-		g.db.close()
-		del g.db
+		if getattr(g, 'db', None):
+			g.db.commit()
+			g.db.close()
+			del g.db
 	return response
 
 @app.teardown_appcontext

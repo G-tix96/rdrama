@@ -48,7 +48,10 @@ def error_401(e):
 
 @app.errorhandler(500)
 def error_500(e):
-	g.db.rollback()
+	if getattr(g, 'db', None):
+		g.db.rollback()
+		g.db.close()
+		del g.db
 	return error(e)
 
 

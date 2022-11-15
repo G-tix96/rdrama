@@ -51,6 +51,7 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 
 	g.db.commit()
 	g.db.close()
+	del g.db
 	stdout.flush()
 
 def _sub_inactive_purge_task():

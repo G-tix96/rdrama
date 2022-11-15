@@ -32,6 +32,8 @@ def authorize(v):
 		g.db.add(new_auth)
 	except sqlalchemy.exc.IntegrityError:
 		g.db.rollback()
+		g.db.close()
+		del g.db
 		old_auth = g.db.query(ClientAuth).filter_by(oauth_client = application.id, user_id = v.id).one()
 		access_token = old_auth.access_token
 
