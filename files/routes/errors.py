@@ -4,6 +4,7 @@ from urllib.parse import quote, urlencode
 from flask import redirect, render_template, request, session, g
 
 from files.helpers.const import ERROR_MARSEYS, ERROR_MSGS, ERROR_TITLES, WERKZEUG_ERROR_DESCRIPTIONS, is_site_url
+from files.helpers.settings import get_setting
 from files.__main__ import app
 
 # If you're adding an error, go here:
@@ -43,7 +44,7 @@ def error_401(e):
 		qs = urlencode(dict(request.values))
 		argval = quote(f"{path}?{qs}", safe='').replace('/logged_out','')
 		if not argval: argval = '/'
-		if session.get("history"): return redirect(f"/login?redirect={argval}")
+		if session.get("history") or not get_setting("Signups"): return redirect(f"/login?redirect={argval}")
 		else: return redirect(f"/signup?redirect={argval}")
 
 @app.errorhandler(500)
