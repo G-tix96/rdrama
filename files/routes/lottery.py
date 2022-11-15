@@ -1,5 +1,3 @@
-import requests
-
 from files.helpers.alerts import *
 from files.helpers.const import *
 from files.helpers.get import *
