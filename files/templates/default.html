@@ -37,9 +37,10 @@
 			{% set alt = ['/h/', sub, 'banner']|join %}
 		{% elif SITE_NAME == "rDrama" %}
 			{% set href = "https://secure.transequality.org/site/Donation2?df_id=1480" %}
+			{% set expand = false %}
 		{% endif %}
 
-		{{ macros.banner(src, href, alt) }}
+		{{ macros.banner(src, href, alt, expand) }}
 	{% endif %}
 {% endblock %}
 
