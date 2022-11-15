@@ -1644,6 +1644,8 @@ if SITE_NAME == 'rDrama':
 		'stacker.news',
 		'breitbart.com',
 		'tattle.life',
+		'wolfballs.com',
+		'backloggd.com',
 	}
 
 	BOOSTED_HOLES = {
