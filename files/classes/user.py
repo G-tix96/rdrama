@@ -746,7 +746,7 @@ class User(Base):
 	@property
 	@lazy
 	def alt_ids(self):
-		return [x.id for x in self.alts]
+		return [x.id for x in self.alts if not x._alt_deleted]
 
 	@property
 	@lazy
