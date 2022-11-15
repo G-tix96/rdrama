@@ -54,8 +54,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	else:
 		abort(404)
 
-	target_author = target.author
-	if target_author.shadowbanned and not v.can_see_shadowbanned:
+	if target.author.shadowbanned and not v.can_see_shadowbanned:
 		abort(404)
 
 	coin_delta = 1
@@ -81,23 +80,23 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if existing and existing.vote_type == new: return "", 204
 	if existing:
 		if existing.vote_type == 0 and new != 0:
-			target_author.coins += coin_value
-			target_author.truescore += coin_delta
-			g.db.add(target_author)
+			target.author.coins += coin_value
+			target.author.truescore += coin_delta
+			g.db.add(target.author)
 			existing.vote_type = new
 			existing.coins = coin_value
 			g.db.add(existing)
 		elif existing.vote_type != 0 and new == 0:
-			target_author.charge_account('coins', existing.coins, should_check_balance=False)
-			target_author.truescore -= coin_delta
-			g.db.add(target_author)
+			target.author.charge_account('coins', existing.coins, should_check_balance=False)
+			target.author.truescore -= coin_delta
+			g.db.add(target.author)
 			g.db.delete(existing)
 		else:
 			existing.vote_type = new
 			g.db.add(existing)
 	elif new != 0:
-		target_author.coins += coin_value
-		target_author.truescore += coin_delta
+		target.author.coins += coin_value
+		target.author.truescore += coin_delta
 		g.db.add(target.author)
 
 		real = new != 1 or v.is_votes_real
