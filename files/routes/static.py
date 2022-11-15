@@ -247,11 +247,6 @@ def submit_contact(v):
 
 	return render_template("contact.html", v=v, msg="Your message has been sent to the admins!")
 
-@app.get("/watchparty")
-@is_not_permabanned
-def chat_watchparty(v):
-	return render_template("chat_watchparty.html", v=v)
-
 @app.get('/archives')
 def archivesindex():
 	return redirect("/archives/index.html")
@@ -417,3 +412,9 @@ if not os.path.exists(f'files/templates/donate_{SITE_NAME}.html'):
 @auth_desired_with_logingate
 def donate(v):
 	return render_template(f'donate_{SITE_NAME}.html', v=v)
+
+@app.get("/watchparty")
+@app.get("/orgy")
+@is_not_permabanned
+def chat_watchparty(v):
+	return render_template("chat_watchparty.html", v=v)
