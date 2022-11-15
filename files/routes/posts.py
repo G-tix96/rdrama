@@ -183,7 +183,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	if post.comment_count > threshold+25 and not (v and v.client) and not request.values.get("all"):
 		comments2 = []
 		count = 0
-		if post.created_utc > 1638672040:
+		if post.created_utc > 1638672040: # TODO: migrate old comments to use top_comment_id
 			for comment in comments:
 				comments2.append(comment)
 				ids.add(comment.id)
@@ -267,7 +267,7 @@ def viewmore(v, pid, sort, offset):
 
 	comments2 = []
 	count = 0
-	if post.created_utc > 1638672040:
+	if post.created_utc > 1638672040: # TODO: migrate old comments to use top_comment_id
 		for comment in comments:
 			comments2.append(comment)
 			ids.add(comment.id)
