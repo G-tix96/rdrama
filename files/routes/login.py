@@ -387,7 +387,6 @@ def get_reset():
 	except:
 		pass
 	token = request.values.get("token")
-
 	now = int(time.time())
 
 	if now - timestamp > 600:
@@ -396,14 +395,9 @@ def get_reset():
 			error="This password reset link has expired.")
 
 	user = get_account(user_id)
-	
-	if not user: abort(400)
 
 	if not validate_hash(f"{user_id}+{timestamp}+forgot+{user.login_nonce}", token):
 		abort(400)
-
-	if not user:
-		abort(404)
 
 	reset_token = generate_hash(f"{user.id}+{timestamp}+reset+{user.login_nonce}")
 
@@ -419,7 +413,6 @@ def get_reset():
 @auth_desired
 def post_reset(v):
 	if v: return redirect('/')
-
 	user_id = request.values.get("user_id")
 	timestamp = 0
 	try:
@@ -427,7 +420,6 @@ def post_reset(v):
 	except:
 		abort(400)
 	token = request.values.get("token")
-
 	password = request.values.get("password")
 	confirm_password = request.values.get("confirm_password")
 
@@ -439,11 +431,8 @@ def post_reset(v):
 							error="This password reset form has expired.")
 
 	user = get_account(user_id)
-
 	if not validate_hash(f"{user_id}+{timestamp}+reset+{user.login_nonce}", token):
 		abort(400)
-	if not user:
-		abort(404)
 
 	if password != confirm_password:
 		return render_template("reset_password.html",
@@ -472,7 +461,6 @@ def lost_2fa(v):
 @app.post("/request_2fa_disable")
 @limiter.limit("1/second;6/minute;200/hour;1000/day")
 def request_2fa_disable():
-
 	username=request.values.get("username")
 	user=get_user(username, graceful=True)
 	if not user or not user.email or not user.mfa_secret:
