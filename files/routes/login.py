@@ -463,7 +463,7 @@ def post_reset(v):
 @app.get("/lost_2fa")
 @auth_desired
 def lost_2fa(v):
-	if v and not v.mfa_token: abort(400, "You don't have a 2FA token")
+	if v and not v.mfa_secret: abort(400, "You don't have 2FA enabled")
 	return render_template(
 		"lost_2fa.html",
 		v=v
