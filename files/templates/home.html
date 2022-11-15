@@ -173,7 +173,7 @@
 </nav>
 {% endif %}
 
-{% if request.path == '/' and PUSHER_ID != 'blahblahblah' and v %}
+{% if request.path == '/' and PUSHER_ID != DEFAULT_CONFIG_VALUE and v %}
 	<div class="d-none" id="strid">{{SITE}}{{v.id}}</div>
 	<div class="d-none" id="pusherid">{{PUSHER_ID}}</div>
 	<script defer src="{{'js/pusher.js' | asset}}"></script>

@@ -461,7 +461,7 @@ def message2(v, username):
 			g.db.add(notif)
 
 
-	if PUSHER_ID != 'blahblahblah' and not v.shadowbanned:
+	if PUSHER_ID != DEFAULT_CONFIG_VALUE and not v.shadowbanned:
 		interests = f'{SITE}{user.id}'
 
 		title = f'New message from @{username}'
@@ -534,7 +534,7 @@ def messagereply(v):
 			notif = Notification(comment_id=c.id, user_id=user_id)
 			g.db.add(notif)
 
-		if PUSHER_ID != 'blahblahblah' and not v.shadowbanned:
+		if PUSHER_ID != DEFAULT_CONFIG_VALUE and not v.shadowbanned:
 			interests = f'{SITE}{user_id}'
 
 			title = f'New message from @{v.username}'

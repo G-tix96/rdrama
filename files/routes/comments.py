@@ -316,7 +316,7 @@ def comment(v):
 			n = Notification(comment_id=c.id, user_id=x)
 			g.db.add(n)
 
-		if parent.author.id != v.id and PUSHER_ID != 'blahblahblah' and not v.shadowbanned:
+		if parent.author.id != v.id and PUSHER_ID != DEFAULT_CONFIG_VALUE and not v.shadowbanned:
 			interests = f'{SITE}{parent.author.id}'
 
 			title = f'New reply by @{c.author_name}'

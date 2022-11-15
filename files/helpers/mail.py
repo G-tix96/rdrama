@@ -9,7 +9,7 @@ from urllib.parse import quote
 from flask import render_template
 
 def send_mail(to_address, subject, html):
-	if MAILGUN_KEY == 'blahblahblah': return
+	if MAILGUN_KEY == DEFAULT_CONFIG_VALUE: return
 	url = f"https://api.mailgun.net/v3/{SITE}/messages"
 	auth = ("api", MAILGUN_KEY)
 	data = {"from": EMAIL,

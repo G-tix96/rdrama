@@ -252,7 +252,7 @@ def sign_up_post(v):
 	if existing_account:
 		return signup_error("An account with that username already exists.")
 
-	if TURNSTILE_SITEKEY != 'blahblahblah':
+	if TURNSTILE_SITEKEY != DEFAULT_CONFIG_VALUE:
 		token = request.values.get("cf-turnstile-response")
 		if not token:
 			return signup_error("Unable to verify captcha [1].")

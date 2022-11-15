@@ -103,7 +103,7 @@ def NOTIFY_USERS(text, v):
 
 	return notify_users - bots
 
-if PUSHER_ID != 'blahblahblah':
+if PUSHER_ID != DEFAULT_CONFIG_VALUE:
 	beams_client = PushNotifications(instance_id=PUSHER_ID, secret_key=PUSHER_KEY)
 
 	def pusher_thread(interests, title, notifbody, url):

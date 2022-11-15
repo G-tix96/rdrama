@@ -100,7 +100,7 @@
 							<label class="custom-control-label terms" for="termsCheck">I accept the <a href="/sidebar">rules</a></label>
 						</div>
 
-						{% if turnstile != 'blahblahblah' %}
+						{% if turnstile != DEFAULT_CONFIG_VALUE %}
 							<div class="cf-turnstile" data-sitekey="{{turnstile}}"></div>
 						{% endif %}
 
@@ -130,7 +130,7 @@
 
 <script defer src="{{'js/signup.js' | asset}}"></script>
 
-{% if turnstile != 'blahblahblah' %}
+{% if turnstile != DEFAULT_CONFIG_VALUE %}
 	<script defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
 {% endif %}
 
