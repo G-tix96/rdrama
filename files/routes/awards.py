@@ -21,7 +21,6 @@ from .front import frontlist
 
 @app.get("/shop")
 @app.get("/settings/shop")
-@feature_required('AWARDS')
 @auth_required
 def shop(v):
 	AWARDS = deepcopy(AWARDS2)
@@ -45,7 +44,6 @@ def shop(v):
 
 
 @app.post("/buy/<award>")
-@feature_required('AWARDS')
 @limiter.limit("100/minute;200/hour;1000/day")
 @auth_required
 def buy(v, award):
@@ -125,7 +123,6 @@ def buy(v, award):
 	return {"message": f"{award_title} award bought!"}
 
 @app.post("/award/<thing_type>/<id>")
-@feature_required('AWARDS')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @is_not_permabanned
 @ratelimit_user()

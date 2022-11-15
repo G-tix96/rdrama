@@ -9,7 +9,6 @@ from files.routes.wrappers import *
 from files.__main__ import app, limiter
 
 @app.post("/lottery/end")
-@feature_required('GAMBLING')
 @admin_level_required(PERMS['LOTTERY_ADMIN'])
 def lottery_end(v):
 	success, message = end_lottery_session()
@@ -17,7 +16,6 @@ def lottery_end(v):
 
 
 @app.post("/lottery/start")
-@feature_required('GAMBLING')
 @admin_level_required(PERMS['LOTTERY_ADMIN'])
 def lottery_start(v):
 	start_new_lottery_session()
@@ -25,7 +23,6 @@ def lottery_start(v):
 
 
 @app.post("/lottery/buy")
-@feature_required('GAMBLING')
 @limiter.limit("3/second;100/minute;500/hour;1000/day")
 @auth_required
 def lottery_buy(v):
@@ -43,7 +40,6 @@ def lottery_buy(v):
 
 
 @app.get("/lottery/active")
-@feature_required('GAMBLING')
 @limiter.limit("3/second;100/minute;500/hour;1000/day")
 @auth_required
 def lottery_active(v):
@@ -52,7 +48,6 @@ def lottery_active(v):
 	return {"message": "", "stats": {"user": v.lottery_stats, "lottery": lottery, "participants": participants}}
 
 @app.get("/admin/lottery/participants")
-@feature_required('GAMBLING')
 @admin_level_required(PERMS['LOTTERY_VIEW_PARTICIPANTS'])
 def lottery_admin(v):
 	participants = get_users_participating_in_lottery()

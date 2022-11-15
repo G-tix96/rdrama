@@ -12,7 +12,6 @@ from files.routes.wrappers import *
 from files.__main__ import app, limiter
 
 @app.get("/casino")
-@feature_required('GAMBLING')
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def casino(v):
@@ -23,7 +22,6 @@ def casino(v):
 
 
 @app.get("/casino/<game>")
-@feature_required('GAMBLING')
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def casino_game_page(v, game):
@@ -51,7 +49,6 @@ def casino_game_page(v, game):
 
 
 @app.get("/casino/<game>/feed")
-@feature_required('GAMBLING')
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def casino_game_feed(v, game):
@@ -66,7 +63,6 @@ def casino_game_feed(v, game):
 
 # Lottershe
 @app.get("/lottershe")
-@feature_required('GAMBLING')
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def lottershe(v):
@@ -78,7 +74,6 @@ def lottershe(v):
 
 # Slots
 @app.post("/casino/slots")
-@feature_required('GAMBLING')
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def pull_slots(v):
@@ -109,7 +104,6 @@ def pull_slots(v):
 
 # 21
 @app.post("/casino/twentyone/deal")
-@feature_required('GAMBLING')
 @limiter.limit("1/second;100/minute;2000/hour;12000/day")
 @auth_required
 def blackjack_deal_to_player(v):
@@ -129,7 +123,6 @@ def blackjack_deal_to_player(v):
 
 
 @app.post("/casino/twentyone/hit")
-@feature_required('GAMBLING')
 @limiter.limit("1/second;100/minute;2000/hour;12000/day")
 @auth_required
 def blackjack_player_hit(v):
@@ -145,7 +138,6 @@ def blackjack_player_hit(v):
 
 
 @app.post("/casino/twentyone/stay")
-@feature_required('GAMBLING')
 @limiter.limit("1/second;100/minute;2000/hour;12000/day")
 @auth_required
 def blackjack_player_stay(v):
@@ -161,7 +153,6 @@ def blackjack_player_stay(v):
 
 
 @app.post("/casino/twentyone/double-down")
-@feature_required('GAMBLING')
 @limiter.limit("1/second;100/minute;2000/hour;12000/day")
 @auth_required
 def blackjack_player_doubled_down(v):
@@ -177,7 +168,6 @@ def blackjack_player_doubled_down(v):
 
 
 @app.post("/casino/twentyone/buy-insurance")
-@feature_required('GAMBLING')
 @limiter.limit("1/second;100/minute;2000/hour;12000/day")
 @auth_required
 def blackjack_player_bought_insurance(v):
@@ -193,7 +183,6 @@ def blackjack_player_bought_insurance(v):
 
 # Roulette
 @app.get("/casino/roulette/bets")
-@feature_required('GAMBLING')
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def roulette_get_bets(v):
@@ -206,7 +195,6 @@ def roulette_get_bets(v):
 
 
 @app.post("/casino/roulette/place-bet")
-@feature_required('GAMBLING')
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def roulette_player_placed_bet(v):
