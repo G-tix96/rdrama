@@ -38,7 +38,7 @@ def unread(v):
 		n.read = True
 		g.db.add(n)
 
-	return {"data":[x[1].json for x in listing]}
+	return {"data":[x[1].json() for x in listing]}
 
 
 @app.get("/notifications/modmail")
