@@ -1,5 +1,6 @@
 {%- import 'util/helpers.html' as help -%}
 {%- import 'html_head.html' as html_head with context -%}
+{%- import 'util/macros.html' as macros with context -%}
 <!DOCTYPE html>
 <html lang="en">
 {% if request.path == '/' %}
@@ -29,45 +30,16 @@
 {% block Banner %}
 	{% include "modals/expanded_image.html" %}
 
-	{% if '@' not in request.path %}	
-		{% if sub and SITE_NAME != 'WPD' %}
-			<a href="{{sub.banner_url}}">
-				<img alt="/h/{{sub}} banner" onclick="expandDesktopImage()" src="{{sub.banner_url}}" width=100% style="object-fit:cover;max-height:min(42vh,30vw)!important">
-			</a>
-		{% elif SITE_NAME == 'rDrama' %}
-			<a rel="nofollow noopener" href="https://secure.transequality.org/site/Donation2?df_id=1480">
-				{% if v and (v.is_banned or v.agendaposter) %}
-					<img alt="site banner" src="/i/{{SITE_NAME}}/banner2.webp?v=2000" width="100%">
-				{% else %}
-					{% set path = "assets/images/" + SITE_NAME + "/banners" %}
-					{% set image = "/" + path + "/" + listdir('files/' + path)|random() + '?v=25' %}
-					<img alt="site banner" src="{% if v %}{{image}}{% else %}{{'cached.webp' | asset_siteimg}}{% endif %}" width="100%">
-				{% endif %}
-			</a>
-		{% elif SITE_NAME == 'WPD' %}
-			{% if v %}
-				{% set path = "assets/images/" + SITE_NAME + "/banners" %}
-				{% set banner = "/" + path + "/" + listdir('files/' + path)|random() + '?v=1' %}
-			{% else %}
-				{% set banner = 'cached.webp' | asset_siteimg %}
-			{% endif %}
-			<a href="{{banner}}">
-				<img alt="site banner" onclick="expandDesktopImage()" src="{{banner}}" width="100%">
-			</a>
-		{% else %}
-			{% if SITE_NAME == 'PCM' %}
-				{# set path = "assets/images/" + SITE_NAME + "/banners" #}
-				{# set banner = "/" + path + "/" + listdir('files/' + path)|max + '?v=1' #}
-				{% set path = "assets/images/" + SITE_NAME + "/banner_rotation" %}
-				{% set banner = "/" + path + "/" + listdir('files/' + path)|random() + '?v=1' %}
-			{% else %}
-				{% set banner = 'banner.webp' | asset_siteimg %}
-			{% endif %}
+	{% if '@' not in request.path %}
 
-			<a href="{{banner}}">
-				<img alt="site banner" onclick="expandDesktopImage()" src="{{banner}}" width="100%">
-			</a>
+		{% if sub and SITE_NAME != WPD %}
+			{% set src = sub.banner_url %}
+			{% set alt = ['/h/', sub, 'banner']|join %}
+		{% elif SITE_NAME == "rDrama" %}
+			{% set href = "https://secure.transequality.org/site/Donation2?df_id=1480" %}
 		{% endif %}
+
+		{{ macros.banner(src, href, alt) }}
 	{% endif %}
 {% endblock %}
 

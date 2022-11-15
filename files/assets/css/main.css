@@ -6357,3 +6357,11 @@ div.markdown {
 	object-fit: contain;
 	-o-object-fit: contain;
 }
+
+img[alt*="banner"] {
+	width: 100%;
+}
+img[alt*="banner"][alt^="/h/"]{
+	object-fit: cover;
+	max-height: min(42vh,30vw) !important;
+}
