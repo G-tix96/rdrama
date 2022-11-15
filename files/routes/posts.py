@@ -875,7 +875,7 @@ def submit_post(v, sub=None):
 			abort(415)
 		
 	if not post.thumburl and post.url:
-		gevent.spawn(thumbnail_thread, post.id, g.db, v.id)
+		gevent.spawn(thumbnail_thread, post.id, db_session(), v.id)
 
 	if not post.private and not post.ghost:
 		notify_users = NOTIFY_USERS(f'{title} {body}', v)
