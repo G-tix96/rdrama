@@ -8,7 +8,7 @@
 	{% endif %}
 
 	{% if v %}
-		{% include "award_modal.html" %}
+		{% include "modals/award.html" %}
 	{% endif %}
 
 	{% include "popover.html" %}
@@ -745,10 +745,10 @@
 
 {% if not request.headers.get("xhr") %}
 	{% if v %}
-		{% include "gif_modal.html" %}
-		{% include "emoji_modal.html" %}
+		{% include "modals/gif.html" %}
+		{% include "modals/emoji.html" %}
 		{% if v.admin_level >= PERMS['USER_BAN'] %}
-			{% include "ban_modal.html" %}
+			{% include "modals/ban.html" %}
 		{% endif %}
 
 <div class="modal fade" id="deleteCommentModal" tabindex="-1" role="dialog" aria-labelledby="deleteCommentModalTitle" aria-hidden="true">

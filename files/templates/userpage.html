@@ -624,7 +624,7 @@
 {% endif %}
 
 {% if v and v.id != u.id and '/comments' not in request.path %}
-	{% include "emoji_modal.html" %}
+	{% include "modals/emoji.html" %}
 {% endif %}
 
 {% endblock %}

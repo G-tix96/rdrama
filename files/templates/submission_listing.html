@@ -1,7 +1,7 @@
 {%- import 'util/helpers.html' as help -%}
 
 {% if v %}
-	{% include "award_modal.html" %}
+	{% include "modals/award.html" %}
 {% endif %}
 
 {% if SITE == 'pcmemes.net' %}
@@ -415,10 +415,10 @@
 {% endfor %}
 
 {% if v %}
-	{% include "delete_post_modal.html" %}
-	{% include "report_post_modal.html" %}
+	{% include "modals/delete_post.html" %}
+	{% include "modals/report_post.html" %}
 	{% if v.admin_level >= PERMS['USER_BAN'] %}
-		{% include "ban_modal.html" %}
+		{% include "modals/ban.html" %}
 	{% endif %}
 {% endif %}
 
