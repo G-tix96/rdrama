@@ -40,7 +40,7 @@ def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
 	CACHE_KEY = 'reddit_notifications'
 	kinds = ['submission', 'comment']
 	mentions = []
-	exclude_subreddits = ['PokemonGoRaids', 'SubSimulatorGPT2']
+	exclude_subreddits = ['PokemonGoRaids', 'SubSimulatorGPT2', 'SubSimGPT2Interactive']
 	try:
 		after = int(cache.get(CACHE_KEY) or time.time())
 	except:
