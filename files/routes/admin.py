@@ -33,13 +33,13 @@ def kippy(v):
 def loggedin_list(v):
 	ids = [x for x,val in cache.get(f'{SITE}_loggedin').items() if time.time()-val < LOGGEDIN_ACTIVE_TIME]
 	users = g.db.query(User).filter(User.id.in_(ids)).order_by(User.admin_level.desc(), User.truescore.desc()).all()
-	return render_template("loggedin.html", v=v, users=users)
+	return render_template("admin/loggedin.html", v=v, users=users)
 
 @app.get('/admin/loggedout')
 @admin_level_required(PERMS['VIEW_ACTIVE_USERS'])
 def loggedout_list(v):
 	users = sorted([val[1] for x,val in cache.get(f'{SITE}_loggedout').items() if time.time()-val[0] < LOGGEDIN_ACTIVE_TIME])
-	return render_template("loggedout.html", v=v, users=users)
+	return render_template("admin/loggedout.html", v=v, users=users)
 
 @app.get('/admin/merge/<id1>/<id2>')
 @admin_level_required(PERMS['USER_MERGE'])
@@ -351,7 +351,7 @@ def club_ban(v, username):
 @admin_level_required(PERMS['USER_SHADOWBAN'])
 def shadowbanned(v):
 	users = g.db.query(User).filter(User.shadowbanned != None).order_by(User.shadowbanned).all()
-	return render_template("shadowbanned.html", v=v, users=users)
+	return render_template("admin/shadowbanned.html", v=v, users=users)
 
 
 @app.get("/admin/image_posts")
