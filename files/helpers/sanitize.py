@@ -352,8 +352,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	sanitized = sanitized.replace('&amp;','&')
 
-	if "https://youtube.com/watch?v=" in sanitized: sanitized = sanitized.replace("?t=", "&t=")
-
 	captured = []
 	for i in youtube_regex.finditer(sanitized):
 		if i.group(0) in captured: continue
