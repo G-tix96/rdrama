@@ -318,11 +318,11 @@ def set_color(v:User, attr:str, color:Optional[str]):
 	if color:
 		if color.startswith('#'): color = color[1:]
 		if not color_regex.fullmatch(color):
-			return render_template("settings/personal.html", v=v, error="Invalid color hex code")
+			return render_template("settings/personal.html", v=v, error="Invalid color hex code!")
 		if color and current != color:
 			setattr(v, attr, color)
 			g.db.add(v)
-	return redirect("/settings/personal")
+	return render_template("settings/personal.html", v=v, msg="Color successfully updated!")
 
 
 @app.post("/settings/namecolor")
@@ -554,7 +554,7 @@ def settings_css(v):
 	v.css = css
 	g.db.add(v)
 
-	return render_template("settings/css.html", v=v)
+	return render_template("settings/css.html", v=v, msg="Custom CSS successfully updated!")
 
 @app.post("/settings/profilecss")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
@@ -567,7 +567,7 @@ def settings_profilecss(v):
 		return render_template("settings/css.html", error=error, v=v)
 	v.profilecss = profilecss
 	g.db.add(v)
-	return redirect('/settings/css')
+	return render_template("settings/css.html", v=v, msg="Profile CSS successfully updated!")
 
 @app.get("/settings/security")
 @auth_required
@@ -665,7 +665,7 @@ def settings_name_change(v):
 	v.name_changed_utc=int(time.time())
 	g.db.add(v)
 
-	return redirect("/settings/personal")
+	return render_template("settings/personal.html", v=v, msg="Name successfully changed!")
 
 @app.post("/settings/song_change_mp3")
 @feature_required('USERS_PROFILE_SONG')
@@ -693,7 +693,7 @@ def settings_song_change_mp3(v):
 	v.song = song
 	g.db.add(v)
 
-	return redirect("/settings/personal")
+	return render_template("settings/personal.html", v=v, msg="Profile Anthem successfully updated!")
 
 @app.post("/settings/song_change")
 @feature_required('USERS_PROFILE_SONG')
@@ -708,7 +708,7 @@ def settings_song_change(v):
 			os.remove(f"/songs/{v.song}.mp3")
 		v.song = None
 		g.db.add(v)
-		return redirect("/settings/personal")
+		return render_template("settings/personal.html", v=v, msg="Profile Anthem successfully removed!")
 
 	song = song.replace("https://music.youtube.com", "https://youtube.com")
 	if song.startswith(("https://www.youtube.com/watch?v=", "https://youtube.com/watch?v=", "https://m.youtube.com/watch?v=")):
@@ -724,7 +724,7 @@ def settings_song_change(v):
 	if path.isfile(f'/songs/{id}.mp3'): 
 		v.song = id
 		g.db.add(v)
-		return redirect("/settings/personal")
+		return render_template("settings/personal.html", v=v, msg="Profile Anthem successfully updated!")
 		
 	
 	req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={id}&key={YOUTUBE_KEY}&part=contentDetails", timeout=5).json()
@@ -769,7 +769,7 @@ def settings_song_change(v):
 
 	v.song = id
 	g.db.add(v)
-	return redirect("/settings/personal")
+	return render_template("settings/personal.html", v=v, msg="Profile Anthem successfully updated!")
 
 @app.post("/settings/title_change")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
@@ -792,7 +792,7 @@ def settings_title_change(v):
 	v.customtitle = customtitle
 	g.db.add(v)
 
-	return redirect("/settings/personal")
+	return render_template("settings/personal.html", v=v, msg="Flair successfully updated!")
 
 
 @app.post("/settings/pronouns_change")
@@ -819,7 +819,7 @@ def settings_pronouns_change(v):
 	v.pronouns = pronouns
 	g.db.add(v)
 
-	return redirect("/settings/personal")
+	return render_template("settings/personal.html", v=v, msg="Pronouns successfully updated!")
 
 
 @app.post("/settings/checkmark_text")
@@ -833,4 +833,4 @@ def settings_checkmark_text(v):
 	if new_name == v.verified: return render_template("settings/personal.html", v=v, error="You didn't change anything")
 	v.verified = new_name
 	g.db.add(v)
-	return redirect("/settings/personal")
+	return render_template("settings/personal.html", v=v, msg="Checkmark Text successfully updated!")
