@@ -735,26 +735,12 @@
 		</div>
 	</div>
 {% endif %}
-
-
-
-
-
-
-
-
-
-
 </div>
-
 {% endif %}
-
 {% endmacro %}
 
-{% for comment in comments if comment.can_see(v) %}
-
+{% for comment in comments(g.db) if comment.can_see(v) %}
 	{{single_comment(comment)}}
-
 {% endfor %}
 
 {% if not request.headers.get("xhr") %}
