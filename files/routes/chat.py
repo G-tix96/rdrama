@@ -59,14 +59,13 @@ def speak(data, v):
 
 	global messages, total
 
-	if SITE == 'rdrama.net': text = data['message'][:200].strip()
-	else: text = data['message'][:1000].strip()
+	text = sanitize_raw_body(data['message'], False)[:CHAT_LENGTH_LIMIT]
+	if not text: return '', 400
 
-	if not text: return '', 403
 	text_html = sanitize(text, count_marseys=True)
 	quotes = data['quotes']
 	recipient = data['recipient']
-	data={
+	data = {
 		"id": str(uuid.uuid4()),
 		"quotes": quotes,
 		"avatar": v.profile_url,
