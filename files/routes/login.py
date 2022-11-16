@@ -390,9 +390,7 @@ def get_reset():
 	now = int(time.time())
 
 	if now - timestamp > 600:
-		return render_template("message.html", 
-			title="Password reset link expired",
-			error="This password reset link has expired.")
+		abort(410, "This password reset link has expired.")
 
 	user = get_account(user_id)
 
@@ -426,9 +424,7 @@ def post_reset(v):
 	now = int(time.time())
 
 	if now - timestamp > 600:
-		return render_template("message.html",
-							title="Password reset expired",
-							error="This password reset form has expired.")
+		abort(410, "This password reset link has expired.")
 
 	user = get_account(user_id)
 	if not validate_hash(f"{user_id}+{timestamp}+reset+{user.login_nonce}", token):
@@ -472,7 +468,7 @@ def request_2fa_disable():
 	email=request.values.get("email").strip().lower()
 
 	if not email_regex.fullmatch(email):
-		return render_template("message.html", title="Invalid email.", error="Invalid email.")
+		abort(400, "Invalid email")
 
 	password =request.values.get("password")
 	if not user.verifyPass(password):
@@ -507,9 +503,7 @@ def reset_2fa():
 		abort(400)
 
 	if now > t+3600*24:
-		return render_template("message.html",
-						title="Expired Link",
-						error="This link has expired.")
+		abort(410, "This 2FA reset link has expired.")
 
 	token=request.values.get("token")
 	uid=request.values.get("id")

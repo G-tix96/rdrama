@@ -311,6 +311,7 @@ WERKZEUG_ERROR_DESCRIPTIONS = {
 	405: "The method is not allowed for the requested URL.",
 	406: "The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.",
 	409: "A conflict happened while processing the request. The resource might have been modified while the request was being processed.",
+	410: "The requested URL is no longer available on this server and there is no forwarding address. If you followed a link from a foreign page, please contact the author of this page.",
 	413: "The data value transmitted exceeds the capacity limit.",
 	414: "The length of the requested URL exceeds the capacity limit for this server. The request cannot be processed.",
 	415: "The server does not support the media type transmitted in the request.",
@@ -328,6 +329,7 @@ ERROR_TITLES = {
 	405: "Method Not Allowed, BAD.",
 	406: "Too Many Pings fuck off",
 	409: "Cumflict",
+	410: "Gone... and Forgotten",
 	413: "Gayload Too Large",
 	415: "Weird Media Type",
 	418: "I'm a teapot",
@@ -343,6 +345,7 @@ ERROR_MSGS = {
 	405: "idk how anyone gets this error but if you see this, remember to follow @carpathianflorist<br>the original error text here talked about internet gremlins and wtf",
 	406: "Max limit is 5 for comments and 50 for posts (what is it referring to? what does it mean? no one knows)",
 	409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do. So maybe like... don't try and do that? Sorry not sorry",
+	410: "You were too slow. The link FUCKING DIED. Request a new one and be more efficient.",
 	413: "That's a heckin' chonker of a file! Please make it smaller or maybe like upload it somewhere else idk<BR>jc wrote this one hi jc!<br>- carp",
 	415: "Please upload only Image, Video, or Audio files!",
 	418: "this really shouldn't happen now that we autoconvert webm files but if it does there's a cool teapot marsey so there's that",
@@ -358,6 +361,7 @@ ERROR_MARSEYS = {
 	405: "marseyretard",
 	406: "marseyrage",
 	409: "marseynoyou",
+	410: "marseyrave",
 	413: "marseychonker2",
 	415: "marseydetective",
 	418: "marseytea",
@@ -568,6 +572,7 @@ elif SITE == 'watchpeopledie.tv':
 	ERROR_TITLES[405] = "Method Not Allowed"
 	ERROR_TITLES[406] = "Too Many Pings"
 	ERROR_TITLES[409] = "Mortal Conflict"
+	ERROR_TITLES[410] = "Dead"
 	ERROR_TITLES[413] = "Payload Too Large"
 	ERROR_TITLES[415] = "Unsupported Media Type"
 	ERROR_TITLES[500] = "Internal Server Error"
@@ -577,6 +582,7 @@ elif SITE == 'watchpeopledie.tv':
 	ERROR_MSGS[404] = "That wasn't found"
 	ERROR_MSGS[405] = "You can't use this method here... if you keep getting this error tell us it's prolly something borked"
 	ERROR_MSGS[409] = "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do."
+	ERROR_MSGS[410] = "This link is dead. Request a new one to try again"
 	ERROR_MSGS[413] = "You need to upload a smaller file please"
 	ERROR_MSGS[429] = "Please wait a bit before doing that"
 

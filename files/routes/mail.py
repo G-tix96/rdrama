@@ -23,15 +23,14 @@ def activate(v):
 	email = request.values.get("email", "").strip().lower()
 
 	if not email_regex.fullmatch(email):
-		return render_template("message.html", v=v, title="Invalid email.", error="Invalid email."), 400
+		abort(400, "Invalid email")
 
 	id = request.values.get("id", "").strip()
 	timestamp = int(request.values.get("time", "0"))
 	token = request.values.get("token", "").strip()
 
 	if int(time.time()) - timestamp > 3600:
-		return render_template("message.html", v=v, title="Verification link expired.",
-							message="This link has expired. Visit your settings to send yourself another verification email."), 410
+		abort(410, "This email verification link has expired. Visit your settings to send yourself a new one.")
 
 	user = get_account(id)
 
