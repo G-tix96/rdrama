@@ -1787,17 +1787,17 @@ button.close {
 .modal-footer > * {
 	margin: 0.25rem;
 }
-	.modal-dialog-scrollable {
-		max-height: calc(100% - 5rem);
+.modal-dialog-scrollable {
+	max-height: calc(100% - 5rem);
 }
-	.modal-dialog-scrollable .modal-content {
-		max-height: calc(100vh - 5rem);
+.modal-dialog-scrollable .modal-content {
+	max-height: calc(100vh - 5rem);
 }
-	.modal-dialog-centered {
-		max-height: calc(100% - 5rem);
+.modal-dialog-centered {
+	max-height: calc(100% - 5rem);
 }
-	.modal-dialog-centered::before {
-		height: calc(100vh - 5rem);
+.modal-dialog-centered::before {
+	height: calc(100vh - 5rem);
 }
 @media (min-width: 992px) {
 	.modal-xl {
