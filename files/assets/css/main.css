@@ -6358,10 +6358,11 @@ div.markdown {
 	-o-object-fit: contain;
 }
 
-img[alt*="banner"] {
+.site-banner {
 	width: 100%;
 }
-img[alt*="banner"][alt^="/h/"]{
+.site-banner-hole {
+	width: 100%;
 	object-fit: cover;
 	max-height: min(42vh,30vw) !important;
 }

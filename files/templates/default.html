@@ -34,12 +34,13 @@
 		{% if sub and SITE_NAME != WPD %}
 			{% set src = sub.banner_url %}
 			{% set alt = ['/h/', sub, 'banner']|join %}
+			{% set class = 'site-banner-hole' %}
 		{% elif SITE_NAME == "rDrama" %}
 			{% set href = "https://secure.transequality.org/site/Donation2?df_id=1480" %}
 			{% set expand = false %}
 		{% endif %}
 
-		{{ macros.banner(src, href, alt, expand) }}
+		{{ macros.banner(src, href, alt, expand, class) }}
 	{% endif %}
 {% endblock %}
 
