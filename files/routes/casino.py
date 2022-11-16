@@ -86,12 +86,15 @@ def pull_slots(v):
 		abort(400, "Invalid wager.")
 
 	try:
-		currency = request.values.get("currency")
+		currency = request.values.get("currency", "").lower()
+		if currency not in ('coins', 'procoins'): raise ValueError()
 	except:
-		abort(400, "Invalid currency (expected 'coin' or 'marseybux').")
+		abort(400, "Invalid currency (expected 'coins' or 'procoins').")
+
+	friendly_currency_name = "coins" if currency == "coins" else "marseybux"
 
 	if (currency == "coins" and wager > v.coins) or (currency == "procoins" and wager > v.procoins):
-		abort(400, f"Not enough {currency} to make that bet")
+		abort(400, f"Not enough {friendly_currency_name} to make that bet")
 
 	game_id, game_state = casino_slot_pull(v, wager, currency)
 	success = bool(game_id)
@@ -99,7 +102,7 @@ def pull_slots(v):
 	if success:
 		return {"game_state": game_state, "gambler": {"coins": v.coins, "procoins": v.procoins}}
 	else:
-		abort(400, f"Wager must be 5 {currency} or more")
+		abort(400, f"Wager must be 5 {friendly_currency_name} or more")
 
 
 # 21
