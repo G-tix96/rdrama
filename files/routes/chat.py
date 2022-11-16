@@ -53,7 +53,7 @@ def speak(data, v):
 	if TRUESCORE_CHAT_LIMIT and v.truescore < TRUESCORE_CHAT_LIMIT and not v.club_allowed: return '', 403
 
 	vname = v.username.lower()
-	if vname in muted:
+	if vname in muted and not v.admin_level >= PERMS['USER_BAN']:
 		if time.time() < muted[vname]: return '', 403
 		else: del muted[vname]
 
