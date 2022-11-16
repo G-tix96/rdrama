@@ -1,6 +1,8 @@
 .ChatMessage {
   position: relative;
   padding-right: 1.5rem;
+  overflow: hidden;
+  max-height: 300px;
 }
 
 .ChatMessage__isDm {
@@ -116,7 +118,6 @@
   margin-bottom: 1rem;
   padding: 0.3rem;
   border-radius: 8px;
-  overflow: hidden;
 }
 
 .ChatMessageList-group:nth-child(even) {
