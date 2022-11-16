@@ -208,6 +208,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_ACTIONS_REVERT': 3,
 	'ADMIN_MOP_VISIBLE': 2,
 	'ADMIN_HOME_VISIBLE': 2,
+	'CHAT_BYPASS_MUTE': 2,
 	'DOMAINS_BAN': 3,
 	'HOLE_CREATE': 0,
 	'FLAGS_REMOVE': 2,
