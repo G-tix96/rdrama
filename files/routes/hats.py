@@ -8,7 +8,6 @@ from files.routes.wrappers import *
 from files.__main__ import app, limiter
 
 @app.get("/hats")
-@feature_required('HATS')
 @auth_required
 def hats(v):
 	owned_hat_ids = [x.hat_id for x in v.owned_hats]
@@ -33,7 +32,6 @@ def hats(v):
 	return render_template("hats.html", owned_hat_ids=owned_hat_ids, hats=hats, v=v, sales=sales, num_of_hats=num_of_hats)
 
 @app.post("/buy_hat/<hat_id>")
-@feature_required('HATS')
 @limiter.limit('100/minute;1000/3 days')
 @auth_required
 def buy_hat(v, hat_id):
@@ -44,7 +42,7 @@ def buy_hat(v, hat_id):
 	if not hat: abort(404, "Hat not found!")
 
 	existing = g.db.query(Hat).filter_by(user_id=v.id, hat_id=hat.id).one_or_none()
-	if existing: abort(400, "You already own this hat!")
+	if existing: abort(409, "You already own this hat!")
 
 	if not hat.is_purchasable:
 		abort(403, "This hat is not for sale.")
@@ -85,7 +83,6 @@ def buy_hat(v, hat_id):
 
 
 @app.post("/equip_hat/<hat_id>")
-@feature_required('HATS')
 @auth_required
 def equip_hat(v, hat_id):
 	try: hat_id = int(hat_id)
@@ -100,7 +97,6 @@ def equip_hat(v, hat_id):
 	return {"message": f"'{hat.name}' equipped!"}
 
 @app.post("/unequip_hat/<hat_id>")
-@feature_required('HATS')
 @auth_required
 def unequip_hat(v, hat_id):
 	try: hat_id = int(hat_id)
@@ -118,7 +114,7 @@ def unequip_hat(v, hat_id):
 @auth_required
 def hat_owners(v, hat_id):
 	try: hat_id = int(hat_id)
-	except: abort(400)
+	except: abort(404, "Hat not found!")
 
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
