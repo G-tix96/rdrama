@@ -1,10 +1,16 @@
-{% macro banner(src, href, alt, expand) %}
+{%- macro plural(value, suffix='s') -%}
+	{%- if value != 1 -%}
+		{{suffix}}
+	{%- endif -%}
+{%- endmacro -%}
+
+{%- macro banner(src, href, alt, expand) %}
 	<a href="{{href|default(src)}}" rel="nofollow noopener">
 		<img onclick="{{expand|default('expandDesktopImage()')}}" alt="{{alt|default('site banner')}}" src="{{src|default(live_banner())}}">
 	</a>
-{% endmacro %}
+{% endmacro -%}
 
-{% macro live_banner() %}
+{%- macro live_banner() %}
 	{% set path = "files/assets/images/" + SITE_NAME %}
 	{% if not v and os_path.exists(path + "/cached.webp") %}
 		{{ 'cached.webp' | asset_siteimg }}
@@ -13,9 +19,9 @@
 	{% else %}
 		{{ 'banner.webp' | asset_siteimg }}
 	{% endif %}
-{% endmacro %}
+{% endmacro -%}
 
-{% macro random_image(assetdir) %}
+{%- macro random_image(assetdir) %}
 	{% set path = "assets/images/" + SITE_NAME + "/" + assetdir  %}
 	{{ "/" + path + "/" + listdir('files/' + path)|random() + '?v=45' }}
-{% endmacro %}
+{% endmacro -%}

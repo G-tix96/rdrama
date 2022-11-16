@@ -5,7 +5,7 @@
 {% else %}
 	<h5 class="mt-3">Alts</h5>
 {% endif %}
-{%- import 'util/helpers.html' as help -%}
+{%- import 'util/macros.html' as macros with context -%}
 <section class="username-input-section mb-3">
 	<form action="/admin/alts" method="get">
 		<label for="link-input">Username</label>
@@ -16,7 +16,7 @@
 {% if u %}
 {% set count=alts|length %}
 <section class="userinfo-section">
-	<p><a href="/@{{u.username}}">@{{u.username}}</a> created their account {{u.created_utc|timestamp}} and has {{count}} known alt{{help.plural(count)}}.<br>
+	<p><a href="/@{{u.username}}">@{{u.username}}</a> created their account {{u.created_utc|timestamp}} and has {{count}} known alt{{macros.plural(count)}}.<br>
 	They are {% if not u.is_suspended_permanently %}not {% endif %}permanently banned{% if v.admin_level >= PERMS['USER_SHADOWBAN'] %} and they are {% if not u.shadowbanned %}not {% endif %}shadowbanned{% endif %}.</p>
 </section>
 <div class="overflow-x-auto">
