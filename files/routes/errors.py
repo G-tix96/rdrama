@@ -19,6 +19,7 @@ from files.__main__ import app
 @app.errorhandler(405)
 @app.errorhandler(406)
 @app.errorhandler(409)
+@app.errorhandler(410)
 @app.errorhandler(413)
 @app.errorhandler(415)
 @app.errorhandler(418)
