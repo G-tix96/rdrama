@@ -1692,10 +1692,10 @@ button.close {
 }
 .modal-dialog-scrollable {
 	display: flex;
-	max-height: calc(100% - 1rem);
+	max-height: calc(100% - 5rem);
 }
 .modal-dialog-scrollable .modal-content {
-	max-height: calc(100vh - 1rem);
+	max-height: calc(100vh - 5rem);
 	overflow: hidden;
 }
 .modal-dialog-scrollable .modal-header, .modal-dialog-scrollable .modal-footer {
@@ -1707,11 +1707,11 @@ button.close {
 .modal-dialog-centered {
 	display: flex;
 	align-items: center;
-	min-height: calc(100% - 1rem);
+	max-height: calc(100% - 5rem);
 }
 .modal-dialog-centered::before {
 	display: block;
-	height: calc(100vh - 1rem);
+	height: calc(100vh - 5rem);
 	content: "";
 }
 .modal-dialog-centered.modal-dialog-scrollable {
