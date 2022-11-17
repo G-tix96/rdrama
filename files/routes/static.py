@@ -217,7 +217,7 @@ def submit_contact(v):
 	if v.is_muted:
 		abort(403)
 
-	body = f'This message has been sent automatically to all admins via [/contact](/contact)\n\nMessage:\n\n' + body
+	body = f'This message has been sent automatically to all admins via [/contact](/contact)\n\nMessage:\n\n{body}'
 	body += process_files(request.files, v)
 	body = body.strip()
 	body_html = sanitize(body)
@@ -406,7 +406,7 @@ def transfers(v):
 
 
 if not os.path.exists(f'files/templates/donate_{SITE_NAME}.html'):
-	copyfile(f'files/templates/donate_rDrama.html', f'files/templates/donate_{SITE_NAME}.html')
+	copyfile('files/templates/donate_rDrama.html', f'files/templates/donate_{SITE_NAME}.html')
 
 @app.get('/donate')
 @auth_desired_with_logingate
