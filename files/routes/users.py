@@ -1054,6 +1054,7 @@ def bid_list(v, bid):
 
 @app.post("/kofi")
 def kofi():
+	if not KOFI_TOKEN or KOFI_TOKEN == DEFAULT_CONFIG_VALUE: abort(404)
 	data = json.loads(request.values['data'])
 	verification_token = data['verification_token']
 	if verification_token != KOFI_TOKEN: abort(400)
