@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 # then load our required constants...
-from files.helpers.const import FEATURES
+from files.helpers.const import FEATURES, KOFI_TOKEN
 
 # then load all of our classes :)
 from .alts import *
@@ -29,7 +29,8 @@ from .lottery import *
 from .casino_game import *
 from .hats import *
 from .marsey import *
-from .transactions import *
+if KOFI_TOKEN:
+    from .transactions import *
 from .sub_logs import *
 from .media import *
 if FEATURES['STREAMERS']:
