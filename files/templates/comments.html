@@ -93,7 +93,7 @@
 	{% elif c.author_id==AUTOJANNY_ID %}
 		<span class="font-weight-bold">Notification</span>
 	{% else %}
-		{% if c.sentto == 2 %}
+		{% if c.sentto == MODMAIL_ID %}
 			<span class="font-weight-bold">Sent to admins</span>
 		{% else %}
 			<span class="font-weight-bold">Sent to @{{c.senttouser.username}}</span>
@@ -566,7 +566,7 @@
 		</div>
 
 		{% if request.path.startswith('/notifications') and c.level == 1 and c.sentto and not c.parent_submission and c.author_id != AUTOJANNY_ID %}
-			{% if (v and v.admin_level >= PERMS['USER_BAN']) and (c.sentto == 2) %} 
+			{% if (v and v.admin_level >= PERMS['USER_BAN']) and (c.sentto == MODMAIL_ID) %} 
 				<button type="button" class="btn btn-danger mr-3 {% if c.author.is_muted %}d-none{% endif %}" id="mute-user-{{c.id}}" onclick="postToastSwitch(this,'/mute_user/{{c.author.id}}','mute-user-{{c.id}}','unmute-user-{{c.id}}','d-none')">Mute</button>
 				<button type="button" class="btn btn-primary mr-3 {% if not c.author.is_muted %}d-none{% endif %}" id="unmute-user-{{c.id}}" onclick="postToastSwitch(this,'/unmute_user/{{c.author.id}}','mute-user-{{c.id}}','unmute-user-{{c.id}}','d-none')">Unmute</button>
 			{% endif %}
@@ -581,7 +581,7 @@
 						<div class="comment-format" id="comment-format-bar-{{c.id}}"> 
 							<div onclick="loadEmojis('reply-form-body-{{c.id}}')" class="btn btn-secondary m-0 mt-3 mr-1" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>
 
-							{% if c.sentto == 2 %}
+							{% if c.sentto == MODMAIL_ID %}
 								<label class="btn btn-secondary m-0 mt-3" for="file-upload">
 									<div id="filename"><i class="fas fa-file"></i></div>
 									<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file" multiple="multiple" {% if g.is_tor %}disabled{% endif %} onchange="changename('filename','file-upload')" hidden>

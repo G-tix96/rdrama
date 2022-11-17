@@ -421,6 +421,9 @@ def unsubscribe(v, post_id):
 def message2(v, username):
 	user = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
 
+	if user.id == MODMAIL_ID:
+		abort(403, "Please use /contact to contact the admins")
+
 	if hasattr(user, 'is_blocking') and user.is_blocking:
 		abort(403, f"You're blocking @{user.username}")
 
@@ -493,12 +496,12 @@ def messagereply(v):
 	parent = get_comment(id, v=v)
 	user_id = parent.author.id
 
-	if v.is_suspended_permanently and parent.sentto != 2:
-		abort(400, "You are permabanned and may not reply to messages.")
-	elif v.is_muted and parent.sentto == 2:
-		abort(400, "You are forbidden from replying to modmail.")
+	if v.is_suspended_permanently and parent.sentto != MODMAIL_ID:
+		abort(403, "You are permabanned and may not reply to messages.")
+	elif v.is_muted and parent.sentto == MODMAIL_ID:
+		abort(403, "You are forbidden from replying to modmail.")
 
-	if parent.sentto == 2: user_id = None
+	if parent.sentto == MODMAIL_ID: user_id = None
 	elif v.id == user_id: user_id = parent.sentto
 
 	if user_id:
@@ -509,7 +512,7 @@ def messagereply(v):
 				and hasattr(user, 'is_blocked') and user.is_blocked):
 			abort(403, f"You're blocked by @{user.username}")
 
-	if parent.sentto == 2:
+	if parent.sentto == MODMAIL_ID:
 		body += process_files(request.files, v)
 
 	body = body.strip()
@@ -548,7 +551,7 @@ def messagereply(v):
 
 	top_comment = c.top_comment(g.db)
 
-	if top_comment.sentto == 2:
+	if top_comment.sentto == MODMAIL_ID:
 		admins = g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id)
 		if SITE == 'watchpeopledie.tv':
 			admins = admins.filter(User.id != AEVANN_ID)

@@ -52,7 +52,6 @@ def rescind(v, aid):
 @is_not_permabanned
 @ratelimit_user()
 def request_api_keys(v):
-
 	new_app = OauthApp(
 		app_name=request.values.get('name').replace('<','').replace('>',''),
 		redirect_uri=request.values.get('redirect_uri'),
@@ -63,15 +62,13 @@ def request_api_keys(v):
 	g.db.add(new_app)
 
 	body = f"@{v.username} has requested API keys for `{request.values.get('name')}`. You can approve or deny the request [here](/admin/apps)."
-
 	body_html = sanitize(body)
-
 
 	new_comment = Comment(author_id=AUTOJANNY_ID,
 						parent_submission=None,
 						level=1,
 						body_html=body_html,
-						sentto=2,
+						sentto=MODMAIL_ID,
 						distinguish_level=6,
 						is_bot=True
 						)

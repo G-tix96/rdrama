@@ -584,7 +584,7 @@ class User(Base):
 					Notification.user_id == self.id,
 					Comment.is_banned == False,
 					Comment.deleted_utc == 0,
-					not_(and_(Comment.sentto == 2, User.is_muted)),
+					not_(and_(Comment.sentto == MODMAIL_ID, User.is_muted)),
 				))
 		
 		if not self.can_see_shadowbanned:
@@ -980,7 +980,7 @@ class User(Base):
 				if not other.parent_submission:
 					if not user: return False
 					if not other.sentto: return True # handled by Notification
-					if other.sentto == 2: return user.admin_level >= PERMS['VIEW_MODMAIL']  # type: ignore
+					if other.sentto == MODMAIL_ID: return user.admin_level >= PERMS['VIEW_MODMAIL']  # type: ignore
 					if other.sentto != user.id: return user.admin_level >= PERMS['POST_COMMENT_MODERATION']  # type: ignore
 				if other.parent_submission and other.post.sub and not cls.can_see(user, other.post.subr): return False
 				# if other.parent_submission and not cls.can_see(user, other.post): return False
