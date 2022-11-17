@@ -50,7 +50,7 @@
 	{% elif '@' in request.path %}
 		{% set author, a_author, published, url, title, image, section =
 		'@'+u.username, '@'+u.username, u.created_date,
-		u.url, u.username, u.banner_url
+		u.url, u.username, u.banner_url,
 		[u.username, "'s profile - ", SITE_NAME] | join %}
 
 		{% set description %}
