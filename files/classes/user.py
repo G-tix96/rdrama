@@ -946,13 +946,11 @@ class User(Base):
 		return ''
 	
 	@classmethod
-	def can_see_content(cls, user:Optional["User"], other:Union["Submission", "Comment", Sub]) -> bool:
+	def can_see_content(cls, user:Optional["User"], other:Union[Submission, Comment, Sub]) -> bool:
 		'''
 		Whether a user can see this item (be it a submission or comment)'s content.
 		If False, they won't be able to view its content.
 		'''
-		from files.classes.submission import Submission
-		from files.classes.comment import Comment
 		if not cls.can_see(user, other): return False
 		if user and user.admin_level >= PERMS["POST_COMMENT_MODERATION"]: return True
 		if isinstance(other, (Submission, Comment)):
@@ -968,13 +966,11 @@ class User(Base):
 		return True
 
 	@classmethod
-	def can_see(cls, user:Optional["User"], other:Union["Submission", "Comment", "Sub", "User"]) -> bool:
+	def can_see(cls, user:Optional["User"], other:Union[Submission, Comment, Sub, "User"]) -> bool:
 		'''
 		Whether a user can strictly see this item. can_see_content is used where
 		content of a thing can be hidden from view
 		'''
-		from files.classes.submission import Submission
-		from files.classes.comment import Comment
 		if isinstance(other, (Submission, Comment)):
 			if not cls.can_see(user, other.author): return False
 			if user and user.id == other.author_id: return True
