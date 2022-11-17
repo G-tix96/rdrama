@@ -8,23 +8,22 @@ max_requests_jitter = 30000
 
 reload = True
 reload_engine = 'poll'
-#print_config = True
 
 def worker_abort(worker):
 	worker.log.warning(f"Worker {worker.pid} received SIGABRT.")
 
 	try:
-		import flask
-		r = flask.request
-		worker.log.warning(f"While serving {r.method} {r.url}")
-		from files.routes.wrappers import get_logged_in_user
-		u = get_logged_in_user()
-		if u:
-			worker.log.warning(f"User: {u.username!r} id:{u.id}")
+		from flask import g, request
+		if g and request:
+			u = getattr(g, 'v', None)
+			if u:
+				worker.log.warning(f"User: {u.username!r} id:{u.id}")
+			else:
+				worker.log.warning(f"User: not logged in")
 		else:
-			worker.log.warning(f"User: not logged in")
+			worker.log.warning("No request info")
 	except:
-		worker.log.warning("No request info")
+		worker.log.warning("Failed to get request info")
 
 	import os
 	os.abort()
