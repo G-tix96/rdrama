@@ -1093,6 +1093,7 @@ kofi_tiers={
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 def settings_kofi(v):
+	if not KOFI_TOKEN or KOFI_TOKEN == DEFAULT_CONFIG_VALUE: abort(404)
 	if not (v.email and v.is_activated):
 		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
 	transaction = g.db.query(Transaction).filter_by(email=v.email).order_by(Transaction.created_utc.desc()).first()
