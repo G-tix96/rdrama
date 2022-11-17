@@ -1,5 +1,6 @@
 import random
 from operator import *
+from typing import Union
 
 import pyotp
 from sqlalchemy import Column, ForeignKey
@@ -943,7 +944,56 @@ class User(Base):
 		if self.patron == 6:
 			return 'Contributed at least $200'
 		return ''
+	
+	@classmethod
+	def can_see_content(cls, user:Optional["User"], other:Union["Submission", "Comment", Sub]) -> bool:
+		'''
+		Whether a user can see this item (be it a submission or comment)'s content.
+		If False, they won't be able to view its content.
+		'''
+		from files.classes.submission import Submission
+		from files.classes.comment import Comment
+		if not cls.can_see(user, other): return False
+		if user and user.admin_level >= PERMS["POST_COMMENT_MODERATION"]: return True
+		if isinstance(other, (Submission, Comment)):
+				if user and user.id == other.author_id: return True
+				if other.is_banned: return False
+				if other.deleted_utc: return False
+				if other.author.shadowbanned and not (user and user.can_see_shadowbanned): return False
+				if isinstance(other, Submission):
+					if other.club and not (user and user.paid_dues): return False
+					if other.sub == 'chudrama' and not (user and user.can_see_chudrama): return False
+				else:
+					if other.parent_submission and not cls.can_see_content(user, other.post): return False
+		return True
 
+	@classmethod
+	def can_see(cls, user:Optional["User"], other:Union["Submission", "Comment", "Sub", "User"]) -> bool:
+		'''
+		Whether a user can strictly see this item. can_see_content is used where
+		content of a thing can be hidden from view
+		'''
+		from files.classes.submission import Submission
+		from files.classes.comment import Comment
+		if isinstance(other, (Submission, Comment)):
+			if not cls.can_see(user, other.author): return False
+			if user and user.id == other.author_id: return True
+			if isinstance(other, Submission):
+				if other.sub and not cls.can_see(user, other.subr): return False
+			else:
+				if not other.parent_submission:
+					if not user: return False
+					if other.sentto == 2: return user.admin_level >= PERMS['VIEW_MODMAIL']  # type: ignore
+					if other.sentto != user.id: return user.admin_level >= PERMS['POST_COMMENT_MODERATION']  # type: ignore
+				if other.parent_submission and other.post.sub and not cls.can_see(user, other.post.subr): return False
+				# if other.parent_submission and not cls.can_see(user, other.post): return False
+		elif isinstance(other, Sub):
+			return other.name != 'chudrama' or (user and user.can_see_chudrama)
+		elif isinstance(other, User):
+			return (user and user.id == other.id) or (user and user.can_see_shadowbanned) or not other.shadowbanned
+		return True
+
+		
 	@property
 	@lazy
 	def can_see_chudrama(self):

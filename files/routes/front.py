@@ -42,9 +42,8 @@ def front_all(v, sub=None, subdomain=None):
 			return redirect('/')
 	#### WPD TEMP #### end special front logic
 	if sub:
-		sub = sub.strip().lower()
-		if sub == 'chudrama' and not (v and v.can_see_chudrama): abort(403)
 		sub = get_sub_by_name(sub, graceful=True)
+		if sub and not User.can_see(v, sub): abort(403)
 	
 	if (request.path.startswith('/h/') or request.path.startswith('/s/')) and not sub: abort(404)
 
@@ -172,12 +171,9 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		if SITE_NAME == 'rDrama':
 			pins = pins.order_by(Submission.author_id != LAWLZ_ID)
 		pins = pins.order_by(Submission.created_utc.desc()).all()
-
 		posts = pins + posts
 
 	if ids_only: posts = [x.id for x in posts]
-
-
 	return posts, next_exists
 
 

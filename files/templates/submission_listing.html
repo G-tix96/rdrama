@@ -20,7 +20,7 @@
 
 {% include "popover.html" %}
 
-{% for p in listing if p.can_see(v) %}
+{% for p in listing if user_can_see(v, p) %}
 
 {% set ups=p.upvotes %}
 {% set downs=p.downvotes %}

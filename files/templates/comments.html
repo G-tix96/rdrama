@@ -739,7 +739,7 @@
 {% endif %}
 {% endmacro %}
 
-{% for comment in comments if comment.can_see(v) %}
+{% for comment in comments if user_can_see(v, comment) %}
 	{{single_comment(comment)}}
 {% endfor %}
 

@@ -4,6 +4,7 @@ from os import environ, listdir, path
 
 from jinja2 import pass_context
 
+from files.classes.user import User
 from files.helpers.assetcache import assetcache_path
 from files.helpers.const import *
 from files.helpers.settings import get_settings
@@ -56,7 +57,7 @@ def inject_constants():
 			"KOFI_TOKEN":KOFI_TOKEN, "KOFI_LINK":KOFI_LINK,
 			"approved_embed_hosts":approved_embed_hosts,
 			"site_settings":get_settings(), "EMAIL":EMAIL, "calc_users":calc_users, 
-			"max": max, "min": min,
+			"max": max, "min": min, "user_can_see":User.can_see,
 			"TELEGRAM_LINK":TELEGRAM_LINK, "EMAIL_REGEX_PATTERN":EMAIL_REGEX_PATTERN,
 			"CONTENT_SECURITY_POLICY_DEFAULT":CONTENT_SECURITY_POLICY_DEFAULT,
 			"CONTENT_SECURITY_POLICY_HOME":CONTENT_SECURITY_POLICY_HOME,
@@ -65,5 +66,5 @@ def inject_constants():
 			"HOUSE_JOIN_COST":HOUSE_JOIN_COST, "HOUSE_SWITCH_COST":HOUSE_SWITCH_COST, "IMAGE_FORMATS":IMAGE_FORMATS,
 			"PAGE_SIZES":PAGE_SIZES, "THEMES":THEMES, "COMMENT_SORTS":COMMENT_SORTS, "SORTS":SORTS, 
 			"TIME_FILTERS":TIME_FILTERS, "HOUSES":HOUSES, "TIERS_ID_TO_NAME":TIERS_ID_TO_NAME, 
-			"DEFAULT_CONFIG_VALUE":DEFAULT_CONFIG_VALUE
+			"DEFAULT_CONFIG_VALUE":DEFAULT_CONFIG_VALUE,
 			}

@@ -76,21 +76,11 @@ class Submission(Base):
 	def __repr__(self):
 		return f"<Submission(id={self.id})>"
 
-	@lazy
-	def can_see(self, v):
-		if SITE != 'rdrama.net': return True
-		if self.sub != 'chudrama': return True
-		if v:
-			if v.can_see_chudrama: return True
-			if v.id == self.author_id: return True
-		return False
-
 	@property
 	@lazy
 	def controversial(self):
 		if self.downvotes > 5 and 0.25 < self.upvotes / self.downvotes < 4: return True
 		return False
-
 
 	@property
 	@lazy
@@ -115,8 +105,7 @@ class Submission(Base):
 	@property
 	@lazy
 	def fullname(self):
-		return f"p_{self.id}"	
-
+		return f"p_{self.id}"
 
 	@property
 	@lazy
