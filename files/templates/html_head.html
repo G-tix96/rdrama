@@ -1,36 +1,12 @@
-{% macro html_head(js, include_seo, include_user_css, csp, title2, author, extra_css, include_2fa_verify, include_seo2) %}
-{# submission.py does a lot of stupid stuff with the title and we don't want to override that #}
-{# remember, this is very temporary #}
+{% macro html_head(js, include_seo, include_user_css, csp, title, include_2fa_verify) %}
 <head>
-	{% if js %}
-		{{javascript()}}
-	{% endif %}
-	{{meta_tags_1(csp, author)}}
-	{{stylesheets(include_user_css, extra_css)}}
-	{% if title2 %}
-		<title>{{title2 | default(SITE_NAME, true)}} - {{SITE_NAME}}</title>
-		{{meta_tags_2(title2, author)}}
-	{% elif not include_seo2 %}
-		{% block title %}
-			<title>{% block pagetitle %}{{SITE_NAME}}{% endblock %}</title>
-			{{meta_tags_2(self.pagetitle(), author)}}
-		{% endblock %}
-	{% else %}
-		{{self.title()}}
-	{% endif %}
-	{% if include_seo %}
-		{{seo()}}
-	{% endif %}
-	{% if include_2fa_verify %}
-		{{cf_2fa_verify()}}
-	{% endif %}
-	{% if 'chat' in request.path %}
-		{% if SITE == 'localhost' %}
-			<link rel="stylesheet" href="https://rdrama.net/assets/css/chat_done.css">
-		{% else %}
-			<link rel="stylesheet" href="{{'css/chat_done.css' | asset}}">
-		{% endif %}
-	{% endif %}
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Security-Policy" content="{{csp | default(CONTENT_SECURITY_POLICY_DEFAULT, true) | safe}}">
+	{{ page_meta(title) }}
+	{{ stylesheets(include_user_css) }}
+	{{ javascript() if js}}
+	{{ seo() if include_seo }}
+	{{ cf_2fa_verify() if include_2fa_verify }}
 </head>
 {% endmacro %}
 
@@ -49,36 +25,93 @@
 	<script defer src="{{'js/core.js' | asset}}"></script>
 {% endmacro %}
 
-{% macro meta_tags_1(csp, author, exclude_author) %}
-	<meta charset="utf-8">
-	<meta name="description" content="{{DESCRIPTION}}">
-	<meta http-equiv="Content-Security-Policy" content="{{csp | default(CONTENT_SECURITY_POLICY_DEFAULT, true) | safe}}">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="thumbnail" content="{{'site_preview.webp' | asset_siteimg}}">
-	{% if not exclude_author %}
-		<meta name="author" content="{{author}}">
+{% macro page_meta (title) %}
+	{% set title = SITE_NAME if not title %}
+
+	{% if 'post/' in request.path %}
+		{% set title = [p.plaintitle(v), ' - ', title] | join %}
+
+		{% if not v_forbid_deleted -%}
+			{% set image = p.thumb_url if p.has_thumb %}
+			{% set image = p.realurl(v) if p.is_image %}
+			{% set video = p.realurl(v) if p.is_video %}
+			{% set audio = p.realurl(v) if p.is_audio %}
+		{% endif %}
+
+		{% if comment_info and not comment_info.is_banned and not comment_info.deleted_utc %}
+			{% set p, title = comment_info, ['@', comment_info.author_name, ' comments on ',
+			'"', title, '"'] | join %}
+		{% endif %}
+
+		{% set author, description, a_author, published, modified, url =
+		'@'+p.author_name, p.plainbody(v), '@'+p.author_name,
+		p.created_datetime, p.edited_string, p.permalink %}
+
+	{% elif '@' in request.path %}
+		{% set author, a_author, published, url, title, image, section =
+		'@'+u.username, '@'+u.username, u.created_date,
+		u.url, u.username, u.banner_url
+		[u.username, "'s profile - ", SITE_NAME] | join %}
+
+		{% set description %}
+			"{{u.coins}} coins - Joined {{u.created_date}} -
+			{% if u.stored_subscriber_count >=1 and not u.is_private %}
+				{{u.stored_subscriber_count}} Followers -
+			{% endif %}
+			{% if not u.is_private %}
+				{{0 if u.shadowbanned else u.post_count}}
+					Posts -
+				{{0 if u.shadowbanned else u.comment_count}}
+					Comments
+			{% endif %}
+			{% if u.bio %}
+				- {{u.bio}}
+			{% endif %}"
+		{% endset %}
+
+	{% elif sub %}
+		{% set title, description =
+		'/h/'+sub, sub.sidebar if sub.sidebar %}
 	{% endif %}
+
+	<title>{{title}}</title>
+	<link rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
+	{{ meta_tags(title, author, description, image,
+	video, audio, a_author, published, modified, section, url) }}
 {% endmacro %}
 
-{% macro meta_tags_2(title, author) %}
+{% macro meta_tags(title, author, description, image, video, audio, a_author, published, modified, section, url ) %}
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="thumbnail" content="{{'site_preview.webp' | asset_siteimg}}">
+	<meta name="description" content="{{DESCRIPTION}}">
+
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="{{title}}">
 	<meta property="og:site_name" content="{{SITE}}">
-	<meta property="og:image" content="{{'site_preview.webp' | asset_siteimg}}">
 	<meta property="og:url" content="{{request.full_path}}">
-	<meta property="og:description" name="description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
+
+	<meta property="og:title" content="{{title}}">
 	<meta property="og:author" name="author" content="{{author | default(SITE_FULL, true)}}">
+	<meta property="og:description" name="description" content="{{description | default(SITE_NAME + ' - ' + DESCRIPTION)}}">
+	<meta property="og:image" content="{{image | default('site_preview.webp' | asset_siteimg)}}">
+	<meta property="og:video" content="{{video}}">
+	<meta property="og:audio" content="{{audio}}">
+
+	<meta property="og:article:author" content="{{a_author}}">
+	<meta property="og:article:published_time" content="{{published}}">
+	<meta property="og:article:modified_time" content="{{modified}}">
+	<meta property="og:article:section" content="{{section}}">
 
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:site" content="{{SITE_FULL}}">
-	<meta name="twitter:title" content="{{SITE_NAME}}">
-	<meta name="twitter:creator" content="{{SITE_FULL}}">
-	<meta name="twitter:description" content="{{SITE_NAME}} - {{DESCRIPTION}}">
-	<meta name="twitter:image" content="{{'site_preview.webp' | asset_siteimg}}">
-	<meta name="twitter:url" content="{{request.full_path}}">
+
+	<meta name="twitter:title" content="{{title}}">
+	<meta name="twitter:creator" content="{{author | default(SITE_FULL)}}">
+	<meta name="twitter:description" content="{{description | default(SITE_NAME + ' - ' + DESCRIPTION)}}">
+	<meta name="twitter:image" content="{{image | default('site_preview.webp' | asset_siteimg)}}">
+	<meta name="twitter:url" content="{{url}}">
 {% endmacro %}
 
-{% macro stylesheets(include_user_css, extra_css) %}
+{% macro stylesheets(include_user_css) %}
 	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
 	<link id="favicon" rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
 	{% if v %}
@@ -119,21 +152,28 @@
 	{% if SITE_NAME == 'rDrama' %}
 		<link rel="stylesheet" href="{{'css/rDrama.css' | asset}}">
 	{% endif %}
-	{{extra_css}}
+
+	{% if 'chat' in request.path %}
+		{% if SITE == 'localhost' %}
+			<link rel="stylesheet" href="https://rdrama.net/assets/css/chat_done.css">
+		{% else %}
+			<link rel="stylesheet" href="{{'css/chat_done.css' | asset}}">
+		{% endif %}
+	{% endif %}
 {% endmacro %}
 
 {% macro default_theme() %}
-	<style>:root{--primary:#{{DEFAULT_COLOR}}</style>
+	<style>:root{--primary:#{{DEFAULT_COLOR}}}</style>
 	<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
 {% endmacro %}
 
 {% macro seo() %}
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-touch-fullscreen" content="yes">
-<meta name="format-detection" content="telephone=no">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<link rel="apple-touch-icon" sizes="180x180" href="{{'icon.webp' | asset_siteimg}}">
+	<link rel="apple-touch-icon" sizes="180x180" href="{{'icon.webp' | asset_siteimg}}">
 	<link rel="manifest" href="/assets/manifest_{{SITE_NAME}}.json?v=6">
 	<link rel="mask-icon" href="{{'icon.webp' | asset_siteimg}}">
 	<link rel="shortcut icon" href="{{'icon.webp' | asset_siteimg}}">
