@@ -71,7 +71,7 @@
 
 	{% elif sub %}
 		{% set title, description =
-		'/h/'+sub, sub.sidebar if sub.sidebar %}
+		'/h/'+sub.name, sub.sidebar if sub.sidebar %}
 	{% endif %}
 
 	<title>{{title}}</title>
