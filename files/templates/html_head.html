@@ -28,7 +28,7 @@
 {% macro page_meta (title) %}
 	{% set title = SITE_NAME if not title %}
 
-	{% if 'post/' in request.path %}
+	{% if 'post/' in request.path and p %}
 		{% set title = [p.plaintitle(v), ' - ', title] | join %}
 
 		{% if not v_forbid_deleted -%}
@@ -47,7 +47,7 @@
 		'@'+p.author_name, p.plainbody(v), '@'+p.author_name,
 		p.created_datetime, p.edited_string, p.permalink %}
 
-	{% elif '@' in request.path %}
+	{% elif '@' in request.path and u %}
 		{% set author, a_author, published, url, title, image, section =
 		'@'+u.username, '@'+u.username, u.created_date,
 		u.url, u.username, u.banner_url,
