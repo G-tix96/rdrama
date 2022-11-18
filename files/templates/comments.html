@@ -428,7 +428,7 @@
 								
 								<button type="button" id="undelete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if not c.deleted_utc %}d-none{% endif %}" onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}','delete-{{c.id}}','undelete-{{c.id}}','d-none');document.getElementById('comment-{{c.id}}').classList.remove('deleted')"><i class="fas fa-trash-alt fa-fw"></i>Undelete</button>
 
-								<button type="button" id="delete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if c.deleted_utc %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#deleteCommentModal" onclick="delete_commentModal('{{c.id}}')"><i class="fas fa-trash-alt fa-fw"></i>Delete</button>
+								<button type="button" id="delete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if c.deleted_utc %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#deleteCommentModal" onclick="delete_commentModal(this, '{{c.id}}')"><i class="fas fa-trash-alt fa-fw"></i>Delete</button>
 							{% elif v and c.body %}
 								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" onclick="expandMarkdown('{{c.id}}','c')"><i class="fas text-expand-icon-{{c.id}} fa-expand-alt"></i><span class="expand-text-c-{{c.id}}">View source</span></button>
 							{% endif %}
@@ -636,7 +636,7 @@
 							
 							<button type="button" id="undelete2-{{c.id}}" class="{% if not c.deleted_utc %}d-none{% endif %} list-group-item text-success" onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}', 'delete2-{{c.id}}', 'undelete2-{{c.id}}','d-none');document.getElementById('comment-{{c.id}}').classList.remove('deleted')" data-bs-dismiss="modal"><i class="far fa-trash-alt text-success mr-2"></i>Undelete</button>
 
-							<button type="button" id="delete2-{{c.id}}" class="{% if c.deleted_utc %}d-none{% endif %} list-group-item text-danger" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deleteCommentModal" onclick="delete_commentModal('{{c.id}}')"><i class="far fa-trash-alt text-danger mr-2"></i>Delete</button>
+							<button type="button" id="delete2-{{c.id}}" class="{% if c.deleted_utc %}d-none{% endif %} list-group-item text-danger" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deleteCommentModal" onclick="delete_commentModal(this, '{{c.id}}')"><i class="far fa-trash-alt text-danger mr-2"></i>Delete</button>
 						{% else %}
 							{% if c.body %}
 								<button type="button" data-bs-dismiss="modal" onclick="expandMarkdown('{{c.id}}','c')" class="list-group-item"><i class="fas text-expand-icon-{{c.id}} fa-expand-alt mr-2"></i><span class="expand-text-c-{{c.id}}">View source</span></button>

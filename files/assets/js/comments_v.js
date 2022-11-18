@@ -95,14 +95,12 @@ function toggleEdit(id){
 };
 
 
-function delete_commentModal(id) {
+function delete_commentModal(t, id) {
 	document.getElementById("deleteCommentButton").onclick = function() {
-		const xhr = createXhrWithFormKey(`/delete/comment/${id}`);
-		xhr[0].onload = function() {
-			let data
-			try {data = JSON.parse(xhr[0].response)}
-			catch(e) {console.log(e)}
-			if (xhr[0].status >= 200 && xhr[0].status < 300 && data && data['message']) {
+		postToast(t, `/delete/comment/${id}`,
+			{
+			},
+			() => {
 				if (window.location.pathname == '/admin/reported/comments')
 				{
 					document.getElementById("post-info-"+id).remove()
@@ -116,12 +114,8 @@ function delete_commentModal(id) {
 					document.getElementById(`delete2-${id}`).classList.add('d-none');
 					document.getElementById(`undelete2-${id}`).classList.remove('d-none');
 				}
-				showToast(true, getMessageFromJsonData(true, data));
-			} else {
-				showToast(false, getMessageFromJsonData(false, data));
 			}
-		};
-		xhr[0].send(xhr[1]);
+		);
 	};
 }
 
