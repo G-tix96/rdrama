@@ -22,7 +22,7 @@ NO_LOGIN_REDIRECT_URLS = ("/login", "/logout", "/signup", "/forgot", "/reset", "
 @app.get("/login")
 @auth_desired
 def login_get(v):
-	redir = request.values.get("redirect", "/").strip().rstrip('?')
+	redir = request.values.get("redirect", "/").strip().rstrip('?').lower()
 	if redir:
 		if not is_site_url(redir) or redir in NO_LOGIN_REDIRECT_URLS:
 			redir = "/"
@@ -105,7 +105,7 @@ def login_post():
 	g.login_failed = False
 	on_login(account)
 
-	redir = request.values.get("redirect", "").strip().rstrip('?')
+	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
 	if redir:
 		if is_site_url(redir) and redir in NO_LOGIN_REDIRECT_URLS:
 			return redirect(redir)
@@ -336,9 +336,9 @@ def sign_up_post(v):
 		if JUSTCOOL_ID:
 			send_notification(JUSTCOOL_ID, f"A new user - @{new_user.username} - has signed up!")
 
-	redir = request.values.get("redirect", "").strip().rstrip('?')
+	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
 	if redir:
-		if is_site_url(redir) or redir != "/reset_2fa":
+		if is_site_url(redir) or redir in NO_LOGIN_REDIRECT_URLS:
 			return redirect(redir)
 	return redirect('/')
 
