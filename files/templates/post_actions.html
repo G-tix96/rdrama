@@ -34,7 +34,7 @@
 
 		<button type="button" id="undelete2-{{p.id}}" class="{% if not p.deleted_utc %}d-none{% endif %} list-inline-item" onclick="postToastSwitch(this,'/undelete_post/{{p.id}}', 'delete2-{{p.id}}', 'undelete2-{{p.id}}','d-none');document.getElementById('post-{{p.id}}').classList.remove('deleted')"><i class="fas fa-trash-alt"></i>Undelete</button>
 
-		<button type="button" id="delete2-{{p.id}}" class="{% if p.deleted_utc %}d-none{% endif %} list-inline-item" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deletePostModal" onclick="delete_postModal('{{p.id}}')"><i class="fas fa-trash-alt"></i>Delete</button>
+		<button type="button" id="delete2-{{p.id}}" class="{% if p.deleted_utc %}d-none{% endif %} list-inline-item" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deletePostModal" onclick="delete_postModal(this, '{{p.id}}')"><i class="fas fa-trash-alt"></i>Delete</button>
 	{% endif %}
 
 	{% if v %}
