@@ -144,7 +144,7 @@
 		</div>
 	{% endif %}
 	<br>
-	{% if SITE_NAME == 'PCM' and v.admin_level >= PERMS['PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES'] %}
+	{% if SITE == 'pcmemes.net' and v.admin_level >= PERMS['PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES'] %}
 		<button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/kippy');" style="margin-bottom: 2em;">Print 10k Marseybux</button>
 	{% endif %}
 {% endif %}
