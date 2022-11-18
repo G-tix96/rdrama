@@ -249,6 +249,7 @@ function post_comment(fullname, hide){
 
 			document.getElementById('reply-form-body-'+fullname).value = ''
 			document.getElementById('form-preview-'+fullname).innerHTML = ''
+			document.getElementById('charcount-'+fullname).innerHTML = ''
 			document.getElementById('filename-show-reply-' + fullname).innerHTML = '<i class="fas fa-file"></i>';
 		}
 		else {
