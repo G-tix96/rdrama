@@ -196,9 +196,7 @@
 						{% endif %}
 
 						{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-							<span>
-								<button type="button" class="btn btn-secondary" onclick="toggle()">Toggle anthem</button>
-							</span>
+							<button type="button" class="btn btn-secondary" onclick="toggle()">Toggle anthem</button>
 						{% endif %}
 					</div>
 					
@@ -395,9 +393,7 @@
 					{% endif %}
 
 					{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-						<span>
-							<button type="button" class="btn btn-secondary" onclick="toggle()">Toggle anthem</button>
-						</span>
+						<button type="button" class="btn btn-secondary" onclick="toggle()">Toggle anthem</button>
 					{% endif %}
 
 					{% if v and v.id != u.id %}
