@@ -25,8 +25,7 @@
 	<script defer src="{{'js/core.js' | asset}}"></script>
 {% endmacro %}
 
-{% macro page_meta (title) %}
-	{% set title = SITE_NAME if not title %}
+{% macro page_meta (title=SITE_NAME) %}
 
 	{% if 'post/' in request.path and p %}
 		{% set title = [p.plaintitle(v), ' - ', title] | join %}
