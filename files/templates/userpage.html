@@ -459,7 +459,7 @@
 							<span id="profile-mobile--alts"><a href="/@{{u.username}}/alts">Alts</a>:</span>
 						{% else %}
 							<span id="profile-mobile--alts">Alts:</span>
-						{% endif %}:
+						{% endif %}
 						<ul id="profile-mobile--alts-list">
 						{% for account in u.alts_unique if not account._alt_deleted and (v.can_see_shadowbanned or not account.shadowbanned) %}
 							<li><a href="{{account.url}}">@{{account.username}}</a>{% if account._is_manual %} [m]{% endif %}</li>
