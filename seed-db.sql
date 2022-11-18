@@ -453,12 +453,10 @@ INSERT INTO public.hat_defs VALUES (1012, 'Marsey Slain', 'You monster... what h
 INSERT INTO public.hat_defs VALUES (1016, 'Antlers', 'Be careful. I''ll shoot ya!', 2, 500, NULL, 1667531769);
 INSERT INTO public.hat_defs VALUES (712, 'Thursday The 20th', '20% off on every Thursday. 30% off on the 20th of every month. 50% off on Thurday the 20th!', 2, 500, NULL, 1663434472);
 INSERT INTO public.hat_defs VALUES (1017, 'Gloomy Bear', 'Is he safe to pet?', 2, 500, NULL, 1667792513);
-
 INSERT INTO public.hat_defs VALUES (22, 'Southern Gentleman', 'Slaveowner? Fried chicken chain founder? You decide!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (1018, 'Seatbelt', 'Don''t worry! You''re safe in a crash. Unless you’re not.', 2, 500, NULL, 1668042586);
-
-
 INSERT INTO public.hat_defs VALUES (23, 'Cowboy I', 'Make him wish he could quit you', 2, 500, NULL, 1662167687);
+INSERT INTO public.hat_defs VALUES (1021, 'Kerfus III', 'just a little guy...', 2, 500, NULL, 1668477716);
 INSERT INTO public.hat_defs VALUES (24, 'Cowboy II', 'You''re my favorite deputy!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (25, 'Halo', 'Dramamine criticized this one and now I''m too self-conscious about it to write a description', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (26, 'Fedora I', 'M''arsey', 2, 500, NULL, 1662167687);
@@ -535,7 +533,7 @@ INSERT INTO public.hat_defs VALUES (862, 'Predator', 'Not the reddit sort', 2, 5
 INSERT INTO public.hat_defs VALUES (864, 'Predator II', 'Suck that face faggot', 2, 500, NULL, 1665269878);
 INSERT INTO public.hat_defs VALUES (870, 'Windmill', 'Why is there a windmill on your head-', 2, 500, NULL, 1665272605);
 INSERT INTO public.hat_defs VALUES (869, 'Fluffy Marsey', 'AAAAAHHHHHH LOOK HOW CUTE', 2, 500, NULL, 1665272581);
-
+INSERT INTO public.hat_defs VALUES (1022, 'Kerfus IV', 'uwu? uwu.........? meow?', 2, 500, NULL, 1668478084);
 INSERT INTO public.hat_defs VALUES (89, 'Marsey-In-A-Box', 'Awww you''re playing make-believe!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (90, 'Orthodox Hood', 'User is a schismatic lunatic', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (853, 'Crab head', '🦀🦀🦀🦀🦀🦀🦀🦀🦀', 2, 500, NULL, 1665268419);
@@ -561,8 +559,28 @@ INSERT INTO public.hat_defs VALUES (644, 'Poppy', 'The TRUE rDrama mascot', 2, 5
 INSERT INTO public.hat_defs VALUES (645, 'The SRDine', 'CANNED', 2, 500, NULL, 1663132545);
 INSERT INTO public.hat_defs VALUES (646, 'Turtle Helmet', 'u/awkwardtheturtle is VERY mad at you', 2, 500, NULL, 1663132947);
 INSERT INTO public.hat_defs VALUES (648, 'Diamond Helmet', 'So I did some mining off camera...', 2, 500, NULL, 1663133082);
-
 INSERT INTO public.hat_defs VALUES (873, 'Jaws', 'AHH WATCH OUT BELOW YOU', 2, 500, NULL, 1665272685);
+INSERT INTO public.hat_defs VALUES (1024, 'Snowfall', 'I''m dreaming, of a BIPOC Christmas...', 2, 1000, NULL, 1668549688);
+INSERT INTO public.hat_defs VALUES (1025, 'Christmas Wreath', 'Prepare to feel my wreath.', 2, 500, NULL, 1668549747);
+INSERT INTO public.hat_defs VALUES (1026, 'Christmas Wreath II', 'All I want for Christmas is fresh bussy.', 2, 500, NULL, 1668550006);
+INSERT INTO public.hat_defs VALUES (1027, 'Lucario Ears', 'The pokémon that birthed a million furries.', 2, 500, NULL, 1668551206);
+INSERT INTO public.hat_defs VALUES (1028, 'Pikachu Hat', 'The world''s second most iconic mouse mascot.', 2, 500, NULL, 1668551580);
+INSERT INTO public.hat_defs VALUES (1029, 'Christmas Lights', 'Roping just got a lot more festive!', 2, 1000, NULL, 1668552614);
+INSERT INTO public.hat_defs VALUES (1031, 'Snowman', 'A carrot can be used for more than just the nose.', 2, 500, NULL, 1668556379);
+INSERT INTO public.hat_defs VALUES (1032, 'Umbreon Ears II', 'The egyptian moon dog.', 2, 500, NULL, 1668557141);
+INSERT INTO public.hat_defs VALUES (1033, 'Sylveon', 'The notorious ribbon dog.', 2, 500, NULL, 1668557845);
+INSERT INTO public.hat_defs VALUES (1037, 'Plague Doctor', 'What ails you, my friend?', 2, 500, NULL, 1668558833);
+INSERT INTO public.hat_defs VALUES (1038, 'Bloodborne Hunter Hat and Mask', 'It''s a swell night for a hunt.', 2, 500, NULL, 1668649242);
+INSERT INTO public.hat_defs VALUES (1040, 'Meowth Hat and Whiskers', 'Blasting off again.', 2, 500, NULL, 1668650455);
+INSERT INTO public.hat_defs VALUES (1041, 'Dream Mask', 'I suck his dick for hours at a time, stare at his nutsack while I hold back my cum tonight, and when he ask me what position I say doggy style', 2, 500, NULL, 1668650964);
+INSERT INTO public.hat_defs VALUES (1043, 'Magic Circle', 'Automatically unlocks on your 30th birthday if you stayed true to your inceldom.', 2, 1000, NULL, 1668652370);
+INSERT INTO public.hat_defs VALUES (1044, 'Magic Circle II', 'Don''t worry sweetie, magic powers are TOTALLY better than having sex.', 2, 1000, NULL, 1668652691);
+INSERT INTO public.hat_defs VALUES (1045, 'Magic Circle III', 'This still won''t let you summon an anime succubus waifu.', 2, 1000, NULL, 1668653088);
+INSERT INTO public.hat_defs VALUES (1046, 'Magic Circle IV', 'Swiggity swoodle, your dick is now a noodle.', 2, 1000, NULL, 1668653382);
+INSERT INTO public.hat_defs VALUES (1047, 'Firefox Shill', 'Just pray that no more of your users discover Brave.', 2, 500, NULL, 1668654054);
+INSERT INTO public.hat_defs VALUES (1019, 'Kerfus I', 'we ask that you please do NOT fuck the robot cat!', 2, 500, NULL, 1668476687);
+INSERT INTO public.hat_defs VALUES (1020, 'Kerfus II', 'salesman kitty :3', 2, 500, NULL, 1668477006);
+INSERT INTO public.hat_defs VALUES (1023, 'Kerfus V', 'GET VORED BITCH', 2, 500, NULL, 1668478570);
 
 
 
@@ -570,11 +588,34 @@ INSERT INTO public.hat_defs VALUES (873, 'Jaws', 'AHH WATCH OUT BELOW YOU', 2, 5
 
 
 INSERT INTO public.hat_defs VALUES (91, 'Afro', 'Pool''s closed motherlover', 2, 500, NULL, 1662167687);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 INSERT INTO public.hat_defs VALUES (18, 'Nonspecific Military Officer Hat', '[removed]', 2, 500, NULL, 1662167687);
+
+
+
 INSERT INTO public.hat_defs VALUES (19, 'Soviet Officer I', 'OUR hat', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (408, 'Chef Hat II', 'Toque blanche', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (414, 'Trilby', '*tip*', 2, 500, NULL, 1662167687);
+
+
 INSERT INTO public.hat_defs VALUES (419, 'Alimony Hair', 'Stay norwooding, king', 2, 500, NULL, 1662167687);
+
 INSERT INTO public.hat_defs VALUES (874, 'Carp', 'My 100th hat and a Thank you to carp. Now 150 more!', 2, 500, NULL, 1665272718);
 INSERT INTO public.hat_defs VALUES (93, 'Wizard I', 'Three decades a KHHV', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (94, 'Wizard II', 'Avada kedavra ✨', 2, 500, NULL, 1662167687);
@@ -649,10 +690,13 @@ INSERT INTO public.hat_defs VALUES (152, 'Kung Lao', 'Why did I make a Kung Lao 
 INSERT INTO public.hat_defs VALUES (153, 'Top Hat (steampunk)', 'Like a regular top hat but with goggles and gears', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (154, 'Brain Hat', 'Peter Griffin''s dog', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (155, 'The TED_SIMP', 'Wear this hat to express your undying adoration for carp', 2, 500, NULL, 1662167687);
+
 INSERT INTO public.hat_defs VALUES (667, 'The Orb', 'Ponder into one''s soul', 2, 500, NULL, 1663279906);
 INSERT INTO public.hat_defs VALUES (652, 'Leather Helmet', 'Wow, what a n00b', 2, 500, NULL, 1663133381);
 INSERT INTO public.hat_defs VALUES (669, 'Backwards cap 2', 'lookin'' cool', 2, 500, NULL, 1663280007);
 INSERT INTO public.hat_defs VALUES (396, 'Obey Snapback w Blunt', 'dude weed lmao', 2, 500, NULL, 1662167687);
+
+
 INSERT INTO public.hat_defs VALUES (663, 'Santa Hat II', '''Tis the season!', 2, 500, NULL, 1663279621);
 INSERT INTO public.hat_defs VALUES (672, 'Birthday Hat', 'Ruins every thread on October 1st (ed: what does this mean????)', 2, 500, NULL, 1663280145);
 INSERT INTO public.hat_defs VALUES (156, 'The Brandon', 'Listen here fat', 2, 500, NULL, 1662167687);
@@ -1117,7 +1161,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1030, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1081, true);
 
 
 --
@@ -1165,6 +1209,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyadmire',2,'pepe apu peepo blush appreciate admire flushed smitten',NULL),
 ('marseyagree',2,'concur nodding nod reaction affirmative yes yeah uh huh animated judgment',NULL),
 ('marseyagreefast',2,'nodding yes sure ok animated enthusiastic enthusiasm',NULL),
+('marseyagreestill',2,'nodding yes sure ok enthusiastic enthusiasm smug',1668753302),
 ('marseyahs',2,'bardfinn dubteedub againsthatesubreddits redditor groomer pedophile libertarian chomo antifa animated',NULL),
 ('marseyairquotes',2,'reaction patronizing animated uh huh',NULL),
 ('marseyakbar',2,'suicide bomber explosion boom explode die kms animated',NULL),
@@ -1256,6 +1301,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseybaphomet',2,'halloween demon satan holiday evil devil',NULL),
 ('marseybardfinn',2,'domestic violence bardfinn foid beating punching battering battered bandage hurt pain woman female steve akins penny verity oaken tranny transgender transsexual',NULL),
 ('marseybardfinn3',2,'bardfinn ahs powermod tranny trannies wifebeater abuser steve',NULL),
+('marseybardfinnrentfree',2,'oaken seethe steve penny cry',1668607826),
+('marseybardfinnrentfreechud',2,'oaken smug steve penny',1668607755),
 ('marseybarrel',2,'barrel container beer bar alcohol',NULL),
 ('marseybarreldrunk',2,'barrel container beer bar alcohol drunk',NULL),
 ('marseybased',2,'basado king chiobu redpilled reaction animated',NULL),
@@ -1472,13 +1519,10 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycarpmerchant2',2,'jew fish greedy',1663548215),
 ('marseycarpmermaid',2,'carp mermaid merman mercarp siren sexy legs temptress',NULL),
 ('marseycarpnoticeme',2,'carpathianflorist fish attn attention whore',NULL),
-('marseycarppleaseunbanme2',2,'i dont wanna spam you im sorry i really want to be unbanned please forgive me i wont annoy you anymore ill even follow you like i said ill pay marseycoins if thats what you want',1668463687),
-('marseycarpplzletsworktogether',2,'plz tell me what im doing wrong what i must do for you to unban me please say something ill do anything im desperate just name it',1668465057),
 ('marseycarpprotest',2,'sign fish mad carpathianflorist sign admin jannie',1663163535),
 ('marseycarprentfree',2,'fish bard stochiastic moderator jannie carpathianflorist fish',1667322065),
 ('marseycarpsnipe',2,'shooter shooting gun sniper rifle scope crosshairs carpathianflorist kill murder bullet crosshair ajab',NULL),
 ('marseycarptrophy',2,'carp head decapitated anticarp trophy defeat dead teaparty',NULL),
-('marseycarpunbanmeplease',2,'please ill be nice i wont dislike your posts i will follow you no more spam i promise',1668463340),
 ('marseycarpupset',2,'carpathianflorist administrator jannie janitor fish crying tears',1664262142),
 ('marseycarsuicide',2,'kms suicide kill death car vehicle carbon monoxide co muffler suffocation suffocate',NULL),
 ('marseycat',2,'fursona skin animal costume furry neko fursuit cat',NULL),
@@ -1546,6 +1590,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseychtorrr',2,'reddit administrator place moderator',NULL),
 ('marseychtorrr2',2,'reddit admin chonker fat',NULL),
 ('marseychucky',2,'doll halloween kill stab knife holiday possessed monster',NULL),
+('marseychudegg',2,'transgender hatching repressed',1668645562),
 ('marseychudnotes',2,'chud notes write writing manifesto pencil',1664829809),
 ('marseychudrentfree',2,'seethe mask cope smug cry rage',1665938276),
 ('marseychungus',2,'bugs bunny meme fat chonker big',NULL),
@@ -1564,7 +1609,6 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyclown2',2,'joker',NULL),
 ('marseyclown3',2,'unicycle animated',NULL),
 ('marseyclueless',2,'dumb stupid hmm uhuh uh huh smug today i will todayiwill',NULL),
-('marseycmoncarpletsbefrens',2,'please unban me ill be nice i promise lets be friends',1668463392),
 ('marseycoal',2,'christmas naughty santa cigarette present gift holiday doom',NULL),
 ('marseycocaine',2,'coke drugs snort insufflate tweak stim white powder euphoria high trip animated',1666703460),
 ('marseycodecel',2,'coder coding coode aevann programming python developer',NULL),
@@ -1959,7 +2003,6 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyhearts',2,'reaction flirt loving adoration love happy cute crush',NULL),
 ('marseyheathcliff',2,'heathecliff',NULL),
 ('marseyheavymetal',2,'rocker musician rock guitar',NULL),
-('marseyheh',2,'smug smirk smile anya anime spy family',1668480724),
 ('marseyhehe',2,'hehe nothehe happy laughing angry questioning',NULL),
 ('marseyhellraiser',2,'pinhead halloween holiday evil monster',NULL),
 ('marseyhelp',2,'wtf nervous anxious anxiety worried concerned helpme help me uncomfortable awkward',NULL),
@@ -1983,6 +2026,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyhope',2,'mask whitepill reaction happy hopium',NULL),
 ('marseyhorseshoe',2,'rightoid leftoid theory',NULL),
 ('marseyhotep',2,'party meme parrot vibing jam dance',NULL),
+('marseyhugjew',2,'hug jewish marsey kike yid yarmulke love',1668612377),
+('marseyhugmerchant',2,'marsey hug jewish merchant kike yid yarmulke love',1668612408),
 ('marseyhugretard',2,'love idiot drool embrace',NULL),
 ('marseyhungry',2,'food hunger dish feed me bowl animated',NULL),
 ('marseyhwacha',2,'korea historical animated artillery weapon gunpowder army combat war',NULL),
@@ -2033,6 +2078,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyjason',2,'hockey mask horror halloween kill fridaythe13th knife stab voorheys friday the 13th evil monster holiday',NULL),
 ('marseyjavelin',2,'ukraine russia missile rocket rpg grenade launcher kyiv kiev kiyv zelensky putin tank',NULL),
 ('marseyjcdenton',2,'sunglasses shades vidya video game deusex deus ex',NULL),
+('marseyjclove',2,'astolfo femboy trap hug anime jc justcool',1668572373),
 ('marseyjcrentfree',2,'trans astolfo marstolfo justcool bard moderator jannie',1667322028),
 ('marseyjeans',2,'denim trousers pants',NULL),
 ('marseyjesus',2,'christian',NULL),
@@ -2053,6 +2099,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyjourno',2,'journoid media press photo camera journalist pic',NULL),
 ('marseyjoy',2,'smile excited smug',NULL),
 ('marseyjudge',2,'objection innocent hammer guilty gavel court overruled sustained',NULL),
+('marseyjudgeboob',2,'darrell brooks court judge boob titty objection overruled',1668670710),
 ('marseyjumpscare',2,'undead living dead romero halloween horror corpse scary rotten animated spooky aaaahhhhh trick prank bait and switch',NULL),
 ('marseyjunkie',2,'needles heroin reaction shooting up addicted shoot up syringe',NULL),
 ('marseyjunkie2',2,'addicted drugs pills glue huffing ether overdose',NULL),
@@ -2238,7 +2285,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseymonk',2,'meditate levitating pray buddhist fish asian levitate animated yingyang buddhism karma zen',NULL),
 ('marseymonke',2,'retvrn return',NULL),
 ('marseymononoke',2,'anime japanese miyazaki ghibli asian cartoon princess character fictionnal ashitaka san wild wolf nature',NULL),
-('marseymooncricket',2,'marsey black cricket moon bug dancing rave party singing',1668468627),
+('marseymooncricket',2,'marsey black cricket moon bug dancing rave party singing animated nigger coon jiggaboo',1668468627),
 ('marseymoonshine',2,'alcohol hick drunk booze drink illegal prohibition',1665436053),
 ('marseymoose',2,'moosin antlers',NULL),
 ('marseymoplicker',2,'janny moderator admin',NULL),
@@ -2422,11 +2469,9 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyplaying2',2,'fish playful mischief srdine animated',NULL),
 ('marseypleading',2,'sad eyes begging puppy dog eyes',NULL),
 ('marseypleading2',2,'please beg pls shy sad puppy eyes adorable',1665169734),
-('marseypleasejustwanttoshitpost',2,'ill do anything please i just want to shitpost you banned my smurfs too why',1668463534),
 ('marseyplugged',2,'electric technology gif animated plug',NULL),
 ('marseyplush',2,'bow ribbon doll plushie button eyes',NULL),
 ('marseyplushie',2,'yunann plush statue',NULL),
-('marseyplzplzplzplzplzplzplzplz',2,'im sorry carp im so sorry ill do whatever you want just please please please unban me i am begging you',1668463923),
 ('marseypoggers',2,'poggies twitch meme quagmire jawdropping shock surprise',NULL),
 ('marseypokerface',2,'small eyes reaction stare unreadable beady eyes',NULL),
 ('marseypolarbear',2,'bear polar cold white arctic ice',NULL),
@@ -2511,7 +2556,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyredflag',2,'warning red flag alert scum problematic',NULL),
 ('marseyredflag2',2,'refuse reject warning animated',NULL),
 ('marseyredmage',2,'magic wizard final fantasy spell video game vidya',NULL),
-('marseyredshirt',2,'redshirt star trek expendable disposable nameless russian',1668482912),
+('marseyredshirt',2,'redshirt star trek expendable disposable nameless spaceshit',1668482912),
 ('marseyregular',2,'marsey regular normal content',1663812191),
 ('marseyreich',2,'nazi pol authright fuhrer hitler fascist',NULL),
 ('marseyreindeer',2,'christmas santa rudolf capy cold aevann holiday animated walking',NULL),
@@ -2750,6 +2795,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseysoypoint2',2,'wojak soyjak soyjack pointing beta redditors',NULL),
 ('marseysoypointglow',2,'glowie radioactive pointing',1665352060),
 ('marseysoypointgold',2,'glow wave',1665351969),
+('marseysoypointgoldpoint',2,'point gold soy meta',1668646734),
 ('marseysoypointsnappyglow',2,'bot marppy fbi fed threeletter glowie',1665456811),
 ('marseysoypointsnappygold',2,'marppy bot glow faroutthesongfromperipheryiithistimeitspersonal',1665456746),
 ('marseysoypointsnappyquote',2,'bot marppy snappilent sapient sentient',1665456641),
@@ -2844,7 +2890,6 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseything2',2,'spider arachnid creepy crawler arthropod halloween alien carpenter horror scary animal creature spooky',1666334228),
 ('marseythinkinghallowseve',2,'halloween thinking vampire candy trickortreat costume mask',1666292942),
 ('marseythinkorino',2,'reaction judgment thinking',NULL),
-('marseythisoneisnotgross',2,'its still dead tho i know you read these carp please unban me you are pissing me off',1668463759),
 ('marseythomas',2,'tank engine train locomotive',NULL),
 ('marseythonk',2,'confused reaction thinking thunk thonk',NULL),
 ('marseythroatsinging',2,'mongolian music',NULL),
@@ -2907,6 +2952,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseytwerkingfast',2,'animated bussy booty ass spin',1668477353),
 ('marseytwerkinit',2,'ass butt booty rear rump donk dance nigger sheboon clap animated cheeks',NULL),
 ('marseytwins',2,'halloween holiday flashing shining scary animated',NULL),
+('marseytwodramacodecelsmating',2,'schizo snake snek snakes sneks jc justcool justcool393',1668706549),
 ('marseytyping',2,'computer keyboard bongo animated',NULL),
 ('marseytypinglaugh',2,'computer keyboard lol bongo animated',NULL),
 ('marseytzeentch',2,'warhammer 40k chaos god trick magic lies',NULL),
@@ -2917,6 +2963,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyunabomber2',2,'gift christmas industrial society delivery mail kaczynski uncle ted package',NULL),
 ('marseyunamused',2,'annoyed staring reaction disappointed stare uh huh bored',NULL),
 ('marseyunpettable',2,'dramamine fashy rightoid chud fashwave altright vaporwave',NULL),
+('marseyunresponsive',2,'loading thinking spinner stunned processing stalled frozen hung waiting',1668645336),
 ('marseyupmarsey',2,'upvote vote upmarsey arrow reddit up animated',NULL),
 ('marseyupset',2,'marsey upset tears',1663697961),
 ('marseyupvote',2,'updoot upmarsey agree yes good based true',1664181430),
@@ -2965,7 +3012,6 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseywendy',2,'jellyfishjam pigtails redhead pippi',NULL),
 ('marseywereback',2,'yay happy excited undefeated',1668416931),
 ('marseywerewolf',2,'halloween animal marsewolf horror lycanthropy furry dog',1666229182),
-('marseywewerefrensonce',2,'what happened to us you gave me a lot of coins and we were frens why do you hate me carp was this all a ruse what did i ever do to you to deserve this carp we were frens carp we clap were clap frens',1668464231),
 ('marseywhelmed',2,'whelmed smoke smoking cig cigarette meme overwhelmed underwhelmed',NULL),
 ('marseywheredrama',2,'seriouspost reaction agendapost dramawhere animated',NULL),
 ('marseywheredrama2',2,'seriouspost animated agendapost',NULL),
