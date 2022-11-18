@@ -73,7 +73,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	execute_shadowban_viewers_and_voters(v, post)
 	execute_shadowban_viewers_and_voters(v, comment)
 			
-	if v and v.client: return top_comment.json
+	if v and v.client: return top_comment.json(db=g.db)
 	else: 
 		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)): template = "submission_banned.html"
 		else: template = "submission.html"
@@ -361,7 +361,7 @@ def comment(v):
 
 	g.db.flush()
 
-	if v.client: return c.json(g.db)
+	if v.client: return c.json(db=g.db)
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
 

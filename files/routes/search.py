@@ -268,7 +268,7 @@ def searchcomments(v):
 
 	comments = get_comments(ids, v=v)
 
-	if v.client: return {"total":total, "data":[x.json for x in comments]}
+	if v.client: return {"total":total, "data":[x.json(db=g.db) for x in comments]}
 	return render_template("search_comments.html", v=v, query=query, total=total, page=page, comments=comments, sort=sort, t=t, next_exists=next_exists, standalone=True)
 
 
