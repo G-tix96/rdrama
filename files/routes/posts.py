@@ -206,7 +206,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 			g.db.add(pin)
 		elif pin.level > 1:
 			pinned2.add(pin.top_comment(g.db))
-			if pin.top_comment in comments:
+			if pin.top_comment(g.db) in comments:
 				comments.remove(pin.top_comment(g.db))
 		else:
 			pinned2.add(pin)
