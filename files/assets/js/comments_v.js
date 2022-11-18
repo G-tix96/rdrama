@@ -27,22 +27,13 @@ function report_commentModal(id, author) {
 
 	reportCommentButton.onclick = function() {
 		this.innerHTML='Reporting comment';
-		this.disabled = true;
-		this.classList.add('disabled');
-		const form = new FormData();
-		form.append("reason", reason_comment.value);
-		const xhr = createXhrWithFormKey("/report/comment/" + id, "POST", form);
 
-		xhr[0].onload = function() {
-			let data
-			try {data = JSON.parse(xhr[0].response)}
-			catch(e) {console.log(e)}
-			success = xhr[0].status >= 200 && xhr[0].status < 300;
-			showToast(success, getMessageFromJsonData(success, data));
-		};
-
-		xhr[0].onerror=function(){alert(errortext)};
-		xhr[0].send(xhr[1]);
+		postToast(this, `/report/comment/${id}`,
+			{
+				"reason": reason_comment.value
+			},
+			() => {}
+		);
 	}
 
 };
