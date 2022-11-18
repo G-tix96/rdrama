@@ -155,6 +155,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			elif not target.sub and target.body_html:
 				x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
 				x += target.body_html.count('<a href="/images/')
+				target.realupvotes += min(x, 10)
 				mul = 1 + x/20
 
 		mul = min(mul, 2)
