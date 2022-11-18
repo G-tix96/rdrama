@@ -449,8 +449,8 @@ def admin_git_head():
 			with open('.git/' + head_path, encoding='utf_8') as ref_f:
 				gitref = ref_f.read()[0:short_len]
 	except:
-		return '<unable to read>'
-	return gitref
+		return '<unable to read>', ''
+	return (gitref, head_txt)
 
 @app.post("/admin/site_settings/<setting>")
 @admin_level_required(PERMS['SITE_SETTINGS'])
