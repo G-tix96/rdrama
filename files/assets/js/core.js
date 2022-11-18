@@ -180,9 +180,7 @@ function smoothScrollTop()
 }
 
 // Click navbar to scroll back to top
-	for (const i of document.querySelectorAll('nav'))
-	{
-		i.addEventListener('click', (e) => {
+document.getElementsByTagName('nav')[0].addEventListener('click', (e) => {
 			if (e.target.id === "navbar" ||
 				e.target.classList.contains("container-fluid") ||
 				e.target.id == "navbarResponsive" ||
@@ -190,7 +188,6 @@ function smoothScrollTop()
 				e.target.classList.contains("srd"))
 				smoothScrollTop();
 		}, false);
-	}
 
 // Dynamic shadow when the user scrolls
 document.addEventListener('scroll',function (event) {
