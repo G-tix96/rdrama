@@ -598,7 +598,8 @@
 {% endif %}
 
 {% if not request.path.endswith('/comments') %}
-	<script defer src="{{'js/marked.js' | asset}}"></script>
+	<script defer src="{{'js/vendor/marked.js' | asset}}"></script>
+	<script defer src="{{'js/markdown.js' | asset}}"></script>
 {% endif %}
 
 {% if v and v.id != u.id and '/comments' not in request.path %}

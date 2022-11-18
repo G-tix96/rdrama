@@ -208,9 +208,9 @@
 							{% if p.domain == "twitter.com" %}
 								{{p.embed_url | safe}}
 								{% if v and v.theme.split("_")[0] in ["light", "coffee", "4chan"] %}
-									<script defer src="{{'js/twitterlight.js' | asset}}"></script>
+									<script defer src="{{'js/vendor/twitterlight.js' | asset}}"></script>
 								{% else %}
-									<script defer src="{{'js/twitter.js' | asset}}"></script>
+									<script defer src="{{'js/vendor/twitter.js' | asset}}"></script>
 								{% endif %}
 							{% elif p.domain in ['youtu.be','youtube.com'] and p.embed_url and p.embed_url.startswith('<lite-youtube') %}
 								{{p.embed_url | safe}}
@@ -562,7 +562,7 @@
 	<script defer src="{{'js/pinpost.js' | asset}}"></script>
 {% endif %}
 
-<script defer src="{{'js/clipboard.js' | asset}}"></script>
+<script defer src="{{'js/vendor/clipboard.js' | asset}}"></script>
 
 {% if not p.replies %}
 	{% include "comments.html" %}
