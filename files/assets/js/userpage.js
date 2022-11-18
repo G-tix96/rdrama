@@ -13,7 +13,7 @@ if (u_username)
 	}
 
 	audio.play();
-	document.getElementById('userpage').addEventListener('click', () => {
+	window.addEventListener('click', () => {
 		if (audio.paused) audio.play();
 	}, {once : true});
 
