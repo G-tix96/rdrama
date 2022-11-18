@@ -1,3 +1,4 @@
+
 apt -y update
 apt -y upgrade
 apt -y install git redis-server python3-pip ffmpeg imagemagick tmux nginx snapd ufw gpg-agent htop nano
