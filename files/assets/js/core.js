@@ -181,13 +181,13 @@ function smoothScrollTop()
 
 // Click navbar to scroll back to top
 document.getElementsByTagName('nav')[0].addEventListener('click', (e) => {
-			if (e.target.id === "navbar" ||
-				e.target.classList.contains("container-fluid") ||
-				e.target.id == "navbarResponsive" ||
-				e.target.id == "logo-container" ||
-				e.target.classList.contains("srd"))
-				smoothScrollTop();
-		}, false);
+	if (e.target.id === "navbar" ||
+		e.target.classList.contains("container-fluid") ||
+		e.target.id == "navbarResponsive" ||
+		e.target.id == "logo-container" ||
+		e.target.classList.contains("srd"))
+		smoothScrollTop();
+}, false);
 
 // Dynamic shadow when the user scrolls
 document.addEventListener('scroll',function (event) {
@@ -353,12 +353,9 @@ function prepare_to_pause(audio) {
 		});
 	}
 
-	for (const e of document.getElementsByTagName('lite-youtube'))
-	{
-		e.addEventListener('click', (event) => {
-			if (!audio.paused) audio.pause();
-		});
-	}
+	window.addEventListener('click', (e) => {
+		if (e.target.tagName.toLowerCase() == "lite-youtube" && !audio.paused) audio.pause();
+	});
 }
 
 function sendFormXHR(e, extraActionsOnSuccess) {
