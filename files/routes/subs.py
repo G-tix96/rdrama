@@ -360,7 +360,8 @@ def kick(v, pid):
 
 	old = post.sub
 	post.sub = None
-	
+	post.hole_pinned = None
+
 	ma = SubAction(
 		sub=old,
 		kind='kick_post',
