@@ -19,9 +19,10 @@ from files.routes.wrappers import *
 @app.get("/login")
 @auth_desired
 def login_get(v):
+	NO_REDIRECT_URLS = ("/login", "/logout", "/signup", "/forgot", "/reset", "/reset_2fa", "/request_2fa_disable")
 	redir = request.values.get("redirect", "/").strip().rstrip('?')
 	if redir:
-		if not is_site_url(redir) or redir == "/reset_2fa":
+		if not is_site_url(redir) or redir in NO_REDIRECT_URLS:
 			redir = "/"
 		if v: return redirect(redir)
 
