@@ -95,6 +95,7 @@
 		<meta property="og:image" content="{{image | default('site_preview.webp' | asset_siteimg)}}">
 		<meta property="og:video" content="{{video}}">
 		<meta property="og:audio" content="{{audio}}">
+		<meta name="twitter:image" content="{{image | default('site_preview.webp' | asset_siteimg)}}">
 	{% endif %}
 
 	<meta property="og:article:author" content="{{a_author}}">
@@ -108,7 +109,6 @@
 	<meta name="twitter:title" content="{{title}}">
 	<meta name="twitter:creator" content="{{author | default(SITE_FULL)}}">
 	<meta name="twitter:description" content="{{description | default(SITE_NAME + ' - ' + DESCRIPTION)}}">
-	<meta name="twitter:image" content="{{image | default('site_preview.webp' | asset_siteimg)}}">
 	<meta name="twitter:url" content="{{url}}">
 {% endmacro %}
 
