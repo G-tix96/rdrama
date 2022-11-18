@@ -16,13 +16,15 @@ from files.helpers.useractions import badge_grant
 from files.routes.routehelpers import check_for_alts
 from files.routes.wrappers import *
 
+
+NO_LOGIN_REDIRECT_URLS = ("/login", "/logout", "/signup", "/forgot", "/reset", "/reset_2fa", "/request_2fa_disable")
+
 @app.get("/login")
 @auth_desired
 def login_get(v):
-	NO_REDIRECT_URLS = ("/login", "/logout", "/signup", "/forgot", "/reset", "/reset_2fa", "/request_2fa_disable")
 	redir = request.values.get("redirect", "/").strip().rstrip('?')
 	if redir:
-		if not is_site_url(redir) or redir in NO_REDIRECT_URLS:
+		if not is_site_url(redir) or redir in NO_LOGIN_REDIRECT_URLS:
 			redir = "/"
 		if v: return redirect(redir)
 
@@ -105,7 +107,7 @@ def login_post():
 
 	redir = request.values.get("redirect", "").strip().rstrip('?')
 	if redir:
-		if is_site_url(redir) and redir != "/reset_2fa":
+		if is_site_url(redir) and redir in NO_LOGIN_REDIRECT_URLS:
 			return redirect(redir)
 	return redirect('/')
 
