@@ -180,7 +180,6 @@ function smoothScrollTop()
 }
 
 // Click navbar to scroll back to top
-(() => {
 	for (const i of document.querySelectorAll('nav'))
 	{
 		i.addEventListener('click', (e) => {
@@ -192,7 +191,6 @@ function smoothScrollTop()
 				smoothScrollTop();
 		}, false);
 	}
-})();
 
 // Dynamic shadow when the user scrolls
 document.addEventListener('scroll',function (event) {
