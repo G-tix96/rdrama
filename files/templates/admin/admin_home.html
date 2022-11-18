@@ -77,7 +77,7 @@
 	{% endif %}
 </ul>
 
-{% if FEATURES['BADGES'] or FEATURES['AWARDS'] -%}
+{% if FEATURES['BADGES'] -%}
 <h4>Grant</h4>
 <ul>
 	{% if FEATURES['BADGES'] and v.admin_level >= PERMS['USER_BADGES'] -%}
