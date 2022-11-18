@@ -48,9 +48,13 @@
 
 	{% elif '@' in request.path and u %}
 		{% set author, a_author, published, url, title, image, section =
-		'@'+u.username, '@'+u.username, u.created_date,
-		u.url, u.username, u.banner_url,
-		[u.username, "'s profile - ", SITE_NAME] | join %}
+			'@'+u.username,
+			'@'+u.username,
+			u.created_date,
+			u.url,
+			[u.username, "'s profile - ", SITE_NAME] | join,
+			u.banner_url,
+			[u.username, "'s profile - ", SITE_NAME] | join %}
 
 		{% set description %}
 			"{{u.coins}} coins - Joined {{u.created_date}} -
