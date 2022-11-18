@@ -21,7 +21,8 @@ from files.routes.wrappers import *
 def login_get(v):
 	redir = request.values.get("redirect", "/").strip().rstrip('?')
 	if redir:
-		if not is_site_url(redir): redir = "/"
+		if not is_site_url(redir) or redir == "/reset_2fa":
+			redir = "/"
 		if v: return redirect(redir)
 
 	return render_template("login.html", failed=False, redirect=redir)
@@ -103,7 +104,8 @@ def login_post():
 
 	redir = request.values.get("redirect", "").strip().rstrip('?')
 	if redir:
-		if is_site_url(redir): return redirect(redir)
+		if is_site_url(redir) and redir != "/reset_2fa":
+			return redirect(redir)
 	return redirect('/')
 
 def log_failed_admin_login_attempt(account:User, type:str):
@@ -333,7 +335,8 @@ def sign_up_post(v):
 
 	redir = request.values.get("redirect", "").strip().rstrip('?')
 	if redir:
-		if is_site_url(redir): return redirect(redir)
+		if is_site_url(redir) or redir != "/reset_2fa":
+			return redirect(redir)
 	return redirect('/')
 
 
