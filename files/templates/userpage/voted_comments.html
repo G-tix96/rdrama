@@ -1,13 +1,6 @@
 {% extends "userpage/voted_posts.html" %}
-
-
-{% block title %}
-<title>Comments</title>
-{% endblock %}
-
+{% block pagetitle %}Comments{% endblock %}
 {% block listing %}
-
-
 		<div class="posts">
 			{% with comments=listing %}
 				{% include "comments.html" %}
@@ -22,5 +15,4 @@
 			</div>
 				{% endif %}
 		</div>
-
 {% endblock %}

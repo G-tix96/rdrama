@@ -1,17 +1,10 @@
 {% extends "userpage.html" %}
-
 {% block pagetype %}userpage{% endblock %}
 {% block desktopBanner %}{% endblock %}
 {% block desktopUserBanner %}{% endblock %}
 {% block mobileUserBanner %}{% endblock %}
-
-{% block title %}
-<title>Reported Posts</title>
-
-{% endblock %}
-
+{% block pagetitle %}Reported Posts{% endblock %}
 {% block content %}
-
 <ul class="nav post-nav py-2">
 	<li class="nav-item">
 		<a class="nav-link {% if request.path=="/admin/reported/posts" %} active{% endif %}" href="/admin/reported/posts">
@@ -26,9 +19,7 @@
 </ul>
 
 <div class="row no-gutters">
-
 	<div class="col">
-
 	{% block listing %}
 		<div class="posts">
 			{% include "submission_listing.html" %}

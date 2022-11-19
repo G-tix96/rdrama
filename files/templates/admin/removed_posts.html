@@ -1,17 +1,10 @@
 {% extends "userpage.html" %}
-
 {% block pagetype %}userpage{% endblock %}
 {% block desktopBanner %}{% endblock %}
 {% block desktopUserBanner %}{% endblock %}
 {% block mobileUserBanner %}{% endblock %}
-
-{% block title %}
-<title>Removed Posts</title>
-
-{% endblock %}
-
+{% block pagetitle %}Removed Posts{% endblock %}
 {% block content %}
-
 <ul class="nav post-nav py-2">
 	<li class="nav-item">
 		<a class="nav-link {% if request.path=="/admin/removed/posts" %} active{% endif %}" href="/admin/removed/posts">
@@ -24,11 +17,8 @@
 		</a>
 	</li>
 </ul>
-
 <div class="row no-gutters">
-
 	<div class="col">
-
 	{% block listing %}
 		<div class="posts">
 			{% include "submission_listing.html" %}
@@ -37,7 +27,6 @@
 	</div>
 </div>
 {% endblock %}
-
 {% block pagenav %}
 <nav aria-label="Page navigation">
 	<ul class="pagination pagination-sm py-3 pl-3 mb-0">

@@ -1,14 +1,7 @@
 {% extends "default.html" %}
-
-{% block title %}
-<title>{{SITE_NAME}}</title>
-
-{% endblock %}
-
+{% block pagetitle %}Poll Votes{% endblock %}
 {% block content %}
-
 {% if thing %}
-
 <h3 class="mt-5">{{thing.body_html | safe}} - {{ups | length}} {% if thing.exclusive == 2 %}bets{% else %}votes{% endif %}</h3>
 <div class="overflow-x-auto mt-5">
 	<table class="table table-striped mb-5">
@@ -35,10 +28,6 @@
 		{% endfor %}
 	</table>
 </div>
-
 <script defer src="{{'js/sort_table.js' | asset}}"></script>
-
 {% endif %}
-
-
 {% endblock %}

@@ -1,22 +1,12 @@
 {% extends "userpage.html" %}
-
 {% block pagetype %}userpage{% endblock %}
 {% block desktopBanner %}{% endblock %}
 {% block desktopUserBanner %}{% endblock %}
 {% block mobileUserBanner %}{% endblock %}
-
-{% block title %}
-<title>Image feed</title>
-
-{% endblock %}
-
-
+{% block pagetitle %}Image feed{% endblock %}
 {% block content %}
-
 <div class="row no-gutters">
-
 	<div class="col">
-
 	{% block listing %}
 		<div class="posts">
 			{% include "submission_listing.html" %}

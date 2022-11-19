@@ -1,12 +1,6 @@
 {% extends "admin/reported_posts.html" %}
-
-{% block title %}
-<title>Reported Comments</title>
-{% endblock %}
-
+{% block pagetitle %}Reported Comments{% endblock %}
 {% block listing %}
-
-
 		<div class="posts">
 			{% with comments=listing %}
 				{% include "comments.html" %}
@@ -21,5 +15,4 @@
 			</div>
 				{% endif %}
 		</div>
-
 {% endblock %}

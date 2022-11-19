@@ -1,12 +1,6 @@
 {% extends "admin/removed_posts.html" %}
-
-{% block title %}
-<title>Removed Comments</title>
-{% endblock %}
-
+{% block pagetitle %}Removed Comments{% endblock %}
 {% block listing %}
-
-
 		<div class="posts">
 			{% with comments=listing %}
 				{% include "comments.html" %}
@@ -21,5 +15,4 @@
 			</div>
 				{% endif %}
 		</div>
-
 {% endblock %}
