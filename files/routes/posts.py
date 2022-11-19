@@ -712,18 +712,16 @@ def submit_post(v, sub=None):
 			yt_id = url.split('https://youtube.com/watch?v=')[1].split('&')[0].split('%')[0]
 
 			if yt_id_regex.fullmatch(yt_id):
-				req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={yt_id}&key={YOUTUBE_KEY}&part=contentDetails", timeout=5).json()
-				if req.get('items'):
-					params = parse_qs(urlparse(url).query, keep_blank_values=True)
-					t = params.get('t', params.get('start', [0]))[0]
-					if isinstance(t, str): t = t.replace('s','')
+				params = parse_qs(urlparse(url).query, keep_blank_values=True)
+				t = params.get('t', params.get('start', [0]))[0]
+				if isinstance(t, str): t = t.replace('s','')
 
-					embed = f'<lite-youtube videoid="{yt_id}" params="autoplay=1&modestbranding=1'
-					if t:
-						try: embed += f'&start={int(t)}'
-						except: pass
-					embed += '"></lite-youtube>'
-			
+				embed = f'<lite-youtube videoid="{yt_id}" params="autoplay=1&modestbranding=1'
+				if t:
+					try: embed += f'&start={int(t)}'
+					except: pass
+				embed += '"></lite-youtube>'
+
 		elif SITE in domain and "/post/" in url and "context" not in url and url.count('/') < 6:
 			id = url.split("/post/")[1]
 			if "/" in id: id = id.split("/")[0]
