@@ -6,9 +6,9 @@
 	{% set csp=CONTENT_SECURITY_POLICY_HOME %}
 {% endif %}
 <head>
-	{{html_head.html_head(true, true, true, csp, SITE_NAME, true)}}
 	{% block title %}
 	{% endblock %}
+	{{html_head.html_head(true, true, true, csp, SITE_NAME, true)}}
  </head>
 
 
