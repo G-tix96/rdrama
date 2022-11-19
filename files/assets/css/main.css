@@ -4694,7 +4694,7 @@ textarea {
 	}
 }
 .container, .container-fluid {
-	padding-bottom: 100px;
+	padding-bottom: 8vh;
 }
 .navbar {
 	padding: 0.2rem 0 0 0.2rem;
