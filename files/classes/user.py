@@ -977,6 +977,8 @@ class User(Base):
 			if user and user.id == other.author_id: return True
 			if isinstance(other, Submission):
 				if other.sub and not cls.can_see(user, other.subr): return False
+				if other.title.startswith('[android app]') and other.author_id == AEVANN_ID and not g.webview:
+					return False
 			else:
 				if not other.parent_submission:
 					if not user: return False
