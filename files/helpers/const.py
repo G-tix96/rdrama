@@ -1657,6 +1657,7 @@ if SITE_NAME == 'rDrama':
 		'tattle.life',
 		'wolfballs.com',
 		'backloggd.com',
+		'tildes.net',
 	}
 
 	BOOSTED_HOLES = {
