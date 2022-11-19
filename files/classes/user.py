@@ -261,7 +261,7 @@ class User(Base):
 		if self.is_cakeday:
 			return '/i/hats/Cakeday.webp'
 
-		if self.age < 86400:
+		if self.age < 86400 * 7:
 			return '/i/new-user.webp'
 
 		if self.forced_hat:
@@ -280,7 +280,7 @@ class User(Base):
 		if self.is_cakeday:
 			return "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓"
 
-		if self.age < 86400:
+		if self.age < 86400 * 7:
 			return "Hi, I'm new here! Please be gentle :)"
 
 		if self.forced_hat:
