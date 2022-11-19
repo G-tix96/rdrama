@@ -148,8 +148,8 @@ if SITE_NAME == 'rDrama':
 
 PROFANITIES = {
 	'motherfucker': 'motherlover',
-	'fuck': ['frick', 'fudge', 'freak'],
-	' ass ': [' butt ', ' backside ', ' bum '],
+	'fuck': 'frick',
+	' ass ': ' butt ',
 	'shitting': 'pooping',
 	'lmao': 'lmbo',
 	'damn': 'darn',
