@@ -1320,7 +1320,6 @@ def unsticky_post(post_id, v):
 @app.post("/sticky_comment/<cid>")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def sticky_comment(cid, v):
-	
 	comment = get_comment(cid, v=v)
 
 	if not comment.stickied:
@@ -1390,9 +1389,7 @@ def remove_comment(c_id, v):
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def approve_comment(c_id, v):
-
 	comment = get_comment(c_id)
-	if not comment: abort(404)
 	
 	if comment.author.id == v.id and comment.author.agendaposter and AGENDAPOSTER_PHRASE not in comment.body.lower() and comment.post.sub != 'chudrama':
 		abort(400, "You can't bypass the chud award!")
@@ -1417,8 +1414,6 @@ def approve_comment(c_id, v):
 @app.post("/distinguish_comment/<c_id>")
 @admin_level_required(PERMS['POST_COMMENT_DISTINGUISH'])
 def admin_distinguish_comment(c_id, v):
-	
-	
 	comment = get_comment(c_id, v=v)
 
 	if comment.distinguish_level:
