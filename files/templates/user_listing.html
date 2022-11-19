@@ -23,7 +23,7 @@
 						<div id="button-unsub-{{u.id}}" style="z-index: 2" class="{% if not u.has_follower(v) %} d-none{% endif %}"><button type="button" class="btn btn-secondary" onclick="postToastSwitch(this,'/unfollow/{{u.username}}','button-sub-{{u.id}}','button-unsub-{{u.id}}','d-none')">Unfollow</button></div>
 						{% endif %}
 					{% else %}
-						<div id="button-sub-{{u.id}}" style="z-index: 2"><a class="btn btn-primary" href="/signup?redirect={{request.path | urlencode}}">Follow</a></div>
+						<div id="button-sub-{{u.id}}" style="z-index: 2"><a class="btn btn-primary" href="/signup?redirect={{request.full_path | urlencode}}">Follow</a></div>
 					{% endif %}
 				</div>
 

@@ -65,11 +65,11 @@
 
 			{% else %}
 
-				<div tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up" onclick="location.href='/login?redirect={{request.path | urlencode}}';"></div>
+				<div tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';"></div>
 
 				<span class="post-{{p.id}}-score-none score{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 
-				<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down" onclick="location.href='/login?redirect={{request.path | urlencode}}';"></div>
+				<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';"></div>
 
 			{% endif %}
 
@@ -188,13 +188,13 @@
 				</li>
 			{% else %}
 				<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none">
-					<span tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" onclick="location.href='/login?redirect={{request.path | urlencode}}';">
+					<span tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';">
 						<i class="fas fa-arrow-alt-up mx-0" aria-hidden="true"></i>
 					</span>
 
 					<span class="post-mobile-score-{{p.id}} score{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 
-					<span tabindex="0" class="arrow-{{p.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" onclick="location.href='/login?redirect={{request.path | urlencode}}';">
+					<span tabindex="0" class="arrow-{{p.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';">
 						<i class="fas fa-arrow-alt-down mx-0" aria-hidden="true"></i>
 					</span>
 				</li>

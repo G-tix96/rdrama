@@ -255,10 +255,10 @@
 					{% else %}
 
 					<div id="voting" class="voting d-mob-none mb-auto">
-						<div tabindex="0" role="button" class="post-{{p.id}}-up arrow-up mx-auto" onclick="location.href='/login?redirect={{request.path | urlencode}}';">
+						<div tabindex="0" role="button" class="post-{{p.id}}-up arrow-up mx-auto" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';">
 						</div>
 						<span class="post-{{p.id}}-score-none score text-muted{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
-						<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down arrow-down mx-auto" onclick="location.href='/login?redirect={{request.path | urlencode}}';"></div>
+						<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down arrow-down mx-auto" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';"></div>
 					</div>
 
 					{% endif %}
@@ -304,7 +304,7 @@
 						<span tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '1')" class="post-mobile-{{p.id}}-up mx-0 pr-1 arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}">
 						</span>
 					{% else %}
-						<span tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" onclick="location.href='/login?redirect={{request.path | urlencode}}';">
+						<span tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';">
 							<i class="fas fa-arrow-alt-up mx-0" aria-hidden="true"></i>
 						</span>
 					{% endif %}
@@ -314,7 +314,7 @@
 					{% if v %}
 						<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '-1')" class="post-mobile-{{p.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></span>
 					{% else %}
-						<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" class="arrow-{{p.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" onclick="location.href='/login?redirect={{request.path | urlencode}}';">
+						<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" class="arrow-{{p.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';">
 							<i class="fas fa-arrow-alt-down mx-0" aria-hidden="true"></i>
 						</span>
 					{% endif %}
@@ -387,7 +387,7 @@
 			</div>
 		{% else %}
 			<div class="comment-write mb-3">
-				<textarea autocomplete="off" maxlength="10000" class="comment-box form-control rounded" name="body" aria-label="With textarea" placeholder="Add your comment..." rows="3" onclick="location.href='/login?redirect={{request.path | urlencode}}';"></textarea>
+				<textarea autocomplete="off" maxlength="10000" class="comment-box form-control rounded" name="body" aria-label="With textarea" placeholder="Add your comment..." rows="3" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';"></textarea>
 			</div>
 		
 			<div class="card border-0 mt-4">
@@ -395,8 +395,8 @@
 					<h5 class="card-title">Jump in the discussion.</h5>
 					<p class="card-text">No email address required.</p>
 					<div>
-						<a href="/signup?redirect={{request.path | urlencode}}" class="btn btn-primary">Sign up</a>
-						<a href="/login?redirect={{request.path | urlencode}}" class="btn btn-link text-muted">Sign in</a>
+						<a href="/signup?redirect={{request.full_path | urlencode}}" class="btn btn-primary">Sign up</a>
+						<a href="/login?redirect={{request.full_path | urlencode}}" class="btn btn-link text-muted">Sign in</a>
 					</div>
 				</div>
 			</div>
@@ -456,7 +456,7 @@
 			{% if v %}
 			<p class="text-muted">This comment section is a ghost town...</p>
 			{% else %}
-			<p class="text-muted">This comment section is a ghost town. <a href="/login?redirect={{request.path | urlencode}}">Sign in</a></p>
+			<p class="text-muted">This comment section is a ghost town. <a href="/login?redirect={{request.full_path | urlencode}}">Sign in</a></p>
 			{% endif %}
 		</div>
 	</div>

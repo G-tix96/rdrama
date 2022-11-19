@@ -125,7 +125,7 @@
 			{% if v %}
 				<a class="mobile-nav-icon d-md-none" href="{% if sub %}/h/{{sub}}{% endif %}/submit"><i class="fas fa-feather-alt align-middle text-gray-500 black"></i></a>
 			{% else %}
-				<a class="mobile-nav-icon d-md-none" href="/login?redirect={{request.path | urlencode}}"><i class="fas fa-feather-alt align-middle text-gray-500 black"></i></a>
+				<a class="mobile-nav-icon d-md-none" href="/login?redirect={{request.full_path | urlencode}}"><i class="fas fa-feather-alt align-middle text-gray-500 black"></i></a>
 			{% endif %}
 
 			<a class="mobile-nav-icon d-md-none" href="/random_user"><i class="fas fa-music align-middle text-gray-500 black"></i></a>
@@ -274,10 +274,10 @@
 				<a class="btn btn-primary" href="/contact">Contact us</a>
 			</li>
 			<li class="nav-item d-flex align-items-center justify-content-center mx-1">
-				<a class="btn btn-primary" href="/login?redirect={{request.path | urlencode}}">Sign in</a>
+				<a class="btn btn-primary" href="/login?redirect={{request.full_path | urlencode}}">Sign in</a>
 			</li>
 			<li class="nav-item d-flex align-items-center justify-content-center mx-1">
-				<a class="btn btn-primary" href="/signup?redirect={{request.path | urlencode}}">Sign up</a>
+				<a class="btn btn-primary" href="/signup?redirect={{request.full_path | urlencode}}">Sign up</a>
 			</li>
 			{% endif %}
 		</ul>
@@ -342,10 +342,10 @@
 					<a class="btn btn-primary btn-block" href="/contact">Contact us</a>
 				</li>
 				<li class="nav-item d-flex align-items-center justify-content-center pb-3">
-					<a class="btn btn-primary btn-block" href="/login?redirect={{request.path | urlencode}}">Sign in</a>
+					<a class="btn btn-primary btn-block" href="/login?redirect={{request.full_path | urlencode}}">Sign in</a>
 				</li>
 				<li class="nav-item d-flex align-items-center justify-content-center">
-					<a class="btn btn-primary btn-block" href="/signup?redirect={{request.path | urlencode}}">Sign up</a>
+					<a class="btn btn-primary btn-block" href="/signup?redirect={{request.full_path | urlencode}}">Sign up</a>
 				</li>
 			{% endif %}
 			<li class="mt-3">
