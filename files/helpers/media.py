@@ -140,7 +140,9 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 
 	try:
 		with Image.open(filename) as i:
-			params = ["convert", "-coalesce", filename, "-quality", "88", "-define", "webp:method=5", "-strip", "-auto-orient"]
+			params = ["./magick", filename, "-strip", "-auto-orient"]
+			if i.format.lower() != 'webp':
+				params.extend(["-coalesce", "-quality", "88", "-define", "webp:method=5"])
 			if trim and len(list(Iterator(i))) == 1:
 				params.append("-trim")
 			if resize and i.width > resize:
