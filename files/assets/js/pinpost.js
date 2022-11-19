@@ -3,9 +3,7 @@ function pinPost(t, id) {
 		{
 		},
 		(xhr) => {
-			response = JSON.parse(xhr.response);
-			length = response["length"];
-			if (length == "permanently") {
+			if(xhr.status == 201) {
 				t.innerHTML = t.innerHTML.replace(t.textContent, 'Pin for 1 hour');
 				t.classList.add('d-none');
 			} else {

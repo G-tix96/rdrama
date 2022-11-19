@@ -1261,20 +1261,19 @@ def sticky_post(post_id, v):
 		abort(403, "Can't pin award pins!")
 
 	pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
-	extra_pin_slots = 1 if post.stickied else 0
-	sticky_time = int(time.time()) + 3600 if not post.stickied else None
-
-	if pins >= PIN_LIMIT + extra_pin_slots and not sticky_time:
-		abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
 
 	if not post.stickied_utc:
-		post.stickied_utc = sticky_time
+		post.stickied_utc = int(time.time()) + 3600
 		pin_time = 'for 1 hour'
+		code = 200
 		if v.id != post.author_id:
 			send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has pinned [{post.title}](/post/{post_id})!")
 	else:
-		post.stickied_utc = sticky_time
+		if pins >= PIN_LIMIT + 1:
+			abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
+		post.stickied_utc = None
 		pin_time = 'permanently'
+		code = 201
 
 	post.stickied = v.username
 
@@ -1290,7 +1289,8 @@ def sticky_post(post_id, v):
 
 	cache.delete_memoized(frontlist)
 
-	return {"message": f"Post pinned {pin_time}!", "length": pin_time}, 201
+	return {"message": f"Post pinned {pin_time}!"}, code
+
 
 @app.post("/unsticky/<post_id>")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
