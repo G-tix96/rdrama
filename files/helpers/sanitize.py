@@ -362,7 +362,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		if isinstance(t, str): t = t.replace('s','')
 
 		htmlsource = f'{i.group(1)}<lite-youtube videoid="{i.group(3)}" params="autoplay=1&modestbranding=1'
-		if t: htmlsource += f'&start={t}'
+		if t:
+			try: htmlsource += f'&start={int(t)}'
+			except: pass
 		htmlsource += '"></lite-youtube>'
 
 		sanitized = sanitized.replace(i.group(0), htmlsource)
