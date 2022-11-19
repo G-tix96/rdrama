@@ -185,7 +185,7 @@
 	</script>
 {% endif %}
 
-{% if request.path == '/' and time.time() > session.get('tooltip_last_dismissed',0)+60*60*24*30 and not g.webview %}
+{% if request.path == '/' and time.time() > session.get('tooltip_last_dismissed',0)+60*60*24*30 %}
 	<style>
 		.beg-icon {
 			color: #919191;

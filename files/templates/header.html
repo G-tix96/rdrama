@@ -68,9 +68,7 @@
 				<a id="sub-name" href="/h/{{sub}}" class="font-weight-bold ml-2 flex-grow-1 mt-1" style="font-size:max(14px,1.2vw)">{% if not HOLE_STYLE_FLAIR %}/h/{% endif %}{{sub}}</a>
 			{% elif has_logo %}
 				<style>
-					{% if g.webview %}
-						@media (min-width: 480px) {
-					{% elif SITE_NAME == 'WPD' %}
+					{% if SITE_NAME == 'WPD' %}
 						@media (min-width: 1000px) {
 					{% else %}
 						@media (min-width: 380px) {
@@ -99,10 +97,6 @@
 						</span>
 					</form>
 				</div>
-			{% endif %}
-
-			{% if g.webview %}
-				<button type="button" class="mobile-nav-icon d-md-none" onclick="location.reload()"><i class="fas fa-arrow-rotate-right align-middle text-gray-500 black"></i></button>
 			{% endif %}
 			
 			{% if SITE_NAME == 'PCM' %}
@@ -238,15 +232,14 @@
 						<div class="px-2">
 							<a class="dropdown-item" href="{{v.url}}"><i class="fas fa-user-circle fa-fw mr-3"></i>My profile</a>
 							<a class="dropdown-item" href="/settings"><i class="fas fa-cog fa-fw mr-3"></i>Settings</a>
+
+							<a class="dropdown-item" href="/app"><i class="fal fa-mobile fa-fw mr-3"></i>App</a>
+
 							{% if FEATURES['PROCOINS'] %}
 								<a class="dropdown-item" rel="nofollow noopener" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 							{% endif %}
 
 							<button type="button" class="dropdown-item copy-link" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}"><i class="fas fa-user-friends fa-fw mr-3"></i>Invite friends</button>
-
-							{% if has_app -%}
-							<a class="dropdown-item" href="/assets/app_{{SITE_NAME}}_v2.8.apk"><i class="fab fa-android fa-fw mr-3"></i>Android app</a>
-							{%- endif %}
 
 							<a class="dropdown-item" href="https://rdrama.net/h/changelog"><i class="fas fa-clipboard fa-fw mr-3"></i>Changelog</a>
 
@@ -301,20 +294,16 @@
 					<a class="nav-link" href="/settings"><i class="fas fa-cog fa-fw mr-3"></i>Settings</a>
 				</li>
 
+				<a class="nav-item nav-link" href="/app"><i class="fal fa-mobile fa-fw mr-3"></i>App</a>
+
 				{% if FEATURES['PROCOINS'] %}
 					<a class="nav-item nav-link" rel="nofollow noopener" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 				{% endif %}
 
-				{% if not g.webview %}
-					<li class="nav-item">
-						<button type="button" class="nav-link copy-link" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}"><i class="fas fa-user-friends fa-fw mr-3"></i>Invite friends</button>
-					</li>
-				{% endif %}
+				<li class="nav-item">
+					<button type="button" class="nav-link copy-link" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}"><i class="fas fa-user-friends fa-fw mr-3"></i>Invite friends</button>
+				</li>
 				
-				{% if has_app -%}
-					<a class="nav-item nav-link" href="/assets/app_{{SITE_NAME}}_v2.8.apk"><i class="fab fa-android fa-fw mr-3"></i>Android app</a>
-				{%- endif %}
-
 				<a class="nav-item nav-link" href="https://rdrama.net/h/changelog"><i class="fas fa-clipboard fa-fw mr-3"></i>Changelog</a>
 
 				<a class="nav-item nav-link" rel="nofollow noopener" href="https://github.com/Aevann1/rDrama"><i class="fab fa-github fa-fw mr-3"></i>Source code</a>

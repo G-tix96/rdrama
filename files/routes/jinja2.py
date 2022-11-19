@@ -50,7 +50,7 @@ def inject_constants():
 			"COLORS":COLORS, "time":time, "PERMS":PERMS, "FEATURES":FEATURES,
 			"HOLE_NAME":HOLE_NAME, "HOLE_STYLE_FLAIR":HOLE_STYLE_FLAIR, "HOLE_REQUIRED":HOLE_REQUIRED,
 			"GUMROAD_LINK":GUMROAD_LINK, "DEFAULT_THEME":DEFAULT_THEME, "DESCRIPTION":DESCRIPTION,
-			"has_sidebar":has_sidebar, "has_logo":has_logo, "has_app":has_app,
+			"has_sidebar":has_sidebar, "has_logo":has_logo,
 			"FP":FP, "cache":cache, "ONLINE_STR":ONLINE_STR, "patron":patron, "DUES":DUES,
 			"SIDEBAR_THREAD":SIDEBAR_THREAD, "BANNER_THREAD":BANNER_THREAD,
 			"BADGE_THREAD":BADGE_THREAD, "SNAPPY_THREAD":SNAPPY_THREAD,

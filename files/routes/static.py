@@ -283,6 +283,8 @@ def image(path):
 @app.get('/static/assets/<path:path>')
 @limiter.exempt
 def static_service(path):
+	if path.startswith(f'app_{SITE_NAME}_v'):
+		return redirect('/app')
 	is_webp = path.endswith('.webp')
 	return static_file('assets', path, is_webp or path.endswith('.gif') or path.endswith('.ttf') or path.endswith('.woff2'), is_webp)
 
@@ -362,6 +364,11 @@ def banned(v):
 @auth_required
 def formatting(v):
 	return render_template("formatting.html", v=v)
+
+@app.get("/app")
+@auth_desired
+def mobile_app(v):
+	return render_template("app.html", v=v)
 
 @app.get("/service-worker.js")
 def serviceworker():

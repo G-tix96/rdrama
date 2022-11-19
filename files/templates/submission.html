@@ -203,7 +203,7 @@
 								<button type="button" onclick="togglePostEdit('{{p.id}}');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r">Cancel</button> 
 							</form>
 							<div id="post-edit-{{p.id}}" class="preview mb-3 mt-5"></div>
-							<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
+							<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}target="_blank"{% endif %}>Formatting help</a></div>
 						</div>
 					{% endif %}
 
@@ -222,7 +222,7 @@
 								<div class="post-actions mt-2">
 				<ul class="list-inline text-right d-flex">
 
-						<a class="list-inline-item" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}">
+						<a class="list-inline-item" {% if v and v.newtab %}target="_blank"{% endif %} href="{{p.permalink}}">
 							<i class="fas fa-comment-dots mr-2"></i>{{p.comment_count}}
 							<span class="text-info d-none {{p.id}}-new-comments"></span>
 						</a>
@@ -383,7 +383,7 @@
 					<button type="button" id="save-reply-to-{{p.fullname}}" form="reply-to-{{p.fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="post_comment('{{p.fullname}}');remove_dialog()">Comment</button>
 				</form>
 				<div id="form-preview-{{p.fullname}}" class="preview mb-3 mt-5"></div>
-				<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
+				<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}target="_blank"{% endif %}>Formatting help</a></div>
 			</div>
 		{% else %}
 			<div class="comment-write mb-3">

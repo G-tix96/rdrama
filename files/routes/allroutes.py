@@ -25,7 +25,6 @@ def before_request():
 	if not get_setting('Bots') and request.headers.get("Authorization"): abort(403)
 
 	g.db = db_session()
-	g.webview = '; wv) ' in ua
 	g.inferior_browser = 'iphone' in ua or 'ipad' in ua or 'ipod' in ua or 'mac os' in ua or ' firefox/' in ua
 	g.is_tor = request.headers.get("cf-ipcountry") == "T1"
 
