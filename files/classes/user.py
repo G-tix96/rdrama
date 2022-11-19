@@ -303,6 +303,7 @@ class User(Base):
 	@lazy
 	def mods(self, sub):
 		if self.is_suspended_permanently or self.shadowbanned: return False
+		if self.id in (AEVANN_ID, SNAKES_ID): return True
 		try:
 			return any(map(lambda x: x.sub == sub, self.sub_mods))
 		except:
