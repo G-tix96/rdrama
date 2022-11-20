@@ -1,4 +1,5 @@
 import time
+import secrets
 
 from random import randint
 from typing import Optional, Union
@@ -10,6 +11,10 @@ from files.helpers.const import *
 from files.helpers.security import generate_hash, validate_hash
 
 def get_raw_formkey(u:User):
+	if not session.get("session_id"):
+		session.permanent = True
+		session["session_id"] = secrets.token_hex(49)
+
 	return f"{session['session_id']}+{u.id}+{u.login_nonce}"
 
 def get_formkey(u:Optional[User]):
