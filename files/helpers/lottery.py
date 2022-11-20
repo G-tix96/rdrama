@@ -48,7 +48,7 @@ def end_lottery_session():
 	winner = choice(raffle)
 	active_lottery.winner_id = winner
 	winning_user = next(filter(lambda x: x.id == winner, participating_users))
-	winning_user.coins += active_lottery.prize
+	winning_user.pay_account('coins', active_lottery.prize)
 	winning_user.total_lottery_winnings += active_lottery.prize
 	badge_grant(user=winning_user, badge_id=LOTTERY_WINNER_BADGE_ID)
 
@@ -65,6 +65,10 @@ def end_lottery_session():
 
 	active_lottery.is_active = False
 
+	g.db.add(winning_user)
+	g.db.add(active_lottery)
+	g.db.commit() # Intentionally commit early because cron runs with other tasks
+
 	return True, f'{winning_user.username} won {active_lottery.prize} coins!'
 
 
@@ -80,6 +84,7 @@ def start_new_lottery_session():
 	lottery.is_active = True
 
 	g.db.add(lottery)
+	g.db.commit() # Intentionally commit early, not autocommitted from cron
 
 
 def check_if_end_lottery_task():

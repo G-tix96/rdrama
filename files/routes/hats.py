@@ -51,14 +51,14 @@ def buy_hat(v, hat_id):
 		charged = v.charge_account('procoins', hat.price)
 		if not charged: abort(400, "Not enough marseybux.")
 
-		hat.author.procoins += hat.price * 0.1
+		hat.author.pay_account('procoins', hat.price * 0.1)
 		currency = "marseybux"
 	else:
 		charged = v.charge_account('coins', hat.price)
 		if not charged: abort(400, "Not enough coins.")
 
 		v.coins_spent_on_hats += hat.price
-		hat.author.coins += hat.price * 0.1
+		hat.author.pay_account('coins', hat.price * 0.1)
 		currency = "coins"
 
 	new_hat = Hat(user_id=v.id, hat_id=hat.id)

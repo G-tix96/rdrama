@@ -82,7 +82,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if existing and existing.vote_type == new: return "", 204
 	if existing:
 		if existing.vote_type == 0 and new != 0:
-			target.author.coins += coin_value
+			target.author.pay_account('coins', coin_value)
 			target.author.truescore += coin_delta
 			g.db.add(target.author)
 			existing.vote_type = new
@@ -97,7 +97,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			existing.vote_type = new
 			g.db.add(existing)
 	elif new != 0:
-		target.author.coins += coin_value
+		target.author.pay_account('coins', coin_value)
 		target.author.truescore += coin_delta
 		g.db.add(target.author)
 

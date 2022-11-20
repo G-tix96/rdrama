@@ -366,7 +366,7 @@ def gumroad(v):
 
 	v.patron = tier
 
-	v.procoins += procoins
+	v.pay_account('procoins', procoins)
 	send_repeatable_notification(v.id, f"You have received {procoins} Marseybux! You can use them to buy awards in the [shop](/shop).")
 
 	g.db.add(v)

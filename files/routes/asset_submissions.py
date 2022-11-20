@@ -153,7 +153,7 @@ def approve_marsey(v, name):
 		new_path = f'/asset_submissions/marseys/original/{name}.{i.format.lower()}'
 	rename(highquality, new_path)
 
-	author.coins += 250
+	author.pay_account('coins', 250)
 	g.db.add(author)
 
 	if v.id != author.id:

@@ -24,7 +24,7 @@ from .front import frontlist
 def kippy(v):
 	if SITE != 'pcmemes.net': abort(404)
 	kippy = get_account(KIPPY_ID)
-	kippy.procoins += 10000
+	kippy.pay_account('procoins', 10000)
 	g.db.add(kippy)
 	return '10k marseybux printed!'
 
@@ -224,7 +224,7 @@ def distribute(v, option_id):
 	cid = notif_comment(f"You won {coinsperperson} coins betting on [{post.title}]({post.shortlink}) :marseyparty:")
 	for vote in votes:
 		u = vote.user
-		u.coins += coinsperperson
+		u.pay_account('coins', coinsperperson)
 		add_notif(cid, u.id)
 
 
@@ -1188,7 +1188,7 @@ def remove_post(post_id, v):
 
 	cache.delete_memoized(frontlist)
 
-	v.coins += 1
+	v.pay_account('coins', 1)
 	g.db.add(v)
 	purge_files_in_cache(f"https://{SITE}/")
 	return {"message": "Post removed!"}

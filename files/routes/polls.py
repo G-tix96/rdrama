@@ -24,7 +24,7 @@ def vote_option(option_id, v):
 			abort(400, f"You don't have {POLL_BET_COINS} coins!")
 		g.db.add(v)
 		autojanny = get_account(AUTOJANNY_ID)
-		autojanny.coins += POLL_BET_COINS
+		autojanny.pay_account('coins', POLL_BET_COINS)
 		g.db.add(autojanny)
 
 	if option.exclusive:

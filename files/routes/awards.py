@@ -201,7 +201,7 @@ def award_thing(v, thing_type, id):
 		elif kind != 'spider':
 			awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT) if AWARDS[kind]['cosmetic'] else 0
 			if AWARDS[kind]['cosmetic']:
-				author.coins += awarded_coins
+				author.pay_account('coins', awarded_coins)
 
 			msg = f"@{v.username} has given your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award"
 			if awarded_coins > 0:
@@ -331,7 +331,7 @@ def award_thing(v, thing_type, id):
 		author.patron = 1
 		if author.patron_utc: author.patron_utc += 2629746
 		else: author.patron_utc = int(time.time()) + 2629746
-		author.procoins += 2500
+		author.pay_account('procoins', 2500)
 		badge_grant(user=v, badge_id=103)
 	elif kind == "rehab":
 		if author.rehab: author.rehab += 86400

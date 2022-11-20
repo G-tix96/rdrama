@@ -159,7 +159,7 @@ def execute_snappy(post, v):
 		check_slots_command(v, snappy, c)
 
 		snappy.comment_count += 1
-		snappy.coins += 1
+		snappy.pay_account('coins', 1)
 		g.db.add(snappy)
 
 		if FEATURES['PINS'] and (body.startswith(':#marseypin:') or body.startswith(':#marseypin2:')):
@@ -241,7 +241,7 @@ def execute_zozbot(c, level, parent_submission, v):
 
 	zozbot = get_account(ZOZBOT_ID)
 	zozbot.comment_count += 3
-	zozbot.coins += 3
+	zozbot.pay_account('coins', 1)
 	g.db.add(zozbot)
 
 def execute_longpostbot(c, level, body, body_html, parent_submission, v):
@@ -273,7 +273,7 @@ def execute_longpostbot(c, level, body, body_html, parent_submission, v):
 
 	longpostbot = get_account(LONGPOSTBOT_ID)
 	longpostbot.comment_count += 1
-	longpostbot.coins += 1
+	longpostbot.pay_account('coins', 1)
 	g.db.add(longpostbot)
 	g.db.flush()
 	n = Notification(comment_id=c2.id, user_id=v.id)

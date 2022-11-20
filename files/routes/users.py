@@ -302,9 +302,9 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'proc
 
 	if not v.shadowbanned:
 		if currency_name == 'procoins':
-			receiver.procoins += amount - tax
+			receiver.pay_account('procoins', amount - tax)
 		elif currency_name == 'coins':
-			receiver.coins += amount - tax
+			receiver.pay_account('coins', amount - tax)
 		else:
 			raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
 		g.db.add(receiver)
@@ -1108,7 +1108,7 @@ def settings_kofi(v):
 	tier = kofi_tiers[transaction.amount]
 
 	procoins = procoins_li[tier]
-	v.procoins += procoins
+	v.pay_account('procoins', procoins)
 	send_repeatable_notification(v.id, f"You have received {procoins} Marseybux! You can use them to buy awards in the [shop](/shop).")
 	g.db.add(v)
 
