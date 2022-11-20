@@ -89,7 +89,7 @@
 						{{ macros.post_meta(p) }}
 					</div>
 					{% if p.active_flags(v) %}
-					<div id="flaggers" class="flaggers d-none">
+					<div id="flaggers-{{p.id}}" class="flaggers d-none">
 						<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
 						<ul class="mt-1 mb-0" style="padding-left:20px; word-wrap:break-word">
 							{% for f in p.filtered_flags(v) %}
