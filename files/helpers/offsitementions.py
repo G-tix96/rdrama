@@ -23,7 +23,7 @@ from files.helpers.sanitize import sanitize
 def offsite_mentions_task(cache:Cache):
 	if const.REDDIT_NOTIFS_SITE:
 		row_send_to = g.db.query(Badge.user_id).filter_by(badge_id=140).all()
-		row_send_to += g.db.query(User.id).filter(or_(User.admin_level >= const.PERMS['NOTIFICATIONS_REDDIT'])).all()
+		row_send_to += g.db.query(User.id).filter(User.admin_level >= const.PERMS['NOTIFICATIONS_REDDIT'], User.id != AEVANN_ID).all()
 
 		send_to = [x[0] for x in row_send_to]
 		send_to = set(send_to)
