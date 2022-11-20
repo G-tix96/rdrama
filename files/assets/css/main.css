@@ -6343,7 +6343,7 @@ div.markdown {
 	margin-bottom: 10px !important;
 }
 #desktop-expanded-image {
-	max-height:90vh;
+	max-height:85vh;
 	border:5px white solid;
 	-o-object-fit: contain;
 	object-fit: contain;
