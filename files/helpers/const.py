@@ -1665,16 +1665,16 @@ if SITE_NAME == 'rDrama':
 		'anime',
 		'gaybros',
 		'againsthateholes',
-		'schizocel',
 		'masterbaiters',
 		'changelog',
 	}
 
-	BOOSTED_HOLES_UNNERFED = {
+	UNNERFED_HOLES = {
 		'space',
 		'istory',
 		'dino',
 		'slackernews',
+		'schizocel',
 	}
 
 	BOOSTED_USERS = {
