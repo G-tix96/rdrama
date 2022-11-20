@@ -16,15 +16,17 @@ def calc_users(v):
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
 	loggedout = cache.get(f'{SITE}_loggedout') or {}
 	timestamp = int(time.time())
+
+	if not session.get("session_id"):
+		session.permanent = True
+		session["session_id"] = secrets.token_hex(49)
+
 	if v:
 		if session["session_id"] in loggedout: del loggedout[session["session_id"]]
 		loggedin[v.id] = timestamp
 	else:
 		ua = str(user_agents.parse(g.agent))
 		if 'spider' not in ua.lower() and 'bot' not in ua.lower():
-			if not session.get("session_id"):
-				session.permanent = True
-				session["session_id"] = secrets.token_hex(49)
 			loggedout[session["session_id"]] = (timestamp, ua)
 	
 	loggedin = {k: v for k, v in loggedin.items() if (timestamp - v) < LOGGEDIN_ACTIVE_TIME}
