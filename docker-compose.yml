@@ -15,10 +15,6 @@ services:
         depends_on:
             - redis
             - postgres
-        cap_add:
-            - SYS_ADMIN
-        devices:
-            - /dev/fuse
 
     redis:
         container_name: "redis"

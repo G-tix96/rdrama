@@ -11,7 +11,6 @@ RUN apt install -y imagemagick
 RUN apt install -y postgresql
 RUN apt install -y libpq-dev
 RUN apt install -y nano
-RUN apt install -y libfuse2
 
 COPY requirements.txt /etc/requirements.txt
 
@@ -43,6 +42,8 @@ RUN apt install -y nginx
 RUN rm /etc/nginx/sites-available -r
 RUN rm /etc/nginx/sites-enabled/default
 RUN mkdir /etc/nginx/includes
+
+RUN . imei.sh
 
 EXPOSE 80/tcp
 
