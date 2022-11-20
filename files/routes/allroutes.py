@@ -1,4 +1,3 @@
-import secrets
 from files.helpers.const import *
 from files.helpers.settings import get_setting
 from files.helpers.cloudflare import CLOUDFLARE_AVAILABLE
