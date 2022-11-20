@@ -1,7 +1,7 @@
 {
 	"name": "WPD",
 	"short_name": "WPD",
-  "start_url": "https://watchpeopledie.tv",
+    "start_url": "https://watchpeopledie.tv",
 	"display": "standalone",
 	"background_color": "#805AD5",
 	"description": "WPD",
