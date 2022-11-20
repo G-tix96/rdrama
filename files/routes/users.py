@@ -181,7 +181,7 @@ def grassed(v):
 @app.get("/chuds")
 @auth_required
 def chuds(v):
-	users = g.db.query(User).filter(User.agendaposter > 0)
+	users = g.db.query(User).filter(User.agendaposter == 1)
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
 	users = users.order_by(User.username).all()
