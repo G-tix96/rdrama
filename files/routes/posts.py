@@ -731,7 +731,7 @@ def submit_post(v, sub=None):
 	if not url and not body and not request.files.get("file") and not request.files.get("file-url"):
 		return error("Please enter a url or some text.")
 
-	if SITE != 'localhost': 
+	if not IS_LOCALHOST: 
 		dup = g.db.query(Submission).filter(
 			Submission.author_id == v.id,
 			Submission.deleted_utc == 0,

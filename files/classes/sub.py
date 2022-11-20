@@ -7,13 +7,9 @@ from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.lazy import lazy
+from files.helpers.const import *
 
 from .sub_relationship import *
-
-SITE_NAME = environ.get("SITE_NAME", '').strip()
-SITE = environ.get("SITE", '').strip()
-if SITE == "localhost": SITE_FULL = 'http://' + SITE
-else: SITE_FULL = 'https://' + SITE
 
 class Sub(Base):
 	__tablename__ = "subs"

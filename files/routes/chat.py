@@ -13,7 +13,7 @@ from files.routes.wrappers import *
 
 from files.__main__ import app, cache, limiter
 
-if SITE == 'localhost':
+if IS_LOCALHOST:
 	socketio = SocketIO(
 		app,
 		async_mode='gevent',

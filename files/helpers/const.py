@@ -58,7 +58,9 @@ DEFAULT_RATELIMIT_USER = DEFAULT_RATELIMIT_SLOWER
 
 PUSHER_LIMIT = 1000 # API allows 10 KB but better safe than sorry
 
-if SITE == "localhost": SITE_FULL = 'http://' + SITE
+IS_LOCALHOST = SITE == "localhost" or SITE == "127.0.0.1" or SITE.startswith("192.168.")
+
+if IS_LOCALHOST: SITE_FULL = 'http://' + SITE
 else: SITE_FULL = 'https://' + SITE
 
 
@@ -1418,7 +1420,7 @@ REDDIT_NOTIFS_USERS = {}
 if len(SITE_NAME) > 5:
 	REDDIT_NOTIFS_SITE.add(SITE_NAME.lower())
 
-if SITE != 'localhost':
+if not IS_LOCALHOST:
 	REDDIT_NOTIFS_SITE.add(SITE)
 
 if SITE == 'rdrama.net':

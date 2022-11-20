@@ -155,7 +155,7 @@
 	{% endif %}
 
 	{% if 'chat' in request.path %}
-		{% if SITE == 'localhost' %}
+		{% if IS_LOCALHOST %}
 			<link rel="stylesheet" href="https://rdrama.net/assets/css/chat_done.css">
 		{% else %}
 			<link rel="stylesheet" href="{{'css/chat_done.css' | asset}}">

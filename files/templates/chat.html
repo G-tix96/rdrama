@@ -2,7 +2,7 @@
 {%- import 'html_head.html' as html_head with context -%}
 <!DOCTYPE html>
 <html lang="en">
-{% if SITE == 'localhost' %}
+{% if IS_LOCALHOST %}
 	{% set csp="script-src 'self' 'unsafe-inline' rdrama.net; connect-src 'self'; object-src 'none';" %}
 {% else %}
 	{% set csp=none %}
@@ -26,7 +26,7 @@
 		data-hat="{{v.hat_active}}">
 	</div>
 	<script>window.global = window</script>
-	{% if SITE == 'localhost' %}
+	{% if IS_LOCALHOST %}
 		<script defer src="https://rdrama.net/assets/js/chat_done.js"></script>
 	{% else %}
 		<script defer src="{{'js/chat_done.js' | asset}}"></script>
