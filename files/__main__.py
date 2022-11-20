@@ -26,8 +26,6 @@ app.jinja_env.auto_reload = True
 app.jinja_env.add_extension('jinja2.ext.do')
 faulthandler.enable()
 
-IS_LOCALHOST = SITE == "localhost" or SITE == "127.0.0.1" or SITE.startswith("192.168")
-
 app.config['SERVER_NAME'] = SITE
 app.config['SECRET_KEY'] = environ.get('SECRET_KEY').strip()
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 3153600
