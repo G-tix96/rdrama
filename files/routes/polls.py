@@ -20,6 +20,8 @@ def vote_option(option_id, v):
 		abort(403, f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}")
 
 	if option.exclusive == 2:
+		if option.post.total_bet_voted:
+			abort(403, "You can't bet on a closed poll!")
 		if not v.charge_account('coins', POLL_BET_COINS): 
 			abort(400, f"You don't have {POLL_BET_COINS} coins!")
 		g.db.add(v)
