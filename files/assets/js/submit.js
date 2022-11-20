@@ -166,7 +166,7 @@ function ghost_toggle(t) {
 
 function checkRepost() {
 	const system = document.getElementById('system')
-	system.innerHTML = `To post an image, use a direct image link such as i.imgur.com`;
+	system.innerHTML = "";
 	const url = document.getElementById('post-url').value
 	const min_repost_check = 9;
 
@@ -185,7 +185,7 @@ function checkRepost() {
 				const permalinkText = escapeHTML(data["permalink"]);
 				const permalinkURI = encodeURI(data["permalink"]);
 				if (permalinkText) {
-					system.innerHTML = `<span class="text-danger">This is a repost of <a href="${permalinkURI}">${permalinkText}</a></span>`;
+					system.innerHTML = `This is a repost of <a href="${permalinkURI}">${permalinkText}</a>`;
 				}
 			}
 		}
