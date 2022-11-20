@@ -614,7 +614,14 @@ INSERT INTO public.hat_defs VALUES (408, 'Chef Hat II', 'Toque blanche', 2, 500,
 INSERT INTO public.hat_defs VALUES (414, 'Trilby', '*tip*', 2, 500, NULL, 1662167687);
 
 
+
 INSERT INTO public.hat_defs VALUES (419, 'Alimony Hair', 'Stay norwooding, king', 2, 500, NULL, 1662167687);
+
+
+
+
+
+
 
 INSERT INTO public.hat_defs VALUES (874, 'Carp', 'My 100th hat and a Thank you to carp. Now 150 more!', 2, 500, NULL, 1665272718);
 INSERT INTO public.hat_defs VALUES (93, 'Wizard I', 'Three decades a KHHV', 2, 500, NULL, 1662167687);
@@ -1161,7 +1168,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1081, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1093, true);
 
 
 --
@@ -2064,6 +2071,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyit',2,'balloon halloween pennywise clown holiday evil',NULL),
 ('marseyitsallsotiresome',2,'empire of dust tooka all so tiresome chinese racist congolese drc kinshasa lubumbashi enough bullshit tired resigned despair black',1665543793),
 ('marseyitsover',2,'its over never began incels give up giveup sad sigh defeated',NULL),
+('marseyitsoverwereback',2,'itsover neverbegan incels give up giveup sad sigh defeated yay happy excited undefeated bipolar histronic null kiwifarms animated',1668780621),
 ('marseyjackskellington',2,'skeleton nightmarebeforechristmas halloween horror burton',1667696881),
 ('marseyjackson',2,'music king pop mayo whiteface michael',NULL),
 ('marseyjacksparrow',2,'johnny depp amber heard abuse violence punch beat feminist Jack sparrow',NULL),
@@ -2099,7 +2107,6 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyjourno',2,'journoid media press photo camera journalist pic',NULL),
 ('marseyjoy',2,'smile excited smug',NULL),
 ('marseyjudge',2,'objection innocent hammer guilty gavel court overruled sustained',NULL),
-('marseyjudgeboob',2,'darrell brooks court judge boob titty objection overruled',1668670710),
 ('marseyjumpscare',2,'undead living dead romero halloween horror corpse scary rotten animated spooky aaaahhhhh trick prank bait and switch',NULL),
 ('marseyjunkie',2,'needles heroin reaction shooting up addicted shoot up syringe',NULL),
 ('marseyjunkie2',2,'addicted drugs pills glue huffing ether overdose',NULL),
@@ -2333,6 +2340,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseynooo',2,'reaction snob no way',NULL),
 ('marseynoooticer',2,'notice stats racist iq chud bigot numbers observe see hmm wrong think thonk',1664406781),
 ('marseynope',2,'bush grass simpsons homer hide avoid',1663895054),
+('marseynorf',2,'soccer british football sports',1668780332),
 ('marseynosleep',2,'horror scary halloween holiday',NULL),
 ('marseynotes',2,'notes writer writing journ*list therapist doodle pencil',NULL),
 ('marseynotes2',2,'notes notepad pencil writing nerd glasses behind',NULL),
