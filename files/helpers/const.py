@@ -1665,8 +1665,16 @@ if SITE_NAME == 'rDrama':
 		'anime',
 		'gaybros',
 		'againsthateholes',
+		'schizocel',
 		'masterbaiters',
 		'changelog',
+	}
+
+	BOOSTED_HOLES_UNNERFED = {
+		'space',
+		'istory',
+		'dino',
+		'slackernews',
 	}
 
 	BOOSTED_USERS = {
@@ -1676,6 +1684,8 @@ if SITE_NAME == 'rDrama':
 		JUSTCOOL_ID,
 		2008, #TransGirlTradWife
 	}
+
+	BOOSTED_USERS_EXCLUDED = {8768, 5214, 12719, 3402}
 
 IMAGE_FORMATS = ['png','gif','jpg','jpeg','webp']
 VIDEO_FORMATS = ['mp4','webm','mov','avi','mkv','flv','m4v','3gp']

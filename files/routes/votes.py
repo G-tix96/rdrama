@@ -147,10 +147,10 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		mul = 1
 		if target.author.progressivestack or target.author.id in BOOSTED_USERS:
 			mul = 2
-		elif cls == Submission and target.author.id not in {8768, 5214, 12719, 3402}:
+		elif cls == Submission and target.author.id not in BOOSTED_USERS_EXCLUDED:
 			if target.domain.endswith('.win') or target.domain in BOOSTED_SITES or target.sub in BOOSTED_HOLES:
 				mul = 2
-			elif target.sub and target.sub not in ('space','istory','dino','slackernews'):
+			elif target.sub and target.sub not in BOOSTED_HOLES_UNNERFED:
 				mul = 0.7
 			elif not target.sub and target.body_html:
 				x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
