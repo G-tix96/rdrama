@@ -98,7 +98,7 @@
 						<img onclick="toggleyoutube('{{p.id}}')" alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 					</a>
 				{% else %}
-					<a rel="nofollow noopener" href="{{p.realurl(v)}}">
+					<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
 						<img alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 						<i class="ext-link fas fa-external-link"></i>
 					</a>

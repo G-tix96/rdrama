@@ -153,7 +153,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			elif target.sub and target.sub not in UNNERFED_HOLES:
 				mul = 0.7
 			elif not target.sub and target.body_html and target.author.id not in BOOSTED_USERS_EXCLUDED:
-				x = target.body_html.count('<a href="https://')
+				x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
 				x += target.body_html.count('<a href="/images/')
 				target.realupvotes += min(x*2, 20)
 				mul = 1 + x/10
