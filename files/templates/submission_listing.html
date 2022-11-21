@@ -82,7 +82,7 @@
 				{% if p.club and not (v and (v.paid_dues or v.id == p.author_id)) %}
 					<img alt="post thumnail" loading="lazy" src="/e/marseyglow.webp" class="post-img">
 				{% elif not p.url %}
-					<a href="{{p.permalink}}">
+					<a {% if v and v.newtab %}target="_blank"{% endif %} href="{{p.permalink}}">
 						<img alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 					</a>
 				{% elif p.is_image %}
@@ -117,7 +117,7 @@
 				</div>
 			</div>
 			<h5 class="card-title post-title text-left w-lg-95 pb-0 pb-md-1">
-				<a id="{{p.id}}-title" href="{{p.permalink}}" class="{% if p.sub %}sub{% endif %} stretched-link {% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter{% endif %}">
+				<a id="{{p.id}}-title" {% if v and v.newtab %}target="_blank"{% endif %} href="{{p.permalink}}" class="{% if p.sub %}sub{% endif %} stretched-link {% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter{% endif %}">
 				{% if p.club %}<span class="patron font-weight-bolder mr-1" style="background-color:red; font-size:12px; line-height:2;">{{CC}}</span>{% endif %}
 				{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2;">{{p.flair | safe}}</span>{% endif %}
 				{{p.realtitle(v) | safe}}
@@ -131,7 +131,7 @@
 		{% if p.realbody(v, listing=True) %}
 			<button type="button" class="list-inline-item ml-2" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mx-0 text-expand-icon-{{p.id}}"></i></button>
 		{% endif %}
-		<a class="list-inline-item" href="{{p.permalink}}">
+		<a class="list-inline-item" {% if v and v.newtab %}target="_blank"{% endif %} href="{{p.permalink}}">
 			<i class="fas fa-comment-dots mr-2"></i>{{p.comment_count}}
 			<span class="text-info d-none {{p.id}}-new-comments"></span>
 		</a>
@@ -143,7 +143,7 @@
 	<div class="post-actions">
 		<ul class="list-inline text-right d-flex">
 			<li class="list-inline-item mr-auto">
-				<a href="{{p.permalink}}">
+				<a {% if v and v.newtab %}target="_blank"{% endif %} href="{{p.permalink}}">
 					<i class="fas fa-comment-dots ml-0 mr-2"></i>{{p.comment_count}}
 					<span class="text-info d-none {{p.id}}-new-comments"></span>
 				</a>
@@ -246,7 +246,7 @@
 
 	{% if p.is_image and not p.over_18 and ((v and v.cardview) or (not v and CARD_VIEW)) %}
 		<div style="text-align: center" class="mt-3 mb-4">
-			<a rel="nofollow noopener" href="{{p.realurl(v)}}">
+			<a {% if v and v.newtab %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
 				<img loading="lazy" data-src="{{p.realurl(v)}}" src="/i/l.webp" class="img-fluid" style="max-height:20rem" alt="Unable to load image">
 			</a>
 		</div>

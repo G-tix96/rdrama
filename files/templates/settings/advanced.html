@@ -96,6 +96,7 @@
 			<section id="site-settings-tab-behavior-section" class="settings-section-section">
 				<h5>Tab Behavior</h5>
 				<div class="settings-section rounded">
+					{{common.toggle_section("Open Internal Links In New Tabs", "newtab", "newtab", v.newtab, "Enable if you would like to automatically open links to other pages on the site in new tabs.", false)}}
 					{{common.toggle_section("Open External Links In New Tabs", "newtabexternal", "newtabexternal", v.newtabexternal, "Enable if you would like to automatically open links to other sites in new tabs.", false)}}
 				</div>
 			</section>

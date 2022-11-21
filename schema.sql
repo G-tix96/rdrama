@@ -951,6 +951,7 @@ CREATE TABLE public.users (
     profileurl character varying(65),
     bannerurl character varying(65),
     hidevotedon boolean DEFAULT false NOT NULL,
+    newtab boolean DEFAULT false NOT NULL,
     flairchanged integer,
     defaultsortingcomments character varying(15) NOT NULL,
     theme character varying(15) NOT NULL,
@@ -2684,3 +2685,4 @@ ALTER TABLE ONLY public.comment_option_votes
 --
 -- PostgreSQL database dump complete
 --
+

@@ -88,7 +88,7 @@
 		{% endif %}
 
 		{% if c.post.sub %}
-			<span class="ml-1"> in <a href="/h/{{c.post.sub}}">/h/{{c.post.sub}}</a></span>
+			<span class="ml-1"> in <a href="/h/{{c.post.sub}}" {% if v and v.newtab %}target="_blank"{% endif %}>/h/{{c.post.sub}}</a></span>
 		{% endif %}
 	{% elif c.author_id==AUTOJANNY_ID %}
 		<span class="font-weight-bold">Notification</span>
@@ -291,7 +291,7 @@
 						<button type="button" id="cancel-edit-{{c.id}}" onclick="toggleEdit('{{c.id}}');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r commentmob">Cancel</button> 
 					</form>
 					<div id="preview-edit-{{c.id}}" class="preview mb-3 mt-5"></div>
-					<div class="form-text text-small p-0 m-0"><a href="/formatting">Formatting help</a></div>
+					<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}target="_blank"{% endif %}>Formatting help</a></div>
 				</div>
 				{% endif %}
 				<div id="comment-{{c.id}}-actions" class="comment-actions{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
@@ -540,7 +540,7 @@
 					<button type="button" onclick="document.getElementById('reply-to-{{c.id}}').classList.add('d-none');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r commentmob">Cancel</button> 
 				</form>
 				<div id="form-preview-{{c.fullname}}" class="preview mb-3 mt-5"></div>
-				<div class="form-text text-small p-0 m-0"><a href="/formatting">Formatting help</a></div>
+				<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}target="_blank"{% endif %}>Formatting help</a></div>
 			</div>
 		</div>
 
