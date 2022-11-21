@@ -10,13 +10,24 @@ from files.helpers.alerts import *
 from files.helpers.get import get_account
 
 class RouletteAction(str, Enum):
-	STRAIGHT_UP_BET = "STRAIGHT_UP_BET", lambda x:x and x >= 0 and x <= 37
-	LINE_BET = "LINE_BET", lambda x:x in LINES
-	COLUMN_BET = "COLUMN_BET", lambda x:x in COLUMNS
-	DOZEN_BET = "DOZEN_BET", lambda x:x in DOZENS
-	EVEN_ODD_BET = "EVEN_ODD_BET", lambda x:x in [y.value for y in RouletteEvenOdd]
-	RED_BLACK_BET = "RED_BLACK_BET", lambda x:x in [y.value for y in RouletteRedBlack]
-	HIGH_LOW_BET = "HIGH_LOW_BET", lambda x:x in [y.value for y in RouletteHighLow]
+	STRAIGHT_UP_BET = "STRAIGHT_UP_BET", 
+	LINE_BET = "LINE_BET"
+	COLUMN_BET = "COLUMN_BET"
+	DOZEN_BET = "DOZEN_BET"
+	EVEN_ODD_BET = "EVEN_ODD_BET"
+	RED_BLACK_BET = "RED_BLACK_BET"
+	HIGH_LOW_BET = "HIGH_LOW_BET"
+
+	@property
+	def validation_function(self):
+		if self == self.__class__.STRAIGHT_UP_BET: return lambda x:x and x >= 0 and x <= 37
+		if self == self.__class__.LINE_BET: return lambda x:x in LINES
+		if self == self.__class__.COLUMN_BET: return lambda x:x in COLUMNS
+		if self == self.__class__.DOZEN_BET: return lambda x:x in DOZENS
+		if self == self.__class__.EVEN_ODD_BET: return lambda x:x in [y.value for y in RouletteEvenOdd]
+		if self == self.__class__.RED_BLACK_BET: return lambda x:x in [y.value for y in RouletteRedBlack]
+		if self == self.__class__.HIGH_LOW_BET: return lambda x:x in [y.value for y in RouletteHighLow]
+		raise ValueError("Unhandled validation function for RouletteAction")
 
 
 class RouletteEvenOdd(str, Enum):
