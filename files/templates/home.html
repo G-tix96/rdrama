@@ -193,7 +193,7 @@
 	</div>
 
 	<script>
-		if (!("standalone" in window.navigator) && !(window.navigator.standalone)) {
+		if (!window.matchMedia('(display-mode: minimal-ui)')['matches']) {
 			if (window.innerWidth <= 737) {
 				document.addEventListener('DOMContentLoaded', function() {
 					const tt = bootstrap.Tooltip.getOrCreateInstance(document.getElementById('mobile-prompt'))
