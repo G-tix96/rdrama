@@ -40,10 +40,10 @@
 	{% if sub %}
 		{% set image=sub.sidebar_url %}
 	{% else %}
-		{% set image='/i/' + SITE_NAME + '/sidebar.webp?v=3009' %}
+		{# set image='/i/' + SITE_NAME + '/sidebar.webp?v=3009' #}
 	{% endif %}
 	
-	{% if request.path != '/sidebar' %}
+	{% if request.path != '/sidebar' and image %}
 		<a href="{{image}}">
 			<img class="mb-4" alt="sidebar image" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
 		</a>
