@@ -264,6 +264,7 @@ def submit_hat(v):
 
 
 @app.post("/admin/approve/hat/<name>")
+@limiter.limit("3/second;120/minute;200/hour;1000/day")
 @admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_HATS'])
 def approve_hat(v, name):
 	hat = verify_permissions_and_get_asset(HatDef, "hat", v, name, False)
