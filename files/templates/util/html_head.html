@@ -11,19 +11,6 @@
 {% macro javascript() %}
 	<script defer src="{{'js/vendor/bootstrap.js' | asset}}"></script>
 	<script defer src="{{'js/core.js' | asset}}"></script>
-
-	<script>
-		if (window.matchMedia('(display-mode: standalone)')['matches']) { // if PWA
-			function link_trigger(e) {
-				const links = e.querySelectorAll('a[target="_blank"]'); // get links with target="_blank"
-				for (const link of links) { // loop on them
-					link.removeAttribute("target");
-				}
-			}
-
-			document.addEventListener('DOMContentLoaded', link_trigger(document));
-		}
-	</script>
 {% endmacro %}
 
 {% macro page_meta(title=none) %}
@@ -173,7 +160,7 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 
 	<link rel="apple-touch-icon" sizes="180x180" href="{{'icon.webp' | asset_siteimg}}">
-	<link rel="manifest" href="/assets/manifest_{{SITE_NAME}}.json?v=7">
+	<link rel="manifest" href="/assets/manifest_{{SITE_NAME}}.json?v=8">
 	<link rel="mask-icon" href="{{'icon.webp' | asset_siteimg}}">
 	<link rel="shortcut icon" href="{{'icon.webp' | asset_siteimg}}">
 	<meta name="apple-mobile-web-app-title" content="{{SITE_NAME}}">
