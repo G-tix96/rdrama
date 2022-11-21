@@ -86,7 +86,6 @@ class User(Base):
 	slurreplacer = Column(Integer, default=1)
 	profanityreplacer = Column(Integer, default=1)
 	flairchanged = Column(Integer)
-	newtab = Column(Boolean, default=False)
 	newtabexternal = Column(Boolean, default=True)
 	reddit = Column(String, default='old.reddit.com')
 	nitter = Column(Boolean)

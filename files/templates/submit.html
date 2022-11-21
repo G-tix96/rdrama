@@ -64,7 +64,7 @@
 													<input autocomplete="off" id="file-upload-submit" multiple="multiple" accept="image/*, video/*, audio/*" type="file" name="file" {% if g.is_tor %}disabled{% endif %} onchange="changename('filename-show-submit','file-upload-submit');checkForRequired()" hidden>
 												</label>		
 												<div id="preview" class="preview my-3"></div>
-												<div class="form-text text-small my-1"><a href="/formatting" {% if v and v.newtab %}target="_blank"{% endif %}>Formatting help</a></div>
+												<div class="form-text text-small my-1"><a href="/formatting">Formatting help</a></div>
 												<div class="custom-control custom-checkbox">
 													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-notify" name="notify" onchange="savetext()" checked>
 													<input type="hidden" name="notify" value="off">
