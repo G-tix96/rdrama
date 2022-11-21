@@ -263,7 +263,6 @@ def determine_roulette_winners(number, bets):
 			line = i
 
 	for bet in bets[RouletteAction.LINE_BET]:
-		if is_green(bet): continue
 		if int(bet['which']) == line:
 			add_to_winnings(bet)
 
@@ -274,7 +273,6 @@ def determine_roulette_winners(number, bets):
 			column = i
 
 	for bet in bets[RouletteAction.COLUMN_BET]:
-		if is_green(bet): continue
 		if int(bet['which']) == column:
 			add_to_winnings(bet)
 
@@ -285,7 +283,6 @@ def determine_roulette_winners(number, bets):
 			dozen = i
 
 	for bet in bets[RouletteAction.DOZEN_BET]:
-		if is_green(bet): continue
 		if int(bet['which']) == dozen:
 			add_to_winnings(bet)
 
@@ -301,7 +298,6 @@ def determine_roulette_winners(number, bets):
 	red_black = RouletteRedBlack.RED if number in REDS else RouletteRedBlack.BLACK
 
 	for bet in bets[RouletteAction.RED_BLACK_BET]:
-		if is_green(bet): continue
 		if bet['which'] == red_black:
 			add_to_winnings(bet)
 
