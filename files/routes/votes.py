@@ -148,7 +148,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		if target.author.progressivestack or target.author.id in BOOSTED_USERS:
 			mul = 2
 		elif cls == Submission:
-			if target.domain.endswith('.win') or target.domain in BOOSTED_SITES or target.sub in BOOSTED_HOLES:
+			if target.domain.endswith('.win') or (target.domain in BOOSTED_SITES and not target.url.startswith('/')) or target.sub in BOOSTED_HOLES:
 				mul = 2
 			elif target.sub and target.sub not in UNNERFED_HOLES:
 				mul = 0.7
