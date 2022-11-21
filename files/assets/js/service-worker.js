@@ -1,52 +1,50 @@
 importScripts("https://js.pusher.com/beams/service-worker.js");
 
-const CACHE = "pwabuilder-offline-page";
+// offline static page handler
+// @crgd
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
+const CACHE_NAME = "offlineCache-v1";
+const OFFLINE_URL = "/assets/offline.html";
 
-const offlineFallbackPage = "/assets/offline.html";
+self.addEventListener("install", (event) => {
+	const cacheOfflinePage = async () => {
+		const cache = await caches.open(CACHE_NAME);
+		await cache.add(new Request(OFFLINE_URL, {cache: "reload"}));
+	};
 
-self.addEventListener("message", (event) => {
-	if (event.data && event.data.type === "SKIP_WAITING") {
-		self.skipWaiting();
-	}
+	cacheOfflinePage().then(() => {
+		this.skipWaiting();
+	});
 });
 
-self.addEventListener('install', async (event) => {
+self.addEventListener("activate", (event) => {
+	const expectedCaches = [CACHE_NAME];
+
 	event.waitUntil(
-		caches.open(CACHE)
-			.then((cache) => cache.add(offlineFallbackPage))
+		caches.keys().then(keys => Promise.all(
+			keys.map(key => {
+				if (!expectedCaches.includes(key)) {
+					return caches.delete(key);
+				}
+			})
+		))
 	);
 });
 
-if (workbox.navigationPreload.isSupported()) {
-	workbox.navigationPreload.enable();
-}
-
-workbox.routing.registerRoute(
-	new RegExp('/*'),
-	new workbox.strategies.StaleWhileRevalidate({
-		cacheName: CACHE
-	})
-);
-
-self.addEventListener('fetch', (event) => {
-	if (event.request.mode === 'navigate') {
+self.addEventListener("fetch", (event) => {
+	if (event.request.mode === "navigate") {
 		event.respondWith((async () => {
 			try {
-				const preloadResp = await event.preloadResponse;
+				const preloadResponse = await event.preloadResponse;
+				if (preloadResponse) return preloadResponse;
 
-				if (preloadResp) {
-					return preloadResp;
-				}
-
-				const networkResp = await fetch(event.request);
-				return networkResp;
+				const networkResponse = await fetch(event.request);
+				return networkResponse;
 			} catch (error) {
+				console.log("Fetch failed; returning offline page instead.", error);
 
-				const cache = await caches.open(CACHE);
-				const cachedResp = await cache.match(offlineFallbackPage);
-				return cachedResp;
+				const cachedResponse = await caches.match(OFFLINE_URL);
+				return cachedResponse;
 			}
 		})());
 	}
