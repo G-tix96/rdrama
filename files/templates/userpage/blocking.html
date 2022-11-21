@@ -1,13 +1,8 @@
 {% extends "default.html" %}
 
 {% block pagetype %}userpage{% endblock %}
-
-{% block title %}
-	<title>{{u.username}}</title>
-{% endblock %}
-
+{% block pagetitle %}@{{u.username}}{% endblock %}
 {% block content %}
-
 <div class="row no-gutters">
 	<div class="col-12">
 		<div class="text-center py-7 py-md-8">
@@ -22,6 +17,4 @@
 	</div>
 </div>
 {% endblock %}
-
-{% block pagenav %}
-{% endblock %}
+{% block pagenav %}{% endblock %}

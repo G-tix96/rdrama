@@ -1,18 +1,13 @@
 {% extends "default.html" %}
-{% set ups=p.upvotes %}
-{% set downs=p.downvotes %}
-{% set score=ups-downs %}
-
-{% if v %}
-	{% set voted=p.voted if p.voted else 0 %}
+{% block pagetitle %}
+{% if comment_info %}
+	@{{comment_info.author_name}} comments on '{{p.plaintitle(v)}}'
 {% else %}
-	{% set voted=-2 %}
+	{{p.plaintitle(v)}}
 {% endif %}
-
-{% set v_forbid_deleted = (p.deleted_utc != 0) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == p.author_id) %}
-
-{% block title %}
-
+{% endblock %}
+{% block pagetype %}thread{% endblock %}
+{% block head_final %}
 <style>
 	body > .container {
 		padding-left: 20px !important;
@@ -25,9 +20,17 @@
 	{% include "awards_PCM.html" %}
 {% endif %}
 {% endblock %}
+{% set ups=p.upvotes %}
+{% set downs=p.downvotes %}
+{% set score=ups-downs %}
 
-{% block pagetype %}thread{% endblock %}
+{% if v %}
+	{% set voted=p.voted if p.voted else 0 %}
+{% else %}
+	{% set voted=-2 %}
+{% endif %}
 
+{% set v_forbid_deleted = (p.deleted_utc != 0) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == p.author_id) %}
 {% block actionsModal %}
 
 {% if v %}

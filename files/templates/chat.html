@@ -1,18 +1,15 @@
-{%- import 'util/macros.html' as macros with context -%}
-{%- import 'html_head.html' as html_head with context -%}
-<!DOCTYPE html>
-<html lang="en">
+{%- extends 'root.html' -%}
 {% if IS_LOCALHOST %}
 	{% set csp="script-src 'self' 'unsafe-inline' rdrama.net; connect-src 'self'; object-src 'none';" %}
 {% else %}
 	{% set csp=none %}
 {% endif %}
-{{html_head.html_head(true, true, true, csp, "Chat", false)}}
-<body>
+{% block pagetitle %}Chat{% endblock %}
+{% block pagetype %}chat{% endblock %}
+{% block body %}
 	{% include "header.html" %}
 	{% include "modals/expanded_image.html" %}
 	{% include "modals/emoji.html" %}
-
 	<div
 		id="root"
 		data-id="{{v.id}}"
@@ -33,4 +30,4 @@
 	{% endif %}
 	<script defer src="{{'js/vendor/lozad.js' | asset}}"></script>
 	<script defer src="{{'js/vendor/lite-youtube.js' | asset}}"></script>
-</body>
+{% endblock %}

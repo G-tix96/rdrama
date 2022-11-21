@@ -1,9 +1,8 @@
 {% extends "default.html" %}
-
 {% block pagetype %}search{% endblock %}
-
-{% block title %}
-<title>Search for "{{query}}" - {{SITE_NAME}}"</title> <meta name="description" content="{{total}} result{{'s' if total != 1 else ''}}">
+{% block pagetitle %}Search for "{{query}}"{% endblock %}
+{% block head_final %}
+<meta name="description" content="{{total}} result{{'s' if total != 1 else ''}}">
 {% endblock %}
 
 {% block PseudoSubmitForm %}
@@ -16,16 +15,10 @@
 		</span>
 	</form>
 {% endblock %}
-
-{% block navbar %}
-{% endblock %}
-
+{% block navbar %}{% endblock %}
 {% block content %}
-
 <div class="row no-gutters my-md-3">
-
 	<div class="col">
-
 		<div class="card search-results">
 
 			<div class="card-header bg-white d-none">
@@ -132,20 +125,13 @@
 							</div>
 						</div>
 					{% endif %}
-
-
 				</div>
 			</div>
 		</div>
 	</div>
-
 </div>
-
-
 {% if not '/users' in request.path %}
-
 <div class="flex-row tab-bar sticky d-none">
-
 	<ul class="nav post-nav mr-auto">
 		<li class="nav-item">
 			<a class="nav-link{% if sort=='top' %} active{% endif %}" href="?sort=top&q={{query | urlencode}}&t={{t}}"><i class="fas fa-arrow-alt-circle-up"></i>Top</a>
@@ -169,10 +155,8 @@
 			<a class="nav-link{% if sort=='random' %} active{% endif %}" href="?sort=random&q={{query | urlencode}}&t={{t}}"><i class="fas fa-arrow-alt-circle-down"></i>Random</a>
 		</li>
 	</ul>
-
 	</div>
 	{% endif %}
-
 	<div class="row no-gutters">
 		<div class="col">
 			<div class="flex-row box-shadow-bottom d-flex justify-content-center justify-content-md-between align-items-center">
@@ -190,22 +174,16 @@
 			</div>
 		</div>
 	</div>
-
 	<div class="row no-gutters">
-
 		<div class="col-12">
-
 			<div class="posts" id="posts">
-
 				{% block listing_template %}
 					{% include "submission_listing.html" %}
 				{% endblock %}
-
 			</div>
 		</div>
 	</div>
 	{% endblock %}
-
 	{% block pagenav %}
 		<nav aria-label="Page navigation">
 			<ul class="pagination pagination-sm mb-0">
@@ -219,5 +197,4 @@
 				</li>
 			</ul>
 		</nav>
-
 	{% endblock %}

@@ -129,4 +129,5 @@ def hat_owners(v, hat_id):
 						users=users,
 						next_exists=next_exists,
 						page=page,
+						user_cards_title="Hat Owners",
 						)

@@ -1,43 +1,37 @@
 {% extends "default.html" %}
-
 {% block title %}
 	{% if sub %}
-
-		{% if sub.bannerurl %}
-			{% set preview = sub.bannerurl %}
-		{% elif sub.sidebarurl %}
-			{% set preview = sub.sidebarurl %}
-		{% else %}
-			{% set preview = sub.banner_url %}
-		{% endif %}
-
 		<title>/h/{{sub}}</title>
-
-		<meta property="og:type" content="article">
-		<meta property="og:title" content="/h/{{sub}}">
-		<meta property="og:site_name" content="{{SITE}}">
-		<meta property="og:image" content="{{preview}}">
-		<meta property="og:url" content="{{request.full_path}}">
-		<meta property="og:author" name="author" content="{{SITE_FULL}}">
-
-		<meta name="twitter:card" content="summary_large_image">
-		<meta name="twitter:site" content="{{SITE_FULL}}">
-		<meta name="twitter:title" content="/h/{{sub}}">
-		<meta name="twitter:creator" content="{{SITE_FULL}}">
-		<meta name="twitter:image" content="{{preview}}">
-		<meta name="twitter:url" content="{{request.full_path}}">
-
-		{% if sub.sidebar %}
-			<meta property="og:description" name="description" content="{{sub.sidebar}}">
-			<meta name="twitter:description" content="{{sub.sidebar}}">
-		{% endif %}
+	{% elif request.path == '/' %}
+		<title>{{SITE_NAME}}</title>
 	{% else %}
 		{{super()}}
 	{% endif %}
 {% endblock %}
 
-{% block desktopBanner %}
+{% block head_final %}
+{% set preview = sub.siderbarurl if sub and sub.sidebarurl else sub.bannerurl %}
 
+<meta property="og:type" content="article">
+<meta property="og:title" content="/h/{{sub}}">
+<meta property="og:site_name" content="{{SITE}}">
+<meta property="og:image" content="{{preview}}">
+<meta property="og:url" content="{{request.full_path}}">
+<meta property="og:author" name="author" content="{{SITE_FULL}}">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="{{SITE_FULL}}">
+<meta name="twitter:title" content="/h/{{sub}}">
+<meta name="twitter:creator" content="{{SITE_FULL}}">
+<meta name="twitter:image" content="{{preview}}">
+<meta name="twitter:url" content="{{request.full_path}}">
+
+{% if sub.sidebar %}
+	<meta property="og:description" name="description" content="{{sub.sidebar}}">
+	<meta name="twitter:description" content="{{sub.sidebar}}">
+{% endif %}
+{% endblock %}
+{% block desktopBanner %}
 <div class="row" style="overflow: visible;padding-top:5px;">
 	<div class="col">
 		<a class="btn btn-primary btn-block mt-3" href="{% if sub %}/h/{{sub}}{% endif %}/submit"><i class="fas fa-feather-alt mr-2"></i>Create Post</a>
@@ -136,8 +130,7 @@
 
 {% endblock %}
 
-{% block PseudoSubmitForm %}
-{% endblock %}
+{% block PseudoSubmitForm %}{% endblock %}
 
 {% block content %}
 

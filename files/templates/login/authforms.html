@@ -1,22 +1,20 @@
-{%- import 'util/macros.html' as macros with context -%}
-{%- import 'html_head.html' as html_head with context -%}
-<!DOCTYPE html>
-<html lang="en">
-{{html_head.html_head(false, false, false, none, SITE_NAME)}}
-<body id="login">
-		<div class="container-fluid position-absolute h-100 p-0">
+{%- extends 'root.html' -%}
+{% block pagetitle %}Login{% endblock %}
+{% block pagetype %}login{% endblock %}
+{% block template_config %}
+	{% set root_scope.js = false %}
+	{% set root_scope.include_user_css = false %}
+	{% set root_scope.include_seo = false %}
+	{% set root_scope.include_cf_2fa_verify = false %}
+{% endblock %}
+{% block body %}
+	<div class="container-fluid position-absolute h-100 p-0">
 				<div class="row no-gutters h-100">
-
 						<div class="col-12 col-md-6 my-auto p-3">
-
 								<div class="row justify-content-center">
-
 										<div class="col-10 col-md-7">
-
 										<h2>{% block authtitle %}{% endblock %}</h2>
-
 										<p class="text-muted mb-md-5">{% block authtext %}{% endblock %}</p>
-
 			{% if error %}
 				<div class="alert alert-danger alert-dismissible fade show d-flex my-3" role="alert">
 													<i class="fas fa-exclamation-circle my-auto"></i>
@@ -39,30 +37,17 @@
 												</button>
 								</div>
 			{% endif %}
-
-												{% block content %}
-			{% endblock %}
-
+												{% block content %}{% endblock %}
 										</div>
-
 								</div>
-
 						</div>
-
 						<div class="col-12 col-md-6 d-mob-none">
-
 								<div class="splash-wrapper">
-
 										<div class="splash-overlay"></div>
-
 										<img alt="cover" loading="lazy" class="splash-img" src="{{'cover.webp' | asset_siteimg}}"></img>
 								</div>
-
 						</div>
-
 				</div>
 		</div>
-
-</body>
-
-</html>
+		{% block scripts %}{% endblock %}
+{% endblock %}

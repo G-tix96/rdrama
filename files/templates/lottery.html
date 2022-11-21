@@ -1,4 +1,7 @@
-{% extends "default.html" %} {% block content %}
+{% extends "default.html" %}
+{% block pagetype %}lottery{% endblock %}
+{% block pagetitle %}Lottershe{% endblock %}
+{% block content %}
 <div style="margin-top: 5rem">
 	<div class="lottery-page--wrapper">
 	<div class="lottery-page--image">
@@ -131,7 +134,7 @@
 		</button>
 	</div>
 
-	<!-- Success -->
+	{# Success #}
 	<div
 		class="toast"
 		id="lottery-post-success"
@@ -158,7 +161,7 @@
 		</div>
 	</div>
 
-	<!-- Error -->
+	{# Error #}
 	<div
 		class="toast"
 		id="lottery-post-error"
@@ -185,8 +188,6 @@
 		</div>
 	</div>
 	</div>
-
 	<script defer src="{{'js/lottery.js' | asset}}"></script>
 </div>
-
 {% endblock %}

@@ -1,11 +1,11 @@
 {% extends "settings2.html" %}
+{% block pagetitle %}Alts{% if u %} for @{{u.username}}{% endif %}{% endblock %}
 {% block content %}
 {% if u %}
 	<h5 class="mt-3">Alts for <a href="/@{{u.username}}">@{{u.username}}</a></h5>
 {% else %}
 	<h5 class="mt-3">Alts</h5>
 {% endif %}
-{%- import 'util/macros.html' as macros with context -%}
 <section class="username-input-section mb-3">
 	<form action="/admin/alts" method="get">
 		<label for="link-input">Username</label>

@@ -1,8 +1,6 @@
 {% extends "default.html" %}
-
-
 {% block pagetype %}userpage{% endblock %}
-
+{% block pagetitle %}@{{u.username}}'s profile{% endblock %}
 {% block head_final %}
 	{% if u and u.profilecss and not request.values.get('nocss') %}
 		<link rel="stylesheet" href="/{{u.id}}/profilecss">
@@ -606,5 +604,4 @@
 
 {% endblock %}
 
-{% block GIFpicker %}
-{% endblock %}
+{% block GIFpicker %}{% endblock %}

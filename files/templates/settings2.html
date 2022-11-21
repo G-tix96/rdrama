@@ -1,22 +1,8 @@
-{%- import 'util/macros.html' as macros with context -%}
-{%- import 'html_head.html' as html_head with context -%}
-<!DOCTYPE html>
-<html lang="en">
-{%-
-set PAGE_TITLES = {
-	'/leaderboard': 'Leaderboard',
-	'/admins': 'Admins',
-	'/log': 'Modlog',
-	'/banned': 'Permabanned',
-	'/blocks': 'Blocks',
-}
--%}
-{%- set title = SITE_NAME if not request.path in PAGE_TITLES else PAGE_TITLES[request.path] -%}
-{{html_head.html_head(true, false, true, none, title)}}
-<body id="settings2" {% if SITE_NAME == 'rDrama' and v and (v.is_banned or v.agendaposter) %}style="overflow-x: hidden;background:url(/assets/images/backgrounds/anime/1.webp?v=3) center center fixed; background-color: var(--background)"{% elif v and v.background %}style="overflow-x: hidden;background:url(/assets/images/backgrounds/{{v.background}}?v=3) center center fixed; background-color: var(--background){% if 'anime' not in v.background %};background-size: cover{% endif %}"{% endif %}>
-
+{%- extends 'root.html' -%}
+{% block pagetitle %}User List{% endblock %}
+{% block body_attributes %}id="settings2" {% if SITE_NAME == 'rDrama' and v and (v.is_banned or v.agendaposter) %}style="overflow-x: hidden;background:url(/assets/images/backgrounds/anime/1.webp?v=3) center center fixed; background-color: var(--background)"{% elif v and v.background %}style="overflow-x: hidden;background:url(/assets/images/backgrounds/{{v.background}}?v=3) center center fixed; background-color: var(--background){% if 'anime' not in v.background %};background-size: cover{% endif %}"{% endif %}{% endblock %}
+{% block body %}
 {% include "header.html" %}
-
 {% block subNav %}
 	{% if not request.path.startswith('/h/') %}
 		<div class="container-fluid bg-white sticky d-mob-none" style="padding-top: 50px; padding-bottom: 0 !important;">
@@ -88,8 +74,7 @@ set PAGE_TITLES = {
 
 <div class="{% if request.path == '/banned' or request.path == '/blocks' %}container-fluid{% else %}container{% endif %} {% if request.path in ['/leaderboard', '/paypigs', '/patrons'] %}px-0{% endif %}">
 
-{% block content %}
-{% endblock %}
+{% block content %}{% endblock %}
 
  </div>
 
@@ -116,28 +101,10 @@ set PAGE_TITLES = {
 		<i class="fas fa-exclamation-circle mr-2"></i><span id="toast-post-error-text">Error, please try again later.</span>
 	</div>
 </div>
-
-{% block mobilenavbar %}
-	{% include "mobile_navigation_bar.html" %}
+{% block mobilenavbar %}{% include "mobile_navigation_bar.html" %}{% endblock %}
+{% block invitationModal %}{% endblock %}
+{% block exileModal %}{% endblock %}
+{% block approveModal %}{% endblock %}
+{% block errorToasts %}{% endblock %}
+{% block scripts %}{% endblock %}
 {% endblock %}
-
-{% block invitationModal %}
-{% endblock %}
-
-{% block exileModal %}
-{% endblock %}
-
-{% block approveModal %}
-{% endblock %}
-
-{% block errorToasts %}
-{% endblock %}
-
-
-
-{% block scripts %}
-{% endblock %}
-
-</body>
-
-</html>

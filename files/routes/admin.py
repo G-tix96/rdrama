@@ -619,6 +619,7 @@ def users_list(v):
 						users=users,
 						next_exists=next_exists,
 						page=page,
+						user_cards_title="Users Feed",
 						)
 
 
