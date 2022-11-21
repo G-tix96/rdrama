@@ -20,7 +20,6 @@
 					for (const link of links) { // loop on them
 						if (!(link.href.startsWith('/') || link.href.startsWith('{{SITE_FULL}}'))) // if not site url
 						{
-							console.log('hello')
 							link.target = "_blank" // open in new tab
 						}
 					}
