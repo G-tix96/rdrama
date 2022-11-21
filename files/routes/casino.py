@@ -218,7 +218,7 @@ def roulette_player_placed_bet(v):
 	try: which_int = int(which)
 	except: which_int = None
 
-	if not bet_type.validation_function(which_int or which):
+	if not bet_type.validation_function(which if which_int is None else which_int):
 		abort(400, f"Not a valid roulette bet for bet type {bet_type.value[0]}")
 
 	try:
