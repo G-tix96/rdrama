@@ -124,8 +124,8 @@ function bet_vote(t, oid) {
 			var scoretext = document.getElementById('option-' + oid);
 			var score = Number(scoretext.textContent);
 			scoretext.textContent = score + 1;
-		
-			document.getElementById("user-coins-amount").innerText = parseInt(document.getElementById("user-coins-amount").innerText) - 200;		
+
+			document.getElementById("user-coins-amount").innerText = parseInt(document.getElementById("user-coins-amount").innerText) - 200;
 		}
 	);
 }

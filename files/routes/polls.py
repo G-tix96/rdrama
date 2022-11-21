@@ -49,7 +49,7 @@ def vote_option(option_id, v):
 	elif existing and not option.exclusive:
 		g.db.delete(existing)
 
-	return {"message": "Bet successful!"}, 204
+	return {"message": "Bet successful!"}, 200
 
 @app.get("/votes/post/option/<option_id>")
 @auth_required
