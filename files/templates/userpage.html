@@ -194,7 +194,7 @@
 						{% endif %}
 
 						{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-							<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding-bottom:0.25rem!important"{% endif %}>Toggle anthem</button>
+							<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.375rem 0.75rem!important"{% endif %}>Toggle anthem</button>
 						{% endif %}
 					</div>
 					
@@ -391,7 +391,7 @@
 					{% endif %}
 
 					{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-						<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;;padding-bottom:0.25rem!important"{% endif %}>Toggle anthem</button>
+						<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.375rem 0.75rem!important"{% endif %}>Toggle anthem</button>
 					{% endif %}
 
 					{% if v and v.id != u.id %}
