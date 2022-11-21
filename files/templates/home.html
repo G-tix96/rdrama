@@ -179,17 +179,17 @@
 
 {% if request.path == '/' and time.time() > session.get('tooltip_last_dismissed',0)+60*60*24*30 %}
 	<style>
-		.beg-icon {
+		.dismiss-beg {
 			color: #919191;
 			float: left;
-			font-size: 10px;
-			margin-top: 0.25rem;
-			margin-right: 0.25rem;
+			font-size: 14px;
+			padding-top: 0.25rem;
+			padding-right: 0.25rem;
 		}
 	</style>
 
 	<div id="mobile-prompt-container" class="fixed-top">
-		<div id="mobile-prompt" data-bs-toggle="tooltip" data-bs-container="#mobile-prompt-container" data-bs-placement="top" data-bs-trigger="click" data-bs-html="true" title="<i class='beg-icon fas fa-x'></i>Click me to install the {{SITE_NAME}} mobile app!"></div>
+		<div id="mobile-prompt" data-bs-toggle="tooltip" data-bs-container="#mobile-prompt-container" data-bs-placement="top" data-bs-trigger="click" data-bs-html="true" title="<i class='dismiss-beg fas fa-x'></i>Click me to install the {{SITE_NAME}} mobile app!"></div>
 	</div>
 
 	<script>
@@ -198,14 +198,15 @@
 				document.addEventListener('DOMContentLoaded', function() {
 					const tt = bootstrap.Tooltip.getOrCreateInstance(document.getElementById('mobile-prompt'))
 					tt.show()
-					document.getElementsByClassName('tooltip')[0].onclick = function() {
+					document.getElementsByClassName('tooltip')[0].onclick = function(e) {
 						tt.hide()
 						var xhr = new XMLHttpRequest();
 						xhr.withCredentials=true;
 						xhr.open("POST", '/dismiss_mobile_tip', true);
 						xhr.setRequestHeader('xhr', 'xhr');
 						xhr.send();
-						location.href = "/app"
+						if (!e.target.classList.contains('dismiss-beg'))
+							location.href = "/app"
 					}
 				})
 			}
