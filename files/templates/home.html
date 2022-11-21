@@ -63,21 +63,11 @@
 
 			{% block navbar %}
 			<div class="d-flex align-items-center">
-				{% if pins %}
-					{% set pcolor = "primary" %}
-				{% else %}
-					{% set pcolor = "secondary" %}
-				{% endif %}
-
+				{% set pcolor = "primary" if pins else "secondary" %}
 				<a class="btn btn-{{pcolor}} text-{{pcolor}} mx-2 smol-fp" href="/toggle_pins/{{sort}}"><i class="fas fas fa-thumbtack fa-rotate--45 mr-2 "></i>Pins</a>
 
 				{% if SITE_NAME != 'WPD' and not sub %}
-					{% if holes %}
-						{% set hcolor = "primary" %}
-					{% else %}
-						{% set hcolor = "secondary" %}
-					{% endif %}
-
+					{% set hcolor = "primary" if hcolor else "secondary" %}
 					<a class="btn btn-{{hcolor}} text-{{hcolor}} mx-2 smol-fp" href="/toggle_holes"><i class="fas fas fa-manhole mr-2 "></i>Holes</a>
 				{% endif %}
 
