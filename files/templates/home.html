@@ -1,16 +1,14 @@
 {% extends "default.html" %}
 {% block title %}
 	{% if sub %}
-		<title>/h/{{sub}}</title>
+		<title>/h/{{sub.name}}</title>
 	{% elif request.path == '/' %}
 		<title>{{SITE_NAME}}</title>
 	{% else %}
 		{{super()}}
 	{% endif %}
 {% endblock %}
-{% block pagetitle %}
-{{SITE_NAME if not sub else '/h/' + sub}}
-{% endblock %}
+{% block pagetitle %}{{SITE_NAME if not sub else '/h/' ~ sub.name}}{% endblock %}
 
 {% block head_final %}
 {% set preview = sub.siderbarurl if sub and sub.sidebarurl else sub.bannerurl %}
@@ -24,7 +22,7 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="{{SITE_FULL}}">
-<meta name="twitter:title" content="/h/{{sub}}">
+<meta name="twitter:title" content="/h/{{sub.name}}">
 <meta name="twitter:creator" content="{{SITE_FULL}}">
 <meta name="twitter:image" content="{{preview}}">
 <meta name="twitter:url" content="{{request.full_path}}">
@@ -37,25 +35,25 @@
 {% block desktopBanner %}
 <div class="row" style="overflow: visible;padding-top:5px;">
 	<div class="col">
-		<a class="btn btn-primary btn-block mt-3" href="{% if sub %}/h/{{sub}}{% endif %}/submit"><i class="fas fa-feather-alt mr-2"></i>Create Post</a>
+		<a class="btn btn-primary btn-block mt-3" href="{% if sub %}/h/{{sub.name}}{% endif %}/submit"><i class="fas fa-feather-alt mr-2"></i>Create Post</a>
 
 		{% if sub %}
 			{% if v %}
 				{%- set hole_prefix = '/h/' if not HOLE_STYLE_FLAIR else '' -%}
 
 				{% if sub.stealth %}
-					<button type="button" id="subscribe-sub" class="btn btn-primary btn-block {% if v.subscribes(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub}}/subscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock {{hole_prefix}}{{sub}}</button>
-					<button type="button" id="unsubscribe-sub" class="btn btn-primary btn-block {% if not v.subscribes(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub}}/unsubscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub}}</button>					
+					<button type="button" id="subscribe-sub" class="btn btn-primary btn-block {% if v.subscribes(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub.name}}/subscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock {{hole_prefix}}{{sub.name}}</button>
+					<button type="button" id="unsubscribe-sub" class="btn btn-primary btn-block {% if not v.subscribes(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub.name}}/unsubscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub.name}}</button>
 				{% else %}
-					<button type="button" id="block-sub" class="btn btn-primary btn-block mt-3 {% if v.blocks(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub}}/block','block-sub','unblock-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub}}</button>
-					<button type="button" id="unblock-sub" class="btn btn-primary btn-block mt-3 {% if not v.blocks(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub}}/unblock','block-sub','unblock-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock {{hole_prefix}}{{sub}}</button>
+					<button type="button" id="block-sub" class="btn btn-primary btn-block mt-3 {% if v.blocks(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub.name}}/block','block-sub','unblock-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub.name}}</button>
+					<button type="button" id="unblock-sub" class="btn btn-primary btn-block mt-3 {% if not v.blocks(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub.name}}/unblock','block-sub','unblock-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock {{hole_prefix}}{{sub.name}}</button>
 				{% endif %}
 
-				<button type="button" id="follow-sub" class="btn btn-primary btn-follow {% if v.follows(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub}}/follow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell mr-2"></i>Follow {{hole_prefix}}{{sub}}</button>
-				<button type="button" id="unfollow-sub" class="btn btn-primary btn-follow {% if not v.follows(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub}}/unfollow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell-slash mr-2"></i>Unfollow {{hole_prefix}}{{sub}}</button>
+				<button type="button" id="follow-sub" class="btn btn-primary btn-follow {% if v.follows(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub.name}}/follow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell mr-2"></i>Follow {{hole_prefix}}{{sub.name}}</button>
+				<button type="button" id="unfollow-sub" class="btn btn-primary btn-follow {% if not v.follows(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub.name}}/unfollow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell-slash mr-2"></i>Unfollow {{hole_prefix}}{{sub.name}}</button>
 			{% else %}
-				<a class="btn btn-primary btn-block" href="/login?redirect={{request.full_path | urlencode}}"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub}}</a>
-				<a class="btn btn-primary btn-block" href="/login?redirect={{request.full_path | urlencode}}"><i class="fas fa-bell mr-2"></i>Follow {{hole_prefix}}{{sub}}</a>
+				<a class="btn btn-primary btn-block" href="/login?redirect={{request.full_path | urlencode}}"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub.name}}</a>
+				<a class="btn btn-primary btn-block" href="/login?redirect={{request.full_path | urlencode}}"><i class="fas fa-bell mr-2"></i>Follow {{hole_prefix}}{{sub.name}}</a>
 			{% endif %}
 		{% endif %}
 
