@@ -16,12 +16,17 @@ from files.helpers.get import *
 from files.helpers.sanitize import *
 from files.helpers.slots import check_slots_command
 
-headers = {'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}
 
 def _archiveorg(url):
-	try: requests.get(f'https://web.archive.org/save/{url}', headers=headers, timeout=10, proxies=proxies)
+	headers = {'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}
+	try:
+		requests.get(f'https://web.archive.org/save/{url}',
+			headers=headers, timeout=10, proxies=proxies)
 	except: pass
-	requests.post('https://ghostarchive.org/archive2', data={"archive": url}, headers=headers, timeout=10, proxies=proxies)
+	try:
+		requests.post('https://ghostarchive.org/archive2', data={"archive": url},
+			headers=headers, timeout=10, proxies=proxies)
+	except: pass
 
 
 def archive_url(url):	
