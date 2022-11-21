@@ -11,6 +11,26 @@
 {% macro javascript() %}
 	<script defer src="{{'js/vendor/bootstrap.js' | asset}}"></script>
 	<script defer src="{{'js/core.js' | asset}}"></script>
+
+	{% if not v or v.newtabexternal %}
+		<script>
+			if (!window.matchMedia('(display-mode: standalone)')['matches']) { // if not PWA
+				function link_trigger(e) {
+					const links = e.getElementsByTagName('a') // get all link elements
+					for (const link of links) { // loop on them
+						if (!(link.href.startsWith('/') || link.href.startsWith('{{SITE_FULL}}'))) // if not site url
+						{
+							console.log('hello')
+							link.target = "_blank" // open in new tab
+						}
+					}
+				}
+
+				document.addEventListener('DOMContentLoaded', link_trigger(document));
+			}
+		</script>
+	{% endif %}
+
 {% endmacro %}
 
 {% macro page_meta(title=none) %}

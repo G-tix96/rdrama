@@ -63,7 +63,6 @@ def allowed_attributes(tag, name, value):
 		if name == 'href' and '\\' not in value and 'xn--' not in value:
 			return True
 		if name == 'rel' and value == 'nofollow noopener': return True
-		if name == 'target' and value == '_blank': return True
 		return False
 
 	if tag == 'img':
@@ -145,8 +144,7 @@ def callback(attrs, new=False):
 		del attrs[(None, "href")] # Make unclickable and reset harmful payload
 		return attrs
 
-	if not href.startswith('/') and not href.startswith(f'{SITE_FULL}/'):
-		attrs[(None, "target")] = "_blank"
+	if not is_site_url(href):
 		attrs[(None, "rel")] = "nofollow noopener"
 
 	return attrs
@@ -271,7 +269,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	# replacing zero width characters, overlines, fake colons
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\u033f","").replace("\u0589", ":")
 
-	sanitized = reddit_regex.sub(r'\1<a href="https://old.reddit.com/\2" rel="nofollow noopener" target="_blank">/\2</a>', sanitized)
+	sanitized = reddit_regex.sub(r'\1<a href="https://old.reddit.com/\2" rel="nofollow noopener">/\2</a>', sanitized)
 	sanitized = sub_regex.sub(r'\1<a href="/\2">/\2</a>', sanitized)
 
 	v = getattr(g, 'v', None)
@@ -298,7 +296,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	for tag in soup.find_all("img"):
 		if tag.get("src") and not tag["src"].startswith('/pp/'):
 			if not is_safe_url(tag["src"]):
-				a = soup.new_tag("a", href=tag["src"], rel="nofollow noopener", target="_blank")
+				a = soup.new_tag("a", href=tag["src"], rel="nofollow noopener")
 				a.string = tag["src"]
 				tag.replace_with(a)
 				continue
@@ -312,7 +310,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 				a = soup.new_tag("a", href=tag["data-src"])
 				if not is_site_url(a["href"]):
 					a["rel"] = "nofollow noopener"
-					a["target"] = "_blank"
 				tag = tag.replace_with(a)
 				a.append(tag)
 

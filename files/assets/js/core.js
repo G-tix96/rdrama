@@ -255,7 +255,7 @@ function bs_trigger(e) {
 		}
 	})
 
-	if (typeof update_speed_emoji_modal != 'undefined') {
+	if (typeof update_speed_emoji_modal == 'function') {
 		let forms = e.querySelectorAll("textarea, .allow-emojis");
 		forms.forEach(i => {
 			let pseudo_div = document.createElement("div");
@@ -266,6 +266,9 @@ function bs_trigger(e) {
 			i.addEventListener('keydown', speed_carot_navigate, false);
 		});
 	}
+
+	if (typeof link_trigger === "function")
+		link_trigger(e);
 }
 
 var bsTriggerOnReady = function() {

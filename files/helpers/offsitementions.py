@@ -98,9 +98,9 @@ def notify_mentions(send_to, mentions, mention_str='site mention'):
 		text = sanitize(m['text'], golden=False)
 		notif_text = (
 			f'<p>New {mention_str} by <a href="https://old.reddit.com/u/{author}" '
-				f'rel="nofollow noopener" target="_blank">/u/{author}</a></p>'
+				f'rel="nofollow noopener">/u/{author}</a></p>'
 			f'<p><a href="https://old.reddit.com{permalink}?context=89" '
-				'rel="nofollow noopener" target="_blank">'
+				'rel="nofollow noopener">'
 				f'https://old.reddit.com{permalink}?context=89</a></p>'
 			f'{text}'
 		)
