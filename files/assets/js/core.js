@@ -266,6 +266,9 @@ function bs_trigger(e) {
 			i.addEventListener('keydown', speed_carot_navigate, false);
 		});
 	}
+
+	if (typeof link_trigger === "function")
+		link_trigger(e);
 }
 
 var bsTriggerOnReady = function() {

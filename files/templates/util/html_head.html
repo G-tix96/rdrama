@@ -11,6 +11,19 @@
 {% macro javascript() %}
 	<script defer src="{{'js/vendor/bootstrap.js' | asset}}"></script>
 	<script defer src="{{'js/core.js' | asset}}"></script>
+
+	<script>
+		if (window.matchMedia('(display-mode: standalone)')['matches']) { // if PWA
+			function link_trigger(e) {
+				const links = e.querySelectorAll('a[target="_blank"]'); // get links with target="_blank"
+				for (const link of links) { // loop on them
+					link.removeAttribute("target");
+				}
+			}
+
+			document.addEventListener('DOMContentLoaded', link_trigger(document));
+		}
+	</script>
 {% endmacro %}
 
 {% macro page_meta(title=none) %}
