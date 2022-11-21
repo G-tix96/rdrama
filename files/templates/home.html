@@ -8,6 +8,9 @@
 		{{super()}}
 	{% endif %}
 {% endblock %}
+{% block pagetitle %}
+{{SITE_FULL if not sub else '/h/' + sub}}
+{% endblock %}
 
 {% block head_final %}
 {% set preview = sub.siderbarurl if sub and sub.sidebarurl else sub.bannerurl %}
