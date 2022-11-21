@@ -48,10 +48,10 @@ def buy_hat(v, hat_id):
 		abort(403, "This hat is not for sale.")
 
 	if request.values.get("mb"):
-		charged = v.charge_account('procoins', hat.price)
+		charged = v.charge_account('marseybux', hat.price)
 		if not charged: abort(400, "Not enough marseybux.")
 
-		hat.author.pay_account('procoins', hat.price * 0.1)
+		hat.author.pay_account('marseybux', hat.price * 0.1)
 		currency = "marseybux"
 	else:
 		charged = v.charge_account('coins', hat.price)

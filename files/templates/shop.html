@@ -60,8 +60,8 @@
 		<h5 class="mt-4">Coins spent by you: {{"{:,}".format(v.coins_spent)}} coins</h5>
 		<h5 class="mt-4">Lootboxes bought by you: {{v.lootboxes_bought}} lootbox{{'es' if v.lootboxes_bought != 1}}</h5>
 		<h5 class="mt-4">Your current coins: {{"{:,}".format(v.coins)}}</h5>
-		{% if FEATURES['PROCOINS'] %}
-			<h5 class="mt-4">Your current marseybux: {{"{:,}".format(v.procoins)}}</h3>
+		{% if FEATURES['MARSEYBUX'] %}
+			<h5 class="mt-4">Your current marseybux: {{"{:,}".format(v.marseybux)}}</h3>
 		{% endif %}
 	</header>
 {% endblock %}
@@ -96,9 +96,9 @@
 					{% if kind != "benefactor" %}
 						<button type="button" id="buy1-{{loop.index}}" class="btn btn-success {% if v.coins < a['price'] %}disabled{% endif %}" data-click="postToastSwitch(this,'/buy/{{kind}}')" onclick="areyousure(this)"><span class="m-auto">Buy</span></button>
 					{% endif %}
-					{% if FEATURES['PROCOINS'] %}
+					{% if FEATURES['MARSEYBUX'] %}
 						{% if kind != "grass" %}
-							<button type="button" id="buy2-{{loop.index}}" class="marseybux btn btn-success {% if v.procoins < a['price'] %}disabled{% endif %}" data-click="postToastSwitch(this,'/buy/{{kind}}?mb=true')" onclick="areyousure(this)"><span class="m-auto">Buy with MBux</span></button>
+							<button type="button" id="buy2-{{loop.index}}" class="marseybux btn btn-success {% if v.marseybux < a['price'] %}disabled{% endif %}" data-click="postToastSwitch(this,'/buy/{{kind}}?mb=true')" onclick="areyousure(this)"><span class="m-auto">Buy with MBux</span></button>
 						{% endif %}
 					{% endif %}
 				</td>

@@ -184,7 +184,7 @@
 					profile: `/@${bet.gambler_username}`,
 					wagerTotal: {
 						coins: 0,
-						procoins: 0
+						marseybux: 0
 					},
 					wagers: []
 				}
@@ -204,7 +204,7 @@
 					which: bet.which,
 					amounts: {
 						coins: 0,
-						procoins: 0
+						marseybux: 0
 					},
 				};
 				newEntry.amounts[bet.wager.currency] += bet.wager.amount;
@@ -283,7 +283,7 @@
 			betHtml += `  <div class="roulette-bet-summary--heading">`;
 			betHtml += buildPokerChip(avatar);
 			const coinText = wagerTotal.coins > 0 ? `${wagerTotal.coins} ${coinImgHtml}` : "";
-			const procoinText = wagerTotal.procoins > 0 ? `${wagerTotal.procoins} ${marseybuxImgHtml}` : "";
+			const procoinText = wagerTotal.marseybux > 0 ? `${wagerTotal.marseybux} ${marseybuxImgHtml}` : "";
 			const bettingText = coinText && procoinText ? `${coinText} and ${procoinText}` : coinText || procoinText;
 			betHtml += `<p>${name} is betting ${bettingText}:</p>`;
 			betHtml += ` </div>`;
@@ -292,7 +292,7 @@
 			betHtml += `<ul class="roulette-bet-summary--list">`;
 			for (const individualBet of wagers) {
 				const coinText = individualBet.amounts.coins > 0 ? `${individualBet.amounts.coins} ${coinImgHtml}` : "";
-				const procoinText = individualBet.amounts.procoins > 0 ? `${individualBet.amounts.procoins} ${marseybuxImgHtml}` : "";
+				const procoinText = individualBet.amounts.marseybux > 0 ? `${individualBet.amounts.marseybux} ${marseybuxImgHtml}` : "";
 				const details = {
 					STRAIGHT_UP_BET: `that the number will be ${individualBet.which}`,
 					LINE_BET: `that the number will be within line ${individualBet.which}`,

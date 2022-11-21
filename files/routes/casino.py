@@ -87,22 +87,20 @@ def pull_slots(v):
 
 	try:
 		currency = request.values.get("currency", "").lower()
-		if currency not in ('coins', 'procoins'): raise ValueError()
+		if currency not in ('coins', 'marseybux'): raise ValueError()
 	except:
-		abort(400, "Invalid currency (expected 'coins' or 'procoins').")
+		abort(400, "Invalid currency (expected 'coins' or 'marseybux').")
 
-	friendly_currency_name = "coins" if currency == "coins" else "marseybux"
-
-	if (currency == "coins" and wager > v.coins) or (currency == "procoins" and wager > v.procoins):
-		abort(400, f"Not enough {friendly_currency_name} to make that bet")
+	if (currency == "coins" and wager > v.coins) or (currency == "marseybux" and wager > v.marseybux):
+		abort(400, f"Not enough {currency} to make that bet")
 
 	game_id, game_state = casino_slot_pull(v, wager, currency)
 	success = bool(game_id)
 
 	if success:
-		return {"game_state": game_state, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+		return {"game_state": game_state, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	else:
-		abort(400, f"Wager must be 5 {friendly_currency_name} or more")
+		abort(400, f"Wager must be 5 {currency} or more")
 
 
 # 21
@@ -120,7 +118,7 @@ def blackjack_deal_to_player(v):
 		state = dispatch_action(v, BlackjackAction.DEAL)
 		feed = get_game_feed('blackjack', g.db)
 
-		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except Exception as e:
 		abort(400, str(e))
 
@@ -135,7 +133,7 @@ def blackjack_player_hit(v):
 	try:
 		state = dispatch_action(v, BlackjackAction.HIT)
 		feed = get_game_feed('blackjack', g.db)
-		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except:
 		abort(400, "Unable to hit.")
 
@@ -150,7 +148,7 @@ def blackjack_player_stay(v):
 	try:
 		state = dispatch_action(v, BlackjackAction.STAY)
 		feed = get_game_feed('blackjack', g.db)
-		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except:
 		abort(400, "Unable to stay.")
 
@@ -165,7 +163,7 @@ def blackjack_player_doubled_down(v):
 	try:
 		state = dispatch_action(v, BlackjackAction.DOUBLE_DOWN)
 		feed = get_game_feed('blackjack', g.db)
-		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except:
 		abort(400, "Unable to double down.")
 
@@ -180,7 +178,7 @@ def blackjack_player_bought_insurance(v):
 	try:
 		state = dispatch_action(v, BlackjackAction.BUY_INSURANCE)
 		feed = get_game_feed('blackjack', g.db)
-		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except:
 		abort(403, "Unable to buy insurance.")
 
@@ -194,7 +192,7 @@ def roulette_get_bets(v):
 
 	bets = get_roulette_bets()
 
-	return {"success": True, "bets": bets, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+	return {"success": True, "bets": bets, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 
 
 @app.post("/casino/roulette/place-bet")
@@ -224,6 +222,6 @@ def roulette_player_placed_bet(v):
 	try:
 		gambler_placed_roulette_bet(v, bet, which, amount, currency)
 		bets = get_roulette_bets()
-		return {"success": True, "bets": bets, "gambler": {"coins": v.coins, "procoins": v.procoins}}
+		return {"success": True, "bets": bets, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except:
 		abort(400, "Unable to place a bet.")

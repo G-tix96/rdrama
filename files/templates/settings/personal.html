@@ -94,7 +94,7 @@
 									<p>Join a house (cost: {{cost}} coins or marseybux).</p>
 								{% endif %}
 								<div class="input-group mb2">
-									<select {% if v.coins < cost and v.procoins < cost or v.bite %}disabled{% endif %} autocomplete="off" id='house' class="form-control" form="profile-settings" name="house" onchange="postToastReload(this,'/settings/personal?house='+document.getElementById('house').value)">
+									<select {% if v.coins < cost and v.marseybux < cost or v.bite %}disabled{% endif %} autocomplete="off" id='house' class="form-control" form="profile-settings" name="house" onchange="postToastReload(this,'/settings/personal?house='+document.getElementById('house').value)">
 										{% for entry in HOUSES %}
 											<option value="{{entry}}" {% if v.house == entry %} selected {% endif %}>
 												{{entry}}

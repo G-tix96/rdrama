@@ -119,10 +119,10 @@ def _give_monthly_marseybux_task():
 
 	emails = [x['email'] for x in requests.get(f'https://api.gumroad.com/v2/products/{GUMROAD_ID}/subscribers', data=data, timeout=5).json()["subscribers"]]
 
-	def give_procoins(u):
-		procoins_reward = procoins_li[u.patron]
-		u.pay_account('procoins', procoins_reward)
-		send_repeatable_notification(u.id, f"@AutoJanny has given you {procoins_reward} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
+	def give_marseybux(u):
+		marseybux_reward = marseybux_li[u.patron]
+		u.pay_account('marseybux', marseybux_reward)
+		send_repeatable_notification(u.id, f"@AutoJanny has given you {marseybux_reward} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
 
 	for badge in g.db.query(Badge).filter(Badge.badge_id > 20, Badge.badge_id < 28).all():
 		g.db.delete(badge)
@@ -130,7 +130,7 @@ def _give_monthly_marseybux_task():
 	for u in g.db.query(User).filter(User.patron > 0, User.patron_utc == 0).all():
 		g.db.add(u)
 		if u.admin_level or u.id in GUMROAD_MESSY:
-			give_procoins(u)
+			give_marseybux(u)
 		elif u.email and u.is_activated and u.email.lower() in emails:
 			data = {'access_token': GUMROAD_TOKEN, 'email': u.email}
 			try:
@@ -147,7 +147,7 @@ def _give_monthly_marseybux_task():
 			tier = tiers[response["variants_and_quantity"]]
 			u.patron = tier
 			badge_grant(badge_id=20+tier, user=u, notify=False)
-			give_procoins(u)
+			give_marseybux(u)
 		else:
 			u.patron = 0
 
@@ -173,9 +173,9 @@ def _give_monthly_marseybux_task_kofi():
 			u.patron = 0
 			continue
 
-		procoins_reward = procoins_li[u.patron]
-		u.pay_account('procoins', procoins_reward)
-		send_repeatable_notification(u.id, f"@AutoJanny has given you {procoins_reward} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
+		marseybux_reward = marseybux_li[u.patron]
+		u.pay_account('marseybux', marseybux_reward)
+		send_repeatable_notification(u.id, f"@AutoJanny has given you {marseybux_reward} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
 
 	ma = ModAction(
 		kind="monthly",

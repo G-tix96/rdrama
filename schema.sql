@@ -64,7 +64,7 @@ COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching
 
 CREATE TYPE public.casino_game_currency AS ENUM (
     'coins',
-    'procoins'
+    'marseybux'
 );
 
 
@@ -980,7 +980,7 @@ CREATE TABLE public.users (
     club_allowed boolean,
     frontsize integer DEFAULT 25 NOT NULL,
     coins_spent integer DEFAULT 0 NOT NULL,
-    procoins integer DEFAULT 0 NOT NULL,
+    marseybux integer DEFAULT 0 NOT NULL,
     verifiedcolor character varying(6),
     marseyawarded integer,
     sig character varying(200),

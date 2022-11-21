@@ -281,7 +281,7 @@ def settings_personal_post(v):
 
 		success = v.charge_account('coins', cost)
 		if not success:
-			success = v.charge_account('procoins', cost)
+			success = v.charge_account('marseybux', cost)
 		if not success: abort(403)
 
 		if house == "None": house = '' 
@@ -358,16 +358,16 @@ def gumroad(v):
 	tier = tiers[response["variants_and_quantity"]]
 	if v.patron == tier: abort(400, f"{patron} rewards already claimed")
 
-	procoins = procoins_li[tier] - procoins_li[v.patron]
-	if procoins < 0: abort(400, f"{patron} rewards already claimed")
+	marseybux = marseybux_li[tier] - marseybux_li[v.patron]
+	if marseybux < 0: abort(400, f"{patron} rewards already claimed")
 
 	existing = g.db.query(User.id).filter(User.email == v.email, User.is_activated == True, User.patron >= tier).first()
 	if existing: abort(400, f"{patron} rewards already claimed on another account")
 
 	v.patron = tier
 
-	v.pay_account('procoins', procoins)
-	send_repeatable_notification(v.id, f"You have received {procoins} Marseybux! You can use them to buy awards in the [shop](/shop).")
+	v.pay_account('marseybux', marseybux)
+	send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards in the [shop](/shop).")
 
 	g.db.add(v)
 

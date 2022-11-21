@@ -126,7 +126,7 @@ def check_slots_command(v:User, u:User, c:Comment):
 
 	if '!slotsmb' in body:
 		command_word = '!slotsmb'
-		currency = 'procoins'
+		currency = 'marseybux'
 	elif '!slots' in body:
 		command_word = '!slots'
 		currency = 'coins'
@@ -151,7 +151,7 @@ def check_slots_command(v:User, u:User, c:Comment):
 			abort(400, f"Wager must be 100 {currency} or more")
 		return
 
-	if (currency == "coins" and wager > u.coins) or (currency == "procoins" and wager > u.procoins):
+	if (currency == "coins" and wager > u.coins) or (currency == "marseybux" and wager > u.marseybux):
 		if v.id == u.id:
 			abort(400, f"Not enough {currency} to make that bet")
 		return

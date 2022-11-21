@@ -54,8 +54,8 @@
 			document.getElementById("user-coins-amount").innerText = updated.coins;
 		}
 
-		if (updated.procoins) {
-			document.getElementById("user-bux-amount").innerText = updated.procoins;
+		if (updated.marseybux) {
+			document.getElementById("user-bux-amount").innerText = updated.marseybux;
 		}
 	}
 
@@ -64,7 +64,7 @@
 		const currency = document.querySelector(
 			'input[name="wagerCurrency"]:checked'
 		).value;
-		const genericCurrency = currency == 'marseybux' ? 'procoins' : 'coins';
+		const genericCurrency = currency == 'marseybux' ? 'marseybux' : 'coins';
 
 		return { amount, currency: genericCurrency, localCurrency: currency };
 	}
@@ -72,13 +72,13 @@
 	function disableWager() {
 		document.getElementById("wagerAmount").disabled = true;
 		document.getElementById("wagerCoins").disabled = true;
-		document.getElementById("wagerProcoins").disabled = true;
+		document.getElementById("wagerMarseybux").disabled = true;
 	}
 
 	function enableWager() {
 		document.getElementById("wagerAmount").disabled = false;
 		document.getElementById("wagerCoins").disabled = false;
-		document.getElementById("wagerProcoins").disabled = false;
+		document.getElementById("wagerMarseybux").disabled = false;
 	}
 
 	function updateResult(text, className) {
@@ -162,7 +162,7 @@
 		const [biggestWinnerAllTime, biggestWinner24h, biggestLoser24h, biggestLoserAllTime] = [
 			'biggestWinnerAllTime', 'biggestWinner24h', 'biggestLoser24h', 'biggestLoserAllTime'
 		].map(id => document.getElementById(id));
-		const formatLocalCurrencyName = currency => ({ coins: 'coins', procoins: 'marseybux' })[currency];
+		const formatLocalCurrencyName = currency => ({ coins: 'coins', marseybux: 'marseybux' })[currency];
 
 		biggestWinnerAllTime.innerHTML = `
 			<a href="/@${leaderboardData.all_time.biggest_win.user}">${leaderboardData.all_time.biggest_win.user}</a> <br><small>${leaderboardData.all_time.biggest_win.amount} ${formatLocalCurrencyName(leaderboardData.all_time.biggest_win.currency)}</small>
@@ -386,9 +386,9 @@
 							<img src="/i/rDrama/coins.webp?v=3009" alt="coin" width="32" data-bs-toggle="tooltip"
 								data-bs-placement="bottom" title="Coin" aria-label="Coin">
 						</label>
-						<input type="radio" class="btn-check ml-2" name="wagerCurrency" autocomplete="off" id="wagerProcoins"
+						<input type="radio" class="btn-check ml-2" name="wagerCurrency" autocomplete="off" id="wagerMarseybux"
 							value="marseybux">
-						<label for="wagerProcoins" class="btn btn-primary">
+						<label for="wagerMarseybux" class="btn btn-primary">
 							<img src="/i/marseybux.webp?v=2000" alt="marseybux" width="32" data-bs-toggle="tooltip"
 								data-bs-placement="bottom" title="Marseybux" aria-label="Marseybux">
 						</label>

@@ -12,7 +12,7 @@
 			<div id="awardModalBody" class="modal-body mb-3">
 				<div class="card-columns award-columns awards-wrapper">
 					{% for award in v.user_awards %}
-						<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{award.description}}" id="{{award.kind}}" class="card" onclick="pick('{{award.kind}}', {{award.price}}*{{v.discount}} <= {{v.procoins}}, {{award.price}}*{{v.discount}} <= {{v.coins}})">
+						<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{award.description}}" id="{{award.kind}}" class="card" onclick="pick('{{award.kind}}', {{award.price}}*{{v.discount}} <= {{v.marseybux}}, {{award.price}}*{{v.discount}} <= {{v.coins}})">
 							<i class="{{award.icon}} {{award.color}}"></i>
 							<div class="pt-2" style="font-weight: bold; font-size: 14px; color:#E1E1E1">{{award.title}}</div>
 							<div class="text-muted"><span id="{{award.kind}}-owned">{{award.owned}}</span> owned</div>
@@ -32,7 +32,7 @@
 
 				<input autocomplete="off" id="giveaward" class="awardbtn btn btn-primary mt-3" style="float:right" type="submit" onclick="giveaward(this)" value="Give Award" data-bs-dismiss="modal" disabled>
 
-				<button type="button" id="buy1" class="awardbtn btn btn-primary mt-3 mx-3 {% if not FEATURES['PROCOINS'] %}d-none{% endif %}" disabled style="float:right" data-click="buy(true)" onclick="areyousure(this)">Buy with marseybux</button>
+				<button type="button" id="buy1" class="awardbtn btn btn-primary mt-3 mx-3 {% if not FEATURES['MARSEYBUX'] %}d-none{% endif %}" disabled style="float:right" data-click="buy(true)" onclick="areyousure(this)">Buy with marseybux</button>
 
 				<button type="button" id="buy2" class="awardbtn btn btn-primary mt-3" disabled style="float:right" data-click="buy()" onclick="areyousure(this)">Buy</button>
 			</div>

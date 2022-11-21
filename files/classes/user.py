@@ -113,7 +113,7 @@ class User(Base):
 	login_nonce = Column(Integer, default=0)
 	coins = Column(Integer, default=0)
 	truescore = Column(Integer, default=0)
-	procoins = Column(Integer, default=0)
+	marseybux = Column(Integer, default=0)
 	mfa_secret = deferred(Column(String))
 	is_private = Column(Boolean, default=False)
 	stored_subscriber_count = Column(Integer, default=0)
@@ -175,7 +175,7 @@ class User(Base):
 		if currency == 'coins':
 			g.db.query(User).filter(User.id == self.id).update({ User.coins: User.coins + amount })
 		else:
-			g.db.query(User).filter(User.id == self.id).update({ User.procoins: User.procoins + amount })
+			g.db.query(User).filter(User.id == self.id).update({ User.marseybux: User.marseybux + amount })
 
 		g.db.flush()
 		
@@ -192,11 +192,11 @@ class User(Base):
 			if not should_check_balance or account_balance >= amount:
 				g.db.query(User).filter(User.id == self.id).update({ User.coins: User.coins - amount })
 				succeeded = True
-		elif currency == 'procoins':
-			account_balance = in_db.procoins
+		elif currency == 'marseybux':
+			account_balance = in_db.marseybux
 			
 			if not should_check_balance or account_balance >= amount:
-				g.db.query(User).filter(User.id == self.id).update({ User.procoins: User.procoins - amount })
+				g.db.query(User).filter(User.id == self.id).update({ User.marseybux: User.marseybux - amount })
 				succeeded = True
 
 		if succeeded: g.db.flush()

@@ -24,7 +24,7 @@ from .front import frontlist
 def kippy(v):
 	if SITE != 'pcmemes.net': abort(404)
 	kippy = get_account(KIPPY_ID)
-	kippy.pay_account('procoins', 10000)
+	kippy.pay_account('marseybux', 10000)
 	g.db.add(kippy)
 	return '10k marseybux printed!'
 
@@ -88,7 +88,7 @@ def merge(v, id1, id2):
 			g.db.add(exile)
 			g.db.flush()
 
-	for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truescore', 'procoins'):
+	for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truescore', 'marseybux'):
 		amount = getattr(user1, kind) + getattr(user2, kind)
 		setattr(user1, kind, amount)
 		setattr(user2, kind, 0)
@@ -138,7 +138,7 @@ def merge_all(v, id):
 			g.db.flush()
 
 	for alt in user.alts_unique:
-		for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truescore', 'procoins'):
+		for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truescore', 'marseybux'):
 			amount = getattr(user, kind) + getattr(alt, kind)
 			setattr(user, kind, amount)
 			setattr(alt, kind, 0)

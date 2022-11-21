@@ -77,8 +77,8 @@
 					<span id="profile-coins-amount">{{u.coins}}</span>
 					<img alt="coins" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coins" height="20" src="{{'coins.webp' | asset_siteimg}}">
 
-					{% if FEATURES['PROCOINS'] %}
-						<span id="profile-bux-amount">{{u.procoins}}</span>
+					{% if FEATURES['MARSEYBUX'] %}
+						<span id="profile-bux-amount">{{u.marseybux}}</span>
 						<img alt="marseybux" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="20" width="46" src="/i/marseybux.webp?v=2000">
 					{% endif %}
 
@@ -151,7 +151,7 @@
 									<button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/@{{u.username}}/suicide')">Get Them Help</button>
 								{%- endif %}
 								<button type="button" class="btn btn-primary" onclick="toggleElement('coin-transfer', 'coin-transfer-amount')">Gift Coins</button>
-								{% if FEATURES['PROCOINS'] -%}
+								{% if FEATURES['MARSEYBUX'] -%}
 									<button type="button" class="btn btn-primary" onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</button>
 								{%- endif %}
 
@@ -309,8 +309,8 @@
 					<span id="profile-coins-amount-mobile" class="font-weight-bold">{{u.coins}}</span>
 					<img alt="coins" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coins" height="15" src="{{'coins.webp' | asset_siteimg}}">
 
-					{% if FEATURES['PROCOINS'] %}
-						<span id="profile-bux-amount-mobile" class="font-weight-bold">{{u.procoins}}</span>
+					{% if FEATURES['MARSEYBUX'] %}
+						<span id="profile-bux-amount-mobile" class="font-weight-bold">{{u.marseybux}}</span>
 						<img alt="marseybux" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="15" width="35" src="/i/marseybux.webp?v=2000">
 					{% endif %}
 
@@ -402,7 +402,7 @@
 							<button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/@{{u.username}}/suicide')">Get Them Help</button>
 						{%- endif %}
 						<button type="button" class="btn btn-primary" onclick="toggleElement('coin-transfer-mobile', 'coin-transfer-amount-mobile')">Gift Coins</button>
-						{% if FEATURES['PROCOINS'] -%}
+						{% if FEATURES['MARSEYBUX'] -%}
 							<button type="button" class="btn btn-primary" onclick="toggleElement('bux-transfer-mobile', 'bux-transfer-amount-mobile')">Gift Marseybux</button>
 						{%- endif %}
 

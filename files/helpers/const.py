@@ -283,7 +283,7 @@ PERMS = { # Minimum admin_level to perform action.
 }
 
 FEATURES = {
-	'PROCOINS': True,
+	'MARSEYBUX': True,
 	'AWARDS': True,
 	'CHAT': True,
 	'PINS': True,
@@ -1368,7 +1368,7 @@ if SITE_NAME == 'PCM':
 	AWARDS_DISABLED.remove('ghost')
 elif SITE_NAME == 'WPD':
 	AWARDS_DISABLED.remove('lootbox')
-if not FEATURES['PROCOINS']:
+if not FEATURES['MARSEYBUX']:
 	AWARDS_DISABLED.append('benefactor')
 
 AWARDS2 = {x: AWARDS[x] for x in AWARDS if x not in AWARDS_DISABLED}

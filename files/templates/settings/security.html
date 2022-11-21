@@ -35,7 +35,7 @@
 					</div>
 					<div class="footer">
 						<div class="d-flex">
-							{% if FEATURES['PROCOINS'] %}
+							{% if FEATURES['MARSEYBUX'] %}
 								{% if KOFI_TOKEN %}
 									<button type="button" class="btn btn-success" onclick="postToastSwitch(this,'/settings/kofi')">Claim {{patron}} rewards</button>
 								{% else %}
@@ -48,7 +48,7 @@
 								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" onclick="disable(this)" value="Add email">
 							{% endif %}
 						</div>
-						{% if FEATURES['PROCOINS'] %}
+						{% if FEATURES['MARSEYBUX'] %}
 							<span class="text-small text-muted pl-1">Must be same email as the one you used to donate
 							{% if v.truescore >= TRUESCORE_DONATE_LIMIT %}
 							on 

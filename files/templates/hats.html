@@ -120,8 +120,8 @@
 							<div id="if-not-owned-{{hat.id}}">
 								<button type="button" id="buy1-{{hat.id}}" class="btn btn-success {% if v.coins < hat.price %}disabled{% endif %}" data-click="postToastSwitch(this, '/buy_hat/{{hat.id}}', 'if-not-owned-{{hat.id}}', 'if-owned-{{hat.id}}', 'd-none', (xhr)=>{if(xhr.status == 200)document.getElementById('user-coins-amount').innerHTML-={{hat.price}}})" onclick="areyousure(this)"><span class="m-auto">Buy</span></button>
 
-								{% if FEATURES['PROCOINS'] %}
-									<button type="button" id="buy2-{{hat.id}}" class="marseybux btn btn-success {% if v.procoins < hat.price %}disabled{% endif %}" data-click="postToastSwitch(this, '/buy_hat/{{hat.id}}?mb=true', 'if-not-owned-{{hat.id}}', 'if-owned-{{hat.id}}', 'd-none', (xhr)=>{if(xhr.status == 200)document.getElementById('user-bux-amount').innerHTML-={{hat.price}}})" onclick="areyousure(this)"><span class="m-auto">MBux</span></button>
+								{% if FEATURES['MARSEYBUX'] %}
+									<button type="button" id="buy2-{{hat.id}}" class="marseybux btn btn-success {% if v.marseybux < hat.price %}disabled{% endif %}" data-click="postToastSwitch(this, '/buy_hat/{{hat.id}}?mb=true', 'if-not-owned-{{hat.id}}', 'if-owned-{{hat.id}}', 'd-none', (xhr)=>{if(xhr.status == 200)document.getElementById('user-bux-amount').innerHTML-={{hat.price}}})" onclick="areyousure(this)"><span class="m-auto">MBux</span></button>
 								{% endif %}
 							</div>
 						{% endif %}
