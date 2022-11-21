@@ -217,6 +217,7 @@ def searchcomments(v):
 		tokens = map(lambda x: re.sub(r'[\0():|&*!<>]', '', x), criteria['q'])
 		tokens = filter(lambda x: len(x) > 0, tokens)
 		tokens = map(lambda x: re.sub(r"'", "\\'", x), tokens)
+		tokens = map(lambda x: x.strip(), tokens)
 		tokens = map(lambda x: re.sub(r'\s+', ' <-> ', x), tokens)
 		comments = comments.filter(Comment.body_ts.match(
 			' & '.join(tokens),
