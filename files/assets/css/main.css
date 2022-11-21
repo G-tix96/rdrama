@@ -6083,15 +6083,11 @@ g {
 	font-size: 20px;
 }
 
-@media (max-width: 370px) {
+@media (max-width: 374px) {
 	.smol-fp {
-		font-size: 0.9rem;
-	}
-}
-
-@media (max-width: 345px) {
-	.smol-fp {
-		font-size: 0.7rem;
+		font-size: 3.3vw;
+		padding-left: 2.4vw;
+		padding-right: 2.4vw;
 	}
 }
 
