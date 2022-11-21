@@ -255,7 +255,7 @@ def downvoting(v, username):
 @app.post("/@<username>/suicide")
 @feature_required('USERS_SUICIDE')
 @limiter.limit("1/second;5/day")
-@limiter.limit("1/second;5/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user("1/second;5/day")
 @auth_required
 def suicide(v, username):
 	
@@ -416,7 +416,7 @@ def unsubscribe(v, post_id):
 
 @app.post("/@<username>/message")
 @limiter.limit("1/second;10/minute;20/hour;50/day")
-@limiter.limit("1/second;10/minute;20/hour;50/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user("1/second;10/minute;20/hour;50/day")
 @is_not_permabanned
 def message2(v, username):
 	user = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
@@ -481,7 +481,7 @@ def message2(v, username):
 
 @app.post("/reply")
 @limiter.limit("1/second;6/minute;50/hour;200/day")
-@limiter.limit("1/second;6/minute;50/hour;200/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user("1/second;6/minute;50/hour;200/day")
 @auth_required
 def messagereply(v):
 	body = sanitize_raw_body(request.values.get("body"), False)

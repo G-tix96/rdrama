@@ -580,7 +580,7 @@ def settings_security(v):
 
 @app.post("/settings/block")
 @limiter.limit("1/second;20/day")
-@limiter.limit("1/second;20/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user("1/second;20/day")
 @auth_required
 def settings_block_user(v):
 	user = get_user(request.values.get("username"), graceful=True)
@@ -670,7 +670,7 @@ def settings_name_change(v):
 @app.post("/settings/song_change_mp3")
 @feature_required('USERS_PROFILE_SONG')
 @limiter.limit("3/second;10/day")
-@limiter.limit("3/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user("3/second;10/day")
 @auth_required
 def settings_song_change_mp3(v):
 	file = request.files['file']
@@ -698,7 +698,7 @@ def settings_song_change_mp3(v):
 @app.post("/settings/song_change")
 @feature_required('USERS_PROFILE_SONG')
 @limiter.limit("3/second;10/day")
-@limiter.limit("3/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user("3/second;10/day")
 @auth_required
 def settings_song_change(v):
 	song=request.values.get("song").strip()

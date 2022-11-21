@@ -81,7 +81,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 
 @app.post("/comment")
 @limiter.limit("1/second;20/minute;200/hour;1000/day")
-@limiter.limit("1/second;20/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user("1/second;20/minute;200/hour;1000/day")
 @auth_required
 def comment(v):
 	if v.is_suspended: abort(403, "You can't perform this action while banned.")
@@ -368,7 +368,7 @@ def comment(v):
 
 @app.post("/edit_comment/<cid>")
 @limiter.limit("1/second;10/minute;100/hour;200/day")
-@limiter.limit("1/second;10/minute;100/hour;200/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user("1/second;10/minute;100/hour;200/day")
 @is_not_permabanned
 def edit_comment(cid, v):
 	c = get_comment(cid, v=v)

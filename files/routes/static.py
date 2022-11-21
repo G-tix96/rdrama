@@ -208,7 +208,7 @@ def contact(v):
 
 @app.post("/send_admin")
 @limiter.limit("1/second;1/2 minutes;10/day")
-@limiter.limit("1/second;1/2 minutes;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user("1/second;1/2 minutes;10/day")
 @auth_required
 def submit_contact(v):
 	body = request.values.get("message")

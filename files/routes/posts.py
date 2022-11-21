@@ -310,7 +310,7 @@ def morecomments(v, cid):
 
 @app.post("/edit_post/<pid>")
 @limiter.limit("1/second;10/minute;100/hour;200/day")
-@limiter.limit("1/second;10/minute;100/hour;200/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user("1/second;10/minute;100/hour;200/day")
 @is_not_permabanned
 def edit_post(pid, v):
 	p = get_post(pid)
@@ -1072,7 +1072,7 @@ extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
 
 @app.get("/submit/title")
 @limiter.limit("3/minute")
-@limiter.limit("3/minute", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@ratelimit_user("3/minute")
 @auth_required
 def get_post_title(v):
 	url = request.values.get("url")
