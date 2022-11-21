@@ -23,7 +23,10 @@ from files.helpers.sanitize import sanitize
 def offsite_mentions_task(cache:Cache):
 	if const.REDDIT_NOTIFS_SITE:
 		row_send_to = g.db.query(Badge.user_id).filter_by(badge_id=140).all()
-		row_send_to += g.db.query(User.id).filter(User.admin_level >= const.PERMS['NOTIFICATIONS_REDDIT'], User.id != AEVANN_ID).all()
+		row_send_to += g.db.query(User.id).filter(
+			User.admin_level >= const.PERMS['NOTIFICATIONS_REDDIT'],
+			User.id != const.AEVANN_ID,
+		).all()
 
 		send_to = [x[0] for x in row_send_to]
 		send_to = set(send_to)
@@ -49,7 +52,12 @@ def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
 	size = 1 if reddit_notifs_users else 100
 	for kind in kinds:
 		try:
-			data = requests.get(f'https://api.pushshift.io/reddit/{kind}/search?html_decode=true&q={"%7C".join(queries)}&subreddit=!{",!".join(exclude_subreddits)}&after={after}&size={size}', timeout=15).json()['data']
+			data = requests.get((
+				f'https://api.pushshift.io/reddit/{kind}/search?html_decode=true'
+				f'&q={"%7C".join(queries)}'
+				f'&subreddit=!{",!".join(exclude_subreddits)}'
+				f'&after={after}'
+				f'&size={size}'), timeout=15).json()['data']
 		except:
 			continue
 
@@ -88,8 +96,14 @@ def notify_mentions(send_to, mentions, mention_str='site mention'):
 		author = m['author']
 		permalink = m['permalink']
 		text = sanitize(m['text'], golden=False)
-		notif_text = \
-			f"""<p>New {mention_str} by <a href="https://old.reddit.com/u/{author}" rel="nofollow noopener" target="_blank">/u/{author}</a></p><p><a href="https://old.reddit.com{permalink}?context=89" rel="nofollow noopener" target="_blank">https://old.reddit.com{permalink}?context=89</a></p>{text}"""
+		notif_text = (
+			f'<p>New {mention_str} by <a href="https://old.reddit.com/u/{author}" '
+				f'rel="nofollow noopener" target="_blank">/u/{author}</a></p>'
+			f'<p><a href="https://old.reddit.com{permalink}?context=89" '
+				'rel="nofollow noopener" target="_blank">'
+				f'https://old.reddit.com{permalink}?context=89</a></p>'
+			f'{text}'
+		)
 
 		existing_comment = g.db.query(Comment.id).filter_by(
 			author_id=const.AUTOJANNY_ID,
