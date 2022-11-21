@@ -404,3 +404,9 @@ function sendFormXHRSwitch(e) {
 		}
 	)
 }
+
+if ("serviceWorker" in navigator) {
+	navigator.serviceWorker.register("/service-worker.js?v=2")
+		.then((registration) => registration.update())
+		.catch((e) => console.log("Service worker update failed with error", e));
+}
