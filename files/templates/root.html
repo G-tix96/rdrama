@@ -17,8 +17,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="Content-Security-Policy" content="{{csp | default(CONTENT_SECURITY_POLICY_DEFAULT, true) | safe}}">
 		{% block title %}<title>{% block pagetitle %}if you see this pls report it as a bug &lt;3{% endblock %} - {{SITE_NAME}}</title>{% endblock %}
-		{% set page_title = self.pagetitle() %}
-		{{html_head.page_meta(page_title or none)}}
+		{{html_head.page_meta(self.pagetitle() or none)}}
 		{{html_head.javascript() if root_scope.js}}
 		{{html_head.stylesheets(root_scope.include_user_css)}}
 		{{html_head.seo() if root_scope.include_seo}}
