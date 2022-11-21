@@ -10,13 +10,13 @@ from files.helpers.alerts import *
 from files.helpers.get import get_account
 
 class RouletteAction(str, Enum):
-	STRAIGHT_UP_BET = "STRAIGHT_UP_BET"
-	LINE_BET = "LINE_BET"
-	COLUMN_BET = "COLUMN_BET"
-	DOZEN_BET = "DOZEN_BET"
-	EVEN_ODD_BET = "EVEN_ODD_BET"
-	RED_BLACK_BET = "RED_BLACK_BET"
-	HIGH_LOW_BET = "HIGH_LOW_BET"
+	STRAIGHT_UP_BET = "STRAIGHT_UP_BET", lambda x:x and x >= 0 and x <= 37
+	LINE_BET = "LINE_BET", lambda x:x in LINES
+	COLUMN_BET = "COLUMN_BET", lambda x:x in COLUMNS
+	DOZEN_BET = "DOZEN_BET", lambda x:x in DOZENS
+	EVEN_ODD_BET = "EVEN_ODD_BET", lambda x:x in [y.value for y in RouletteEvenOdd]
+	RED_BLACK_BET = "RED_BLACK_BET", lambda x:x in [y.value for y in RouletteRedBlack]
+	HIGH_LOW_BET = "HIGH_LOW_BET", lambda x:x in [y.value for y in RouletteHighLow]
 
 
 class RouletteEvenOdd(str, Enum):
@@ -156,12 +156,7 @@ def spin_roulette_wheel():
 	if len(participants) > 0:
 		number = randint(0, 37)  # 37 is 00
 
-		if number > 0 and number < 37: # 0 and 00 do not pay anything
-			winners, payouts, rewards_by_game_id = determine_roulette_winners(number, bets)
-		else:
-			winners = []
-			payouts = {}
-			rewards_by_game_id = {}
+		winners, payouts, rewards_by_game_id = determine_roulette_winners(number, bets)
 
 		if number == 37: number = '00'
 
@@ -243,6 +238,13 @@ def determine_roulette_winners(number, bets):
 		if int(bet['which']) == number:
 			add_to_winnings(bet)
 
+	if number == 0 or number == 37:
+		return winners, payouts, rewards_by_game_id
+	
+	def is_green(bet):
+		val = int(bet['which'])
+		return val == 0 or val == 37
+
 	# Line Bet
 	line = -1
 	for i in range(1, 7):
@@ -250,6 +252,7 @@ def determine_roulette_winners(number, bets):
 			line = i
 
 	for bet in bets[RouletteAction.LINE_BET]:
+		if is_green(bet): continue
 		if int(bet['which']) == line:
 			add_to_winnings(bet)
 
@@ -260,6 +263,7 @@ def determine_roulette_winners(number, bets):
 			column = i
 
 	for bet in bets[RouletteAction.COLUMN_BET]:
+		if is_green(bet): continue
 		if int(bet['which']) == column:
 			add_to_winnings(bet)
 
@@ -270,6 +274,7 @@ def determine_roulette_winners(number, bets):
 			dozen = i
 
 	for bet in bets[RouletteAction.DOZEN_BET]:
+		if is_green(bet): continue
 		if int(bet['which']) == dozen:
 			add_to_winnings(bet)
 
@@ -277,6 +282,7 @@ def determine_roulette_winners(number, bets):
 	even_odd = RouletteEvenOdd.EVEN if number % 2 == 0 else RouletteEvenOdd.ODD
 
 	for bet in bets[RouletteAction.EVEN_ODD_BET]:
+		if is_green(bet): continue
 		if bet['which'] == even_odd:
 			add_to_winnings(bet)
 
@@ -284,6 +290,7 @@ def determine_roulette_winners(number, bets):
 	red_black = RouletteRedBlack.RED if number in REDS else RouletteRedBlack.BLACK
 
 	for bet in bets[RouletteAction.RED_BLACK_BET]:
+		if is_green(bet): continue
 		if bet['which'] == red_black:
 			add_to_winnings(bet)
 
@@ -291,6 +298,7 @@ def determine_roulette_winners(number, bets):
 	high_low = RouletteHighLow.HIGH if number > 18 else RouletteHighLow.LOW
 
 	for bet in bets[RouletteAction.HIGH_LOW_BET]:
+		if is_green(bet): continue
 		if bet['which'] == high_low:
 			add_to_winnings(bet)
 
