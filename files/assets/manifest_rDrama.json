@@ -2,7 +2,7 @@
 	"name": "rDrama",
 	"short_name": "rDrama",
 	"start_url": "https://rdrama.net",
-	"display": "fullscreen",
+	"display": "minimal-ui",
 	"background_color": "#FF66AC",
 	"description": "rDrama",
 	"offline_enabled": true,
