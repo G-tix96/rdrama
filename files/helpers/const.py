@@ -1314,7 +1314,8 @@ HOUSE_AWARDS = {
 		"color": "text-purple",
 		"price": 400,
 		"deflectable": True,
-		"cosmetic": False
+		"cosmetic": False,
+		"ghost": False,
 	},
 	"Femboy": {
 		"kind": "Femboy",
@@ -1324,7 +1325,8 @@ HOUSE_AWARDS = {
 		"color": "text-pink",
 		"price": 400,
 		"deflectable": True,
-		"cosmetic": False
+		"cosmetic": False,
+		"ghost": False,
 	},
 	"Vampire": {
 		"kind": "Vampire",
@@ -1334,7 +1336,8 @@ HOUSE_AWARDS = {
 		"color": "text-gray",
 		"price": 400,
 		"deflectable": True,
-		"cosmetic": False
+		"cosmetic": False,
+		"ghost": False,
 	},
 	"Racist": {
 		"kind": "Racist",
@@ -1344,7 +1347,8 @@ HOUSE_AWARDS = {
 		"color": "text-yellow",
 		"price": 400,
 		"deflectable": True,
-		"cosmetic": False
+		"cosmetic": False,
+		"ghost": False,
 	},
 }
 
