@@ -43,7 +43,11 @@ RUN rm /etc/nginx/sites-available -r
 RUN rm /etc/nginx/sites-enabled/default
 RUN mkdir /etc/nginx/includes
 
-RUN . imei.sh
+# Note: production uses ImageMagick 7.1, whereas 22.04 repos have 6.9.
+# TODO: imei.sh broken: "Signature verification failed!" Workaround pending fix.
+#COPY imei.sh /opt/imei.sh
+#RUN bash /opt/imei.sh
+RUN ln -s /usr/bin/convert /usr/local/bin/magick
 
 EXPOSE 80/tcp
 
