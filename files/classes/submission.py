@@ -288,7 +288,7 @@ class Submission(Base):
 
 		for o in self.options:
 			if o.exclusive > 1:
-				body += f'''<div class="custom-control mt-2"><input name="option-{self.id}" autocomplete="off" class="custom-control-input bet" type="radio" id="{o.id}" onchange="bet_vote('{o.id}','{self.id}')"'''
+				body += f'''<div class="custom-control mt-2"><input name="option-{self.id}" autocomplete="off" class="custom-control-input bet" type="radio" id="{o.id}" onchange="bet_vote(this,'{o.id}')"'''
 				if o.voted(v): body += " checked "
 				if not (v and v.coins >= POLL_BET_COINS) or self.total_bet_voted(v): body += " disabled "
 

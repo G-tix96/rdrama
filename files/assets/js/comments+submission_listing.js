@@ -110,17 +110,22 @@ function poll_vote_1(oid, parentid, kind) {
 	curr.value = full_oid
 }
 
-function bet_vote(oid) {
-	for(let el of document.getElementsByClassName('bet')) {
-		el.disabled = true;
-	}
-	for(let el of document.getElementsByClassName('cost')) {
-		el.classList.add('d-none')
-	}
-	var scoretext = document.getElementById('option-' + oid);
-	var score = Number(scoretext.textContent);
-	scoretext.textContent = score + 1;
-	post(`/vote/post/option/${oid}`);
-
-	document.getElementById("user-coins-amount").innerText = parseInt(document.getElementById("user-coins-amount").innerText) - 200;
+function bet_vote(t, oid) {
+	postToast(t, `/vote/post/option/${oid}`,
+		{
+		},
+		() => {
+			for(let el of document.getElementsByClassName('bet')) {
+				el.disabled = true;
+			}
+			for(let el of document.getElementsByClassName('cost')) {
+				el.classList.add('d-none')
+			}
+			var scoretext = document.getElementById('option-' + oid);
+			var score = Number(scoretext.textContent);
+			scoretext.textContent = score + 1;
+		
+			document.getElementById("user-coins-amount").innerText = parseInt(document.getElementById("user-coins-amount").innerText) - 200;		
+		}
+	);
 }
