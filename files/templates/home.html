@@ -177,7 +177,7 @@
 	</script>
 {% endif %}
 
-{% if request.path == '/' and time.time() > session.get('tooltip_last_dismissed',0)+60*60*24*30 %}
+{% if request.path == '/' and time.time() > session.get('tooltip_last_dismissed',0)+86400*30 %}
 	<style>
 		.dismiss-beg {
 			color: #919191;
