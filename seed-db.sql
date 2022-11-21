@@ -581,49 +581,50 @@ INSERT INTO public.hat_defs VALUES (1047, 'Firefox Shill', 'Just pray that no mo
 INSERT INTO public.hat_defs VALUES (1019, 'Kerfus I', 'we ask that you please do NOT fuck the robot cat!', 2, 500, NULL, 1668476687);
 INSERT INTO public.hat_defs VALUES (1020, 'Kerfus II', 'salesman kitty :3', 2, 500, NULL, 1668477006);
 INSERT INTO public.hat_defs VALUES (1023, 'Kerfus V', 'GET VORED BITCH', 2, 500, NULL, 1668478570);
-
-
-
-
-
-
 INSERT INTO public.hat_defs VALUES (91, 'Afro', 'Pool''s closed motherlover', 2, 500, NULL, 1662167687);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 INSERT INTO public.hat_defs VALUES (18, 'Nonspecific Military Officer Hat', '[removed]', 2, 500, NULL, 1662167687);
-
-
-
 INSERT INTO public.hat_defs VALUES (19, 'Soviet Officer I', 'OUR hat', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (408, 'Chef Hat II', 'Toque blanche', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (414, 'Trilby', '*tip*', 2, 500, NULL, 1662167687);
-
-
-
 INSERT INTO public.hat_defs VALUES (419, 'Alimony Hair', 'Stay norwooding, king', 2, 500, NULL, 1662167687);
-
-
-
-
-
-
-
+INSERT INTO public.hat_defs VALUES (1048, 'United Kingdom Flag', 'RULE BRITANNIA, BRITANNIA RULES THE WAVES', 2, 1000, NULL, 1668709623);
+INSERT INTO public.hat_defs VALUES (1049, 'United States of America Flag', 'The best goddamn country on this planet and everyone knows it.', 2, 1000, NULL, 1668709826);
+INSERT INTO public.hat_defs VALUES (1050, 'Canada Flag', 'Number one in the world at keeping the mentally ill safe.', 2, 1000, NULL, 1668710045);
+INSERT INTO public.hat_defs VALUES (1053, 'England Flag', 'IT''S COMING HOME, IT''S COOOOMING HOME', 2, 1000, NULL, 1668710363);
+INSERT INTO public.hat_defs VALUES (1054, 'Brazil Flag', 'Gib mone pl0x or I report u huehuehue', 2, 1000, NULL, 1668710960);
+INSERT INTO public.hat_defs VALUES (1055, 'Germany Flag', 'Klappe zu, Affe tot.', 2, 1000, NULL, 1668711193);
+INSERT INTO public.hat_defs VALUES (1056, 'Argentina Flag', 'LOS MALVINAS SON ARGENTINAS', 2, 1000, NULL, 1668711374);
+INSERT INTO public.hat_defs VALUES (1057, 'China Flag', '动态网自由门 天安門 天安门 法輪功 李洪志 Free Tibet 六四天安門事件 The Tiananmen Square protests of 1989 天安門大屠殺 The Tiananmen Square Massacre 反右派鬥爭 The Anti-Rightist Struggle 大躍進政策 The Great Leap Forward 文化大革命 The Great Proletarian Cultural Revolution', 2, 1000, NULL, 1668711609);
+INSERT INTO public.hat_defs VALUES (1058, 'France Flag', 'C''est la vie.', 2, 1000, NULL, 1668711767);
+INSERT INTO public.hat_defs VALUES (1059, 'Spain Flag', 'Cada loco con su tema.', 2, 1000, NULL, 1668711951);
+INSERT INTO public.hat_defs VALUES (1060, 'Israel Flag', 'A show of support to the last bastion of democracy in the middle east.', 2, 1000, NULL, 1668712425);
+INSERT INTO public.hat_defs VALUES (1061, 'Italy Flag', 'When the moon hits your eye like a big pizza pie, that''s amore.', 2, 1000, NULL, 1668712465);
+INSERT INTO public.hat_defs VALUES (1062, 'Scotland Flag', 'FREEEEEEEEEEEEEDOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM!!!', 2, 1000, NULL, 1668712499);
+INSERT INTO public.hat_defs VALUES (1063, 'Ukraine Flag', 'Slava Ukraini!', 2, 1000, NULL, 1668712521);
+INSERT INTO public.hat_defs VALUES (1064, 'Portugal Flag', 'Aqui se faz, aqui se paga.', 2, 1000, NULL, 1668712672);
+INSERT INTO public.hat_defs VALUES (1065, 'Netherlands (Dutch) Flag', 'Joost fuck my shit up.', 2, 1000, NULL, 1668712717);
+INSERT INTO public.hat_defs VALUES (1066, 'Australia Flag', 'The world''s most overcrowded prison colony.', 2, 1000, NULL, 1668712883);
+INSERT INTO public.hat_defs VALUES (1067, 'India Flag', 'Please do the needful.', 2, 1000, NULL, 1668713144);
+INSERT INTO public.hat_defs VALUES (1068, 'Poland Flag', 'Kurwa.', 2, 1000, NULL, 1668713159);
+INSERT INTO public.hat_defs VALUES (1069, 'Russia Flag', 'Making Nazis seethe since 1942.', 2, 1000, NULL, 1668713214);
+INSERT INTO public.hat_defs VALUES (1070, 'Pride Flag', 'Never forget that this is a primarily gay community. Dude bussy lmao.', 2, 1000, NULL, 1668713844);
+INSERT INTO public.hat_defs VALUES (1071, 'Trans Flag', 'Just in case you forgot, trans lives matter.', 2, 1000, NULL, 1668713920);
+INSERT INTO public.hat_defs VALUES (1072, 'Trans Flag II', 'Your egg is cracked; wear it with pride!', 2, 1000, NULL, 1668714108);
+INSERT INTO public.hat_defs VALUES (1073, 'Pride Flag II', 'This user is a proud supporter of LGBTQ+ rights.', 2, 1000, NULL, 1668714598);
+INSERT INTO public.hat_defs VALUES (1086, 'Melee Shine', 'That aint Falco.', 2, 1000, NULL, 1668880040);
+INSERT INTO public.hat_defs VALUES (1089, 'Ring of Fire', 'Love is a burning thing, and it makes a fiery ring.', 2, 1000, NULL, 1668881782);
+INSERT INTO public.hat_defs VALUES (1091, 'Ring of Fire II', 'Bound by wild desire, I fell into a ring of fire.', 2, 1000, NULL, 1668882874);
+INSERT INTO public.hat_defs VALUES (1092, 'Triggered Banner', 'Include a content warning next time, you insensitive asswipe.', 2, 1000, NULL, 1668884298);
+INSERT INTO public.hat_defs VALUES (1093, 'Anime Speed Lines', 'It''s just like in my Chinese cartoons!', 2, 1000, NULL, 1668899890);
+INSERT INTO public.hat_defs VALUES (1096, 'Ghost of Qatar', 'Ghost of Qatar World Cup 2022 Exclusive Hat', 2, 500, NULL, 1668979015);
+INSERT INTO public.hat_defs VALUES (1078, 'Spinning Santa Hat', '🎅🔄', 2, 1000, NULL, 1668755506);
+INSERT INTO public.hat_defs VALUES (1082, 'Aleister Crowley', 'Kippys a bitch, become a cult leader!', 2, 500, NULL, 1668829567);
+INSERT INTO public.hat_defs VALUES (1074, 'Scottish Sticky Note', 'idk why its scottish the dude who submit it just called it that and wrote something in a scottish accent here but ????? what makes the sticky note scottish ?????????', 2, 500, NULL, 1668720533);
+INSERT INTO public.hat_defs VALUES (1076, 'Snow Globe', 'Snow globe full of partially transparent webp flakes', 2, 1000, NULL, 1668755503);
+INSERT INTO public.hat_defs VALUES (1075, 'Jerma Approval', 'Who? What? I haven''t understood a hat submission in so fucking long', 2, 1000, NULL, 1668727612);
+INSERT INTO public.hat_defs VALUES (1079, 'Spinning Christmas Elf Hat', 'It''s time to go green.', 2, 1000, NULL, 1668755556);
 INSERT INTO public.hat_defs VALUES (874, 'Carp', 'My 100th hat and a Thank you to carp. Now 150 more!', 2, 500, NULL, 1665272718);
+INSERT INTO public.hat_defs VALUES (1077, 'Premium Snow Globe', 'Snow globe with a more premium base.', 2, 1000, NULL, 1668755505);
 INSERT INTO public.hat_defs VALUES (93, 'Wizard I', 'Three decades a KHHV', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (94, 'Wizard II', 'Avada kedavra ✨', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (95, 'Witch I', 'Hex the patriarchy', 2, 500, NULL, 1662167687);
@@ -697,13 +698,11 @@ INSERT INTO public.hat_defs VALUES (152, 'Kung Lao', 'Why did I make a Kung Lao 
 INSERT INTO public.hat_defs VALUES (153, 'Top Hat (steampunk)', 'Like a regular top hat but with goggles and gears', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (154, 'Brain Hat', 'Peter Griffin''s dog', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (155, 'The TED_SIMP', 'Wear this hat to express your undying adoration for carp', 2, 500, NULL, 1662167687);
-
 INSERT INTO public.hat_defs VALUES (667, 'The Orb', 'Ponder into one''s soul', 2, 500, NULL, 1663279906);
 INSERT INTO public.hat_defs VALUES (652, 'Leather Helmet', 'Wow, what a n00b', 2, 500, NULL, 1663133381);
 INSERT INTO public.hat_defs VALUES (669, 'Backwards cap 2', 'lookin'' cool', 2, 500, NULL, 1663280007);
 INSERT INTO public.hat_defs VALUES (396, 'Obey Snapback w Blunt', 'dude weed lmao', 2, 500, NULL, 1662167687);
-
-
+INSERT INTO public.hat_defs VALUES (1080, 'Dancing Baby Crown', 'wear it.', 2, 1000, NULL, 1668757508);
 INSERT INTO public.hat_defs VALUES (663, 'Santa Hat II', '''Tis the season!', 2, 500, NULL, 1663279621);
 INSERT INTO public.hat_defs VALUES (672, 'Birthday Hat', 'Ruins every thread on October 1st (ed: what does this mean????)', 2, 500, NULL, 1663280145);
 INSERT INTO public.hat_defs VALUES (156, 'The Brandon', 'Listen here fat', 2, 500, NULL, 1662167687);
@@ -776,6 +775,7 @@ INSERT INTO public.hat_defs VALUES (542, 'Link (Faces of Evil)', 'Could you eat 
 INSERT INTO public.hat_defs VALUES (406, 'Amogus', 'I saw you vent', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (415, 'WANTED', 'Dangerous thought criminal. Wanted DEAD ONLY.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (421, 'Emperor Hat', 'Made in China', 2, 500, NULL, 1662167687);
+INSERT INTO public.hat_defs VALUES (1081, 'Happy Plumbob', '5th gen Sims 4 plumbob', 2, 1000, NULL, 1668758641);
 INSERT INTO public.hat_defs VALUES (877, 'Reaper Hood I', 'Spooooooky!', 2, 500, NULL, 1665314511);
 INSERT INTO public.hat_defs VALUES (878, 'Reaper Hood II', 'Now with scythe!', 2, 500, NULL, 1665314534);
 INSERT INTO public.hat_defs VALUES (397, 'Funko Pop', '...and then he turned himself into Funko Pop. Funniest shit I ever saw.', 2, 500, NULL, 1662167687);
@@ -1168,7 +1168,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1093, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1099, true);
 
 
 --
@@ -1202,6 +1202,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marsey1984',2,'orwell book ingsoc big brother fascist',NULL),
 ('marsey300',2,'leonidas shield armor thermopylae spear greek spartan',NULL),
 ('marsey3d',2,'poly 3d print alive spin animated',NULL),
+('marsey404',2,'missing 404 error html page notfound',1668930304),
 ('marsey40k',2,'warhammer 40k 40000 space space marine marine ultramarine smurf',NULL),
 ('marsey420',2,'marijuana weed dude weed lmao ganja drugs pot reggae joint jamaican',NULL),
 ('marsey4chan',2,'neckbeard anonymous loser hacker',NULL),
