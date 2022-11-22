@@ -164,14 +164,16 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 @app.post("/vote/post/<post_id>/<new>")
 @limiter.limit("5/second;60/minute;1000/hour;2000/day")
-@ratelimit_user("5/second;60/minute;1000/hour;2000/day")
 @is_not_permabanned
+@ratelimit_user("5/second;60/minute;1000/hour;2000/day")
+@limiter.limit("1/second", key_func=lambda:f'{g.v.id}-{request.full_path}')
 def vote_post(post_id, new, v):
 	return vote_post_comment(post_id, new, v, Submission, Vote)
 
 @app.post("/vote/comment/<comment_id>/<new>")
 @limiter.limit("5/second;60/minute;1000/hour;2000/day")
-@ratelimit_user("5/second;60/minute;1000/hour;2000/day")
 @is_not_permabanned
+@ratelimit_user("5/second;60/minute;1000/hour;2000/day")
+@limiter.limit("1/second", key_func=lambda:f'{g.v.id}-{request.full_path}')
 def vote_comment(comment_id, new, v):
 	return vote_post_comment(comment_id, new, v, Comment, CommentVote)
