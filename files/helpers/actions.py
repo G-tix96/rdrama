@@ -79,7 +79,7 @@ def execute_snappy(post, v):
 			elif body.startswith('You had your chance. Downvoted and reported'):
 				flag = Flag(post_id=post.id, user_id=SNAPPY_ID, reason='Retard')
 				g.db.add(flag)
-		elif body.startswith('▲'):
+		elif body.startswith('▲') or body.startswith(':#marseyupvote'):
 			body = body[1:]
 			vote = Vote(user_id=SNAPPY_ID,
 						vote_type=1,
