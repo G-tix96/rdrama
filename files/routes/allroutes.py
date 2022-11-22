@@ -43,6 +43,9 @@ def before_request():
 	request.full_path = request.full_path.rstrip('?').rstrip('/')
 	if not request.full_path: request.full_path = '/'
 
+	session_init()
+
+
 @app.after_request
 def after_request(response):
 	if response.status_code < 400:
@@ -55,6 +58,7 @@ def after_request(response):
 			g.db.close()
 			del g.db
 	return response
+
 
 @app.teardown_appcontext
 def teardown_request(error):
