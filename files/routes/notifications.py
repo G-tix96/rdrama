@@ -273,7 +273,7 @@ def notifications(v):
 		Comment.deleted_utc == 0,
 		Comment.body_html.notlike('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
 		or_(Comment.sentto == None, Comment.sentto == MODMAIL_ID),
-		not_(and_(Comment.sentto == MODMAIL_ID, User.is_muted)),
+		not_(and_(Comment.sentto != None, Comment.sentto == MODMAIL_ID, User.is_muted)),
 	)
 
 	if v.admin_level < PERMS['USER_SHADOWBAN']:

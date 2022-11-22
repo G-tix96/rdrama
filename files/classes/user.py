@@ -591,7 +591,7 @@ class User(Base):
 					Notification.user_id == self.id,
 					Comment.is_banned == False,
 					Comment.deleted_utc == 0,
-					not_(and_(Comment.sentto == MODMAIL_ID, User.is_muted)),
+					not_(and_(Comment.sentto != None, Comment.sentto == MODMAIL_ID, User.is_muted)),
 				))
 		
 		if not self.can_see_shadowbanned:
