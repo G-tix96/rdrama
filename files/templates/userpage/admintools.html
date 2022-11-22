@@ -61,10 +61,6 @@
 				<form id="shadowban-{{deviceType}}" class="my-3 {% if u.shadowbanned %}d-none{% endif %}" action="/shadowban/{{u.id}}" method="post" onsubmit="sendFormXHRSwitch(event)">
 					<input type="hidden" name="formkey" value="{{v|formkey}}">
 					<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Shadowban Reason" oninput="document.getElementById('user-shadowban-submit-{{deviceType}}').disabled=false" required>
-					<div class="custom-control custom-checkbox mb-1">
-						<input autocomplete="off" type="checkbox" id="shadowban-alts-{{deviceType}}" class="custom-control-input" name="alts" value="1">
-						<label class="custom-control-label" for="shadowban-alts-{{deviceType}}">Include alts</label>
-					</div>
 					<input autocomplete="off" id="user-shadowban-submit-{{deviceType}}" type="submit" onclick="disable(this)" class="btn btn-danger" value="Shadowban user" disabled>
 				</form>
 			{% endif %}

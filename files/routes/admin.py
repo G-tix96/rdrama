@@ -881,13 +881,6 @@ def shadowban(user_id, v):
 	user.ban_reason = reason
 	g.db.add(user)
 
-	if request.values.get("alts"):
-		for alt in user.alts:
-			if alt.admin_level: continue
-			alt.shadowbanned = v.username
-			alt.ban_reason = reason
-			g.db.add(alt)
-
 	ma = ModAction(
 		kind="shadowban",
 		user_id=v.id,
