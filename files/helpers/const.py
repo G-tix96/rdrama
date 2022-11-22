@@ -1608,7 +1608,6 @@ if SITE_NAME == 'rDrama':
 		'givesendgo.com',
 		'thepinkpill.com',
 		'ovarit.com',
-
 		'lolcow.farm',
 		'truthsocial.com',
 		'rumble.com',
