@@ -14,7 +14,7 @@
 
 	<script>
 		if (window.matchMedia('(display-mode: minimal-ui)')['matches']) {
-			const links = e.querySelectorAll('a[data-target="t"]');
+			const links = document.querySelectorAll('a[data-target="t"]');
 			for (const link of links) {
 				link.removeAttribute("target");
 			}
