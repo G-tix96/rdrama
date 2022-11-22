@@ -717,11 +717,13 @@ def settings_song_change(v):
 	elif song.startswith("https://youtu.be/"):
 		id = song.split("https://youtu.be/")[1]
 	else:
-		return render_template("settings/personal.html", v=v, error="Not a youtube link.")
+		return render_template("settings/personal.html", v=v, error="Not a YouTube link"), 400
 
 	if "?" in id: id = id.split("?")[0]
 	if "&" in id: id = id.split("&")[0]
 
+	if not yt_id_regex.fullmatch(id):
+		return render_template("settings/personal.html", v=v, error="Not a YouTube link"), 400
 	if path.isfile(f'/songs/{id}.mp3'): 
 		v.song = id
 		g.db.add(v)
@@ -731,15 +733,15 @@ def settings_song_change(v):
 	req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={id}&key={YOUTUBE_KEY}&part=contentDetails", timeout=5).json()
 	duration = req['items'][0]['contentDetails']['duration']
 	if duration == 'P0D':
-		return render_template("settings/personal.html", v=v, error="Can't use a live youtube video!")
+		return render_template("settings/personal.html", v=v, error="Can't use a live youtube video!"), 400
 
 	if "H" in duration:
-		return render_template("settings/personal.html", v=v, error="Duration of the video must not exceed 15 minutes.")
+		return render_template("settings/personal.html", v=v, error="Duration of the video must not exceed 15 minutes."), 400
 
 	if "M" in duration:
 		duration = int(duration.split("PT")[1].split("M")[0])
 		if duration > 15: 
-			return render_template("settings/personal.html", v=v, error="Duration of the video must not exceed 15 minutes.")
+			return render_template("settings/personal.html", v=v, error="Duration of the video must not exceed 15 minutes."), 400
 
 
 	if v.song and path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:
@@ -761,7 +763,7 @@ def settings_song_change(v):
 			print(e, flush=True)
 			return render_template("settings/personal.html",
 						v=v,
-						error="Age-restricted videos aren't allowed.")
+						error="Age-restricted videos aren't allowed."), 400
 
 	files = os.listdir("/songs/")
 	paths = [path.join("/songs/", basename) for basename in files]
