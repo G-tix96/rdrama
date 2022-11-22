@@ -1654,6 +1654,7 @@ if SITE_NAME == 'rDrama':
 		'wolfballs.com',
 		'backloggd.com',
 		'tildes.net',
+		'blacktwitterapp.com',
 
 		#fediverse
 		'rdrama.cc',
