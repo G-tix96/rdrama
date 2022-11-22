@@ -24,6 +24,7 @@ def before_request():
 	if not get_setting('Bots') and request.headers.get("Authorization"): abort(403)
 
 	g.db = db_session()
+	g.webview = '; wv) ' in ua
 
 	if ' firefox/' in ua:
 		g.type = 'firefox'

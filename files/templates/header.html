@@ -98,7 +98,11 @@
 					</form>
 				</div>
 			{% endif %}
-			
+
+			{% if g.webview %}
+				<button type="button" class="mobile-nav-icon d-md-none" onclick="location.reload()"><i class="fas fa-arrow-rotate-right align-middle text-gray-500 black"></i></button>
+			{% endif %}
+
 			{% if SITE_NAME == 'PCM' %}
 				<a class="mobile-nav-icon d-md-none" href="/live" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Live"><i class="fas fa-circle align-middle black live-circle"></i></a>
 			{% endif %}
