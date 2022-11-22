@@ -312,7 +312,7 @@
 		transform: scaleX(-1) scaleY(-1);
 	}
 
-	#casinoGameResult {
+	#casinoGameResult, #casinoGameStats {
 		text-transform: uppercase;
 		text-align: center;
 		letter-spacing: 3px;
@@ -363,6 +363,12 @@
 		<div class="col">
 			<div id="casinoGameResult" class="alert" role="alert">
 				{% block result %} {% endblock %}
+			</div>
+		</div>
+		<div class="col">
+			{% set stats_alert_class = 'success' if v_stats[0] >= v_stats[2] else 'danger' %}
+			<div id="casinoGameStats" class="alert alert-{{stats_alert_class}}" role="alert">
+				{{v_stats[0]}} win{{macros.plural(v_stats[0])}}{% if v_stats[1] %} - {{v_stats[1]}} tie{{macros.plural(v_stats[1])}}{% endif %} - {{v_stats[2]}} loss{{macros.plural(v_stats[2], 'es')}}
 			</div>
 		</div>
 		<div class="col">
@@ -419,50 +425,22 @@
 				<hr>
 			</div>
 			<div id="gameLeaderboard" data-leaderboard="{{leaderboard}}">
-				<!-- Biggest Winner All Time -->
+				{%- macro leaderboard(text, css_class, marsey, color) -%}
 				<div class="casino-game-leaderboard">
 					<div class="leaderboard-marsey-trophy">
-						<img class="leaderboard-marsey-trophy__marsey" src="/e/marseyhappytears.webp">
-						<i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: gold;"></i>
+						<img class="leaderboard-marsey-trophy__marsey" src="/e/{{marsey}}.webp">
+						<i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: {{color}};"></i>
 					</div>
 					<div class="casino-game-leaderboard-info">
-						<small>Biggest Winner (All Time)</small>
-						<h3 id="biggestWinnerAllTime">-</h3>
+						<small>{{text}}</small>
+						<h3 id="{{css_class}}">-</h3>
 					</div>
 				</div>
-				<!-- Biggest Winner 24h -->
-				<div class="casino-game-leaderboard">
-					<div class="leaderboard-marsey-trophy">
-						<img class="leaderboard-marsey-trophy__marsey" src="/e/marseyexcited.webp">
-						<i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: gold;"></i>
-					</div>
-					<div class="casino-game-leaderboard-info">
-						<small>Biggest Winner (Last 24h)</small>
-						<h3 id="biggestWinner24h">-</h3>
-					</div>
-				</div>
-				<!-- Biggest Loser 24h -->
-				<div class="casino-game-leaderboard">
-					<div class="leaderboard-marsey-trophy">
-						<img class="leaderboard-marsey-trophy__marsey" src="/e/marseycry.webp">
-						<i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: darkred;"></i>
-					</div>
-					<div class="casino-game-leaderboard-info">
-						<small>Biggest Loser (Last 24h)</small>
-						<h3 id="biggestLoser24h">-</h3>
-					</div>
-				</div>
-				<!-- Biggest Loser All Time -->
-				<div class="casino-game-leaderboard">
-					<div class="leaderboard-marsey-trophy">
-						<img class="leaderboard-marsey-trophy__marsey" src="/e/marseyrain.webp">
-						<i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: darkred;"></i>
-					</div>
-					<div class="casino-game-leaderboard-info">
-						<small>Biggest Loser (All Time)</small>
-						<h3 id="biggestLoserAllTime">-</h3>
-					</div>
-				</div>
+				{%- endmacro -%}
+				{{leaderboard('Biggest Winner (All Time)', 'biggestWinnerAllTime', 'marseyhappytears', 'gold')}}
+				{{leaderboard('Biggest Winner (Last 24h)', 'biggestWinner24h', 'marseyexcited', 'gold')}}
+				{{leaderboard('Biggest Loser (Last 24h)', 'biggestLoser24h', 'marseycry', 'darkred')}}
+				{{leaderboard('Biggest Loser (All Time)', 'biggestLoserAllTime', 'marseyrain', 'darkred')}}
 			</div>
 		</div>
 	</div>

@@ -23,8 +23,14 @@ def get_game_feed(game, db):
 
 	return list(map(format_game, games))
 
+def get_user_stats(u:User, game:str, db:scoped_session, include_ties=False):
+	games = db.query(Casino_Game.user_id, Casino_Game.winnings).filter(Casino_Game.kind == game, Casino_Game.user_id == u.id)
+	wins = games.filter(Casino_Game.winnings > 0).count()
+	ties = games.filter(Casino_Game.winnings == 0).count() if include_ties else 0
+	losses = games.filter(Casino_Game.winnings < 0).count()
+	return (wins, ties, losses)
 
-def get_game_leaderboard(game, db):
+def get_game_leaderboard(game, db:scoped_session):
 	timestamp_24h_ago = time.time() - 86400
 	timestamp_all_time = CASINO_RELEASE_DAY # "All Time" starts on release day
 

@@ -16,7 +16,7 @@ from files.__main__ import app, limiter
 @auth_required
 def casino(v):
 	if v.rehab:
-		return render_template("casino/rehab.html", v=v)
+		return render_template("casino/rehab.html", v=v), 403
 
 	return render_template("casino.html", v=v)
 
@@ -26,12 +26,13 @@ def casino(v):
 @auth_required
 def casino_game_page(v, game):
 	if v.rehab:
-		return render_template("casino/rehab.html", v=v)
+		return render_template("casino/rehab.html", v=v), 403
 	elif game not in CASINO_GAME_KINDS:
 		abort(404)
 
 	feed = json.dumps(get_game_feed(game, g.db))
 	leaderboard = json.dumps(get_game_leaderboard(game, g.db))
+	v_stats = get_user_stats(v, game, g.db, game == 'blackjack')
 
 	game_state = ''
 	if game == 'blackjack':
@@ -44,6 +45,7 @@ def casino_game_page(v, game):
 		game=game,
 		feed=feed,
 		leaderboard=leaderboard,
+		v_stats=v_stats,
 		game_state=game_state
 	)
 
