@@ -128,7 +128,7 @@ def downvoting_posts(v, username, uid):
 def downvoting_comments(v, username, uid):
 	return upvoting_downvoting(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
 
-def user_voted(v, username, cls, vote_cls, vote_dir, template, standalone):
+def user_voted(v, username, cls, vote_cls, template, standalone):
 	u = get_user(username, v=v, include_shadowbanned=False)
 	if not u.is_visible_to(v): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
@@ -142,7 +142,6 @@ def user_voted(v, username, cls, vote_cls, vote_dir, template, standalone):
 			cls.deleted_utc == 0,
 			cls.author_id != u.id,
 			vote_cls.user_id == u.id,
-			vote_cls.vote_type == vote_dir
 		).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
 	listing = [p.id for p in listing]
@@ -157,16 +156,16 @@ def user_voted(v, username, cls, vote_cls, vote_dir, template, standalone):
 
 	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
 
-@app.get("/@<username>/upvoted/posts")
+@app.get("/@<username>/voted/posts")
 @auth_required
-def user_upvoted_posts(v, username):
-	return user_voted(v, username, Submission, Vote, 1, "userpage/voted_posts.html", None)
+def user_voted_posts(v, username):
+	return user_voted(v, username, Submission, Vote, "userpage/voted_posts.html", None)
 
 
-@app.get("/@<username>/upvoted/comments")
+@app.get("/@<username>/voted/comments")
 @auth_required
-def user_upvoted_comments(v, username):
-	return user_voted(v, username, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
+def user_voted_comments(v, username):
+	return user_voted(v, username, Comment, CommentVote, "userpage/voted_comments.html", True)
 
 
 @app.get("/grassed")
