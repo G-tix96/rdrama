@@ -1692,3 +1692,7 @@ if SITE_NAME == 'rDrama':
 IMAGE_FORMATS = ['png','gif','jpg','jpeg','webp']
 VIDEO_FORMATS = ['mp4','webm','mov','avi','mkv','flv','m4v','3gp']
 AUDIO_FORMATS = ['mp3','wav','ogg','aac','m4a','flac']
+
+if not is_localhost and SECRET_KEY == DEFAULT_CONFIG_VALUE:
+	from warnings import warn
+	warn("Secret key is the default value! Please change it to a secure random number. Thanks <3", RuntimeWarning)
