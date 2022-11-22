@@ -880,6 +880,7 @@ def shadowban(user_id, v):
 	reason = request.values.get("reason").strip()[:256]
 	user.ban_reason = reason
 	g.db.add(user)
+	check_for_alts(user, False)
 
 	ma = ModAction(
 		kind="shadowban",
