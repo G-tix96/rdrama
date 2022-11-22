@@ -170,7 +170,7 @@ PROFANITIES = {
 	'penis': 'peepee',
 	'pussy': 'girl peepee',
 	'vagina': 'girl peepee',
-	' twat': ' girl peepee',
+	' twat ': ' girl peepee ',
 }
 
 slur_single_words = "|".join([slur.lower() for slur in SLURS.keys()])
