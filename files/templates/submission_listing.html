@@ -80,26 +80,26 @@
 			{% if not v_forbid_deleted %}
 			<div class="card-thumbnail mt-3">
 				{% if p.club and not (v and (v.paid_dues or v.id == p.author_id)) %}
-					<img alt="post thumnail" loading="lazy" src="/e/marseyglow.webp" class="post-img">
+					<img alt="post thumbnail" loading="lazy" src="/e/marseyglow.webp" class="post-img">
 				{% elif not p.url %}
 					<a {% if v and v.newtab %}target="_blank"{% endif %} href="{{p.permalink}}">
-						<img alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+						<img alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 					</a>
 				{% elif p.is_image %}
 					<a href="{{p.realurl(v)}}" rel="nofollow noopener">
-						<img onclick="expandDesktopImage('{{p.realurl(v)}}')" alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+						<img onclick="expandDesktopImage('{{p.realurl(v)}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 					</a>
 				{% elif p.is_video or p.is_audio %}
 					<a href="{{p.realurl(v)}}" rel="nofollow noopener">
-						<img onclick="togglevideo('{{p.id}}')" alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+						<img onclick="togglevideo('{{p.id}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 					</a>
 				{% elif p.is_youtube %}
 					<a href="{{p.realurl(v)}}" rel="nofollow noopener">
-						<img onclick="toggleyoutube('{{p.id}}')" alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+						<img onclick="toggleyoutube('{{p.id}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 					</a>
 				{% else %}
 					<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
-						<img alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+						<img alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 						<i class="ext-link fas fa-external-link"></i>
 					</a>
 				{% endif %}
