@@ -6,7 +6,7 @@ import gevent
 import gevent_inotifyx as inotify
 
 ASSET_DIR = 'files/assets'
-ASSET_SUBDIRS = ['/css', '/js']
+ASSET_SUBDIRS = ['/css', '/js', '/js/vendor']
 ASSET_URL = '/assets/'
 ASSET_CACHE = defaultdict(lambda: None)
 
