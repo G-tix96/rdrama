@@ -1675,14 +1675,6 @@ if SITE_NAME == 'rDrama':
 		'changelog',
 	}
 
-	UNNERFED_HOLES = {
-		'space',
-		'istory',
-		'dino',
-		'slackernews',
-		'schizocel',
-	}
-
 	BOOSTED_USERS = {
 		IMPASSIONATA_ID,
 		PIZZASHILL_ID,
