@@ -719,10 +719,7 @@
 						{% endif %}
 
 						{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-							{% if v.id != c.author.id %}
-								<button type="button" id="remove2-{{c.id}}" class="{% if c.is_banned %}d-none{% endif %} list-group-item text-danger" onclick="removeComment(this,'{{c.id}}','approve2-{{c.id}}','remove2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-ban text-danger mr-2"></i>Remove</button>
-							{% endif %}
-
+							<button type="button" id="remove2-{{c.id}}" class="{% if c.is_banned %}d-none{% endif %} list-group-item text-danger" onclick="removeComment(this,'{{c.id}}','approve2-{{c.id}}','remove2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-ban text-danger mr-2"></i>Remove</button>
 							<button type="button" id="approve2-{{c.id}}" class="{% if not c.is_banned and request.path != '/admin/reported/comments' %}d-none{% endif %} list-group-item text-success" onclick="approveComment(this,'{{c.id}}','approve2-{{c.id}}','remove2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-check text-success mr-2"></i>Approve</button>
 						{% endif %}
 
