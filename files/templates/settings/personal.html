@@ -262,9 +262,11 @@
 
 {% if v.flairchanged %}
 	<script>
-		const date = new Date({{v.flairchanged}}*1000).toString();
-		const text = ` - Your flair has been locked until ${date}`
-		document.getElementById('customtitlebody').value += text;
+		document.addEventListener('DOMContentLoaded', function() {
+			const date = formatDate(new Date({{v.flairchanged}}*1000));
+			const text = ` - Your flair has been locked until ${date}`;
+			document.getElementById('flair-body').value += text;
+		});
 	</script>
 {% endif %}
 
