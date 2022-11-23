@@ -5022,6 +5022,22 @@ img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 	pat-pfp-anim .3s infinite;
 }
 
+@keyframes rb {
+	10% { color: red; }
+	20% { color: orange; }
+	30% { color: yellow; }
+	40% { color: green; }
+	50% { color: cyan; }
+	70% { color: blue; }
+	80% { color: indigo; }
+	90% { color: violet; }
+}
+
+.zozbot {
+	font-weight: bold;
+	animation: rb 8s linear infinite;
+}
+
 .text-black {
 	color: var(--black);
 }
