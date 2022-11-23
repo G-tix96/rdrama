@@ -1,18 +1,13 @@
-[![Build status](https://img.shields.io/github/workflow/status/TheMotte/rDrama/run_tests.py/frost)](https://github.com/Aevann1/rDrama/actions?query=workflow%3Arun_tests.py+branch%3Afrost)
-
-
 This code runs https://rdrama.net, https://pcmemes.net and https://watchpeopledie.tv
 
 # Installation (Windows/Linux/MacOS)
 
-1- Install Docker on your machine.
-
-[Docker installation](https://docs.docker.com/get-docker/)
+1- Install Docker on your machine. [Docker installation](https://docs.docker.com/get-docker/)
 
 2- Run the following commands in the terminal:
 
 ```
-git clone https://github.com/Aevann1/rDrama/
+git clone https://fsdfsd.net/rDrama/rDrama.git
 
 cd rDrama
 
