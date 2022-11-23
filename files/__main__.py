@@ -19,8 +19,6 @@ from files.helpers.const import *
 from files.helpers.const_stateful import const_initialize
 from files.helpers.settings import reload_settings, start_watching_settings
 
-print("fsdfsd")
-
 app = Flask(__name__, template_folder='templates')
 app.url_map.strict_slashes = False
 app.jinja_env.cache = {}
