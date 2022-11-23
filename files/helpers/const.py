@@ -1475,6 +1475,7 @@ approved_embed_hosts = {
 	BAN_EVASION_DOMAIN,
 	'pcmemes.net',
 	'watchpeopledie.tv',
+	'fsdfsd.net',
 	'imgur.com',
 	'lain.la',
 	'pngfind.com',
