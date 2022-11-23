@@ -293,8 +293,9 @@
 			for (const individualBet of wagers) {
 				const coinText = individualBet.amounts.coins > 0 ? `${individualBet.amounts.coins} ${coinImgHtml}` : "";
 				const procoinText = individualBet.amounts.marseybux > 0 ? `${individualBet.amounts.marseybux} ${marseybuxImgHtml}` : "";
+				const straightUpWhich = (individualBet.which == 37) ? "00" : individualBet.which;
 				const details = {
-					STRAIGHT_UP_BET: `that the number will be ${individualBet.which}`,
+					STRAIGHT_UP_BET: `that the number will be ${straightUpWhich}`,
 					LINE_BET: `that the number will be within line ${individualBet.which}`,
 					COLUMN_BET: `that the number will be within column ${individualBet.which}`,
 					DOZEN_BET: `that the number will be within dozen ${individualBet.which}`,

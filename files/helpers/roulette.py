@@ -20,13 +20,13 @@ class RouletteAction(str, Enum):
 
 	@property
 	def validation_function(self):
-		if self == self.__class__.STRAIGHT_UP_BET: return lambda x:x and x >= 0 and x <= 37
-		if self == self.__class__.LINE_BET: return lambda x:x in LINES
-		if self == self.__class__.COLUMN_BET: return lambda x:x in COLUMNS
-		if self == self.__class__.DOZEN_BET: return lambda x:x in DOZENS
-		if self == self.__class__.EVEN_ODD_BET: return lambda x:x in [y.value for y in RouletteEvenOdd]
-		if self == self.__class__.RED_BLACK_BET: return lambda x:x in [y.value for y in RouletteRedBlack]
-		if self == self.__class__.HIGH_LOW_BET: return lambda x:x in [y.value for y in RouletteHighLow]
+		if self == self.__class__.STRAIGHT_UP_BET: return lambda x: x is not None and x >= 0 and x <= 37
+		if self == self.__class__.LINE_BET: return lambda x: x in LINES
+		if self == self.__class__.COLUMN_BET: return lambda x: x in COLUMNS
+		if self == self.__class__.DOZEN_BET: return lambda x: x in DOZENS
+		if self == self.__class__.EVEN_ODD_BET: return lambda x: x in [y.value for y in RouletteEvenOdd]
+		if self == self.__class__.RED_BLACK_BET: return lambda x: x in [y.value for y in RouletteRedBlack]
+		if self == self.__class__.HIGH_LOW_BET: return lambda x: x in [y.value for y in RouletteHighLow]
 		raise ValueError("Unhandled validation function for RouletteAction")
 
 
