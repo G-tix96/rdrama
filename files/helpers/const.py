@@ -153,7 +153,6 @@ PROFANITIES = {
 	'fuck': 'frick',
 	' ass ': ' butt ',
 	'shitting': 'pooping',
-	'lmao': 'lmbo',
 	'damn': 'darn',
 	'bastard': 'fatherless child',
 	'bitch': 'b-word',
