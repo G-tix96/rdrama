@@ -1690,6 +1690,7 @@ if SITE_NAME == 'rDrama':
 		SNAKES_ID,
 		JUSTCOOL_ID,
 		2008, #TransGirlTradWife
+		29, #QuadNarca
 	}
 
 	BOOSTED_USERS_EXCLUDED = {8768, 5214, 12719, 3402}
