@@ -310,8 +310,8 @@ def morecomments(v, cid):
 
 @app.post("/edit_post/<pid>")
 @limiter.limit("1/second;10/minute;100/hour;200/day")
-@ratelimit_user("1/second;10/minute;100/hour;200/day")
 @is_not_permabanned
+@ratelimit_user("1/second;10/minute;100/hour;200/day")
 def edit_post(pid, v):
 	p = get_post(pid)
 	if v.id != p.author_id and v.admin_level < PERMS['POST_EDITING']:
@@ -1072,8 +1072,8 @@ extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
 
 @app.get("/submit/title")
 @limiter.limit("3/minute")
-@ratelimit_user("3/minute")
 @auth_required
+@ratelimit_user("3/minute")
 def get_post_title(v):
 	POST_TITLE_TIMEOUT = 5
 	url = request.values.get("url")

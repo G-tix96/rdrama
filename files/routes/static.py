@@ -208,8 +208,8 @@ def contact(v):
 
 @app.post("/send_admin")
 @limiter.limit("1/second;1/2 minutes;10/day")
-@ratelimit_user("1/second;1/2 minutes;10/day")
 @auth_required
+@ratelimit_user("1/second;1/2 minutes;10/day")
 def submit_contact(v):
 	body = request.values.get("message")
 	if not body: abort(400)
