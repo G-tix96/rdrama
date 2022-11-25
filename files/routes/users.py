@@ -550,9 +550,7 @@ def messagereply(v):
 	top_comment = c.top_comment(g.db)
 
 	if top_comment.sentto == MODMAIL_ID:
-		admins = g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id)
-		if SITE == 'watchpeopledie.tv':
-			admins = admins.filter(User.id != AEVANN_ID)
+		admins = g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id, User.id != AEVANN_ID)
 
 		admins = [x[0] for x in admins.all()]
 

@@ -235,9 +235,7 @@ def submit_contact(v):
 	execute_blackjack(v, new_comment, new_comment.body_html, 'modmail')
 	new_comment.top_comment_id = new_comment.id
 	
-	admins = g.db.query(User).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'])
-	if SITE == 'watchpeopledie.tv':
-		admins = admins.filter(User.id != AEVANN_ID)
+	admins = g.db.query(User).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != AEVANN_ID)
 
 	for admin in admins.all():
 		notif = Notification(comment_id=new_comment.id, user_id=admin.id)
