@@ -558,7 +558,7 @@ elif SITE == 'pcmemes.net':
 	AEVANN_ID = 1
 	SNAKES_ID = 2279
 
-	WELCOME_MSG = "Welcome to pcmemes.net! Don't forget to turn off the slur filter [here](/settings/content#slurreplacer)!"
+	WELCOME_MSG = "Welcome to pcmemes.net! Don't forget to turn off the slur filter [here](/settings/content#slurreplacer)"
 
 	LOTTERY_TICKET_COST = 12
 	LOTTERY_SINK_RATE = -8
