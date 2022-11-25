@@ -324,13 +324,12 @@ function formatDate(d) {
 const timestamps = document.querySelectorAll('[data-time]');
 
 for (const e of timestamps) {
-	const date = new Date(e.dataset.time*1000);
-	e.innerHTML = formatDate(date);
+	e.innerHTML = formatDate(new Date(e.dataset.time*1000));
 };
 
 function timestamp(str, ti) {
-	const date = new Date(ti*1000);
-	document.getElementById(str).setAttribute("data-bs-original-title", formatDate(date));
+	const date = formatDate(new Date(ti*1000));
+	document.getElementById(str).setAttribute("data-bs-original-title", date);
 };
 
 function areyousure(t) {
