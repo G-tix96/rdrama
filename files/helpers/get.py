@@ -2,7 +2,7 @@ from typing import Callable, Iterable, List, Optional, Union
 
 from flask import *
 from sqlalchemy import and_, any_, or_
-from sqlalchemy.orm import joinedload, selectinload
+from sqlalchemy.orm import joinedload, selectinload, Query
 
 from files.classes import Comment, CommentVote, Hat, Sub, Submission, User, UserBlock, Vote
 from files.helpers.const import AUTOJANNY_ID
@@ -145,7 +145,7 @@ def get_post(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Option
 	return x
 
 
-def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False) -> List[Submission]:
+def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False, extra:Optional[Callable[[Query], Query]]=None) -> List[Submission]:
 	if not pids: return []
 
 	if v:
@@ -177,6 +177,8 @@ def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False) -> Li
 		)
 	else:
 		query = g.db.query(Submission).filter(Submission.id.in_(pids))
+
+	if extra: query = extra(query)
 
 	if eager:
 		query = query.options(
@@ -276,12 +278,14 @@ def add_vote_and_block_props(target:Union[Submission, Comment], v:Optional[User]
 	target = add_block_props(target, v)
 	return add_vote_props(target, v, vote_cls)
 
-def get_comments(cids:Iterable[int], v:Optional[User]=None) -> List[Comment]:
+def get_comments(cids:Iterable[int], v:Optional[User]=None, extra:Optional[Callable[[Query], Query]]=None) -> List[Comment]:
 	if not cids: return []
 	if v:
-		output = get_comments_v_properties(v, True, None, Comment.id.in_(cids))[1]
+		output = get_comments_v_properties(v, True, None, Comment.id.in_(cids))[1] # TODO: support 'extra' for get_comments_v_properties
 	else:
-		output = g.db.query(Comment).join(Comment.author).filter(User.shadowbanned == None, Comment.id.in_(cids)).all()
+		output = g.db.query(Comment).join(Comment.author)
+		if extra: output = extra(output)
+		output = output.filter(User.shadowbanned == None, Comment.id.in_(cids)).all()
 	return sorted(output, key=lambda x: cids.index(x.id))
 
 def get_comments_v_properties(v:User, include_shadowbanned=True, should_keep_func:Optional[Callable[[Comment], bool]]=None, *criterion):

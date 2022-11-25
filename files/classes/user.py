@@ -873,6 +873,24 @@ class User(Base):
 	def userblocks(self):
 		return [x[0] for x in g.db.query(UserBlock.target_id).filter_by(user_id=self.id).all()]
 
+	def get_relationship_count(self, relationship_cls):
+		# TODO: deduplicate (see routes/users.py)
+		if relationship_cls in [SaveRelationship, Subscription]:
+			query = relationship_cls.submission_id
+			join = relationship_cls.post
+			cls = Submission
+		elif relationship_cls is CommentSaveRelationship:
+			query = relationship_cls.comment_id
+			join = relationship_cls.comment
+			cls = Comment
+		else:
+			raise TypeError("Relationships supported is SaveRelationship, Subscription, CommentSaveRelationship")
+
+		query = g.db.query(query).join(join).filter(relationship_cls.user_id == self.id)
+		if not self.admin_level >= PERMS['POST_COMMENT_MODERATION']:
+			query = query.filter(cls.is_banned == False, cls.deleted_utc == 0)
+		return query.count()
+
 	@property
 	@lazy
 	def saved_idlist(self):
@@ -895,17 +913,17 @@ class User(Base):
 	@property
 	@lazy
 	def saved_count(self):
-		return g.db.query(SaveRelationship).filter_by(user_id=self.id).count()
+		return self.get_relationship_count(SaveRelationship)
 
 	@property
 	@lazy
 	def saved_comment_count(self):
-		return g.db.query(CommentSaveRelationship).filter_by(user_id=self.id).count()
+		return self.get_relationship_count(CommentSaveRelationship)
 
 	@property
 	@lazy
 	def subscribed_count(self):
-		return g.db.query(Subscription).filter_by(user_id=self.id).count()
+		return self.get_relationship_count(Subscription)
 
 	@property
 	@lazy
