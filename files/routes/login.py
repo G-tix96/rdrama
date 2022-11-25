@@ -151,7 +151,7 @@ def logout(v):
 @auth_desired
 def sign_up_get(v):
 	if not get_setting('Signups'):
-		return {"error": "New account registration is currently closed. Please come back later."}, 403
+		abort(403, "New account registration is currently closed. Please come back later.")
 
 	if v: return redirect(SITE_FULL)
 
@@ -201,7 +201,7 @@ def sign_up_get(v):
 @auth_desired
 def sign_up_post(v):
 	if not get_setting('Signups'):
-		return {"error": "New account registration is currently closed. Please come back later."}, 403
+		abort(403, "New account registration is currently closed. Please come back later.")
 
 	if v: abort(403)
 

@@ -550,9 +550,7 @@ def messagereply(v):
 	top_comment = c.top_comment(g.db)
 
 	if top_comment.sentto == MODMAIL_ID:
-		admins = g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id)
-		if SITE == 'watchpeopledie.tv':
-			admins = admins.filter(User.id != AEVANN_ID)
+		admins = g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id, User.id != AEVANN_ID)
 
 		admins = [x[0] for x in admins.all()]
 
@@ -937,7 +935,6 @@ def user_profile_name(username):
 	return redirect(x.profile_url)
 
 def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone=False):
-	PAGE_SIZE = 25
 	if relationship_cls in [SaveRelationship, Subscription]:
 		query = relationship_cls.submission_id
 		join = relationship_cls.post
@@ -951,12 +948,18 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 	ids = [x[0] for x in g.db.query(query).join(join).filter(relationship_cls.user_id == v.id).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()]
 	next_exists = len(ids) > PAGE_SIZE
 	ids = ids[:PAGE_SIZE]
+
+	extra = None
+	if not v.admin_level >= PERMS['POST_COMMENT_MODERATION']: 
+		extra = lambda q:q.filter(cls.is_banned == False, cls.deleted_utc == 0)
+
 	if cls is Submission:
-		listing = get_posts(ids, v=v, eager=True)
+		listing = get_posts(ids, v=v, eager=True, extra=extra)
 	elif cls is Comment:
-		listing = get_comments(ids, v=v)
+		listing = get_comments(ids, v=v, extra=extra)
 	else:
 		raise TypeError("Only supports Submissions and Comments. This is probably the result of a bug with *this* function")
+	
 	if v.client: return {"data": [x.json(g.db) for x in listing]}
 	return render_template(template, u=v, v=v, listing=listing, page=page, next_exists=next_exists, standalone=standalone)
 

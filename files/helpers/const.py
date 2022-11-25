@@ -145,6 +145,7 @@ if SITE_NAME == 'rDrama':
 		"kys ": "keep yourself safe ",
 		"republican": 'republiKKKan',
 		"america": 'ameriKKKa',
+		"it's almost as if": "I'm a retard but",
 	}
 	SLURS.update(RDRAMA_SLURS)
 
@@ -153,7 +154,6 @@ PROFANITIES = {
 	'fuck': 'frick',
 	' ass ': ' butt ',
 	'shitting': 'pooping',
-	'lmao': 'lmbo',
 	'damn': 'darn',
 	'bastard': 'fatherless child',
 	'bitch': 'b-word',
@@ -436,6 +436,7 @@ MODMAIL_ID = 2
 
 POLL_THREAD = 0
 POLL_BET_COINS = 200
+POLL_MAX_OPTIONS = 10
 WELCOME_MSG = f"Welcome to {SITE_NAME}!"
 
 LOTTERY_TICKET_COST = 12
@@ -1398,6 +1399,7 @@ NOTIFIED_USERS = {
 	'snakes': SNAKES_ID,
 	'sneks': SNAKES_ID,
 	'snekky': SNAKES_ID,
+	'snekchad': SNAKES_ID,
 	'jc': JUSTCOOL_ID,
 	'justcool': JUSTCOOL_ID,
 	'geese': GEESE_ID,
