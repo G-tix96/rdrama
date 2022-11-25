@@ -145,6 +145,7 @@ if SITE_NAME == 'rDrama':
 		"kys ": "keep yourself safe ",
 		"republican": 'republiKKKan',
 		"america": 'ameriKKKa',
+		"it's almost as if": "I'm a retard but",
 	}
 	SLURS.update(RDRAMA_SLURS)
 
