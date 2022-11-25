@@ -1659,6 +1659,7 @@ if SITE_NAME == 'rDrama':
 		'backloggd.com',
 		'tildes.net',
 		'blacktwitterapp.com',
+		'dailystormer.in',
 
 		#fediverse
 		'rdrama.cc',
