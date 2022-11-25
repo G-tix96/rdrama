@@ -1397,6 +1397,7 @@ NOTIFIED_USERS = {
 	'snakes': SNAKES_ID,
 	'sneks': SNAKES_ID,
 	'snekky': SNAKES_ID,
+	'snekchad': SNAKES_ID,
 	'jc': JUSTCOOL_ID,
 	'justcool': JUSTCOOL_ID,
 	'geese': GEESE_ID,
