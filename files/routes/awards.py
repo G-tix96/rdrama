@@ -198,7 +198,7 @@ def award_thing(v, thing_type, id):
 			msg = f"{safe_username} is under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you :marseytroll:"
 			send_repeatable_notification(v.id, msg)
 			author = v
-		elif kind != 'spider':
+		elif kind not in ('spider', 'shit'):
 			awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT) if AWARDS[kind]['cosmetic'] else 0
 			if AWARDS[kind]['cosmetic']:
 				author.pay_account('coins', awarded_coins)
