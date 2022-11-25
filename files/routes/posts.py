@@ -1075,6 +1075,7 @@ extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
 @ratelimit_user("3/minute")
 @auth_required
 def get_post_title(v):
+	POST_TITLE_TIMEOUT = 5
 	url = request.values.get("url")
 	if not url or '\\' in url: abort(400)
 	url = url.strip()
@@ -1084,7 +1085,8 @@ def get_post_title(v):
 	if any((checking_url.endswith(f'.{x}') for x in extensions)):
 		abort(400)
 
-	try: x = requests.get(url, headers=titleheaders, timeout=5, proxies=proxies)
+	try:
+		x = gevent.with_timeout(POST_TITLE_TIMEOUT, requests.get, url, headers=titleheaders, timeout=POST_TITLE_TIMEOUT, proxies=proxies)
 	except: abort(400)
 		
 	content_type = x.headers.get("Content-Type")
