@@ -10,6 +10,8 @@
       Written in a deprecated format due to it's verbosity and
       easy porting to OpenAPI's Swagger, which supports nice
       frontends.
+
+      View it at /dev/api
   -->
   <resources xmlns:xlink="http://www.w3.org/1999/xlink"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -34,7 +36,8 @@
                  name="title"
                  style="plain"
                  type="xsd:string">
-            <wadl:doc xmlns="http://docbook.org/ns/docbook" xml:lang="EN">
+            <wadl:doc xmlns="http://docbook.org/ns/docbook"
+                      xml:lang="EN">
               <para>The posts title. :emojis: will be parsed as well. Plaintext. No markdown.</para>
             </wadl:doc>
           </param>
@@ -78,8 +81,9 @@
           </representation>
         </response>
         <response status="400">
-          <representation mediaType="application/xml" element="csapi:badRequest"/>
-          <representation mediaType="application/json"/>
+          <wadl:doc xmlns="http://docbook.org/ns/docbook" xml:lang="EN">
+            <para>Not found</para>
+          </wadl:doc>
         </response> 
       </method>
     </resource>
@@ -98,8 +102,8 @@
         <request>
           <param required="true"
                  name="username"
-                 style="plain"
-                 type="xsd:url">
+                 style="url"
+                 type="xsd:string">
             <wadl:doc xmlns="http://docbook.org/ns/docbook" xml:lang="EN">
               <para>User URL</para>
             </wadl:doc>
@@ -157,7 +161,7 @@
                  style="plain"
                  type="xsd:url">
             <wadl:doc xmlns="http://docbook.org/ns/docbook" xml:lang="EN">
-              <para>Fullname of the parent (this isn't actually real, right?)</para>
+              <para>ID of the parent post. Starts with <code>p_</code> for a parent submission, and <code>c_</code> for a comment submission. Anything else will emit a 400.</para>
             </wadl:doc>
           </param>
           <param required="true"
@@ -176,8 +180,25 @@
               <para>Your messages content</para>
             </wadl:doc>
           </param>
+          <param required="true"
+                 name="submission"
+                 style="plain"
+                 type="xsd:string">
+            <wadl:doc xmlns="http://docbook.org/ns/docbook" xml:lang="EN">
+              <para>Parent submission (the id, right?)</para>
+            </wadl:doc>
+          </param>
+          <param required="true"
+                 name="over_18"
+                 style="plain"
+                 type="xsd:boolean">
+            <wadl:doc xmlns="http://docbook.org/ns/docbook" xml:lang="EN">
+              <para>If this post is marked as sensitive.</para>
+            </wadl:doc>
+          </param>
           <!-- TODO a fuck ton more -->
         </request>
+        <!-- SUCCESS -->
         <response status="200">
           <param required="false"
                  name="body"
@@ -197,7 +218,16 @@
             </wadl:doc>
           </representation>
         </response>
+        <!-- ERRORS -->
         <response status="400">
+          <representation mediaType="application/xml" element="csapi:badRequest"/>
+          <representation mediaType="application/json"/>
+        </response>
+        <response status="403">
+          <wadl:doc xmlns="http://docbook.org/ns/docbook" xml:lang="EN">
+            <para>User is exiled from the hole, or needs extra permissions.</para>
+            <para>User is banned and needs to do better.</para>
+          </wadl:doc>
           <representation mediaType="application/xml" element="csapi:badRequest"/>
           <representation mediaType="application/json"/>
         </response> 
@@ -206,6 +236,6 @@
     
     <!-- ################################################## -->
 
-    <!-- Yada yada yada, yawn, put more here! -->
+    
   </resources>
 </wadl:application>

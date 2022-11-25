@@ -1,0 +1,81 @@
+{% extends "default.html" %}
+
+{#% Some macros %#}
+{% macro docbook_read(info) -%}
+    {% for p in info -%}
+        {#% Lazy hack, not """conforming""" to docbook %#}
+        <p>
+            {{- p.text -}}
+        </p>
+    {%- endfor %}
+{%- endmacro %}
+
+{%- macro param_table(info) -%}
+    <table>
+        <tr>
+            <th>Param</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Format</th>
+            <th>Required</th>
+        </tr>
+        {% for param in info %}
+
+            <tr>
+                <td><b>{{ param.attrib.name }}</b></td>
+                <td>{{- docbook_read(param[0]) -}}</td>
+                <td><i>{{ param.attrib.type }}</i></td>
+                <td>{{ param.attrib.style }}</td>
+                <td>{{ param.attrib.required }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{%- endmacro -%}
+
+{% block pagetitle %}Documentation{% endblock %}
+{% block content %}
+    <div id="docs-page">
+        <h1>rDrama REST Api Documentaion</h1>
+
+        <p><em class="text-warning">Warning: This documentation is SHIT, so get
+            used to it</em></p>
+
+        <p>You're probably here because you want to create your own application
+            which calls our REST api. Some of the stuff you see here might seem
+            ugly (it is), but it's mainly inherited from the old Ruqqus API.</p>
+
+        <p><em class="text-info">This documentation is generated from an XML WADL file.</em></p>
+
+        <hr>
+
+        {% for res in root[0] %}
+            <div class="doc-snippet">
+                {#% There's usually only one method, but this is more correct %#}
+                {% for method in res %}
+                    <h1 class="docs-path">
+                        <span class="docs-request">
+                            {{- method.attrib.name -}}
+                        </span>
+                        {{ res.attrib.path }}
+                    </h1>
+                    {% for info in method %}
+                        {% if info.tag == "{http://wadl.dev.java.net/2009/02}doc" %}
+                            {{ docbook_read(info) }}
+                        {% elif info.tag == "{http://wadl.dev.java.net/2009/02}request" %}
+                            {{ param_table(info) }}
+                        {% elif info.tag == "{http://wadl.dev.java.net/2009/02}response" %}
+                            <h4>Response <span class="docs-response">{{ info.attrib.status }}</span></h4>
+                            {% for response_child in info %}
+                                {% if response_child.tag == "{http://wadl.dev.java.net/2009/02}param" %}
+                                    {{ param_table(info) }}
+                                {% elif response_child.tag == "{http://wadl.dev.java.net/2009/02}doc" %}
+                                    {{ docbook_read(response_child) }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
