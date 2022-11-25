@@ -360,7 +360,7 @@ def edit_post(pid, v):
 				)
 				g.db.add(bet)
 
-		for i in poll_regex.finditer(body):
+		for i in list(poll_regex.finditer(body))[:10]:
 			body = body.replace(i.group(0), "")
 			body_html = filter_emojis_only(i.group(1))
 			if len(body_html) > 500: abort(400, "Poll option too long!")
@@ -371,7 +371,7 @@ def edit_post(pid, v):
 			)
 			g.db.add(option)
 
-		for i in choice_regex.finditer(body):
+		for i in list(choice_regex.finditer(body))[:10]:
 			body = body.replace(i.group(0), "")
 			body_html = filter_emojis_only(i.group(1))
 			if len(body_html) > 500: abort(400, "Poll option too long!")
@@ -754,12 +754,12 @@ def submit_post(v, sub=None):
 			body = body.replace(i.group(0), "")
 
 	options = []
-	for i in poll_regex.finditer(body):
+	for i in list(poll_regex.finditer(body))[:10]:
 		options.append(i.group(1))
 		body = body.replace(i.group(0), "")
 
 	choices = []
-	for i in choice_regex.finditer(body):
+	for i in list(choice_regex.finditer(body))[:10]:
 		choices.append(i.group(1))
 		body = body.replace(i.group(0), "")
 
