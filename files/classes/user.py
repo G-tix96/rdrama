@@ -875,7 +875,7 @@ class User(Base):
 
 	def get_relationship_count(self, relationship_cls):
 		# TODO: deduplicate (see routes/users.py)
-		if relationship_cls in [SaveRelationship, Subscription]:
+		if relationship_cls in {SaveRelationship, Subscription}:
 			query = relationship_cls.submission_id
 			join = relationship_cls.post
 			cls = Submission

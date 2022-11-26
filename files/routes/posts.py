@@ -392,7 +392,7 @@ def edit_post(pid, v):
 
 		p.body = body
 
-		for text in [p.body, p.title, p.url]:
+		for text in {p.body, p.title, p.url}:
 			if not execute_blackjack(v, p, text, 'submission'): break
 
 		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: 
@@ -810,7 +810,7 @@ def submit_post(v, sub=None):
 	g.db.add(post)
 	g.db.flush()
 
-	for text in [post.body, post.title, post.url]:
+	for text in {post.body, post.title, post.url}:
 		if not execute_blackjack(v, post, text, 'submission'): break
 
 	if v and v.admin_level >= PERMS['POST_BETS']:

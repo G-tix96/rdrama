@@ -228,7 +228,7 @@ def add_block_props(target:Union[Submission, Comment, User], v:Optional[User]):
 	if not v: return target
 	id = None
 
-	if any(isinstance(target, cls) for cls in [Submission, Comment]):
+	if any(isinstance(target, cls) for cls in {Submission, Comment}):
 		id = target.author_id
 	elif isinstance(target, User):
 		id = target.id

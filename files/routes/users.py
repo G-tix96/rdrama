@@ -933,7 +933,7 @@ def user_profile_name(username):
 	return redirect(x.profile_url)
 
 def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone=False):
-	if relationship_cls in [SaveRelationship, Subscription]:
+	if relationship_cls in {SaveRelationship, Subscription}:
 		query = relationship_cls.submission_id
 		join = relationship_cls.post
 		cls = Submission

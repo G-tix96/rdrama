@@ -52,7 +52,7 @@ def allowed_attributes(tag, name, value):
 	if name == 'style': return True
 
 	if tag == 'marquee':
-		if name in ['direction', 'behavior', 'scrollamount']: return True
+		if name in {'direction', 'behavior', 'scrollamount'}: return True
 		if name in {'height', 'width'}:
 			try: value = int(value.replace('px', ''))
 			except: return False
@@ -67,11 +67,11 @@ def allowed_attributes(tag, name, value):
 		return False
 
 	if tag == 'img':
-		if name in ['src','data-src']: return is_safe_url(value)
+		if name in {'src','data-src'}: return is_safe_url(value)
 		if name == 'loading' and value == 'lazy': return True
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
-		if name in ['g','b','glow'] and not value: return True
-		if name in ['alt','title']: return True
+		if name in {'g','b','glow'} and not value: return True
+		if name in {'alt','title'}: return True
 		return False
 
 	if tag == 'lite-youtube':
@@ -426,8 +426,8 @@ def allowed_attributes_emojis(tag, name, value):
 		if name == 'src' and value.startswith('/') and '\\' not in value: return True
 		if name == 'loading' and value == 'lazy': return True
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
-		if name in ['g','glow'] and not value: return True
-		if name in ['alt','title']: return True
+		if name in {'g','glow'} and not value: return True
+		if name in {'alt','title'}: return True
 
 	if tag == 'span':
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
