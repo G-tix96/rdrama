@@ -1,7 +1,6 @@
 .ChatMessage {
   position: relative;
   padding-right: 1.5rem;
-  overflow: hidden;
   max-height: 300px;
 }
 
@@ -39,6 +38,7 @@
   align-items: center;
   justify-content: space-between;
   padding-left: 30px;
+  overflow: hidden;
 }
 
 .ChatMessage-content {
