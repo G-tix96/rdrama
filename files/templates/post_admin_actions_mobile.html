@@ -9,6 +9,10 @@
 			</div>
 			<div class="modal-body">
 				<ul class="list-group post-actions">
+					{% if v.admin_level >= PERMS['APPS_MODERATION'] and p.oauth_app %}
+						<a href="{{p.oauth_app.permalink}}" class="nobackground btn btn-link btn-block btn-lg text-muted text-left text-info"><i class="far fa-code text-center text-info mr-2"></i>API App</a>
+					{% endif %}
+
 					{% if (request.path.startswith('/post/') or request.path.startswith('/h/')) and v.admin_level >= PERMS['POST_EDITING'] and p.id %}
 						<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" onclick="togglePostEdit('{{p.id}}')"><i class="far fa-edit text-center text-muted mr-2"></i>Edit</button>
 					{% endif %}
@@ -27,9 +31,6 @@
 						<button type="button" id="unpin2-{{p.id}}" class="{% if not p.stickied %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-primary" onclick="unpinPost(this,'{{p.id}}')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center text-primary mr-2"></i>Unpin</button>
 						<button type="button" id="remove2-{{p.id}}" class="{% if p.is_banned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-danger text-left" onclick="removePost(this,'{{p.id}}','remove2-{{p.id}}','approve2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="far fa-ban text-center mr-2"></i>Remove</button>
 						<button type="button" id="approve2-{{p.id}}" class="{% if not p.is_banned and request.path != '/admin/reported/posts' %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-success text-left" onclick="approvePost(this,'{{p.id}}','remove2-{{p.id}}','approve2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="far fa-check text-center mr-2"></i>Approve</button>
-					{% endif %}
-					{% if p.oauth_app and v.admin_level >= PERMS['APPS_MODERATION'] %}
-						<a href="{{p.oauth_app.permalink}}"><button type="button" class="nobackground btn btn-link btn-block btn-lg text-muted text-left"><i class="far fa-code text-center text-info mr-2"></i>API App</button></a>
 					{% endif %}
 					{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 						<button type="button" id="mark2-{{p.id}}" class="{% if p.over_18 %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-danger" onclick="postToastSwitch(this,'/toggle_post_nsfw/{{p.id}}','mark2-{{p.id}}','unmark2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="far fa-eye-evil text-center text-danger mr-2"></i>Mark +18</button>
