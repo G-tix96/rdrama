@@ -480,7 +480,7 @@ INSERT INTO public.hat_defs VALUES (38, 'Northern Aggressor Soldier Cap', 'Slyth
 INSERT INTO public.hat_defs VALUES (39, 'Rhodesian Light Infantry Beret', 'Rhodesians never die. Immortality guaranteed!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (40, 'Magyar Headdress', 'Channel your inner QuadNarca and join Orban''s elite cavalry', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (41, 'The Senator Warren', 'heya heya heya heya heya heya heya heya heya heya heya', 2, 500, NULL, 1662167687);
-INSERT INTO public.hat_defs VALUES (42, 'Please Be Patient I Have Autism', 'The OFFICIAL hat of rDrama.net', 2, 500, NULL, 1662167687);
+INSERT INTO public.hat_defs VALUES (42, 'Please Be Patient I Have Autism', 'The OFFICIAL hat of rdrama.net', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (44, 'Watermelmet', 'Hydration and head protection all rolled into one stylish headpiece', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (45, 'Frankenstein', 'Akshually, Frankenstein was the scientist. The monster didn''t have a name.', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (46, 'The Drumpf', 'Orange hair bad', 2, 500, NULL, 1662167687);
