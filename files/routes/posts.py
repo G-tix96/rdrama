@@ -1,5 +1,6 @@
 import os
 import time
+import html
 from io import BytesIO
 from os import path
 from shutil import copyfile
@@ -1097,5 +1098,7 @@ def get_post_title(v):
 	if match and match.lastindex >= 1:
 		title = match.group(1)
 	else: abort(400)
+
+	title = html.unescape(title)
 
 	return {"url": url, "title": title}
