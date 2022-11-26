@@ -546,9 +546,11 @@ def badge_grant_post(v):
 	if desc: new_badge.description = desc
 
 	url = request.values.get("url")
-	if '\\' in url: abort(400)
-
-	if url: new_badge.url = url
+	if url:
+		if '\\' in url: abort(400)
+		if url.startswith(SITE_FULL):
+			url = url.split(SITE_FULL, 1)[1]
+		new_badge.url = url
 
 	g.db.add(new_badge)
 	g.db.flush()
