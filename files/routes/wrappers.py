@@ -18,17 +18,6 @@ def session_init():
 		session["session_id"] = secrets.token_hex(49)
 
 def calc_users(v):
-	# temp logging code
-	if not hasattr(g, 'is_api_or_xhr'):
-		print("calc_users called with missing context data")
-		if request:
-			print(f"while serving {request.method} {request.full_path}")
-			print(f"user agent: {g.agent}")
-		else:
-			print("no request context")
-		print(f"v: {v}")
-		print(f"db?: {bool(g.db)}")
-	# end temp logging code
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
 	loggedout = cache.get(f'{SITE}_loggedout') or {}
 	timestamp = int(time.time())
