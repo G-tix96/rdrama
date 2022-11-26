@@ -6384,3 +6384,10 @@ div.markdown {
 	object-fit: cover;
 	max-height: min(42vh,30vw) !important;
 }
+
+@media (max-width: 768px) {
+	#twitter-widget-0 {
+		max-height: 50vh;
+		overflow: scroll;
+	}
+}
