@@ -20,7 +20,7 @@ from files.routes.jinja2 import *
 from .admin import *
 from .comments import *
 from .errors import *
-from .api import *
+from .docs import *
 from .reporting import *
 from .front import *
 from .login import *
