@@ -35,7 +35,7 @@ class OauthApp(Base):
 	@property
 	@lazy
 	def permalink(self):
-		return f"{SITE_FULL}/admin/app/{self.id}/posts"
+		return f"{SITE_FULL}/admin/app/{self.id}"
 
 	@lazy
 	def idlist(self, db:scoped_session, page=1):

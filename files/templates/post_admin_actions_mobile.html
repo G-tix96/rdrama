@@ -10,7 +10,7 @@
 			<div class="modal-body">
 				<ul class="list-group post-actions">
 					{% if v.admin_level >= PERMS['APPS_MODERATION'] and p.oauth_app %}
-						<a href="{{p.oauth_app.permalink}}" class="nobackground btn btn-link btn-block btn-lg text-muted text-left text-info"><i class="far fa-code text-center text-info mr-2"></i>API App</a>
+						<a href="{{p.oauth_app.permalink}}/posts" class="nobackground btn btn-link btn-block btn-lg text-muted text-left text-info"><i class="far fa-code text-center text-info mr-2"></i>API App</a>
 					{% endif %}
 
 					{% if (request.path.startswith('/post/') or request.path.startswith('/h/')) and v.admin_level >= PERMS['POST_EDITING'] and p.id %}
