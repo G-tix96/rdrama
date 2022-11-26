@@ -43,7 +43,7 @@
 
 <ul class="nav post-nav py-2">
 	<li class="nav-item">
-		<a class="nav-link {% if request.path.endswith('/posts') %} active{% endif %}" href="{{request.path.replace('/posts','/comments')}}">
+		<a class="nav-link {% if request.path.endswith('/posts') %} active{% endif %}" href="{{request.path.replace('/comments','/posts')}}">
 			<div>Posts</div>
 		</a>
 	</li>
