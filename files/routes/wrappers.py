@@ -23,11 +23,11 @@ def calc_users(v):
 		print("calc_users called with missing context data")
 		if request:
 			print(f"while serving {request.method} {request.full_path}")
-			print(f"user agent: {getattr(g, 'agent', '-attribute not present-')}")
+			print(f"user agent: {g.agent}")
 		else:
 			print("no request context")
 		print(f"v: {v}")
-		print(f"db?: {bool(getattr(g, 'db', None))}")
+		print(f"db?: {bool(g.db)}")
 	# end temp logging code
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
 	loggedout = cache.get(f'{SITE}_loggedout') or {}
