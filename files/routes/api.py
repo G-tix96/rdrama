@@ -14,8 +14,8 @@ def api(v):
 
 @app.get("/api/docs")
 @auth_desired
-def get_docs_page():
+def get_docs_page(v):
     # TODO cache
     root = tree.getroot()
 
-    return render_template("docs.html", root=tree.getroot())
+    return render_template("docs.html", root=tree.getroot(), v=v)
