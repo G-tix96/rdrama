@@ -188,11 +188,6 @@ def log_item(id, v):
 def static_megathread_index(v):
 	return render_template("megathread_index.html", v=v)
 
-@app.get("/api")
-@auth_required
-def api(v):
-	return render_template("api.html", v=v)
-
 @app.get("/contact")
 @app.get("/contactus")
 @app.get("/contact_us")
