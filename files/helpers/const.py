@@ -1612,7 +1612,12 @@ forced_hats = {
 	"earlylife": ("The Merchant", "SHUT IT DOWN, the goys know!"),
 	"marsify": ("Marsified", "I can't pick my own Marseys, help!"),
 	"is_suspended": ("Behind Bars", "This user is banned and needs to do better!"),
-	"agendaposter": ("Egg_irl", "This user is getting in touch with xir identity!")
+	"agendaposter": (("Egg_irl", "This user is getting in touch with xir identity!"), 
+				("Trans Flag", "Just in case you forgot, trans lives matter."),
+				("Trans Flag II", "Your egg is cracked; wear it with pride!"),
+				("Pride Flag", "Never forget that this is a primarily gay community. Dude bussy lmao."),
+				("Pride Flag II", "This user is a proud supporter of LGBTQ+ rights."))
+
 }
 
 EMAIL_REGEX_PATTERN = '[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63}'

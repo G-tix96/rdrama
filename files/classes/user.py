@@ -248,7 +248,10 @@ class User(Base):
 				if self.marsify > 1:
 					user_forced_hats.append(val)
 			elif getattr(self, k):
-				user_forced_hats.append(val)
+				if k == 'agendaposter':
+					user_forced_hats.append(random.choice(val))
+				else:
+					user_forced_hats.append(val)
 		if user_forced_hats: return random.choice(user_forced_hats)
 		else: return None
 
