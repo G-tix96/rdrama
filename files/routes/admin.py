@@ -1334,6 +1334,12 @@ def sticky_comment(cid, v):
 			message = f"@{v.username} (Admin) has pinned your [comment]({comment.shortlink})"
 			send_repeatable_notification(comment.author_id, message)
 
+		c = comment
+		while c.level > 2:
+			c = c.parent_comment
+			c.stickied_child_id = comment.id
+			g.db.add(c)
+
 	return {"message": "Comment pinned!"}
 	
 
@@ -1358,6 +1364,11 @@ def unsticky_comment(cid, v):
 		if v.id != comment.author_id:
 			message = f"@{v.username} (Admin) has unpinned your [comment]({comment.shortlink})"
 			send_repeatable_notification(comment.author_id, message)
+
+		cleanup = g.db.query(Comment).filter_by(stickied_child_id=comment.id).all()
+		for c in cleanup:
+			c.stickied_child_id = None
+			g.db.add(c)
 
 	return {"message": "Comment unpinned!"}
 

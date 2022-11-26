@@ -49,6 +49,7 @@ class Comment(Base):
 	is_bot = Column(Boolean, default=False)
 	stickied = Column(String)
 	stickied_utc = Column(Integer)
+	stickied_child_id = Column(Integer)
 	sentto = Column(Integer, ForeignKey("users.id"))
 	app_id = Column(Integer, ForeignKey("oauth_apps.id"))
 	upvotes = Column(Integer, default=1)
@@ -139,7 +140,7 @@ class Comment(Base):
 		if self.replies2 != None:
 			return self.replies2
 
-		replies = db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.stickied)
+		replies = db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.stickied, Comment.stickied_child_id)
 		if not self.parent_submission: sort='old'
 		return sort_objects(sort, replies, Comment,
 			include_shadowbanned=(v and v.can_see_shadowbanned)).all()
