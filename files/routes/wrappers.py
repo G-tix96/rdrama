@@ -24,12 +24,10 @@ def calc_users(v):
 		if request:
 			print(f"while serving {request.method} {request.full_path}")
 			print(f"user agent: {getattr(g, 'agent', '-attribute not present-')}")
-			print(f"xhr? {request.headers.get('xhr')} / API client? {bool(request.headers.get('Authorization'))}")
 		else:
 			print("no request context")
 		print(f"v: {v}")
-		print(f"db?: {hasattr(g, 'db')}")
-		abort(500, "hi!! it's @justcool393! If you get this could you PM me and tell me how you got this? i'm trying to figure something out and if you can help I'll really appreciate it <3")
+		print(f"db?: {bool(getattr(g, 'db', None))}")
 	# end temp logging code
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
 	loggedout = cache.get(f'{SITE}_loggedout') or {}
