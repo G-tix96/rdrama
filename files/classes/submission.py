@@ -351,7 +351,7 @@ class Submission(Base):
 		title = censor_slurs(title, v)
 
 		if v:
-			title = title.replace("!YOU!", v.username.lower())
+			title = title.replace("!YOU!", v.username)
 
 		return title
 
@@ -365,7 +365,7 @@ class Submission(Base):
 		title = censor_slurs(title, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
 
 		if v:
-			title = title.replace("!YOU!", v.username.lower())
+			title = title.replace("!YOU!", v.username)
 
 		return title
 
