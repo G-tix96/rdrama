@@ -28,8 +28,8 @@
 <button type="button" id="unsave2-{{p.id}}" class="{% if not p.id in v.saved_idlist %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-muted" onclick="postToastSwitch(this,'/unsave_post/{{p.id}}','save2-{{p.id}}','unsave2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-save text-center text-muted mr-2"></i>Unsave</button>
 
 {% if p.sub and v.mods(p.sub) %}
-	<button type="button" id="hole-pin2-{{p.id}}" class="{% if p.hole_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-muted" onclick="postToastSwitch(this,'/hole_pin/{{p.id}}','hole-pin2-{{p.id}}','hole-unpin2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center text-muted mr-2"></i>Pin to /h/{{p.sub}}</button>
-	<button type="button" id="hole-unpin2-{{p.id}}" class="{% if not p.hole_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-muted" onclick="postToastSwitch(this,'/hole_unpin/{{p.id}}','hole-pin2-{{p.id}}','hole-unpin2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center text-muted mr-2"></i>Unpin from /h/{{p.sub}}</button>
+	<button type="button" id="hole-pin2-{{p.id}}" class="{% if p.hole_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-info" onclick="postToastSwitch(this,'/hole_pin/{{p.id}}','hole-pin2-{{p.id}}','hole-unpin2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center text-info mr-2"></i>Pin to /h/{{p.sub}}</button>
+	<button type="button" id="hole-unpin2-{{p.id}}" class="{% if not p.hole_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-info" onclick="postToastSwitch(this,'/hole_unpin/{{p.id}}','hole-pin2-{{p.id}}','hole-unpin2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center text-info mr-2"></i>Unpin from /h/{{p.sub}}</button>
 {% endif %}
 
 {% if v.id==p.author_id %}
