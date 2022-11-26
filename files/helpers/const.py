@@ -95,6 +95,7 @@ AJ_REPLACEMENTS = {
 
 SLURS = {
 	"nigger": "BIPOC",
+	"negroid": "BIPOC",
 	"niglet": 'BIPOClet',
 	"negress": "BIPOC woman",
 	'nigga': 'neighbor',
