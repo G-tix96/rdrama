@@ -1694,8 +1694,6 @@ if SITE_NAME == 'rDrama':
 		JOAN_ID,
 	}
 
-	BOOSTED_USERS_EXCLUDED = {8768, 5214, 12719, 3402}
-
 IMAGE_FORMATS = ['png','gif','jpg','jpeg','webp']
 VIDEO_FORMATS = ['mp4','webm','mov','avi','mkv','flv','m4v','3gp']
 AUDIO_FORMATS = ['mp3','wav','ogg','aac','m4a','flac']
