@@ -4,7 +4,6 @@ unsanitized.mp4
 cache/
 __pycache__/
 .idea/
-**/.pytest_cache/
 venv/
 .vscode/
 .sass-cache/
