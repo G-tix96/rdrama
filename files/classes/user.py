@@ -1000,7 +1000,7 @@ class User(Base):
 			if not cls.can_see(user, other.author): return False
 			if user and user.id == other.author_id: return True
 			if isinstance(other, Submission):
-				if "!YOU!" in other.title and not user.can_see_you_post: return False
+				if "!YOU!" in other.title and not (user and (user.client or user.truescore > 5000)): return False
 				if other.sub and not cls.can_see(user, other.subr): return False
 			else:
 				if not other.parent_submission:
@@ -1029,19 +1029,10 @@ class User(Base):
 	@property
 	@lazy
 	def can_post_in_ghost_threads(self):
-		if not TRUESCORE_GHOST_MINIMUM: return True
+		if not TRUESCORE_GHOST_LIMIT: return True
 		if self.admin_level >= PERMS['POST_IN_GHOST_THREADS']: return True
 		if self.club_allowed: return True
-		if self.truescore >= TRUESCORE_GHOST_MINIMUM: return True
-		if self.patron: return True
-		if self.client: return True
-		return False
-
-	@property
-	@lazy
-	def can_see_you_post(self):
-		if not TRUESCORE_YOU_POST_MINIMUM: return True
-		if self.truescore >= TRUESCORE_YOU_POST_MINIMUM: return True
+		if self.truescore >= TRUESCORE_GHOST_LIMIT: return True
 		if self.patron: return True
 		return False
 
