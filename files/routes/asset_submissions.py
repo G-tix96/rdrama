@@ -29,7 +29,7 @@ def asset_submissions(path):
 
 @app.get("/submit/marseys")
 @auth_required
-def submit_marseys(v):
+def submit_marseys(v:User):
 	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']:
 		marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None).all()
 	else:
@@ -44,7 +44,7 @@ def submit_marseys(v):
 
 @app.post("/submit/marseys")
 @auth_required
-def submit_marsey(v):
+def submit_marsey(v:User):
 	file = request.files["image"]
 	name = request.values.get('name', '').lower().strip()
 	tags = request.values.get('tags', '').lower().strip()
@@ -195,12 +195,12 @@ def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
 
 @app.post("/remove/marsey/<name>")
 @auth_required
-def remove_marsey(v, name):
+def remove_marsey(v:User, name):
 	return remove_asset(Marsey, "marsey", v, name)
 
 @app.get("/submit/hats")
 @auth_required
-def submit_hats(v):
+def submit_hats(v:User):
 	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
 	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id).all()
 	return render_template("submit_hats.html", v=v, hats=hats)
@@ -208,7 +208,7 @@ def submit_hats(v):
 
 @app.post("/submit/hats")
 @auth_required
-def submit_hat(v):
+def submit_hat(v:User):
 	name = request.values.get('name', '').strip()
 	description = request.values.get('description', '').strip()
 	username = request.values.get('author', '').strip()
@@ -328,7 +328,7 @@ def approve_hat(v, name):
 
 @app.post("/remove/hat/<name>")
 @auth_required
-def remove_hat(v, name):
+def remove_hat(v:User, name):
 	return remove_asset(HatDef, 'hat', v, name)
 
 @app.get("/admin/update/marseys")

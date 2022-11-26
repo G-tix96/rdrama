@@ -21,7 +21,7 @@ NO_LOGIN_REDIRECT_URLS = ("/login", "/logout", "/signup", "/forgot", "/reset", "
 
 @app.get("/login")
 @auth_desired
-def login_get(v):
+def login_get(v:Optional[User]):
 	redir = request.values.get("redirect", "/").strip().rstrip('?').lower()
 	if redir:
 		if not is_site_url(redir) or redir in NO_LOGIN_REDIRECT_URLS:
@@ -131,7 +131,7 @@ def on_login(account, redir=None):
 @app.get("/me")
 @app.get("/@me")
 @auth_required
-def me(v):
+def me(v:User):
 	if v.client: return v.json
 	else: return redirect(v.url)
 
@@ -149,7 +149,7 @@ def logout(v):
 
 @app.get("/signup")
 @auth_desired
-def sign_up_get(v):
+def sign_up_get(v:Optional[User]):
 	if not get_setting('Signups'):
 		abort(403, "New account registration is currently closed. Please come back later.")
 
@@ -199,7 +199,7 @@ def sign_up_get(v):
 @app.post("/signup")
 @limiter.limit("1/second;10/day")
 @auth_desired
-def sign_up_post(v):
+def sign_up_post(v:Optional[User]):
 	if not get_setting('Signups'):
 		abort(403, "New account registration is currently closed. Please come back later.")
 
@@ -416,7 +416,7 @@ def get_reset():
 @app.post("/reset")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_desired
-def post_reset(v):
+def post_reset(v:Optional[User]):
 	if v: return redirect('/')
 	user_id = request.values.get("user_id")
 	timestamp = 0
@@ -454,7 +454,7 @@ def post_reset(v):
 
 @app.get("/lost_2fa")
 @auth_desired
-def lost_2fa(v):
+def lost_2fa(v:Optional[User]):
 	if v and not v.mfa_secret: abort(400, "You don't have 2FA enabled")
 	return render_template("login/lost_2fa.html", v=v)
 

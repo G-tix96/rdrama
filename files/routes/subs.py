@@ -107,7 +107,7 @@ def unexile(v, sub, uid):
 
 @app.post("/h/<sub>/block")
 @auth_required
-def block_sub(v, sub):
+def block_sub(v:User, sub):
 	sub = get_sub_by_name(sub).name
 	existing = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub).one_or_none()
 
@@ -121,7 +121,7 @@ def block_sub(v, sub):
 
 @app.post("/h/<sub>/unblock")
 @auth_required
-def unblock_sub(v, sub):
+def unblock_sub(v:User, sub):
 	sub = get_sub_by_name(sub).name
 	if sub == "chudrama" and not v.can_see_chudrama: abort(403)
 	block = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub).one_or_none()
@@ -135,7 +135,7 @@ def unblock_sub(v, sub):
 
 @app.post("/h/<sub>/subscribe")
 @auth_required
-def subscribe_sub(v, sub):
+def subscribe_sub(v:User, sub):
 	sub = get_sub_by_name(sub).name
 	existing = g.db.query(SubJoin).filter_by(user_id=v.id, sub=sub).one_or_none()
 
@@ -148,7 +148,7 @@ def subscribe_sub(v, sub):
 
 @app.post("/h/<sub>/unsubscribe")
 @auth_required
-def unsubscribe_sub(v, sub):
+def unsubscribe_sub(v:User, sub):
 	sub = get_sub_by_name(sub).name
 	subscribe = g.db.query(SubJoin).filter_by(user_id=v.id, sub=sub).one_or_none()
 
@@ -160,7 +160,7 @@ def unsubscribe_sub(v, sub):
 
 @app.post("/h/<sub>/follow")
 @auth_required
-def follow_sub(v, sub):
+def follow_sub(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	existing = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
@@ -173,7 +173,7 @@ def follow_sub(v, sub):
 
 @app.post("/h/<sub>/unfollow")
 @auth_required
-def unfollow_sub(v, sub):
+def unfollow_sub(v:User, sub):
 	sub = get_sub_by_name(sub)
 	subscription = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
 	if subscription:
@@ -184,7 +184,7 @@ def unfollow_sub(v, sub):
 
 @app.get("/h/<sub>/mods")
 @auth_required
-def mods(v, sub):
+def mods(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	users = g.db.query(User, Mod).join(Mod).filter_by(sub=sub.name).order_by(Mod.created_utc).all()
@@ -194,7 +194,7 @@ def mods(v, sub):
 
 @app.get("/h/<sub>/exilees")
 @auth_required
-def sub_exilees(v, sub):
+def sub_exilees(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	users = g.db.query(User, Exile).join(Exile, Exile.user_id==User.id) \
@@ -206,7 +206,7 @@ def sub_exilees(v, sub):
 
 @app.get("/h/<sub>/blockers")
 @auth_required
-def sub_blockers(v, sub):
+def sub_blockers(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	users = g.db.query(User, SubBlock).join(SubBlock) \
@@ -219,7 +219,7 @@ def sub_blockers(v, sub):
 
 @app.get("/h/<sub>/followers")
 @auth_required
-def sub_followers(v, sub):
+def sub_followers(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	users = g.db.query(User, SubSubscription).join(SubSubscription) \
@@ -554,7 +554,7 @@ def sub_marsey(v, sub):
 
 @app.get("/holes")
 @auth_required
-def subs(v):
+def subs(v:User):
 	subs = g.db.query(Sub, func.count(Submission.sub)).outerjoin(Submission, Sub.name == Submission.sub).group_by(Sub.name).order_by(func.count(Submission.sub).desc()).all()
 	total_users = g.db.query(User).count()
 	return render_template('sub/subs.html', v=v, subs=subs, total_users=total_users)
@@ -699,7 +699,7 @@ def mod_unpin(cid, v):
 @app.get("/h/<sub>/log")
 @app.get("/h/<sub>/modlog")
 @auth_required
-def hole_log(v, sub):
+def hole_log(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
 	try: page = max(int(request.values.get("page", 1)), 1)

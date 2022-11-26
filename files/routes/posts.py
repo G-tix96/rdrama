@@ -123,7 +123,7 @@ def publish(pid, v):
 @app.get("/submit")
 @app.get("/h/<sub>/submit")
 @auth_required
-def submit_get(v, sub=None):
+def submit_get(v:User, sub=None):
 	sub = get_sub_by_name(sub, graceful=True)
 	if request.path.startswith('/h/') and not sub: abort(404)
 
@@ -604,7 +604,7 @@ def is_repost():
 @limiter.limit(POST_RATE_LIMIT)
 @limiter.limit(POST_RATE_LIMIT, key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
-def submit_post(v, sub=None):
+def submit_post(v:User, sub=None):
 
 	url = request.values.get("url", "").strip()
 

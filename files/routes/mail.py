@@ -19,7 +19,7 @@ def verify_email(v):
 
 @app.get("/activate")
 @auth_required
-def activate(v):
+def activate(v:User):
 	email = request.values.get("email", "").strip().lower()
 
 	if not email_regex.fullmatch(email):

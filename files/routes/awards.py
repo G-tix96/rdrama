@@ -22,7 +22,7 @@ from .front import frontlist
 @app.get("/shop")
 @app.get("/settings/shop")
 @auth_required
-def shop(v):
+def shop(v:User):
 	AWARDS = deepcopy(AWARDS2)
 
 	if v.house:
@@ -46,7 +46,7 @@ def shop(v):
 @app.post("/buy/<award>")
 @limiter.limit("100/minute;200/hour;1000/day")
 @auth_required
-def buy(v, award):
+def buy(v:User, award):
 	if award == 'benefactor' and not request.values.get("mb"):
 		abort(403, "You can only buy the Benefactor award with marseybux.")
 

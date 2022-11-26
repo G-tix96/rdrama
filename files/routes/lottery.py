@@ -23,7 +23,7 @@ def lottery_start(v):
 @app.post("/lottery/buy")
 @limiter.limit("3/second;100/minute;500/hour;1000/day")
 @auth_required
-def lottery_buy(v):
+def lottery_buy(v:User):
 	try: quantity = int(request.values.get("quantity"))
 	except: abort(400, "Invalid ticket quantity.")
 
@@ -40,7 +40,7 @@ def lottery_buy(v):
 @app.get("/lottery/active")
 @limiter.limit("3/second;100/minute;500/hour;1000/day")
 @auth_required
-def lottery_active(v):
+def lottery_active(v:User):
 	lottery, participants = get_active_lottery_stats()
 
 	return {"message": "", "stats": {"user": v.lottery_stats, "lottery": lottery, "participants": participants}}

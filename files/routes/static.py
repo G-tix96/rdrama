@@ -25,7 +25,7 @@ def rdrama(id, title):
 
 @app.get("/marseys")
 @auth_required
-def marseys(v):
+def marseys(v:User):
 	if SITE == 'rdrama.net':
 		marseys = g.db.query(Marsey, User).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id==None)
 		sort = request.values.get("sort", "usage")
@@ -74,13 +74,13 @@ def marsey_list():
 
 @app.get('/sidebar')
 @auth_desired
-def sidebar(v):
+def sidebar(v:Optional[User]):
 	return render_template('sidebar.html', v=v)
 
 
 @app.get("/stats")
 @auth_required
-def participation_stats(v):
+def participation_stats(v:User):
 	if v.client: return stats_cached()
 	return render_template("stats.html", v=v, title="Content Statistics", data=stats_cached())
 
@@ -94,12 +94,12 @@ def chart():
 
 @app.get("/weekly_chart")
 @auth_required
-def weekly_chart(v):
+def weekly_chart(v:User):
 	return send_file(statshelper.chart_path(kind="weekly", site=SITE))
 
 @app.get("/daily_chart")
 @auth_required
-def daily_chart(v):
+def daily_chart(v:User):
 	return send_file(statshelper.chart_path(kind="daily", site=SITE))
 
 @app.get("/patrons")
@@ -115,14 +115,14 @@ def patrons(v):
 @app.get("/admins")
 @app.get("/badmins")
 @auth_required
-def admins(v):
+def admins(v:User):
 	admins = g.db.query(User).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.truescore.desc()).all()
 	return render_template("admins.html", v=v, admins=admins)
 
 @app.get("/log")
 @app.get("/modlog")
 @auth_required
-def log(v):
+def log(v:User):
 
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
@@ -185,7 +185,7 @@ def log_item(id, v):
 
 @app.get("/directory")
 @auth_required
-def static_megathread_index(v):
+def static_megathread_index(v:User):
 	return render_template("megathread_index.html", v=v)
 
 @app.get("/contact")
@@ -194,7 +194,7 @@ def static_megathread_index(v):
 @app.get("/press")
 @app.get("/media")
 @auth_desired
-def contact(v):
+def contact(v:Optional[User]):
 	return render_template("contact.html", v=v)
 
 @app.post("/send_admin")
@@ -321,7 +321,7 @@ def badge_list(site):
 @app.get("/badges")
 @feature_required('BADGES')
 @auth_required
-def badges(v):
+def badges(v:User):
 	badges, counts = badge_list(SITE)
 	return render_template("badges.html", v=v, badges=badges, counts=counts)
 
@@ -342,7 +342,7 @@ def blocks(v):
 
 @app.get("/banned")
 @auth_required
-def banned(v):
+def banned(v:User):
 	users = g.db.query(User).filter(User.is_banned > 0, User.unban_utc == 0)
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
@@ -351,12 +351,12 @@ def banned(v):
 
 @app.get("/formatting")
 @auth_required
-def formatting(v):
+def formatting(v:User):
 	return render_template("formatting.html", v=v)
 
 @app.get("/app")
 @auth_desired
-def mobile_app(v):
+def mobile_app(v:Optional[User]):
 	return render_template("app.html", v=v)
 
 @app.get("/service-worker.js")
@@ -384,7 +384,7 @@ def transfers_id(id, v):
 
 @app.get("/transfers")
 @auth_required
-def transfers(v):
+def transfers(v:User):
 
 	comments = g.db.query(Comment).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_submission == None, Comment.body_html.like("%</a> has transferred %")).order_by(Comment.id.desc())
 

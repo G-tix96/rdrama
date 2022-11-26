@@ -14,7 +14,7 @@ from files.__main__ import app, limiter
 @app.get("/casino")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
-def casino(v):
+def casino(v:User):
 	if v.rehab:
 		return render_template("casino/rehab.html", v=v), 403
 
@@ -24,7 +24,7 @@ def casino(v):
 @app.get("/casino/<game>")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
-def casino_game_page(v, game):
+def casino_game_page(v:User, game):
 	if v.rehab:
 		return render_template("casino/rehab.html", v=v), 403
 	elif game not in CASINO_GAME_KINDS:
@@ -53,7 +53,7 @@ def casino_game_page(v, game):
 @app.get("/casino/<game>/feed")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
-def casino_game_feed(v, game):
+def casino_game_feed(v:User, game):
 	if v.rehab: 
 		abort(403, "You are under Rehab award effect!")
 	elif game not in CASINO_GAME_KINDS:
@@ -67,7 +67,7 @@ def casino_game_feed(v, game):
 @app.get("/lottershe")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
-def lottershe(v):
+def lottershe(v:User):
 	if v.rehab:
 		return render_template("casino/rehab.html", v=v)
 
@@ -78,7 +78,7 @@ def lottershe(v):
 @app.post("/casino/slots")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
-def pull_slots(v):
+def pull_slots(v:User):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 
@@ -109,7 +109,7 @@ def pull_slots(v):
 @app.post("/casino/twentyone/deal")
 @limiter.limit("1/second;100/minute;2000/hour;12000/day")
 @auth_required
-def blackjack_deal_to_player(v):
+def blackjack_deal_to_player(v:User):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 
@@ -128,7 +128,7 @@ def blackjack_deal_to_player(v):
 @app.post("/casino/twentyone/hit")
 @limiter.limit("1/second;100/minute;2000/hour;12000/day")
 @auth_required
-def blackjack_player_hit(v):
+def blackjack_player_hit(v:User):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 
@@ -143,7 +143,7 @@ def blackjack_player_hit(v):
 @app.post("/casino/twentyone/stay")
 @limiter.limit("1/second;100/minute;2000/hour;12000/day")
 @auth_required
-def blackjack_player_stay(v):
+def blackjack_player_stay(v:User):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 
@@ -158,7 +158,7 @@ def blackjack_player_stay(v):
 @app.post("/casino/twentyone/double-down")
 @limiter.limit("1/second;100/minute;2000/hour;12000/day")
 @auth_required
-def blackjack_player_doubled_down(v):
+def blackjack_player_doubled_down(v:User):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 
@@ -173,7 +173,7 @@ def blackjack_player_doubled_down(v):
 @app.post("/casino/twentyone/buy-insurance")
 @limiter.limit("1/second;100/minute;2000/hour;12000/day")
 @auth_required
-def blackjack_player_bought_insurance(v):
+def blackjack_player_bought_insurance(v:User):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 
@@ -188,7 +188,7 @@ def blackjack_player_bought_insurance(v):
 @app.get("/casino/roulette/bets")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
-def roulette_get_bets(v):
+def roulette_get_bets(v:User):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 
@@ -200,7 +200,7 @@ def roulette_get_bets(v):
 @app.post("/casino/roulette/place-bet")
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
-def roulette_player_placed_bet(v):
+def roulette_player_placed_bet(v:User):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 

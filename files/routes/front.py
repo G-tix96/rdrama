@@ -179,7 +179,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 @app.get("/random_post")
 @auth_required
-def random_post(v):
+def random_post(v:User):
 
 	p = g.db.query(Submission.id).filter(Submission.deleted_utc == 0, Submission.is_banned == False, Submission.private == False).order_by(func.random()).first()
 
@@ -191,7 +191,7 @@ def random_post(v):
 
 @app.get("/random_user")
 @auth_required
-def random_user(v):
+def random_user(v:User):
 	u = g.db.query(User.username).filter(User.song != None, User.shadowbanned == None).order_by(func.random()).first()
 	
 	if u: u = u[0]
@@ -202,7 +202,7 @@ def random_user(v):
 
 @app.get("/comments")
 @auth_required
-def all_comments(v):
+def all_comments(v:User):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 

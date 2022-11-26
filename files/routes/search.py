@@ -45,7 +45,7 @@ def searchparse(text):
 
 @app.get("/search/posts")
 @auth_required
-def searchposts(v):
+def searchposts(v:User):
 
 	query = request.values.get("q", '').strip()
 
@@ -181,7 +181,7 @@ def searchposts(v):
 
 @app.get("/search/comments")
 @auth_required
-def searchcomments(v):
+def searchcomments(v:User):
 	query = request.values.get("q", '').strip()
 
 	try: page = max(1, int(request.values.get("page", 1)))
@@ -276,7 +276,7 @@ def searchcomments(v):
 
 @app.get("/search/users")
 @auth_required
-def searchusers(v):
+def searchusers(v:User):
 
 	query = request.values.get("q", '').strip()
 

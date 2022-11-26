@@ -9,7 +9,7 @@ from files.__main__ import app, limiter
 
 @app.get("/authorize")
 @auth_required
-def authorize_prompt(v):
+def authorize_prompt(v:User):
 	client_id = request.values.get("client_id")
 	application = g.db.query(OauthApp).filter_by(client_id=client_id).one_or_none()
 	if not application: return {"oauth_error": "Invalid `client_id`"}, 401

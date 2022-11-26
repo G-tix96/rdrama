@@ -56,25 +56,25 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 
 @app.get("/@<username>/upvoters/<uid>/posts")
 @auth_required
-def upvoters_posts(v, username, uid):
+def upvoters_posts(v:User, username, uid):
 	return upvoters_downvoters(v, username, uid, Submission, Vote, 1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/upvoters/<uid>/comments")
 @auth_required
-def upvoters_comments(v, username, uid):
+def upvoters_comments(v:User, username, uid):
 	return upvoters_downvoters(v, username, uid, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
 
 
 @app.get("/@<username>/downvoters/<uid>/posts")
 @auth_required
-def downvoters_posts(v, username, uid):
+def downvoters_posts(v:User, username, uid):
 	return upvoters_downvoters(v, username, uid, Submission, Vote, -1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/downvoters/<uid>/comments")
 @auth_required
-def downvoters_comments(v, username, uid):
+def downvoters_comments(v:User, username, uid):
 	return upvoters_downvoters(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
 
 def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, standalone):
@@ -107,25 +107,25 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 
 @app.get("/@<username>/upvoting/<uid>/posts")
 @auth_required
-def upvoting_posts(v, username, uid):
+def upvoting_posts(v:User, username, uid):
 	return upvoting_downvoting(v, username, uid, Submission, Vote, 1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/upvoting/<uid>/comments")
 @auth_required
-def upvoting_comments(v, username, uid):
+def upvoting_comments(v:User, username, uid):
 	return upvoting_downvoting(v, username, uid, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
 
 
 @app.get("/@<username>/downvoting/<uid>/posts")
 @auth_required
-def downvoting_posts(v, username, uid):
+def downvoting_posts(v:User, username, uid):
 	return upvoting_downvoting(v, username, uid, Submission, Vote, -1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/downvoting/<uid>/comments")
 @auth_required
-def downvoting_comments(v, username, uid):
+def downvoting_comments(v:User, username, uid):
 	return upvoting_downvoting(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
 
 def user_voted(v, username, cls, vote_cls, template, standalone):
@@ -158,19 +158,19 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 
 @app.get("/@<username>/voted/posts")
 @auth_required
-def user_voted_posts(v, username):
+def user_voted_posts(v:User, username):
 	return user_voted(v, username, Submission, Vote, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/voted/comments")
 @auth_required
-def user_voted_comments(v, username):
+def user_voted_comments(v:User, username):
 	return user_voted(v, username, Comment, CommentVote, "userpage/voted_comments.html", True)
 
 
 @app.get("/grassed")
 @auth_required
-def grassed(v):
+def grassed(v:User):
 	users = g.db.query(User).filter(User.ban_reason.like('grass award used by @%'))
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
@@ -179,7 +179,7 @@ def grassed(v):
 
 @app.get("/chuds")
 @auth_required
-def chuds(v):
+def chuds(v:User):
 	users = g.db.query(User).filter(User.agendaposter == 1)
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
@@ -233,22 +233,22 @@ def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 
 @app.get("/@<username>/upvoters")
 @auth_required
-def upvoters(v, username):
+def upvoters(v:User, username):
 	return all_upvoters_downvoters(v, username, 1, False)
 
 @app.get("/@<username>/downvoters")
 @auth_required
-def downvoters(v, username):
+def downvoters(v:User, username):
 	return all_upvoters_downvoters(v, username, -1, False)
 
 @app.get("/@<username>/upvoting")
 @auth_required
-def upvoting(v, username):
+def upvoting(v:User, username):
 	return all_upvoters_downvoters(v, username, 1, True)
 
 @app.get("/@<username>/downvoting")
 @auth_required
-def downvoting(v, username):
+def downvoting(v:User, username):
 	return all_upvoters_downvoters(v, username, -1, True)
 
 @app.post("/@<username>/suicide")
@@ -266,7 +266,7 @@ def suicide(v, username):
 
 @app.get("/@<username>/coins")
 @auth_required
-def get_coins(v, username):
+def get_coins(v:User, username):
 	user = get_user(username, v=v, include_shadowbanned=False)
 	return {"coins": user.coins}
 
@@ -326,7 +326,7 @@ def transfer_bux(v, username):
 
 @app.get("/leaderboard")
 @auth_required
-def leaderboard(v):
+def leaderboard(v:User):
 	users = g.db.query(User)
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
@@ -656,7 +656,7 @@ def following(username, v):
 
 @app.get("/views")
 @auth_required
-def visitors(v):
+def visitors(v:User):
 	if not v.viewers_recorded:
 		return render_template("errors/patron.html", v=v)
 	viewers=sorted(v.viewers, key = lambda x: x.last_view_utc, reverse=True)
@@ -963,7 +963,7 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 
 @app.get("/@<username>/saved/posts")
 @auth_required
-def saved_posts(v, username):
+def saved_posts(v:User, username):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
@@ -971,7 +971,7 @@ def saved_posts(v, username):
 
 @app.get("/@<username>/saved/comments")
 @auth_required
-def saved_comments(v, username):
+def saved_comments(v:User, username):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
@@ -979,7 +979,7 @@ def saved_comments(v, username):
 
 @app.get("/@<username>/subscribed/posts")
 @auth_required
-def subscribed_posts(v, username):
+def subscribed_posts(v:User, username):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
@@ -987,7 +987,7 @@ def subscribed_posts(v, username):
 
 @app.post("/fp/<fp>")
 @auth_required
-def fp(v, fp):
+def fp(v:User, fp):
 	v.fp = fp
 	users = g.db.query(User).filter(User.fp == fp, User.id != v.id).all()
 	if users: print(f'{v.username}: fp', flush=True)
@@ -1033,7 +1033,7 @@ def toggle_holes():
 
 @app.get("/badge_owners/<bid>")
 @auth_required
-def bid_list(v, bid):
+def bid_list(v:User, bid):
 
 	try: bid = int(bid)
 	except: abort(400)
@@ -1095,7 +1095,7 @@ kofi_tiers={
 @app.post("/settings/kofi")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
-def settings_kofi(v):
+def settings_kofi(v:User):
 	if not KOFI_TOKEN or KOFI_TOKEN == DEFAULT_CONFIG_VALUE: abort(404)
 	if not (v.email and v.is_activated):
 		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")

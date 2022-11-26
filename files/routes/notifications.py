@@ -68,7 +68,7 @@ def notifications_modmail(v):
 
 @app.get("/notifications/messages")
 @auth_required
-def notifications_messages(v):
+def notifications_messages(v:User):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
@@ -137,7 +137,7 @@ def notifications_messages(v):
 
 @app.get("/notifications/posts")
 @auth_required
-def notifications_posts(v):
+def notifications_posts(v:User):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
@@ -179,7 +179,7 @@ def notifications_posts(v):
 
 @app.get("/notifications/modactions")
 @auth_required
-def notifications_modactions(v):
+def notifications_modactions(v:User):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
@@ -218,7 +218,7 @@ def notifications_modactions(v):
 
 @app.get("/notifications/reddit")
 @auth_required
-def notifications_reddit(v):
+def notifications_reddit(v:User):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
@@ -263,7 +263,7 @@ def notifications_reddit(v):
 
 @app.get("/notifications")
 @auth_required
-def notifications(v):
+def notifications(v:User):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 

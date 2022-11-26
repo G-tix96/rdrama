@@ -9,7 +9,7 @@ from files.__main__ import app, limiter
 
 @app.get("/hats")
 @auth_required
-def hats(v):
+def hats(v:User):
 	owned_hat_ids = [x.hat_id for x in v.owned_hats]
 
 	if request.values.get("sort") == 'author_asc':
@@ -34,7 +34,7 @@ def hats(v):
 @app.post("/buy_hat/<hat_id>")
 @limiter.limit('100/minute;1000/3 days')
 @auth_required
-def buy_hat(v, hat_id):
+def buy_hat(v:User, hat_id):
 	try: hat_id = int(hat_id)
 	except: abort(404, "Hat not found!")
 
@@ -84,7 +84,7 @@ def buy_hat(v, hat_id):
 
 @app.post("/equip_hat/<hat_id>")
 @auth_required
-def equip_hat(v, hat_id):
+def equip_hat(v:User, hat_id):
 	try: hat_id = int(hat_id)
 	except: abort(404, "Hat not found!")
 
@@ -98,7 +98,7 @@ def equip_hat(v, hat_id):
 
 @app.post("/unequip_hat/<hat_id>")
 @auth_required
-def unequip_hat(v, hat_id):
+def unequip_hat(v:User, hat_id):
 	try: hat_id = int(hat_id)
 	except: abort(404, "Hat not found!")
 
@@ -112,7 +112,7 @@ def unequip_hat(v, hat_id):
 
 @app.get("/hat_owners/<hat_id>")
 @auth_required
-def hat_owners(v, hat_id):
+def hat_owners(v:User, hat_id):
 	try: hat_id = int(hat_id)
 	except: abort(404, "Hat not found!")
 
