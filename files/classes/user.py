@@ -1000,7 +1000,7 @@ class User(Base):
 			if not cls.can_see(user, other.author): return False
 			if user and user.id == other.author_id: return True
 			if isinstance(other, Submission):
-				if "!YOU!" in other.title and not (user and (user.client or user.truescore > 5000)): return False
+				if "!YOU!" in other.title and not user: return False
 				if other.sub and not cls.can_see(user, other.subr): return False
 			else:
 				if not other.parent_submission:
