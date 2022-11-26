@@ -395,7 +395,8 @@ CREATE TABLE public.comments (
     wordle_result character varying(115),
     body_ts tsvector GENERATED ALWAYS AS (to_tsvector('english'::regconfig, (body)::text)) STORED,
     casino_game_id integer,
-    chuddedfor character varying(40)
+    chuddedfor character varying(40),
+    stickied_child_id integer
 );
 
 
@@ -2464,6 +2465,14 @@ ALTER TABLE ONLY public.save_relationship
 
 ALTER TABLE ONLY public.save_relationship
     ADD CONSTRAINT save_relationship_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
+
+
+--
+-- Name: comments stickied_child_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT stickied_child_fkey FOREIGN KEY (stickied_child_id) REFERENCES public.comments(id);
 
 
 --
