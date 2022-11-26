@@ -180,14 +180,18 @@ function smoothScrollTop()
 }
 
 // Click navbar to scroll back to top
-document.getElementsByTagName('nav')[0].addEventListener('click', (e) => {
-	if (e.target.id === "navbar" ||
-		e.target.classList.contains("container-fluid") ||
-		e.target.id == "navbarResponsive" ||
-		e.target.id == "logo-container" ||
-		e.target.classList.contains("srd"))
-		smoothScrollTop();
-}, false);
+const nav = document.getElementsByTagName('nav')
+
+if (nav) {
+	nav[0].addEventListener('click', (e) => {
+		if (e.target.id === "navbar" ||
+			e.target.classList.contains("container-fluid") ||
+			e.target.id == "navbarResponsive" ||
+			e.target.id == "logo-container" ||
+			e.target.classList.contains("srd"))
+			smoothScrollTop();
+	}, false);
+}
 
 // Dynamic shadow when the user scrolls
 document.addEventListener('scroll',function (event) {
