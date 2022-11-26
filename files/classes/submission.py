@@ -350,6 +350,9 @@ class Submission(Base):
 
 		title = censor_slurs(title, v)
 
+		if v:
+			title = title.replace("!YOU!", v.username.lower())
+
 		return title
 
 	@lazy
