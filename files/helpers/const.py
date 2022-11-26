@@ -390,8 +390,9 @@ MIN_REPOST_CHECK_URL_LENGTH = 9 # also change the constant in checkRepost() of s
 CHAT_LENGTH_LIMIT = 1000
 TRUESCORE_DONATE_LIMIT = 100
 COSMETIC_AWARD_COIN_AWARD_PCT = 0.10
-TRUESCORE_CHAT_LIMIT = 0
-TRUESCORE_GHOST_LIMIT = 0
+TRUESCORE_CHAT_MINIMUM = 0
+TRUESCORE_GHOST_MINIMUM = 0
+TRUESCORE_YOU_POST_MINIMUM = 0
 
 LOGGEDIN_ACTIVE_TIME = 15 * 60
 PFP_DEFAULT_MARSEY = True
@@ -494,8 +495,9 @@ if SITE == 'rdrama.net':
 	NOTIFICATION_THREAD = 6489
 
 	CHAT_LENGTH_LIMIT = 200
-	TRUESCORE_CHAT_LIMIT = 10
-	TRUESCORE_GHOST_LIMIT = 10
+	TRUESCORE_CHAT_MINIMUM = 10
+	TRUESCORE_GHOST_MINIMUM = 10
+	TRUESCORE_YOU_POST_MINIMUM = 5000
 	NEW_USER_HAT_AGE = 7 * 86400
 
 	HOLE_COST = 50000
@@ -570,6 +572,8 @@ elif SITE == 'pcmemes.net':
 	ERROR_MSGS[500] = "Hiiiii it's <b>nigger</b>! I think this error means that there's a <b>nigger</b> error. And I think that means something took too long to load so it decided to be a <b>nigger</b>. If you keep seeing this on the same page but not other pages, then something its probably a <b>niggerfaggot</b>. It may not be called a <b>nigger</b>, but that sounds right to me. Anyway, ping me and I'll whine to someone smarter to fix it. Don't bother them. Thanks ily &lt;3"
 	ERROR_MARSEYS[500] = "wholesome"
 	POST_RATE_LIMIT = '1/second;4/minute;20/hour;100/day'
+	
+	TRUESCORE_YOU_POST_MINIMUM = 5000
 
 	HOLE_COST = 2000
 
@@ -629,8 +633,9 @@ elif SITE == 'watchpeopledie.tv':
 	SIDEBAR_THREAD = 5403
 	BANNER_THREAD = 9869
 
-	TRUESCORE_CHAT_LIMIT = 10
-	TRUESCORE_GHOST_LIMIT = 10
+	TRUESCORE_CHAT_MINIMUM = 10
+	TRUESCORE_GHOST_MINIMUM = 10
+	TRUESCORE_YOU_POST_MINIMUM = 5000
 
 	HOLE_NAME = 'flair'
 	HOLE_STYLE_FLAIR = True
