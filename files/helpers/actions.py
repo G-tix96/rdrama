@@ -457,18 +457,18 @@ def execute_lawlz_actions(v:User, p:Submission):
 	pin_time = 'for 1 day'
 	ma_1=ModAction(
 		kind="pin_post",
-		user_id=v.id,
+		user_id=AUTOJANNY_ID,
 		target_submission_id=p.id,
 		_note=pin_time
 	)
 	ma_2=ModAction(
 		kind="distinguish_post",
-		user_id=v.id,
+		user_id=AUTOJANNY_ID,
 		target_submission_id=p.id
 	)
 	ma_3=ModAction(
 		kind="flair_post",
-		user_id=v.id,
+		user_id=AUTOJANNY_ID,
 		target_submission_id=p.id,
 		_note=f'"{p.flair}"'
 	)
