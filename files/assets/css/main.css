@@ -6391,3 +6391,18 @@ div.markdown {
 		overflow: scroll;
 	}
 }
+
+.modlog-action {
+	display: flex;
+	flex-wrap: wrap;
+	background: var(--gray-600) !important;
+	position: relative;
+	align-items: center;
+	justify-content: space-between;
+	overflow-wrap: anywhere;
+	padding: 1rem 1rem 1rem 1rem;
+}
+
+.modlog-action:not(:first-of-type) {
+	border-top: 1px solid var(--gray-400) !important;
+}
