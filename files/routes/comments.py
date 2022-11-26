@@ -359,6 +359,13 @@ def comment(v):
 
 	check_slots_command(v, v, c)
 
+	if c.level > 5:
+		n = g.db.query(Notification).filter_by(
+			comment_id=c.parent_comment.parent_comment.parent_comment.parent_comment_id,
+			user_id=c.parent_comment.author_id,
+		).one_or_none()
+		if n: g.db.delete(n)
+
 	g.db.flush()
 
 	if v.client: return c.json(db=g.db)
