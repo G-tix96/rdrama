@@ -602,27 +602,32 @@ elif SITE == 'watchpeopledie.tv':
 	PERMS['HOLE_CREATE'] = 2
 	PERMS['POST_EDITING'] = 2
 	PERMS['ADMIN_ADD'] = 4
-	
-	ERROR_TITLES[400] = "Bad Request"
-	ERROR_TITLES[401] = "Unauthorized"
-	ERROR_TITLES[403] = "Forbidden"
-	ERROR_TITLES[404] = "Not Found"
-	ERROR_TITLES[405] = "Method Not Allowed"
-	ERROR_TITLES[406] = "Too Many Pings"
-	ERROR_TITLES[409] = "Mortal Conflict"
-	ERROR_TITLES[410] = "Dead"
-	ERROR_TITLES[413] = "Payload Too Large"
-	ERROR_TITLES[415] = "Unsupported Media Type"
-	ERROR_TITLES[500] = "Internal Server Error"
-	ERROR_MSGS[400] = "That request is invalid"
-	ERROR_MSGS[401] = "You need to login or sign up to do that"
-	ERROR_MSGS[403] = "You're not allowed to do that"
-	ERROR_MSGS[404] = "That wasn't found"
-	ERROR_MSGS[405] = "You can't use this method here... if you keep getting this error tell us it's prolly something borked"
-	ERROR_MSGS[409] = "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do."
-	ERROR_MSGS[410] = "This link is dead. Request a new one to try again"
-	ERROR_MSGS[413] = "You need to upload a smaller file please"
-	ERROR_MSGS[429] = "Please wait a bit before doing that"
+
+	ERROR_TITLES.update({
+		400: "Bad Request",
+		401: "Unauthorized",
+		403: "Forbidden",
+		404: "Not Found",
+		405: "Method Not Allowed",
+		406: "Too Many Pings",
+		409: "Mortal Conflict",
+		410: "Dead",
+		413: "Payload Too Large",
+		415: "Unsupported Media Type",
+		500: "Internal Server Error",
+	})
+
+	ERROR_MSGS.update({
+		400: "That request is invalid",
+		401: "You need to login or sign up to do that",
+		403: "You're not allowed to do that",
+		404: "That wasn't found",
+		405: "You can't use this method here... if you keep getting this error tell us it's prolly something borked",
+		409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do.",
+		410: "This link is dead. Request a new one to try again",
+		413: "You need to upload a smaller file please",
+		429: "Please wait a bit before doing that",
+	})
 
 	POLL_THREAD = 13225
 
