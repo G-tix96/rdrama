@@ -79,6 +79,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 		else: template = "submission.html"
 		return render_template(template, v=v, p=post, sort=sort, comment_info=comment_info, render_replies=True, sub=post.subr)
 
+#- API
 @app.post("/comment")
 @limiter.limit("1/second;20/minute;200/hour;1000/day")
 @auth_required
@@ -91,7 +92,7 @@ def comment(v):
 	id = parent_fullname[2:]
 	parent_comment_id = None
 	rts = False
-	
+
 	if parent_fullname.startswith("p_"):
 		parent = get_post(id, v=v)
 		parent_post = parent

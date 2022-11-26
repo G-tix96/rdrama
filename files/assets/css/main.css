@@ -6406,3 +6406,43 @@ div.markdown {
 .modlog-action:not(:first-of-type) {
 	border-top: 1px solid var(--gray-400) !important;
 }
+
+/* Documentation elements */
+#docs-page .docs-path {
+    font-size: 1.7rem;
+}
+
+#docs-page .docs-request {
+    background-color: var(--primary);
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+#docs-page .docs-response {
+    background-color: var(--secondary);
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+#docs-page .doc-snippet {
+    padding: 4px;
+}
+
+#docs-page .doc-snippet table {
+    border: 1px solid var(--secondary);
+}
+
+#docs-page .doc-snippet table p {
+    margin: 0;
+}
+
+#docs-page .doc-snippet table tr th {
+    color: #aaa;
+    border-bottom: 1px solid var(--secondary);
+}
+
+#docs-page .doc-snippet table tr td,
+#docs-page .doc-snippet table tr th {
+    padding: 4px 8px;
+    border-right: 1px solid var(--secondary);
+}
