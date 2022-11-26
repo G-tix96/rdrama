@@ -101,7 +101,7 @@ def comment(v):
 		parent_post = get_post(parent.parent_submission, v=v)
 		parent_comment_id = parent.id
 		if parent.author_id == v.id: rts = True
-		if not v.can_post_in_ghost_threads and parent_post.ghost: abort(403, f"You need {TRUESCORE_GHOST_LIMIT} truescore to post in ghost threads")
+		if not v.can_post_in_ghost_threads and parent_post.ghost: abort(403, f"You need {TRUESCORE_GHOST_MINIMUM} truescore to post in ghost threads")
 	else: abort(400)
 
 	level = 1 if isinstance(parent, Submission) else parent.level + 1
