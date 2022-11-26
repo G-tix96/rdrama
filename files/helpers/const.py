@@ -458,7 +458,8 @@ MAX_VIDEO_SIZE_MB = 32
 MAX_VIDEO_SIZE_MB_PATRON = 64
 MAX_IMAGE_CONVERSION_TIMEOUT = 15 # seconds
 
-ANTISPAM_BYPASS_IDS = ()
+ANTISPAM_BYPASS_IDS = set()
+BOOSTED_USERS_EXCLUDED = set()
 
 PAGE_SIZE = 25
 LEADERBOARD_LIMIT = PAGE_SIZE
@@ -527,7 +528,34 @@ if SITE == 'rdrama.net':
 	GEESE_ID = 1710
 	BLACKJACKBTZ_ID = 12732
 
-	ANTISPAM_BYPASS_IDS = (1703, 13427)
+	ANTISPAM_BYPASS_IDS = {1703, 13427}
+
+	BOOSTED_HOLES = {
+		'furry',
+		'femboy',
+		'anime',
+		'gaybros',
+		'againsthateholes',
+		'masterbaiters',
+		'changelog',
+	}
+
+	BOOSTED_USERS = {
+		IMPASSIONATA_ID,
+		PIZZASHILL_ID,
+		SNAKES_ID,
+		JUSTCOOL_ID,
+		2008, #TransGirlTradWife
+		29, #QuadNarca
+		JOAN_ID,
+	}
+
+	BOOSTED_USERS_EXCLUDED = {
+		8768,
+		3402,
+		5214,
+		12719
+	}
 
 	GIFT_NOTIF_ID = CARP_ID
 
@@ -1416,9 +1444,7 @@ NOTIFIED_USERS = {
 }
 
 FORTUNE_REPLIES = ('<b style="color:#6023f8">Your fortune: Allah Wills It</b>','<b style="color:#d302a7">Your fortune: Inshallah, Only Good Things Shall Come To Pass</b>','<b style="color:#e7890c">Your fortune: Allah Smiles At You This Day</b>','<b style="color:#7fec11">Your fortune: Your Bussy Is In For A Blasting</b>','<b style="color:#43fd3b">Your fortune: You Will Be Propositioned By A High-Tier Twink</b>','<b style="color:#9d05da">Your fortune: Repent, You Have Displeased Allah And His Vengeance Is Nigh</b>','<b style="color:#f51c6a">Your fortune: Reply Hazy, Try Again</b>','<b style="color:#00cbb0">Your fortune: lmao you just lost 100 coins</b>','<b style="color:#2a56fb">Your fortune: Yikes 😬</b>','<b style="color:#0893e1">Your fortune: You Will Be Blessed With Many Black Bulls</b>','<b style="color:#16f174">Your fortune: NEETmax, The Day Is Lost If You Venture Outside</b>','<b style="color:#fd4d32">Your fortune: A Taste Of Jannah Awaits You Today</b>','<b style="color:#bac200">Your fortune: Watch Your Back</b>','<b style="color:#6023f8">Your fortune: Outlook good</b>','<b style="color:#d302a7">Your fortune: Godly Luck</b>','<b style="color:#e7890c">Your fortune: Good Luck</b>','<b style="color:#7fec11">Your fortune: Bad Luck</b>','<b style="color:#43fd3b">Your fortune: Good news will come to you by mail</b>','<b style="color:#9d05da">Your fortune: Very Bad Luck</b>','<b style="color:#00cbb0">Your fortune: ｷﾀ━━━━━━(ﾟ∀ﾟ)━━━━━━ !!!!</b>','<b style="color:#2a56fb">Your fortune: Better not tell you now</b>','<b style="color:#0893e1">Your fortune: You will meet a dark handsome stranger</b>','<b style="color:#16f174">Your fortune: （　´_ゝ`）ﾌｰﾝ</b>','<b style="color:#fd4d32">Your fortune: Excellent Luck</b>','<b style="color:#bac200">Your fortune: Average Luck</b>')
-
 FACTCHECK_REPLIES = ('<b style="color:#6023f8">Factcheck: This claim has been confirmed as correct by experts. </b>','<b style="color:#d302a7">Factcheck: This claim has been classified as misogynistic.</b>','<b style="color:#e7890c">Factcheck: This claim is currently being debunked.</b>','<b style="color:#7fec11">Factcheck: This claim is 100% true.</b>','<b style="color:#9d05da">Factcheck: This claim hurts trans lives.</b>','<b style="color:#f51c6a">Factcheck: [REDACTED].</b>','<b style="color:#00cbb0">Factcheck: This claim is both true and false.</b>','<b style="color:#2a56fb">Factcheck: You really believe that shit? Lmao dumbass nigga 🤣</b>','<b style="color:#0893e1">Factcheck: None of this is real.</b>','<b style="color:#16f174">Factcheck: Yes.</b>','<b style="color:#fd4d32">Factcheck: This claim has not been approved by experts.</b>','<b style="color:#bac200">Factcheck: This claim is a gross exageration of reality.</b>','<b style="color:#ff2200">Factcheck: WARNING! THIS CLAIM HAS BEEN CLASSIFIED AS DANGEROUS. PLEASE REMAIN STILL, AN AGENT WILL COME TO MEET YOU SHORTLY.</b>')
-
 EIGHTBALL_REPLIES = ('<b style="color:#7FEC11">The 8-Ball Says: It is certain.</b>', '<b style="color:#7FEC11">The 8-Ball Says: It is decidedly so.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Without a doubt.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Yes definitely.</b>', '<b style="color:#7FEC11">The 8-Ball Says: You may rely on it.</b>', '<b style="color:#7FEC11">The 8-Ball Says: As I see it, yes.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Most likely.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Outlook good.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Yes.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Signs point to yes.</b>', '<b style="color:#E7890C">The 8-Ball Says: Reply hazy, try again.</b>', '<b style="color:#E7890C">The 8-Ball Says: Ask again later.</b>', '<b style="color:#E7890C">The 8-Ball Says: Better not tell you now.</b>', '<b style="color:#E7890C">The 8-Ball Says: Cannot predict now.</b>', '<b style="color:#E7890C">The 8-Ball Says: Concentrate and ask again.</b>', '<b style="color:#FD4D32">The 8-Ball Says: Don\'t count on it.</b>', '<b style="color:#FD4D32">The 8-Ball Says: My reply is no.</b>', '<b style="color:#FD4D32">The 8-Ball Says: My sources say no.</b>', '<b style="color:#FD4D32">The 8-Ball Says: Outlook not so good.</b>', '<b style="color:#FD4D32">The 8-Ball Says: Very doubtful.</b>')
 
 REDDIT_NOTIFS_SITE = set()
@@ -1672,26 +1698,6 @@ if SITE_NAME == 'rDrama':
 		'shitposter.club',
 		'sneed.social',
 		'seal.cafe',
-	}
-
-	BOOSTED_HOLES = {
-		'furry',
-		'femboy',
-		'anime',
-		'gaybros',
-		'againsthateholes',
-		'masterbaiters',
-		'changelog',
-	}
-
-	BOOSTED_USERS = {
-		IMPASSIONATA_ID,
-		PIZZASHILL_ID,
-		SNAKES_ID,
-		JUSTCOOL_ID,
-		2008, #TransGirlTradWife
-		29, #QuadNarca
-		JOAN_ID,
 	}
 
 IMAGE_FORMATS = ['png','gif','jpg','jpeg','webp']
