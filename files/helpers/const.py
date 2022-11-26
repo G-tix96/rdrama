@@ -147,6 +147,7 @@ if SITE_NAME == 'rDrama':
 		"republican": 'republiKKKan',
 		"america": 'ameriKKKa',
 		"it's almost as if": "I'm a retard but",
+		"my brother in christ": "my brother in Allah",
 	}
 	SLURS.update(RDRAMA_SLURS)
 
