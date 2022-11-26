@@ -360,7 +360,7 @@ def edit_post(pid, v):
 				)
 				g.db.add(bet)
 
-		for i in poll_regex.finditer(body):
+		for i in list(poll_regex.finditer(body))[:10]:
 			body = body.replace(i.group(0), "")
 			body_html = filter_emojis_only(i.group(1))
 			if len(body_html) > 500: abort(400, "Poll option too long!")
@@ -371,7 +371,7 @@ def edit_post(pid, v):
 			)
 			g.db.add(option)
 
-		for i in choice_regex.finditer(body):
+		for i in list(choice_regex.finditer(body))[:10]:
 			body = body.replace(i.group(0), "")
 			body_html = filter_emojis_only(i.group(1))
 			if len(body_html) > 500: abort(400, "Poll option too long!")
@@ -754,12 +754,12 @@ def submit_post(v, sub=None):
 			body = body.replace(i.group(0), "")
 
 	options = []
-	for i in poll_regex.finditer(body):
+	for i in list(poll_regex.finditer(body))[:10]:
 		options.append(i.group(1))
 		body = body.replace(i.group(0), "")
 
 	choices = []
-	for i in choice_regex.finditer(body):
+	for i in list(choice_regex.finditer(body))[:10]:
 		choices.append(i.group(1))
 		body = body.replace(i.group(0), "")
 
@@ -1075,6 +1075,7 @@ extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
 @ratelimit_user("3/minute")
 @auth_required
 def get_post_title(v):
+	POST_TITLE_TIMEOUT = 5
 	url = request.values.get("url")
 	if not url or '\\' in url: abort(400)
 	url = url.strip()
@@ -1084,7 +1085,8 @@ def get_post_title(v):
 	if any((checking_url.endswith(f'.{x}') for x in extensions)):
 		abort(400)
 
-	try: x = requests.get(url, headers=titleheaders, timeout=5, proxies=proxies)
+	try:
+		x = gevent.with_timeout(POST_TITLE_TIMEOUT, requests.get, url, headers=titleheaders, timeout=POST_TITLE_TIMEOUT, proxies=proxies)
 	except: abort(400)
 		
 	content_type = x.headers.get("Content-Type")
