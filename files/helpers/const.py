@@ -254,7 +254,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'VIEW_CHUDRAMA': 1,
 	'VIEW_PRIVATE_PROFILES': 2,
 	'VIEW_ALTS': 2,
-	'VIEW_PROFILE_VIEWS': 2,
 	'VIEW_ACTIVE_USERS': 2,
 	'VIEW_ALL_USERS': 2,
 	'VIEW_ALT_VOTES': 2,

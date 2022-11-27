@@ -654,13 +654,20 @@ def following(username, v):
 		.order_by(Follow.created_utc).all()
 	return render_template("userpage/following.html", v=v, u=u, users=users)
 
-@app.get("/views")
+@app.get("/@<username>/views")
 @auth_required
-def visitors(v:User):
-	if not v.viewers_recorded:
-		return render_template("errors/patron.html", v=v)
-	viewers=sorted(v.viewers, key = lambda x: x.last_view_utc, reverse=True)
-	return render_template("userpage/viewers.html", v=v, viewers=viewers)
+def visitors(username, v:User):
+	u = get_user(username, v=v, include_shadowbanned=False)
+
+	try: page = int(request.values.get("page", 1))
+	except: page = 1
+
+	views = g.db.query(ViewerRelationship).filter_by(user_id=u.id).order_by(ViewerRelationship.last_view_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).limit(PAGE_SIZE + 1).all()
+
+	next_exists = (len(views) > PAGE_SIZE)
+	views = views[:PAGE_SIZE]
+
+	return render_template("userpage/views.html", v=v, u=u, views=views, next_exists=next_exists, page=page)
 
 @cache.memoize(timeout=86400)
 def userpagelisting(user:User, site=None, v=None, page:int=1, sort="new", t="all"):
@@ -682,7 +689,7 @@ def u_username(username, v=None):
 		return redirect(SITE_FULL + request.full_path.replace(username, u.username))
 	is_following = v and u.has_follower(v)
 
-	if v and v.id not in (u.id, DAD_ID) and u.viewers_recorded:
+	if v and v.id != u.id:
 		g.db.flush()
 		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
 

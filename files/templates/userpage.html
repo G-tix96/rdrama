@@ -70,7 +70,9 @@
 				{% endif %}
 				
 				{% if v and (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']) -%}
-				<div class="font-weight-bolder mb-2" id="profile--simphate"><a class="mr-1" href="/@{{u.username}}/upvoters">Simps</a> | <a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | <a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> | <a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> | <a class="ml-1" href="/@{{u.username}}/voted/posts">Voted</a></div>
+				<div class="font-weight-bolder mb-2" id="profile--simphate">
+					<a class="mr-1" href="/@{{u.username}}/views">Profile Views</a> | <a class="mx-1" href="/@{{u.username}}/upvoters">Simps</a> | <a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | <a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> | <a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> | <a class="ml-1" href="/@{{u.username}}/voted/posts">Voted</a>
+				</div>
 				{%- endif %}
 
 				<div class="font-weight-bolder">
@@ -188,7 +190,6 @@
 					<div class="actionbtns">
 						{% if v and v.id == u.id %}
 							<a href="/settings/personal" class="btn btn-secondary">Edit profile</a>
-							<a href="/views" class="btn btn-secondary">Profile views</a>
 						{% endif %}
 
 						{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
@@ -196,7 +197,7 @@
 						{% endif %}
 					</div>
 					
-					<div class="mt-2" id="profile--info">
+					<div class="mt-3" id="profile--info">
 						<p id="profile--info--id">User ID: {{u.id}}</p>
 						<p id="profile--info--spent">Coins spent: {{u.coins_spent}}</p>
 						<p id="profile--info--truescore">True score: {{u.truescore}}</p>
@@ -302,7 +303,9 @@
 				{% endif %}
 
 				{% if v and (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']) -%}
-				<div class="font-weight-bolder mb-2" id="profile-mobile--simphate"><a class="mr-1" href="/@{{u.username}}/upvoters">Simps</a> | <a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | <a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> | <a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> | <a class="ml-1" href="/@{{u.username}}/voted/posts">Voted</a></div>
+					<div class="font-weight-bolder mb-2" id="profile-mobile--simphate">
+						<a class="mr-1" href="/@{{u.username}}/views">Profile Views</a> | <a class="mx-1" href="/@{{u.username}}/upvoters">Simps</a> | <a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | <a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> | <a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> | <a class="ml-1" href="/@{{u.username}}/voted/posts">Voted</a>
+					</div>
 				{%- endif %}
 
 				<div class="font-weight-normal">
@@ -385,7 +388,6 @@
 				<div class="actionbtns">
 					{% if v and v.id == u.id %}
 						<a href="/settings/personal" class="btn btn-secondary ">Edit profile</a>
-						<a href="/views" class="btn btn-secondary">Profile views</a>
 					{% endif %}
 
 					{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
