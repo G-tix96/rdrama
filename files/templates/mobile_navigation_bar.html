@@ -47,7 +47,7 @@
 						</a>
 				</button>
 {% if v %}
-				{% if FEATURES['CHAT'] -%}
+				{% if FEATURES['CHAT'] and (SITE_NAME != 'rDrama' or cache.get(ONLINE_STR) >= 10) -%}
 				<button type="button" class="col px-0 btn btn-dead m-0 pt-0" style="background: None !important; border: None;">
 						<a href="/chat" class="text-decoration-none">
 								<div class="text-center {% if request.path=='/chat' %}text-primary{% else %}text-muted{% endif %}">
