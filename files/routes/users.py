@@ -641,7 +641,7 @@ def blockers(username, v):
 
 	users = g.db.query(UserBlock, User).join(UserBlock, UserBlock.target_id == u.id) \
 		.filter(UserBlock.user_id == User.id) \
-		.order_by(UserBlock.created_utc).all()
+		.order_by(UserBlock.created_utc.desc()).all()
 	return render_template("userpage/blockers.html", v=v, u=u, users=users)
 
 @app.get("/@<username>/following")
