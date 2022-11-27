@@ -190,7 +190,7 @@ AGENDAPOSTER_PHRASE = 'trans lives matter'
 AGENDAPOSTER_MSG = """Hi @{username},\nYour {type} has been automatically removed because you forgot to include `{AGENDAPOSTER_PHRASE}`.\nDon't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards the trans community. Feel free to resubmit your {type} with `{AGENDAPOSTER_PHRASE}` included. \n*This is an automated message; if you need help, you can message us [here](/contact).*"""
 
 AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp/{id}">@{username}</a>,</p>
-<p>Your comment has been automatically removed because you forgot to include <code>{AGENDAPOSTER_PHRASE}</code>.</p>
+<p>Your {type} has been automatically removed because you forgot to include <code>{AGENDAPOSTER_PHRASE}</code>.</p>
 <p>Don't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards the trans community. Feel free to resubmit your {type} with <code>{AGENDAPOSTER_PHRASE}</code> included.</p>
 <p><em>This is an automated message; if you need help, you can message us <a href="/contact">here</a>.</em></p>"""
 
