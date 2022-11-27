@@ -332,7 +332,7 @@ def leaderboard(v:User):
 		users = users.filter(User.shadowbanned == None)
 
 	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, lambda u:u.coins, g.db, users)
-	subscribers = Leaderboard("Followers", "followers", "followers", "Followers", None, Leaderboard.get_simple_lb, User.stored_subscriber_count, v, lambda u:u.stored_subscriber_count, g.db, users)
+	subscribers = Leaderboard("Followers", "followers", "followers", "Followers", "followers", Leaderboard.get_simple_lb, User.stored_subscriber_count, v, lambda u:u.stored_subscriber_count, g.db, users)
 	posts = Leaderboard("Posts", "post count", "posts", "Posts", "", Leaderboard.get_simple_lb, User.post_count, v, lambda u:u.post_count, g.db, users)
 	comments = Leaderboard("Comments", "comment count", "comments", "Comments", "comments", Leaderboard.get_simple_lb, User.comment_count, v, lambda u:u.comment_count, g.db, users)
 	received_awards = Leaderboard("Awards", "received awards", "awards", "Awards", None, Leaderboard.get_simple_lb, User.received_award_count, v, lambda u:u.received_award_count, g.db, users)
