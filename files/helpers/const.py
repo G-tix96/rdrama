@@ -473,15 +473,21 @@ HOUSE_SWITCH_COST = 2000
 
 DONATE_SERVICE = "Gumroad" if not KOFI_TOKEN or  KOFI_TOKEN == DEFAULT_CONFIG_VALUE else "KoFi"
 DONATE_LINK = GUMROAD_LINK if not KOFI_TOKEN or KOFI_TOKEN == DEFAULT_CONFIG_VALUE else KOFI_LINK
-
 TIERS_ID_TO_NAME = {
-		1: "Paypig",
-		2: "Renthog",
-		3: "Landchad",
-		4: "Terminally online turboautist",
-		5: "JIDF Bankroller",
-		6: "Rich Bich"
+	1: "Paypig",
+	2: "Renthog",
+	3: "Landchad",
+	4: "Terminally online turboautist",
+	5: "JIDF Bankroller",
+	6: "Rich Bich",
 }
+
+BADGE_BLACKLIST = { # only grantable by AEVANN_ID except on PCM
+	16, 17, 21, 22, 23, 24, 25, 26, 27, # Marsey Artist x2 / Patron Tiers
+	94, 95, 96, 97, 98, 109, 67, 68, 83, 84, 87, 90, 140, 179, 185, # Award Status
+	137, # Lottery Winner
+}
+BADGE_WHITELIST = None # Falsey allows all non-blacklisted, or set() of permitted IDs
 
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
@@ -663,6 +669,12 @@ elif SITE == 'watchpeopledie.tv':
 		4: "Ghost",
 		5: "Survivor",
 		6: "Jigsaw"
+	}
+
+	BADGE_WHITELIST = {
+		85, 99, 101, # Sigma, Artist Badges x2
+		59, 60, 66, 104, 108, # Classic Accolades, Nword
+		117, 124, 144, 145, 146, 147, 148, 149, # Census Reused for Fun
 	}
 
 else: # localhost or testing environment implied

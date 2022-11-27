@@ -514,8 +514,16 @@ def under_attack(v):
 @admin_level_required(PERMS['USER_BADGES'])
 def badge_grant_get(v):
 	grant = request.url.endswith("grant")
-	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
-	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=grant)
+
+	query = g.db.query(BadgeDef)
+	if BADGE_BLACKLIST and v.id != AEVANN_ID and SITE != 'pcmemes.net':
+		query = query.filter(BadgeDef.id.notin_(BADGE_BLACKLIST))
+	if BADGE_WHITELIST:
+		query = query.filter(BadgeDef.id.in_(BADGE_WHITELIST))
+	badge_types = query.order_by(BadgeDef.id).all()
+
+	return render_template("admin/badge_admin.html", v=v,
+		badge_types=badge_types, grant=grant)
 
 @app.post("/admin/badge_grant")
 @feature_required('BADGES')
@@ -531,10 +539,10 @@ def badge_grant_post(v):
 	try: badge_id = int(request.values.get("badge_id"))
 	except: abort(400)
 
-	if SITE == 'watchpeopledie.tv' and badge_id not in {99,101}:
+	if BADGE_WHITELIST and badge_id not in BADGE_WHITELIST:
 		abort(403)
-
-	if badge_id in {16,17,21,22,23,24,25,26,27,94,95,96,97,98,109,137,67,68,83,84,87,90,140} and v.id != AEVANN_ID and SITE != 'pcmemes.net':
+	elif (BADGE_BLACKLIST and badge_id in BADGE_BLACKLIST
+			and v.id != AEVANN_ID and SITE != 'pcmemes.net'):
 		abort(403)
 
 	if user.has_badge(badge_id):
