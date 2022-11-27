@@ -1,51 +1,40 @@
-<div id="awards-container" class="w-100 h-100">
-{% macro stackable_award(award, src, alt) %}
-	{% for i in range(min(p.award_count(award, v), 4)) %}
-		<div class="{{award}} {{award}}{{i+1}}">
-			<img alt="{{alt}}" src="{{src}}">
+{% if SITE_NAME == 'PCM' %}
+	{% set wholesome = '/i/wholesome.webp' %}
+{% else %}
+	{% set wholesome = '/e/marseywholesome.webp' %}
+{% endif %}
+
+{% for i in range(min(p.award_count("wholesome", v), 4)) %}
+	{% if g.inferior_browser %}
+		<div class="seal seal{{i+1}}" height="100%" width="100%">
+			<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
 		</div>
-	{% endfor %}
-{% endmacro %}
+	{% else %}
+		{% set seal_vertical = 'up' if (i % 2) == 0 else 'down' %}
+		{% set seal_horizontal = 'right' if i < 2 else 'left' %}
+		<marquee class="seal" scrollamount=10 behavior="alternate" direction="{{seal_vertical}}" height="100%">
+			<marquee direction="{{seal_horizontal}}" scrollamount=10 behavior="alternate" width="100%">
+				<img alt=":#marseywholesome:" class="sealimg" src="{{wholesome}}">
+			</marquee>
+		</marquee>
+	{% endif %}
+{% endfor %}
 
-{% if p.award_count("wholesome", v) %}
-	{% set wholesome = '/i/wholesome.webp' if SITE_NAME == PCM else '/e/marseywholesome.webp' %}
-	{{ stackable_award('wholesome', wholesome, ':#marseywholesome:') }}
-{% endif %}
+{% for i in range(min(p.award_count("train", v), 4)) %}
+	{% set train_dir = 'left' if (i % 2) == 0 else 'right' %}
+	{% set train_mirror = ' mirrored' if (i % 2) == 0 else '' %}
+	<marquee class="train train{{i+1}}" direction="{{train_dir}}" scrollamount=10 width="100%">
+		<img alt=":#marseytrain:" class="trainimg{{train_mirror}}" src="/e/marseytrain.webp">
+	</marquee>
+{% endfor %}
 
-{% if p.award_count("train", v) %}
-	{{ stackable_award('train', '/e/marseytrain.webp', ':#marseytrain:') }}
-{% endif %}
-
-{% if p.award_count("scooter", v) %}
-	{{ stackable_award('scooter', '/e/marseyscooter.webp', ':#marseyscooter:') }}
-{% endif %}
-
-{% if p.award_count("firework", v) %}
-	<script defer src="{{'js/fireworks.js' | asset}}"></script>
-	{{ stackable_award('firework', i) }}
-{% endif %}
-
-{% if p.award_count("confetti", v) %}
-	<div class="confetti w-100 h-100"></div>
-{% endif %}
-
-{% if p.award_count("ricardo", v) %}
-	{% for i in range(min(p.award_count("ricardo", v), 3)) %}
-		<div class="ricardo ricardo{{i+1}}">
-			<img src="/i/ricardo{{i+1}}.webp">
-		</div>
-	{% endfor %}
-{% endif %}
-
-{% if p.award_count("shit", v) %}
-	<script defer src="{{'js/vendor/critters.js' | asset}}"></script>
-	<script defer src="{{'js/bugs.js' | asset}}"></script>
-{% endif %}
-
-{% if p.award_count("fireflies", v) %}
-	<script defer src="{{'js/vendor/critters.js' | asset}}"></script>
-	<script defer src="{{'js/fireflies.js' | asset}}"></script>
-{% endif %}
+{% for i in range(min(p.award_count("scooter", v), 4)) %}
+	{% set scooter_dir = 'right' if (i % 2) == 0 else 'left' %}
+	{% set scooter_mirror = '' if (i % 2) == 0 else ' mirrored' %}
+	<marquee class="train train{{(i + 2) % 4 + 1}}" direction="{{scooter_dir}}" scrollamount=10 width="100%">
+		<img alt=":#marseyscooter:" class="scooterimg{{scooter_mirror}}" src="/e/marseyscooter.webp">
+	</marquee>
+{% endfor %}
 
 {% if p.award_count("tilt", v) %}
 	<style>
@@ -73,4 +62,35 @@
 	</style>
 {% endif %}
 
-</div>
+{% if p.award_count("confetti", v) %}
+	<div id="post-award-confetti"></div>
+{% endif %}
+
+{% if p.award_count("firework", v) %}
+	<script defer src="{{'js/fireworks.js' | asset}}"></script>
+	{% for i in range(min(p.award_count("firework", v), 4)) %}
+		<div class="firework">
+			<img src="">
+		</div>
+	{% endfor %}
+{% endif %}
+
+{% if p.award_count("ricardo", v) %}
+	<script defer src="{{'js/ricardo.js' | asset}}"></script>
+	{% for i in range(min(p.award_count("ricardo", v), 3)) %}
+		<div id="ricardo{{i+1}}" class="ricardo">
+			<img src="/i/ricardo{{i+1}}.webp">
+		</div>
+	{% endfor %}
+{% endif %}
+
+{% if p.award_count("shit", v) %}
+	<script defer src="{{'js/vendor/critters.js' | asset}}"></script>
+	<script defer src="{{'js/bugs.js' | asset}}"></script>
+{% endif %}
+
+{% if p.award_count("fireflies", v) %}
+	<script defer src="{{'js/vendor/critters.js' | asset}}"></script>
+	<script defer src="{{'js/fireflies.js' | asset}}"></script>
+{% endif %}
+
