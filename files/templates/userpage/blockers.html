@@ -5,7 +5,6 @@
 <div class="overflow-x-auto mt-1"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
 	<tr>
-		<th>#</th>
 		<th>Name</th>
 		<td>Blocking since</td>
 	</tr>
@@ -13,7 +12,6 @@
 <tbody id="blockers-table">
 {% for block, user in users %}
 	<tr>
-		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
 		<td {% if block.created_utc > 1599343262 %}data-time="{{block.created_utc}}"{% endif %}></td>
 	</tr>
