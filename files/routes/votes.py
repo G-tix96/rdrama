@@ -60,8 +60,10 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if v.id == target.author.id:
 		coin_delta = 0
 
+	alt = False
 	if target.author.id in v.alt_ids or v.id in target.author.alt_ids:
 		coin_delta = -1
+		alt = True
 
 	coin_mult = 1
 
@@ -101,7 +103,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		target.author.truescore += coin_delta
 		g.db.add(target.author)
 
-		real = new != 1 or v.is_votes_real
+		real = alt or new != 1 or v.is_votes_real
 		vote = None
 		if vote_cls == Vote:
 			vote = Vote(user_id=v.id,
