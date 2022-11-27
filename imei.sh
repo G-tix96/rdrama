@@ -409,28 +409,28 @@ install_deps() {
     # Allow installation of source files
     {
       if [[ "${OS_DISTRO,,}" == *"ubuntu"* ]]; then
-        echo 'deb http://archive.ubuntu.com/ubuntu '"$OS_SHORT_CODENAME"' main restricted'
-        echo 'deb-src http://archive.ubuntu.com/ubuntu '"$OS_SHORT_CODENAME"' main restricted universe multiverse'
+        echo 'deb https://archive.ubuntu.com/ubuntu '"$OS_SHORT_CODENAME"' main restricted'
+        echo 'deb-src https://archive.ubuntu.com/ubuntu '"$OS_SHORT_CODENAME"' main restricted universe multiverse'
 
         if [ -z "$BACKPORTS" ]; then
-          echo 'deb http://archive.ubuntu.com/ubuntu '"$OS_SHORT_CODENAME"'-backports main restricted universe multiverse'
-          echo 'deb-src http://archive.ubuntu.com/ubuntu '"$OS_SHORT_CODENAME"'-backports main restricted universe multiverse'
+          echo 'deb https://archive.ubuntu.com/ubuntu '"$OS_SHORT_CODENAME"'-backports main restricted universe multiverse'
+          echo 'deb-src https://archive.ubuntu.com/ubuntu '"$OS_SHORT_CODENAME"'-backports main restricted universe multiverse'
         fi
       elif [[ "${OS_DISTRO,,}" == *"debian"* ]]; then
-        echo 'deb http://deb.debian.org/debian '"$OS_SHORT_CODENAME"' main contrib non-free'
-        echo 'deb-src http://deb.debian.org/debian '"$OS_SHORT_CODENAME"' main contrib non-free'
+        echo 'deb https://deb.debian.org/debian '"$OS_SHORT_CODENAME"' main contrib non-free'
+        echo 'deb-src https://deb.debian.org/debian '"$OS_SHORT_CODENAME"' main contrib non-free'
 
         if [ -z "$BACKPORTS" ]; then
-          echo 'deb http://deb.debian.org/debian '"$OS_SHORT_CODENAME"'-backports main contrib non-free'
-          echo 'deb-src http://deb.debian.org/debian '"$OS_SHORT_CODENAME"'-backports main contrib non-free'
+          echo 'deb https://deb.debian.org/debian '"$OS_SHORT_CODENAME"'-backports main contrib non-free'
+          echo 'deb-src https://deb.debian.org/debian '"$OS_SHORT_CODENAME"'-backports main contrib non-free'
         fi
       elif [[ "${OS_DISTRO,,}" == *"raspbian"* ]]; then
-        echo 'deb http://archive.raspbian.org/raspbian '"$OS_SHORT_CODENAME"' main contrib non-free'
-        echo 'deb-src http://archive.raspbian.org/raspbian '"$OS_SHORT_CODENAME"' main contrib non-free'
+        echo 'deb https://archive.raspbian.org/raspbian '"$OS_SHORT_CODENAME"' main contrib non-free'
+        echo 'deb-src https://archive.raspbian.org/raspbian '"$OS_SHORT_CODENAME"' main contrib non-free'
 
         if [ -z "$BACKPORTS" ]; then
-          echo 'deb http://archive.raspbian.org/raspbian '"$OS_SHORT_CODENAME"'-backports main contrib non-free'
-          echo 'deb-src http://archive.raspbian.org/raspbian '"$OS_SHORT_CODENAME"'-backports main contrib non-free'
+          echo 'deb https://archive.raspbian.org/raspbian '"$OS_SHORT_CODENAME"'-backports main contrib non-free'
+          echo 'deb-src https://archive.raspbian.org/raspbian '"$OS_SHORT_CODENAME"'-backports main contrib non-free'
         fi
       else
         SKIP_BUILD_DEP="yes"

@@ -891,7 +891,7 @@
 				color = 'rgba' + color.slice(3,-1) + ', 0.1)'
 
 				const markTemplate = (name) => {
-					return `<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='50px' height='50px'><text transform='translate(10, 50) rotate(-45)' fill='${color}' font-size='20'>${name}</text></svg>`;
+					return `<svg xmlns='https://www.w3.org/2000/svg' version='1.1' width='50px' height='50px'><text transform='translate(10, 50) rotate(-45)' fill='${color}' font-size='20'>${name}</text></svg>`;
 				};
 				const base64Mark = btoa(markTemplate("{{v.id}}"));
 				
