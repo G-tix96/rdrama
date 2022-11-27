@@ -508,19 +508,22 @@ def under_attack(v):
 	g.db.add(ma)
 	return {"message": f"Under attack mode {enable_disable_str}d!"}
 
-@app.get("/admin/badge_grant")
-@app.get("/admin/badge_remove")
-@feature_required('BADGES')
-@admin_level_required(PERMS['USER_BADGES'])
-def badge_grant_get(v):
-	grant = request.url.endswith("grant")
-
+def admin_badges_grantable_list(v):
 	query = g.db.query(BadgeDef)
 	if BADGE_BLACKLIST and v.id != AEVANN_ID and SITE != 'pcmemes.net':
 		query = query.filter(BadgeDef.id.notin_(BADGE_BLACKLIST))
 	if BADGE_WHITELIST:
 		query = query.filter(BadgeDef.id.in_(BADGE_WHITELIST))
 	badge_types = query.order_by(BadgeDef.id).all()
+	return badge_types
+
+@app.get("/admin/badge_grant")
+@app.get("/admin/badge_remove")
+@feature_required('BADGES')
+@admin_level_required(PERMS['USER_BADGES'])
+def badge_grant_get(v):
+	grant = request.url.endswith("grant")
+	badge_types = admin_badges_grantable_list(v)
 
 	return render_template("admin/badge_admin.html", v=v,
 		badge_types=badge_types, grant=grant)
@@ -530,7 +533,7 @@ def badge_grant_get(v):
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_BADGES'])
 def badge_grant_post(v):
-	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
+	badges = admin_badges_grantable_list(v)
 
 	user = get_user(request.values.get("username").strip(), graceful=True)
 	if not user:
@@ -539,10 +542,7 @@ def badge_grant_post(v):
 	try: badge_id = int(request.values.get("badge_id"))
 	except: abort(400)
 
-	if BADGE_WHITELIST and badge_id not in BADGE_WHITELIST:
-		abort(403)
-	elif (BADGE_BLACKLIST and badge_id in BADGE_BLACKLIST
-			and v.id != AEVANN_ID and SITE != 'pcmemes.net'):
+	if badge_id not in [b.id for b in badges]:
 		abort(403)
 
 	if user.has_badge(badge_id):
@@ -581,7 +581,7 @@ def badge_grant_post(v):
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_BADGES'])
 def badge_remove_post(v):
-	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
+	badges = admin_badges_grantable_list(v)
 
 	user = get_user(request.values.get("username").strip(), graceful=True)
 	if not user:
@@ -590,7 +590,7 @@ def badge_remove_post(v):
 	try: badge_id = int(request.values.get("badge_id"))
 	except: abort(400)
 
-	if badge_id in {67,68,83,84,87,90,140} and v.id != AEVANN_ID and SITE != 'pcmemes.net':
+	if badge_id not in [b.id for b in badges]:
 		abort(403)
 
 	badge = user.has_badge(badge_id)
