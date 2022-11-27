@@ -235,6 +235,7 @@ def sign_up_post(v:Optional[User]):
 		return signup_error("There was a problem. Please try again.")
 
 	if not hmac.compare_digest(correct_formkey, form_formkey):
+		if SITE == 'localhost': return signup_error("There was a problem. Please try again!")
 		return signup_error("There was a problem. Please try again.")
 
 	if not request.values.get(
