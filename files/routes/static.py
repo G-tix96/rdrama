@@ -27,7 +27,7 @@ def rdrama(id, title):
 @auth_required
 def marseys(v:User):
 	marseys = get_marseys(g.db)
-	authors = get_accounts_dict([m.author_id for m in marseys], graceful=True, include_shadowbanned=False)
+	authors = get_accounts_dict([m.author_id for m in marseys], v=v, graceful=True, include_shadowbanned=False)
 	original = os.listdir("/asset_submissions/marseys/original")
 	for marsey in marseys:
 		marsey.user = authors.get(marsey.author_id)

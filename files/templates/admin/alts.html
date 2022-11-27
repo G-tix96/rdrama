@@ -35,7 +35,7 @@
 	{% for user in alts %}
 		<tr>
 			<td>{{loop.index}}</td>
-			<td>{% include "admin/shadowbanned_tooltip.html" %}{% include "user_in_table.html" %}</td>
+			<td>{% include "user_in_table.html" %}</td>
 			<td>{{user.created_utc|timestamp}}</td>
 			<td>{{user._alt_created_utc|timestamp}}</td>
 			<td>{{user._is_manual}}</td>

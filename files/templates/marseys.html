@@ -27,7 +27,7 @@
 	<td>{{marsey.count}}</td>
 	{% if FEATURES['ASSET_SUBMISSIONS'] %}
 	{% set user = marsey.user %}
-	<td data-sort-key="{{user.username}}">{% include "user_in_table.html" %}</td>
+	<td data-sort-key="{{user.username.lower() if user else ''}}">{% include "user_in_table.html" %}</td>
 	{% endif %}
 	<td data-sort-key="{{marsey.created_utc or 0}}" {% if marsey.created_utc != None %}data-time="{{marsey.created_utc}}"{% endif %}></td>
 	{% if FEATURES['ASSET_SUBMISSIONS'] %}
