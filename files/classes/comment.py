@@ -294,6 +294,9 @@ class Comment(Base):
 		if not self.ghost and self.author.show_sig(v):
 			body += f"<hr>{self.author.sig_html}"
 
+		if v:
+			body = body.replace("!YOU!", v.username)
+
 		return body
 
 	@lazy
@@ -308,6 +311,9 @@ class Comment(Base):
 		if not body: return ""
 
 		body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
+
+		if v:
+			body = body.replace("!YOU!", v.username)
 
 		return body
 

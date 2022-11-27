@@ -324,6 +324,9 @@ class Submission(Base):
 		if not listing and not self.ghost and self.author.show_sig(v):
 			body += f"<hr>{self.author.sig_html}"
 
+		if v:
+			body = body.replace("!YOU!", v.username)
+
 		return body
 
 	@lazy
@@ -337,6 +340,10 @@ class Submission(Base):
 
 		body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
 		body = normalize_urls_runtime(body, v)
+
+		if v:
+			body = body.replace("!YOU!", v.username)
+
 		return body
 
 	@lazy
