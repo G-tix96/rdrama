@@ -10,6 +10,7 @@
 			<th onclick="sort_table(1)">Name</th>
 			<th onclick="sort_table(2)">Wins</th>
 			<th onclick="sort_table(3)">Bets</th>
+			<th onclick="sort_table(4)">Winnings</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -18,8 +19,9 @@
 		{% set user = users.get(r[0]) %}
 		<td>{{loop.index}}</td>
 		<td data-sort-key="{{user.username.lower() if user else ''}}">{%- include 'user_in_table.html' -%}</td>
-		<td>{{r[2]}}</td>
 		<td>{{r[1]}}</td>
+		<td>{{r[2]}}</td>
+		<td>{{r[3]}}</td>
 	</tr>
 	{% endfor %}
 	</tbody>
