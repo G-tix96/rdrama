@@ -831,7 +831,7 @@ def admin_removed_comments(v):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 	
-	ids = g.db.query(Comment.id).join(Comment.author).filter(or_(Comment.is_banned==True, User.shadowbanned != None)).order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	ids = g.db.query(Comment.id).join(Comment.author).filter(or_(Comment.is_banned==True, User.shadowbanned != None)).order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 	ids=[x[0] for x in ids]
 	next_exists = len(ids) > PAGE_SIZE
 	ids = ids[:PAGE_SIZE]
