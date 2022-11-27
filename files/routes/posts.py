@@ -213,6 +213,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 			pinned2.add(pin)
 
 	pinned = list(pinned2)
+	pinned.sort(key=lambda x: x.created_utc, reverse=True)
 	post.replies = pinned + comments
 
 	post.views += 1
