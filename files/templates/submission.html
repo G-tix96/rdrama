@@ -1,10 +1,10 @@
 {% extends "default.html" %}
 {% block pagetitle %}
-{% if comment_info %}
+{%- if comment_info -%}
 	@{{comment_info.author_name}} comments on '{{p.plaintitle(v)}}'
-{% else %}
+{%- else -%}
 	{{p.plaintitle(v)}}
-{% endif %}
+{%- endif -%}
 {% endblock %}
 {% block pagetype %}thread{% endblock %}
 {% block head_final %}
