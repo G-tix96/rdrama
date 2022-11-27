@@ -322,7 +322,7 @@ class Submission(Base):
 
 
 		if not listing and not self.ghost and self.author.show_sig(v):
-			body += f"<hr>{self.author.sig_html}"
+			body += f'<section id="signature-{self.author.id}" class="user-signature"><hr>{self.author.sig_html}</section>'
 
 		if v:
 			body = body.replace("!YOU!", v.username)

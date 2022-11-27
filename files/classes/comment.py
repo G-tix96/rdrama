@@ -292,7 +292,7 @@ class Comment(Base):
 			body += f'"> - <a href="/votes/comment/option/{o.id}"><span id="score-comment-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
 
 		if not self.ghost and self.author.show_sig(v):
-			body += f"<hr>{self.author.sig_html}"
+			body += f'<section id="signature-{self.author.id}" class="user-signature"><hr>{self.author.sig_html}</section>'
 
 		if v:
 			body = body.replace("!YOU!", v.username)

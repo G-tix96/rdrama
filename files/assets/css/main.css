@@ -6399,3 +6399,16 @@ div.markdown {
 .modlog-action:not(:first-of-type) {
 	border-top: 1px solid var(--gray-400) !important;
 }
+
+:root {
+	--signature-max-height: 250px;
+}
+
+.user-signature {
+	max-height: var(--signature-max-height);
+	overflow: clip;
+}
+
+.user-signature video {
+	height: var(--signature-max-height);
+}
