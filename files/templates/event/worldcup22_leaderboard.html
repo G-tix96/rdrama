@@ -14,11 +14,13 @@
 	</thead>
 	<tbody>
 	{% for r in result %}
+	<tr>
 		{% set user = users.get(r[0]) %}
 		<td>{{loop.index}}</td>
 		<td data-sort-key="{{user.username.lower() if user else ''}}">{%- include 'user_in_table.html' -%}</td>
 		<td>{{r[2]}}</td>
 		<td>{{r[1]}}</td>
+	</tr>
 	{% endfor %}
 	</tbody>
 </table>
