@@ -1,0 +1,28 @@
+{%- extends 'default.html' -%}
+{% block content %}
+<h1>World Cup 2022 Betting Leaderboard</h1>
+<div class="overflow-x-auto">
+<table class="table table-striped mb-5">
+	<thead class="bg-primary text-white">
+		<tr>
+			<th onclick="sort_table(0)">#</th>
+			<th onclick="sort_table(1)">Name</th>
+			<th onclick="sort_table(2)">Wins</th>
+			<th onclick="sort_table(3)">Bets</th>
+			<th onclick="sort_table(4)">Wins/Bets Ratio</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for r in result %}
+		{% set user = users.get(r[0]) %}
+		<td>{{loop.index}}</td>
+		<td data-sort-key="{{user.username.lower() if user else ''}}">{%- include 'user_in_table.html' -%}</td>
+		<td>{{r[2]}}</td>
+		<td>{{r[1]}}</td>
+		<td>{{":. 0%" | format(r[2] / r[1]|float)}}</td>
+	{% endfor %}
+	</tbody>
+</table>
+</div>
+<script defer src="{{'js/sort_table.js' | asset}}"></script>
+{% endblock %}
