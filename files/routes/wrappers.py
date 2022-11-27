@@ -12,17 +12,13 @@ from files.helpers.settings import get_setting
 from files.routes.routehelpers import validate_formkey
 from files.__main__ import app, cache, db_session, limiter
 
-def session_init():
-	if not session.get("session_id"):
-		session.permanent = True
-		session["session_id"] = secrets.token_hex(49)
 
 def calc_users(v):
+	if not g.is_api_or_xhr: return
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
 	loggedout = cache.get(f'{SITE}_loggedout') or {}
 	timestamp = int(time.time())
 
-	session_init()
 	if v:
 		if session["session_id"] in loggedout: del loggedout[session["session_id"]]
 		loggedin[v.id] = timestamp
@@ -48,7 +44,7 @@ def get_logged_in_user():
 	token = request.headers.get("Authorization","").strip()
 	if token:
 		client = g.db.query(ClientAuth).filter(ClientAuth.access_token == token).one_or_none()
-		if client: 
+		if client:
 			v = client.user
 			v.client = client
 	else:
@@ -57,19 +53,19 @@ def get_logged_in_user():
 			id = int(lo_user)
 			v = get_account(id, graceful=True)
 			if not v:
-				session.clear()
-				return None
+				session.pop("lo_user")
+				v = None
 			else:
 				nonce = session.get("login_nonce", 0)
 				if nonce < v.login_nonce or v.id != id:
-					session.clear()
-					return None
+					session.pop("lo_user")
+					v = None
 
-				if request.method != "GET":
-					submitted_key = request.values.get("formkey")
-					if not validate_formkey(v, submitted_key): abort(401)
-
-				v.client = None
+				if v:
+					if request.method != "GET":
+						submitted_key = request.values.get("formkey")
+						if not validate_formkey(v, submitted_key): abort(401)
+					v.client = None
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
 
 	if request.method.lower() != "get" and get_setting('Read-only mode') and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
