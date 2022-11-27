@@ -63,6 +63,9 @@ IS_LOCALHOST = SITE == "localhost" or SITE == "127.0.0.1" or SITE.startswith("19
 if IS_LOCALHOST: SITE_FULL = 'http://' + SITE
 else: SITE_FULL = 'https://' + SITE
 
+REDDIT_NOTIFS_CACHE_KEY = "reddit_notifications"
+MARSEYS_CACHE_KEY = "marseys"
+EMOJIS_CACHE_KEY = "emojis"
 
 if SITE_NAME == 'PCM': CC = "SPLASH MOUNTAIN"
 else: CC = "COUNTRY CLUB"
@@ -284,6 +287,7 @@ PERMS = { # Minimum admin_level to perform action.
 }
 
 FEATURES = {
+	'MARSEYS': True,
 	'MARSEYBUX': True,
 	'AWARDS': True,
 	'CHAT': True,
@@ -373,7 +377,6 @@ ERROR_MARSEYS = {
 	500: "marseycarp3",
 }
 
-EMOJI_MARSEYS = True
 EMOJI_SRCS = ['files/assets/emojis.json']
 
 PIN_LIMIT = 3

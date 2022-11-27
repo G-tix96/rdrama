@@ -18,6 +18,10 @@ def session_init():
 		session["session_id"] = secrets.token_hex(49)
 
 def calc_users(v):
+	if g.is_api_or_xhr: 
+		g.loggedin_counter = 0
+		g.loggedout_counter = 0
+		return ''
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
 	loggedout = cache.get(f'{SITE}_loggedout') or {}
 	timestamp = int(time.time())
@@ -57,15 +61,14 @@ def get_logged_in_user():
 			id = int(lo_user)
 			v = get_account(id, graceful=True)
 			if not v:
-				session.clear()
-				return None
+				session.pop("lo_user")
 			else:
 				nonce = session.get("login_nonce", 0)
 				if nonce < v.login_nonce or v.id != id:
-					session.clear()
-					return None
+					session.pop("lo_user")
+					v = None
 
-				if request.method != "GET":
+				if v and request.method != "GET":
 					submitted_key = request.values.get("formkey")
 					if not validate_formkey(v, submitted_key): abort(401)
 

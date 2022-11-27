@@ -21,3 +21,17 @@ class Marsey(Base):
 
 	def __repr__(self):
 		return f"<Marsey(name={self.name})>"
+
+	def tags_list(self):
+		return self.tags.split(" ") + [self.name[len("marsey"):]]  # type: ignore
+
+	def json(self):
+		return {
+			"name": self.name,
+			"author_id": self.author_id,
+			"submitter_id": self.submitter_id,
+			"tags": self.tags_list(),
+			"count": self.count,
+			"created_utc": self.created_utc,
+			"class": "Marsey",
+		}

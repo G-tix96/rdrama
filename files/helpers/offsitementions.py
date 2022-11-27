@@ -40,12 +40,11 @@ def offsite_mentions_task(cache:Cache):
 			notify_mentions([send_user], user_mentions, mention_str='mention of you')
 
 def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
-	CACHE_KEY = 'reddit_notifications'
 	kinds = ['submission', 'comment']
 	mentions = []
 	exclude_subreddits = ['PokemonGoRaids', 'SubSimulatorGPT2', 'SubSimGPT2Interactive']
 	try:
-		after = int(cache.get(CACHE_KEY) or time.time())
+		after = int(cache.get(const.REDDIT_NOTIFS_CACHE_KEY) or time.time())
 	except:
 		print("Failed to retrieve last mention time from cache")
 		after = time.time()

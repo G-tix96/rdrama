@@ -33,7 +33,7 @@ export function useEmojis() {
 
   // Retrieve the list.
   useEffect(() => {
-    fetch("/marsey_list.json")
+    fetch("/emojis")
       .then((res) => res.json())
       .then(setEmojis)
       .catch(setError);

@@ -9,7 +9,6 @@ from files.helpers.const import *
 from files.helpers.get import *
 from files.helpers.media import *
 from files.helpers.useractions import *
-from files.routes.static import marsey_list
 from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter
 
@@ -145,7 +144,8 @@ def approve_marsey(v, name):
 	else:
 		badge_grant(badge_id=17, user=author)
 	purge_files_in_cache(f"https://{SITE}/e/{marsey.name}/webp")
-	cache.delete_memoized(marsey_list)
+	cache.delete(EMOJIS_CACHE_KEY)
+	cache.delete(MARSEYS_CACHE_KEY)
 	move(f"/asset_submissions/marseys/{name}.webp", f"files/assets/images/emojis/{marsey.name}.webp")
 
 	highquality = f"/asset_submissions/marseys/{name}"

@@ -26,51 +26,38 @@ def rdrama(id, title):
 @app.get("/marseys")
 @auth_required
 def marseys(v:User):
-	if SITE == 'rdrama.net':
-		marseys = g.db.query(Marsey, User).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id==None)
-		sort = request.values.get("sort", "usage")
-		if sort == "usage":
-			marseys = marseys.order_by(Marsey.count.desc(), User.username).all()
-		elif sort == "added":
-			marseys = marseys.order_by(nullslast(Marsey.created_utc.desc()), User.username).all()
-		else: # implied sort == "author"
-			marseys = marseys.order_by(User.username, Marsey.count.desc()).all()
-
-		original = os.listdir("/asset_submissions/marseys/original")
-		for marsey, user in marseys:
-			for x in IMAGE_FORMATS:
+	marseys = get_marseys(g.db)
+	authors = get_accounts_dict([m.author_id for m in marseys], graceful=True, include_shadowbanned=False)
+	original = os.listdir("/asset_submissions/marseys/original")
+	for marsey in marseys:
+		marsey.user = authors.get(marsey.author_id)
+		for x in IMAGE_FORMATS:
 				if f'{marsey.name}.{x}' in original:
 					marsey.og = f'{marsey.name}.{x}'
 					break
-	else:
-		marseys = g.db.query(Marsey).filter(Marsey.submitter_id==None).order_by(Marsey.count.desc())
-
 	return render_template("marseys.html", v=v, marseys=marseys)
 
-@app.get("/marsey_list.json")
-@cache.memoize(timeout=600)
-def marsey_list():
-	emojis = []
+@app.get("/emojis")
+def emoji_list():
+	return jsonify(get_emojis(g.db))
 
-	# From database
-	if EMOJI_MARSEYS:
-		emojis = [{
-			"name": emoji.name,
-			"author": author if SITE == 'rdrama.net' or author == "anton-d" else None,
-			# yikes, I don't really like this DB schema. Next time be better
-			"tags": emoji.tags.split(" ") + [emoji.name[len("marsey"):] \
-						if emoji.name.startswith("marsey") else emoji.name],
-			"count": emoji.count,
-			"class": "Marsey"
-		} for emoji, author in g.db.query(Marsey, User.username).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id==None) \
-			.order_by(Marsey.count.desc())]
+@cache.cached(timeout=86400, key_prefix=MARSEYS_CACHE_KEY)
+def get_marseys(db:scoped_session):
+	if not FEATURES['MARSEYS']: return []
+	marseys = []
+	for marsey, author in db.query(Marsey, User).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id == None).order_by(Marsey.count.desc()):
+		marsey.author = author.username if FEATURES['ASSET_SUBMISSIONS'] or author == "anton-d" else None
+		setattr(marsey, "class", "Marsey")
+		marseys.append(marsey)
+	return marseys
 
-	# Static shit
+@cache.cached(timeout=600, key_prefix=EMOJIS_CACHE_KEY)
+def get_emojis(db:scoped_session):
+	emojis = [m.json() for m in get_marseys(db)]
 	for src in EMOJI_SRCS:
 		with open(src, "r", encoding="utf-8") as f:
 			emojis = emojis + json.load(f)
-
-	return jsonify(emojis)
+	return emojis
 
 @app.get('/sidebar')
 @auth_desired
