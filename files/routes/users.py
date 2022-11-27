@@ -629,20 +629,36 @@ def followers(username, v):
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
 		abort(403)
 
+	try: page = int(request.values.get("page", 1))
+	except: page = 1
+
 	users = g.db.query(Follow, User).join(Follow, Follow.target_id == u.id) \
 		.filter(Follow.user_id == User.id) \
-		.order_by(Follow.created_utc).all()
-	return render_template("userpage/followers.html", v=v, u=u, users=users)
+		.order_by(Follow.created_utc.desc()) \
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+
+	next_exists = (len(users) > PAGE_SIZE)
+	users = users[:PAGE_SIZE]
+
+	return render_template("userpage/followers.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
 
 @app.get("/@<username>/blockers")
 @auth_required
 def blockers(username, v):
 	u = get_user(username, v=v, include_shadowbanned=False)
 
+	try: page = int(request.values.get("page", 1))
+	except: page = 1
+
 	users = g.db.query(UserBlock, User).join(UserBlock, UserBlock.target_id == u.id) \
 		.filter(UserBlock.user_id == User.id) \
-		.order_by(UserBlock.created_utc.desc()).all()
-	return render_template("userpage/blockers.html", v=v, u=u, users=users)
+		.order_by(UserBlock.created_utc.desc()) \
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+
+	next_exists = (len(users) > PAGE_SIZE)
+	users = users[:PAGE_SIZE]
+
+	return render_template("userpage/blockers.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
 
 @app.get("/@<username>/following")
 @auth_required
@@ -651,10 +667,18 @@ def following(username, v):
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
 		abort(403)
 
+	try: page = int(request.values.get("page", 1))
+	except: page = 1
+
 	users = g.db.query(User).join(Follow, Follow.user_id == u.id) \
 		.filter(Follow.target_id == User.id) \
-		.order_by(Follow.created_utc).all()
-	return render_template("userpage/following.html", v=v, u=u, users=users)
+		.order_by(Follow.created_utc.desc()) \
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+
+	next_exists = (len(users) > PAGE_SIZE)
+	users = users[:PAGE_SIZE]
+
+	return render_template("userpage/following.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
 
 @app.get("/@<username>/views")
 @auth_required
@@ -664,7 +688,7 @@ def visitors(username, v:User):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 
-	views = g.db.query(ViewerRelationship).filter_by(user_id=u.id).order_by(ViewerRelationship.last_view_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).limit(PAGE_SIZE + 1).all()
+	views = g.db.query(ViewerRelationship).filter_by(user_id=u.id).order_by(ViewerRelationship.last_view_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
 	next_exists = (len(views) > PAGE_SIZE)
 	views = views[:PAGE_SIZE]
