@@ -14,10 +14,7 @@ from files.__main__ import app, cache, db_session, limiter
 
 
 def calc_users(v):
-	if g.is_api_or_xhr:
-		g.loggedin_counter = 0
-		g.loggedout_counter = 0
-		return ''
+	if not g.is_api_or_xhr: return
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
 	loggedout = cache.get(f'{SITE}_loggedout') or {}
 	timestamp = int(time.time())
