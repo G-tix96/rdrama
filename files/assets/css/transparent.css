@@ -1,17 +1,17 @@
 @charset "UTF-8";
 
 :root {
-	--dark: #383838;
-	--secondary: #383838;
-	--white: #E1E1E1;
-	--black: #CFCFCF;
+	--dark: #505961;
+	--secondary: #505961;
+	--white: #c9d1d9;
+	--black: #c9d1d9;
 	--light: transparent;
-	--muted: #E1E1E1;
-	--gray: #383838;
-	--gray-100: #E1E1E1;
-	--gray-200: #E1E1E1;
-	--gray-300: #383838;
-	--gray-400: #21262d;
+	--muted: #c9d1d9;
+	--gray: #505961;
+	--gray-100: #c9d1d9;
+	--gray-200: #b1bac4;
+	--gray-300: #505961;
+	--gray-400: #6e7681;
 	--gray-500: #21262d;
 	--gray-600: transparent;
 	--gray-700: transparent;
@@ -80,10 +80,6 @@ h5.post-title a:visited {
 	color: #7a7a7a !important;
 }
 
-#mobile-bottom-navigation-bar {
-	background-color:#21262daa !important;
-}
-
-.popover {
-	background-color:#21262d !important;
+#mobile-bottom-navigation-bar, .popover {
+	background-color: var(--gray-500) !important;
 }
