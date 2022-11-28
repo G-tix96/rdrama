@@ -21,10 +21,10 @@ function sort_table(n) {
 		items.push({ ele, attr });
 	}
 	if (sortAscending[n]) {
-		items.sort((a, b) => a.attr > b.attr);
+		items.sort((a, b) => a.attr > b.attr ? 1 : -1);
 		sortAscending[n] = false;
 	} else {
-		items.sort((a, b) => a.attr < b.attr);
+		items.sort((a, b) => a.attr < b.attr ? 1 : -1);
 		sortAscending[n] = true;
 	}
 
