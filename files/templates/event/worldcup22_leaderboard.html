@@ -22,7 +22,7 @@
 		<td data-sort-key="{{user.username.lower() if user else ''}}">{%- include 'user_in_table.html' -%}</td>
 		<td>{{r[1]}}</td>
 		<td>{{r[2]}}</td>
-		{% set ratio = r[1]/r[2]|string %}
+		{% set ratio = (r[1]/r[2])|string %}
 		<td>{{ratio[:3]}}</td>
 		<td>{{r[3]}}</td>
 	</tr>
