@@ -23,5 +23,20 @@
 	</head>
 	<body {% block body_attributes %}id="{%block pagetype %}{% endblock %}"{% endblock %}>		
 		{% block body required %}{% endblock %}
+		<style>
+			body {
+				{% if SITE_NAME == 'rDrama' and (not v or v.is_banned or v.agendaposter) %}
+					background:url(/assets/images/backgrounds/glitter/1.webp?v=3) center center fixed;
+					background-color: var(--background);
+					background-size: cover;
+				{% elif v and v.background %}
+					background:url(/assets/images/backgrounds/{{v.background}}?v=3) center center fixed;
+					background-color: var(--background);
+					{% if 'anime' not in v.background %}
+						background-size: cover;
+					{% endif %}
+				{% endif %}
+			}
+		</style>
 	</body>
 </html>
