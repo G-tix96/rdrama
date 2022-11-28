@@ -52,7 +52,7 @@ def login_post():
 
 	if "@" in username:
 		try: account = g.db.query(User).filter(User.email.ilike(username)).one_or_none()
-		except: return "Multiple users use this email!"
+		except: abort(400, "Multiple usernames have this email attached;<br>Please specify the username you want to login to!")
 	else: account = get_user(username, graceful=True)
 
 	if not account:

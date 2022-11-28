@@ -170,7 +170,7 @@ def random_user(v:User):
 	u = g.db.query(User.username).filter(User.song != None, User.shadowbanned == None).order_by(func.random()).first()
 	
 	if u: u = u[0]
-	else: return "No users have set a profile anthem so far!"
+	else: abort(404, "No users have set a profile anthem so far!")
 
 	return redirect(f"/@{u}")
 
