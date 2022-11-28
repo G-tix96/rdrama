@@ -7,15 +7,24 @@ function sort_table(n) {
 	for (let i = 1; i < rows.length; i++) {
 		const ele = rows[i];
 		let x = rows[i].getElementsByTagName("TD")[n];
-		x = x.getElementsByTagName('a')[0] || x;
-		const attr = x.dataset.time ? parseInt(x.dataset.time) : parseInt(x.innerHTML.replace(/,/g, ''));
+		if (!('sortKey' in x.dataset)) {
+			x = x.getElementsByTagName('a')[0] || x;
+		}
+		var attr;
+		if ('sortKey' in x.dataset) {
+			attr = x.dataset.sortKey;
+		} else if ('time' in x.dataset) {
+			attr = parseInt(x.dataset.time);
+		} else {
+			attr = parseInt(x.innerHTML.replace(/,/g, ''));
+		}
 		items.push({ ele, attr });
 	}
 	if (sortAscending[n]) {
-		items.sort((a, b) => a.attr - b.attr);
+		items.sort((a, b) => a.attr > b.attr);
 		sortAscending[n] = false;
 	} else {
-		items.sort((a, b) => b.attr - a.attr);
+		items.sort((a, b) => a.attr < b.attr);
 		sortAscending[n] = true;
 	}
 
