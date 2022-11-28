@@ -37,13 +37,13 @@ bet_votes AS (
 		sov.user_id,
 		CASE
 			WHEN opt.exclusive = 2 THEN -200
-			WHEN opt.exclusive = 3 THEN payout.winner_payout
+			WHEN opt.exclusive = 3 THEN (submission_payouts.winner_payout - 200)
 		END payout
 	FROM submission_option_votes sov
 	LEFT OUTER JOIN bet_options AS opt
 		ON opt.option_id = sov.option_id
-	LEFT OUTER JOIN submission_payouts AS payout
-		ON opt.submission_id = payout.submission_id
+	LEFT OUTER JOIN submission_payouts
+		ON opt.submission_id = submission_payouts.submission_id
 	WHERE opt.option_id IS NOT NULL
 ),
 bettors AS (
