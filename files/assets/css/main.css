@@ -3484,7 +3484,7 @@ small, .small {
 }
 #frontpage .posts .card, #userpage .posts .card, #search .posts .card {
 	border-width: 0.1px;
-	border-color: #303030;
+	border-color: #21262d;
 	border-style: solid;
 	border-radius: 0;
 	padding: 0.5rem;
