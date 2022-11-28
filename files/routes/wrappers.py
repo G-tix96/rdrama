@@ -61,6 +61,7 @@ def get_logged_in_user():
 			id = int(lo_user)
 			v = get_account(id, graceful=True)
 			if v:
+				v.client = None
 				nonce = session.get("login_nonce", 0)
 				if nonce < v.login_nonce or v.id != id:
 					session.pop("lo_user")
@@ -68,8 +69,8 @@ def get_logged_in_user():
 
 				if v and request.method != "GET":
 					submitted_key = request.values.get("formkey")
-					if not validate_formkey(v, submitted_key): abort(401)
-				v.client = None
+					if not validate_formkey(v, submitted_key):
+						v = None
 			else:
 				session.pop("lo_user")
 
