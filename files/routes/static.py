@@ -28,6 +28,14 @@ def subreddit(subreddit, v):
 	reddit = v.reddit if v else "old.reddit.com"
 	return redirect(f'https://{reddit}/r/{subreddit}')
 
+@app.get("/archives/<subreddit>/comments/<path:path>")
+@auth_desired
+def reddit_post(subreddit, v, path):
+	post_id = path.rsplit("/", 1)[0].replace('/', '')
+	reddit = v.reddit if v else "old.reddit.com"
+	return redirect(f'https://{reddit}/{post_id}')
+
+
 @app.get("/marseys")
 @auth_required
 def marseys(v:User):
