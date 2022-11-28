@@ -111,7 +111,7 @@
 	{% if SITE_NAME == 'rDrama' and (not v or v.is_banned or v.agendaposter) %}
 		{% set background = '/assets/images/backgrounds/glitter/1.webp?v=3' %}
 	{% elif v and v.background %}
-		{% set background = v.background %}
+		{% set background = '/assets/images/backgrounds/' + v.background %}
 	{% endif %}
 	<style>
 		body {
