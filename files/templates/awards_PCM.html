@@ -1,199 +1,11 @@
 {% if p.award_count("croag", v) %}
-	<style>
-		.croag {
-			position:fixed;
-			z-index:9999;
-			pointer-events: none;
-		}
-		.croag1 {
-			top: 15%
-		}
-		.croag2 {
-			top: 40%
-		}
-		.croag3 {
-			top: 65%
-		}
-		.croag4 {
-			top: 90%
-		}
-		.croagimg {
-			width: 169px !important;
-			height: 68px !important;
-		}
-		@media (max-width: 992px) {
-			.croagimg {
-				width: 100px !important;
-				height: 40px !important;
-			}
-		}
-	</style>
-
-	<marquee class="croag croag1" direction="left" scrollamount=10 width="100%">
-		<img alt="croag" class="croagimg mirrored" src="/i/PCM/croag.webp?v=2000">
-	</marquee>
-
-	{% if p.award_count("croag", v) > 1 %}
-		<marquee class="croag croag2" direction="right" scrollamount=10 width="100%">
-			<img alt="croag" class="croagimg" src="/i/PCM/croag.webp?v=2000">
-		</marquee>
-	{% endif %}
-
-	{% if p.award_count("croag", v) > 2 %}
-		<marquee class="croag croag3" direction="left" scrollamount=10 width="100%">
-			<img alt="croag" class="croagimg mirrored" src="/i/PCM/croag.webp?v=2000">
-		</marquee>
-	{% endif %}
-
-	{% if p.award_count("croag", v) > 3 %}
-		<marquee class="croag croag4" direction="right" scrollamount=10 width="100%">
-			<img alt="croag" class="croagimg" src="/i/PCM/croag.webp?v=2000">
-		</marquee>
-	{% endif %}
+	{{ stackable_award('croag', '/i/PCM/croag.webp', 'croag') }}
 {% endif %}
 
 {% if p.award_count("toe", v) %}
-	{% if g.inferior_browser %}
-		<style>
-			.toeimg {
-				width: 100px !important;
-				height: auto !important;
-			}
-			@media (max-width: 992px) {
-				.toeimg {
-					width: 30px !important;
-					height: auto !important;
-				}
-			}
-			
-			.toe {
-				position:fixed;
-				z-index:9999;
-				pointer-events: none;
-				width: 100% !important;
-				height: 100% !important;
-			}
-			
-			@keyframes moveX {
-				from {} to {transform: translateX(98vw)}
-			}
-
-			@keyframes moveY {
-				from {} to {transform: translateY(90vh)}
-			}
-
-			.toe1 {
-				animation: moveX 4s linear 0s infinite alternate !important;
-				animation-delay:0s;
-			}
-			.toe1 > img {
-				animation: moveY 6.8s linear 0s infinite alternate !important;
-			}
-		</style>
-		<div class="toe toe1" height="100%" width="100%">
-			<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=2000">
-		</div>
-		
-		{% if p.award_count("toe", v) > 1 %}
-			<style>
-				.toe2 {
-					animation: moveX 5s linear 0s infinite alternate !important;
-					animation-delay:1s;
-				}
-				.toe2 > img {
-					animation: moveY 8s linear 0s infinite alternate !important;
-					animation-delay:1s;
-				}
-			</style>
-			<div class="toe toe2" height="100%" width="100%">
-				<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=2000">
-			</div>
-		{% endif %}
-		
-		{% if p.award_count("toe", v) > 2 %}
-			<style>
-				.toe3 {
-					animation: moveX 4s linear 0s infinite alternate !important;
-					animation-delay:2s;
-				}
-				.toe3 > img {
-					animation: moveY 5s linear 0s infinite alternate !important;
-					animation-delay:2s;
-				}
-			</style>
-			<div class="toe toe3" height="100%" width="100%">
-				<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=2000">
-			</div>
-		{% endif %}
-		
-		{% if p.award_count("toe", v) > 3 %}
-			<style>
-				.toe4 {
-					animation: moveX 5s linear 0s infinite alternate !important;
-					animation-delay:3s;
-				}
-				.toe4 > img {
-					animation: moveY 6.8s linear 0s infinite alternate !important;
-					animation-delay:3s;
-				}
-			</style>
-			<div class="toe toe4" height="100%" width="100%">
-				<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=2000">
-			</div>
-		{% endif %}
-	{% else %}
-		<style>
-			.toe {
-				position:fixed;
-				z-index:9999;
-				pointer-events: none;
-				width: 100% !important;
-				height: 100% !important;
-			}
-			.toeimg {
-				width: 100px !important;
-				height: auto !important;
-			}
-			@media (max-width: 992px) {
-				.toeimg {
-					width: 30px !important;
-					height: auto !important;
-				}
-			}
-		</style>
-		<div class="toe" height="100%" width="100%">
-			<marquee class="toe" scrollamount=10 behavior="alternate" direction="up" height="100%" width="100%">
-				<marquee direction="right" scrollamount=10 behavior="alternate" height="100%" width="100%">
-					<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=2000">
-				</marquee>
-			</marquee>
-		</div>
-
-		{% if p.award_count("toe", v) > 1 %}
-			<marquee class="toe" scrollamount=10 behavior="alternate" direction="down" height="100%">
-				<marquee direction="right" scrollamount=10 behavior="alternate" width="100%">
-					<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=2000">
-				</marquee>
-			</marquee>
-		{% endif %}
-
-		{% if p.award_count("toe", v) > 2 %}
-			<marquee class="toe" scrollamount=10 behavior="alternate" direction="up" height="100%">
-				<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
-					<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=2000">
-				</marquee>
-			</marquee>
-		{% endif %}
-
-		{% if p.award_count("toe", v) > 3 %}
-			<marquee class="toe" scrollamount=10 behavior="alternate" direction="down" height="100%">
-				<marquee direction="left" scrollamount=10 behavior="alternate" width="100%">
-					<img alt="Blade's toe" class="toeimg" src="/i/PCM/toe.webp?v=2000">
-				</marquee>
-			</marquee>
-		{% endif %}		
-	{% endif %}
+	{{ stackable_award('toe', '/i/PCM/toe.webp', "Blade's toe") }}
 {% endif %}
+
 {% if p.award_count("crab", v) %}
 	<script>
 		let audio = new Audio('/assets/media/crab.mp3');
@@ -207,3 +19,45 @@
 		prepare_to_pause(audio)
 	</script>
 {% endif %}
+
+<style>
+	.toe img {
+		width: 100px !important;
+		height: auto !important;
+	}
+	@media (max-width: 992px) {
+		.toe img {
+			width: 30px !important;
+			height: auto !important;
+		}
+	}
+
+	.toe {animation: sealX 8s alternate; animation-delay: -1s}
+	.toe img {animation: sealY 11s alternate-reverse; animation-delay: -1s}
+
+	.toe:nth-child(even) {animation-direction: alternate-reverse}
+	.toe:nth-child(n+2):nth-child(n+3) img {animation-direction: alternate}
+
+	.croag img {
+		width: 169px !important;
+		height: 68px !important;
+	}
+	@media (max-width: 992px) {
+		.croag img {
+			width: 100px !important;
+			height: 40px !important;
+		}
+	}
+
+	.croag:nth-child(1) {top:2%}
+	.croag:nth-child(2) {top:27%}
+	.croag:nth-child(3) {top:52%}
+	.croag:nth-child(4) {top:77%}
+
+	.croag {margin-top:10vh; animation-delay:-1s !important}
+
+	.croag {animation: train 14s;}
+	.croag:nth-child(odd) {animation-direction: reverse;}
+	.croag:nth-child(odd) img {transform: scaleX(-1);}
+
+</style>

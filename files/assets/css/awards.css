@@ -1,11 +1,17 @@
 #awards-container {
-position:fixed;
-pointer-events: none;
-z-index:9999;
+	position:fixed;
+	pointer-events: none;
+	z-index:9999;
 }
 
-#awards-container > div {
-position: absolute;
+.stackable-container > div {
+	position: absolute;
+}
+
+.stackable-container div,
+.stackable-container img, .ricardo {
+	animation-iteration-count: infinite !important;
+	animation-timing-function: linear !important;
 }
 
 /*seal*/
@@ -20,34 +26,18 @@ position: absolute;
 	}
 }
 
-.wholesome {animation: sealX 9s linear infinite}
-.wholesome img {animation: sealY 10s linear infinite}
+.wholesome {animation: sealX 9s alternate}
+.wholesome img {animation: sealY 10s alternate}
 
-.wholesome1 {animation-direction: alternate}
-.wholesome1 img {animation-direction: alternate}
-.wholesome2 {animation-direction: alternate-reverse}
-.wholesome2 img {animation-direction: alternate-reverse}
-.wholesome3 {animation-direction: alternate}
-.wholesome3 img {animation-direction: alternate-reverse}
-.wholesome4 {animation-direction: alternate-reverse}
-.wholesome4 img {animation-direction: alternate}
+.wholesome:nth-child(even),
+.wholesome:nth-child(n+2):nth-child(n+3) img
+{animation-direction: alternate-reverse}
 
 @keyframes sealX {
-	from {} to {transform: translateX(98vw)}
+	100% {transform: translateX(98vw)}
 }
 @keyframes sealY {
-	from {} to {transform: translateY(85vh)}
-}
-
-/*train common*/
-.train1, .scooter1 {top:2%}
-.train2, .scooter2 {top:27%}
-.train3, .scooter3 {top:52%}
-.train4, .scooter4 {top:77%}
-
-@keyframes train {
-	from {transform: translateX(-3vw)}
-	to {transform: translateX(99vw)}
+	100% {transform: translateY(85vh)}
 }
 
 /*train*/
@@ -62,9 +52,19 @@ position: absolute;
 	}
 }
 
-.train{animation: train 11s linear infinite;}
-.train:nth-of-type(odd) {animation-direction: reverse;}
-.train:nth-of-type(odd) img {transform: scaleX(-1);}
+.train:nth-child(1), .scooter:nth-child(1) {top:2%}
+.train:nth-child(2), .scooter:nth-child(2) {top:27%}
+.train:nth-child(3), .scooter:nth-child(3) {top:52%}
+.train:nth-child(4), .scooter:nth-child(4) {top:77%}
+
+.train {animation: train 12s;}
+.train:nth-child(odd) {animation-direction: reverse;}
+.train:nth-child(odd) img {transform: scaleX(-1);}
+
+@keyframes train {
+	from {transform: translateX(-3vw)}
+	to {transform: translateX(99vw)}
+}
 
 /*scooter*/
 .scooter img {
@@ -78,9 +78,9 @@ position: absolute;
 	}
 }
 
-.scooter {animation: train 11s linear infinite;}
-.scooter:nth-of-type(even) {animation-direction: reverse;}
-.scooter:nth-of-type(even) img {transform: scaleX(-1);}
+.scooter {animation: train 14s;}
+.scooter:nth-child(even) {animation-direction: reverse;}
+.scooter:nth-child(even) img {transform: scaleX(-1);}
 
 /*confetti*/
 .confetti {
@@ -102,9 +102,9 @@ position: absolute;
 	max-height: min(30vw,15rem);
 }
 
-.ricardo1 {animation: ricardo1Xa 5.8s linear infinite, ricardo1Xb 11.6s linear infinite, ricardo1Y 23.2s linear infinite;}
-.ricardo2 {animation: ricardo2 8.5s linear infinite;}
-.ricardo3 {animation: ricardo3 10s linear infinite;}
+.ricardo1 {animation: ricardo1Xa 5.8s, ricardo1Xb 11.6s, ricardo1Y 23.2s;}
+.ricardo2 {animation: ricardo2 8.5s;}
+.ricardo3 {animation: ricardo3 10s;}
 
 @keyframes ricardo1Xa {
 	0% {right: -200px}

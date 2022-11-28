@@ -1,14 +1,16 @@
 <div id="awards-container" class="w-100 h-100">
 {% macro stackable_award(award, src, alt) %}
+	<div class="stackable-container">
 	{% for i in range(min(p.award_count(award, v), 4)) %}
-		<div class="{{award}} {{award}}{{i+1}}">
+		<div class="{{award}}">
 			<img alt="{{alt}}" src="{{src}}">
 		</div>
 	{% endfor %}
+	</div>
 {% endmacro %}
 
 {% if p.award_count("wholesome", v) %}
-	{% set wholesome = '/i/wholesome.webp' if SITE_NAME == PCM else '/e/marseywholesome.webp' %}
+	{% set wholesome = '/i/wholesome.webp' if SITE_NAME == 'PCM' else '/e/marseywholesome.webp' %}
 	{{ stackable_award('wholesome', wholesome, ':#marseywholesome:') }}
 {% endif %}
 
@@ -22,7 +24,7 @@
 
 {% if p.award_count("firework", v) %}
 	<script defer src="{{'js/fireworks.js' | asset}}"></script>
-	{{ stackable_award('firework', i) }}
+	{{ stackable_award('firework') }}
 {% endif %}
 
 {% if p.award_count("confetti", v) %}
@@ -71,6 +73,10 @@
 			animation-timing-function: linear !important;
 		}
 	</style>
+{% endif %}
+
+{% if SITE_NAME == 'PCM' %}
+	{% include "awards_PCM.html" %}
 {% endif %}
 
 </div>
