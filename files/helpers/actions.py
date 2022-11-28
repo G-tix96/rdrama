@@ -360,6 +360,15 @@ def execute_antispam_submission_check(title, v, url):
 	return True
 
 def execute_blackjack_custom(v, target, body, type):
+	if v.age < (10 * 60):
+		v.shadowbanned = 'AutoJanny'
+		if not v.is_banned: v.ban_reason = f"Under Siege"
+		v.is_muted = True
+		g.db.add(v)
+		with open(f"/under_siege.log", "a", encoding="utf-8") as f:
+			t = str(time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.time())))
+			f.write(f"[{t}] {v.id} @{v.username} {type} {v.age}s\n")
+		return False
 	return True
 
 def execute_blackjack(v, target, body, type):
