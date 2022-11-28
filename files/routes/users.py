@@ -228,9 +228,18 @@ def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 	if total == 1: vote_str = vote_str[:-1] # we want to unpluralize if only 1 vote
 	total = f'{total} {vote_str} {received_given}'
 
-	name2 = f'Who @{username} {simps_haters}' if is_who_simps_hates else f'@{username} biggest {simps_haters}'
+	name2 = f'Who @{username} {simps_haters}' if is_who_simps_hates else f"@{username}'s {simps_haters}"
 
-	return render_template("userpage/voters.html", v=v, users=users[:PAGE_SIZE], pos=pos, name=vote_name, name2=name2, total=total)
+	try: page = int(request.values.get("page", 1))
+	except: page = 1
+
+	PAGE_SIZE = 2
+	
+	users = users[PAGE_SIZE * (page-1):]
+	next_exists = (len(users) > PAGE_SIZE)
+	users = users[:PAGE_SIZE]
+
+	return render_template("userpage/voters.html", v=v, users=users, pos=pos, name=vote_name, name2=name2, total=total, page=page, next_exists=next_exists)
 
 @app.get("/@<username>/upvoters")
 @auth_required
