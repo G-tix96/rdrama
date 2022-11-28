@@ -82,7 +82,7 @@
 					<button type="button" id="remove-admin-{{deviceType}}" class="{% if u.admin_level < 1 %}d-none{% endif %} btn btn-danger" onclick="postToastSwitch(this,'/@{{u.username}}/remove_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Remove admin</button>
 				{% endif %}
 				{% if v.admin_level >= PERMS['ADMIN_ACTIONS_REVERT'] and u.admin_level %}
-					<button type="button" class="btn btn-danger" data-click="postToastSwitch(this,'/@{{u.username}}/revert_actions')" onclick="areyousure(this)">Revert admin actions</button>
+					<button type="button" class="btn btn-danger" data-click2="postToastSwitch(this,'/@{{u.username}}/revert_actions')" onclick="areyousure(this)">Revert admin actions</button>
 				{% endif %}
 
 				{% if v.admin_level >= PERMS['USER_BAN'] %}

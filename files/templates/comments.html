@@ -646,7 +646,7 @@
 							{% if not c.ghost %}
 								<button type="button" id="unblock2-{{c.id}}" data-bs-dismiss="modal" class="text-success list-group-item {% if not c.is_blocking %}d-none{% endif %}" onclick="postToastSwitch(this,'/settings/unblock?username={{c.author.username}}','block2-{{c.id}}','unblock2-{{c.id}}','d-none')"><i class="fas fa-eye-slash text-success mr-2"></i>Unblock user</button>
 
-								<button type="button" id="block2-{{c.id}}" class="{% if c.is_blocking %}d-none{% endif %} list-group-item text-danger" data-click="postToastSwitch(this,'/settings/block?username={{c.author.username}}','block2-{{c.id}}','unblock2-{{c.id}}','d-none')" onclick="areyousure(this)" data-dismiss="modal"><i class="fas fa-eye-slash fa-fw text-danger mr-2"></i>Block user</button>
+								<button type="button" id="block2-{{c.id}}" class="{% if c.is_blocking %}d-none{% endif %} list-group-item text-danger" data-click2="postToastSwitch(this,'/settings/block?username={{c.author.username}}','block2-{{c.id}}','unblock2-{{c.id}}','d-none')" onclick="areyousure(this)" data-dismiss="modal"><i class="fas fa-eye-slash fa-fw text-danger mr-2"></i>Block user</button>
 							{% endif %}
 						{% endif %}
 
