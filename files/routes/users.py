@@ -180,7 +180,8 @@ def grassed(v:User):
 @app.get("/chuds")
 @auth_required
 def chuds(v:User):
-	users = g.db.query(User).filter(User.agendaposter == 1)
+	after_30_days = int(time.time()) + 86400 * 30
+	users = g.db.query(User).filter(or_(User.agendaposter == 1, User.agendaposter > after_30_days))
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
 	users = users.order_by(User.username).all()

@@ -1,6 +1,8 @@
 {% extends "settings2.html" %}
-{% block pagetitle %}Permabanned Users{% endblock %}
+{% block pagetitle %}Banned Users{% endblock %}
 {% block content %}
+
+<h5 class="my-4">Users who are permabanned or have more than 30 days to be unbanned</h5>
 <div class="overflow-x-auto"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
 	<tr>
@@ -8,6 +10,7 @@
 		<th>Name</th>
 		<th>Ban reason</th>
 		<th>Banned by</th>
+		<th>Unban in</th>
 	</tr>
 </thead>
 {% for user in users %}
@@ -19,6 +22,9 @@
 			{% with user=user.banned_by %}
 				{% include "user_in_table.html" %}
 			{% endwith %}
+		</td>
+		<td>
+			{{user.unban_in}}
 		</td>
 	</tr>
 {% endfor %}

@@ -335,7 +335,8 @@ def blocks(v):
 @app.get("/banned")
 @auth_required
 def banned(v:User):
-	users = g.db.query(User).filter(User.is_banned > 0, User.unban_utc == 0)
+	after_30_days = int(time.time()) + 86400 * 30
+	users = g.db.query(User).filter(User.is_banned > 0, or_(User.unban_utc == 0, User.unban_utc > after_30_days))
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
 	users = users.all()

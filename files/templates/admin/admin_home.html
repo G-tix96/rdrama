@@ -46,9 +46,9 @@
 	{% if v.admin_level >= PERMS['USER_SHADOWBAN'] %}
 		<li><a href="/admin/shadowbanned">Shadowbanned Users</a></li>
 	{% endif %}
-		<li><a href="/banned">Permabanned Users</a></li>
+		<li><a href="/banned">Banned Users</a></li>
 	{% if FEATURES['AWARDS'] -%}
-		<li><a href="/chuds">Permachudded Users</a></li>
+		<li><a href="/chuds">Chudded Users</a></li>
 		<li><a href="/grassed">Currently Grassed Users</a></li>
 	{%- endif %}
 	{% if FEATURES['MARSEYBUX'] and (not AEVANN_ID or v.id in (AEVANN_ID, CARP_ID, SNAKES_ID)) -%}
