@@ -60,9 +60,7 @@ def get_logged_in_user():
 		if lo_user:
 			id = int(lo_user)
 			v = get_account(id, graceful=True)
-			if not v:
-				session.pop("lo_user")
-			else:
+			if v:
 				nonce = session.get("login_nonce", 0)
 				if nonce < v.login_nonce or v.id != id:
 					session.pop("lo_user")
@@ -71,8 +69,10 @@ def get_logged_in_user():
 				if v and request.method != "GET":
 					submitted_key = request.values.get("formkey")
 					if not validate_formkey(v, submitted_key): abort(401)
-
 				v.client = None
+			else:
+				session.pop("lo_user")
+
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
 
 	if request.method.lower() != "get" and get_setting('Read-only mode') and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
