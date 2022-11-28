@@ -23,5 +23,6 @@
 	</head>
 	<body {% block body_attributes %}id="{%block pagetype %}{% endblock %}"{% endblock %}>		
 		{% block body required %}{% endblock %}
+		{{html_head.stylesheets_lower()}}
 	</body>
 </html>
