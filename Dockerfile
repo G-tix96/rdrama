@@ -11,6 +11,7 @@ RUN apt install -y imagemagick
 RUN apt install -y postgresql
 RUN apt install -y libpq-dev
 RUN apt install -y nano
+RUN apt install -y exiv2
 
 COPY requirements.txt /etc/requirements.txt
 
