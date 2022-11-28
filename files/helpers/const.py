@@ -688,6 +688,16 @@ COLORS = {'ff66ac','805ad5','62ca56','38a169','80ffff','2a96f3','eb4963','ff0000
 BAN_EVASION_DOMAIN = 'rdrama.life'
 
 AWARDS = {
+	"fallback": {
+		"kind": "fallback",
+		"title": "Unknown",
+		"description": "",
+		"icon": "fas fa-block-question",
+		"color": "text-white",
+		"price": 0,
+		"deflectable": False,
+		"cosmetic": False
+	},
 	### Deprecated
 	"ghost": {
 		"kind": "ghost",
@@ -1343,7 +1353,7 @@ AWARDS['unpin']['ghost'] = True
 
 # Disable unused awards, and site-specific award inclusion/exclusion.
 AWARDS_DISABLED = [
-	'ghost', 'nword', 'lootbox', # Generic
+	'fallback', 'ghost', 'nword', 'lootbox', # Generic
 	'snow', 'gingerbread', 'lights', 'candycane', 'fireplace', 'grinch', # Fistmas
 	'haunt', 'upsidedown', 'stab', 'spiders', 'fog', # Homoween '21
 	'jumpscare', 'hw-bite', 'hw-vax', 'hw-grinch', 'flashlight', # Homoween '22

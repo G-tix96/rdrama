@@ -35,7 +35,8 @@ class AwardRelationship(Base):
 	@lazy
 	def type(self):
 		if self.kind in AWARDS: return AWARDS[self.kind]
-		else: return HOUSE_AWARDS[self.kind]
+		elif self.kind in HOUSE_AWARDS: return HOUSE_AWARDS[self.kind]
+		else: return AWARDS["fallback"]
 
 	@property
 	@lazy
