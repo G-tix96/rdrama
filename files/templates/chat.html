@@ -1,9 +1,4 @@
 {%- extends 'root.html' -%}
-{% if IS_LOCALHOST %}
-	{% set csp="script-src 'self' 'unsafe-inline' rdrama.net; connect-src 'self'; object-src 'none';" %}
-{% else %}
-	{% set csp=none %}
-{% endif %}
 {% block pagetitle %}Chat{% endblock %}
 {% block pagetype %}chat{% endblock %}
 {% block body %}

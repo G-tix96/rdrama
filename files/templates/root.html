@@ -7,15 +7,11 @@
 {% endblock %}
 {%- import 'util/macros.html' as macros with context -%}
 {%- import 'util/html_head.html' as html_head with context -%}
-{%- if request.path == '/' -%}
-	{%- set csp=CONTENT_SECURITY_POLICY_HOME -%}
-{%- endif -%}
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 	{% block head %}
 		<meta charset="utf-8">
-		<meta http-equiv="Content-Security-Policy" content="{{csp | default(CONTENT_SECURITY_POLICY_DEFAULT, true) | safe}}">
 		{% block title %}<title>{% block pagetitle %}if you see this pls report it as a bug &lt;3{% endblock %} - {{SITE_NAME}}</title>{% endblock %}
 		{{html_head.page_meta(self.pagetitle() or none)}}
 		{{html_head.javascript() if root_scope.js}}
