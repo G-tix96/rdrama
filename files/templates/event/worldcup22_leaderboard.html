@@ -10,7 +10,8 @@
 			<th onclick="sort_table(1)">Name</th>
 			<th onclick="sort_table(2)">Wins</th>
 			<th onclick="sort_table(3)">Bets</th>
-			<th onclick="sort_table(4)">Winnings</th>
+			<th onclick="sort_table(4)">Ratio</th>
+			<th onclick="sort_table(5)">Winnings</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -21,6 +22,7 @@
 		<td data-sort-key="{{user.username.lower() if user else ''}}">{%- include 'user_in_table.html' -%}</td>
 		<td>{{r[1]}}</td>
 		<td>{{r[2]}}</td>
+		<td>{{r[1]/r[2]}}</td>
 		<td>{{r[3]}}</td>
 	</tr>
 	{% endfor %}
