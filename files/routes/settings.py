@@ -41,6 +41,7 @@ def settings_personal(v:User):
 def remove_background(v):
 	if v.background:
 		v.background = None
+		if v.theme == 'transparent': v.theme = 'midnight'
 		g.db.add(v)
 	return {"message": "Background removed!"}
 
