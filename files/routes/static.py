@@ -22,6 +22,11 @@ def rdrama(id, title):
 	id = ''.join(f'{x}/' for x in id)
 	return redirect(f'/archives/drama/comments/{id}{title}.html')
 
+@app.get("/r/<subreddit>")
+@auth_desired
+def subreddit(subreddit, v):
+	reddit = v.reddit if v else "old.reddit.com"
+	return redirect(f'https://{reddit}/r/{subreddit}')
 
 @app.get("/marseys")
 @auth_required
