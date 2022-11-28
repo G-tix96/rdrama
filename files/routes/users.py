@@ -232,8 +232,6 @@ def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
-
-	PAGE_SIZE = 2
 	
 	users = users[PAGE_SIZE * (page-1):]
 	next_exists = (len(users) > PAGE_SIZE)
