@@ -13,6 +13,6 @@
 	background: rgba(28, 34, 41, 0.90) !important;
 }
 
-#mobile-bottom-navigation-bar, .popover, .modal-content, .dropdown-menu, .navbar, #userpage > div.container-fluid, body {
+.fixed-bottom, .popover, .modal-content, .dropdown-menu, .navbar, #userpage > div.container-fluid, body {
 	background-color: #21262d !important;
 }
