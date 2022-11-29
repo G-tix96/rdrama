@@ -4063,11 +4063,6 @@ ul.comment-section {
 .footer a:hover, .footer a:focus, .footer a:active {
 	text-decoration: underline;
 }
-.empty-state-img {
-	width: 200px;
-	opacity: 0.35;
-	filter: brightness(0);
-}
 .border-top {
 	border-top: 1px solid var(--gray-400) !important;
 }
