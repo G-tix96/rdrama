@@ -2,6 +2,9 @@ import time
 
 from os import environ, listdir, path
 
+import user_agents
+
+from flask import g, session, has_request_context
 from jinja2 import pass_context
 
 from files.classes.user import User
@@ -10,7 +13,6 @@ from files.helpers.const import *
 from files.helpers.settings import get_settings
 from files.helpers.sorting_and_time import make_age_string
 from files.routes.routehelpers import get_formkey
-from files.routes.wrappers import calc_users, calc_chat_users
 from files.__main__ import app, cache
 
 @app.template_filter("formkey")
@@ -42,6 +44,36 @@ def timestamp(timestamp):
 	return make_age_string(timestamp)
 
 @app.context_processor
+def calc_users():
+	loggedin_counter = 0
+	loggedout_counter = 0
+	loggedin_chat = 0
+	v = getattr(g, 'v', None) if g else None
+	if has_request_context and g and g.desires_auth and not g.is_api_or_xhr:
+		loggedin = cache.get(LOGGED_IN_CACHE_KEY) or {}
+		loggedout = cache.get(LOGGED_OUT_CACHE_KEY) or {}
+		loggedin_chat = cache.get(CHAT_ONLINE_CACHE_KEY) or 0
+		timestamp = int(time.time())
+
+		if v:
+			if session["session_id"] in loggedout: del loggedout[session["session_id"]]
+			loggedin[v.id] = timestamp
+		else:
+			ua = str(user_agents.parse(g.agent))
+			if 'spider' not in ua.lower() and 'bot' not in ua.lower():
+				loggedout[session["session_id"]] = (timestamp, ua)
+	
+		loggedin = {k: v for k, v in loggedin.items() if (timestamp - v) < LOGGEDIN_ACTIVE_TIME}
+		loggedout = {k: v for k, v in loggedout.items() if (timestamp - v[0]) < LOGGEDIN_ACTIVE_TIME}
+		cache.set(LOGGED_IN_CACHE_KEY, loggedin)
+		cache.set(LOGGED_OUT_CACHE_KEY, loggedout)
+		loggedin_counter = len(loggedin)
+		loggedout_counter = len(loggedout)
+	return {'loggedin_counter':loggedin_counter, 
+	        'loggedout_counter':loggedout_counter,
+			'loggedin_chat':loggedin_chat}
+
+@app.context_processor
 def inject_constants():
 	return {"environ":environ, "SITE":SITE, "SITE_NAME":SITE_NAME, "SITE_FULL":SITE_FULL,
 			"AUTOJANNY_ID":AUTOJANNY_ID, "MODMAIL_ID":MODMAIL_ID, "PUSHER_ID":PUSHER_ID, 
@@ -56,8 +88,7 @@ def inject_constants():
 			"BADGE_THREAD":BADGE_THREAD, "SNAPPY_THREAD":SNAPPY_THREAD,
 			"KOFI_TOKEN":KOFI_TOKEN, "KOFI_LINK":KOFI_LINK,
 			"approved_embed_hosts":approved_embed_hosts,
-			"site_settings":get_settings(), "EMAIL":EMAIL, "calc_users":calc_users,  "calc_chat_users":calc_chat_users,
-			"max": max, "min": min, "user_can_see":User.can_see,
+			"site_settings":get_settings(), "EMAIL":EMAIL, "max": max, "min": min, "user_can_see":User.can_see,
 			"TELEGRAM_LINK":TELEGRAM_LINK, "EMAIL_REGEX_PATTERN":EMAIL_REGEX_PATTERN,
 			"TRUESCORE_DONATE_MINIMUM":TRUESCORE_DONATE_MINIMUM,
 			"DONATE_LINK":DONATE_LINK, "DONATE_SERVICE":DONATE_SERVICE, "BAN_EVASION_DOMAIN":BAN_EVASION_DOMAIN, 

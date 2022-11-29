@@ -1,7 +1,4 @@
 import time
-import secrets
-
-import user_agents
 from flask import g, request, session
 
 from files.classes.clients import ClientAuth
@@ -10,47 +7,7 @@ from files.helpers.const import *
 from files.helpers.get import get_account
 from files.helpers.settings import get_setting
 from files.routes.routehelpers import validate_formkey
-from files.__main__ import app, cache, db_session, limiter
-
-def session_init():
-	if not session.get("session_id"):
-		session.permanent = True
-		session["session_id"] = secrets.token_hex(49)
-
-def calc_users(v):
-	if g.is_api_or_xhr: 
-		g.loggedin_counter = 0
-		g.loggedout_counter = 0
-		g.loggedin_chat = 0
-		return ''
-	loggedin = cache.get(f'{SITE}_loggedin') or {}
-	loggedout = cache.get(f'{SITE}_loggedout') or {}
-	timestamp = int(time.time())
-
-	session_init()
-	if v:
-		if session["session_id"] in loggedout: del loggedout[session["session_id"]]
-		loggedin[v.id] = timestamp
-	else:
-		ua = str(user_agents.parse(g.agent))
-		if 'spider' not in ua.lower() and 'bot' not in ua.lower():
-			loggedout[session["session_id"]] = (timestamp, ua)
-	
-	loggedin = {k: v for k, v in loggedin.items() if (timestamp - v) < LOGGEDIN_ACTIVE_TIME}
-	loggedout = {k: v for k, v in loggedout.items() if (timestamp - v[0]) < LOGGEDIN_ACTIVE_TIME}
-	cache.set(f'{SITE}_loggedin', loggedin)
-	cache.set(f'{SITE}_loggedout', loggedout)
-
-	g.loggedin_counter = len(loggedin)
-	g.loggedout_counter = len(loggedout)
-	return ''
-
-def calc_chat_users(v:Optional[User]):
-	if v and g.is_api_or_xhr:
-		g.loggedin_chat = 0
-	elif not hasattr(g, 'loggedin_chat'):
-		g.loggedin_chat = cache.get(CHAT_ONLINE_CACHE_KEY) or 0
-	return ''
+from files.__main__ import app, db_session, limiter
 
 def get_logged_in_user():
 	if hasattr(g, 'v'): return g.v

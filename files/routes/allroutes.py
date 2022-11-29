@@ -1,11 +1,19 @@
+import secrets
+
 from files.helpers.const import *
 from files.helpers.settings import get_setting
 from files.helpers.cloudflare import CLOUDFLARE_AVAILABLE
 from files.routes.wrappers import *
 from files.__main__ import app
 
+def session_init():
+	if not session.get("session_id"):
+		session.permanent = True
+		session["session_id"] = secrets.token_hex(49)
+
 @app.before_request
 def before_request():
+	g.desires_auth = False
 	if SITE == 'marsey.world' and request.path != '/kofi':
 		abort(404)
 
@@ -46,7 +54,7 @@ def before_request():
 @app.after_request
 def after_request(response):
 	if response.status_code < 400:
-		if CLOUDFLARE_AVAILABLE and CLOUDFLARE_COOKIE_VALUE and getattr(g, 'desires_auth', False):
+		if CLOUDFLARE_AVAILABLE and CLOUDFLARE_COOKIE_VALUE and g.desires_auth:
 			logged_in = bool(getattr(g, 'v', None))
 			response.set_cookie("lo", CLOUDFLARE_COOKIE_VALUE if logged_in else '', 
 								max_age=60*60*24*365 if logged_in else 1, samesite="Lax")

@@ -62,7 +62,9 @@ IS_LOCALHOST = SITE == "localhost" or SITE == "127.0.0.1" or SITE.startswith("19
 if IS_LOCALHOST: SITE_FULL = 'http://' + SITE
 else: SITE_FULL = 'https://' + SITE
 
-CHAT_ONLINE_CACHE_KEY = f'{SITE}_online'
+LOGGED_IN_CACHE_KEY = f"{SITE}_loggedin"
+LOGGED_OUT_CACHE_KEY = f"{SITE}_loggedout"
+CHAT_ONLINE_CACHE_KEY = f"{SITE}_online"
 REDDIT_NOTIFS_CACHE_KEY = "reddit_notifications"
 MARSEYS_CACHE_KEY = "marseys"
 EMOJIS_CACHE_KEY = "emojis"

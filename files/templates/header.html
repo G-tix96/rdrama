@@ -40,12 +40,10 @@
 					' throwing shade right now',
 				]
 				-%}
-				{{calc_users(v)}}
-				{{g.loggedin_counter+g.loggedout_counter}} {{VISITORS_HERE_FLAVOR|random|safe}} ({{g.loggedin_counter}} logged in)
+				{{loggedin_counter+loggedout_counter}} {{VISITORS_HERE_FLAVOR|random|safe}} ({{loggedin_counter}} logged in)
 			{% endif %}
 		{% else %}
-			{{calc_users(v)}}
-			{{g.loggedin_counter+g.loggedout_counter}} people here now ({{g.loggedin_counter}} logged in)
+			{{loggedin_counter+loggedout_counter}} people here now ({{loggedin_counter}} logged in)
 		{% endif %}
 	</div>
 {% else %}
@@ -176,7 +174,7 @@
 					<a class="nav-link position-relative" href="/chat">
 						<i class="fas fa-messages" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"></i>						
 						<b class="text-lg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">
-							{{g.loggedin_chat}}
+							{{loggedin_chat}}
 						</b>
 					</a>
 				</li>
