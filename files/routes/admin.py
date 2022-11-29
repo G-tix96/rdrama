@@ -96,9 +96,9 @@ def merge(v, id1, id2):
 	g.db.add(user1)
 	g.db.add(user2)
 
-	online = cache.get(ONLINE_STR)
+	online = cache.get(CHAT_ONLINE_CACHE_KEY)
 	cache.clear()
-	cache.set(ONLINE_STR, online)
+	cache.set(CHAT_ONLINE_CACHE_KEY, online)
 
 	return redirect(user1.url)
 
@@ -146,9 +146,9 @@ def merge_all(v, id):
 
 	g.db.add(user)
 
-	online = cache.get(ONLINE_STR)
+	online = cache.get(CHAT_ONLINE_CACHE_KEY)
 	cache.clear()
-	cache.set(ONLINE_STR, online)
+	cache.set(CHAT_ONLINE_CACHE_KEY, online)
 
 	return redirect(user.url)
 
@@ -480,9 +480,9 @@ def clear_cloudflare_cache(v):
 @app.post("/admin/clear_internal_cache")
 @admin_level_required(PERMS['SITE_CACHE_DUMP_INTERNAL'])
 def admin_clear_internal_cache(v):
-	online = cache.get(ONLINE_STR)
+	online = cache.get(CHAT_ONLINE_CACHE_KEY)
 	cache.clear()
-	cache.set(ONLINE_STR, online)
+	cache.set(CHAT_ONLINE_CACHE_KEY, online)
 	ma = ModAction(
 		kind="clear_internal_cache",
 		user_id=v.id

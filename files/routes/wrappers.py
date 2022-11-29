@@ -21,6 +21,7 @@ def calc_users(v):
 	if g.is_api_or_xhr: 
 		g.loggedin_counter = 0
 		g.loggedout_counter = 0
+		g.loggedin_chat = 0
 		return ''
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
 	loggedout = cache.get(f'{SITE}_loggedout') or {}
@@ -42,6 +43,7 @@ def calc_users(v):
 
 	g.loggedin_counter = len(loggedin)
 	g.loggedout_counter = len(loggedout)
+	g.loggedin_chat = cache.get(CHAT_ONLINE_CACHE_KEY)
 	return ''
 
 def get_logged_in_user():

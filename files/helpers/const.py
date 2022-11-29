@@ -62,6 +62,7 @@ IS_LOCALHOST = SITE == "localhost" or SITE == "127.0.0.1" or SITE.startswith("19
 if IS_LOCALHOST: SITE_FULL = 'http://' + SITE
 else: SITE_FULL = 'https://' + SITE
 
+CHAT_ONLINE_CACHE_KEY = f'{SITE}_online'
 REDDIT_NOTIFS_CACHE_KEY = "reddit_notifications"
 MARSEYS_CACHE_KEY = "marseys"
 EMOJIS_CACHE_KEY = "emojis"
@@ -397,6 +398,7 @@ COSMETIC_AWARD_COIN_AWARD_PCT = 0.10
 TRUESCORE_CHAT_MINIMUM = 0
 TRUESCORE_DONATE_MINIMUM = 100
 TRUESCORE_GHOST_MINIMUM = 0
+CHAT_DISPLAY_USER_COUNT_MINIMUM = 0
 
 LOGGEDIN_ACTIVE_TIME = 15 * 60
 PFP_DEFAULT_MARSEY = True
@@ -507,6 +509,7 @@ if SITE == 'rdrama.net':
 	CHAT_LENGTH_LIMIT = 200
 	TRUESCORE_CHAT_MINIMUM = 10
 	TRUESCORE_GHOST_MINIMUM = 10
+	CHAT_DISPLAY_USER_COUNT_MINIMUM = 10
 	NEW_USER_HAT_AGE = 7 * 86400
 
 	HOLE_COST = 50000
@@ -1632,8 +1635,6 @@ tiers={
 
 has_sidebar = path.exists(f'files/templates/sidebar_{SITE_NAME}.html')
 has_logo = path.exists(f'files/assets/images/{SITE_NAME}/logo.webp')
-
-ONLINE_STR = f'{SITE}_online'
 
 forced_hats = {
 	"rehab": ("Roulette", "I'm a recovering ludomaniac!"),

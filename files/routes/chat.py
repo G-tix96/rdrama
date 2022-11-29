@@ -29,7 +29,7 @@ else:
 
 typing = []
 online = []
-cache.set(ONLINE_STR, len(online), timeout=0)
+cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
 muted = cache.get(f'{SITE}_muted') or {}
 messages = cache.get(f'{SITE}_chat') or []
 total = cache.get(f'{SITE}_total') or 0
@@ -113,7 +113,7 @@ def connect(v):
 	if v.username not in online:
 		online.append(v.username)
 		emit("online", online, broadcast=True)
-		cache.set(ONLINE_STR, len(online), timeout=0)
+		cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
 
 	if not socket_ids_to_user_ids.get(request.sid):
 		socket_ids_to_user_ids[request.sid] = v.id
@@ -130,7 +130,7 @@ def disconnect(v):
 	if v.username in online:
 		online.remove(v.username)
 		emit("online", online, broadcast=True)
-		cache.set(ONLINE_STR, len(online), timeout=0)
+		cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
 
 	if v.username in typing: typing.remove(v.username)
 

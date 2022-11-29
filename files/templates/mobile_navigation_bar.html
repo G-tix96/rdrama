@@ -1,5 +1,4 @@
 <div class="container d-inline-flex d-lg-none">
-
 		<div class="row fixed-bottom bg-white border-top p-2" id="mobile-bottom-navigation-bar"
 		style="z-index: 1000; bottom: 0px; transition: bottom cubic-bezier(0, 0, 0.2, 1) 220ms;">
 
@@ -47,11 +46,11 @@
 						</a>
 				</button>
 {% if v %}
-				{% if FEATURES['CHAT'] and (SITE_NAME != 'rDrama' or cache.get(ONLINE_STR) >= 10) -%}
+				{% if FEATURES['CHAT'] and g.loggedin_chat >= CHAT_DISPLAY_USER_COUNT_MINIMUM -%}
 				<button type="button" class="col px-0 btn btn-dead m-0 pt-0" style="background: None !important; border: None;">
 						<a href="/chat" class="text-decoration-none">
 								<div class="text-center {% if request.path=='/chat' %}text-primary{% else %}text-muted{% endif %}">
-									<b class="text-lg" style="padding-top:10px" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">{{cache.get(ONLINE_STR)}}</b>
+									<b class="text-lg" style="padding-top:10px" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">{{g.loggedin_chat}}</b>
 									<div class="text-small">Chat</div>
 								</div>
 						</a>
