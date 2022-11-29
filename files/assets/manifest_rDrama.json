@@ -4,19 +4,14 @@
 	"start_url": "https://rdrama.net",
 	"display": "minimal-ui",
 	"background_color": "#FF66AC",
+	"theme_color": "#FF66AC",
 	"description": "rDrama",
-	"offline_enabled": true,
 	"icons": [
 			{
-				"src": "/i/rDrama/192.png?v=2000",
-				"sizes": "192x192",
-				"type": "image/png",
+				"src": "/i/rDrama/icon.webp?v=3009",
+				"sizes": "any",
+				"type": "image/webp",
 				"purpose": "any"
-			},
-			{
-				"src": "/i/rDrama/512.png?v=2000",
-				"sizes": "512x512",
-				"type": "image/png"
 			}
 	]
 }
