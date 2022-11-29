@@ -40,25 +40,16 @@ def reddit_post(subreddit, v, path):
 @app.get("/marseys")
 @auth_required
 def marseys(v:User):
-	if SITE == 'rdrama.net':
-		marseys = g.db.query(Marsey, User).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id==None)
-		sort = request.values.get("sort")
-		if sort == "author":
-			marseys = marseys.order_by(User.username, Marsey.count.desc()).all()
-		elif sort == "added":
-			marseys = marseys.order_by(nullslast(Marsey.created_utc.desc()), User.username).all()
-		else: # implied sort == "usage"
-			marseys = marseys.order_by(Marsey.count.desc(), User.username).all()
 
-		original = os.listdir("/asset_submissions/marseys/original")
-		for marsey, user in marseys:
-			for x in IMAGE_FORMATS:
-				if f'{marsey.name}.{x}' in original:
-					marsey.og = f'{marsey.name}.{x}'
-					break
-	else:
-		marseys = g.db.query(Marsey).filter(Marsey.submitter_id==None).order_by(Marsey.count.desc())
-
+	marseys = get_marseys(g.db)
+	authors = get_accounts_dict([m.author_id for m in marseys], v=v, graceful=True, include_shadowbanned=False)
+	original = os.listdir("/asset_submissions/marseys/original")
+	for marsey in marseys:
+		marsey.user = authors.get(marsey.author_id)
+		for x in IMAGE_FORMATS:
+			if f'{marsey.name}.{x}' in original:
+				marsey.og = f'{marsey.name}.{x}'
+				break
 	return render_template("marseys.html", v=v, marseys=marseys)
 
 @app.get("/emojis")
