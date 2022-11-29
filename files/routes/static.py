@@ -271,7 +271,7 @@ def emoji(emoji):
 
 @app.get('/icon.webp')
 @limiter.exempt
-def icon(path):
+def icon():
 	return static_file('assets/images', f'{SITE_NAME}/icon.webp', True, True)
 
 @app.get('/i/<path:path>')
