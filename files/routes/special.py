@@ -4,7 +4,7 @@ from files.helpers.get import get_accounts_dict
 from files.routes.wrappers import auth_required
 from files.__main__ import app, cache
 
-_event_leaderboard_query = """
+_special_leaderboard_query = """
 WITH bet_options AS (
 	SELECT p.id AS submission_id, so.id AS option_id, so.exclusive, cnt.count
 	FROM submission_options so
@@ -73,16 +73,16 @@ ORDER BY payout DESC, bets_won DESC, bets_total ASC;
 """
 
 @cache.memoize(timeout=60)
-def _event_leaderboard_get():
-	result = g.db.execute(_event_leaderboard_query).all()
+def _special_leaderboard_get():
+	result = g.db.execute(_special_leaderboard_query).all()
 	return result
 
-@app.get('/events/worldcup2022/leaderboard')
+@app.get('/special/worldcup2022/leaderboard')
 @auth_required
 def get_leaderboard(v):
-	result = _event_leaderboard_get()
+	result = _special_leaderboard_get()
 	if g.is_api_or_xhr: return jsonify(result)
 	users = get_accounts_dict([r[0] for r in result],
 		v=v, include_shadowbanned=False)
-	return render_template("event/worldcup22_leaderboard.html",
+	return render_template("special/worldcup22_leaderboard.html",
 		v=v, result=result, users=users)

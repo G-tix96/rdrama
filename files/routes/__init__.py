@@ -47,4 +47,4 @@ if FEATURES['ASSET_SUBMISSIONS']:
 	from .asset_submissions import *
 if FEATURES['STREAMERS']:
 	from .streamers import *
-from .events import *
+from .special import *
