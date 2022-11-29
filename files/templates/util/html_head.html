@@ -146,7 +146,7 @@
 		<link rel="stylesheet" href="{{'css/rDrama.css' | asset}}">
 	{% endif %}
 
-	{% if 'chat' in request.path %}
+	{% if request.path == '/chat' %}
 		{% if IS_LOCALHOST %}
 			<link rel="stylesheet" href="https://rdrama.net/assets/css/chat_done.css">
 		{% else %}
