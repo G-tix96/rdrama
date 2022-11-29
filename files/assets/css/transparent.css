@@ -14,5 +14,5 @@
 }
 
 #mobile-bottom-navigation-bar, .popover, .modal-content, .dropdown-menu, .navbar, #userpage > div.container-fluid, body {
-	background-color: var(--gray-500) !important;
+	background-color: #21262d !important;
 }
