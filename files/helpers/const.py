@@ -99,6 +99,7 @@ SLURS = {
 	'nigga': 'neighbor',
 	"faggot": "cute twink",
 	"fag": "strag",
+	"homo ": "king ",
 	"spic ": "hard-working American ",
 	"spics": "hard-working Americans",
 	"trannie": '<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">',
