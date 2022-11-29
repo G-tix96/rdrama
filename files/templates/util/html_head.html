@@ -146,6 +146,10 @@
 		<link rel="stylesheet" href="{{'css/rDrama.css' | asset}}">
 	{% endif %}
 
+	{% if EVENT_STYLES %}
+		<link rel="stylesheet" href="/assets/css/event/{{EVENT_STYLES}}">
+	{% endif %}
+
 	{% if request.path == '/chat' %}
 		{% if IS_LOCALHOST %}
 			<link rel="stylesheet" href="https://rdrama.net/assets/css/chat_done.css">

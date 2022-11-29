@@ -1,0 +1,3 @@
+EVENT_AWARDS = {
+
+}

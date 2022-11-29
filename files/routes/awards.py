@@ -390,6 +390,10 @@ def award_thing(v, thing_type, id):
 		if author.spider: author.spider += 86400
 		else: author.spider = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=179, notify=False)
+	elif HOLIDAY_EVENT:
+		from files.events import EVENT_AWARDS, award_thing_event
+		if kind in EVENT_AWARDS:
+			award_thing_event(v, kind, author)
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1

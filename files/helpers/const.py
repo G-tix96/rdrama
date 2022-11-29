@@ -1,4 +1,5 @@
 from copy import deepcopy
+from enum import Enum, auto
 from os import environ, path
 
 import tldextract
@@ -42,6 +43,9 @@ FP = environ.get("FP", "").strip()
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
 KOFI_LINK = environ.get("KOFI_LINK", "").strip()
 
+class Service(Enum):
+	RDRAMA = auto()
+	CHAT = auto()
 
 CLOUDFLARE_COOKIE_VALUE = "yes." # remember to change this in CloudFlare too
 
@@ -204,6 +208,8 @@ PAGE_SIZES = {10, 25, 50, 100}
 ################################################################################
 ### SITE SPECIFIC CONSTANTS
 ################################################################################
+
+HOLIDAY_EVENT = None
 
 PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_ADD': 3,

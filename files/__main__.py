@@ -7,7 +7,6 @@ from os import environ
 from sys import argv, stdout
 
 import gevent
-import redis
 from flask import Flask
 from flask_caching import Cache
 from flask_compress import Compress
@@ -44,7 +43,9 @@ app.config['SQLALCHEMY_DATABASE_URL'] = environ.get("DATABASE_URL").strip()
 app.config["CACHE_TYPE"] = "RedisCache"
 app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL").strip()
 
-r=redis.Redis(host=environ.get("REDIS_URL").strip(), decode_responses=True, ssl_cert_reqs=None)
+app.config['SERVICE'] = Service.RDRAMA
+if "load_chat" in argv:
+	app.config['SERVICE'] = Service.CHAT
 
 def get_CF():
 	with app.app_context():
@@ -79,9 +80,13 @@ def no_step_on_jc():
 		if key and key == request.headers.get("X-No-Step", ""): return True
 	return False
 
-if "load_chat" in argv:
-	from files.routes.chat import *
-else:
+if app.config['SERVICE'] == Service.RDRAMA:
 	from files.routes import *
+
+	if HOLIDAY_EVENT:
+		from files.events import *
+		event_init()
+elif app.config['SERVICE'] == Service.CHAT:
+	from files.routes.chat import *
 
 stdout.flush()

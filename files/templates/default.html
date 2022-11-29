@@ -5,15 +5,19 @@
 	{% include "modals/expanded_image.html" %}
 
 	{% if '@' not in request.path %}
-		{% if sub and SITE_NAME != WPD %}
-			{% set src = sub.banner_url %}
-			{% set alt = ['/h/', sub, 'banner']|join %}
-			{% set class = 'site-banner-hole' %}
-		{% elif SITE_NAME == "rDrama" %}
-			{% set href = "https://secure.transequality.org/site/Donation2?df_id=1480" %}
-			{% set expand = false %}
+		{% if EVENT_BANNER and not sub %}
+			{% include 'event/' + EVENT_BANNER %}
+		{% else %}
+			{% if sub and SITE_NAME != WPD %}
+				{% set src = sub.banner_url %}
+				{% set alt = ['/h/', sub, 'banner']|join %}
+				{% set class = 'site-banner-hole' %}
+			{% elif SITE_NAME == "rDrama" %}
+				{% set href = "https://secure.transequality.org/site/Donation2?df_id=1480" %}
+				{% set expand = false %}
+			{% endif %}
+			{{macros.banner(src, href, alt, expand, class)}}
 		{% endif %}
-		{{macros.banner(src, href, alt, expand, class)}}
 	{% endif %}
 {% endblock %}
 
@@ -31,7 +35,8 @@
 		</div>
 		{% block sidebar %}
 			{% if has_sidebar and (home or p) %}
-				{% include "sidebar_" + SITE_NAME + ".html" %}
+				{% set sidebar = "sidebar_" + SITE_NAME + ".html" %}
+				{% include sidebar if not EVENT_SIDEBAR else 'event/' + sidebar %}
 			{% endif %}
 		{% endblock %}
 	</div>
