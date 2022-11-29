@@ -10,7 +10,7 @@ from files.helpers.const import *
 from files.helpers.settings import get_settings
 from files.helpers.sorting_and_time import make_age_string
 from files.routes.routehelpers import get_formkey
-from files.routes.wrappers import calc_users
+from files.routes.wrappers import calc_users, calc_chat_users
 from files.__main__ import app, cache
 
 @app.template_filter("formkey")
@@ -56,7 +56,7 @@ def inject_constants():
 			"BADGE_THREAD":BADGE_THREAD, "SNAPPY_THREAD":SNAPPY_THREAD,
 			"KOFI_TOKEN":KOFI_TOKEN, "KOFI_LINK":KOFI_LINK,
 			"approved_embed_hosts":approved_embed_hosts,
-			"site_settings":get_settings(), "EMAIL":EMAIL, "calc_users":calc_users, 
+			"site_settings":get_settings(), "EMAIL":EMAIL, "calc_users":calc_users,  "calc_chat_users":calc_chat_users,
 			"max": max, "min": min, "user_can_see":User.can_see,
 			"TELEGRAM_LINK":TELEGRAM_LINK, "EMAIL_REGEX_PATTERN":EMAIL_REGEX_PATTERN,
 			"TRUESCORE_DONATE_MINIMUM":TRUESCORE_DONATE_MINIMUM,
