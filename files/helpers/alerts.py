@@ -120,7 +120,7 @@ if PUSHER_ID != DEFAULT_CONFIG_VALUE:
 						'title': title,
 						'body': notifbody,
 						'deep_link': url,
-						'icon': f'{SITE_FULL}/assets/images/{SITE_NAME}/icon.webp?v=3009',
+						'icon': f'{SITE_FULL}/i/{SITE_NAME}/icon.webp?v=3009',
 					}
 				},
 				'fcm': {

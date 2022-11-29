@@ -823,7 +823,7 @@ class User(Base):
 		if self.profileurl: 
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl
-		return f"{SITE_FULL}/assets/images/default-profile-pic.webp?v=1008"
+		return f"{SITE_FULL}/i/default-profile-pic.webp?v=1008"
 
 	@lazy
 	def json_popover(self, v):
