@@ -29,6 +29,7 @@ def subreddit(subreddit, v):
 	return redirect(f'https://{reddit}/r/{subreddit}')
 
 @app.get("/reddit/<subreddit>/comments/<path:path>")
+@app.get("/r/<subreddit>/comments/<path:path>")
 @auth_desired
 def reddit_post(subreddit, v, path):
 	post_id = path.rsplit("/", 1)[0].replace('/', '')
