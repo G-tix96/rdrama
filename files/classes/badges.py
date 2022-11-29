@@ -21,7 +21,7 @@ class BadgeDef(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<BadgeDef(id={self.id})>"
+		return f"<{self.__class__.__name__}(id={self.id})>"
 
 	@property
 	@lazy
@@ -48,7 +48,7 @@ class Badge(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<Badge(user_id={self.user_id}, badge_id={self.badge_id})>"
+		return f"<{self.__class__.__name__}(user_id={self.user_id}, badge_id={self.badge_id})>"
 
 	@property
 	@lazy

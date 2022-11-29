@@ -168,7 +168,7 @@ class User(Base):
 
 
 	def __repr__(self):
-		return f"<User(id={self.id}, username={self.username})>"
+		return f"<{self.__class__.__name__}(id={self.id}, username={self.username})>"
 
 	def pay_account(self, currency, amount):
 		if currency == 'coins':

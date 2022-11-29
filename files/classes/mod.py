@@ -17,4 +17,4 @@ class Mod(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<Mod(user_id={self.user_id}, sub={self.sub})>"
+		return f"<{self.__class__.__name__}(user_id={self.user_id}, sub={self.sub})>"

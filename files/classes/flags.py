@@ -23,7 +23,7 @@ class Flag(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<Flag(user_id={self.user_id}, post_id={self.post_id})>"
+		return f"<{self.__class__.__name__}(user_id={self.user_id}, post_id={self.post_id})>"
 
 	@lazy
 	def realreason(self, v):
@@ -45,7 +45,7 @@ class CommentFlag(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<CommentFlag(user_id={self.user_id}, comment_id={self.comment_id})>"
+		return f"<{self.__class__.__name__}(user_id={self.user_id}, comment_id={self.comment_id})>"
 
 	@lazy
 	def realreason(self, v):

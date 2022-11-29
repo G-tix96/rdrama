@@ -17,4 +17,4 @@ class Media(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<Media(kind={self.kind}, filename={self.filename})>"
+		return f"<{self.__class__.__name__}(kind={self.kind}, filename={self.filename})>"

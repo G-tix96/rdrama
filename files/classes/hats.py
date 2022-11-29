@@ -27,7 +27,7 @@ class HatDef(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<HatDef(id={self.id})>"
+		return f"<{self.__class__.__name__}(id={self.id})>"
 
 	@lazy
 	def number_sold(self, db:scoped_session):
@@ -59,7 +59,7 @@ class Hat(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<Hat(user_id={self.user_id}, hat_id={self.hat_id})>"
+		return f"<{self.__class__.__name__}(user_id={self.user_id}, hat_id={self.hat_id})>"
 
 	@property
 	@lazy

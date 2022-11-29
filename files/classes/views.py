@@ -24,7 +24,7 @@ class ViewerRelationship(Base):
 		super().__init__(**kwargs)
 
 	def __repr__(self):
-		return f"<ViewerRelationship(user_id={self.user_id}, viewer_id={self.viewer_id})>"
+		return f"<{self.__class__.__name__}(user_id={self.user_id}, viewer_id={self.viewer_id})>"
 
 	@property
 	@lazy

@@ -13,4 +13,4 @@ class Transaction(Base):
 	claimed = Column(Boolean)
 
 	def __repr__(self):
-		return f"<Transaction(id={self.id})>"
+		return f"<{self.__class__.__name__}(id={self.id})>"

@@ -16,4 +16,4 @@ class BannedDomain(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<BannedDomain(domain={self.domain})>"
+		return f"<{self.__class__.__name__}(domain={self.domain})>"

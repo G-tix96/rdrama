@@ -20,7 +20,7 @@ class Marsey(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<Marsey(name={self.name})>"
+		return f"<{self.__class__.__name__}(name={self.name})>"
 
 	def tags_list(self):
 		return self.tags.split(" ") + [self.name[len("marsey"):]]  # type: ignore

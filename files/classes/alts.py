@@ -19,4 +19,4 @@ class Alt(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<Alt(id={self.id})>"
+		return f"<{self.__class__.__name__}(id={self.id})>"

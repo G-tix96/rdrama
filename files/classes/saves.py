@@ -20,7 +20,7 @@ class SaveRelationship(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<SaveRelationship(user_id={self.user_id}, submission_id={self.submission_id})>"
+		return f"<{self.__class__.__name__}(user_id={self.user_id}, submission_id={self.submission_id})>"
 
 
 class CommentSaveRelationship(Base):
@@ -38,4 +38,4 @@ class CommentSaveRelationship(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<CommentSaveRelationship(user_id={self.user_id}, comment_id={self.comment_id})>"
+		return f"<{self.__class__.__name__}(user_id={self.user_id}, comment_id={self.comment_id})>"

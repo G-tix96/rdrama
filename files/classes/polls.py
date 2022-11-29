@@ -24,7 +24,7 @@ class SubmissionOption(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<SubmissionOption(id={self.id})>"
+		return f"<{self.__class__.__name__}(id={self.id})>"
 
 	@property
 	@lazy
@@ -53,7 +53,7 @@ class SubmissionOptionVote(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<SubmissionOptionVote(option_id={self.option_id}, user_id={self.user_id})>"
+		return f"<{self.__class__.__name__}(option_id={self.option_id}, user_id={self.user_id})>"
 
 
 class CommentOption(Base):
@@ -74,7 +74,7 @@ class CommentOption(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<CommentOption(id={self.id})>"
+		return f"<{self.__class__.__name__}(id={self.id})>"
 
 	@property
 	@lazy
@@ -103,4 +103,4 @@ class CommentOptionVote(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<CommentOptionVote(option_id={self.option_id}, user_id={self.user_id})>"
+		return f"<{self.__class__.__name__}(option_id={self.option_id}, user_id={self.user_id})>"
