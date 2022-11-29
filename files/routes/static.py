@@ -41,13 +41,13 @@ def reddit_post(subreddit, v, path):
 def marseys(v:User):
 	if SITE == 'rdrama.net':
 		marseys = g.db.query(Marsey, User).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id==None)
-		sort = request.values.get("sort", "usage")
-		if sort == "usage":
-			marseys = marseys.order_by(Marsey.count.desc(), User.username).all()
+		sort = request.values.get("sort")
+		if sort == "author":
+			marseys = marseys.order_by(User.username, Marsey.count.desc()).all()
 		elif sort == "added":
 			marseys = marseys.order_by(nullslast(Marsey.created_utc.desc()), User.username).all()
-		else: # implied sort == "author"
-			marseys = marseys.order_by(User.username, Marsey.count.desc()).all()
+		else: # implied sort == "usage"
+			marseys = marseys.order_by(Marsey.count.desc(), User.username).all()
 
 		original = os.listdir("/asset_submissions/marseys/original")
 		for marsey, user in marseys:
