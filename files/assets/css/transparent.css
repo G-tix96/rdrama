@@ -16,3 +16,7 @@
 .fixed-bottom, .popover, .modal-content, .dropdown-menu, .navbar, #userpage > div.container-fluid, body, .form-control {
 	background-color: #21262d !important;
 }
+
+.App-side {
+	background: transparent;
+}
