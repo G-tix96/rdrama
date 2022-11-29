@@ -9,7 +9,7 @@
 	--background: transparent;
 }
 
-.container {
+.container, #root > div.App {
 	background: rgba(28, 34, 41, 0.90) !important;
 }
 
