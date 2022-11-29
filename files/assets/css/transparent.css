@@ -8,11 +8,11 @@
 	--gray-900: transparent;
 }
 
-.container, #root > div.App {
+.container, #userpage > div.container-fluid, #root > div.App {
 	background: rgba(28, 34, 41, 0.90) !important;
 }
 
-.fixed-bottom, .popover, .modal-content, .dropdown-menu, .navbar, #userpage > div.container-fluid, body, .form-control {
+.fixed-bottom, .popover, .modal-content, .dropdown-menu, .navbar, body, .form-control {
 	background-color: #21262d !important;
 }
 
