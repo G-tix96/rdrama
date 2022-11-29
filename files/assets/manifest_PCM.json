@@ -1,7 +1,7 @@
 {
 	"name": "PCM",
 	"short_name": "PCM",
-    "start_url": "https://pcmemes.net",
+	"start_url": "https://pcmemes.net",
 	"display": "minimal-ui",
 	"background_color": "#805AD5",
 	"description": "PCM",
