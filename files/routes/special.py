@@ -77,6 +77,7 @@ def _special_leaderboard_get():
 	result = g.db.execute(_special_leaderboard_query).all()
 	return result
 
+@app.get('/events/worldcup2022/leaderboard')
 @app.get('/special/worldcup2022/leaderboard')
 @auth_required
 def get_leaderboard(v):
