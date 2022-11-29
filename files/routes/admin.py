@@ -1455,9 +1455,10 @@ def admin_distinguish_comment(c_id, v):
 @app.get("/admin/banned_domains/")
 @admin_level_required(PERMS['DOMAINS_BAN'])
 def admin_banned_domains(v):
-
-	banned_domains = g.db.query(BannedDomain).all()
-	return render_template("admin/banned_domains.html", v=v, banned_domains=banned_domains)
+	banned_domains = g.db.query(BannedDomain) \
+		.order_by(BannedDomain.reason).all()
+	return render_template("admin/banned_domains.html", v=v,
+		banned_domains=banned_domains)
 
 @app.post("/admin/ban_domain")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
