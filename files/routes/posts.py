@@ -155,13 +155,13 @@ def post_id(pid, anything=None, v=None, sub=None):
 		# shadowban check is done in sort_objects
 		# output is needed: see comments.py
 		comments, output = get_comments_v_properties(v, True, None, Comment.parent_submission == post.id, Comment.level < 10)
-		pinned = [c[0] for c in comments.filter(Comment.stickied != None).all()]
+		pinned = [c[0] for c in comments.filter(Comment.stickied != None).order_by(Comment.created_utc.desc()).all()]
 		comments = comments.filter(Comment.level == 1, Comment.stickied == None)
 		comments = sort_objects(sort, comments, Comment,
 			include_shadowbanned=(v and v.can_see_shadowbanned))
 		comments = [c[0] for c in comments.all()]
 	else:
-		pinned = g.db.query(Comment).filter(Comment.parent_submission == post.id, Comment.stickied != None).all()
+		pinned = g.db.query(Comment).filter(Comment.parent_submission == post.id, Comment.stickied != None).order_by(Comment.created_utc.desc()).all()
 
 		comments = g.db.query(Comment).filter(
 				Comment.parent_submission == post.id,
@@ -199,22 +199,20 @@ def post_id(pid, anything=None, v=None, sub=None):
 		else: offset = 1
 		comments = comments2
 
-	pinned2 = set()
+	pinned2 = {}
 	for pin in pinned:
 		if pin.stickied_utc and int(time.time()) > pin.stickied_utc:
 			pin.stickied = None
 			pin.stickied_utc = None
 			g.db.add(pin)
 		elif pin.level > 1:
-			pinned2.add(pin.top_comment(g.db))
+			pinned2[pin.top_comment(g.db)] = ''
 			if pin.top_comment(g.db) in comments:
 				comments.remove(pin.top_comment(g.db))
 		else:
-			pinned2.add(pin)
+			pinned2[pin] = ''
 
-	pinned = list(pinned2)
-	pinned.sort(key=lambda x: x.created_utc, reverse=True)
-	post.replies = pinned + comments
+	post.replies = list(pinned2.keys()) + comments
 
 	post.views += 1
 	g.db.add(post)
