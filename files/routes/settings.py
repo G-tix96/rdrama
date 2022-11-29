@@ -92,7 +92,7 @@ def settings_personal_post(v):
 
 	background = request.values.get("background", v.background)
 	if background != v.background and background.endswith(".webp") and len(background) <= 20:
-		v.background = request.values.get("background")
+		v.background = request.values.get("background").replace('.webp', '')
 		updated = True
 	elif request.values.get("reddit", v.reddit) != v.reddit:
 		reddit = request.values.get("reddit")

@@ -157,17 +157,22 @@
 
 {% macro stylesheets_lower() %}
 	{% if SITE_NAME == 'rDrama' and (not v or v.is_banned or v.agendaposter) %}
-		{% set background = '/assets/images/backgrounds/glitter/1.webp?v=3' %}
+		{% set background = 'glitter/1' %}
 	{% elif v and v.background %}
-		{% set background = '/assets/images/backgrounds/' + v.background %}
+		{% set background = v.background %}
 	{% endif %}
-	<style>
-	body {
-		background:url({{background}}) center center fixed;
-		background-color: var(--background);
-		{% if 'anime' not in background %}background-size: cover;{% endif %}
-	}
-	</style>
+
+	{% if background %}
+		<style>
+		body {
+			background:url("/assets/images/backgrounds/{{background}}.webp?v=4") center center fixed;
+			background-color: var(--background);
+			{% if 'anime/' not in background -%}
+				background-size: cover;
+			{%- endif %}
+		}
+		</style>
+	{% endif %}
 {% endmacro %}
 
 {% macro default_theme() %}
