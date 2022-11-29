@@ -26,7 +26,7 @@ class Marsey(Base):
 		return self.tags.split(" ") + [self.name[len("marsey"):]]  # type: ignore
 
 	def json(self):
-		return {
+		data = {
 			"name": self.name,
 			"author_id": self.author_id,
 			"submitter_id": self.submitter_id,
@@ -35,3 +35,6 @@ class Marsey(Base):
 			"created_utc": self.created_utc,
 			"class": "Marsey",
 		}
+		if "author" in self.__dict__ and self.author:
+			data["author"] = self.author
+		return data
