@@ -269,6 +269,11 @@ def emoji(emoji):
 	if not emoji.endswith('.webp'): abort(404)
 	return static_file('assets/images/emojis', emoji, True, True)
 
+@app.get('/icon.webp')
+@limiter.exempt
+def icon(path):
+	return static_file('assets/images', f'{SITE_NAME}/icon.webp', True, True)
+
 @app.get('/i/<path:path>')
 @limiter.exempt
 def image(path):
