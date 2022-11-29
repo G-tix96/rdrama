@@ -70,7 +70,7 @@
 		'/h/'+sub.name, sub.sidebar if sub.sidebar %}
 	{% endif %}
 
-	<link rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
+	<link rel="icon" type="image/webp" href="/icon.webp?v=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="thumbnail" content="{{'site_preview.webp' | asset_siteimg}}">
 	<meta name="description" content="{{DESCRIPTION}}">
@@ -106,7 +106,7 @@
 
 {% macro stylesheets(include_user_css) %}
 	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-	<link id="favicon" rel="icon" type="image/webp" href="{{'icon.webp' | asset_siteimg}}">
+	<link id="favicon" rel="icon" type="image/webp" href="/icon.webp?v=1">
 	{% if v %}
 		<style>:root{--primary:#{{v.themecolor}}}</style>
 		{% if v.agendaposter %}
@@ -191,10 +191,10 @@
 	<meta name="format-detection" content="telephone=no">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 
-	<link rel="apple-touch-icon" sizes="180x180" href="{{'icon.webp' | asset_siteimg}}">
+	<link rel="apple-touch-icon" sizes="180x180" href="/icon.webp?v=1">
 	<link rel="manifest" href="/assets/manifest_{{SITE_NAME}}.json?v=425">
-	<link rel="mask-icon" href="{{'icon.webp' | asset_siteimg}}">
-	<link rel="shortcut icon" href="{{'icon.webp' | asset_siteimg}}">
+	<link rel="mask-icon" href="/icon.webp?v=1">
+	<link rel="shortcut icon" href="/icon.webp?v=1">
 	<meta name="apple-mobile-web-app-title" content="{{SITE_NAME}}">
 	<meta name="application-name" content="{{SITE_NAME}}">
 	<meta name="msapplication-TileColor" content="#{% if v %}{{v.themecolor}}{% else %}{{DEFAULT_COLOR}}{% endif %}">
@@ -205,6 +205,6 @@
 					'1024x748', '1024x768', '1125x2436', '1242x2208', '1356x2048',
 					'1668x2224', '1792x828', '2048x1496', '2048x2732', '2208x1242',
 					'2224x1668', '2436x1125', '2668x1242', '2737x2048') %}
-			<link rel="apple-touch-startup-image" sizes="{{size}}" href="{{'icon.webp' | asset_siteimg}}">
+			<link rel="apple-touch-startup-image" sizes="{{size}}" href="/icon.webp?v=1">
 	{% endfor %}
 {% endmacro %}
