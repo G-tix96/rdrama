@@ -368,6 +368,9 @@ def execute_blackjack_custom(v, target, body, type):
 		with open(f"/under_siege.log", "a", encoding="utf-8") as f:
 			t = str(time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.time())))
 			f.write(f"[{t}] {v.id} @{v.username} {type} {v.age}s\n")
+		from files.helpers.discord import discord_message_send
+		discord_message_send("1041917843094110239",
+			f"<{SITE_FULL}/id/{v.id}> `@{v.username} {type} {v.age}s`")
 		return False
 	return True
 
