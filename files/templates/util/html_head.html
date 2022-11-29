@@ -116,7 +116,7 @@
 				}
 			</style>
 		{% endif %}
-		{% if include_user_css %}
+		{% if include_user_css and not EVENT_STYLES %}
 			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
 			{% if v.css and not request.path.startswith('/settings/css') %}
 				<style>
@@ -147,7 +147,8 @@
 	{% endif %}
 
 	{% if EVENT_STYLES %}
-		<link rel="stylesheet" href="/assets/css/event/{{EVENT_STYLES}}">
+		{% set EVENT_STYLES = 'css/event/'+EVENT_STYLES %}
+		<link rel="stylesheet" href="{{EVENT_STYLES | asset}}">
 	{% endif %}
 
 	{% if request.path == '/chat' %}

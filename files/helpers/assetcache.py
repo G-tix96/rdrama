@@ -5,10 +5,15 @@ from collections import defaultdict
 import gevent
 import gevent_inotifyx as inotify
 
+from files.helpers.const import HOLIDAY_EVENT
+
 ASSET_DIR = 'files/assets'
 ASSET_SUBDIRS = ['/css', '/js', '/js/vendor']
 ASSET_URL = '/assets/'
 ASSET_CACHE = defaultdict(lambda: None)
+
+if HOLIDAY_EVENT:
+	ASSET_SUBDIRS.extend(['/css/event', '/js/event'])
 
 def assetcache_build(asset_dir, subdirs):
 	for subdir in subdirs:
