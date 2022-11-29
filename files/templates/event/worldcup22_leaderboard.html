@@ -24,7 +24,7 @@
 		<td>{{r[2]}}</td>
 		{% set ratio = r[1]/r[2] %}
 		{% set percent = (ratio*100)|string %}
-		<td data-sort-key="{{ratio}}">{{percent[:3].replace('0.0', '0').replace('.', '')}}%</td>
+		<td data-sort-key="{{ratio}}">{{percent[:3].replace('0.0', '0').rstrip('.')}}%</td>
 		<td>{{r[3]}}</td>
 	</tr>
 	{% endfor %}
