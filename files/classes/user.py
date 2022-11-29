@@ -365,7 +365,6 @@ class User(Base):
 	@property
 	@lazy
 	def created_date(self):
-
 		return time.strftime("%d %b %Y", time.gmtime(self.created_utc))
 
 	@property
@@ -373,7 +372,7 @@ class User(Base):
 	def last_active_date(self):
 		if self.last_active == 0:
 			return "never"
-		return str(time.strftime("%d %b %Y", time.gmtime(self.last_active)))
+		return time.strftime("%d %b %Y", time.gmtime(self.last_active))
 
 	@property
 	@lazy

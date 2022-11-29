@@ -366,7 +366,7 @@ def execute_blackjack_custom(v, target, body, type):
 		v.is_muted = True
 		g.db.add(v)
 		with open(f"/under_siege.log", "a", encoding="utf-8") as f:
-			t = str(time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.time())))
+			t = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.time()))
 			f.write(f"[{t}] {v.id} @{v.username} {type} {v.age}s\n")
 		from files.helpers.discord import discord_message_send
 		discord_message_send("1041917843094110239",

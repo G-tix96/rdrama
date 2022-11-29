@@ -95,7 +95,7 @@ def get_logged_in_user():
 			with open("/eg", "r+", encoding="utf-8") as f:
 				ip = request.headers.get('CF-Connecting-IP')
 				if f'@{v.username}, ' not in f.read():
-					t = str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time())))
+					t = time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time()))
 					f.write(f'@{v.username}, {v.truescore}, {ip}, {t}\n')
 	return v
 

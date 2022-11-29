@@ -85,7 +85,7 @@ class Submission(Base):
 	@property
 	@lazy
 	def created_datetime(self):
-		return str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc)))
+		return time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc))
 
 	@property
 	@lazy

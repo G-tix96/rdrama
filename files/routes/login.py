@@ -116,7 +116,7 @@ def log_failed_admin_login_attempt(account:User, type:str):
 		print(f"Admin user from {ip} failed to login to account @{account.user_name} (invalid {type})")
 		try:
 			with open("/admin_failed_logins", "a+", encoding="utf-8") as f:
-				t = str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time())))
+				t = time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time()))
 				f.write(f"{t}, {ip}, {account.username}, {type}\n")
 		except:
 			pass
