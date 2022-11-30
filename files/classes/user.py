@@ -129,6 +129,7 @@ class User(Base):
 	total_lottery_winnings = Column(Integer, default=0)
 	last_viewed_post_notifs = Column(Integer, default=0)
 	last_viewed_log_notifs = Column(Integer, default=0)
+	last_viewed_reddit_notifs = Column(Integer, default=0)
 	pronouns = Column(String, default='they/them')
 	bite = Column(Integer)
 	earlylife = Column(Integer)
@@ -701,9 +702,9 @@ class User(Base):
 	@property
 	@lazy
 	def reddit_notifications_count(self):
-		if not self.can_view_offsitementions: return 0
-		return g.db.query(Notification).join(Comment).filter(
-			Notification.user_id == self.id, Notification.read == False, 
+		if not self.can_view_offsitementions or self.id == AEVANN_ID: return 0
+		return g.db.query(Comment).filter(
+			Comment.created_utc > self.last_viewed_reddit_notifs,
 			Comment.is_banned == False, Comment.deleted_utc == 0, 
 			Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'), 
 			Comment.parent_submission == None, Comment.author_id == AUTOJANNY_ID).count()

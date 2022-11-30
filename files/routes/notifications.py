@@ -224,28 +224,17 @@ def notifications_reddit(v:User):
 
 	if not v.can_view_offsitementions: abort(403)
 
-	notifications = g.db.query(Notification, Comment).join(Notification.comment).filter(
-		Notification.user_id == v.id,
+	listing = g.db.query(Comment).filter(
+		Comment.created_utc > v.last_viewed_reddit_notifs,
 		Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
 		Comment.parent_submission == None,
 		Comment.author_id == AUTOJANNY_ID
-	).order_by(Notification.created_utc.desc()).offset(25 * (page - 1)).limit(101).all()
+	).order_by(Comment.created_utc.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
 
-	listing = []
+	next_exists = len(listing) > PAGE_SIZE
 
-	for index, x in enumerate(notifications[:100]):
-		n, c = x
-		if n.read and index > 24: break
-		elif not n.read:
-			n.read = True
-			c.unread = True
-			g.db.add(n)
-		if n.created_utc > 1620391248: c.notif_utc = n.created_utc
-		listing.append(c)
-
-	next_exists = (len(notifications) > len(listing))
-
-	g.db.commit()
+	v.last_viewed_reddit_notifs = int(time.time())
+	g.db.add(v)
 
 	if v.client: return {"data":[x.json(g.db) for x in listing]}
 
@@ -271,7 +260,6 @@ def notifications(v:User):
 		Notification.user_id == v.id,
 		Comment.is_banned == False,
 		Comment.deleted_utc == 0,
-		Comment.body_html.notlike('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
 		or_(Comment.sentto == None, Comment.sentto == MODMAIL_ID),
 		not_(and_(Comment.sentto != None, Comment.sentto == MODMAIL_ID, User.is_muted)),
 	)
