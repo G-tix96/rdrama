@@ -26,6 +26,9 @@ RUN mkdir /asset_submissions/marseys
 RUN mkdir /asset_submissions/hats
 RUN mkdir /asset_submissions/marseys/original
 RUN mkdir /asset_submissions/hats/original
+RUN mkdir /var/log/rdrama
+
+RUN chown rdrama:rdrama /var/log/rdrama
 
 ENV NODE_VERSION=16.13.0
 RUN apt install -y curl

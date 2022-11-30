@@ -10,6 +10,7 @@ from files.helpers.const import *
 from files.helpers.settings import get_setting
 from files.helpers.get import *
 from files.helpers.mail import send_mail, send_verification_email
+from files.helpers.logging import log_file
 from files.helpers.regex import *
 from files.helpers.security import *
 from files.helpers.useractions import badge_grant
@@ -115,12 +116,8 @@ def log_failed_admin_login_attempt(account:User, type:str):
 		if not account or account.admin_level < PERMS['SITE_WARN_ON_INVALID_AUTH']: return
 		ip = get_CF()
 		print(f"Admin user from {ip} failed to login to account @{account.user_name} (invalid {type})")
-		try:
-			with open("/admin_failed_logins", "a+", encoding="utf-8") as f:
-				t = time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time()))
-				f.write(f"{t}, {ip}, {account.username}, {type}\n")
-		except:
-			pass
+		t = time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time()))
+		log_file(f"{t}, {ip}, {account.username}, {type}", "admin_failed_logins.log")
 
 def on_login(account, redir=None):
 	session["lo_user"] = account.id

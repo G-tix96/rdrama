@@ -52,6 +52,9 @@ mkdir /asset_submissions/marseys
 mkdir /asset_submissions/hats
 mkdir /asset_submissions/marseys/original
 mkdir /asset_submissions/hats/original
+mkdir /var/log/rdrama
+
+chown rdrama:rdrama /var/log/rdrama
 
 git config --global --add safe.directory /songs
 git config --global --add safe.directory /images

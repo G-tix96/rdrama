@@ -14,6 +14,7 @@ from files.helpers.const import *
 from files.helpers.const_stateful import *
 from files.helpers.discord import discord_message_send
 from files.helpers.get import *
+from files.helpers.logging import log_file
 from files.helpers.sanitize import *
 from files.helpers.settings import get_setting
 from files.helpers.slots import check_slots_command
@@ -454,9 +455,8 @@ def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], bod
 		if not v.is_banned: v.ban_reason = f"Under Siege"
 		v.is_muted = True
 		g.db.add(v)
-		with open(f"/under_siege.log", "a", encoding="utf-8") as f:
-			t = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.time()))
-			f.write(f"[{t}] {v.id} @{v.username} {type} {v.age}s\n")
+		t = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.time()))
+		log_file(f"[{t}] {v.id} @{v.username} {type} {v.age}s")
 		discord_message_send(UNDER_SIEGE_CHANNEL_ID,
 			f"<{SITE_FULL}/id/{v.id}> `@{v.username} {type} {v.age}s`")
 		return False
