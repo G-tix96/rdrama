@@ -13,7 +13,6 @@
 		}
 	</style>
 
-{% if not err %}
 	<div class="srd">
 		{% if SITE_NAME == 'rDrama' %}
 			{% if range(1,5) | random == 1 %}
@@ -46,17 +45,8 @@
 			{{loggedin_counter+loggedout_counter}} people here now ({{loggedin_counter}} logged in)
 		{% endif %}
 	</div>
-{% else %}
-	<style>
-		body {padding-top: 54px !important}
-		@media (max-width: 767.98px) {
-			body {
-				padding-top: 44px !important
-			}
-		}
-	</style>
-{% endif %}
-		<div class="navbar navbar-expand-md navbar-light" id="navbar">
+
+	<div class="navbar navbar-expand-md navbar-light" id="navbar">
 			<div class="container-fluid" style="padding:0;">
 			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not sub %}flex-grow-1{% endif %}">
 				<img id="header--icon" alt="header icon" {% if sub %}src="{{sub.marsey_url}}"{% else %}src="{{'headericon.webp' | asset_siteimg}}"{% endif %}>
@@ -86,7 +76,7 @@
 			
 			{% if not request.path.startswith('/search/') %}
 				<div class="flex-grow-1 d-fl d-mob-none {% if not v %}pad{% endif %}">
-					<form class="form-inline search flex-nowrap mx-0 mx-lg-auto" {% if err %}style="margin-right:40rem!important"{% endif %} action="{% if request.path.startswith('/search') %}{{request.path}}{% else %}/search/posts/{% endif %}" method="get">
+					<form class="form-inline search flex-nowrap mx-0 mx-lg-auto" action="{% if request.path.startswith('/search') %}{{request.path}}{% else %}/search/posts/{% endif %}" method="get">
 						<input autocomplete="off" class="form-control w-100" type="search" placeholder="{{search_placeholder}}" aria-label="Search" name="q" value="{{request.values.get('q', '')}}">
 						<span class="input-group-append">
 							<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem;">
@@ -113,7 +103,6 @@
 				{% endif %}
 			{% endif %}
 			
-		{% if not err %}
 			{% if v and v.admin_level >= PERMS['ADMIN_HOME_VISIBLE'] %}
 				<a class="mobile-nav-icon d-md-none" href="/admin"><i class="fas fa-crown align-middle text-gray-500 black"></i></a>
 			{% endif %}
@@ -346,12 +335,11 @@
 			</li>
 		</ul>
 	</div>
-	{% endif %}
 	</div>
 	</div>
 </nav>
 
-{% if v and not err %}
+{% if v %}
 	<div id="formkey" class="d-none">{{v|formkey}}</div>
 {% endif %}
 
