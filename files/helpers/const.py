@@ -491,7 +491,8 @@ TIERS_ID_TO_NAME = {
 }
 
 BADGE_BLACKLIST = { # only grantable by AEVANN_ID and SNAKES_ID except on PCM
-	16, 17, 21, 22, 23, 24, 25, 26, 27, # Marsey Artist x2 / Patron Tiers
+	1, 2, 6, 10, 11, 12, # Alpha, Verified Email, Beta, Recruiter x3
+	16, 17, 143, 21, 22, 23, 24, 25, 26, 27, # Marsey Artist x3 / Patron Tiers
 	94, 95, 96, 97, 98, 109, 67, 68, 83, 84, 87, 90, 140, 179, 185, # Award Status
 	137, # Lottery Winner
 }
@@ -678,7 +679,7 @@ elif SITE == 'watchpeopledie.tv':
 	}
 
 	BADGE_WHITELIST = {
-		85, 99, 101, # Sigma, Artist Badges x2
+		7, 74, 85, 99, 101, # Bug, Grass, Sigma, SidebarArt, BannerArt
 		59, 60, 66, 104, 108, # Classic Accolades, Nword
 		117, 124, 144, 145, 146, 147, 148, 149, # Census Reused for Fun
 	}
