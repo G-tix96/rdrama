@@ -48,7 +48,7 @@ def error_401(e):
 		qs = urlencode(dict(request.values))
 		argval = quote(f"{path}?{qs}", safe='').replace('/logged_out','')
 		if not argval: argval = '/'
-		if session.get("history") or not get_setting("Signups"): return redirect(f"/login?redirect={argval}")
+		if session.get("history") or not get_setting("signups"): return redirect(f"/login?redirect={argval}")
 		else: return redirect(f"/signup?redirect={argval}")
 
 @app.errorhandler(500)

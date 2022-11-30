@@ -7,10 +7,10 @@ import gevent_inotifyx as inotify
 from files.helpers.const import SETTINGS_FILENAME
 
 _SETTINGS = {
-	"Bots": True,
-	"Fart mode": False,
-	"Read-only mode": False,
-	"Signups": True,
+	"bots": True,
+	"fart_mode": False,
+	"read_only_mode": False,
+	"signups": True,
 	"login_required": False,
 	"under_siege": False,
 }
