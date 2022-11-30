@@ -4,7 +4,7 @@ from files.helpers.const import *
 from files.helpers.settings import get_setting
 from files.helpers.cloudflare import CLOUDFLARE_AVAILABLE
 from files.routes.wrappers import *
-from files.__main__ import app
+from files.__main__ import app, limiter
 
 def session_init():
 	if not session.get("session_id"):
@@ -21,8 +21,7 @@ def before_request():
 	if not g.agent and request.path != '/kofi':
 		return 'Please use a "User-Agent" header!', 403
 
-	ua = g.agent or ''
-	ua = ua.lower()
+	ua = g.agent.lower()
 
 	if request.host != SITE:
 		return {"error": "Unauthorized host provided"}, 403
@@ -31,7 +30,6 @@ def before_request():
 
 	if not get_setting('Bots') and request.headers.get("Authorization"): abort(403)
 
-	g.db = db_session()
 	g.webview = '; wv) ' in ua
 
 	if ' firefox/' in ua:
@@ -49,6 +47,8 @@ def before_request():
 	if not request.full_path: request.full_path = '/'
 
 	session_init()
+	limiter.check()
+	g.db = db_session()
 
 
 @app.after_request
