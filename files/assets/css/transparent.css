@@ -12,7 +12,7 @@
 	background: rgba(28, 34, 41, 0.90) !important;
 }
 
-.fixed-bottom, .popover, .modal-content, .dropdown-menu, .navbar, body, .form-control {
+.fixed-bottom, .popover, .modal-content, .dropdown-menu, .navbar, body, .form-control, #speed-carot-modal {
 	background-color: #21262d !important;
 }
 
