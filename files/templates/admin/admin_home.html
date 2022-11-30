@@ -108,7 +108,7 @@
 {% if v.admin_level >= PERMS['SITE_SETTINGS'] %}
 	{% for setting in site_settings.keys() %}
 	<div class="custom-control custom-switch{% if loop.index > 1 %} mt-1{% endif %}" id="settings-{{setting}}-container">
-		<input autocomplete="off" type="checkbox" class="custom-control-input" id="{{settings-{{setting}}-checkbox" {% if site_settings[setting] %}checked{% endif %} onchange="postToastSwitch(this, '/admin/site_settings/{{setting}}');">
+		<input autocomplete="off" type="checkbox" class="custom-control-input" id="settings-{{setting}}-checkbox" {% if site_settings[setting] %}checked{% endif %} onchange="postToastSwitch(this, '/admin/site_settings/{{setting}}');">
 		<label class="custom-control-label" for="settings-{{setting}}-checkbox">{{setting.replace('_', ' ').title()}}</label>
 	</div>
 	{% endfor %}
