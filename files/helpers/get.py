@@ -5,7 +5,7 @@ from flask import *
 from sqlalchemy import and_, any_, or_
 from sqlalchemy.orm import joinedload, selectinload, Query
 
-from files.classes import Comment, CommentVote, Hat, Sub, Submission, \
+from files.classes import Comment, CommentVote, Hat, Flag, Sub, Submission, \
 	SubmissionOption, User, UserBlock, Vote
 from files.helpers.const import AUTOJANNY_ID
 from files.helpers.sorting_and_time import sort_comment_results
@@ -207,11 +207,14 @@ def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False, extra
 				selectinload(User.sub_mods),
 				selectinload(User.sub_exiles),
 			),
-			selectinload(Submission.flags),
+			selectinload(Submission.flags).options(
+				joinedload(Flag.user),
+			),
 			selectinload(Submission.awards),
 			selectinload(Submission.options).options(
 				selectinload(SubmissionOption.votes),
 			),
+			selectinload(Submission.subr),
 		)
 
 	results = query.all()
@@ -388,6 +391,7 @@ def get_comment_trees_eager(
 		selectinload(Comment.author).options(
 			selectinload(User.hats_equipped.and_(Hat.equipped == True)) \
 				.joinedload(Hat.hat_def, innerjoin=True),
+			selectinload(User.badges),
 			selectinload(User.sub_mods),
 			selectinload(User.sub_exiles),
 		),
