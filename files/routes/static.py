@@ -427,5 +427,5 @@ def donate(v):
 @limiter.exempt
 def sex():
 	print('sex!', flush=True)
-	print(request.values.items(), flush=True)
+	print(request.values, flush=True)
 	return ''
