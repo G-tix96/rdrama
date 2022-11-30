@@ -1598,7 +1598,7 @@ approved_embed_hosts = {
 	'ponybooru.org',
 	'e621.net',
 	'ponerpics.org',
-	'furaffinity.net'
+	'furaffinity.net',
 	}
 
 
@@ -1723,6 +1723,9 @@ if SITE_NAME == 'rDrama':
 		'tildes.net',
 		'blacktwitterapp.com',
 		'dailystormer.in',
+		'us.forums.blizzard.com',
+		'eu.forums.blizzard.com',
+		'bungie.net',
 
 		#fediverse
 		'rdrama.cc',
