@@ -49,6 +49,7 @@ def chat(v):
 @is_not_permabanned
 @ratelimit_user("3/second;10/minute")
 def speak(data, v):
+	limiter.check()
 	if v.is_banned: return '', 403
 	if TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM and not v.club_allowed: return '', 403
 
