@@ -32,13 +32,6 @@ def before_request():
 
 	g.webview = '; wv) ' in ua
 
-	if ' firefox/' in ua:
-		g.type = 'firefox'
-	elif 'iphone' in ua or 'ipad' in ua or 'ipod' in ua or 'mac os' in ua:
-		g.type = 'apple'
-	else:
-		g.type = 'chromium'
-
 	g.is_tor = request.headers.get("cf-ipcountry") == "T1"
 
 	request.path = request.path.rstrip('/')
