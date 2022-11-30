@@ -37,9 +37,10 @@ def login_deduct_when(resp):
 	return g.login_failed
 
 @app.post("/login")
+@auth_desired
 @limiter.limit("6/minute;10/day", deduct_when=login_deduct_when)
-def login_post():
-	template = ''
+def login_post(v:Optional[User]):
+	if v: abort(400)
 	g.login_failed = True
 
 	username = request.values.get("username")
