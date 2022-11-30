@@ -13,12 +13,14 @@ from flask_compress import Compress
 from flask_limiter import Limiter
 from sqlalchemy import *
 from sqlalchemy.orm import scoped_session, sessionmaker
+from easy_profile import EasyProfileMiddleware
 
 from files.helpers.const import *
 from files.helpers.const_stateful import const_initialize
 from files.helpers.settings import reload_settings, start_watching_settings
 
 app = Flask(__name__, template_folder='templates')
+app.wsgi_app = EasyProfileMiddleware(app.wsgi_app)
 app.url_map.strict_slashes = False
 app.jinja_env.cache = {}
 app.jinja_env.auto_reload = True

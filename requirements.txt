@@ -23,6 +23,7 @@ qrcode
 redis
 requests
 SQLAlchemy
+sqlalchemy-easy-profile
 tinycss2
 tldextract
 user-agents

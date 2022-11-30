@@ -215,6 +215,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	top_comments = list(pinned2.keys()) + comments
 	top_comment_ids = [c.id for c in top_comments]
 	post.replies = get_comment_trees_eager(top_comment_ids, sort, v)
+	#post.replies = list(pinned2.keys()) + comments
 
 	post.views += 1
 	g.db.add(post)

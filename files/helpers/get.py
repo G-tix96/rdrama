@@ -5,7 +5,8 @@ from flask import *
 from sqlalchemy import and_, any_, or_
 from sqlalchemy.orm import joinedload, selectinload, Query
 
-from files.classes import Comment, CommentVote, Hat, Sub, Submission, User, UserBlock, Vote
+from files.classes import Comment, CommentVote, Hat, Sub, Submission, \
+	SubmissionOption, User, UserBlock, Vote
 from files.helpers.const import AUTOJANNY_ID
 from files.helpers.sorting_and_time import sort_comment_results
 
@@ -208,7 +209,9 @@ def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False, extra
 			),
 			selectinload(Submission.flags),
 			selectinload(Submission.awards),
-			selectinload(Submission.options),
+			selectinload(Submission.options).options(
+				selectinload(SubmissionOption.votes),
+			),
 		)
 
 	results = query.all()
