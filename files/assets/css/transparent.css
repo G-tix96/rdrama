@@ -16,6 +16,6 @@
 	background-color: #21262d !important;
 }
 
-.App-side {
+.App-side, .flaggers {
 	background: transparent !important;
 }
