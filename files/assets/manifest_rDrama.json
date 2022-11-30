@@ -4,7 +4,6 @@
 	"start_url": "https://rdrama.net",
 	"display": "minimal-ui",
 	"background_color": "#FF66AC",
-	"theme_color": "#FF66AC",
 	"description": "rDrama",
 	"icons": [
 			{
