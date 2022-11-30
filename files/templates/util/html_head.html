@@ -12,7 +12,7 @@
 	<script defer src="{{'js/vendor/bootstrap.js' | asset}}"></script>
 	<script defer src="{{'js/core.js' | asset}}"></script>
 
-	<script>
+	<script nonce="{{g.nonce}}">
 		if (window.matchMedia('(display-mode: minimal-ui)')['matches']) {
 			const links = document.querySelectorAll('a[data-target="t"]');
 			for (const link of links) {
@@ -108,9 +108,9 @@
 	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
 	<link id="favicon" rel="icon" type="image/webp" href="/icon.webp?v=1">
 	{% if v %}
-		<style>:root{--primary:#{{v.themecolor}}}</style>
+		<style nonce="{{g.nonce}}">:root{--primary:#{{v.themecolor}}}</style>
 		{% if v.agendaposter %}
-			<style>
+			<style nonce="{{g.nonce}}">
 				html {
 					cursor:url('/i/dildo.webp?v=2000'), auto;
 				}
@@ -119,12 +119,12 @@
 		{% if include_user_css and not EVENT_STYLES %}
 			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
 			{% if v.css and not request.path.startswith('/settings/css') %}
-				<style>
+				<style nonce="{{g.nonce}}">
 					{{v.css | safe}}
 				</style>
 			{% endif %}
 			{% if v.themecolor == '30409f' %}
-				<style>
+				<style nonce="{{g.nonce}}">
 					p a {
 						color: #2a96f3;
 					}
@@ -168,7 +168,7 @@
 	{% endif %}
 
 	{% if background %}
-		<style>
+		<style nonce="{{g.nonce}}">
 		body {
 			background:url("/i/backgrounds/{{background}}.webp?v=4") center center fixed;
 			background-color: var(--background);
@@ -181,7 +181,7 @@
 {% endmacro %}
 
 {% macro default_theme() %}
-	<style>:root{--primary:#{{DEFAULT_COLOR}}}</style>
+	<style nonce="{{g.nonce}}">:root{--primary:#{{DEFAULT_COLOR}}}</style>
 	<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
 {% endmacro %}
 

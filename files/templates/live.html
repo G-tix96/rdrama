@@ -1,7 +1,7 @@
 {% extends "default.html" %}
 {% block pagetitle %}Live{% endblock %}
 {% block content %}
-	<style>
+	<style nonce="{{g.nonce}}">
 		tr:hover {
 			border: 2.5px solid var(--primary);
 		}
@@ -12,7 +12,7 @@
 			width: 130px;
 		}
 	</style>
-	<script>
+	<script nonce="{{g.nonce}}">
 		function go_to(e, link) {
 			if (!e.target.classList.contains('remove-streamer'))
 				window.open(link, '_blank');

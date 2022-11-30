@@ -50,7 +50,7 @@
 {% endif %}
 
 {% if p.award_count("tilt", v) %}
-	<style>
+	<style nonce="{{g.nonce}}">
 		@keyframes post-tilt {
 			0% {transform: rotate(0deg);}
 			25% {transform: rotate({{p.award_count("tilt", v)}}deg);}

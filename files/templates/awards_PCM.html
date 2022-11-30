@@ -7,7 +7,7 @@
 {% endif %}
 
 {% if p.award_count("crab", v) %}
-	<script>
+	<script nonce="{{g.nonce}}">
 		let audio = new Audio('/assets/media/crab.mp3');
 		audio.loop=true;
 
@@ -20,7 +20,7 @@
 	</script>
 {% endif %}
 
-<style>
+<style nonce="{{g.nonce}}">
 	.toe img {
 		width: 100px !important;
 		height: auto !important;

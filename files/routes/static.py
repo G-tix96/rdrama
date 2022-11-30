@@ -421,3 +421,11 @@ if not os.path.exists(f'files/templates/donate_{SITE_NAME}.html'):
 @auth_desired_with_logingate
 def donate(v):
 	return render_template(f'donate_{SITE_NAME}.html', v=v)
+
+
+@app.post('/sex')
+@limiter.exempt
+def sex():
+	print('sex!', flush=True)
+	print(request.values.items(), flush=True)
+	return ''

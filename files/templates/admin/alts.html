@@ -67,7 +67,7 @@
 </section>
 {% endif %}
 
-<script>
+<script nonce="{{g.nonce}}">
 	function submitAddAlt(element) {
 		if (!element || !element.form) return;
 		const isLinking = element.id == 'add-alt-form-link';

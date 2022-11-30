@@ -1,7 +1,7 @@
 {% extends "casino/game_screen.html" %}
 
 {% block script %}
-<script>
+<script nonce="{{g.nonce}}">
 	function makeBlackjackRequest(action) {
 		const xhr = new XMLHttpRequest();
 		xhr.open("post", `/casino/twentyone/${action}`);
@@ -236,7 +236,7 @@
 {% endblock %}
 
 {% block actions %}
-<style>
+<style nonce="{{g.nonce}}">
 	.blackjack-cardset {
 		position: relative;
 		display: flex;

@@ -2,6 +2,7 @@ import secrets
 
 from files.helpers.const import *
 from files.helpers.settings import get_setting
+from files.helpers.security import generate_hash
 from files.helpers.cloudflare import CLOUDFLARE_AVAILABLE
 from files.routes.wrappers import *
 from files.__main__ import app, limiter
@@ -30,6 +31,8 @@ def before_request():
 
 	if not get_setting('Bots') and request.headers.get("Authorization"): abort(403)
 
+	g.nonce = generate_hash(f'{time.time()}+{session.get("session_id")}')
+
 	g.webview = '; wv) ' in ua
 
 	if ' firefox/' in ua:
@@ -51,6 +54,31 @@ def before_request():
 	g.db = db_session()
 
 
+CSP = {
+	"upgrade-insecure-requests": "",
+	"object-src": "'none'",
+	"form-action": "'self'",
+	"manifest-src": "'self'",
+	"worker-src": "'self'",
+	"base-uri": "'self'",
+	"style-src-elem": "'self' 'nonce-{nonce}'",
+	"script-src-elem": "'self' 'nonce-{nonce}' challenges.cloudflare.com rdrama.net",
+	"script-src": "'unsafe-inline'",
+	"frame-src": "challenges.cloudflare.com www.youtube-nocookie.com platform.twitter.com",
+	"connect-src": "'self' tls-use1.fpapi.io api.fpjs.io 00bb6d59-7b11-4339-b1ae-b1f1259d1316.pushnotifications.pusher.com",
+	"report-to": "csp",
+	"report-uri": "csp",
+}
+
+if not IS_LOCALHOST:
+	CSP["default-src"] = "https:"
+	CSP["img-src"] = "https: data:"
+
+CSP_str = ''
+
+for k, val in CSP.items():
+	CSP_str += f'{k} {val}; '
+
 @app.after_request
 def after_request(response):
 	if response.status_code < 400:
@@ -62,6 +90,10 @@ def after_request(response):
 			g.db.commit()
 			g.db.close()
 			del g.db
+
+	response.headers.add("Report-To", {"group":"csp","max_age":10886400,"endpoints":[{"url":"/sex"}]})
+	response.headers.add("Content-Security-Policy", CSP_str.format(nonce=g.nonce))
+
 	return response
 
 

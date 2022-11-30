@@ -1,7 +1,7 @@
 {% extends "settings.html" %}
 {% block pagetitle %}Personal Settings{% endblock %}
 {% block content %}
-<style>
+<style nonce="{{g.nonce}}">
 	.bg-image {
 		padding: 0.25rem;
 		width: 15rem;
@@ -261,7 +261,7 @@
 {% include "modals/gif.html" %}
 
 {% if v.flairchanged %}
-	<script>
+	<script nonce="{{g.nonce}}">
 		document.addEventListener('DOMContentLoaded', function() {
 			const date = formatDate(new Date({{v.flairchanged}}*1000));
 			const text = ` - Your flair has been locked until ${date}`;
@@ -308,7 +308,7 @@
 {{permanent_filter_modal('profanityreplacer', '/settings/personal', 'profanityreplacer', 'Profanity Replacer', 'Soapy-Mouthed Angel')}}
 {%- endif %}
 {% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] -%}
-<script>
+<script nonce="{{g.nonce}}">
 	document.addEventListener("DOMContentLoaded", function (event) {
 		const sr_toggle = document.getElementById("slurreplacer");
 		const sr_link = document.getElementById('slurreplacer-perma-link');

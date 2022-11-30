@@ -8,7 +8,7 @@
 {% endblock %}
 {% block pagetype %}thread{% endblock %}
 {% block head_final %}
-<style>
+<style nonce="{{g.nonce}}">
 	body > .container {
 		padding-left: 20px !important;
 		padding-right: 20px !important;
@@ -411,7 +411,7 @@
 	</div>
 	
 	{% if offset %}
-		<script>
+		<script nonce="{{g.nonce}}">
 			function viewmore(pid,sort,offset,ids) {
 				btn = document.getElementById("viewbtn");
 				btn.disabled = true;
@@ -492,7 +492,7 @@
 	{% include "comments.html" %}
 {% endif %}
 
-<script>
+<script nonce="{{g.nonce}}">
 	{% if not v or v.highlightcomments %}
 		document.addEventListener('DOMContentLoaded', function() {
 			showNewCommentCounts('{{p.id}}', {{p.comment_count}})
@@ -509,7 +509,7 @@
 </script>
 
 {% if success %}
-	<script>
+	<script nonce="{{g.nonce}}">
 		history.pushState(null, null, '{{p.permalink}}');
 		localStorage.setItem("post-title", "")
 		localStorage.setItem("post-text", "")
@@ -526,7 +526,7 @@
 {% endif %}
 
 {% if fart and not (v and v.has_badge(128)) %}
-	<script>
+	<script nonce="{{g.nonce}}">
 		fart = Math.floor(Math.random() * 5) + 1
 		let audio = new Audio(`/assets/images/${fart}.webp`);
 

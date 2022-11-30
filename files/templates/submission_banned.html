@@ -75,7 +75,7 @@
 	</div>
 
 {% if offset %}
-	<script>
+	<script nonce="{{g.nonce}}">
 		function viewmore(pid,sort,offset,ids) {
 			btn = document.getElementById("viewbtn");
 			btn.disabled = true;

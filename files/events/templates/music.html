@@ -3,7 +3,7 @@
 		{% set path = "assets/media/event/music" %}
 		{% set song = "/" + path + "/" + listdir('files/' + path)|random() + '?v=45' %}
 	{% endif %}
-	<script>
+	<script nonce="{{g.nonce}}">
 		const audio = new Audio("{{song}}");
 		audio.loop=true;
 

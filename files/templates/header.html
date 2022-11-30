@@ -4,7 +4,7 @@
 {%- endif -%}
 
 <nav class="shadow-md fixed-top">
-	<style>
+	<style nonce="{{g.nonce}}">
 		body {padding-top: 83px !important}
 		@media (max-width: 767.98px) {
 			body {
@@ -55,7 +55,7 @@
 			{% if sub %}
 				<a id="sub-name" href="/h/{{sub}}" class="font-weight-bold ml-2 flex-grow-1 mt-1" {% if sub.name|length >= 17 %}style="font-size:max(10px,1.2vw)"{% else %}style="font-size:max(10px,1.2vw)"{% endif %}>{% if not HOLE_STYLE_FLAIR %}/h/{% endif %}{{sub}}</a>
 			{% elif has_logo %}
-				<style>
+				<style nonce="{{g.nonce}}">
 					{% if SITE_NAME == 'WPD' %}
 						@media (min-width: 1000px) {
 					{% else %}
@@ -343,12 +343,12 @@
 	<div id="formkey" class="d-none">{{v|formkey}}</div>
 {% endif %}
 
-<script>
+<script nonce="{{g.nonce}}">
 	IMAGE_FORMATS = {{IMAGE_FORMATS|safe}};
 </script>
 
 {% if not v %}
-	<style>
+	<style nonce="{{g.nonce}}">
 		.pad {
 			padding-bottom: 7.4px;
 			padding-top: 7.4px;
@@ -357,7 +357,7 @@
 {% endif %}
 
 {% if v and v.poor -%}
-	<style>
+	<style nonce="{{g.nonce}}">
 		* :not(img[src="/i/hand.webp"] + img, img.golden, img[g], img[glow], .live-circle) {
 			animation: unset !important;
 		}
