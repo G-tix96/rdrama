@@ -512,10 +512,13 @@ def under_attack(v):
 
 def admin_badges_grantable_list(v):
 	query = g.db.query(BadgeDef)
-	if BADGE_BLACKLIST and v.id != AEVANN_ID and SITE != 'pcmemes.net':
-		query = query.filter(BadgeDef.id.notin_(BADGE_BLACKLIST))
-	if BADGE_WHITELIST:
-		query = query.filter(BadgeDef.id.in_(BADGE_WHITELIST))
+
+	if v.id not in {AEVANN_ID, SNAKES_ID} and SITE != 'pcmemes.net':
+		if BADGE_BLACKLIST:
+			query = query.filter(BadgeDef.id.notin_(BADGE_BLACKLIST))
+		elif BADGE_WHITELIST and v.id != CARP_ID:
+			query = query.filter(BadgeDef.id.in_(BADGE_WHITELIST))
+
 	badge_types = query.order_by(BadgeDef.id).all()
 	return badge_types
 

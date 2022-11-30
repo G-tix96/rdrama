@@ -490,7 +490,7 @@ TIERS_ID_TO_NAME = {
 	6: "Rich Bich",
 }
 
-BADGE_BLACKLIST = { # only grantable by AEVANN_ID except on PCM
+BADGE_BLACKLIST = { # only grantable by AEVANN_ID and SNAKES_ID except on PCM
 	16, 17, 21, 22, 23, 24, 25, 26, 27, # Marsey Artist x2 / Patron Tiers
 	94, 95, 96, 97, 98, 109, 67, 68, 83, 84, 87, 90, 140, 179, 185, # Award Status
 	137, # Lottery Winner
