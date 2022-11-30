@@ -10,6 +10,7 @@ SITE_NAME = environ.get("SITE_NAME", "rdrama.net").strip()
 SECRET_KEY = environ.get("SECRET_KEY", DEFAULT_CONFIG_VALUE).strip()
 PROXY_URL = environ.get("PROXY_URL", "http://localhost:18080").strip()
 LOG_DIRECTORY = environ.get("LOG_DIRECTORY", "/var/log/rdrama")
+SETTINGS_FILENAME = environ.get("SETTINGS_FILENAME", "/site_settings.json")
 GIPHY_KEY = environ.get("GIPHY_KEY", DEFAULT_CONFIG_VALUE).strip()
 DISCORD_BOT_TOKEN = environ.get("DISCORD_BOT_TOKEN", DEFAULT_CONFIG_VALUE).strip()
 TURNSTILE_SITEKEY = environ.get("TURNSTILE_SITEKEY", DEFAULT_CONFIG_VALUE).strip()
@@ -49,8 +50,6 @@ class Service(Enum):
 	CHAT = auto()
 
 CLOUDFLARE_COOKIE_VALUE = "yes." # remember to change this in CloudFlare too
-
-SETTINGS_FILENAME = '/site_settings.json'
 
 DEFAULT_RATELIMIT = "3/second;30/minute;200/hour;1000/day"
 DEFAULT_RATELIMIT_SLOWER = "1/second;30/minute;200/hour;1000/day"
