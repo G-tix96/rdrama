@@ -28,8 +28,6 @@ RUN mkdir /asset_submissions/marseys/original
 RUN mkdir /asset_submissions/hats/original
 RUN mkdir /var/log/rdrama
 
-RUN chown rdrama:rdrama /var/log/rdrama
-
 ENV NODE_VERSION=16.13.0
 RUN apt install -y curl
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
