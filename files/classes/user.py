@@ -411,7 +411,7 @@ class User(Base):
 	@property
 	@lazy
 	def can_view_offsitementions(self):
-		return self.offsitementions or (self.admin_level >= PERMS['NOTIFICATIONS_REDDIT'] and self.id != AEVANN_ID)
+		return self.offsitementions or self.admin_level >= PERMS['NOTIFICATIONS_REDDIT']
 
 	@property
 	@lazy
