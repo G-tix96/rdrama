@@ -3,7 +3,7 @@
 cd /rDrama
 
 . /env
-PATH="${NVM_DIR}/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+PATH="${NVM_DIRECTORY}/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 
 cd ./chat
 yarn install
