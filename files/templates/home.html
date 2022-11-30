@@ -65,6 +65,15 @@
 				<a class="btn btn-{{pcolor}} text-{{pcolor}} mx-2 smol-fp" href="/toggle_pins/{{sort}}"><i class="fas fas fa-thumbtack fa-rotate--45 mr-2 "></i>Pins</a>
 
 				{% if SITE_NAME != 'WPD' and not sub %}
+					<style>
+						@media (max-width: 427px) {
+							.smol-fp {
+								font-size: 2.7vw;
+								padding-left: 2.5vw;
+								padding-right: 2.1vw;
+							}
+						}
+					</style>
 					{% set hcolor = "primary" if holes else "secondary" %}
 					<a class="btn btn-{{hcolor}} text-{{hcolor}} mx-2 smol-fp" href="/toggle_holes"><i class="fas fas fa-manhole mr-2 "></i>Holes</a>
 				{% endif %}

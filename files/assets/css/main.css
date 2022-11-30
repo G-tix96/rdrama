@@ -6117,14 +6117,6 @@ g {
 	font-size: 20px;
 }
 
-@media (max-width: 427px) {
-	.smol-fp {
-		font-size: 2.7vw;
-		padding-left: 2.5vw;
-		padding-right: 2.1vw;
-	}
-}
-
 .emoji-option {
 	vertical-align: text-top;
 }
