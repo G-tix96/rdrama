@@ -633,7 +633,7 @@ class User(Base):
 		if not self.can_see_shadowbanned:
 			notifs = notifs.filter(User.shadowbanned == None)
 		
-		return notifs.count() + self.post_notifications_count + self.modaction_notifications_count
+		return notifs.count() + self.post_notifications_count + self.modaction_notifications_count + self.reddit_notifications_count
 
 	@property
 	@lazy
