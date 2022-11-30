@@ -21,7 +21,7 @@ def before_request():
 	if not g.agent and request.path != '/kofi':
 		return 'Please use a "User-Agent" header!', 403
 
-	ua = g.agent.lower()
+	ua = (g.agent or '').lower()
 
 	if request.host != SITE:
 		return {"error": "Unauthorized host provided"}, 403
