@@ -148,11 +148,10 @@ def logout(v):
 @app.get("/signup")
 @auth_desired
 def sign_up_get(v:Optional[User]):
-	if not get_setting('Signups'):
+	if not get_setting('signups'):
 		abort(403, "New account registration is currently closed. Please come back later.")
 
 	if v: return redirect(SITE_FULL)
-
 	ref = request.values.get("ref")
 
 	if ref:
@@ -198,7 +197,7 @@ def sign_up_get(v:Optional[User]):
 @limiter.limit("1/second;10/day")
 @auth_desired
 def sign_up_post(v:Optional[User]):
-	if not get_setting('Signups'):
+	if not get_setting('signups'):
 		abort(403, "New account registration is currently closed. Please come back later.")
 
 	if v: abort(403)

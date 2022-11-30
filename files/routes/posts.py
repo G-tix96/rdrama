@@ -227,7 +227,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	return render_template(template, v=v, p=post, ids=list(ids),
 		sort=sort, render_replies=True, offset=offset, sub=post.subr,
-		fart=get_setting('Fart mode'))
+		fart=get_setting('fart_mode'))
 
 @app.get("/viewmore/<pid>/<sort>/<offset>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)

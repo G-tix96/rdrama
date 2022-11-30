@@ -134,34 +134,39 @@ ACTIONTYPES = {
 		"icon": 'fa-flag', 
 		"color": 'bg-danger'
 	},
-	'disable_Bots': {
-		"str": 'disabled Bots', 
+	'disable_bots': {
+		"str": 'disabled bots', 
 		"icon": 'fa-robot', 
 		"color": 'bg-danger'
 	},
-	'disable_Fart mode': {
+	'disable_fart_mode': {
 		"str": 'disabled fart mode', 
 		"icon": 'fa-gas-pump-slash', 
 		"color": 'bg-danger'
 	},
-	'disable_Read-only mode': {
-		"str": 'disabled readonly mode', 
+	'disable_read_only_mode': {
+		"str": 'disabled read only mode', 
 		"icon": 'fa-book', 
 		"color": 'bg-danger'
 	},
-	'disable_Signups': {
-		"str": 'disabled Signups', 
+	'disable_signups': {
+		"str": 'disabled signups', 
 		"icon": 'fa-users', 
 		"color": 'bg-danger'
 	},
 	'disable_login_required': {
-		"str": 'disabled Login Required', 
+		"str": 'disabled login required', 
 		"icon": 'fa-users', 
 		"color": 'bg-danger'
 	},
 	'disable_under_attack': {
 		"str": 'disabled under attack mode', 
 		"icon": 'fa-shield', 
+		"color": 'bg-muted'
+	},
+	'disable_under_siege': {
+		"str": 'disabled under siege mode',
+		"icon": 'fa-shield',
 		"color": 'bg-muted'
 	},
 	'distinguish_comment': {
@@ -189,28 +194,28 @@ ACTIONTYPES = {
 		"icon": 'fa-edit', 
 		"color": 'bg-primary'
 	},
-	'enable_Bots': {
-		"str": 'enabled Bots', 
+	'enable_bots': {
+		"str": 'enabled bots', 
 		"icon": 'fa-robot', 
 		"color": 'bg-success'
 	},
-	'enable_Fart mode': {
+	'enable_fart_mode': {
 		"str": 'enabled fart mode', 
 		"icon": 'fa-gas-pump', 
 		"color": 'bg-success'
 	},
-	'enable_Read-only mode': {
-		"str": 'enabled readonly mode', 
+	'enable_read_only_mode': {
+		"str": 'enabled read only mode', 
 		"icon": 'fa-book', 
 		"color": 'bg-success'
 	},
-	'enable_Signups': {
-		"str": 'enabled Signups', 
+	'enable_signups': {
+		"str": 'enabled signups', 
 		"icon": 'fa-users', 
 		"color": 'bg-success'
 	},
 	'enable_login_required': {
-		"str": 'enabled Login Required', 
+		"str": 'enabled login required', 
 		"icon": 'fa-users', 
 		"color": 'bg-success'
 	},
@@ -218,6 +223,11 @@ ACTIONTYPES = {
 		"str": 'enabled under attack mode', 
 		"icon": 'fa-shield', 
 		"color": 'bg-success'
+	},
+	'enable_under_siege': {
+		"str": 'enabled under siege mode',
+		"icon": 'fa-shield',
+		"color": 'bg-success',
 	},
 	'flair_post': {
 		"str": 'set a flair on {self.target_link}', 

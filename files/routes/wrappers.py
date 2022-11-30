@@ -42,7 +42,7 @@ def get_logged_in_user():
 
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
 
-	if request.method.lower() != "get" and get_setting('Read-only mode') and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
+	if request.method.lower() != "get" and get_setting('read_only_mode') and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
 		abort(403)
 
 	g.v = v
