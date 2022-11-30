@@ -1,1 +1,0 @@
-from .eventuser import EventUser
