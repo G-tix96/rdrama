@@ -49,7 +49,7 @@ def calc_users():
 	loggedout_counter = 0
 	loggedin_chat = 0
 	v = getattr(g, 'v', None) if g else None
-	if has_request_context and g and g.desires_auth and not g.is_api_or_xhr:
+	if has_request_context and g and getattr(g, 'desires_auth', False) and not getattr(g, 'is_api_or_xhr', True):
 		loggedin = cache.get(LOGGED_IN_CACHE_KEY) or {}
 		loggedout = cache.get(LOGGED_OUT_CACHE_KEY) or {}
 		loggedin_chat = cache.get(CHAT_ONLINE_CACHE_KEY) or 0
