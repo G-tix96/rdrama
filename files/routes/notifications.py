@@ -225,13 +225,16 @@ def notifications_reddit(v:User):
 	if not v.can_view_offsitementions: abort(403)
 
 	listing = g.db.query(Comment).filter(
-		Comment.created_utc > v.last_viewed_reddit_notifs,
 		Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
 		Comment.parent_submission == None,
 		Comment.author_id == AUTOJANNY_ID
 	).order_by(Comment.created_utc.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
 
 	next_exists = len(listing) > PAGE_SIZE
+	listing = listing[:PAGE_SIZE]
+
+	for ma in listing:
+		ma.unread = ma.created_utc > v.last_viewed_reddit_notifs
 
 	v.last_viewed_reddit_notifs = int(time.time())
 	g.db.add(v)
