@@ -25,6 +25,7 @@ from files.__main__ import app
 @app.errorhandler(418)
 @app.errorhandler(429)
 def error(e):
+	g.desires_auth = False
 	title = ERROR_TITLES.get(e.code, str(e.code))
 	msg = ERROR_MSGS.get(e.code, str(e.code))
 	details = e.description
