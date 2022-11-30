@@ -12,6 +12,7 @@ _SETTINGS = {
 	"Read-only mode": False,
 	"Signups": True,
 	"login_required": False,
+	"under_siege": False,
 }
 
 def get_setting(setting:str):

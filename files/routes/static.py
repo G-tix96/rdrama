@@ -231,6 +231,7 @@ def submit_contact(v):
 	g.db.add(new_comment)
 	g.db.flush()
 	execute_blackjack(v, new_comment, new_comment.body_html, 'modmail')
+	execute_under_siege(v, new_comment, new_comment.body_html, 'modmail')
 	new_comment.top_comment_id = new_comment.id
 	
 	admins = g.db.query(User).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != AEVANN_ID)

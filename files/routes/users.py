@@ -13,7 +13,7 @@ from files.classes import *
 from files.classes.leaderboard import Leaderboard
 from files.classes.transactions import *
 from files.classes.views import *
-from files.helpers.actions import execute_blackjack
+from files.helpers.actions import execute_blackjack, execute_under_siege
 from files.helpers.alerts import *
 from files.helpers.const import *
 from files.helpers.mail import *
@@ -461,6 +461,7 @@ def message2(v, username):
 	g.db.add(c)
 	g.db.flush()
 	execute_blackjack(v, c, c.body_html, 'message')
+	execute_under_siege(v, c, c.body_html, 'message')
 	c.top_comment_id = c.id
 
 	if user.id not in bots:
@@ -536,6 +537,7 @@ def messagereply(v):
 	g.db.add(c)
 	g.db.flush()
 	execute_blackjack(v, c, c.body_html, 'message')
+	execute_under_siege(v, c, c.body_html, 'message')
 
 	if user_id and user_id not in (v.id, 2, bots):
 		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()

@@ -239,6 +239,7 @@ def comment(v):
 	g.db.flush()
 
 	execute_blackjack(v, c, c.body, "comment")
+	execute_under_siege(v, c, c.body, "comment")
 
 	if c.level == 1: c.top_comment_id = c.id
 	else: c.top_comment_id = parent.top_comment_id
@@ -444,6 +445,7 @@ def edit_comment(cid, v):
 		c.body_html = body_html
 
 		execute_blackjack(v, c, c.body, "comment")
+		execute_under_siege(v, c, c.body, "comment")
 
 		if c.post.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and c.post.sub != 'chudrama':
 			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your comment!')

@@ -11,7 +11,7 @@ from files.helpers.get import *
 from files.helpers.media import *
 from files.helpers.sanitize import *
 from files.helpers.security import *
-from files.helpers.settings import toggle_setting
+from files.helpers.settings import get_settings, toggle_setting
 from files.helpers.useractions import *
 from files.routes.routehelpers import check_for_alts
 from files.routes.wrappers import *
@@ -455,6 +455,8 @@ def admin_git_head():
 @app.post("/admin/site_settings/<setting>")
 @admin_level_required(PERMS['SITE_SETTINGS'])
 def change_settings(v, setting):
+	if setting not in get_settings().keys():
+		abort(404, f"Setting '{setting}' not found")
 	val = toggle_setting(setting)
 	if val: word = 'enable'
 	else: word = 'disable'
@@ -463,7 +465,7 @@ def change_settings(v, setting):
 		user_id=v.id,
 	)
 	g.db.add(ma)
-	return {'message': f"{setting} {word}d successfully!"}
+	return {'message': f"{setting.replace('_', ' ').title()} {word}d successfully!"}
 
 @app.post("/admin/clear_cloudflare_cache")
 @admin_level_required(PERMS['SITE_CACHE_PURGE_CDN'])

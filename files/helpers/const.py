@@ -199,6 +199,7 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 
 DISCORD_CHANGELOG_CHANNEL_ID = 1034632681788538980
 WPD_CHANNEL_ID = 1013990963846332456
+UNDER_SIEGE_CHANNEL_ID = 1041917843094110239
 PIN_AWARD_TEXT = " (pin award)"
 
 THEMES = ["4chan","classic","classic_dark","coffee","dark","dramblr","light","midnight","transparent","tron","win98"]
@@ -271,6 +272,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'VIEW_VOTE_BUTTONS_ON_USER_PAGE': 2,
 	'PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES': 3, # note: explicitly disabled on rDrama
 	'SITE_BYPASS_READ_ONLY_MODE': 1,
+	'SITE_BYPASS_UNDER_SIEGE_MODE': 1,
 	'SITE_SETTINGS': 3,
 	'SITE_SETTINGS_SIDEBARS_BANNERS_BADGES': 3,
 	'SITE_SETTINGS_SNAPPY_QUOTES': 3,
@@ -407,6 +409,7 @@ PFP_DEFAULT_MARSEY = True
 NEW_USER_HAT_AGE = 0 # seconds of age to show new-user forced hat
 NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
 COMMENT_SPAM_LENGTH_THRESHOLD = 50
+UNDER_SIEGE_AGE_THRESHOLD = 10
 
 HOLE_NAME = 'hole'
 HOLE_STYLE_FLAIR = False

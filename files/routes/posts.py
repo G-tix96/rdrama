@@ -392,7 +392,9 @@ def edit_post(pid, v):
 
 		p.body = body
 
-		for text in {p.body, p.title, p.url}:
+		execute_under_siege(v, p, p.body, 'submission')
+
+		for text in [p.body, p.title, p.url]:
 			if not execute_blackjack(v, p, text, 'submission'): break
 
 		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: 

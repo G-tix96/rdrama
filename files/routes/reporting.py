@@ -18,6 +18,7 @@ from files.__main__ import app, limiter, cache
 def flag_post(pid, v):
 	post = get_post(pid)
 	reason = request.values.get("reason", "").strip()
+	execute_under_siege(v, post, reason, 'flag')
 	execute_blackjack(v, post, reason, 'flag')
 	if v.is_muted: abort(403, "You are forbidden from making reports.")
 	reason = reason[:100]
@@ -76,6 +77,7 @@ def flag_comment(cid, v):
 	if existing: abort(409, "You already reported this comment!")
 
 	reason = request.values.get("reason", "").strip()
+	execute_under_siege(v, comment, reason, 'flag')
 	execute_blackjack(v, comment, reason, 'flag')
 	reason = reason[:100]
 	reason = filter_emojis_only(reason)

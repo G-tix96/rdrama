@@ -12,8 +12,10 @@ from files.classes.notifications import Notification
 from files.helpers.alerts import send_repeatable_notification
 from files.helpers.const import *
 from files.helpers.const_stateful import *
+from files.helpers.discord import discord_message_send
 from files.helpers.get import *
 from files.helpers.sanitize import *
+from files.helpers.settings import get_setting
 from files.helpers.slots import check_slots_command
 
 
@@ -37,7 +39,6 @@ def archive_url(url):
 	if url.startswith('https://instagram.com/'):
 		url = url.replace('https://instagram.com/', 'https://imginn.com/')
 		gevent.spawn(_archiveorg, url)
-
 
 def execute_snappy(post, v):
 	snappy = get_account(SNAPPY_ID)
@@ -360,18 +361,6 @@ def execute_antispam_submission_check(title, v, url):
 	return True
 
 def execute_blackjack_custom(v, target, body, type):
-	if v.age < (10 * 60):
-		v.shadowbanned = 'AutoJanny'
-		if not v.is_banned: v.ban_reason = f"Under Siege"
-		v.is_muted = True
-		g.db.add(v)
-		with open(f"/under_siege.log", "a", encoding="utf-8") as f:
-			t = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.time()))
-			f.write(f"[{t}] {v.id} @{v.username} {type} {v.age}s\n")
-		from files.helpers.discord import discord_message_send
-		discord_message_send("1041917843094110239",
-			f"<{SITE_FULL}/id/{v.id}> `@{v.username} {type} {v.age}s`")
-		return False
 	return True
 
 def execute_blackjack(v, target, body, type):
@@ -457,6 +446,21 @@ def execute_antispam_comment_check(body:str, v:User):
 		g.db.add(ma)
 	g.db.commit()
 	abort(403, "Too much spam!")
+
+def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], body, type:str):
+	if not get_setting("under_siege"): return True
+	if v.age < UNDER_SIEGE_AGE_THRESHOLD and not v.admin_level >= PERMS['SITE_BYPASS_UNDER_SIEGE_MODE']:
+		v.shadowbanned = 'AutoJanny'
+		if not v.is_banned: v.ban_reason = f"Under Siege"
+		v.is_muted = True
+		g.db.add(v)
+		with open(f"/under_siege.log", "a", encoding="utf-8") as f:
+			t = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.time()))
+			f.write(f"[{t}] {v.id} @{v.username} {type} {v.age}s\n")
+		discord_message_send(UNDER_SIEGE_CHANNEL_ID,
+			f"<{SITE_FULL}/id/{v.id}> `@{v.username} {type} {v.age}s`")
+		return False
+	return True
 
 def execute_lawlz_actions(v:User, p:Submission):
 	if v.id != LAWLZ_ID: return
