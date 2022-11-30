@@ -427,5 +427,6 @@ def donate(v):
 @limiter.exempt
 def sex():
 	print('sex!', flush=True)
-	print(request.values, flush=True)
+	content = request.get_json(force=True)
+	print(json.dumps(content, indent=4, sort_keys=True), flush=True)
 	return ''

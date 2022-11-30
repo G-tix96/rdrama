@@ -63,11 +63,11 @@ CSP = {
 	"base-uri": "'self'",
 	"style-src-elem": "'self' 'nonce-{nonce}'",
 	"script-src-elem": "'self' 'nonce-{nonce}' challenges.cloudflare.com rdrama.net",
-	"script-src": "'unsafe-inline'",
+	"script-src": "'self' 'unsafe-inline' challenges.cloudflare.com rdrama.net",
 	"frame-src": "challenges.cloudflare.com www.youtube-nocookie.com platform.twitter.com",
 	"connect-src": "'self' tls-use1.fpapi.io api.fpjs.io 00bb6d59-7b11-4339-b1ae-b1f1259d1316.pushnotifications.pusher.com",
 	"report-to": "csp",
-	"report-uri": "csp",
+	"report-uri": "/sex",
 }
 
 if not IS_LOCALHOST:
