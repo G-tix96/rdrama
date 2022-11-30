@@ -85,7 +85,7 @@ def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
 			})
 	try:
 		if not reddit_notifs_users: 
-			cache.set(CACHE_KEY, after + 1)
+			cache.set(const.REDDIT_NOTIFS_CACHE_KEY, after + 1)
 	except:
 		print("Failed to set cache value; there may be duplication of reddit notifications")
 	return mentions
