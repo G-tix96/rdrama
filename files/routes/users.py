@@ -1143,7 +1143,7 @@ def settings_kofi(v:User):
 	if not (v.email and v.is_activated):
 		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
 
-	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).order_by(Transaction.created_utc.desc()).all()
+	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()
 	
 	if not transactions:
 		abort(400, f"{patron} rewards already claimed")
