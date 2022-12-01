@@ -17,20 +17,42 @@ def vote_info_get(v, link):
 	if thing.ghost and v.id != AEVANN_ID: abort(403)
 
 	if isinstance(thing, Submission):
-		if thing.author.shadowbanned and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
-			thing_id = g.db.query(Submission.id).filter_by(upvotes=thing.upvotes, downvotes=thing.downvotes).order_by(Submission.id).first()[0]
+		if (thing.author.shadowbanned
+				and not (v and v.admin_level >= PERMS['USER_SHADOWBAN'])):
+			thing_id = g.db.query(Submission.id) \
+				.filter_by(upvotes=thing.upvotes, downvotes=thing.downvotes) \
+				.order_by(Submission.id).first()[0]
 		else: thing_id = thing.id
 
-		ups = g.db.query(Vote).filter_by(submission_id=thing_id, vote_type=1).order_by(Vote.created_utc).all()
-		downs = g.db.query(Vote).filter_by(submission_id=thing_id, vote_type=-1).order_by(Vote.created_utc).all()
+		query = g.db.query(Vote).join(Vote.user).filter(
+			Vote.submission_id == thing_id,
+			Vote.vote_type == 1,
+		).order_by(Vote.created_utc)
+
+		if not v.can_see_shadowbanned:
+			query = query.filter(User.shadowbanned == None)
+
+		ups = query.filter(Vote.vote_type == 1).all()
+		downs = query.filter(Vote.vote_type == -1).all()
 
 	elif isinstance(thing, Comment):
-		if thing.author.shadowbanned and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
-			thing_id = g.db.query(Comment.id).filter_by(upvotes=thing.upvotes, downvotes=thing.downvotes).order_by(Comment.id).first()[0]
+		if (thing.author.shadowbanned
+				and not (v and v.admin_level >= PERMS['USER_SHADOWBAN'])):
+			thing_id = g.db.query(Comment.id) \
+				.filter_by(upvotes=thing.upvotes, downvotes=thing.downvotes) \
+				.order_by(Comment.id).first()[0]
 		else: thing_id = thing.id
 
-		ups = g.db.query(CommentVote).filter_by(comment_id=thing_id, vote_type=1).order_by(CommentVote.created_utc).all()
-		downs = g.db.query(CommentVote).filter_by(comment_id=thing_id, vote_type=-1 ).order_by(CommentVote.created_utc).all()
+		query = g.db.query(CommentVote).join(CommentVote.user).filter(
+			CommentVote.comment_id == thing_id,
+			CommentVote.vote_type == 1,
+		).order_by(CommentVote.created_utc)
+
+		if not v.can_see_shadowbanned:
+			query = query.filter(User.shadowbanned == None)
+
+		ups = query.filter(CommentVote.vote_type == 1).all()
+		downs = query.filter(CommentVote.vote_type == -1).all()
 
 	else: abort(400)
 
@@ -39,6 +61,7 @@ def vote_info_get(v, link):
 						thing=thing,
 						ups=ups,
 						downs=downs)
+
 
 def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if new == "-1" and DISABLE_DOWNVOTES: abort(403)
@@ -91,7 +114,8 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			existing.coins = coin_value
 			g.db.add(existing)
 		elif existing.vote_type != 0 and new == 0:
-			target.author.charge_account('coins', existing.coins, should_check_balance=False)
+			target.author.charge_account('coins', existing.coins,
+				should_check_balance=False)
 			target.author.truescore -= coin_delta
 			g.db.add(target.author)
 			g.db.delete(existing)
@@ -126,16 +150,17 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 	# this is hacky but it works, we should probably do better later
 	def get_vote_count(dir, real_instead_of_dir):
-		votes = g.db.query(vote_cls)
+		votes = g.db.query(vote_cls).join(vote_cls.user) \
+					.filter(User.shadowbanned == None)
 		if real_instead_of_dir:
-			votes = votes.filter_by(real=True)
+			votes = votes.filter(vote_cls.real == True)
 		else:
-			votes = votes.filter_by(vote_type=dir)
+			votes = votes.filter(vote_cls.vote_type == dir)
 
 		if vote_cls == Vote:
-			votes = votes.filter_by(submission_id=target.id)
+			votes = votes.filter(vote_cls.submission_id == target.id)
 		elif vote_cls == CommentVote:
-			votes = votes.filter_by(comment_id=target.id)
+			votes = votes.filter(vote_cls.comment_id == target.id)
 		else:
 			return 0
 		return votes.count()
@@ -150,9 +175,13 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		if target.author.progressivestack or target.author.id in BOOSTED_USERS:
 			mul = 2
 		elif cls == Submission:
-			if target.domain.endswith('.win') or (target.domain in BOOSTED_SITES and not target.url.startswith('/')) or target.sub in BOOSTED_HOLES:
+			if (target.domain.endswith('.win')
+					or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))
+					or target.sub in BOOSTED_HOLES):
 				mul = 2
-			elif not target.sub and target.body_html and target.author.id not in {8768,3402,5214,12719}:
+			elif (not target.sub
+					and target.body_html
+					and target.author.id not in {8768,3402,5214,12719}):
 				x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
 				x += target.body_html.count('<a href="/images/')
 				target.realupvotes += min(x*2, 20)
@@ -163,6 +192,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 	g.db.add(target)
 	return "", 204
+
 
 @app.post("/vote/post/<post_id>/<new>")
 @limiter.limit("5/second;60/minute;1000/hour;2000/day")
