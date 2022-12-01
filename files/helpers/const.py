@@ -569,6 +569,7 @@ if SITE == 'rdrama.net':
 		29, #QuadNarca
 		JOAN_ID,
 		4389, #WorldAroundEwe
+		5526, #Dramarama
 	}
 
 	GIFT_NOTIF_ID = CARP_ID
