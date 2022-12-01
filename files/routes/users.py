@@ -1139,27 +1139,33 @@ kofi_tiers={
 @auth_required
 def settings_kofi(v:User):
 	if not KOFI_TOKEN or KOFI_TOKEN == DEFAULT_CONFIG_VALUE: abort(404)
+
 	if not (v.email and v.is_activated):
 		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
-	transaction = g.db.query(Transaction).filter_by(email=v.email).order_by(Transaction.created_utc.desc()).first()
-	if not transaction:
-		abort(404, "Email not found")
-	if transaction.claimed:
+
+	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).order_by(Transaction.created_utc.desc()).all()
+	
+	if not transactions:
 		abort(400, f"{patron} rewards already claimed")
 
-	tier = kofi_tiers[transaction.amount]
+	highest_tier = 0
+	marseybux = 0
+	
+	for transaction in transactions:
+		tier = kofi_tiers[transaction.amount]
+		marseybux += marseybux_li[tier]
+		if tier > highest_tier: highest_tier = tier
+		transaction.claimed = True
+		g.db.add(transaction)
 
-	marseybux = marseybux_li[tier]
 	v.pay_account('marseybux', marseybux)
 	send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards in the [shop](/shop).")
 	g.db.add(v)
 
-	if tier > v.patron:
-		v.patron = tier
+	if highest_tier > v.patron:
+		v.patron = highest_tier
 		for badge in g.db.query(Badge).filter(Badge.user_id == v.id, Badge.badge_id > 20, Badge.badge_id < 28).all():
 			g.db.delete(badge)
-		badge_grant(badge_id=20+tier, user=v)
+		badge_grant(badge_id=20+highest_tier, user=v)
 
-	transaction.claimed = True
-	g.db.add(transaction)
 	return {"message": f"{patron} rewards claimed!"}
