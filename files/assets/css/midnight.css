@@ -66,5 +66,5 @@ h5.post-title a:visited {
 }
 
 .modal-content {
-    border: 3px var(--gray-500) solid;
+    border: 1px var(--gray-500) solid;
 }
