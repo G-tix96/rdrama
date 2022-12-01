@@ -3925,7 +3925,7 @@ ul.comment-section {
 	border-left: none;
 	top: -0.1px;
 	left: -3px;
-	font-size: 10px;
+	font-size: 14px;
 }
 .comment.collapsed .comment-collapse-icon:hover::before {
 	color: var(--primary);
@@ -4774,7 +4774,7 @@ video {
 	width: 10px;
 	content: "\f056";
 	position: static;
-	font-size: 10px;
+	font-size: 14px;
 	font-weight: 900;
 	border: none;
 	margin-left: 0.25rem;
