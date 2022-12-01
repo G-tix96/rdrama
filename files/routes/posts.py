@@ -145,8 +145,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		if g.is_api_or_xhr: return {"error":"Must be 18+ to view"}, 451
 		return render_template("errors/nsfw.html", v=v)
 
-	if post.new or 'megathread' in post.title.lower() or 'Thread' in post.title:
-		defaultsortingcomments = 'new'
+	if post.new: defaultsortingcomments = 'new'
 	elif v: defaultsortingcomments = v.defaultsortingcomments
 	else: defaultsortingcomments = "hot"
 	sort = request.values.get("sort", defaultsortingcomments)
@@ -315,8 +314,7 @@ def morecomments(v, cid):
 @ratelimit_user("1/second;10/minute;100/hour;200/day")
 def edit_post(pid, v):
 	p = get_post(pid)
-	if v.id != p.author_id and v.admin_level < PERMS['POST_EDITING']:
-		abort(403)
+	if not v.can_edit(p): abort(403)
 
 	# Disable edits on things older than 1wk unless it's a draft or editor is a jannie
 	if (time.time() - p.created_utc > 7*24*60*60 and not p.private
@@ -942,8 +940,7 @@ def submit_post(v:User, sub=None):
 	if v.client: return post.json(g.db)
 	else:
 		post.voted = 1
-		if post.new or 'megathread' in post.title.lower() or 'Thread' in post.title:
-			sort = 'new'
+		if post.new: sort = 'new'
 		else: sort = v.defaultsortingcomments
 		return render_template('submission.html', v=v, p=post, sort=sort, render_replies=True, offset=0, success=True, sub=post.subr)
 
@@ -1074,6 +1071,16 @@ def pin_post(post_id, v):
 		if post.is_pinned: return {"message": "Post pinned!"}
 		else: return {"message": "Post unpinned!"}
 	return abort(404, "Post not found!")
+
+@app.route("/post/<post_id>/new", methods=["PUT", "DELETE"])
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@auth_required
+def toggle_new_sort(post_id:int, v:User):
+	post = get_post(post_id)
+	if not v.can_edit(post): abort(403, "Only the post author can do that!")
+	post.new = request.method == "PUT"
+	g.db.add(post)
+	return {"message": f"Turned {'on' if post.new else 'off'} sort by new"}
 
 
 extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS

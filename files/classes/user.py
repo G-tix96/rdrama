@@ -1,12 +1,12 @@
 import random
 from operator import *
-from typing import Union
+from typing import Any, Union
 
 import pyotp
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import aliased, deferred
 from sqlalchemy.sql import func
-from sqlalchemy.sql.expression import not_, and_, or_
+from sqlalchemy.sql.expression import not_, and_, or_, ColumnOperators
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -413,6 +413,13 @@ class User(Base):
 	@lazy
 	def can_view_offsitementions(self):
 		return self.offsitementions or self.admin_level >= PERMS['NOTIFICATIONS_REDDIT']
+
+	@lazy
+	def can_edit(self, target:Union[Submission, Comment]) -> bool:
+		if isinstance(target, Comment) and not target.post: return False
+		if self.id == target.author_id: return True
+		if not isinstance(target, Submission): return False
+		return bool(self.admin_level >= PERMS['POST_EDITING'])
 
 	@property
 	@lazy

@@ -178,7 +178,7 @@
 					</div>
 					{% endif %}
 
-					{% if v and (v.id==p.author_id or v.admin_level >= PERMS['POST_EDITING']) and not v.is_suspended %}
+					{% if v and v.can_edit(p) and not v.is_suspended %}
 						<div id="edit-post-body-{{p.id}}" class="d-none comment-write collapsed child">
 							<form id="post-edit-form-{{p.id}}" action="/edit_post/{{p.id}}" method="post" enctype="multipart/form-data">
 									<input type="hidden" name="formkey" value="{{v|formkey}}">
@@ -227,7 +227,7 @@
 							<span class="text-info d-none {{p.id}}-new-comments"></span>
 						</a>
 
-						{% if v and (v.id==p.author_id or v.admin_level >= PERMS['POST_EDITING']) %}
+						{% if v and v.can_edit(p) %}
 							<button type="button" class="list-inline-item" onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit"></i>Edit</button>
 						{% endif %}
 
@@ -321,9 +321,7 @@
 				</li>
 			</ul>
 		</div>
-
 	</div>
-
 </div>
 
 {% if v and v.id != p.author_id and p.body and not v_forbid_deleted %}
@@ -334,7 +332,7 @@
 	<div class="col border-top">
 		<div class="comments-count py-3">
 			<div class="dropdown dropdown-actions">
-				<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-right:0.5em;">
 					{% if sort=="hot" %}<i class="fas fa-fire mr-1"></i>{% endif %}
 					{% if sort=="top" %}<i class="fas fa-arrow-alt-circle-up mr-1"></i>{% endif %}
 					{% if sort=="bottom" %}<i class="fas fa-arrow-alt-circle-down mr-1"></i>{% endif %}
@@ -474,7 +472,7 @@
 	{% include "modals/report_post.html" %}
 {% endif %}
 
-{% if v and (v.id == p.author_id or v.admin_level >= PERMS['POST_EDITING']) %}
+{% if v and v.can_edit(p) %}
 	<script defer src="{{'js/togglePostEdit.js' | asset}}"></script>
 {% endif %}
 
