@@ -207,7 +207,7 @@ BACKGROUND_CATEGORIES = ["glitter", "anime", "fantasy", "solarpunk", "pixelart"]
 COMMENT_SORTS = ["hot", "new", "old", "top", "bottom", "controversial"]
 SORTS = COMMENT_SORTS + ["bump", "comments"]
 TIME_FILTERS = ["hour", "day", "week", "month", "year", "all"]
-PAGE_SIZES = {10, 25, 50, 100}
+PAGE_SIZES = (10, 25, 50, 100)
 
 ################################################################################
 ### SITE SPECIFIC CONSTANTS
