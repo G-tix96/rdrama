@@ -467,7 +467,7 @@ def execute_lawlz_actions(v:User, p:Submission):
 	if SITE_NAME != 'rDrama': return
 	if not FEATURES['PINS']: return
 	p.stickied_utc = int(time.time()) + 86400
-	p.stickied = AUTOJANNY_ID
+	p.stickied = "AutoJanny"
 	p.distinguish_level = 6
 	p.flair = filter_emojis_only(":ben10: Required Reading")
 	pin_time = 'for 1 day'

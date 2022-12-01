@@ -926,7 +926,7 @@ def submit_post(v:User, sub=None):
 
 	if SITE == 'rdrama.net' and v.id in (IMPASSIONATA_ID, PIZZASHILL_ID, 2008):
 		post.stickied_utc = int(time.time()) + 3600
-		post.stickied = AUTOJANNY_ID
+		post.stickied = "AutoJanny"
 
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
