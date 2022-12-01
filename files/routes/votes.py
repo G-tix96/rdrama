@@ -26,7 +26,6 @@ def vote_info_get(v, link):
 
 		query = g.db.query(Vote).join(Vote.user).filter(
 			Vote.submission_id == thing_id,
-			Vote.vote_type == 1,
 		).order_by(Vote.created_utc)
 
 		if not v.can_see_shadowbanned:
@@ -45,7 +44,6 @@ def vote_info_get(v, link):
 
 		query = g.db.query(CommentVote).join(CommentVote.user).filter(
 			CommentVote.comment_id == thing_id,
-			CommentVote.vote_type == 1,
 		).order_by(CommentVote.created_utc)
 
 		if not v.can_see_shadowbanned:
