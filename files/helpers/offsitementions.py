@@ -21,12 +21,14 @@ from files.helpers.sanitize import sanitize
 
 def offsite_mentions_task(cache:Cache):
 	site_mentions = get_mentions(cache, const.REDDIT_NOTIFS_SITE)
-	notify_mentions(send_to, site_mentions)
+	notify_mentions(site_mentions)
 
 	if const.REDDIT_NOTIFS_USERS:
 		for query, send_user in const.REDDIT_NOTIFS_USERS.items():
 			user_mentions = get_mentions(cache, [query], reddit_notifs_users=True)
-			notify_mentions([send_user], user_mentions, mention_str='mention of you')
+			notify_mentions(user_mentions, send_to=send_user, mention_str='mention of you')
+
+	g.db.commit() # commit early otherwise localhost testing fails to commit
 
 def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
 	kinds = ['submission', 'comment']
@@ -79,7 +81,7 @@ def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
 		print("Failed to set cache value; there may be duplication of reddit notifications")
 	return mentions
 
-def notify_mentions(send_to, mentions, mention_str='site mention'):
+def notify_mentions(mentions, send_to=None, mention_str='site mention'):
 	for m in mentions:
 		author = m['author']
 		permalink = m['permalink']
@@ -108,7 +110,6 @@ def notify_mentions(send_to, mentions, mention_str='site mention'):
 		g.db.flush()
 		new_comment.top_comment_id = new_comment.id
 
-		if mention_str == 'mention of you':
-			for user_id in send_to:
-				notif = Notification(comment_id=new_comment.id, user_id=user_id)
-				g.db.add(notif)
+		if send_to:
+			notif = Notification(comment_id=new_comment.id, user_id=send_to)
+			g.db.add(notif)
