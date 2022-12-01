@@ -227,6 +227,7 @@ SET row_security = off;
 
 INSERT INTO public.hat_defs VALUES (716, 'Baked Beans Bucket Hat', 'This neighbor is wearing beans!', 2, 500, NULL, 1663647585);
 
+
 INSERT INTO public.hat_defs VALUES (1002, 'Hearty Hands', 'I dont think hands should do that...', 2, 500, NULL, 1667084251);
 INSERT INTO public.hat_defs VALUES (1003, 'Dragged', 'HELLLLLLLLLLPPPPPPPPPPPPPPPPP', 2, 500, NULL, 1667084272);
 INSERT INTO public.hat_defs VALUES (718, 'Literally Me', 'Sving music, jazz? PTOOEY!', 2, 500, NULL, 1663801724);
@@ -1170,7 +1171,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1103, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1104, true);
 
 
 --
@@ -1375,7 +1376,6 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseybiting',2,'reaction datass lip bite dat ass',NULL),
 ('marseyblack',2,'basketball black african american bipoc coon fade jersey sports kang gang jogger',NULL),
 ('marseyblack2',2,'nigger african coon ape monkey bipoc excited happy',NULL),
-('marseyblackandwhite',2,'black mixed white shredded manlet cat cute',1669229303),
 ('marseyblackcat',2,'cat black halloween homoween',1666656250),
 ('marseyblackcock',2,'cock chicken poultry bbc black ride mount cowgirl',NULL),
 ('marseyblackcop',2,'police officer acab thin blue line pig bipoc',NULL),
@@ -1589,7 +1589,6 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseychonkerbutch',2,'fat obese brap bitch dyke dangerhair lesbian',NULL),
 ('marseychonkerfoid',2,'female woman fds fat obese hambeast landwhale porker pig bleeder birthing person bangs',NULL),
 ('marseychonkerfoidpuke',2,'fat huge sick yuck eat barf',1664574968),
-('marseychonkernoticeme',2,'attention fat foid annoying',1669407871),
 ('marseychristmas',2,'candy cane santa christmas holiday',NULL),
 ('marseychristmasbulb',2,'ornament christmas happy holiday china',NULL),
 ('marseychristmasbulb2',2,'ornament holiday christmas',NULL),
@@ -2677,7 +2676,6 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyschizochadseethecapylove',2,'animated schizo schizocel rare love chad seethe capy aevann',NULL),
 ('marseyschizochadthankscapylove',2,'animated schizo schizocel rare love chad thanks queen capy aevann',NULL),
 ('marseyschizochadyescapylove',2,'animated schizo schizocel rare love chad yes capy aevann',NULL),
-('marseyschizochiobulove',2,'chink asian tangerine feline singapore',1669161511),
 ('marseyschizodoggilove',2,'animated schizo schizocel rare love dussy doggi',NULL),
 ('marseyschizodongerlove',2,'animated schizo schizocel rare love kaiser uraniumdonger donger',NULL),
 ('marseyschizoducklove',2,'animated schizo schizocel rare love duck',NULL),
