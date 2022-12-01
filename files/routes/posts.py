@@ -923,7 +923,9 @@ def submit_post(v:User, sub=None):
 
 	execute_lawlz_actions(v, post)
 
-	if SITE == 'rdrama.net' and not post.sub.stealth and v.id in (IMPASSIONATA_ID, PIZZASHILL_ID, 2008):
+	if (SITE == 'rdrama.net'
+			and v.id in (IMPASSIONATA_ID, PIZZASHILL_ID, 2008)
+			and not (post.sub and post.sub.stealth)):
 		post.stickied_utc = int(time.time()) + 3600
 		post.stickied = "AutoJanny"
 
