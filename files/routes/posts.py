@@ -145,7 +145,8 @@ def post_id(pid, anything=None, v=None, sub=None):
 		if g.is_api_or_xhr: return {"error":"Must be 18+ to view"}, 451
 		return render_template("errors/nsfw.html", v=v)
 
-	if post.new or 'megathread' in post.title.lower(): defaultsortingcomments = 'new'
+	if post.new or 'megathread' in post.title.lower() or 'Thread' in post.title:
+		defaultsortingcomments = 'new'
 	elif v: defaultsortingcomments = v.defaultsortingcomments
 	else: defaultsortingcomments = "hot"
 	sort = request.values.get("sort", defaultsortingcomments)
@@ -941,7 +942,8 @@ def submit_post(v:User, sub=None):
 	if v.client: return post.json(g.db)
 	else:
 		post.voted = 1
-		if post.new or 'megathread' in post.title.lower(): sort = 'new'
+		if post.new or 'megathread' in post.title.lower() or 'Thread' in post.title:
+			sort = 'new'
 		else: sort = v.defaultsortingcomments
 		return render_template('submission.html', v=v, p=post, sort=sort, render_replies=True, offset=0, success=True, sub=post.subr)
 
