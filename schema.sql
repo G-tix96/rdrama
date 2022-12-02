@@ -726,6 +726,17 @@ WITH (fillfactor='100');
 
 
 --
+-- Name: push_subscriptions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.push_subscriptions (
+    user_id integer NOT NULL,
+    subscription_json character varying(500) NOT NULL,
+    created_utc integer NOT NULL
+);
+
+
+--
 -- Name: save_relationship; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1409,6 +1420,14 @@ ALTER TABLE ONLY public.pgbench_branches
 
 ALTER TABLE ONLY public.pgbench_tellers
     ADD CONSTRAINT pgbench_tellers_pkey PRIMARY KEY (tid);
+
+
+--
+-- Name: push_subscriptions push_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.push_subscriptions
+    ADD CONSTRAINT push_subscriptions_pkey PRIMARY KEY (user_id, subscription_json);
 
 
 --
@@ -2450,6 +2469,14 @@ ALTER TABLE ONLY public.comment_options
 
 ALTER TABLE ONLY public.submission_options
     ADD CONSTRAINT option_submission_fkey FOREIGN KEY (submission_id) REFERENCES public.submissions(id) MATCH FULL;
+
+
+--
+-- Name: push_subscriptions push_subscriptions_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.push_subscriptions
+    ADD CONSTRAINT push_subscriptions_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
 
 
 --
