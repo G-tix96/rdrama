@@ -1,9 +1,10 @@
+import json
 from sys import stdout
 
 from flask import g
-from pusher_push_notifications import PushNotifications
+from pywebpush import webpush
 
-from files.classes import Comment, Notification
+from files.classes import Comment, Notification, PushSubscription
 
 from .const import *
 from .regex import *
@@ -103,35 +104,26 @@ def NOTIFY_USERS(text, v):
 
 	return notify_users - bots
 
-if PUSHER_ID != DEFAULT_CONFIG_VALUE:
-	beams_client = PushNotifications(instance_id=PUSHER_ID, secret_key=PUSHER_KEY)
 
-	def pusher_thread(interests, title, notifbody, url):
-		title = censor_slurs(title, None)
-		notifbody = censor_slurs(notifbody, None)
-		if len(notifbody) > PUSHER_LIMIT:
-			notifbody = notifbody[:PUSHER_LIMIT] + "..."
+def push_notif(uid, title, body, url):
+	if VAPID_PUBLIC_KEY == DEFAULT_CONFIG_VALUE:
+		return
 
-		beams_client.publish_to_interests(
-			interests=[interests],
-			publish_body={
-				'web': {
-					'notification': {
-						'title': title,
-						'body': notifbody,
-						'deep_link': url,
-						'icon': f'{SITE_FULL}/icon.webp?v=1',
-					}
-				},
-				'fcm': {
-					'notification': {
-						'title': title,
-						'body': notifbody,
-					},
-					'data': {
-						'url': url,
-					}
-				}
-			},
-		)
-		stdout.flush()
+	if len(body) > PUSH_NOTIF_LIMIT:
+		body = body[:PUSH_NOTIF_LIMIT] + "..."
+
+	subscriptions = g.db.query(PushSubscription).filter_by(user_id=uid).all()
+	for subscription in subscriptions:
+		try:
+			response = webpush(
+				subscription_info=json.loads(subscription.subscription_json),
+				data=json.dumps({
+					"title": title,
+					"body": body,
+					'url': url,
+					'icon': f'{SITE_FULL}/icon.webp?v=1',
+					}),
+				vapid_private_key=VAPID_PRIVATE_KEY,
+				vapid_claims={"sub": f"mailto:{EMAIL}"}
+			)
+		except: continue

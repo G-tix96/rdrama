@@ -48,3 +48,4 @@ if FEATURES['ASSET_SUBMISSIONS']:
 if FEATURES['STREAMERS']:
 	from .streamers import *
 from .special import *
+from .push_notifs import *

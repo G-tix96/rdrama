@@ -471,9 +471,7 @@ def message2(v, username):
 			g.db.add(notif)
 
 
-	if PUSHER_ID != DEFAULT_CONFIG_VALUE and not v.shadowbanned:
-		interests = f'{SITE}{user.id}'
-
+	if VAPID_PUBLIC_KEY != DEFAULT_CONFIG_VALUE and not v.shadowbanned:
 		title = f'New message from @{username}'
 
 		if len(message) > 500: notifbody = message[:500] + '...'
@@ -481,7 +479,7 @@ def message2(v, username):
 
 		url = f'{SITE_FULL}/notifications/messages'
 
-		gevent.spawn(pusher_thread, interests, title, notifbody, url)
+		push_notif(user.id, title, notifbody, url)
 
 	return {"message": "Message sent!"}
 
@@ -545,9 +543,7 @@ def messagereply(v):
 			notif = Notification(comment_id=c.id, user_id=user_id)
 			g.db.add(notif)
 
-		if PUSHER_ID != DEFAULT_CONFIG_VALUE and not v.shadowbanned:
-			interests = f'{SITE}{user_id}'
-
+		if VAPID_PUBLIC_KEY != DEFAULT_CONFIG_VALUE and not v.shadowbanned:
 			title = f'New message from @{v.username}'
 
 			if len(body) > 500: notifbody = body[:500] + '...'
@@ -555,7 +551,7 @@ def messagereply(v):
 
 			url = f'{SITE_FULL}/notifications/messages'
 
-			gevent.spawn(pusher_thread, interests, title, notifbody, url)
+			push_notif(user_id, title, notifbody, url)
 
 	top_comment = c.top_comment(g.db)
 
