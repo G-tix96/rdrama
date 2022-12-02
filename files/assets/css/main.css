@@ -1985,6 +1985,9 @@ button.close {
 .align-middle {
 	vertical-align: middle !important;
 }
+.bg-background {
+	background-color: var(--background);
+}
 .bg-primary {
 	background-color: var(--primary) !important;
 }
@@ -3948,7 +3951,7 @@ ul.comment-section {
 #login {
 	padding-top: 0;
 	height: 100%;
-	overflow: hidden;
+	overflow-x: hidden;
 	background-color: var(--light);
 }
 .splash-wrapper {
