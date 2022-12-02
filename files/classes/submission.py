@@ -301,7 +301,7 @@ class Submission(Base):
 				if o.exclusive == 3:
 					body += " - <b>WINNER!</b>"
 				
-				if not winner and v and v.id == self.author_id:
+				if not winner and v and v.admin_level >= PERMS['POST_BETS_DISTRIBUTE']:
 					body += f'''<button class="btn btn-primary distribute" data-click2="postToastReload(this,'/distribute/{o.id}')" onclick="areyousure(this)">Declare winner</button>'''
 				body += "</div>"
 			else:
