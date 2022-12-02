@@ -1737,6 +1737,7 @@ if SITE_NAME == 'rDrama':
 		'us.forums.blizzard.com',
 		'eu.forums.blizzard.com',
 		'bungie.net',
+		'soyjak.party',
 
 		#fediverse
 		'rdrama.cc',
