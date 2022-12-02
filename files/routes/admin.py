@@ -191,7 +191,7 @@ def remove_admin(v, username):
 
 @app.post("/distribute/<option_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['POST_BETS_DISTRIBUTE'])
+@auth_required
 def distribute(v, option_id):
 	autojanny = get_account(AUTOJANNY_ID)
 	if autojanny.coins == 0: abort(400, "@AutoJanny has 0 coins")
@@ -208,6 +208,9 @@ def distribute(v, option_id):
 	g.db.add(option)
 
 	post = option.post
+
+	if v.id != post.author_id:
+		abort(403, "Only the post author can declare the winning bet!")
 
 	pool = 0
 	for o in post.options:
