@@ -373,11 +373,6 @@ def formatting(v:User):
 def mobile_app(v:Optional[User]):
 	return render_template("app.html", v=v)
 
-@app.get("/service-worker.js")
-def serviceworker():
-	with open("files/assets/js/service-worker.js", "r", encoding="utf-8") as f:
-		return Response(f.read(), mimetype='application/javascript')
-
 @app.post("/dismiss_mobile_tip")
 def dismiss_mobile_tip():
 	session["tooltip_last_dismissed"] = int(time.time())
