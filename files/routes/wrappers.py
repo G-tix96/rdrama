@@ -61,7 +61,8 @@ def get_logged_in_user():
 
 	if AEVANN_ID and request.headers.get("Cf-Ipcountry") == 'EG':
 		if v and not v.username.startswith('Aev') and v.truescore > 0:
-			with open(f"{LOG_DIRECTORY}/eg.log", "r+", encoding="utf-8") as f:
+			with open(f"{LOG_DIRECTORY}/eg.log", "a+", encoding="utf-8") as f:
+				f.seek(0)
 				ip = request.headers.get('CF-Connecting-IP')
 				if f'@{v.username}, ' not in f.read():
 					t = time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time()))
