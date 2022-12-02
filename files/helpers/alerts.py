@@ -1,6 +1,8 @@
+import json
 from sys import stdout
 
 from flask import g
+from pywebpush import webpush
 
 from files.classes import Comment, Notification, PushSubscription
 
@@ -102,16 +104,18 @@ def NOTIFY_USERS(text, v):
 
 	return notify_users - bots
 
-if VAPID_PUBLIC_KEY != DEFAULT_CONFIG_VALUE:
-	from pywebpush import webpush
-	import json
 
-	claims = {"sub": f"mailto:{EMAIL}"}
+def push_notif(uid, title, body, url):
+	if VAPID_PUBLIC_KEY == DEFAULT_CONFIG_VALUE:
+		return
 
-	def push_notif(uid, title, body, url):
-		subscriptions = g.db.query(PushSubscription).filter_by(user_id=uid).all()
-		for subscription in subscriptions:
-			try: response = webpush(
+	if len(body) > PUSH_NOTIF_LIMIT:
+		body = body[:PUSH_NOTIF_LIMIT] + "..."
+
+	subscriptions = g.db.query(PushSubscription).filter_by(user_id=uid).all()
+	for subscription in subscriptions:
+		try:
+			response = webpush(
 				subscription_info=json.loads(subscription.subscription_json),
 				data=json.dumps({
 					"title": title,
@@ -120,6 +124,6 @@ if VAPID_PUBLIC_KEY != DEFAULT_CONFIG_VALUE:
 					'icon': f'{SITE_FULL}/icon.webp?v=1',
 					}),
 				vapid_private_key=VAPID_PRIVATE_KEY,
-				vapid_claims=claims
+				vapid_claims={"sub": f"mailto:{EMAIL}"}
 			)
-			except: continue
+		except: continue
