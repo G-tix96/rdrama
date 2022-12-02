@@ -113,23 +113,23 @@ def push_notif(uid, title, body, url):
 	if len(body) > PUSH_NOTIF_LIMIT:
 		body = body[:PUSH_NOTIF_LIMIT] + "..."
 
-	subscriptions = g.db.query(PushSubscription).filter_by(user_id=uid).all()
+	subscriptions = g.db.query(PushSubscription.subscription_json).filter_by(user_id=uid).all()
+	subscriptions = [x[0] for x in subscriptions]
+	gevent.spawn(_push_notif_thread, subscriptions, title, body, url)
+
+
+def _push_notif_thread(subscriptions, title, body, url):
 	for subscription in subscriptions:
-		gevent.spawn(_push_notif_thread,
-			subscription.subscription_json, title, body, url)
-
-
-def _push_notif_thread(sub_json, title, body, url):
-	try:
-		response = webpush(
-			subscription_info=json.loads(sub_json),
-			data=json.dumps({
-				"title": title,
-				"body": body,
-				'url': url,
-				'icon': f'{SITE_FULL}/icon.webp?v=1',
-				}),
-			vapid_private_key=VAPID_PRIVATE_KEY,
-			vapid_claims={"sub": f"mailto:{EMAIL}"}
-		)
-	except: pass
+		try:
+			response = webpush(
+				subscription_info=json.loads(subscription),
+				data=json.dumps({
+					"title": title,
+					"body": body,
+					'url': url,
+					'icon': f'{SITE_FULL}/icon.webp?v=1',
+					}),
+				vapid_private_key=VAPID_PRIVATE_KEY,
+				vapid_claims={"sub": f"mailto:{EMAIL}"}
+			)
+		except: continue
