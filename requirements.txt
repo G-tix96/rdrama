@@ -19,6 +19,7 @@ matplotlib
 owoify-py
 Pillow
 pyotp
+pywebpush
 qrcode
 redis
 requests
@@ -27,7 +28,6 @@ tinycss2
 tldextract
 user-agents
 psycopg2-binary
-pusher_push_notifications
 youtube-dl
 yattag
 webptools

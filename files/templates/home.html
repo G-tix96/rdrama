@@ -167,14 +167,15 @@
 </nav>
 {% endif %}
 
-{% if request.path == '/' and PUSHER_ID != DEFAULT_CONFIG_VALUE and v %}
-	<div class="d-none" id="strid">{{SITE}}{{v.id}}</div>
-	<div class="d-none" id="pusherid">{{PUSHER_ID}}</div>
-	<script defer src="{{'js/vendor/pusher.js' | asset}}"></script>
+{% if request.path == '/' and v %}
+	<script defer src="/assets/js/register_service_worker.js"></script>
 	<script>
-		if (typeof Android != 'undefined') {
-			Android.Subscribe('{{SITE}}{{v.id}}');
-		}
+		document.addEventListener('DOMContentLoaded', function () {
+			registerServiceWorker(
+			"/assets/js/service_worker.js",
+			"{{VAPID_PUBLIC_KEY}}",
+			"/push_subscribe")
+		});
 	</script>
 {% endif %}
 
