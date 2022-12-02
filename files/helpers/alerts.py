@@ -1,6 +1,7 @@
 import json
 from sys import stdout
 
+import gevent
 from flask import g
 from pywebpush import webpush
 
@@ -114,16 +115,21 @@ def push_notif(uid, title, body, url):
 
 	subscriptions = g.db.query(PushSubscription).filter_by(user_id=uid).all()
 	for subscription in subscriptions:
-		try:
-			response = webpush(
-				subscription_info=json.loads(subscription.subscription_json),
-				data=json.dumps({
-					"title": title,
-					"body": body,
-					'url': url,
-					'icon': f'{SITE_FULL}/icon.webp?v=1',
-					}),
-				vapid_private_key=VAPID_PRIVATE_KEY,
-				vapid_claims={"sub": f"mailto:{EMAIL}"}
-			)
-		except: continue
+		gevent.spawn(_push_notif_thread,
+			subscription.subscription_json, title, body, url)
+
+
+def _push_notif_thread(sub_json, title, body, url):
+	try:
+		response = webpush(
+			subscription_info=json.loads(sub_json),
+			data=json.dumps({
+				"title": title,
+				"body": body,
+				'url': url,
+				'icon': f'{SITE_FULL}/icon.webp?v=1',
+				}),
+			vapid_private_key=VAPID_PRIVATE_KEY,
+			vapid_claims={"sub": f"mailto:{EMAIL}"}
+		)
+	except: pass
