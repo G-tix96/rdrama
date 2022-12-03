@@ -203,7 +203,7 @@
 }
 
 .transparent {
-	background-color: None !important;
+	background: None !important;
 }
 
 .btn-danger.disabled, .btn-danger:disabled {

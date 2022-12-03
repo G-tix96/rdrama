@@ -36,7 +36,7 @@
 }
 
 .pseudo-submit-form .card-header, .card-blank .card-header, .navbar-light, .nav, .flex-row.bg-gray-200.sticky.justify-content-center.d-flex.d-sm-none.mt-3.mb-3.mb-sm-5.rounded {
-	background-color: var(--white) !important;
+	background: var(--white) !important;
 	color: var(--white) !important;
 }
 .navbar-light > *, .navbar-brand, .nav-link{
@@ -47,7 +47,7 @@
 	border: 2px outset white !important;
 	border-bottom: 2px solid #a7a5a1 !important;
 	border-right: 2px solid #a7a5a1 !important;
-	background-color: var(--gray-500) !important;
+	background: var(--gray-500) !important;
 	color: #000 !important;
 }
 
@@ -63,7 +63,7 @@
 }
 
 .dropdown-menu, .btn:hover {
-	background-color: var(--gray-500) !important;
+	background: var(--gray-500) !important;
 	color: #000 !important;
 }
 
@@ -103,7 +103,7 @@ blockquote {
 }
 
 .form-control, .form-control:disabled, [readonly] {
-	background-color: white !important;
+	background: white !important;
 	color: black !important
 }
 
@@ -116,7 +116,7 @@ blockquote {
 }
 
 .transparent {
-	background-color: None !important;
+	background: None !important;
 }
 
 .black {
@@ -145,7 +145,7 @@ blockquote {
 }
 
 #thread {
-	background-color: var(--white) !important;
+	background: var(--white) !important;
 }
 
 #profilestuff > * {
@@ -153,7 +153,7 @@ blockquote {
 }
 
 .comment-anchor:target, .unread {
-	background-color: #ffffffaa !important;
+	background: #ffffffaa !important;
 }
 
 .sidebar

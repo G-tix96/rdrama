@@ -30,17 +30,17 @@
 }
 
 .form-control {
-	background-color: transparent;
+	background: transparent;
 	border-color: var(--primary) !important;
 }
 
 .btn {
-	background-color: transparent;
+	background: transparent;
 	border-color: var(--primary) !important;
 }
 
 .form-control:disabled, [readonly] {
-	background-color: transparent;
+	background: transparent;
 	border-color: var(--primary) !important;
 }
 
@@ -65,7 +65,7 @@ pre {
 }
 
 .transparent {
-	background-color: None !important;
+	background: None !important;
 }
 
 blockquote {
@@ -77,7 +77,7 @@ blockquote {
 }
 
 .comment-anchor:target, .unread {
-	background-color: #00000055 !important;
+	background: #00000055 !important;
 }
 
 h5.post-title a:visited {

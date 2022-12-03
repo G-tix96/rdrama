@@ -130,7 +130,7 @@ export function ChatMessage({
       style={
         isMention && !dm
           ? {
-              background-color: `#${themeColor}25`,
+              background: `#${themeColor}25`,
               borderLeft: `1px solid #${themeColor}`,
             }
           : {}

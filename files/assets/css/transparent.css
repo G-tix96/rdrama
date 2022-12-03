@@ -9,7 +9,7 @@
 }
 
 .container, #userpage > div.container-fluid, #root > div.App {
-	background-color: rgba(28, 34, 41, 0.90) !important;
+	background: rgba(28, 34, 41, 0.90) !important;
 }
 
 .fixed-bottom, .popover, .modal-content, .dropdown-menu, .navbar, body, .form-control, #speed-carot-modal {
@@ -17,5 +17,5 @@
 }
 
 .App-side, .flaggers, .comment-section {
-	background-color: transparent !important;
+	background: transparent !important;
 }
