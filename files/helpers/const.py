@@ -154,6 +154,7 @@ if SITE_NAME == 'rDrama':
 		"america": 'ameriKKKa',
 		"it's almost as if": "I'm a retard but",
 		"my brother in christ": "my brother in Allah",
+		"kyle": "kylie",
 	}
 	SLURS.update(RDRAMA_SLURS)
 
