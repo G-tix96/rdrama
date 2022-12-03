@@ -225,6 +225,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'CHAT_BYPASS_MUTE': 2,
 	'DOMAINS_BAN': 3,
 	'HOLE_CREATE': 0,
+	'EDIT_RULES': 3,
 	'FLAGS_REMOVE': 2,
 	'VOTES_VISIBLE': 0,
 	'USER_BLOCKS_VISIBLE': 0,

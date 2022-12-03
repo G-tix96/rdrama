@@ -237,7 +237,7 @@ def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=Non
 
 
 @with_sigalrm_timeout(5)
-def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False):
+def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False, sidebar=False):
 	sanitized = sanitized.strip()
 
 	sanitized = utm_regex.sub('', sanitized)
@@ -409,7 +409,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 			if y.startswith(x.domain):
 				abort(403, description=f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
 
-	if '<pre>' not in sanitized:
+	if '<pre>' not in sanitized and not sidebar:
 		sanitized = sanitized.replace('\n','')
 
 	if showmore and len(sanitized) > 3500:

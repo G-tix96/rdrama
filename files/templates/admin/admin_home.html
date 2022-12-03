@@ -97,6 +97,9 @@
 
 <h4>Configuration</h4>
 <ul>
+	{% if v.admin_level >= PERMS['EDIT_RULES'] %}
+		<li><a href="/admin/edit_rules">Edit the Rules</a></li>
+	{%- endif %}
 	{% if v.admin_level >= PERMS['HOLE_CREATE'] %}
 		<li><a href="/create_hole">Create {{HOLE_NAME | capitalize}}</a></li>
 	{% endif %}
