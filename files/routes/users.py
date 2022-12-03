@@ -714,6 +714,50 @@ def userpagelisting(user:User, site=None, v=None, page:int=1, sort="new", t="all
 @app.get("/@<username>")
 @app.get("/@<username>.json")
 @auth_desired_with_logingate
+def u_username_wall(username, v=None):
+	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
+	if username != u.username:
+		return redirect(f"/@{u.username}/comments")
+	is_following = v and u.has_follower(v)
+
+	if not u.is_visible_to(v):
+		if g.is_api_or_xhr or request.path.endswith(".json"):
+			abort(403, f"@{u.username}'s userpage is private")
+		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
+
+	if v and hasattr(u, 'is_blocking') and u.is_blocking:
+		if g.is_api_or_xhr or request.path.endswith(".json"):
+			abort(403, f"You are blocking @{u.username}.")
+		return render_template("userpage/blocking.html", u=u, v=v), 403
+
+	try: page = max(int(request.values.get("page", "1")), 1)
+	except: page = 1
+
+	comments, output = get_comments_v_properties(v, True, None, Comment.wall_user_id == u.id)
+	comments = comments.filter(Comment.level == 1)
+
+	if not v or (v.id != u.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']):
+		comments = comments.filter(
+			Comment.is_banned == False,
+			Comment.ghost == False,
+			Comment.deleted_utc == 0
+		)
+
+	comments = comments.order_by(Comment.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1)
+	comments = [c[0] for c in comments.all()]
+
+	next_exists = (len(comments) > PAGE_SIZE)
+	comments = comments[:PAGE_SIZE]
+	
+	if (v and v.client) or request.path.endswith(".json"):
+		return {"data": [c.json(g.db) for c in comments]}
+	
+	return render_template("userpage/wall.html", u=u, v=v, listing=comments, page=page, next_exists=next_exists, is_following=is_following, standalone=True, render_replies=True)
+
+
+@app.get("/@<username>/posts")
+@app.get("/@<username>/posts.json")
+@auth_desired_with_logingate
 def u_username(username, v=None):
 	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
 	if username != u.username:
@@ -766,7 +810,7 @@ def u_username(username, v=None):
 		if (v and v.client) or request.path.endswith(".json"):
 			return {"data": [x.json(g.db) for x in listing]}
 		
-		return render_template("userpage.html",
+		return render_template("userpage/userpage.html",
 												unban=u.unban_string,
 												u=u,
 												v=v,
@@ -780,7 +824,7 @@ def u_username(username, v=None):
 	if (v and v.client) or request.path.endswith(".json"):
 		return {"data": [x.json(g.db) for x in listing]}
 	
-	return render_template("userpage.html",
+	return render_template("userpage/userpage.html",
 									u=u,
 									v=v,
 									listing=listing,
@@ -1005,7 +1049,7 @@ def saved_posts(v:User, username):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
-	return get_saves_and_subscribes(v, "userpage.html", SaveRelationship, page, False)
+	return get_saves_and_subscribes(v, "userpage/userpage.html", SaveRelationship, page, False)
 
 @app.get("/@<username>/saved/comments")
 @auth_required
@@ -1021,7 +1065,7 @@ def subscribed_posts(v:User, username):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
-	return get_saves_and_subscribes(v, "userpage.html", Subscription, page, False)
+	return get_saves_and_subscribes(v, "userpage/userpage.html", Subscription, page, False)
 
 @app.post("/fp/<fp>")
 @auth_required

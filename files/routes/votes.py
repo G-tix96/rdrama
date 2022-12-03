@@ -71,7 +71,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		target = get_post(target_id)
 	elif cls == Comment:
 		target = get_comment(target_id)
-		if not target.parent_submission: abort(404)
+		if not target.parent_submission and not target.wall_user_id: abort(404)
 	else:
 		abort(404)
 

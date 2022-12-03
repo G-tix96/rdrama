@@ -474,7 +474,10 @@
 		<div class="flex-row box-shadow-bottom d-flex justify-content-center justify-content-md-between align-items-center">
 			<ul class="nav settings-nav" id="profile-content--nav">
 				<li class="nav-item">
-					<a class="nav-link {% if not 'saved' in request.path %}active{% endif %}" href="/@{{u.username}}">Posts <span class="count">({{u.post_count}})</span></a>
+					<a class="nav-link" href="/@{{u.username}}">Wall</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link {% if not 'saved' in request.path %}active{% endif %}" href="/@{{u.username}}/posts">Posts <span class="count">({{u.post_count}})</span></a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/@{{u.username}}/comments">Comments <span class="count">({{u.comment_count}})</span></a>
@@ -595,12 +598,12 @@
 </nav>
 {% endif %}
 
-{% if not request.path.endswith('/comments') %}
+{% if not request.path.endswith('/comments') and not request.path.endswith(u.username) %}
 	<script defer src="{{'js/vendor/marked.js' | asset}}"></script>
 	<script defer src="{{'js/markdown.js' | asset}}"></script>
 {% endif %}
 
-{% if v and v.id != u.id and '/comments' not in request.path %}
+{% if v and v.id != u.id and not request.path.endswith('/comments') and not request.path.endswith(u.username) %}
 	{% include "modals/emoji.html" %}
 {% endif %}
 

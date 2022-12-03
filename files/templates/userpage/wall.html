@@ -1,0 +1,114 @@
+{% extends "userpage/userpage.html" %}
+
+{% block content %}
+
+<div class="row no-gutters">
+	<div class="col">
+		<div class="flex-row box-shadow-bottom d-flex justify-content-center justify-content-md-between align-items-center">
+			<ul class="nav settings-nav" id="profile-content--nav">
+				<li class="nav-item">
+					<a class="nav-link active" href="/@{{u.username}}">Wall</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/@{{u.username}}/posts">Posts <span class="count">({{u.post_count}})</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/@{{u.username}}/comments">Comments <span class="count">({{u.comment_count}})</span></a>
+				</li>
+				{% if u.id == v.id %}
+					<li class="nav-item">
+						<a class="nav-link" href="/@{{u.username}}/saved/posts">Saved Posts <span class="count">({{u.saved_count}})</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link {% if 'saved' in request.path %}active{% endif %}" href="/@{{u.username}}/saved/comments">Saved Comments <span class="count">({{u.saved_comment_count}})</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/@{{u.username}}/subscribed/posts">Subscribed <span class="count">({{u.subscribed_count}})</span></a>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+</div>
+
+{% if v %}
+	<div id="comment-form-space-{{u.fullname}}" class="comment-write mb-3 mt-4">
+		<form id="reply-to-{{u.fullname}}" action="/comment" method="post">
+			<input type="hidden" name="formkey" value="{{v|formkey}}">
+			<input type="hidden" name="parent_fullname" value="p_{{u.id}}">
+			<input autocomplete="off" id="reply-form-submission-{{u.fullname}}" type="hidden" name="submission" value="{{u.id}}">
+			<textarea required autocomplete="off" {% if v.longpost %}minlength="280"{% elif v.bird %}maxlength="140"{% endif %} minlength="1" maxlength="10000" data-preview="form-preview-{{u.fullname}}" oninput="markdown(this);charLimit('reply-form-body-{{u.fullname}}','charcount-{{u.fullname}}')" id="reply-form-body-{{u.fullname}}" data-fullname="{{u.fullname}}" class="comment-box form-control rounded" name="body" form="reply-to-{{u.fullname}}" aria-label="With textarea" placeholder="Add your comment..." rows="3"></textarea>
+
+			<div class="text-small font-weight-bold mt-1" id="charcount-{{u.fullname}}" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
+
+			<div class="comment-format">
+				<label class="btn btn-secondary format d-inline-block m-0" for="gif-reply-btn-{{u.fullname}}">
+					<span id="gif-reply-btn-{{u.fullname}}" class="font-weight-bolder text-uppercase" onclick="commentForm('reply-form-body-{{u.fullname}}');getGif()" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span>
+				</label> 
+				&nbsp;
+				<div onclick="loadEmojis('reply-form-body-{{u.fullname}}')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn-{{u.fullname}}" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>	
+				&nbsp;
+				<label class="format btn btn-secondary m-0 ml-1 {% if v %}d-inline-block{% else %}d-none{% endif %}" for="file-upload-reply-{{u.fullname}}">
+					<div id="filename-show-reply-{{u.fullname}}"><i class="fas fa-file"></i></div>
+					<input autocomplete="off" id="file-upload-reply-{{u.fullname}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if g.is_tor %}disabled{% endif %} onchange="changename('filename-show-reply-{{u.fullname}}','file-upload-reply-{{u.fullname}}')" hidden>
+				</label>
+			</div>
+			<button type="button" id="save-reply-to-{{u.fullname}}" form="reply-to-{{u.fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="post_comment('{{u.fullname}}', '{{u.id}}');remove_dialog()">Comment</button>
+		</form>
+		<div id="form-preview-{{u.fullname}}" class="preview mb-3 mt-5"></div>
+		<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}data-target="t"target="_blank"{% endif %}>Formatting help</a></div>
+	</div>
+{% else %}
+	<div class="comment-write mb-3 mt-4">
+		<textarea autocomplete="off" maxlength="10000" class="comment-box form-control rounded" name="body" aria-label="With textarea" placeholder="Add your comment..." rows="3" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';"></textarea>
+	</div>
+
+	<div class="card border-0 mt-4">
+		<div class="card-body">
+			<h5 class="card-title">Jump in the discussion.</h5>
+			<p class="card-text">No email address required.</p>
+			<div>
+				<a href="/signup?redirect={{request.full_path | urlencode}}" class="btn btn-primary">Sign up</a>
+				<a href="/login?redirect={{request.full_path | urlencode}}" class="btn btn-link text-muted">Sign in</a>
+			</div>
+		</div>
+	</div>
+{% endif %}
+
+<div class="row no-gutters {% if listing %}mt-md-3{% elif not listing %}my-md-3{% endif %}" style="margin-top: 10px;">
+
+	<div class="col">
+		<div class="comment-section" id="replies-of-{{u.fullname}}">
+			{% with comments=listing %}
+				{% include "comments.html" %}
+			{% endwith %}
+		</div>
+		{% if not listing %}
+			<div class="text-center px-3 my-3">
+				<span class="fa-stack fa-2x text-muted mb-4">
+					<i class="fas fa-square text-gray-500 opacity-25 fa-stack-2x"></i>
+					<i class="fas text-gray-500 fa-scroll-old fa-stack-1x text-lg"></i>
+				</span>
+				<h5>There's no comments on your wall yet!</h5>
+			</div>
+		{% endif %}
+</div>
+</div>
+
+{% if u.song %}
+	{% if v and v.id == u.id %}
+		<div id="v_username" class="d-none">{{v.username}}</div>
+	{% else %}
+		<div id="u_username" class="d-none">{{u.username}}</div>
+	{% endif %}
+{% endif %}
+
+{% if v %}
+	<div id='tax' class="d-none">{% if v.patron or u.patron %}0{% else %}0.03{% endif %}</div>
+	<div id="username" class="d-none">{{u.username}}</div>
+	<script defer src="{{'js/userpage_v.js' | asset}}"></script>
+{% endif %}
+
+<script defer src="{{'js/userpage.js' | asset}}"></script>
+
+{% endblock %}

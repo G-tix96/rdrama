@@ -33,6 +33,7 @@ class Comment(Base):
 	id = Column(Integer, primary_key=True)
 	author_id = Column(Integer, ForeignKey("users.id"))
 	parent_submission = Column(Integer, ForeignKey("submissions.id"))
+	wall_user_id = Column(Integer, ForeignKey("users.id"))
 	created_utc = Column(Integer)
 	edited_utc = Column(Integer, default=0)
 	is_banned = Column(Boolean, default=False)
@@ -74,6 +75,7 @@ class Comment(Base):
 	flags = relationship("CommentFlag", order_by="CommentFlag.created_utc")
 	options = relationship("CommentOption", order_by="CommentOption.id")
 	casino_game = relationship("Casino_Game")
+	wall_user = relationship("User", primaryjoin="User.id==Comment.wall_user_id")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:
