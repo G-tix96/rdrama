@@ -371,7 +371,7 @@ def kick(v, pid):
 	g.db.add(ma)
 
 	if v.id != post.author_id:
-		message = f"@{v.username} (/h/{post.sub} Mod) has moved [{post.title}]({post.shortlink}) from /h/{old} to the main feed!"
+		message = f"@{v.username} (/h/{old} Mod) has moved [{post.title}]({post.shortlink}) from /h/{old} to the main feed!"
 		send_repeatable_notification(post.author_id, message)
 
 	g.db.add(post)
