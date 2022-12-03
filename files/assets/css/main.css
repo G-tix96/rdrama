@@ -5118,7 +5118,7 @@ img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 }
 
 .awardmodal {
-	max-width: 80% !important;
+	max-width: 90% !important;
 	height: 100% !important;
 	margin: auto !important
 }
@@ -6418,4 +6418,20 @@ div.markdown {
 
 .user-signature video {
 	height: var(--signature-max-height);
+}
+
+.award-name {
+	font-weight: bold;
+	font-size: 14px;
+	color:#E1E1E1;
+}
+
+.award-owned {
+	font-size: 14px;
+}
+
+@media (max-width: 768px) {
+	.award-name, .award-owned {
+		font-size: 11px;
+	}	
 }
