@@ -558,6 +558,7 @@ if SITE == 'rdrama.net':
 		'againsthateholes',
 		'masterbaiters',
 		'changelog',
+		'programming',
 	}
 
 	BOOSTED_USERS = {
