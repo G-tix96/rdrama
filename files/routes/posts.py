@@ -340,6 +340,9 @@ def edit_post(pid, v):
 		if v.id == p.author_id and v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 			abort(403, "You can only type marseys!")
 
+		if 'megathread' in title.lower() and 'megathread' not in p.title.lower():
+			p.new = True
+
 		p.title = title
 		p.title_html = title_html
 
@@ -777,7 +780,7 @@ def submit_post(v:User, sub=None):
 	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: return error(f"Submission body_html too long! (max {POST_BODY_HTML_LENGTH_LIMIT} characters)")
 
 	flag_notify = (request.values.get("notify", "on") == "on")
-	flag_new = request.values.get("new", False, bool)
+	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
 	flag_over_18 = request.values.get("over_18", False, bool)
 	flag_private = request.values.get("private", False, bool)
 	flag_club = (request.values.get("club", False, bool) and FEATURES['COUNTRY_CLUB'])
