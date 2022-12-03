@@ -71,7 +71,7 @@ blockquote p {
 }
 
 .transparent {
-	background: None !important;
+	background-color: None !important;
 }
 
 .btn {
@@ -87,7 +87,8 @@ blockquote p {
 }
 
 .navbar-light, .navbar .container-fluid, #mobile-bottom-navigation-bar {
-	background:#ffe url(/assets/images/4chan.webp);
+	background-color:#ffe;
+	background-image: url(/assets/images/4chan.webp);
 	background-size: contain;
 }
 
@@ -139,7 +140,7 @@ blockquote a {
 }
 
 .comment-anchor:target, .unread {
-	background: #ffffff88 !important;
+	background-color: #ffffff88 !important;
 }
 
 .sidebar

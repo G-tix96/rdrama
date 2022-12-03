@@ -170,8 +170,9 @@
 	{% if background %}
 		<style>
 		body {
-			background:url("/i/backgrounds/{{background}}.webp?v=4") center center fixed;
+			background-image: url("/i/backgrounds/{{background}}.webp?v=4");
 			background-color: var(--background);
+			background-attachment: fixed;
 			{% if 'anime/' not in background -%}
 				background-size: cover;
 			{%- endif %}

@@ -1,6 +1,6 @@
 @charset "UTF-8";
 button {
-	background: none;
+	background-color: none;
 	border: none;
 	padding: 0;
 	margin: 0;
@@ -1021,7 +1021,7 @@ input[type=submit].btn-follow, input[type=reset].btn-follow, input[type=button].
 	width: 1rem;
 	height: 1rem;
 	content: "";
-	background: no-repeat 50%/50% 50%;
+	background-color: no-repeat 50%/50% 50%;
 }
 .custom-checkbox .custom-control-label::before {
 	border-radius: 0.35rem;
@@ -1185,7 +1185,7 @@ nav
 	height: 1.5em;
 	vertical-align: middle;
 	content: "";
-	background: no-repeat center center;
+	background-color: no-repeat center center;
 	background-size: 100% 100%;
 }
 @media (max-width: 767.98px) {
@@ -2812,7 +2812,7 @@ ol > li::before {
 	height: auto;
 }
 .navbar-toggler-icon, .navbar-dark .navbar-toggler-icon, .navbar-light .navbar-toggler-icon {
-	background: transparent;
+	background-color: transparent;
 }
 .navbar-toggler, .navbar-dark .navbar-toggler, .navbar-light .navbar-toggler {
 	border: none;
@@ -3021,7 +3021,7 @@ label.color-radio span {
 	color: var(--muted);
 	border-color: var(--muted);
 	border-width: 2px;
-	background: #dee2e6;
+	background-color: #dee2e6;
 	transition: none;
 }
 .form-control:disabled, [readonly] {
@@ -4456,7 +4456,7 @@ pre .com, code .com {
 		width: 100%;
 		overflow-x: auto;
 		white-space: nowrap;
-		background: transparent;
+		background-color: transparent;
 }
 	#thread .post-title {
 		font-size: 16px;
@@ -4468,7 +4468,7 @@ pre .com, code .com {
 		padding: 0;
 }
 	#submit .submission .footer {
-		background: transparent;
+		background-color: transparent;
 		padding: 1rem 0;
 }
 	.footer .list-inline-item {
@@ -4587,10 +4587,10 @@ span.green {
 	border: 2px solid #e9ecef;
 }
 .btn {
-	background: transparent;
+	background-color: transparent;
 }
 .form-control {
-	background: transparent;
+	background-color: transparent;
 }
 .navbar-light .navbar-nav .nav-link {
 	border-radius: 5px;
@@ -4642,7 +4642,7 @@ span.green {
 	background-color: var(--background) !important;
 }
 .nobackground {
-	background: None !important;
+	background-color: None !important;
 }
 textarea {
 	resize: both !important;
@@ -5149,7 +5149,7 @@ html {
 	display: block;
 }
 .comment-anchor:target, .unread {
-	background: #ffffff22 !important;
+	background-color: #ffffff22 !important;
 	padding: 12px;
 	padding-bottom: 4px;
 }
@@ -5158,8 +5158,8 @@ html {
 	padding: 2px 5px 3px 5px;
 	border-radius: 5px;
 	color:white!important;
-	background: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet);
-	background: -webkit-linear-gradient(left, red, orange, yellow, green, blue, indigo, violet );
+	background-color: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet);
+	background-color: -webkit-linear-gradient(left, red, orange, yellow, green, blue, indigo, violet );
 	text-shadow:-1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black;
 }
 
@@ -5183,7 +5183,7 @@ html {
 	display: flex;
 	flex-direction: column;
 	padding: 0;
-	background: var(--gray-600);
+	background-color: var(--gray-600);
 }
 
 .popover-body {
@@ -5233,7 +5233,7 @@ a.emojitab {
 }
 
 .emoji2 {
-	background: None!important;
+	background-color: None!important;
 	width:60px;
 	overflow: hidden;
 	border: none;
@@ -5254,7 +5254,7 @@ a.emojitab {
 }
 
 .notif-count {
-	background: red;
+	background-color: red;
 	border-radius: 20%;
 	color: white;
 	padding: 2px 5px;
@@ -6112,8 +6112,8 @@ g {
 	margin: 5px 1px;
 	border-radius: 5px;
 	color:white!important;
-	background: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet);
-	background: -webkit-linear-gradient(left, red, orange, yellow, green, blue, indigo, violet );
+	background-color: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet);
+	background-color: -webkit-linear-gradient(left, red, orange, yellow, green, blue, indigo, violet );
 	text-shadow:-1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black;
 	font-weight: 600;
 	border: 2px solid var(--primary);
@@ -6194,8 +6194,8 @@ g {
 
 .btn-rainbow {
 	color:white !important;
-	background: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet) !important;
-	background: -webkit-linear-gradient(left, red, orange, yellow, green, blue, indigo, violet ) !important;
+	background-color: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet) !important;
+	background-color: -webkit-linear-gradient(left, red, orange, yellow, green, blue, indigo, violet ) !important;
 	text-shadow:-1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black !important;
 }
 
@@ -6326,7 +6326,7 @@ div.markdown {
 }
 
 .popover-bio-div::-webkit-scrollbar {
-	background: transparent;
+	background-color: transparent;
 }
 
 .popover-badges-div {
@@ -6337,7 +6337,7 @@ div.markdown {
 }
 
 .popover-badges-div::-webkit-scrollbar {
-	background: transparent;
+	background-color: transparent;
 }
 
 @media (max-width: 768px) {
@@ -6395,7 +6395,7 @@ div.markdown {
 .modlog-action {
 	display: flex;
 	flex-wrap: wrap;
-	background: var(--gray-600) !important;
+	background-color: var(--gray-600) !important;
 	position: relative;
 	align-items: center;
 	justify-content: space-between;

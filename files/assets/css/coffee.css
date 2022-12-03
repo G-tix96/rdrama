@@ -75,7 +75,7 @@ blockquote {
 }
 
 .transparent {
-	background: None !important;
+	background-color: None !important;
 }
 
 .btn {
@@ -91,7 +91,7 @@ blockquote {
 }
 
 .comment-anchor:target, .unread {
-	background: #ffffff88 !important;
+	background-color: #ffffff88 !important;
 }
 
 .sidebar
