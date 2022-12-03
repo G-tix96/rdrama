@@ -138,7 +138,7 @@ def settings_personal_post(v):
 			badge = v.has_badge(179)
 			if badge: g.db.delete(badge)
 
-	elif not updated and request.values.get("bio") == "":
+	elif not updated and request.values.get("bio") == "" and not request.files.get('file'):
 		v.bio = None
 		v.bio_html = None
 		g.db.add(v)
