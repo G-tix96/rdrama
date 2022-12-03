@@ -1150,7 +1150,8 @@ def settings_kofi(v:User):
 	for transaction in transactions:
 		tier = kofi_tiers[transaction.amount]
 		marseybux += marseybux_li[tier]
-		if tier > highest_tier: highest_tier = tier
+		if transaction.type == 'Subscription' and tier > highest_tier:
+			highest_tier = tier
 		transaction.claimed = True
 		g.db.add(transaction)
 
