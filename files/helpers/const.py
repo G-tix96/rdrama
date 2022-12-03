@@ -570,6 +570,8 @@ if SITE == 'rdrama.net':
 		JOAN_ID,
 		4389, #WorldAroundEwe
 		5526, #Dramarama
+		3635, #HeyMoon
+		3377, #MIMW
 	}
 
 	GIFT_NOTIF_ID = CARP_ID
