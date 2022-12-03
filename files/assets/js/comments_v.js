@@ -191,7 +191,7 @@ function comment_edit(id){
 	xhr[0].send(xhr[1]);
 }
 
-function post_comment(fullname, hide){
+function post_comment(fullname, wall_user_id, hide){
 	const btn = document.getElementById('save-reply-to-'+fullname)
 	btn.disabled = true
 	btn.classList.add('disabled');
@@ -210,7 +210,9 @@ function post_comment(fullname, hide){
 	catch(e) {}
 
 	const xhr = new XMLHttpRequest();
-	xhr.open("post", "/comment");
+	if (wall_user_id == 'None') url = "/comment"
+	else url = '/wall_comment'
+	xhr.open("post", url);
 	xhr.setRequestHeader('xhr', 'xhr');
 	xhr.onload=function(){
 		let data

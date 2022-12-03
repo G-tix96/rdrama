@@ -496,7 +496,7 @@ class User(Base):
 	@property
 	@lazy
 	def fullname(self):
-		return f"t1_{self.id}"
+		return f"u_{self.id}"
 
 	@property
 	@lazy

@@ -215,7 +215,7 @@ def comment(v):
 				parent_submission=parent_post.id,
 				parent_comment_id=parent_comment_id,
 				level=level,
-				over_18=parent_post.over_18 or request.values.get("over_18")=="true",
+				over_18=parent_post.over_18,
 				is_bot=is_bot,
 				app_id=v.client.application.id if v.client else None,
 				body_html=body_html,
@@ -343,6 +343,241 @@ def comment(v):
 	if v.client: return c.json(db=g.db)
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
+
+#- API
+@app.post("/wall_comment")
+@limiter.limit("1/second;20/minute;200/hour;1000/day")
+@auth_required
+@ratelimit_user("1/second;20/minute;200/hour;1000/day")
+def wall_comment(v):
+	if v.is_suspended: abort(403, "You can't perform this action while banned.")
+
+	parent_fullname = request.values.get("parent_fullname").strip()
+	if len(parent_fullname) < 3: abort(400)
+	id = parent_fullname[2:]
+	parent_comment_id = None
+
+	if parent_fullname.startswith("u_"):
+		parent = get_account(id, v=v)
+		parent_user = parent
+		parent_author = parent
+	elif parent_fullname.startswith("c_"):
+		parent = get_comment(id, v=v)
+		if parent.deleted_utc != 0: abort(404)
+		parent_user = parent.wall_user
+		parent_comment_id = parent.id
+		parent_author = parent_user
+	else: abort(400)
+
+	level = 1 if isinstance(parent, User) else parent.level + 1
+
+	# if not User.can_see(v, parent): abort(404)
+
+	if level > COMMENT_MAX_DEPTH: abort(400, f"Max comment level is {COMMENT_MAX_DEPTH}")
+
+	body = sanitize_raw_body(request.values.get("body", ""), False)
+
+	if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
+		abort(403, "You have to type more than 280 characters!")
+	elif v.bird and len(body) > 140:
+		abort(403, "You have to type less than 140 characters!")
+
+	if not body and not request.files.get('file'):
+		abort(400, "You need to actually write something!")
+
+	if v.admin_level < PERMS['POST_COMMENT_MODERATION'] and parent_author.any_block_exists(v):
+		abort(403, "You can't reply to users who have blocked you or users that you have blocked.")
+	
+	options = []
+	for i in list(poll_regex.finditer(body))[:POLL_MAX_OPTIONS]:
+		options.append(i.group(1))
+		body = body.replace(i.group(0), "")
+
+	choices = []
+	for i in list(choice_regex.finditer(body))[:POLL_MAX_OPTIONS]:
+		choices.append(i.group(1))
+		body = body.replace(i.group(0), "")
+
+	if request.files.get("file") and not g.is_tor:
+		files = request.files.getlist('file')[:4]
+		for file in files:
+			if file.content_type.startswith('image/'):
+				oldname = f'/images/{time.time()}'.replace('.','') + '.webp'
+				file.save(oldname)
+				image = process_image(oldname, v)
+				if image == "": abort(400, "Image upload failed")
+				if v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES'] and level == 1:
+					def process_sidebar_or_banner(type, resize=0):
+						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/{type}'),
+							key=lambda e: int(e.split('.webp')[0]))[-1]
+						num = int(li.split('.webp')[0]) + 1
+						filename = f'files/assets/images/{SITE_NAME}/{type}/{num}.webp'
+						copyfile(oldname, filename)
+						process_image(filename, v, resize=resize)
+				body += f"\n\n![]({image})"
+			elif file.content_type.startswith('video/'):
+				body += f"\n\n{SITE_FULL}{process_video(file, v)}"
+			elif file.content_type.startswith('audio/'):
+				body += f"\n\n{SITE_FULL}{process_audio(file, v)}"
+			else:
+				abort(415)
+
+	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
+	
+	body_for_sanitize = body
+	if v.owoify:
+		body_for_sanitize = owoify(body_for_sanitize)
+	if v.marsify:
+		body_for_sanitize = marsify(body_for_sanitize)
+
+	torture = (v.agendaposter and not v.marseyawarded)
+	body_html = sanitize(body_for_sanitize, limit_pings=5, count_marseys=not v.marsify, torture=torture)
+
+	if '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
+		existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
+																	Comment.deleted_utc == 0,
+																	Comment.parent_comment_id == parent_comment_id,
+																	Comment.parent_submission == None,
+																	Comment.body_html == body_html
+																	).first()
+		if existing: abort(409, f"You already made that comment: /comment/{existing.id}")
+
+	is_bot = (v.client is not None
+		and v.id not in PRIVILEGED_USER_BOTS
+		or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
+
+	execute_antispam_comment_check(body, v)
+	execute_antispam_duplicate_comment_check(v, body_html)
+
+	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
+
+	c = Comment(author_id=v.id,
+				wall_user_id=parent_user.id,
+				parent_comment_id=parent_comment_id,
+				level=level,
+				is_bot=is_bot,
+				app_id=v.client.application.id if v.client else None,
+				body_html=body_html,
+				body=body,
+				)
+
+	c.upvotes = 1
+	g.db.add(c)
+	g.db.flush()
+
+	execute_blackjack(v, c, c.body, "comment")
+	execute_under_siege(v, c, c.body, "comment")
+
+	if c.level == 1: c.top_comment_id = c.id
+	else: c.top_comment_id = parent.top_comment_id
+
+	for option in options:
+		body_html = filter_emojis_only(option)
+		if len(body_html) > 500: abort(400, "Poll option too long!")
+		option = CommentOption(
+			comment_id=c.id,
+			body_html=body_html,
+			exclusive=0
+		)
+		g.db.add(option)
+
+	for choice in choices:
+		body_html = filter_emojis_only(choice)
+		if len(body_html) > 500: abort(400, "Poll option too long!")
+		choice = CommentOption(
+			comment_id=c.id,
+			body_html=body_html,
+			exclusive=1
+		)
+		g.db.add(choice)
+
+	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower():
+		c.is_banned = True
+		c.ban_reason = "AutoJanny"
+		g.db.add(c)
+
+		body = AGENDAPOSTER_MSG.format(username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
+		body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
+
+		c_jannied = Comment(author_id=AUTOJANNY_ID,
+			parent_submission=None,
+			wall_user_id=parent_user.id,
+			distinguish_level=6,
+			parent_comment_id=c.id,
+			level=level+1,
+			is_bot=True,
+			body=body,
+			body_html=body_jannied_html,
+			top_comment_id=c.top_comment_id,
+			)
+
+		g.db.add(c_jannied)
+		g.db.flush()
+
+		n = Notification(comment_id=c_jannied.id, user_id=v.id)
+		g.db.add(n)
+
+	if not v.shadowbanned:
+		notify_users = NOTIFY_USERS(body, v)
+		
+		if parent_author.id != v.id:
+			notify_users.add(parent_author.id)
+
+		for x in notify_users-bots:
+			n = Notification(comment_id=c.id, user_id=x)
+			g.db.add(n)
+
+		if VAPID_PUBLIC_KEY != DEFAULT_CONFIG_VALUE and parent_author.id != v.id and not v.shadowbanned:
+			title = f'New comment on your wall by @{c.author_name}'
+
+			if len(c.body) > 500: notifbody = c.body[:500] + '...'
+			else: notifbody = c.body
+
+			url = f'{SITE_FULL}/comment/{c.id}?context=8&read=true#context'
+
+			push_notif(parent_author.id, title, notifbody, url)
+
+				
+
+	vote = CommentVote(user_id=v.id,
+						 comment_id=c.id,
+						 vote_type=1,
+						 )
+
+	g.db.add(vote)
+	
+
+	v.comment_count = g.db.query(Comment).filter(
+		Comment.author_id == v.id,
+		Comment.parent_submission != None,
+		Comment.deleted_utc == 0
+	).count()
+	g.db.add(v)
+
+	c.voted = 1
+	
+	if v.marseyawarded and marseyaward_body_regex.search(body_html):
+		abort(403, "You can only type marseys!")
+
+	check_for_treasure(body, c)
+
+	if FEATURES['WORDLE'] and "!wordle" in body:
+		answer = random.choice(WORDLE_LIST)
+		c.wordle_result = f'_active_{answer}'
+
+	check_slots_command(v, v, c)
+
+	if c.level > 5:
+		n = g.db.query(Notification).filter_by(
+			comment_id=c.parent_comment.parent_comment.parent_comment.parent_comment_id,
+			user_id=c.parent_comment.author_id,
+		).one_or_none()
+		if n: g.db.delete(n)
+
+	g.db.flush()
+
+	if v.client: return c.json(db=g.db)
+	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
 
 @app.post("/edit_comment/<cid>")

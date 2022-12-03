@@ -92,7 +92,7 @@
 		{% endif %}
 	{% elif c.author_id==AUTOJANNY_ID %}
 		<span class="font-weight-bold">Notification</span>
-	{% else %}
+	{% elif not c.wall_user_id %}
 		{% if c.sentto == MODMAIL_ID %}
 			<span class="font-weight-bold">Sent to admins</span>
 		{% else %}
@@ -266,7 +266,7 @@
 			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.author.agendaposter and not (c.parent_submission and c.post.sub == 'chudrama') %}agendaposter{% endif %} {% if c.author.rainbow %}rainbow-text{% endif %}">
 				{{c.realbody(v) | safe}}
 			</div>
-			{% if c.parent_submission %}
+			{% if c.parent_submission or c.wall_user_id %}
 
 				{% if v and v.id==c.author_id %}
 				<div id="comment-edit-{{c.id}}" class="d-none comment-write collapsed child">
@@ -422,7 +422,7 @@
 							<button type="button" id="save-{{c.id}}" class="btn caction py-0 nobackground px-1 {% if c.id not in v.saved_comment_idlist %}d-md-inline-block{% endif %} text-muted d-none" onclick="postToastSwitch(this,'/save_comment/{{c.id}}','save-{{c.id}}','unsave-{{c.id}}','d-md-inline-block')"><i class="fas fa-save"></i>Save</button>
 						{% endif %}
 
-						{% if c.parent_submission %}
+						{% if c.parent_submission or c.wall_user_id %}
 							{% if v and c.author_id == v.id %}
 								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" onclick="toggleEdit('{{c.id}}')"><i class="fas fa-edit fa-fw"></i>Edit</button>
 								
@@ -485,7 +485,7 @@
 	{% endif %}
 {% endif %}
 
-{% if c.parent_submission and (c.author_id==v.id or v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (c.post.sub and v.mods(c.post.sub))) %}
+{% if (c.parent_submission or c.wall_user_id) and (c.author_id==v.id or v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (c.post.sub and v.mods(c.post.sub))) %}
 	<button type="button" id="unmark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.over_18 %}d-md-block{% endif %} text-success" onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-success fa-fw"></i>Unmark +18</button>
 	<button type="button" id="mark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.over_18 %}d-md-block{% endif %} text-danger" onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-danger fa-fw"></i>Mark +18</button>
 {% endif %}
@@ -537,7 +537,7 @@
 							<input autocomplete="off" id="file-upload-reply-{{c.fullname}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if g.is_tor %}disabled{% endif %} onchange="changename('filename-show-reply-{{c.fullname}}','file-upload-reply-{{c.fullname}}')" hidden>
 						</label>
 					</div>
-					<button type="button" id="save-reply-to-{{c.fullname}}" class="btn btn-primary ml-2 fl-r commentmob" onclick="post_comment('{{c.fullname}}', 'reply-to-{{c.id}}');remove_dialog()">Comment</button>
+					<button type="button" id="save-reply-to-{{c.fullname}}" class="btn btn-primary ml-2 fl-r commentmob" onclick="post_comment('{{c.fullname}}', '{{c.wall_user_id}}', 'reply-to-{{c.id}}');remove_dialog()">Comment</button>
 					<button type="button" onclick="document.getElementById('reply-to-{{c.id}}').classList.add('d-none');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r commentmob">Cancel</button> 
 				</form>
 				<div id="form-preview-{{c.fullname}}" class="preview mb-3 mt-5"></div>
@@ -696,7 +696,7 @@
 				</div>
 				<div class="modal-body">
 					<ul class="list-group comment-actions">
-						{% if c.parent_submission %}
+						{% if c.parent_submission or c.wall_user_id %}
 							{% if v.admin_level >= PERMS['APPS_MODERATION'] and c.oauth_app %}
 								<a href="{{c.oauth_app.permalink}}/comments" class="list-group-item text-info"><i class="fas fa-code text-info mr-2"></i>API App</a>
 							{% endif %}

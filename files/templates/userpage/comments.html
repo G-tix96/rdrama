@@ -1,4 +1,4 @@
-{% extends "userpage.html" %}
+{% extends "userpage/userpage.html" %}
 
 {% block content %}
 
@@ -7,7 +7,10 @@
 		<div class="flex-row box-shadow-bottom d-flex justify-content-center justify-content-md-between align-items-center">
 			<ul class="nav settings-nav" id="profile-content--nav">
 				<li class="nav-item">
-					<a class="nav-link" href="/@{{u.username}}">Posts <span class="count">({{u.post_count}})</span></a>
+					<a class="nav-link" href="/@{{u.username}}">Wall</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/@{{u.username}}/posts">Posts <span class="count">({{u.post_count}})</span></a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link {% if not 'saved' in request.path %}active{% endif %}" href="/@{{u.username}}/comments">Comments <span class="count">({{u.comment_count}})</span></a>
