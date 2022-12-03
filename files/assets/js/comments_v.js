@@ -178,6 +178,7 @@ function comment_edit(id){
 			document.getElementById('cancel-edit-'+id).click()
 			bs_trigger(commentForm);
 			document.getElementById('filename-edit-reply-' + id).innerHTML = '<i class="fas fa-file"></i>';
+			document.getElementById('comment-edit-body-' + id).value = data["body"];
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
