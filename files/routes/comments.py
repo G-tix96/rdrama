@@ -462,7 +462,7 @@ def edit_comment(cid, v):
 				g.db.add(n)
 
 	g.db.commit()
-	return {"body": body, "comment": c.realbody(v)}
+	return {"body": c.body, "comment": c.realbody(v)}
 
 
 @app.post("/delete/comment/<cid>")
