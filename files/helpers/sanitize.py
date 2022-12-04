@@ -497,9 +497,6 @@ def validate_css(css):
 	return True, ""
 
 def sanitize_poll_options(v:User, body:str, allow_bets:bool) -> tuple[str, List[Any], List[Any], List[Any]]:
-	if FEATURES['MARKUP_COMMANDS'] and body.startswith(f"#{DISABLE_POLL_COMMAND}"):
-		return (body, [], [], [])
-
 	def sanitize_poll_type(body:str, re:re.Pattern) -> tuple[str, List[str]]:
 		opts = []
 		for i in list(re.finditer(body))[:POLL_MAX_OPTIONS]:

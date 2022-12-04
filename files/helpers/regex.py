@@ -178,7 +178,6 @@ commands = {
 	"factcheck": FACTCHECK_REPLIES,
 	"8ball": EIGHTBALL_REPLIES,
 	"roll": range(1, 9999),
-	DISABLE_POLL_COMMAND: None,
 }
 
 command_regex = re.compile(f"(\s|\n|^)#({'|'.join(commands.keys())})", flags=re.A|re.I)
