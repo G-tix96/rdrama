@@ -1023,9 +1023,9 @@ class User(Base):
 			if isinstance(other, Submission):
 				if "!YOU!" in other.title and not user: return False
 				if browser != 'webview' and other.author_id == AEVANN_ID and other.title.startswith('[ANDROID]'):
-					return False
-				if browser != 'apple' and other.author_id == CARP_ID and other.title.startswith('[APPLE]') and not (user and user.id in (AEVANN_ID, SNAKES_ID)):
-					return False
+					return user and user.admin_level >= PERMS['POST_COMMENT_MODERATION']
+				if browser != 'apple' and other.author_id == CARP_ID and other.title.startswith('[APPLE]'):
+					return user and user.admin_level >= PERMS['POST_COMMENT_MODERATION']
 				if other.sub and not cls.can_see(user, other.subr): return False
 			else:
 				if not other.parent_submission:
