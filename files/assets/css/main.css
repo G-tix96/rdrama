@@ -6435,3 +6435,9 @@ div.markdown {
 		font-size: 11px;
 	}	
 }
+
+@media (max-width: 768px) {
+	.download-video {
+		font-size: 10px;
+	}
+}

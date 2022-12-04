@@ -30,7 +30,14 @@ def before_request():
 
 	if not get_setting('bots') and request.headers.get("Authorization"): abort(403)
 
-	g.webview = '; wv) ' in ua
+	if '; wv) ' in ua:
+		g.browser = 'webview'
+	elif ' firefox/' in ua:
+		g.browser = 'firefox'
+	elif 'iphone' in ua or 'ipad' in ua or 'ipod' in ua or 'mac os' in ua:
+		g.browser = 'apple'
+	else:
+		g.browser = 'chromium'
 
 	g.is_tor = request.headers.get("cf-ipcountry") == "T1"
 
