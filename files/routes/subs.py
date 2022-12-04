@@ -122,15 +122,17 @@ def block_sub(v:User, sub):
 @app.post("/h/<sub>/unblock")
 @auth_required
 def unblock_sub(v:User, sub):
-	sub = get_sub_by_name(sub).name
-	if sub == "chudrama" and not v.can_see_chudrama: abort(403)
-	block = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub).one_or_none()
+	sub = get_sub_by_name(sub)
+	if not User.can_see(v, sub):
+		abort(403)
+
+	block = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub.name).one_or_none()
 
 	if block:
 		g.db.delete(block)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"/h/{sub} unblocked successfully!"}
+	return {"message": f"/h/{sub.name} unblocked successfully!"}
 
 
 @app.post("/h/<sub>/subscribe")
@@ -162,7 +164,8 @@ def unsubscribe_sub(v:User, sub):
 @auth_required
 def follow_sub(v:User, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
+	if not User.can_see(v, sub):
+		abort(403)
 	existing = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
 	if not existing:
 		subscription = SubSubscription(user_id=v.id, sub=sub.name)
@@ -186,7 +189,8 @@ def unfollow_sub(v:User, sub):
 @auth_required
 def mods(v:User, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
+	if not User.can_see(v, sub):
+		abort(403)
 	users = g.db.query(User, Mod).join(Mod).filter_by(sub=sub.name).order_by(Mod.created_utc).all()
 
 	return render_template("sub/mods.html", v=v, sub=sub, users=users)
@@ -196,7 +200,8 @@ def mods(v:User, sub):
 @auth_required
 def sub_exilees(v:User, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
+	if not User.can_see(v, sub):
+		abort(403)
 	users = g.db.query(User, Exile).join(Exile, Exile.user_id==User.id) \
 				.filter_by(sub=sub.name) \
 				.order_by(nullslast(Exile.created_utc.desc()), User.username).all()
@@ -208,7 +213,8 @@ def sub_exilees(v:User, sub):
 @auth_required
 def sub_blockers(v:User, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
+	if not User.can_see(v, sub):
+		abort(403)
 	users = g.db.query(User, SubBlock).join(SubBlock) \
 				.filter_by(sub=sub.name) \
 				.order_by(nullslast(SubBlock.created_utc.desc()), User.username).all()
@@ -221,7 +227,8 @@ def sub_blockers(v:User, sub):
 @auth_required
 def sub_followers(v:User, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
+	if not User.can_see(v, sub):
+		abort(403)
 	users = g.db.query(User, SubSubscription).join(SubSubscription) \
 			.filter_by(sub=sub.name) \
 			.order_by(nullslast(SubSubscription.created_utc.desc()), User.username).all()
@@ -701,7 +708,8 @@ def mod_unpin(cid, v):
 @auth_required
 def hole_log(v:User, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
+	if not User.can_see(v, sub):
+		abort(403)
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
@@ -741,7 +749,8 @@ def hole_log(v:User, sub):
 @auth_required
 def hole_log_item(id, v, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
+	if not User.can_see(v, sub):
+		abort(403)
 	try: id = int(id)
 	except: abort(404)
 

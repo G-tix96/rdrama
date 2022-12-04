@@ -50,7 +50,7 @@ class ModAction(Base):
 	@property
 	@lazy
 	def string(self):
-		output = ACTIONTYPES[self.kind]["str"].format(self=self, cc=CC_TITLE)
+		output = ACTIONTYPES[self.kind]["str"].format(self=self)
 		if self.note: output += f" <i>({self.note})</i>"
 		return output
 
@@ -59,7 +59,6 @@ class ModAction(Base):
 	def target_link(self):
 		if self.target_user: return f'<a href="{self.target_user.url}">{self.target_user.username}</a>'
 		elif self.target_post:
-			if self.target_post.club: return f'<a href="{self.target_post.permalink}">{CC} ONLY</a>'
 			return censor_slurs(f'<a href="{self.target_post.permalink}">{self.target_post.title_html}</a>', None)
 		elif self.target_comment_id: return f'<a href="/comment/{self.target_comment_id}?context=8#context">comment</a>'
 
@@ -117,16 +116,6 @@ ACTIONTYPES = {
 	'ban_user': {
 		"str": 'banned user {self.target_link}', 
 		"icon": 'fa-user-slash', 
-		"color": 'bg-danger'
-	},
-	'club_allow': {
-		"str": 'allowed user {self.target_link} into the {cc}', 
-		"icon": 'fa-golf-club', 
-		"color": 'bg-success'
-	},
-	'club_ban': {
-		"str": 'disallowed user {self.target_link} from the {cc}', 
-		"icon": 'fa-golf-club', 
 		"color": 'bg-danger'
 	},
 	'delete_report': {
@@ -408,16 +397,6 @@ ACTIONTYPES = {
 		"str": 'updated marsey', 
 		"icon": 'fa-cat', 
 		"color": 'bg-success'
-	},
-	'club_post': {
-		"str": 'moved post {self.target_link} to the {cc}', 
-		"icon": 'fa-club', 
-		"color": 'bg-success'
-	},
-	'unclub_post': {
-		"str": 'removed post {self.target_link} from the {cc}', 
-		"icon": 'fa-club', 
-		"color": 'bg-muted'
 	},
 }
 

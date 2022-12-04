@@ -101,10 +101,6 @@
 						<input type="submit" onclick="disable(this)" class="btn btn-danger" value="Remove User's Content">
 					</form>
 				{% endif %}
-				{% if FEATURES['COUNTRY_CLUB'] and v and v.admin_level >= PERMS['USER_CLUB_ALLOW_BAN'] %}
-					<button type="button" id="grant-{{deviceType}}" class="mt-1 {% if u.paid_dues %}d-none{% endif %} btn btn-success" onclick="postToastSwitch(this,'/@{{u.username}}/club_allow','grant-{{deviceType}}','bar-{{deviceType}}','d-none')">Grant club access</button>
-					<button type="button" id="bar-{{deviceType}}" class="{% if u.club_allowed == False %}d-none{% endif %} btn btn-danger" onclick="postToastSwitch(this,'/@{{u.username}}/club_ban','grant-{{deviceType}}','bar-{{deviceType}}','d-none')">Bar from club</button>
-				{% endif %}
 			</div>
 		</div>
 	{% endif %}

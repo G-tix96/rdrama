@@ -83,12 +83,6 @@
 													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-private" name="private" onchange="savetext()">
 													<label class="custom-control-label" for="post-private">Draft</label>
 												</div>
-												{% if FEATURES['COUNTRY_CLUB'] -%}
-												<div class="custom-control custom-checkbox">
-													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-club" name="club" onchange="savetext()">
-													<label class="custom-control-label" for="post-club">{{CC_TITLE}} thread {% if DUES <= 0 %}(hides threads from logged-out users){% endif %}</label>
-												</div>
-												{%- endif %}
 												<div class="custom-control custom-checkbox mb-5">
 													{% if v.can_post_in_ghost_threads %}
 														<input onchange='ghost_toggle(this)' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost">

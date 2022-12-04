@@ -33,55 +33,6 @@ from files.__main__ import app, limiter
 
 titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
 
-@app.post("/club_post/<pid>")
-@feature_required('COUNTRY_CLUB')
-@auth_required
-def club_post(pid, v):
-	post = get_post(pid)
-	if post.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']: abort(403)
-
-	if not post.club:
-		post.club = True
-		g.db.add(post)
-
-		if post.author_id != v.id:
-			ma = ModAction(
-				kind = "club_post",
-				user_id = v.id,
-				target_submission_id = post.id,
-			)
-			g.db.add(ma)
-
-			message = f"@{v.username} (Admin) has marked [{post.title}]({post.shortlink}) as {CC_TITLE}!"
-			send_repeatable_notification(post.author_id, message)
-
-	return {"message": f"Post has been marked as {CC_TITLE}!"}
-
-@app.post("/unclub_post/<pid>")
-@feature_required('COUNTRY_CLUB')
-@auth_required
-def unclub_post(pid, v):
-	post = get_post(pid)
-	if post.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']: abort(403)
-
-	if post.club:
-		post.club = False
-		g.db.add(post)
-
-		if post.author_id != v.id:
-			ma = ModAction(
-				kind = "unclub_post",
-				user_id = v.id,
-				target_submission_id = post.id,
-			)
-			g.db.add(ma)
-
-			message = f"@{v.username} (Admin) has unmarked [{post.title}]({post.shortlink}) as {CC_TITLE}!"
-			send_repeatable_notification(post.author_id, message)
-
-	return {"message": f"Post has been unmarked as {CC_TITLE}!"}
-
-
 @app.post("/publish/<pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
@@ -139,7 +90,6 @@ def submit_get(v:User, sub=None):
 def post_id(pid, anything=None, v=None, sub=None):
 	post = get_post(pid, v=v)
 	if not User.can_see(v, post): abort(403)
-	if not User.can_see_content(v, post) and post.club: abort(403)
 
 	if post.over_18 and not (v and v.over_18) and session.get('over_18', 0) < int(time.time()):
 		if g.is_api_or_xhr: return {"error":"Must be 18+ to view"}, 451
@@ -234,7 +184,6 @@ def post_id(pid, anything=None, v=None, sub=None):
 @auth_desired_with_logingate
 def viewmore(v, pid, sort, offset):
 	post = get_post(pid, v=v)
-	if post.club and not (v and (v.paid_dues or v.id == post.author_id)): abort(403)
 	try:
 		offset = int(offset)
 	except: abort(400)
@@ -783,7 +732,6 @@ def submit_post(v:User, sub=None):
 	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
 	flag_over_18 = request.values.get("over_18", False, bool)
 	flag_private = request.values.get("private", False, bool)
-	flag_club = (request.values.get("club", False, bool) and FEATURES['COUNTRY_CLUB'])
 	flag_ghost = request.values.get("ghost", False, bool) and v.can_post_in_ghost_threads
 
 	if embed and len(embed) > 1500: embed = None
@@ -795,7 +743,6 @@ def submit_post(v:User, sub=None):
 	post = Submission(
 		private=flag_private,
 		notify=flag_notify,
-		club=flag_club,
 		author_id=v.id,
 		over_18=flag_over_18,
 		new=flag_new,

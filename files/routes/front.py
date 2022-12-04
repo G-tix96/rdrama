@@ -18,7 +18,8 @@ from files.__main__ import app, cache, limiter
 def front_all(v, sub=None, subdomain=None):
 	if sub:
 		sub = get_sub_by_name(sub, graceful=True)
-		if sub and not User.can_see(v, sub): abort(403, "You need 5000 truescore to be able to see /h/chudrama")
+		if sub and not User.can_see(v, sub):
+			abort(403)
 	
 	if (request.path.startswith('/h/') or request.path.startswith('/s/')) and not sub: abort(404)
 
@@ -219,9 +220,6 @@ def comment_idlist(v=None, page=1, sort="new", t="all", gt=0, lt=0, site=None):
 			Submission.private == False,
 			Comment.author_id.notin_(v.userblocks),
 		)
-
-	if not v.paid_dues:
-		comments = comments.filter(Submission.club == False)
 
 	if gt: comments = comments.filter(Comment.created_utc > gt)
 	if lt: comments = comments.filter(Comment.created_utc < lt)

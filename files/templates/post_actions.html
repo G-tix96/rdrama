@@ -57,10 +57,6 @@
 			<button type="button" id="hole-pin-{{p.id}}" class="dropdown-item {% if p.hole_pinned %}d-none{% endif %} list-inline-item text-info" onclick="postToastSwitch(this,'/hole_pin/{{p.id}}','hole-pin-{{p.id}}','hole-unpin-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Pin to /h/{{p.sub}}</button>
 			<button type="button" id="hole-unpin-{{p.id}}" class="dropdown-item {% if not p.hole_pinned %}d-none{% endif %} list-inline-item text-info" onclick="postToastSwitch(this,'/hole_unpin/{{p.id}}','hole-pin-{{p.id}}','hole-unpin-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin from /h/{{p.sub}}</button>
 		{% endif %}
-		{% if FEATURES['COUNTRY_CLUB'] and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == p.author_id) %}
-			<button type="button" id="club-{{p.id}}" class="dropdown-item {% if p.club %}d-none{% endif %} list-inline-item text-info" onclick="postToastSwitch(this,'/club_post/{{p.id}}','club-{{p.id}}','unclub-{{p.id}}','d-none')"><i class="fas fa-eye-slash"></i>Mark club</button>
-			<button type="button" id="unclub-{{p.id}}" class="dropdown-item {% if not p.club %}d-none{% endif %} list-inline-item text-info" onclick="postToastSwitch(this,'/unclub_post/{{p.id}}','club-{{p.id}}','unclub-{{p.id}}','d-none')"><i class="fas fa-eye"></i>Unmark club</button>
-		{% endif %}
 		{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 			<button type="button" id="remove-{{p.id}}" class="dropdown-item {% if p.is_banned %}d-none{% endif %} list-inline-item text-danger" onclick="removePost(this,'{{p.id}}','remove-{{p.id}}','approve-{{p.id}}','d-none')"><i class="fas fa-ban"></i>Remove</button>
 			<button type="button" id="approve-{{p.id}}" class="dropdown-item {% if not p.is_banned and request.path != '/admin/reported/posts' %}d-none{% endif %} list-inline-item text-success" onclick="approvePost(this,'{{p.id}}','remove-{{p.id}}','approve-{{p.id}}','d-none')"><i class="fas fa-check"></i>Approve</button>
