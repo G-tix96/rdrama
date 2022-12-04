@@ -75,7 +75,7 @@
 				document.getElementById('filename-show').textContent = filename;
 				if (IMAGE_FORMATS.some(s => filename.endsWith(s)))
 				{
-					var fileReader = new FileReader();
+					const fileReader = new FileReader();
 					fileReader.readAsDataURL(f.files[0]);
 					fileReader.addEventListener("load", function () {
 						document.getElementById('image-preview').setAttribute('src', this.result);
@@ -91,7 +91,7 @@
 			filename = f.files[0].name.toLowerCase()
 			if (IMAGE_FORMATS.some(s => filename.endsWith(s)))
 			{
-				var fileReader = new FileReader();
+				const fileReader = new FileReader();
 				fileReader.readAsDataURL(f.files[0]);
 				fileReader.addEventListener("load", function () {
 					document.getElementById('image-preview').setAttribute('src', this.result);

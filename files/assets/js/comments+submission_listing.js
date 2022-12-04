@@ -124,8 +124,8 @@ function bet_vote(t, oid) {
 			for(let el of document.getElementsByClassName('cost')) {
 				el.classList.add('d-none')
 			}
-			var scoretext = document.getElementById('option-' + oid);
-			var score = Number(scoretext.textContent);
+			const scoretext = document.getElementById('option-' + oid);
+			const score = Number(scoretext.textContent);
 			scoretext.textContent = score + 1;
 
 			document.getElementById("user-coins-amount").innerText = parseInt(document.getElementById("user-coins-amount").innerText) - 200;

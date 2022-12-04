@@ -10,7 +10,7 @@ function sort_table(n) {
 		if (!('sortKey' in x.dataset)) {
 			x = x.getElementsByTagName('a')[0] || x;
 		}
-		var attr;
+		let attr;
 		if ('sortKey' in x.dataset) {
 			attr = x.dataset.sortKey;
 		} else if ('time' in x.dataset) {

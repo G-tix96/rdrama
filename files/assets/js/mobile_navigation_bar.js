@@ -1,14 +1,14 @@
-var prevScrollpos = window.pageYOffset;
+let prevScrollpos = window.pageYOffset;
 window.onscroll = function () {
-	var currentScrollPos = window.pageYOffset;
+	const currentScrollPos = window.pageYOffset;
 
-	var topBar = document.getElementById("fixed-bar-mobile");
+	const topBar = document.getElementById("fixed-bar-mobile");
 
-	var bottomBar = document.getElementById("mobile-bottom-navigation-bar");
+	const bottomBar = document.getElementById("mobile-bottom-navigation-bar");
 
-	var dropdown = document.getElementById("mobileSortDropdown");
+	const dropdown = document.getElementById("mobileSortDropdown");
 
-	var navbar = document.getElementById("navbar");
+	const navbar = document.getElementById("navbar");
 
 	if (bottomBar != null) {
 		if (prevScrollpos > currentScrollPos && (window.innerHeight + currentScrollPos) < (document.body.offsetHeight - 65)) {

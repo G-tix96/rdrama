@@ -9,7 +9,7 @@ function post(url) {
 };
 
 function updatebgselection(){
-	var bgselector = document.getElementById("backgroundSelector");
+	const bgselector = document.getElementById("backgroundSelector");
 	const backgrounds = [
 		{
 			folder: "glitter",
@@ -96,7 +96,7 @@ function updatebgselection(){
 	updatebgselection();
 
 document.onpaste = function(event) {
-	var focused = document.activeElement;
+	const focused = document.activeElement;
 	if (focused.id == 'bio-text') {
 		const files = structuredClone(event.clipboardData.files);
 

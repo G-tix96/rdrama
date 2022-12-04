@@ -13,15 +13,15 @@ async function getGif(searchTerm) {
 		document.getElementById('gifSearch').value = null;
 	}
 
-	var loadGIFs = document.getElementById('gifs-load-more');
+	const loadGIFs = document.getElementById('gifs-load-more');
 
-	var noGIFs = document.getElementById('no-gifs-found');
+	const noGIFs = document.getElementById('no-gifs-found');
 
-	var container = document.getElementById('GIFs');
+	const container = document.getElementById('GIFs');
 
-	var backBtn = document.getElementById('gifs-back-btn');
+	const backBtn = document.getElementById('gifs-back-btn');
 
-	var cancelBtn = document.getElementById('gifs-cancel-btn');
+	const cancelBtn = document.getElementById('gifs-cancel-btn');
 
 	container.innerHTML = '';
 
@@ -43,9 +43,9 @@ async function getGif(searchTerm) {
 
 		let response = await fetch("/giphy?searchTerm=" + searchTerm + "&limit=48");
 		let data = await response.json()
-		var max = data.length - 1
+		const max = data.length - 1
 		data = data.data
-					var gifURL = [];
+		const gifURL = [];
 
 		if (max <= 0) {
 			noGIFs.innerHTML = '<div class="text-center py-3 mt-3"><div class="mb-3"><i class="fas fa-frown text-gray-500" style="font-size: 3.5rem"></i></div><p class="font-weight-bold text-gray-500 mb-0">Aw shucks. No GIFs found...</p></div>';
@@ -53,7 +53,7 @@ async function getGif(searchTerm) {
 			loadGIFs.innerHTML = null;
 		}
 		else {
-			for (var i = 0; i < 48; i++) {
+			for (let i = 0; i < 48; i++) {
 			gifURL[i] = "https://media.giphy.com/media/" + data[i].id + "/giphy.webp";
 			if (data[i].username==''){
 				container.innerHTML += ('<div class="card bg-white" style="overflow: hidden" data-bs-dismiss="modal" aria-label="Close" onclick="insertGIF(\'' + 'https://media.giphy.com/media/' + data[i].id + '/giphy.webp' + '\',\'' + commentFormID + '\')"><img loading="lazy" class="img-fluid" src="' + gifURL[i] + '"></div>');

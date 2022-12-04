@@ -1,8 +1,8 @@
 document.getElementById('password-register').addEventListener('input', function () {
 
-	var charCount = document.getElementById("password-register").value;
-	var id = document.getElementById("passwordHelpRegister");
-	var successID = document.getElementById("passwordHelpSuccess");
+	const charCount = document.getElementById("password-register").value;
+	const id = document.getElementById("passwordHelpRegister");
+	const successID = document.getElementById("passwordHelpSuccess");
 
 	if (charCount.length >= 8) {
 		id.classList.add("d-none");

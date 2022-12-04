@@ -201,7 +201,7 @@
 					tt.show()
 					document.getElementsByClassName('tooltip')[0].onclick = function(e) {
 						tt.hide()
-						var xhr = new XMLHttpRequest();
+						const xhr = new XMLHttpRequest();
 						xhr.withCredentials=true;
 						xhr.open("POST", '/dismiss_mobile_tip', true);
 						xhr.setRequestHeader('xhr', 'xhr');

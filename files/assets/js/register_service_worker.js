@@ -16,7 +16,7 @@ function urlB64ToUint8Array(base64String) {
 }
 
 function updateSubscriptionOnServer(subscription, apiEndpoint) {
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append("subscription_json", JSON.stringify(subscription));
 
 	const xhr = createXhrWithFormKey(

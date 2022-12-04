@@ -156,9 +156,9 @@ function autoExpand(field) {
 
 	field.style.height = 'inherit';
 
-	var computed = window.getComputedStyle(field);
+	let computed = window.getComputedStyle(field);
 
-	var height = parseInt(computed.getPropertyValue('border-top-width'), 10)
+	let height = parseInt(computed.getPropertyValue('border-top-width'), 10)
 	+ parseInt(computed.getPropertyValue('padding-top'), 10)
 	+ field.scrollHeight
 	+ parseInt(computed.getPropertyValue('padding-bottom'), 10)
@@ -182,7 +182,7 @@ function smoothScrollTop()
 // Click navbar to scroll back to top
 const nav = document.getElementsByTagName('nav')
 
-if (nav) {
+if (nav.length) {
 	nav[0].addEventListener('click', (e) => {
 		if (e.target.id === "navbar" ||
 			e.target.classList.contains("container-fluid") ||
@@ -272,7 +272,7 @@ function bs_trigger(e) {
 	}
 }
 
-var bsTriggerOnReady = function() {
+let bsTriggerOnReady = function() {
 	bs_trigger(document);
 }
 
@@ -313,13 +313,13 @@ function showmore() {
 }
 
 function formatDate(d) {
-	var year = d.getFullYear();
-	var monthAbbr = d.toLocaleDateString('en-us', {month: 'short'});
-	var day = d.getDate();
-	var hour = ("0" + d.getHours()).slice(-2);
-	var minute = ("0" + d.getMinutes()).slice(-2);
-	var second = ("0" + d.getSeconds()).slice(-2);
-	var tzAbbr = d.toLocaleTimeString('en-us', {timeZoneName: 'short'}).split(' ')[2];
+	let year = d.getFullYear();
+	let monthAbbr = d.toLocaleDateString('en-us', {month: 'short'});
+	let day = d.getDate();
+	let hour = ("0" + d.getHours()).slice(-2);
+	let minute = ("0" + d.getMinutes()).slice(-2);
+	let second = ("0" + d.getSeconds()).slice(-2);
+	let tzAbbr = d.toLocaleTimeString('en-us', {timeZoneName: 'short'}).split(' ')[2];
 
 	return (day + " " + monthAbbr + " " + year + " "
 			 + hour + ":" + minute + ":" + second + " " + tzAbbr);
@@ -383,15 +383,12 @@ function sendFormXHR(e, extraActionsOnSuccess) {
 			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
 			try {
 				let data=JSON.parse(xhr.response);
-				var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error'));
-				myToast.show();
+				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
 				document.getElementById('toast-post-error-text').innerText = data["error"];
 				if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
 			} catch(e) {
-				var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success'));
-				myToast.hide();
-				var myToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error'));
-				myToast.show();
+				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success')).hide();
+				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
 			}
 		}
 	};

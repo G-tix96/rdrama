@@ -1,7 +1,7 @@
-var isleft = true
+const isleft = true
 setInterval(() => {
 	let ricardo1 = document.getElementById("ricardo1")
-	var height = Math.floor(Math.random()*60)+10
+	const height = Math.floor(Math.random()*60)+10
 	if (ricardo1) {
 		ricardo1.firstElementChild.src = ""
 
@@ -20,7 +20,7 @@ setInterval(() => {
 
 setInterval(() => {
 	let ricardo2 = document.getElementById("ricardo2")
-	var xpos = Math.floor(Math.random()*9)*10
+	const xpos = Math.floor(Math.random()*9)*10
 
 	if (ricardo2) ricardo2.style.left=xpos+"%"
 }, 1700)

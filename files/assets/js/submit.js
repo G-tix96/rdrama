@@ -83,7 +83,7 @@ document.onpaste = function(event) {
 			document.getElementById('urlblock').classList.add('d-none');
 			if (IMAGE_FORMATS.some(s => filename.endsWith(s)))
 			{
-				var fileReader = new FileReader();
+				const fileReader = new FileReader();
 				fileReader.readAsDataURL(f.files[0]);
 				fileReader.addEventListener("load", function () {document.getElementById('image-preview').setAttribute('src', this.result);});
 			}
@@ -102,7 +102,7 @@ document.getElementById('file-upload').addEventListener('change', function(){
 	filename = f.files[0].name.toLowerCase()
 	if (IMAGE_FORMATS.some(s => filename.endsWith(s)))
 	{
-		var fileReader = new FileReader();
+		const fileReader = new FileReader();
 		fileReader.readAsDataURL(f.files[0]);
 		fileReader.addEventListener("load", function () {document.getElementById('image-preview').setAttribute('src', this.result);});
 	}
@@ -128,15 +128,15 @@ function savetext() {
 
 function autoSuggestTitle()	{
 
-	var urlField = document.getElementById("post-url");
+	const urlField = document.getElementById("post-url");
 
-	var titleField = document.getElementById("post-title");
+	const titleField = document.getElementById("post-title");
 
-	var isValidURL = urlField.checkValidity();
+	const isValidURL = urlField.checkValidity();
 
 	if (isValidURL && urlField.value.length > 0 && titleField.value === "") {
 
-		var x = new XMLHttpRequest();
+		const x = new XMLHttpRequest();
 		x.withCredentials=true;
 		x.onreadystatechange = function() {
 			if (x.readyState == 4 && x.status == 200 && !titleField.value) {

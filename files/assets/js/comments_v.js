@@ -250,7 +250,7 @@ function post_comment(fullname, hide){
 }
 
 document.onpaste = function(event) {
-	var focused = document.activeElement;
+	const focused = document.activeElement;
 	const files = structuredClone(event.clipboardData.files);
 
 	if (files.length > 4)
@@ -262,7 +262,7 @@ document.onpaste = function(event) {
 	if (!files.length) return
 
 	if (focused.id.includes('reply-form-body-')) {
-		var fullname = focused.dataset.fullname;
+		const fullname = focused.dataset.fullname;
 		f=document.getElementById('file-upload-reply-' + fullname);
 		try {
 			let filename = ''
@@ -275,7 +275,7 @@ document.onpaste = function(event) {
 		catch(e) {}
 	}
 	else if (focused.id.includes('comment-edit-body-')) {
-		var id = focused.dataset.id;
+		const id = focused.dataset.id;
 		f=document.getElementById('file-edit-reply-' + id);
 		let filename = ''
 		for (const file of files)
@@ -285,7 +285,7 @@ document.onpaste = function(event) {
 		document.getElementById('filename-edit-reply-' + id).textContent = filename;
 	}
 	else if (focused.id.includes('post-edit-box-')) {
-		var id = focused.dataset.id;
+		const id = focused.dataset.id;
 		f=document.getElementById('file-upload-edit-' + id);
 		let filename = ''
 		for (const file of files)
