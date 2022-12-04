@@ -26,9 +26,9 @@ valid_sub_regex = re.compile("^[a-zA-Z0-9_\-]{3,25}$", flags=re.A)
 
 query_regex = re.compile("(\w+):(\S+)", flags=re.A)
 
-poll_regex = re.compile("\s*\$\$([^\$\n]+)\$\$\s*(?![^`]*```)", flags=re.A)
-bet_regex = re.compile("\s*\$\$\$([^\$\n]+)\$\$\$\s*(?![^`]*```)", flags=re.A)
-choice_regex = re.compile("\s*&&([^\$\n]+)&&\s*(?![^`]*```)", flags=re.A)
+poll_regex = re.compile("\s*\$\$([^\$\n]+)\$\$\s*(?![^`]*`)", flags=re.A)
+bet_regex = re.compile("\s*\$\$\$([^\$\n]+)\$\$\$\s*(?![^`]*`)", flags=re.A)
+choice_regex = re.compile("\s*&&([^\$\n]+)&&\s*(?![^`]*`)", flags=re.A)
 
 html_comment_regex = re.compile("<!--.*-->", flags=re.A)
 

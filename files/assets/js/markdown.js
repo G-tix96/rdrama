@@ -54,7 +54,7 @@ function markdown(t) {
 	input = input.replace(/\|\|(.*?)\|\|/g, '<spoiler>$1</spoiler>')
 	input = input.replace(/(\n|^)>([^ >][^\n]*)/g, '$1<g>\>$2</g>')
 
-	const emojis = Array.from(input.matchAll(/:([a-z0-9_\-!#@]{1,36}):(?!\/)/gi))
+	const emojis = Array.from(input.matchAll(/:([a-z0-9_\-!#@]{1,36}):(?![^`]*`)/gi))
 	if(emojis != null){
 		for(i = 0; i < emojis.length; i++){
 			const old = emojis[i][0];
@@ -72,7 +72,7 @@ function markdown(t) {
 		}
 	}
 
-	let options = Array.from(input.matchAll(/\s*\$\$([^\$\n]+)\$\$\s*/gi))
+	let options = Array.from(input.matchAll(/\s\$\$([^\$\n]+)\$\$\s*(?![^`]*`)/gi))
 	if(options != null){
 		for(i = 0; i < options.length; i++){
 			const option = options[i][0];
@@ -82,7 +82,7 @@ function markdown(t) {
 		}
 	}
 
-	options = Array.from(input.matchAll(/\s*&&([^\$\n]+)&&\s*/gi))
+	options = Array.from(input.matchAll(/\s*&&([^\$\n]+)&&\s*(?![^`]*`)/gi))
 	if(options != null){
 		for(i = 0; i < options.length; i++){
 			const option = options[i][0];
