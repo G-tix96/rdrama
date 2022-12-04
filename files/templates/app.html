@@ -4,7 +4,7 @@
 <div class="ml-3 mt-4">
 	<b>How to install {{SITE_NAME}}'s mobile app</b>
 
-	{% if not v and type == 'chromium' %}
+	{% if not v and g.browser == 'chromium' %}
 		{% set type = 'chromium-lo' %}
 	{% else %}
 		{% set type = g.browser %}
