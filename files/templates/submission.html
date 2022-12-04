@@ -108,6 +108,14 @@
 
 					{% if not v_forbid_deleted %}
 					<div id="post-body" class="post-body mt-3">
+						{% if p.realurl(v) and not p.embed_url and not p.is_image and not p.is_video and not p.is_audio %}
+							<a rel="nofollow noopener" href="{{p.realurl(v)}}" {% if not v or v.newtabexternal %}target="_blank"{% endif %}>
+								<div class="d-flex justify-content-between align-items-center border rounded p-2 mb-3">
+									<span>{{p.realurl(v)}}</span>
+									<i class="fas fa-external-link-alt text-small"></i>
+								</div>
+							</a>
+						{% endif %}
 						{% if p.embed_url %}
 							{% if p.domain == "twitter.com" %}
 								{{p.embed_url | safe}}
