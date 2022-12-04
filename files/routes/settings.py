@@ -40,10 +40,38 @@ def settings_personal(v:User):
 @ratelimit_user()
 def remove_background(v):
 	if v.background:
+		if v.background.startswith('/images/'):
+			fpath = '/images/' + v.background.split('/images/')[1]
+			if path.isfile(fpath): os.remove(fpath)
 		v.background = None
 		if v.theme == 'transparent': v.theme = 'midnight'
 		g.db.add(v)
 	return {"message": "Background removed!"}
+
+@app.post('/settings/custom_background')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@auth_required
+@ratelimit_user()
+def upload_custom_background(v):
+	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
+
+	if not v.patron:
+		abort(403, f"This feature is only available to {patron}s!")
+
+	file = request.files["file"]
+
+	name = f'/images/{time.time()}'.replace('.','') + '.webp'
+	file.save(name)
+	background = process_image(name, v)
+
+	if background:
+		if v.background and v.background.startswith('/images/'):
+			fpath = '/images/' + v.background.split('/images/')[1]
+			if path.isfile(fpath): os.remove(fpath)
+		v.background = background
+		g.db.add(v)
+
+	return redirect('/settings/personal')
 
 @app.post("/settings/personal")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
@@ -92,7 +120,7 @@ def settings_personal_post(v):
 
 	background = request.values.get("background", v.background)
 	if background != v.background and background.endswith(".webp") and len(background) <= 20:
-		v.background = request.values.get("background").replace('.webp', '')
+		v.background = '/i/backgrounds/' + request.values.get("background")
 		updated = True
 	elif request.values.get("reddit", v.reddit) != v.reddit:
 		reddit = request.values.get("reddit")
