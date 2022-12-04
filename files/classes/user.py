@@ -1024,7 +1024,7 @@ class User(Base):
 				if "!YOU!" in other.title and not user: return False
 				if browser != 'webview' and other.author_id == AEVANN_ID and other.title.startswith('[ANDROID]'):
 					return False
-				if browser != 'apple' and other.author_id == CARP_ID and other.title.startswith('[APPLE]'):
+				if browser != 'apple' and other.author_id == CARP_ID and other.title.startswith('[APPLE]') and not (user and user.id in (AEVANN_ID, SNAKES_ID)):
 					return False
 				if other.sub and not cls.can_see(user, other.subr): return False
 			else:
