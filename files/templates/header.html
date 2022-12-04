@@ -97,7 +97,7 @@
 				</div>
 			{% endif %}
 
-			{% if g.browser == 'webview' %}
+			{% if g.browser in ('webview','apple') %}
 				<button type="button" class="mobile-nav-icon d-md-none" onclick="location.reload()"><i class="fas fa-arrow-rotate-right align-middle text-gray-500 black"></i></button>
 			{% endif %}
 
