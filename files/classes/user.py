@@ -1007,7 +1007,7 @@ class User(Base):
 				if other.deleted_utc: return False
 				if other.author.shadowbanned and not (user and user.can_see_shadowbanned): return False
 				if isinstance(other, Submission):
-					if other.sub in ('chudrama', 'masterbaiters', 'countryclub') and not (user and user.can_see_hole(other.sub)):
+					if other.sub in ('chudrama', 'countryclub') and not (user and user.can_see_hole(other.sub)):
 						return False
 				else:
 					if other.parent_submission and not cls.can_see_content(user, other.post): return False
@@ -1036,7 +1036,7 @@ class User(Base):
 				if other.parent_submission and other.post.sub and not cls.can_see(user, other.post.subr): return False
 				# if other.parent_submission and not cls.can_see(user, other.post): return False
 		elif isinstance(other, Sub):
-			if other.name in ('chudrama', 'masterbaiters', 'countryclub') and not (user and user.can_see_hole(other.name)):
+			if other.name in ('chudrama', 'countryclub') and not (user and user.can_see_hole(other.name)):
 				return False
 		elif isinstance(other, User):
 			return (user and user.id == other.id) or (user and user.can_see_shadowbanned) or not other.shadowbanned
@@ -1045,7 +1045,6 @@ class User(Base):
 	@lazy
 	def can_see_hole(self, hole):
 		if hole == 'chudrama': return self.can_see_chudrama
-		if hole == 'masterbaiters': return self.can_see_masterbaiters
 		if hole == 'countryclub': return self.can_see_countryclub
 		return True
 	
@@ -1067,15 +1066,6 @@ class User(Base):
 		if self.agendaposter == 1: return False
 		if self.admin_level >= PERMS['VIEW_CLUB']: return True
 		if self.truescore >= 1000: return True
-		return False
-
-	@property
-	@lazy
-	def can_see_masterbaiters(self):
-		if self.shadowbanned: return False
-		if self.is_suspended_permanently: return False
-		if self.agendaposter == 1: return False
-		if self.truescore >= 1: return True
 		return False
 
 	@property

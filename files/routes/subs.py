@@ -123,7 +123,7 @@ def block_sub(v:User, sub):
 @auth_required
 def unblock_sub(v:User, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name in ('chudrama', 'masterbaiters', 'countryclub') and not v.can_see_hole(sub.name):
+	if sub.name in ('chudrama', 'countryclub') and not v.can_see_hole(sub.name):
 		abort(403)
 
 	block = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub.name).one_or_none()
@@ -164,7 +164,7 @@ def unsubscribe_sub(v:User, sub):
 @auth_required
 def follow_sub(v:User, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name in ('chudrama', 'masterbaiters', 'countryclub') and not v.can_see_hole(sub.name):
+	if sub.name in ('chudrama', 'countryclub') and not v.can_see_hole(sub.name):
 		abort(403)
 	existing = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
 	if not existing:
@@ -189,7 +189,7 @@ def unfollow_sub(v:User, sub):
 @auth_required
 def mods(v:User, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name in ('chudrama', 'masterbaiters', 'countryclub') and not v.can_see_hole(sub.name):
+	if sub.name in ('chudrama', 'countryclub') and not v.can_see_hole(sub.name):
 		abort(403)
 	users = g.db.query(User, Mod).join(Mod).filter_by(sub=sub.name).order_by(Mod.created_utc).all()
 
@@ -200,7 +200,7 @@ def mods(v:User, sub):
 @auth_required
 def sub_exilees(v:User, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name in ('chudrama', 'masterbaiters', 'countryclub') and not v.can_see_hole(sub.name):
+	if sub.name in ('chudrama', 'countryclub') and not v.can_see_hole(sub.name):
 		abort(403)
 	users = g.db.query(User, Exile).join(Exile, Exile.user_id==User.id) \
 				.filter_by(sub=sub.name) \
@@ -213,7 +213,7 @@ def sub_exilees(v:User, sub):
 @auth_required
 def sub_blockers(v:User, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name in ('chudrama', 'masterbaiters', 'countryclub') and not v.can_see_hole(sub.name):
+	if sub.name in ('chudrama', 'countryclub') and not v.can_see_hole(sub.name):
 		abort(403)
 	users = g.db.query(User, SubBlock).join(SubBlock) \
 				.filter_by(sub=sub.name) \
@@ -227,7 +227,7 @@ def sub_blockers(v:User, sub):
 @auth_required
 def sub_followers(v:User, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name in ('chudrama', 'masterbaiters', 'countryclub') and not v.can_see_hole(sub.name):
+	if sub.name in ('chudrama', 'countryclub') and not v.can_see_hole(sub.name):
 		abort(403)
 	users = g.db.query(User, SubSubscription).join(SubSubscription) \
 			.filter_by(sub=sub.name) \
@@ -708,7 +708,7 @@ def mod_unpin(cid, v):
 @auth_required
 def hole_log(v:User, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name in ('chudrama', 'masterbaiters', 'countryclub') and not v.can_see_hole(sub.name):
+	if sub.name in ('chudrama', 'countryclub') and not v.can_see_hole(sub.name):
 		abort(403)
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
@@ -749,7 +749,7 @@ def hole_log(v:User, sub):
 @auth_required
 def hole_log_item(id, v, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name in ('chudrama', 'masterbaiters', 'countryclub') and not v.can_see_hole(sub.name):
+	if sub.name in ('chudrama', 'countryclub') and not v.can_see_hole(sub.name):
 		abort(403)
 	try: id = int(id)
 	except: abort(404)
