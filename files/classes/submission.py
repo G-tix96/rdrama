@@ -38,7 +38,6 @@ class Submission(Base):
 	sub = Column(String, ForeignKey("subs.name"))
 	is_pinned = Column(Boolean, default=False)
 	private = Column(Boolean, default=False)
-	club = Column(Boolean, default=False)
 	comment_count = Column(Integer, default=0)
 	is_approved = Column(Integer, ForeignKey("users.id"))
 	over_18 = Column(Boolean, default=False)
@@ -112,8 +111,6 @@ class Submission(Base):
 	def shortlink(self):
 		link = f"/post/{self.id}"
 		if self.sub: link = f"/h/{self.sub}{link}"
-
-		if self.club: return link + '/-'
 
 		output = title_regex.sub('', self.title.lower())
 		output = output.split()[:6]
@@ -210,7 +207,6 @@ class Submission(Base):
 				'distinguish_level': self.distinguish_level,
 				'voted': self.voted if hasattr(self, 'voted') else 0,
 				'flags': flags,
-				'club': self.club,
 				'author': '👻' if self.ghost else self.author.json,
 				'comment_count': self.comment_count
 				}
@@ -270,7 +266,6 @@ class Submission(Base):
 
 	@lazy
 	def realbody(self, v, listing=False):
-		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"<p>{CC} ONLY</p>"
 		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "[Deleted by user]"
 		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return ""
 
@@ -333,7 +328,6 @@ class Submission(Base):
 	def plainbody(self, v):
 		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "[Deleted by user]"
 		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return ""
-		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"<p>{CC} ONLY</p>"
 
 		body = self.body
 		if not body: return ""
@@ -348,12 +342,7 @@ class Submission(Base):
 
 	@lazy
 	def realtitle(self, v):
-		if self.club and not (v and (v.paid_dues or v.id == self.author_id)):
-			if v: return random.choice(TROLLTITLES).format(username=v.username)
-			elif DUES == -2: return f'Please make an account to see this post'
-			else: return f'{CC} MEMBERS ONLY'
-		elif self.title_html: title = self.title_html
-		else: title = self.title
+		title = self.title_html
 
 		title = censor_slurs(title, v)
 
@@ -364,10 +353,7 @@ class Submission(Base):
 
 	@lazy
 	def plaintitle(self, v):
-		if self.club and not (v and (v.paid_dues or v.id == self.author_id)):
-			if v: return random.choice(TROLLTITLES).format(username=v.username)
-			else: return f'{CC} MEMBERS ONLY'
-		else: title = self.title
+		title = self.title
 
 		title = censor_slurs(title, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
 

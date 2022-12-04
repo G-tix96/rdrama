@@ -220,9 +220,6 @@ def comment_idlist(v=None, page=1, sort="new", t="all", gt=0, lt=0, site=None):
 			Comment.author_id.notin_(v.userblocks),
 		)
 
-	if not v.paid_dues:
-		comments = comments.filter(Submission.club == False)
-
 	if gt: comments = comments.filter(Comment.created_utc > gt)
 	if lt: comments = comments.filter(Comment.created_utc < lt)
 

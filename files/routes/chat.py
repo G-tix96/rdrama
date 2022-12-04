@@ -39,7 +39,7 @@ user_ids_to_socket_ids = {}
 @app.get("/chat")
 @is_not_permabanned
 def chat(v):
-	if TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM and not v.club_allowed:
+	if TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
 		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat.")
 	return render_template("chat.html", v=v, messages=messages)
 
@@ -51,7 +51,8 @@ def chat(v):
 def speak(data, v):
 	limiter.check()
 	if v.is_banned: return '', 403
-	if TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM and not v.club_allowed: return '', 403
+	if TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
+		return '', 403
 
 	vname = v.username.lower()
 	if vname in muted and not v.admin_level >= PERMS['CHAT_BYPASS_MUTE']:

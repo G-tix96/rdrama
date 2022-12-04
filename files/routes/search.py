@@ -19,7 +19,6 @@ valid_params = [
 	'before',
 	'after',
 	'title',
-	'cc',
 	search_operator_hole,
 ]
 
@@ -60,9 +59,6 @@ def searchposts(v:User):
 	posts = g.db.query(Submission.id) \
 				.join(Submission.author) \
 				.filter(Submission.author_id.notin_(v.userblocks))
-	
-	if not v.paid_dues:
-		posts = posts.filter(Submission.club == False)
 	
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		posts = posts.filter(
@@ -142,13 +138,6 @@ def searchposts(v:User):
 			try: before = timegm(time.strptime(before, "%Y-%m-%d"))
 			except: abort(400)
 		posts = posts.filter(Submission.created_utc < before)
-
-	if 'cc' in criteria:
-		cc = criteria['cc'].lower().strip()
-		if cc == 'true': cc = True
-		elif cc == 'false': cc = False
-		else: abort(400)
-		posts = posts.filter(Submission.club == cc)
 
 	posts = apply_time_filter(t, posts, Submission)
 
@@ -235,10 +224,6 @@ def searchcomments(v:User):
 
 		comments = comments.filter(Comment.is_banned==False, Comment.deleted_utc == 0, Comment.parent_submission.notin_(private))
 
-
-	if not v.paid_dues:
-		club = [x[0] for x in g.db.query(Submission.id).filter(Submission.club == True).all()]
-		comments = comments.filter(Comment.parent_submission.notin_(club))
 
 	if 'after' in criteria:
 		after = criteria['after']

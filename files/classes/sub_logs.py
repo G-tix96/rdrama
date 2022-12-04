@@ -41,7 +41,7 @@ class SubAction(Base):
 	@property
 	@lazy
 	def string(self):
-		output = ACTIONTYPES[self.kind]["str"].format(self=self, cc=CC_TITLE)
+		output = ACTIONTYPES[self.kind]["str"].format(self=self)
 		if self._note: output += f" <i>({self._note})</i>"
 		return output
 
@@ -50,7 +50,6 @@ class SubAction(Base):
 	def target_link(self):
 		if self.target_user: return f'<a href="{self.target_user.url}">{self.target_user.username}</a>'
 		elif self.target_post:
-			if self.target_post.club: return f'<a href="{self.target_post.permalink}">{CC} ONLY</a>'
 			return censor_slurs(f'<a href="{self.target_post.permalink}">{self.target_post.title_html}</a>', None)
 		elif self.target_comment_id: return f'<a href="/comment/{self.target_comment_id}?context=8#context">comment</a>'
 

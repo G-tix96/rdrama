@@ -29,7 +29,6 @@ GUMROAD_TOKEN = environ.get("GUMROAD_TOKEN", DEFAULT_CONFIG_VALUE).strip()
 GUMROAD_LINK = environ.get("GUMROAD_LINK", DEFAULT_CONFIG_VALUE).strip()
 GUMROAD_ID = environ.get("GUMROAD_ID", DEFAULT_CONFIG_VALUE).strip()
 DISABLE_DOWNVOTES = bool(int(environ.get("DISABLE_DOWNVOTES", "0").strip()))
-DUES = int(environ.get("DUES", "0").strip())
 DEFAULT_THEME = environ.get("DEFAULT_THEME", "midnight").strip()
 DEFAULT_COLOR = environ.get("DEFAULT_COLOR", "805ad5").strip()
 CARD_VIEW = bool(int(environ.get("CARD_VIEW", "0").strip()))
@@ -68,10 +67,6 @@ CHAT_ONLINE_CACHE_KEY = f"{SITE}_online"
 REDDIT_NOTIFS_CACHE_KEY = "reddit_notifications"
 MARSEYS_CACHE_KEY = "marseys"
 EMOJIS_CACHE_KEY = "emojis"
-
-if SITE_NAME == 'PCM': CC = "SPLASH MOUNTAIN"
-else: CC = "COUNTRY CLUB"
-CC_TITLE = CC.title()
 
 CASINO_RELEASE_DAY = 1662825600
 
@@ -241,7 +236,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'USER_BAN': 2,
 	'USER_SHADOWBAN': 2,
 	'USER_AGENDAPOSTER': 2,
-	'USER_CLUB_ALLOW_BAN': 2,
 	'USER_LINK': 2,
 	'USER_MERGE': 3, # note: extra check for Aevann
 	'USER_TITLE_CHANGE': 2,
@@ -300,7 +294,6 @@ FEATURES = {
 	'AWARDS': True,
 	'CHAT': True,
 	'PINS': True,
-	'COUNTRY_CLUB': True,
 	'PRONOUNS': False,
 	'BADGES': True,
 	'HATS': True,

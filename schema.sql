@@ -107,7 +107,6 @@ CREATE TABLE public.submissions (
     is_bot boolean DEFAULT false NOT NULL,
     bannedfor character varying(40),
     comment_count integer DEFAULT 0 NOT NULL,
-    club boolean DEFAULT false NOT NULL,
     stickied character varying(40),
     title character varying(500) NOT NULL,
     url character varying(2083),
@@ -989,7 +988,6 @@ CREATE TABLE public.users (
     highlightcomments boolean DEFAULT true NOT NULL,
     nitter boolean,
     truescore integer DEFAULT 0 NOT NULL,
-    club_allowed boolean,
     frontsize integer DEFAULT 25 NOT NULL,
     coins_spent integer DEFAULT 0 NOT NULL,
     marseybux integer DEFAULT 0 NOT NULL,
@@ -2722,4 +2720,3 @@ ALTER TABLE ONLY public.comment_option_votes
 --
 -- PostgreSQL database dump complete
 --
-

@@ -42,12 +42,6 @@
 	<button type="button" id="undelete-{{p.id}}" class="{% if not p.deleted_utc %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-success" onclick="postToastSwitch(this,'/undelete_post/{{p.id}}', 'delete-{{p.id}}', 'undelete-{{p.id}}','d-none');document.getElementById('post-{{p.id}}').classList.remove('deleted')" data-bs-dismiss="modal"><i class="far fa-trash-alt text-center mr-2"></i>Undelete</button>
 
 	<button type="button" id="delete-{{p.id}}" class="{% if p.deleted_utc %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-danger" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deletePostModal" onclick="delete_postModal(this, '{{p.id}}')"><i class="far fa-trash-alt mr-2"></i>Delete</button>
-
-
-	{% if FEATURES['COUNTRY_CLUB'] -%}
-		<button type="button" id="club3-{{p.id}}" class="{% if p.club %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-danger text-left" onclick="postToastSwitch(this,'/club_post/{{p.id}}','club3-{{p.id}}','unclub3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-slash mr-2"></i>Mark club</button>
-		<button type="button" id="unclub3-{{p.id}}" class="{% if not p.club %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-success text-left" onclick="postToastSwitch(this,'/unclub_post/{{p.id}}','club3-{{p.id}}','unclub3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye mr-2"></i>Unmark club</button>
-	{%- endif %}
 {% else %}
 	{% if not p.ghost %}
 		<button type="button" id="unblock2-{{p.id}}" class="nobackground btn btn-link btn-block btn-lg text-success text-left{% if not p.is_blocking %} d-none{% endif %}" data-bs-dismiss="modal" onclick="postToastSwitch(this,'/settings/unblock?username={{p.author.username}}','block2-{{p.id}}','unblock2-{{p.id}}','d-none')"><i class="fas fa-eye mr-2 text-success"></i>Unblock user</button>
