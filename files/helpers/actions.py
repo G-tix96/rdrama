@@ -1,5 +1,6 @@
 import random
 import time
+from typing import Type
 from urllib.parse import quote
 
 import gevent
@@ -8,6 +9,7 @@ from flask import g
 from files.classes.flags import Flag
 from files.classes.mod_logs import ModAction
 from files.classes.notifications import Notification
+from files.classes.polls import CommentOption, SubmissionOption
 
 from files.helpers.alerts import send_repeatable_notification
 from files.helpers.const import *
@@ -492,3 +494,23 @@ def execute_lawlz_actions(v:User, p:Submission):
 	g.db.add(ma_1)
 	g.db.add(ma_2)
 	g.db.add(ma_3)
+
+def process_poll_options(target:Union[Submission, Comment], 
+						cls:Union[Type[SubmissionOption], Type[CommentOption]], 
+						options:Iterable[str], exclusive:int, friendly_name:str,
+						db:scoped_session) -> None:
+		for option in options:
+			if len(option) > 500: abort(400, f"{friendly_name} option too long!")
+			if cls is SubmissionOption:
+				option = cls(
+					submission_id=target.id,
+					body_html=option,
+					exclusive=exclusive,
+				)
+			else:
+				option = cls(
+					comment_id=target.id,
+					body_html=option,
+					exclusive=exclusive,
+				)
+			db.add(option)

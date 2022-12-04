@@ -299,39 +299,10 @@ def edit_post(pid, v):
 	body = body.strip()[:POST_BODY_LENGTH_LIMIT] # process_files() may be adding stuff to the body
 
 	if body != p.body:
-		if v and v.admin_level >= PERMS['POST_BETS']:
-			for i in bet_regex.finditer(body):
-				body = body.replace(i.group(0), "")
-				body_html = filter_emojis_only(i.group(1))
-				if len(body_html) > 500: abort(400, "Bet option too long!")
-				bet = SubmissionOption(
-					submission_id=p.id,
-					body_html=body_html,
-					exclusive = 2
-				)
-				g.db.add(bet)
-
-		for i in list(poll_regex.finditer(body))[:10]:
-			body = body.replace(i.group(0), "")
-			body_html = filter_emojis_only(i.group(1))
-			if len(body_html) > 500: abort(400, "Poll option too long!")
-			option = SubmissionOption(
-				submission_id=p.id,
-				body_html=body_html,
-				exclusive = 0
-			)
-			g.db.add(option)
-
-		for i in list(choice_regex.finditer(body))[:10]:
-			body = body.replace(i.group(0), "")
-			body_html = filter_emojis_only(i.group(1))
-			if len(body_html) > 500: abort(400, "Poll option too long!")
-			choice = SubmissionOption(
-				submission_id=p.id,
-				body_html=body_html,
-				exclusive = 1
-			)
-			g.db.add(choice)
+		body, bets, options, choices = sanitize_poll_options(v, body, False)
+		process_poll_options(p, SubmissionOption, bets, 2, "Bet", g.db)
+		process_poll_options(p, SubmissionOption, options, 0, "Poll", g.db)
+		process_poll_options(p, SubmissionOption, choices, 1, "Poll", g.db)
 
 		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
 
@@ -700,21 +671,7 @@ def submit_post(v:User, sub=None):
 	if len(url) > 2048:
 		return error("There's a 2048 character limit for URLs.")
 
-	bets = []
-	if v and v.admin_level >= PERMS['POST_BETS']:
-		for i in bet_regex.finditer(body):
-			bets.append(i.group(1))
-			body = body.replace(i.group(0), "")
-
-	options = []
-	for i in list(poll_regex.finditer(body))[:10]:
-		options.append(i.group(1))
-		body = body.replace(i.group(0), "")
-
-	choices = []
-	for i in list(choice_regex.finditer(body))[:10]:
-		choices.append(i.group(1))
-		body = body.replace(i.group(0), "")
+	body, bets, options, choices = sanitize_poll_options(v, body, True)
 
 	body += process_files(request.files, v)
 	body = body.strip()[:POST_BODY_LENGTH_LIMIT] # process_files() adds content to the body, so we need to re-strip
@@ -764,36 +721,9 @@ def submit_post(v:User, sub=None):
 	for text in {post.body, post.title, post.url}:
 		if not execute_blackjack(v, post, text, 'submission'): break
 
-	if v and v.admin_level >= PERMS['POST_BETS']:
-		for bet in bets:
-			body_html = filter_emojis_only(bet)
-			if len(body_html) > 500: abort(400, "Bet option too long!")
-			bet = SubmissionOption(
-				submission_id=post.id,
-				body_html=body_html,
-				exclusive=2
-			)
-			g.db.add(bet)
-
-	for option in options:
-		body_html = filter_emojis_only(option)
-		if len(body_html) > 500: abort(400, "Poll option too long!")
-		option = SubmissionOption(
-			submission_id=post.id,
-			body_html=body_html,
-			exclusive=0
-		)
-		g.db.add(option)
-
-	for choice in choices:
-		body_html = filter_emojis_only(choice)
-		if len(body_html) > 500: abort(400, "Poll option too long!")
-		choice = SubmissionOption(
-			submission_id=post.id,
-			body_html=body_html,
-			exclusive=1
-		)
-		g.db.add(choice)
+	process_poll_options(post, SubmissionOption, bets, 2, "Bet", g.db)
+	process_poll_options(post, SubmissionOption, options, 0, "Poll", g.db)
+	process_poll_options(post, SubmissionOption, choices, 1, "Poll", g.db)
 
 	vote = Vote(user_id=v.id,
 				vote_type=1,
@@ -860,13 +790,8 @@ def submit_post(v:User, sub=None):
 		n = Notification(comment_id=c_jannied.id, user_id=v.id)
 		g.db.add(n)
 
-
-
 	if not post.private and not (post.sub and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, sub=post.sub).one_or_none()):
 		execute_snappy(post, v)
-
-
-
 
 	v.post_count = g.db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
 	g.db.add(v)
@@ -895,7 +820,6 @@ def submit_post(v:User, sub=None):
 		if post.new: sort = 'new'
 		else: sort = v.defaultsortingcomments
 		return render_template('submission.html', v=v, p=post, sort=sort, render_replies=True, offset=0, success=True, sub=post.subr)
-
 
 @app.post("/delete_post/<pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)

@@ -4,6 +4,7 @@ import re
 import signal
 from functools import partial
 from os import path
+from typing import Any
 from urllib.parse import parse_qs, urlparse
 
 import bleach
@@ -255,18 +256,14 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
 
 	sanitized = greentext_regex.sub(r'\1<g>\>\2</g>', sanitized)
-
 	sanitized = image_regex.sub(r'\1![](\2)\5', sanitized)
-
 	sanitized = image_check_regex.sub(r'\1', sanitized)
-
 	sanitized = link_fix_regex.sub(r'\1https://\2', sanitized)
 
 	if FEATURES['MARKUP_COMMANDS']:
 		sanitized = command_regex.sub(command_regex_matcher, sanitized)
 
 	sanitized = markdown(sanitized)
-
 	sanitized = strikethrough_regex.sub(r'\1<del>\2</del>', sanitized)
 
 	# replacing zero width characters, overlines, fake colons
@@ -417,12 +414,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	return sanitized.strip()
 
-
-
-
-
 def allowed_attributes_emojis(tag, name, value):
-
 	if tag == 'img':
 		if name == 'src' and value.startswith('/') and '\\' not in value: return True
 		if name == 'loading' and value == 'lazy': return True
@@ -503,3 +495,21 @@ def validate_css(css):
 			return False, f"The domain '{domain}' is not allowed, please use one of these domains\n\n{approved_embed_hosts}."
 
 	return True, ""
+
+def sanitize_poll_options(v:User, body:str, allow_bets:bool) -> tuple[str, List[Any], List[Any], List[Any]]:
+	if FEATURES['MARKUP_COMMANDS'] and body.startswith(f"#{DISABLE_POLL_COMMAND}"):
+		return (body, [], [], [])
+
+	def sanitize_poll_type(body:str, re:re.Pattern) -> tuple[str, List[str]]:
+		opts = []
+		for i in list(re.finditer(body))[:POLL_MAX_OPTIONS]:
+			opts.append(filter_emojis_only(i.group(1)))
+			body = body.replace(i.group(0), "")
+		return (body, opts)
+
+	bets = []
+	if allow_bets and v and v.admin_level >= PERMS['POST_BETS']:
+		body, bets = sanitize_poll_type(body, bet_regex)
+	body, options = sanitize_poll_type(body, poll_regex)
+	body, choices = sanitize_poll_type(body, choice_regex)
+	return (body, bets, options, choices)
