@@ -4,15 +4,10 @@
 <div class="ml-3 mt-4">
 	<b>How to install {{SITE_NAME}}'s mobile app</b>
 
-	{% set ua = g.agent.lower() %}
-	{% if ' firefox/' in ua %}
-		{% set type = 'firefox' %}
-	{% elif 'iphone' in ua or 'ipad' in ua or 'ipod' in ua or 'mac os' in ua %}
-		{% set type = 'apple' %}
-	{% elif v %}
-		{% set type = 'chromium' %}
-	{% else %}
+	{% if not v and type == 'chromium' %}
 		{% set type = 'chromium-lo' %}
+	{% else %}
+		{% set type = g.browser %}
 	{% endif %}
 
 	<div class="font-weight-bold mt-4 mb-2">First step:</div>

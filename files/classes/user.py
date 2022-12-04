@@ -1016,12 +1016,15 @@ class User(Base):
 		Whether a user can strictly see this item. can_see_content is used where
 		content of a thing can be hidden from view
 		'''
+		browser = g and g.browser # TODO: request state object to pass to models for purity
 		if isinstance(other, (Submission, Comment)):
 			if not cls.can_see(user, other.author): return False
 			if user and user.id == other.author_id: return True
 			if isinstance(other, Submission):
 				if "!YOU!" in other.title and not user: return False
-				if not g.webview and other.author_id == AEVANN_ID and other.title.startswith('[ANDROID]'):
+				if browser != 'webview' and other.author_id == AEVANN_ID and other.title.startswith('[ANDROID]'):
+					return False
+				if browser != 'apple' and other.author_id == CARP_ID and other.title.startswith('[APPLE]'):
 					return False
 				if other.sub and not cls.can_see(user, other.subr): return False
 			else:
