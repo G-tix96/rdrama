@@ -730,7 +730,7 @@ WITH (fillfactor='100');
 
 CREATE TABLE public.push_subscriptions (
     user_id integer NOT NULL,
-    subscription_json character varying(500) NOT NULL,
+    subscription_json character varying(600) NOT NULL,
     created_utc integer NOT NULL
 );
 
@@ -2720,3 +2720,4 @@ ALTER TABLE ONLY public.comment_option_votes
 --
 -- PostgreSQL database dump complete
 --
+
