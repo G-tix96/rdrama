@@ -47,7 +47,7 @@ def award_timers(v, bot=False):
 		notify_if_not_bot("Your bird site award has expired!")
 		badge = v.has_badge(95)
 		if badge: g.db.delete(badge)
-	if v.progressivestack and v.progressivestack < now:
+	if v.progressivestack and v.progressivestack != 1 and v.progressivestack < now:
 		v.progressivestack = None
 		notify_if_not_bot("Your progressive stack has expired!")
 		badge = v.has_badge(94)
@@ -76,7 +76,7 @@ def award_timers(v, bot=False):
 		notify_if_not_bot("Your earlylife status has expired!")
 		badge = v.has_badge(169)
 		if badge: g.db.delete(badge)
-	if v.marsify and v.marsify < now and v.marsify != 1:
+	if v.marsify and v.marsify != 1 and v.marsify < now:
 		v.marsify = 0
 		if SITE_NAME != 'rDrama': notify_if_not_bot("Your marsify status has expired!")
 		badge = v.has_badge(170)

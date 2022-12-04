@@ -170,7 +170,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		target.realupvotes = get_vote_count(0, True) # first arg is ignored here
 
 		mul = 1
-		if target.author.progressivestack or target.author.id in BOOSTED_USERS:
+		if target.author.progressivestack:
 			mul = 2
 		if cls == Submission:
 			if (target.domain.endswith('.win')

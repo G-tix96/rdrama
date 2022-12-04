@@ -321,11 +321,10 @@ def award_thing(v, thing_type, id):
 		if not FEATURES['PINS']:
 			abort(403)
 
-		if author.id in BOOSTED_USERS: abort(409, f"@{author.username} is already permanently progressive-stacked!")
-
-		if author.progressivestack: author.progressivestack += 21600
-		else: author.progressivestack = int(time.time()) + 21600
-		badge_grant(user=author, badge_id=94)
+		if author.progressivestack != 1:
+			if author.progressivestack: author.progressivestack += 21600
+			else: author.progressivestack = int(time.time()) + 21600
+			badge_grant(user=author, badge_id=94)
 	elif kind == "benefactor":
 		if author.patron: abort(409, f"@{author.username} is already a {patron.lower()}!")
 		author.patron = 1

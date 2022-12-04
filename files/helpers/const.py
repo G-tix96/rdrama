@@ -557,20 +557,6 @@ if SITE == 'rdrama.net':
 		'programming',
 	}
 
-	BOOSTED_USERS = {
-		IMPASSIONATA_ID,
-		PIZZASHILL_ID,
-		SNAKES_ID,
-		JUSTCOOL_ID,
-		2008, #TransGirlTradWife
-		29, #QuadNarca
-		JOAN_ID,
-		4389, #WorldAroundEwe
-		5526, #Dramarama
-		3635, #HeyMoon
-		3377, #MIMW
-	}
-
 	GIFT_NOTIF_ID = CARP_ID
 
 	POLL_THREAD = 79285
