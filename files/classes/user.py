@@ -1037,7 +1037,7 @@ class User(Base):
 				# if other.parent_submission and not cls.can_see(user, other.post): return False
 		elif isinstance(other, Sub):
 			if other.name == 'chudrama': return bool(user) and user.can_see_chudrama
-			if other.name == 'countryclub': return bool(user) and user.can_see_countryclub
+			if other.name in ('countryclub','splash_mountain'): return bool(user) and user.can_see_countryclub
 			if other.name == 'masterbaiters': return bool(user) and user.can_see_masterbaiters
 		elif isinstance(other, User):
 			return (user and user.id == other.id) or (user and user.can_see_shadowbanned) or not other.shadowbanned
