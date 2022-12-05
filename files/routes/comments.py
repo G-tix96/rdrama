@@ -424,6 +424,7 @@ def wall_comment(v):
 			Comment.deleted_utc == 0,
 			Comment.parent_comment_id == parent_comment_id,
 			Comment.parent_submission == None,
+			Comment.wall_user_id == parent_user.id,
 			Comment.body_html == body_html
 		).first()
 		if existing: abort(409, f"You already made that comment: /comment/{existing.id}")
