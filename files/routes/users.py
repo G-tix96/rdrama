@@ -717,7 +717,7 @@ def userpagelisting(user:User, site=None, v=None, page:int=1, sort="new", t="all
 def u_username_wall(username, v=None):
 	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
 	if username != u.username:
-		return redirect(f"/@{u.username}/comments")
+		return redirect(f"/@{u.username}")
 	is_following = v and u.has_follower(v)
 
 	if not u.is_visible_to(v):
