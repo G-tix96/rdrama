@@ -408,6 +408,19 @@
 				<div class="actionbtns">
 					{% if v and v.id == u.id %}
 						<a href="/settings/personal" class="btn btn-secondary ">Edit profile</a>
+
+						<form id="upload-profile-background-mobile" action="/settings/profile_background" method="post" enctype="multipart/form-data"> 
+							<input type="hidden" name="formkey" value="{{v|formkey}}">
+							<label class="format btn btn-primary" for="upload-profile-background-file-mobile" style="margin-bottom:0!important">
+								<i class="fas fa-image mr-1"></i> 
+								{% if v.profile_background %}
+									{{v.profile_background}}
+								{% else %}
+									Upload custom profile background
+								{% endif %}
+							</label>
+							<input autocomplete="off" id="upload-profile-background-file-mobile" accept="image/*", type="file" name="file" onchange="this.form.submit()" hidden>
+						</form>
 					{% endif %}
 
 					{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
