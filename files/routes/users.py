@@ -733,7 +733,10 @@ def u_username_wall(username, v=None):
 	try: page = max(int(request.values.get("page", "1")), 1)
 	except: page = 1
 
-	comments, output = get_comments_v_properties(v, True, None, Comment.wall_user_id == u.id)
+	if v:
+		comments, output = get_comments_v_properties(v, True, None, Comment.wall_user_id == u.id)
+	else:
+		comments = g.db.query(Comment).filter(Comment.wall_user_id == u.id)
 	comments = comments.filter(Comment.level == 1)
 
 	if not v or (v.id != u.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']):
@@ -743,8 +746,10 @@ def u_username_wall(username, v=None):
 			Comment.deleted_utc == 0
 		)
 
-	comments = comments.order_by(Comment.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1)
-	comments = [c[0] for c in comments.all()]
+	comments = comments.order_by(Comment.created_utc.desc()) \
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
+	if v:
+		comments = [c[0] for c in comments]
 
 	next_exists = (len(comments) > PAGE_SIZE)
 	comments = comments[:PAGE_SIZE]
