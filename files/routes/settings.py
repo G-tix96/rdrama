@@ -89,8 +89,18 @@ def upload_profile_background(v):
 			os.remove(v.profile_background)
 		v.profile_background = background
 		g.db.add(v)
-		badge_grant(badge_id=193, user=v)
+		# badge_grant(badge_id=193, user=v)
 	return redirect(f'/@{v.username}')
+
+@app.delete('/settings/profile_background')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@auth_required
+@ratelimit_user()
+def delete_profile_background(v):
+	if v.profile_background:
+		os.remove(v.profile_background)
+		v.profile_background = None
+	return {"message": "Profile background removed!"}
 
 @app.post("/settings/personal")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)

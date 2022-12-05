@@ -210,6 +210,15 @@
 								</label>
 								<input autocomplete="off" id="upload-profile-background-file" accept="image/*", type="file" name="file" onchange="this.form.submit()" hidden>
 							</form>
+
+							{% if v.profile_background -%}
+								<div class="d-flex mb-3">
+									<button type="button" class="btn btn-danger" onclick="postToastReload(this,'/settings/profile_background', 'DELETE')">
+										<i class="fas fa-image-slash mr-1"></i>
+										Remove current background
+									</button>
+								</div>
+							{%- endif %}
 						{% endif %}
 
 						{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
@@ -428,6 +437,15 @@
 								</label>
 								<input autocomplete="off" id="upload-profile-background-file-mobile" accept="image/*", type="file" name="file" onchange="this.form.submit()" hidden>
 							</form>
+
+							{% if v.profile_background -%}
+								<div class="d-block mt-3 mb-3">
+									<button type="button" class="btn btn-danger" onclick="postToastReload(this,'/settings/profile_background', 'DELETE')">
+										<i class="fas fa-image-slash mr-1"></i>
+										Remove current background
+									</button>
+								</div>
+							{%- endif %}
 						</div>
 					{% endif %}
 
