@@ -196,7 +196,7 @@
 
 					<div class="actionbtns">
 						{% if v and v.id == u.id %}
-							<a href="/settings/personal" class="btn btn-secondary">Edit profile</a>
+							<a href="/settings/personal" class="btn btn-secondary">Edit Profile</a>
 
 							<form id="upload-profile-background" action="/settings/profile_background" method="post" enctype="multipart/form-data"> 
 								<input type="hidden" name="formkey" value="{{v|formkey}}">
@@ -205,7 +205,7 @@
 									{% if v.profile_background %}
 										{{v.profile_background}}
 									{% else %}
-										Upload custom profile background
+										Upload Profile Background
 									{% endif %}
 								</label>
 								<input autocomplete="off" id="upload-profile-background-file" accept="image/*", type="file" name="file" onchange="this.form.submit()" hidden>
@@ -213,7 +213,7 @@
 						{% endif %}
 
 						{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-							<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}>Toggle anthem</button>
+							<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}>Toggle Anthem</button>
 						{% endif %}
 					</div>
 					
@@ -407,7 +407,7 @@
 
 				<div class="actionbtns">
 					{% if v and v.id == u.id %}
-						<a href="/settings/personal" class="btn btn-secondary ">Edit profile</a>
+						<a href="/settings/personal" class="btn btn-secondary ">Edit Profile</a>
 
 						<form id="upload-profile-background-mobile" action="/settings/profile_background" method="post" enctype="multipart/form-data"> 
 							<input type="hidden" name="formkey" value="{{v|formkey}}">
@@ -416,7 +416,7 @@
 								{% if v.profile_background %}
 									{{v.profile_background}}
 								{% else %}
-									Upload custom profile background
+									Upload Profile Background
 								{% endif %}
 							</label>
 							<input autocomplete="off" id="upload-profile-background-file-mobile" accept="image/*", type="file" name="file" onchange="this.form.submit()" hidden>
@@ -424,7 +424,7 @@
 					{% endif %}
 
 					{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-						<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}>Toggle anthem</button>
+						<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}>Toggle Anthem</button>
 					{% endif %}
 
 					{% if v and v.id != u.id %}
