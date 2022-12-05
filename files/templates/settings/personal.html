@@ -64,9 +64,24 @@
 									{% endfor %}
 									</select>
 								</div>
+							<form class="d-flex mt-3 mb-2" id="upload-custom-background" action="/settings/custom_background" method="post" enctype="multipart/form-data"> 
+								<input type="hidden" name="formkey" value="{{v|formkey}}">
+								<label class="format btn btn-primary" for="upload-custom-background-file">
+									<i class="fas fa-image mr-1"></i> 
+									{% if v.background and v.background.startswith('/images/') %}
+										{{v.background}}
+									{% else %}
+										Upload Custom Background
+									{% endif %}
+								</label>
+								<input autocomplete="off" id="upload-custom-background-file" accept="image/*", type="file" name="file" onchange="this.form.submit()" hidden>
+							</form>
 							{% if v.background %}
-								<div class="d-flex mt-2">
-									<button type="button" class="btn btn-primary mb-1" onclick="postToastReload(this,'/settings/background', 'DELETE')">Remove Background</button>
+								<div class="d-flex mb-3">
+									<button type="button" class="btn btn-danger" onclick="postToastReload(this,'/settings/background', 'DELETE')">
+										<i class="fas fa-image-slash mr-1"></i>
+										Remove Current Background
+									</button>
 								</div>
 							{% endif %}
 							<div id="bgcontainer"></div>
