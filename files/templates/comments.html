@@ -72,9 +72,9 @@
 
 {% if standalone and level==1 %}
 <div id="post-info-{{c.id}}" class="post-info mb-1 mr-2 {% if request.path.startswith('/notifications') %}mt-5{% else %}mt-3{% endif %}">
-	{% if c.post and c.post.over_18 %}<span class="badge badge-danger text-small-extra mr-1">+18</span>{% endif %}
+	{% if c.parent_submissionand c.post.over_18 %}<span class="badge badge-danger text-small-extra mr-1">+18</span>{% endif %}
 	<span class="align-top">
-	{% if c.post %}
+	{% if c.parent_submission%}
 		{% if c.author_id==v.id and replies and is_notification_page%}
 			<span class="font-weight-bold">Comment {{'Replies' if (replies | length)>1 else 'Reply'}}: <a href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
 		{% elif c.post.author_id==v.id and c.level == 1 and is_notification_page%}
@@ -126,7 +126,7 @@
 					<i class="{{a.class_list}} px-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{a.title}} Award given by @{{a.user.username}}"></i>
 				{% endfor %}
 
-				{% if c.post %}
+				{% if c.parent_submission%}
 					{% set sub = c.post.sub %}
 					{% if sub and c.author.exiled_from(sub) %}
 						<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{sub}}"></i></a>
@@ -455,7 +455,7 @@
 	<button type="button" id="block-{{c.id}}" class="dropdown-item list-inline-item text-danger {% if c.is_blocking %}d-none{% endif %}" onclick="postToastSwitch(this,'/settings/block?username={{c.author.username}}','block-{{c.id}}','unblock-{{c.id}}','d-none')"><i class="fas fa-eye-slash text-danger"></i>Block user</button>
 {% endif %}
 
-{% if c.post %}
+{% if c.parent_submission%}
 {% set url = "" %}
 
 {% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
@@ -479,7 +479,7 @@
 	<button type="button" id="remove-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.is_banned %}d-md-block{% endif %} text-danger" onclick="removeComment(this,'{{c.id}}','approve-{{c.id}}','remove-{{c.id}}','d-md-block')"><i class="fas fa-ban text-danger fa-fw"></i>Remove</button>
 {% endif %}
 
-{% if c.post %}
+{% if c.parent_submission%}
 	{% set sub = c.post.sub %}
 	{% if sub and v.mods(sub) and not c.author.mods(sub) %}
 		<button type="button" id="exile-{{c.id}}" class="d-none {% if not c.author.exiled_from(sub) %}d-md-block{% endif %} dropdown-item list-inline-item text-danger" onclick="postToastSwitch(this,'/exile/comment/{{c.id}}','exile-{{c.id}}','unexile-{{c.id}}','d-none')"><i class="fas fa-campfire text-danger fa-fw"></i>Exile user</button>
@@ -658,7 +658,7 @@
 						{% endif %}
 
 						{% if v.admin_level < PERMS['POST_COMMENT_MODERATION'] %}
-							{% if c.post and v.id == c.post.author_id %}
+							{% if c.parent_submissionand v.id == c.post.author_id %}
 								<button type="button" id="pin2-{{c.id}}" class="list-group-item {% if c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" onclick="postToastSwitch(this,'/pin_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>
 								<button type="button" id="unpin2-{{c.id}}" class="list-group-item {% if not c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" onclick="postToastSwitch(this,'/unpin_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</button>
 							{% elif c.post.sub and v.mods(c.post.sub) %}
@@ -667,7 +667,7 @@
 							{% endif %}
 						{% endif %}
 
-						{% if c.post %}
+						{% if c.parent_submission%}
 							{% set sub = c.post.sub %}
 							{% if sub and v.mods(sub) and not c.author.mods(sub) %}
 								<button type="button" data-bs-dismiss="modal" id="exile2-{{c.id}}" class="{% if c.author.exiled_from(sub) %}d-none{% endif %} list-group-item text-danger" onclick="postToastSwitch(this,'/exile/comment/{{c.id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-danger mr-2"></i>Exile user</button>
