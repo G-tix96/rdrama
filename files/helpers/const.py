@@ -1702,6 +1702,7 @@ if SITE_NAME == 'rDrama':
 		'lemmy.ml',
 		'bluelight.org',
 		'incels.is',
+		'looksmax.org',
 		'groups.google.com',
 		't.me',
 		'web.telegram.org',
@@ -1744,6 +1745,7 @@ if SITE_NAME == 'rDrama':
 		'kiwifarms.cc',
 		'freespeechextremist.com'
 		'mstdn.social',
+		'mastodon.social',
 		'mastodon.online',
 		'poa.st',
 		'shitposter.club',
