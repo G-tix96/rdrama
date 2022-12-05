@@ -1,5 +1,4 @@
 import secrets
-import user_agents
 
 from files.helpers.const import *
 from files.helpers.settings import get_setting
@@ -22,6 +21,8 @@ def before_request():
 	if not g.agent and request.path != '/kofi':
 		return 'Please use a "User-Agent" header!', 403
 
+	ua = g.agent.lower()
+
 	if request.host != SITE:
 		return {"error": "Unauthorized host provided"}, 403
 
@@ -29,13 +30,11 @@ def before_request():
 
 	if not get_setting('bots') and request.headers.get("Authorization"): abort(403)
 
-	g.agent_parsed = str(user_agents.parse(g.agent))
-
-	if '; wv) ' in g.agent.lower():
+	if '; wv) ' in ua:
 		g.browser = 'webview'
-	elif g.agent_parsed.startswith('Firefox / '):
+	elif ' firefox/' in ua:
 		g.browser = 'firefox'
-	elif any(g.agent_parsed.startswith(x) for x in ('iPhone', 'iPad', 'iPod', 'PC / Mac OS X')):
+	elif 'iphone' in ua or 'ipad' in ua or 'ipod' in ua or 'mac os' in ua:
 		g.browser = 'apple'
 	else:
 		g.browser = 'chromium'

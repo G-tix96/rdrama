@@ -422,7 +422,7 @@
 									<i class="fas fa-image mr-1"></i> 
 									{% if v.profile_background %}
 										{{v.profile_background}}
-									{% elif v.theme == 'transparent' or g.agent_parsed.startswith('PC / ') %}
+									{% else %}
 										Upload Profile Background
 									{% endif %}
 								</label>
