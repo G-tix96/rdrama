@@ -367,7 +367,7 @@ def wall_comment(v):
 		if parent.deleted_utc != 0: abort(404)
 		parent_user = parent.wall_user
 		parent_comment_id = parent.id
-		parent_author = parent_user
+		parent_author = parent.author
 	else: abort(400)
 
 	level = 1 if isinstance(parent, User) else parent.level + 1
