@@ -48,4 +48,9 @@
 			<img class="mb-4" alt="sidebar image" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
 		</a>
 	{% endif %}
+
+	<div class="sidebar--rules sidebar--rules--pcm">
+		{% set rules = "rules_" + SITE_NAME + ".html" %}
+		{% include rules %}
+	</div>
 </div>

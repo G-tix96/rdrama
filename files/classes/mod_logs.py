@@ -183,6 +183,11 @@ ACTIONTYPES = {
 		"icon": 'fa-edit', 
 		"color": 'bg-primary'
 	},
+	'edit_rules': {
+		"str": 'edited the rules', 
+		"icon": 'fa-columns', 
+		"color": 'bg-primary'
+	},
 	'enable_bots': {
 		"str": 'enabled bots', 
 		"icon": 'fa-robot', 

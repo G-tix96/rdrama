@@ -153,6 +153,40 @@ def merge_all(v, id):
 	return redirect(user.url)
 
 
+
+@app.get('/admin/edit_rules')
+@admin_level_required(PERMS['EDIT_RULES'])
+def edit_rules_get(v):
+
+	try:
+		with open(f'files/templates/rules_{SITE_NAME}.html', 'r', encoding="utf-8") as f:
+			rules = f.read()
+	except:
+		rules = None
+
+	return render_template('admin/edit_rules.html', v=v, rules=rules)
+
+
+@app.post('/admin/edit_rules')
+@limiter.limit("1/second;30/minute;200/hour;1000/day")
+@admin_level_required(PERMS['EDIT_RULES'])
+def edit_rules_post(v):
+	rules = request.values.get('rules', '').strip()
+	rules = sanitize(rules, sidebar=True)
+
+	with open(f'files/templates/rules_{SITE_NAME}.html', 'w+', encoding="utf-8") as f:
+		f.write(rules)
+
+	ma = ModAction(
+		kind="edit_rules",
+		user_id=v.id,
+	)
+	g.db.add(ma)
+
+	return render_template('admin/edit_rules.html', v=v, rules=rules, msg='Rules edited successfully!')
+
+
+
 @app.post("/@<username>/make_admin")
 @admin_level_required(PERMS['ADMIN_ADD'])
 def make_admin(v, username):

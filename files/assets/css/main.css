@@ -5582,16 +5582,16 @@ audio, video {
 	text-transform: uppercase;
 }
 
-.sidebar--rules-list {
+.sidebar--rules ol {
 	margin-left: 0;
 	padding-left: 0;
 }
 
-.sidebar--rules-list--rdrama li {
-	margin-bottom: 1rem;
+.sidebar--rules--rdrama li > p {
+	margin-bottom: 0;
 }
 
-.sidebar--rules-list--wpd {
+.sidebar--rules--wpd ol {
 	font-size: 0.95rem;
 }
 
