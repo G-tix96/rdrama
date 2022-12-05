@@ -480,9 +480,8 @@ def sub_banner(v, sub):
 	bannerurl = process_image(name, v, resize=1200)
 
 	if bannerurl:
-		if sub.bannerurl and '/images/' in sub.bannerurl:
-			fpath = '/images/' + sub.bannerurl.split('/images/')[1]
-			if path.isfile(fpath): os.remove(fpath)
+		if sub.bannerurl:
+			os.remove(sub.bannerurl)
 		sub.bannerurl = bannerurl
 		g.db.add(sub)
 
@@ -512,9 +511,8 @@ def sub_sidebar(v, sub):
 	sidebarurl = process_image(name, v, resize=400)
 
 	if sidebarurl:
-		if sub.sidebarurl and '/images/' in sub.sidebarurl:
-			fpath = '/images/' + sub.sidebarurl.split('/images/')[1]
-			if path.isfile(fpath): os.remove(fpath)
+		if sub.sidebarurl:
+			os.remove(sub.sidebarurl)
 		sub.sidebarurl = sidebarurl
 		g.db.add(sub)
 
@@ -544,9 +542,8 @@ def sub_marsey(v, sub):
 	marseyurl = process_image(name, v, resize=200)
 
 	if marseyurl:
-		if sub.marseyurl and '/images/' in sub.marseyurl:
-			fpath = '/images/' + sub.marseyurl.split('/images/')[1]
-			if path.isfile(fpath): os.remove(fpath)
+		if sub.marseyurl:
+			os.remove(sub.marseyurl)
 		sub.marseyurl = marseyurl
 		g.db.add(sub)
 

@@ -41,8 +41,7 @@ def settings_personal(v:User):
 def remove_background(v):
 	if v.background:
 		if v.background.startswith('/images/'):
-			fpath = '/images/' + v.background.split('/images/')[1]
-			if path.isfile(fpath): os.remove(fpath)
+			os.remove(v.background)
 		v.background = None
 		if v.theme == 'transparent': v.theme = 'midnight'
 		g.db.add(v)
@@ -66,8 +65,7 @@ def upload_custom_background(v):
 
 	if background:
 		if v.background and v.background.startswith('/images/'):
-			fpath = '/images/' + v.background.split('/images/')[1]
-			if path.isfile(fpath): os.remove(fpath)
+			os.remove(v.background)
 		v.background = background
 		g.db.add(v)
 
@@ -88,8 +86,7 @@ def upload_profile_background(v):
 
 	if background:
 		if v.profile_background:
-			fpath = '/images/' + v.profile_background.split('/images/')[1]
-			if path.isfile(fpath): os.remove(fpath)
+			os.remove(v.profile_background)
 		v.profile_background = background
 		g.db.add(v)
 		badge_grant(badge_id=193, user=v)
@@ -553,11 +550,10 @@ def settings_images_profile(v):
 	if not imageurl: abort(400)
 
 	if v.highres and '/images/' in v.highres:
-		fpath = '/images/' + v.highres.split('/images/')[1]
-		if path.isfile(fpath): os.remove(fpath)
+		os.remove(v.highres)
+
 	if v.profileurl and '/images/' in v.profileurl:
-		fpath = '/images/' + v.profileurl.split('/images/')[1]
-		if path.isfile(fpath): os.remove(fpath)
+		os.remove(v.profileurl)
 	v.highres = highres
 	v.profileurl = imageurl
 	g.db.add(v)
@@ -582,8 +578,7 @@ def settings_images_banner(v):
 
 	if bannerurl:
 		if v.bannerurl and '/images/' in v.bannerurl:
-			fpath = '/images/' + v.bannerurl.split('/images/')[1]
-			if path.isfile(fpath): os.remove(fpath)
+			os.remove(v.bannerurl)
 		v.bannerurl = bannerurl
 		g.db.add(v)
 
