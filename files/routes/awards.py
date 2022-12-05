@@ -238,14 +238,16 @@ def award_thing(v, thing_type, id):
 	elif kind == "pin":
 		if not FEATURES['PINS']: abort(403)
 		if thing.is_banned: abort(403)
-		if thing.stickied and thing.stickied_utc:
-			thing.stickied_utc += 3600
+
+		if thing_type == 'comment': add = 3600*6
+		else: add = 3600
+
+		if thing.stickied_utc:
+			thing.stickied_utc += add
 		else:
-			thing.stickied = f'{v.username}{PIN_AWARD_TEXT}'
-			if thing_type == 'comment':
-				thing.stickied_utc = int(time.time()) + 3600*6
-			else:
-				thing.stickied_utc = int(time.time()) + 3600
+			thing.stickied_utc = int(time.time()) + add
+
+		thing.stickied = f'{v.username}{PIN_AWARD_TEXT}'
 		g.db.add(thing)
 		cache.delete_memoized(frontlist)
 	elif kind == "unpin":
