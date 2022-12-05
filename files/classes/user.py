@@ -44,6 +44,7 @@ class User(Base):
 	username = Column(String)
 	namecolor = Column(String, default=DEFAULT_COLOR)
 	background = Column(String)
+	profile_background = Column(String)
 	customtitle = Column(String)
 	customtitleplain = deferred(Column(String))
 	titlecolor = Column(String, default=DEFAULT_COLOR)

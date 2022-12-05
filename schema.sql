@@ -981,7 +981,8 @@ CREATE TABLE public.users (
     highres character varying(60),
     patron integer DEFAULT 0 NOT NULL,
     controversial boolean DEFAULT false NOT NULL,
-    background character varying(20),
+    background character varying(30),
+    profile_background character varying(30),
     verified character varying(100),
     cardview boolean NOT NULL,
     received_award_count integer DEFAULT 0 NOT NULL,
@@ -2720,4 +2721,3 @@ ALTER TABLE ONLY public.comment_option_votes
 --
 -- PostgreSQL database dump complete
 --
-

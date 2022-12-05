@@ -2,6 +2,13 @@
 {% block pagetype %}userpage{% endblock %}
 {% block pagetitle %}@{{u.username}}'s profile{% endblock %}
 {% block head_final %}
+	{% if u.profile_background %}
+		<style>
+			body {
+				background-image: url('{{u.profile_background}}') !important;
+			}
+		</style>
+	{% endif %}
 	{% if u and u.profilecss and not request.values.get('nocss') %}
 		<link rel="stylesheet" href="/{{u.id}}/profilecss">
 	{% endif %}
@@ -190,6 +197,19 @@
 					<div class="actionbtns">
 						{% if v and v.id == u.id %}
 							<a href="/settings/personal" class="btn btn-secondary">Edit profile</a>
+
+							<form id="upload-profile-background" action="/settings/profile_background" method="post" enctype="multipart/form-data"> 
+								<input type="hidden" name="formkey" value="{{v|formkey}}">
+								<label class="format btn btn-primary" for="upload-profile-background-file" style="margin-bottom:0!important">
+									<i class="fas fa-image mr-1"></i> 
+									{% if v.profile_background %}
+										{{v.profile_background}}
+									{% else %}
+										Upload custom profile background
+									{% endif %}
+								</label>
+								<input autocomplete="off" id="upload-profile-background-file" accept="image/*", type="file" name="file" onchange="this.form.submit()" hidden>
+							</form>
 						{% endif %}
 
 						{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
