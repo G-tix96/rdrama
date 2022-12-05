@@ -1360,7 +1360,7 @@ def remove_comment(c_id, v):
 def approve_comment(c_id, v):
 	comment = get_comment(c_id)
 	
-	if comment.author.id == v.id and comment.author.agendaposter and AGENDAPOSTER_PHRASE not in comment.body.lower() and comment.post.sub != 'chudrama':
+	if comment.author.id == v.id and comment.author.agendaposter and AGENDAPOSTER_PHRASE not in comment.body.lower() and not (comment.parent_submission and comment.post.sub == 'chudrama'):
 		abort(400, "You can't bypass the chud award!")
 
 	if comment.is_banned:

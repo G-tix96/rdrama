@@ -590,7 +590,7 @@ def edit_comment(cid, v):
 		if v.marsify:
 			body_for_sanitize = marsify(body_for_sanitize)
 
-		torture = (v.agendaposter and not v.marseyawarded and c.post.sub != 'chudrama')
+		torture = (v.agendaposter and not v.marseyawarded and not (c.parent_submission and c.post.sub == 'chudrama'))
 
 		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, torture=torture)
 
@@ -605,7 +605,7 @@ def edit_comment(cid, v):
 		execute_blackjack(v, c, c.body, "comment")
 		execute_under_siege(v, c, c.body, "comment")
 
-		if not (c.parent_submission and c.post.id in ADMIGGER_THREADS) and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and c.post.sub != 'chudrama':
+		if not (c.parent_submission and c.post.id in ADMIGGER_THREADS) and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and not (c.parent_submission and c.post.sub == 'chudrama'):
 			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your comment!')
 
 
