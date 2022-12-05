@@ -71,7 +71,7 @@
 									{% if v.background and v.background.startswith('/images/') %}
 										{{v.background}}
 									{% else %}
-										Upload Custom Background
+										Upload custom site background
 									{% endif %}
 								</label>
 								<input autocomplete="off" id="upload-custom-background-file" accept="image/*", type="file" name="file" onchange="this.form.submit()" hidden>
@@ -80,7 +80,7 @@
 								<div class="d-flex mb-3">
 									<button type="button" class="btn btn-danger" onclick="postToastReload(this,'/settings/background', 'DELETE')">
 										<i class="fas fa-image-slash mr-1"></i>
-										Remove Current Background
+										Remove current background
 									</button>
 								</div>
 							{% endif %}

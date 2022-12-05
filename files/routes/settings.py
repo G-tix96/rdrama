@@ -73,6 +73,28 @@ def upload_custom_background(v):
 
 	return redirect('/settings/personal')
 
+@app.post('/settings/profile_background')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@auth_required
+@ratelimit_user()
+def upload_profile_background(v):
+	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
+
+	file = request.files["file"]
+
+	name = f'/images/{time.time()}'.replace('.','') + '.webp'
+	file.save(name)
+	background = process_image(name, v)
+
+	if background:
+		if v.profile_background:
+			fpath = '/images/' + v.profile_background.split('/images/')[1]
+			if path.isfile(fpath): os.remove(fpath)
+		v.profile_background = background
+		g.db.add(v)
+		badge_grant(badge_id=193, user=v)
+	return redirect(f'/@{v.username}')
+
 @app.post("/settings/personal")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
