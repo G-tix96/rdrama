@@ -72,7 +72,7 @@
 
 {% if standalone and level==1 %}
 <div id="post-info-{{c.id}}" class="post-info mb-1 mr-2 {% if request.path.startswith('/notifications') %}mt-5{% else %}mt-3{% endif %}">
-	{% if c.parent_submissionand c.post.over_18 %}<span class="badge badge-danger text-small-extra mr-1">+18</span>{% endif %}
+	{% if c.parent_submission and c.post.over_18 %}<span class="badge badge-danger text-small-extra mr-1">+18</span>{% endif %}
 	<span class="align-top">
 	{% if c.parent_submission%}
 		{% if c.author_id==v.id and replies and is_notification_page%}
@@ -658,7 +658,7 @@
 						{% endif %}
 
 						{% if v.admin_level < PERMS['POST_COMMENT_MODERATION'] %}
-							{% if c.parent_submissionand v.id == c.post.author_id %}
+							{% if c.parent_submission and v.id == c.post.author_id %}
 								<button type="button" id="pin2-{{c.id}}" class="list-group-item {% if c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" onclick="postToastSwitch(this,'/pin_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>
 								<button type="button" id="unpin2-{{c.id}}" class="list-group-item {% if not c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" onclick="postToastSwitch(this,'/unpin_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</button>
 							{% elif c.post.sub and v.mods(c.post.sub) %}
