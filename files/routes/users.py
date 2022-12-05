@@ -718,7 +718,6 @@ def u_username_wall(username, v=None):
 	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
 	if username != u.username:
 		return redirect(f"/@{u.username}")
-	is_following = v and u.has_follower(v)
 
 	if not u.is_visible_to(v):
 		if g.is_api_or_xhr or request.path.endswith(".json"):
@@ -729,6 +728,16 @@ def u_username_wall(username, v=None):
 		if g.is_api_or_xhr or request.path.endswith(".json"):
 			abort(403, f"You are blocking @{u.username}.")
 		return render_template("userpage/blocking.html", u=u, v=v), 403
+
+	is_following = v and u.has_follower(v)
+
+	if v and v.id != u.id:
+		g.db.flush()
+		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
+		if view: view.last_view_utc = int(time.time())
+		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
+		g.db.add(view)
+		g.db.commit()
 
 	try: page = max(int(request.values.get("page", "1")), 1)
 	except: page = 1
@@ -769,7 +778,6 @@ def u_username_wall_comment(username, cid, v=None):
 	if not User.can_see(v, comment): abort(404)
 
 	u = comment.wall_user
-	is_following = v and u.has_follower(v)
 
 	if not u.is_visible_to(v):
 		if g.is_api_or_xhr or request.path.endswith(".json"):
@@ -780,6 +788,16 @@ def u_username_wall_comment(username, cid, v=None):
 		if g.is_api_or_xhr or request.path.endswith(".json"):
 			abort(403, f"You are blocking @{u.username}.")
 		return render_template("userpage/blocking.html", u=u, v=v), 403
+
+	is_following = v and u.has_follower(v)
+
+	if v and v.id != u.id:
+		g.db.flush()
+		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
+		if view: view.last_view_utc = int(time.time())
+		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
+		g.db.add(view)
+		g.db.commit()
 
 	if v and request.values.get("read"):
 		notif = g.db.query(Notification).filter_by(comment_id=cid, user_id=v.id, read=False).one_or_none()
@@ -814,29 +832,27 @@ def u_username(username, v=None):
 	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
 	if username != u.username:
 		return redirect(SITE_FULL + request.full_path.replace(username, u.username))
-	is_following = v and u.has_follower(v)
-
-	if v and v.id != u.id:
-		g.db.flush()
-		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
-
-		if view: view.last_view_utc = int(time.time())
-		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
-
-		g.db.add(view)
-		g.db.commit()
-
 		
 	if not u.is_visible_to(v):
 		if g.is_api_or_xhr or request.path.endswith(".json"):
 			abort(403, f"@{u.username}'s userpage is private")
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
-	
+
 	if v and hasattr(u, 'is_blocking') and u.is_blocking:
 		if g.is_api_or_xhr or request.path.endswith(".json"):
 			abort(403, f"You are blocking @{u.username}.")
 		return render_template("userpage/blocking.html", u=u, v=v), 403
+
+	is_following = v and u.has_follower(v)
+
+	if v and v.id != u.id:
+		g.db.flush()
+		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
+		if view: view.last_view_utc = int(time.time())
+		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
+		g.db.add(view)
+		g.db.commit()
 
 
 	sort = request.values.get("sort", "new")
@@ -894,7 +910,6 @@ def u_username_comments(username, v=None):
 	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
 	if username != u.username:
 		return redirect(f"/@{u.username}/comments")
-	is_following = v and u.has_follower(v)
 
 	if not u.is_visible_to(v):
 		if g.is_api_or_xhr or request.path.endswith(".json"):
@@ -905,6 +920,16 @@ def u_username_comments(username, v=None):
 		if g.is_api_or_xhr or request.path.endswith(".json"):
 			abort(403, f"You are blocking @{u.username}.")
 		return render_template("userpage/blocking.html", u=u, v=v), 403
+
+	is_following = v and u.has_follower(v)
+
+	if v and v.id != u.id:
+		g.db.flush()
+		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
+		if view: view.last_view_utc = int(time.time())
+		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
+		g.db.add(view)
+		g.db.commit()
 
 	try: page = max(int(request.values.get("page", "1")), 1)
 	except: page = 1
