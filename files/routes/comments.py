@@ -561,7 +561,8 @@ def edit_comment(cid, v):
 		abort(403, "You can't edit comments older than 1 week!")
 
 	if c.author_id != v.id: abort(403)
-	if not c.post: abort(403)
+	if not c.parent_submission and not c.wall_user_id:
+		abort(403)
 
 	body = sanitize_raw_body(request.values.get("body", ""), False)
 
@@ -604,7 +605,7 @@ def edit_comment(cid, v):
 		execute_blackjack(v, c, c.body, "comment")
 		execute_under_siege(v, c, c.body, "comment")
 
-		if c.post.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and c.post.sub != 'chudrama':
+		if not (c.parent_submission and c.post.id in ADMIGGER_THREADS) and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and c.post.sub != 'chudrama':
 			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your comment!')
 
 
