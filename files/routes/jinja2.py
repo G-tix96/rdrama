@@ -2,8 +2,6 @@ import time
 
 from os import environ, listdir, path
 
-import user_agents
-
 from flask import g, session, has_request_context
 from jinja2 import pass_context
 
@@ -59,9 +57,8 @@ def calc_users():
 			if session["session_id"] in loggedout: del loggedout[session["session_id"]]
 			loggedin[v.id] = timestamp
 		else:
-			ua = str(user_agents.parse(g.agent))
-			if 'spider' not in ua.lower() and 'bot' not in ua.lower():
-				loggedout[session["session_id"]] = (timestamp, ua)
+			if 'spider' not in g.agent_parsed.lower() and 'bot' not in g.agent_parsed.lower():
+				loggedout[session["session_id"]] = (timestamp, g.agent_parsed)
 	
 		loggedin = {k: v for k, v in loggedin.items() if (timestamp - v) < LOGGEDIN_ACTIVE_TIME}
 		loggedout = {k: v for k, v in loggedout.items() if (timestamp - v[0]) < LOGGEDIN_ACTIVE_TIME}
