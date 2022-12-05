@@ -39,7 +39,8 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 		if notif:
 			notif.read = True
 			g.db.add(notif)
-	
+			g.db.commit()
+
 	if not pid:
 		if comment.parent_submission: pid = comment.parent_submission
 		else: pid = NOTIFICATION_THREAD
@@ -503,7 +504,7 @@ def wall_comment(v):
 			if len(c.body) > 500: notifbody = c.body[:500] + '...'
 			else: notifbody = c.body
 
-			url = f'{SITE_FULL}/comment/{c.id}?context=8&read=true#context'
+			url = f'{SITE_FULL}/@{c.wall_user.username}/wall/comment/{c.id}?context=8&read=true#context'
 
 			push_notif(parent_author.id, title, notifbody, url)
 

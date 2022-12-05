@@ -786,6 +786,7 @@ def u_username_wall_comment(username, cid, v=None):
 		if notif:
 			notif.read = True
 			g.db.add(notif)
+			g.db.commit()
 
 	try: context = min(int(request.values.get("context", 0)), 8)
 	except: context = 0
