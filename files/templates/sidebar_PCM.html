@@ -1,5 +1,17 @@
 <div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3" {% if request.path != '/sidebar' %}id="sidebar-content"{% endif %}>
 
+	{% if sub %}
+		{% set image=sub.sidebar_url %}
+	{% else %}
+		{# set image='/i/' + SITE_NAME + '/sidebar.webp?v=3009' #}
+	{% endif %}
+	
+	{% if request.path != '/sidebar' and image %}
+		<a href="{{image}}">
+			<img class="mb-4" alt="sidebar image" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
+		</a>
+	{% endif %}
+
 	<p class="text-center text-md mb-4">
 		<a class="sidebar-link" href="/log" data-bs-toggle="tooltip" data-bs-placement="top" title="Moderation Log"><i class="fas fa-scroll-old"></i></a>
 		<a class="sidebar-link" href="/transfers" data-bs-toggle="tooltip" data-bs-placement="top" title="Transfers"><i class="fas fa-arrow-right-arrow-left"></i></a>
@@ -34,18 +46,6 @@
 	<a rel="nofollow noopener" class="btn btn-primary btn-block" href="https://imgur.com/a/Wkw11eX">Current RV Cutouts</a>
 	<a rel="nofollow noopener" class="btn btn-primary btn-block" href="https://imgur.com/a/B3XHKnD">PCM Shitposter Cutouts (1/?)</a>
 	<a rel="nofollow noopener" class="btn btn-primary btn-block" href="https://imgur.com/a/2wDZddF">PCM Shitposter Cutouts (2/?)</a>
-	
-	{% if sub %}
-		{% set image=sub.sidebar_url %}
-	{% else %}
-		{# set image='/i/' + SITE_NAME + '/sidebar.webp?v=3009' #}
-	{% endif %}
-	
-	{% if request.path != '/sidebar' and image %}
-		<a href="{{image}}">
-			<img class="mb-4" alt="sidebar image" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
-		</a>
-	{% endif %}
 
 	<div class="sidebar--rules sidebar--rules--pcm">
 		{% set rules = "rules_" + SITE_NAME + ".html" %}
