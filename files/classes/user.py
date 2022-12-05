@@ -1026,7 +1026,7 @@ class User(Base):
 				if other.sub and not cls.can_see(user, other.subr): return False
 			else:
 				if not other.parent_submission:
-					if not user: return False
+					if not user and not other.wall_user_id: return False
 					if not other.sentto: return True # handled by Notification
 					if other.sentto == MODMAIL_ID: return user.admin_level >= PERMS['VIEW_MODMAIL']  # type: ignore
 					if other.sentto != user.id: return user.admin_level >= PERMS['POST_COMMENT_MODERATION']  # type: ignore
