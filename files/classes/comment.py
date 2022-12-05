@@ -159,6 +159,8 @@ class Comment(Base):
 	@property
 	@lazy
 	def shortlink(self):
+		if self.wall_user_id:
+			return f"/@{self.wall_user.username}/wall/comment/{self.id}?context=8#context"
 		return f"{self.post.shortlink}/{self.id}?context=8#context"
 
 	@property

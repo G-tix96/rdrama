@@ -131,7 +131,7 @@ def award_thing(v, thing_type, id):
 		thing = get_post(id)
 	else: 
 		thing = get_comment(id)
-		if not thing.parent_submission: abort(404) # don't let users award messages
+		if not thing.parent_submission and not thing.wall_user_id: abort(404) # don't let users award messages
 
 	if v.shadowbanned: abort(500)
 	author = thing.author
