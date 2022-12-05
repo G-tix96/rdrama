@@ -194,12 +194,13 @@ def comment(v):
 	body_html = sanitize(body_for_sanitize, limit_pings=5, count_marseys=not v.marsify, torture=torture)
 
 	if parent_post.id not in ADMIGGER_THREADS and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
-		existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
-																	Comment.deleted_utc == 0,
-																	Comment.parent_comment_id == parent_comment_id,
-																	Comment.parent_submission == parent_post.id,
-																	Comment.body_html == body_html
-																	).first()
+		existing = g.db.query(Comment.id).filter(
+			Comment.author_id == v.id,
+			Comment.deleted_utc == 0,
+			Comment.parent_comment_id == parent_comment_id,
+			Comment.parent_submission == parent_post.id,
+			Comment.body_html == body_html
+		).first()
 		if existing: abort(409, f"You already made that comment: /comment/{existing.id}")
 
 	is_bot = (v.client is not None
@@ -388,15 +389,7 @@ def wall_comment(v):
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION'] and parent_author.any_block_exists(v):
 		abort(403, "You can't reply to users who have blocked you or users that you have blocked.")
 	
-	options = []
-	for i in list(poll_regex.finditer(body))[:POLL_MAX_OPTIONS]:
-		options.append(i.group(1))
-		body = body.replace(i.group(0), "")
-
-	choices = []
-	for i in list(choice_regex.finditer(body))[:POLL_MAX_OPTIONS]:
-		choices.append(i.group(1))
-		body = body.replace(i.group(0), "")
+	body, _, options, choices = sanitize_poll_options(v, body, False)
 
 	if request.files.get("file") and not g.is_tor:
 		files = request.files.getlist('file')[:4]
@@ -406,14 +399,6 @@ def wall_comment(v):
 				file.save(oldname)
 				image = process_image(oldname, v)
 				if image == "": abort(400, "Image upload failed")
-				if v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES'] and level == 1:
-					def process_sidebar_or_banner(type, resize=0):
-						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/{type}'),
-							key=lambda e: int(e.split('.webp')[0]))[-1]
-						num = int(li.split('.webp')[0]) + 1
-						filename = f'files/assets/images/{SITE_NAME}/{type}/{num}.webp'
-						copyfile(oldname, filename)
-						process_image(filename, v, resize=resize)
 				body += f"\n\n![]({image})"
 			elif file.content_type.startswith('video/'):
 				body += f"\n\n{SITE_FULL}{process_video(file, v)}"
@@ -434,12 +419,13 @@ def wall_comment(v):
 	body_html = sanitize(body_for_sanitize, limit_pings=5, count_marseys=not v.marsify, torture=torture)
 
 	if '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
-		existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
-																	Comment.deleted_utc == 0,
-																	Comment.parent_comment_id == parent_comment_id,
-																	Comment.parent_submission == None,
-																	Comment.body_html == body_html
-																	).first()
+		existing = g.db.query(Comment.id).filter(
+			Comment.author_id == v.id,
+			Comment.deleted_utc == 0,
+			Comment.parent_comment_id == parent_comment_id,
+			Comment.parent_submission == None,
+			Comment.body_html == body_html
+		).first()
 		if existing: abort(409, f"You already made that comment: /comment/{existing.id}")
 
 	is_bot = (v.client is not None
@@ -471,25 +457,8 @@ def wall_comment(v):
 	if c.level == 1: c.top_comment_id = c.id
 	else: c.top_comment_id = parent.top_comment_id
 
-	for option in options:
-		body_html = filter_emojis_only(option)
-		if len(body_html) > 500: abort(400, "Poll option too long!")
-		option = CommentOption(
-			comment_id=c.id,
-			body_html=body_html,
-			exclusive=0
-		)
-		g.db.add(option)
-
-	for choice in choices:
-		body_html = filter_emojis_only(choice)
-		if len(body_html) > 500: abort(400, "Poll option too long!")
-		choice = CommentOption(
-			comment_id=c.id,
-			body_html=body_html,
-			exclusive=1
-		)
-		g.db.add(choice)
+	process_poll_options(c, CommentOption, options, 0, "Poll", g.db)
+	process_poll_options(c, CommentOption, choices, 1, "Poll", g.db)
 
 	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower():
 		c.is_banned = True
