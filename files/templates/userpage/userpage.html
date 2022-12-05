@@ -407,7 +407,14 @@
 
 				<div class="actionbtns">
 					{% if v and v.id == u.id %}
-						<div><a href="/settings/personal" class="btn btn-secondary ">Edit Profile</a></div>
+						<a href="/settings/personal" class="btn btn-secondary ">Edit Profile</a>
+					{% endif %}
+
+					{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
+						<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}>Toggle Anthem</button>
+					{% endif %}
+
+					{% if v and v.id == u.id %}
 						<div>
 							<form class="mt-3" id="upload-profile-background-mobile" action="/settings/profile_background" method="post" enctype="multipart/form-data"> 
 								<input type="hidden" name="formkey" value="{{v|formkey}}">
@@ -422,10 +429,6 @@
 								<input autocomplete="off" id="upload-profile-background-file-mobile" accept="image/*", type="file" name="file" onchange="this.form.submit()" hidden>
 							</form>
 						</div>
-					{% endif %}
-
-					{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-						<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}>Toggle Anthem</button>
 					{% endif %}
 
 					{% if v and v.id != u.id %}
@@ -507,7 +510,7 @@
 	<div class="col">
 		<div class="flex-row box-shadow-bottom d-flex justify-content-center justify-content-md-between align-items-center">
 			<ul class="nav settings-nav" id="profile-content--nav">
-				<li class="nav-item">
+				<li class="nav-item mr-1">
 					<a class="nav-link" href="/@{{u.username}}">Wall</a>
 				</li>
 				<li class="nav-item">
