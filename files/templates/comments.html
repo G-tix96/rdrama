@@ -92,12 +92,14 @@
 		{% endif %}
 	{% elif c.author_id==AUTOJANNY_ID %}
 		<span class="font-weight-bold">Notification</span>
-	{% elif not c.wall_user_id %}
-		{% if c.sentto == MODMAIL_ID %}
-			<span class="font-weight-bold">Sent to admins</span>
-		{% else %}
-			<span class="font-weight-bold">Sent to @{{c.senttouser.username}}</span>
+	{% elif c.wall_user_id %}
+		{% if request.path == '/notifications' %}
+			<span class="font-weight-bold"><a href="/@{{v.username}}">Profile Wall</a></span>
 		{% endif %}
+	{% elif c.sentto == MODMAIL_ID %}
+		<span class="font-weight-bold">Sent to admins</span>
+	{% else %}
+		<span class="font-weight-bold">Sent to @{{c.senttouser.username}}</span>
 	{% endif %}
 </span>
 </div>
