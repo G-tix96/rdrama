@@ -1542,80 +1542,72 @@ ADMIGGER_THREADS = {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD, SNAPPY_THREAD}
 proxies = {"http":PROXY_URL,"https":PROXY_URL}
 
 approved_embed_hosts = {
+	### GENERAL PRINCIPLES #####################################################
+	# 0) The goal is to prevent user info leaks. Worst is a username + IP.
+	# 1) Cannot point to a server controlled by a site user.
+	# 2) Cannot have open redirects based on query string. (tightest constraint)
+	# 3) #2 but pre-stored, ex: s.lain.la 302 with jannie DM attack.
+	### TODO: Run a media proxy and kill most of these. Impossible to review.
+
+	### First-Party
 	SITE,
 	'rdrama.net',
 	BAN_EVASION_DOMAIN,
 	'pcmemes.net',
 	'watchpeopledie.tv',
 	'fsdfsd.net',
-	'imgur.com',
-	'lain.la',
-	'pngfind.com',
-	'kym-cdn.com',
-	'redd.it',
-	'substack.com',
-	'blogspot.com',
-	'catbox.moe',
-	'pinimg.com',
-	'kindpng.com',
-	'shopify.com',
-	'twimg.com',
-	'wikimedia.org',
-	'wp.com',
-	'wordpress.com',
-	'seekpng.com',
-	'dailymail.co.uk',
-	'cdc.gov',
-	'media-amazon.com',
-	'ssl-images-amazon.com',
-	'washingtonpost.com',
-	'imgflip.com',
-	'flickr.com',
-	'9cache.com',
-	'ytimg.com',
-	'foxnews.com',
-	'duckduckgo.com',
-	'forbes.com',
-	'gr-assets.com',
+
+	### Third-Party Image Hosts
+	# TODO: Might be able to keep these even if we media proxy?
+	'imgur.com', # possibly restrict to i.imgur.com
+	'pomf2.lain.la', # DO NOT generalize to lain.la. s.lain.la open redirect
+	'giphy.com', # used by the GIF Modal
 	'tenor.com',
-	'giphy.com',
-	'makeagif.com',
 	'gfycat.com',
-	'tumblr.com',
-	'yarn.co',
-	'gifer.com',
+	'postimg.cc', # WPD chat seems to like it
+	'files.catbox.moe',
+
+	### Third-Party Media
+	# TODO: Preferably kill these. Media proxy.
+	# DO NOT ADD: wordpress.com, wp.com (maybe) | Or frankly anything. No more.
+	'redd.it', # disconcerting surface size {i, preview, external-preview, &c}
+	           # but believed safe
+	'redditmedia.com', # similar to above
+	'twimg.com',
+	'pinimg.com',
+	'kiwifarms.net', # how sure are we Jersh doesn't have an open redirect?
+	'upload.wikimedia.org',
 	'staticflickr.com',
-	'kiwifarms.net',
-	'amazonaws.com',
-	'githubusercontent.com',
-	'unilad.co.uk',
-	'grrrgraphics.com',
-	'redditmedia.com',
-	'deviantart.com',
-	'deviantart.net',
-	'googleapis.com',
-	'bing.com',
-	'typekit.net',
-	'postimg.cc',
-	'archive.org',
 	'substackcdn.com',
-	'9gag.com',
-	'ifunny.co',
-	'wixmp.com',
-	'derpicdn.net',
-	'twibooru.org',
-	'ponybooru.org',
-	'e621.net',
-	'ponerpics.org',
-	'furaffinity.net',
-	}
+	'wixmp.com', # image CDN: deviantart, others?
+	'kym-cdn.com',
+	'tumblr.com', # concerningly broad.
+	'ytimg.com',
+
+	### Third-Party Resources (For e.g. Profile Customization)
+	# TODO: Any reasonable way to proxy these instead?
+	'use.typekit.net', # Adobe font CDN
+	'p.typekit.net', # Adobe font CDN
+	'fonts.googleapis.com', # Google font CDN
+	'githubusercontent.com', # using repos as media sources. no obvious exploit
+	'kindpng.com',
+	'pngfind.com',
+}
 
 
 def is_site_url(url):
-	return url and '\\' not in url and ((url.startswith('/') and not url.startswith('//')) or url.startswith(f'{SITE_FULL}/'))
+	return (url
+		and '\\' not in url
+		and ((url.startswith('/') and not url.startswith('//'))
+			or url.startswith(f'{SITE_FULL}/')))
 
 def is_safe_url(url):
-	return (is_site_url(url) or tldextract.extract(url).registered_domain in approved_embed_hosts) and '!YOU!' not in url
+	domain = tldextract.extract(url)
+	return ((
+		is_site_url(url)
+			or domain.registered_domain in approved_embed_hosts
+			or domain.fqdn in approved_embed_hosts
+		) and '!YOU!' not in url)
 
 
 hosts = "|".join(approved_embed_hosts).replace('.','\.')
