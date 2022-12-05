@@ -544,14 +544,15 @@ def submit_post(v:User, sub=None):
 
 	if not title:
 		return error("Please enter a better title.")
+
+	sub = request.values.get("sub", "").lower().replace('/h/','').strip()
+
 	torture = (v.agendaposter and not v.marseyawarded and sub != 'chudrama')
 	title_html = filter_emojis_only(title, graceful=True, count_marseys=True, torture=torture)
 	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 		return error("You can only type marseys!")
 	if len(title_html) > POST_TITLE_HTML_LENGTH_LIMIT: 
 		return error("Rendered title is too big!")
-
-	sub = request.values.get("sub", "").lower().replace('/h/','').strip()
 
 	if sub == 'changelog' and not v.admin_level >= PERMS['POST_TO_CHANGELOG']:
 		# we also allow 'code contributor' badgeholders to post to the changelog hole
