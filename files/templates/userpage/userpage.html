@@ -2,7 +2,7 @@
 {% block pagetype %}userpage{% endblock %}
 {% block pagetitle %}@{{u.username}}'s profile{% endblock %}
 {% block head_final %}
-	{% if u.profile_background %}
+	{% if u and u.profile_background %}
 		<style>
 			body {
 				background-image: url('{{u.profile_background}}') !important;
