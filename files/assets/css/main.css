@@ -6285,7 +6285,7 @@ div.markdown {
 .live-circle {
 	animation: blinker 4s infinite;
 }
-  
+
 @keyframes blinker {
 	from { color: var(--gray-200) }
 	50% { color:red }
