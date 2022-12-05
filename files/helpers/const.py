@@ -1736,6 +1736,7 @@ if SITE_NAME == 'rDrama':
 		'eu.forums.blizzard.com',
 		'bungie.net',
 		'soyjak.party',
+		'teamblind.com',
 
 		#fediverse
 		'rdrama.cc',
