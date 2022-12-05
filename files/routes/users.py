@@ -757,7 +757,7 @@ def u_username_wall(username, v=None):
 	if (v and v.client) or request.path.endswith(".json"):
 		return {"data": [c.json(g.db) for c in comments]}
 	
-	return render_template("userpage/wall.html", u=u, v=v, listing=comments, page=page, next_exists=next_exists, is_following=is_following, standalone=True, render_replies=True)
+	return render_template("userpage/wall.html", u=u, v=v, listing=comments, page=page, next_exists=next_exists, is_following=is_following, standalone=True, render_replies=True, wall=True)
 
 
 @app.get("/@<username>/wall/comment/<cid>")
@@ -803,7 +803,7 @@ def u_username_wall_comment(username, cid, v=None):
 			
 	if v and v.client: return top_comment.json(db=g.db)
 
-	return render_template("userpage/wall.html", u=u, v=v, listing=[top_comment], page=1, is_following=is_following, standalone=True, render_replies=True, comment_info=comment_info)
+	return render_template("userpage/wall.html", u=u, v=v, listing=[top_comment], page=1, is_following=is_following, standalone=True, render_replies=True, wall=True, comment_info=comment_info)
 
 
 @app.get("/@<username>/posts")
