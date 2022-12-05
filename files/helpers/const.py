@@ -426,6 +426,7 @@ MCCOX_ID = 0
 CHIOBU_ID = 0
 PIZZASHILL_ID = 0
 IMPASSIONATA_ID = 0
+HEYMOON_ID = 0
 GUMROAD_MESSY = ()
 IDIO_ID = 0
 CARP_ID = 0
@@ -528,6 +529,7 @@ if SITE == 'rdrama.net':
 	CHIOBU_ID = 5214
 	PIZZASHILL_ID = 2424
 	IMPASSIONATA_ID = 5800
+	HEYMOON_ID = 3635
 	GUMROAD_MESSY = (1230,1379)
 	IDIO_ID = 30
 	CARP_ID = 995
@@ -1472,6 +1474,8 @@ NOTIFIED_USERS = {
 	'soren': SOREN_ID,
 	'pizzashill': PIZZASHILL_ID,
 	'impassionata': IMPASSIONATA_ID,
+	'heymoon': HEYMOON_ID,
+	'jollymoon': HEYMOON_ID,
 }
 
 FORTUNE_REPLIES = ('<b style="color:#6023f8">Your fortune: Allah Wills It</b>','<b style="color:#d302a7">Your fortune: Inshallah, Only Good Things Shall Come To Pass</b>','<b style="color:#e7890c">Your fortune: Allah Smiles At You This Day</b>','<b style="color:#7fec11">Your fortune: Your Bussy Is In For A Blasting</b>','<b style="color:#43fd3b">Your fortune: You Will Be Propositioned By A High-Tier Twink</b>','<b style="color:#9d05da">Your fortune: Repent, You Have Displeased Allah And His Vengeance Is Nigh</b>','<b style="color:#f51c6a">Your fortune: Reply Hazy, Try Again</b>','<b style="color:#00cbb0">Your fortune: lmao you just lost 100 coins</b>','<b style="color:#2a56fb">Your fortune: Yikes 😬</b>','<b style="color:#0893e1">Your fortune: You Will Be Blessed With Many Black Bulls</b>','<b style="color:#16f174">Your fortune: NEETmax, The Day Is Lost If You Venture Outside</b>','<b style="color:#fd4d32">Your fortune: A Taste Of Jannah Awaits You Today</b>','<b style="color:#bac200">Your fortune: Watch Your Back</b>','<b style="color:#6023f8">Your fortune: Outlook good</b>','<b style="color:#d302a7">Your fortune: Godly Luck</b>','<b style="color:#e7890c">Your fortune: Good Luck</b>','<b style="color:#7fec11">Your fortune: Bad Luck</b>','<b style="color:#43fd3b">Your fortune: Good news will come to you by mail</b>','<b style="color:#9d05da">Your fortune: Very Bad Luck</b>','<b style="color:#00cbb0">Your fortune: ｷﾀ━━━━━━(ﾟ∀ﾟ)━━━━━━ !!!!</b>','<b style="color:#2a56fb">Your fortune: Better not tell you now</b>','<b style="color:#0893e1">Your fortune: You will meet a dark handsome stranger</b>','<b style="color:#16f174">Your fortune: （　´_ゝ`）ﾌｰﾝ</b>','<b style="color:#fd4d32">Your fortune: Excellent Luck</b>','<b style="color:#bac200">Your fortune: Average Luck</b>')
