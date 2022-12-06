@@ -61,7 +61,7 @@ def allowed_attributes(tag, name, value):
 		return False
 
 	if tag == 'a':
-		if name == 'href' and '\\' not in value and 'xn--' not in value:
+		if name == 'href' and '\\' not in value and 'xn--' not in value and '!YOU!' not in value:
 			return True
 		if name == 'rel' and value == 'nofollow noopener': return True
 		if name == 'target' and value == '_blank': return True
