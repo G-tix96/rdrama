@@ -619,6 +619,8 @@ elif SITE == 'watchpeopledie.tv':
 	PERMS['POST_EDITING'] = 2
 	PERMS['ADMIN_ADD'] = 4
 
+	POLL_MAX_OPTIONS = 0
+
 	ERROR_TITLES.update({
 		400: "Bad Request",
 		401: "Unauthorized",

@@ -499,7 +499,7 @@ def validate_css(css):
 def sanitize_poll_options(v:User, body:str, allow_bets:bool) -> tuple[str, List[Any], List[Any], List[Any]]:
 	def sanitize_poll_type(body:str, re:re.Pattern) -> tuple[str, List[str]]:
 		opts = []
-		for i in list(re.finditer(body))[:POLL_MAX_OPTIONS]:
+		for i in list(re.finditer(body))[:POLL_MAX_OPTIONS] if POLL_MAX_OPTIONS else list(re.finditer(body)):
 			opts.append(filter_emojis_only(i.group(1)))
 			body = body.replace(i.group(0), "")
 		return (body, opts)
