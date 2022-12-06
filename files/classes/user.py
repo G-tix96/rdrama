@@ -1019,7 +1019,6 @@ class User(Base):
 			if not cls.can_see(user, other.author): return False
 			if user and user.id == other.author_id: return True
 			if isinstance(other, Submission):
-				if "!YOU!" in other.title and not user: return False
 				if browser != 'webview' and other.author_id == AEVANN_ID and other.title.startswith('[ANDROID]'):
 					return user and user.admin_level >= PERMS['POST_COMMENT_MODERATION']
 				if browser != 'apple' and other.author_id == CARP_ID and other.title.startswith('[APPLE]'):

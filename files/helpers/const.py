@@ -1603,11 +1603,9 @@ def is_site_url(url):
 
 def is_safe_url(url):
 	domain = tldextract.extract(url)
-	return ((
-		is_site_url(url)
-			or domain.registered_domain in approved_embed_hosts
-			or domain.fqdn in approved_embed_hosts
-		) and '!YOU!' not in url)
+	return (is_site_url(url)
+		or domain.registered_domain in approved_embed_hosts
+		or domain.fqdn in approved_embed_hosts)
 
 
 hosts = "|".join(approved_embed_hosts).replace('.','\.')
