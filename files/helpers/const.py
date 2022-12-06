@@ -68,6 +68,8 @@ REDDIT_NOTIFS_CACHE_KEY = "reddit_notifications"
 MARSEYS_CACHE_KEY = "marseys"
 EMOJIS_CACHE_KEY = "emojis"
 
+SESSION_LIFETIME = 60 * 60 * 24 * 365
+
 CASINO_RELEASE_DAY = 1662825600
 
 if SITE_NAME == 'rDrama': patron = 'Paypig'

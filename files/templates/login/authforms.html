@@ -16,14 +16,11 @@
 										<h2>{% block authtitle %}{% endblock %}</h2>
 										<p class="text-muted mb-md-5">{% block authtext %}{% endblock %}</p>
 			{% if error %}
-				<div class="alert alert-danger alert-dismissible fade show d-flex my-3" role="alert">
+				<div class="alert alert-danger fade show d-flex my-3" role="alert">
 													<i class="fas fa-exclamation-circle my-auto"></i>
 													<span>
 													{{error}}
 													</span>
-													<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-														<span aria-hidden="true"><i class="far fa-times"></i></span>
-												</button>
 								</div>
 			{% endif %}
 			{% if msg %}

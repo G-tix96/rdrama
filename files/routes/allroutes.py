@@ -14,6 +14,9 @@ def session_init():
 @app.before_request
 def before_request():
 	g.desires_auth = False
+	if not IS_LOCALHOST:
+		app.config["COOKIE_DOMAIN"] = f".{request.host}"
+		app.config["SESSION_COOKIE_DOMAIN"] = app.config["COOKIE_DOMAIN"]
 	if SITE == 'marsey.world' and request.path != '/kofi':
 		abort(404)
 
@@ -50,25 +53,43 @@ def before_request():
 	limiter.check()
 	g.db = db_session()
 
-
 @app.after_request
-def after_request(response):
+def after_request(response:Response):
 	if response.status_code < 400:
-		if CLOUDFLARE_AVAILABLE and CLOUDFLARE_COOKIE_VALUE and g.desires_auth:
-			logged_in = bool(getattr(g, 'v', None))
-			response.set_cookie("lo", CLOUDFLARE_COOKIE_VALUE if logged_in else '', 
-								max_age=60*60*24*365 if logged_in else 1, samesite="Lax")
-		if getattr(g, 'db', None):
-			g.db.commit()
-			g.db.close()
-			del g.db
+		_set_cloudflare_cookie(response)
+		_commit_and_close_db()
 	return response
 
 
 @app.teardown_appcontext
 def teardown_request(error):
-	if getattr(g, 'db', None):
-		g.db.rollback()
-		g.db.close()
-		del g.db
+	_rollback_and_close_db()
 	stdout.flush()
+
+def _set_cloudflare_cookie(response:Response) -> None:
+	'''
+	Sets a cookie that can be used by an upstream DDoS protection and caching provider
+	'''
+	if not g.desires_auth: return
+	if not CLOUDFLARE_AVAILABLE or not CLOUDFLARE_COOKIE_VALUE: return
+	logged_in = bool(getattr(g, 'v', None))
+	if not logged_in and request.cookies.get("lo"):
+		response.delete_cookie("lo", domain=app.config["COOKIE_DOMAIN"], samesite="Lax")
+	elif logged_in and not request.cookies.get("lo"):
+		response.set_cookie("lo", CLOUDFLARE_COOKIE_VALUE if logged_in else '', 
+							max_age=SESSION_LIFETIME, samesite="Lax",
+							domain=app.config["COOKIE_DOMAIN"])
+
+def _commit_and_close_db() -> bool:
+	if not getattr(g, 'db', None): return False
+	g.db.commit()
+	g.db.close()
+	del g.db
+	return True
+
+def _rollback_and_close_db() -> bool:
+	if not getattr(g, 'db', None): return False
+	g.db.rollback()
+	g.db.close()
+	del g.db
+	return True
