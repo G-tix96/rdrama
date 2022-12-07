@@ -229,8 +229,7 @@ function post_comment(fullname, wall_user_id, hide){
 			let comments = document.getElementById('replies-of-' + fullname);
 			let comment = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '');
 
-			comments.innerHTML = comment + comments.innerHTML;
-			if (!hide) comments.scrollIntoView()
+			comments.insertAdjacentHTML('beforebegin', comment);
 
 			bs_trigger(comments);
 
