@@ -395,7 +395,8 @@ CREATE TABLE public.comments (
     body_ts tsvector GENERATED ALWAYS AS (to_tsvector('english'::regconfig, (body)::text)) STORED,
     casino_game_id integer,
     chuddedfor character varying(40),
-    stickied_child_id integer
+    stickied_child_id integer,
+    wall_user_id integer
 );
 
 
@@ -981,8 +982,7 @@ CREATE TABLE public.users (
     highres character varying(60),
     patron integer DEFAULT 0 NOT NULL,
     controversial boolean DEFAULT false NOT NULL,
-    background character varying(30),
-    profile_background character varying(30),
+    background character varying(40),
     verified character varying(100),
     cardview boolean NOT NULL,
     received_award_count integer DEFAULT 0 NOT NULL,
@@ -1029,7 +1029,8 @@ CREATE TABLE public.users (
     rainbow integer,
     spider integer,
     profanityreplacer integer DEFAULT 1 NOT NULL,
-    last_viewed_reddit_notifs integer NOT NULL
+    last_viewed_reddit_notifs integer NOT NULL,
+    profile_background character varying(30)
 );
 
 
@@ -1804,6 +1805,13 @@ CREATE INDEX fki_user_referrer_fkey ON public.users USING btree (referred_by);
 --
 
 CREATE INDEX fki_view_viewer_fkey ON public.viewers USING btree (viewer_id);
+
+
+--
+-- Name: fki_wall_user_id_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_wall_user_id_fkey ON public.comments USING btree (wall_user_id);
 
 
 --
@@ -2719,5 +2727,14 @@ ALTER TABLE ONLY public.comment_option_votes
 
 
 --
+-- Name: comments wall_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT wall_user_id_fkey FOREIGN KEY (wall_user_id) REFERENCES public.users(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
+
