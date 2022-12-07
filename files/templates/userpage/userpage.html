@@ -423,7 +423,7 @@
 						<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}>Toggle Anthem</button>
 					{% endif %}
 
-					{% if v and v.id == u.id and (v.profile_background or v.theme == 'transparent') %}
+					{% if v and v.id == u.id %}
 						<div>
 							<form class="mt-3" id="upload-profile-background-mobile" action="/settings/profile_background" method="post" enctype="multipart/form-data"> 
 								<input type="hidden" name="formkey" value="{{v|formkey}}">

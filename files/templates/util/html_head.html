@@ -105,6 +105,7 @@
 {% endmacro %}
 
 {% macro stylesheets(include_user_css) %}
+	{% set transparent = False %}
 	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
 	<link id="favicon" rel="icon" type="image/webp" href="/icon.webp?v=1">
 	{% if v %}
@@ -117,6 +118,10 @@
 			</style>
 		{% endif %}
 		{% if include_user_css and not EVENT_STYLES %}
+			{% if v.theme == 'transparent' %}
+				{% set transparent = True %}
+				<link rel="stylesheet" href="{{('css/midnight.css') | asset}}">
+			{% endif %}
 			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
 			{% if v.css and not request.path.startswith('/settings/css') %}
 				<style>
@@ -136,6 +141,11 @@
 	{% else %}
 		{{default_theme()}}
 	{% endif %}
+
+	{% if not transparent and '@' in request.path and u and u.profile_background %}
+		<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
+	{% endif %}
+
 	<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 
 	{% if sub and sub.css and not request.path.endswith('settings') and not request.values.get('nocss') %}
@@ -184,6 +194,10 @@
 
 {% macro default_theme() %}
 	<style>:root{--primary:#{{DEFAULT_COLOR}}}</style>
+	{% if DEFAULT_THEME == 'transparent' %}
+		{% set transparent = True %}
+		<link rel="stylesheet" href="{{('css/midnight.css') | asset}}">
+	{% endif %}
 	<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
 {% endmacro %}
 
