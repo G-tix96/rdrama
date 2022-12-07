@@ -499,7 +499,10 @@ def wall_comment(v):
 			g.db.add(n)
 
 		if VAPID_PUBLIC_KEY != DEFAULT_CONFIG_VALUE and parent_author.id != v.id and not v.shadowbanned:
-			title = f'New comment on your wall by @{c.author_name}'
+			if parent_author.id == c.wall_user_id:
+				title = f"New comment on your profile wall by @{c.author_name}"
+			else:
+				title = f"New reply by @{c.author_name}"
 
 			if len(c.body) > 500: notifbody = c.body[:500] + '...'
 			else: notifbody = c.body
