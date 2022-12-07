@@ -33,5 +33,5 @@ def send_verification_email(user, email=None):
 			html=render_template("email/email_verify.html",
 								action_url=link,
 								v=user),
-			subject=f"Validate your {SITE_NAME} account email."
+			subject=f"Verify your {SITE_NAME} account email"
 			)
