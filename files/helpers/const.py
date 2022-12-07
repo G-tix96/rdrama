@@ -686,6 +686,7 @@ elif SITE == 'watchpeopledie.tv':
 		7, 74, 85, 99, 101, # Bug, Grass, Sigma, SidebarArt, BannerArt
 		59, 60, 66, 104, 108, # Classic Accolades, Nword
 		117, 124, 144, 145, 146, 147, 148, 149, # Census Reused for Fun
+		140, #Y'all Seeing Eye
 	}
 
 else: # localhost or testing environment implied
