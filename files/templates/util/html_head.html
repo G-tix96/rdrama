@@ -42,13 +42,13 @@
 
 	{% elif '@' in request.path and u %}
 		{% set author, a_author, published, url, title, image, section =
-			'@'+u.username,
-			'@'+u.username,
+			'@'~u.username,
+			'@'~u.username,
 			u.created_date,
 			u.url,
-			u.username + "'s profile",
+			u.username ~ "'s profile",
 			u.banner_url,
-			u.username + "'s profile" %}
+			u.username ~ "'s profile" %}
 
 		{% set description %}
 			{{u.coins}} coins - Joined {{u.created_date}} -
@@ -81,7 +81,7 @@
 
 	<meta property="og:title" content="{{title}}">
 	<meta property="og:author" name="author" content="{{author | default(SITE_FULL, true)}}">
-	<meta property="og:description" name="description" content="{{description | default(SITE_NAME + ' - ' + DESCRIPTION)}}">
+	<meta property="og:description" name="description" content="{{description | default(SITE_NAME ~ ' - ' ~ DESCRIPTION)}}">
 
 	{% if not comment_info %}
 		<meta property="og:image" content="{{image | default('site_preview.webp' | asset_siteimg)}}">
@@ -100,7 +100,7 @@
 
 	<meta name="twitter:title" content="{{title}}">
 	<meta name="twitter:creator" content="{{author | default(SITE_FULL)}}">
-	<meta name="twitter:description" content="{{description | default(SITE_NAME + ' - ' + DESCRIPTION)}}">
+	<meta name="twitter:description" content="{{description | default(SITE_NAME ~ ' - ' ~ DESCRIPTION)}}">
 	<meta name="twitter:url" content="{{url}}">
 {% endmacro %}
 

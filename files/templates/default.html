@@ -5,7 +5,7 @@
 	{% include "modals/expanded_image.html" %}
 	{% if err or '@' not in request.path %}
 		{% if EVENT_BANNER and not sub %}
-			{% include 'event/' + EVENT_BANNER %}
+			{% include 'event/' ~ EVENT_BANNER %}
 		{% else %}
 			{% if err and SITE_NAME == 'rDrama' %}
 				{% set src = "banner_error.webp" | asset_siteimg %}
