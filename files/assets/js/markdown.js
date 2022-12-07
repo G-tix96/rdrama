@@ -72,7 +72,7 @@ function markdown(t) {
 		}
 	}
 
-	let options = Array.from(input.matchAll(/\s\$\$([^\$\n]+)\$\$\s*(?![^`]*`)/gi))
+	let options = Array.from(input.matchAll(/\$\$([^\$\n]+)\$\$(?![^`]*`)/gi))
 	if(options != null){
 		for(i = 0; i < options.length; i++){
 			const option = options[i][0];
@@ -82,7 +82,7 @@ function markdown(t) {
 		}
 	}
 
-	options = Array.from(input.matchAll(/\s*&&([^\$\n]+)&&\s*(?![^`]*`)/gi))
+	options = Array.from(input.matchAll(/&&([^&\n]+)&&(?![^`]*`)/gi))
 	if(options != null){
 		for(i = 0; i < options.length; i++){
 			const option = options[i][0];
