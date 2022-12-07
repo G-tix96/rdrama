@@ -131,14 +131,12 @@ def get_post(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Option
 		)
 
 		post=post.filter(Submission.id == i
-		).join(
+		).outerjoin(
 			vt, 
 			vt.c.submission_id == Submission.id, 
-			isouter=True
-		).join(
+		).outerjoin(
 			blocking, 
 			blocking.c.target_id == Submission.author_id, 
-			isouter=True
 		)
 
 		post=post.one_or_none()
@@ -179,16 +177,14 @@ def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False, extra
 			blocked.c.target_id,
 		).filter(
 			Submission.id.in_(pids)
-		).join(
-			vt, vt.c.submission_id==Submission.id, isouter=True
-		).join(
+		).outerjoin(
+			vt, vt.c.submission_id==Submission.id
+		).outerjoin(
 			blocking, 
 			blocking.c.target_id == Submission.author_id, 
-			isouter=True
-		).join(
+		).outerjoin(
 			blocked, 
 			blocked.c.user_id == Submission.author_id, 
-			isouter=True
 		)
 	else:
 		query = g.db.query(Submission).filter(Submission.id.in_(pids))
@@ -320,18 +316,15 @@ def get_comments_v_properties(v:User, include_shadowbanned=True, should_keep_fun
 		comments = comments.join(Comment.author).filter(User.shadowbanned == None)
 
 	comments = comments.filter(*criterion)
-	comments = comments.join(
+	comments = comments.outerjoin(
 		votes,
 		votes.c.comment_id == Comment.id,
-		isouter=True
-	).join(
+	).outerjoin(
 		blocking,
 		blocking.c.target_id == Comment.author_id,
-		isouter=True
-	).join(
+	).outerjoin(
 		blocked,
 		blocked.c.user_id == Comment.author_id,
-		isouter=True
 	)
 	queried = comments.all()
 	output = []
