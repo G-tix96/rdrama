@@ -132,8 +132,8 @@ function post_reply(id){
 		if (data && data["comment"]) {
 			const comments = document.getElementById('replies-of-c_' + id);
 			const comment = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '');
-			
-			comments.innerHTML = comments.innerHTML + comment;
+
+			comments.insertAdjacentHTML('beforeend', comment);
 
 			bs_trigger(comments);
 
@@ -229,7 +229,7 @@ function post_comment(fullname, wall_user_id, hide){
 			let comments = document.getElementById('replies-of-' + fullname);
 			let comment = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '');
 
-			comments.insertAdjacentHTML('beforebegin', comment);
+			comments.insertAdjacentHTML('afterbegin', comment);
 
 			bs_trigger(comments);
 

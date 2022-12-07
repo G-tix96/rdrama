@@ -388,7 +388,8 @@ function update_ghost_div_textarea(text)
 	if (!ghostdiv) return;
 
 	ghostdiv.innerText = text.value.substring(0, text.selectionStart);
-	ghostdiv.innerHTML += "<span></span>";
+
+	ghostdiv.insertAdjacentHTML('beforeend', "<span></span>");
 
 	// Now lets get coordinates
 
