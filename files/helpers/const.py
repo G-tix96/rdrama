@@ -1672,6 +1672,7 @@ if SITE_NAME == 'rDrama':
 		'kiwifarms.net',
 		'gettr.com',
 		'scored.co',
+		'scrd.app',
 		'parler.com',
 		'bitchute.com',
 		'4chan.org',
