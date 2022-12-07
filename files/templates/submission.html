@@ -337,9 +337,6 @@
 					{% if sort != "old" %}<a class="dropdown-item" href="?sort=old"><i class="fas fa-book mr-2"></i>Old</a>{% endif %}
 					{% if sort != "controversial" %}<a class="dropdown-item" href="?sort=controversial"><i class="fas fa-bullhorn mr-2"></i>Controversial</a>{% endif %}
 				</div>
-				{% if comment_info and p.comment_count >= 2%}
-					<div class="total mt-1"><a href="{{p.permalink}}">View entire discussion</a></div>
-				{% endif %}
 			</div>
 		</div>
 
@@ -388,6 +385,10 @@
 			</div>
 		{% endif %}
 	{% endif %}
+
+{% if comment_info %}
+	<div class="total mt-1"><a href="{{p.permalink}}">View entire discussion</a></div>
+{% endif %}
 
 {% if p.replies %}
 	<div class="comment-section" id="replies-of-{{p.fullname}}">
