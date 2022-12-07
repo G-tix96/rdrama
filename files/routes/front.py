@@ -210,8 +210,10 @@ def all_comments(v:User):
 @cache.memoize(timeout=86400)
 def comment_idlist(v=None, page=1, sort="new", t="all", gt=0, lt=0, site=None):
 	comments = g.db.query(Comment.id) \
-		.join(Comment.post) \
-		.filter(Comment.parent_submission != None)
+		.outerjoin(Comment.post) \
+		.filter(
+			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
+		)
 
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		comments = comments.filter(

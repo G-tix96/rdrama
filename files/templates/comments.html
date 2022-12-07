@@ -93,7 +93,7 @@
 	{% elif c.author_id==AUTOJANNY_ID %}
 		<span class="font-weight-bold">Notification</span>
 	{% elif c.wall_user_id %}
-		{% if request.path == '/notifications' %}
+		{% if not wall %}
 			{% if c.wall_user_id == v.id %}
 				<span class="font-weight-bold"><a href="/@{{v.username}}">Your Profile Wall</a></span>
 			{% else %}

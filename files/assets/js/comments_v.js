@@ -143,6 +143,7 @@ function post_reply(id){
 			document.getElementById('reply-form-body-'+id).value = ''
 			document.getElementById('message-reply-'+id).innerHTML = ''
 			ToggleReplyBox('reply-message-'+id)
+			document.getElementById('file-upload').value = null;
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));
 		}
@@ -179,6 +180,7 @@ function comment_edit(id){
 			bs_trigger(commentForm);
 			document.getElementById('filename-edit-reply-' + id).innerHTML = '<i class="fas fa-file"></i>';
 			document.getElementById('comment-edit-body-' + id).value = data["body"];
+			document.getElementById('file-edit-reply-'+id).value = null;
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
@@ -239,6 +241,7 @@ function post_comment(fullname, wall_user_id, hide){
 			document.getElementById('form-preview-'+fullname).innerHTML = ''
 			document.getElementById('charcount-'+fullname).innerHTML = ''
 			document.getElementById('filename-show-reply-' + fullname).innerHTML = '<i class="fas fa-file"></i>';
+			document.getElementById('file-upload-reply-'+fullname).value = null;
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));

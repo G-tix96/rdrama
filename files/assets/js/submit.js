@@ -72,7 +72,7 @@ document.onpaste = function(event) {
 			for (const file of files)
 				filename += file.name + ', '
 			filename = filename.toLowerCase().slice(0, -2)
-			document.getElementById('file-upload-submit').files = files;
+			document.getElementById('file-upload-submit').value = files;
 			document.getElementById('filename-show-submit').textContent = filename;
 		}
 		else {

@@ -292,7 +292,7 @@ function changename(s1,s2) {
 	if (files.length > 4)
 	{
 		alert("You can't upload more than 4 files at one time!")
-		document.getElementById(s2).files = null
+		document.getElementById(s2).value = null
 		return
 	}
 	let filename = '';
