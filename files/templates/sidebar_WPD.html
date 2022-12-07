@@ -3,7 +3,7 @@
 	{%- if v -%}
 		{%- set art_image = macros.random_image("sidebar") -%}
 	{%- else -%}
-		{%- set art_image = '/i/' + SITE_NAME + '/sidebar.webp?v=3000' -%}
+		{%- set art_image = '/i/' ~ SITE_NAME ~ '/sidebar.webp?v=3000' -%}
 	{%- endif -%}
 
 	{% if request.path != '/sidebar' %}
@@ -65,7 +65,7 @@
 	</div>
 
 	<div class="sidebar--rules sidebar--rules--wpd">
-		{% set rules = "rules_" + SITE_NAME + ".html" %}
+		{% set rules = "rules_" ~ SITE_NAME ~ ".html" %}
 		{% include rules %}
 	</div>
 </div>

@@ -3,7 +3,7 @@
 	{% if sub %}
 		{% set image=sub.sidebar_url %}
 	{% else %}
-		{# set image='/i/' + SITE_NAME + '/sidebar.webp?v=3009' #}
+		{# set image='/i/' ~ SITE_NAME ~ '/sidebar.webp?v=3009' #}
 	{% endif %}
 	
 	{% if request.path != '/sidebar' and image %}
@@ -48,7 +48,7 @@
 	<a rel="nofollow noopener" class="btn btn-primary btn-block" href="https://imgur.com/a/2wDZddF">PCM Shitposter Cutouts (2/?)</a>
 
 	<div class="sidebar--rules sidebar--rules--pcm">
-		{% set rules = "rules_" + SITE_NAME + ".html" %}
+		{% set rules = "rules_" ~ SITE_NAME ~ ".html" %}
 		{% include rules %}
 	</div>
 </div>

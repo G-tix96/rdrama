@@ -54,7 +54,7 @@
 		{%- endif %}
 
 		<div class="sidebar--rules sidebar--rules--rdrama">
-			{% set rules = "rules_" + SITE_NAME + ".html" %}
+			{% set rules = "rules_" ~ SITE_NAME ~ ".html" %}
 			{% include rules %}
 		</div>
 	{% endif %}

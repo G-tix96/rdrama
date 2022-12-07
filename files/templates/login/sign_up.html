@@ -13,8 +13,8 @@
 
 {% set login_namespace = namespace() %}
 {% if ref_user %}
-	{% set login_namespace.authtitle = '@' + ref_user.username + ' has invited you!' %}
-	{% set login_namespace.authtext = 'Looks like someone wants you to join ' + SITE_NAME + '.' %}
+	{% set login_namespace.authtitle = '@' ~ ref_user.username ~ ' has invited you!' %}
+	{% set login_namespace.authtext = 'Looks like someone wants you to join ' ~ SITE_NAME ~ '.' %}
 {% elif not site_settings['login_required'] %}
 	{% set login_namespace.authtitle = "Create your account." %}
 	{% set login_namespace.authtext = "No email address required." %}

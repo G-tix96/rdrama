@@ -4,8 +4,8 @@
 		{% set image = sub.sidebar_url %}
 	{% else %}
 		{% set sidebar_path = "assets/images/event/sidebar" %}
-		{% set selected_image = listdir('files/' + sidebar_path)|random() %}
-		{% set image = "/" + sidebar_path + "/" + selected_image + '?v=45' %}
+		{% set selected_image = listdir('files/' ~ sidebar_path)|random() %}
+		{% set image = "/" ~ sidebar_path ~ "/" ~ selected_image ~ '?v=45' %}
 	{% endif %}
 
 	{% if request.path != '/sidebar' %}
