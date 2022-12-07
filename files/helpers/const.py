@@ -495,10 +495,9 @@ TIERS_ID_TO_NAME = {
 BADGE_BLACKLIST = { # only grantable by AEVANN_ID and SNAKES_ID except on PCM
 	1, 2, 6, 10, 11, 12, # Alpha, Verified Email, Beta, Recruiter x3
 	16, 17, 143, 21, 22, 23, 24, 25, 26, 27, # Marsey Artist x3 / Patron Tiers
-	94, 95, 96, 97, 98, 109, 67, 68, 83, 84, 87, 90, 140, 179, 185, # Award Status
+	94, 95, 96, 97, 98, 109, 67, 68, 83, 84, 87, 90, 179, 185, # Award Status except Y'all-seeing eye
 	137, # Lottery Winner
 }
-BADGE_WHITELIST = None # Falsey allows all non-blacklisted, or set() of permitted IDs
 
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
@@ -611,6 +610,8 @@ elif SITE == 'pcmemes.net':
 
 	MAX_IMAGE_AUDIO_SIZE_MB_PATRON = 100
 	MAX_VIDEO_SIZE_MB_PATRON = 100
+
+	BADGE_BLACKLIST = set()
 elif SITE == 'watchpeopledie.tv':
 	PIN_LIMIT = 4
 	WELCOME_MSG = """Hi, you! Welcome to WatchPeopleDie.tv, this really cool site where you can go to watch people die. I'm @CLiTPEELER! If you have any questions about how things work here, or suggestions on how to make them work better than they already do, definitely slide on into my DMs (no fat chicks).\nThere's an enormously robust suite of fun features we have here and we're always looking for more to add. Way, way too many to go over in an automated welcome message. And you're probably here for the videos of people dying more than any sort of weird, paradoxical digital community aspect anyway, so I won't bore you with a tedious overview of them. Just head on over to [your settings page](https://watchpeopledie.tv/settings/profile) and have a look at some of the basic profile stuff, at least. You can change your profile picture, username, flair, colors, banners, bio, profile anthem (autoplaying song on your page, like it's MySpace or some shit, hell yeah), CSS, all sorts of things.\nOr you can just go back to the main feed and carry on with watching people die. That's what the site is for, after all. Have fun!\nAnyway, in closing, WPD is entirely open source. We don't really need new full-time coders or anything, but if you'd like to take a look at our repo - or even submit a PR to change, fix, or add some things - go right ahead! Our codebase lives at [git.rdrama.net](https://git.rdrama.net/).\nWell, that's all. Thanks again for signing up. It's an automated message and all, but I really do mean that. Thank you, specifically. I love you. Romantically. Deeply. Passionately.\nHave fun!"""
@@ -680,13 +681,6 @@ elif SITE == 'watchpeopledie.tv':
 		4: "Ghost",
 		5: "Survivor",
 		6: "Jigsaw"
-	}
-
-	BADGE_WHITELIST = {
-		7, 74, 85, 99, 101, # Bug, Grass, Sigma, SidebarArt, BannerArt
-		59, 60, 66, 104, 108, # Classic Accolades, Nword
-		117, 124, 144, 145, 146, 147, 148, 149, # Census Reused for Fun
-		140, #Y'all Seeing Eye
 	}
 
 else: # localhost or testing environment implied
