@@ -173,7 +173,7 @@
 
 {% macro stylesheets_lower() %}
 	{% if not (request.path.startswith('/@') and u) %}
-		{% if SITE_NAME == 'rDrama' and v.agendaposter %}
+		{% if SITE_NAME == 'rDrama' and v and v.agendaposter %}
 			{% set background = '/i/backgrounds/anime/1.webp?v=4' %}
 		{% elif v and v.background %}
 			{% set background = v.background %}
