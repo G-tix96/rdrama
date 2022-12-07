@@ -168,10 +168,10 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 			return None
 
 	if resize:
-		if os.stat(filename).st_size > MAX_IMAGE_SIZE_BANNER_RESIZED_KB * 1024:
+		if os.stat(filename).st_size > MAX_IMAGE_SIZE_BANNER_RESIZED_MB * 1024 * 1024:
 			os.remove(filename)
 			if has_request:
-				abort(413, f"Max size for site assets is {MAX_IMAGE_SIZE_BANNER_RESIZED_KB} KB")
+				abort(413, f"Max size for site assets is {MAX_IMAGE_SIZE_BANNER_RESIZED_MB} MB")
 			return None
 
 		if filename.startswith('files/assets/images/'):
