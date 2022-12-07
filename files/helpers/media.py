@@ -165,7 +165,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 		except subprocess.TimeoutExpired:
 			if has_request:
 				abort(413, ("An uploaded image took too long to convert to WEBP. "
-							"Consider uploading elsewhere."))
+							"Consider converting it to WEBP elsewhere then uploading it."))
 			return None
 
 	if resize:
