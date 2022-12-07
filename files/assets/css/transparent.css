@@ -7,11 +7,11 @@
 }
 
 .container, #userpage > div.container-fluid, #root > div.App {
-	background: rgba(28, 34, 41, 0.90) !important;
+	background: rgba(var(--background), 0.9) !important;
 }
 
 .fixed-bottom, .popover, .modal-content, .dropdown-menu, .navbar, body, .form-control, #speed-carot-modal {
-	background-color: #21262d !important;
+	background-color: rgb(var(--background)) !important;
 }
 
 .App-side, .flaggers, .comment-section {

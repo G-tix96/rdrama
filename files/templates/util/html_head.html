@@ -105,7 +105,6 @@
 {% endmacro %}
 
 {% macro stylesheets(include_user_css) %}
-	{% set transparent = False %}
 	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
 	<link id="favicon" rel="icon" type="image/webp" href="/icon.webp?v=1">
 	{% if v %}
@@ -118,9 +117,8 @@
 			</style>
 		{% endif %}
 		{% if include_user_css and not EVENT_STYLES %}
-			{% if v.theme == 'transparent' %}
-				{% set transparent = True %}
-				<link rel="stylesheet" href="{{('css/midnight.css') | asset}}">
+			{% if v.theme == 'classic_dark' %}
+				<link rel="stylesheet" href="{{('css/classic.css') | asset}}">
 			{% endif %}
 			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
 			{% if v.css and not request.path.startswith('/settings/css') %}
@@ -142,10 +140,6 @@
 		{{default_theme()}}
 	{% endif %}
 
-	{% if not transparent and '@' in request.path and u and u.profile_background %}
-		<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
-	{% endif %}
-
 	<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 
 	{% if sub and sub.css and not request.path.endswith('settings') and not request.values.get('nocss') %}
@@ -153,7 +147,14 @@
 	{% endif %}
 
 	{% if SITE_NAME == 'rDrama' %}
-		<link rel="stylesheet" href="{{'css/rDrama.css' | asset}}">
+		<style>
+			.mod:before {
+				content: '(((';
+			}
+			.mod:after {
+				content: ')))';
+			}			
+		</style>
 	{% endif %}
 
 	{% if EVENT_STYLES %}
@@ -172,21 +173,22 @@
 
 {% macro stylesheets_lower() %}
 	{% if not (request.path.startswith('/@') and u) %}
-		{% if SITE_NAME == 'rDrama' and (not v or v.is_banned or v.agendaposter) %}
-			{% set background = '/i/backgrounds/glitter/1.webp?v=4' %}
+		{% if SITE_NAME == 'rDrama' and v.agendaposter %}
+			{% set background = '/i/backgrounds/anime/1.webp?v=4' %}
 		{% elif v and v.background %}
 			{% set background = v.background %}
 		{% endif %}
 
 		{% if background %}
+			<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
 			<style>
-			body {
-				background:url("{{background}}") center center fixed;
-				background-color: var(--background);
-				{% if 'anime/' not in background and not background.startswith('/images/') -%}
-					background-size: cover;
-				{%- endif %}
-			}
+				body {
+					background:url("{{background}}") center center fixed;
+					background-color: rgb(var(--background));
+					{% if 'anime/' not in background and not background.startswith('/images/') -%}
+						background-size: cover;
+					{%- endif %}
+				}
 			</style>
 		{% endif %}
 	{% endif %}
@@ -194,10 +196,6 @@
 
 {% macro default_theme() %}
 	<style>:root{--primary:#{{DEFAULT_COLOR}}}</style>
-	{% if DEFAULT_THEME == 'transparent' %}
-		{% set transparent = True %}
-		<link rel="stylesheet" href="{{('css/midnight.css') | asset}}">
-	{% endif %}
 	<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
 {% endmacro %}
 

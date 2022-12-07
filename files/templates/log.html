@@ -4,6 +4,9 @@
 {% if v %}
 	<style>:root{--primary:#{{v.themecolor}}}</style>
 	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
+	{% if v.theme == 'classic_dark' %}
+		<link rel="stylesheet" href="{{('css/classic.css') | asset}}">
+	{% endif %}
 	<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
 	{% if v.agendaposter %}
 		<style>

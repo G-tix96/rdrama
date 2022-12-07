@@ -2,16 +2,16 @@
 :root {
 	--muted: #666;
 	--black: #444;
-	--bgc: white;
 	--primary: #b40457;
 	--grey: #888;
 	--upvote: #ff8b60;
 	--downvote: #9393ff;
 	--sticky: #228822;
+	--background: 255, 255, 255;
 }
 
 .container {
-	background-color: var(--bgc) !important;
+	background-color: rgb(var(--background)) !important;
 }
 
 #frontpage .container, #thread .container {
@@ -27,7 +27,7 @@
 }
 
 .sidebar {
-	background-color: var(--bgc);
+	background-color: rgb(var(--background));
 	border-radius: 0px;
 	margin-top: 0;
 	margin-right: 0;
@@ -38,7 +38,7 @@
 }
 
 #mobile-bottom-navigation-bar, .navbar {
-	background-color: var(--bgc) !important;
+	background-color: rgb(var(--background)) !important;
 }
 
 .btn-primary {
@@ -47,7 +47,7 @@
 }
 
 .dropdown-menu {
-	background-color: var(--bgc);
+	background-color: rgb(var(--background));
 }
 
 .dropdown-item i {
@@ -55,7 +55,7 @@
 }
 
 input, textarea, .form-control {
-	background-color: var(--bgc) !important;
+	background-color: rgb(var(--background)) !important;
 	border: 1px solid;
 }
 
@@ -90,7 +90,7 @@ input, textarea, .form-control {
 }
 
 .tooltip {
-	background-color: var(--bgc);
+	background-color: rgb(var(--background));
 }
 
 a {
@@ -145,7 +145,7 @@ a.btn-block[href~="/submit"] {
 }
 
 .modal-content {
-	background-color: var(--bgc);
+	background-color: rgb(var(--background));
 }
 
 #frontpage .post-title a:not(:visited) {
@@ -165,7 +165,7 @@ a.btn-block[href~="/submit"] {
 }
 
 .comment-section, .comment {
-	background-color: var(--bgc);
+	background-color: rgb(var(--background));
 }
 
 blockquote {

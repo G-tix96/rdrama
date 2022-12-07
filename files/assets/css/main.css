@@ -1986,7 +1986,7 @@ button.close {
 	vertical-align: middle !important;
 }
 .bg-background {
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 }
 .bg-primary {
 	background-color: var(--primary) !important;
@@ -2647,7 +2647,7 @@ html {
 }
 body {
 	color: var(--black);
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -2666,14 +2666,14 @@ pre {
 	background-color: var(--gray-600);
 }
 #page {
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 }
 #article {
 	padding-top: 0;
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 }
 #thread, #userpage {
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 }
 #article .navbar-light .navbar-nav .nav-link {
 	color: var(--black);
@@ -3479,7 +3479,7 @@ small, .small {
 	background-color: var(--gray-900);
 }
 #thread .card {
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 }
 #frontpage .posts .card:first-of-type, #userpage .posts .card:first-of-type, #search .posts .card:first-of-type {
 	border-top-left-radius: 0.35rem;
@@ -3832,7 +3832,7 @@ small, .small {
 	font-size: 1rem;
 }
 .comment-section {
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 }
 .comment p {
 	word-break: break-word;
@@ -4284,7 +4284,7 @@ pre .com, code .com {
 		max-width: none;
 }
 	body, #settings, #notifications, #submit {
-		background-color: var(--background);
+		background-color: rgb(var(--background));
 }
 	#thread, #userpage {
 		background-color: var(--gray-600);
@@ -4622,7 +4622,7 @@ span.green {
 	border: 1px solid var(--primary);
 	padding: 10px;
 	border-radius: 3px;
-	background-color: var(--background) !important;
+	background-color: rgb(var(--background)) !important;
 }
 .text-info {
 	color: var(--primary) !important;
@@ -4636,10 +4636,10 @@ span.green {
 	color: black !important;
 }
 .container, .container-fluid {
-	background-color: var(--background) !important;
+	background-color: rgb(var(--background)) !important;
 }
 .btn {
-	background-color: var(--background) !important;
+	background-color: rgb(var(--background)) !important;
 }
 .nobackground {
 	background: None !important;
@@ -5612,7 +5612,7 @@ audio, video {
 	padding: 5px 5px 4px 5px;
 	text-align: center;
 	color: var(--muted);
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 	box-shadow: 0 0 0 1px var(--primary);
 }
 

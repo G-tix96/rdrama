@@ -69,7 +69,7 @@ body {
 .App-drawer {
   z-index: 2;
   display: flex;
-  background: var(--background);
+  background: rgb(var(--background));
   height: 100%;
 }
 

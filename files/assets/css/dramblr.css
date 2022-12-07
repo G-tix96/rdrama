@@ -12,7 +12,7 @@
 	--gray-700: #2d3c50;
 	--gray-800: #1e293b;
 	--gray-900: #0f172a;
-	--background: #2d3c50;
+	--background: 45, 60, 80;
 }
 
 .container.transparent, .card {
@@ -20,7 +20,7 @@
 }
 
 .navbar-light {
-	background-color: var(--background) !important
+	background-color: rgb(var(--background)) !important
 }
 
 p {
@@ -32,7 +32,7 @@ p {
 }
 
 blockquote {
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 }
 
 #frontpage #main-content-row {
@@ -65,7 +65,7 @@ blockquote {
 }
 
 #mobile-bottom-navigation-bar {
-	background-color: var(--background) !important;
+	background-color: rgb(var(--background)) !important;
 	border-color: var(--gray-600) !important;
 }
 
@@ -122,7 +122,7 @@ blockquote {
 }
 
 .modal-content {
-	background-color: var(--background)
+	background-color: rgb(var(--background))
 }
 
 .tooltip{

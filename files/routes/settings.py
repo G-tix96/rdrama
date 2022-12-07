@@ -43,7 +43,6 @@ def remove_background(v):
 		if v.background.startswith('/images/'):
 			os.remove(v.background)
 		v.background = None
-		if v.theme == 'transparent': v.theme = 'midnight'
 		g.db.add(v)
 	return {"message": "Background removed!"}
 
@@ -321,8 +320,6 @@ def settings_personal_post(v):
 	theme = request.values.get("theme")
 	if not updated and theme:
 		if theme in THEMES:
-			if theme == "transparent" and not v.background: 
-				abort(409, "You need to set a background to use the transparent theme")
 			v.theme = theme
 			if theme == "win98": v.themecolor = "30409f"
 			updated = True
