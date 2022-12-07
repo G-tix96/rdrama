@@ -938,11 +938,11 @@ def u_username_comments(username, v=None):
 
 	comment_post_author = aliased(User)
 	comments = g.db.query(Comment.id) \
-				.join(Comment.post) \
-				.join(comment_post_author, Submission.author) \
+				.outerjoin(Comment.post) \
+				.outerjoin(comment_post_author, Submission.author) \
 				.filter(
 					Comment.author_id == u.id,
-					Comment.parent_submission != None
+					or_(Comment.parent_submission != None, Comment.wall_user_id != None),
 				)
 
 	if not v or (v.id != u.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']):

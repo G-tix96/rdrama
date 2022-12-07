@@ -79,7 +79,6 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 		else: template = "submission.html"
 		return render_template(template, v=v, p=post, sort=sort, comment_info=comment_info, render_replies=True, sub=post.subr)
 
-#- API
 @app.post("/comment")
 @limiter.limit("1/second;20/minute;200/hour;1000/day")
 @auth_required
@@ -311,7 +310,7 @@ def comment(v):
 
 	v.comment_count = g.db.query(Comment).filter(
 		Comment.author_id == v.id,
-		Comment.parent_submission != None,
+		or_(Comment.parent_submission != None, Comment.wall_user_id != None),
 		Comment.deleted_utc == 0
 	).count()
 	g.db.add(v)
@@ -346,7 +345,6 @@ def comment(v):
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
 
-#- API
 @app.post("/wall_comment")
 @limiter.limit("1/second;20/minute;200/hour;1000/day")
 @auth_required
@@ -523,7 +521,7 @@ def wall_comment(v):
 
 	v.comment_count = g.db.query(Comment).filter(
 		Comment.author_id == v.id,
-		Comment.parent_submission != None,
+		or_(Comment.parent_submission != None, Comment.wall_user_id != None),
 		Comment.deleted_utc == 0
 	).count()
 	g.db.add(v)
@@ -549,6 +547,8 @@ def wall_comment(v):
 		if n: g.db.delete(n)
 
 	g.db.flush()
+
+	cache.delete_memoized(comment_idlist)
 
 	if v.client: return c.json(db=g.db)
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
@@ -644,7 +644,7 @@ def delete_comment(cid, v):
 		g.db.flush()
 		v.comment_count = g.db.query(Comment).filter(
 			Comment.author_id == v.id,
-			Comment.parent_submission != None,
+			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
 			Comment.deleted_utc == 0
 		).count()
 		g.db.add(v)
@@ -664,7 +664,7 @@ def undelete_comment(cid, v):
 		g.db.flush()
 		v.comment_count = g.db.query(Comment).filter(
 			Comment.author_id == v.id,
-			Comment.parent_submission != None,
+			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
 			Comment.deleted_utc == 0
 		).count()
 		g.db.add(v)

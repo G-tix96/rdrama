@@ -181,8 +181,11 @@ def searchcomments(v:User):
 
 	criteria = searchparse(query)
 
-	comments = g.db.query(Comment.id).join(Comment.post) \
-		.filter(Comment.parent_submission != None, Comment.author_id.notin_(v.userblocks))
+	comments = g.db.query(Comment.id).outerjoin(Comment.post) \
+		.filter(
+			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
+			Comment.author_id.notin_(v.userblocks),
+		)
 
 	
 	if 'post' in criteria:
