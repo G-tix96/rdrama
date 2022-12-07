@@ -22,11 +22,11 @@
 
 
 
-body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textarea {
+body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textarea, #root > div.App {
 	background-color: var(--gray-600) !important;
 }
 
-.transparent, #login {
+.transparent, #login, .App-side {
 	background: None !important;
 }
 
