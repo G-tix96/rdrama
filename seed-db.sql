@@ -458,7 +458,6 @@ INSERT INTO public.hat_defs VALUES (949, 'Kasa 1', 'Keeps the sun out your eyes 
 INSERT INTO public.hat_defs VALUES (951, 'Kasa 3', 'This is just a basket. What farmers wore this?? BLIND ONES?', 2, 500, NULL, 1665609168);
 INSERT INTO public.hat_defs VALUES (1105, '1337 Code', ':siren: HACKING IN PROGRESS :siren:', 2, 1000, NULL, 1670132502);
 INSERT INTO public.hat_defs VALUES (1012, 'Marsey Slain', 'You monster... what have you done..', 2, 500, NULL, 1667516047);
-
 INSERT INTO public.hat_defs VALUES (1016, 'Antlers', 'Be careful. I''ll shoot ya!', 2, 500, NULL, 1667531769);
 INSERT INTO public.hat_defs VALUES (712, 'Thursday The 20th', '20% off on every Thursday. 30% off on the 20th of every month. 50% off on Thurday the 20th!', 2, 500, NULL, 1663434472);
 INSERT INTO public.hat_defs VALUES (1017, 'Gloomy Bear', 'Is he safe to pet?', 2, 500, NULL, 1667792513);
@@ -542,6 +541,7 @@ INSERT INTO public.hat_defs VALUES (862, 'Predator', 'Not the reddit sort', 2, 5
 INSERT INTO public.hat_defs VALUES (864, 'Predator II', 'Suck that face faggot', 2, 500, NULL, 1665269878);
 INSERT INTO public.hat_defs VALUES (870, 'Windmill', 'Why is there a windmill on your head-', 2, 500, NULL, 1665272605);
 INSERT INTO public.hat_defs VALUES (869, 'Fluffy Marsey', 'AAAAAHHHHHH LOOK HOW CUTE', 2, 500, NULL, 1665272581);
+INSERT INTO public.hat_defs VALUES (1108, 'Mistletoe', 'Catch me french kissing my cousin under here Christmas Eve 2017', 2, 500, NULL, 1670382589);
 INSERT INTO public.hat_defs VALUES (1022, 'Kerfus IV', 'uwu? uwu.........? meow?', 2, 500, NULL, 1668478084);
 INSERT INTO public.hat_defs VALUES (89, 'Marsey-In-A-Box', 'Awww you''re playing make-believe!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (90, 'Orthodox Hood', 'User is a schismatic lunatic', 2, 500, NULL, 1662167687);
@@ -2248,6 +2248,10 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseymadbrian',2,'familyguy familyman brian mad',1668386676),
 ('marseymagahat',2,'trump 5200 maga american president election vote nazi hat',NULL),
 ('marseymagarentfree',2,'cope seethe dilate lib snoo reddit orange drumpf bad nazi hitler rightoid leftoid',1664439482),
+('marseymaid',2,'canadian leaf suicide euthanasia needle syringe vax',1670432525),
+('marseymaid2',2,'canadian leaf suicide euthanasia needle syringe vax',1670432554),
+('marseymaid3',2,'canadian leaf suicide euthanasia needle syringe vax',1670432568),
+('marseymaid4',2,'canadian leaf suicide euthanasia needle syringe vax',1670432579),
 ('marseymajorgeneral',2,'jeffthespammer pirates of penzance safari muttonchops mutton chops army military soldier officer',NULL),
 ('marseymalding',2,'dilate seethe scrote mad moid cope',NULL),
 ('marseymancer',2,'dead undead horror lich halloween necromancer zombies zombie holiday evil',NULL),
@@ -2757,6 +2761,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyshutitdown',2,'cop glownigger fed glowie agent federal mossad israel idf the goyim know kikes radio walkie talkie',NULL),
 ('marseyshy',2,'flirting anxious twiddle nervous flirty coy animated',NULL),
 ('marseyshy2',2,'uwu weeb blush flushed finger owo',NULL),
+('marseyshy3',2,'embarrassed blushing timid smile nervous reaction cute',1670370597),
+('marseyshy4',2,'embarrassed blushing timid smile nervous reaction cute',1670370696),
 ('marseysick',2,'puke nausea green face vomit nauseated reaction nauseous barf judgment ill',NULL),
 ('marseysickos',2,'hahaha ha ha ha yes onion comic pervert sicko creep',NULL),
 ('marseysickos2',2,'hahaha ha ha ha yes onion comic pervert sicko creep window',NULL),
