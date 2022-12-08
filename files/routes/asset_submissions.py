@@ -90,8 +90,11 @@ def submit_marsey(v:User):
 	g.db.add(marsey)
 
 	g.db.flush()
-	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']: marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None).all()
-	else: marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id).all()
+	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']: marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None)
+	else: marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id)
+
+	marseys = marseys.order_by(Marsey.created_utc).all()
+
 	for marsey in marseys:
 		marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
 		marsey.submitter = g.db.query(User.username).filter_by(id=marsey.submitter_id).one()[0]
@@ -261,8 +264,11 @@ def submit_hat(v:User):
 	g.db.add(hat)
 	g.db.commit()
 
-	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
-	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id).all()
+	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None)
+	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id)
+
+	hats = hats.order_by(HatDef.created_utc).all()
+
 	return render_template("submit_hats.html", v=v, hats=hats, msg=f"'{name}' submitted successfully!")
 
 
