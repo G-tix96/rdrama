@@ -187,7 +187,7 @@ def chuds(v:User):
 	users = users.order_by(User.username).all()
 	return render_template("chuds.html", v=v, users=users)
 
-def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
+def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hates:bool):
 	vote_str = 'votes'
 	simps_haters = 'voters'
 	vote_name = 'Neutral'
@@ -212,11 +212,12 @@ def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 		votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Submission).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==vote_dir, Submission.author_id==id).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
 		votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, Comment.author_id==id).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
 	votes = Counter(dict(votes)) + Counter(dict(votes2))
-	total = sum(votes.values())	
-	users = g.db.query(User).filter(User.id.in_(votes.keys())).all()
-	users2 = []
-	for user in users: 
-		users2.append((user, votes[user.id]))
+	total = sum(votes.values())
+	users = g.db.query(User).filter(User.id.in_(votes.keys()))
+	if not v.can_see_shadowbanned:
+		users = users.filter(User.shadowbanned == False)
+	
+	users2 = [(user, votes[user.id]) for user in users.all()]
 	users = sorted(users2, key=lambda x: x[1], reverse=True)
 
 	try:
@@ -241,22 +242,22 @@ def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 
 @app.get("/@<username>/upvoters")
 @auth_required
-def upvoters(v:User, username):
+def upvoters(v:User, username:str):
 	return all_upvoters_downvoters(v, username, 1, False)
 
 @app.get("/@<username>/downvoters")
 @auth_required
-def downvoters(v:User, username):
+def downvoters(v:User, username:str):
 	return all_upvoters_downvoters(v, username, -1, False)
 
 @app.get("/@<username>/upvoting")
 @auth_required
-def upvoting(v:User, username):
+def upvoting(v:User, username:str):
 	return all_upvoters_downvoters(v, username, 1, True)
 
 @app.get("/@<username>/downvoting")
 @auth_required
-def downvoting(v:User, username):
+def downvoting(v:User, username:str):
 	return all_upvoters_downvoters(v, username, -1, True)
 
 @app.post("/@<username>/suicide")
@@ -264,7 +265,7 @@ def downvoting(v:User, username):
 @limiter.limit("1/second;5/day")
 @auth_required
 @ratelimit_user("1/second;5/day")
-def suicide(v, username):
+def suicide(v:User, username:str):
 	user = get_user(username)
 	suicide = f"Hi there,\n\nA [concerned user](/id/{v.id}) reached out to us about you.\n\nWhen you're in the middle of something painful, it may feel like you don't have a lot of options. But whatever you're going through, you deserve help and there are people who are here for you.\n\nThere are resources available in your area that are free, confidential, and available 24/7:\n\n- Call, Text, or Chat with Canada's [Crisis Services Canada](https://www.crisisservicescanada.ca/en/)\n- Call, Email, or Visit the UK's [Samaritans](https://www.samaritans.org/)\n- Text CHAT to America's [Crisis Text Line](https://www.crisistextline.org/) at 741741.\nIf you don't see a resource in your area above, the moderators keep a comprehensive list of resources and hotlines for people organized by location. Find Someone Now\n\nIf you think you may be depressed or struggling in another way, don't ignore it or brush it aside. Take yourself and your feelings seriously, and reach out to someone.\n\nIt may not feel like it, but you have options. There are people available to listen to you, and ways to move forward.\n\nYour fellow users care about you and there are people who want to help."
 	if not v.shadowbanned:
@@ -274,7 +275,7 @@ def suicide(v, username):
 
 @app.get("/@<username>/coins")
 @auth_required
-def get_coins(v:User, username):
+def get_coins(v:User, username:str):
 	user = get_user(username, v=v, include_shadowbanned=False)
 	return {"coins": user.coins}
 
@@ -321,7 +322,7 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'mars
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @is_not_permabanned
 @ratelimit_user()
-def transfer_coins(v, username):
+def transfer_coins(v:User, username:str):
 	return transfer_currency(v, username, 'coins', True)
 
 @app.post("/@<username>/transfer_bux")
@@ -329,7 +330,7 @@ def transfer_coins(v, username):
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @is_not_permabanned
 @ratelimit_user()
-def transfer_bux(v, username):
+def transfer_bux(v:User, username:str):
 	return transfer_currency(v, username, 'marseybux', False)
 
 @app.get("/leaderboard")
@@ -386,7 +387,7 @@ def get_profilecss(id):
 	return resp
 
 @app.get("/@<username>/song")
-def usersong(username):
+def usersong(username:str):
 	user = get_user(username)
 	if user.song: return redirect(f"/song/{user.song}.mp3")
 	else: abort(404)
@@ -424,7 +425,7 @@ def unsubscribe(v, post_id):
 @limiter.limit("1/second;10/minute;20/hour;50/day")
 @is_not_permabanned
 @ratelimit_user("1/second;10/minute;20/hour;50/day")
-def message2(v, username):
+def message2(v:User, username:str):
 	user = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
 
 	if user.id == MODMAIL_ID:
@@ -488,7 +489,7 @@ def message2(v, username):
 @limiter.limit("1/second;6/minute;50/hour;200/day")
 @auth_required
 @ratelimit_user("1/second;6/minute;50/hour;200/day")
-def messagereply(v):
+def messagereply(v:User):
 	body = sanitize_raw_body(request.values.get("body"), False)
 	if not body and not request.files.get("file"): abort(400, "Message is empty!")
 
@@ -577,7 +578,7 @@ def messagereply(v):
 
 @app.get("/2faqr/<secret>")
 @auth_required
-def mfa_qr(secret, v):
+def mfa_qr(secret, v:User):
 	x = pyotp.TOTP(secret)
 	qr = qrcode.QRCode(
 		error_correction=qrcode.constants.ERROR_CORRECT_L
@@ -595,7 +596,7 @@ def mfa_qr(secret, v):
 
 @app.get("/is_available/<name>")
 @limiter.limit("100/day")
-def is_available(name):
+def is_available(name:str):
 
 	name=name.strip()
 
@@ -623,12 +624,12 @@ def user_id(id):
 		
 @app.get("/u/<username>")
 @auth_required
-def redditor_moment_redirect(username, v):
+def redditor_moment_redirect(v:User, username:str):
 	return redirect(f"/@{username}")
 
 @app.get("/@<username>/followers")
 @auth_required
-def followers(username, v):
+def followers(v:User, username:str):
 	u = get_user(username, v=v, include_shadowbanned=False)
 
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
@@ -649,7 +650,7 @@ def followers(username, v):
 
 @app.get("/@<username>/blockers")
 @auth_required
-def blockers(username, v):
+def blockers(v:User, username:str):
 	u = get_user(username, v=v, include_shadowbanned=False)
 
 	try: page = int(request.values.get("page", 1))
@@ -667,7 +668,7 @@ def blockers(username, v):
 
 @app.get("/@<username>/following")
 @auth_required
-def following(username, v):
+def following(v:User, username:str):
 	u = get_user(username, v=v, include_shadowbanned=False)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
 		abort(403)
@@ -687,7 +688,7 @@ def following(username, v):
 
 @app.get("/@<username>/views")
 @auth_required
-def visitors(username, v:User):
+def visitors(v:User, username:str):
 	u = get_user(username, v=v, include_shadowbanned=False)
 
 	try: page = int(request.values.get("page", 1))
@@ -714,7 +715,7 @@ def userpagelisting(user:User, site=None, v=None, page:int=1, sort="new", t="all
 @app.get("/@<username>")
 @app.get("/@<username>.json")
 @auth_desired_with_logingate
-def u_username_wall(username, v=None):
+def u_username_wall(username:str, v:Optional[User]=None):
 	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
 	if username != u.username:
 		return redirect(f"/@{u.username}")
@@ -772,7 +773,7 @@ def u_username_wall(username, v=None):
 @app.get("/@<username>/wall/comment/<cid>")
 @app.get("/@<username>/wall/comment/<cid>.json")
 @auth_desired_with_logingate
-def u_username_wall_comment(username, cid, v=None):
+def u_username_wall_comment(v:User, username:str, cid):
 	comment = get_comment(cid, v=v)
 	if not comment.wall_user_id: abort(400)
 	if not User.can_see(v, comment): abort(404)
@@ -828,7 +829,7 @@ def u_username_wall_comment(username, cid, v=None):
 @app.get("/@<username>/posts")
 @app.get("/@<username>/posts.json")
 @auth_desired_with_logingate
-def u_username(username, v=None):
+def u_username(v:Optional[User]=None, username:str):
 	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
 	if username != u.username:
 		return redirect(SITE_FULL + request.full_path.replace(username, u.username))
