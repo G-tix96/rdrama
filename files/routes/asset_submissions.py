@@ -393,7 +393,7 @@ def update_marsey(v):
 		existing.tags = tags
 		g.db.add(existing)
 	elif not file:
-		return error("You need to update this marsey!")
+		return error("You need to actually update something!")
 
 	ma = ModAction(
 		kind="update_marsey",
