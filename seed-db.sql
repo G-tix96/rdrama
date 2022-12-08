@@ -3082,7 +3082,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseywomanmoment',2,'brainlet female foid stupid retard dumb trad frozenchosen',1666664889),
 ('marseywoodchipper',2,'libertarian woodchipper libertarian kill',NULL),
 ('marseywoodchipper2',2,'libertarian pedo woodchipper animated kill map',NULL),
-('marseywords',2,'longpost too long tldr reaction wordswordswords',NULL),
+('marseywords',2,'longpost too long tldr reaction wordswordswords yawn',NULL),
 ('marseyworldcup',2,'world cup soccer football winner sports champion',1663033833),
 ('marseyworried',2,'monkaw anxiety sweat panic scared sweaty sweating anxious nervous stressed',NULL),
 ('marseywraith',2,'evil scary ghost halloween undead horror',1666281502),
