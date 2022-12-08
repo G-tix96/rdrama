@@ -161,7 +161,6 @@ PROFANITIES = {
 	' ass ': ' butt ',
 	'shitting': 'pooping',
 	'damn': 'darn',
-	'bastard': 'fatherless child',
 	'bitch': 'b-word',
 	'toilet': 'potty',
 	' asshole': ' butthole',
