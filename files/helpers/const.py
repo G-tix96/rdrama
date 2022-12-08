@@ -604,7 +604,7 @@ elif SITE == 'pcmemes.net':
 	WELCOME_MSG = "Welcome to pcmemes.net! Don't forget to turn off the slur filter [here](/settings/content#slurreplacer)"
 
 	LOTTERY_TICKET_COST = 12
-	LOTTERY_SINK_RATE = -8
+	LOTTERY_SINK_RATE = -138
 
 	BANNER_THREAD = 28307
 
