@@ -363,9 +363,6 @@ def update_marsey(v):
 	def error(error):
 		return render_template("update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
 
-	if not marsey_regex.fullmatch(name):
-		return error("Invalid name!")
-
 	existing = g.db.get(Marsey, name)
 	if not existing:
 		return error("A marsey with this name doesn't exist!")
