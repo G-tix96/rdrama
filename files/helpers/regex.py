@@ -26,9 +26,9 @@ valid_sub_regex = re.compile("^[a-zA-Z0-9_\-]{3,25}$", flags=re.A)
 
 query_regex = re.compile("(\w+):(\S+)", flags=re.A)
 
-poll_regex = re.compile("\s*\$\$([^\$\n]+)\$\$\s*(?![^`]*`)", flags=re.A)
-bet_regex = re.compile("\s*\$\$\$([^\$\n]+)\$\$\$\s*(?![^`]*`)", flags=re.A)
-choice_regex = re.compile("\s*&&([^\$\n]+)&&\s*(?![^`]*`)", flags=re.A)
+poll_regex = re.compile("\s*\$\$([^\$\n]+)\$\$\s*(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
+bet_regex = re.compile("\s*\$\$\$([^\$\n]+)\$\$\$\s*(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
+choice_regex = re.compile("\s*&&([^\$\n]+)&&\s*(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
 
 html_comment_regex = re.compile("<!--.*-->", flags=re.A)
 
@@ -40,7 +40,7 @@ controversial_regex = re.compile('["> ](https:\/\/old\.reddit\.com/r/[a-zA-Z0-9_
 
 fishylinks_regex = re.compile("https?://\S+", flags=re.A)
 
-spoiler_regex = re.compile('''\|\|(.+)\|\|''', flags=re.A)
+spoiler_regex = re.compile('\|\|(.+)\|\|(?![^<]*<\/(code|pre|a)>)', flags=re.A)
 reddit_regex = re.compile('(^|\s|<p>)\/?((r|u)\/(\w|-){3,25})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
 sub_regex = re.compile('(^|\s|<p>)\/?(h\/(\w|-){3,25})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
 
@@ -88,7 +88,7 @@ giphy_regex = re.compile('(https:\/\/media\.giphy\.com\/media\/[a-z0-9]+\/giphy)
 youtube_regex = re.compile('(<p>[^<]*)(https:\/\/youtube\.com\/watch\?v\=([a-z0-9-_]{5,20})[\w\-.#&/=\?@%+]*)', flags=re.I|re.A)
 yt_id_regex = re.compile('[a-z0-9-_]{5,20}', flags=re.I|re.A)
 
-link_fix_regex = re.compile("(\[.*?\]\()(?!http|/)(.*?\))", flags=re.A)
+link_fix_regex = re.compile("(\[.*?\]\()(?!http|\/)(.*?\))(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
 
 css_url_regex = re.compile('url\(\s*[\'"]?(.*?)[\'"]?\s*\)', flags=re.I|re.A)
 
