@@ -84,7 +84,7 @@ def upload_profile_background(v):
 	background = process_image(name, v)
 
 	if background:
-		if v.profile_background:
+		if v.profile_background and path.isfile(profile_background):
 			os.remove(v.profile_background)
 		v.profile_background = background
 		g.db.add(v)
