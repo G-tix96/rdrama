@@ -3062,7 +3062,6 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseywerewolf',2,'halloween animal marsewolf horror lycanthropy furry dog',1666229182),
 ('marseywhelmed',2,'whelmed smoke smoking cig cigarette meme overwhelmed underwhelmed',NULL),
 ('marseywheredrama',2,'seriouspost reaction agendapost dramawhere animated',NULL),
-('marseywheredrama2',2,'seriouspost animated agendapost',NULL),
 ('marseywhirlyhat',2,'idiot retard hat dumb sped slow stupid special kid',NULL),
 ('marseywhiteflag',2,'surrender battle french',NULL),
 ('marseywhitemage',2,'magic wizard final fantasy spell video game vidya',NULL),
