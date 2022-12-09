@@ -3,6 +3,7 @@
 {% block pagetitle %}@{{u.username}}'s profile{% endblock %}
 {% block head_final %}
 	{% if u and u.profile_background %}
+		{% set displaying_bg = True %}
 		<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
 		<style>
 			body {
