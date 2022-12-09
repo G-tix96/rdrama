@@ -211,6 +211,9 @@ def make_admin(v, username):
 @admin_level_required(PERMS['ADMIN_REMOVE'])
 def remove_admin(v, username):
 	user = get_user(username)
+	if user.id == v.id:
+		abort(403, "You can't remove yourself JC")
+
 	user.admin_level = 0
 	g.db.add(user)
 
