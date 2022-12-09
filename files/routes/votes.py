@@ -173,7 +173,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		if target.author.progressivestack:
 			mul = 2
 		if cls == Submission:
-			if (target.domain.endswith('.win') or 'forum' in domain
+			if (target.domain.endswith('.win') or 'forum' in target.domain
 					or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))
 					or target.sub in BOOSTED_HOLES):
 				mul = 2
