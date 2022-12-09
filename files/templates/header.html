@@ -124,15 +124,6 @@
 				<a class="mobile-nav-icon d-md-none" href="/login?redirect={{request.full_path | urlencode}}"><i class="fas fa-feather-alt align-middle text-gray-500 black"></i></a>
 			{% endif %}
 
-			{% if FEATURES['CHAT'] and loggedin_chat < CHAT_DISPLAY_USER_COUNT_MINIMUM -%}
-			<a class="mobile-nav-icon d-md-none" href="/chat">
-				<i class="fas fa-messages align-middle text-gray-500 black"></i>
-				<b class="text-lg text-gray-500" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">
-					{{loggedin_chat}}
-				</b>
-			</a>
-			{%- endif %}
-
 			{% if v and FEATURES['GAMBLING'] %}
 				<a class="mobile-nav-icon d-md-none" href="/casino">
 					<i class="fas fa-cards align-middle text-gray-500 black"></i>
