@@ -166,7 +166,7 @@ def execute_snappy(post:Submission, v:User):
 
 		g.db.add(c)
 
-		check_slots_command(v, snappy, c)
+		check_slots_command(c, v, snappy)
 
 		snappy.comment_count += 1
 		snappy.pay_account('coins', 1)
@@ -530,12 +530,8 @@ def process_poll_options(target:Union[Submission, Comment],
 				)
 			db.add(option)
 
-def execute_wordle(post_target:post_target_type, c:Comment, body:str, rts:bool):
+def execute_wordle(c:Comment, body:str):
 	if not FEATURES['WORDLE']: return
 	if not "!wordle" in body: return
 	answer = random.choice(WORDLE_LIST)
 	c.wordle_result = f'_active_{answer}'
-
-	if not c.wordle_result and not rts:
-		post_target.comment_count += 1
-		g.db.add(post_target)

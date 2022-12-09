@@ -326,9 +326,16 @@ def comment(v:User):
 
 	c.voted = 1
 
-	check_for_treasure(body, c)
-	execute_wordle(post_target or parent_user, c, body, rts)
-	check_slots_command(v, v, c)
+	check_for_treasure(c, body)
+	execute_wordle(c, body)
+	check_slots_command(c, v, v)
+
+	# Increment post count iff not self-reply and not a spammy comment game
+	# Essentially a measure to make comment counts reflect "real" content
+	if (posting_to_submission and not rts
+			and not c.wordle_result and not c.slots_result):
+		post_target.comment_count += 1
+		g.db.add(post_target)
 
 	if c.level > 5:
 		n = g.db.query(Notification).filter_by(

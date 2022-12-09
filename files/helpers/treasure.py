@@ -10,7 +10,7 @@ standard_min = 12
 standard_max = 100
 lotterizer_rate = 33
 
-def check_for_treasure(in_text, from_comment):
+def check_for_treasure(from_comment, in_text):
 	user = from_comment.author
 
 	if not FEATURES['GAMBLING']: return
