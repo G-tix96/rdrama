@@ -121,7 +121,7 @@
 				<link rel="stylesheet" href="{{('css/classic.css') | asset}}">
 			{% endif %}
 			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
-			{% if v.css and not request.path.startswith('/settings/css') %}
+			{% if v.css and not request.path.startswith('/settings') %}
 				<style>
 					{{v.css | safe}}
 				</style>
