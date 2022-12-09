@@ -102,6 +102,9 @@ def allowed_attributes(tag, name, value):
 		if name == 'alt': return True
 		return False
 
+	if tag == 'table':
+		if name == 'class' and value == 'table': return True
+		return False
 
 def build_url_re(tlds, protocols):
 	"""Builds the url regex used by linkifier
