@@ -84,10 +84,14 @@
 				{% elif p.is_video or p.is_audio %}
 					<a href="{{p.realurl(v)}}" rel="nofollow noopener">
 						<img onclick="togglevideo('{{p.id}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+						{% if p.is_video %}
+							<i class="video-play fas fa-play"></i>
+						{% endif %}
 					</a>
 				{% elif p.is_youtube %}
 					<a href="{{p.realurl(v)}}" rel="nofollow noopener">
 						<img onclick="toggleyoutube('{{p.id}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+						<i class="video-play fas fa-play"></i>
 					</a>
 				{% else %}
 					<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
