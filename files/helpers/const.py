@@ -119,7 +119,7 @@ if SITE_NAME == 'rDrama':
 	RDRAMA_SLURS = {
 		"retarded": "r-slurred",
 		"retard": "r-slur",
-		"pedophile": "libertarian",
+		"pedophile": "p-dophile",
 		"kill youself": "keep yourself safe",
 		"kill yourself": "keep yourself safe",
 		"kill yourselves": "keep yourselves safe",
@@ -144,7 +144,7 @@ if SITE_NAME == 'rDrama':
 		"elon musk": "rocket daddy",
 		"fake and gay": "fake and straight",
 		" rapist": " male feminist",
-		" pedo ": " libertarian ",
+		" pedo ": " p-do ",
 		" kys": " keep yourself safe",
 		"kys ": "keep yourself safe ",
 		"republican": 'republiKKKan',
