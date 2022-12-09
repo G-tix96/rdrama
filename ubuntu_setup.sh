@@ -60,7 +60,9 @@ git config --global --add safe.directory /songs
 git config --global --add safe.directory /images
 git config --global --add safe.directory /videos
 git config --global --add safe.directory /audio
+
 snap install opera-proxy
+
 ufw allow ssh
 ufw allow from 173.245.48.0/20
 ufw allow from 103.21.244.0/22
@@ -78,6 +80,7 @@ ufw allow from 104.24.0.0/14
 ufw allow from 172.64.0.0/13
 ufw allow from 131.0.72.0/22
 echo "y" | ufw enable
+
 curl https://rclone.org/install.sh | bash
 echo "psql -U postgres" > /p
 echo "tmux -S /tmp/s a -t 0" > /c
