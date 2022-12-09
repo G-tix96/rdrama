@@ -723,9 +723,9 @@ def settings_name_change(v):
 
 @app.post("/settings/song_change_mp3")
 @feature_required('USERS_PROFILE_SONG')
-@limiter.limit("3/second;10/day")
+@limiter.limit("1/second;10/day")
 @auth_required
-@ratelimit_user("3/second;10/day")
+@ratelimit_user("1/second;10/day")
 def settings_song_change_mp3(v):
 	file = request.files['file']
 	if file.content_type != 'audio/mpeg':
