@@ -801,6 +801,7 @@ def settings_song_change(v):
 		os.remove(f"/songs/{v.song}.mp3")
 
 	ydl_opts = {
+		'cookiefile': '.cookies',
 		'outtmpl': '/songs/%(title)s.%(ext)s',
 		'format': 'bestaudio/best',
 		'postprocessors': [{

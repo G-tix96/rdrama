@@ -1,4 +1,5 @@
 .env
+.cookies
 venv/
 __pycache__/
 .idea/
