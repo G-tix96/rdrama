@@ -302,8 +302,10 @@ def execute_basedbot(c:Comment, level:int, body, post_target:post_target_type, v
 	if not c.body.lower().startswith("based"): return
 	posting_to_submission = isinstance(post_target, Submission)
 	pill = based_regex.match(body)
-	if level == 1: basedguy = get_account(post_target.author_id)
-	else: basedguy = get_account(c.parent_comment.author_id)
+	if level == 1:
+		basedguy = get_account(post_target.author_id) if posting_to_submission else post_target
+	else:
+		basedguy = get_account(c.parent_comment.author_id)
 	basedguy.basedcount += 1
 	if pill:
 		if basedguy.pills: basedguy.pills += f", {pill.group(1)}"

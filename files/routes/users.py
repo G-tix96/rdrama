@@ -578,7 +578,7 @@ def messagereply(v:User):
 
 @app.get("/2faqr/<secret>")
 @auth_required
-def mfa_qr(secret, v:User):
+def mfa_qr(v:User, secret:str):
 	x = pyotp.TOTP(secret)
 	qr = qrcode.QRCode(
 		error_correction=qrcode.constants.ERROR_CORRECT_L
@@ -715,7 +715,7 @@ def userpagelisting(user:User, site=None, v=None, page:int=1, sort="new", t="all
 @app.get("/@<username>")
 @app.get("/@<username>.json")
 @auth_desired_with_logingate
-def u_username_wall(username:str, v:Optional[User]=None):
+def u_username_wall(v:Optional[User], username:str):
 	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
 	if username != u.username:
 		return redirect(f"/@{u.username}")
@@ -829,7 +829,7 @@ def u_username_wall_comment(v:User, username:str, cid):
 @app.get("/@<username>/posts")
 @app.get("/@<username>/posts.json")
 @auth_desired_with_logingate
-def u_username(v:Optional[User]=None, username:str):
+def u_username(v:Optional[User], username:str):
 	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
 	if username != u.username:
 		return redirect(SITE_FULL + request.full_path.replace(username, u.username))
