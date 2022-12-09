@@ -215,7 +215,7 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 	total = sum(votes.values())
 	users = g.db.query(User).filter(User.id.in_(votes.keys()))
 	if not v.can_see_shadowbanned:
-		users = users.filter(User.shadowbanned == False)
+		users = users.filter(User.shadowbanned == None)
 	
 	users2 = [(user, votes[user.id]) for user in users.all()]
 	users = sorted(users2, key=lambda x: x[1], reverse=True)
