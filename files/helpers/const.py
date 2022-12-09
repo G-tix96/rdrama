@@ -1498,9 +1498,7 @@ if not IS_LOCALHOST:
 	REDDIT_NOTIFS_SITE.add(SITE)
 
 if SITE == 'rdrama.net':
-	REDDIT_NOTIFS_SITE.add('marsey')
-	REDDIT_NOTIFS_SITE.add('"r/Drama"')
-	REDDIT_NOTIFS_SITE.add('justice4darrell')
+	REDDIT_NOTIFS_SITE.extend(['marsey','"r/drama"','justice4darrell','cringetopia.org'])
 	REDDIT_NOTIFS_USERS = {
 		'idio3': IDIO_ID,
 		'aevann': AEVANN_ID,
