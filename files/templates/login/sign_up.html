@@ -50,7 +50,7 @@
 	<img id="logo" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width=70>
 	<hr>
 	<p class="text-muted text-justify mb-1" style="line-height: 1.2em">
-		<strong>Hi you!</strong> &mdash; <span style="font-variant-caps: small-caps;">watchpeopledie.tv</span> is currently doing our monthly 24(ish) hours of "everyone needs to have an account" &mdash; sorry about that! But making an account is actually super easy. <strong>You don't even need an email address!</strong> Literally just pick a username, set a password, and that's that. Bam, done, like 8 seconds, tops.<br>
+		<strong>Hi you!</strong> &mdash; <span style="font-variant-caps: small-caps;">watchpeopledie.tv</span> is currently doing our monthly 24(ish) hours* of "everyone needs to have an account" &mdash; sorry about that! But making an account is actually super easy. <strong>You don't even need an email address!</strong> Literally just pick a username, set a password, and that's that. Bam, done, like 8 seconds, tops.<br>
 	</p>
 	<p class="text-muted mb-md-2">
 		We WANT you with us &#128150;<br>
@@ -108,6 +108,11 @@
 		Already have an account? <a href="/login{{'?redirect='+redirect if redirect else ''}}" class="font-weight-bold toggle-login">Log in</a>
 	</div>
 	</form>
+	{% if not ref_user and SITE_NAME == 'WPD' and site_settings['login_required'] %}
+	<p class="text-muted text-justify mb-1" style="line-height: 1.2em; font-size: 10px">
+		* okay so it's actually whenever I feel like hitting that Login Required button. I'm really sorry, but you have to understand: WE WANT TO BE YOUR FRIEND. And we can't do that unless you join. There's really no reason not to. Like I said, 8 seconds <em>at most</em> to register. What are you worried about? Your email being sold? I don't even know what that means and you don't either. Go ahead, tell me what you'd do if someone said like, "alright bud, go sell your email address to someone." WHAT DOES THAT MEAN? And, again, you really don't even need an email. Just a username and some stupid password. That's <strong>all</strong>. Come on. Peer pressure.
+	</p>
+	{% endif %}
 </div>
 {% endblock %}
 {% block scripts %}
