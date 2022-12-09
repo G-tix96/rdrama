@@ -21,6 +21,7 @@ from files.helpers.sanitize import *
 from files.helpers.settings import get_setting
 from files.helpers.slots import check_slots_command
 
+post_target_type = Union[Submission, User]
 
 def _archiveorg(url):
 	headers = {'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}
@@ -43,7 +44,7 @@ def archive_url(url):
 		url = url.replace('https://instagram.com/', 'https://imginn.com/')
 		gevent.spawn(_archiveorg, url)
 
-def execute_snappy(post, v):
+def execute_snappy(post:Submission, v:User):
 	snappy = get_account(SNAPPY_ID)
 
 	if post.sub == 'dankchristianmemes' or post.sub == 'truth':
@@ -199,10 +200,13 @@ def execute_snappy(post, v):
 		post.comment_count += 1
 		post.replies = [c]
 
-def execute_zozbot(c, level, parent_submission, v):
+def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
+	if SITE_NAME != 'rDrama': return
+	posting_to_submission = isinstance(post_target, Submission)
 	if random.random() >= 0.001: return
 	c2 = Comment(author_id=ZOZBOT_ID,
-		parent_submission=parent_submission,
+		parent_submission=post_target.id if posting_to_submission else None,
+		wall_user_id=post_target.id if not posting_to_submission else None,
 		parent_comment_id=c.id,
 		level=level+1,
 		is_bot=True,
@@ -219,7 +223,8 @@ def execute_zozbot(c, level, parent_submission, v):
 	g.db.add(n)
 
 	c3 = Comment(author_id=ZOZBOT_ID,
-		parent_submission=parent_submission,
+		parent_submission=post_target.id if posting_to_submission else None,
+		wall_user_id=post_target.id if not posting_to_submission else None,
 		parent_comment_id=c2.id,
 		level=level+2,
 		is_bot=True,
@@ -235,7 +240,8 @@ def execute_zozbot(c, level, parent_submission, v):
 
 
 	c4 = Comment(author_id=ZOZBOT_ID,
-		parent_submission=parent_submission,
+		parent_submission=post_target.id if posting_to_submission else None,
+		wall_user_id=post_target.id if not posting_to_submission else None,
 		parent_comment_id=c3.id,
 		level=level+3,
 		is_bot=True,
@@ -253,7 +259,9 @@ def execute_zozbot(c, level, parent_submission, v):
 	zozbot.pay_account('coins', 1)
 	g.db.add(zozbot)
 
-def execute_longpostbot(c, level, body, body_html, parent_submission, v):
+def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_target_type, v:User):
+	if SITE_NAME != 'rDrama': return
+	posting_to_submission = isinstance(post_target, Submission)
 	if not len(c.body.split()) >= 200: return
 	if "</blockquote>" in body_html: return
 	body = random.choice(LONGPOST_REPLIES)
@@ -268,7 +276,8 @@ def execute_longpostbot(c, level, body, body_html, parent_submission, v):
 		c.downvotes = 1
 
 	c2 = Comment(author_id=LONGPOSTBOT_ID,
-		parent_submission=parent_submission,
+		parent_submission=post_target.id if posting_to_submission else None,
+		wall_user_id=post_target.id if not posting_to_submission else None,
 		parent_comment_id=c.id,
 		level=level+1,
 		is_bot=True,
@@ -288,9 +297,12 @@ def execute_longpostbot(c, level, body, body_html, parent_submission, v):
 	n = Notification(comment_id=c2.id, user_id=v.id)
 	g.db.add(n)
 
-def execute_basedbot(c, level, body, parent_post, v):
+def execute_basedbot(c:Comment, level:int, body, post_target:post_target_type, v:User):
+	if SITE != "pcmemes.net": return
+	if not c.body.lower().startswith("based"): return
+	posting_to_submission = isinstance(post_target, Submission)
 	pill = based_regex.match(body)
-	if level == 1: basedguy = get_account(parent_post.author_id)
+	if level == 1: basedguy = get_account(post_target.author_id)
 	else: basedguy = get_account(c.parent_comment.author_id)
 	basedguy.basedcount += 1
 	if pill:
@@ -303,7 +315,8 @@ def execute_basedbot(c, level, body, parent_post, v):
 
 	body_based_html = sanitize(body2)
 	c_based = Comment(author_id=BASEDBOT_ID,
-		parent_submission=parent_post.id,
+		parent_submission=post_target.id if posting_to_submission else None,
+		wall_user_id=post_target.id if not posting_to_submission else None,
 		distinguish_level=6,
 		parent_comment_id=c.id,
 		level=level+1,
@@ -514,3 +527,13 @@ def process_poll_options(target:Union[Submission, Comment],
 					exclusive=exclusive,
 				)
 			db.add(option)
+
+def execute_wordle(post_target:post_target_type, c:Comment, body:str, rts:bool):
+	if not FEATURES['WORDLE']: return
+	if not "!wordle" in body: return
+	answer = random.choice(WORDLE_LIST)
+	c.wordle_result = f'_active_{answer}'
+
+	if not c.wordle_result and not rts:
+		post_target.comment_count += 1
+		g.db.add(post_target)

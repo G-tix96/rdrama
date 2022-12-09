@@ -50,7 +50,7 @@ function getSelectionTextHtml() {
 	return html;
 }
 
-function ToggleReplyBox(id) {
+function toggleReplyBox(id) {
 	const element = document.getElementById(id);
 	const textarea = element.getElementsByTagName('textarea')[0]
 	element.classList.toggle('d-none')
@@ -142,7 +142,7 @@ function post_reply(id){
 
 			document.getElementById('reply-form-body-'+id).value = ''
 			document.getElementById('message-reply-'+id).innerHTML = ''
-			ToggleReplyBox('reply-message-'+id)
+			toggleReplyBox('reply-message-'+id)
 			document.getElementById('file-upload').value = null;
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));
@@ -193,7 +193,7 @@ function comment_edit(id){
 	xhr[0].send(xhr[1]);
 }
 
-function post_comment(fullname, wall_user_id, hide){
+function postComment(fullname, hide){
 	const btn = document.getElementById('save-reply-to-'+fullname)
 	btn.disabled = true
 	btn.classList.add('disabled');
@@ -202,7 +202,6 @@ function post_comment(fullname, wall_user_id, hide){
 
 	form.append('formkey', formkey());
 	form.append('parent_fullname', fullname);
-	form.append('submission', document.getElementById('reply-form-submission-'+fullname).value);
 	form.append('body', document.getElementById('reply-form-body-'+fullname).value);
 
 	try {
@@ -212,8 +211,7 @@ function post_comment(fullname, wall_user_id, hide){
 	catch(e) {}
 
 	const xhr = new XMLHttpRequest();
-	if (wall_user_id == 'None') url = "/comment"
-	else url = '/wall_comment'
+	url = '/comments/';
 	xhr.open("post", url);
 	xhr.setRequestHeader('xhr', 'xhr');
 	xhr.onload=function(){

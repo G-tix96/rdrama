@@ -538,7 +538,7 @@ def messagereply(v:User):
 	execute_blackjack(v, c, c.body_html, 'message')
 	execute_under_siege(v, c, c.body_html, 'message')
 
-	if user_id and user_id not in (v.id, 2, bots):
+	if user_id and user_id not in (v.id, MODMAIL_ID, bots):
 		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()
 		if not notif:
 			notif = Notification(comment_id=c.id, user_id=user_id)
@@ -878,7 +878,7 @@ def u_username(v:Optional[User]=None, username:str):
 		if (v and v.client) or request.path.endswith(".json"):
 			return {"data": [x.json(g.db) for x in listing]}
 		
-		return render_template("userpage/userpage.html",
+		return render_template("userpage/submissions.html",
 												unban=u.unban_string,
 												u=u,
 												v=v,
@@ -892,7 +892,7 @@ def u_username(v:Optional[User]=None, username:str):
 	if (v and v.client) or request.path.endswith(".json"):
 		return {"data": [x.json(g.db) for x in listing]}
 	
-	return render_template("userpage/userpage.html",
+	return render_template("userpage/submissions.html",
 									u=u,
 									v=v,
 									listing=listing,
@@ -1126,7 +1126,7 @@ def saved_posts(v:User, username):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
-	return get_saves_and_subscribes(v, "userpage/userpage.html", SaveRelationship, page, False)
+	return get_saves_and_subscribes(v, "userpage/submissions.html", SaveRelationship, page, False)
 
 @app.get("/@<username>/saved/comments")
 @auth_required
@@ -1142,7 +1142,7 @@ def subscribed_posts(v:User, username):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
-	return get_saves_and_subscribes(v, "userpage/userpage.html", Subscription, page, False)
+	return get_saves_and_subscribes(v, "userpage/submissions.html", Subscription, page, False)
 
 @app.post("/fp/<fp>")
 @auth_required

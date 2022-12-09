@@ -79,11 +79,12 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 		else: template = "submission.html"
 		return render_template(template, v=v, p=post, sort=sort, comment_info=comment_info, render_replies=True, sub=post.subr)
 
+@app.post("/comments/")
 @app.post("/comment")
 @limiter.limit("1/second;20/minute;200/hour;1000/day")
 @auth_required
 @ratelimit_user("1/second;20/minute;200/hour;1000/day")
-def comment(v):
+def comment(v:User):
 	if v.is_suspended: abort(403, "You can't perform this action while banned.")
 
 	parent_fullname = request.values.get("parent_fullname").strip()
@@ -92,33 +93,43 @@ def comment(v):
 	parent_comment_id = None
 	rts = False
 
-	if parent_fullname.startswith("p_"):
+	post_target = None
+	parent = None
+
+	if parent_fullname.startswith("u_"):
+		parent = get_account(id, v=v)
+		post_target = parent
+	elif parent_fullname.startswith("p_"):
 		parent = get_post(id, v=v)
-		parent_post = parent
+		post_target = parent
 		if POLL_THREAD and parent.id == POLL_THREAD and v.admin_level < PERMS['POST_TO_POLL_THREAD']: abort(403)
 	elif parent_fullname.startswith("c_"):
 		parent = get_comment(id, v=v)
-		parent_post = get_post(parent.parent_submission, v=v)
+		post_target = get_post(parent.parent_submission, v=v, graceful=True) or get_account(parent.wall_user_id, v=v, include_blocks=True, include_shadowbanned=False)
 		parent_comment_id = parent.id
 		if parent.author_id == v.id: rts = True
-		if not v.can_post_in_ghost_threads and parent_post.ghost: abort(403, f"You need {TRUESCORE_GHOST_MINIMUM} truescore to post in ghost threads")
-	else: abort(400)
+		if not v.can_post_in_ghost_threads and isinstance(post_target, Submission) and post_target.ghost: 
+			abort(403, f"You need {TRUESCORE_GHOST_MINIMUM} truescore to post in ghost threads")
+	else: abort(404)
 
-	level = 1 if isinstance(parent, Submission) else parent.level + 1
-	sub = parent_post.sub
-	if sub and v.exiled_from(sub): abort(403, f"You're exiled from /h/{sub}")
-
-	if sub in ('furry','vampire','racist','femboy') and not v.client and not v.house.lower().startswith(sub):
-		abort(403, f"You need to be a member of House {sub.capitalize()} to comment in /h/{sub}")
+	level = 1 if isinstance(parent, (Submission, User)) else int(parent.level) + 1
+	parent_user = parent if isinstance(parent, User) else parent.author
+	posting_to_submission = isinstance(post_target, Submission)
 
 	if not User.can_see(v, parent): abort(404)
-	if parent.deleted_utc != 0: abort(404)
+	if not isinstance(parent, User) and parent.deleted_utc != 0: abort(404)
+
+	if posting_to_submission:
+		sub = post_target.sub
+		if sub and v.exiled_from(sub): abort(403, f"You're exiled from /h/{sub}")
+		if sub in ('furry','vampire','racist','femboy') and not v.client and not v.house.lower().startswith(sub):
+			abort(403, f"You need to be a member of House {sub.capitalize()} to comment in /h/{sub}")
 
 	if level > COMMENT_MAX_DEPTH: abort(400, f"Max comment level is {COMMENT_MAX_DEPTH}")
 
 	body = sanitize_raw_body(request.values.get("body", ""), False)
 
-	if parent_post.id not in ADMIGGER_THREADS:
+	if not posting_to_submission or post_target.id not in ADMIGGER_THREADS:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
 			abort(403, "You have to type more than 280 characters!")
 		elif v.bird and len(body) > 140:
@@ -126,9 +137,9 @@ def comment(v):
 
 	if not body and not request.files.get('file'): abort(400, "You need to actually write something!")
 
-	if v.admin_level < PERMS['POST_COMMENT_MODERATION'] and parent.author.any_block_exists(v):
+	if not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and parent_user.any_block_exists(v):
 		abort(403, "You can't reply to users who have blocked you or users that you have blocked.")
-	
+
 	body, _, options, choices = sanitize_poll_options(v, body, False)
 
 	if request.files.get("file") and not g.is_tor:
@@ -139,7 +150,7 @@ def comment(v):
 				file.save(oldname)
 				image = process_image(oldname, v)
 				if image == "": abort(400, "Image upload failed")
-				if v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES'] and level == 1:
+				if posting_to_submission and v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES']:
 					def process_sidebar_or_banner(type, resize=0):
 						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/{type}'),
 							key=lambda e: int(e.split('.webp')[0]))[-1]
@@ -148,12 +159,12 @@ def comment(v):
 						copyfile(oldname, filename)
 						process_image(filename, v, resize=resize)
 
-					if parent_post.id == SIDEBAR_THREAD:
+					if post_target.id == SIDEBAR_THREAD:
 						process_sidebar_or_banner('sidebar', 400)
-					elif parent_post.id == BANNER_THREAD:
+					elif post_target.id == BANNER_THREAD:
 						banner_width = 1200 if not SITE_NAME == 'PCM' else 0
 						process_sidebar_or_banner('banners', banner_width)
-					elif parent_post.id == BADGE_THREAD:
+					elif post_target.id == BADGE_THREAD:
 						try:
 							badge_def = loads(body)
 							name = badge_def["name"]
@@ -180,48 +191,51 @@ def comment(v):
 
 	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
 	
-	if v.admin_level >= PERMS['SITE_SETTINGS_SNAPPY_QUOTES'] and parent_post.id == SNAPPY_THREAD and level == 1:
+	if v.admin_level >= PERMS['SITE_SETTINGS_SNAPPY_QUOTES'] and posting_to_submission and post_target.id == SNAPPY_THREAD and level == 1:
 		with open(f"snappy_{SITE_NAME}.txt", "a", encoding="utf-8") as f:
 			f.write('\n{[para]}\n' + body)
 
 	body_for_sanitize = body
-	if v.owoify:
-		body_for_sanitize = owoify(body_for_sanitize)
-	if v.marsify:
-		body_for_sanitize = marsify(body_for_sanitize)
+	if v.owoify: body_for_sanitize = owoify(body_for_sanitize)
+	if v.marsify: body_for_sanitize = marsify(body_for_sanitize)
 
-	torture = (v.agendaposter and not v.marseyawarded and parent_post.sub != 'chudrama' and parent_post.id not in ADMIGGER_THREADS)
+	torture = (v.agendaposter and not v.marseyawarded and post_target.sub != 'chudrama' and post_target.id not in ADMIGGER_THREADS)
 	body_html = sanitize(body_for_sanitize, limit_pings=5, count_marseys=not v.marsify, torture=torture)
 
-	if parent_post.id not in ADMIGGER_THREADS and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
+	if post_target.id not in ADMIGGER_THREADS and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
 		existing = g.db.query(Comment.id).filter(
 			Comment.author_id == v.id,
 			Comment.deleted_utc == 0,
 			Comment.parent_comment_id == parent_comment_id,
-			Comment.parent_submission == parent_post.id,
+			Comment.parent_submission == post_target.id if posting_to_submission else None,
+			Comment.wall_user_id == post_target.id if not posting_to_submission else None,
 			Comment.body_html == body_html
 		).first()
 		if existing: abort(409, f"You already made that comment: /comment/{existing.id}")
+
+	execute_antispam_comment_check(body, v)
+	execute_antispam_duplicate_comment_check(v, body_html)
+
+	if v.marseyawarded and posting_to_submission and post_target.id not in ADMIGGER_THREADS and marseyaward_body_regex.search(body_html):
+		abort(403, "You can only type marseys!")
+
+	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
 	is_bot = (v.client is not None
 		and v.id not in PRIVILEGED_USER_BOTS
 		or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
 
-	execute_antispam_comment_check(body, v)
-	execute_antispam_duplicate_comment_check(v, body_html)
-
-	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
-
 	c = Comment(author_id=v.id,
-				parent_submission=parent_post.id,
+				parent_submission=post_target.id if posting_to_submission else None,
+				wall_user_id=post_target.id if not posting_to_submission else None,
 				parent_comment_id=parent_comment_id,
 				level=level,
-				over_18=parent_post.over_18,
+				over_18=post_target.over_18 if posting_to_submission else False,
 				is_bot=is_bot,
 				app_id=v.client.application.id if v.client else None,
 				body_html=body_html,
 				body=body,
-				ghost=parent_post.ghost
+				ghost=post_target.ghost if posting_to_submission else False,
 				)
 
 	c.upvotes = 1
@@ -237,10 +251,9 @@ def comment(v):
 	process_poll_options(c, CommentOption, options, 0, "Poll", g.db)
 	process_poll_options(c, CommentOption, choices, 1, "Poll", g.db)
 
-	if SITE == 'pcmemes.net' and c.body.lower().startswith("based"):
-		execute_basedbot(c, level, body, parent_post, v)
+	execute_basedbot(c, level, body, post_target, v)
 
-	if parent_post.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and parent_post.sub != 'chudrama':
+	if post_target.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and post_target.sub != 'chudrama':
 		c.is_banned = True
 		c.ban_reason = "AutoJanny"
 		g.db.add(c)
@@ -249,7 +262,8 @@ def comment(v):
 		body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
 		c_jannied = Comment(author_id=AUTOJANNY_ID,
-			parent_submission=parent_post.id,
+			parent_submission=post_target.id if posting_to_submission else None,
+			wall_user_id=post_target.id if not posting_to_submission else None,
 			distinguish_level=6,
 			parent_comment_id=c.id,
 			level=level+1,
@@ -266,46 +280,41 @@ def comment(v):
 		n = Notification(comment_id=c_jannied.id, user_id=v.id)
 		g.db.add(n)
 
-	if SITE_NAME == 'rDrama':
-		execute_longpostbot(c, level, body, body_html, parent_post.id, v)
-		execute_zozbot(c, level, parent_post.id, v)
+	execute_longpostbot(c, level, body, body_html, post_target, v)
+	execute_zozbot(c, level, post_target, v)
 
 	if not v.shadowbanned:
 		notify_users = NOTIFY_USERS(body, v)
 
-		if c.level == 1:
-			subscribers = g.db.query(Subscription.user_id).filter(Subscription.submission_id == parent_post.id, Subscription.user_id != v.id).all()
+		if c.level == 1 and posting_to_submission:
+			subscribers = g.db.query(Subscription.user_id).filter(Subscription.submission_id == post_target.id, Subscription.user_id != v.id).all()
 
 			for x in subscribers:
 				notify_users.add(x[0])
 		
-		if parent.author.id != v.id:
-			notify_users.add(parent.author.id)
+		if parent_user.id != v.id:
+			notify_users.add(parent_user.id)
 
 		for x in notify_users-bots:
 			n = Notification(comment_id=c.id, user_id=x)
 			g.db.add(n)
 
-		if VAPID_PUBLIC_KEY != DEFAULT_CONFIG_VALUE and parent.author.id != v.id and not v.shadowbanned:
+		if VAPID_PUBLIC_KEY != DEFAULT_CONFIG_VALUE and parent_user.id != v.id and not v.shadowbanned:
 			title = f'New reply by @{c.author_name}'
+			if not posting_to_submission: title = f"New comment on your wall by @{c.author_name}"
 
-			if len(c.body) > 500: notifbody = c.body[:500] + '...'
+			if len(c.body) > PUSH_NOTIF_LIMIT: notifbody = c.body[:PUSH_NOTIF_LIMIT] + '...'
 			else: notifbody = c.body
 
 			url = f'{SITE_FULL}/comment/{c.id}?context=8&read=true#context'
 
-			push_notif(parent.author.id, title, notifbody, url)
-
-				
+			push_notif(parent_user.id, title, notifbody, url)
 
 	vote = CommentVote(user_id=v.id,
 						 comment_id=c.id,
 						 vote_type=1,
 						 )
-
 	g.db.add(vote)
-	
-
 	cache.delete_memoized(comment_idlist)
 
 	v.comment_count = g.db.query(Comment).filter(
@@ -316,20 +325,9 @@ def comment(v):
 	g.db.add(v)
 
 	c.voted = 1
-	
-	if v.marseyawarded and parent_post.id not in ADMIGGER_THREADS and marseyaward_body_regex.search(body_html):
-		abort(403, "You can only type marseys!")
 
 	check_for_treasure(body, c)
-
-	if FEATURES['WORDLE'] and "!wordle" in body:
-		answer = random.choice(WORDLE_LIST)
-		c.wordle_result = f'_active_{answer}'
-
-	if not c.wordle_result and not rts:
-		parent_post.comment_count += 1
-		g.db.add(parent_post)
-
+	execute_wordle(post_target or parent_user, c, body, rts)
 	check_slots_command(v, v, c)
 
 	if c.level > 5:
@@ -343,216 +341,6 @@ def comment(v):
 
 	if v.client: return c.json(db=g.db)
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
-
-
-@app.post("/wall_comment")
-@limiter.limit("1/second;20/minute;200/hour;1000/day")
-@auth_required
-@ratelimit_user("1/second;20/minute;200/hour;1000/day")
-def wall_comment(v):
-	if v.is_suspended: abort(403, "You can't perform this action while banned.")
-
-	parent_fullname = request.values.get("parent_fullname").strip()
-	if len(parent_fullname) < 3: abort(400)
-	id = parent_fullname[2:]
-	parent_comment_id = None
-
-	if parent_fullname.startswith("u_"):
-		parent = get_account(id, v=v)
-		parent_user = parent
-		parent_author = parent
-	elif parent_fullname.startswith("c_"):
-		parent = get_comment(id, v=v)
-		if parent.deleted_utc != 0: abort(404)
-		parent_user = parent.wall_user
-		parent_comment_id = parent.id
-		parent_author = parent.author
-	else: abort(400)
-
-	level = 1 if isinstance(parent, User) else parent.level + 1
-
-	# if not User.can_see(v, parent): abort(404)
-
-	if level > COMMENT_MAX_DEPTH: abort(400, f"Max comment level is {COMMENT_MAX_DEPTH}")
-
-	body = sanitize_raw_body(request.values.get("body", ""), False)
-
-	if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-		abort(403, "You have to type more than 280 characters!")
-	elif v.bird and len(body) > 140:
-		abort(403, "You have to type less than 140 characters!")
-
-	if not body and not request.files.get('file'):
-		abort(400, "You need to actually write something!")
-
-	if v.admin_level < PERMS['POST_COMMENT_MODERATION'] and parent_author.any_block_exists(v):
-		abort(403, "You can't reply to users who have blocked you or users that you have blocked.")
-	
-	body, _, options, choices = sanitize_poll_options(v, body, False)
-
-	if request.files.get("file") and not g.is_tor:
-		files = request.files.getlist('file')[:4]
-		for file in files:
-			if file.content_type.startswith('image/'):
-				oldname = f'/images/{time.time()}'.replace('.','') + '.webp'
-				file.save(oldname)
-				image = process_image(oldname, v)
-				if image == "": abort(400, "Image upload failed")
-				body += f"\n\n![]({image})"
-			elif file.content_type.startswith('video/'):
-				body += f"\n\n{SITE_FULL}{process_video(file, v)}"
-			elif file.content_type.startswith('audio/'):
-				body += f"\n\n{SITE_FULL}{process_audio(file, v)}"
-			else:
-				abort(415)
-
-	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
-	
-	body_for_sanitize = body
-	if v.owoify:
-		body_for_sanitize = owoify(body_for_sanitize)
-	if v.marsify:
-		body_for_sanitize = marsify(body_for_sanitize)
-
-	torture = (v.agendaposter and not v.marseyawarded)
-	body_html = sanitize(body_for_sanitize, limit_pings=5, count_marseys=not v.marsify, torture=torture)
-
-	if '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
-		existing = g.db.query(Comment.id).filter(
-			Comment.author_id == v.id,
-			Comment.deleted_utc == 0,
-			Comment.parent_comment_id == parent_comment_id,
-			Comment.parent_submission == None,
-			Comment.wall_user_id == parent_user.id,
-			Comment.body_html == body_html
-		).first()
-		if existing: abort(409, f"You already made that comment: /comment/{existing.id}")
-
-	is_bot = (v.client is not None
-		and v.id not in PRIVILEGED_USER_BOTS
-		or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
-
-	execute_antispam_comment_check(body, v)
-	execute_antispam_duplicate_comment_check(v, body_html)
-
-	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
-
-	c = Comment(author_id=v.id,
-				wall_user_id=parent_user.id,
-				parent_comment_id=parent_comment_id,
-				level=level,
-				is_bot=is_bot,
-				app_id=v.client.application.id if v.client else None,
-				body_html=body_html,
-				body=body,
-				)
-
-	c.upvotes = 1
-	g.db.add(c)
-	g.db.flush()
-
-	execute_blackjack(v, c, c.body, "comment")
-	execute_under_siege(v, c, c.body, "comment")
-
-	if c.level == 1: c.top_comment_id = c.id
-	else: c.top_comment_id = parent.top_comment_id
-
-	process_poll_options(c, CommentOption, options, 0, "Poll", g.db)
-	process_poll_options(c, CommentOption, choices, 1, "Poll", g.db)
-
-	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower():
-		c.is_banned = True
-		c.ban_reason = "AutoJanny"
-		g.db.add(c)
-
-		body = AGENDAPOSTER_MSG.format(username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
-		body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
-
-		c_jannied = Comment(author_id=AUTOJANNY_ID,
-			parent_submission=None,
-			wall_user_id=parent_user.id,
-			distinguish_level=6,
-			parent_comment_id=c.id,
-			level=level+1,
-			is_bot=True,
-			body=body,
-			body_html=body_jannied_html,
-			top_comment_id=c.top_comment_id,
-			)
-
-		g.db.add(c_jannied)
-		g.db.flush()
-
-		n = Notification(comment_id=c_jannied.id, user_id=v.id)
-		g.db.add(n)
-
-	if not v.shadowbanned:
-		notify_users = NOTIFY_USERS(body, v)
-		
-		if parent_author.id != v.id:
-			notify_users.add(parent_author.id)
-
-		for x in notify_users-bots:
-			n = Notification(comment_id=c.id, user_id=x)
-			g.db.add(n)
-
-		if VAPID_PUBLIC_KEY != DEFAULT_CONFIG_VALUE and parent_author.id != v.id and not v.shadowbanned:
-			if parent_author.id == c.wall_user_id:
-				title = f"New comment on your profile wall by @{c.author_name}"
-			else:
-				title = f"New reply by @{c.author_name}"
-
-			if len(c.body) > 500: notifbody = c.body[:500] + '...'
-			else: notifbody = c.body
-
-			url = f'{SITE_FULL}/@{c.wall_user.username}/wall/comment/{c.id}?context=8&read=true#context'
-
-			push_notif(parent_author.id, title, notifbody, url)
-
-				
-
-	vote = CommentVote(user_id=v.id,
-						 comment_id=c.id,
-						 vote_type=1,
-						 )
-
-	g.db.add(vote)
-	
-
-	v.comment_count = g.db.query(Comment).filter(
-		Comment.author_id == v.id,
-		or_(Comment.parent_submission != None, Comment.wall_user_id != None),
-		Comment.deleted_utc == 0
-	).count()
-	g.db.add(v)
-
-	c.voted = 1
-	
-	if v.marseyawarded and marseyaward_body_regex.search(body_html):
-		abort(403, "You can only type marseys!")
-
-	check_for_treasure(body, c)
-
-	if FEATURES['WORDLE'] and "!wordle" in body:
-		answer = random.choice(WORDLE_LIST)
-		c.wordle_result = f'_active_{answer}'
-
-	check_slots_command(v, v, c)
-
-	if c.level > 5:
-		n = g.db.query(Notification).filter_by(
-			comment_id=c.parent_comment.parent_comment.parent_comment.parent_comment_id,
-			user_id=c.parent_comment.author_id,
-		).one_or_none()
-		if n: g.db.delete(n)
-
-	g.db.flush()
-
-	cache.delete_memoized(comment_idlist)
-
-	if v.client: return c.json(db=g.db)
-	return {"comment": render_template("comments.html", v=v, comments=[c])}
-
 
 @app.post("/edit_comment/<cid>")
 @limiter.limit("1/second;10/minute;100/hour;200/day")
