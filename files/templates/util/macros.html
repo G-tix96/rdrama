@@ -103,7 +103,7 @@
 	{% endif %}
 	<span data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('timestamp-{{p.id}}','{{p.created_utc}}')" id="timestamp-{{p.id}}">&nbsp;{{p.age_string}}</span>
 	&nbsp;
-	({% if p.is_image %}image post{% elif p.is_video %}video post{% elif p.is_audio %}audio post{% elif p.domain %}<a href="/search/posts/?q=domain%3A{{p.domain}}&sort=new&t=all" class="post-meta-domain" {% if v and v.newtab %}data-target="t"target="_blank"{% endif %}>{{p.domain|truncate(50, True)}}</a>{% else %}text post{% endif %})
+	({% if p.is_image %}image post{% elif p.is_video %}video post{% elif p.is_audio %}audio post{% elif p.domain %}<a href="/search/posts/?q=domain%3A{{p.domain}}&sort=new&t=all" class="post-meta-domain" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>{{p.domain|truncate(50, True)}}</a>{% else %}text post{% endif %})
 	{% if p.edited_utc %}
 		<span class="ml-2">Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" id="edited_timestamp-{{p.id}}" onmouseover="timestamp('edited_timestamp-{{p.id}}','{{p.edited_utc}}')">{{p.edited_string}}</span></span>
 	{% endif %}
@@ -138,7 +138,7 @@
 				<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="postComment('{{target_fullname}}', '{{hide}}');remove_dialog();">Comment</button>
 			</form>
 			<div id="form-preview-{{target_fullname}}" class="preview mb-3 mt-5"></div>
-			<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}data-target="t"target="_blank"{% endif %}>Formatting help</a></div>
+			<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a></div>
 		</div>
 	{% else %}
 		<div class="comment-write mb-3">

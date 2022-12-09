@@ -72,10 +72,12 @@
 
 {% if standalone and level==1 %}
 <div id="post-info-{{c.id}}" class="post-info mb-1 mr-2 {% if request.path.startswith('/notifications') %}mt-5{% else %}mt-3{% endif %}">
-	{% if c.parent_submission and c.post.over_18 %}<span class="badge badge-danger text-small-extra mr-1">+18</span>{% endif %}
+	{% if c.parent_submission and c.post.over_18 %}
+		<span class="badge badge-danger text-small-extra mr-1">+18</span>
+	{% endif %}
 	<span class="align-top">
 	{% if c.parent_submission %}
-		{% if c.author_id==v.id and replies and is_notification_page%}
+		{% if c.author_id==v.id and replies and is_notification_page %}
 			<span class="font-weight-bold">Comment {{'Replies' if (replies | length)>1 else 'Reply'}}: <a href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
 		{% elif c.post.author_id==v.id and c.level == 1 and is_notification_page%}
 			<span class="font-weight-bold">Post Reply: <a href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
@@ -84,11 +86,11 @@
 		{% elif is_notification_page %}
 			<span class="font-weight-bold">Username Mention: <a href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
 		{% else %}
-			<span class="font-weight-bold"><a href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
+			<span class="font-weight-bold"><a {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
 		{% endif %}
 
 		{% if c.post.sub %}
-			<span class="ml-1"> in <a href="/h/{{c.post.sub}}" {% if v and v.newtab %}data-target="t"target="_blank"{% endif %}>/h/{{c.post.sub}}</a></span>
+			<span class="ml-1"> in <a href="/h/{{c.post.sub}}" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>/h/{{c.post.sub}}</a></span>
 		{% endif %}
 	{% elif c.author_id==AUTOJANNY_ID %}
 		<span class="font-weight-bold">Notification</span>
@@ -298,7 +300,7 @@
 						<button type="button" id="cancel-edit-{{c.id}}" onclick="toggleEdit('{{c.id}}');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r commentmob">Cancel</button> 
 					</form>
 					<div id="preview-edit-{{c.id}}" class="preview mb-3 mt-5"></div>
-					<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}data-target="t"target="_blank"{% endif %}>Formatting help</a></div>
+					<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a></div>
 				</div>
 				{% endif %}
 				<div id="comment-{{c.id}}-actions" class="comment-actions{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
