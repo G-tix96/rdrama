@@ -142,8 +142,12 @@ function post_reply(id){
 
 			document.getElementById('reply-form-body-'+id).value = ''
 			document.getElementById('message-reply-'+id).innerHTML = ''
-			toggleReplyBox('reply-message-'+id)
-			document.getElementById('file-upload').value = null;
+			toggleReplyBox('reply-message-c_'+id)
+			const fileupload = document.getElementById('file-upload')
+			if (fileupload) {
+				fileupload.value = null;
+				document.getElementById('filename').innerHTML = '<i class="fas fa-file"></i>';
+			}
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));
 		}
