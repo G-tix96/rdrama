@@ -1,6 +1,8 @@
 import time
 from urllib.parse import quote, urlencode
 
+from sqlalchemy import nullslast
+
 from files.__main__ import app, cache, limiter
 from files.classes import *
 from files.helpers.actions import *
@@ -335,7 +337,9 @@ def revert_actions(v, username):
 @app.get("/admin/shadowbanned")
 @admin_level_required(PERMS['USER_SHADOWBAN'])
 def shadowbanned(v):
-	users = g.db.query(User).filter(User.shadowbanned != None).order_by(User.shadowbanned).all()
+	users = g.db.query(User) \
+		.filter(User.shadowbanned != None) \
+		.order_by(nullslast(User.last_active.desc())).all()
 	return render_template("admin/shadowbanned.html", v=v, users=users)
 
 

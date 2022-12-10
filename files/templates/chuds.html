@@ -8,6 +8,9 @@
 	<tr>
 		<th>#</th>
 		<th>Name</th>
+		{% if v and v.admin_level >= PERMS['VIEW_LAST_ACTIVE'] -%}
+			<th>Last Active</th>
+		{%- endif %}
 		<th>Unchud in</th>
 	</tr>
 </thead>
@@ -15,6 +18,9 @@
 	<tr>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
+		{% if v and v.admin_level >= PERMS['VIEW_LAST_ACTIVE'] -%}
+			<td data-time="{{user.last_active}}"></td>
+		{%- endif %}
 		<td>{{user.unchud_in}}</td>
 </tr>
 {% endfor %}

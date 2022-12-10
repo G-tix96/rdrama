@@ -353,16 +353,6 @@ def blocks(v):
 
 	return render_template("blocks.html", v=v, users=users, targets=targets)
 
-@app.get("/banned")
-@auth_required
-def banned(v:User):
-	after_30_days = int(time.time()) + 86400 * 30
-	users = g.db.query(User).filter(User.is_banned > 0, or_(User.unban_utc == 0, User.unban_utc > after_30_days))
-	if not v.can_see_shadowbanned:
-		users = users.filter(User.shadowbanned == None)
-	users = users.all()
-	return render_template("banned.html", v=v, users=users)
-
 @app.get("/formatting")
 @auth_required
 def formatting(v:User):

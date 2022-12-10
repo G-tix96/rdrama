@@ -8,6 +8,7 @@
 	<tr>
 		<th>#</th>
 		<th>Name</th>
+		<th>Last Active</th>
 		<th>Shadowbanned by</th>
 		<th>Shadowban reason</th>
 	</tr>
@@ -16,6 +17,7 @@
 	<tr>
 		<td>{{loop.index}}</td>
 		<td>{% include "user_in_table.html" %}</td>
+		<td data-time="{{user.last_active}}"></td>
 		<td>{{user.shadowbanned}}</td>
 		<td>{{user.ban_reason}}</td>
 	</tr>

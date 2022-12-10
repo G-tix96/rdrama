@@ -7,6 +7,7 @@ from typing import Literal
 
 import gevent
 import qrcode
+from sqlalchemy import nullslast
 from sqlalchemy.orm import aliased
 
 from files.classes import *
@@ -167,6 +168,20 @@ def user_voted_posts(v:User, username):
 def user_voted_comments(v:User, username):
 	return user_voted(v, username, Comment, CommentVote, "userpage/voted_comments.html", True)
 
+@app.get("/banned")
+@auth_required
+def banned(v:User):
+	after_30_days = int(time.time()) + 86400 * 30
+	users = g.db.query(User).filter(
+		User.is_banned > 0,
+		or_(User.unban_utc == 0, User.unban_utc > after_30_days),
+	)
+	if v.admin_level >= PERMS['VIEW_LAST_ACTIVE']:
+		users = users.order_by(nullslast(User.last_active.desc()))
+	if not v.can_see_shadowbanned:
+		users = users.filter(User.shadowbanned == None)
+	users = users.all()
+	return render_template("banned.html", v=v, users=users)
 
 @app.get("/grassed")
 @auth_required
@@ -181,7 +196,11 @@ def grassed(v:User):
 @auth_required
 def chuds(v:User):
 	after_30_days = int(time.time()) + 86400 * 30
-	users = g.db.query(User).filter(or_(User.agendaposter == 1, User.agendaposter > after_30_days))
+	users = g.db.query(User).filter(
+		or_(User.agendaposter == 1, User.agendaposter > after_30_days),
+	)
+	if v.admin_level >= PERMS['VIEW_LAST_ACTIVE']:
+		users = users.order_by(nullslast(User.last_active.desc()))
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
 	users = users.order_by(User.username).all()
