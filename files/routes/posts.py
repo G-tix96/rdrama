@@ -747,8 +747,8 @@ def submit_post(v:User, sub=None):
 			post.url = process_video(file, v)
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			subprocess.run(['ffmpeg', '-y', '-loglevel', 'warning',
-				'-i', post.url, '-vf', '"select=eq(n\,0)"', '-vf',
-				'scale=100:-2', '-q:v', '3', '-frames:v', '1', name], check=True)
+				'-i', post.url, '-vf', "scale='min(300,iw)':-2",
+				'-q:v', '3', '-frames:v', '1', name], check=True)
 			post.thumburl = name
 		elif file.content_type.startswith('audio/'):
 			post.url = process_audio(file, v)

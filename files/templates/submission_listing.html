@@ -248,7 +248,7 @@
 	{% elif p.is_video %}
 		<div id="video-{{p.id}}" class="ml-5 {% if p.over_18 or not ((v and v.cardview) or (not v and CARD_VIEW)) %}d-none{% endif %} mt-4">
 			<p class="resizable bigger">
-				<video id="video2-{{p.id}}" controls preload="none" src="{{p.realurl(v)}}"></video>
+				<video {% if p.thumb_url %}poster="{{p.thumb_url}}"{% endif %} id="video2-{{p.id}}" controls preload="none" src="{{p.realurl(v)}}"></video>
 			</p>
 		</div>
 	{% elif p.is_audio %}
