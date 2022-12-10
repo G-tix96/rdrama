@@ -5907,6 +5907,7 @@ g {
 	background-color:var(--primary);
 	padding:5px 5px 3px 7px;
 	border-radius:.35rem;
+	pointer-events: none;
 }
 /* ------- Font Awesome ------- */
 @font-face{

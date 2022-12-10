@@ -746,8 +746,9 @@ def submit_post(v:User, sub=None):
 		elif file.content_type.startswith('video/'):
 			post.url = process_video(file, v)
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
-			# prints a lot of shit in console, pls fix snekdaddy
-			subprocess.run(['ffmpeg', '-i', post.url, '-vf', '"select=eq(n\,0)"', "-vf", "scale=100:-2", "-q:v", "3", "-frames:v", "1", name], check=True)
+			subprocess.run(['ffmpeg', '-y', '-loglevel', 'warning',
+				'-i', post.url, '-vf', '"select=eq(n\,0)"', '-vf',
+				'scale=100:-2', '-q:v', '3', '-frames:v', '1', name], check=True)
 			post.thumburl = name
 		elif file.content_type.startswith('audio/'):
 			post.url = process_audio(file, v)
