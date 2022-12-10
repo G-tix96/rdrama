@@ -1,6 +1,7 @@
 let sortAscending = {};
 
-function sort_table(n) {
+function sort_table(t) {
+	const n = Array.prototype.indexOf.call(t.parentElement.children, t);
 	const table = this.event.target.parentElement.parentElement.parentElement
 	const rows = table.rows;
 	let items = [];
@@ -16,7 +17,12 @@ function sort_table(n) {
 		} else if ('time' in x.dataset) {
 			attr = parseInt(x.dataset.time);
 		} else {
-			attr = parseInt(x.innerHTML.replace(/,/g, ''));
+			attr = x.innerHTML
+			try {
+				attr = parseInt(attr.replace(/,/g, ''));
+			}
+			catch(e) {
+			}
 		}
 		items.push({ ele, attr });
 	}

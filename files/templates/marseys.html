@@ -5,14 +5,14 @@
 <div class="overflow-x-auto mt-3"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
 	<tr>
-		<th onclick="sort_table(0)">#</th>
-		<th onclick="sort_table(1)">Name</th>
+		<th onclick="sort_table(this)">#</th>
+		<th onclick="sort_table(this)">Name</th>
 		<th>Marsey</th>
-		<th onclick="sort_table(3)">Usage</th>
+		<th onclick="sort_table(this)">Usage</th>
 		{% if FEATURES['ASSET_SUBMISSIONS'] %}
-			<th onclick="sort_table(4)">Author</th>
+			<th onclick="sort_table(this)">Author</th>
 		{% endif %}
-		<th onclick="sort_table(5)">Added on</th>
+		<th onclick="sort_table(this)">Added on</th>
 		{% if FEATURES['ASSET_SUBMISSIONS'] %}
 			<th>Original File</th>
 		{% endif %}
@@ -22,7 +22,7 @@
 {% for marsey in marseys %}
 <tr>
 	<td>{{loop.index}}</td>
-	<td data-sort-key="{{marsey.name}}">{{marsey.name}}</td>
+	<td>{{marsey.name}}</td>
 	<td><img class="marsey" loading="lazy" data-bs-toggle="tooltip" alt=":#{{marsey.name}}:" title=":{{marsey.name}}:" src="/e/{{marsey.name}}.webp"></td>
 	<td>{{marsey.count}}</td>
 	{% if FEATURES['ASSET_SUBMISSIONS'] %}

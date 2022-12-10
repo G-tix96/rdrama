@@ -77,25 +77,16 @@
 		<table class="table table-striped shop">
 		<thead class="bg-primary text-white">
 			<tr>
-				<th scope="col">Hat</th>
-				<th scope="col">Name</th>
-				<th scope="col">Description</th>
+				<th>Hat</th>
+				<th>Name</th>
+				<th>Description</th>
 				{% if SITE == 'rdrama.net' %}
-					{% if request.values.get("sort") == 'author_asc' %}
-						<th scope="col"><a href="?sort=author_desc">Author</a></th>
-					{% else %}
-						<th scope="col"><a href="?sort=author_asc">Author</a></th>
-					{% endif %}
-					<th scope="col" onclick="sort_table(4)">Owners</th>
-					<th scope="col" onclick="sort_table(5)">Price</th>
-					<th scope="col">Actions</th>
-					<th scope="col" onclick="sort_table(7)">Added on</th>	
-				{% else %}
-					<th scope="col" onclick="sort_table(3)">Owners</th>
-					<th scope="col" onclick="sort_table(4)">Price</th>
-					<th scope="col">Actions</th>
-					<th scope="col" onclick="sort_table(6)">Added on</th>	
+					<th onclick="sort_table(this)">Author</a></th>
 				{% endif %}
+				<th onclick="sort_table(this)">Owners</th>
+				<th onclick="sort_table(this)">Price</th>
+				<th>Actions</th>
+				<th onclick="sort_table(this)">Added on</th>	
 			</tr>
 		</thead>
 
