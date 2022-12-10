@@ -5,14 +5,14 @@
 <div class="overflow-x-auto mt-3"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
 	<tr>
-		<th onclick="sort_table(this)">#</th>
-		<th onclick="sort_table(this)">Name</th>
+		<th>#</th>
+		<th>Name</th>
 		<th>Marsey</th>
-		<th onclick="sort_table(this)">Usage</th>
+		<th>Usage</th>
 		{% if FEATURES['ASSET_SUBMISSIONS'] %}
-			<th onclick="sort_table(this)">Author</th>
+			<th>Author</th>
 		{% endif %}
-		<th onclick="sort_table(this)">Added on</th>
+		<th>Added on</th>
 		{% if FEATURES['ASSET_SUBMISSIONS'] %}
 			<th>Original File</th>
 		{% endif %}
@@ -41,5 +41,5 @@
 {% endfor %}
 </tbody>
 </table>
-<script defer src="{{'js/sort_table.js' | asset}}"></script>
+
 {% endblock %}

@@ -5096,7 +5096,7 @@ code {
 .noshadow {
 	box-shadow: none !important;
 }
-[role="button"], :not(textarea)[onclick] {
+[role="button"], :not(textarea)[onclick], th {
 	cursor: pointer !important;
 }
 

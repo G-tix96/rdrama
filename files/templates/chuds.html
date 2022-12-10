@@ -6,12 +6,12 @@
 <div class="overflow-x-auto"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
 	<tr>
-		<th onclick="sort_table(this)">#</th>
-		<th onclick="sort_table(this)">Name</th>
+		<th>#</th>
+		<th>Name</th>
 		{% if v and v.admin_level >= PERMS['VIEW_LAST_ACTIVE'] -%}
-			<th onclick="sort_table(this)">Last Active</th>
+			<th>Last Active</th>
 		{%- endif %}
-		<td onclick="sort_table(this)">Truescore</td>
+		<th>Truescore</th>
 		<th>Unchud in</th>
 	</tr>
 </thead>
@@ -20,14 +20,14 @@
 		<td>{{loop.index}}</td>
 		<td data-sort-key="{{user.username.lower() if user else ''}}">{% include "user_in_table.html" %}</td>
 		{% if v and v.admin_level >= PERMS['VIEW_LAST_ACTIVE'] -%}
-			<td data-time="{{user.last_active}}"></td>
+			<td {% if user.last_active %}data-time="{{user.last_active}}"{% endif %}></td>
 		{%- endif %}
 		<td>{{user.truescore}}</td>
-		<td>{{user.unchud_in}}</td>
+		<td {% if user.agendaposter != 1 %}data-time="{{user.agendaposter}}"{% endif %}></td>
 </tr>
 {% endfor %}
 </table>
 
-<script defer src="{{'js/sort_table.js' | asset}}"></script>
+
 
 {% endblock %}

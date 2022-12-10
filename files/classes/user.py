@@ -519,9 +519,9 @@ class User(Base):
 
 	@property
 	@lazy
-	def unban_in(self):
+	def unban_string(self):
 		if self.unban_utc == 0:
-			return "never"
+			return "permanently banned"
 
 		wait = self.unban_utc - int(time.time())
 
@@ -538,41 +538,7 @@ class User(Base):
 
 			text = f"{days}d {hours:02d}h {mins:02d}m"
 
-		return text
-
-
-	@property
-	@lazy
-	def unban_string(self):
-		text = self.unban_in
-
-		if text == "never": return "permanently banned"
-
 		return f"Unban in {text}"
-
-
-	@property
-	@lazy
-	def unchud_in(self):
-		if self.agendaposter == 1:
-			return "never"
-
-		wait = self.agendaposter - int(time.time())
-
-		if wait < 60:
-			text = f"{wait}s"
-		else:
-			days = wait//(24*60*60)
-			wait -= days*24*60*60
-
-			hours = wait//(60*60)
-			wait -= hours*60*60
-
-			mins = wait//60
-
-			text = f"{days}d {hours:02d}h {mins:02d}m"
-
-		return text
 
 
 	@property

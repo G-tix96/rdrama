@@ -233,12 +233,6 @@ function expandDesktopImage(url) {
 	bootstrap.Modal.getOrCreateInstance(document.getElementById('expandImageModal')).show();
 };
 
-document.addEventListener("click", function(e){
-	const element = e.target
-	if (element instanceof HTMLImageElement && element.alt.startsWith('![]('))
-		expandDesktopImage()
-});
-
 function bs_trigger(e) {
 	let tooltipTriggerList = [].slice.call(e.querySelectorAll('[data-bs-toggle="tooltip"]'));
 	tooltipTriggerList.map(function(element){
@@ -404,3 +398,51 @@ function sendFormXHRSwitch(e) {
 		}
 	)
 }
+
+let sortAscending = {};
+
+function sort_table(t) {
+	const n = Array.prototype.indexOf.call(t.parentElement.children, t);
+	const table = this.event.target.parentElement.parentElement.parentElement
+	const rows = table.rows;
+	let items = [];
+	for (let i = 1; i < rows.length; i++) {
+		const ele = rows[i];
+		let x = rows[i].getElementsByTagName("TD")[n];
+		if (!('sortKey' in x.dataset)) {
+			x = x.getElementsByTagName('a')[0] || x;
+		}
+		let attr;
+		if ('sortKey' in x.dataset) {
+			attr = x.dataset.sortKey;
+		} else if ('time' in x.dataset) {
+			attr = parseInt(x.dataset.time);
+		} else {
+			attr = x.innerText
+			if (/^[\d-,]+$/.test(attr)) {
+				attr = parseInt(attr.replace(/,/g, ''))
+			}
+		}
+		items.push({ele, attr});
+	}
+	if (sortAscending[n]) {
+		items.sort((a, b) => a.attr > b.attr ? 1 : -1);
+		sortAscending[n] = false;
+	} else {
+		items.sort((a, b) => a.attr < b.attr ? 1 : -1);
+		sortAscending[n] = true;
+	}
+
+	for (let i = items.length - 1; i--;) {
+		items[i].ele.parentNode.insertBefore(items[i].ele, items[i + 1].ele);
+	}
+}
+
+
+document.addEventListener("click", function(e){
+	const element = e.target
+	if (element instanceof HTMLImageElement && element.alt.startsWith('![]('))
+		expandDesktopImage()
+	else if (element.tagName == "TH")
+		sort_table(element)
+});

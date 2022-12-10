@@ -81,12 +81,12 @@
 				<th>Name</th>
 				<th>Description</th>
 				{% if SITE == 'rdrama.net' %}
-					<th onclick="sort_table(this)">Author</a></th>
+					<th>Author</a></th>
 				{% endif %}
-				<th onclick="sort_table(this)">Owners</th>
-				<th onclick="sort_table(this)">Price</th>
+				<th>Owners</th>
+				<th>Price</th>
 				<th>Actions</th>
-				<th onclick="sort_table(this)">Added on</th>	
+				<th>Added on</th>	
 			</tr>
 		</thead>
 
@@ -129,5 +129,5 @@
 			{% endfor %}
 		</tbody>
 	</table>
-	<script defer src="{{'js/sort_table.js' | asset}}"></script>
+	
 {% endblock %}
