@@ -1728,6 +1728,7 @@ if SITE_NAME == 'rDrama':
 		'bungie.net',
 		'soyjak.party',
 		'teamblind.com',
+		'mainchan.com'
 
 		#fediverse
 		'rdrama.cc',
