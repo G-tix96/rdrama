@@ -973,8 +973,8 @@ CREATE TABLE public.users (
     newtabexternal boolean DEFAULT true NOT NULL,
     customtitleplain character varying(100),
     themecolor character varying(6) NOT NULL,
-    css character varying(4000),
-    profilecss character varying(4000),
+    css character varying(10000),
+    profilecss character varying(10000),
     coins integer DEFAULT 0 NOT NULL,
     agendaposter integer DEFAULT 0 NOT NULL,
     post_count integer DEFAULT 0 NOT NULL,
@@ -2737,4 +2737,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-

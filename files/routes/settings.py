@@ -599,7 +599,7 @@ def settings_css_get(v:User):
 @ratelimit_user()
 def settings_css(v):
 	if v.agendaposter: abort(400, "Agendapostered users can't edit CSS!")
-	css = request.values.get("css", v.css).strip().replace('\\', '').strip()[:4000]
+	css = request.values.get("css", v.css).strip().replace('\\', '').strip()[:CSS_LENGTH_LIMIT]
 	if '</style' in css.lower():
 		abort(400, "Please message @Aevann if you get this error")
 	v.css = css
@@ -612,7 +612,7 @@ def settings_css(v):
 @auth_required
 @ratelimit_user()
 def settings_profilecss(v):
-	profilecss = request.values.get("profilecss", v.profilecss).strip().replace('\\', '').strip()[:4000]
+	profilecss = request.values.get("profilecss", v.profilecss).strip().replace('\\', '').strip()[:CSS_LENGTH_LIMIT]
 	valid, error = validate_css(profilecss)
 	if not valid:
 		return render_template("settings/css.html", error=error, v=v)
