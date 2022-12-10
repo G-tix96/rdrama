@@ -173,6 +173,7 @@ def user_voted_comments(v:User, username):
 def banned(v:User):
 	users = g.db.query(User).filter(
 		User.is_banned > 0,
+		User.truescore > 0,
 		or_(User.unban_utc == 0, User.unban_utc > time.time()),
 		not_(and_(
 			User.profileurl.startswith('/e/'),
@@ -204,6 +205,7 @@ def grassed(v:User):
 @auth_required
 def chuds(v:User):
 	users = g.db.query(User).filter(
+		User.truescore > 0,
 		or_(User.agendaposter == 1, User.agendaposter > time.time()),
 		not_(and_(
 			User.profileurl.startswith('/e/'),

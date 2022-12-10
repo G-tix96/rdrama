@@ -340,6 +340,7 @@ def shadowbanned(v):
 	users = g.db.query(User) \
 		.filter(
 			User.shadowbanned != None,
+			User.truescore > 0,
 			not_(and_(
 				User.profileurl.startswith('/e/'),
 				User.customtitle==None,
