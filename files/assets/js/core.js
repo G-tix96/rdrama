@@ -419,7 +419,7 @@ function sort_table(t) {
 			attr = parseInt(x.dataset.time);
 		} else {
 			attr = x.innerText
-			if (/^[\d-,]+$/.test(attr)) {
+			if (/^[\d-,]+$/.test(x.innerHTML)) {
 				attr = parseInt(attr.replace(/,/g, ''))
 			}
 		}
