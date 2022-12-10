@@ -314,12 +314,12 @@ ACTIONTYPES = {
 		"color": 'bg-primary'
 	},
 	'set_nsfw': {
-		"str": 'set nsfw on post {self.target_link}', 
+		"str": 'set {self.target_link} as +18', 
 		"icon": 'fa-eye-evil', 
 		"color": 'bg-danger'
 	},
 	'set_nsfw_comment': {
-		"str": 'set nsfw on a {self.target_link}', 
+		"str": 'set {self.target_link} as +18', 
 		"icon": 'fa-eye-evil', 
 		"color": 'bg-danger'
 	},
@@ -379,12 +379,12 @@ ACTIONTYPES = {
 		"color": 'bg-muted'
 	},
 	'unset_nsfw': {
-		"str": 'un-set nsfw on post {self.target_link}', 
+		"str": 'unset {self.target_link} as +18', 
 		"icon": 'fa-eye-evil', 
 		"color": 'bg-success'
 	},
 	'unset_nsfw_comment': {
-		"str": 'un-set nsfw on a {self.target_link}', 
+		"str": 'unset {self.target_link} as +18', 
 		"icon": 'fa-eye-evil', 
 		"color": 'bg-success'
 	},
