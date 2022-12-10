@@ -876,9 +876,9 @@ def undelete_post_pid(pid, v):
 	return {"message": "Post undeleted!"}
 
 
-@app.post("/toggle_post_nsfw/<pid>")
+@app.post("/mark_post_nsfw/<pid>")
 @auth_required
-def toggle_post_nsfw(pid, v):
+def mark_post_nsfw(pid, v):
 	post = get_post(pid)
 
 	if post.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (post.sub and v.mods(post.sub)):
@@ -887,13 +887,13 @@ def toggle_post_nsfw(pid, v):
 	if post.over_18 and v.is_suspended_permanently:
 		abort(403)
 
-	post.over_18 = not post.over_18
+	post.over_18 = True
 	g.db.add(post)
 
 	if post.author_id != v.id:
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma = ModAction(
-					kind = "set_nsfw" if post.over_18 else "unset_nsfw",
+					kind = "set_nsfw",
 					user_id = v.id,
 					target_submission_id = post.id,
 				)
@@ -901,14 +901,48 @@ def toggle_post_nsfw(pid, v):
 		else:
 			ma = SubAction(
 					sub = post.sub,
-					kind = "set_nsfw" if post.over_18 else "unset_nsfw",
+					kind = "set_nsfw",
 					user_id = v.id,
 					target_submission_id = post.id,
 				)
 			g.db.add(ma)
+		send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has marked [{post.title}](/post/{post.id}) as +18")
 
-	if post.over_18: return {"message": "Post has been marked as +18!"}
-	else: return {"message": "Post has been unmarked as +18!"}
+	return {"message": "Post has been marked as +18!"}
+
+@app.post("/unmark_post_nsfw/<pid>")
+@auth_required
+def unmark_post_nsfw(pid, v):
+	post = get_post(pid)
+
+	if post.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (post.sub and v.mods(post.sub)):
+		abort(403)
+		
+	if post.over_18 and v.is_suspended_permanently:
+		abort(403)
+
+	post.over_18 = False
+	g.db.add(post)
+
+	if post.author_id != v.id:
+		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
+			ma = ModAction(
+					kind = "unset_nsfw",
+					user_id = v.id,
+					target_submission_id = post.id,
+				)
+			g.db.add(ma)
+		else:
+			ma = SubAction(
+					sub = post.sub,
+					kind = "unset_nsfw",
+					user_id = v.id,
+					target_submission_id = post.id,
+				)
+			g.db.add(ma)
+		send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has unmarked [{post.title}](/post/{post.id}) as +18")
+
+	return {"message": "Post has been unmarked as +18!"}
 
 @app.post("/save_post/<pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
