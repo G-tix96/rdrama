@@ -5900,15 +5900,23 @@ g {
 
 .video-play {
 	position:absolute;
-	bottom: 35%;
-	right: 40%;
+	bottom:33%;
+    right:38%;
 	font-size:14px;
 	color:white;
 	background-color:var(--primary);
-	padding:5px 5px 3px 7px;
+    padding: 5px 6px 4px 7px;
 	border-radius:.35rem;
 	pointer-events: none;
 }
+
+@media (max-width: 768px) {
+	.video-play {
+		bottom:31%;
+		right:36%;
+	}
+}
+
 /* ------- Font Awesome ------- */
 @font-face{
 	font-family:"Font Awesome 6 Pro";
