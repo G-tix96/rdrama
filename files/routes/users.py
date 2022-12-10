@@ -471,13 +471,13 @@ def message2(v:User, username:str):
 
 	body_html = sanitize(message)
 
-	if not (SITE == 'rdrama.net' and user.id == BLACKJACKBTZ_ID):
-		existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
-																Comment.sentto == user.id,
-																Comment.body_html == body_html,
-																).first()
+	existing = g.db.query(Comment.id).filter(
+		Comment.author_id == v.id,
+		Comment.sentto == user.id,
+		Comment.body_html == body_html
+	).first()
 
-		if existing: abort(403, "Message already exists.")
+	if existing: abort(403, "Message already exists.")
 
 	c = Comment(author_id=v.id,
 						parent_submission=None,

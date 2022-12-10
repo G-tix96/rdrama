@@ -46,7 +46,6 @@ def check_for_alts(current:User, include_current_session=True):
 			past_accs.remove(past_id)
 			continue
 
-		if past_id == MOM_ID or current_id == MOM_ID: break
 		if past_id == current_id: continue
 
 		li = [past_id, current_id]

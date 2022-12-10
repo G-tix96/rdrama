@@ -415,38 +415,27 @@ HOLE_REQUIRED = False
 HOLE_COST = 0
 HOLE_INACTIVITY_DELETION = False
 
+PRIVILEGED_USER_BOTS = ()
+GUMROAD_MESSY = ()
+
 AUTOJANNY_ID = 1
 SNAPPY_ID = 2
 LONGPOSTBOT_ID = 3
 ZOZBOT_ID = 4
 BASEDBOT_ID = 0
-PRIVILEGED_USER_BOTS = ()
-
-SCHIZO_ID = 0
 KIPPY_ID = 0
-MCCOX_ID = 0
-CHIOBU_ID = 0
 PIZZASHILL_ID = 0
 IMPASSIONATA_ID = 0
-HEYMOON_ID = 0
-MIMW_ID = 0
-SNUS_ID = 0
-GUMROAD_MESSY = ()
-IDIO_ID = 0
 CARP_ID = 0
-JOAN_ID = 0
 AEVANN_ID = 0
 SNAKES_ID = 0
 JUSTCOOL_ID = 0
-HOMO_ID = 0
-SOREN_ID = 0
 LAWLZ_ID = 0
-DAD_ID = 0
-MOM_ID = 0
-DONGER_ID = 0
-GEESE_ID = 0
-BLACKJACKBTZ_ID = 0
+TGTW_ID = 0
+
 MODMAIL_ID = 2
+GIFT_NOTIF_ID = 5
+SIGNUP_FOLLOW_ID = 0
 
 POLL_THREAD = 0
 POLL_BET_COINS = 200
@@ -461,8 +450,6 @@ SIDEBAR_THREAD = 0
 BANNER_THREAD = 0
 BADGE_THREAD = 0
 SNAPPY_THREAD = 0
-GIFT_NOTIF_ID = 5
-SIGNUP_FOLLOW_ID = 0
 NOTIFICATION_THREAD = 1
 
 MAX_IMAGE_SIZE_BANNER_RESIZED_MB = 1
@@ -498,6 +485,8 @@ BADGE_BLACKLIST = { # only grantable by AEVANN_ID and SNAKES_ID except on PCM
 	137, # Lottery Winner
 }
 
+NOTIFIED_USERS = {}
+
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
@@ -520,36 +509,58 @@ if SITE == 'rdrama.net':
 	HOLE_COST = 50000
 	HOLE_INACTIVITY_DELETION = True
 
+	PRIVILEGED_USER_BOTS = (12125,16049)
+	GUMROAD_MESSY = (1230,1379)
+
 	AUTOJANNY_ID = 1046
 	SNAPPY_ID = 261
 	LONGPOSTBOT_ID = 1832
 	ZOZBOT_ID = 1833
-	PRIVILEGED_USER_BOTS = (12125, 16049)
-
-	SCHIZO_ID = 8494
 	KIPPY_ID = 7150
-	MCCOX_ID = 8239
-	CHIOBU_ID = 5214
 	PIZZASHILL_ID = 2424
 	IMPASSIONATA_ID = 5800
-	HEYMOON_ID = 3635
-	MIMW_ID = 3377
-	SNUS_ID = 8407
-	GUMROAD_MESSY = (1230,1379)
-	IDIO_ID = 30
 	CARP_ID = 995
-	JOAN_ID = 28
 	AEVANN_ID = 1
 	SNAKES_ID = 10288
 	JUSTCOOL_ID = 4999
-	HOMO_ID = 147
-	SOREN_ID = 2546
 	LAWLZ_ID = 3833
-	DAD_ID = 2513
-	MOM_ID = 4588
-	DONGER_ID = 541
-	GEESE_ID = 1710
-	BLACKJACKBTZ_ID = 12732
+	TGTW_ID = 2008
+
+	NOTIFIED_USERS = {
+		'aevan': AEVANN_ID,
+		'avean': AEVANN_ID,
+		'carp': CARP_ID,
+		'clit': CARP_ID,
+		'snakes': SNAKES_ID,
+		'sneks': SNAKES_ID,
+		'snekky': SNAKES_ID,
+		'snekchad': SNAKES_ID,
+		'jc': JUSTCOOL_ID,
+		'justcool': JUSTCOOL_ID,
+		'kippy': KIPPY_ID,
+		'lawlz': LAWLZ_ID,
+		'transgirltradwife': TGTW_ID,
+		'impassionata': IMPASSIONATA_ID,
+		'pizzashill': PIZZASHILL_ID,
+
+		'joan': 28,
+		'pewkie': 28,
+		'idio3': 30,
+		'idio ': 30,
+		'telegram ': 30,
+		'the_homocracy': 147,
+		'donger': 541,
+		'geese': 1710,
+		'soren': 2546,
+		'marseyismywaifu': 3377,
+		'mimw': 3377,
+		'heymoon': 3635,
+		'jollymoon': 3635,
+		'chiobu': 5214,
+		'mccox': 8239,
+		'snus': 8407,
+		'schizo': 8494,
+	}
 
 	ANTISPAM_BYPASS_IDS = {1703, 13427}
 
@@ -1448,41 +1459,6 @@ TROLLTITLES = [
 	"Pretty sure this is @{username}'s Reddit account",
 	"Hey jannies can you please ban @{username}",
 ]
-
-NOTIFIED_USERS = {
-	'aevan': AEVANN_ID,
-	'avean': AEVANN_ID,
-	'joan': JOAN_ID,
-	'pewkie': JOAN_ID,
-	'carp': CARP_ID,
-	'idio3': IDIO_ID,
-	'idio ': IDIO_ID,
-	'telegram ': IDIO_ID,
-	'the_homocracy': HOMO_ID,
-	'schizo': SCHIZO_ID,
-	'snakes': SNAKES_ID,
-	'sneks': SNAKES_ID,
-	'snekky': SNAKES_ID,
-	'snekchad': SNAKES_ID,
-	'jc': JUSTCOOL_ID,
-	'justcool': JUSTCOOL_ID,
-	'geese': GEESE_ID,
-	'clit': CARP_ID,
-	'kippy': KIPPY_ID,
-	'mccox': MCCOX_ID,
-
-	'lawlz': LAWLZ_ID,
-	'chiobu': CHIOBU_ID,
-	'donger': DONGER_ID,
-	'soren': SOREN_ID,
-	'pizzashill': PIZZASHILL_ID,
-	'impassionata': IMPASSIONATA_ID,
-	'heymoon': HEYMOON_ID,
-	'jollymoon': HEYMOON_ID,
-	'marseyismywaifu': MIMW_ID,
-	'mimw': MIMW_ID,
-	'snus': SNUS_ID,
-}
 
 FORTUNE_REPLIES = ('<b style="color:#6023f8">Your fortune: Allah Wills It</b>','<b style="color:#d302a7">Your fortune: Inshallah, Only Good Things Shall Come To Pass</b>','<b style="color:#e7890c">Your fortune: Allah Smiles At You This Day</b>','<b style="color:#7fec11">Your fortune: Your Bussy Is In For A Blasting</b>','<b style="color:#43fd3b">Your fortune: You Will Be Propositioned By A High-Tier Twink</b>','<b style="color:#9d05da">Your fortune: Repent, You Have Displeased Allah And His Vengeance Is Nigh</b>','<b style="color:#f51c6a">Your fortune: Reply Hazy, Try Again</b>','<b style="color:#00cbb0">Your fortune: lmao you just lost 100 coins</b>','<b style="color:#2a56fb">Your fortune: Yikes 😬</b>','<b style="color:#0893e1">Your fortune: You Will Be Blessed With Many Black Bulls</b>','<b style="color:#16f174">Your fortune: NEETmax, The Day Is Lost If You Venture Outside</b>','<b style="color:#fd4d32">Your fortune: A Taste Of Jannah Awaits You Today</b>','<b style="color:#bac200">Your fortune: Watch Your Back</b>','<b style="color:#6023f8">Your fortune: Outlook good</b>','<b style="color:#d302a7">Your fortune: Godly Luck</b>','<b style="color:#e7890c">Your fortune: Good Luck</b>','<b style="color:#7fec11">Your fortune: Bad Luck</b>','<b style="color:#43fd3b">Your fortune: Good news will come to you by mail</b>','<b style="color:#9d05da">Your fortune: Very Bad Luck</b>','<b style="color:#00cbb0">Your fortune: ｷﾀ━━━━━━(ﾟ∀ﾟ)━━━━━━ !!!!</b>','<b style="color:#2a56fb">Your fortune: Better not tell you now</b>','<b style="color:#0893e1">Your fortune: You will meet a dark handsome stranger</b>','<b style="color:#16f174">Your fortune: （　´_ゝ`）ﾌｰﾝ</b>','<b style="color:#fd4d32">Your fortune: Excellent Luck</b>','<b style="color:#bac200">Your fortune: Average Luck</b>')
 FACTCHECK_REPLIES = ('<b style="color:#6023f8">Factcheck: This claim has been confirmed as correct by experts. </b>','<b style="color:#d302a7">Factcheck: This claim has been classified as misogynistic.</b>','<b style="color:#e7890c">Factcheck: This claim is currently being debunked.</b>','<b style="color:#7fec11">Factcheck: This claim is 100% true.</b>','<b style="color:#9d05da">Factcheck: This claim hurts trans lives.</b>','<b style="color:#f51c6a">Factcheck: [REDACTED].</b>','<b style="color:#00cbb0">Factcheck: This claim is both true and false.</b>','<b style="color:#2a56fb">Factcheck: You really believe that shit? Lmao dumbass nigga 🤣</b>','<b style="color:#0893e1">Factcheck: None of this is real.</b>','<b style="color:#16f174">Factcheck: Yes.</b>','<b style="color:#fd4d32">Factcheck: This claim has not been approved by experts.</b>','<b style="color:#bac200">Factcheck: This claim is a gross exageration of reality.</b>','<b style="color:#ff2200">Factcheck: WARNING! THIS CLAIM HAS BEEN CLASSIFIED AS DANGEROUS. PLEASE REMAIN STILL, AN AGENT WILL COME TO MEET YOU SHORTLY.</b>')

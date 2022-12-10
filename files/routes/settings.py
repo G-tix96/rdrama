@@ -342,9 +342,6 @@ def settings_personal_post(v):
 		if house == "None": house = '' 
 		v.house = house
 
-		if v.house == "Vampire":
-			send_repeatable_notification(DAD_ID, f"@{v.username} has joined House Vampire!")
-
 		updated = True
 
 	if updated:

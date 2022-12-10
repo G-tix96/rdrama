@@ -14,7 +14,7 @@ from files.__main__ import app, cache, limiter
 
 ASSET_TYPES = (Marsey, HatDef)
 CAN_APPROVE_ASSETS = (AEVANN_ID, CARP_ID, SNAKES_ID)
-CAN_UPDATE_ASSETS = (AEVANN_ID, CARP_ID, SNAKES_ID, GEESE_ID, JUSTCOOL_ID)
+CAN_UPDATE_ASSETS = (AEVANN_ID, CARP_ID, SNAKES_ID)
 
 @app.get("/submit/marseys")
 @auth_required
