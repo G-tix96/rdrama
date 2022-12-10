@@ -178,8 +178,14 @@
 
 					<div class="actionbtns">
 						{% if v and v.id == u.id %}
-							<a href="/settings/personal" class="btn btn-secondary">Edit Profile</a>
+							<a href="/settings/personal" class="btn btn-secondary"><i class="fas fa-edit mr-1"></i> Edit Profile</a>
+						{% endif %}
+							
+						{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
+							<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}><i class="fas fa-music mr-1"></i> Toggle Anthem</button>
+						{% endif %}
 
+						{% if v and v.id == u.id %}
 							<form id="upload-profile-background" action="/settings/profile_background" method="post" enctype="multipart/form-data"> 
 								<input type="hidden" name="formkey" value="{{v|formkey}}">
 								<label class="format btn btn-primary" for="upload-profile-background-file" style="margin-bottom:0!important">
@@ -201,10 +207,6 @@
 									</button>
 								</div>
 							{%- endif %}
-						{% endif %}
-
-						{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-							<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}>Toggle Anthem</button>
 						{% endif %}
 					</div>
 					
@@ -398,11 +400,11 @@
 
 				<div class="actionbtns">
 					{% if v and v.id == u.id %}
-						<a href="/settings/personal" class="btn btn-secondary ">Edit Profile</a>
+						<a href="/settings/personal" class="btn btn-secondary"><i class="fas fa-edit mr-1"></i> Edit Profile</a>
 					{% endif %}
 
 					{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-						<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}>Toggle Anthem</button>
+						<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}><i class="fas fa-music mr-1"></i> Toggle Anthem</button>
 					{% endif %}
 
 					{% if v and v.id == u.id and (v.profile_background or v.theme == 'transparent') %}
