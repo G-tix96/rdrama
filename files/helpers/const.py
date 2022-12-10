@@ -1479,12 +1479,12 @@ if SITE == 'rdrama.net':
 	REDDIT_NOTIFS_SITE.add('justice4darrell')
 	REDDIT_NOTIFS_SITE.add('cringetopia.org')
 	REDDIT_NOTIFS_USERS = {
-		'idio3': IDIO_ID,
+		'idio3': 30,
 		'aevann': AEVANN_ID,
 		'carpflo': CARP_ID,
 		'carpathianflorist': CARP_ID,
 		'carpathian florist': CARP_ID,
-		'the_homocracy': HOMO_ID,
+		'the_homocracy': 147,
 		'justcool393': JUSTCOOL_ID
 	}
 elif SITE_NAME == 'WPD':
