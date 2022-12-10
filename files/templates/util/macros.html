@@ -141,7 +141,7 @@
 			<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a></div>
 		</div>
 	{% else %}
-		<div class="comment-write mb-3">
+		<div class="comment-write mt-4 mb-3 mx-3">
 			<textarea autocomplete="off" maxlength="10000" class="comment-box form-control rounded" name="body" aria-label="With textarea" placeholder="Add your comment..." rows="3" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';"></textarea>
 		</div>
 		
