@@ -4925,7 +4925,7 @@ textarea {
 	cursor: pointer;
 }
 video {
-	max-height: 50vh !important;
+	height: 50vh !important;
 	max-width: 100% !important;
 	margin-top: 0.5rem !important;
 	margin-bottom: 0.5rem !important;
