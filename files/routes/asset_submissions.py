@@ -16,16 +16,6 @@ ASSET_TYPES = (Marsey, HatDef)
 CAN_APPROVE_ASSETS = (AEVANN_ID, CARP_ID, SNAKES_ID)
 CAN_UPDATE_ASSETS = (AEVANN_ID, CARP_ID, SNAKES_ID, GEESE_ID, JUSTCOOL_ID)
 
-@app.get('/asset_submissions/<path:path>')
-@limiter.exempt
-def asset_submissions(path):
-	resp = make_response(send_from_directory('/asset_submissions', path))
-	resp.headers.remove("Cache-Control")
-	resp.headers.add("Cache-Control", "public, max-age=3153600")
-	resp.headers.remove("Content-Type")
-	resp.headers.add("Content-Type", "image/webp")
-	return resp
-
 @app.get("/submit/marseys")
 @auth_required
 def submit_marseys(v:User):

@@ -2,7 +2,7 @@
 from files.helpers.const import FEATURES
 
 # import flask then...
-from flask import g, request, render_template, make_response, redirect, jsonify, send_from_directory, send_file
+from flask import g, request, render_template, make_response, redirect, jsonify, send_file
 
 # import our app then...
 from files.__main__ import app
