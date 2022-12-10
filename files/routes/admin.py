@@ -1089,12 +1089,16 @@ def agendaposter(user_id, v):
 			try: post = int(request.values["reason"].split("/post/")[1].split(None, 1)[0])
 			except: abort(400)
 			post = get_post(post)
+			if post.sub == 'chudrama':
+				abort(403, "You can't chud people in /h/chudrama")
 			post.chuddedfor = f'{duration} by @{v.username}'
 			g.db.add(post)
 		elif request.values["reason"].startswith("/comment/"):
 			try: comment = int(request.values["reason"].split("/comment/")[1].split(None, 1)[0])
 			except: abort(400)
 			comment = get_comment(comment)
+			if comment.post.sub == 'chudrama':
+				abort(403, "You can't chud people in /h/chudrama")
 			comment.chuddedfor = f'{duration} by @{v.username}'
 			g.db.add(comment)
 
