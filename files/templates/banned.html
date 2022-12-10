@@ -6,34 +6,38 @@
 <div class="overflow-x-auto"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
 	<tr>
-		<th>#</th>
-		<th>Name</th>
+		<th onclick="sort_table(this)">#</th>
+		<th onclick="sort_table(this)">Name</th>
 		{% if v and v.admin_level >= PERMS['VIEW_LAST_ACTIVE'] -%}
-			<th>Last Active</th>
+			<th onclick="sort_table(this)">Last Active</th>
 		{%- endif %}
-		<th>Ban reason</th>
-		<th>Banned by</th>
+		<td onclick="sort_table(this)">Truescore</td>
+		<th onclick="sort_table(this)">Ban reason</th>
+		<th onclick="sort_table(this)">Banned by</th>
 		<th>Unban in</th>
 	</tr>
 </thead>
 {% for user in users %}
 	<tr>
 		<td>{{loop.index}}</td>
-		<td>{% include "user_in_table.html" %}</td>
+		<td data-sort-key="{{user.username.lower() if user else ''}}">{% include "user_in_table.html" %}</td>
 		{% if v and v.admin_level >= PERMS['VIEW_LAST_ACTIVE'] -%}
 			<td data-time="{{user.last_active}}"></td>
 		{%- endif %}
+		<td>{{user.truescore}}</td>
 		<td>{% if user.ban_reason %}{{user.ban_reason}}{% endif %}</td>
-		<td>
-			{% with user=user.banned_by %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
+		{% with user=user.banned_by %}
+		<td data-sort-key="{{user.username.lower() if user else ''}}">
+			{% include "user_in_table.html" %}
 		</td>
+		{% endwith %}
 		<td>
 			{{user.unban_in}}
 		</td>
 	</tr>
 {% endfor %}
 </table>
+
+<script defer src="{{'js/sort_table.js' | asset}}"></script>
 
 {% endblock %}
