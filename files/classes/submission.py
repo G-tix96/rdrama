@@ -153,7 +153,7 @@ class Submission(Base):
 		elif self.thumburl: 
 			if self.thumburl.startswith('/'): return SITE_FULL + self.thumburl
 			return self.thumburl
-		elif self.is_youtube or self.is_video: return f"{SITE_FULL}/i/default_thumb_video.webp?v=1"
+		elif self.is_youtube or self.is_video: return f"{SITE_FULL}/i/default_thumb_video.webp?v=2"
 		elif self.is_audio: return f"{SITE_FULL}/i/default_thumb_audio.webp?v=1"
 		elif self.domain.split('.')[0] == SITE.split('.')[0]:
 			return f"{SITE_FULL}/i/{SITE_NAME}/site_preview.webp?v=3009"
