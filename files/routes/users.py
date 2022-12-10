@@ -171,10 +171,15 @@ def user_voted_comments(v:User, username):
 @app.get("/banned")
 @auth_required
 def banned(v:User):
-	after_30_days = int(time.time()) + 86400 * 30
 	users = g.db.query(User).filter(
 		User.is_banned > 0,
-		or_(User.unban_utc == 0, User.unban_utc > after_30_days),
+		or_(User.unban_utc == 0, User.unban_utc > time.time()),
+		not_(and_(
+			User.profileurl.startswith('/e/'),
+			User.customtitle==None,
+			User.namecolor == DEFAULT_COLOR,
+			User.patron == 0,
+		))
 	)
 	if v.admin_level >= PERMS['VIEW_LAST_ACTIVE']:
 		users = users.order_by(nullslast(User.last_active.desc()))
@@ -188,7 +193,7 @@ def banned(v:User):
 def grassed(v:User):
 	users = g.db.query(User).filter(
 		User.ban_reason.like('grass award used by @%'),
-		User.unban_utc > int(time.time()),
+		User.unban_utc > time.time(),
 	)
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
@@ -198,9 +203,14 @@ def grassed(v:User):
 @app.get("/chuds")
 @auth_required
 def chuds(v:User):
-	after_30_days = int(time.time()) + 86400 * 30
 	users = g.db.query(User).filter(
-		or_(User.agendaposter == 1, User.agendaposter > after_30_days),
+		or_(User.agendaposter == 1, User.agendaposter > time.time()),
+		not_(and_(
+			User.profileurl.startswith('/e/'),
+			User.customtitle==None,
+			User.namecolor == DEFAULT_COLOR,
+			User.patron == 0,
+		))
 	)
 	if v.admin_level >= PERMS['VIEW_LAST_ACTIVE']:
 		users = users.order_by(nullslast(User.last_active.desc()))

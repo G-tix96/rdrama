@@ -338,8 +338,17 @@ def revert_actions(v, username):
 @admin_level_required(PERMS['USER_SHADOWBAN'])
 def shadowbanned(v):
 	users = g.db.query(User) \
-		.filter(User.shadowbanned != None) \
+		.filter(
+			User.shadowbanned != None,
+			not_(and_(
+				User.profileurl.startswith('/e/'),
+				User.customtitle==None,
+				User.namecolor == DEFAULT_COLOR,
+				User.patron == 0,
+			))
+		) \
 		.order_by(nullslast(User.last_active.desc())).all()
+
 	return render_template("admin/shadowbanned.html", v=v, users=users)
 
 

@@ -72,7 +72,7 @@
 	{% endif %}
 {% endblock %}
 
-<div class="pt-3 {% if request.path == '/banned' or request.path == '/blocks' %}container-fluid{% else %}container{% endif %} {% if request.path in ['/leaderboard', '/paypigs', '/patrons'] %}px-0{% endif %}">
+<div class="pt-3 container">
 
 {% block content %}{% endblock %}
 
