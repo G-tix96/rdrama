@@ -178,7 +178,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 			path = filename.rsplit('/', 1)[0]
 			kind = path.split('/')[-1]
 
-			if kind in ('banners','sidebar','badges'):
+			if kind in ('banners','sidebar'):
 				hashes = {}
 
 				for img in os.listdir(path):
