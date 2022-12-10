@@ -313,6 +313,16 @@ ACTIONTYPES = {
 		"icon": 'fa-award', 
 		"color": 'bg-primary'
 	},
+	'set_new': {
+		"str": 'changed the default sorting of comments on {self.target_link} to `new`', 
+		"icon": 'fa-sparkles', 
+		"color": 'bg-primary'
+	},
+	'set_hot': {
+		"str": 'changed the default sorting of comments on {self.target_link} to `hot`', 
+		"icon": 'fa-fire', 
+		"color": 'bg-primary'
+	},
 	'set_nsfw': {
 		"str": 'set {self.target_link} as +18', 
 		"icon": 'fa-eye-evil', 

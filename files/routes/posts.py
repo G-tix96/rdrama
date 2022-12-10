@@ -988,15 +988,46 @@ def pin_post(post_id, v):
 		else: return {"message": "Post unpinned!"}
 	return abort(404, "Post not found!")
 
-@app.route("/post/<post_id>/new", methods=["PUT", "DELETE"])
+@app.put("/post/<post_id>/new")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
-def toggle_new_sort(post_id:int, v:User):
+def set_new_sort(post_id:int, v:User):
 	post = get_post(post_id)
 	if not v.can_edit(post): abort(403, "Only the post author can do that!")
-	post.new = request.method == "PUT"
+	post.new = True
 	g.db.add(post)
-	return {"message": f"Turned {'on' if post.new else 'off'} sort by new"}
+
+	if v.id != post.author_id:
+		ma = ModAction(
+				kind = "set_new",
+				user_id = v.id,
+				target_submission_id = post.id,
+			)
+		g.db.add(ma)
+		send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has changed the the default sorting of comments on [{post.title}](/post/{post.id}) to `new`")
+
+	return {"message": f"Changed the the default sorting of comments on this post to 'new'"}
+
+
+@app.delete("/post/<post_id>/new")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@auth_required
+def unset_new_sort(post_id:int, v:User):
+	post = get_post(post_id)
+	if not v.can_edit(post): abort(403, "Only the post author can do that!")
+	post.new = None
+	g.db.add(post)
+
+	if v.id != post.author_id:
+		ma = ModAction(
+				kind = "set_hot",
+				user_id = v.id,
+				target_submission_id = post.id,
+			)
+		g.db.add(ma)
+		send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has changed the the default sorting of comments on [{post.title}](/post/{post.id}) to `hot`")
+
+	return {"message": f"Changed the the default sorting of comments on this post to 'hot'"}
 
 
 extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
