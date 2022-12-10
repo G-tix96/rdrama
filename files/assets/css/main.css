@@ -4925,7 +4925,7 @@ textarea {
 	cursor: pointer;
 }
 video {
-	height: 50vh !important;
+	max-height: 50vh !important;
 	max-width: 100% !important;
 	margin-top: 0.5rem !important;
 	margin-bottom: 0.5rem !important;
@@ -6460,4 +6460,23 @@ div.markdown {
 	.download-video {
 		font-size: 10px;
 	}
+}
+
+.resizable {
+	resize:both;
+	display:inline-block;
+	overflow: auto;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+.resizable::-webkit-scrollbar {
+	background: transparent;
+}
+.resizable > video {
+	height:100%!important;
+	max-height:100%!important;
+	margin:0!important;
+}
+.bigger {
+	height:50vh;
 }

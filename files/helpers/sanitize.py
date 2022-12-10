@@ -58,14 +58,12 @@ def allowed_attributes(tag, name, value):
 			try: value = int(value.replace('px', ''))
 			except: return False
 			if 0 < value <= 250: return True
-		return False
 
 	if tag == 'a':
 		if name == 'href' and '\\' not in value and 'xn--' not in value:
 			return True
 		if name == 'rel' and value == 'nofollow noopener': return True
 		if name == 'target' and value == '_blank': return True
-		return False
 
 	if tag == 'img':
 		if name in {'src','data-src'}: return is_safe_url(value)
@@ -73,38 +71,33 @@ def allowed_attributes(tag, name, value):
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
 		if name in {'g','b','glow'} and not value: return True
 		if name in {'alt','title'}: return True
-		return False
 
 	if tag == 'lite-youtube':
 		if name == 'params' and value.startswith('autoplay=1&modestbranding=1'): return True
 		if name == 'videoid': return True
-		return False
 
 	if tag == 'video':
 		if name == 'controls' and value == '': return True
 		if name == 'preload' and value == 'none': return True
 		if name == 'src': return is_safe_url(value)
-		return False
 
 	if tag == 'audio':
 		if name == 'src': return is_safe_url(value)
 		if name == 'controls' and value == '': return True
 		if name == 'preload' and value == 'none': return True
-		return False
 
 	if tag == 'p':
-		if name == 'class' and value == 'mb-0': return True
-		return False
+		if name == 'class' and value in ('mb-0','resizable'): return True
 
 	if tag == 'span':
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
 		if name == 'title': return True
 		if name == 'alt': return True
-		return False
 
 	if tag == 'table':
 		if name == 'class' and value == 'table': return True
-		return False
+	
+	return False
 
 def build_url_re(tlds, protocols):
 	"""Builds the url regex used by linkifier
@@ -370,7 +363,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 		sanitized = sanitized.replace(i.group(0), htmlsource)
 
-	sanitized = video_sub_regex.sub(r'\1<video controls preload="none" src="\2"></video>', sanitized)
+	sanitized = video_sub_regex.sub(r'\1<p class="resizable"><video controls preload="none" src="\2"></video></p>', sanitized)
 	sanitized = audio_sub_regex.sub(r'\1<audio controls preload="none" src="\2"></audio>', sanitized)
 
 	if count_marseys:
@@ -429,7 +422,6 @@ def allowed_attributes_emojis(tag, name, value):
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
 		if name == 'title': return True
 		if name == 'alt': return True
-		return False
 	return False
 
 

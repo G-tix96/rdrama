@@ -142,7 +142,9 @@
 							{% elif p.is_video %}
 								<div class="row no-gutters mb-4">
 									<div class="col">
-										<video controls preload="none" src="{{p.realurl(v)}}"></video>
+										<p class="resizable bigger">
+											<video controls preload="none" src="{{p.realurl(v)}}"></video>
+										</p>
 									</div>
 								</div>
 							{% elif p.is_audio %}
