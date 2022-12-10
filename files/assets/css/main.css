@@ -4492,8 +4492,8 @@ pre .com, code .com {
 		background-color: var(--gray-600);
 }
 	.custom-gutters, .user-gutters {
-		padding-left: 2px;
-		padding-right: 2px;
+		padding-left: 0;
+		padding-right: 0;
 }
 	.navbar.bg-primary {
 		background-color: var(--dark) !important;
