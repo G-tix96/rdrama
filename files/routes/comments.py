@@ -60,7 +60,8 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 		context -= 1
 	top_comment = c
 
-	if v: defaultsortingcomments = v.defaultsortingcomments
+	if post.new: defaultsortingcomments = 'new'
+	elif v: defaultsortingcomments = v.defaultsortingcomments
 	else: defaultsortingcomments = "hot"
 	sort=request.values.get("sort", defaultsortingcomments)
 
