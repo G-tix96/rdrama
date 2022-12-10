@@ -90,7 +90,11 @@ def _sub_inactive_purge_task():
 
 	posts = g.db.query(Submission).filter(Submission.sub.in_(names)).all()
 	for post in posts:
-		post.sub = None
+		if post.sub == 'programming':
+			post.sub = 'slackernews'
+		else:
+			post.sub = None
+
 		post.hole_pinned = None
 		g.db.add(post)
 
