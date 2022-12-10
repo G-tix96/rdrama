@@ -186,7 +186,10 @@ def banned(v:User):
 @app.get("/grassed")
 @auth_required
 def grassed(v:User):
-	users = g.db.query(User).filter(User.ban_reason.like('grass award used by @%'))
+	users = g.db.query(User).filter(
+		User.ban_reason.like('grass award used by @%'),
+		User.unban_utc > int(time.time()),
+	)
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
 	users = users.all()
