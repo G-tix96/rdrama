@@ -59,7 +59,11 @@
 		<div class="navbar navbar-expand-md navbar-light" id="navbar">
 			<div class="container-fluid" style="padding:0;">
 			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not sub %}flex-grow-1{% endif %}">
+				{% if SITE_NAME == 'WPD' %}{# Temporary event code, 2022-12-11 #}
+				<img id="header--icon" alt="header icon" src="{{'icons-event/2022-christmas.webp' | asset_siteimg}}">
+				{% else %}
 				<img id="header--icon" alt="header icon" {% if sub %}src="{{sub.marsey_url}}"{% else %}src="{{'headericon.webp' | asset_siteimg}}"{% endif %}>
+				{% endif %}
 			</a>
 			
 			{% if sub %}
