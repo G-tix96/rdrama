@@ -200,13 +200,16 @@ INSERT INTO public.badge_defs VALUES (132, 'Duterte''s Most Wanted (TEMPORAL FLU
 INSERT INTO public.badge_defs VALUES (133, 'Rockstar', 'This user submitted an original piece to the song contest', NULL);
 INSERT INTO public.badge_defs VALUES (134, '1 Year Old 🥰', 'This user has wasted an ENTIRE YEAR of their life here! Happy birthday!', NULL);
 INSERT INTO public.badge_defs VALUES (208, 'Best Drama Post 2022', 'The author of the best drama post of 2022, as voted by rdrama users.', 1670628577);
+INSERT INTO public.badge_defs VALUES (212, 'Dramatard of the Year 2022', 'Voted as the best rdrama user of 2022. Congratulations!', 1670719153);
+INSERT INTO public.badge_defs VALUES (213, 'Best Marsey 2022', 'The creator of the best Marsey emote of 2022, as voted by rdrama users.', 1670719193);
+INSERT INTO public.badge_defs VALUES (214, 'Master Baiter 2022', 'The cunning mastermind behind the ruse which was voted best rdrama bait of 2022.', 1670719221);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 211, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 214, true);
 
 
 --
