@@ -266,6 +266,10 @@ def award_thing(v, thing_type, id):
 		else: thing.stickied_utc = t
 		g.db.add(thing)
 	elif kind == "agendaposter":
+		if thing_type == 'post' and thing.sub == 'chudrama' \
+			or thing_type == 'comment' and thing.post.sub == 'chudrama':
+			abort(403, "You can't give the chud award in /h/chudrama")
+
 		if author.marseyawarded:
 			abort(409, f"@{author.username} is under the effect of a conflicting award: Marsey award.")
 
