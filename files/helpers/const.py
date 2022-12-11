@@ -152,6 +152,7 @@ if SITE_NAME == 'rDrama':
 		"it's almost as if": "I'm a retard but",
 		"my brother in christ": "my brother in Allah",
 		"kyle": "Kylie",
+		"twitter files": 'twitter files <img loading="lazy" data-bs-toggle="tooltip" alt=":marseysleep:" title=":marseysleep:" src="/e/marseysleep.webp">',
 	}
 	SLURS.update(RDRAMA_SLURS)
 
