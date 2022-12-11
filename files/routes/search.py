@@ -225,7 +225,14 @@ def searchcomments(v:User):
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		private = [x[0] for x in g.db.query(Submission.id).filter(Submission.private == True).all()]
 
-		comments = comments.filter(Comment.is_banned==False, Comment.deleted_utc == 0, Comment.parent_submission.notin_(private))
+		comments = comments.filter(
+			Comment.is_banned==False,
+			Comment.deleted_utc == 0,
+			or_(
+				Comment.parent_submission.notin_(private),
+				Comment.wall_user_id != None
+			)
+		)
 
 
 	if 'after' in criteria:
