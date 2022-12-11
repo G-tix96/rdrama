@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 14.5
--- Dumped by pg_dump version 14.5 (Ubuntu 14.5-1.pgdg20.04+1)
+-- Dumped by pg_dump version 14.6 (Ubuntu 14.6-1.pgdg20.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -884,7 +884,7 @@ CREATE TABLE public.subs (
     sidebar character varying(10000),
     sidebar_html character varying(20000),
     sidebarurl character varying(60),
-    bannerurl character varying(60),
+    bannerurls character varying(60)[] DEFAULT '{}'::character varying[] NOT NULL,
     css character varying(6000),
     stealth boolean,
     marseyurl character varying(60),
