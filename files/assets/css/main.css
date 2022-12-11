@@ -6428,7 +6428,7 @@ div.markdown {
 }
 
 :root {
-	--signature-max-height: 250px;
+	--signature-max-height: 300px;
 }
 
 .user-signature {
