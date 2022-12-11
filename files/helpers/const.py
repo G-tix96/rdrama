@@ -1708,6 +1708,7 @@ if SITE_NAME == 'rDrama':
 		'teamblind.com',
 		'mainchan.com',
 		'encyclopediadramatica.online',
+		'thecoli.com',
 
 		#fediverse
 		'rdrama.cc',
