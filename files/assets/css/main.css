@@ -6480,3 +6480,8 @@ div.markdown {
 .user-signature video {
 	max-height: min(var(--signature-max-height),50vh) !important;
 }
+
+.comment-text lite-youtube, #post-text lite-youtube {
+    max-width: 500px;
+    margin-top: 5px;
+}
