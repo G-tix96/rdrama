@@ -6436,10 +6436,6 @@ div.markdown {
 	overflow: clip;
 }
 
-.user-signature video {
-	height: var(--signature-max-height);
-}
-
 .award-name {
 	font-weight: bold;
 	font-size: 14px;
@@ -6479,4 +6475,8 @@ div.markdown {
 }
 .bigger {
 	height:50vh;
+}
+
+.user-signature video {
+	max-height: min(var(--signature-max-height),50vh) !important;
 }
