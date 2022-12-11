@@ -559,6 +559,8 @@ def badge_grant_post(v):
 		if '\\' in url: abort(400)
 		if url.startswith(SITE_FULL):
 			url = url.split(SITE_FULL, 1)[1]
+		elif url.startswith(BAN_EVASION_FULL):
+			url = url.split(BAN_EVASION_FULL, 1)[1]
 		new_badge.url = url
 
 	g.db.add(new_badge)

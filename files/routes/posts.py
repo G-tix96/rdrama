@@ -697,6 +697,8 @@ def submit_post(v:User, sub=None):
 
 	if url and url.startswith(SITE_FULL):
 		url = url.split(SITE_FULL)[1]
+	elif url.startswith(BAN_EVASION_FULL):
+		url = url.split(BAN_EVASION_FULL, 1)[1]
 
 	post = Submission(
 		private=flag_private,
