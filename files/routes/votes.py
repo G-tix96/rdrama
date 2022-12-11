@@ -6,7 +6,7 @@ from files.__main__ import app, limiter
 
 
 @app.get("/votes/<link>")
-@admin_level_required(PERMS['VOTES_VISIBLE'])
+@auth_required
 def vote_info_get(v, link):
 	try:
 		if "p_" in link: thing = get_post(int(link.split("p_")[1]), v=v)

@@ -6,7 +6,7 @@
 {% endif %}
 
 
-{% if v and ((not p.ghost and v.admin_level >= PERMS['VOTES_VISIBLE']) or v.id == AEVANN_ID) %}
+{% if not p.ghost or (v and v.id == AEVANN_ID) %}
 	<a class="nobackground btn btn-link btn-block btn-lg text-left text-muted" href="/votes/{{p.fullname}}">
 		<i class="fas fa-arrows-v text-center text-muted mr-2"></i>Votes
 	</a>

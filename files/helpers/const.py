@@ -225,7 +225,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'HOLE_CREATE': 0,
 	'EDIT_RULES': 3,
 	'FLAGS_REMOVE': 2,
-	'VOTES_VISIBLE': 0,
 	'USER_BLOCKS_VISIBLE': 0,
 	'USER_FOLLOWS_VISIBLE': 0,
 	'USER_VOTERS_VISIBLE': 0,
