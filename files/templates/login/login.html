@@ -11,19 +11,11 @@
 {% block authtext %}Glad to have you back!{% endblock %}
 {% block content %}
 <div id="login-form">
-	{% if failed %}
-	<div class="alert alert-danger alert-dismissible fade show d-flex my-3" role="alert">
-		<i class="fas fa-exclamation-circle my-auto"></i>
-		<div>
-				Incorrect username, email address, or password.
-				<br>
-				<a href="/forgot" class="alert-link">Forgot password?</a>
-		</div>
-		<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-	</button>
-	</div>
-	{% endif %}
+	{%- set error_text -%}
+		Incorrect username, email address, or password.<br>
+		<a href="/forgot" class="alert-link">Forgot password?</a>
+	{%- endset -%}
+	{% if failed %}{{macros.alert(error_text, true)}}{% endif %}
 	<form action="/login" method="post" class="mt-md-3" id="login">
 			<label for="username" class="mt-3">Username or Email Address</label>
 			<input autocomplete="off" class="form-control" id="username" aria-describedby="usernameHelp"

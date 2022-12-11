@@ -1,20 +1,8 @@
 {% extends "default.html" %}
 {% block pagetitle %}Contact{% endblock %}
 {% block content %}
-	{% if msg %}
-		<div class="alert alert-success alert-dismissible fade show my-3" role="alert">
-			<i class="fas fa-check-circle my-auto" aria-hidden="true"></i>
-			<span>
-				{{msg}}
-			</span>
-			<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true"><i class="far fa-times"></i></span>
-			</button>
-		</div>
-	{% endif %}
-
+	{% if msg %}{{macros.alert(msg, false)}}{% endif %}
 	<h1 class="article-title">Contact {{SITE_NAME}} Admins</h1>
-
 	{% if v %}
 		<p>Use this form to contact {{SITE_NAME}} Admins.</p>
 

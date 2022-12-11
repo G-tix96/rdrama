@@ -6,7 +6,7 @@ from flask_socketio import SocketIO, emit
 
 from files.helpers.actions import *
 from files.helpers.alerts import *
-from files.helpers.const import *
+from files.helpers.config.const import *
 from files.helpers.regex import *
 from files.helpers.sanitize import sanitize
 from files.routes.wrappers import *

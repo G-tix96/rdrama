@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship, scoped_session
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
-from files.helpers.const import SITE_FULL
+from files.helpers.config.const import SITE_FULL
 from files.helpers.lazy import lazy
 
 from .comment import Comment

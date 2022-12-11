@@ -3,7 +3,7 @@ from typing import List, Optional, Union
 
 import requests
 
-from files.helpers.const import CF_HEADERS, CF_ZONE, DEFAULT_CONFIG_VALUE
+from files.helpers.config.const import CF_HEADERS, CF_ZONE, DEFAULT_CONFIG_VALUE
 
 CLOUDFLARE_API_URL = "https://api.cloudflare.com/client/v4"
 CLOUDFLARE_REQUEST_TIMEOUT_SECS = 5

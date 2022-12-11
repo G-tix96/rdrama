@@ -1,4 +1,3 @@
-from copy import deepcopy
 from enum import Enum, auto
 from os import environ, path
 
@@ -71,9 +70,6 @@ EMOJIS_CACHE_KEY = "emojis"
 SESSION_LIFETIME = 60 * 60 * 24 * 365
 
 CASINO_RELEASE_DAY = 1662825600
-
-if SITE_NAME == 'rDrama': patron = 'Paypig'
-else: patron = 'Patron'
 
 AJ_REPLACEMENTS = {
 	' your ': " you're ",
@@ -184,11 +180,12 @@ profanity_single_words = "|".join([profanity.lower() for profanity in PROFANITIE
 
 LONGPOST_REPLIES = ('Wow, you must be a JP fan.', 'This is one of the worst posts I have EVER seen. Delete it.', "No, don't reply like this, please do another wall of unhinged rant please.", '<h1>😴😴😴</h1>', "Ma'am we've been over this before. You need to stop.", "I've known more coherent downies.", "Your pulitzer's in the mail", "That's great and all, but I asked for my burger without cheese.", 'That degree finally paying off', "That's nice sweaty. Why don't you have a seat in the time out corner with Pizzashill until you calm down, then you can have your Capri Sun.", "All them words won't bring your pa back.", "You had a chance to not be completely worthless, but it looks like you threw it away. At least you're consistent.", 'Some people are able to display their intelligence by going on at length on a subject and never actually saying anything. This ability is most common in trades such as politics, public relations, and law. You have impressed me by being able to best them all, while still coming off as an absolute idiot.', "You can type 10,000 characters and you decided that these were the one's that you wanted.", 'Have you owned the libs yet?', "I don't know what you said, because I've seen another human naked.", 'Impressive. Normally people with such severe developmental disabilities struggle to write much more than a sentence or two. He really has exceded our expectations for the writing portion. Sadly the coherency of his writing, along with his abilities in the social skills and reading portions, are far behind his peers with similar disabilities.', "This is a really long way of saying you don't fuck.", "Sorry ma'am, looks like his delusions have gotten worse. We'll have to admit him.", 'If only you could put that energy into your relationships', 'Posts like this is why I do Heroine.', 'still unemployed then?', 'K', 'look im gunna have 2 ask u 2 keep ur giant dumps in the toilet not in my replys 😷😷😷', "Mommy is soooo proud of you, sweaty. Let's put this sperg out up on the fridge with all your other failures.", "Good job bobby, here's a star", "That was a mistake. You're about to find out the hard way why.", f'You sat down and wrote all this shit. You could have done so many other things with your life. What happened to your life that made you decide writing novels of bullshit here was the best option?', "I don't have enough spoons to read this shit", "All those words won't bring daddy back.", 'OUT!', "Damn, you're really mad over this, but thanks for the effort you put into typing that all out! Sadly I won't read it all.", "Jesse what the fuck are you talking about??", "▼you're fucking bananas if you think I'm reading all that, take my downvote and shut up idiot", "Are you feeling okay bud?", '<img loading="lazy" data-bs-toggle="tooltip" alt=":#marseywoah:" src="/e/marseywoah.webp" b title=":#marseywoah:">', 'At no point in your rambling, incoherent post were you even close to anything that could be considered a rational thought. Everyone on this site is now dumber for having read it. May God have mercy on your soul.')
 
-
 AGENDAPOSTER_PHRASE = 'trans lives matter'
 
-
-AGENDAPOSTER_MSG = """Hi @{username},\nYour {type} has been automatically removed because you forgot to include `{AGENDAPOSTER_PHRASE}`.\nDon't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards the trans community. Feel free to resubmit your {type} with `{AGENDAPOSTER_PHRASE}` included. \n*This is an automated message; if you need help, you can message us [here](/contact).*"""
+AGENDAPOSTER_MSG = """Hi @{username},\n
+Your {type} has been automatically removed because you forgot to include `{AGENDAPOSTER_PHRASE}`.\n
+Don't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards the trans community. Feel free to resubmit your {type} with `{AGENDAPOSTER_PHRASE}` included. \n
+*This is an automated message; if you need help, you can message us [here](/contact).*"""
 
 AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp/{id}">@{username}</a>,</p>
 <p>Your {type} has been automatically removed because you forgot to include <code>{AGENDAPOSTER_PHRASE}</code>.</p>
@@ -206,6 +203,18 @@ COMMENT_SORTS = ["hot", "new", "old", "top", "bottom", "controversial"]
 SORTS = COMMENT_SORTS + ["bump", "comments"]
 TIME_FILTERS = ["hour", "day", "week", "month", "year", "all"]
 PAGE_SIZES = (10, 25, 50, 100)
+
+################################################################################
+### COLUMN INFO
+################################################################################
+
+SUB_NAME_COLUMN_LENGTH = 25
+SUB_SIDEBAR_COLUMN_LENGTH = 10000
+SUB_SIDEBAR_HTML_COLUMN_LENGTH = 20000
+SUB_SIDEBAR_URL_COLUMN_LENGTH = 60
+SUB_BANNER_URL_COLUMN_LENGTH = 60
+SUB_CSS_COLUMN_LENGTH = 6000
+SUB_MARSEY_URL_LENGTH = 60
 
 ################################################################################
 ### SITE SPECIFIC CONSTANTS
@@ -395,7 +404,10 @@ COMMENT_MAX_DEPTH = 200
 TRANSFER_MESSAGE_LENGTH_LIMIT = 200 # do not make larger than 10000 characters (comment limit) without altering the table
 MIN_REPOST_CHECK_URL_LENGTH = 9 # also change the constant in checkRepost() of submit.js
 CHAT_LENGTH_LIMIT = 1000
+SUB_BANNER_LIMIT = 10
+
 COSMETIC_AWARD_COIN_AWARD_PCT = 0.10
+
 TRUESCORE_CHAT_MINIMUM = 0
 TRUESCORE_DONATE_MINIMUM = 100
 TRUESCORE_GHOST_MINIMUM = 0
@@ -468,7 +480,7 @@ LEADERBOARD_LIMIT = PAGE_SIZE
 HOUSE_JOIN_COST = 500
 HOUSE_SWITCH_COST = 2000
 
-DONATE_SERVICE = "Gumroad" if not KOFI_TOKEN or  KOFI_TOKEN == DEFAULT_CONFIG_VALUE else "KoFi"
+DONATE_SERVICE = "Gumroad" if not KOFI_TOKEN or KOFI_TOKEN == DEFAULT_CONFIG_VALUE else "KoFi"
 DONATE_LINK = GUMROAD_LINK if not KOFI_TOKEN or KOFI_TOKEN == DEFAULT_CONFIG_VALUE else KOFI_LINK
 TIERS_ID_TO_NAME = {
 	1: "Paypig",
@@ -633,7 +645,8 @@ elif SITE == 'watchpeopledie.tv':
 	PERMS['POST_EDITING'] = 2
 	PERMS['ADMIN_ADD'] = 4
 
-	POLL_MAX_OPTIONS = 30
+	SUB_BANNER_LIMIT = 69420
+	POLL_MAX_OPTIONS = 50
 
 	ERROR_TITLES.update({
 		400: "Bad Request",
@@ -700,6 +713,11 @@ else: # localhost or testing environment implied
 	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 	FEATURES['STREAMERS'] = True
+	SUB_BANNER_LIMIT = 69420
+
+patron = "Patron"
+if SITE_NAME == 'rDrama':
+	patron = "Paypig"
 
 HOUSES = ("None","Furry","Femboy","Vampire","Racist") if FEATURES['HOUSES'] else ("None")
 
@@ -710,757 +728,9 @@ COLORS = {'ff66ac','805ad5','62ca56','38a169','80ffff','2a96f3','eb4963','ff0000
 BAN_EVASION_DOMAIN = 'stupidpol.site'
 BAN_EVASION_FULL = f'https://{BAN_EVASION_DOMAIN}'
 
-AWARDS = {
-	"fallback": {
-		"kind": "fallback",
-		"title": "Unknown",
-		"description": "",
-		"icon": "fas fa-block-question",
-		"color": "text-white",
-		"price": 0,
-		"deflectable": False,
-		"cosmetic": False
-	},
-	### Deprecated
-	"ghost": {
-		"kind": "ghost",
-		"title": "Ghost",
-		"description": "",
-		"icon": "fas fa-ghost",
-		"color": "text-white",
-		"price": 3000,
-		"deflectable": False,
-		"cosmetic": False
-	},
-	"nword": {
-		"kind": "nword",
-		"title": "Nword Pass",
-		"description": "",
-		"icon": "fas fa-edit",
-		"color": "text-success",
-		"price": 10000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	### Fistmas 2021
-	"snow": {
-		"kind": "snow",
-		"title": "Snow",
-		"description": "",
-		"icon": "fas fa-snowflake",
-		"color": "text-blue-200",
-		"price": 300,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"gingerbread": {
-		"kind": "gingerbread",
-		"title": "Gingerbread",
-		"description": "",
-		"icon": "fas fa-gingerbread-man",
-		"color": "",
-		"price": 300,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"lights": {
-		"kind": "lights",
-		"title": "Lights",
-		"description": "",
-		"icon": "fas fa-lights-holiday",
-		"color": "",
-		"price": 300,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"candycane": {
-		"kind": "candycane",
-		"title": "Candy Cane",
-		"description": "",
-		"icon": "fas fa-candy-cane",
-		"color": "",
-		"price": 400,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"fireplace": {
-		"kind": "fireplace",
-		"title": "Fireplace",
-		"description": "",
-		"icon": "fas fa-fireplace",
-		"color": "",
-		"price": 600,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"grinch": {
-		"kind": "grinch",
-		"title": "Grinch",
-		"description": "",
-		"icon": "fas fa-angry",
-		"color": "text-green-500",
-		"price": 1000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	### Homoween 2021 & 2022
-	"haunt": {
-		"kind": "haunt",
-		"title": "Haunt",
-		"description": "",
-		"icon": "fas fa-book-dead",
-		"color": "text-warning",
-		"price": 500,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"upsidedown": {
-		"kind": "upsidedown",
-		"title": "The Upside Down",
-		"description": "",
-		"icon": "fas fa-lights-holiday",
-		"color": "",
-		"price": 400,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"stab": {
-		"kind": "stab",
-		"title": "Stab",
-		"description": "",
-		"icon": "fas fa-knife-kitchen",
-		"color": "text-danger",
-		"price": 300,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"spiders": {
-		"kind": "spiders",
-		"title": "Spiders",
-		"description": "",
-		"icon": "fas fa-spider",
-		"color": "text-black",
-		"price": 200,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"fog": {
-		"kind": "fog",
-		"title": "Fog",
-		"description": "",
-		"icon": "fas fa-smoke",
-		"color": "text-gray",
-		"price": 200,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	### Homoween 2022
-	"jumpscare": {
-		"kind": "jumpscare",
-		"title": "Jumpscare",
-		"description": "",
-		"icon": "fas fa-coffin-cross",
-		"color": "text-purple",
-		"price": 600,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"hw-bite": {
-		"kind": "hw-bite",
-		"title": "Zombie Bite",
-		"description": "",
-		"icon": "fas fa-biohazard",
-		"color": "text-danger",
-		"price": 500,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"hw-vax": {
-		"kind": "hw-vax",
-		"title": "Vaxxmaxx",
-		"description": "",
-		"icon": "fas fa-syringe",
-		"color": "text-blue",
-		"price": 500,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"hw-grinch": {
-		"kind": "hw-grinch",
-		"title": "Hallowgrinch",
-		"description": "",
-		"icon": "fas fa-angry",
-		"color": "text-orange",
-		"price": 1000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"flashlight": {
-		"kind": "flashlight",
-		"title": "Flashlight",
-		"description": "",
-		"icon": "fas fa-flashlight",
-		"color": "text-black",
-		"price": 400,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"candy-corn": {
-		"kind": "candy-corn",
-		"title": "Candy Corn",
-		"description": "",
-		"icon": "fas fa-candy-corn",
-		"color": "text-orange",
-		"price": 400,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"ectoplasm": {
-		"kind": "ectoplasm",
-		"title": "Ectoplasm",
-		"description": "",
-		"icon": "fas fa-ghost",
-		"color": "text-success",
-		"price": 400,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"bones": {
-		"kind": "bones",
-		"title": "Bones",
-		"description": "",
-		"icon": "fas fa-bone",
-		"color": "text-white",
-		"price": 200,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"pumpkin": {
-		"kind": "pumpkin",
-		"title": "Pumpkin",
-		"description": "",
-		"icon": "fas fa-jack-o-lantern",
-		"color": "text-orange",
-		"price": 200,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	### Standard
-	"marsify": {
-		"kind": "marsify",
-		"title": "Marsify",
-		"description": "Marsifies the recipient's comments for 24 hours.",
-		"icon": "fas fa-cat",
-		"color": "text-white",
-		"price": 150,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"shit": {
-		"kind": "shit",
-		"title": "Shit",
-		"description": "Makes flies swarm the post.",
-		"icon": "fas fa-poop",
-		"color": "text-black-50",
-		"price": 150,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"fireflies": {
-		"kind": "fireflies",
-		"title": "Fireflies",
-		"description": "Makes fireflies swarm the post.",
-		"icon": "fas fa-sparkles",
-		"color": "text-warning",
-		"price": 150,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"train": {
-		"kind": "train",
-		"title": "Train",
-		"description": "Summons a train on the post.",
-		"icon": "fas fa-train",
-		"color": "text-pink",
-		"price": 150,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"scooter": {
-		"kind": "scooter",
-		"title": "Scooter",
-		"description": "Summons a scooter on the post.",
-		"icon": "fas fa-flag-usa",
-		"color": "text-muted",
-		"price": 150,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"wholesome": {
-		"kind": "wholesome",
-		"title": "Wholesome",
-		"description": "Summons a wholesome marsey on the post.",
-		"icon": "fas fa-smile-beam",
-		"color": "text-yellow",
-		"price": 150,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"firework": {
-		"kind": "firework",
-		"title": "Fireworks",
-		"description": "Summons fireworks on the post.",
-		"icon": "fas fa-bahai",
-		"color": "text-danger",
-		"price": 150,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"confetti": {
-		"kind": "confetti",
-		"title": "Confetti",
-		"description": "Summons confetti to fall on the post.",
-		"icon": "fas fa-party-horn",
-		"color": "text-yellow",
-		"price": 150,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"ricardo": {
-		"kind": "ricardo",
-		"title": "Stripper Cake",
-		"description": "Summons Ricardo to dance on the post.",
-		"icon": "fas fa-pinata",
-		"color": "text-pink",
-		"price": 150,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"tilt": {
-		"kind": "tilt",
-		"title": "Tilt",
-		"description": "Tilts the post or comment",
-		"icon": "fas fa-car-tilt",
-		"color": "text-blue",
-		"price": 150,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"glowie": {
-		"kind": "glowie",
-		"title": "Glowie",
-		"description": "Indicates that the recipient can be seen when driving. Just run them over.",
-		"icon": "fas fa-user-secret",
-		"color": "text-green",
-		"price": 150,
-		"deflectable": False,
-		"cosmetic": True
-	},
-	"rehab": {
-		"kind": "rehab",
-		"title": "Rehab",
-		"description": "Prevents the user from gambling for 24 hours in a last ditch effort to save them from themself.",
-		"icon": "fas fa-dice-six",
-		"color": "text-black",
-		"price": 777,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"agendaposter": {
-		"kind": "agendaposter",
-		"title": "Chud",
-		"description": "Chuds the recipient for 24 hours.",
-		"icon": "fas fa-snooze",
-		"color": "text-purple",
-		"price": 1000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"offsitementions": {
-		"kind": "offsitementions",
-		"title": "Y'all Seein' Eye",
-		"description": "Gives the recipient access to notifications when people off-site talk about us.",
-		"icon": "fas fa-eyes",
-		"color": "text-orange",
-		"price": 1000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"lootbox": {
-		"kind": "lootbox",
-		"title": "Lootbox",
-		"description": "",
-		"icon": "fas fa-box-open",
-		"color": "text-blue",
-		"price": 1000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"beano": {
-		"kind": "beano",
-		"title": "Beano",
-		"description": "Stops you from embarrassing yourself with your flatulence",
-		"icon": "fas fa-gas-pump-slash",
-		"color": "text-green",
-		"price": 1000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"unpin": {
-		"kind": "unpin",
-		"title": "Unpin",
-		"description": "Removes 1 hour from the pin duration of a post or 6 hours from the pin duration of a comment.",
-		"icon": "fas fa-thumbtack fa-rotate--45",
-		"color": "text-black",
-		"price": 1000,
-		"deflectable": False,
-		"cosmetic": False
-	},
-	"flairlock": {
-		"kind": "flairlock",
-		"title": "1-Day Flairlock",
-		"description": "Sets a flair for the recipient and locks it for 24 hours.",
-		"icon": "fas fa-lock",
-		"color": "text-black",
-		"price": 1250,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"pin": {
-		"kind": "pin",
-		"title": "Pin",
-		"description": "Pins a post for 1 hour or a comment for 6 hours.",
-		"icon": "fas fa-thumbtack fa-rotate--45",
-		"color": "text-warning",
-		"price": 1500,
-		"deflectable": False,
-		"cosmetic": False
-	},
-	"progressivestack": {
-		"kind": "progressivestack",
-		"title": "Progressive Stack",
-		"description": "Makes votes on the recipient's posts and comments weigh double in the ranking algorithm for 6 hours.",
-		"icon": "fas fa-bullhorn",
-		"color": "text-danger",
-		"price": 1500,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"pizzashill": {
-		"kind": "pizzashill",
-		"title": "Pizzashill",
-		"description": "Forces the recipient to make all posts/comments > 280 characters for 24 hours.",
-		"icon": "fas fa-pizza-slice",
-		"color": "text-orange",
-		"price": 1500,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"bird": {
-		"kind": "bird",
-		"title": "Bird Site",
-		"description": "Forces the recipient to make all posts/comments < 140 characters for 24 hours.",
-		"icon": "fab fa-twitter",
-		"color": "text-blue",
-		"price": 1500,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"spider": {
-		"kind": "spider",
-		"title": "Spider!",
-		"description": f"Summons a spider to terrorize the recipient for 24 hours.",
-		"icon": "fas fa-spider",
-		"color": "text-brown",
-		"price": 2000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"deflector": {
-		"kind": "deflector",
-		"title": "Deflector",
-		"description": "Causes most awards received for the next 10 hours to be deflected back at their giver.",
-		"icon": "fas fa-shield",
-		"color": "text-pink",
-		"price": 2750,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"marsey": {
-		"kind": "marsey",
-		"title": "Marsey",
-		"description": "Makes the recipient unable to post/comment anything but marsey emojis for 24 hours.",
-		"icon": "fas fa-cat",
-		"color": "text-orange",
-		"price": 3000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"ban": {
-		"kind": "ban",
-		"title": "1-Day Ban",
-		"description": "Bans the recipient for a day.",
-		"icon": "fas fa-gavel",
-		"color": "text-danger",
-		"price": 3000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"unban": {
-		"kind": "unban",
-		"title": "1-Day Unban",
-		"description": "Removes 1 day from the ban duration of the recipient.",
-		"icon": "fas fa-gavel",
-		"color": "text-success",
-		"price": 3500,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"benefactor": {
-		"kind": "benefactor",
-		"title": "Benefactor",
-		"description": f"Grants one month of {patron} status and 2500 marseybux to the recipient. Cannot be used on yourself.",
-		"icon": "fas fa-gift",
-		"color": "text-blue",
-		"price": 4000,
-		"deflectable": False,
-		"cosmetic": False
-	},
-	"grass": {
-		"kind": "grass",
-		"title": "Grass",
-		"description": "Ban the recipient for 30 days (if they provide a timestamped picture of them touching grass/snow/sand/ass to the admins, they will get unbanned immediately)",
-		"icon": "fas fa-seedling",
-		"color": "text-success",
-		"price": 10000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"eye": {
-		"kind": "eye",
-		"title": "All-Seeing Eye",
-		"description": "Gives the recipient the ability to view private profiles.",
-		"icon": "fas fa-eye",
-		"color": "text-silver",
-		"price": 10000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"unblockable": {
-		"kind": "unblockable",
-		"title": "Unblockable",
-		"description": "Makes the recipient unblockable and removes all blocks on them.",
-		"icon": "fas fa-laugh-squint",
-		"color": "text-lightgreen",
-		"price": 20000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"fish": {
-		"kind": "fish",
-		"title": "Fish",
-		"description": "This user cannot be unfollowed",
-		"icon": "fas fa-fish",
-		"color": "text-lightblue",
-		"price": 20000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"pause": {
-		"kind": "pause",
-		"title": "Pause",
-		"description": "Gives the recipient the ability to pause profile anthems.",
-		"icon": "fas fa-volume-mute",
-		"color": "text-danger",
-		"price": 20000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"unpausable": {
-		"kind": "unpausable",
-		"title": "Unpausable",
-		"description": "Makes the profile anthem of the recipient unpausable.",
-		"icon": "fas fa-volume",
-		"color": "text-success",
-		"price": 40000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"alt": {
-		"kind": "alt",
-		"title": "Alt-Seeing Eye",
-		"description": "Gives the recipient the ability to view alts.",
-		"icon": "fas fa-eye",
-		"color": "text-gold",
-		"price": 50000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"checkmark": {
-		"kind": "checkmark",
-		"title": "Checkmark",
-		"description": "Gives the recipient a checkmark.",
-		"icon": "fas fa-badge-check",
-		"color": "checkmark",
-		"price": 50000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-}
-
-if SITE_NAME != 'rDrama':
-	EXTRA_AWARDS = {
-		"owoify": {
-			"kind": "owoify",
-			"title": "OwOify",
-			"description": "OwOifies the recipient's comments for 6 hours.",
-			"icon": "fas fa-paw-simple",
-			"color": "text-purple",
-			"price": 400,
-			"deflectable": True,
-			"cosmetic": False
-		},
-		"rainbow": {
-			"kind": "rainbow",
-			"title": "Rainbow",
-			"description": "Makes the recipient's comments and posts in rainbow text for 24 hours.",
-			"icon": "fas fa-cloud-rainbow",
-			"color": "text-pink",
-			"price": 400,
-			"deflectable": True,
-			"cosmetic": False
-		},
-	}
-	AWARDS.update(EXTRA_AWARDS)
-
-if SITE_NAME == 'PCM':
-	PCM_AWARDS = {
-		"croag": {
-			"kind": "croag",
-			"title": "Croag",
-			"description": "Summons Croag on the post.",
-			"icon": "fas fa-head-side",
-			"color": "text-gold",
-			"price": 150,
-			"deflectable": False,
-			"cosmetic": True
-		},
-		"toe": {
-			"kind": "toe",
-			"title": "Toe Hype",
-			"description": "Summons Blade's toe on the post.",
-			"icon": "fas fa-socks",
-			"color": "text-blue",
-			"price": 150,
-			"deflectable": False,
-			"cosmetic": True
-		},
-		"crab": {
-			"kind": "crab",
-			"title": "Crab",
-			"description": "Rave time!",
-			"icon": "fas fa-crab",
-			"color": "text-danger",
-			"price": 4000,
-			"deflectable": False,
-			"cosmetic": True
-		}
-	}
-	AWARDS.update(PCM_AWARDS)
-
-# Permit only cosmetics and pin/unpin on ghosted things.
-for award in AWARDS:
-	AWARDS[award]['ghost'] = AWARDS[award]['cosmetic']
-AWARDS['pin']['ghost'] = True
-AWARDS['unpin']['ghost'] = True
-
-# Disable unused awards, and site-specific award inclusion/exclusion.
-AWARDS_DISABLED = [
-	'fallback', 'ghost', 'nword', 'lootbox', # Generic
-	'snow', 'gingerbread', 'lights', 'candycane', 'fireplace', 'grinch', # Fistmas
-	'haunt', 'upsidedown', 'stab', 'spiders', 'fog', # Homoween '21
-	'jumpscare', 'hw-bite', 'hw-vax', 'hw-grinch', 'flashlight', # Homoween '22
-	'candy-corn', 'ectoplasm', 'bones', 'pumpkin', # Homoween '22 (cont'd)
-]
-
-
-HOUSE_AWARDS = {
-	"Furry": {
-		"kind": "Furry",
-		"title": "OwOify",
-		"description": "OwOifies the recipient's comments for 6 hours.",
-		"icon": "fas fa-paw-simple",
-		"color": "text-purple",
-		"price": 400,
-		"deflectable": True,
-		"cosmetic": False,
-		"ghost": False,
-	},
-	"Femboy": {
-		"kind": "Femboy",
-		"title": "Rainbow",
-		"description": "Makes the recipient's comments and posts in rainbow text for 24 hours.",
-		"icon": "fas fa-cloud-rainbow",
-		"color": "text-pink",
-		"price": 400,
-		"deflectable": True,
-		"cosmetic": False,
-		"ghost": False,
-	},
-	"Vampire": {
-		"kind": "Vampire",
-		"title": "Bite",
-		"description": "Turns the recipient into a vampire for 2 days.",
-		"icon": "fas fa-bat",
-		"color": "text-gray",
-		"price": 400,
-		"deflectable": True,
-		"cosmetic": False,
-		"ghost": False,
-	},
-	"Racist": {
-		"kind": "Racist",
-		"title": "Early Life",
-		"description": "Checks the recipient's Early Life section on Wikipedia. Notices.",
-		"icon": "fas fa-star-of-david",
-		"color": "text-yellow",
-		"price": 400,
-		"deflectable": True,
-		"cosmetic": False,
-		"ghost": False,
-	},
-}
-
-temp = deepcopy(HOUSE_AWARDS).items()
-for k, val in temp:
-	HOUSE_AWARDS[f'{k} Founder'] = val
-	HOUSE_AWARDS[f'{k} Founder']['kind'] += ' Founder'
-	HOUSE_AWARDS[f'{k} Founder']['price'] = int(HOUSE_AWARDS[f'{k} Founder']['price'] * 0.75)
-
-if SITE_NAME != 'rDrama':
-	AWARDS_DISABLED.append('progressivestack')
-
-if SITE_NAME == 'PCM':
-	# Previous set of disabled, changed temporarily by request 2022-10-17
-	#AWARDS_DISABLED.extend(['ban','pizzashill','marsey','bird','grass','chud','unblockable'])
-	AWARDS_DISABLED.extend(['unblockable'])
-	AWARDS_DISABLED.remove('ghost')
-elif SITE_NAME == 'WPD':
-	AWARDS_DISABLED.remove('lootbox')
-if not FEATURES['MARSEYBUX']:
-	AWARDS_DISABLED.append('benefactor')
-
-AWARDS2 = {x: AWARDS[x] for x in AWARDS if x not in AWARDS_DISABLED}
-
 DOUBLE_XP_ENABLED = -1 # set to unixtime for when DXP begins, -1 to disable
 
-TROLLTITLES = [
-	"how will @{username} ever recover?",
-	"@{username} BTFO",
-	"[META] Getting really sick of @{username}'s shit",
-	"Pretty sure this is @{username}'s Reddit account",
-	"Hey jannies can you please ban @{username}",
-]
+### COMMENT NOTIFICATIONS ###
 
 FORTUNE_REPLIES = ('<b style="color:#6023f8">Your fortune: Allah Wills It</b>','<b style="color:#d302a7">Your fortune: Inshallah, Only Good Things Shall Come To Pass</b>','<b style="color:#e7890c">Your fortune: Allah Smiles At You This Day</b>','<b style="color:#7fec11">Your fortune: Your Bussy Is In For A Blasting</b>','<b style="color:#43fd3b">Your fortune: You Will Be Propositioned By A High-Tier Twink</b>','<b style="color:#9d05da">Your fortune: Repent, You Have Displeased Allah And His Vengeance Is Nigh</b>','<b style="color:#f51c6a">Your fortune: Reply Hazy, Try Again</b>','<b style="color:#00cbb0">Your fortune: lmao you just lost 100 coins</b>','<b style="color:#2a56fb">Your fortune: Yikes 😬</b>','<b style="color:#0893e1">Your fortune: You Will Be Blessed With Many Black Bulls</b>','<b style="color:#16f174">Your fortune: NEETmax, The Day Is Lost If You Venture Outside</b>','<b style="color:#fd4d32">Your fortune: A Taste Of Jannah Awaits You Today</b>','<b style="color:#bac200">Your fortune: Watch Your Back</b>','<b style="color:#6023f8">Your fortune: Outlook good</b>','<b style="color:#d302a7">Your fortune: Godly Luck</b>','<b style="color:#e7890c">Your fortune: Good Luck</b>','<b style="color:#7fec11">Your fortune: Bad Luck</b>','<b style="color:#43fd3b">Your fortune: Good news will come to you by mail</b>','<b style="color:#9d05da">Your fortune: Very Bad Luck</b>','<b style="color:#00cbb0">Your fortune: ｷﾀ━━━━━━(ﾟ∀ﾟ)━━━━━━ !!!!</b>','<b style="color:#2a56fb">Your fortune: Better not tell you now</b>','<b style="color:#0893e1">Your fortune: You will meet a dark handsome stranger</b>','<b style="color:#16f174">Your fortune: （　´_ゝ`）ﾌｰﾝ</b>','<b style="color:#fd4d32">Your fortune: Excellent Luck</b>','<b style="color:#bac200">Your fortune: Average Luck</b>')
 FACTCHECK_REPLIES = ('<b style="color:#6023f8">Factcheck: This claim has been confirmed as correct by experts. </b>','<b style="color:#d302a7">Factcheck: This claim has been classified as misogynistic.</b>','<b style="color:#e7890c">Factcheck: This claim is currently being debunked.</b>','<b style="color:#7fec11">Factcheck: This claim is 100% true.</b>','<b style="color:#9d05da">Factcheck: This claim hurts trans lives.</b>','<b style="color:#f51c6a">Factcheck: [REDACTED].</b>','<b style="color:#00cbb0">Factcheck: This claim is both true and false.</b>','<b style="color:#2a56fb">Factcheck: You really believe that shit? Lmao dumbass nigga 🤣</b>','<b style="color:#0893e1">Factcheck: None of this is real.</b>','<b style="color:#16f174">Factcheck: Yes.</b>','<b style="color:#fd4d32">Factcheck: This claim has not been approved by experts.</b>','<b style="color:#bac200">Factcheck: This claim is a gross exageration of reality.</b>','<b style="color:#ff2200">Factcheck: WARNING! THIS CLAIM HAS BEEN CLASSIFIED AS DANGEROUS. PLEASE REMAIN STILL, AN AGENT WILL COME TO MEET YOU SHORTLY.</b>')
@@ -1491,6 +761,8 @@ if SITE == 'rdrama.net':
 	}
 elif SITE_NAME == 'WPD':
 	REDDIT_NOTIFS_SITE.update({'watchpeopledie', 'makemycoffin'})
+
+### END COMMENT NOTIFICATIONS ###
 
 discounts = {
 	# Big Spender badges, 2pp additive discount each

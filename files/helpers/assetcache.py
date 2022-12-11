@@ -5,7 +5,7 @@ from collections import defaultdict
 import gevent
 import gevent_inotifyx as inotify
 
-from files.helpers.const import HOLIDAY_EVENT
+from files.helpers.config.const import HOLIDAY_EVENT
 
 ASSET_DIR = 'files/assets'
 ASSET_SUBDIRS = ['/css', '/js', '/js/vendor']

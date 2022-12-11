@@ -12,7 +12,7 @@ from files.classes.notifications import Notification
 from files.classes.polls import CommentOption, SubmissionOption
 
 from files.helpers.alerts import send_repeatable_notification
-from files.helpers.const import *
+from files.helpers.config.const import *
 from files.helpers.const_stateful import *
 from files.helpers.discord import discord_message_send
 from files.helpers.get import *

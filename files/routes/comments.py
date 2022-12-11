@@ -9,7 +9,7 @@ from files.classes import *
 from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.cloudflare import purge_files_in_cache
-from files.helpers.const import *
+from files.helpers.config.const import *
 from files.helpers.get import *
 from files.helpers.marsify import marsify
 from files.helpers.media import *

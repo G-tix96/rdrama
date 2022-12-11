@@ -3,7 +3,7 @@ from typing import Any, Callable, Optional, Tuple, Union
 from sqlalchemy import Column, func
 from sqlalchemy.orm import scoped_session
 
-from files.helpers.const import LEADERBOARD_LIMIT
+from files.helpers.config.const import LEADERBOARD_LIMIT
 
 from .badges import Badge
 from .marsey import Marsey

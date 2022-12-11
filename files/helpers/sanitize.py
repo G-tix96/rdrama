@@ -14,7 +14,7 @@ from bs4 import BeautifulSoup
 from mistletoe import markdown
 from files.classes.domains import BannedDomain
 
-from files.helpers.const import *
+from files.helpers.config.const import *
 from files.helpers.const_stateful import *
 from files.helpers.regex import *
 from .get import *

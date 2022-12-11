@@ -101,11 +101,7 @@
 				{% endif %}
 			</div>
 			{% endif %}
-
-
 		</div>
-		 
-		 
 		<div class="card-block text-left x-scroll-parent w-100">
 			<div class="post-meta text-left x-scroll mb-md-2">
 				<div style="white-space:nowrap;width:0">
@@ -261,23 +257,9 @@
 		</div>
 	{% endif %}
 {% endif %}
-
 </div>
-
 {% else %}
-
-{% if request.path.endswith('/admin/queue') %}
-
-<div class="row no-gutters">	
-	<div class="col">			
-		<div class="text-center py-7">
-			<h4 class="p-2">This queue is empty. (That's a good thing.)</h4>
-		</div>			
-	</div>	
-</div>
-
-
-{% elif u %}
+{% if u %}
 {% if v and v.id == u.id %}
 <div class="row no-gutters">	
 	<div class="col">			
@@ -292,8 +274,6 @@
 		</div>			
 	</div>	
 </div>
-
-
 {% else %}
 <div class="row no-gutters">	
 	<div class="col">			
@@ -311,22 +291,12 @@
 
 {% elif request.path != '/notifications/posts' %}
 <div class="row no-gutters">	
-	<div class="col">			
-		<div class="text-center px-3 my-3">
-			<span class="fa-stack fa-2x text-muted mb-4">
-				<i class="fas fa-square text-gray-500 opacity-25 fa-stack-2x"></i>
-				<i class="fas text-gray-500 fa-ghost fa-stack-1x text-lg"></i>
-			</span>
-			{% if request.path.startswith('/search') and error %}
-				<h5>{{error}}</h5>
-			{% endif %}
-		</div>			
+	<div class="col">
+		{{macros.ghost_box(error if request.path.startswith('/search') else '', '', 1)}}
 	</div>	
 </div>
 
-
 {% endif %}
-
 {% endfor %}
 
 {% if v %}

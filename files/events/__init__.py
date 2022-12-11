@@ -1,6 +1,6 @@
 from sqlalchemy import inspect
 
-from files.helpers.const import AWARDS2, AWARDS_DISABLED
+from files.helpers.config.awards import AWARDS_ENABLED, AWARDS_DISABLED
 from files.__main__ import engine
 
 from files.events.classes import *
@@ -13,10 +13,10 @@ def _build_table():
 		EventUser.__table__.create(bind=engine, checkfirst=True)
 
 def _populate_awards():
-	temp = {x: AWARDS2[x] for x in AWARDS2 if x not in EVENT_AWARDS}
-	AWARDS2.clear()
-	AWARDS2.update(EVENT_AWARDS)
-	AWARDS2.update(temp)
+	temp = {x: AWARDS_ENABLED[x] for x in AWARDS_ENABLED if x not in EVENT_AWARDS}
+	AWARDS_ENABLED.clear()
+	AWARDS_ENABLED.update(EVENT_AWARDS)
+	AWARDS_ENABLED.update(temp)
 
 	for award in EVENT_AWARDS:
 		if award in AWARDS_DISABLED:

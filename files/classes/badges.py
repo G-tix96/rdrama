@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
-from files.helpers.const import SITE_NAME
+from files.helpers.config.const import SITE_NAME
 from files.helpers.lazy import lazy
 
 class BadgeDef(Base):

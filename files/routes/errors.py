@@ -3,7 +3,7 @@ from urllib.parse import quote, urlencode
 
 from flask import redirect, render_template, request, session, g
 
-from files.helpers.const import ERROR_MARSEYS, ERROR_MSGS, ERROR_TITLES, WERKZEUG_ERROR_DESCRIPTIONS, is_site_url
+from files.helpers.config.const import ERROR_MARSEYS, ERROR_MSGS, ERROR_TITLES, WERKZEUG_ERROR_DESCRIPTIONS, is_site_url
 from files.helpers.settings import get_setting
 from files.__main__ import app
 

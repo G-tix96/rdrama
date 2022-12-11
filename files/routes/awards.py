@@ -7,7 +7,8 @@ from files.classes.award import AwardRelationship
 from files.classes.userblock import UserBlock
 from files.helpers.actions import *
 from files.helpers.alerts import *
-from files.helpers.const import *
+from files.helpers.config.const import *
+from files.helpers.config.awards import AWARDS_ENABLED, HOUSE_AWARDS
 from files.helpers.get import *
 from files.helpers.marsify import marsify
 from files.helpers.owoify import owoify
@@ -23,7 +24,7 @@ from .front import frontlist
 @app.get("/settings/shop")
 @auth_required
 def shop(v:User):
-	AWARDS = deepcopy(AWARDS2)
+	AWARDS = deepcopy(AWARDS_ENABLED)
 
 	if v.house:
 		AWARDS[v.house] = deepcopy(HOUSE_AWARDS[v.house])
@@ -53,7 +54,7 @@ def buy(v:User, award):
 	if award == 'ghost' and v.admin_level < PERMS['BUY_GHOST_AWARD']:
 		abort(403, "Only admins can buy this award")
 
-	AWARDS = deepcopy(AWARDS2)
+	AWARDS = deepcopy(AWARDS_ENABLED)
 
 	if v.house:
 		AWARDS[v.house] = HOUSE_AWARDS[v.house]
@@ -139,7 +140,7 @@ def award_thing(v, thing_type, id):
 	
 	kind = request.values.get("kind", "").strip()
 	
-	AWARDS = deepcopy(AWARDS2)
+	AWARDS = deepcopy(AWARDS_ENABLED)
 	if v.house:
 		AWARDS[v.house] = HOUSE_AWARDS[v.house]
 

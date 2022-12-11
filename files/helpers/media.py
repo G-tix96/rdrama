@@ -16,7 +16,7 @@ from sqlalchemy.orm.session import Session
 from files.classes.media import *
 from files.helpers.cloudflare import purge_files_in_cache
 
-from .const import *
+from .config.const import *
 
 def process_files(files, v):
 	body = ''
@@ -123,8 +123,6 @@ def process_video(file, v):
 		g.db.add(media)
 
 	return new
-
-
 
 def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[int]=None, db=None):
 	# thumbnails are processed in a thread and not in the request context

@@ -1,7 +1,7 @@
 from math import floor
 from random import randint
 
-from files.helpers.const import *
+from files.helpers.config.const import *
 from files.helpers.lottery import *
 
 special_min = 100

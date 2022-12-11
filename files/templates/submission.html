@@ -378,54 +378,39 @@
 		</script>
 	{% endif %}
 {% elif not p.replies and p.deleted_utc == 0 %}
-	<div class="comment-section" id="replies-of-{{p.fullname}}">
-		<div class="text-center py-7">
-			<span class="fa-stack fa-2x text-muted mb-4">
-				<i class="fas fa-square text-gray-500 opacity-25 fa-stack-2x"></i>
-				<i class="fas text-gray-500 fa-ghost fa-stack-1x text-lg"></i>
-			</span>
-			<h5>Be the first to comment!</h5>
-			{% if v %}
-			<p class="text-muted">This comment section is a ghost town...</p>
-			{% else %}
-			<p class="text-muted">This comment section is a ghost town. <a href="/login?redirect={{request.full_path | urlencode}}">Sign in</a></p>
-			{% endif %}
-		</div>
+	<div class="comment-section no-replies" id="replies-of-{{p.fullname}}">
+		{% if v %}
+			{% set ghost_town = 'This comment section is a ghost town...' %}
+		{% else %}
+			{% set ghost_town = 'This comment section is a ghost town... <a href="/login?redirect={{request.full_path | urlencode}}">Sign in</a></p> '%}
+		{% endif %}
+		{{macros.ghost_box('Be the first to comment!', ghost_town, 1)}}
 	</div>
 {% endif %}
-
 </div>
-
 </div>
-
-{% if v and v.id==p.author_id %}
-	{% include "modals/delete_post.html" %}
-{% endif %}
 
 {% if v %}
+	{% if v.id == p.author_id %}{% include "modals/delete_post.html" %}{% endif %}
 	{% include "modals/report_post.html" %}
-{% endif %}
-
-{% if v and v.can_edit(p) %}
-	<script defer src="{{'js/togglePostEdit.js' | asset}}"></script>
+	{% if v.can_edit(p) %}
+		<script defer src="{{'js/togglePostEdit.js' | asset}}"></script>
+	{% endif %}
+	{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+		<script defer src="{{'js/pinpost.js' | asset}}"></script>
+	{% endif %}
 {% endif %}
 
 {% if not v or v.highlightcomments %}
 	<script defer src="{{'js/highlightcomments.js' | asset}}"></script>
 {% endif %}
 
-{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-	<script defer src="{{'js/pinpost.js' | asset}}"></script>
-{% endif %}
-
 <script defer src="{{'js/vendor/clipboard.js' | asset}}"></script>
 
-{% if not p.replies %}
-	{% include "comments.html" %}
-{% endif %}
+{% if not p.replies %}{% include "comments.html" %}{% endif %}
 
+{% if not v or v.highlightcomments %}
 <script>
-	{% if not v or v.highlightcomments %}
 		document.addEventListener('DOMContentLoaded', function() {
 			showNewCommentCounts('{{p.id}}', {{p.comment_count}})
 			{% if "?context" not in request.full_path %}
@@ -437,9 +422,8 @@
 				localStorage.setItem("comment-counts", JSON.stringify(comments))
 			{% endif %}
 		})
-	{% endif %}
 </script>
-
+{% endif %}
 {% if success %}
 	<script>
 		history.pushState(null, null, '{{p.permalink}}');

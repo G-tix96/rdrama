@@ -15,26 +15,9 @@
 										<div class="col-10 col-md-7">
 										<h2>{% block authtitle %}{% endblock %}</h2>
 										<p class="text-muted mb-md-5">{% block authtext %}{% endblock %}</p>
-			{% if error %}
-				<div class="alert alert-danger fade show d-flex my-3" role="alert">
-													<i class="fas fa-exclamation-circle my-auto"></i>
-													<span>
-													{{error}}
-													</span>
-								</div>
-			{% endif %}
-			{% if msg %}
-				<div class="alert alert-success alert-dismissible fade show d-flex my-3" role="alert">
-													<i class="fas fa-info-circle my-auto" aria-hidden="true"></i>
-													<span>
-													{{msg}}
-													</span>
-													<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-														<span aria-hidden="true"><i class="far fa-times"></i></span>
-												</button>
-								</div>
-			{% endif %}
-												{% block content %}{% endblock %}
+										{% if error %}{{macros.alert(error, true)}}{% endif %}
+										{% if msg %}{{macros.alert(msg, false)}}{% endif %}
+										{% block content %}{% endblock %}
 										</div>
 								</div>
 						</div>

@@ -7,7 +7,7 @@ from flask_caching import Cache
 from flask import g
 from sqlalchemy import or_
 
-import files.helpers.const as const
+import files.helpers.config.const as const
 from files.classes.badges import Badge
 from files.classes.comment import Comment
 from files.classes.user import User

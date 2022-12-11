@@ -10,7 +10,7 @@ from files.classes.comment import Comment
 from files.classes.votes import Vote, CommentVote
 from files.classes.marsey import Marsey
 from files.classes.award import AwardRelationship
-from files.helpers.const import *
+from files.helpers.config.const import *
 
 def generate_charts_task(site):
 	chart(kind='daily', site=site)

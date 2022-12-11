@@ -4,7 +4,7 @@ from flask import g
 
 from files.classes.user import User
 from files.helpers.alerts import send_repeatable_notification
-from files.helpers.const import bots, patron, SITE_NAME
+from files.helpers.config.const import bots, patron, SITE_NAME
 
 def award_timers(v, bot=False):
 	now = time.time()

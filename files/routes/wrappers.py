@@ -3,7 +3,7 @@ from flask import g, request, session
 
 from files.classes.clients import ClientAuth
 from files.helpers.alerts import *
-from files.helpers.const import *
+from files.helpers.config.const import *
 from files.helpers.get import get_account
 from files.helpers.logging import log_file
 from files.helpers.settings import get_setting

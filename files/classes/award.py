@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
-from files.helpers.const import AWARDS, HOUSE_AWARDS
+from files.helpers.config.awards import AWARDS, HOUSE_AWARDS
 from files.helpers.lazy import lazy
 
 

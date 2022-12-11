@@ -4,7 +4,7 @@ import os
 import gevent
 import gevent_inotifyx as inotify
 
-from files.helpers.const import SETTINGS_FILENAME
+from files.helpers.config.const import SETTINGS_FILENAME
 
 _SETTINGS = {
 	"bots": True,

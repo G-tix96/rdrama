@@ -2,28 +2,9 @@
 {% block pagetitle %}{{"Badge Grant" if grant else "Badge Remove"}}{% endblock %}
 {% block pagetype %}message{% endblock %}
 {% block content %}
-		{% if error %}
-		<div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
-			<i class="fas fa-exclamation-circle my-auto"></i>
-			<span>
-				{{error}}
-			</span>
-			<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true"><i class="far fa-times"></i></span>
-			</button>
-		</div>
-		{% endif %}
-		{% if msg %}
-		<div class="alert alert-success alert-dismissible fade show my-3" role="alert">
-			<i class="fas fa-check-circle my-auto" aria-hidden="true"></i>
-			<span>
-				{{msg}}
-			</span>
-			<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true"><i class="far fa-times"></i></span>
-			</button>
-		</div>
-		{% endif %}
+
+{% if error %}{{macros.alert(error, true)}}{% endif %}
+{% if msg %}{{macros.alert(msg, false)}}{% endif %}
 
 <h5 class="mt-2">{{title}}</h5>
 {% set form_action = "/admin/badge_grant" if grant else "/admin/badge_remove" %}

@@ -8,7 +8,7 @@ from files.classes.lottery import Lottery
 from files.helpers.alerts import *
 from files.helpers.useractions import *
 
-from .const import *
+from .config.const import *
 
 LOTTERY_WINNER_BADGE_ID = 137
 

@@ -9,8 +9,8 @@
 		{% else %}
 			{% if err and SITE_NAME == 'rDrama' %}
 				{% set src = "banner_error.webp" | asset_siteimg %}
-			{% elif sub %}
-				{% set src = sub.banner_url %}
+			{% elif sub and sub.has_banners %}
+				{% set src = sub.random_banner() %}
 				{% set alt = ['/h/', sub, 'banner']|join %}
 				{% set class = 'site-banner-hole' %}
 			{% elif SITE_NAME == "rDrama" %}

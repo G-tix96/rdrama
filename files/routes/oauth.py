@@ -2,7 +2,7 @@ import sqlalchemy.exc
 
 from files.classes import *
 from files.helpers.alerts import *
-from files.helpers.const import *
+from files.helpers.config.const import *
 from files.helpers.get import *
 from files.routes.wrappers import *
 from files.__main__ import app, limiter

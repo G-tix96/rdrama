@@ -6458,6 +6458,10 @@ div.markdown {
 	}
 }
 
+.sub-banner-update-section .sub-settings-subsection {
+	margin-bottom: 1em;
+}
+
 .resizable {
 	resize:both;
 	display:inline-block;

@@ -3,7 +3,7 @@ from os import path
 from sqlalchemy.orm import scoped_session
 
 from files.classes import Marsey
-from files.helpers.const import SITE_NAME
+from files.helpers.config.const import SITE_NAME
 
 marseys_const = []
 marseys_const2 = []

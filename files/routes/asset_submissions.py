@@ -5,7 +5,7 @@ from files.classes.marsey import Marsey
 from files.classes.hats import Hat, HatDef
 from files.classes.mod_logs import ModAction
 from files.helpers.cloudflare import purge_files_in_cache
-from files.helpers.const import *
+from files.helpers.config.const import *
 from files.helpers.get import *
 from files.helpers.media import *
 from files.helpers.useractions import *

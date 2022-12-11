@@ -1,2 +1,2 @@
-from .const import *
+from .config.const import *
 from .jinja import *

@@ -1,5 +1,5 @@
 from files.helpers.alerts import *
-from files.helpers.const import *
+from files.helpers.config.const import *
 from files.helpers.get import *
 from files.helpers.lottery import *
 from files.routes.wrappers import *

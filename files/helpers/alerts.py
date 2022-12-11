@@ -7,7 +7,7 @@ from pywebpush import webpush
 
 from files.classes import Comment, Notification, PushSubscription
 
-from .const import *
+from .config.const import *
 from .regex import *
 from .sanitize import *
 

@@ -2,7 +2,7 @@ import requests
 import time
 
 from files.helpers.security import *
-from files.helpers.const import EMAIL, MAILGUN_KEY
+from files.helpers.config.const import EMAIL, MAILGUN_KEY
 
 from urllib.parse import quote
 

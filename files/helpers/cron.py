@@ -13,7 +13,7 @@ import files.routes.streamers as route_streamers
 from files.__main__ import cache
 from files.classes import *
 from files.helpers.alerts import send_repeatable_notification
-from files.helpers.const import *
+from files.helpers.config.const import *
 from files.helpers.get import *
 from files.helpers.lottery import check_if_end_lottery_task
 from files.helpers.roulette import spin_roulette_wheel

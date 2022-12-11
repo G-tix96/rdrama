@@ -3,19 +3,7 @@
 {% block pagetitle %}Edit {{SITE_NAME}}'s rules{% endblock %}
 
 {% block content %}
-
-{% if msg %}
-	<div class="alert alert-success alert-dismissible fade show my-3" role="alert">
-		<i class="fas fa-check-circle my-auto" aria-hidden="true"></i>
-		<span>
-			{{msg}}
-		</span>
-		<button class="close" data-bs-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true"><i class="far fa-times"></i></span>
-		</button>
-	</div>
-{% endif %}
-
+{% if msg %}{{macros.alert(msg, false)}}{% endif %}
 <div class="row my-5">
 	<div class="col">
 		<div class="settings mx-3">
@@ -38,5 +26,4 @@
 		</div>
 	</div>
 </div>
-
 {% endblock %}

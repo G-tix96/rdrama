@@ -7,7 +7,7 @@ from sqlalchemy.orm import deferred, relationship, scoped_session
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
-from files.helpers.const import *
+from files.helpers.config.const import *
 from files.helpers.lazy import lazy
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import make_age_string

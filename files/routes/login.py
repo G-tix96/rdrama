@@ -6,7 +6,7 @@ import requests
 from files.__main__ import app, cache, get_CF, limiter
 from files.classes.follows import Follow
 from files.helpers.actions import *
-from files.helpers.const import *
+from files.helpers.config.const import *
 from files.helpers.settings import get_setting
 from files.helpers.get import *
 from files.helpers.mail import send_mail, send_verification_email

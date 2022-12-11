@@ -14,7 +14,7 @@ from flask_limiter import Limiter
 from sqlalchemy import *
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-from files.helpers.const import *
+from files.helpers.config.const import *
 from files.helpers.const_stateful import const_initialize
 from files.helpers.settings import reload_settings, start_watching_settings
 

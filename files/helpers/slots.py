@@ -9,7 +9,7 @@ from files.classes.comment import Comment
 from files.classes.user import User
 from files.helpers.casino import distribute_wager_badges
 
-from .const import *
+from .config.const import *
 
 minimum_bet = 5
 maximum_bet = INFINITY

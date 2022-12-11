@@ -7,7 +7,7 @@ from typing import Optional, Union
 from flask import g, session
 
 from files.classes import Alt, Comment, User, Submission
-from files.helpers.const import *
+from files.helpers.config.const import *
 from files.helpers.security import generate_hash, validate_hash
 
 def get_raw_formkey(u:User):

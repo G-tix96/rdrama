@@ -1,6 +1,6 @@
 import requests
 
-from .const import *
+from .config.const import *
 
 def discord_message_send(channel_id, message):
 	requests.post(

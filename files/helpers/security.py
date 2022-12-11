@@ -1,6 +1,6 @@
 from werkzeug.security import *
 
-from .const import *
+from .config.const import *
 
 def generate_hash(string):
 	msg = bytes(string, "utf-16")

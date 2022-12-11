@@ -6,13 +6,14 @@ import pyotp
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import aliased, deferred
 from sqlalchemy.sql import func
-from sqlalchemy.sql.expression import not_, and_, or_, ColumnOperators
+from sqlalchemy.sql.expression import not_, and_, or_
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.classes.casino_game import Casino_Game
 from files.classes.sub import Sub
-from files.helpers.const import *
+from files.helpers.config.const import *
+from files.helpers.config.awards import AWARDS_ENABLED, HOUSE_AWARDS
 from files.helpers.media import *
 from files.helpers.security import *
 from files.helpers.sorting_and_time import *
@@ -421,7 +422,7 @@ class User(Base):
 	@property
 	@lazy
 	def user_awards(self):
-		return_value = list(AWARDS2.values())
+		return_value = list(AWARDS_ENABLED.values())
 
 		if self.house:
 			return_value.append(HOUSE_AWARDS[self.house])

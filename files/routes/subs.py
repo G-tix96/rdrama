@@ -9,10 +9,9 @@ from files.routes.wrappers import *
 from .front import frontlist
 from files.__main__ import app, cache, limiter
 
-
 @app.post("/exile/post/<pid>")
 @is_not_permabanned
-def exile_post(v, pid):
+def exile_post(v:User, pid):
 	if v.shadowbanned: return {"error": "Internal Server Error"}, 500
 	p = get_post(pid)
 	sub = p.sub
@@ -41,11 +40,9 @@ def exile_post(v, pid):
 	
 	return {"message": f"@{u.username} has been exiled from /h/{sub} successfully!"}
 
-
-
 @app.post("/exile/comment/<cid>")
 @is_not_permabanned
-def exile_comment(v, cid):
+def exile_comment(v:User, cid):
 	if v.shadowbanned: return {"error": "Internal Server Error"}, 500
 	c = get_comment(cid)
 	sub = c.post.sub
@@ -74,10 +71,9 @@ def exile_comment(v, cid):
 
 	return {"message": f"@{u.username} has been exiled from /h/{sub} successfully!"}
 
-
 @app.post("/h/<sub>/unexile/<uid>")
 @is_not_permabanned
-def unexile(v, sub, uid):
+def unexile(v:User, sub, uid):
 	u = get_account(uid)
 
 	if not v.mods(sub): abort(403)
@@ -103,21 +99,16 @@ def unexile(v, sub, uid):
 	
 	return redirect(f'/h/{sub}/exilees')
 
-
-
 @app.post("/h/<sub>/block")
 @auth_required
 def block_sub(v:User, sub):
 	sub = get_sub_by_name(sub).name
 	existing = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub).one_or_none()
-
 	if not existing:
 		block = SubBlock(user_id=v.id, sub=sub)
 		g.db.add(block)
 		cache.delete_memoized(frontlist)
-
 	return {"message": f"/h/{sub} blocked successfully!"}
-
 
 @app.post("/h/<sub>/unblock")
 @auth_required
@@ -134,18 +125,15 @@ def unblock_sub(v:User, sub):
 
 	return {"message": f"/h/{sub.name} unblocked successfully!"}
 
-
 @app.post("/h/<sub>/subscribe")
 @auth_required
 def subscribe_sub(v:User, sub):
 	sub = get_sub_by_name(sub).name
 	existing = g.db.query(SubJoin).filter_by(user_id=v.id, sub=sub).one_or_none()
-
 	if not existing:
 		subscribe = SubJoin(user_id=v.id, sub=sub)
 		g.db.add(subscribe)
 		cache.delete_memoized(frontlist)
-
 	return {"message": f"/h/{sub} unblocked successfully!"}
 
 @app.post("/h/<sub>/unsubscribe")
@@ -153,11 +141,9 @@ def subscribe_sub(v:User, sub):
 def unsubscribe_sub(v:User, sub):
 	sub = get_sub_by_name(sub).name
 	subscribe = g.db.query(SubJoin).filter_by(user_id=v.id, sub=sub).one_or_none()
-
 	if subscribe:
 		g.db.delete(subscribe)
 		cache.delete_memoized(frontlist)
-
 	return {"message": f"/h/{sub} blocked successfully!"}
 
 @app.post("/h/<sub>/follow")
@@ -241,7 +227,7 @@ def sub_followers(v:User, sub):
 @limiter.limit("1/second;30/day")
 @is_not_permabanned
 @ratelimit_user("1/second;30/day")
-def add_mod(v, sub):
+def add_mod(v:User, sub):
 	if SITE_NAME == 'WPD': abort(403)
 	sub = get_sub_by_name(sub).name
 	if not v.mods(sub): abort(403)
@@ -275,10 +261,9 @@ def add_mod(v, sub):
 
 	return redirect(f'/h/{sub}/mods')
 
-
 @app.post("/h/<sub>/remove_mod")
 @is_not_permabanned
-def remove_mod(v, sub):
+def remove_mod(v:User, sub):
 	sub = get_sub_by_name(sub).name
 	
 	if not v.mods(sub): abort(403)
@@ -358,7 +343,7 @@ def create_sub2(v):
 
 @app.post("/kick/<pid>")
 @is_not_permabanned
-def kick(v, pid):
+def kick(v:User, pid):
 	post = get_post(pid)
 
 	if not post.sub: abort(403)
@@ -389,7 +374,7 @@ def kick(v, pid):
 
 @app.get('/h/<sub>/settings')
 @is_not_permabanned
-def sub_settings(v, sub):
+def sub_settings(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
 	return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub)
@@ -399,7 +384,7 @@ def sub_settings(v, sub):
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @is_not_permabanned
 @ratelimit_user()
-def post_sub_sidebar(v, sub):
+def post_sub_sidebar(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
@@ -424,7 +409,7 @@ def post_sub_sidebar(v, sub):
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @is_not_permabanned
 @ratelimit_user()
-def post_sub_css(v, sub):
+def post_sub_css(v:User, sub):
 	sub = get_sub_by_name(sub)
 	css = request.values.get('css', '').strip()
 
@@ -452,7 +437,6 @@ def post_sub_css(v, sub):
 
 	return redirect(f'/h/{sub}/settings')
 
-
 @app.get("/h/<sub>/css")
 def get_sub_css(sub):
 	sub = g.db.query(Sub.css).filter_by(name=sub.strip().lower()).one_or_none()
@@ -461,13 +445,12 @@ def get_sub_css(sub):
 	resp.headers.add("Content-Type", "text/css")
 	return resp
 
-
-@app.post("/h/<sub>/banner")
+@app.post("/h/<sub>/settings/banners/")
 @limiter.limit("1/second;10/day")
 @is_not_permabanned
 @ratelimit_user("1/second;10/day")
-def sub_banner(v, sub):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
+def upload_sub_banner(v:User, sub:str):
+	if g.is_tor: abort(403, "Image uploads are not allowed through Tor")
 
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
@@ -479,26 +462,81 @@ def sub_banner(v, sub):
 	file.save(name)
 	bannerurl = process_image(name, v, resize=1200)
 
-	if bannerurl:
-		if sub.bannerurl:
-			os.remove(sub.bannerurl)
-		sub.bannerurl = bannerurl
-		g.db.add(sub)
+	sub.bannerurls.append(bannerurl)
+
+	g.db.add(sub)
 
 	ma = SubAction(
 		sub=sub.name,
-		kind='change_banner',
+		kind='upload_banner',
 		user_id=v.id
 	)
 	g.db.add(ma)
 
 	return redirect(f'/h/{sub}/settings')
 
+@app.delete("/h/<sub>/settings/banners/<int:index>")
+@limiter.limit("1/2 second;30/day")
+@is_not_permabanned
+@ratelimit_user("1/2 second;30/day")
+def delete_sub_banner(v:User, sub:str, index:int):
+	sub = get_sub_by_name(sub)
+	if not v.mods(sub.name): abort(403)
+	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
+
+	if not sub.bannerurls:
+		abort(404, f"Banner not found (/h/{sub.name} has no banners)")
+	if index < 0 or index >= len(sub.bannerurls):
+		abort(404, f'Banner not found (banner index {index} is not between 0 and {len(sub.bannerurls)})')
+	banner = sub.bannerurls[index]
+	try:
+		os.remove(banner)
+	except FileNotFoundError:
+		pass
+	del sub.bannerurls[index]
+	g.db.add(sub)
+
+	ma = SubAction(
+		sub=sub.name,
+		kind='delete_banner',
+		_note=index,
+		user_id=v.id
+	)
+	g.db.add(ma)
+
+	return {"message": f"Deleted banner {index} from /h/{sub} successfully"}
+
+@app.delete("/h/<sub>/settings/banners/")
+@limiter.limit("1/10 second;30/day")
+@is_not_permabanned
+@ratelimit_user("1/10 second;30/day")
+def delete_all_sub_banners(v:User, sub:str):	
+	sub = get_sub_by_name(sub)
+	if not v.mods(sub.name): abort(403)
+	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
+	for banner in sub.banner_urls:
+		try:
+			os.remove(banner)
+		except FileNotFoundError:
+			pass
+	sub.bannerurls = []
+	g.db.add(sub)
+
+	ma = SubAction(
+		sub=sub.name,
+		kind='delete_banner',
+		_note='all',
+		user_id=v.id
+	)
+	g.db.add(ma)
+
+	return {"message": f"Deleted all banners from /h/{sub} successfully"}
+
 @app.post("/h/<sub>/sidebar_image")
 @limiter.limit("1/second;10/day")
 @is_not_permabanned
 @ratelimit_user("1/second;10/day")
-def sub_sidebar(v, sub):
+def sub_sidebar(v:User, sub):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
 
 	sub = get_sub_by_name(sub)
@@ -529,7 +567,7 @@ def sub_sidebar(v, sub):
 @limiter.limit("1/second;10/day")
 @is_not_permabanned
 @ratelimit_user("1/second;10/day")
-def sub_marsey(v, sub):
+def sub_marsey(v:User, sub):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
 
 	sub = get_sub_by_name(sub)
@@ -565,7 +603,7 @@ def subs(v:User):
 
 @app.post("/hole_pin/<pid>")
 @is_not_permabanned
-def hole_pin(v, pid):
+def hole_pin(v:User, pid):
 	p = get_post(pid)
 
 	if not p.sub: abort(403)
@@ -591,7 +629,7 @@ def hole_pin(v, pid):
 
 @app.post("/hole_unpin/<pid>")
 @is_not_permabanned
-def hole_unpin(v, pid):
+def hole_unpin(v:User, pid):
 	p = get_post(pid)
 
 	if not p.sub: abort(403)
@@ -618,7 +656,7 @@ def hole_unpin(v, pid):
 
 @app.post('/h/<sub>/stealth')
 @is_not_permabanned
-def sub_stealth(v, sub):
+def sub_stealth(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if sub.name == 'braincels': abort(403)
 	if not v.mods(sub.name): abort(403)
@@ -716,7 +754,7 @@ def hole_log(v:User, sub):
 
 	kind = request.values.get("kind")
 
-	types = ACTIONTYPES
+	types = SUBACTION_TYPES
 
 	if kind and kind not in types:
 		kind = None
@@ -758,6 +796,6 @@ def hole_log_item(id, v, sub):
 	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub.name).all()]
 	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username).all()]
 
-	types = ACTIONTYPES
+	types = SUBACTION_TYPES
 
 	return render_template("log.html", v=v, actions=[action], next_exists=False, page=1, action=action, admins=mods, types=types, sub=sub, single_user_url='mod')

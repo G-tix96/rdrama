@@ -136,17 +136,7 @@
 		<section id="site-settings-blocks-section" class="settings-section-section">
 			<div class="row">
 				<div class="col">
-					{% if error %}
-					<div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
-						<i class="fas fa-exclamation-circle my-auto"></i>
-						<span>
-							{{error}}
-						</span>
-						<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true"><i class="far fa-times"></i></span>
-						</button>
-					</div>
-					{% endif %}
+					{% if error %}{{macros.alert(error, true)}}{% endif %}
 				</div>
 			</div>
 			<div class="row">
@@ -187,10 +177,7 @@
 						</table>
 					</div>
 					{% else %}
-					<div class="text-center border-md rounded py-7">
-						<i class="fas fa-ghost text-gray-500 mb-3" style="font-size: 3.5rem;"></i>
-						<p class="font-weight-bold text-gray-500 mb-0">No blocked users</p>
-					</div>
+						{{macros.ghost_box('No blocked users', '', 2)}}
 					{% endif %}
 				</div>
 			</div>

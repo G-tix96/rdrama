@@ -1,6 +1,6 @@
 import secrets
 
-from files.helpers.const import *
+from files.helpers.config.const import *
 from files.helpers.settings import get_setting
 from files.helpers.cloudflare import CLOUDFLARE_AVAILABLE
 from files.routes.wrappers import *

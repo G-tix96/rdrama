@@ -7,11 +7,12 @@ from files.helpers.media import process_files
 import files.helpers.stats as statshelper
 from files.classes.award import AWARDS
 from files.classes.badges import Badge, BadgeDef
-from files.classes.mod_logs import ModAction, ACTIONTYPES, ACTIONTYPES2
+from files.classes.mod_logs import ModAction
 from files.classes.userblock import UserBlock
 from files.helpers.actions import *
 from files.helpers.alerts import *
-from files.helpers.const import *
+from files.helpers.config.const import *
+from files.helpers.config.modaction_types import MODACTION_TYPES, MODACTION_TYPES_FILTERED, MODACTION_PRIVILEGED_TYPES
 from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter
 
@@ -135,8 +136,8 @@ def log(v:User):
 
 	kind = request.values.get("kind")
 
-	if v and v.admin_level >= PERMS['USER_SHADOWBAN']: types = ACTIONTYPES
-	else: types = ACTIONTYPES2
+	if v and v.admin_level >= PERMS['USER_SHADOWBAN']: types = MODACTION_TYPES
+	else: types = MODACTION_TYPES_FILTERED
 
 	if kind and kind not in types:
 		kind = None
@@ -144,11 +145,7 @@ def log(v:User):
 	else:
 		actions = g.db.query(ModAction)
 		if not (v and v.admin_level >= PERMS['USER_SHADOWBAN']): 
-			actions = actions.filter(ModAction.kind.notin_([
-				"shadowban","unshadowban",
-				"mod_mute_user","mod_unmute_user",
-				"link_accounts","delink_accounts",
-				]))
+			actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED_TYPES))
 
 		if admin_id:
 			actions = actions.filter_by(user_id=admin_id)
@@ -180,8 +177,8 @@ def log_item(id, v):
 
 	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).all()]
 
-	if v and v.admin_level >= PERMS['USER_SHADOWBAN']: types = ACTIONTYPES
-	else: types = ACTIONTYPES2
+	if v and v.admin_level >= PERMS['USER_SHADOWBAN']: types = MODACTION_TYPES
+	else: types = MODACTION_TYPES_FILTERED
 
 	return render_template("log.html", v=v, actions=[action], next_exists=False, page=1, action=action, admins=admins, types=types, single_user_url='admin')
 
