@@ -1186,7 +1186,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1108, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1109, true);
 
 
 --
@@ -1788,6 +1788,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydose',2,'doctor daily dose dailydose animated jump bounce',NULL),
 ('marseydoubtit',2,'dumpster defender redneck boomer shooting doubt it cocksucker gun',NULL),
 ('marseydownvote',2,'downvote negative karma arrow dislike reddit',1664011042),
+('marseydownvotemad',2,'downdoot mad angry karma reddit',1670741152),
 ('marseydracula',2,'halloween fangs cape holiday vampire',NULL),
 ('marseydragon',2,'smaug rich hoard gold treasure',NULL),
 ('marseydrama',2,'agendapost where drama seriouspost drama where',NULL),
