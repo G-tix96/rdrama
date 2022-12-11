@@ -336,7 +336,7 @@ function areyousure(t) {
 	else
 		t.innerHTML = t.innerHTML.replace(t.textContent, 'Are you sure?')
 
-	t.setAttribute("onclick", t.dataset.click2);
+	t.setAttribute("onclick", t.dataset.click);
 
 	if (t.dataset.dismiss)
 		t.setAttribute("data-bs-dismiss", t.dataset.dismiss);
