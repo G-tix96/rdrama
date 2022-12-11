@@ -83,7 +83,11 @@
 				</style>
 				<div id="logo-container" class="flex-grow-1 logo-container">
 				<a href="/">
-					<img class="ml-1" id="logo" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width=70>
+					{% if SITE_NAME == 'WPD' %}{# Temporary event code, 2022-12-11 #}
+					<img class="ml-1" id="logo" alt="logo" src="{{'icons-event/2022-christmas-logo.webp' | asset_siteimg}}" width="70">
+					{% else %}
+					<img class="ml-1" id="logo" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width="70">
+					{% endif %}
 				</a>
 				</div>
 			{% endif %}
