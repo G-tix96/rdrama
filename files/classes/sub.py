@@ -1,4 +1,4 @@
-from random import Random
+import random
 import time
 from typing import Optional
 
@@ -50,9 +50,8 @@ class Sub(Base):
 		return []
 
 	@lazy
-	def random_banner(self, random:Optional[Random]=None):
+	def random_banner(self):
 		if not self.banner_urls: return None
-		if not random: random = Random()
 		return random.choice(self.banner_urls)
 
 	@property
