@@ -106,6 +106,7 @@ def delete_profile_background(v):
 @auth_required
 @ratelimit_user()
 def settings_personal_post(v):
+	if v.id == 253: abort(403)
 	updated = False
 
 	# begin common selectors #
