@@ -1467,6 +1467,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseybunny',2,'furonsa bunny usagi skin animal costume furry fursuit',NULL),
 ('marseybunny2',2,'rabbit rodent happy',1668307402),
 ('marseyburger',2,'burgerstan hamburger cheeseburger mutt american',NULL),
+('marseyburgers',2,'stonetoss burgers question what skeptical raised eyebrow pc agenda corporate selling sales advertisement lgbt pride',1670797700),
 ('marseyburn',2,'fire flame grill burning hot red hell',NULL),
 ('marseyburnedman',2,'joshua graham fallout vegas mormon caesar',NULL),
 ('marseyburrito',2,'burrito food cozy wrap wrapped mexican uncut',NULL),
