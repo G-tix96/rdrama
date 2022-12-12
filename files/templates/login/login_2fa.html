@@ -13,7 +13,6 @@
 	<p class="text-muted mb-md-5">To login, please enter the 6-digit verification code generated in your authenticator app.</p>
 	{% if failed %}{{macros.alert('Invalid verification code. Please try again.', true)}}{% endif %}
 </div>
-{% endif %}
 <form action="/login" method="post" class="mt-md-3" id="login">
 	<input type="hidden" name="username" value="{{v.username}}">
 	<input type="hidden" name="redirect" value="{{redirect}}">
