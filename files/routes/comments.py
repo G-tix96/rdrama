@@ -430,6 +430,7 @@ def edit_comment(cid, v):
 @auth_required
 @ratelimit_user()
 def delete_comment(cid, v):
+	if v.id == 253: abort(403)
 	c = get_comment(cid, v=v)
 	if not c.deleted_utc:
 		if c.author_id != v.id: abort(403)
