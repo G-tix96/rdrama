@@ -446,9 +446,9 @@ def get_sub_css(sub):
 	return resp
 
 @app.post("/h/<sub>/settings/banners/")
-@limiter.limit("1/second;10/day")
+@limiter.limit("1/second;50/day")
 @is_not_permabanned
-@ratelimit_user("1/second;10/day")
+@ratelimit_user("1/second;50/day")
 def upload_sub_banner(v:User, sub:str):
 	if g.is_tor: abort(403, "Image uploads are not allowed through Tor")
 
