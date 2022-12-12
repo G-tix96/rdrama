@@ -27,6 +27,7 @@ rm /etc/nginx/sites-enabled/default
 mkdir /etc/nginx/includes
 cp nginx.conf /etc/nginx/sites-enabled/1
 cp nginx-serve-static.conf /etc/nginx/includes/serve-static
+cp nginx-headers.conf /etc/nginx/includes/headers
 /etc/init.d/nginx reload
 
 psql -U postgres -f schema.sql postgres
