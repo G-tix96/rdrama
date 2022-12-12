@@ -137,7 +137,7 @@ if SITE_NAME == 'rDrama':
 		"gamer": "g*mer",
 		"journalist": "journ*list",
 		"journalism": "journ*lism",
-		"elon musk": "rocket daddy",
+		"elon musk": "Rocket Daddy",
 		"fake and gay": "fake and straight",
 		" rapist": " male feminist",
 		" pedo ": " p-do ",
