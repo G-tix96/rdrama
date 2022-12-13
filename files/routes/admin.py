@@ -896,6 +896,22 @@ def shadowban(user_id, v):
 	g.db.add(user)
 	check_for_alts(user, False)
 
+	for u in user.alts_unique:
+		u.shadowbanned = v.id
+		g.db.add(u)
+		for u in u.alts_unique:
+			u.shadowbanned = v.id
+			g.db.add(u)
+			for u in u.alts_unique:
+				u.shadowbanned = v.id
+				g.db.add(u)
+				for u in u.alts_unique:
+					u.shadowbanned = v.id
+					g.db.add(u)
+					for u in u.alts_unique:
+						u.shadowbanned = v.id
+						g.db.add(u)
+
 	ma = ModAction(
 		kind="shadowban",
 		user_id=v.id,
