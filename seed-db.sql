@@ -1191,7 +1191,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1114, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1115, true);
 
 
 --
@@ -2139,7 +2139,6 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyjewishkkk',2,'klan israel racism hood blue',1664491568),
 ('marseyjewoftheorient',2,'china chinese greedy jew jewish merchant',NULL),
 ('marseyjewoftheorientglow',2,'animated glow rice china chinese chink commie mao xi',NULL),
-('marseyjewpearlclutch',2,'pearl clutch jew kike israel cry',1670139181),
 ('marseyjfk',2,'john fitzgerald kennedy jfk president american history sniper car death kill usa assassination',NULL),
 ('marseyjiangshi',2,'ghost chinese halloween holiday china scary',NULL),
 ('marseyjohnson',2,'wig history',NULL),

@@ -969,7 +969,7 @@ CREATE TABLE public.users (
     theme character varying(15) NOT NULL,
     song character varying(50),
     slurreplacer integer DEFAULT 1 NOT NULL,
-    shadowbanned character varying(25),
+    shadowbanned integer,
     newtabexternal boolean DEFAULT true NOT NULL,
     customtitleplain character varying(100),
     themecolor character varying(6) NOT NULL,
@@ -996,11 +996,11 @@ CREATE TABLE public.users (
     marseyawarded integer,
     sig character varying(200),
     sig_html character varying(1000),
-    friends character varying(500),
-    friends_html character varying(2000),
+    friends character varying(1000),
+    friends_html character varying(5000),
     sigs_disabled boolean,
-    enemies character varying(500),
-    enemies_html character varying(2000),
+    enemies character varying(1000),
+    enemies_html character varying(5000),
     fp character varying(21),
     longpost integer,
     bird integer,
@@ -1798,6 +1798,13 @@ CREATE INDEX fki_submissions_approver_fkey ON public.submissions USING btree (is
 --
 
 CREATE INDEX fki_user_referrer_fkey ON public.users USING btree (referred_by);
+
+
+--
+-- Name: fki_user_shadowbanned_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_user_shadowbanned_fkey ON public.users USING btree (shadowbanned);
 
 
 --
@@ -2644,6 +2651,14 @@ ALTER TABLE ONLY public.mods
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT user_referrer_fkey FOREIGN KEY (referred_by) REFERENCES public.users(id);
+
+
+--
+-- Name: users user_shadowbanned_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT user_shadowbanned_fkey FOREIGN KEY (shadowbanned) REFERENCES public.users(id);
 
 
 --
