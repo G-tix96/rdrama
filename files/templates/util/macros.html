@@ -136,7 +136,9 @@
 					{% endif %}
 				</div>
 				<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="postComment('{{target_fullname}}', '{{hide}}');remove_dialog();">Comment</button>
-				<button type="button" onclick="document.getElementById('reply-to-{{target_fullname}}').classList.add('d-none');remove_dialog()" class="btn btn-link text-muted ml-auto fl-r mr-3">Cancel</button> 
+				{% if target_fullname.startswith('c_') %}
+					<button type="button" onclick="document.getElementById('reply-to-{{target_fullname}}').classList.add('d-none');remove_dialog()" class="btn btn-link text-muted ml-auto fl-r mr-3">Cancel</button> 
+				{% endif %}
 			</form>
 			<div id="form-preview-{{target_fullname}}" class="preview mb-3 mt-5"></div>
 			<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a></div>
