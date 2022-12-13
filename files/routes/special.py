@@ -13,7 +13,7 @@ WITH bet_options AS (
 		SELECT option_id, COUNT(*) FROM submission_option_votes
 		GROUP BY option_id
 	) AS cnt ON so.id = cnt.option_id
-	WHERE p.author_id = 30 AND p.created_utc > 1668953400
+	WHERE p.author_id in (30,152) AND p.created_utc > 1668953400
 		AND so.exclusive IN (2, 3)
 ),
 submission_payouts AS (
