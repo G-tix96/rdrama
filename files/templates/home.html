@@ -3,7 +3,7 @@
 	{% if sub %}
 		<title>/h/{{sub.name}}</title>
 	{% elif request.path == '/' %}
-		<title>{{SITE_NAME}}{% if SITE_NAME == 'rDrama' %}: the world's largest gay orgy{% endif %}</title>
+		<title>{{SITE_NAME}}: {{TAGLINE}}</title>
 	{% else %}
 		{{super()}}
 	{% endif %}
