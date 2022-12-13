@@ -140,12 +140,12 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 
 	try:
 		with Image.open(filename) as i:
-			params = ["magick", filename]
-			params.extend(["-coalesce", "-quality", "88"])
+			params = ["convert", filename, "-coalesce", "-quality", "88"]
 			if trim and len(list(Iterator(i))) == 1:
 				params.append("-trim")
 			if resize and i.width > resize:
 				params.extend(["-resize", f"{resize}>"])
+			params.append(filename)
 	except UnidentifiedImageError as e:
 		print(f"Couldn't identify an image for {filename}; deleting... (user {v.id if v else '-no user-'})")
 		try:
@@ -155,15 +155,13 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 			abort(415)
 		return None
 
-	if len(params) > 2:
-		params.append(filename)
-		try:
-			subprocess.run(params, timeout=MAX_IMAGE_CONVERSION_TIMEOUT)
-		except subprocess.TimeoutExpired:
-			if has_request:
-				abort(413, ("An uploaded image took too long to convert to WEBP. "
-							"Please convert it to WEBP elsewhere then upload it again."))
-			return None
+	try:
+		subprocess.run(params, timeout=MAX_IMAGE_CONVERSION_TIMEOUT)
+	except subprocess.TimeoutExpired:
+		if has_request:
+			abort(413, ("An uploaded image took too long to convert to WEBP. "
+						"Please convert it to WEBP elsewhere then upload it again."))
+		return None
 
 	if resize:
 		if os.stat(filename).st_size > MAX_IMAGE_SIZE_BANNER_RESIZED_MB * 1024 * 1024:

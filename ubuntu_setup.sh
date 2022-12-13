@@ -1,6 +1,6 @@
 apt -y update
 apt -y upgrade
-apt -y install git redis-server python3-pip ffmpeg tmux nginx snapd ufw gpg-agent htop nano exiv2
+apt -y install git redis-server python3-pip ffmpeg tmux nginx snapd ufw gpg-agent htop nano exiv2 imagemagick
 
 git config --global credential.helper store
 cd /rDrama
@@ -92,5 +92,3 @@ cd ./chat
 yarn install
 yarn chat
 cd ..
-
-. imei.sh
