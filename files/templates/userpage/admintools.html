@@ -15,7 +15,7 @@
 		{% if u.ban_reason %}:
 			{{u.ban_reason | safe}}
 		{% endif %}
-		(by <a href="/@{{u.shadowbanned}}">@{{u.shadowbanned}}</a>)
+		(by <a href="/@{{u.shadowbanner}}">@{{u.shadowbanner}}</a>)
 		</h5>
 	{% endif %}
 {% endmacro %}

@@ -889,7 +889,7 @@ def shadowban(user_id, v):
 	user = get_account(user_id)
 	if user.admin_level > v.admin_level:
 		abort(403)
-	user.shadowbanned = v.username
+	user.shadowbanned = v.id
 	reason = request.values.get("reason").strip()[:256]
 	user.ban_reason = reason
 	g.db.add(user)

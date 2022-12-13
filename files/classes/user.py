@@ -81,7 +81,7 @@ class User(Base):
 	lootboxes_bought = Column(Integer, default=0)
 	agendaposter = Column(Integer, default=0)
 	is_activated = Column(Boolean, default=False)
-	shadowbanned = Column(String)
+	shadowbanned = Column(Integer)
 	over_18 = Column(Boolean, default=False)
 	hidevotedon = Column(Boolean, default=False)
 	highlightcomments = Column(Boolean, default=True)
@@ -1117,3 +1117,8 @@ class User(Base):
 	@lazy
 	def offsitementions(self):
 		return self.has_badge(140)
+
+	@property
+	@lazy
+	def shadowbanner(self):
+		return g.db.query(User.username).filter_by(id=self.shadowbanned).one()
