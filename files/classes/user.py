@@ -1121,4 +1121,4 @@ class User(Base):
 	@property
 	@lazy
 	def shadowbanner(self):
-		return g.db.query(User.username).filter_by(id=self.shadowbanned).one()
+		return g.db.query(User.username).filter_by(id=self.shadowbanned).one()[0]
