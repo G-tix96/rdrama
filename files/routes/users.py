@@ -180,6 +180,7 @@ def banned(v:User):
 			User.customtitle==None,
 			User.namecolor == DEFAULT_COLOR,
 			User.patron == 0,
+			User.truescore < 100,
 		))
 	)
 	if v.admin_level >= PERMS['VIEW_LAST_ACTIVE']:
@@ -212,6 +213,7 @@ def chuds(v:User):
 			User.customtitle==None,
 			User.namecolor == DEFAULT_COLOR,
 			User.patron == 0,
+			User.truescore < 100,
 		))
 	)
 	if v.admin_level >= PERMS['VIEW_LAST_ACTIVE']:

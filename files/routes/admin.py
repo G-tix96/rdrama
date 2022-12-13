@@ -346,6 +346,7 @@ def shadowbanned(v):
 				User.customtitle==None,
 				User.namecolor == DEFAULT_COLOR,
 				User.patron == 0,
+				User.truescore < 100,
 			))
 		) \
 		.order_by(nullslast(User.last_active.desc())).all()
