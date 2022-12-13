@@ -19,6 +19,16 @@
 			{% elif SITE_NAME == 'PCM' %}{# special case: christmas #}
 				{% set src = "/i/PCM/banners_xmas22/" ~ listdir('files/assets/images/PCM/banners_xmas22')|random() %}
 			{% endif %}
+
+			{% if SITE_NAME == "WPD" %}
+				{% if sub %}
+					{% set href = "/h/" ~ sub %}
+					{% set expand = false %}
+				{% else %}
+					{% set href = "/" %}
+					{% set expand = false %}
+				{% endif %}
+			{% endif %}
 			{{macros.banner(src, href, alt, expand, class)}}
 		{% endif %}
 	{% endif %}
