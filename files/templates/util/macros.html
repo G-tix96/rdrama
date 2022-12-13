@@ -4,8 +4,7 @@
 	{%- endif -%}
 {%- endmacro -%}
 
-{%- macro banner(src, href, alt, class) %}
-	{% set expand = not href %}
+{%- macro banner(src, href, alt, expand, class) %}
 	<a href="{{href|default(src)}}" rel="nofollow noopener">
 		<img onclick="{{expand|default('expandDesktopImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{src|default(live_banner())}}">
 	</a>
