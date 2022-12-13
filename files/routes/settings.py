@@ -235,11 +235,11 @@ def settings_personal_post(v):
 							msg="Your sig has been updated.")
 
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("friends"):
-		friends = request.values.get("friends")[:500]
+		friends = request.values.get("friends")[:1000]
 
 		friends_html = sanitize(friends)
 
-		if len(friends_html) > 2000:
+		if len(friends_html) > 5000:
 			return render_template("settings/personal.html",
 								v=v,
 								error="Your friends list is too long")
@@ -251,7 +251,7 @@ def settings_personal_post(v):
 			for x in notify_users:
 				add_notif(cid, x)
 
-		v.friends = friends[:500]
+		v.friends = friends[:1000]
 		v.friends_html=friends_html
 		g.db.add(v)
 		return render_template("settings/personal.html",
@@ -260,11 +260,11 @@ def settings_personal_post(v):
 
 
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("enemies"):
-		enemies = request.values.get("enemies")[:500]
+		enemies = request.values.get("enemies")[:1000]
 
 		enemies_html = sanitize(enemies)
 
-		if len(enemies_html) > 2000:
+		if len(enemies_html) > 5000:
 			return render_template("settings/personal.html",
 								v=v,
 								error="Your enemies list is too long")
@@ -275,7 +275,7 @@ def settings_personal_post(v):
 			for x in notify_users:
 				add_notif(cid, x)
 
-		v.enemies = enemies[:500]
+		v.enemies = enemies[:1000]
 		v.enemies_html=enemies_html
 		g.db.add(v)
 		return render_template("settings/personal.html",
