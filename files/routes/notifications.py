@@ -259,6 +259,30 @@ def notifications(v:User):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
+	if v.admin_level >= PERMS['USER_SHADOWBAN']:
+		unread_and_inaccessible = g.db.query(Notification).join(Notification.comment).filter(
+			Notification.user_id == v.id,
+			Notification.read == False,
+			or_(
+				Comment.is_banned != False,
+				Comment.deleted_utc != 0,
+			)
+		).all()
+	else:
+		unread_and_inaccessible = g.db.query(Notification).join(Notification.comment).join(Comment.author).filter(
+			Notification.user_id == v.id,
+			Notification.read == False,
+			or_(
+				Comment.is_banned != False,
+				Comment.deleted_utc != 0,
+				User.shadowbanned != None,
+			)
+		).all()
+
+	for n in unread_and_inaccessible:
+		n.read = True
+		g.db.add(n)
+
 	comments = g.db.query(Comment, Notification).join(Notification.comment).join(Comment.author).filter(
 		Notification.user_id == v.id,
 		Comment.is_banned == False,
