@@ -981,6 +981,7 @@ if SITE_NAME == 'rDrama':
 		'mainchan.com',
 		'encyclopediadramatica.online',
 		'thecoli.com',
+		'datalounge.com',
 
 		#fediverse
 		'rdrama.cc',
