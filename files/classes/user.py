@@ -148,7 +148,7 @@ class User(Base):
 	authorizations = relationship("ClientAuth", back_populates="user")
 	apps = relationship("OauthApp", back_populates="author")
 	awards = relationship("AwardRelationship", primaryjoin="User.id==AwardRelationship.user_id", back_populates="user")
-	referrals = relationship("User")
+	referrals = relationship("User", primaryjoin="User.id==User.referred_by")
 	designed_hats = relationship("HatDef", primaryjoin="User.id==HatDef.author_id", back_populates="author")
 	owned_hats = relationship("Hat", back_populates="owners")
 	hats_equipped = relationship("Hat", lazy="raise", viewonly=True)
