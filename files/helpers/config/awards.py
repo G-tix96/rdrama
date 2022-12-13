@@ -518,22 +518,22 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": False
 	},
-	"grass": {
-		"kind": "grass",
-		"title": "Grass",
-		"description": "Ban the recipient for 30 days (if they provide a timestamped picture of them touching grass/snow/sand/ass to the admins, they will get unbanned immediately)",
-		"icon": "fas fa-seedling",
-		"color": "text-success",
-		"price": 10000,
-		"deflectable": True,
-		"cosmetic": False
-	},
 	"eye": {
 		"kind": "eye",
 		"title": "All-Seeing Eye",
 		"description": "Gives the recipient the ability to view private profiles.",
 		"icon": "fas fa-eye",
 		"color": "text-silver",
+		"price": 5000,
+		"deflectable": True,
+		"cosmetic": False
+	},
+	"grass": {
+		"kind": "grass",
+		"title": "Grass",
+		"description": "Ban the recipient for 30 days (if they provide a timestamped picture of them touching grass/snow/sand/ass to the admins, they will get unbanned immediately)",
+		"icon": "fas fa-seedling",
+		"color": "text-success",
 		"price": 10000,
 		"deflectable": True,
 		"cosmetic": False
