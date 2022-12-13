@@ -84,6 +84,6 @@ def get_leaderboard(v):
 	result = _special_leaderboard_get()
 	if g.is_api_or_xhr: return jsonify(result)
 	users = get_accounts_dict([r[0] for r in result],
-		v=v, include_shadowbanned=False)
+		v=v, include_shadowbanned=False, graceful=True)
 	return render_template("special/worldcup22_leaderboard.html",
 		v=v, result=result, users=users)
