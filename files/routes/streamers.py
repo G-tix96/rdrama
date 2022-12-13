@@ -136,7 +136,7 @@ def live_add(v):
 		g.db.add(streamer)
 		g.db.flush()
 		if v.id != KIPPY_ID:
-			send_repeatable_notification(KIPPY_ID, f"@{v.username} (Admin) has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
+			send_repeatable_notification(KIPPY_ID, f"@{v.username} (a site admin) has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 
 		processed = process_streamer(id)
 		if processed:
@@ -159,7 +159,7 @@ def live_remove(v):
 	streamer = g.db.get(Streamer, id)
 	if streamer:
 		if v.id != KIPPY_ID:
-			send_repeatable_notification(KIPPY_ID, f"@{v.username} (Admin) has removed a [YouTube channel](https://www.youtube.com/channel/{streamer.id})")
+			send_repeatable_notification(KIPPY_ID, f"@{v.username} (a site admin) has removed a [YouTube channel](https://www.youtube.com/channel/{streamer.id})")
 		g.db.delete(streamer)
 
 	live = cache.get('live') or []

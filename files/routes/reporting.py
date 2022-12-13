@@ -37,7 +37,7 @@ def flag_post(pid, v):
 				_note=f'"{post.flair}"'
 			)
 			g.db.add(ma)
-			position = 'Admin'
+			position = 'a site admin'
 		else:
 			ma = SubAction(
 				sub=post.sub,
@@ -47,7 +47,7 @@ def flag_post(pid, v):
 				_note=f'"{post.flair}"'
 			)
 			g.db.add(ma)
-			position = f'/h/{post.sub} Mod'
+			position = f'a /h/{post.sub} mod'
 
 		if v.id != post.author_id:
 			message = f'@{v.username} ({position}) has flaired [{post.title}]({post.shortlink}) with the flair: `"{og_flair}"`'
@@ -184,9 +184,20 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 			)
 			g.db.add(ma)
 
-		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']: position = 'Admin'
-		else: position = f'/h/{sub_from} Mod'
-		message = f"@{v.username} ({position}) has moved [{post.title}]({post.shortlink}) to /h/{post.sub}"
+		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']: position = 'a site admin'
+		else: position = f'a /h/{sub_from} mod'
+
+		if post.sub == None:
+			sub_to_in_notif = 'the main feed'
+		else:
+			sub_to_in_notif = f'/h/{post.sub}'
+
+		if sub_from == None:
+			sub_from_in_notif = 'the main feed'
+		else:
+			sub_from_in_notif = f'/h/{sub_from}'
+
+		message = f"@{v.username} ({position}) has moved [{post.title}]({post.shortlink}) from {sub_from_in_notif} to {sub_to_in_notif}"
 		send_repeatable_notification(post.author_id, message)
 
 	cache.delete_memoized(frontlist)

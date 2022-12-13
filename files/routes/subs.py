@@ -363,7 +363,7 @@ def kick(v:User, pid):
 	g.db.add(ma)
 
 	if v.id != post.author_id:
-		message = f"@{v.username} (/h/{old} Mod) has moved [{post.title}]({post.shortlink}) from /h/{old} to the main feed!"
+		message = f"@{v.username} (a /h/{old} mod) has moved [{post.title}]({post.shortlink}) from /h/{old} to the main feed!"
 		send_repeatable_notification(post.author_id, message)
 
 	g.db.add(post)
@@ -614,7 +614,7 @@ def hole_pin(v:User, pid):
 	g.db.add(p)
 
 	if v.id != p.author_id:
-		message = f"@{v.username} (/h/{p.sub} Mod) has pinned [{p.title}]({p.shortlink}) in /h/{p.sub}"
+		message = f"@{v.username} (a /h/{p.sub} mod) has pinned [{p.title}]({p.shortlink}) in /h/{p.sub}"
 		send_repeatable_notification(p.author_id, message)
 
 	ma = SubAction(
@@ -640,7 +640,7 @@ def hole_unpin(v:User, pid):
 	g.db.add(p)
 
 	if v.id != p.author_id:
-		message = f"@{v.username} (/h/{p.sub} Mod) has unpinned [{p.title}]({p.shortlink}) in /h/{p.sub}"
+		message = f"@{v.username} (a /h/{p.sub} mod) has unpinned [{p.title}]({p.shortlink}) in /h/{p.sub}"
 		send_repeatable_notification(p.author_id, message)
 
 	ma = SubAction(
@@ -707,7 +707,7 @@ def mod_pin(cid, v):
 		g.db.add(ma)
 
 		if v.id != comment.author_id:
-			message = f"@{v.username} (/h/{comment.post.sub} Mod) has pinned your [comment]({comment.shortlink})"
+			message = f"@{v.username} (a /h/{comment.post.sub} mod) has pinned your [comment]({comment.shortlink})"
 			send_repeatable_notification(comment.author_id, message)
 
 	return {"message": "Comment pinned!"}
@@ -733,7 +733,7 @@ def mod_unpin(cid, v):
 		g.db.add(ma)
 
 		if v.id != comment.author_id:
-			message = f"@{v.username} (/h/{comment.post.sub} Mod) has unpinned your [comment]({comment.shortlink})"
+			message = f"@{v.username} (a /h/{comment.post.sub} mod) has unpinned your [comment]({comment.shortlink})"
 			send_repeatable_notification(comment.author_id, message)
 	return {"message": "Comment unpinned!"}
 

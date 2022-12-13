@@ -908,7 +908,7 @@ def mark_post_nsfw(pid, v):
 					target_submission_id = post.id,
 				)
 			g.db.add(ma)
-		send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has marked [{post.title}](/post/{post.id}) as +18")
+		send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has marked [{post.title}](/post/{post.id}) as +18")
 
 	return {"message": "Post has been marked as +18!"}
 
@@ -942,7 +942,7 @@ def unmark_post_nsfw(pid, v):
 					target_submission_id = post.id,
 				)
 			g.db.add(ma)
-		send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has unmarked [{post.title}](/post/{post.id}) as +18")
+		send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has unmarked [{post.title}](/post/{post.id}) as +18")
 
 	return {"message": "Post has been unmarked as +18!"}
 
@@ -1006,7 +1006,7 @@ def set_new_sort(post_id:int, v:User):
 				target_submission_id = post.id,
 			)
 		g.db.add(ma)
-		send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has changed the the default sorting of comments on [{post.title}](/post/{post.id}) to `new`")
+		send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has changed the the default sorting of comments on [{post.title}](/post/{post.id}) to `new`")
 
 	return {"message": f"Changed the the default sorting of comments on this post to 'new'"}
 
@@ -1027,7 +1027,7 @@ def unset_new_sort(post_id:int, v:User):
 				target_submission_id = post.id,
 			)
 		g.db.add(ma)
-		send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has changed the the default sorting of comments on [{post.title}](/post/{post.id}) to `hot`")
+		send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has changed the the default sorting of comments on [{post.title}](/post/{post.id}) to `hot`")
 
 	return {"message": f"Changed the the default sorting of comments on this post to 'hot'"}
 

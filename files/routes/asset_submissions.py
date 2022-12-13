@@ -152,11 +152,11 @@ def approve_marsey(v, name):
 	g.db.add(author)
 
 	if v.id != author.id:
-		msg = f"@{v.username} (Admin) has approved a marsey you made: :{marsey.name}:\nYou have received 250 coins as a reward!"
+		msg = f"@{v.username} (a site admin) has approved a marsey you made: :{marsey.name}:\nYou have received 250 coins as a reward!"
 		send_repeatable_notification(author.id, msg)
 
 	if v.id != marsey.submitter_id and author.id != marsey.submitter_id:
-		msg = f"@{v.username} (Admin) has approved a marsey you submitted: :{marsey.name}:"
+		msg = f"@{v.username} (a site admin) has approved a marsey you submitted: :{marsey.name}:"
 		send_repeatable_notification(marsey.submitter_id, msg)
 
 	marsey.submitter_id = None
@@ -307,11 +307,11 @@ def approve_hat(v, name):
 
 
 	if v.id != author.id:
-		msg = f"@{v.username} (Admin) has approved a hat you made: '{hat.name}'"
+		msg = f"@{v.username} (a site admin) has approved a hat you made: '{hat.name}'"
 		send_repeatable_notification(author.id, msg)
 
 	if v.id != hat.submitter_id and author.id != hat.submitter_id:
-		msg = f"@{v.username} (Admin) has approved a hat you submitted: '{hat.name}'"
+		msg = f"@{v.username} (a site admin) has approved a hat you submitted: '{hat.name}'"
 		send_repeatable_notification(hat.submitter_id, msg)
 
 	hat.submitter_id = None
