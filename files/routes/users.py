@@ -173,15 +173,8 @@ def user_voted_comments(v:User, username):
 def banned(v:User):
 	users = g.db.query(User).filter(
 		User.is_banned != None,
-		User.truescore > 0,
 		or_(User.unban_utc == 0, User.unban_utc > time.time()),
-		not_(and_(
-			User.profileurl.startswith('/e/'),
-			User.customtitle==None,
-			User.namecolor == DEFAULT_COLOR,
-			User.patron == 0,
-			User.truescore < 100,
-		))
+		User.truescore >= 100,
 	)
 	if v.admin_level >= PERMS['VIEW_LAST_ACTIVE']:
 		users = users.order_by(nullslast(User.last_active.desc()))
@@ -206,15 +199,7 @@ def grassed(v:User):
 @auth_required
 def chuds(v:User):
 	users = g.db.query(User).filter(
-		User.truescore > 0,
 		or_(User.agendaposter == 1, User.agendaposter > time.time()),
-		not_(and_(
-			User.profileurl.startswith('/e/'),
-			User.customtitle==None,
-			User.namecolor == DEFAULT_COLOR,
-			User.patron == 0,
-			User.truescore < 100,
-		))
 	)
 	if v.admin_level >= PERMS['VIEW_LAST_ACTIVE']:
 		users = users.order_by(nullslast(User.last_active.desc()))

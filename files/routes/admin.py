@@ -340,14 +340,7 @@ def shadowbanned(v):
 	users = g.db.query(User) \
 		.filter(
 			User.shadowbanned != None,
-			User.truescore > 0,
-			not_(and_(
-				User.profileurl.startswith('/e/'),
-				User.customtitle==None,
-				User.namecolor == DEFAULT_COLOR,
-				User.patron == 0,
-				User.truescore < 100,
-			))
+			User.truescore >= 100,
 		) \
 		.order_by(nullslast(User.last_active.desc())).all()
 
