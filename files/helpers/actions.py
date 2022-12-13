@@ -69,7 +69,7 @@ def execute_snappy(post:Submission, v:User):
 		else: SNAPPY_CHOICES = [""]
 
 		body = random.choice(SNAPPY_CHOICES).strip()
-		if body.startswith('▼'):
+		if body.startswith('▼') or body.startswith(':#marseydownvote'):
 			body = body[1:]
 			vote = Vote(user_id=SNAPPY_ID,
 						vote_type=-1,
