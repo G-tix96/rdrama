@@ -944,7 +944,7 @@ CREATE TABLE public.users (
     bio character varying(1500),
     bio_html character varying(10000),
     referred_by integer,
-    is_banned integer DEFAULT 0 NOT NULL,
+    is_banned integer,
     ban_reason character varying(256),
     login_nonce integer DEFAULT 0 NOT NULL,
     reserved character varying(256),
@@ -2752,4 +2752,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-

@@ -319,7 +319,7 @@ def revert_actions(v:User, username):
 		user.unban_utc = 0
 		user.ban_reason = None
 		if user.is_banned:
-			user.is_banned = 0
+			user.is_banned = None
 			send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unbanned you!")
 		g.db.add(user)
 
@@ -328,7 +328,7 @@ def revert_actions(v:User, username):
 			u.unban_utc = 0
 			u.ban_reason = None
 			if u.is_banned:
-				u.is_banned = 0
+				u.is_banned = None
 				send_repeatable_notification(u.id, f"@{v.username} (a site admin) has unbanned you!")
 			g.db.add(u)
 
@@ -1135,7 +1135,7 @@ def unban_user(user_id, v):
 	if FEATURES['AWARDS'] and user.ban_reason and user.ban_reason.startswith('1-Day ban award'):
 		abort(403, "You can't undo a ban award!")
 
-	user.is_banned = 0
+	user.is_banned = None
 	user.unban_utc = 0
 	user.ban_reason = None
 	send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unbanned you!")
@@ -1143,7 +1143,7 @@ def unban_user(user_id, v):
 
 	for x in user.alts:
 		if x.is_banned: send_repeatable_notification(x.id, f"@{v.username} (a site admin) has unbanned you!")
-		x.is_banned = 0
+		x.is_banned = None
 		x.unban_utc = 0
 		x.ban_reason = None
 		g.db.add(x)

@@ -172,7 +172,7 @@ def user_voted_comments(v:User, username):
 @auth_required
 def banned(v:User):
 	users = g.db.query(User).filter(
-		User.is_banned > 0,
+		User.is_banned != None,
 		User.truescore > 0,
 		or_(User.unban_utc == 0, User.unban_utc > time.time()),
 		not_(and_(

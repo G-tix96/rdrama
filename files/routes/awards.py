@@ -228,7 +228,7 @@ def award_thing(v, thing_type, id):
 			send_repeatable_notification(author.id, "Your ban duration has been reduced by 1 day!")
 		else:
 			author.unban_utc = 0
-			author.is_banned = 0
+			author.is_banned = None
 			author.ban_reason = None
 			send_repeatable_notification(author.id, "You have been unbanned!")
 	elif kind == "grass":

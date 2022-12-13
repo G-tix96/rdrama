@@ -104,7 +104,7 @@ def stats(site=None):
 			"marseys": "{:,}".format(g.db.query(Marsey).filter(Marsey.submitter_id==None).count()),
 			"users": "{:,}".format(g.db.query(User).count()),
 			"private users": "{:,}".format(g.db.query(User).filter_by(is_private=True).count()),
-			"banned users": "{:,}".format(g.db.query(User).filter(User.is_banned > 0).count()),
+			"banned users": "{:,}".format(g.db.query(User).filter(User.is_banned != None).count()),
 			"verified email users": "{:,}".format(g.db.query(User).filter_by(is_activated=True).count()),
 			"coins in circulation": "{:,}".format(g.db.query(func.sum(User.coins)).scalar()),
 			"total shop sales": "{:,}".format(g.db.query(func.sum(User.coins_spent)).scalar()),

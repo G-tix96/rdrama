@@ -107,7 +107,7 @@ class User(Base):
 	friends_html = deferred(Column(String))
 	enemies = deferred(Column(String))
 	enemies_html = deferred(Column(String))
-	is_banned = Column(Integer, default=0)
+	is_banned = Column(Integer, ForeignKey("users.id"))
 	unban_utc = Column(Integer, default=0)
 	ban_reason = deferred(Column(String))
 	is_muted = Column(Boolean, default=False, nullable=False)
