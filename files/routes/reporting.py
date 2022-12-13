@@ -22,6 +22,7 @@ def flag_post(pid, v):
 	execute_blackjack(v, post, reason, 'flag')
 	if v.is_muted: abort(403, "You are forbidden from making reports.")
 	reason = reason[:100]
+	og_flair = reason[1:]
 	reason = filter_emojis_only(reason)
 	if len(reason) > 350: abort(400, "Too long.")
 
@@ -49,7 +50,7 @@ def flag_post(pid, v):
 			position = f'/h/{post.sub} Mod'
 
 		if v.id != post.author_id:
-			message = f'@{v.username} ({position}) has flaired [{post.title}]({post.shortlink}) with the flair: `"{post.flair}"`'
+			message = f'@{v.username} ({position}) has flaired [{post.title}]({post.shortlink}) with the flair: `"{og_flair}"`'
 			send_repeatable_notification(post.author_id, message)
 
 		return {"message": "Post flaired successfully!"}
