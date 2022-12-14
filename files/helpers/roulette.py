@@ -5,7 +5,7 @@ import time
 
 from flask import g
 
-from files.classes.casino_game import Casino_Game
+from files.classes.casino_game import CasinoGame
 from files.helpers.alerts import *
 from files.helpers.get import get_account
 
@@ -77,9 +77,9 @@ PAYOUT_MULITPLIERS = {
 
 
 def get_active_roulette_games():
-	return g.db.query(Casino_Game).filter(
-		Casino_Game.active == True,
-		Casino_Game.kind == 'roulette'
+	return g.db.query(CasinoGame).filter(
+		CasinoGame.active == True,
+		CasinoGame.kind == 'roulette'
 	).all()
 
 
@@ -112,7 +112,7 @@ def gambler_placed_roulette_bet(gambler, bet, which, amount, currency):
 
 	charge_gambler(gambler, amount, currency)
 
-	game = Casino_Game()
+	game = CasinoGame()
 	game.user_id = gambler.id
 	game.currency = currency
 	game.wager = amount

@@ -4,7 +4,7 @@ from json.encoder import INFINITY
 
 from flask import abort, g
 
-from files.classes.casino_game import Casino_Game
+from files.classes.casino_game import CasinoGame
 from files.classes.comment import Comment
 from files.classes.user import User
 from files.helpers.casino import distribute_wager_badges
@@ -41,7 +41,7 @@ def casino_slot_pull(gambler, wager_value, currency):
 			"symbols": symbols,
 			"text": text
 		}
-		casino_game = Casino_Game()
+		casino_game = CasinoGame()
 		casino_game.active = False
 		casino_game.user_id = gambler.id
 		casino_game.currency = currency

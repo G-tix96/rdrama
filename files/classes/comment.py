@@ -74,7 +74,7 @@ class Comment(Base):
 	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="comment")
 	flags = relationship("CommentFlag", order_by="CommentFlag.created_utc")
 	options = relationship("CommentOption", order_by="CommentOption.id")
-	casino_game = relationship("Casino_Game")
+	casino_game = relationship("CasinoGame")
 	wall_user = relationship("User", primaryjoin="User.id==Comment.wall_user_id")
 
 	def __init__(self, *args, **kwargs):

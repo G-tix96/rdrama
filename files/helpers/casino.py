@@ -1,13 +1,13 @@
 import time
-from files.classes.casino_game import Casino_Game
+from files.classes.casino_game import CasinoGame
 from files.helpers.alerts import *
 from files.helpers.config.const import *
 from files.helpers.useractions import badge_grant
 
 def get_game_feed(game, db):
-	games = db.query(Casino_Game) \
-		.filter(Casino_Game.active == False, Casino_Game.kind == game) \
-		.order_by(Casino_Game.created_utc.desc()).limit(30).all()
+	games = db.query(CasinoGame) \
+		.filter(CasinoGame.active == False, CasinoGame.kind == game) \
+		.order_by(CasinoGame.created_utc.desc()).limit(30).all()
 
 	def format_game(game):
 		user = db.query(User).filter(User.id == game.user_id).one()
@@ -24,27 +24,27 @@ def get_game_feed(game, db):
 	return list(map(format_game, games))
 
 def get_user_stats(u:User, game:str, db:scoped_session, include_ties=False):
-	games = db.query(Casino_Game.user_id, Casino_Game.winnings).filter(Casino_Game.kind == game, Casino_Game.user_id == u.id)
-	wins = games.filter(Casino_Game.winnings > 0).count()
-	ties = games.filter(Casino_Game.winnings == 0).count() if include_ties else 0
-	losses = games.filter(Casino_Game.winnings < 0).count()
+	games = db.query(CasinoGame.user_id, CasinoGame.winnings).filter(CasinoGame.kind == game, CasinoGame.user_id == u.id)
+	wins = games.filter(CasinoGame.winnings > 0).count()
+	ties = games.filter(CasinoGame.winnings == 0).count() if include_ties else 0
+	losses = games.filter(CasinoGame.winnings < 0).count()
 	return (wins, ties, losses)
 
 def get_game_leaderboard(game, db:scoped_session):
 	timestamp_24h_ago = time.time() - 86400
 	timestamp_all_time = CASINO_RELEASE_DAY # "All Time" starts on release day
 
-	biggest_win_all_time = db.query(Casino_Game.user_id, User.username, Casino_Game.currency, Casino_Game.winnings).select_from(
-		Casino_Game).join(User).order_by(Casino_Game.winnings.desc()).filter(Casino_Game.kind == game, Casino_Game.created_utc > timestamp_all_time).limit(1).one_or_none()
+	biggest_win_all_time = db.query(CasinoGame.user_id, User.username, CasinoGame.currency, CasinoGame.winnings).select_from(
+		CasinoGame).join(User).order_by(CasinoGame.winnings.desc()).filter(CasinoGame.kind == game, CasinoGame.created_utc > timestamp_all_time).limit(1).one_or_none()
 
-	biggest_win_last_24h = db.query(Casino_Game.user_id, User.username, Casino_Game.currency, Casino_Game.winnings).select_from(
-		Casino_Game).join(User).order_by(Casino_Game.winnings.desc()).filter(Casino_Game.kind == game, Casino_Game.created_utc > timestamp_24h_ago).limit(1).one_or_none()
+	biggest_win_last_24h = db.query(CasinoGame.user_id, User.username, CasinoGame.currency, CasinoGame.winnings).select_from(
+		CasinoGame).join(User).order_by(CasinoGame.winnings.desc()).filter(CasinoGame.kind == game, CasinoGame.created_utc > timestamp_24h_ago).limit(1).one_or_none()
 
-	biggest_loss_all_time = db.query(Casino_Game.user_id, User.username, Casino_Game.currency, Casino_Game.winnings).select_from(
-		Casino_Game).join(User).order_by(Casino_Game.winnings.asc()).filter(Casino_Game.kind == game, Casino_Game.created_utc > timestamp_all_time).limit(1).one_or_none()
+	biggest_loss_all_time = db.query(CasinoGame.user_id, User.username, CasinoGame.currency, CasinoGame.winnings).select_from(
+		CasinoGame).join(User).order_by(CasinoGame.winnings.asc()).filter(CasinoGame.kind == game, CasinoGame.created_utc > timestamp_all_time).limit(1).one_or_none()
 
-	biggest_loss_last_24h = db.query(Casino_Game.user_id, User.username, Casino_Game.currency, Casino_Game.winnings).select_from(
-		Casino_Game).join(User).order_by(Casino_Game.winnings.asc()).filter(Casino_Game.kind == game, Casino_Game.created_utc > timestamp_24h_ago).limit(1).one_or_none()
+	biggest_loss_last_24h = db.query(CasinoGame.user_id, User.username, CasinoGame.currency, CasinoGame.winnings).select_from(
+		CasinoGame).join(User).order_by(CasinoGame.winnings.asc()).filter(CasinoGame.kind == game, CasinoGame.created_utc > timestamp_24h_ago).limit(1).one_or_none()
 
 	if not biggest_win_all_time:
 		biggest_win_all_time = [None, None, None, 0]

@@ -9,7 +9,7 @@ from files.helpers.lazy import lazy
 
 CASINO_GAME_KINDS = ['blackjack', 'slots', 'roulette']
 
-class Casino_Game(Base):
+class CasinoGame(Base):
 	__tablename__ = "casino_games"
 
 	id = Column(Integer, primary_key=True)

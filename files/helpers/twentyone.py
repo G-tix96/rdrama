@@ -5,7 +5,7 @@ from math import floor
 
 from flask import g
 
-from files.classes.casino_game import Casino_Game
+from files.classes.casino_game import CasinoGame
 from files.helpers.casino import distribute_wager_badges
 
 class BlackjackStatus(str, Enum):
@@ -55,7 +55,7 @@ def build_casino_game(gambler, wager, currency):
 	initial_state['wager']['amount'] = wager
 	initial_state['wager']['currency'] = currency
 
-	casino_game = Casino_Game()
+	casino_game = CasinoGame()
 	casino_game.user_id = gambler.id
 	casino_game.currency = currency
 	casino_game.wager = wager
@@ -69,10 +69,10 @@ def build_casino_game(gambler, wager, currency):
 
 
 def get_active_twentyone_game(gambler):
-	return g.db.query(Casino_Game).filter(
-		Casino_Game.active == True,
-		Casino_Game.kind == 'blackjack',
-		Casino_Game.user_id == gambler.id).first()
+	return g.db.query(CasinoGame).filter(
+		CasinoGame.active == True,
+		CasinoGame.kind == 'blackjack',
+		CasinoGame.user_id == gambler.id).first()
 
 
 def get_active_twentyone_game_state(gambler):

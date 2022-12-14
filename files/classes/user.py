@@ -10,7 +10,7 @@ from sqlalchemy.sql.expression import not_, and_, or_
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
-from files.classes.casino_game import Casino_Game
+from files.classes.casino_game import CasinoGame
 from files.classes.sub import Sub
 from files.helpers.config.const import *
 from files.helpers.config.awards import AWARDS_ENABLED, HOUSE_AWARDS
@@ -1047,7 +1047,7 @@ class User(Base):
 	@property
 	@lazy
 	def winnings(self):
-		from_casino = g.db.query(func.sum(Casino_Game.winnings)).filter(Casino_Game.user_id == self.id).one()[0]
+		from_casino = g.db.query(func.sum(CasinoGame.winnings)).filter(CasinoGame.user_id == self.id).one()[0]
 		from_casino_value = from_casino or 0
 
 		return from_casino_value + self.total_lottery_winnings
