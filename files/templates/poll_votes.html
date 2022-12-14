@@ -2,7 +2,14 @@
 {% block pagetitle %}Poll Votes{% endblock %}
 {% block content %}
 {% if thing %}
+
 <h3 class="mt-5">{{thing.body_html | safe}} - {{ups | length}} {% if thing.exclusive == 2 %}bets{% else %}votes{% endif %}</h3>
+
+<p class="mt-4"><b>Total voter truescore: </b>{{total_ts}}</p>
+{% if total_patrons %}
+	<p><b>Total patrons: </b>{{total_patrons}}</p>
+{% endif %}
+
 <div class="overflow-x-auto mt-5">
 	<table class="table table-striped mb-5">
 		<thead class="bg-primary text-white">

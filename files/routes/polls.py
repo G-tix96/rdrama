@@ -63,10 +63,22 @@ def option_votes(option_id, v):
 	if option.post.ghost: abort(403)
 	ups = g.db.query(SubmissionOptionVote).filter_by(option_id=option_id).order_by(SubmissionOptionVote.created_utc).all()
 
+	user_ids = [x[0] for x in g.db.query(SubmissionOptionVote.user_id).filter_by(option_id=option_id).all()]
+	total_ts = g.db.query(func.sum(User.truescore)).filter(User.id.in_(user_ids)).scalar()
+	total_ts = format(total_ts, ",") if total_ts else '0'
+
+	if v.admin_level >= 3:
+		total_patrons = g.db.query(User).filter(User.id.in_(user_ids), User.patron > 0).count()
+	else:
+		total_patrons = None
+
 	return render_template("poll_votes.html",
 						v=v,
 						thing=option,
-						ups=ups)
+						ups=ups,
+						total_ts=total_ts,
+						total_patrons=total_patrons,
+						)
 
 
 
@@ -119,7 +131,19 @@ def option_votes_comment(option_id, v):
 
 	ups = g.db.query(CommentOptionVote).filter_by(option_id=option_id).order_by(CommentOptionVote.created_utc).all()
 
+	user_ids = [x[0] for x in g.db.query(CommentOptionVote.user_id).filter_by(option_id=option_id).all()]
+	total_ts = g.db.query(func.sum(User.truescore)).filter(User.id.in_(user_ids)).scalar()
+	total_ts = format(total_ts, ",") if total_ts else '0'
+
+	if v.admin_level >= 3:
+		total_patrons = g.db.query(User).filter(User.id.in_(user_ids), User.patron > 0).count()
+	else:
+		total_patrons = None
+
 	return render_template("poll_votes.html",
 						v=v,
 						thing=option,
-						ups=ups)
+						ups=ups,
+						total_ts=total_ts,
+						total_patrons=total_patrons,
+						)
