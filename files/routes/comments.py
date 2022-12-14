@@ -106,8 +106,7 @@ def comment(v:User):
 		if POLL_THREAD and parent.id == POLL_THREAD and v.admin_level < PERMS['POST_TO_POLL_THREAD']: abort(403)
 	elif parent_fullname.startswith("c_"):
 		parent = get_comment(id, v=v)
-		post_target = get_post(parent.parent_submission, v=v, graceful=True) or \
-		              get_account(parent.wall_user_id, v=v, include_blocks=True, include_shadowbanned=False, graceful=True)
+		post_target = get_post(parent.parent_submission, v=v, graceful=True) or get_account(parent.wall_user_id, v=v, include_blocks=True, include_shadowbanned=False)
 		parent_comment_id = parent.id
 		if parent.author_id == v.id: rts = True
 		if not v.can_post_in_ghost_threads and isinstance(post_target, Submission) and post_target.ghost: 
