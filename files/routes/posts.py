@@ -246,8 +246,9 @@ def morecomments(v, cid):
 	if v:
 		# shadowban check is done in sort_objects i think
 		# output is needed: see comments.py
-		comments, output = get_comments_v_properties(v, True, lambda c:bool(c.parent_comment_id == int(cid)), Comment.top_comment_id == tcid, Comment.level > 9)
-		comments = output
+		comments, output = get_comments_v_properties(v, True, None, Comment.top_comment_id == tcid, Comment.level > 9)
+		comments = comments.filter(Comment.parent_comment_id == cid)
+		comments = [c[0] for c in comments.all()]
 	else:
 		c = get_comment(cid)
 		comments = c.replies(sort=request.values.get('sort'), v=v, db=g.db)
