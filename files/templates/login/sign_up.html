@@ -118,6 +118,6 @@
 {% block scripts %}
 <script defer src="{{'js/signup.js' | asset}}"></script>
 {% if turnstile != DEFAULT_CONFIG_VALUE %}
-	<script defer src="/assets/js/turnstile.js"></script>
+	<script defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
 {% endif %}
 {% endblock %}
