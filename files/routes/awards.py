@@ -214,11 +214,17 @@ def award_thing(v, thing_type, id):
 	link = f"[this {thing_type}]({thing.shortlink})"
 
 	if kind == "ban":
+		link = f"/{thing_type}/{thing.id}"
+		link2 = link
+		if thing_type == 'comment':
+			link2 += '?context=8'
+		ban_reason = f'1-Day ban award used by <a href="/@{v.username}">@{v.username}</a> on <a href="{link2}">{link}</a>'
 		if not author.is_suspended:
-			author.ban(reason=f"1-Day ban award used by @{v.username} on /{thing_type}/{thing.id}", days=1)
+			author.ban(reason=ban_reason, days=1)
 			send_repeatable_notification(author.id, f"Your account has been banned for **a day** for {link}. It sucked and you should feel bad.")
 		elif author.unban_utc:
 			author.unban_utc += 86400
+			author.ban_reason = ban_reason
 			send_repeatable_notification(author.id, f"Your account has been banned for **yet another day** for {link}. Seriously man?")
 	elif kind == "unban":
 		if not author.is_suspended or not author.unban_utc or time.time() > author.unban_utc: abort(403)
