@@ -321,6 +321,7 @@ def settings_personal_post(v):
 	theme = request.values.get("theme")
 	if not updated and theme:
 		if theme in THEMES:
+			if v.theme == "win98": v.themecolor = DEFAULT_COLOR
 			v.theme = theme
 			if theme == "win98": v.themecolor = "30409f"
 			updated = True
