@@ -43,9 +43,9 @@ def loggedout_list(v):
 	users = sorted([val[1] for x,val in cache.get(f'{SITE}_loggedout').items() if time.time()-val[0] < LOGGEDIN_ACTIVE_TIME])
 	return render_template("admin/loggedout.html", v=v, users=users)
 
-@app.get('/admin/merge/<id1>/<id2>')
+@app.get('/admin/move/<newid>/<oldid>')
 @admin_level_required(PERMS['USER_MERGE'])
-def merge(v:User, id1, id2):
+def move_acc(v:User, new_id, old_id):
 	if v.id != AEVANN_ID: abort(403)
 
 	if time.time() - session.get('verified', 0) > 3:
@@ -55,105 +55,109 @@ def merge(v:User, id1, id2):
 		argval = quote(f"{path}?{qs}", safe='')
 		return redirect(f"/login?redirect={argval}")
 
-	user1 = get_account(id1)
-	user2 = get_account(id2)
+	newuser = get_account(new_id)
+	olduser = get_account(old_id)
 
-	awards = g.db.query(AwardRelationship).filter_by(user_id=user2.id)
-	comments = g.db.query(Comment).filter_by(author_id=user2.id)
-	submissions = g.db.query(Submission).filter_by(author_id=user2.id)
-	badges = g.db.query(Badge).filter_by(user_id=user2.id)
-	mods = g.db.query(Mod).filter_by(user_id=user2.id)
-	exiles = g.db.query(Exile).filter_by(user_id=user2.id)
 
-	for award in awards:
-		award.user_id = user1.id
-		g.db.add(award)
-	for comment in comments:
-		comment.author_id = user1.id
-		g.db.add(comment)
-	for submission in submissions:
-		submission.author_id = user1.id
-		g.db.add(submission)
-	for badge in badges:
-		if not user1.has_badge(badge.badge_id):
-			badge.user_id = user1.id
+	classes = {
+		(AwardRelationship, "user_id"),
+		(Casino_Game, "user_id"),
+		(Comment, "author_id"),
+		(Comment, "is_approved"),
+		(Comment, "sentto"),
+		(Comment, "wall_user_id"),
+		(CommentFlag, "user_id"),
+		(CommentOptionVote, "user_id"),
+		(CommentSaveRelationship, "user_id"),
+		(CommentVote, "user_id"),
+		(Exile, "exiler_id"),
+		(Flag, "user_id"),
+		(Follow, "target_id"),
+		(Follow, "user_id"),
+		(Hat, "user_id"),
+		(HatDef, "author_id"),
+		(Lottery, "winner_id"),
+		(Marsey, "author_id"),
+		(Media, "user_id"),
+		(ModAction, "target_user_id"),
+		(ModAction, "user_id"),
+		(Notification, "user_id"),
+		(PushSubscription, "user_id"),
+		(SaveRelationship, "user_id"),
+		(SubAction, "target_user_id"),
+		(SubAction, "user_id"),
+		(SubBlock, "user_id"),
+		(SubJoin, "user_id"),
+		(SubSubscription, "user_id"),
+		(Submission, "author_id"),
+		(Submission, "is_approved"),
+		(SubmissionOptionVote, "user_id"),
+		(Subscription, "user_id"),
+		(User, "is_banned"),
+		(User, "referred_by"),
+		(User, "shadowbanned"),
+		(UserBlock, "taget_id"),
+		(UserBlock, "user_id"),
+		(ViewerRelationship, "user_id"),
+		(ViewerRelationship, "viewer_id"),
+		(Vote, "user_id"),
+	}
+
+	for cls, attr in classes:
+		items = g.db.query(cls).filter_by(attr=olduser.id)
+		for item in items:
+			setattr(item, attr, newuser.id)
+			g.db.add(item)
+
+
+	for badge in g.db.query(Badge).filter_by(user_id=olduser.id):
+		if not newuser.has_badge(badge.badge_id):
+			badge.user_id = newuser.id
 			g.db.add(badge)
 			g.db.flush()
-	for mod in mods:
-		if not user1.mods(mod.sub):
-			mod.user_id = user1.id
+
+	for mod in g.db.query(Mod).filter_by(user_id=olduser.id):
+		if not newuser.mods(mod.sub):
+			mod.user_id = newuser.id
 			g.db.add(mod)
 			g.db.flush()
-	for exile in exiles:
-		if not user1.exiled_from(exile.sub):
-			exile.user_id = user1.id
+
+	for exile in g.db.query(Exile).filter_by(user_id=olduser.id):
+		if not newuser.exiled_from(exile.sub):
+			exile.user_id = newuser.id
 			g.db.add(exile)
 			g.db.flush()
 
-	for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truescore', 'marseybux'):
-		amount = getattr(user1, kind) + getattr(user2, kind)
-		setattr(user1, kind, amount)
-		setattr(user2, kind, 0)
+	attrs = {
+		'coins',
+		'coins_spent',
+		'coins_spent_on_hats',
+		'comment_count',
+		'currently_held_lottery_tickets',
+		'lootboxes_bought',
+		'marseybux',
+		'post_count',
+		'received_award_count',
+		'stored_subscriber_count',
+		'total_held_lottery_tickets',
+		'total_lottery_winnings',
+		'truescore',
+		'winnings',
+	}
 
-	g.db.add(user1)
-	g.db.add(user2)
+	for attr in attrs:
+		amount = getattr(newuser, attr) + getattr(olduser, attr)
+		setattr(newuser, attr, amount)
+		setattr(olduser, attr, 0)
 
-	online = cache.get(CHAT_ONLINE_CACHE_KEY)
-	cache.clear()
-	cache.set(CHAT_ONLINE_CACHE_KEY, online)
-
-	return redirect(user1.url)
-
-
-@app.get('/admin/merge_all/<id>')
-@admin_level_required(PERMS['USER_MERGE'])
-def merge_all(v:User, id):
-	if v.id != AEVANN_ID: abort(403)
-
-	if time.time() - session.get('verified', 0) > 3:
-		session.pop("lo_user", None)
-		path = request.path
-		qs = urlencode(dict(request.values))
-		argval = quote(f"{path}?{qs}", safe='')
-		return redirect(f"/login?redirect={argval}")
-
-	user = get_account(id)
-
-	alt_ids = [x.id for x in user.alts_unique]
-
-	things = g.db.query(AwardRelationship).filter(AwardRelationship.user_id.in_(alt_ids)).all() + g.db.query(Mod).filter(Mod.user_id.in_(alt_ids)).all() + g.db.query(Exile).filter(Exile.user_id.in_(alt_ids)).all()
-	for thing in things:
-		thing.user_id = user.id
-		g.db.add(thing)
-
-	things = g.db.query(Submission).filter(Submission.author_id.in_(alt_ids)).all() + g.db.query(Comment).filter(Comment.author_id.in_(alt_ids)).all()
-	for thing in things:
-		thing.author_id = user.id
-		g.db.add(thing)
-
-
-	badges = g.db.query(Badge).filter(Badge.user_id.in_(alt_ids)).all()
-	for badge in badges:
-		if not user.has_badge(badge.badge_id):
-			badge.user_id = user.id
-			g.db.add(badge)
-			g.db.flush()
-
-	for alt in user.alts_unique:
-		for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truescore', 'marseybux'):
-			amount = getattr(user, kind) + getattr(alt, kind)
-			setattr(user, kind, amount)
-			setattr(alt, kind, 0)
-		g.db.add(alt)
-
-	g.db.add(user)
+	g.db.add(newuser)
+	g.db.add(olduser)
 
 	online = cache.get(CHAT_ONLINE_CACHE_KEY)
 	cache.clear()
 	cache.set(CHAT_ONLINE_CACHE_KEY, online)
 
-	return redirect(user.url)
-
+	return redirect(newuser.url)
 
 
 @app.get('/admin/edit_rules')
