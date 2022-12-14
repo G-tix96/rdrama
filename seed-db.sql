@@ -1903,7 +1903,6 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyfingergoodjob',2,'cute encourage positive respect k-pop thumbs up congrats gif animated congratulations nice ok great',NULL),
 ('marseyfingerhearts',2,'cute love k-pop',NULL),
 ('marseyfingerwords',2,'cute long tldr didnt read',NULL),
-('marseyflagmorocco',2,'bipoc north africa ziyech world cup muslim casablanca',1670349209),
 ('marseyflakes',2,'parsley seasoning salt pepper spice food seasoning',NULL),
 ('marseyflamethrower',2,'vietname soldier fire',NULL),
 ('marseyflamewar',2,'troll fight fire reaction gasoline',NULL),
