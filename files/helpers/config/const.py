@@ -983,6 +983,7 @@ if SITE_NAME == 'rDrama':
 		'encyclopediadramatica.online',
 		'thecoli.com',
 		'datalounge.com',
+		'clay.party',
 
 		#fediverse
 		'rdrama.cc',
