@@ -1794,6 +1794,13 @@ CREATE INDEX fki_submissions_approver_fkey ON public.submissions USING btree (is
 
 
 --
+-- Name: fki_user_is_banned_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_user_is_banned_fkey ON public.users USING btree (is_banned);
+
+
+--
 -- Name: fki_user_referrer_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2752,3 +2759,4 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
+
