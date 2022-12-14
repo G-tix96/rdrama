@@ -110,7 +110,7 @@
 	<span class="ml-2">{{p.views}} thread views</span>
 {% endmacro %}
 
-{% macro comment_reply_box(target_fullname, html_id, wrapper_css_classes="", subwrapper_css_classes="", hide="", allow_file_upload=true, action="/comments/") %}
+{% macro comment_reply_box(target_fullname, html_id, wrapper_css_classes="", subwrapper_css_classes="", hide="", allow_file_upload=true, action="/comments/", enable_cancel_button=true) %}
 	<div class="comment-box-wrapper{% if wrapper_css_classes %} {{wrapper_css_classes}}{% endif %}" id="{{html_id}}">
 	{% if v %}
 		<div id="comment-form-space-{{target_fullname}}" class="comment-write {{subwrapper_css_classes}}">
@@ -136,7 +136,7 @@
 					{% endif %}
 				</div>
 				<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="postComment('{{target_fullname}}', '{{hide}}');remove_dialog();">Comment</button>
-				{% if target_fullname.startswith('c_') %}
+				{% if enable_cancel_button %}
 					<button type="button" onclick="document.getElementById('reply-to-{{target_fullname}}').classList.add('d-none');remove_dialog()" class="btn btn-link text-muted ml-auto fl-r mr-3">Cancel</button> 
 				{% endif %}
 			</form>

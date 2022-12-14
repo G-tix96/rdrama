@@ -1,7 +1,7 @@
 {% extends "userpage/userpage.html" %}
 {% block userpage_content %}
 <div class="userpage-wall">
-	{{macros.comment_reply_box(u.fullname, 'replying-to-' + u.fullname, '', 'mb-3 mt-4', '', true, '/comments/')}}
+	{{macros.comment_reply_box(u.fullname, 'replying-to-' + u.fullname, '', 'mb-3 mt-4', '', enable_cancel_button=false)}}
 	<div class="row no-gutters {% if listing %}mt-md-3{% elif not listing %}my-md-3{% endif %} px-3 p-md-0 userpage-wall" style="margin-top: 10px;">
 		<div class="col">
 			<div class="comment-section" id="replies-of-{{u.fullname}}">

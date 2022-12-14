@@ -142,7 +142,7 @@ function post_reply(id){
 
 			document.getElementById('reply-form-body-'+id).value = ''
 			document.getElementById('message-reply-'+id).innerHTML = ''
-			toggleReplyBox('reply-to-c_'+id)
+			toggleReplyBox('reply-message-c_'+id)
 			const fileupload = document.getElementById('file-upload')
 			if (fileupload) {
 				fileupload.value = null;

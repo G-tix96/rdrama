@@ -328,7 +328,7 @@
 		</div>
 
 	{% if not p.deleted_utc %}
-		{{macros.comment_reply_box(p.fullname, 'comment-reply-' + p.fullname, '', 'mb-3', '', true, '/comments/')}}
+		{{macros.comment_reply_box(p.fullname, 'comment-reply-' + p.fullname, subwrapper_css_classes='mb-3', enable_cancel_button=false)}}
 	{% endif %}
 
 {% if comment_info %}
