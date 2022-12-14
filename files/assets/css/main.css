@@ -6469,7 +6469,7 @@ div.markdown {
 	scrollbar-width: none;
 	-ms-overflow-style: none;
 	max-height: 70vh !important;
-	max-width: 70vw !important;
+	max-width: 65vw !important;
 }
 .resizable::-webkit-scrollbar {
 	background: transparent;
@@ -6478,7 +6478,7 @@ div.markdown {
 	height: 100% !important;
 	width: 100% !important;
 	max-height: 70vh !important;
-	max-width: 70vw !important;
+	max-width: 65vw !important;
 	margin: 0 !important;
 }
 
