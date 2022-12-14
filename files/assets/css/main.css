@@ -2761,7 +2761,7 @@ a.text-info:hover, a.text-info:focus {
 a.text-warning:hover, a.text-warning:focus {
 	color: #ba8b00 !important;
 }
-.text-danger {
+.text-danger, a[href="/h/chudrama"] {
 	color: #dc3545 !important;
 }
 a.text-danger:hover, a.text-danger:focus {
