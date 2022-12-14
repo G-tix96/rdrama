@@ -142,7 +142,7 @@
 							{% elif p.is_video %}
 								<div class="row no-gutters mb-4">
 									<div class="col">
-										<p class="resizable bigger">
+										<p class="resizable">
 											<video {% if p.thumburl %}poster="{{p.thumb_url}}"{% endif %} controls preload="none" src="{{p.realurl(v)}}"></video>
 										</p>
 									</div>

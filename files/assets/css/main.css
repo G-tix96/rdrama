@@ -6477,9 +6477,6 @@ div.markdown {
 	max-height:100%!important;
 	margin:0!important;
 }
-.bigger {
-	height:50vh;
-}
 
 .user-signature video {
 	max-height: min(var(--signature-max-height),50vh) !important;
