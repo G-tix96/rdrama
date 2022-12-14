@@ -61,7 +61,7 @@ def move_acc(v:User, new_id, old_id):
 
 	classes = {
 		(AwardRelationship, "user_id"),
-		(Casino_Game, "user_id"),
+		(CasinoGame, "user_id"),
 		(Comment, "author_id"),
 		(Comment, "is_approved"),
 		(Comment, "sentto"),
