@@ -6463,22 +6463,21 @@ div.markdown {
 }
 
 .resizable {
-	resize :both;
+	resize: both;
 	display: inline-block;
 	overflow: auto;
 	scrollbar-width: none;
 	-ms-overflow-style: none;
 	max-height: 70vh !important;
-	max-width: 80vw !important;
+	max-width: 70vw !important;
 }
 .resizable::-webkit-scrollbar {
 	background: transparent;
 }
 .resizable > video {
 	height: 100% !important;
+	width: 100% !important;
 	margin: 0 !important;
-	max-height: 70vh !important;
-	max-width: 80vw !important;
 }
 
 .user-signature video {
