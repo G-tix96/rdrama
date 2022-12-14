@@ -200,7 +200,7 @@ def award_thing(v, thing_type, id):
 			send_repeatable_notification(v.id, msg)
 			author = v
 		elif kind != 'spider':
-			awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT) if AWARDS[kind]['cosmetic'] else 0
+			awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT) if AWARDS[kind]['cosmetic'] and kind != 'shit' else 0
 			if AWARDS[kind]['cosmetic'] and kind != 'shit':
 				author.pay_account('coins', awarded_coins)
 
