@@ -555,7 +555,7 @@ def submit_post(v:User, sub=None):
 	if len(title_html) > POST_TITLE_HTML_LENGTH_LIMIT: 
 		return error("Rendered title is too big!")
 
-	if sub != "chudrama" and v.id == 253: # 2022-12-15: special logic by request
+	if sub != "chudrama" and v.id == 253 and SITE == 'rdrama.net': # 2022-12-15: special logic by request
 		sub = "chudrama"
 
 	if sub == 'changelog' and not v.admin_level >= PERMS['POST_TO_CHANGELOG']:
