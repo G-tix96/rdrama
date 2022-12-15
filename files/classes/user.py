@@ -992,13 +992,15 @@ class User(Base):
 					return user and user.admin_level >= PERMS['POST_COMMENT_MODERATION']
 				if other.sub and not cls.can_see(user, other.subr): return False
 			else:
-				if not other.parent_submission:
+				if other.parent_submission:
+					if user and user.id == other.post.author_id: return True
+					if other.post.sub and not cls.can_see(user, other.post.subr): return False
+					# if not cls.can_see(user, other.post): return False
+				else:
 					if not user and not other.wall_user_id: return False
 					if not other.sentto: return True # handled by Notification
 					if other.sentto == MODMAIL_ID: return user.admin_level >= PERMS['VIEW_MODMAIL']  # type: ignore
 					if other.sentto != user.id: return user.admin_level >= PERMS['POST_COMMENT_MODERATION']  # type: ignore
-				if other.parent_submission and other.post.sub and not cls.can_see(user, other.post.subr): return False
-				# if other.parent_submission and not cls.can_see(user, other.post): return False
 		elif isinstance(other, Sub):
 			if other.name == 'chudrama': return bool(user) and user.can_see_chudrama
 			if other.name in ('countryclub','splash_mountain'): return bool(user) and user.can_see_countryclub
