@@ -555,6 +555,9 @@ def submit_post(v:User, sub=None):
 	if len(title_html) > POST_TITLE_HTML_LENGTH_LIMIT: 
 		return error("Rendered title is too big!")
 
+	if sub != "chudrama" and v.id == 253: # 2022-12-15: special logic by request
+		sub = "chudrama"
+
 	if sub == 'changelog' and not v.admin_level >= PERMS['POST_TO_CHANGELOG']:
 		# we also allow 'code contributor' badgeholders to post to the changelog hole
 		allowed = g.db.query(Badge.user_id).filter_by(badge_id=3).all()
