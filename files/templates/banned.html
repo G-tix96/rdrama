@@ -25,7 +25,7 @@
 			<td {% if user.last_active %}data-time="{{user.last_active}}"{% endif %}></td>
 		{%- endif %}
 		<td>{{user.truescore}}</td>
-		<td>{% if user.ban_reason %}{{user.ban_reason}}{% endif %}</td>
+		<td>{% if user.ban_reason %}{{user.ban_reason | safe}}{% else %}<span class="text-muted" style="font-style:italic;">No reason</span>{% endif %}</td>
 		{% with user=user.banned_by %}
 		<td data-sort-key="{{user.username.lower() if user else ''}}">
 			{% include "user_in_table.html" %}

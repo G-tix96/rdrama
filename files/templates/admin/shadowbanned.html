@@ -22,7 +22,7 @@
 		<td {% if user.last_active %}data-time="{{user.last_active}}"{% endif %}></td>
 		<td>{{user.truescore}}</td>
 		<td><a href="/@{{user.shadowbanner}}">{{user.shadowbanner}}</a></td>
-		<td>{% if user.ban_reason %}{{user.ban_reason}}{% endif %}</td>
+		<td>{% if user.ban_reason %}{{user.ban_reason | safe}}{% else %}<span class="text-muted" style="font-style:italic;">No reason</span>{% endif %}</td>
 	</tr>
 {% endfor %}
 </table>
