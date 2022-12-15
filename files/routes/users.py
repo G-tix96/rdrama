@@ -176,7 +176,7 @@ def banned(v:User):
 		or_(User.unban_utc == 0, User.unban_utc > time.time()),
 	)
 	if v.admin_level >= PERMS['VIEW_LAST_ACTIVE']:
-		users = users.order_by(nullslast(User.last_active.desc()))
+		users = users.order_by(User.truescore.desc())
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
 	users = users.all()
@@ -201,7 +201,7 @@ def chuds(v:User):
 		or_(User.agendaposter == 1, User.agendaposter > time.time()),
 	)
 	if v.admin_level >= PERMS['VIEW_LAST_ACTIVE']:
-		users = users.order_by(nullslast(User.last_active.desc()))
+		users = users.order_by(User.truescore.desc())
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
 	users = users.order_by(User.username).all()

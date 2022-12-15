@@ -341,7 +341,7 @@ def shadowbanned(v):
 		.filter(
 			User.shadowbanned != None,
 		) \
-		.order_by(nullslast(User.last_active.desc())).all()
+		.order_by(User.truescore.desc()).all()
 
 	return render_template("admin/shadowbanned.html", v=v, users=users)
 
