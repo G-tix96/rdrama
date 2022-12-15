@@ -233,7 +233,7 @@ def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=Non
 	return sanitized
 
 
-@with_sigalrm_timeout(5)
+@with_sigalrm_timeout(10)
 def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False, sidebar=False):
 	sanitized = sanitized.strip()
 
