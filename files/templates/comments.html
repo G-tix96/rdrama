@@ -849,7 +849,8 @@
 	<div id="viewmore-{{offset}}"><button type="button" id="viewbtn" class="btn btn-primary" onclick="viewmore({{pid}},'{{sort}}',{{offset}},{{ids}})">VIEW MORE COMMENTS</a></div>
 {% endif %}
 
-{% if SITE_NAME == 'rDrama' and not request.headers.get("xhr") and v and 'SamsungBrowser' not in g.agent and not v.background and not (u and u.profile_background) %}
+{# TODO: disabled pending fix #}
+{% if false %}
 	<div id="detection" style="display:none;background-color:canvas;color-scheme:light"></div>
 	<script>
 		const detectionDiv = document.querySelector('#detection');
