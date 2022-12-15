@@ -83,11 +83,9 @@
 													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-private" name="private" onchange="savetext()">
 													<label class="custom-control-label" for="post-private">Draft</label>
 												</div>
-												<div class="custom-control custom-checkbox mb-5">
-													{% if v.can_post_in_ghost_threads %}
-														<input onchange='ghost_toggle(this)' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost">
-														<label class="custom-control-label" for="post-ghost">Ghost thread</label>
-													{% endif %}
+												<div class="custom-control custom-checkbox mb-5 {% if not v.can_post_in_ghost_threads %}d-none{% endif %}">
+													<input onchange='ghost_toggle(this)' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost">
+													<label class="custom-control-label" for="post-ghost">Ghost thread</label>
 												</div>
 										</div>
 								</div>
