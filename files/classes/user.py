@@ -812,6 +812,7 @@ class User(Base):
 	def json(self):
 		if self.is_suspended:
 			return {'username': self.username,
+					'original_username': self.original_username,
 					'url': self.url,
 					'is_banned': True,
 					'is_permanent_ban': not bool(self.unban_utc),
@@ -822,6 +823,7 @@ class User(Base):
 
 
 		return {'username': self.username,
+				'original_username': self.original_username,
 				'url': self.url,
 				'is_banned': bool(self.is_banned),
 				'created_utc': self.created_utc,
