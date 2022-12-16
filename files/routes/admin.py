@@ -20,6 +20,22 @@ from files.routes.wrappers import *
 
 from .front import frontlist
 
+my = re.compile('.*?(src="/uid/([a-zA-Z]+)/pic/profile").*?', flags=re.I)
+
+@app.get('/admin/fix')
+@admin_level_required(3)
+def fix_36(v):
+	comments = g.db.query(Submission).filter(Submission.body_html.op("SIMILAR TO")('%src="/uid/[a-zA-Z]+/pic/profile"%')).all()
+	for c in comments:
+		print(c.id, flush=True)
+		for i in my.finditer(c.body_html):
+			b36 = i.group(2)
+			print(f"b36: {b36}")
+			b10 = int(b36, 36)
+			print(f"b10: {b10}")
+			new = f'src="/uid/{b10}/pic"'
+			c.body_html = c.body_html.replace(i.group(1), new)
+	return 'nig'
 
 @app.post('/kippy')
 @admin_level_required(PERMS['PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES'])
