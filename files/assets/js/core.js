@@ -98,8 +98,11 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess, m
 				if (typeof(button1) == 'boolean') {
 					location.reload()
 				} else {
-					document.getElementById(button1).classList.toggle(cls);
-					document.getElementById(button2).classList.toggle(cls);
+					try {
+						document.getElementById(button1).classList.toggle(cls);
+						document.getElementById(button2).classList.toggle(cls);	
+					}
+					catch (e) {}
 				}
 			}
 			if (extraActionsOnSuccess) extraActionsOnSuccess(xhr);
