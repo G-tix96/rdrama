@@ -25,7 +25,7 @@ my = re.compile('.*?(src="/uid/([a-zA-Z]+)/pic/profile").*?', flags=re.I)
 @app.get('/admin/fix')
 @admin_level_required(3)
 def fix_36(v):
-	comments = g.db.query(Submission).filter(Submission.body_html.op("SIMILAR TO")('%src="/uid/[a-zA-Z]+/pic/profile"%')).all()
+	comments = g.db.query(Comment).filter(Comment.body_html.op("SIMILAR TO")('%src="/uid/[a-zA-Z]+/pic/profile"%')).all()
 	for c in comments:
 		print(c.id, flush=True)
 		for i in my.finditer(c.body_html):
