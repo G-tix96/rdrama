@@ -166,7 +166,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	target.upvotes = get_vote_count(1, False)
 	target.downvotes = get_vote_count(-1, False)
 
-	if SITE == 'rdrama.net' and target.realupvotes != 1:
+	if SITE == 'rdrama.net':
 		target.realupvotes = get_vote_count(0, True) # first arg is ignored here
 
 		mul = 1
