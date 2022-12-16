@@ -578,11 +578,10 @@ INSERT INTO public.hat_defs VALUES (645, 'The SRDine', 'CANNED', 2, 500, NULL, 1
 INSERT INTO public.hat_defs VALUES (646, 'Turtle Helmet', 'u/awkwardtheturtle is VERY mad at you', 2, 500, NULL, 1663132947);
 INSERT INTO public.hat_defs VALUES (648, 'Diamond Helmet', 'So I did some mining off camera...', 2, 500, NULL, 1663133082);
 INSERT INTO public.hat_defs VALUES (873, 'Jaws', 'AHH WATCH OUT BELOW YOU', 2, 500, NULL, 1665272685);
-
-
-
-
-
+INSERT INTO public.hat_defs VALUES (1110, 'Brave Shill', 'Show others that you use Brave Browser.', 2, 500, NULL, 1670803448);
+INSERT INTO public.hat_defs VALUES (1112, 'Mexico Flag', 'Mexicanos al grito de guerra', 2, 1000, NULL, 1670815485);
+INSERT INTO public.hat_defs VALUES (1113, 'Postal Conscience', '"Good or Insane? The choice is yours!" (From Postal 3!)', 2, 500, NULL, 1670890618);
+INSERT INTO public.hat_defs VALUES (1114, 'Djenter', '000-0-000-0-000-0-000-0-000-0-000-0-000-0-000-0', 2, 500, NULL, 1670901458);
 INSERT INTO public.hat_defs VALUES (1024, 'Snowfall', 'I''m dreaming, of a BIPOC Christmas...', 2, 1000, NULL, 1668549688);
 INSERT INTO public.hat_defs VALUES (1025, 'Christmas Wreath', 'Prepare to feel my wreath.', 2, 500, NULL, 1668549747);
 INSERT INTO public.hat_defs VALUES (1026, 'Christmas Wreath II', 'All I want for Christmas is fresh bussy.', 2, 500, NULL, 1668550006);
@@ -2146,6 +2145,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyjewoftheorientglow',2,'animated glow rice china chinese chink commie mao xi',NULL),
 ('marseyjfk',2,'john fitzgerald kennedy jfk president american history sniper car death kill usa assassination',NULL),
 ('marseyjiangshi',2,'ghost chinese halloween holiday china scary',NULL),
+('marseyjoe',2,'family guy swanson cop police wheelchair retard disabled',1671089479),
 ('marseyjohnson',2,'wig history',NULL),
 ('marseyjoint',2,'smoke weed marijuana reefer drugs smoking 420 pot',NULL),
 ('marseyjolteon',2,'trick or treat pokemon halloween eevee costume holiday',NULL),
