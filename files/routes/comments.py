@@ -254,7 +254,7 @@ def comment(v:User):
 
 	execute_basedbot(c, level, body, post_target, v)
 
-	if post_target.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and post_target.sub != 'chudrama':
+	if post_target.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and not (posting_to_submission and post_target.sub == 'chudrama'):
 		c.is_banned = True
 		c.ban_reason = "AutoJanny"
 		g.db.add(c)
