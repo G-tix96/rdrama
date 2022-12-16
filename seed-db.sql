@@ -154,7 +154,6 @@ INSERT INTO public.badge_defs VALUES (98, 'Marsey Award', 'This user is limited 
 INSERT INTO public.badge_defs VALUES (99, 'Sidebar Artist', 'Contributed artwork featured on the sidebar', NULL);
 INSERT INTO public.badge_defs VALUES (100, 'True Believer', 'This user sees through communist lies', NULL);
 INSERT INTO public.badge_defs VALUES (101, 'Banner Artist', 'Contributed a banner image to the site', NULL);
-INSERT INTO public.badge_defs VALUES (102, 'Christmas 21', 'Awarded for surviving Fistmas 2021', NULL);
 INSERT INTO public.badge_defs VALUES (103, 'Benefactor', 'Gave the Benefactor award to someone', NULL);
 INSERT INTO public.badge_defs VALUES (104, 'BADASS OUTLAW', 'Bad boy who does not play by the rules', NULL);
 INSERT INTO public.badge_defs VALUES (105, 'SCAM', 'lmao get fucked retard', NULL);
@@ -203,13 +202,19 @@ INSERT INTO public.badge_defs VALUES (208, 'Best Drama Post 2022', 'The author o
 INSERT INTO public.badge_defs VALUES (212, 'Dramatard of the Year 2022', 'Voted as the best rdrama user of 2022. Congratulations!', 1670719153);
 INSERT INTO public.badge_defs VALUES (213, 'Best Marsey 2022', 'The creator of the best Marsey emote of 2022, as voted by rdrama users.', 1670719193);
 INSERT INTO public.badge_defs VALUES (214, 'Master Baiter 2022', 'The cunning mastermind behind the ruse which was voted best rdrama bait of 2022.', 1670719221);
+INSERT INTO public.badge_defs VALUES (215, 'Own Goal', 'Don''t take this user''s advice on sportsball betting.', 1671150354);
+INSERT INTO public.badge_defs VALUES (216, 'Human Rights Abuse Profiteer', 'I hope those 6500 deaths were worth the dramacoin.', 1671150403);
+INSERT INTO public.badge_defs VALUES (217, 'Ghost of Qatar', 'Finished in the top 10 of the World Cup 2022 betting leaderboard.', 1671150449);
+INSERT INTO public.badge_defs VALUES (221, 'Perfect Pundit', 'Finished #1 on the FIFA World Cup betting leaderboard. Congrats!', 1671151427);
+INSERT INTO public.badge_defs VALUES (102, 'Fistmas 21 Survivor', 'Awarded for surviving Fistmas 2021', NULL);
+INSERT INTO public.badge_defs VALUES (222, 'Fistmas 22 Survivor', 'Awarded for surviving Fistmas 2022 which may or may not have even happened', 1671157460);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 214, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 222, true);
 
 
 --
@@ -582,6 +587,7 @@ INSERT INTO public.hat_defs VALUES (1110, 'Brave Shill', 'Show others that you u
 INSERT INTO public.hat_defs VALUES (1112, 'Mexico Flag', 'Mexicanos al grito de guerra', 2, 1000, NULL, 1670815485);
 INSERT INTO public.hat_defs VALUES (1113, 'Postal Conscience', '"Good or Insane? The choice is yours!" (From Postal 3!)', 2, 500, NULL, 1670890618);
 INSERT INTO public.hat_defs VALUES (1114, 'Djenter', '000-0-000-0-000-0-000-0-000-0-000-0-000-0-000-0', 2, 500, NULL, 1670901458);
+
 INSERT INTO public.hat_defs VALUES (1024, 'Snowfall', 'I''m dreaming, of a BIPOC Christmas...', 2, 1000, NULL, 1668549688);
 INSERT INTO public.hat_defs VALUES (1025, 'Christmas Wreath', 'Prepare to feel my wreath.', 2, 500, NULL, 1668549747);
 INSERT INTO public.hat_defs VALUES (1026, 'Christmas Wreath II', 'All I want for Christmas is fresh bussy.', 2, 500, NULL, 1668550006);
@@ -1190,7 +1196,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1115, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1116, true);
 
 
 --
