@@ -588,6 +588,10 @@ INSERT INTO public.hat_defs VALUES (1112, 'Mexico Flag', 'Mexicanos al grito de 
 INSERT INTO public.hat_defs VALUES (1113, 'Postal Conscience', '"Good or Insane? The choice is yours!" (From Postal 3!)', 2, 500, NULL, 1670890618);
 INSERT INTO public.hat_defs VALUES (1114, 'Djenter', '000-0-000-0-000-0-000-0-000-0-000-0-000-0-000-0', 2, 500, NULL, 1670901458);
 
+
+INSERT INTO public.hat_defs VALUES (1120, 'Present Bow', 'the ghost of christmas present', 2, 0, NULL, 1671231987);
+INSERT INTO public.hat_defs VALUES (1119, 'Winter Cap', 'cold air goes brrrrr', 2, 0, NULL, 1671231828);
+INSERT INTO public.hat_defs VALUES (1118, 'Santa Hat III', 'ho ho ho', 2, 0, NULL, 1671231728);
 INSERT INTO public.hat_defs VALUES (1024, 'Snowfall', 'I''m dreaming, of a BIPOC Christmas...', 2, 1000, NULL, 1668549688);
 INSERT INTO public.hat_defs VALUES (1025, 'Christmas Wreath', 'Prepare to feel my wreath.', 2, 500, NULL, 1668549747);
 INSERT INTO public.hat_defs VALUES (1026, 'Christmas Wreath II', 'All I want for Christmas is fresh bussy.', 2, 500, NULL, 1668550006);
@@ -1196,7 +1200,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1117, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1121, true);
 
 
 --
@@ -1626,6 +1630,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseychristchan',2,'missionary jesus christianity cross',1670508133),
 ('marseychristchanreading',2,'christian cross jesus book missionary bible study',1670508195),
 ('marseychristmas',2,'candy cane santa christmas holiday',NULL),
+('marseychristmasbeheadsnoo',2,'beheading headless fistmas holiday bloody execution execute wpd watchpeopledie santahat antlers reddit',1671223187),
 ('marseychristmasbulb',2,'ornament christmas happy holiday china',NULL),
 ('marseychristmasbulb2',2,'ornament holiday christmas',NULL),
 ('marseychristmaself',2,'christmas xmas santa holiday happy worker',NULL),
