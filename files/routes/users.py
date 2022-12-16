@@ -485,7 +485,7 @@ def message2(v:User, username:str):
 
 
 	if VAPID_PUBLIC_KEY != DEFAULT_CONFIG_VALUE and not v.shadowbanned:
-		title = f'New message from @{username}'
+		title = f'New message from @{v.username}'
 
 		if len(message) > 500: notifbody = message[:500] + '...'
 		else: notifbody = message
