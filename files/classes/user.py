@@ -644,13 +644,16 @@ class User(Base):
 	@property
 	@lazy
 	def modaction_notifications_count(self):
-		if self.id == AEVANN_ID: return 0
+		if self.id == AEVANN_ID and SITE_NAME != 'rDrama': return 0
 
 		if self.admin_level:
-			return g.db.query(ModAction).filter(
+			q = g.db.query(ModAction).filter(
 				ModAction.created_utc > self.last_viewed_log_notifs,
 				ModAction.user_id != self.id,
-			).count()
+			)
+			if self.id == AEVANN_ID:
+				q = q.filter(ModAction.kind.in_(('ban_user','shadowban')))
+			return q.count()
 
 		if self.moderated_subs:
 			return g.db.query(SubAction).filter(
