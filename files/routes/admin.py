@@ -212,18 +212,17 @@ def make_admin(v:User, username):
 @admin_level_required(PERMS['ADMIN_REMOVE'])
 def remove_admin(v:User, username):
 	user = get_user(username)
-	if user.id == v.id:
-		abort(403, "You can't remove yourself JC")
 
-	user.admin_level = 0
-	g.db.add(user)
+	if user.admin_level:
+		user.admin_level = 0
+		g.db.add(user)
 
-	ma = ModAction(
-		kind="remove_admin",
-		user_id=v.id,
-		target_user_id=user.id
-	)
-	g.db.add(ma)
+		ma = ModAction(
+			kind="remove_admin",
+			user_id=v.id,
+			target_user_id=user.id
+		)
+		g.db.add(ma)
 
 	return {"message": f"@{user.username} has been removed as admin!"}
 
