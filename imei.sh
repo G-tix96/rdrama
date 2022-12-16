@@ -6,9 +6,9 @@
 #                  including advanced delegate support.      #
 #                                                            #
 # Author         : Sascha Greuel <hello@1-2.dev>             #
-# Date           : 2022-01-26 14:25                          #
+# Date           : 2022-08-31 09:01                          #
 # License        : ISC                                       #
-# Version        : 6.6.0                                     #
+# Version        : 6.6.4                                     #
 #                                                            #
 # Usage          : bash ./imei.sh                            #
 ##############################################################
@@ -101,6 +101,12 @@ while [ "$#" -gt 0 ]; do
   --no-backports)
     BACKPORTS="${CYELLOW}disabled${CEND}"
     ;;
+  --build-cflags)
+    BUILD_CFLAGS=$2
+    ;;
+  --build-cxxflags)
+    BUILD_CXXFLAGS=$2
+    ;;
   *) ;;
   esac
   shift
@@ -134,6 +140,14 @@ fi
 allowedQuantumDepth=(8 16 32)
 if [[ -z "$QUANTUM_DEPTH" || ! " ${allowedQuantumDepth[*]} " =~ $QUANTUM_DEPTH ]]; then
   QUANTUM_DEPTH=16
+fi
+
+if [ -z "$BUILD_CFLAGS" ]; then
+  BUILD_CFLAGS="-O3 -march=native"
+fi
+
+if [ -z "$BUILD_CXXFLAGS" ]; then
+  BUILD_CXXFLAGS="-O3 -march=native"
 fi
 
 START=$(date +%s)
@@ -409,28 +423,28 @@ install_deps() {
     # Allow installation of source files
     {
       if [[ "${OS_DISTRO,,}" == *"ubuntu"* ]]; then
-        echo 'deb https://archive.ubuntu.com/ubuntu '"$OS_SHORT_CODENAME"' main restricted'
-        echo 'deb-src https://archive.ubuntu.com/ubuntu '"$OS_SHORT_CODENAME"' main restricted universe multiverse'
+        echo 'deb http://archive.ubuntu.com/ubuntu '"$OS_SHORT_CODENAME"' main restricted'
+        echo 'deb-src http://archive.ubuntu.com/ubuntu '"$OS_SHORT_CODENAME"' main restricted universe multiverse'
 
         if [ -z "$BACKPORTS" ]; then
-          echo 'deb https://archive.ubuntu.com/ubuntu '"$OS_SHORT_CODENAME"'-backports main restricted universe multiverse'
-          echo 'deb-src https://archive.ubuntu.com/ubuntu '"$OS_SHORT_CODENAME"'-backports main restricted universe multiverse'
+          echo 'deb http://archive.ubuntu.com/ubuntu '"$OS_SHORT_CODENAME"'-backports main restricted universe multiverse'
+          echo 'deb-src http://archive.ubuntu.com/ubuntu '"$OS_SHORT_CODENAME"'-backports main restricted universe multiverse'
         fi
       elif [[ "${OS_DISTRO,,}" == *"debian"* ]]; then
-        echo 'deb https://deb.debian.org/debian '"$OS_SHORT_CODENAME"' main contrib non-free'
-        echo 'deb-src https://deb.debian.org/debian '"$OS_SHORT_CODENAME"' main contrib non-free'
+        echo 'deb http://deb.debian.org/debian '"$OS_SHORT_CODENAME"' main contrib non-free'
+        echo 'deb-src http://deb.debian.org/debian '"$OS_SHORT_CODENAME"' main contrib non-free'
 
         if [ -z "$BACKPORTS" ]; then
-          echo 'deb https://deb.debian.org/debian '"$OS_SHORT_CODENAME"'-backports main contrib non-free'
-          echo 'deb-src https://deb.debian.org/debian '"$OS_SHORT_CODENAME"'-backports main contrib non-free'
+          echo 'deb http://deb.debian.org/debian '"$OS_SHORT_CODENAME"'-backports main contrib non-free'
+          echo 'deb-src http://deb.debian.org/debian '"$OS_SHORT_CODENAME"'-backports main contrib non-free'
         fi
       elif [[ "${OS_DISTRO,,}" == *"raspbian"* ]]; then
-        echo 'deb https://archive.raspbian.org/raspbian '"$OS_SHORT_CODENAME"' main contrib non-free'
-        echo 'deb-src https://archive.raspbian.org/raspbian '"$OS_SHORT_CODENAME"' main contrib non-free'
+        echo 'deb http://archive.raspbian.org/raspbian '"$OS_SHORT_CODENAME"' main contrib non-free'
+        echo 'deb-src http://archive.raspbian.org/raspbian '"$OS_SHORT_CODENAME"' main contrib non-free'
 
         if [ -z "$BACKPORTS" ]; then
-          echo 'deb https://archive.raspbian.org/raspbian '"$OS_SHORT_CODENAME"'-backports main contrib non-free'
-          echo 'deb-src https://archive.raspbian.org/raspbian '"$OS_SHORT_CODENAME"'-backports main contrib non-free'
+          echo 'deb http://archive.raspbian.org/raspbian '"$OS_SHORT_CODENAME"'-backports main contrib non-free'
+          echo 'deb-src http://archive.raspbian.org/raspbian '"$OS_SHORT_CODENAME"'-backports main contrib non-free'
         fi
       else
         SKIP_BUILD_DEP="yes"
@@ -441,8 +455,6 @@ install_deps() {
     if [ -n "$SKIP_BUILD_DEP" ]; then
       apt-get update -qq &&
       apt-get build-dep -qq imagemagick -y
-    elif [ -z "$CI_BUILD" ]; then
-      apt-get update -qq
     fi
 
     # Install other build dependencies
@@ -514,16 +526,16 @@ install_aom() {
         fi
 
         # see https://github.com/SoftCreatR/imei/issues/9
-        CMAKE_FLAGS="-DBUILD_SHARED_LIBS=1 -DENABLE_DOCS=0 -DENABLE_TESTS=0 -DENABLE_CCACHE=1"
+        CMAKE_FLAGS=(-DBUILD_SHARED_LIBS=1 -DENABLE_DOCS=0 -DENABLE_TESTS=0 -DENABLE_CCACHE=1)
 
         if [[ "${OS_DISTRO,,}" == *"raspbian"* ]]; then
-          CMAKE_FLAGS+=' -DCMAKE_C_FLAGS="-mfloat-abi=hard -march=armv7-a -marm -mfpu=neon"'
+          CMAKE_FLAGS+=(-DCMAKE_C_FLAGS="-mfloat-abi=hard -march=armv7-a -marm -mfpu=neon")
         fi
 
         tar -xf "aom-$AOM_VER.tar.gz" &&
           mkdir "$WORK_DIR/build_aom" &&
           cd "$WORK_DIR/build_aom" &&
-          cmake "../aom-$AOM_VER/" "$CMAKE_FLAGS" &&
+          cmake "../aom-$AOM_VER/" "${CMAKE_FLAGS[@]}" &&
           make
 
           if [ -n "$CHECKINSTALL" ]; then
@@ -773,15 +785,15 @@ install_imagemagick() {
         tar -xf "ImageMagick-$IMAGEMAGICK_VER.tar.gz" &&
           cd "ImageMagick$DIR_SUFFIX-$IMAGEMAGICK_VER" &&
           ./configure --prefix="$BUILD_DIR" --sysconfdir="$CONFIG_DIR" \
-            CFLAGS="-O3 -march=native" \
-            CXXFLAGS="-O3 -march=native" \
+            CFLAGS="$BUILD_CFLAGS" \
+            CXXFLAGS="$BUILD_CXXFLAGS" \
             --disable-static \
             --enable-shared \
             --enable-openmp \
-            --enable-opencl \
             --enable-cipher \
             --enable-hdri \
             --enable-docs \
+            --disable-opencl \
             --with-threads \
             --with-modules \
             --with-quantum-depth="$QUANTUM_DEPTH" \
