@@ -492,7 +492,7 @@ function update_speed_emoji_modal(event)
 
 	// Get current word at string, such as ":marse" or "word"
 	let coords = text.indexOf(' ',box_coords.pos);
-	current_word = /\S+$/.exec(text.slice(0, coords === -1 ? text.length : coords));
+	current_word = /:[!#a-zA-Z0-9_]+(?=\s|$)/.exec(text.slice(0, coords === -1 ? text.length : coords));
 	if (current_word) current_word = current_word.toString();
 
 	/* We could also check emoji_typing_state here, which is less accurate but more efficient. I've
