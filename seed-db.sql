@@ -2774,6 +2774,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyschizowave',2,'insane crazy mental breakdown psycho hallucinations flashbacks ptsd traumatized shaking shake animated tedsimp',NULL),
 ('marseyschopenhauer',2,'philosopher old grandpa',NULL),
 ('marseyschrodinger',2,'philosophy science physics math',NULL),
+('marseyscoot',2,'animated suckit gesturing coned rude',1671207049),
 ('marseyscooter',2,'fat american mutt burger scooter walmart obese pig hog brap usa handicapped wheelchair',NULL),
 ('marseyscout',2,'badge prepared',1671060050),
 ('marseyscratch',2,'loweffort doodle code coding programming',NULL),
