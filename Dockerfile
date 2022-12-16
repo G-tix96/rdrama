@@ -7,7 +7,6 @@ RUN apt -y upgrade
 RUN apt install -y supervisor 
 RUN apt install -y python3-pip
 RUN apt install -y ffmpeg
-RUN apt install -y imagemagick
 RUN apt install -y postgresql
 RUN apt install -y libpq-dev
 RUN apt install -y nano
@@ -45,11 +44,7 @@ RUN rm /etc/nginx/sites-available -r
 RUN rm /etc/nginx/sites-enabled/default
 RUN mkdir /etc/nginx/includes
 
-# Note: production uses ImageMagick 7.1, whereas 22.04 repos have 6.9.
-# TODO: imei.sh broken: "Signature verification failed!" Workaround pending fix.
-#COPY imei.sh /opt/imei.sh
-#RUN bash /opt/imei.sh
-RUN ln -s /usr/bin/convert /usr/local/bin/magick
+RUN bash /opt/imei.sh
 
 EXPOSE 80/tcp
 
