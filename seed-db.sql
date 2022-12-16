@@ -1650,6 +1650,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyclawpedo',2,'groomer chomo borpa pedophile molest bloody death kill murder vigilante',NULL),
 ('marseycleonpeterson',2,'wtf scary art',NULL),
 ('marseycleonpeterson2',2,'monster devil demon evil scary horror',NULL),
+('marseyclink',2,'glass announcement clink suit tux tingtingting proclaim',1671205589),
 ('marseyclintongarrison',2,'hillary brap democrat ben comic',1663284618),
 ('marseyclippy',2,'msoft microsoft word helper paperclip writing annoying',NULL),
 ('marseyclockwork',2,'orange alex droog cane hat',1667696950),
