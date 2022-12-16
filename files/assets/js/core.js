@@ -100,7 +100,10 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess, m
 				} else {
 					try {
 						document.getElementById(button1).classList.toggle(cls);
-						document.getElementById(button2).classList.toggle(cls);	
+					}
+					catch (e) {}
+					try {
+						document.getElementById(button2).classList.toggle(cls);
 					}
 					catch (e) {}
 				}
