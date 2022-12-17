@@ -92,3 +92,5 @@ cd ./chat
 yarn install
 yarn chat
 cd ..
+
+. imei.sh
