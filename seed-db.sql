@@ -592,6 +592,7 @@ INSERT INTO public.hat_defs VALUES (1114, 'Djenter', '000-0-000-0-000-0-000-0-00
 INSERT INTO public.hat_defs VALUES (1120, 'Present Bow', 'the ghost of christmas present', 2, 0, NULL, 1671231987);
 INSERT INTO public.hat_defs VALUES (1119, 'Winter Cap', 'cold air goes brrrrr', 2, 0, NULL, 1671231828);
 INSERT INTO public.hat_defs VALUES (1118, 'Santa Hat III', 'ho ho ho', 2, 0, NULL, 1671231728);
+
 INSERT INTO public.hat_defs VALUES (1024, 'Snowfall', 'I''m dreaming, of a BIPOC Christmas...', 2, 1000, NULL, 1668549688);
 INSERT INTO public.hat_defs VALUES (1025, 'Christmas Wreath', 'Prepare to feel my wreath.', 2, 500, NULL, 1668549747);
 INSERT INTO public.hat_defs VALUES (1026, 'Christmas Wreath II', 'All I want for Christmas is fresh bussy.', 2, 500, NULL, 1668550006);
@@ -1200,7 +1201,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1121, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1122, true);
 
 
 --
