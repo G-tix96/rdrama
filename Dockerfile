@@ -44,6 +44,7 @@ RUN rm /etc/nginx/sites-available -r
 RUN rm /etc/nginx/sites-enabled/default
 RUN mkdir /etc/nginx/includes
 
+COPY imei.sh /opt/imei.sh
 RUN bash /opt/imei.sh
 
 EXPOSE 80/tcp
