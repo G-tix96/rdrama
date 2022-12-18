@@ -386,7 +386,7 @@ def execute_blackjack(v, target, body, type):
 	if not blackjack or not body: return True
 	if any(i in body.lower() for i in blackjack.split()):
 		v.shadowbanned = AUTOJANNY_ID
-		if not v.is_banned: v.ban_reason = f"Blackjack"
+		v.ban_reason = f"Blackjack"
 		g.db.add(v)
 		notif = None
 		extra_info = "unknown entity"
@@ -469,7 +469,8 @@ def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], bod
 	if not get_setting("under_siege"): return True
 	if v.age < UNDER_SIEGE_AGE_THRESHOLD and not v.admin_level >= PERMS['SITE_BYPASS_UNDER_SIEGE_MODE']:
 		v.shadowbanned = AUTOJANNY_ID
-		if not v.is_banned: v.ban_reason = f"Under Siege"
+
+		v.ban_reason = f"Under Siege"
 		v.is_muted = True
 		g.db.add(v)
 		t = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.time()))

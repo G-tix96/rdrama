@@ -72,11 +72,11 @@ def check_for_alts(current:User, include_current_session=True):
 		if u._alt_deleted: continue
 		if u.shadowbanned:
 			current.shadowbanned = u.shadowbanned
-			if not current.is_banned: current.ban_reason = u.ban_reason
+			current.ban_reason = u.ban_reason
 			g.db.add(current)
 		elif current.shadowbanned:
 			u.shadowbanned = current.shadowbanned
-			if not u.is_banned: u.ban_reason = current.ban_reason
+			u.ban_reason = current.ban_reason
 			g.db.add(u)
 
 def execute_shadowban_viewers_and_voters(v:Optional[User], target:Union[Submission, Comment]):
