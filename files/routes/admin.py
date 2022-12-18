@@ -527,7 +527,7 @@ def badge_grant_get(v):
 def badge_grant_post(v):
 	badges = admin_badges_grantable_list(v)
 
-	user = get_user(request.values.get("username").strip(), graceful=True)
+	user = get_user(request.values.get("username"), graceful=True)
 	if not user:
 		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error="User not found.")
 
@@ -577,7 +577,7 @@ def badge_grant_post(v):
 def badge_remove_post(v):
 	badges = admin_badges_grantable_list(v)
 
-	user = get_user(request.values.get("username").strip(), graceful=True)
+	user = get_user(request.values.get("username"), graceful=True)
 	if not user:
 		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error="User not found.")
 
