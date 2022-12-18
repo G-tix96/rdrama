@@ -8,6 +8,7 @@
 		<thead class="bg-primary text-white">
 			<tr>
 				<th>#</th>
+				<th>ID</th>
 				<th>Name</th>
 				<th>Image</th>
 				<th>Description</th>
@@ -19,6 +20,7 @@
 		{% for badge in badges %}
 			<tr>
 				<td>{{loop.index}}</td>
+				<td>{{badge.id}}</td>
 				<td>{{badge.name}}</td>
 				<td>
 					<img class="contain" alt="{{badge.name}}" loading="lazy" src="{{badge.path}}?b=5" width=45.83 height=50>
