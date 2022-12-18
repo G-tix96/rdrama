@@ -59,7 +59,7 @@ class ModAction(Base):
 		if self.target_user: return f'<a href="{self.target_user.url}">{self.target_user.username}</a>'
 		elif self.target_post:
 			return censor_slurs(f'<a href="{self.target_post.permalink}">{self.target_post.title_html}</a>', None)
-		elif self.target_comment_id: return f'<a href="/comment/{self.target_comment_id}?context=8#context">comment</a>'
+		elif self.target_comment_id: return f'<a href="/comment/{self.target_comment_id}#context">comment</a>'
 
 	@property
 	@lazy

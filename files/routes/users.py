@@ -814,8 +814,8 @@ def u_username_wall_comment(v:User, username:str, cid):
 			g.db.add(notif)
 			g.db.commit()
 
-	try: context = min(int(request.values.get("context", 0)), 8)
-	except: context = 0
+	try: context = min(int(request.values.get("context", 8)), 8)
+	except: context = 8
 	comment_info = comment
 	c = comment
 	while context and c.level > 1:

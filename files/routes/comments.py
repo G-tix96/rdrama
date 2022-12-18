@@ -51,8 +51,8 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 		if v and v.client: abort(403, "This content is not suitable for some users and situations.")
 		else: return render_template("errors/nsfw.html", v=v), 403
 
-	try: context = min(int(request.values.get("context", 0)), 8)
-	except: context = 0
+	try: context = min(int(request.values.get("context", 8)), 8)
+	except: context = 8
 	comment_info = comment
 	c = comment
 	while context and c.level > 1:
@@ -307,7 +307,7 @@ def comment(v:User):
 			if len(c.body) > PUSH_NOTIF_LIMIT: notifbody = c.body[:PUSH_NOTIF_LIMIT] + '...'
 			else: notifbody = c.body
 
-			url = f'{SITE_FULL}/comment/{c.id}?context=8&read=true#context'
+			url = f'{SITE_FULL}/comment/{c.id}?read=true#context'
 
 			push_notif(parent_user.id, title, notifbody, url)
 
