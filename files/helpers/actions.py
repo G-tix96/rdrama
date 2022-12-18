@@ -386,7 +386,16 @@ def execute_blackjack(v, target, body, type):
 	if not blackjack or not body: return True
 	if any(i in body.lower() for i in blackjack.split()):
 		v.shadowbanned = AUTOJANNY_ID
-		v.ban_reason = f"Blackjack"
+
+		ma = ModAction(
+			kind="shadowban",
+			user_id=AUTOJANNY_ID,
+			target_user_id=v.id,
+			_note='reason: "Blackjack"'
+		)
+		g.db.add(ma)
+
+		v.ban_reason = "Blackjack"
 		g.db.add(v)
 		notif = None
 		extra_info = "unknown entity"
@@ -470,7 +479,15 @@ def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], bod
 	if v.age < UNDER_SIEGE_AGE_THRESHOLD and not v.admin_level >= PERMS['SITE_BYPASS_UNDER_SIEGE_MODE']:
 		v.shadowbanned = AUTOJANNY_ID
 
-		v.ban_reason = f"Under Siege"
+		ma = ModAction(
+			kind="shadowban",
+			user_id=AUTOJANNY_ID,
+			target_user_id=v.id,
+			_note='reason: "Under Siege"'
+		)
+		g.db.add(ma)
+
+		v.ban_reason = "Under Siege"
 		v.is_muted = True
 		g.db.add(v)
 		t = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.time()))
