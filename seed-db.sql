@@ -656,6 +656,7 @@ INSERT INTO public.hat_defs VALUES (1074, 'Scottish Sticky Note', 'idk why its s
 INSERT INTO public.hat_defs VALUES (1076, 'Snow Globe', 'Snow globe full of partially transparent webp flakes', 2, 1000, NULL, 1668755503);
 INSERT INTO public.hat_defs VALUES (1079, 'Spinning Christmas Elf Hat', 'It''s time to go green.', 2, 1000, NULL, 1668755556);
 INSERT INTO public.hat_defs VALUES (1100, 'World Cup Mascot', 'This user supports the 2022 World Cup and watched it for Jungkook!', 2, 500, NULL, 1669007389);
+
 INSERT INTO public.hat_defs VALUES (874, 'Carp', 'My 100th hat and a Thank you to carp. Now 150 more!', 2, 500, NULL, 1665272718);
 INSERT INTO public.hat_defs VALUES (1077, 'Premium Snow Globe', 'Snow globe with a more premium base.', 2, 1000, NULL, 1668755505);
 INSERT INTO public.hat_defs VALUES (93, 'Wizard I', 'Three decades a KHHV', 2, 500, NULL, 1662167687);
@@ -1201,7 +1202,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1122, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1123, true);
 
 
 --
