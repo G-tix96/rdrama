@@ -2,7 +2,7 @@ from sqlalchemy import *
 from sqlalchemy.orm import relationship
 
 from files.classes import Base
-from files.helpers.const import *
+from files.helpers.config.const import *
 
 if SITE_NAME == 'WPD': default_darkmode = True
 else: default_darkmode = False
