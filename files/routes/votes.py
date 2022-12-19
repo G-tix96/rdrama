@@ -98,7 +98,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		abort(400)
 	existing = existing.one_or_none()
 	
-	if DOUBLE_XP_ENABLED > 0 and int(time.time()) > DOUBLE_XP_ENABLED:
+	if HOLIDAY_EVENT:
 		coin_mult = 2
 	coin_value = coin_delta * coin_mult
 
