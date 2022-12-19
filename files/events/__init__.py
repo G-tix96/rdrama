@@ -19,6 +19,7 @@ def _populate_awards():
 	AWARDS_ENABLED.update(temp)
 
 	for award in EVENT_AWARDS:
+		EVENT_AWARDS[award]['ghost'] = EVENT_AWARDS[award]['cosmetic']
 		if award in AWARDS_DISABLED:
 			AWARDS_DISABLED.remove(award)
 

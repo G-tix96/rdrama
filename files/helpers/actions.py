@@ -387,7 +387,7 @@ def execute_blackjack_custom(v, target, body, type):
 
 def execute_blackjack(v, target, body, type):
 	if not execute_blackjack_custom(v, target, body, type): return False
-	if not body and not blackjack and not blackjack2: return True
+	if not body or (not blackjack and not blackjack2): return True
 	if any(i in body.lower() for i in blackjack.split()) or all(i in body.lower() for i in blackjack2.split()):
 		v.shadowbanned = AUTOJANNY_ID
 
