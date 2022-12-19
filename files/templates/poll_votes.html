@@ -5,7 +5,11 @@
 
 <h3 class="mt-5">{{thing.body_html | safe}} - {{ups | length}} {% if thing.exclusive == 2 %}bets{% else %}votes{% endif %}</h3>
 
-<p class="mt-4"><b>Total voter truescore: </b>{{total_ts}}</p>
+<p><b>Link:</b> <a href="{{thing.permalink}}">{{thing.parent.permalink}}</a></p>
+<p><b>Author:</b> <a href="{{thing.parent.url}}">@{{thing.parent.author.username}}</a></p>
+<p><b>Author Created At:</b> <span data-time="{{thing.parent.author.created_utc}}"></span></p>
+<p><b>Author Truescore:</b> {{"{:,}".format(thing.parent.author.truescore)}}</p>
+<p><b>Total voter truescore: </b>{{total_ts}}</p>
 {% if total_patrons %}
 	<p><b>Total patrons: </b>{{total_patrons}}</p>
 {% endif %}

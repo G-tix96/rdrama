@@ -36,6 +36,11 @@ class SubmissionOption(Base):
 		if not v: return False
 		return v.id in [x.user_id for x in self.votes]
 
+	@property
+	@lazy
+	def parent(self):
+		return self.post
+
 
 class SubmissionOptionVote(Base):
 
@@ -86,6 +91,10 @@ class CommentOption(Base):
 		if not v: return False
 		return v.id in [x.user_id for x in self.votes]
 
+	@property
+	@lazy
+	def parent(self):
+		return self.comment
 
 class CommentOptionVote(Base):
 
