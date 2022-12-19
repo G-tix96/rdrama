@@ -182,7 +182,7 @@
 						{% endif %}
 							
 						{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-							<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}><i class="fas fa-music mr-1"></i> Toggle Anthem</button>
+							<button type="button" class="btn btn-secondary" onclick="toggle();toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}><i class="fas fa-music mr-1"></i> Toggle Anthem</button>
 						{% endif %}
 
 						{% if v and v.id == u.id %}
@@ -404,7 +404,7 @@
 					{% endif %}
 
 					{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-						<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}><i class="fas fa-music mr-1"></i> Toggle Anthem</button>
+						<button type="button" class="btn btn-secondary" onclick="toggle();toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}><i class="fas fa-music mr-1"></i> Toggle Anthem</button>
 					{% endif %}
 
 					{% if v and v.id == u.id and (v.profile_background or v.theme == 'transparent') %}
