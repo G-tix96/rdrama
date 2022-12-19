@@ -4,3 +4,11 @@ blockquote {
 .unread {
     background: #00000022!important;
 }
+.deleted {
+    background-color: #bebe28!important;
+    border-left: 10px solid #bebe28!important;
+}
+.banned {
+    background-color: #ff7e7e!important;
+    border-left: 10px solid #ff7e7e!important;
+}
