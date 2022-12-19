@@ -2,12 +2,6 @@ import random
 from datetime import date
 from .get import get_or_create_event_user
 
-def days_till_christmas():
-	today = date.today()
-	christmas = date(today.year, 12, 25)
-	delta = abs(christmas - today)
-	return delta.days
-
 def user_event_darkmode(target, db):
 	user = get_or_create_event_user(target, db)
 	return user.event_darkmode
@@ -30,7 +24,5 @@ EVENT_JINJA_CONST = {
 		" dramatards having their chimneys stuffed by Santa",
 	],
 	"random": random,
-	"days_till_christmas": days_till_christmas,
 	"user_event_darkmode": user_event_darkmode,
 }
-

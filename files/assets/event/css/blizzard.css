@@ -253,84 +253,6 @@ body {
 	display: block;
   }
 
-/* candy cane */
-.candy-cane {
-	height: 125px;
-	width: 125px;
-	position: fixed;
-	right: 0;
-	bottom: -9px;
-	transform: rotate(15deg);
-	transition: 200ms ease-out;
-	background-image: url("/assets/event/images/candy-cane.svg");
-	background-repeat: no-repeat;
-	background-size: contain;
-  }
-  
-  .candy-cane:hover {
-	transform: translateY(4px) rotate(17deg);
-  }
-  
-  .candy-cane::before {
-	content: '';
-	width: 4px;
-	height: 80%;
-	background-color: rgba(255,255,255,0.7);
-	display: block;
-	position: absolute;
-	right: 39px;
-	bottom: 0;
-	border-radius: 9999px;
-  }  
-
-/*sign */
-#sign {
-	position: fixed;
-	bottom: -0.75rem;
-	left: 1.5rem;
-	transform: rotate(-3deg);
-	pointer-events: none;
-
-}
-
-/* Need to account for small screens */
-@media screen and (min-height: 800px) {
-    #sign {
-            z-index: 999999;
-    }
-}
-
-#sign > img {
-	width: 156px;
-}
-#sign > ul {
-	position: absolute;
-	top: 4px;
-	left: 20px;
-	list-style: none;
-	display: flex;
-	gap: 4px;
-}
-#sign > ul li {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: #FFFFFF;
-	font-size: 28px;
-	font-weight: bold;
-	transform: rotate(6deg);
-}
-#sign > ul li:nth-child(1) {
-	transform: rotate(-4deg);
-}
-
-.sign.snow-cap::after {
-	top: -6px;
-	left: 2px;
-	width: 97%;
-	height: 17px;
-}
-
 /* awards */
 
 /* gingerbread */
@@ -546,28 +468,6 @@ body {
     background: unset;
     /* Real work, lol */
     display: none;
-}
-
-@media (max-width: 767.98px) {
-	.candy-cane, .sign {
-		bottom: 0.9rem !important;
-	}
-}
-
-/*footer*/
-footer::after {
-	content: "";
-	display: block;
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	height: 320px;
-	width: 100%;
-	background-image: url("/assets/event/images/footer.svg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  pointer-events: none;
-  z-index: -1;
 }
 
 
