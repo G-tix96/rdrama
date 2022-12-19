@@ -3,6 +3,16 @@ from copy import deepcopy
 from files.helpers.config.const import FEATURES, SITE_NAME, patron, HOLIDAY_EVENT
 
 AWARDS = {
+	"lootbox": {
+		"kind": "lootbox",
+		"title": "Lootbox",
+		"description": "",
+		"icon": "fas fa-box-open",
+		"color": "text-blue",
+		"price": 1000,
+		"deflectable": True,
+		"cosmetic": False
+	},
 	"fallback": {
 		"kind": "fallback",
 		"title": "Unknown",
@@ -374,16 +384,6 @@ AWARDS = {
 		"description": "Gives the recipient access to notifications when people off-site talk about us.",
 		"icon": "fas fa-eyes",
 		"color": "text-orange",
-		"price": 1000,
-		"deflectable": True,
-		"cosmetic": False
-	},
-	"lootbox": {
-		"kind": "lootbox",
-		"title": "Lootbox",
-		"description": "",
-		"icon": "fas fa-box-open",
-		"color": "text-blue",
 		"price": 1000,
 		"deflectable": True,
 		"cosmetic": False
