@@ -88,4 +88,7 @@ document.getElementById('gifModal').addEventListener('shown.bs.modal', function 
 	setTimeout(() => {
 		gifSearchBar.focus();
 	}, 200);
+	setTimeout(() => {
+		gifSearchBar.focus();
+	}, 1000);
 });

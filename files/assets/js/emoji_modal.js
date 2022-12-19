@@ -581,4 +581,7 @@ document.getElementById('emojiModal').addEventListener('shown.bs.modal', functio
 	setTimeout(() => {
 		emojiSearchBarDOM.focus();
 	}, 200);
+	setTimeout(() => {
+		emojiSearchBarDOM.focus();
+	}, 1000);
 });
