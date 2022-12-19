@@ -163,6 +163,8 @@
 
 		{% if v and user_event_darkmode(v, g.db)%}
 			<link rel="stylesheet" href="{{'css/event/themes/dark.css'| asset}}">
+		{% else %}
+			<link rel="stylesheet" href="{{'css/event/themes/light.css'| asset}}">
 		{% endif %}
 	{% endif %}
 
