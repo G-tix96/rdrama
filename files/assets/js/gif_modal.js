@@ -4,13 +4,15 @@ function commentForm(form) {
 	commentFormID = form;
 };
 
+const gifSearchBar = document.getElementById('gifSearch')
+
 async function getGif(searchTerm) {
 
 	if (searchTerm !== undefined) {
-		document.getElementById('gifSearch').value = searchTerm;
+		gifSearchBar.value = searchTerm;
 	}
 	else {
-		document.getElementById('gifSearch').value = null;
+		gifSearchBar.value = null;
 	}
 
 	const loadGIFs = document.getElementById('gifs-load-more');
@@ -80,3 +82,10 @@ function insertGIF(url,form) {
 
 	if (typeof checkForRequired === "function") checkForRequired();
 }
+
+document.getElementById('gifModal').addEventListener('shown.bs.modal', function () {
+	gifSearchBar.focus();
+	setTimeout(() => {
+		gifSearchBar.focus();
+	}, 200);
+});
