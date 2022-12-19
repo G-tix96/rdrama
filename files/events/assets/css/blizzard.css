@@ -16,7 +16,7 @@
 	--gray: #c7c7c7;
 	--white: #131512;
 	--black: #131512;
-	--background: #c1f3ff;
+	--background: 193, 243, 255;
 	--gray-100: #131512;
 	--gray-200: #131512;
 	--gray-400: #e6faff;
@@ -33,7 +33,7 @@
 
 body {
 	font-family: 'Burbank Small Medium', sans-serif;
-	background-color: var(--background) !important;
+	background-color: rgb(var(--background)) !important;
 	background-image: url('/i/event/pattern.png') !important;
 	overflow-x: hidden;
 }
