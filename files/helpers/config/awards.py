@@ -3,16 +3,6 @@ from copy import deepcopy
 from files.helpers.config.const import FEATURES, SITE_NAME, patron, HOLIDAY_EVENT
 
 AWARDS = {
-	"lootbox": {
-		"kind": "lootbox",
-		"title": "Lootbox",
-		"description": "",
-		"icon": "fas fa-box-open",
-		"color": "text-blue",
-		"price": 1000,
-		"deflectable": True,
-		"cosmetic": False
-	},
 	"fallback": {
 		"kind": "fallback",
 		"title": "Unknown",
@@ -676,12 +666,8 @@ AWARDS_DISABLED = [
 ]
 
 LOOTBOX_ITEM_COUNT = 5
+LOOTBOX_CONTENTS = ["snow", "gingerbread", "lights", "candycane", "fireplace", "frostbite"]
 
-if HOLIDAY_EVENT:
-	LOOTBOX_CONTENTS = ["snow", "gingerbread", "lights", "candycane", "fireplace", "frostbite"]
-	AWARDS_DISABLED.remove('lootbox')
-else:
-	LOOTBOX_CONTENTS = ["firework", "confetti", "ricardo", "wholesome", "shit", "fireflies", "scooter", "train"]
 
 HOUSE_AWARDS = {
 	"Furry": {

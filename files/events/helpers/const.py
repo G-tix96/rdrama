@@ -1,4 +1,14 @@
 EVENT_AWARDS = {
+	"lootbox": {
+		"kind": "lootbox",
+		"title": "Lootbox",
+		"description": "",
+		"icon": "fas fa-box-open",
+		"color": "text-blue",
+		"price": 1000,
+		"deflectable": True,
+		"cosmetic": False
+	},
     "snow": {
 		"kind": "snow",
 		"title": "Snow",
