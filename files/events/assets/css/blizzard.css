@@ -569,3 +569,18 @@ footer::after {
   pointer-events: none;
   z-index: -1;
 }
+
+
+/* asdf */
+blockquote {
+	background-color: var(--gray-300);
+	color: var(--gray-400)
+}
+
+#profilestuff {
+	color: white;
+}
+
+#profile--bio {
+	color: white !important;
+}
