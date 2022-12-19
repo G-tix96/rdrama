@@ -386,43 +386,52 @@ def execute_blackjack_custom(v, target, body, type):
 	return True
 
 def execute_blackjack(v, target, body, type):
-	if not execute_blackjack_custom(v, target, body, type): return False
-	if not body or (not blackjack and not blackjack2): return True
-	if any(i in body.lower() for i in blackjack.split()) or all(i in body.lower() for i in blackjack2.split()):
-		v.shadowbanned = AUTOJANNY_ID
+	if not execute_blackjack_custom(v, target, body, type):
+		return False
+	
+	if not body: return True
 
-		ma = ModAction(
-			kind="shadowban",
-			user_id=AUTOJANNY_ID,
-			target_user_id=v.id,
-			_note='reason: "Blackjack"'
-		)
-		g.db.add(ma)
+	execute = False
+	if blackjack and any(i in body.lower() for i in blackjack.split()):
+		execute = True
+		shadowban = True
+	elif blackjack2 and any(i in body.lower() for i in blackjack2.split()):
+		execute = True
+		shadowban = v.truescore < 100
 
-		v.ban_reason = "Blackjack"
-		g.db.add(v)
-		notifs = []
-		extra_info = "unknown entity"
+	if execute:
+		if shadowban:
+			v.shadowbanned = AUTOJANNY_ID
+
+			ma = ModAction(
+				kind="shadowban",
+				user_id=AUTOJANNY_ID,
+				target_user_id=v.id,
+				_note='reason: "Blackjack"'
+			)
+			g.db.add(ma)
+
+			v.ban_reason = "Blackjack"
+			g.db.add(v)
+		elif hasattr(target, 'is_banned'):
+			target.is_banned = True
+
 		if type == 'submission':
-			extra_info = f"submission ({target.permalink})"
-		elif type == 'comment' or type == 'message':
-			extra_info = f"{type} ({target.permalink})"
-			notifs.append(Notification(comment_id=target.id, user_id=CARP_ID))
-			notifs.append(Notification(comment_id=target.id, user_id=IDIO_ID))
+			extra_info = target.permalink
 		elif type == 'chat':
 			extra_info = "chat message"
 		elif type == 'flag':
 			extra_info = f"reports on {target.permalink}"
-		elif type == 'modmail':
-			extra_info = "modmail"
-
-		if notifs:
-			for notif in notifs:
-				g.db.add(notif)
+		elif type in ('comment', 'message', 'modmail'):
+			for id in (CARP_ID, IDIO_ID):
+				n = Notification(comment_id=target.id, user_id=id)
+				g.db.add(n)
 				g.db.flush()
-		elif extra_info:
-			send_repeatable_notification(CARP_ID, f"Blackjack for {v.username}: {extra_info}")
-			send_repeatable_notification(IDIO_ID, f"Blackjack for {v.username}: {extra_info}")
+			extra_info = None
+
+		if extra_info:
+			for id in (CARP_ID, IDIO_ID):
+				send_repeatable_notification(id, f"Blackjack for @{v.username}: {extra_info}")
 		return False
 	return True
 
