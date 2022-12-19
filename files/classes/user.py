@@ -592,13 +592,15 @@ class User(Base):
 				.filter(
 					Notification.read == False,
 					Notification.user_id == self.id,
-					Comment.is_banned == False,
-					Comment.deleted_utc == 0,
 					not_(and_(Comment.sentto != None, Comment.sentto == MODMAIL_ID, User.is_muted)),
 				))
 		
 		if not self.can_see_shadowbanned:
-			notifs = notifs.filter(User.shadowbanned == None)
+			notifs = notifs.filter(
+				User.shadowbanned == None,
+				Comment.is_banned == False,
+				Comment.deleted_utc == 0,
+			)
 		
 		return notifs.count() + self.post_notifications_count + self.modaction_notifications_count + self.reddit_notifications_count
 
