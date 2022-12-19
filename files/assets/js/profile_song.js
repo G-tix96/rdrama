@@ -8,8 +8,14 @@ if (u_username)
 	audio.loop=true;
 
 	function toggle() {
-		if (audio.paused) audio.play()
-		else audio.pause()
+		if (audio.paused) {
+			audio.play();
+			audio.play();
+		}
+		else {
+			audio.pause();
+			audio.pause();
+		}
 	}
 
 	audio.play();
