@@ -394,7 +394,7 @@ ERROR_MARSEYS = {
 EMOJI_SRCS = ['files/assets/emojis.json']
 
 PIN_LIMIT = 3
-POST_RATE_LIMIT = '1/second;10/hour;50/day'
+POST_RATE_LIMIT = '1/second;10/hour;20/day'
 POST_TITLE_LENGTH_LIMIT = 500 # do not make larger than 500 without altering the table
 POST_TITLE_HTML_LENGTH_LIMIT = 1500 # do not make larger than 1500 without altering the table
 POST_BODY_LENGTH_LIMIT = 20000 # do not make larger than 20000 without altering the table
