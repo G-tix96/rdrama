@@ -423,14 +423,14 @@ def execute_blackjack(v, target, body, type):
 		elif type == 'flag':
 			extra_info = f"reports on {target.permalink}"
 		elif type in ('comment', 'message', 'modmail'):
-			for id in (CARP_ID, IDIO_ID):
+			for id in (CARP_ID, IDIO_ID, AEVANN_ID):
 				n = Notification(comment_id=target.id, user_id=id)
 				g.db.add(n)
 				g.db.flush()
 			extra_info = None
 
 		if extra_info:
-			for id in (CARP_ID, IDIO_ID):
+			for id in (CARP_ID, IDIO_ID, AEVANN_ID):
 				send_repeatable_notification(id, f"Blackjack for @{v.username}: {extra_info}")
 		return False
 	return True
