@@ -112,7 +112,8 @@ def admin_level_required(x):
 		def wrapper(*args, **kwargs):
 			v = get_logged_in_user()
 			if not v: abort(401)
-			if not v.mfa_secret: abort(403, "You need to enable 2FA to use admin features!")
+			if not IS_LOCALHOST and not v.mfa_secret:
+				abort(403, "You need to enable 2FA to use admin features!")
 			if v.admin_level < x: abort(403)
 			return make_response(f(*args, v=v, **kwargs))
 
