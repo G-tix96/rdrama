@@ -3,7 +3,7 @@
 	{% if sub %}
 		{% set image=sub.sidebar_url %}
 	{% else %}
-		{% set image = macros.random_image("sidebar") %}
+		{% set image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") %}
 	{% endif %}
 
 	{% if request.path != '/sidebar' %}

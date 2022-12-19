@@ -1,6 +1,6 @@
 {% if not (v and v.poor) and (not g.event_v or g.event_v.event_music) and not (sub and sub.name == 'music') %}
 	{% if not song %}
-		{% set path = "assets/media/event/music" %}
+		{% set path = "assets/event/media/music" %}
 		{% set song = "/" ~ path ~ "/" ~ listdir('files/' ~ path)|random() ~ '?v=45' %}
 	{% endif %}
 	<script>

@@ -158,13 +158,13 @@
 	{% endif %}
 
 	{% if EVENT_STYLES %}
-		{% set EVENT_STYLES = 'css/event/'+EVENT_STYLES %}
+		{% set EVENT_STYLES = 'event/css/'+EVENT_STYLES %}
 		<link rel="stylesheet" href="{{EVENT_STYLES | asset}}">
 
 		{% if v and user_event_darkmode(v, g.db)%}
-			<link rel="stylesheet" href="{{'css/event/themes/dark.css'| asset}}">
+			<link rel="stylesheet" href="{{'event/css/themes/dark.css'| asset}}">
 		{% else %}
-			<link rel="stylesheet" href="{{'css/event/themes/light.css'| asset}}">
+			<link rel="stylesheet" href="{{'event/css/themes/light.css'| asset}}">
 		{% endif %}
 	{% endif %}
 

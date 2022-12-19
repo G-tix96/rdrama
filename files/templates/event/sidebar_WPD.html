@@ -1,7 +1,7 @@
 <div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3" {% if request.path != '/sidebar' %}id="sidebar-content"{% endif %}>
 
 	{%- if v -%}
-		{%- set art_image = macros.random_image("sidebar") -%}
+		{%- set art_image = macros.random_image("assets/images/" ~ SITE_NAME ~ "sidebar") -%}
 	{%- else -%}
 		{%- set art_image = '/i/' ~ SITE_NAME ~ '/sidebar.webp?v=3000' -%}
 	{%- endif -%}
@@ -21,7 +21,7 @@
 		<a class="sidebar-link" href="/random_post" data-bs-toggle="tooltip" data-bs-placement="top" title="Random Post"><i class="fas fa-random"></i></a>
 		<span class="sidebar-link" onclick="postToastRoastEventDarkmode(this, '/events/fistmas2022/darkmode')" style="display:inline" data-bs-toggle="tooltip" data-bs-placement="top" title="Toggle Dark Mode"><i class="fas fa-moon-over-sun"></i></span>
 
-		<script src="{{'js/event/darkmode.js' | asset}}"></script>
+		<script src="{{'event/js/darkmode.js' | asset}}"></script>
 	</p>
 
 	{% if sub and sub.sidebar_html %}

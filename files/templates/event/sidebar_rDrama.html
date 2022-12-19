@@ -3,7 +3,7 @@
 	{% if sub %}
 		{% set image = sub.sidebar_url %}
 	{% else %}
-		{% set sidebar_path = "assets/images/event/sidebar" %}
+		{% set sidebar_path = "assets/event/images/sidebar" %}
 		{% set selected_image = listdir('files/' ~ sidebar_path)|random() %}
 		{% set image = "/" ~ sidebar_path ~ "/" ~ selected_image ~ '?v=45' %}
 	{% endif %}
@@ -25,7 +25,7 @@
 		<span class="sidebar-link" onclick="postToastRoastEventDarkmode(this, '/events/fistmas2022/darkmode')" style="display:inline" data-bs-toggle="tooltip" data-bs-placement="top" title="Toggle Dark Mode"><i class="fas fa-moon-over-sun"></i></span>
 	</p>
 
-	<script src="{{'js/event/darkmode.js' | asset}}"></script>
+	<script src="{{'event/js/darkmode.js' | asset}}"></script>
 
 	{% if sub %}
 		{% if sub.sidebar_html %}

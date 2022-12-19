@@ -3,9 +3,9 @@
 /* Fonts */
 @font-face {
 	font-family: "Burbank Small Medium";
-	src: url("/assets/fonts/event/Burbank-Small-Medium.woff2") format("woff2"),
-	     url("/assets/fonts/event/Burbank-Small-Medium.woff")  format("woff"),
-	     url("/assets/fonts/event/Burbank-Small-Medium.ttf")   format("truetype");
+	src: url("/assets/event/fonts/Burbank-Small-Medium.woff2") format("woff2"),
+	     url("/assets/event/fonts/Burbank-Small-Medium.woff")  format("woff"),
+	     url("/assets/event/fonts/Burbank-Small-Medium.ttf")   format("truetype");
 }
 
 :root {
@@ -34,7 +34,7 @@
 body {
 	font-family: 'Burbank Small Medium', sans-serif;
 	background-color: rgb(var(--background)) !important;
-	background-image: url('/i/event/pattern.png') !important;
+	background-image: url('/assets/event/images/pattern.png') !important;
 	overflow-x: hidden;
 }
 
@@ -136,15 +136,15 @@ color: #7a7a7a !important;
 }
 
 body {
-    cursor: url(/assets/images/event/cursor.png?v=1), auto !important;
+    cursor: url(/assets/event/images/cursor.png?v=1), auto !important;
 }
 
 textarea, input[type=textbox], input[type=search] {
-    cursor: url(/assets/images/event/text.png?v=1), auto !important;
+    cursor: url(/assets/event/images/text.png?v=1), auto !important;
 }
 
 .btn, input[type=button], button, a, img {
-    cursor: url(/assets/images/event/pointer.png?v=1), auto !important;
+    cursor: url(/assets/event/images/pointer.png?v=1), auto !important;
 }
 
 .fa-moon-over-sun:before{content:"\f74a"}
@@ -171,7 +171,7 @@ textarea, input[type=textbox], input[type=search] {
 	left: 0;
 	height: 57px;
 	width: 100%;
-	background: url('/i/event/lights.png?v=1');
+	background: url('/assets/event/images/lights.png?v=1');
 	animation: lights 1s infinite steps(2);
 	pointer-events: none;
   }
@@ -196,7 +196,7 @@ textarea, input[type=textbox], input[type=search] {
 .btn::after, .snow-cap::after {
 	content: '';
 	pointer-events: none;
-	background: url("/i/event/snowcap.png?v=1") repeat-x;
+	background: url("/assets/event/images/snowcap.png?v=1") repeat-x;
 	background-size: contain;
 	position: absolute;
 	bottom: -18px;
@@ -262,7 +262,7 @@ body {
 	bottom: -9px;
 	transform: rotate(15deg);
 	transition: 200ms ease-out;
-	background-image: url("/i/event/candy-cane.svg");
+	background-image: url("/assets/event/images/candy-cane.svg");
 	background-repeat: no-repeat;
 	background-size: contain;
   }
@@ -563,7 +563,7 @@ footer::after {
 	left: 0;
 	height: 320px;
 	width: 100%;
-	background-image: url("/i/event/footer.svg");
+	background-image: url("/assets/event/images/footer.svg");
   background-size: cover;
   background-repeat: no-repeat;
   pointer-events: none;

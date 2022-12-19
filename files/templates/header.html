@@ -65,7 +65,7 @@
 				{% if SITE_NAME == 'WPD' %} {# Temporary event code, 2022-12-11 #}
 					{% set icon_url = 'icons-event/2022-christmas.webp' | asset_siteimg %}
 				{% elif EVENT_ICONS %}
-					{% set icon_url = macros.random_image('event/icon', false) %}
+					{% set icon_url = macros.random_image('assets/event/images/icon') %}
 				{% else %}
 					{% set icon_url = 'headericon.webp' | asset_siteimg %}
 				{% endif %}

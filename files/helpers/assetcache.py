@@ -13,7 +13,7 @@ ASSET_URL = '/assets/'
 ASSET_CACHE = defaultdict(lambda: None)
 
 if HOLIDAY_EVENT:
-	ASSET_SUBDIRS.extend(['/css/event', '/js/event'])
+	ASSET_SUBDIRS.extend(['/event/css', '/event/js'])
 
 def assetcache_build(asset_dir, subdirs):
 	for subdir in subdirs:
