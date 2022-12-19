@@ -522,7 +522,7 @@ def badge_grant_get(v):
 
 @app.post("/admin/badge_grant")
 @feature_required('BADGES')
-@limiter.limit("700/day") #temporary
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_BADGES'])
 def badge_grant_post(v):
 	badges = admin_badges_grantable_list(v)
