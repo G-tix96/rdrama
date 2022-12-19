@@ -100,10 +100,12 @@ def comment(v:User):
 	if parent_fullname.startswith("u_"):
 		parent = get_account(id, v=v)
 		post_target = parent
+		ghost = False
 	elif parent_fullname.startswith("p_"):
 		parent = get_post(id, v=v)
 		post_target = parent
 		if POLL_THREAD and parent.id == POLL_THREAD and v.admin_level < PERMS['POST_TO_POLL_THREAD']: abort(403)
+		ghost = parent.ghost
 	elif parent_fullname.startswith("c_"):
 		parent = get_comment(id, v=v)
 		post_target = get_post(parent.parent_submission, v=v, graceful=True) or get_account(parent.wall_user_id, v=v, include_blocks=True, include_shadowbanned=False)
@@ -111,6 +113,7 @@ def comment(v:User):
 		if parent.author_id == v.id: rts = True
 		if not v.can_post_in_ghost_threads and isinstance(post_target, Submission) and post_target.ghost: 
 			abort(403, f"You need {TRUESCORE_GHOST_MINIMUM} truescore to post in ghost threads")
+		ghost = parent.ghost
 	else: abort(404)
 
 	level = 1 if isinstance(parent, (Submission, User)) else int(parent.level) + 1
@@ -236,7 +239,7 @@ def comment(v:User):
 				app_id=v.client.application.id if v.client else None,
 				body_html=body_html,
 				body=body,
-				ghost=post_target.ghost if posting_to_submission else False,
+				ghost=ghost,
 				)
 
 	c.upvotes = 1

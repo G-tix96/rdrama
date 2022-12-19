@@ -45,6 +45,8 @@ def archive_url(url):
 		gevent.spawn(_archiveorg, url)
 
 def execute_snappy(post:Submission, v:User):
+	ghost = post.ghost
+
 	snappy = get_account(SNAPPY_ID)
 
 	if post.sub == 'dankchristianmemes' or post.sub == 'truth':
@@ -95,6 +97,8 @@ def execute_snappy(post:Submission, v:User):
 			post.upvotes += 1
 		elif body == '!slots':
 			body = f'!slots{snappy.coins}'
+		elif body.startswith(':#marseyghost'):
+			ghost = True
 
 	body += "\n\n"
 
@@ -161,7 +165,7 @@ def execute_snappy(post:Submission, v:User):
 			app_id=None,
 			body=body,
 			body_html=body_html,
-			ghost=post.ghost
+			ghost=ghost
 			)
 
 		g.db.add(c)
