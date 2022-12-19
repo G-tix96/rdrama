@@ -55,7 +55,7 @@ DEFAULT_RATELIMIT = "3/second;30/minute;200/hour;1000/day"
 DEFAULT_RATELIMIT_SLOWER = "1/second;30/minute;200/hour;1000/day"
 DEFAULT_RATELIMIT_USER = DEFAULT_RATELIMIT_SLOWER
 
-PUSH_NOTIF_LIMIT = 1000 # API allows 10 KB but better safe than sorry
+PUSH_NOTIF_LIMIT = 1000
 
 IS_LOCALHOST = SITE == "localhost" or SITE == "127.0.0.1" or SITE.startswith("192.168.") or SITE.endswith(".local")
 
