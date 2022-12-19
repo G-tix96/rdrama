@@ -413,22 +413,8 @@ def execute_blackjack(v, target, body, type):
 
 			v.ban_reason = "Blackjack"
 			g.db.add(v)
-		elif type == 'submission':
+		elif hasattr(target, 'is_banned'):
 			target.is_banned = True
-			ma = ModAction(
-				kind="ban_post",
-				user_id=AUTOJANNY_ID,
-				_note='reason: "Blackjack"'
-			)
-			g.db.add(ma)
-		elif type in ('comment', 'message', 'modmail'):
-			target.is_banned = True
-			ma = ModAction(
-				kind="ban_comment",
-				user_id=AUTOJANNY_ID,
-				_note='reason: "Blackjack"'
-			)
-			g.db.add(ma)
 
 		if type == 'submission':
 			extra_info = target.permalink
