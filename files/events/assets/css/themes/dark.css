@@ -20,3 +20,7 @@
 /*#banner-skybox {
 	fill: url(#skybox-gradient-night);
 }*/
+
+.comment-text, .post-body {
+	--primary: #15de59;
+}
