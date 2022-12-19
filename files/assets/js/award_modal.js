@@ -135,10 +135,13 @@ function buy(mb) {
 		success = xhr[0].status >= 200 && xhr[0].status < 300;
 		showToast(success, getMessageFromJsonData(success, data), true);
 		if (success) {
-			document.getElementById('giveaward').disabled=false;
-			let owned = document.getElementById(`${kind}-owned`)
-			let ownednum = Number(owned.textContent) + 1;
-			owned.textContent = ownednum
+			if (kind != "lootbox")
+			{
+				document.getElementById('giveaward').disabled=false;
+				let owned = document.getElementById(`${kind}-owned`)
+				let ownednum = Number(owned.textContent) + 1;
+				owned.textContent = ownednum	
+			}
 		}
 	};
 

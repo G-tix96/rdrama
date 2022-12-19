@@ -111,6 +111,7 @@ def buy(v:User, award):
 		elif v.lootboxes_bought == 150:
 			badge_grant(badge_id=78, user=v)
 
+		return {"message": lootbox_msg}
 	else:
 		award_object = AwardRelationship(user_id=v.id, kind=award, price_paid=price)
 		g.db.add(award_object)
@@ -128,6 +129,8 @@ def buy(v:User, award):
 @is_not_permabanned
 @ratelimit_user()
 def award_thing(v, thing_type, id):
+	kind = request.values.get("kind", "").strip()
+
 	if thing_type == 'post': 
 		thing = get_post(id)
 	else: 
@@ -137,9 +140,7 @@ def award_thing(v, thing_type, id):
 	if v.shadowbanned: abort(500)
 	author = thing.author
 	if author.shadowbanned: abort(404)
-	
-	kind = request.values.get("kind", "").strip()
-	
+		
 	AWARDS = deepcopy(AWARDS_ENABLED)
 	if v.house:
 		AWARDS[v.house] = HOUSE_AWARDS[v.house]
