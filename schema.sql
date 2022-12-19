@@ -167,7 +167,8 @@ CREATE TABLE public.award_relationships (
     comment_id integer,
     kind character varying(20) NOT NULL,
     awarded_utc integer,
-    created_utc integer
+    created_utc integer,
+    price_paid integer DEFAULT 0 NOT NULL
 );
 
 
@@ -432,6 +433,17 @@ CREATE TABLE public.commentvotes (
     "real" boolean DEFAULT true NOT NULL,
     created_utc integer NOT NULL,
     coins smallint DEFAULT 1 NOT NULL
+);
+
+
+--
+-- Name: event_users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.event_users (
+    id integer NOT NULL,
+    event_music boolean NOT NULL,
+    event_darkmode boolean NOT NULL
 );
 
 
@@ -1276,6 +1288,14 @@ ALTER TABLE ONLY public.commentvotes
 
 ALTER TABLE ONLY public.banneddomains
     ADD CONSTRAINT domain_pkey PRIMARY KEY (domain);
+
+
+--
+-- Name: event_users event_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_users
+    ADD CONSTRAINT event_users_pkey PRIMARY KEY (id);
 
 
 --
@@ -2298,6 +2318,14 @@ ALTER TABLE ONLY public.commentvotes
 
 ALTER TABLE ONLY public.commentvotes
     ADD CONSTRAINT commentvote_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: event_users event_users_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.event_users
+    ADD CONSTRAINT event_users_id_fkey FOREIGN KEY (id) REFERENCES public.users(id);
 
 
 --
