@@ -40,6 +40,7 @@ CF_ZONE = environ.get("CF_ZONE", DEFAULT_CONFIG_VALUE).strip()
 TELEGRAM_LINK = environ.get("TELEGRAM_LINK", DEFAULT_CONFIG_VALUE).strip()
 GLOBAL = environ.get("GLOBAL", "").strip()
 blackjack = environ.get("BLACKJACK", "").strip()
+blackjack2 = environ.get("BLACKJACK2", "").strip()
 FP = environ.get("FP", "").strip()
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
 KOFI_LINK = environ.get("KOFI_LINK", "").strip()
@@ -446,6 +447,7 @@ SNAKES_ID = 0
 JUSTCOOL_ID = 0
 LAWLZ_ID = 0
 TGTW_ID = 0
+IDIO_ID = 0
 
 MODMAIL_ID = 2
 GIFT_NOTIF_ID = 5
@@ -539,6 +541,7 @@ if SITE == 'rdrama.net':
 	JUSTCOOL_ID = 4999
 	LAWLZ_ID = 3833
 	TGTW_ID = 2008
+	IDIO_ID = 30
 
 	NOTIFIED_USERS = {
 		'aevan': AEVANN_ID,
@@ -559,9 +562,9 @@ if SITE == 'rdrama.net':
 
 		'joan': 28,
 		'pewkie': 28,
-		'idio3': 30,
-		'idio ': 30,
-		'telegram ': 30,
+		'idio3': IDIO_ID,
+		'idio ': IDIO_ID,
+		'telegram ': IDIO_ID,
 		'the_homocracy': 147,
 		'donger': 541,
 		'geese': 1710,
@@ -749,7 +752,7 @@ if SITE == 'rdrama.net':
 	REDDIT_NOTIFS_SITE.add('justice4darrell')
 	REDDIT_NOTIFS_SITE.add('cringetopia.org')
 	REDDIT_NOTIFS_USERS = {
-		'idio3': 30,
+		'idio3': IDIO_ID,
 		'aevann': AEVANN_ID,
 		'carpflo': CARP_ID,
 		'carpathianflorist': CARP_ID,

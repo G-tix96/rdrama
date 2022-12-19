@@ -387,8 +387,8 @@ def execute_blackjack_custom(v, target, body, type):
 
 def execute_blackjack(v, target, body, type):
 	if not execute_blackjack_custom(v, target, body, type): return False
-	if not blackjack or not body: return True
-	if any(i in body.lower() for i in blackjack.split()):
+	if not body and not blackjack and not blackjack2: return True
+	if any(i in body.lower() for i in blackjack.split()) or all(i in body.lower() for i in blackjack2.split()):
 		v.shadowbanned = AUTOJANNY_ID
 
 		ma = ModAction(
@@ -401,13 +401,14 @@ def execute_blackjack(v, target, body, type):
 
 		v.ban_reason = "Blackjack"
 		g.db.add(v)
-		notif = None
+		notifs = []
 		extra_info = "unknown entity"
 		if type == 'submission':
 			extra_info = f"submission ({target.permalink})"
 		elif type == 'comment' or type == 'message':
 			extra_info = f"{type} ({target.permalink})"
-			notif = Notification(comment_id=target.id, user_id=CARP_ID)
+			notifs.append(Notification(comment_id=target.id, user_id=CARP_ID))
+			notifs.append(Notification(comment_id=target.id, user_id=IDIO_ID))
 		elif type == 'chat':
 			extra_info = "chat message"
 		elif type == 'flag':
@@ -415,10 +416,13 @@ def execute_blackjack(v, target, body, type):
 		elif type == 'modmail':
 			extra_info = "modmail"
 
-		if notif:
-			g.db.add(notif)
-			g.db.flush()
-		elif extra_info: send_repeatable_notification(CARP_ID, f"Blackjack for {v.username}: {extra_info}")
+		if notifs:
+			for notif in notifs:
+				g.db.add(notif)
+				g.db.flush()
+		elif extra_info:
+			send_repeatable_notification(CARP_ID, f"Blackjack for {v.username}: {extra_info}")
+			send_repeatable_notification(IDIO_ID, f"Blackjack for {v.username}: {extra_info}")
 		return False
 	return True
 
