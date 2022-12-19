@@ -1,4 +1,4 @@
-BEGIN
+BEGIN;
 ALTER TABLE award_relationships ADD COLUMN price_paid INTEGER NOT NULL DEFAULT 0;
 ALTER TABLE award_relationships ALTER COLUMN kind SET NOT NULL;
 
