@@ -16,5 +16,5 @@ function postToastLoadEventDarkmode(xhr) {
 	}
 	success = xhr.status >= 200 && xhr.status < 300;
 	showToast(success, getMessageFromJsonData(success, data));
-	setTimeout(()=>{location.reload();}, 500);
+	location.reload();
 }
