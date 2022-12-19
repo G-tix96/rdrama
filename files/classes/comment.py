@@ -176,7 +176,7 @@ class Comment(Base):
 	@property
 	@lazy
 	def morecomments(self):
-		return f"{self.post.permalink}/{self.id}#context"
+		return f"{self.post.permalink}/{self.id}?context=0#context"
 
 	@property
 	@lazy
