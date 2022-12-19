@@ -574,7 +574,6 @@ footer::after {
 /* asdf */
 blockquote {
 	background-color: var(--gray-300);
-	color: var(--gray-400)
 }
 
 #profilestuff {
