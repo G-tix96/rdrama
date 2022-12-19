@@ -19,6 +19,8 @@
 		<a class="sidebar-link" href="/random_post" data-bs-toggle="tooltip" data-bs-placement="top" title="Random Post"><i class="fas fa-random"></i></a>
 		<a class="sidebar-link" href="/comments" data-bs-toggle="tooltip" data-bs-placement="top" title="All Comments"><i class="fas fa-comment-dots"></i></a>
 		<span class="sidebar-link" onclick="postToastRoastEventDarkmode(this, '/events/fistmas2022/darkmode')" style="display:inline" data-bs-toggle="tooltip" data-bs-placement="top" title="Toggle Dark Mode"><i class="fas fa-moon-over-sun"></i></span>
+
+		<script src="{{'js/event/darkmode.js' | asset}}"></script>
 	</p>
 
 	{% if sub %}
@@ -54,3 +56,5 @@
 		{% include rules %}
 	</div>
 </div>
+
+{% include "event/music.html" %}
