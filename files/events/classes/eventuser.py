@@ -3,6 +3,9 @@ from sqlalchemy.orm import relationship
 
 from files.classes import Base
 
+if SITE_NAME == 'WPD': default_darkmode = True
+else: default_darkmode = False
+
 class EventUser(Base):
 	__tablename__ = "event_users"
 	id = Column(Integer, ForeignKey("users.id"), primary_key=True)
@@ -10,7 +13,7 @@ class EventUser(Base):
 	event_music = Column(Boolean, default=True, nullable=False)
 
 	# start event specific columns
-	event_darkmode = Column(Boolean, default=False, nullable=False)
+	event_darkmode = Column(Boolean, default=default_darkmode, nullable=False)
 	# end event specific columns
 
 	def __init__(self, *args, **kwargs):
