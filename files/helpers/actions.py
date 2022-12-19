@@ -56,14 +56,14 @@ def execute_snappy(post:Submission, v:User):
 	elif v.id == LAWLZ_ID:
 		if random.random() < 0.5: body = "wow, this lawlzpost sucks!"
 		else: body = "wow, a good lawlzpost for once!"
-	elif not SNAPPY_MARSEYS and not SNAPPY_QUOTES:
-		body = ""
 	elif post.sub == 'masterbaiters' and random.random() < 0.33:
 		body = "Can you people come up with any ideas that don't involve committing federal crimes"
 	else:
 		if SNAPPY_MARSEYS and SNAPPY_QUOTES:
-			if random.random() < 0.5: SNAPPY_CHOICES = SNAPPY_MARSEYS
-			else: SNAPPY_CHOICES = SNAPPY_QUOTES
+			if HOLIDAY_EVENT or random.random() > 0.5:
+				SNAPPY_CHOICES = SNAPPY_QUOTES
+			else: 
+				SNAPPY_CHOICES = SNAPPY_MARSEYS
 		elif SNAPPY_MARSEYS: SNAPPY_CHOICES = SNAPPY_MARSEYS
 		elif SNAPPY_QUOTES: SNAPPY_CHOICES = SNAPPY_QUOTES
 		else: SNAPPY_CHOICES = [""]

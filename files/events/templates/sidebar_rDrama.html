@@ -22,8 +22,11 @@
 		<a class="sidebar-link" href="/log" data-bs-toggle="tooltip" data-bs-placement="top" title="Moderation Log"><i class="fas fa-scroll-old"></i></a>
 		<a class="sidebar-link" href="/transfers" data-bs-toggle="tooltip" data-bs-placement="top" title="Transfers"><i class="fas fa-arrow-right-arrow-left"></i></a>
 		<a class="sidebar-link" href="/random_post" data-bs-toggle="tooltip" data-bs-placement="top" title="Random Post"><i class="fas fa-random"></i></a>
-		<span class="sidebar-link" onclick="if(localStorage.getItem('setting_upsidedown')=='true'){localStorage.setItem('setting_upsidedown', 'false')}else{localStorage.setItem('setting_upsidedown', 'true')};location.reload()" style="display:inline" data-bs-toggle="tooltip" data-bs-placement="top" title="???"><i class="fas fa-trees"></i></span>
+		<span class="sidebar-link" onclick="postToastRoastEventDarkmode(this, '/events/fistmas2022/darkmode'); location.reload()" style="display:inline" data-bs-toggle="tooltip" data-bs-placement="top"
+title="Toggle Dark Mode"><i class="fas fa-moon-over-sun"></i></span>
 	</p>
+
+	<script src="{{'js/event/darkmode.js' | asset}}"></script>
 
 	{% if sub %}
 		{% if sub.sidebar_html %}
@@ -51,29 +54,11 @@
 			<a class="btn btn-primary btn-block mb-3" href="/create_hole">CREATE {{HOLE_NAME|upper}}</a>
 		{%- endif %}
 
-		<div class="sidebar--rules">
-			<h3 class="sidebar--rules-head mt-4 mb-3">Rules</h3>
-			<ol class="sidebar--rules-list sidebar--rules-list--rdrama">
-				<li class="font-weight-bold" style="color: red"><a href="/post/19711/a-short-guide-on-how-to" style="color: inherit">NO RIGHTWING AGENDAPOSTING.</a></li>
-				<li>Don't post anything illegal.</li>
-				<li>No sexualizing minors even as a “joke”.</li>
-				<li>No doxing.</li>
-				<li>Using alts to game dramacoin will get you banned.</li>
-				<li>Supporting free speech is an immediate ban.</li>
-				<li class="font-weight-bold">Absolutely NO anti-CCP sentiment.</li>
-			</ol>
-
-			<p>All rules can and likely will be ignored at the discretion of the janitorial staff. Be funny, or at least compelling, and pretty much anything legal is welcome.</p>
-
-			<p style="color: hotpink">𝐜𝐚𝐫𝐩 𝐰𝐨𝐳 𝐞𝐫𝐞</p>
+		<div class="sidebar--rules sidebar--rules--rdrama">
+			{% set rules = "rules_" ~ SITE_NAME ~ ".html" %}
+			{% include rules %}
 		</div>
 	{% endif %}
-	<pre>
-
-
-
-
-
-
-	</pre>
 </div>
+
+{% include "event/music.html" %}

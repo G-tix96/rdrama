@@ -1,3 +1,28 @@
-<a  rel="nofollow noopener noreferrer" href="{% if 'rama' in request.host %}https://youtu.be/3l7X94GLqSQ?t=16{% else %}/{% endif %}" style="text-decoration: none !important">
+{# <script src="{{'js/event/neko.js'|asset}}"></script> #}
+{% if request.path == '/' %}
+	<script src="{{'js/event/snow.js'|asset}}"></script>
+	<script>snow(80);</script>
+{% endif %}
 
+<div class="candy-cane"></div>
+
+<div id="sign" class="sign snow-cap">
+  <img src="/i/event/sign.svg" />
+  <ul>
+    <li>
+      0
+    </li>
+    <li>
+      {{days_till_christmas()}}
+    </li>
+  </ul>
+</div>
+
+<a rel="nofollow noopener noreferrer" href="https://www.youtube.com/watch?v=BuKft9LpL_0" style="text-decoration: none !important">
+	{% if random.randint(1,100) != 1 %}
+		<link rel="stylesheet" href="{{'css/event/banner.css' | asset}}">
+		{% include "event/banner.svg" %}
+	{% else %}
+		<img src="/assets/images/event/banner_new.webp" style="width:100%" />
+	{% endif %}
 </a>

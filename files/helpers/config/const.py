@@ -221,7 +221,7 @@ SUB_MARSEY_URL_LENGTH = 60
 ### SITE SPECIFIC CONSTANTS
 ################################################################################
 
-HOLIDAY_EVENT = None
+HOLIDAY_EVENT = True
 
 PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_ADD': 3,

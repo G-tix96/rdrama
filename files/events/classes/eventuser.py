@@ -10,7 +10,7 @@ class EventUser(Base):
 	event_music = Column(Boolean, default=True, nullable=False)
 
 	# start event specific columns
-
+	event_darkmode = Column(Boolean, default=False, nullable=False)
 	# end event specific columns
 
 	def __init__(self, *args, **kwargs):

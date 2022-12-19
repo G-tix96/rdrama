@@ -1,6 +1,6 @@
 from sqlalchemy import inspect
 
-from files.helpers.config.awards import AWARDS_ENABLED, AWARDS_DISABLED
+from files.helpers.config.awards import AWARDS, AWARDS_ENABLED, AWARDS_DISABLED
 from files.__main__ import engine
 
 from files.events.classes import *
@@ -21,6 +21,8 @@ def _populate_awards():
 	for award in EVENT_AWARDS:
 		if award in AWARDS_DISABLED:
 			AWARDS_DISABLED.remove(award)
+
+	AWARDS.update(EVENT_AWARDS)
 
 def event_init():
 	_build_table()

@@ -1,0 +1,121 @@
+<div class="awards-container">
+	{% set gingerbread_count = p.award_count("gingerbread", v) * 2 if p.award_count("gingerbread", v) <= 10 else 20 %}
+	{% for i in range(gingerbread_count) %}
+		<div class="fall-snowflake">
+			<img src="/i/event/awards/gingerbread.png?v=1" class="animate-spin object-contain" style="width: 40px; height: 40px;" alt="animate marsey gingerbread icon" />
+		</div>
+	{% endfor %}
+
+	{# idk why snow isn't working vvvvvvvvvv #}
+	{% if p.award_count("snow", v) %}
+		<script src="{{'js/event/snow.js'|asset}}"></script>
+		<script>snow(80);</script>
+	{% endif %}
+
+	{% if p.award_count("frostbite", v) %}
+		<div class="frost"></div>
+		<script>
+		const root = document.querySelector(':root');
+
+		const count = 5;
+		const opacity = count * 0.1;
+		root.style.setProperty('--opacity-frost', opacity);
+		</script>
+		<style>
+		:root {
+		--opacity-frost: 0.25;
+		}
+		.frost {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			box-shadow: 0 0 200px 10px rgba(255, 255, 255, var(--opacity-frost)) inset;
+			pointer-events: none;
+			z-index: 1050;
+		}
+		</style>
+	{% endif %}
+
+	{% if p.award_count("snowed-in", v) %}
+		<canvas id="canvas-snowed-in-overlay"></canvas>
+		<canvas id="canvas-snowed-in-lines"></canvas>
+		<style>
+			#canvas-snowed-in-overlay {
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 9998;
+				opacity: 1;
+				pointer-events: none;
+			}
+			#canvas-snowed-in-lines {
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 9999;
+				opacity: 0.0;
+				pointer-events: none;
+			}
+		</style>
+		<script defer src="{{'js/event/snowed-in.js'|asset}}"></script>
+	{% endif %}
+</div>
+
+{% if p.award_count("lights", v) %}
+	<style>
+		#post-root::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 57px;
+			width: 100%;
+			background: url('/i/event/lights.png?v=1');
+			animation: lights 1s infinite steps(2);
+			pointer-events: none;
+			z-index: 1;
+		}
+	</style>
+{% endif %}
+
+{% if p.award_count("candycane", v) %}
+	<style>
+		#post-title, #post-content p {
+			--color2: #9b161a;
+			--color1: rgb(12, 128, 101);
+			font-family: "Open Sans", sans-serif;
+			background: repeating-linear-gradient(
+				45deg, var(--color2), var(--color2) 10px,
+				var(--color1) 11px, var(--color1) 30px
+			);
+			background-clip: text;
+			color: transparent;
+			-webkit-background-clip: text;
+			animation: 45s linear 0s infinite candycorn-move;
+		}
+
+		#post-title a {
+			color: transparent !important;
+		}
+
+		@keyframes candycorn-move {
+			from {background-position: 0px;}
+			to {background-position: 1000px;}
+		}
+	</style>
+{% endif %}
+
+{% if p.award_count("fireplace", v) %}
+	<style>
+		#banner-skybox {
+			fill: url(#skybox-gradient-night)
+		}
+
+		#banner-window-1, #banner-window-2 {
+			filter: drop-shadow(0 0 50px orange);
+			fill: palegoldenrod;
+		}
+	</style>
+{% endif %}

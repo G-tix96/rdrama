@@ -675,6 +675,8 @@ AWARDS_DISABLED = [
 	'candy-corn', 'ectoplasm', 'bones', 'pumpkin', # Homoween '22 (cont'd)
 ]
 
+LOOTBOX_ITEM_COUNT = 5
+LOOTBOX_CONTENTS = ["firework", "confetti", "ricardo", "wholesome", "shit", "fireflies", "scooter", "train"]
 
 HOUSE_AWARDS = {
 	"Furry": {
@@ -737,8 +739,6 @@ if SITE_NAME == 'PCM':
 	#AWARDS_DISABLED.extend(['ban','pizzashill','marsey','bird','grass','chud','unblockable'])
 	AWARDS_DISABLED.extend(['unblockable'])
 	AWARDS_DISABLED.remove('ghost')
-elif SITE_NAME == 'WPD':
-	AWARDS_DISABLED.remove('lootbox')
 if not FEATURES['MARSEYBUX']:
 	AWARDS_DISABLED.append('benefactor')
 

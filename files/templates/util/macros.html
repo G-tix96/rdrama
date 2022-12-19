@@ -21,8 +21,12 @@
 	{% endif %}
 {%- endmacro -%}
 
-{%- macro random_image(assetdir) -%}
-	{% set path = "assets/images/" ~ SITE_NAME ~ "/" ~ assetdir  -%}
+{%- macro random_image(assetdir, include_site_name=true) -%}
+	{% if include_site_name %}
+		{% set path = "assets/images/" ~ SITE_NAME ~ "/" ~ assetdir %}
+	{% else %}
+		{% set path = "assets/images/" ~ assetdir %}
+	{% endif %}
 	{{- "/" ~ path ~ "/" ~ listdir('files/' ~ path)|random() ~ '?v=45' }}
 {%- endmacro -%}
 

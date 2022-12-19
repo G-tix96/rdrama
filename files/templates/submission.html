@@ -16,6 +16,13 @@
 </style>
 
 {% include "awards.html" %}
+
+{# DO NOT REMOVE THIS #}
+{% if EVENT_AWARDS %}
+	{% include "event/awards.html" %}
+{% endif %}
+{# ^^ DO NOT REMOVE THIS ^^ #}
+
 {% endblock %}
 {% set ups=p.upvotes %}
 {% set downs=p.downvotes %}

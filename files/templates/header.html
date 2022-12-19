@@ -19,27 +19,30 @@
 			{% if range(1,5) | random == 1 %}
 				{% include "journoid_banner.html" %}
 			{% else %}
-				{%-
-				set VISITORS_HERE_FLAVOR = [
-					' incels currently stalking roasties',
-					' gooners currently edging to <img src="/e/marseycumjar3.webp" style="height: 1.5em;">',
-					' fanboys currently obsessing over Carp',
-					' NEETs currently LDARmaxxing',
-					' valid women currently dilating',
-					' negholes currently being pozzed',
-					' bussies currently on standby',
-					' gamers currently harassing women',
-					' dramanauts hurtling through Safe Space™',
-					' Soros shills currently plotting mayocide',
-					' furries currently yiffing',
-					' incels currently harassing women',
-					' chuds currently agendaposting',
-					' coomers currently gooning',
-					' bacons currently narwhaling',
-					' well-behaved rule-following goodthinkers',
-					' throwing shade right now',
-				]
-				-%}
+				{% if EVENT_VISITORS_HERE_FLAVOR %}
+					{%- set VISITORS_HERE_FLAVOR = EVENT_VISITORS_HERE_FLAVOR -%}
+				{% else %}
+					{%- set VISITORS_HERE_FLAVOR = [
+						' incels currently stalking roasties',
+						' gooners currently edging to <img src="/e/marseycumjar3.webp" style="height: 1.5em;">',
+						' fanboys currently obsessing over Carp',
+						' NEETs currently LDARmaxxing',
+						' valid women currently dilating',
+						' negholes currently being pozzed',
+						' bussies currently on standby',
+						' gamers currently harassing women',
+						' dramanauts hurtling through Safe Space™',
+						' Soros shills currently plotting mayocide',
+						' furries currently yiffing',
+						' incels currently harassing women',
+						' chuds currently agendaposting',
+						' coomers currently gooning',
+						' bacons currently narwhaling',
+						' well-behaved rule-following goodthinkers',
+						' throwing shade right now',
+					]
+					-%}}
+				{% endif %}
 				{{loggedin_counter+loggedout_counter}} {{VISITORS_HERE_FLAVOR|random|safe}} ({{loggedin_counter}} logged in)
 			{% endif %}
 		{% else %}
@@ -59,11 +62,14 @@
 		<div class="navbar navbar-expand-md navbar-light" id="navbar">
 			<div class="container-fluid" style="padding:0;">
 			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not sub %}flex-grow-1{% endif %}">
-				{% if SITE_NAME == 'WPD' %}{# Temporary event code, 2022-12-11 #}
-				<img id="header--icon" alt="header icon" src="{{'icons-event/2022-christmas.webp' | asset_siteimg}}">
+				{% if SITE_NAME == 'WPD' %} {# Temporary event code, 2022-12-11 #}
+					{% set icon_url = 'icons-event/2022-christmas.webp' | asset_siteimg %}
+				{% elif EVENT_ICONS %}
+					{% set icon_url = macros.random_image('event/icon', false) %}
 				{% else %}
-				<img id="header--icon" alt="header icon" {% if sub %}src="{{sub.marsey_url}}"{% else %}src="{{'headericon.webp' | asset_siteimg}}"{% endif %}>
+					{% set icon_url = 'headericon.webp' | asset_siteimg %}
 				{% endif %}
+				<img id="header--icon" alt="header icon" {% if sub %}src="{{sub.marsey_url}}"{% else %}src="{{icon_url}}"{% endif %}>
 			</a>
 			
 			{% if sub %}
@@ -347,7 +353,8 @@
 			{% endif %}
 			<li class="mt-3">
 				{% if has_sidebar %}
-					{% include "sidebar_" ~ SITE_NAME ~ ".html" %}
+					{% set sidebar = "sidebar_" ~ SITE_NAME ~ ".html" %}
+					{% include sidebar if not EVENT_SIDEBAR else 'event/' ~ sidebar %}
 				{% endif %}
 			</li>
 		</ul>
