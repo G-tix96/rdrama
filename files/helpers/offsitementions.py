@@ -21,9 +21,7 @@ from files.classes.notifications import Notification
 # value from /meta (or just guessing) and doing a random selection of keywords.
 
 def offsite_mentions_task(cache:Cache):
-	print('offsite_mentions_task', flush=True)
 	site_mentions = get_mentions(cache, const.REDDIT_NOTIFS_SITE)
-	print(site_mentions, flush=True)
 	notify_mentions(site_mentions)
 
 	if const.REDDIT_NOTIFS_USERS:
@@ -34,26 +32,23 @@ def offsite_mentions_task(cache:Cache):
 	g.db.commit() # commit early otherwise localhost testing fails to commit
 
 def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
-	print('get_mentions', flush=True)
 	kinds = ['submission', 'comment']
 	mentions = []
 	exclude_subreddits = ['PokemonGoRaids', 'SubSimulatorGPT2', 'SubSimGPT2Interactive']
 	try:
 		after = int(cache.get(const.REDDIT_NOTIFS_CACHE_KEY) or time.time())
 	except:
-		print("Failed to retrieve last mention time from cache")
+		print("Failed to retrieve last mention time from cache", flush=True)
 		after = time.time()
 	size = 1 if reddit_notifs_users else 100
 	for kind in kinds:
 		try:
-			print('request', flush=True)
 			url = (
 				f'https://api.pushshift.io/reddit/{kind}/search?html_decode=true'
 				f'&q={"%7C".join(queries)}'
 				# f'&subreddit=!{",!".join(exclude_subreddits)}'
 				f'&after={after}'
 				f'&size={size}')
-			print(url, flush=True)
 			data = requests.get((
 				f'https://api.pushshift.io/reddit/{kind}/search?html_decode=true'
 				f'&q={"%7C".join(queries)}'
@@ -61,7 +56,6 @@ def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
 				f'&after={after}'
 				f'&size={size}'), timeout=15).json()['data']
 		except Exception as e:
-			print(e, flush=True)
 			continue
 
 		for thing in data:
@@ -92,14 +86,11 @@ def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
 		if not reddit_notifs_users: 
 			cache.set(const.REDDIT_NOTIFS_CACHE_KEY, after + 1)
 	except:
-		print("Failed to set cache value; there may be duplication of reddit notifications")
+		print("Failed to set cache value; there may be duplication of reddit notifications", flush=True)
 	return mentions
 
 def notify_mentions(mentions, send_to=None, mention_str='site mention'):
-	print('notify_mentions', flush=True)
-	print(mentions, flush=True)
 	for m in mentions:
-		print(m, flush=True)
 		author = m['author']
 		permalink = m['permalink']
 		text = sanitize(m['text'], golden=False)
@@ -125,7 +116,6 @@ def notify_mentions(mentions, send_to=None, mention_str='site mention'):
 						distinguish_level=6)
 		g.db.add(new_comment)
 		g.db.flush()
-		print(new_comment.id, flush=True)
 		new_comment.top_comment_id = new_comment.id
 
 		if send_to:
