@@ -442,7 +442,6 @@ CREATE TABLE public.commentvotes (
 
 CREATE TABLE public.event_users (
     id integer NOT NULL,
-    event_music boolean NOT NULL,
     event_darkmode boolean NOT NULL
 );
 
@@ -1042,7 +1041,8 @@ CREATE TABLE public.users (
     spider integer,
     profanityreplacer integer DEFAULT 1 NOT NULL,
     last_viewed_reddit_notifs integer NOT NULL,
-    profile_background character varying(30)
+    profile_background character varying(30),
+    event_music boolean NOT NULL
 );
 
 
