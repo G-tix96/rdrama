@@ -81,11 +81,11 @@ def sidebar(v:Optional[User]):
 	return render_template('sidebar.html', v=v)
 
 
-# @app.get("/stats")
-# @auth_required
-# def participation_stats(v:User):
-# 	if v.client: return stats_cached()
-# 	return render_template("stats.html", v=v, title="Content Statistics", data=stats_cached())
+@app.get("/stats")
+@auth_required
+def participation_stats(v:User):
+	if v.client: return stats_cached()
+	return render_template("stats.html", v=v, title="Content Statistics", data=stats_cached())
 
 @cache.memoize(timeout=86400)
 def stats_cached():
