@@ -138,6 +138,8 @@ class User(Base):
 	marsify = Column(Integer, default=0)
 	rainbow = Column(Integer)
 	spider = Column(Integer, default=0)
+	if HOLIDAY_EVENT:
+		event_music = Column(Boolean, default=True, nullable=False)
 
 	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
 	subscriptions = relationship("Subscription", back_populates="user")
@@ -1139,7 +1141,5 @@ class User(Base):
 	if HOLIDAY_EVENT:
 		@property
 		@lazy
-		def event_music(self):
-			if SITE_NAME != 'rDrama': return False
-			if self.has_badge(91): return False
-			return True 
+		def can_toggle_event_music(self):
+			return self.has_badge(91)

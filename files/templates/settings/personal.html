@@ -19,6 +19,9 @@
 			<section id="site-settings-experience-section" class="settings-section-section">
 				<h5>Site Experience</h5>
 				<div class="settings-section rounded" id="site-settings-experience">
+					{% if v.can_toggle_event_music %}
+						{{common.toggle_section('Event Music', 'event_music_switch', 'event_music', v.event_music, 'Toggle event music.', false)}}
+					{% endif %}
 					<div class="d-lg-flex border-bottom">
 						<div class="title w-lg-25">
 							<label for="patron-status">{{patron}} Status</label>
