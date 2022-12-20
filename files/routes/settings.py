@@ -513,7 +513,7 @@ def settings_security_post(v):
 
 		token = request.values.get("2fa_remove")
 
-		if not v.validate_2fa(token):
+		if not token or not v.validate_2fa(token):
 			return render_template("settings/security.html", v=v, error="Invalid token.")
 
 		v.mfa_secret = None
