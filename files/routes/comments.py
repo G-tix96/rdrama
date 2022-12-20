@@ -304,14 +304,17 @@ def comment(v:User):
 			g.db.add(n)
 
 		if VAPID_PUBLIC_KEY != DEFAULT_CONFIG_VALUE and parent_user.id != v.id and not v.shadowbanned:
-			title = f'New reply by @{c.author_name}'
-			if not posting_to_submission: title = f"New comment on your wall by @{c.author_name}"
+			if isinstance(parent, User):
+				title = f"New comment on your wall by @{c.author_name}"
+			else:
+				title = f'New reply by @{c.author_name}'
 
 			if len(c.body) > PUSH_NOTIF_LIMIT: notifbody = c.body[:PUSH_NOTIF_LIMIT] + '...'
 			else: notifbody = c.body
 
-			url = f'{SITE_FULL}/comment/{c.id}?read=true'
-			if not posting_to_submission:
+			if posting_to_submission:
+				url = f'{SITE_FULL}/comment/{c.id}?read=true'
+			else:
 				url = f'{SITE_FULL}/@{c.wall_user.username}/wall/comment/{c.id}?read=true'
 
 			push_notif(parent_user.id, title, notifbody, url)
