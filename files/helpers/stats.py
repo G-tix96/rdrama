@@ -90,6 +90,7 @@ def chart_path(kind, site):
 	return f'/{site}_{kind}.png'
 
 def stats(site=None):
+	print('4', flush=True)
 	now = time.time()
 	day = int(now) - 86400
 	week = int(now) - 604800
@@ -98,6 +99,7 @@ def stats(site=None):
 	voters = g.db.query(Vote.user_id).distinct(Vote.user_id).filter(Vote.created_utc > week).all()
 	commentvoters = g.db.query(CommentVote.user_id).distinct(CommentVote.user_id).filter(CommentVote.created_utc > week).all()
 	active_users = set(posters) | set(commenters) | set(voters) | set(commentvoters)
+	print('5', flush=True)
 
 	stats = {
 			"time": time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(now)),
@@ -130,6 +132,8 @@ def stats(site=None):
 			"users online in the past 7 days": "{:,}".format(g.db.query(User).filter(User.last_active > week).count()),
 			}
 
+	print('6', flush=True)
+
 	if SITE_NAME == 'rDrama' or FEATURES['HOUSES']:
 		stats2 = {
 			"House furry members": "{:,}".format(g.db.query(User).filter(User.house.like('Furry%')).count()),
@@ -142,5 +146,7 @@ def stats(site=None):
 			"House racist total truescore": "{:,}".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Racist%')).scalar() or 0),
 			}
 		stats.update(stats2)
+
+	print('7', flush=True)
 
 	return stats

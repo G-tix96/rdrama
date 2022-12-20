@@ -40,9 +40,13 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 		awards.award_timers_bots_task()
 
 	if every_1d:
+		print('0', flush=True)
 		stats.generate_charts_task(SITE)
+		print('1', flush=True)
 		_sub_inactive_purge_task()
+		print('2', flush=True)
 		cache.delete_memoized(route_static.stats_cached)
+		print('3', flush=True)
 		route_static.stats_cached()
 
 	if every_1mo:
