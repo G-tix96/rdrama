@@ -50,14 +50,14 @@ def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
 			url = (
 				f'https://api.pushshift.io/reddit/{kind}/search?html_decode=true'
 				f'&q={"%7C".join(queries)}'
-				f'&subreddit=!{",!".join(exclude_subreddits)}'
+				# f'&subreddit=!{",!".join(exclude_subreddits)}'
 				f'&after={after}'
 				f'&size={size}')
 			print(url, flush=True)
 			data = requests.get((
 				f'https://api.pushshift.io/reddit/{kind}/search?html_decode=true'
 				f'&q={"%7C".join(queries)}'
-				f'&subreddit=!{",!".join(exclude_subreddits)}'
+				# f'&subreddit=!{",!".join(exclude_subreddits)}'
 				f'&after={after}'
 				f'&size={size}'), timeout=15).json()['data']
 		except Exception as e:
@@ -65,6 +65,7 @@ def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
 			continue
 
 		for thing in data:
+			if thing['subreddit'] in exclude_subreddits: continue
 			if 'bot' in thing['author'].lower(): continue
 			after = max(after, thing["created_utc"]) if thing["created_utc"] else after
 			if kind == 'comment':
