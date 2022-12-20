@@ -1,6 +1,7 @@
 from sqlalchemy import inspect
 
 from files.helpers.config.awards import AWARDS, AWARDS_ENABLED, AWARDS_DISABLED
+from files.helpers.config.const import SITE_NAME
 from files.__main__ import engine
 
 from files.events.classes import *
@@ -19,6 +20,7 @@ def _populate_awards():
 	AWARDS_ENABLED.update(temp)
 
 	for award in EVENT_AWARDS:
+		if award == 'grinch' and SITE_NAME != 'rDrama': continue
 		EVENT_AWARDS[award]['ghost'] = EVENT_AWARDS[award]['cosmetic']
 		if award in AWARDS_DISABLED:
 			AWARDS_DISABLED.remove(award)

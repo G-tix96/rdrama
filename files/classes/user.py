@@ -1144,4 +1144,4 @@ class User(Base):
 		@property
 		@lazy
 		def can_toggle_event_music(self):
-			return self.has_badge(91)
+			return SITE_NAME != 'rDrama' or self.has_badge(91)
