@@ -65,7 +65,7 @@ def exile_comment(v:User, cid):
 			kind='exile_user',
 			user_id=v.id,
 			target_user_id=u.id,
-			_note=f'for <a href="/comment/{c.id}#context">comment</a>'
+			_note=f'for <a href="/comment/{c.id}">comment</a>'
 		)
 		g.db.add(ma)
 

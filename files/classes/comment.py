@@ -160,8 +160,8 @@ class Comment(Base):
 	@lazy
 	def shortlink(self):
 		if self.wall_user_id:
-			return f"/@{self.wall_user.username}/wall/comment/{self.id}#context"
-		return f"{self.post.shortlink}/{self.id}#context"
+			return f"/@{self.wall_user.username}/wall/comment/{self.id}"
+		return f"{self.post.shortlink}/{self.id}"
 
 	@property
 	@lazy
@@ -176,7 +176,7 @@ class Comment(Base):
 	@property
 	@lazy
 	def morecomments(self):
-		return f"{self.post.permalink}/{self.id}?context=0#context"
+		return f"{self.post.permalink}/{self.id}?context=0"
 
 	@property
 	@lazy

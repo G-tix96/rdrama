@@ -310,9 +310,9 @@ def comment(v:User):
 			if len(c.body) > PUSH_NOTIF_LIMIT: notifbody = c.body[:PUSH_NOTIF_LIMIT] + '...'
 			else: notifbody = c.body
 
-			url = f'{SITE_FULL}/comment/{c.id}?read=true#context'
+			url = f'{SITE_FULL}/comment/{c.id}?read=true'
 			if not posting_to_submission:
-				url = f'{SITE_FULL}/@{c.wall_user.username}/wall/comment/{c.id}?read=true#context'
+				url = f'{SITE_FULL}/@{c.wall_user.username}/wall/comment/{c.id}?read=true'
 
 			push_notif(parent_user.id, title, notifbody, url)
 
