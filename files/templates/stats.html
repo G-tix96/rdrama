@@ -8,10 +8,10 @@
 		<th>Value</th>
 	</tr>
 </thead>
-{% for entry in data %}
+{% for key, value in data.items() %}
 	<tr>
-		<td>{{entry}}</td>
-		<td>{{data[entry]}}</td>
+		<td>{{key}}</td>
+		<td>{{value}}</td>
 	</tr>
 {% endfor %}
 </table>

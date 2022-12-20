@@ -42,8 +42,8 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 	if every_1d:
 		stats.generate_charts_task(SITE)
 		_sub_inactive_purge_task()
-		cache.delete_memoized(route_static.stats_cached)
-		route_static.stats_cached()
+		stats = statshelper.stats(SITE_NAME)
+		cache.set(f'{SITE}_stats', stats)
 
 	if every_1mo:
 		if KOFI_LINK: _give_monthly_marseybux_task_kofi()

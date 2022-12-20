@@ -84,12 +84,9 @@ def sidebar(v:Optional[User]):
 @app.get("/stats")
 @auth_required
 def participation_stats(v:User):
-	if v.client: return stats_cached()
-	return render_template("stats.html", v=v, title="Content Statistics", data=stats_cached())
-
-@cache.memoize(timeout=864000)
-def stats_cached():
-	return statshelper.stats(SITE_NAME)
+	stats = cache.get(f'{SITE}_stats') or {}
+	if v.client: return stats
+	return render_template("stats.html", v=v, title="Content Statistics", data=stats)
 
 @app.get("/chart")
 def chart():
