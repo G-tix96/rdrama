@@ -203,7 +203,7 @@
 				<input type="hidden" name="2fa_secret" value="{{mfa_secret}}">
 				<div class="modal-body">
 					{% if mfa_secret %}
-						<p><span class="font-weight-bold">Step 1:</span> Scan this barcode (or enter the code) using a two-factor authentication app such as Google Authenticator or Authy.</p>
+						<p><span class="font-weight-bold">Step 1:</span> Scan this QR code (or enter the code) using a two-factor authentication app such as Google Authenticator or Authy.</p>
 						<div class="text-center mb-3">
 							<img alt="two-factor QR code" loading="lazy" class="img-fluid" width=175 src="/2faqr/{{mfa_secret}}">
 							<div class="text-small text-muted mt-1">Or enter this code: {{mfa_secret}}</div>
