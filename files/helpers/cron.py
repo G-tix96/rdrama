@@ -10,6 +10,7 @@ import files.helpers.offsitementions as offsitementions
 import files.helpers.stats as stats
 import files.routes.static as route_static
 import files.routes.streamers as route_streamers
+import files.helpers.stats as statshelper
 from files.__main__ import cache
 from files.classes import *
 from files.helpers.alerts import send_repeatable_notification
