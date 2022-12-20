@@ -51,6 +51,7 @@ app.config['SQLALCHEMY_DATABASE_URL'] = environ.get("DATABASE_URL").strip()
 
 app.config["CACHE_TYPE"] = "RedisCache"
 app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL").strip()
+app.config["CACHE_DEFAULT_TIMEOUT"] = 604800
 
 app.config['SERVICE'] = Service.RDRAMA
 if "load_chat" in argv:
