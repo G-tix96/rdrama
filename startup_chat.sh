@@ -2,7 +2,7 @@
 
 cd /rDrama
 
-. /env
+. ./.env
 PATH="${NVM_DIRECTORY}/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 
 cd ./chat
