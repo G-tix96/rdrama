@@ -312,7 +312,7 @@ def comment(v:User):
 
 			url = f'{SITE_FULL}/comment/{c.id}?read=true#context'
 			if not posting_to_submission:
-				url = f'{SITE_FULL}/@{c.wall_user.username}/wall/comment/{c.id}?context=8&read=true#context'
+				url = f'{SITE_FULL}/@{c.wall_user.username}/wall/comment/{c.id}?read=true#context'
 
 			push_notif(parent_user.id, title, notifbody, url)
 
