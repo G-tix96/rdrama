@@ -496,12 +496,12 @@ def settings_security_post(v):
 
 	if request.values.get("2fa_token"):
 		if not v.verifyPass(request.values.get('password')):
-			return render_template("settings/security.html", v=v, error="Invalid password or token.")
+			return render_template("settings/security.html", v=v, error="Invalid password.")
 
 		secret = request.values.get("2fa_secret")
 		x = pyotp.TOTP(secret)
 		if not x.verify(request.values.get("2fa_token"), valid_window=1):
-			return render_template("settings/security.html", v=v, error="Invalid password or token.")
+			return render_template("settings/security.html", v=v, error="Invalid token.")
 
 		v.mfa_secret = secret
 		g.db.add(v)
@@ -509,12 +509,12 @@ def settings_security_post(v):
 
 	if request.values.get("2fa_remove"):
 		if not v.verifyPass(request.values.get('password')):
-			return render_template("settings/security.html", v=v, error="Invalid password or token.")
+			return render_template("settings/security.html", v=v, error="Invalid password.")
 
 		token = request.values.get("2fa_remove")
 
 		if not v.validate_2fa(token):
-			return render_template("settings/security.html", v=v, error="Invalid password or token.")
+			return render_template("settings/security.html", v=v, error="Invalid token.")
 
 		v.mfa_secret = None
 		g.db.add(v)
