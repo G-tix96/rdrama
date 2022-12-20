@@ -409,6 +409,7 @@ def award_thing(v, thing_type, id):
 			award_thing_event(v, kind, author)
 		if kind == "grinch":
 			badge_grant(badge_id=91, user=author)
+			author.event_music = False
 
 
 	if author.received_award_count: author.received_award_count += 1
