@@ -231,7 +231,7 @@ class Comment(Base):
 				'is_bot': self.is_bot,
 				'flags': flags,
 				'author': '👻' if self.ghost else self.author.json,
-				'replies': [x.json(db=db) for x in self.replies(sort="old", v=None, db=db)]
+				# 'replies': [x.json(db=db) for x in self.replies(sort="old", v=None, db=db)] # WORKER TIMEOUTS ON BUGTHREAD
 				}
 
 		if self.level >= 2: data['parent_comment_id'] = self.parent_comment_id
