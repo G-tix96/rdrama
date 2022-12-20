@@ -923,7 +923,7 @@ if SITE_NAME == 'rDrama':
 		'bitchute.com',
 		'4chan.org',
 		'givesendgo.com',
-		'thepinkpill.com',
+		'thepinkpill.co',
 		'ovarit.com',
 		'lolcow.farm',
 		'truthsocial.com',
