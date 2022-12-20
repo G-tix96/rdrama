@@ -11,7 +11,6 @@ class EventUser(Base):
 	__tablename__ = "event_users"
 	id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 	user = relationship("User", primaryjoin="EventUser.id == User.id")
-	event_music = Column(Boolean, default=True, nullable=False)
 
 	# start event specific columns
 	event_darkmode = Column(Boolean, default=default_darkmode, nullable=False)

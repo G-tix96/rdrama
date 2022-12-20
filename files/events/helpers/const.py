@@ -69,6 +69,16 @@ EVENT_AWARDS = {
 		"deflectable": False,
 		"cosmetic": True
 	},
+	"grinch": {
+		"kind": "grinch",
+		"title": "Grinch",
+		"description": "",
+		"icon": "fas fa-angry",
+		"color": "text-green-500",
+		"price": 1000,
+		"deflectable": True,
+		"cosmetic": False
+	},
 }
 
 """

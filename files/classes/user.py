@@ -1135,3 +1135,11 @@ class User(Base):
 	@lazy
 	def shadowbanner(self):
 		return g.db.query(User.username).filter_by(id=self.shadowbanned).one()[0]
+
+	if HOLIDAY_EVENT:
+		@property
+		@lazy
+		def event_music(self):
+			if SITE_NAME != 'rDrama': return False
+			if self.has_badge(91): return False
+			return True 
