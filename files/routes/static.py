@@ -84,7 +84,9 @@ def sidebar(v:Optional[User]):
 @app.get("/stats")
 @auth_required
 def participation_stats(v:User):
+	print(cache.get(f'{SITE}_stats'), flush=True)
 	stats = cache.get(f'{SITE}_stats') or {}
+	print(stats, flush=True)
 	if v.client: return stats
 	return render_template("stats.html", v=v, title="Content Statistics", data=stats)
 
