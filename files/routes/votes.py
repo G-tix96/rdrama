@@ -20,7 +20,11 @@ def vote_info_get(v, link):
 		if (thing.author.shadowbanned
 				and not (v and v.admin_level >= PERMS['USER_SHADOWBAN'])):
 			thing_id = g.db.query(Submission.id) \
-				.filter_by(upvotes=thing.upvotes, downvotes=thing.downvotes) \
+				.filter(
+					Submission.upvotes == thing.upvotes,
+					Submission.downvotes == thing.downvotes,
+					Submission.created_utc >= thing.created_utc,
+				) \
 				.order_by(Submission.id).first()[0]
 		else: thing_id = thing.id
 
@@ -38,7 +42,11 @@ def vote_info_get(v, link):
 		if (thing.author.shadowbanned
 				and not (v and v.admin_level >= PERMS['USER_SHADOWBAN'])):
 			thing_id = g.db.query(Comment.id) \
-				.filter_by(upvotes=thing.upvotes, downvotes=thing.downvotes) \
+				.filter(
+					Comment.upvotes == thing.upvotes,
+					Comment.downvotes == thing.downvotes,
+					Comment.created_utc >= thing.created_utc,
+				) \
 				.order_by(Comment.id).first()[0]
 		else: thing_id = thing.id
 
