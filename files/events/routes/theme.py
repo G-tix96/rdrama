@@ -13,4 +13,4 @@ def event_darkmode(v):
 
 	g.db.add(user)
 
-	return {}
+	return {"message": "Dark mode toggled successfully!"}
