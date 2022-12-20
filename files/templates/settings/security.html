@@ -214,6 +214,7 @@
 
 						<label for="2fa_input_password">Password</label>
 						<input autocomplete="off" type="password" class="form-control mb-2" id="2fa_input_password" name="password" oninput="document.getElementById('toggle2faButton').disabled=false" required>
+						{% set action = "Enable" %}
 					{% else %}
 						<div class="alert alert-warning" role="alert">
 							<i class="fas fa-info-circle"></i>
@@ -225,11 +226,12 @@
 
 						<label for="2fa_input">6-digit code</label>
 						<input autocomplete="off" type="text" class="form-control mb-2" id="2fa_input" name="2fa_remove" placeholder="# # # # # #" oninput="document.getElementById('toggle2faButton').disabled=false" required>
+						{% set action = "Disable" %}
 					{% endif %}
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">Cancel</button>
-					<input autocomplete="off" id="toggle2faButton" class="btn btn-primary" type="submit" onclick="disable(this)" value="Enable 2-step login" disabled>
+					<input autocomplete="off" id="toggle2faButton" class="btn btn-primary" type="submit" onclick="disable(this)" value="{{action}} 2-step login" disabled>
 				</div>
 			</form>
 		</div>
