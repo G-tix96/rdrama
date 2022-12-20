@@ -20,12 +20,14 @@ def _populate_awards():
 	AWARDS_ENABLED.update(temp)
 
 	for award in EVENT_AWARDS:
-		if award == 'grinch' and SITE_NAME != 'rDrama': continue
 		EVENT_AWARDS[award]['ghost'] = EVENT_AWARDS[award]['cosmetic']
 		if award in AWARDS_DISABLED:
 			AWARDS_DISABLED.remove(award)
 
 	AWARDS.update(EVENT_AWARDS)
+
+	if SITE_NAME != 'rDrama':
+		del AWARDS_ENABLED['grinch']
 
 def event_init():
 	_build_table()
