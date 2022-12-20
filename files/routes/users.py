@@ -595,7 +595,7 @@ def mfa_qr(v:User, secret:str):
 	qr = qrcode.QRCode(
 		error_correction=qrcode.constants.ERROR_CORRECT_L
 	)
-	qr.add_data(x.provisioning_uri(v.username, issuer_name=SITE_NAME))
+	qr.add_data(x.provisioning_uri(v.username, issuer_name=SITE))
 	img = qr.make_image(fill_color="#000000", back_color="white")
 
 	mem = io.BytesIO()
