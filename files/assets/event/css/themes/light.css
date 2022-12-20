@@ -12,6 +12,6 @@ blockquote {
 	background-color: #ff7e7e !important;
 	border-left: 10px solid #ff7e7e !important;
 }
-a {
+blockquote a {
     color: #15de59;
 }
