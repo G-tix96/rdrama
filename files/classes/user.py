@@ -139,7 +139,9 @@ class User(Base):
 	rainbow = Column(Integer)
 	spider = Column(Integer, default=0)
 	if HOLIDAY_EVENT:
-		event_music = Column(Boolean, default=True, nullable=False)
+		if SITE_NAME == 'rDrama': default_event_music = True
+		else: default_event_music = False
+		event_music = Column(Boolean, default=default_event_music, nullable=False)
 
 	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
 	subscriptions = relationship("Subscription", back_populates="user")
