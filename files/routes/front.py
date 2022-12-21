@@ -208,7 +208,7 @@ def all_comments(v:User):
 
 
 @cache.memoize(timeout=86400)
-def comment_idlist(v=None, page=1, sort="new", t="all", gt=0, lt=0, site=None):
+def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0, site=None):
 	comments = g.db.query(Comment.id) \
 		.outerjoin(Comment.post) \
 		.filter(
