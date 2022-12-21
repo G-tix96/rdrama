@@ -34,7 +34,7 @@ def check_for_alts(current:User, include_current_session=True):
 	past_accs = set(session.get("history", [])) if include_current_session else set()
 
 	def add_alt(user1:int, user2:int):
-		if SITE == 'rdrama.net' and (user1 == 3161 or user2 == 3161): return
+		if SITE == 'rdrama.net' and (user1 in (253,3161) or user2 in (253,3161)): return
 		li = [user1, user2]
 		existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
 		if not existing:
