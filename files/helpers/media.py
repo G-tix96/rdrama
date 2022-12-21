@@ -156,7 +156,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 		return None
 
 	if len(params) > 2:
-		params.append(filename)
+		params.extend(["-strip", "-auto-orient", filename])
 		try:
 			subprocess.run(params, timeout=MAX_IMAGE_CONVERSION_TIMEOUT)
 		except subprocess.TimeoutExpired:
@@ -164,6 +164,8 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 				abort(413, ("An uploaded image took too long to convert to WEBP. "
 							"Please convert it to WEBP elsewhere then upload it again."))
 			return None
+	else:
+		subprocess.run(["exiv2", "rm", filename], timeout=MAX_IMAGE_CONVERSION_TIMEOUT)
 
 	if resize:
 		if os.stat(filename).st_size > MAX_IMAGE_SIZE_BANNER_RESIZED_MB * 1024 * 1024:
@@ -213,7 +215,5 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 		size=os.stat(filename).st_size
 	)
 	db.add(media)
-
-	subprocess.run(["exiv2", "rm", filename], timeout=MAX_IMAGE_CONVERSION_TIMEOUT)
 
 	return filename
