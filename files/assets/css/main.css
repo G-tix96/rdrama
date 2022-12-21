@@ -1561,12 +1561,6 @@ nav
 	width: 90%;
 }
 @media (min-width: 576px) {
-	.card-columns {
-		column-count: 3;
-		column-gap: 1.25rem;
-		orphans: 1;
-		widows: 1;
-	}
 	.card-columns .card {
 		display: inline-block;
 		width: 100%;
@@ -4878,17 +4872,11 @@ textarea {
 }
 }
 @media (min-width: 767.98px) {
-	.card-columns {
-		column-count: 4 !important;
-	}
 	.directory--link {
 		width: 30%;
 	}
 }
 @media (min-width: 992px) {
-	.card-columns {
-		column-count: 9 !important;
-	}
 	.directory--link {
 		width: 23%;
 		min-height: 17vh;
@@ -5297,13 +5285,13 @@ img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 
 .awards-wrapper > div {
 	cursor: pointer;
-	padding: 15px !important;
+	padding: 7px 3px !important;
 	text-align: center;
 	text-transform: none!important;
 }
 
 .awards-wrapper > div > i {
-	font-size: 25px;
+	font-size: 17px;
 }
 
 .awards-wrapper > div.disabled {
@@ -5314,10 +5302,6 @@ img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 	background-color: var(--primary)!important;
 }
 
-
-.award-columns {
-	column-count: 2;
-}
 
 .awardmodal {
 	max-width: 90% !important;
@@ -5871,16 +5855,6 @@ audio, video {
 .directory--link--description {
 	font-size: 0.9rem;
 	color: var(--black);
-}
-
-.gif-categories {
-	column-count: 4 !important
-}
-
-@media (max-width: 768px) {
-	.gif-categories {
-		column-count: 1 !important
-	}
 }
 
 g {
@@ -6438,12 +6412,12 @@ div.markdown {
 
 .award-name {
 	font-weight: bold;
-	font-size: 14px;
+	font-size: 12px;
 	color:#E1E1E1;
 }
 
 .award-owned {
-	font-size: 14px;
+	font-size: 12px;
 }
 
 @media (max-width: 768px) {
@@ -6492,4 +6466,57 @@ div.markdown {
 }
 .btn {
     overflow: hidden;
+}
+
+.gif-categories {
+	column-count: 1 !important
+}
+@media (min-width: 768px) {
+	.gif-categories {
+		column-count: 4 !important
+	}
+}
+@media (min-width: 1200px) {
+	.gif-categories {
+		column-count: 5 !important
+	}
+}
+@media (min-width: 1700px) {
+	.gif-categories {
+		column-count: 6 !important
+	}
+}
+
+.award-columns {
+	column-count: 2;
+}
+@media (min-width: 576px) {
+	.award-columns {
+		column-count: 3;
+	}
+}
+@media (min-width: 580px) {
+	.award-columns {
+		column-count: 4 !important;
+	}
+}
+@media (min-width: 643px) {
+	.award-columns {
+		column-count: 5 !important;
+	}
+}
+@media (min-width: 822px) {
+	.award-columns {
+		column-count: 6 !important;
+	}
+}
+@media (min-width: 992px) {
+	.award-columns {
+		column-count: 9 !important;
+	}
+}
+@media (min-width: 1500px) {
+	.award-columns {
+		column-count: 11 !important;
+	}
 }
