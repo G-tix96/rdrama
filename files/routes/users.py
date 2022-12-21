@@ -1156,7 +1156,7 @@ def subscribed_posts(v:User, username):
 @app.post("/fp/<fp>")
 @auth_required
 def fp(v:User, fp):
-	if SITE == 'rdrama.net' and v.id in (253,3161):
+	if SITE == 'rdrama.net' and v.id in DONT_LINK_ALTS:
 		return '', 204
 
 	v.fp = fp
@@ -1168,7 +1168,7 @@ def fp(v:User, fp):
 			print(f'{v.username}: email', flush=True)
 			users += alts
 	for u in users:
-		if SITE == 'rdrama.net' and u.id in (253,3161): continue
+		if SITE == 'rdrama.net' and u.id in DONT_LINK_ALTS: continue
 		li = [v.id, u.id]
 		existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
 		if existing: continue

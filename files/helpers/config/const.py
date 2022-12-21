@@ -495,6 +495,7 @@ BADGE_BLACKLIST = { # only grantable by AEVANN_ID and SNAKES_ID
 }
 
 NOTIFIED_USERS = {}
+DONT_LINK_ALTS = {}
 
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
@@ -570,6 +571,8 @@ if SITE == 'rdrama.net':
 	}
 
 	ANTISPAM_BYPASS_IDS = {1703, 13427}
+
+	DONT_LINK_ALTS = {253,3161,11163}
 
 	BOOSTED_HOLES = {
 		'furry',
