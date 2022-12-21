@@ -1934,7 +1934,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyfoidghost',2,'foid ghost frozenchosen womanundead halloween',1666378137),
 ('marseyfoidretard',2,'woman blonde stupid dumb idiot froyo frozenchosen',1663161600),
 ('marseyforevertiedup',2,'fetish bondage autism rope',NULL),
-('marseyfortuneteller',2,'fortune teller gypsy predict future clarivoyent crystal jewelry mystic',NULL),
+('marseyfortuneteller',2,'fortune teller gypsy predict future clarivoyent crystal jewelry mystic orb witch gypsie medium dead',NULL),
 ('marseyfoucault',2,'philosophy history foucault postmodern',NULL),
 ('marseyfox',2,'fursona furry fursuit kitsune',NULL),
 ('marseyfranklin',2,'franklin thinking constitution founding fathers',NULL),
