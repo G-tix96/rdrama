@@ -235,24 +235,24 @@
 		</div>
 	{% endif %}
 
-	{% if p.is_image and not p.over_18 and ((v and v.cardview) or (not v and CARD_VIEW)) %}
+	{% if p.is_image and not p.over_18 and ((v and v.cardview)) %}
 		<div class="ml-5 mt-3 mb-4">
 			<a {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
 				<img loading="lazy" data-src="{{p.realurl(v)}}" src="/i/l.webp" class="img-fluid" style="max-height:20rem" alt="Unable to load image">
 			</a>
 		</div>
 	{% elif p.is_video %}
-		<div id="video-{{p.id}}" class="ml-5 {% if p.over_18 or not ((v and v.cardview) or (not v and CARD_VIEW)) %}d-none{% endif %} mt-4">
+		<div id="video-{{p.id}}" class="ml-5 {% if p.over_18 or not ((v and v.cardview)) %}d-none{% endif %} mt-4">
 			<p class="resizable">
 				<video {% if p.thumburl %}poster="{{p.thumb_url}}"{% endif %} id="video2-{{p.id}}" controls preload="none" src="{{p.realurl(v)}}"></video>
 			</p>
 		</div>
 	{% elif p.is_audio %}
-		<div id="video-{{p.id}}" class="ml-5 {% if p.over_18 or not ((v and v.cardview) or (not v and CARD_VIEW)) %}d-none{% endif %} mt-4">
+		<div id="video-{{p.id}}" class="ml-5 {% if p.over_18 or not ((v and v.cardview)) %}d-none{% endif %} mt-4">
 			<audio id="video2-{{p.id}}" controls preload="none" src="{{p.realurl(v)}}"></audio>
 		</div>
 	{% elif p.is_youtube %}
-		<div id="video-{{p.id}}" class="{% if p.over_18 or not ((v and v.cardview) or (not v and CARD_VIEW)) %}d-none{% endif %} mt-3 mb-4 youtube_embed">
+		<div id="video-{{p.id}}" class="{% if p.over_18 or not ((v and v.cardview)) %}d-none{% endif %} mt-3 mb-4 youtube_embed">
 			{{p.embed_url | safe}}
 		</div>
 	{% endif %}
