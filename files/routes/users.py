@@ -208,6 +208,8 @@ def chuds(v:User):
 	return render_template("chuds.html", v=v, users=users)
 
 def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hates:bool):
+	if username == 'Snappy':
+		abort(403, "For performance reasons, you can't see Snappy statistics!")
 	vote_str = 'votes'
 	simps_haters = 'voters'
 	vote_name = 'Neutral'
