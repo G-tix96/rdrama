@@ -34,7 +34,6 @@ def check_for_alts(current:User, include_current_session=True):
 	past_accs = set(session.get("history", [])) if include_current_session else set()
 
 	def add_alt(user1:int, user2:int):
-		if SITE == 'rdrama.net' and (user1 in DONT_LINK_ALTS or user2 in DONT_LINK_ALTS): return
 		li = [user1, user2]
 		existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
 		if not existing:
@@ -71,11 +70,11 @@ def check_for_alts(current:User, include_current_session=True):
 	g.db.flush()
 	for u in current.alts_unique:
 		if u._alt_deleted: continue
-		if u.shadowbanned:
+		if u.shadowbanned and current.id not in DONT_SHADOWBAN:
 			current.shadowbanned = u.shadowbanned
 			current.ban_reason = u.ban_reason
 			g.db.add(current)
-		elif current.shadowbanned:
+		elif current.shadowbanned and u.id not in DONT_SHADOWBAN:
 			u.shadowbanned = current.shadowbanned
 			u.ban_reason = current.ban_reason
 			g.db.add(u)
