@@ -1478,7 +1478,7 @@ def ban_domain(v):
 	return redirect("/admin/banned_domains/")
 
 
-@app.post("/admin/unban_domain/<domain>")
+@app.post("/admin/unban_domain/<path:domain>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['DOMAINS_BAN'])
 def unban_domain(v:User, domain):

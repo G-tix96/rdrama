@@ -5,7 +5,6 @@
 
 <script>
 	function unbanDomain(t, domain) {
-		domain = encodeURIComponent(domain);
 		postToastSwitch(t,'/admin/unban_domain/' + domain);
 		t.parentElement.parentElement.remove();
 	}
