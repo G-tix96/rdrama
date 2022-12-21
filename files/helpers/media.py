@@ -140,7 +140,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 
 	try:
 		with Image.open(filename) as i:
-			params = ["magick", filename, filename, "-coalesce", "-strip", "-auto-orient", "-quality", "88"]
+			params = ["magick", filename, "-coalesce", "-quality", "88", "-strip", "-auto-orient"]
 			if trim and len(list(Iterator(i))) == 1:
 				params.append("-trim")
 			if resize and i.width > resize:
@@ -154,6 +154,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 			abort(415)
 		return None
 
+	params.append(filename)
 	try:
 		subprocess.run(params, timeout=MAX_IMAGE_CONVERSION_TIMEOUT)
 	except subprocess.TimeoutExpired:
