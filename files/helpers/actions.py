@@ -301,43 +301,6 @@ def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_
 	n = Notification(comment_id=c2.id, user_id=v.id)
 	g.db.add(n)
 
-def execute_basedbot(c:Comment, level:int, body, post_target:post_target_type, v:User):
-	if SITE != "pcmemes.net": return
-	if not c.body.lower().startswith("based"): return
-	posting_to_submission = isinstance(post_target, Submission)
-	pill = based_regex.match(body)
-	if level == 1:
-		basedguy = get_account(post_target.author_id) if posting_to_submission else post_target
-	else:
-		basedguy = get_account(c.parent_comment.author_id)
-	basedguy.basedcount += 1
-	if pill:
-		if basedguy.pills: basedguy.pills += f", {pill.group(1)}"
-		else: basedguy.pills += f"{pill.group(1)}"
-	g.db.add(basedguy)
-
-	body2 = f"@{basedguy.username}'s Based Count has increased by 1. Their Based Count is now {basedguy.basedcount}."
-	if basedguy.pills: body2 += f"\n\nPills: {basedguy.pills}"
-
-	body_based_html = sanitize(body2)
-	c_based = Comment(author_id=BASEDBOT_ID,
-		parent_submission=post_target.id if posting_to_submission else None,
-		wall_user_id=post_target.id if not posting_to_submission else None,
-		distinguish_level=6,
-		parent_comment_id=c.id,
-		level=level+1,
-		is_bot=True,
-		body_html=body_based_html,
-		top_comment_id=c.top_comment_id,
-		ghost=c.ghost
-	)
-
-	g.db.add(c_based)
-	g.db.flush()
-
-	n = Notification(comment_id=c_based.id, user_id=v.id)
-	g.db.add(n)
-
 def execute_antispam_submission_check(title, v, url):
 	now = int(time.time())
 	cutoff = now - 60 * 60 * 24

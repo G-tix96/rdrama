@@ -85,7 +85,6 @@
 						<span id="profile--lastactive" class="ml-2">last active <span id="profile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--lastactive--time','{{u.last_active}}')">{{u.last_active_date}}</span></span>
 					{%- endif %}
 				</div>
-				{% if u.basedcount %}<p class="text-muted" id="profile--based">Based Count: {{u.basedcount}}</p>{% endif %}
 
 				{% if FEATURES['USERS_PROFILE_BODYTEXT'] -%}
 					{% if u.bio_html %}
@@ -335,10 +334,6 @@
 
 						<a href="/@{{u.username}}/following" class="font-weight-bold mr-2" id="profile-mobile--following" style="display:block">follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a>
 					{%- endif %}
-
-					{% if u.basedcount %}
-						<br><span id="profile-mobile--based">Based count: {{u.basedcount}}</span>
-					{% endif %}
 
 					<br><span id="profile-mobile--joined">joined <span id="profile-mobile--joined--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile-mobile--joined--time','{{u.created_utc}}')" class="font-weight-bold">{{u.created_date}}</span></span>
 

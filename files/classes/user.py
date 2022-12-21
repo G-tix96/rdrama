@@ -37,10 +37,6 @@ from .userblock import *
 class User(Base):
 	__tablename__ = "users"
 
-	if SITE == "pcmemes.net":
-		basedcount = Column(Integer, default=0)
-		pills = deferred(Column(String, default=""))
-
 	id = Column(Integer, primary_key=True)
 	username = Column(String)
 	namecolor = Column(String, default=DEFAULT_COLOR)

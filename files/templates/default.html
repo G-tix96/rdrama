@@ -16,8 +16,6 @@
 			{% elif SITE_NAME == "rDrama" %}
 				{% set href = "https://secure.transequality.org/site/Donation2?df_id=1480" %}
 				{% set expand = false %}
-			{% elif SITE_NAME == 'PCM' %}{# special case: christmas #}
-				{% set src = "/i/PCM/banners_xmas22/" ~ listdir('files/assets/images/PCM/banners_xmas22')|random() %}
 			{% endif %}
 
 			{% if SITE_NAME == "WPD" %}

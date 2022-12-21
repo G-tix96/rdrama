@@ -336,10 +336,6 @@ def sign_up_post(v:Optional[User]):
 	elif CARP_ID:
 		send_notification(CARP_ID, f"A new user - @{new_user.username} - has signed up!")
 
-	if SITE == 'pcmemes.net':
-		for id in [1706, 1550, 1701]:
-			send_notification(id, f"A new user - @{new_user.username} - has signed up!")
-
 	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
 	if redir:
 		if is_site_url(redir) or redir not in NO_LOGIN_REDIRECT_URLS:

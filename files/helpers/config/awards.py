@@ -605,41 +605,6 @@ if SITE_NAME != 'rDrama':
 	}
 	AWARDS.update(EXTRA_AWARDS)
 
-if SITE_NAME == 'PCM':
-	PCM_AWARDS = {
-		"croag": {
-			"kind": "croag",
-			"title": "Croag",
-			"description": "Summons Croag on the post.",
-			"icon": "fas fa-head-side",
-			"color": "text-gold",
-			"price": 150,
-			"deflectable": False,
-			"cosmetic": True
-		},
-		"toe": {
-			"kind": "toe",
-			"title": "Toe Hype",
-			"description": "Summons Blade's toe on the post.",
-			"icon": "fas fa-socks",
-			"color": "text-blue",
-			"price": 150,
-			"deflectable": False,
-			"cosmetic": True
-		},
-		"crab": {
-			"kind": "crab",
-			"title": "Crab",
-			"description": "Rave time!",
-			"icon": "fas fa-crab",
-			"color": "text-danger",
-			"price": 4000,
-			"deflectable": False,
-			"cosmetic": True
-		}
-	}
-	AWARDS.update(PCM_AWARDS)
-
 # Permit only cosmetics and pin/unpin on ghosted things.
 for award in AWARDS:
 	AWARDS[award]['ghost'] = AWARDS[award]['cosmetic']
@@ -715,11 +680,6 @@ for k, val in temp:
 if SITE_NAME != 'rDrama':
 	AWARDS_DISABLED.append('progressivestack')
 
-if SITE_NAME == 'PCM':
-	# Previous set of disabled, changed temporarily by request 2022-10-17
-	#AWARDS_DISABLED.extend(['ban','pizzashill','marsey','bird','grass','chud','unblockable'])
-	AWARDS_DISABLED.extend(['unblockable'])
-	AWARDS_DISABLED.remove('ghost')
 if not FEATURES['MARSEYBUX']:
 	AWARDS_DISABLED.append('benefactor')
 

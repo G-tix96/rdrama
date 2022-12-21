@@ -10,7 +10,7 @@
 {% endmacro %}
 
 {% if p.award_count("wholesome", v) %}
-	{% set wholesome = '/i/wholesome.webp' if SITE_NAME == 'PCM' else '/e/marseywholesome.webp' %}
+	{% set wholesome = '/e/marseywholesome.webp' %}
 	{{ stackable_award('wholesome', wholesome, ':#marseywholesome:') }}
 {% endif %}
 
@@ -73,10 +73,6 @@
 			animation-timing-function: linear !important;
 		}
 	</style>
-{% endif %}
-
-{% if SITE_NAME == 'PCM' %}
-	{% include "awards_PCM.html" %}
 {% endif %}
 
 </div>

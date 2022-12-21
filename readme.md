@@ -1,4 +1,4 @@
-This code runs https://rdrama.net, https://pcmemes.net and https://watchpeopledie.tv
+This code runs https://rdrama.net and https://watchpeopledie.tv
 
 # Installation (Windows/Linux/MacOS)
 

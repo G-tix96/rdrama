@@ -33,6 +33,4 @@ if KOFI_TOKEN:
     from .transactions import *
 from .sub_logs import *
 from .media import *
-if FEATURES['STREAMERS']:
-    from .streamers import *
 from .push_subscriptions import *

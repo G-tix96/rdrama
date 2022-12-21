@@ -29,8 +29,7 @@ def _initialize_marseys(db:scoped_session):
 
 def _initialize_snappy_marseys_and_quotes():
 	global SNAPPY_MARSEYS, SNAPPY_QUOTES
-	if SITE_NAME != 'PCM':
-		SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
+	SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
 
 	filename = f"snappy_{SITE_NAME}.txt"
 	if HOLIDAY_EVENT: filename = f"snappy_event.txt"

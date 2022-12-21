@@ -166,7 +166,7 @@ def comment(v:User):
 					if post_target.id == SIDEBAR_THREAD:
 						process_sidebar_or_banner('sidebar', 400)
 					elif post_target.id == BANNER_THREAD:
-						banner_width = 1200 if not SITE_NAME == 'PCM' else 0
+						banner_width = 1200
 						process_sidebar_or_banner('banners', banner_width)
 					elif post_target.id == BADGE_THREAD:
 						try:
@@ -225,9 +225,7 @@ def comment(v:User):
 
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
-	is_bot = (v.client is not None
-		and v.id not in PRIVILEGED_USER_BOTS
-		or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
+	is_bot = v.client is not None and v.id not in PRIVILEGED_USER_BOTS
 
 	c = Comment(author_id=v.id,
 				parent_submission=post_target.id if posting_to_submission else None,
@@ -254,8 +252,6 @@ def comment(v:User):
 
 	process_poll_options(c, CommentOption, options, 0, "Poll", g.db)
 	process_poll_options(c, CommentOption, choices, 1, "Poll", g.db)
-
-	execute_basedbot(c, level, body, post_target, v)
 
 	if post_target.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and not (posting_to_submission and post_target.sub == 'chudrama'):
 		c.is_banned = True

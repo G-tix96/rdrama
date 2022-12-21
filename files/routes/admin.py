@@ -20,15 +20,6 @@ from files.routes.wrappers import *
 
 from .front import frontlist
 
-@app.post('/kippy')
-@admin_level_required(PERMS['PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES'])
-def kippy(v):
-	if SITE != 'pcmemes.net': abort(404)
-	kippy = get_account(KIPPY_ID)
-	kippy.pay_account('marseybux', 50000)
-	g.db.add(kippy)
-	return '50k marseybux printed!'
-
 @app.get('/admin/loggedin')
 @admin_level_required(PERMS['VIEW_ACTIVE_USERS'])
 def loggedin_list(v):

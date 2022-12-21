@@ -45,7 +45,5 @@ if FEATURES['HATS']:
 	from .hats import *
 if FEATURES['ASSET_SUBMISSIONS']:
 	from .asset_submissions import *
-if FEATURES['STREAMERS']:
-	from .streamers import *
 from .special import *
 from .push_notifs import *

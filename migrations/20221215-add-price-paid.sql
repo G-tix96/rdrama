@@ -67,13 +67,9 @@ UPDATE award_relationships SET price_paid = 20000 WHERE kind = 'pause';
 UPDATE award_relationships SET price_paid = 40000 WHERE kind = 'unpausable';
 UPDATE award_relationships SET price_paid = 50000 WHERE kind = 'alt';
 UPDATE award_relationships SET price_paid = 50000 WHERE kind = 'checkmark';
--- wpd and pcm
+-- wpd
 UPDATE award_relationships SET price_paid = 400 WHERE kind = 'owoify';
 UPDATE award_relationships SET price_paid = 400 WHERE kind = 'rainbow';
--- pcm
-UPDATE award_relationships SET price_paid = 150 WHERE kind = 'croag';
-UPDATE award_relationships SET price_paid = 150 WHERE kind = 'toe';
-UPDATE award_relationships SET price_paid = 4000 WHERE kind = 'crab';
 -- house awards
 UPDATE award_relationships SET price_paid = 400 WHERE kind = 'Furry';
 UPDATE award_relationships SET price_paid = 400 WHERE kind = 'Femboy';

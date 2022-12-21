@@ -34,7 +34,7 @@
 												<div onclick="loadEmojis('post-title')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn-2" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>												
 												<div id="urlblock">
 														<label for="URL" class="mt-3">URL</label>
-														<input autocomplete="off" class="form-control" id="post-url" aria-describedby="URLHelp" name="url" type="url" placeholder="Optional if you have text." value="{{request.values.get('url','')}}" required oninput="checkForRequired();hide_image();savetext();checkRepost(){% if SITE_NAME != 'PCM' %};autoSuggestTitle(){% endif %}">
+														<input autocomplete="off" class="form-control" id="post-url" aria-describedby="URLHelp" name="url" type="url" placeholder="Optional if you have text." value="{{request.values.get('url','')}}" required oninput="checkForRequired();hide_image();savetext();checkRepost();autoSuggestTitle()">
 														<small id="system" class="form-text text-danger"></small>
 												</div>
 												<div id="image-upload-block">
