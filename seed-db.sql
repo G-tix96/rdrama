@@ -732,6 +732,7 @@ INSERT INTO public.hat_defs VALUES (152, 'Kung Lao', 'Why did I make a Kung Lao 
 INSERT INTO public.hat_defs VALUES (153, 'Top Hat (steampunk)', 'Like a regular top hat but with goggles and gears', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (154, 'Brain Hat', 'Peter Griffin''s dog', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (155, 'The TED_SIMP', 'Wear this hat to express your undying adoration for carp', 2, 500, NULL, 1662167687);
+
 INSERT INTO public.hat_defs VALUES (667, 'The Orb', 'Ponder into one''s soul', 2, 500, NULL, 1663279906);
 INSERT INTO public.hat_defs VALUES (652, 'Leather Helmet', 'Wow, what a n00b', 2, 500, NULL, 1663133381);
 INSERT INTO public.hat_defs VALUES (669, 'Backwards cap 2', 'lookin'' cool', 2, 500, NULL, 1663280007);
@@ -1202,7 +1203,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1123, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1129, true);
 
 
 --
