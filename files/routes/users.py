@@ -453,9 +453,6 @@ def message2(v:User, username:str):
 
 	message = sanitize_raw_body(request.values.get("message"), False)
 	if not message: abort(400, "Message is empty!")
-	if 'linkedin.com' in message: abort(403, "This domain 'linkedin.com' is banned.")
-	if v.id != AEVANN_ID and ('discord.gg' in message or 'discord.com/invite/' in message or 'discordapp.com/invite/' in message):
-		abort(403, "Stop grooming!")
 
 	body_html = sanitize(message)
 
@@ -506,11 +503,6 @@ def message2(v:User, username:str):
 def messagereply(v:User):
 	body = sanitize_raw_body(request.values.get("body"), False)
 	if not body and not request.files.get("file"): abort(400, "Message is empty!")
-
-	if 'linkedin.com' in body: abort(403, "This domain 'linkedin.com' is banned")
-
-	if v.id != AEVANN_ID and ('discord.gg' in body or 'discord.com/invite/' in body or 'discordapp.com/invite/' in body):
-		abort(403, "Stop grooming!")
 
 	id = request.values.get("parent_id")
 	parent = get_comment(id, v=v)

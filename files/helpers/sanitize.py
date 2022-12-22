@@ -400,7 +400,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	for x in banned_domains:
 		for y in domain_list:
 			if y.startswith(x.domain):
-				abort(403, description=f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
+				abort(403, f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
 
 	if '<pre>' not in sanitized and not sidebar:
 		sanitized = sanitized.replace('\n','')

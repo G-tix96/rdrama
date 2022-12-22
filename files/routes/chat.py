@@ -85,9 +85,6 @@ def speak(data, v):
 	
 	if v.shadowbanned or not execute_blackjack(v, None, text, "chat"):
 		emit('speak', data)
-	elif ('discord.gg' in text or 'discord.com' in text or 'discordapp.com' in text):
-		# Follows same logic as in users.py:message2/messagereply; TODO: unify?
-		emit('speak', data)
 	elif recipient:
 		if user_ids_to_socket_ids.get(recipient):
 			recipient_sid = user_ids_to_socket_ids[recipient]
