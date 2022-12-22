@@ -133,7 +133,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		target.author.truescore += coin_delta
 		g.db.add(target.author)
 
-		real = new != 1 or (not alt and v.is_votes_real)
+		real = new == -1 or (not alt and v.is_votes_real)
 		vote = None
 		if vote_cls == Vote:
 			vote = Vote(user_id=v.id,
