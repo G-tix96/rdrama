@@ -3,7 +3,7 @@ from files.helpers.config.const import *
 from files.helpers.get import *
 from files.routes.wrappers import *
 from files.__main__ import app, limiter
-
+from files.routes.routehelpers import get_alt_graph
 
 @app.get("/votes/<link>")
 @auth_required
@@ -89,10 +89,8 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if v.id == target.author.id:
 		coin_delta = 0
 
-	v_alts_id = [x.id for x in v.get_alt_graph(self.id)]
-
 	alt = False
-	if target.author.id in v.alt_ids or v.id in target.author.alt_ids:
+	if target.author.id in [x.id for x in get_alt_graph(v.id)]:
 		coin_delta = -1
 		alt = True
 
@@ -135,7 +133,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		target.author.truescore += coin_delta
 		g.db.add(target.author)
 
-		real = alt or new != 1 or v.is_votes_real
+		real = new != 1 or (not alt and v.is_votes_real)
 		vote = None
 		if vote_cls == Vote:
 			vote = Vote(user_id=v.id,
