@@ -31,7 +31,6 @@ def validate_formkey(u:User, formkey:Optional[str]) -> bool:
 
 @cache.memoize(timeout=604800)
 def get_alt_graph(uid:int) -> List[User]:
-	print(uid, flush=True)
 	alt_graph_cte = g.db.query(literal(uid).label('user_id')).select_from(Alt).cte('alt_graph', recursive=True)
 
 	alt_graph_cte_inner = g.db.query(
