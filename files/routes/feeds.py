@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 
 from yattag import Doc
 
@@ -48,12 +48,12 @@ def feeds_user(sort='hot', t='all'):
 
 				with tag("updated"):
 					if (post.edited_utc):
-						text(datetime.utcfromtimestamp(post.edited_utc).isoformat()+"Z")
+						text(datetime.datetime.utcfromtimestamp(post.edited_utc).isoformat()+"Z")
 					else:
-						text(datetime.utcfromtimestamp(post.created_utc).isoformat()+"Z")
+						text(datetime.datetime.utcfromtimestamp(post.created_utc).isoformat()+"Z")
 
 				with tag("published"):
-					text(datetime.utcfromtimestamp(post.created_utc).isoformat()+"Z")
+					text(datetime.datetime.utcfromtimestamp(post.created_utc).isoformat()+"Z")
 				
 				with tag("author"):
 					with tag("name"):
