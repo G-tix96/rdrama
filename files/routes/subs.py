@@ -625,6 +625,8 @@ def hole_pin(v:User, pid):
 	)
 	g.db.add(ma)
 
+	cache.delete_memoized(frontlist)
+
 	return {"message": f"Post pinned to /h/{p.sub} successfully!"}
 
 @app.post("/hole_unpin/<pid>")
@@ -650,6 +652,8 @@ def hole_unpin(v:User, pid):
 		target_submission_id=p.id
 	)
 	g.db.add(ma)
+
+	cache.delete_memoized(frontlist)
 
 	return {"message": f"Post unpinned from /h/{p.sub} successfully!"}
 
