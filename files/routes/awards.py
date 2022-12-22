@@ -275,7 +275,7 @@ def award_thing(v, thing_type, id):
 		g.db.add(thing)
 	elif kind == "agendaposter":
 		if thing_type == 'post' and thing.sub == 'chudrama' \
-			or thing_type == 'comment' and thing.post.sub == 'chudrama':
+			or thing_type == 'comment' and thing.post and thing.post.sub == 'chudrama':
 			abort(403, "You can't give the chud award in /h/chudrama")
 
 		if author.marseyawarded:
