@@ -14,22 +14,15 @@ def vote_info_get(v, link):
 		else: abort(400)
 	except: abort(400)
 
-	if thing.ghost and v.id != AEVANN_ID: abort(403)
+	if thing.ghost and v.id != AEVANN_ID:
+		abort(403)
+
+	if True or thing.author.shadowbanned and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
+		abort(500)
 
 	if isinstance(thing, Submission):
-		if (thing.author.shadowbanned
-				and not (v and v.admin_level >= PERMS['USER_SHADOWBAN'])):
-			thing_id = g.db.query(Submission.id) \
-				.filter(
-					Submission.upvotes == thing.upvotes,
-					Submission.downvotes == thing.downvotes,
-					Submission.created_utc >= thing.created_utc,
-				) \
-				.order_by(Submission.id).first()[0]
-		else: thing_id = thing.id
-
 		query = g.db.query(Vote).join(Vote.user).filter(
-			Vote.submission_id == thing_id,
+			Vote.submission_id == thing.id,
 		).order_by(Vote.created_utc)
 
 		if not v.can_see_shadowbanned:
@@ -39,19 +32,8 @@ def vote_info_get(v, link):
 		downs = query.filter(Vote.vote_type == -1).all()
 
 	elif isinstance(thing, Comment):
-		if (thing.author.shadowbanned
-				and not (v and v.admin_level >= PERMS['USER_SHADOWBAN'])):
-			thing_id = g.db.query(Comment.id) \
-				.filter(
-					Comment.upvotes == thing.upvotes,
-					Comment.downvotes == thing.downvotes,
-					Comment.created_utc >= thing.created_utc,
-				) \
-				.order_by(Comment.id).first()[0]
-		else: thing_id = thing.id
-
 		query = g.db.query(CommentVote).join(CommentVote.user).filter(
-			CommentVote.comment_id == thing_id,
+			CommentVote.comment_id == thing.id,
 		).order_by(CommentVote.created_utc)
 
 		if not v.can_see_shadowbanned:
