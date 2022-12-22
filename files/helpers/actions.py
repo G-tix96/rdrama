@@ -458,7 +458,7 @@ def execute_antispam_comment_check(body:str, v:User):
 	g.db.commit()
 	abort(403, "Too much spam!")
 
-def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], body, type:str):
+def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], body, type:str) -> bool:
 	if not get_setting("under_siege"): return True
 	if v.age < UNDER_SIEGE_AGE_THRESHOLD and not v.admin_level >= PERMS['SITE_BYPASS_UNDER_SIEGE_MODE']:
 		v.shadowbanned = AUTOJANNY_ID

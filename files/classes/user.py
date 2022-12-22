@@ -1,11 +1,11 @@
 import random
 from operator import *
-from typing import Any, Union
+from typing import Callable, Union
 
 import pyotp
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import aliased, deferred
-from sqlalchemy.sql import func
+from sqlalchemy.orm import aliased, deferred, Query
+from sqlalchemy.sql import case, func, literal
 from sqlalchemy.sql.expression import not_, and_, or_
 from sqlalchemy.sql.sqltypes import *
 
@@ -470,19 +470,43 @@ class User(Base):
 	def age(self):
 		return int(time.time()) - self.created_utc
 
-	@property
 	@lazy
-	def alts_unique(self):
-		alts = []
-		for u in self.alts:
-			if u not in alts: alts.append(u)
-		return alts
+	def get_alt_graph(self, db:scoped_session, alt_filter:Optional[Callable[[Query], Query]]=None, **kwargs) -> Query:
+		'''
+		Gets the full graph of alts (optionally filtering `Alt` objects by criteria using a callable, 
+		such as by a date to only get alts from a certain date) as a query of users that can be filtered
+		further. This function filters alts marked as deleted by default, pass `include_deleted=True` to 
+		disable this behavior and include delinked alts.
+		'''
+		if not alt_filter: 
+			alt_filter = lambda q:q
+
+		if not kwargs.get('include_deleted', False):
+			deleted_filter = lambda q:q.filter(Alt.deleted == False)
+		else:
+			deleted_filter = lambda q:q
+
+		combined_filter = lambda q:deleted_filter(alt_filter(q))
+		
+		alt_graph_cte = db.query(literal(self.id).label('user_id')).select_from(Alt).cte('alt_graph', recursive=True)
+
+		alt_graph_cte_inner = combined_filter(db.query(
+			case(
+				(Alt.user1 == alt_graph_cte.c.user_id, Alt.user2),
+				(Alt.user2 == alt_graph_cte.c.user_id, Alt.user1),
+			)
+		).select_from(Alt, alt_graph_cte).filter(
+			or_(alt_graph_cte.c.user_id == Alt.user1, alt_graph_cte.c.user_id == Alt.user2)
+		))
+		
+		alt_graph_cte = alt_graph_cte.union(alt_graph_cte_inner)
+		return db.query(User).filter(User.id == alt_graph_cte.c.user_id)
 
 	@property
 	@lazy
 	def alts_patron(self):
-		for u in self.alts_unique:
-			if u.patron: return True
+		for u in self.get_alt_graph(g.db):
+			if not u._deleted and u.patron: return True
 		return False
 
 	@property
@@ -726,41 +750,8 @@ class User(Base):
 
 	@property
 	@lazy
-	def alts(self):
-		subq = g.db.query(Alt).filter(
-			or_(
-				Alt.user1 == self.id,
-				Alt.user2 == self.id
-			)
-		).subquery()
-
-		data = g.db.query(
-			User,
-			aliased(Alt, alias=subq)
-		).join(
-			subq,
-			or_(
-				subq.c.user1 == User.id,
-				subq.c.user2 == User.id
-			)
-		).filter(
-			User.id != self.id
-		).order_by(User.username).all()
-
-		output = []
-		for x in data:
-			user = x[0]
-			user._is_manual = x[1].is_manual
-			user._alt_deleted = x[1].deleted
-			user._alt_created_utc = x[1].created_utc
-			output.append(user)
-
-		return output
-
-	@property
-	@lazy
 	def alt_ids(self):
-		return [x.id for x in self.alts if not x._alt_deleted]
+		return [x.id for x in self.get_alt_graph(g.db) if not x._alt_deleted]
 
 	@property
 	@lazy

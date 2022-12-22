@@ -95,67 +95,15 @@ def merge(v:User, id1, id2):
 	return redirect(user1.url)
 
 
-@app.get('/admin/merge_all/<id>')
-@admin_level_required(PERMS['USER_MERGE'])
-def merge_all(v:User, id):
-	if v.id != AEVANN_ID: abort(403)
-
-	if time.time() - session.get('verified', 0) > 3:
-		session.pop("lo_user", None)
-		path = request.path
-		qs = urlencode(dict(request.values))
-		argval = quote(f"{path}?{qs}", safe='')
-		return redirect(f"/login?redirect={argval}")
-
-	user = get_account(id)
-
-	alt_ids = [x.id for x in user.alts_unique]
-
-	things = g.db.query(AwardRelationship).filter(AwardRelationship.user_id.in_(alt_ids)).all() + g.db.query(Mod).filter(Mod.user_id.in_(alt_ids)).all() + g.db.query(Exile).filter(Exile.user_id.in_(alt_ids)).all()
-	for thing in things:
-		thing.user_id = user.id
-		g.db.add(thing)
-
-	things = g.db.query(Submission).filter(Submission.author_id.in_(alt_ids)).all() + g.db.query(Comment).filter(Comment.author_id.in_(alt_ids)).all()
-	for thing in things:
-		thing.author_id = user.id
-		g.db.add(thing)
-
-
-	badges = g.db.query(Badge).filter(Badge.user_id.in_(alt_ids)).all()
-	for badge in badges:
-		if not user.has_badge(badge.badge_id):
-			badge.user_id = user.id
-			g.db.add(badge)
-			g.db.flush()
-
-	for alt in user.alts_unique:
-		for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truescore', 'marseybux'):
-			amount = getattr(user, kind) + getattr(alt, kind)
-			setattr(user, kind, amount)
-			setattr(alt, kind, 0)
-		g.db.add(alt)
-
-	g.db.add(user)
-
-	online = cache.get(CHAT_ONLINE_CACHE_KEY)
-	cache.clear()
-	cache.set(CHAT_ONLINE_CACHE_KEY, online)
-
-	return redirect(user.url)
-
-
 
 @app.get('/admin/edit_rules')
 @admin_level_required(PERMS['EDIT_RULES'])
 def edit_rules_get(v):
-
 	try:
 		with open(f'files/templates/rules_{SITE_NAME}.html', 'r', encoding="utf-8") as f:
 			rules = f.read()
 	except:
 		rules = None
-
 	return render_template('admin/edit_rules.html', v=v, rules=rules)
 
 
@@ -174,10 +122,7 @@ def edit_rules_post(v):
 		user_id=v.id,
 	)
 	g.db.add(ma)
-
 	return render_template('admin/edit_rules.html', v=v, rules=rules, msg='Rules edited successfully!')
-
-
 
 @app.post("/@<username>/make_admin")
 @admin_level_required(PERMS['ADMIN_ADD'])
@@ -316,7 +261,7 @@ def revert_actions(v:User, username):
 			send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unbanned you!")
 		g.db.add(user)
 
-		for u in user.alts:
+		for u in user.get_alt_graph(g.db):
 			u.shadowbanned = None
 			u.unban_utc = 0
 			u.ban_reason = None
@@ -733,7 +678,7 @@ def alt_votes_get(v):
 @admin_level_required(PERMS['USER_LINK'])
 def admin_view_alts(v:User, username=None):
 	u = get_user(username or request.values.get('username'), graceful=True)
-	return render_template('admin/alts.html', v=v, u=u, alts=u.alts_unique if u else None)
+	return render_template('admin/alts.html', v=v, u=u, alts=u.get_alt_graph(g.db) if u else None)
 
 @app.post('/@<username>/alts/')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
@@ -848,10 +793,6 @@ def unagendaposter(user_id, v):
 	user.agendaposter = 0
 	g.db.add(user)
 
-	for alt in user.alts:
-		alt.agendaposter = 0
-		g.db.add(alt)
-
 	ma = ModAction(
 		kind="unchud",
 		user_id=v.id,
@@ -901,7 +842,8 @@ def unshadowban(user_id, v):
 	user.shadowbanned = None
 	if not user.is_banned: user.ban_reason = None
 	g.db.add(user)
-	for alt in user.alts:
+
+	for alt in user.get_alt_graph(g.db):
 		alt.shadowbanned = None
 		if not alt.is_banned: alt.ban_reason = None
 		g.db.add(alt)
@@ -978,7 +920,7 @@ def ban_user(user_id, v):
 	user.ban(admin=v, reason=reason, days=days)
 
 	if request.values.get("alts"):
-		for x in user.alts:
+		for x in user.get_alt_graph(g.db):
 			if x.admin_level > v.admin_level:
 				continue
 			x.ban(admin=v, reason=reason, days=days)
@@ -1110,7 +1052,7 @@ def unban_user(user_id, v):
 	send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unbanned you!")
 	g.db.add(user)
 
-	for x in user.alts:
+	for x in user.get_alt_graph(g.db):
 		if x.is_banned: send_repeatable_notification(x.id, f"@{v.username} (a site admin) has unbanned you!")
 		x.is_banned = None
 		x.unban_utc = 0
