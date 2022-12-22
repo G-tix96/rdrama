@@ -711,7 +711,7 @@ class User(Base):
 	@property
 	@lazy
 	def alt_ids(self):
-		return [x.id for x in self.get_alt_graph(g.db) if not x._alt_deleted]
+		return [x.id for x in self.get_alt_graph(g.db)]
 
 	@property
 	@lazy

@@ -102,7 +102,6 @@ def check_for_alts(current:User, include_current_session=True):
 		session["history"] = list(past_accs)
 	g.db.flush()
 	for u in get_alt_graph(current.id):
-		if u._alt_deleted: continue
 		if u.shadowbanned and current.id not in DONT_SHADOWBAN:
 			current.shadowbanned = u.shadowbanned
 			current.ban_reason = u.ban_reason

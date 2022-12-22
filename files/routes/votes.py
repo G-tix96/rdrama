@@ -89,7 +89,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if v.id == target.author.id:
 		coin_delta = 0
 
-	v_alts_id = [x.id for x in v.get_alt_graph(self.id) if not x._alt_deleted]
+	v_alts_id = [x.id for x in v.get_alt_graph(self.id)]
 
 	alt = False
 	if target.author.id in v.alt_ids or v.id in target.author.alt_ids:
