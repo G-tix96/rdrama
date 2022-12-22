@@ -2,6 +2,12 @@ from enum import Enum, auto
 from os import environ, path
 
 import tldextract
+import datetime
+
+t = datetime.datetime.now()
+fistmas_begin = datetime.datetime.strptime(f'1/12/{t.year}', '%d/%m/%Y')
+fistmas_end = datetime.datetime.strptime(f'2/1/{t.year+1}', '%d/%m/%Y')
+HOLIDAY_EVENT = fistmas_begin < t < fistmas_end
 
 DEFAULT_CONFIG_VALUE = "blahblahblah"
 SITE = environ.get("SITE").strip()
@@ -219,8 +225,6 @@ SUB_MARSEY_URL_LENGTH = 60
 ################################################################################
 ### SITE SPECIFIC CONSTANTS
 ################################################################################
-
-HOLIDAY_EVENT = True
 
 PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_ADD': 3,
@@ -770,8 +774,7 @@ approved_embed_hosts = {
 	### Third-Party Media
 	# TODO: Preferably kill these. Media proxy.
 	# DO NOT ADD: wordpress.com, wp.com (maybe) | Or frankly anything. No more.
-	'redd.it', # disconcerting surface size {i, preview, external-preview, &c}
-	           # but believed safe
+	'redd.it', # disconcerting surface size {i, preview, external-preview, &c} but believed safe
 	'redditmedia.com', # similar to above
 	'twimg.com',
 	'pinimg.com',
