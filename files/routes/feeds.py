@@ -34,7 +34,7 @@ def feeds_user(sort='hot', t='all'):
 		with tag("id"):
 			text(SITE_FULL + request.full_path)
 		with tag("updated"):
-			text(datetime.now().isoformat()+"Z")
+			text(datetime.datetime.now().isoformat()+"Z")
 		doc.stag("link", rel="self", type="application/atom+xml", href=SITE_FULL + request.full_path)
 		doc.stag("link", rel="alternate", type="text/html", href=SITE_FULL)
 
