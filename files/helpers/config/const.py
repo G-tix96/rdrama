@@ -933,6 +933,9 @@ if SITE_NAME == 'rDrama':
 		'thecoli.com',
 		'datalounge.com',
 		'clay.party',
+		'somethingawful.com',
+		'metafilter.com',
+		'sqwok.im',
 
 		#fediverse
 		'rdrama.cc',
