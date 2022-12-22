@@ -21,7 +21,7 @@ from files.helpers.mail import *
 from files.helpers.sanitize import *
 from files.helpers.sorting_and_time import *
 from files.helpers.useractions import badge_grant
-from files.routes.routehelpers import check_for_alts
+from files.routes.routehelpers import check_for_alts, add_alt
 from files.routes.wrappers import *
 
 from files.__main__ import app, cache, limiter
@@ -1168,11 +1168,10 @@ def fp(v:User, fp):
 		li = [v.id, u.id]
 		existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
 		if existing: continue
-		new_alt = Alt(user1=v.id, user2=u.id)
-		g.db.add(new_alt)
-		g.db.flush()
+		add_alt(user1=v.id, user2=u.id)
 		print(v.username + ' + ' + u.username, flush=True)
-		check_for_alts(v)
+	
+	check_for_alts(v)
 	g.db.add(v)
 	return '', 204
 

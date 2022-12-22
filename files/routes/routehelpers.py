@@ -2,8 +2,8 @@ import time
 import secrets
 
 from random import randint
-from typing import Optional, Union, Callable
-from sqlalchemy.orm import aliased, deferred, Query
+from typing import Optional, Union, Callable, List
+from sqlalchemy.orm import aliased, deferred
 from sqlalchemy.sql import case, literal
 from sqlalchemy.sql.expression import or_
 
@@ -29,50 +29,37 @@ def validate_formkey(u:User, formkey:Optional[str]) -> bool:
 	if not formkey: return False
 	return validate_hash(get_raw_formkey(u), formkey)
 
-@cache.memoize(timeout=3600)
-def get_alt_graph(uid:int, alt_filter:Optional[Callable[[Query], Query]]=None, **kwargs) -> Query:
-	'''
-	Gets the full graph of alts (optionally filtering `Alt` objects by criteria using a callable, 
-	such as by a date to only get alts from a certain date) as a query of users that can be filtered
-	further. This function filters alts marked as deleted by default, pass `include_deleted=True` to 
-	disable this behavior and include delinked alts.
-	'''
-	if not alt_filter: 
-		alt_filter = lambda q:q
-
-	if not kwargs.get('include_deleted', False):
-		deleted_filter = lambda q:q.filter(Alt.deleted == False)
-	else:
-		deleted_filter = lambda q:q
-
-	combined_filter = lambda q:deleted_filter(alt_filter(q))
-	
+@cache.memoize(timeout=604800)
+def get_alt_graph(uid:int) -> List[User]:
+	print(uid, flush=True)
 	alt_graph_cte = g.db.query(literal(uid).label('user_id')).select_from(Alt).cte('alt_graph', recursive=True)
 
-	alt_graph_cte_inner = combined_filter(g.db.query(
+	alt_graph_cte_inner = g.db.query(
 		case(
 			(Alt.user1 == alt_graph_cte.c.user_id, Alt.user2),
 			(Alt.user2 == alt_graph_cte.c.user_id, Alt.user1),
 		)
 	).select_from(Alt, alt_graph_cte).filter(
 		or_(alt_graph_cte.c.user_id == Alt.user1, alt_graph_cte.c.user_id == Alt.user2)
-	))
+	)
 	
 	alt_graph_cte = alt_graph_cte.union(alt_graph_cte_inner)
 	return g.db.query(User).filter(User.id == alt_graph_cte.c.user_id, User.id != uid).order_by(User.username).all()
+
+def add_alt(user1:int, user2:int):
+	li = [user1, user2]
+	existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
+	if not existing:
+		new_alt = Alt(user1=user1, user2=user2)
+		g.db.add(new_alt)
+		g.db.flush()
+		cache.delete_memoized(get_alt_graph, user1)
+		cache.delete_memoized(get_alt_graph, user2)
 
 def check_for_alts(current:User, include_current_session=True):
 	current_id = current.id
 	ids = [x[0] for x in g.db.query(User.id).all()]
 	past_accs = set(session.get("history", [])) if include_current_session else set()
-
-	def add_alt(user1:int, user2:int):
-		li = [user1, user2]
-		existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
-		if not existing:
-			new_alt = Alt(user1=user1, user2=user2)
-			g.db.add(new_alt)
-			g.db.flush()
 
 	for past_id in list(past_accs):
 		if past_id not in ids:
