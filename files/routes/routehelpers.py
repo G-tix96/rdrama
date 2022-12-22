@@ -2,13 +2,17 @@ import time
 import secrets
 
 from random import randint
-from typing import Optional, Union
+from typing import Optional, Union, Callable
+from sqlalchemy.orm import aliased, deferred, Query
+from sqlalchemy.sql import case, literal
+from sqlalchemy.sql.expression import or_
 
 from flask import g, session
 
 from files.classes import Alt, Comment, User, Submission
 from files.helpers.config.const import *
 from files.helpers.security import generate_hash, validate_hash
+from files.__main__ import cache
 
 def get_raw_formkey(u:User):
 	if not session.get("session_id"):
@@ -24,6 +28,38 @@ def get_formkey(u:Optional[User]):
 def validate_formkey(u:User, formkey:Optional[str]) -> bool:
 	if not formkey: return False
 	return validate_hash(get_raw_formkey(u), formkey)
+
+@cache.memoize(timeout=3600)
+def get_alt_graph(uid:int, alt_filter:Optional[Callable[[Query], Query]]=None, **kwargs) -> Query:
+	'''
+	Gets the full graph of alts (optionally filtering `Alt` objects by criteria using a callable, 
+	such as by a date to only get alts from a certain date) as a query of users that can be filtered
+	further. This function filters alts marked as deleted by default, pass `include_deleted=True` to 
+	disable this behavior and include delinked alts.
+	'''
+	if not alt_filter: 
+		alt_filter = lambda q:q
+
+	if not kwargs.get('include_deleted', False):
+		deleted_filter = lambda q:q.filter(Alt.deleted == False)
+	else:
+		deleted_filter = lambda q:q
+
+	combined_filter = lambda q:deleted_filter(alt_filter(q))
+	
+	alt_graph_cte = g.db.query(literal(uid).label('user_id')).select_from(Alt).cte('alt_graph', recursive=True)
+
+	alt_graph_cte_inner = combined_filter(g.db.query(
+		case(
+			(Alt.user1 == alt_graph_cte.c.user_id, Alt.user2),
+			(Alt.user2 == alt_graph_cte.c.user_id, Alt.user1),
+		)
+	).select_from(Alt, alt_graph_cte).filter(
+		or_(alt_graph_cte.c.user_id == Alt.user1, alt_graph_cte.c.user_id == Alt.user2)
+	))
+	
+	alt_graph_cte = alt_graph_cte.union(alt_graph_cte_inner)
+	return g.db.query(User).filter(User.id == alt_graph_cte.c.user_id, User.id != uid).order_by(User.username).all()
 
 def check_for_alts(current:User, include_current_session=True):
 	current_id = current.id
@@ -65,7 +101,7 @@ def check_for_alts(current:User, include_current_session=True):
 	if include_current_session:
 		session["history"] = list(past_accs)
 	g.db.flush()
-	for u in current.get_alt_graph(g.db):
+	for u in get_alt_graph(current.id):
 		if u._alt_deleted: continue
 		if u.shadowbanned and current.id not in DONT_SHADOWBAN:
 			current.shadowbanned = u.shadowbanned

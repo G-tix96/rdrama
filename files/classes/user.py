@@ -1,6 +1,6 @@
 import random
 from operator import *
-from typing import Callable, Union
+from typing import Union
 
 import pyotp
 from sqlalchemy import Column, ForeignKey
@@ -470,46 +470,6 @@ class User(Base):
 	def age(self):
 		return int(time.time()) - self.created_utc
 
-	@lazy
-	def get_alt_graph(self, db:scoped_session, alt_filter:Optional[Callable[[Query], Query]]=None, **kwargs) -> Query:
-		'''
-		Gets the full graph of alts (optionally filtering `Alt` objects by criteria using a callable, 
-		such as by a date to only get alts from a certain date) as a query of users that can be filtered
-		further. This function filters alts marked as deleted by default, pass `include_deleted=True` to 
-		disable this behavior and include delinked alts.
-		'''
-		if not alt_filter: 
-			alt_filter = lambda q:q
-
-		if not kwargs.get('include_deleted', False):
-			deleted_filter = lambda q:q.filter(Alt.deleted == False)
-		else:
-			deleted_filter = lambda q:q
-
-		combined_filter = lambda q:deleted_filter(alt_filter(q))
-		
-		alt_graph_cte = db.query(literal(self.id).label('user_id')).select_from(Alt).cte('alt_graph', recursive=True)
-
-		alt_graph_cte_inner = combined_filter(db.query(
-			case(
-				(Alt.user1 == alt_graph_cte.c.user_id, Alt.user2),
-				(Alt.user2 == alt_graph_cte.c.user_id, Alt.user1),
-			)
-		).select_from(Alt, alt_graph_cte).filter(
-			or_(alt_graph_cte.c.user_id == Alt.user1, alt_graph_cte.c.user_id == Alt.user2)
-		))
-		
-		alt_graph_cte = alt_graph_cte.union(alt_graph_cte_inner)
-		return db.query(User).filter(User.id == alt_graph_cte.c.user_id)
-
-	@property
-	@lazy
-	def alts_patron(self):
-		for u in self.get_alt_graph(g.db):
-			if not u._deleted and u.patron: return True
-		return False
-
-	@property
 	@lazy
 	def follow_count(self):
 		return g.db.query(Follow).filter_by(user_id=self.id).count()

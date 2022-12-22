@@ -312,7 +312,7 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'mars
 	if amount is None or amount <= 0: abort(400, f"Invalid number of {currency_name}")
 	if amount < MIN_CURRENCY_TRANSFER: abort(400, f"You have to gift at least {MIN_CURRENCY_TRANSFER} {currency_name}")
 	tax = 0
-	if apply_tax and not v.patron and not receiver.patron and not v.alts_patron and not receiver.alts_patron:
+	if apply_tax and not v.patron and not receiver.patron:
 		tax = math.ceil(amount*TAX_PCT)
 
 	reason = request.values.get("reason", "").strip()

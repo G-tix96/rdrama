@@ -30,7 +30,7 @@
 {% endif %}
 
 {% if v %}
-<div id='tax' class="d-none">{% if v.patron or u.patron or v.alts_patron or u.alts_patron %}0{% else %}0.03{% endif %}</div>
+<div id='tax' class="d-none">{% if v.patron or u.patron %}0{% else %}0.03{% endif %}</div>
 <script defer src="{{'js/userpage_v.js' | asset}}"></script>
 <div id="username" class="d-none">{{u.username}}</div>
 {% endif %}
