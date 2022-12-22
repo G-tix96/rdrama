@@ -410,19 +410,6 @@ def clear_cloudflare_cache(v):
 	g.db.add(ma)
 	return {"message": "Cloudflare cache cleared!"}
 
-@app.post("/admin/clear_internal_cache")
-@admin_level_required(PERMS['SITE_CACHE_DUMP_INTERNAL'])
-def admin_clear_internal_cache(v):
-	online = cache.get(CHAT_ONLINE_CACHE_KEY)
-	cache.clear()
-	cache.set(CHAT_ONLINE_CACHE_KEY, online)
-	ma = ModAction(
-		kind="clear_internal_cache",
-		user_id=v.id
-	)
-	g.db.add(ma)
-	return {"message": "Internal cache cleared!"}
-
 @app.post("/admin/under_attack")
 @admin_level_required(PERMS['SITE_SETTINGS_UNDER_ATTACK'])
 def under_attack(v):

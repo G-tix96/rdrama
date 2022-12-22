@@ -124,13 +124,10 @@
 	<br>
 {% endif %}
 
-{% if v.admin_level >= PERMS['SITE_CACHE_PURGE_CDN'] or v.admin_level >= PERMS['SITE_CACHE_DUMP_INTERNAL'] %}
+{% if v.admin_level >= PERMS['SITE_CACHE_PURGE_CDN'] %}
 	<h4>Caching</h4>
 	{% if v.admin_level >= PERMS['SITE_CACHE_PURGE_CDN'] %}
 		<button type="button" class="btn btn-primary mt-3" onclick="postToastSwitch(this,'/admin/clear_cloudflare_cache');" style="margin-bottom: 2em;">CLEAR CLOUDFLARE CACHE</button>
-	{% endif %}
-	{% if v.admin_level >= PERMS['SITE_CACHE_DUMP_INTERNAL'] %}
-		<button type="button" class="btn btn-primary mt-3 ml-2" onclick="postToastSwitch(this,'/admin/clear_internal_cache');" style="margin-bottom: 2em;">CLEAR INTERNAL CACHE</button>
 	{% endif %}
 {% endif %}
 

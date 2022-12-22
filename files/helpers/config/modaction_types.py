@@ -96,11 +96,6 @@ MODACTION_TYPES = {
 		"icon": 'fa-dollar-sign', 
 		"color": 'bg-success'
 	},
-	'clear_internal_cache': {
-		"str": 'cleared internal cache', 
-		"icon": 'fa-trash-alt', 
-		"color": 'bg-muted'
-	},
 	'edit_post': {
 		"str": 'edited {self.target_link}', 
 		"icon": 'fa-edit', 
