@@ -470,6 +470,7 @@ class User(Base):
 	def age(self):
 		return int(time.time()) - self.created_utc
 
+	@property
 	@lazy
 	def follow_count(self):
 		return g.db.query(Follow).filter_by(user_id=self.id).count()
