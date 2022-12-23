@@ -745,7 +745,7 @@ def submit_post(v:User, sub=None):
 
 			name2 = name.replace('.webp', 'r.webp')
 			copyfile(name, name2)
-			post.thumburl = process_image(name2, v, resize=100)
+			post.thumburl = process_image(name2, v, resize=500)
 		elif file.content_type.startswith('video/'):
 			post.url = process_video(file, v)
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
