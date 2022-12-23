@@ -242,9 +242,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	if torture:
 		sanitized = torture_ap(sanitized, g.v.username)
-		# emoji = random.choice(['trumpjaktalking', 'reposthorse'])
-		# sanitized += f'\n:#{emoji}:'
-		sanitized += f'\n![](/i/supportjews.webp)'
+		to_add = random.choice((':#trumpjaktalking:', ':#reposthorse:', '![](/i/supportjews.webp)'))
+		sanitized += f'\n{to_add}'
 
 	sanitized = normalize_url(sanitized)
 
