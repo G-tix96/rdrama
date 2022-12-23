@@ -282,6 +282,10 @@ class User(Base):
 		if not FEATURES['HATS']:
 			return ''
 
+		if HOLIDAY_EVENT:
+			from files.events.helpers.const import EVENT_FORCED_HATS
+			if EVENT_FORCED_HATS: return 'Merry Christmas!'
+
 		if self.is_cakeday:
 			return "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓"
 
