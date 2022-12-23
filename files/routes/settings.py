@@ -585,7 +585,7 @@ def settings_images_banner(v):
 	bannerurl = process_image(name, v)
 
 	if bannerurl:
-		if v.bannerurl and '/images/' in v.bannerurl:
+		if v.bannerurl and '/images/' in v.bannerurl and path.isfile(v.bannerurl):
 			os.remove(v.bannerurl)
 		v.bannerurl = bannerurl
 		g.db.add(v)
