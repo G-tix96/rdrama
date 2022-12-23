@@ -89,7 +89,7 @@ def pull_slots(v:User):
 
 	try:
 		currency = request.values.get("currency", "").lower()
-		if currency not in ('coins', 'marseybux'): raise ValueError()
+		if currency not in {'coins', 'marseybux'}: raise ValueError()
 	except:
 		abort(400, "Invalid currency (expected 'coins' or 'marseybux').")
 

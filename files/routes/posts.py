@@ -493,7 +493,7 @@ def is_repost():
 	parsed_url = urlparse(url)
 
 	domain = parsed_url.netloc
-	if domain in ('old.reddit.com','twitter.com','instagram.com','tiktok.com') and '/search' not in url:
+	if domain in {'old.reddit.com','twitter.com','instagram.com','tiktok.com'} and '/search' not in url:
 		new_url = ParseResult(scheme="https",
 				netloc=parsed_url.netloc,
 				path=parsed_url.path,
@@ -561,7 +561,7 @@ def submit_post(v:User, sub=None):
 		allowed = [x[0] for x in allowed]
 		if v.id not in allowed: return error("You don't have sufficient permissions to post in /h/changelog")
 
-	if sub in ('furry','vampire','racist','femboy') and not v.client and not v.house.lower().startswith(sub):
+	if sub in {'furry','vampire','racist','femboy'} and not v.client and not v.house.lower().startswith(sub):
 		return error(f"You need to be a member of House {sub.capitalize()} to post in /h/{sub}")
 
 	if sub and sub != 'none':
@@ -590,7 +590,7 @@ def submit_post(v:User, sub=None):
 		parsed_url = urlparse(url)
 
 		domain = parsed_url.netloc
-		if domain in ('old.reddit.com','twitter.com','instagram.com','tiktok.com') and '/search' not in url:
+		if domain in {'old.reddit.com','twitter.com','instagram.com','tiktok.com'} and '/search' not in url:
 			new_url = ParseResult(scheme="https",
 					netloc=parsed_url.netloc,
 					path=parsed_url.path,

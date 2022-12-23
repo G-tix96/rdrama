@@ -221,7 +221,7 @@ class Submission(Base):
 		if v and v.poor:
 			return 0
 		elif self.distinguish_level:
-			if SITE_NAME == 'rDrama' and kind in ('glowie', 'tilt',):
+			if SITE_NAME == 'rDrama' and kind in {'glowie', 'tilt',}:
 				return 0
 			elif SITE_NAME == 'WPD':
 				return 0
@@ -306,7 +306,7 @@ class Submission(Base):
 
 				if v:
 					sub = self.sub
-					if sub in ('furry','vampire','racist','femboy') and not v.house.lower().startswith(sub): body += ' disabled '
+					if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub): body += ' disabled '
 					body += f''' onchange="poll_vote_{o.exclusive}('{o.id}', '{self.id}', 'post')"'''
 				else:
 					body += f''' onchange="poll_vote_no_v()"'''

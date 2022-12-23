@@ -174,11 +174,11 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 			path = filename.rsplit('/', 1)[0]
 			kind = path.split('/')[-1]
 
-			if kind in ('banners','sidebar'):
+			if kind in {'banners','sidebar'}:
 				hashes = {}
 
 				for img in os.listdir(path):
-					if resize == 400 and img in ('256.webp','585.webp'): continue
+					if resize == 400 and img in {'256.webp','585.webp'}: continue
 					img_path = f'{path}/{img}'
 					if img_path == filename: continue
 

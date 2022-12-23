@@ -16,7 +16,7 @@ def vote_option(option_id, v):
 	if not option: abort(404)
 	sub = option.post.sub
 
-	if sub in ('furry','vampire','racist','femboy') and not v.house.lower().startswith(sub):
+	if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub):
 		abort(403, f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}")
 
 	if option.exclusive == 2:
@@ -92,7 +92,7 @@ def vote_option_comment(option_id, v):
 	option = g.db.get(CommentOption, option_id)
 	if not option: abort(404)
 	sub = option.comment.post.sub
-	if sub in ('furry','vampire','racist','femboy') and not v.house.lower().startswith(sub):
+	if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub):
 		abort(403, f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}")
 
 	if option.exclusive:

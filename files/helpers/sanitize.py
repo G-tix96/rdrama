@@ -87,7 +87,7 @@ def allowed_attributes(tag, name, value):
 		if name == 'preload' and value == 'none': return True
 
 	if tag == 'p':
-		if name == 'class' and value in ('mb-0','resizable'): return True
+		if name == 'class' and value in {'mb-0','resizable'}: return True
 
 	if tag == 'span':
 		if name == 'data-bs-toggle' and value == 'tooltip': return True

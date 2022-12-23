@@ -165,7 +165,7 @@ def award_thing(v, thing_type, id):
 	note = request.values.get("note", "").strip()
 
 
-	if SITE == 'rdrama.net' and author.id in (PIZZASHILL_ID,) and v.id not in (AEVANN_ID, SNAKES_ID):
+	if SITE == 'rdrama.net' and author.id == PIZZASHILL_ID and v.id not in {AEVANN_ID, SNAKES_ID}:
 		abort(403, f"@{author.username} is immune to awards.")
 
 	if kind == "benefactor" and author.id == v.id:

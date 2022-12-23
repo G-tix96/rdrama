@@ -126,7 +126,7 @@ def comment(v:User):
 	if posting_to_submission:
 		sub = post_target.sub
 		if sub and v.exiled_from(sub): abort(403, f"You're exiled from /h/{sub}")
-		if sub in ('furry','vampire','racist','femboy') and not v.client and not v.house.lower().startswith(sub):
+		if sub in {'furry','vampire','racist','femboy'} and not v.client and not v.house.lower().startswith(sub):
 			abort(403, f"You need to be a member of House {sub.capitalize()} to comment in /h/{sub}")
 
 	if level > COMMENT_MAX_DEPTH: abort(400, f"Max comment level is {COMMENT_MAX_DEPTH}")

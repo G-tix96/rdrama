@@ -74,7 +74,7 @@ class Badge(Base):
 	def text(self):
 		if self.until:
 			text = self.badge.description + " until"
-		elif self.badge_id in (28, 170, 179):
+		elif self.badge_id in {28, 170, 179}:
 			text = self.badge.description + " permanently"
 		elif self.description:
 			text = self.description

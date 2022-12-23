@@ -389,7 +389,7 @@ def execute_blackjack(v, target, body, type):
 			extra_info = f"reports on {target.permalink}"
 		elif type == 'modmail':
 			extra_info = "modmail"
-		elif type in ('comment', 'message'):
+		elif type in {'comment', 'message'}:
 			for id in (CARP_ID, AEVANN_ID):
 				n = Notification(comment_id=target.id, user_id=id)
 				g.db.add(n)

@@ -544,7 +544,7 @@ def messagereply(v:User):
 	execute_blackjack(v, c, c.body_html, 'message')
 	execute_under_siege(v, c, c.body_html, 'message')
 
-	if user_id and user_id not in (v.id, MODMAIL_ID, bots):
+	if user_id and user_id not in {v.id, MODMAIL_ID, bots}:
 		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()
 		if not notif:
 			notif = Notification(comment_id=c.id, user_id=user_id)

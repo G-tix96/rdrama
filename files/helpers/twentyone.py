@@ -246,7 +246,7 @@ def handle_payout(gambler, state, game):
 	gambler.pay_account(game.currency, payout)
 	
 	if game.currency == 'coins':
-		if status in (BlackjackStatus.BLACKJACK, BlackjackStatus.WON):
+		if status in {BlackjackStatus.BLACKJACK, BlackjackStatus.WON}:
 			distribute_wager_badges(gambler, game.wager, won=True)
 		elif status == BlackjackStatus.LOST:
 			distribute_wager_badges(gambler, game.wager, won=False)

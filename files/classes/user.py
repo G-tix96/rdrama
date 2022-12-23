@@ -318,7 +318,7 @@ class User(Base):
 	@lazy
 	def mods(self, sub):
 		if self.is_suspended_permanently or self.shadowbanned: return False
-		if self.id in (AEVANN_ID, SNAKES_ID): return True
+		if self.id in {AEVANN_ID, SNAKES_ID}: return True
 		try:
 			return any(map(lambda x: x.sub == sub, self.sub_mods))
 		except:
@@ -970,7 +970,7 @@ class User(Base):
 					if other.sentto != user.id: return user.admin_level >= PERMS['POST_COMMENT_MODERATION']  # type: ignore
 		elif isinstance(other, Sub):
 			if other.name == 'chudrama': return bool(user) and user.can_see_chudrama
-			if other.name in ('countryclub','splash_mountain'): return bool(user) and user.can_see_countryclub
+			if other.name in {'countryclub','splash_mountain'}: return bool(user) and user.can_see_countryclub
 			if other.name == 'masterbaiters': return bool(user) and user.can_see_masterbaiters
 		elif isinstance(other, User):
 			return (user and user.id == other.id) or (user and user.can_see_shadowbanned) or not other.shadowbanned
