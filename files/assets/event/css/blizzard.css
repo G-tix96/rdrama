@@ -140,10 +140,10 @@ body {
 }
 
 textarea, input[type=textbox], input[type=search] {
-    cursor: url(/assets/event/images/text.png?v=1), auto !important;
+    cursor: url(/assets/event/images/text.png?v=1) 9 14, auto !important;
 }
 
-.btn, input[type=button], button, a, img {
+.btn, input[type=button], button, a {
     cursor: url(/assets/event/images/pointer.png?v=1), auto !important;
 }
 
