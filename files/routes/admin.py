@@ -463,24 +463,33 @@ def badge_grant_post(v):
 	except: abort(400)
 
 	if badge_id not in [b.id for b in badges]:
-		abort(403)
+		abort(403, "You can't grant this badge!")
 
-	if user.has_badge(badge_id):
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error="User already has that badge.")
-	
-	new_badge = Badge(badge_id=badge_id, user_id=user.id)
-
-	desc = request.values.get("description")
-	if desc: new_badge.description = desc
-
+	description = request.values.get("description")
 	url = request.values.get("url")
+
 	if url:
 		if '\\' in url: abort(400)
 		if url.startswith(SITE_FULL):
 			url = url.split(SITE_FULL, 1)[1]
 		elif url.startswith(BAN_EVASION_FULL):
 			url = url.split(BAN_EVASION_FULL, 1)[1]
-		new_badge.url = url
+
+	existing = user.has_badge(badge_id)
+	if existing:
+		if url or description:
+			existing.url = url
+			existing.description = description
+			g.db.add(existing)
+			return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg="Badge attributes edited successfully!")
+		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error="User already has that badge.")
+
+	new_badge = Badge(
+		badge_id=badge_id,
+		user_id=user.id,
+		url=url,
+		description=description
+		)
 
 	g.db.add(new_badge)
 	g.db.flush()
@@ -496,6 +505,7 @@ def badge_grant_post(v):
 		_note=new_badge.name
 	)
 	g.db.add(ma)
+
 	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg=f"{new_badge.name} Badge granted to @{user.username} successfully!")
 
 @app.post("/admin/badge_remove")
