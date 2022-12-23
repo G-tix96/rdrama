@@ -305,7 +305,7 @@ def notifications(v:User):
 			c.unread = True
 			g.db.add(n)
 
-		if c.parent_submission:
+		if c.parent_submission or c.wall_user_id:
 			if c.replies2 == None:
 				c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
 				total.extend(c.replies2)
