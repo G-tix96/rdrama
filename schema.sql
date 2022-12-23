@@ -1618,6 +1618,13 @@ CREATE UNIQUE INDEX alts_unique_combination ON public.alts USING btree (GREATEST
 
 
 --
+-- Name: alts_user1_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX alts_user1_idx ON public.alts USING btree (user1);
+
+
+--
 -- Name: alts_user2_idx; Type: INDEX; Schema: public; Owner: -
 --
 
