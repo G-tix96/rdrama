@@ -160,7 +160,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		target.realupvotes = get_vote_count(0, True) # first arg is ignored here
 
 		mul = 1
-		if target.author.progressivestack or (target.author.admin_level and target.author.id != CARP_ID):
+		if target.author.progressivestack or (target.author.admin_level and target.author.id not in {AEVANN_ID, CARP_ID}):
 			mul = 2
 		if cls == Submission:
 			if (target.domain.endswith('.win') or 'forum' in target.domain
