@@ -295,9 +295,9 @@ def notifications(v:User):
 	next_exists = (len(comments) > PAGE_SIZE)
 	comments = comments[:PAGE_SIZE]
 	cids = [x[0].id for x in comments]
+	comms = get_comments(cids, v=v)
 
 	listing = []
-	total = []
 	for c, n in comments:
 		if n.created_utc > 1620391248: c.notif_utc = n.created_utc
 		if not n.read:
@@ -308,7 +308,6 @@ def notifications(v:User):
 		if c.parent_submission:
 			if c.replies2 == None:
 				c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
-				total.extend(c.replies2)
 				for x in c.replies2:
 					if x.replies2 == None: x.replies2 = []
 			count = 0
@@ -317,25 +316,15 @@ def notifications(v:User):
 				c = c.parent_comment
 				if c.replies2 == None:
 					c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
-					total.extend(c.replies2)
 					for x in c.replies2:
 						if x.replies2 == None:
 							x.replies2 = g.db.query(Comment).filter_by(parent_comment_id=x.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
-							total.extend(x.replies2)
 		else:
 			while c.parent_comment:
 				c = c.parent_comment
 			c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).order_by(Comment.id).all()
-			total.extend(c.replies2)
 
 		if c not in listing: listing.append(c)
-	
-	total.extend(listing)
-
-	total_cids = [x.id for x in total]
-	total_cids.extend(cids)
-	total_cids = set(total_cids)
-	output = get_comments_v_properties(v, True, None, Comment.id.in_(total_cids))[1]
 
 	g.db.commit()
 
