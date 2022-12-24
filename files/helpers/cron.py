@@ -79,7 +79,7 @@ def _sub_inactive_purge_task():
 			badge_grant(
 				user=first_mod,
 				badge_id=156,
-				description=f'Brought a Hole into this world, only to let it die (/h/{name})'
+				description=f'Let a hole they owned die (/h/{name})'
 			)
 
 		for admin in admins:
