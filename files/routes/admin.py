@@ -963,7 +963,7 @@ def ban_user(user_id, v):
 			comment.bannedfor = f'{duration} by @{v.username}'
 			g.db.add(comment)
 
-	return {"message": f"@{user.username} has been banned!"}
+	return {"message": f"@{user.username} has been banned {duration}!"}
 
 
 @app.post("/agendaposter/<user_id>")
@@ -1033,7 +1033,7 @@ def agendaposter(user_id, v):
 			comment.chuddedfor = f'{duration} by @{v.username}'
 			g.db.add(comment)
 
-	return {"message": f"@{user.username} has been chudded!"}
+	return {"message": f"@{user.username} has been chudded {duration}!"}
 
 
 @app.post("/unban_user/<user_id>")
