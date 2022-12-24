@@ -49,7 +49,7 @@
 					{% endfor %}
 				{% elif replies %}
 					<button type="button" id="btn-{{c.id}}" class="d-mob-none btn btn-primary mt-3" onclick="morecomments('{{c.id}}')">More comments</button>
-					<a class="d-md-none" href="{{c.morecomments}}">More comments <i class="fas fa-long-arrow-right ml-1"></i></a>
+					<a class="d-md-none py-3" href="{{c.morecomments}}">More comments <i class="fas fa-long-arrow-right ml-1"></i></a>
 				{% endif %}
 			</div>
 		{% endif %}
@@ -529,7 +529,7 @@
 				{% endfor %}
 			{% elif replies %}
 				<button type="button" id="btn-{{c.id}}" class="d-mob-none btn btn-primary mt-3" onclick="morecomments('{{c.id}}')">More comments</button>
-				<a class="d-md-none" href="{{c.morecomments}}">More comments <i class="fas fa-long-arrow-right ml-1"></i></a>
+				<a class="d-md-none py-3" href="{{c.morecomments}}">More comments <i class="fas fa-long-arrow-right ml-1"></i></a>
 			{% endif %}
 		</div>
 
