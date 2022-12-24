@@ -38,7 +38,6 @@ DEFAULT_COLOR = environ.get("DEFAULT_COLOR").strip()
 EMAIL = environ.get("EMAIL").strip()
 MAILGUN_KEY = environ.get("MAILGUN_KEY").strip()
 DESCRIPTION = environ.get("DESCRIPTION").strip()
-TAGLINE = environ.get("TAGLINE").strip()
 CF_KEY = environ.get("CF_KEY").strip()
 CF_ZONE = environ.get("CF_ZONE").strip()
 TELEGRAM_LINK = environ.get("TELEGRAM_LINK").strip()
@@ -118,7 +117,21 @@ SLURS = {
 	"daisy destruction": "Cars 2",
 }
 
+patron = "Patron"
 if SITE_NAME == 'rDrama':
+	patron = "Paypig"
+
+	BAN_EVASION_DOMAIN = 'stupidpol.site'
+	BAN_EVASION_FULL = f'https://{BAN_EVASION_DOMAIN}'
+
+	TAGLINES = (
+		"world's largest gay orgy",
+		"world's largest shemale porn site",
+		"world's largest cat fetish furfest",
+		"world's largest basket-weaving forum",
+		"world's largest autism support group",
+	)
+
 	RDRAMA_SLURS = {
 		"retarded": "r-slurred",
 		"retard": "r-slur",
@@ -158,6 +171,120 @@ if SITE_NAME == 'rDrama':
 		"twitter files": 'twitter files <img loading="lazy" data-bs-toggle="tooltip" alt=":marseysleep:" title=":marseysleep:" src="/e/marseysleep.webp">',
 	}
 	SLURS.update(RDRAMA_SLURS)
+
+	BOOSTED_SITES = {
+		#youtube-like
+		'bitchute.com',
+		'goyimtv.tv',
+		'odysee.com',
+
+		#4chan-like
+		'4chan.org',
+		'boards.4channel.org',
+		'boards.4chan.org',
+		'archive.4plebs.org',
+		'lolcow.farm',
+		'8kun.top',
+		'soyjak.party',
+		'crystal.cafe',
+
+		#forums
+		'kiwifarms.net',
+		'onionfarms.com',
+		'clay.party',
+		'incels.is',
+		'tattle.life',
+		'looksmax.org',
+		'stormfront.org',
+		'looksmax.org',
+		'bluelight.org',
+		'thecoli.com',
+		'nairaland.com',
+		'resetera.com',
+		'steamcommunity.com',
+		'lipstickalley.com',
+		'tigerdroppings.com',
+		'groups.google.com',
+		'bungie.net',
+
+		#twitter-like
+		'gab.com',
+		'gettr.com',
+		'parler.com',
+		'truthsocial.com',
+		'blacktwitterapp.com',
+		'rdrama.cc',
+		'marsey.club',
+		'kiwifarms.cc',
+		'freespeechextremist.com'
+		'mstdn.social',
+		'mastodon.social',
+		'mastodon.online',
+		'poa.st',
+		'shitposter.club',
+		'sneed.social',
+		'seal.cafe',
+		'trp.red',
+
+		#reddit-like
+		'news.ycombinator.com',
+		'scored.co',
+		'scrd.app',
+		'steemit.com',
+		'ovarit.com',
+		'watchpeopledie.tv',
+		'rdrama.net',
+		BAN_EVASION_DOMAIN,
+		'themotte.org',
+		'hexbear.net',
+		'cumtown.org',
+		'hive.blog',
+		'poal.co',
+		'saidit.net',
+		'lobste.rs',
+		'retalk.com',
+		'thepinkpill.co',
+		'talk.lol',
+		'lemmy.ml',
+		'lemmygrad.ml',
+		'raddle.me',
+		'stacker.news',
+		'tildes.net',
+		'notabug.io',
+		'syzitus.com',
+		'phuks.co',
+		'arete.network',
+		'pcmemes.net',
+		'discussions.app',
+		'wolfballs.com',
+		'dojo.press',
+		'livefilter.com',
+		'mainchan.com',
+
+		#misc
+		'quora.com',
+		'givesendgo.com',
+		'groups.google.com',
+		't.me',
+		'web.telegram.org',
+		'instagram.com',
+		'facebook.com',
+		'twitch.tv',
+		'tiktok.com',
+		'vm.tiktok.com',
+		'github.com',
+		'breitbart.com',
+		'teamblind.com',
+		'encyclopediadramatica.online',
+		'datalounge.com',
+		'metafilter.com',
+		'sqwok.im',
+	}
+elif SITE_NAME == 'WPD':
+	TAGLINES = (
+		"People dying and cartoon cats <3",
+	)
+
 
 PROFANITIES = {
 	'motherfucker': 'motherlover',
@@ -673,18 +800,11 @@ else: # localhost or testing environment implied
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 	SUB_BANNER_LIMIT = 69420
 
-patron = "Patron"
-if SITE_NAME == 'rDrama':
-	patron = "Paypig"
-
 HOUSES = ("None","Furry","Femboy","Vampire","Racist") if FEATURES['HOUSES'] else ("None")
 
 bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID}
 
 COLORS = {'ff66ac','805ad5','62ca56','38a169','80ffff','2a96f3','eb4963','ff0000','f39731','30409f','3e98a7','e4432d','7b9ae4','ec72de','7f8fa6', 'f8db58','8cdbe6', DEFAULT_COLOR}
-
-BAN_EVASION_DOMAIN = 'stupidpol.site'
-BAN_EVASION_FULL = f'https://{BAN_EVASION_DOMAIN}'
 
 ### COMMENT NOTIFICATIONS ###
 
@@ -854,116 +974,6 @@ forced_hats = {
 }
 
 EMAIL_REGEX_PATTERN = '[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63}'
-
-if SITE_NAME == 'rDrama':
-	BOOSTED_SITES = {
-		#youtube-like
-		'bitchute.com',
-		'goyimtv.tv',
-		'odysee.com',
-
-		#4chan-like
-		'4chan.org',
-		'boards.4channel.org',
-		'boards.4chan.org',
-		'archive.4plebs.org',
-		'lolcow.farm',
-		'8kun.top',
-		'soyjak.party',
-		'crystal.cafe',
-
-		#forums
-		'kiwifarms.net',
-		'onionfarms.com',
-		'clay.party',
-		'incels.is',
-		'tattle.life',
-		'looksmax.org',
-		'stormfront.org',
-		'looksmax.org',
-		'bluelight.org',
-		'thecoli.com',
-		'nairaland.com',
-		'resetera.com',
-		'steamcommunity.com',
-		'lipstickalley.com',
-		'tigerdroppings.com',
-		'groups.google.com',
-		'bungie.net',
-
-		#twitter-like
-		'gab.com',
-		'gettr.com',
-		'parler.com',
-		'truthsocial.com',
-		'blacktwitterapp.com',
-		'rdrama.cc',
-		'marsey.club',
-		'kiwifarms.cc',
-		'freespeechextremist.com'
-		'mstdn.social',
-		'mastodon.social',
-		'mastodon.online',
-		'poa.st',
-		'shitposter.club',
-		'sneed.social',
-		'seal.cafe',
-		'trp.red',
-
-		#reddit-like
-		'news.ycombinator.com',
-		'scored.co',
-		'scrd.app',
-		'steemit.com',
-		'ovarit.com',
-		'watchpeopledie.tv',
-		'rdrama.net',
-		BAN_EVASION_DOMAIN,
-		'themotte.org',
-		'hexbear.net',
-		'cumtown.org',
-		'hive.blog',
-		'poal.co',
-		'saidit.net',
-		'lobste.rs',
-		'retalk.com',
-		'thepinkpill.co',
-		'talk.lol',
-		'lemmy.ml',
-		'lemmygrad.ml',
-		'raddle.me',
-		'stacker.news',
-		'tildes.net',
-		'notabug.io',
-		'syzitus.com',
-		'phuks.co',
-		'arete.network',
-		'pcmemes.net',
-		'discussions.app',
-		'wolfballs.com',
-		'dojo.press',
-		'livefilter.com',
-		'mainchan.com',
-
-		#misc
-		'quora.com',
-		'givesendgo.com',
-		'groups.google.com',
-		't.me',
-		'web.telegram.org',
-		'instagram.com',
-		'facebook.com',
-		'twitch.tv',
-		'tiktok.com',
-		'vm.tiktok.com',
-		'github.com',
-		'breitbart.com',
-		'teamblind.com',
-		'encyclopediadramatica.online',
-		'datalounge.com',
-		'metafilter.com',
-		'sqwok.im',
-	}
 
 IMAGE_FORMATS = ['png','gif','jpg','jpeg','webp']
 VIDEO_FORMATS = ['mp4','webm','mov','avi','mkv','flv','m4v','3gp']
