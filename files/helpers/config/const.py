@@ -873,6 +873,7 @@ if SITE_NAME == 'rDrama':
 
 		#forums
 		'kiwifarms.net',
+		'onionfarms.com',
 		'clay.party',
 		'incels.is',
 		'tattle.life',
