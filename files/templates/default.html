@@ -47,7 +47,7 @@
 		{% block sidebar %}
 			{% if has_sidebar and (home or p) %}
 				{% set sidebar = "sidebar_" ~ SITE_NAME ~ ".html" %}
-				{% include sidebar if not EVENT_SIDEBAR else 'event/' ~ sidebar %}
+				{% include sidebar %}
 			{% endif %}
 		{% endblock %}
 	</div>
