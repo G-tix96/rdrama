@@ -17,7 +17,7 @@ from files.helpers.settings import get_settings, toggle_setting
 from files.helpers.useractions import *
 from files.routes.routehelpers import check_for_alts
 from files.routes.wrappers import *
-from files.routes.routehelpers import get_alt_graph
+from files.routes.routehelpers import get_alt_graph, get_alt_graph_ids
 
 from .front import frontlist
 
@@ -699,8 +699,8 @@ def admin_add_alt(v:User, username):
 	g.db.add(a)
 	g.db.flush()
 
-	cache.delete_memoized(get_alt_graph, user1.id)
-	cache.delete_memoized(get_alt_graph, user2.id)
+	cache.delete_memoized(get_alt_graph_ids, user1.id)
+	cache.delete_memoized(get_alt_graph_ids, user2.id)
 
 	check_for_alts(user1, include_current_session=False)
 	check_for_alts(user2, include_current_session=False)
