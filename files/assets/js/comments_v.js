@@ -199,6 +199,7 @@ function comment_edit(id){
 
 function postComment(fullname, hide){
 	const btn = document.getElementById('save-reply-to-'+fullname)
+	const textArea = document.getElementById('reply-form-body-'+fullname)
 	btn.disabled = true
 	btn.classList.add('disabled');
 
@@ -206,7 +207,7 @@ function postComment(fullname, hide){
 
 	form.append('formkey', formkey());
 	form.append('parent_fullname', fullname);
-	form.append('body', document.getElementById('reply-form-body-'+fullname).value);
+	form.append('body', textArea.value);
 
 	try {
 		for (const e of document.getElementById('file-upload-reply-'+fullname).files)
@@ -243,6 +244,7 @@ function postComment(fullname, hide){
 			document.getElementById('charcount-'+fullname).innerHTML = ''
 			document.getElementById('filename-show-reply-' + fullname).innerHTML = '<i class="fas fa-file"></i>';
 			document.getElementById('file-upload-reply-'+fullname).value = null;
+			autoExpand(textArea);
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
