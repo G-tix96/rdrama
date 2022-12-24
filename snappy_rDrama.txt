@@ -3279,3 +3279,5 @@ You will never be happy. You wrench out a fake smile every single morning and te
 Eventually it’ll be too much to bear - you’ll buy a magnetic disk wiper, plug it in, put it around your hard drive, and dd if=/dev/null. Your colocation service will find you, worried about your bill but relieved that they no longer have to host your unbearable existence. They’ll send your server to Goodwill to become a kid's Minecraft server, and every passerby for the rest of eternity will not be aware you ever existed. Your data will be overwritten piece by piece by Minecraft mods, no one caring, and all that will remain of your legacy is an entry on the AHS subreddit, which in turn will fade into non-existence.
 
 This is your fate. This is what you chose. There is no turning back.
+{[para]}
+![](/images/1671781245070056.webp)
