@@ -218,7 +218,7 @@ def award_thing(v, thing_type, id):
 		link = f"/{thing_type}/{thing.id}"
 		link2 = link
 		if thing_type == 'comment':
-			link2 += ''
+			link2 += '#context'
 		ban_reason = f'1-Day ban award used by <a href="/@{v.username}">@{v.username}</a> on <a href="{link2}">{link}</a>'
 		if not author.is_suspended:
 			author.ban(reason=ban_reason, days=1)
