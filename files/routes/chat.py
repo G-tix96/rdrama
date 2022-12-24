@@ -71,7 +71,7 @@ def speak(data, v):
 		"id": str(uuid.uuid4()),
 		"quotes": quotes,
 		"avatar": v.profile_url,
-		"hat": v.hat_active,
+		"hat": v.hat_active(v)[0],
 		"user_id": v.id,
 		"dm": bool(recipient and recipient != ""),
 		"username": v.username,

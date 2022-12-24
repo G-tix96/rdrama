@@ -253,52 +253,28 @@ class User(Base):
 		if user_forced_hats: return random.choice(user_forced_hats)
 		else: return None
 
-	@property
 	@lazy
-	def hat_active(self):
-		if not FEATURES['HATS']:
-			return ''
+	def hat_active(self, v):
+		if FEATURES['HATS']:
+			if HOLIDAY_EVENT:
+				from files.events.helpers.const import EVENT_FORCED_HATS
+				if EVENT_FORCED_HATS:
+					return (random.choice(EVENT_FORCED_HATS), 'Merry Fistmas!')
 
-		if HOLIDAY_EVENT:
-			from files.events.helpers.const import EVENT_FORCED_HATS
-			if EVENT_FORCED_HATS: return random.choice(EVENT_FORCED_HATS)
+			if self.is_cakeday:
+				return ('/i/hats/Cakeday.webp', "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓")
 
-		if self.is_cakeday:
-			return '/i/hats/Cakeday.webp'
+			if self.age < NEW_USER_HAT_AGE:
+				return ('/i/new-user.webp', "Hi, I'm new here! Please be gentle :)")
 
-		if self.age < NEW_USER_HAT_AGE:
-			return '/i/new-user.webp'
+			if self.forced_hat:
+				return (f'/i/hats/{self.forced_hat[0]}.webp', self.forced_hat[1])
 
-		if self.forced_hat:
-			return f'/i/hats/{self.forced_hat[0]}.webp'
+			if self.equipped_hat:
+				return (f'/i/hats/{self.equipped_hat.name}.webp', self.equipped_hat.name + ' - ' + self.equipped_hat.censored_description(v))
 
-		if self.equipped_hat:
-			return f'/i/hats/{self.equipped_hat.name}.webp'
+		return ('', '')
 
-		return ''
-
-	@lazy
-	def hat_tooltip(self, v):
-		if not FEATURES['HATS']:
-			return ''
-
-		if HOLIDAY_EVENT:
-			from files.events.helpers.const import EVENT_FORCED_HATS
-			if EVENT_FORCED_HATS: return 'Merry Christmas!'
-
-		if self.is_cakeday:
-			return "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓"
-
-		if self.age < 86400 * 7:
-			return "Hi, I'm new here! Please be gentle :)"
-
-		if self.forced_hat:
-			return self.forced_hat[1]
-
-		if self.equipped_hat:
-			return self.equipped_hat.name + ' - ' + self.equipped_hat.censored_description(v)
-
-		return ''
 
 	@property
 	@lazy
@@ -760,7 +736,7 @@ class User(Base):
 				'url': self.url,
 				'id': self.id,
 				'profile_url': self.profile_url,
-				'hat': self.hat_active,
+				'hat': self.hat_active(v)[0],
 				'bannerurl': self.banner_url,
 				'bio_html': self.bio_html_eager,
 				'coins': self.coins,

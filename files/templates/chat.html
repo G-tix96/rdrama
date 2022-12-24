@@ -15,7 +15,7 @@
 		data-themecolor="{{v.themecolor}}"
 		data-namecolor="{{v.namecolor}}"
 		data-avatar="{{v.profile_url}}"
-		data-hat="{{v.hat_active}}">
+		data-hat="{{v.hat_active(v)[0]}}">
 	</div>
 	<script>window.global = window</script>
 	{% if IS_LOCALHOST %}
