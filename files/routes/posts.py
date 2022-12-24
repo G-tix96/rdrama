@@ -548,6 +548,9 @@ def submit_post(v:User, sub=None):
 
 	sub = request.values.get("sub", "").lower().replace('/h/','').strip()
 
+	if SITE == 'rdrama.net' and v.id == 2167:
+		sub = "chudrama"
+
 	torture = (v.agendaposter and not v.marseyawarded and sub != 'chudrama')
 	title_html = filter_emojis_only(title, graceful=True, count_marseys=True, torture=torture)
 	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
