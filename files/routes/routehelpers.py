@@ -12,6 +12,8 @@ from flask import g, session
 from files.classes import Alt, Comment, User, Submission
 from files.helpers.config.const import *
 from files.helpers.security import generate_hash, validate_hash
+from files.helpers.lazy import lazy
+
 from files.__main__ import cache
 
 def get_raw_formkey(u:User):
@@ -45,9 +47,10 @@ def get_alt_graph_ids(uid:int) -> List[int]:
 	alt_graph_cte = alt_graph_cte.union(alt_graph_cte_inner)
 	return set([x[0] for x in g.db.query(User.id).filter(User.id == alt_graph_cte.c.user_id, User.id != uid).all()])
 
+@lazy
 def get_alt_graph(uid:int) -> List[User]:
 	alt_ids = get_alt_graph_ids(uid)
-	return g.db.query(User).filter(User.id.in_(alt_ids)).order_by(User.username)
+	return g.db.query(User).filter(User.id.in_(alt_ids)).order_by(User.username).all()
 
 def add_alt(user1:int, user2:int):
 	li = [user1, user2]
