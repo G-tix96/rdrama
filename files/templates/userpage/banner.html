@@ -223,9 +223,9 @@
 						{% endif %}
 						{% if v and (v.admin_level >= PERMS['VIEW_ALTS'] or v.alt) %}
 							{% if v.admin_level >= PERMS['USER_LINK'] %}
-								<span id="profile--alts"><a href="/@{{u.username}}/alts">{{alts|length}} Alts</a>:</span>
+								<span id="profile--alts"><a href="/@{{u.username}}/alts">{{alts|length}} Alt{{macros.plural(alts|length)}}</a>:</span>
 							{% else %}
-								<span id="profile--alts">{{alts|length}} Alts:</span>
+								<span id="profile--alts">{{alts|length}} Alt{{macros.plural(alts|length)}}:</span>
 							{% endif %}
 							<ul id="profile--alts-list">
 								{% for account in alts if v.can_see_shadowbanned or not account.shadowbanned %}
@@ -491,9 +491,9 @@
 					{% endif %}
 					{% if v and (v.admin_level >= PERMS['VIEW_ALTS'] or v.alt) %}
 						{% if v.admin_level >= PERMS['USER_LINK'] %}
-							<span id="profile-mobile--alts"><a href="/@{{u.username}}/alts">{{alts|length}} Alts</a>:</span>
+							<span id="profile-mobile--alts"><a href="/@{{u.username}}/alts">{{alts|length}} Alt{{macros.plural(alts|length)}}</a>:</span>
 						{% else %}
-							<span id="profile-mobile--alts">{{alts|length}} Alts:</span>
+							<span id="profile-mobile--alts">{{alts|length}} Alt{{macros.plural(alts|length)}}:</span>
 						{% endif %}
 						<ul id="profile-mobile--alts-list">
 						{% for account in alts if v.can_see_shadowbanned or not account.shadowbanned %}
