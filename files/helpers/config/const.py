@@ -815,7 +815,7 @@ elif SITE == 'watchpeopledie.tv':
 	LONGPOSTBOT_ID = 4
 	ZOZBOT_ID = 5
 
-	CARP_ID = 14668
+	CARP_ID = 48
 	AEVANN_ID = 9
 	SNAKES_ID = 32
 
