@@ -234,8 +234,8 @@ function expandImage(url) {
 		url = e.target.dataset.src
 		if (!url) url = e.target.src
 	}
-	document.getElementById("desktop-expanded-image").src = url.replace("200w_d.webp", "giphy.webp");
-	document.getElementById("desktop-expanded-image-wrap-link").href = url.replace("200w_d.webp", "giphy.webp");
+	document.getElementById("desktop-expanded-image").src = url.replace("200w.webp", "giphy.webp");
+	document.getElementById("desktop-expanded-image-wrap-link").href = url.replace("200w.webp", "giphy.webp");
 
 	bootstrap.Modal.getOrCreateInstance(document.getElementById('expandImageModal')).show();
 };
