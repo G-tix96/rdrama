@@ -140,6 +140,16 @@ def _moveacc(old_id, new_id):
 					print(e, flush=True)
 					abort(500, str(e))
 
+	update_statement = f'''update submissions set body_html=replace(body_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where body_html like '%<a href="/id/{old_id}">%';
+	update comments set body_html=replace(body_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where body_html like '%<a href="/id/{old_id}">%';
+	update subs set sidebar_html=replace(sidebar_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where sidebar_html like '%<a href="/id/{old_id}">%';
+	update users set bio_html=replace(bio_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where bio_html like '%<a href="/id/{old_id}">%';
+	update users set sig_html=replace(sig_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where sig_html like '%<a href="/id/{old_id}">%';
+	update users set friends_html=replace(friends_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where friends_html like '%<a href="/id/{old_id}">%';
+	update users set enemies_html=replace(enemies_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where enemies_html like '%<a href="/id/{old_id}">%';
+	'''
+	db.execute(update_statement)
+
 	online = cache.get(CHAT_ONLINE_CACHE_KEY)
 	cache.clear()
 	cache.set(CHAT_ONLINE_CACHE_KEY, online)
