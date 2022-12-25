@@ -117,12 +117,12 @@ SLURS = {
 	"daisy destruction": "Cars 2",
 }
 
+BAN_EVASION_DOMAIN = 'stupidpol.site'
+BAN_EVASION_FULL = f'https://{BAN_EVASION_DOMAIN}'
+
 patron = "Patron"
 if SITE_NAME == 'rDrama':
 	patron = "Paypig"
-
-	BAN_EVASION_DOMAIN = 'stupidpol.site'
-	BAN_EVASION_FULL = f'https://{BAN_EVASION_DOMAIN}'
 
 	TAGLINES = (
 		"world's largest gay orgy",
