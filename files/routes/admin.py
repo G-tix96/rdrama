@@ -37,11 +37,23 @@ def loggedout_list(v):
 	return render_template("admin/loggedout.html", v=v, users=users)
 
 
-def _moveacc(old_id, new_id):
-	db = db_session()
+@app.get('/admin/move/<old_id>/<new_id>')
+@admin_level_required(PERMS['USER_MERGE'])
+def move_acc(v:User, new_id, old_id):
+	if v.id != AEVANN_ID: abort(403)
 
-	olduser = db.get(User, old_id)
-	newuser = db.get(User, new_id)
+	if time.time() - session.get('verified', 0) > 10:
+		session.pop("lo_user", None)
+		path = request.path
+		qs = urlencode(dict(request.values))
+		argval = quote(f"{path}?{qs}", safe='')
+		return redirect(f"/login?redirect={argval}")
+
+	old_id = int(old_id)
+	new_id = int(new_id)
+	
+	olduser = g.db.get(User, old_id)
+	newuser = g.db.get(User, new_id)
 
 	attrs = {
 		'coins',
@@ -66,10 +78,10 @@ def _moveacc(old_id, new_id):
 	if newuser.created_utc > olduser.created_utc:
 		newuser.created_utc = olduser.created_utc
 
-	db.add(newuser)
-	db.add(olduser)
+	g.db.add(newuser)
+	g.db.add(olduser)
 
-	db.commit()
+	g.db.commit()
 
 	classes = {
 		(AwardRelationship, "user_id"),
@@ -127,23 +139,25 @@ def _moveacc(old_id, new_id):
 	}
 
 	for cls, attr in classes:
-		items = db.query(cls).filter(getattr(cls, attr) == olduser.id)
+		items = g.db.query(cls).filter(getattr(cls, attr) == olduser.id)
 		for item in items:
 			setattr(item, attr, newuser.id)
-			db.add(item)
-			try: db.commit()
+			g.db.add(item)
+			try: g.db.commit()
 			except IntegrityError as e:
 				if isinstance(e.orig, UniqueViolation):
-					db.rollback()
+					g.db.rollback()
+					g.db.delete(item)
+					g.db.commit()
 				else:
 					print(e, flush=True)
 					abort(500, str(e))
 
-	olduser.stored_subscriber_count = db.query(Follow).filter_by(target_id=olduser.id).count()
-	newuser.stored_subscriber_count = db.query(Follow).filter_by(target_id=newuser.id).count()
+	olduser.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=olduser.id).count()
+	newuser.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=newuser.id).count()
 
-	db.add(newuser)
-	db.add(olduser)
+	g.db.add(newuser)
+	g.db.add(olduser)
 
 	update_statement = f'''update submissions set body_html=replace(body_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where body_html like '%<a href="/id/{old_id}">%';
 	update comments set body_html=replace(body_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where body_html like '%<a href="/id/{old_id}">%';
@@ -153,30 +167,15 @@ def _moveacc(old_id, new_id):
 	update users set friends_html=replace(friends_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where friends_html like '%<a href="/id/{old_id}">%';
 	update users set enemies_html=replace(enemies_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where enemies_html like '%<a href="/id/{old_id}">%';
 	'''
-	db.execute(update_statement)
+	g.db.execute(update_statement)
+
+	g.db.delete(olduser)
 
 	online = cache.get(CHAT_ONLINE_CACHE_KEY)
 	cache.clear()
 	cache.set(CHAT_ONLINE_CACHE_KEY, online)
 
-	db.commit()
-
-
-@app.get('/admin/move/<old_id>/<new_id>')
-@admin_level_required(PERMS['USER_MERGE'])
-def move_acc(v:User, new_id, old_id):
-	if v.id != AEVANN_ID: abort(403)
-
-	if time.time() - session.get('verified', 0) > 10:
-		session.pop("lo_user", None)
-		path = request.path
-		qs = urlencode(dict(request.values))
-		argval = quote(f"{path}?{qs}", safe='')
-		return redirect(f"/login?redirect={argval}")
-
-	old_id = int(old_id)
-	new_id = int(new_id)
-	gevent.spawn(_moveacc, old_id, new_id)
+	g.db.commit()
 
 	return redirect(f"/id/{old_id}")
 
