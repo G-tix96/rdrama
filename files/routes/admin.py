@@ -2,6 +2,8 @@ import time
 from urllib.parse import quote, urlencode
 
 from sqlalchemy import nullslast
+from sqlalchemy.exc import IntegrityError
+from psycopg2.errors import UniqueViolation
 
 from files.__main__ import app, cache, limiter
 from files.classes import *
@@ -34,66 +36,123 @@ def loggedout_list(v):
 	users = sorted([val[1] for x,val in cache.get(f'{SITE}_loggedout').items() if time.time()-val[0] < LOGGEDIN_ACTIVE_TIME])
 	return render_template("admin/loggedout.html", v=v, users=users)
 
-@app.get('/admin/merge/<id1>/<id2>')
+@app.get('/admin/move/<old_id>/<new_id>')
 @admin_level_required(PERMS['USER_MERGE'])
-def merge(v:User, id1, id2):
+def move_acc(v:User, new_id, old_id):
 	if v.id != AEVANN_ID: abort(403)
 
-	if time.time() - session.get('verified', 0) > 3:
+	if time.time() - session.get('verified', 0) > 10:
 		session.pop("lo_user", None)
 		path = request.path
 		qs = urlencode(dict(request.values))
 		argval = quote(f"{path}?{qs}", safe='')
 		return redirect(f"/login?redirect={argval}")
 
-	user1 = get_account(id1)
-	user2 = get_account(id2)
+	newuser = get_account(new_id)
+	olduser = get_account(old_id)
 
-	awards = g.db.query(AwardRelationship).filter_by(user_id=user2.id)
-	comments = g.db.query(Comment).filter_by(author_id=user2.id)
-	submissions = g.db.query(Submission).filter_by(author_id=user2.id)
-	badges = g.db.query(Badge).filter_by(user_id=user2.id)
-	mods = g.db.query(Mod).filter_by(user_id=user2.id)
-	exiles = g.db.query(Exile).filter_by(user_id=user2.id)
+	attrs = {
+		'coins',
+		'coins_spent',
+		'coins_spent_on_hats',
+		'comment_count',
+		'currently_held_lottery_tickets',
+		'lootboxes_bought',
+		'marseybux',
+		'post_count',
+		'received_award_count',
+		'stored_subscriber_count',
+		'total_held_lottery_tickets',
+		'total_lottery_winnings',
+		'truescore',
+	}
 
-	for award in awards:
-		award.user_id = user1.id
-		g.db.add(award)
-	for comment in comments:
-		comment.author_id = user1.id
-		g.db.add(comment)
-	for submission in submissions:
-		submission.author_id = user1.id
-		g.db.add(submission)
-	for badge in badges:
-		if not user1.has_badge(badge.badge_id):
-			badge.user_id = user1.id
-			g.db.add(badge)
-			g.db.flush()
-	for mod in mods:
-		if not user1.mods(mod.sub):
-			mod.user_id = user1.id
-			g.db.add(mod)
-			g.db.flush()
-	for exile in exiles:
-		if not user1.exiled_from(exile.sub):
-			exile.user_id = user1.id
-			g.db.add(exile)
-			g.db.flush()
+	for attr in attrs:
+		amount = getattr(newuser, attr) + getattr(olduser, attr)
+		setattr(newuser, attr, amount)
+		setattr(olduser, attr, 0)
 
-	for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truescore', 'marseybux'):
-		amount = getattr(user1, kind) + getattr(user2, kind)
-		setattr(user1, kind, amount)
-		setattr(user2, kind, 0)
+	if newuser.created_utc > olduser.created_utc:
+		newuser.created_utc = olduser.created_utc
 
-	g.db.add(user1)
-	g.db.add(user2)
+	g.db.add(newuser)
+	g.db.add(olduser)
+
+	g.db.commit()
+
+	classes = {
+		(AwardRelationship, "user_id"),
+		(Badge, "user_id"),
+		(CasinoGame, "user_id"),
+		(Hat, "user_id"),
+		(HatDef, "author_id"),
+		(Lottery, "winner_id"),
+		(Marsey, "author_id"),
+		(Media, "user_id"),
+		(Notification, "user_id"),
+		(PushSubscription, "user_id"),
+
+		#mod actions
+		(ModAction, "user_id"),
+		(ModAction, "target_user_id"),
+		(SubAction, "user_id"),
+		(SubAction, "target_user_id"),
+
+		#holes
+		(Mod, "user_id"),
+		(Exile, "exiler_id"),
+		(Exile, "user_id"),
+		(SubBlock, "user_id"),
+		(SubJoin, "user_id"),
+		(SubSubscription, "user_id"),
+		(Subscription, "user_id"),
+
+		#other users
+		(User, "is_banned"),
+		(User, "referred_by"),
+		(User, "shadowbanned"),
+		(Follow, "target_id"),
+		(Follow, "user_id"),
+		(UserBlock, "user_id"),
+		(UserBlock, "target_id"),
+		(ViewerRelationship, "user_id"),
+		(ViewerRelationship, "viewer_id"),
+
+		#posts and comments
+		(Submission, "author_id"),
+		(Submission, "is_approved"),
+		(Comment, "author_id"),
+		(Comment, "is_approved"),
+		(Comment, "sentto"),
+		(Comment, "wall_user_id"),
+		(Vote, "user_id"),
+		(CommentVote, "user_id"),
+		(Flag, "user_id"),
+		(CommentFlag, "user_id"),
+		(SaveRelationship, "user_id"),
+		(CommentSaveRelationship, "user_id"),
+		(SubmissionOptionVote, "user_id"),
+		(CommentOptionVote, "user_id"),
+	}
+
+	for cls, attr in classes:
+		items = g.db.query(cls).filter(getattr(cls, attr) == olduser.id)
+		for item in items:
+			setattr(item, attr, newuser.id)
+			g.db.add(item)
+			try: g.db.commit()
+			except IntegrityError as e:
+				if isinstance(e.orig, UniqueViolation):
+					g.db.rollback()
+				else:
+					print(e, flush=True)
+					abort(500, str(e))
 
 	online = cache.get(CHAT_ONLINE_CACHE_KEY)
 	cache.clear()
 	cache.set(CHAT_ONLINE_CACHE_KEY, online)
 
-	return redirect(user1.url)
+	return redirect(newuser.url)
 
 
 
