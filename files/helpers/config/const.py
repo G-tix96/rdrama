@@ -9,6 +9,19 @@ fistmas_begin = datetime.datetime.strptime(f'1/12/{t.year}', '%d/%m/%Y')
 fistmas_end = datetime.datetime.strptime(f'1/1/{t.year+1}', '%d/%m/%Y')
 HOLIDAY_EVENT = fistmas_begin < t < fistmas_end
 
+DEFAULT_TIME_FILTER = "all"
+DEFAULT_THEME = "midnight"
+DEFAULT_COLOR = "805ad5"
+SPAM_SIMILARITY_THRESHOLD = 0.5
+SPAM_URL_SIMILARITY_THRESHOLD = 0.1
+SPAM_SIMILAR_COUNT_THRESHOLD = 10
+COMMENT_SPAM_SIMILAR_THRESHOLD = 0.5
+COMMENT_SPAM_COUNT_THRESHOLD = 10
+DISABLE_DOWNVOTES = False
+DESCRIPTION = "rdrama.net caters to drama in all forms such as: Real life, videos, photos, gossip, rumors, news sites, Reddit, and Beyond™. There isn't drama we won't touch, and we want it all!"
+EMAIL = ""
+TELEGRAM_ID = ""
+
 DEFAULT_CONFIG_VALUE = "blahblahblah"
 SITE = environ.get("SITE").strip()
 SITE_NAME = environ.get("SITE_NAME").strip()
@@ -23,21 +36,12 @@ TURNSTILE_SECRET = environ.get("TURNSTILE_SECRET").strip()
 YOUTUBE_KEY = environ.get("YOUTUBE_KEY").strip()
 VAPID_PUBLIC_KEY = environ.get("VAPID_PUBLIC_KEY").strip()
 VAPID_PRIVATE_KEY = environ.get("VAPID_PRIVATE_KEY").strip()
-SPAM_SIMILARITY_THRESHOLD = float(environ.get("SPAM_SIMILARITY_THRESHOLD").strip())
-SPAM_URL_SIMILARITY_THRESHOLD = float(environ.get("SPAM_URL_SIMILARITY_THRESHOLD").strip())
-SPAM_SIMILAR_COUNT_THRESHOLD = int(environ.get("SPAM_SIMILAR_COUNT_THRESHOLD").strip())
-COMMENT_SPAM_SIMILAR_THRESHOLD = float(environ.get("COMMENT_SPAM_SIMILAR_THRESHOLD").strip())
-COMMENT_SPAM_COUNT_THRESHOLD = int(environ.get("COMMENT_SPAM_COUNT_THRESHOLD").strip())
 GUMROAD_TOKEN = environ.get("GUMROAD_TOKEN").strip()
 GUMROAD_LINK = environ.get("GUMROAD_LINK").strip()
 GUMROAD_ID = environ.get("GUMROAD_ID").strip()
-DISABLE_DOWNVOTES = bool(int(environ.get("DISABLE_DOWNVOTES").strip()))
-EMAIL = environ.get("EMAIL").strip()
 MAILGUN_KEY = environ.get("MAILGUN_KEY").strip()
-DESCRIPTION = environ.get("DESCRIPTION").strip()
 CF_KEY = environ.get("CF_KEY").strip()
 CF_ZONE = environ.get("CF_ZONE").strip()
-TELEGRAM_LINK = environ.get("TELEGRAM_LINK").strip()
 GLOBAL = environ.get("GLOBAL", "").strip()
 blackjack = environ.get("BLACKJACK", "").strip()
 blackjack2 = environ.get("BLACKJACK2", "").strip()
@@ -118,11 +122,6 @@ BAN_EVASION_DOMAIN = 'stupidpol.site'
 BAN_EVASION_FULL = f'https://{BAN_EVASION_DOMAIN}'
 
 patron = "Patron"
-
-DEFAULT_TIME_FILTER = "all"
-DEFAULT_THEME = "midnight"
-DEFAULT_COLOR = "805ad5"
-
 
 REDDIT_NOTIFS_SITE = set()
 REDDIT_NOTIFS_USERS = {}
@@ -648,6 +647,8 @@ NOTIFIED_USERS = {}
 DONT_SHADOWBAN = {}
 
 if SITE == 'rdrama.net':
+	EMAIL = f"rdrama@{SITE}"
+	TELEGRAM_ID = "rdramanet"
 	DEFAULT_TIME_FILTER = "day"
 
 	FEATURES['PRONOUNS'] = True
@@ -753,7 +754,11 @@ if SITE == 'rdrama.net':
 		'justcool393': JUSTCOOL_ID
 	}
 elif SITE == 'watchpeopledie.tv':
+	EMAIL = f"wpd@{SITE}"
+	TELEGRAM_ID = "wpdtv"
 	DEFAULT_TIME_FILTER = "day"
+
+	DESCRIPTION = "People die and this is the place to see it. You only have one life, don't make the mistakes seen here."
 
 	PIN_LIMIT = 4
 	WELCOME_MSG = """Hi, you! Welcome to WatchPeopleDie.tv, this really cool site where you can go to watch people die. I'm @CLiTPEELER! If you have any questions about how things work here, or suggestions on how to make them work better than they already do, definitely slide on into my DMs (no fat chicks).\nThere's an enormously robust suite of fun features we have here and we're always looking for more to add. Way, way too many to go over in an automated welcome message. And you're probably here for the videos of people dying more than any sort of weird, paradoxical digital community aspect anyway, so I won't bore you with a tedious overview of them. Just head on over to [your settings page](https://watchpeopledie.tv/settings/profile) and have a look at some of the basic profile stuff, at least. You can change your profile picture, username, flair, colors, banners, bio, profile anthem (autoplaying song on your page, like it's MySpace or some shit, hell yeah), CSS, all sorts of things.\nOr you can just go back to the main feed and carry on with watching people die. That's what the site is for, after all. Have fun!\nAnyway, in closing, WPD is entirely open source. We don't really need new full-time coders or anything, but if you'd like to take a look at our repo - or even submit a PR to change, fix, or add some things - go right ahead! Our codebase lives at https://fsdfsd.net/rDrama/rDrama\nWell, that's all. Thanks again for signing up. It's an automated message and all, but I really do mean that. Thank you, specifically. I love you. Romantically. Deeply. Passionately.\nHave fun!"""
