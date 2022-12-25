@@ -36,20 +36,12 @@ def loggedout_list(v):
 	users = sorted([val[1] for x,val in cache.get(f'{SITE}_loggedout').items() if time.time()-val[0] < LOGGEDIN_ACTIVE_TIME])
 	return render_template("admin/loggedout.html", v=v, users=users)
 
-@app.get('/admin/move/<old_id>/<new_id>')
-@admin_level_required(PERMS['USER_MERGE'])
-def move_acc(v:User, new_id, old_id):
-	if v.id != AEVANN_ID: abort(403)
 
-	if time.time() - session.get('verified', 0) > 10:
-		session.pop("lo_user", None)
-		path = request.path
-		qs = urlencode(dict(request.values))
-		argval = quote(f"{path}?{qs}", safe='')
-		return redirect(f"/login?redirect={argval}")
+def _moveacc(old_id, new_id):
+	db = db_session()
 
-	newuser = get_account(new_id)
-	olduser = get_account(old_id)
+	olduser = db.get(User, old_id)
+	newuser = db.get(User, new_id)
 
 	attrs = {
 		'coins',
@@ -75,10 +67,10 @@ def move_acc(v:User, new_id, old_id):
 	if newuser.created_utc > olduser.created_utc:
 		newuser.created_utc = olduser.created_utc
 
-	g.db.add(newuser)
-	g.db.add(olduser)
+	db.add(newuser)
+	db.add(olduser)
 
-	g.db.commit()
+	db.commit()
 
 	classes = {
 		(AwardRelationship, "user_id"),
@@ -136,14 +128,14 @@ def move_acc(v:User, new_id, old_id):
 	}
 
 	for cls, attr in classes:
-		items = g.db.query(cls).filter(getattr(cls, attr) == olduser.id)
+		items = db.query(cls).filter(getattr(cls, attr) == olduser.id)
 		for item in items:
 			setattr(item, attr, newuser.id)
-			g.db.add(item)
-			try: g.db.commit()
+			db.add(item)
+			try: db.commit()
 			except IntegrityError as e:
 				if isinstance(e.orig, UniqueViolation):
-					g.db.rollback()
+					db.rollback()
 				else:
 					print(e, flush=True)
 					abort(500, str(e))
@@ -152,7 +144,26 @@ def move_acc(v:User, new_id, old_id):
 	cache.clear()
 	cache.set(CHAT_ONLINE_CACHE_KEY, online)
 
-	return redirect(newuser.url)
+	db.commit()
+
+
+@app.get('/admin/move/<old_id>/<new_id>')
+@admin_level_required(PERMS['USER_MERGE'])
+def move_acc(v:User, new_id, old_id):
+	if v.id != AEVANN_ID: abort(403)
+
+	if time.time() - session.get('verified', 0) > 10:
+		session.pop("lo_user", None)
+		path = request.path
+		qs = urlencode(dict(request.values))
+		argval = quote(f"{path}?{qs}", safe='')
+		return redirect(f"/login?redirect={argval}")
+
+	old_id = int(old_id)
+	new_id = int(new_id)
+	gevent.spawn(_moveacc, old_id, new_id)
+
+	return redirect(f"/id/{new_id}")
 
 
 
