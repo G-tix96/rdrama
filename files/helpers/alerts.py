@@ -106,14 +106,16 @@ def NOTIFY_USERS(text, v):
 	return notify_users - bots
 
 
-def push_notif(uid, title, body, url):
+def push_notif(uids, title, body, url):
+	if uids == {AEVANN_ID}: return
+
 	if VAPID_PUBLIC_KEY == DEFAULT_CONFIG_VALUE:
 		return
 
 	if len(body) > PUSH_NOTIF_LIMIT:
 		body = body[:PUSH_NOTIF_LIMIT] + "..."
 
-	subscriptions = g.db.query(PushSubscription.subscription_json).filter_by(user_id=uid).all()
+	subscriptions = g.db.query(PushSubscription.subscription_json).filter(PushSubscription.user_id.in_(uids)).all()
 	subscriptions = [x[0] for x in subscriptions]
 	gevent.spawn(_push_notif_thread, subscriptions, title, body, url)
 

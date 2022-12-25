@@ -491,7 +491,7 @@ def message2(v:User, username:str):
 
 		url = f'{SITE_FULL}/notifications/messages'
 
-		push_notif(user.id, title, notifbody, url)
+		push_notif({user.id}, title, notifbody, url)
 
 	return {"message": "Message sent!"}
 
@@ -558,7 +558,7 @@ def messagereply(v:User):
 
 			url = f'{SITE_FULL}/notifications/messages'
 
-			push_notif(user_id, title, notifbody, url)
+			push_notif({user_id}, title, notifbody, url)
 
 	top_comment = c.top_comment(g.db)
 
