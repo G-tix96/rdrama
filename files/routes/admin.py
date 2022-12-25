@@ -73,13 +73,11 @@ def move_acc(v:User, new_id, old_id):
 	for attr in attrs:
 		amount = getattr(newuser, attr) + getattr(olduser, attr)
 		setattr(newuser, attr, amount)
-		setattr(olduser, attr, 0)
 
 	if newuser.created_utc > olduser.created_utc:
 		newuser.created_utc = olduser.created_utc
 
 	g.db.add(newuser)
-	g.db.add(olduser)
 
 	g.db.commit()
 
@@ -153,11 +151,9 @@ def move_acc(v:User, new_id, old_id):
 					print(e, flush=True)
 					abort(500, str(e))
 
-	olduser.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=olduser.id).count()
 	newuser.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=newuser.id).count()
 
 	g.db.add(newuser)
-	g.db.add(olduser)
 
 	update_statement = f'''update submissions set body_html=replace(body_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where body_html like '%<a href="/id/{old_id}">%';
 	update comments set body_html=replace(body_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where body_html like '%<a href="/id/{old_id}">%';
