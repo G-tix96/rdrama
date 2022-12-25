@@ -692,7 +692,7 @@ if SITE == 'rdrama.net':
 	NOTIFIED_USERS = {
 		'aevan': AEVANN_ID,
 		'avean': AEVANN_ID,
-		'capy': AEVANN_ID,
+		' capy': AEVANN_ID,
 		'carp': CARP_ID,
 		'clit': CARP_ID,
 		'snakes': SNAKES_ID,
