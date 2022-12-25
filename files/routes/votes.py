@@ -156,7 +156,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	target.upvotes = get_vote_count(1, False)
 	target.downvotes = get_vote_count(-1, False)
 
-	if SITE == 'rdrama.net':
+	if SITE_NAME == 'rDrama':
 		target.realupvotes = get_vote_count(0, True) # first arg is ignored here
 
 		mul = 1
@@ -167,9 +167,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 					or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))
 					or target.sub in BOOSTED_HOLES):
 				mul = 2
-			elif (not target.sub
-					and target.body_html
-					and target.author.id not in {8768,3402,5214,12719}):
+			elif not target.sub and target.body_html and target.author.id not in {8768,3402,5214,12719}:
 				x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
 				x += target.body_html.count('<a href="/images/')
 				target.realupvotes += min(x*2, 20)
