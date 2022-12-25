@@ -163,7 +163,7 @@ def move_acc(v:User, new_id, old_id):
 	new_id = int(new_id)
 	gevent.spawn(_moveacc, old_id, new_id)
 
-	return redirect(f"/id/{new_id}")
+	return redirect(f"/id/{old_id}")
 
 
 
