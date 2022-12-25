@@ -11,9 +11,9 @@
 					<div class="d-md-flex text-center text-md-left">
 						<div id="profile--pfp" {% if u.hat_active(v)[0] %}class="profile--pfp--hat hat"{% endif %}>
 							<a rel="nofollow noopener" href="{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}" class="profile-pic-100-wrapper">
-								<img onclick="expandDesktopImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic profile-pic-100 mb-5">
+								<img onclick="expandImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic profile-pic-100 mb-5">
 								{% if u.hat_active(v)[0] -%}
-									<img onclick="expandDesktopImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-100-hat hat" loading="lazy" src="{{u.hat_active(v)[0]}}?h=7" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.hat_active(v)[1]}}">
+									<img onclick="expandImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-100-hat hat" loading="lazy" src="{{u.hat_active(v)[0]}}?h=7" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.hat_active(v)[1]}}">
 								{%- endif %}
 							</a>
 						</div>
@@ -261,7 +261,7 @@
 	<div class="row">
 		<div class="col px-0">
 			<a rel="nofollow noopener" href="{{u.banner_url}}">
-				<img alt="@{{u.username}}'s banner" onclick="expandDesktopImage()" loading="lazy" src="{{u.banner_url}}" width=100% style="object-fit:cover;max-height:30vh!important">
+				<img alt="@{{u.username}}'s banner" onclick="expandImage()" loading="lazy" src="{{u.banner_url}}" width=100% style="object-fit:cover;max-height:30vh!important">
 			</a>
 		</div>
 	</div>
@@ -269,9 +269,9 @@
 		<div class="col">
 			<div style="margin-top: -34px;" id="profile-mobile--pfp">
 				<a rel="nofollow noopener" href="{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}" class="profile-pic-65-wrapper">
-					<img onclick="expandDesktopImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic-65 bg-white mb-2">
+					<img onclick="expandImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic-65 bg-white mb-2">
 					{% if u.hat_active(v)[0] -%}
-						<img onclick="expandDesktopImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-65-hat hat" loading="lazy" src="{{u.hat_active(v)[0]}}?h=7">
+						<img onclick="expandImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-65-hat hat" loading="lazy" src="{{u.hat_active(v)[0]}}?h=7">
 					{%- endif %}
 				</a>
 			</div>

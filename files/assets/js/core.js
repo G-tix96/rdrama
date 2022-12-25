@@ -224,7 +224,7 @@ function formkey() {
 	else return null;
 }
 
-function expandDesktopImage(url) {
+function expandImage(url) {
 	const e = this.event
 	if(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
 		return;
@@ -449,7 +449,7 @@ function sort_table(t) {
 document.addEventListener("click", function(e){
 	const element = e.target
 	if (element instanceof HTMLImageElement && element.alt.startsWith('![]('))
-		expandDesktopImage()
+		expandImage()
 	else if (element.tagName == "TH")
 		sort_table(element)
 	else if (element.classList.contains('giphy'))

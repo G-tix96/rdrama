@@ -79,7 +79,7 @@
 					</a>
 				{% elif p.is_image %}
 					<a href="{{p.realurl(v)}}" rel="nofollow noopener">
-						<img onclick="expandDesktopImage('{{p.realurl(v)}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+						<img onclick="expandImage('{{p.realurl(v)}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 					</a>
 				{% elif p.is_video or p.is_audio %}
 					<a href="{{p.realurl(v)}}" rel="nofollow noopener">
