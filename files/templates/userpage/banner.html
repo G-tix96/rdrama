@@ -1,6 +1,9 @@
 {% import 'userpage/admintools.html' as userpage_admintools with context %}
 {% set hats_total = u.hats_owned_proportion_display[1] if u else 0 %}
 {% set hats_owned_percent = u.hats_owned_proportion_display[0] if u else '' %}
+{% if v and (v.admin_level >= PERMS['VIEW_ALTS'] or v.alt) %}
+	{% set alts = get_alt_graph(u.id) %}
+{% endif %}
 {% block desktopUserBanner %}
 <div class="row d-mob-none">
 	<div class="col px-0">
@@ -220,12 +223,12 @@
 						{% endif %}
 						{% if v and (v.admin_level >= PERMS['VIEW_ALTS'] or v.alt) %}
 							{% if v.admin_level >= PERMS['USER_LINK'] %}
-								<span id="profile--alts"><a href="/@{{u.username}}/alts">Alts</a>:</span>
+								<span id="profile--alts"><a href="/@{{u.username}}/alts">{{alts|length}} Alts</a>:</span>
 							{% else %}
-								<span id="profile--alts">Alts:</span>
+								<span id="profile--alts">{{alts|length}} Alts:</span>
 							{% endif %}
 							<ul id="profile--alts-list">
-								{% for account in get_alt_graph(u.id) if v.can_see_shadowbanned or not account.shadowbanned %}
+								{% for account in alts if v.can_see_shadowbanned or not account.shadowbanned %}
 									<li><a href="{{account.url}}">@{{account.username}}</a>{% if account._is_manual %} [m]{% endif %}</li>
 								{% endfor %}
 							</ul>
@@ -484,12 +487,12 @@
 					{% endif %}
 					{% if v and (v.admin_level >= PERMS['VIEW_ALTS'] or v.alt) %}
 						{% if v.admin_level >= PERMS['USER_LINK'] %}
-							<span id="profile-mobile--alts"><a href="/@{{u.username}}/alts">Alts</a>:</span>
+							<span id="profile-mobile--alts"><a href="/@{{u.username}}/alts">{{alts|length}} Alts</a>:</span>
 						{% else %}
-							<span id="profile-mobile--alts">Alts:</span>
+							<span id="profile-mobile--alts">{{alts|length}} Alts:</span>
 						{% endif %}
 						<ul id="profile-mobile--alts-list">
-						{% for account in get_alt_graph(u.id) if v.can_see_shadowbanned or not account.shadowbanned %}
+						{% for account in alts if v.can_see_shadowbanned or not account.shadowbanned %}
 							<li><a href="{{account.url}}">@{{account.username}}</a>{% if account._is_manual %} [m]{% endif %}</li>
 						{% endfor %}
 						</ul>
