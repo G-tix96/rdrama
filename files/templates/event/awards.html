@@ -2,7 +2,7 @@
 	{% set gingerbread_count = p.award_count("gingerbread", v) * 2 if p.award_count("gingerbread", v) <= 10 else 20 %}
 	{% for i in range(gingerbread_count) %}
 		<div class="fall-snowflake">
-			<img src="/assets/event/images/awards/gingerbread.png?v=1" class="animate-spin object-contain" style="width: 40px; height: 40px;" alt="animate marsey gingerbread icon" />
+			<img src="/assets/event/images/awards/gingerbread.webp?v=1" class="animate-spin object-contain" style="width: 40px; height: 40px;" alt="animate marsey gingerbread icon" />
 		</div>
 	{% endfor %}
 
@@ -72,7 +72,7 @@
 			left: 0;
 			height: 57px;
 			width: 100%;
-			background: url('/assets/event/images/lights.png?v=1');
+			background: url('/assets/event/images/lights.webp?v=1');
 			animation: lights 1s infinite steps(2);
 			pointer-events: none;
 			z-index: 1;
