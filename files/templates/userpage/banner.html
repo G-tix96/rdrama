@@ -212,7 +212,7 @@
 						{% endif %}
 					</div>
 					
-					<div class="mt-3" id="profile--info">
+					<div class="mt-4" id="profile--info">
 						<p id="profile--info--id">User ID: {{u.id}}</p>
 						<p id="profile--info--spent">Coins spent: {{u.coins_spent}}</p>
 						<p id="profile--info--truescore">True score: {{u.truescore}}</p>
@@ -421,7 +421,7 @@
 							</form>
 
 							{% if v.profile_background -%}
-								<div class="d-block mt-3 mb-3">
+								<div class="d-block mt-3">
 									<button type="button" class="btn btn-danger" onclick="postToastReload(this,'/settings/profile_background', 'DELETE')">
 										<i class="fas fa-image-slash mr-1"></i>
 										Remove current background
@@ -429,6 +429,10 @@
 								</div>
 							{%- endif %}
 						</div>
+					{% else %}
+						<pre>
+
+						</pre>
 					{% endif %}
 
 					{% if v and v.id != u.id %}
