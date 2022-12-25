@@ -173,8 +173,10 @@ def move_acc(v:User, new_id, old_id):
 
 	g.db.commit()
 
+	stats = cache.get(f'{SITE}_stats')
 	online = cache.get(CHAT_ONLINE_CACHE_KEY)
 	cache.clear()
+	cache.set(f'{SITE}_stats', stats)
 	cache.set(CHAT_ONLINE_CACHE_KEY, online)
 
 	return redirect(f"/id/{old_id}")
