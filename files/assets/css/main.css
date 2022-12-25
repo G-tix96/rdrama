@@ -5281,13 +5281,13 @@ img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 
 .awards-wrapper > div {
 	cursor: pointer;
-	padding: 7px 3px !important;
+	padding: 2px !important;
 	text-align: center;
 	text-transform: none!important;
 }
 
 .awards-wrapper > div > i {
-	font-size: 17px;
+	font-size: 12px;
 }
 
 .awards-wrapper > div.disabled {
@@ -6408,18 +6408,12 @@ div.markdown {
 
 .award-name {
 	font-weight: bold;
-	font-size: 12px;
+	font-size: 10px;
 	color:#E1E1E1;
 }
 
 .award-owned {
-	font-size: 12px;
-}
-
-@media (max-width: 768px) {
-	.award-name, .award-owned {
-		font-size: 11px;
-	}	
+	font-size: 10px;
 }
 
 @media (max-width: 768px) {
