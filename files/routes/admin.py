@@ -171,11 +171,11 @@ def move_acc(v:User, new_id, old_id):
 
 	g.db.delete(olduser)
 
+	g.db.commit()
+
 	online = cache.get(CHAT_ONLINE_CACHE_KEY)
 	cache.clear()
 	cache.set(CHAT_ONLINE_CACHE_KEY, online)
-
-	g.db.commit()
 
 	return redirect(f"/id/{old_id}")
 
