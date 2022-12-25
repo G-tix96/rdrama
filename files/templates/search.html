@@ -7,10 +7,10 @@
 
 {% block PseudoSubmitForm %}
 	<form id="large_searchbar" class="form-inline search flex-nowrap mx-0 mx-lg-auto mt-3" action="/search/{% if '/posts' in request.path %}posts{% elif '/comments' in request.path %}comments{% else %}users{% endif %}" method="get">
-		<input autocomplete="off" class="form-control w-100" type="search" placeholder="Search" aria-label="Search" name="q" value="{{query}}">
+		<input autocomplete="off" class="form-control w-100" type="search" placeholder="Search" name="q" value="{{query}}">
 		<span class="input-group-append">
 			<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem;">
-				<i class="fa fa-search" aria-hidden="true"></i>
+				<i class="fa fa-search"></i>
 			</span>
 		</span>
 	</form>
@@ -31,8 +31,8 @@
 				<div class="pl-md-3">
 					{% if not request.path.startswith('/search/users') %}
 						<div id="searchparams-dropdown" class="dropdown dropdown-actions">
-							<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><strong>Advanced search parameters (with examples)</strong></button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px);">
+							<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown"><strong>Advanced search parameters (with examples)</strong></button>
+							<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px);">
 								<div>
 									<div style="display: inline-block; width: 150px; text-align: center;">Author:</div>
 									<button type="button" onClick="addParam()" class="searchparam mb-1">author:quadnarca</button>
@@ -80,7 +80,7 @@
 					{% if not '/users' in request.path %}
 						<div class="mt-3 d-flex align-items-center" style="float:right">
 							<div class="dropdown dropdown-actions">
-								<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown">
 									{% if t=="hour" %}<i class="fas fa-clock mr-1"></i>
 									{% elif t=="day" %}<i class="fas fa-calendar-day mr-1"></i>
 									{% elif t=="week" %}<i class="fas fa-calendar-week mr-1"></i>
@@ -90,7 +90,7 @@
 									{% endif %}
 								{{t | capitalize}}
 								</button>
-								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px);">
+								<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px);">
 									{% if t != "hour" %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort={{sort}}&t=hour"><i class="fas fa-clock mr-2"></i>Hour</a>{% endif %}
 									{% if t != "day" %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort={{sort}}&t=day"><i class="fas fa-calendar-day mr-2"></i>Day</a>{% endif %}
 									{% if t != "week" %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort={{sort}}&t=week"><i class="fas fa-calendar-week mr-2"></i>Week</a>{% endif %}
@@ -101,7 +101,7 @@
 							</div>
 
 							<div class="dropdown dropdown-actions">
-								<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown">
 									{% if sort=="top" %}<i class="fas fa-arrow-alt-circle-up mr-1"></i>{% endif %}
 									{% if sort=="bottom" %}<i class="fas fa-arrow-alt-circle-down mr-1"></i>{% endif %}
 									{% if sort=="new" %}<i class="fas fa-sparkles mr-1"></i>{% endif %}
@@ -110,7 +110,7 @@
 									{% if sort=="comments" %}<i class="fas fa-comments mr-1"></i>{% endif %}
 									{{sort | capitalize}}
 								</button>
-								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton2" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px);">
+								<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px);">
 									{% if sort != "top" %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort=top&t={{t}}"><i class="fas fa-arrow-alt-circle-up mr-2"></i>Top</a>{% endif %}
 									{% if sort != "bottom" %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort=bottom&t={{t}}"><i class="fas fa-arrow-alt-circle-down mr-2"></i>Bottom</a>{% endif %}
 									{% if sort != "new" %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort=new&t={{t}}"><i class="fas fa-sparkles mr-2"></i>New</a>{% endif %}
@@ -181,11 +181,11 @@
 	</div>
 	{% endblock %}
 	{% block pagenav %}
-		<nav aria-label="Page navigation">
+		<nav>
 			<ul class="pagination pagination-sm mb-0">
 				<li class="page-item{% if page==1 %} disabled{% endif %}">
 
-					<small><a class="page-link" href="?sort={{sort}}&q={{query | urlencode}}&t={{t}}&page={{page-1}}" tabindex="-1"{% if page==1 %} aria-disabled="true"{% endif %}>Back</a></small>
+					<small><a class="page-link" href="?sort={{sort}}&q={{query | urlencode}}&t={{t}}&page={{page-1}}" tabindex="-1"{% if page==1 %}{% endif %}>Back</a></small>
 				</li>
 				<li class="page-item{% if not next_exists %} disabled{% endif %}">
 					<small><a class="page-link" href="?sort={{sort}}&q={{query | urlencode}}&t={{t}}&page={{page+1}}">Next</a></small>

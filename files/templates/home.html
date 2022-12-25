@@ -80,7 +80,7 @@
 
 
 				<div class="dropdown dropdown-actions mx-2">
-					<button type="button" class="btn btn-secondary dropdown-toggle smol-fp" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<button type="button" class="btn btn-secondary dropdown-toggle smol-fp" id="dropdownMenuButton" data-bs-toggle="dropdown">
 						{% if t=="hour" %}<i class="fas fa-clock mr-2 "></i>
 						{% elif t=="day" %}<i class="fas fa-calendar-day mr-2 "></i>
 						{% elif t=="week" %}<i class="fas fa-calendar-week mr-2 "></i>
@@ -90,7 +90,7 @@
 						{% endif %}
 						{{t | capitalize}}
 					</button>
-					<div class="dropdown-menu smol-fp" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px;">
+					<div class="dropdown-menu smol-fp" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px;">
 						{% if t != "hour" %}<a class="dropdown-item" href="?sort={{sort}}&t=hour"><i class="fas fa-clock mr-2 "></i>Hour</a>{% endif %}
 						{% if t != "day" %}<a class="dropdown-item" href="?sort={{sort}}&t=day"><i class="fas fa-calendar-day mr-2 "></i>Day</a>{% endif %}
 						{% if t != "week" %}<a class="dropdown-item" href="?sort={{sort}}&t=week"><i class="fas fa-calendar-week mr-2 "></i>Week</a>{% endif %}
@@ -101,7 +101,7 @@
 				</div>
 
 				<div class="dropdown dropdown-actions ml-2">
-					<button type="button" class="btn btn-secondary dropdown-toggle smol-fp" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<button type="button" class="btn btn-secondary dropdown-toggle smol-fp" id="dropdownMenuButton2" data-bs-toggle="dropdown">
 						{% if sort=="hot" %}<i class="fas fa-fire mr-2 "></i>{% endif %}
 						{% if sort=="bump" %}<i class="fas fa-arrow-up mr-2 "></i>{% endif %}
 						{% if sort=="top" %}<i class="fas fa-arrow-alt-circle-up mr-2 "></i>{% endif %}
@@ -112,7 +112,7 @@
 						{% if sort=="comments" %}<i class="fas fa-comments mr-2 "></i>{% endif %}
 						{{sort | capitalize}}
 					</button>
-					<div class="dropdown-menu smol-fp" aria-labelledby="dropdownMenuButton2" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px;">
+					<div class="dropdown-menu smol-fp" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px;">
 						{% if sort != "hot" %}<a class="dropdown-item" href="?sort=hot&t={{t}}"><i class="fas fa-fire mr-2 "></i>Hot</a>{% endif %}
 						{% if sort != "bump" %}<a class="dropdown-item" href="?sort=bump&t={{t}}"><i class="fas fa-arrow-up mr-2 "></i>Bump</a>{% endif %}
 						{% if sort != "top" %}<a class="dropdown-item" href="?sort=top&t={{t}}"><i class="fas fa-arrow-alt-circle-up mr-2 "></i>Top</a>{% endif %}
@@ -147,7 +147,7 @@
 
 {% block pagenav %}
 {% if listing %}
-<nav aria-label="Page navigation">
+<nav>
 	<ul class="pagination pagination-sm mb-0">
 		{% if page>1 %}
 		<li class="page-item">

@@ -13,7 +13,7 @@
 	</div>
 {% endblock %}
 {% block pagenav %}
-<nav aria-label="Page navigation">
+<nav>
 	<ul class="pagination pagination-sm mb-0">
 		{% if page>1 %}
 		<li class="page-item">
@@ -31,7 +31,7 @@
 		{% endif %}
 	</ul>
 </nav>
-<div class="toast clipboard" id="toast-success" role="alert" aria-live="assertive" aria-atomic="true" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
+<div class="toast clipboard" id="toast-success" role="alert" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
 	<div class="toast-body text-center">
 		<i class="fas fa-check-circle text-success mr-2"></i>Link copied to clipboard
 	</div>

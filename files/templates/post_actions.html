@@ -38,7 +38,7 @@
 {% endif %}
 
 {% if v %}
-	<button type="button" class="list-inline-item" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h fa-fw"></i></button>
+	<button type="button" class="list-inline-item" data-bs-toggle="dropdown"><i class="fas fa-ellipsis-h fa-fw"></i></button>
 	<ul class="dropdown-menu">
 		{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and p.oauth_app %}
 			<a class="dropdown-item list-inline-item text-info" href="{{p.oauth_app.permalink}}/posts"><i class="fas fa-code"></i>API App</a>

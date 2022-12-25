@@ -101,10 +101,10 @@
 			{% if not request.path.startswith('/search/') %}
 				<div class="flex-grow-1 d-fl d-mob-none {% if not v %}pad{% endif %}">
 					<form class="form-inline search flex-nowrap mx-0 mx-lg-auto" {% if err %}style="margin-right:40rem!important"{% endif %} action="{% if request.path.startswith('/search') %}{{request.path}}{% else %}/search/posts/{% endif %}" method="get">
-						<input autocomplete="off" class="form-control w-100" type="search" placeholder="{{search_placeholder}}" aria-label="Search" name="q" value="{{request.values.get('q', '')}}">
+						<input autocomplete="off" class="form-control w-100" type="search" placeholder="{{search_placeholder}}" name="q" value="{{request.values.get('q', '')}}">
 						<span class="input-group-append">
 							<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem;">
-								<i class="fa fa-search" aria-hidden="true"></i>
+								<i class="fa fa-search"></i>
 							</span>
 						</span>
 					</form>
@@ -141,7 +141,7 @@
 			{% endif %}
 
 			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
-			aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+			aria-controls="navbarResponsive">
 			<span class="navbar-toggler-icon {% if v and v.notifications_count %}position-relative{% endif %}"><i class="fas fa-bars align-middle text-gray-500 black"></i>
 			</span>
 		</button>
@@ -213,7 +213,7 @@
 				<li class="nav-item d-flex align-items-center justify-content-center text-center">
 					<div class="dropdown" id="header--dropdown">
 						<a href="{{v.url}}" class="nav-link bg-transparent py-0 pr-0" id="dropdownMenuLink" data-bs-toggle="dropdown"
-						aria-haspopup="true" aria-expanded="false">
+						aria-haspopup="true">
 						<div class="d-flex">
 							<div class="profile-pic-35-wrapper">
 								<img loading="lazy" src="{{v.profile_url}}" class="profile-pic-35">
@@ -225,9 +225,9 @@
 							</div>
 							<div class="text-left pl-2">
 								<div style="color: #{{v.name_color}}" class="text-small font-weight-bold"><span id="header--username" {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.user_name}}</span></div>
-								<div class="header--currency"><img alt="coins" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{'coins.webp' | asset_siteimg}}" title="Coins" aria-label="coins"><span id="user-coins-amount">{{v.coins}}</span>{% if not FEATURES['MARSEYBUX'] %} Coin{{macros.plural(v.coins)}}{% endif %}</div>
+								<div class="header--currency"><img alt="coins" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{'coins.webp' | asset_siteimg}}" title="Coins"><span id="user-coins-amount">{{v.coins}}</span>{% if not FEATURES['MARSEYBUX'] %} Coin{{macros.plural(v.coins)}}{% endif %}</div>
 								{% if FEATURES['MARSEYBUX'] %}
-									<div class="header--currency"><img alt="marseybux" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="/i/marseybux.webp?v=2000" title="Marseybux" aria-label="Marseybux"><span id="user-bux-amount">{{v.marseybux}}</span></div>
+									<div class="header--currency"><img alt="marseybux" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="/i/marseybux.webp?v=2000" title="Marseybux"><span id="user-bux-amount">{{v.marseybux}}</span></div>
 								{% endif %}
 							</div>
 						</div>
@@ -282,10 +282,10 @@
 		<ul style="overflow:auto" class="navbar-nav ml-auto d-flex d-md-none mt-3">
 			<li class="nav-item pb-3">
 				<form id="searchform" class="form-inline search flex-nowrap mx-0 mx-lg-auto" action="/search/posts" method="get">
-					<input autocomplete="off" class="form-control form-control-sm w-100" type="search" placeholder="{{search_placeholder}}" aria-label="Search" name="q">
+					<input autocomplete="off" class="form-control form-control-sm w-100" type="search" placeholder="{{search_placeholder}}" name="q">
 					<span class="input-group-append">
 						<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem" onclick="document.getElementById('searchform').submit()">
-							<i class="fa fa-search" aria-hidden="true"></i>
+							<i class="fa fa-search"></i>
 						</span>
 					</span>
 				</form>

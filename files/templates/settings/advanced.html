@@ -137,7 +137,7 @@
 							<form id="custom-filter" action="/settings/filters" method="post">
 								<input type="hidden" name="formkey" value="{{v|formkey}}">
 									<small>Hides matching posts from the frontpage and collapses matching comments.</small>
-								<textarea autocomplete="off" class="form-control rounded" id="filters-text" aria-label="With textarea"
+								<textarea autocomplete="off" class="form-control rounded" id="filters-text"
 								placeholder="Add your own custom content filters."
 								rows="3" name="filters" form="custom-filter" maxlength="1000">{% if v.custom_filter_list %}{{v.custom_filter_list}}{% endif %}</textarea>
 								<div class="d-flex">

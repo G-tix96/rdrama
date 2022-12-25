@@ -180,13 +180,13 @@
 			{% else %}
 				<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none">
 					<span tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';">
-						<i class="fas fa-arrow-alt-up mx-0" aria-hidden="true"></i>
+						<i class="fas fa-arrow-alt-up mx-0"></i>
 					</span>
 
 					<span class="post-mobile-score-{{p.id}} score{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 
 					<span tabindex="0" class="arrow-{{p.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';">
-						<i class="fas fa-arrow-alt-down mx-0" aria-hidden="true"></i>
+						<i class="fas fa-arrow-alt-down mx-0"></i>
 					</span>
 				</li>
 			{% endif %}
@@ -195,13 +195,13 @@
 </div>
 
 {% if v %}
-	<div class="modal fade d-md-none" id="actionsModal-{{p.id}}" tabindex="-1" role="dialog" aria-labelledby="actionsModalTitle" aria-hidden="true">
+	<div class="modal fade d-md-none" id="actionsModal-{{p.id}}" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header p-3">
 					<h6 class="col modal-title text-center">More options</h6>
-					<button type="button" class="close position-absolute py-3" style="right: 1rem"data-bs-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true"><i class="fas fa-times-circle text-gray-500"></i></span>
+					<button type="button" class="close position-absolute py-3" style="right: 1rem"data-bs-dismiss="modal">
+						<span><i class="fas fa-times-circle text-gray-500"></i></span>
 					</button>
 				</div>
 				<div class="modal-body">

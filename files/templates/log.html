@@ -41,10 +41,10 @@
 					<div class="d-flex align-items-center mb-3 ml-auto">
 						<div class="dropdown dropdown-actions">
 
-							<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown">
 								{% if admin %}<img src="/@{{admin}}/pic" alt="avatar" class="profile-pic-20 mr-2">{{admin}}{% else %}<img src="/e/marseyjanny.webp" alt="avatar" class="profile-pic-20 mr-2">All{% endif %}
 							</button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px); max-height: 50vh;
+							<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px); max-height: 50vh;
 							overflow: auto;">
 								<a class="dropdown-item" href="/log{% if type %}?kind={{type}}{% endif %}"><img src="/e/marseyjanny.webp" alt="avatar" class="profile-pic-20 mr-2">All</a>
 								{% for a in admins %}
@@ -54,10 +54,10 @@
 						</div>
 		
 						<div class="dropdown dropdown-actions ml-3">
-							<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown">
 								{% if type %}<i class="fas {{types[type]['icon']}} mr-2"></i>{{type}}{% else %}<i class="fas fa-broom mr-2"></i>All{% endif %}
 							</button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton2s" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px); max-height: 50vh;
+							<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px); max-height: 50vh;
 							overflow: auto;">
 								<a class="dropdown-item" href="/log{% if admin %}?{{single_user_url}}={{admin}}{% endif %}"><i class="fas fa-broom mr-2"></i>All</a>
 								{% for t, v in types.items() %}
@@ -106,7 +106,7 @@
 				<div class="p-3">There's nothing here right now.</div>
 			{% endfor %}
 		</div>
-		<nav aria-label="Page navigation" class="mb-5">
+		<nav class="mb-5">
 			<ul class="pagination pagination-sm mb-0">
 				{% if page>1 %}
 					<li class="page-item">
@@ -127,7 +127,7 @@
 	</div>
 </div>
 
-<div class="toast clipboard" id="toast-success" role="alert" aria-live="assertive" aria-atomic="true" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
+<div class="toast clipboard" id="toast-success" role="alert" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
 	<div class="toast-body text-center">
 		<i class="fas fa-check-circle text-success mr-2"></i>Link copied to clipboard
 	</div>
