@@ -65,7 +65,6 @@ INSERT INTO public.badge_defs VALUES (150, 'Verified', 'Bought a Blue Checkmark.
 INSERT INTO public.badge_defs VALUES (151, 'Responsible Citizen', 'This user upheld democracy by committing voter fraud.', NULL);
 INSERT INTO public.badge_defs VALUES (152, 'Amateur Hathead', 'Collected 25 unique hats', NULL);
 INSERT INTO public.badge_defs VALUES (155, 'Ride Or Die Dramalo/Dramalette', 'When I die show no pity / Send my soul to the juggalo city / Dig my grave six feet deep / And put two matches by my feet / Put two hatchets on my chest / And tell my homies I did my best / WHOOP WHOOP', NULL);
-INSERT INTO public.badge_defs VALUES (156, 'Hole Neglecter', 'Brought a Hole into this world, only to let it die', NULL);
 INSERT INTO public.badge_defs VALUES (197, 'Best Marsey 2021', 'The creator of the best Marsey emote of 2021, as voted by rdrama users.', 1670627291);
 INSERT INTO public.badge_defs VALUES (198, 'Best Drama Post 2021', 'The author of the best drama post of 2021, as voted by rdrama users.', 1670627332);
 INSERT INTO public.badge_defs VALUES (199, 'Dramatard of the Year 2021', 'Voted as the best rdrama user of 2021. Congratulations!', 1670627437);
@@ -208,6 +207,7 @@ INSERT INTO public.badge_defs VALUES (217, 'Ghost of Qatar', 'Finished in the to
 INSERT INTO public.badge_defs VALUES (221, 'Perfect Pundit', 'Finished #1 on the FIFA World Cup betting leaderboard. Congrats!', 1671151427);
 INSERT INTO public.badge_defs VALUES (102, 'Fistmas 21 Survivor', 'Awarded for surviving Fistmas 2021', NULL);
 INSERT INTO public.badge_defs VALUES (222, 'Fistmas 22 Survivor', 'Awarded for surviving Fistmas 2022 which may or may not have even happened', 1671157460);
+INSERT INTO public.badge_defs VALUES (156, 'Hole Neglecter', 'Let a hole they owned die', NULL);
 
 
 --
