@@ -37,7 +37,7 @@ socket_ids_to_user_ids = {}
 user_ids_to_socket_ids = {}
 
 @app.get("/chat")
-@is_not_permabanned
+@admin_level_required(PERMS['CHAT'])
 def chat(v):
 	if TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
 		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat.")
@@ -46,7 +46,7 @@ def chat(v):
 
 @socketio.on('speak')
 @limiter.limit("3/second;10/minute")
-@is_not_permabanned
+@admin_level_required(PERMS['CHAT'])
 @ratelimit_user("3/second;10/minute")
 def speak(data, v):
 	limiter.check()
@@ -107,7 +107,7 @@ def speak(data, v):
 	return '', 204
 
 @socketio.on('connect')
-@is_not_permabanned
+@admin_level_required(PERMS['CHAT'])
 def connect(v):
 	if v.username not in online:
 		online.append(v.username)
@@ -124,7 +124,7 @@ def connect(v):
 	return '', 204
 
 @socketio.on('disconnect')
-@is_not_permabanned
+@admin_level_required(PERMS['CHAT'])
 def disconnect(v):
 	if v.username in online:
 		online.remove(v.username)
@@ -141,7 +141,7 @@ def disconnect(v):
 	return '', 204
 
 @socketio.on('typing')
-@is_not_permabanned
+@admin_level_required(PERMS['CHAT'])
 def typing_indicator(data, v):
 
 	if data and v.username not in typing: typing.append(v.username)

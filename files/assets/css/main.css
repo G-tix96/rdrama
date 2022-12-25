@@ -6516,3 +6516,7 @@ div.markdown {
 	background-color: var(--gray-600);
 	cursor: pointer;
 }
+
+#root > div.App {
+	background-color: rgb(var(--background));
+}
