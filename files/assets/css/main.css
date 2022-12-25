@@ -4418,10 +4418,6 @@ pre .str, code .str {
 pre .com, code .com {
 	color: #ab4bc3;
 }
-.gif-categories .card {
-	overflow: hidden;
-	border: none;
-}
 .gif-categories img {
 	border-radius: 0.35rem;
 	width: 100%;
@@ -6519,4 +6515,10 @@ div.markdown {
 	.award-columns {
 		column-count: 11 !important;
 	}
+}
+
+.giphy {
+	overflow: hidden;
+	background-color: var(--gray-600);
+	cursor: pointer;
 }

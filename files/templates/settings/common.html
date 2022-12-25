@@ -81,7 +81,7 @@
 			<textarea autocomplete="off" id="{{id}}-text" class="form-control rounded" aria-label="With textarea" placeholder="{{placeholder_text}}" rows="3" name="{{form_name}}" form="{{id}}-form" maxlength="{{maxlength}}">{% if contents %}{{contents}}{% endif %}</textarea>
 			{% if show_extras %}
 				<div class="d-flex">
-					<pre style="padding-top:0.7rem;line-height:1" class="btn btn-secondary format d-inline-block m-0 font-weight-bolder text-uppercase" onclick="commentForm('{{id}}-text');getGif()" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</pre>
+					<pre style="padding-top:0.7rem;line-height:1" class="btn btn-secondary format d-inline-block m-0 font-weight-bolder text-uppercase" onclick="getGifs('{{id}}-text')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</pre>
 					&nbsp;
 					<pre style="padding-top:0.7rem" class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('{{id}}-text')" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></pre>
 					&nbsp;

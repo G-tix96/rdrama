@@ -451,4 +451,6 @@ document.addEventListener("click", function(e){
 		expandDesktopImage()
 	else if (element.tagName == "TH")
 		sort_table(element)
+	else if (element.classList.contains('giphy'))
+		insertGIF(e.target.src);
 });
