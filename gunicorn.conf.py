@@ -6,8 +6,6 @@ worker_class = 'gevent'
 max_requests = 30000
 max_requests_jitter = 30000
 
-t = 0
-
 reload = True
 reload_engine = 'poll'
 
