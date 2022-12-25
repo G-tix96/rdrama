@@ -32,7 +32,7 @@ def _initialize_snappy_marseys_and_quotes():
 	SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
 
 	filename = f"snappy_{SITE_NAME}.txt"
-	if HOLIDAY_EVENT: filename = f"snappy_event.txt"
+	if HOLIDAY_EVENT: filename = f"snappy_event_{SITE_NAME}.txt"
 
 	try:
 		with open(filename, "r", encoding="utf-8") as f:
