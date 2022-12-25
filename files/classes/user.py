@@ -259,7 +259,10 @@ class User(Base):
 			if HOLIDAY_EVENT:
 				from files.events.helpers.const import EVENT_FORCED_HATS
 				if EVENT_FORCED_HATS:
-					return (random.choice(EVENT_FORCED_HATS), 'Merry Fistmas!')
+					if SITE_NAME == 'rDrama':
+						return (random.choice(EVENT_FORCED_HATS), 'Merry Fistmas!')
+					else:
+						return (random.choice(EVENT_FORCED_HATS), 'Merry Christmas!')
 
 			if self.is_cakeday:
 				return ('/i/hats/Cakeday.webp', "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓")

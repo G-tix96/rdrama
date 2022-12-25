@@ -7,7 +7,6 @@ def user_event_darkmode(target, db):
 	return user.event_darkmode
 
 EVENT_JINJA_CONST = {
-	"EVENT_BANNER": "banner_rDrama.html",
 	"EVENT_ICONS": True,
 	"EVENT_STYLES": "blizzard.css",
 	"EVENT_AWARDS": True,

@@ -7,7 +7,11 @@
 <a rel="nofollow noopener noreferrer" href="https://www.youtube.com/watch?v=BuKft9LpL_0" style="text-decoration: none !important">
 	{% if random.randint(1,100) != 1 %}
 		<link rel="stylesheet" href="{{'event/css/banner.css' | asset}}">
-		{% include "event/banner.svg" %}
+		{% if SITE_NAME == 'rDrama' %}
+			{% include "event/banner_rDrama.svg" %}
+		{% else %}
+			{% include "event/banner.svg" %}
+		{% endif %}
 	{% else %}
 		<img src="/assets/event/images/banner_new.webp" style="width:100%" />
 	{% endif %}
