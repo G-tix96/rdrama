@@ -47,13 +47,10 @@ def _moveacc(old_id, new_id):
 		'coins',
 		'coins_spent',
 		'coins_spent_on_hats',
-		'comment_count',
 		'currently_held_lottery_tickets',
 		'lootboxes_bought',
 		'marseybux',
-		'post_count',
 		'received_award_count',
-		'stored_subscriber_count',
 		'total_held_lottery_tickets',
 		'total_lottery_winnings',
 		'truescore',
@@ -63,6 +60,10 @@ def _moveacc(old_id, new_id):
 		amount = getattr(newuser, attr) + getattr(olduser, attr)
 		setattr(newuser, attr, amount)
 		setattr(olduser, attr, 0)
+
+	newuser.stored_subscriber_count = db.query(Follow).filter_by(target_id=newuser.id).count()
+	newuser.post_count = db.query(Submission).filter_by(author_id=newuser.id).count()
+	newuser.comment_count = db.query(Comment).filter_by(author_id=newuser.id).count()
 
 	if newuser.created_utc > olduser.created_utc:
 		newuser.created_utc = olduser.created_utc
