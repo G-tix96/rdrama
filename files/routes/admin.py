@@ -155,14 +155,32 @@ def move_acc(v:User, new_id, old_id):
 
 	g.db.add(newuser)
 
-	update_statement = f'''update submissions set body_html=replace(body_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where body_html like '%<a href="/id/{old_id}">%';
-	update comments set body_html=replace(body_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where body_html like '%<a href="/id/{old_id}">%';
-	update subs set sidebar_html=replace(sidebar_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where sidebar_html like '%<a href="/id/{old_id}">%';
-	update users set bio_html=replace(bio_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where bio_html like '%<a href="/id/{old_id}">%';
-	update users set sig_html=replace(sig_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where sig_html like '%<a href="/id/{old_id}">%';
-	update users set friends_html=replace(friends_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where friends_html like '%<a href="/id/{old_id}">%';
-	update users set enemies_html=replace(enemies_html, '<a href="/id/{old_id}">', '<a href="/id/{new_id}">') where enemies_html like '%<a href="/id/{old_id}">%';
+	update_statement = f'''
+	update submissions set body_html=replace(body_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where body_html like '%<a href="/id/{olduser.id}">%';
+	update comments set body_html=replace(body_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where body_html like '%<a href="/id/{olduser.id}">%';
+	update subs set sidebar_html=replace(sidebar_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where sidebar_html like '%<a href="/id/{olduser.id}">%';
+	update users set bio_html=replace(bio_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where bio_html like '%<a href="/id/{olduser.id}">%';
+	update users set sig_html=replace(sig_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where sig_html like '%<a href="/id/{olduser.id}">%';
+	update users set friends_html=replace(friends_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where friends_html like '%<a href="/id/{olduser.id}">%';
+	update users set enemies_html=replace(enemies_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where enemies_html like '%<a href="/id/{olduser.id}">%';
+
+	update submissions set body_html=replace(body_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where body_html like '%<a href="/id/{olduser.id}">%';
+	update comments set body_html=replace(body_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where body_html like '%<a href="/id/{olduser.id}">%';
+	update subs set sidebar_html=replace(sidebar_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where sidebar_html like '%<a href="/id/{olduser.id}">%';
+	update users set bio_html=replace(bio_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where bio_html like '%<a href="/id/{olduser.id}">%';
+	update users set sig_html=replace(sig_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where sig_html like '%<a href="/id/{olduser.id}">%';
+	update users set friends_html=replace(friends_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where friends_html like '%<a href="/id/{olduser.id}">%';
+	update users set enemies_html=replace(enemies_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where enemies_html like '%<a href="/id/{olduser.id}">%';
+
+	update submissions set body_html=replace(body_html, '<img loading="lazy" src="/pp/{olduser.id}">', '<img loading="lazy" src="/pp/{newuser.id}">') where body_html like '%<img loading="lazy" src="/pp/{olduser.id}">%';
+	update comments set body_html=replace(body_html, '<img loading="lazy" src="/pp/{olduser.id}">', '<img loading="lazy" src="/pp/{newuser.id}">') where body_html like '%<img loading="lazy" src="/pp/{olduser.id}">%';
+	update subs set sidebar_html=replace(sidebar_html, '<img loading="lazy" src="/pp/{olduser.id}">', '<img loading="lazy" src="/pp/{newuser.id}">') where sidebar_html like '%<img loading="lazy" src="/pp/{olduser.id}">%';
+	update users set bio_html=replace(bio_html, '<img loading="lazy" src="/pp/{olduser.id}">', '<img loading="lazy" src="/pp/{newuser.id}">') where bio_html like '%<img loading="lazy" src="/pp/{olduser.id}">%';
+	update users set sig_html=replace(sig_html, '<img loading="lazy" src="/pp/{olduser.id}">', '<img loading="lazy" src="/pp/{newuser.id}">') where sig_html like '%<img loading="lazy" src="/pp/{olduser.id}">%';
+	update users set friends_html=replace(friends_html, '<img loading="lazy" src="/pp/{olduser.id}">', '<img loading="lazy" src="/pp/{newuser.id}">') where friends_html like '%<img loading="lazy" src="/pp/{olduser.id}">%';
+	update users set enemies_html=replace(enemies_html, '<img loading="lazy" src="/pp/{olduser.id}">', '<img loading="lazy" src="/pp/{newuser.id}">') where enemies_html like '%<img loading="lazy" src="/pp/{olduser.id}">%';
 	'''
+
 	g.db.execute(update_statement)
 
 	g.db.delete(olduser)
@@ -175,7 +193,7 @@ def move_acc(v:User, new_id, old_id):
 	cache.set(f'{SITE}_stats', stats)
 	cache.set(CHAT_ONLINE_CACHE_KEY, online)
 
-	return redirect(f"/id/{old_id}")
+	return redirect(f"/@{olduser.username}")
 
 
 
