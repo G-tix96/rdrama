@@ -9,6 +9,7 @@ from files.helpers.alerts import *
 from files.helpers.config.const import *
 from files.helpers.regex import *
 from files.helpers.sanitize import sanitize
+from files.helpers.alerts import push_notif
 from files.routes.wrappers import *
 
 from files.__main__ import app, cache, limiter
