@@ -748,12 +748,12 @@ def submit_post(v:User, sub=None):
 
 			name2 = name.replace('.webp', 'r.webp')
 			copyfile(name, name2)
-			post.thumburl = process_image(name2, v, resize=500)
+			post.thumburl = process_image(name2, v, resize=100)
 		elif file.content_type.startswith('video/'):
 			post.url = process_video(file, v)
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			subprocess.run(['ffmpeg', '-y', '-loglevel', 'warning',
-				'-i', post.url, '-vf', "scale='min(300,iw)':-2",
+				'-i', post.url, '-vf', "scale='min(500,iw)':-2",
 				'-q:v', '3', '-frames:v', '1', name], check=True)
 			post.thumburl = name
 		elif file.content_type.startswith('audio/'):
