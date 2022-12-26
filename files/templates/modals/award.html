@@ -10,21 +10,14 @@
 				</button>
 			</div>
 			<div id="awardModalBody" class="modal-body mb-3">
-				<div class="awards-wrapper">
+				<div class="awards-wrapper" style="text-align:center">
 					{% for award in v.user_awards %}
-						<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{award.description}}" id="{{award.kind}}" class="card" onclick="pick('{{award.kind}}', {{award.price}}*{{v.discount}} <= {{v.marseybux}}, {{award.price}}*{{v.discount}} <= {{v.coins}})">
+						<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{award.description}}" id="{{award.kind}}" onclick="pick('{{award.kind}}', {{award.price}}*{{v.discount}} <= {{v.marseybux}}, {{award.price}}*{{v.discount}} <= {{v.coins}})">
 							<i class="{{award.icon}} {{award.color}}"></i>
 							<div class="pt-2 award-name">{{award.title}}</div>
 							<div class="text-muted award-owned"><span id="{{award.kind}}-owned">{{award.owned}}</span> owned</div>
 						</div>
 					{% endfor %}
-					{% if v.user_awards|length % 2 %}
-						<div class="card disabled d-md-none" style="border:none">
-							<i class="fas fa-volume-mute" style="opacity:0"></i>
-							<div class="pt-2 award-name">&nbsp;</div>
-							<div class="text-muted award-owned">&nbsp;</div>
-						</div>
-					{% endif %}
 				</div>
 				<label id="notelabel" for="note" class="pt-4">Note (optional):</label>
 				<input autocomplete="off" id="kind" value="" hidden>
