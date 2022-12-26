@@ -5234,13 +5234,13 @@ img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 }
 
 .awards-wrapper > div {
-	cursor: pointer;
 	padding: 5px !important;
 	text-align: center;
 	text-transform: none!important;
 	display: inline-block!important;
 	width: 95px!important;
-	margin-top: 7px!important;
+	margin-bottom: 7px!important;
+	border-radius: 0.2rem;
 }
 
 .awards-wrapper > div > i {
@@ -5257,7 +5257,7 @@ img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 
 
 .awardmodal {
-	max-width: 90% !important;
+	max-width: 80% !important;
 	height: 100% !important;
 	margin: auto !important
 }
