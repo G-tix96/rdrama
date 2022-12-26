@@ -55,33 +55,10 @@ def notif_comment(text):
 
 	text_html = sanitize(text)
 
-	g.db.flush()
+	existing = g.db.query(Comment.id).filter_by(author_id=AUTOJANNY_ID, parent_submission=None, body_html=text_html, is_bot=True).one_or_none()
 
-	existing = g.db.query(Comment.id).filter(
-		Comment.author_id == AUTOJANNY_ID,
-		Comment.parent_submission == None,
-		Comment.body_html == text_html,
-		Comment.is_bot == True,
-	).order_by(Comment.id).all()
-
-	if len(existing) > 1:
-		replace_with = existing[0][0]
-		replaced = [x[0] for x in existing[1:]]
-
-		for n in g.db.query(Notification).filter(Notification.comment_id.in_(replaced)).all():
-			n.comment_id = replace_with
-			g.db.add(n)
-
-		g.db.flush()
-
-		for c in g.db.query(Comment).filter(Comment.id.in_(replaced)).all():
-			g.db.delete(c)
-
-		return replace_with
-	elif existing:
-		return existing[0][0]
-	else:
-		return create_comment(text_html)
+	if existing: return existing[0]
+	else: return create_comment(text_html)
 
 
 def notif_comment2(p):
