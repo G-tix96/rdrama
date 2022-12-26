@@ -11,7 +11,11 @@
 {% for key, value in data.items() %}
 	<tr>
 		<td>{{key}}</td>
-		<td>{{value}}</td>
+		{% if key == 'time' -%}
+			<td data-time="{{value}}"></td>
+		{% else -%}
+			<td>{{value}}</td>
+		{%- endif %}
 	</tr>
 {% endfor %}
 </table>

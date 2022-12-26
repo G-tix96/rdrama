@@ -100,7 +100,7 @@ def stats(site=None):
 	active_users = set(posters) | set(commenters) | set(voters) | set(commentvoters)
 
 	stats = {
-			"time": time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(now)),
+			"time": int(time.time()),
 			"marseys": "{:,}".format(g.db.query(Marsey).filter(Marsey.submitter_id==None).count()),
 			"users": "{:,}".format(g.db.query(User).count()),
 			"private users": "{:,}".format(g.db.query(User).filter_by(is_private=True).count()),
