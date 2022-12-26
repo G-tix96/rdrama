@@ -44,7 +44,7 @@ function popclick(e) {
 			badgesDOM.innerHTML = "";
 			for (const badge of author["badges"]) {
 				const badgeDOM = popClickBadgeTemplateDOM.cloneNode();
-				badgeDOM.src = badge + "?b=5";
+				badgeDOM.src = badge + "?b=6";
 
 				badgesDOM.append(badgeDOM);
 			}
