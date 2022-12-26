@@ -567,7 +567,7 @@ def messagereply(v:User):
 
 		admins = [x[0] for x in admins.all()]
 
-		if parent.author.id not in admins:
+		if parent.author.id not in admins + [v.id]:
 			admins.append(parent.author.id)
 
 		for admin in admins:
