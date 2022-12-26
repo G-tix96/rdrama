@@ -1675,6 +1675,13 @@ CREATE INDEX cflag_user_idx ON public.commentflags USING btree (user_id);
 
 
 --
+-- Name: comment_is_banned_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comment_is_banned_idx ON public.comments USING btree (is_banned);
+
+
+--
 -- Name: comment_parent_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2078,13 +2085,6 @@ CREATE INDEX subscription_user_index ON public.subscriptions USING btree (user_i
 --
 
 CREATE INDEX transactions_email_idx ON public.transactions USING btree (email);
-
-
---
--- Name: user_banned_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX user_banned_idx ON public.users USING btree (is_banned);
 
 
 --
@@ -2693,6 +2693,14 @@ ALTER TABLE ONLY public.subscriptions
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT user_chudded_by_fkey FOREIGN KEY (chudded_by) REFERENCES public.users(id);
+
+
+--
+-- Name: users user_is_banned_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT user_is_banned_fkey FOREIGN KEY (is_banned) REFERENCES public.users(id);
 
 
 --
