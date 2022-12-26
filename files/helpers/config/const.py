@@ -19,7 +19,7 @@ COMMENT_SPAM_SIMILAR_THRESHOLD = 0.5
 COMMENT_SPAM_COUNT_THRESHOLD = 10
 DISABLE_DOWNVOTES = False
 DESCRIPTION = "rdrama.net caters to drama in all forms such as: Real life, videos, photos, gossip, rumors, news sites, Reddit, and Beyond™. There isn't drama we won't touch, and we want it all!"
-EMAIL = ""
+EMAIL = f"rdrama@rdrama.net"
 TELEGRAM_ID = ""
 
 DEFAULT_CONFIG_VALUE = "blahblahblah"
@@ -647,7 +647,6 @@ NOTIFIED_USERS = {}
 DONT_SHADOWBAN = {}
 
 if SITE == 'rdrama.net':
-	EMAIL = f"rdrama@{SITE}"
 	TELEGRAM_ID = "rdramanet"
 	DEFAULT_TIME_FILTER = "day"
 
@@ -755,7 +754,7 @@ if SITE == 'rdrama.net':
 		'justcool393': JUSTCOOL_ID
 	}
 elif SITE == 'watchpeopledie.tv':
-	EMAIL = f"wpd@{SITE}"
+	EMAIL = f"wpd@watchpeopledie.tv"
 	TELEGRAM_ID = "wpdtv"
 	DEFAULT_TIME_FILTER = "day"
 
