@@ -5,7 +5,7 @@
 {% endif %}
 
 <a rel="nofollow noopener noreferrer" href="https://www.youtube.com/watch?v=BuKft9LpL_0" style="text-decoration: none !important">
-	{% if SITE_NAME == 'rDrama' and (1,2,3,4,5)|random() == 1 %}
+	{% if SITE_NAME == 'rDrama' and range(1, 20)|random() == 1 %}
 		<img src="/assets/event/images/banner_new.webp" style="width:100%" />
 	{% else %}
 		<link rel="stylesheet" href="{{'event/css/banner.css' | asset}}">
