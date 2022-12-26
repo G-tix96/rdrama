@@ -14,9 +14,9 @@ EVENT_JINJA_CONST = {
 	"EVENT_VISITORS_HERE_FLAVOR": [
 		' santa enjoyers kissing under a misletoe',
 		' bringing up family drama at Christmas dinner',
-		' least homoerotic dramanauts stroking their candy canes',
+		' homoerotic dramanauts stroking their candy canes',
 		" dramanauts jingling each other's balls",
-		" average Santa deniers getting reamed by Rudolph the Red-Nosed Reindeer",
+		" Santa deniers getting reamed by Rudolph",
 		" naughty listers getting coal for fistmas",
 		" plus-sized dramanauts eating Santa's cookies",
 		" dramatards having their chimneys stuffed by Santa",
