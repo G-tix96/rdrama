@@ -1042,7 +1042,8 @@ CREATE TABLE public.users (
     profanityreplacer integer DEFAULT 1 NOT NULL,
     last_viewed_reddit_notifs integer NOT NULL,
     profile_background character varying(30),
-    event_music boolean NOT NULL
+    event_music boolean NOT NULL,
+    chudded_by integer
 );
 
 
@@ -1818,6 +1819,13 @@ CREATE INDEX fki_subactions_user_fkey ON public.subactions USING btree (target_u
 --
 
 CREATE INDEX fki_submissions_approver_fkey ON public.submissions USING btree (is_approved);
+
+
+--
+-- Name: fki_user_chudded_by_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_user_chudded_by_fkey ON public.users USING btree (chudded_by);
 
 
 --
@@ -2677,6 +2685,14 @@ ALTER TABLE ONLY public.subscriptions
 
 ALTER TABLE ONLY public.subscriptions
     ADD CONSTRAINT subscription_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: users user_chudded_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT user_chudded_by_fkey FOREIGN KEY (chudded_by) REFERENCES public.users(id);
 
 
 --
