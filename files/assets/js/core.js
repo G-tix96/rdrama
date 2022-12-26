@@ -454,4 +454,6 @@ document.addEventListener("click", function(e){
 		sort_table(element)
 	else if (element.classList.contains('giphy'))
 		insertGIF(e.target.src);
+	else if (element.classList.contains('gif-cat-overlay'))
+		searchGifs(e.target.firstElementChild.innerHTML);
 });

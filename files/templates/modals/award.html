@@ -10,7 +10,7 @@
 				</button>
 			</div>
 			<div id="awardModalBody" class="modal-body mb-3">
-				<div class="card-columns award-columns awards-wrapper">
+				<div class="awards-wrapper">
 					{% for award in v.user_awards %}
 						<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{award.description}}" id="{{award.kind}}" class="card" onclick="pick('{{award.kind}}', {{award.price}}*{{v.discount}} <= {{v.marseybux}}, {{award.price}}*{{v.discount}} <= {{v.coins}})">
 							<i class="{{award.icon}} {{award.color}}"></i>
