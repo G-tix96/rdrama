@@ -39,7 +39,7 @@ user_ids_to_socket_ids = {}
 @app.get("/chat")
 @admin_level_required(PERMS['CHAT'])
 def chat(v):
-	if TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
+	if not v.admin_level and TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
 		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat.")
 	return render_template("chat.html", v=v, messages=messages)
 
