@@ -140,7 +140,10 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 
 	try:
 		with Image.open(filename) as i:
-			params = ["magick", filename, "-coalesce", "-quality", "88", "-strip", "-auto-orient"]
+			params = ["magick"]
+			if resize == 99: params.append(f"{filename}[0]")
+			else: params.append(filename)
+			params.extend(["-coalesce", "-quality", "88", "-strip", "-auto-orient"])
 			if trim and len(list(Iterator(i))) == 1:
 				params.append("-trim")
 			if resize and i.width > resize:

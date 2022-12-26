@@ -470,7 +470,7 @@ def thumbnail_thread(pid:int, vid:int):
 			file.write(chunk)
 
 	v = db.get(User, vid)
-	url = process_image(name, v, resize=100, uploader_id=post.author_id, db=db)
+	url = process_image(name, v, resize=99, uploader_id=post.author_id, db=db)
 	if url:
 		post.thumburl = url
 		db.add(post)
@@ -748,7 +748,7 @@ def submit_post(v:User, sub=None):
 
 			name2 = name.replace('.webp', 'r.webp')
 			copyfile(name, name2)
-			post.thumburl = process_image(name2, v, resize=100)
+			post.thumburl = process_image(name2, v, resize=99)
 		elif file.content_type.startswith('video/'):
 			post.url = process_video(file, v)
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
