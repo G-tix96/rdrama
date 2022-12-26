@@ -92,7 +92,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	if not User.can_see(v, post): abort(403)
 
 	if post.over_18 and not (v and v.over_18) and session.get('over_18', 0) < int(time.time()):
-		if g.is_api_or_xhr: return {"error":"Must be 18+ to view"}, 451
+		if g.is_api_or_xhr: abort(451, "Must be 18+ to view")
 		return render_template("errors/nsfw.html", v=v)
 
 	if post.new: defaultsortingcomments = 'new'

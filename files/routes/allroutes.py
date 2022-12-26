@@ -27,9 +27,10 @@ def before_request():
 	ua = g.agent.lower()
 
 	if request.host != SITE:
-		return {"error": "Unauthorized host provided"}, 403
+		abort(403, "Unauthorized host provided!")
 
-	if request.headers.get("CF-Worker"): return {"error": "Cloudflare workers are not allowed to access this website."}, 403
+	if request.headers.get("CF-Worker"):
+		abort(403, "Cloudflare workers are not allowed to access this website.")
 
 	if not get_setting('bots') and request.headers.get("Authorization"): abort(403)
 

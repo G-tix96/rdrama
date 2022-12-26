@@ -12,7 +12,7 @@ from files.__main__ import app, cache, limiter
 @app.post("/exile/post/<pid>")
 @is_not_permabanned
 def exile_post(v:User, pid):
-	if v.shadowbanned: return {"error": "Internal Server Error"}, 500
+	if v.shadowbanned: abort(500)
 	p = get_post(pid)
 	sub = p.sub
 	if not sub: abort(400)
@@ -43,7 +43,7 @@ def exile_post(v:User, pid):
 @app.post("/exile/comment/<cid>")
 @is_not_permabanned
 def exile_comment(v:User, cid):
-	if v.shadowbanned: return {"error": "Internal Server Error"}, 500
+	if v.shadowbanned: abort(500)
 	c = get_comment(cid)
 	sub = c.post.sub
 	if not sub: abort(400)
@@ -327,7 +327,7 @@ def create_sub2(v):
 			return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error="You don't have enough coins!"), 403
 
 		g.db.add(v)
-		if v.shadowbanned: return {"error": "Internal Server Error"}, 500
+		if v.shadowbanned: abort(500)
 
 		sub = Sub(name=name)
 		g.db.add(sub)
@@ -348,7 +348,7 @@ def kick(v:User, pid):
 
 	if not post.sub: abort(403)
 	if not v.mods(post.sub): abort(403)
-	if v.shadowbanned: return {"error": "Internal Server Error"}, 500
+	if v.shadowbanned: abort(500)
 
 	old = post.sub
 	post.sub = None
