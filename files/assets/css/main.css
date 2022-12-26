@@ -5240,6 +5240,7 @@ img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 	text-transform: none!important;
 	display: inline-block!important;
 	width: 95px!important;
+	margin-top: 7px!important;
 }
 
 .awards-wrapper > div > i {
