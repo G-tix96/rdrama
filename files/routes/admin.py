@@ -873,6 +873,9 @@ def admin_removed_comments(v):
 def unagendaposter(user_id, v):
 	user = get_account(user_id)
 
+	if not user.chudded_by:
+		abort(403, "Jannies can't undo chud awards anymore!")
+
 	user.agendaposter = 0
 	g.db.add(user)
 
@@ -1080,6 +1083,7 @@ def agendaposter(user_id, v):
 		if reason: text = f"@{v.username} (a site admin) has chudded you permanently for the following reason:\n\n> {reason}"
 		else: text = f"@{v.username} (a site admin) has chudded you permanently."
 
+	user.chudded_by = v.id
 	g.db.add(user)
 
 	send_repeatable_notification(user.id, text)
