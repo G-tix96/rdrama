@@ -5238,13 +5238,13 @@ img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 	text-align: center;
 	text-transform: none!important;
 	display: inline-block!important;
-	width: 95px!important;
+	width: 117px!important;
 	margin-bottom: 7px!important;
 	border-radius: 0.2rem;
 }
 
 .awards-wrapper > div > i {
-	font-size: 12px;
+	font-size: 16px;
 }
 
 .awards-wrapper > div.disabled {
@@ -6365,7 +6365,7 @@ div.markdown {
 
 .award-name {
 	font-weight: bold;
-	font-size: 10px;
+	font-size: 13px;
 	color:#E1E1E1;
 }
 
