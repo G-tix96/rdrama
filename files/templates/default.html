@@ -101,8 +101,8 @@
 	</script>
 {% endif %}
 
-{% block footer %}
-<footer></footer>
-{% endblock %}
+{% if HOLIDAY_EVENT %}
+	{% include "event/music.html" %}
+{% endif %}
 
 {% endblock %}
