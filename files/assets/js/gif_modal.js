@@ -151,7 +151,7 @@ async function searchGifs(searchTerm) {
 	else {
 		for (let i = 0; i < 48; i++) {
 			gifURL[i] = "https://media.giphy.com/media/" + data[i].id + "/200w.webp";
-			const insert = `<img loading="lazy" data-bs-dismiss="modal" src="${gifURL[i]}"></div>`
+			const insert = `<img class="giphy" loading="lazy" data-bs-dismiss="modal" src="${gifURL[i]}"></div>`
 			container.insertAdjacentHTML('beforeend', insert);
 			noGIFs.innerHTML = null;
 			loadGIFs.innerHTML = '<div class="text-center py-3"></div><div class="mb-3"><i class="fas fa-grin-beam-sweat text-gray-500" style="font-size: 3.5rem"></i></div><p class="font-weight-bold text-gray-500 mb-0">Thou&#39;ve reached the end of the list!</p></div>';
