@@ -164,25 +164,27 @@ def award_thing(v, thing_type, id):
 
 	note = request.values.get("note", "").strip()
 
+	if thing.ghost and v.id != author.id:
+		safe_username = "👻"
+	else
+		safe_username = f"@{author.username}"
 
 	if SITE == 'rdrama.net' and author.id == PIZZASHILL_ID and v.id not in {AEVANN_ID, SNAKES_ID}:
-		abort(403, f"@{author.username} is immune to awards.")
+		abort(403, f"{safe_username} is immune to awards.")
 
 	if kind == "benefactor" and author.id == v.id:
 		abort(403, "You can't use this award on yourself.")
 
 	if kind == 'marsify' and author.marsify == 1:
-		abort(409, f"@{author.username} is already permanently marsified!")
+		abort(409, f"{safe_username} is already permanently marsified!")
 
 	if kind == 'spider' and author.spider == 1:
-		abort(409, f"@{author.username} already permanently has a spider friend!")
+		abort(409, f"{safe_username} already has a permanent spider friend!")
 
 	if thing.ghost and not AWARDS[kind]['ghost']:
 		abort(403, "This kind of award can't be used on ghost posts.")
 
 	if v.id != author.id:
-		safe_username = "👻" if thing.ghost else f"@{author.username}"
-		
 		if author.deflector and v.deflector and AWARDS[kind]['deflectable']:
 			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award but it was deflected on them, they also had a deflector up, so it bounced back and forth until it vaporized!"
 			send_repeatable_notification(author.id, msg)
@@ -279,10 +281,10 @@ def award_thing(v, thing_type, id):
 			abort(403, "You can't give the chud award in /h/chudrama")
 
 		if author.marseyawarded:
-			abort(409, f"@{author.username} is under the effect of a conflicting award: Marsey award.")
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsey award.")
 
 		if author.agendaposter == 1:
-			abort(409, f"@{author.username} is perma-chudded.")
+			abort(409, f"{safe_username} is perma-chudded.")
 
 		if author.agendaposter and time.time() < author.agendaposter: author.agendaposter += 86400
 		else: author.agendaposter = int(time.time()) + 86400
@@ -310,13 +312,13 @@ def award_thing(v, thing_type, id):
 		badge_grant(user=author, badge_id=98)
 	elif kind == "pizzashill":
 		if author.bird:
-			abort(409, f"@{author.username} is under the effect of a conflicting award: Bird Site award.")
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Bird Site award.")
 		if author.longpost: author.longpost += 86400
 		else: author.longpost = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=97)
 	elif kind == "bird":
 		if author.longpost:
-			abort(409, f"@{author.username} is under the effect of a conflicting award: Pizzashill award.")
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Pizzashill award.")
 		if author.bird: author.bird += 86400
 		else: author.bird = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=95)
@@ -341,7 +343,7 @@ def award_thing(v, thing_type, id):
 			badge_grant(user=author, badge_id=94)
 	elif kind == "benefactor":
 		if author.patron and not author.patron_utc:
-			abort(409, f"@{author.username} is already a {patron.lower()}!")
+			abort(409, f"{safe_username} is already a {patron.lower()}!")
 		author.patron = 1
 		if author.patron_utc: author.patron_utc += 2629746
 		else: author.patron_utc = int(time.time()) + 2629746
