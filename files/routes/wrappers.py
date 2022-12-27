@@ -119,7 +119,7 @@ def admin_level_required(x):
 			v = get_logged_in_user()
 			if not v: abort(401)
 			if v.admin_level < x: abort(403)
-			if x and not IS_LOCALHOST and not v.mfa_secret:
+			if x and SITE != 'devrama.net' and not IS_LOCALHOST and not v.mfa_secret:
 				abort(403, "You need to enable 2FA to use admin features!")
 			return make_response(f(*args, v=v, **kwargs))
 
