@@ -431,7 +431,7 @@ def filter_emojis_only(title, golden=True, count_marseys=False, graceful=False, 
 	if torture:
 		title = torture_ap(title, g.v.username)
 
-	title = title.replace('‎','').replace('​','').replace("\ufeff", "").replace("𒐪","").replace("\n", "").replace("\r", "").replace("\t", "").replace("&", "&amp;").replace('<','&lt;').replace('>','&gt;').replace('"', '&quot;').replace("'", "&#039;").strip()
+	title = title.replace('‎','').replace('​','').replace("\ufeff", "").replace("𒐪","").replace("\n", "").replace("\r", "").replace("\t", "").replace("&", "&amp;").replace('<','&lt;').replace('>','&gt;').replace('"', '&quot;').replace("'", "&#039;").replace("﷽","").strip()
 
 	marseys_used = set()
 

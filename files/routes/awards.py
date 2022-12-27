@@ -291,7 +291,7 @@ def award_thing(v, thing_type, id):
 		
 		badge_grant(user=author, badge_id=28)
 	elif kind == "flairlock":
-		new_name = note[:100].replace("𒐪","")
+		new_name = note[:100].replace("𒐪","").replace("﷽","").strip()
 		if not new_name and author.flairchanged:
 			author.flairchanged += 86400
 		else:
