@@ -281,7 +281,7 @@ if (document.readyState === "complete" ||
 		(document.readyState !== "loading" && !document.documentElement.doScroll)) {
 	bsTriggerOnReady();
 } else {
-	document.addEventListener("DOMContentLoaded", bsTriggerOnReady);
+	document.addEventListener("load", bsTriggerOnReady);
 }
 
 function escapeHTML(unsafe) {

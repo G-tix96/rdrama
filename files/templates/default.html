@@ -81,7 +81,7 @@
 
 {% if g.browser == 'apple' %}
 	<script nonce="{{g.nonce}}">
-		document.addEventListener('DOMContentLoaded', function() {
+		document.addEventListener('load', function() {
 			const videos = document.querySelectorAll('video')
 
 			for (const video of videos) {

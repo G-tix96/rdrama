@@ -170,7 +170,7 @@
 {% if request.path == '/' and v %}
 	<script defer src="/assets/js/register_service_worker.js"></script>
 	<script nonce="{{g.nonce}}">
-		document.addEventListener('DOMContentLoaded', function () {
+		document.addEventListener('load', function () {
 			registerServiceWorker(
 			"/assets/js/service_worker.js",
 			"{{VAPID_PUBLIC_KEY}}",
@@ -196,7 +196,7 @@
 	<script nonce="{{g.nonce}}">
 		if (!window.matchMedia('(display-mode: minimal-ui)')['matches']) {
 			if (window.innerWidth <= 737) {
-				document.addEventListener('DOMContentLoaded', function() {
+				document.addEventListener('load', function() {
 					const tt = bootstrap.Tooltip.getOrCreateInstance(document.getElementById('mobile-prompt'))
 					tt.show()
 					document.getElementsByClassName('tooltip')[0].onclick = function(e) {

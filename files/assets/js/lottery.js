@@ -41,7 +41,7 @@ if (
 ) {
 	lotteryOnReady();
 } else {
-	document.addEventListener("DOMContentLoaded", lotteryOnReady);
+	document.addEventListener("load", lotteryOnReady);
 }
 
 function purchaseLotteryTicket() {

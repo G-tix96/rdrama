@@ -418,7 +418,7 @@
 
 {% if not v or v.highlightcomments %}
 	<script nonce="{{g.nonce}}">
-		document.addEventListener('DOMContentLoaded', function() {
+		document.addEventListener('load', function() {
 			showNewCommentCounts('{{p.id}}', {{p.comment_count}})
 			{% if "?context" not in request.full_path %}
 				localStorage.setItem("old-comment-counts", localStorage.getItem("comment-counts"))

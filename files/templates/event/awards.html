@@ -10,7 +10,7 @@
 	{% if p.award_count("snow", v) %}
 		<script defer src="{{'event/js/snow.js'|asset}}"></script>
 		<script nonce="{{g.nonce}}">
-			document.addEventListener("DOMContentLoaded", () => {
+			document.addEventListener("load", () => {
 				snow(80)
 			});
 		</script>
