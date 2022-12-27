@@ -294,6 +294,18 @@ if SITE_NAME == 'rDrama':
 		'metafilter.com',
 		'sqwok.im',
 	}
+
+	BOOSTED_HOLES = {
+		'furry',
+		'femboy',
+		'anime',
+		'gaybros',
+		'againsthateholes',
+		'masterbaiters',
+		'changelog',
+		'programming',
+	}
+
 	REDDIT_NOTIFS_SITE.add('marsey')
 	REDDIT_NOTIFS_SITE.add('"r/drama"')
 	REDDIT_NOTIFS_SITE.add('justice4darrell')
@@ -727,17 +739,6 @@ if SITE == 'rdrama.net':
 	ANTISPAM_BYPASS_IDS = {1703, 13427}
 
 	DONT_SHADOWBAN = {253,3161,11163}
-
-	BOOSTED_HOLES = {
-		'furry',
-		'femboy',
-		'anime',
-		'gaybros',
-		'againsthateholes',
-		'masterbaiters',
-		'changelog',
-		'programming',
-	}
 
 	GIFT_NOTIF_ID = CARP_ID
 
