@@ -6374,6 +6374,9 @@ div.markdown {
 }
 
 @media (max-width: 768px) {
+	.award-name {
+		font-size: 11px;
+	}
 	.download-video {
 		font-size: 10px;
 	}
