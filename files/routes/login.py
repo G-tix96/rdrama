@@ -283,10 +283,6 @@ def sign_up_post(v:Optional[User]):
 		pass
 
 	users_count = g.db.query(User).count()
-	if users_count == 4:
-		admin_level=3
-		session["history"] = []
-	else: admin_level=0
 
 	profileurl = None
 	if PFP_DEFAULT_MARSEY:
@@ -301,6 +297,10 @@ def sign_up_post(v:Optional[User]):
 		referred_by=ref_id or None,
 		profileurl=profileurl
 		)
+
+	if users_count == 4:
+		new_user.admin_level = 3
+		session["history"] = []
 
 	g.db.add(new_user)
 
