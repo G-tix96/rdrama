@@ -291,7 +291,6 @@ def sign_up_post(v:Optional[User]):
 	new_user = User(
 		username=username,
 		original_username = username,
-		admin_level = admin_level,
 		password=request.values.get("password"),
 		email=email,
 		referred_by=ref_id or None,
