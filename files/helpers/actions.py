@@ -379,26 +379,27 @@ def execute_blackjack(v, target, body, type):
 		elif hasattr(target, 'is_banned'):
 			target.is_banned = True
 
-		extra_info = "unknown entity"
+		if CARP_ID and AEVANN_ID:
+			extra_info = "unknown entity"
 
-		if type == 'submission':
-			extra_info = target.permalink
-		elif type == 'chat':
-			extra_info = "chat message"
-		elif type == 'flag':
-			extra_info = f"reports on {target.permalink}"
-		elif type == 'modmail':
-			extra_info = "modmail"
-		elif type in {'comment', 'message'}:
-			for id in (CARP_ID, AEVANN_ID):
-				n = Notification(comment_id=target.id, user_id=id)
-				g.db.add(n)
-				g.db.flush()
-			extra_info = None
+			if type == 'submission':
+				extra_info = target.permalink
+			elif type == 'chat':
+				extra_info = "chat message"
+			elif type == 'flag':
+				extra_info = f"reports on {target.permalink}"
+			elif type == 'modmail':
+				extra_info = "modmail"
+			elif type in {'comment', 'message'}:
+				for id in (CARP_ID, AEVANN_ID):
+					n = Notification(comment_id=target.id, user_id=id)
+					g.db.add(n)
+					g.db.flush()
+				extra_info = None
 
-		if extra_info:
-			for id in (CARP_ID, AEVANN_ID):
-				send_repeatable_notification(id, f"Blackjack for @{v.username}: {extra_info}")
+			if extra_info:
+				for id in (CARP_ID, AEVANN_ID):
+					send_repeatable_notification(id, f"Blackjack for @{v.username}: {extra_info}")
 		return False
 	return True
 
