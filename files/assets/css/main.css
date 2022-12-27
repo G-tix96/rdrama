@@ -5239,7 +5239,7 @@ img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 	text-transform: none!important;
 	display: inline-block!important;
 	width: 117px!important;
-	margin-bottom: 7px!important;
+	margin-bottom: 1rem!important;
 	border-radius: 0.2rem;
 }
 
