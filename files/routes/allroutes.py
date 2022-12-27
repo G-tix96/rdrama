@@ -13,6 +13,8 @@ def session_init():
 
 @app.before_request
 def before_request():
+	g.nonce = None
+
 	if request.host != SITE:
 		abort(403, "Unauthorized host provided!")
 
@@ -35,8 +37,6 @@ def before_request():
 		app.config["SESSION_COOKIE_DOMAIN"] = app.config["COOKIE_DOMAIN"]
 
 	ua = g.agent.lower()
-
-	g.nonce = None
 
 	if '; wv) ' in ua:
 		g.browser = 'webview'
