@@ -489,7 +489,7 @@ def admin_git_head():
 @app.post("/admin/site_settings/<setting>")
 @admin_level_required(PERMS['SITE_SETTINGS'])
 def change_settings(v:User, setting):
-	if SITE == 'rdrama.net':
+	if SITE == 'devrama.net':
 		abort(403, "Can't change this shit in devrama!")
 
 	if setting not in get_settings().keys():
