@@ -8,10 +8,6 @@
 			const audio = new Audio("{{song}}");
 			audio.loop=true;
 
-			function play() {
-				audio.play();
-			}
-
 			audio.play();
 			window.addEventListener('click', () => {
 				if (audio.paused) audio.play();
