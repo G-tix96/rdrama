@@ -19,7 +19,7 @@ if (u_username)
 	}
 
 	audio.play();
-	window.addEventListener('click', () => {
+	document.addEventListener('click', () => {
 		if (audio.paused) audio.play();
 	}, {once : true});
 
@@ -53,7 +53,7 @@ else
 		if (!paused)
 		{
 			audio.play();
-			window.addEventListener('click', () => {
+			document.addEventListener('click', () => {
 				if (audio.paused) audio.play();
 			}, {once : true});
 		}

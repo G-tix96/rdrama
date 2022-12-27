@@ -357,7 +357,7 @@ function prepare_to_pause(audio) {
 		});
 	}
 
-	window.addEventListener('click', (e) => {
+	document.addEventListener('click', (e) => {
 		if (e.target.tagName.toLowerCase() == "lite-youtube" && !audio.paused) audio.pause();
 	});
 }

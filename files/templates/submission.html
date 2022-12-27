@@ -455,7 +455,7 @@
 
 		audio.play();
 		if (audio.paused) {
-			window.addEventListener('click', () => {
+			document.addEventListener('click', () => {
 				if (audio.paused) audio.play(); 
 			}, {once : true})
 		}
