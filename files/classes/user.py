@@ -34,7 +34,14 @@ from .sub_logs import *
 from .subscriptions import *
 from .userblock import *
 
-DEFAULT_ADMIN_LEVEL = 3 if SITE=='devrama.net' else 0
+if SITE=='devrama.net':
+	DEFAULT_ADMIN_LEVEL = 3
+	DEFAULT_COINS = 10000000
+	DEFAULT_MARSEYBUX = 10000000
+else:
+	DEFAULT_ADMIN_LEVEL = 0
+	DEFAULT_COINS = 0
+	DEFAULT_MARSEYBUX = 0
 
 class User(Base):
 	__tablename__ = "users"
@@ -111,9 +118,9 @@ class User(Base):
 	ban_reason = deferred(Column(String))
 	is_muted = Column(Boolean, default=False, nullable=False)
 	login_nonce = Column(Integer, default=0)
-	coins = Column(Integer, default=0)
+	coins = Column(Integer, default=DEFAULT_COINS)
 	truescore = Column(Integer, default=0)
-	marseybux = Column(Integer, default=0)
+	marseybux = Column(Integer, default=DEFAULT_MARSEYBUX)
 	mfa_secret = deferred(Column(String))
 	is_private = Column(Boolean, default=False)
 	stored_subscriber_count = Column(Integer, default=0)
