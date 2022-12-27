@@ -6370,11 +6370,11 @@ div.markdown {
 }
 
 .award-owned {
-	font-size: 10px;
+	font-size: 13px;
 }
 
 @media (max-width: 768px) {
-	.award-name {
+	.award-name, .award-owned {
 		font-size: 11px;
 	}
 	.download-video {
