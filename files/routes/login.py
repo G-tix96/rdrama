@@ -337,7 +337,7 @@ def sign_up_post(v:Optional[User]):
 
 	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
 	if redir:
-		if is_site_url(redir) or redir not in NO_LOGIN_REDIRECT_URLS:
+		if is_site_url(redir) and redir not in NO_LOGIN_REDIRECT_URLS:
 			return redirect(redir)
 	return redirect('/')
 
