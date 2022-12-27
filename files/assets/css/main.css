@@ -4099,12 +4099,12 @@ ul.comment-section {
 	width: 100%;
 	z-index: 1;
 }
-.comment-write .comment-format .format {
+.format {
 	padding: 0 0.5rem;
 	font-size: 1rem;
 	color: var(--gray-200);
 }
-.comment-write .comment-format .format:hover {
+.format:hover {
 	color: var(--black);
 }
 .comment .comment-collapse-icon:hover::before {
