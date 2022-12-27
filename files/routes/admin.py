@@ -1001,7 +1001,7 @@ def admin_title_change(user_id, v):
 		kind=kind,
 		user_id=v.id,
 		target_user_id=user.id,
-		_note=f'"{user.customtitleplain}"'
+		_note=f'"{new_name}"'
 		)
 	g.db.add(ma)
 
