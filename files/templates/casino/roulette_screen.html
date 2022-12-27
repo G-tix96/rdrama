@@ -1,7 +1,7 @@
 {% extends "casino/game_screen.html" %} {% block result %} N/A {% endblock %}
 
 {% block script %}
-<script type="text/javascript">
+<script nonce="{{g.nonce}}">
 	if (
 		document.readyState === "complete" ||
 		(document.readyState !== "loading" && !document.documentElement.doScroll)
@@ -393,7 +393,7 @@
 {% endblock %}
 
 {% block screen %}
-<style>
+<style nonce="{{g.nonce}}">
 	.roulette-table-number {
 		flex: 1;
 		height: 60px;

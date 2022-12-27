@@ -333,3 +333,11 @@ if not os.path.exists(f'files/templates/donate_{SITE_NAME}.html'):
 @auth_desired_with_logingate
 def donate(v):
 	return render_template(f'donate_{SITE_NAME}.html', v=v)
+
+
+@app.post('/csp_violations')
+@limiter.limit("10/minute;50/day")
+def csp_violations():
+	content = request.get_json(force=True)
+	print(json.dumps(content, indent=4, sort_keys=True), flush=True)
+	return ''

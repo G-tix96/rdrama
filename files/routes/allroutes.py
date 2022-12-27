@@ -13,26 +13,30 @@ def session_init():
 
 @app.before_request
 def before_request():
-	g.desires_auth = False
-	if not IS_LOCALHOST:
-		app.config["COOKIE_DOMAIN"] = f".{request.host}"
-		app.config["SESSION_COOKIE_DOMAIN"] = app.config["COOKIE_DOMAIN"]
-	if SITE == 'marsey.world' and request.path != '/kofi':
-		abort(404)
-
-	g.agent = request.headers.get("User-Agent", "")
-	if not g.agent and request.path != '/kofi':
-		return 'Please use a "User-Agent" header!', 403
-
-	ua = g.agent.lower()
-
 	if request.host != SITE:
 		abort(403, "Unauthorized host provided!")
+
+	if SITE == 'marsey.world' and request.path != '/kofi':
+		abort(404)
 
 	if request.headers.get("CF-Worker"):
 		abort(403, "Cloudflare workers are not allowed to access this website.")
 
-	if not get_setting('bots') and request.headers.get("Authorization"): abort(403)
+	g.agent = request.headers.get("User-Agent", "")
+	if not g.agent and request.path != '/kofi':
+		abort(403, 'Please use a "User-Agent" header!')
+
+	if not get_setting('bots') and request.headers.get("Authorization"):
+		abort(403)
+
+	g.desires_auth = False
+	if not IS_LOCALHOST:
+		app.config["COOKIE_DOMAIN"] = f".{request.host}"
+		app.config["SESSION_COOKIE_DOMAIN"] = app.config["COOKIE_DOMAIN"]
+
+	ua = g.agent.lower()
+
+	g.nonce = None
 
 	if '; wv) ' in ua:
 		g.browser = 'webview'
@@ -54,11 +58,57 @@ def before_request():
 	limiter.check()
 	g.db = db_session()
 
+
+
+CSP = {
+	"upgrade-insecure-requests": "",
+
+	"default-src": "'none'",
+	"frame-ancestors": "'none'",
+
+	"form-action": "'self'",
+	"manifest-src": "'self'",
+	"worker-src": "'self'",
+	"base-uri": "'self'",
+	"font-src": "'self'",
+	"media-src": "'self'",
+
+	"style-src-elem": "'self' 'nonce-{nonce}'",
+	"style-src-attr": "'unsafe-inline'",
+	"style-src": "'self' 'unsafe-inline'",
+
+	"script-src-elem": "'self' 'nonce-{nonce}' challenges.cloudflare.com",
+	"script-src-attr": "'unsafe-inline'",
+	"script-src": "'self' 'unsafe-inline' challenges.cloudflare.com",
+
+	"img-src": "https:",
+	"frame-src": "challenges.cloudflare.com www.youtube-nocookie.com platform.twitter.com",
+	"connect-src": "'self' tls-use1.fpapi.io api.fpjs.io",
+
+	"report-to": "csp",
+	"report-uri": "/csp_violations",
+}
+
+if IS_LOCALHOST:
+	CSP["style-src-elem"] += " rdrama.net"
+	CSP["script-src-elem"] += " rdrama.net"
+	CSP["img-src"] += " http:"
+
+CSP_str = ''
+
+for k, val in CSP.items():
+	CSP_str += f'{k} {val}; '
+
 @app.after_request
 def after_request(response:Response):
 	if response.status_code < 400:
 		_set_cloudflare_cookie(response)
 		_commit_and_close_db()
+	
+	if g.nonce:
+		response.headers.add("Report-To", {"group":"csp","max_age":10886400,"endpoints":[{"url":"/csp_violations"}]})
+		response.headers.add("Content-Security-Policy", CSP_str.format(nonce=g.nonce))
+	
 	return response
 
 

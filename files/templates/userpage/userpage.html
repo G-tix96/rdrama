@@ -7,7 +7,7 @@
 		{% if not HOLIDAY_EVENT %}
 			<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
 		{% endif %}
-		<style>
+		<style nonce="{{g.nonce}}">
 			body {
 				background-image: url('{{u.profile_background}}') !important;
 			}

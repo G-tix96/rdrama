@@ -1,7 +1,7 @@
 {%- import 'util/macros.html' as macros with context -%}
 {% if not request.headers.get("xhr") %}
 	{% if comment_info %}
-		<script>
+		<script nonce="{{g.nonce}}">
 			if (location.hash != 'context')
 				location.hash = 'context'
 		</script>
@@ -246,7 +246,7 @@
 			{% endif %}
 			
 			{% if c.award_count("tilt", v) %}
-				<style>
+				<style nonce="{{g.nonce}}">
 					@keyframes c{{c.id}}-tilt {
 						0% {transform: rotate(0deg);}
 						25% {transform: rotate({{c.award_count("tilt", v)}}deg);}
@@ -786,7 +786,7 @@
 	<script defer src="{{'js/comments+submission_listing.js' | asset}}"></script>
 	<script defer src="{{'js/comments.js' | asset}}"></script>
 
-	<script>
+	<script nonce="{{g.nonce}}">
 		{% if p and (not v or v.highlightcomments) %}
 			comments = JSON.parse(localStorage.getItem("comment-counts")) || {}
 			lastCount = comments['{{p.id}}']
@@ -852,7 +852,7 @@
 {# TODO: disabled pending fix #}
 {% if false %}
 	<div id="detection" style="display:none;background-color:canvas;color-scheme:light"></div>
-	<script>
+	<script nonce="{{g.nonce}}">
 		const detectionDiv = document.querySelector('#detection');
 		const isAutoDark = getComputedStyle(detectionDiv).backgroundColor != 'rgb(255, 255, 255)';
 		if (!isAutoDark) {

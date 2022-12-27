@@ -214,7 +214,7 @@
 	</div>
 {% endif %}
 
-<script>
+<script nonce="{{g.nonce}}">
 	{% if not v or v.highlightcomments %}
 		document.addEventListener('DOMContentLoaded', function() {
 			showNewCommentCounts({{p.id}}, {{p.comment_count}})

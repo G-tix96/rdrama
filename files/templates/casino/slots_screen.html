@@ -1,7 +1,7 @@
 {% extends "casino/game_screen.html" %} {% block result %} N/A {% endblock %}
 
 {% block script %}
-<script type="text/javascript">
+<script nonce="{{g.nonce}}">
 	function pullSlots() {
 		const { amount, currency } = getWager();
 
@@ -73,7 +73,7 @@
 {% endblock %}
 
 {% block screen %}
-<style>
+<style nonce="{{g.nonce}}">
 	.slots_reels {
 		display: flex;
 		align-items: center;

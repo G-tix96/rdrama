@@ -1,7 +1,7 @@
 {% extends "default.html" %}
 {% block pagetitle %}{{game.capitalize()}}{% endblock %} 
 {% block content %}
-<style>
+<style nonce="{{g.nonce}}">
 	.game_screen-title {
 		display: flex;
 		align-items: center;
@@ -27,7 +27,7 @@
 	}
 </style>
 
-<script type="text/javascript">
+<script nonce="{{g.nonce}}">
 	/**
 	 * This script block contains generic helper function usable across casino games:
 	 * - Wagers
@@ -233,7 +233,7 @@
 
 {% block script %} {% endblock %}
 
-<style>
+<style nonce="{{g.nonce}}">
 	@keyframes drawing {
 		from {
 			left: 0;

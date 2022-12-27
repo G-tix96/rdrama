@@ -2,7 +2,7 @@
 {% block pagetitle %}Submit Marseys{% endblock %}
 {% block pagetype %}message{% endblock %}
 {% block content %}
-	<style>
+	<style nonce="{{g.nonce}}">
 		input:not(.btn) {
 			text-transform: lowercase;
 		}
@@ -47,7 +47,7 @@
 			</div>
 	</div>
 
-	<script>
+	<script nonce="{{g.nonce}}">
 		document.onpaste = function(event) {
 			files = structuredClone(event.clipboardData.files);
 

@@ -9,19 +9,19 @@
 	{# idk why snow isn't working vvvvvvvvvv #}
 	{% if p.award_count("snow", v) %}
 		<script src="{{'event/js/snow.js'|asset}}"></script>
-		<script>snow(80);</script>
+		<script nonce="{{g.nonce}}">snow(80);</script>
 	{% endif %}
 
 	{% if p.award_count("frostbite", v) %}
 		<div class="frost"></div>
-		<script>
+		<script nonce="{{g.nonce}}">
 		const root = document.querySelector(':root');
 
 		const count = 5;
 		const opacity = count * 0.1;
 		root.style.setProperty('--opacity-frost', opacity);
 		</script>
-		<style>
+		<style nonce="{{g.nonce}}">
 		:root {
 		--opacity-frost: 0.25;
 		}
@@ -41,7 +41,7 @@
 	{% if p.award_count("snowed-in", v) %}
 		<canvas id="canvas-snowed-in-overlay"></canvas>
 		<canvas id="canvas-snowed-in-lines"></canvas>
-		<style>
+		<style nonce="{{g.nonce}}">
 			#canvas-snowed-in-overlay {
 				position: fixed;
 				top: 0;
@@ -64,7 +64,7 @@
 </div>
 
 {% if p.award_count("lights", v) %}
-	<style>
+	<style nonce="{{g.nonce}}">
 		#post-root::before {
 			content: "";
 			position: absolute;
@@ -81,7 +81,7 @@
 {% endif %}
 
 {% if p.award_count("candycane", v) %}
-	<style>
+	<style nonce="{{g.nonce}}">
 		#post-title, #post-content p {
 			--color2: #cc4145;
 			--color1: rgb(12, 128, 101);
@@ -108,7 +108,7 @@
 {% endif %}
 
 {% if p.award_count("fireplace", v) %}
-	<style>
+	<style nonce="{{g.nonce}}">
 		#banner-skybox {
 			fill: url(#skybox-gradient-night)
 		}

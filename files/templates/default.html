@@ -80,7 +80,7 @@
 {% endif %}
 
 {% if g.browser == 'apple' %}
-	<script>
+	<script nonce="{{g.nonce}}">
 		document.addEventListener('DOMContentLoaded', function() {
 			const videos = document.querySelectorAll('video')
 

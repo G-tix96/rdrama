@@ -3,7 +3,7 @@
 {% block pagetype %}message{% endblock %}
 
 {% block banner %}
-	<style>
+	<style nonce="{{g.nonce}}">
 		.shop-tabs {
 			padding-top: 50px;
 		}
@@ -59,7 +59,7 @@
 {% endblock %}
 
 {% block content %}
-	<script>
+	<script nonce="{{g.nonce}}">
 		function equip_hat(t, hat_id, hat_name) {
 			const profile_pic_hat = document.getElementById("profile-pic-35-hat");
 			function extra_actions(xhr) {

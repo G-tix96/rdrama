@@ -10,7 +10,7 @@
 	<script defer src="{{'js/vendor/bootstrap.js' | asset}}"></script>
 	<script defer src="{{'js/core.js' | asset}}"></script>
 
-	<script>
+	<script nonce="{{g.nonce}}">
 		if (window.matchMedia('(display-mode: minimal-ui)')['matches']) {
 			const links = document.querySelectorAll('a[data-target="t"]');
 			for (const link of links) {
@@ -106,9 +106,9 @@
 	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
 	<link id="favicon" rel="icon" type="image/webp" href="/icon.webp?v=1">
 	{% if v %}
-		<style>:root{--primary:#{{v.themecolor}}}</style>
+		<style nonce="{{g.nonce}}">:root{--primary:#{{v.themecolor}}}</style>
 		{% if v.agendaposter %}
-			<style>
+			<style nonce="{{g.nonce}}">
 				html {
 					cursor:url('/i/dildo.webp?v=2000'), auto;
 				}
@@ -120,12 +120,12 @@
 			{% endif %}
 			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
 			{% if v.css and not request.path.startswith('/settings') %}
-				<style>
+				<style nonce="{{g.nonce}}">
 					{{v.css | safe}}
 				</style>
 			{% endif %}
 			{% if v.themecolor == '30409f' %}
-				<style>
+				<style nonce="{{g.nonce}}">
 					p a {
 						color: #2a96f3;
 					}
@@ -145,7 +145,7 @@
 	{% endif %}
 
 	{% if SITE_NAME == 'rDrama' %}
-		<style>
+		<style nonce="{{g.nonce}}">
 			.mod:before {
 				content: '(((';
 			}
@@ -188,7 +188,7 @@
 			{% if not HOLIDAY_EVENT %}
 				<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
 			{% endif %}
-			<style>
+			<style nonce="{{g.nonce}}">
 				body {
 					background:url("{{background}}") center center fixed;
 					background-color: rgb(var(--background));
@@ -202,7 +202,7 @@
 {% endmacro %}
 
 {% macro default_theme() %}
-	<style>:root{--primary:#{{DEFAULT_COLOR}}}</style>
+	<style nonce="{{g.nonce}}">:root{--primary:#{{DEFAULT_COLOR}}}</style>
 	<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
 {% endmacro %}
 

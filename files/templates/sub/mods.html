@@ -2,7 +2,7 @@
 {% block pagetitle %}/h/{{sub}} Mods{% endblock %}
 {% block content %}
 
-<script>
+<script nonce="{{g.nonce}}">
 	function removeMod(e) {
 		sendFormXHR(e,
 			() => {

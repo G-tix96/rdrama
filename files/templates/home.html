@@ -62,7 +62,7 @@
 			{% block navbar %}
 			<div class="d-flex align-items-center">
 				{% if SITE_NAME != 'WPD' and not sub %}
-					<style>
+					<style nonce="{{g.nonce}}">
 						@media (max-width: 427px) {
 							.smol-fp {
 								font-size: 2.7vw;
@@ -169,7 +169,7 @@
 
 {% if request.path == '/' and v %}
 	<script defer src="/assets/js/register_service_worker.js"></script>
-	<script>
+	<script nonce="{{g.nonce}}">
 		document.addEventListener('DOMContentLoaded', function () {
 			registerServiceWorker(
 			"/assets/js/service_worker.js",
@@ -180,7 +180,7 @@
 {% endif %}
 
 {% if request.path == '/' and g.browser != 'webview' and time.time() > session.get('tooltip_last_dismissed',0)+86400*30 %}
-	<style>
+	<style nonce="{{g.nonce}}">
 		.dismiss-beg {
 			color: #919191;
 			float: left;
@@ -193,7 +193,7 @@
 		<div id="mobile-prompt" data-bs-toggle="tooltip" data-bs-container="#mobile-prompt-container" data-bs-placement="top" data-bs-trigger="click" data-bs-html="true" title="<i class='dismiss-beg fas fa-x'></i>Click me to install the {{SITE_NAME}} mobile app!"></div>
 	</div>
 
-	<script>
+	<script nonce="{{g.nonce}}">
 		if (!window.matchMedia('(display-mode: minimal-ui)')['matches']) {
 			if (window.innerWidth <= 737) {
 				document.addEventListener('DOMContentLoaded', function() {
@@ -214,7 +214,7 @@
 		} 
 	</script>
 
-	<style>
+	<style nonce="{{g.nonce}}">
 		#mobile-prompt + .bs-tooltip-bottom {
 			transform: None !important;
 			inset: 0px 0px auto auto !important;
@@ -224,7 +224,7 @@
 
 {% if request.path == '/' and v and FP %}
 	{% if not v.fp %}
-		<script>
+		<script nonce="{{g.nonce}}">
 			function fp(fp) {
 				const xhr = new XMLHttpRequest();
 				xhr.open("POST", '/fp/'+fp);

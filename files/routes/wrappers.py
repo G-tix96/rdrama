@@ -1,4 +1,5 @@
 import time
+import secrets
 from flask import g, request, session
 
 from files.classes.clients import ClientAuth
@@ -40,7 +41,8 @@ def get_logged_in_user():
 			else:
 				session.pop("lo_user")
 
-	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
+	g.is_api = v and v.client
+	g.is_api_or_xhr = bool(g.is_api or request.headers.get("xhr"))
 
 	if request.method.lower() != "get" and get_setting('read_only_mode') and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
 		abort(403)
@@ -67,6 +69,10 @@ def get_logged_in_user():
 				if f'@{v.username}, ' not in f.read():
 					t = time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time()))
 					log_file(f'@{v.username}, {v.truescore}, {ip}, {t}\n', 'eg.log')
+	
+	if not g.is_api:
+		g.nonce = secrets.token_urlsafe(16)
+
 	return v
 
 def auth_desired(f):

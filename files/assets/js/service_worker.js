@@ -1,7 +1,7 @@
 'use strict';
 
 const CACHE_NAME = "offlineCache-v1";
-const OFFLINE_URL = "/assets/offline.html";
+const OFFLINE_URL = "/offline.html";
 
 self.addEventListener("install", () => {
 	const cacheOfflinePage = async () => {

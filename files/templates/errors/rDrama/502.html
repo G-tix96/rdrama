@@ -3,35 +3,8 @@
 	<head>
 		<meta name="description" content="rdrama.net caters to drama in all forms such as: Real life, videos, photos, gossip, rumors, news sites, Reddit, and Beyond™. There isn&#39;t drama we won&#39;t touch, and we want it all!">
 
-		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none';">
+		<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; font-src 'self'; img-src 'self';">
 
-		<style>
-			:root{--primary:#ff66ac}
-			.mod:before {
-				content: "(((";
-			}
-			.mod:after {
-				content: ")))";
-			}
-			body {
-				padding-top: 54px !important;
-			}
-			@media (max-width: 767.98px) {
-				body {
-					padding-top: 44px !important;
-				}
-			}
-			@media (min-width: 380px) {
-				#logo {
-					width: 100px;
-					margin-left: 0.5rem !important;
-				}
-			}
-			.pad {
-				padding-bottom: 7.4px;
-				padding-top: 7.4px;
-			}
-		</style>
 		<link rel="stylesheet" href="/assets/css/main.css?v=4032">
 		<link rel="stylesheet" href="/assets/css/midnight.css?v=4000">
 
@@ -50,7 +23,6 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1">
 
 		<link rel="apple-touch-icon" sizes="180x180" href="/icon.webp?v=1">
-		<link rel="manifest" href="/assets/manifest_rDrama.json?v=426">
 		<link rel="mask-icon" href="/icon.webp?v=1">
 		<link rel="shortcut icon" href="/icon.webp?v=1">
 		<meta name="apple-mobile-web-app-title" content="rDrama">
@@ -93,7 +65,7 @@
 
 		<nav class="shadow-md fixed-top">
 			<div class="navbar navbar-expand-md navbar-light" id="navbar">
-				<div class="container-fluid" style="padding: 0;">
+				<div class="container-fluid p-0">
 					<a href="/" class="navbar-brand mr-auto">
 						<img id="header--icon" alt="header icon" src="/i/rDrama/headericon.webp?v=3009">
 					</a>
@@ -105,10 +77,10 @@
 					</div>
 
 					<div class="flex-grow-1 d-fl d-mob-none pad">
-						<form class="form-inline search flex-nowrap mx-0 mx-lg-auto" style="margin-right: 40rem !important;" action="/search/posts/" method="get">
+						<form class="form-inline search flex-nowrap mx-0 mx-lg-auto" action="/search/posts/" method="get">
 							<input autocomplete="off" class="form-control w-100" type="search" placeholder="Search" name="q" value="">
 							<span class="input-group-append">
-								<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem;">
+								<span class="input-group-text border-0 bg-transparent">
 									<i class="fa fa-search"></i>
 								</span>
 							</span>

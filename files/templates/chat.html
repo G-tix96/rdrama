@@ -17,7 +17,7 @@
 		data-avatar="{{v.profile_url}}"
 		data-hat="{{v.hat_active(v)[0]}}">
 	</div>
-	<script>window.global = window</script>
+	<script nonce="{{g.nonce}}">window.global = window</script>
 	{% if IS_LOCALHOST %}
 		<script defer src="https://rdrama.net/assets/js/chat_done.js"></script>
 	{% else %}
