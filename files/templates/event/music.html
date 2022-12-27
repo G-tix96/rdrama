@@ -4,16 +4,14 @@
 		{% set song = "/" ~ path ~ "/" ~ listdir('files/' ~ path)|random() ~ '?v=45' %}
 	{% endif %}
 	<script nonce="{{g.nonce}}">
-		const audio = new Audio("{{song}}");
-		audio.loop=true;
-
-		function play() {
-			audio.play();
-		}
-
-		audio.loop=true;
-
 		window.addEventListener('load', function() {
+			const audio = new Audio("{{song}}");
+			audio.loop=true;
+
+			function play() {
+				audio.play();
+			}
+
 			audio.play();
 			window.addEventListener('click', () => {
 				if (audio.paused) audio.play();
