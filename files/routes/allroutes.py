@@ -81,7 +81,7 @@ CSP = {
 	"script-src-attr": "'unsafe-inline'",
 	"script-src": "'self' 'unsafe-inline' challenges.cloudflare.com",
 
-	"img-src": "https:",
+	"img-src": "https: data:",
 	"frame-src": "challenges.cloudflare.com www.youtube-nocookie.com platform.twitter.com",
 	"connect-src": "'self' tls-use1.fpapi.io api.fpjs.io",
 
