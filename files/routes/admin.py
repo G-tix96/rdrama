@@ -1020,10 +1020,11 @@ def ban_user(user_id, v):
 		pass
 
 	reason = request.values.get("reason").strip()[:256]
-	reason = filter_emojis_only(reason)
 
 	if reason.startswith("/") and '\\' not in reason: 
 		reason = f'<a href="{reason.split()[0]}">{reason}</a>'
+
+	reason = filter_emojis_only(reason)
 
 	user.ban(admin=v, reason=reason, days=days)
 
@@ -1090,6 +1091,8 @@ def agendaposter(user_id, v):
 	reason = request.values.get("reason", "").strip()
 	if reason and reason.startswith("/") and '\\' not in reason:
 		reason = f'<a href="{reason.split()[0]}">{reason}</a>'
+
+	reason = filter_emojis_only(reason)
 
 	duration = "permanently"
 	if days:
