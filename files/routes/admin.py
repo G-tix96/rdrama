@@ -1515,8 +1515,11 @@ def ban_domain(v):
 	domain=request.values.get("domain", "").strip().lower()
 	if not domain: abort(400)
 
-	reason=request.values.get("reason").strip()
+	reason=request.values.get("reason", "").strip()
 	if not reason: abort(400, 'Reason is required!')
+
+	if len(reason) > 100:
+		abort(400, 'Reason is too long (max 100 characters)!')
 
 	existing = g.db.get(BannedDomain, domain)
 	if not existing:
