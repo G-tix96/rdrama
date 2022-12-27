@@ -6376,6 +6376,9 @@ div.markdown {
 	.award-name, .award-owned {
 		font-size: 11px;
 	}
+	.awards-wrapper > div {
+		width: 101px!important;
+	}
 	.download-video {
 		font-size: 10px;
 	}
