@@ -208,13 +208,14 @@ INSERT INTO public.badge_defs VALUES (221, 'Perfect Pundit', 'Finished #1 on the
 INSERT INTO public.badge_defs VALUES (102, 'Fistmas 21 Survivor', 'Awarded for surviving Fistmas 2021', NULL);
 INSERT INTO public.badge_defs VALUES (222, 'Fistmas 22 Survivor', 'Awarded for surviving Fistmas 2022 which may or may not have even happened', 1671157460);
 INSERT INTO public.badge_defs VALUES (156, 'Hole Neglecter', 'Let a hole they owned die', NULL);
+INSERT INTO public.badge_defs VALUES (223, '100K CORPSECOOMER MEDAL', 'BORN TO WATCH PEOPLE DIE / REDDIT IS A FUCK / Kill Em All 2022 / I am shit poster / 410,757,864,530 DEAD COP VIDEOS', 1672113466);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 222, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 223, true);
 
 
 --
