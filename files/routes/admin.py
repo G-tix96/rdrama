@@ -250,6 +250,9 @@ def make_admin(v:User, username):
 @app.post("/@<username>/remove_admin")
 @admin_level_required(PERMS['ADMIN_REMOVE'])
 def remove_admin(v:User, username):
+	if SITE == 'devrama.net':
+		abort(403, "You can't remove admins on devrama!")
+
 	user = get_user(username)
 
 	if user.admin_level:
