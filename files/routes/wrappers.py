@@ -41,6 +41,9 @@ def get_logged_in_user():
 			else:
 				session.pop("lo_user")
 
+	if SITE == 'devrama.net' and not (v and v.username == 'Aevann'):
+		abort(403, "Only Aevann can access devrama for now!")
+
 	if request.method.lower() != "get" and get_setting('read_only_mode') and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
 		abort(403)
 
