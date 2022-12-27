@@ -339,5 +339,7 @@ def donate(v):
 @limiter.limit("10/minute;50/day")
 def csp_violations():
 	content = request.get_json(force=True)
-	print(json.dumps(content, indent=4, sort_keys=True), flush=True)
+	content = str(json.dumps(content, indent=4, sort_keys=True), flush=True)
+	if f'"source-file": "{SITE_FULL}' in content:
+		print(content)
 	return ''
