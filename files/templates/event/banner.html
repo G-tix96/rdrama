@@ -1,6 +1,6 @@
-{# <script src="{{'event/js/neko.js'|asset}}"></script> #}
+{# <script defer src="{{'event/js/neko.js'|asset}}"></script> #}
 {% if request.path == '/' %}
-	<script src="{{'event/js/snow.js'|asset}}"></script>
+	<script defer src="{{'event/js/snow.js'|asset}}"></script>
 	<script nonce="{{g.nonce}}">snow(80);</script>
 {% endif %}
 

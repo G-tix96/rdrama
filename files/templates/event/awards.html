@@ -8,7 +8,7 @@
 
 	{# idk why snow isn't working vvvvvvvvvv #}
 	{% if p.award_count("snow", v) %}
-		<script src="{{'event/js/snow.js'|asset}}"></script>
+		<script defer src="{{'event/js/snow.js'|asset}}"></script>
 		<script nonce="{{g.nonce}}">snow(80);</script>
 	{% endif %}
 
