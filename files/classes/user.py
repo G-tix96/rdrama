@@ -34,6 +34,8 @@ from .sub_logs import *
 from .subscriptions import *
 from .userblock import *
 
+DEFAULT_ADMIN_LEVEL = 3 if SITE=='devrama.net' else 0
+
 class User(Base):
 	__tablename__ = "users"
 
@@ -70,7 +72,7 @@ class User(Base):
 	comment_count = Column(Integer, default=0)
 	received_award_count = Column(Integer, default=0)
 	created_utc = Column(Integer)
-	admin_level = Column(Integer, default=0)
+	admin_level = Column(Integer, default=DEFAULT_ADMIN_LEVEL)
 	last_active = Column(Integer, default=0, nullable=False)
 	coins_spent = Column(Integer, default=0)
 	coins_spent_on_hats = Column(Integer, default=0)
