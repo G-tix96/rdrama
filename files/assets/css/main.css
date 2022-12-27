@@ -6365,11 +6365,10 @@ div.markdown {
 
 .award-name {
 	font-weight: bold;
-	font-size: 13px;
 	color:#E1E1E1;
 }
 
-.award-owned {
+.award-name, .award-owned {
 	font-size: 13px;
 }
 
