@@ -925,6 +925,7 @@ def shadowban(user_id, v):
 		abort(403)
 	user.shadowbanned = v.id
 	reason = request.values.get("reason").strip()[:256]
+	reason = filter_emojis_only(reason)
 	user.ban_reason = reason
 	g.db.add(user)
 	check_for_alts(user, False)

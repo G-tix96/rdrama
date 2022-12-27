@@ -166,7 +166,7 @@ def award_thing(v, thing_type, id):
 
 	if thing.ghost and v.id != author.id:
 		safe_username = "👻"
-	else
+	else:
 		safe_username = f"@{author.username}"
 
 	if SITE == 'rdrama.net' and author.id == PIZZASHILL_ID and v.id not in {AEVANN_ID, SNAKES_ID}:
