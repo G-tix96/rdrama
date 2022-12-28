@@ -193,7 +193,7 @@ def notifications_modactions(v:User):
 	listing = g.db.query(cls).filter(cls.user_id != v.id)
 
 	if v.id == AEVANN_ID and SITE_NAME == 'rDrama':
-		listing = listing.filter(cls.kind.in_(('ban_user','shadowban')))
+		listing = listing.filter(cls.kind.in_(('ban_user','unban_user','shadowban','unshadowban')))
 
 	if cls == SubAction:
 		listing = listing.filter(cls.sub.in_(v.moderated_subs))
