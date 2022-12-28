@@ -208,13 +208,14 @@ INSERT INTO public.badge_defs VALUES (221, 'Perfect Pundit', 'Finished #1 on the
 INSERT INTO public.badge_defs VALUES (102, 'Fistmas 21 Survivor', 'Awarded for surviving Fistmas 2021', NULL);
 INSERT INTO public.badge_defs VALUES (222, 'Fistmas 22 Survivor', 'Awarded for surviving Fistmas 2022 which may or may not have even happened', 1671157460);
 INSERT INTO public.badge_defs VALUES (156, 'Hole Neglecter', 'Let a hole they owned die', NULL);
+INSERT INTO public.badge_defs VALUES (223, '100K CORPSECOOMER MEDAL', 'BORN TO WATCH PEOPLE DIE / REDDIT IS A FUCK / Kill Em All 2022 / I am shit poster / 410,757,864,530 DEAD COP VIDEOS', 1672113466);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 222, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 223, true);
 
 
 --
@@ -587,12 +588,9 @@ INSERT INTO public.hat_defs VALUES (1110, 'Brave Shill', 'Show others that you u
 INSERT INTO public.hat_defs VALUES (1112, 'Mexico Flag', 'Mexicanos al grito de guerra', 2, 1000, NULL, 1670815485);
 INSERT INTO public.hat_defs VALUES (1113, 'Postal Conscience', '"Good or Insane? The choice is yours!" (From Postal 3!)', 2, 500, NULL, 1670890618);
 INSERT INTO public.hat_defs VALUES (1114, 'Djenter', '000-0-000-0-000-0-000-0-000-0-000-0-000-0-000-0', 2, 500, NULL, 1670901458);
-
-
 INSERT INTO public.hat_defs VALUES (1120, 'Present Bow', 'the ghost of christmas present', 2, 0, NULL, 1671231987);
 INSERT INTO public.hat_defs VALUES (1119, 'Winter Cap', 'cold air goes brrrrr', 2, 0, NULL, 1671231828);
 INSERT INTO public.hat_defs VALUES (1118, 'Santa Hat III', 'ho ho ho', 2, 0, NULL, 1671231728);
-
 INSERT INTO public.hat_defs VALUES (1024, 'Snowfall', 'I''m dreaming, of a BIPOC Christmas...', 2, 1000, NULL, 1668549688);
 INSERT INTO public.hat_defs VALUES (1025, 'Christmas Wreath', 'Prepare to feel my wreath.', 2, 500, NULL, 1668549747);
 INSERT INTO public.hat_defs VALUES (1026, 'Christmas Wreath II', 'All I want for Christmas is fresh bussy.', 2, 500, NULL, 1668550006);
@@ -656,7 +654,6 @@ INSERT INTO public.hat_defs VALUES (1074, 'Scottish Sticky Note', 'idk why its s
 INSERT INTO public.hat_defs VALUES (1076, 'Snow Globe', 'Snow globe full of partially transparent webp flakes', 2, 1000, NULL, 1668755503);
 INSERT INTO public.hat_defs VALUES (1079, 'Spinning Christmas Elf Hat', 'It''s time to go green.', 2, 1000, NULL, 1668755556);
 INSERT INTO public.hat_defs VALUES (1100, 'World Cup Mascot', 'This user supports the 2022 World Cup and watched it for Jungkook!', 2, 500, NULL, 1669007389);
-
 INSERT INTO public.hat_defs VALUES (874, 'Carp', 'My 100th hat and a Thank you to carp. Now 150 more!', 2, 500, NULL, 1665272718);
 INSERT INTO public.hat_defs VALUES (1077, 'Premium Snow Globe', 'Snow globe with a more premium base.', 2, 1000, NULL, 1668755505);
 INSERT INTO public.hat_defs VALUES (93, 'Wizard I', 'Three decades a KHHV', 2, 500, NULL, 1662167687);
@@ -732,7 +729,6 @@ INSERT INTO public.hat_defs VALUES (152, 'Kung Lao', 'Why did I make a Kung Lao 
 INSERT INTO public.hat_defs VALUES (153, 'Top Hat (steampunk)', 'Like a regular top hat but with goggles and gears', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (154, 'Brain Hat', 'Peter Griffin''s dog', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (155, 'The TED_SIMP', 'Wear this hat to express your undying adoration for carp', 2, 500, NULL, 1662167687);
-
 INSERT INTO public.hat_defs VALUES (667, 'The Orb', 'Ponder into one''s soul', 2, 500, NULL, 1663279906);
 INSERT INTO public.hat_defs VALUES (652, 'Leather Helmet', 'Wow, what a n00b', 2, 500, NULL, 1663133381);
 INSERT INTO public.hat_defs VALUES (669, 'Backwards cap 2', 'lookin'' cool', 2, 500, NULL, 1663280007);
@@ -891,9 +887,13 @@ INSERT INTO public.hat_defs VALUES (549, 'The Bumper Sticker', 'Turn yourself in
 INSERT INTO public.hat_defs VALUES (571, 'Purple Emoji Crown', '💜💜💜when ur selfie needs an emoji crown with a 🌻, a 👻, and a 🐻 but u still gotta fit that purple aesthetic 💜💜💜', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (570, 'Carl', 'based and dramapilled llama', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (828, 'monopoly thimbler', 'Even thimblier than the last one', 2, 500, NULL, 1665250441);
-
 INSERT INTO public.hat_defs VALUES (846, 'Twinkle', 'TWINKle', 2, 1000, NULL, 1665261883);
+INSERT INTO public.hat_defs VALUES (1117, 'Necrotomigaud', 'R1 - User in rDrama fades away', 2, 500, NULL, 1671165496);
+INSERT INTO public.hat_defs VALUES (1121, 'Affliction', '“Fear and frailty finally claim their due.” – Narrator', 2, 500, NULL, 1671233929);
 INSERT INTO public.hat_defs VALUES (875, 'Aces Strawhat', 'Idfk what this is man why are you submitting these esoteric fucking hats with no indication of what they are AAAHHHHH', 2, 500, NULL, 1665314089);
+INSERT INTO public.hat_defs VALUES (1122, 'Driller Helmet DRG', 'If it ain''t drillable, it''s probably flammable.', 2, 500, NULL, 1671236444);
+INSERT INTO public.hat_defs VALUES (1124, 'Farseer helm', 'Farseer helm', 2, 500, NULL, 1671621813);
+INSERT INTO public.hat_defs VALUES (1130, 'Kluxxer', 'Kluxxing', 2, 500, NULL, 1671649262);
 INSERT INTO public.hat_defs VALUES (531, 'Zen', 'follow the fish follow the fish follow the fish follow the fish follow the fish', 2, 1000, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (612, 'Wizard Hat (pixel)', 'Some sort of vidya thing idfk', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (614, 'Chickenhead', '🤗', 2, 500, NULL, 1662167687);
@@ -1506,6 +1506,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycanada',2,'leaf canadian canuck rake hockey donut trudeau maple',NULL),
 ('marseycanadian',2,'southpark canada leaf terrance phillip animated fart',NULL),
 ('marseycandy',2,'candy sugar sweet jelly gummy gummi halloween trick or treat trickortreat holiday',1666317190),
+('marseycandycane',2,'christmas holiday sweet',1671791945),
 ('marseycandycorn',2,'sweet halloween sugar holiday',1666999203),
 ('marseycanned',2,'srdine sleeping tin fish sardine',NULL),
 ('marseycantsneed',2,'george floyd breathe dead black sneed',NULL),
@@ -1527,6 +1528,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycapygigabrain',2,'capybara aevann smart intelligent codecel brain',NULL),
 ('marseycapyhacker',2,'animated aevann capy hack code program socks',NULL),
 ('marseycapyheart',2,'capybara rodent aevann happy cute love',NULL),
+('marseycapyheartsantahat',2,'capy marsey heart santahat santa hat',1672003231),
 ('marseycapykiss',2,'capybara aevann love mwah xoxo smooch happy love',NULL),
 ('marseycapylove',2,'aevann heart eyes hug adore adoration snuggle cuddle capybara',NULL),
 ('marseycapymad',2,'shaking aevann mad angry fury furious anger shook animated capybara',NULL),
@@ -1653,6 +1655,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseychudegg',2,'transgender hatching repressed',1668645562),
 ('marseychudnotes',2,'chud notes write writing manifesto pencil',1664829809),
 ('marseychudrentfree',2,'seethe mask cope smug cry rage',1665938276),
+('marseychudsmas',2,'santa naughty christmas holiday',1671901395),
 ('marseychungus',2,'bugs bunny meme fat chonker big',NULL),
 ('marseycia',2,'bane cia glowie plane big guy dr pavel batman',NULL),
 ('marseycirno',2,'is cirno anime weebshit otaku loli pedoshit pedophile',NULL),
@@ -1977,6 +1980,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseygardener',2,'gardening watering',NULL),
 ('marseygarfield',2,'mondays lasagna',NULL),
 ('marseygarfieldpipe',2,'marfield pipe smoking john yelling comic smoke',NULL),
+('marseygas',2,'holocaust zyklon fart poison brap barf smell tremble dead genocide animated jews jewish',1672048667),
 ('marseygasp',2,'wow woah what how why whoa reaction appalled',NULL),
 ('marseygeisha',2,'foid birthing person girl woman girl lady slut thot noodlewhore chink jap gook asian azn blow kiss blowing kiss blowkiss love heart stockings nylons fishnets',NULL),
 ('marseygenetakovic',2,'bcs better call saul breaking bad disguise cinnabon gene',1664491944),
@@ -2445,6 +2449,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseynpcmad',2,'angry grey libtard',NULL),
 ('marseynukegoggles',2,'nuclear atomic bomb mushroom cloud',NULL),
 ('marseynull',2,'kiwifarms joshua moon josh dog',NULL),
+('marseynulloverback',2,'animated jersh josh itsover wereback over back keffals kiwifarms',1671772512),
 ('marseynun',2,'habit catholic',NULL),
 ('marseynurgle',2,'warhammer 40k chaos god disease sickness rebirth',NULL),
 ('marseynut',2,'orgasm ahegao cum reaction coom',NULL),
@@ -2668,6 +2673,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyredflag2',2,'refuse reject warning animated',NULL),
 ('marseyredmage',2,'magic wizard final fantasy spell video game vidya',NULL),
 ('marseyredshirt',2,'redshirt star trek expendable disposable nameless spaceshit',1668482912),
+('marseyrefrigerator',2,'appliance kitchen food freezer fish cooking',1671792131),
 ('marseyregistration',2,'register note retard writing glasses',1670959685),
 ('marseyregular',2,'marsey regular normal content',1663812191),
 ('marseyreich',2,'nazi pol authright fuhrer hitler fascist',NULL),
@@ -2874,6 +2880,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyslab',2,'dexter lab smart genius ginger cartoon network glasses',NULL),
 ('marseysleep',2,'bed bedtime zzz boring reaction tired bored',NULL),
 ('marseyslime',2,'animated happy blob vidya video game maple story maplestory bouncing bounce monster jump',NULL),
+('marseyslm',2,'schizo lives matter krayon autistic autist fist neuro retard brain',1672048501),
 ('marseyslowpoke',2,'pokemon stupid late anime weeb meme',NULL),
 ('marseysmirk',2,'reaction snicker trolling lol',NULL),
 ('marseysmoothbrain',2,'idiot big brain brainlet retard reaction fool dumbass moron',NULL),
@@ -3236,6 +3243,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyzeldaskyward',2,'marsey zelda nintendo game video legend of vidya adventure hyrule link hero sky skyward sword shield wii motion chainmail courage fi master ss',1671476875),
 ('marseyzeldatetra',2,'marsey zelda nintendo game video legend of vidya adventure hyrule tetra princess pirate toon wind waker hourglass phantom ww gamecube waker wind sea ph',1671476807),
 ('marseyzeldatingle',2,'marsey zelda nintendo game video legend of vidya adventure hyrule tingle elf fairy baloon triforce mm majora ww waker wind tuner rupee mask',1671468441),
+('marseyzelensky',2,'poor ukraine beg gibs',1671725473),
 ('marseyzizek',2,'zizek philosophy philosopher communism marxism nose slovenian slavic critique',NULL),
 ('marseyzodiac',2,'zodiac killer zodiackiller tedcruz ted cruz murderer crazy mask gun shooter shooting death',NULL),
 ('marseyzodiac2',2,'halloween killer zodiac tedcruise gun horror violence serial',1666290517),
