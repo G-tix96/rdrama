@@ -1534,7 +1534,7 @@ def admin_banned_domains(v):
 # 	reason = filter_emojis_only(reason)
 
 # 	if len(reason) > 100:
-# 		abort(400, 'Reason is too long (max 100 characters)!')
+# 		abort(400, 'Reason is too long!')
 
 # 	existing = g.db.get(BannedDomain, domain)
 # 	if not existing:

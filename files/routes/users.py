@@ -320,7 +320,8 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'mars
 	notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount-tax} {currency_name}!"
 
 	if reason:
-		if len(reason) > TRANSFER_MESSAGE_LENGTH_LIMIT: abort(400, f"Reason is too long, max {TRANSFER_MESSAGE_LENGTH_LIMIT} characters")
+		if len(reason) > TRANSFER_MESSAGE_LENGTH_LIMIT:
+			abort(400, f"Reason is too long, max {TRANSFER_MESSAGE_LENGTH_LIMIT} characters")
 		notif_text += f"\n\n> {reason}"
 		log_message += f"\n\n> {reason}"
 

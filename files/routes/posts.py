@@ -321,7 +321,7 @@ def edit_post(pid, v):
 			if not execute_blackjack(v, p, text, 'submission'): break
 
 		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: 
-			abort(400, f"Submission body_html too long! (max {POST_BODY_HTML_LENGTH_LIMIT} characters)")
+			abort(400, f"Submission body_html too long!")
 
 		p.body_html = body_html
 
@@ -688,7 +688,8 @@ def submit_post(v:User, sub=None):
 	if v.marseyawarded and marseyaward_body_regex.search(body_html):
 		return error("You can only type marseys!")
 
-	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: return error(f"Submission body_html too long! (max {POST_BODY_HTML_LENGTH_LIMIT} characters)")
+	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
+		return error(f"Submission body_html too long!")
 
 	flag_notify = (request.values.get("notify", "on") == "on")
 	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()

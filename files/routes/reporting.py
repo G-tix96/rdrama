@@ -24,7 +24,8 @@ def flag_post(pid, v):
 	reason = reason[:100]
 	og_flair = reason[1:]
 	reason = filter_emojis_only(reason)
-	if len(reason) > 350: abort(400, "Too long.")
+	if len(reason) > 350:
+		abort(400, "Report reason too long!")
 
 	if reason.startswith('!') and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.sub and v.mods(post.sub)):
 		post.flair = reason[1:]
