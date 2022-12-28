@@ -23,8 +23,8 @@ NO_LOGIN_REDIRECT_URLS = ("/login", "/logout", "/signup", "/forgot", "/reset", "
 @app.get("/login")
 @auth_desired
 def login_get(v:Optional[User]):
+	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
 	if v:
-		redir = request.values.get("redirect", "").strip().rstrip('?').lower()
 		if redir and is_site_url(redir) and redir not in NO_LOGIN_REDIRECT_URLS:
 			return redirect(redir)
 		return redirect('/')
