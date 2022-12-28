@@ -330,21 +330,21 @@ def distribute(v:User, option_id):
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['ADMIN_ACTIONS_REVERT'])
 def revert_actions(v:User, username):
-	user = get_user(username)
+	revertee = get_user(username)
 
 	ma = ModAction(
 		kind="revert",
 		user_id=v.id,
-		target_user_id=user.id
+		target_user_id=revertee.id
 	)
 	g.db.add(ma)
 
 	cutoff = int(time.time()) - 86400
 
-	posts = [x[0] for x in g.db.query(ModAction.target_submission_id).filter(ModAction.user_id == user.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_post').all()]
+	posts = [x[0] for x in g.db.query(ModAction.target_submission_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_post').all()]
 	posts = g.db.query(Submission).filter(Submission.id.in_(posts)).all()
 
-	comments = [x[0] for x in g.db.query(ModAction.target_comment_id).filter(ModAction.user_id == user.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_comment').all()]
+	comments = [x[0] for x in g.db.query(ModAction.target_comment_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_comment').all()]
 	comments = g.db.query(Comment).filter(Comment.id.in_(comments)).all()
 
 	for item in posts + comments:
@@ -353,7 +353,7 @@ def revert_actions(v:User, username):
 		item.is_approved = v.id
 		g.db.add(item)
 
-	users = (x[0] for x in g.db.query(ModAction.target_user_id).filter(ModAction.user_id == user.id, ModAction.created_utc > cutoff, ModAction.kind.in_(('shadowban', 'ban_user'))).all())
+	users = (x[0] for x in g.db.query(ModAction.target_user_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind.in_(('shadowban', 'ban_user'))).all())
 	users = g.db.query(User).filter(User.id.in_(users)).all()
 
 	for user in users:
@@ -374,7 +374,7 @@ def revert_actions(v:User, username):
 				send_repeatable_notification(u.id, f"@{v.username} (a site admin) has unbanned you!")
 			g.db.add(u)
 
-	return {"message": f"@{user.username}'s admin actions have been reverted!"}
+	return {"message": f"@{revertee.username}'s admin actions have been reverted!"}
 
 @app.get("/admin/shadowbanned")
 @admin_level_required(PERMS['USER_SHADOWBAN'])
