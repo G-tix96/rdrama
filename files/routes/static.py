@@ -335,11 +335,14 @@ def donate(v):
 	return render_template(f'donate_{SITE_NAME}.html', v=v)
 
 
+items_we_want = ('blocked-uri', 'document-uri', 'effective-directive', 'source-file', 'violated-directive')
+
 @app.post('/csp_violations')
 @limiter.limit("10/minute;50/day")
 def csp_violations():
-	content = request.get_json(force=True)
-	content = str(json.dumps(content, indent=4, sort_keys=True))
-	if f'"source-file": "{SITE_FULL}' in content:
-		print(content, flush=True)
+	content = json.dumps(request.get_json())
+	if content["source-file"].startswith(SITE_FULL):
+		print('--------', flush=True)
+		for i in items_we_want:
+			print(f"{i}: {content['i']}")
 	return ''
