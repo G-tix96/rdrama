@@ -927,7 +927,11 @@ def shadowban(user_id, v):
 	if user.admin_level > v.admin_level:
 		abort(403)
 	user.shadowbanned = v.id
-	reason = request.values.get("reason").strip()[:256]
+	reason = request.values.get("reason", "").strip()[:256]
+
+	if not reason:
+		abort(400, "You need to submit a reason for shadowbanning!")
+
 	reason = filter_emojis_only(reason)
 	user.ban_reason = reason
 	g.db.add(user)
@@ -1022,7 +1026,10 @@ def ban_user(user_id, v):
 	except:
 		pass
 
-	reason = request.values.get("reason").strip()[:256]
+	reason = request.values.get("reason", "").strip()[:256]
+
+	if not reason:
+		abort(400, "You need to submit a reason for banning!")
 
 	if reason.startswith("/") and '\\' not in reason: 
 		reason = f'<a href="{reason.split()[0]}">{reason}</a>'
