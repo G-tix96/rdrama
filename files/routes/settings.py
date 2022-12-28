@@ -838,6 +838,10 @@ def settings_title_change(v):
 	if v.flairchanged: abort(403)
 	
 	customtitleplain = sanitize_settings_text(request.values.get("title"), 100)
+
+	if len(customtitleplain) > 100:
+		return render_template("settings/personal.html", v=v, error="Flair too long!")
+
 	if customtitleplain == v.customtitleplain:
 		return render_template("settings/personal.html", v=v, error="You didn't change anything")
 
