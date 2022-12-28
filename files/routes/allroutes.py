@@ -71,7 +71,6 @@ CSP = {
 	"worker-src": "'self'",
 	"base-uri": "'self'",
 	"font-src": "'self'",
-	"media-src": "'self'",
 
 	"style-src-elem": "'self' 'nonce-{nonce}'",
 	"style-src-attr": "'unsafe-inline'",
@@ -81,6 +80,7 @@ CSP = {
 	"script-src-attr": "'unsafe-inline'",
 	"script-src": "'self' 'unsafe-inline' challenges.cloudflare.com",
 
+	"media-src": "https:",
 	"img-src": "https: data:",
 	"frame-src": "challenges.cloudflare.com www.youtube-nocookie.com platform.twitter.com",
 	"connect-src": "'self' tls-use1.fpapi.io api.fpjs.io",
@@ -93,9 +93,6 @@ if IS_LOCALHOST:
 	CSP["style-src-elem"] += " rdrama.net"
 	CSP["script-src-elem"] += " rdrama.net"
 	CSP["img-src"] += " http:"
-
-if SITE == 'watchpeopledie.tv':
-	CSP["media-src"] += " videos.watchpeopledie.tv"
 
 CSP_str = ''
 
