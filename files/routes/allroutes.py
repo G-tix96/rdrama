@@ -94,6 +94,9 @@ if IS_LOCALHOST:
 	CSP["script-src-elem"] += " rdrama.net"
 	CSP["img-src"] += " http:"
 
+if SITE == 'watchpeopledie.tv':
+	CSP["media-src"] += " videos.watchpeopledie.tv"
+
 CSP_str = ''
 
 for k, val in CSP.items():
