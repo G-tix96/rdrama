@@ -1510,55 +1510,55 @@ def admin_banned_domains(v):
 	return render_template("admin/banned_domains.html", v=v,
 		banned_domains=banned_domains)
 
-@app.post("/admin/ban_domain")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['DOMAINS_BAN'])
-def ban_domain(v):
+# @app.post("/admin/ban_domain")
+# @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+# @admin_level_required(PERMS['DOMAINS_BAN'])
+# def ban_domain(v):
 
-	domain=request.values.get("domain", "").strip().lower()
-	if not domain: abort(400)
+# 	domain=request.values.get("domain", "").strip().lower()
+# 	if not domain: abort(400)
 
-	reason=request.values.get("reason", "").strip()
-	if not reason: abort(400, 'Reason is required!')
+# 	reason=request.values.get("reason", "").strip()
+# 	if not reason: abort(400, 'Reason is required!')
 
-	if len(reason) > 100:
-		abort(400, 'Reason is too long (max 100 characters)!')
+# 	if len(reason) > 100:
+# 		abort(400, 'Reason is too long (max 100 characters)!')
 
-	reason = filter_emojis_only(reason)
+# 	reason = filter_emojis_only(reason)
 
-	if len(reason) > 100:
-		abort(400, 'Reason is too long (max 100 characters)!')
+# 	if len(reason) > 100:
+# 		abort(400, 'Reason is too long (max 100 characters)!')
 
-	existing = g.db.get(BannedDomain, domain)
-	if not existing:
-		d = BannedDomain(domain=domain, reason=reason)
-		g.db.add(d)
-		ma = ModAction(
-			kind="ban_domain",
-			user_id=v.id,
-			_note=f'{domain}, reason: {reason}'
-		)
-		g.db.add(ma)
+# 	existing = g.db.get(BannedDomain, domain)
+# 	if not existing:
+# 		d = BannedDomain(domain=domain, reason=reason)
+# 		g.db.add(d)
+# 		ma = ModAction(
+# 			kind="ban_domain",
+# 			user_id=v.id,
+# 			_note=f'{domain}, reason: {reason}'
+# 		)
+# 		g.db.add(ma)
 
-	return redirect("/admin/banned_domains/")
+# 	return redirect("/admin/banned_domains/")
 
 
-@app.post("/admin/unban_domain/<path:domain>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['DOMAINS_BAN'])
-def unban_domain(v:User, domain):
-	existing = g.db.get(BannedDomain, domain)
-	if not existing: abort(400, 'Domain is not banned!')
+# @app.post("/admin/unban_domain/<path:domain>")
+# @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+# @admin_level_required(PERMS['DOMAINS_BAN'])
+# def unban_domain(v:User, domain):
+# 	existing = g.db.get(BannedDomain, domain)
+# 	if not existing: abort(400, 'Domain is not banned!')
 	
-	g.db.delete(existing)
-	ma = ModAction(
-		kind="unban_domain",
-		user_id=v.id,
-		_note=domain
-	)
-	g.db.add(ma)
+# 	g.db.delete(existing)
+# 	ma = ModAction(
+# 		kind="unban_domain",
+# 		user_id=v.id,
+# 		_note=domain
+# 	)
+# 	g.db.add(ma)
 
-	return {"message": f"{domain} has been unbanned!"}
+# 	return {"message": f"{domain} has been unbanned!"}
 
 
 
