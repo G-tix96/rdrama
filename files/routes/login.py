@@ -23,11 +23,11 @@ NO_LOGIN_REDIRECT_URLS = ("/login", "/logout", "/signup", "/forgot", "/reset", "
 @app.get("/login")
 @auth_desired
 def login_get(v:Optional[User]):
-	redir = request.values.get("redirect", "/").strip().rstrip('?').lower()
-	if redir:
-		if not is_site_url(redir) or redir in NO_LOGIN_REDIRECT_URLS:
-			redir = "/"
-		if v: return redirect(redir)
+	if v:
+		redir = request.values.get("redirect", "").strip().rstrip('?').lower()
+		if redir and is_site_url(redir) and redir not in NO_LOGIN_REDIRECT_URLS:
+			return redirect(redir)
+		return redirect('/')
 	return render_template("login/login.html", failed=False, redirect=redir), 401
 
 def login_deduct_when(resp):
@@ -107,9 +107,8 @@ def login_post(v:Optional[User]):
 	on_login(account)
 
 	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
-	if redir:
-		if is_site_url(redir) and redir not in NO_LOGIN_REDIRECT_URLS:
-			return redirect(redir)
+	if redir and is_site_url(redir) and redir not in NO_LOGIN_REDIRECT_URLS:
+		return redirect(redir)
 	return redirect('/')
 
 def log_failed_admin_login_attempt(account:User, type:str):
@@ -336,9 +335,8 @@ def sign_up_post(v:Optional[User]):
 		send_notification(CARP_ID, f"A new user - @{new_user.username} - has signed up!")
 
 	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
-	if redir:
-		if is_site_url(redir) and redir not in NO_LOGIN_REDIRECT_URLS:
-			return redirect(redir)
+	if redir and is_site_url(redir) and redir not in NO_LOGIN_REDIRECT_URLS:
+		return redirect(redir)
 	return redirect('/')
 
 
