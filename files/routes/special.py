@@ -1,4 +1,4 @@
-from flask import g, jsonify, render_template
+from flask import g, render_template
 from files.helpers.get import get_accounts_dict
 
 from files.routes.wrappers import auth_required
@@ -82,7 +82,7 @@ def _special_leaderboard_get():
 @auth_required
 def get_leaderboard(v):
 	result = _special_leaderboard_get()
-	if g.is_api_or_xhr: return jsonify(result)
+	if g.is_api_or_xhr: return result
 	users = get_accounts_dict([r[0] for r in result],
 		v=v, include_shadowbanned=False, graceful=True)
 	return render_template("special/worldcup22_leaderboard.html",

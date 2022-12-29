@@ -55,7 +55,7 @@ def marseys(v:User):
 
 @app.get("/emojis")
 def emoji_list():
-	return jsonify(get_emojis(g.db))
+	return get_emojis(g.db)
 
 @cache.cached(timeout=86400, key_prefix=MARSEYS_CACHE_KEY)
 def get_marseys(db:scoped_session):
