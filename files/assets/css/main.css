@@ -6028,7 +6028,7 @@ g {
 }
 
 .post-preview {
-	padding: 11px 14px 0 14px !important;
+	padding: 14px 14px 0 14px !important;
 	margin-bottom: 0.5rem !important;
 	margin-top: 0.5rem !important;
 }
@@ -6036,7 +6036,7 @@ g {
 
 @media (max-width: 767.98px) {
 	.post-preview {
-		padding: 7px 9px 2px 9px !important;
+		padding: 10px 9px 2px 9px !important;
 	}
 }
 
