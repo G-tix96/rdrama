@@ -104,14 +104,9 @@
 			</form>
 		</div>
 		{% endblock %}
-		{% if request.path == '/submit' %}
-			<script nonce="{{g.nonce}}">
-				let sub = document.getElementById('sub')
-				if (sub) sub.value = localStorage.getItem("sub")
-			</script>
-		{% endif %}
 		<script defer src="{{'js/vendor/marked.js' | asset}}"></script>
 		<script defer src="{{'js/markdown.js' | asset}}"></script>
+		<input hidden id="IMAGE_FORMATS" value="{{IMAGE_FORMATS}}">
 		<script defer src="{{'js/submit.js' | asset}}"></script>
 		{% include "modals/emoji.html" %}
 		{% include "modals/gif.html" %}

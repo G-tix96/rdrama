@@ -4,61 +4,45 @@
 {%- endif -%}
 
 <nav class="shadow-md fixed-top">
-	<style nonce="{{g.nonce}}">
-		body {padding-top: 83px !important}
-		@media (max-width: 767.98px) {
-			body {
-				padding-top: 63px !important
-			}
-		}
-	</style>
-
-{% if not err %}
-	<div class="srd">
-		{% if SITE_NAME == 'rDrama' %}
-			{% if range(1,5) | random == 1 %}
-				{% include "journoid_banner.html" %}
-			{% else %}
-				{% if EVENT_VISITORS_HERE_FLAVOR %}
-					{%- set VISITORS_HERE_FLAVOR = EVENT_VISITORS_HERE_FLAVOR -%}
+	{% if not err %}
+		<div class="srd">
+			{% if SITE_NAME == 'rDrama' %}
+				{% if range(1,5) | random == 1 %}
+					{% include "journoid_banner.html" %}
 				{% else %}
-					{%- set VISITORS_HERE_FLAVOR = [
-						' incels currently stalking roasties',
-						' gooners currently edging to <img src="/e/marseycumjar3.webp" style="height: 1.5em;">',
-						' fanboys currently obsessing over Carp',
-						' NEETs currently LDARmaxxing',
-						' valid women currently dilating',
-						' negholes currently being pozzed',
-						' bussies currently on standby',
-						' gamers currently harassing women',
-						' dramanauts hurtling through Safe Space™',
-						' Soros shills currently plotting mayocide',
-						' furries currently yiffing',
-						' incels currently harassing women',
-						' chuds currently agendaposting',
-						' coomers currently gooning',
-						' bacons currently narwhaling',
-						' well-behaved rule-following goodthinkers',
-						' throwing shade right now',
-					]
-					-%}}
+					{% if EVENT_VISITORS_HERE_FLAVOR %}
+						{%- set VISITORS_HERE_FLAVOR = EVENT_VISITORS_HERE_FLAVOR -%}
+					{% else %}
+						{%- set VISITORS_HERE_FLAVOR = [
+							' incels currently stalking roasties',
+							' gooners currently edging to <img src="/e/marseycumjar3.webp" style="height: 1.5em;">',
+							' fanboys currently obsessing over Carp',
+							' NEETs currently LDARmaxxing',
+							' valid women currently dilating',
+							' negholes currently being pozzed',
+							' bussies currently on standby',
+							' gamers currently harassing women',
+							' dramanauts hurtling through Safe Space™',
+							' Soros shills currently plotting mayocide',
+							' furries currently yiffing',
+							' incels currently harassing women',
+							' chuds currently agendaposting',
+							' coomers currently gooning',
+							' bacons currently narwhaling',
+							' well-behaved rule-following goodthinkers',
+							' throwing shade right now',
+						]
+						-%}}
+					{% endif %}
+					{{loggedin_counter+loggedout_counter}} {{VISITORS_HERE_FLAVOR|random|safe}} ({{loggedin_counter}} logged in)
 				{% endif %}
-				{{loggedin_counter+loggedout_counter}} {{VISITORS_HERE_FLAVOR|random|safe}} ({{loggedin_counter}} logged in)
+			{% else %}
+				{{loggedin_counter+loggedout_counter}} people here now ({{loggedin_counter}} logged in)
 			{% endif %}
-		{% else %}
-			{{loggedin_counter+loggedout_counter}} people here now ({{loggedin_counter}} logged in)
-		{% endif %}
-	</div>
-{% else %}
-	<style nonce="{{g.nonce}}">
-		body {padding-top: 54px !important}
-		@media (max-width: 767.98px) {
-			body {
-				padding-top: 44px !important
-			}
-		}
-	</style>
-{% endif %}
+		</div>
+	{% else %}
+		<link rel="stylesheet" href="{{'css/err.css' | asset}}">
+	{% endif %}
 		<div class="navbar navbar-expand-md navbar-light" id="navbar">
 			<div class="container-fluid" style="padding:0;">
 			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not sub %}flex-grow-1{% endif %}">
@@ -75,24 +59,12 @@
 			{% if sub %}
 				<a id="sub-name" href="/h/{{sub}}" class="font-weight-bold ml-2 flex-grow-1 mt-1" {% if sub.name|length >= 17 %}style="font-size:max(10px,1.2vw)"{% else %}style="font-size:max(14px,1.2vw)"{% endif %}>{% if not HOLE_STYLE_FLAIR %}/h/{% endif %}{{sub}}</a>
 			{% elif has_logo %}
-				<style nonce="{{g.nonce}}">
-					{% if SITE_NAME == 'WPD' %}
-						@media (min-width: 1000px) {
-					{% else %}
-						@media (min-width: 380px) {
-					{% endif %}
-							#logo {
-								width: 100px;
-								margin-left: 0.5rem !important;
-							}
-						}
-				</style>
 				<div id="logo-container" class="flex-grow-1 logo-container">
 				<a href="/">
-					{% if SITE_NAME == 'WPD' %}{# Temporary event code, 2022-12-11 #}
-					<img class="ml-1" id="logo" alt="logo" src="{{'icons-event/2022-christmas-logo.webp' | asset_siteimg}}" width="70">
+					{% if SITE_NAME == 'WPD' and HOLIDAY_EVENT %}
+						<img class="ml-1" id="logo" alt="logo" src="{{'icons-event/2022-christmas-logo.webp' | asset_siteimg}}" width="70">
 					{% else %}
-					<img class="ml-1" id="logo" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width="70">
+						<img class="ml-1" id="logo" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width="70">
 					{% endif %}
 				</a>
 				</div>
@@ -358,25 +330,8 @@
 	<div id="formkey" class="d-none">{{v|formkey}}</div>
 {% endif %}
 
-<script nonce="{{g.nonce}}">
-	IMAGE_FORMATS = {{IMAGE_FORMATS|safe}};
-</script>
-
-{% if not v %}
-	<style nonce="{{g.nonce}}">
-		.pad {
-			padding-bottom: 7.4px;
-			padding-top: 7.4px;
-		}
-	</style>
-{% endif %}
-
 {% if v and v.poor -%}
-	<style nonce="{{g.nonce}}">
-		* :not(img[src="/i/hand.webp"] + img, img.golden, img[g], img[glow], .live-circle) {
-			animation: unset !important;
-		}
-	</style>
+	<link rel="stylesheet" href="{{('css/poor.css') | asset}}">
 {%- endif %}
 
 <link rel="preload" as="image" href="/i/l.webp">

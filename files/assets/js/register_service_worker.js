@@ -16,8 +16,8 @@ function urlB64ToUint8Array(base64String) {
 }
 
 function updateSubscriptionOnServer(subscription, apiEndpoint) {
-    const formData = new FormData();
-    formData.append("subscription_json", JSON.stringify(subscription));
+	const formData = new FormData();
+	formData.append("subscription_json", JSON.stringify(subscription));
 
 	const xhr = createXhrWithFormKey(
 		apiEndpoint,
@@ -68,3 +68,9 @@ function registerServiceWorker(serviceWorkerUrl, applicationServerPublicKey, api
 	} 
 	return swRegistration;
 }
+
+registerServiceWorker(
+	"/assets/js/service_worker.js",
+	document.getElementById('VAPID_PUBLIC_KEY').value,
+	"/push_subscribe"
+)

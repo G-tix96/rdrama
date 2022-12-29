@@ -377,11 +377,4 @@ function handleRouletteResponse(xhr) {
 	}
 }
 
-if (
-	document.readyState === "complete" ||
-	(document.readyState !== "loading" && !document.documentElement.doScroll)
-) {
-	initializeGame();
-} else {
-	document.addEventListener("load", initializeGame);
-}
+initializeGame();

@@ -1,0 +1,23 @@
+.game_screen-title {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: uppercase;
+	opacity: 0.6;
+}
+
+.game_screen-title hr {
+	flex: 1;
+	margin-left: 0.5rem;
+}
+
+#casinoGameResult {
+	visibility: hidden;
+	margin-top: 1rem;
+}
+
+#casinoGameFeedList {
+	max-height: 110px;
+	overflow: auto;
+	list-style-type: none;
+}

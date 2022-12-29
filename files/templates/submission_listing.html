@@ -4,10 +4,6 @@
 	{% include "modals/award.html" %}
 {% endif %}
 
-{% if not v or v.highlightcomments %}
-	<script defer src="{{'js/highlightcomments.js' | asset}}"></script>
-{% endif %}
-
 {% if v and v.admin_level > 1 %}
 	<script defer src="{{'js/pinpost.js' | asset}}"></script>
 {% endif %}
@@ -15,6 +11,8 @@
 {% include "popover.html" %}
 
 {% for p in listing if user_can_see(v, p) %}
+
+<input hidden class="twoattrs" value="{{p.id}},{{p.comment_count}}">
 
 {% set ups=p.upvotes %}
 {% set downs=p.downvotes %}
@@ -214,15 +212,6 @@
 	</div>
 {% endif %}
 
-<script nonce="{{g.nonce}}">
-	{% if not v or v.highlightcomments %}
-		document.addEventListener('load', function() {
-			showNewCommentCounts({{p.id}}, {{p.comment_count}})
-		})
-	{% endif %}
-</script>
-
-
 {% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 	{% include "post_admin_actions_mobile.html" %}
 {% endif %}
@@ -313,3 +302,5 @@
 {% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']  %}
 	<script defer src="{{'js/submission_admin.js' | asset}}"></script>
 {% endif %}
+
+<script defer src="{{'js/new_comments.js' | asset}}"></script>

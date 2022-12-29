@@ -118,3 +118,14 @@ document.onpaste = function(event) {
 		}
 	}
 }
+
+const sr_toggle = document.getElementById("slurreplacer");
+const sr_link = document.getElementById('slurreplacer-perma-link');
+const pr_toggle = document.getElementById("profanityreplacer");
+const pr_link = document.getElementById('profanityreplacer-perma-link');
+sr_toggle.addEventListener('change', function () {
+	sr_link.hidden = !sr_toggle.checked;
+});
+pr_toggle.addEventListener('change', function () {
+	pr_link.hidden = !pr_toggle.checked;
+});

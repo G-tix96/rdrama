@@ -1,18 +1,6 @@
 {% extends "settings.html" %}
 {% block pagetitle %}Personal Settings{% endblock %}
 {% block content %}
-<style nonce="{{g.nonce}}">
-	.bg-image {
-		padding: 0.25rem;
-		width: 15rem;
-		height: 10rem;
-		object-fit: cover;
-	}
-	.bg-button {
-		margin: 0.25rem;
-		padding: 0;
-	}
-</style>
 <div class="row settings-page" id="settings-page-personal">
 	<div class="col col-lg-10">
 		<div class="settings">
@@ -279,13 +267,7 @@
 {% include "modals/gif.html" %}
 
 {% if v.flairchanged %}
-	<script nonce="{{g.nonce}}">
-		document.addEventListener('load', function() {
-			const date = formatDate(new Date({{v.flairchanged}}*1000));
-			const text = ` - Your flair has been locked until ${date}`;
-			document.getElementById('flair-body').value += text;
-		});
-	</script>
+	<input hidden id="flairchanged" value="{{v.flairchanged}}">
 {% endif %}
 
 <script defer src="{{'js/settings_profile.js' | asset}}"></script>
@@ -324,21 +306,5 @@
 {%- endif %}
 {% if v.profanityreplacer == 1 -%}
 {{permanent_filter_modal('profanityreplacer', '/settings/personal', 'profanityreplacer', 'Profanity Replacer', 'Soapy-Mouthed Angel')}}
-{%- endif %}
-{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] -%}
-<script nonce="{{g.nonce}}">
-	document.addEventListener("load", function (event) {
-		const sr_toggle = document.getElementById("slurreplacer");
-		const sr_link = document.getElementById('slurreplacer-perma-link');
-		const pr_toggle = document.getElementById("profanityreplacer");
-		const pr_link = document.getElementById('profanityreplacer-perma-link');
-		sr_toggle.addEventListener('change', function (event) {
-			sr_link.hidden = !sr_toggle.checked;
-		});
-		pr_toggle.addEventListener('change', function (event) {
-			pr_link.hidden = !pr_toggle.checked;
-		});
-	});
-</script>
 {%- endif %}
 {% endblock %}

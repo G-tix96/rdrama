@@ -13,8 +13,6 @@ def session_init():
 
 @app.before_request
 def before_request():
-	g.nonce = None
-
 	if request.host != SITE:
 		abort(403, "Unauthorized host provided!")
 
@@ -72,11 +70,11 @@ CSP = {
 	"base-uri": "'self'",
 	"font-src": "'self'",
 
-	"style-src-elem": "'self' 'nonce-{nonce}'",
+	"style-src-elem": "'self'",
 	"style-src-attr": "'unsafe-inline'",
 	"style-src": "'self' 'unsafe-inline'",
 
-	"script-src-elem": "'self' 'nonce-{nonce}' challenges.cloudflare.com",
+	"script-src-elem": "'self' challenges.cloudflare.com",
 	"script-src-attr": "'unsafe-inline'",
 	"script-src": "'self' 'unsafe-inline' challenges.cloudflare.com",
 
@@ -105,9 +103,8 @@ def after_request(response:Response):
 		_set_cloudflare_cookie(response)
 		_commit_and_close_db()
 	
-	if g.nonce:
-		response.headers.add("Report-To", {"group":"csp","max_age":10886400,"endpoints":[{"url":"/csp_violations"}]})
-		response.headers.add("Content-Security-Policy", CSP_str.format(nonce=g.nonce))
+	response.headers.add("Report-To", {"group":"csp","max_age":10886400,"endpoints":[{"url":"/csp_violations"}]})
+	response.headers.add("Content-Security-Policy", CSP_str)
 	
 	return response
 

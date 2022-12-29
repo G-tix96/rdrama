@@ -1,10 +1,7 @@
 {%- import 'util/macros.html' as macros with context -%}
 {% if not request.headers.get("xhr") %}
 	{% if comment_info %}
-		<script nonce="{{g.nonce}}">
-			if (location.hash != 'context')
-				location.hash = 'context'
-		</script>
+		<script defer src="{{'js/comment_info.js' | asset}}"></script>
 	{% endif %}
 
 	{% if v %}
@@ -31,14 +28,12 @@
 
 			<div class="comment-body">
 
-					<div id="comment-{{c.id}}-only" class="{% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only">
-
+					<div id="comment-{{c.id}}-only" class="{% if c.award_count('tilt', v) %}tilt{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only">
 							<div class="user-info">
 								<span class="comment-collapse-icon" onclick="collapse_comment('{{c.id}}', this.parentElement.parentElement.parentElement.parentElement)"></span>
 								{% if standalone and c.over_18 %}<span class="badge badge-danger">+18</span> {% endif %}
 								{% if c.is_banned %}removed by @{{c.ban_reason}} (Admin){% elif c.deleted_utc %}Deleted by author{% elif c.is_blocking %}You are blocking @{{c.author_name}}{% endif %}
 							</div>
-
 					</div>
 					
 		{% if render_replies %} 
@@ -48,8 +43,8 @@
 						{{single_comment(reply, level=level+1)}}
 					{% endfor %}
 				{% elif replies %}
-					<button type="button" id="btn-{{c.id}}" class="d-mob-none btn btn-primary mt-3" onclick="morecomments('{{c.id}}')">More comments</button>
-					<a class="d-md-none py-3" href="{{c.morecomments}}">More comments <i class="fas fa-long-arrow-right ml-1"></i></a>
+					<button type="button" id="btn-{{c.id}}" class="d-mob-none btn btn-primary mt-3" onclick="more_comments('{{c.id}}', '{{sort}}')">More comments</button>
+					<a class="d-md-none py-3" href="{{c.more_comments}}">More comments <i class="fas fa-long-arrow-right ml-1"></i></a>
 				{% endif %}
 			</div>
 		{% endif %}
@@ -160,7 +155,7 @@
 				{% if c.is_blocked %}<i class="fas fa-user-minus text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="This user is blocking you."></i>{% endif %}
 
 				{% if c.ghost %}
-					<span {% if c.distinguish_level %}class="mod"{% endif %}>👻</span>
+					<span {% if c.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
 				{% else %}
 					{% if FEATURES['PATRON_ICONS'] and c.author.patron %}
 						<img loading="lazy" src="/i/{{SITE_NAME}}/badges/2{{c.author.patron}}.webp?v=1" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.patron_tooltip}}" alt="{{c.author.patron_tooltip}}">
@@ -180,7 +175,7 @@
 								<img class="profile-pic-30-hat hat" loading="lazy" src="{{c.author.hat_active(v)[0]}}?h=7" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.hat_active(v)[1]}}">
 							{%- endif %}
 						</div>
-						<span {% if c.author.patron and not c.distinguish_level %}class="patron" style="background-color:#{{c.author.name_color}};"{% elif c.distinguish_level %}class="mod"{% endif %}>{{c.author_name}}</span>
+						<span {% if c.author.patron and not c.distinguish_level %}class="patron" style="background-color:#{{c.author.name_color}};"{% elif c.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>{{c.author_name}}</span>
 					</a>
 					{% if FEATURES['PRONOUNS'] %}
 						<span class="pronouns" style="color:#{{c.author.titlecolor}};border-color:#{{c.author.titlecolor}}">{{c.author.pronouns}}</span>
@@ -190,7 +185,12 @@
 					{% endif %}
 				{% endif %}
 
-				{% if c.parent_comment_id and not standalone and level != 1 %}<a href="#comment-{{c.parent_comment_id}}-only" class="text-muted ml-2"><i class="fas fa-reply fa-sm fa-fw fa-flip-horizontal mr-1"></i>{{c.parent_comment.author_name}}</a>{% endif %}
+				{% if c.parent_comment_id and not standalone and level != 1 %}
+					<a href="#comment-{{c.parent_comment_id}}-only" class="text-muted ml-2">
+						<i class="fas fa-reply fa-sm fa-fw fa-flip-horizontal mr-1"></i>
+						{{c.parent_comment.author_name}}
+					</a>
+				{% endif %}
 
 				{% if c.notif_utc %}
 					<span id="timestamp-{{c.id}}" onmouseover="timestamp('timestamp-{{c.id}}','{{c.notif_utc}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" class="time-stamp">&nbsp;{{c.age_string}}</span>
@@ -243,32 +243,6 @@
 
 			{% if c.is_banned and c.ban_reason %}
 				<div id="comment-banned-warning" class="comment-text text-removed mb-0">removed by @{{c.ban_reason}} (Admin)</div>
-			{% endif %}
-			
-			{% if c.award_count("tilt", v) %}
-				<style nonce="{{g.nonce}}">
-					@keyframes c{{c.id}}-tilt {
-						0% {transform: rotate(0deg);}
-						25% {transform: rotate({{c.award_count("tilt", v)}}deg);}
-						75% {transform: rotate(-{{c.award_count("tilt", v)}}deg);}
-						100% {transform: rotate(0deg);}
-					}
-					@media (max-width: 720px) {
-						@keyframes c{{c.id}}-tilt {
-							0% {transform: rotate(0deg);}
-							25% {transform: rotate({{c.award_count("tilt", v)/4}}deg);}
-							75% {transform: rotate(-{{c.award_count("tilt", v)/4}}deg);}
-							100% {transform: rotate(0deg);}
-						}
-					}
-					.comment-{{c.id}}-only {
-						animation-name: c{{c.id}}-tilt;
-						animation-duration: 30s !important;
-						animation-iteration-count: infinite !important;
-						animation-direction: alternate !important;
-						animation-timing-function: linear !important;
-					}
-				</style>
 			{% endif %}
 
 			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.author.agendaposter and not (c.parent_submission and c.post.sub == 'chudrama') %}agendaposter{% endif %} {% if c.author.rainbow %}rainbow-text{% endif %}">
@@ -528,8 +502,8 @@
 					{{single_comment(reply, level=level+1)}}
 				{% endfor %}
 			{% elif replies %}
-				<button type="button" id="btn-{{c.id}}" class="d-mob-none btn btn-primary mt-3" onclick="morecomments('{{c.id}}')">More comments</button>
-				<a class="d-md-none py-3" href="{{c.morecomments}}">More comments <i class="fas fa-long-arrow-right ml-1"></i></a>
+				<button type="button" id="btn-{{c.id}}" class="d-mob-none btn btn-primary mt-3" onclick="more_comments('{{c.id}}', '{{sort}}')">More comments</button>
+				<a class="d-md-none py-3" href="{{c.more_comments}}">More comments <i class="fas fa-long-arrow-right ml-1"></i></a>
 			{% endif %}
 		</div>
 
@@ -785,93 +759,25 @@
 
 	<script defer src="{{'js/comments+submission_listing.js' | asset}}"></script>
 	<script defer src="{{'js/comments.js' | asset}}"></script>
+	<script defer src="{{'js/more_comments.js' | asset}}"></script>
+{% endif %}
 
-	<script nonce="{{g.nonce}}">
-		{% if p and (not v or v.highlightcomments) %}
-			comments = JSON.parse(localStorage.getItem("comment-counts")) || {}
-			lastCount = comments['{{p.id}}']
-			if (lastCount)
-			{
-				{% for c in p.comments %}
-					{% if not (v and v.id==c.author_id) and not c.voted %}
-						if ({{c.created_utc*1000}} > lastCount.t) 
-						try {document.getElementById("comment-{{c.id}}-only").classList.add('unread')}
-						catch(e) {}
-					{% endif %}
-				{% endfor %}
-			}
-		{% endif %}
-
-
-		function morecomments(cid) {
-			btn = document.getElementById(`btn-${cid}`);
-			btn.disabled = true;
-			btn.innerHTML = "Requesting...";
-			const form = new FormData();
-			form.append("formkey", formkey());
-			form.append("sort", "{{sort}}");
-			const xhr = new XMLHttpRequest();
-			xhr.open("get", `/morecomments/${cid}`);
-			xhr.setRequestHeader('xhr', 'xhr');
-			xhr.onload=function(){
-				if (xhr.status==200) {
-					let e = document.getElementById(`replies-of-c_${cid}`)
-					e.innerHTML = xhr.response.replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '');
-					bs_trigger(e)
-
-					{% if p %}
-						comments = JSON.parse(localStorage.getItem("old-comment-counts")) || {}
-						lastCount = comments['{{p.id}}']
-						if (lastCount)
-						{
-							{% for c in p.comments %}
-								{% if not (v and v.id==c.author_id) and not c.voted %}
-									if ({{c.created_utc*1000}} > lastCount.t) 
-									try {document.getElementById("comment-{{c.id}}-only").classList.add('unread')}
-									catch(e) {}
-								{% endif %}
-							{% endfor %}
-						}
-					{% endif %}
-				}
-				btn.disabled = false;
-			}
-			xhr.send(form)
-		}
-	</script>
+{% if p %}
+	{% set pid = p.id %}
+	<div class="d-none">
+		{% set comms = [] %}
+		{% for c in p.comments %}
+			{% if not (v and v.id==c.author_id) and not c.voted %}
+				{{comms.append([c.id, c.created_utc])}}
+			{% endif %}
+		{% endfor %}
+		<input hidden id="comms" value="{{comms}}">
+	</div>
 {% endif %}
 
 {% if offset %}
-	{% if p %}
-		{% set pid = p.id %}
-	{% endif %}
 	<br>
-	<div id="viewmore-{{offset}}"><button type="button" id="viewbtn" class="btn btn-primary" onclick="viewmore({{pid}},'{{sort}}',{{offset}},{{ids}})">VIEW MORE COMMENTS</a></div>
-{% endif %}
-
-{# TODO: disabled pending fix #}
-{% if false %}
-	<div id="detection" style="display:none;background-color:canvas;color-scheme:light"></div>
-	<script nonce="{{g.nonce}}">
-		const detectionDiv = document.querySelector('#detection');
-		const isAutoDark = getComputedStyle(detectionDiv).backgroundColor != 'rgb(255, 255, 255)';
-		if (!isAutoDark) {
-			const element = document.getElementsByClassName('comment-section')[0]
-			if (element) {
-				let color = getComputedStyle(element).getPropertyValue('background-color');
-				color = 'rgba' + color.slice(3,-1) + ', 0.1)'
-
-				const markTemplate = (name) => {
-					return `<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='50px' height='50px'><text transform='translate(10, 50) rotate(-45)' fill='${color}' font-size='20'>${name}</text></svg>`;
-				};
-				const base64Mark = btoa(markTemplate("{{v.id}}"));
-				
-				const style = document.createElement('style');
-				style.innerHTML = `.actual-post:not(.deleted, .banned),.comment-section>.comment{background-image:url("data:image/svg+xml;base64,${base64Mark}")}`;
-				document.getElementsByTagName('head')[0].appendChild(style);
-			}
-		}
-	</script>
+	<div id="view_more-{{offset}}"><button type="button" id="viewbtn" class="btn btn-primary" onclick="view_more({{pid}},'{{sort}}',{{offset}},{{ids}})">VIEW MORE COMMENTS</a></div>
 {% endif %}
 
 </body>

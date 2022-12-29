@@ -5,15 +5,6 @@
  * - Leaderboard
  */
 
-if (
-	document.readyState === "complete" ||
-	(document.readyState !== "loading" && !document.documentElement.doScroll)
-) {
-	initializeGame();
-} else {
-	document.addEventListener("load", initializeGame);
-}
-
 function initializeGame() {
 	updateFeed();
 	updateLeaderboard();
@@ -199,3 +190,5 @@ function drawFromDeck() {
 		}, 600);
 	} catch { }
 }
+
+initializeGame();

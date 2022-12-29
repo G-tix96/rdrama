@@ -2,15 +2,7 @@
 {% block pagetitle %}/h/{{sub}} Mods{% endblock %}
 {% block content %}
 
-<script nonce="{{g.nonce}}">
-	function removeMod(e) {
-		sendFormXHR(e,
-			() => {
-				e.target.parentElement.parentElement.remove();
-			}
-		)
-	}
-</script>
+<script defer src="{{'js/remove_mod.js' | asset}}"></script>
 
 <h5 class="mt-2">/h/{{sub}} Mods</h5>
 <div class="overflow-x-auto mt-1"><table class="table table-striped mb-5">

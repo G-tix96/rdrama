@@ -8,12 +8,6 @@
 {% endblock %}
 {% block pagetype %}thread{% endblock %}
 {% block head_final %}
-<style nonce="{{g.nonce}}">
-	body > .container {
-		padding-left: 20px !important;
-		padding-right: 20px !important;
-	}
-</style>
 
 {% include "awards.html" %}
 
@@ -73,7 +67,7 @@
 
 <div class="row mb-3">
 
-	<div id="post-root" class="col-12">
+	<div id="post-root" class="col-12 {% if p.award_count('tilt', v) %}tilt{% endif %}">
 
 		<div class="card border-0 mt-3 {% if p.stickied %}stickied{% endif %} {% if voted==1 %}upvoted{% elif voted==-1 %} downvoted{% endif %}">
 			<div id="post-{{p.id}}" class="actual-post {% if p.ghost %}ghost-post{% endif %} {% if p.is_banned %}banned{% endif %} {% if p.deleted_utc %}deleted {% endif %} {% if p.award_count('tilt', v) %}p-3{% endif %} {% if p.award_count('glowie', v) %}glow{% endif %} d-flex flex-row-reverse flex-nowrap justify-content-end">
@@ -350,39 +344,7 @@
 	</div>
 	
 	{% if offset %}
-		<script nonce="{{g.nonce}}">
-			function viewmore(pid,sort,offset,ids) {
-				btn = document.getElementById("viewbtn");
-				btn.disabled = true;
-				btn.innerHTML = "Requesting...";
-				const form = new FormData();
-				const xhr = new XMLHttpRequest();
-				xhr.open("get", `/viewmore/${pid}/${sort}/${offset}?ids=${ids}`);
-				xhr.setRequestHeader('xhr', 'xhr');
-				xhr.onload=function(){
-					if (xhr.status==200) {
-						let e = document.getElementById(`viewmore-${offset}`);
-						e.innerHTML = xhr.response.replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '');
-						bs_trigger(e)
-
-						comments = JSON.parse(localStorage.getItem("old-comment-counts")) || {}
-						lastCount = comments['{{p.id}}']
-						if (lastCount)
-						{
-							{% for c in p.comments %}
-								{% if not (v and v.id==c.author_id) and not c.voted %}
-									if ({{c.created_utc*1000}} > lastCount.t) 
-									try {document.getElementById("comment-{{c.id}}-only").classList.add('unread')}
-									catch(e) {}
-								{% endif %}
-							{% endfor %}
-						}
-					}
-					btn.disabled = false;
-				}
-				xhr.send(form)
-			}
-		</script>
+		<script defer src="{{'js/view_more.js' | asset}}"></script>
 	{% endif %}
 {% elif not p.replies and p.deleted_utc == 0 %}
 	<div class="comment-section no-replies" id="replies-of-{{p.fullname}}">
@@ -408,58 +370,20 @@
 	{% endif %}
 {% endif %}
 
-{% if not v or v.highlightcomments %}
-	<script defer src="{{'js/highlightcomments.js' | asset}}"></script>
-{% endif %}
-
 <script defer src="{{'js/vendor/clipboard.js' | asset}}"></script>
 
 {% if not p.replies %}{% include "comments.html" %}{% endif %}
 
-{% if not v or v.highlightcomments %}
-	<script nonce="{{g.nonce}}">
-		document.addEventListener('load', function() {
-			showNewCommentCounts('{{p.id}}', {{p.comment_count}})
-			{% if "?context" not in request.full_path %}
-				localStorage.setItem("old-comment-counts", localStorage.getItem("comment-counts"))
-
-				const comments = JSON.parse(localStorage.getItem("comment-counts")) || {}
-				const newTotal = {{p.comment_count}} || ((comments['{{p.id}}'] || {c: 0}).c + 1)
-				comments['{{p.id}}'] = {c: newTotal, t: Date.now()}
-				localStorage.setItem("comment-counts", JSON.stringify(comments))
-			{% endif %}
-		})
-	</script>
-{% endif %}
+<input hidden class="twoattrs" value="{{p.id}},{{p.comment_count}}">
+<script defer src="{{'js/new_comments.js' | asset}}"></script>
+<script defer src="{{'js/submission.js' | asset}}"></script>
 
 {% if success %}
-	<script nonce="{{g.nonce}}">
-		history.pushState(null, null, '{{p.permalink}}');
-		localStorage.setItem("post-title", "")
-		localStorage.setItem("post-text", "")
-		localStorage.setItem("post-url", "")
-		localStorage.setItem("sub", "")
-
-		localStorage.setItem("post-notify", true)
-		localStorage.setItem("post-new", false)
-		localStorage.setItem("post-nsfw", false)
-		localStorage.setItem("post-private", false)
-		localStorage.setItem("post-ghost", false)
-	</script>
+	<script defer src="{{'js/submission_success.js' | asset}}"></script>
 {% endif %}
 
 {% if fart and not (v and v.has_badge(128)) %}
-	<script nonce="{{g.nonce}}">
-		fart = Math.floor(Math.random() * 5) + 1
-		let audio = new Audio(`/assets/images/${fart}.webp`);
-
-		audio.play();
-		if (audio.paused) {
-			document.addEventListener('click', () => {
-				if (audio.paused) audio.play(); 
-			}, {once : true})
-		}
-	</script>
+	<script defer src="{{'js/fart.js' | asset}}"></script>
 {% endif %}
 
 {% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']  %}

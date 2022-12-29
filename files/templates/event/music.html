@@ -3,16 +3,5 @@
 		{% set path = "assets/event/media/music" %}
 		{% set song = "/" ~ path ~ "/" ~ listdir('files/' ~ path)|random() ~ '?v=45' %}
 	{% endif %}
-	<script nonce="{{g.nonce}}">
-		window.addEventListener('load', function() {
-			const audio = new Audio("{{song}}");
-			audio.loop=true;
-
-			audio.play();
-			window.addEventListener('click', () => {
-				if (audio.paused) audio.play();
-			}, {once : true});
-			prepare_to_pause(audio)
-		});
-	</script>
+	<script defer src="{{'event/js/music.js' | asset}}"></script>
 {% endif %}

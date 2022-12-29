@@ -49,30 +49,4 @@
 	<script defer src="{{'js/fireflies.js' | asset}}"></script>
 {% endif %}
 
-{% if p.award_count("tilt", v) %}
-	<style nonce="{{g.nonce}}">
-		@keyframes post-tilt {
-			0% {transform: rotate(0deg);}
-			25% {transform: rotate({{p.award_count("tilt", v)}}deg);}
-			75% {transform: rotate(-{{p.award_count("tilt", v)}}deg);}
-			100% {transform: rotate(0deg);}
-		}
-		@media (max-width: 720px) {
-			@keyframes post-tilt {
-				0% {transform: rotate(0deg);}
-				25% {transform: rotate({{p.award_count("tilt", v)/4}}deg);}
-				75% {transform: rotate(-{{p.award_count("tilt", v)/4}}deg);}
-				100% {transform: rotate(0deg);}
-			}
-		}
-		#post-root {
-			animation-name: post-tilt;
-			animation-duration: 60s !important;
-			animation-iteration-count: infinite !important;
-			animation-direction: alternate !important;
-			animation-timing-function: linear !important;
-		}
-	</style>
-{% endif %}
-
 </div>

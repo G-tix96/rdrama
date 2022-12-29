@@ -79,27 +79,7 @@
 	<script defer src="{{'js/spider.js' | asset}}"></script>
 {% endif %}
 
-{% if g.browser == 'apple' %}
-	<script nonce="{{g.nonce}}">
-		document.addEventListener('load', function() {
-			const videos = document.querySelectorAll('video')
-
-			for (const video of videos) {
-				const link = video.src
-				const htmlString = `
-					<a rel="nofollow noopener" href="${link}" target="_blank">
-						<div class="d-flex justify-content-between align-items-center border rounded p-2 mb-3 download-video">
-							<span>${link}</span>
-							<i class="fas fa-external-link-alt text-small"></i>
-						</div>
-					</a>`
-				const div = document.createElement('div');
-				div.innerHTML = htmlString;
-				video.after(div)
-			}
-		});
-	</script>
-{% endif %}
+<input id="gbrowser">{{g.browser}}</input>
 
 {% if HOLIDAY_EVENT %}
 	{% include "event/music.html" %}

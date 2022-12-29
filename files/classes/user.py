@@ -90,7 +90,6 @@ class User(Base):
 	chudded_by = Column(Integer, ForeignKey("users.id"))
 	over_18 = Column(Boolean, default=False)
 	hidevotedon = Column(Boolean, default=False)
-	highlightcomments = Column(Boolean, default=True)
 	slurreplacer = Column(Integer, default=1)
 	profanityreplacer = Column(Integer, default=1)
 	flairchanged = Column(Integer)

@@ -1,11 +1,6 @@
 {# <script defer src="{{'event/js/neko.js'|asset}}"></script> #}
 {% if request.path == '/' %}
 	<script defer src="{{'event/js/snow.js'|asset}}"></script>
-	<script nonce="{{g.nonce}}">
-		document.addEventListener("load", () => {
-			snow(80)
-		});
-	</script>
 {% endif %}
 
 <a rel="nofollow noopener noreferrer" href="https://www.youtube.com/watch?v=BuKft9LpL_0" style="text-decoration: none !important">

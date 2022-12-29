@@ -9,15 +9,6 @@
 {% macro javascript() %}
 	<script defer src="{{'js/vendor/bootstrap.js' | asset}}"></script>
 	<script defer src="{{'js/core.js' | asset}}"></script>
-
-	<script nonce="{{g.nonce}}">
-		if (window.matchMedia('(display-mode: minimal-ui)')['matches']) {
-			const links = document.querySelectorAll('a[data-target="t"]');
-			for (const link of links) {
-				link.removeAttribute("target");
-			}
-		}
-	</script>
 {% endmacro %}
 
 {% macro page_meta(title=none) %}
@@ -106,53 +97,31 @@
 	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
 	<link id="favicon" rel="icon" type="image/webp" href="/icon.webp?v=1">
 	{% if v %}
-		<style nonce="{{g.nonce}}">:root{--primary:#{{v.themecolor}}}</style>
 		{% if v.agendaposter %}
-			<style nonce="{{g.nonce}}">
-				html {
-					cursor:url('/i/dildo.webp?v=2000'), auto;
-				}
-			</style>
+			<link rel="stylesheet" href="{{('css/agendaposter.css') | asset}}">
 		{% endif %}
 		{% if include_user_css and not EVENT_STYLES %}
 			{% if v.theme == 'classic_dark' %}
 				<link rel="stylesheet" href="{{('css/classic.css') | asset}}">
 			{% endif %}
 			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
-			{% if v.css and not request.path.startswith('/settings') %}
-				<style nonce="{{g.nonce}}">
-					{{v.css | safe}}
-				</style>
+			{% if (v.css or v.background) and not request.path.startswith('/settings') %}
+				<link rel="stylesheet" href="/{{v.id}}/css">
 			{% endif %}
 			{% if v.themecolor == '30409f' %}
-				<style nonce="{{g.nonce}}">
-					p a {
-						color: #2a96f3;
-					}
-				</style>
+				<link rel="stylesheet" href="{{('css/30409f.css') | asset}}">
 			{% endif %}
 		{% else %}
-			{{default_theme()}}
+			<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
 		{% endif %}
 	{% else %}
-		{{default_theme()}}
+		<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
 	{% endif %}
 
 	<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 
 	{% if sub and sub.css and not request.path.endswith('settings') and not request.values.get('nocss') %}
 		<link rel="stylesheet" href="/h/{{sub}}/css" type="text/css">
-	{% endif %}
-
-	{% if SITE_NAME == 'rDrama' %}
-		<style nonce="{{g.nonce}}">
-			.mod:before {
-				content: '(((';
-			}
-			.mod:after {
-				content: ')))';
-			}			
-		</style>
 	{% endif %}
 
 	{% if EVENT_STYLES %}
@@ -188,22 +157,8 @@
 			{% if not HOLIDAY_EVENT %}
 				<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
 			{% endif %}
-			<style nonce="{{g.nonce}}">
-				body {
-					background:url("{{background}}") center center fixed;
-					background-color: rgb(var(--background));
-					{% if 'anime/' not in background and not background.startswith('/images/') -%}
-						background-size: cover;
-					{%- endif %}
-				}
-			</style>
 		{% endif %}
 	{% endif %}
-{% endmacro %}
-
-{% macro default_theme() %}
-	<style nonce="{{g.nonce}}">:root{--primary:#{{DEFAULT_COLOR}}}</style>
-	<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
 {% endmacro %}
 
 {% macro seo() %}

@@ -42,13 +42,6 @@
 	</div>
 </div>
 
-<script nonce="{{g.nonce}}">
-	document.addEventListener('load', function() {
-		for (const x of ['css','profilecss']) {
-			const ta = document.getElementById(`${x}-textarea`);
-			autoExpand(ta);
-		}
-	})
-</script>
+<script defer src="{{'js/css.js' | asset}}"></script>
 
 {% endblock %}

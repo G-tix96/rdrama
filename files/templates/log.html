@@ -2,25 +2,17 @@
 {% block pagetitle %}Moderation Log{% endblock %}
 {% block content %}
 {% if v %}
-	<style nonce="{{g.nonce}}">:root{--primary:#{{v.themecolor}}}</style>
 	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
 	{% if v.theme == 'classic_dark' %}
 		<link rel="stylesheet" href="{{('css/classic.css') | asset}}">
 	{% endif %}
 	<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
 	{% if v.agendaposter %}
-		<style nonce="{{g.nonce}}">
-			html {
-				cursor:url('/i/dildo.webp?v=2000'), auto;
-			}
-		</style>
-	{% elif v.css %}
-		<style nonce="{{g.nonce}}">
-			{{v.css | safe}}
-		</style>
+		<link rel="stylesheet" href="{{('css/agendaposter.css') | asset}}">
+	{% elif v.css or v.background %}
+		<link rel="stylesheet" href="/{{v.id}}/css">
 	{% endif %}
 {% else %}
-	<style nonce="{{g.nonce}}">:root{--primary:#{{DEFAULT_COLOR}}</style>
 	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
 	<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
 {% endif %}

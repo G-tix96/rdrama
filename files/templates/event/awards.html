@@ -9,117 +9,30 @@
 	{# idk why snow isn't working vvvvvvvvvv #}
 	{% if p.award_count("snow", v) %}
 		<script defer src="{{'event/js/snow.js'|asset}}"></script>
-		<script nonce="{{g.nonce}}">
-			document.addEventListener("load", () => {
-				snow(80)
-			});
-		</script>
 	{% endif %}
 
 	{% if p.award_count("frostbite", v) %}
 		<div class="frost"></div>
-		<script nonce="{{g.nonce}}">
-		const root = document.querySelector(':root');
-
-		const count = 5;
-		const opacity = count * 0.1;
-		root.style.setProperty('--opacity-frost', opacity);
-		</script>
-		<style nonce="{{g.nonce}}">
-		:root {
-		--opacity-frost: 0.25;
-		}
-		.frost {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			box-shadow: 0 0 200px 10px rgba(255, 255, 255, var(--opacity-frost)) inset;
-			pointer-events: none;
-			z-index: 1050;
-		}
-		</style>
+		<script defer src="{{'event/js/frostbite.js' | asset}}"></script>
+		<script defer src="{{'event/css/frostbite.css' | asset}}"></script>
 	{% endif %}
 
 	{% if p.award_count("snowed-in", v) %}
 		<canvas id="canvas-snowed-in-overlay"></canvas>
 		<canvas id="canvas-snowed-in-lines"></canvas>
-		<style nonce="{{g.nonce}}">
-			#canvas-snowed-in-overlay {
-				position: fixed;
-				top: 0;
-				left: 0;
-				z-index: 9998;
-				opacity: 1;
-				pointer-events: none;
-			}
-			#canvas-snowed-in-lines {
-				position: fixed;
-				top: 0;
-				left: 0;
-				z-index: 9999;
-				opacity: 0.0;
-				pointer-events: none;
-			}
-		</style>
+		<link rel="stylesheet" href="{{'event/css/snowed-in.css' | asset}}">
 		<script defer src="{{'event/js/snowed-in.js'|asset}}"></script>
 	{% endif %}
 </div>
 
 {% if p.award_count("lights", v) %}
-	<style nonce="{{g.nonce}}">
-		#post-root::before {
-			content: "";
-			position: absolute;
-			top: 0;
-			left: 0;
-			height: 57px;
-			width: 100%;
-			background: url('/assets/event/images/lights.webp?v=1');
-			animation: lights 1s infinite steps(2);
-			pointer-events: none;
-			z-index: 1;
-		}
-	</style>
+	<link rel="stylesheet" href="{{('event/css/lights.css') | asset}}">
 {% endif %}
 
 {% if p.award_count("candycane", v) %}
-	<style nonce="{{g.nonce}}">
-		#post-title, #post-content p {
-			--color2: #cc4145;
-			--color1: rgb(12, 128, 101);
-			font-family: "Open Sans", sans-serif;
-			background: repeating-linear-gradient(
-				45deg, var(--color2), var(--color2) 10px,
-				var(--color1) 11px, var(--color1) 30px
-			);
-			background-clip: text;
-			color: transparent;
-			-webkit-background-clip: text;
-			animation: 45s linear 0s infinite candycorn-move;
-		}
-
-		#post-title a {
-			color: transparent !important;
-		}
-
-		@keyframes candycorn-move {
-			from {background-position: 0px;}
-			to {background-position: 1000px;}
-		}
-	</style>
+	<link rel="stylesheet" href="{{('event/css/candycane.css') | asset}}">
 {% endif %}
 
 {% if p.award_count("fireplace", v) %}
-	<style nonce="{{g.nonce}}">
-		#banner-skybox {
-			fill: url(#skybox-gradient-night)
-		}
-
-		#banner-window-1, #banner-window-2 {
-			filter: drop-shadow(0 0 50px orange);
-			fill: palegoldenrod;
-		}
-	</style>
+	<link rel="stylesheet" href="{{('event/css/fireplace.css') | asset}}">
 {% endif %}

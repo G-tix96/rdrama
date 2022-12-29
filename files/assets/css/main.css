@@ -6458,3 +6458,145 @@ div.markdown {
 *::-webkit-scrollbar {
 	display: none;
 }
+
+.shop-tabs {
+	padding-top: 50px;
+}
+
+@media (max-width: 768px) {
+	#hats-banner {
+		width: 80%;
+	}
+	.shop-tabs {
+		padding-top: 30px;
+	}
+}
+
+.shop-tab {
+	display: inline-flex;
+	max-width: 46.6%;
+	letter-spacing: 3px;
+	border-radius: 0;
+}
+
+.shop-tab.active {
+	background-color: var(--primary) !important;
+	pointer-events: none !important;
+	cursor: default !important;
+}
+
+body {padding-top: 83px !important}
+@media (max-width: 767.98px) {
+	body {
+		padding-top: 63px !important
+	}
+}
+
+.comment {
+	margin-top: 0.3rem;
+}
+
+body > .container {
+	padding-left: 20px !important;
+	padding-right: 20px !important;
+}
+
+@media (max-width: 767.98px) {
+	table {
+		display: inline-block;
+		overflow: auto;
+	}
+}
+
+.shop-tabs {
+	padding-top: 50px;
+}
+
+@media (max-width: 768px) {
+	#shop-banner {
+		width: 80%;
+	}
+	.shop-tabs {
+		padding-top: 30px;
+	}
+}
+
+.shop-tab {
+	display: inline-flex;
+	max-width: 46.6%;
+	letter-spacing: 3px;
+	border-radius: 0;
+}
+
+.shop-tab.active {
+	background-color: var(--primary) !important;
+	pointer-events: none !important;
+	cursor: default !important;
+}
+
+.star1 circle {r: 0.5;}
+.star2 circle {r: 0.75;}
+.star3 circle {r: 1.0;}
+.star4 circle {r: 1.2;}
+.star5 circle {r: 1.5;}
+
+.emoji2 {
+	/*background: None!important;*/
+	width:60px; 
+	height: 85px;
+	overflow: hidden;
+	border: none
+}
+.emoji2 > img {
+	-o-object-fit: contain;
+	object-fit: contain;
+}
+
+.bg-image {
+	padding: 0.25rem;
+	width: 15rem;
+	height: 10rem;
+	object-fit: cover;
+}
+.bg-button {
+	margin: 0.25rem;
+	padding: 0;
+}
+
+.dismiss-beg {
+	color: #919191;
+	float: left;
+	font-size: 14px;
+	padding: 0.25rem 0.7rem 2rem 0.7rem;
+}
+
+#mobile-prompt + .bs-tooltip-bottom {
+	transform: None !important;
+	inset: 0px 0px auto auto !important;
+}
+
+.mod-rdrama:before {
+	content: '(((';
+}
+.mod-rdrama:after {
+	content: ')))';
+}
+
+#emojiTabs {height: 80%;}
+@media (max-width: 650px) {
+	#emojiTabs {height: 100%;}
+	#emojiModalInternalDivIDK {margin-top: 0 !important; margin-bottom: 0 !important; padding-top: 3rem !important; padding-bottom: 0 !important;}
+
+	#emoji-modal-tabs-container {
+		overflow-x: auto;
+	}
+
+	#emoji-modal-tabs {
+		white-space: nowrap;
+		flex-wrap: nowrap;
+	}
+
+	#emoji-modal-tabs li {
+		display: inline-block;
+	}
+}

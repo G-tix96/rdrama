@@ -390,10 +390,22 @@ def get_css(id):
 	try: id = int(id)
 	except: abort(404)
 
-	css = g.db.query(User.css).filter_by(id=id).one_or_none()
+	css, bg = g.db.query(User.profilecss, User.profile_background).filter_by(id=id).one_or_none()
+
+	if bg:
+		if not css: css = ''
+		css += f'''
+			body {{
+				background:url("{bg}") center center fixed;
+				background-color: rgb(var(--background));
+			}}
+		'''
+		if 'anime/' not in bg and not bg.startswith('/images/'):
+			css += 'body {background-size: cover}'
+
 	if not css: abort(404)
 
-	resp = make_response(css[0] or "")
+	resp = make_response(css)
 	resp.headers["Content-Type"] = "text/css"
 	return resp
 
@@ -402,10 +414,15 @@ def get_profilecss(id):
 	try: id = int(id)
 	except: abort(404)
 
-	css = g.db.query(User.profilecss).filter_by(id=id).one_or_none()
+	css, bg = g.db.query(User.profilecss, User.profile_background).filter_by(id=id).one_or_none()
+
+	if bg:
+		if not css: css = ''
+		css += f"body {{background-image: url('{bg}') !important}}"
+
 	if not css: abort(404)
 
-	resp = make_response(css[0] or "")
+	resp = make_response(css)
 	resp.headers["Content-Type"] = "text/css"
 	return resp
 

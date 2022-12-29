@@ -199,11 +199,6 @@
 			<circle cx="169.44" cy="10.935"/>
 		</g>
 		<defs>
-			<style nonce="{{g.nonce}}">.star1 circle {r: 0.5;}
-				.star2 circle {r: 0.75;}
-				.star3 circle {r: 1.0;}
-				.star4 circle {r: 1.2;}
-				.star5 circle {r: 1.5;}</style>
 		</defs>
 	</g>
 	<defs>

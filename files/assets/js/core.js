@@ -273,16 +273,7 @@ function bs_trigger(e) {
 	}
 }
 
-let bsTriggerOnReady = function() {
-	bs_trigger(document);
-}
-
-if (document.readyState === "complete" ||
-		(document.readyState !== "loading" && !document.documentElement.doScroll)) {
-	bsTriggerOnReady();
-} else {
-	document.addEventListener("load", bsTriggerOnReady);
-}
+bs_trigger(document);
 
 function escapeHTML(unsafe) {
 	return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
@@ -457,3 +448,28 @@ document.addEventListener("click", function(e){
 	else if (element.classList.contains('gif-cat-overlay'))
 		searchGifs(e.target.firstElementChild.innerHTML);
 });
+
+if (window.matchMedia('(display-mode: minimal-ui)')['matches']) {
+	const links = document.querySelectorAll('a[data-target="t"]');
+	for (const link of links) {
+		link.removeAttribute("target");
+	}
+}
+
+if (document.getElementById('gbrowser').value == 'apple') {
+	const videos = document.querySelectorAll('video')
+
+	for (const video of videos) {
+		const link = video.src
+		const htmlString = `
+			<a rel="nofollow noopener" href="${link}" target="_blank">
+				<div class="d-flex justify-content-between align-items-center border rounded p-2 mb-3 download-video">
+					<span>${link}</span>
+					<i class="fas fa-external-link-alt text-small"></i>
+				</div>
+			</a>`
+		const div = document.createElement('div');
+		div.innerHTML = htmlString;
+		video.after(div)
+	}
+}

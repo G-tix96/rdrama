@@ -1,3 +1,5 @@
+(window as any).global = window; 
+
 import cx from "classnames";
 import throttle from "lodash.throttle";
 import React, { useCallback, useEffect, useRef, useState } from "react";

@@ -62,16 +62,8 @@
 			{% block navbar %}
 			<div class="d-flex align-items-center">
 				{% if SITE_NAME != 'WPD' and not sub %}
-					<style nonce="{{g.nonce}}">
-						@media (max-width: 427px) {
-							.smol-fp {
-								font-size: 2.7vw;
-								padding-left: 2.5vw;
-								padding-right: 2.1vw;
-							}
-						}
-					</style>
-					{% set hcolor = "primary" if holes else "secondary" %}
+				<link rel="stylesheet" href="{{('css/smolfp.css') | asset}}">
+				{% set hcolor = "primary" if holes else "secondary" %}
 					<a class="btn btn-{{hcolor}} text-{{hcolor}} mx-2 smol-fp" href="/toggle_holes"><i class="fas fas fa-manhole mr-2 "></i>Holes</a>
 				{% endif %}
 
@@ -168,87 +160,21 @@
 {% endif %}
 
 {% if request.path == '/' and v %}
-	<script defer src="/assets/js/register_service_worker.js"></script>
-	<script nonce="{{g.nonce}}">
-		document.addEventListener('load', function () {
-			registerServiceWorker(
-			"/assets/js/service_worker.js",
-			"{{VAPID_PUBLIC_KEY}}",
-			"/push_subscribe")
-		});
-	</script>
+	<script defer src="{{'js/register_service_worker.js' | asset}}"></script>
+	<input hidden id="VAPID_PUBLIC_KEY" value="{{VAPID_PUBLIC_KEY}}">
 {% endif %}
 
 {% if request.path == '/' and g.browser != 'webview' and time.time() > session.get('tooltip_last_dismissed',0)+86400*30 %}
-	<style nonce="{{g.nonce}}">
-		.dismiss-beg {
-			color: #919191;
-			float: left;
-			font-size: 14px;
-			padding: 0.25rem 0.7rem 2rem 0.7rem;
-		}
-	</style>
-
 	<div id="mobile-prompt-container" class="fixed-top">
 		<div id="mobile-prompt" data-bs-toggle="tooltip" data-bs-container="#mobile-prompt-container" data-bs-placement="top" data-bs-trigger="click" data-bs-html="true" title="<i class='dismiss-beg fas fa-x'></i>Click me to install the {{SITE_NAME}} mobile app!"></div>
 	</div>
 
-	<script nonce="{{g.nonce}}">
-		if (!window.matchMedia('(display-mode: minimal-ui)')['matches']) {
-			if (window.innerWidth <= 737) {
-				document.addEventListener('load', function() {
-					const tt = bootstrap.Tooltip.getOrCreateInstance(document.getElementById('mobile-prompt'))
-					tt.show()
-					document.getElementsByClassName('tooltip')[0].onclick = function(e) {
-						tt.hide()
-						const xhr = new XMLHttpRequest();
-						xhr.withCredentials=true;
-						xhr.open("POST", '/dismiss_mobile_tip', true);
-						xhr.setRequestHeader('xhr', 'xhr');
-						xhr.send();
-						if (!e.target.classList.contains('dismiss-beg'))
-							location.href = "/app"
-					}
-				})
-			}
-		} 
-	</script>
-
-	<style nonce="{{g.nonce}}">
-		#mobile-prompt + .bs-tooltip-bottom {
-			transform: None !important;
-			inset: 0px 0px auto auto !important;
-		}
-	</style>
+	<script defer src="{{'js/mobile_prompt.js' | asset}}"></script>
 {% endif %}
 
-{% if request.path == '/' and v and FP %}
-	{% if not v.fp %}
-		<script nonce="{{g.nonce}}">
-			function fp(fp) {
-				const xhr = new XMLHttpRequest();
-				xhr.open("POST", '/fp/'+fp);
-				xhr.setRequestHeader('xhr', 'xhr');
-				const form = new FormData()
-				form.append("formkey", formkey());
-				xhr.send(form);
-			};
-
-			const fpPromise = new Promise((resolve, reject) => {
-				const script = document.createElement('script');
-				script.onload = resolve;
-				script.onerror = reject;
-				script.async = true;
-				script.src = "{{'js/vendor/fp.js' | asset}}";
-				document.head.appendChild(script);
-			})
-				.then(() => FingerprintJS.load({token: '{{FP}}'}));
-
-			fpPromise
-				.then(fp => fp.get())
-				.then(result => {if (result.visitorId != '{{v.fp}}') fp(result.visitorId);})
-		</script>
-	{% endif %}
+{% if FP and request.path == '/' and v and not v.fp %}
+	<input hidden id="fp_token" value="{{FP}}">
+	<script defer src="{{'js/fp.js' | asset}}"></script>
 {% endif %}
 
 {% endblock %}

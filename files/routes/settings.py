@@ -178,7 +178,6 @@ def settings_personal_post(v):
 
 	updated = updated or update_flag("hidevotedon", "hidevotedon")
 	updated = updated or update_flag("cardview", "cardview")
-	updated = updated or update_flag("highlightcomments", "highlightcomments")
 	updated = updated or update_flag("newtab", "newtab")
 	updated = updated or update_flag("newtabexternal", "newtabexternal")
 	updated = updated or update_flag("nitter", "nitter")
@@ -605,8 +604,6 @@ def settings_css_get(v:User):
 def settings_css(v):
 	if v.agendaposter: abort(400, "Agendapostered users can't edit CSS!")
 	css = request.values.get("css", v.css).strip().replace('\\', '').strip()[:CSS_LENGTH_LIMIT]
-	if '</style' in css.lower():
-		abort(400, "Please message @Aevann if you get this error")
 	v.css = css
 	g.db.add(v)
 

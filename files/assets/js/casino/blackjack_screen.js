@@ -214,11 +214,4 @@ function initializeBlackjack() {
 	}
 }
 
-if (
-	document.readyState === "complete" ||
-	(document.readyState !== "loading" && !document.documentElement.doScroll)
-) {
-	initializeBlackjack();
-} else {
-	document.addEventListener("load", initializeBlackjack);
-}
+initializeBlackjack();

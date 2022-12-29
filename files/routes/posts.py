@@ -179,10 +179,10 @@ def post_id(pid, anything=None, v=None, sub=None):
 		sort=sort, render_replies=True, offset=offset, sub=post.subr,
 		fart=get_setting('fart_mode'))
 
-@app.get("/viewmore/<int:pid>/<sort>/<offset>")
+@app.get("/view_more/<int:pid>/<sort>/<offset>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_desired_with_logingate
-def viewmore(v, pid, sort, offset):
+def view_more(v, pid, sort, offset):
 	post = get_post(pid, v=v)
 	try:
 		offset = int(offset)
@@ -234,10 +234,10 @@ def viewmore(v, pid, sort, offset):
 	return render_template("comments.html", v=v, comments=comments, p=post, ids=list(ids), render_replies=True, pid=pid, sort=sort, offset=offset)
 
 
-@app.get("/morecomments/<int:cid>")
+@app.get("/more_comments/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_desired_with_logingate
-def morecomments(v, cid):
+def more_comments(v, cid):
 	try: cid = int(cid)
 	except: abort(404)
 

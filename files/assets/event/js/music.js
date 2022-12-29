@@ -1,0 +1,8 @@
+const audio = new Audio("{{song}}");
+audio.loop=true;
+
+audio.play();
+window.addEventListener('click', () => {
+	if (audio.paused) audio.play();
+}, {once : true});
+prepare_to_pause(audio)

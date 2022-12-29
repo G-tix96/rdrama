@@ -8,7 +8,7 @@
 {%- import 'util/macros.html' as macros with context -%}
 {%- import 'util/html_head.html' as html_head with context -%}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="--primary:#{{v.themecolor if v else DEFAULT_COLOR}}">
 	<head>
 	{% block head %}
 		<meta charset="utf-8">

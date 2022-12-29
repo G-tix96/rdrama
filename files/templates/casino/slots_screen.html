@@ -1,58 +1,35 @@
 {% extends "casino/game_screen.html" %} {% block result %} N/A {% endblock %}
 
 {% block script %}
-	<script defer src="{{'js/slots_screen.js' | asset}}"></script>
+	<script defer src="{{'js/casino/slots_screen.js' | asset}}"></script>
 {% endblock %}
 
 {% block screen %}
-<style nonce="{{g.nonce}}">
-	.slots_reels {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
+	<link rel="stylesheet" href="{{('css/casino/slots_screen.css') | asset}}">
 
-	.slots_reel {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100px;
-		height: 100px;
-		border: 2px solid black;
-		background-color: var(--gray);
-		border: 1px solid var(--black);
-		border-radius: 8px;
-		font-size: 64px;
-	}
-
-	.slots_reel:nth-child(2) {
-		margin: 0 1rem;
-	}
-</style>
-
-<div class="slots_reels">
-	<div class="slots_reel">
-		<img src="/i/rDrama/coins.webp?v=3009" alt="coin">
+	<div class="slots_reels">
+		<div class="slots_reel">
+			<img src="/i/rDrama/coins.webp?v=3009" alt="coin">
+		</div>
+		<div class="slots_reel">
+			<img src="/i/rDrama/coins.webp?v=3009" alt="coin">
+		</div>
+		<div class="slots_reel">
+			<img src="/i/rDrama/coins.webp?v=3009" alt="coin">
+		</div>
 	</div>
-	<div class="slots_reel">
-		<img src="/i/rDrama/coins.webp?v=3009" alt="coin">
-	</div>
-	<div class="slots_reel">
-		<img src="/i/rDrama/coins.webp?v=3009" alt="coin">
-	</div>
-</div>
 {% endblock %}
 
 {% block actions %}
-<div class="btn-group" role="group">
-	<button
-		type="button"
-		id="casinoSlotsPull"
-		class="btn btn-primary"
-		style="width: 100%"
-		onclick="pullSlots()"
-	>
-		Pull
-	</button>
-</div>
+	<div class="btn-group" role="group">
+		<button
+			type="button"
+			id="casinoSlotsPull"
+			class="btn btn-primary"
+			style="width: 100%"
+			onclick="pullSlots()"
+		>
+			Pull
+		</button>
+	</div>
 {% endblock %}

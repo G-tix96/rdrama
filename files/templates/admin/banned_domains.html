@@ -3,12 +3,7 @@
 
 {% block content %}
 
-<script nonce="{{g.nonce}}">
-	function unbanDomain(t, domain) {
-		postToastSwitch(t,'/admin/unban_domain/' + domain);
-		t.parentElement.parentElement.remove();
-	}
-</script>
+<script defer src="{{'js/banned_domains.js' | asset}}"></script>
 
 <div class="overflow-x-auto mt-2">
 	<table class="table table-striped mb-5" id="domains-table">

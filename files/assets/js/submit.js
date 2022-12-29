@@ -1,3 +1,5 @@
+const IMAGE_FORMATS = document.getElementById('IMAGE_FORMATS')
+
 document.getElementById('post-title').value = localStorage.getItem("post-title")
 document.getElementById('post-text').value = localStorage.getItem("post-text")
 document.getElementById('post-url').value = localStorage.getItem("post-url")
@@ -201,3 +203,8 @@ document.addEventListener('keydown', (e) => {
 });
 
 checkRepost();
+
+if (location.href == '/submit') {
+	const sub = document.getElementById('sub')
+	if (sub) sub.value = localStorage.getItem("sub")
+}

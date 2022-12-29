@@ -1,0 +1,20 @@
+function view_more(pid,sort,offset,ids) {
+	btn = document.getElementById("viewbtn");
+	btn.disabled = true;
+	btn.innerHTML = "Requesting...";
+	const form = new FormData();
+	const xhr = new XMLHttpRequest();
+	xhr.open("get", `/view_more/${pid}/${sort}/${offset}?ids=${ids}`);
+	xhr.setRequestHeader('xhr', 'xhr');
+	xhr.onload=function(){
+		if (xhr.status==200) {
+			let e = document.getElementById(`view_more-${offset}`);
+			e.innerHTML = xhr.response.replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '');
+			bs_trigger(e)
+			
+			highlight_unread("old-comment-counts")
+		}
+		btn.disabled = false;
+	}
+	xhr.send(form)
+}

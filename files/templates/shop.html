@@ -7,34 +7,6 @@
 {% block pagetitle %}Shop{% endblock %}
 {% block pagetype %}message{% endblock %}
 {% block banner %}
-	<style nonce="{{g.nonce}}">
-		.shop-tabs {
-			padding-top: 50px;
-		}
-
-		@media (max-width: 768px) {
-			#shop-banner {
-				width: 80%;
-			}
-			.shop-tabs {
-				padding-top: 30px;
-			}
-		}
-
-		.shop-tab {
-			display: inline-flex;
-			max-width: 46.6%;
-			letter-spacing: 3px;
-			border-radius: 0;
-		}
-
-		.shop-tab.active {
-			background-color: var(--primary) !important;
-			pointer-events: none !important;
-			cursor: default !important;
-		}
-	</style>
-
 	<div class="container-fluid bg-white sticky shop-tabs" style="padding-bottom: 0 !important;">
 		<div class="row box-shadow-bottom">
 			<div class="col p-0">

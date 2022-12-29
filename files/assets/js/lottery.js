@@ -35,15 +35,6 @@ const lotteryOnReady = function () {
 	});
 };
 
-if (
-	document.readyState === "complete" ||
-	(document.readyState !== "loading" && !document.documentElement.doScroll)
-) {
-	lotteryOnReady();
-} else {
-	document.addEventListener("load", lotteryOnReady);
-}
-
 function purchaseLotteryTicket() {
 	return handleLotteryRequest("buy", "POST");
 }
@@ -194,3 +185,5 @@ function formatTimeLeft(secondsLeft) {
 
 	return `${hours}h, ${minutes}m, ${seconds}s`;
 }
+
+lotteryOnReady();

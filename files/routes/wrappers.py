@@ -1,5 +1,4 @@
 import time
-import secrets
 from flask import g, request, session
 
 from files.classes.clients import ClientAuth
@@ -71,9 +70,6 @@ def get_logged_in_user():
 					log_file(f'@{v.username}, {v.truescore}, {ip}, {t}\n', 'eg.log')
 	
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
-
-	if not g.is_api_or_xhr:
-		g.nonce = secrets.token_urlsafe(31)
 
 	return v
 

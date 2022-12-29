@@ -702,3 +702,5 @@ function snow(flakesMax) {
   
 	return this;
 }
+
+snow(80)
