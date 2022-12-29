@@ -17,8 +17,8 @@ from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter
 
 
-@app.get("/r/drama/comments/<id>/<title>")
-@app.get("/r/Drama/comments/<id>/<title>")
+@app.get("/r/drama/comments/<int:id>/<title>")
+@app.get("/r/Drama/comments/<int:id>/<title>")
 def rdrama(id, title):
 	id = ''.join(f'{x}/' for x in id)
 	return redirect(f'/archives/drama/comments/{id}{title}.html')
@@ -163,7 +163,7 @@ def log(v:User):
 
 	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, next_exists=next_exists, page=page, single_user_url='admin')
 
-@app.get("/log/<id>")
+@app.get("/log/<int:id>")
 @auth_required
 def log_item(id, v):
 	try: id = int(id)
@@ -294,7 +294,7 @@ def dismiss_mobile_tip():
 	session["tooltip_last_dismissed"] = int(time.time())
 	return "", 204
 
-@app.get("/transfers/<id>")
+@app.get("/transfers/<int:id>")
 @auth_required
 def transfers_id(id, v):
 

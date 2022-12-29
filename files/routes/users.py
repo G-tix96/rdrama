@@ -55,25 +55,25 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 
 	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
 
-@app.get("/@<username>/upvoters/<uid>/posts")
+@app.get("/@<username>/upvoters/<int:uid>/posts")
 @auth_required
 def upvoters_posts(v:User, username, uid):
 	return upvoters_downvoters(v, username, uid, Submission, Vote, 1, "userpage/voted_posts.html", None)
 
 
-@app.get("/@<username>/upvoters/<uid>/comments")
+@app.get("/@<username>/upvoters/<int:uid>/comments")
 @auth_required
 def upvoters_comments(v:User, username, uid):
 	return upvoters_downvoters(v, username, uid, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
 
 
-@app.get("/@<username>/downvoters/<uid>/posts")
+@app.get("/@<username>/downvoters/<int:uid>/posts")
 @auth_required
 def downvoters_posts(v:User, username, uid):
 	return upvoters_downvoters(v, username, uid, Submission, Vote, -1, "userpage/voted_posts.html", None)
 
 
-@app.get("/@<username>/downvoters/<uid>/comments")
+@app.get("/@<username>/downvoters/<int:uid>/comments")
 @auth_required
 def downvoters_comments(v:User, username, uid):
 	return upvoters_downvoters(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
@@ -106,25 +106,25 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 
 	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
 
-@app.get("/@<username>/upvoting/<uid>/posts")
+@app.get("/@<username>/upvoting/<int:uid>/posts")
 @auth_required
 def upvoting_posts(v:User, username, uid):
 	return upvoting_downvoting(v, username, uid, Submission, Vote, 1, "userpage/voted_posts.html", None)
 
 
-@app.get("/@<username>/upvoting/<uid>/comments")
+@app.get("/@<username>/upvoting/<int:uid>/comments")
 @auth_required
 def upvoting_comments(v:User, username, uid):
 	return upvoting_downvoting(v, username, uid, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
 
 
-@app.get("/@<username>/downvoting/<uid>/posts")
+@app.get("/@<username>/downvoting/<int:uid>/posts")
 @auth_required
 def downvoting_posts(v:User, username, uid):
 	return upvoting_downvoting(v, username, uid, Submission, Vote, -1, "userpage/voted_posts.html", None)
 
 
-@app.get("/@<username>/downvoting/<uid>/comments")
+@app.get("/@<username>/downvoting/<int:uid>/comments")
 @auth_required
 def downvoting_comments(v:User, username, uid):
 	return upvoting_downvoting(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
@@ -385,7 +385,7 @@ def leaderboard(v:User):
 
 	return render_template("leaderboard.html", v=v, leaderboards=leaderboards)
 
-@app.get("/<id>/css")
+@app.get("/<int:id>/css")
 def get_css(id):
 	try: id = int(id)
 	except: abort(404)
@@ -397,7 +397,7 @@ def get_css(id):
 	resp.headers["Content-Type"] = "text/css"
 	return resp
 
-@app.get("/<id>/profilecss")
+@app.get("/<int:id>/profilecss")
 def get_profilecss(id):
 	try: id = int(id)
 	except: abort(404)
@@ -415,7 +415,7 @@ def usersong(username:str):
 	if user.song: return redirect(f"/songs/{user.song}.mp3")
 	else: abort(404)
 
-@app.post("/subscribe/<post_id>")
+@app.post("/subscribe/<int:post_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -426,7 +426,7 @@ def subscribe(v, post_id):
 		g.db.add(new_sub)
 	return {"message": "Subscribed to post successfully!"}
 	
-@app.post("/unsubscribe/<post_id>")
+@app.post("/unsubscribe/<int:post_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -624,7 +624,7 @@ def is_available(name:str):
 	else:
 		return {name: True}
 
-@app.get("/id/<id>")
+@app.get("/id/<int:id>")
 def user_id(id):
 	user = get_account(id)
 	return redirect(user.url)
@@ -772,8 +772,8 @@ def u_username_wall(v:Optional[User], username:str):
 	return render_template("userpage/wall.html", u=u, v=v, listing=comments, page=page, next_exists=next_exists, is_following=is_following, standalone=True, render_replies=True, wall=True)
 
 
-@app.get("/@<username>/wall/comment/<cid>")
-@app.get("/@<username>/wall/comment/<cid>.json")
+@app.get("/@<username>/wall/comment/<int:cid>")
+@app.get("/@<username>/wall/comment/<int:cid>.json")
 @auth_desired_with_logingate
 def u_username_wall_comment(v:User, username:str, cid):
 	comment = get_comment(cid, v=v)
@@ -987,7 +987,7 @@ def u_username_info(username, v=None):
 
 	return user.json
 
-@app.get("/<id>/info")
+@app.get("/<int:id>/info")
 @auth_required
 def u_user_id_info(id, v=None):
 
@@ -1077,9 +1077,9 @@ def remove_follow(username, v):
 
 	return {"message": f"@{target.username} has been removed as a follower!"}
 
-@app.get("/pp/<id>")
-@app.get("/uid/<id>/pic")
-@app.get("/uid/<id>/pic/profile")
+@app.get("/pp/<int:id>")
+@app.get("/uid/<int:id>/pic")
+@app.get("/uid/<int:id>/pic/profile")
 @cache.memoize(timeout=86400)
 @limiter.exempt
 def user_profile_uid(id):
@@ -1191,7 +1191,7 @@ def toggle_holes():
 	return redirect('/')
 
 
-@app.get("/badge_owners/<bid>")
+@app.get("/badge_owners/<int:bid>")
 @auth_required
 def bid_list(v:User, bid):
 

@@ -5,7 +5,7 @@ from files.routes.wrappers import *
 from files.__main__ import app
 
 
-@app.post("/vote/post/option/<option_id>")
+@app.post("/vote/post/option/<int:option_id>")
 @is_not_permabanned
 def vote_option(option_id, v):
 	try:
@@ -51,7 +51,7 @@ def vote_option(option_id, v):
 
 	return {"message": "Bet successful!"}
 
-@app.get("/votes/post/option/<option_id>")
+@app.get("/votes/post/option/<int:option_id>")
 @auth_required
 def option_votes(option_id, v):
 	try:
@@ -82,7 +82,7 @@ def option_votes(option_id, v):
 
 
 
-@app.post("/vote/comment/option/<option_id>")
+@app.post("/vote/comment/option/<int:option_id>")
 @is_not_permabanned
 def vote_option_comment(option_id, v):
 	try:
@@ -116,7 +116,7 @@ def vote_option_comment(option_id, v):
 
 	return "", 204
 
-@app.get("/votes/comment/option/<option_id>")
+@app.get("/votes/comment/option/<int:option_id>")
 @auth_required
 def option_votes_comment(option_id, v):
 	try:

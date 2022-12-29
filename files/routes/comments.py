@@ -25,12 +25,13 @@ from files.__main__ import app, cache, limiter
 
 WORDLE_COLOR_MAPPINGS = {-1: "🟥", 0: "🟨", 1: "🟩"}
 
-@app.get("/comment/<cid>")
-@app.get("/post/<pid>/<anything>/<cid>")
-@app.get("/h/<sub>/comment/<cid>")
-@app.get("/h/<sub>/post/<pid>/<anything>/<cid>")
+@app.get("/comment/<int:cid>")
+@app.get("/post/<int:pid>/<anything>/<int:cid>")
+@app.get("/h/<sub>/comment/<int:cid>")
+@app.get("/h/<sub>/post/<int:pid>/<anything>/<int:cid>")
 @auth_desired_with_logingate
 def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
+
 	comment = get_comment(cid, v=v)
 	if not User.can_see(v, comment): abort(404)
 
@@ -358,7 +359,7 @@ def comment(v:User):
 	if v.client: return c.json(db=g.db)
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
-@app.post("/edit_comment/<cid>")
+@app.post("/edit_comment/<int:cid>")
 @limiter.limit("1/second;10/minute;100/hour;200/day")
 @is_not_permabanned
 @ratelimit_user("1/second;10/minute;100/hour;200/day")
@@ -433,7 +434,7 @@ def edit_comment(cid, v):
 	return {"body": c.body, "comment": c.realbody(v)}
 
 
-@app.post("/delete/comment/<cid>")
+@app.post("/delete/comment/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -455,7 +456,7 @@ def delete_comment(cid, v):
 		g.db.add(v)
 	return {"message": "Comment deleted!"}
 
-@app.post("/undelete/comment/<cid>")
+@app.post("/undelete/comment/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -475,7 +476,7 @@ def undelete_comment(cid, v):
 		g.db.add(v)
 	return {"message": "Comment undeleted!"}
 
-@app.post("/pin_comment/<cid>")
+@app.post("/pin_comment/<int:cid>")
 @feature_required('PINS')
 @auth_required
 def pin_comment(cid, v):
@@ -498,7 +499,7 @@ def pin_comment(cid, v):
 	return {"message": "Comment pinned!"}
 	
 
-@app.post("/unpin_comment/<cid>")
+@app.post("/unpin_comment/<int:cid>")
 @auth_required
 def unpin_comment(cid, v):
 	
@@ -519,7 +520,7 @@ def unpin_comment(cid, v):
 	return {"message": "Comment unpinned!"}
 
 
-@app.post("/save_comment/<cid>")
+@app.post("/save_comment/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -536,7 +537,7 @@ def save_comment(cid, v):
 
 	return {"message": "Comment saved!"}
 
-@app.post("/unsave_comment/<cid>")
+@app.post("/unsave_comment/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -572,7 +573,7 @@ def diff_words(answer, guess):
 	return diffs
 
 
-@app.post("/wordle/<cid>")
+@app.post("/wordle/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -604,7 +605,7 @@ def handle_wordle_action(cid, v):
 	return {"response" : comment.wordle_html(v)}
 
 
-@app.post("/toggle_comment_nsfw/<cid>")
+@app.post("/toggle_comment_nsfw/<int:cid>")
 @auth_required
 def toggle_comment_nsfw(cid, v):
 	comment = get_comment(cid)

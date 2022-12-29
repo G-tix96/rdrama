@@ -33,7 +33,7 @@ from files.__main__ import app, limiter
 
 titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
 
-@app.post("/publish/<pid>")
+@app.post("/publish/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -82,10 +82,10 @@ def submit_get(v:User, sub=None):
 
 	return render_template("submit.html", SUBS=SUBS, v=v, sub=sub)
 
-@app.get("/post/<pid>")
-@app.get("/post/<pid>/<anything>")
-@app.get("/h/<sub>/post/<pid>")
-@app.get("/h/<sub>/post/<pid>/<anything>")
+@app.get("/post/<int:pid>")
+@app.get("/post/<int:pid>/<anything>")
+@app.get("/h/<sub>/post/<int:pid>")
+@app.get("/h/<sub>/post/<int:pid>/<anything>")
 @auth_desired_with_logingate
 def post_id(pid, anything=None, v=None, sub=None):
 	post = get_post(pid, v=v)
@@ -179,7 +179,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		sort=sort, render_replies=True, offset=offset, sub=post.subr,
 		fart=get_setting('fart_mode'))
 
-@app.get("/viewmore/<pid>/<sort>/<offset>")
+@app.get("/viewmore/<int:pid>/<sort>/<offset>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_desired_with_logingate
 def viewmore(v, pid, sort, offset):
@@ -234,7 +234,7 @@ def viewmore(v, pid, sort, offset):
 	return render_template("comments.html", v=v, comments=comments, p=post, ids=list(ids), render_replies=True, pid=pid, sort=sort, offset=offset)
 
 
-@app.get("/morecomments/<cid>")
+@app.get("/morecomments/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_desired_with_logingate
 def morecomments(v, cid):
@@ -258,7 +258,7 @@ def morecomments(v, cid):
 	
 	return render_template("comments.html", v=v, comments=comments, p=p, render_replies=True)
 
-@app.post("/edit_post/<pid>")
+@app.post("/edit_post/<int:pid>")
 @limiter.limit("1/second;10/minute;100/hour;200/day")
 @is_not_permabanned
 @ratelimit_user("1/second;10/minute;100/hour;200/day")
@@ -833,7 +833,7 @@ def submit_post(v:User, sub=None):
 		else: sort = v.defaultsortingcomments
 		return render_template('submission.html', v=v, p=post, sort=sort, render_replies=True, offset=0, success=True, sub=post.subr)
 
-@app.post("/delete_post/<pid>")
+@app.post("/delete_post/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -860,7 +860,7 @@ def delete_post_pid(pid, v):
 
 	return {"message": "Post deleted!"}
 
-@app.post("/undelete_post/<pid>")
+@app.post("/undelete_post/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -882,7 +882,7 @@ def undelete_post_pid(pid, v):
 	return {"message": "Post undeleted!"}
 
 
-@app.post("/mark_post_nsfw/<pid>")
+@app.post("/mark_post_nsfw/<int:pid>")
 @auth_required
 def mark_post_nsfw(pid, v):
 	post = get_post(pid)
@@ -916,7 +916,7 @@ def mark_post_nsfw(pid, v):
 
 	return {"message": "Post has been marked as +18!"}
 
-@app.post("/unmark_post_nsfw/<pid>")
+@app.post("/unmark_post_nsfw/<int:pid>")
 @auth_required
 def unmark_post_nsfw(pid, v):
 	post = get_post(pid)
@@ -950,7 +950,7 @@ def unmark_post_nsfw(pid, v):
 
 	return {"message": "Post has been unmarked as +18!"}
 
-@app.post("/save_post/<pid>")
+@app.post("/save_post/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -966,7 +966,7 @@ def save_post(pid, v):
 
 	return {"message": "Post saved!"}
 
-@app.post("/unsave_post/<pid>")
+@app.post("/unsave_post/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -981,7 +981,7 @@ def unsave_post(pid, v):
 
 	return {"message": "Post unsaved!"}
 
-@app.post("/pin/<post_id>")
+@app.post("/pin/<int:post_id>")
 @auth_required
 def pin_post(post_id, v):
 	post = get_post(post_id)
@@ -994,7 +994,7 @@ def pin_post(post_id, v):
 		else: return {"message": "Post unpinned!"}
 	return abort(404, "Post not found!")
 
-@app.put("/post/<post_id>/new")
+@app.put("/post/<int:post_id>/new")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 def set_new_sort(post_id:int, v:User):
@@ -1015,7 +1015,7 @@ def set_new_sort(post_id:int, v:User):
 	return {"message": f"Changed the the default sorting of comments on this post to 'new'"}
 
 
-@app.delete("/post/<post_id>/new")
+@app.delete("/post/<int:post_id>/new")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 def unset_new_sort(post_id:int, v:User):

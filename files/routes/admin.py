@@ -37,7 +37,7 @@ def loggedout_list(v):
 	return render_template("admin/loggedout.html", v=v, users=users)
 
 
-@app.get('/admin/move/<old_id>/<new_id>')
+@app.get('/admin/move/<int:old_id>/<int:new_id>')
 @admin_level_required(PERMS['USER_MERGE'])
 def move_acc(v:User, new_id, old_id):
 	if v.id != AEVANN_ID: abort(403)
@@ -261,7 +261,7 @@ def remove_admin(v:User, username):
 
 	return {"message": f"@{user.username} has been removed as admin!"}
 
-@app.post("/distribute/<option_id>")
+@app.post("/distribute/<int:option_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['POST_BETS_DISTRIBUTE'])
 def distribute(v:User, option_id):
@@ -883,7 +883,7 @@ def admin_removed_comments(v):
 						next_exists=next_exists
 						)
 
-@app.post("/unagendaposter/<user_id>")
+@app.post("/unagendaposter/<int:user_id>")
 @admin_level_required(PERMS['USER_AGENDAPOSTER'])
 def unagendaposter(user_id, v):
 	user = get_account(user_id)
@@ -910,7 +910,7 @@ def unagendaposter(user_id, v):
 	return {"message": f"@{user.username} has been unchudded!"}
 
 
-@app.post("/shadowban/<user_id>")
+@app.post("/shadowban/<int:user_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_SHADOWBAN'])
 def shadowban(user_id, v):
@@ -940,7 +940,7 @@ def shadowban(user_id, v):
 
 	return {"message": f"@{user.username} has been shadowbanned!"}
 
-@app.post("/unshadowban/<user_id>")
+@app.post("/unshadowban/<int:user_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_SHADOWBAN'])
 def unshadowban(user_id, v):
@@ -966,7 +966,7 @@ def unshadowban(user_id, v):
 	return {"message": f"@{user.username} has been unshadowbanned!"}
 
 
-@app.post("/admin/title_change/<user_id>")
+@app.post("/admin/title_change/<int:user_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_TITLE_CHANGE'])
 def admin_title_change(user_id, v):
@@ -1002,7 +1002,7 @@ def admin_title_change(user_id, v):
 
 	return {"message": f"@{user.username}'s flair has been changed!"}
 
-@app.post("/ban_user/<user_id>")
+@app.post("/ban_user/<int:user_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_BAN'])
 def ban_user(user_id, v):
@@ -1075,7 +1075,7 @@ def ban_user(user_id, v):
 	return {"message": f"@{user.username} has been banned {duration}!"}
 
 
-@app.post("/agendaposter/<user_id>")
+@app.post("/agendaposter/<int:user_id>")
 @admin_level_required(PERMS['USER_AGENDAPOSTER'])
 def agendaposter(user_id, v):
 	user = get_account(user_id)
@@ -1148,7 +1148,7 @@ def agendaposter(user_id, v):
 	return {"message": f"@{user.username} has been chudded {duration}!"}
 
 
-@app.post("/unban_user/<user_id>")
+@app.post("/unban_user/<int:user_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_BAN'])
 def unban_user(user_id, v):
@@ -1219,7 +1219,7 @@ def unmute_user(v:User, user_id):
 	return {"message": f"@{user.username} has been unmuted!"}
 
 
-@app.post("/remove_post/<post_id>")
+@app.post("/remove_post/<int:post_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def remove_post(post_id, v):
@@ -1247,7 +1247,7 @@ def remove_post(post_id, v):
 	return {"message": "Post removed!"}
 
 
-@app.post("/approve_post/<post_id>")
+@app.post("/approve_post/<int:post_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def approve_post(post_id, v):
@@ -1278,7 +1278,7 @@ def approve_post(post_id, v):
 	return {"message": "Post approved!"}
 
 
-@app.post("/distinguish/<post_id>")
+@app.post("/distinguish/<int:post_id>")
 @admin_level_required(PERMS['POST_COMMENT_DISTINGUISH'])
 def distinguish_post(post_id, v):
 	post = get_post(post_id)
@@ -1304,7 +1304,7 @@ def distinguish_post(post_id, v):
 	else: return {"message": "Post undistinguished!"}
 
 
-@app.post("/sticky/<post_id>")
+@app.post("/sticky/<int:post_id>")
 @feature_required('PINS')
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def sticky_post(post_id, v):
@@ -1345,7 +1345,7 @@ def sticky_post(post_id, v):
 	return {"message": f"Post pinned {pin_time}!"}, code
 
 
-@app.post("/unsticky/<post_id>")
+@app.post("/unsticky/<int:post_id>")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def unsticky_post(post_id, v):
 	post = get_post(post_id)
@@ -1370,7 +1370,7 @@ def unsticky_post(post_id, v):
 		cache.delete_memoized(frontlist)
 	return {"message": "Post unpinned!"}
 
-@app.post("/sticky_comment/<cid>")
+@app.post("/sticky_comment/<int:cid>")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def sticky_comment(cid, v):
 	comment = get_comment(cid, v=v)
@@ -1399,7 +1399,7 @@ def sticky_comment(cid, v):
 	return {"message": "Comment pinned!"}
 	
 
-@app.post("/unsticky_comment/<cid>")
+@app.post("/unsticky_comment/<int:cid>")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def unsticky_comment(cid, v):
 	comment = get_comment(cid, v=v)
@@ -1429,7 +1429,7 @@ def unsticky_comment(cid, v):
 	return {"message": "Comment unpinned!"}
 
 
-@app.post("/remove_comment/<c_id>")
+@app.post("/remove_comment/<int:c_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def remove_comment(c_id, v):
@@ -1449,7 +1449,7 @@ def remove_comment(c_id, v):
 	return {"message": "Comment removed!"}
 
 
-@app.post("/approve_comment/<c_id>")
+@app.post("/approve_comment/<int:c_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def approve_comment(c_id, v):
@@ -1475,7 +1475,7 @@ def approve_comment(c_id, v):
 	return {"message": "Comment approved!"}
 
 
-@app.post("/distinguish_comment/<c_id>")
+@app.post("/distinguish_comment/<int:c_id>")
 @admin_level_required(PERMS['POST_COMMENT_DISTINGUISH'])
 def admin_distinguish_comment(c_id, v):
 	comment = get_comment(c_id, v=v)

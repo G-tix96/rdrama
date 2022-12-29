@@ -124,7 +124,7 @@ def buy(v:User, award):
 
 	return {"message": f"{award_title} award bought!"}
 
-@app.post("/award/<thing_type>/<id>")
+@app.post("/award/<thing_type>/<int:id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @is_not_permabanned
 @ratelimit_user()

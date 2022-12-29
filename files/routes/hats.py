@@ -26,7 +26,7 @@ def hats(v:User):
 	num_of_hats = g.db.query(HatDef).filter(HatDef.submitter_id == None).count()
 	return render_template("hats.html", owned_hat_ids=owned_hat_ids, hats=hats, v=v, sales=sales, num_of_hats=num_of_hats)
 
-@app.post("/buy_hat/<hat_id>")
+@app.post("/buy_hat/<int:hat_id>")
 @limiter.limit('100/minute;1000/3 days')
 @auth_required
 def buy_hat(v:User, hat_id):
@@ -77,7 +77,7 @@ def buy_hat(v:User, hat_id):
 	return {"message": f"'{hat.name}' bought!"}
 
 
-@app.post("/equip_hat/<hat_id>")
+@app.post("/equip_hat/<int:hat_id>")
 @auth_required
 def equip_hat(v:User, hat_id):
 	try: hat_id = int(hat_id)
@@ -91,7 +91,7 @@ def equip_hat(v:User, hat_id):
 
 	return {"message": f"'{hat.name}' equipped!"}
 
-@app.post("/unequip_hat/<hat_id>")
+@app.post("/unequip_hat/<int:hat_id>")
 @auth_required
 def unequip_hat(v:User, hat_id):
 	try: hat_id = int(hat_id)
@@ -105,7 +105,7 @@ def unequip_hat(v:User, hat_id):
 
 	return {"message": f"'{hat.name}' unequipped!"}
 
-@app.get("/hat_owners/<hat_id>")
+@app.get("/hat_owners/<int:hat_id>")
 @auth_required
 def hat_owners(v:User, hat_id):
 	try: hat_id = int(hat_id)

@@ -11,7 +11,7 @@ from files.routes.front import frontlist
 from files.routes.wrappers import *
 from files.__main__ import app, limiter, cache
 
-@app.post("/report/post/<pid>")
+@app.post("/report/post/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -67,7 +67,7 @@ def flag_post(pid, v):
 	return {"message": "Post reported!"}
 
 
-@app.post("/report/comment/<cid>")
+@app.post("/report/comment/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -93,7 +93,7 @@ def flag_comment(cid, v):
 	return {"message": "Comment reported!"}
 
 
-@app.post('/del_report/post/<pid>/<uid>')
+@app.post('/del_report/post/<int:pid>/<int:uid>')
 @limiter.limit("4/second;100/minute;300/hour;2000/day")
 @admin_level_required(PERMS['FLAGS_REMOVE'])
 def remove_report_post(v, pid, uid):
@@ -116,7 +116,7 @@ def remove_report_post(v, pid, uid):
 	return {"message": "Report removed successfully!"}
 
 
-@app.post('/del_report/comment/<cid>/<uid>')
+@app.post('/del_report/comment/<int:cid>/<int:uid>')
 @limiter.limit("4/second;100/minute;300/hour;2000/day")
 @admin_level_required(PERMS['FLAGS_REMOVE'])
 def remove_report_comment(v, cid, uid):

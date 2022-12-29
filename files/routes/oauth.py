@@ -35,7 +35,7 @@ def authorize(v):
 
 	return redirect(f"{application.redirect_uri}?token={access_token}")
 
-@app.post("/rescind/<aid>")
+@app.post("/rescind/<int:aid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -86,7 +86,7 @@ def request_api_keys(v):
 	return redirect('/settings/apps')
 
 
-@app.post("/delete_app/<aid>")
+@app.post("/delete_app/<int:aid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -109,7 +109,7 @@ def delete_oauth_app(v, aid):
 	return redirect('/apps')
 
 
-@app.post("/edit_app/<aid>")
+@app.post("/edit_app/<int:aid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @is_not_permabanned
 @ratelimit_user()
@@ -133,7 +133,7 @@ def edit_oauth_app(v, aid):
 	return redirect('/settings/apps')
 
 
-@app.post("/admin/app/approve/<aid>")
+@app.post("/admin/app/approve/<int:aid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_approve(v, aid):
@@ -169,7 +169,7 @@ def admin_app_approve(v, aid):
 	return {"message": f"'{app.app_name}' approved!"}
 
 
-@app.post("/admin/app/revoke/<aid>")
+@app.post("/admin/app/revoke/<int:aid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_revoke(v, aid):
@@ -194,7 +194,7 @@ def admin_app_revoke(v, aid):
 	return {"message": f"'{app.app_name}' revoked!"}
 
 
-@app.post("/admin/app/reject/<aid>")
+@app.post("/admin/app/reject/<int:aid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_reject(v, aid):
@@ -220,7 +220,7 @@ def admin_app_reject(v, aid):
 	return {"message": f"'{app.app_name}' rejected!"}
 
 
-@app.get("/admin/app/<aid>/posts")
+@app.get("/admin/app/<int:aid>/posts")
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_id_posts(v, aid):
 	aid=aid
@@ -241,7 +241,7 @@ def admin_app_id_posts(v, aid):
 						next_exists=next_exists
 						)
 
-@app.get("/admin/app/<aid>/comments")
+@app.get("/admin/app/<int:aid>/comments")
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_id_comments(v, aid):
 
@@ -276,7 +276,7 @@ def admin_apps_list(v):
 	return render_template("admin/apps.html", v=v, apps=apps)
 
 
-@app.post("/reroll/<aid>")
+@app.post("/reroll/<int:aid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()

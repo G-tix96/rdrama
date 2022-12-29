@@ -9,7 +9,7 @@ from files.routes.wrappers import *
 from .front import frontlist
 from files.__main__ import app, cache, limiter
 
-@app.post("/exile/post/<pid>")
+@app.post("/exile/post/<int:pid>")
 @is_not_permabanned
 def exile_post(v:User, pid):
 	if v.shadowbanned: abort(500)
@@ -40,7 +40,7 @@ def exile_post(v:User, pid):
 	
 	return {"message": f"@{u.username} has been exiled from /h/{sub} successfully!"}
 
-@app.post("/exile/comment/<cid>")
+@app.post("/exile/comment/<int:cid>")
 @is_not_permabanned
 def exile_comment(v:User, cid):
 	if v.shadowbanned: abort(500)
@@ -71,7 +71,7 @@ def exile_comment(v:User, cid):
 
 	return {"message": f"@{u.username} has been exiled from /h/{sub} successfully!"}
 
-@app.post("/h/<sub>/unexile/<uid>")
+@app.post("/h/<sub>/unexile/<int:uid>")
 @is_not_permabanned
 def unexile(v:User, sub, uid):
 	u = get_account(uid)
@@ -341,7 +341,7 @@ def create_sub2(v):
 
 	return redirect(f'/h/{sub}')
 
-@app.post("/kick/<pid>")
+@app.post("/kick/<int:pid>")
 @is_not_permabanned
 def kick(v:User, pid):
 	post = get_post(pid)
@@ -601,7 +601,7 @@ def subs(v:User):
 	total_users = g.db.query(User).count()
 	return render_template('sub/subs.html', v=v, subs=subs, total_users=total_users)
 
-@app.post("/hole_pin/<pid>")
+@app.post("/hole_pin/<int:pid>")
 @is_not_permabanned
 def hole_pin(v:User, pid):
 	p = get_post(pid)
@@ -629,7 +629,7 @@ def hole_pin(v:User, pid):
 
 	return {"message": f"Post pinned to /h/{p.sub} successfully!"}
 
-@app.post("/hole_unpin/<pid>")
+@app.post("/hole_unpin/<int:pid>")
 @is_not_permabanned
 def hole_unpin(v:User, pid):
 	p = get_post(pid)
@@ -688,7 +688,7 @@ def sub_stealth(v:User, sub):
 		return {"message": f"Stealth mode has been disabled for /h/{sub} successfully!"}
 
 
-@app.post("/mod_pin/<cid>")
+@app.post("/mod_pin/<int:cid>")
 @feature_required('PINS')
 @is_not_permabanned
 def mod_pin(cid, v):
@@ -716,7 +716,7 @@ def mod_pin(cid, v):
 
 	return {"message": "Comment pinned!"}
 
-@app.post("/unmod_pin/<cid>")
+@app.post("/unmod_pin/<int:cid>")
 @is_not_permabanned
 def mod_unpin(cid, v):
 	
@@ -784,7 +784,7 @@ def hole_log(v:User, sub):
 
 	return render_template("log.html", v=v, admins=mods, types=types, admin=mod, type=kind, actions=actions, next_exists=next_exists, page=page, sub=sub, single_user_url='mod')
 
-@app.get("/h/<sub>/log/<id>")
+@app.get("/h/<sub>/log/<int:id>")
 @auth_required
 def hole_log_item(id, v, sub):
 	sub = get_sub_by_name(sub)
