@@ -2,7 +2,7 @@
 {% block pagetitle %}Admin Home{% endblock %}
 {% block customPadding %}px-3{% endblock %}
 {% block content %}
-<h3 class="pb-2 mt-2">Admin Tools</h3>
+<h3 class="py-2">Admin Tools</h3>
 
 {% if (v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES'] or v.admin_level >= PERMS['SITE_SETTINGS_SNAPPY_QUOTES']) and (SITE_NAME == 'rDrama' or SIDEBAR_THREAD or BANNER_THREAD or BADGE_THREAD or SNAPPY_THREAD) %}
 	<h4>Add Stuff</h4>
