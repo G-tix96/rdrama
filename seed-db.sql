@@ -209,13 +209,17 @@ INSERT INTO public.badge_defs VALUES (102, 'Fistmas 21 Survivor', 'Awarded for s
 INSERT INTO public.badge_defs VALUES (222, 'Fistmas 22 Survivor', 'Awarded for surviving Fistmas 2022 which may or may not have even happened', 1671157460);
 INSERT INTO public.badge_defs VALUES (156, 'Hole Neglecter', 'Let a hole they owned die', NULL);
 INSERT INTO public.badge_defs VALUES (223, '100K CORPSECOOMER MEDAL', 'BORN TO WATCH PEOPLE DIE / REDDIT IS A FUCK / Kill Em All 2022 / I am shit poster / 410,757,864,530 DEAD COP VIDEOS', 1672113466);
+INSERT INTO public.badge_defs VALUES (224, 'Died of Starvation', 'Couldn''t work out which elf had the most calories', 1672289576);
+INSERT INTO public.badge_defs VALUES (225, 'Monkey Playdate', 'Forgot to check their worry levels during Advent of Code 2022, completing at least 1 star.', 1672289660);
+INSERT INTO public.badge_defs VALUES (226, 'Stargazer', 'Kept themselves unworried throughout all of Advent of Code 2022, completing all 50 stars.', 1672289696);
+INSERT INTO public.badge_defs VALUES (227, 'Saved Christmas with Teh Codez', 'Got the highest score and completed all 50 stars during Advent of Code 2022.', 1672289744);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 223, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 227, true);
 
 
 --
