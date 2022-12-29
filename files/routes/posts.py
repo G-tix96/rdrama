@@ -788,7 +788,6 @@ def submit_post(v:User, sub=None):
 			over_18=False,
 			is_bot=True,
 			app_id=None,
-			stickied='AutoJanny',
 			distinguish_level=6,
 			body=body,
 			body_html=body_jannied_html,
