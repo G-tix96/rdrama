@@ -14,18 +14,14 @@
 
 	{% if v and v.admin_level %}
 		<a href="/admin/users">
-			<div class="mb-3 d-flex" style="background:none!important">
-				<h5 class="mx-auto">
-					Current registered users: {{current_registered_users()}}
-				</h5>
-			</div>
-		</a>
-	{% else %}
-		<div class="mb-3 d-flex" style="background:none!important">
-			<h5 class="mx-auto">
+			<h5 class="text-center mb-4">
 				Current registered users: {{current_registered_users()}}
 			</h5>
-		</div>
+		</a>
+	{% else %}
+		<h5 class="text-center mb-4">
+			Current registered users: {{current_registered_users()}}
+		</h5>
 	{% endif %}
 
 	<p class="text-center text-md mb-4">
