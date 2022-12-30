@@ -12,6 +12,22 @@
 		</a>
 	{% endif %}
 
+	{% if v and v.admin_level %}
+		<a href="/admin/users">
+			<div class="mb-3 d-flex" style="background:none!important">
+				<h5 class="mx-auto">
+					Current registered users: {{current_registered_users()}}
+				</h5>
+			</div>
+		</a>
+	{% else %}
+		<div class="mb-3 d-flex" style="background:none!important">
+			<h5 class="mx-auto">
+				Current registered users: {{current_registered_users()}}
+			</h5>
+		</div>
+	{% endif %}
+
 	<p class="text-center text-md mb-4">
 		<a class="sidebar-link d-md-none" href="/random_user" data-bs-toggle="tooltip" data-bs-placement="top" title="Random User"><i class="fas fa-music"></i></a>
 		<a class="sidebar-link" href="/badges" data-bs-toggle="tooltip" data-bs-placement="top" title="Badges"><i class="fas fa-hexagon"></i></a>

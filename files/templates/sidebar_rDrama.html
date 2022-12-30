@@ -8,6 +8,22 @@
 		{% set image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") %}
 	{% endif %}
 
+	{% if v and v.admin_level %}
+		<a href="/admin/users">
+			<div class="mb-3 d-flex" style="background:none!important">
+				<h5 class="mx-auto">
+					Current registered users: {{current_registered_users()}}
+				</h5>
+			</div>
+		</a>
+	{% else %}
+		<div class="mb-3 d-flex" style="background:none!important">
+			<h5 class="mx-auto">
+				Current registered users: {{current_registered_users()}}
+			</h5>
+		</div>
+	{% endif %}
+
 	{% if request.path != '/sidebar' %}
 		{% if v and (v.is_banned or v.agendaposter) %}
 			<a href="/i/{{SITE_NAME}}/sidebar2.webp">

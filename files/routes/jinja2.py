@@ -74,6 +74,9 @@ def calc_users():
 	        'loggedout_counter':loggedout_counter,
 			'loggedin_chat':loggedin_chat}
 
+def current_registered_users():
+	return g.db.query(User).count()
+
 @app.context_processor
 def inject_constants():
 	return {"environ":environ, "SITE":SITE, "SITE_NAME":SITE_NAME, "SITE_FULL":SITE_FULL,
@@ -96,5 +99,5 @@ def inject_constants():
 			"HOUSE_JOIN_COST":HOUSE_JOIN_COST, "HOUSE_SWITCH_COST":HOUSE_SWITCH_COST, "IMAGE_FORMATS":IMAGE_FORMATS,
 			"PAGE_SIZES":PAGE_SIZES, "THEMES":THEMES, "COMMENT_SORTS":COMMENT_SORTS, "SORTS":SORTS, 
 			"TIME_FILTERS":TIME_FILTERS, "HOUSES":HOUSES, "TIERS_ID_TO_NAME":TIERS_ID_TO_NAME, 
-			"DEFAULT_CONFIG_VALUE":DEFAULT_CONFIG_VALUE, "IS_LOCALHOST":IS_LOCALHOST, "BACKGROUND_CATEGORIES":BACKGROUND_CATEGORIES, "PAGE_SIZE":PAGE_SIZE, "TAGLINES":TAGLINES, "HOLIDAY_EVENT":HOLIDAY_EVENT, "get_alt_graph":get_alt_graph
+			"DEFAULT_CONFIG_VALUE":DEFAULT_CONFIG_VALUE, "IS_LOCALHOST":IS_LOCALHOST, "BACKGROUND_CATEGORIES":BACKGROUND_CATEGORIES, "PAGE_SIZE":PAGE_SIZE, "TAGLINES":TAGLINES, "HOLIDAY_EVENT":HOLIDAY_EVENT, "get_alt_graph":get_alt_graph, "current_registered_users":current_registered_users
 			}
