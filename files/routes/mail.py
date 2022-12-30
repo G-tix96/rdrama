@@ -11,7 +11,7 @@ from files.__main__ import app, limiter
 @app.post("/verify_email")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
-@ratelimit_user()
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def verify_email(v):
 	send_verification_email(v)
 	return {"message": "Email has been sent (ETA ~5 minutes)"}
