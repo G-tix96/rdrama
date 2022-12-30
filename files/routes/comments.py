@@ -42,11 +42,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 			g.db.add(notif)
 			g.db.commit()
 
-	if not pid:
-		if comment.parent_submission: pid = comment.parent_submission
-		else: pid = NOTIFICATION_THREAD
-	
-	post = get_post(pid, v=v)
+	post = comment.post
 	
 	if post.over_18 and not (v and v.over_18) and not session.get('over_18', 0) >= int(time.time()):
 		if v and v.client: abort(403, "This content is not suitable for some users and situations.")
