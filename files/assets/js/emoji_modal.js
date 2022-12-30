@@ -191,7 +191,6 @@ emojiRequest.onload = async (e) => {
 
 	let classes = new Set();
 	const bussyDOM = document.createElement("div");
-	let startTime = Date.now();
 
 	for(let i = 0; i < emojis.length; i++)
 	{
@@ -368,8 +367,6 @@ function emojiAddToInput(event)
 	localStorage.setItem("favorite_emojis", JSON.stringify(favorite_emojis));
 }
 
-const insertAt = (str, sub, pos) => `${str.slice(0, pos)}${sub}${str.slice(pos)}`;
-
 let emoji_typing_state = false;
 
 function update_ghost_div_textarea(text)
@@ -482,7 +479,7 @@ function update_speed_emoji_modal(event)
 
 	// Get current word at string, such as ":marse" or "word"
 	let coords = text.indexOf(' ',box_coords.pos);
-	current_word = /:[!#a-zA-Z0-9_]+(?=\s|$)/.exec(text.slice(0, coords === -1 ? text.length : coords));
+	current_word = /:[!#a-zA-Z0-9_]+(?=\n|$)/.exec(text.slice(0, coords === -1 ? text.length : coords));
 	if (current_word) current_word = current_word.toString();
 
 	/* We could also check emoji_typing_state here, which is less accurate but more efficient. I've
@@ -556,6 +553,9 @@ forms.forEach(i => {
 
 function loadEmojis(inputTargetIDName)
 {
+	selecting = false;
+	speed_carot_modal.style.display = "none";
+
 	if(!emojiEngineStarted)
 	{
 		emojiEngineStarted = true;
