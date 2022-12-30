@@ -4096,7 +4096,7 @@ ul.comment-section {
 	z-index: 1;
 }
 .format {
-	padding: 0 0.5rem;
+	padding: 0.3rem 0.4rem;
 	font-size: 1rem;
 	color: var(--gray-200);
 }
