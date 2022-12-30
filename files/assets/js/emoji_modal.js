@@ -29,7 +29,6 @@ const emojiSelectPostfixDOMs= document.getElementsByClassName("emoji-postfix");
 
 const emojiNotFoundDOM = document.getElementById("no-emojis-found");
 const emojiWorkingDOM = document.getElementById("emojis-work");
-const emojiNewUserDOM = document.getElementById("emoji-new-user");
 
 /** @type {HTMLInputElement} */
 const emojiSearchBarDOM = document.getElementById('emoji_search');
@@ -39,9 +38,6 @@ let emojiInputTargetDOM = undefined;
 
 // Emojis usage stats. I don't really like this format but I'll keep it for backward comp.
 const favorite_emojis = JSON.parse(localStorage.getItem("favorite_emojis")) || {};
-const emojiFirstBoot = Object.keys(favorite_emojis).length === 0;
-
-emojiNewUserDOM.hidden = !emojiFirstBoot;
 
 /** Associative array of all the emojis' DOM */
 let emojiDOMs = {};
@@ -76,8 +72,6 @@ let emojiSearcher = {
 				classesSelectorDOM.children[0].children[0].classList.add("active");
 				continue;
 			}
-			// Hide welcome message
-			emojiNewUserDOM.hidden = true;
 
 			// Search
 			const resultSet = emojisSearchDictionary.completeSearch(query);
@@ -283,17 +277,8 @@ function switchEmojiTab(e)
 	// Special case: favorites
 	if(className === "favorite")
 	{
-		if(emojiFirstBoot)
-			emojiNewUserDOM.hidden = false;
-
 		for(const emojiDOM of Object.values(emojiDOMs))
 			emojiDOM.hidden = true;
-
-		// copied from the old one
-		// For new users we show anton-d's emojis
-		const favs = emojiFirstBoot ? emojisSearchDictionary.searchFor("anton-d") : Object.keys(Object.fromEntries(
-			Object.entries(favorite_emojis).sort(([,a],[,b]) => b-a)
-		)).slice(0, 25);
 
 		for (const emoji of favs)
 			if(emojiDOMs[emoji] instanceof HTMLElement)
@@ -301,8 +286,6 @@ function switchEmojiTab(e)
 
 		return;
 	}
-
-	emojiNewUserDOM.hidden = true;
 
 	for(const emojiDOM of Object.values(emojiDOMs))
 		emojiDOM.hidden = emojiDOM.dataset.className !== className;
