@@ -43,7 +43,7 @@
 			<form action="{{form_action}}" id="{{id}}-color-code-form" method="post">
 				<input type="hidden" name="formkey" value="{{v|formkey}}">
 				<input autocomplete="off" class="form-control" type="text" name="{{form_name}}" id="{{id}}-color-code" minlength="6" maxlength="6" value="{% if current_color %}{{current_color}}{% endif %}">
-				<label class="btn btn-secondary text-capitalize mr-2 mt-2 mb-0">Update<input type="submit" for="{{id}}-color-code" hidden=""></label>
+				<label class="btn btn-secondary text-capitalize mr-2 mt-2 mb-0">Update<input type="submit" for="{{id}}-color-code" hidden></label>
 			</form>
 		</div>
 	</div>
