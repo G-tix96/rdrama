@@ -57,7 +57,7 @@
 								</div>
 							<form class="d-flex mt-3 mb-2" id="upload-custom-background" action="/settings/custom_background" method="post" enctype="multipart/form-data"> 
 								<input type="hidden" name="formkey" value="{{v|formkey}}">
-								<label class="format btn btn-primary" for="upload-custom-background-file">
+								<label class="btn btn-primary" for="upload-custom-background-file">
 									<i class="fas fa-image mr-1"></i> 
 									{% if v.background and v.background.startswith('/images/') %}
 										{{v.background}}
@@ -189,7 +189,7 @@
 								<p>You can use an MP3 file or a YouTube video.</p>
 								<form action="/settings/song_change_mp3" method="post" enctype="multipart/form-data">
 									<input type="hidden" name="formkey" value="{{v|formkey}}">
-									<label class="btn btn-secondary format d-inline-block m-0 mb-3">
+									<label class="btn btn-secondary d-inline-block m-0 mb-3">
 										<div id="filename-show2"><i class="fas fa-file"></i>
 											{% if v.song and v.song|length in (1,2,3,4,5,17) %}
 												{{v.song}}.mp3
