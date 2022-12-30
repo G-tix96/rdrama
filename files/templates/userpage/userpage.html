@@ -4,9 +4,7 @@
 {% block head_final %}
 	{% if u and u.profile_background %}
 		{% set displaying_bg = True %}
-		{% if not HOLIDAY_EVENT %}
-			<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
-		{% endif %}
+		<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
 	{% endif %}
 	{% if u and (u.profilecss or u.profile_background) and not request.values.get('nocss') %}
 		<link rel="stylesheet" href="/{{u.id}}/profilecss">

@@ -155,9 +155,7 @@
 
 		{% if background %}
 			{% set displaying_bg = True %}
-			{% if not HOLIDAY_EVENT %}
-				<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
-			{% endif %}
+			<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
 		{% endif %}
 	{% endif %}
 {% endmacro %}
