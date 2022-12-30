@@ -97,7 +97,7 @@
 								</div>
 								<div class="col text-right">
 										{% if error %}<span class="text-danger text-large mr-2">{{error | safe}}</span>{% endif %}
-										<button type="submit" class="btn btn-primary" id="create_button" type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)">Post</button>
+										<button type="submit" class="btn btn-primary" id="create_button" type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this);remove_dialog()">Post</button>
 								</div>
 						</div>
 				</div>
