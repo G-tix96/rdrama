@@ -121,14 +121,14 @@
 				<div class="text-small font-weight-bold mt-1" id="charcount-{{target_fullname}}" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
 				<div class="comment-format">
-					<label class="btn btn-secondary format d-inline-block m-0" for="gif-reply-btn-{{target_fullname}}">
+					<button type="button" class="btn btn-secondary format d-inline-block m-0" for="gif-reply-btn-{{target_fullname}}">
 						<span id="gif-reply-btn-{{target_fullname}}" class="font-weight-bolder text-uppercase" onclick="getGifs('reply-form-body-{{target_fullname}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span>
-					</label> 
+					</button> 
 					&nbsp;
-					<div onclick="loadEmojis('reply-form-body-{{target_fullname}}')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn-{{target_fullname}}" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></div>	
+					<button role="button" onclick="loadEmojis('reply-form-body-{{target_fullname}}')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn-{{target_fullname}}" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>	
 					&nbsp;
 					{% if allow_file_upload %}
-						<label class="format btn btn-secondary m-0 ml-1 {% if v %}d-inline-block{% else %}d-none{% endif %}" for="file-upload-reply-{{target_fullname}}">
+						<label class="format btn btn-secondary m-0 {% if v %}d-inline-block{% else %}d-none{% endif %}" for="file-upload-reply-{{target_fullname}}">
 							<div id="filename-show-reply-{{target_fullname}}"><i class="fas fa-file"></i></div>
 							<input autocomplete="off" id="file-upload-reply-{{target_fullname}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if g.is_tor %}disabled{% endif %} onchange="changename('filename-show-reply-{{target_fullname}}','file-upload-reply-{{target_fullname}}')" hidden>
 						</label>
