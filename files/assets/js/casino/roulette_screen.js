@@ -54,19 +54,19 @@ function buildRouletteTable() {
 	html += `
 		<div class="roulette-table-row">
 			<div style="flex: 1"></div>
-			<div id="LINE_BET#1" onclick="placeChip('LINE_BET', '1')" class="roulette-table-1to1">Line 1</div>
-			<div id="LINE_BET#2" onclick="placeChip('LINE_BET', '2')" class="roulette-table-1to1">Line 2</div>
-			<div id="LINE_BET#3" onclick="placeChip('LINE_BET', '3')" class="roulette-table-1to1">Line 3</div>
-			<div id="LINE_BET#4" onclick="placeChip('LINE_BET', '4')" class="roulette-table-1to1">Line 4</div>
-			<div id="LINE_BET#5" onclick="placeChip('LINE_BET', '5')" class="roulette-table-1to1">Line 5</div>
-			<div id="LINE_BET#6" onclick="placeChip('LINE_BET', '6')" class="roulette-table-1to1">Line 6</div>
+			<div id="LINE_BET#1" data-nonce="${nonce}" data-onclick="placeChip('LINE_BET', '1')" class="roulette-table-1to1">Line 1</div>
+			<div id="LINE_BET#2" data-nonce="${nonce}" data-onclick="placeChip('LINE_BET', '2')" class="roulette-table-1to1">Line 2</div>
+			<div id="LINE_BET#3" data-nonce="${nonce}" data-onclick="placeChip('LINE_BET', '3')" class="roulette-table-1to1">Line 3</div>
+			<div id="LINE_BET#4" data-nonce="${nonce}" data-onclick="placeChip('LINE_BET', '4')" class="roulette-table-1to1">Line 4</div>
+			<div id="LINE_BET#5" data-nonce="${nonce}" data-onclick="placeChip('LINE_BET', '5')" class="roulette-table-1to1">Line 5</div>
+			<div id="LINE_BET#6" data-nonce="${nonce}" data-onclick="placeChip('LINE_BET', '6')" class="roulette-table-1to1">Line 6</div>
 			<div style="flex: 1"></div>
 		</div>
 	`;
 
 	// First Column
 	html += "<div class=\"roulette-table-row\">";
-	html += `<div id="STRAIGHT_UP_BET#37" onclick="placeChip('STRAIGHT_UP_BET', '37')" class="roulette-table-number roulette-table-number__green">00</div>`
+	html += `<div id="STRAIGHT_UP_BET#37" data-nonce="${nonce}" data-onclick="placeChip('STRAIGHT_UP_BET', '37')" class="roulette-table-number roulette-table-number__green">00</div>`
 	for (let i = 1; i < 13; i++) {
 		const correctNumber = CELL_TO_NUMBER_LOOKUP[i];
 		const isRed = reds.includes(correctNumber);
@@ -79,7 +79,7 @@ function buildRouletteTable() {
 		</div>
 		`;
 	}
-	html += `<div id="COLUMN_BET#3" class="roulette-table-column" onclick="placeChip('COLUMN_BET', '3')">Col 3</div>`;
+	html += `<div id="COLUMN_BET#3" class="roulette-table-column" data-nonce="${nonce}" data-onclick="placeChip('COLUMN_BET', '3')">Col 3</div>`;
 	html += "</div>";
 
 	// Second Column
@@ -97,12 +97,12 @@ function buildRouletteTable() {
 		</div>
 		`;
 	}
-	html += `<div id="COLUMN_BET#2" class="roulette-table-column" onclick="placeChip('COLUMN_BET', '2')">Col 2</div>`;
+	html += `<div id="COLUMN_BET#2" class="roulette-table-column" data-nonce="${nonce}" data-onclick="placeChip('COLUMN_BET', '2')">Col 2</div>`;
 	html += "</div>";
 
 	// Third Column
 	html += "<div class=\"roulette-table-row\">";
-	html += `<div id="STRAIGHT_UP_BET#0" onclick="placeChip('STRAIGHT_UP_BET', '0')" class="roulette-table-number roulette-table-number__green">0</div>`
+	html += `<div id="STRAIGHT_UP_BET#0" data-nonce="${nonce}" data-onclick="placeChip('STRAIGHT_UP_BET', '0')" class="roulette-table-number roulette-table-number__green">0</div>`
 	for (let i = 25; i < 37; i++) {
 		const correctNumber = CELL_TO_NUMBER_LOOKUP[i];
 		const isRed = reds.includes(correctNumber);
@@ -115,26 +115,26 @@ function buildRouletteTable() {
 		</div>
 		`;
 	}
-	html += `<div id="COLUMN_BET#1" class="roulette-table-column" onclick="placeChip('COLUMN_BET', '1')">Col 1</div>`;
+	html += `<div id="COLUMN_BET#1" class="roulette-table-column" data-nonce="${nonce}" data-onclick="placeChip('COLUMN_BET', '1')">Col 1</div>`;
 	html += "</div>";
 
 	// Line Bets and 1:1 Bets
 	html += `
 		<div class="roulette-table-row">
 			<div style="flex: 1"></div>
-			<div id="DOZEN_BET#1" class="roulette-table-line" onclick="placeChip('DOZEN_BET', '1')">1st12</div>
-			<div id="DOZEN_BET#2" class="roulette-table-line" onclick="placeChip('DOZEN_BET', '2')">2nd12</div>
-			<div id="DOZEN_BET#3" class="roulette-table-line" onclick="placeChip('DOZEN_BET', '3')">3rd12</div>
+			<div id="DOZEN_BET#1" class="roulette-table-line" data-nonce="${nonce}" data-onclick="placeChip('DOZEN_BET', '1')">1st12</div>
+			<div id="DOZEN_BET#2" class="roulette-table-line" data-nonce="${nonce}" data-onclick="placeChip('DOZEN_BET', '2')">2nd12</div>
+			<div id="DOZEN_BET#3" class="roulette-table-line" data-nonce="${nonce}" data-onclick="placeChip('DOZEN_BET', '3')">3rd12</div>
 			<div style="flex: 1"></div>
 			</div>
 			<div class="roulette-table-row">
 				<div style="flex: 1"></div>
-				<div id="HIGH_LOW_BET#LOW" class="roulette-table-1to1" onclick="placeChip('HIGH_LOW_BET', 'LOW')">1:18</div>
-				<div id="EVEN_ODD_BET#EVEN" class="roulette-table-1to1" onclick="placeChip('EVEN_ODD_BET', 'EVEN')">EVEN</div>
-				<div id="RED_BLACK_BET#RED" class="roulette-table-1to1" onclick="placeChip('RED_BLACK_BET', 'RED')" style="background-color: red">RED</div>
-				<div id="RED_BLACK_BET#BLACK" class="roulette-table-1to1" onclick="placeChip('RED_BLACK_BET', 'BLACK')" style="background-color: black">BLACK</div>
-				<div id="EVEN_ODD_BET#ODD" class="roulette-table-1to1" onclick="placeChip('EVEN_ODD_BET', 'ODD')">ODD</div>
-				<div id="HIGH_LOW_BET#HIGH" class="roulette-table-1to1" onclick="placeChip('HIGH_LOW_BET', 'HIGH')">19:36</div>
+				<div id="HIGH_LOW_BET#LOW" class="roulette-table-1to1" data-nonce="${nonce}" data-onclick="placeChip('HIGH_LOW_BET', 'LOW')">1:18</div>
+				<div id="EVEN_ODD_BET#EVEN" class="roulette-table-1to1" data-nonce="${nonce}" data-onclick="placeChip('EVEN_ODD_BET', 'EVEN')">EVEN</div>
+				<div id="RED_BLACK_BET#RED" class="roulette-table-1to1" data-nonce="${nonce}" data-onclick="placeChip('RED_BLACK_BET', 'RED')" style="background-color: red">RED</div>
+				<div id="RED_BLACK_BET#BLACK" class="roulette-table-1to1" data-nonce="${nonce}" data-onclick="placeChip('RED_BLACK_BET', 'BLACK')" style="background-color: black">BLACK</div>
+				<div id="EVEN_ODD_BET#ODD" class="roulette-table-1to1" data-nonce="${nonce}" data-onclick="placeChip('EVEN_ODD_BET', 'ODD')">ODD</div>
+				<div id="HIGH_LOW_BET#HIGH" class="roulette-table-1to1" data-nonce="${nonce}" data-onclick="placeChip('HIGH_LOW_BET', 'HIGH')">19:36</div>
 				<div style="flex: 1"></div>
 		</div>
 	`;

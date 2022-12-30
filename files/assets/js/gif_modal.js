@@ -133,9 +133,9 @@ async function searchGifs(searchTerm) {
 
 	container.innerHTML = '';
 
-	backBtn.innerHTML = '<button class="btn btn-link pl-0 pr-3" id="gifs-back-btn" onclick="getGifs()"><i class="fas fa-long-arrow-left text-muted ml-3"></i></button>';
+	backBtn.innerHTML = `<button class="btn btn-link pl-0 pr-3" id="gifs-back-btn" data-nonce="${nonce}" data-onclick="getGifs()"><i class="fas fa-long-arrow-left text-muted ml-3"></i></button>`;
 
-	cancelBtn.innerHTML = '<button class="btn btn-link pl-3 pr-0" id="gifs-cancel-btn" onclick="getGifs()"><i class="fas fa-times text-muted"></i></button>';
+	cancelBtn.innerHTML = `<button class="btn btn-link pl-3 pr-0" id="gifs-cancel-btn" data-nonce="${nonce}" data-onclick="getGifs()"><i class="fas fa-times text-muted"></i></button>`;
 
 	let response = await fetch("/giphy?searchTerm=" + searchTerm + "&limit=48");
 	let data = await response.json()
