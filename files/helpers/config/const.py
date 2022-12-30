@@ -6,7 +6,7 @@ import datetime
 
 t = datetime.datetime.now()
 fistmas_begin = datetime.datetime.strptime(f'1/12/{t.year}', '%d/%m/%Y')
-fistmas_end = datetime.datetime.strptime(f'1/1/{t.year+1}', '%d/%m/%Y')
+fistmas_end = datetime.datetime.strptime(f'30/12/{t.year}', '%d/%m/%Y')
 HOLIDAY_EVENT = fistmas_begin < t < fistmas_end
 
 DEFAULT_TIME_FILTER = "all"
