@@ -351,7 +351,7 @@ class Comment(Base):
 		body = f"<span id='wordle-{self.id}' class='ml-2'><small>{wordle_guesses}</small>"
 
 		if wordle_status == 'active' and v and v.id == self.author_id:
-			body += f'''<input autocomplete="off" id="guess_box" type="text" name="guess" class="form-control" maxsize="4" style="width: 200px;display: initial"placeholder="5-letter guess"></input><button class="action-{self.id} btn btn-success small" style="text-transform: uppercase; padding: 2px"onclick="handle_action('wordle','{self.id}',document.getElementById('guess_box').value)">Guess</button>'''
+			body += f'''<input autocomplete="off" id="guess_box" type="text" name="guess" class="form-control" maxsize="4" style="width: 200px;display: initial"placeholder="5-letter guess"><button class="action-{self.id} btn btn-success small" style="text-transform: uppercase; padding: 2px"onclick="handle_action('wordle','{self.id}',document.getElementById('guess_box').value)">Guess</button>'''
 		elif wordle_status == 'won':
 			body += "<strong class='ml-2'>Correct!</strong>"
 		elif wordle_status == 'lost':
