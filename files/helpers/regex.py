@@ -36,7 +36,7 @@ title_regex = re.compile("[^\w ]", flags=re.A)
 
 controversial_regex = re.compile('["> ](https:\/\/old\.reddit\.com/r/[a-zA-Z0-9_]{3,20}\/comments\/[\w\-.#&/=\?@%+]{5,250})["< ]', flags=re.A)
 
-fishylinks_regex = re.compile("https?://\S+", flags=re.A)
+fishylinks_regex = re.compile("(https?:\/\/)?[\w\-.#&/=\?@%;+,:]{2,10}\.[\w\-.#&/=\?@%;+,:]{2,250}", flags=re.A)
 
 spoiler_regex = re.compile('\|\|(.+?)\|\|(?![^<]*<\/(code|pre|a)>)', flags=re.A)
 reddit_regex = re.compile('(^|\s|<p>)\/?((r|u)\/(\w|-){3,25})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
