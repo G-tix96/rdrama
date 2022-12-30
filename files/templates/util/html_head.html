@@ -9,6 +9,7 @@
 {% macro javascript() %}
 	<script defer src="{{'js/vendor/bootstrap.js' | asset}}"></script>
 	<script defer src="{{'js/core.js' | asset}}"></script>
+	<input hidden id="gbrowser">{{g.browser}}</input>
 {% endmacro %}
 
 {% macro page_meta(title=none) %}
