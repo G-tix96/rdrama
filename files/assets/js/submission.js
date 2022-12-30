@@ -4,8 +4,9 @@ function highlight_unread(localstoragevar) {
 	lastCount = comments[pid]
 	if (lastCount)
 	{
-		const comms = document.getElementById("comms").value
-		for (const c of comms) {
+		const comms = document.getElementById("comms").value.slice(0, -1).split(',')
+		for (let c of comms) {
+			c = c.split(':')
 			if (c[1]*1000 > lastCount.t) {
 				try {document.getElementById(`comment-${c[0]}-only`).classList.add('unread')}
 				catch(e) {}

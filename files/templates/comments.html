@@ -764,15 +764,7 @@
 
 {% if p %}
 	{% set pid = p.id %}
-	<div class="d-none">
-		{% set comms = [] %}
-		{% for c in p.comments %}
-			{% if not (v and v.id==c.author_id) and not c.voted %}
-				{{comms.append([c.id, c.created_utc])}}
-			{% endif %}
-		{% endfor %}
-		<input hidden id="comms" value="{{comms}}">
-	</div>
+	<input hidden id="comms" value="{% for c in p.comments %}{{c.id}}:{{c.created_utc}},{% endfor %}">
 {% endif %}
 
 {% if offset %}
