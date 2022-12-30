@@ -10,6 +10,22 @@ from files.helpers.sorting_and_time import *
 from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter
 
+def git_head():
+	short_len = 12
+	# Note: doing zero sanitization. Git branch names are extremely permissive.
+	# However, they forbid '..', so I don't see an obvious dir traversal attack.
+	# Also, a malicious branch name would mean someone already owned the server
+	# or repo, so I think this isn't a weak link.
+	try:
+		with open('.git/HEAD', encoding='utf_8') as head_f:
+			head_txt = head_f.read()
+			head_path = git_regex.match(head_txt).group(1)
+			with open('.git/' + head_path, encoding='utf_8') as ref_f:
+				gitref = ref_f.read()[0:short_len]
+	except:
+		return '<unable to read>', ''
+	return (gitref, head_txt)
+
 @app.get("/")
 @app.get("/h/<sub>")
 @app.get("/s/<sub>")
@@ -70,7 +86,7 @@ def front_all(v, sub=None, subdomain=None):
 		award_timers(v)
 
 	if v and v.client: return {"data": [x.json(g.db) for x in posts], "next_exists": next_exists}
-	return render_template("home.html", v=v, listing=posts, next_exists=next_exists, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, holes=holes)
+	return render_template("home.html", v=v, listing=posts, next_exists=next_exists, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, holes=holes, gitref=git_head())
 
 
 @cache.memoize(timeout=86400)

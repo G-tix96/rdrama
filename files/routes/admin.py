@@ -455,27 +455,8 @@ def admin_home(v):
 	if v.admin_level >= PERMS['SITE_SETTINGS_UNDER_ATTACK']:
 		under_attack = (get_security_level() or 'high') == 'under_attack'
 
-	gitref = admin_git_head()
-	
 	return render_template("admin/admin_home.html", v=v, 
-		under_attack=under_attack, 
-		gitref=gitref)
-
-def admin_git_head():
-	short_len = 12
-	# Note: doing zero sanitization. Git branch names are extremely permissive.
-	# However, they forbid '..', so I don't see an obvious dir traversal attack.
-	# Also, a malicious branch name would mean someone already owned the server
-	# or repo, so I think this isn't a weak link.
-	try:
-		with open('.git/HEAD', encoding='utf_8') as head_f:
-			head_txt = head_f.read()
-			head_path = git_regex.match(head_txt).group(1)
-			with open('.git/' + head_path, encoding='utf_8') as ref_f:
-				gitref = ref_f.read()[0:short_len]
-	except:
-		return '<unable to read>', ''
-	return (gitref, head_txt)
+		under_attack=under_attack)
 
 @app.post("/admin/site_settings/<setting>")
 @admin_level_required(PERMS['SITE_SETTINGS'])
