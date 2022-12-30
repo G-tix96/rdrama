@@ -117,9 +117,7 @@ export function UserInput({ large = false, onFocus, onBlur }: Props) {
       <textarea
         ref={builtChatInput}
         id="builtChatInput"
-        className={cx("UserInput-input form-control", {
-          "UserInput-input__large": large
-        })}
+        className={cx("UserInput-input form-control")}
         minLength={1}
         maxLength={1000}
         rows={1}

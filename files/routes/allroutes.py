@@ -91,8 +91,6 @@ CSP = {
 }
 
 if IS_LOCALHOST:
-	CSP["style-src-elem"] += " rdrama.net"
-	CSP["script-src-elem"] += " rdrama.net"
 	CSP["media-src"] += " http:"
 	CSP["img-src"] += " http:"
 

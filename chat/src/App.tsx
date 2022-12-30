@@ -1,5 +1,3 @@
-(window as any).global = window; 
-
 import cx from "classnames";
 import throttle from "lodash.throttle";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -106,9 +104,7 @@ function AppInner() {
         </div>
         <div className="App-center">
           <div
-            className={cx("App-content", {
-              "App-content__reduced": quote || focused,
-            })}
+            className={cx("App-content")}
             ref={contentWrapper}
           >
             {open ? (
