@@ -102,7 +102,7 @@
 								<div class="input-group mb2">
 									<select {% if v.coins < cost and v.marseybux < cost or v.bite %}disabled{% endif %} autocomplete="off" id='house' class="form-control setting_reload" form="profile-settings" name="house" data-nonce="{{g.nonce}}">
 										{% for entry in HOUSES %}
-											<option value="{{entry}}" {% if v.house == entry %} selected {% endif %}>
+											<option value="{{entry}}" {% if v.house.startswith(entry) %} selected {% endif %}>
 												{{entry}}
 											</option>
 										{% endfor %}
