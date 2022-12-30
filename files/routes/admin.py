@@ -1003,10 +1003,9 @@ def ban_user(user_id, v):
 	if not reason:
 		abort(400, "You need to submit a reason for banning!")
 
-	if reason.startswith("/") and '\\' not in reason: 
-		reason = f'<a href="{reason.split()[0]}">{reason}</a>'
-
 	reason = filter_emojis_only(reason)
+
+	reason = reason_regex.sub(r'<a href="\1">\1</a>', reason)
 
 	user.ban(admin=v, reason=reason, days=days)
 
@@ -1071,10 +1070,10 @@ def agendaposter(user_id, v):
 		pass
 
 	reason = request.values.get("reason", "").strip()
-	if reason and reason.startswith("/") and '\\' not in reason:
-		reason = f'<a href="{reason.split()[0]}">{reason}</a>'
 
 	reason = filter_emojis_only(reason)
+
+	reason = reason_regex.sub(r'<a href="\1">\1</a>', reason)
 
 	duration = "permanently"
 	if days:

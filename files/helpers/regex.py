@@ -186,3 +186,5 @@ def command_regex_matcher(match, upper=False):
 		color = tuple(choices(range(256), k=3))
 		result = f'<b style="color:rgb{color}">Your roll: {result}</b>'
 	return match.group(1) + result
+
+reason_regex = re.compile('(/(post|comment)/[0-9]+)', flags=re.A)
