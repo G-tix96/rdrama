@@ -216,8 +216,8 @@ function postComment(fullname, hide){
 	catch(e) {}
 
 	const xhr = new XMLHttpRequest();
-	url = '/comments/';
-	xhr.open("post", url);
+	url = '/comment';
+	xhr.open("POST", url);
 	xhr.setRequestHeader('xhr', 'xhr');
 	xhr.onload=function(){
 		let data

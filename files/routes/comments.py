@@ -81,7 +81,6 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 		else: template = "submission.html"
 		return render_template(template, v=v, p=post, sort=sort, comment_info=comment_info, render_replies=True, sub=post.subr)
 
-@app.post("/comments/")
 @app.post("/comment")
 @limiter.limit("1/second;20/minute;200/hour;1000/day")
 @auth_required
