@@ -1,4 +1,4 @@
-history.pushState(null, null, '{{p.permalink}}');
+history.pushState(null, null, `/post/${pid}`);
 localStorage.setItem("post-title", "")
 localStorage.setItem("post-text", "")
 localStorage.setItem("post-url", "")
