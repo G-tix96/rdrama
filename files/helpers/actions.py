@@ -187,12 +187,11 @@ def execute_snappy(post:Submission, v:User):
 			text = f"@Snappy has banned you for **{days}** days for the following reason:\n\n> {reason}"
 			send_repeatable_notification(v.id, text)
 			duration = f"for {days} days"
-			note = f'duration: {duration}, reason: "{reason}"'
 			ma=ModAction(
 				kind="ban_user",
 				user_id=snappy.id,
 				target_user_id=v.id,
-				_note=note
+				_note=f'duration: {duration}, reason: "{reason}"'
 				)
 			g.db.add(ma)
 			post.bannedfor = f'{duration} by @Snappy'
@@ -489,12 +488,11 @@ def execute_lawlz_actions(v:User, p:Submission):
 	p.stickied = "AutoJanny"
 	p.distinguish_level = 6
 	p.flair = filter_emojis_only(":ben10: Required Reading")
-	pin_time = 'for 1 day'
 	ma_1=ModAction(
 		kind="pin_post",
 		user_id=AUTOJANNY_ID,
 		target_submission_id=p.id,
-		_note=pin_time
+		_note='for 1 day'
 	)
 	ma_2=ModAction(
 		kind="distinguish_post",
