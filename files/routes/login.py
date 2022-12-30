@@ -204,16 +204,50 @@ def sign_up_post(v:Optional[User]):
 	form_timestamp = request.values.get("now", '0')
 	form_formkey = request.values.get("formkey", "none")
 
+	username = request.values.get("username")
+	if not username: abort(400)
+	username = username.strip()
+
+	email = request.values.get("email").strip().lower()
+
+	ref_id = 0
+	try:
+		ref_id = int(request.values.get("referred_by", 0))
+	except:
+		pass
+
+	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
+
 	def signup_error(error, clear=False):
-		args = {"error": error}
-		if request.values.get("referred_by"):
-			user = get_account(request.values.get("referred_by"), include_shadowbanned=False)
-			if user: args["ref"] = user.username
-		resp = make_response(redirect(f"/signup?{urlencode(args)}"))
+		if ref_id:
+			ref = ref.replace('\\', '').replace('_', '\_').replace('%', '').strip()
+			ref_user = g.db.query(User).filter(User.username.ilike(ref)).one_or_none()
+		else:
+			ref_user = None
+
+		now = int(time.time())
+		token = secrets.token_hex(16)
+		session["signup_token"] = token
+		formkey_hashstr = str(now) + token + g.agent
+		formkey = hmac.new(key=bytes(SECRET_KEY, "utf-16"),
+						msg=bytes(formkey_hashstr, "utf-16"),
+						digestmod='md5'
+						).hexdigest()
+
 		if clear:
 			session.clear()
 			resp.delete_cookie(app.config["SESSION_COOKIE_NAME"], httponly=True, secure=True, samesite="Lax")
-		return resp
+
+		return render_template("login/sign_up.html",
+							formkey=formkey,
+							now=now,
+							ref_user=ref_user,
+							turnstile=TURNSTILE_SITEKEY,
+							error=error,
+							redirect=redir,
+							username=username,
+							email=email,
+							), 400
 
 	submitted_token = session.get("signup_token", "")
 	if not submitted_token:
@@ -226,15 +260,12 @@ def sign_up_post(v:Optional[User]):
 							).hexdigest()
 
 	now = int(time.time())
-	username = request.values.get("username")
-	if not username: abort(400)
-	username = username.strip()
 
 	if now - int(form_timestamp) < 5:
 		return signup_error("There was a problem. Please try again.")
 
 	if not hmac.compare_digest(correct_formkey, form_formkey):
-		if SITE == 'localhost': return signup_error("There was a problem. Please try again!")
+		if IS_LOCALHOST: return signup_error("There was a problem. Please try again!")
 		return signup_error("There was a problem. Please try again.")
 
 	if not request.values.get(
@@ -246,8 +277,6 @@ def sign_up_post(v:Optional[User]):
 
 	if not valid_password_regex.fullmatch(request.values.get("password")):
 		return signup_error("Password must be between 8 and 100 characters.")
-
-	email = request.values.get("email").strip().lower()
 
 	if email:
 		if not email_regex.fullmatch(email):
@@ -274,12 +303,6 @@ def sign_up_post(v:Optional[User]):
 			return signup_error("Unable to verify captcha [2].")
 
 	session.pop("signup_token")
-
-	ref_id = 0
-	try:
-		ref_id = int(request.values.get("referred_by", 0))
-	except:
-		pass
 
 	users_count = g.db.query(User).count()
 
@@ -334,7 +357,6 @@ def sign_up_post(v:Optional[User]):
 	elif CARP_ID:
 		send_notification(CARP_ID, f"A new user - @{new_user.username} - has signed up!")
 
-	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
 	if redir and is_site_url(redir) and redir not in NO_LOGIN_REDIRECT_URLS:
 		return redirect(redir)
 	return redirect('/')
