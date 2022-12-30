@@ -41,6 +41,6 @@ document.getElementById('username-register').addEventListener('input', function 
 });
 
 
-document.getElementById('email-register').onfocus () => {
-	if (this.hasAttribute('readonly')) {this.removeAttribute('readonly');this.blur();this.focus()}
-}
+document.getElementById('email-register').onfocus = (e) => {
+	if (e.target.hasAttribute('readonly')) {e.target.removeAttribute('readonly');e.target.blur();e.target.focus()}
+};

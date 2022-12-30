@@ -199,25 +199,6 @@ if (nav.length) {
 	}, false);
 }
 
-// Dynamic shadow when the user scrolls
-document.addEventListener('scroll',function (event) {
-	let nav = document.querySelector("nav");
-	let i = (Math.min(20, window.scrollY/4)+1)/21;
-	nav.style.boxShadow="0px 2px "+i*21+"px rgba(15,15,15,"+i*.3+")";
-	if (window.scrollY <= 0)
-	{
-//		nav.classList.remove("shadow");
-		nav.classList.remove("navbar-active");
-		nav.style.boxShadow = "unset";
-	}
-	else
-	{
-//		nav.classList.add("shadow");
-		nav.classList.add("navbar-active");
-	}
-
-}, false);
-
 function formkey() {
 	let formkey = document.getElementById("formkey")
 	if (formkey) return formkey.innerHTML;
