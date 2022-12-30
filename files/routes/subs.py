@@ -226,7 +226,7 @@ def sub_followers(v:User, sub):
 @app.post("/h/<sub>/add_mod")
 @limiter.limit("1/second;30/day")
 @is_not_permabanned
-@limiter.limit("1/second;30/day", key_func=lambda:f'{SITE}-{g.v.id}')
+@ratelimit_user("1/second;30/day")
 def add_mod(v:User, sub):
 	if SITE_NAME == 'WPD': abort(403)
 	sub = get_sub_by_name(sub).name
@@ -383,7 +383,7 @@ def sub_settings(v:User, sub):
 @app.post('/h/<sub>/sidebar')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @is_not_permabanned
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
+@ratelimit_user()
 def post_sub_sidebar(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
@@ -408,7 +408,7 @@ def post_sub_sidebar(v:User, sub):
 @app.post('/h/<sub>/css')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @is_not_permabanned
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
+@ratelimit_user()
 def post_sub_css(v:User, sub):
 	sub = get_sub_by_name(sub)
 	css = request.values.get('css', '').strip()
@@ -448,7 +448,7 @@ def get_sub_css(sub):
 @app.post("/h/<sub>/settings/banners/")
 @limiter.limit("1/second;50/day")
 @is_not_permabanned
-@limiter.limit("1/second;50/day", key_func=lambda:f'{SITE}-{g.v.id}')
+@ratelimit_user("1/second;50/day")
 def upload_sub_banner(v:User, sub:str):
 	if g.is_tor: abort(403, "Image uploads are not allowed through Tor")
 
@@ -478,7 +478,7 @@ def upload_sub_banner(v:User, sub:str):
 @app.delete("/h/<sub>/settings/banners/<int:index>")
 @limiter.limit("1/2 second;30/day")
 @is_not_permabanned
-@limiter.limit("1/2 second;30/day", key_func=lambda:f'{SITE}-{g.v.id}')
+@ratelimit_user("1/2 second;30/day")
 def delete_sub_banner(v:User, sub:str, index:int):
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
@@ -509,7 +509,7 @@ def delete_sub_banner(v:User, sub:str, index:int):
 @app.delete("/h/<sub>/settings/banners/")
 @limiter.limit("1/10 second;30/day")
 @is_not_permabanned
-@limiter.limit("1/10 second;30/day", key_func=lambda:f'{SITE}-{g.v.id}')
+@ratelimit_user("1/10 second;30/day")
 def delete_all_sub_banners(v:User, sub:str):	
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
@@ -535,7 +535,7 @@ def delete_all_sub_banners(v:User, sub:str):
 @app.post("/h/<sub>/sidebar_image")
 @limiter.limit("1/second;10/day")
 @is_not_permabanned
-@limiter.limit("1/second;10/day", key_func=lambda:f'{SITE}-{g.v.id}')
+@ratelimit_user("1/second;10/day")
 def sub_sidebar(v:User, sub):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
 
@@ -566,7 +566,7 @@ def sub_sidebar(v:User, sub):
 @app.post("/h/<sub>/marsey_image")
 @limiter.limit("1/second;10/day")
 @is_not_permabanned
-@limiter.limit("1/second;10/day", key_func=lambda:f'{SITE}-{g.v.id}')
+@ratelimit_user("1/second;10/day")
 def sub_marsey(v:User, sub):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
 

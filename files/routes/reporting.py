@@ -14,7 +14,7 @@ from files.__main__ import app, limiter, cache
 @app.post("/report/post/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
+@ratelimit_user()
 def flag_post(pid, v):
 	post = get_post(pid)
 	reason = request.values.get("reason", "").strip()
@@ -70,7 +70,7 @@ def flag_post(pid, v):
 @app.post("/report/comment/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
+@ratelimit_user()
 def flag_comment(cid, v):
 
 	comment = get_comment(cid)

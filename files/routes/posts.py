@@ -36,7 +36,7 @@ titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWe
 @app.post("/publish/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
+@ratelimit_user()
 def publish(pid, v):
 	post = get_post(pid)
 	if not post.private: return {"message": "Post published!"}
@@ -261,7 +261,7 @@ def more_comments(v, cid):
 @app.post("/edit_post/<int:pid>")
 @limiter.limit("1/second;10/minute;100/hour;200/day")
 @is_not_permabanned
-@limiter.limit("1/second;10/minute;100/hour;200/day", key_func=lambda:f'{SITE}-{g.v.id}')
+@ratelimit_user("1/second;10/minute;100/hour;200/day")
 def edit_post(pid, v):
 	p = get_post(pid)
 	if not v.can_edit(p): abort(403)
@@ -836,7 +836,7 @@ def submit_post(v:User, sub=None):
 @app.post("/delete_post/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
+@ratelimit_user()
 def delete_post_pid(pid, v):
 	post = get_post(pid)
 	if post.author_id != v.id: abort(403)
@@ -863,7 +863,7 @@ def delete_post_pid(pid, v):
 @app.post("/undelete_post/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
+@ratelimit_user()
 def undelete_post_pid(pid, v):
 	post = get_post(pid)
 	if post.author_id != v.id: abort(403)
@@ -953,7 +953,7 @@ def unmark_post_nsfw(pid, v):
 @app.post("/save_post/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
+@ratelimit_user()
 def save_post(pid, v):
 
 	post=get_post(pid)
@@ -969,7 +969,7 @@ def save_post(pid, v):
 @app.post("/unsave_post/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
+@ratelimit_user()
 def unsave_post(pid, v):
 
 	post=get_post(pid)
@@ -1041,7 +1041,7 @@ extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
 @app.get("/submit/title")
 @limiter.limit("3/minute")
 @auth_required
-@limiter.limit("3/minute", key_func=lambda:f'{SITE}-{g.v.id}')
+@ratelimit_user("3/minute")
 def get_post_title(v):
 	POST_TITLE_TIMEOUT = 5
 	url = request.values.get("url")
