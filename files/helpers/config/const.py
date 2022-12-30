@@ -219,6 +219,7 @@ if SITE_NAME == 'rDrama':
 		'tigerdroppings.com',
 		'groups.google.com',
 		'bungie.net',
+		'gamefaqs.gamespot.com',
 
 		#twitter-like
 		'gab.com',
