@@ -28,8 +28,6 @@ document.addEventListener("click", function(e){
 		insertGIF(e.target.src);
 	else if (element.classList.contains('gif-cat-overlay'))
 		searchGifs(e.target.firstElementChild.innerHTML);
-	else if (element.dataset.onclick)
-		execute(element, 'onclick');
 	else if (element.dataset.href)
 		location.href = element.dataset.href;
 
@@ -37,6 +35,11 @@ document.addEventListener("click", function(e){
 		document.getElementById(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr)
 	}
 });
+
+const onclick = document.querySelectorAll('[data-onclick]');
+for (const element of onclick) {
+	element.onclick = ()=>{execute(element, 'onclick')};
+}
 
 const oninput = document.querySelectorAll('[data-oninput]');
 for (const element of oninput) {

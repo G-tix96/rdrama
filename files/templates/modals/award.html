@@ -12,7 +12,7 @@
 			<div id="awardModalBody" class="modal-body mb-3">
 				<div class="awards-wrapper" style="text-align:center">
 					{% for award in v.user_awards %}
-						<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{award.description}}" id="{{award.kind}}" data-nonce="{{g.nonce}}" data-onclick="pick('{{award.kind}}', {{award.price}}*{{v.discount}} <= {{v.marseybux}}, {{award.price}}*{{v.discount}} <= {{v.coins}})">
+						<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{award.description}}" id="{{award.kind}}" data-nonce="{{g.nonce}}" data-onclick="pick('{{award.kind}}', {{(award.price*v.discount)|int}}, {{v.coins}}, {{v.marseybux}})">
 							<i class="{{award.icon}} {{award.color}}"></i>
 							<div class="pt-1 award-name">{{award.title}}</div>
 							<div class="text-muted award-owned"><span id="{{award.kind}}-owned">{{award.owned}}</span> owned</div>

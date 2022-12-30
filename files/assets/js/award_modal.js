@@ -91,15 +91,15 @@ function vote(type, id, dir) {
 	xhr[0].send(xhr[1]);
 }
 
-function pick(kind, canbuy1, canbuy2) {
+function pick(kind, price, coins, marseybux) {
 	const buy1 = document.getElementById('buy1')
-	if (canbuy1 && kind != "grass")
+	if (coins >= price && kind != "grass")
 		buy1.disabled=false;
 	else
 		buy1.disabled=true;
 
 	const buy2 = document.getElementById('buy2')
-	if (canbuy2 && kind != "benefactor")
+	if (marseybux >= price && kind != "benefactor")
 		buy2.disabled=false;
 	else
 		buy2.disabled=true;
