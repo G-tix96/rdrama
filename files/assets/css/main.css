@@ -6217,16 +6217,6 @@ div.markdown {
 	color: #433722;
 }
 
-.live-circle {
-	animation: blinker 4s infinite;
-}
-
-@keyframes blinker {
-	from { color: var(--gray-200) }
-	50% { color:red }
-	to { color: var(--gray-200) }
-}
-
 .distribute {
 	font-size:10px;
 	padding: 2px 0.5rem !important;
