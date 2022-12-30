@@ -5251,7 +5251,7 @@ img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 }
 
 toast {
-	z-index: 7000 !important;
+	z-index: 999999999999999999 !important;
 }
 
 @media (max-width: 464px) {
