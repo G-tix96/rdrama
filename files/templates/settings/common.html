@@ -81,9 +81,9 @@
 			<textarea autocomplete="off" id="{{id}}-text" class="form-control rounded" placeholder="{{placeholder_text}}" rows="3" name="{{form_name}}" form="{{id}}-form" maxlength="{{maxlength}}">{% if contents %}{{contents}}{% endif %}</textarea>
 			{% if show_extras %}
 				<div class="d-flex mt-2">
-					<pre style="padding-top:0.1rem;line-height:1" class="btn btn-secondary format d-inline-block m-0 font-weight-bolder text-uppercase" onclick="getGifs('{{id}}-text')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</pre>
+					<button style="line-height:1" type="button" class="btn btn-secondary format d-inline-block m-0 font-weight-bolder text-uppercase" onclick="getGifs('{{id}}-text')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</button>
 					&nbsp;
-					<pre style="padding-top:0.1rem" class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('{{id}}-text')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></pre>
+					<button type="button" class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('{{id}}-text')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></button>
 					&nbsp;
 					{% if show_file_upload %}
 						<label class="btn btn-secondary format d-inline-block m-0">

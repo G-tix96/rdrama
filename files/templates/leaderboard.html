@@ -1,8 +1,7 @@
 {% extends "settings2.html" %}
 {% block pagetitle %}Leaderboard{% endblock %}
 {% block content %}
-<pre class="d-none d-md-inline-block"></pre>
-<div id="leaderboard-contents" style="text-align: center; margin-bottom: 1.5rem; font-size: 1.2rem;">
+<div class="mt-2" id="leaderboard-contents" style="text-align: center; margin-bottom: 1.5rem; font-size: 1.2rem;">
 	{% for lb in leaderboards %}
 		{% if lb %}
 			<a href="#leaderboard-{{lb.html_id}}">{{lb.header_name}}</a>{% if not loop.last %} &bull;{% endif %}
