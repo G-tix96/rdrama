@@ -4901,7 +4901,6 @@ video {
 	color: var(--primary);
 	display: inline-block;
 	cursor: pointer;
-	height: 100%;
 	width: 10px;
 	content: "\f056";
 	position: static;
@@ -5022,7 +5021,7 @@ code {
 .noshadow {
 	box-shadow: none !important;
 }
-[role="button"], :not(textarea)[onclick], th {
+[role="button"], :not(textarea)[onclick], :not(textarea)[data-onclick], th {
 	cursor: pointer !important;
 }
 

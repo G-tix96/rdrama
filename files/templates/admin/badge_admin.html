@@ -50,7 +50,7 @@
 <label for="input-description">Custom description</label>
 <input autocomplete="off" id="input-description" class="form-control" type="text" name="description" placeholder="Leave blank for badge default">
 {% endif %}
-<input autocomplete="off" class="btn btn-primary mt-3" type="submit" onclick="disable(this)">
+<input autocomplete="off" class="btn btn-primary mt-3" type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)">
 
 </form>
 

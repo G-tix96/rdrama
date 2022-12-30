@@ -38,7 +38,7 @@
 
 							<div class="footer mt-5">
 								<div class="d-flex">
-									<input id="submit-hat" disabled type="submit" onclick="disable(this)" class="btn btn-primary ml-auto" value="Submit Hat">
+									<input id="submit-hat" disabled type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" class="btn btn-primary ml-auto" value="Submit Hat">
 								</div>
 							</div>
 						</form>			
@@ -87,9 +87,9 @@
 							</div>
 						</div>
 						<div class="d-flex my-4 mx-3">
-							<button type="button" class="btn btn-primary ml-auto" onclick="remove_hat(this, '{{hat.name}}')">Remove</button>
+							<button type="button" class="btn btn-primary ml-auto" data-nonce="{{g.nonce}}" data-onclick="remove_hat(this, '{{hat.name}}')">Remove</button>
 							{% if v.admin_level >= PERMS['MODERATE_PENDING_SUBMITTED_HATS'] %}
-								<button type="button" class="btn btn-primary ml-3" onclick="approve_hat(this, '{{hat.name}}')">Approve</button>
+								<button type="button" class="btn btn-primary ml-3" data-nonce="{{g.nonce}}" data-onclick="approve_hat(this, '{{hat.name}}')">Approve</button>
 							{% endif %}
 						</div>
 					</div>

@@ -11,11 +11,11 @@
 	{% if request.path != '/sidebar' %}
 		{% if v and (v.is_banned or v.agendaposter) %}
 			<a href="/i/{{SITE_NAME}}/sidebar2.webp">
-				<img class="mb-4" alt="sidebar image" onclick="expandImage()" loading="lazy" src="/i/{{SITE_NAME}}/sidebar2.webp" width=100%>
+				<img class="mb-4" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="/i/{{SITE_NAME}}/sidebar2.webp" width=100%>
 			</a>
 		{% elif not (sub and sub.name == 'chudrama' and v and not v.can_see_chudrama) %}
 			<a href="{{image}}">
-				<img class="mb-4" alt="sidebar image" onclick="expandImage()" loading="lazy" src="{{image}}" width=100%>
+				<img class="mb-4" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{image}}" width=100%>
 			</a>
 		{% endif %}
 	{% endif %}
@@ -29,7 +29,7 @@
 		<a class="sidebar-link" href="/transfers" data-bs-toggle="tooltip" data-bs-placement="top" title="Transfers"><i class="fas fa-arrow-right-arrow-left"></i></a>
 		<a class="sidebar-link" href="/random_post" data-bs-toggle="tooltip" data-bs-placement="top" title="Random Post"><i class="fas fa-random"></i></a>
 		{% if HOLIDAY_EVENT %}
-			<span class="sidebar-link" onclick="postToastRoastEventDarkmode(this, '/events/fistmas2022/darkmode')" style="display:inline" data-bs-toggle="tooltip" data-bs-placement="top" title="Toggle Dark Mode"><i class="fas fa-moon-over-sun"></i></span>
+			<span class="sidebar-link" data-nonce="{{g.nonce}}" data-onclick="postToastRoastEventDarkmode(this, '/events/fistmas2022/darkmode')" style="display:inline" data-bs-toggle="tooltip" data-bs-placement="top" title="Toggle Dark Mode"><i class="fas fa-moon-over-sun"></i></span>
 		{% endif %}
 	</p>
 

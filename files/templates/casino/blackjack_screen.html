@@ -14,13 +14,13 @@
 <link rel="stylesheet" href="{{('css/casino/blackjack_screen.css') | asset}}">
 
 <div role="group" class="btn-group">
-	<button type="button" id="twentyone-DEAL" class="btn btn-primary twentyone-btn" onclick="deal()">Deal</button>
-	<button type="button" id="twentyone-HIT" class="btn btn-primary twentyone-btn" onclick="hit()" style="display: none;">Hit</button>
-	<button type="button" id="twentyone-STAY" class="btn btn-primary twentyone-btn" onclick="stay()"
+	<button type="button" id="twentyone-DEAL" class="btn btn-primary twentyone-btn" data-nonce="{{g.nonce}}" data-onclick="deal()">Deal</button>
+	<button type="button" id="twentyone-HIT" class="btn btn-primary twentyone-btn" data-nonce="{{g.nonce}}" data-onclick="hit()" style="display: none;">Hit</button>
+	<button type="button" id="twentyone-STAY" class="btn btn-primary twentyone-btn" data-nonce="{{g.nonce}}" data-onclick="stay()"
 		style="display: none;">Stay</button>
-	<button type="button" id="twentyone-DOUBLE_DOWN" class="btn btn-primary twentyone-btn" onclick="doubleDown()"
+	<button type="button" id="twentyone-DOUBLE_DOWN" class="btn btn-primary twentyone-btn" data-nonce="{{g.nonce}}" data-onclick="doubleDown()"
 		style="display: none;">Double Down</button>
-	<button type="button" id="twentyone-BUY_INSURANCE" class="btn btn-primary twentyone-btn" onclick="buyInsurance()"
+	<button type="button" id="twentyone-BUY_INSURANCE" class="btn btn-primary twentyone-btn" data-nonce="{{g.nonce}}" data-onclick="buyInsurance()"
 		style="display: none;">Buy
 		Insurance</button>
 </div>

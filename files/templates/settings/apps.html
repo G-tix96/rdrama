@@ -31,8 +31,8 @@
 		</div>
 		<div class="footer">
 			<div class="d-flex">
-				<button type="button" class="btn btn-secondary ml-auto" onclick="postToastReload(this,'/reroll/{{app.id}}')">Reroll Client ID</button>
-				<input type="submit" onclick="disable(this)" class="btn btn-primary ml-2" value="Save Changes">
+				<button type="button" class="btn btn-secondary ml-auto" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/reroll/{{app.id}}')">Reroll Client ID</button>
+				<input type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" class="btn btn-primary ml-2" value="Save Changes">
 			</div>
 		</div>
 	</div>
@@ -67,7 +67,7 @@
 		</div>
 		<div class="footer">
 			<div class="d-flex">
-				<input type="submit" onclick="disable(this)" class="btn btn-primary ml-auto" value="Save Changes">
+				<input type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" class="btn btn-primary ml-auto" value="Save Changes">
 			</div>
 		</div>
 	</div>
@@ -91,7 +91,7 @@
 		</div>
 		<div class="footer">
 			<div class="d-flex">
-				<button type="button" class="btn btn-primary ml-auto text-white" onclick="postToastReload(this,'/rescind/{{auth.application.id}}')">Revoke</button>
+				<button type="button" class="btn btn-primary ml-auto text-white" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/rescind/{{auth.application.id}}')">Revoke</button>
 			</div>
 		</div>
 	</div>
@@ -118,7 +118,7 @@
 		</div>
 		<div class="footer">
 			<div class="d-flex">
-				<input type="submit" onclick="disable(this)" class="btn btn-primary ml-auto" value="Request API Key">
+				<input type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" class="btn btn-primary ml-auto" value="Request API Key">
 			</div>
 		</div>
 	</div>

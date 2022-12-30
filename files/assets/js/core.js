@@ -334,7 +334,7 @@ function areyousure(t) {
 	else
 		t.innerHTML = t.innerHTML.replace(t.textContent, 'Are you sure?')
 
-	t.setAttribute("onclick", t.dataset.click);
+	t.setAttribute("data-onclick", t.dataset.areyousure);
 
 	if (t.dataset.dismiss)
 		t.setAttribute("data-bs-dismiss", t.dataset.dismiss);
@@ -435,19 +435,6 @@ function sort_table(t) {
 		items[i].ele.parentNode.insertBefore(items[i].ele, items[i + 1].ele);
 	}
 }
-
-
-document.addEventListener("click", function(e){
-	const element = e.target
-	if (element instanceof HTMLImageElement && element.alt.startsWith('![]('))
-		expandImage()
-	else if (element.tagName == "TH")
-		sort_table(element)
-	else if (element.classList.contains('giphy'))
-		insertGIF(e.target.src);
-	else if (element.classList.contains('gif-cat-overlay'))
-		searchGifs(e.target.firstElementChild.innerHTML);
-});
 
 if (window.matchMedia('(display-mode: minimal-ui)')['matches']) {
 	const links = document.querySelectorAll('a[data-target="t"]');

@@ -8,7 +8,7 @@
 
 	{% if request.path != '/sidebar' %}
 		<a href="{{art_image}}">
-			<img class="mb-4" alt="sidebar image" onclick="expandImage()" loading="lazy" src="{{art_image}}" width=100%>
+			<img class="mb-4" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{art_image}}" width=100%>
 		</a>
 	{% endif %}
 
@@ -20,7 +20,7 @@
 		<a class="sidebar-link" href="/transfers" data-bs-toggle="tooltip" data-bs-placement="top" title="Transfers"><i class="fas fa-arrow-right-arrow-left"></i></a>
 		<a class="sidebar-link" href="/random_post" data-bs-toggle="tooltip" data-bs-placement="top" title="Random Post"><i class="fas fa-random"></i></a>
 		{% if HOLIDAY_EVENT %}
-			<span class="sidebar-link" onclick="postToastRoastEventDarkmode(this, '/events/fistmas2022/darkmode')" style="display:inline" data-bs-toggle="tooltip" data-bs-placement="top" title="Toggle Dark Mode"><i class="fas fa-moon-over-sun"></i></span>
+			<span class="sidebar-link" data-nonce="{{g.nonce}}" data-onclick="postToastRoastEventDarkmode(this, '/events/fistmas2022/darkmode')" style="display:inline" data-bs-toggle="tooltip" data-bs-placement="top" title="Toggle Dark Mode"><i class="fas fa-moon-over-sun"></i></span>
 		{% endif %}
 	</p>
 

@@ -50,7 +50,7 @@
 	</div>
 </div>
 
-<button type="button" class="btn btn-primary btn-rainbow ml-3 mt-4" onclick="postToastReload(this,'/clear')">Mark all notifications as read</button>
+<button type="button" class="btn btn-primary btn-rainbow ml-3 mt-4" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/clear')">Mark all notifications as read</button>
 
 <div class="notifs px-3 p-md-0">
 
@@ -87,7 +87,7 @@
 								<span>{{ma.string | safe}}</span>
 							</div>
 							<div class="text-gray-500">
-								<span class="log--item-age" id="{{ma.id}}-age" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('{{ma.id}}-age','{{ma.created_utc}}')">{{ma.age_string}}</span>
+								<span class="log--item-age" id="{{ma.id}}-age" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp('{{ma.id}}-age','{{ma.created_utc}}')">{{ma.age_string}}</span>
 								<a href="{{ma.permalink}}"><i class="far fa-link ml-3 text-muted"></i></a>
 								<button type="button" class="copy-link ml-3" data-clipboard-text="{{ma.permalink}}"><i class="far fa-copy text-muted"></i></button>
 							</div>

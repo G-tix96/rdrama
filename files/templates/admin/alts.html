@@ -10,7 +10,7 @@
 	<form action="/admin/alts" method="get">
 		<label for="link-input">Username</label>
 		<input autocomplete="off" id="link-input" type="text" class="form-control mb-2" name="username" value="{{u.username if u else ''}}" placeholder="Username">
-		<input type="submit" onclick="disable(this)" value="Submit" class="btn btn-primary">
+		<input type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" value="Submit" class="btn btn-primary">
 	</form>
 </section>
 {% if u %}
@@ -40,8 +40,8 @@
 			<td>{{user._alt_created_utc|timestamp}}</td>
 			<td>{{user._is_manual}}</td>
 			<td>
-				<button type="button" id="delink-alt-{{u.id}}-{{user.id}}" class="btn btn-danger" onclick="postToastSwitch(this,'/@{{u.username}}/alts/{{user.id}}/deleted', this.id, 'relink-alt-{{u.id}}-{{user.id}}', 'd-none', null, 'PUT')">Delink</button>
-				<button type="button" id="relink-alt-{{u.id}}-{{user.id}}" class="btn btn-danger" onclick="postToastSwitch(this,'/@{{u.username}}/alts/{{user.id}}/deleted', this.id, 'delink-alt-{{u.id}}-{{user.id}}', 'd-none', null, 'DELETE')">Relink</button>
+				<button type="button" id="delink-alt-{{u.id}}-{{user.id}}" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/@{{u.username}}/alts/{{user.id}}/deleted', 'delink-alt-{{u.id}}-{{user.id}}', 'relink-alt-{{u.id}}-{{user.id}}', 'd-none', null, 'PUT')">Delink</button>
+				<button type="button" id="relink-alt-{{u.id}}-{{user.id}}" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/@{{u.username}}/alts/{{user.id}}/deleted', 'relink-alt-{{u.id}}-{{user.id}}', 'delink-alt-{{u.id}}-{{user.id}}', 'd-none', null, 'DELETE')">Relink</button>
 				<a class="btn btn-secondary" href="/@{{user.username}}/alts">Alts</a>
 				{% if v.admin_level >= PERMS['VIEW_ALT_VOTES'] %}
 					<a class="btn btn-secondary" href="/admin/alt_votes/?u1={{u.username}}&u2={{user.username}}">Alt Votes</a>
@@ -57,11 +57,11 @@
 		Adding linked will link the two alts together manually, while adding delinked will attempt to delink alts whereever possible.<br>
 		You're on your own for reversing any propagation though.
 	</p>
-	<form onsubmit="return false;">
+	<form data-nonce="{{g.nonce}}" data-onsubmit="return false;">
 		<label for="link-input-other">Other Username</label>
 		<input autocomplete="off" id="link-input-other" type="text" class="form-control mb-2" name="other_username" placeholder="Other Username">
-		<button id="add-alt-form-link" class="btn btn-danger mr-3" data-click="submitAddAlt(this)" onclick="areyousure(this)">Add Alt Linked</button>
-		<button id="add-alt-form-delink" class="btn btn-danger" data-click="submitAddAlt(this)" onclick="areyousure(this)">Add Alt Delinked</button>
+		<button id="add-alt-form-link" class="btn btn-danger mr-3" data-areyousure="submitAddAlt(this)" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Add Alt Linked</button>
+		<button id="add-alt-form-delink" class="btn btn-danger" data-areyousure="submitAddAlt(this)" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Add Alt Delinked</button>
 	</form>
 </section>
 {% endif %}

@@ -12,7 +12,7 @@
 			<div id="awardModalBody" class="modal-body mb-3">
 				<div class="awards-wrapper" style="text-align:center">
 					{% for award in v.user_awards %}
-						<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{award.description}}" id="{{award.kind}}" onclick="pick('{{award.kind}}', {{award.price}}*{{v.discount}} <= {{v.marseybux}}, {{award.price}}*{{v.discount}} <= {{v.coins}})">
+						<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{award.description}}" id="{{award.kind}}" data-nonce="{{g.nonce}}" data-onclick="pick('{{award.kind}}', {{award.price}}*{{v.discount}} <= {{v.marseybux}}, {{award.price}}*{{v.discount}} <= {{v.coins}})">
 							<i class="{{award.icon}} {{award.color}}"></i>
 							<div class="pt-1 award-name">{{award.title}}</div>
 							<div class="text-muted award-owned"><span id="{{award.kind}}-owned">{{award.owned}}</span> owned</div>
@@ -23,11 +23,11 @@
 				<input autocomplete="off" id="kind" value="" hidden>
 				<textarea autocomplete="off" id="note" maxlength="200" class="form-control" placeholder="Note to include in award notification..."></textarea>
 
-				<input autocomplete="off" id="giveaward" class="awardbtn btn btn-primary mt-3" style="float:right" type="submit" onclick="giveaward(this)" value="Give Award" data-bs-dismiss="modal" disabled>
+				<input autocomplete="off" id="giveaward" class="awardbtn btn btn-primary mt-3" style="float:right" type="submit" data-nonce="{{g.nonce}}" data-onclick="giveaward(this)" value="Give Award" data-bs-dismiss="modal" disabled>
 
-				<button type="button" id="buy1" class="awardbtn btn btn-primary mt-3 mx-3 {% if not FEATURES['MARSEYBUX'] %}d-none{% endif %}" disabled style="float:right" data-click="buy(true)" onclick="areyousure(this)">Buy with marseybux</button>
+				<button type="button" id="buy1" class="awardbtn btn btn-primary mt-3 mx-3 {% if not FEATURES['MARSEYBUX'] %}d-none{% endif %}" disabled style="float:right" data-areyousure="buy(true)" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Buy with marseybux</button>
 
-				<button type="button" id="buy2" class="awardbtn btn btn-primary mt-3" disabled style="float:right" data-click="buy()" onclick="areyousure(this)">Buy</button>
+				<button type="button" id="buy2" class="awardbtn btn btn-primary mt-3" disabled style="float:right" data-areyousure="buy()" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Buy</button>
 			</div>
 		</div>
 	</div>

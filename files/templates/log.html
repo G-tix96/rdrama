@@ -83,7 +83,7 @@
 								<span>{{ma.string | safe}}</span>
 							</div>
 							<div class="text-gray-500">
-								<span class="log--item-age" id="{{ma.id}}-age" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('{{ma.id}}-age','{{ma.created_utc}}')">{{ma.age_string}}</span>
+								<span class="log--item-age" id="{{ma.id}}-age" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp('{{ma.id}}-age','{{ma.created_utc}}')">{{ma.age_string}}</span>
 								<a href="{{ma.permalink}}"><i class="far fa-link ml-3 text-muted"></i></a>
 								<button type="button" class="copy-link ml-3" data-clipboard-text="{{ma.permalink}}"><i class="far fa-copy text-muted"></i></button>
 							</div>

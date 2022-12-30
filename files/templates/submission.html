@@ -44,9 +44,9 @@
 				<div class="modal-body">
 					<ul class="list-group post-actions">
 						{% if v.id==p.author_id %}
-							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" onclick="togglePostEdit('{{p.id}}')"><i class="far fa-edit text-center text-muted mr-2"></i>Edit</button>
+							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="togglePostEdit('{{p.id}}')"><i class="far fa-edit text-center text-muted mr-2"></i>Edit</button>
 						{% elif p.body %}
-							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" onclick="expandMarkdown('{{p.id}}','p')"><i class="fas text-expand-icon-{{p.id}} fa-expand-alt text-center mr-2"></i><span class="expand-text-p-{{p.id}}">View source</span></button>
+							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{p.id}}','p')"><i class="fas text-expand-icon-{{p.id}} fa-expand-alt text-center mr-2"></i><span class="expand-text-p-{{p.id}}">View source</span></button>
 						{% endif %}
 
 						{% include "post_actions_mobile.html" %}
@@ -88,7 +88,7 @@
 						<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
 						<ul class="mt-1 mb-0" style="padding-left:20px; word-wrap:break-word">
 							{% for f in p.filtered_flags(v) %}
-								<li><a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %} {% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}<button type="button" onclick="postToastSwitch(this,'/del_report/post/{{f.post_id}}/{{f.user_id}}')">[remove]</button>{% endif %}</li>
+								<li><a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %} {% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}<button type="button" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/del_report/post/{{f.post_id}}/{{f.user_id}}')">[remove]</button>{% endif %}</li>
 							{% endfor %}
 						</ul>
 					</div>
@@ -136,7 +136,7 @@
 								<div class="row no-gutters mb-4">
 									<div class="col">
 										<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
-											<img onclick="expandImage()" src="{{p.realurl(v)}}" class="img-fluid" style="max-height:500px" alt="Unable to load image">
+											<img data-nonce="{{g.nonce}}" data-onclick="expandImage()" src="{{p.realurl(v)}}" class="img-fluid" style="max-height:500px" alt="Unable to load image">
 										</a>
 									</div>
 								</div>
@@ -175,23 +175,23 @@
 									<input type="hidden" name="formkey" value="{{v|formkey}}">
 									<input type="hidden" name="current_page" value="{{request.path}}">
 									<textarea id="post-edit-title" autocomplete="off" max-length="500" name="title" class="comment-box form-control rounded" required placeholder="title">{{p.title}}</textarea>
-									<textarea autocomplete="off" name="body" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}20000{% endif %}" data-preview="post-edit-{{p.id}}" oninput="markdown(this);charLimit('post-edit-box-{{p.id}}','charcount-post-edit')" id="post-edit-box-{{p.id}}" form="post-edit-form-{{p.id}}" class="comment-box form-control rounded" placeholder="Add text to your post..." rows="10" data-id="{{p.id}}">{{p.body}}</textarea> 
+									<textarea autocomplete="off" name="body" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}20000{% endif %}" data-preview="post-edit-{{p.id}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('post-edit-box-{{p.id}}','charcount-post-edit')" id="post-edit-box-{{p.id}}" form="post-edit-form-{{p.id}}" class="comment-box form-control rounded" placeholder="Add text to your post..." rows="10" data-id="{{p.id}}">{{p.body}}</textarea> 
 									
 									<div class="text-small font-weight-bold mt-1" id="charcount-post-edit" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
 									<div class="comment-format">
-										<button type="button" class="format btn btn-secondary"><span class="font-weight-bolder text-uppercase" onclick="getGifs('post-edit-box-{{p.id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span></button>
-										<button role="button" onclick="loadEmojis('post-edit-box-{{p.id}}')" class="format btn btn-secondary" role="button" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>	
+										<button type="button" class="format btn btn-secondary"><span class="font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="getGifs('post-edit-box-{{p.id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span></button>
+										<button role="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('post-edit-box-{{p.id}}')" class="format btn btn-secondary" role="button" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>	
 
 										<label class="format btn btn-secondary m-0 {% if v %}d-inline-block{% else %}d-none{% endif %}" for="file-upload-edit-{{p.id}}">
 											<div id="filename-show-edit-{{p.id}}"><i class="fas fa-file"></i></div>
-											<input autocomplete="off" id="file-upload-edit-{{p.id}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if g.is_tor %}disabled{% endif %} onchange="changename('filename-show-edit-{{p.id}}','file-upload-edit-{{p.id}}')" hidden>
+											<input autocomplete="off" id="file-upload-edit-{{p.id}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if g.is_tor %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename-show-edit-{{p.id}}','file-upload-edit-{{p.id}}')" hidden>
 										</label>
 						
 										<small class="format d-none"><i class="fas fa-link"></i></small> 
 								</div>
-								<button type="submit" form="post-edit-form-{{p.id}}" class="btn btn-primary ml-2 fl-r" onclick="disable(this);remove_dialog()">Save Edit</button>
-								<button type="button" onclick="togglePostEdit('{{p.id}}');remove_dialog()" class="btn btn-link text-muted ml-auto fl-r">Cancel</button> 
+								<button type="submit" form="post-edit-form-{{p.id}}" class="btn btn-primary ml-2 fl-r" data-nonce="{{g.nonce}}" data-onclick="disable(this);remove_dialog()">Save Edit</button>
+								<button type="button" data-nonce="{{g.nonce}}" data-onclick="togglePostEdit('{{p.id}}');remove_dialog()" class="btn btn-link text-muted ml-auto fl-r">Cancel</button> 
 							</form>
 							<div id="post-edit-{{p.id}}" class="preview mb-3 mt-5"></div>
 							<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a></div>
@@ -217,11 +217,11 @@
 						</a>
 
 						{% if v and v.can_edit(p) %}
-							<button type="button" class="list-inline-item" onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit"></i>Edit</button>
+							<button type="button" class="list-inline-item" data-nonce="{{g.nonce}}" data-onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit"></i>Edit</button>
 						{% endif %}
 
 						{% if v and v.id != p.author_id and p.body and not v_forbid_deleted %}
-							<button type="button" class="list-inline-item" onclick="expandMarkdown('{{p.id}}','p')"><i class="fas text-expand-icon-{{p.id}} fa-expand-alt"></i><span class="expand-text-p-{{p.id}}">View source</span></button>
+							<button type="button" class="list-inline-item" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{p.id}}','p')"><i class="fas text-expand-icon-{{p.id}} fa-expand-alt"></i><span class="expand-text-p-{{p.id}}">View source</span></button>
 						{% endif %}
 
 						{% include 'post_actions.html' %}
@@ -232,19 +232,19 @@
 					</div>
 					{% if v %}
 					<div id="voting" class="voting d-mob-none mb-auto">
-						<div tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}"></div>
+						<div tabindex="0" role="button" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}"></div>
 
 						<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"style="cursor: default">{{score}}</span>
-						<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></div>
+						<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></div>
 					</div>
 
 					{% else %}
 
 					<div id="voting" class="voting d-mob-none mb-auto">
-						<div tabindex="0" role="button" class="post-{{p.id}}-up arrow-up mx-auto" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';">
+						<div tabindex="0" role="button" class="post-{{p.id}}-up arrow-up mx-auto" data-href="/login?redirect={{request.full_path | urlencode}}">
 						</div>
 						<span class="post-{{p.id}}-score-none score text-muted{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
-						<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down arrow-down mx-auto" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';"></div>
+						<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down arrow-down mx-auto" data-href="/login?redirect={{request.full_path | urlencode}}"></div>
 					</div>
 					{% endif %}
 				</div>
@@ -277,10 +277,10 @@
 				{% endif %}
 				<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
 					{% if v %}
-						<span tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '1')" class="post-mobile-{{p.id}}-up mx-0 pr-1 arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}">
+						<span tabindex="0" role="button" data-nonce="{{g.nonce}}" data-onclick="vote('post-mobile', '{{p.id}}', '1')" class="post-mobile-{{p.id}}-up mx-0 pr-1 arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}">
 						</span>
 					{% else %}
-						<span tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';">
+						<span tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" data-href="/login?redirect={{request.full_path | urlencode}}">
 							<i class="fas fa-arrow-alt-up mx-0"></i>
 						</span>
 					{% endif %}
@@ -288,9 +288,9 @@
 					<span class="post-mobile-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"style="cursor: default">{{score}}</span>
 
 					{% if v %}
-						<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post-mobile', '{{p.id}}', '-1')" class="post-mobile-{{p.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></span>
+						<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" data-nonce="{{g.nonce}}" data-onclick="vote('post-mobile', '{{p.id}}', '-1')" class="post-mobile-{{p.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></span>
 					{% else %}
-						<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" class="arrow-{{p.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';">
+						<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" class="arrow-{{p.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" data-href="/login?redirect={{request.full_path | urlencode}}">
 							<i class="fas fa-arrow-alt-down mx-0"></i>
 						</span>
 					{% endif %}

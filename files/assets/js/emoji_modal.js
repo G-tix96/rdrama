@@ -15,6 +15,7 @@ Copyright (C) 2022 Dr Steven Transmisia, anti-evil engineer,
 */
 
 // Status
+let favs = null;
 let emojiEngineStarted = false;
 
 // DOM stuff
@@ -280,15 +281,21 @@ function switchEmojiTab(e)
 		for(const emojiDOM of Object.values(emojiDOMs))
 			emojiDOM.hidden = true;
 
-		for (const emoji of favs)
-			if(emojiDOMs[emoji] instanceof HTMLElement)
-				emojiDOMs[emoji].hidden = false;
+		if (favs) {
+			for (const emoji of favs)
+				if(emojiDOMs[emoji] instanceof HTMLElement)
+					emojiDOMs[emoji].hidden = false;
+		}
 
 		return;
 	}
 
 	for(const emojiDOM of Object.values(emojiDOMs))
 		emojiDOM.hidden = emojiDOM.dataset.className !== className;
+}
+
+for (const emojitab of document.getElementsByClassName('emojitab')) {
+	emojitab.addEventListener('click', (e)=>{switchEmojiTab(e)})
 }
 
 async function start_search() {

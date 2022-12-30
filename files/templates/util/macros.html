@@ -6,7 +6,7 @@
 
 {%- macro banner(src, href, alt, expand, class) %}
 	<a href="{{href|default(src)}}" rel="nofollow noopener">
-		<img onclick="{{expand|default('expandImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{src|default(live_banner())}}">
+		<img data-nonce="{{g.nonce}}" data-onclick="{{expand|default('expandImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{src|default(live_banner())}}">
 	</a>
 {% endmacro -%}
 
@@ -69,7 +69,7 @@
 	{% if p.is_blocking and not p.ghost %}<i class="fas fa-user-minus text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="You're blocking this user, but you can see this post because you're an admin."></i>{% endif %}
 	{% if p.is_blocked %}<i class="fas fa-user-minus text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="This user is blocking you."></i>{% endif %}
 	{% if p.private %}<span class="badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
-	{% if p.active_flags(v) %}<button type="button" class="btn btn-primary" style="padding:1px 5px; font-size:10px" onclick="document.getElementById('flaggers-{{p.id}}').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{plural(p.active_flags(v))}}</button>{% endif %}
+	{% if p.active_flags(v) %}<button type="button" class="btn btn-primary" style="padding:1px 5px; font-size:10px" data-nonce="{{g.nonce}}" data-toggleelement="flaggers-{{p.id}}" data-toggleattr="d-none">{{p.active_flags(v)}} Report{{plural(p.active_flags(v))}}</button>{% endif %}
 
 	{% if p.ghost %}
 		<span {% if p.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
@@ -84,7 +84,7 @@
 
 		{% if p.author.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if p.author.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if p.author.verifiedcolor %}#{{p.author.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.verified}}"></i>
 		{% endif %}
-		<a class="user-name text-decoration-none" href="{{p.author.url}}" data-pop-info='{{p.author.json_popover(v) | tojson}}' onclick='popclick(event)' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="click" data-content-id="popover" tabindex="0" style="color: #{{p.author.name_color}}; font-weight: bold;">
+		<a class="user-name text-decoration-none" href="{{p.author.url}}" data-pop-info='{{p.author.json_popover(v) | tojson}}' data-nonce="{{g.nonce}}" data-onclick='popclick(event)' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="click" data-content-id="popover" tabindex="0" style="color: #{{p.author.name_color}}; font-weight: bold;">
 			<div class="profile-pic-30-wrapper" style="margin-top:9px">
 				<img loading="lazy" src="{{p.author.profile_url}}" class="profile-pic-30 mr-2">
 				{% if p.author.hat_active(v)[0] -%}
@@ -100,11 +100,11 @@
 			<bdi class="ml-2" style="color: #{{p.author.titlecolor}}">{{p.author.customtitle | safe}}</bdi>
 		{% endif %}
 	{% endif %}
-	<span data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('timestamp-{{p.id}}','{{p.created_utc}}')" id="timestamp-{{p.id}}">&nbsp;{{p.age_string}}</span>
+	<span data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp('timestamp-{{p.id}}','{{p.created_utc}}')" id="timestamp-{{p.id}}">&nbsp;{{p.age_string}}</span>
 	&nbsp;
 	({% if p.is_image %}image post{% elif p.is_video %}video post{% elif p.is_audio %}audio post{% elif p.domain %}<a href="/search/posts/?q=domain%3A{{p.domain}}&sort=new&t=all" class="post-meta-domain" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>{{p.domain|truncate(50, True)}}</a>{% else %}text post{% endif %})
 	{% if p.edited_utc %}
-		<span class="ml-2">Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" id="edited_timestamp-{{p.id}}" onmouseover="timestamp('edited_timestamp-{{p.id}}','{{p.edited_utc}}')">{{p.edited_string}}</span></span>
+		<span class="ml-2">Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" id="edited_timestamp-{{p.id}}" data-nonce="{{g.nonce}}" data-onmouseover="timestamp('edited_timestamp-{{p.id}}','{{p.edited_utc}}')">{{p.edited_string}}</span></span>
 	{% endif %}
 	<span class="ml-2">{{p.views}} thread views</span>
 {% endmacro %}
@@ -116,27 +116,27 @@
 			<form id="reply-to-{{target_fullname}}" action="{{action}}" method="post">
 				<input type="hidden" name="formkey" value="{{v|formkey}}">
 				<input type="hidden" name="parent_fullname" value="{target_fullname}}">
-				<textarea required autocomplete="off" {% if not (p and p.id in ADMIGGER_THREADS) %}{% if v.longpost %}minlength="280"{% elif v.bird %}maxlength="140"{% endif %}{% endif %} minlength="1" maxlength="10000" data-preview="form-preview-{{target_fullname}}" oninput="markdown(this);charLimit('reply-form-body-{{target_fullname}}','charcount-{{target_fullname}}')" id="reply-form-body-{{target_fullname}}" data-fullname="{{target_fullname}}" class="comment-box form-control rounded" name="body" form="reply-to-{{target_fullname}}" placeholder="Add your comment..." rows="3"></textarea>
+				<textarea required autocomplete="off" {% if not (p and p.id in ADMIGGER_THREADS) %}{% if v.longpost %}minlength="280"{% elif v.bird %}maxlength="140"{% endif %}{% endif %} minlength="1" maxlength="10000" data-preview="form-preview-{{target_fullname}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('reply-form-body-{{target_fullname}}','charcount-{{target_fullname}}')" id="reply-form-body-{{target_fullname}}" data-fullname="{{target_fullname}}" class="comment-box form-control rounded" name="body" form="reply-to-{{target_fullname}}" placeholder="Add your comment..." rows="3"></textarea>
 
 				<div class="text-small font-weight-bold mt-1" id="charcount-{{target_fullname}}" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
 				<div class="comment-format">
 					<button type="button" class="btn btn-secondary format d-inline-block m-0" for="gif-reply-btn-{{target_fullname}}">
-						<span id="gif-reply-btn-{{target_fullname}}" class="font-weight-bolder text-uppercase" onclick="getGifs('reply-form-body-{{target_fullname}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span>
+						<span id="gif-reply-btn-{{target_fullname}}" class="font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="getGifs('reply-form-body-{{target_fullname}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span>
 					</button> 
 					&nbsp;
-					<button role="button" onclick="loadEmojis('reply-form-body-{{target_fullname}}')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn-{{target_fullname}}" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>	
+					<button role="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('reply-form-body-{{target_fullname}}')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn-{{target_fullname}}" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>	
 					&nbsp;
 					{% if allow_file_upload %}
 						<label class="format btn btn-secondary m-0 {% if v %}d-inline-block{% else %}d-none{% endif %}" for="file-upload-reply-{{target_fullname}}">
 							<div id="filename-show-reply-{{target_fullname}}"><i class="fas fa-file"></i></div>
-							<input autocomplete="off" id="file-upload-reply-{{target_fullname}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if g.is_tor %}disabled{% endif %} onchange="changename('filename-show-reply-{{target_fullname}}','file-upload-reply-{{target_fullname}}')" hidden>
+							<input autocomplete="off" id="file-upload-reply-{{target_fullname}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if g.is_tor %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename-show-reply-{{target_fullname}}','file-upload-reply-{{target_fullname}}')" hidden>
 						</label>
 					{% endif %}
 				</div>
-				<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="postComment('{{target_fullname}}', '{{hide}}');remove_dialog();">Comment</button>
+				<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" data-nonce="{{g.nonce}}" data-onclick="postComment('{{target_fullname}}', '{{hide}}');remove_dialog();">Comment</button>
 				{% if enable_cancel_button %}
-					<button type="button" onclick="document.getElementById('reply-to-{{target_fullname}}').classList.add('d-none');remove_dialog()" class="btn btn-link text-muted ml-auto fl-r mr-3">Cancel</button> 
+					<button type="button" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" data-toggleelement="reply-to-{{target_fullname}}" data-toggleattr="d-none" class="btn btn-link text-muted ml-auto fl-r mr-3">Cancel</button> 
 				{% endif %}
 			</form>
 			<div id="form-preview-{{target_fullname}}" class="preview mb-3 mt-5"></div>
@@ -144,7 +144,7 @@
 		</div>
 	{% else %}
 		<div class="comment-write mt-4 mb-3 mx-3">
-			<textarea autocomplete="off" maxlength="10000" class="comment-box form-control rounded" name="body" placeholder="Add your comment..." rows="3" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';"></textarea>
+			<textarea autocomplete="off" maxlength="10000" class="comment-box form-control rounded" name="body" placeholder="Add your comment..." rows="3" data-href="/login?redirect={{request.full_path | urlencode}}"></textarea>
 		</div>
 		
 		<div class="card border-0 mt-4">

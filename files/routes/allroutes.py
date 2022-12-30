@@ -56,6 +56,8 @@ def before_request():
 	limiter.check()
 	g.db = db_session()
 
+	g.nonce = secrets.token_urlsafe(31)
+
 
 
 CSP = {
@@ -75,11 +77,12 @@ CSP = {
 	"style-src": "'self' 'unsafe-inline'",
 
 	"script-src-elem": "'self' challenges.cloudflare.com",
-	"script-src-attr": "'unsafe-inline'",
-	"script-src": "'self' 'unsafe-inline' challenges.cloudflare.com",
+	"script-src-attr": "'none'",
+	"script-src": "'self' challenges.cloudflare.com",
 
 	"media-src": "https:",
 	"img-src": "https: data:",
+
 	"frame-src": "challenges.cloudflare.com www.youtube-nocookie.com platform.twitter.com",
 	"connect-src": "'self' tls-use1.fpapi.io api.fpjs.io",
 
@@ -90,6 +93,7 @@ CSP = {
 if IS_LOCALHOST:
 	CSP["style-src-elem"] += " rdrama.net"
 	CSP["script-src-elem"] += " rdrama.net"
+	CSP["media-src"] += " http:"
 	CSP["img-src"] += " http:"
 
 CSP_str = ''

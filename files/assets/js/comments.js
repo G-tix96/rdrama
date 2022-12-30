@@ -17,7 +17,8 @@ function expandMarkdown(id,type) {
 	}
 };
 
-function collapse_comment(id, element) {
+function collapse_comment(id) {
+	const element = document.getElementById(`comment-${id}`)
 	const closed = element.classList.toggle("collapsed")
 	const top = element.getBoundingClientRect().y
 

@@ -83,8 +83,8 @@
 				</div>
 			{% endif %}
 
-			{% if g.browser in ('webview','apple') %}
-				<button type="button" class="mobile-nav-icon d-md-none" onclick="location.reload()"><i class="fas fa-arrow-rotate-right align-middle text-gray-500 black"></i></button>
+			{% if g.browser in ('webview','apple') or True %}
+				<button id="reload_page" type="button" class="mobile-nav-icon d-md-none"><i class="fas fa-arrow-rotate-right align-middle text-gray-500 black"></i></button>
 			{% endif %}
 
 			{% if v %}
@@ -231,7 +231,7 @@
 								<a class="dropdown-item" href="/archives"><i class="fas fa-book fa-fw mr-3"></i>Archives</a>
 							{% endif %}
 							<a class="dropdown-item" href="/contact"><i class="fas fa-file-signature fa-fw mr-3"></i>Contact us</a>
-							<button type="button" class="dropdown-item" onclick="postToastReload(this,'/logout')"><i class="fas fa-sign-out fa-fw mr-3"></i>Log out</button>
+							<button type="button" class="dropdown-item" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/logout')"><i class="fas fa-sign-out fa-fw mr-3"></i>Log out</button>
 						</div>
 					</div>
 				</li>
@@ -256,7 +256,7 @@
 				<form id="searchform" class="form-inline search flex-nowrap mx-0 mx-lg-auto" action="/search/posts" method="get">
 					<input autocomplete="off" class="form-control form-control-sm w-100" type="search" placeholder="{{search_placeholder}}" name="q">
 					<span class="input-group-append">
-						<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem" onclick="document.getElementById('searchform').submit()">
+						<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem" onclick_submit>
 							<i class="fa fa-search"></i>
 						</span>
 					</span>
@@ -297,7 +297,7 @@
 				<a class="nav-item nav-link" href="/contact"><i class="fas fa-file-signature fa-fw mr-3"></i>Contact us</a>
 
 				<li class="nav-item border-top border-bottom mt-2 pt-2">
-					<button type="button" class="nav-link" onclick="postToastReload(this,'/logout')"><i class="fas fa-sign-out fa-fw mr-3 text-danger"></i>Log out</button>
+					<button type="button" class="nav-link" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/logout')"><i class="fas fa-sign-out fa-fw mr-3 text-danger"></i>Log out</button>
 				</li>
 			{% else %}
 				<li class="nav-item d-flex align-items-center justify-content-center pb-3">

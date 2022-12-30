@@ -39,3 +39,8 @@ document.getElementById('username-register').addEventListener('input', function 
 		}
 	}
 });
+
+
+document.getElementById('email-register').onfocus () => {
+	if (this.hasAttribute('readonly')) {this.removeAttribute('readonly');this.blur();this.focus()}
+}

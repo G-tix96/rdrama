@@ -14,9 +14,9 @@
 					<div class="d-md-flex text-center text-md-left">
 						<div id="profile--pfp" {% if u.hat_active(v)[0] %}class="profile--pfp--hat hat"{% endif %}>
 							<a rel="nofollow noopener" href="{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}" class="profile-pic-100-wrapper">
-								<img onclick="expandImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic profile-pic-100 mb-5">
+								<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic profile-pic-100 mb-5">
 								{% if u.hat_active(v)[0] -%}
-									<img onclick="expandImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-100-hat hat" loading="lazy" src="{{u.hat_active(v)[0]}}?h=7" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.hat_active(v)[1]}}">
+									<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-100-hat hat" loading="lazy" src="{{u.hat_active(v)[0]}}?h=7" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.hat_active(v)[1]}}">
 								{%- endif %}
 							</a>
 						</div>
@@ -82,10 +82,10 @@
 						<a class="mr-2" href="/@{{u.username}}/following" id="profile--following">follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a>
 					{%- endif %}
 
-					<span id="profile--joined">joined <span id="profile--joined--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--joined--time','{{u.created_utc}}')">{{u.created_date}}</span></span>
+					<span id="profile--joined">joined <span id="profile--joined--time" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp('profile--joined--time','{{u.created_utc}}')">{{u.created_date}}</span></span>
 
 					{% if v and v.admin_level >= PERMS['VIEW_LAST_ACTIVE'] -%}
-						<span id="profile--lastactive" class="ml-2">last active <span id="profile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile--lastactive--time','{{u.last_active}}')">{{u.last_active_date}}</span></span>
+						<span id="profile--lastactive" class="ml-2">last active <span id="profile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp('profile--lastactive--time','{{u.last_active}}')">{{u.last_active_date}}</span></span>
 					{%- endif %}
 				</div>
 
@@ -135,44 +135,44 @@
 					{% if v and v.id != u.id %}
 						<div id="profile--actionbtns">
 							<div class="actionbtns mb-3">
-								<button type="button" id="button-unsub" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" onclick="postToastSwitch(this,'/unfollow/{{u.username}}','button-unsub','button-sub','d-none')">Unfollow</button>
+								<button type="button" id="button-unsub" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unfollow/{{u.username}}','button-unsub','button-sub','d-none')">Unfollow</button>
 
-								<button type="button" id="button-sub" class="btn btn-primary {% if is_following or u.is_blocked %}d-none{% endif %}" onclick="postToastSwitch(this,'/follow/{{u.username}}','button-unsub','button-sub','d-none')">Follow</button>
-								<button type="button" class="btn btn-primary" onclick="toggleElement('message', 'input-message')">Message</button>
+								<button type="button" id="button-sub" class="btn btn-primary {% if is_following or u.is_blocked %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/follow/{{u.username}}','button-unsub','button-sub','d-none')">Follow</button>
+								<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="toggleElement('message', 'input-message')">Message</button>
 
 								{% if FEATURES['USERS_SUICIDE'] -%}
-									<button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/@{{u.username}}/suicide')">Get Them Help</button>
+									<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/@{{u.username}}/suicide')">Get Them Help</button>
 								{%- endif %}
-								<button type="button" class="btn btn-primary" onclick="toggleElement('coin-transfer', 'coin-transfer-amount')">Gift Coins</button>
+								<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="toggleElement('coin-transfer', 'coin-transfer-amount')">Gift Coins</button>
 								{% if FEATURES['MARSEYBUX'] -%}
-									<button type="button" class="btn btn-primary" onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</button>
+									<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</button>
 								{%- endif %}
 
-								<button type="button" class="btn btn-primary" onclick="postToastReload(this,'/settings/block?username={{u.username}}')">Block</button>
+								<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/settings/block?username={{u.username}}')">Block</button>
 							</div>
 						</div>
-						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" onsubmit="sendMessage(event)">
+						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" data-nonce="{{g.nonce}}" data-onsubmit="sendMessage(event)">
 							<input type="hidden" name="formkey" value="{{v|formkey}}"> 
-							<textarea autocomplete="off" id="input-message" form="message" name="message" rows="3" minlength="1" maxlength="10000" class="form-control b2 mt-1" data-preview="message-preview" oninput="markdown(this)" required></textarea>
-							<button type="button" class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('input-message')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></button>
+							<textarea autocomplete="off" id="input-message" form="message" name="message" rows="3" minlength="1" maxlength="10000" class="form-control b2 mt-1" data-preview="message-preview" data-nonce="{{g.nonce}}" data-oninput="markdown(this)" required></textarea>
+							<button type="button" class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-message')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></button>
 							&nbsp;
-							<input type="submit" onclick="disable(this);remove_dialog()" value="Submit" class="btn btn-primary">
+							<input type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this);remove_dialog()" value="Submit" class="btn btn-primary">
 						</form>
 
 						<div id="message-preview" class="preview mt-2"></div>
 
 						<div class="d-none mt-3 toggleable" id="coin-transfer">
-							<input autocomplete="off" id="coin-transfer-amount" class="form-control" name="amount" type="number" oninput="updateTax()">
+							<input autocomplete="off" id="coin-transfer-amount" class="form-control" name="amount" type="number" data-nonce="{{g.nonce}}" data-oninput="updateTax()">
 							<input autocomplete="off" id="coin-transfer-reason" maxlength=200 type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
 							<div>{{u.username}} will receive <span id="coins-transfer-taxed">0</span> coins</div>
-							<button type="button" class="btn btn-primary mt-2 mb-3" onclick="transferCoins(this)">Gift</button>
+							<button type="button" class="btn btn-primary mt-2 mb-3" data-nonce="{{g.nonce}}" data-onclick="transferCoins(this)">Gift</button>
 						</div>
 
 						<div class="d-none mt-3 toggleable" id="bux-transfer">
-							<input autocomplete="off" id="bux-transfer-amount" class="form-control" name="amount" type="number" oninput="updateBux()">
+							<input autocomplete="off" id="bux-transfer-amount" class="form-control" name="amount" type="number" data-nonce="{{g.nonce}}" data-oninput="updateBux()">
 							<input autocomplete="off" id="bux-transfer-reason" type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
 							<div>{{u.username}} will receive <span id="bux-transfer-taxed">0</span> marseybux</div>
-							<button type="button" class="btn btn-primary mt-2 mb-3" onclick="transferBux(this)">Gift</button>
+							<button type="button" class="btn btn-primary mt-2 mb-3" data-nonce="{{g.nonce}}" data-onclick="transferBux(this)">Gift</button>
 						</div>
 
 						{{userpage_admintools.userAdminTools('desktop')}}
@@ -184,7 +184,7 @@
 						{% endif %}
 							
 						{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-							<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}><i class="fas fa-music mr-1"></i> Toggle Anthem</button>
+							<button type="button" class="btn btn-secondary" data-nonce="{{g.nonce}}" data-onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}><i class="fas fa-music mr-1"></i> Toggle Anthem</button>
 						{% endif %}
 
 						{% if v and v.id == u.id %}
@@ -198,12 +198,12 @@
 										Upload Profile Background
 									{% endif %}
 								</label>
-								<input autocomplete="off" id="upload-profile-background-file" accept="image/*", type="file" name="file" onchange="this.form.submit()" hidden>
+								<input autocomplete="off" id="upload-profile-background-file" accept="image/*", type="file" name="file" onchange_submit hidden>
 							</form>
 
 							{% if v.profile_background -%}
 								<div class="d-flex mb-3">
-									<button type="button" class="btn btn-danger" onclick="postToastReload(this,'/settings/profile_background', 'DELETE')">
+									<button type="button" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/settings/profile_background', 'DELETE')">
 										<i class="fas fa-image-slash mr-1"></i>
 										Remove current background
 									</button>
@@ -242,10 +242,10 @@
 					{% for b in u.badges %}
 						{% if b.url %}
 							<a class="contain" rel="nofollow noopener" href="{{b.url}}">
-								<img alt="{{b.name}}" width=55 height=60 loading="lazy" src="{{b.path}}?b=6" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
+								<img alt="{{b.name}}" width=55 height=60 loading="lazy" src="{{b.path}}?b=6" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" data-nonce="{{g.nonce}}" data-onmouseover="badge_timestamp(this)"{% endif %}>
 							</a>
 						{% else %}
-							<img class="contain" alt="{{b.name}}" width=55 height=60 loading="lazy" src="{{b.path}}?b=6" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
+							<img class="contain" alt="{{b.name}}" width=55 height=60 loading="lazy" src="{{b.path}}?b=6" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" data-nonce="{{g.nonce}}" data-onmouseover="badge_timestamp(this)"{% endif %}>
 						{% endif %}
 					{% endfor %}
 				</div>
@@ -264,7 +264,7 @@
 	<div class="row">
 		<div class="col px-0">
 			<a rel="nofollow noopener" href="{{u.banner_url}}">
-				<img alt="@{{u.username}}'s banner" onclick="expandImage()" loading="lazy" src="{{u.banner_url}}" width=100% style="object-fit:cover;max-height:30vh!important">
+				<img alt="@{{u.username}}'s banner" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{u.banner_url}}" width=100% style="object-fit:cover;max-height:30vh!important">
 			</a>
 		</div>
 	</div>
@@ -272,9 +272,9 @@
 		<div class="col">
 			<div style="margin-top: -34px;" id="profile-mobile--pfp">
 				<a rel="nofollow noopener" href="{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}" class="profile-pic-65-wrapper">
-					<img onclick="expandImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic-65 bg-white mb-2">
+					<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic-65 bg-white mb-2">
 					{% if u.hat_active(v)[0] -%}
-						<img onclick="expandImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-65-hat hat" loading="lazy" src="{{u.hat_active(v)[0]}}?h=7">
+						<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-65-hat hat" loading="lazy" src="{{u.hat_active(v)[0]}}?h=7">
 					{%- endif %}
 				</a>
 			</div>
@@ -338,10 +338,10 @@
 						<a href="/@{{u.username}}/following" class="font-weight-bold mr-2" id="profile-mobile--following" style="display:block">follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a>
 					{%- endif %}
 
-					<br><span id="profile-mobile--joined">joined <span id="profile-mobile--joined--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile-mobile--joined--time','{{u.created_utc}}')" class="font-weight-bold">{{u.created_date}}</span></span>
+					<br><span id="profile-mobile--joined">joined <span id="profile-mobile--joined--time" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp('profile-mobile--joined--time','{{u.created_utc}}')" class="font-weight-bold">{{u.created_date}}</span></span>
 
 					{% if v and v.admin_level >= PERMS['VIEW_LAST_ACTIVE'] -%}
-						<br><span id="profile-mobile--lastactive">last active <span id="profile-mobile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('profile-mobile--lastactive--time','{{u.last_active}}')" class="font-weight-bold">{{u.last_active_date}}</span></span>
+						<br><span id="profile-mobile--lastactive">last active <span id="profile-mobile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp('profile-mobile--lastactive--time','{{u.last_active}}')" class="font-weight-bold">{{u.last_active_date}}</span></span>
 					{%- endif %}
 				</div>
 
@@ -388,10 +388,10 @@
 					{% for b in u.badges %}
 						{% if b.url %}
 							<a rel="nofollow noopener" href="{{b.url}}">
-								<img class="contain" alt="{{b.name}}" width=29.33 height=32 loading="lazy" src="{{b.path}}?b=6" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
+								<img class="contain" alt="{{b.name}}" width=29.33 height=32 loading="lazy" src="{{b.path}}?b=6" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" data-nonce="{{g.nonce}}" data-onmouseover="badge_timestamp(this)"{% endif %}>
 							</a>
 						{% else %}
-							<img class="contain" alt="{{b.name}}" width=29.33 height=32 loading="lazy" src="{{b.path}}?b=6" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" onmouseover="badge_timestamp(this)"{% endif %}>
+							<img class="contain" alt="{{b.name}}" width=29.33 height=32 loading="lazy" src="{{b.path}}?b=6" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" data-nonce="{{g.nonce}}" data-onmouseover="badge_timestamp(this)"{% endif %}>
 						{% endif %}
 					{% endfor %}
 				</div>
@@ -402,7 +402,7 @@
 					{% endif %}
 
 					{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-						<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}><i class="fas fa-music mr-1"></i> Toggle Anthem</button>
+						<button type="button" class="btn btn-secondary" data-nonce="{{g.nonce}}" data-onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}><i class="fas fa-music mr-1"></i> Toggle Anthem</button>
 					{% endif %}
 
 					{% if v and v.id == u.id %}
@@ -417,12 +417,12 @@
 										Upload Profile Background
 									{% endif %}
 								</label>
-								<input autocomplete="off" id="upload-profile-background-file-mobile" accept="image/*", type="file" name="file" onchange="this.form.submit()" hidden>
+								<input autocomplete="off" id="upload-profile-background-file-mobile" accept="image/*", type="file" name="file" onchange_submit hidden>
 							</form>
 
 							{% if v.profile_background -%}
 								<div class="d-block mt-3">
-									<button type="button" class="btn btn-danger" onclick="postToastReload(this,'/settings/profile_background', 'DELETE')">
+									<button type="button" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/settings/profile_background', 'DELETE')">
 										<i class="fas fa-image-slash mr-1"></i>
 										Remove current background
 									</button>
@@ -434,46 +434,46 @@
 					{% endif %}
 
 					{% if v and v.id != u.id %}
-						<button type="button" id="button-unsub2" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" onclick="postToastSwitch(this,'/unfollow/{{u.username}}','button-unsub2','button-sub2','d-none')">Unfollow</button>
+						<button type="button" id="button-unsub2" class="btn btn-secondary {% if not is_following %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unfollow/{{u.username}}','button-unsub2','button-sub2','d-none')">Unfollow</button>
 
-						<button type="button" id="button-sub2" class="btn btn-primary {% if is_following or u.is_blocked %}d-none{% endif %}" onclick="postToastSwitch(this,'/follow/{{u.username}}','button-unsub2','button-sub2','d-none')">Follow</button>
+						<button type="button" id="button-sub2" class="btn btn-primary {% if is_following or u.is_blocked %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/follow/{{u.username}}','button-unsub2','button-sub2','d-none')">Follow</button>
 
-						<button type="button" class="btn btn-primary" onclick="toggleElement('message-mobile', 'input-message-mobile')">Message</button>
+						<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="toggleElement('message-mobile', 'input-message-mobile')">Message</button>
 						{% if FEATURES['USERS_SUICIDE'] -%}
-							<button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/@{{u.username}}/suicide')">Get Them Help</button>
+							<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/@{{u.username}}/suicide')">Get Them Help</button>
 						{%- endif %}
-						<button type="button" class="btn btn-primary" onclick="toggleElement('coin-transfer-mobile', 'coin-transfer-amount-mobile')">Gift Coins</button>
+						<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="toggleElement('coin-transfer-mobile', 'coin-transfer-amount-mobile')">Gift Coins</button>
 						{% if FEATURES['MARSEYBUX'] -%}
-							<button type="button" class="btn btn-primary" onclick="toggleElement('bux-transfer-mobile', 'bux-transfer-amount-mobile')">Gift Marseybux</button>
+							<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="toggleElement('bux-transfer-mobile', 'bux-transfer-amount-mobile')">Gift Marseybux</button>
 						{%- endif %}
 
-						<button type="button" class="btn btn-primary" onclick="postToastReload(this,'/settings/block?username={{u.username}}')">Block</button>
+						<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/settings/block?username={{u.username}}')">Block</button>
 					{% endif %}
 				</div>
 
 				{% if v and v.id != u.id %}
-					<form class="d-none toggleable" id='message-mobile' action="/@{{u.username}}/message" onsubmit="sendMessage(event)">
+					<form class="d-none toggleable" id='message-mobile' action="/@{{u.username}}/message" data-nonce="{{g.nonce}}" data-onsubmit="sendMessage(event)">
 						<input class="mt-1" type="hidden" name="formkey" value="{{v|formkey}}"> 
-						<textarea autocomplete="off" id="input-message-mobile" form="message-mobile" name="message" rows="3" minlength="1" maxlength="10000" class="form-control" data-preview="message-preview-mobile" oninput="markdown(this)" required></textarea>
-						<button type="button" class="mt-1 btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" onclick="loadEmojis('input-message-mobile')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></button>
+						<textarea autocomplete="off" id="input-message-mobile" form="message-mobile" name="message" rows="3" minlength="1" maxlength="10000" class="form-control" data-preview="message-preview-mobile" data-nonce="{{g.nonce}}" data-oninput="markdown(this)" required></textarea>
+						<button type="button" class="mt-1 btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-message-mobile')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></button>
 						&nbsp;
-						<input type="submit" onclick="disable(this);remove_dialog()" value="Submit" class="btn btn-primary">
+						<input type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this);remove_dialog()" value="Submit" class="btn btn-primary">
 					</form>
 
 					<div id="message-preview-mobile" class="preview my-3"></div>
 
 					<div class="d-none mt-3 toggleable" id="coin-transfer-mobile">
-						<input autocomplete="off" id="coin-transfer-amount-mobile" class="form-control" name="amount" type="number" oninput="updateTax(true)">
+						<input autocomplete="off" id="coin-transfer-amount-mobile" class="form-control" name="amount" type="number" data-nonce="{{g.nonce}}" data-oninput="updateTax(true)">
 						<input autocomplete="off" id="coin-transfer-reason-mobile" maxlength=200 type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
 						<div>{{u.username}} will receive <span id="coins-transfer-taxed-mobile">0</span> coins</div>
-						<button type="button" class="btn btn-primary mt-2 mb-3" onclick="transferCoins(this, true)">Gift</button>
+						<button type="button" class="btn btn-primary mt-2 mb-3" data-nonce="{{g.nonce}}" data-onclick="transferCoins(this, true)">Gift</button>
 					</div>
 
 					<div class="d-none mt-3 toggleable" id="bux-transfer-mobile">
-						<input autocomplete="off" id="bux-transfer-amount-mobile" class="form-control" name="amount" type="number" oninput="updateBux(true)">
+						<input autocomplete="off" id="bux-transfer-amount-mobile" class="form-control" name="amount" type="number" data-nonce="{{g.nonce}}" data-oninput="updateBux(true)">
 						<input autocomplete="off" id="bux-transfer-reason-mobile" type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
 						<div>{{u.username}} will receive <span id="bux-transfer-taxed-mobile">0</span> marseybux</div>
-						<button type="button" class="btn btn-primary mt-2 mb-3" onclick="transferBux(this, true)">Gift</button>
+						<button type="button" class="btn btn-primary mt-2 mb-3" data-nonce="{{g.nonce}}" data-onclick="transferBux(this, true)">Gift</button>
 					</div>
 					{{userpage_admintools.userAdminTools('mobile')}}
 				{% endif %}

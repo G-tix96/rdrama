@@ -247,7 +247,7 @@ body {
 	background-color: #235E6F;
   }
   
-  #snow {
+  #snow:not([data-nonce]) {
 	height: 100%;
 	color: #FFF;
 	display: block;
