@@ -43,6 +43,9 @@ else:
 	DEFAULT_COINS = 0
 	DEFAULT_MARSEYBUX = 0
 
+if SITE_NAME == 'rDrama': default_event_music = True
+else: default_event_music = False
+
 class User(Base):
 	__tablename__ = "users"
 
@@ -143,10 +146,7 @@ class User(Base):
 	marsify = Column(Integer, default=0)
 	rainbow = Column(Integer)
 	spider = Column(Integer, default=0)
-	if HOLIDAY_EVENT:
-		if SITE_NAME == 'rDrama': default_event_music = True
-		else: default_event_music = False
-		event_music = Column(Boolean, default=default_event_music, nullable=False)
+	event_music = Column(Boolean, default=default_event_music, nullable=False)
 
 	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
 	subscriptions = relationship("Subscription", back_populates="user")
