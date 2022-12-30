@@ -127,7 +127,7 @@ def buy(v:User, award):
 @app.post("/award/<thing_type>/<int:id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @is_not_permabanned
-@ratelimit_user()
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def award_thing(v, thing_type, id):
 	kind = request.values.get("kind", "").strip()
 

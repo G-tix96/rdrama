@@ -57,7 +57,6 @@ CLOUDFLARE_COOKIE_VALUE = "yes." # remember to change this in CloudFlare too
 
 DEFAULT_RATELIMIT = "3/second;30/minute;200/hour;1000/day"
 DEFAULT_RATELIMIT_SLOWER = "1/second;30/minute;200/hour;1000/day"
-DEFAULT_RATELIMIT_USER = DEFAULT_RATELIMIT_SLOWER
 
 PUSH_NOTIF_LIMIT = 1000
 

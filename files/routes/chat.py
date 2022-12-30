@@ -48,7 +48,7 @@ def chat(v):
 @socketio.on('speak')
 @limiter.limit("3/second;10/minute")
 @admin_level_required(PERMS['CHAT'])
-@ratelimit_user("3/second;10/minute")
+@limiter.limit("3/second;10/minute", key_func=lambda:f'{SITE}-{g.v.id}')
 def speak(data, v):
 	limiter.check()
 	if v.is_banned: return '', 403
