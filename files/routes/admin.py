@@ -864,10 +864,20 @@ def admin_removed_comments(v):
 						next_exists=next_exists
 						)
 
-@app.post("/unagendaposter/<int:user_id>")
+@app.post("/unagendaposter/<id>")
 @admin_level_required(PERMS['USER_AGENDAPOSTER'])
-def unagendaposter(user_id, v):
-	user = get_account(user_id)
+def unagendaposter(id, v):
+
+	if id.startswith('p_'):
+		post_id = id.split('p_')[1]
+		post = g.db.get(Submission, post_id)
+		user = post.author
+	elif id.startswith('c_'):
+		comment_id = id.split('c_')[1]
+		comment = g.db.get(Comment, comment_id)
+		user = comment.author
+	else:
+		user = get_account(id)
 
 	if not user.chudded_by:
 		abort(403, "Jannies can't undo chud awards anymore!")
@@ -983,11 +993,21 @@ def admin_title_change(user_id, v):
 
 	return {"message": f"@{user.username}'s flair has been changed!"}
 
-@app.post("/ban_user/<int:user_id>")
+@app.post("/ban_user/<id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_BAN'])
-def ban_user(user_id, v):
-	user = get_account(user_id)
+def ban_user(id, v):
+
+	if id.startswith('p_'):
+		post_id = id.split('p_')[1]
+		post = g.db.get(Submission, post_id)
+		user = post.author
+	elif id.startswith('c_'):
+		comment_id = id.split('c_')[1]
+		comment = g.db.get(Comment, comment_id)
+		user = comment.author
+	else:
+		user = get_account(id)
 
 	if user.admin_level > v.admin_level:
 		abort(403)
@@ -1055,10 +1075,20 @@ def ban_user(user_id, v):
 	return {"message": f"@{user.username} has been banned {duration}!"}
 
 
-@app.post("/agendaposter/<int:user_id>")
+@app.post("/agendaposter/<id>")
 @admin_level_required(PERMS['USER_AGENDAPOSTER'])
-def agendaposter(user_id, v):
-	user = get_account(user_id)
+def agendaposter(id, v):
+
+	if id.startswith('p_'):
+		post_id = id.split('p_')[1]
+		post = g.db.get(Submission, post_id)
+		user = post.author
+	elif id.startswith('c_'):
+		comment_id = id.split('c_')[1]
+		comment = g.db.get(Comment, comment_id)
+		user = comment.author
+	else:
+		user = get_account(id)
 
 	if user.admin_level > v.admin_level:
 		abort(403)
@@ -1128,11 +1158,22 @@ def agendaposter(user_id, v):
 	return {"message": f"@{user.username} has been chudded {duration}!"}
 
 
-@app.post("/unban_user/<int:user_id>")
+@app.post("/unban_user/<id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_BAN'])
-def unban_user(user_id, v):
-	user = get_account(user_id)
+def unban_user(id, v):
+
+	if id.startswith('p_'):
+		post_id = id.split('p_')[1]
+		post = g.db.get(Submission, post_id)
+		user = post.author
+	elif id.startswith('c_'):
+		comment_id = id.split('c_')[1]
+		comment = g.db.get(Comment, comment_id)
+		user = comment.author
+	else:
+		user = get_account(id)
+
 	if not user.is_banned:
 		abort(400)
 

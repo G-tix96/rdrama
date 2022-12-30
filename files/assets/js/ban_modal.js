@@ -1,11 +1,11 @@
-function banModal(link, id, name, fullname, cls) {
+function banModal(link, name, fullname, cls) {
 	document.getElementById("banModalTitle").innerHTML = `Ban @${name}`;
 	document.getElementById("ban-modal-link").value = link;
 	document.getElementById("banUserButton").innerHTML = `Ban @${name}`;
 
 	document.getElementById("banUserButton").onclick = function() {
 		let form = new FormData(document.getElementById("banModalForm"));
-		const xhr = createXhrWithFormKey(`/ban_user/${id}?form`, "POST", form);
+		const xhr = createXhrWithFormKey(`/ban_user/${fullname}?form`, "POST", form);
 		xhr[0].onload = function() {
 			let data
 			try {data = JSON.parse(xhr[0].response)}
@@ -22,14 +22,14 @@ function banModal(link, id, name, fullname, cls) {
 	}
 }
 
-function chudModal(link, id, name, fullname, cls) {
+function chudModal(link, name, fullname, cls) {
 	document.getElementById("chudModalTitle").innerHTML = `Chud @${name}`;
 	document.getElementById("chud-modal-link").value = link;
 	document.getElementById("chudUserButton").innerHTML = `Chud @${name}`;
 
 	document.getElementById("chudUserButton").onclick = function() {
 		let form = new FormData(document.getElementById("chudModalForm"));
-		const xhr = createXhrWithFormKey(`/agendaposter/${id}?form`, "POST", form);
+		const xhr = createXhrWithFormKey(`/agendaposter/${fullname}?form`, "POST", form);
 		xhr[0].onload = function() {
 			let data
 			try {data = JSON.parse(xhr[0].response)}
