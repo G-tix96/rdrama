@@ -135,8 +135,8 @@ def me(v:User):
 
 @app.post("/logout")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def logout(v):
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
 	if session.get("lo_user") in loggedin: del loggedin[session["lo_user"]]

@@ -78,9 +78,9 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 		return render_template(template, v=v, p=post, sort=sort, comment_info=comment_info, render_replies=True, sub=post.subr)
 
 @app.post("/comment")
-@limiter.limit("1/day")
+@limiter.limit("1/second;20/minute;200/hour;1000/day")
+@limiter.limit("1/second;20/minute;200/hour;1000/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit("1/day", key_func=lambda:f'{SITE}-{g.v.id}')
 def comment(v:User):
 	if v.is_suspended: abort(403, "You can't perform this action while banned.")
 
@@ -362,8 +362,8 @@ def comment(v:User):
 
 @app.post("/edit_comment/<int:cid>")
 @limiter.limit("1/second;10/minute;100/hour;200/day")
+@limiter.limit("1/second;10/minute;100/hour;200/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @is_not_permabanned
-@limiter.limit("1/second;10/minute;100/hour;200/day", key_func=lambda:f'{SITE}-{g.v.id}')
 def edit_comment(cid, v):
 	c = get_comment(cid, v=v)
 
@@ -437,8 +437,8 @@ def edit_comment(cid, v):
 
 @app.post("/delete/comment/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def delete_comment(cid, v):
 	if v.id == 253: abort(403)
 	c = get_comment(cid, v=v)
@@ -459,8 +459,8 @@ def delete_comment(cid, v):
 
 @app.post("/undelete/comment/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def undelete_comment(cid, v):
 	c = get_comment(cid, v=v)
 	if c.deleted_utc:
@@ -523,8 +523,8 @@ def unpin_comment(cid, v):
 
 @app.post("/save_comment/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def save_comment(cid, v):
 
 	comment=get_comment(cid)
@@ -540,8 +540,8 @@ def save_comment(cid, v):
 
 @app.post("/unsave_comment/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def unsave_comment(cid, v):
 
 	comment=get_comment(cid)
@@ -576,8 +576,8 @@ def diff_words(answer, guess):
 
 @app.post("/wordle/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def handle_wordle_action(cid, v):
 	comment = get_comment(cid)
 

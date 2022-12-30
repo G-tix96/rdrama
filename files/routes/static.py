@@ -201,8 +201,8 @@ def contact(v:Optional[User]):
 
 @app.post("/send_admin")
 @limiter.limit("1/second;1/2 minutes;10/day")
+@limiter.limit("1/second;1/2 minutes;10/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit("1/second;1/2 minutes;10/day", key_func=lambda:f'{SITE}-{g.v.id}')
 def submit_contact(v):
 	body = request.values.get("message")
 	if not body: abort(400)

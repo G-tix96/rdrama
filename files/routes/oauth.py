@@ -17,8 +17,8 @@ def authorize_prompt(v:User):
 
 @app.post("/authorize")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def authorize(v):
 	client_id = request.values.get("client_id")
 	application = g.db.query(OauthApp).filter_by(client_id=client_id).one_or_none()
@@ -37,8 +37,8 @@ def authorize(v):
 
 @app.post("/rescind/<int:aid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def rescind(v, aid):
 
 	auth = g.db.query(ClientAuth).filter_by(oauth_client = aid, user_id = v.id).one_or_none()
@@ -49,8 +49,8 @@ def rescind(v, aid):
 
 @app.post("/api_keys")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @is_not_permabanned
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def request_api_keys(v):
 	new_app = OauthApp(
 		app_name=request.values.get('name').replace('<','').replace('>',''),
@@ -88,8 +88,8 @@ def request_api_keys(v):
 
 @app.post("/delete_app/<int:aid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def delete_oauth_app(v, aid):
 	try:
 		aid = int(aid)
@@ -111,8 +111,8 @@ def delete_oauth_app(v, aid):
 
 @app.post("/edit_app/<int:aid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @is_not_permabanned
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def edit_oauth_app(v, aid):
 	try:
 		aid = int(aid)
@@ -278,8 +278,8 @@ def admin_apps_list(v):
 
 @app.post("/reroll/<int:aid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def reroll_oauth_tokens(aid, v):
 
 	aid = aid

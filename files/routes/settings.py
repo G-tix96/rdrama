@@ -36,8 +36,8 @@ def settings_personal(v:User):
 
 @app.delete('/settings/background')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def remove_background(v):
 	if v.background:
 		if v.background.startswith('/images/'):
@@ -48,8 +48,8 @@ def remove_background(v):
 
 @app.post('/settings/custom_background')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def upload_custom_background(v):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
 
@@ -72,8 +72,8 @@ def upload_custom_background(v):
 
 @app.post('/settings/profile_background')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def upload_profile_background(v):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
 
@@ -93,8 +93,8 @@ def upload_profile_background(v):
 
 @app.delete('/settings/profile_background')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def delete_profile_background(v):
 	if v.profile_background:
 		os.remove(v.profile_background)
@@ -103,8 +103,8 @@ def delete_profile_background(v):
 
 @app.post("/settings/personal")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def settings_personal_post(v):
 	if v.id == 253 and request.values.get("private"):
 		abort(403)
@@ -383,22 +383,22 @@ def set_color(v:User, attr:str, color:Optional[str]):
 
 @app.post("/settings/namecolor")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def namecolor(v):
 	return set_color(v, "namecolor", request.values.get("namecolor"))
 	
 @app.post("/settings/themecolor")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def themecolor(v):
 	return set_color(v, "themecolor", request.values.get("themecolor"))
 
 @app.post("/settings/gumroad")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def gumroad(v):
 	if GUMROAD_TOKEN == DEFAULT_CONFIG_VALUE: abort(404)
 	if not (v.email and v.is_activated):
@@ -434,23 +434,23 @@ def gumroad(v):
 
 @app.post("/settings/titlecolor")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def titlecolor(v):
 	return set_color(v, "titlecolor", request.values.get("titlecolor"))
 
 @app.post("/settings/verifiedcolor")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def verifiedcolor(v):
 	if not v.verified: abort(403, "You don't have a checkmark")
 	return set_color(v, "verifiedcolor", request.values.get("verifiedcolor"))
 
 @app.post("/settings/security")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def settings_security_post(v):
 	if request.values.get("new_password"):
 		if request.values.get("new_password") != request.values.get("cnf_password"):
@@ -523,8 +523,8 @@ def settings_security_post(v):
 
 @app.post("/settings/log_out_all_others")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def settings_log_out_others(v):
 	submitted_password = request.values.get("password", "").strip()
 	if not v.verifyPass(submitted_password):
@@ -538,8 +538,8 @@ def settings_log_out_others(v):
 
 @app.post("/settings/images/profile")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def settings_images_profile(v):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
 
@@ -573,8 +573,8 @@ def settings_images_profile(v):
 @app.post("/settings/images/banner")
 @feature_required('USERS_PROFILE_BANNER')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def settings_images_banner(v):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
 
@@ -599,8 +599,8 @@ def settings_css_get(v:User):
 
 @app.post("/settings/css")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def settings_css(v):
 	if v.agendaposter: abort(400, "Agendapostered users can't edit CSS!")
 	css = request.values.get("css", v.css).strip().replace('\\', '').strip()[:CSS_LENGTH_LIMIT]
@@ -611,8 +611,8 @@ def settings_css(v):
 
 @app.post("/settings/profilecss")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def settings_profilecss(v):
 	profilecss = request.values.get("profilecss", v.profilecss).strip().replace('\\', '').strip()[:CSS_LENGTH_LIMIT]
 	valid, error = validate_css(profilecss)
@@ -633,8 +633,8 @@ def settings_security(v:User):
 
 @app.post("/settings/block")
 @limiter.limit("1/second;20/day")
+@limiter.limit("1/second;20/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit("1/second;20/day", key_func=lambda:f'{SITE}-{g.v.id}')
 def settings_block_user(v):
 	user = get_user(request.values.get("username"), graceful=True)
 	if not user: abort(404, "This user doesn't exist.")
@@ -660,8 +660,8 @@ def settings_block_user(v):
 
 @app.post("/settings/unblock")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def settings_unblock_user(v):
 	user = get_user(request.values.get("username"))
 	x = v.has_blocked(user)
@@ -684,8 +684,8 @@ def settings_advanced_get(v:User):
 
 @app.post("/settings/name_change")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @is_not_permabanned
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def settings_name_change(v):
 	new_name=request.values.get("name").strip()
 
@@ -723,8 +723,8 @@ def settings_name_change(v):
 @app.post("/settings/song_change_mp3")
 @feature_required('USERS_PROFILE_SONG')
 @limiter.limit("1/second;10/day")
+@limiter.limit("1/second;10/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit("1/second;10/day", key_func=lambda:f'{SITE}-{g.v.id}')
 def settings_song_change_mp3(v):
 	file = request.files['file']
 	if file.content_type != 'audio/mpeg':
@@ -751,8 +751,8 @@ def settings_song_change_mp3(v):
 @app.post("/settings/song_change")
 @feature_required('USERS_PROFILE_SONG')
 @limiter.limit("3/second;10/day")
+@limiter.limit("3/second;10/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit("3/second;10/day", key_func=lambda:f'{SITE}-{g.v.id}')
 def settings_song_change(v):
 	song=request.values.get("song").strip()
 
@@ -829,8 +829,8 @@ def settings_song_change(v):
 
 @app.post("/settings/title_change")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def settings_title_change(v):
 	if v.flairchanged: abort(403)
 	
@@ -858,8 +858,8 @@ def settings_title_change(v):
 @app.post("/settings/pronouns_change")
 @feature_required('PRONOUNS')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def settings_pronouns_change(v):
 	pronouns = sanitize_settings_text(request.values.get("pronouns"))
 
@@ -884,8 +884,8 @@ def settings_pronouns_change(v):
 
 @app.post("/settings/checkmark_text")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def settings_checkmark_text(v):
 	if not v.verified: abort(403)
 	new_name = sanitize_settings_text(request.values.get("checkmark-text"), 100)

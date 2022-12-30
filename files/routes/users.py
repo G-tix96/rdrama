@@ -285,8 +285,8 @@ def downvoting(v:User, username:str):
 @app.post("/@<username>/suicide")
 @feature_required('USERS_SUICIDE')
 @limiter.limit("1/second;5/day")
+@limiter.limit("1/second;5/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit("1/second;5/day", key_func=lambda:f'{SITE}-{g.v.id}')
 def suicide(v:User, username:str):
 	user = get_user(username)
 	suicide = f"Hi there,\n\nA [concerned user](/id/{v.id}) reached out to us about you.\n\nWhen you're in the middle of something painful, it may feel like you don't have a lot of options. But whatever you're going through, you deserve help and there are people who are here for you.\n\nThere are resources available in your area that are free, confidential, and available 24/7:\n\n- Call, Text, or Chat with Canada's [Crisis Services Canada](https://www.crisisservicescanada.ca/en/)\n- Call, Email, or Visit the UK's [Samaritans](https://www.samaritans.org/)\n- Text CHAT to America's [Crisis Text Line](https://www.crisistextline.org/) at 741741.\nIf you don't see a resource in your area above, the moderators keep a comprehensive list of resources and hotlines for people organized by location. Find Someone Now\n\nIf you think you may be depressed or struggling in another way, don't ignore it or brush it aside. Take yourself and your feelings seriously, and reach out to someone.\n\nIt may not feel like it, but you have options. There are people available to listen to you, and ways to move forward.\n\nYour fellow users care about you and there are people who want to help."
@@ -343,16 +343,16 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'mars
 	
 @app.post("/@<username>/transfer_coins")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @is_not_permabanned
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def transfer_coins(v:User, username:str):
 	return transfer_currency(v, username, 'coins', True)
 
 @app.post("/@<username>/transfer_bux")
 @feature_required('MARSEYBUX')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @is_not_permabanned
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def transfer_bux(v:User, username:str):
 	return transfer_currency(v, username, 'marseybux', False)
 
@@ -434,8 +434,8 @@ def usersong(username:str):
 
 @app.post("/subscribe/<int:post_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def subscribe(v, post_id):
 	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
 	if not existing:
@@ -445,8 +445,8 @@ def subscribe(v, post_id):
 	
 @app.post("/unsubscribe/<int:post_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def unsubscribe(v, post_id):
 	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
 	if existing:
@@ -455,8 +455,8 @@ def unsubscribe(v, post_id):
 
 @app.post("/@<username>/message")
 @limiter.limit("1/second;10/minute;20/hour;50/day")
+@limiter.limit("1/second;10/minute;20/hour;50/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @is_not_permabanned
-@limiter.limit("1/second;10/minute;20/hour;50/day", key_func=lambda:f'{SITE}-{g.v.id}')
 def message2(v:User, username:str):
 	user = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
 
@@ -516,8 +516,8 @@ def message2(v:User, username:str):
 
 @app.post("/reply")
 @limiter.limit("1/second;6/minute;50/hour;200/day")
+@limiter.limit("1/second;6/minute;50/hour;200/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit("1/second;6/minute;50/hour;200/day", key_func=lambda:f'{SITE}-{g.v.id}')
 def messagereply(v:User):
 	body = sanitize_raw_body(request.values.get("body"), False)
 	if not body and not request.files.get("file"): abort(400, "Message is empty!")
@@ -1019,8 +1019,8 @@ def u_user_id_info(id, v=None):
 
 @app.post("/follow/<username>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def follow_user(username, v):
 
 	target = get_user(username, v=v, include_shadowbanned=False)
@@ -1046,8 +1046,8 @@ def follow_user(username, v):
 
 @app.post("/unfollow/<username>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def unfollow_user(username, v):
 
 	target = get_user(username)
@@ -1074,8 +1074,8 @@ def unfollow_user(username, v):
 
 @app.post("/remove_follow/<username>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def remove_follow(username, v):
 	target = get_user(username)
 

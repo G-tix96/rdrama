@@ -10,8 +10,8 @@ from files.__main__ import app, limiter
 
 @app.post("/verify_email")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @auth_required
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{SITE}-{g.v.id}')
 def verify_email(v):
 	send_verification_email(v)
 	return {"message": "Email has been sent (ETA ~5 minutes)"}
