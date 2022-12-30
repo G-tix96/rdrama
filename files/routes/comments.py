@@ -177,6 +177,12 @@ def comment(v:User):
 							badge_def = loads(body)
 							name = badge_def["name"]
 
+							if len(name) > 50:
+								abort(400, "Badge name is too long!")
+
+							if not badge_name_regex.fullmatch(name):
+								abort(400, "Invalid badge name!")
+
 							existing = g.db.query(BadgeDef).filter_by(name=name).one_or_none()
 							if existing: abort(409, "A badge with this name already exists!")
 

@@ -21,6 +21,8 @@ tags_regex = re.compile("[a-z0-9: ]{1,200}", flags=re.A)
 hat_regex = re.compile("[a-zA-Z0-9\-() ,_]{1,50}", flags=re.A)
 description_regex = re.compile("[^<>&\n\t]{1,300}", flags=re.A)
 
+badge_name_regex = re.compile("[A-Za-z0-9 ]+", flags=re.A)
+
 
 valid_sub_regex = re.compile("^[a-zA-Z0-9_\-]{3,25}$", flags=re.A)
 
