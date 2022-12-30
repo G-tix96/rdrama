@@ -11,7 +11,6 @@ from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter
 
 def git_head():
-	short_len = 12
 	# Note: doing zero sanitization. Git branch names are extremely permissive.
 	# However, they forbid '..', so I don't see an obvious dir traversal attack.
 	# Also, a malicious branch name would mean someone already owned the server
@@ -21,7 +20,7 @@ def git_head():
 			head_txt = head_f.read()
 			head_path = git_regex.match(head_txt).group(1)
 			with open('.git/' + head_path, encoding='utf_8') as ref_f:
-				gitref = ref_f.read()[0:short_len]
+				gitref = ref_f.read()[:7]
 	except:
 		return '<unable to read>', ''
 	return (gitref, head_txt)
