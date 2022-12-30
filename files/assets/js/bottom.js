@@ -11,6 +11,7 @@ function execute(element, attr) {
 				window[name](...args);
 			}
 			catch (e) {
+				console.log(e)
 				console.log(name)
 			}
 		}
@@ -54,7 +55,10 @@ for (const element of onchange) {
 
 const onsubmit = document.querySelectorAll('[data-onsubmit]');
 for (const element of onsubmit) {
-	element.onsubmit = ()=>{execute(element, 'onsubmit')};
+	element.onsubmit = (event)=>{
+		event.preventDefault();
+		execute(element, 'onsubmit')
+	};
 }
 
 const onfocus = document.querySelectorAll('[data-onfocus]');

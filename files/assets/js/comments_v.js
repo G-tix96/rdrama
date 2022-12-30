@@ -92,7 +92,7 @@ function delete_commentModal(t, id) {
 			{
 			},
 			() => {
-				if (window.location.pathname == '/admin/reported/comments')
+				if (location.pathname == '/admin/reported/comments')
 				{
 					document.getElementById("post-info-"+id).remove()
 					document.getElementById("comment-"+id).remove()

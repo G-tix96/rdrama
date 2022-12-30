@@ -53,7 +53,7 @@ function startLotterySession() {
 
 	if (ensureIntent()) {
 	return handleLotteryRequest("start", "POST", () =>
-		window.location.reload()
+		location.reload()
 	);
 	}
 }
@@ -62,7 +62,7 @@ function endLotterySession() {
 	checkLotteryStats();
 
 	if (ensureIntent()) {
-	return handleLotteryRequest("end", "POST", () => window.location.reload());
+	return handleLotteryRequest("end", "POST", () => location.reload());
 	}
 }
 

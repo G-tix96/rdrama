@@ -113,7 +113,7 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess, m
 	, method);
 }
 
-if (window.location.pathname != '/submit')
+if (location.pathname != '/submit')
 {
 	document.addEventListener('keydown', (e) => {
 		if(!((e.ctrlKey || e.metaKey) && e.key === "Enter")) return;
@@ -353,10 +353,8 @@ function prepare_to_pause(audio) {
 	});
 }
 
-function sendFormXHR(e, extraActionsOnSuccess) {
-	const form = e.target;
+function sendFormXHR(form, extraActionsOnSuccess) {
 	const xhr = new XMLHttpRequest();
-	e.preventDefault();
 
 	formData = new FormData(form);
 
@@ -388,8 +386,8 @@ function sendFormXHR(e, extraActionsOnSuccess) {
 	xhr.send(formData);
 }
 
-function sendFormXHRSwitch(e) {
-	sendFormXHR(e,
+function sendFormXHRSwitch(form) {
+	sendFormXHR(form,
 		() => {
 			e.target.previousElementSibling.classList.remove('d-none');
 			e.target.classList.add('d-none');

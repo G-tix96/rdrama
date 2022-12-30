@@ -6,7 +6,7 @@ function removePost(t,post_id,button1,button2,cls) {
 		button2,
 		cls,
 		() => {
-			if (window.location.pathname == '/admin/reported/posts')
+			if (location.pathname == '/admin/reported/posts')
 			{
 				document.getElementById("flaggers-"+post_id).remove()
 				document.getElementById("post-"+post_id).remove()
@@ -28,7 +28,7 @@ function approvePost(t,post_id,button1,button2,cls) {
 		button2,
 		cls,
 		() => {
-			if (window.location.pathname == '/admin/reported/posts')
+			if (location.pathname == '/admin/reported/posts')
 			{
 				document.getElementById("flaggers-"+post_id).remove()
 				document.getElementById("post-"+post_id).remove()

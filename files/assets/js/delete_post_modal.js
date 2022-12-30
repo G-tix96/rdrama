@@ -4,7 +4,7 @@ function delete_postModal(t, id) {
 			{
 			},
 			() => {
-				if (window.location.pathname == '/admin/reported/posts')
+				if (location.pathname == '/admin/reported/posts')
 				{
 					document.getElementById("flaggers-"+id).remove()
 					document.getElementById("post-"+id).remove()

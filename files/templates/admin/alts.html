@@ -57,12 +57,10 @@
 		Adding linked will link the two alts together manually, while adding delinked will attempt to delink alts whereever possible.<br>
 		You're on your own for reversing any propagation though.
 	</p>
-	<form data-nonce="{{g.nonce}}" data-onsubmit="return false;">
-		<label for="link-input-other">Other Username</label>
-		<input autocomplete="off" id="link-input-other" type="text" class="form-control mb-2" name="other_username" placeholder="Other Username">
-		<button id="add-alt-form-link" class="btn btn-danger mr-3" data-areyousure="submitAddAlt(this)" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Add Alt Linked</button>
-		<button id="add-alt-form-delink" class="btn btn-danger" data-areyousure="submitAddAlt(this)" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Add Alt Delinked</button>
-	</form>
+	<label for="link-input-other">Other Username</label>
+	<input autocomplete="off" id="link-input-other" type="text" class="form-control mb-2" name="other_username" placeholder="Other Username">
+	<button id="add-alt-form-link" class="btn btn-danger mr-3" data-areyousure="submitAddAlt(this, '{{u.username}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Add Alt Linked</button>
+	<button id="add-alt-form-delink" class="btn btn-danger" data-areyousure="submitAddAlt(this, '{{u.username}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Add Alt Delinked</button>
 </section>
 {% endif %}
 

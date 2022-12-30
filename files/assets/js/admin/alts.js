@@ -1,5 +1,4 @@
-function submitAddAlt(element) {
-	if (!element || !element.form) return;
+function submitAddAlt(element, username) {
 	const isLinking = element.id == 'add-alt-form-link';
 	const otherElement = isLinking ? document.getElementById('add-alt-form-delink') : document.getElementById('add-alt-form-link');
 	if (!otherElement) return;
@@ -10,7 +9,7 @@ function submitAddAlt(element) {
 	const form = new FormData();
 	if (!isLinking) form.append('deleted', 'true');
 	form.append('other_username', document.getElementById('link-input-other').value);
-	const xhr = createXhrWithFormKey('/@{{u.username}}/alts/', 'POST', form);
+	const xhr = createXhrWithFormKey(`/@${username}/alts/`, 'POST', form);
 	xhr[0].onload = function() {
 		let data;
 		try {
@@ -21,7 +20,7 @@ function submitAddAlt(element) {
 		}
 		if (xhr[0].status >= 200 && xhr[0].status < 300) {
 			showToast(true, getMessageFromJsonData(true, data));
-			window.location.reload();
+			location.reload();
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));
 			element.disabled = false;

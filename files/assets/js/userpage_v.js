@@ -75,12 +75,12 @@ function transferBux(t, mobile=false) {
 	setTimeout(_ => this.disabled = false, 2000);
 }
 
-function sendMessage(e) {
+function sendMessage(form) {
 	document.getElementById('message').classList.add('d-none');
 	document.getElementById('message-mobile').classList.add('d-none');
 	document.getElementById('message-preview').classList.add('d-none');
 	document.getElementById('message-preview-mobile').classList.add('d-none');
-	sendFormXHR(e,
+	sendFormXHR(form,
 		() => {
 			document.getElementById('input-message').value = ''
 			document.getElementById('input-message-mobile').value = ''

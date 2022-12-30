@@ -21,7 +21,7 @@
 		<td data-time="{{mod.created_utc}}"></td>
 		<td>
 			{% if v.id == user.id or v.mod_date(sub.name) and v.mod_date(sub.name) < mod.created_utc %}
-				<form action="/h/{{sub}}/remove_mod" method="post" data-nonce="{{g.nonce}}" data-onsubmit="removeMod(event)">
+				<form action="/h/{{sub}}/remove_mod" method="post" data-nonce="{{g.nonce}}" data-onsubmit="removeMod(this)">
 					<input type="hidden" name="formkey" value="{{v|formkey}}">
 					<input type="hidden" name="uid" value="{{user.id}}">
 					<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" value="{% if v.id == user.id %}Resign{% else %}Remove Mod{% endif %}">

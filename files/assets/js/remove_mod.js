@@ -1,7 +1,7 @@
-function removeMod(e) {
-	sendFormXHR(e,
+function removeMod(form) {
+	sendFormXHR(form,
 		() => {
-			e.target.parentElement.parentElement.remove();
+			form.parentElement.parentElement.remove();
 		}
 	)
 }

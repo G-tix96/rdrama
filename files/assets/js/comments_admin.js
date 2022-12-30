@@ -6,7 +6,7 @@ function removeComment(t,comment_id,button1,button2,cls) {
 		button2,
 		cls,
 		() => {
-			if (window.location.pathname == '/admin/reported/comments')
+			if (location.pathname == '/admin/reported/comments')
 			{
 				document.getElementById("post-info-"+comment_id).remove()
 				document.getElementById("comment-"+comment_id).remove()
@@ -31,7 +31,7 @@ function approveComment(t,comment_id,button1,button2,cls) {
 		button2,
 		cls,
 		() => {
-			if (window.location.pathname == '/admin/reported/comments')
+			if (location.pathname == '/admin/reported/comments')
 			{
 				document.getElementById("post-info-"+comment_id).remove()
 				document.getElementById("comment-"+comment_id).remove()
