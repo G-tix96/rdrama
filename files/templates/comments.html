@@ -253,7 +253,6 @@
 				{% if v and v.id==c.author_id %}
 				
 				<div id="comment-edit-{{c.id}}" class="d-none comment-write collapsed child">
-					<form id="comment-edit-form-{{c.id}}" action="/edit_comment/{{c.id}}" method="post" enctype="multipart/form-data"> 
 						<input type="hidden" name="formkey" value="{{v|formkey}}">
 						<textarea autocomplete="off" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}10000{% endif %}" data-preview="preview-edit-{{c.id}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('comment-edit-body-{{c.id}}','charcount-edit-{{c.id}}')" id="comment-edit-body-{{c.id}}" data-id="{{c.id}}" name="body" form="comment-edit-form-{{c.id}}" class="comment-box form-control rounded" placeholder="Add your comment..." rows="3">{{c.body}}</textarea> 
 						
@@ -272,7 +271,6 @@
 						</div>
 						<button type="button" id="edit-btn-{{c.id}}" form="comment-edit-form-{{c.id}}" class="btn btn-primary ml-2 fl-r commentmob" data-nonce="{{g.nonce}}" data-onclick="comment_edit('{{c.id}}');remove_dialog()">Save Edit</button> 
 						<button type="button" id="cancel-edit-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}');remove_dialog()" class="btn btn-link text-muted ml-auto fl-r commentmob">Cancel</button> 
-					</form>
 					<div id="preview-edit-{{c.id}}" class="preview mb-3 mt-5"></div>
 					<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a></div>
 				</div>
@@ -484,7 +482,7 @@
 		{% if v and v.id != c.author_id and c.body %}
 			<div autocomplete="off" class="markdown d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{c.id}}" readonly>{{c.body.strip()}}</div> 
 		{% endif %}
-		{{macros.comment_reply_box(c.fullname, "reply-to-" + c.fullname, "d-none", "collapsed child", 'reply-to-' + c.fullname, true, '/comments/')}}
+		{{macros.comment_reply_box(c.fullname, "reply-to-" + c.fullname, "d-none", "collapsed child", 'reply-to-' + c.fullname, true)}}
 
 	{% if request.path.startswith('/transfers') %}
 		<a href="{{c.log_link}}"><i class="far fa-link ml-1 text-muted"></i></a>
@@ -518,7 +516,7 @@
 			{# TODO: swap to comment_reply_box macro #}
 			<div id="reply-message-{{c.fullname}}" class="d-none">
 				<div id="comment-form-space-{{c.id}}" class="comment-write collapsed child">
-					<form id="reply-to-message-{{c.id}}" action="/reply" method="post" class="input-group" enctype="multipart/form-data">
+					<div class="input-group">
 						<input type="hidden" name="formkey" value="{{v|formkey}}"> 
 						<textarea required autocomplete="off" minlength="1" maxlength="10000" name="body" form="reply-to-c_{{c.id}}" data-id="{{c.id}}" class="comment-box form-control rounded" id="reply-form-body-{{c.id}}" rows="3" data-preview="message-reply-{{c.id}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this)"></textarea> 
 						<div class="comment-format" id="comment-format-bar-{{c.id}}"> 
@@ -534,7 +532,7 @@
 
 						<button type="button" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" class="btn btn-link text-muted ml-auto" data-toggleelement="reply-message-{{c.fullname}}" data-toggleattr="d-none">Cancel</button> 
 						<button type="button" id="save-reply-to-{{c.id}}" class="btn btn-primary ml-2" data-nonce="{{g.nonce}}" data-onclick="post_reply('{{c.id}}');remove_dialog()">Reply</button>
-					</form>
+					</div>
 					<div id="message-reply-{{c.id}}" class="preview mt-2"></div>
 				</div>
 			</div>

@@ -109,36 +109,34 @@
 	<span class="ml-2">{{p.views}} thread views</span>
 {% endmacro %}
 
-{% macro comment_reply_box(target_fullname, html_id, wrapper_css_classes="", subwrapper_css_classes="", hide="", allow_file_upload=true, action="/comments/", enable_cancel_button=true) %}
+{% macro comment_reply_box(target_fullname, html_id, wrapper_css_classes="", subwrapper_css_classes="", hide="", allow_file_upload=true, enable_cancel_button=true) %}
 	<div class="comment-box-wrapper{% if wrapper_css_classes %} {{wrapper_css_classes}}{% endif %}" id="{{html_id}}">
 	{% if v %}
 		<div id="comment-form-space-{{target_fullname}}" class="comment-write {{subwrapper_css_classes}}">
-			<form id="reply-to-{{target_fullname}}" action="{{action}}" method="post">
-				<input type="hidden" name="formkey" value="{{v|formkey}}">
-				<input type="hidden" name="parent_fullname" value="{target_fullname}}">
-				<textarea required autocomplete="off" {% if not (p and p.id in ADMIGGER_THREADS) %}{% if v.longpost %}minlength="280"{% elif v.bird %}maxlength="140"{% endif %}{% endif %} minlength="1" maxlength="10000" data-preview="form-preview-{{target_fullname}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('reply-form-body-{{target_fullname}}','charcount-{{target_fullname}}')" id="reply-form-body-{{target_fullname}}" data-fullname="{{target_fullname}}" class="comment-box form-control rounded" name="body" form="reply-to-{{target_fullname}}" placeholder="Add your comment..." rows="3"></textarea>
+			<input type="hidden" name="formkey" value="{{v|formkey}}">
+			<input type="hidden" name="parent_fullname" value="{target_fullname}}">
+			<textarea required autocomplete="off" {% if not (p and p.id in ADMIGGER_THREADS) %}{% if v.longpost %}minlength="280"{% elif v.bird %}maxlength="140"{% endif %}{% endif %} minlength="1" maxlength="10000" data-preview="form-preview-{{target_fullname}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('reply-form-body-{{target_fullname}}','charcount-{{target_fullname}}')" id="reply-form-body-{{target_fullname}}" data-fullname="{{target_fullname}}" class="comment-box form-control rounded" name="body" form="reply-to-{{target_fullname}}" placeholder="Add your comment..." rows="3"></textarea>
 
-				<div class="text-small font-weight-bold mt-1" id="charcount-{{target_fullname}}" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
+			<div class="text-small font-weight-bold mt-1" id="charcount-{{target_fullname}}" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
-				<div class="comment-format">
-					<button type="button" class="btn btn-secondary format d-inline-block m-0" for="gif-reply-btn-{{target_fullname}}">
-						<span id="gif-reply-btn-{{target_fullname}}" class="font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="getGifs('reply-form-body-{{target_fullname}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span>
-					</button> 
-					&nbsp;
-					<button role="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('reply-form-body-{{target_fullname}}')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn-{{target_fullname}}" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>	
-					&nbsp;
-					{% if allow_file_upload %}
-						<label class="format btn btn-secondary m-0 {% if v %}d-inline-block{% else %}d-none{% endif %}" for="file-upload-reply-{{target_fullname}}">
-							<div id="filename-show-reply-{{target_fullname}}"><i class="fas fa-file"></i></div>
-							<input autocomplete="off" id="file-upload-reply-{{target_fullname}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if g.is_tor %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename-show-reply-{{target_fullname}}','file-upload-reply-{{target_fullname}}')" hidden>
-						</label>
-					{% endif %}
-				</div>
-				<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" data-nonce="{{g.nonce}}" data-onclick="postComment('{{target_fullname}}', '{{hide}}');remove_dialog();">Comment</button>
-				{% if enable_cancel_button %}
-					<button type="button" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" data-toggleelement="reply-to-{{target_fullname}}" data-toggleattr="d-none" class="btn btn-link text-muted ml-auto fl-r mr-3">Cancel</button> 
+			<div class="comment-format">
+				<button type="button" class="btn btn-secondary format d-inline-block m-0" for="gif-reply-btn-{{target_fullname}}">
+					<span id="gif-reply-btn-{{target_fullname}}" class="font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="getGifs('reply-form-body-{{target_fullname}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span>
+				</button>
+				&nbsp;
+				<button role="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('reply-form-body-{{target_fullname}}')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn-{{target_fullname}}" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
+				&nbsp;
+				{% if allow_file_upload %}
+					<label class="format btn btn-secondary m-0 {% if v %}d-inline-block{% else %}d-none{% endif %}" for="file-upload-reply-{{target_fullname}}">
+						<div id="filename-show-reply-{{target_fullname}}"><i class="fas fa-file"></i></div>
+						<input autocomplete="off" id="file-upload-reply-{{target_fullname}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if g.is_tor %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename-show-reply-{{target_fullname}}','file-upload-reply-{{target_fullname}}')" hidden>
+					</label>
 				{% endif %}
-			</form>
+			</div>
+			<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" data-nonce="{{g.nonce}}" data-onclick="postComment('{{target_fullname}}', '{{hide}}');remove_dialog();">Comment</button>
+			{% if enable_cancel_button %}
+				<button type="button" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" data-toggleelement="reply-to-{{target_fullname}}" data-toggleattr="d-none" class="btn btn-link text-muted ml-auto fl-r mr-3">Cancel</button>
+			{% endif %}
 			<div id="form-preview-{{target_fullname}}" class="preview mb-3 mt-5"></div>
 			<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a></div>
 		</div>
