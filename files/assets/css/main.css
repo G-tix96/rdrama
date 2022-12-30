@@ -1842,7 +1842,8 @@ button.close {
 	padding: 0.75rem;
 }
 .modal-open {
-	overflow: hidden;
+	overflow: auto !important;
+	padding-right: 0 !important;
 }
 .modal-open .modal {
 	overflow-x: hidden;
@@ -6451,11 +6452,11 @@ div.markdown {
 	font-weight: bold;
 }
 
-* {
+body * {
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
-*::-webkit-scrollbar {
+body *::-webkit-scrollbar {
 	display: none;
 }
 
