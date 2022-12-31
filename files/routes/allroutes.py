@@ -58,55 +58,11 @@ def before_request():
 
 	g.nonce = secrets.token_urlsafe(31)
 
-
-
-CSP = {
-	"upgrade-insecure-requests": "",
-
-	"default-src": "'none'",
-	"frame-ancestors": "'none'",
-
-	"form-action": "'self'",
-	"manifest-src": "'self'",
-	"worker-src": "'self'",
-	"base-uri": "'self'",
-	"font-src": "'self'",
-
-	"style-src-elem": "'self'",
-	"style-src-attr": "'unsafe-inline'",
-	"style-src": "'self' 'unsafe-inline'",
-
-	"script-src-elem": "'self' challenges.cloudflare.com",
-	"script-src-attr": "'none'",
-	"script-src": "'self' challenges.cloudflare.com",
-
-	"media-src": "https:",
-	"img-src": "https: data:",
-
-	"frame-src": "challenges.cloudflare.com www.youtube-nocookie.com platform.twitter.com",
-	"connect-src": "'self' tls-use1.fpapi.io api.fpjs.io",
-
-	"report-to": "csp",
-	"report-uri": "/csp_violations",
-}
-
-if IS_LOCALHOST:
-	CSP["media-src"] += " http:"
-	CSP["img-src"] += " http:"
-
-CSP_str = ''
-
-for k, val in CSP.items():
-	CSP_str += f'{k} {val}; '
-
 @app.after_request
 def after_request(response:Response):
 	if response.status_code < 400:
 		_set_cloudflare_cookie(response)
 		_commit_and_close_db()
-	
-	response.headers.add("Report-To", {"group":"csp","max_age":10886400,"endpoints":[{"url":"/csp_violations"}]})
-	response.headers.add("Content-Security-Policy", CSP_str)
 	
 	return response
 
