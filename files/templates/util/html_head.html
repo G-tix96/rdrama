@@ -122,7 +122,7 @@
 	<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 
 	{% if sub and sub.css and not request.path.endswith('settings') and not request.values.get('nocss') %}
-		<link rel="stylesheet" href="/h/{{sub}}/css" type="text/css">
+		<link rel="stylesheet" href="/h/{{sub}}/css">
 	{% endif %}
 
 	{% if EVENT_STYLES %}
