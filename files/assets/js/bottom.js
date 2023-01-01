@@ -89,8 +89,6 @@ for (const element of undisable_element) {
 	};
 }
 
-// data-on[^"]*?="[^"]+?\.(?![%a-z._ ]+?\})
-
 const setting_switchs = document.getElementsByClassName('setting_switch');
 for (const element of setting_switchs) {
 	if (element.dataset.nonce != nonce) continue
