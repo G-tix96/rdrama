@@ -52,8 +52,8 @@ for (const element of onfocus) {
 	element.onfocus = ()=>{execute(element, 'onfocus')};
 }
 
-const click_submit = document.querySelectorAll('[click_submit]');
-for (const element of click_submit) {
+const onclick_submit = document.querySelectorAll('[onclick_submit]');
+for (const element of onclick_submit) {
 	if (element.dataset.nonce != nonce) {
 		console.log("Nonce check failed!")
 		continue
@@ -61,8 +61,8 @@ for (const element of click_submit) {
 	element.onclick = () => {element.form.submit()};
 }
 
-const change_submit = document.querySelectorAll('[change_submit]');
-for (const element of change_submit) {
+const onchange_submit = document.querySelectorAll('[onchange_submit]');
+for (const element of onchange_submit) {
 	if (element.dataset.nonce != nonce) {
 		console.log("Nonce check failed!")
 		continue
