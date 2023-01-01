@@ -6503,8 +6503,8 @@ div.markdown {
 .gif-categories .card .gif-cat-overlay {
 	position: absolute;
 	text-align: center;
-	height: 93.5%;
-	width: 93.5%;
+	height: 100%;
+	width: 100%;
 	background-color: rgba(0, 0, 0, 0.4);
 	border-radius: 0.35rem;
 	-webkit-transition: all 0.15s ease;
@@ -6512,6 +6512,7 @@ div.markdown {
 	-o-transition: all 0.15s ease;
 	-ms-transition: all 0.15s ease;
 	transition: all 0.15s ease;
+	cursor: pointer;
 }
 .gif-categories .card:hover .gif-cat-overlay {
 	background-color: rgba(0, 0, 0, 0.6);
