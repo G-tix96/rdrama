@@ -622,28 +622,6 @@ def badge_remove_post(v):
 	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, msg=f"{badge.name} Badge removed from @{user.username} successfully!")
 
 
-@app.get("/admin/users")
-@admin_level_required(PERMS['VIEW_ALL_USERS'])
-def users_list(v):
-
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
-
-	users = g.db.query(User).order_by(User.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
-
-	next_exists = (len(users) > PAGE_SIZE)
-	users = users[:PAGE_SIZE]
-
-	return render_template("user_cards.html",
-						v=v,
-						users=users,
-						next_exists=next_exists,
-						page=page,
-						user_cards_title="Users Feed",
-						)
-
-
-
 @app.get("/admin/alt_votes")
 @admin_level_required(PERMS['VIEW_ALT_VOTES'])
 def alt_votes_get(v):

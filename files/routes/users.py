@@ -1308,3 +1308,23 @@ def settings_kofi(v:User):
 		badge_grant(badge_id=20+highest_tier, user=v)
 
 	return {"message": f"{patron} rewards claimed!"}
+
+@app.get("/users")
+@auth_required
+def users_list(v):
+
+	try: page = int(request.values.get("page", 1))
+	except: page = 1
+
+	users = g.db.query(User).order_by(User.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+
+	next_exists = (len(users) > PAGE_SIZE)
+	users = users[:PAGE_SIZE]
+
+	return render_template("user_cards.html",
+						v=v,
+						users=users,
+						next_exists=next_exists,
+						page=page,
+						user_cards_title="Users Feed",
+						)

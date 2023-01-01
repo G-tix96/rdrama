@@ -441,7 +441,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'VIEW_PRIVATE_PROFILES': 2,
 	'VIEW_ALTS': 2,
 	'VIEW_ACTIVE_USERS': 2,
-	'VIEW_ALL_USERS': 2,
 	'VIEW_ALT_VOTES': 2,
 	'VIEW_LAST_ACTIVE': 2,
 	'VIEW_PATRONS': 3, # note: extra check for Aevann, carp, or snakes
