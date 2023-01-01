@@ -1,4 +1,4 @@
-const IMAGE_FORMATS = document.getElementById('IMAGE_FORMATS')
+const IMAGE_FORMATS = document.getElementById('IMAGE_FORMATS').value.split(',')
 
 document.onpaste = function(event) {
 	files = structuredClone(event.clipboardData.files);

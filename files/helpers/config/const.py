@@ -991,9 +991,9 @@ forced_hats = {
 
 EMAIL_REGEX_PATTERN = '[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63}'
 
-IMAGE_FORMATS = ['png','gif','jpg','jpeg','webp']
-VIDEO_FORMATS = ['mp4','webm','mov','avi','mkv','flv','m4v','3gp']
-AUDIO_FORMATS = ['mp3','wav','ogg','aac','m4a','flac']
+IMAGE_FORMATS = ('png','gif','jpg','jpeg','webp')
+VIDEO_FORMATS = ('mp4','webm','mov','avi','mkv','flv','m4v','3gp')
+AUDIO_FORMATS = ('mp3','wav','ogg','aac','m4a','flac')
 
 if not IS_LOCALHOST and SECRET_KEY == DEFAULT_CONFIG_VALUE:
 	from warnings import warn

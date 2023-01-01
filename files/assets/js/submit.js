@@ -1,4 +1,4 @@
-const IMAGE_FORMATS = document.getElementById('IMAGE_FORMATS')
+const IMAGE_FORMATS = document.getElementById('IMAGE_FORMATS').value.split(',')
 
 document.getElementById('post-title').value = localStorage.getItem("post-title")
 document.getElementById('post-text').value = localStorage.getItem("post-text")
