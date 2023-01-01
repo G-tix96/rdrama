@@ -6570,3 +6570,8 @@ body > .container {
 		max-width: min(90%, 1200px) !important
 	}
 }
+
+select {
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+}
