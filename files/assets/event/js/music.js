@@ -1,4 +1,5 @@
-const audio = new Audio("{{song}}");
+const song = document.getElementById('fistmas-song').value;
+const audio = new Audio(song);
 audio.loop=true;
 
 audio.play();
