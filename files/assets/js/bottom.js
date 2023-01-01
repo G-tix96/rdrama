@@ -93,7 +93,7 @@ const setting_switchs = document.getElementsByClassName('setting_switch');
 for (const element of setting_switchs) {
 	if (element.dataset.nonce != nonce) continue
 	element.onchange = () => {
-		postToastSwitch(this,`/settings/${element.name}?poor=${element.checked}`);
+		postToastSwitch(element,`/settings/personal?${element.name}=${element.checked}`);
 	};
 }
 
@@ -101,7 +101,7 @@ const setting_reloads = document.getElementsByClassName('setting_reload');
 for (const element of setting_reloads) {
 	if (element.dataset.nonce != nonce) continue
 	element.onchange = () => {
-		postToastReload(this,`/settings/${element.name}?poor=${element.checked}`);
+		postToastReload(element,`/settings/personal?${element.name}=${element.value}`);
 	};
 }
 
