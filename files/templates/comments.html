@@ -767,7 +767,7 @@
 
 {% if offset %}
 	<br>
-	<div id="view_more-{{offset}}"><button type="button" id="viewbtn" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="view_more({{pid}},'{{sort}}',{{offset}},{{ids}})">VIEW MORE COMMENTS</a></div>
+	<div id="view_more-{{offset}}"><button type="button" id="viewbtn" class="btn btn-primary" data-nonce="{{g.nonce}}" data-ids="{{ids}}" data-onclick="view_more(this, {{pid}},'{{sort}}',{{offset}})">VIEW MORE COMMENTS</a></div>
 {% endif %}
 
 </body>
