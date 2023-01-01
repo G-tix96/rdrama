@@ -509,7 +509,7 @@ def under_attack(v):
 def admin_badges_grantable_list(v):
 	query = g.db.query(BadgeDef)
 
-	if BADGE_BLACKLIST and v.id not in {AEVANN_ID, SNAKES_ID}:
+	if BADGE_BLACKLIST and v.id not in {AEVANN_ID}:
 		query = query.filter(BadgeDef.id.notin_(BADGE_BLACKLIST))
 
 	badge_types = query.order_by(BadgeDef.id).all()

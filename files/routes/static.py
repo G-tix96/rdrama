@@ -106,7 +106,7 @@ def daily_chart(v:User):
 @app.get("/paypigs")
 @admin_level_required(PERMS['VIEW_PATRONS'])
 def patrons(v):
-	if AEVANN_ID and v.id not in {AEVANN_ID, CARP_ID, SNAKES_ID}:
+	if AEVANN_ID and v.id not in {AEVANN_ID, CARP_ID}:
 		abort(404)
 
 	users = g.db.query(User).filter(User.patron > 0).order_by(User.patron.desc(), User.id).all()

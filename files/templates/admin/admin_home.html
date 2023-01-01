@@ -51,7 +51,7 @@
 		<li><a href="/chuds">Chudded Users</a></li>
 		<li><a href="/grassed">Currently Grassed Users</a></li>
 	{%- endif %}
-	{% if FEATURES['MARSEYBUX'] and (not AEVANN_ID or v.id in (AEVANN_ID, CARP_ID, SNAKES_ID)) -%}
+	{% if FEATURES['MARSEYBUX'] and (not AEVANN_ID or v.id in (AEVANN_ID, CARP_ID)) -%}
 		<li><a href="/patrons">Patrons</a></li>
 	{%- endif %}
 	{% if v.admin_level >= PERMS['VIEW_ACTIVE_USERS'] %}

@@ -649,7 +649,7 @@ TIERS_ID_TO_NAME = {
 	6: "Rich Bich",
 }
 
-BADGE_BLACKLIST = { # only grantable by AEVANN_ID and SNAKES_ID
+BADGE_BLACKLIST = { # only grantable by AEVANN_ID
 	1, 2, 6, 10, 11, 12, # Alpha, Verified Email, Beta, Recruiter x3
 	16, 17, 143, 21, 22, 23, 24, 25, 26, 27, # Marsey Artist x3 / Patron Tiers
 	94, 95, 96, 97, 98, 109, 67, 68, 83, 84, 87, 90, 179, 185, # Award Status except Y'all-seeing eye
