@@ -5,11 +5,16 @@ import tldextract
 import datetime
 
 t = datetime.datetime.now()
+
 fistmas_begin = datetime.datetime.strptime(f'1/12/{t.year}', '%d/%m/%Y')
 fistmas_end = datetime.datetime.strptime(f'30/12/{t.year}', '%d/%m/%Y')
-
 def HOLIDAY_EVENT():
 	return fistmas_begin < datetime.datetime.now() < fistmas_end
+
+homoween_begin = datetime.datetime.strptime(f'1/10/{t.year}', '%d/%m/%Y')
+homoween_end = datetime.datetime.strptime(f'30/10/{t.year}', '%d/%m/%Y')
+def IS_HOMOWEEN():
+	return homoween_begin < datetime.datetime.now() < homoween_end
 
 DEFAULT_TIME_FILTER = "all"
 DEFAULT_THEME = "midnight"
