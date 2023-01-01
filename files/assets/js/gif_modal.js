@@ -46,75 +46,75 @@ async function getGifs(form) {
 	container.innerHTML = `	
 	<div class="card">
 		<div class="gif-cat-overlay"><div>Agree</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/wGhYz3FHaRJgk/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/wGhYz3FHaRJgk/200w.webp">
 	</div>
 	<div class="card">
 		<div class="gif-cat-overlay"><div>Laugh</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/O5NyCibf93upy/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/O5NyCibf93upy/200w.webp">
 	</div>
 	<div class="card">
 		<div class="gif-cat-overlay"><div>Confused</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/3o7btPCcdNniyf0ArS/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/3o7btPCcdNniyf0ArS/200w.webp">
 	</div>
 	<div class="card">
 		<div class="gif-cat-overlay"><div>Sad</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/ISOckXUybVfQ4/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/ISOckXUybVfQ4/200w.webp">
 	</div>
 	<div class="card">
 		<div class="gif-cat-overlay"><div>Happy</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/XR9Dp54ZC4dji/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/XR9Dp54ZC4dji/200w.webp">
 	</div>
 	<div class="card">
 		<div class="gif-cat-overlay"><div>Awesome</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/3ohzdIuqJoo8QdKlnW/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/3ohzdIuqJoo8QdKlnW/200w.webp">
 	</div>
 	<div class="card">
 		<div class="gif-cat-overlay"><div>Yes</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/J336VCs1JC42zGRhjH/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/J336VCs1JC42zGRhjH/200w.webp">
 	</div>
 	<div class="card">
 		<div class="gif-cat-overlay"><div>No</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/1zSz5MVw4zKg0/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/1zSz5MVw4zKg0/200w.webp">
 	</div>
 	<div class="card">
 		<div class="gif-cat-overlay"><div>Love</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/4N1wOi78ZGzSB6H7vK/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/4N1wOi78ZGzSB6H7vK/200w.webp">
 	</div>
 	<div class="card">
 		<div class="gif-cat-overlay"><div>Please</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/qUIm5wu6LAAog/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/qUIm5wu6LAAog/200w.webp">
 	</div>
 	<div class="card">
 		<div class="gif-cat-overlay"><div>Scared</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/bEVKYB487Lqxy/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/bEVKYB487Lqxy/200w.webp">
 	</div>
 	<div class="card">
 		<div class="gif-cat-overlay"><div>Angry</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/12Pb87uq0Vwq2c/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/12Pb87uq0Vwq2c/200w.webp">
 	</div>
 	<div class="card">
 		<div class="gif-cat-overlay"><div>Awkward</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/unFLKoAV3TkXe/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/unFLKoAV3TkXe/200w.webp">
 	</div>
 	<div class="card">
 		<div class="gif-cat-overlay"><div>Cringe</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/1jDvQyhGd3L2g/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/1jDvQyhGd3L2g/200w.webp">
 	</div>
 	<div class="card">
 		<div class="gif-cat-overlay"><div>OMG</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/3o72F8t9TDi2xVnxOE/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/3o72F8t9TDi2xVnxOE/200w.webp">
 	</div>
 	<div class="card">
 		<div class="gif-cat-overlay"><div>Why</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/1M9fmo1WAFVK0/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/1M9fmo1WAFVK0/200w.webp">
 	</div>
 	<div class="card">
 		<div class="gif-cat-overlay"><div>Gross</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/pVAMI8QYM42n6/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/pVAMI8QYM42n6/200w.webp">
 	</div>
 	<div class="card">
 		<div class="gif-cat-overlay"><div>Meh</div></div>
-		<img loading="lazy" src="https://media.giphy.com/media/xT77XTpyEzJ4OJO06c/giphy.webp">
+		<img loading="lazy" src="https://media.giphy.com/media/xT77XTpyEzJ4OJO06c/200w.webp">
 	</div>`
 }
 
@@ -142,7 +142,7 @@ async function searchGifs(searchTerm) {
 	}
 	else {
 		for (let i = 0; i < 48; i++) {
-			gifURL[i] = "https://media.giphy.com/media/" + data[i].id + "/giphy.webp";
+			gifURL[i] = "https://media.giphy.com/media/" + data[i].id + "/200w.webp";
 			const insert = `<img class="giphy" loading="lazy" data-bs-dismiss="modal" src="${gifURL[i]}"></div>`
 			container.insertAdjacentHTML('beforeend', insert);
 			noGIFs.innerHTML = null;
