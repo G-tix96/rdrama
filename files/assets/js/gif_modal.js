@@ -2,8 +2,6 @@ const gifSearchBar = document.getElementById('gifSearch')
 const loadGIFs = document.getElementById('gifs-load-more');
 const noGIFs = document.getElementById('no-gifs-found');
 const container = document.getElementById('GIFs');
-const backBtn = document.getElementById('gifs-back-btn');
-const cancelBtn = document.getElementById('gifs-cancel-btn');
 
 let commentFormID;
 
@@ -42,8 +40,6 @@ async function getGifs(form) {
 	commentFormID = form;
 
 	gifSearchBar.value = null;
-	backBtn.innerHTML = null;
-	cancelBtn.innerHTML = null;
 	noGIFs.innerHTML = null;
 	loadGIFs.innerHTML = null;
 
@@ -133,10 +129,6 @@ async function searchGifs(searchTerm) {
 
 	container.innerHTML = '';
 
-	backBtn.innerHTML = `<button class="btn btn-link pl-0 pr-3" id="gifs-back-btn" data-nonce="${nonce}" data-onclick="getGifs()"><i class="fas fa-long-arrow-left text-muted ml-3"></i></button>`;
-
-	cancelBtn.innerHTML = `<button class="btn btn-link pl-3 pr-0" id="gifs-cancel-btn" data-nonce="${nonce}" data-onclick="getGifs()"><i class="fas fa-times text-muted"></i></button>`;
-
 	let response = await fetch("/giphy?searchTerm=" + searchTerm + "&limit=48");
 	let data = await response.json()
 	const max = data.length - 1
@@ -158,3 +150,6 @@ async function searchGifs(searchTerm) {
 		}
 	}
 }
+
+document.getElementById('gifs-back-btn').onclick = getGifs;
+document.getElementById('gifs-cancel-btn').onclick = getGifs;
