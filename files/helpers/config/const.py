@@ -4,10 +4,11 @@ from os import environ, path
 import tldextract
 import datetime
 
-t = datetime.datetime.now()
 fistmas_begin = datetime.datetime.strptime(f'1/12/{t.year}', '%d/%m/%Y')
 fistmas_end = datetime.datetime.strptime(f'30/12/{t.year}', '%d/%m/%Y')
-HOLIDAY_EVENT = fistmas_begin < t < fistmas_end
+
+def HOLIDAY_EVENT():
+	return fistmas_begin < datetime.datetime.now() < fistmas_end
 
 DEFAULT_TIME_FILTER = "all"
 DEFAULT_THEME = "midnight"
