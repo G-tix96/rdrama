@@ -34,7 +34,8 @@
 			class="btn btn-danger"
 			id="endLotterySession"
 			style="display: none"
-			onclick="endLotterySession()"
+			data-nonce="{{g.nonce}}"
+			data-onclick="endLotterySession()"
 		>
 			End Current Session
 		</button>
@@ -43,7 +44,8 @@
 			class="btn btn-success"
 			id="startLotterySession"
 			style="display: none"
-			onclick="startLotterySession()"
+			data-nonce="{{g.nonce}}"
+			data-onclick="startLotterySession()"
 		>
 			Start New Session
 		</button>
@@ -116,7 +118,8 @@
 		type="button"
 		class="btn btn-success lottery-page--action"
 		id="purchaseTicket"
-		onclick="purchaseLotteryTicket()"
+		data-nonce="{{g.nonce}}"
+		data-onclick="purchaseLotteryTicket()"
 		>
 		Purchase <span id="totalQuantityOfTickets">1</span> for
 		<img

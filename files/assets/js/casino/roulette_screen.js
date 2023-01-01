@@ -73,7 +73,8 @@ function buildRouletteTable() {
 
 		html += `<div
 			id="STRAIGHT_UP_BET#${correctNumber}"
-			onclick="placeChip('STRAIGHT_UP_BET', '${correctNumber}')"
+			data-nonce="${nonce}"
+			data-onclick="placeChip('STRAIGHT_UP_BET', '${correctNumber}')"
 			class="roulette-table-number roulette-table-number__${isRed ? 'red' : 'black'}">
 			${correctNumber}
 		</div>
@@ -91,7 +92,8 @@ function buildRouletteTable() {
 
 		html += `<div
 			id="STRAIGHT_UP_BET#${correctNumber}"
-			onclick="placeChip('STRAIGHT_UP_BET', '${correctNumber}')"
+			data-nonce="${nonce}"
+			data-onclick="placeChip('STRAIGHT_UP_BET', '${correctNumber}')"
 			class="roulette-table-number roulette-table-number__${isRed ? 'red' : 'black'}">
 			${correctNumber}
 		</div>
@@ -109,7 +111,8 @@ function buildRouletteTable() {
 		
 		html += `<div
 			id="STRAIGHT_UP_BET#${correctNumber}"
-			onclick="placeChip('STRAIGHT_UP_BET', '${correctNumber}')"
+			data-nonce="${nonce}"
+			data-onclick="placeChip('STRAIGHT_UP_BET', '${correctNumber}')"
 			class="roulette-table-number roulette-table-number__${isRed ? 'red' : 'black'}">
 			${correctNumber}
 		</div>
