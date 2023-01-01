@@ -8,7 +8,7 @@ function execute(element, attr) {
 		if (func) {
 			const split = func.split('(')
 			const name = split[0]
-			const args = split[1].replace(/[' )]/g, "").split(',')
+			const args = split[1].replace(/[')]/g, "").split(',').map(a => a.trim());
 			if (args[0] == 'this') args[0] = element
 			try {
 				window[name](...args);
