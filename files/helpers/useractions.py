@@ -8,6 +8,12 @@ def badge_grant(user, badge_id, description=None, url=None, notify=True):
 	if user.has_badge(badge_id):
 		return
 
+	if len(description) > 256:
+		abort(400, "Custom description is too long, max 256 characters!")
+
+	if len(url) > 256:
+		abort(400, "URL is too long, max 256 characters!")
+
 	badge = Badge(
 		badge_id=int(badge_id),
 		user_id=user.id,
