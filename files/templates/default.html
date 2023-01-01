@@ -4,8 +4,8 @@
 {% block banner %}
 	{% include "modals/expanded_image.html" %}
 	{% if err or '@' not in request.path %}
-		{% if HOLIDAY_EVENT() and not sub %}
-			{% include 'event/banner.html' %}
+		{% if IS_FISTMAS() and not sub %}
+			{% include 'fistmas/banner.html' %}
 		{% else %}
 			{% if err and SITE_NAME == 'rDrama' %}
 				{% set src = "banner_error.webp" | asset_siteimg %}
@@ -79,8 +79,8 @@
 	<script defer src="{{'js/spider.js' | asset}}"></script>
 {% endif %}
 
-{% if HOLIDAY_EVENT() %}
-	{% include "event/music.html" %}
+{% if IS_FISTMAS() %}
+	{% include "fistmas/music.html" %}
 {% endif %}
 
 {% endblock %}

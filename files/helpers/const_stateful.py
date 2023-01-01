@@ -3,7 +3,7 @@ from os import path
 from sqlalchemy.orm import scoped_session
 
 from files.classes import Marsey
-from files.helpers.config.const import HOLIDAY_EVENT, SITE_NAME
+from files.helpers.config.const import IS_FISTMAS, SITE_NAME
 
 marseys_const = []
 marseys_const2 = []
@@ -32,7 +32,7 @@ def _initialize_snappy_marseys_and_quotes():
 	SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
 
 	filename = f"snappy_{SITE_NAME}.txt"
-	if HOLIDAY_EVENT(): filename = f"snappy_event_{SITE_NAME}.txt"
+	if IS_FISTMAS(): filename = f"snappy_event_{SITE_NAME}.txt"
 
 	try:
 		with open(filename, "r", encoding="utf-8") as f:

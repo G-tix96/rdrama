@@ -88,7 +88,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		abort(400)
 	existing = existing.one_or_none()
 	
-	if HOLIDAY_EVENT():
+	if IS_FISTMAS():
 		coin_mult = 2
 	coin_value = coin_delta * coin_mult
 

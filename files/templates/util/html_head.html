@@ -101,7 +101,7 @@
 		{% if v.agendaposter %}
 			<link rel="stylesheet" href="{{('css/agendaposter.css') | asset}}">
 		{% endif %}
-		{% if include_user_css and not EVENT_STYLES %}
+		{% if include_user_css and not IS_FISTMAS() %}
 			{% if v.theme == 'classic_dark' %}
 				<link rel="stylesheet" href="{{('css/classic.css') | asset}}">
 			{% endif %}
@@ -125,14 +125,13 @@
 		<link rel="stylesheet" href="/h/{{sub}}/css">
 	{% endif %}
 
-	{% if EVENT_STYLES %}
-		{% set EVENT_STYLES = 'event/css/'+EVENT_STYLES %}
-		<link rel="stylesheet" href="{{EVENT_STYLES | asset}}">
+	{% if IS_FISTMAS() %}
+		<link rel="stylesheet" href="{{'fistmas/css/fistmas.css' | asset}}">
 
-		{% if v and user_event_darkmode(v, g.db)%}
-			<link rel="stylesheet" href="{{'event/css/themes/dark.css'| asset}}">
+		{% if v and v.event_darkmode %}
+			<link rel="stylesheet" href="{{'fistmas/css/themes/dark.css'| asset}}">
 		{% else %}
-			<link rel="stylesheet" href="{{'event/css/themes/light.css'| asset}}">
+			<link rel="stylesheet" href="{{'fistmas/css/themes/light.css'| asset}}">
 		{% endif %}
 	{% endif %}
 

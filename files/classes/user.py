@@ -43,8 +43,21 @@ else:
 	DEFAULT_COINS = 0
 	DEFAULT_MARSEYBUX = 0
 
-if SITE_NAME == 'rDrama': default_event_music = True
-else: default_event_music = False
+if IS_FISTMAS():
+	if SITE_NAME == 'rDrama':
+		default_event_music = True
+		default_darkmode = False
+	else:
+		default_event_music = False
+		default_darkmode = True
+
+
+class EventUser(Base):
+	__tablename__ = "event_users"
+	id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+	user = relationship("User", primaryjoin="EventUser.id == User.id")
+
+	# start event specific columns
 
 class User(Base):
 	__tablename__ = "users"
@@ -146,7 +159,10 @@ class User(Base):
 	marsify = Column(Integer, default=0)
 	rainbow = Column(Integer)
 	spider = Column(Integer, default=0)
-	event_music = Column(Boolean, default=default_event_music, nullable=False)
+
+	if IS_FISTMAS():
+		event_music = Column(Boolean, default=default_event_music, nullable=False)
+		event_darkmode = Column(Boolean, default=default_darkmode, nullable=False)
 
 	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
 	subscriptions = relationship("Subscription", back_populates="user")
@@ -265,13 +281,12 @@ class User(Base):
 	@lazy
 	def hat_active(self, v):
 		if FEATURES['HATS']:
-			if HOLIDAY_EVENT():
-				from files.events.helpers.const import EVENT_FORCED_HATS
-				if EVENT_FORCED_HATS:
-					if SITE_NAME == 'rDrama':
-						return (random.choice(EVENT_FORCED_HATS), 'Merry Fistmas!')
-					else:
-						return (random.choice(EVENT_FORCED_HATS), 'Merry Christmas!')
+			if IS_FISTMAS():
+				hat = random.choice(('Santa Hat III', 'Winter Cap', 'Present Bow'))
+				if SITE_NAME == 'rDrama':
+					return (f'/i/hats/{hat}.webp', 'Merry Fistmas!')
+				else:
+					return (f'/i/hats/{hat}.webp', 'Merry Christmas!')
 
 			if self.is_cakeday:
 				return ('/i/hats/Cakeday.webp', "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓")
@@ -1080,7 +1095,7 @@ class User(Base):
 	def shadowbanner(self):
 		return g.db.query(User.username).filter_by(id=self.shadowbanned).one()[0]
 
-	if HOLIDAY_EVENT():
+	if IS_FISTMAS():
 		@property
 		@lazy
 		def can_toggle_event_music(self):

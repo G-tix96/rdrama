@@ -194,9 +194,11 @@ def settings_personal_post(v):
 		else: 
 			badge = v.has_badge(179)
 			if badge: g.db.delete(badge)
-	elif not updated and request.values.get("event_music", v.event_music) != v.event_music and v.can_toggle_event_music:
+
+	elif IS_FISTMAS and not updated and request.values.get("event_music", v.event_music) != v.event_music and v.can_toggle_event_music:
 		updated = True
 		v.event_music = not v.event_music
+	
 	elif not updated and request.values.get("bio") == "" and not request.files.get('file'):
 		v.bio = None
 		v.bio_html = None
@@ -894,3 +896,11 @@ def settings_checkmark_text(v):
 	v.verified = new_name
 	g.db.add(v)
 	return render_template("settings/personal.html", v=v, msg="Checkmark Text successfully updated!")
+
+if IS_FISTMAS():
+	@app.post("/events/fistmas2022/darkmode")
+	@auth_required
+	def event_darkmode(v):
+		v.event_darkmode = not v.event_darkmode
+		g.db.add(v)
+		return {"message": "Dark mode toggled successfully!"}

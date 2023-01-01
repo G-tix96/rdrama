@@ -12,7 +12,7 @@
 <script src="{{'js/top.js' | asset}}"></script>
 
 <!DOCTYPE html>
-<html lang="en" {% if not HOLIDAY_EVENT() %}style="--primary:#{{v.themecolor if v else DEFAULT_COLOR}}"{% endif %}>
+<html lang="en" {% if not IS_FISTMAS() %}style="--primary:#{{v.themecolor if v else DEFAULT_COLOR}}"{% endif %}>
 	<head>
 	{% block head %}
 		<meta charset="utf-8">

@@ -3,9 +3,9 @@
 /* Fonts */
 @font-face {
 	font-family: "Burbank Small Medium";
-	src: url("/assets/event/fonts/Burbank-Small-Medium.woff2") format("woff2"),
-	     url("/assets/event/fonts/Burbank-Small-Medium.woff")  format("woff"),
-	     url("/assets/event/fonts/Burbank-Small-Medium.ttf")   format("truetype");
+	src: url("/assets/fistmas/fonts/Burbank-Small-Medium.woff2") format("woff2"),
+	     url("/assets/fistmas/fonts/Burbank-Small-Medium.woff")  format("woff"),
+	     url("/assets/fistmas/fonts/Burbank-Small-Medium.ttf")   format("truetype");
 }
 
 :root {
@@ -34,7 +34,7 @@
 body {
 	font-family: 'Burbank Small Medium', sans-serif;
 	background-color: rgb(var(--background)) !important;
-	background-image: url('/assets/event/images/pattern.webp') !important;
+	background-image: url('/assets/fistmas/images/pattern.webp') !important;
 	overflow-x: hidden;
 }
 
@@ -136,15 +136,15 @@ color: #7a7a7a !important;
 }
 
 body {
-    cursor: url(/assets/event/images/cursor.webp?v=1), auto !important;
+    cursor: url(/assets/fistmas/images/cursor.webp?v=1), auto !important;
 }
 
 textarea, input[type=textbox], input[type=search] {
-    cursor: url(/assets/event/images/text.webp?v=1) 9 14, auto !important;
+    cursor: url(/assets/fistmas/images/text.webp?v=1) 9 14, auto !important;
 }
 
 .btn, input[type=button], button, a {
-    cursor: url(/assets/event/images/pointer.webp?v=1), auto !important;
+    cursor: url(/assets/fistmas/images/pointer.webp?v=1), auto !important;
 }
 
 .fa-moon-over-sun:before{content:"\f74a"}
@@ -171,7 +171,7 @@ textarea, input[type=textbox], input[type=search] {
 	left: 0;
 	height: 57px;
 	width: 100%;
-	background: url('/assets/event/images/lights.webp?v=1');
+	background: url('/assets/fistmas/images/lights.webp?v=1');
 	animation: lights 1s infinite steps(2);
 	pointer-events: none;
   }
@@ -196,7 +196,7 @@ textarea, input[type=textbox], input[type=search] {
 .btn::after, .snow-cap::after {
 	content: '';
 	pointer-events: none;
-	background: url("/assets/event/images/snowcap.webp?v=1") repeat-x;
+	background: url("/assets/fistmas/images/snowcap.webp?v=1") repeat-x;
 	background-size: contain;
 	position: absolute;
 	bottom: -18px;

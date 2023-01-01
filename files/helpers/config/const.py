@@ -8,7 +8,7 @@ t = datetime.datetime.now()
 
 fistmas_begin = datetime.datetime.strptime(f'1/12/{t.year}', '%d/%m/%Y')
 fistmas_end = datetime.datetime.strptime(f'30/12/{t.year}', '%d/%m/%Y')
-def HOLIDAY_EVENT():
+def IS_FISTMAS():
 	return fistmas_begin < datetime.datetime.now() < fistmas_end
 
 homoween_begin = datetime.datetime.strptime(f'1/10/{t.year}', '%d/%m/%Y')

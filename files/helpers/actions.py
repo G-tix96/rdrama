@@ -62,7 +62,7 @@ def execute_snappy(post:Submission, v:User):
 		body = "Can you people come up with any ideas that don't involve committing federal crimes"
 	else:
 		if SNAPPY_MARSEYS and SNAPPY_QUOTES:
-			if HOLIDAY_EVENT() or random.random() > 0.5:
+			if IS_FISTMAS() or random.random() > 0.5:
 				SNAPPY_CHOICES = SNAPPY_QUOTES
 			else: 
 				SNAPPY_CHOICES = SNAPPY_MARSEYS

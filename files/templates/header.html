@@ -10,8 +10,17 @@
 				{% if range(1,5) | random == 1 %}
 					{% include "journoid_banner.html" %}
 				{% else %}
-					{% if EVENT_VISITORS_HERE_FLAVOR %}
-						{%- set VISITORS_HERE_FLAVOR = EVENT_VISITORS_HERE_FLAVOR -%}
+					{% if IS_FISTMAS() %}
+						{%- set VISITORS_HERE_FLAVOR = [
+							' santa enjoyers kissing under a misletoe',
+							' bringing up family drama at Christmas dinner',
+							' homoerotic dramanauts stroking their candy canes',
+							" dramanauts jingling each other's balls",
+							" Santa deniers getting reamed by Rudolph",
+							" naughty listers getting coal for fistmas",
+							" plus-sized dramanauts eating Santa's cookies",
+							" dramatards having their chimneys stuffed by Santa",
+						] -%}
 					{% else %}
 						{%- set VISITORS_HERE_FLAVOR = [
 							' incels currently stalking roasties',
@@ -31,8 +40,7 @@
 							' bacons currently narwhaling',
 							' well-behaved rule-following goodthinkers',
 							' throwing shade right now',
-						]
-						-%}
+						] -%}
 					{% endif %}
 					{{loggedin_counter+loggedout_counter}} {{VISITORS_HERE_FLAVOR|random|safe}} ({{loggedin_counter}} logged in)
 				{% endif %}
@@ -47,9 +55,9 @@
 			<div class="container-fluid" style="padding:0;">
 			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not sub %}flex-grow-1{% endif %}">
 				{% if SITE_NAME == 'WPD' %} {# Temporary event code, 2022-12-11 #}
-					{% set icon_url = 'icons-event/2022-christmas.webp' | asset_siteimg %}
-				{% elif EVENT_ICONS %}
-					{% set icon_url = macros.random_image('assets/event/images/icon') %}
+					{% set icon_url = 'icons-fistmas/2022-christmas.webp' | asset_siteimg %}
+				{% elif IS_FISTMAS() %}
+					{% set icon_url = macros.random_image('assets/fistmas/images/icon') %}
 				{% else %}
 					{% set icon_url = 'headericon.webp' | asset_siteimg %}
 				{% endif %}
@@ -61,8 +69,8 @@
 			{% elif has_logo %}
 				<div id="logo-container" class="flex-grow-1 logo-container">
 				<a href="/">
-					{% if SITE_NAME == 'WPD' and HOLIDAY_EVENT() %}
-						<img class="ml-1" id="logo" alt="logo" src="{{'icons-event/2022-christmas-logo.webp' | asset_siteimg}}" width="70">
+					{% if SITE_NAME == 'WPD' and IS_FISTMAS() %}
+						<img class="ml-1" id="logo" alt="logo" src="{{'icons-fistmas/2022-christmas-logo.webp' | asset_siteimg}}" width="70">
 					{% else %}
 						<img class="ml-1" id="logo" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width="70">
 					{% endif %}
