@@ -3,7 +3,7 @@ import random
 import re
 import signal
 from functools import partial
-from os import path
+from os import path, listdir
 from typing import Any
 from urllib.parse import parse_qs, urlparse
 
@@ -233,6 +233,10 @@ def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=Non
 	return sanitized
 
 
+chud_images = listdir("files/assets/images/chud")
+chud_images = [f'![](/i/chud/{f})' for f in chud_images]
+chud_images.extend([':#trumpjaktalking:', ':#reposthorse:'])
+
 @with_sigalrm_timeout(10)
 def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False, sidebar=False):
 	sanitized = sanitized.strip()
@@ -242,7 +246,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	if torture:
 		sanitized = torture_ap(sanitized, g.v.username)
-		to_add = random.choice((':#trumpjaktalking:', ':#reposthorse:', '![](/i/supportjews.webp)', '![](/i/gluck.webp)', '![](/i/ack.webp)'))
+		to_add = random.choice(chud_images)
 		sanitized += f'\n{to_add}'
 
 	sanitized = normalize_url(sanitized)
