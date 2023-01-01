@@ -390,7 +390,7 @@ def get_css(id):
 	try: id = int(id)
 	except: abort(404)
 
-	css, bg = g.db.query(User.profilecss, User.profile_background).filter_by(id=id).one_or_none()
+	css, bg = g.db.query(User.profilecss, User.background).filter_by(id=id).one_or_none()
 
 	if bg:
 		if not css: css = ''

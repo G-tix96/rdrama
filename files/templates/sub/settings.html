@@ -28,7 +28,7 @@
 					<form action="/h/{{sub}}/marsey_image" method="post" enctype="multipart/form-data">
 						<input type="hidden" name="formkey" value="{{v|formkey}}">
 						<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-							Update<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="marsey" onchange_submit>
+							Update<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="marsey" data-nonce="{{g.nonce}}" onchange_submit>
 						</label>
 					</form>
 				</div>
@@ -50,7 +50,7 @@
 					<form action="/h/{{sub}}/sidebar_image" method="post" enctype="multipart/form-data">
 						<input type="hidden" name="formkey" value="{{v|formkey}}">
 						<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-							Update<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="sidebar" onchange_submit>
+							Update<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="sidebar" data-nonce="{{g.nonce}}" onchange_submit>
 						</label>
 					</form>
 				</div>
@@ -86,7 +86,7 @@
 					<form action="/h/{{sub.name}}/settings/banners/" method="post" enctype="multipart/form-data">
 						<input type="hidden" name="formkey" value="{{v|formkey}}">
 						<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-							Upload New Banner<input autocomplete="off" type="file" accept="image/*" hidden name="banner" onchange_submit>
+							Upload New Banner<input autocomplete="off" type="file" accept="image/*" hidden name="banner" data-nonce="{{g.nonce}}" onchange_submit>
 						</label>
 						<button type="button" class="btn btn-danger sub-banner-delete-button" id="sub-banner-delete-all" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{sub.name}}/settings/banners/', 'DELETE');">Delete All Banners</button>
 					</form>

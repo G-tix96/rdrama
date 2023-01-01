@@ -198,7 +198,7 @@
 										Upload Profile Background
 									{% endif %}
 								</label>
-								<input autocomplete="off" id="upload-profile-background-file" accept="image/*", type="file" name="file" onchange_submit hidden>
+								<input autocomplete="off" id="upload-profile-background-file" accept="image/*", type="file" name="file" data-nonce="{{g.nonce}}" onchange_submit hidden>
 							</form>
 
 							{% if v.profile_background -%}
@@ -417,7 +417,7 @@
 										Upload Profile Background
 									{% endif %}
 								</label>
-								<input autocomplete="off" id="upload-profile-background-file-mobile" accept="image/*", type="file" name="file" onchange_submit hidden>
+								<input autocomplete="off" id="upload-profile-background-file-mobile" accept="image/*", type="file" name="file" data-nonce="{{g.nonce}}" onchange_submit hidden>
 							</form>
 
 							{% if v.profile_background -%}

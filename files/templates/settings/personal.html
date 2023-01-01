@@ -65,7 +65,7 @@
 										Upload custom site background
 									{% endif %}
 								</label>
-								<input autocomplete="off" id="upload-custom-background-file" accept="image/*", type="file" name="file" onchange_submit hidden>
+								<input autocomplete="off" id="upload-custom-background-file" accept="image/*", type="file" name="file" data-nonce="{{g.nonce}}" onchange_submit hidden>
 							</form>
 							{% if v.background %}
 								<div class="d-flex mb-3">
@@ -124,7 +124,7 @@
 									<form action="/settings/images/profile" method="post" enctype="multipart/form-data">
 										<input type="hidden" name="formkey" value="{{v|formkey}}">
 										<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-											Update<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="profile" onchange_submit>
+											Update<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="profile" data-nonce="{{g.nonce}}" onchange_submit>
 										</label>
 									</form>
 								</div>
@@ -146,7 +146,7 @@
 										<form action="/settings/images/banner" method="post" enctype="multipart/form-data">
 											<input type="hidden" name="formkey" value="{{v|formkey}}">
 											<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-												Update<input autocomplete="off" type="file" {% if g.is_tor %}disabled{% endif %} accept="image/*" hidden name="banner" onchange_submit>
+												Update<input autocomplete="off" type="file" {% if g.is_tor %}disabled{% endif %} accept="image/*" hidden name="banner" data-nonce="{{g.nonce}}" onchange_submit>
 											</label>
 										</form>
 									</div>
@@ -197,7 +197,7 @@
 												Use an MP3 file (Max size is 8MB)
 											{% endif %}
 										</div>
-										<input autocomplete="off" id="file-upload2" type="file" name="file" {% if g.is_tor %}disabled{% endif %} accept="audio/mp3" onchange_submit hidden>
+										<input autocomplete="off" id="file-upload2" type="file" name="file" {% if g.is_tor %}disabled{% endif %} accept="audio/mp3" data-nonce="{{g.nonce}}" onchange_submit hidden>
 									</label>
 								</form>
 								<form action="/settings/song_change" method="post">

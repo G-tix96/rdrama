@@ -25,7 +25,7 @@
 			<form action="{{form_action}}" id="{{id}}-form" method="post" class="color-picker" style="line-height: 0">
 					<input type="hidden" name="formkey" value="{{v|formkey}}">
 					{% for themecolor in COLORS %}
-					<input autocomplete="off" type="radio" name="{{form_name}}" id="{{id}}-{{themecolor}}" value="{{themecolor}}" {% if current_color == themecolor %}checked{% endif %} onclick_submit>
+					<input autocomplete="off" type="radio" name="{{form_name}}" id="{{id}}-{{themecolor}}" value="{{themecolor}}" {% if current_color == themecolor %}checked{% endif %} data-nonce="{{g.nonce}}" onclick_submit>
 					<label class="color-radio" for="{{id}}-{{themecolor}}">
 						<span style="background-color: #{{themecolor}}">
 						{% if current_color and current_color.lower() == themecolor %}
