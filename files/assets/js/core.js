@@ -254,8 +254,6 @@ function bs_trigger(e) {
 	}
 }
 
-bs_trigger(document);
-
 function escapeHTML(unsafe) {
 	return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 }

@@ -172,7 +172,10 @@ function giveaward(t) {
 
 const data_url = document.querySelectorAll('[data-url]');
 for (const element of data_url) {
-	if (element.dataset.nonce != nonce) continue
+	if (element.dataset.nonce != nonce) {
+		console.log("Nonce check failed!")
+		continue
+	}
 	element.onclick = () => {
 		document.getElementById('giveaward').dataset.action = element.dataset.url
 	};

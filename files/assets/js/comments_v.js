@@ -135,6 +135,7 @@ function post_reply(id){
 
 			comments.insertAdjacentHTML('beforeend', comment);
 
+			register_new_elements(comments);
 			bs_trigger(comments);
 
 			btn.disabled = false;
@@ -181,7 +182,10 @@ function comment_edit(id){
 			commentForm=document.getElementById('comment-text-'+id);
 			commentForm.innerHTML = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`)
 			document.getElementById('cancel-edit-'+id).click()
+
+			register_new_elements(commentForm);
 			bs_trigger(commentForm);
+
 			document.getElementById('filename-edit-reply-' + id).innerHTML = '<i class="fas fa-file"></i>';
 			document.getElementById('comment-edit-body-' + id).value = data["body"];
 			document.getElementById('file-edit-reply-'+id).value = null;
@@ -234,6 +238,7 @@ function postComment(fullname, hide){
 
 			comments.insertAdjacentHTML('afterbegin', comment);
 
+			register_new_elements(comments);
 			bs_trigger(comments);
 
 			btn.disabled = false;

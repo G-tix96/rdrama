@@ -1,5 +1,8 @@
 function execute(element, attr) {
-	if (element.dataset.nonce != nonce) return
+	if (element.dataset.nonce != nonce) {
+		console.log("Nonce check failed!")
+		return
+	}
 	const funcs = element.getAttribute(`data-${attr}`).split(';')
 	for (const func of funcs) {
 		if (func) {
@@ -36,26 +39,6 @@ document.addEventListener("click", function(e){
 	}
 });
 
-const onclick = document.querySelectorAll('[data-onclick]');
-for (const element of onclick) {
-	element.onclick = ()=>{execute(element, 'onclick')};
-}
-
-const oninput = document.querySelectorAll('[data-oninput]');
-for (const element of oninput) {
-	element.oninput = ()=>{execute(element, 'oninput')};
-}
-
-const onmouseover = document.querySelectorAll('[data-onmouseover]');
-for (const element of onmouseover) {
-	element.onmouseover = ()=>{execute(element, 'onmouseover')};
-}
-
-const onchange = document.querySelectorAll('[data-onchange]');
-for (const element of onchange) {
-	element.onchange = ()=>{execute(element, 'onchange')};
-}
-
 const onsubmit = document.querySelectorAll('[data-onsubmit]');
 for (const element of onsubmit) {
 	element.onsubmit = (event)=>{
@@ -71,19 +54,28 @@ for (const element of onfocus) {
 
 const click_submit = document.querySelectorAll('[click_submit]');
 for (const element of click_submit) {
-	if (element.dataset.nonce != nonce) continue
+	if (element.dataset.nonce != nonce) {
+		console.log("Nonce check failed!")
+		continue
+	}
 	element.onclick = () => {element.form.submit()};
 }
 
 const change_submit = document.querySelectorAll('[change_submit]');
 for (const element of change_submit) {
-	if (element.dataset.nonce != nonce) continue
+	if (element.dataset.nonce != nonce) {
+		console.log("Nonce check failed!")
+		continue
+	}
 	element.onchange = () => {element.form.submit()};
 }
 
 const undisable_element = document.querySelectorAll('[data-undisable_element]');
 for (const element of undisable_element) {
-	if (element.dataset.nonce != nonce) continue
+	if (element.dataset.nonce != nonce) {
+		console.log("Nonce check failed!")
+		continue
+	}
 	element.oninput = () => {
 		document.getElementById(element.dataset.undisable_element).disabled = false;
 	};
@@ -91,7 +83,10 @@ for (const element of undisable_element) {
 
 const setting_switchs = document.getElementsByClassName('setting_switch');
 for (const element of setting_switchs) {
-	if (element.dataset.nonce != nonce) continue
+	if (element.dataset.nonce != nonce) {
+		console.log("Nonce check failed!")
+		continue
+	}
 	element.onchange = () => {
 		postToastSwitch(element,`/settings/personal?${element.name}=${element.checked}`);
 	};
@@ -99,12 +94,41 @@ for (const element of setting_switchs) {
 
 const setting_reloads = document.getElementsByClassName('setting_reload');
 for (const element of setting_reloads) {
-	if (element.dataset.nonce != nonce) continue
+	if (element.dataset.nonce != nonce) {
+		console.log("Nonce check failed!")
+		continue
+	}
 	element.onchange = () => {
 		postToastReload(element,`/settings/personal?${element.name}=${element.value}`);
 	};
 }
 
 const reload_page = document.getElementById('reload_page')
-if (reload_page)
+if (reload_page) {
 	reload_page.onclick = ()=>{location.reload()};
+}
+
+function register_new_elements(e) {
+	const onclick = e.querySelectorAll('[data-onclick]');
+	for (const element of onclick) {
+		element.onclick = ()=>{execute(element, 'onclick')};
+	}
+
+	const oninput = e.querySelectorAll('[data-oninput]');
+	for (const element of oninput) {
+		element.oninput = ()=>{execute(element, 'oninput')};
+	}
+
+	const onmouseover = e.querySelectorAll('[data-onmouseover]');
+	for (const element of onmouseover) {
+		element.onmouseover = ()=>{execute(element, 'onmouseover')};
+	}
+
+	const onchange = e.querySelectorAll('[data-onchange]');
+	for (const element of onchange) {
+		element.onchange = ()=>{execute(element, 'onchange')};
+	}
+}
+
+register_new_elements(document);
+bs_trigger(document);

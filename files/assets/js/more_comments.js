@@ -12,6 +12,7 @@ function more_comments(cid, sort) {
 		if (xhr.status==200) {
 			let e = document.getElementById(`replies-of-c_${cid}`)
 			e.innerHTML = xhr.response.replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`);
+			register_new_elements(e);
 			bs_trigger(e)
 
 			highlight_unread("old-comment-counts")
