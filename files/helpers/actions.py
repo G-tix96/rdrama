@@ -35,7 +35,7 @@ def _archiveorg(url):
 	except: pass
 
 
-def archive_url(url):	
+def archive_url(url):
 	gevent.spawn(_archiveorg, url)
 	if url.startswith('https://twitter.com/'):
 		url = url.replace('https://twitter.com/', 'https://nitter.lacontrevoie.fr/')
@@ -64,7 +64,7 @@ def execute_snappy(post:Submission, v:User):
 		if SNAPPY_MARSEYS and SNAPPY_QUOTES:
 			if IS_FISTMAS() or random.random() > 0.5:
 				SNAPPY_CHOICES = SNAPPY_QUOTES
-			else: 
+			else:
 				SNAPPY_CHOICES = SNAPPY_MARSEYS
 		elif SNAPPY_MARSEYS: SNAPPY_CHOICES = SNAPPY_MARSEYS
 		elif SNAPPY_QUOTES: SNAPPY_CHOICES = SNAPPY_QUOTES
@@ -350,7 +350,7 @@ def execute_blackjack_custom(v, target, body, type):
 def execute_blackjack(v, target, body, type):
 	if not execute_blackjack_custom(v, target, body, type):
 		return False
-	
+
 	if not body: return True
 
 	execute = False
@@ -510,8 +510,8 @@ def execute_lawlz_actions(v:User, p:Submission):
 	g.db.add(ma_2)
 	g.db.add(ma_3)
 
-def process_poll_options(target:Union[Submission, Comment], 
-						cls:Union[Type[SubmissionOption], Type[CommentOption]], 
+def process_poll_options(target:Union[Submission, Comment],
+						cls:Union[Type[SubmissionOption], Type[CommentOption]],
 						options:Iterable[str], exclusive:int, friendly_name:str,
 						db:scoped_session) -> None:
 		for option in options:

@@ -98,7 +98,7 @@ function delete_commentModal(t, id) {
 					document.getElementById("comment-"+id).remove()
 				}
 				else
-				{			
+				{
 					document.getElementsByClassName(`comment-${id}-only`)[0].classList.add('deleted');
 					document.getElementById(`delete-${id}`).classList.add('d-none');
 					document.getElementById(`undelete-${id}`).classList.remove('d-none');
@@ -123,7 +123,7 @@ function post_reply(id){
 			form.append('file', e);
 	}
 	catch(e) {}
-	
+
 	const xhr = createXhrWithFormKey("/reply", "POST", form);
 	xhr[0].onload=function(){
 		let data

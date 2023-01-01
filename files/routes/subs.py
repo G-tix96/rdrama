@@ -37,7 +37,7 @@ def exile_post(v:User, pid):
 			_note=f'for <a href="{p.permalink}">{p.title_html}</a>'
 		)
 		g.db.add(ma)
-	
+
 	return {"message": f"@{u.username} has been exiled from /h/{sub} successfully!"}
 
 @app.post("/exile/comment/<int:cid>")
@@ -92,11 +92,11 @@ def unexile(v:User, sub, uid):
 			target_user_id=u.id
 		)
 		g.db.add(ma)
-	
+
 	if g.is_api_or_xhr:
 		return {"message": f"@{u.username} has been unexiled from /h/{sub} successfully!"}
 
-	
+
 	return redirect(f'/h/{sub}/exilees')
 
 @app.post("/h/<sub>/block")
@@ -205,7 +205,7 @@ def sub_blockers(v:User, sub):
 				.filter_by(sub=sub.name) \
 				.order_by(nullslast(SubBlock.created_utc.desc()), User.username).all()
 
-	return render_template("sub/blockers.html", 
+	return render_template("sub/blockers.html",
 		v=v, sub=sub, users=users, verb="blocking")
 
 
@@ -219,7 +219,7 @@ def sub_followers(v:User, sub):
 			.filter_by(sub=sub.name) \
 			.order_by(nullslast(SubSubscription.created_utc.desc()), User.username).all()
 
-	return render_template("sub/blockers.html", 
+	return render_template("sub/blockers.html",
 		v=v, sub=sub, users=users, verb="following")
 
 
@@ -265,7 +265,7 @@ def add_mod(v:User, sub):
 @is_not_permabanned
 def remove_mod(v:User, sub):
 	sub = get_sub_by_name(sub).name
-	
+
 	if not v.mods(sub): abort(403)
 	if v.shadowbanned: abort(500)
 
@@ -510,7 +510,7 @@ def delete_sub_banner(v:User, sub:str, index:int):
 @limiter.limit("1/10 second;30/day")
 @limiter.limit("1/10 second;30/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
 @is_not_permabanned
-def delete_all_sub_banners(v:User, sub:str):	
+def delete_all_sub_banners(v:User, sub:str):
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
@@ -542,7 +542,7 @@ def sub_sidebar(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
-	
+
 	file = request.files["sidebar"]
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
@@ -573,7 +573,7 @@ def sub_marsey(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
-	
+
 	file = request.files["marsey"]
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
@@ -692,12 +692,12 @@ def sub_stealth(v:User, sub):
 @feature_required('PINS')
 @is_not_permabanned
 def mod_pin(cid, v):
-	
+
 	comment = get_comment(cid, v=v)
-	
+
 	if not comment.stickied:
 		if not (comment.post.sub and v.mods(comment.post.sub)): abort(403)
-		
+
 		comment.stickied = v.username + " (Mod)"
 
 		g.db.add(comment)
@@ -719,9 +719,9 @@ def mod_pin(cid, v):
 @app.post("/unmod_pin/<int:cid>")
 @is_not_permabanned
 def mod_unpin(cid, v):
-	
+
 	comment = get_comment(cid, v=v)
-	
+
 	if comment.stickied:
 		if not (comment.post.sub and v.mods(comment.post.sub)): abort(403)
 
@@ -776,7 +776,7 @@ def hole_log(v:User, sub):
 		if kind: actions = actions.filter_by(kind=kind)
 
 		actions = actions.order_by(SubAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
-	
+
 	next_exists=len(actions)>25
 	actions=actions[:25]
 	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub.name).all()]

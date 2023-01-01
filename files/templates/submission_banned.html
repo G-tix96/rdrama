@@ -31,7 +31,7 @@
 
 														</div>
 
-														
+
 														<div id="voting" class="d-md-block my-auto mr-3 text-center">
 																<div class="post-{{p.id}}-up arrow-up mx-auto">
 																</div>
@@ -44,7 +44,7 @@
 
 												</div>
 			{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and p.body_html %}
-												<div class="post-body mt-4 mb-2"> 
+												<div class="post-body mt-4 mb-2">
 				{{p.body_html | safe}}
 			</div>
 			{% endif %}

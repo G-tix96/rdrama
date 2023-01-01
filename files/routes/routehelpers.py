@@ -41,7 +41,7 @@ def get_alt_graph_ids(uid:int) -> List[int]:
 	).select_from(Alt, alt_graph_cte).filter(
 		or_(alt_graph_cte.c.user_id == Alt.user1, alt_graph_cte.c.user_id == Alt.user2)
 	)
-	
+
 	alt_graph_cte = alt_graph_cte.union(alt_graph_cte_inner)
 	return set([x[0] for x in g.db.query(User.id).filter(User.id == alt_graph_cte.c.user_id, User.id != uid).all()])
 
@@ -86,7 +86,7 @@ def check_for_alts(current:User, include_current_session=True):
 			if a.user1 != current_id: add_alt(a.user1, current_id)
 			if a.user2 != past_id: add_alt(a.user2, past_id)
 			if a.user2 != current_id: add_alt(a.user2, current_id)
-	
+
 	past_accs.add(current_id)
 	if include_current_session:
 		session["history"] = list(past_accs)
@@ -110,7 +110,7 @@ def execute_shadowban_viewers_and_voters(v:Optional[User], target:Union[Submissi
 	max_upvotes = min(ti, 13)
 	rand = randint(0, max_upvotes)
 	if target.upvotes >= rand: return
-	
+
 	amount = randint(0, 3)
 	if amount != 1: return
 

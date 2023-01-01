@@ -65,7 +65,7 @@ function registerServiceWorker(serviceWorkerUrl, applicationServerPublicKey, api
 		.catch(function() {
 		});
 	} else {
-	} 
+	}
 	return swRegistration;
 }
 

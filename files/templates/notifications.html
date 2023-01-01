@@ -81,7 +81,7 @@
 							<div>
 								{% if ma.sub %}
 									<a href="/h/{{ma.sub}}">/h/{{ma.sub}}</a>
-									 - 
+									 -
 								{% endif %}
 								<a href="{{ma.user.url}}" class="font-weight-bold text-black" target="_self">@{{ma.user.username}}</a>
 								<span>{{ma.string | safe}}</span>
@@ -106,7 +106,7 @@
 				<i class="fas fa-check-circle text-success mr-2"></i>Link copied to clipboard
 			</div>
 		</div>
-		
+
 		<script defer src="{{'js/vendor/clipboard.js' | asset}}"></script>
 	{% else %}
 		{% with comments=notifications %}

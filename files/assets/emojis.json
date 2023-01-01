@@ -133,7 +133,7 @@
 	{"name":"oplus", "class":"Marsey Alphabet", "tags": ["⊕","xor","circled","sum"]},
 	{"name":"otimes", "class":"Marsey Alphabet", "tags": ["⊗","tensor","circled","product"]},
 	{"name":"trianglelefteq", "class":"Marsey Alphabet", "tags": ["⊴"]},
-	
+
 	{"name":"marseyflagmaryland","class":"Marsey Flags"},
 	{"name":"marseyflagcalifornia","class":"Marsey Flags"},
 	{"name":"marseyflagtexas","class":"Marsey Flags"},

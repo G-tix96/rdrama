@@ -87,7 +87,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	else:
 		abort(400)
 	existing = existing.one_or_none()
-	
+
 	if IS_FISTMAS():
 		coin_mult = 2
 	coin_value = coin_delta * coin_mult
@@ -125,7 +125,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 						real=real,
 						coins=coin_value
 			)
-		elif vote_cls == CommentVote:		
+		elif vote_cls == CommentVote:
 			vote = CommentVote(user_id=v.id,
 						vote_type=new,
 						comment_id=target_id,

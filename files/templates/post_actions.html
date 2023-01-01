@@ -22,7 +22,7 @@
 
 	<button type="button" id="save-{{p.id}}" class="{% if p.id in v.saved_idlist %}d-none{% endif %} list-inline-item" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/save_post/{{p.id}}','save-{{p.id}}','unsave-{{p.id}}','d-none')"><i class="fas fa-save"></i>Save</button>
 	<button type="button" id="unsave-{{p.id}}" class="{% if not p.id in v.saved_idlist %}d-none{% endif %} list-inline-item" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unsave_post/{{p.id}}','save-{{p.id}}','unsave-{{p.id}}','d-none')"><i class="fas fa-save"></i>Unsave</button>
-	
+
 	<button type="button" class="list-inline-item" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#reportPostModal" data-nonce="{{g.nonce}}" data-onclick="report_postModal('{{p.id}}')"><i class="fas fa-flag"></i>Report</button>
 {% endif %}
 
@@ -42,7 +42,7 @@
 	<ul class="dropdown-menu">
 		{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and p.oauth_app %}
 			<a class="dropdown-item list-inline-item text-info" href="{{p.oauth_app.permalink}}/posts"><i class="fas fa-code"></i>API App</a>
-		{% endif %}	
+		{% endif %}
 		{% if v.can_edit(p) %}
 			<button type="button" class="dropdown-item {% if p.new %} d-none{% endif %} list-inline-item text-info" id="{{p.id}}-sort-new" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this, '/post/{{p.id}}/new', '{{p.id}}-sort-new', '{{p.id}}-unsort-new', 'd-none', null, 'PUT')"><i class="fas fa-sparkles text-center text-primary mr-2"></i>Set Default Sort New</button>
 			<button type="button" class="dropdown-item {% if not p.new %} d-none{% endif %} list-inline-item text-info" id="{{p.id}}-unsort-new" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this, '/post/{{p.id}}/new', '{{p.id}}-unsort-new', '{{p.id}}-sort-new', 'd-none', null, 'DELETE')"><i class="fas fa-fire text-center text-primary mr-2"></i>Set Default Sort Hot</button>

@@ -285,7 +285,7 @@ class Comment(Base):
 				body += f''' data-nonce="{{g.nonce}}" data-onclick="poll_vote_no_v()"'''
 
 			body += f'''><label class="custom-control-label" for="comment-{o.id}">{o.body_html}<span class="presult-{self.id}'''
-			if not self.total_poll_voted(v): body += ' d-none'	
+			if not self.total_poll_voted(v): body += ' d-none'
 			body += f'"> - <a href="/votes/comment/option/{o.id}"><span id="score-comment-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
 
 		if not self.ghost and self.author.show_sig(v):
@@ -322,15 +322,15 @@ class Comment(Base):
 		if self.author.shadowbanned and not (v and v.shadowbanned): return True
 
 		if (self.wordle_result) and (not self.body or len(self.body_html) <= 100) and 9 > self.level > 1: return True
-			
+
 		if v and v.filter_words and self.body and any(x in self.body for x in v.filter_words): return True
-		
+
 		return False
 
 	@property
 	@lazy
 	def is_op(self): return self.author_id==self.post.author_id
-	
+
 	@lazy
 	def filtered_flags(self, v):
 		return [f for f in self.flags if (v and v.shadowbanned) or not f.user.shadowbanned]
@@ -356,7 +356,7 @@ class Comment(Base):
 			body += "<strong class='ml-2'>Correct!</strong>"
 		elif wordle_status == 'lost':
 			body += f"<strong class='ml-2'>Lost. The answer was: {wordle_answer}</strong>"
-		
+
 		body += '</span>'
 		return body
 

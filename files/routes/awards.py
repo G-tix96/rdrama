@@ -103,7 +103,7 @@ def buy(v:User, award):
 		v.lootboxes_bought += 1
 		lootbox_msg = "You open your lootbox and receive: " + ', '.join(lootbox_items)
 		send_repeatable_notification(v.id, lootbox_msg)
-		
+
 		if v.lootboxes_bought == 10:
 			badge_grant(badge_id=76, user=v)
 		elif v.lootboxes_bought == 50:
@@ -131,16 +131,16 @@ def buy(v:User, award):
 def award_thing(v, thing_type, id):
 	kind = request.values.get("kind", "").strip()
 
-	if thing_type == 'post': 
+	if thing_type == 'post':
 		thing = get_post(id)
-	else: 
+	else:
 		thing = get_comment(id)
 		if not thing.parent_submission and not thing.wall_user_id: abort(404) # don't let users award messages
 
 	if v.shadowbanned: abort(500)
 	author = thing.author
 	if author.shadowbanned: abort(404)
-		
+
 	AWARDS = deepcopy(AWARDS_ENABLED)
 	if v.house:
 		AWARDS[v.house] = HOUSE_AWARDS[v.house]
@@ -288,7 +288,7 @@ def award_thing(v, thing_type, id):
 
 		if author.agendaposter and time.time() < author.agendaposter: author.agendaposter += 86400
 		else: author.agendaposter = int(time.time()) + 86400
-		
+
 		badge_grant(user=author, badge_id=28)
 	elif kind == "flairlock":
 		new_name = note[:100].replace("𒐪","").replace("﷽","").strip()
@@ -375,10 +375,10 @@ def award_thing(v, thing_type, id):
 	elif "Vampire" in kind and kind == v.house:
 		if author.bite: author.bite += 172800
 		else: author.bite = int(time.time()) + 172800
-		
+
 		if not author.old_house:
 			author.old_house = author.house
-		
+
 		if 'Vampire' not in author.house:
 			author.house = 'Vampire'
 

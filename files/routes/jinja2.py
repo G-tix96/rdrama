@@ -63,14 +63,14 @@ def calc_users():
 			ua = str(user_agents.parse(g.agent))
 			if 'spider' not in ua.lower() and 'bot' not in ua.lower():
 				loggedout[session["session_id"]] = (timestamp, ua)
-	
+
 		loggedin = {k: v for k, v in loggedin.items() if (timestamp - v) < LOGGEDIN_ACTIVE_TIME}
 		loggedout = {k: v for k, v in loggedout.items() if (timestamp - v[0]) < LOGGEDIN_ACTIVE_TIME}
 		cache.set(LOGGED_IN_CACHE_KEY, loggedin)
 		cache.set(LOGGED_OUT_CACHE_KEY, loggedout)
 		loggedin_counter = len(loggedin)
 		loggedout_counter = len(loggedout)
-	return {'loggedin_counter':loggedin_counter, 
+	return {'loggedin_counter':loggedin_counter,
 	        'loggedout_counter':loggedout_counter,
 			'loggedin_chat':loggedin_chat}
 
@@ -82,7 +82,7 @@ def inject_constants():
 	return {"environ":environ, "SITE":SITE, "SITE_NAME":SITE_NAME, "SITE_FULL":SITE_FULL,
 			"AUTOJANNY_ID":AUTOJANNY_ID, "MODMAIL_ID":MODMAIL_ID, "VAPID_PUBLIC_KEY":VAPID_PUBLIC_KEY,
 			"listdir":listdir, "os_path":path, "AEVANN_ID":AEVANN_ID,
-			"PIZZASHILL_ID":PIZZASHILL_ID, "DEFAULT_COLOR":DEFAULT_COLOR, 
+			"PIZZASHILL_ID":PIZZASHILL_ID, "DEFAULT_COLOR":DEFAULT_COLOR,
 			"COLORS":COLORS, "time":time, "PERMS":PERMS, "FEATURES":FEATURES,
 			"HOLE_NAME":HOLE_NAME, "HOLE_STYLE_FLAIR":HOLE_STYLE_FLAIR, "HOLE_REQUIRED":HOLE_REQUIRED,
 			"GUMROAD_LINK":GUMROAD_LINK, "DEFAULT_THEME":DEFAULT_THEME, "DESCRIPTION":DESCRIPTION,
@@ -95,9 +95,9 @@ def inject_constants():
 			"site_settings":get_settings(), "EMAIL":EMAIL, "max": max, "min": min, "user_can_see":User.can_see,
 			"TELEGRAM_ID":TELEGRAM_ID, "EMAIL_REGEX_PATTERN":EMAIL_REGEX_PATTERN,
 			"TRUESCORE_DONATE_MINIMUM":TRUESCORE_DONATE_MINIMUM,
-			"DONATE_LINK":DONATE_LINK, "DONATE_SERVICE":DONATE_SERVICE, "BAN_EVASION_DOMAIN":BAN_EVASION_DOMAIN, 
+			"DONATE_LINK":DONATE_LINK, "DONATE_SERVICE":DONATE_SERVICE, "BAN_EVASION_DOMAIN":BAN_EVASION_DOMAIN,
 			"HOUSE_JOIN_COST":HOUSE_JOIN_COST, "HOUSE_SWITCH_COST":HOUSE_SWITCH_COST, "IMAGE_FORMATS":','.join(IMAGE_FORMATS),
-			"PAGE_SIZES":PAGE_SIZES, "THEMES":THEMES, "COMMENT_SORTS":COMMENT_SORTS, "SORTS":SORTS, 
-			"TIME_FILTERS":TIME_FILTERS, "HOUSES":HOUSES, "TIERS_ID_TO_NAME":TIERS_ID_TO_NAME, 
+			"PAGE_SIZES":PAGE_SIZES, "THEMES":THEMES, "COMMENT_SORTS":COMMENT_SORTS, "SORTS":SORTS,
+			"TIME_FILTERS":TIME_FILTERS, "HOUSES":HOUSES, "TIERS_ID_TO_NAME":TIERS_ID_TO_NAME,
 			"DEFAULT_CONFIG_VALUE":DEFAULT_CONFIG_VALUE, "IS_LOCALHOST":IS_LOCALHOST, "BACKGROUND_CATEGORIES":BACKGROUND_CATEGORIES, "PAGE_SIZE":PAGE_SIZE, "TAGLINES":TAGLINES, "IS_FISTMAS":IS_FISTMAS, "get_alt_graph":get_alt_graph, "current_registered_users":current_registered_users
 			}

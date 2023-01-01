@@ -59,13 +59,13 @@ def searchposts(v:User):
 	posts = g.db.query(Submission.id) \
 				.join(Submission.author) \
 				.filter(Submission.author_id.notin_(v.userblocks))
-	
+
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		posts = posts.filter(
 			Submission.deleted_utc == 0,
 			Submission.is_banned == False,
 			Submission.private == False)
-	
+
 	if 'author' in criteria:
 		posts = posts.filter(Submission.ghost == False)
 		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
@@ -95,7 +95,7 @@ def searchposts(v:User):
 			words = [or_(Submission.title.ilike('%'+x+'%'), Submission.body.ilike('%'+x+'%')) \
 					for x in criteria['q']]
 		posts = posts.filter(*words)
-		
+
 	if 'over18' in criteria: posts = posts.filter(Submission.over_18==True)
 
 	if 'domain' in criteria:
@@ -187,7 +187,7 @@ def searchcomments(v:User):
 			Comment.author_id.notin_(v.userblocks),
 		)
 
-	
+
 	if 'post' in criteria:
 		try: post = int(criteria['post'])
 		except: abort(404)
@@ -282,21 +282,21 @@ def searchusers(v:User):
 	t = request.values.get('t', 'all').lower()
 	term=query.lstrip('@')
 	term = term.replace('\\','').replace('_','\_').replace('%','')
-	
+
 	users=g.db.query(User).filter(
 		or_(
 			User.username.ilike(f'%{term}%'),
 			User.original_username.ilike(f'%{term}%')
 		)
 	)
-	
+
 	if v.admin_level < PERMS['USER_SHADOWBAN']:
 		users = users.filter(User.shadowbanned == None)
 
 	users=users.order_by(User.username.ilike(term).desc(), User.stored_subscriber_count.desc())
-	
+
 	total=users.count()
-	
+
 	users = users.offset(PAGE_SIZE * (page-1)).limit(PAGE_SIZE+1).all()
 	next_exists=(len(users)>PAGE_SIZE)
 	users=users[:PAGE_SIZE]

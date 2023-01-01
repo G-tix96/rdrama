@@ -16,8 +16,8 @@ from files.classes.notifications import Notification
 
 # Note: while https://api.pushshift.io/meta provides the key
 # server_ratelimit_per_minute, in practice Cloudflare puts stricter,
-# unofficially documented limits at around 60/minute. We get nowhere near this 
-# with current keyword quantities. If this ever changes, consider reading the 
+# unofficially documented limits at around 60/minute. We get nowhere near this
+# with current keyword quantities. If this ever changes, consider reading the
 # value from /meta (or just guessing) and doing a random selection of keywords.
 
 def offsite_mentions_task(cache:Cache):
@@ -83,7 +83,7 @@ def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
 				'text': text,
 			})
 	try:
-		if not reddit_notifs_users: 
+		if not reddit_notifs_users:
 			cache.set(const.REDDIT_NOTIFS_CACHE_KEY, after + 1)
 	except:
 		print("Failed to set cache value; there may be duplication of reddit notifications", flush=True)

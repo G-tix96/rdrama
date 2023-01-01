@@ -54,7 +54,7 @@ def casino_slot_pull(gambler, wager_value, currency):
 
 		return casino_game.id, casino_game.game_state
 	else:
-		return None, "{}", 
+		return None, "{}",
 
 
 def build_symbols(for_payout):
@@ -132,7 +132,7 @@ def check_slots_command(c:Comment, v:User, u:User):
 		currency = 'coins'
 	else:
 		return
-	
+
 	if u.rehab:
 		if v.id == u.id:
 			abort(403, "You are under Rehab award effect!")
@@ -146,7 +146,7 @@ def check_slots_command(c:Comment, v:User, u:User):
 			abort(400, "Invalid wager.")
 		return
 
-	if wager < 100: 
+	if wager < 100:
 		if v.id == u.id:
 			abort(400, f"Wager must be 100 {currency} or more")
 		return

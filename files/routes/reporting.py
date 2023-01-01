@@ -58,7 +58,7 @@ def flag_post(pid, v):
 
 	moved = move_post(post, v, reason)
 	if moved: return {"message": moved}
-	
+
 	existing = g.db.query(Flag.post_id).filter_by(user_id=v.id, post_id=post.id).one_or_none()
 	if existing: abort(409, "You already reported this post!")
 	flag = Flag(post_id=post.id, user_id=v.id, reason=reason)
@@ -74,7 +74,7 @@ def flag_post(pid, v):
 def flag_comment(cid, v):
 
 	comment = get_comment(cid)
-	
+
 	existing = g.db.query(CommentFlag.comment_id).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
 	if existing: abort(409, "You already reported this comment!")
 
@@ -125,7 +125,7 @@ def remove_report_comment(v, cid, uid):
 		uid = int(uid)
 	except: abort(404)
 	report = g.db.query(CommentFlag).filter_by(comment_id=cid, user_id=uid).one_or_none()
-	
+
 	if report:
 		g.db.delete(report)
 
@@ -143,7 +143,7 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 	sub_from = post.sub
 	sub_to = get_sub_by_name(reason, graceful=True)
 	sub_to = sub_to.name if sub_to else None
-	
+
 	can_move_post = v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (post.sub and v.mods(sub_from))
 	if sub_from != 'chudrama': # posts can only be moved out of /h/chudrama by admins
 		can_move_post = can_move_post or post.author_id == v.id
@@ -158,7 +158,7 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 			abort(403, f"You need to be a member of House {sub_to.capitalize()} to post in /h/{sub_to}")
 		else:
 			abort(403, f"@{post.author.username} needs to be a member of House {sub_to.capitalize()} for their post to be moved to /h/{sub_to}")
-	
+
 	post.sub = sub_to
 	post.hole_pinned = None
 	g.db.add(post)

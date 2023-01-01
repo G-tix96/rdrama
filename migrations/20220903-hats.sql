@@ -45,8 +45,8 @@ ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_equipped_hat_id_fkey FOREIGN KEY (equipped_hat_id) REFERENCES public.hat_defs(id);
 
 insert into hat_defs (name, description, author_id, price) values
-('Ushanka', 'The People''s Hat', 2, 500), 
-('Fur Hat', 'The first step on your path to fursuit ownership', 2, 500), 
+('Ushanka', 'The People''s Hat', 2, 500),
+('Fur Hat', 'The first step on your path to fursuit ownership', 2, 500),
 ('Cat Ears I', 'Mew :3', 2, 500),
 ('Cat Ears II', 'Meow :3', 2, 500),
 ('Playboy Bunny', 'Will this bring daddy back?', 2, 500),

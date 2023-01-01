@@ -10,7 +10,7 @@ from files.helpers.alerts import *
 from files.helpers.get import get_account
 
 class RouletteAction(str, Enum):
-	STRAIGHT_UP_BET = "STRAIGHT_UP_BET", 
+	STRAIGHT_UP_BET = "STRAIGHT_UP_BET",
 	LINE_BET = "LINE_BET"
 	COLUMN_BET = "COLUMN_BET"
 	DOZEN_BET = "DOZEN_BET"

@@ -60,7 +60,7 @@
 				{% if u.customtitle %}
 					<p class="font-weight-bolder" id="profile--flair" style="color: #{{u.titlecolor}}">{{u.customtitle | safe}}</p>
 				{% endif %}
-				
+
 				{% if v and (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']) -%}
 				<div class="font-weight-bolder mb-2" id="profile--simphate">
 					<a class="mr-1" href="/@{{u.username}}/views">Profile Views</a> | <a class="mx-1" href="/@{{u.username}}/upvoters">Simps</a> | <a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | <a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> | <a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> | <a class="ml-1" href="/@{{u.username}}/voted/posts">Voted</a>
@@ -152,7 +152,7 @@
 							</div>
 						</div>
 						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" data-nonce="{{g.nonce}}" data-onsubmit="sendMessage(this)">
-							<input type="hidden" name="formkey" value="{{v|formkey}}"> 
+							<input type="hidden" name="formkey" value="{{v|formkey}}">
 							<textarea autocomplete="off" id="input-message" form="message" name="message" rows="3" minlength="1" maxlength="10000" class="form-control b2 mt-1" data-preview="message-preview" data-nonce="{{g.nonce}}" data-oninput="markdown(this)" required></textarea>
 							<button type="button" class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-message')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></button>
 							&nbsp;
@@ -182,16 +182,16 @@
 						{% if v and v.id == u.id %}
 							<a href="/settings/personal" class="btn btn-secondary"><i class="fas fa-edit mr-1"></i> Edit Profile</a>
 						{% endif %}
-							
+
 						{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
 							<button type="button" class="btn btn-secondary" data-nonce="{{g.nonce}}" data-onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}><i class="fas fa-music mr-1"></i> Toggle Anthem</button>
 						{% endif %}
 
 						{% if v and v.id == u.id %}
-							<form id="upload-profile-background" action="/settings/profile_background" method="post" enctype="multipart/form-data"> 
+							<form id="upload-profile-background" action="/settings/profile_background" method="post" enctype="multipart/form-data">
 								<input type="hidden" name="formkey" value="{{v|formkey}}">
 								<label class="btn btn-primary" for="upload-profile-background-file" style="margin-bottom:0!important">
-									<i class="fas fa-image mr-1"></i> 
+									<i class="fas fa-image mr-1"></i>
 									{% if v.profile_background -%}
 										{{v.profile_background}}
 									{% else -%}
@@ -211,7 +211,7 @@
 							{%- endif %}
 						{% endif %}
 					</div>
-					
+
 					<div class="mt-4" id="profile--info">
 						<p id="profile--info--id">User ID: {{u.id}}</p>
 						<p id="profile--info--spent">Coins spent: {{u.coins_spent}}</p>
@@ -407,10 +407,10 @@
 
 					{% if v and v.id == u.id %}
 						<div>
-							<form class="mt-3" id="upload-profile-background-mobile" action="/settings/profile_background" method="post" enctype="multipart/form-data"> 
+							<form class="mt-3" id="upload-profile-background-mobile" action="/settings/profile_background" method="post" enctype="multipart/form-data">
 								<input type="hidden" name="formkey" value="{{v|formkey}}">
 								<label class="btn btn-primary" for="upload-profile-background-file-mobile" style="margin-bottom:0!important">
-									<i class="fas fa-image mr-1"></i> 
+									<i class="fas fa-image mr-1"></i>
 									{% if v.profile_background %}
 										{{v.profile_background}}
 									{% else %}
@@ -453,7 +453,7 @@
 
 				{% if v and v.id != u.id %}
 					<form class="d-none toggleable" id='message-mobile' action="/@{{u.username}}/message" data-nonce="{{g.nonce}}" data-onsubmit="sendMessage(this)">
-						<input class="mt-1" type="hidden" name="formkey" value="{{v|formkey}}"> 
+						<input class="mt-1" type="hidden" name="formkey" value="{{v|formkey}}">
 						<textarea autocomplete="off" id="input-message-mobile" form="message-mobile" name="message" rows="3" minlength="1" maxlength="10000" class="form-control" data-preview="message-preview-mobile" data-nonce="{{g.nonce}}" data-oninput="markdown(this)" required></textarea>
 						<button type="button" class="mt-1 btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-message-mobile')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></button>
 						&nbsp;

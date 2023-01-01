@@ -13,7 +13,7 @@
 
 function snow(flakesMax) {
 	// --- common properties ---
-  
+
 	this.autoStart = true; // Whether the snow should start automatically or not.
 	this.excludeMobile = false; // Snow is likely to be bad news for mobile phones' CPUs (and batteries.) Enable at your own risk.
 	this.flakesMax = flakesMax; // Limit total amount of snow made (falling + sticking)
@@ -32,9 +32,9 @@ function snow(flakesMax) {
 	this.useTwinkleEffect = false; // Allow snow to randomly "flicker" in and out of view while falling
 	this.usePositionFixed = false; // true = snow does not shift vertically when scrolling. May increase CPU load, disabled by default - if enabled, used only where supported
 	this.usePixelPosition = false; // Whether to use pixel values for snow top/left vs. percentages. Auto-enabled if body is position:relative or targetElement is specified.
-  
+
 	// --- less-used bits ---
-  
+
 	this.freezeOnBlur = true; // Only snow when the window is in focus (foreground.) Saves CPU.
 	this.flakeLeftOffset = 0; // Left margin/gutter space on edge of container (eg. browser window.) Bump up these values if seeing horizontal scrollbars.
 	this.flakeRightOffset = 0; // Right margin/gutter space on edge of container
@@ -43,9 +43,9 @@ function snow(flakesMax) {
 	this.vMaxX = 5; // Maximum X velocity range for snow
 	this.vMaxY = 4; // Maximum Y velocity range for snow
 	this.zIndex = 0; // CSS stacking order applied to each snowflake
-  
+
 	// --- "No user-serviceable parts inside" past this point, yadda yadda ---
-  
+
 	var storm = this,
 	  features,
 	  // UA sniffing and backCompat rendering mode checks for fixed position, etc.
@@ -76,20 +76,20 @@ function snow(flakesMax) {
 	  })(),
 	  didInit = false,
 	  docFrag = document.createDocumentFragment();
-  
+
 	features = (function () {
 	  var getAnimationFrame;
-  
+
 	  /**
 	   * hat tip: paul irish
 	   * http://paulirish.com/2011/requestanimationframe-for-smart-animating/
 	   * https://gist.github.com/838785
 	   */
-  
+
 	  function timeoutShim(callback) {
 		window.setTimeout(callback, 1000 / (storm.animationInterval || 20));
 	  }
-  
+
 	  var _animationFrame =
 		window.requestAnimationFrame ||
 		window.webkitRequestAnimationFrame ||
@@ -97,24 +97,24 @@ function snow(flakesMax) {
 		window.oRequestAnimationFrame ||
 		window.msRequestAnimationFrame ||
 		timeoutShim;
-  
+
 	  // apply to window, avoid "illegal invocation" errors in Chrome
 	  getAnimationFrame = _animationFrame
 		? function () {
 			return _animationFrame.apply(window, arguments);
 		  }
 		: null;
-  
+
 	  var testDiv;
-  
+
 	  testDiv = document.createElement("div");
-  
+
 	  function has(prop) {
 		// test for feature support
 		var result = testDiv.style[prop];
 		return result !== undefined ? prop : null;
 	  }
-  
+
 	  // note local scope.
 	  var localFeatures = {
 		transform: {
@@ -125,34 +125,34 @@ function snow(flakesMax) {
 		  w3: has("transform"),
 		  prop: null // the normalized property value
 		},
-  
+
 		getAnimationFrame: getAnimationFrame
 	  };
-  
+
 	  localFeatures.transform.prop =
 		localFeatures.transform.w3 ||
 		localFeatures.transform.moz ||
 		localFeatures.transform.webkit ||
 		localFeatures.transform.ie ||
 		localFeatures.transform.opera;
-  
+
 	  testDiv = null;
-  
+
 	  return localFeatures;
 	})();
-  
+
 	this.timer = null;
 	this.flakes = [];
 	this.disabled = false;
 	this.active = false;
 	this.meltFrameCount = 20;
 	this.meltFrames = [];
-  
+
 	this.setXY = function (o, x, y) {
 	  if (!o) {
 		return false;
 	  }
-  
+
 	  if (storm.usePixelPosition || targetElementIsRelative) {
 		o.style.left = x - storm.flakeWidth + "px";
 		o.style.top = y - storm.flakeHeight + "px";
@@ -172,7 +172,7 @@ function snow(flakesMax) {
 		}
 	  }
 	};
-  
+
 	this.events = (function () {
 	  var old = !window.addEventListener && window.attachEvent,
 		slice = Array.prototype.slice,
@@ -180,7 +180,7 @@ function snow(flakesMax) {
 		  add: old ? "attachEvent" : "addEventListener",
 		  remove: old ? "detachEvent" : "removeEventListener"
 		};
-  
+
 	  function getArgs(oArgs) {
 		var args = slice.call(oArgs),
 		  len = args.length;
@@ -194,7 +194,7 @@ function snow(flakesMax) {
 		}
 		return args;
 	  }
-  
+
 	  function apply(args, sType) {
 		var element = args.shift(),
 		  method = [evt[sType]];
@@ -204,32 +204,32 @@ function snow(flakesMax) {
 		  element[method].apply(element, args);
 		}
 	  }
-  
+
 	  function addEvent() {
 		apply(getArgs(arguments), "add");
 	  }
-  
+
 	  function removeEvent() {
 		apply(getArgs(arguments), "remove");
 	  }
-  
+
 	  return {
 		add: addEvent,
 		remove: removeEvent
 	  };
 	})();
-  
+
 	function rnd(n, min) {
 	  if (isNaN(min)) {
 		min = 0;
 	  }
 	  return Math.random() * n + min;
 	}
-  
+
 	function plusMinus(n) {
 	  return parseInt(rnd(2), 10) === 1 ? n * -1 : n;
 	}
-  
+
 	this.randomizeWind = function () {
 	  var i;
 	  vRndX = plusMinus(rnd(storm.vMaxX, 0.2));
@@ -242,7 +242,7 @@ function snow(flakesMax) {
 		}
 	  }
 	};
-  
+
 	this.scrollHandler = function () {
 	  var i;
 	  // "attach" snowflakes to bottom of window if no absolute bottom value was given
@@ -265,7 +265,7 @@ function snow(flakesMax) {
 		}
 	  }
 	};
-  
+
 	this.resizeHandler = function () {
 	  if (window.innerWidth || window.innerHeight) {
 		screenX = window.innerWidth - 16 - storm.flakeRightOffset;
@@ -286,14 +286,14 @@ function snow(flakesMax) {
 	  docHeight = document.body.offsetHeight;
 	  screenX2 = parseInt(screenX / 2, 10);
 	};
-  
+
 	this.resizeHandlerAlt = function () {
 	  screenX = storm.targetElement.offsetWidth - storm.flakeRightOffset;
 	  screenY = storm.flakeBottom || storm.targetElement.offsetHeight;
 	  screenX2 = parseInt(screenX / 2, 10);
 	  docHeight = document.body.offsetHeight;
 	};
-  
+
 	this.freeze = function () {
 	  // pause animation
 	  if (!storm.disabled) {
@@ -303,7 +303,7 @@ function snow(flakesMax) {
 	  }
 	  storm.timer = null;
 	};
-  
+
 	this.resume = function () {
 	  if (storm.disabled) {
 		storm.disabled = 0;
@@ -312,7 +312,7 @@ function snow(flakesMax) {
 	  }
 	  storm.timerInit();
 	};
-  
+
 	this.toggleSnow = function () {
 	  if (!storm.flakes.length) {
 		// first run
@@ -328,7 +328,7 @@ function snow(flakesMax) {
 		}
 	  }
 	};
-  
+
 	this.stop = function () {
 	  var i;
 	  this.freeze();
@@ -347,14 +347,14 @@ function snow(flakesMax) {
 		}
 	  }
 	};
-  
+
 	this.show = function () {
 	  var i;
 	  for (i = 0; i < this.flakes.length; i++) {
 		this.flakes[i].o.style.display = "block";
 	  }
 	};
-  
+
 	this.SnowFlake = function (type, x, y) {
 	  var s = this;
 	  this.type = type;
@@ -390,7 +390,7 @@ function snow(flakesMax) {
 	  this.o.style.fontWeight = "normal";
 	  this.o.style.zIndex = storm.zIndex;
 	  docFrag.appendChild(this.o);
-  
+
 	  this.refresh = function () {
 		if (isNaN(s.x) || isNaN(s.y)) {
 		  // safety check
@@ -398,7 +398,7 @@ function snow(flakesMax) {
 		}
 		storm.setXY(s.o, s.x, s.y);
 	  };
-  
+
 	  this.stick = function () {
 		if (
 		  noFixed ||
@@ -415,7 +415,7 @@ function snow(flakesMax) {
 		  s.o.style.display = "block";
 		}
 	  };
-  
+
 	  this.vCheck = function () {
 		if (s.vX >= 0 && s.vX < 0.2) {
 		  s.vX = 0.2;
@@ -426,7 +426,7 @@ function snow(flakesMax) {
 		  s.vY = 0.2;
 		}
 	  };
-  
+
 	  this.move = function () {
 		var vX = s.vX * windOffset,
 		  yDiff;
@@ -481,25 +481,25 @@ function snow(flakesMax) {
 		  }
 		}
 	  };
-  
+
 	  this.animate = function () {
 		// main animation loop
 		// move, check status, die etc.
 		s.move();
 	  };
-  
+
 	  this.setVelocities = function () {
 		s.vX = vRndX + rnd(storm.vMaxX * 0.12, 0.1);
 		s.vY = vRndY + rnd(storm.vMaxY * 0.12, 0.1);
 	  };
-  
+
 	  this.setOpacity = function (o, opacity) {
 		if (!opacitySupported) {
 		  return false;
 		}
 		o.style.opacity = opacity;
 	  };
-  
+
 	  this.melt = function () {
 		if (!storm.useMeltEffect || !s.melting) {
 		  s.recycle();
@@ -519,7 +519,7 @@ function snow(flakesMax) {
 		  }
 		}
 	  };
-  
+
 	  this.recycle = function () {
 		s.o.style.display = "none";
 		s.o.style.position = fixedForEverything ? "fixed" : "absolute";
@@ -541,11 +541,11 @@ function snow(flakesMax) {
 		s.o.style.display = "block";
 		s.active = 1;
 	  };
-  
+
 	  this.recycle(); // set up x/y coords etc.
 	  this.refresh();
 	};
-  
+
 	this.snow = function () {
 	  var active = 0,
 		flake = null,
@@ -570,7 +570,7 @@ function snow(flakesMax) {
 		features.getAnimationFrame(storm.snow);
 	  }
 	};
-  
+
 	this.mouseMove = function (e) {
 	  if (!storm.followMouse) {
 		return true;
@@ -583,7 +583,7 @@ function snow(flakesMax) {
 		windOffset = (x / screenX2) * windMultiplier;
 	  }
 	};
-  
+
 	this.createSnow = function (limit, allowInactive) {
 	  var i;
 	  for (i = 0; i < limit; i++) {
@@ -596,12 +596,12 @@ function snow(flakesMax) {
 	  }
 	  storm.targetElement.appendChild(docFrag);
 	};
-  
+
 	this.timerInit = function () {
 	  storm.timer = true;
 	  storm.snow();
 	};
-  
+
 	this.init = function () {
 	  var i;
 	  for (i = 0; i < storm.meltFrameCount; i++) {
@@ -628,7 +628,7 @@ function snow(flakesMax) {
 	  storm.animationInterval = Math.max(20, storm.animationInterval);
 	  storm.timerInit();
 	};
-  
+
 	this.start = function (bFromOnLoad) {
 	  if (!didInit) {
 		didInit = true;
@@ -678,7 +678,7 @@ function snow(flakesMax) {
 		storm.active = true;
 	  }
 	};
-  
+
 	function doDelayedStart() {
 	  window.setTimeout(function () {
 		storm.start(true);
@@ -686,7 +686,7 @@ function snow(flakesMax) {
 	  // event cleanup
 	  storm.events.remove(isIE ? document : window, "mousemove", doDelayedStart);
 	}
-  
+
 	function doStart() {
 	  if (!storm.excludeMobile || !isMobile) {
 		doDelayedStart();
@@ -694,12 +694,12 @@ function snow(flakesMax) {
 	  // event cleanup
 	  storm.events.remove(window, "load", doStart);
 	}
-  
+
 	// hooks for starting the snow
 	if (storm.autoStart) {
 	  storm.events.add(window, "load", doStart, false);
 	}
-  
+
 	return this;
 }
 

@@ -371,7 +371,7 @@ def update_marsey(v):
 			return error("Image uploads are not allowed through TOR.")
 		if not file.content_type.startswith('image/'):
 			return error("You need to submit an image!")
-		
+
 		for x in IMAGE_FORMATS:
 			if path.isfile(f'/asset_submissions/marseys/original/{name}.{x}'):
 				os.remove(f'/asset_submissions/marseys/original/{name}.{x}')
@@ -387,7 +387,7 @@ def update_marsey(v):
 		copyfile(new_path, filename)
 		process_image(filename, v, resize=200, trim=True)
 		purge_files_in_cache([f"https://{SITE}/e/{name}.webp", f"https://{SITE}/assets/images/emojis/{name}.webp", f"https://{SITE}/asset_submissions/marseys/original/{name}.{format}"])
-	
+
 	if tags and existing.tags != tags and tags != "none":
 		existing.tags = tags
 		g.db.add(existing)

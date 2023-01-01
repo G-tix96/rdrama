@@ -204,7 +204,7 @@ class User(Base):
 			g.db.query(User).filter(User.id == self.id).update({ User.marseybux: User.marseybux + amount })
 
 		g.db.flush()
-		
+
 
 	def charge_account(self, currency, amount, **kwargs):
 		in_db = g.db.query(User).filter(User.id == self.id).with_for_update().one()
@@ -214,19 +214,19 @@ class User(Base):
 
 		if currency == 'coins':
 			account_balance = in_db.coins
-			
+
 			if not should_check_balance or account_balance >= amount:
 				g.db.query(User).filter(User.id == self.id).update({ User.coins: User.coins - amount })
 				succeeded = True
 		elif currency == 'marseybux':
 			account_balance = in_db.marseybux
-			
+
 			if not should_check_balance or account_balance >= amount:
 				g.db.query(User).filter(User.id == self.id).update({ User.marseybux: User.marseybux - amount })
 				succeeded = True
 
 		if succeeded: g.db.flush()
-		
+
 		return succeeded
 
 	@property
@@ -417,7 +417,7 @@ class User(Base):
 			if badge in owned_badges: discount -= discounts[badge]
 
 		return discount
-	
+
 	@property
 	@lazy
 	def can_view_offsitementions(self):
@@ -586,14 +586,14 @@ class User(Base):
 					Notification.user_id == self.id,
 					not_(and_(Comment.sentto != None, Comment.sentto == MODMAIL_ID, User.is_muted)),
 				))
-		
+
 		if not self.can_see_shadowbanned:
 			notifs = notifs.filter(
 				User.shadowbanned == None,
 				Comment.is_banned == False,
 				Comment.deleted_utc == 0,
 			)
-		
+
 		return notifs.count() + self.post_notifications_count + self.modaction_notifications_count + self.reddit_notifications_count
 
 	@property
@@ -603,7 +603,7 @@ class User(Base):
 			- self.message_notifications_count \
 			- self.post_notifications_count \
 			- self.modaction_notifications_count \
-			- self.reddit_notifications_count 
+			- self.reddit_notifications_count
 
 	@property
 	@lazy
@@ -659,7 +659,7 @@ class User(Base):
 				SubAction.user_id != self.id,
 				SubAction.sub.in_(self.moderated_subs),
 			).count()
-		
+
 		return 0
 
 
@@ -669,8 +669,8 @@ class User(Base):
 		if not self.can_view_offsitementions or self.id == AEVANN_ID: return 0
 		return g.db.query(Comment).filter(
 			Comment.created_utc > self.last_viewed_reddit_notifs,
-			Comment.is_banned == False, Comment.deleted_utc == 0, 
-			Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'), 
+			Comment.is_banned == False, Comment.deleted_utc == 0,
+			Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
 			Comment.parent_submission == None, Comment.author_id == AUTOJANNY_ID).count()
 
 	@property
@@ -730,7 +730,7 @@ class User(Base):
 	def has_follower(self, user):
 		if not user or self.id == user.id: return False # users can't follow themselves
 		return g.db.query(Follow).filter_by(target_id=self.id, user_id=user.id).one_or_none()
-	
+
 	@lazy
 	def is_visible_to(self, user) -> bool:
 		if not self.is_private: return True
@@ -752,7 +752,7 @@ class User(Base):
 			return f"{SITE_FULL}/e/chudsey.webp"
 		if self.rainbow:
 			return f"{SITE_FULL}/e/marseysalutepride.webp"
-		if self.profileurl: 
+		if self.profileurl:
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl
 		return f"{SITE_FULL}/i/default-profile-pic.webp?v=1008"
@@ -927,7 +927,7 @@ class User(Base):
 		if self.patron == 6:
 			return 'Contributed at least $200'
 		return ''
-	
+
 	@classmethod
 	def can_see_content(cls, user:Optional["User"], other:Union[Submission, Comment, Sub]) -> bool:
 		'''

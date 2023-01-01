@@ -19,5 +19,5 @@ def push_subscribe(v):
 			subscription_json=subscription_json,
 		)
 		g.db.add(subscription)
-	
+
 	return ''

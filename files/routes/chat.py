@@ -83,7 +83,7 @@ def speak(data, v):
 		"text_censored": censor_slurs(text_html, 'chat'),
 		"time": int(time.time()),
 	}
-	
+
 	if v.shadowbanned or not execute_blackjack(v, None, text, "chat"):
 		emit('speak', data)
 	elif recipient:

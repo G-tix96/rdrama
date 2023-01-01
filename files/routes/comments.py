@@ -43,7 +43,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 			g.db.commit()
 
 	post = comment.post
-	
+
 	if post.over_18 and not (v and v.over_18) and not session.get('over_18', 0) >= int(time.time()):
 		if v and v.client: abort(403, "This content is not suitable for some users and situations.")
 		else: return render_template("errors/nsfw.html", v=v), 403
@@ -70,9 +70,9 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 
 	execute_shadowban_viewers_and_voters(v, post)
 	execute_shadowban_viewers_and_voters(v, comment)
-			
+
 	if v and v.client: return top_comment.json(db=g.db)
-	else: 
+	else:
 		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)): template = "submission_banned.html"
 		else: template = "submission.html"
 		return render_template(template, v=v, p=post, sort=sort, comment_info=comment_info, render_replies=True, sub=post.subr)
@@ -107,7 +107,7 @@ def comment(v:User):
 		post_target = get_post(parent.parent_submission, v=v, graceful=True) or get_account(parent.wall_user_id, v=v, include_blocks=True, include_shadowbanned=False)
 		parent_comment_id = parent.id
 		if parent.author_id == v.id: rts = True
-		if not v.can_post_in_ghost_threads and isinstance(post_target, Submission) and post_target.ghost: 
+		if not v.can_post_in_ghost_threads and isinstance(post_target, Submission) and post_target.ghost:
 			abort(403, f"You need {TRUESCORE_GHOST_MINIMUM} truescore to post in ghost threads")
 		ghost = parent.ghost
 	else: abort(404)
@@ -200,7 +200,7 @@ def comment(v:User):
 				abort(415)
 
 	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
-	
+
 	if v.admin_level >= PERMS['SITE_SETTINGS_SNAPPY_QUOTES'] and posting_to_submission and post_target.id == SNAPPY_THREAD and level == 1:
 		with open(f"snappy_{SITE_NAME}.txt", "a", encoding="utf-8") as f:
 			f.write('\n{[para]}\n' + body)
@@ -297,7 +297,7 @@ def comment(v:User):
 
 			for x in subscribers:
 				notify_users.add(x[0])
-		
+
 		if parent_user.id != v.id:
 			notify_users.add(parent_user.id)
 
@@ -422,9 +422,9 @@ def edit_comment(cid, v):
 		if int(time.time()) - c.created_utc > 60 * 3: c.edited_utc = int(time.time())
 
 		g.db.add(c)
-		
+
 		notify_users = NOTIFY_USERS(body, v)
-		
+
 		for x in notify_users-bots:
 			notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=x).one_or_none()
 			if not notif:
@@ -481,12 +481,12 @@ def undelete_comment(cid, v):
 @feature_required('PINS')
 @auth_required
 def pin_comment(cid, v):
-	
+
 	comment = get_comment(cid, v=v)
-	
+
 	if not comment.stickied:
 		if v.id != comment.post.author_id: abort(403)
-		
+
 		if comment.post.ghost: comment.stickied = "(OP)"
 		else: comment.stickied = v.username + " (OP)"
 
@@ -498,18 +498,18 @@ def pin_comment(cid, v):
 			send_repeatable_notification(comment.author_id, message)
 
 	return {"message": "Comment pinned!"}
-	
+
 
 @app.post("/unpin_comment/<int:cid>")
 @auth_required
 def unpin_comment(cid, v):
-	
+
 	comment = get_comment(cid, v=v)
-	
+
 	if comment.stickied:
 		if v.id != comment.post.author_id: abort(403)
 
-		if not comment.stickied.endswith(" (OP)"): 
+		if not comment.stickied.endswith(" (OP)"):
 			abort(403, "You can only unpin comments you have pinned!")
 
 		comment.stickied = None
@@ -602,7 +602,7 @@ def handle_wordle_action(cid, v):
 		comment.wordle_result = f'{guesses}_{status}_{answer}'
 
 		g.db.add(comment)
-	
+
 	return {"response" : comment.wordle_html(v)}
 
 
@@ -613,7 +613,7 @@ def toggle_comment_nsfw(cid, v):
 
 	if comment.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (comment.post.sub and v.mods(comment.post.sub)):
 		abort(403)
-		
+
 	if comment.over_18 and v.is_suspended_permanently:
 		abort(403)
 

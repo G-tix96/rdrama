@@ -18,7 +18,7 @@ def get_logged_in_user():
 	token = request.headers.get("Authorization","").strip()
 	if token:
 		client = g.db.query(ClientAuth).filter(ClientAuth.access_token == token).one_or_none()
-		if client: 
+		if client:
 			v = client.user
 			v.client = client
 	else:
@@ -65,7 +65,7 @@ def get_logged_in_user():
 				if f'@{v.username}, ' not in f.read():
 					t = time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time()))
 					log_file(f'@{v.username}, {v.truescore}, {ip}, {t}\n', 'eg.log')
-	
+
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
 
 	return v

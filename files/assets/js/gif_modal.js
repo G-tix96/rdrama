@@ -43,7 +43,7 @@ async function getGifs(form) {
 	noGIFs.innerHTML = null;
 	loadGIFs.innerHTML = null;
 
-	container.innerHTML = `	
+	container.innerHTML = `
 	<div class="card">
 		<div class="gif-cat-overlay"><div>Agree</div></div>
 		<img loading="lazy" src="https://media.giphy.com/media/wGhYz3FHaRJgk/200w.webp">

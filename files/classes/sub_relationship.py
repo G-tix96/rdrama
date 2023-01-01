@@ -13,7 +13,7 @@ class SubRelationship(Base):
 	@declared_attr
 	def user_id(self):
 		return Column(Integer, ForeignKey("users.id"), primary_key=True)
-	
+
 	@declared_attr
 	def sub(self):
 		return Column(String(20), ForeignKey("subs.name"), primary_key=True)
@@ -28,7 +28,7 @@ class SubRelationship(Base):
 
 	def __repr__(self):
 		return f"<{self.__class__.__name__}(user_id={self.user_id}, sub={self.sub})>"
-	
+
 class SubJoin(SubRelationship):
 	__tablename__ = "sub_joins"
 

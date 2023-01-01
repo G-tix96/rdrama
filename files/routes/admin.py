@@ -51,7 +51,7 @@ def move_acc(v:User, new_id, old_id):
 
 	old_id = int(old_id)
 	new_id = int(new_id)
-	
+
 	olduser = g.db.get(User, old_id)
 	newuser = g.db.get(User, new_id)
 
@@ -307,7 +307,7 @@ def distribute(v:User, option_id):
 			losing_voters.extend([x.user_id for x in o.votes])
 	for uid in losing_voters:
 		add_notif(cid, uid)
-	
+
 	ma = ModAction(
 		kind="distribute",
 		user_id=v.id,
@@ -455,7 +455,7 @@ def admin_home(v):
 	if v.admin_level >= PERMS['SITE_SETTINGS_UNDER_ATTACK']:
 		under_attack = (get_security_level() or 'high') == 'under_attack'
 
-	return render_template("admin/admin_home.html", v=v, 
+	return render_template("admin/admin_home.html", v=v,
 		under_attack=under_attack)
 
 @app.post("/admin/site_settings/<setting>")
@@ -575,7 +575,7 @@ def badge_grant_post(v):
 	if v.id != user.id:
 		text = f"@{v.username} (a site admin) has given you the following profile badge:\n\n![]({new_badge.path})\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
 		send_repeatable_notification(user.id, text)
-	
+
 	ma = ModAction(
 		kind="badge_grant",
 		user_id=v.id,
@@ -851,7 +851,7 @@ def admin_removed(v):
 def admin_removed_comments(v):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
-	
+
 	ids = g.db.query(Comment.id).join(Comment.author).filter(or_(Comment.is_banned==True, User.shadowbanned != None)).order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 	ids=[x[0] for x in ids]
 	next_exists = len(ids) > PAGE_SIZE
@@ -926,7 +926,7 @@ def shadowban(user_id, v):
 		_note=f'reason: "{reason}"'
 	)
 	g.db.add(ma)
-	
+
 	cache.delete_memoized(frontlist)
 
 	return {"message": f"@{user.username} has been shadowbanned!"}
@@ -951,7 +951,7 @@ def unshadowban(user_id, v):
 		target_user_id=user.id,
 	)
 	g.db.add(ma)
-	
+
 	cache.delete_memoized(frontlist)
 
 	return {"message": f"@{user.username} has been unshadowbanned!"}
@@ -982,7 +982,7 @@ def admin_title_change(user_id, v):
 
 	if user.flairchanged: kind = "set_flair_locked"
 	else: kind = "set_flair_notlocked"
-	
+
 	ma=ModAction(
 		kind=kind,
 		user_id=v.id,
@@ -1379,7 +1379,7 @@ def unsticky_post(post_id, v):
 	if post.stickied:
 		if FEATURES['AWARDS'] and post.stickied.endswith(PIN_AWARD_TEXT): abort(403, "Can't unpin award pins!")
 		if post.author_id == LAWLZ_ID and post.stickied_utc and SITE_NAME == 'rDrama': abort(403, "Can't unpin lawlzposts!")
-		
+
 		post.stickied = None
 		post.stickied_utc = None
 		g.db.add(post)
@@ -1424,13 +1424,13 @@ def sticky_comment(cid, v):
 			g.db.add(c)
 
 	return {"message": "Comment pinned!"}
-	
+
 
 @app.post("/unsticky_comment/<int:cid>")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def unsticky_comment(cid, v):
 	comment = get_comment(cid, v=v)
-	
+
 	if comment.stickied:
 		if FEATURES['AWARDS'] and comment.stickied.endswith(PIN_AWARD_TEXT): abort(403, "Can't unpin award pins!")
 
@@ -1481,7 +1481,7 @@ def remove_comment(c_id, v):
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def approve_comment(c_id, v):
 	comment = get_comment(c_id)
-	
+
 	if comment.author.id == v.id and comment.author.agendaposter and AGENDAPOSTER_PHRASE not in comment.body.lower() and not (comment.parent_submission and comment.post.sub == 'chudrama'):
 		abort(400, "You can't bypass the chud award!")
 
@@ -1572,7 +1572,7 @@ def ban_domain(v):
 def unban_domain(v:User, domain):
 	existing = g.db.get(BannedDomain, domain)
 	if not existing: abort(400, 'Domain is not banned!')
-	
+
 	g.db.delete(existing)
 	ma = ModAction(
 		kind="unban_domain",
@@ -1595,7 +1595,7 @@ def admin_nuke_user(v):
 	for post in g.db.query(Submission).filter_by(author_id=user.id).all():
 		if post.is_banned:
 			continue
-			
+
 		post.is_banned = True
 		post.ban_reason = v.username
 		g.db.add(post)
@@ -1628,7 +1628,7 @@ def admin_nunuke_user(v):
 	for post in g.db.query(Submission).filter_by(author_id=user.id).all():
 		if not post.is_banned:
 			continue
-			
+
 		post.is_banned = False
 		post.ban_reason = None
 		post.is_approved = v.id

@@ -82,7 +82,7 @@ class Badge(Base):
 			text = self.badge.description
 		else:
 			return self.name
-		
+
 		return f'{self.name} - {text}'
 
 	@property

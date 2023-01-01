@@ -73,9 +73,9 @@
 
 {% macro text_area_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, show_extras, show_file_upload, maxlength, show_if) %}
 {% if show_if -%}
-<div class="body d-lg-flex border-bottom">					
+<div class="body d-lg-flex border-bottom">
 	<label class="text-black w-lg-25">{{section_title}}</label>
-	<div class="w-lg-100">						
+	<div class="w-lg-100">
 		<form id="{{id}}-form" action="{{form_action}}" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="formkey" value="{{v|formkey}}">
 			<textarea autocomplete="off" id="{{id}}-text" class="form-control rounded" placeholder="{{placeholder_text}}" rows="3" name="{{form_name}}" form="{{id}}-form" maxlength="{{maxlength}}">{% if contents %}{{contents}}{% endif %}</textarea>

@@ -75,4 +75,4 @@ self.addEventListener('notificationclick', (e) => {
 		const hadWindowToFocus = clientsArr.some((windowClient) => windowClient.url === e.notification.data.url ? (windowClient.focus(), true) : false);
 		if (!hadWindowToFocus) clients.openWindow(e.notification.data.url).then((windowClient) => windowClient ? windowClient.focus() : null);
 	}));
-});	
+});

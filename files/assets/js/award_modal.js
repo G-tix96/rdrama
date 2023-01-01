@@ -86,7 +86,7 @@ function vote(type, id, dir) {
 			}
 		}
 	}
-	
+
 	const xhr = createXhrWithFormKey("/vote/" + type.replace('-mobile','') + "/" + id + "/" + votedirection);
 	xhr[0].send(xhr[1]);
 }
@@ -144,7 +144,7 @@ function buy(mb) {
 				document.getElementById('giveaward').disabled=false;
 				let owned = document.getElementById(`${kind}-owned`)
 				let ownednum = Number(owned.textContent) + 1;
-				owned.textContent = ownednum	
+				owned.textContent = ownednum
 			}
 		}
 	};
@@ -166,7 +166,7 @@ function giveaward(t) {
 			owned.textContent = ownednum
 			if (ownednum == 0)
 				document.getElementById('giveaward').disabled=true;
-		}	
+		}
 	);
 }
 

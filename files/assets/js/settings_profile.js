@@ -13,7 +13,7 @@ function updatebgselection(){
 	const backgrounds = [
 		{
 			folder: "glitter",
-			backgrounds: 
+			backgrounds:
 			[
 				"1.webp",
 				"2.webp",
@@ -109,7 +109,7 @@ document.onpaste = function(event) {
 			alert("You can't upload more than 4 files at one time!")
 			return
 		}
-	
+
 		if (files.length)
 		{
 			f=document.getElementById('file-upload');

@@ -45,7 +45,7 @@ def publish(pid, v):
 	post.private = False
 	post.created_utc = int(time.time())
 	g.db.add(post)
-	
+
 	if not post.ghost:
 		notify_users = NOTIFY_USERS(f'{post.title} {post.body}', v)
 
@@ -189,7 +189,7 @@ def view_more(v, pid, sort, offset):
 	except: abort(400)
 	try: ids = set(int(x) for x in request.values.get("ids").split(','))
 	except: abort(400)
-	
+
 	if v:
 		# shadowban check is done in sort_objects
 		# output is needed: see comments.py
@@ -209,7 +209,7 @@ def view_more(v, pid, sort, offset):
 
 		comments = sort_objects(sort, comments, Comment,
 			include_shadowbanned=False)
-		
+
 		comments = comments.offset(offset).all()
 
 	comments2 = []
@@ -226,7 +226,7 @@ def view_more(v, pid, sort, offset):
 			ids.add(comment.id)
 			count += g.db.query(Comment).filter_by(parent_submission=post.id, parent_comment_id=comment.id).count() + 1
 			if count > 20: break
-	
+
 	if len(comments) == len(comments2): offset = 0
 	else: offset += 1
 	comments = comments2
@@ -255,7 +255,7 @@ def more_comments(v, cid):
 
 	if comments: p = comments[0].post
 	else: p = None
-	
+
 	return render_template("comments.html", v=v, comments=comments, p=p, render_replies=True)
 
 @app.post("/edit_post/<int:pid>")
@@ -320,7 +320,7 @@ def edit_post(pid, v):
 		for text in [p.body, p.title, p.url]:
 			if not execute_blackjack(v, p, text, 'submission'): break
 
-		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: 
+		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
 			abort(400, f"Submission body_html too long!")
 
 		p.body_html = body_html
@@ -367,13 +367,13 @@ def thumbnail_thread(pid:int, vid:int):
 			return f"{post_url}/{fragment_url}"
 
 	post = db.get(Submission, pid)
-	
+
 	if not post or not post.url:
 		time.sleep(5)
 		post = db.get(Submission, pid)
 
 	if not post or not post.url: return
-	
+
 	fetch_url = post.url
 
 	if fetch_url.startswith('/') and '\\' not in fetch_url:
@@ -404,12 +404,12 @@ def thumbnail_thread(pid:int, vid:int):
 			]
 
 		for tag_name in meta_tags:
-			
+
 
 			tag = soup.find(
-				'meta', 
+				'meta',
 				attrs={
-					"name": tag_name, 
+					"name": tag_name,
 					"content": True
 					}
 				)
@@ -510,7 +510,7 @@ def is_repost():
 							params=parsed_url.params,
 							query=urlencode(filtered, doseq=True),
 							fragment=parsed_url.fragment)
-	
+
 	url = urlunparse(new_url)
 	url = url.rstrip('/')
 
@@ -539,7 +539,7 @@ def submit_post(v:User, sub=None):
 
 	def error(error):
 		if g.is_api_or_xhr: abort(400, error)
-	
+
 		SUBS = [x[0] for x in g.db.query(Sub.name).order_by(Sub.name).all()]
 		return render_template("submit.html", SUBS=SUBS, v=v, error=error, title=title, url=url, body=body), 400
 
@@ -555,7 +555,7 @@ def submit_post(v:User, sub=None):
 	title_html = filter_emojis_only(title, graceful=True, count_marseys=True, torture=torture)
 	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 		return error("You can only type marseys!")
-	if len(title_html) > POST_TITLE_HTML_LENGTH_LIMIT: 
+	if len(title_html) > POST_TITLE_HTML_LENGTH_LIMIT:
 		return error("Rendered title is too big!")
 
 	if sub == 'changelog' and not v.admin_level >= PERMS['POST_TO_CHANGELOG']:
@@ -610,7 +610,7 @@ def submit_post(v:User, sub=None):
 								params=parsed_url.params,
 								query=urlencode(filtered, doseq=True),
 								fragment=parsed_url.fragment)
-		
+
 		url = urlunparse(new_url)
 
 		url = url.rstrip('/')
@@ -660,7 +660,7 @@ def submit_post(v:User, sub=None):
 	if not url and not body and not request.files.get("file") and not request.files.get("file-url"):
 		return error("Please enter a url or some text.")
 
-	if not IS_LOCALHOST: 
+	if not IS_LOCALHOST:
 		dup = g.db.query(Submission).filter(
 			Submission.author_id == v.id,
 			Submission.deleted_utc == 0,
@@ -738,7 +738,7 @@ def submit_post(v:User, sub=None):
 				submission_id=post.id
 				)
 	g.db.add(vote)
-	
+
 	if request.files.get('file-url') and not g.is_tor:
 		file = request.files['file-url']
 
@@ -761,7 +761,7 @@ def submit_post(v:User, sub=None):
 			post.url = process_audio(file, v)
 		else:
 			abort(415)
-		
+
 	if not post.thumburl and post.url:
 		gevent.spawn(thumbnail_thread, post.id, v.id)
 
@@ -889,7 +889,7 @@ def mark_post_nsfw(pid, v):
 
 	if post.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (post.sub and v.mods(post.sub)):
 		abort(403)
-		
+
 	if post.over_18 and v.is_suspended_permanently:
 		abort(403)
 
@@ -923,7 +923,7 @@ def unmark_post_nsfw(pid, v):
 
 	if post.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (post.sub and v.mods(post.sub)):
 		abort(403)
-		
+
 	if post.over_18 and v.is_suspended_permanently:
 		abort(403)
 
@@ -1056,7 +1056,7 @@ def get_post_title(v):
 	try:
 		x = gevent.with_timeout(POST_TITLE_TIMEOUT, requests.get, url, headers=titleheaders, timeout=POST_TITLE_TIMEOUT, proxies=proxies)
 	except: abort(400)
-		
+
 	content_type = x.headers.get("Content-Type")
 	if not content_type or "text/html" not in content_type: abort(400)
 

@@ -22,8 +22,8 @@ class Leaderboard:
 	user_func = None
 	value_func = None
 
-	def __init__(self, header_name:str, table_header_name:str, html_id:str, table_column_name:str, 
-				user_relative_url:Optional[str], query_function:Callable[..., Tuple[Any, Any, Any]], 
+	def __init__(self, header_name:str, table_header_name:str, html_id:str, table_column_name:str,
+				user_relative_url:Optional[str], query_function:Callable[..., Tuple[Any, Any, Any]],
 				criteria, v:User, value_func:Optional[Callable[[User], Union[int, Column]]], db:scoped_session, users, limit=LEADERBOARD_LIMIT):
 		self.header_name = header_name
 		self.table_header_name = table_header_name
@@ -52,11 +52,11 @@ class Leaderboard:
 			sq = db.query(User.id, func.rank().over(order_by=order_by.desc()).label("rank")).subquery()
 			position = db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
 		return (leaderboard, position, None)
-	
+
 	@classmethod
 	def count_and_label(cls, criteria):
 		return func.count(criteria).label("count")
-	
+
 	@classmethod
 	def rank_filtered_rank_label_by_desc(cls, criteria):
 		return func.rank().over(order_by=func.count(criteria).desc()).label("rank")
@@ -71,27 +71,27 @@ class Leaderboard:
 			sq_criteria = User.id == sq.c.author_id
 		else:
 			raise ValueError("This leaderboard function only supports Badge.user_id and Marsey.author_id")
-		
+
 		leaderboard = db.query(User, sq.c.count).join(sq, sq_criteria).order_by(sq.c.count.desc())
 		position = db.query(User.id, sq.c.rank, sq.c.count).join(sq, sq_criteria).filter(User.id == v.id).one_or_none()
 		if position: position = (position[1], position[2])
 		else: position = (leaderboard.count() + 1, 0)
 		leaderboard = leaderboard.limit(limit).all()
 		return (leaderboard, position[0], position[1])
-	
+
 	@classmethod
 	def get_blockers_lb(cls, lb_criteria, v:User, db:scoped_session, users:Any, limit):
 		if lb_criteria != UserBlock.target_id:
 			raise ValueError("This leaderboard function only supports UserBlock.target_id")
 		sq = db.query(lb_criteria, cls.count_and_label(lb_criteria)).group_by(lb_criteria).subquery()
 		leaderboard = db.query(User, sq.c.count).join(User, User.id == sq.c.target_id).order_by(sq.c.count.desc())
-		
+
 		sq = db.query(lb_criteria, cls.count_and_label(lb_criteria), cls.rank_filtered_rank_label_by_desc(lb_criteria)).group_by(lb_criteria).subquery()
 		position = db.query(sq.c.rank, sq.c.count).join(User, User.id == sq.c.target_id).filter(sq.c.target_id == v.id).limit(1).one_or_none()
 		if not position: position = (leaderboard.count() + 1, 0)
 		leaderboard = leaderboard.limit(limit).all()
 		return (leaderboard, position[0], position[1])
-	
+
 	@classmethod
 	def get_hat_lb(cls, lb_criteria, v:User, db:scoped_session, users:Any, limit):
 		leaderboard = db.query(User, func.count(lb_criteria)).join(lb_criteria).group_by(User).order_by(func.count(lb_criteria).desc())

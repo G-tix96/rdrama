@@ -73,7 +73,7 @@
 					<input type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" class="btn btn-danger" value="Chud">
 				</form>
 			{% endif %}
-			
+
 			<div class="actionbtns mt-3">
 				{% if v.admin_level >= PERMS['ADMIN_ADD'] %}
 					<button type="button" id="add-admin-{{deviceType}}" class="{% if u.admin_level >= PERMS['ADMIN_ADD_PERM_LEVEL'] %}d-none{% endif %} btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/@{{u.username}}/make_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Make Admin</button>

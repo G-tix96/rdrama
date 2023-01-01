@@ -150,7 +150,7 @@ def censor_slurs(body:Optional[str], logged_user):
 	def replace_re(body:str, regex:re.Pattern, regex_upper:re.Pattern, sub_func, sub_func_upper):
 		body = regex_upper.sub(sub_func_upper, body)
 		return regex.sub(sub_func, body)
-	
+
 	if not logged_user or logged_user == 'chat' or logged_user.slurreplacer:
 		body = replace_re(body, slur_regex, slur_regex_upper, sub_matcher_slurs, sub_matcher_slurs_upper)
 	if SITE_NAME == 'rDrama':

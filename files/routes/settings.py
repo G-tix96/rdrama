@@ -111,7 +111,7 @@ def settings_personal_post(v):
 	updated = False
 
 	# begin common selectors #
-	
+
 	def update_flag(column_name:str, request_name:str):
 		if not request.values.get(request_name, ''): return False
 		request_flag = request.values.get(request_name, '') == 'true'
@@ -119,7 +119,7 @@ def settings_personal_post(v):
 			setattr(v, column_name, request_flag)
 			return True
 		return False
-	
+
 	def update_potentially_permanent_flag(column_name:str, request_name:str, friendly_name:str, badge_id:Optional[int]):
 		if not request.values.get(request_name): return False
 		current_value = getattr(v, column_name)
@@ -161,14 +161,14 @@ def settings_personal_post(v):
 		updated = True
 		v.poor = request.values.get("poor", v.poor) == 'true'
 		session['poor'] = v.poor
-	
+
 	slur_filter_updated = updated or update_potentially_permanent_flag("slurreplacer", "slurreplacer", "slur replacer", 192)
 	if isinstance(slur_filter_updated, bool):
 		updated = slur_filter_updated
 	else:
 		g.db.add(v)
 		return slur_filter_updated
-	
+
 	profanity_filter_updated = updated or update_potentially_permanent_flag("profanityreplacer", "profanityreplacer", "profanity replacer", 190)
 	if isinstance(profanity_filter_updated, bool):
 		updated = profanity_filter_updated
@@ -191,7 +191,7 @@ def settings_personal_post(v):
 		updated = True
 		v.spider = int(request.values.get("spider") == 'true')
 		if v.spider: badge_grant(user=v, badge_id=179)
-		else: 
+		else:
 			badge = v.has_badge(179)
 			if badge: g.db.delete(badge)
 
@@ -317,7 +317,7 @@ def settings_personal_post(v):
 			updated = True
 			cache.delete_memoized(frontlist)
 		else: abort(400)
-	
+
 	updated = updated or set_selector_option("defaultsortingcomments", "defaultsortingcomments", COMMENT_SORTS, "comment sort")
 	updated = updated or set_selector_option("defaultsorting", "defaultsorting", SORTS, "post sort")
 	updated = updated or set_selector_option("defaulttime", "defaulttime", TIME_FILTERS, "time filter")
@@ -337,7 +337,7 @@ def settings_personal_post(v):
 		if v.house:
 			if v.house.replace(' Founder', '') == house: abort(409, f"You're already in House {house}")
 			cost = HOUSE_SWITCH_COST
-		else: 
+		else:
 			cost = HOUSE_JOIN_COST
 
 		success = v.charge_account('coins', cost)
@@ -345,7 +345,7 @@ def settings_personal_post(v):
 			success = v.charge_account('marseybux', cost)
 		if not success: abort(403)
 
-		if house == "None": house = '' 
+		if house == "None": house = ''
 		v.house = house
 
 		updated = True
@@ -389,7 +389,7 @@ def set_color(v:User, attr:str, color:Optional[str]):
 @auth_required
 def namecolor(v):
 	return set_color(v, "namecolor", request.values.get("namecolor"))
-	
+
 @app.post("/settings/themecolor")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
@@ -430,7 +430,7 @@ def gumroad(v):
 	g.db.add(v)
 
 	badge_grant(badge_id=20+tier, user=v)
-	
+
 
 	return {"message": f"{patron} rewards claimed!"}
 
@@ -640,7 +640,7 @@ def settings_security(v:User):
 def settings_block_user(v):
 	user = get_user(request.values.get("username"), graceful=True)
 	if not user: abort(404, "This user doesn't exist.")
-	
+
 	if user.unblockable:
 		if not v.shadowbanned:
 			send_notification(user.id, f"@{v.username} has tried to block you and failed because of your unblockable status!")
@@ -778,12 +778,12 @@ def settings_song_change(v):
 
 	if not yt_id_regex.fullmatch(id):
 		return render_template("settings/personal.html", v=v, error="Not a YouTube link"), 400
-	if path.isfile(f'/songs/{id}.mp3'): 
+	if path.isfile(f'/songs/{id}.mp3'):
 		v.song = id
 		g.db.add(v)
 		return render_template("settings/personal.html", v=v, msg="Profile Anthem successfully updated!")
-		
-	
+
+
 	req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={id}&key={YOUTUBE_KEY}&part=contentDetails", timeout=5).json()
 	duration = req['items'][0]['contentDetails']['duration']
 	if duration == 'P0D':
@@ -794,7 +794,7 @@ def settings_song_change(v):
 
 	if "M" in duration:
 		duration = int(duration.split("PT")[1].split("M")[0])
-		if duration > 15: 
+		if duration > 15:
 			return render_template("settings/personal.html", v=v, error="Duration of the video must not exceed 15 minutes."), 400
 
 
@@ -835,7 +835,7 @@ def settings_song_change(v):
 @auth_required
 def settings_title_change(v):
 	if v.flairchanged: abort(403)
-	
+
 	customtitleplain = sanitize_settings_text(request.values.get("title"), 100)
 
 	if len(customtitleplain) > 100:

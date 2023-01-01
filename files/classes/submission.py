@@ -145,14 +145,14 @@ class Submission(Base):
 	@property
 	@lazy
 	def is_youtube(self):
-		return self.domain == "youtube.com" and self.embed_url and self.embed_url.startswith('<lite-youtube') 
+		return self.domain == "youtube.com" and self.embed_url and self.embed_url.startswith('<lite-youtube')
 
 	@property
 	@lazy
 	def thumb_url(self):
 		if self.over_18: return f"{SITE_FULL}/i/nsfw.webp?v=1"
 		elif not self.url: return f"{SITE_FULL}/i/{SITE_NAME}/default_text.webp?v=2"
-		elif self.thumburl: 
+		elif self.thumburl:
 			if self.thumburl.startswith('/'): return SITE_FULL + self.thumburl
 			return self.thumburl
 		elif self.is_youtube or self.is_video: return f"{SITE_FULL}/i/default_thumb_video.webp?v=2"
@@ -171,7 +171,7 @@ class Submission(Base):
 					'title': self.title,
 					'permalink': self.permalink,
 					}
-		
+
 		if self.deleted_utc:
 			return {'is_banned': bool(self.is_banned),
 					'deleted_utc': True,
@@ -240,7 +240,7 @@ class Submission(Base):
 		url = normalize_urls_runtime(url, v)
 
 		if url.startswith("https://old.reddit.com/r/") and '/comments/' in url and "sort=" not in url:
-			if "?" in url: url += "&context=9" 
+			if "?" in url: url += "&context=9"
 			else: url += "?context=8"
 			if not v or v.controversial: url += "&sort=controversial"
 		elif url.startswith("https://watchpeopledie.tv/videos/"):
@@ -249,7 +249,7 @@ class Submission(Base):
 							  "https://videos.watchpeopledie.tv/", 1)
 
 		return url
-	
+
 	@lazy
 	def total_bet_voted(self, v):
 		if "closed" in self.body.lower(): return True
@@ -297,7 +297,7 @@ class Submission(Base):
 
 				if o.exclusive == 3:
 					body += " - <b>WINNER!</b>"
-				
+
 				if not winner and v and v.admin_level >= PERMS['POST_BETS_DISTRIBUTE']:
 					body += f'''<button class="btn btn-primary distribute" data-areyousure="postToastReload(this,'/distribute/{o.id}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Declare winner</button>'''
 				body += "</div>"
@@ -314,7 +314,7 @@ class Submission(Base):
 					body += f''' data-nonce="{{g.nonce}}" data-onclick="poll_vote_no_v()"'''
 
 				body += f'''><label class="custom-control-label" for="post-{o.id}">{o.body_html}<span class="presult-{self.id}'''
-				if not self.total_poll_voted(v): body += ' d-none'	
+				if not self.total_poll_voted(v): body += ' d-none'
 				body += f'"> - <a href="/votes/post/option/{o.id}"><span id="score-post-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
 
 

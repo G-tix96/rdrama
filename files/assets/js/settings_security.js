@@ -38,7 +38,7 @@ function unblock_user(t, url) {
 		},
 		() => {
 			t.parentElement.parentElement.remove();
-		}	
+		}
 	);
 }
 

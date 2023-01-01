@@ -78,7 +78,7 @@ def get_users(usernames:Iterable[str], graceful=False) -> List[User]:
 	return users
 
 def get_account(id:Union[str, int], v:Optional[User]=None, graceful=False, include_blocks=False, include_shadowbanned=True) -> Optional[User]:
-	try: 
+	try:
 		id = int(id)
 	except:
 		if graceful: return None
@@ -97,7 +97,7 @@ def get_account(id:Union[str, int], v:Optional[User]=None, graceful=False, inclu
 
 def get_accounts_dict(ids:Union[Iterable[str], Iterable[int]], v:Optional[User]=None, graceful=False, include_shadowbanned=True) -> Optional[dict[int, User]]:
 	if not ids: return {}
-	try: 
+	try:
 		ids = set([int(id) for id in ids])
 	except:
 		if graceful: return None
@@ -132,15 +132,15 @@ def get_post(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Option
 
 		post=post.filter(Submission.id == i
 		).outerjoin(
-			vt, 
-			vt.c.submission_id == Submission.id, 
+			vt,
+			vt.c.submission_id == Submission.id,
 		).outerjoin(
-			blocking, 
-			blocking.c.target_id == Submission.author_id, 
+			blocking,
+			blocking.c.target_id == Submission.author_id,
 		)
 
 		post=post.one_or_none()
-		
+
 		if not post:
 			if graceful: return None
 			else: abort(404)
@@ -163,7 +163,7 @@ def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False, extra
 
 	if v:
 		vt = g.db.query(Vote.vote_type, Vote.submission_id).filter(
-			Vote.submission_id.in_(pids), 
+			Vote.submission_id.in_(pids),
 			Vote.user_id==v.id
 			).subquery()
 
@@ -180,11 +180,11 @@ def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False, extra
 		).outerjoin(
 			vt, vt.c.submission_id==Submission.id
 		).outerjoin(
-			blocking, 
-			blocking.c.target_id == Submission.author_id, 
+			blocking,
+			blocking.c.target_id == Submission.author_id,
 		).outerjoin(
-			blocked, 
-			blocked.c.user_id == Submission.author_id, 
+			blocked,
+			blocked.c.user_id == Submission.author_id,
 		)
 	else:
 		query = g.db.query(Submission).filter(Submission.id.in_(pids))
@@ -245,7 +245,7 @@ def add_block_props(target:Union[Submission, Comment, User], v:Optional[User]):
 		id = target.id
 	else:
 		raise TypeError("add_block_props only supports non-None submissions, comments, and users")
-	
+
 	if hasattr(target, 'is_blocking') and hasattr(target, 'is_blocked'):
 		return target
 

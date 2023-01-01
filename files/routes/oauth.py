@@ -97,7 +97,7 @@ def delete_oauth_app(v, aid):
 		abort(404)
 	app = g.db.get(OauthApp, aid)
 	if not app: abort(404)
-	
+
 	if app.author_id != v.id: abort(403)
 
 	for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id).all():

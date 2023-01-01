@@ -85,7 +85,7 @@ CASINO_RELEASE_DAY = 1662825600
 
 AJ_REPLACEMENTS = {
 	' your ': " you're ",
-	' to ': " too ", 
+	' to ': " too ",
 
 	' Your ': " You're ",
 	' To ': " Too ",
@@ -986,7 +986,7 @@ forced_hats = {
 	"earlylife": ("The Merchant", "SHUT IT DOWN, the goys know!"),
 	"marsify": ("Marsified", "I can't pick my own Marseys, help!"),
 	"is_suspended": ("Behind Bars", "This user is banned and needs to do better!"),
-	"agendaposter": (("Egg_irl", "This user is getting in touch with xir identity!"), 
+	"agendaposter": (("Egg_irl", "This user is getting in touch with xir identity!"),
 				("Trans Flag", "Just in case you forgot, trans lives matter."),
 				("Trans Flag II", "Your egg is cracked; wear it with pride!"),
 				("Pride Flag", "Never forget that this is a primarily gay community. Dude bussy lmao."),

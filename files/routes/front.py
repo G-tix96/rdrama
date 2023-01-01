@@ -35,7 +35,7 @@ def front_all(v, sub=None, subdomain=None):
 		sub = get_sub_by_name(sub, graceful=True)
 		if sub and not User.can_see(v, sub):
 			abort(403)
-	
+
 	if (request.path.startswith('/h/') or request.path.startswith('/s/')) and not sub: abort(404)
 
 	try: page = max(int(request.values.get("page", 1)), 1)
@@ -52,7 +52,7 @@ def front_all(v, sub=None, subdomain=None):
 
 	sort=request.values.get("sort", defaultsorting)
 	t=request.values.get('t', defaulttime)
-	
+
 	try: gt=int(request.values.get("after", 0))
 	except: gt=0
 
@@ -79,7 +79,7 @@ def front_all(v, sub=None, subdomain=None):
 					)
 
 	posts = get_posts(ids, v=v, eager=True)
-	
+
 	if v:
 		if v.hidevotedon: posts = [x for x in posts if not hasattr(x, 'voted') or not x.voted]
 		award_timers(v)
@@ -91,7 +91,7 @@ def front_all(v, sub=None, subdomain=None):
 @cache.memoize(timeout=86400)
 def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, sub=None, site=None, pins=True, holes=True):
 	posts = g.db.query(Submission)
-	
+
 	if v and v.hidevotedon:
 		posts = posts.outerjoin(Vote,
 					and_(Vote.submission_id == Submission.id, Vote.user_id == v.id)
@@ -148,7 +148,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 			pins = g.db.query(Submission).filter(Submission.sub == sub.name, Submission.hole_pinned != None)
 		else:
 			pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False)
-			
+
 			if v:
 				pins = pins.filter(or_(Submission.sub == None, Submission.sub.notin_(v.all_blocks)))
 				for pin in pins:
@@ -184,7 +184,7 @@ def random_post(v:User):
 @auth_required
 def random_user(v:User):
 	u = g.db.query(User.username).filter(User.song != None, User.shadowbanned == None).order_by(func.random()).first()
-	
+
 	if u: u = u[0]
 	else: abort(404, "No users have set a profile anthem so far!")
 

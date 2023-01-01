@@ -46,7 +46,7 @@
 				<th>Owners</th>
 				<th>Price</th>
 				<th>Actions</th>
-				<th>Added on</th>	
+				<th>Added on</th>
 			</tr>
 		</thead>
 
@@ -79,7 +79,7 @@
 
 						<div id="if-owned-{{hat.id}}" {% if hat.id not in owned_hat_ids %}class="d-none"{% endif %}>
 							<button type="button" id="unequip-{{hat.id}}" class="unequip {% if hat.id not in v.equipped_hat_ids %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this, '/unequip_hat/{{hat.id}}', 'equip-{{hat.id}}', 'unequip-{{hat.id}}', 'd-none')"><span class="m-auto">Unequip</span></button>
-							
+
 							<button type="button" id="equip-{{hat.id}}" class="equip {% if hat.id in v.equipped_hat_ids %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="equip_hat(this, '{{hat.id}}', '{{hat.name}}')"><span class="m-auto">Equip</span></button>
 						</div>
 					</td>
@@ -89,5 +89,5 @@
 			{% endfor %}
 		</tbody>
 	</table>
-	
+
 {% endblock %}

@@ -63,7 +63,7 @@ function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
 		showToast(success, message);
 		if (!isShopConfirm) {
 			t.disabled = false;
-			t.classList.remove("disabled");			
+			t.classList.remove("disabled");
 		}
 		return success;
 	};

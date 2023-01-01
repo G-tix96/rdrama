@@ -38,25 +38,25 @@ def chart(kind, site):
 		day_cutoffs = [today_cutoff - 86400 * 7 * i for i in range(num_of_weeks)][1:]
 	day_cutoffs.insert(0, calendar.timegm(now))
 
-	daily_times = [time.strftime('%d/%m', time.gmtime(day_cutoffs[i + 1])) 
+	daily_times = [time.strftime('%d/%m', time.gmtime(day_cutoffs[i + 1]))
 		for i in range(len(day_cutoffs) - 1)][::-1]
 
 	daily_signups = [g.db.query(User).filter(
-			User.created_utc < day_cutoffs[i], 
-			User.created_utc > day_cutoffs[i + 1]).count() 
+			User.created_utc < day_cutoffs[i],
+			User.created_utc > day_cutoffs[i + 1]).count()
 		for i in range(len(day_cutoffs) - 1)][::-1]
 
 	post_stats = [g.db.query(Submission).filter(
-			Submission.created_utc < day_cutoffs[i], 
-			Submission.created_utc > day_cutoffs[i + 1], 
-			Submission.is_banned == False).count() 
+			Submission.created_utc < day_cutoffs[i],
+			Submission.created_utc > day_cutoffs[i + 1],
+			Submission.is_banned == False).count()
 		for i in range(len(day_cutoffs) - 1)][::-1]
 
 	comment_stats = [g.db.query(Comment).filter(
-			Comment.created_utc < day_cutoffs[i], 
+			Comment.created_utc < day_cutoffs[i],
 			Comment.created_utc > day_cutoffs[i + 1],
-			Comment.is_banned == False, 
-			Comment.author_id != AUTOJANNY_ID).count() 
+			Comment.is_banned == False,
+			Comment.author_id != AUTOJANNY_ID).count()
 		for i in range(len(day_cutoffs) - 1)][::-1]
 
 	plt.rcParams['figure.figsize'] = (chart_width, 20)

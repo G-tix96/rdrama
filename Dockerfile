@@ -4,7 +4,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt update
 RUN apt -y upgrade
-RUN apt install -y supervisor 
+RUN apt install -y supervisor
 RUN apt install -y python3-pip
 RUN apt install -y ffmpeg
 RUN apt install -y postgresql

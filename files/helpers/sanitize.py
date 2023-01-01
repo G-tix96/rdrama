@@ -96,7 +96,7 @@ def allowed_attributes(tag, name, value):
 
 	if tag == 'table':
 		if name == 'class' and value == 'table': return True
-	
+
 	return False
 
 def build_url_re(tlds, protocols):

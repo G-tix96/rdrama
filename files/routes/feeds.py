@@ -22,7 +22,7 @@ def feeds_user(sort='hot', t='all'):
 		t=t,
 		v=None,
 		)
-	
+
 	posts = get_posts(ids)
 
 	doc, tag, text = Doc().tagtext()
@@ -54,7 +54,7 @@ def feeds_user(sort='hot', t='all'):
 
 				with tag("published"):
 					text(datetime.datetime.utcfromtimestamp(post.created_utc).isoformat()+"Z")
-				
+
 				with tag("author"):
 					with tag("name"):
 						text(post.author_name)

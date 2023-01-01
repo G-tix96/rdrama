@@ -54,7 +54,7 @@ def casino_game_page(v:User, game):
 @limiter.limit("100/minute;2000/hour;12000/day")
 @auth_required
 def casino_game_feed(v:User, game):
-	if v.rehab: 
+	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 	elif game not in CASINO_GAME_KINDS:
 		abort(404)

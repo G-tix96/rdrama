@@ -47,7 +47,7 @@
 							<div class="body w-lg-100">
 								<p>Change the background for the website.</p>
 								<div class="input-group mb2">
-									<select autocomplete="off" id='backgroundSelector' class="form-control" form="profile-settings" name="background" data-nonce="{{g.nonce}}" data-onchange="updatebgselection();">								
+									<select autocomplete="off" id='backgroundSelector' class="form-control" form="profile-settings" name="background" data-nonce="{{g.nonce}}" data-onchange="updatebgselection();">
 									{% for entry in BACKGROUND_CATEGORIES %}
 										<option value="{{entry}}" {% if v.background and v.background.startswith(entry) %}selected{% endif %}>
 											{{entry}}
@@ -55,10 +55,10 @@
 									{% endfor %}
 									</select>
 								</div>
-							<form class="d-flex mt-3 mb-2" id="upload-custom-background" action="/settings/custom_background" method="post" enctype="multipart/form-data"> 
+							<form class="d-flex mt-3 mb-2" id="upload-custom-background" action="/settings/custom_background" method="post" enctype="multipart/form-data">
 								<input type="hidden" name="formkey" value="{{v|formkey}}">
 								<label class="btn btn-primary" for="upload-custom-background-file">
-									<i class="fas fa-image mr-1"></i> 
+									<i class="fas fa-image mr-1"></i>
 									{% if v.background and v.background.startswith('/images/') %}
 										{{v.background}}
 									{% else %}

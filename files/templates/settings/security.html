@@ -51,7 +51,7 @@
 						{% if FEATURES['MARSEYBUX'] %}
 							<span class="text-small text-muted pl-1">Must be same email as the one you used to donate
 							{% if v.truescore >= TRUESCORE_DONATE_MINIMUM %}
-							on 
+							on
 								{% if KOFI_TOKEN %}
 									<a rel="nofollow noopener" class="text-primary" href="{{KOFI_LINK}}">Kofi</a>
 								{% else %}
@@ -61,14 +61,14 @@
 							</span>
 						{% endif %}
 					</div>
-				</form>				
+				</form>
 			</div>
 		</section>
 		<section id="site-settings-password-section" class="settings-section-section">
 			<h5>Password</h5>
 			<div class="settings-section rounded">
 				<form action="/settings/security" method="post">
-					<div class="body">	
+					<div class="body">
 						<div class="d-lg-flex">
 							<label for="old_password" class="mb-0 w-lg-25">Old Password</label>
 							<input autocomplete="off" class="form-control mb-2 w-lg-100" id="old_password" type="password" name="old_password" required>

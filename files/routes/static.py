@@ -142,7 +142,7 @@ def log(v:User):
 		actions = []
 	else:
 		actions = g.db.query(ModAction)
-		if not (v and v.admin_level >= PERMS['USER_SHADOWBAN']): 
+		if not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
 			actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED_TYPES))
 
 		if admin_id:
@@ -156,7 +156,7 @@ def log(v:User):
 		if kind: actions = actions.filter_by(kind=kind)
 
 		actions = actions.order_by(ModAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
-	
+
 	next_exists=len(actions) > PAGE_SIZE
 	actions=actions[:PAGE_SIZE]
 	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.username).all()]
@@ -228,7 +228,7 @@ def submit_contact(v):
 	execute_blackjack(v, new_comment, new_comment.body_html, 'modmail')
 	execute_under_siege(v, new_comment, new_comment.body_html, 'modmail')
 	new_comment.top_comment_id = new_comment.id
-	
+
 	admins = g.db.query(User).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != AEVANN_ID)
 
 	for admin in admins.all():
@@ -254,7 +254,7 @@ def badge_list(site):
 	counts = {}
 	for c in counts_raw:
 		counts[c[0]] = (c[1], float(c[1]) * 100 / max(users, 1))
-	
+
 	return badges, counts
 
 @app.get("/badges")

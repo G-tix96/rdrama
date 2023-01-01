@@ -329,7 +329,7 @@ def notifications(v:User):
 			total.extend(c.replies2)
 
 		if c not in listing: listing.append(c)
-	
+
 	total.extend(listing)
 
 	total_cids = [x.id for x in total]

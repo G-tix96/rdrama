@@ -213,40 +213,40 @@ body {
 	background-color: #1f1f1f;
 	background-blend-mode: soft-light;
 }
-  
+
   .color {
    width: 20%;
    height: 100%;
    float: left
   }
-  
+
   .color p {
 	position: relative;
 	z-index: 1231231;
 	text-align: center;
 	line-height: 90vh;
   }
-  
+
   .color:nth-child(1){
 	background-color: #F5624D;
   }
-  
+
   .color:nth-child(2){
 	background-color: #CC231E;
   }
-  
+
   .color:nth-child(3){
 	background-color: #34A65F;
   }
-  
+
   .color:nth-child(4){
 	background-color: #0F8A5F;
   }
-  
+
   .color:nth-child(5){
 	background-color: #235E6F;
   }
-  
+
   #snow:not([data-nonce]) {
 	height: 100%;
 	color: #FFF;

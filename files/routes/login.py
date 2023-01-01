@@ -346,7 +346,7 @@ def sign_up_post(v:Optional[User]):
 
 	check_for_alts(new_user)
 	send_notification(new_user.id, WELCOME_MSG)
-	
+
 	if SIGNUP_FOLLOW_ID:
 		signup_autofollow = get_account(SIGNUP_FOLLOW_ID)
 		new_follow = Follow(user_id=new_user.id, target_id=signup_autofollow.id)
@@ -502,7 +502,7 @@ def request_2fa_disable():
 	token=generate_hash(f"{user.id}+{user.username}+disable2fa+{valid}+{user.mfa_secret}+{user.login_nonce}")
 
 	action_url=f"{SITE_FULL}/reset_2fa?id={user.id}&t={valid}&token={token}"
-	
+
 	send_mail(to_address=user.email,
 			subject="2FA Removal Request",
 			html=render_template("email/2fa_remove.html",

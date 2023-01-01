@@ -108,7 +108,7 @@ function buildRouletteTable() {
 	for (let i = 25; i < 37; i++) {
 		const correctNumber = CELL_TO_NUMBER_LOOKUP[i];
 		const isRed = reds.includes(correctNumber);
-		
+
 		html += `<div
 			id="STRAIGHT_UP_BET#${correctNumber}"
 			data-nonce="${nonce}"
@@ -238,7 +238,7 @@ function buildRouletteBets(bets) {
 			data-bs-placement="bottom"
 			title=""
 			aria-label="Marseybux"
-			width="32" class="mr-1 ml-1" 
+			width="32" class="mr-1 ml-1"
 			data-bs-original-title="Marseybux">
 	`;
 	const { participants, coin, marseybux } = flatBets.reduce((prev, next) => {

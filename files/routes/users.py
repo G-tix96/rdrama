@@ -96,7 +96,7 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	listing = [p.id for p in listing]
 	next_exists = len(listing) > PAGE_SIZE
 	listing = listing[:PAGE_SIZE]
-	
+
 	if cls == Submission:
 		listing = get_posts(listing, v=v, eager=True)
 	elif cls == Comment:
@@ -238,7 +238,7 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 	users = g.db.query(User).filter(User.id.in_(votes.keys()))
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
-	
+
 	users2 = [(user, votes[user.id]) for user in users.all()]
 	users = sorted(users2, key=lambda x: x[1], reverse=True)
 
@@ -255,7 +255,7 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
-	
+
 	users = users[PAGE_SIZE * (page-1):]
 	next_exists = (len(users) > PAGE_SIZE)
 	users = users[:PAGE_SIZE]
@@ -340,7 +340,7 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'mars
 		send_repeatable_notification(receiver.id, notif_text)
 	g.db.add(v)
 	return {"message": f"{amount - tax} {currency_name} have been transferred to @{receiver.username}"}
-	
+
 @app.post("/@<username>/transfer_coins")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
@@ -445,7 +445,7 @@ def subscribe(v, post_id):
 		new_sub = Subscription(user_id=v.id, submission_id=post_id)
 		g.db.add(new_sub)
 	return {"message": "Subscribed to post successfully!"}
-	
+
 @app.post("/unsubscribe/<int:post_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
@@ -629,7 +629,7 @@ def is_available(name:str):
 
 	if len(name)<3 or len(name)>25:
 		return {name:False}
-		
+
 	name2 = name.replace('\\', '').replace('_','\_').replace('%','')
 
 	x = g.db.query(User).filter(
@@ -648,7 +648,7 @@ def is_available(name:str):
 def user_id(id):
 	user = get_account(id)
 	return redirect(user.url)
-		
+
 @app.get("/u/<username>")
 @auth_required
 def redditor_moment_redirect(v:User, username:str):
@@ -785,10 +785,10 @@ def u_username_wall(v:Optional[User], username:str):
 
 	next_exists = (len(comments) > PAGE_SIZE)
 	comments = comments[:PAGE_SIZE]
-	
+
 	if (v and v.client) or request.path.endswith(".json"):
 		return {"data": [c.json(g.db) for c in comments]}
-	
+
 	return render_template("userpage/wall.html", u=u, v=v, listing=comments, page=page, next_exists=next_exists, is_following=is_following, standalone=True, render_replies=True, wall=True)
 
 
@@ -837,12 +837,12 @@ def u_username_wall_comment(v:User, username:str, cid):
 		c = c.parent_comment
 		context -= 1
 	top_comment = c
-	
+
 	if v:
 		# this is required because otherwise the vote and block
 		# props won't save properly unless you put them in a list
 		output = get_comments_v_properties(v, False, None, Comment.top_comment_id == c.top_comment_id)[1]
-			
+
 	if v and v.client: return top_comment.json(db=g.db)
 
 	return render_template("userpage/wall.html", u=u, v=v, listing=[top_comment], page=1, is_following=is_following, standalone=True, render_replies=True, wall=True, comment_info=comment_info)
@@ -899,7 +899,7 @@ def u_username(v:Optional[User], username:str):
 	if u.unban_utc:
 		if (v and v.client) or request.path.endswith(".json"):
 			return {"data": [x.json(g.db) for x in listing]}
-		
+
 		return render_template("userpage/submissions.html",
 												unban=u.unban_string,
 												u=u,
@@ -913,7 +913,7 @@ def u_username(v:Optional[User], username:str):
 
 	if (v and v.client) or request.path.endswith(".json"):
 		return {"data": [x.json(g.db) for x in listing]}
-	
+
 	return render_template("userpage/submissions.html",
 									u=u,
 									v=v,
@@ -955,7 +955,7 @@ def u_username_comments(username, v=None):
 
 	try: page = max(int(request.values.get("page", "1")), 1)
 	except: page = 1
-	
+
 	sort=request.values.get("sort","new")
 	t=request.values.get("t","all")
 
@@ -990,7 +990,7 @@ def u_username_comments(username, v=None):
 
 	if (v and v.client) or request.path.endswith(".json"):
 		return {"data": [c.json(g.db) for c in listing]}
-	
+
 	return render_template("userpage/comments.html", u=u, v=v, listing=listing, page=page, sort=sort, t=t,next_exists=next_exists, is_following=is_following, standalone=True)
 
 
@@ -1064,7 +1064,7 @@ def unfollow_user(username, v):
 
 	if follow:
 		g.db.delete(follow)
-		
+
 		g.db.flush()
 		target.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=target.id).count()
 		g.db.add(target)
@@ -1087,7 +1087,7 @@ def remove_follow(username, v):
 	if not follow: return {"message": f"@{target.username} has been removed as a follower!"}
 
 	g.db.delete(follow)
-	
+
 	g.db.flush()
 	v.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=v.id).count()
 	g.db.add(v)
@@ -1129,7 +1129,7 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 	ids = ids[:PAGE_SIZE]
 
 	extra = None
-	if not v.admin_level >= PERMS['POST_COMMENT_MODERATION']: 
+	if not v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 		extra = lambda q:q.filter(cls.is_banned == False, cls.deleted_utc == 0)
 
 	if cls is Submission:
@@ -1138,7 +1138,7 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 		listing = get_comments(ids, v=v, extra=extra)
 	else:
 		raise TypeError("Only supports Submissions and Comments. This is probably the result of a bug with *this* function")
-	
+
 	if v.client: return {"data": [x.json(g.db) for x in listing]}
 	return render_template(template, u=v, v=v, listing=listing, page=page, next_exists=next_exists, standalone=standalone)
 
@@ -1183,7 +1183,7 @@ def fp(v:User, fp):
 		if existing: continue
 		add_alt(user1=v.id, user2=u.id)
 		print(v.username + ' + ' + u.username, flush=True)
-	
+
 	check_for_alts(v)
 	g.db.add(v)
 	return '', 204
@@ -1282,13 +1282,13 @@ def settings_kofi(v:User):
 		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
 
 	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()
-	
+
 	if not transactions:
 		abort(400, f"{patron} rewards already claimed")
 
 	highest_tier = 0
 	marseybux = 0
-	
+
 	for transaction in transactions:
 		tier = kofi_tiers[transaction.amount]
 		marseybux += marseybux_li[tier]

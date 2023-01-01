@@ -63,7 +63,7 @@ def after_request(response:Response):
 	if response.status_code < 400:
 		_set_cloudflare_cookie(response)
 		_commit_and_close_db()
-	
+
 	return response
 
 
@@ -82,7 +82,7 @@ def _set_cloudflare_cookie(response:Response) -> None:
 	if not logged_in and request.cookies.get("lo"):
 		response.delete_cookie("lo", domain=app.config["COOKIE_DOMAIN"], samesite="Lax")
 	elif logged_in and not request.cookies.get("lo"):
-		response.set_cookie("lo", CLOUDFLARE_COOKIE_VALUE if logged_in else '', 
+		response.set_cookie("lo", CLOUDFLARE_COOKIE_VALUE if logged_in else '',
 							max_age=SESSION_LIFETIME, samesite="Lax",
 							domain=app.config["COOKIE_DOMAIN"])
 
