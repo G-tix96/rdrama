@@ -92,14 +92,17 @@ for (const element of setting_switchs) {
 	};
 }
 
-const setting_reloads = document.getElementsByClassName('setting_reload');
-for (const element of setting_reloads) {
+const setting_selects = document.getElementsByClassName('setting_select');
+for (const element of setting_selects) {
 	if (element.dataset.nonce != nonce) {
 		console.log("Nonce check failed!")
 		continue
 	}
 	element.onchange = () => {
-		postToastReload(element,`/settings/personal?${element.name}=${element.value}`);
+		if (element.dataset.reload)
+			postToastReload(element,`/settings/personal?${element.name}=${element.value}`);
+		else
+			postToast(element,`/settings/personal?${element.name}=${element.value}`);
 	};
 }
 
