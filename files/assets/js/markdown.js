@@ -59,7 +59,7 @@ function markdown(t) {
 		for(i = 0; i < emojis.length; i++){
 			const old = emojis[i][0];
 			if (old.includes('marseyrandom')) continue
-			const emoji = old.replace(/[:!@#]/g,'').toLowerCase();
+			let emoji = old.replace(/[:!@#]/g,'').toLowerCase();
 			const mirroredClass = old.indexOf('!') == -1 ? '' : 'mirrored';
 			const emojiClass = old.indexOf('#') == -1 ? 'emoji' : 'emoji-lg';
 			if (emoji.endsWith('pat') && emoji != 'marseyunpettablepat') {
