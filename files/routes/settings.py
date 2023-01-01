@@ -195,7 +195,7 @@ def settings_personal_post(v):
 			badge = v.has_badge(179)
 			if badge: g.db.delete(badge)
 
-	elif IS_FISTMAS and not updated and request.values.get("event_music", v.event_music) != v.event_music and v.can_toggle_event_music:
+	elif IS_FISTMAS() and not updated and request.values.get("event_music", v.event_music) != v.event_music and v.can_toggle_event_music:
 		updated = True
 		v.event_music = not v.event_music
 	
