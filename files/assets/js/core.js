@@ -304,9 +304,9 @@ for (const e of timestamps) {
 	e.innerHTML = formatDate(new Date(e.dataset.time*1000));
 };
 
-function timestamp(str, ti) {
+function timestamp(t, ti) {
 	const date = formatDate(new Date(ti*1000));
-	document.getElementById(str).setAttribute("data-bs-original-title", date);
+	t.setAttribute("data-bs-original-title", date);
 };
 
 function areyousure(t) {
