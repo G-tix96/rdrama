@@ -6666,3 +6666,7 @@ select {
 body {
 	background-color: rgb(var(--background));
 }
+
+.color-picker .fa-check {
+    line-height: 2.3;
+}
