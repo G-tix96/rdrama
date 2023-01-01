@@ -92,7 +92,10 @@ function updatebgselection(){
 			str += `<button class="btn btn-secondary bg-button"><img loading="lazy" class='bg-image' src="/i/backgrounds/${bgsDir}/${bgsToDisplay[i]}?v=2000" alt="${bgsToDisplay[i]}-background" data-nonce="${nonce}" data-onclick="post('/settings/personal?background=${onclickPost}')"></button>`;
 		}
 		bgContainer.innerHTML = str;
-		register_new_elements(bgContainer);
+
+		if (typeof register_new_elements === "function") {
+			register_new_elements(bgContainer)
+		}
 	}
 	updatebgselection();
 
