@@ -6458,7 +6458,7 @@ div.markdown {
 	max-width: 100vw !important;
 	margin: 0 !important;
 }
-p .resizable {
+.comment-text .resizable {
 	height: 30vh !important;
 }
 
