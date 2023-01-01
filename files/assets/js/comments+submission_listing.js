@@ -39,7 +39,7 @@ function popclick(e) {
 		let popover = document.getElementsByClassName("popover")
 		popover = popover[popover.length-1]
 
-		if (popover.getElementsByClassName('pop-badges').length > 0) {
+		if (popover.getElementsByClassName('pop-badges')) {
 			const badgesDOM = popover.getElementsByClassName('pop-badges')[0];
 			badgesDOM.innerHTML = "";
 			for (const badge of author["badges"]) {
@@ -63,6 +63,12 @@ function popclick(e) {
 		popover.getElementsByClassName('pop-view_more')[0].href = author["url"]
 		popover.getElementsByClassName('pop-created-date')[0].innerHTML = author["created_date"]
 	}, 5);
+}
+
+for (const element of document.getElementsByClassName('user-name')) {
+	element.onclick = (e) => {
+		popclick(e);
+	};
 }
 
 document.addEventListener("click", function(){
