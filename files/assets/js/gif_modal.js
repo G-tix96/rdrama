@@ -142,7 +142,7 @@ async function searchGifs(searchTerm) {
 	}
 	else {
 		for (let i = 0; i < 48; i++) {
-			gifURL[i] = "https://media.giphy.com/media/" + data[i].id + "/200w.webp";
+			gifURL[i] = "https://media.giphy.com/media/" + data[i].id + "/giphy.webp";
 			const insert = `<img class="giphy" loading="lazy" data-bs-dismiss="modal" src="${gifURL[i]}"></div>`
 			container.insertAdjacentHTML('beforeend', insert);
 			noGIFs.innerHTML = null;

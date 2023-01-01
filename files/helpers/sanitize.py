@@ -313,6 +313,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 				tag = tag.replace_with(a)
 				a.append(tag)
 
+			tag["data-src"] = tag["data-src"].replace('/giphy.webp', '/200w.webp')
+
 	for tag in soup.find_all("a"):
 		if not tag.contents or not str(tag.contents[0]).strip():
 			tag.extract()
@@ -476,8 +478,7 @@ def normalize_url(url):
 			 .replace("https://nitter.net/", "https://twitter.com/") \
 			 .replace("https://nitter.42l.fr/", "https://twitter.com/") \
 			 .replace("https://nitter.lacontrevoie.fr/", "https://twitter.com/") \
-			 .replace("/giphy.gif", "/200w.webp") \
-			 .replace("/giphy.webp", "/200w.webp") \
+			 .replace("/giphy.gif", "/giphy.webp")
 
 	url = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=grand', url)
 	url = giphy_regex.sub(r'\1.webp', url)
