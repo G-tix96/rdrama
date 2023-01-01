@@ -70,9 +70,9 @@
 				<div id="logo-container" class="flex-grow-1 logo-container">
 				<a href="/">
 					{% if SITE_NAME == 'WPD' and IS_FISTMAS() %}
-						<img class="ml-1" id="logo" alt="logo" src="{{'icons-fistmas/2022-christmas-logo.webp' | asset_siteimg}}" width="70">
+						<img class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'icons-fistmas/2022-christmas-logo.webp' | asset_siteimg}}" width="70">
 					{% else %}
-						<img class="ml-1" id="logo" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width="70">
+						<img class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width="70">
 					{% endif %}
 				</a>
 				</div>

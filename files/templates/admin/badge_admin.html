@@ -3,6 +3,8 @@
 {% block pagetype %}message{% endblock %}
 {% block content %}
 
+<link rel="stylesheet" href="{{('css/admin/badges.css') | asset}}">
+
 {% if error %}{{macros.alert(error, true)}}{% endif %}
 {% if msg %}{{macros.alert(msg, false)}}{% endif %}
 

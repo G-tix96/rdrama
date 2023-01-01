@@ -22,6 +22,12 @@
 .star4 {animation-duration: 6s;}
 .star5 {animation-duration: 8s;}
 
+.star1 circle {r: 0.5;}
+.star2 circle {r: 0.75;}
+.star3 circle {r: 1.0;}
+.star4 circle {r: 1.2;}
+.star5 circle {r: 1.5;}
+
 @media (max-width: 767.98px) {
 	.star {
 		animation: none;
