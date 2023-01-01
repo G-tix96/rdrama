@@ -2409,6 +2409,7 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 	content: "";
 	background-color: rgba(0, 0, 0, 0);
 }
+
 .m-0 {
 	margin: 0 !important;
 }
@@ -2424,6 +2425,7 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 .ml-0, .mx-0 {
 	margin-left: 0 !important;
 }
+
 .m-1 {
 	margin: 0.25rem !important;
 }
@@ -2439,6 +2441,10 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 .ml-1, .mx-1 {
 	margin-left: 0.25rem !important;
 }
+
+.m-2 {
+	margin: 0.5rem !important;
+}
 .mt-2, .my-2 {
 	margin-top: 0.5rem !important;
 }
@@ -2450,6 +2456,10 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 }
 .ml-2, .mx-2 {
 	margin-left: 0.5rem !important;
+}
+
+.m-3 {
+	margin: 1rem !important;
 }
 .mt-3, .my-3 {
 	margin-top: 1rem !important;
@@ -2463,6 +2473,7 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 .ml-3, .mx-3 {
 	margin-left: 1rem !important;
 }
+
 .m-4 {
 	margin: 1.5rem !important;
 }
@@ -2478,27 +2489,55 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 .ml-4, .mx-4 {
 	margin-left: 1.5rem !important;
 }
-.mr-5, .mx-5 {
-	margin-right: 3rem !important;
-}
-.ml-5, .mx-5 {
-	margin-left: 3rem !important;
+
+.m-5 {
+	margin: 3rem !important;
 }
 .mt-5, .my-5 {
 	margin-top: 3rem !important;
 }
+.mr-5, .mx-5 {
+	margin-right: 3rem !important;
+}
 .mb-5, .my-5 {
 	margin-bottom: 3rem !important;
 }
-.mb-6, .my-6 {
-	margin-bottom: 3.5rem !important;
+.ml-5, .mx-5 {
+	margin-left: 3rem !important;
 }
-.mt-8, .my-8 {
+
+.m-6 {
+	margin: 5rem !important;
+}
+.mt-6, .my-6 {
+	margin-top: 5rem !important;
+}
+.mr-6, .mx-6 {
+	margin-right: 5rem !important;
+}
+.mb-6, .my-6 {
+	margin-bottom: 5rem !important;
+}
+.ml-6, .mx-6 {
+	margin-left: 5rem !important;
+}
+
+.m-7 {
+	margin: 10rem !important;
+}
+.mt-7, .my-7 {
 	margin-top: 10rem !important;
 }
-.mb-8, .my-8 {
+.mr-7, .mx-7 {
+	margin-right: 10rem !important;
+}
+.mb-7, .my-7 {
 	margin-bottom: 10rem !important;
 }
+.ml-7, .mx-7 {
+	margin-left: 10rem !important;
+}
+
 .p-0 {
 	padding: 0 !important;
 }
@@ -2514,15 +2553,23 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 .pl-0, .px-0 {
 	padding-left: 0 !important;
 }
+
+.p-1 {
+	padding: 0.25rem !important;
+}
+.pt-1, .py-1 {
+	padding-top: 0.25rem !important;
+}
 .pr-1, .px-1 {
 	padding-right: 0.25rem !important;
 }
-.py-1, .pb-1 {
+.pb-1, .py-1 {
 	padding-bottom: 0.25rem !important;
 }
 .pl-1, .px-1 {
 	padding-left: 0.25rem !important;
 }
+
 .p-2 {
 	padding: 0.5rem !important;
 }
@@ -2538,6 +2585,7 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 .pl-2, .px-2 {
 	padding-left: 0.5rem !important;
 }
+
 .p-3 {
 	padding: 1rem !important;
 }
@@ -2553,30 +2601,72 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 .pl-3, .px-3 {
 	padding-left: 1rem !important;
 }
+
 .p-4 {
 	padding: 1.5rem !important;
 }
 .pt-4, .py-4 {
 	padding-top: 1.5rem !important;
 }
+.pr-4, .px-4 {
+	padding-right: 1.5rem !important;
+}
 .pb-4, .py-4 {
 	padding-bottom: 1.5rem !important;
 }
+.pl-4, .px-4 {
+	padding-left: 1.5rem !important;
+}
+
 .p-5 {
 	padding: 3rem !important;
 }
 .pt-5, .py-5 {
 	padding-top: 3rem !important;
 }
+.pr-5, .px-5 {
+	padding-right: 3rem !important;
+}
 .pb-5, .py-5 {
 	padding-bottom: 3rem !important;
 }
-.pt-7, .py-7 {
+.pl-5, .px-5 {
+	padding-left: 3rem !important;
+}
+
+.p-6 {
+	padding: 5rem !important;
+}
+.pt-6, .py-6 {
 	padding-top: 5rem !important;
 }
-.pb-7, .py-7 {
+.pr-6, .px-6 {
+	padding-right: 5rem !important;
+}
+.pb-6, .py-6 {
 	padding-bottom: 5rem !important;
 }
+.pl-6, .px-6 {
+	padding-left: 5rem !important;
+}
+
+.p-7 {
+	padding: 10rem !important;
+}
+.pt-7, .py-7 {
+	padding-top: 10rem !important;
+}
+.pr-7, .px-7 {
+	padding-right: 10rem !important;
+}
+.pb-7, .py-7 {
+	padding-bottom: 10rem !important;
+}
+.pl-7, .px-7 {
+	padding-left: 10rem !important;
+}
+
+
 .mt-n3 {
 	margin-top: -1rem !important;
 }
@@ -2598,6 +2688,7 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 .ml-auto, .mx-auto {
 	margin-left: auto !important;
 }
+
 @media (min-width: 576px) {
 	.mb-sm-5 {
 		margin-bottom: 3rem !important;
