@@ -4,6 +4,7 @@ function view_more(pid,sort,offset,ids) {
 	btn.innerHTML = "Requesting...";
 	const form = new FormData();
 	const xhr = new XMLHttpRequest();
+	ids = ids.replace(/[\[\]]/g, '')
 	xhr.open("get", `/view_more/${pid}/${sort}/${offset}?ids=${ids}`);
 	xhr.setRequestHeader('xhr', 'xhr');
 	xhr.onload=function(){
