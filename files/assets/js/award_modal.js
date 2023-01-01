@@ -92,6 +92,12 @@ function vote(type, id, dir) {
 }
 
 function pick(kind, price, coins, marseybux) {
+	console.log(price)
+	console.log(coins)
+	console.log(marseybux)
+	console.log(coins >= price)
+	console.log(marseybux >= price)
+
 	const buy1 = document.getElementById('buy1')
 	if (coins >= price && kind != "grass")
 		buy1.disabled=false;
