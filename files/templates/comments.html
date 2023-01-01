@@ -520,7 +520,7 @@
 						<input type="hidden" name="formkey" value="{{v|formkey}}">
 						<textarea required autocomplete="off" minlength="1" maxlength="10000" name="body" form="reply-to-c_{{c.id}}" data-id="{{c.id}}" class="comment-box form-control rounded" id="reply-form-body-{{c.id}}" rows="3" data-preview="message-reply-{{c.id}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this)"></textarea>
 						<div class="comment-format" id="comment-format-bar-{{c.id}}">
-							<button role="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('reply-form-body-{{c.id}}')" class="btn btn-secondary m-0 mt-3 mr-1" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
+							<button type="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('reply-form-body-{{c.id}}')" class="btn btn-secondary m-0 mt-3 mr-1" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
 
 							{% if c.sentto == MODMAIL_ID %}
 								<label class="btn btn-secondary m-0 mt-3" for="file-upload">
