@@ -23,7 +23,7 @@ function execute(element, attr) {
 
 document.addEventListener("click", function(e){
 	const element = e.target
-	if (element instanceof HTMLImageElement && element.alt.startsWith('![]('))
+	if (element instanceof HTMLImageElement && (element.alt.startsWith('![](')) || element.classList.contains('in-comment-image'))
 		expandImage()
 	else if (element.tagName == "TH")
 		sort_table(element)
