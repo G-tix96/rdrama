@@ -6458,6 +6458,9 @@ div.markdown {
 	max-width: 100vw !important;
 	margin: 0 !important;
 }
+p .resizable {
+	height: 30vh !important;
+}
 
 .user-signature video {
 	max-height: min(var(--signature-max-height),50vh) !important;
