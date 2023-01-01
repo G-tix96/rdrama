@@ -198,7 +198,7 @@ def settings_personal_post(v):
 	elif IS_FISTMAS() and not updated and request.values.get("event_music", v.event_music) != v.event_music and v.can_toggle_event_music:
 		updated = True
 		v.event_music = not v.event_music
-	
+
 	elif not updated and request.values.get("bio") == "" and not request.files.get('file'):
 		v.bio = None
 		v.bio_html = None

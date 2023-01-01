@@ -1045,6 +1045,7 @@ INSERT INTO public.hat_defs VALUES (386, 'Curts New Hat', 'Have you *seen* it?',
 INSERT INTO public.hat_defs VALUES (387, 'Gray Cowl of Nocturnal', 'Capital!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (388, 'Tricorne', 'This hat is for TRUE AMERICAN PATRIOTS only', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (404, 'Knight Helmet', 'kNIGht 🤗', 2, 500, NULL, 1662167687);
+INSERT INTO public.hat_defs VALUES (1132, 'USDA inspector', 'they''re still a glowie, despite the unthreatening appearance. don''t let them inspect your food.', 2, 500, NULL, 1672455409);
 INSERT INTO public.hat_defs VALUES (892, 'sailor moon peek', 'Really?', 2, 1000, NULL, 1665340406);
 INSERT INTO public.hat_defs VALUES (352, 'John Deere Hat', 'She (male) thinks my tractor''s sexy', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (355, 'Chef Hat', 'Cloudflare just bent the knee and I''m nauseated and don''t feel like writing descriptions for hats sorry', 2, 500, NULL, 1662167687);
@@ -1208,7 +1209,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1130, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1132, true);
 
 
 --
