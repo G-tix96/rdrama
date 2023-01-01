@@ -6566,10 +6566,6 @@ body *::-webkit-scrollbar {
 	cursor: default !important;
 }
 
-.comment {
-	margin-top: 0.3rem;
-}
-
 body > .container {
 	padding-left: 20px !important;
 	padding-right: 20px !important;
