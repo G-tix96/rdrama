@@ -6670,3 +6670,7 @@ body {
 .color-picker .fa-check {
     line-height: 2.3;
 }
+
+.modal {
+	padding-right: 0 !important;
+}
