@@ -47,7 +47,7 @@ def get_logged_in_user():
 		abort(403)
 
 	g.v = v
-	if HOLIDAY_EVENT:
+	if HOLIDAY_EVENT():
 		from files.events.helpers.get import get_or_create_event_user
 		g.event_v = get_or_create_event_user(v, g.db)
 

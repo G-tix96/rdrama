@@ -87,7 +87,7 @@ from files.routes.allroutes import *
 if app.config['SERVICE'] == Service.RDRAMA:
 	from files.routes import *
 
-	if HOLIDAY_EVENT:
+	if HOLIDAY_EVENT():
 		from files.events import *
 		event_init()
 elif app.config['SERVICE'] == Service.CHAT:

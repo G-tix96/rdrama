@@ -4,7 +4,7 @@
 {% block banner %}
 	{% include "modals/expanded_image.html" %}
 	{% if err or '@' not in request.path %}
-		{% if HOLIDAY_EVENT and not sub %}
+		{% if HOLIDAY_EVENT() and not sub %}
 			{% include 'event/banner.html' %}
 		{% else %}
 			{% if err and SITE_NAME == 'rDrama' %}
@@ -79,7 +79,7 @@
 	<script defer src="{{'js/spider.js' | asset}}"></script>
 {% endif %}
 
-{% if HOLIDAY_EVENT %}
+{% if HOLIDAY_EVENT() %}
 	{% include "event/music.html" %}
 {% endif %}
 

@@ -265,7 +265,7 @@ class User(Base):
 	@lazy
 	def hat_active(self, v):
 		if FEATURES['HATS']:
-			if HOLIDAY_EVENT:
+			if HOLIDAY_EVENT():
 				from files.events.helpers.const import EVENT_FORCED_HATS
 				if EVENT_FORCED_HATS:
 					if SITE_NAME == 'rDrama':
@@ -1080,7 +1080,7 @@ class User(Base):
 	def shadowbanner(self):
 		return g.db.query(User.username).filter_by(id=self.shadowbanned).one()[0]
 
-	if HOLIDAY_EVENT:
+	if HOLIDAY_EVENT():
 		@property
 		@lazy
 		def can_toggle_event_music(self):
