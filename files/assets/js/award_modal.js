@@ -93,8 +93,8 @@ function vote(type, id, dir) {
 
 function pick(kind, price, coins, marseybux) {
 	price = parseInt(price)
-	price = coins(price)
-	price = marseybux(price)
+	coins = parseInt(coins)
+	marseybux = parseInt(marseybux)
 
 	const buy1 = document.getElementById('buy1')
 	if (coins >= price && kind != "grass")
