@@ -6652,7 +6652,7 @@ body > .container {
 	}
 }
 
-@media (min-width: 1700px) {
+@media (min-width: 1400px) {
 	.awardmodal {
 		max-width: min(90%, 1200px) !important
 	}
