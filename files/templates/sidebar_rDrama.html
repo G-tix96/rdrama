@@ -1,13 +1,5 @@
 <div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3" {% if request.path != '/sidebar' %}id="sidebar-content"{% endif %}>
 
-	{% if sub %}
-		{% set image=sub.sidebar_url %}
-	{% elif IS_FISTMAS() %}
-		{% set image = macros.random_image("assets/fistmas/images/sidebar") %}
-	{% else %}
-		{% set image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") %}
-	{% endif %}
-
 	{% if v and v.admin_level %}
 		<a href="/admin/users">
 			<h5 class="text-center mb-4">
@@ -18,6 +10,14 @@
 		<h5 class="text-center mb-4">
 			Current registered users: {{current_registered_users()}}
 		</h5>
+	{% endif %}
+
+	{% if sub %}
+		{% set image=sub.sidebar_url %}
+	{% elif IS_FISTMAS() %}
+		{% set image = macros.random_image("assets/fistmas/images/sidebar") %}
+	{% else %}
+		{% set image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") %}
 	{% endif %}
 
 	{% if request.path != '/sidebar' %}

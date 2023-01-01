@@ -1,17 +1,5 @@
 <div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3" {% if request.path != '/sidebar' %}id="sidebar-content"{% endif %}>
 
-	{%- if v -%}
-		{%- set art_image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") -%}
-	{%- else -%}
-		{%- set art_image = '/i/' ~ SITE_NAME ~ '/sidebar.webp?v=3000' -%}
-	{%- endif -%}
-
-	{% if request.path != '/sidebar' %}
-		<a href="{{art_image}}">
-			<img class="mb-4" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{art_image}}" width=100%>
-		</a>
-	{% endif %}
-
 	{% if v and v.admin_level %}
 		<a href="/admin/users">
 			<h5 class="text-center mb-4">
@@ -22,6 +10,18 @@
 		<h5 class="text-center mb-4">
 			Current registered users: {{current_registered_users()}}
 		</h5>
+	{% endif %}
+
+	{%- if v -%}
+		{%- set art_image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") -%}
+	{%- else -%}
+		{%- set art_image = '/i/' ~ SITE_NAME ~ '/sidebar.webp?v=3000' -%}
+	{%- endif -%}
+
+	{% if request.path != '/sidebar' %}
+		<a href="{{art_image}}">
+			<img class="mb-4" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{art_image}}" width=100%>
+		</a>
 	{% endif %}
 
 	<p class="text-center text-md mb-4">
