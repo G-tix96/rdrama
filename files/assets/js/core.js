@@ -273,18 +273,19 @@ function changename(s1,s2) {
 	document.getElementById(s1).innerHTML = escapeHTML(filename.slice(0, -2));
 }
 
-function showmore() {
-	const btn = this.event.target
-	const div = btn.parentElement.nextElementSibling
+function showmore(t) {
+	const div = t.parentElement.nextElementSibling
 	div.classList.toggle('d-none')
 	if (div.classList.contains('d-none'))
-		btn.innerHTML = 'SHOW MORE'
+		t.innerHTML = 'SHOW MORE'
 	else
-		btn.innerHTML = 'SHOW LESS'
+		t.innerHTML = 'SHOW LESS'
 }
 
 for (const element of document.getElementsByClassName('showmore')) {
-	element.onclick = showmore;
+	element.onclick = () => {
+		showmore(element)
+	};
 }
 
 function formatDate(d) {
