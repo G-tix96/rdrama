@@ -81,11 +81,11 @@ for (const element of change_submit) {
 	element.onchange = () => {element.form.submit()};
 }
 
-const undisableelement = document.querySelectorAll('[undisableelement]');
-for (const element of undisableelement) {
+const undisable_element = document.querySelectorAll('[data-undisable_element]');
+for (const element of undisable_element) {
 	if (element.dataset.nonce != nonce) continue
 	element.oninput = () => {
-		document.getElementById(element.dataset.undisableelement).disabled = false;
+		document.getElementById(element.dataset.undisable_element).disabled = false;
 	};
 }
 

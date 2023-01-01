@@ -213,7 +213,7 @@
 						<input autocomplete="off" type="text" class="form-control mb-2" id="2fa_input" name="2fa_token" placeholder="# # # # # #" required>
 
 						<label for="2fa_input_password">Password</label>
-						<input autocomplete="off" type="password" class="form-control mb-2" id="2fa_input_password" name="password" data-nonce="{{g.nonce}}" data-undisablelement="toggle2faButton" required>
+						<input autocomplete="off" type="password" class="form-control mb-2" id="2fa_input_password" name="password" data-nonce="{{g.nonce}}" data-undisable_element="toggle2faButton" required>
 						{% set action = "Enable" %}
 					{% else %}
 						<div class="alert alert-warning" role="alert">
@@ -225,7 +225,7 @@
 						<input autocomplete="off" type="password" class="form-control mb-2" id="2fa_input_password" name="password" required>
 
 						<label for="2fa_input">6-digit code</label>
-						<input autocomplete="off" type="text" class="form-control mb-2" id="2fa_input" name="2fa_remove" placeholder="# # # # # #" data-nonce="{{g.nonce}}" data-undisablelement="toggle2faButton" required>
+						<input autocomplete="off" type="text" class="form-control mb-2" id="2fa_input" name="2fa_remove" placeholder="# # # # # #" data-nonce="{{g.nonce}}" data-undisable_element="toggle2faButton" required>
 						{% set action = "Disable" %}
 					{% endif %}
 				</div>
