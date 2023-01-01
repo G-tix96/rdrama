@@ -301,7 +301,7 @@ a:hover {
 	color: var(--primary);
 	text-decoration: underline;
 }
-a:not([href])
+a:not([href], [role="button"])
 {
 	color: inherit;
 	text-decoration: none;
@@ -5112,7 +5112,7 @@ code {
 .noshadow {
 	box-shadow: none !important;
 }
-:not(textarea)[onclick], :not(textarea)[data-onclick], th {
+[role="button"], :not(textarea)[onclick], :not(textarea)[data-onclick], th {
 	cursor: pointer !important;
 }
 
