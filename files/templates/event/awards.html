@@ -16,13 +16,6 @@
 		<script defer src="{{'event/js/frostbite.js' | asset}}"></script>
 		<script defer src="{{'event/css/frostbite.css' | asset}}"></script>
 	{% endif %}
-
-	{% if p.award_count("snowed-in", v) %}
-		<canvas id="canvas-snowed-in-overlay"></canvas>
-		<canvas id="canvas-snowed-in-lines"></canvas>
-		<link rel="stylesheet" href="{{'event/css/snowed-in.css' | asset}}">
-		<script defer src="{{'event/js/snowed-in.js'|asset}}"></script>
-	{% endif %}
 </div>
 
 {% if p.award_count("lights", v) %}
