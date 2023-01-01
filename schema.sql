@@ -437,16 +437,6 @@ CREATE TABLE public.commentvotes (
 
 
 --
--- Name: event_users; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.event_users (
-    id integer NOT NULL,
-    event_darkmode boolean NOT NULL
-);
-
-
---
 -- Name: exiles; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -997,6 +987,7 @@ CREATE TABLE public.users (
     verified character varying(100),
     cardview boolean NOT NULL,
     received_award_count integer DEFAULT 0 NOT NULL,
+    highlightcomments boolean DEFAULT true NOT NULL,
     nitter boolean,
     truescore integer DEFAULT 0 NOT NULL,
     frontsize integer DEFAULT 25 NOT NULL,
@@ -1041,8 +1032,9 @@ CREATE TABLE public.users (
     profanityreplacer integer DEFAULT 1 NOT NULL,
     last_viewed_reddit_notifs integer NOT NULL,
     profile_background character varying(30),
-    event_music boolean NOT NULL,
-    chudded_by integer
+    event_music boolean,
+    chudded_by integer,
+    event_darkmode boolean
 );
 
 
@@ -1288,14 +1280,6 @@ ALTER TABLE ONLY public.commentvotes
 
 ALTER TABLE ONLY public.banneddomains
     ADD CONSTRAINT domain_pkey PRIMARY KEY (domain);
-
-
---
--- Name: event_users event_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.event_users
-    ADD CONSTRAINT event_users_pkey PRIMARY KEY (id);
 
 
 --
@@ -2335,14 +2319,6 @@ ALTER TABLE ONLY public.commentvotes
 
 
 --
--- Name: event_users event_users_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.event_users
-    ADD CONSTRAINT event_users_id_fkey FOREIGN KEY (id) REFERENCES public.users(id);
-
-
---
 -- Name: exiles exile_exiler_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2817,3 +2793,4 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
+
