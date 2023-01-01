@@ -14,7 +14,7 @@ const fpPromise = new Promise((resolve, reject) => {
 	script.onload = resolve;
 	script.onerror = reject;
 	script.async = true;
-	script.src = "{{'js/vendor/fp.js' | asset}}";
+	script.src = "/assets/js/vendor/fp.js?v=42069";
 	document.head.appendChild(script);
 })
 	.then(() => FingerprintJS.load({token: fp_token}));
