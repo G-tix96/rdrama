@@ -1,4 +1,5 @@
 import time
+import secrets
 
 from os import environ, listdir, path
 
@@ -54,6 +55,10 @@ def calc_users():
 		loggedout = cache.get(LOGGED_OUT_CACHE_KEY) or {}
 		loggedin_chat = cache.get(CHAT_ONLINE_CACHE_KEY) or 0
 		timestamp = int(time.time())
+
+		if not session.get("session_id"):
+			session.permanent = True
+			session["session_id"] = secrets.token_hex(49)
 
 		if v:
 			if session["session_id"] in loggedout: del loggedout[session["session_id"]]

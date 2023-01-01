@@ -6,11 +6,6 @@ from files.helpers.cloudflare import CLOUDFLARE_AVAILABLE
 from files.routes.wrappers import *
 from files.__main__ import app, limiter
 
-def session_init():
-	if not session.get("session_id"):
-		session.permanent = True
-		session["session_id"] = secrets.token_hex(49)
-
 @app.before_request
 def before_request():
 	if request.host != SITE:
@@ -52,7 +47,6 @@ def before_request():
 	request.full_path = request.full_path.rstrip('?').rstrip('/')
 	if not request.full_path: request.full_path = '/'
 
-	session_init()
 	limiter.check()
 	g.db = db_session()
 
