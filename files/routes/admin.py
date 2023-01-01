@@ -1018,6 +1018,9 @@ def ban_user(id, v):
 	except:
 		pass
 
+	if days < 0:
+		abort(400, "You can't bans people for negative days!")
+
 	reason = request.values.get("reason", "").strip()[:256]
 
 	if not reason:
@@ -1098,6 +1101,9 @@ def agendaposter(id, v):
 		days = float(request.values.get("days"))
 	except:
 		pass
+
+	if days < 0:
+		abort(400, "You can't chud people for negative days!")
 
 	reason = request.values.get("reason", "").strip()
 
