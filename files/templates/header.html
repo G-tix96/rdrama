@@ -54,10 +54,12 @@
 		<div class="navbar navbar-expand-md navbar-light" id="navbar">
 			<div class="container-fluid" style="padding:0;">
 			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not sub %}flex-grow-1{% endif %}">
-				{% if SITE_NAME == 'WPD' %} {# Temporary event code, 2022-12-11 #}
-					{% set icon_url = 'icons-fistmas/2022-christmas.webp' | asset_siteimg %}
-				{% elif IS_FISTMAS() %}
-					{% set icon_url = macros.random_image('assets/fistmas/images/icon') %}
+				{% if IS_FISTMAS() %}
+					{% if SITE_NAME == 'WPD' %}
+						{% set icon_url = 'icons-events/2022-christmas.webp' | asset_siteimg %}
+					{% else %}
+						{% set icon_url = macros.random_image('assets/fistmas/images/icon') %}
+					{% endif %}
 				{% else %}
 					{% set icon_url = 'headericon.webp' | asset_siteimg %}
 				{% endif %}
@@ -70,7 +72,7 @@
 				<div id="logo-container" class="flex-grow-1 logo-container">
 				<a href="/">
 					{% if SITE_NAME == 'WPD' and IS_FISTMAS() %}
-						<img class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'icons-fistmas/2022-christmas-logo.webp' | asset_siteimg}}" width="70">
+						<img class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'icons-event/2022-christmas-logo.webp' | asset_siteimg}}" width="70">
 					{% else %}
 						<img class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width="70">
 					{% endif %}
