@@ -366,7 +366,7 @@ def award_thing(v, thing_type, id):
 			else: author.marsify = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=170)
 
-		if thing_type == 'comment' and not author.deflector:
+		if thing_type == 'comment' and not thing.author.deflector:
 			body = thing.body
 			if author.owoify: body = owoify(body)
 			body = marsify(body)
@@ -392,7 +392,7 @@ def award_thing(v, thing_type, id):
 		else: author.owoify = int(time.time()) + 21600
 		badge_grant(user=author, badge_id=167)
 
-		if thing_type == 'comment' and not author.deflector:
+		if thing_type == 'comment' and not thing.author.deflector:
 			body = thing.body
 			body = owoify(body)
 			if author.marsify: body = marsify(body)
