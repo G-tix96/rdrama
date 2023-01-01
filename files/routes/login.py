@@ -236,7 +236,6 @@ def sign_up_post(v:Optional[User]):
 
 		if clear:
 			session.clear()
-			resp.delete_cookie(app.config["SESSION_COOKIE_NAME"], httponly=True, secure=True, samesite="Lax")
 
 		return render_template("login/sign_up.html",
 							formkey=formkey,
