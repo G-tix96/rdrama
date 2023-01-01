@@ -6671,6 +6671,6 @@ body {
     line-height: 2.3;
 }
 
-.modal {
+.modal, body, nav {
 	padding-right: 0 !important;
 }
