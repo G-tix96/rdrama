@@ -209,13 +209,17 @@ INSERT INTO public.badge_defs VALUES (102, 'Fistmas 21 Survivor', 'Awarded for s
 INSERT INTO public.badge_defs VALUES (222, 'Fistmas 22 Survivor', 'Awarded for surviving Fistmas 2022 which may or may not have even happened', 1671157460);
 INSERT INTO public.badge_defs VALUES (156, 'Hole Neglecter', 'Let a hole they owned die', NULL);
 INSERT INTO public.badge_defs VALUES (223, '100K CORPSECOOMER MEDAL', 'BORN TO WATCH PEOPLE DIE / REDDIT IS A FUCK / Kill Em All 2022 / I am shit poster / 410,757,864,530 DEAD COP VIDEOS', 1672113466);
+INSERT INTO public.badge_defs VALUES (224, 'Died of Starvation', 'Couldn''t work out which elf had the most calories', 1672289576);
+INSERT INTO public.badge_defs VALUES (225, 'Monkey Playdate', 'Forgot to check their worry levels during Advent of Code 2022, completing at least 1 star.', 1672289660);
+INSERT INTO public.badge_defs VALUES (226, 'Stargazer', 'Kept themselves unworried throughout all of Advent of Code 2022, completing all 50 stars.', 1672289696);
+INSERT INTO public.badge_defs VALUES (227, 'Saved Christmas with Teh Codez', 'Got the highest score and completed all 50 stars during Advent of Code 2022.', 1672289744);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 223, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 227, true);
 
 
 --
@@ -1041,6 +1045,7 @@ INSERT INTO public.hat_defs VALUES (386, 'Curts New Hat', 'Have you *seen* it?',
 INSERT INTO public.hat_defs VALUES (387, 'Gray Cowl of Nocturnal', 'Capital!', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (388, 'Tricorne', 'This hat is for TRUE AMERICAN PATRIOTS only', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (404, 'Knight Helmet', 'kNIGht 🤗', 2, 500, NULL, 1662167687);
+INSERT INTO public.hat_defs VALUES (1132, 'USDA inspector', 'they''re still a glowie, despite the unthreatening appearance. don''t let them inspect your food.', 2, 500, NULL, 1672455409);
 INSERT INTO public.hat_defs VALUES (892, 'sailor moon peek', 'Really?', 2, 1000, NULL, 1665340406);
 INSERT INTO public.hat_defs VALUES (352, 'John Deere Hat', 'She (male) thinks my tractor''s sexy', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (355, 'Chef Hat', 'Cloudflare just bent the knee and I''m nauseated and don''t feel like writing descriptions for hats sorry', 2, 500, NULL, 1662167687);
@@ -1204,7 +1209,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1130, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1132, true);
 
 
 --
@@ -1596,6 +1601,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycenter',2,'reaction grilling boomer centrist',NULL),
 ('marseycertified',2,'certified certi 100 quality excellent excellence animated',NULL),
 ('marseychad',2,'canthal tilt jaw hunter eyes',NULL),
+('marseychadcarp',2,'chad fish carpathianflorist muscle flex strong administrator fish buff swole jannie janitor moderator',1672415243),
 ('marseychadfoid',2,'based woman man trans lipstick makeup blonde',1670447046),
 ('marseychadthundercock',2,'vvc virgin foid pimp hot player big dick huge cock ouch gigachad meme',NULL),
 ('marseychadyes',2,'based gigachad',NULL),
@@ -1760,6 +1766,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydarkbrandon',2,'biden lasereyes gas sticker evil confused dementia daddy',1665323885),
 ('marseydarkcarp',2,'lasereyes carpathianflorist fish admin jannie mod banned yalled',1663211530),
 ('marseydarkcomrade',2,'communist commie pinko lasereyes russian kgb hat soviet ussr tankie',1663254781),
+('marseydarkfoidretard',2,'greta woman women female trans brain smooth dumb laser eyes fas frozenchosen blonde',1672412338),
 ('marseydarkmarsey2',2,'lasereyes redglow scary chudrama',NULL),
 ('marseydarkpizzashill',2,'chud rightoid leftoid debate owned lasereyes footlocker',1663210672),
 ('marseydarktrump',2,'maga lasereyes chud republican orange daddy donald',1665323820),
@@ -2176,6 +2183,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyjewoftheorientglow',2,'animated glow rice china chinese chink commie mao xi',NULL),
 ('marseyjfk',2,'john fitzgerald kennedy jfk president american history sniper car death kill usa assassination',NULL),
 ('marseyjiangshi',2,'ghost chinese halloween holiday china scary',NULL),
+('marseyjihad',2,'jihad islam animated mujahideen muslim terrorism terrorist plotting isis',1672275222),
 ('marseyjoe',2,'family guy swanson cop police wheelchair retard disabled',1671089479),
 ('marseyjohnson',2,'wig history',NULL),
 ('marseyjoint',2,'smoke weed marijuana reefer drugs smoking 420 pot',NULL),
@@ -2783,6 +2791,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyschizocapygitcommitlove',2,'animated schizo schizocel rare love chad capy git commit fsdfsd',NULL),
 ('marseyschizocapylove',2,'schizo aevann capybara love rare excited',NULL),
 ('marseyschizocarplove',2,'schizo carp love rare excited',NULL),
+('marseyschizochad',2,'schizo tripping rare animated chad schizocel',1672390950),
 ('marseyschizochadbasedcapylove',2,'animated schizo schizocel rare love chad based capy aevann',NULL),
 ('marseyschizochadseethecapylove',2,'animated schizo schizocel rare love chad seethe capy aevann',NULL),
 ('marseyschizochadthankscapylove',2,'animated schizo schizocel rare love chad thanks queen capy aevann',NULL),
