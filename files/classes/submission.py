@@ -112,9 +112,10 @@ class Submission(Base):
 		link = f"/post/{self.id}"
 		if self.sub: link = f"/h/{self.sub}{link}"
 
-		output = title_regex.sub('', self.title.lower())
-		output = output.split()[:6]
-		output = '-'.join(output)
+		if self.sub and self.sub not in {'chudrama', 'countryclub', 'masterbaiters'}:
+			output = title_regex.sub('', self.title.lower())
+			output = output.split()[:6]
+			output = '-'.join(output)
 
 		if not output: output = '-'
 
