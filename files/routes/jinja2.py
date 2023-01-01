@@ -12,8 +12,7 @@ from files.helpers.assetcache import assetcache_path
 from files.helpers.config.const import *
 from files.helpers.settings import get_settings
 from files.helpers.sorting_and_time import make_age_string
-from files.routes.routehelpers import get_alt_graph
-from files.routes.routehelpers import get_formkey
+from files.routes.routehelpers import get_alt_graph, get_formkey
 from files.__main__ import app, cache
 
 @app.template_filter("formkey")
