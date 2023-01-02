@@ -6450,7 +6450,6 @@ div.markdown {
 	overflow: auto;
 	max-height: 72vh !important;
 	max-width: 100vw !important;
-	height: 30vh !important;
 }
 .resizable > video {
 	height: 100% !important;
