@@ -280,9 +280,9 @@ class Comment(Base):
 			if v:
 				sub = self.post.sub
 				if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub): body += ' disabled '
-				body += f''' data-nonce="{{g.nonce}}" data-onclick="poll_vote_{o.exclusive}('{o.id}', '{self.id}', 'comment')"'''
+				body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_{o.exclusive}('{o.id}', '{self.id}', 'comment')"'''
 			else:
-				body += f''' data-nonce="{{g.nonce}}" data-onclick="poll_vote_no_v()"'''
+				body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_no_v()"'''
 
 			body += f'''><label class="custom-control-label" for="comment-{o.id}">{o.body_html}<span class="presult-{self.id}'''
 			if not self.total_poll_voted(v): body += ' d-none'

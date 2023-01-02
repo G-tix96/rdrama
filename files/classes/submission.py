@@ -285,7 +285,7 @@ class Submission(Base):
 
 		for o in self.options:
 			if o.exclusive > 1:
-				body += f'''<div class="custom-control mt-2"><input name="option-{self.id}" autocomplete="off" class="custom-control-input bet" type="radio" id="{o.id}" data-nonce="{{g.nonce}}" data-onclick="bet_vote(this,'{o.id}')"'''
+				body += f'''<div class="custom-control mt-2"><input name="option-{self.id}" autocomplete="off" class="custom-control-input bet" type="radio" id="{o.id}" data-nonce="{g.nonce}" data-onclick="bet_vote(this,'{o.id}')"'''
 				if o.voted(v): body += " checked "
 				if not (v and v.coins >= POLL_BET_COINS) or self.total_bet_voted(v): body += " disabled "
 
@@ -299,7 +299,7 @@ class Submission(Base):
 					body += " - <b>WINNER!</b>"
 
 				if not winner and v and v.admin_level >= PERMS['POST_BETS_DISTRIBUTE']:
-					body += f'''<button class="btn btn-primary distribute" data-areyousure="postToastReload(this,'/distribute/{o.id}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Declare winner</button>'''
+					body += f'''<button class="btn btn-primary distribute" data-areyousure="postToastReload(this,'/distribute/{o.id}')" data-nonce="{g.nonce}" data-onclick="areyousure(this)">Declare winner</button>'''
 				body += "</div>"
 			else:
 				input_type = 'radio' if o.exclusive else 'checkbox'
@@ -309,9 +309,9 @@ class Submission(Base):
 				if v:
 					sub = self.sub
 					if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub): body += ' disabled '
-					body += f''' data-nonce="{{g.nonce}}" data-onclick="poll_vote_{o.exclusive}('{o.id}', '{self.id}', 'post')"'''
+					body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_{o.exclusive}('{o.id}', '{self.id}', 'post')"'''
 				else:
-					body += f''' data-nonce="{{g.nonce}}" data-onclick="poll_vote_no_v()"'''
+					body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_no_v()"'''
 
 				body += f'''><label class="custom-control-label" for="post-{o.id}">{o.body_html}<span class="presult-{self.id}'''
 				if not self.total_poll_voted(v): body += ' d-none'
