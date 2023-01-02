@@ -24,6 +24,7 @@
 	</head>
 	<body {% block body_attributes %}id="{%block pagetype %}{% endblock %}"{% endblock %}>
 		<input hidden id="gnonce" value="{{g.nonce}}">
+		<input hidden id="gbrowser" value="{{g.browser}}">
 		<script src="{{'js/top.js' | asset}}"></script>	
 		{% block body required %}{% endblock %}
 		{{html_head.stylesheets_lower()}}
