@@ -8,15 +8,6 @@
 {% endblock %}
 {% block pagetype %}thread{% endblock %}
 {% block head_final %}
-
-{% include "awards.html" %}
-
-{# DO NOT REMOVE THIS #}
-{% if IS_FISTMAS() %}
-	{% include "fistmas/awards.html" %}
-{% endif %}
-{# ^^ DO NOT REMOVE THIS ^^ #}
-
 {% endblock %}
 {% set ups=p.upvotes %}
 {% set downs=p.downvotes %}
@@ -64,6 +55,9 @@
 {% endblock %}
 
 {% block content %}
+
+{% include "awards.html" %}
+{% include "fistmas/awards.html" %}
 
 <div class="row mb-3">
 
