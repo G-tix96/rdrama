@@ -11,8 +11,6 @@
 <!DOCTYPE html>
 <html lang="en" {% if not IS_FISTMAS() %}style="--primary:#{{v.themecolor if v else DEFAULT_COLOR}}"{% endif %}>
 	<head>
-	<input hidden id="gnonce" value="{{g.nonce}}">
-	<script src="{{'js/top.js' | asset}}"></script>	
 	{% block head %}
 		<meta charset="utf-8">
 		{% block title %}<title>{% block pagetitle %}if you see this pls report it as a bug &lt;3{% endblock %} - {{SITE_NAME}}</title>{% endblock %}
@@ -25,6 +23,8 @@
 	{% endblock %}
 	</head>
 	<body {% block body_attributes %}id="{%block pagetype %}{% endblock %}"{% endblock %}>
+		<input hidden id="gnonce" value="{{g.nonce}}">
+		<script src="{{'js/top.js' | asset}}"></script>	
 		{% block body required %}{% endblock %}
 		{{html_head.stylesheets_lower()}}
 		<script defer src="{{'js/bottom.js' | asset}}"></script>
