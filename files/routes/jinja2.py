@@ -79,7 +79,7 @@ def calc_users():
 			'loggedin_chat':loggedin_chat}
 
 def current_registered_users():
-	return g.db.query(User).count()
+	return "{:,}".format(g.db.query(User).count())
 
 @app.context_processor
 def inject_constants():
