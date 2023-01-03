@@ -55,7 +55,7 @@
 	{% endif %}
 
 	{% if p.stickied %}
-		<i id='pinned-{{p.id}}' class="fas fa-thumbtack fa-rotate--45 pl-1 text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned by @{{p.stickied}}" {% if p.stickied_utc %}onmouseover="pinned_timestamp('pinned-{{p.id}}')" data-timestamp={{p.stickied_utc}} {% endif %}></i>
+		<i id='pinned-{{p.id}}' class="fas fa-thumbtack fa-rotate--45 pl-1 text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned by @{{p.stickied}}" {% if p.stickied_utc %}data-onmouseover="pinned_timestamp('pinned-{{p.id}}')" data-timestamp={{p.stickied_utc}} data-nonce="{{g.nonce}}"{% endif %}></i>
 	{% endif %}
 
 	{% if p.hole_pinned %}
