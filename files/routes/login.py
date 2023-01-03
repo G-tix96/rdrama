@@ -119,6 +119,7 @@ def log_failed_admin_login_attempt(account:User, type:str):
 		log_file(f"{t}, {ip}, {account.username}, {type}", "admin_failed_logins.log")
 
 def on_login(account, redir=None):
+	session.permanent = True
 	session["lo_user"] = account.id
 	session["login_nonce"] = account.login_nonce
 	if account.id == AEVANN_ID: session["verified"] = time.time()
@@ -341,6 +342,7 @@ def sign_up_post(v:Optional[User]):
 		send_verification_email(new_user)
 
 
+	session.permanent = True
 	session["lo_user"] = new_user.id
 
 	check_for_alts(new_user)
