@@ -219,7 +219,7 @@ def sign_up_post(v:Optional[User]):
 
 	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
 
-	def signup_error(error, clear=False):
+	def signup_error(error):
 		if ref_id:
 			ref = ref.replace('\\', '').replace('_', '\_').replace('%', '').strip()
 			ref_user = g.db.query(User).filter(User.username.ilike(ref)).one_or_none()
@@ -235,9 +235,6 @@ def sign_up_post(v:Optional[User]):
 						digestmod='md5'
 						).hexdigest()
 
-		if clear:
-			session.clear()
-
 		return render_template("login/sign_up.html",
 							formkey=formkey,
 							now=now,
@@ -251,7 +248,8 @@ def sign_up_post(v:Optional[User]):
 
 	submitted_token = session.get("signup_token", "")
 	if not submitted_token:
-		return signup_error(f"An error occurred while attempting to signup. If you get this repeatedly, please make sure cookies are enabled.", clear=True)
+		session.clear()
+		return signup_error(f"An error occurred while attempting to signup. If you get this repeatedly, please make sure cookies are enabled.")
 
 	correct_formkey_hashstr = form_timestamp + submitted_token + g.agent
 	correct_formkey = hmac.new(key=bytes(SECRET_KEY, "utf-16"),
