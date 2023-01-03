@@ -15,7 +15,6 @@ Copyright (C) 2022 Dr Steven Transmisia, anti-evil engineer,
 */
 
 // Status
-let favs = null;
 let emojiEngineStarted = false;
 
 // DOM stuff
@@ -280,11 +279,13 @@ function switchEmojiTab(e)
 		for(const emojiDOM of Object.values(emojiDOMs))
 			emojiDOM.hidden = true;
 
-		if (favs) {
-			for (const emoji of favs)
-				if(emojiDOMs[emoji] instanceof HTMLElement)
-					emojiDOMs[emoji].hidden = false;
-		}
+		const favs = Object.keys(Object.fromEntries(
+			Object.entries(favorite_emojis).sort(([,a],[,b]) => b-a)
+		)).slice(0, 25);
+
+		for (const emoji of favs)
+			if(emojiDOMs[emoji] instanceof HTMLElement)
+				emojiDOMs[emoji].hidden = false;
 
 		return;
 	}
