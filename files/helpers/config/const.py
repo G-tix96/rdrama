@@ -310,6 +310,7 @@ if SITE_NAME == 'rDrama':
 		'masterbaiters',
 		'changelog',
 		'programming',
+		'slackernews',
 	}
 
 	REDDIT_NOTIFS_SITE.add('marsey')

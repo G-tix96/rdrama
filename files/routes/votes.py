@@ -162,12 +162,12 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		mul = 1
 		if target.author.progressivestack or (target.author.admin_level and target.author.id not in {AEVANN_ID, CARP_ID}):
 			mul = 2
-		if cls == Submission:
+		if cls == Submission and target.author.id not in {8768,3402,5214,12719}:
 			if (target.domain.endswith('.win') or 'forum' in target.domain
 					or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))
 					or target.sub in BOOSTED_HOLES):
 				mul = 2
-			elif not target.sub and target.body_html and target.author.id not in {8768,3402,5214,12719}:
+			elif not target.sub and target.body_html:
 				x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
 				x += target.body_html.count('<a href="/images/')
 				target.realupvotes += min(x*2, 20)
