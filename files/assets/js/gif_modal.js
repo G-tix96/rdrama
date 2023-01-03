@@ -1,5 +1,4 @@
 const gifSearchBar = document.getElementById('gifSearch')
-const loadGIFs = document.getElementById('gifs-load-more');
 const noGIFs = document.getElementById('no-gifs-found');
 const container = document.getElementById('GIFs');
 
@@ -25,23 +24,11 @@ document.getElementById('gifModal').addEventListener('shown.bs.modal', function 
 	}, 1000);
 });
 
-document.getElementById('gifModal').addEventListener('shown.bs.modal', function () {
-	gifSearchBar.focus();
-	setTimeout(() => {
-		gifSearchBar.focus();
-	}, 200);
-	setTimeout(() => {
-		gifSearchBar.focus();
-	}, 1000);
-});
-
-
 async function getGifs(form) {
 	commentFormID = form;
 
 	gifSearchBar.value = null;
-	noGIFs.innerHTML = null;
-	loadGIFs.innerHTML = null;
+	noGIFs.classList.add("d-none");
 
 	container.innerHTML = `
 	<div class="card">
@@ -118,38 +105,29 @@ async function getGifs(form) {
 	</div>`
 }
 
+document.getElementById('gifs-back-btn').onclick = getGifs;
+document.getElementById('gifs-cancel-btn').onclick = getGifs;
+
 async function searchGifs(searchTerm) {
 
-	if (searchTerm !== undefined) {
-		gifSearchBar.value = searchTerm;
-	}
-	else {
-		gifSearchBar.value = null;
-	}
+	gifSearchBar.value = searchTerm;
 
 	container.innerHTML = '';
 
 	let response = await fetch("/giphy?searchTerm=" + searchTerm + "&limit=48");
 	let data = await response.json()
-	const max = data.length - 1
 	data = data.data
-	const gifURL = [];
 
-	if (max <= 0) {
-		noGIFs.innerHTML = '<div class="text-center py-3 mt-3"></div><div class="mb-3"><i class="fas fa-frown text-gray-500" style="font-size: 3.5rem"></i></div><p class="font-weight-bold text-gray-500 mb-0">Aw shucks. No GIFs found...</p></div>';
-		container.innerHTML = null;
-		loadGIFs.innerHTML = null;
+	if (data.length) {
+		for (const e of data) {
+			const url = "https://media.giphy.com/media/" + e.id + "/giphy.webp";
+			const insert = `<img class="giphy" loading="lazy" data-bs-dismiss="modal" src="${url}"></div>`
+			container.insertAdjacentHTML('beforeend', insert);
+		}
 	}
 	else {
-		for (let i = 0; i < 48; i++) {
-			gifURL[i] = "https://media.giphy.com/media/" + data[i].id + "/giphy.webp";
-			const insert = `<img class="giphy" loading="lazy" data-bs-dismiss="modal" src="${gifURL[i]}"></div>`
-			container.insertAdjacentHTML('beforeend', insert);
-			noGIFs.innerHTML = null;
-			loadGIFs.innerHTML = '<div class="text-center py-3"></div><div class="mb-3"><i class="fas fa-grin-beam-sweat text-gray-500" style="font-size: 3.5rem"></i></div><p class="font-weight-bold text-gray-500 mb-0">Thou hast reached the end of the list!</p></div>';
-		}
+		noGIFs.classList.remove('d-none')
 	}
 }
 
-document.getElementById('gifs-back-btn').onclick = getGifs;
-document.getElementById('gifs-cancel-btn').onclick = getGifs;
+gifSearchBar.onchange = ()=>{searchGifs(gifSearchBar.value)};
