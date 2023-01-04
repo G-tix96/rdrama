@@ -97,13 +97,13 @@ function pick(kind, price, coins, marseybux) {
 	marseybux = parseInt(marseybux)
 
 	const buy1 = document.getElementById('buy1')
-	if (coins >= price && kind != "grass")
+	if (marseybux >= price && kind != "grass")
 		buy1.disabled=false;
 	else
 		buy1.disabled=true;
 
 	const buy2 = document.getElementById('buy2')
-	if (marseybux >= price && kind != "benefactor")
+	if (coins >= price && kind != "benefactor")
 		buy2.disabled=false;
 	else
 		buy2.disabled=true;
