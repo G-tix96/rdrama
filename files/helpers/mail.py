@@ -9,15 +9,25 @@ from urllib.parse import quote
 from flask import render_template
 
 def send_mail(to_address, subject, html):
-	if MAILGUN_KEY == DEFAULT_CONFIG_VALUE: return
-	url = f"https://api.mailgun.net/v3/{SITE}/messages"
-	auth = ("api", MAILGUN_KEY)
-	data = {"from": EMAIL,
-			"to": [to_address],
-			"subject": subject,
-			"html": html,
-			}
-	requests.post(url, auth=auth, data=data)
+	if SITE == 'rdrama.net':
+		url = f"https://deuxrama.net/email"
+		data = {"from": EMAIL,
+				"to": to_address,
+				"subject": subject,
+				"html": html,
+				}
+		x = requests.post(url, data=data)
+		print(x.text, flush=True)
+	else:
+		if MAILGUN_KEY == DEFAULT_CONFIG_VALUE: return
+		url = f"https://api.mailgun.net/v3/{SITE}/messages"
+		auth = ("api", MAILGUN_KEY)
+		data = {"from": EMAIL,
+				"to": [to_address],
+				"subject": subject,
+				"html": html,
+				}
+		requests.post(url, auth=auth, data=data)
 
 
 def send_verification_email(user, email=None):
