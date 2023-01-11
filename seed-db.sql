@@ -1058,6 +1058,9 @@ INSERT INTO public.hat_defs VALUES (422, 'Booba', 'O_O', 2, 500, NULL, 166216768
 INSERT INTO public.hat_defs VALUES (409, 'AI Core', 'Thought this said AL Core for a minute like Al gore but no it''s ai like the robot thing and apparently it''s from a vidya so here we go description done 🤌', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (424, 'Pearl Clutcher', 'REEEEEEEEEEEEEEEEE', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (462, 'Rasta Hat', 'Jah bless', 2, 500, NULL, 1662167687);
+INSERT INTO public.hat_defs VALUES (1133, 'Singapore Flag', 'Ranked the world''s most expensive city to live in 8 times in the past decade', 2, 1000, NULL, 1672773592);
+INSERT INTO public.hat_defs VALUES (1134, 'Hot headed', 'Damn you need to cool down bro.', 2, 1000, NULL, 1672981389);
+
 
 INSERT INTO public.hat_defs VALUES (895, 'Target practice', 'KEEP SHOOTING TILL THE BEAST IS DEAD', 2, 1000, NULL, 1665341399);
 INSERT INTO public.hat_defs VALUES (896, 'Cheers', 'HOORAY! All hail the special one!', 2, 1000, NULL, 1665341566);
@@ -1210,7 +1213,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1133, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1136, true);
 
 
 --
@@ -1348,6 +1351,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseybadnews',2,'comic bad news drawing idgaf heathcliff smug troublemaker',NULL),
 ('marseybait',2,'trolled baited trolling redditor',NULL),
 ('marseybaited',2,'laser pointer trolled gullible reaction animated',NULL),
+('marseybaitretard',2,'foid dumb trick drool idiot fool',1672768619),
 ('marseyballerina',2,'dress ballet tutu dancer dancing',NULL),
 ('marseyban',2,'jannie janitor banhammer moderator banned',NULL),
 ('marseybane',2,'soy mask batman capeshit',NULL),
@@ -1482,6 +1486,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseybrick',2,'throw riot subtlety broken paver',NULL),
 ('marseybride',2,'dress tiara married wedding veil marseyismywaifu marriage',NULL),
 ('marseybritish',2,'marsey dumb teeth british gasp shocked',1667590246),
+('marseybrucecampbell',2,'ash bruce campbell army darkness evil dead chainsaw groovy boomstick deadite zombie pedosolution bloody',1672903618),
 ('marseybruh',2,'bruhfunny funny or ban',NULL),
 ('marseybruh2',2,'bruh disbelief doubt bro seriously smdh',1663148476),
 ('marseybsod',2,'windows computer blue screen of death error glitch',NULL),
@@ -1835,6 +1840,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydracula',2,'halloween fangs cape holiday vampire',NULL),
 ('marseydragon',2,'smaug rich hoard gold treasure',NULL),
 ('marseydrama',2,'agendapost where drama seriouspost drama where',NULL),
+('marseydramaddictrentfree',2,'drama addict',1672814525),
 ('marseydramautist',2,'dramautist drama autist trains trans glue retard autism dramatard',NULL),
 ('marseydrawing1',2,'drawing artist canvas painting recursion recursive',1664490986),
 ('marseydream',2,'spirals trippy swirls rainbow',NULL),
@@ -2242,6 +2248,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseykrampus2',2,'demon monster christmas',NULL),
 ('marseykrayon',2,'krayon karaboga incel retard face',1669868564),
 ('marseykrayongrouns',2,'grouns krayon objection court brooks sister pedo molester incest',1672604810),
+('marseykrayonsneed',2,'krayon incest carpathianflorist sistertoucher sneed',1673039108),
 ('marseykrishna',2,'hindu krishna india peacock',1667156631),
 ('marseyksg',2,'kanye ksg kids see ghosts yeezy yeezus',1671533131),
 ('marseykvlt',2,'horgh abbath black metal krieg bullet belt immortal corpsepaint',NULL),
@@ -2843,6 +2850,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyscout',2,'badge prepared',1671060050),
 ('marseyscratch',2,'loweffort doodle code coding programming',NULL),
 ('marseyscream',2,'panic frightened scared horror scream afraid reaction horrified nervous shock gasp',NULL),
+('marseysecuritron',2,'fallout new vegas security yes man',1673033974),
 ('marseyseethe',2,'dilate mask crying seething smug cope',NULL),
 ('marseyselfflagellation',2,'whip white guilt hate sin mayo liberal catholic',NULL),
 ('marseysephiroth',2,'ff7 ffvii final fantasy vidya video game gamer gaming villain sword',NULL),
@@ -2986,9 +2994,12 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseysrdine2',2,'can animated reaction fish knife chop sardine',NULL),
 ('marseyssflag',2,'superstraight cishetero straggot pride',NULL),
 ('marseystalin',2,'tankie authleft ussr russia communism socialism marxist commie soviet proletariat marxism marxist leninist leninism revolution bolshevik',NULL),
+('marseystamp',2,'letter envelope fed postal collect snail mail',1672996730),
+('marseystamp2',2,'letter envelope fed postal collect snail mail toll paid',1672996782),
 ('marseystarbucks',2,'coffee latte barista marbucks scone',NULL),
 ('marseystars',2,'stareyes reaction star eyes starry eyed stareyed',NULL),
 ('marseystars2',2,'space galaxy cosmic starsey constellation',NULL),
+('marseystarship',2,'starship jail execution prison',1672873048),
 ('marseystarwars',2,'scifi spaceshit starshit soy stormtrooper lightsaber disney',1667805994),
 ('marseysteaming',2,'steaming exhale emoji unamused annoyed',NULL),
 ('marseysteer',2,'car drive nervous driving animated',NULL),
