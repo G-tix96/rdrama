@@ -61,6 +61,7 @@ def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
 		for thing in data:
 			if thing['subreddit'] in exclude_subreddits: continue
 			if 'bot' in thing['author'].lower(): continue
+			if 'AutoModerator' == thing['author']: continue
 			after = max(after, thing["created_utc"]) if thing["created_utc"] else after
 			if kind == 'comment':
 				body = thing["body"].replace('>', '> ')
