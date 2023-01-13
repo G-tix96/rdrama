@@ -324,8 +324,10 @@ INSERT INTO public.hat_defs VALUES (800, 'Peekaboo', 'this little guy will watch
 INSERT INTO public.hat_defs VALUES (1103, 'The MacArthur', 'Fuck you Truman you fucking communist', 2, 500, NULL, 1669320357);
 INSERT INTO public.hat_defs VALUES (723, 'Hohol', 'Мій предок :)', 2, 500, NULL, 1663892328);
 INSERT INTO public.hat_defs VALUES (982, 'Pochita', 'Friendly chainsaw devil hat', 2, 500, NULL, 1666467185);
+INSERT INTO public.hat_defs VALUES (1136, 'Sonichu', 'Go! Sonichu! Go out and zap to the extreme!', 2, 500, NULL, 1673117074);
 INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO OOO', 2, 500, NULL, 1664595865);
 INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
+
 INSERT INTO public.hat_defs VALUES (991, 'Clocked', 'No hun don''t worry you totally pass', 2, 1000, NULL, 1666508772);
 INSERT INTO public.hat_defs VALUES (974, 'Kitsune Mask I', 'Some weeb furry shit idfk', 2, 500, NULL, 1666459502);
 INSERT INTO public.hat_defs VALUES (807, 'The Capy', 'You''re the chosen one! No one can hurt you!', 2, 500, NULL, 1665104052);
@@ -1061,8 +1063,7 @@ INSERT INTO public.hat_defs VALUES (424, 'Pearl Clutcher', 'REEEEEEEEEEEEEEEEE',
 INSERT INTO public.hat_defs VALUES (462, 'Rasta Hat', 'Jah bless', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (1133, 'Singapore Flag', 'Ranked the world''s most expensive city to live in 8 times in the past decade', 2, 1000, NULL, 1672773592);
 INSERT INTO public.hat_defs VALUES (1134, 'Hot headed', 'Damn you need to cool down bro.', 2, 1000, NULL, 1672981389);
-
-
+INSERT INTO public.hat_defs VALUES (1135, 'Qanon', 'wiggawigga fellow PATRIOT!', 2, 1000, NULL, 1673112507);
 INSERT INTO public.hat_defs VALUES (895, 'Target practice', 'KEEP SHOOTING TILL THE BEAST IS DEAD', 2, 1000, NULL, 1665341399);
 INSERT INTO public.hat_defs VALUES (896, 'Cheers', 'HOORAY! All hail the special one!', 2, 1000, NULL, 1665341566);
 INSERT INTO public.hat_defs VALUES (897, 'Patrick Lick', 'You taste sweet', 2, 1000, NULL, 1665341627);
@@ -1205,7 +1206,7 @@ INSERT INTO public.hat_defs VALUES (479, 'Pizza Hut', 'For when ‘good enough''
 INSERT INTO public.hat_defs VALUES (484, 'Slav-sya', 'Enough about human rights, let''s talk about human wrongs', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (501, 'Dancing Marsey', 'Omg she''s so happy lookit her GO', 2, 1000, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (504, 'Iron Crown of Lombardy', 'This isn''t Crusader Kings, stop it', 2, 500, NULL, 1662167687);
-
+INSERT INTO public.hat_defs VALUES (1138, 'Fallout Advanced Power Armour', 'War. War never changes.', 2, 500, NULL, 1673534169);
 INSERT INTO public.hat_defs VALUES (902, 'Shovel Knight', 'Cosplay as the shovel man himself!', 2, 500, NULL, 1665347426);
 INSERT INTO public.hat_defs VALUES (917, 'Bell Pepper (red)', 'Now you can cosplay as a bell pepper and make mama proud!', 2, 500, NULL, 1665417006);
 INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with my wife', 2, 500, NULL, 1665355513);
@@ -1215,7 +1216,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1138, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1139, true);
 
 
 --
@@ -1807,6 +1808,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydeux',2,'frenchman deuxrama baguette frog frenchie',NULL),
 ('marseydeuxfoid',2,'deuxrama asian azn hardislife hil',NULL),
 ('marseydevil',2,'pitchfork daemon hell halloween demon mischievous satan holiday heck evil',NULL),
+('marseydickbutt',2,'dickbutt marseybutt meme',1673552822),
+('marseydickbuttsmile',2,'dickbutt marseybutt smile meme',1673552867),
 ('marseydicklet',2,'babydick penis micro dick reaction laugh point and laugh micropenis judgment',NULL),
 ('marseydiehard',2,'die hard christmas holiday terrorist gun bruce willis',NULL),
 ('marseydildo',2,'horse',NULL),
@@ -2168,6 +2171,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyitsallsotiresome',2,'empire of dust tooka all so tiresome chinese racist congolese drc kinshasa lubumbashi enough bullshit tired resigned despair black',1665543793),
 ('marseyitsaover',2,'vidya mario over italian',1670561567),
 ('marseyitsover',2,'its over never began incels give up giveup sad sigh defeated',NULL),
+('marseyitsoverhappy',2,'marsey over itsover happy',1673551303),
 ('marseyitsoverwereback',2,'itsover neverbegan incels give up giveup sad sigh defeated yay happy excited undefeated bipolar histronic null kiwifarms animated',1668780621),
 ('marseyitsrigged',2,'its rigged rig goomble gamble lottershe election dating test blackjack roulette',1670094672),
 ('marseyjackskellington',2,'skeleton nightmarebeforechristmas halloween horror burton',1667696881),
@@ -2681,6 +2685,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyqueenlizard',2,'england bong english british reptilian elizabeth',NULL),
 ('marseyquestion',2,'suspicious sussy reaction sarcastic sarcasm',NULL),
 ('marseyrabbit',2,'bunny',NULL),
+('marseyrabbitnewyear',2,'chinese cny chink chong lunar holiday coin money fortune huat bunny 2023 festive orient hat',1673483499),
+('marseyrabbitnewyear2',2,'chinese cny chink chong lunar holiday red packet envelope money fortune huat bunny 2023 festive orient dress flowers',1673483532),
 ('marseyraccoon',2,'trashpanda trash panda',NULL),
 ('marseyracist',2,'racing vroom racecar bigot reaction',NULL),
 ('marseyracistgrandpa',2,'thanksgiving fuck nigger holiday',NULL),
@@ -3302,6 +3308,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyzombiewolfmarseymask',2,'sussy amogus fraud fake phony cope seethe',NULL),
 ('marseyzombiewolftrample',2,'kill murder mascot animated walking animated tramplewolf',NULL),
 ('marseyzoomer',2,'child brat kid zoomie',NULL),
+('marseyzoomercide',2,'weak genz genocide woke young animated',1673511207),
+('marseyzoomerimplosion',2,'weak genz genocide woke young retard dumb explode boom terrorist animated',1673511240),
 ('marseyzwei',2,'drinking germany lederhosen zweirama bavarian beer',NULL),
 ('marsheen',2,'pusheen animated meme cute',NULL),
 ('marsheep',2,'sheep animal fluffy wool',NULL),
