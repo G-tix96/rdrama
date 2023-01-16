@@ -327,8 +327,8 @@ INSERT INTO public.hat_defs VALUES (982, 'Pochita', 'Friendly chainsaw devil hat
 INSERT INTO public.hat_defs VALUES (1136, 'Sonichu', 'Go! Sonichu! Go out and zap to the extreme!', 2, 500, NULL, 1673117074);
 INSERT INTO public.hat_defs VALUES (750, 'Cave Man', 'UNGA BUNGA UNGA BUNGA OOO OOO', 2, 500, NULL, 1664595865);
 INSERT INTO public.hat_defs VALUES (753, 'Doom Guy', 'RIP AND TEAR', 2, 500, NULL, 1664595933);
-
 INSERT INTO public.hat_defs VALUES (991, 'Clocked', 'No hun don''t worry you totally pass', 2, 1000, NULL, 1666508772);
+INSERT INTO public.hat_defs VALUES (1139, 'Lunar New Year', '新年快乐!', 2, 1000, NULL, 1673554101);
 INSERT INTO public.hat_defs VALUES (974, 'Kitsune Mask I', 'Some weeb furry shit idfk', 2, 500, NULL, 1666459502);
 INSERT INTO public.hat_defs VALUES (807, 'The Capy', 'You''re the chosen one! No one can hurt you!', 2, 500, NULL, 1665104052);
 INSERT INTO public.hat_defs VALUES (1007, 'Red Halloween Mask', 'Worth a month’s rent, or just being a Top 10 Gigavaxxer or Zigger during Homoween 2022.', 2, 0, NULL, 1667274742);
