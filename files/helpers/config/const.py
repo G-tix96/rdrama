@@ -149,6 +149,7 @@ if SITE_NAME == 'rDrama':
 		"world's largest cat fetish furfest",
 		"world's largest basket-weaving forum",
 		"world's largest autism support group",
+		"the official site of Communist Party USA",
 	)
 
 	RDRAMA_SLURS = {
