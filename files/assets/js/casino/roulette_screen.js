@@ -226,7 +226,6 @@ function buildRouletteBets(bets) {
 			width="32"
 			data-bs-toggle="tooltip"
 			data-bs-placement="bottom"
-			aria-label="Coin"
 			data-bs-original-title="Coin">
 	`;
 	const marseybuxImgHtml = `
@@ -235,7 +234,6 @@ function buildRouletteBets(bets) {
 			alt="marseybux"
 			data-bs-toggle="tooltip"
 			data-bs-placement="bottom"
-			aria-label="Marseybux"
 			width="32" class="mr-1 ml-1"
 			data-bs-original-title="Marseybux">
 	`;
