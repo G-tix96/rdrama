@@ -160,6 +160,7 @@ lite-youtube {
   position: relative;
   padding-right: 1.5rem;
   max-height: 300px;
+  overflow: scroll;
 }
 .ChatMessage__isDm {
   background: var(--gray-800);
