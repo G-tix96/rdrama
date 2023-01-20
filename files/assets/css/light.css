@@ -70,6 +70,7 @@ pre {
 
 blockquote {
 	color: var(--gray-400);
+	background-color: #00000022;
 }
 
 #profilestuff > * {
@@ -77,7 +78,7 @@ blockquote {
 }
 
 .comment-anchor:target, .unread {
-	background: #00000055 !important;
+	background: #00000033 !important;
 }
 
 h5.post-title a:visited {
