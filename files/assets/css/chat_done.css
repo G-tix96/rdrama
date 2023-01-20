@@ -293,9 +293,9 @@ lite-youtube {
 }
 @media (min-width: 768px) {
 	.UserInput-input {
-	min-height: 100px !important;
-	height: 100px !important;
-	max-height: 100px !important;
+	min-height: 70px !important;
+	height: 70px !important;
+	max-height: 70px !important;
 	}
 }
 .UserInput-emoji {
