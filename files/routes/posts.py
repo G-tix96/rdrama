@@ -57,12 +57,6 @@ def publish(pid, v):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
 
-	if post.sub == 'changelog':
-		send_changelog_message(post.permalink)
-
-	if SITE == 'watchpeopledie.tv':
-		send_wpd_message(post.permalink)
-
 	execute_snappy(post, v)
 
 	if is_site_url(request.referrer):
@@ -817,12 +811,6 @@ def submit_post(v:User, sub=None):
 
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
-
-	if post.sub == 'changelog' and not post.private:
-		send_changelog_message(post.permalink)
-
-	if not post.private and SITE == 'watchpeopledie.tv':
-		send_wpd_message(post.permalink)
 
 	g.db.commit()
 	if v.client: return post.json(g.db)
