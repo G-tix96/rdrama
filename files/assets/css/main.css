@@ -6545,7 +6545,7 @@ body *::-webkit-scrollbar {
 }
 
 @media (max-width: 768px) {
-	#hats-banner {
+	#hats-banner, #shop-banner {
 		width: 80%;
 	}
 	.shop-tabs {
