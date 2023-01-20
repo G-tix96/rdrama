@@ -16,8 +16,7 @@ def send_mail(to_address, subject, html):
 				"subject": subject,
 				"html": html,
 				}
-		x = requests.post(url, data=data)
-		print(x.text, flush=True)
+		requests.post(url, data=data)
 	else:
 		if MAILGUN_KEY == DEFAULT_CONFIG_VALUE: return
 		url = f"https://api.mailgun.net/v3/{SITE}/messages"
