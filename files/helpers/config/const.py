@@ -418,7 +418,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'POST_COMMENT_DISTINGUISH': 1,
 	'POST_COMMENT_MODERATION_TOOLS_VISIBLE': 2, # note: does not affect API at all
 	'POST_BYPASS_REPOST_CHECKING': 1,
-	'POST_EDITING': 3,
+	'POST_EDITING': 4,
 	'USER_BADGES': 2,
 	'USER_BAN': 2,
 	'USER_SHADOWBAN': 2,
