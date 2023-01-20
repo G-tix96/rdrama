@@ -230,6 +230,7 @@ if SITE_NAME == 'rDrama':
 		'bungie.net',
 		'gamefaqs.gamespot.com',
 		'thefemaledatingstrategy.com',
+		'econjobrumors.com',
 
 		#twitter-like
 		'gab.com',
