@@ -168,6 +168,7 @@ def searchposts(v:User):
 						next_exists=next_exists
 						)
 
+@app.get("/comments")
 @app.get("/search/comments")
 @auth_required
 def searchcomments(v:User):
