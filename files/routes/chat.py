@@ -93,7 +93,7 @@ def speak(data, v):
 	else:
 		emit('speak', data, broadcast=True)
 		messages.append(data)
-		messages = messages[-500:]
+		messages = messages[-2000:]
 
 	total += 1
 
