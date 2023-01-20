@@ -231,6 +231,7 @@ if SITE_NAME == 'rDrama':
 		'groups.google.com',
 		'bungie.net',
 		'gamefaqs.gamespot.com',
+		'thefemaledatingstrategy.com',
 
 		#twitter-like
 		'gab.com',
@@ -304,6 +305,7 @@ if SITE_NAME == 'rDrama':
 		'datalounge.com',
 		'metafilter.com',
 		'sqwok.im',
+		'thelayoff.com',
 	}
 
 	BOOSTED_HOLES = {
