@@ -112,6 +112,12 @@ if (reload_page) {
 }
 
 function register_new_elements(e) {
+	for (const element of document.getElementsByClassName('showmore')) {
+		element.onclick = () => {
+			showmore(element)
+		};
+	}
+	
 	const onclick = e.querySelectorAll('[data-onclick]');
 	for (const element of onclick) {
 		element.onclick = ()=>{execute(element, 'onclick')};

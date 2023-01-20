@@ -282,12 +282,6 @@ function showmore(t) {
 		t.innerHTML = 'SHOW LESS'
 }
 
-for (const element of document.getElementsByClassName('showmore')) {
-	element.onclick = () => {
-		showmore(element)
-	};
-}
-
 function formatDate(d) {
 	let year = d.getFullYear();
 	let monthAbbr = d.toLocaleDateString('en-us', {month: 'short'});
