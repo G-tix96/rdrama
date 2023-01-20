@@ -1002,9 +1002,11 @@ class User(Base):
 	@property
 	@lazy
 	def can_see_masterbaiters(self):
+		if self.id == 2074: return False
 		if self.shadowbanned: return False
 		if self.is_suspended_permanently: return False
-		return True
+		if self.truescore >= TRUESCORE_MASTERBAITERS_MINIMUM: return True
+		return False
 
 	@property
 	@lazy
