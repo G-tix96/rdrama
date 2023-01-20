@@ -214,13 +214,15 @@ INSERT INTO public.badge_defs VALUES (225, 'Monkey Playdate', 'Forgot to check t
 INSERT INTO public.badge_defs VALUES (226, 'Stargazer', 'Kept themselves unworried throughout all of Advent of Code 2022, completing all 50 stars.', 1672289696);
 INSERT INTO public.badge_defs VALUES (227, 'Saved Christmas with Teh Codez', 'Got the highest score and completed all 50 stars during Advent of Code 2022.', 1672289744);
 INSERT INTO public.badge_defs VALUES (228, 'Carver', 'This user went against the wishes of WPD staff and used their flesh as a canvas', 1673387372);
+INSERT INTO public.badge_defs VALUES (229, 'Certified MONSTER Cock', 'This user submit a photo of their dick and it was confirmed to be HUGE', 1674147916);
+INSERT INTO public.badge_defs VALUES (230, 'Itty Bitty Clitty', 'This user submit a photo of their dick and it was determined to be more similar to a sad, undersized clit', 1674147964);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 228, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 230, true);
 
 
 --
