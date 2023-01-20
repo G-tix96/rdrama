@@ -1,6 +1,5 @@
 bind = '0.0.0.0:5000'
 
-workers = 9
 worker_class = 'gevent'
 
 max_requests = 30000
