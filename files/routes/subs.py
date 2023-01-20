@@ -662,7 +662,8 @@ def hole_unpin(v:User, pid):
 @is_not_permabanned
 def sub_stealth(v:User, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name == 'braincels': abort(403)
+	if sub.name in {'braincels','smuggies','ye24'}:
+		abort(403)
 	if not v.mods(sub.name): abort(403)
 
 	sub.stealth = not sub.stealth
