@@ -32,8 +32,11 @@ typing = {
 	f'{SITE_FULL}/chat': [],
 	f'{SITE_FULL}/admin/chat': []
 }
-online =  []
-cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
+online =  {
+	f'{SITE_FULL}/chat': [],
+	f'{SITE_FULL}/admin/chat': []
+}
+cache.set(CHAT_ONLINE_CACHE_KEY, len(online[f'{SITE_FULL}/chat']), timeout=0)
 muted = cache.get(f'muted') or {
 	f'{SITE_FULL}/chat': {},
 	f'{SITE_FULL}/admin/chat': {}
@@ -129,21 +132,24 @@ def speak(data, v):
 
 	return '', 204
 
+def refresh_online():
+	emit("online", online[request.referrer], room=request.referrer, broadcast=True)
+	if request.referrer == f'{SITE_FULL}/chat':
+		cache.set(CHAT_ONLINE_CACHE_KEY, len(online[request.referrer]), timeout=0)
+
 @socketio.on('connect')
 @admin_level_required(PERMS['CHAT'])
 def connect(v):
 	join_room(request.referrer)
 
-	if v.username not in online:
-		online.append(v.username)
-		emit("online", online, room=request.referrer, broadcast=True)
-		cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
+	if v.username not in online[request.referrer]:
+		online[request.referrer].append(v.username)
+		refresh_online()
 
 	if not socket_ids_to_user_ids.get(request.sid):
 		socket_ids_to_user_ids[request.sid] = v.id
 		user_ids_to_socket_ids[v.id] = request.sid
 
-	emit('online', online, room=request.referrer)
 	emit('catchup', messages[request.referrer], room=request.referrer)
 	emit('typing', typing[request.referrer], room=request.referrer)
 	return '', 204
@@ -151,10 +157,9 @@ def connect(v):
 @socketio.on('disconnect')
 @admin_level_required(PERMS['CHAT'])
 def disconnect(v):
-	if v.username in online:
-		online.remove(v.username)
-		emit("online", online, room=request.referrer, broadcast=True)
-		cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
+	if v.username in online[request.referrer]:
+		online[request.referrer].remove(v.username)
+		refresh_online()
 
 	if v.username in typing[request.referrer]:
 		typing[request.referrer].remove(v.username)
