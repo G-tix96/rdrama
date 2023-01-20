@@ -106,17 +106,17 @@ def speak(data, v):
 
 	typing = []
 
-	if SITE == 'rdrama.net':
-		title = f'New chat message from @{v.username}'
-		notifbody = text
-		url = f'{SITE_FULL}/chat'
+	# if SITE == 'rdrama.net':
+	# 	title = f'New chat message from @{v.username}'
+	# 	notifbody = text
+	# 	url = f'{SITE_FULL}/chat'
 
-		admin_ids = [x[0] for x in g.db.query(User.id).filter(
-			User.id != v.id,
-			User.admin_level >= PERMS['CHAT'],
-		).all()]
+	# 	admin_ids = [x[0] for x in g.db.query(User.id).filter(
+	# 		User.id != v.id,
+	# 		User.admin_level >= PERMS['CHAT'],
+	# 	).all()]
 
-		push_notif(admin_ids, title, notifbody, url)
+	# 	push_notif(admin_ids, title, notifbody, url)
 
 	return '', 204
 
