@@ -3283,6 +3283,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyworldcup',2,'world cup soccer football winner sports champion',1663033833),
 ('marseyworried',2,'monkaw anxiety sweat panic scared sweaty sweating anxious nervous stressed',NULL),
 ('marseywpdcatgirl',2,'catgirlsey watchpeopledie anime nekojin weeb weeaboo anthro furry',1673378413),
+('marseywpdrentfree',2,'gore snuff watchpeopledie soy cuck jealousy',1674232102),
 ('marseywpdsupremacy',2,'watchpeopledie rdrama homosupremacy beheading throat bloody death die gore hood kkk klan gay lgbt',1672697846),
 ('marseywraith',2,'evil scary ghost halloween undead horror',1666281502),
 ('marseywrongthonk',2,'wrongthink hmmm thinking 1984 arrested police woke notice noticing',NULL),
