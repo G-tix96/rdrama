@@ -986,7 +986,6 @@ CREATE TABLE public.users (
     verified character varying(100),
     cardview boolean NOT NULL,
     received_award_count integer DEFAULT 0 NOT NULL,
-    highlightcomments boolean DEFAULT true NOT NULL,
     nitter boolean,
     truescore integer DEFAULT 0 NOT NULL,
     frontsize integer DEFAULT 25 NOT NULL,
@@ -2777,3 +2776,4 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
+
