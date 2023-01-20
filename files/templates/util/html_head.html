@@ -134,7 +134,7 @@
 		{% endif %}
 	{% endif %}
 
-	{% if request.path == '/chat' %}
+	{% if request.path.endswith('/chat') %}
 		<link rel="stylesheet" href="{{'css/chat_done.css' | asset}}">
 	{% endif %}
 {% endmacro %}

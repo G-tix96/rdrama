@@ -2,7 +2,7 @@ import atexit
 import time
 import uuid
 
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit, join_room, leave_room
 
 from files.helpers.actions import *
 from files.helpers.alerts import *
@@ -28,12 +28,20 @@ else:
 		async_mode='gevent',
 	)
 
-typing = []
-online = []
+typing = {
+	f'{SITE_FULL}/chat': [],
+	f'{SITE_FULL}/admin/chat': []
+}
+online =  []
 cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
-muted = cache.get(f'{SITE}_muted') or {}
-messages = cache.get(f'{SITE}_chat') or []
-total = cache.get(f'{SITE}_total') or 0
+muted = cache.get(f'muted') or {
+	f'{SITE_FULL}/chat': {},
+	f'{SITE_FULL}/admin/chat': {}
+}
+messages = cache.get(f'messages') or {
+	f'{SITE_FULL}/chat': [],
+	f'{SITE_FULL}/admin/chat': []
+}
 socket_ids_to_user_ids = {}
 user_ids_to_socket_ids = {}
 
@@ -42,8 +50,12 @@ user_ids_to_socket_ids = {}
 def chat(v):
 	if not v.admin_level and TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
 		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat.")
-	return render_template("chat.html", v=v, messages=messages)
+	return render_template("chat.html", v=v)
 
+@app.get("/admin/chat")
+@admin_level_required(2)
+def admin_chat(v):
+	return render_template("chat.html", v=v)
 
 @socketio.on('speak')
 @limiter.limit("3/second;10/minute")
@@ -56,11 +68,11 @@ def speak(data, v):
 		return '', 403
 
 	vname = v.username.lower()
-	if vname in muted and not v.admin_level >= PERMS['CHAT_BYPASS_MUTE']:
-		if time.time() < muted[vname]: return '', 403
-		else: del muted[vname]
+	if vname in muted[request.referrer] and not v.admin_level >= PERMS['CHAT_BYPASS_MUTE']:
+		if time.time() < muted[request.referrer][vname]: return '', 403
+		else: del muted[request.referrer][vname]
 
-	global messages, total
+	global messages
 
 	text = sanitize_raw_body(data['message'], False)[:CHAT_LENGTH_LIMIT]
 	if not text: return '', 400
@@ -71,7 +83,6 @@ def speak(data, v):
 	data = {
 		"id": str(uuid.uuid4()),
 		"quotes": quotes,
-		"avatar": v.profile_url,
 		"hat": v.hat_active(v)[0],
 		"user_id": v.id,
 		"dm": bool(recipient and recipient != ""),
@@ -91,50 +102,50 @@ def speak(data, v):
 			recipient_sid = user_ids_to_socket_ids[recipient]
 			emit('speak', data, broadcast=False, to=recipient_sid)
 	else:
-		emit('speak', data, broadcast=True)
-		messages.append(data)
-		messages = messages[-500:]
-
-	total += 1
+		emit('speak', data, room=request.referrer, broadcast=True)
+		messages[request.referrer].append(data)
+		messages[request.referrer] = messages[request.referrer][-500:]
 
 	if v.admin_level >= PERMS['USER_BAN']:
 		text = text.lower()
 		for i in mute_regex.finditer(text):
 			username = i.group(1).lower()
 			duration = int(int(i.group(2)) * 60 + time.time())
-			muted[username] = duration
+			muted[request.referrer][username] = duration
 
 	typing = []
 
-	# if SITE == 'rdrama.net':
-	# 	title = f'New chat message from @{v.username}'
-	# 	notifbody = text
-	# 	url = f'{SITE_FULL}/chat'
+	if request.referrer == f'{SITE_FULL}/admin/chat':
+		title = f'New message in admin chat from @{v.username}'
+		notifbody = text
+		url = f'{SITE_FULL}/admin/chat'
 
-	# 	admin_ids = [x[0] for x in g.db.query(User.id).filter(
-	# 		User.id != v.id,
-	# 		User.admin_level >= PERMS['CHAT'],
-	# 	).all()]
+		admin_ids = [x[0] for x in g.db.query(User.id).filter(
+			User.id != v.id,
+			User.admin_level >= PERMS['CHAT'],
+		).all()]
 
-	# 	push_notif(admin_ids, title, notifbody, url)
+		push_notif(admin_ids, title, notifbody, url)
 
 	return '', 204
 
 @socketio.on('connect')
 @admin_level_required(PERMS['CHAT'])
 def connect(v):
+	join_room(request.referrer)
+
 	if v.username not in online:
 		online.append(v.username)
-		emit("online", online, broadcast=True)
+		emit("online", online, room=request.referrer, broadcast=True)
 		cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
 
 	if not socket_ids_to_user_ids.get(request.sid):
 		socket_ids_to_user_ids[request.sid] = v.id
 		user_ids_to_socket_ids[v.id] = request.sid
 
-	emit('online', online)
-	emit('catchup', messages)
-	emit('typing', typing)
+	emit('online', online, room=request.referrer)
+	emit('catchup', messages[request.referrer], room=request.referrer)
+	emit('typing', typing[request.referrer], room=request.referrer)
 	return '', 204
 
 @socketio.on('disconnect')
@@ -142,26 +153,31 @@ def connect(v):
 def disconnect(v):
 	if v.username in online:
 		online.remove(v.username)
-		emit("online", online, broadcast=True)
+		emit("online", online, room=request.referrer, broadcast=True)
 		cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
 
-	if v.username in typing: typing.remove(v.username)
+	if v.username in typing[request.referrer]:
+		typing[request.referrer].remove(v.username)
 
 	if socket_ids_to_user_ids.get(request.sid):
 		del socket_ids_to_user_ids[request.sid]
 		del user_ids_to_socket_ids[v.id]
 
-	emit('typing', typing, broadcast=True)
+	emit('typing', typing[request.referrer], room=request.referrer, broadcast=True)
+
+	leave_room(request.referrer)
 	return '', 204
 
 @socketio.on('typing')
 @admin_level_required(PERMS['CHAT'])
 def typing_indicator(data, v):
 
-	if data and v.username not in typing: typing.append(v.username)
-	elif not data and v.username in typing: typing.remove(v.username)
+	if data and v.username not in typing[request.referrer]:
+		typing[request.referrer].append(v.username)
+	elif not data and v.username in typing[request.referrer]:
+		typing[request.referrer].remove(v.username)
 
-	emit('typing', typing, broadcast=True)
+	emit('typing', typing[request.referrer], room=request.referrer, broadcast=True)
 	return '', 204
 
 
@@ -171,15 +187,14 @@ def delete(text, v):
 
 	for message in messages:
 		if message['text'] == text:
-			messages.remove(message)
+			messages[request.referrer].remove(message)
 
-	emit('delete', text, broadcast=True)
+	emit('delete', text, room=request.referrer, broadcast=True)
 
 	return '', 204
 
 
 def close_running_threads():
-	cache.set(f'{SITE}_chat', messages)
-	cache.set(f'{SITE}_total', total)
-	cache.set(f'{SITE}_muted', muted)
+	cache.set(f'messages', messages)
+	cache.set(f'muted', muted)
 atexit.register(close_running_threads)

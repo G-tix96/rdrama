@@ -116,6 +116,8 @@ def admin_level_required(x):
 			if v.admin_level < x: abort(403)
 			if x and SITE != 'devrama.net' and not IS_LOCALHOST and not v.mfa_secret:
 				abort(403, "You need to enable 2FA to use admin features!")
+			if request.referrer == f'{SITE_FULL}/admin/chat' and v.admin_level < PERMS['CHAT']:
+				abort(403)
 			return make_response(f(*args, v=v, **kwargs))
 
 		wrapper.__name__ = f.__name__

@@ -32931,7 +32931,6 @@
         themeColor,
         siteName,
         nameColor,
-        avatar,
         hat
       },
       setContext
@@ -32943,7 +32942,6 @@
       themeColor: "#ff66ac",
       siteName: "",
       nameColor: "",
-      avatar: "",
       hat: ""
     });
     (0, import_react13.useEffect)(() => {
@@ -32956,7 +32954,6 @@
         themeColor: root2.dataset.themecolor,
         siteName: root2.dataset.sitename,
         nameColor: root2.dataset.namecolor,
-        avatar: root2.dataset.avatar,
         hat: root2.dataset.hat
       });
     }, []);
@@ -32968,7 +32965,6 @@
       themeColor,
       siteName,
       nameColor,
-      avatar,
       hat
     };
   }
@@ -33014,7 +33010,7 @@
   var DIRECT_MESSAGE_ID = "DIRECT_MESSAGE";
   var OPTIMISTIC_MESSAGE_ID = "OPTIMISTIC";
   function ChatProvider({ children }) {
-    const { username, id, siteName, hat, avatar, nameColor } = useRootContext();
+    const { username, id, siteName, hat, nameColor } = useRootContext();
     const socket = (0, import_react15.useRef)(null);
     const [online, setOnline] = (0, import_react15.useState)([]);
     const [typing, setTyping] = (0, import_react15.useState)([]);
@@ -33054,7 +33050,6 @@
           id: DIRECT_MESSAGE_ID,
           username,
           user_id: id,
-          avatar,
           hat,
           namecolor: nameColor,
           text: directMessage,
@@ -33070,7 +33065,6 @@
           id: OPTIMISTIC_MESSAGE_ID,
           username,
           user_id: id,
-          avatar,
           hat,
           namecolor: nameColor,
           text: draft,
@@ -33485,14 +33479,14 @@
 
   // src/features/chat/Username.tsx
   var import_react20 = __toESM(require_react());
-  function Username({ avatar, color, name, hat = "" }) {
+  function Username({ id, color, name, hat = "" }) {
     return /* @__PURE__ */ import_react20.default.createElement("div", {
       className: "Username"
     }, /* @__PURE__ */ import_react20.default.createElement("div", {
       className: "profile-pic-20-wrapper"
     }, /* @__PURE__ */ import_react20.default.createElement("img", {
       alt: name,
-      src: avatar,
+      src: `/pp/${id}`,
       className: "pp20"
     }), hat && /* @__PURE__ */ import_react20.default.createElement("img", {
       className: "avatar-hat profile-pic-20-hat hat",
@@ -33559,7 +33553,6 @@
     const {
       id,
       user_id,
-      avatar,
       namecolor,
       username,
       hat,
@@ -33676,10 +33669,10 @@
     }, /* @__PURE__ */ import_react22.default.createElement("i", null, "X"), " Close")), showUser && /* @__PURE__ */ import_react22.default.createElement("div", {
       className: "ChatMessage-top"
     }, /* @__PURE__ */ import_react22.default.createElement(Username, {
-      avatar,
+      id: user_id,
       name: username,
       color: namecolor,
-      hat
+      hat,
     }), /* @__PURE__ */ import_react22.default.createElement("div", {
       className: "ChatMessage-timestamp"
     }, timestamp)), quotes && quotedMessage && /* @__PURE__ */ import_react22.default.createElement("div", {
