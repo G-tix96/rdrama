@@ -124,6 +124,8 @@ def sub_matcher(match:re.Match, upper=False, replace_with:Union[dict[str, str], 
 	match_str = match.group(group_num)
 	if match_str.startswith('<'):
 		return match_str
+	elif match_str.lower() == ' cool ':
+		return ' fetch '
 	else:
 		repl = replace_with[match_str.lower()]
 		return repl if not upper or "<img" in repl else repl.upper()
