@@ -125,7 +125,7 @@ def speak(data, v):
 
 		admin_ids = [x[0] for x in g.db.query(User.id).filter(
 			User.id != v.id,
-			User.admin_level >= 1,
+			User.admin_level >= 2,
 		).all()]
 
 		push_notif(admin_ids, title, notifbody, url)
