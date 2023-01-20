@@ -33168,7 +33168,8 @@
 			const alertedWhileAway = notifications > 0 && !focused;
 			const pathIcon = alertedWhileAway ? "alert" : "icon";
 			favicon.href = escape(`/assets/images/${siteName}/${pathIcon}.webp?v=3`);
-			title.innerHTML = alertedWhileAway ? `[+${notifications}] Chat` : "Chat";
+			const pagetitle = location.pathname == '/admin/chat' ? 'Admin Chat' : 'Chat';
+			title.innerHTML = alertedWhileAway ? `[+${notifications}] ${pagetitle}` : pagetitle;
 		}, [notifications, focused]);
 		return /* @__PURE__ */ import_react15.default.createElement(ChatContext.Provider, {
 			value: context
