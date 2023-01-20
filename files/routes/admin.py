@@ -246,6 +246,9 @@ def remove_admin(v:User, username):
 
 	user = get_user(username)
 
+	if user.admin_level > v.admin_level:
+		abort(403)
+
 	if user.admin_level:
 		user.admin_level = 0
 		g.db.add(user)
@@ -322,6 +325,9 @@ def distribute(v:User, option_id):
 @admin_level_required(PERMS['ADMIN_ACTIONS_REVERT'])
 def revert_actions(v:User, username):
 	revertee = get_user(username)
+
+	if revertee.admin_level > v.admin_level:
+		abort(403)
 
 	ma = ModAction(
 		kind="revert",
