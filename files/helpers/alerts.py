@@ -107,8 +107,6 @@ def NOTIFY_USERS(text, v):
 
 
 def push_notif(uids, title, body, url):
-	if uids == {AEVANN_ID}: return
-
 	if VAPID_PUBLIC_KEY == DEFAULT_CONFIG_VALUE:
 		return
 

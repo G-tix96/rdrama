@@ -323,7 +323,8 @@ def comment(v:User):
 			else:
 				url = f'{SITE_FULL}/@{c.wall_user.username}/wall/comment/{c.id}?read=true#context'
 
-			push_notif({parent_user.id}, title, notifbody, url)
+			if parent_user.id != AEVANN_ID:
+				push_notif({parent_user.id}, title, notifbody, url)
 
 	vote = CommentVote(user_id=v.id,
 						 comment_id=c.id,
