@@ -45,7 +45,6 @@
   margin-right: 0.5rem;
   word-wrap: break-word;
   display: inline-block;
-  max-height: 50vh;
 }
 
 .ChatMessage-button {

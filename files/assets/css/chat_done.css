@@ -195,7 +195,6 @@ lite-youtube {
   margin-right: 0.5rem;
   word-wrap: break-word;
   display: inline-block;
-  max-height: 50vh;
 }
 .ChatMessage-button {
   margin: 0 0.5rem;
