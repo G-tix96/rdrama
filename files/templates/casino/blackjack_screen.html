@@ -13,7 +13,7 @@
 {% block actions %}
 <link rel="stylesheet" href="{{('css/casino/blackjack_screen.css') | asset}}">
 
-<div role="group" class="btn-group">
+<div class="btn-group">
 	<button type="button" id="twentyone-DEAL" class="btn btn-primary twentyone-btn" data-nonce="{{g.nonce}}" data-onclick="deal()">Deal</button>
 	<button type="button" id="twentyone-HIT" class="btn btn-primary twentyone-btn" data-nonce="{{g.nonce}}" data-onclick="hit()" style="display: none;">Hit</button>
 	<button type="button" id="twentyone-STAY" class="btn btn-primary twentyone-btn" data-nonce="{{g.nonce}}" data-onclick="stay()"

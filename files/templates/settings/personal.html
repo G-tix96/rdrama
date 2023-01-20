@@ -274,8 +274,8 @@
 
 {% macro permanent_filter_modal(id, form_action, field, friendly_name, badge_name) %}
 {% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] -%}
-<div class="modal fade" id="modal-{{id}}" tabindex="-1" role="dialog">
-	<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="modal-{{id}}" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered">
 		<form class="m-auto" action="{{form_action}}" id="{{id}}-form" method="post">
 			<div class="modal-content">
 				<div class="modal-header">

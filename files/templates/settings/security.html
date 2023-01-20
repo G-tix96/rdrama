@@ -180,8 +180,8 @@
 </div>
 </div>
 
-<div class="modal fade" id="2faModal" tabindex="-1" role="dialog">
-	<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="2faModal" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title">
@@ -215,7 +215,7 @@
 						<input autocomplete="off" type="password" class="form-control mb-2" id="2fa_input_password" name="password" data-nonce="{{g.nonce}}" data-undisable_element="toggle2faButton" required>
 						{% set action = "Enable" %}
 					{% else %}
-						<div class="alert alert-warning" role="alert">
+						<div class="alert alert-warning">
 							<i class="fas fa-info-circle"></i>
 							To disable two-step login, please enter your {{SITE_NAME}} account password and the 6-digit code generated in your authentication app. If you no longer have your two-step device, <a href="/lost_2fa">click here</a>.
 						</div>
@@ -237,8 +237,8 @@
 	</div>
 </div>
 
-<div class="modal fade" id="blockmodal" tabindex="-1" role="dialog">
-	<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="blockmodal" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title">Block user</h5>
@@ -258,7 +258,7 @@
 	</div>
 </div>
 
-<div class="toast error" id="toast-exile-error" role="alert" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
+<div class="toast error" id="toast-exile-error" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
 	<div class="toast-body text-center">
 		<i class="fas fa-exclamation-circle text-danger mr-2"></i><span id="toast-error-message">Error. Please try again.</span>
 	</div>
