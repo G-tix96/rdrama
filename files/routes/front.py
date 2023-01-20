@@ -190,38 +190,6 @@ def random_user(v:User):
 
 	return redirect(f"/@{u}")
 
-
-@app.get("/comments")
-@auth_required
-def all_comments(v:User):
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
-
-	sort=request.values.get("sort", "new")
-	t=request.values.get("t", DEFAULT_TIME_FILTER)
-
-	try: gt=int(request.values.get("after", 0))
-	except: gt=0
-
-	try: lt=int(request.values.get("before", 0))
-	except: lt=0
-	idlist = comment_idlist(v=v,
-							page=page,
-							sort=sort,
-							t=t,
-							gt=gt,
-							lt=lt,
-							site=SITE
-							)
-
-	comments = get_comments(idlist, v=v)
-	next_exists = len(idlist) > PAGE_SIZE
-	idlist = idlist[:PAGE_SIZE]
-
-	if v.client: return {"data": [x.json(g.db) for x in comments]}
-	return render_template("home_comments.html", v=v, sort=sort, t=t, page=page, comments=comments, standalone=True, next_exists=next_exists)
-
-
 @cache.memoize(timeout=86400)
 def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0, site=None):
 	comments = g.db.query(Comment.id) \
@@ -249,3 +217,33 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0, site=None):
 
 	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 	return [x[0] for x in comments]
+
+# @app.get("/comments")
+# @auth_required
+# def all_comments(v:User):
+# 	try: page = max(int(request.values.get("page", 1)), 1)
+# 	except: page = 1
+
+# 	sort=request.values.get("sort", "new")
+# 	t=request.values.get("t", DEFAULT_TIME_FILTER)
+
+# 	try: gt=int(request.values.get("after", 0))
+# 	except: gt=0
+
+# 	try: lt=int(request.values.get("before", 0))
+# 	except: lt=0
+# 	idlist = comment_idlist(v=v,
+# 							page=page,
+# 							sort=sort,
+# 							t=t,
+# 							gt=gt,
+# 							lt=lt,
+# 							site=SITE
+# 							)
+
+# 	comments = get_comments(idlist, v=v)
+# 	next_exists = len(idlist) > PAGE_SIZE
+# 	idlist = idlist[:PAGE_SIZE]
+
+# 	if v.client: return {"data": [x.json(g.db) for x in comments]}
+# 	return render_template("home_comments.html", v=v, sort=sort, t=t, page=page, comments=comments, standalone=True, next_exists=next_exists)
