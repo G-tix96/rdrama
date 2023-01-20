@@ -953,7 +953,6 @@ CREATE TABLE public.users (
     is_private boolean DEFAULT false NOT NULL,
     unban_utc integer DEFAULT 0 NOT NULL,
     custom_filter_list character varying(1000) DEFAULT ''::character varying,
-    discord_id character varying(64),
     stored_subscriber_count integer DEFAULT 0 NOT NULL,
     original_username character varying(30),
     customtitle character varying(1000),
@@ -1395,14 +1394,6 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: users one_discord_account; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT one_discord_account UNIQUE (discord_id);
-
-
---
 -- Name: pgbench_accounts pgbench_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1704,13 +1695,6 @@ CREATE INDEX commentvotes_comments_type_index ON public.commentvotes USING btree
 --
 
 CREATE INDEX cvote_user_index ON public.commentvotes USING btree (user_id);
-
-
---
--- Name: discord_id_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX discord_id_idx ON public.users USING btree (discord_id);
 
 
 --
@@ -2793,4 +2777,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-

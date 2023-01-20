@@ -37,7 +37,6 @@ PROXY_URL = environ.get("PROXY_URL").strip()
 LOG_DIRECTORY = environ.get("LOG_DIRECTORY")
 SETTINGS_FILENAME = environ.get("SETTINGS_FILENAME")
 GIPHY_KEY = environ.get("GIPHY_KEY").strip()
-DISCORD_BOT_TOKEN = environ.get("DISCORD_BOT_TOKEN").strip()
 TURNSTILE_SITEKEY = environ.get("TURNSTILE_SITEKEY").strip()
 TURNSTILE_SECRET = environ.get("TURNSTILE_SECRET").strip()
 YOUTUBE_KEY = environ.get("YOUTUBE_KEY").strip()
@@ -370,9 +369,6 @@ AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp
 <p>Don't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards the trans community. Feel free to resubmit your {type} with <code>{AGENDAPOSTER_PHRASE}</code> included.</p>
 <p><em>This is an automated message; if you need help, you can message us <a href="/contact">here</a>.</em></p>"""
 
-DISCORD_CHANGELOG_CHANNEL_ID = 1034632681788538980
-WPD_CHANNEL_ID = 1013990963846332456
-UNDER_SIEGE_CHANNEL_ID = 1041917843094110239
 PIN_AWARD_TEXT = " (pin award)"
 
 THEMES = ["4chan","classic","classic_dark","coffee","dark","dramblr","light","midnight","tron","win98"]

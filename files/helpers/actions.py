@@ -14,7 +14,6 @@ from files.classes.polls import CommentOption, SubmissionOption
 from files.helpers.alerts import send_repeatable_notification
 from files.helpers.config.const import *
 from files.helpers.const_stateful import *
-from files.helpers.discord import discord_message_send
 from files.helpers.get import *
 from files.helpers.logging import log_file
 from files.helpers.sanitize import *
@@ -475,8 +474,6 @@ def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], bod
 		g.db.add(v)
 		t = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.time()))
 		log_file(f"[{t}] {v.id} @{v.username} {type} {v.age}s", "under_siege.log")
-		discord_message_send(UNDER_SIEGE_CHANNEL_ID,
-			f"<{SITE_FULL}/id/{v.id}> `@{v.username} {type} {v.age}s`")
 		return False
 	return True
 

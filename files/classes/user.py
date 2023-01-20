@@ -143,7 +143,6 @@ class User(Base):
 	defaultsorting = Column(String, default="hot")
 	defaulttime = Column(String, default=DEFAULT_TIME_FILTER)
 	custom_filter_list = Column(String)
-	discord_id = Column(String)
 	original_username = Column(String)
 	referred_by = Column(Integer, ForeignKey("users.id"))
 	currently_held_lottery_tickets = Column(Integer, default=0)
