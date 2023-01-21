@@ -6646,12 +6646,6 @@ body > .container {
 	}
 }
 
-@media (max-width: 768px) {
-	#livecommit {
-		font-size: 0.8rem;
-	}
-}
-
 @media (min-width: 1400px) {
 	.awardmodal {
 		max-width: min(90%, 1200px) !important

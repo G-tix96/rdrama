@@ -11,6 +11,7 @@ from jinja2 import pass_context
 from files.classes.user import User
 from files.helpers.assetcache import assetcache_path
 from files.helpers.config.const import *
+from files.helpers.regex import *
 from files.helpers.settings import get_settings
 from files.helpers.sorting_and_time import make_age_string
 from files.routes.routehelpers import get_alt_graph, get_formkey
@@ -81,6 +82,18 @@ def calc_users():
 def current_registered_users():
 	return "{:,}".format(g.db.query(User).count())
 
+def git_head():
+	# Note: doing zero sanitization. Git branch names are extremely permissive.
+	# However, they forbid '..', so I don't see an obvious dir traversal attack.
+	# Also, a malicious branch name would mean someone already owned the server
+	# or repo, so I think this isn't a weak link.
+	with open('.git/HEAD', encoding='utf_8') as head_f:
+		head_txt = head_f.read()
+		head_path = git_regex.match(head_txt).group(1)
+		with open('.git/' + head_path, encoding='utf_8') as ref_f:
+			gitref = ref_f.read()[:7]
+	return (gitref, head_txt)
+
 @app.context_processor
 def inject_constants():
 	return {"environ":environ, "SITE":SITE, "SITE_NAME":SITE_NAME, "SITE_FULL":SITE_FULL,
@@ -103,5 +116,5 @@ def inject_constants():
 			"HOUSE_JOIN_COST":HOUSE_JOIN_COST, "HOUSE_SWITCH_COST":HOUSE_SWITCH_COST, "IMAGE_FORMATS":','.join(IMAGE_FORMATS),
 			"PAGE_SIZES":PAGE_SIZES, "THEMES":THEMES, "COMMENT_SORTS":COMMENT_SORTS, "SORTS":SORTS,
 			"TIME_FILTERS":TIME_FILTERS, "HOUSES":HOUSES, "TIERS_ID_TO_NAME":TIERS_ID_TO_NAME,
-			"DEFAULT_CONFIG_VALUE":DEFAULT_CONFIG_VALUE, "IS_LOCALHOST":IS_LOCALHOST, "BACKGROUND_CATEGORIES":BACKGROUND_CATEGORIES, "PAGE_SIZE":PAGE_SIZE, "TAGLINES":TAGLINES, "IS_FISTMAS":IS_FISTMAS, "get_alt_graph":get_alt_graph, "current_registered_users":current_registered_users
+			"DEFAULT_CONFIG_VALUE":DEFAULT_CONFIG_VALUE, "IS_LOCALHOST":IS_LOCALHOST, "BACKGROUND_CATEGORIES":BACKGROUND_CATEGORIES, "PAGE_SIZE":PAGE_SIZE, "TAGLINES":TAGLINES, "IS_FISTMAS":IS_FISTMAS, "get_alt_graph":get_alt_graph, "current_registered_users":current_registered_users, "gitref":git_head()
 			}
