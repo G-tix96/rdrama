@@ -153,7 +153,7 @@ socket.on('catchup', function(json) {
 		if (existing) break
 		handle_message(message)
 	}
-	box.scrollTo(0, box.scrollHeight)
+	scroll_chat()
 })
 
 function send() {
@@ -276,6 +276,7 @@ socket.on('delete', function(text) {
 })
 
 function scroll_chat() {
+	box.scrollTo(0, box.scrollHeight)
 	setTimeout(function () {
 		box.scrollTo(0, box.scrollHeight)
 	}, 200);
