@@ -762,7 +762,7 @@
 
 {% if p %}
 	{% set pid = p.id %}
-	<input hidden id="comms" value="{% for c in p.comments %}{{c.id}}:{{c.created_utc}},{% endfor %}">
+	<input hidden id="comms" value="{% for c in p.comments %}{% if c.author_id != v.id and not c.voted %}{{c.id}}:{{c.created_utc}},{% endif %}{% endfor %}">
 {% endif %}
 
 {% if offset %}
