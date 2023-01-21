@@ -148,6 +148,7 @@ socket.on('catchup', function(json) {
 	for (const message of json) {
 		const existing = document.getElementById(json['id'])
 		if (existing) break
+		console.log(existing)
 		handle_message(message)
 	}
 })
