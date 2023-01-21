@@ -133,14 +133,12 @@ def refresh_online():
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['CHAT'])
 def connect(v):
-	join_room(request.referrer)
-
 	if v.username not in online[request.referrer]:
+		join_room(request.referrer)
 		online[request.referrer].append(v.username)
 		refresh_online()
-
-	emit('catchup', messages[request.referrer], room=request.referrer)
-	emit('typing', typing[request.referrer], room=request.referrer)
+		emit('catchup', messages[request.referrer], room=request.referrer)
+		emit('typing', typing[request.referrer], room=request.referrer)
 	return '', 204
 
 @socketio.on('disconnect')
