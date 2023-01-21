@@ -69,16 +69,20 @@
 						<span id="typing-indicator"></span>
 						<span id="loading-indicator" class="d-none"></span>
 					</div>
-					<i class="btn btn-secondary fas fa-smile-beam my-auto" style="font-size:1.3rem!important" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-text')"></i>
+					<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji" class="my-auto">
+						<i class="btn btn-secondary fas fa-smile-beam" style="font-size:1.3rem!important" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-text')" data-bs-toggle="modal" data-bs-target="#emojiModal"></i>
+					</span>
 					
-					<label class="btn btn-secondary format my-auto ml-2">
-						<div id="filename" class="mr-4" style="font-size:12px"><i class="fas fa-image" style="font-size:1.3rem!important"></i></div>
-						<input autocomplete="off" id="file" accept="image/*" type="file" multiple="multiple" name="file" {% if g.is_tor %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename','file')" hidden>
-					</label>
+					<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Upload Image" class="my-auto ml-1">
+						<label class="btn btn-secondary format mb-0">
+							<div id="filename" class="mr-3" style="font-size:12px"><i class="fas fa-image" style="font-size:1.3rem!important"></i></div>
+							<input autocomplete="off" id="file" accept="image/*" type="file" multiple="multiple" name="file" {% if g.is_tor %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename','file')" hidden>
+						</label>
+					</span>
 
 					<textarea data-nonce="{{g.nonce}}" data-onclick="scroll_chat()" id="input-text" minlength="1" maxlength="{% if SITE == 'rdrama.net' %}200{% else %}1000{% endif %}" style="font-size:16px!important" class="form-control" placeholder="Message" autocomplete="off" autofocus rows="1"></textarea>
 
-					<i id="chatsend" data-nonce="{{g.nonce}}" data-onclick="send()" class="btn btn-secondary fas fa-reply ml-3 my-auto" type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" style="transform:rotateY(180deg);font-size:1.3rem!important"></i>
+					<i id="chatsend" data-nonce="{{g.nonce}}" data-onclick="send()" class="btn btn-secondary fas fa-reply ml-3 my-auto" type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" style="transform:rotateY(180deg);font-size:1.3rem!important" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Send Message"></i>
 				</div>
 			</div>
 		</div>

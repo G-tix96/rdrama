@@ -85,7 +85,7 @@ p {
 }
 
 lite-youtube {
-	min-width: min(80vw,500px);
+	max-width: min(80vw,500px);
 }
 
 .chat-group:nth-child(even) {
@@ -125,4 +125,8 @@ lite-youtube {
 .chat-message {
 	max-height: 50vh;
 	overflow: scroll;
+}
+
+.resizable>video {
+    max-height: 48vh!important;
 }
