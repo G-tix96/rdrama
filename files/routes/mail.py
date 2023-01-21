@@ -14,7 +14,7 @@ from files.__main__ import app, limiter
 @auth_required
 def verify_email(v):
 	send_verification_email(v)
-	return {"message": "Email has been sent (ETA ~5 minutes)"}
+	return {"message": "Email has been sent. Check your spam folder if you can't find it."}
 
 
 @app.get("/activate")

@@ -400,7 +400,7 @@ def post_forgot():
 				)
 
 	return render_template("login/forgot_password.html",
-						msg="If the username and email matches an account, you will be sent a password reset email. You have ten minutes to complete the password reset process."), 202
+						msg="If the username and email matches an account, you will be sent a password reset email. Check your spam folder if you can't find it."), 202
 
 
 @app.get("/reset")
@@ -512,7 +512,7 @@ def request_2fa_disable():
 
 	return render_template("message.html",
 						title="Removal request received",
-						message="If username, password, and email match, we will send you an email."), 202
+						message="If the username, password, and email match, we will send you an email. Check your spam folder if you can't find it."), 202
 
 @app.get("/reset_2fa")
 def reset_2fa():
