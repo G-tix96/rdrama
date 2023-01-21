@@ -148,7 +148,6 @@ textarea, input[type=textbox], input[type=search] {
 }
 
 .fa-moon-over-sun:before{content:"\f74a"}
-.fa-temperature-snow:before{content:"\f768"}
 
 .award-name {
 	color: var(--gray-200)
