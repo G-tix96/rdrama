@@ -62,7 +62,7 @@ def get_CF():
 		return request.headers.get('CF-Connecting-IP')
 
 limiter = Limiter(
-	app,
+	app=app,
 	key_func=get_CF,
 	default_limits=[DEFAULT_RATELIMIT],
 	application_limits=["10/second;200/minute;5000/hour;10000/day"],
