@@ -10,6 +10,7 @@ RUN apt install -y ffmpeg
 RUN apt install -y postgresql
 RUN apt install -y libpq-dev
 RUN apt install -y nano
+RUN apt install -y mailutils
 
 COPY requirements.txt /etc/requirements.txt
 

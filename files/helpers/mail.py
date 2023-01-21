@@ -2,14 +2,15 @@ import requests
 import time
 
 from files.helpers.security import *
-from files.helpers.config.const import EMAIL, MAILGUN_KEY
+from files.helpers.config.const import EMAIL
 
 from urllib.parse import quote
 
 from flask import render_template
 
-def send_mail(to_address, subject, html):
-	if SITE == 'rdrama.net':
+
+if SITE == 'rdrama.net':
+	def send_mail(to_address, subject, html):
 		url = f"https://deuxrama.net/email"
 		data = {"from": EMAIL,
 				"to": to_address,
@@ -17,16 +18,36 @@ def send_mail(to_address, subject, html):
 				"html": html,
 				}
 		requests.post(url, data=data)
-	else:
-		if MAILGUN_KEY == DEFAULT_CONFIG_VALUE: return
-		url = f"https://api.mailgun.net/v3/{SITE}/messages"
-		auth = ("api", MAILGUN_KEY)
-		data = {"from": EMAIL,
-				"to": [to_address],
-				"subject": subject,
-				"html": html,
-				}
-		requests.post(url, auth=auth, data=data)
+else:
+	import smtplib
+	from email.mime.text import MIMEText
+	from email.utils import formatdate, make_msgid
+	import dkim
+
+	def send_mail(to_address, subject, html):
+		msg = MIMEText(html, 'html')
+
+		msg['Subject'] = subject
+		msg['From'] = EMAIL
+		msg['To'] = to_address
+		msg['Date'] = formatdate()
+		msg['Message-ID'] = make_msgid(domain=SITE)
+
+		headers = ["To", "From", "Subject", "Message-ID"]
+		with open("/dkim_private.pem") as fh:
+			dkim_private = fh.read()
+		sig = dkim.sign(
+						message=msg.as_string().encode("ascii"),
+						selector='d'.encode("ascii"),
+						domain=SITE.encode("ascii"),
+						privkey=dkim_private.encode("ascii"),
+						include_headers=headers
+					)
+		msg["DKIM-Signature"] = sig.decode("ascii").lstrip("DKIM-Signature: ")
+
+		with smtplib.SMTP('localhost', 25) as server:
+			server.sendmail(EMAIL, [to_address], msg.as_string())
+			print(f"Successfully sent email to {to_address}", flush=True)
 
 
 def send_verification_email(user, email=None):

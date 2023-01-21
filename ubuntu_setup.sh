@@ -2,7 +2,7 @@
 
 apt -y update
 apt -y upgrade
-apt -y install git redis-server python3-pip ffmpeg tmux nginx snapd ufw gpg-agent htop nano
+apt -y install git redis-server python3-pip ffmpeg tmux nginx snapd ufw gpg-agent htop nano mailutils
 
 git config --global credential.helper store
 cd /rDrama
