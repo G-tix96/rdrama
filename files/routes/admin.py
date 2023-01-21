@@ -792,7 +792,7 @@ def admin_add_alt(v:User, username):
 
 	word = 'Delinked' if deleted else 'Linked'
 	ma_word = 'delink' if deleted else 'link'
-	note = f'from {user2.id}' if deleted else f'with {user2.id}'
+	note = f'from @{user2.username}' if deleted else f'with @{user2.username}'
 	ma = ModAction(
 		kind=f"{ma_word}_accounts",
 		user_id=v.id,
@@ -820,7 +820,7 @@ def admin_delink_relink_alt(v:User, username, other):
 	check_for_alts(user2, include_current_session=False)
 	word = 'Delinked' if is_delinking else 'Relinked'
 	ma_word = 'delink' if is_delinking else 'link'
-	note = f'from {user2.id}' if is_delinking else f'with {user2.id} (relinked)'
+	note = f'from @{user2.username}' if is_delinking else f'with @{user2.username} (relinked)'
 
 	ma = ModAction(
 		kind=f"{ma_word}_accounts",
