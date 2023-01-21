@@ -8,25 +8,17 @@ from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.config.const import *
 from files.helpers.regex import *
+from files.helpers.media import process_image
 from files.helpers.sanitize import sanitize
 from files.helpers.alerts import push_notif
 from files.routes.wrappers import *
 
 from files.__main__ import app, cache, limiter
 
-if IS_LOCALHOST:
-	socketio = SocketIO(
-		app,
-		async_mode='gevent',
-		logger=True,
-		engineio_logger=True,
-		debug=True
-	)
-else:
-	socketio = SocketIO(
-		app,
-		async_mode='gevent',
-	)
+socketio = SocketIO(
+	app,
+	async_mode='gevent',
+)
 
 typing = {
 	f'{SITE_FULL}/chat': [],
@@ -45,8 +37,6 @@ messages = cache.get(f'messages') or {
 	f'{SITE_FULL}/chat': [],
 	f'{SITE_FULL}/admin/chat': []
 }
-socket_ids_to_user_ids = {}
-user_ids_to_socket_ids = {}
 
 @app.get("/chat")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -66,6 +56,13 @@ def admin_chat(v):
 @limiter.limit("3/second;10/minute", key_func=get_ID)
 @admin_level_required(PERMS['CHAT'])
 def speak(data, v):
+	image = None
+	if data['file']:
+		name = f'/chat_images/{time.time()}'.replace('.','') + '.webp'
+		with open(name, 'wb') as f:
+			f.write(data['file'])
+		image = process_image(name, v)
+
 	limiter.check()
 	if v.is_banned: return '', 403
 	if TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
@@ -79,32 +76,26 @@ def speak(data, v):
 	global messages
 
 	text = sanitize_raw_body(data['message'], False)[:CHAT_LENGTH_LIMIT]
+	if image: text += f'\n\n![]({image})'
 	if not text: return '', 400
 
 	text_html = sanitize(text, count_marseys=True)
 	quotes = data['quotes']
-	recipient = data['recipient']
 	data = {
 		"id": str(uuid.uuid4()),
 		"quotes": quotes,
 		"hat": v.hat_active(v)[0],
 		"user_id": v.id,
-		"dm": bool(recipient and recipient != ""),
 		"username": v.username,
 		"namecolor": v.name_color,
 		"text": text,
 		"text_html": text_html,
-		"base_text_censored": censor_slurs(text, 'chat'),
 		"text_censored": censor_slurs(text_html, 'chat'),
 		"time": int(time.time()),
 	}
 
 	if v.shadowbanned or not execute_blackjack(v, None, text, "chat"):
 		emit('speak', data)
-	elif recipient:
-		if user_ids_to_socket_ids.get(recipient):
-			recipient_sid = user_ids_to_socket_ids[recipient]
-			emit('speak', data, broadcast=False, to=recipient_sid)
 	else:
 		emit('speak', data, room=request.referrer, broadcast=True)
 		messages[request.referrer].append(data)
@@ -148,10 +139,6 @@ def connect(v):
 		online[request.referrer].append(v.username)
 		refresh_online()
 
-	if not socket_ids_to_user_ids.get(request.sid):
-		socket_ids_to_user_ids[request.sid] = v.id
-		user_ids_to_socket_ids[v.id] = request.sid
-
 	emit('catchup', messages[request.referrer], room=request.referrer)
 	emit('typing', typing[request.referrer], room=request.referrer)
 	return '', 204
@@ -166,10 +153,6 @@ def disconnect(v):
 
 	if v.username in typing[request.referrer]:
 		typing[request.referrer].remove(v.username)
-
-	if socket_ids_to_user_ids.get(request.sid):
-		del socket_ids_to_user_ids[request.sid]
-		del user_ids_to_socket_ids[v.id]
 
 	emit('typing', typing[request.referrer], room=request.referrer, broadcast=True)
 
@@ -193,13 +176,13 @@ def typing_indicator(data, v):
 @socketio.on('delete')
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
-def delete(text, v):
-
-	for message in messages:
-		if message['text'] == text:
+def delete(id, v):
+	for message in messages[request.referrer]:
+		if message['id'] == id:
 			messages[request.referrer].remove(message)
+			break
 
-	emit('delete', text, room=request.referrer, broadcast=True)
+	emit('delete', id, room=request.referrer, broadcast=True)
 
 	return '', 204
 

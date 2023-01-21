@@ -11,19 +11,90 @@
 	{% include "header.html" %}
 	{% include "modals/expanded_image.html" %}
 	{% include "modals/emoji.html" %}
-	<div
-		id="root"
-		data-id="{{v.id}}"
-		data-username="{{v.username}}"
-		data-admin="{{v.admin_level >= PERMS['POST_COMMENT_MODERATION_TOOLS_VISIBLE']}}"
-		data-censored="{{v.slurreplacer}}"
-		data-sitename="{{SITE_NAME}}"
-		data-themecolor="{{v.themecolor}}"
-		data-namecolor="{{v.namecolor}}"
-		data-hat="{{v.hat_active(v)[0]}}">
+	<div class="container pb-4">
+		<div class="row justify-content-around" id="main-content-row">
+			<div class="col h-100 {% block customPadding %}{% if request.path.startswith('/@') %}user-gutters{% else %}custom-gutters{% endif %}{% endblock %}" id="main-content-col">	
+
+			<div class="border-right pb-1 pt-2 px-3">
+				<span id="online2" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users Online" class="text-muted">
+					<i class="far fa-user fa-sm mr-1"></i>
+					<span class="board-chat-count">0</span>
+				</span>
+			</div>
+
+			<div id="chat-line-template" class="d-none">
+				<div class="chat-line">
+					<div class="d-flex align-items-center">
+						<div class="pl-md-3 text-muted chat-line-content">
+							<div class="avatar profile-pic-20-wrapper">
+								<img class="avatar-pic pp20 mr-1">
+								<img class="avatar-hat profile-pic-20-hat hat" loading="lazy">
+							</div>
+							<a href="" class="font-weight-bold text-black userlink" target="_blank"></a>
+							<span class="text-black time ml-1 mb-3 d-none text-center">just now</span>
+							<div class="cdiv">
+								<div class="d-none quotes" style="font-size:10px">
+									<a class="QuotedMessageLink">
+										<i class="fas fa-reply"></i> <span class="text-primary">@<span class="QuotedUser"></span></span>: <em class="QuotedMessage"></em>
+									</a>
+								</div>
+
+								<span class="chat-message text-black text-break"></span>
+								<span class="text d-none"></span>
+								{% if v.admin_level > 1 %}
+									<i class="btn del fas fa-trash-alt"></i>
+									<i class="btn d-none del delmsg fas fa-trash-alt text-danger" data-nonce="{{g.nonce}}" data-onclick="del(this)"></i>
+								{% endif %}
+								<i class="quote btn fas fa-reply" data-nonce="{{g.nonce}}" data-onclick="quote(this)"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="shrink">
+				<div id="chat-window" class="container pl-0 py-0">
+				</div>
+
+				<div class="mt-3"></div>
+				<div id="quotes" class="mt-3 ml-3 mb-2 d-none" style="font-size:10px">
+					<a id="QuotedMessageLink">
+						<i class="fas fa-reply"></i> <span class="text-primary">@<span id="QuotedUser"></span></span>: <em id="QuotedMessage"></em>
+						<button type="button" id="cancel" class="btn btn-secondary">Cancel</button>
+						<input hidden id="quotes_id">
+					</a>
+				</div>
+
+				<div id='message' class="d-none position-relative form-group d-flex">
+					<div class="position-absolute text-muted text-small ml-1" style="bottom: -1.5rem; line-height: 1;">
+						<span id="typing-indicator"></span>
+						<span id="loading-indicator" class="d-none"></span>
+					</div>
+					<i class="btn btn-secondary fas fa-smile-beam my-auto" style="font-size:1.3rem!important" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-text')"></i>
+					
+					<label class="btn btn-secondary format my-auto ml-2">
+						<div id="filename" class="mr-4" style="font-size:10px"><i class="fas fa-image" style="font-size:1.3rem!important"></i></div>
+						<input autocomplete="off" id="file" accept="image/*" type="file" multiple="multiple" name="file" {% if g.is_tor %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename','file')" hidden>
+					</label>
+
+					<textarea data-nonce="{{g.nonce}}" data-onclick="scroll_chat()" id="input-text" minlength="1" maxlength="{% if SITE == 'rdrama.net' %}200{% else %}1000{% endif %}" style="font-size:16px!important" class="form-control" placeholder="Message" autocomplete="off" autofocus rows="1"></textarea>
+
+					<i id="chatsend" data-nonce="{{g.nonce}}" data-onclick="send()" class="btn btn-secondary fas fa-reply ml-3 my-auto" type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" style="transform:rotateY(180deg);font-size:1.3rem!important"></i>
+				</div>
+			</div>
+		</div>
+
+		<div class="col text-left d-none d-lg-block pt-3" style="max-width:300px">
+			<h5>Users Online</h5>
+			<div id="online" class="mt-3"></div>
+		</div>
 	</div>
+
+	<input id="vid" type="hidden" value="{{v.id}}">
+	<input id="vusername" type="hidden" value="{{v.username}}">
+	<input id="site_name" type="hidden" value="{{SITE_NAME}}">
+	<input id="slurreplacer" type="hidden" value="{{v.slurreplacer}}">
+	<script defer src="{{'js/vendor/socketio.js' | asset}}"></script>
 	<script defer src="{{'js/chat.js' | asset}}"></script>
-	<script defer src="{{'js/chat_done.js' | asset}}"></script>
 	<script defer src="{{'js/vendor/lozad.js' | asset}}"></script>
 	<script defer src="{{'js/vendor/lite-youtube.js' | asset}}"></script>
 {% endblock %}

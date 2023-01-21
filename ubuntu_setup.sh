@@ -37,6 +37,7 @@ psql -U postgres -f seed-db.sql postgres
 pip3 install -r requirements.txt
 
 mkdir /images
+mkdir /chat_images
 mkdir /songs
 mkdir /videos
 mkdir /audio

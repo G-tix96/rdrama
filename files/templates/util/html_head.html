@@ -95,7 +95,6 @@
 
 {% macro stylesheets(include_user_css) %}
 	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-	<link id="favicon" rel="icon" type="image/webp" href="/icon.webp?v=1">
 	{% if v %}
 		{% if v.agendaposter %}
 			<link rel="stylesheet" href="{{('css/agendaposter.css') | asset}}">
@@ -135,7 +134,7 @@
 	{% endif %}
 
 	{% if request.path.endswith('/chat') %}
-		<link rel="stylesheet" href="{{'css/chat_done.css' | asset}}">
+		<link rel="stylesheet" href="{{'css/chat.css' | asset}}">
 	{% endif %}
 {% endmacro %}
 
