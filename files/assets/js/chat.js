@@ -153,7 +153,6 @@ socket.on('catchup', function(json) {
 		if (existing) break
 		handle_message(message)
 	}
-	scroll_chat()
 })
 
 function send() {
@@ -177,7 +176,10 @@ function send() {
 		document.getElementById('quotes_id').value = null;
 		document.getElementById("filename").innerHTML = '<i class="fas fa-image" style="font-size:1.3rem!important"></i>'
 		document.getElementById('file').value = null;
-		scroll_chat();
+		box.scrollTo(0, box.scrollHeight);
+		setTimeout(function () {
+			box.scrollTo(0, box.scrollHeight)
+		}, 200);
 	}
 }
 
@@ -276,25 +278,6 @@ socket.on('delete', function(text) {
 	}
 })
 
-function scroll_chat() {
-	box.scrollTo(0, box.scrollHeight)
-	setTimeout(function () {
-		box.scrollTo(0, box.scrollHeight)
-	}, 200);
-	setTimeout(function () {
-		box.scrollTo(0, box.scrollHeight)
-	}, 500);
-	setTimeout(function () {
-		box.scrollTo(0, box.scrollHeight)
-	}, 1000);
-	setTimeout(function () {
-		box.scrollTo(0, box.scrollHeight)
-	}, 1500);
-}
-
-scroll_chat();
-box.scrollTo(0, box.scrollHeight);
-
 document.addEventListener('click', function (e) {
 	if (e.target.classList.contains('fa-trash-alt')) {
 		e.target.nextElementSibling.classList.remove('d-none');
@@ -326,3 +309,7 @@ document.onpaste = function(event) {
 		document.getElementById('filename').textContent = filename;
 	}
 }
+
+window.addEvent('load', function () {
+	box.scrollTo(0, box.scrollHeight)
+});
