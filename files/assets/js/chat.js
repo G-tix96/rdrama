@@ -284,9 +284,6 @@ function scroll_chat() {
 	setTimeout(function () {
 		box.scrollTo(0, box.scrollHeight)
 	}, 1000);
-	setTimeout(function () {
-		box.scrollTo(0, box.scrollHeight)
-	}, 1500);
 }
 
 scroll_chat();
@@ -323,3 +320,11 @@ document.onpaste = function(event) {
 		document.getElementById('filename').textContent = filename;
 	}
 }
+
+setTimeout(function () {
+	box.scrollTo(0, box.scrollHeight)
+}, 3000);
+
+setTimeout(function () {
+	box.scrollTo(0, box.scrollHeight)
+}, 5000);
