@@ -309,3 +309,17 @@ document.addEventListener('click', function (e) {
 		document.getElementById('quotes_id').value = null;
 	}
 });
+
+document.onpaste = function(event) {
+	files = structuredClone(event.clipboardData.files);
+
+	filename = files[0]
+
+	if (filename)
+	{
+		filename = filename.name.toLowerCase()
+		f=document.getElementById('file');
+		f.files = files;
+		document.getElementById('filename').textContent = filename;
+	}
+}
