@@ -104,7 +104,10 @@ function handle_message(json) {
 		document.getElementsByClassName('userlink')[0].href = '/@' + json['username']
 		document.getElementsByClassName('userlink')[0].style.color = '#' + json['namecolor']
 		document.getElementsByClassName('time')[0].classList.remove('d-none')
-		document.getElementsByClassName('time')[0].innerHTML = timeSince(json['time']*1000) + ' ago'
+		if (Date.now() - json['time']*1000 > 5000)
+			document.getElementsByClassName('time')[0].innerHTML = timeSince(json['time']*1000) + ' ago'
+		else
+			document.getElementsByClassName('time')[0].innerHTML = "just now"
 	}
 
 	document.getElementsByClassName('chat-line')[0].id = json['id']
