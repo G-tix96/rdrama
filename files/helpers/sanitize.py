@@ -238,7 +238,7 @@ chud_images = [f'![](/i/chud/{f})' for f in chud_images]
 chud_images.extend([':#trumpjaktalking:', ':#reposthorse:'])
 
 @with_sigalrm_timeout(10)
-def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False, sidebar=False):
+def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False, sidebar=False, snappy=False):
 	sanitized = sanitized.strip()
 
 	sanitized = utm_regex.sub('', sanitized)
@@ -318,7 +318,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	for tag in soup.find_all("a"):
 		if not tag.contents or not str(tag.contents[0]).strip():
 			tag.extract()
-		if tag.get("href") and fishylinks_regex.fullmatch(str(tag.string)):
+		if not snappy and tag.get("href") and fishylinks_regex.fullmatch(str(tag.string)):
 			tag.string = tag["href"]
 
 
