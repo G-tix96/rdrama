@@ -176,6 +176,7 @@ function send() {
 		document.getElementById("quotes").classList.add("d-none")
 		document.getElementById('quotes_id').value = null;
 		document.getElementById("filename").innerHTML = '<i class="fas fa-image" style="font-size:1.3rem!important"></i>'
+		document.getElementById('file').value = null;
 		scroll_chat();
 	}
 }
