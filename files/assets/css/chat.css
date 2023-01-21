@@ -121,3 +121,8 @@ lite-youtube {
 .quotes {
 	margin-top: 0.5rem;
 }
+
+.chat-message {
+	max-height: 40px;
+	overflow: scroll;
+}
