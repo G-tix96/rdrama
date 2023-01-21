@@ -123,6 +123,6 @@ lite-youtube {
 }
 
 .chat-message {
-	max-height: 40px;
+	max-height: 50vh;
 	overflow: scroll;
 }
