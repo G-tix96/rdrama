@@ -115,15 +115,15 @@ function handle_message(json) {
 	document.getElementsByClassName('text')[0].innerHTML = escapeHTML(text)
 	document.getElementsByClassName('chat-message')[0].innerHTML = text_html.replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '')
 
+	document.getElementsByClassName('quotes')[0].classList.add("d-none")
 	if (json['quotes']) {
-		document.getElementsByClassName('quotes')[0].classList.remove("d-none")
 		const quoted = document.getElementById(json['quotes'])
-		document.getElementsByClassName('QuotedMessageLink')[0].href = '#' + json['quotes']
-		document.getElementsByClassName('QuotedUser')[0].innerHTML = quoted.querySelector('.userlink').innerHTML
-		document.getElementsByClassName('QuotedMessage')[0].innerHTML = quoted.querySelector('.text').innerHTML
-	}
-	else {
-		document.getElementsByClassName('quotes')[0].classList.add("d-none")
+		if (quoted) {
+			document.getElementsByClassName('quotes')[0].classList.remove("d-none")
+			document.getElementsByClassName('QuotedMessageLink')[0].href = '#' + json['quotes']
+			document.getElementsByClassName('QuotedUser')[0].innerHTML = quoted.querySelector('.userlink').innerHTML
+			document.getElementsByClassName('QuotedMessage')[0].innerHTML = quoted.querySelector('.text').innerHTML
+		}
 	}
 
 	let line = document.getElementsByClassName('chat-line')[0].cloneNode(true)
@@ -310,6 +310,6 @@ document.onpaste = function(event) {
 	}
 }
 
-window.addEvent('load', function () {
+window.addEventListener('load', function () {
 	box.scrollTo(0, box.scrollHeight)
 });
