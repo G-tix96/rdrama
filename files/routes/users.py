@@ -185,9 +185,7 @@ def banned(v:User):
 	users = g.db.query(User).filter(
 		User.is_banned != None,
 		or_(User.unban_utc == 0, User.unban_utc > time.time()),
-	)
-	if v.admin_level >= PERMS['VIEW_LAST_ACTIVE']:
-		users = users.order_by(User.truescore.desc())
+	).order_by(User.ban_reason)
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
 	users = users.all()
