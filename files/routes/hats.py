@@ -8,6 +8,7 @@ from files.routes.wrappers import *
 from files.__main__ import app, limiter
 
 @app.get("/hats")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def hats(v:User):
 	owned_hat_ids = [x.hat_id for x in v.owned_hats]
@@ -28,6 +29,7 @@ def hats(v:User):
 
 @app.post("/buy_hat/<int:hat_id>")
 @limiter.limit('100/minute;1000/3 days')
+@limiter.limit('100/minute;1000/3 days', key_func=get_ID)
 @auth_required
 def buy_hat(v:User, hat_id):
 	try: hat_id = int(hat_id)
@@ -78,6 +80,7 @@ def buy_hat(v:User, hat_id):
 
 
 @app.post("/equip_hat/<int:hat_id>")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def equip_hat(v:User, hat_id):
 	try: hat_id = int(hat_id)
@@ -92,6 +95,7 @@ def equip_hat(v:User, hat_id):
 	return {"message": f"'{hat.name}' equipped!"}
 
 @app.post("/unequip_hat/<int:hat_id>")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unequip_hat(v:User, hat_id):
 	try: hat_id = int(hat_id)
@@ -106,6 +110,7 @@ def unequip_hat(v:User, hat_id):
 	return {"message": f"'{hat.name}' unequipped!"}
 
 @app.get("/hat_owners/<int:hat_id>")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def hat_owners(v:User, hat_id):
 	try: hat_id = int(hat_id)

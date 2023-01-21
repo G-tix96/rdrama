@@ -17,6 +17,7 @@ CAN_APPROVE_ASSETS = (AEVANN_ID, CARP_ID)
 CAN_UPDATE_ASSETS = (AEVANN_ID, CARP_ID)
 
 @app.get("/submit/marseys")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def submit_marseys(v:User):
 	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']:
@@ -34,6 +35,7 @@ def submit_marseys(v:User):
 
 
 @app.post("/submit/marseys")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def submit_marsey(v:User):
 	file = request.files["image"]
@@ -107,6 +109,7 @@ def verify_permissions_and_get_asset(cls, asset_type:str, v:User, name:str, make
 	return asset
 
 @app.post("/admin/approve/marsey/<name>")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_MARSEYS'])
 def approve_marsey(v, name):
 	marsey = verify_permissions_and_get_asset(Marsey, "marsey", v, name, True)
@@ -189,11 +192,13 @@ def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
 	return {"message": f"'{name}' removed!"}
 
 @app.post("/remove/marsey/<name>")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def remove_marsey(v:User, name):
 	return remove_asset(Marsey, "marsey", v, name)
 
 @app.get("/submit/hats")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def submit_hats(v:User):
 	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None)
@@ -203,6 +208,7 @@ def submit_hats(v:User):
 
 
 @app.post("/submit/hats")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def submit_hat(v:User):
 	name = request.values.get('name', '').strip()
@@ -264,6 +270,7 @@ def submit_hat(v:User):
 
 @app.post("/admin/approve/hat/<name>")
 @limiter.limit("3/second;120/minute;200/hour;1000/day")
+@limiter.limit("3/second;120/minute;200/hour;1000/day", key_func=get_ID)
 @admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_HATS'])
 def approve_hat(v, name):
 	hat = verify_permissions_and_get_asset(HatDef, "hat", v, name, False)
@@ -326,11 +333,13 @@ def approve_hat(v, name):
 	return {"message": f"'{hat.name}' approved!"}
 
 @app.post("/remove/hat/<name>")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def remove_hat(v:User, name):
 	return remove_asset(HatDef, 'hat', v, name)
 
 @app.get("/admin/update/marseys")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_MARSEYS'])
 def update_marseys(v):
 	if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
@@ -350,6 +359,7 @@ def update_marseys(v):
 
 
 @app.post("/admin/update/marseys")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_MARSEYS'])
 def update_marsey(v):
 	if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
@@ -403,6 +413,7 @@ def update_marsey(v):
 	return render_template("update_assets.html", v=v, msg=f"'{name}' updated successfully!", name=name, tags=tags, type="Marsey")
 
 @app.get("/admin/update/hats")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_HATS'])
 def update_hats(v):
 	if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
@@ -411,6 +422,7 @@ def update_hats(v):
 
 
 @app.post("/admin/update/hats")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_HATS'])
 def update_hat(v):
 	if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:

@@ -128,6 +128,7 @@ def on_login(account, redir=None):
 
 @app.get("/me")
 @app.get("/@me")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def me(v:User):
 	if v.client: return v.json
@@ -136,7 +137,7 @@ def me(v:User):
 
 @app.post("/logout")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def logout(v):
 	loggedin = cache.get(f'{SITE}_loggedin') or {}

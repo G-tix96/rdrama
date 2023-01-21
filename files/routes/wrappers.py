@@ -10,6 +10,16 @@ from files.helpers.settings import get_setting
 from files.routes.routehelpers import validate_formkey
 from files.__main__ import app, db_session, limiter
 
+def get_ID():
+	if request.headers.get("Authorization"):
+		x = request.headers.get("Authorization")
+	elif session.get("lo_user"):
+		x = session.get("lo_user")
+	else:
+		x = "logged_out"
+	
+	return f'{SITE}-{x}'
+
 def get_logged_in_user():
 	if hasattr(g, 'v'): return g.v
 	if not getattr(g, 'db', None): g.db = db_session()

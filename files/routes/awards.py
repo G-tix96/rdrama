@@ -22,6 +22,7 @@ from .front import frontlist
 
 @app.get("/shop")
 @app.get("/settings/shop")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def shop(v:User):
 	AWARDS = deepcopy(AWARDS_ENABLED)
@@ -46,6 +47,7 @@ def shop(v:User):
 
 @app.post("/buy/<award>")
 @limiter.limit("100/minute;200/hour;1000/day")
+@limiter.limit("100/minute;200/hour;1000/day", key_func=get_ID)
 @auth_required
 def buy(v:User, award):
 	if award == 'benefactor' and not request.values.get("mb"):
@@ -126,7 +128,7 @@ def buy(v:User, award):
 
 @app.post("/award/<thing_type>/<int:id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @is_not_permabanned
 def award_thing(v, thing_type, id):
 	kind = request.values.get("kind", "").strip()

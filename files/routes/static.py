@@ -39,6 +39,7 @@ def reddit_post(subreddit, v, path):
 
 
 @app.get("/marseys")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def marseys(v:User):
 
@@ -82,6 +83,7 @@ def sidebar(v:Optional[User]):
 
 
 @app.get("/stats")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def participation_stats(v:User):
 	stats = cache.get(f'{SITE}_stats') or {}
@@ -93,17 +95,20 @@ def chart():
 	return redirect('/weekly_chart')
 
 @app.get("/weekly_chart")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def weekly_chart(v:User):
 	return send_file(statshelper.chart_path(kind="weekly", site=SITE))
 
 @app.get("/daily_chart")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def daily_chart(v:User):
 	return send_file(statshelper.chart_path(kind="daily", site=SITE))
 
 @app.get("/patrons")
 @app.get("/paypigs")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['VIEW_PATRONS'])
 def patrons(v):
 	if AEVANN_ID and v.id not in {AEVANN_ID, CARP_ID}:
@@ -115,6 +120,7 @@ def patrons(v):
 
 @app.get("/admins")
 @app.get("/badmins")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def admins(v:User):
 	admins = g.db.query(User).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.truescore.desc()).all()
@@ -122,6 +128,7 @@ def admins(v:User):
 
 @app.get("/log")
 @app.get("/modlog")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def log(v:User):
 
@@ -164,6 +171,7 @@ def log(v:User):
 	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, next_exists=next_exists, page=page, single_user_url='admin')
 
 @app.get("/log/<int:id>")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def log_item(id, v):
 	try: id = int(id)
@@ -181,11 +189,13 @@ def log_item(id, v):
 	return render_template("log.html", v=v, actions=[action], next_exists=False, page=1, action=action, admins=admins, types=types, single_user_url='admin')
 
 @app.get("/directory")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def static_megathread_index(v:User):
 	return render_template("megathread_index.html", v=v)
 
 @app.get("/api")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def api(v):
 	return render_template("api.html", v=v)
@@ -201,7 +211,7 @@ def contact(v:Optional[User]):
 
 @app.post("/send_admin")
 @limiter.limit("1/second;1/2 minutes;10/day")
-@limiter.limit("1/second;1/2 minutes;10/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit("1/second;1/2 minutes;10/day", key_func=get_ID)
 @auth_required
 def submit_contact(v):
 	body = request.values.get("message")
@@ -259,12 +269,14 @@ def badge_list(site):
 
 @app.get("/badges")
 @feature_required('BADGES')
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def badges(v:User):
 	badges, counts = badge_list(SITE)
 	return render_template("badges.html", v=v, badges=badges, counts=counts)
 
 @app.get("/blocks")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BLOCKS_VISIBLE'])
 def blocks(v):
 	blocks=g.db.query(UserBlock).all()
@@ -280,6 +292,7 @@ def blocks(v):
 	return render_template("blocks.html", v=v, users=users, targets=targets)
 
 @app.get("/formatting")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def formatting(v:User):
 	return render_template("formatting.html", v=v)
@@ -295,6 +308,7 @@ def dismiss_mobile_tip():
 	return "", 204
 
 @app.get("/transfers/<int:id>")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def transfers_id(id, v):
 
@@ -308,6 +322,7 @@ def transfers_id(id, v):
 	return render_template("transfers.html", v=v, page=1, comments=[transfer], standalone=True, next_exists=False)
 
 @app.get("/transfers")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def transfers(v:User):
 

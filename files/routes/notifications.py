@@ -10,7 +10,7 @@ from files.routes.wrappers import *
 from files.__main__ import app
 
 @app.post("/clear")
-@limiter.limit(DEFAULT_RATELIMIT, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def clear(v):
 	notifs = g.db.query(Notification).join(Notification.comment).filter(Notification.read == False, Notification.user_id == v.id).all()
@@ -24,7 +24,7 @@ def clear(v):
 
 
 @app.get("/unread")
-@limiter.limit(DEFAULT_RATELIMIT, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unread(v):
 	listing = g.db.query(Notification, Comment).join(Notification.comment).filter(
@@ -42,6 +42,7 @@ def unread(v):
 
 
 @app.get("/notifications/modmail")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['VIEW_MODMAIL'])
 def notifications_modmail(v):
 	try: page = max(int(request.values.get("page", 1)), 1)
@@ -67,6 +68,7 @@ def notifications_modmail(v):
 
 
 @app.get("/notifications/messages")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications_messages(v:User):
 	try: page = max(int(request.values.get("page", 1)), 1)
@@ -136,6 +138,7 @@ def notifications_messages(v:User):
 
 
 @app.get("/notifications/posts")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications_posts(v:User):
 	try: page = max(int(request.values.get("page", 1)), 1)
@@ -178,6 +181,7 @@ def notifications_posts(v:User):
 
 
 @app.get("/notifications/modactions")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications_modactions(v:User):
 	try: page = max(int(request.values.get("page", 1)), 1)
@@ -220,6 +224,7 @@ def notifications_modactions(v:User):
 
 
 @app.get("/notifications/reddit")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications_reddit(v:User):
 	try: page = max(int(request.values.get("page", 1)), 1)
@@ -257,6 +262,7 @@ def notifications_reddit(v:User):
 
 
 @app.get("/notifications")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications(v:User):
 	try: page = max(int(request.values.get("page", 1)), 1)

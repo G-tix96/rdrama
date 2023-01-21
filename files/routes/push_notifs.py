@@ -4,6 +4,7 @@ from flask import request, g
 from files.classes.push_subscriptions import PushSubscription
 
 @app.post("/push_subscribe")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def push_subscribe(v):
 	subscription_json = request.values.get("subscription_json")

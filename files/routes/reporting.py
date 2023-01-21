@@ -13,7 +13,7 @@ from files.__main__ import app, limiter, cache
 
 @app.post("/report/post/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def flag_post(pid, v):
 	post = get_post(pid)
@@ -69,7 +69,7 @@ def flag_post(pid, v):
 
 @app.post("/report/comment/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def flag_comment(cid, v):
 
@@ -95,6 +95,7 @@ def flag_comment(cid, v):
 
 @app.post('/del_report/post/<int:pid>/<int:uid>')
 @limiter.limit("4/second;100/minute;300/hour;2000/day")
+@limiter.limit("4/second;100/minute;300/hour;2000/day", key_func=get_ID)
 @admin_level_required(PERMS['FLAGS_REMOVE'])
 def remove_report_post(v, pid, uid):
 	try:
@@ -118,6 +119,7 @@ def remove_report_post(v, pid, uid):
 
 @app.post('/del_report/comment/<int:cid>/<int:uid>')
 @limiter.limit("4/second;100/minute;300/hour;2000/day")
+@limiter.limit("4/second;100/minute;300/hour;2000/day", key_func=get_ID)
 @admin_level_required(PERMS['FLAGS_REMOVE'])
 def remove_report_comment(v, cid, uid):
 	try:

@@ -34,7 +34,7 @@ titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWe
 
 @app.post("/publish/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def publish(pid, v):
 	post = get_post(pid)
@@ -66,6 +66,7 @@ def publish(pid, v):
 
 @app.get("/submit")
 @app.get("/h/<sub>/submit")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def submit_get(v:User, sub=None):
 	sub = get_sub_by_name(sub, graceful=True)
@@ -253,7 +254,7 @@ def more_comments(v, cid):
 
 @app.post("/edit_post/<int:pid>")
 @limiter.limit("1/second;10/minute;100/hour;200/day")
-@limiter.limit("1/second;10/minute;100/hour;200/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit("1/second;10/minute;100/hour;200/day", key_func=get_ID)
 @is_not_permabanned
 def edit_post(pid, v):
 	p = get_post(pid)
@@ -519,7 +520,7 @@ def is_repost():
 @app.post("/submit")
 @app.post("/h/<sub>/submit")
 @limiter.limit(POST_RATE_LIMIT)
-@limiter.limit(POST_RATE_LIMIT, key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@limiter.limit(POST_RATE_LIMIT, key_func=get_ID)
 @auth_required
 def submit_post(v:User, sub=None):
 
@@ -822,7 +823,7 @@ def submit_post(v:User, sub=None):
 
 @app.post("/delete_post/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def delete_post_pid(pid, v):
 	post = get_post(pid)
@@ -849,7 +850,7 @@ def delete_post_pid(pid, v):
 
 @app.post("/undelete_post/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def undelete_post_pid(pid, v):
 	post = get_post(pid)
@@ -870,6 +871,7 @@ def undelete_post_pid(pid, v):
 
 
 @app.post("/mark_post_nsfw/<int:pid>")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def mark_post_nsfw(pid, v):
 	post = get_post(pid)
@@ -904,6 +906,7 @@ def mark_post_nsfw(pid, v):
 	return {"message": "Post has been marked as +18!"}
 
 @app.post("/unmark_post_nsfw/<int:pid>")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unmark_post_nsfw(pid, v):
 	post = get_post(pid)
@@ -939,7 +942,7 @@ def unmark_post_nsfw(pid, v):
 
 @app.post("/save_post/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def save_post(pid, v):
 
@@ -955,7 +958,7 @@ def save_post(pid, v):
 
 @app.post("/unsave_post/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def unsave_post(pid, v):
 
@@ -969,6 +972,7 @@ def unsave_post(pid, v):
 	return {"message": "Post unsaved!"}
 
 @app.post("/pin/<int:post_id>")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def pin_post(post_id, v):
 	post = get_post(post_id)
@@ -983,6 +987,7 @@ def pin_post(post_id, v):
 
 @app.put("/post/<int:post_id>/new")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def set_new_sort(post_id:int, v:User):
 	post = get_post(post_id)
@@ -1004,6 +1009,7 @@ def set_new_sort(post_id:int, v:User):
 
 @app.delete("/post/<int:post_id>/new")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def unset_new_sort(post_id:int, v:User):
 	post = get_post(post_id)
@@ -1027,7 +1033,7 @@ extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
 
 @app.get("/submit/title")
 @limiter.limit("3/minute")
-@limiter.limit("3/minute", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit("3/minute", key_func=get_ID)
 @auth_required
 def get_post_title(v):
 	POST_TITLE_TIMEOUT = 5

@@ -6,6 +6,7 @@ from files.__main__ import app, limiter
 from files.routes.routehelpers import get_alt_graph
 
 @app.get("/votes/<link>")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def vote_info_get(v, link):
 	try:
@@ -182,7 +183,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 @app.post("/vote/post/<int:post_id>/<new>")
 @limiter.limit("5/second;60/minute;1000/hour;2000/day")
-@limiter.limit("5/second;60/minute;1000/hour;2000/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit("5/second;60/minute;1000/hour;2000/day", key_func=get_ID)
 @is_not_permabanned
 @limiter.limit("1/second", key_func=lambda:f'{g.v.id}-{request.full_path}')
 def vote_post(post_id, new, v):
@@ -190,7 +191,7 @@ def vote_post(post_id, new, v):
 
 @app.post("/vote/comment/<int:comment_id>/<new>")
 @limiter.limit("5/second;60/minute;1000/hour;2000/day")
-@limiter.limit("5/second;60/minute;1000/hour;2000/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit("5/second;60/minute;1000/hour;2000/day", key_func=get_ID)
 @is_not_permabanned
 @limiter.limit("1/second", key_func=lambda:f'{g.v.id}-{request.full_path}')
 def vote_comment(comment_id, new, v):

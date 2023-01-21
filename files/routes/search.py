@@ -43,6 +43,7 @@ def searchparse(text):
 	return criteria
 
 @app.get("/search/posts")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def searchposts(v:User):
 
@@ -169,6 +170,7 @@ def searchposts(v:User):
 						)
 
 @app.get("/search/comments")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def searchcomments(v:User):
 	query = request.values.get("q", '').strip()
@@ -270,6 +272,7 @@ def searchcomments(v:User):
 
 
 @app.get("/search/users")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def searchusers(v:User):
 

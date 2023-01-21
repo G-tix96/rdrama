@@ -49,6 +49,7 @@ socket_ids_to_user_ids = {}
 user_ids_to_socket_ids = {}
 
 @app.get("/chat")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['CHAT'])
 def chat(v):
 	if not v.admin_level and TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
@@ -62,7 +63,7 @@ def admin_chat(v):
 
 @socketio.on('speak')
 @limiter.limit("3/second;10/minute")
-@limiter.limit("3/second;10/minute", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit("3/second;10/minute", key_func=get_ID)
 @admin_level_required(PERMS['CHAT'])
 def speak(data, v):
 	limiter.check()
@@ -138,6 +139,7 @@ def refresh_online():
 		cache.set(CHAT_ONLINE_CACHE_KEY, len(online[request.referrer]), timeout=0)
 
 @socketio.on('connect')
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['CHAT'])
 def connect(v):
 	join_room(request.referrer)
@@ -155,6 +157,7 @@ def connect(v):
 	return '', 204
 
 @socketio.on('disconnect')
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['CHAT'])
 def disconnect(v):
 	if v.username in online[request.referrer]:
@@ -174,6 +177,7 @@ def disconnect(v):
 	return '', 204
 
 @socketio.on('typing')
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['CHAT'])
 def typing_indicator(data, v):
 
@@ -187,6 +191,7 @@ def typing_indicator(data, v):
 
 
 @socketio.on('delete')
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def delete(text, v):
 

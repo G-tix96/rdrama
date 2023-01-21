@@ -7,6 +7,7 @@ from files.__main__ import app
 
 @app.get("/giphy")
 @app.get("/giphy<path>")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def giphy(v=None, path=None):
 

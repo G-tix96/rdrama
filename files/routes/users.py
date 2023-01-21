@@ -56,24 +56,28 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
 
 @app.get("/@<username>/upvoters/<int:uid>/posts")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoters_posts(v:User, username, uid):
 	return upvoters_downvoters(v, username, uid, Submission, Vote, 1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/upvoters/<int:uid>/comments")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoters_comments(v:User, username, uid):
 	return upvoters_downvoters(v, username, uid, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
 
 
 @app.get("/@<username>/downvoters/<int:uid>/posts")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoters_posts(v:User, username, uid):
 	return upvoters_downvoters(v, username, uid, Submission, Vote, -1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/downvoters/<int:uid>/comments")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoters_comments(v:User, username, uid):
 	return upvoters_downvoters(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
@@ -107,24 +111,28 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
 
 @app.get("/@<username>/upvoting/<int:uid>/posts")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoting_posts(v:User, username, uid):
 	return upvoting_downvoting(v, username, uid, Submission, Vote, 1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/upvoting/<int:uid>/comments")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoting_comments(v:User, username, uid):
 	return upvoting_downvoting(v, username, uid, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
 
 
 @app.get("/@<username>/downvoting/<int:uid>/posts")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoting_posts(v:User, username, uid):
 	return upvoting_downvoting(v, username, uid, Submission, Vote, -1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/downvoting/<int:uid>/comments")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoting_comments(v:User, username, uid):
 	return upvoting_downvoting(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
@@ -158,17 +166,20 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
 
 @app.get("/@<username>/voted/posts")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def user_voted_posts(v:User, username):
 	return user_voted(v, username, Submission, Vote, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/voted/comments")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def user_voted_comments(v:User, username):
 	return user_voted(v, username, Comment, CommentVote, "userpage/voted_comments.html", True)
 
 @app.get("/banned")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def banned(v:User):
 	users = g.db.query(User).filter(
@@ -183,6 +194,7 @@ def banned(v:User):
 	return render_template("banned.html", v=v, users=users)
 
 @app.get("/grassed")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def grassed(v:User):
 	users = g.db.query(User).filter(
@@ -195,6 +207,7 @@ def grassed(v:User):
 	return render_template("grassed.html", v=v, users=users)
 
 @app.get("/chuds")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def chuds(v:User):
 	users = g.db.query(User).filter(
@@ -263,21 +276,25 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 	return render_template("userpage/voters.html", v=v, users=users, pos=pos, name=vote_name, name2=name2, total=total, page=page, next_exists=next_exists)
 
 @app.get("/@<username>/upvoters")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoters(v:User, username:str):
 	return all_upvoters_downvoters(v, username, 1, False)
 
 @app.get("/@<username>/downvoters")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoters(v:User, username:str):
 	return all_upvoters_downvoters(v, username, -1, False)
 
 @app.get("/@<username>/upvoting")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoting(v:User, username:str):
 	return all_upvoters_downvoters(v, username, 1, True)
 
 @app.get("/@<username>/downvoting")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoting(v:User, username:str):
 	return all_upvoters_downvoters(v, username, -1, True)
@@ -285,7 +302,7 @@ def downvoting(v:User, username:str):
 @app.post("/@<username>/suicide")
 @feature_required('USERS_SUICIDE')
 @limiter.limit("1/second;5/day")
-@limiter.limit("1/second;5/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit("1/second;5/day", key_func=get_ID)
 @auth_required
 def suicide(v:User, username:str):
 	user = get_user(username)
@@ -296,6 +313,7 @@ def suicide(v:User, username:str):
 
 
 @app.get("/@<username>/coins")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def get_coins(v:User, username:str):
 	user = get_user(username, v=v, include_shadowbanned=False)
@@ -343,7 +361,7 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'mars
 
 @app.post("/@<username>/transfer_coins")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @is_not_permabanned
 def transfer_coins(v:User, username:str):
 	return transfer_currency(v, username, 'coins', True)
@@ -351,12 +369,13 @@ def transfer_coins(v:User, username:str):
 @app.post("/@<username>/transfer_bux")
 @feature_required('MARSEYBUX')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @is_not_permabanned
 def transfer_bux(v:User, username:str):
 	return transfer_currency(v, username, 'marseybux', False)
 
 @app.get("/leaderboard")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def leaderboard(v:User):
 	users = g.db.query(User)
@@ -437,7 +456,7 @@ def usersong(username:str):
 
 @app.post("/subscribe/<int:post_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def subscribe(v, post_id):
 	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
@@ -448,7 +467,7 @@ def subscribe(v, post_id):
 
 @app.post("/unsubscribe/<int:post_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def unsubscribe(v, post_id):
 	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
@@ -458,7 +477,7 @@ def unsubscribe(v, post_id):
 
 @app.post("/@<username>/message")
 @limiter.limit("1/second;10/minute;20/hour;50/day")
-@limiter.limit("1/second;10/minute;20/hour;50/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit("1/second;10/minute;20/hour;50/day", key_func=get_ID)
 @is_not_permabanned
 def message2(v:User, username:str):
 	user = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
@@ -519,7 +538,7 @@ def message2(v:User, username:str):
 
 @app.post("/reply")
 @limiter.limit("1/second;6/minute;50/hour;200/day")
-@limiter.limit("1/second;6/minute;50/hour;200/day", key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit("1/second;6/minute;50/hour;200/day", key_func=get_ID)
 @auth_required
 def messagereply(v:User):
 	body = sanitize_raw_body(request.values.get("body"), False)
@@ -604,6 +623,7 @@ def messagereply(v:User):
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
 @app.get("/2faqr/<secret>")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def mfa_qr(v:User, secret:str):
 	x = pyotp.TOTP(secret)
@@ -623,6 +643,7 @@ def mfa_qr(v:User, secret:str):
 
 @app.get("/is_available/<name>")
 @limiter.limit("100/day")
+@limiter.limit("100/day", key_func=get_ID)
 def is_available(name:str):
 
 	name=name.strip()
@@ -650,11 +671,13 @@ def user_id(id):
 	return redirect(user.url)
 
 @app.get("/u/<username>")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def redditor_moment_redirect(v:User, username:str):
 	return redirect(f"/@{username}")
 
 @app.get("/@<username>/followers")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def followers(v:User, username:str):
 	u = get_user(username, v=v, include_shadowbanned=False)
@@ -676,6 +699,7 @@ def followers(v:User, username:str):
 	return render_template("userpage/followers.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
 
 @app.get("/@<username>/blockers")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def blockers(v:User, username:str):
 	u = get_user(username, v=v, include_shadowbanned=False)
@@ -694,6 +718,7 @@ def blockers(v:User, username:str):
 	return render_template("userpage/blockers.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
 
 @app.get("/@<username>/following")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def following(v:User, username:str):
 	u = get_user(username, v=v, include_shadowbanned=False)
@@ -714,6 +739,7 @@ def following(v:User, username:str):
 	return render_template("userpage/following.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
 
 @app.get("/@<username>/views")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def visitors(v:User, username:str):
 	u = get_user(username, v=v, include_shadowbanned=False)
@@ -995,6 +1021,7 @@ def u_username_comments(username, v=None):
 
 
 @app.get("/@<username>/info")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def u_username_info(username, v=None):
 
@@ -1008,6 +1035,7 @@ def u_username_info(username, v=None):
 	return user.json
 
 @app.get("/<int:id>/info")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def u_user_id_info(id, v=None):
 
@@ -1022,7 +1050,7 @@ def u_user_id_info(id, v=None):
 
 @app.post("/follow/<username>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def follow_user(username, v):
 
@@ -1049,7 +1077,7 @@ def follow_user(username, v):
 
 @app.post("/unfollow/<username>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def unfollow_user(username, v):
 
@@ -1077,7 +1105,7 @@ def unfollow_user(username, v):
 
 @app.post("/remove_follow/<username>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=lambda:f'{request.host}-{session.get("lo_user")}')
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def remove_follow(username, v):
 	target = get_user(username)
@@ -1143,6 +1171,7 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 	return render_template(template, u=v, v=v, listing=listing, page=page, next_exists=next_exists, standalone=standalone)
 
 @app.get("/@<username>/saved/posts")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def saved_posts(v:User, username):
 	try: page = max(1, int(request.values.get("page", 1)))
@@ -1151,6 +1180,7 @@ def saved_posts(v:User, username):
 	return get_saves_and_subscribes(v, "userpage/submissions.html", SaveRelationship, page, False)
 
 @app.get("/@<username>/saved/comments")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def saved_comments(v:User, username):
 	try: page = max(1, int(request.values.get("page", 1)))
@@ -1159,6 +1189,7 @@ def saved_comments(v:User, username):
 	return get_saves_and_subscribes(v, "userpage/comments.html", CommentSaveRelationship, page, True)
 
 @app.get("/@<username>/subscribed/posts")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def subscribed_posts(v:User, username):
 	try: page = max(1, int(request.values.get("page", 1)))
@@ -1167,6 +1198,7 @@ def subscribed_posts(v:User, username):
 	return get_saves_and_subscribes(v, "userpage/submissions.html", Subscription, page, False)
 
 @app.post("/fp/<fp>")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def fp(v:User, fp):
 	v.fp = fp
@@ -1212,6 +1244,7 @@ def toggle_holes():
 
 
 @app.get("/badge_owners/<int:bid>")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def bid_list(v:User, bid):
 
@@ -1274,6 +1307,7 @@ kofi_tiers={
 
 @app.post("/settings/kofi")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def settings_kofi(v:User):
 	if not KOFI_TOKEN: abort(404)
@@ -1310,6 +1344,7 @@ def settings_kofi(v:User):
 	return {"message": f"{patron} rewards claimed!"}
 
 @app.get("/users")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def users_list(v):
 
