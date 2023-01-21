@@ -153,6 +153,7 @@ socket.on('catchup', function(json) {
 		if (existing) break
 		handle_message(message)
 	}
+	box.scrollTo(0, box.scrollHeight)
 })
 
 function send() {
@@ -323,11 +324,3 @@ document.onpaste = function(event) {
 		document.getElementById('filename').textContent = filename;
 	}
 }
-
-setTimeout(function () {
-	box.scrollTo(0, box.scrollHeight)
-}, 3000);
-
-setTimeout(function () {
-	box.scrollTo(0, box.scrollHeight)
-}, 5000);
