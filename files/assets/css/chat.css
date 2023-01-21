@@ -1,5 +1,5 @@
 #chat-window {
-	max-height: calc(100vh - 220px);
+	max-height: calc(100vh - 240px);
 	overflow-y: auto;
 	background-color: transparent !important;
 }
