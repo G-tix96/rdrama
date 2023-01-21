@@ -5,7 +5,3 @@ __pycache__/
 .idea/
 .vscode/
 .DS_Store
-
-# Chat environment
-chat/node_modules
-chat/build

@@ -36,16 +36,6 @@ psql -U postgres -f schema.sql postgres
 psql -U postgres -f seed-db.sql postgres
 pip3 install -r requirements.txt
 
-apt -y install curl
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-. "$NVM_DIRECTORY/nvm.sh" && nvm install ${NODE_VERSION}
-. "$NVM_DIRECTORY/nvm.sh" && nvm use v${NODE_VERSION}
-. "$NVM_DIRECTORY/nvm.sh" && nvm alias default v${NODE_VERSION}
-PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
-node --version
-npm --version
-npm i -g yarn
-
 mkdir /images
 mkdir /songs
 mkdir /videos
@@ -89,10 +79,5 @@ echo "psql -U postgres" > /p
 echo "tmux -S /tmp/s a -t 0" > /c
 echo "tmux -S /tmp/s a -t 1" > /c2
 echo "cd /rDrama && git pull" > /g
-
-cd ./chat
-yarn install
-yarn chat
-cd ..
 
 . imei.sh
