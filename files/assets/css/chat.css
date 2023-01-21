@@ -97,7 +97,7 @@ lite-youtube {
 }
 
 #cancel {
-	font-size: 10px;
+	font-size: 12px;
 	padding: 0 0 0.2rem 0.5rem;
 }
 
@@ -106,7 +106,7 @@ lite-youtube {
 }
 
 .time {
-	font-size: 10px;
+	font-size: 12px;
 	opacity: 0.95;
 }
 
@@ -115,7 +115,7 @@ lite-youtube {
 }
 
 .QuotedMessage * {
-	font-size: 10px !important;
+	font-size: 12px !important;
 }
 
 .quotes {
