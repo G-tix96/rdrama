@@ -367,8 +367,8 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 function sendFormXHRSwitch(form) {
 	sendFormXHR(form,
 		() => {
-			e.target.previousElementSibling.classList.remove('d-none');
-			e.target.classList.add('d-none');
+			form.previousElementSibling.classList.remove('d-none');
+			form.classList.add('d-none');
 		}
 	)
 }
