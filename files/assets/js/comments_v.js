@@ -201,7 +201,7 @@ function comment_edit(id){
 	xhr[0].send(xhr[1]);
 }
 
-function postComment(fullname, hide){
+function post_comment(fullname, hide){
 	const btn = document.getElementById('save-reply-to-'+fullname)
 	const textArea = document.getElementById('reply-form-body-'+fullname)
 	btn.disabled = true

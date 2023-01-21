@@ -133,7 +133,7 @@
 					</label>
 				{% endif %}
 			</div>
-			<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" data-nonce="{{g.nonce}}" data-onclick="postComment('{{target_fullname}}', '{{hide}}');remove_dialog();">Comment</button>
+			<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" data-nonce="{{g.nonce}}" data-onclick="post_comment('{{target_fullname}}', '{{hide}}');remove_dialog();">Comment</button>
 			{% if enable_cancel_button %}
 				<button type="button" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" data-toggleelement="reply-to-{{target_fullname}}" data-toggleattr="d-none" class="btn btn-link text-muted ml-auto fl-r mr-3">Cancel</button>
 			{% endif %}
