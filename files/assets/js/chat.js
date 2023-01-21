@@ -296,6 +296,7 @@ document.addEventListener('click', function (e) {
 	}
 	
 	if (e.target.id == "cancel") {
-		document.getElementById("quotes").classList.add("d-none")
+		document.getElementById("quotes").classList.add("d-none");
+		document.getElementById('quotes_id').value = null;
 	}
 });
