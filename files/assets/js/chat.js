@@ -170,6 +170,7 @@ function send() {
 		socket.emit('typing', false);
 		autoExpand(textbox);
 		document.getElementById("quotes").classList.add("d-none")
+		document.getElementById('quotes_id').value = null;
 		document.getElementById("filename").innerHTML = '<i class="fas fa-image" style="font-size:1.3rem!important"></i>'
 		scroll_chat();
 	}
@@ -188,6 +189,8 @@ function quote(t) {
 	const id = t.parentElement.parentElement.parentElement.parentElement.id
 	document.getElementById('quotes_id').value = id
 	document.getElementById('QuotedMessageLink').href = `#${id}`
+
+	textbox.focus()
 }
 
 textbox.addEventListener("keyup", function(e) {
