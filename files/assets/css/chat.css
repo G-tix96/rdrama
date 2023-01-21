@@ -121,7 +121,9 @@ lite-youtube {
 
 .chat-message {
 	max-height: 50vh;
-	overflow: scroll;
+	overflow: auto;
+    max-width: 85%;
+    display: inline-block;
 }
 
 .resizable>video {
