@@ -48,6 +48,9 @@ blockquote {
 }
 
 @media (max-width: 768px) {
+	#shrink * {
+		font-size: 12px !important;
+	}
 	#chat-window {
 		max-height: 62vh;
 	}
