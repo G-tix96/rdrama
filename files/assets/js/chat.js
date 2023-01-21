@@ -117,7 +117,7 @@ function handle_message(json) {
 		const quoted = document.getElementById(json['quotes'])
 		document.getElementsByClassName('QuotedMessageLink')[0].href = '#' + json['quotes']
 		document.getElementsByClassName('QuotedUser')[0].innerHTML = quoted.querySelector('.userlink').innerHTML
-		document.getElementsByClassName('QuotedMessage')[0].innerHTML = quoted.querySelector('.chat-message').innerHTML
+		document.getElementsByClassName('QuotedMessage')[0].innerHTML = quoted.querySelector('.text').innerHTML
 	}
 	else {
 		document.getElementsByClassName('quotes')[0].classList.add("d-none")
@@ -146,10 +146,8 @@ socket.on('speak', function(json) {
 
 socket.on('catchup', function(json) {
 	for (const message of json) {
-		console.log(message['id'])
 		const existing = document.getElementById(message['id'])
 		if (existing) break
-		console.log(existing)
 		handle_message(message)
 	}
 })
