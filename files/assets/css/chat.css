@@ -130,3 +130,11 @@ lite-youtube {
 .resizable>video {
     max-height: 48vh!important;
 }
+
+img[alt^="![]("] {
+    height: 150px;
+    width: 100%;
+    -o-object-fit: contain;
+    object-fit: contain;
+    object-position: left;
+}
