@@ -146,6 +146,7 @@ socket.on('speak', function(json) {
 
 socket.on('catchup', function(json) {
 	for (const message of json) {
+		console.log(json['id'])
 		const existing = document.getElementById(json['id'])
 		if (existing) break
 		console.log(existing)
