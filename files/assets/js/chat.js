@@ -179,6 +179,7 @@ function quote(t) {
 	document.getElementById('QuotedUser').innerHTML = username
 
 	const id = t.parentElement.parentElement.parentElement.id
+	console.log(id)
 	document.getElementById('quotes_id').value = id
 	document.getElementById('QuotedMessageLink').href = `#${id}`
 
