@@ -305,6 +305,9 @@ setTimeout(function () {
 setTimeout(function () {
 	box.scrollTo(0, box.scrollHeight)
 }, 1000);
-window.addEventListener('load', function () {
+setTimeout(function () {
+	box.scrollTo(0, box.scrollHeight)
+}, 1500);
+document.addEventListener('DOMContentLoaded', function () {
 	box.scrollTo(0, box.scrollHeight)
 });
