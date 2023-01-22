@@ -132,14 +132,14 @@ lite-youtube {
 }
 
 .chat-message {
-	max-height: 50vh;
+	max-height: 30vh;
 	overflow: auto;
     max-width: 80%;
     display: inline-block;
 }
 
 .resizable>video {
-    max-height: 48vh!important;
+    max-height: 28vh!important;
 	margin: 14px 0 0 0!important;
 }
 
