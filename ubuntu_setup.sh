@@ -2,7 +2,7 @@
 
 apt -y update
 apt -y upgrade
-apt -y install git redis-server python3-pip ffmpeg tmux nginx snapd ufw gpg-agent htop nano mailutils
+apt -y install git redis-server python3-pip ffmpeg nginx snapd ufw gpg-agent htop nano mailutils
 
 git config --global credential.helper store
 cd /rDrama
@@ -77,8 +77,6 @@ echo "y" | ufw enable
 
 curl https://rclone.org/install.sh | bash
 echo "psql -U postgres" > /p
-echo "tmux -S /tmp/s a -t 0" > /c
-echo "tmux -S /tmp/s a -t 1" > /c2
 echo "cd /rDrama && git pull" > /g
 
 . imei.sh
