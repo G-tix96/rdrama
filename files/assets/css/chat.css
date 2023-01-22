@@ -81,7 +81,7 @@ p {
 .chat-line {
 	overflow: hidden;
 	padding: 0 10px;
-	margin: 0 0 0 27px;
+	margin: 0 0 0 15px;
 }
 
 .quote, .del {
