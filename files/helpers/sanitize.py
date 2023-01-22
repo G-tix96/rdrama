@@ -255,7 +255,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
 
 	sanitized = greentext_regex.sub(r'\1<g>\>\2</g>', sanitized)
-	sanitized = image_regex.sub(r'\1![](\2)\5', sanitized)
+	sanitized = image_regex.sub(r'\1![](\2)', sanitized)
 	sanitized = image_check_regex.sub(r'\1', sanitized)
 	sanitized = link_fix_regex.sub(r'\1https://\2', sanitized)
 
