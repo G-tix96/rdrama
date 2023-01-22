@@ -1092,6 +1092,38 @@ class User(Base):
 	def shadowbanner(self):
 		return g.db.query(User.username).filter_by(id=self.shadowbanned).one()[0]
 
+	@property
+	@lazy
+	def alts(self):
+
+		subq = g.db.query(Alt).filter(
+			or_(
+				Alt.user1 == self.id,
+				Alt.user2 == self.id
+			)
+		).subquery()
+
+		data = g.db.query(
+			User,
+			aliased(Alt, alias=subq)
+		).join(
+			subq,
+			or_(
+				subq.c.user1 == User.id,
+				subq.c.user2 == User.id
+			)
+		).filter(
+			User.id != self.id
+		).order_by(User.username).all()
+
+		output = []
+		for x in data:
+			user = x[0]
+			user._is_manual = x[1].is_manual
+			output.append(user)
+
+		return output
+
 	if IS_FISTMAS():
 		@property
 		@lazy
