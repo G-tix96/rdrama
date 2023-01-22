@@ -41,12 +41,12 @@ messages = cache.get(f'messages') or {
 def chat(v):
 	if not v.admin_level and TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
 		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat.")
-	return render_template("chat.html", v=v, messages=messages[f"{SITE_FULL}{request.path}"])
+	return render_template("chat.html", v=v, messages=messages[f"{SITE_FULL}/chat"])
 
 @app.get("/admin/chat")
 @admin_level_required(2)
 def admin_chat(v):
-	return render_template("chat.html", v=v, messages=messages[f"{SITE_FULL}{request.path}"])
+	return render_template("chat.html", v=v, messages=messages[f"{SITE_FULL}/admin/chat"])
 
 @socketio.on('speak')
 @limiter.limit("3/second;10/minute")
