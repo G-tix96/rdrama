@@ -138,3 +138,12 @@ img[alt^="![]("] {
     object-fit: contain;
     object-position: left;
 }
+
+* {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+	display: none;
+}
