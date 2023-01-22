@@ -37,15 +37,23 @@
 			{% endmacro %}
 
 			{% macro chat_line_template(id, m) %}
-				<div class="chat-line {% if m and (vlink in m['text_html'] or (m['quotes'] and messages[m['quotes']]['user_id'] == v.id)) %}chat-mention{% endif %}" {% if m %}id="{{id}}"{% endif %}>
+				{% set quote_exists = m and m['quotes'] and messages.get(m['quotes']) %}
+				{% set mentioned = m and vlink in m['text_html'] or (quote_exists and messages[m['quotes']]['user_id'] == v.id) %}
+				<div class="chat-line {% if mentioned %}chat-mention{% endif %}" {% if m %}id="{{id}}"{% endif %}>
 					<div class="d-flex align-items-center">
 						<div class="text-muted chat-line-content">
 							<div class="{% if not (m and m['quotes']) %}d-none{% endif %} quotes" style="font-size:12px">
 								<a class="QuotedMessageLink" {% if m and m['quotes'] %}href="#{{m['quotes']}}"{% endif %}>
 									<i class="fas fa-reply"></i> 
-									<span class="text-primary">@<span class="QuotedUser">{% if m and m['quotes'] %}{{messages[m['quotes']]['username']}}{% endif %}</span></span>: 
+									<span class="text-primary">@<span class="QuotedUser">
+										{%- if quote_exists -%}
+											{{messages[m['quotes']]['username']}}
+										{%- endif -%}
+									</span></span>: 
 									<em class="QuotedMessage">
-										{% if m and m['quotes'] %}{{messages[m['quotes']]['text']}}{% endif %}
+										{%- if quote_exists -%}
+											{{messages[m['quotes']]['text']}}
+										{%- endif -%}
 									</em>
 								</a>
 							</div>
