@@ -277,6 +277,8 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoters(v:User, username:str):
+	if SITE == 'rdrama.net':
+		abort(403, "Temporarily disabled!")
 	return all_upvoters_downvoters(v, username, 1, False)
 
 @app.get("/@<username>/downvoters")
@@ -289,6 +291,8 @@ def downvoters(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoting(v:User, username:str):
+	if SITE == 'rdrama.net':
+		abort(403, "Temporarily disabled!")
 	return all_upvoters_downvoters(v, username, 1, True)
 
 @app.get("/@<username>/downvoting")
