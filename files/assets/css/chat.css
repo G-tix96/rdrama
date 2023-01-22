@@ -27,6 +27,7 @@
 
 .chat-mention {
     position: relative;
+	padding: 0 10px;
 }
 
 .chat-mention::before {
@@ -36,7 +37,7 @@
     position: absolute;
     left: 0;
     background-color: var(--primary);
-    opacity: 0.12;
+    opacity: 0.2;
 }
 
 p, h1, h2, h3, h4, h5 {
