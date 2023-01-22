@@ -41,9 +41,6 @@ messages = cache.get(f'messages') or {
 def chat(v):
 	if not v.admin_level and TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
 		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat.")
-	
-	if v.id == 1: print(messages[f"{SITE_FULL}/chat"], flush=True)
-	return 'aaaa'
 	return render_template("chat.html", v=v, messages=messages[f"{SITE_FULL}/chat"])
 
 @app.get("/admin/chat")
@@ -83,7 +80,7 @@ def speak(data, v):
 	quotes = data['quotes']
 	id = str(uuid.uuid4())
 	data = {
-		"quotes": quotes,
+		"quotes": quotes if quotes != 'undefined' else '',
 		"hat": v.hat_active(v)[0],
 		"user_id": v.id,
 		"username": v.username,
