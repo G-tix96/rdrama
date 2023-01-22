@@ -14,6 +14,8 @@ RUN apt install -y mailutils
 
 COPY requirements.txt /etc/requirements.txt
 
+COPY env .env
+
 RUN pip3 install -r /etc/requirements.txt
 
 RUN mkdir /images
