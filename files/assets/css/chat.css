@@ -27,7 +27,6 @@
 
 .chat-mention {
     position: relative;
-	padding: 0 10px;
 }
 
 .chat-mention::before {
@@ -38,6 +37,7 @@
     left: 0;
     background-color: var(--primary);
     opacity: 0.2;
+	pointer-events: none !important;
 }
 
 p, h1, h2, h3, h4, h5 {
@@ -80,7 +80,8 @@ p {
 
 .chat-line {
 	overflow: hidden;
-	margin-left: 27px;
+	padding: 0 10px;
+	margin: 2px 0 2px 27px;
 }
 
 .quote, .del {

@@ -81,7 +81,7 @@ def speak(data, v):
 	id = str(uuid.uuid4())
 	data = {
 		"id": id,
-		"quotes": quotes if quotes != 'undefined' else '',
+		"quotes": quotes if messages[request.referrer].get(quotes) else '',
 		"hat": v.hat_active(v)[0],
 		"user_id": v.id,
 		"username": v.username,
