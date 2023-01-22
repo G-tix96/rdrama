@@ -80,6 +80,7 @@ def speak(data, v):
 	quotes = data['quotes']
 	id = str(uuid.uuid4())
 	data = {
+		"id": id,
 		"quotes": quotes if quotes != 'undefined' else '',
 		"hat": v.hat_active(v)[0],
 		"user_id": v.id,
