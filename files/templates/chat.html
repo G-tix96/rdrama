@@ -33,10 +33,11 @@
 						{% if m %}{{m['username']}}{% endif %}
 					</a>
 					<span class="text-black time ml-1 mb-3 text-center">{% if m %}{{m['time'] | timestamp}}{% else %}just now{% endif %}</span>
+					<input hidden class="user_id" {% if m %}value="{{m['user_id']}}"{% endif %}>
 			{% endmacro %}
 
 			{% macro chat_line_template(id, m) %}
-				<div class="chat-line {% if m and vlink in m['text_html'] %}chat-mention{% endif %}" {% if m %}id="{{id}}"{% endif %}>
+				<div class="chat-line {% if m and (vlink in m['text_html'] or (m['quotes'] and messages[m['quotes']]['user_id'] == v.id)) %}chat-mention{% endif %}" {% if m %}id="{{id}}"{% endif %}>
 					<div class="d-flex align-items-center">
 						<div class="text-muted chat-line-content">
 							<div class="{% if not (m and m['quotes']) %}d-none{% endif %} quotes" style="font-size:12px">
@@ -134,7 +135,6 @@
 	</div>
 
 	<input id="vid" type="hidden" value="{{v.id}}">
-	<input id="vusername" type="hidden" value="{{v.username}}">
 	<input id="site_name" type="hidden" value="{{SITE_NAME}}">
 	<input id="slurreplacer" type="hidden" value="{{v.slurreplacer}}">
 	<script defer src="{{'js/vendor/socketio.js' | asset}}"></script>
