@@ -191,7 +191,6 @@ if SITE_NAME == 'rDrama':
 		" cool (?!it)": " fetch ",
 		"krayon": "krayon (sister toucher)",
 		"discord": "groomercord",
-		"kavanaugh": "KKKavanaugh",
 	}
 	SLURS.update(RDRAMA_SLURS)
 
