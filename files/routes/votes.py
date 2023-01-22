@@ -15,7 +15,7 @@ def vote_info_get(v, link):
 		else: abort(400)
 	except: abort(400)
 
-	if thing.ghost and v.id != AEVANN_ID:
+	if thing.ghost and v.admin_level < PERMS['SEE_GHOST_VOTES']:
 		abort(403)
 
 	if thing.author.shadowbanned and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):

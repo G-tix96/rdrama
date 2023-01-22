@@ -369,7 +369,7 @@
 
 						{% endif %}
 
-						{% if not c.ghost or (v and v.id == AEVANN_ID) %}
+						{% if not c.ghost or (v and v.admin_level >= PERMS['SEE_GHOST_VOTES']) %}
 							<a href="/votes/{{c.fullname}}" class="btn caction nobackground px-1 text-muted"><i class="fas fa-arrows-v"></i>Votes</a>
 						{% endif %}
 
@@ -555,7 +555,7 @@
 			<div class="modal-body">
 				<ul class="list-group comment-actions">
 
-					{% if not c.ghost or (v and v.id == AEVANN_ID) %}
+					{% if not c.ghost or (v and v.admin_level >= PERMS['SEE_GHOST_VOTES']) %}
 						<a href="/votes/{{c.fullname}}"><li class="list-group-item"><i class="fas fa-arrows-v mr-2"></i>Votes</li></a>
 					{% endif %}
 

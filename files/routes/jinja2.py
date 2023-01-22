@@ -98,7 +98,7 @@ def git_head():
 def inject_constants():
 	return {"environ":environ, "SITE":SITE, "SITE_NAME":SITE_NAME, "SITE_FULL":SITE_FULL,
 			"AUTOJANNY_ID":AUTOJANNY_ID, "MODMAIL_ID":MODMAIL_ID, "VAPID_PUBLIC_KEY":VAPID_PUBLIC_KEY,
-			"listdir":listdir, "os_path":path, "AEVANN_ID":AEVANN_ID,
+			"listdir":listdir, "os_path":path,
 			"PIZZASHILL_ID":PIZZASHILL_ID, "DEFAULT_COLOR":DEFAULT_COLOR,
 			"COLORS":COLORS, "time":time, "PERMS":PERMS, "FEATURES":FEATURES,
 			"HOLE_NAME":HOLE_NAME, "HOLE_STYLE_FLAIR":HOLE_STYLE_FLAIR, "HOLE_REQUIRED":HOLE_REQUIRED,

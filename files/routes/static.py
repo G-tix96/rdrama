@@ -111,12 +111,9 @@ def daily_chart(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['VIEW_PATRONS'])
 def patrons(v):
-	if AEVANN_ID and v.id not in {AEVANN_ID, CARP_ID}:
-		abort(404)
-
 	users = g.db.query(User).filter(User.patron > 0).order_by(User.patron.desc(), User.id).all()
 
-	return render_template("patrons.html", v=v, users=users, benefactor_def=AWARDS['benefactor'])
+	return render_template("admin/patrons.html", v=v, users=users, benefactor_def=AWARDS['benefactor'])
 
 @app.get("/admins")
 @app.get("/badmins")

@@ -39,155 +39,153 @@ def loggedout_list(v):
 	return render_template("admin/loggedout.html", v=v, users=users)
 
 
-@app.get('/admin/move/<int:old_id>/<int:new_id>')
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@admin_level_required(PERMS['USER_MERGE'])
-def move_acc(v:User, new_id, old_id):
-	if v.id != AEVANN_ID: abort(403)
+# @app.get('/admin/move/<int:old_id>/<int:new_id>')
+# @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+# @admin_level_required(PERMS['USER_MERGE'])
+# def move_acc(v:User, new_id, old_id):
+# 	if time.time() - session.get('verified', 0) > 10:
+# 		session.pop("lo_user", None)
+# 		path = request.path
+# 		qs = urlencode(dict(request.values))
+# 		argval = quote(f"{path}?{qs}", safe='')
+# 		return redirect(f"/login?redirect={argval}")
 
-	if time.time() - session.get('verified', 0) > 10:
-		session.pop("lo_user", None)
-		path = request.path
-		qs = urlencode(dict(request.values))
-		argval = quote(f"{path}?{qs}", safe='')
-		return redirect(f"/login?redirect={argval}")
+# 	old_id = int(old_id)
+# 	new_id = int(new_id)
 
-	old_id = int(old_id)
-	new_id = int(new_id)
+# 	olduser = g.db.get(User, old_id)
+# 	newuser = g.db.get(User, new_id)
 
-	olduser = g.db.get(User, old_id)
-	newuser = g.db.get(User, new_id)
+# 	attrs = {
+# 		'coins',
+# 		'coins_spent',
+# 		'coins_spent_on_hats',
+# 		'comment_count',
+# 		'currently_held_lottery_tickets',
+# 		'lootboxes_bought',
+# 		'marseybux',
+# 		'post_count',
+# 		'received_award_count',
+# 		'total_held_lottery_tickets',
+# 		'total_lottery_winnings',
+# 		'truescore',
+# 	}
 
-	attrs = {
-		'coins',
-		'coins_spent',
-		'coins_spent_on_hats',
-		'comment_count',
-		'currently_held_lottery_tickets',
-		'lootboxes_bought',
-		'marseybux',
-		'post_count',
-		'received_award_count',
-		'total_held_lottery_tickets',
-		'total_lottery_winnings',
-		'truescore',
-	}
+# 	for attr in attrs:
+# 		amount = getattr(newuser, attr) + getattr(olduser, attr)
+# 		setattr(newuser, attr, amount)
 
-	for attr in attrs:
-		amount = getattr(newuser, attr) + getattr(olduser, attr)
-		setattr(newuser, attr, amount)
+# 	if newuser.created_utc > olduser.created_utc:
+# 		newuser.created_utc = olduser.created_utc
 
-	if newuser.created_utc > olduser.created_utc:
-		newuser.created_utc = olduser.created_utc
+# 	g.db.add(newuser)
 
-	g.db.add(newuser)
+# 	g.db.commit()
 
-	g.db.commit()
+# 	classes = {
+# 		(AwardRelationship, "user_id"),
+# 		(Badge, "user_id"),
+# 		(CasinoGame, "user_id"),
+# 		(Hat, "user_id"),
+# 		(HatDef, "author_id"),
+# 		(Lottery, "winner_id"),
+# 		(Marsey, "author_id"),
+# 		(Media, "user_id"),
+# 		(Notification, "user_id"),
+# 		(PushSubscription, "user_id"),
 
-	classes = {
-		(AwardRelationship, "user_id"),
-		(Badge, "user_id"),
-		(CasinoGame, "user_id"),
-		(Hat, "user_id"),
-		(HatDef, "author_id"),
-		(Lottery, "winner_id"),
-		(Marsey, "author_id"),
-		(Media, "user_id"),
-		(Notification, "user_id"),
-		(PushSubscription, "user_id"),
+# 		#mod actions
+# 		(ModAction, "user_id"),
+# 		(ModAction, "target_user_id"),
+# 		(SubAction, "user_id"),
+# 		(SubAction, "target_user_id"),
 
-		#mod actions
-		(ModAction, "user_id"),
-		(ModAction, "target_user_id"),
-		(SubAction, "user_id"),
-		(SubAction, "target_user_id"),
+# 		#holes
+# 		(Mod, "user_id"),
+# 		(Exile, "exiler_id"),
+# 		(Exile, "user_id"),
+# 		(SubBlock, "user_id"),
+# 		(SubJoin, "user_id"),
+# 		(SubSubscription, "user_id"),
+# 		(Subscription, "user_id"),
 
-		#holes
-		(Mod, "user_id"),
-		(Exile, "exiler_id"),
-		(Exile, "user_id"),
-		(SubBlock, "user_id"),
-		(SubJoin, "user_id"),
-		(SubSubscription, "user_id"),
-		(Subscription, "user_id"),
+# 		#other users
+# 		(User, "is_banned"),
+# 		(User, "referred_by"),
+# 		(User, "shadowbanned"),
+# 		(Follow, "target_id"),
+# 		(Follow, "user_id"),
+# 		(UserBlock, "user_id"),
+# 		(UserBlock, "target_id"),
+# 		(ViewerRelationship, "user_id"),
+# 		(ViewerRelationship, "viewer_id"),
 
-		#other users
-		(User, "is_banned"),
-		(User, "referred_by"),
-		(User, "shadowbanned"),
-		(Follow, "target_id"),
-		(Follow, "user_id"),
-		(UserBlock, "user_id"),
-		(UserBlock, "target_id"),
-		(ViewerRelationship, "user_id"),
-		(ViewerRelationship, "viewer_id"),
+# 		#posts and comments
+# 		(Submission, "author_id"),
+# 		(Submission, "is_approved"),
+# 		(Comment, "author_id"),
+# 		(Comment, "is_approved"),
+# 		(Comment, "sentto"),
+# 		(Comment, "wall_user_id"),
+# 		(Vote, "user_id"),
+# 		(CommentVote, "user_id"),
+# 		(Flag, "user_id"),
+# 		(CommentFlag, "user_id"),
+# 		(SaveRelationship, "user_id"),
+# 		(CommentSaveRelationship, "user_id"),
+# 		(SubmissionOptionVote, "user_id"),
+# 		(CommentOptionVote, "user_id"),
+# 	}
 
-		#posts and comments
-		(Submission, "author_id"),
-		(Submission, "is_approved"),
-		(Comment, "author_id"),
-		(Comment, "is_approved"),
-		(Comment, "sentto"),
-		(Comment, "wall_user_id"),
-		(Vote, "user_id"),
-		(CommentVote, "user_id"),
-		(Flag, "user_id"),
-		(CommentFlag, "user_id"),
-		(SaveRelationship, "user_id"),
-		(CommentSaveRelationship, "user_id"),
-		(SubmissionOptionVote, "user_id"),
-		(CommentOptionVote, "user_id"),
-	}
+# 	for cls, attr in classes:
+# 		items = g.db.query(cls).filter(getattr(cls, attr) == olduser.id)
+# 		for item in items:
+# 			setattr(item, attr, newuser.id)
+# 			g.db.add(item)
+# 			try: g.db.commit()
+# 			except IntegrityError as e:
+# 				if isinstance(e.orig, UniqueViolation):
+# 					g.db.rollback()
+# 					g.db.delete(item)
+# 					g.db.commit()
+# 				else:
+# 					print(e, flush=True)
+# 					abort(500, str(e))
 
-	for cls, attr in classes:
-		items = g.db.query(cls).filter(getattr(cls, attr) == olduser.id)
-		for item in items:
-			setattr(item, attr, newuser.id)
-			g.db.add(item)
-			try: g.db.commit()
-			except IntegrityError as e:
-				if isinstance(e.orig, UniqueViolation):
-					g.db.rollback()
-					g.db.delete(item)
-					g.db.commit()
-				else:
-					print(e, flush=True)
-					abort(500, str(e))
+# 	newuser.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=newuser.id).count()
 
-	newuser.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=newuser.id).count()
+# 	g.db.add(newuser)
 
-	g.db.add(newuser)
+# 	update_statement = f'''
+# 	update submissions set body_html=replace(body_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where body_html like '%<a href="/id/{olduser.id}">%';
+# 	update comments set body_html=replace(body_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where body_html like '%<a href="/id/{olduser.id}">%';
+# 	update subs set sidebar_html=replace(sidebar_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where sidebar_html like '%<a href="/id/{olduser.id}">%';
+# 	update users set bio_html=replace(bio_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where bio_html like '%<a href="/id/{olduser.id}">%';
+# 	update users set sig_html=replace(sig_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where sig_html like '%<a href="/id/{olduser.id}">%';
+# 	update users set friends_html=replace(friends_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where friends_html like '%<a href="/id/{olduser.id}">%';
+# 	update users set enemies_html=replace(enemies_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where enemies_html like '%<a href="/id/{olduser.id}">%';
 
-	update_statement = f'''
-	update submissions set body_html=replace(body_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where body_html like '%<a href="/id/{olduser.id}">%';
-	update comments set body_html=replace(body_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where body_html like '%<a href="/id/{olduser.id}">%';
-	update subs set sidebar_html=replace(sidebar_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where sidebar_html like '%<a href="/id/{olduser.id}">%';
-	update users set bio_html=replace(bio_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where bio_html like '%<a href="/id/{olduser.id}">%';
-	update users set sig_html=replace(sig_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where sig_html like '%<a href="/id/{olduser.id}">%';
-	update users set friends_html=replace(friends_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where friends_html like '%<a href="/id/{olduser.id}">%';
-	update users set enemies_html=replace(enemies_html, '<a href="/id/{olduser.id}">', '<a href="/id/{newuser.id}">') where enemies_html like '%<a href="/id/{olduser.id}">%';
+# 	update submissions set body_html=replace(body_html, '<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">', '<a href="/id/{newuser.id}"><img loading="lazy" src="/pp/{newuser.id}">') where body_html like '%<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">%';
+# 	update comments set body_html=replace(body_html, '<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">', '<a href="/id/{newuser.id}"><img loading="lazy" src="/pp/{newuser.id}">') where body_html like '%<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">%';
+# 	update subs set sidebar_html=replace(sidebar_html, '<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">', '<a href="/id/{newuser.id}"><img loading="lazy" src="/pp/{newuser.id}">') where sidebar_html like '%<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">%';
+# 	update users set bio_html=replace(bio_html, '<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">', '<a href="/id/{newuser.id}"><img loading="lazy" src="/pp/{newuser.id}">') where bio_html like '%<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">%';
+# 	update users set sig_html=replace(sig_html, '<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">', '<a href="/id/{newuser.id}"><img loading="lazy" src="/pp/{newuser.id}">') where sig_html like '%<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">%';
+# 	update users set friends_html=replace(friends_html, '<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">', '<a href="/id/{newuser.id}"><img loading="lazy" src="/pp/{newuser.id}">') where friends_html like '%<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">%';
+# 	update users set enemies_html=replace(enemies_html, '<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">', '<a href="/id/{newuser.id}"><img loading="lazy" src="/pp/{newuser.id}">') where enemies_html like '%<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">%';	'''
 
-	update submissions set body_html=replace(body_html, '<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">', '<a href="/id/{newuser.id}"><img loading="lazy" src="/pp/{newuser.id}">') where body_html like '%<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">%';
-	update comments set body_html=replace(body_html, '<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">', '<a href="/id/{newuser.id}"><img loading="lazy" src="/pp/{newuser.id}">') where body_html like '%<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">%';
-	update subs set sidebar_html=replace(sidebar_html, '<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">', '<a href="/id/{newuser.id}"><img loading="lazy" src="/pp/{newuser.id}">') where sidebar_html like '%<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">%';
-	update users set bio_html=replace(bio_html, '<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">', '<a href="/id/{newuser.id}"><img loading="lazy" src="/pp/{newuser.id}">') where bio_html like '%<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">%';
-	update users set sig_html=replace(sig_html, '<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">', '<a href="/id/{newuser.id}"><img loading="lazy" src="/pp/{newuser.id}">') where sig_html like '%<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">%';
-	update users set friends_html=replace(friends_html, '<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">', '<a href="/id/{newuser.id}"><img loading="lazy" src="/pp/{newuser.id}">') where friends_html like '%<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">%';
-	update users set enemies_html=replace(enemies_html, '<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">', '<a href="/id/{newuser.id}"><img loading="lazy" src="/pp/{newuser.id}">') where enemies_html like '%<a href="/id/{olduser.id}"><img loading="lazy" src="/pp/{olduser.id}">%';	'''
+# 	g.db.execute(update_statement)
 
-	g.db.execute(update_statement)
+# 	g.db.delete(olduser)
 
-	g.db.delete(olduser)
+# 	g.db.commit()
 
-	g.db.commit()
+# 	stats = cache.get(f'{SITE}_stats')
+# 	online = cache.get(CHAT_ONLINE_CACHE_KEY)
+# 	cache.clear()
+# 	cache.set(f'{SITE}_stats', stats)
+# 	cache.set(CHAT_ONLINE_CACHE_KEY, online)
 
-	stats = cache.get(f'{SITE}_stats')
-	online = cache.get(CHAT_ONLINE_CACHE_KEY)
-	cache.clear()
-	cache.set(f'{SITE}_stats', stats)
-	cache.set(CHAT_ONLINE_CACHE_KEY, online)
-
-	return redirect(f"/@{olduser.username}")
+# 	return redirect(f"/@{olduser.username}")
 
 
 
@@ -532,7 +530,7 @@ def under_attack(v):
 def admin_badges_grantable_list(v):
 	query = g.db.query(BadgeDef)
 
-	if BADGE_BLACKLIST and v.id not in {AEVANN_ID}:
+	if BADGE_BLACKLIST and v.admin_level < PERMS['IGNORE_BADGE_BLACKLIST']:
 		query = query.filter(BadgeDef.id.notin_(BADGE_BLACKLIST))
 
 	badge_types = query.order_by(BadgeDef.id).all()

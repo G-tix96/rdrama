@@ -13,8 +13,6 @@ from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter
 
 ASSET_TYPES = (Marsey, HatDef)
-CAN_APPROVE_ASSETS = (AEVANN_ID, CARP_ID)
-CAN_UPDATE_ASSETS = (AEVANN_ID, CARP_ID)
 
 @app.get("/submit/marseys")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -95,8 +93,6 @@ def submit_marsey(v:User):
 
 def verify_permissions_and_get_asset(cls, asset_type:str, v:User, name:str, make_lower=False):
 	if cls not in ASSET_TYPES: raise Exception("not a valid asset type")
-	if AEVANN_ID and v.id not in CAN_APPROVE_ASSETS:
-		abort(403, f"Only Carp can approve {asset_type}!")
 	name = name.strip()
 	if make_lower: name = name.lower()
 	asset = None
@@ -110,7 +106,7 @@ def verify_permissions_and_get_asset(cls, asset_type:str, v:User, name:str, make
 
 @app.post("/admin/approve/marsey/<name>")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_MARSEYS'])
+@admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'])
 def approve_marsey(v, name):
 	marsey = verify_permissions_and_get_asset(Marsey, "marsey", v, name, True)
 	tags = request.values.get('tags').lower().strip()
@@ -180,8 +176,8 @@ def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
 		asset = g.db.get(cls, name)
 	if not asset:
 		abort(404, f"This {type_name} '{name}' doesn't exist!")
-	if v.id != asset.submitter_id and v.id not in CAN_APPROVE_ASSETS:
-		abort(403, f"Only Carp can remove {type_name}s!")
+	if v.id != asset.submitter_id and v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS']:
+		abort(403)
 	name = asset.name
 	if v.id != asset.submitter_id:
 		msg = f"@{v.username} has rejected a {type_name} you submitted: `'{name}'`"
@@ -271,7 +267,7 @@ def submit_hat(v:User):
 @app.post("/admin/approve/hat/<name>")
 @limiter.limit("3/second;120/minute;200/hour;1000/day")
 @limiter.limit("3/second;120/minute;200/hour;1000/day", key_func=get_ID)
-@admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_HATS'])
+@admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'])
 def approve_hat(v, name):
 	hat = verify_permissions_and_get_asset(HatDef, "hat", v, name, False)
 	description = request.values.get('description').strip()
@@ -340,10 +336,8 @@ def remove_hat(v:User, name):
 
 @app.get("/admin/update/marseys")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@admin_level_required(PERMS['UPDATE_MARSEYS'])
+@admin_level_required(PERMS['UPDATE_ASSETS'])
 def update_marseys(v):
-	if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
-		abort(403)
 	name = request.values.get('name')
 	tags = None
 	error = None
@@ -360,11 +354,8 @@ def update_marseys(v):
 
 @app.post("/admin/update/marseys")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@admin_level_required(PERMS['UPDATE_MARSEYS'])
+@admin_level_required(PERMS['UPDATE_ASSETS'])
 def update_marsey(v):
-	if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
-		abort(403)
-
 	file = request.files["image"]
 	name = request.values.get('name', '').lower().strip()
 	tags = request.values.get('tags', '').lower().strip()
@@ -414,20 +405,15 @@ def update_marsey(v):
 
 @app.get("/admin/update/hats")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@admin_level_required(PERMS['UPDATE_HATS'])
+@admin_level_required(PERMS['UPDATE_ASSETS'])
 def update_hats(v):
-	if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
-		abort(403)
 	return render_template("update_assets.html", v=v, type="Hat")
 
 
 @app.post("/admin/update/hats")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@admin_level_required(PERMS['UPDATE_HATS'])
+@admin_level_required(PERMS['UPDATE_ASSETS'])
 def update_hat(v):
-	if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
-		abort(403)
-
 	file = request.files["image"]
 	name = request.values.get('name', '').strip()
 

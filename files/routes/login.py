@@ -122,7 +122,6 @@ def on_login(account, redir=None):
 	session.permanent = True
 	session["lo_user"] = account.id
 	session["login_nonce"] = account.login_nonce
-	if account.id == AEVANN_ID: session["verified"] = time.time()
 	check_for_alts(account)
 
 
@@ -319,7 +318,7 @@ def sign_up_post(v:Optional[User]):
 		)
 
 	if users_count == 4:
-		new_user.admin_level = 3
+		new_user.admin_level = 5
 		session["history"] = []
 
 	g.db.add(new_user)
