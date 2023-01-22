@@ -47,7 +47,6 @@ else:
 
 		with smtplib.SMTP('localhost', 25) as server:
 			server.sendmail(EMAIL, [to_address], msg.as_string())
-			print(f"Successfully sent email to {to_address}", flush=True)
 
 
 def send_verification_email(user, email=None):
