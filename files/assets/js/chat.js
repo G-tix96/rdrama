@@ -302,6 +302,9 @@ setTimeout(function () {
 setTimeout(function () {
 	box.scrollTo(0, box.scrollHeight)
 }, 500);
+setTimeout(function () {
+	box.scrollTo(0, box.scrollHeight)
+}, 1000);
 window.addEventListener('load', function () {
 	box.scrollTo(0, box.scrollHeight)
 });
