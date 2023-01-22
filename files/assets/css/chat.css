@@ -81,7 +81,7 @@ p {
 .chat-line {
 	overflow: hidden;
 	padding: 0 10px;
-	margin: 2px 0 2px 27px;
+	margin: 0 0 0 27px;
 }
 
 .quote, .del {
@@ -90,6 +90,7 @@ p {
 	float: right;
 	color: var(--black);
 	font-size: 12px;
+	margin-top: 5px;
 }
 
 lite-youtube {
