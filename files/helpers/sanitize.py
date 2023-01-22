@@ -410,10 +410,19 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	if '<pre>' not in sanitized and not sidebar:
 		sanitized = sanitized.replace('\n','')
 
-	# if showmore and len(sanitized) > 3500 or sanitized.count('<') > 15:
-	# 	sanitized = showmore_regex.sub(r'\1<p><button class="showmore">SHOW MORE</button></p><d class="d-none">\4</d>', sanitized, count=1)
-	if showmore and len(sanitized) > 3500:
-		sanitized = showmore_regex.sub(r'\1<p><button class="showmore">SHOW MORE</button></p><d class="d-none">\2</d>', sanitized, count=1)
+	if showmore:
+		# Insert a show more button if the text is too long or has too many paragraphs
+		pos = 0
+		for _ in range(20):
+			pos = sanitized.find('</p>', pos + 4)
+			if pos < 0:
+				break
+		if pos < 0 and len(sanitized) > 3000:
+			pos = 2500
+		if pos >= 0:
+			sanitized = (sanitized[:pos] +
+				showmore_regex.sub(r'\1<p><button class="showmore">SHOW MORE</button></p><d class="d-none">\2</d>',
+					sanitized[pos:], count=1))
 
 	return sanitized.strip()
 
