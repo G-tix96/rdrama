@@ -55,6 +55,7 @@ blockquote {
 
 .chat-group {
 	margin-top: 1rem;
+	padding-left: 5px;
 }
 
 @media (max-width: 768px) {
