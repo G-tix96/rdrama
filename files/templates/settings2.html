@@ -27,7 +27,7 @@
 										</li>
 										{% if v and v.admin_level >= PERMS['USER_BLOCKS_VISIBLE'] -%}
 										<li class="nav-item">
-											<a class="nav-link{% if request.path == '/blocks' %} active{% endif %}" href="/blocks"><i class="fas fa-user-slash pr-2"></i>Blocks</a>
+											<a class="nav-link{% if request.path == '/blocks' %} active{% endif %}" href="/blocks"><i class="fas fa-eye-slash pr-2"></i>Blocks</a>
 										</li>
 										{%- endif %}
 										<li class="nav-item">
