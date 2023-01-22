@@ -24,11 +24,8 @@ typing = {
 	f'{SITE_FULL}/chat': [],
 	f'{SITE_FULL}/admin/chat': []
 }
-online =  {
-	f'{SITE_FULL}/chat': [],
-	f'{SITE_FULL}/admin/chat': []
-}
-cache.set(CHAT_ONLINE_CACHE_KEY, len(online[f'{SITE_FULL}/chat']), timeout=0)
+online =  []
+cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
 muted = cache.get(f'muted') or {
 	f'{SITE_FULL}/chat': {},
 	f'{SITE_FULL}/admin/chat': {}
@@ -125,9 +122,9 @@ def speak(data, v):
 	return '', 204
 
 def refresh_online():
-	emit("online", online[request.referrer], room=request.referrer, broadcast=True)
+	emit("online", online, broadcast=True)
 	if request.referrer == f'{SITE_FULL}/chat':
-		cache.set(CHAT_ONLINE_CACHE_KEY, len(online[request.referrer]), timeout=0)
+		cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
 
 @socketio.on('connect')
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -135,8 +132,8 @@ def refresh_online():
 def connect(v):
 	join_room(request.referrer)
 
-	if v.username not in online[request.referrer]:
-		online[request.referrer].append(v.username)
+	if v.username not in online:
+		online.append(v.username)
 		refresh_online()
 
 	emit('catchup', messages[request.referrer], room=request.referrer)
@@ -147,8 +144,8 @@ def connect(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['CHAT'])
 def disconnect(v):
-	if v.username in online[request.referrer]:
-		online[request.referrer].remove(v.username)
+	if v.username in online:
+		online.remove(v.username)
 		refresh_online()
 
 	if v.username in typing[request.referrer]:
