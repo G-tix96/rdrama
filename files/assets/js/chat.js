@@ -292,6 +292,7 @@ document.onpaste = function(event) {
 	}
 }
 
+box.scrollTo(0, box.scrollHeight)
 window.addEventListener('load', function () {
 	box.scrollTo(0, box.scrollHeight)
 });
