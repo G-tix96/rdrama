@@ -31,8 +31,8 @@ muted = cache.get(f'muted') or {
 	f'{SITE_FULL}/admin/chat': {}
 }
 messages = cache.get(f'messages') or {
-	f'{SITE_FULL}/chat': [],
-	f'{SITE_FULL}/admin/chat': []
+	f'{SITE_FULL}/chat': {},
+	f'{SITE_FULL}/admin/chat': {}
 }
 
 @app.get("/chat")
@@ -41,12 +41,12 @@ messages = cache.get(f'messages') or {
 def chat(v):
 	if not v.admin_level and TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
 		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat.")
-	return render_template("chat.html", v=v)
+	return render_template("chat.html", v=v, messages=messages[request.url])
 
 @app.get("/admin/chat")
 @admin_level_required(2)
 def admin_chat(v):
-	return render_template("chat.html", v=v)
+	return render_template("chat.html", v=v, messages=messages[request.url])
 
 @socketio.on('speak')
 @limiter.limit("3/second;10/minute")
@@ -78,8 +78,8 @@ def speak(data, v):
 
 	text_html = sanitize(text, count_marseys=True)
 	quotes = data['quotes']
+	id = str(uuid.uuid4())
 	data = {
-		"id": str(uuid.uuid4()),
 		"quotes": quotes,
 		"hat": v.hat_active(v)[0],
 		"user_id": v.id,
@@ -95,7 +95,7 @@ def speak(data, v):
 		emit('speak', data)
 	else:
 		emit('speak', data, room=request.referrer, broadcast=True)
-		messages[request.referrer].append(data)
+		messages[request.referrer][id] = data
 		messages[request.referrer] = messages[request.referrer][-500:]
 
 	if v.admin_level >= PERMS['USER_BAN']:
@@ -136,7 +136,6 @@ def connect(v):
 		online.append(v.username)
 		refresh_online()
 
-	emit('catchup', messages[request.referrer], room=request.referrer)
 	emit('typing', typing[request.referrer], room=request.referrer)
 	return '', 204
 
@@ -174,9 +173,9 @@ def typing_indicator(data, v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def delete(id, v):
-	for message in messages[request.referrer]:
-		if message['id'] == id:
-			messages[request.referrer].remove(message)
+	for k, val in messages[request.referrer].items():
+		if k == id:
+			del messages[request.referrer][k]
 			break
 
 	emit('delete', id, room=request.referrer, broadcast=True)

@@ -26,7 +26,7 @@
 }
 
 .chat-mention {
-	background-color: #{{v.themecolor}}55;
+	background-color: #ffffff44;
 	border-radius: 3px;
 }
 
@@ -68,7 +68,7 @@ p {
 	width: 100%;
 }
 
-.cdiv {
+.chat-line {
 	overflow: hidden;
 	margin-left: 27px;
 }

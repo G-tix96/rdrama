@@ -22,37 +22,79 @@
 				</span>
 			</div>
 
-			<div id="chat-line-template" class="d-none">
-				<div class="chat-line">
-					<div class="d-flex align-items-center">
-						<div class="pl-md-3 text-muted chat-line-content">
-							<div class="avatar profile-pic-20-wrapper">
-								<img class="avatar-pic pp20 mr-1">
-								<img class="avatar-hat profile-pic-20-hat hat" loading="lazy">
-							</div>
-							<a href="" class="font-weight-bold text-black userlink" target="_blank"></a>
-							<span class="text-black time ml-1 mb-3 d-none text-center">just now</span>
-							<div class="cdiv">
-								<div class="d-none quotes" style="font-size:12px">
-									<a class="QuotedMessageLink">
-										<i class="fas fa-reply"></i> <span class="text-primary">@<span class="QuotedUser"></span></span>: <em class="QuotedMessage"></em>
-									</a>
-								</div>
+			{% macro chat_group_template(id, m) %}
+				<div class="chat-group">
+					<div class="avatar profile-pic-20-wrapper">
+						<img class="avatar-pic pp20 mr-1" {% if m %}src="/pp/{{m['user_id']}}"{% endif %}>
+						<img class="avatar-hat profile-pic-20-hat hat" loading="lazy" {% if m %}src="{{m['hat']}}"{% endif %}>
+					</div>
+					<a class="font-weight-bold text-black userlink" target="_blank" {% if m %}style="color:#{{m['namecolor']}}" href="/@{{m['username']}}" {% endif %}>
+						{% if m %}{{m['username']}}{% endif %}
+					</a>
+					<span class="text-black time ml-1 mb-3 text-center">{% if m %}{{m['time'] | timestamp}}{% else %}just now{% endif %}</span>
+			{% endmacro %}
 
-								<span class="chat-message text-black text-break"></span>
-								<span class="text d-none"></span>
-								{% if v.admin_level > 1 %}
-									<i class="btn del fas fa-trash-alt"></i>
-									<i class="btn d-none del delmsg fas fa-trash-alt text-danger" data-nonce="{{g.nonce}}" data-onclick="del(this)"></i>
-								{% endif %}
-								<i class="quote btn fas fa-reply" data-nonce="{{g.nonce}}" data-onclick="quote(this)"></i>
+			{% macro chat_line_template(id, m) %}
+				<div class="chat-line" {% if m %}id="{{id}}"{% endif %}>
+					<div class="d-flex align-items-center">
+						<div class="text-muted chat-line-content">
+							<div class="{% if not (m and m['quotes']) %}d-none{% endif %} quotes" style="font-size:12px">
+								<a class="QuotedMessageLink" {% if m and m['quotes'] %}href="#{{m['quotes']}}"{% endif %}>
+									<i class="fas fa-reply"></i> 
+									<span class="text-primary">@
+										<span class="QuotedUser">
+											{% if m and m['quotes'] %}{{messages[m['quotes']]['username']}}{% endif %}
+										</span>
+									</span>: 
+									<em class="QuotedMessage">
+										{% if m and m['quotes'] %}{{messages[m['quotes']]['text']}}{% endif %}
+									</em>
+								</a>
 							</div>
+
+							<span class="chat-message text-black text-break">
+								{% if m %}
+									{% if v.slurreplacer %}
+										{{m['text_censored'] | safe}}
+									{% else %}
+										{{m['text_html'] | safe}}
+									{% endif %}
+								{% endif %}
+							</span>
+							<span class="text d-none">{% if m %}{{m['text']}}{% endif %}</span>
+							{% if v.admin_level > 1 %}
+								<i class="btn del fas fa-trash-alt"></i>
+								<i class="btn d-none del delmsg fas fa-trash-alt text-danger" data-nonce="{{g.nonce}}" data-onclick="del(this)"></i>
+							{% endif %}
+							<i class="quote btn fas fa-reply" data-nonce="{{g.nonce}}" data-onclick="quote(this)"></i>
 						</div>
 					</div>
 				</div>
+			{% endmacro %}
+
+
+			<div id="chat-group-template" class="d-none">
+				{{chat_group_template()}}
+				</div>
 			</div>
+
+			<div id="chat-line-template" class="d-none">
+				{{chat_line_template()}}
+			</div>
+
 			<div id="shrink">
 				<div id="chat-window" class="container pl-0 py-0">
+					{% for id, m in messages.items() %}
+						{% set previous = m %}
+						{% if not (loop.index > 1 and m['user_id'] == previous['user_id']) %}
+							{% if loop.index > 1 %}
+								</div>
+							{% endif %}
+							{{chat_group_template(id, m)}}
+						{% endif %}
+						{{chat_line_template(id, m)}}
+					{% endfor %}
+					</div>
 				</div>
 
 				<div class="mt-3"></div>
@@ -80,7 +122,7 @@
 						</label>
 					</span>
 
-					<textarea data-nonce="{{g.nonce}}" data-onclick="scroll_chat()" id="input-text" minlength="1" maxlength="{% if SITE == 'rdrama.net' %}200{% else %}1000{% endif %}" style="font-size:16px!important" class="form-control" placeholder="Message" autocomplete="off" autofocus rows="1"></textarea>
+					<textarea id="input-text" minlength="1" maxlength="{% if SITE == 'rdrama.net' %}200{% else %}1000{% endif %}" {% if g.browser == "apple" %}style="font-size:16px!important"{% endif %} class="form-control" placeholder="Message" autocomplete="off" autofocus rows="1"></textarea>
 
 					<i id="chatsend" data-nonce="{{g.nonce}}" data-onclick="send()" class="btn btn-secondary fas fa-reply ml-3 my-auto" type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" style="transform:rotateY(180deg);font-size:1.3rem!important"></i>
 				</div>
