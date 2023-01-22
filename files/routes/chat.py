@@ -96,7 +96,7 @@ def speak(data, v):
 	else:
 		emit('speak', data, room=request.referrer, broadcast=True)
 		messages[request.referrer][id] = data
-		messages[request.referrer] = dict(messages[request.referrer].items()[-500:])
+		messages[request.referrer] = dict(list(messages[request.referrer].items())[-500:])
 
 	if v.admin_level >= PERMS['USER_BAN']:
 		text = text.lower()
