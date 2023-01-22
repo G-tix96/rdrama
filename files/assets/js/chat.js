@@ -181,6 +181,7 @@ function quote(t) {
 	const id = t.parentElement.parentElement.parentElement.id
 	console.log(id)
 	document.getElementById('quotes_id').value = id
+	console.log(document.getElementById('quotes_id').value)
 	document.getElementById('QuotedMessageLink').href = `#${id}`
 
 	textbox.focus()
