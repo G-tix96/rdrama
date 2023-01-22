@@ -296,6 +296,12 @@ document.onpaste = function(event) {
 }
 
 box.scrollTo(0, box.scrollHeight)
+setTimeout(function () {
+	box.scrollTo(0, box.scrollHeight)
+}, 200);
+setTimeout(function () {
+	box.scrollTo(0, box.scrollHeight)
+}, 500);
 window.addEventListener('load', function () {
 	box.scrollTo(0, box.scrollHeight)
 });
