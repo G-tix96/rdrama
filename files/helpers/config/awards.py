@@ -446,7 +446,7 @@ AWARDS = {
 	"rehab": {
 		"kind": "rehab",
 		"title": "Rehab",
-		"description": "Prevents the user from gambling for 24 hours in a last ditch effort to save them from themself.",
+		"description": "Prevents the user from gambling for 24 hours in a last-ditch effort to save them from themself.",
 		"icon": "fas fa-dice-six",
 		"color": "text-black",
 		"price": 777,
