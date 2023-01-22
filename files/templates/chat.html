@@ -42,11 +42,7 @@
 							<div class="{% if not (m and m['quotes']) %}d-none{% endif %} quotes" style="font-size:12px">
 								<a class="QuotedMessageLink" {% if m and m['quotes'] %}href="#{{m['quotes']}}"{% endif %}>
 									<i class="fas fa-reply"></i> 
-									<span class="text-primary">@
-										<span class="QuotedUser">
-											{% if m and m['quotes'] %}{{messages[m['quotes']]['username']}}{% endif %}
-										</span>
-									</span>: 
+									<span class="text-primary">@<span class="QuotedUser">{% if m and m['quotes'] %}{{messages[m['quotes']]['username']}}{% endif %}</span></span>: 
 									<em class="QuotedMessage">
 										{% if m and m['quotes'] %}{{messages[m['quotes']]['text']}}{% endif %}
 									</em>
