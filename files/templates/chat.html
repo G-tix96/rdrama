@@ -11,6 +11,7 @@
 	{% include "header.html" %}
 	{% include "modals/expanded_image.html" %}
 	{% include "modals/emoji.html" %}
+	{% set link = '<a href="/id/' + v.id|string + '">' %}
 	<div class="container pb-4">
 		<div class="row justify-content-around" id="main-content-row">
 			<div class="col h-100 {% block customPadding %}{% if request.path.startswith('/@') %}user-gutters{% else %}custom-gutters{% endif %}{% endblock %}" id="main-content-col">	
@@ -35,7 +36,7 @@
 			{% endmacro %}
 
 			{% macro chat_line_template(id, m) %}
-				<div class="chat-line" {% if m %}id="{{id}}"{% endif %}>
+				<div class="chat-line {% if m and link in m['text_html'] %}chat-mention{% endif %}" {% if m %}id="{{id}}"{% endif %}>
 					<div class="d-flex align-items-center">
 						<div class="text-muted chat-line-content">
 							<div class="{% if not (m and m['quotes']) %}d-none{% endif %} quotes" style="font-size:12px">
@@ -84,9 +85,10 @@
 
 			<div id="shrink">
 				<div id="chat-window" class="container pl-0 py-0">
-					{% for id, m in messages.items() %}
-						{% set previous = m %}
-						{% if not (loop.index > 1 and m['user_id'] == previous['user_id']) %}
+					{% set messages_list = messages.items()|list %}
+					{% for id, m in messages_list %}
+						{% set same = loop.index > 1 and m['user_id'] == messages_list[loop.index-2][1]['user_id'] %}
+						{% if not same %}
 							{% if loop.index > 1 %}
 								</div>
 							{% endif %}

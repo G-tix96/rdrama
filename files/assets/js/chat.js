@@ -291,3 +291,7 @@ document.onpaste = function(event) {
 		document.getElementById('filename').textContent = filename;
 	}
 }
+
+window.addEventListener('load', function () {
+	box.scrollTo(0, box.scrollHeight)
+});
