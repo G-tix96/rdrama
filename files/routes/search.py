@@ -46,8 +46,9 @@ def searchparse(text):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def searchposts(v:User):
-
 	query = request.values.get("q", '').strip()
+	if not query:
+		abort(403, "Empty searches aren't allowed!")
 
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
@@ -174,6 +175,8 @@ def searchposts(v:User):
 @auth_required
 def searchcomments(v:User):
 	query = request.values.get("q", '').strip()
+	if not query:
+		abort(403, "Empty searches aren't allowed!")
 
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
