@@ -78,6 +78,14 @@ def speak(data, v):
 	text_html = sanitize(text, count_marseys=True)
 	quotes = data['quotes']
 	id = str(uuid.uuid4())
+
+	duplicate = False
+	if len(text) > 20:
+		for m in messages[request.referrer].values():
+			if text == m['text']:
+				duplicate = True
+				break
+
 	data = {
 		"id": id,
 		"quotes": quotes if messages[request.referrer].get(quotes) else '',
@@ -91,7 +99,7 @@ def speak(data, v):
 		"time": int(time.time()),
 	}
 
-	if v.shadowbanned or not execute_blackjack(v, None, text, "chat"):
+	if duplicate or v.shadowbanned or not execute_blackjack(v, None, text, "chat"):
 		emit('speak', data)
 	else:
 		emit('speak', data, room=request.referrer, broadcast=True)
