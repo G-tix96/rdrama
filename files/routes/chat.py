@@ -148,10 +148,9 @@ def disconnect(v):
 		online.remove(v.username)
 		refresh_online()
 
-	if v.username in typing[request.referrer]:
-		typing[request.referrer].remove(v.username)
-
-	emit('typing', typing[request.referrer], room=request.referrer, broadcast=True)
+	for val in typing.values():
+		if v.username in val:
+			val.remove(v.username)
 
 	leave_room(request.referrer)
 	return '', 204
