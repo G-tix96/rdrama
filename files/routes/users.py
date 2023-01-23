@@ -1276,6 +1276,7 @@ def bid_list(v:User, bid):
 
 
 kofi_tiers={
+	3: 1,
 	5: 1,
 	10: 2,
 	20: 3,
