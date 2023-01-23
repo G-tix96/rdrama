@@ -119,24 +119,22 @@ knowledgebase_page_regex = re.compile("[a-zA-Z0-9_\-]+", flags=re.A)
 
 html_title_regex = re.compile("<title>(.{1,200})</title>", flags=re.I)
 
-def sub_matcher(match:re.Match, upper=False, replace_with:Union[dict[str, str], dict[str, List[str]]]=SLURS):
+def sub_matcher(match:re.Match, upper=False, replace_with:Union[dict[str, str], dict[str, List[str]]]=SLURS_FOR_REPLACING):
 	group_num = 0
 	match_str = match.group(group_num)
 	if match_str.startswith('<'):
 		return match_str
-	elif match_str.lower() == ' cool ':
-		return ' fetch '
 	else:
 		repl = replace_with[match_str.lower()]
 		return repl if not upper or "<img" in repl else repl.upper()
 
-def sub_matcher_upper(match, replace_with:Union[dict[str, str], dict[str, List[str]]]=SLURS):
+def sub_matcher_upper(match, replace_with:Union[dict[str, str], dict[str, List[str]]]=SLURS_FOR_REPLACING):
 	return sub_matcher(match, upper=True, replace_with=replace_with)
 
 
 # TODO: make censoring a bit better
 def sub_matcher_slurs(match, upper=False):
-	return sub_matcher(match, upper, replace_with=SLURS)
+	return sub_matcher(match, upper, replace_with=SLURS_FOR_REPLACING)
 
 def sub_matcher_slurs_upper(match):
 	return sub_matcher_slurs(match, upper=True)

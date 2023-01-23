@@ -191,8 +191,14 @@ if SITE_NAME == 'rDrama':
 		" cool (?!it)": " fetch ",
 		"krayon": "krayon (sister toucher)",
 		"discord": "groomercord",
+		"allah(?! \()": "Allah (ﷻ)",
+		"muhammad(?! \()": "Prophet Muhammad (ﷺ)"
 	}
 	SLURS.update(RDRAMA_SLURS)
+
+	SLURS_FOR_REPLACING = {}
+	for k, val in SLURS.items():
+		SLURS_FOR_REPLACING[k.split('(')[0]] = val
 
 	BOOSTED_SITES = {
 		#youtube-like
