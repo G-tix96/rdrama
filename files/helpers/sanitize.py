@@ -237,6 +237,27 @@ chud_images = listdir("files/assets/images/chud")
 chud_images = [f'![](/i/chud/{f})' for f in chud_images]
 chud_images.extend([':#trumpjaktalking:', ':#reposthorse:'])
 
+def handle_youtube(url):
+	html = None
+	params = parse_qs(urlparse(url).query, keep_blank_values=True)
+	id = params.get('v')[0]
+
+	t = None
+	split = id.split('?t=')
+	if len(split) == 2:
+		id = split[0]
+		t = split[1]
+
+	if yt_id_regex.fullmatch(id):
+		if not t:
+			t = params.get('t', params.get('start', [0]))[0]
+		if isinstance(t, str): t = t.replace('s','')
+		html = f'<lite-youtube videoid="{id}" params="autoplay=1&modestbranding=1'
+		if t:
+			html += f'&start={int(t)}'
+		html += '"></lite-youtube>'
+	return html
+
 @with_sigalrm_timeout(10)
 def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False, sidebar=False, snappy=False):
 	sanitized = sanitized.strip()
@@ -356,17 +377,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		if i.group(0) in captured: continue
 		captured.append(i.group(0))
 
-		params = parse_qs(urlparse(i.group(2)).query, keep_blank_values=True)
-		t = params.get('t', params.get('start', [0]))[0]
-		if isinstance(t, str): t = t.replace('s','')
-
-		htmlsource = f'{i.group(1)}<lite-youtube videoid="{i.group(3)}" params="autoplay=1&modestbranding=1'
-		if t:
-			try: htmlsource += f'&start={int(t)}'
-			except: pass
-		htmlsource += '"></lite-youtube>'
-
-		sanitized = sanitized.replace(i.group(0), htmlsource)
+		html = handle_youtube(i.group(0))
+		if html:
+			sanitized = sanitized.replace(i.group(0), html)
 
 	sanitized = video_sub_regex.sub(r'\1<p class="resizable"><video controls preload="none" src="\2"></video></p>', sanitized)
 	sanitized = audio_sub_regex.sub(r'\1<audio controls preload="none" src="\2"></audio>', sanitized)
@@ -472,12 +485,12 @@ def normalize_url(url):
 	url = url.replace("https://youtu.be/", "https://youtube.com/watch?v=") \
 			 .replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=") \
 			 .replace("https://www.youtube.com", "https://youtube.com") \
+			 .replace("https://m.youtube.com", "https://youtube.com") \
 			 .replace("https://youtube.com/shorts/", "https://youtube.com/watch?v=") \
 			 .replace("https://youtube.com/v/", "https://youtube.com/watch?v=") \
 			 .replace("https://mobile.twitter.com", "https://twitter.com") \
 			 .replace("https://m.facebook.com", "https://facebook.com") \
 			 .replace("https://m.wikipedia.org", "https://wikipedia.org") \
-			 .replace("https://m.youtube.com", "https://youtube.com") \
 			 .replace("https://www.twitter.com", "https://twitter.com") \
 			 .replace("https://www.instagram.com", "https://instagram.com") \
 			 .replace("https://www.tiktok.com", "https://tiktok.com") \

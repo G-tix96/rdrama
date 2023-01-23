@@ -630,21 +630,8 @@ def submit_post(v:User, sub=None):
 				embed = requests.get("https://publish.twitter.com/oembed", params={"url":url, "omit_script":"t"}, timeout=5).json()["html"]
 				embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
 			except: pass
-		elif url.startswith('https://youtube.com/watch?v='):
-			url = unquote(url).replace('?t', '&t')
-			yt_id = url.split('https://youtube.com/watch?v=')[1].split('&')[0].split('%')[0]
-
-			if yt_id_regex.fullmatch(yt_id):
-				params = parse_qs(urlparse(url).query, keep_blank_values=True)
-				t = params.get('t', params.get('start', [0]))[0]
-				if isinstance(t, str): t = t.replace('s','')
-
-				embed = f'<lite-youtube videoid="{yt_id}" params="autoplay=1&modestbranding=1'
-				if t:
-					try: embed += f'&start={int(t)}'
-					except: pass
-				embed += '"></lite-youtube>'
-
+		elif url.startswith('https://youtube.com/watch?'):
+			embed = handle_youtube(url)
 		elif SITE in domain and "/post/" in url and "context" not in url and url.count('/') < 6:
 			id = url.split("/post/")[1]
 			if "/" in id: id = id.split("/")[0]
