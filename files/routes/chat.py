@@ -60,7 +60,6 @@ def speak(data, v):
 			f.write(data['file'])
 		image = process_image(name, v)
 
-	limiter.check()
 	if v.is_banned: return '', 403
 	if TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
 		return '', 403

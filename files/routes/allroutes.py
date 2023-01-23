@@ -47,7 +47,6 @@ def before_request():
 	request.full_path = request.full_path.rstrip('?').rstrip('/')
 	if not request.full_path: request.full_path = '/'
 
-	limiter.check()
 	g.db = db_session()
 
 	g.nonce = secrets.token_urlsafe(31)

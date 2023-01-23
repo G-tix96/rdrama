@@ -69,7 +69,6 @@ limiter = Limiter(
 	default_limits=[DEFAULT_RATELIMIT],
 	application_limits=["10/second;200/minute;5000/hour;10000/day"],
 	storage_uri=environ.get("REDIS_URL", "redis://localhost"),
-	auto_check=False,
 )
 
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URL'])
