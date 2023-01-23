@@ -91,7 +91,7 @@ p {
 	float: right;
 	color: var(--black);
 	font-size: 12px;
-	margin-top: 5px;
+	margin-top: 4px;
 }
 
 lite-youtube {
@@ -126,10 +126,6 @@ lite-youtube {
 
 .QuotedMessage * {
 	font-size: 12px !important;
-}
-
-.quotes {
-	margin-top: 0.5rem;
 }
 
 .chat-message {
