@@ -193,17 +193,22 @@ textbox.addEventListener("keyup", function(e) {
 })
 
 socket.on('online', function(data){
-	document.getElementsByClassName('board-chat-count')[0].innerHTML = data.length
+	document.getElementsByClassName('board-chat-count')[0].innerHTML = data[0].length
 	let online = ''
 	let online2 = '<b>Users Online</b>'
-	for (const u of data)
+	for (const u of data[0])
 	{
-		online += `<li><a href="/@${u}">@${u}</a></li>`
+		online += `<li>`
+		if (Object.keys(data[1]).includes(u.toLowerCase()))
+			online += '<b class="text-danger muted" data-bs-toggle="tooltip" title="Muted">X</b> '
+		online += `<a href="/@${u}">@${u}</a></li>`
 		online2 += `<br>@${u}`
 	}
 	document.getElementById('online').innerHTML = online
+	bs_trigger(document.getElementById('online'))
 	document.getElementById('online2').setAttribute("data-bs-original-title", online2);
 	document.getElementById('online3').innerHTML = online
+	bs_trigger(document.getElementById('online3'))
 })
 
 window.addEventListener('blur', function(){

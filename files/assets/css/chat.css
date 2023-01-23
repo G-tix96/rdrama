@@ -156,3 +156,7 @@ img[alt^="![]("] {
 *::-webkit-scrollbar {
 	display: none;
 }
+
+.muted {
+	cursor: pointer;
+}

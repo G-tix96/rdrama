@@ -26,10 +26,7 @@ typing = {
 }
 online =  []
 cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
-muted = cache.get(f'muted') or {
-	f'{SITE_FULL}/chat': {},
-	f'{SITE_FULL}/admin/chat': {}
-}
+muted = cache.get(f'muted') or {}
 messages = cache.get(f'messages') or {
 	f'{SITE_FULL}/chat': {},
 	f'{SITE_FULL}/admin/chat': {}
@@ -49,8 +46,6 @@ def admin_chat(v):
 	return render_template("chat.html", v=v, messages=messages[f"{SITE_FULL}/admin/chat"])
 
 @socketio.on('speak')
-@limiter.limit("3/second;10/minute")
-@limiter.limit("3/second;10/minute", key_func=get_ID)
 @admin_level_required(PERMS['CHAT'])
 def speak(data, v):
 	image = None
@@ -64,11 +59,6 @@ def speak(data, v):
 	if TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
 		return '', 403
 
-	vname = v.username.lower()
-	if vname in muted[request.referrer] and not v.admin_level >= PERMS['CHAT_BYPASS_MUTE']:
-		if time.time() < muted[request.referrer][vname]: return '', 403
-		else: del muted[request.referrer][vname]
-
 	global messages
 
 	text = sanitize_raw_body(data['message'], False)[:CHAT_LENGTH_LIMIT]
@@ -79,12 +69,31 @@ def speak(data, v):
 	quotes = data['quotes']
 	id = str(uuid.uuid4())
 
-	duplicate = False
-	if len(text) > 20:
-		for m in messages[request.referrer].values():
-			if text == m['text']:
-				duplicate = True
-				break
+	self_only = False
+
+	vname = v.username.lower()
+	if vname in muted:
+		if time.time() < muted[vname]:
+			self_only = True
+		else:
+			del muted[vname]
+
+	def shut_up():
+		self_only = True
+		muted_until = int(time.time() + 3600)
+		muted[vname] = muted_until
+
+	if not self_only:
+		identical = [x for x in list(messages[request.referrer].values())[-10:] if v.id == x['user_id'] and text == x['text']]
+		if len(identical) >= 3: shut_up()
+
+	if not self_only:
+		count = len([x for x in list(messages[request.referrer].values())[-10:] if v.id == x['user_id']])
+		if count >= 5: shut_up()
+
+	if not self_only:
+		count = len([x for x in list(messages[request.referrer].values())[-50:] if v.id == x['user_id']])
+		if count >= 20: shut_up()
 
 	data = {
 		"id": id,
@@ -99,19 +108,21 @@ def speak(data, v):
 		"time": int(time.time()),
 	}
 
-	if duplicate or v.shadowbanned or not execute_blackjack(v, None, text, "chat"):
-		emit('speak', data)
-	else:
-		emit('speak', data, room=request.referrer, broadcast=True)
-		messages[request.referrer][id] = data
-		messages[request.referrer] = dict(list(messages[request.referrer].items())[-500:])
 
 	if v.admin_level >= PERMS['USER_BAN']:
 		text = text.lower()
 		for i in mute_regex.finditer(text):
 			username = i.group(1).lower()
-			duration = int(int(i.group(2)) * 60 + time.time())
-			muted[request.referrer][username] = duration
+			muted_until = int(int(i.group(2)) * 60 + time.time())
+			muted[username] = muted_until
+			self_only = True
+
+	if self_only or v.shadowbanned or not execute_blackjack(v, None, text, "chat"):
+		emit('speak', data)
+	else:
+		emit('speak', data, room=request.referrer, broadcast=True)
+		messages[request.referrer][id] = data
+		messages[request.referrer] = dict(list(messages[request.referrer].items())[-500:])
 
 	typing = []
 
@@ -129,31 +140,32 @@ def speak(data, v):
 
 	return '', 204
 
-def refresh_online():
-	emit("online", online, broadcast=True)
+def refresh_online(v):
+	if v.admin_level >= PERMS['USER_BAN']:
+		emit("online", [online, muted], broadcast=True)
+	else:
+		emit("online", [online, []], broadcast=True)
 	if request.referrer == f'{SITE_FULL}/chat':
 		cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
 
 @socketio.on('connect')
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['CHAT'])
 def connect(v):
 	join_room(request.referrer)
 
 	if v.username not in online:
 		online.append(v.username)
-		refresh_online()
+		refresh_online(v)
 
 	emit('typing', typing[request.referrer], room=request.referrer)
 	return '', 204
 
 @socketio.on('disconnect')
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['CHAT'])
 def disconnect(v):
 	if v.username in online:
 		online.remove(v.username)
-		refresh_online()
+		refresh_online(v)
 
 	for val in typing.values():
 		if v.username in val:
@@ -163,7 +175,6 @@ def disconnect(v):
 	return '', 204
 
 @socketio.on('typing')
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['CHAT'])
 def typing_indicator(data, v):
 
@@ -177,7 +188,6 @@ def typing_indicator(data, v):
 
 
 @socketio.on('delete')
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def delete(id, v):
 	for k, val in messages[request.referrer].items():
