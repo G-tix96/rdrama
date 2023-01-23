@@ -307,6 +307,15 @@ document.onpaste = function(event) {
 		f.files = files;
 		document.getElementById('filename-show-edit-' + id).textContent = filename;
 	}
+	else if (focused.id == "input-message") {
+		f=document.getElementById('file-upload');
+		let filename = ''
+		for (const file of files)
+			filename += file.name + ', '
+		filename = filename.toLowerCase().slice(0, -2)
+		f.files = files;
+		document.getElementById('filename').textContent = filename;
+	}
 }
 
 function handle_action(type, cid, thing) {
