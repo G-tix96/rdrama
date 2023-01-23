@@ -1277,7 +1277,7 @@ def unmute_user(v:User, user_id):
 def progstack(post_id, v):
 	post = get_post(post_id)
 	post.is_approved = PROGSTACK_ID
-	post.realupvotes = floor(target.realupvotes * PROGSTACK_MUL)
+	post.realupvotes = floor(post.realupvotes * PROGSTACK_MUL)
 	g.db.add(post)
 	cache.delete_memoized(frontlist)
 	return {"message": "Progressive stack applied!"}
