@@ -67,6 +67,10 @@
 			<button type="button" id="unblock-{{p.id}}" class="dropdown-item text-success list-inline-item {% if not p.is_blocking %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/settings/unblock?username={{p.author.username}}','block-{{p.id}}','unblock-{{p.id}}','d-none')"><i class="fas fa-eye text-success"></i>Unblock user</button>
 			<button type="button" id="block-{{p.id}}" class="dropdown-item list-inline-item text-danger {% if p.is_blocking %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/settings/block?username={{p.author.username}}','block-{{p.id}}','unblock-{{p.id}}','d-none')"><i class="fas fa-eye-slash text-danger"></i>Block user</button>
 		{% endif %}
+		{% if v.id != p.author_id and p.sub %}
+			<button type="button" id="unblock-sub-{{p.id}}" class="dropdown-item text-success list-inline-item {% if not v.blocks(p.sub) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{p.sub}}/unblock','block-sub-{{p.id}}','unblock-sub-{{p.id}}','d-none')"><i class="fas fa-eye text-success"></i>Unblock /h/{{p.sub}}</button>
+			<button type="button" id="block-sub-{{p.id}}" class="dropdown-item list-inline-item text-danger {% if v.blocks(p.sub) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{p.sub}}/block','block-sub-{{p.id}}','unblock-sub-{{p.id}}','d-none')"><i class="fas fa-eye-slash text-danger"></i>Block /h/{{p.sub}}</button>
+		{% endif %}
 		{% if p.sub and v.mods(p.sub) %}
 			<button type="button" class="dropdown-item list-inline-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/kick/{{p.id}}')"><i class="fas fa-sign-out text-danger"></i>Kick</button>
 			{% if not p.author.mods(p.sub) %}
