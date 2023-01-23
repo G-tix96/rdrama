@@ -1295,7 +1295,7 @@ def claim_rewards(v):
 	for transaction in transactions:
 		tier = kofi_tiers[transaction.amount]
 		marseybux += marseybux_li[tier]
-		if transaction.type == 'Subscription' and tier > highest_tier:
+		if tier > highest_tier:
 			highest_tier = tier
 		transaction.claimed = True
 		g.db.add(transaction)
@@ -1306,6 +1306,7 @@ def claim_rewards(v):
 
 	if highest_tier > v.patron:
 		v.patron = highest_tier
+		v.patron_utc = time.time() + 2937600
 		for badge in g.db.query(Badge).filter(Badge.user_id == v.id, Badge.badge_id > 20, Badge.badge_id < 28).all():
 			g.db.delete(badge)
 		badge_grant(badge_id=20+highest_tier, user=v)
