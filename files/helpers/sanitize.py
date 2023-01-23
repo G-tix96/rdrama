@@ -420,6 +420,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 			if y.startswith(x.domain):
 				abort(403, f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
 
+	if discord_username_regex.match(sanitized):
+		abort(403, "Stop grooming!")
+
 	if '<pre>' not in sanitized and not sidebar:
 		sanitized = sanitized.replace('\n','')
 

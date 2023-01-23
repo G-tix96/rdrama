@@ -180,7 +180,7 @@ commands = {
 	"roll": range(1, 9999)
 }
 
-command_regex = re.compile("(\s|\n|^)#(fortune|factcheck|8ball|roll)", flags=re.A|re.I)
+command_regex = re.compile("(\s|^)#(fortune|factcheck|8ball|roll)", flags=re.A|re.I)
 
 def command_regex_matcher(match, upper=False):
 	result = str(choice(commands[match.group(2).lower()]))
@@ -190,3 +190,5 @@ def command_regex_matcher(match, upper=False):
 	return match.group(1) + result
 
 reason_regex = re.compile('(/(post|comment)/[0-9]+)', flags=re.A)
+
+discord_username_regex = re.compile("(\s|^).{2,32}#[0-9]{4}(?=\s|$)", flags=re.A)
