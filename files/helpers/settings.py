@@ -13,6 +13,7 @@ _SETTINGS = {
 	"signups": True,
 	"login_required": False,
 	"under_siege": False,
+	"dm_images": True,
 }
 
 def get_setting(setting:str):

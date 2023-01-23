@@ -12,7 +12,7 @@ from files.classes.user import User
 from files.helpers.assetcache import assetcache_path
 from files.helpers.config.const import *
 from files.helpers.regex import *
-from files.helpers.settings import get_settings
+from files.helpers.settings import get_settings, get_setting
 from files.helpers.sorting_and_time import make_age_string
 from files.routes.routehelpers import get_alt_graph, get_formkey
 from files.__main__ import app, cache
@@ -107,7 +107,7 @@ def inject_constants():
 			"HOLE_NAME":HOLE_NAME, "HOLE_STYLE_FLAIR":HOLE_STYLE_FLAIR, "HOLE_REQUIRED":HOLE_REQUIRED,
 			"GUMROAD_LINK":GUMROAD_LINK, "DEFAULT_THEME":DEFAULT_THEME, "DESCRIPTION":DESCRIPTION,
 			"has_sidebar":has_sidebar, "has_logo":has_logo,
-			"FP":FP, "patron":patron,
+			"FP":FP, "patron":patron, "get_setting": get_setting,
 			"SIDEBAR_THREAD":SIDEBAR_THREAD, "BANNER_THREAD":BANNER_THREAD,
 			"BADGE_THREAD":BADGE_THREAD, "SNAPPY_THREAD":SNAPPY_THREAD,
 			"KOFI_TOKEN":KOFI_TOKEN, "KOFI_LINK":KOFI_LINK,

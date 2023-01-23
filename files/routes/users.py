@@ -495,6 +495,9 @@ def message2(v:User, username:str):
 		abort(403, f"@{user.username} is blocking you.")
 
 	message = sanitize_raw_body(request.values.get("message"), False)
+
+	message += process_dm_images(v)
+
 	if not message: abort(400, "Message is empty!")
 
 	body_html = sanitize(message)
@@ -545,7 +548,6 @@ def message2(v:User, username:str):
 @auth_required
 def messagereply(v:User):
 	body = sanitize_raw_body(request.values.get("body"), False)
-	if not body and not request.files.get("file"): abort(400, "Message is empty!")
 
 	id = request.values.get("parent_id")
 	parent = get_comment(id, v=v)
@@ -567,10 +569,11 @@ def messagereply(v:User):
 				and hasattr(user, 'is_blocked') and user.is_blocked):
 			abort(403, f"You're blocked by @{user.username}")
 
-	if parent.sentto == MODMAIL_ID:
-		body += process_files(request.files, v)
+	body += process_dm_images(v)
 
 	body = body.strip()
+
+	if not body: abort(400, "Message is empty!")
 
 	body_html = sanitize(body)
 

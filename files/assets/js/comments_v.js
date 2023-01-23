@@ -119,7 +119,7 @@ function post_reply(id){
 	form.append('parent_id', id);
 	form.append('body', document.getElementById('reply-form-body-'+id).value);
 	try {
-		for (const e of document.getElementById('file-upload').files)
+		for (const e of document.getElementById(`file-upload-${id}`).files)
 			form.append('file', e);
 	}
 	catch(e) {}
@@ -144,10 +144,10 @@ function post_reply(id){
 			document.getElementById('reply-form-body-'+id).value = ''
 			document.getElementById('message-reply-'+id).innerHTML = ''
 			toggleReplyBox('reply-message-c_'+id)
-			const fileupload = document.getElementById('file-upload')
+			const fileupload = document.getElementById(`file-upload-${id}`)
 			if (fileupload) {
 				fileupload.value = null;
-				document.getElementById('filename').innerHTML = '<i class="fas fa-file"></i>';
+				document.getElementById(`filename-${id}`).innerHTML = '<i class="fas fa-file"></i>';
 			}
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));

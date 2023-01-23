@@ -38,6 +38,7 @@ pip3 install -r requirements.txt
 
 mkdir /images
 mkdir /chat_images
+mkdir /dm_images
 mkdir /songs
 mkdir /videos
 mkdir /audio

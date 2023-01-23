@@ -188,6 +188,12 @@ def loggedout_list(v):
 # 	return redirect(f"/@{olduser.username}")
 
 
+@app.get('/admin/dm_images')
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@admin_level_required(PERMS['VIEW_DM_IMAGES'])
+def dm_images(v):
+	with open(f"{LOG_DIRECTORY}/dm_images.log", "r", encoding="utf-8") as f:
+		return f.read()
 
 @app.get('/admin/edit_rules')
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)

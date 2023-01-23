@@ -1,12 +1,13 @@
 import os
 import subprocess
 import time
+import requests
 from shutil import copyfile
 from typing import Optional
 
 import gevent
 import imagehash
-from flask import abort, g, has_request_context
+from flask import abort, g, has_request_context, request
 from werkzeug.utils import secure_filename
 from PIL import Image
 from PIL import UnidentifiedImageError
@@ -15,6 +16,7 @@ from sqlalchemy.orm.session import Session
 
 from files.classes.media import *
 from files.helpers.cloudflare import purge_files_in_cache
+from files.helpers.settings import get_setting
 
 from .config.const import *
 
@@ -216,3 +218,45 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 	db.add(media)
 
 	return filename
+
+
+def process_dm_images(v):
+	if not request.files.get("file") or g.is_tor or not get_setting("dm_images"):
+		return ''
+
+	body = ''
+	files = request.files.getlist('file')[:4]
+	for file in files:
+		if file.content_type.startswith('image/'):
+			filename = f'/dm_images/{time.time()}'.replace('.','') + '.webp'
+			file.save(filename)
+
+			size = os.stat(filename).st_size
+			patron = bool(v.patron)
+
+			if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
+				os.remove(filename)
+				abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for paypigs)")
+
+			with open(filename, 'rb') as f:
+				os.remove(filename)
+				try:
+					req = requests.request(
+						"POST",
+						"https://pomf2.lain.la/upload.php",
+						files={'files[]': f},
+						timeout=20,
+						proxies=proxies
+					).json()
+				except requests.Timeout:
+					abort(400, "Image upload timed out, please try again!")
+			
+			try: url = req['files'][0]['url']
+			except: abort(400, req['description'])
+			
+			body += f'\n\n{url}\n\n'
+	
+	with open(f"{LOG_DIRECTORY}/dm_images.log", "a+", encoding="utf-8") as f:
+		f.write(body.strip() + '\n')
+	
+	return body

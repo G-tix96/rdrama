@@ -522,12 +522,12 @@
 						<div class="comment-format" id="comment-format-bar-{{c.id}}">
 							<button type="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('reply-form-body-{{c.id}}')" class="btn btn-secondary m-0 mt-3 mr-1" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
 
-							{% if c.sentto == MODMAIL_ID %}
-								<label class="btn btn-secondary m-0 mt-3" for="file-upload">
-									<div id="filename"><i class="fas fa-file"></i></div>
-									<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file" multiple="multiple" {% if g.is_tor %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename','file-upload')" hidden>
-								</label>
-							{% endif %}
+							{% set upload_disabled = g.is_tor or not get_setting('dm_images') %}
+
+							<label class="btn btn-secondary m-0 mt-3 {% if upload_disabled %}disabled{% endif %}" for="file-upload-{{c.id}}">
+								<div id="filename-{{c.id}}"><i class="fas fa-image"></i></div>
+								<input autocomplete="off" id="file-upload-{{c.id}}" accept="image/*" type="file" name="file" multiple="multiple" {% if upload_disabled %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename-{{c.id}}','file-upload-{{c.id}}')" hidden>
+							</label>
 						</div>
 
 						<button type="button" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" class="btn btn-link text-muted ml-auto" data-toggleelement="reply-message-{{c.fullname}}" data-toggleattr="d-none">Cancel</button>
