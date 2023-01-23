@@ -196,10 +196,6 @@ if SITE_NAME == 'rDrama':
 	}
 	SLURS.update(RDRAMA_SLURS)
 
-	SLURS_FOR_REPLACING = {}
-	for k, val in SLURS.items():
-		SLURS_FOR_REPLACING[k.split('(')[0]] = val
-
 	BOOSTED_SITES = {
 		#youtube-like
 		'bitchute.com',
@@ -336,6 +332,10 @@ elif SITE_NAME == 'WPD':
 	)
 	REDDIT_NOTIFS_SITE.update({'watchpeopledie', 'makemycoffin'})
 
+
+SLURS_FOR_REPLACING = {}
+for k, val in SLURS.items():
+	SLURS_FOR_REPLACING[k.split('(')[0]] = val
 
 PROFANITIES = {
 	'motherfucker': 'motherlover',
