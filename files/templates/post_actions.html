@@ -82,6 +82,9 @@
 			<button type="button" id="mark-{{p.id}}" class="dropdown-item {% if p.over_18 %}d-none{% endif %} list-inline-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mark_post_nsfw/{{p.id}}','mark-{{p.id}}','unmark-{{p.id}}','d-none')"><i class="fas fa-eye-evil"></i>Mark +18</button>
 			<button type="button" id="unmark-{{p.id}}" class="dropdown-item {% if not p.over_18 %}d-none{% endif %} list-inline-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmark_post_nsfw/{{p.id}}','mark-{{p.id}}','unmark-{{p.id}}','d-none')"><i class="fas fa-eye-evil"></i>Unmark +18</button>
 		{% endif %}
+		{% if v.admin_level >= PERMS['PROGSTACK'] %}
+			<button type="button" id="progstack-{{p.id}}" class="dropdown-item {% if p.is_approved == PROGSTACK_ID %}d-none{% endif %} list-inline-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToast(this,'/admin/progstack/{{p.id}}'"><i class="fas fa-bullhorn"></i>Apply Progressive Stack</button>
+		{% endif %}
 		{% if v.admin_level >= PERMS['USER_BAN'] and v.id != p.author_id %}
 			<button type="button" id="ban-{{p.fullname}}" class="dropdown-item {% if p.author.is_suspended %}d-none{% endif %} list-inline-item text-danger" data-bs-toggle="modal" data-bs-target="#banModal" data-nonce="{{g.nonce}}" data-onclick="banModal('/post/{{p.id}}', '{{p.author_name}}', '{{p.fullname}}','d-none')"><i class="fas fa-user-slash text-danger fa-fw"></i>Ban user</button>
 			<button type="button" id="unban-{{p.fullname}}" class="dropdown-item {% if not p.author.is_suspended %}d-none{% endif %} list-inline-item text-success" id="unexile2-user-{{p.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unban_user/{{p.fullname}}','ban-{{p.fullname}}','unban-{{p.fullname}}','d-none')"><i class="fas fa-user-slash"></i>Unban user</button>

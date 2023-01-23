@@ -53,6 +53,7 @@ blackjack2 = environ.get("BLACKJACK2", "").strip()
 FP = environ.get("FP", "").strip()
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
 KOFI_LINK = environ.get("KOFI_LINK", "").strip()
+PROGSTACK_MUL = float(environ.get("PROGSTACK_MUL", 2.0))
 
 class Service(Enum):
 	RDRAMA = auto()
@@ -472,9 +473,10 @@ PERMS = { # Minimum admin_level to perform action.
  	'UPDATE_ASSETS': 4, 
  	'VIEW_PATRONS': 4, 
  	'BLACKJACK_NOTIFICATIONS': 4, 
- 	'IGNORE_BADGE_BLACKLIST': 4, 
+ 	'IGNORE_BADGE_BLACKLIST': 4,
+	'PROGSTACK': 4,
  	'SEE_GHOST_VOTES': 5, 
- 	'MODS_EVERY_HOLE': 5
+ 	'MODS_EVERY_HOLE': 5,
 }
 
 FEATURES = {
@@ -614,6 +616,8 @@ LONGPOSTBOT_ID = 3
 ZOZBOT_ID = 4
 PIZZASHILL_ID = 0
 IMPASSIONATA_ID = 0
+PROGSTACK_ID = 4
+
 CARP_ID = 0
 AEVANN_ID = 0
 SNAKES_ID = 0
@@ -709,6 +713,7 @@ if SITE == 'rdrama.net':
 	ZOZBOT_ID = 1833
 	PIZZASHILL_ID = 2424
 	IMPASSIONATA_ID = 5800
+	PROGSTACK_ID = 15531
 	CARP_ID = 995
 	AEVANN_ID = 1
 	SNAKES_ID = 10288

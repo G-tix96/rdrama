@@ -1,5 +1,6 @@
 import time
 from urllib.parse import quote, urlencode
+from math import floor
 
 from sqlalchemy import nullslast
 from sqlalchemy.exc import IntegrityError
@@ -1269,6 +1270,17 @@ def unmute_user(v:User, user_id):
 
 	return {"message": f"@{user.username} has been unmuted!"}
 
+@app.post("/admin/progstack/<int:post_id>")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@admin_level_required(PERMS['PROGSTACK'])
+def progstack(post_id, v):
+	post = get_post(post_id)
+	post.is_approved = PROGSTACK_ID
+	post.realupvotes = floor(target.realupvotes * PROGSTACK_MUL)
+	g.db.add(post)
+	cache.delete_memoized(frontlist)
+	return {"message": "Progressive stack applied!"}
 
 @app.post("/remove_post/<int:post_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)

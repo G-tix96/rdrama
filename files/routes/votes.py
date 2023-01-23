@@ -5,6 +5,8 @@ from files.routes.wrappers import *
 from files.__main__ import app, limiter
 from files.routes.routehelpers import get_alt_graph
 
+from math import floor
+
 @app.get("/votes/<link>")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -161,21 +163,24 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		target.realupvotes = get_vote_count(0, True) # first arg is ignored here
 
 		mul = 1
-		if target.author.progressivestack or (target.author.admin_level and target.author.id not in {AEVANN_ID, CARP_ID}):
-			mul = 2
-		if cls == Submission and target.author.id not in {8768,3402,5214,12719}:
-			if (target.domain.endswith('.win') or 'forum' in target.domain
-					or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))
-					or target.sub in BOOSTED_HOLES):
+		if target.is_approved == PROGSTACK_ID:
+			mul = PROGSTACK_MUL
+		else:
+			if target.author.progressivestack or (target.author.admin_level and target.author.id not in {AEVANN_ID, CARP_ID}):
 				mul = 2
-			elif not target.sub and target.body_html:
-				x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
-				x += target.body_html.count('<a href="/images/')
-				target.realupvotes += min(x*2, 20)
-				mul = 1 + x/10
+			if cls == Submission and target.author.id not in {8768,3402,5214,12719}:
+				if (target.domain.endswith('.win') or 'forum' in target.domain
+						or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))
+						or target.sub in BOOSTED_HOLES):
+					mul = 2
+				elif not target.sub and target.body_html:
+					x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
+					x += target.body_html.count('<a href="/images/')
+					target.realupvotes += min(x*2, 20)
+					mul = 1 + x/10
 
 		mul = min(mul, 2)
-		target.realupvotes *= mul
+		target.realupvotes = floor(target.realupvotes * mul)
 
 	g.db.add(target)
 	return "", 204
