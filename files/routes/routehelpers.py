@@ -96,10 +96,10 @@ def check_for_alts(current:User, include_current_session=True):
 			u.ban_reason = current.ban_reason
 			g.db.add(u)
 
-		if u.is_muted:
+		if u.is_muted and not current.is_muted:
 			current.is_muted = u.is_muted
 			g.db.add(current)
-		elif current.is_muted:
+		elif current.is_muted and not u.is_muted:
 			u.is_muted = current.is_muted
 			g.db.add(u)
 
