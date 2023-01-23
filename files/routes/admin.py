@@ -1239,6 +1239,7 @@ def mute_user(v:User, user_id):
 				)
 		g.db.add(user)
 		g.db.add(ma)
+		check_for_alts()
 
 	return {"message": f"@{user.username} has been muted!"}
 

@@ -96,6 +96,14 @@ def check_for_alts(current:User, include_current_session=True):
 			u.ban_reason = current.ban_reason
 			g.db.add(u)
 
+		if u.is_muted:
+			current.is_muted = u.is_muted
+			g.db.add(current)
+		elif current.is_muted:
+			u.is_muted = current.is_muted
+			g.db.add(u)
+
+
 def execute_shadowban_viewers_and_voters(v:Optional[User], target:Union[Submission, Comment]):
 	if not v or not v.shadowbanned: return
 	if not target: return
