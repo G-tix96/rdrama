@@ -42,9 +42,8 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 		site_stats = stats.stats(SITE_NAME)
 		cache.set(f'{SITE}_stats', site_stats)
 
-	if every_1mo:
-		if KOFI_LINK: _give_monthly_marseybux_task_kofi()
-		else: _give_monthly_marseybux_task()
+	if every_1mo and not KOFI_LINK:
+		_give_monthly_marseybux_task()
 
 	g.db.commit()
 	g.db.close()
@@ -152,32 +151,6 @@ def _give_monthly_marseybux_task():
 			give_marseybux(u)
 		else:
 			u.patron = 0
-
-	ma = ModAction(
-		kind="monthly",
-		user_id=AUTOJANNY_ID,
-	)
-	g.db.add(ma)
-
-	return True
-
-
-def _give_monthly_marseybux_task_kofi():
-	month = datetime.datetime.now() + datetime.timedelta(days=5)
-	month = month.strftime('%B')
-
-	tx_emails = [x[0] for x in g.db.query(Transaction.email).distinct().all()]
-
-	for u in g.db.query(User).filter(User.patron > 0, User.patron_utc == 0).all():
-		g.db.add(u)
-
-		if not (u.is_activated and u.email in tx_emails):
-			u.patron = 0
-			continue
-
-		marseybux_reward = marseybux_li[u.patron]
-		u.pay_account('marseybux', marseybux_reward)
-		send_repeatable_notification(u.id, f"@AutoJanny has given you {marseybux_reward} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
 
 	ma = ModAction(
 		kind="monthly",

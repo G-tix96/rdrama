@@ -1271,6 +1271,42 @@ def bid_list(v:User, bid):
 						)
 
 
+
+kofi_tiers={
+	5: 1,
+	10: 2,
+	20: 3,
+	50: 4,
+	100: 5,
+	200: 6
+	}
+
+def claim_rewards(v):
+	g.db.flush()
+	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()
+
+	highest_tier = 0
+	marseybux = 0
+
+	for transaction in transactions:
+		tier = kofi_tiers[transaction.amount]
+		marseybux += marseybux_li[tier]
+		if transaction.type == 'Subscription' and tier > highest_tier:
+			highest_tier = tier
+		transaction.claimed = True
+		g.db.add(transaction)
+
+	v.pay_account('marseybux', marseybux)
+	send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards in the [shop](/shop).")
+	g.db.add(v)
+
+	if highest_tier > v.patron:
+		v.patron = highest_tier
+		for badge in g.db.query(Badge).filter(Badge.user_id == v.id, Badge.badge_id > 20, Badge.badge_id < 28).all():
+			g.db.delete(badge)
+		badge_grant(badge_id=20+highest_tier, user=v)
+
+
 @app.post("/kofi")
 def kofi():
 	if not KOFI_TOKEN: abort(404)
@@ -1297,16 +1333,13 @@ def kofi():
 	)
 
 	g.db.add(transaction)
+
+	user = g.db.query(User).filter_by(email=email, is_activated=True).order_by(User.truescore.desc()).first()
+	if user:
+		claim_rewards(user)
+
 	return ''
 
-kofi_tiers={
-	5: 1,
-	10: 2,
-	20: 3,
-	50: 4,
-	100: 5,
-	200: 6
-	}
 
 @app.post("/settings/kofi")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
@@ -1323,26 +1356,7 @@ def settings_kofi(v:User):
 	if not transactions:
 		abort(400, f"{patron} rewards already claimed")
 
-	highest_tier = 0
-	marseybux = 0
-
-	for transaction in transactions:
-		tier = kofi_tiers[transaction.amount]
-		marseybux += marseybux_li[tier]
-		if transaction.type == 'Subscription' and tier > highest_tier:
-			highest_tier = tier
-		transaction.claimed = True
-		g.db.add(transaction)
-
-	v.pay_account('marseybux', marseybux)
-	send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards in the [shop](/shop).")
-	g.db.add(v)
-
-	if highest_tier > v.patron:
-		v.patron = highest_tier
-		for badge in g.db.query(Badge).filter(Badge.user_id == v.id, Badge.badge_id > 20, Badge.badge_id < 28).all():
-			g.db.delete(badge)
-		badge_grant(badge_id=20+highest_tier, user=v)
+	claim_rewards(v)
 
 	return {"message": f"{patron} rewards claimed!"}
 
