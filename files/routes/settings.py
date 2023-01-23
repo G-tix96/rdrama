@@ -417,10 +417,10 @@ def gumroad(v):
 	response = [x for x in response if x['variants_and_quantity']]
 	response = response[0]
 	tier = tiers[response["variants_and_quantity"]]
-	if v.patron == tier: abort(400, f"{patron} rewards already claimed")
+	if v.patron == tier: abort(400, f"{patron} rewards already claimed!")
 
 	marseybux = marseybux_li[tier] - marseybux_li[v.patron]
-	if marseybux < 0: abort(400, f"{patron} rewards already claimed")
+	if marseybux < 0: abort(400, f"{patron} rewards already claimed!")
 
 	existing = g.db.query(User.id).filter(User.email == v.email, User.is_activated == True, User.patron >= tier).first()
 	if existing: abort(400, f"{patron} rewards already claimed on another account")

@@ -1359,7 +1359,7 @@ def settings_kofi(v:User):
 	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()
 
 	if not transactions:
-		abort(400, f"{patron} rewards already claimed")
+		abort(400, f"{patron} rewards already claimed!")
 
 	claim_rewards(v)
 
