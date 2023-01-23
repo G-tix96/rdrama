@@ -25,7 +25,7 @@ def normalize_urls_runtime(body, v):
 		body = body.replace('https://twitter.com/', 'https://nitter.lacontrevoie.fr/')
 		body = body.replace('https://nitter.lacontrevoie.fr/i/', 'https://twitter.com/i/')
 	if v.imginn:
-		body = body.replace('https://instagram.com/', 'https://imginn.com/')
+		body = body.replace('https://instagram.com/p/', 'https://imginn.com/p/')
 	return body
 
 class Comment(Base):
