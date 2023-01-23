@@ -90,8 +90,11 @@ def git_head():
 	with open('.git/HEAD', encoding='utf_8') as head_f:
 		head_txt = head_f.read()
 		head_path = git_regex.match(head_txt).group(1)
-		with open('.git/' + head_path, encoding='utf_8') as ref_f:
-			gitref = ref_f.read()[:7]
+		try:
+			with open('.git/' + head_path, encoding='utf_8') as ref_f:
+				gitref = ref_f.read()[:7]
+		except:
+			gitref = 'Error'
 	return (gitref, head_txt)
 
 @app.context_processor
