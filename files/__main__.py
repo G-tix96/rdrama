@@ -59,7 +59,9 @@ if "load_chat" in argv:
 
 def get_CF():
 	with app.app_context():
-		return request.headers.get('CF-Connecting-IP')
+		x = request.headers.get('CF-Connecting-IP')
+		if x: return x
+		return request.remote_addr
 
 limiter = Limiter(
 	app=app,
