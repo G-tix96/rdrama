@@ -25,7 +25,7 @@ document.onpaste = function(event) {
 
 document.getElementById('file-upload').addEventListener('change', function(){
 	f=document.getElementById('file-upload');
-	document.getElementById('filename-show').textContent = document.getElementById('file-upload').files[0].name.substr(0, 20);
+	document.getElementById('filename-show').textContent = document.getElementById('file-upload').files[0].name.substr(0, 30);
 	filename = f.files[0].name.toLowerCase()
 	if (IMAGE_FORMATS.some(s => filename.endsWith(s)))
 	{
