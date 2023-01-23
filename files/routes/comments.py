@@ -43,11 +43,12 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 			g.db.commit()
 
 	if comment.parent_submission:
-		post = comment.post
+		post = comment.parent_submission
 	else:
-		post = get_post(NOTIFICATION_THREAD, v=v)
-	
+		post = NOTIFICATION_THREAD
 
+	post = get_post(post, v=v)
+	
 	if post.over_18 and not (v and v.over_18) and not session.get('over_18', 0) >= int(time.time()):
 		if v and v.client: abort(403, "This content is not suitable for some users and situations.")
 		else: return render_template("errors/nsfw.html", v=v), 403
