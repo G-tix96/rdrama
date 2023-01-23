@@ -237,6 +237,7 @@ if SITE_NAME == 'rDrama':
 		'gamefaqs.gamespot.com',
 		'thefemaledatingstrategy.com',
 		'econjobrumors.com',
+		'sanctioned-suicide.org',
 
 		#twitter-like
 		'gab.com',
