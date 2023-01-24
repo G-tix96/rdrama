@@ -495,11 +495,14 @@ def change_settings(v:User, setting):
 	val = toggle_setting(setting)
 	if val: word = 'enable'
 	else: word = 'disable'
-	ma = ModAction(
-		kind=f"{word}_{setting}",
-		user_id=v.id,
-	)
-	g.db.add(ma)
+
+	if setting != 'login_required':
+		ma = ModAction(
+			kind=f"{word}_{setting}",
+			user_id=v.id,
+		)
+		g.db.add(ma)
+
 	return {'message': f"{setting.replace('_', ' ').title()} {word}d successfully!"}
 
 @app.post("/admin/clear_cloudflare_cache")
