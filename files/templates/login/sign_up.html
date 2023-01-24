@@ -60,10 +60,10 @@
 	{% endif %}
 	<form action="/signup" method="post" class="mt-md-3" id="signup">
 
-	<input type="hidden" name="formkey" value="{{formkey}}">
-	<input type="hidden" name="now" value="{{now}}">
-	{% if redirect %}<input type="hidden" name="redirect" value="{{redirect}}">{% endif %}
-	{% if ref_user %}<input type="hidden" name="referred_by" value="{{ref_user.id}}">{% endif %}
+	<input hidden name="formkey" value="{{formkey}}">
+	<input hidden name="now" value="{{now}}">
+	{% if redirect %}<input hidden name="redirect" value="{{redirect}}">{% endif %}
+	{% if ref_user %}<input hidden name="referred_by" value="{{ref_user.id}}">{% endif %}
 
 	<label for="username-register" class="mt-3">Username</label>
 

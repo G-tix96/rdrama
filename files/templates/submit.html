@@ -18,7 +18,7 @@
 								<div class="col p-3 py-md-0">
 										<h2 class="mt-3">Create a post</h2>
 										<div class="body">
-												<input type="hidden" name="formkey" value="{{v|formkey}}">
+												<input hidden name="formkey" value="{{v|formkey}}">
 												<label class='mt-4' for="title">{{HOLE_NAME|capitalize}}</label>
 												<div class="input-group mb2">
 													{%- set hole_placeholder = 'Required' if HOLE_REQUIRED else 'Optional' -%}
@@ -68,7 +68,7 @@
 												<div class="form-text text-small my-1"><a href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a></div>
 												<div class="custom-control custom-checkbox">
 													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-notify" name="notify" data-nonce="{{g.nonce}}" data-onchange="savetext()" checked>
-													<input type="hidden" name="notify" value="off">
+													<input hidden name="notify" value="off">
 													<label class="custom-control-label" for="post-notify">Notify followers</label>
 												</div>
 												<div class="custom-control custom-checkbox">

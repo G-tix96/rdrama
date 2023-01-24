@@ -12,7 +12,7 @@
 {% set form_action = "/admin/badge_grant" if grant else "/admin/badge_remove" %}
 
 <form action="{{form_action}}" method="post">
-<input type="hidden" name="formkey" value="{{v|formkey}}">
+<input hidden name="formkey" value="{{v|formkey}}">
 
 <label for="input-username">Username</label>
 <input autocomplete="off" id="input-username" class="form-control" type="text" name="username" required>
