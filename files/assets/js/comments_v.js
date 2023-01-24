@@ -316,6 +316,15 @@ document.onpaste = function(event) {
 		f.files = files;
 		document.getElementById('filename').textContent = filename;
 	}
+	else if (focused.id == "input-message-mobile") {
+		f=document.getElementById('file-upload-mobile');
+		let filename = ''
+		for (const file of files)
+			filename += file.name + ', '
+		filename = filename.toLowerCase().slice(0, -2)
+		f.files = files;
+		document.getElementById('filename-mobile').textContent = filename;
+	}
 }
 
 function handle_action(type, cid, thing) {

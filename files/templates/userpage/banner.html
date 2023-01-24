@@ -464,7 +464,13 @@
 					<form class="d-none toggleable" id='message-mobile' action="/@{{u.username}}/message" data-nonce="{{g.nonce}}" data-onsubmit="sendMessage(this)">
 						<input class="mt-1" hidden name="formkey" value="{{v|formkey}}">
 						<textarea autocomplete="off" id="input-message-mobile" form="message-mobile" name="message" rows="3" minlength="1" maxlength="10000" class="form-control" data-preview="message-preview-mobile" data-nonce="{{g.nonce}}" data-oninput="markdown(this)" required></textarea>
-						<button type="button" class="mt-1 btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-message-mobile')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></button>
+						<button type="button" class="btn btn-secondary format d-inline-block m-0 py-2 fas fa-smile-beam" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-message')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></button>
+
+						<label class="btn btn-secondary m-0 py-1 px-2 {% if upload_disabled %}disabled{% endif %}" for="file-upload-mobile">
+							<div id="filename-mobile"><i class="fas fa-image"></i></div>
+							<input autocomplete="off" id="file-upload-mobile" accept="image/*" type="file" name="file" multiple="multiple" {% if upload_disabled %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename-mobile','file-upload-mobile')" hidden>
+						</label>
+
 						&nbsp;
 						<input type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this);remove_dialog()" value="Submit" class="btn btn-primary">
 					</form>
