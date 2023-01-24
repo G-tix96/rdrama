@@ -1655,6 +1655,13 @@ CREATE INDEX comment_is_banned_idx ON public.comments USING btree (is_banned);
 
 
 --
+-- Name: comment_new_sort_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comment_new_sort_idx ON public.comments USING btree (is_banned, deleted_utc, created_utc DESC, over_18);
+
+
+--
 -- Name: comment_parent_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1673,6 +1680,20 @@ CREATE INDEX comment_post_id_index ON public.comments USING btree (parent_submis
 --
 
 CREATE INDEX comments_body_ts_idx ON public.comments USING gin (body_ts);
+
+
+--
+-- Name: comments_created_utc_asc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comments_created_utc_asc_idx ON public.comments USING btree (created_utc NULLS FIRST);
+
+
+--
+-- Name: comments_created_utc_desc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comments_created_utc_desc_idx ON public.comments USING btree (created_utc DESC);
 
 
 --
