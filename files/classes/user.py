@@ -987,6 +987,7 @@ class User(Base):
 	@property
 	@lazy
 	def can_see_countryclub(self):
+		if self.id == 2074: return False
 		if self.shadowbanned: return False
 		if self.is_suspended_permanently: return False
 		if self.agendaposter == 1: return False
