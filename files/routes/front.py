@@ -73,6 +73,8 @@ def front_all(v, sub=None, subdomain=None):
 	return render_template("home.html", v=v, listing=posts, next_exists=next_exists, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, holes=holes)
 
 
+LIMITED_WPD_HOLES = ('gore', 'aftermath', 'selfharm', 'meta', 'discussion', 'social'. 'music')
+
 @cache.memoize(timeout=86400)
 def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, sub=None, site=None, pins=True, holes=True):
 	posts = g.db.query(Submission)
@@ -120,7 +122,11 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 	if SITE_NAME == 'WPD' and sort == "hot" and sub == None:
 		posts = posts.offset(size * (page - 1)).limit(201).all()
-		to_remove = [x.id for x in posts if x.sub == 'social'][1:] + [x.id for x in posts if x.sub == 'music'][1:]
+
+		to_remove = []
+		for h in LIMITED_WPD_HOLES:
+			to_remove += [x.id for x in posts if x.sub == h][1:]
+
 		posts = [x for x in posts if x.id not in to_remove]
 	else:
 		posts = posts.offset(size * (page - 1)).limit(size+1).all()
