@@ -44,8 +44,8 @@
 			<a class="dropdown-item list-inline-item text-info" href="{{p.oauth_app.permalink}}/posts"><i class="fas fa-code"></i>API App</a>
 		{% endif %}
 		{% if v.can_edit(p) %}
-			<button type="button" class="dropdown-item {% if p.new %} d-none{% endif %} list-inline-item text-info" id="{{p.id}}-sort-new" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this, '/post/{{p.id}}/new', '{{p.id}}-sort-new', '{{p.id}}-unsort-new', 'd-none', null, 'PUT')"><i class="fas fa-sparkles text-center text-primary mr-2"></i>Set Default Sort New</button>
-			<button type="button" class="dropdown-item {% if not p.new %} d-none{% endif %} list-inline-item text-info" id="{{p.id}}-unsort-new" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this, '/post/{{p.id}}/new', '{{p.id}}-unsort-new', '{{p.id}}-sort-new', 'd-none', null, 'DELETE')"><i class="fas fa-fire text-center text-primary mr-2"></i>Set Default Sort Hot</button>
+			<button type="button" class="dropdown-item {% if p.new %} d-none{% endif %} list-inline-item text-info" id="{{p.id}}-sort-new" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this, '/post/{{p.id}}/new', '{{p.id}}-sort-new', '{{p.id}}-unsort-new', 'd-none', 'null', 'PUT')"><i class="fas fa-sparkles text-center text-primary mr-2"></i>Set Default Sort New</button>
+			<button type="button" class="dropdown-item {% if not p.new %} d-none{% endif %} list-inline-item text-info" id="{{p.id}}-unsort-new" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this, '/post/{{p.id}}/new', '{{p.id}}-unsort-new', '{{p.id}}-sort-new', 'd-none', 'null', 'DELETE')"><i class="fas fa-fire text-center text-primary mr-2"></i>Set Default Sort Hot</button>
 		{% endif %}
 		{% if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH'] %}
 			<button type="button" id="distinguish-{{p.id}}" class="dropdown-item {% if p.distinguish_level %}d-none{% endif %} list-inline-item text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish/{{p.id}}','distinguish-{{p.id}}','undistinguish-{{p.id}}','d-none')"><i class="fas fa-crown"></i>Distinguish</button>

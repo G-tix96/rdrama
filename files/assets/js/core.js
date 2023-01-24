@@ -108,7 +108,8 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess, m
 					catch (e) {}
 				}
 			}
-			if (extraActionsOnSuccess) extraActionsOnSuccess(xhr);
+			if (typeof extraActionsOnSuccess == 'function')
+			extraActionsOnSuccess(xhr);
 		}
 	, method);
 }
