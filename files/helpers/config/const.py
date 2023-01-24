@@ -218,11 +218,8 @@ if SITE_NAME == 'rDrama':
 		'kiwifarms.net',
 		'onionfarms.com',
 		'clay.party',
-		'incels.is',
 		'tattle.life',
-		'looksmax.org',
 		'stormfront.org',
-		'looksmax.org',
 		'bluelight.org',
 		'thecoli.com',
 		'nairaland.com',
@@ -235,6 +232,8 @@ if SITE_NAME == 'rDrama':
 		'gamefaqs.gamespot.com',
 		'thefemaledatingstrategy.com',
 		'econjobrumors.com',
+		'incels.is',
+		'looksmax.org',
 		'sanctioned-suicide.org',
 
 		#twitter-like
