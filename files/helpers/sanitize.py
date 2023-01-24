@@ -428,13 +428,14 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	if showmore:
 		# Insert a show more button if the text is too long or has too many paragraphs
+		CHARLIMIT = 3000
 		pos = 0
 		for _ in range(20):
 			pos = sanitized.find('</p>', pos + 4)
 			if pos < 0:
 				break
-		if pos < 0 and len(sanitized) > 3000:
-			pos = 2500
+		if (pos < 0 and len(sanitized) > CHARLIMIT) or pos > CHARLIMIT:
+			pos = CHARLIMIT - 500
 		if pos >= 0:
 			sanitized = (sanitized[:pos] +
 				showmore_regex.sub(r'\1<p><button class="showmore">SHOW MORE</button></p><d class="d-none">\2</d>',
