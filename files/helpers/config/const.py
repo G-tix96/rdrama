@@ -54,6 +54,7 @@ FP = environ.get("FP", "").strip()
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
 KOFI_LINK = environ.get("KOFI_LINK", "").strip()
 PROGSTACK_MUL = float(environ.get("PROGSTACK_MUL", 2.0))
+FORBIDDEN = environ.get("FORBIDDEN", "").strip().split()
 
 class Service(Enum):
 	RDRAMA = auto()
