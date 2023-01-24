@@ -505,7 +505,7 @@ FEATURES = {
 WERKZEUG_ERROR_DESCRIPTIONS = {
 	400: "The browser (or proxy) sent a request that this server could not understand.",
 	401: "The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required.",
-	403: "You don't have the permission to access the requested resource. It is either read-protected or not readable by the server.",
+	403: "The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.",
 	404: "The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.",
 	405: "The method is not allowed for the requested URL.",
 	406: "The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.",
@@ -798,7 +798,7 @@ elif SITE == 'watchpeopledie.tv':
 	ERROR_TITLES.update({
 		400: "Bad Request",
 		401: "Unauthorized",
-		403: "Forbidden",
+		403: "Not Found",
 		404: "Not Found",
 		405: "Method Not Allowed",
 		406: "Too Many Pings",
@@ -810,16 +810,18 @@ elif SITE == 'watchpeopledie.tv':
 	})
 
 	ERROR_MSGS.update({
-		400: "That request is invalid",
-		401: "You need to login or sign up to do that",
-		403: "You're not allowed to do that",
-		404: "That wasn't found",
-		405: "You can't use this method here... if you keep getting this error tell us it's prolly something borked",
+		400: "That request is invalid.",
+		401: "You need to login or sign up to do that.",
+		403: "That wasn't found",
+		404: "That wasn't found.",
+		405: "You can't use this method here... if you keep getting this error tell us it's prolly something borked.",
 		409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do.",
-		410: "This link is dead. Request a new one to try again",
-		413: "You need to upload a smaller file please",
-		429: "Please wait a bit before doing that",
+		410: "This link is dead. Request a new one to try again.",
+		413: "You need to upload a smaller file please.",
+		429: "Please wait a bit before doing that.",
 	})
+
+	ERROR_MARSEYS[403] = "marseyconfused"
 
 	POLL_THREAD = 13225
 
