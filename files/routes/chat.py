@@ -77,23 +77,26 @@ def speak(data, v):
 			self_only = True
 		else:
 			del muted[vname]
+			emit("online", [online, muted], broadcast=True)
 
-	def shut_up():
-		self_only = True
-		muted_until = int(time.time() + 3600)
-		muted[vname] = muted_until
+	if SITE == 'rdrama.net':
+		def shut_up():
+			self_only = True
+			muted_until = int(time.time() + 3600)
+			muted[vname] = muted_until
+			emit("online", [online, muted], broadcast=True)
 
-	if not self_only:
-		identical = [x for x in list(messages[request.referrer].values())[-10:] if v.id == x['user_id'] and text == x['text']]
-		if len(identical) >= 3: shut_up()
+		if not self_only:
+			identical = [x for x in list(messages[request.referrer].values())[-5:] if v.id == x['user_id'] and text == x['text']]
+			if len(identical) >= 3: shut_up()
 
-	if not self_only:
-		count = len([x for x in list(messages[request.referrer].values())[-10:] if v.id == x['user_id']])
-		if count >= 5: shut_up()
+		if not self_only:
+			count = len([x for x in list(messages[request.referrer].values())[-12:] if v.id == x['user_id']])
+			if count >= 10: shut_up()
 
-	if not self_only:
-		count = len([x for x in list(messages[request.referrer].values())[-50:] if v.id == x['user_id']])
-		if count >= 20: shut_up()
+		if not self_only:
+			count = len([x for x in list(messages[request.referrer].values())[-25:] if v.id == x['user_id']])
+			if count >= 20: shut_up()
 
 	data = {
 		"id": id,
@@ -115,6 +118,7 @@ def speak(data, v):
 			username = i.group(1).lower()
 			muted_until = int(int(i.group(2)) * 60 + time.time())
 			muted[username] = muted_until
+			emit("online", [online, muted], broadcast=True)
 			self_only = True
 
 	if self_only or v.shadowbanned or not execute_blackjack(v, None, text, "chat"):
@@ -140,24 +144,22 @@ def speak(data, v):
 
 	return '', 204
 
-def refresh_online(v):
-	if v.admin_level >= PERMS['USER_BAN']:
-		emit("online", [online, muted], broadcast=True)
-	else:
-		emit("online", [online, []], broadcast=True)
+def refresh_online():
+	emit("online", [online, muted], broadcast=True)
 	if request.referrer == f'{SITE_FULL}/chat':
 		cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
 
 @socketio.on('connect')
 @admin_level_required(PERMS['CHAT'])
 def connect(v):
-	join_room(request.referrer)
+	if request.referrer:
+		join_room(request.referrer)
 
-	if v.username not in online:
-		online.append(v.username)
-		refresh_online(v)
+		if v.username not in online:
+			online.append(v.username)
+			refresh_online()
 
-	emit('typing', typing[request.referrer], room=request.referrer)
+		emit('typing', typing[request.referrer], room=request.referrer)
 	return '', 204
 
 @socketio.on('disconnect')
@@ -165,13 +167,15 @@ def connect(v):
 def disconnect(v):
 	if v.username in online:
 		online.remove(v.username)
-		refresh_online(v)
+		refresh_online()
 
 	for val in typing.values():
 		if v.username in val:
 			val.remove(v.username)
 
-	leave_room(request.referrer)
+	if request.referrer:
+		leave_room(request.referrer)
+	
 	return '', 204
 
 @socketio.on('typing')
