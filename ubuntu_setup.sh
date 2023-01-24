@@ -7,7 +7,7 @@ apt -y install git redis-server python3-pip ffmpeg nginx snapd ufw gpg-agent hto
 git config --global credential.helper store
 cd /rDrama
 git config branch.frost.rebase true
-cp ./env ./.env
+cp ./env_template ./.env
 . ./.env
 
 mkdir /scripts
