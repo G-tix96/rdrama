@@ -767,8 +767,8 @@ def alt_votes_get(v):
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @admin_level_required(PERMS['USER_LINK'])
 def admin_view_alts(v:User, username=None):
-	u = get_user(username or request.values.get('username'))
-	return render_template('admin/alts.html', v=v, u=u, alts=u.alts)
+	u = get_user(username or request.values.get('username'), graceful=True)
+	return render_template('admin/alts.html', v=v, u=u, alts=u.alts if u else None)
 
 @app.post('/@<username>/alts/')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
