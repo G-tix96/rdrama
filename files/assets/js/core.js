@@ -436,3 +436,12 @@ if (document.getElementById('gbrowser').value == 'apple') {
 		video.after(div)
 	}
 }
+
+function logout(t) {
+	postToast(t, '/logout',
+		{
+		},
+		() => {
+			location.href = '/'
+		});
+}
