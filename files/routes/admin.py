@@ -1446,6 +1446,9 @@ def unsticky_post(post_id, v):
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def sticky_comment(cid, v):
 	comment = get_comment(cid, v=v)
+	if comment.is_banned:
+		abort(403, "Can't sticky removed comments!")
+
 
 	if not comment.stickied:
 		comment.stickied = v.username
