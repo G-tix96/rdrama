@@ -936,12 +936,12 @@ class User(Base):
 		if not cls.can_see(user, other): return False
 		if user and user.admin_level >= PERMS["POST_COMMENT_MODERATION"]: return True
 		if isinstance(other, (Submission, Comment)):
-				if user and user.id == other.author_id: return True
-				if other.is_banned: return False
-				if other.deleted_utc: return False
-				if other.author.shadowbanned and not (user and user.can_see_shadowbanned): return False
-				if isinstance(other, Comment):
-					if other.parent_submission and not cls.can_see(user, other.post): return False
+			if user and user.id == other.author_id: return True
+			if other.is_banned: return False
+			if other.deleted_utc: return False
+			if other.author.shadowbanned and not (user and user.can_see_shadowbanned): return False
+			if isinstance(other, Comment):
+				if other.parent_submission and not cls.can_see(user, other.post): return False
 		return True
 
 	@classmethod
@@ -956,6 +956,8 @@ class User(Base):
 			if user and user.id == other.author_id: return True
 			if isinstance(other, Submission):
 				if other.sub and not cls.can_see(user, other.subr): return False
+				if any(i in other.title.lower() for i in FORBIDDEN) and not (user and user.truescore > 100):
+					return False
 			else:
 				if other.parent_submission:
 					if user and user.id == other.post.author_id: return True
