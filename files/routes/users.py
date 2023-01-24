@@ -286,6 +286,8 @@ def upvoters(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoters(v:User, username:str):
+	if SITE == 'rdrama.net':
+		abort(403, "Temporarily disabled!")
 	return all_upvoters_downvoters(v, username, -1, False)
 
 @app.get("/@<username>/upvoting")
@@ -300,6 +302,8 @@ def upvoting(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoting(v:User, username:str):
+	if SITE == 'rdrama.net':
+		abort(403, "Temporarily disabled!")
 	return all_upvoters_downvoters(v, username, -1, True)
 
 @app.post("/@<username>/suicide")
