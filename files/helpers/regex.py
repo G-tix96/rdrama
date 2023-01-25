@@ -23,7 +23,7 @@ description_regex = re.compile("[^<>&\n\t]{1,300}", flags=re.A)
 
 badge_name_regex = re.compile("[A-Za-z0-9 ]+", flags=re.A)
 
-twitter_regex = re.compile("(https:\/\/twitter.com\/[A-Za-z0-9_/]+)\?\S*", flags=re.A)
+twitter_regex = re.compile("(https:\/\/twitter.com\/[A-Za-z0-9_/]+)\?[^\s)]*", flags=re.A)
 
 valid_sub_regex = re.compile("^[a-zA-Z0-9_\-]{3,25}$", flags=re.A)
 
