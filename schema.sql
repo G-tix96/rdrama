@@ -1032,7 +1032,8 @@ CREATE TABLE public.users (
     profile_background character varying(30),
     event_music boolean,
     chudded_by integer,
-    event_darkmode boolean
+    event_darkmode boolean,
+    blacklisted_by integer
 );
 
 
@@ -2664,6 +2665,14 @@ ALTER TABLE ONLY public.subscriptions
 
 ALTER TABLE ONLY public.subscriptions
     ADD CONSTRAINT subscription_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: users user_blacklisted_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT user_blacklisted_by_fkey FOREIGN KEY (blacklisted_by) REFERENCES public.users(id);
 
 
 --
