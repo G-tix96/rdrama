@@ -643,8 +643,8 @@ def admin_add_alt(v:User, username):
 	cache.delete_memoized(get_alt_graph_ids, user1.id)
 	cache.delete_memoized(get_alt_graph_ids, user2.id)
 
-	check_for_alts(user1, include_current_session=False)
-	check_for_alts(user2, include_current_session=False)
+	check_for_alts(user1)
+	check_for_alts(user2)
 
 	word = 'Delinked' if deleted else 'Linked'
 	ma_word = 'delink' if deleted else 'link'
@@ -672,8 +672,8 @@ def admin_delink_relink_alt(v:User, username, other):
 	a.deleted = is_delinking
 	g.db.add(a)
 	g.db.flush()
-	check_for_alts(user1, include_current_session=False)
-	check_for_alts(user2, include_current_session=False)
+	check_for_alts(user1)
+	check_for_alts(user2)
 	word = 'Delinked' if is_delinking else 'Relinked'
 	ma_word = 'delink' if is_delinking else 'link'
 	note = f'from @{user2.username}' if is_delinking else f'with @{user2.username} (relinked)'
@@ -785,7 +785,7 @@ def shadowban(user_id, v):
 	reason = filter_emojis_only(reason)
 	user.ban_reason = reason
 	g.db.add(user)
-	check_for_alts(user, False)
+	check_for_alts(user)
 
 	ma = ModAction(
 		kind="shadowban",

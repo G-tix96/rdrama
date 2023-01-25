@@ -122,7 +122,7 @@ def on_login(account, redir=None):
 	session.permanent = True
 	session["lo_user"] = account.id
 	session["login_nonce"] = account.login_nonce
-	check_for_alts(account)
+	check_for_alts(account, include_current_session=True)
 
 
 @app.get("/me")
@@ -343,7 +343,7 @@ def sign_up_post(v:Optional[User]):
 	session.permanent = True
 	session["lo_user"] = new_user.id
 
-	check_for_alts(new_user)
+	check_for_alts(new_user, include_current_session=True)
 	send_notification(new_user.id, WELCOME_MSG)
 
 	if SIGNUP_FOLLOW_ID:

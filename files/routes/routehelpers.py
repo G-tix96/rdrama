@@ -54,7 +54,7 @@ def add_alt(user1:int, user2:int):
 		cache.delete_memoized(get_alt_graph_ids, user1)
 		cache.delete_memoized(get_alt_graph_ids, user2)
 
-def check_for_alts(current:User, include_current_session=True):
+def check_for_alts(current:User, include_current_session=False):
 	current_id = current.id
 	ids = [x[0] for x in g.db.query(User.id).all()]
 	past_accs = set(session.get("history", [])) if include_current_session else set()

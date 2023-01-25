@@ -1226,7 +1226,7 @@ def fp(v:User, fp):
 		add_alt(user1=v.id, user2=u.id)
 		print(v.username + ' + ' + u.username, flush=True)
 
-	check_for_alts(v)
+	check_for_alts(v, include_current_session=True)
 	g.db.add(v)
 	return '', 204
 
