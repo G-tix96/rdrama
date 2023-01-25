@@ -336,7 +336,7 @@ INSERT INTO public.hat_defs VALUES (807, 'The Capy', 'You''re the chosen one! No
 INSERT INTO public.hat_defs VALUES (1007, 'Red Halloween Mask', 'Worth a month’s rent, or just being a Top 10 Gigavaxxer or Zigger during Homoween 2022.', 2, 0, NULL, 1667274742);
 INSERT INTO public.hat_defs VALUES (1000, 'BADASS DAD', 'A hat for the BADASS dads!', 2, 500, NULL, 1667083950);
 INSERT INTO public.hat_defs VALUES (1005, 'The BIRD', 'FUCK YOU, FUCK YOU, ANDDDDDD FUCK YOUUUUUUUUUUUUU', 2, 500, NULL, 1667084316);
-
+INSERT INTO public.hat_defs VALUES (1140, 'Yiff In Hell', 'Translation: "I''m really desperate for social acceptance."', 2, 500, NULL, 1674463260);
 INSERT INTO public.hat_defs VALUES (965, 'FDJ', '"Jetzt bin ich ein Freier Deutsche Jugendfunktionär"', 2, 500, NULL, 1665686729);
 INSERT INTO public.hat_defs VALUES (969, 'Elite Pedo Sniper', 'The shemagh gives you +10 accuracy', 2, 500, NULL, 1665817338);
 INSERT INTO public.hat_defs VALUES (933, 'Rascal', 'See this person 3 times and they have to give you something-Minecraft MV22', 2, 500, NULL, 1665434625);
@@ -1608,6 +1608,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycarpsnipe',2,'shooter shooting gun sniper rifle scope crosshairs carpathianflorist kill murder bullet crosshair ajab',NULL),
 ('marseycarptrophy',2,'carp head decapitated anticarp trophy defeat dead teaparty',NULL),
 ('marseycarpupset',2,'carpathianflorist administrator jannie janitor fish crying tears',1664262142),
+('marseycarpwhip',2,'kink punish bdsm naughty chad muscle sexy fish yellow',1674597005),
 ('marseycarsuicide',2,'kms suicide kill death car vehicle carbon monoxide co muffler suffocation suffocate',NULL),
 ('marseycat',2,'fursona skin animal costume furry neko fursuit cat',NULL),
 ('marseycatgirl',2,'uwu waifu anime fursona furry owo weebshit fursuit',NULL),
@@ -1793,6 +1794,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydagothur2',2,'elder scrolls morrowind game mask dagothur',NULL),
 ('marseydamosuzuki',2,'damo suzuki musician music singer krautrock asian japan germany celebrity',NULL),
 ('marseydance',2,'excited stomp jump feet step run animated',NULL),
+('marseydarkblackface',2,'bipoc ni chad laser eyes meme based',1674557522),
 ('marseydarkbrandon',2,'biden lasereyes gas sticker evil confused dementia daddy',1665323885),
 ('marseydarkcarp',2,'lasereyes carpathianflorist fish admin jannie mod banned yalled',1663211530),
 ('marseydarkcomrade',2,'communist commie pinko lasereyes russian kgb hat soviet ussr tankie',1663254781),
@@ -1985,6 +1987,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyflareon',2,'trick or treat pokemon halloween eevee costume holiday',NULL),
 ('marseyfloyd',2,'dead blm chauvin fentanyl george',NULL),
 ('marseyfluffy',2,'poofy cute shaggy happy smile excited scruffy',NULL),
+('marseyfluffyannoyed',2,'angry mad cope seethe dilate cute fur sneed hairy',1674567634),
 ('marseyflushzoom',2,'flushed eyes bulging shocked surprised flustered waytoodank',NULL),
 ('marseyflyingspaghettimonster',2,'atheist atheism flying religon science',1664491405),
 ('marseyfocault',2,'philosophy history',NULL),
@@ -1995,6 +1998,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyfoucault',2,'philosophy history foucault postmodern',NULL),
 ('marseyfox',2,'fursona furry fursuit kitsune',NULL),
 ('marseyfranklin',2,'franklin thinking constitution founding fathers',NULL),
+('marseyfreeman',2,'pearl clutch pc gamer gordon freeman crowbar pcmr half life hl3 valve steam mit theoretical physicist',1674548687),
 ('marseyfreezepeach',2,'1984 censorship free speech reaction freespeech ruqqus',NULL),
 ('marseyfrenchvan',2,'foucault pedophilia libertarian van french philosophy pedobear postmodernism',NULL),
 ('marseyfreud',2,'oedipus incest psychoanalysis psychologist shrink psychiatrist',NULL),
