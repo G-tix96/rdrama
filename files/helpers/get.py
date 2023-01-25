@@ -355,7 +355,6 @@ def get_sub_by_name(sub:str, v:Optional[User]=None, graceful=False) -> Optional[
 
 @cache.memoize(timeout=8640000)
 def get_profile_picture(identifier:Union[int, str]) -> str:
-	print(identifier, flush=True)
 	if isinstance(identifier, int):
 		x = get_account(identifier, graceful=True)
 	else:
