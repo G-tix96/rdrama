@@ -537,7 +537,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": SITE_NAME == 'rDrama',
+		"enabled": True,
 	},
 	"pizzashill": {
 		"kind": "pizzashill",
