@@ -49,7 +49,7 @@
 {% if v.admin_level >= PERMS['USER_LINK'] %}
 	<h2>Link Accounts</h2>
 
-	{% if u2 in get_alt_graph(u1.id) %}
+	{% if u2.id in u1.alt_ids %}
 		<p>Accounts are <a href="/@{{u1.username}}/alts">known alts</a> of each other.</p>
 	{% else %}
 

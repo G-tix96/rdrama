@@ -3,7 +3,6 @@ from files.helpers.config.const import *
 from files.helpers.get import *
 from files.routes.wrappers import *
 from files.__main__ import app, limiter
-from files.routes.routehelpers import get_alt_graph
 
 from math import floor
 
@@ -75,7 +74,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		coin_delta = 0
 
 	alt = False
-	if target.author.id in [x.id for x in get_alt_graph(v.id)]:
+	if target.author.id in v.alt_ids:
 		coin_delta = -1
 		alt = True
 
