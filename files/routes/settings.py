@@ -571,6 +571,9 @@ def settings_images_profile(v):
 	v.profileurl = imageurl
 	g.db.add(v)
 
+	cache.delete_memoized(get_profile_picture, v.id)
+	cache.delete_memoized(get_profile_picture, v.username)
+	cache.delete_memoized(get_profile_picture, v.original_username)
 
 	return render_template("settings/personal.html", v=v, msg="Profile picture successfully updated.")
 

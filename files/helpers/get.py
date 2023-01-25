@@ -6,6 +6,7 @@ from sqlalchemy.orm import joinedload, selectinload, Query
 
 from files.classes import Comment, CommentVote, Hat, Sub, Submission, User, UserBlock, Vote
 from files.helpers.config.const import AUTOJANNY_ID
+from files.__main__ import cache
 
 def sanitize_username(username:str) -> str:
 	if not username: return username
@@ -351,3 +352,13 @@ def get_sub_by_name(sub:str, v:Optional[User]=None, graceful=False) -> Optional[
 		if graceful: return None
 		else: abort(404)
 	return sub
+
+@cache.memoize(timeout=8640000)
+def get_profile_picture(identifier:Union[int, str]) -> str:
+	print(identifier, flush=True)
+	if isinstance(identifier, int):
+		x = get_account(identifier, graceful=True)
+	else:
+		x = get_user(identifier, graceful=True)
+
+	return x.profile_url if x else 'not_found'

@@ -1135,21 +1135,19 @@ def remove_follow(username, v):
 
 	return {"message": f"@{target.username} has been removed as a follower!"}
 
+
 @app.get("/pp/<int:id>")
 @app.get("/uid/<int:id>/pic")
 @app.get("/uid/<int:id>/pic/profile")
-@cache.memoize(timeout=86400)
 @limiter.exempt
 def user_profile_uid(id):
-	x = get_account(id)
-	return redirect(x.profile_url)
+	return redirect(get_profile_picture(id))
 
 @app.get("/@<username>/pic")
-@cache.memoize(timeout=86400)
 @limiter.exempt
 def user_profile_name(username):
-	x = get_user(username)
-	return redirect(x.profile_url)
+	return redirect(get_profile_picture(username))
+
 
 def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone=False):
 	if relationship_cls in {SaveRelationship, Subscription}:
