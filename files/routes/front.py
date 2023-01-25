@@ -215,9 +215,6 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0, site=None):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def all_comments(v:User):
-	if SITE == 'rdrama.net':
-		abort(403, "Temporarily disabled!")
-
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
