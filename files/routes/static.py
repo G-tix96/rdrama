@@ -12,7 +12,7 @@ from files.classes.userblock import UserBlock
 from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.config.const import *
-from files.helpers.config.modaction_types import MODACTION_TYPES, MODACTION_TYPES_FILTERED, MODACTION_PRIVILEGED_TYPES
+from files.helpers.config.modaction_types import *
 from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter
 
@@ -148,7 +148,8 @@ def log(v:User):
 		actions = g.db.query(ModAction)
 		if not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
 			actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED_TYPES))
-
+		if not (v and v.admin_level >= PERMS['PROGSTACK']):
+			actions = actions.filter(ModAction.kind.notin_(_MODACTION_PRIVILEGED_TYPES))
 		if admin_id:
 			actions = actions.filter_by(user_id=admin_id)
 			kinds = set([x.kind for x in actions])
