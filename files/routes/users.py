@@ -834,7 +834,7 @@ def u_username_wall(v:Optional[User], username:str):
 def u_username_wall_comment(v:User, username:str, cid):
 	comment = get_comment(cid, v=v)
 	if not comment.wall_user_id: abort(400)
-	if not User.can_see(v, comment): abort(404)
+	if not User.can_see(v, comment): abort(403)
 
 	u = comment.wall_user
 

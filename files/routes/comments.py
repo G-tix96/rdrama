@@ -33,7 +33,7 @@ WORDLE_COLOR_MAPPINGS = {-1: "🟥", 0: "🟨", 1: "🟩"}
 def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 
 	comment = get_comment(cid, v=v)
-	if not User.can_see(v, comment): abort(404)
+	if not User.can_see(v, comment): abort(403)
 
 	if v and request.values.get("read"):
 		notif = g.db.query(Notification).filter_by(comment_id=cid, user_id=v.id, read=False).one_or_none()
@@ -121,7 +121,7 @@ def comment(v:User):
 	parent_user = parent if isinstance(parent, User) else parent.author
 	posting_to_submission = isinstance(post_target, Submission)
 
-	if not User.can_see(v, parent): abort(404)
+	if not User.can_see(v, parent): abort(403)
 	if not isinstance(parent, User) and parent.deleted_utc != 0:
 		if isinstance(parent, Submission):
 			abort(403, "This post has been deleted!")
