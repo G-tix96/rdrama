@@ -1229,7 +1229,7 @@ def sticky_post(post_id, v):
 	if post.is_banned:
 		abort(403, "Can't sticky removed posts!")
 
-	if FEATURES['AWARDS'] and post.stickied and post.stickied.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_PIN_AWARDS"]:
+	if FEATURES['AWARDS'] and post.stickied and post.stickied.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
 		abort(403, "Can't pin award pins!")
 
 	pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
@@ -1270,7 +1270,7 @@ def sticky_post(post_id, v):
 def unsticky_post(post_id, v):
 	post = get_post(post_id)
 	if post.stickied:
-		if FEATURES['AWARDS'] and post.stickied.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_PIN_AWARDS"]:
+		if FEATURES['AWARDS'] and post.stickied.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
 			abort(403, "Can't unpin award pins!")
 
 		if post.author_id == LAWLZ_ID and post.stickied_utc and SITE_NAME == 'rDrama':
@@ -1302,7 +1302,7 @@ def sticky_comment(cid, v):
 	if comment.is_banned:
 		abort(403, "Can't sticky removed comments!")
 
-	if FEATURES['AWARDS'] and comment.stickied and comment.stickied.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_PIN_AWARDS"]:
+	if FEATURES['AWARDS'] and comment.stickied and comment.stickied.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
 		abort(403, "Can't pin award pins!")
 
 	if not comment.stickied:
@@ -1336,7 +1336,7 @@ def unsticky_comment(cid, v):
 	comment = get_comment(cid, v=v)
 
 	if comment.stickied:
-		if FEATURES['AWARDS'] and comment.stickied.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_PIN_AWARDS"]:
+		if FEATURES['AWARDS'] and comment.stickied.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
 			abort(403, "Can't unpin award pins!")
 
 		comment.stickied = None
