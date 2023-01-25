@@ -22,7 +22,7 @@ from files.routes.routehelpers import check_for_alts
 from files.routes.wrappers import *
 from files.routes.routehelpers import get_alt_graph, get_alt_graph_ids
 
-from .front import frontlist
+from .front import frontlist, comment_idlist
 
 @app.get('/admin/loggedin')
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -1121,17 +1121,45 @@ def unmute_user(v:User, user_id):
 
 	return {"message": f"@{user.username} has been unmuted!"}
 
-@app.post("/admin/progstack/<int:post_id>")
+@app.post("/admin/progstack/post/<int:post_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @admin_level_required(PERMS['PROGSTACK'])
-def progstack(post_id, v):
+def progstack_post(post_id, v):
 	post = get_post(post_id)
 	post.is_approved = PROGSTACK_ID
 	post.realupvotes = floor(post.realupvotes * PROGSTACK_MUL)
 	g.db.add(post)
+
+	ma=ModAction(
+		kind="progstack_post",
+		user_id=v.id,
+		target_submission_id=post.id,
+		)
+	g.db.add(ma)
+
 	cache.delete_memoized(frontlist)
-	return {"message": "Progressive stack applied!"}
+	return {"message": "Progressive stack applied on post!"}
+
+@app.post("/admin/progstack/comment/<int:comment_id>")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@admin_level_required(PERMS['PROGSTACK'])
+def progstack_comment(comment_id, v):
+	comment = get_comment(comment_id)
+	comment.is_approved = PROGSTACK_ID
+	comment.realupvotes = floor(comment.realupvotes * PROGSTACK_MUL)
+	g.db.add(comment)
+
+	ma=ModAction(
+		kind="progstack_comment",
+		user_id=v.id,
+		target_comment_id=comment.id,
+		)
+	g.db.add(ma)
+
+	cache.delete_memoized(comment_idlist)
+	return {"message": "Progressive stack applied on comment!"}
 
 @app.post("/remove_post/<int:post_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)

@@ -196,6 +196,16 @@ MODACTION_TYPES = {
 		"icon": 'fa-thumbtack fa-rotate--45',
 		"color": 'bg-success'
 	},
+	'progstack_comment': {
+		"str": 'Applied progressive stack on {self.target_link}',
+		"icon": 'fa-bullhorn',
+		"color": 'bg-success'
+	},
+	'progstack_post': {
+		"str": 'Applied progressive stack on post {self.target_link}',
+		"icon": 'fa-bullhorn',
+		"color": 'bg-success'
+	},
 	'clear_cloudflare_cache': {
 		"str": 'cleared cloudflare cache',
 		"icon": 'fab fa-cloudflare',
@@ -335,6 +345,7 @@ MODACTION_TYPES = {
 
 MODACTION_PRIVILEGED_TYPES = {'shadowban', 'unshadowban',
 							'mod_mute_user', 'mod_unmute_user',
-							'link_accounts', 'delink_accounts'}
+							'link_accounts', 'delink_accounts',
+							'progstack_post', 'progstack_comment'}
 MODACTION_TYPES_FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items()
                                      if not t in MODACTION_PRIVILEGED_TYPES})
