@@ -149,7 +149,7 @@ def log(v:User):
 		if not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
 			actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED_TYPES))
 		if not (v and v.admin_level >= PERMS['PROGSTACK']):
-			actions = actions.filter(ModAction.kind.notin_(_MODACTION_PRIVILEGED_TYPES))
+			actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED__TYPES))
 		if admin_id:
 			actions = actions.filter_by(user_id=admin_id)
 			kinds = set([x.kind for x in actions])
