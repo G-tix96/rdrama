@@ -153,6 +153,10 @@ def comment(v:User):
 
 	if request.files.get("file") and not g.is_tor:
 		files = request.files.getlist('file')[:4]
+		
+		if files:
+			media_ratelimit(v)
+
 		for file in files:
 			if file.content_type.startswith('image/'):
 				oldname = f'/images/{time.time()}'.replace('.','') + '.webp'

@@ -20,10 +20,19 @@ from files.helpers.settings import get_setting
 
 from .config.const import *
 
+def media_ratelimit(v):
+	t = time.time() - 86400
+	count = g.db.query(Media).filter(Media.user_id == v.id, Media.created_utc > t).count()
+	if count > 50: abort(500)
+
 def process_files(files, v):
 	body = ''
 	if g.is_tor or not files.get("file"): return body
 	files = files.getlist('file')[:4]
+	
+	if files:
+		media_ratelimit(v)
+
 	for file in files:
 		if file.content_type.startswith('image/'):
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
@@ -54,7 +63,7 @@ def process_audio(file, v):
 
 	media = g.db.query(Media).filter_by(filename=name, kind='audio').one_or_none()
 	if media: g.db.delete(media)
-
+	
 	media = Media(
 		kind='audio',
 		filename=name,
