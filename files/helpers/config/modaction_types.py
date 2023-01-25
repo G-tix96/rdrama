@@ -81,6 +81,11 @@ MODACTION_TYPES = {
 		"icon": 'fa-shield',
 		"color": 'bg-muted'
 	},
+	'disable_dm_images': {
+		"str": 'disabled DM images',
+		"icon": 'fa-images',
+		"color": 'bg-muted'
+	},
 	'distinguish_comment': {
 		"str": 'distinguished {self.target_link}',
 		"icon": 'fa-crown',
@@ -139,6 +144,11 @@ MODACTION_TYPES = {
 	'enable_under_siege': {
 		"str": 'enabled under siege mode',
 		"icon": 'fa-shield',
+		"color": 'bg-success',
+	},
+	'enable_dm_images': {
+		"str": 'enabled DM images',
+		"icon": 'fa-images',
 		"color": 'bg-success',
 	},
 	'flair_post': {

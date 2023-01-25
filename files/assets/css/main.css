@@ -200,6 +200,7 @@
 .fa-image-slash:before{content:"\e1b7"}
 .fa-play:before{content:"\f04b"}
 .fa-temperature-snow:before{content:"\f768"}
+.fa-images:before{content:"\f302"}
 
 button {
 	background: none;
