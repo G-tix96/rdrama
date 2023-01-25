@@ -48,6 +48,9 @@ def admin_chat(v):
 @socketio.on('speak')
 @admin_level_required(PERMS['CHAT'])
 def speak(data, v):
+	if not request.referrer:
+		return '', 400
+
 	image = None
 	if data['file']:
 		name = f'/chat_images/{time.time()}'.replace('.','') + '.webp'
@@ -152,14 +155,16 @@ def refresh_online():
 @socketio.on('connect')
 @admin_level_required(PERMS['CHAT'])
 def connect(v):
-	if request.referrer:
-		join_room(request.referrer)
+	if not request.referrer:
+		return '', 400
 
-		if v.username not in online:
-			online.append(v.username)
-			refresh_online()
+	join_room(request.referrer)
 
-		emit('typing', typing[request.referrer], room=request.referrer)
+	if v.username not in online:
+		online.append(v.username)
+		refresh_online()
+
+	emit('typing', typing[request.referrer], room=request.referrer)
 	return '', 204
 
 @socketio.on('disconnect')
@@ -181,6 +186,8 @@ def disconnect(v):
 @socketio.on('typing')
 @admin_level_required(PERMS['CHAT'])
 def typing_indicator(data, v):
+	if not request.referrer:
+		return '', 400
 
 	if data and v.username not in typing[request.referrer]:
 		typing[request.referrer].append(v.username)
@@ -194,6 +201,9 @@ def typing_indicator(data, v):
 @socketio.on('delete')
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def delete(id, v):
+	if not request.referrer:
+		return '', 400
+
 	for k, val in messages[request.referrer].items():
 		if k == id:
 			del messages[request.referrer][k]
