@@ -3930,7 +3930,6 @@ small, .small {
 	color: var(--muted);
 	font-weight: 600;
 	font-size: 12px;
-	z-index: 1000;
 }
 .dropdown-actions .fa, .dropdown-actions .fas, .dropdown-actions .far {
 	font-size: 12px;
@@ -3969,9 +3968,6 @@ small, .small {
 }
 .dropdown-actions .list-inline .list-inline-item:last-child {
 	margin-right: 0;
-}
-#searchparams-dropdown {
-	z-index: 1001;
 }
 .page-link {
 	font-weight: 900;
