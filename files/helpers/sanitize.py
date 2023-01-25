@@ -251,7 +251,13 @@ def handle_youtube(url):
 	if yt_id_regex.fullmatch(id):
 		if not t:
 			t = params.get('t', params.get('start', [0]))[0]
-		if isinstance(t, str): t = t.replace('s','')
+		if isinstance(t, str):
+			t = t.replace('s','')
+			split = t.split('m')
+			if len(split) == 2:
+				minutes = int(split[0])
+				seconds = int(split[1])
+				t = minutes*60 + seconds
 		html = f'<lite-youtube videoid="{id}" params="autoplay=1&modestbranding=1'
 		if t:
 			html += f'&start={int(t)}'
