@@ -79,8 +79,6 @@ def edit_rules_post(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['ADMIN_ADD'])
 def make_admin(v:User, username):
-	if SITE == 'rdrama.net': abort(403)
-
 	user = get_user(username)
 
 	user.admin_level = PERMS['ADMIN_ADD_PERM_LEVEL']
