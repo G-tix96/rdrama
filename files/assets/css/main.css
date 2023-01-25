@@ -201,6 +201,8 @@
 .fa-play:before{content:"\f04b"}
 .fa-temperature-snow:before{content:"\f768"}
 .fa-images:before{content:"\f302"}
+.fa-lock:before{content:"\f023"}
+.fa-lock-open:before{content:"\f3c1"}
 
 button {
 	background: none;
