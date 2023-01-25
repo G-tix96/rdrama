@@ -20,6 +20,7 @@ from files.helpers.settings import get_settings, toggle_setting
 from files.helpers.useractions import *
 from files.routes.routehelpers import check_for_alts
 from files.routes.wrappers import *
+from files.routes.routehelpers import get_alt_graph, get_alt_graph_ids
 
 from .front import frontlist
 
@@ -223,7 +224,7 @@ def revert_actions(v:User, username):
 			send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unbanned you!")
 		g.db.add(user)
 
-		for u in user.alts:
+		for u in get_alt_graph(user.id):
 			u.shadowbanned = None
 			u.unban_utc = 0
 			u.ban_reason = None
@@ -639,6 +640,9 @@ def admin_add_alt(v:User, username):
 	g.db.add(a)
 	g.db.flush()
 
+	cache.delete_memoized(get_alt_graph_ids, user1.id)
+	cache.delete_memoized(get_alt_graph_ids, user2.id)
+
 	check_for_alts(user1, include_current_session=False)
 	check_for_alts(user2, include_current_session=False)
 
@@ -805,7 +809,7 @@ def unshadowban(user_id, v):
 	if not user.is_banned: user.ban_reason = None
 	g.db.add(user)
 
-	for alt in user.alts:
+	for alt in get_alt_graph(user.id):
 		alt.shadowbanned = None
 		if not alt.is_banned: alt.ban_reason = None
 		g.db.add(alt)
@@ -900,7 +904,7 @@ def ban_user(id, v):
 	user.ban(admin=v, reason=reason, days=days)
 
 	if request.values.get("alts"):
-		for x in user.alts:
+		for x in get_alt_graph(user.id):
 			if x.admin_level > v.admin_level:
 				continue
 			x.ban(admin=v, reason=reason, days=days)
@@ -1061,7 +1065,7 @@ def unban_user(id, v):
 	send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unbanned you!")
 	g.db.add(user)
 
-	for x in user.alts:
+	for x in get_alt_graph(user.id):
 		if x.is_banned: send_repeatable_notification(x.id, f"@{v.username} (a site admin) has unbanned you!")
 		x.is_banned = None
 		x.unban_utc = 0

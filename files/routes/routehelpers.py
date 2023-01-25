@@ -24,6 +24,26 @@ def validate_formkey(u:User, formkey:Optional[str]) -> bool:
 	if not formkey: return False
 	return validate_hash(get_raw_formkey(u), formkey)
 
+@cache.memoize(timeout=604800)
+def get_alt_graph_ids(uid:int) -> List[int]:
+	alt_graph_cte = g.db.query(literal(uid).label('user_id')).select_from(Alt).cte('alt_graph', recursive=True)
+
+	alt_graph_cte_inner = g.db.query(
+		case(
+			(Alt.user1 == alt_graph_cte.c.user_id, Alt.user2),
+			(Alt.user2 == alt_graph_cte.c.user_id, Alt.user1),
+		)
+	).select_from(Alt, alt_graph_cte).filter(
+		or_(alt_graph_cte.c.user_id == Alt.user1, alt_graph_cte.c.user_id == Alt.user2)
+	)
+
+	alt_graph_cte = alt_graph_cte.union(alt_graph_cte_inner)
+	return set([x[0] for x in g.db.query(User.id).filter(User.id == alt_graph_cte.c.user_id, User.id != uid).all()])
+
+def get_alt_graph(uid:int) -> List[User]:
+	alt_ids = get_alt_graph_ids(uid)
+	return g.db.query(User).filter(User.id.in_(alt_ids)).order_by(User.username).all()
+
 def add_alt(user1:int, user2:int):
 	li = [user1, user2]
 	existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
@@ -31,6 +51,8 @@ def add_alt(user1:int, user2:int):
 		new_alt = Alt(user1=user1, user2=user2)
 		g.db.add(new_alt)
 		g.db.flush()
+		cache.delete_memoized(get_alt_graph_ids, user1)
+		cache.delete_memoized(get_alt_graph_ids, user2)
 
 def check_for_alts(current:User, include_current_session=True):
 	current_id = current.id
@@ -64,7 +86,7 @@ def check_for_alts(current:User, include_current_session=True):
 	if include_current_session:
 		session["history"] = list(past_accs)
 	g.db.flush()
-	for u in current.alts:
+	for u in get_alt_graph(current.id):
 		if u.shadowbanned and not current.shadowbanned and current.id not in DONT_SHADOWBAN:
 			current.shadowbanned = u.shadowbanned
 			current.ban_reason = u.ban_reason

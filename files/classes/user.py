@@ -715,6 +715,10 @@ class User(Base):
 	def do_reddit(self):
 		return self.notifications_count == self.reddit_notifications_count
 
+	@property
+	@lazy
+	def alt_ids(self):
+		return [x.id for x in self.get_alt_graph(g.db)]
 
 	@property
 	@lazy
@@ -1125,11 +1129,6 @@ class User(Base):
 			output.append(user)
 
 		return output
-
-	@property
-	@lazy
-	def alt_ids(self):
-		return [x.id for x in self.alts]
 
 	if IS_FISTMAS():
 		@property
