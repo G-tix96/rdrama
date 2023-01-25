@@ -158,6 +158,7 @@ class User(Base):
 	marsify = Column(Integer, default=0)
 	rainbow = Column(Integer)
 	spider = Column(Integer, default=0)
+	blacklisted_by = Column(Integer, ForeignKey("users.id"))
 
 	if IS_FISTMAS():
 		event_music = Column(Boolean, default=default_event_music, nullable=False)
@@ -979,7 +980,7 @@ class User(Base):
 	@property
 	@lazy
 	def can_see_chudrama(self):
-		if self.id == 2074: return False
+		if self.blacklisted_by: return False
 		if self.shadowbanned: return False
 		if self.is_suspended_permanently: return False
 		if self.admin_level >= PERMS['VIEW_CHUDRAMA']: return True
@@ -992,7 +993,7 @@ class User(Base):
 	@property
 	@lazy
 	def can_see_countryclub(self):
-		if self.id == 2074: return False
+		if self.blacklisted_by: return False
 		if self.shadowbanned: return False
 		if self.is_suspended_permanently: return False
 		if self.agendaposter == 1: return False
@@ -1003,7 +1004,7 @@ class User(Base):
 	@property
 	@lazy
 	def can_see_masterbaiters(self):
-		if self.id == 2074: return False
+		if self.blacklisted_by: return False
 		if self.shadowbanned: return False
 		if self.is_suspended_permanently: return False
 		if self.truescore >= TRUESCORE_MASTERBAITERS_MINIMUM: return True

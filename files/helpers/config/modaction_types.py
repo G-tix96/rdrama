@@ -41,6 +41,11 @@ MODACTION_TYPES = {
 		"icon": 'fa-user-slash',
 		"color": 'bg-danger'
 	},
+	'blacklist_user': {
+		"str": 'blacklisted user {self.target_link} from restricted holes',
+		"icon": 'fa-lock',
+		"color": 'bg-danger'
+	},
 	'delete_report': {
 		"str": 'deleted report on {self.target_link}',
 		"icon": 'fa-flag',
@@ -299,6 +304,11 @@ MODACTION_TYPES = {
 	'unban_user': {
 		"str": 'unbanned user {self.target_link}',
 		"icon": 'fa-user',
+		"color": 'bg-success'
+	},
+	'unblacklist_user': {
+		"str": 'unblacklisted user {self.target_link} from restricted holes',
+		"icon": 'fa-lock-open',
 		"color": 'bg-success'
 	},
 	'undistinguish_comment': {

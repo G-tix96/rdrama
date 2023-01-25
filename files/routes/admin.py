@@ -1594,3 +1594,46 @@ def admin_nunuke_user(v):
 	g.db.add(ma)
 
 	return {"message": f"@{user.username}'s content has been approved!"}
+
+@app.post("/blacklist/<int:user_id>")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@admin_level_required(PERMS['USER_BLACKLIST'])
+def blacklist_user(user_id, v):
+	user = get_account(user_id)
+	if user.admin_level > v.admin_level:
+		abort(403)
+	user.blacklisted_by = v.id
+	g.db.add(user)
+	check_for_alts(user)
+
+	ma = ModAction(
+		kind="blacklist_user",
+		user_id=v.id,
+		target_user_id=user.id
+	)
+	g.db.add(ma)
+
+	return {"message": f"@{user.username} has been blacklisted from restricted holes!"}
+
+@app.post("/unblacklist/<int:user_id>")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@admin_level_required(PERMS['USER_BLACKLIST'])
+def unblacklist_user(user_id, v):
+	user = get_account(user_id)
+	user.blacklisted_by = None
+	g.db.add(user)
+
+	for alt in get_alt_graph(user.id):
+		alt.blacklisted_by = None
+		g.db.add(alt)
+
+	ma = ModAction(
+		kind="unblacklist_user",
+		user_id=v.id,
+		target_user_id=user.id
+	)
+	g.db.add(ma)
+
+	return {"message": f"@{user.username} has been unblacklisted from restricted holes!"}
