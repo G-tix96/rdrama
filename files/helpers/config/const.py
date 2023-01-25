@@ -506,7 +506,7 @@ FEATURES = {
 WERKZEUG_ERROR_DESCRIPTIONS = {
 	400: "The browser (or proxy) sent a request that this server could not understand.",
 	401: "The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required.",
-	403: "The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.",
+	403: "You don't have the permission to access the requested resource. It is either read-protected or not readable by the server.",
 	404: "The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.",
 	405: "The method is not allowed for the requested URL.",
 	406: "The resource identified by the request is only capable of generating response entities which have content characteristics not acceptable according to the accept headers sent in the request.",
