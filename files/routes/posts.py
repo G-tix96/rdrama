@@ -631,7 +631,7 @@ def submit_post(v:User, sub=None):
 				embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
 			except: pass
 		elif url.startswith('https://youtube.com/watch?'):
-			embed = handle_youtube(url)
+			embed = handle_youtube_links(url)
 		elif SITE in domain and "/post/" in url and "context" not in url and url.count('/') < 6:
 			id = url.split("/post/")[1]
 			if "/" in id: id = id.split("/")[0]

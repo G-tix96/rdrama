@@ -237,7 +237,7 @@ chud_images = listdir("files/assets/images/chud")
 chud_images = [f'![](/i/chud/{f})' for f in chud_images]
 chud_images.extend([':#trumpjaktalking:', ':#reposthorse:'])
 
-def handle_youtube(url):
+def handle_youtube_links(url):
 	html = None
 	params = parse_qs(urlparse(url).query, keep_blank_values=True)
 	id = params.get('v')[0]
@@ -383,7 +383,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		if i.group(0) in captured: continue
 		captured.append(i.group(0))
 
-		html = handle_youtube(i.group(0))
+		html = handle_youtube_links(i.group(0))
 		if html:
 			sanitized = sanitized.replace(i.group(0), html)
 
