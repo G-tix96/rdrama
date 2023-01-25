@@ -2,7 +2,7 @@
 :root {
 	--muted: #666;
 	--black: #444;
-	--primary: #b40457;
+	--primary: #b40457 !important;
 	--grey: #888;
 	--upvote: #ff8b60;
 	--downvote: #9393ff;
@@ -128,6 +128,7 @@ a.btn-block[href~="/submit"] {
 	color: white;
 	text-shadow: -1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black;
 	border:none;
+	background-color: transparent !important;
 }
 
 #frontpage .sorting .text-primary {
