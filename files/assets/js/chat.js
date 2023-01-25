@@ -93,9 +93,11 @@ socket.on('speak', function(json) {
 		else
 			document.getElementsByClassName('avatar-hat')[0].removeAttribute("src")
 
-		document.getElementsByClassName('userlink')[0].href = '/@' + json['username']
-		document.getElementsByClassName('userlink')[0].style.color = '#' + json['namecolor']
-		document.getElementsByClassName('userlink')[0].innerHTML = json['username']
+		const userlink = document.getElementsByClassName('userlink')[0]
+
+		userlink.innerHTML = userlink.innerHTML.replace(userlink.textContent, json['username'])
+		userlink.href = '/@' + json['username']
+		userlink.style.color = '#' + json['namecolor']
 
 		document.getElementsByClassName('user_id')[0].value = json['user_id']
 
@@ -119,7 +121,7 @@ socket.on('speak', function(json) {
 			}
 			document.getElementsByClassName('quotes')[0].classList.remove("d-none")
 			document.getElementsByClassName('QuotedMessageLink')[0].href = '#' + json['quotes']
-			document.getElementsByClassName('QuotedUser')[0].innerHTML = quoted.parentElement.querySelector('.userlink').innerHTML
+			document.getElementsByClassName('QuotedUser')[0].innerHTML = quoted.parentElement.querySelector('.userlink').textContent
 			document.getElementsByClassName('QuotedMessage')[0].innerHTML = quoted.querySelector('.text').innerHTML
 		}
 	}
@@ -175,7 +177,7 @@ function quote(t) {
 	const text = t.parentElement.getElementsByClassName("text")[0].innerHTML.replace(/\*/g,"\\*").split('\n').pop()
 	document.getElementById('QuotedMessage').innerHTML = text
 
-	const username = t.parentElement.parentElement.parentElement.parentElement.getElementsByClassName('userlink')[0].innerHTML
+	const username = t.parentElement.parentElement.parentElement.parentElement.getElementsByClassName('userlink')[0].textContent
 	document.getElementById('QuotedUser').innerHTML = username
 
 	const id = t.parentElement.parentElement.parentElement.id
