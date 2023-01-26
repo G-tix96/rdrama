@@ -200,7 +200,7 @@ def notifications_modactions(v:User):
 		listing = listing.filter(cls.kind.in_(('ban_user','unban_user','shadowban','unshadowban')))
 
 	if v.admin_level < PERMS['PROGSTACK']:
-		actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED__TYPES))
+		listing = listing.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED__TYPES))
 
 	if cls == SubAction:
 		listing = listing.filter(cls.sub.in_(v.moderated_subs))
