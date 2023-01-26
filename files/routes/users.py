@@ -1350,41 +1350,20 @@ def kofi():
 @app.post("/gumroad")
 def gumroad():
 	data = request.values
-	# verification_token = data['verification_token']
-	# if verification_token != KOFI_TOKEN: abort(400)
-
-	print(request.headers.get('CF-Connecting-IP'), flush=True)
-
-	print('0', flush=True)
-
-	id = data['sale_id']
-	print(id, flush=True)
-
-	print('2', flush=True)
-
-	type = data['recurrence']
-
-	print('3', flush=True)
-
-	amount = int(data['price'])
-
-	print('4', flush=True)
-
-	email = data['email']
-
-	print('5', flush=True)
+	ip = request.headers.get('CF-Connecting-IP')
+	if ip != '34.193.146.117':
+		print('\n\n\n-----------------------\n\n\ngumroad: ' + ip + '\n\n\n-----------------------\n\n\n')
+		abort(400)
 
 	transaction = Transaction(
-		id=id,
+		id=data['sale_id'],
 		created_utc=time.time(),
-		type=type,
-		amount=amount,
-		email=email
+		type=data['recurrence'],
+		amount=data['price'],
+		email=data['email']
 	)
 
 	g.db.add(transaction)
-
-	print('6', flush=True)
 
 	user = g.db.query(User).filter_by(email=email, is_activated=True).order_by(User.truescore.desc()).first()
 	# if user:
