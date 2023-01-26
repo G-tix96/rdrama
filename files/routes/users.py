@@ -1359,11 +1359,7 @@ def gumroad():
 	id = data['sale_id']
 	created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
 	type = data['recurrence']
-	amount = 0
-	try:
-	 	amount = int(float(data['price']))
-	except:
-	 	abort(400, 'invalid amount')
+	amount = int(data['price'])
 	email = data['email']
 
 	transaction = Transaction(
