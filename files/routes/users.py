@@ -1360,6 +1360,8 @@ def gumroad():
 	id = data['sale_id']
 	print('1', flush=True)
 
+	print(data['timestamp'], flush=True)
+
 	created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
 	print('2', flush=True)
 
