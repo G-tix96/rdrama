@@ -651,6 +651,10 @@ class User(Base):
 			)
 			if self.id == AEVANN_ID:
 				q = q.filter(ModAction.kind.in_(('ban_user','shadowban')))
+
+			if self.admin_level < PERMS['PROGSTACK']:
+				actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED__TYPES))
+
 			return q.count()
 
 		if self.moderated_subs:
