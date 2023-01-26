@@ -1362,6 +1362,8 @@ def gumroad():
 	amount = int(data['price'])
 	email = data['email']
 
+	print('fdssdfsdsddfs', flush=True)
+
 	transaction = Transaction(
 		id=id,
 		created_utc=created_utc,
