@@ -1358,7 +1358,9 @@ def gumroad():
 	print('0', flush=True)
 
 	id = data['sale_id']
-	print('1', flush=True)
+	print(id, flush=True)
+
+	print('2', flush=True)
 
 	type = data['recurrence']
 
