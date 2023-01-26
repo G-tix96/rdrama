@@ -1349,7 +1349,7 @@ def kofi():
 
 @app.post("/gumroad")
 def gumroad():
-	if not KOFI_TOKEN: abort(404)
+	if KOFI_TOKEN: abort(404)
 	data = json.loads(request.values['data'])
 	# verification_token = data['verification_token']
 	# if verification_token != KOFI_TOKEN: abort(400)
