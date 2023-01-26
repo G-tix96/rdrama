@@ -1360,11 +1360,6 @@ def gumroad():
 	id = data['sale_id']
 	print('1', flush=True)
 
-	print(data['timestamp'], flush=True)
-
-	created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
-	print('2', flush=True)
-
 	type = data['recurrence']
 
 	print('3', flush=True)
@@ -1379,7 +1374,7 @@ def gumroad():
 
 	transaction = Transaction(
 		id=id,
-		created_utc=created_utc,
+		created_utc=time.time(),
 		type=type,
 		amount=amount,
 		email=email
