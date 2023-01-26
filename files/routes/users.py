@@ -1353,16 +1353,27 @@ def gumroad():
 	# verification_token = data['verification_token']
 	# if verification_token != KOFI_TOKEN: abort(400)
 
-	print(data, flush=True)
-	print(request.remote_addr, flush=True)
+	print(request.headers.get('CF-Connecting-IP'), flush=True)
+
+	print('0', flush=True)
 
 	id = data['sale_id']
+	print('1', flush=True)
+
 	created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
+	print('2', flush=True)
+
 	type = data['recurrence']
+
+	print('3', flush=True)
+
 	amount = int(data['price'])
+
+	print('4', flush=True)
+
 	email = data['email']
 
-	print('fdssdfsdsddfs', flush=True)
+	print('5', flush=True)
 
 	transaction = Transaction(
 		id=id,
@@ -1374,7 +1385,7 @@ def gumroad():
 
 	g.db.add(transaction)
 
-	print('fdssdfdfs', flush=True)
+	print('6', flush=True)
 
 	user = g.db.query(User).filter_by(email=email, is_activated=True).order_by(User.truescore.desc()).first()
 	# if user:
