@@ -2190,7 +2190,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyinajackolantern',2,'halloween homoween pumpkin jackolantern stripper cake',1666671664),
 ('marseyinapumpkin',2,'halloween homoween pumpkin jackolantern',1666671730),
 ('marseyinbread',2,'food meme inbred',NULL),
-('marseyindignant',2,'hmph pout indignant angry annoyed no',1672174676),
+('marseyindignant',2,'hmph pout indignant angry annoyed no cross',1672174676),
 ('marseyinnocent',2,'innocent naive angelic dumb halo',NULL),
 ('marseyinshallah',2,'begging muslim animated please',NULL),
 ('marseyinsurgent',2,'insurgency iraq jaish gun mask balaclava iraqi',1674032658),
