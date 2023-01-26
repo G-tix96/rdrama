@@ -1351,8 +1351,8 @@ def kofi():
 def gumroad():
 	print('test', flush=True)
 	if KOFI_TOKEN: abort(404)
-	print(request.json(), flush=True)
-	data = request.json()
+	print(request.values, flush=True)
+	data = request.values
 	# verification_token = data['verification_token']
 	# if verification_token != KOFI_TOKEN: abort(400)
 
