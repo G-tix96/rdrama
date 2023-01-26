@@ -1277,7 +1277,7 @@ def bid_list(v:User, bid):
 
 
 
-kofi_tiers={
+tiers={
 	3: 1,
 	5: 1,
 	10: 2,
@@ -1295,7 +1295,7 @@ def claim_rewards(v):
 	marseybux = 0
 
 	for transaction in transactions:
-		tier = kofi_tiers[transaction.amount]
+		tier = tiers[transaction.amount]
 		marseybux += marseybux_li[tier]
 		if tier > highest_tier:
 			highest_tier = tier
@@ -1346,6 +1346,38 @@ def kofi():
 		claim_rewards(user)
 
 	return ''
+
+@app.post("/gumroad")
+def gumroad():
+	data = request.values
+	ip = request.headers.get('CF-Connecting-IP')
+	if ip != '34.193.146.117':
+		print('\n\n\n-----------------------\n\n\ngumroad: ' + ip + '\n\n\n-----------------------\n\n\n')
+		abort(400)
+
+	id = data['sale_id']
+	created_utc = time.time()
+	type = data['recurrence']
+	amount = int(data['price'])
+	email = data['email']
+	
+	transaction = Transaction(
+		id=id,
+		created_utc=created_utc,
+		type=type,
+		amount=amount,
+		email=email
+	)
+
+	g.db.add(transaction)
+
+	user = g.db.query(User).filter_by(email=email, is_activated=True).order_by(User.truescore.desc()).first()
+	# if user:
+	#  	claim_rewards(user)
+
+	return ''
+
+
 
 
 @app.post("/settings/kofi")
