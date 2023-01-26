@@ -138,7 +138,11 @@ def log(v:User):
 
 	kind = request.values.get("kind")
 
-	if v and v.admin_level >= PERMS['USER_SHADOWBAN']: types = MODACTION_TYPES
+	if v and v.admin_level >= PERMS['USER_SHADOWBAN']:
+		if v and v.admin_level >= PERMS['PROGSTACK']:
+			types = MODACTION_TYPES
+		else:
+			types = MODACTION_TYPES__FILTERED
 	else: types = MODACTION_TYPES_FILTERED
 
 	if kind and kind not in types:
@@ -181,7 +185,11 @@ def log_item(id, v):
 
 	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).all()]
 
-	if v and v.admin_level >= PERMS['USER_SHADOWBAN']: types = MODACTION_TYPES
+	if v and v.admin_level >= PERMS['USER_SHADOWBAN']:
+		if v and v.admin_level >= PERMS['PROGSTACK']:
+			types = MODACTION_TYPES
+		else:
+			types = MODACTION_TYPES__FILTERED
 	else: types = MODACTION_TYPES_FILTERED
 
 	return render_template("log.html", v=v, actions=[action], next_exists=False, page=1, action=action, admins=admins, types=types, single_user_url='admin')

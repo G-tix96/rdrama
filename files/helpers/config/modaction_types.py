@@ -370,3 +370,5 @@ MODACTION_PRIVILEGED_TYPES = {'shadowban', 'unshadowban',
 MODACTION_PRIVILEGED__TYPES = {'progstack_post', 'progstack_comment'}
 MODACTION_TYPES_FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items()
                                      if not t in MODACTION_PRIVILEGED_TYPES})
+MODACTION_TYPES__FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items()
+                                     if not t in MODACTION_PRIVILEGED__TYPES})
