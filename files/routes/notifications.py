@@ -5,6 +5,7 @@ from sqlalchemy.sql.expression import not_, and_, or_
 from files.classes.mod_logs import ModAction
 from files.classes.sub_logs import SubAction
 from files.helpers.config.const import *
+from files.helpers.config.modaction_types import *
 from files.helpers.get import *
 from files.routes.wrappers import *
 from files.__main__ import app

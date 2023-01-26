@@ -13,6 +13,7 @@ from files.classes import Base
 from files.classes.casino_game import CasinoGame
 from files.classes.sub import Sub
 from files.helpers.config.const import *
+from files.helpers.config.modaction_types import *
 from files.helpers.config.awards import AWARDS_ENABLED, HOUSE_AWARDS
 from files.helpers.media import *
 from files.helpers.security import *
