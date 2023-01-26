@@ -261,7 +261,6 @@ if SITE_NAME == 'rDrama':
 		'scrd.app',
 		'steemit.com',
 		'ovarit.com',
-		'watchpeopledie.tv',
 		'rdrama.net',
 		BAN_EVASION_DOMAIN,
 		'themotte.org',
