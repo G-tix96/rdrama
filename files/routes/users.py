@@ -1347,6 +1347,41 @@ def kofi():
 
 	return ''
 
+@app.post("/gumroad")
+def gumroad():
+	if not KOFI_TOKEN: abort(404)
+	data = json.loads(request.values['data'])
+	# verification_token = data['verification_token']
+	# if verification_token != KOFI_TOKEN: abort(400)
+
+	print(data, flush=True)
+	print(request.remote_addr, flush=True)
+
+	# id = data['sale_id']
+	# created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
+	# type = data['type']
+	# amount = 0
+	# try:
+	# 	amount = int(float(data['amount']))
+	# except:
+	# 	abort(400, 'invalid amount')
+	# email = data['email']
+
+	# transaction = Transaction(
+	# 	id=id,
+	# 	created_utc=created_utc,
+	# 	type=type,
+	# 	amount=amount,
+	# 	email=email
+	# )
+
+	# g.db.add(transaction)
+
+	# user = g.db.query(User).filter_by(email=email, is_activated=True).order_by(User.truescore.desc()).first()
+	# if user:
+	# 	claim_rewards(user)
+
+	# return ''
 
 @app.post("/settings/kofi")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
