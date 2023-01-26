@@ -1355,12 +1355,18 @@ def gumroad():
 		print('\n\n\n-----------------------\n\n\ngumroad: ' + ip + '\n\n\n-----------------------\n\n\n')
 		abort(400)
 
+	id = data['sale_id']
+	created_utc = time.time()
+	type = data['recurrence']
+	amount = int(data['price'])
+	email = data['email']
+	
 	transaction = Transaction(
-		id=data['sale_id'],
-		created_utc=time.time(),
-		type=data['recurrence'],
-		amount=data['price'],
-		email=data['email']
+		id=id,
+		created_utc=created_utc,
+		type=type,
+		amount=amount,
+		email=email
 	)
 
 	g.db.add(transaction)
