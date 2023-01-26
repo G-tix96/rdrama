@@ -1277,7 +1277,7 @@ def bid_list(v:User, bid):
 
 
 
-kofi_tiers={
+tiers={
 	3: 1,
 	5: 1,
 	10: 2,
@@ -1295,7 +1295,7 @@ def claim_rewards(v):
 	marseybux = 0
 
 	for transaction in transactions:
-		tier = kofi_tiers[transaction.amount]
+		tier = tiers[transaction.amount]
 		marseybux += marseybux_li[tier]
 		if tier > highest_tier:
 			highest_tier = tier
@@ -1349,8 +1349,6 @@ def kofi():
 
 @app.post("/gumroad")
 def gumroad():
-	print('test', flush=True)
-	print(request.values, flush=True)
 	data = request.values
 	# verification_token = data['verification_token']
 	# if verification_token != KOFI_TOKEN: abort(400)
@@ -1358,31 +1356,34 @@ def gumroad():
 	print(data, flush=True)
 	print(request.remote_addr, flush=True)
 
-	# id = data['sale_id']
-	# created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
-	# type = data['type']
-	# amount = 0
-	# try:
-	# 	amount = int(float(data['amount']))
-	# except:
-	# 	abort(400, 'invalid amount')
-	# email = data['email']
+	id = data['sale_id']
+	created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
+	type = data['recurrence']
+	amount = 0
+	try:
+	 	amount = int(float(data['price']))
+	except:
+	 	abort(400, 'invalid amount')
+	email = data['email']
 
-	# transaction = Transaction(
-	# 	id=id,
-	# 	created_utc=created_utc,
-	# 	type=type,
-	# 	amount=amount,
-	# 	email=email
-	# )
+	transaction = Transaction(
+		id=id,
+		created_utc=created_utc,
+		type=type,
+		amount=amount,
+		email=email
+	)
 
-	# g.db.add(transaction)
+	g.db.add(transaction)
 
-	# user = g.db.query(User).filter_by(email=email, is_activated=True).order_by(User.truescore.desc()).first()
+	user = g.db.query(User).filter_by(email=email, is_activated=True).order_by(User.truescore.desc()).first()
 	# if user:
-	# 	claim_rewards(user)
+	#  	claim_rewards(user)
 
-	# return ''
+	return ''
+
+
+
 
 @app.post("/settings/kofi")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)

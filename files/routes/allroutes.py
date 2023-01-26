@@ -8,8 +8,6 @@ from files.__main__ import app, limiter
 
 @app.before_request
 def before_request():
-	print('nnn', flush=True)
-
 	if request.host != SITE:
 		abort(403, "Unauthorized host provided!")
 
