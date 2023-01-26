@@ -1350,7 +1350,6 @@ def kofi():
 @app.post("/gumroad")
 def gumroad():
 	print('test', flush=True)
-	if KOFI_TOKEN: abort(404)
 	print(request.values, flush=True)
 	data = request.values
 	# verification_token = data['verification_token']
