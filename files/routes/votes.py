@@ -169,7 +169,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		mul = PROGSTACK_MUL
 	elif target.author.progressivestack or (target.author.admin_level and target.author.id not in {AEVANN_ID, CARP_ID}):
 		mul = 2
-	elif SITE == 'rdrama.net' and cls == Submission and target.author.id not in {8768,3402,5214,12719}:
+	elif SITE == 'rdrama.net' and cls == Submission and target.author.id not in {8768,3402,3377,5214,12719}:
 		if (target.domain.endswith('.win') or 'forum' in target.domain
 				or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))
 				or target.sub in BOOSTED_HOLES):
