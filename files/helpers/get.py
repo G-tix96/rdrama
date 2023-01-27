@@ -364,7 +364,7 @@ def get_profile_picture(identifier:Union[int, str]) -> str:
 
 def get_error():
 	if request.referrer and request.referrer.split('?')[0] == request.base_url:
-		return request.values.get("err")
+		return request.values.get("error")
 	else:
 		return None
 
