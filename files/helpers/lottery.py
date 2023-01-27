@@ -106,7 +106,7 @@ def purchase_lottery_tickets(v, quantity=1):
 	if quantity < 1:
 		return False, f"Must purchase one or more lottershe tickets!"
 	elif (v.coins < LOTTERY_TICKET_COST * quantity):
-		return False, f'Lottery tickets cost {LOTTERY_TICKET_COST} coins each!"
+		return False, f"Lottery tickets cost {LOTTERY_TICKET_COST} coins each!"
 
 	most_recent_lottery = get_active_lottery()
 	if (most_recent_lottery is None):
