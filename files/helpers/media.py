@@ -229,7 +229,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 	return filename
 
 
-def process_dm_images(v):
+def process_dm_images(v, user):
 	if not request.files.get("file") or g.is_tor or not get_setting("dm_images"):
 		return ''
 
@@ -265,7 +265,8 @@ def process_dm_images(v):
 			
 			body += f'\n\n{url}\n\n'
 	
-	with open(f"{LOG_DIRECTORY}/dm_images.log", "a+", encoding="utf-8") as f:
-		f.write(body.strip() + '\n')
+	if body:
+		with open(f"{LOG_DIRECTORY}/dm_images.log", "a+", encoding="utf-8") as f:
+			f.write(f'{body.strip()}, {v.username}, {v.id}, {user.username}, {user.id}\n')
 	
 	return body

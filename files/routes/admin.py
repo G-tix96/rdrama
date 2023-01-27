@@ -44,7 +44,11 @@ def loggedout_list(v):
 @admin_level_required(PERMS['VIEW_DM_IMAGES'])
 def dm_images(v):
 	with open(f"{LOG_DIRECTORY}/dm_images.log", "r", encoding="utf-8") as f:
-		return f.read()
+		items=f.read().split("\n")[:-1]
+
+	items = [x.split(", ") for x in items]
+
+	return render_template("admin/dm_images.html", v=v, items=items)
 
 @app.get('/admin/edit_rules')
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
