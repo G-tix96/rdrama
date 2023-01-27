@@ -137,6 +137,12 @@ function register_new_elements(e) {
 	for (const element of onchange) {
 		element.onchange = ()=>{execute(element, 'onchange')};
 	}
+
+	for (const element of document.getElementsByClassName('user-name')) {
+		element.onclick = (e) => {
+			popclick(e);
+		};
+	}
 }
 
 register_new_elements(document);

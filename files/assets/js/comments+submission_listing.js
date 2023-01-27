@@ -65,12 +65,6 @@ function popclick(e) {
 	}, 5);
 }
 
-for (const element of document.getElementsByClassName('user-name')) {
-	element.onclick = (e) => {
-		popclick(e);
-	};
-}
-
 document.addEventListener("click", function(){
 	active = document.activeElement.getAttributeNode("class");
 	if (active && active.nodeValue == "user-name text-decoration-none"){
