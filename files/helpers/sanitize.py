@@ -265,7 +265,7 @@ def handle_youtube_links(url):
 	return html
 
 @with_sigalrm_timeout(10)
-def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False, sidebar=False, snappy=False):
+def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False, sidebar=False, snappy=False, chat=False):
 	sanitized = sanitized.strip()
 
 	sanitized = utm_regex.sub('', sanitized)
@@ -422,14 +422,20 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		d = tldextract.extract(href).registered_domain + url.path
 		domain_list.add(d.lower())
 
+	def error(error):
+		if chat:
+			return error, 403
+		else:
+			abort(403, error)
+		
 	banned_domains = g.db.query(BannedDomain).all()
 	for x in banned_domains:
 		for y in domain_list:
 			if y.startswith(x.domain):
-				abort(403, f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
+				return error(f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
 
 	if discord_username_regex.match(sanitized):
-		abort(403, "Stop grooming!")
+		return error("Stop grooming!")
 
 	if '<pre>' not in sanitized and not sidebar:
 		sanitized = sanitized.replace('\n','')

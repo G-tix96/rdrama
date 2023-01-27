@@ -192,4 +192,4 @@ def command_regex_matcher(match, upper=False):
 
 reason_regex = re.compile('(/(post|comment)/[0-9]+)', flags=re.A)
 
-discord_username_regex = re.compile("(\s|^).{2,32}#[0-9]{4}(?=\s|$)", flags=re.A)
+discord_username_regex = re.compile("(\s|^|>).{2,32}#[0-9]{4}(?=[^0-9]|$)", flags=re.A)
