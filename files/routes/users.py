@@ -1346,7 +1346,7 @@ def gumroad():
 	id = data['sale_id']
 	created_utc = time.time()
 	type = data['recurrence']
-	amount = int(data['price'] / 100)
+	amount = int(data['price']) / 100
 	email = data['email']
 	
 	transaction = Transaction(
