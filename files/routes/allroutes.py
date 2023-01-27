@@ -15,7 +15,7 @@ def before_request():
 		abort(404)
 
 	if request.headers.get("CF-Worker"):
-		abort(403, "Cloudflare workers are not allowed to access this website.")
+		abort(403, "Cloudflare workers are not allowed to access this website!")
 
 	g.agent = request.headers.get("User-Agent", "")
 	if not g.agent and request.path != '/kofi':

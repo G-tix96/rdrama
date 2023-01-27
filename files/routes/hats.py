@@ -42,17 +42,17 @@ def buy_hat(v:User, hat_id):
 	if existing: abort(409, "You already own this hat!")
 
 	if not hat.is_purchasable:
-		abort(403, "This hat is not for sale.")
+		abort(403, "This hat is not for sale!")
 
 	if request.values.get("mb"):
 		charged = v.charge_account('marseybux', hat.price)
-		if not charged: abort(400, "Not enough marseybux.")
+		if not charged: abort(400, "Not enough marseybux!")
 
 		hat.author.pay_account('marseybux', hat.price * 0.1)
 		currency = "marseybux"
 	else:
 		charged = v.charge_account('coins', hat.price)
-		if not charged: abort(400, "Not enough coins.")
+		if not charged: abort(400, "Not enough coins!")
 
 		v.coins_spent_on_hats += hat.price
 		hat.author.pay_account('coins', hat.price * 0.1)

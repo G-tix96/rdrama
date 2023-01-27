@@ -20,7 +20,7 @@ def flag_post(pid, v):
 	reason = request.values.get("reason", "").strip()
 	execute_under_siege(v, post, reason, 'flag')
 	execute_blackjack(v, post, reason, 'flag')
-	if v.is_muted: abort(403, "You are forbidden from making reports.")
+	if v.is_muted: abort(403, "You are forbidden from making reports!")
 	reason = reason[:100]
 	og_flair = reason[1:]
 	reason = filter_emojis_only(reason)
@@ -84,7 +84,7 @@ def flag_comment(cid, v):
 	reason = reason[:100]
 	reason = filter_emojis_only(reason)
 
-	if len(reason) > 350: abort(400, "Too long.")
+	if len(reason) > 350: abort(400, "Too long!")
 
 	flag = CommentFlag(comment_id=comment.id, user_id=v.id, reason=reason)
 

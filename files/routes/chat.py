@@ -37,7 +37,7 @@ messages = cache.get(f'messages') or {
 @admin_level_required(PERMS['CHAT'])
 def chat(v):
 	if not v.admin_level and TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
-		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat.")
+		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat!")
 	return render_template("chat.html", v=v, messages=messages[f"{SITE_FULL}/chat"])
 
 @app.get("/admin/chat")

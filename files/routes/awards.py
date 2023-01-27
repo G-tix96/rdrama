@@ -51,7 +51,7 @@ def shop(v:User):
 @auth_required
 def buy(v:User, award):
 	if award == 'benefactor' and not request.values.get("mb"):
-		abort(403, "You can only buy the Benefactor award with marseybux.")
+		abort(403, "You can only buy the Benefactor award with marseybux!")
 
 	if award == 'ghost' and v.admin_level < PERMS['BUY_GHOST_AWARD']:
 		abort(403, "Only admins can buy this award")
@@ -69,15 +69,15 @@ def buy(v:User, award):
 
 	if request.values.get("mb"):
 		if award == "grass":
-			abort(403, "You can't buy the grass award with marseybux.")
+			abort(403, "You can't buy the grass award with marseybux!")
 
 		charged = v.charge_account('marseybux', price)
 		if not charged:
-			abort(400, "Not enough marseybux.")
+			abort(400, "Not enough marseybux!")
 	else:
 		charged = v.charge_account('coins', price)
 		if not charged:
-			abort(400, "Not enough coins.")
+			abort(400, "Not enough coins!")
 
 		v.coins_spent += price
 		if v.coins_spent >= 1000000:
@@ -172,10 +172,10 @@ def award_thing(v, thing_type, id):
 		safe_username = f"@{author.username}"
 
 	if SITE == 'rdrama.net' and author.id in {PIZZASHILL_ID, CARP_ID}:
-		abort(403, f"{safe_username} is immune to awards.")
+		abort(403, f"{safe_username} is immune to awards!")
 
 	if kind == "benefactor" and author.id == v.id:
-		abort(403, "You can't use this award on yourself.")
+		abort(403, "You can't use this award on yourself!")
 
 	if kind == 'marsify' and author.marsify == 1:
 		abort(409, f"{safe_username} is already permanently marsified!")
@@ -184,7 +184,7 @@ def award_thing(v, thing_type, id):
 		abort(409, f"{safe_username} already has a permanent spider friend!")
 
 	if thing.ghost and not AWARDS[kind]['ghost']:
-		abort(403, "This kind of award can't be used on ghost posts.")
+		abort(403, "This kind of award can't be used on ghost posts!")
 
 	if v.id != author.id:
 		if author.deflector and v.deflector and AWARDS[kind]['deflectable']:
@@ -283,10 +283,10 @@ def award_thing(v, thing_type, id):
 			abort(403, "You can't give the chud award in /h/chudrama")
 
 		if author.marseyawarded:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsey award.")
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsey award!")
 
 		if author.agendaposter == 1:
-			abort(409, f"{safe_username} is perma-chudded.")
+			abort(409, f"{safe_username} is perma-chudded!")
 
 		if author.agendaposter and time.time() < author.agendaposter: author.agendaposter += 86400
 		else: author.agendaposter = int(time.time()) + 86400
@@ -314,13 +314,13 @@ def award_thing(v, thing_type, id):
 		badge_grant(user=author, badge_id=98)
 	elif kind == "pizzashill":
 		if author.bird:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Bird Site award.")
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Bird Site award!")
 		if author.longpost: author.longpost += 86400
 		else: author.longpost = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=97)
 	elif kind == "bird":
 		if author.longpost:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Pizzashill award.")
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Pizzashill award!")
 		if author.bird: author.bird += 86400
 		else: author.bird = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=95)

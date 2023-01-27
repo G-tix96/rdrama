@@ -206,7 +206,7 @@ def searchcomments(v:User):
 			if v.client:
 				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
 
-			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, next_exists=False, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them."), 403
+			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, next_exists=False, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them!"), 403
 
 		else: comments = comments.filter(Comment.author_id == author.id)
 

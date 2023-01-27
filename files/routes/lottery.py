@@ -19,7 +19,7 @@ def lottery_end(v):
 @admin_level_required(PERMS['LOTTERY_ADMIN'])
 def lottery_start(v):
 	start_new_lottery_session()
-	return {"message": "Lottery started."}
+	return {"message": "Lottery started!"}
 
 
 @app.post("/lottery/buy")
@@ -28,7 +28,7 @@ def lottery_start(v):
 @auth_required
 def lottery_buy(v:User):
 	try: quantity = int(request.values.get("quantity"))
-	except: abort(400, "Invalid ticket quantity.")
+	except: abort(400, "Invalid ticket quantity!")
 
 	success, message = purchase_lottery_tickets(v, quantity)
 	lottery, participants = get_active_lottery_stats()

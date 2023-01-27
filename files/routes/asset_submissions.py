@@ -50,7 +50,7 @@ def submit_marsey(v:User):
 		return render_template("submit_marseys.html", v=v, marseys=marseys, error=error, name=name, tags=tags, username=username, file=file), 400
 
 	if g.is_tor:
-		return error("Image uploads are not allowed through TOR.")
+		return error("Image uploads are not allowed through TOR!")
 
 	if not file or not file.content_type.startswith('image/'):
 		return error("You need to submit an image!")
@@ -217,7 +217,7 @@ def submit_hat(v:User):
 		return render_template("submit_hats.html", v=v, hats=hats, error=error, name=name, description=description, username=username), 400
 
 	if g.is_tor:
-		return error("Image uploads are not allowed through TOR.")
+		return error("Image uploads are not allowed through TOR!")
 
 	file = request.files["image"]
 	if not file or not file.content_type.startswith('image/'):
@@ -369,7 +369,7 @@ def update_marsey(v):
 
 	if file:
 		if g.is_tor:
-			return error("Image uploads are not allowed through TOR.")
+			return error("Image uploads are not allowed through TOR!")
 		if not file.content_type.startswith('image/'):
 			return error("You need to submit an image!")
 
@@ -421,7 +421,7 @@ def update_hat(v):
 		return render_template("update_assets.html", v=v, error=error, type="Hat")
 
 	if g.is_tor:
-		return error("Image uploads are not allowed through TOR.")
+		return error("Image uploads are not allowed through TOR!")
 
 	if not file or not file.content_type.startswith('image/'):
 		return error("You need to submit an image!")

@@ -275,7 +275,7 @@ def edit_post(pid, v):
 			abort(403, "You have to type less than 140 characters!")
 
 	if not title:
-		abort(400, "Please enter a better title.")
+		abort(400, "Please enter a better title!")
 	if title != p.title:
 		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
 
@@ -538,7 +538,7 @@ def submit_post(v:User, sub=None):
 		return render_template("submit.html", SUBS=SUBS, v=v, error=error, title=title, url=url, body=body), 400
 
 	if not title:
-		return error("Please enter a better title.")
+		return error("Please enter a better title!")
 
 	sub = request.values.get("sub", "").lower().replace('/h/','').strip()
 
@@ -572,7 +572,7 @@ def submit_post(v:User, sub=None):
 	if not sub and HOLE_REQUIRED:
 		return error(f"You must choose a {HOLE_NAME} for your post!")
 
-	if v.is_suspended: return error("You can't perform this action while banned.")
+	if v.is_suspended: return error("You can't perform this action while banned!")
 
 	if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
 		return error("You have to type more than 280 characters!")
@@ -639,7 +639,7 @@ def submit_post(v:User, sub=None):
 
 
 	if not url and not body and not request.files.get("file") and not request.files.get("file-url"):
-		return error("Please enter a url or some text.")
+		return error("Please enter a url or some text!")
 
 	if not IS_LOCALHOST:
 		dup = g.db.query(Submission).filter(
@@ -655,7 +655,7 @@ def submit_post(v:User, sub=None):
 		return redirect("/notifications")
 
 	if len(url) > 2048:
-		return error("There's a 2048 character limit for URLs.")
+		return error("There's a 2048 character limit for URLs!")
 
 	body, bets, options, choices = sanitize_poll_options(v, body, True)
 

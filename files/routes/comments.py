@@ -50,7 +50,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	post = get_post(post, v=v)
 	
 	if post.over_18 and not (v and v.over_18) and not session.get('over_18', 0) >= int(time.time()):
-		if v and v.client: abort(403, "This content is not suitable for some users and situations.")
+		if v and v.client: abort(403, "This content is not suitable for some users and situations!")
 		else: return render_template("errors/nsfw.html", v=v), 403
 
 	try: context = min(int(request.values.get("context", 8)), 8)
@@ -87,7 +87,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 @limiter.limit("1/second;20/minute;200/hour;1000/day", key_func=get_ID)
 @auth_required
 def comment(v:User):
-	if v.is_suspended: abort(403, "You can't perform this action while banned.")
+	if v.is_suspended: abort(403, "You can't perform this action while banned!")
 
 	parent_fullname = request.values.get("parent_fullname").strip()
 	if len(parent_fullname) < 3: abort(400)
@@ -147,7 +147,7 @@ def comment(v:User):
 	if not body and not request.files.get('file'): abort(400, "You need to actually write something!")
 
 	if not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and parent_user.any_block_exists(v):
-		abort(403, "You can't reply to users who have blocked you or users that you have blocked.")
+		abort(403, "You can't reply to users who have blocked you or users that you have blocked!")
 
 	body, _, options, choices = sanitize_poll_options(v, body, False)
 

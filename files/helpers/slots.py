@@ -143,7 +143,7 @@ def check_slots_command(c:Comment, v:User, u:User):
 		wager = int(wager)
 	except:
 		if v.id == u.id:
-			abort(400, "Invalid wager.")
+			abort(400, "Invalid wager!")
 		return
 
 	if wager < 100:

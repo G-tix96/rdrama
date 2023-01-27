@@ -14,7 +14,7 @@ from files.__main__ import app, limiter
 @auth_required
 def verify_email(v):
 	send_verification_email(v)
-	return {"message": "Email has been sent. Check your spam folder if you can't find it."}
+	return {"message": "Email has been sent. Check your spam folder if you can't find it!"}
 
 
 @app.get("/activate")
@@ -31,7 +31,7 @@ def activate(v:User):
 	token = request.values.get("token", "").strip()
 
 	if int(time.time()) - timestamp > 3600:
-		abort(410, "This email verification link has expired. Visit your settings to send yourself a new one.")
+		abort(410, "This email verification link has expired. Visit your settings to send yourself a new one!")
 
 	user = get_account(id)
 
@@ -48,4 +48,4 @@ def activate(v:User):
 
 	g.db.add(user)
 
-	return render_template("message_success.html", v=v, title="Email verified.", message=f"Your email {email} has been verified. Thank you.")
+	return render_template("message_success.html", v=v, title="Email verified!", message=f"Your email {email} has been verified. Thank you!")

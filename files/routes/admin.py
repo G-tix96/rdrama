@@ -416,7 +416,7 @@ def badge_grant_post(v):
 
 	user = get_user(request.values.get("username"), graceful=True)
 	if not user:
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error="User not found.")
+		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error="User not found!")
 
 	try: badge_id = int(request.values.get("badge_id"))
 	except: abort(400)
@@ -441,7 +441,7 @@ def badge_grant_post(v):
 			existing.description = description
 			g.db.add(existing)
 			return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg="Badge attributes edited successfully!")
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error="User already has that badge.")
+		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error="User already has that badge!")
 
 	new_badge = Badge(
 		badge_id=badge_id,
@@ -477,7 +477,7 @@ def badge_remove_post(v):
 
 	user = get_user(request.values.get("username"), graceful=True)
 	if not user:
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error="User not found.")
+		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error="User not found!")
 
 	try: badge_id = int(request.values.get("badge_id"))
 	except: abort(400)
@@ -487,7 +487,7 @@ def badge_remove_post(v):
 
 	badge = user.has_badge(badge_id)
 	if not badge:
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error="User doesn't have that badge.")
+		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error="User doesn't have that badge!")
 
 	if v.id != user.id:
 		text = f"@{v.username} (a site admin) has removed the following profile badge from you:\n\n![]({badge.path})\n\n**{badge.name}**\n\n{badge.badge.description}"

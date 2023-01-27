@@ -53,7 +53,7 @@ def remove_background(v):
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def upload_custom_background(v):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
+	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
 
 	if not v.patron:
 		abort(403, f"This feature is only available to {patron}s!")
@@ -77,7 +77,7 @@ def upload_custom_background(v):
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def upload_profile_background(v):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
+	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
 
 	file = request.files["file"]
 
@@ -205,25 +205,25 @@ def settings_personal_post(v):
 		v.bio = None
 		v.bio_html = None
 		g.db.add(v)
-		return render_template("settings/personal.html", v=v, msg="Your bio has been updated.")
+		return render_template("settings/personal.html", v=v, msg="Your bio has been updated!")
 
 	elif not updated and request.values.get("sig") == "":
 		v.sig = None
 		v.sig_html = None
 		g.db.add(v)
-		return render_template("settings/personal.html", v=v, msg="Your sig has been updated.")
+		return render_template("settings/personal.html", v=v, msg="Your sig has been updated!")
 
 	elif not updated and request.values.get("friends") == "":
 		v.friends = None
 		v.friends_html = None
 		g.db.add(v)
-		return render_template("settings/personal.html", v=v, msg="Your friends list has been updated.")
+		return render_template("settings/personal.html", v=v, msg="Your friends list has been updated!")
 
 	elif not updated and request.values.get("enemies") == "":
 		v.enemies = None
 		v.enemies_html = None
 		g.db.add(v)
-		return render_template("settings/personal.html", v=v, msg="Your enemies list has been updated.")
+		return render_template("settings/personal.html", v=v, msg="Your enemies list has been updated!")
 
 	elif not updated and v.patron and request.values.get("sig"):
 		sig = request.values.get("sig")[:200].replace('\n','').replace('\r','')
@@ -354,9 +354,9 @@ def settings_personal_post(v):
 
 	if updated:
 		g.db.add(v)
-		return {"message": "Your settings have been updated."}
+		return {"message": "Your settings have been updated!"}
 	else:
-		abort(400, "You didn't change anything.")
+		abort(400, "You didn't change anything!")
 
 
 @app.post("/settings/filters")
@@ -370,7 +370,7 @@ def filters(v:User):
 
 	v.custom_filter_list=filters
 	g.db.add(v)
-	return redirect("/settings/advanced?msg=Your custom filters have been updated.")
+	return redirect("/settings/advanced?msg=Your custom filters have been updated!")
 
 
 def set_color(v:User, attr:str, color:Optional[str]):
@@ -459,10 +459,10 @@ def verifiedcolor(v):
 def settings_security_post(v):
 	if request.values.get("new_password"):
 		if request.values.get("new_password") != request.values.get("cnf_password"):
-			return render_template("settings/security.html", v=v, error="Passwords do not match.")
+			return render_template("settings/security.html", v=v, error="Passwords do not match!")
 
 		if not valid_password_regex.fullmatch(request.values.get("new_password")):
-			return render_template("settings/security.html", v=v, error="Password must be between 8 and 100 characters.")
+			return render_template("settings/security.html", v=v, error="Password must be between 8 and 100 characters!")
 
 		if not v.verifyPass(request.values.get("old_password")):
 			return render_template("settings/security.html", v=v, error="Incorrect password")
@@ -470,11 +470,11 @@ def settings_security_post(v):
 		v.passhash = hash_password(request.values.get("new_password"))
 
 		g.db.add(v)
-		return render_template("settings/security.html", v=v, msg="Your password has been changed.")
+		return render_template("settings/security.html", v=v, msg="Your password has been changed!")
 
 	if request.values.get("new_email"):
 		if not v.verifyPass(request.values.get('password')):
-			return render_template("settings/security.html", v=v, error="Invalid password.")
+			return render_template("settings/security.html", v=v, error="Invalid password!")
 
 		new_email = request.values.get("new_email","").strip().lower()
 
@@ -497,34 +497,34 @@ def settings_security_post(v):
 									v=v)
 				)
 
-		return render_template("settings/security.html", v=v, msg="We have sent you an email, click the verification link inside it to complete the email change. Check your spam folder if you can't find it.")
+		return render_template("settings/security.html", v=v, msg="We have sent you an email, click the verification link inside it to complete the email change. Check your spam folder if you can't find it!")
 
 	if request.values.get("2fa_token"):
 		if not v.verifyPass(request.values.get('password')):
-			return render_template("settings/security.html", v=v, error="Invalid password.")
+			return render_template("settings/security.html", v=v, error="Invalid password!")
 
 		secret = request.values.get("2fa_secret")
 		x = pyotp.TOTP(secret)
 		if not x.verify(request.values.get("2fa_token"), valid_window=1):
-			return render_template("settings/security.html", v=v, error="Invalid token.")
+			return render_template("settings/security.html", v=v, error="Invalid token!")
 
 		v.mfa_secret = secret
 		g.db.add(v)
-		return render_template("settings/security.html", v=v, msg="Two-factor authentication enabled.")
+		return render_template("settings/security.html", v=v, msg="Two-factor authentication enabled!")
 
 	if request.values.get("2fa_remove"):
 		if not v.verifyPass(request.values.get('password')):
-			return render_template("settings/security.html", v=v, error="Invalid password.")
+			return render_template("settings/security.html", v=v, error="Invalid password!")
 
 		token = request.values.get("2fa_remove")
 
 		if not token or not v.validate_2fa(token):
-			return render_template("settings/security.html", v=v, error="Invalid token.")
+			return render_template("settings/security.html", v=v, error="Invalid token!")
 
 		v.mfa_secret = None
 		g.db.add(v)
 		g.db.commit()
-		return render_template("settings/security.html", v=v, msg="Two-factor authentication disabled.")
+		return render_template("settings/security.html", v=v, msg="Two-factor authentication disabled!")
 
 @app.post("/settings/log_out_all_others")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
@@ -547,7 +547,7 @@ def settings_log_out_others(v):
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def settings_images_profile(v):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
+	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
 
 	file = request.files["profile"]
 
@@ -585,7 +585,7 @@ def settings_images_profile(v):
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def settings_images_banner(v):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
+	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
 
 	file = request.files["banner"]
 
@@ -650,7 +650,7 @@ def settings_security(v:User):
 @auth_required
 def settings_block_user(v):
 	user = get_user(request.values.get("username"), graceful=True)
-	if not user: abort(404, "This user doesn't exist.")
+	if not user: abort(404, "This user doesn't exist!")
 
 	if user.unblockable:
 		if not v.shadowbanned:
@@ -668,7 +668,7 @@ def settings_block_user(v):
 		send_notification(user.id, f"@{v.username} has blocked you!")
 
 	cache.delete_memoized(frontlist)
-	return {"message": f"@{user.username} blocked."}
+	return {"message": f"@{user.username} blocked!"}
 
 
 @app.post("/settings/unblock")

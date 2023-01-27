@@ -90,7 +90,7 @@ def pull_slots(v:User):
 	try:
 		wager = int(request.values.get("wager"))
 	except:
-		abort(400, "Invalid wager.")
+		abort(400, "Invalid wager!")
 
 	try:
 		currency = request.values.get("currency", "").lower()
@@ -144,7 +144,7 @@ def blackjack_player_hit(v:User):
 		feed = get_game_feed('blackjack', g.db)
 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except:
-		abort(400, "Unable to hit.")
+		abort(400, "Unable to hit!")
 
 
 @app.post("/casino/twentyone/stay")
@@ -160,7 +160,7 @@ def blackjack_player_stay(v:User):
 		feed = get_game_feed('blackjack', g.db)
 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except:
-		abort(400, "Unable to stay.")
+		abort(400, "Unable to stay!")
 
 
 @app.post("/casino/twentyone/double-down")
@@ -176,7 +176,7 @@ def blackjack_player_doubled_down(v:User):
 		feed = get_game_feed('blackjack', g.db)
 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except:
-		abort(400, "Unable to double down.")
+		abort(400, "Unable to double down!")
 
 
 @app.post("/casino/twentyone/buy-insurance")
@@ -192,7 +192,7 @@ def blackjack_player_bought_insurance(v:User):
 		feed = get_game_feed('blackjack', g.db)
 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except:
-		abort(403, "Unable to buy insurance.")
+		abort(403, "Unable to buy insurance!")
 
 # Roulette
 @app.get("/casino/roulette/bets")
@@ -238,4 +238,4 @@ def roulette_player_placed_bet(v:User):
 		bets = get_roulette_bets()
 		return {"success": True, "bets": bets, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except:
-		abort(400, "Unable to place a bet.")
+		abort(400, "Unable to place a bet!")

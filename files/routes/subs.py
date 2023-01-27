@@ -555,7 +555,7 @@ def delete_all_sub_banners(v:User, sub:str):
 @limiter.limit("1/second;10/day", key_func=get_ID)
 @is_not_permabanned
 def sub_sidebar(v:User, sub):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
+	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
 
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
@@ -586,7 +586,7 @@ def sub_sidebar(v:User, sub):
 @limiter.limit("1/second;10/day", key_func=get_ID)
 @is_not_permabanned
 def sub_marsey(v:User, sub):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
+	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
 
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)

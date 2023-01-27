@@ -149,7 +149,7 @@ def logout(v):
 @auth_desired
 def sign_up_get(v:Optional[User]):
 	if not get_setting('signups'):
-		abort(403, "New account registration is currently closed. Please come back later.")
+		abort(403, "New account registration is currently closed. Please come back later!")
 
 	if v: return redirect(SITE_FULL)
 	ref = request.values.get("ref")
@@ -197,7 +197,7 @@ def sign_up_get(v:Optional[User]):
 @auth_desired
 def sign_up_post(v:Optional[User]):
 	if not get_setting('signups'):
-		abort(403, "New account registration is currently closed. Please come back later.")
+		abort(403, "New account registration is currently closed. Please come back later!")
 
 	if v: abort(403)
 
@@ -247,7 +247,7 @@ def sign_up_post(v:Optional[User]):
 	submitted_token = session.get("signup_token", "")
 	if not submitted_token:
 		session.clear()
-		return signup_error(f"An error occurred while attempting to signup. If you get this repeatedly, please make sure cookies are enabled.")
+		return signup_error(f"An error occurred while attempting to signup. If you get this repeatedly, please make sure cookies are enabled!")
 
 	correct_formkey_hashstr = form_timestamp + submitted_token + g.agent
 	correct_formkey = hmac.new(key=bytes(SECRET_KEY, "utf-16"),
@@ -258,30 +258,30 @@ def sign_up_post(v:Optional[User]):
 	now = int(time.time())
 
 	if now - int(form_timestamp) < 5:
-		return signup_error("There was a problem. Please try again.")
+		return signup_error("There was a problem. Please try again!")
 
 	if not hmac.compare_digest(correct_formkey, form_formkey):
 		if IS_LOCALHOST: return signup_error("There was a problem. Please try again!")
-		return signup_error("There was a problem. Please try again.")
+		return signup_error("There was a problem. Please try again!")
 
 	if not request.values.get(
 			"password") == request.values.get("password_confirm"):
-		return signup_error("Passwords did not match. Please try again.")
+		return signup_error("Passwords did not match. Please try again!")
 
 	if not valid_username_regex.fullmatch(username):
 		return signup_error("Invalid username")
 
 	if not valid_password_regex.fullmatch(request.values.get("password")):
-		return signup_error("Password must be between 8 and 100 characters.")
+		return signup_error("Password must be between 8 and 100 characters!")
 
 	if email:
 		if not email_regex.fullmatch(email):
-			return signup_error("Invalid email.")
+			return signup_error("Invalid email!")
 	else: email = None
 
 	existing_account = get_user(username, graceful=True)
 	if existing_account:
-		return signup_error("An account with that username already exists.")
+		return signup_error("An account with that username already exists!")
 
 	if TURNSTILE_SITEKEY != DEFAULT_CONFIG_VALUE:
 		token = request.values.get("cf-turnstile-response")
@@ -374,7 +374,7 @@ def post_forgot():
 	email = request.values.get("email",'').strip().lower()
 
 	if not email_regex.fullmatch(email):
-		return render_template("login/forgot_password.html", error="Invalid email."), 400
+		return render_template("login/forgot_password.html", error="Invalid email!"), 400
 
 
 	username = username.lstrip('@').replace('\\', '').replace('_', '\_').replace('%', '').strip()
@@ -412,7 +412,7 @@ def get_reset():
 	now = int(time.time())
 
 	if now - timestamp > 600:
-		abort(410, "This password reset link has expired.")
+		abort(410, "This password reset link has expired!")
 
 	user = get_account(user_id)
 
@@ -446,7 +446,7 @@ def post_reset(v:Optional[User]):
 	now = int(time.time())
 
 	if now - timestamp > 600:
-		abort(410, "This password reset link has expired.")
+		abort(410, "This password reset link has expired!")
 
 	user = get_account(user_id)
 	if not validate_hash(f"{user_id}+{timestamp}+reset+{user.login_nonce}", token):
@@ -522,7 +522,7 @@ def reset_2fa():
 		abort(400)
 
 	if now > t+3600*24:
-		abort(410, "This 2FA reset link has expired.")
+		abort(410, "This 2FA reset link has expired!")
 
 	token=request.values.get("token")
 	uid=request.values.get("id")

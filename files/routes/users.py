@@ -489,7 +489,7 @@ def message2(v:User, username:str):
 		abort(403, f"You're blocking @{user.username}")
 
 	if v.admin_level <= PERMS['MESSAGE_BLOCKED_USERS'] and hasattr(user, 'is_blocked') and user.is_blocked:
-		abort(403, f"@{user.username} is blocking you.")
+		abort(403, f"@{user.username} is blocking you!")
 
 	message = sanitize_raw_body(request.values.get("message"), False)
 
@@ -505,7 +505,7 @@ def message2(v:User, username:str):
 		Comment.body_html == body_html
 	).first()
 
-	if existing: abort(403, "Message already exists.")
+	if existing: abort(403, "Message already exists!")
 
 	c = Comment(author_id=v.id,
 						parent_submission=None,
@@ -551,9 +551,9 @@ def messagereply(v:User):
 	user_id = parent.author.id
 
 	if v.is_suspended_permanently and parent.sentto != MODMAIL_ID:
-		abort(403, "You are permabanned and may not reply to messages.")
+		abort(403, "You are permabanned and may not reply to messages!")
 	elif v.is_muted and parent.sentto == MODMAIL_ID:
-		abort(403, "You are forbidden from replying to modmail.")
+		abort(403, "You are forbidden from replying to modmail!")
 
 	if parent.sentto == MODMAIL_ID: user_id = None
 	elif v.id == user_id: user_id = parent.sentto
@@ -1028,7 +1028,7 @@ def u_username_info(username, v=None):
 	if hasattr(user, 'is_blocking') and user.is_blocking:
 		abort(401, f"You're blocking @{user.username}")
 	elif hasattr(user, 'is_blocked') and user.is_blocked:
-		abort(403, f"@{user.username} is blocking you.")
+		abort(403, f"@{user.username} is blocking you!")
 
 	return user.json
 
@@ -1042,7 +1042,7 @@ def u_user_id_info(id, v=None):
 	if hasattr(user, 'is_blocking') and user.is_blocking:
 		abort(403, f"You're blocking @{user.username}")
 	elif hasattr(user, 'is_blocked') and user.is_blocked:
-		abort(403, f"@{user.username} is blocking you.")
+		abort(403, f"@{user.username} is blocking you!")
 
 	return user.json
 
