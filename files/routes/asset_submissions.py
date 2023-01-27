@@ -60,7 +60,7 @@ def submit_marsey(v:User):
 
 	existing = g.db.query(Marsey.name).filter_by(name=name).one_or_none()
 	if existing:
-		return error("A marsey with this name already exists!")
+		return error("Someone already submitted a marsey with this name!")
 
 	if not tags_regex.fullmatch(tags):
 		return error("Invalid tags!")
