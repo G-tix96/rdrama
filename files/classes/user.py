@@ -651,7 +651,7 @@ class User(Base):
 				ModAction.user_id != self.id,
 			)
 			if self.id == AEVANN_ID:
-				q = q.filter(ModAction.kind.in_(('ban_user','shadowban')))
+				q = q.filter(ModAction.kind.in_(AEVANN_MODACTION_TYPES))
 
 			if self.admin_level < PERMS['PROGSTACK']:
 				q = q.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED__TYPES))
