@@ -241,11 +241,12 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 	votes2 = []
 	if is_who_simps_hates:
 		votes = g.db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==vote_dir, Vote.user_id==id).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
-		votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, CommentVote.user_id==id).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
+		# votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, CommentVote.user_id==id).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
 	else:
 		votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Submission).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==vote_dir, Submission.author_id==id).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
-		votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, Comment.author_id==id).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
-	votes = Counter(dict(votes)) + Counter(dict(votes2))
+		# votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, Comment.author_id==id).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
+	# votes = Counter(dict(votes)) + Counter(dict(votes2))
+	votes = Counter(dict(votes))
 	total = sum(votes.values())
 	users = g.db.query(User).filter(User.id.in_(votes.keys()))
 	if not v.can_see_shadowbanned:
@@ -278,32 +279,24 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoters(v:User, username:str):
-	if SITE == 'rdrama.net':
-		abort(403, "Temporarily disabled!")
 	return all_upvoters_downvoters(v, username, 1, False)
 
 @app.get("/@<username>/downvoters")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoters(v:User, username:str):
-	if SITE == 'rdrama.net':
-		abort(403, "Temporarily disabled!")
 	return all_upvoters_downvoters(v, username, -1, False)
 
 @app.get("/@<username>/upvoting")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoting(v:User, username:str):
-	if SITE == 'rdrama.net':
-		abort(403, "Temporarily disabled!")
 	return all_upvoters_downvoters(v, username, 1, True)
 
 @app.get("/@<username>/downvoting")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoting(v:User, username:str):
-	if SITE == 'rdrama.net':
-		abort(403, "Temporarily disabled!")
 	return all_upvoters_downvoters(v, username, -1, True)
 
 @app.post("/@<username>/suicide")
