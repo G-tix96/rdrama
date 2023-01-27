@@ -366,7 +366,7 @@ def filters(v:User):
 	filters=request.values.get("filters")[:1000].strip()
 
 	if filters == v.custom_filter_list:
-		return redirect("/settings/advanced?error=You didn't change anything!")
+		return redirect("/settings/advanced?error=You didn't change anything!"), 400
 
 	v.custom_filter_list=filters
 	g.db.add(v)
