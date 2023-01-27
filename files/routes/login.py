@@ -18,7 +18,7 @@ from files.routes.routehelpers import check_for_alts
 from files.routes.wrappers import *
 
 
-NO_LOGIN_REDIRECT_URLS = ("/login", "/logout", "/signup", "/forgot", "/reset", "/reset_2fa", "/request_2fa_disable")
+NO_LOGIN_REDIRECT_URLS = ("/login", "/logout", "/signup", "/forgot", "/reset", "/reset_2fa", "/lost_2fa")
 
 @app.get("/login")
 @auth_desired
@@ -473,9 +473,9 @@ def lost_2fa(v:Optional[User]):
 	if v and not v.mfa_secret: abort(400, "You don't have 2FA enabled")
 	return render_template("login/lost_2fa.html", v=v)
 
-@app.post("/request_2fa_disable")
+@app.post("/lost_2fa")
 @limiter.limit("1/second;6/minute;200/hour;1000/day")
-def request_2fa_disable():
+def lost_2fa_post():
 	username=request.values.get("username")
 	user=get_user(username, graceful=True)
 	if not user or not user.email or not user.mfa_secret:
