@@ -157,7 +157,6 @@ def sign_up_get(v:Optional[User]):
 	if ref:
 		ref = ref.replace('\\', '').replace('_', '\_').replace('%', '').strip()
 		ref_user = g.db.query(User).filter(User.username.ilike(ref)).one_or_none()
-
 	else:
 		ref_user = None
 
@@ -221,8 +220,7 @@ def sign_up_post(v:Optional[User]):
 
 	def signup_error(error):
 		if ref_id:
-			ref = ref.replace('\\', '').replace('_', '\_').replace('%', '').strip()
-			ref_user = g.db.query(User).filter(User.username.ilike(ref)).one_or_none()
+			ref_user = g.db.get(User, ref_id)
 		else:
 			ref_user = None
 
