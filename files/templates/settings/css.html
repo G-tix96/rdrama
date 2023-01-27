@@ -29,7 +29,7 @@
 					<div class="w-lg-100">
 						<form id="profile-settings-profilecss" action="/settings/profilecss" method="post">
 							<input hidden name="formkey" value="{{v|formkey}}">
-							<textarea autocomplete="off" class="form-control rounded" id="profilecss-textarea" placeholder="Custom profile CSS" rows="3" name="profilecss" form="profile-settings-profilecss" maxlength="{{CSS_LENGTH_LIMIT}}">{% if v.profilecss %}{{v.profilecss}}{% endif %}</textarea>
+							<textarea autocomplete="off" class="form-control rounded" id="profilecss-textarea" placeholder="Custom profile CSS" rows="3" name="profilecss" form="profile-settings-profilecss" maxlength="{{CSS_LENGTH_LIMIT}}">{% if profilecss %}{{profilecss}}{% endif %}</textarea>
 							<small>Limit of {{CSS_LENGTH_LIMIT}} characters</small>
 							<div class="d-flex mt-2">
 								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" value="Save">

@@ -616,7 +616,7 @@ def settings_css(v):
 	v.css = css
 	g.db.add(v)
 
-	return render_template("settings/css.html", v=v, msg="Custom CSS successfully updated!")
+	return render_template("settings/css.html", v=v, msg="Custom CSS successfully updated!", profilecss=v.profilecss)
 
 @app.post("/settings/profilecss")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
@@ -626,10 +626,10 @@ def settings_profilecss(v):
 	profilecss = request.values.get("profilecss", v.profilecss).strip().replace('\\', '').strip()[:CSS_LENGTH_LIMIT]
 	valid, error = validate_css(profilecss)
 	if not valid:
-		return render_template("settings/css.html", error=error, v=v)
+		return render_template("settings/css.html", error=error, v=v, profilecss=profilecss)
 	v.profilecss = profilecss
 	g.db.add(v)
-	return render_template("settings/css.html", v=v, msg="Profile CSS successfully updated!")
+	return render_template("settings/css.html", v=v, msg="Profile CSS successfully updated!", profilecss=v.profilecss)
 
 @app.get("/settings/security")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
