@@ -204,7 +204,7 @@ socket.on('online', function(data){
 		online += `<li>`
 		if (admin_level && Object.keys(data[1]).includes(u[0].toLowerCase()))
 			online += '<b class="text-danger muted" data-bs-toggle="tooltip" title="Muted">X</b> '
-		online += `<a href="/@${u[0]}"><img loading="lazy" class="avatar-pic pp20 mr-1" src="/pp/${u[1]}">${u[0]}</a></li>`
+		online += `<a class="font-weight-bold" target="_blank" href="/@${u[0]}" style="color:#${u[2]}"><img loading="lazy" class="mr-1" src="/pp/${u[1]}">${u[0]}</a></li>`
 		online2 += `<br>@${u[0]}`
 	}
 	document.getElementById('online').innerHTML = online

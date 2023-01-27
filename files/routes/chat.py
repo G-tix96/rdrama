@@ -163,9 +163,10 @@ def connect(v):
 
 	join_room(request.referrer)
 
-	if [v.username, v.id] not in online:
-		online.append([v.username, v.id])
-		refresh_online()
+	if [v.username, v.id, v.name_color] not in online:
+		online.append([v.username, v.id, v.name_color])
+
+	refresh_online()
 
 	emit('typing', typing[request.referrer], room=request.referrer)
 	return '', 204
