@@ -361,3 +361,15 @@ def get_profile_picture(identifier:Union[int, str]) -> str:
 		x = get_user(identifier, graceful=True)
 
 	return x.profile_url if x else 'not_found'
+
+def get_err():
+	if request.referrer and request.referrer.split('?')[0] == request.base_url:
+		return request.values.get("err")
+	else:
+		return None
+
+def get_msg():
+	if request.referrer and request.referrer.split('?')[0] == request.base_url:
+		return request.values.get("msg")
+	else:
+		return None

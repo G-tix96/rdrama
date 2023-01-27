@@ -321,12 +321,7 @@ def create_sub(v):
 	if not v.can_create_hole:
 		abort(403)
 
-	if request.referrer and request.referrer.split('?')[0] == request.base_url:
-		err = request.values.get("err")
-	else:
-		err = None
-
-	return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error=err)
+	return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error=get_err())
 
 @app.post("/create_hole")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)

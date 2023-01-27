@@ -213,12 +213,7 @@ def api(v):
 @app.get("/media")
 @auth_desired
 def contact(v:Optional[User]):
-	if request.referrer and request.referrer.split('?')[0] == request.base_url:
-		msg = request.values.get("msg")
-	else:
-		msg = None
-
-	return render_template("contact.html", v=v, msg=msg)
+	return render_template("contact.html", v=v, msg=get_msg())
 
 @app.post("/send_admin")
 @limiter.limit("1/second;1/2 minutes;10/day")
