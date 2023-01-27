@@ -566,7 +566,7 @@ def messagereply(v:User):
 				and hasattr(user, 'is_blocked') and user.is_blocked):
 			abort(403, f"You're blocked by @{user.username}")
 
-	body += process_dm_images(v, user)
+		body += process_dm_images(v, user)
 
 	body = body.strip()
 
