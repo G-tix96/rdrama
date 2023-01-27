@@ -366,11 +366,11 @@ def filters(v:User):
 	filters=request.values.get("filters")[:1000].strip()
 
 	if filters == v.custom_filter_list:
-		return render_template("settings/advanced.html", v=v, error="You didn't change anything")
+		return redirect("/settings/advanced?error=You didn't change anything!")
 
 	v.custom_filter_list=filters
 	g.db.add(v)
-	return render_template("settings/advanced.html", v=v, msg="Your custom filters have been updated.")
+	return redirect("/settings/advanced?msg=Your custom filters have been updated.")
 
 
 def set_color(v:User, attr:str, color:Optional[str]):
@@ -692,7 +692,7 @@ def settings_apps(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_advanced_get(v:User):
-	return render_template("settings/advanced.html", v=v)
+	return render_template("settings/advanced.html", v=v, msg=get_msg(), error=get_error())
 
 @app.post("/settings/name_change")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
