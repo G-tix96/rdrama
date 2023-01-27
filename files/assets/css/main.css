@@ -1897,6 +1897,11 @@ button.close {
 .modal-dialog-scrollable .modal-body {
 	overflow-y: auto;
 }
+
+.modal-content > div:last-child {
+	overscroll-behavior: contain;
+}
+
 .modal-dialog-centered {
 	display: flex;
 	align-items: center;
