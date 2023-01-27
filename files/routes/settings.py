@@ -604,7 +604,7 @@ def settings_images_banner(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_css_get(v:User):
-	return render_template("settings/css.html", v=v)
+	return render_template("settings/css.html", v=v, msg=get_msg(), profilecss=v.profilecss)
 
 @app.post("/settings/css")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
@@ -629,7 +629,7 @@ def settings_profilecss(v):
 		return render_template("settings/css.html", error=error, v=v, profilecss=profilecss)
 	v.profilecss = profilecss
 	g.db.add(v)
-	return render_template("settings/css.html", v=v, msg="Profile CSS successfully updated!", profilecss=v.profilecss)
+	return redirect("/settings/css?msg=Profile CSS successfully updated!")
 
 @app.get("/settings/security")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
