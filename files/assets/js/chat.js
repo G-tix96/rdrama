@@ -202,10 +202,10 @@ socket.on('online', function(data){
 	for (const u of data[0])
 	{
 		online += `<li>`
-		if (admin_level && Object.keys(data[1]).includes(u.toLowerCase()))
+		if (admin_level && Object.keys(data[1]).includes(u[0].toLowerCase()))
 			online += '<b class="text-danger muted" data-bs-toggle="tooltip" title="Muted">X</b> '
-		online += `<a href="/@${u}">@${u}</a></li>`
-		online2 += `<br>@${u}`
+		online += `<a href="/@${u[0]}"><img loading="lazy" class="avatar-pic pp20 mr-1" src="/pp/${u[1]}">${u[0]}</a></li>`
+		online2 += `<br>@${u[0]}`
 	}
 	document.getElementById('online').innerHTML = online
 	bs_trigger(document.getElementById('online'))
