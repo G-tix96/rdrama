@@ -197,7 +197,7 @@ def notifications_modactions(v:User):
 
 	listing = g.db.query(cls).filter(cls.user_id != v.id)
 
-	if v.id == AEVANN_ID and SITE_NAME == 'rDrama':
+	if v.id == AEVANN_ID:
 		listing = listing.filter(cls.kind.in_(AEVANN_MODACTION_TYPES))
 
 	if v.admin_level < PERMS['PROGSTACK']:
