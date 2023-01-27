@@ -395,7 +395,7 @@ def kick(v:User, pid):
 def sub_settings(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
-	return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub)
+	return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, css=sub.css)
 
 
 @app.post('/h/<sub>/sidebar')
@@ -437,11 +437,11 @@ def post_sub_css(v:User, sub):
 
 	if len(css) > 6000:
 		error = "CSS is too long (max 6000 characters)"
-		return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, error=error)
+		return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, error=error, css=css)
 
 	valid, error = validate_css(css)
 	if not valid:
-		return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, error=error)
+		return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, error=error, css=css)
 
 	sub.css = css
 	g.db.add(sub)
