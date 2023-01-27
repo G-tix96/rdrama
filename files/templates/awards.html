@@ -3,7 +3,7 @@
 	<div class="stackable-container">
 	{% for i in range(min(p.award_count(award, v), 4)) %}
 		<div class="{{award}}">
-			<img alt="{{alt}}" src="{{src}}">
+			<img loading="lazy" alt="{{alt}}" src="{{src}}">
 		</div>
 	{% endfor %}
 	</div>
@@ -34,7 +34,7 @@
 {% if p.award_count("ricardo", v) %}
 	{% for i in range(min(p.award_count("ricardo", v), 3)) %}
 		<div class="ricardo ricardo{{i+1}}">
-			<img src="/i/ricardo{{i+1}}.webp">
+			<img loading="lazy" src="/i/ricardo{{i+1}}.webp">
 		</div>
 	{% endfor %}
 {% endif %}

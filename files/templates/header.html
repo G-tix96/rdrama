@@ -24,7 +24,7 @@
 					{% else %}
 						{%- set VISITORS_HERE_FLAVOR = [
 							' incels currently stalking roasties',
-							' gooners currently edging to <img src="/e/marseycumjar3.webp" style="height:1.5em!important">',
+							' gooners currently edging to <img loading="lazy" src="/e/marseycumjar3.webp" style="height:1.5em!important">',
 							' fanboys currently obsessing over Carp',
 							' NEETs currently LDARmaxxing',
 							' valid women currently dilating',
@@ -63,7 +63,7 @@
 				{% else %}
 					{% set icon_url = 'headericon.webp' | asset_siteimg %}
 				{% endif %}
-				<img id="header--icon" alt="header icon" {% if sub %}src="{{sub.marsey_url}}"{% else %}src="{{icon_url}}"{% endif %}>
+				<img loading="lazy" id="header--icon" alt="header icon" {% if sub %}src="{{sub.marsey_url}}"{% else %}src="{{icon_url}}"{% endif %}>
 			</a>
 
 			{% if sub %}
@@ -72,9 +72,9 @@
 				<div id="logo-container" class="flex-grow-1 logo-container">
 				<a href="/">
 					{% if SITE_NAME == 'WPD' and IS_FISTMAS() %}
-						<img class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'icons-event/2022-christmas-logo.webp' | asset_siteimg}}" width="70">
+						<img loading="lazy" class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'icons-event/2022-christmas-logo.webp' | asset_siteimg}}" width="70">
 					{% else %}
-						<img class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width="70">
+						<img loading="lazy" class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width="70">
 					{% endif %}
 				</a>
 				</div>
@@ -205,9 +205,9 @@
 							</div>
 							<div class="text-left pl-2">
 								<div style="color: #{{v.name_color}}" class="text-small font-weight-bold"><span id="header--username" {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.user_name}}</span></div>
-								<div class="header--currency"><img alt="coins" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{'coins.webp' | asset_siteimg}}" title="Coins"><span id="user-coins-amount">{{v.coins}}</span>{% if not FEATURES['MARSEYBUX'] %} Coin{{macros.plural(v.coins)}}{% endif %}</div>
+								<div class="header--currency"><img loading="lazy" alt="coins" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{'coins.webp' | asset_siteimg}}" title="Coins"><span id="user-coins-amount">{{v.coins}}</span>{% if not FEATURES['MARSEYBUX'] %} Coin{{macros.plural(v.coins)}}{% endif %}</div>
 								{% if FEATURES['MARSEYBUX'] %}
-									<div class="header--currency"><img alt="marseybux" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="/i/marseybux.webp?v=2000" title="Marseybux"><span id="user-bux-amount">{{v.marseybux}}</span></div>
+									<div class="header--currency"><img loading="lazy" alt="marseybux" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="/i/marseybux.webp?v=2000" title="Marseybux"><span id="user-bux-amount">{{v.marseybux}}</span></div>
 								{% endif %}
 							</div>
 						</div>

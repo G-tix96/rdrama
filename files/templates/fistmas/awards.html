@@ -2,7 +2,7 @@
 	{% set gingerbread_count = p.award_count("gingerbread", v) * 2 if p.award_count("gingerbread", v) <= 10 else 20 %}
 	{% for i in range(gingerbread_count) %}
 		<div class="fall-snowflake">
-			<img src="/assets/fistmas/images/awards/gingerbread.webp?v=1" class="animate-spin object-contain" style="width: 40px; height: 40px;" alt="animate marsey gingerbread icon" />
+			<img loading="lazy" src="/assets/fistmas/images/awards/gingerbread.webp?v=1" class="animate-spin object-contain" style="width: 40px; height: 40px;" alt="animate marsey gingerbread icon" />
 		</div>
 	{% endfor %}
 

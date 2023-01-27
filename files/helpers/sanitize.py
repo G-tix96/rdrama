@@ -174,10 +174,10 @@ def render_emoji(html, regexp, golden, marseys_used, b=False):
 
 		if emoji.endswith('pat') and emoji != 'marseyunpettablepat':
 			if path.isfile(f"files/assets/images/emojis/{emoji.replace('pat','')}.webp"):
-				emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/i/hand.webp">{emoji_partial_pat.format(old, f"/e/{emoji[:-3]}.webp", attrs)}</span>'
+				emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img loading="lazy" src="/i/hand.webp">{emoji_partial_pat.format(old, f"/e/{emoji[:-3]}.webp", attrs)}</span>'
 			elif emoji.startswith('@'):
 				if u := get_user(emoji[1:-3], graceful=True):
-					emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/i/hand.webp">{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
+					emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img loading="lazy" src="/i/hand.webp">{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
 		elif path.isfile(f'files/assets/images/emojis/{emoji}.webp'):
 			emoji_html = emoji_partial.format(old, f'/e/{emoji}.webp', attrs)
 

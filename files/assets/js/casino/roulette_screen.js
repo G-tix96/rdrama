@@ -209,8 +209,8 @@ function formatNormalizedBets(bets) {
 function buildPokerChip(avatar) {
 	return `
 		<div class="roulette-poker-chip">
-			<img src="/i/pokerchip.webp" width="40" height="40">
-			<img src="${avatar}" width="40" height="40">
+			<img loading="lazy" src="/i/pokerchip.webp" width="40" height="40">
+			<img loading="lazy" src="${avatar}" width="40" height="40">
 		</div>
 	`;
 }

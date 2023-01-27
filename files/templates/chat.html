@@ -25,7 +25,7 @@
 
 			{% macro chat_group_template(id, m) %}
 				<div class="chat-group">
-					<a class="font-weight-bold text-black userlink" target="_blank" {% if m %}style="color:#{{m['namecolor']}}" href="/@{{m['username']}}" {% endif %}><div class="avatar profile-pic-20-wrapper mr-1"><img class="avatar-pic pp20 mr-1" {% if m %}src="/pp/{{m['user_id']}}"{% endif %}><img class="avatar-hat profile-pic-20-hat hat" loading="lazy" {% if m %}src="{{m['hat']}}"{% endif %}></div>{% if m %}{{m['username']}}{% else %}NULL{% endif %}</a>
+					<a class="font-weight-bold text-black userlink" target="_blank" {% if m %}style="color:#{{m['namecolor']}}" href="/@{{m['username']}}" {% endif %}><div class="avatar profile-pic-20-wrapper mr-1"><img loading="lazy" class="avatar-pic pp20 mr-1" {% if m %}src="/pp/{{m['user_id']}}"{% endif %}><img class="avatar-hat profile-pic-20-hat hat" loading="lazy" {% if m %}src="{{m['hat']}}"{% endif %}></div>{% if m %}{{m['username']}}{% else %}NULL{% endif %}</a>
 					<span class="text-black time ml-1 mb-3 text-center">{% if m %}{{m['time'] | timestamp}}{% else %}just now{% endif %}</span>
 					<input hidden class="user_id" {% if m %}value="{{m['user_id']}}"{% endif %}>
 			{% endmacro %}

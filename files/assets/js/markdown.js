@@ -21,7 +21,7 @@ marked.use({
 			},
 			renderer(token) {
 				const u = token.raw;
-				return `<a href="/${u}"><img src="/${u}/pic" class="pp20"> ${u}</a>`;
+				return `<a href="/${u}"><img loading="lazy" src="/${u}/pic" class="pp20"> ${u}</a>`;
 			}
 		}
 	]
@@ -65,9 +65,9 @@ function markdown(t) {
 			if (emoji.endsWith('pat') && emoji != 'marseyunpettablepat') {
 				emoji = emoji.substr(0, emoji.length - 3);
 				const url = old.indexOf('@') != -1 ? `/@${emoji}/pic` : `/e/${emoji}.webp`;
-				input = input.replace(old, `<span class="pat-preview ${mirroredClass}" data-bs-toggle="tooltip"><img src="/i/hand.webp"><img class="${emojiClass}" src="${url}"></span>`);
+				input = input.replace(old, `<span class="pat-preview ${mirroredClass}" data-bs-toggle="tooltip"><img loading="lazy" src="/i/hand.webp"><img loading="lazy" class="${emojiClass}" src="${url}"></span>`);
 			} else {
-				input = input.replace(old, `<img class="${emojiClass} ${mirroredClass}" src="/e/${emoji}.webp">`);
+				input = input.replace(old, `<img loading="lazy" class="${emojiClass} ${mirroredClass}" src="/e/${emoji}.webp">`);
 			}
 		}
 	}
