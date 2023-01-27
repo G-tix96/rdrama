@@ -533,12 +533,13 @@ def settings_security_post(v):
 def settings_log_out_others(v):
 	submitted_password = request.values.get("password", "").strip()
 	if not v.verifyPass(submitted_password):
-		return render_template("settings/security.html", v=v, error="Incorrect Password"), 401
+		return redirect("/settings/security?error=Incorrect password!")
 
 	v.login_nonce += 1
 	session["login_nonce"] = v.login_nonce
 	g.db.add(v)
-	return render_template("settings/security.html", v=v, msg="All other devices have been logged out")
+
+	return redirect("/settings/security?msg=All other devices have been logged out!")
 
 
 @app.post("/settings/images/profile")
@@ -638,7 +639,9 @@ def settings_security(v:User):
 	return render_template("settings/security.html",
 						v=v,
 						mfa_secret=pyotp.random_base32() if not v.mfa_secret else None,
-						now=int(time.time())
+						now=int(time.time()),
+						error=get_error(),
+						msg=get_msg()
 						)
 
 @app.post("/settings/block")
