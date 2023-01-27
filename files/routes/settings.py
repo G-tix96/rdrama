@@ -34,7 +34,7 @@ def settings(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_personal(v:User):
-	return render_template("settings/personal.html", v=v)
+	return render_template("settings/personal.html", v=v, error=get_error(), msg=get_msg())
 
 @app.delete('/settings/background')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
@@ -576,7 +576,7 @@ def settings_images_profile(v):
 	cache.delete_memoized(get_profile_picture, v.username)
 	cache.delete_memoized(get_profile_picture, v.original_username)
 
-	return render_template("settings/personal.html", v=v, msg="Profile picture successfully updated.")
+	return redirect("/settings/personal?msg=Profile picture successfully updated!")
 
 
 @app.post("/settings/images/banner")
@@ -599,7 +599,7 @@ def settings_images_banner(v):
 		v.bannerurl = bannerurl
 		g.db.add(v)
 
-	return render_template("settings/personal.html", v=v, msg="Banner successfully updated.")
+	return redirect("/settings/personal?msg=Banner successfully updated!")
 
 @app.get("/settings/css")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -733,7 +733,7 @@ def settings_name_change(v):
 	v.name_changed_utc=int(time.time())
 	g.db.add(v)
 
-	return render_template("settings/personal.html", v=v, msg="Name successfully changed!")
+	return redirect("/settings/personal?msg=Name successfully changed!")
 
 @app.post("/settings/song_change_mp3")
 @feature_required('USERS_PROFILE_SONG')
@@ -743,7 +743,7 @@ def settings_name_change(v):
 def settings_song_change_mp3(v):
 	file = request.files['file']
 	if file.content_type != 'audio/mpeg':
-		return render_template("settings/personal.html", v=v, error="Not a valid MP3 file")
+		return redirect("/settings/personal?error=Not a valid MP3 file!")
 
 	song = str(time.time()).replace('.','')
 
@@ -753,7 +753,7 @@ def settings_song_change_mp3(v):
 	size = os.stat(name).st_size
 	if size > 8 * 1024 * 1024:
 		os.remove(name)
-		return render_template("settings/personal.html", v=v, error="MP3 file must be smaller than 8MB")
+		return redirect("/settings/personal?error=MP3 file must be smaller than 8MB")
 
 	if path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:
 		os.remove(f"/songs/{v.song}.mp3")
@@ -761,7 +761,7 @@ def settings_song_change_mp3(v):
 	v.song = song
 	g.db.add(v)
 
-	return render_template("settings/personal.html", v=v, msg="Profile Anthem successfully updated!")
+	return redirect("/settings/personal?msg=Profile Anthem successfully updated!")
 
 @app.post("/settings/song_change")
 @feature_required('USERS_PROFILE_SONG')
@@ -776,7 +776,7 @@ def settings_song_change(v):
 			os.remove(f"/songs/{v.song}.mp3")
 		v.song = None
 		g.db.add(v)
-		return render_template("settings/personal.html", v=v, msg="Profile Anthem successfully removed!")
+		return redirect("/settings/personal?msg=Profile Anthem successfully removed!")
 
 	song = song.replace("https://music.youtube.com", "https://youtube.com")
 	if song.startswith(("https://www.youtube.com/watch?v=", "https://youtube.com/watch?v=", "https://m.youtube.com/watch?v=")):
@@ -784,31 +784,31 @@ def settings_song_change(v):
 	elif song.startswith("https://youtu.be/"):
 		id = song.split("https://youtu.be/")[1]
 	else:
-		return render_template("settings/personal.html", v=v, error="Not a YouTube link"), 400
+		return redirect("/settings/personal?error=Not a YouTube link!"), 400
 
 	if "?" in id: id = id.split("?")[0]
 	if "&" in id: id = id.split("&")[0]
 
 	if not yt_id_regex.fullmatch(id):
-		return render_template("settings/personal.html", v=v, error="Not a YouTube link"), 400
+		return redirect("/settings/personal?error=Not a YouTube link!"), 400
 	if path.isfile(f'/songs/{id}.mp3'):
 		v.song = id
 		g.db.add(v)
-		return render_template("settings/personal.html", v=v, msg="Profile Anthem successfully updated!")
+		return redirect("/settings/personal?msg=Profile Anthem successfully updated!")
 
 
 	req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={id}&key={YOUTUBE_KEY}&part=contentDetails", timeout=5).json()
 	duration = req['items'][0]['contentDetails']['duration']
 	if duration == 'P0D':
-		return render_template("settings/personal.html", v=v, error="Can't use a live youtube video!"), 400
+		return redirect("/settings/personal?error=Can't use a live youtube video!"), 400
 
 	if "H" in duration:
-		return render_template("settings/personal.html", v=v, error="Duration of the video must not exceed 15 minutes."), 400
+		return redirect("/settings/personal?error=Duration of the video must not exceed 15 minutes!"), 400
 
 	if "M" in duration:
 		duration = int(duration.split("PT")[1].split("M")[0])
 		if duration > 15:
-			return render_template("settings/personal.html", v=v, error="Duration of the video must not exceed 15 minutes."), 400
+			return redirect("/settings/personal?error=Duration of the video must not exceed 15 minutes!"), 400
 
 
 	if v.song and path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:
@@ -840,7 +840,7 @@ def settings_song_change(v):
 
 	v.song = id
 	g.db.add(v)
-	return render_template("settings/personal.html", v=v, msg="Profile Anthem successfully updated!")
+	return redirect("/settings/personal?msg=Profile Anthem successfully updated!")
 
 @app.post("/settings/title_change")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
@@ -852,22 +852,22 @@ def settings_title_change(v):
 	customtitleplain = sanitize_settings_text(request.values.get("title"), 100)
 
 	if len(customtitleplain) > 100:
-		return render_template("settings/personal.html", v=v, error="Flair too long!")
+		return redirect("/settings/personal?error=Flair too long!")
 
 	if customtitleplain == v.customtitleplain:
-		return render_template("settings/personal.html", v=v, error="You didn't change anything")
+		return redirect("/settings/personal?error=You didn't change anything!")
 
 	customtitle = filter_emojis_only(customtitleplain)
 	customtitle = censor_slurs(customtitle, None)
 
 	if len(customtitle) > 1000:
-		return render_template("settings/personal.html", v=v, error="Flair too long!")
+		return redirect("/settings/personal?error=Flair too long!")
 
 	v.customtitleplain = customtitleplain
 	v.customtitle = customtitle
 	g.db.add(v)
 
-	return render_template("settings/personal.html", v=v, msg="Flair successfully updated!")
+	return redirect("/settings/personal?msg=Flair successfully updated!")
 
 
 @app.post("/settings/pronouns_change")
@@ -879,13 +879,13 @@ def settings_pronouns_change(v):
 	pronouns = sanitize_settings_text(request.values.get("pronouns"))
 
 	if len(pronouns) > 11:
-		return render_template("settings/personal.html", v=v, error="Your pronouns exceed the character limit (11 characters)")
+		return redirect("/settings/personal?error=Your pronouns exceed the character limit (11 characters)")
 
 	if pronouns == v.pronouns:
-		return render_template("settings/personal.html", v=v, error="You didn't change anything.")
+		return redirect("/settings/personal?error=You didn't change anything!")
 
 	if not pronouns_regex.fullmatch(pronouns):
-		return render_template("settings/personal.html", v=v, error="The pronouns you entered don't match the required format.")
+		return redirect("/settings/personal?error=The pronouns you entered don't match the required format!")
 
 	bare_pronouns = pronouns.lower().replace('/', '')
 	if 'nig' in bare_pronouns: pronouns = 'BI/POC'
@@ -894,7 +894,7 @@ def settings_pronouns_change(v):
 	v.pronouns = pronouns
 	g.db.add(v)
 
-	return render_template("settings/personal.html", v=v, msg="Pronouns successfully updated!")
+	return redirect("/settings/personal?msg=Pronouns successfully updated!")
 
 
 @app.post("/settings/checkmark_text")
@@ -905,10 +905,10 @@ def settings_checkmark_text(v):
 	if not v.verified: abort(403)
 	new_name = sanitize_settings_text(request.values.get("checkmark-text"), 100)
 	if not new_name: abort(400)
-	if new_name == v.verified: return render_template("settings/personal.html", v=v, error="You didn't change anything")
+	if new_name == v.verified: return redirect("/settings/personal?error=You didn't change anything!")
 	v.verified = new_name
 	g.db.add(v)
-	return render_template("settings/personal.html", v=v, msg="Checkmark Text successfully updated!")
+	return redirect("/settings/personal?msg=Checkmark Text successfully updated!")
 
 if IS_FISTMAS():
 	@app.post("/events/fistmas2022/darkmode")
