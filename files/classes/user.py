@@ -643,7 +643,7 @@ class User(Base):
 	@property
 	@lazy
 	def modaction_notifications_count(self):
-		if self.id == AEVANN_ID and SITE_NAME != 'rDrama': return 0
+		if self.id == AEVANN_ID: return 0
 
 		if self.admin_level:
 			q = g.db.query(ModAction).filter(
