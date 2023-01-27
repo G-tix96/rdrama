@@ -213,7 +213,12 @@ def api(v):
 @app.get("/media")
 @auth_desired
 def contact(v:Optional[User]):
-	return render_template("contact.html", v=v)
+	if request.referrer and request.referrer.split('?')[0] == request.base_url:
+		msg = request.values.get("msg")
+	else:
+		msg = None
+
+	return render_template("contact.html", v=v, msg=msg)
 
 @app.post("/send_admin")
 @limiter.limit("1/second;1/2 minutes;10/day")
@@ -252,8 +257,7 @@ def submit_contact(v):
 		g.db.add(notif)
 
 
-
-	return render_template("contact.html", v=v, msg="Your message has been sent to the admins!")
+	return redirect("/contact?msg=Your message has been sent to the admins!")
 
 @app.get('/archives')
 def archivesindex():
