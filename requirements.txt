@@ -23,6 +23,7 @@ pyotp
 pywebpush
 qrcode
 redis
+regex
 requests
 SQLAlchemy
 tinycss2

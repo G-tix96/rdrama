@@ -1,5 +1,6 @@
 import random
 import re
+import regex
 from random import choice, choices
 from typing import List, Optional, Union
 
@@ -193,3 +194,5 @@ def command_regex_matcher(match, upper=False):
 reason_regex = re.compile('(/(post|comment)/[0-9]+)', flags=re.A)
 
 discord_username_regex = re.compile("(\s|^|>).{2,32}#[0-9]{4}(?=[^0-9]|$)", flags=re.A)
+
+underscore_in_link_regex = regex.compile("(?<=https:\/\/[^\s)]+)_", flags=regex.A)
