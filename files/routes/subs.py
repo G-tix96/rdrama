@@ -321,7 +321,7 @@ def create_sub(v):
 	if not v.can_create_hole:
 		abort(403)
 
-	return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error=get_err())
+	return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error=get_error())
 
 @app.post("/create_hole")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -335,12 +335,12 @@ def create_sub2(v):
 	name = name.strip().lower()
 
 	if not valid_sub_regex.fullmatch(name):
-		return redirect(f"/create_hole?err=Mame does not match the required format!"), 400
+		return redirect(f"/create_hole?error=Name does not match the required format!"), 400
 
 	sub = get_sub_by_name(name, graceful=True)
 	if not sub:
 		if not v.charge_account('coins', HOLE_COST):
-			return redirect(f"/create_hole?err=You don't have enough coins!"), 403
+			return redirect(f"/create_hole?error=You don't have enough coins!"), 403
 
 		g.db.add(v)
 		if v.shadowbanned: abort(500)
