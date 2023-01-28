@@ -25,7 +25,7 @@ function report_commentModal(id, author) {
 		reason_comment.focus()
 	}, 500);
 
-	reportCommentButton.onclick = function() {
+	reportCommentButton.addEventListener('click', function() {
 		this.innerHTML='Reporting comment';
 
 		postToast(this, `/report/comment/${id}`,
@@ -34,8 +34,7 @@ function report_commentModal(id, author) {
 			},
 			() => {}
 		);
-	}
-
+	})
 };
 
 // Returns the selection text based on the range with the HTML
@@ -87,7 +86,7 @@ function toggleEdit(id){
 
 
 function delete_commentModal(t, id) {
-	document.getElementById("deleteCommentButton").onclick = function() {
+	document.getElementById("deleteCommentButton").addEventListener('click', function() {
 		postToast(t, `/delete/comment/${id}`,
 			{
 			},
@@ -107,7 +106,7 @@ function delete_commentModal(t, id) {
 				}
 			}
 		);
-	};
+	});
 }
 
 function post_reply(id){

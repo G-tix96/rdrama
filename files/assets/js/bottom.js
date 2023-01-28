@@ -40,7 +40,7 @@ for (const element of onclick_submit) {
 		console.log("Nonce check failed!")
 		continue
 	}
-	element.onclick = () => {element.form.submit()};
+	element.addEventListener('click', () => {element.form.submit()});
 }
 
 const onchange_submit = document.querySelectorAll('[onchange_submit]');
@@ -90,30 +90,30 @@ for (const element of setting_selects) {
 
 const reload_page = document.getElementById('reload_page')
 if (reload_page) {
-	reload_page.onclick = () => {location.reload()};
+	reload_page.addEventListener('click', () => {location.reload()});
 }
 
 const TH = document.getElementsByTagName('th')
 for (const element of TH) {
-	element.onclick = () => {sort_table(element)};
+	element.addEventListener('click', () => {sort_table(element)});
 }
 
 const toggleelement = document.querySelectorAll('[data-toggleelement]');
 for (const element of toggleelement) {
-	element.onclick = () => {
+	element.addEventListener('click', () => {
 		document.getElementById(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
-	};
+	});
 }
 
 function register_new_elements(e) {
 	const showmores = document.getElementsByClassName('showmore')
 	for (const element of showmores) {
-		element.onclick = () => {showmore(element)};
+		element.addEventListener('click', () => {showmore(element)});
 	}
 	
 	const onclick = e.querySelectorAll('[data-onclick]');
 	for (const element of onclick) {
-		element.onclick = () => {execute(element, 'onclick')};
+		element.addEventListener('click', () => {execute(element, 'onclick')});
 	}
 
 	const oninput = e.querySelectorAll('[data-oninput]');
@@ -133,12 +133,12 @@ function register_new_elements(e) {
 
 	const popover_triggers = document.getElementsByClassName('user-name');
 	for (const element of popover_triggers) {
-		element.onclick = (e) => {popclick(e)};
+		element.addEventListener('click', (e) => {popclick(e)});
 	}
 
 	const expandable = document.querySelectorAll('.in-comment-image, img[alt^="![]("]');
 	for (const element of expandable) {
-		element.onclick = () => {expandImage()};
+		element.addEventListener('click', () => {expandImage()});
 	}
 }
 

@@ -28,7 +28,7 @@ if (!location.href.includes("?context")) {
 
 const fake_textarea = document.querySelector('[data-href]')
 if (fake_textarea) {
-	fake_textarea.onclick = () => {
+	fake_textarea.addEventListener('click', () => {
 		location.href = fake_textarea.dataset.href;
-	};
+	});
 }

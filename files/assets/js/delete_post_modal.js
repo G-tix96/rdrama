@@ -1,5 +1,5 @@
 function delete_postModal(t, id) {
-	document.getElementById("deletePostButton").onclick = function() {
+	document.getElementById("deletePostButton").addEventListener('click', function() {
 		postToast(t, `/delete_post/${id}`,
 			{
 			},
@@ -19,5 +19,5 @@ function delete_postModal(t, id) {
 				}
 			}
 		);
-	};
+	});
 }

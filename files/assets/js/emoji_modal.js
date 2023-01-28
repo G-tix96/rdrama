@@ -443,13 +443,13 @@ function populate_speed_emoji_modal(results, textbox)
 		if (current_word.includes("#")) result = `#${result}`
 		if (current_word.includes("!")) result = `!${result}`
 
-		emoji_option.onclick = (e) => {
+		emoji_option.addEventListener('click', () => {
 			selecting = false;
 			speed_carot_modal.style.display = "none";
 			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "g"), `:${result}:`)
 			textbox.focus()
 			markdown(textbox)
-		};
+		});
 		// Pack
 		emoji_option.appendChild(emoji_option_img);
 		emoji_option.appendChild(emoji_option_text);

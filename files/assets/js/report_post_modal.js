@@ -22,7 +22,7 @@ function report_postModal(id) {
 		reason_post.focus()
 	}, 500);
 
-	reportPostButton.onclick = function() {
+	reportPostButton.addEventListener('click', function() {
 
 		this.innerHTML='Reporting post';
 		this.disabled = true;
@@ -45,6 +45,5 @@ function report_postModal(id) {
 
 		xhr.onerror=function(){alert(errortext)};
 		xhr.send(form);
-
-	}
+	})
 };

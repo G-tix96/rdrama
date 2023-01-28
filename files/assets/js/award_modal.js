@@ -176,7 +176,7 @@ for (const element of data_url) {
 		console.log("Nonce check failed!")
 		continue
 	}
-	element.onclick = () => {
+	element.addEventListener('click', () => {
 		document.getElementById('giveaward').dataset.action = element.dataset.url
-	};
+	});
 }

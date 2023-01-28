@@ -2,7 +2,7 @@ if (!window.matchMedia('(display-mode: minimal-ui)')['matches']) {
 	if (window.innerWidth <= 737) {
 		const tt = bootstrap.Tooltip.getOrCreateInstance(document.getElementById('mobile-prompt'))
 		tt.show()
-		document.getElementsByClassName('tooltip')[0].onclick = function(e) {
+		document.getElementsByClassName('tooltip')[0].addEventListener('click', function(e) {
 			tt.hide()
 			const xhr = new XMLHttpRequest();
 			xhr.withCredentials=true;
@@ -11,6 +11,6 @@ if (!window.matchMedia('(display-mode: minimal-ui)')['matches']) {
 			xhr.send();
 			if (!e.target.classList.contains('dismiss-beg'))
 				location.href = "/app"
-		}
+		})
 	}
 }

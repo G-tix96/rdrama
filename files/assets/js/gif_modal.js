@@ -106,7 +106,7 @@ async function getGifs(form) {
 
 	const overlays = document.getElementsByClassName('gif-cat-overlay')
 	for (const element of overlays) {
-		element.onclick = () => {searchGifs(element.firstElementChild.innerHTML)};
+		element.addEventListener('click', () => {searchGifs(element.firstElementChild.innerHTML)});
 	}
 }
 
@@ -131,7 +131,7 @@ async function searchGifs(searchTerm) {
 
 		const giphy = document.getElementsByClassName('giphy')
 		for (const element of giphy) {
-			element.onclick = () => {insertGIF(element.src)};
+			element.addEventListener('click', () => {insertGIF(element.src)});
 		}
 	}
 	else {
