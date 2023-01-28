@@ -126,14 +126,10 @@
 			<label class="custom-control-label" for="under_attack">Under Attack Mode</label>
 		</div>
 	{% endif %}
-	<br>
 {% endif %}
 
 {% if v.admin_level >= PERMS['SITE_CACHE_PURGE_CDN'] %}
-	<h4>Caching</h4>
-	{% if v.admin_level >= PERMS['SITE_CACHE_PURGE_CDN'] %}
-		<button type="button" class="btn btn-primary mt-3" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/clear_cloudflare_cache');" style="margin-bottom: 2em;">CLEAR CLOUDFLARE CACHE</button>
-	{% endif %}
+	<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/clear_cloudflare_cache');" style="margin-bottom: 2em;">CLEAR CLOUDFLARE CACHE</button>
 {% endif %}
 
 {% endblock %}
