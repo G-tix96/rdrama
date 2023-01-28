@@ -175,7 +175,7 @@ def connect(v):
 @admin_level_required(PERMS['CHAT'])
 def disconnect(v):
 	if [v.username, v.id, v.name_color] in online:
-		online.remove(v.username)
+		online.remove([v.username, v.id, v.name_color])
 		refresh_online()
 
 	for val in typing.values():
