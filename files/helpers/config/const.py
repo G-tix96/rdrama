@@ -345,7 +345,7 @@ PROFANITIES = {
 	' ass ': ' butt ',
 	'shitting': 'pooping',
 	'damn': 'darn',
-	'bitch': 'b-word',
+	'bitch ': 'b-word ',
 	'toilet': 'potty',
 	' asshole': ' butthole',
 	' rape ': ' r*pe ',
@@ -359,6 +359,7 @@ PROFANITIES = {
 	'penis': 'peepee',
 	'pussy': 'girl peepee',
 	'vagina': 'girl peepee',
+	'cunt': 'girl peepee',
 	' twat ': ' girl peepee ',
 }
 
