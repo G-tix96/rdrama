@@ -23,15 +23,15 @@ function execute(element, attr) {
 
 const onsubmit = document.querySelectorAll('[data-onsubmit]');
 for (const element of onsubmit) {
-	element.onsubmit = (event)=>{
+	element.addEventListener('submit', (event)=>{
 		event.preventDefault();
 		execute(element, 'onsubmit')
-	};
+	});
 }
 
 const onfocus = document.querySelectorAll('[data-onfocus]');
 for (const element of onfocus) {
-	element.onfocus = () => {execute(element, 'onfocus')};
+	element.addEventListener('focus', () => {execute(element, 'onfocus')});
 }
 
 const onclick_submit = document.querySelectorAll('[onclick_submit]');
@@ -49,7 +49,7 @@ for (const element of onchange_submit) {
 		console.log("Nonce check failed!")
 		continue
 	}
-	element.onchange = () => {element.form.submit()};
+	element.addEventListener('change', () => {element.form.submit()});
 }
 
 const undisable_element = document.querySelectorAll('[data-undisable_element]');
@@ -58,9 +58,9 @@ for (const element of undisable_element) {
 		console.log("Nonce check failed!")
 		continue
 	}
-	element.oninput = () => {
+	element.addEventListener('input', () => {
 		document.getElementById(element.dataset.undisable_element).disabled = false;
-	};
+	});
 }
 
 const setting_switchs = document.getElementsByClassName('setting_switch');
@@ -69,9 +69,9 @@ for (const element of setting_switchs) {
 		console.log("Nonce check failed!")
 		continue
 	}
-	element.onchange = () => {
+	element.addEventListener('change', () => {
 		postToastSwitch(element,`/settings/personal?${element.name}=${element.checked}`);
-	};
+	});
 }
 
 const setting_selects = document.getElementsByClassName('setting_select');
@@ -80,12 +80,12 @@ for (const element of setting_selects) {
 		console.log("Nonce check failed!")
 		continue
 	}
-	element.onchange = () => {
+	element.addEventListener('change', () => {
 		if (element.dataset.reload)
 			postToastReload(element,`/settings/personal?${element.name}=${element.value}`);
 		else
 			postToast(element,`/settings/personal?${element.name}=${element.value}`);
-	};
+	});
 }
 
 const reload_page = document.getElementById('reload_page')
@@ -118,17 +118,17 @@ function register_new_elements(e) {
 
 	const oninput = e.querySelectorAll('[data-oninput]');
 	for (const element of oninput) {
-		element.oninput = () => {execute(element, 'oninput')};
+		element.addEventListener('input', () => {execute(element, 'oninput')});
 	}
 
 	const onmouseover = e.querySelectorAll('[data-onmouseover]');
 	for (const element of onmouseover) {
-		element.onmouseover = () => {execute(element, 'onmouseover')};
+		element.addEventListener('mouseover', () => {execute(element, 'onmouseover')});
 	}
 
 	const onchange = e.querySelectorAll('[data-onchange]');
 	for (const element of onchange) {
-		element.onchange = () => {execute(element, 'onchange')};
+		element.addEventListener('change', () => {execute(element, 'onchange')});
 	}
 
 	const popover_triggers = document.getElementsByClassName('user-name');
