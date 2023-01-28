@@ -49,7 +49,7 @@ for (const element of onsubmit) {
 
 const onfocus = document.querySelectorAll('[data-onfocus]');
 for (const element of onfocus) {
-	element.onfocus = ()=>{execute(element, 'onfocus')};
+	element.onfocus = () => {execute(element, 'onfocus')};
 }
 
 const onclick_submit = document.querySelectorAll('[onclick_submit]');
@@ -108,7 +108,8 @@ for (const element of setting_selects) {
 
 const reload_page = document.getElementById('reload_page')
 if (reload_page) {
-	reload_page.onclick = ()=>{location.reload()};
+	reload_page.onclick = () => {location.reload()};
+}
 }
 
 function register_new_elements(e) {
@@ -120,22 +121,22 @@ function register_new_elements(e) {
 	
 	const onclick = e.querySelectorAll('[data-onclick]');
 	for (const element of onclick) {
-		element.onclick = ()=>{execute(element, 'onclick')};
+		element.onclick = () => {execute(element, 'onclick')};
 	}
 
 	const oninput = e.querySelectorAll('[data-oninput]');
 	for (const element of oninput) {
-		element.oninput = ()=>{execute(element, 'oninput')};
+		element.oninput = () => {execute(element, 'oninput')};
 	}
 
 	const onmouseover = e.querySelectorAll('[data-onmouseover]');
 	for (const element of onmouseover) {
-		element.onmouseover = ()=>{execute(element, 'onmouseover')};
+		element.onmouseover = () => {execute(element, 'onmouseover')};
 	}
 
 	const onchange = e.querySelectorAll('[data-onchange]');
 	for (const element of onchange) {
-		element.onchange = ()=>{execute(element, 'onchange')};
+		element.onchange = () => {execute(element, 'onchange')};
 	}
 
 	for (const element of document.getElementsByClassName('user-name')) {

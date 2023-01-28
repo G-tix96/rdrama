@@ -129,4 +129,4 @@ async function searchGifs(searchTerm) {
 	}
 }
 
-gifSearchBar.onchange = ()=>{searchGifs(gifSearchBar.value)};
+gifSearchBar.onchange = () => {searchGifs(gifSearchBar.value)};
