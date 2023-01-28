@@ -103,6 +103,11 @@ async function getGifs(form) {
 		<div class="gif-cat-overlay"><div>Meh</div></div>
 		<img loading="lazy" src="https://media.giphy.com/media/xT77XTpyEzJ4OJO06c/200w.webp">
 	</div>`
+
+	const overlays = document.getElementsByClassName('gif-cat-overlay')
+	for (const element of overlays) {
+		element.onclick = () => {searchGifs(element.firstElementChild.innerHTML)};
+	}
 }
 
 document.getElementById('gifs-back-btn').onclick = getGifs;
@@ -122,6 +127,11 @@ async function searchGifs(searchTerm) {
 			const url = "https://media.giphy.com/media/" + e.id + "/giphy.webp";
 			const insert = `<img class="giphy" loading="lazy" data-bs-dismiss="modal" src="${url}"></div>`
 			container.insertAdjacentHTML('beforeend', insert);
+		}
+
+		const giphy = document.getElementsByClassName('giphy')
+		for (const element of giphy) {
+			element.onclick = () => {insertGIF(element.src)};
 		}
 	}
 	else {

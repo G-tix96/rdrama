@@ -25,3 +25,10 @@ if (!location.href.includes("?context")) {
     comments[pid] = {c: newTotal, t: Date.now()}
     localStorage.setItem("comment-counts", JSON.stringify(comments))
 }
+
+const fake_textarea = document.querySelector('[data-href]')
+if (fake_textarea) {
+	fake_textarea.onclick = () => {
+		location.href = fake_textarea.dataset.href;
+	};
+}

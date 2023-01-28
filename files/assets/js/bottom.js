@@ -21,24 +21,6 @@ function execute(element, attr) {
 	}
 }
 
-document.addEventListener("click", function(e){
-	const element = e.target
-	if (element instanceof HTMLImageElement && (element.alt.startsWith('![](')) || element.classList.contains('in-comment-image'))
-		expandImage()
-	else if (element.tagName == "TH")
-		sort_table(element)
-	else if (element.classList.contains('giphy'))
-		insertGIF(e.target.src);
-	else if (element.classList.contains('gif-cat-overlay'))
-		searchGifs(e.target.firstElementChild.innerHTML);
-	else if (element.dataset.href)
-		location.href = element.dataset.href;
-
-	if (element.dataset.toggleelement) {
-		document.getElementById(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr)
-	}
-});
-
 const onsubmit = document.querySelectorAll('[data-onsubmit]');
 for (const element of onsubmit) {
 	element.onsubmit = (event)=>{
@@ -110,6 +92,17 @@ const reload_page = document.getElementById('reload_page')
 if (reload_page) {
 	reload_page.onclick = () => {location.reload()};
 }
+
+const TH = document.getElementsByTagName('th')
+for (const element of TH) {
+	element.onclick = () => {sort_table(element)};
+}
+
+const toggleelement = document.querySelectorAll('[data-toggleelement]');
+for (const element of toggleelement) {
+	element.onclick = () => {
+		document.getElementById(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
+	};
 }
 
 function register_new_elements(e) {
@@ -142,6 +135,10 @@ function register_new_elements(e) {
 	for (const element of popover_triggers) {
 		element.onclick = (e) => {popclick(e)};
 	}
+
+	const expandable = document.querySelectorAll('.in-comment-image, img[alt^="![]("]');
+	for (const element of expandable) {
+		element.onclick = () => {expandImage()};
 	}
 }
 

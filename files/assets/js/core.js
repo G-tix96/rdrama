@@ -176,10 +176,12 @@ function autoExpand(field) {
 	window.scrollTo(xpos,ypos);
 };
 
-document.addEventListener('input', function (event) {
-	if (event.target.tagName.toLowerCase() !== 'textarea') return;
-	autoExpand(event.target);
-}, false);
+const textareas = document.getElementsByTagName('textarea')
+for (const element of textareas) {
+	element.addEventListener('input', ()=>{
+		autoExpand(element)
+	});
+}
 
 function smoothScrollTop()
 {
