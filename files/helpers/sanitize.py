@@ -240,7 +240,12 @@ chud_images.extend([':#trumpjaktalking:', ':#reposthorse:'])
 def handle_youtube_links(url):
 	html = None
 	params = parse_qs(urlparse(url).query, keep_blank_values=True)
-	id = params.get('v')[0]
+
+	id = params.get('v')
+
+	if not id: return None
+
+	id = id[0]
 
 	t = None
 	split = id.split('?t=')
