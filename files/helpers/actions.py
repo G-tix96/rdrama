@@ -71,7 +71,7 @@ def execute_snappy(post:Submission, v:User):
 
 		body = random.choice(SNAPPY_CHOICES).strip()
 		if body.startswith('▼') or body.startswith(':#marseydownvote'):
-			body = body[1:]
+			if body.startswith('▼'): body = body[1:]
 			vote = Vote(user_id=SNAPPY_ID,
 						vote_type=-1,
 						submission_id=post.id,
@@ -86,7 +86,7 @@ def execute_snappy(post:Submission, v:User):
 				flag = Flag(post_id=post.id, user_id=SNAPPY_ID, reason='Retard')
 				g.db.add(flag)
 		elif body.startswith('▲') or body.startswith(':#marseyupvote'):
-			body = body[1:]
+			if body.startswith('▲'): body = body[1:]
 			vote = Vote(user_id=SNAPPY_ID,
 						vote_type=1,
 						submission_id=post.id,
