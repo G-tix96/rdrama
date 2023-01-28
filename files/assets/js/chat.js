@@ -1,5 +1,5 @@
 function timeSince(timeStamp) {
-	var now = new Date(),
+	const now = new Date(),
 		secondsPast = (now.getTime() - timeStamp) / 1000;
 	if (secondsPast < 60) {
 		return parseInt(secondsPast) + 's';
