@@ -328,7 +328,9 @@ function prepare_to_pause(audio) {
 	}
 
 	document.addEventListener('click', (e) => {
-		if (e.target.tagName.toLowerCase() == "lite-youtube" && !audio.paused) audio.pause();
+		if ((e.target.tagName.toLowerCase() == "lite-youtube" || e.target.classList.contains('lty-playbtn')) && !audio.paused) {
+			audio.pause();
+		}
 	});
 }
 
