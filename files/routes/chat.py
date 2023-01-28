@@ -174,7 +174,7 @@ def connect(v):
 @socketio.on('disconnect')
 @admin_level_required(PERMS['CHAT'])
 def disconnect(v):
-	if v.username in online:
+	if [v.username, v.id, v.name_color] in online:
 		online.remove(v.username)
 		refresh_online()
 
