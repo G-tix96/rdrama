@@ -152,7 +152,7 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 			vote_cls.user_id == u.id,
 		).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
-	listing = [p.id for p in listing]
+	listing = [i.id for i in listing]
 	next_exists = len(listing) > PAGE_SIZE
 	listing = listing[:PAGE_SIZE]
 	if cls == Submission:
@@ -175,7 +175,6 @@ def user_voted_posts(v:User, username):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def user_voted_comments(v:User, username):
-	abort(403, "Temporarily disabled!")
 	return user_voted(v, username, Comment, CommentVote, "userpage/voted_comments.html", True)
 
 @app.get("/banned")
