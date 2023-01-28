@@ -1,7 +1,7 @@
 import os
 from shutil import copyfile
 
-from sqlalchemy import func, nullslast
+from sqlalchemy import func
 from files.helpers.media import process_files
 
 import files.helpers.stats as statshelper
