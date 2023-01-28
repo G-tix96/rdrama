@@ -13,7 +13,7 @@ ASSET_URL = '/assets/'
 ASSET_CACHE = defaultdict(lambda: None)
 
 if IS_FISTMAS():
-	ASSET_SUBDIRS.extend(['/fistmas/css', '/fistmas/css/themes', '/fistmas/js'])
+	ASSET_SUBDIRS.extend(['/fistmas/css', '/fistmas/css/themes', '/fistmas/js', '/fistmas/js/vendor'])
 
 def assetcache_build(asset_dir, subdirs):
 	for subdir in subdirs:
