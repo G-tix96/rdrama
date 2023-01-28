@@ -113,7 +113,8 @@ if (reload_page) {
 }
 
 function register_new_elements(e) {
-	for (const element of document.getElementsByClassName('showmore')) {
+	const showmores = document.getElementsByClassName('showmore')
+	for (const element of showmores) {
 		element.onclick = () => {
 			showmore(element)
 		};
@@ -139,7 +140,8 @@ function register_new_elements(e) {
 		element.onchange = () => {execute(element, 'onchange')};
 	}
 
-	for (const element of document.getElementsByClassName('user-name')) {
+	const popover_triggers = document.getElementsByClassName('user-name');
+	for (const element of popover_triggers) {
 		element.onclick = (e) => {
 			popclick(e);
 		};
