@@ -469,7 +469,6 @@ PERMS = { # Minimum admin_level to perform action.
  	'NOTIFICATIONS_FROM_SHADOWBANNED_USERS': 3,
  	'NOTIFICATIONS_MODMAIL': 3,
  	'APPS_MODERATION': 3,
- 	'VIEW_DM_IMAGES': 3,
  	'MODERATE_PENDING_SUBMITTED_ASSETS': 4,
 	'PROGSTACK': 5,
 	'USER_BLACKLIST': 6,
@@ -481,6 +480,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'UNDO_AWARD_PINS': 6,
  	'SEE_GHOST_VOTES': 6,
  	'MODS_EVERY_HOLE': 6,
+ 	'VIEW_DM_IMAGES': 6,
 }
 
 FEATURES = {
