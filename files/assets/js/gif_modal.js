@@ -106,7 +106,6 @@ async function getGifs(form) {
 }
 
 document.getElementById('gifs-back-btn').onclick = getGifs;
-document.getElementById('gifs-cancel-btn').onclick = getGifs;
 
 async function searchGifs(searchTerm) {
 
