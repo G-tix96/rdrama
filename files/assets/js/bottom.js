@@ -115,9 +115,7 @@ if (reload_page) {
 function register_new_elements(e) {
 	const showmores = document.getElementsByClassName('showmore')
 	for (const element of showmores) {
-		element.onclick = () => {
-			showmore(element)
-		};
+		element.onclick = () => {showmore(element)};
 	}
 	
 	const onclick = e.querySelectorAll('[data-onclick]');
@@ -142,9 +140,8 @@ function register_new_elements(e) {
 
 	const popover_triggers = document.getElementsByClassName('user-name');
 	for (const element of popover_triggers) {
-		element.onclick = (e) => {
-			popclick(e);
-		};
+		element.onclick = (e) => {popclick(e)};
+	}
 	}
 }
 
