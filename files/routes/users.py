@@ -557,6 +557,8 @@ def messagereply(v:User):
 	if parent.sentto == MODMAIL_ID: user_id = None
 	elif v.id == user_id: user_id = parent.sentto
 
+	user = None
+
 	if user_id:
 		user = get_account(user_id, v=v, include_blocks=True)
 		if hasattr(user, 'is_blocking') and user.is_blocking:
@@ -565,7 +567,7 @@ def messagereply(v:User):
 				and hasattr(user, 'is_blocked') and user.is_blocked):
 			abort(403, f"You're blocked by @{user.username}")
 
-		body += process_dm_images(v, user)
+	body += process_dm_images(v, user)
 
 	body = body.strip()
 

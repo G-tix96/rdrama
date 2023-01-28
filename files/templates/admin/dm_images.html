@@ -31,10 +31,14 @@
 				</td>
 				<td>
 					{% if item[1] != "Unknown" %}
-						<a href="/id/{{item[4]}}">
-							<img loading="lazy" src="/pp/{{item[4]}}">
-							@{{item[3]}}
-						</a>
+						{% if item[3] == "Modmail" %}
+							Modmail
+						{% else %}
+							<a href="/id/{{item[4]}}">
+								<img loading="lazy" src="/pp/{{item[4]}}">
+								@{{item[3]}}
+							</a>
+						{% endif %}
 					{% endif %}
 				</td>
 			</tr>
