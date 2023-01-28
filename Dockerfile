@@ -12,9 +12,10 @@ RUN apt install -y libpq-dev
 RUN apt install -y nano
 RUN apt install -y mailutils
 
-COPY requirements.txt /etc/requirements.txt
+COPY requirements.txt /requirements.txt
+COPY startup_docker_chat.sh /s
 
-RUN pip3 install -r /etc/requirements.txt
+RUN pip3 install -r /requirements.txt
 
 RUN mkdir /images
 RUN mkdir /chat_images
