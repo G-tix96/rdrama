@@ -133,17 +133,17 @@ if (location.pathname != '/submit')
 	});
 }
 
-addEventListener('show.bs.modal', function (e) {
+document.addEventListener('show.bs.modal', function (e) {
 	location.hash = "modal";
 });
 
-addEventListener('hide.bs.modal', function (e) {
+document.addEventListener('hide.bs.modal', function (e) {
 	if(location.hash == "#modal") {
 		history.back();
 	}
 });
 
-addEventListener('hashchange', function (e) {
+window.addEventListener('hashchange', function (e) {
 	if(location.hash != "#modal") {
 		const curr_modal = bootstrap.Modal.getInstance(document.getElementsByClassName('show')[0])
 		if (curr_modal) curr_modal.hide()
