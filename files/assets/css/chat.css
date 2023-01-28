@@ -132,7 +132,6 @@ lite-youtube {
 	max-height: 30vh;
 	overflow: auto;
     max-width: 80%;
-    display: inline-block;
 }
 
 .resizable>video {
