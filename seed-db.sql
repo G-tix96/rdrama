@@ -2243,7 +2243,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyjiangshi',2,'ghost chinese halloween holiday china scary',NULL),
 ('marseyjihad',2,'jihad islam animated mujahideen muslim terrorism terrorist plotting isis',1672275222),
 ('marseyjoe',2,'family guy swanson cop police wheelchair retard disabled',1671089479),
-('marseyjohnson',2,'wig history',NULL),
+('marseyjohnson',2,'wig history founding father wtf did just read bruh wut',NULL),
 ('marseyjoint',2,'smoke weed marijuana reefer drugs smoking 420 pot',NULL),
 ('marseyjolteon',2,'trick or treat pokemon halloween eevee costume holiday',NULL),
 ('marseyjones',2,'tinfoil animated alex gay frogs conspiracy',NULL),
