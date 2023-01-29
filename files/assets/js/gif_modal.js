@@ -110,7 +110,7 @@ async function getGifs(form) {
 	}
 }
 
-document.getElementById('gifs-back-btn').onclick = getGifs;
+document.getElementById('gifs-back-btn').addEventListener('click', getGifs);
 
 async function searchGifs(searchTerm) {
 
@@ -139,4 +139,4 @@ async function searchGifs(searchTerm) {
 	}
 }
 
-gifSearchBar.onchange = () => {searchGifs(gifSearchBar.value)};
+gifSearchBar.addEventListener('change', () => {searchGifs(gifSearchBar.value)});

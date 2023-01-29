@@ -42,4 +42,4 @@ function unblock_user(t, url) {
 	);
 }
 
-document.getElementById('2faToggle').onchange = () => {twoStepModal.show()}
+document.getElementById('2faToggle').addEventListener('change', () => {twoStepModal.show()})

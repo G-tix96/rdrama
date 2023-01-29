@@ -244,7 +244,7 @@ emojiRequest.onload = async (e) => {
 		classSelectorLinkDOM.dataset.bsToggle = "tab";
 		classSelectorLinkDOM.dataset.className = className;
 		classSelectorLinkDOM.innerText = className;
-		classSelectorLinkDOM.onclick = switchEmojiTab;
+		classSelectorLinkDOM.addEventListener('click', switchEmojiTab);
 
 		classSelectorDOM.appendChild(classSelectorLinkDOM);
 		classesSelectorDOM.appendChild(classSelectorDOM);

@@ -3,7 +3,7 @@ function banModal(link, name, fullname, cls) {
 	document.getElementById("ban-modal-link").value = link;
 	document.getElementById("banUserButton").innerHTML = `Ban @${name}`;
 
-	document.getElementById("banUserButton").onclick = function() {
+	document.getElementById("banUserButton").addEventListener('click', function() {
 		let form = new FormData(document.getElementById("banModalForm"));
 		const xhr = createXhrWithFormKey(`/ban_user/${fullname}?form`, "POST", form);
 		xhr[0].onload = function() {
@@ -19,7 +19,7 @@ function banModal(link, name, fullname, cls) {
 		};
 
 		xhr[0].send(xhr[1]);
-	}
+	})
 }
 
 function chudModal(link, name, fullname, cls) {
@@ -27,7 +27,7 @@ function chudModal(link, name, fullname, cls) {
 	document.getElementById("chud-modal-link").value = link;
 	document.getElementById("chudUserButton").innerHTML = `Chud @${name}`;
 
-	document.getElementById("chudUserButton").onclick = function() {
+	document.getElementById("chudUserButton").addEventListener('click', function() {
 		let form = new FormData(document.getElementById("chudModalForm"));
 		const xhr = createXhrWithFormKey(`/agendaposter/${fullname}?form`, "POST", form);
 		xhr[0].onload = function() {
@@ -43,5 +43,5 @@ function chudModal(link, name, fullname, cls) {
 		};
 
 		xhr[0].send(xhr[1]);
-	}
+	})
 }
