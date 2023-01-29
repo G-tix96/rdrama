@@ -761,7 +761,7 @@ if SITE == 'rdrama.net':
 		'jollymoon': 3635,
 		'chiobu': 5214,
 		'mccox': 8239,
-		'snus': 8407,
+		'snus': 5646,
 	}
 
 	ANTISPAM_BYPASS_IDS = {1703, 13427}
