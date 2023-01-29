@@ -561,37 +561,37 @@ for (const element of toggleelement) {
 function register_new_elements(e) {
 	const showmores = document.getElementsByClassName('showmore')
 	for (const element of showmores) {
-		element.addEventListener('click', () => {showmore(element)});
+		element.onclick = () => {showmore(element)};
 	}
 	
 	const onclick = e.querySelectorAll('[data-onclick]');
 	for (const element of onclick) {
-		element.addEventListener('click', () => {execute(element, 'onclick')});
+		element.onclick = () => {execute(element, 'onclick')};
 	}
 
 	const oninput = e.querySelectorAll('[data-oninput]');
 	for (const element of oninput) {
-		element.addEventListener('input', () => {execute(element, 'oninput')});
+		element.oninput = () => {execute(element, 'oninput')};
 	}
 
 	const onmouseover = e.querySelectorAll('[data-onmouseover]');
 	for (const element of onmouseover) {
-		element.addEventListener('mouseover', () => {execute(element, 'onmouseover')});
+		element.onmouseover = () => {execute(element, 'onmouseover')};
 	}
 
 	const onchange = e.querySelectorAll('[data-onchange]');
 	for (const element of onchange) {
-		element.addEventListener('change', () => {execute(element, 'onchange')});
+		element.onchange = () => {execute(element, 'onchange')};
 	}
 
 	const popover_triggers = document.getElementsByClassName('user-name');
 	for (const element of popover_triggers) {
-		element.addEventListener('click', (e) => {popclick(e)});
+		element.onclick = (e) => {popclick(e)};
 	}
 
 	const expandable = document.querySelectorAll('.in-comment-image, img[alt^="![]("]');
 	for (const element of expandable) {
-		element.addEventListener('click', () => {expandImage()});
+		element.onclick = () => {expandImage()};
 	}
 }
 
