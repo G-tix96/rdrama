@@ -124,6 +124,7 @@ SLURS = {
 	"daisy's destruction": "Cars 2",
 	"daisys destruction": "Cars 2",
 	"daisy destruction": "Cars 2",
+	"pajeet": "sexy Indian dude",
 }
 
 BAN_EVASION_DOMAIN = 'stupidpol.site'
@@ -172,7 +173,6 @@ if SITE_NAME == 'rDrama':
 		"hispanic": "latinx",
 		"i hate marsey": "i love marsey",
 		"sodomite": "total dreamboat",
-		"pajeet": "sexy Indian dude",
 		"renter": "rentoid",
 		"autistic": "neurodivergent",
 		"i hate carp": "i love Carp",
