@@ -6,7 +6,7 @@
 	{% if v %}
 		<p>Use this form to contact {{SITE_NAME}} Admins.</p>
 
-		<form id="contactform" action="/send_admin" method="post" enctype="multipart/form-data">
+		<form id="contactform" action="/contact" method="post" enctype="multipart/form-data">
 
 			<label for="input-message" class="mt-3">Your message</label>
 			<input hidden name="formkey" value="{{v|formkey}}">
