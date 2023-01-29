@@ -50,7 +50,7 @@
 	</div>
 {% endif %}
 
-{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION_TOOLS_VISIBLE'] %}
+{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 	{% include "post_admin_actions_mobile.html" %}
 {% endif %}
 
@@ -254,7 +254,7 @@
 						<i class="fas fa-comment-dots mr-2"></i>{{p.comment_count}}
 						<span class="text-info d-none {{p.id}}-new-comments"></span>
 					</a>
-					{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION_TOOLS_VISIBLE'] %}
+					{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 						<button type="button" class="ml-2" data-bs-toggle="modal" data-bs-target="#adminModal-{{p.id}}">
 							<i class="fas fa-broom"></i>
 						</button>

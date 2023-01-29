@@ -632,7 +632,7 @@
 
 
 
-{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION_TOOLS_VISIBLE'] %}
+{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 	<div class="modal fade d-md-none" id="adminModal-{{c.id}}" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
@@ -761,7 +761,7 @@
 
 	<script defer src="{{'js/vendor/clipboard.js' | asset}}"></script>
 
-	{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION_TOOLS_VISIBLE'] %}
+	{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 		<script defer src="{{'js/comments_admin.js' | asset}}"></script>
 	{% endif %}
 

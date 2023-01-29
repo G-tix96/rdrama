@@ -85,7 +85,7 @@ def edit_rules_post(v):
 def make_admin(v:User, username):
 	user = get_user(username)
 
-	user.admin_level = PERMS['ADMIN_ADD_PERM_LEVEL']
+	user.admin_level = 1
 	g.db.add(user)
 
 	ma = ModAction(
