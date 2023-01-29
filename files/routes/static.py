@@ -215,7 +215,7 @@ def api(v):
 def contact(v:Optional[User]):
 	return render_template("contact.html", v=v, msg=get_msg())
 
-@app.post("/send_admin")
+@app.post("/contact")
 @limiter.limit("1/second;1/2 minutes;10/day")
 @limiter.limit("1/second;1/2 minutes;10/day", key_func=get_ID)
 @auth_required
