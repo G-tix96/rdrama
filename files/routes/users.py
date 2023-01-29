@@ -175,6 +175,7 @@ def user_voted_posts(v:User, username):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def user_voted_comments(v:User, username):
+	abort(403, "Temporarily disabled!")
 	return user_voted(v, username, Comment, CommentVote, "userpage/voted_comments.html", True)
 
 @app.get("/banned")
