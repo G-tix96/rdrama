@@ -23,7 +23,7 @@ def submit_marseys(v:User):
 	else:
 		marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id)
 
-	marseys = marseys.order_by(Marsey.created_utc).all()
+	marseys = marseys.order_by(Marsey.created_utc.desc()).all()
 
 	for marsey in marseys:
 		marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
@@ -199,7 +199,7 @@ def remove_marsey(v:User, name):
 def submit_hats(v:User):
 	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None)
 	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id)
-	hats = hats.order_by(HatDef.created_utc).all()
+	hats = hats.order_by(HatDef.created_utc.desc()).all()
 	return render_template("submit_hats.html", v=v, hats=hats)
 
 
