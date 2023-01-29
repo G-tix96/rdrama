@@ -256,7 +256,7 @@ socket.on('typing', function (users){
 
 
 function del(t) {
-	const chatline = t.parentElement.parentElement.parentElement.parentElement
+	const chatline = t.parentElement.parentElement.parentElement
 	socket.emit('delete', chatline.id);
 	chatline.remove()
 }
