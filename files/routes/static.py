@@ -361,8 +361,11 @@ items_we_want = ('blocked-uri', 'document-uri', 'effective-directive', 'source-f
 @limiter.limit("10/minute;50/day")
 def csp_violations():
 	content = json.dumps(request.get_json())
-	if content["source-file"].startswith(SITE_FULL):
-		print('--------', flush=True)
-		for i in items_we_want:
-			print(f"{i}: {content['i']}")
+	try:
+		if content["source-file"].startswith(SITE_FULL):
+			print('--------', flush=True)
+			for i in items_we_want:
+				print(f"{i}: {content['i']}", flush=True)
+	except:
+		print(content, flush=True)
 	return ''
