@@ -4,11 +4,6 @@
 {% block content %}
 <h3 class="py-2">Admin Tools</h3>
 
-<h4>Admin Chat</h4>
-<ul>
-	<li><a href="/admin/chat">Admin Chat</a></li>
-</ul>
-
 {% if (v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES'] or v.admin_level >= PERMS['SITE_SETTINGS_SNAPPY_QUOTES']) and (SITE_NAME == 'rDrama' or SIDEBAR_THREAD or BANNER_THREAD or BADGE_THREAD or SNAPPY_THREAD) %}
 	<h4>Add Stuff</h4>
 	<ul>

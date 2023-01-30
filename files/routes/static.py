@@ -211,6 +211,7 @@ def api(v):
 @app.get("/contact_us")
 @app.get("/press")
 @app.get("/media")
+@app.get("/admin/chat")
 @auth_desired
 def contact(v:Optional[User]):
 	return render_template("contact.html", v=v, msg=get_msg())

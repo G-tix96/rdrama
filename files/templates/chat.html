@@ -1,11 +1,5 @@
 {%- extends 'root.html' -%}
-{% block pagetitle -%}
-	{%- if request.path == '/admin/chat' -%}
-		Admin Chat
-	{%- else -%}
-		Chat
-	{%- endif -%}
-{%- endblock %}
+{% block pagetitle -%}Chat{%- endblock %}
 {% block pagetype %}chat{% endblock %}
 {% block body %}
 	{% include "header.html" %}
