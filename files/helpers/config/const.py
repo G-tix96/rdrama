@@ -54,7 +54,6 @@ FP = environ.get("FP", "").strip()
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
 KOFI_LINK = environ.get("KOFI_LINK", "").strip()
 PROGSTACK_MUL = float(environ.get("PROGSTACK_MUL", 2.0))
-FORBIDDEN = environ.get("FORBIDDEN", "").strip().split()
 ENCOURAGED = environ.get("ENCOURAGED", "").strip().split()
 ENCOURAGED2 = environ.get("ENCOURAGED2", "").strip().split()
 
