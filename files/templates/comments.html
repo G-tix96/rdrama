@@ -405,7 +405,7 @@
 							{% endif %}
 						{% endif %}
 
-						{% if v %}
+						{% if v and (not c.ghost or v.id == c.author_id or v.admin_level) %}
 							<button type="button" style="margin-top:0.2rem" class="btn caction py-0 nobackground px-1 text-muted" data-bs-toggle="dropdown"><i class="fas fa-ellipsis-h fa-fw"></i></button>
 							<ul class="dropdown-menu">
 
