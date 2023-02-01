@@ -133,23 +133,6 @@ if (location.pathname != '/submit')
 	});
 }
 
-document.addEventListener('show.bs.modal', function (e) {
-	location.hash = "modal";
-});
-
-document.addEventListener('hide.bs.modal', function (e) {
-	if(location.hash == "#modal") {
-		history.back();
-	}
-});
-
-window.addEventListener('hashchange', function (e) {
-	if(location.hash != "#modal") {
-		const curr_modal = bootstrap.Modal.getInstance(document.getElementsByClassName('show')[0])
-		if (curr_modal) curr_modal.hide()
-	}
-});
-
 function disable(t) {
 	t.classList.add('disabled');
 	setTimeout(() => {
