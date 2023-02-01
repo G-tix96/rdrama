@@ -42,9 +42,7 @@ TURNSTILE_SECRET = environ.get("TURNSTILE_SECRET").strip()
 YOUTUBE_KEY = environ.get("YOUTUBE_KEY").strip()
 VAPID_PUBLIC_KEY = environ.get("VAPID_PUBLIC_KEY").strip()
 VAPID_PRIVATE_KEY = environ.get("VAPID_PRIVATE_KEY").strip()
-GUMROAD_TOKEN = environ.get("GUMROAD_TOKEN").strip()
 GUMROAD_LINK = environ.get("GUMROAD_LINK").strip()
-GUMROAD_ID = environ.get("GUMROAD_ID").strip()
 CF_KEY = environ.get("CF_KEY").strip()
 CF_ZONE = environ.get("CF_ZONE").strip()
 GLOBAL = environ.get("GLOBAL", "").strip()
@@ -615,7 +613,6 @@ HOLE_COST = 0
 HOLE_INACTIVITY_DELETION = False
 
 PRIVILEGED_USER_BOTS = ()
-GUMROAD_MESSY = ()
 
 AUTOJANNY_ID = 1
 SNAPPY_ID = 2
@@ -713,7 +710,6 @@ if SITE == 'rdrama.net':
 	HOLE_INACTIVITY_DELETION = True
 
 	PRIVILEGED_USER_BOTS = (12125,16049)
-	GUMROAD_MESSY = (1379)
 
 	AUTOJANNY_ID = 1046
 	SNAPPY_ID = 261

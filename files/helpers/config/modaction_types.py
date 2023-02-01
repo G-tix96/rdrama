@@ -186,11 +186,6 @@ MODACTION_TYPES = {
 		"icon": 'fa-file-signature',
 		"color": 'bg-success'
 	},
-	'monthly': {
-		"str": 'distributed monthly marseybux',
-		"icon": 'fa-sack-dollar',
-		"color": 'bg-success'
-	},
 	'move_hole': {
 		"str": 'changed hole of {self.target_link}',
 		"icon": 'fa-manhole',

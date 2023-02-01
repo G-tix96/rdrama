@@ -1361,21 +1361,19 @@ def gumroad():
 	g.db.add(transaction)
 
 	user = g.db.query(User).filter_by(email=email, is_activated=True).order_by(User.truescore.desc()).first()
-	# if user:
-	#  	claim_rewards(user)
+	if user:
+	  	claim_rewards(user)
 
 	return ''
 
 
 
 
-@app.post("/settings/kofi")
+@app.post("/settings/claim_rewards")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
-def settings_kofi(v:User):
-	if not KOFI_TOKEN: abort(404)
-
+def claim_rewards(v:User):
 	if not (v.email and v.is_activated):
 		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
 

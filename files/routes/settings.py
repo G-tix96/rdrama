@@ -400,43 +400,6 @@ def namecolor(v):
 def themecolor(v):
 	return set_color(v, "themecolor", request.values.get("themecolor"))
 
-@app.post("/settings/gumroad")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
-@auth_required
-def settings_gumroad(v):
-	if GUMROAD_TOKEN == DEFAULT_CONFIG_VALUE: abort(404)
-	if not (v.email and v.is_activated):
-		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
-
-	data = {'access_token': GUMROAD_TOKEN, 'email': v.email}
-	response = requests.get('https://api.gumroad.com/v2/sales', data=data, timeout=5).json()["sales"]
-
-	if len(response) == 0: abort(404, "Email not found")
-
-	response = [x for x in response if x['variants_and_quantity']]
-	response = response[0]
-	tier = tiers[response["variants_and_quantity"]]
-	if v.patron == tier: abort(400, f"{patron} rewards already claimed!")
-
-	marseybux = marseybux_li[tier] - marseybux_li[v.patron]
-	if marseybux < 0: abort(400, f"{patron} rewards already claimed!")
-
-	existing = g.db.query(User.id).filter(User.email == v.email, User.is_activated == True, User.patron >= tier).first()
-	if existing: abort(400, f"{patron} rewards already claimed on another account")
-
-	v.patron = tier
-
-	v.pay_account('marseybux', marseybux)
-	send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop) or gamble them in the [casino](/casino).")
-
-	g.db.add(v)
-
-	badge_grant(badge_id=20+tier, user=v)
-
-
-	return {"message": f"{patron} rewards claimed!"}
-
 @app.post("/settings/titlecolor")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)

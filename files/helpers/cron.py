@@ -42,9 +42,6 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 		site_stats = stats.stats(SITE_NAME)
 		cache.set(f'{SITE}_stats', site_stats)
 
-	if every_1mo and not KOFI_LINK:
-		_give_monthly_marseybux_task()
-
 	g.db.commit()
 	g.db.close()
 	del g.db
@@ -107,55 +104,5 @@ def _sub_inactive_purge_task():
 
 	for x in dead_holes:
 		g.db.delete(x)
-
-	return True
-
-
-def _give_monthly_marseybux_task():
-	month = datetime.datetime.now() + datetime.timedelta(days=5)
-	month = month.strftime('%B')
-
-	data = {'access_token': GUMROAD_TOKEN}
-
-	emails = [x['email'] for x in requests.get(f'https://api.gumroad.com/v2/products/{GUMROAD_ID}/subscribers', data=data, timeout=5).json()["subscribers"]]
-
-	def give_marseybux(u):
-		marseybux_reward = marseybux_li[u.patron]
-		u.pay_account('marseybux', marseybux_reward)
-		send_repeatable_notification(u.id, f"@AutoJanny has given you {marseybux_reward} Marseybux for the month of {month}! You can use them to buy awards or hats in the [shop](/shop) or gamble them in the [casino](/casino).")
-
-	for badge in g.db.query(Badge).filter(Badge.badge_id > 20, Badge.badge_id < 28).all():
-		g.db.delete(badge)
-
-	for u in g.db.query(User).filter(User.patron > 0, User.patron_utc == 0).all():
-		g.db.add(u)
-		if u.admin_level or u.id == GUMROAD_MESSY:
-			give_marseybux(u)
-			badge_grant(badge_id=20+u.patron, user=u, notify=False)
-		elif u.email and u.is_activated and u.email.lower() in emails:
-			data = {'access_token': GUMROAD_TOKEN, 'email': u.email}
-			try:
-				response = requests.get('https://api.gumroad.com/v2/sales', data=data, timeout=5).json()["sales"]
-			except:
-				print(f'Marseybux monthly granting failed for @{u.username}', flush=True)
-				u.patron = 0
-				continue
-
-			if len(response) == 0:
-				u.patron = 0
-				continue
-			response = [x for x in response if x['variants_and_quantity']][0]
-			tier = tiers[response["variants_and_quantity"]]
-			u.patron = tier
-			badge_grant(badge_id=20+tier, user=u, notify=False)
-			give_marseybux(u)
-		else:
-			u.patron = 0
-
-	ma = ModAction(
-		kind="monthly",
-		user_id=AUTOJANNY_ID,
-	)
-	g.db.add(ma)
 
 	return True
