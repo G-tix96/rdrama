@@ -122,7 +122,7 @@ def _give_monthly_marseybux_task():
 	def give_marseybux(u):
 		marseybux_reward = marseybux_li[u.patron]
 		u.pay_account('marseybux', marseybux_reward)
-		send_repeatable_notification(u.id, f"@AutoJanny has given you {marseybux_reward} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
+		send_repeatable_notification(u.id, f"@AutoJanny has given you {marseybux_reward} Marseybux for the month of {month}! You can use them to buy awards or hats in the [shop](/shop) or gamble them in the [casino](/casino).")
 
 	for badge in g.db.query(Badge).filter(Badge.badge_id > 20, Badge.badge_id < 28).all():
 		g.db.delete(badge)

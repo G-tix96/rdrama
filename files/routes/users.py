@@ -1292,7 +1292,7 @@ def claim_rewards(v):
 		g.db.add(transaction)
 
 	v.pay_account('marseybux', marseybux)
-	send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards in the [shop](/shop).")
+	send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop) or gamble them in the [casino](/casino).")
 	g.db.add(v)
 
 	if highest_tier > v.patron:
