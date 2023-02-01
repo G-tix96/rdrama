@@ -298,6 +298,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	sanitized = underscore_in_link_regex.sub(r'\_', sanitized)
 
+	sanitized = numbered_list_regex.sub(r'\1\. ', sanitized)
+
 	sanitized = markdown(sanitized)
 
 	sanitized = strikethrough_regex.sub(r'\1<del>\2</del>', sanitized)
