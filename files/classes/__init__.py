@@ -2,9 +2,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
-# then load our required constants...
-from files.helpers.config.const import FEATURES, KOFI_TOKEN
-
 # then load all of our classes :)
 from .alts import *
 from .clients import *

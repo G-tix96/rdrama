@@ -42,15 +42,14 @@ TURNSTILE_SECRET = environ.get("TURNSTILE_SECRET").strip()
 YOUTUBE_KEY = environ.get("YOUTUBE_KEY").strip()
 VAPID_PUBLIC_KEY = environ.get("VAPID_PUBLIC_KEY").strip()
 VAPID_PRIVATE_KEY = environ.get("VAPID_PRIVATE_KEY").strip()
-GUMROAD_LINK = environ.get("GUMROAD_LINK").strip()
+DONATE_SERVICE = environ.get("DONATE_SERVICE").strip()
+DONATE_LINK = environ.get("DONATE_LINK").strip()
 CF_KEY = environ.get("CF_KEY").strip()
 CF_ZONE = environ.get("CF_ZONE").strip()
 GLOBAL = environ.get("GLOBAL", "").strip()
 blackjack = environ.get("BLACKJACK", "").strip()
 blackjack2 = environ.get("BLACKJACK2", "").strip()
 FP = environ.get("FP", "").strip()
-KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
-KOFI_LINK = environ.get("KOFI_LINK", "").strip()
 PROGSTACK_MUL = float(environ.get("PROGSTACK_MUL", 2.0))
 ENCOURAGED = environ.get("ENCOURAGED", "").strip().split()
 ENCOURAGED2 = environ.get("ENCOURAGED2", "").strip().split()
@@ -665,8 +664,6 @@ LEADERBOARD_LIMIT = PAGE_SIZE
 HOUSE_JOIN_COST = 500
 HOUSE_SWITCH_COST = 2000
 
-DONATE_SERVICE = "KoFi" if KOFI_TOKEN else "Gumroad"
-DONATE_LINK = KOFI_LINK if KOFI_TOKEN else GUMROAD_LINK
 TIERS_ID_TO_NAME = {
 	1: "Paypig",
 	2: "Renthog",

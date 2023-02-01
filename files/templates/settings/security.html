@@ -47,11 +47,7 @@
 							<span class="text-small text-muted pl-1">Must be same email as the one you used to donate
 							{% if v.truescore >= TRUESCORE_DONATE_MINIMUM %}
 							on
-								{% if KOFI_TOKEN %}
-									<a rel="nofollow noopener" class="text-primary" href="{{KOFI_LINK}}">Kofi</a>
-								{% else %}
-									<a rel="nofollow noopener" class="text-primary" href="{{GUMROAD_LINK}}">Gumroad</a>
-								{% endif %}
+								<a rel="nofollow noopener" class="text-primary" href="{{DONATE_LINK}}">{{DONATE_SERVICE}}</a>
 							{% endif %}
 							</span>
 						{% endif %}
