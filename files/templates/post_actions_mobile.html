@@ -52,7 +52,7 @@
 	{% endif %}
 {% endif %}
 
-{% if v.id==p.author_id or (p.sub and v.mods(p.sub)) %}
+{% if FEATURES['NSFW_MARKING'] and (v.id==p.author_id or (p.sub and v.mods(p.sub))) %}
 	<button type="button" id="mark3-{{p.id}}" class="{% if p.over_18 %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mark_post_nsfw/{{p.id}}','mark3-{{p.id}}','unmark3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="far fa-eye-evil text-center mr-2"></i>Mark +18</button>
 	<button type="button" id="unmark3-{{p.id}}" class="{% if not p.over_18 %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmark_post_nsfw/{{p.id}}','mark3-{{p.id}}','unmark3-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="far fa-eye-evil text-center mr-2"></i>Unmark +18</button>
 {% endif %}

@@ -506,6 +506,7 @@ FEATURES = {
 	'REPOST_DETECTION': True,
 	'PATRON_ICONS': False,
 	'ASSET_SUBMISSIONS': False,
+	'NSFW_MARKING': True,
 }
 
 WERKZEUG_ERROR_DESCRIPTIONS = {
@@ -795,6 +796,7 @@ elif SITE == 'watchpeopledie.tv':
 	WELCOME_MSG = """Hi, you! Welcome to WatchPeopleDie.tv, this really cool site where you can go to watch people die. I'm @CLiTPEELER! If you have any questions about how things work here, or suggestions on how to make them work better than they already do, definitely slide on into my DMs (no fat chicks).\nThere's an enormously robust suite of fun features we have here and we're always looking for more to add. Way, way too many to go over in an automated welcome message. And you're probably here for the videos of people dying more than any sort of weird, paradoxical digital community aspect anyway, so I won't bore you with a tedious overview of them. Just head on over to [your settings page](https://watchpeopledie.tv/settings/profile) and have a look at some of the basic profile stuff, at least. You can change your profile picture, username, flair, colors, banners, bio, profile anthem (autoplaying song on your page, like it's MySpace or some shit, hell yeah), CSS, all sorts of things.\nOr you can just go back to the main feed and carry on with watching people die. That's what the site is for, after all. Have fun!\nAnyway, in closing, WPD is entirely open source. We don't really need new full-time coders or anything, but if you'd like to take a look at our repo - or even submit a PR to change, fix, or add some things - go right ahead! Our codebase lives at https://fsdfsd.net/rDrama/rDrama\nWell, that's all. Thanks again for signing up. It's an automated message and all, but I really do mean that. Thank you, specifically. I love you. Romantically. Deeply. Passionately.\nHave fun!"""
 
 	FEATURES['PATRON_ICONS'] = True
+	FEATURES['NSFW_MARKING'] = False
 
 	PERMS['HOLE_CREATE'] = 2
 	PERMS['POST_EDITING'] = 2

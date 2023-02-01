@@ -32,7 +32,7 @@
 						<button type="button" id="remove2-{{p.id}}" class="{% if p.is_banned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-danger text-left" data-nonce="{{g.nonce}}" data-onclick="removePost(this,'{{p.id}}','remove2-{{p.id}}','approve2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="far fa-ban text-center mr-2"></i>Remove</button>
 						<button type="button" id="approve2-{{p.id}}" class="{% if not p.is_banned and request.path != '/admin/reported/posts' %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-success text-left" data-nonce="{{g.nonce}}" data-onclick="approvePost(this,'{{p.id}}','remove2-{{p.id}}','approve2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="far fa-check text-center mr-2"></i>Approve</button>
 					{% endif %}
-					{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+					{% if FEATURES['NSFW_MARKING'] and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 						<button type="button" id="mark2-{{p.id}}" class="{% if p.over_18 %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mark_post_nsfw/{{p.id}}','mark2-{{p.id}}','unmark2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="far fa-eye-evil text-center text-danger mr-2"></i>Mark +18</button>
 						<button type="button" id="unmark2-{{p.id}}" class="{% if not p.over_18 %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmark_post_nsfw/{{p.id}}','mark2-{{p.id}}','unmark2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="far fa-eye-evil text-center text-success mr-2"></i>Unmark +18</button>
 					{% endif %}

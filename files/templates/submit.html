@@ -75,10 +75,12 @@
 													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-new" name="new" data-nonce="{{g.nonce}}" data-onchange="savetext()">
 													<label class="custom-control-label" for="post-new">Make the default comment sorting "new"</label>
 												</div>
-												<div class="custom-control custom-checkbox">
-													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-nsfw" name="over_18" data-nonce="{{g.nonce}}" data-onchange="savetext()">
-													<label class="custom-control-label" for="post-nsfw">+18</label>
-												</div>
+												{% if FEATURES['NSFW_MARKING'] %}
+													<div class="custom-control custom-checkbox">
+														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-nsfw" name="over_18" data-nonce="{{g.nonce}}" data-onchange="savetext()">
+														<label class="custom-control-label" for="post-nsfw">+18</label>
+													</div>
+												{% endif %}
 												<div class="custom-control custom-checkbox">
 													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-private" name="private" data-nonce="{{g.nonce}}" data-onchange="savetext()">
 													<label class="custom-control-label" for="post-private">Draft</label>

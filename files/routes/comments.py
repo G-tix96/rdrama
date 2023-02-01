@@ -619,6 +619,7 @@ def handle_wordle_action(cid, v):
 
 
 @app.post("/toggle_comment_nsfw/<int:cid>")
+@feature_required('NSFW_MARKING')
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def toggle_comment_nsfw(cid, v):

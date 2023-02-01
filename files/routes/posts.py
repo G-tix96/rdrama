@@ -858,6 +858,7 @@ def undelete_post_pid(pid, v):
 
 
 @app.post("/mark_post_nsfw/<int:pid>")
+@feature_required('NSFW_MARKING')
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def mark_post_nsfw(pid, v):
@@ -893,6 +894,7 @@ def mark_post_nsfw(pid, v):
 	return {"message": "Post has been marked as +18!"}
 
 @app.post("/unmark_post_nsfw/<int:pid>")
+@feature_required('NSFW_MARKING')
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unmark_post_nsfw(pid, v):
