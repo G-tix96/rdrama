@@ -25,9 +25,6 @@ def before_request():
 		abort(403)
 
 	g.desires_auth = False
-	if not IS_LOCALHOST:
-		app.config["COOKIE_DOMAIN"] = f".{request.host}"
-		app.config["SESSION_COOKIE_DOMAIN"] = app.config["COOKIE_DOMAIN"]
 
 	ua = g.agent.lower()
 
