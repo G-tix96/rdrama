@@ -42,8 +42,9 @@ def submit_marsey(v:User):
 	username = request.values.get('author', '').lower().strip()
 
 	def error(error):
-		if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']: marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None).all()
-		else: marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id).all()
+		if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']: marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None)
+		else: marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id)
+		marseys = marseys.order_by(Marsey.created_utc.desc()).all()
 		for marsey in marseys:
 			marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
 			marsey.submitter = g.db.query(User.username).filter_by(id=marsey.submitter_id).one()[0]
@@ -83,7 +84,7 @@ def submit_marsey(v:User):
 	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']: marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None)
 	else: marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id)
 
-	marseys = marseys.order_by(Marsey.created_utc).all()
+	marseys = marseys.order_by(Marsey.created_utc.desc()).all()
 
 	for marsey in marseys:
 		marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
@@ -214,6 +215,7 @@ def submit_hat(v:User):
 	def error(error):
 		if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
 		else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id).all()
+		hats = hats.order_by(HatDef.created_utc.desc()).all()
 		return render_template("submit_hats.html", v=v, hats=hats, error=error, name=name, description=description, username=username), 400
 
 	if g.is_tor:
@@ -259,7 +261,7 @@ def submit_hat(v:User):
 	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None)
 	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id)
 
-	hats = hats.order_by(HatDef.created_utc).all()
+	hats = hats.order_by(HatDef.created_utc.desc()).all()
 
 	return render_template("submit_hats.html", v=v, hats=hats, msg=f"'{name}' submitted successfully!")
 
