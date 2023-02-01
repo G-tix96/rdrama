@@ -38,7 +38,7 @@ TLDS = ( # Original gTLDs and ccTLDs
 	'vu','wf','ws','xn','xxx','ye','yt','yu','za','zm','zw',
 	# New gTLDs
 	'app','cleaning','club','dev','farm','florist','fun','gay','lgbt','life','lol',
-	'moe','mom','monster','new','news','online','pics','press','pub','site',
+	'moe','mom','monster','new','news','online','pics','press','pub','site','blog',
 	'vip','win','world','wtf','xyz','video','host','art','media','wiki','tech','cooking'
 	)
 
@@ -437,7 +437,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 			return error, 403
 		else:
 			abort(403, error)
-		
+
 	banned_domains = g.db.query(BannedDomain).all()
 	for x in banned_domains:
 		for y in domain_list:
