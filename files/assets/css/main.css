@@ -5120,6 +5120,10 @@ code {
 	cursor: pointer !important;
 }
 
+.disable-sort-click {
+	cursor: default !important;
+}
+
 lite-youtube {
 	background-color: #000;
 	position: relative;

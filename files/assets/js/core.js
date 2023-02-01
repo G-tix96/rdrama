@@ -548,6 +548,9 @@ if (reload_page) {
 
 const TH = document.getElementsByTagName('th')
 for (const element of TH) {
+	if (element.classList.contains("disable-sort-click"))
+                continue;
+
 	element.addEventListener('click', () => {sort_table(element)});
 }
 
