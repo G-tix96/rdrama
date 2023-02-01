@@ -129,7 +129,7 @@ def _give_monthly_marseybux_task():
 
 	for u in g.db.query(User).filter(User.patron > 0, User.patron_utc == 0).all():
 		g.db.add(u)
-		if u.admin_level or u.id in GUMROAD_MESSY:
+		if u.admin_level or u.id == GUMROAD_MESSY:
 			give_marseybux(u)
 			badge_grant(badge_id=20+u.patron, user=u, notify=False)
 		elif u.email and u.is_activated and u.email.lower() in emails:
