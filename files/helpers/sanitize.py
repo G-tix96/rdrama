@@ -296,8 +296,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	if FEATURES['MARKUP_COMMANDS']:
 		sanitized = command_regex.sub(command_regex_matcher, sanitized)
 
-	sanitized = underscore_in_link_regex.sub(r'\_', sanitized)
-
 	sanitized = numbered_list_regex.sub(r'\1\. ', sanitized)
 
 	sanitized = markdown(sanitized)

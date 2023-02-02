@@ -195,6 +195,4 @@ reason_regex = re.compile('(/(post|comment)/[0-9]+)', flags=re.A)
 
 discord_username_regex = re.compile("(\s|^|>).{2,32}#[0-9]{4}(?=[^0-9]|$)", flags=re.A)
 
-underscore_in_link_regex = regex.compile("(?<=https:\/\/[^\s)]+)_", flags=regex.A)
-
 numbered_list_regex = re.compile('((\s|^)[0-9]+)\. ', flags=re.A)
