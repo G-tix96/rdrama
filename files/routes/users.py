@@ -1349,8 +1349,10 @@ if KOFI_TOKEN:
 def gumroad():
 	data = request.values
 	ip = request.headers.get('CF-Connecting-IP')
-	if ip != '34.193.146.117':
-		print('\n\n\n-----------------------\n\n\ngumroad: ' + ip + '\n\n\n-----------------------\n\n\n')
+	if ip == '34.193.146.117':
+		print('\n\n\n-----------------------\n\n\ngumroad success: ' + ip + '\n\n\n-----------------------\n\n\n', flush=True)
+	else:
+		print('\n\n\n-----------------------\n\n\ngumroad fail: ' + ip + '\n\n\n-----------------------\n\n\n', flush=True)
 		abort(400)
 
 	id = data['sale_id']
@@ -1372,6 +1374,8 @@ def gumroad():
 	user = g.db.query(User).filter_by(email=email, is_activated=True).order_by(User.truescore.desc()).first()
 	if user:
 	  	claim_rewards(user)
+
+	print("/gumroad done", flush=True)
 
 	return ''
 
