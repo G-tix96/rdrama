@@ -356,12 +356,12 @@ def donate(v):
 	return render_template(f'donate_{SITE_NAME}.html', v=v)
 
 
-@app.post('/csp_violations')
-@limiter.limit("10/minute;50/day")
-def csp_violations():
-	content = request.get_json(force=True)['csp-report']
-	print('--------', flush=True)
-	for k, val in content.items():
-		print(f"{k}: {val}", flush=True)
-	print('--------', flush=True)
-	return ''
+# @app.post('/csp_violations')
+# @limiter.limit("10/minute;50/day")
+# def csp_violations():
+# 	content = request.get_json(force=True)['csp-report']
+# 	print('--------', flush=True)
+# 	for k, val in content.items():
+# 		print(f"{k}: {val}", flush=True)
+# 	print('--------', flush=True)
+# 	return ''
