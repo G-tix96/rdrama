@@ -8,71 +8,44 @@ function pinned_timestamp(id) {
 		}
 }
 
-/** @type {HTMLImageElement} */
 const popClickBadgeTemplateDOM = document.createElement("IMG");
 popClickBadgeTemplateDOM.classList.add("pop-badge");
 popClickBadgeTemplateDOM.loading = "lazy";
 popClickBadgeTemplateDOM.alt = "badge";
 
-/**
-* @param {MouseEvent} e
-*/
-function popclick(e) {
-	// We let through those methods
-	if(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
-		return;
-	e.preventDefault();
+document.addEventListener('shown.bs.popover', (e) => {
+	let popover = document.getElementsByClassName("popover")
+	popover = popover[popover.length-1]
 
-	if(e.currentTarget.dataset.popInfo === undefined)
-		throw new SyntaxError("ill formed HTML! data-pop-info not present!!!");
+	const author = JSON.parse(e.target.dataset.popInfo);
 
-	const author = JSON.parse(e.currentTarget.dataset.popInfo);
-	if(!(author instanceof Object))
-		throw new SyntaxError("data-pop-info was not valid!");
+	if (popover.getElementsByClassName('pop-username')[0].innerHTML == author["username"])
+		return
 
-	// This is terrible lol. in header.js:bs_trigger() we should add
-	// to the ANCHOR element an event handler for "show.bs.tooltip" to build this
-	// when the DOM is ready.
-	// PROBLEM: IT DOES NOT WORK :MARSEYCRAZYTROLL: idk why it should work according to
-	// boostrap docs!
-	setTimeout(() => {
-		let popover = document.getElementsByClassName("popover")
-		popover = popover[popover.length-1]
+	if (popover.getElementsByClassName('pop-badges')) {
+		const badgesDOM = popover.getElementsByClassName('pop-badges')[0];
+		badgesDOM.innerHTML = "";
+		for (const badge of author["badges"]) {
+			const badgeDOM = popClickBadgeTemplateDOM.cloneNode();
+			badgeDOM.src = badge + "?b=6";
 
-		if (popover.getElementsByClassName('pop-badges')) {
-			const badgesDOM = popover.getElementsByClassName('pop-badges')[0];
-			badgesDOM.innerHTML = "";
-			for (const badge of author["badges"]) {
-				const badgeDOM = popClickBadgeTemplateDOM.cloneNode();
-				badgeDOM.src = badge + "?b=6";
-
-				badgesDOM.append(badgeDOM);
-			}
+			badgesDOM.append(badgeDOM);
 		}
-
-		popover.getElementsByClassName('pop-banner')[0].src = author["bannerurl"]
-		popover.getElementsByClassName('pop-picture')[0].src = author["profile_url"]
-		if (author["hat"]) popover.getElementsByClassName('pop-hat')[0].src = author['hat'] + "?h=7"
-		popover.getElementsByClassName('pop-username')[0].innerHTML = author["username"]
-		if (popover.getElementsByClassName('pop-bio').length > 0) {
-			popover.getElementsByClassName('pop-bio')[0].innerHTML = author["bio_html"]
-		}
-		popover.getElementsByClassName('pop-postcount')[0].innerHTML = author["post_count"]
-		popover.getElementsByClassName('pop-commentcount')[0].innerHTML = author["comment_count"]
-		popover.getElementsByClassName('pop-coins')[0].innerHTML = author["coins"]
-		popover.getElementsByClassName('pop-view_more')[0].href = author["url"]
-		popover.getElementsByClassName('pop-created-date')[0].innerHTML = author["created_date"]
-	}, 5);
-}
-
-document.addEventListener("click", function(){
-	active = document.activeElement.getAttributeNode("class");
-	if (active && active.nodeValue == "user-name text-decoration-none"){
-		pops = document.getElementsByClassName('popover')
-		if (pops.length > 1) pops[0].remove()
 	}
-	else document.querySelectorAll('.popover').forEach(e => e.remove());
-});
+
+	popover.getElementsByClassName('pop-banner')[0].src = author["bannerurl"]
+	popover.getElementsByClassName('pop-picture')[0].src = author["profile_url"]
+	if (author["hat"]) popover.getElementsByClassName('pop-hat')[0].src = author['hat'] + "?h=7"
+	popover.getElementsByClassName('pop-username')[0].innerHTML = author["username"]
+	if (popover.getElementsByClassName('pop-bio').length > 0) {
+		popover.getElementsByClassName('pop-bio')[0].innerHTML = author["bio_html"]
+	}
+	popover.getElementsByClassName('pop-postcount')[0].innerHTML = author["post_count"]
+	popover.getElementsByClassName('pop-commentcount')[0].innerHTML = author["comment_count"]
+	popover.getElementsByClassName('pop-coins')[0].innerHTML = author["coins"]
+	popover.getElementsByClassName('pop-view_more')[0].href = author["url"]
+	popover.getElementsByClassName('pop-created-date')[0].innerHTML = author["created_date"]
+})
 
 function post(url) {
 	const xhr = createXhrWithFormKey(url);
