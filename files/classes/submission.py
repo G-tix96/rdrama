@@ -199,7 +199,6 @@ class Submission(Base):
 				'url': self.realurl(None),
 				'body': self.body,
 				'body_html': self.body_html,
-				'created_utc': self.created_utc,
 				'edited_utc': self.edited_utc or 0,
 				'comment_count': self.comment_count,
 				'score': self.score,
@@ -210,8 +209,7 @@ class Submission(Base):
 				'distinguish_level': self.distinguish_level,
 				'voted': self.voted if hasattr(self, 'voted') else 0,
 				'flags': flags,
-				'author': '👻' if self.ghost else self.author.json,
-				'comment_count': self.comment_count
+				'author': '👻' if self.ghost else self.author.json
 				}
 
 		if "replies" in self.__dict__:

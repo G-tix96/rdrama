@@ -1376,7 +1376,7 @@ def gumroad():
 	print(f'user: {user}', flush=True)
 
 	if user:
-	  	claim_rewards(user)
+		claim_rewards(user)
 
 	print("/gumroad done\n\n\n-----------------------\n\n\n", flush=True)
 

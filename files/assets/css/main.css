@@ -5562,6 +5562,10 @@ th, td {
 	font-weight: 700;
 }
 
+.discounted-price {
+	text-decoration: line-through;
+}
+
 .fas {
 	text-align: center;
 }
