@@ -24,7 +24,7 @@ def validate_formkey(u:User, formkey:Optional[str]) -> bool:
 	if not formkey: return False
 	return validate_hash(get_raw_formkey(u), formkey)
 
-@cache.memoize(timeout=604800)
+@cache.memoize()
 def get_alt_graph_ids(uid:int) -> List[int]:
 	alt_graph_cte = g.db.query(literal(uid).label('user_id')).select_from(Alt).cte('alt_graph', recursive=True)
 

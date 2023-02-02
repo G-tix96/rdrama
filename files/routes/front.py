@@ -75,7 +75,7 @@ def front_all(v, sub=None, subdomain=None):
 
 LIMITED_WPD_HOLES = ('gore', 'aftermath', 'selfharm', 'meta', 'discussion', 'social', 'music', 'request')
 
-@cache.memoize(timeout=86400)
+@cache.memoize()
 def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, sub=None, site=None, pins=True, holes=True):
 	posts = g.db.query(Submission)
 
@@ -183,7 +183,7 @@ def random_user(v:User):
 
 	return redirect(f"/@{u}")
 
-@cache.memoize(timeout=86400)
+@cache.memoize()
 def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0, site=None):
 	comments = g.db.query(Comment.id) \
 		.outerjoin(Comment.post) \

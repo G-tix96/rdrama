@@ -758,7 +758,7 @@ def visitors(v:User, username:str):
 
 	return render_template("userpage/views.html", v=v, u=u, views=views, next_exists=next_exists, page=page)
 
-@cache.memoize(timeout=86400)
+@cache.memoize()
 def userpagelisting(user:User, site=None, v=None, page:int=1, sort="new", t="all"):
 	if user.shadowbanned and not (v and v.can_see_shadowbanned): return []
 	posts = g.db.query(Submission.id).filter_by(author_id=user.id, is_pinned=False)
