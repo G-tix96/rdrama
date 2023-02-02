@@ -1350,7 +1350,7 @@ def gumroad():
 	data = request.values
 	ip = request.headers.get('CF-Connecting-IP')
 	if ip == '34.193.146.117':
-		print('\n\n\n-----------------------\n\n\ngumroad success: ' + ip + '\n\n\n-----------------------\n\n\n', flush=True)
+		print('\n\n\n-----------------------\n\n\ngumroad: ' + ip)
 	else:
 		print('\n\n\n-----------------------\n\n\ngumroad fail: ' + ip + '\n\n\n-----------------------\n\n\n', flush=True)
 		abort(400)
@@ -1371,11 +1371,14 @@ def gumroad():
 
 	g.db.add(transaction)
 
+	print(f'transaction: {transaction}', flush=True)
 	user = g.db.query(User).filter_by(email=email, is_activated=True).order_by(User.truescore.desc()).first()
+	print(f'user: {user}', flush=True)
+
 	if user:
 	  	claim_rewards(user)
 
-	print("/gumroad done", flush=True)
+	print("/gumroad done\n\n\n-----------------------\n\n\n", flush=True)
 
 	return ''
 
