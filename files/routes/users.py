@@ -1315,7 +1315,7 @@ def claim_rewards_all_users():
 	emails = [x[0] for x in g.db.query(Transaction.email).filter_by(claimed=None).all()]
 	users = g.db.query(User).filter(User.email.in_(emails)).all()
 	for user in users:
-		claim_rewards(v)
+		claim_rewards(user)
 
 
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
