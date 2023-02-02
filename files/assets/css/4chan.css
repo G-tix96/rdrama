@@ -155,3 +155,8 @@ h5.post-title a:visited {
 .comment-actions > * {
 	color: var(--gray-500);
 }
+
+.spoiler, spoiler {
+    color: black !important;
+    background-color: black !important;
+}

@@ -98,12 +98,12 @@ a {
 }
 
 .spoiler, spoiler {
-	background-color: var(--grey);
-	color: var(--grey);
+	background-color: var(--grey) !important;
+	color: var(--grey) !important;
 }
 
 .spoiler:hover, spoiler:hover {
-	color:white;
+	color:white !important;
 }
 
 /*front page*/

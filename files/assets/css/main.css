@@ -4764,13 +4764,13 @@ span.green {
 	color: var(--primary);
 }
 .spoiler, spoiler {
-	color: var(--white);
-	background-color: var(--white);
+	color: var(--white) !important;
+	background-color: var(--white) !important;
 	font-weight: 600 !important;
 	padding: 1px 3px 1px 3px;
 }
 .spoiler:hover, spoiler:hover {
-	color: var(--gray);
+	color: var(--gray) !important;
 }
 .spoiler img, spoiler img {
 	visibility: hidden;
