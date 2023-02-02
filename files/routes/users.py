@@ -1291,14 +1291,11 @@ def claim_rewards(v):
 		transaction.claimed = True
 		g.db.add(transaction)
 
-	print(f'{v.username}: {v.marseybux}', flush=True)
 	v.pay_account('marseybux', marseybux)
-	print(f'{v.username}: {v.marseybux}', flush=True)
 
 	send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop) or gamble them in the [casino](/casino).")
 	g.db.add(v)
 
-	print(f'{v.username}: {v.patron}', flush=True)
 
 	if highest_tier > v.patron:
 		v.patron = highest_tier
@@ -1307,7 +1304,6 @@ def claim_rewards(v):
 			g.db.delete(badge)
 		badge_grant(badge_id=20+highest_tier, user=v)
 
-	print(f'{v.username}: {v.patron}', flush=True)
 	print(f'{v.username} rewards claimed successfully!', flush=True)
 
 
@@ -1355,9 +1351,9 @@ def gumroad():
 	data = request.values
 	ip = request.headers.get('CF-Connecting-IP')
 	if ip == '34.193.146.117':
-		print('\n\n\n-----------------------\n\n\ngumroad: ' + ip)
+		print('\n\n\n-----------------------\n\n\n/gumroad: ' + ip)
 	else:
-		print('\n\n\n-----------------------\n\n\ngumroad fail: ' + ip + '\n\n\n-----------------------\n\n\n', flush=True)
+		print('\n\n\n-----------------------\n\n\n/gumroad fail: ' + ip + '\n\n\n-----------------------\n\n\n', flush=True)
 		abort(400)
 
 	id = data['sale_id']
