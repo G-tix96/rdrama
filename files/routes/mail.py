@@ -6,6 +6,7 @@ from files.helpers.get import *
 from files.helpers.mail import *
 from files.helpers.useractions import *
 from files.routes.wrappers import *
+from files.routes.users import claim_rewards
 from files.__main__ import app, limiter
 
 @app.post("/verify_email")
@@ -43,6 +44,7 @@ def activate(v:User):
 
 	user.email = email
 	user.is_activated = True
+	claim_rewards(user)
 
 	badge_grant(user=user, badge_id=2)
 
