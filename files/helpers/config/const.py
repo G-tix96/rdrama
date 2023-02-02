@@ -254,7 +254,7 @@ if SITE_NAME == 'rDrama':
 		'seal.cafe',
 		'trp.red',
 
-		#reddit-like
+		#nested-comments
 		'news.ycombinator.com',
 		'scored.co',
 		'scrd.app',
@@ -287,6 +287,7 @@ if SITE_NAME == 'rDrama':
 		'dojo.press',
 		'livefilter.com',
 		'mainchan.com',
+		'lesswrong.com',
 
 		#misc
 		'quora.com',
