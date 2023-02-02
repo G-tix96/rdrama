@@ -1311,6 +1311,13 @@ def claim_rewards(v):
 	print(f'{v.username} rewards claimed successfully!', flush=True)
 
 
+def claim_rewards_all_users():
+	emails = [x[0] for x in g.db.query(Transaction.email).filter_by(claimed=None).all()]
+	users = g.db.query(User).filter(User.email.in_(emails)).all()
+	for user in users:
+		claim_rewards(v)
+
+
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
 if KOFI_TOKEN:
 	@app.post("/kofi")
@@ -1339,9 +1346,7 @@ if KOFI_TOKEN:
 
 		g.db.add(transaction)
 
-		user = g.db.query(User).filter_by(email=email, is_activated=True).order_by(User.truescore.desc()).first()
-		if user:
-			claim_rewards(user)
+		claim_rewards_all_users()
 
 		return ''
 
@@ -1371,12 +1376,7 @@ def gumroad():
 
 	g.db.add(transaction)
 
-	print(f'transaction: {transaction}', flush=True)
-	user = g.db.query(User).filter_by(email=email, is_activated=True).order_by(User.truescore.desc()).first()
-	print(f'user: {user}', flush=True)
-
-	if user:
-		claim_rewards(user)
+	claim_rewards_all_users()
 
 	print("/gumroad done\n\n\n-----------------------\n\n\n", flush=True)
 
@@ -1389,7 +1389,7 @@ def gumroad():
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
-def claim_rewards(v:User):
+def settings_claim_rewards(v:User):
 	if not (v.email and v.is_activated):
 		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
 
