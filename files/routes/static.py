@@ -357,7 +357,7 @@ def donate(v):
 
 
 # @app.post('/csp_violations')
-# @limiter.limit("10/minute;50/day")
+# @limiter.limit("5/minute;10/day")
 # def csp_violations():
 # 	content = request.get_json(force=True)['csp-report']
 # 	if content.get('source-file').startswith(SITE_FULL):
