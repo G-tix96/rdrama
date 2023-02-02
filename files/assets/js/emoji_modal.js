@@ -22,18 +22,14 @@ const classesSelectorDOM = document.getElementById("emoji-modal-tabs");
 const emojiButtonTemplateDOM = document.getElementById("emoji-button-template");
 const emojiResultsDOM = document.getElementById("tab-content");
 
-/** @type {HTMLInputElement[]} */
 const emojiSelectSuffixDOMs = document.getElementsByClassName("emoji-suffix");
-/** @type {HTMLInputElement[]} */
 const emojiSelectPostfixDOMs= document.getElementsByClassName("emoji-postfix");
 
 const emojiNotFoundDOM = document.getElementById("no-emojis-found");
 const emojiWorkingDOM = document.getElementById("emojis-work");
 
-/** @type {HTMLInputElement} */
 const emojiSearchBarDOM = document.getElementById('emoji_search');
 
-/** @type {HTMLInputElement} */
 let emojiInputTargetDOM = undefined;
 
 // Emojis usage stats. I don't really like this format but I'll keep it for backward comp.
