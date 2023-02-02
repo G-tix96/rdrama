@@ -360,8 +360,10 @@ def donate(v):
 # @limiter.limit("10/minute;50/day")
 # def csp_violations():
 # 	content = request.get_json(force=True)['csp-report']
-# 	print('--------', flush=True)
-# 	for k, val in content.items():
-# 		print(f"{k}: {val}", flush=True)
-# 	print('--------', flush=True)
+# 	if content.get('source-file').startswith(SITE_FULL):
+# 		print('--------', flush=True)
+# 		for k, val in content.items():
+# 			if k != 'original-policy':
+# 				print(f"{k}: {val}", flush=True)
+# 		print('--------', flush=True)
 # 	return ''
