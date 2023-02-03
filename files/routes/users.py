@@ -1304,7 +1304,7 @@ def claim_rewards(v):
 			g.db.delete(badge)
 		badge_grant(badge_id=20+highest_tier, user=v)
 
-	print(f'{v.username} rewards claimed successfully!', flush=True)
+	print(f'@{v.username} rewards claimed successfully!', flush=True)
 
 
 def claim_rewards_all_users():
