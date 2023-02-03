@@ -96,6 +96,11 @@ function markdown(t) {
 	input = input.replace(/\n\n/g, '<br>')
 
 	document.getElementById(t.dataset.preview).innerHTML = input
+
+	const expandable = document.querySelectorAll('img[alt]');
+	for (const element of expandable) {
+		element.onclick = () => {expandImage()};
+	}
 }
 
 function charLimit(form, text) {
