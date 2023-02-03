@@ -29,7 +29,7 @@ def chart(kind, site):
 		num_of_weeks = int(time_diff / 604800)
 		chart_width = int(num_of_weeks/1.4)
 	elif SITE == 'watchpeopledie.tv':
-		time_diff = time.time() - 1650932977
+		time_diff = time.time() - 1649181377
 		num_of_weeks = int(time_diff / 604800)
 		chart_width = int(num_of_weeks/1.4)
 	else:
