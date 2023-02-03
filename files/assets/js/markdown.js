@@ -95,9 +95,11 @@ function markdown(t) {
 	input = marked(input)
 	input = input.replace(/\n\n/g, '<br>')
 
-	document.getElementById(t.dataset.preview).innerHTML = input
+	const preview = document.getElementById(t.dataset.preview)
 
-	const expandable = document.querySelectorAll('img[alt]');
+	preview.innerHTML = input
+
+	const expandable = preview.querySelectorAll('img[alt]');
 	for (const element of expandable) {
 		element.onclick = () => {expandImage()};
 	}
