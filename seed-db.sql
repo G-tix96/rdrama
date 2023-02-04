@@ -337,6 +337,7 @@ INSERT INTO public.hat_defs VALUES (1007, 'Red Halloween Mask', 'Worth a month‚Ä
 INSERT INTO public.hat_defs VALUES (1000, 'BADASS DAD', 'A hat for the BADASS dads!', 2, 500, NULL, 1667083950);
 INSERT INTO public.hat_defs VALUES (1005, 'The BIRD', 'FUCK YOU, FUCK YOU, ANDDDDDD FUCK YOUUUUUUUUUUUUU', 2, 500, NULL, 1667084316);
 INSERT INTO public.hat_defs VALUES (1140, 'Yiff In Hell', 'Translation: "I''m really desperate for social acceptance."', 2, 500, NULL, 1674463260);
+
 INSERT INTO public.hat_defs VALUES (965, 'FDJ', '"Jetzt bin ich ein Freier Deutsche Jugendfunktion√§r"', 2, 500, NULL, 1665686729);
 INSERT INTO public.hat_defs VALUES (969, 'Elite Pedo Sniper', 'The shemagh gives you +10 accuracy', 2, 500, NULL, 1665817338);
 INSERT INTO public.hat_defs VALUES (933, 'Rascal', 'See this person 3 times and they have to give you something-Minecraft MV22', 2, 500, NULL, 1665434625);
@@ -1219,7 +1220,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1140, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1141, true);
 
 
 --
