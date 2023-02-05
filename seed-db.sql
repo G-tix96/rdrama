@@ -463,6 +463,7 @@ INSERT INTO public.hat_defs VALUES (984, 'ICEED', 'Something about Coldtwinge on
 INSERT INTO public.hat_defs VALUES (975, 'Kitsune Mask II', 'Some more weeb furry shit idfk', 2, 500, NULL, 1666459532);
 INSERT INTO public.hat_defs VALUES (1107, 'Fire Sword', 'Tahu''s Fire Sword. It allows the user to channel fire energy.', 2, 500, NULL, 1670205482);
 INSERT INTO public.hat_defs VALUES (973, 'Pet Bee', 'Lookit him go! Buzz buzz buzz!!!!', 2, 1000, NULL, 1666459221);
+
 INSERT INTO public.hat_defs VALUES (830, 'Femboy hooters', 'Yes you ARE on the menu', 2, 500, NULL, 1665255628);
 INSERT INTO public.hat_defs VALUES (835, 'Rain', 'It''s a sad rainy day', 2, 1000, NULL, 1665259850);
 INSERT INTO public.hat_defs VALUES (837, 'Aura (blue)', 'Such power!', 2, 1000, NULL, 1665259885);
@@ -1220,7 +1221,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1141, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1143, true);
 
 
 --
