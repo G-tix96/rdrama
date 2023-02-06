@@ -935,6 +935,8 @@ approved_embed_hosts = {
 	'gfycat.com',
 	'postimg.cc', # WPD chat seems to like it
 	'files.catbox.moe',
+	'b1.thefileditch.ch',
+	's1.fileditch.ch',
 
 	### Third-Party Media
 	# TODO: Preferably kill these. Media proxy.
