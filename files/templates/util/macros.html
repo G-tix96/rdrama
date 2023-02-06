@@ -12,9 +12,7 @@
 
 {%- macro live_banner() -%}
 	{% set path = "files/assets/images/" ~ SITE_NAME %}
-	{% if SITE_NAME == 'rDrama' %}
-		{{ random_image("assets/images/" ~ SITE_NAME ~ "/banners-event/2023-newyear") -}}
-	{%- elif not v and os_path.exists(path ~ "/cached.webp") -%}
+	{%- if not v and os_path.exists(path ~ "/cached.webp") -%}
 		{{ 'cached.webp' | asset_siteimg -}}
 	{% elif os_path.exists(path ~ "/banners") -%}
 		{{ random_image("assets/images/" ~ SITE_NAME ~ "/banners") -}}
