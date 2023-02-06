@@ -162,7 +162,7 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 	else:
 		listing = []
 
-	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
+	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, u=u, standalone=standalone)
 
 @app.get("/@<username>/voted/posts")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
