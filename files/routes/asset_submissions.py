@@ -213,8 +213,8 @@ def submit_hat(v:User):
 	username = request.values.get('author', '').strip()
 
 	def error(error):
-		if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
-		else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id).all()
+		if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None)
+		else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id)
 		hats = hats.order_by(HatDef.created_utc.desc()).all()
 		return render_template("submit_hats.html", v=v, hats=hats, error=error, name=name, description=description, username=username), 400
 
