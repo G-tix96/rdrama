@@ -6686,3 +6686,7 @@ body {
 	width: 200px;
 	max-height: 100vh !important;
 }
+
+.navbar-nav > .nav-item {
+	text-align: left;
+}

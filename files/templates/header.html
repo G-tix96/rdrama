@@ -285,9 +285,7 @@
 					<a class="nav-item nav-link" rel="nofollow noopener" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 				{% endif %}
 
-				<li class="nav-item">
-					<button type="button" class="nav-link copy-link" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}"><i class="fas fa-user-friends fa-fw mr-3"></i>Invite friends</button>
-				</li>
+				<button type="button" class="nav-item nav-link copy-link" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}"><i class="fas fa-user-friends fa-fw mr-3"></i>Invite friends</button>
 
 				<a class="nav-item nav-link" href="https://rdrama.net/h/changelog"><i class="fas fa-clipboard fa-fw mr-3"></i>Changelog</a>
 
@@ -305,9 +303,7 @@
 
 				<a class="nav-item nav-link" href="/contact"><i class="fas fa-file-signature fa-fw mr-3"></i>Contact us</a>
 
-				<li class="nav-item border-top border-bottom mt-2 pt-2">
-					<button type="button" class="nav-link" data-nonce="{{g.nonce}}" data-onclick="logout(this)"><i class="fas fa-sign-out fa-fw mr-3 text-danger"></i>Log out</button>
-				</li>
+				<button type="button" class="nav-item border-top border-bottom mt-2 pt-2 nav-link" data-nonce="{{g.nonce}}" data-onclick="logout(this)"><i class="fas fa-sign-out fa-fw mr-3 text-danger"></i>Log out</button>
 			{% else %}
 				<li class="nav-item d-flex align-items-center justify-content-center pb-3">
 					<a class="btn btn-primary btn-block" href="/donate">Donate</a>
