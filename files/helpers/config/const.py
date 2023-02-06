@@ -182,7 +182,7 @@ if SITE_NAME == 'rDrama':
 		" pedo ": " p-do ",
 		" kys": " keep yourself safe",
 		"kys ": "keep yourself safe ",
-		"republican": 'republiKKKan',
+		"republican": 'rethuglican',
 		"america": 'ameriKKKa',
 		"it's almost as if": "I'm a retard but",
 		"it's almost like": "I'm a retard but",
