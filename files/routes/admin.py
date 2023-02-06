@@ -67,7 +67,7 @@ def edit_rules_get(v):
 @admin_level_required(PERMS['EDIT_RULES'])
 def edit_rules_post(v):
 	rules = request.values.get('rules', '').strip()
-	rules = sanitize(rules, sidebar=True)
+	rules = sanitize(rules, sidebar=True, showmore=False)
 
 	with open(f'files/templates/rules_{SITE_NAME}.html', 'w+', encoding="utf-8") as f:
 		f.write(rules)
