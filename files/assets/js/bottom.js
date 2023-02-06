@@ -99,13 +99,6 @@ for (const element of TH) {
 	element.addEventListener('click', () => {sort_table(element)});
 }
 
-const toggleelement = document.querySelectorAll('[data-toggleelement]');
-for (const element of toggleelement) {
-	element.addEventListener('click', () => {
-		document.getElementById(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
-	});
-}
-
 function register_new_elements(e) {
 	const showmores = document.getElementsByClassName('showmore')
 	for (const element of showmores) {
@@ -144,6 +137,14 @@ function register_new_elements(e) {
 	for (const element of expandable) {
 		element.onclick = () => {expandImage()};
 	}
+
+	const toggleelement = e.querySelectorAll('[data-toggleelement]');
+	for (const element of toggleelement) {
+		element.addEventListener('click', () => {
+			document.getElementById(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
+		});
+	}
+
 }
 
 register_new_elements(document);
