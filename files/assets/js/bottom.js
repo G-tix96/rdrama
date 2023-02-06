@@ -96,14 +96,10 @@ if (reload_page) {
 
 const TH = document.getElementsByTagName('th')
 for (const element of TH) {
-	element.addEventListener('click', () => {sort_table(element)});
-}
+	if (element.classList.contains("disable-sort-click"))
+                continue;
 
-const toggleelement = document.querySelectorAll('[data-toggleelement]');
-for (const element of toggleelement) {
-	element.addEventListener('click', () => {
-		document.getElementById(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
-	});
+	element.addEventListener('click', () => {sort_table(element)});
 }
 
 function register_new_elements(e) {
@@ -144,6 +140,14 @@ function register_new_elements(e) {
 	for (const element of expandable) {
 		element.onclick = () => {expandImage()};
 	}
+
+	const toggleelement = e.querySelectorAll('[data-toggleelement]');
+	for (const element of toggleelement) {
+		element.addEventListener('click', () => {
+			document.getElementById(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
+		});
+	}
+
 }
 
 register_new_elements(document);
