@@ -343,13 +343,7 @@ def execute_antispam_submission_check(title, v, url):
 		return False
 	return True
 
-def execute_blackjack_custom(v, target, body, type):
-	return True
-
 def execute_blackjack(v, target, body, type):
-	if not execute_blackjack_custom(v, target, body, type):
-		return False
-
 	if not body: return True
 
 	execute = False
