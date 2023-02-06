@@ -1,5 +1,5 @@
 {% extends "userpage/voted_posts.html" %}
-{% block pagetitle %}Comments{% endblock %}
+{% block pagetitle %}Comments @{{u.username}} voted on{% endblock %}
 {% block listing %}
 		<div class="posts">
 			{% with comments=listing %}
