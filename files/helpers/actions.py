@@ -374,7 +374,7 @@ def execute_blackjack(v, target, body, type):
 
 			v.ban_reason = "Blackjack"
 			g.db.add(v)
-		elif hasattr(target, 'is_banned'):
+		elif type in {'submission', 'comment', 'message'}:
 			target.is_banned = True
 
 		notified_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'])]
