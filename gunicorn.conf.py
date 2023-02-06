@@ -13,14 +13,14 @@ def worker_abort(worker):
 	try:
 		from flask import g, request
 		if g and request:
-			worker.log.warning(f"\n\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★")
+			worker.log.warning(f"\n\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★")
 			worker.log.warning(f"While serving {request.method} {request.url}")
 			u = getattr(g, 'v', None)
 			if u:
 				worker.log.warning(f"User: {u.username!r} id:{u.id}")
 			else:
 				worker.log.warning(f"User: not logged in")
-			worker.log.warning(f"\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n")
+			worker.log.warning(f"\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n")
 		else:
 			worker.log.warning("No request info")
 	except:
