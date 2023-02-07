@@ -393,9 +393,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		if i.group(0) in captured: continue
 		captured.append(i.group(0))
 
-		html = handle_youtube_links(i.group(0))
+		html = handle_youtube_links(i.group(2))
 		if html:
-			sanitized = sanitized.replace(i.group(0), html)
+			sanitized = sanitized.replace(i.group(0), i.group(1) + html)
 
 	sanitized = video_sub_regex.sub(r'\1<p class="resizable"><video controls preload="none" src="\2"></video></p>', sanitized)
 	sanitized = audio_sub_regex.sub(r'\1<audio controls preload="none" src="\2"></audio>', sanitized)
