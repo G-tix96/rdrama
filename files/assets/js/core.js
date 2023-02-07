@@ -207,15 +207,6 @@ function expandImage(url) {
 	bootstrap.Modal.getOrCreateInstance(document.getElementById('expandImageModal')).show();
 };
 
-document.getElementById('expandImageModal').addEventListener('hidden.bs.modal', ()=>{
-	console.log('nigger')
-	var viewport = document.querySelector('meta[name="viewport"]');
-
-	if ( viewport ) {
-	  viewport.content = "initial-scale=1.0";
-	}
-  });
-
 function bs_trigger(e) {
 	let tooltipTriggerList = [].slice.call(e.querySelectorAll('[data-bs-toggle="tooltip"]'));
 	tooltipTriggerList.map(function(element){
