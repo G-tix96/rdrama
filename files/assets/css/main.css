@@ -2848,10 +2848,10 @@ a.text-info:hover, a.text-info:focus {
 a.text-warning:hover, a.text-warning:focus {
 	color: #ba8b00 !important;
 }
-.text-danger, :not(td) > a[href="/h/chudrama"] {
+.text-danger, :not(td) > a[href="/h/chudrama"], :not(td) > a[href="/h/countryclub"], :not(td) > a[href="/h/masterbaiters"] {
 	color: #dc3545 !important;
 }
-a.text-danger:hover, a.text-danger:focus, :not(td) > a[href="/h/chudrama"]:focus {
+a.text-danger:hover, a.text-danger:focus, :not(td) > a[href="/h/chudrama"]:focus, :not(td) > a[href="/h/countryclub"]:focus, :not(td) > a[href="/h/masterbaiters"]:focus {
 	color: #a71d2a !important;
 }
 .text-muted {
