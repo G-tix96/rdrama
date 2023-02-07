@@ -212,8 +212,7 @@ document.getElementById('expandImageModal').addEventListener('hidden.bs.modal', 
 	var viewport = document.querySelector('meta[name="viewport"]');
 
 	if ( viewport ) {
-	  viewport.content = "initial-scale=0.1";
-	  viewport.content = "width=1200";
+	  viewport.content = "initial-scale=1.0";
 	}
   });
 
