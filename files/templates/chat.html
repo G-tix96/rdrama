@@ -29,7 +29,7 @@
 				{% set mentioned = m and vlink in m['text_html'] or (quote_exists and messages[m['quotes']]['user_id'] == v.id) %}
 				<div class="chat-line {% if mentioned %}chat-mention{% endif %}" {% if m %}id="{{id}}"{% endif %}>
 					<div class="d-flex align-items-center">
-						<div class="text-muted chat-line-content">
+						<div class="text-muted chat-line-content row">
 							<div class="{% if not (m and m['quotes']) %}d-none{% endif %} quotes" style="font-size:12px">
 								<a class="QuotedMessageLink" {% if m and m['quotes'] %}href="#{{m['quotes']}}"{% endif %}>
 									<i class="fas fa-reply"></i> 
@@ -46,7 +46,7 @@
 								</a>
 							</div>
 
-							<span class="chat-message text-black text-break">
+							<span class="chat-message text-black text-break col">
 								{% if m %}
 									{% if v.slurreplacer %}
 										{{m['text_censored'] | safe}}

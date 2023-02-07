@@ -91,7 +91,8 @@ p {
 	float: right;
 	color: var(--black);
 	font-size: 12px;
-	margin-top: 4px;
+	margin-top: auto;
+	margin-bottom: auto;
 }
 
 lite-youtube {
@@ -129,7 +130,7 @@ lite-youtube {
 }
 
 .chat-message {
-	max-height: 30vh;
+	max-height: 50vh;
 	overflow: auto;
     max-width: 80%;
 }
