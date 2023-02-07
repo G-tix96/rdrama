@@ -1,6 +1,5 @@
 import random
 import re
-import regex
 from random import choice, choices
 from typing import List, Optional, Union
 
