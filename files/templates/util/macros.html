@@ -134,12 +134,12 @@
 					</label>
 				{% endif %}
 			</div>
-			<a class="text-small mt-3 d-inline-block" href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a>
 			<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" data-nonce="{{g.nonce}}" data-onclick="post_comment('{{target_fullname}}', '{{hide}}');remove_dialog();">Comment</button>
 			{% if enable_cancel_button %}
 				<button type="button" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" data-toggleelement="reply-to-{{target_fullname}}" data-toggleattr="d-none" class="btn btn-link text-muted ml-auto fl-r mr-3">Cancel</button>
 			{% endif %}
 			<div id="form-preview-{{target_fullname}}" class="preview mb-3 mt-5"></div>
+			<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a></div>
 		</div>
 	{% else %}
 		<div class="comment-write mt-4 mb-3 mx-3">
